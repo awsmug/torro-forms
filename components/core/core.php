@@ -102,7 +102,7 @@ class SurveyValCore extends SurveyValComponent{
 			),
 			'public' => TRUE,
 			'has_archive' => TRUE,
-			'supports' => array( 'title', 'page-attributes' ),
+			'supports' => array( 'title' ),
 			'show_in_menu'  => 'ComponentSurveyValAdmin',
 			'show_in_nav_menus' => FALSE,
 			'rewrite' => array(
