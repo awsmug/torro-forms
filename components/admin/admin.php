@@ -1,6 +1,6 @@
 <?php
 /*
- * ComponentName Core Class TODO
+ * ComponentName Core Class
  *
  * This class initializes the component.
  *
@@ -39,15 +39,16 @@ class SurveyValAdmin extends SurveyValComponent{
 		$this->name = 'SurveyValAdmin';
 		$this->title = __( 'Admin', 'surveyval_locale' );
 		$this->description = __( 'Setting up SurveyVal in WordPress Admin.', 'surveyval-locale' );
-		$this->turn_off = FALSE;
+		$this->required = TRUE;
 		$this->capability = 'edit_posts';
 		
 	    // Functions in Admin
 	    if( is_admin() ):
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'parent_file', array( $this, 'tax_menu_correction' ) );
-		// Functions not in Admin
-		else:
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
+			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
 		endif;
 	} // end constructor
 	
@@ -56,9 +57,9 @@ class SurveyValAdmin extends SurveyValComponent{
 	 * @since 1.0.0
 	 */	
 	public function admin_menu(){
-		add_menu_page( __( 'SurveyVal', 'surveyval-locale' ), __( 'SurveyVal', 'surveyval-locale' ), $this->capability, 'Component' . $this->name , array( $this, 'admin_page' ), '', 50 );
+		add_menu_page( __( 'SurveyVal', 'surveyval-locale' ), __( 'SurveyVal', 'surveyval-locale' ), $this->capability, 'Component' . $this->name , array( $this, 'settings_page' ), '', 50 );
 		add_submenu_page( 'Component' . $this->name, __( 'Categories', 'surveyval-locale' ), __( 'Categories', 'surveyval-locale' ), $this->capability, 'edit-tags.php?taxonomy=surveyval-categories' );
-		add_submenu_page( 'Component' . $this->name, __( 'Settings', 'surveyval-locale' ), __( 'Settings', 'surveyval-locale' ), $this->capability, 'Component' . $this->name, array( $this, 'admin_page' ) );
+		add_submenu_page( 'Component' . $this->name, __( 'Settings', 'surveyval-locale' ), __( 'Settings', 'surveyval-locale' ), $this->capability, 'Component' . $this->name, array( $this, 'settings_page' ) );
 	}
 	
 	// highlight the proper top level menu
@@ -72,30 +73,89 @@ class SurveyValAdmin extends SurveyValComponent{
 		return $parent_file;
 	}
 	
-	
 	/**
-	 * Content of the admin page.
+	 * Content of the settings page.
 	 * @since 1.0.0
 	 */
-	public function admin_page(){
-		echo '<div class="wrap">';
-		echo '<div id="icon-edit" class="icon32 icon32-posts-post"></div>';
-		echo '<h2>Menu Page example</h2>';
-		echo '<p>Here comes the content.</p>';
-		// locate_PluginName_template( 'example.php', TRUE );
+	public function settings_page(){
+		include( SURVEYVAL_COMPONENTFOLDER . '/admin/pages/settings.php' );
+	}
+
+	public function droppable_area(){
+		if( !$this->is_surveyval_post_type() )
+			return;
+		
+		echo '<div id="surveyval-content" class="drag-drop">';
+			echo '<div id="drag-drop-area" class="widgets-holder-wrap">';
+				echo '<div class="drag-drop-inside">';
+					echo '<p class="drag-drop-info">';
+						echo __( 'Drop your Question/Answer here.', 'surveyval-locale' );
+					echo '</p>';
+				echo '</div>';
+			echo '</div>';
+		echo '</div>';
+	}
+
+	public function meta_box_questions_answers(){
+		echo '<div class="widget surveyval-draggable">';
+			echo '<div class="widget-top surveyval-admin-qu-text">';
+				echo '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
+				echo '<div class="widget-title">';
+				echo '<h4>' . __( 'Text', 'surveyval-locale' ) . '</h4>';
+				echo '</div>';
+			echo '</div>';
+			echo '<div class="widget-inside">';
+				echo '<div class="widget-content">';
+					echo '<p>Daaa</p>';
+				echo '</div>';
+			echo '</div>';
 		echo '</div>';
 	}
 	
+	public function meta_boxes( $post_type ){
+		$post_types = array( 'surveyval' );
+		
+		if( in_array( $post_type, $post_types )):
+			add_meta_box(
+	            'surveyval-questions-answers',
+	            __( 'Question/Answers', 'surveyval-locale' ),
+	            array( $this, 'meta_box_questions_answers' ),
+	            'surveyval',
+	            'side',
+	            'high'
+	        );
+		endif;
+	}
+	
+	private function is_surveyval_post_type(){
+		global $post;
+		
+		// If there is no post > stop adding scripts	
+		if( !isset( $post ) )
+			return FALSE;
+		
+		// If post type is wrong > stop adding scripts
+		if( 'surveyval' != $post->post_type )
+			return FALSE;
+			
+		return TRUE;
+	}
+	
 	/**
-	 * Content of a sub page.
+	 * Enqueue admin scripts
 	 * @since 1.0.0
 	 */
-	public function admin_sub_page(){
-		echo '<div class="wrap">';
-		echo '<div id="icon-edit" class="icon32 icon32-posts-post"></div>';
-		echo '<h2>Submenu Page example</h2>';
-		echo '<p>Here comes the content.</p>';
-		echo '</div>';
+	public function enqueue_scripts(){
+		if( !$this->is_surveyval_post_type() )
+			return;
+		
+		wp_enqueue_script( 'admin-surveyval-post-type', SURVEYVAL_URLPATH . '/components/admin/includes/js/admin-surveyval-post-type.js' );
+		wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_script( 'jquery-ui-droppable' );
+		wp_enqueue_script( 'admin-widgets' );
+		
+		if ( wp_is_mobile() )
+			wp_enqueue_script( 'jquery-touch-punch' );
 	}
 }
 

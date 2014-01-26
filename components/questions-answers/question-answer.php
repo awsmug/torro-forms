@@ -1,8 +1,8 @@
 <?php
 /*
- * SurveyVal main component class
+ * SurveyVal parent Question-Answer class
  *
- * This class is the base for every SurveyVal Component.
+ * This should be used as parent class for Question-Answers.
  *
  * @author rheinschmiede.de <kontakt@rehinschmiede.de>, Sven Wagener <sven.wagener@rehinschmiede.de>
  * @package Facebook Fanpage Import/Admin
@@ -29,34 +29,46 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyValComponent{
+class SurveyVal_QA{
 	var $slug;
 	var $title;
 	var $description;
-	var $capability;
-	var $required;
-	
+	var $multiple_answers;
 	
 	/**
-	 * Initializes the Component.
+	 * Initializes the Question-Answer.
 	 * @since 1.0.0
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->slug = get_class( $this );
 		add_action( 'init', array( $this, 'includes' ), 0 );
 		
 		$this->title = ucfirst( $this->name );
-		$this->description = __( 'This is a SurveyVal component.', 'surveyval-locale' );
-		$this->capability = 'read';
+		$this->description = __( 'This is a SurveyVal Question-Answer.', 'surveyval-locale' );
 		
-		$this->required = TRUE;
+		$this->multiple_answers = FALSE;
 		
 	} // end constructor
 	
-	/**
-	 * Including needed Files.
-	 * @since 1.0.0
-	 */	
-	public function includes(){
+	public function show(){
+		
 	}
+	
+	public function edit_screen(){
+		
+	}
+	
+	public function edit_save(){
+		
+	}
+	
+	public function submit(){
+		
+	}
+	
 }
+
+function sv_register_qa( $class_name ){
+	
+}
+#SOe

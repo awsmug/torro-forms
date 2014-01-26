@@ -1,1 +1,17 @@
 /* This stylesheet is used to style the admin option form of the plugin. */
+#surveyval-content #drag-drop-area {
+	height:auto;
+	min-height:200px;
+}
+#surveyval-content .drag-drop-info{
+	padding-bottom:65px;
+}
+#surveyval-content .widget{
+	margin-bottom:10px;
+}
+#surveyval-questions-answers .widget-title-action{
+	display:none;
+}
+#drag-drop-area.widgets-holder-wrap{
+	padding:10px;
+}

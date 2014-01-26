@@ -36,7 +36,7 @@ class SurveyValCore extends SurveyValComponent{
 	 * @since 1.0.0
 	 */
 	function __construct() {
-		$this->name = 'SurveyValCore';
+		$this->slug = 'SurveyValCore';
 		$this->title = __( 'Core', 'surveyval_locale' );
 		$this->description = __( 'Core functions of the SurveyVal Plugin', 'surveyval-locale' );
 		$this->turn_off = FALSE;
