@@ -30,12 +30,12 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyValCore extends SurveyValComponent{
+class SurveyVal_Core extends SurveyVal_Component{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->slug = 'SurveyValCore';
 		$this->title = __( 'Core', 'surveyval_locale' );
 		$this->description = __( 'Core functions of the SurveyVal Plugin', 'surveyval-locale' );
@@ -114,7 +114,14 @@ class SurveyValCore extends SurveyValComponent{
 		
 		register_post_type( 'surveyval', $args_post_type );
 	}
+
+	public function includes(){
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/surveyval.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/question-type.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/text.php' );
+	}
 	
 }
 
-$SurveyValCore = new SurveyValCore();
+$SurveyVal_Core = new SurveyVal_Core();

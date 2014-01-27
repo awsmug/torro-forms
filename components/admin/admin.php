@@ -30,7 +30,7 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyValAdmin extends SurveyValComponent{
+class SurveyVal_Admin extends SurveyVal_Component{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -86,13 +86,13 @@ class SurveyValAdmin extends SurveyValComponent{
 			return;
 		
 		echo '<div id="surveyval-content" class="drag-drop">';
-			echo '<div id="drag-drop-area" class="widgets-holder-wrap">';
-				echo '<div class="drag-drop-inside">';
-					echo '<p class="drag-drop-info">';
-						echo __( 'Drop your Question/Answer here.', 'surveyval-locale' );
-					echo '</p>';
+				echo '<div id="drag-drop-area" class="widgets-holder-wrap">';
+					echo '<div class="drag-drop-inside">';
+						echo '<p class="drag-drop-info">';
+							echo __( 'Drop your Question/Answer here.', 'surveyval-locale' );
+						echo '</p>';
+					echo '</div>';
 				echo '</div>';
-			echo '</div>';
 		echo '</div>';
 	}
 
@@ -159,4 +159,4 @@ class SurveyValAdmin extends SurveyValComponent{
 	}
 }
 
-$SurveyValAdmin = new SurveyValAdmin();
+$SurveyVal_Admin = new SurveyVal_Admin();

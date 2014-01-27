@@ -56,40 +56,38 @@ License:
 
 if ( !defined( 'ABSPATH' ) ) exit;
  
-// TODO: rename this class to a proper name for your plugin
-class SurveVal{
+class SurveVal_Init{
 	 
 	/**
 	 * Initializes the plugin.
 	 * @since 1.0.0
 	 */
-	function __construct() {
+	function init() {
 		global $sv_plugin_errors, $sv_plugin_errors;
 		
 		$sv_plugin_errors = array();
-		$sv_plugin_errors = array();
 		
-		$this->constants();
-		$this->includes();
-		$this->load_components();
-		$this->load_textdomain();
+		self::constants();
+		self::includes();
+		self::load_components();
+		self::load_textdomain();
 		
 		// Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-		register_uninstall_hook( __FILE__, array( $this, 'uninstall' ) );
+		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
+		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
+		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 
 	    // Functions on Frontend
 	    if( is_admin() ):
 			// Register admin styles and scripts
-			add_action( 'plugins_loaded', array( $this, 'check_requirements' ) );
-			add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ) );
-			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+			add_action( 'plugins_loaded', array( __CLASS__, 'check_requirements' ) );
+			add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_admin_scripts' ) );
+			add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
 		else:
 			// Register plugin styles and scripts
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_plugin_styles' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_plugin_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_scripts' ) );
 		endif;
 	} // end constructor
 	
@@ -110,6 +108,56 @@ class SurveVal{
 	 * @since 1.0.0 
 	 */
 	public function activate( $network_wide ) {
+		global $wpdb;
+		
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		
+		$table_questions = $wpdb->prefix . 'surveyval_questions';
+		$table_answers = $wpdb->prefix . 'surveyval_answers';
+		$table_responds = $wpdb->prefix . 'surveyval_responds';
+		$table_respond_answers = $wpdb->prefix . 'surveyval_respond_answers';
+		
+		$sql = "CREATE TABLE $table_questions (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			surveyval_id int(11) NOT NULL,
+			question text NOT NULL,
+			type char(50) NOT NULL,
+			UNIQUE KEY id (id)
+			)";
+			
+		dbDelta( $sql );
+		
+		$sql = "CREATE TABLE $table_answers (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			question_id int(11) NOT NULL,
+			answer text NOT NULL,
+			UNIQUE KEY id (id)
+			)";
+			
+		dbDelta( $sql );
+		
+		$sql = "CREATE TABLE $table_responds (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			surveyval_id int(11) NOT NULL,
+			user_id int(11) NOT NULL,
+			timestamp int(11) NOT NULL,
+			UNIQUE KEY id (id)
+			)";
+			
+		dbDelta( $sql );
+		
+		$sql = "CREATE TABLE $table_respond_answers (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			respond_id int(11) NOT NULL,
+			question_id int(11) NOT NULL,
+			value text NOT NULL,
+			UNIQUE KEY id (id)
+			)";
+			
+		dbDelta( $sql );
+		
+		update_option( 'surveyval_db_version', '1.0' );
+		
 	} // end activate
 	
 	/**
@@ -177,9 +225,9 @@ class SurveVal{
 	 * @since 1.0.0
 	 */
 	public function constants(){
-		define( 'SURVEYVAL_FOLDER', 		$this->get_folder() );
+		define( 'SURVEYVAL_FOLDER', 		self::get_folder() );
 		define( 'SURVEYVAL_RELATIVE_FOLDER', 	substr( SURVEYVAL_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( SURVEYVAL_FOLDER ) ) );  
-		define( 'SURVEYVAL_URLPATH', 		$this->get_url_path() );
+		define( 'SURVEYVAL_URLPATH', 		self::get_url_path() );
 		define( 'SURVEYVAL_COMPONENTFOLDER', SURVEYVAL_FOLDER . '/components' );
 	}
 	
@@ -247,5 +295,4 @@ class SurveVal{
 	
 } // end class
 
-// TODO:	Update the instantiation call of your plugin to the name given at the class definition
-$SurveVal = new SurveVal();
+SurveVal_Init::init();

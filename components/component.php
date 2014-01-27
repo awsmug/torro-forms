@@ -29,19 +29,20 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyValComponent{
+abstract class SurveyVal_Component{
 	var $slug;
 	var $title;
 	var $description;
 	var $capability;
 	var $required;
 	
-	
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
 	 */
 	function __construct() {
+		global $surveyval;
+		
 		$this->slug = get_class( $this );
 		add_action( 'init', array( $this, 'includes' ), 0 );
 		
@@ -51,12 +52,6 @@ class SurveyValComponent{
 		
 		$this->required = TRUE;
 		
+		$surveyval->add_component( $slug, $this );
 	} // end constructor
-	
-	/**
-	 * Including needed Files.
-	 * @since 1.0.0
-	 */	
-	public function includes(){
-	}
 }
