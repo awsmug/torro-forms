@@ -1,0 +1,193 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SurveyVal v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-01-28 20:56:58+0000\n"
+"Last-Translator: wagesve <sven.wagener@rheinschmiede.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: components/admin/admin.php:40
+#@ surveyval_locale
+msgid "Admin"
+msgstr ""
+
+#: components/admin/admin.php:41
+#@ surveyval-locale
+msgid "Setting up SurveyVal in WordPress Admin."
+msgstr ""
+
+#: components/admin/admin.php:60
+#: components/core/core.php:95
+#@ surveyval-locale
+msgid "SurveyVal"
+msgstr "SurveyVal"
+
+#: components/admin/admin.php:61
+#: components/core/core.php:81
+#@ surveyval-locale
+msgid "Categories"
+msgstr "Kategorien"
+
+#: components/admin/admin.php:62
+#@ surveyval-locale
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: components/admin/admin.php:122
+#@ surveyval-locale
+msgid "Drop your Question/Answer here."
+msgstr ""
+
+#: components/admin/admin.php:166
+#@ surveyval-locale
+msgid "Question/Answers"
+msgstr ""
+
+#: components/component.php:50
+#@ surveyval-locale
+msgid "This is a SurveyVal component."
+msgstr ""
+
+#: components/core/core.php:40
+#@ surveyval_locale
+msgid "Core"
+msgstr ""
+
+#: components/core/core.php:41
+#@ surveyval-locale
+msgid "Core functions of the SurveyVal Plugin"
+msgstr ""
+
+#: components/core/core.php:71
+#@ surveyval-locale
+msgctxt "taxonomy general name"
+msgid "Categories"
+msgstr "Kategorien"
+
+#: components/core/core.php:72
+#@ surveyval-locale
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr "Kategorie"
+
+#: components/core/core.php:73
+#@ surveyval-locale
+msgid "Search Categories"
+msgstr "Kategorien durchsuchen"
+
+#: components/core/core.php:74
+#@ surveyval-locale
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: components/core/core.php:75
+#@ surveyval-locale
+msgid "Parent Category"
+msgstr "Eltern-Kategorie"
+
+#: components/core/core.php:76
+#@ surveyval-locale
+msgid "Parent Category:"
+msgstr "Eltern-Kategorie:"
+
+#: components/core/core.php:77
+#@ surveyval-locale
+msgid "Edit Category"
+msgstr "Kategorie bearbeiten"
+
+#: components/core/core.php:78
+#@ surveyval-locale
+msgid "Update Category"
+msgstr "Kategorie speichern"
+
+#: components/core/core.php:79
+#@ surveyval-locale
+msgid "Add New Category"
+msgstr "Neue Kategorie hinzuf&uuml;gen"
+
+#: components/core/core.php:80
+#@ surveyval-locale
+msgid "New Category"
+msgstr "Neue Kategorie"
+
+#: components/core/core.php:96
+#@ surveyval-locale
+msgid "Survey"
+msgstr "Umfrage"
+
+#: components/core/core.php:97
+#@ surveyval-locale
+msgid "All Surveys"
+msgstr "Alle Umfragen"
+
+#: components/core/core.php:98
+#: components/core/core.php:100
+#@ surveyval-locale
+msgid "Add new Survey"
+msgstr "Umfrage hinzuf&uuml;gen"
+
+#: components/core/core.php:99
+#@ surveyval-locale
+msgid "Edit Survey"
+msgstr "Umfrage bearbeiten"
+
+#: components/core/core.php:101
+#@ surveyval-locale
+msgid "View Survey"
+msgstr "Umfrage ansehen"
+
+#: components/core/core.php:102
+#@ surveyval-locale
+msgid "Search Survey"
+msgstr "Umfrage suchen"
+
+#: components/core/core.php:103
+#: components/core/core.php:104
+#@ surveyval-locale
+msgid "No Survey found"
+msgstr "Keine Umfrage gefunden"
+
+#: components/core/models/question-type.php:46
+#@ surveyval-locale
+msgid "This is a SurveyVal Question-Type."
+msgstr ""
+
+#: components/core/models/question-type.php:108
+#@ surveyval-locale
+msgid "Your Question:"
+msgstr "Deine Frage:"
+
+#: components/core/question-types/text.php:7
+#@ surveyval-locale
+msgid "Text"
+msgstr "Text"
+
+#: components/core/question-types/text.php:8
+#@ surveyval-locale
+msgid "Add a question which can be answered within a text field."
+msgstr ""
+
+#: components/core/question-types/text.php:26
+#@ surveyval-locale
+msgid "Multiple Choice"
+msgstr ""
+
+#: components/core/question-types/text.php:27
+#@ surveyval-locale
+msgid "Add a question which can be answered by selecting one ore more given answers."
+msgstr ""
+
