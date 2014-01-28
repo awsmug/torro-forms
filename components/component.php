@@ -52,6 +52,6 @@ abstract class SurveyVal_Component{
 		
 		$this->required = TRUE;
 		
-		$surveyval->add_component( $slug, $this );
+		// $surveyval->add_component( $slug, $this );
 	} // end constructor
 }

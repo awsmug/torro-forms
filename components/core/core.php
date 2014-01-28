@@ -45,6 +45,9 @@ class SurveyVal_Core extends SurveyVal_Component{
 		
 		add_action( 'init', array( $this, 'custom_post_types' ), 11 );
 		
+		parent::__construct();
+		
+		
 	    // Functions in Admin
 	    if( is_admin() ):
 		//	add_action( 'admin_menu', array( $this, 'admin_menu' ) );

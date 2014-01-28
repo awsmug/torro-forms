@@ -82,11 +82,41 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 
 	public function droppable_area(){
+		global $post, $surveyval;
+		
 		if( !$this->is_surveyval_post_type() )
 			return;
 		
+		$survey = new SurveyVal_Survey( $post->ID );
+		
+		/*
+		$survey->add_question(
+			'Wie ist Dein Name?',
+			'text'
+		);
+		
+		$survey->add_question(
+			'Wer ist Dein Lieblingsstar?',
+			'multiplechoice',
+			array( 'Quentin Tarantino', 'Stephen King', 'Stephen Spielberg' )
+		);
+		
+		$survey->add_question(
+			'Was magst Du am liebsten?',
+			'multiplechoice',
+			array( 'Pizza', 'Nudeln', 'Fleisch', 'Fisch' )
+		);
+		*/
+		
 		echo '<div id="surveyval-content" class="drag-drop">';
 				echo '<div id="drag-drop-area" class="widgets-holder-wrap">';
+				
+					$questions = $survey->get_questions();
+					
+					foreach( $questions AS $question ):
+						echo $this->get_widget_html( $question->question, $question->settings_html() );
+					endforeach;
+					
 					echo '<div class="drag-drop-inside">';
 						echo '<p class="drag-drop-info">';
 							echo __( 'Drop your Question/Answer here.', 'surveyval-locale' );
@@ -94,22 +124,37 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					echo '</div>';
 				echo '</div>';
 		echo '</div>';
+		
+		echo '<pre>';
+		print_r( $survey );
+		print_r( $surveyval );
+		echo '</pre>';
+	}
+
+	private function get_widget_html( $title, $content, $icon = '' ){
+		$html = '<div class="widget surveyval-draggable">';
+			$html.= '<div class="widget-top surveyval-admin-qu-text">';
+				$html.= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
+				$html.= '<div class="widget-title">';
+					$html.= '<h4>' . $title . '</h4>';
+				$html.= '</div>';
+			$html.= '</div>';
+			$html.= '<div class="widget-inside">';
+				$html.= '<div class="widget-content">';
+					$html.= $content;
+				$html.= '</div>';
+			$html.= '</div>';
+		$html.= '</div>';
+		
+		return $html;
 	}
 
 	public function meta_box_questions_answers(){
-		echo '<div class="widget surveyval-draggable">';
-			echo '<div class="widget-top surveyval-admin-qu-text">';
-				echo '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
-				echo '<div class="widget-title">';
-				echo '<h4>' . __( 'Text', 'surveyval-locale' ) . '</h4>';
-				echo '</div>';
-			echo '</div>';
-			echo '<div class="widget-inside">';
-				echo '<div class="widget-content">';
-					echo '<p>Daaa</p>';
-				echo '</div>';
-			echo '</div>';
-		echo '</div>';
+		global $surveyval;
+		
+		foreach( $surveyval->question_types AS $question_type ):
+			echo $this->get_widget_html( $question_type->title, $question_type->settings_html() );
+		endforeach;
 	}
 	
 	public function meta_boxes( $post_type ){
