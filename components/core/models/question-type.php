@@ -5,6 +5,7 @@ abstract class SurveyVal_QuestionType{
 	var $title;
 	var $description;
 	var $icon;
+	var $sort = 0;
 	
 	var $question;
 	
@@ -12,7 +13,6 @@ abstract class SurveyVal_QuestionType{
 	var $multiple_answers = FALSE;
 	
 	var $answers = array();
-	var $answer_order = 0;
 	
 	var $answer_params = array();
 	var $answer_syntax;
@@ -67,51 +67,66 @@ abstract class SurveyVal_QuestionType{
 		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->questions} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 		
-		$this->question = $row->question;
+		$this->id = $id;
+		$this->question( $row->question );
+		$this->surveyval_id = $row->surveyval_id;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->answers} WHERE question_id = %s", $id );
+		$this->sort = $row->sort;
+		
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->answers} WHERE question_id = %s ORDER BY sort DESC", $id );
 		$results = $wpdb->get_results( $sql );
 				
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				$this->answers[] = $result->answer;
+				$this->answer( $result->answer, $result->sort, $result->id );
 			endforeach;
 		endif;
 	}
 	
-	public function add_question( $question ){
+	public function question( $question, $order = null ){
 		if( '' == $question )
 			return FALSE;
 		
-		if( '' != $this->question )
-			return FALSE;
+		if( null != $order )
+			$this->sort = $order;
 		
 		$this->question = $question;
 		
 		return TRUE;
 	}
 	
-	public function add_answer( $text, $order = FALSE ){ 
+	public function answer( $text, $order = FALSE, $id = null ){ 
 		if( '' == $text )
 			return FALSE;
 		
 		if( FALSE == $this->multiple_answers && count( $this->answers ) > 0 )
 			return FALSE;
 		
-		if( FALSE == $order )
-			$order = $this->answer_order++;
-		
-		$this->answers[ $order ] = $text;
+		$this->answers[ $id ] = array(
+			'id' => $id,
+			'text' => $text,
+			'order' => $order
+		);
 	}
 	
-	public function settings_html(){
-		$html = '<p>' . __( 'Your Question:', 'surveyval-locale' ) . '</p><p><input type="text" name="surveyval[][question]" value="' . $this->question . '" class="surveyval-question" /><p>';
+	public function settings_html( $new = FALSE ){
+		if( !$new )
+			$widget_id = 'widget_question_' . $this->id;
+		else
+			$widget_id = 'widget_question_##nr##';
+		
+		$html = '<p>' . __( 'Your Question:', 'surveyval-locale' ) . '</p><p><input type="text" name="surveyval[' . $widget_id . '][question]" value="' . $this->question . '" class="surveyval-question" /><p>';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $this->id . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
+		
+		
 		$i = 0;
 		
 		if( TRUE != $this->has_answers )
 			return $html;
 			
-		$html.= '<p>' . __( '', 'surveyval-locale' );
+		$html.= '<p>' . __( 'Your Answer/s:', 'surveyval-locale' ) . '</p>';
 		
 		if( is_array( $this->answers ) ):
 			foreach( $this->answers AS $answer ):
@@ -122,10 +137,10 @@ abstract class SurveyVal_QuestionType{
 					
 					switch( $param ){
 						case 'name':
-							if( $this->multiple_answers )
-								$param_value = 'surveyval[]';
+							if( !$this->multiple_answers )
+								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . ']';
 							else
-								$param_value = 'surveyval[][' . $i++ . ']';
+								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][' . $i++ . ']';
 							break;
 							
 						case 'value':
@@ -133,13 +148,15 @@ abstract class SurveyVal_QuestionType{
 							break;
 							
 						case 'answer';
-							$param_value = $answer;
+							$param_value = $answer['text'];
 							break;
 					}
 					$param_arr[] = $param_value;
 				endforeach;
 				
 				$html.= call_user_func_array( 'sprintf', $param_arr );
+				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
+				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][order]" value="' . $answer['order'] . '" />';
 				
 			endforeach;
 		endif;
@@ -161,6 +178,32 @@ abstract class SurveyVal_QuestionType{
 		endforeach;
 		
 		echo $html;
+	}
+	
+	public function save( $surveyval_id = null ){
+		global $wpdb, $surveyval;
+		
+		if( null == $surveyval_id )
+			$surveyval_id = $this->surveyval_id;
+		
+		if( '' == $surveyval_id )
+			return FALSE;
+		
+		if( '' == $this->question )
+			return FALSE;
+		
+		// Saving Question
+		if( '' == $this->id )
+			$sql = $wpdb->prepare( "INSERT INTO {$surveyval->tables->questions} ( surveyval_id, question, sort, type ) VALUES ( %s, %s, %s, %s )", $surveyval_id, $this->question, $this->sort, $this->slug );
+		else 
+			$sql = $wpdb->prepare( "UPDATE {$surveyval->tables->questions} SET surveyval_id = %s, question = %s, sort = %s, type = %s WHERE  id = %s", $surveyval_id, $this->question, $this->sort, $this->slug, $this->id );
+		
+		$wpdb->query( $sql );
+		
+		// Savin Answers
+		foreach( $this->answers AS $answer ):
+			
+		endforeach;
 	}
 	
 	public function reset(){

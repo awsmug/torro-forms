@@ -33,7 +33,7 @@ class SurveyVal_Survey{
 		if( '' == $id )
 			return FALSE;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->questions} WHERE surveyval_id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->questions} WHERE surveyval_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 		
 		$questions = array();
@@ -49,16 +49,31 @@ class SurveyVal_Survey{
 		return $questions;
 	}
 	
-	public function get_answers( $question_id ){
-		global $surveyval, $wpdb;
+	public function question( $question, $question_type, $answers = array(), $order = null, $question_id = null ){
+		global $surveyval;
 		
-		if( '' == $question_id )
+		if( !array_key_exists( $question_type, $surveyval->question_types ) )
 			return FALSE;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->answers} WHERE question_id = %s", $question_id );
-		$results = $wpdb->get_results( $sql );
+		$class = 'SurveyVal_QuestionType_' . $question_type;
 		
-		return $results;
+		if( null == $question_id )
+			$object = new $class();
+		else
+			$object = new $class( $question_id );
+		
+		$object->question( $question, $order );
+		
+		if( count( $answers ) > 0 )
+			foreach( $answers AS $answer )
+				$object->answer( $answer['text'], $answer['order'], $answer['id'] );
+			
+		
+		if( $this->add_question_obj( $object, $order ) ):
+			return TRUE;
+		else:
+			return FALSE;
+		endif;
 	}
 	
 	public function add_question_obj( $question_object, $order = null ){
@@ -73,30 +88,15 @@ class SurveyVal_Survey{
 		return TRUE;
 	}
 	
-	public function add_question( $question, $question_type, $answers = array(), $order = null ){
-		global $surveyval;
-		
-		if( !array_key_exists( $question_type, $surveyval->question_types ) )
-			return FALSE;
-		
-		$surveyval->question_types[ $question_type ]->add_question( $question );
-		
-		if( count( $answers ) > 0 )
-			foreach( $answers AS $answer )
-				$surveyval->question_types[ $question_type ]->add_answer( $answer );
-			
-		
-		if( $this->add_question_obj( clone $surveyval->question_types[ $question_type ], $order ) ):
-			$surveyval->question_types[ $question_type ]->reset();
-			return TRUE;
-		else:
-			$surveyval->question_types[ $question_type ]->reset();
-			return FALSE;
-		endif;
-	}
-	
 	public function save(){
 		global $surveyval, $wpdb;
+		
+		if( '' == $this->id )
+			return FALSE;
+		
+		foreach( $this->questions AS $question ):
+			$question->save( $this->id );
+		endforeach;
 	}
 	
 	public function reset(){

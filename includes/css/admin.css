@@ -15,6 +15,9 @@
 #drag-drop-area.widgets-holder-wrap{
 	padding:10px;
 }
-.surveyval-question{
+#surveyval-content input[type=text].surveyval-question{
 	width:100%;
+}
+#surveyval-content input[type=text]{
+	width:80%;
 }

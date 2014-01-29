@@ -49,6 +49,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
 			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
+			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
 		endif;
 	} // end constructor
 	
@@ -89,32 +90,13 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		$survey = new SurveyVal_Survey( $post->ID );
 		
-		/*
-		$survey->add_question(
-			'Wie ist Dein Name?',
-			'text'
-		);
-		
-		$survey->add_question(
-			'Wer ist Dein Lieblingsstar?',
-			'multiplechoice',
-			array( 'Quentin Tarantino', 'Stephen King', 'Stephen Spielberg' )
-		);
-		
-		$survey->add_question(
-			'Was magst Du am liebsten?',
-			'multiplechoice',
-			array( 'Pizza', 'Nudeln', 'Fleisch', 'Fisch' )
-		);
-		*/
-		
 		echo '<div id="surveyval-content" class="drag-drop">';
 				echo '<div id="drag-drop-area" class="widgets-holder-wrap">';
 				
 					$questions = $survey->get_questions();
 					
 					foreach( $questions AS $question ):
-						echo $this->get_widget_html( $question->question, $question->settings_html() );
+						echo $this->get_widget_html( $question->question, $question->settings_html(), '', $question->id );
 					endforeach;
 					
 					echo '<div class="drag-drop-inside">';
@@ -131,8 +113,13 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		echo '</pre>';
 	}
 
-	private function get_widget_html( $title, $content, $icon = '' ){
-		$html = '<div class="widget surveyval-draggable">';
+	private function get_widget_html( $title, $content, $icon = '', $id = null, $new = FALSE ){
+		if( $id != null && '' != $id )
+			$id_name = ' id="widget_question_' . $id . '"';
+		else
+			$id_name = ' id="widget_question_##nr##"';
+		
+		$html = '<div class="widget"' . $id_name . '>';
 			$html.= '<div class="widget-top surveyval-admin-qu-text">';
 				$html.= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 				$html.= '<div class="widget-title">';
@@ -153,7 +140,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		global $surveyval;
 		
 		foreach( $surveyval->question_types AS $question_type ):
-			echo $this->get_widget_html( $question_type->title, $question_type->settings_html() );
+			echo '<div class="surveyval-draggable">';
+			echo $this->get_widget_html( $question_type->title, $question_type->settings_html( TRUE ) );
+			echo '</div>';
 		endforeach;
 	}
 	
@@ -170,6 +159,36 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	            'high'
 	        );
 		endif;
+	}
+
+	public function save_survey( $post_id ){
+		if ( wp_is_post_revision( $post_id ) )
+			return;
+		
+		if ( 'surveyval' != $_POST['post_type'] )
+			return;
+		
+		$survey = new SurveyVal_Survey( $post_id );
+		$survey->reset();
+		
+		$survey_questions = $_POST['surveyval'];
+		
+		foreach( $survey_questions AS $key => $survey_question ):
+			$id = $survey_question['id'];
+			$question = $survey_question['question'];
+			$sort = $survey_question['sort'];
+			$type = $survey_question['type'];
+			
+			if( '' == $question && '' == $id  )
+				continue;
+			
+			$survey->question( $question, $type, array(), $sort, $id );
+		endforeach;
+		
+		$survey->save();
+		
+		// Preventing dublicate saving
+		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
 	}
 	
 	private function is_surveyval_post_type(){

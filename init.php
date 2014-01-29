@@ -121,6 +121,7 @@ class SurveVal_Init{
 			id int(11) NOT NULL AUTO_INCREMENT,
 			surveyval_id int(11) NOT NULL,
 			question text NOT NULL,
+			sort int(11) NOT NULL,
 			type char(50) NOT NULL,
 			UNIQUE KEY id (id)
 			)";
@@ -131,6 +132,7 @@ class SurveVal_Init{
 			id int(11) NOT NULL AUTO_INCREMENT,
 			question_id int(11) NOT NULL,
 			answer text NOT NULL,
+			sort int(11) NOT NULL,
 			UNIQUE KEY id (id)
 			)";
 			

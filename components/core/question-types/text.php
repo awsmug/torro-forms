@@ -3,7 +3,7 @@
 class SurveyVal_QuestionType_Text extends SurveyVal_QuestionType{
 	
 	public function __construct( $id = null ){
-		$this->slug = 'text';
+		$this->slug = 'Text';
 		$this->title = __( 'Text', 'surveyval-locale' );
 		$this->description = __( 'Add a question which can be answered within a text field.', 'surveyval-locale' );
 		
@@ -22,7 +22,7 @@ sv_register_question_type( 'SurveyVal_QuestionType_Text' );
 class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 	
 	public function __construct( $id = null ){
-		$this->slug = 'multiplechoice';
+		$this->slug = 'MultipleChoice';
 		$this->title = __( 'Multiple Choice', 'surveyval-locale' );
 		$this->description = __( 'Add a question which can be answered by selecting one ore more given answers.', 'surveyval-locale' );
 		
