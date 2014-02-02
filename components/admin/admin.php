@@ -169,9 +169,16 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			return;
 		
 		$survey = new SurveyVal_Survey( $post_id );
-		$survey->reset();
 		
 		$survey_questions = $_POST['surveyval'];
+		
+		echo '<pre>';
+		print_r( $survey );
+		echo '</pre>';
+		
+		echo '<pre>';
+		print_r( $survey_questions );
+		echo '</pre>';
 		
 		foreach( $survey_questions AS $key => $survey_question ):
 			$id = $survey_question['id'];
@@ -182,10 +189,16 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			if( '' == $question && '' == $id  )
 				continue;
 			
-			$survey->question( $question, $type, array(), $sort, $id );
+			$survey->add_question( $question, $type, array(), $sort, $id );
 		endforeach;
 		
+		echo '<pre>';
+		print_r( $survey );
+		echo '</pre>';
+		
 		$survey->save();
+		
+		exit;
 		
 		// Preventing dublicate saving
 		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );

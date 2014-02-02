@@ -49,7 +49,7 @@ class SurveyVal_Survey{
 		return $questions;
 	}
 	
-	public function question( $question, $question_type, $answers = array(), $order = null, $question_id = null ){
+	public function add_question( $question, $question_type, $order = null ){
 		global $surveyval;
 		
 		if( !array_key_exists( $question_type, $surveyval->question_types ) )
@@ -69,14 +69,14 @@ class SurveyVal_Survey{
 				$object->answer( $answer['text'], $answer['order'], $answer['id'] );
 			
 		
-		if( $this->add_question_obj( $object, $order ) ):
-			return TRUE;
-		else:
+		if( !$this->add_question_obj( $object, $order ) ):
 			return FALSE;
+		else:
+			
 		endif;
 	}
 	
-	public function add_question_obj( $question_object, $order = null ){
+	private function add_question_obj( $question_object, $order = null ){
 		if( !is_object( $question_object ) || 'SurveyVal_QuestionType' != get_parent_class( $question_object ) )
 			return FALSE;
 		
@@ -87,6 +87,36 @@ class SurveyVal_Survey{
 		
 		return TRUE;
 	}
+	
+	private function add_question_to_db( $question, $question, $question_type, $order = null ){
+		global $wpdb, $surveyval;
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->questions} WHERE surveyval_id = %s ORDER BY sort ASC", $id );
+		
+		$insert_id = $wpdb->insert(
+			$surveyval->tables->questions,
+			array(
+				'question',
+				'type'
+			),
+			array(
+			
+			)
+		);
+		
+	}
+	
+	public function update_question( $id, $question, $question_type, $order = null ){
+		
+	}
+
+	public function delete_question( $id ){
+		
+	}
+	
+	private function delete_all_questions(){
+		
+	}
+	
 	
 	public function save(){
 		global $surveyval, $wpdb;

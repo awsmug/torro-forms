@@ -7,6 +7,8 @@ abstract class SurveyVal_QuestionType{
 	var $icon;
 	var $sort = 0;
 	
+	var $survey_id;
+	
 	var $question;
 	
 	var $has_answers = TRUE;
@@ -22,7 +24,9 @@ abstract class SurveyVal_QuestionType{
 
 	var $initialized = FALSE;
 	
-	public function __construct( $id = null ){
+	public function __construct( $survey_id, $id = null ){
+		$this->survey_id = $survey_id;
+		
 		if( null != $id && '' != $id )
 			$this->populate( $id );
 	}	
@@ -68,7 +72,7 @@ abstract class SurveyVal_QuestionType{
 		$row = $wpdb->get_row( $sql );
 		
 		$this->id = $id;
-		$this->question( $row->question );
+		$this->set_question( $row->question );
 		$this->surveyval_id = $row->surveyval_id;
 		
 		$this->sort = $row->sort;
@@ -78,12 +82,12 @@ abstract class SurveyVal_QuestionType{
 				
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				$this->answer( $result->answer, $result->sort, $result->id );
+				$this->add_answer( $result->answer, $result->sort, $result->id );
 			endforeach;
 		endif;
 	}
 	
-	public function question( $question, $order = null ){
+	public function set_question( $question, $order = null ){
 		if( '' == $question )
 			return FALSE;
 		
@@ -95,7 +99,7 @@ abstract class SurveyVal_QuestionType{
 		return TRUE;
 	}
 	
-	public function answer( $text, $order = FALSE, $id = null ){ 
+	public function add_answer( $text, $order = FALSE, $id = null ){ 
 		if( '' == $text )
 			return FALSE;
 		
@@ -107,6 +111,14 @@ abstract class SurveyVal_QuestionType{
 			'text' => $text,
 			'order' => $order
 		);
+	}
+	
+	public function update_answer( $id, $text, $order = FALSE ){
+		
+	}
+	
+	public function delete_answer( $id ){
+		
 	}
 	
 	public function settings_html( $new = FALSE ){
@@ -159,6 +171,9 @@ abstract class SurveyVal_QuestionType{
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][order]" value="' . $answer['order'] . '" />';
 				
 			endforeach;
+		else:
+			
+			
 		endif;
 		
 		return $html;
