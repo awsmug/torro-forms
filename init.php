@@ -62,7 +62,7 @@ class SurveVal_Init{
 	 * Initializes the plugin.
 	 * @since 1.0.0
 	 */
-	function init() {
+	public static function init() {
 		global $sv_plugin_errors, $sv_plugin_errors;
 		
 		$sv_plugin_errors = array();
@@ -95,7 +95,7 @@ class SurveVal_Init{
 	 * Checking Requirements and adding Error Messages.
 	 * @since 1.0.0 
 	 */
-	function check_requirements(){
+	public static function check_requirements(){
 		global $sv_plugin_errors;
 		
 		//if( !class_exists( 'ImportantClass' ) )
@@ -107,7 +107,7 @@ class SurveVal_Init{
 	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0 
 	 */
-	public function activate( $network_wide ) {
+	public static function activate( $network_wide ) {
 		global $wpdb;
 		
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -158,7 +158,7 @@ class SurveVal_Init{
 			
 		dbDelta( $sql );
 		
-		update_option( 'surveyval_db_version', '1.0' );
+		update_option( 'surveyval_db_version', '1.0.0' );
 		
 	} // end activate
 	
@@ -166,7 +166,7 @@ class SurveVal_Init{
 	 * Fired when the plugin is deactivated.
 	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog 
 	 */
-	public function deactivate( $network_wide ) {
+	public static function deactivate( $network_wide ) {
 	} // end deactivate
 	
 	/**
@@ -174,14 +174,14 @@ class SurveVal_Init{
 	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0 
 	 */
-	public function uninstall( $network_wide ) {
+	public static function uninstall( $network_wide ) {
 	} // end uninstall
 
 	/**
 	 * Loads the plugin text domain for translation.
 	 * @since 1.0.0
 	 */
-	public function load_textdomain() {
+	public static function load_textdomain() {
 		load_plugin_textdomain( 'surveyval-locale', false, SURVEYVAL_RELATIVE_FOLDER . '/languages' );
 		
 	} // end plugin_textdomain
@@ -190,7 +190,7 @@ class SurveVal_Init{
 	 * Registers and enqueues admin-specific styles.
 	 * @since 1.0.0
 	 */
-	public function register_admin_styles() {
+	public static function register_admin_styles() {
 		wp_enqueue_style( 'surveyval-admin-styles', SURVEYVAL_URLPATH . '/includes/css/admin.css' );
 	
 	} // end register_admin_styles
@@ -199,7 +199,7 @@ class SurveVal_Init{
 	 * Registers and enqueues admin-specific JavaScript.
 	 * @since 1.0.0
 	 */	
-	public function register_admin_scripts() {
+	public static function register_admin_scripts() {
 		wp_enqueue_script( 'surveyval-admin-script', SURVEYVAL_URLPATH . '/includes/js/admin.js' );
 	
 	} // end register_admin_scripts
@@ -208,7 +208,7 @@ class SurveVal_Init{
 	 * Registers and enqueues plugin-specific styles.
 	 * @since 1.0.0
 	 */
-	public function register_plugin_styles() {
+	public static function register_plugin_styles() {
 		wp_enqueue_style( 'surveyval-plugin-styles', SURVEYVAL_URLPATH . '/includes/css/display.css' );
 	
 	} // end register_plugin_styles
@@ -226,7 +226,7 @@ class SurveVal_Init{
 	 * Defining Constants for Use in Plugin
 	 * @since 1.0.0
 	 */
-	public function constants(){
+	public static function constants(){
 		define( 'SURVEYVAL_FOLDER', 		self::get_folder() );
 		define( 'SURVEYVAL_RELATIVE_FOLDER', 	substr( SURVEYVAL_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( SURVEYVAL_FOLDER ) ) );  
 		define( 'SURVEYVAL_URLPATH', 		self::get_url_path() );
@@ -237,7 +237,7 @@ class SurveVal_Init{
 	 * Getting include files
 	 * @since 1.0.0
 	 */
-	public function includes(){
+	public static function includes(){
 		// Loading functions
 		include( SURVEYVAL_FOLDER . '/functions.php' );
 		
@@ -250,7 +250,7 @@ class SurveVal_Init{
 	 * Loading components dynamical
 	 * @since 1.0.0
 	 */
-	function load_components(){
+	public static function load_components(){
 		// Loading Components
 		include( SURVEYVAL_FOLDER . '/components/component.php' );
 		include( SURVEYVAL_FOLDER . '/components/admin/admin.php' );
@@ -261,7 +261,7 @@ class SurveVal_Init{
 	* Getting URL
 	* @since 1.0.0
 	*/
-	private function get_url_path(){
+	private static function get_url_path(){
 		$sub_path = substr( SURVEYVAL_FOLDER, strlen( ABSPATH ), ( strlen( SURVEYVAL_FOLDER ) - 11 ) );
 		$script_url = get_bloginfo( 'wpurl' ) . '/' . $sub_path;
 		return $script_url;
@@ -271,7 +271,7 @@ class SurveVal_Init{
 	* Getting Folder
 	* @since 1.0.0
 	*/
-	private function get_folder(){
+	private static function get_folder(){
 		$sub_folder = substr( dirname(__FILE__), strlen( ABSPATH ), ( strlen( dirname(__FILE__) ) - strlen( ABSPATH ) ) );
 		$script_folder = ABSPATH . $sub_folder;
 		return $script_folder;
@@ -281,7 +281,7 @@ class SurveVal_Init{
 	* Showing Errors
 	* @since 1.0.0
 	*/
-	public function admin_notices(){
+	public static function admin_notices(){
 		global $sv_plugin_errors, $sv_plugin_errors; 
 		
 		if( count( $sv_plugin_errors ) > 0 ):
@@ -298,3 +298,5 @@ class SurveVal_Init{
 } // end class
 
 SurveVal_Init::init();
+
+

@@ -88,15 +88,13 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( !$this->is_surveyval_post_type() )
 			return;
 		
-		$survey = new SurveyVal_Survey( $post->ID );
-		
 		echo '<div id="surveyval-content" class="drag-drop">';
 				echo '<div id="drag-drop-area" class="widgets-holder-wrap">';
-				
-					$questions = $survey->get_questions();
 					
-					foreach( $questions AS $question ):
-						echo $this->get_widget_html( $question->question, $question->settings_html(), '', $question->id );
+					$survey = new SurveyVal_Survey( $post->ID );
+	
+					foreach( $survey->questions AS $question ):
+						echo  $this->get_widget_html( $question->question, $question->get_settings_html(), '', $question->id );
 					endforeach;
 					
 					echo '<div class="drag-drop-inside">';
@@ -141,7 +139,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		foreach( $surveyval->question_types AS $question_type ):
 			echo '<div class="surveyval-draggable">';
-			echo $this->get_widget_html( $question_type->title, $question_type->settings_html( TRUE ) );
+			echo $this->get_widget_html( $question_type->title, $question_type->get_settings_html( TRUE ) );
 			echo '</div>';
 		endforeach;
 	}
@@ -168,37 +166,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if ( 'surveyval' != $_POST['post_type'] )
 			return;
 		
-		$survey = new SurveyVal_Survey( $post_id );
-		
-		$survey_questions = $_POST['surveyval'];
-		
-		echo '<pre>';
-		print_r( $survey );
-		echo '</pre>';
-		
-		echo '<pre>';
-		print_r( $survey_questions );
-		echo '</pre>';
-		
-		foreach( $survey_questions AS $key => $survey_question ):
-			$id = $survey_question['id'];
-			$question = $survey_question['question'];
-			$sort = $survey_question['sort'];
-			$type = $survey_question['type'];
-			
-			if( '' == $question && '' == $id  )
-				continue;
-			
-			$survey->add_question( $question, $type, array(), $sort, $id );
-		endforeach;
-		
-		echo '<pre>';
-		print_r( $survey );
-		echo '</pre>';
-		
-		$survey->save();
-		
-		exit;
+		sv_save_by_postdata( $post_id );
 		
 		// Preventing dublicate saving
 		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );

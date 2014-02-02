@@ -46,7 +46,7 @@ abstract class SurveyVal_Component{
 		$this->slug = get_class( $this );
 		add_action( 'init', array( $this, 'includes' ), 0 );
 		
-		$this->title = ucfirst( $this->name );
+		$this->title = ucfirst( $this->slug );
 		$this->description = __( 'This is a SurveyVal component.', 'surveyval-locale' );
 		$this->capability = 'read';
 		

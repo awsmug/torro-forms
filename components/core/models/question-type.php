@@ -6,7 +6,7 @@ abstract class SurveyVal_QuestionType{
 	var $description;
 	var $icon;
 	var $sort = 0;
-	
+
 	var $survey_id;
 	
 	var $question;
@@ -24,9 +24,7 @@ abstract class SurveyVal_QuestionType{
 
 	var $initialized = FALSE;
 	
-	public function __construct( $survey_id, $id = null ){
-		$this->survey_id = $survey_id;
-		
+	public function __construct( $id = null ){
 		if( null != $id && '' != $id )
 			$this->populate( $id );
 	}	
@@ -63,7 +61,7 @@ abstract class SurveyVal_QuestionType{
 		return $surveyval->add_question_type( $this->slug, $this );
 	}
 	
-	public function populate( $id ){
+	private function populate( $id ){
 		global $wpdb, $surveyval;
 		
 		$this->reset();
@@ -87,7 +85,7 @@ abstract class SurveyVal_QuestionType{
 		endif;
 	}
 	
-	public function set_question( $question, $order = null ){
+	private function set_question( $question, $order = null ){
 		if( '' == $question )
 			return FALSE;
 		
@@ -99,7 +97,7 @@ abstract class SurveyVal_QuestionType{
 		return TRUE;
 	}
 	
-	public function add_answer( $text, $order = FALSE, $id = null ){ 
+	private function add_answer( $text, $order = FALSE, $id = null ){ 
 		if( '' == $text )
 			return FALSE;
 		
@@ -113,15 +111,7 @@ abstract class SurveyVal_QuestionType{
 		);
 	}
 	
-	public function update_answer( $id, $text, $order = FALSE ){
-		
-	}
-	
-	public function delete_answer( $id ){
-		
-	}
-	
-	public function settings_html( $new = FALSE ){
+	public function get_settings_html( $new = FALSE ){
 		if( !$new )
 			$widget_id = 'widget_question_' . $this->id;
 		else
@@ -149,10 +139,7 @@ abstract class SurveyVal_QuestionType{
 					
 					switch( $param ){
 						case 'name':
-							if( !$this->multiple_answers )
-								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . ']';
-							else
-								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][' . $i++ . ']';
+							$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][title]';
 							break;
 							
 						case 'value':
@@ -168,7 +155,7 @@ abstract class SurveyVal_QuestionType{
 				
 				$html.= call_user_func_array( 'sprintf', $param_arr );
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][order]" value="' . $answer['order'] . '" />';
+				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['order'] . '" />';
 				
 			endforeach;
 		else:
@@ -179,7 +166,7 @@ abstract class SurveyVal_QuestionType{
 		return $html;
 	}
 	
-	public function html(){
+	public function get_html(){
 		if( '' == $this->question )
 			return FALSE;
 		
@@ -195,33 +182,7 @@ abstract class SurveyVal_QuestionType{
 		echo $html;
 	}
 	
-	public function save( $surveyval_id = null ){
-		global $wpdb, $surveyval;
-		
-		if( null == $surveyval_id )
-			$surveyval_id = $this->surveyval_id;
-		
-		if( '' == $surveyval_id )
-			return FALSE;
-		
-		if( '' == $this->question )
-			return FALSE;
-		
-		// Saving Question
-		if( '' == $this->id )
-			$sql = $wpdb->prepare( "INSERT INTO {$surveyval->tables->questions} ( surveyval_id, question, sort, type ) VALUES ( %s, %s, %s, %s )", $surveyval_id, $this->question, $this->sort, $this->slug );
-		else 
-			$sql = $wpdb->prepare( "UPDATE {$surveyval->tables->questions} SET surveyval_id = %s, question = %s, sort = %s, type = %s WHERE  id = %s", $surveyval_id, $this->question, $this->sort, $this->slug, $this->id );
-		
-		$wpdb->query( $sql );
-		
-		// Savin Answers
-		foreach( $this->answers AS $answer ):
-			
-		endforeach;
-	}
-	
-	public function reset(){
+	private function reset(){
 		$this->question = '';
 		$this->answers = array();
 	}

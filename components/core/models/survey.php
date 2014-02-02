@@ -1,17 +1,17 @@
 <?php
 
 class SurveyVal_Survey{
-	var $id;
-	var $title;
+	public $id;
+	public $title;
 	
-	var $questions = array();
+	public $questions = array();
 	
 	public function __construct( $id = null ){
 		if( null != $id )
 			$this->populate( $id );
 	}
 	
-	public function populate( $id ){
+	private function populate( $id ){
 		global $wpdb, $surveyval;
 		
 		$this->reset();
@@ -24,7 +24,7 @@ class SurveyVal_Survey{
 		$this->questions = $this->get_questions( $id );
 	}
 	
-	public function get_questions( $id = null ){
+	private function get_questions( $id = null ){
 		global $surveyval, $wpdb;
 		
 		if( null == $id )
@@ -49,7 +49,7 @@ class SurveyVal_Survey{
 		return $questions;
 	}
 	
-	public function add_question( $question, $question_type, $order = null ){
+	private function add_question( $question, $question_type, $order = null ){
 		global $surveyval;
 		
 		if( !array_key_exists( $question_type, $surveyval->question_types ) )
@@ -105,31 +105,85 @@ class SurveyVal_Survey{
 		
 	}
 	
-	public function update_question( $id, $question, $question_type, $order = null ){
-		
-	}
-
-	public function delete_question( $id ){
-		
-	}
-	
-	private function delete_all_questions(){
-		
-	}
-	
-	
-	public function save(){
+	public function save_by_postdata(){
 		global $surveyval, $wpdb;
 		
 		if( '' == $this->id )
 			return FALSE;
 		
-		foreach( $this->questions AS $question ):
-			$question->save( $this->id );
+		$survey_questions = $_POST['surveyval'];
+		
+		foreach( $survey_questions AS $key => $survey_question ):
+			$id = $survey_question['id'];
+			$question = $survey_question['question'];
+			$sort = $survey_question['sort'];
+			$type = $survey_question['type'];
+			$answers = $survey_question['answers'];
+			
+			// Saving question
+			if( '' != $id  ):
+				$wpdb->update( 
+					$surveyval->tables->questions,
+					array(
+						'question' => $question,
+						'sort' => $sort,
+						'type' => $type
+					),
+					array(
+						'id' => $id
+					)
+				);
+			else:
+				$id = $wpdb->insert(
+					$surveyval->tables->questions,
+					array(
+						'question' => $question,
+						'sort' => $sort,
+						'type' )
+				);
+			endif;
+			
+			mail( 'sven@deinhilden.de', 'Test', print_r( $answers, TRUE ) . print_r( $survey_question, TRUE ) .  print_r( $surveyval, TRUE ) );
+			
+			// Saving answers
+			foreach( $answers AS $answer ):
+				$answer_id = $answer['id'];
+				$answer_title = $answer['title'];
+				$answer_sort = $answer['sort'];
+				
+				if( '' != $answer_id ):
+					$wpdb->update(
+						$surveyval->tables->answers,
+						array( 
+							'answer' => $answer_title,
+							'sort' => $answer_sort
+						),
+						array(
+							'id' => $answer_id
+						)
+					);
+				else:
+					$answer_id = $wpdb->insert(
+						$surveyval->tables->answers,
+						array( 
+							'answer' => $answer_title,
+							'sort' => $answer_sort
+						)
+					);
+				endif;
+			endforeach;
+
 		endforeach;
+		
+		return TRUE;
 	}
 	
-	public function reset(){
+	private function reset(){
 		$this->questions = array();
 	}
+}
+
+function sv_save_by_postdata( $id = null ){
+	$survey = new SurveyVal_Survey( $id );
+	return $survey->save_by_postdata();
 }
