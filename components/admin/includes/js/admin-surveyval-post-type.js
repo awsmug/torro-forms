@@ -11,10 +11,8 @@
 			accept: ".surveyval-draggable",
 			drop: function( event, ui ) {
 				var now = new Date();
-				var helper = $( ".drag-drop-inside" ).html();
-				var new_helper = '<div class="drag-drop-inside">' + helper + '</div>';
 				
-				// Replacing numbers for getting unique ids & setting up container ID
+				// Replacing ##nr## for getting unique ids & setting up container ID
 				var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
 				var nr = random * now.getTime();
 				var draggable_content =  ui.draggable.html();
@@ -23,9 +21,13 @@
 				// Counting elements
 				var i = 0;
 				$('#drag-drop-area .widget').each( function( e ) { i++; });
-              	
-				$( ".drag-drop-inside" ).remove();
-				$( "#drag-drop-area" ).html( $( "#drag-drop-area" ).html() + draggable_content + new_helper );
+				
+				console.log( ui );
+
+              	var droppable_helper = $( this ).find( ".drag-drop-inside" ).html();
+              	$( this ).find( ".drag-drop-inside" ).remove();
+				$( draggable_content ).appendTo( this );
+				$( '<div class="drag-drop-inside">' + droppable_helper + '</div>' ).appendTo( this );
 				
 				// Adding sorting number
 				var input_name = 'input[name="surveyval\[widget_question_' + nr +'\]\[sort\]"]';
@@ -40,7 +42,10 @@
 					var index = $( this ).index();
               		$( input_name ).val( index ) ;
               	});
-			}
+			},
+			items:'div:not(.drag-drop-inside)'
 		});
+		
+		// $( ".drag-drop-inside" ).disableSelection();
 	});
 }(jQuery));
