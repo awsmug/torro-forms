@@ -1,6 +1,7 @@
 <?php
 
 abstract class SurveyVal_QuestionType{
+	var $id;
 	var $slug;
 	var $title;
 	var $description;
