@@ -126,12 +126,13 @@ abstract class SurveyVal_QuestionType{
 		
 		$i = 0;
 		
-		if( TRUE != $this->has_answers )
+		if( !$this->has_answers )
 			return $html;
 			
 		$html.= '<p>' . __( 'Your Answer/s:', 'surveyval-locale' ) . '</p>';
 		
-		if( is_array( $this->answers ) ):
+		if( is_array( $this->answers ) && !$new ):
+			$html.=  'Exists';
 			foreach( $this->answers AS $answer ):
 				$param_arr = array();
 				$param_arr[] = $this->create_answer_syntax;
@@ -140,7 +141,7 @@ abstract class SurveyVal_QuestionType{
 					
 					switch( $param ){
 						case 'name':
-							$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][title]';
+							$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
 							break;
 							
 						case 'value':
@@ -160,8 +161,37 @@ abstract class SurveyVal_QuestionType{
 				
 			endforeach;
 		else:
-			
-			
+			$html.= 'New';
+			if( $this->has_answers ):
+				$param_arr[] = $this->create_answer_syntax;
+					
+				foreach ( $this->create_answer_params AS $param ):
+					switch( $param ){
+						case 'name':
+							$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
+							break;
+							
+						case 'value':
+							$param_value = '';
+							break;
+							
+						case 'answer';
+							$param_value = '';
+							break;
+					}
+					$param_arr[] = $param_value;
+				endforeach;
+					
+				if( $this->multiple_answers ):
+					$html.= call_user_func_array( 'sprintf', $param_arr ) . ' <a class="add-answer">[+]</a>';
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="" />';
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="" />';
+				else:
+					$html.= call_user_func_array( 'sprintf', $param_arr );
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="" />';
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="" />';
+				endif;
+			endif;
 		endif;
 		
 		return $html;

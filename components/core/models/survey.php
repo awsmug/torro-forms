@@ -113,8 +113,10 @@ class SurveyVal_Survey{
 		
 		$survey_questions = $_POST['surveyval'];
 		
+		// mail( 'sven@deinhilden.de', 'Test', print_r( $survey_questions, TRUE ) . print_r( $surveyval, TRUE ) );
+		
 		foreach( $survey_questions AS $key => $survey_question ):
-			$id = $survey_question['id'];
+			$question_id = $survey_question['id'];
 			$question = $survey_question['question'];
 			$sort = $survey_question['sort'];
 			$type = $survey_question['type'];
@@ -123,10 +125,8 @@ class SurveyVal_Survey{
 			if( array_key_exists( 'answers', $survey_question ) )
 				$answers = $survey_question['answers'];
 			
-			mail( 'sven@deinhilden.de', 'Test', print_r( $answers, TRUE ) . print_r( $survey_question, TRUE ) .  print_r( $surveyval, TRUE ) );
-			
 			// Saving question
-			if( '' != $id  ):
+			if( '' != $question_id ):
 				$wpdb->update( 
 					$surveyval->tables->questions,
 					array(
@@ -135,14 +135,14 @@ class SurveyVal_Survey{
 						'type' => $type
 					),
 					array(
-						'id' => $id
+						'id' => $question_id
 					)
 				);
 			else:
 				if( '' == $question )
 					continue;
 				
-				$id = $wpdb->insert(
+				$wpdb->insert(
 					$surveyval->tables->questions,
 					array(
 						'surveyval_id' => $this->id,
@@ -150,20 +150,22 @@ class SurveyVal_Survey{
 						'sort' => $sort,
 						'type' => $type  )
 				);
+				
+				$question_id = $wpdb->insert_id;
 			endif;
 			
 			// Saving answers
 			if( is_array( $answers )  && count( $answers ) >  0 ):
 				foreach( $answers AS $answer ):
 					$answer_id = $answer['id'];
-					$answer_title = $answer['title'];
+					$answer_text = $answer['answer'];
 					$answer_sort = $answer['sort'];
 					
 					if( '' != $answer_id ):
 						$wpdb->update(
 							$surveyval->tables->answers,
 							array( 
-								'answer' => $answer_title,
+								'answer' => $answer_text,
 								'sort' => $answer_sort
 							),
 							array(
@@ -171,10 +173,11 @@ class SurveyVal_Survey{
 							)
 						);
 					else:
-						$answer_id = $wpdb->insert(
+						$wpdb->insert(
 							$surveyval->tables->answers,
-							array( 
-								'answer' => $answer_title,
+							array(
+								'question_id' => $question_id,
+								'answer' => $answer_text,
 								'sort' => $answer_sort
 							)
 						);
