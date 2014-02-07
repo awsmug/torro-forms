@@ -30,6 +30,7 @@
               	$( input_name ).val( i ) ;
               	
               	answersortable();
+              	surveyval_rewriteheadline();
 			}
 		}).sortable({
 			update: function( event, ui ) {
@@ -68,6 +69,14 @@
 			});
 		}
 		answersortable();
+		
+		var surveyval_rewriteheadline = function(){
+			$( ".surveyval-question" ).on( 'input', function(){
+				var element_id = $( this ).closest( '.widget' ).attr('id');
+				$( "#" +element_id + " .widget-title h4" ).text( $( this ).val() );
+			});
+		}
+		surveyval_rewriteheadline();
 		
 		
 		$( "#drag-drop-area" ).on( 'click', '.add-answer', function(){
