@@ -88,22 +88,6 @@ class SurveyVal_Survey{
 		return TRUE;
 	}
 	
-	private function add_question_to_db( $question, $question, $question_type, $order = null ){
-		global $wpdb, $surveyval;
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->questions} WHERE surveyval_id = %s ORDER BY sort ASC", $id );
-		
-		$insert_id = $wpdb->insert(
-			$surveyval->tables->questions,
-			array(
-				'question',
-				'type'
-			),
-			array(
-			
-			)
-		);
-		
-	}
 	
 	public function save_by_postdata(){
 		global $surveyval, $wpdb;
@@ -113,7 +97,7 @@ class SurveyVal_Survey{
 		
 		$survey_questions = $_POST['surveyval'];
 		
-		// mail( 'sven@deinhilden.de', 'Test', print_r( $survey_questions, TRUE ) . print_r( $surveyval, TRUE ) );
+		mail( 'sven@deinhilden.de', 'Test', print_r( $survey_questions, TRUE ) . print_r( $surveyval, TRUE ) );
 		
 		foreach( $survey_questions AS $key => $survey_question ):
 			$question_id = $survey_question['id'];
@@ -127,6 +111,7 @@ class SurveyVal_Survey{
 			
 			// Saving question
 			if( '' != $question_id ):
+				// Updating if question already exists
 				$wpdb->update( 
 					$surveyval->tables->questions,
 					array(
@@ -139,9 +124,10 @@ class SurveyVal_Survey{
 					)
 				);
 			else:
-				if( '' == $question )
+				if( '' == $question ) // Questions can't not be empty
 					continue;
 				
+				// Adding new question
 				$wpdb->insert(
 					$surveyval->tables->questions,
 					array(

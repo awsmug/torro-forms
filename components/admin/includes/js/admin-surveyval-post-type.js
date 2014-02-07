@@ -10,11 +10,9 @@
 		$( "#drag-drop-area" ).droppable({
 			accept: ".surveyval-draggable",
 			drop: function( event, ui ) {
-				var now = new Date();
 				
 				// Replacing ##nr## for getting unique ids & setting up container ID
-				var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
-				var nr = random * now.getTime();
+				var nr = surveyval_rand();
 				var draggable_content =  ui.draggable.html();
 				draggable_content = draggable_content.replace( /##nr##/g, nr );
 				
@@ -22,8 +20,6 @@
 				var i = 0;
 				$('#drag-drop-area .widget').each( function( e ) { i++; });
 				
-				console.log( ui );
-
               	var droppable_helper = $( this ).find( ".drag-drop-inside" ).html();
               	$( this ).find( ".drag-drop-inside" ).remove();
 				$( draggable_content ).appendTo( this );
@@ -32,6 +28,8 @@
 				// Adding sorting number
 				var input_name = 'input[name="surveyval\[widget_question_' + nr +'\]\[sort\]"]';
               	$( input_name ).val( i ) ;
+              	
+              	answersortable();
 			}
 		}).sortable({
 			update: function( event, ui ) {
@@ -43,8 +41,58 @@
               		$( input_name ).val( index ) ;
               	});
 			},
-			items:'div:not(.drag-drop-inside)'
+			items:'.widget'
 		});
+		
+		var answersortable = function (){
+			$( "#drag-drop-area .answers" ).sortable({
+				update: function(  event, ui ){
+					console.log( $( this ) );
+	
+					var element_id = $( this ).closest( '.widget' ).attr('id');
+					var order = []; 
+					
+					console.log( element_id );
+					
+					$( this ).find( '.answer' ).each( function( e ) {
+						var nr = $( this ).attr( 'id' );
+						nr = nr.split( '_' );
+						nr = nr[1];
+						
+						var input_name = 'input[name="surveyval\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
+						var index = $( this ).index();
+	              		$( input_name ).val( index ) ;
+	              	});
+				},
+				items:'.answer'
+			});
+		}
+		answersortable();
+		
+		
+		$( "#drag-drop-area" ).on( 'click', '.add-answer', function(){
+			var element_id = $( this ).attr( 'rel' );
+			var nr = surveyval_rand();
+			
+			var answer_content = '<div class="answer" id="answer_##nr##"><p><input type="text" name="surveyval[' + element_id + '][answers][id_##nr##][answer]" /></p><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][sort]" /></div>';
+			answer_content = answer_content.replace( /##nr##/g, nr );
+			
+			var order = 0;
+			$( this ).parent().find( '.answer' ).each( function( e ) { order++; });
+			
+			$( answer_content ).appendTo( "#" + element_id + " .answers" );
+			
+			// Adding sorting number
+			var input_name = 'input[name="surveyval\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
+          	$( input_name ).val( order ) ;
+		});
+		
+			
+		function surveyval_rand(){
+			var now = new Date();
+			var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
+			return random * now.getTime();
+		}
 		
 		// $( ".drag-drop-inside" ).disableSelection();
 	});

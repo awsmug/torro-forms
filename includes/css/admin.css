@@ -21,3 +21,7 @@
 #surveyval-content input[type=text]{
 	width:80%;
 }
+#surveyval-content div.answer{
+	background-color: #E5E5E5;
+	padding-left:40px;
+}
