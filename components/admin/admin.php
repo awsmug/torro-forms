@@ -94,7 +94,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					$survey = new SurveyVal_Survey( $post->ID );
 	
 					foreach( $survey->questions AS $question ):
-						echo  $this->get_widget_html( $question->question, $question->get_settings_html(), '', $question->id );
+						echo  $this->get_widget_html( $question->question, $question->get_settings_html(), $question->icon, $question->id );
 					endforeach;
 					
 					echo '<div class="drag-drop-inside">';
@@ -121,6 +121,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$html.= '<div class="widget-top surveyval-admin-qu-text">';
 				$html.= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 				$html.= '<div class="widget-title">';
+					if( '' != $icon )
+						$html.= '<img class="surveyval-widget-icon" src ="' . $icon . '" />';
 					$html.= '<h4>' . $title . '</h4>';
 				$html.= '</div>';
 			$html.= '</div>';
@@ -139,7 +141,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		foreach( $surveyval->question_types AS $question_type ):
 			echo '<div class="surveyval-draggable">';
-			echo $this->get_widget_html( $question_type->title, $question_type->get_settings_html( TRUE ) );
+			echo $this->get_widget_html( $question_type->title, $question_type->get_settings_html( TRUE ), $question_type->icon );
 			echo '</div>';
 		endforeach;
 	}

@@ -10,6 +10,8 @@ class SurveyVal_QuestionType_Text extends SurveyVal_QuestionType{
 		$this->multiple_answers = FALSE;
 		$this->has_answers = FALSE;
 		
+		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-textfield.png';
+		
 		$this->answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
 		$this->answer_params = array( 'name', 'value' );
 		
@@ -28,6 +30,8 @@ class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 		
 		$this->multiple_answers = TRUE;
 		$this->has_answers = TRUE;
+		
+		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-multiplechoice.png';
 		
 		$this->answer_syntax = '<p><input type="checkbox" name="%s" value="%s" /> %s</p>';
 		$this->answer_params = array( 'name', 'value', 'answer' );
@@ -50,6 +54,8 @@ class SurveyVal_QuestionType_OneChoice extends SurveyVal_QuestionType{
 		
 		$this->multiple_answers = TRUE;
 		$this->has_answers = TRUE;
+		
+		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-onechoice.png';
 		
 		$this->answer_syntax = '<p><input type="radio" name="%s" value="%s" /> %s</p>';
 		$this->answer_params = array( 'name', 'value', 'answer' );

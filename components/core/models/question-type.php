@@ -167,7 +167,7 @@ abstract class SurveyVal_QuestionType{
 			$html.= '</div>';
 			
 			if( $this->multiple_answers ):
-				$html.= ' <a class="add-answer" rel="' . $widget_id . '">[+]</a>';
+				$html.= ' <a class="add-answer" rel="' . $widget_id . '">[+] ' . __( 'Add Answer', 'surveyval-locale' ). '</a>';
 			endif;
 			
 		else:
@@ -201,7 +201,7 @@ abstract class SurveyVal_QuestionType{
 				$html.= '</div>';
 				
 				if( $this->multiple_answers )
-					$html.= ' <a class="add-answer" rel="' . $widget_id . '">[+]</a>';
+					$html.= ' <a class="add-answer" rel="' . $widget_id . '">[+] ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
 				
 			endif;
 			
