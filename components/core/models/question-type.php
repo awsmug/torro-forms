@@ -156,7 +156,10 @@ abstract class SurveyVal_QuestionType{
 					$param_arr[] = $param_value;
 				endforeach;
 				
-				$html.= '<div class="answer" id="answer_' . $answer['id'] . '">';
+				if( $this->multiple_answers )
+					$answer_classes = ' multiple_answer';
+				
+				$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
 				$html.= call_user_func_array( 'sprintf', $param_arr );
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
@@ -192,8 +195,11 @@ abstract class SurveyVal_QuestionType{
 					$param_arr[] = $param_value;
 				endforeach;
 				
+				if( $this->multiple_answers )
+					$answer_classes = ' multiple_answer';
+				
 				$html.= '<div class="answers">';
-				$html.= '<div class="answer" id="answer_' . $temp_answer_id . '">';
+				$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
 				$html.= call_user_func_array( 'sprintf', $param_arr );
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';

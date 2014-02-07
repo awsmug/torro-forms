@@ -104,11 +104,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					echo '</div>';
 				echo '</div>';
 		echo '</div>';
-		
-		echo '<pre>';
-		print_r( $survey );
-		print_r( $surveyval );
-		echo '</pre>';
 	}
 
 	private function get_widget_html( $title, $content, $icon = '', $id = null, $new = FALSE ){

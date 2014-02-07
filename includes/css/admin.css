@@ -22,10 +22,15 @@
 	width:80%;
 }
 #surveyval-content div.answer{
-	background-color: #E5E5E5;
-	padding-left:40px;
 }
 .surveyval-widget-icon{
 	float:left;
 	margin: 6px 0px 6px 6px;
+}
+#surveyval-content div.multiple_answer{
+	padding-left:20px;
+	background-image: url( '../../assets/images/icon-updown.png' );
+	background-repeat: no-repeat;
+	background-position: top 7px left 0;
+	cursor:move;
 }
