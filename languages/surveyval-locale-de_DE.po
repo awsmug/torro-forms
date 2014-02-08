@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-02-08 11:14:37+0000\n"
+"PO-Revision-Date: 2014-02-08 12:38:03+0000\n"
 "Last-Translator: wagesve <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Einstellungen"
 msgid "Drop your Question/Answer here."
 msgstr "Frage hierher ziehen."
 
-#: components/admin/admin.php:151
+#: components/admin/admin.php:153
 #@ surveyval-locale
 msgid "Question/Answers"
 msgstr "Fragen/Antworten"
@@ -191,7 +191,7 @@ msgstr "Mehrfach-Auswahl"
 msgid "Add a question which can be answered by selecting one ore more given answers."
 msgstr ""
 
-#: components/admin/admin.php:196
+#: components/admin/admin.php:198
 #: components/core/models/question-type.php:168
 #: components/core/models/question-type.php:209
 #@ surveyval-locale
@@ -228,4 +228,19 @@ msgstr "Einfach-Anwort"
 #@ surveyval-locale
 msgid "Add a question which can be answered by selecting one of the given answers."
 msgstr ""
+
+#: components/admin/admin.php:107
+#@ surveyval-locale
+msgid "Do you really want to delete this answer?"
+msgstr "Soll diese Antwort wirklich gel&ouml;scht werden?"
+
+#: components/admin/admin.php:199
+#@ surveyval-locale
+msgid "Yes"
+msgstr "Ja"
+
+#: components/admin/admin.php:200
+#@ surveyval-locale
+msgid "No"
+msgstr "Nein"
 

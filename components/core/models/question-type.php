@@ -219,8 +219,6 @@ abstract class SurveyVal_QuestionType{
 			
 		endif;
 		
-		$html.= '<input type="hidden" name="deleted_answers" value="">';
-		
 		return $html;
 	}
 	

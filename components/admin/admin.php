@@ -104,7 +104,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					echo '</div>';
 				echo '</div>';
 		echo '</div>';
-		echo '<input type="hidden" name="deleted_questions" value="">';
+		echo '<div id="delete_answer_dialog">' . __( 'Do you really want to delete this answer?', 'surveyval-locale' ). '</div>';
+		echo '<input type="hidden" id="deleted_questions" name="surveyval_deleted_questions" value="">';
+		echo '<input type="hidden" id="deleted_answers" name="surveyval_deleted_answers" value="">';
 	}
 
 	private function get_widget_html( $title, $content, $icon = '', $id = null, $new = FALSE ){
@@ -193,13 +195,16 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			return;
 		
 		$translation_admin = array( 
-			'delete' => __( 'Delete', 'surveyval-locale' )
+			'delete' => __( 'Delete', 'surveyval-locale' ),
+			'yes' => __( 'Yes', 'surveyval-locale' ),
+			'no' => __( 'No', 'surveyval-locale' )
 		);
 		
 		wp_enqueue_script( 'admin-surveyval-post-type', SURVEYVAL_URLPATH . '/components/admin/includes/js/admin-surveyval-post-type.js' );
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
 		wp_enqueue_script( 'admin-widgets' );
+		wp_enqueue_script( 'wpdialogs-popup' );
 		
     	wp_localize_script( 'admin-surveyval-post-type', 'translation_admin', $translation_admin );
 		

@@ -96,9 +96,28 @@ class SurveyVal_Survey{
 			return FALSE;
 		
 		$survey_questions = $_POST['surveyval'];
+		$survey_deleted_questions = $_POST['surveyval_deleted_questions'];
+		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
 		
-		mail( 'sven@deinhilden.de', 'Test', print_r( $survey_questions, TRUE ) . print_r( $surveyval, TRUE ) );
+		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval, TRUE ) );
 		
+		$survey_deleted_answers = split( ',', $survey_deleted_answers );
+		
+		/*
+		 * Deleting deleted answers
+		 */
+		if( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
+			foreach( $survey_deleted_answers AS $deleted_answer ):
+				$wpdb->delete( 
+					$surveyval->tables->answers, 
+					array( 'id' => $deleted_answer ) 
+				);
+			endforeach;
+		endif;
+		
+		/*
+		 * Saving questions
+		 */
 		foreach( $survey_questions AS $key => $survey_question ):
 			$question_id = $survey_question['id'];
 			$question = $survey_question['question'];
@@ -175,7 +194,7 @@ class SurveyVal_Survey{
 		
 		return TRUE;
 	}
-	
+
 	private function reset(){
 		$this->questions = array();
 	}

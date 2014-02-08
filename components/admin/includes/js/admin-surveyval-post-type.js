@@ -30,6 +30,7 @@
               	$( input_name ).val( i ) ;
               	
               	surveyval_answersortable();
+              	surveyval_deleteanswer();
               	surveyval_rewriteheadline();
 			}
 		}).sortable({
@@ -70,6 +71,56 @@
 		}
 		surveyval_answersortable();
 		
+		var surveyval_deleteanswer = function(){
+			var surveyval_deletanswerdialog = $( '#delete_answer_dialog' );
+			var answer_id;
+			var deleted_answers;
+			
+			surveyval_deletanswerdialog.dialog({                   
+		        'dialogClass'   : 'wp-dialog',           
+		        'modal'         : true,
+		        'autoOpen'      : false, 
+		        'closeOnEscape' : true,
+		        'minHeight'		: 80,
+		        'buttons'       : [{
+						text: translation_admin.yes,
+						click: function() {
+								answer_id = answer_id.split( '_' );
+								answer_id = answer_id[1];
+								
+								deleted_answers = $( '#deleted_answers' ).val();
+								
+								if( '' == deleted_answers )
+									deleted_answers += answer_id;
+								else
+									deleted_answers += ',' + answer_id;
+									
+								$( '#deleted_answers' ).val( deleted_answers );
+								$( '#answer_' + answer_id ).remove();
+								
+				                $( this ).dialog('close');
+							}
+						},
+						{
+						text: translation_admin.no,
+						click: function() {
+							
+							$( this ).dialog( "close" );
+							}
+						},
+					],
+					
+		    });
+			
+			$( '.delete_answer' ).click( function( event ){
+				console.log( event );
+				answer_id = $( this ).closest( '.answer' ).attr('id');
+		        event.preventDefault();
+		        surveyval_deletanswerdialog.dialog( 'open' );
+			});
+		}
+		surveyval_deleteanswer();
+		
 		var surveyval_rewriteheadline = function(){
 			$( ".surveyval-question" ).on( 'input', function(){
 				var element_id = $( this ).closest( '.widget' ).attr('id');
@@ -100,6 +151,8 @@
 			// Adding sorting number
 			var input_name = 'input[name="surveyval\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
           	$( input_name ).val( order ) ;
+          	
+          	surveyval_deleteanswer();
 		});
 			
 		function surveyval_rand(){
