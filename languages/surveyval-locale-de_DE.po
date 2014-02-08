@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-01-28 20:56:58+0000\n"
+"PO-Revision-Date: 2014-02-08 11:14:37+0000\n"
 "Last-Translator: wagesve <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,56 +21,56 @@ msgstr ""
 "X-Textdomain-Support: yes"
 
 #: components/admin/admin.php:40
-#@ surveyval_locale
+#@ surveyval-locale
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: components/admin/admin.php:41
 #@ surveyval-locale
 msgid "Setting up SurveyVal in WordPress Admin."
 msgstr ""
 
-#: components/admin/admin.php:60
+#: components/admin/admin.php:61
 #: components/core/core.php:95
 #@ surveyval-locale
 msgid "SurveyVal"
 msgstr "SurveyVal"
 
-#: components/admin/admin.php:61
+#: components/admin/admin.php:62
 #: components/core/core.php:81
 #@ surveyval-locale
 msgid "Categories"
 msgstr "Kategorien"
 
-#: components/admin/admin.php:62
+#: components/admin/admin.php:63
 #@ surveyval-locale
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: components/admin/admin.php:122
+#: components/admin/admin.php:102
 #@ surveyval-locale
 msgid "Drop your Question/Answer here."
-msgstr ""
+msgstr "Frage hierher ziehen."
 
-#: components/admin/admin.php:166
+#: components/admin/admin.php:151
 #@ surveyval-locale
 msgid "Question/Answers"
-msgstr ""
+msgstr "Fragen/Antworten"
 
 #: components/component.php:50
 #@ surveyval-locale
 msgid "This is a SurveyVal component."
-msgstr ""
+msgstr "Das ist eine SurveyVal Komponente."
 
 #: components/core/core.php:40
-#@ surveyval_locale
+#@ surveyval-locale
 msgid "Core"
-msgstr ""
+msgstr "Kern"
 
 #: components/core/core.php:41
 #@ surveyval-locale
 msgid "Core functions of the SurveyVal Plugin"
-msgstr ""
+msgstr "Kernfunktionen des SurveyVal Plugins"
 
 #: components/core/core.php:71
 #@ surveyval-locale
@@ -161,33 +161,71 @@ msgstr "Umfrage suchen"
 msgid "No Survey found"
 msgstr "Keine Umfrage gefunden"
 
-#: components/core/models/question-type.php:46
+#: components/core/models/question-type.php:51
 #@ surveyval-locale
 msgid "This is a SurveyVal Question-Type."
-msgstr ""
+msgstr "Das ist ein SurveyVal Frage-Typ."
 
-#: components/core/models/question-type.php:108
+#: components/core/models/question-type.php:123
 #@ surveyval-locale
 msgid "Your Question:"
 msgstr "Deine Frage:"
 
-#: components/core/question-types/text.php:7
+#: components/core/question-types/text.php:18
 #@ surveyval-locale
 msgid "Text"
 msgstr "Text"
 
-#: components/core/question-types/text.php:8
+#: components/core/question-types/text.php:19
 #@ surveyval-locale
 msgid "Add a question which can be answered within a text field."
-msgstr ""
+msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
 
-#: components/core/question-types/text.php:26
+#: components/core/question-types/text.php:52
 #@ surveyval-locale
 msgid "Multiple Choice"
-msgstr ""
+msgstr "Mehrfach-Auswahl"
 
-#: components/core/question-types/text.php:27
+#: components/core/question-types/text.php:53
 #@ surveyval-locale
 msgid "Add a question which can be answered by selecting one ore more given answers."
+msgstr ""
+
+#: components/admin/admin.php:196
+#: components/core/models/question-type.php:168
+#: components/core/models/question-type.php:209
+#@ surveyval-locale
+msgid "Delete"
+msgstr "L&ouml;schen"
+
+#: components/core/models/question-type.php:135
+#@ surveyval-locale
+msgid "Your Answer/s:"
+msgstr "Deine Antwort/en:"
+
+#: components/core/models/question-type.php:178
+#: components/core/models/question-type.php:216
+#@ surveyval-locale
+msgid "Add Answer"
+msgstr "Antwort hinzuf&uuml;gen"
+
+#: components/core/question-types/text.php:34
+#@ surveyval-locale
+msgid "Maximum length"
+msgstr "Maximale L&auml;nge"
+
+#: components/core/question-types/text.php:36
+#@ default
+msgid "The maximum number of chars which can be typed in."
+msgstr ""
+
+#: components/core/question-types/text.php:75
+#@ surveyval-locale
+msgid "One Choice"
+msgstr "Einfach-Anwort"
+
+#: components/core/question-types/text.php:76
+#@ surveyval-locale
+msgid "Add a question which can be answered by selecting one of the given answers."
 msgstr ""
 

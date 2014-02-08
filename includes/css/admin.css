@@ -34,3 +34,9 @@
 	background-position: top 7px left 0;
 	cursor:move;
 }
+#surveyval-content .answer{
+	height: 40px;
+}
+#surveyval-content .answer p{
+	display: inline;
+}

@@ -37,7 +37,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	 */
 	function __construct() {
 		$this->name = 'SurveyValAdmin';
-		$this->title = __( 'Admin', 'surveyval_locale' );
+		$this->title = __( 'Admin', 'surveyval-locale' );
 		$this->description = __( 'Setting up SurveyVal in WordPress Admin.', 'surveyval-locale' );
 		$this->required = TRUE;
 		$this->capability = 'edit_posts';
@@ -104,6 +104,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					echo '</div>';
 				echo '</div>';
 		echo '</div>';
+		echo '<input type="hidden" name="deleted_questions" value="">';
 	}
 
 	private function get_widget_html( $title, $content, $icon = '', $id = null, $new = FALSE ){
@@ -191,10 +192,16 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( !$this->is_surveyval_post_type() )
 			return;
 		
+		$translation_admin = array( 
+			'delete' => __( 'Delete', 'surveyval-locale' )
+		);
+		
 		wp_enqueue_script( 'admin-surveyval-post-type', SURVEYVAL_URLPATH . '/components/admin/includes/js/admin-surveyval-post-type.js' );
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
 		wp_enqueue_script( 'admin-widgets' );
+		
+    	wp_localize_script( 'admin-surveyval-post-type', 'translation_admin', $translation_admin );
 		
 		if ( wp_is_mobile() )
 			wp_enqueue_script( 'jquery-touch-punch' );

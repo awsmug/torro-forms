@@ -22,6 +22,8 @@ abstract class SurveyVal_QuestionType{
 	
 	var $create_answer_params = array();
 	var $create_answer_syntax;
+	
+	var $settings_fields = array();
 
 	var $initialized = FALSE;
 	
@@ -122,6 +124,8 @@ abstract class SurveyVal_QuestionType{
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $this->id . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][multiple_answers]" value="' . ( $this->multiple_answers ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
 		
 		$i = 0;
 		
@@ -161,6 +165,7 @@ abstract class SurveyVal_QuestionType{
 				
 				$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
 				$html.= call_user_func_array( 'sprintf', $param_arr );
+				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
 				$html.= '</div>';
@@ -201,6 +206,7 @@ abstract class SurveyVal_QuestionType{
 				$html.= '<div class="answers">';
 				$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
 				$html.= call_user_func_array( 'sprintf', $param_arr );
+				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
 				$html.= '</div>';
@@ -212,6 +218,8 @@ abstract class SurveyVal_QuestionType{
 			endif;
 			
 		endif;
+		
+		$html.= '<input type="hidden" name="deleted_answers" value="">';
 		
 		return $html;
 	}

@@ -29,7 +29,7 @@
 				var input_name = 'input[name="surveyval\[widget_question_' + nr +'\]\[sort\]"]';
               	$( input_name ).val( i ) ;
               	
-              	answersortable();
+              	surveyval_answersortable();
               	surveyval_rewriteheadline();
 			}
 		}).sortable({
@@ -45,7 +45,7 @@
 			items:'.widget'
 		});
 		
-		var answersortable = function (){
+		var surveyval_answersortable = function (){
 			$( "#drag-drop-area .answers" ).sortable({
 				update: function(  event, ui ){
 					console.log( $( this ) );
@@ -68,7 +68,7 @@
 				items:'.answer'
 			});
 		}
-		answersortable();
+		surveyval_answersortable();
 		
 		var surveyval_rewriteheadline = function(){
 			$( ".surveyval-question" ).on( 'input', function(){
@@ -78,12 +78,18 @@
 		}
 		surveyval_rewriteheadline();
 		
-		
 		$( "#drag-drop-area" ).on( 'click', '.add-answer', function(){
 			var element_id = $( this ).attr( 'rel' );
 			var nr = surveyval_rand();
 			
-			var answer_content = '<div class="answer" id="answer_##nr##"><p><input type="text" name="surveyval[' + element_id + '][answers][id_##nr##][answer]" /></p><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][sort]" /></div>';
+			var input_name = 'input[name="surveyval\[' + element_id + '\]\[multiple_answers\]"]';
+			var multiple_answers = $( input_name ).val();
+			
+			var multiple_class = '';
+			if( multiple_answers ) multiple_class = ' multiple_answer';
+			
+			var answer_content = '<div class="answer' + multiple_class + '" id="answer_##nr##"><p><input type="text" name="surveyval[' + element_id + '][answers][id_##nr##][answer]" /></p><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][sort]" /> <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
+			
 			answer_content = answer_content.replace( /##nr##/g, nr );
 			
 			var order = 0;
@@ -95,7 +101,6 @@
 			var input_name = 'input[name="surveyval\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
           	$( input_name ).val( order ) ;
 		});
-		
 			
 		function surveyval_rand(){
 			var now = new Date();
