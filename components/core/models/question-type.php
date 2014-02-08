@@ -172,10 +172,10 @@ abstract class SurveyVal_QuestionType{
 				
 			endforeach;
 			
-			$html.= '</div>';
+			$html.= '</div><div class="clear"></div>';
 			
 			if( $this->multiple_answers ):
-				$html.= ' <a class="add-answer" rel="' . $widget_id . '">[+] ' . __( 'Add Answer', 'surveyval-locale' ). '</a>';
+				$html.= ' <a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). '</a>';
 			endif;
 			
 		else:
@@ -210,10 +210,10 @@ abstract class SurveyVal_QuestionType{
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
 				$html.= '</div>';
-				$html.= '</div>';
+				$html.= '</div><div class="clear"></div>';
 				
 				if( $this->multiple_answers )
-					$html.= ' <a class="add-answer" rel="' . $widget_id . '">[+] ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
+					$html.= ' <a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
 				
 			endif;
 			

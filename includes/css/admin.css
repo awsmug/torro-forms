@@ -34,11 +34,18 @@
 	background-position: top 7px left 0;
 	cursor:move;
 }
+#surveyval-content .answers{
+	margin-bottom: 15px;
+}
 #surveyval-content .answer{
 	height: 40px;
 }
 #surveyval-content .answer p{
 	display: inline;
+}
+#surveyval-content .add-answer{
+	font-weight: bold;
+	text-decoration: underline;
 }
 /* 
  * Dialogs
