@@ -174,10 +174,6 @@ abstract class SurveyVal_QuestionType{
 			
 			$html.= '</div><div class="clear"></div>';
 			
-			if( $this->multiple_answers ):
-				$html.= ' <a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). '</a>';
-			endif;
-			
 		else:
 			if( $this->has_answers ):
 				$param_arr[] = $this->create_answer_syntax;
@@ -212,12 +208,29 @@ abstract class SurveyVal_QuestionType{
 				$html.= '</div>';
 				$html.= '</div><div class="clear"></div>';
 				
-				if( $this->multiple_answers )
-					$html.= ' <a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
-				
 			endif;
 			
 		endif;
+		
+		if( $this->multiple_answers )
+			$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
+		
+		$bottom_buttons = apply_filters( 'sv_question_bottom_actions', array(
+			'delete_question' => array(
+				'text' => __( 'Delete question', 'surveyval-locale' ),
+				'classes' => 'delete_question'
+			)
+		));
+		
+		$html.= '<ul class="question-bottom">';
+		foreach( $bottom_buttons AS $button ):
+			$html.= '<li><a class="' . $button[ 'classes' ] . ' question-bottom-action button">' . $button[ 'text' ] . '</a></li>';
+		endforeach;
+		$html.= '</ul>';
+		
+		$html.= '<div class="clear"></div>';
+		
+		$html = apply_filters( 'sv_question_html', $html );
 		
 		return $html;
 	}

@@ -101,6 +101,24 @@ class SurveyVal_Survey{
 		
 		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval, TRUE ) );
 		
+		$survey_deleted_questions = split( ',', $survey_deleted_questions );
+		
+		/*
+		 * Deleting deleted answers
+		 */
+		if( is_array( $survey_deleted_questions ) && count( $survey_deleted_questions ) > 0 ):
+			foreach( $survey_deleted_questions AS $deleted_question ):
+				$wpdb->delete( 
+					$surveyval->tables->questions, 
+					array( 'id' => $deleted_question ) 
+				);
+				$wpdb->delete( 
+					$surveyval->tables->answers, 
+					array( 'question_id' => $deleted_question ) 
+				);
+			endforeach;
+		endif;
+		
 		$survey_deleted_answers = split( ',', $survey_deleted_answers );
 		
 		/*

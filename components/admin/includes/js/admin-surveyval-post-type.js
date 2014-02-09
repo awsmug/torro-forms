@@ -71,6 +71,56 @@
 		}
 		surveyval_answersortable();
 		
+		
+		var surveyval_deletequestion = function(){
+			var surveyval_deletquestiondialog = $( '#delete_question_dialog' );
+			var question_id;
+			var deleted_questions;
+			
+			surveyval_deletquestiondialog.dialog({                   
+		        'dialogClass'   : 'wp-dialog',           
+		        'modal'         : true,
+		        'autoOpen'      : false, 
+		        'closeOnEscape' : true,
+		        'minHeight'		: 80,
+		        'buttons'       : [{
+						text: translation_admin.yes,
+						click: function() {
+								question_id = question_id.split( '_' );
+								question_id = question_id[2];
+								
+								deleted_questions = $( '#deleted_questions' ).val();
+								
+								if( '' == deleted_questions )
+									deleted_questions += question_id;
+								else
+									deleted_questions += ',' + question_id;
+									
+								$( '#deleted_questions' ).val( deleted_questions );
+								$( '#widget_question_' + question_id ).remove();
+								
+				                $( this ).dialog('close');
+							}
+						},
+						{
+						text: translation_admin.no,
+						click: function() {
+							
+							$( this ).dialog( "close" );
+							}
+						},
+					],
+					
+		    });
+			
+			$( '.delete_question' ).click( function( event ){
+				question_id = $( this ).closest( '.question' ).attr('id');
+		        event.preventDefault();
+		        surveyval_deletquestiondialog.dialog( 'open' );
+			});
+		}
+		surveyval_deletequestion();
+		
 		var surveyval_deleteanswer = function(){
 			var surveyval_deletanswerdialog = $( '#delete_answer_dialog' );
 			var answer_id;
@@ -113,7 +163,6 @@
 		    });
 			
 			$( '.delete_answer' ).click( function( event ){
-				console.log( event );
 				answer_id = $( this ).closest( '.answer' ).attr('id');
 		        event.preventDefault();
 		        surveyval_deletanswerdialog.dialog( 'open' );
