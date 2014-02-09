@@ -50,6 +50,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
 			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
 			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
+			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 		endif;
 	} // end constructor
 	
@@ -171,6 +172,28 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		// Preventing dublicate saving
 		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
+	}
+	
+	public function delete_survey( $post_id ){
+		global $wpdb, $surveyval;
+		
+		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval->tables->questions} WHERE surveyval_id=%d", $post_id );
+		
+		$questions = $wpdb->get_col( $sql );
+		
+		$wpdb->delete( 
+			$surveyval->tables->questions, 
+			array( 'surveyval_id' => $post_id ) 
+		);
+		
+		if( is_array( $questions ) && count( $questions ) > 0 ):
+			foreach( $questions AS $question ):
+				$wpdb->delete( 
+					$surveyval->tables->answers,
+					array( 'question_id' => $question ) 
+				);
+			endforeach;
+		endif;
 	}
 	
 	private function is_surveyval_post_type(){

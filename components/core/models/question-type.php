@@ -129,91 +129,92 @@ abstract class SurveyVal_QuestionType{
 		
 		$i = 0;
 		
-		if( !$this->has_answers )
-			return $html;
+		if( $this->has_answers ):
 			
-		$html.= '<p>' . __( 'Your Answer/s:', 'surveyval-locale' ) . '</p>';
-		
-		if( is_array( $this->answers ) && !$new ):
+			$html.= '<p>' . __( 'Your Answer/s:', 'surveyval-locale' ) . '</p>';
 			
-			$html.= '<div class="answers">';
-			
-			foreach( $this->answers AS $answer ):
-				$param_arr = array();
-				$param_arr[] = $this->create_answer_syntax;
-				
-				foreach ( $this->create_answer_params AS $param ):
-					
-					switch( $param ){
-						case 'name':
-							$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
-							break;
-							
-						case 'value':
-							$param_value = $value;
-							break;
-							
-						case 'answer';
-							$param_value = $answer['text'];
-							break;
-					}
-					$param_arr[] = $param_value;
-				endforeach;
-				
-				if( $this->multiple_answers )
-					$answer_classes = ' multiple_answer';
-				
-				$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
-				$html.= call_user_func_array( 'sprintf', $param_arr );
-				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
-				$html.= '</div>';
-				
-			endforeach;
-			
-			$html.= '</div><div class="clear"></div>';
-			
-		else:
-			if( $this->has_answers ):
-				$param_arr[] = $this->create_answer_syntax;
-				$temp_answer_id = 'id_' . time() * rand();
-					
-				foreach ( $this->create_answer_params AS $param ):
-					switch( $param ){
-						case 'name':
-							$param_value = 'surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]';
-							break;
-							
-						case 'value':
-							$param_value = '';
-							break;
-							
-						case 'answer';
-							$param_value = '';
-							break;
-					}
-					$param_arr[] = $param_value;
-				endforeach;
-				
-				if( $this->multiple_answers )
-					$answer_classes = ' multiple_answer';
+			if( is_array( $this->answers ) && !$new ):
 				
 				$html.= '<div class="answers">';
-				$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
-				$html.= call_user_func_array( 'sprintf', $param_arr );
-				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
-				$html.= '</div>';
+				
+				foreach( $this->answers AS $answer ):
+					$param_arr = array();
+					$param_arr[] = $this->create_answer_syntax;
+					
+					foreach ( $this->create_answer_params AS $param ):
+						
+						switch( $param ){
+							case 'name':
+								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
+								break;
+								
+							case 'value':
+								$param_value = $value;
+								break;
+								
+							case 'answer';
+								$param_value = $answer['text'];
+								break;
+						}
+						$param_arr[] = $param_value;
+					endforeach;
+					
+					if( $this->multiple_answers )
+						$answer_classes = ' multiple_answer';
+					
+					$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
+					$html.= call_user_func_array( 'sprintf', $param_arr );
+					$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
+					$html.= '</div>';
+					
+				endforeach;
+				
 				$html.= '</div><div class="clear"></div>';
+				
+			else:
+				if( $this->has_answers ):
+					$param_arr[] = $this->create_answer_syntax;
+					$temp_answer_id = 'id_' . time() * rand();
+						
+					foreach ( $this->create_answer_params AS $param ):
+						switch( $param ){
+							case 'name':
+								$param_value = 'surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]';
+								break;
+								
+							case 'value':
+								$param_value = '';
+								break;
+								
+							case 'answer';
+								$param_value = '';
+								break;
+						}
+						$param_arr[] = $param_value;
+					endforeach;
+					
+					if( $this->multiple_answers )
+						$answer_classes = ' multiple_answer';
+					
+					$html.= '<div class="answers">';
+					$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
+					$html.= call_user_func_array( 'sprintf', $param_arr );
+					$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
+					$html.= '</div>';
+					$html.= '</div><div class="clear"></div>';
+					
+				endif;
 				
 			endif;
 			
-		endif;
+			if( $this->multiple_answers )
+				$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
 		
-		if( $this->multiple_answers )
-			$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
+		endif;
 		
 		$bottom_buttons = apply_filters( 'sv_question_bottom_actions', array(
 			'delete_question' => array(
