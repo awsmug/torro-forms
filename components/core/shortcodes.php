@@ -53,11 +53,7 @@ class SurveyValShortCodes{
 		endif;
 		
 		$survey = new SurveyVal_Survey( $id );
-		
-		foreach( $survey->questions AS $question ):
-			$question->get_html();
-		endforeach;
-
+		echo $survey->get_survey_html();
 	}
 }
 $SurveyValShortCodes = new SurveyValShortCodes();

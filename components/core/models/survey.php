@@ -213,6 +213,43 @@ class SurveyVal_Survey{
 		return TRUE;
 	}
 
+	public function get_survey_html(){
+		if( '' != $_POST['surveyval_submission'] ):
+			$this->save_survey_response();
+			$html = $this->thank_participation();
+			return $html;
+		endif;
+		
+		$html = '<form name="surveyval" id="surveyval" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
+		
+		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
+			foreach( $this->questions AS $question ):
+				$html.= $question->get_html();
+			endforeach;
+		else:
+			return FALSE;
+		endif;
+		
+		$html.= '<input type="submit" name="surveyval_submission" value="' . __( 'Send your answers', 'surveyval-locale' ) . '">';
+		
+		$html.= '</form>';
+		
+		return $html;
+	}
+	
+	public function save_survey_response(){
+		echo '<pre>';
+		print_r( $_POST );
+		echo '</pre>';
+	}
+	
+	public function thank_participation(){
+		$html = '<div id="surveyval-thank-participation">';
+		$html.= __( 'Thank you for participating this survey!', 'surveyval-locale' );
+		$html.= '</div>';
+		return $html;
+	}
+
 	private function reset(){
 		$this->questions = array();
 	}

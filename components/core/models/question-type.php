@@ -254,7 +254,7 @@ abstract class SurveyVal_QuestionType{
 				foreach( $this->answer_params AS $param ):
 					switch( $param ){
 						case 'name':
-							$param_value = 'surveyval_respond[' . $this->id . '][answer]';
+							$param_value = 'surveyval_response[' . $this->id . '][answer]';
 							break;
 							
 						case 'value':
@@ -280,7 +280,7 @@ abstract class SurveyVal_QuestionType{
 			foreach( $this->answer_params AS $param ):
 				switch( $param ){
 					case 'name':
-						$param_value = 'surveyval_respond[' . $this->id . '][answer]';
+						$param_value = 'surveyval_response[' . $this->id . ']';
 						break;
 						
 					case 'value':
@@ -299,7 +299,7 @@ abstract class SurveyVal_QuestionType{
 		
 		$html.= '</div>';
 		
-		echo $html;
+		return $html;
 	}
 	
 	private function reset(){
