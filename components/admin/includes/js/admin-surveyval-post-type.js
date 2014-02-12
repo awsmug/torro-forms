@@ -30,6 +30,7 @@
               	$( input_name ).val( i ) ;
               	
               	surveyval_answersortable();
+              	surveyval_deletequestion()
               	surveyval_deleteanswer();
               	surveyval_rewriteheadline();
 			}
