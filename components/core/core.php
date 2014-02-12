@@ -120,6 +120,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 
 	public function includes(){
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/surveyval.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/shortcodes.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/question-type.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/text.php' );

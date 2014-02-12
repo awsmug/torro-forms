@@ -243,11 +243,61 @@ abstract class SurveyVal_QuestionType{
 		if( 0 == count( $this->answers )  && $this->has_answers == TRUE )
 			return FALSE;
 		
-		$html = '<p>' . $this->question . '<p>';
+		$html = '<div class="question question_' . $this->id . '">';
+		$html.= '<h5>' . $this->question . '</h5>';
 		
-		foreach( $this->answers AS $answer ):
-			$html.= sprintf( $this->answer_syntax, $answer, $this->slug );
-		endforeach;
+		if( $this->has_answers ):
+			foreach( $this->answers AS $answer ):
+				$param_arr = array();
+				$param_arr[] = $this->answer_syntax;
+				
+				foreach( $this->answer_params AS $param ):
+					switch( $param ){
+						case 'name':
+							$param_value = 'surveyval_respond[' . $this->id . '][answer]';
+							break;
+							
+						case 'value':
+							$param_value = $answer['text'];
+							break;
+							
+						case 'answer';
+							$param_value = $answer['text'];
+							break;
+					}
+					$param_arr[] = $param_value;			
+				endforeach;
+				
+				$html.= '<div class="answer">' . call_user_func_array( 'sprintf', $param_arr ) . '</div>';
+					
+				// $html.= '<pre>' . print_r( $answer, TRUE ) . '</pre>';
+				// $html.= sprintf( $this->answer_syntax, $answer, $this->slug );
+			endforeach;
+		else:
+			$param_arr = array();
+			$param_arr[] = $this->answer_syntax;
+				
+			foreach( $this->answer_params AS $param ):
+				switch( $param ){
+					case 'name':
+						$param_value = 'surveyval_respond[' . $this->id . '][answer]';
+						break;
+						
+					case 'value':
+						$param_value = $answer['text'];
+						break;
+						
+					case 'answer';
+						$param_value = $answer['text'];
+						break;
+				}
+				$param_arr[] = $param_value;			
+			endforeach;
+			
+			$html.= '<div class="answer">' . call_user_func_array( 'sprintf', $param_arr ) . '</div>';
+		endif;
+		
+		$html.= '</div>';
 		
 		echo $html;
 	}
