@@ -5,6 +5,7 @@ class SurveyVal_Survey{
 	public $title;
 	
 	public $questions = array();
+	public $response_errors = array();
 	
 	public function __construct( $id = null ){
 		if( null != $id )
@@ -234,6 +235,14 @@ class SurveyVal_Survey{
 	public function get_survey_form(){
 		$html = '<form name="surveyval" id="surveyval" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
 		
+		if( is_array( $this->response_errors ) && count( $this->response_errors ) > 0 ):
+			foreach( $this->response_errors AS $error ):
+				echo '<pre>';
+				print_r( $error );
+				echo '</pre>';
+			endforeach;
+		endif;
+		
 		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
 			foreach( $this->questions AS $question ):
 				$html.= $question->get_html();
@@ -284,21 +293,64 @@ class SurveyVal_Survey{
 	
 	public function save_response(){
 		$response = $_POST['surveyval_response'];
+		$this->response_errors = array();
+		$answer_error = FALSE;
 		
+		// Are there any questions?
 		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
-			foreach( $this->questions AS $question ):
-				$answer = $response[ $question->id ];
+			
+			// Running thru all answers
+			foreach( $this->questions AS $key => $question ):
 				
-				if( $question->validate( $answer ) ):
+				// Checking if question have been answered
+				if( !array_key_exists( $question->id, $response ) ):
+					$this->response_errors[] = array(
+						'message' => sprintf( __( 'You missed to answer question "%s"!', 'surveyval-locale' ), $question->question ),
+						'question_id' =>  $question->id
+					);
+					$this->questions[ $key ]->error = TRUE;
+					$answer_error = TRUE;
+				endif;
+				
+				// Taking response
+				$this->questions[ $key ]->response = $response[ $question->id ];
+				
+				// Validating answer with custom validation
+				if( !$question->validate( $answer ) ):
 					
-				else:
+					// Gettign every error of question back
+					foreach( $question->validate_errors AS $error ):
+						$this->response_errors[] = array(
+							'message' => $error,
+							'question_id' =>  $question->id
+						);
+					endforeach;
+					
+					$this->questions[ $key ]->error = TRUE;
+					$answer_error = TRUE;
 					
 				endif;
+				
 			endforeach;
+			
 		else:
-			return FALSE;
+			$this->response_errors[] = array(
+				'message' => __( 'There are now questions to save in survey', 'surveyval-locale' ),
+				'question_id' =>  0
+			);
+			$answer_error = TRUE;
 		endif;
 		
+		// Saving answers if no error occured
+		if( !$answer_error ):
+			
+		endif;
+			
+		echo '<pre>';
+		print_r( $response );
+		echo '</pre>';		
+			
+			/*
 		echo '<pre>';
 		print_r( $_POST );
 		echo '</pre>';
@@ -306,6 +358,7 @@ class SurveyVal_Survey{
 		echo '<pre>';
 		print_r( $this->questions );
 		echo '</pre>';
+			 */
 	}
 	
 	public function dialog_thank_participation(){

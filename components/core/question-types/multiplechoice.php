@@ -24,6 +24,7 @@ class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 		$this->answer_is_multiple = TRUE;
 		
 		$this->answer_syntax = '<p><input type="checkbox" name="%s" value="%s" /> %s</p>';
+		$this->answer_selected_syntax = '<p><input type="checkbox" name="%s" value="%s" checked /> %s</p>';
 		$this->answer_params = array( 'name', 'value', 'answer' );
 		
 		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
@@ -32,5 +33,8 @@ class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 		parent::__construct( $id );
 	}
 	
+	public function validate( $input ){
+		return TRUE;
+	}
 }
 sv_register_question_type( 'SurveyVal_QuestionType_MultipleChoice' );

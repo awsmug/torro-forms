@@ -11,6 +11,8 @@ abstract class SurveyVal_QuestionType{
 	var $survey_id;
 	
 	var $question;
+	var $response;
+	var $error = FALSE;
 	
 	var $preset_of_answers = FALSE;
 	var $preset_is_multiple = FALSE;
@@ -20,6 +22,9 @@ abstract class SurveyVal_QuestionType{
 	
 	var $answer_params = array();
 	var $answer_syntax;
+	var $answer_selected_syntax;
+	
+	var $validate_errors = array();
 	
 	var $create_answer_params = array();
 	var $create_answer_syntax;
@@ -241,21 +246,71 @@ abstract class SurveyVal_QuestionType{
 		if( 0 == count( $this->answers )  && $this->preset_of_answers == TRUE )
 			return FALSE;
 		
-		$html = '<div class="question question_' . $this->id . '">';
+		if( $this->error )
+			$error_css = ' question_error';
+		
+		$html = '<div class="question question_' . $this->id . $error_css . '">';
 		$html.= '<h5>' . $this->question . '</h5>';
 		
-		if( $this->preset_of_answers ):
+		if( !$this->preset_of_answers ):
+			/*
+			 * On simple input
+			 */
+			$param_arr = array();
+			$param_arr[] = $this->answer_syntax;
+				
+			foreach( $this->answer_params AS $param ):
+				switch( $param ){
+					case 'name':
+						$param_value = 'surveyval_response[' . $this->id . ']';
+						break;
+						
+					case 'value':
+						$param_value = $this->response;
+						break;
+						
+					case 'answer';
+						$param_value = $answer['text'];
+						break;
+				}
+				$param_arr[] = $param_value;			
+			endforeach;
+			
+			$html.= '<div class="answer">' . call_user_func_array( 'sprintf', $param_arr ) . '</div>';
+			
+		else:
+			/*
+			 * With preset of answers
+			 */
 			foreach( $this->answers AS $answer ):
 				$param_arr = array();
-				$param_arr[] = $this->answer_syntax;
 				
+				// Is answer selected choose right syntax
+				if( $this->answer_is_multiple ):
+					if( in_array( $answer['text'], $this->response ) ):
+						$param_arr[] = $this->answer_selected_syntax;
+					else:
+						$param_arr[] = $this->answer_syntax;
+					endif;
+					
+				else:
+					if( $this->response == $answer['text'] && !empty( $this->answer_selected_syntax ) ):
+						$param_arr[] = $this->answer_selected_syntax;
+					else:
+						$param_arr[] = $this->answer_syntax;
+					endif;
+				endif;
+				
+				// Running every parameter for later calling
 				foreach( $this->answer_params AS $param ):
 					switch( $param ){
+						
 						case 'name':
 							if( $this->answer_is_multiple )
 								$param_value = 'surveyval_response[' . $this->id . '][]';
 							else
 								$param_value = 'surveyval_response[' . $this->id . ']';
+								
 							break;
 							
 						case 'value':
@@ -274,31 +329,6 @@ abstract class SurveyVal_QuestionType{
 				// $html.= '<pre>' . print_r( $answer, TRUE ) . '</pre>';
 				// $html.= sprintf( $this->answer_syntax, $answer, $this->slug );
 			endforeach;
-		else:
-			$param_arr = array();
-			$param_arr[] = $this->answer_syntax;
-				
-			foreach( $this->answer_params AS $param ):
-				switch( $param ){
-					case 'name':
-						if( $this->answer_is_multiple )
-							$param_value = 'surveyval_response[' . $this->id . '][]';
-						else
-							$param_value = 'surveyval_response[' . $this->id . ']';
-						break;
-						
-					case 'value':
-						$param_value = $answer['text'];
-						break;
-						
-					case 'answer';
-						$param_value = $answer['text'];
-						break;
-				}
-				$param_arr[] = $param_value;			
-			endforeach;
-			
-			$html.= '<div class="answer">' . call_user_func_array( 'sprintf', $param_arr ) . '</div>';
 		endif;
 		
 		$html.= '</div>';
@@ -306,7 +336,9 @@ abstract class SurveyVal_QuestionType{
 		return $html;
 	}
 
-	public function validate( $input ){}
+	public function validate( $input ){
+		return TRUE;
+	}
 	
 	private function reset(){
 		$this->question = '';

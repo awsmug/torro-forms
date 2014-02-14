@@ -24,6 +24,7 @@ class SurveyVal_QuestionType_OneChoice extends SurveyVal_QuestionType{
 		$this->answer_is_multiple = FALSE;
 		
 		$this->answer_syntax = '<p><input type="radio" name="%s" value="%s" /> %s</p>';
+		$this->answer_selected_syntax = '<p><input type="radio" name="%s" value="%s" checked /> %s</p>';
 		$this->answer_params = array( 'name', 'value', 'answer' );
 		
 		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';

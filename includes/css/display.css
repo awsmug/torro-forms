@@ -1,1 +1,12 @@
 /* This stylesheet is used to style the public view of the plugin. */
+.question{
+	margin-bottom:20px;
+}
+.question p{
+	margin:0;
+	font-size:0.9em;
+}
+.question_error{
+	border: 1px dashed #F00;
+	padding:2%;
+}

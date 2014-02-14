@@ -37,7 +37,7 @@ class SurveyVal_QuestionType_Text extends SurveyVal_QuestionType{
 	}
 	
 	public function validate( $input ){
-		return $input;
+		return TRUE;
 	}
 }
 sv_register_question_type( 'SurveyVal_QuestionType_Text' );
