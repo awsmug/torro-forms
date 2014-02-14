@@ -27,7 +27,7 @@
 	float:left;
 	margin: 6px 0px 6px 6px;
 }
-#surveyval-content div.multiple_answer{
+#surveyval-content div.preset_is_multiple{
 	padding-left:20px;
 	background-image: url( '../../assets/images/icon-updown.png' );
 	background-repeat: no-repeat;

@@ -12,8 +12,9 @@ abstract class SurveyVal_QuestionType{
 	
 	var $question;
 	
-	var $has_answers = TRUE;
-	var $multiple_answers = FALSE;
+	var $preset_of_answers = FALSE;
+	var $preset_is_multiple = FALSE;
+	var $answer_is_multiple = FALSE;
 	
 	var $answers = array();
 	
@@ -49,9 +50,6 @@ abstract class SurveyVal_QuestionType{
 		
 		if( '' == $this->description )
 			$this->description =  __( 'This is a SurveyVal Question-Type.', 'surveyval-locale' );
-		
-		if( '' == $this->multiple_answers )
-			$this->multiple_answers = FALSE;
 		
 		if( array_key_exists( $this->slug, $surveyval->question_types ) )
 			return FALSE;
@@ -104,7 +102,7 @@ abstract class SurveyVal_QuestionType{
 		if( '' == $text )
 			return FALSE;
 		
-		if( FALSE == $this->multiple_answers && count( $this->answers ) > 0 )
+		if( FALSE == $this->preset_is_multiple && count( $this->answers ) > 0 )
 			return FALSE;
 		
 		$this->answers[ $id ] = array(
@@ -124,12 +122,12 @@ abstract class SurveyVal_QuestionType{
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $this->id . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][multiple_answers]" value="' . ( $this->multiple_answers ? 'yes' : 'no' ) . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_is_multiple]" value="' . ( $this->preset_is_multiple ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_of_answers]" value="' . ( $this->preset_of_answers ? 'yes' : 'no' ) . '" />';
 		
 		$i = 0;
 		
-		if( $this->has_answers ):
+		if( $this->preset_of_answers ):
 			
 			$html.= '<p>' . __( 'Your Answer/s:', 'surveyval-locale' ) . '</p>';
 			
@@ -159,8 +157,8 @@ abstract class SurveyVal_QuestionType{
 						$param_arr[] = $param_value;
 					endforeach;
 					
-					if( $this->multiple_answers )
-						$answer_classes = ' multiple_answer';
+					if( $this->preset_is_multiple )
+						$answer_classes = ' preset_is_multiple';
 					
 					$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
 					$html.= call_user_func_array( 'sprintf', $param_arr );
@@ -174,7 +172,7 @@ abstract class SurveyVal_QuestionType{
 				$html.= '</div><div class="clear"></div>';
 				
 			else:
-				if( $this->has_answers ):
+				if( $this->preset_of_answers ):
 					$param_arr[] = $this->create_answer_syntax;
 					$temp_answer_id = 'id_' . time() * rand();
 						
@@ -195,8 +193,8 @@ abstract class SurveyVal_QuestionType{
 						$param_arr[] = $param_value;
 					endforeach;
 					
-					if( $this->multiple_answers )
-						$answer_classes = ' multiple_answer';
+					if( $this->preset_is_multiple )
+						$answer_classes = ' preset_is_multiple';
 					
 					$html.= '<div class="answers">';
 					$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
@@ -211,7 +209,7 @@ abstract class SurveyVal_QuestionType{
 				
 			endif;
 			
-			if( $this->multiple_answers )
+			if( $this->preset_is_multiple )
 				$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
 		
 		endif;
@@ -240,13 +238,13 @@ abstract class SurveyVal_QuestionType{
 		if( '' == $this->question )
 			return FALSE;
 		
-		if( 0 == count( $this->answers )  && $this->has_answers == TRUE )
+		if( 0 == count( $this->answers )  && $this->preset_of_answers == TRUE )
 			return FALSE;
 		
 		$html = '<div class="question question_' . $this->id . '">';
 		$html.= '<h5>' . $this->question . '</h5>';
 		
-		if( $this->has_answers ):
+		if( $this->preset_of_answers ):
 			foreach( $this->answers AS $answer ):
 				$param_arr = array();
 				$param_arr[] = $this->answer_syntax;
@@ -254,7 +252,10 @@ abstract class SurveyVal_QuestionType{
 				foreach( $this->answer_params AS $param ):
 					switch( $param ){
 						case 'name':
-							$param_value = 'surveyval_response[' . $this->id . '][answer]';
+							if( $this->answer_is_multiple )
+								$param_value = 'surveyval_response[' . $this->id . '][]';
+							else
+								$param_value = 'surveyval_response[' . $this->id . ']';
 							break;
 							
 						case 'value':
@@ -280,7 +281,10 @@ abstract class SurveyVal_QuestionType{
 			foreach( $this->answer_params AS $param ):
 				switch( $param ){
 					case 'name':
-						$param_value = 'surveyval_response[' . $this->id . ']';
+						if( $this->answer_is_multiple )
+							$param_value = 'surveyval_response[' . $this->id . '][]';
+						else
+							$param_value = 'surveyval_response[' . $this->id . ']';
 						break;
 						
 					case 'value':
@@ -301,6 +305,8 @@ abstract class SurveyVal_QuestionType{
 		
 		return $html;
 	}
+
+	public function validate( $input ){}
 	
 	private function reset(){
 		$this->question = '';

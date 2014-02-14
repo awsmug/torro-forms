@@ -30,7 +30,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 abstract class SurveyVal_Component{
-	var $slug;
+	var $name;
 	var $title;
 	var $description;
 	var $capability;
@@ -43,10 +43,10 @@ abstract class SurveyVal_Component{
 	function __construct() {
 		global $surveyval;
 		
-		$this->slug = get_class( $this );
+		$this->name = get_class( $this );
 		add_action( 'init', array( $this, 'includes' ), 0 );
 		
-		$this->title = ucfirst( $this->slug );
+		$this->title = ucfirst( $this->name );
 		$this->description = __( 'This is a SurveyVal component.', 'surveyval-locale' );
 		$this->capability = 'read';
 		

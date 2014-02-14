@@ -214,12 +214,24 @@ class SurveyVal_Survey{
 	}
 
 	public function get_survey_html(){
-		if( '' != $_POST['surveyval_submission'] ):
-			$this->save_survey_response();
-			$html = $this->thank_participation();
-			return $html;
+		global $current_user;
+		
+		if( $this->has_participated() ):
+			$this->dialog_already_participated();
+			return;
 		endif;
 		
+		if( '' != $_POST['surveyval_submission'] ):
+			if( $this->save_response() ):
+				$this->dialog_thank_participation();
+				return;
+			endif;
+		endif;
+		
+		return $this->get_survey_form();
+	}
+	
+	public function get_survey_form(){
 		$html = '<form name="surveyval" id="surveyval" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
 		
 		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
@@ -237,15 +249,75 @@ class SurveyVal_Survey{
 		return $html;
 	}
 	
-	public function save_survey_response(){
+	public function participated_polls( $user_id = NULL ){
+		global $wpdb, $current_user, $surveyval;
+		
+		if( '' == $user_id ):
+			get_currentuserinfo();
+			$user_id = $user_id = $current_user->ID;
+		endif;
+		
+		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval->tables->responds} WHERE  user_id=%s", $user_id );
+		return $wpdb->get_col( $sql );
+	}
+
+	public function has_participated( $user_id = NULL, $surveyval_id = NULL ){
+		global $wpdb, $current_user, $surveyval;
+		
+		// Setting up user ID
+		if( NULL == $user_id ):
+			get_currentuserinfo();
+			$user_id = $user_id = $current_user->ID;
+		endif;
+		
+		// Setting up Survey ID
+		if( NULL == $surveyval_id )
+			if( !empty( $this->id ) )
+				$surveyval_id = $this->id;
+			else 
+				return FALSE;
+		
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->responds} WHERE surveyval_id=%d AND user_id=%s", $surveyval_id, $user_id );
+		$wpdb->get_var( $sql );
+		
+	}
+	
+	public function save_response(){
+		$response = $_POST['surveyval_response'];
+		
+		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
+			foreach( $this->questions AS $question ):
+				$answer = $response[ $question->id ];
+				
+				if( $question->validate( $answer ) ):
+					
+				else:
+					
+				endif;
+			endforeach;
+		else:
+			return FALSE;
+		endif;
+		
 		echo '<pre>';
 		print_r( $_POST );
 		echo '</pre>';
+		
+		echo '<pre>';
+		print_r( $this->questions );
+		echo '</pre>';
 	}
 	
-	public function thank_participation(){
+	public function dialog_thank_participation(){
 		$html = '<div id="surveyval-thank-participation">';
 		$html.= __( 'Thank you for participating this survey!', 'surveyval-locale' );
+		$html.= '</div>';
+		return $html;
+	}
+	
+	public function dialog_already_participated(){
+		$html = '<div id="surveyval-already-participated">';
+		$html.= __( 'You already have participated this poll!', 'surveyval-locale' );
 		$html.= '</div>';
 		return $html;
 	}

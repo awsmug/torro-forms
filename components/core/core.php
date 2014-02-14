@@ -36,7 +36,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->slug = 'SurveyValCore';
+		$this->name = 'SurveyValCore';
 		$this->title = __( 'Core', 'surveyval-locale' );
 		$this->description = __( 'Core functions of the SurveyVal Plugin', 'surveyval-locale' );
 		$this->turn_off = FALSE;
@@ -124,6 +124,8 @@ class SurveyVal_Core extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/question-type.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/text.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/onechoice.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/multiplechoice.php' );
 	}
 	
 }
