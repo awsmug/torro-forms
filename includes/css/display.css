@@ -10,3 +10,11 @@
 	border: 1px dashed #F00;
 	padding:2%;
 }
+.surveyval_errors span{
+	color:#FFF;
+	border: 1px dashed #F00;
+	background-color:#F00;
+	display:block;
+	margin-bottom:20px;
+	padding:5px;
+}

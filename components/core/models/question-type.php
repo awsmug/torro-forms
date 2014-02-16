@@ -19,6 +19,7 @@ abstract class SurveyVal_QuestionType{
 	var $answer_is_multiple = FALSE;
 	
 	var $answers = array();
+	var $settings = array();
 	
 	var $answer_params = array();
 	var $answer_syntax;
@@ -36,6 +37,8 @@ abstract class SurveyVal_QuestionType{
 	public function __construct( $id = null ){
 		if( null != $id && '' != $id )
 			$this->populate( $id );
+		
+		$this->settings_fields();
 	}	
 	
 	public function _register() {
@@ -89,6 +92,16 @@ abstract class SurveyVal_QuestionType{
 				$this->add_answer( $result->answer, $result->sort, $result->id );
 			endforeach;
 		endif;
+		
+		
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->settings} WHERE question_id = %s", $id );
+		$results = $wpdb->get_results( $sql );
+				
+		if( is_array( $results ) ):
+			foreach( $results AS $result ):
+				$this->add_settings( $result->name, $result->value );
+			endforeach;
+		endif;
 	}
 	
 	private function set_question( $question, $order = null ){
@@ -117,13 +130,46 @@ abstract class SurveyVal_QuestionType{
 		);
 	}
 	
+	private function add_settings( $name, $value ){ 
+		$this->settings[ $name ] = $value;
+	}
+	
 	public function get_settings_html( $new = FALSE ){
 		if( !$new )
 			$widget_id = 'widget_question_' . $this->id;
 		else
 			$widget_id = 'widget_question_##nr##';
 		
-		$html = '<p>' . __( 'Your Question:', 'surveyval-locale' ) . '</p><p><input type="text" name="surveyval[' . $widget_id . '][question]" value="' . $this->question . '" class="surveyval-question" /><p>';
+		$jquery_widget_id = str_replace( '#', '', $widget_id );
+		
+		$html ='<div class="question_tabs">';
+		
+		$html.= '<ul class="tabs">';
+			$html.= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . __( 'Question', 'surveyval-locale' ) . '</a></li>';
+			if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ):
+				$html.= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . __( 'Settings', 'surveyval-locale' ) . '</a></li>';
+			endif;
+		$html.= '</ul>';
+		
+		$html.= '<div class="clear tabs_underline"></div>';
+		
+		$html.= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';
+			$html.= $this->get_admin_question_tab_html( $widget_id, $new );
+		$html.= '</div>'; 
+		
+		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ):
+			$html.= '<div id="tab_' . $jquery_widget_id . '_settings" class="tab_settings_content">';
+				$html.= $this->get_admin_settings_tab_html( $widget_id, $new );
+			$html.= '</div>';
+		endif;
+		
+		$html.= '</div>'; 
+		
+		return $html;
+	}
+
+	private function get_admin_question_tab_html( $widget_id, $new ){
+		$html = '<p><input type="text" name="surveyval[' . $widget_id . '][question]" value="' . $this->question . '" class="surveyval-question" /><p>';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $this->id . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
@@ -134,7 +180,7 @@ abstract class SurveyVal_QuestionType{
 		
 		if( $this->preset_of_answers ):
 			
-			$html.= '<p>' . __( 'Your Answer/s:', 'surveyval-locale' ) . '</p>';
+			$html.= '<p>' . __( 'Answer/s:', 'surveyval-locale' ) . '</p>';
 			
 			if( is_array( $this->answers ) && !$new ):
 				
@@ -234,7 +280,49 @@ abstract class SurveyVal_QuestionType{
 		
 		$html.= '<div class="clear"></div>';
 		
-		$html = apply_filters( 'sv_question_html', $html );
+		return $html;
+	}
+
+	private function get_admin_settings_tab_html( $widget_id, $new ){
+		$html = '';
+		foreach( $this->settings_fields AS $name => $field ):
+			$html.=$this->get_settings_field_html( $name, $field, $widget_id );
+		endforeach;
+		
+		return $html;
+	}
+	
+	private function get_settings_field_html( $name, $field, $widget_id ){
+		global $wpdb, $surveyval;
+		
+		$sql = $wpdb->prepare( "SELECT value FROM {$surveyval->tables->settings} WHERE question_id = %d AND name = %s", $this->id, $name );
+		$value = $wpdb->get_var( $sql );
+		
+		if( empty( $value ) )
+			$value = $field['default'];
+			
+		
+		$name = 'surveyval[' . $widget_id . '][settings][' . $name . ']';
+		switch( $field['type'] ){
+			case 'text':
+				$input = '<input type="text" name="' . $name . '" value="' . $value . '" />';
+				break;
+		}
+		
+		$html = '<div class="settings-fieldset">';
+		
+			$html.= '<div class="settings-fieldset-title">';
+				$html.= '<label for="' . $name . '">' . $field['title'] . '</label>';
+			$html.= '</div>';
+			
+			$html.= '<div class="settings-fieldset-input">';
+				$html.= $input . '<br />';
+				$html.= '<small>' . $field['description'] . '</small>';
+			$html.= '</div>';
+			
+			$html.= '<div class="clear"></div>';
+			
+		$html.= '</div>';
 		
 		return $html;
 	}
@@ -245,6 +333,8 @@ abstract class SurveyVal_QuestionType{
 		
 		if( 0 == count( $this->answers )  && $this->preset_of_answers == TRUE )
 			return FALSE;
+		
+		$error_css = '';
 		
 		if( $this->error )
 			$error_css = ' question_error';
@@ -287,18 +377,21 @@ abstract class SurveyVal_QuestionType{
 				
 				// Is answer selected choose right syntax
 				if( $this->answer_is_multiple ):
-					if( in_array( $answer['text'], $this->response ) ):
+					
+					if( is_array( $this->response ) && in_array( $answer['text'], $this->response ) ):
 						$param_arr[] = $this->answer_selected_syntax;
 					else:
 						$param_arr[] = $this->answer_syntax;
 					endif;
 					
 				else:
+					
 					if( $this->response == $answer['text'] && !empty( $this->answer_selected_syntax ) ):
 						$param_arr[] = $this->answer_selected_syntax;
 					else:
 						$param_arr[] = $this->answer_syntax;
 					endif;
+					
 				endif;
 				
 				// Running every parameter for later calling
@@ -334,6 +427,9 @@ abstract class SurveyVal_QuestionType{
 		$html.= '</div>';
 		
 		return $html;
+	}
+
+	public function settings_fields(){
 	}
 
 	public function validate( $input ){

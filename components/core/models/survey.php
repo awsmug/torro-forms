@@ -102,7 +102,7 @@ class SurveyVal_Survey{
 		
 		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval, TRUE ) );
 		
-		$survey_deleted_questions = split( ',', $survey_deleted_questions );
+		$survey_deleted_questions = explode( ',', $survey_deleted_questions );
 		
 		/*
 		 * Deleting deleted answers
@@ -120,7 +120,7 @@ class SurveyVal_Survey{
 			endforeach;
 		endif;
 		
-		$survey_deleted_answers = split( ',', $survey_deleted_answers );
+		$survey_deleted_answers = explode( ',', $survey_deleted_answers );
 		
 		/*
 		 * Deleting deleted answers
@@ -143,14 +143,20 @@ class SurveyVal_Survey{
 			$sort = $survey_question['sort'];
 			$type = $survey_question['type'];
 			$answers = array();
+			$settings = array();
+			
+			$new_question = FALSE;
 			
 			if( array_key_exists( 'answers', $survey_question ) )
 				$answers = $survey_question['answers'];
 			
+			if( array_key_exists( 'settings', $survey_question ) )
+				$settings = $survey_question['settings'];
+			
 			// Saving question
 			if( '' != $question_id ):
 				// Updating if question already exists
-				$wpdb->update( 
+				$wpdb->update(
 					$surveyval->tables->questions,
 					array(
 						'question' => $question,
@@ -175,10 +181,13 @@ class SurveyVal_Survey{
 						'type' => $type  )
 				);
 				
+				$new_question = TRUE;
 				$question_id = $wpdb->insert_id;
 			endif;
 			
-			// Saving answers
+			/*
+			 * Saving answers
+			 */
 			if( is_array( $answers )  && count( $answers ) >  0 ):
 				foreach( $answers AS $answer ):
 					$answer_id = $answer['id'];
@@ -208,6 +217,39 @@ class SurveyVal_Survey{
 					endif;
 				endforeach;
 			endif;
+			
+			/*
+			 * Saving answers
+			 */
+			if( is_array( $settings )  && count( $settings ) >  0 ):
+				foreach( $settings AS $name => $setting ):
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
+					$count = $wpdb->get_var( $sql );
+					
+					if( $count > 0 ):
+						$wpdb->update(
+							$surveyval->tables->settings,
+							array( 
+								'value' => $settings[ $name ]
+							),
+							array(
+								'question_id' => $question_id,
+								'name' => $name
+							)
+						);
+					else:
+						$wpdb->insert(
+							$surveyval->tables->settings,
+							array(
+								'name' => $name,
+								'question_id' => $question_id,
+								'value' => $settings[ $name ]
+							)
+						);
+						
+					endif;
+				endforeach;
+			endif;
 
 		endforeach;
 		
@@ -215,17 +257,15 @@ class SurveyVal_Survey{
 	}
 
 	public function get_survey_html(){
-		global $current_user;
-		
 		if( $this->has_participated() ):
-			$this->dialog_already_participated();
-			return;
+			return $this->dialog_already_participated();
 		endif;
 		
-		if( '' != $_POST['surveyval_submission'] ):
-			if( $this->save_response() ):
-				$this->dialog_thank_participation();
-				return;
+		if( array_key_exists( 'surveyval_submission', $_POST ) ):
+			if( '' != $_POST['surveyval_submission'] ):
+				if( $this->save_response() ):
+					return $this->dialog_thank_participation();
+				endif;
 			endif;
 		endif;
 		
@@ -236,11 +276,11 @@ class SurveyVal_Survey{
 		$html = '<form name="surveyval" id="surveyval" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
 		
 		if( is_array( $this->response_errors ) && count( $this->response_errors ) > 0 ):
+			echo '<div id="surveyval_errors" class="surveyval_errors">';
 			foreach( $this->response_errors AS $error ):
-				echo '<pre>';
-				print_r( $error );
-				echo '</pre>';
+				echo '<span>' . $error['message'] . '</span>';
 			endforeach;
+			echo '</div>';
 		endif;
 		
 		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
@@ -278,7 +318,7 @@ class SurveyVal_Survey{
 			get_currentuserinfo();
 			$user_id = $user_id = $current_user->ID;
 		endif;
-		
+				
 		// Setting up Survey ID
 		if( NULL == $surveyval_id )
 			if( !empty( $this->id ) )
@@ -286,15 +326,29 @@ class SurveyVal_Survey{
 			else 
 				return FALSE;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->responds} WHERE surveyval_id=%d AND user_id=%s", $surveyval_id, $user_id );
-		$wpdb->get_var( $sql );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval->tables->responds} WHERE surveyval_id=%d AND user_id=%s", $surveyval_id, $user_id );
+		$count = $wpdb->get_var( $sql );
 		
+		if( 0 == $count ):
+			return FALSE;
+		else:
+			return TRUE;
+		endif;
 	}
 	
 	public function save_response(){
+		global $wpdb, $surveyval, $current_user;
+		
 		$response = $_POST['surveyval_response'];
 		$this->response_errors = array();
 		$answer_error = FALSE;
+		
+		if( $this->has_participated() ):
+			$this->response_errors[] = array(
+				'message' => sprintf( __( 'You already have participated this poll!', 'surveyval-locale' ), $question->question )
+			);
+			$answer_error = TRUE;
+		endif;
 		
 		// Are there any questions?
 		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
@@ -312,8 +366,13 @@ class SurveyVal_Survey{
 					$answer_error = TRUE;
 				endif;
 				
+				$answer = '';
+				
+				if( array_key_exists( $question->id, $response) )
+					$answer = $response[ $question->id ];
+				
 				// Taking response
-				$this->questions[ $key ]->response = $response[ $question->id ];
+				$this->questions[ $key ]->response = $answer;
 				
 				// Validating answer with custom validation
 				if( !$question->validate( $answer ) ):
@@ -344,11 +403,50 @@ class SurveyVal_Survey{
 		// Saving answers if no error occured
 		if( !$answer_error ):
 			
-		endif;
+			get_currentuserinfo();
+			$user_id = $user_id = $current_user->ID;
 			
-		echo '<pre>';
-		print_r( $response );
-		echo '</pre>';		
+			// Adding new question
+			$wpdb->insert(
+				$surveyval->tables->responds,
+				array(
+					'surveyval_id' => $this->id,
+					'user_id' => $user_id,
+					'timestamp' => time()  )
+			);
+			
+			$respond_id = $wpdb->insert_id;
+			
+			foreach( $response AS $question_id => $answers ):
+				
+				if( is_array( $answers ) ):
+					
+					foreach( $answers AS $answer ):
+						$wpdb->insert(
+							$surveyval->tables->respond_answers,
+							array(
+								'respond_id' => $respond_id,
+								'question_id' => $question_id,
+								'value' => $answer
+							)
+						);
+					endforeach;
+					
+				else:
+					
+					$wpdb->insert(
+						$surveyval->tables->respond_answers,
+						array(
+							'respond_id' => $respond_id,
+							'question_id' => $question_id,
+							'value' => $answer
+						)
+					);
+					
+				endif;
+			endforeach;
+				
+		endif;
 			
 			/*
 		echo '<pre>';

@@ -27,16 +27,43 @@ class SurveyVal_QuestionType_Text extends SurveyVal_QuestionType{
 	
 	public function settings_fields(){
 		$this->settings_fields = array(
+			'min_length' => array(
+				'title'			=> __( 'Minimum length', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'The minimum number of chars which can be typed in.' ),
+				'default'		=> '10'
+			), 
 			'max_length' => array(
 				'title'			=> __( 'Maximum length', 'surveyval-locale' ),
 				'type'			=> 'text',
-				'descripton' 	=> __( 'The maximum number of chars which can be typed in.' ),
-				'default'		=> ''
+				'description' 	=> __( 'The maximum number of chars which can be typed in.' ),
+				'default'		=> '100'
 			), 
 		);
 	}
 	
 	public function validate( $input ){
+		$min_length = $this->settings['min_length'];
+		$max_length = $this->settings['max_length'];
+		
+		$error = FALSE;
+		
+		if( !empty( $min_length ) )
+			if( strlen( $input ) < $min_length ):
+				$this->validate_errors[] = sprintf( __( 'The string have to be longer than %s chars.', 'surveyval-locale' ), $min_length );
+				$error = TRUE;
+			endif;
+		
+		if( !empty( $max_length ) )		
+			if( strlen( $input ) > $max_length ):
+				$this->validate_errors[] = sprintf( __( 'The string have to be shorter than %s chars.', 'surveyval-locale' ), $max_length );
+				$error = TRUE;
+			endif;
+			
+		if( $error ):
+			return FALSE;
+		endif;
+		
 		return TRUE;
 	}
 }

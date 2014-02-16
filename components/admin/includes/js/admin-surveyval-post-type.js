@@ -33,6 +33,7 @@
               	surveyval_deletequestion()
               	surveyval_deleteanswer();
               	surveyval_rewriteheadline();
+              	surveyval_question_tabs();
 			}
 		}).sortable({
 			update: function( event, ui ) {
@@ -204,6 +205,11 @@
           	
           	surveyval_deleteanswer();
 		});
+		
+		var surveyval_question_tabs = function(){
+			$( ".question_tabs" ).tabs({ active: 0 });
+		}
+		surveyval_question_tabs();
 			
 		function surveyval_rand(){
 			var now = new Date();

@@ -51,6 +51,48 @@
 #delete_answer_dialog{
 	display:none;
 }
+.question_tabs .tabs_underline{
+	border-bottom: 1px solid #CCC;
+}
+.question_tabs .tabs li:first-child{
+	border-radius:3px 0 0 0;
+	border-right:none;
+}	
+.question_tabs .tabs li{
+	float:left;
+	margin: 0;
+	border: 1px solid #CCC;
+	border-bottom:none;
+	border-right:none;
+	background-color: #FAFAFA;
+	padding:6px;
+	border-radius:3px;
+}
+.question_tabs .tabs li:last-child{
+	border-radius:0 3px 0 0;
+	border-right: 1px solid #CCC;
+}
+.question_tabs .tabs li.ui-state-active{
+	font-weight:bold;
+}
+.question_tabs .tabs li a{
+	color:#222;
+	text-decoration: none;
+}
+.tab_settings_content{
+	margin-top:20px;
+}
+.settings-fieldset{
+	margin-bottom:20px;
+}
+.settings-fieldset-title{
+	width:20%;
+	float:left;
+}
+.settings-fieldset-input{
+	width:80%;
+	float:right;
+}
 
 /* 
  * Dialogs

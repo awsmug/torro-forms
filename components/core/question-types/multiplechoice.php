@@ -33,7 +33,45 @@ class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 		parent::__construct( $id );
 	}
 	
+	public function settings_fields(){
+		$this->settings_fields = array(
+			'min_answers' => array(
+				'title'			=> __( 'Minimum Answers', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'The minimum number of answers which have to be choosed.' ),
+				'default'		=> '1'
+			), 
+			'max_answers' => array(
+				'title'			=> __( 'Maximum Answers', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'The maximum number of answers which can be choosed.' ),
+				'default'		=> '3'
+			), 
+		);
+	}
+	
 	public function validate( $input ){
+		$min_answers = $this->settings['min_answers'];
+		$max_answers = $this->settings['max_answers'];
+		
+		$error = FALSE;
+		
+		if( !empty( $min_answers ) )
+			if( strlen( $input ) < $min_answers ):
+				$this->validate_errors[] = sprintf( __( 'You have to choose minimum %s answers.', 'surveyval-locale' ), $min_answers );
+				$error = TRUE;
+			endif;
+		
+		if( !empty( $max_answers ) )		
+			if( strlen( $input ) > $max_answers ):
+				$this->validate_errors[] = sprintf( __( 'You can to choose maximum %s answers.', 'surveyval-locale' ), $max_answers );
+				$error = TRUE;
+			endif;
+			
+		if( $error ):
+			return FALSE;
+		endif;
+		
 		return TRUE;
 	}
 }
