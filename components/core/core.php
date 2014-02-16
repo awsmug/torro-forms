@@ -44,17 +44,23 @@ class SurveyVal_Core extends SurveyVal_Component{
 		$this->slug = 'survey';
 		
 		add_action( 'init', array( $this, 'custom_post_types' ), 11 );
+		add_filter( 'the_content', array( $this, 'the_content' ) );
 		
 		parent::__construct();
 		
-		
-	    // Functions in Admin
-	    if( is_admin() ):
-		//	add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		// Functions not in Admin
-		else:	
-		endif;
 	} // end constructor
+	
+	public function the_content( $content ){
+		global $post, $surveyval_global;
+		
+		if( 'surveyval' != $post->post_type )
+			return $content;
+		
+		$survey = new SurveyVal_Survey( $post->ID );
+		$content = $survey->get_survey_html();
+		
+		return $content;
+	}
 	
 	/**
 	 * Creates Custom Post Types for surveys

@@ -13,7 +13,7 @@ class SurveyVal_Survey{
 	}
 	
 	private function populate( $id ){
-		global $wpdb, $surveyval;
+		global $wpdb, $surveyval_global;
 		
 		$this->reset();
 		
@@ -26,7 +26,7 @@ class SurveyVal_Survey{
 	}
 	
 	private function get_questions( $id = null ){
-		global $surveyval, $wpdb;
+		global $surveyval_global, $wpdb;
 		
 		if( null == $id )
 			$id = $this->id;
@@ -34,7 +34,7 @@ class SurveyVal_Survey{
 		if( '' == $id )
 			return FALSE;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->questions} WHERE surveyval_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->questions} WHERE surveyval_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 		
 		$questions = array();
@@ -51,9 +51,9 @@ class SurveyVal_Survey{
 	}
 	
 	private function add_question( $question, $question_type, $order = null ){
-		global $surveyval;
+		global $surveyval_global;
 		
-		if( !array_key_exists( $question_type, $surveyval->question_types ) )
+		if( !array_key_exists( $question_type, $surveyval_global->question_types ) )
 			return FALSE;
 		
 		$class = 'SurveyVal_QuestionType_' . $question_type;
@@ -91,7 +91,7 @@ class SurveyVal_Survey{
 	
 	
 	public function save_by_postdata(){
-		global $surveyval, $wpdb;
+		global $surveyval_global, $wpdb;
 		
 		if( '' == $this->id )
 			return FALSE;
@@ -100,7 +100,7 @@ class SurveyVal_Survey{
 		$survey_deleted_questions = $_POST['surveyval_deleted_questions'];
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
 		
-		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval, TRUE ) );
+		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
 		
 		$survey_deleted_questions = explode( ',', $survey_deleted_questions );
 		
@@ -110,11 +110,11 @@ class SurveyVal_Survey{
 		if( is_array( $survey_deleted_questions ) && count( $survey_deleted_questions ) > 0 ):
 			foreach( $survey_deleted_questions AS $deleted_question ):
 				$wpdb->delete( 
-					$surveyval->tables->questions, 
+					$surveyval_global->tables->questions, 
 					array( 'id' => $deleted_question ) 
 				);
 				$wpdb->delete( 
-					$surveyval->tables->answers, 
+					$surveyval_global->tables->answers, 
 					array( 'question_id' => $deleted_question ) 
 				);
 			endforeach;
@@ -128,7 +128,7 @@ class SurveyVal_Survey{
 		if( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
 			foreach( $survey_deleted_answers AS $deleted_answer ):
 				$wpdb->delete( 
-					$surveyval->tables->answers, 
+					$surveyval_global->tables->answers, 
 					array( 'id' => $deleted_answer ) 
 				);
 			endforeach;
@@ -157,7 +157,7 @@ class SurveyVal_Survey{
 			if( '' != $question_id ):
 				// Updating if question already exists
 				$wpdb->update(
-					$surveyval->tables->questions,
+					$surveyval_global->tables->questions,
 					array(
 						'question' => $question,
 						'sort' => $sort,
@@ -173,7 +173,7 @@ class SurveyVal_Survey{
 				
 				// Adding new question
 				$wpdb->insert(
-					$surveyval->tables->questions,
+					$surveyval_global->tables->questions,
 					array(
 						'surveyval_id' => $this->id,
 						'question' => $question,
@@ -196,7 +196,7 @@ class SurveyVal_Survey{
 					
 					if( '' != $answer_id ):
 						$wpdb->update(
-							$surveyval->tables->answers,
+							$surveyval_global->tables->answers,
 							array( 
 								'answer' => $answer_text,
 								'sort' => $answer_sort
@@ -207,7 +207,7 @@ class SurveyVal_Survey{
 						);
 					else:
 						$wpdb->insert(
-							$surveyval->tables->answers,
+							$surveyval_global->tables->answers,
 							array(
 								'question_id' => $question_id,
 								'answer' => $answer_text,
@@ -223,12 +223,12 @@ class SurveyVal_Survey{
 			 */
 			if( is_array( $settings )  && count( $settings ) >  0 ):
 				foreach( $settings AS $name => $setting ):
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
 					$count = $wpdb->get_var( $sql );
 					
 					if( $count > 0 ):
 						$wpdb->update(
-							$surveyval->tables->settings,
+							$surveyval_global->tables->settings,
 							array( 
 								'value' => $settings[ $name ]
 							),
@@ -239,7 +239,7 @@ class SurveyVal_Survey{
 						);
 					else:
 						$wpdb->insert(
-							$surveyval->tables->settings,
+							$surveyval_global->tables->settings,
 							array(
 								'name' => $name,
 								'question_id' => $question_id,
@@ -299,19 +299,19 @@ class SurveyVal_Survey{
 	}
 	
 	public function participated_polls( $user_id = NULL ){
-		global $wpdb, $current_user, $surveyval;
+		global $wpdb, $current_user, $surveyval_global;
 		
 		if( '' == $user_id ):
 			get_currentuserinfo();
 			$user_id = $user_id = $current_user->ID;
 		endif;
 		
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval->tables->responds} WHERE  user_id=%s", $user_id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->responds} WHERE  user_id=%s", $user_id );
 		return $wpdb->get_col( $sql );
 	}
 
 	public function has_participated( $user_id = NULL, $surveyval_id = NULL ){
-		global $wpdb, $current_user, $surveyval;
+		global $wpdb, $current_user, $surveyval_global;
 		
 		// Setting up user ID
 		if( NULL == $user_id ):
@@ -326,7 +326,7 @@ class SurveyVal_Survey{
 			else 
 				return FALSE;
 		
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval->tables->responds} WHERE surveyval_id=%d AND user_id=%s", $surveyval_id, $user_id );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->responds} WHERE surveyval_id=%d AND user_id=%s", $surveyval_id, $user_id );
 		$count = $wpdb->get_var( $sql );
 		
 		if( 0 == $count ):
@@ -337,7 +337,7 @@ class SurveyVal_Survey{
 	}
 	
 	public function save_response(){
-		global $wpdb, $surveyval, $current_user;
+		global $wpdb, $surveyval_global, $current_user;
 		
 		$response = $_POST['surveyval_response'];
 		$this->response_errors = array();
@@ -408,7 +408,7 @@ class SurveyVal_Survey{
 			
 			// Adding new question
 			$wpdb->insert(
-				$surveyval->tables->responds,
+				$surveyval_global->tables->responds,
 				array(
 					'surveyval_id' => $this->id,
 					'user_id' => $user_id,
@@ -423,7 +423,7 @@ class SurveyVal_Survey{
 					
 					foreach( $answers AS $answer ):
 						$wpdb->insert(
-							$surveyval->tables->respond_answers,
+							$surveyval_global->tables->respond_answers,
 							array(
 								'respond_id' => $respond_id,
 								'question_id' => $question_id,
@@ -435,7 +435,7 @@ class SurveyVal_Survey{
 				else:
 					
 					$wpdb->insert(
-						$surveyval->tables->respond_answers,
+						$surveyval_global->tables->respond_answers,
 						array(
 							'respond_id' => $respond_id,
 							'question_id' => $question_id,

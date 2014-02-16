@@ -57,13 +57,13 @@ class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 		$error = FALSE;
 		
 		if( !empty( $min_answers ) )
-			if( strlen( $input ) < $min_answers ):
+			if( count( $input ) < $min_answers ):
 				$this->validate_errors[] = sprintf( __( 'You have to choose minimum %s answers.', 'surveyval-locale' ), $min_answers );
 				$error = TRUE;
 			endif;
 		
 		if( !empty( $max_answers ) )		
-			if( strlen( $input ) > $max_answers ):
+			if( count( $input ) > $max_answers ):
 				$this->validate_errors[] = sprintf( __( 'You can to choose maximum %s answers.', 'surveyval-locale' ), $max_answers );
 				$error = TRUE;
 			endif;

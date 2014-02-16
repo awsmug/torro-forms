@@ -29,7 +29,7 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-global $surveyval;
+global $surveyval_global;
 
 class SurveyVal{
 	var $tables;
@@ -76,4 +76,4 @@ class SurveyVal{
 		return TRUE;
 	}
 }
-$surveyval = new SurveyVal();
+$surveyval_global = new SurveyVal();

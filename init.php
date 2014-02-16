@@ -228,7 +228,7 @@ class SurveVal_Init{
 	 * Registers and enqueues plugin-specific scripts.
 	 * @since 1.0.0
 	 */
-	public function register_plugin_scripts() {
+	public static function register_plugin_scripts() {
 		wp_enqueue_script( 'surveyval-plugin-script',  SURVEYVAL_URLPATH . '/includes/js/display.js' );
 	
 	} // end register_plugin_scripts

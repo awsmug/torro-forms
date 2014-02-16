@@ -42,12 +42,12 @@ abstract class SurveyVal_QuestionType{
 	}	
 	
 	public function _register() {
-		global $surveyval;
+		global $surveyval_global;
 		
 		if( TRUE == $this->initialized )
 			return FALSE;
 		
-		if( !is_object( $surveyval ) )
+		if( !is_object( $surveyval_global ) )
 			return FALSE;
 		
 		if( '' == $this->slug )
@@ -59,23 +59,23 @@ abstract class SurveyVal_QuestionType{
 		if( '' == $this->description )
 			$this->description =  __( 'This is a SurveyVal Question-Type.', 'surveyval-locale' );
 		
-		if( array_key_exists( $this->slug, $surveyval->question_types ) )
+		if( array_key_exists( $this->slug, $surveyval_global->question_types ) )
 			return FALSE;
 		
-		if( !is_array( $surveyval->question_types ) )
-			$surveyval->question_types = array();
+		if( !is_array( $surveyval_global->question_types ) )
+			$surveyval_global->question_types = array();
 		
 		$this->initialized = TRUE;
 		
-		return $surveyval->add_question_type( $this->slug, $this );
+		return $surveyval_global->add_question_type( $this->slug, $this );
 	}
 	
 	private function populate( $id ){
-		global $wpdb, $surveyval;
+		global $wpdb, $surveyval_global;
 		
 		$this->reset();
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->questions} WHERE id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->questions} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 		
 		$this->id = $id;
@@ -84,7 +84,7 @@ abstract class SurveyVal_QuestionType{
 		
 		$this->sort = $row->sort;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->answers} WHERE question_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->answers} WHERE question_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 				
 		if( is_array( $results ) ):
@@ -94,7 +94,7 @@ abstract class SurveyVal_QuestionType{
 		endif;
 		
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval->tables->settings} WHERE question_id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->settings} WHERE question_id = %s", $id );
 		$results = $wpdb->get_results( $sql );
 				
 		if( is_array( $results ) ):
@@ -293,9 +293,9 @@ abstract class SurveyVal_QuestionType{
 	}
 	
 	private function get_settings_field_html( $name, $field, $widget_id ){
-		global $wpdb, $surveyval;
+		global $wpdb, $surveyval_global;
 		
-		$sql = $wpdb->prepare( "SELECT value FROM {$surveyval->tables->settings} WHERE question_id = %d AND name = %s", $this->id, $name );
+		$sql = $wpdb->prepare( "SELECT value FROM {$surveyval_global->tables->settings} WHERE question_id = %d AND name = %s", $this->id, $name );
 		$value = $wpdb->get_var( $sql );
 		
 		if( empty( $value ) )

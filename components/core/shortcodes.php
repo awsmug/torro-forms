@@ -29,8 +29,6 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-global $surveyval;
-
 class SurveyValShortCodes{
 	var $tables;
 	var $components = array();

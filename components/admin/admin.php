@@ -84,7 +84,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 
 	public function droppable_area(){
-		global $post, $surveyval;
+		global $post, $surveyval_global;
 		
 		if( !$this->is_surveyval_post_type() )
 			return;
@@ -137,9 +137,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 
 	public function meta_box_questions_answers(){
-		global $surveyval;
+		global $surveyval_global;
 		
-		foreach( $surveyval->question_types AS $question_type ):
+		foreach( $surveyval_global->question_types AS $question_type ):
 			echo '<div class="surveyval-draggable">';
 			echo $this->get_widget_html( $question_type->title, $question_type->get_settings_html( TRUE ), $question_type->icon );
 			echo '</div>';
@@ -175,21 +175,21 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function delete_survey( $post_id ){
-		global $wpdb, $surveyval;
+		global $wpdb, $surveyval_global;
 		
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval->tables->questions} WHERE surveyval_id=%d", $post_id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->questions} WHERE surveyval_id=%d", $post_id );
 		
 		$questions = $wpdb->get_col( $sql );
 		
 		$wpdb->delete( 
-			$surveyval->tables->questions, 
+			$surveyval_global->tables->questions, 
 			array( 'surveyval_id' => $post_id ) 
 		);
 		
 		if( is_array( $questions ) && count( $questions ) > 0 ):
 			foreach( $questions AS $question ):
 				$wpdb->delete( 
-					$surveyval->tables->answers,
+					$surveyval_global->tables->answers,
 					array( 'question_id' => $question ) 
 				);
 			endforeach;

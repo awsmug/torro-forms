@@ -41,7 +41,7 @@ abstract class SurveyVal_Component{
 	 * @since 1.0.0
 	 */
 	function __construct() {
-		global $surveyval;
+		global $surveyval_global;
 		
 		$this->name = get_class( $this );
 		add_action( 'init', array( $this, 'includes' ), 0 );
