@@ -165,6 +165,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if ( wp_is_post_revision( $post_id ) )
 			return;
 		
+		if( !array_key_exists( 'post_type', $_POST ) )
+			return;
+		
 		if ( 'surveyval' != $_POST['post_type'] )
 			return;
 		
