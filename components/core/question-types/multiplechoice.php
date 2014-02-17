@@ -38,13 +38,13 @@ class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 			'min_answers' => array(
 				'title'			=> __( 'Minimum Answers', 'surveyval-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'The minimum number of answers which have to be choosed.' ),
+				'description' 	=> __( 'The minimum number of answers which have to be choosed.', 'surveyval-locale' ),
 				'default'		=> '1'
 			), 
 			'max_answers' => array(
 				'title'			=> __( 'Maximum Answers', 'surveyval-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'The maximum number of answers which can be choosed.' ),
+				'description' 	=> __( 'The maximum number of answers which can be choosed.', 'surveyval-locale' ),
 				'default'		=> '3'
 			), 
 		);

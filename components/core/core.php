@@ -132,6 +132,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/text.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/onechoice.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/multiplechoice.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/question-types/range-emotional.php' );
 	}
 	
 }
