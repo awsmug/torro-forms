@@ -39,6 +39,9 @@ abstract class SurveyVal_QuestionType{
 			$this->populate( $id );
 		
 		$this->settings_fields();
+		
+		add_filter( 'surveyval_before_answer_' . $this->slug, array( $this, 'before_answer' ), 10, 3 );
+		add_filter( 'surveyval_after_answer_' . $this->slug, array( $this, 'after_answer' ), 10, 3 );
 	}	
 	
 	public function _register() {
@@ -213,7 +216,8 @@ abstract class SurveyVal_QuestionType{
 					
 					$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
 					$html.= call_user_func_array( 'sprintf', $param_arr );
-					$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
+					$html.= ' <input type="button" value="' . __( 'Delete', 's
+					urveyval-locale' ) . '" class="delete_answer button answer_action">';
 					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
 					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
 					$html.= '</div>';
@@ -366,7 +370,11 @@ abstract class SurveyVal_QuestionType{
 				$param_arr[] = $param_value;			
 			endforeach;
 			
-			$html.= '<div class="answer">' . call_user_func_array( 'sprintf', $param_arr ) . '</div>';
+			$html.= '<div class="answer">';
+			$html = apply_filters( 'surveyval_before_answer_' . $this->slug, $html, $this->slug, $this->id );
+			$html.= call_user_func_array( 'sprintf', $param_arr );
+			$html = apply_filters( 'surveyval_after_answer_' . $this->slug, $html, $this->slug, $this->id );
+			$html.= '</div>';
 			
 		else:
 			/*
@@ -417,7 +425,11 @@ abstract class SurveyVal_QuestionType{
 					$param_arr[] = $param_value;			
 				endforeach;
 				
-				$html.= '<div class="answer">' . call_user_func_array( 'sprintf', $param_arr ) . '</div>';
+				$html.= '<div class="answer">';
+				$html = apply_filters( 'surveyval_before_answer', $html, $this->slug, $this->id );
+				$html.= call_user_func_array( 'sprintf', $param_arr );
+				$html = apply_filters( 'surveyval_after_answer', $html, $this->slug, $this->id );
+				$html.= '</div>';
 					
 				// $html.= '<pre>' . print_r( $answer, TRUE ) . '</pre>';
 				// $html.= sprintf( $this->answer_syntax, $answer, $this->slug );
@@ -426,6 +438,14 @@ abstract class SurveyVal_QuestionType{
 		
 		$html.= '</div>';
 		
+		return $html;
+	}
+
+	public function before_answer( $html, $question_slug, $question_id ){
+		return $html;
+	}
+	
+	public function after_answer( $html, $question_slug, $question_id ){
 		return $html;
 	}
 

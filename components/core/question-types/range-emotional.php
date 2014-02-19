@@ -19,7 +19,7 @@ class SurveyVal_QuestionType_RangeEmotional extends SurveyVal_QuestionType{
 		$this->description = __( 'Add a question which can be answered within a  emotional range scale.', 'surveyval-locale' );
 		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-range-emotional.png';
 		
-		$this->answer_syntax = '<p><input type="range" min="0" max="1000" name="%s" value="%s" /></p>';
+		$this->answer_syntax = '<input type="range" min="0" max="1000" name="%s" value="%s" />';
 		$this->answer_params = array( 'name', 'value' );
 		
 		parent::__construct( $id );
@@ -27,13 +27,13 @@ class SurveyVal_QuestionType_RangeEmotional extends SurveyVal_QuestionType{
 	
 	public function settings_fields(){
 		$this->settings_fields = array(
-			'min_length' => array(
+			'range_from' => array(
 				'title'			=> __( 'Range from', 'surveyval-locale' ),
 				'type'			=> 'text',
 				'description' 	=> __( 'This value will be shown at the beginning of the scale.', 'surveyval-locale' ),
 				'default'		=> 'Good'
 			), 
-			'max_length' => array(
+			'range_to' => array(
 				'title'			=> __( 'Range to', 'surveyval-locale' ),
 				'type'			=> 'text',
 				'description' 	=> __( 'This value will be shown at the end of the scale', 'surveyval-locale' ),
@@ -41,6 +41,16 @@ class SurveyVal_QuestionType_RangeEmotional extends SurveyVal_QuestionType{
 			), 
 		);
 	}
+	
+	public function before_answer( $html, $question_slug, $question_id = NULL ){
+		$html.= '<span class="surveyval-range-from">' . $this->settings['range_from'] . '</span> ';
+		return $html;
+	}
+	
+	public function after_answer( $html, $question_slug, $question_id = NULL ){
+		$html.= ' <span class="surveyval-range-to">' . $this->settings['range_to'] . '</span>';
+		return $html;
+	}	
 	
 	public function validate( $input ){
 		return TRUE;
