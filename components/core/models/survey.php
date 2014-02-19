@@ -482,3 +482,14 @@ function sv_save_by_postdata( $id = null ){
 	$survey = new SurveyVal_Survey( $id );
 	return $survey->save_by_postdata();
 }
+
+function sv_user_has_participated( $user_id, $surveyval_id ){
+	$survey = new SurveyVal_Survey();
+	return $survey->has_participated( $user_id, $surveyval_id );
+}
+
+
+
+
+
+
