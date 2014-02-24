@@ -11,7 +11,7 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
+class SurveyVal_QuestionElement_MultipleChoice extends SurveyVal_QuestionElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'MultipleChoice';
@@ -75,4 +75,4 @@ class SurveyVal_QuestionType_MultipleChoice extends SurveyVal_QuestionType{
 		return TRUE;
 	}
 }
-sv_register_question_type( 'SurveyVal_QuestionType_MultipleChoice' );
+sv_register_question_type( 'SurveyVal_QuestionElement_MultipleChoice' );

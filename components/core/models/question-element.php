@@ -1,6 +1,6 @@
 <?php
 
-abstract class SurveyVal_QuestionType{
+abstract class SurveyVal_QuestionElement{
 	var $id;
 	var $slug;
 	var $title;

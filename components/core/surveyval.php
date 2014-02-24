@@ -68,7 +68,7 @@ class SurveyVal{
 		if( '' == $slug )
 			return FALSE;
 		
-		if( !is_object( $object ) && 'SurveyVal_QuestionType' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'SurveyVal_QuestionElement' != get_parent_class( $object ) )
 			return FALSE;
 		
 		$this->question_types[ $slug ] = $object;

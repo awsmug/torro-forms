@@ -152,7 +152,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( in_array( $post_type, $post_types )):
 			add_meta_box(
 	            'surveyval-questions-answers',
-	            __( 'Question/Answers', 'surveyval-locale' ),
+	            __( 'Elements', 'surveyval-locale' ),
 	            array( $this, 'meta_box_questions_answers' ),
 	            'surveyval',
 	            'side',

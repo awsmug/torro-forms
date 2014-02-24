@@ -11,7 +11,7 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_QuestionType_RangeEmotional extends SurveyVal_QuestionType{
+class SurveyVal_QuestionElement_RangeEmotional extends SurveyVal_QuestionElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'RangeEmotional';
@@ -56,7 +56,7 @@ class SurveyVal_QuestionType_RangeEmotional extends SurveyVal_QuestionType{
 		return TRUE;
 	}
 }
-sv_register_question_type( 'SurveyVal_QuestionType_RangeEmotional' );
+sv_register_question_type( 'SurveyVal_QuestionElement_RangeEmotional' );
 
 
 
