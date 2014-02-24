@@ -18,3 +18,11 @@
 	margin-bottom:20px;
 	padding:5px;
 }
+#surveyval table.surveyval-range-table{
+	width:auto;
+	border:none;
+}
+#surveyval table.surveyval-range-table td{
+	text-align:center;
+	border:none;
+}
