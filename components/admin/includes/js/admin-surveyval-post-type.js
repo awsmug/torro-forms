@@ -76,7 +76,7 @@
 		
 		var surveyval_delete_surveyelement = function(){
 			var surveyval_delete_surveyelement_dialog = $( '#delete_surveyelement_dialog' );
-			var question_id;
+			var surveyelement_id;
 			var deleted_surveyelements;
 			
 			surveyval_delete_surveyelement_dialog.dialog({                   
@@ -88,18 +88,18 @@
 		        'buttons'       : [{
 						text: translation_admin.yes,
 						click: function() {
-								question_id = question_id.split( '_' );
-								question_id = question_id[2];
+								surveyelement_id = surveyelement_id.split( '_' );
+								surveyelement_id = surveyelement_id[2];
 								
 								deleted_surveyelements = $( '#deleted_surveyelements' ).val();
 								
 								if( '' == deleted_surveyelements )
-									deleted_surveyelements += question_id;
+									deleted_surveyelements += surveyelement_id;
 								else
-									deleted_surveyelements += ',' + question_id;
+									deleted_surveyelements += ',' + surveyelement_id;
 									
 								$( '#deleted_surveyelements' ).val( deleted_surveyelements );
-								$( '#widget_surveyelement_' + question_id ).remove();
+								$( '#widget_surveyelement_' + surveyelement_id ).remove();
 								
 				                $( this ).dialog('close');
 							}
@@ -116,7 +116,7 @@
 		    });
 			
 			$( '.delete_survey_element' ).click( function( event ){
-				question_id = $( this ).closest( '.question' ).attr('id');
+				surveyelement_id = $( this ).closest( '.surveyelement' ).attr('id');
 		        event.preventDefault();
 		        surveyval_delete_surveyelement_dialog.dialog( 'open' );
 			});

@@ -6,6 +6,9 @@
 	margin:0;
 	font-size:0.9em;
 }
+.survey-element hr{
+	margin: 0;
+}
 .survey-element-error{
 	border: 1px dashed #F00;
 	padding:2%;
@@ -26,3 +29,4 @@
 	text-align:center;
 	border:none;
 }
+

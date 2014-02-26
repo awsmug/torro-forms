@@ -35,12 +35,14 @@ class SurveyVal_SurveyElement_Separator extends SurveyVal_SurveyElement{
 	}
 	
 	public function get_html(){
-		$html = '';
+		$html = '<div class="survey-element survey-element-' . $this->id . '">';
 		
 		if( !empty( $this->settings['header'] ) )
 			$html.= '<h3>' . $this->settings['header'] . '</h3>';
 			
-		$html.= '<hr />';
+		$html.= '<hr /></div>';
+		
+		return $html;
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_Separator' );

@@ -36,7 +36,7 @@ abstract class SurveyVal_SurveyElement{
 	var $initialized = FALSE;
 	
 	public function __construct( $id = null ){
-		if( null != $id && '' != $id && $this->is_question )
+		if( null != $id && '' != $id  )
 			$this->populate( $id );
 		
 		$this->settings_fields();

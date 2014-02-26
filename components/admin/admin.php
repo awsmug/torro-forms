@@ -117,7 +117,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		else
 			$id_name = ' id="widget_surveyelement_##nr##"';
 		
-		$html = '<div class="widget question"' . $id_name . '>';
+		$html = '<div class="widget surveyelement"' . $id_name . '>';
 			$html.= '<div class="widget-top surveyval-admin-qu-text">';
 				$html.= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 				$html.= '<div class="widget-title">';

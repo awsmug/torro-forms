@@ -100,7 +100,7 @@ class SurveyVal_Survey{
 		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
 		
-		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
+		mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
 		
 		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
 		
@@ -138,6 +138,9 @@ class SurveyVal_Survey{
 		 * Saving questions
 		 */
 		foreach( $survey_questions AS $key => $survey_question ):
+			if( 'widget_surveyelement_##nr##' == $key )
+				continue;
+			
 			$question_id = $survey_question['id'];
 			$question = $survey_question['question'];
 			$sort = $survey_question['sort'];
@@ -280,7 +283,7 @@ class SurveyVal_Survey{
 			endforeach;
 			echo '</div>';
 		endif;
-		
+
 		if( is_array( $this->questions ) && count( $this->questions ) > 0 ):
 			foreach( $this->questions AS $question ):
 				$html.= $question->get_html();
