@@ -1,12 +1,12 @@
 /* This stylesheet is used to style the public view of the plugin. */
-.question{
+.survey-element{
 	margin-bottom:20px;
 }
-.question p{
+.survey-element p{
 	margin:0;
 	font-size:0.9em;
 }
-.question_error{
+.survey-element-error{
 	border: 1px dashed #F00;
 	padding:2%;
 }

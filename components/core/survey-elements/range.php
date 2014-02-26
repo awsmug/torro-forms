@@ -11,7 +11,7 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_QuestionElement_Range extends SurveyVal_QuestionElement{
+class SurveyVal_SurveyElement_Range extends SurveyVal_SurveyElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'Range';
@@ -50,7 +50,7 @@ class SurveyVal_QuestionElement_Range extends SurveyVal_QuestionElement{
 	
 	public function get_html(){
 		if( $this->error )
-			$error_css = ' question_error';
+			$error_css = ' survey-element-error';
 			
 		$html = '<div class="question question_' . $this->id . $error_css . '">';
 		$html.= '<h5>' . $this->question . '</h5>';
@@ -82,7 +82,7 @@ class SurveyVal_QuestionElement_Range extends SurveyVal_QuestionElement{
 		return $html;
 	}
 }
-sv_register_question_type( 'SurveyVal_QuestionElement_Range' );
+sv_register_survey_element( 'SurveyVal_SurveyElement_Range' );
 
 
 

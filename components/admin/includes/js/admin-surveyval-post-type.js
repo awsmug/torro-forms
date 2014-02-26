@@ -33,7 +33,7 @@
               	surveyval_deletequestion()
               	surveyval_deleteanswer();
               	surveyval_rewriteheadline();
-              	surveyval_question_tabs();
+              	surveyval_survey_element_tabs();
 			}
 		}).sortable({
 			update: function( event, ui ) {
@@ -75,7 +75,7 @@
 		
 		
 		var surveyval_deletequestion = function(){
-			var surveyval_deletquestiondialog = $( '#delete_question_dialog' );
+			var surveyval_deletquestiondialog = $( '#delete_survey_element_dialog' );
 			var question_id;
 			var deleted_questions;
 			
@@ -115,7 +115,7 @@
 					
 		    });
 			
-			$( '.delete_question' ).click( function( event ){
+			$( '.delete_survey_element' ).click( function( event ){
 				question_id = $( this ).closest( '.question' ).attr('id');
 		        event.preventDefault();
 		        surveyval_deletquestiondialog.dialog( 'open' );
@@ -206,10 +206,10 @@
           	surveyval_deleteanswer();
 		});
 		
-		var surveyval_question_tabs = function(){
-			$( ".question_tabs" ).tabs({ active: 0 });
+		var surveyval_survey_element_tabs = function(){
+			$( ".survey_element_tabs" ).tabs({ active: 0 });
 		}
-		surveyval_question_tabs();
+		surveyval_survey_element_tabs();
 			
 		function surveyval_rand(){
 			var now = new Date();

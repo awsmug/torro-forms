@@ -9,7 +9,7 @@
 #surveyval-content .widget{
 	margin-bottom:10px;
 }
-#surveyval-questions-answers .widget-title-action{
+#survey-elements .widget-title-action{
 	display:none;
 }
 #drag-drop-area.widgets-holder-wrap{
@@ -47,18 +47,18 @@
 	font-weight: bold;
 	text-decoration: underline;
 }
-#delete_question_dialog,
+#delete_survey_element_dialog,
 #delete_answer_dialog{
 	display:none;
 }
-.question_tabs .tabs_underline{
+.survey_element_tabs .tabs_underline{
 	border-bottom: 1px solid #CCC;
 }
-.question_tabs .tabs li:first-child{
+.survey_element_tabs .tabs li:first-child{
 	border-radius:3px 0 0 0;
 	border-right:none;
 }	
-.question_tabs .tabs li{
+.survey_element_tabs .tabs li{
 	float:left;
 	margin: 0;
 	border: 1px solid #CCC;
@@ -68,14 +68,14 @@
 	padding:6px;
 	border-radius:3px;
 }
-.question_tabs .tabs li:last-child{
+.survey_element_tabs .tabs li:last-child{
 	border-radius:0 3px 0 0;
 	border-right: 1px solid #CCC;
 }
-.question_tabs .tabs li.ui-state-active{
+.survey_element_tabs .tabs li.ui-state-active{
 	font-weight:bold;
 }
-.question_tabs .tabs li a{
+.survey_element_tabs .tabs li a{
 	color:#222;
 	text-decoration: none;
 }

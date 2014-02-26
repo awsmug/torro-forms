@@ -11,7 +11,7 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_QuestionElement_Text extends SurveyVal_QuestionElement{
+class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'Text';
@@ -67,7 +67,7 @@ class SurveyVal_QuestionElement_Text extends SurveyVal_QuestionElement{
 		return TRUE;
 	}
 }
-sv_register_question_type( 'SurveyVal_QuestionElement_Text' );
+sv_register_survey_element( 'SurveyVal_SurveyElement_Text' );
 
 
 

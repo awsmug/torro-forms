@@ -95,7 +95,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					$survey = new SurveyVal_Survey( $post->ID );
 	
 					foreach( $survey->questions AS $question ):
-						echo  $this->get_widget_html( $question->question, $question->get_settings_html(), $question->icon, $question->id );
+						echo  $this->get_widget_html( empty( $question->question ) ? $question->title : $question->question , $question->get_settings_html(), $question->icon, $question->id );
 					endforeach;
 					
 					echo '<div class="drag-drop-inside">';
@@ -105,7 +105,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					echo '</div>';
 				echo '</div>';
 		echo '</div>';
-		echo '<div id="delete_question_dialog">' . __( 'Do you really want to delete this question?', 'surveyval-locale' ). '</div>';
+		echo '<div id="delete_survey_element_dialog">' . __( 'Do you really want to delete this question?', 'surveyval-locale' ). '</div>';
 		echo '<div id="delete_answer_dialog">' . __( 'Do you really want to delete this answer?', 'surveyval-locale' ). '</div>';
 		echo '<input type="hidden" id="deleted_questions" name="surveyval_deleted_questions" value="">';
 		echo '<input type="hidden" id="deleted_answers" name="surveyval_deleted_answers" value="">';
@@ -136,7 +136,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		return $html;
 	}
 
-	public function meta_box_questions_answers(){
+	public function meta_box_survey_elements(){
 		global $surveyval_global;
 		
 		foreach( $surveyval_global->question_types AS $question_type ):
@@ -151,9 +151,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		if( in_array( $post_type, $post_types )):
 			add_meta_box(
-	            'surveyval-questions-answers',
+	            'survey-elements',
 	            __( 'Elements', 'surveyval-locale' ),
-	            array( $this, 'meta_box_questions_answers' ),
+	            array( $this, 'meta_box_survey_elements' ),
 	            'surveyval',
 	            'side',
 	            'high'

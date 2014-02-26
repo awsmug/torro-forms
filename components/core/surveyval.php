@@ -64,11 +64,11 @@ class SurveyVal{
 		return TRUE;
 	}
 	
-	public function add_question_type( $slug, $object ){
+	public function add_survey_element( $slug, $object ){
 		if( '' == $slug )
 			return FALSE;
 		
-		if( !is_object( $object ) && 'SurveyVal_QuestionElement' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'SurveyVal_SurveyElement' != get_parent_class( $object ) )
 			return FALSE;
 		
 		$this->question_types[ $slug ] = $object;

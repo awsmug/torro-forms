@@ -41,7 +41,7 @@ class SurveyVal_Survey{
 		
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				$class = 'SurveyVal_QuestionElement_' . $result->type;
+				$class = 'SurveyVal_SurveyElement_' . $result->type;
 				$object = new $class( $result->id );
 				$questions[] = $object;
 			endforeach;
@@ -56,7 +56,7 @@ class SurveyVal_Survey{
 		if( !array_key_exists( $question_type, $surveyval_global->question_types ) )
 			return FALSE;
 		
-		$class = 'SurveyVal_QuestionElement_' . $question_type;
+		$class = 'SurveyVal_SurveyElement_' . $question_type;
 		
 		if( null == $question_id )
 			$object = new $class();
@@ -78,7 +78,7 @@ class SurveyVal_Survey{
 	}
 	
 	private function add_question_obj( $question_object, $order = null ){
-		if( !is_object( $question_object ) || 'SurveyVal_QuestionElement' != get_parent_class( $question_object ) )
+		if( !is_object( $question_object ) || 'SurveyVal_SurveyElement' != get_parent_class( $question_object ) )
 			return FALSE;
 		
 		if( null == $order )
@@ -168,9 +168,7 @@ class SurveyVal_Survey{
 					)
 				);
 			else:
-				if( '' == $question ) // Questions can't not be empty
-					continue;
-				
+
 				// Adding new question
 				$wpdb->insert(
 					$surveyval_global->tables->questions,

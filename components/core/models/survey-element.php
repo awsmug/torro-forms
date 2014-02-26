@@ -1,12 +1,13 @@
 <?php
 
-abstract class SurveyVal_QuestionElement{
+abstract class SurveyVal_SurveyElement{
 	var $id;
 	var $slug;
 	var $title;
 	var $description;
 	var $icon;
 	var $sort = 0;
+	var $is_question = TRUE;
 
 	var $survey_id;
 	
@@ -35,13 +36,15 @@ abstract class SurveyVal_QuestionElement{
 	var $initialized = FALSE;
 	
 	public function __construct( $id = null ){
-		if( null != $id && '' != $id )
+		if( null != $id && '' != $id && $this->is_question )
 			$this->populate( $id );
 		
 		$this->settings_fields();
 		
-		add_filter( 'surveyval_before_answer_' . $this->slug, array( $this, 'before_answer' ), 10, 3 );
-		add_filter( 'surveyval_after_answer_' . $this->slug, array( $this, 'after_answer' ), 10, 3 );
+		if( $this->is_question ):
+			add_filter( 'surveyval_before_answer_' . $this->slug, array( $this, 'before_answer' ), 10, 3 );
+			add_filter( 'surveyval_after_answer_' . $this->slug, array( $this, 'after_answer' ), 10, 3 );
+		endif;
 	}	
 	
 	public function _register() {
@@ -60,7 +63,7 @@ abstract class SurveyVal_QuestionElement{
 			$this->title = ucwords( get_class( $this ) );
 		
 		if( '' == $this->description )
-			$this->description =  __( 'This is a SurveyVal Question-Type.', 'surveyval-locale' );
+			$this->description =  __( 'This is a SurveyVal Survey Element.', 'surveyval-locale' );
 		
 		if( array_key_exists( $this->slug, $surveyval_global->question_types ) )
 			return FALSE;
@@ -70,7 +73,7 @@ abstract class SurveyVal_QuestionElement{
 		
 		$this->initialized = TRUE;
 		
-		return $surveyval_global->add_question_type( $this->slug, $this );
+		return $surveyval_global->add_survey_element( $this->slug, $this );
 	}
 	
 	private function populate( $id ){
@@ -145,10 +148,12 @@ abstract class SurveyVal_QuestionElement{
 		
 		$jquery_widget_id = str_replace( '#', '', $widget_id );
 		
-		$html ='<div class="question_tabs">';
+		$html ='<div class="survey_element_tabs">';
 		
 		$html.= '<ul class="tabs">';
-			$html.= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . __( 'Question', 'surveyval-locale' ) . '</a></li>';
+			if( $this->is_question )
+				$html.= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . __( 'Question', 'surveyval-locale' ) . '</a></li>';
+			
 			if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ):
 				$html.= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . __( 'Settings', 'surveyval-locale' ) . '</a></li>';
 			endif;
@@ -156,9 +161,11 @@ abstract class SurveyVal_QuestionElement{
 		
 		$html.= '<div class="clear tabs_underline"></div>';
 		
-		$html.= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';
-			$html.= $this->get_admin_question_tab_html( $widget_id, $new );
-		$html.= '</div>'; 
+		if( $this->is_question ):
+			$html.= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';
+				$html.= $this->get_admin_question_tab_html( $widget_id, $new );
+			$html.= '</div>'; 
+		endif;
 		
 		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ):
 			$html.= '<div id="tab_' . $jquery_widget_id . '_settings" class="tab_settings_content">';
@@ -166,6 +173,25 @@ abstract class SurveyVal_QuestionElement{
 			$html.= '</div>';
 		endif;
 		
+		$bottom_buttons = apply_filters( 'sv_element_bottom_actions', array(
+			'delete_survey_element' => array(
+				'text' => __( 'Delete element', 'surveyval-locale' ),
+				'classes' => 'delete_survey_element'
+			)
+		));
+		
+		$html.= '<ul class="survey-element-bottom">';
+		foreach( $bottom_buttons AS $button ):
+			$html.= '<li><a class="' . $button[ 'classes' ] . ' survey-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
+		endforeach;
+		$html.= '</ul>';
+		
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $this->id . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_is_multiple]" value="' . ( $this->preset_is_multiple ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_of_answers]" value="' . ( $this->preset_of_answers ? 'yes' : 'no' ) . '" />';
+	
 		$html.= '</div>'; 
 		
 		return $html;
@@ -173,12 +199,7 @@ abstract class SurveyVal_QuestionElement{
 
 	private function get_admin_question_tab_html( $widget_id, $new ){
 		$html = '<p><input type="text" name="surveyval[' . $widget_id . '][question]" value="' . $this->question . '" class="surveyval-question" /><p>';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $this->id . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_is_multiple]" value="' . ( $this->preset_is_multiple ? 'yes' : 'no' ) . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_of_answers]" value="' . ( $this->preset_of_answers ? 'yes' : 'no' ) . '" />';
-		
+	
 		$i = 0;
 		
 		if( $this->preset_of_answers ):
@@ -269,19 +290,6 @@ abstract class SurveyVal_QuestionElement{
 		
 		endif;
 		
-		$bottom_buttons = apply_filters( 'sv_question_bottom_actions', array(
-			'delete_question' => array(
-				'text' => __( 'Delete question', 'surveyval-locale' ),
-				'classes' => 'delete_question'
-			)
-		));
-		
-		$html.= '<ul class="question-bottom">';
-		foreach( $bottom_buttons AS $button ):
-			$html.= '<li><a class="' . $button[ 'classes' ] . ' question-bottom-action button">' . $button[ 'text' ] . '</a></li>';
-		endforeach;
-		$html.= '</ul>';
-		
 		$html.= '<div class="clear"></div>';
 		
 		return $html;
@@ -332,7 +340,7 @@ abstract class SurveyVal_QuestionElement{
 	}
 	
 	public function get_html(){
-		if( '' == $this->question )
+		if( '' == $this->question && $this->is_question )
 			return FALSE;
 		
 		if( 0 == count( $this->answers )  && $this->preset_of_answers == TRUE )
@@ -341,9 +349,9 @@ abstract class SurveyVal_QuestionElement{
 		$error_css = '';
 		
 		if( $this->error )
-			$error_css = ' question_error';
+			$error_css = ' survey-element-error';
 		
-		$html = '<div class="question question_' . $this->id . $error_css . '">';
+		$html = '<div class="survey-element survey-element-' . $this->id . $error_css . '">';
 		$html.= '<h5>' . $this->question . '</h5>';
 		
 		if( !$this->preset_of_answers ):
@@ -468,7 +476,7 @@ abstract class SurveyVal_QuestionElement{
  * @param string Name of the Question type class.
  * @return bool|null Returns false on failure, otherwise null.
  */
-function sv_register_question_type( $question_type_class = '' ) {
+function sv_register_survey_element( $question_type_class ) {
 	if ( ! class_exists( $question_type_class ) )
 		return false;
 	
