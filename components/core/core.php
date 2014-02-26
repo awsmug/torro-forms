@@ -130,6 +130,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey-element.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/text.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/textarea.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/onechoice.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/multiplechoice.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/range.php' );
