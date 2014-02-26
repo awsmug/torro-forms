@@ -142,9 +142,9 @@ abstract class SurveyVal_SurveyElement{
 	
 	public function get_settings_html( $new = FALSE ){
 		if( !$new )
-			$widget_id = 'widget_question_' . $this->id;
+			$widget_id = 'widget_surveyelement_' . $this->id;
 		else
-			$widget_id = 'widget_question_##nr##';
+			$widget_id = 'widget_surveyelement_##nr##';
 		
 		$jquery_widget_id = str_replace( '#', '', $widget_id );
 		

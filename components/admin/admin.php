@@ -105,17 +105,17 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					echo '</div>';
 				echo '</div>';
 		echo '</div>';
-		echo '<div id="delete_survey_element_dialog">' . __( 'Do you really want to delete this question?', 'surveyval-locale' ). '</div>';
+		echo '<div id="delete_surveyelement_dialog">' . __( 'Do you really want to delete this element?', 'surveyval-locale' ). '</div>';
 		echo '<div id="delete_answer_dialog">' . __( 'Do you really want to delete this answer?', 'surveyval-locale' ). '</div>';
-		echo '<input type="hidden" id="deleted_questions" name="surveyval_deleted_questions" value="">';
+		echo '<input type="hidden" id="deleted_surveyelements" name="surveyval_deleted_surveyelements" value="">';
 		echo '<input type="hidden" id="deleted_answers" name="surveyval_deleted_answers" value="">';
 	}
 
 	private function get_widget_html( $title, $content, $icon = '', $id = null, $new = FALSE ){
 		if( $id != null && '' != $id )
-			$id_name = ' id="widget_question_' . $id . '"';
+			$id_name = ' id="widget_surveyelement_' . $id . '"';
 		else
-			$id_name = ' id="widget_question_##nr##"';
+			$id_name = ' id="widget_surveyelement_##nr##"';
 		
 		$html = '<div class="widget question"' . $id_name . '>';
 			$html.= '<div class="widget-top surveyval-admin-qu-text">';

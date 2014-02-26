@@ -47,7 +47,7 @@
 	font-weight: bold;
 	text-decoration: underline;
 }
-#delete_survey_element_dialog,
+#delete_surveyelement_dialog,
 #delete_answer_dialog{
 	display:none;
 }

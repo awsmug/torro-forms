@@ -26,11 +26,11 @@
 				$( '<div class="drag-drop-inside">' + droppable_helper + '</div>' ).appendTo( this );
 				
 				// Adding sorting number
-				var input_name = 'input[name="surveyval\[widget_question_' + nr +'\]\[sort\]"]';
+				var input_name = 'input[name="surveyval\[widget_surveyelement_' + nr +'\]\[sort\]"]';
               	$( input_name ).val( i ) ;
               	
               	surveyval_answersortable();
-              	surveyval_deletequestion()
+              	surveyval_delete_surveyelement()
               	surveyval_deleteanswer();
               	surveyval_rewriteheadline();
               	surveyval_survey_element_tabs();
@@ -74,12 +74,12 @@
 		surveyval_answersortable();
 		
 		
-		var surveyval_deletequestion = function(){
-			var surveyval_deletquestiondialog = $( '#delete_survey_element_dialog' );
+		var surveyval_delete_surveyelement = function(){
+			var surveyval_delete_surveyelement_dialog = $( '#delete_surveyelement_dialog' );
 			var question_id;
-			var deleted_questions;
+			var deleted_surveyelements;
 			
-			surveyval_deletquestiondialog.dialog({                   
+			surveyval_delete_surveyelement_dialog.dialog({                   
 		        'dialogClass'   : 'wp-dialog',           
 		        'modal'         : true,
 		        'autoOpen'      : false, 
@@ -91,15 +91,15 @@
 								question_id = question_id.split( '_' );
 								question_id = question_id[2];
 								
-								deleted_questions = $( '#deleted_questions' ).val();
+								deleted_surveyelements = $( '#deleted_surveyelements' ).val();
 								
-								if( '' == deleted_questions )
-									deleted_questions += question_id;
+								if( '' == deleted_surveyelements )
+									deleted_surveyelements += question_id;
 								else
-									deleted_questions += ',' + question_id;
+									deleted_surveyelements += ',' + question_id;
 									
-								$( '#deleted_questions' ).val( deleted_questions );
-								$( '#widget_question_' + question_id ).remove();
+								$( '#deleted_surveyelements' ).val( deleted_surveyelements );
+								$( '#widget_surveyelement_' + question_id ).remove();
 								
 				                $( this ).dialog('close');
 							}
@@ -118,10 +118,10 @@
 			$( '.delete_survey_element' ).click( function( event ){
 				question_id = $( this ).closest( '.question' ).attr('id');
 		        event.preventDefault();
-		        surveyval_deletquestiondialog.dialog( 'open' );
+		        surveyval_delete_surveyelement_dialog.dialog( 'open' );
 			});
 		}
-		surveyval_deletequestion();
+		surveyval_delete_surveyelement();
 		
 		var surveyval_deleteanswer = function(){
 			var surveyval_deletanswerdialog = $( '#delete_answer_dialog' );
