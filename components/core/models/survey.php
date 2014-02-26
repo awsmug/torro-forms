@@ -100,7 +100,7 @@ class SurveyVal_Survey{
 		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
 		
-		mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
+		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
 		
 		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
 		
@@ -395,7 +395,7 @@ class SurveyVal_Survey{
 			
 		else:
 			$this->response_errors[] = array(
-				'message' => __( 'There are now questions to save in survey', 'surveyval-locale' ),
+				'message' => __( 'There are no questions to save in survey', 'surveyval-locale' ),
 				'question_id' =>  0
 			);
 			$answer_error = TRUE;
