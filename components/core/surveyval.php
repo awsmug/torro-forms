@@ -34,7 +34,7 @@ global $surveyval_global;
 class SurveyVal{
 	var $tables;
 	var $components = array();
-	var $question_types = array();
+	var $element_types = array();
 	
 	public function __construct(){
 		$this->tables();
@@ -71,7 +71,7 @@ class SurveyVal{
 		if( !is_object( $object ) && 'SurveyVal_SurveyElement' != get_parent_class( $object ) )
 			return FALSE;
 		
-		$this->question_types[ $slug ] = $object;
+		$this->element_types[ $slug ] = $object;
 		
 		return TRUE;
 	}

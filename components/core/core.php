@@ -44,23 +44,10 @@ class SurveyVal_Core extends SurveyVal_Component{
 		$this->slug = 'survey';
 		
 		add_action( 'init', array( $this, 'custom_post_types' ), 11 );
-		add_filter( 'the_content', array( $this, 'the_content' ) );
 		
 		parent::__construct();
 		
 	} // end constructor
-	
-	public function the_content( $content ){
-		global $post, $surveyval_global;
-		
-		if( 'surveyval' != $post->post_type )
-			return $content;
-		
-		$survey = new SurveyVal_Survey( $post->ID );
-		$content = $survey->get_survey_html();
-		
-		return $content;
-	}
 	
 	/**
 	 * Creates Custom Post Types for surveys
@@ -127,6 +114,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 	public function includes(){
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/surveyval.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/shortcodes.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/process-form.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey-element.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/text.php' );
@@ -136,8 +124,8 @@ class SurveyVal_Core extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/range.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/range-emotional.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/separator.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/splitter.php' );
 	}
 	
 }
-
 $SurveyVal_Core = new SurveyVal_Core();

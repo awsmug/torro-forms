@@ -8,6 +8,7 @@ abstract class SurveyVal_SurveyElement{
 	var $icon;
 	var $sort = 0;
 	var $is_question = TRUE;
+	var $splitter = FALSE;
 
 	var $survey_id;
 	
@@ -65,11 +66,11 @@ abstract class SurveyVal_SurveyElement{
 		if( '' == $this->description )
 			$this->description =  __( 'This is a SurveyVal Survey Element.', 'surveyval-locale' );
 		
-		if( array_key_exists( $this->slug, $surveyval_global->question_types ) )
+		if( array_key_exists( $this->slug, $surveyval_global->element_types ) )
 			return FALSE;
 		
-		if( !is_array( $surveyval_global->question_types ) )
-			$surveyval_global->question_types = array();
+		if( !is_array( $surveyval_global->element_types ) )
+			$surveyval_global->element_types = array();
 		
 		$this->initialized = TRUE;
 		
@@ -473,17 +474,17 @@ abstract class SurveyVal_SurveyElement{
 /**
  * Register a new Group Extension.
  *
- * @param string Name of the Question type class.
+ * @param string Name of the element type class.
  * @return bool|null Returns false on failure, otherwise null.
  */
-function sv_register_survey_element( $question_type_class ) {
-	if ( ! class_exists( $question_type_class ) )
+function sv_register_survey_element( $element_type_class ) {
+	if ( ! class_exists( $element_type_class ) )
 		return false;
 	
 	// Register the group extension on the bp_init action so we have access
 	// to all plugins.
 	add_action( 'init', create_function( '', '
-		$extension = new ' . $question_type_class . ';
+		$extension = new ' . $element_type_class . ';
 		add_action( "init", array( &$extension, "_register" ), 2 );
 	' ), 1 );
 }

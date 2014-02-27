@@ -49,8 +49,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
 			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
-			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
-			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 		endif;
 	} // end constructor
 	
@@ -60,6 +58,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	 */	
 	public function admin_menu(){
 		add_menu_page( __( 'SurveyVal', 'surveyval-locale' ), __( 'SurveyVal', 'surveyval-locale' ), $this->capability, 'Component' . $this->name , array( $this, 'settings_page' ), '', 50 );
+		add_submenu_page( 'Component' . $this->name, __( 'Add Survey', 'surveyval-locale' ), __( 'Add Survey', 'surveyval-locale' ), $this->capability, 'post-new.php?post_type=surveyval' );
 		add_submenu_page( 'Component' . $this->name, __( 'Categories', 'surveyval-locale' ), __( 'Categories', 'surveyval-locale' ), $this->capability, 'edit-tags.php?taxonomy=surveyval-categories' );
 		add_submenu_page( 'Component' . $this->name, __( 'Settings', 'surveyval-locale' ), __( 'Settings', 'surveyval-locale' ), $this->capability, 'Component' . $this->name, array( $this, 'settings_page' ) );
 	}
@@ -94,13 +93,13 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					
 					$survey = new SurveyVal_Survey( $post->ID );
 	
-					foreach( $survey->questions AS $question ):
-						echo  $this->get_widget_html( empty( $question->question ) ? $question->title : $question->question , $question->get_settings_html(), $question->icon, $question->id );
+					foreach( $survey->elements AS $element ):
+						echo  $this->get_widget_html( empty( $element->question ) ? $element->title : $element->question , $element->get_settings_html(), $element->icon, $element->id );
 					endforeach;
 					
 					echo '<div class="drag-drop-inside">';
 						echo '<p class="drag-drop-info">';
-							echo __( 'Drop your Question/Answer here.', 'surveyval-locale' );
+							echo __( 'Drop your Element here.', 'surveyval-locale' );
 						echo '</p>';
 					echo '</div>';
 				echo '</div>';
@@ -139,9 +138,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	public function meta_box_survey_elements(){
 		global $surveyval_global;
 		
-		foreach( $surveyval_global->question_types AS $question_type ):
+		foreach( $surveyval_global->element_types AS $element_type ):
 			echo '<div class="surveyval-draggable">';
-			echo $this->get_widget_html( $question_type->title, $question_type->get_settings_html( TRUE ), $question_type->icon );
+			echo $this->get_widget_html( $element_type->title, $element_type->get_settings_html( TRUE ), $element_type->icon );
 			echo '</div>';
 		endforeach;
 	}
@@ -161,44 +160,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		endif;
 	}
 
-	public function save_survey( $post_id ){
-		if ( wp_is_post_revision( $post_id ) )
-			return;
-		
-		if( !array_key_exists( 'post_type', $_POST ) )
-			return;
-		
-		if ( 'surveyval' != $_POST['post_type'] )
-			return;
-		
-		sv_save_by_postdata( $post_id );
-		
-		// Preventing dublicate saving
-		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
-	}
-	
-	public function delete_survey( $post_id ){
-		global $wpdb, $surveyval_global;
-		
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->questions} WHERE surveyval_id=%d", $post_id );
-		
-		$questions = $wpdb->get_col( $sql );
-		
-		$wpdb->delete( 
-			$surveyval_global->tables->questions, 
-			array( 'surveyval_id' => $post_id ) 
-		);
-		
-		if( is_array( $questions ) && count( $questions ) > 0 ):
-			foreach( $questions AS $question ):
-				$wpdb->delete( 
-					$surveyval_global->tables->answers,
-					array( 'question_id' => $question ) 
-				);
-			endforeach;
-		endif;
-	}
-	
 	private function is_surveyval_post_type(){
 		global $post;
 		
