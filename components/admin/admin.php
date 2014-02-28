@@ -250,8 +250,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					
 					$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
 					$html.= call_user_func_array( 'sprintf', $param_arr );
-					$html.= ' <input type="button" value="' . __( 'Delete', 's
-					urveyval-locale' ) . '" class="delete_answer button answer_action">';
+					$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
 					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
 					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
 					$html.= '</div>';

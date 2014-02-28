@@ -219,7 +219,7 @@ class SurveyVal_ProcessResponse{
 			 */
 			$param_arr = array();
 			$param_arr[] = $element->answer_syntax;
-				
+			
 			foreach( $element->answer_params AS $param ):
 				switch( $param ){
 					case 'name':
@@ -247,13 +247,14 @@ class SurveyVal_ProcessResponse{
 			/*
 			 * With preset of answers
 			 */
+			 
 			foreach( $element->answers AS $answer ):
 				$param_arr = array();
 				
 				// Is answer selected choose right syntax
 				if( $element->answer_is_multiple ):
 					
-					if( is_array( $element->response ) && in_array( $answer['text'], $element->response ) ):
+					if( is_array( $response[ $element->id ] ) && in_array( $answer['text'], $response[ $element->id ] ) ):
 						$param_arr[] = $element->answer_selected_syntax;
 					else:
 						$param_arr[] = $element->answer_syntax;
@@ -261,7 +262,7 @@ class SurveyVal_ProcessResponse{
 					
 				else:
 					
-					if( $element->response == $answer['text'] && !empty( $element->answer_selected_syntax ) ):
+					if( $response[ $element->id ] == $answer['text'] && !empty( $element->answer_selected_syntax ) ):
 						$param_arr[] = $element->answer_selected_syntax;
 					else:
 						$param_arr[] = $element->answer_syntax;
@@ -282,11 +283,11 @@ class SurveyVal_ProcessResponse{
 							break;
 							
 						case 'value':
-							$param_value = $answer;
+							$param_value = $answer['text'];
 							break;
 							
 						case 'answer';
-							$param_value = $answer;
+							$param_value = $answer['text'];
 							break;
 					}
 					$param_arr[] = $param_value;			

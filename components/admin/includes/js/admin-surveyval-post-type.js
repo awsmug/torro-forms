@@ -188,7 +188,7 @@
 			var preset_is_multiple = $( input_name ).val();
 			
 			var multiple_class = '';
-			if( preset_is_multiple ) multiple_class = ' multiple_preset';
+			if( preset_is_multiple ) multiple_class = ' preset_is_multiple';
 			
 			var answer_content = '<div class="answer' + multiple_class + '" id="answer_##nr##"><p><input type="text" name="surveyval[' + element_id + '][answers][id_##nr##][answer]" /></p><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][sort]" /> <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
 			
