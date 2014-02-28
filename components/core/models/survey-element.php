@@ -156,6 +156,10 @@ abstract class SurveyVal_SurveyElement{
 		return TRUE;
 	}
 	
+	public function get_element(){
+		return FALSE;
+	}
+	
 	private function reset(){
 		$this->question = '';
 		$this->answers = array();

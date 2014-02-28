@@ -34,7 +34,7 @@ class SurveyVal_SurveyElement_Separator extends SurveyVal_SurveyElement{
 		);
 	}
 	
-	public function get_html(){
+	public function get_element(){
 		$html = '<div class="survey-element survey-element-' . $this->id . '">';
 		
 		if( !empty( $this->settings['header'] ) )
