@@ -54,6 +54,10 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	public function get_survey( $survey_id ){
+		global $surveyval_survey_id;
+		
+		$surveyval_survey_id = $survey_id;
+		
 		if( $this->has_participated( $survey_id ) ):
 			return $this->text_already_participated();
 		endif;
@@ -98,6 +102,17 @@ class SurveyVal_ProcessResponse{
 	}
 
 	public function get_element( $element ){
+		global $surveyval_survey_id;
+		
+		if( !empty( $surveyval_survey_id ) ):
+			if( isset( $_COOKIE[ 'surveyval_responses' ] ) ):
+				$surveyval_responses = $_COOKIE[ 'surveyval_responses' ];
+				$surveyval_responses = unserialize( stripslashes( $surveyval_responses ) );
+				$response = $surveyval_responses[ $surveyval_survey_id ];
+				$answer = $response[ $element->id ];
+			endif;				
+		endif;
+		
 		if( '' == $element->question && $element->is_question )
 			return FALSE;
 		
@@ -126,11 +141,11 @@ class SurveyVal_ProcessResponse{
 						break;
 						
 					case 'value':
-						$param_value = $element->response;
+						$param_value = $answer;
 						break;
 						
 					case 'answer';
-						$param_value = $answer['text'];
+						$param_value = $answer;
 						break;
 				}
 				$param_arr[] = $param_value;			
@@ -181,11 +196,11 @@ class SurveyVal_ProcessResponse{
 							break;
 							
 						case 'value':
-							$param_value = $answer['text'];
+							$param_value = $answer;
 							break;
 							
 						case 'answer';
-							$param_value = $answer['text'];
+							$param_value = $answer;
 							break;
 					}
 					$param_arr[] = $param_value;			
