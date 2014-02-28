@@ -32,6 +32,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class SurveyVal_ProcessResponse{
 	var $response_errors = array();
+	var $finished = FALSE;
 	
 	/**
 	 * Initializes the Component.
@@ -42,6 +43,8 @@ class SurveyVal_ProcessResponse{
 			add_filter( 'the_content', array( $this, 'the_content' ) );
 			add_action( 'init', array( $this, 'save_response_cookies' ) );
 		endif;
+		
+		
 	} // end constructor
 	
 	public function the_content( $content ){
@@ -59,6 +62,10 @@ class SurveyVal_ProcessResponse{
 		global $surveyval_survey_id;
 		
 		$surveyval_survey_id = $survey_id;
+		
+		if( $this->finished ):
+			return $this->text_thankyou_for_participation();
+		endif;
 		
 		if( $this->has_participated( $survey_id ) ):
 			return $this->text_already_participated();
@@ -78,6 +85,9 @@ class SurveyVal_ProcessResponse{
 		if( array_key_exists( 'surveyval_submission_back', $_POST ) ):
 			$next_step = $_POST[ 'surveyval_actual_step' ] - 1;
 		endif;
+		
+		if( empty( $next_step ) )
+			$next_step = 0;
 		
 		$actual_step = $next_step;
 		
@@ -121,7 +131,7 @@ class SurveyVal_ProcessResponse{
 		endif;
 		
 		if( 0 < $actual_step ):
-			$html.= '<input type="submit" name="surveyval_submission_back" value="' . __( 'Back', 'surveyval-locale' ) . '"> ';
+			$html.= '<input type="submit" name="surveyval_submission_back" value="' . __( 'Previous Step', 'surveyval-locale' ) . '"> ';
 		endif;
 		
 		if( $actual_step == $next_step ):
@@ -300,6 +310,7 @@ class SurveyVal_ProcessResponse{
 
 	public function save_response_cookies(){
 		$response = array();
+		$this->finished = FALSE;
 		
 		if( !array_key_exists( 'surveyval_response', $_POST ) ):
 			return;
@@ -329,6 +340,16 @@ class SurveyVal_ProcessResponse{
 		
 		setcookie( 'surveyval_responses', $surveyval_responses, time() + 1200 ); // Save cookie for six hours
 		$_COOKIE[ 'surveyval_responses' ] = $surveyval_responses;
+		
+		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $this->response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
+			$response = unserialize( stripslashes( $_COOKIE['surveyval_responses'] ) );
+			if( $this->save_response( $survey_id, $response[ $survey_id ] ) ):
+				// Unsetting cookie, because not needed anymore
+				unset( $_COOKIE['surveyval_responses'] );
+				setcookie( 'surveyval_responses', null, -1, '/' );
+				$this->finished = TRUE;
+			endif;
+		endif;
 	}
 	
 	public function validate_response( $survey_id = NULL, $responses = NULL ){
@@ -370,43 +391,7 @@ class SurveyVal_ProcessResponse{
 					endforeach;
 					$answer_error = TRUE;
 				endif;
-				
-				
-				/*
-				// Checking if question have been answered
-				if( !array_key_exists( $element->id, $response ) ):
-					$this->response_errors[] = array(
-						'message' => sprintf( __( 'You missed to answer question "%s"!', 'surveyval-locale' ), $element->question ),
-						'question_id' =>  $question->id
-					);
-					$this->elements[ $key ]->error = TRUE;
-					$answer_error = TRUE;
-				endif;
-				
-				$answer = '';
-				
-				if( array_key_exists( $element->id, $response ) )
-					$answer = $response[ $element->id ];
-				
-				// Taking response
-				$this->elements[ $key ]->response = $answer;
-				
-				// Validating answer with custom validation
-				if( !$element->validate( $answer ) ):
-					
-					// Gettign every error of question back
-					foreach( $question->validate_errors AS $error ):
-						$this->response_errors[] = array(
-							'message' => $error,
-							'question_id' =>  $question->id
-						);
-					endforeach;
-					
-					$this->elements[ $key ]->error = TRUE;
-					$answer_error = TRUE;
-					
-				endif;
-				*/
+
 			endforeach;
 			
 		else:
@@ -416,6 +401,8 @@ class SurveyVal_ProcessResponse{
 			);
 			$answer_error = TRUE;
 		endif;
+		
+		return TRUE;
 	}
 
 	private function get_survey_element_by_id( $survey, $element_id ){
@@ -428,70 +415,55 @@ class SurveyVal_ProcessResponse{
 		return FALSE;
 	}
 	
-	public function save_response( $survey_id ){
+	public function save_response( $survey_id, $response ){
 		global $wpdb, $surveyval_global, $current_user;
 		
-		$response = $_POST['surveyval_response'];
-		$this->response_errors = array();
-		$answer_error = FALSE;
+		get_currentuserinfo();
+		$user_id = $user_id = $current_user->ID;
 		
-		if( $this->has_participated( $survey_id ) ):
-			$this->response_errors[] = array(
-				'message' => sprintf( __( 'You already have participated this poll!', 'surveyval-locale' ), $question->question )
-			);
-			$answer_error = TRUE;
-		endif;
+		// Adding new question
+		$wpdb->insert(
+			$surveyval_global->tables->responds,
+			array(
+				'surveyval_id' => $survey_id,
+				'user_id' => $user_id,
+				'timestamp' => time()  )
+		);
 		
-		// Saving answers if no error occured
-		if( !$answer_error ):
+		$respond_id = $wpdb->insert_id;
+		
+		foreach( $response AS $element_id => $answers ):
 			
-			get_currentuserinfo();
-			$user_id = $user_id = $current_user->ID;
-			
-			// Adding new question
-			$wpdb->insert(
-				$surveyval_global->tables->responds,
-				array(
-					'surveyval_id' => $this->id,
-					'user_id' => $user_id,
-					'timestamp' => time()  )
-			);
-			
-			$respond_id = $wpdb->insert_id;
-			
-			foreach( $response AS $question_id => $answers ):
+			if( is_array( $answers ) ):
 				
-				if( is_array( $answers ) ):
-					
-					foreach( $answers AS $answer ):
-						$wpdb->insert(
-							$surveyval_global->tables->respond_answers,
-							array(
-								'respond_id' => $respond_id,
-								'question_id' => $question_id,
-								'value' => $answer
-							)
-						);
-					endforeach;
-					
-				else:
-					
+				foreach( $answers AS $answer ):
 					$wpdb->insert(
 						$surveyval_global->tables->respond_answers,
 						array(
 							'respond_id' => $respond_id,
-							'question_id' => $question_id,
+							'question_id' => $element_id,
 							'value' => $answer
 						)
 					);
-					
-				endif;
-			endforeach;
+				endforeach;
 				
-		endif;
+			else:
+				$answer = $answers;
+				
+				$wpdb->insert(
+					$surveyval_global->tables->respond_answers,
+					array(
+						'respond_id' => $respond_id,
+						'question_id' => $element_id,
+						'value' => $answer
+					)
+				);
+				
+			endif;
+		endforeach;
+		
+		return TRUE;
 	}
-
-	
 
 	public function has_participated( $surveyval_id, $user_id = NULL ){
 		global $wpdb, $current_user, $surveyval_global;
