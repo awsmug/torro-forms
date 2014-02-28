@@ -39,9 +39,6 @@ class SurveyVal_ProcessResponse{
 		if( !is_admin() ):
 			add_filter( 'the_content', array( $this, 'the_content' ) );
 			add_action( 'init', array( $this, 'save_response_cookies' ) );
-		else:
-			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
-			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 		endif;
 	} // end constructor
 	
@@ -80,9 +77,9 @@ class SurveyVal_ProcessResponse{
 		endif;
 
 		if( is_array( $survey->elements ) && count( $survey->elements ) > 0 ):
-			foreach( $survey->elements AS $question ):
-				if( !$question->splitter ):
-					$html.= $question->get_html();
+			foreach( $survey->elements AS $element ):
+				if( !$element->splitter ):
+					$html.= $this->get_element( $element );
 				else:
 					break;
 				endif;
@@ -96,6 +93,116 @@ class SurveyVal_ProcessResponse{
 		$html.= '<input type="hidden" name="surveyval_id" value="' . $survey_id . '" />';
 		
 		$html.= '</form>';
+		
+		return $html;
+	}
+
+	public function get_element( $element ){
+		if( '' == $element->question && $element->is_question )
+			return FALSE;
+		
+		if( 0 == count( $element->answers )  && $element->preset_of_answers == TRUE )
+			return FALSE;
+		
+		$error_css = '';
+		
+		if( $this->error )
+			$error_css = ' survey-element-error';
+		
+		$html = '<div class="survey-element survey-element-' . $element->id . $error_css . '">';
+		$html.= '<h5>' . $element->question . '</h5>';
+		
+		if( !$element->preset_of_answers ):
+			/*
+			 * On simple input
+			 */
+			$param_arr = array();
+			$param_arr[] = $element->answer_syntax;
+				
+			foreach( $element->answer_params AS $param ):
+				switch( $param ){
+					case 'name':
+						$param_value = 'surveyval_response[' . $element->id . ']';
+						break;
+						
+					case 'value':
+						$param_value = $element->response;
+						break;
+						
+					case 'answer';
+						$param_value = $answer['text'];
+						break;
+				}
+				$param_arr[] = $param_value;			
+			endforeach;
+			
+			$html.= '<div class="answer">';
+			$html = apply_filters( 'surveyval_before_answer_' . $element->slug, $html, $element->slug, $element->id );
+			$html.= call_user_func_array( 'sprintf', $param_arr );
+			$html = apply_filters( 'surveyval_after_answer_' . $element->slug, $html, $element->slug, $element->id );
+			$html.= '</div>';
+			
+		else:
+			/*
+			 * With preset of answers
+			 */
+			foreach( $element->answers AS $answer ):
+				$param_arr = array();
+				
+				// Is answer selected choose right syntax
+				if( $element->answer_is_multiple ):
+					
+					if( is_array( $element->response ) && in_array( $answer['text'], $element->response ) ):
+						$param_arr[] = $element->answer_selected_syntax;
+					else:
+						$param_arr[] = $element->answer_syntax;
+					endif;
+					
+				else:
+					
+					if( $element->response == $answer['text'] && !empty( $element->answer_selected_syntax ) ):
+						$param_arr[] = $element->answer_selected_syntax;
+					else:
+						$param_arr[] = $element->answer_syntax;
+					endif;
+					
+				endif;
+				
+				// Running every parameter for later calling
+				foreach( $element->answer_params AS $param ):
+					switch( $param ){
+						
+						case 'name':
+							if( $element->answer_is_multiple )
+								$param_value = 'surveyval_response[' . $element->id . '][]';
+							else
+								$param_value = 'surveyval_response[' . $element->id . ']';
+								
+							break;
+							
+						case 'value':
+							$param_value = $answer['text'];
+							break;
+							
+						case 'answer';
+							$param_value = $answer['text'];
+							break;
+					}
+					$param_arr[] = $param_value;			
+				endforeach;
+				
+				$html.= '<div class="answer">';
+				$html = apply_filters( 'surveyval_before_answer', $html, $element->slug, $element->id );
+				$html.= call_user_func_array( 'sprintf', $param_arr );
+				$html = apply_filters( 'surveyval_after_answer', $html, $element->slug, $element->id );
+				$html.= '</div>';
+					
+				// $html.= '<pre>' . print_r( $answer, TRUE ) . '</pre>';
+				// $html.= sprintf( $this->answer_syntax, $answer, $this->slug );
+			endforeach;
+		endif;
+		
+		$html.= '</div>';
 		
 		return $html;
 	}
@@ -244,207 +351,7 @@ class SurveyVal_ProcessResponse{
 		endif;
 	}
 
-	public function save_survey( $post_id ){
-		if ( wp_is_post_revision( $post_id ) )
-			return;
-		
-		if( !array_key_exists( 'post_type', $_POST ) )
-			return;
-		
-		if ( 'surveyval' != $_POST['post_type'] )
-			return;
-		
-		$this->save_survey_postdata( $post_id );
-		
-		// Preventing dublicate saving
-		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
-	}
-
-	public function save_survey_postdata( $post_id ){
-		global $surveyval_global, $wpdb;
-		
-		$survey_elements = $_POST['surveyval'];
-		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
-		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
-		
-		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
-		
-		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
-		
-		/*
-		 * Deleting deleted answers
-		 */
-		if( is_array( $survey_deleted_surveyelements ) && count( $survey_deleted_surveyelements ) > 0 ):
-			foreach( $survey_deleted_surveyelements AS $deleted_question ):
-				$wpdb->delete( 
-					$surveyval_global->tables->questions, 
-					array( 'id' => $deleted_question ) 
-				);
-				$wpdb->delete( 
-					$surveyval_global->tables->answers, 
-					array( 'question_id' => $deleted_question ) 
-				);
-			endforeach;
-		endif;
-		
-		$survey_deleted_answers = explode( ',', $survey_deleted_answers );
-		
-		/*
-		 * Deleting deleted answers
-		 */
-		if( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
-			foreach( $survey_deleted_answers AS $deleted_answer ):
-				$wpdb->delete( 
-					$surveyval_global->tables->answers, 
-					array( 'id' => $deleted_answer ) 
-				);
-			endforeach;
-		endif;
-		
-		/*
-		 * Saving elements
-		 */
-		foreach( $survey_elements AS $key => $survey_question ):
-			if( 'widget_surveyelement_##nr##' == $key )
-				continue;
-			
-			$question_id = $survey_question['id'];
-			$question = $survey_question['question'];
-			$sort = $survey_question['sort'];
-			$type = $survey_question['type'];
-			$answers = array();
-			$settings = array();
-			
-			$new_question = FALSE;
-			
-			if( array_key_exists( 'answers', $survey_question ) )
-				$answers = $survey_question['answers'];
-			
-			if( array_key_exists( 'settings', $survey_question ) )
-				$settings = $survey_question['settings'];
-			
-			// Saving question
-			if( '' != $question_id ):
-				// Updating if question already exists
-				$wpdb->update(
-					$surveyval_global->tables->questions,
-					array(
-						'question' => $question,
-						'sort' => $sort,
-						'type' => $type
-					),
-					array(
-						'id' => $question_id
-					)
-				);
-			else:
-
-				// Adding new question
-				$wpdb->insert(
-					$surveyval_global->tables->questions,
-					array(
-						'surveyval_id' => $post_id,
-						'question' => $question,
-						'sort' => $sort,
-						'type' => $type  )
-				);
-				
-				$new_question = TRUE;
-				$question_id = $wpdb->insert_id;
-			endif;
-			
-			/*
-			 * Saving answers
-			 */
-			if( is_array( $answers )  && count( $answers ) >  0 ):
-				foreach( $answers AS $answer ):
-					$answer_id = $answer['id'];
-					$answer_text = $answer['answer'];
-					$answer_sort = $answer['sort'];
-					
-					if( '' != $answer_id ):
-						$wpdb->update(
-							$surveyval_global->tables->answers,
-							array( 
-								'answer' => $answer_text,
-								'sort' => $answer_sort
-							),
-							array(
-								'id' => $answer_id
-							)
-						);
-					else:
-						$wpdb->insert(
-							$surveyval_global->tables->answers,
-							array(
-								'question_id' => $question_id,
-								'answer' => $answer_text,
-								'sort' => $answer_sort
-							)
-						);
-					endif;
-				endforeach;
-			endif;
-			
-			/*
-			 * Saving answers
-			 */
-			if( is_array( $settings )  && count( $settings ) >  0 ):
-				foreach( $settings AS $name => $setting ):
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
-					$count = $wpdb->get_var( $sql );
-					
-					if( $count > 0 ):
-						$wpdb->update(
-							$surveyval_global->tables->settings,
-							array( 
-								'value' => $settings[ $name ]
-							),
-							array(
-								'question_id' => $question_id,
-								'name' => $name
-							)
-						);
-					else:
-						$wpdb->insert(
-							$surveyval_global->tables->settings,
-							array(
-								'name' => $name,
-								'question_id' => $question_id,
-								'value' => $settings[ $name ]
-							)
-						);
-						
-					endif;
-				endforeach;
-			endif;
-
-		endforeach;
-		
-		return TRUE;
-	}
-
-	public function delete_survey( $post_id ){
-		global $wpdb, $surveyval_global;
-		
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->questions} WHERE surveyval_id=%d", $post_id );
-		
-		$elements = $wpdb->get_col( $sql );
-		
-		$wpdb->delete( 
-			$surveyval_global->tables->questions, 
-			array( 'surveyval_id' => $post_id ) 
-		);
-		
-		if( is_array( $elements ) && count( $elements ) > 0 ):
-			foreach( $elements AS $question ):
-				$wpdb->delete( 
-					$surveyval_global->tables->answers,
-					array( 'question_id' => $question ) 
-				);
-			endforeach;
-		endif;
-	}
+	
 
 	public function has_participated( $surveyval_id, $user_id = NULL ){
 		global $wpdb, $current_user, $surveyval_global;

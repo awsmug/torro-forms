@@ -49,6 +49,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
 			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
+			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
+			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 		endif;
 	} // end constructor
 	
@@ -373,6 +375,208 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	            'side',
 	            'high'
 	        );
+		endif;
+	}
+	
+	public function save_survey( $post_id ){
+		if ( wp_is_post_revision( $post_id ) )
+			return;
+		
+		if( !array_key_exists( 'post_type', $_POST ) )
+			return;
+		
+		if ( 'surveyval' != $_POST['post_type'] )
+			return;
+		
+		$this->save_survey_postdata( $post_id );
+		
+		// Preventing dublicate saving
+		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
+	}
+
+	public function save_survey_postdata( $post_id ){
+		global $surveyval_global, $wpdb;
+		
+		$survey_elements = $_POST['surveyval'];
+		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
+		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
+		
+		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
+		
+		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
+		
+		/*
+		 * Deleting deleted answers
+		 */
+		if( is_array( $survey_deleted_surveyelements ) && count( $survey_deleted_surveyelements ) > 0 ):
+			foreach( $survey_deleted_surveyelements AS $deleted_question ):
+				$wpdb->delete( 
+					$surveyval_global->tables->questions, 
+					array( 'id' => $deleted_question ) 
+				);
+				$wpdb->delete( 
+					$surveyval_global->tables->answers, 
+					array( 'question_id' => $deleted_question ) 
+				);
+			endforeach;
+		endif;
+		
+		$survey_deleted_answers = explode( ',', $survey_deleted_answers );
+		
+		/*
+		 * Deleting deleted answers
+		 */
+		if( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
+			foreach( $survey_deleted_answers AS $deleted_answer ):
+				$wpdb->delete( 
+					$surveyval_global->tables->answers, 
+					array( 'id' => $deleted_answer ) 
+				);
+			endforeach;
+		endif;
+		
+		/*
+		 * Saving elements
+		 */
+		foreach( $survey_elements AS $key => $survey_question ):
+			if( 'widget_surveyelement_##nr##' == $key )
+				continue;
+			
+			$question_id = $survey_question['id'];
+			$question = $survey_question['question'];
+			$sort = $survey_question['sort'];
+			$type = $survey_question['type'];
+			$answers = array();
+			$settings = array();
+			
+			$new_question = FALSE;
+			
+			if( array_key_exists( 'answers', $survey_question ) )
+				$answers = $survey_question['answers'];
+			
+			if( array_key_exists( 'settings', $survey_question ) )
+				$settings = $survey_question['settings'];
+			
+			// Saving question
+			if( '' != $question_id ):
+				// Updating if question already exists
+				$wpdb->update(
+					$surveyval_global->tables->questions,
+					array(
+						'question' => $question,
+						'sort' => $sort,
+						'type' => $type
+					),
+					array(
+						'id' => $question_id
+					)
+				);
+			else:
+
+				// Adding new question
+				$wpdb->insert(
+					$surveyval_global->tables->questions,
+					array(
+						'surveyval_id' => $post_id,
+						'question' => $question,
+						'sort' => $sort,
+						'type' => $type  )
+				);
+				
+				$new_question = TRUE;
+				$question_id = $wpdb->insert_id;
+			endif;
+			
+			/*
+			 * Saving answers
+			 */
+			if( is_array( $answers )  && count( $answers ) >  0 ):
+				foreach( $answers AS $answer ):
+					$answer_id = $answer['id'];
+					$answer_text = $answer['answer'];
+					$answer_sort = $answer['sort'];
+					
+					if( '' != $answer_id ):
+						$wpdb->update(
+							$surveyval_global->tables->answers,
+							array( 
+								'answer' => $answer_text,
+								'sort' => $answer_sort
+							),
+							array(
+								'id' => $answer_id
+							)
+						);
+					else:
+						$wpdb->insert(
+							$surveyval_global->tables->answers,
+							array(
+								'question_id' => $question_id,
+								'answer' => $answer_text,
+								'sort' => $answer_sort
+							)
+						);
+					endif;
+				endforeach;
+			endif;
+			
+			/*
+			 * Saving answers
+			 */
+			if( is_array( $settings )  && count( $settings ) >  0 ):
+				foreach( $settings AS $name => $setting ):
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
+					$count = $wpdb->get_var( $sql );
+					
+					if( $count > 0 ):
+						$wpdb->update(
+							$surveyval_global->tables->settings,
+							array( 
+								'value' => $settings[ $name ]
+							),
+							array(
+								'question_id' => $question_id,
+								'name' => $name
+							)
+						);
+					else:
+						$wpdb->insert(
+							$surveyval_global->tables->settings,
+							array(
+								'name' => $name,
+								'question_id' => $question_id,
+								'value' => $settings[ $name ]
+							)
+						);
+						
+					endif;
+				endforeach;
+			endif;
+
+		endforeach;
+		
+		return TRUE;
+	}
+
+	public function delete_survey( $post_id ){
+		global $wpdb, $surveyval_global;
+		
+		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->questions} WHERE surveyval_id=%d", $post_id );
+		
+		$elements = $wpdb->get_col( $sql );
+		
+		$wpdb->delete( 
+			$surveyval_global->tables->questions, 
+			array( 'surveyval_id' => $post_id ) 
+		);
+		
+		if( is_array( $elements ) && count( $elements ) > 0 ):
+			foreach( $elements AS $question ):
+				$wpdb->delete( 
+					$surveyval_global->tables->answers,
+					array( 'question_id' => $question ) 
+				);
+			endforeach;
 		endif;
 	}
 
