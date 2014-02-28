@@ -83,19 +83,9 @@ class SurveyVal_ProcessResponse{
 		
 		$html = '<form name="surveyval" id="surveyval" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
 		
-		/*
-		if( is_array( $this->response_errors ) && count( $this->response_errors ) > 0 ):
-			$html.=  '<div id="surveyval_errors" class="surveyval_errors">';
-			foreach( $this->response_errors AS $error ):
-				$html.= '<span>' . $error['message'] . '</span>';
-			endforeach;
-			$html.= '</div>';
-		endif;
-		*/
-		
 		$step_count = $this->get_step_count( $survey_id );
 		
-		$html.= '<div class="surveyval-description">' . sprintf( __( 'Step %d of %s', 'surveyval-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
+		$html.= '<div class="surveyval-description">' . sprintf( __( 'Step <span class="surveyval-highlight-number">%d</span> of <span class="surveyval-highlight-number">%s</span>', 'surveyval-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		
 		$elements = $this->get_actual_step_elements( $survey_id, $actual_step );
 		
@@ -104,7 +94,7 @@ class SurveyVal_ProcessResponse{
 				
 				if( !$element->splitter ):
 					if( FALSE != $this->element_error( $element ) ):
-						$html.= '<div class="survey-element-error">';
+						$html.= '<div class="surveyval-element-error">';
 					endif;
 					
 					// Standard element
@@ -117,7 +107,7 @@ class SurveyVal_ProcessResponse{
 					endif;
 					
 					if( FALSE != $this->element_error( $element ) ):
-						$html.= '<div class="surveyval_errors">' . $this->element_error( $element ) . '</div>';
+						$html.= '<div class="surveyval-element-error-message">' . $this->element_error( $element ) . '</div>';
 						$html.= '</div>';
 					endif;
 				else:
@@ -144,9 +134,11 @@ class SurveyVal_ProcessResponse{
 		$html.= '<input type="hidden" name="surveyval_actual_step" value="' . $actual_step . '" />';
 		$html.= '<input type="hidden" name="surveyval_id" value="' . $survey_id . '" />';
 		
+		/*
 		$html.= '<pre>';
 		$html.= print_r( $this->response_errors, TRUE );
 		$html.= '</pre>';
+		*/
 		
 		$html.= '</form>';
 		

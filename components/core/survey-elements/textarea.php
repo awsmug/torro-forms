@@ -50,13 +50,13 @@ class SurveyVal_SurveyElement_Textarea extends SurveyVal_SurveyElement{
 		
 		if( !empty( $min_length ) )
 			if( strlen( $input ) < $min_length ):
-				$this->validate_errors[] = sprintf( __( 'The input have to be longer than %s chars.', 'surveyval-locale' ), $min_length );
+				$this->validate_errors[] = sprintf( __( 'The input have to be at minimum %s chars.', 'surveyval-locale' ), $min_length );
 				$error = TRUE;
 			endif;
 		
 		if( !empty( $max_length ) )		
 			if( strlen( $input ) > $max_length ):
-				$this->validate_errors[] = sprintf( __( 'The input have to be shorter than %s chars.', 'surveyval-locale' ), $max_length );
+				$this->validate_errors[] = sprintf( __( 'The input have to be at maximum %s chars.', 'surveyval-locale' ), $max_length );
 				$error = TRUE;
 			endif;
 			
