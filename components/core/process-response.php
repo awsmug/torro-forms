@@ -36,6 +36,7 @@ class SurveyVal_ProcessResponse{
 	var $survey_id;
 	var $response_errors = array();
 	var $finished = FALSE;
+	var $finished_id;
 	
 	/**
 	 * Initializes the Component.
@@ -64,7 +65,7 @@ class SurveyVal_ProcessResponse{
 		
 		$surveyval_survey_id = $survey_id;
 		
-		if( $this->finished ):
+		if( $this->finished && $this->finished_id == $survey_id ):
 			return $this->text_thankyou_for_participation();
 		endif;
 		
@@ -341,6 +342,7 @@ class SurveyVal_ProcessResponse{
 				unset( $_COOKIE['surveyval_responses'] );
 				setcookie( 'surveyval_responses', null, -1, '/' );
 				$this->finished = TRUE;
+				$this->finished_id = $survey_id;
 			endif;
 		endif;
 	}
