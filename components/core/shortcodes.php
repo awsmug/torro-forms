@@ -50,8 +50,8 @@ class SurveyValShortCodes{
 			return;
 		endif;
 		
-		$survey = new SurveyVal_Survey( $id );
-		echo $survey->get_survey_html();
+		$response = new SurveyVal_ProcessResponse();
+		echo $response->get_survey( $id );
 	}
 }
 $SurveyValShortCodes = new SurveyValShortCodes();
