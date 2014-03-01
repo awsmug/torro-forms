@@ -311,6 +311,7 @@ class SurveyVal_ProcessResponse{
 		
 		$survey_id = $_POST[ 'surveyval_id' ];
 		$posted_values = $_POST[ 'surveyval_response' ];
+		$step = $_POST[ 'surveyval_actual_step' ];
 		$surveyval_responses = array();
 		$response = array();
 		
@@ -329,7 +330,7 @@ class SurveyVal_ProcessResponse{
 		$surveyval_responses[ $survey_id ] = $response; 
 		$surveyval_responses = serialize( $surveyval_responses );
 		
-		$this->validate_response();
+		$this->validate_response( $survey_id, $response, $step );
 		
 		setcookie( 'surveyval_responses', $surveyval_responses, time() + 1200 ); // Save cookie for six hours
 		$_COOKIE[ 'surveyval_responses' ] = $surveyval_responses;
@@ -347,7 +348,7 @@ class SurveyVal_ProcessResponse{
 		endif;
 	}
 	
-	public function validate_response( $survey_id = NULL, $responses = NULL ){
+	public function validate_response( $survey_id = NULL, $responses = NULL, $step = 0 ){
 		if( array_key_exists( 'surveyval_submission_back', $_POST ) )
 			return FALSE;
 		
@@ -363,32 +364,30 @@ class SurveyVal_ProcessResponse{
 		if( empty( $survey_id ) )
 			return FALSE;
 		
-		$survey = new SurveyVal_Survey( $survey_id );
+		$elements = $this->get_actual_step_elements( $survey_id, $step );
 		
-		// Are there any elements?
-		if( is_array( $responses ) && count( $responses ) > 0 ):
-			
-			// Running thru all answers
-			foreach( $responses AS $element_id => $response ):
-
-				$element = $this->get_survey_element_by_id( $survey, $element_id );
-				
-				/*
-				 * Validating Answer
-				 */
-				if( !$element->validate( $response ) ):
-					// Gettign every error of question back
-					foreach( $element->validate_errors AS $error ):
-						$this->response_errors[] = array(
-							'message' => $error,
-							'question_id' =>  $element->id
-						);
-					endforeach;
-					$answer_error = TRUE;
+		if( is_array( $elements ) && count( $elements ) > 0 ):
+			// Running thru all elements
+			foreach( $elements AS $element ):
+				if( array_key_exists( $element->id, $responses ) && !$element->splitter ):
+					$response = $responses[ $element->id ];
+					if( !$element->validate( $response ) ):
+						// Gettign every error of question back
+						foreach( $element->validate_errors AS $error ):
+							$this->response_errors[] = array(
+								'message' => $error,
+								'question_id' =>  $element->id
+							);
+						endforeach;
+						$answer_error = TRUE;
+					endif;
+				elseif( !$element->splitter ):
+					$this->response_errors[] = array(
+						'message' => __( 'Pleas select a value.', 'surveyval-locale' ),
+						'question_id' =>  $element->id
+					);
 				endif;
-
 			endforeach;
-			
 		else:
 			$this->response_errors[] = array(
 				'message' => __( 'There are no elements to save in survey', 'surveyval-locale' ),
@@ -397,7 +396,11 @@ class SurveyVal_ProcessResponse{
 			$answer_error = TRUE;
 		endif;
 		
-		return TRUE;
+		if( is_array( $this->response_errors ) && count( $this->response_errors ) == 0 ):
+			return TRUE;
+		else:
+			return FALSE;
+		endif;
 	}
 
 	private function get_survey_element_by_id( $survey, $element_id ){
