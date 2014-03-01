@@ -30,7 +30,10 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
+global $SurveyVal_ProcessResponse;
+
 class SurveyVal_ProcessResponse{
+	var $survey_id;
 	var $response_errors = array();
 	var $finished = FALSE;
 	
@@ -40,11 +43,9 @@ class SurveyVal_ProcessResponse{
 	 */
 	public function __construct() {
 		if( !is_admin() ):
-			add_filter( 'the_content', array( $this, 'the_content' ) );
 			add_action( 'init', array( $this, 'save_response_cookies' ) );
+			add_filter( 'the_content', array( $this, 'the_content' ) );
 		endif;
-		
-		
 	} // end constructor
 	
 	public function the_content( $content ){
@@ -144,12 +145,6 @@ class SurveyVal_ProcessResponse{
 		$html.= '<input type="hidden" name="surveyval_actual_step" value="' . $actual_step . '" />';
 		$html.= '<input type="hidden" name="surveyval_id" value="' . $survey_id . '" />';
 		
-		/*
-		$html.= '<pre>';
-		$html.= print_r( $this->response_errors, TRUE );
-		$html.= '</pre>';
-		*/
-		
 		$html.= '</form>';
 		
 		return $html;
@@ -236,6 +231,7 @@ class SurveyVal_ProcessResponse{
 				}
 				$param_arr[] = $param_value;			
 			endforeach;
+			
 			$html.= '<div class="answer">';
 			$html.= $element->before_answer();
 			$html.= call_user_func_array( 'sprintf', $param_arr );
@@ -296,9 +292,6 @@ class SurveyVal_ProcessResponse{
 				$html.= call_user_func_array( 'sprintf', $param_arr );
 				$html.= $element->after_answer();
 				$html.= '</div>';
-					
-				// $html.= '<pre>' . print_r( $answer, TRUE ) . '</pre>';
-				// $html.= sprintf( $this->answer_syntax, $answer, $this->slug );
 			endforeach;
 		endif;
 		
@@ -341,6 +334,7 @@ class SurveyVal_ProcessResponse{
 		$_COOKIE[ 'surveyval_responses' ] = $surveyval_responses;
 		
 		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $this->response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
+			
 			$response = unserialize( stripslashes( $_COOKIE['surveyval_responses'] ) );
 			if( $this->save_response( $survey_id, $response[ $survey_id ] ) ):
 				// Unsetting cookie, because not needed anymore
@@ -505,7 +499,7 @@ class SurveyVal_ProcessResponse{
 $SurveyVal_ProcessResponse = new SurveyVal_ProcessResponse();
 
 function sv_user_has_participated( $surveyval_id, $user_id = NULL){
-	$response = new SurveyVal_ProcessResponse();
+	global $SurveyVal_ProcessResponse;
 	return $response->has_participated( $surveyval_id, $user_id );
 }
 

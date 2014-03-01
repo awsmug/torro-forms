@@ -39,6 +39,7 @@ class SurveyValShortCodes{
 	}
 	
 	public function surveyval( $atts ){
+		global $SurveyVal_ProcessResponse;
 		extract( shortcode_atts( array(
 				'id' => '',
 				'title' => __( 'Survey', 'surveyval-locale' )
@@ -50,8 +51,7 @@ class SurveyValShortCodes{
 			return;
 		endif;
 		
-		$response = new SurveyVal_ProcessResponse();
-		echo $response->get_survey( $id );
+		echo $SurveyVal_ProcessResponse->get_survey( $id );
 	}
 }
 $SurveyValShortCodes = new SurveyValShortCodes();
