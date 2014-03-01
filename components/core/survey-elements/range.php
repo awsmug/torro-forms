@@ -48,7 +48,7 @@ class SurveyVal_SurveyElement_Range extends SurveyVal_SurveyElement{
 		);
 	}
 	
-	public function get_html(){
+	public function get_element(){
 		if( $this->error )
 			$error_css = ' survey-element-error';
 			
