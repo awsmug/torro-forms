@@ -551,7 +551,7 @@ $SurveyVal_ProcessResponse = new SurveyVal_ProcessResponse();
 
 function sv_user_has_participated( $surveyval_id, $user_id = NULL){
 	global $SurveyVal_ProcessResponse;
-	return $response->has_participated( $surveyval_id, $user_id );
+	return $SurveyVal_ProcessResponse->has_participated( $surveyval_id, $user_id );
 }
 
 

@@ -411,7 +411,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	            __( 'Who can participate?', 'surveyval-locale' ),
 	            array( $this, 'meta_box_survey_participiants' ),
 	            'surveyval',
-	            'side',
+	            'normal',
 	            'high'
 	        );
 		endif;
