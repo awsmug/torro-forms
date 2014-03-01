@@ -65,15 +65,47 @@ class SurveyVal_ProcessResponse{
 		
 		$surveyval_survey_id = $survey_id;
 		
-		if( $this->finished && $this->finished_id == $survey_id ):
-			return $this->text_thankyou_for_participation();
+		/*
+		 * Checks on starting surveys
+		 */
+		 
+		// If user is not logged in
+		if( !is_user_logged_in() ):
+			return $this->text_not_logged_in();
 		endif;
 		
+		// If user has already participated
 		if( $this->has_participated( $survey_id ) ):
 			return $this->text_already_participated();
 		endif;
 		
+		// If user user has finished successfull
+		if( $this->finished && $this->finished_id == $survey_id ):
+			return $this->text_thankyou_for_participation();
+		endif;
+		
+		// If user can't participate the poll
+		if( !$this->user_can_participate( $survey_id ) ):
+			return $this->text_cant_participate();
+		endif;
+		
 		return $this->get_survey_form( $survey_id );
+	}
+	
+	public function user_can_participate( $survey_id, $user_id = NULL ){
+		global $wpdb, $current_user;
+		
+		$can_participate = FALSE;
+		
+		// Setting up user ID
+		if( NULL == $user_id ):
+			get_currentuserinfo();
+			$user_id = $user_id = $current_user->ID;
+		endif;
+		
+		$can_participate = TRUE;
+		
+		return apply_filters( 'surveyval_user_can_participate', $can_participate, $survey_id, $user_id );
 	}
 	
 	public function get_survey_form( $survey_id ){
@@ -462,7 +494,7 @@ class SurveyVal_ProcessResponse{
 		
 		return TRUE;
 	}
-
+	
 	public function has_participated( $surveyval_id, $user_id = NULL ){
 		global $wpdb, $current_user, $surveyval_global;
 		
@@ -495,7 +527,21 @@ class SurveyVal_ProcessResponse{
 	
 	public function text_already_participated(){
 		$html = '<div id="surveyval-already-participated">';
-		$html.= __( 'You already have participated this poll!', 'surveyval-locale' );
+		$html.= __( 'You already have participated this poll.', 'surveyval-locale' );
+		$html.= '</div>';
+		return $html;
+	}
+	
+	public function text_not_logged_in(){
+		$html = '<div id="surveyval-not-logged-in">';
+		$html.= __( 'You have to be logged in to participate this survey.', 'surveyval-locale' );
+		$html.= '</div>';
+		return $html;
+	}
+	
+	public function text_cant_participate(){
+		$html = '<div id="surveyval-cant-participate">';
+		$html.= __( 'You can\'t participate this survey.', 'surveyval-locale' );
 		$html.= '</div>';
 		return $html;
 	}

@@ -48,7 +48,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'parent_file', array( $this, 'tax_menu_correction' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
-			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
+			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 10 );
 			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
 			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 		endif;
@@ -362,6 +362,38 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		endforeach;
 	}
 	
+	public function meta_box_survey_participiants(){
+		global $post;
+		
+		$surveyval_participiants = get_post_meta( $post->ID, 'surveyval_participiants', TRUE );
+		
+		$options = apply_filters( 'surveyval_post_type_participiants', array(
+			'all_members' => __( 'All Members', 'surveyval-locale' ),
+		) );
+		
+		// If there is only one option
+		if( count( $options ) < 2 ) $disabled = ' disabled';
+		
+		$html = '<div id="surveyval_participiants_select">';
+			$html.= '<select name="surveyval_participiants"' . $disabled . '>';
+			foreach( $options AS $key => $value ):
+				$selected = '';
+				if( $key == $surveyval_participiants ) $selected = ' selected="selected"';
+				$html.= '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
+			endforeach;
+			$html.= '</select>';
+		$html.= '</div>';
+		
+		// If there is only one option
+		if( count( $options ) < 2 ) $html.= '<p>' . __( 'Get more options to select participiants by adding extra plugins for SurveyVal.<br /><a href="%s" target="_blank">Get it here</a>!', 'surveyval-locale' ) . '</p>';
+		
+		ob_start();
+		do_action( 'surveyval_post_type_participiants_content' );
+		$html.= ob_get_clean();
+		
+		echo $html;
+	}
+	
 	public function meta_boxes( $post_type ){
 		$post_types = array( 'surveyval' );
 		
@@ -370,6 +402,14 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	            'survey-elements',
 	            __( 'Elements', 'surveyval-locale' ),
 	            array( $this, 'meta_box_survey_elements' ),
+	            'surveyval',
+	            'side',
+	            'high'
+	        );
+	        add_meta_box(
+	            'survey-participiants',
+	            __( 'Who can participate?', 'surveyval-locale' ),
+	            array( $this, 'meta_box_survey_participiants' ),
 	            'surveyval',
 	            'side',
 	            'high'
@@ -399,6 +439,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$survey_elements = $_POST['surveyval'];
 		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
+		$surveyval_participiants = $_POST['surveyval_participiants'];
 		
 		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
 		
@@ -553,6 +594,10 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			endif;
 
 		endforeach;
+		
+		update_post_meta( $post_id, 'surveyval_participiants', $surveyval_participiants );
+		
+		do_action( 'save_surveyval', $post_id );
 		
 		return TRUE;
 	}
