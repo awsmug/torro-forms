@@ -41,11 +41,6 @@ abstract class SurveyVal_SurveyElement{
 			$this->populate( $id );
 		
 		$this->settings_fields();
-		
-		if( $this->is_question ):
-			add_filter( 'surveyval_before_answer_' . $this->slug, array( $this, 'before_answer' ), 10, 3 );
-			add_filter( 'surveyval_after_answer_' . $this->slug, array( $this, 'after_answer' ), 10, 3 );
-		endif;
 	}	
 	
 	public function _register() {
@@ -141,11 +136,11 @@ abstract class SurveyVal_SurveyElement{
 		$this->settings[ $name ] = $value;
 	}
 	
-	public function before_answer( $html, $question_slug, $question_id ){
+	public function before_answer(){
 		return $html;
 	}
 	
-	public function after_answer( $html, $question_slug, $question_id ){
+	public function after_answer(){
 		return $html;
 	}
 

@@ -42,12 +42,12 @@ class SurveyVal_SurveyElement_RangeEmotional extends SurveyVal_SurveyElement{
 		);
 	}
 	
-	public function before_answer( $html, $question_slug = NULL, $question_id = NULL ){
+	public function before_answer(){
 		$html.= '<span class="surveyval-range-from">' . $this->settings['range_from'] . '</span> ';
 		return $html;
 	}
 	
-	public function after_answer( $html, $question_slug = NULL, $question_id = NULL ){
+	public function after_answer(){
 		$html.= ' <span class="surveyval-range-to">' . $this->settings['range_to'] . '</span>';
 		return $html;
 	}	

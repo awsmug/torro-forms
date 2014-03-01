@@ -236,11 +236,10 @@ class SurveyVal_ProcessResponse{
 				}
 				$param_arr[] = $param_value;			
 			endforeach;
-			
 			$html.= '<div class="answer">';
-			$html = apply_filters( 'surveyval_before_answer_' . $element->slug, $html, $element->slug, $element->id );
+			$html.= $element->before_answer();
 			$html.= call_user_func_array( 'sprintf', $param_arr );
-			$html = apply_filters( 'surveyval_after_answer_' . $element->slug, $html, $element->slug, $element->id );
+			$html.= $element->after_answer();
 			$html.= '</div>';
 			
 		else:
@@ -292,11 +291,10 @@ class SurveyVal_ProcessResponse{
 					}
 					$param_arr[] = $param_value;			
 				endforeach;
-				
 				$html.= '<div class="answer">';
-				$html = apply_filters( 'surveyval_before_answer', $html, $element->slug, $element->id );
+				$html.= $element->before_answer();
 				$html.= call_user_func_array( 'sprintf', $param_arr );
-				$html = apply_filters( 'surveyval_after_answer', $html, $element->slug, $element->id );
+				$html.= $element->after_answer();
 				$html.= '</div>';
 					
 				// $html.= '<pre>' . print_r( $answer, TRUE ) . '</pre>';
