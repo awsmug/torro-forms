@@ -367,12 +367,13 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		$surveyval_participiants = get_post_meta( $post->ID, 'surveyval_participiants', TRUE );
 		
-		$options = apply_filters( 'surveyval_post_type_participiants', array(
-			'all_members' => __( 'All Members', 'surveyval-locale' ),
+		$options = apply_filters( 'surveyval_post_type_add_participiants_options', array(
+			'dont_use' => __( 'Don\'t use participiants list - Every user can participate the survey', 'surveyval-locale' ),
+			'all_members' => __( 'Add all actual Members', 'surveyval-locale' ),
 		) );
 		
 		// If there is only one option
-		if( count( $options ) < 2 ) $disabled = ' disabled';
+		// if( count( $options ) < 2 ) $disabled = ' disabled';
 		
 		$html = '<div id="surveyval_participiants_select">';
 			$html.= '<select name="surveyval_participiants"' . $disabled . '>';
@@ -385,11 +386,26 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$html.= '</div>';
 		
 		// If there is only one option
-		if( count( $options ) < 2 ) $html.= '<p>' . __( 'Get more options to select participiants by adding extra plugins for SurveyVal.<br /><a href="%s" target="_blank">Get it here</a>!', 'surveyval-locale' ) . '</p>';
+		// if( count( $options ) < 2 ) $html.= '<p>' . __( 'Get more options to select participiants by adding extra plugins for SurveyVal.<br /><a href="%s" target="_blank">Get it here</a>!', 'surveyval-locale' ) . '</p>';
 		
 		ob_start();
-		do_action( 'surveyval_post_type_participiants_content' );
+		do_action( 'surveyval_post_type_participiants_content_top' );
 		$html.= ob_get_clean();
+		
+		$html.= '<div id="surveyval-participiants-list">';
+			$html.= '<table class="wp-list-table widefat">';
+				$html.= '<thead>';
+					$html.= '<tr>';
+						$html.= '<th>' . __( 'ID', 'surveyval-locale' ) . '</th>';
+						$html.= '<th>' . __( 'User nicename', 'surveyval-locale' ) . '</th>';
+						$html.= '<th>' . __( 'Display name', 'surveyval-locale' ) . '</th>';
+						$html.= '<th>' . __( 'Email', 'surveyval-locale' ) . '</th>';
+						$html.= '<th>&nbsp</th>';
+					$html.= '</tr>';
+				$html.= '</thead>';
+				
+			$html.= '</table>';
+		$html.= '</div>';
 		
 		echo $html;
 	}
@@ -408,7 +424,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	        );
 	        add_meta_box(
 	            'survey-participiants',
-	            __( 'Who can participate?', 'surveyval-locale' ),
+	            __( 'Participiants list', 'surveyval-locale' ),
 	            array( $this, 'meta_box_survey_participiants' ),
 	            'surveyval',
 	            'normal',

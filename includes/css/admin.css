@@ -18,6 +18,10 @@
 #drag-drop-area.widgets-holder-wrap{
 	padding:10px;
 }
+#survey-elements .widget-inside{
+	height: 0px;
+	overflow: hidden;
+}
 #surveyval-content input[type=text].surveyval-question{
 	width:100%;
 }
