@@ -103,8 +103,22 @@
 #surveyval_participiants_select{
 	margin-bottom:10px;
 }
+/* 
+ * Participiants
+ */
 .surveyval-participiant-new{
 	background-color: #7AD03A;
+}
+.surveyval-participiants-options-content{
+	border: 1px #DFDFDF solid;
+	background-color: #FDFDFD;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+.surveyval-participiants-options-content h3,
+.surveyval-participiants-options-content h4,
+.surveyval-participiants-options-content h5{
+	margin: 0 0 10px 0;
 }
 
 /* 

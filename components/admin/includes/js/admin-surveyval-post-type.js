@@ -213,9 +213,9 @@
 		
 		var surveyval_participiants = $( "#surveyval-participiants" ).val();
 		
-			if( '' == surveyval_participiants ){
-				$( "#surveyval-participiants-list" ).hide();
-			}
+		if( '' == surveyval_participiants ){
+			$( "#surveyval-participiants-list" ).hide();
+		}
 		
 		$.surveyval_add_participiants = function( response ){
 			

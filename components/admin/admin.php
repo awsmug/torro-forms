@@ -366,7 +366,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		global $wpdb, $post, $surveyval_global;
 		
 		$options = apply_filters( 'surveyval_post_type_add_participiants_options', array(
-			'dont_use' => __( 'Don\'t use participiants list - Every user can participate the survey', 'surveyval-locale' ),
 			'all_members' => __( 'Add all actual Members', 'surveyval-locale' ),
 		) );
 		
@@ -374,10 +373,10 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		// if( count( $options ) < 2 ) $disabled = ' disabled';
 		
 		$html = '<div id="surveyval_participiants_select">';
-			$html.= '<select name="surveyval_participiants"' . $disabled . '>';
+			$html.= '<select name="surveyval_participiants_select" id="surveyval-participiants-select"' . $disabled . '>';
 			foreach( $options AS $key => $value ):
-				$selected = '';
-				if( $key == $surveyval_participiants ) $selected = ' selected="selected"';
+				// $selected = '';
+				// if( $key == $surveyval_participiants ) $selected = ' selected="selected"';
 				$html.= '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
 			endforeach;
 			$html.= '</select>';
