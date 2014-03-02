@@ -51,6 +51,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 10 );
 			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
 			add_action( 'delete_post', array( $this, 'delete_survey' ) );
+			add_action( 'wp_ajax_surveyval_add_members_standard', array( $this, 'filter_user_ajax' ) );
 		endif;
 	} // end constructor
 	
@@ -385,6 +386,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		// If there is only one option
 		// if( count( $options ) < 2 ) $html.= '<p>' . __( 'Get more options to select participiants by adding extra plugins for SurveyVal.<br /><a href="%s" target="_blank">Get it here</a>!', 'surveyval-locale' ) . '</p>';
 		
+		$html.= '<div id="surveyval-participiants-standard-options" class="surveyval-participiants-options-content">';
+		$html.= '<div class="add"><input type="button" class="surveyval-add-participiants button" id="surveyval-add-members-standard" value="' . __( 'Add Participiants', 'surveyval-locale' ) . '" /></div>';
+		$html.= '</div>';
+		
+		
 		ob_start();
 		do_action( 'surveyval_post_type_participiants_content_top' );
 		$html.= ob_get_clean();
@@ -688,6 +694,29 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				);
 			endforeach;
 		endif;
+	}
+	
+	public function filter_user_ajax(){
+		global $wpdb, $bp;
+		
+		$users = get_users( array(
+			'orderby' => 'ID'
+		) );
+		
+		$return_array = array();
+		
+		foreach( $users AS $user ):
+			$return_array[] = array(
+				'id' => $user->ID,
+				'user_nicename' => $user->user_nicename,
+				'display_name' => $user->display_name,
+				'user_email' => $user->user_email,
+			);
+		endforeach;
+		
+		echo json_encode( $return_array );
+
+		die();
 	}
 
 	private function is_surveyval_post_type(){

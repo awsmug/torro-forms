@@ -211,6 +211,23 @@
 		}
 		surveyval_survey_element_tabs();
 		
+		var surveyval_participiants_select = $( "#surveyval-participiants-select" ).val();
+		
+		if( 'all_members' != surveyval_participiants_select ){
+			$( "#surveyval-participiants-standard-options" ).hide();
+		}
+		
+		$( "#surveyval-participiants-select" ).change( function(){
+			surveyval_participiants_select = $( "#surveyval-participiants-select" ).val();
+			console.log( surveyval_participiants_select );
+			
+			if( 'all_members' == surveyval_participiants_select ){
+				$( "#surveyval-participiants-standard-options" ).show();
+			}else{
+				$( "#surveyval-participiants-standard-options" ).hide();
+			}
+		});
+		
 		var surveyval_participiants = $( "#surveyval-participiants" ).val();
 		
 		if( '' == surveyval_participiants ){
@@ -237,7 +254,7 @@
 					}else{
 						surveyval_participiants = surveyval_participiants + ',' + object.id;
 					}
-					$( "#surveyval-participiants-list tbody" ).append( '<tr class="surveyval-participiant-new participiant-user-' + object.id + '"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + 'Delete' + '</a></td></tr>' );
+					$( "#surveyval-participiants-list tbody" ).append( '<tr class="surveyval-participiant-new participiant-user-' + object.id + '"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + translation_admin.delete + '</a></td></tr>' );
 				}	
 				
 			    $( "#surveyval-participiants" ).val( surveyval_participiants );
@@ -276,6 +293,18 @@
 			});
 		}
 		$.surveyval_delete_participiant();
+		
+		$( "#surveyval-add-members-standard" ).click( function(){
+			
+			var data = {
+				action: 'surveyval_add_members_standard'
+			};
+		
+			$.post( ajaxurl, data, function( response ) {
+				response = jQuery.parseJSON( response );
+				$.surveyval_add_participiants( response );
+			});
+		});
 			
 		function surveyval_rand(){
 			var now = new Date();
