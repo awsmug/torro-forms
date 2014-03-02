@@ -50,6 +50,7 @@ class SurveyVal{
 		$this->tables->responds = $wpdb->prefix . 'surveyval_responds';
 		$this->tables->respond_answers = $wpdb->prefix . 'surveyval_respond_answers';
 		$this->tables->settings = $wpdb->prefix . 'surveyval_settings';
+		$this->tables->participiants = $wpdb->prefix . 'surveyval_participiants';
 	}
 	
 	public function add_component( $slug, $object ){

@@ -117,6 +117,7 @@ class SurveVal_Init{
 		$table_responds = $wpdb->prefix . 'surveyval_responds';
 		$table_respond_answers = $wpdb->prefix . 'surveyval_respond_answers';
 		$table_settings = $wpdb->prefix . 'surveyval_settings';
+		$table_participiants = $wpdb->prefix . 'surveyval_participiants';
 		
 		$sql = "CREATE TABLE $table_questions (
 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -164,6 +165,15 @@ class SurveVal_Init{
 			question_id int(11) NOT NULL,
 			name text NOT NULL,
 			value text NOT NULL,
+			UNIQUE KEY id (id)
+			)";
+			
+		dbDelta( $sql );
+		
+		$sql = "CREATE TABLE $table_participiants (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			survey_id int(11) NOT NULL,
+			user_id int(11) NOT NULL,
 			UNIQUE KEY id (id)
 			)";
 			

@@ -1,6 +1,6 @@
 (function ($) {
 	"use strict";
-	$(function () {
+	$( function () {
 		$( ".surveyval-draggable" ).draggable( { 
 			appendTo: "body",
 			helper: "clone",
@@ -210,6 +210,71 @@
 			$( ".survey_element_tabs" ).tabs({ active: 0 });
 		}
 		surveyval_survey_element_tabs();
+		
+		var surveyval_participiants = $( "#surveyval-participiants" ).val();
+		
+			if( '' == surveyval_participiants ){
+				$( "#surveyval-participiants-list" ).hide();
+			}
+		
+		$.surveyval_add_participiants = function( response ){
+			
+			var surveyval_participiants_old = $( "#surveyval-participiants" ).val();
+			surveyval_participiants_old = surveyval_participiants_old.split( ',' );
+			
+			$.each( response, function( i, object ) {
+				var found = false;
+				
+				$.each( surveyval_participiants_old, function( key, value ) {
+					if( value == object.id ){
+						found = true;
+					}
+				});
+				
+				if( !found ){
+					if( '' == surveyval_participiants ){
+						surveyval_participiants =  object.id;
+					}else{
+						surveyval_participiants = surveyval_participiants + ',' + object.id;
+					}
+					$( "#surveyval-participiants-list tbody" ).append( '<tr class="surveyval-participiant-new participiant-user-' + object.id + '"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + 'Delete' + '</a></td></tr>' );
+				}	
+				
+			    $( "#surveyval-participiants" ).val( surveyval_participiants );
+			    
+				$.surveyval_delete_participiant();
+			});
+			
+			$( "#surveyval-participiants-list" ).show();			
+		}
+		
+		$.surveyval_delete_participiant = function(){
+			$( ".surveyval-delete-participiant" ).click( function(){
+				var delete_user_id = $( this ).attr( 'rel' );
+				
+				var surveyval_participiants_new = '';
+				
+				var surveyval_participiants = $( "#surveyval-participiants" ).val();
+				surveyval_participiants = surveyval_participiants.split( "," );
+				
+				$.each( surveyval_participiants, function( key, value ) {
+					if( value != delete_user_id ){
+						if( '' == surveyval_participiants_new ){
+							surveyval_participiants_new = value;
+						}else{
+							surveyval_participiants_new = surveyval_participiants_new + ',' + value;
+						}
+					}
+				});
+				
+				if( '' == surveyval_participiants_new ){
+			    	$( "#surveyval-participiants-list" ).hide();
+			    }
+				
+				$( "#surveyval-participiants" ).val( surveyval_participiants_new );
+				$( ".participiant-user-" + delete_user_id ).remove();
+			});
+		}
 			
 		function surveyval_rand(){
 			var now = new Date();

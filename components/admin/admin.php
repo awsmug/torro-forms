@@ -363,9 +363,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function meta_box_survey_participiants(){
-		global $post;
-		
-		$surveyval_participiants = get_post_meta( $post->ID, 'surveyval_participiants', TRUE );
+		global $wpdb, $post, $surveyval_global;
 		
 		$options = apply_filters( 'surveyval_post_type_add_participiants_options', array(
 			'dont_use' => __( 'Don\'t use participiants list - Every user can participate the survey', 'surveyval-locale' ),
@@ -392,6 +390,17 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		do_action( 'surveyval_post_type_participiants_content_top' );
 		$html.= ob_get_clean();
 		
+		$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s";
+		$sql = $wpdb->prepare( $sql, $post->ID );
+		$user_ids = $wpdb->get_col( $sql );
+		
+		if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
+			$users = get_users( array(
+				'include' => $user_ids,
+				'orderby' => 'ID'
+			) );
+		endif;
+		
 		$html.= '<div id="surveyval-participiants-list">';
 			$html.= '<table class="wp-list-table widefat">';
 				$html.= '<thead>';
@@ -404,7 +413,31 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					$html.= '</tr>';
 				$html.= '</thead>';
 				
+				
+				$html.= '<tbody>';
+				
+				if( is_array( $users ) && count( $users ) > 0 ):
+				
+					foreach( $users AS $user ):
+						$html.= '<tr class="participiant-user-' . $user->ID . '">';
+							$html.= '<td>' . $user->ID . '</td>';
+							$html.= '<td>' . $user->user_nicename . '</td>';
+							$html.= '<td>' . $user->display_name . '</td>';
+							$html.= '<td>' . $user->user_email . '</td>';
+							$html.= '<td><a class="button surveyval-delete-participiant" rel="' . $user->ID . '">' . __( 'Delete', 'surveyval-locale' ) . '</a></th>';
+						$html.= '</tr>';
+					endforeach;
+					
+					$surveyval_participiants_value = implode( ',', $user_ids );
+					
+				endif;
+				
+				$html.= '</tbody>';
+				
 			$html.= '</table>';
+			
+			$html.= '<input type="hidden" id="surveyval-participiants" name="surveyval_participiants" value="' . $surveyval_participiants_value . '" />';
+			
 		$html.= '</div>';
 		
 		echo $html;
@@ -611,7 +644,25 @@ class SurveyVal_Admin extends SurveyVal_Component{
 
 		endforeach;
 		
-		update_post_meta( $post_id, 'surveyval_participiants', $surveyval_participiants );
+		$surveyval_participiant_ids = explode( ',', $surveyval_participiants );
+		
+		$sql = "DELETE FROM {$surveyval_global->tables->participiants} WHERE survey_id = %d";
+		$sql = $wpdb->prepare( $sql, $post_id );
+		$wpdb->query( $sql );
+		
+		if( is_array( $surveyval_participiant_ids ) && count( $surveyval_participiant_ids ) > 0 ):
+			foreach( $surveyval_participiant_ids AS $user_id ):
+				$wpdb->insert(
+					$surveyval_global->tables->participiants,
+					array(
+						'survey_id' => $post_id,
+						'user_id' => $user_id
+					)
+				);
+			endforeach;
+		endif;
+		
+		// mail( 'sven@deinhilden.de', 'Check Participiants', print_r( $surveyval_participiant_ids, TRUE ) . print_r( $wpdb, TRUE ) );
 		
 		do_action( 'save_surveyval', $post_id );
 		
