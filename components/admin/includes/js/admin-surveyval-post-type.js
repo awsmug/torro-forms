@@ -275,6 +275,7 @@
 				$( ".participiant-user-" + delete_user_id ).remove();
 			});
 		}
+		$.surveyval_delete_participiant();
 			
 		function surveyval_rand(){
 			var now = new Date();
