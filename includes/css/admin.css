@@ -103,6 +103,12 @@
 #surveyval_participiants_select{
 	margin-bottom:10px;
 }
+.surveyval-invites-element .button-loading{
+	background-image: url( '../../assets/images/loading.gif' );
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	padding-left:28px;
+}
 /* 
  * Participiants
  */
@@ -120,7 +126,24 @@
 .surveyval-participiants-options-content h5{
 	margin: 0 0 10px 0;
 }
-
+.surveyval-invites-element{
+	margin-bottom: 10px;
+}
+.surveyval-invites-element textarea{
+	width:100%;
+	min-height:200px;
+	margin-bottom:10px;
+	display:none;
+	font-size:12px;
+}
+#surveyval-invite-button-cancel,
+#surveyval-reinvite-button-cancel{
+	display:none;
+}
+#surveyval-settings .form-table .surveyval-text-template{
+	width:80%;
+	height:200px;
+}
 /* 
  * Dialogs
  */

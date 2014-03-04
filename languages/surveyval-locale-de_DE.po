@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-03-02 21:20:48+0000\n"
+"PO-Revision-Date: 2014-03-02 21:23:46+0000\n"
 "Last-Translator: wagesve <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -402,7 +402,7 @@ msgstr ""
 #: components/core/process-response.php:544
 #@ surveyval-locale
 msgid "You can't participate this survey."
-msgstr ""
+msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
 
 #: components/core/survey-elements/range-emotional.php:18
 #@ surveyval-locale

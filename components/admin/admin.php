@@ -52,6 +52,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
 			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 			add_action( 'wp_ajax_surveyval_add_members_standard', array( $this, 'filter_user_ajax' ) );
+			add_action( 'wp_ajax_surveyval_invite_participiants', array( $this, 'invite_participiants' ) );
+			add_action( 'init', array( $this, 'save_settings' ) );
 		endif;
 	} // end constructor
 	
@@ -447,11 +449,43 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		echo $html;
 	}
+
+	public function meta_box_survey_invites(){
+		global $post;
+		
+		$surveyval_invitation_text_template = sv_get_mail_template_text( 'invitation' );
+		$surveyval_reinvitation_text_template = sv_get_mail_template_text( 'reinvitation' );
+
+		if( 'publish' == $post->post_status  ):
+			$html = '<div class="surveyval-invites-element">';
+				$html.= '<textarea id="surveyval-invite-text" name="surveyval_invite_text">' . $surveyval_invitation_text_template . '</textarea>';
+				$html.= '<input id="surveyval-invite-button" type="button" class="button" value="' . __( 'Invite Participiants', 'surveyval-locale' ) . '" /> ';
+				$html.= '<input id="surveyval-invite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
+			$html.= '</div>';
+			
+			$html.= '<div class="surveyval-invites-element">';
+				$html.= '<textarea id="surveyval-reinvite-text" name="surveyval_reinvite_text">' . $surveyval_reinvitation_text_template . '</textarea>';
+				$html.= '<input id="surveyval-reinvite-button" type="button" class="button" value="' . __( 'Reinvite Participiants', 'surveyval-locale' ) . '" /> ';
+				$html.= '<input id="surveyval-reinvite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
+			$html.= '</div>';
+		else:
+			$html.= '<p>' . __( 'You can invite Participiants to this survey after the survey is published.', 'surveyval-locale' ) . '</p>';
+		endif;
+		
+		echo $html;
+	}
 	
 	public function meta_boxes( $post_type ){
 		$post_types = array( 'surveyval' );
 		
 		if( in_array( $post_type, $post_types )):
+			add_meta_box(
+	            'survey-invites',
+	            __( 'Send Invites', 'surveyval-locale' ),
+	            array( $this, 'meta_box_survey_invites' ),
+	            'surveyval',
+	            'side'
+	        );
 			add_meta_box(
 	            'survey-elements',
 	            __( 'Elements', 'surveyval-locale' ),
@@ -718,6 +752,61 @@ class SurveyVal_Admin extends SurveyVal_Component{
 
 		die();
 	}
+	
+	public function invite_participiants(){
+		global $wpdb, $surveyval_global;
+		
+		$return_array = array(
+			'sent' => FALSE
+		);
+		
+		$survey_id = $_POST['survey_id'];
+		$text_template = $_POST['text_template'];
+		
+		$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %d";
+		$sql = $wpdb->prepare( $sql, $survey_id );
+		$user_ids = $wpdb->get_col( $sql );
+		
+		$subject =  __( 'Survey Invitation', 'surveyval-content' );
+		
+		if( 'reinvite' == $_POST['invitation_type'] ):
+			if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
+				foreach( $user_ids AS $user_id ):
+					if( !sv_user_has_participated( $survey_id, $user_id ) ):
+						$user_ids_new[] = $user_id;
+					endif;
+			endforeach;
+			endif;
+			$user_ids = $user_ids_new;
+			$subject =  __( 'Survey Reinvitation', 'surveyval-content' );
+		endif;
+		
+		$post = get_post( $survey_id );
+		
+		if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
+			$users = get_users( array(
+				'include' => $user_ids,
+				'orderby' => 'ID'
+			) );
+			
+			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $text_template );
+			$content = str_replace( '%survey_title%', $post->post_title, $content );
+			$content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
+			
+			foreach( $users AS $user ):
+				$content = str_replace( '%username%', $user->user_nicename, $content );
+				wp_mail( $user->user_email, $subject, stripslashes( $content ) );
+			endforeach;
+		
+			$return_array = array(
+				'sent' => TRUE
+			);
+		endif;
+		
+		echo json_encode( $return_array );
+
+		die();
+	}
 
 	private function is_surveyval_post_type(){
 		global $post;
@@ -733,6 +822,17 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		return TRUE;
 	}
 	
+	public function save_settings(){
+		if( !array_key_exists( 'surveyval_settings_save', $_POST ) )
+			return;
+			
+		if ( !isset( $_POST['surveyval_save_settings_field'] ) || !wp_verify_nonce( $_POST['surveyval_save_settings_field'], 'surveyval_save_settings' ) )
+			return;
+		
+		update_option( 'surveyval_invitation_text_template', $_POST['surveyval_invitation_text_template'] );
+		update_option( 'surveyval_reinvitation_text_template', $_POST['surveyval_reinvitation_text_template'] );
+	}
+	
 	/**
 	 * Enqueue admin scripts
 	 * @since 1.0.0
@@ -744,7 +844,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$translation_admin = array( 
 			'delete' => __( 'Delete', 'surveyval-locale' ),
 			'yes' => __( 'Yes', 'surveyval-locale' ),
-			'no' => __( 'No', 'surveyval-locale' )
+			'no' => __( 'No', 'surveyval-locale' ),
+			'invitations_sent_successfully' => __( 'Invitations sent successfully!', 'surveyval-locale' ),
+			'invitations_not_sent_successfully' => __( 'Invitations could not be sent!', 'surveyval-locale' ),
+			'reinvitations_sent_successfully' => __( 'Renvitations sent successfully!', 'surveyval-locale' ),
+			'reinvitations_not_sent_successfully' => __( 'Renvitations could not be sent!', 'surveyval-locale' )
 		);
 		
 		wp_enqueue_script( 'admin-surveyval-post-type', SURVEYVAL_URLPATH . '/components/admin/includes/js/admin-surveyval-post-type.js' );

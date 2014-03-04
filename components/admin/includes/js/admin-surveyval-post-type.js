@@ -305,6 +305,95 @@
 				$.surveyval_add_participiants( response );
 			});
 		});
+		
+		$( '#surveyval-invite-button' ).click( function(){
+			
+			var button = $( this )
+			
+			if( button.hasClass( 'button-primary' ) ){
+				var data = {
+					action: 'surveyval_invite_participiants',
+					invitation_type: 'invite',
+					survey_id: $( '#post_ID' ).val(),
+					text_template: $( '#surveyval-invite-text' ).val()
+				};
+				
+				button.addClass( 'button-loading' );
+				
+				$.post( ajaxurl, data, function( response ) {
+					response = jQuery.parseJSON( response );
+					if( response.sent ){
+						$( '#surveyval-invite-text' ).fadeOut( 200 );
+						$( '#surveyval-invite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.invitations_sent_successfully + '</p>' );
+					}else{
+						$( '#surveyval-invite-text' ).fadeOut( 200 );
+						$( '#surveyval-invite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.invitations_sent_not_successfully + '</p>' );
+					}
+					button.removeClass( 'button-loading' );
+					$( '.survey-reinvitations-sent' ).fadeOut( 4000 );
+					$( '#surveyval-invite-button' ).removeClass( 'button-primary' );
+					$( '#surveyval-invite-text' ).fadeOut( 200 );
+					$( '#surveyval-invite-button-cancel' ).fadeOut( 200 );
+				});
+				
+			}else{
+				button.addClass( 'button-primary' );
+				$( '#surveyval-invite-text' ).fadeIn( 200 );
+				$( '#surveyval-invite-button-cancel' ).fadeIn( 200 );
+			}
+		});
+		
+		$( '#surveyval-invite-button-cancel' ).click( function(){
+			$( '#surveyval-invite-button' ).removeClass( 'button-primary' );
+			$( '#surveyval-invite-text' ).fadeOut( 200 );
+			$( '#surveyval-invite-button-cancel' ).fadeOut( 200 );
+		});
+		
+		$( '#surveyval-reinvite-button' ).click( function(){
+			var button = $( this )
+			
+			if( button.hasClass( 'button-primary' ) ){
+				var data = {
+					action: 'surveyval_invite_participiants',
+					invitation_type: 'reinvite',
+					survey_id: $( '#post_ID' ).val(),
+					text_template: $( '#surveyval-reinvite-text' ).val()
+				};
+				
+				button.addClass( 'button-loading' );
+				
+				$.post( ajaxurl, data, function( response ) {
+					response = jQuery.parseJSON( response );
+					if( response.sent ){
+						$( '#surveyval-reinvite-text' ).fadeOut( 200 );
+						$( '#surveyval-reinvite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.reinvitations_sent_successfully + '</p>' );
+						button.removeClass( 'button-loading' );
+						$( '.survey-reinvitations-sent' ).fadeOut( 4000 );
+					}else{
+						$( '#surveyval-reinvite-text' ).fadeOut( 200 );
+						$( '#surveyval-reinvite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.reinvitations_sent_not_successfully + '</p>' );
+						
+					}
+					button.removeClass( 'button-loading' );
+					$( '.survey-reinvitations-sent' ).fadeOut( 4000 );
+					$( '#surveyval-reinvite-button' ).removeClass( 'button-primary' );
+					$( '#surveyval-reinvite-text' ).fadeOut( 200 );
+					$( '#surveyval-reinvite-button-cancel' ).fadeOut( 200 );
+				});
+				
+			}else{
+				button.addClass( 'button-primary' );
+				$( '#surveyval-reinvite-text' ).fadeIn( 200 )
+				$( '#surveyval-reinvite-button-cancel' ).fadeIn( 200 )
+			}
+			
+		});
+		
+		$( '#surveyval-reinvite-button-cancel' ).click( function(){
+			$( '#surveyval-reinvite-button' ).removeClass( 'button-primary' );
+			$( '#surveyval-reinvite-text' ).fadeOut( 200 );
+			$( '#surveyval-reinvite-button-cancel' ).fadeOut( 200 );
+		});
 			
 		function surveyval_rand(){
 			var now = new Date();
