@@ -61,7 +61,7 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	public function get_survey( $survey_id ){
-		global $surveyval_survey_id;
+		global $surveyval_survey_id, $current_user;
 		
 		$surveyval_survey_id = $survey_id;
 		
@@ -74,14 +74,25 @@ class SurveyVal_ProcessResponse{
 			return $this->text_not_logged_in();
 		endif;
 		
+		// If user user has finished successfull
+		if( $this->finished && $this->finished_id == $survey_id ):
+			global $post;
+			
+			get_currentuserinfo();
+			$text_template = sv_get_mail_template_text( 'thankyou_participating' );
+			
+			$content = str_replace( '%username%', $current_user->user_nicename, $text_template );
+			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
+			$content = str_replace( '%survey_title%', $post->post_title, $content );
+			
+			wp_mail( $current_user->user_email, 'Thank you for participating survey!', $content );
+			
+			return $this->text_thankyou_for_participation();
+		endif;
+		
 		// If user has already participated
 		if( $this->has_participated( $survey_id ) ):
 			return $this->text_already_participated();
-		endif;
-		
-		// If user user has finished successfull
-		if( $this->finished && $this->finished_id == $survey_id ):
-			return $this->text_thankyou_for_participation();
 		endif;
 		
 		// If user can't participate the poll
