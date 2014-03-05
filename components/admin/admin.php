@@ -337,6 +337,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				$input = '<input type="text" name="' . $name . '" value="' . $value . '" />';
 				break;
 				
+			case 'textarea':
+				
+				$input = '<textarea name="' . $name . '">' . $value . '</textarea>';
+				break;
+				
 			case 'radio':
 				
 				$input = '';
