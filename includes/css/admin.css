@@ -100,6 +100,10 @@
 	width:80%;
 	float:right;
 }
+.settings-fieldset-input-radio{
+	display: block;
+	margin-bottom:5px;
+}
 #surveyval_participiants_select{
 	margin-bottom:10px;
 }
