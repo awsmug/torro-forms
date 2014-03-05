@@ -329,11 +329,27 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( empty( $value ) )
 			$value = $field['default'];
 			
-		
 		$name = 'surveyval[' . $widget_id . '][settings][' . $name . ']';
+		
 		switch( $field['type'] ){
 			case 'text':
+				
 				$input = '<input type="text" name="' . $name . '" value="' . $value . '" />';
+				break;
+				
+			case 'radio':
+				
+				$input = '';
+				
+				foreach( $field['values'] AS $field_key => $field_value ):
+					$checked = '';
+					
+					if( $value == $field_key )
+						$checked = ' checked="checked"';
+					
+					$input.= '<span class="settings-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
+				endforeach;
+				
 				break;
 		}
 		
