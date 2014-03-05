@@ -125,6 +125,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/range-emotional.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/separator.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/splitter.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/description.php' );
 	}
 	
 }
