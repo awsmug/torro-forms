@@ -44,6 +44,16 @@ class SurveyVal_SurveyElement_RangeEmotional extends SurveyVal_SurveyElement{
 				'type'			=> 'text',
 				'description' 	=> __( 'This value will be shown at the end of the scale', 'surveyval-locale' ),
 				'default'		=> 'Bad'
+			),
+			'show_value' => array(
+				'title'			=> __( 'Show selected Value', 'surveyval-locale' ),
+				'type'			=> 'radio',
+				'description' 	=> __( 'Showing the selected value in a box after the field.', 'surveyval-locale' ),
+				'values'		=> array(
+					'yes'	=> __( 'Yes', 'surveyval-locale' ),
+					'no'	=> __( 'No', 'surveyval-locale' ),
+				),
+				'default'		=> 'no'
 			), 
 		);
 	}
@@ -55,6 +65,27 @@ class SurveyVal_SurveyElement_RangeEmotional extends SurveyVal_SurveyElement{
 	
 	public function after_answer(){
 		$html.= ' <span class="surveyval-range-to">' . $this->settings['range_to'] . '</span>';
+		
+		if( 'yes' == $this->settings[ 'show_value' ] ):
+			$field_id = 'surveyval-range-empotional-show-value-' . $this->id;
+			
+			$html.= '<div class="surveyval-range-empotional-show-value" id="' . $field_id . '"></div>';
+			
+			$html.= '<script language="javascript">
+			jQuery(function ($){
+				var emotional_input = $(\'input[name=surveyval_response\\\[' . $this->id . '\\\]]\');
+				var show_field = $( "#' . $field_id . '" );
+				
+				show_field.text( emotional_input.val() );
+				
+				emotional_input.change( function(){
+					show_field.text( emotional_input.val() );
+				});
+			});
+			</script>';
+			// $html.= '<pre>' . print_r( $this, TRUE ) . '</pre>';
+		endif;
+		
 		return $html;
 	}	
 	
