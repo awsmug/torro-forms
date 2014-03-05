@@ -27,6 +27,12 @@ class SurveyVal_SurveyElement_Range extends SurveyVal_SurveyElement{
 	
 	public function settings_fields(){
 		$this->settings_fields = array(
+			'description' => array(
+				'title'			=> __( 'Description', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'The description will be shown after the question.', 'surveyval-locale' ),
+				'default'		=> ''
+			),
 			'range_from' => array(
 				'title'			=> __( 'Range from', 'surveyval-locale' ),
 				'type'			=> 'text',
@@ -53,7 +59,9 @@ class SurveyVal_SurveyElement_Range extends SurveyVal_SurveyElement{
 			$error_css = ' survey-element-error';
 			
 		$html = '<div class="question question_' . $this->id . $error_css . '">';
+		$html.= $this->before_question();
 		$html.= '<h5>' . $this->question . '</h5>';
+		$html.= $this->after_question();
 		
 		$step_values = array();
 		$step_values[] = $this->settings['range_from'];
@@ -78,6 +86,16 @@ class SurveyVal_SurveyElement_Range extends SurveyVal_SurveyElement{
 		$html.= '</table></tr>';
 		
 		$html.= '</div>';
+		
+		return $html;
+	}
+
+	public function after_question(){
+		if( !empty( $this->settings[ 'description' ] ) ):
+			$html = '<p class="surveyval-element-description">';
+			$html.= $this->settings[ 'description' ];
+			$html.= '</p>';
+		endif;
 		
 		return $html;
 	}

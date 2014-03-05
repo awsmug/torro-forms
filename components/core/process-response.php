@@ -250,7 +250,9 @@ class SurveyVal_ProcessResponse{
 			return FALSE;
 		
 		$html = '<div class="survey-element survey-element-' . $element->id . '">';
+		$html.= $element->before_question();
 		$html.= '<h5>' . $element->question . '</h5>';
+		$html.= $element->after_question();
 		
 		if( !$element->preset_of_answers ):
 			/*

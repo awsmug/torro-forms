@@ -33,5 +33,25 @@ class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 		parent::__construct( $id );
 	}
 	
+	public function settings_fields(){
+		$this->settings_fields = array(
+			'description' => array(
+				'title'			=> __( 'Description', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'The description will be shown after the question.', 'surveyval-locale' ),
+				'default'		=> ''
+			)
+		);
+	}
+
+	public function after_question(){
+		if( !empty( $this->settings[ 'description' ] ) ):
+			$html = '<p class="surveyval-element-description">';
+			$html.= $this->settings[ 'description' ];
+			$html.= '</p>';
+		endif;
+		
+		return $html;
+	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_OneChoice' );

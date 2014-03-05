@@ -27,6 +27,12 @@ class SurveyVal_SurveyElement_RangeEmotional extends SurveyVal_SurveyElement{
 	
 	public function settings_fields(){
 		$this->settings_fields = array(
+			'description' => array(
+				'title'			=> __( 'Description', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'The description will be shown after the question.', 'surveyval-locale' ),
+				'default'		=> ''
+			),
 			'range_from' => array(
 				'title'			=> __( 'Range from', 'surveyval-locale' ),
 				'type'			=> 'text',
@@ -54,6 +60,16 @@ class SurveyVal_SurveyElement_RangeEmotional extends SurveyVal_SurveyElement{
 	
 	public function validate( $input ){
 		return TRUE;
+	}
+	
+	public function after_question(){
+		if( !empty( $this->settings[ 'description' ] ) ):
+			$html = '<p class="surveyval-element-description">';
+			$html.= $this->settings[ 'description' ];
+			$html.= '</p>';
+		endif;
+		
+		return $html;
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_RangeEmotional' );

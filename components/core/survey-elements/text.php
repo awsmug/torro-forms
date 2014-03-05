@@ -27,6 +27,12 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 	
 	public function settings_fields(){
 		$this->settings_fields = array(
+			'description' => array(
+				'title'			=> __( 'Description', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'The description will be shown after the question.', 'surveyval-locale' ),
+				'default'		=> ''
+			),
 			'min_length' => array(
 				'title'			=> __( 'Minimum length', 'surveyval-locale' ),
 				'type'			=> 'text',
@@ -65,6 +71,17 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 		endif;
 		
 		return TRUE;
+	}
+
+	
+	public function after_question(){
+		if( !empty( $this->settings[ 'description' ] ) ):
+			$html = '<p class="surveyval-element-description">';
+			$html.= $this->settings[ 'description' ];
+			$html.= '</p>';
+		endif;
+		
+		return $html;
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_Text' );

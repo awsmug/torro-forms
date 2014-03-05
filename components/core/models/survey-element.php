@@ -136,6 +136,14 @@ abstract class SurveyVal_SurveyElement{
 		$this->settings[ $name ] = $value;
 	}
 	
+	public function before_question(){
+		return $html;
+	}
+	
+	public function after_question(){
+		return $html;
+	}
+	
 	public function before_answer(){
 		return $html;
 	}
