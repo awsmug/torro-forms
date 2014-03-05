@@ -426,7 +426,7 @@ class SurveyVal_ProcessResponse{
 						endforeach;
 						$answer_error = TRUE;
 					endif;
-				elseif( !$element->splitter ):
+				elseif( !$element->splitter && $element->is_question ):
 					$this->response_errors[] = array(
 						'message' => __( 'Pleas select a value.', 'surveyval-locale' ),
 						'question_id' =>  $element->id

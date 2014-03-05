@@ -18,6 +18,7 @@ class SurveyVal_SurveyElement_Separator extends SurveyVal_SurveyElement{
 		$this->title = __( 'Separator', 'surveyval-locale' );
 		$this->description = __( 'Adds a optical separator (<hr>) between questions.', 'surveyval-locale' );
 		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-separator.png';
+		
 		$this->is_question = FALSE;
 		
 		parent::__construct( $id );
