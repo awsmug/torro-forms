@@ -28,6 +28,9 @@
 #surveyval-content input[type=text]{
 	width:80%;
 }
+#surveyval-content textarea{
+	width:80%;
+}
 #surveyval-content div.answer{
 }
 .surveyval-widget-icon{
