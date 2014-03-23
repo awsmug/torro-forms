@@ -115,18 +115,6 @@ class SurveyVal_Core extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/surveyval.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/shortcodes.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/process-response.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/models/survey-element.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/text.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/textarea.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/onechoice.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/multiplechoice.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/select.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/range.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/range-emotional.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/separator.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/splitter.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/survey-elements/description.php' );
 	}
 	
 }

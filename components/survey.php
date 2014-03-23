@@ -42,12 +42,16 @@ class SurveyVal_Survey{
 		
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				$class = 'SurveyVal_SurveyElement_' . $result->type;
-				$object = new $class( $result->id );
-				$elements[] = $object;
-				
-				if( $object->splitter ):
-					$this->splitter_count++;
+				if( class_exists( 'SurveyVal_SurveyElement_' . $result->type ) ):
+					$class = 'SurveyVal_SurveyElement_' . $result->type;
+					$object = new $class( $result->id );
+					$elements[] = $object;
+					
+					if( $object->splitter ):
+						$this->splitter_count++;
+					endif;
+				else:
+					// If class do not exist -> Put in Error message here				
 				endif;
 			endforeach;
 		endif;

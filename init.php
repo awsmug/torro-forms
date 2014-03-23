@@ -274,8 +274,11 @@ class SurveVal_Init{
 	public static function load_components(){
 		// Loading Components
 		include( SURVEYVAL_FOLDER . '/components/component.php' );
+		include( SURVEYVAL_FOLDER . '/components/survey.php' );
+		include( SURVEYVAL_FOLDER . '/components/element.php' );
 		include( SURVEYVAL_FOLDER . '/components/admin/admin.php' );
 		include( SURVEYVAL_FOLDER . '/components/core/core.php' );
+		include( SURVEYVAL_FOLDER . '/components/elements/elements.php' );
 	}
 	
 	/**
