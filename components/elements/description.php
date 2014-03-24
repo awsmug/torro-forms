@@ -17,7 +17,7 @@ class SurveyVal_SurveyElement_Description extends SurveyVal_SurveyElement{
 		$this->slug = 'Description';
 		$this->title = __( 'Description', 'surveyval-locale' );
 		$this->description = __( 'Adds a text to the form.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-separator.png';
+		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-text.png';
 		
 		$this->is_question = FALSE;
 		

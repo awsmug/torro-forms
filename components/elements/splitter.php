@@ -17,7 +17,7 @@ class SurveyVal_SurveyElement_Splitter extends SurveyVal_SurveyElement{
 		$this->slug = 'Splitter';
 		$this->title = __( 'Split Form', 'surveyval-locale' );
 		$this->description = __( 'Splits a form into several steps', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-separator.png';
+		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-split-form.png';
 		
 		$this->is_question = FALSE;
 		$this->splitter = TRUE;

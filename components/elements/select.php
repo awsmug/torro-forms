@@ -17,7 +17,7 @@ class SurveyVal_SurveyElement_Select extends SurveyVal_SurveyElement{
 		$this->slug = 'Select';
 		$this->title = __( 'Select', 'surveyval-locale' );
 		$this->description = __( 'Add a question which can be answered within a select field.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-range.png';
+		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-select.png';
 		
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
