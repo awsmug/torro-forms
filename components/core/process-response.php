@@ -279,15 +279,19 @@ class SurveyVal_ProcessResponse{
 			endforeach;
 			
 			$html.= '<div class="answer">';
+			$html.= $element->before_answers();
 			$html.= $element->before_answer();
 			$html.= call_user_func_array( 'sprintf', $param_arr );
 			$html.= $element->after_answer();
+			$html.= $element->after_answers();
 			$html.= '</div>';
 			
 		else:
 			/*
 			 * With preset of answers
 			 */
+			 
+			 $html.= $element->before_answers();
 			 
 			foreach( $element->answers AS $answer ):
 				$param_arr = array();
@@ -333,12 +337,16 @@ class SurveyVal_ProcessResponse{
 					}
 					$param_arr[] = $param_value;			
 				endforeach;
-				$html.= '<div class="answer">';
+				//$html.= '<div class="answer">';
 				$html.= $element->before_answer();
 				$html.= call_user_func_array( 'sprintf', $param_arr );
 				$html.= $element->after_answer();
-				$html.= '</div>';
+				//$html.= '<pre>' . print_r( $param_arr, TRUE ) . '</pre>';
+				//$html.= '</div>';
 			endforeach;
+			
+			$html.= $element->after_answers();
+			
 		endif;
 		
 		$html.= '</div>';

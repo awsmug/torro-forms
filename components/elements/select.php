@@ -21,7 +21,11 @@ class SurveyVal_SurveyElement_Select extends SurveyVal_SurveyElement{
 		
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
-		$this->answer_is_multiple = TRUE;
+		$this->answer_is_multiple = FALSE;
+		
+		$this->answer_syntax = '<option value="%s" /> %s</option>';
+		$this->answer_selected_syntax = '<option value="%s" selected="selected" /> %s</option>';
+		$this->answer_params = array( 'value', 'answer' );
 		
 		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
 		$this->create_answer_params = array( 'name', 'answer' );
@@ -40,28 +44,14 @@ class SurveyVal_SurveyElement_Select extends SurveyVal_SurveyElement{
 		);
 	}
 	
-	public function get_element(){
-		$html = '<div class="question question_' . $this->id . $error_css . '">';
-		$html.= $this->before_question();
-		$html.= '<h5>' . $this->question . '</h5>';
-		$html.= $this->after_question();
-		
-		echo '<pre>';
-		print_r( $this );
-		echo '</pre>';
-		
-		$html.= '<select name="surveyval_response[' . $this->id . ']">';
-		
-		if( is_array( $this->answers ) && count( $this->answers ) > 0 ):
-			foreach( $this->answers AS $value ):
-				$html.= '<option value="' . $value['id'] . '">' .  $value['text'] . '</option>';
-			endforeach;
-		endif;
-		
-		$html.= '</select>';
-		
-		$html.= '</div>';
-		
+	public function before_answers(){
+		$html = '<select name="surveyval_response[' . $this->id . ']">';
+		$html.= '<option value="please-select"> - ' . __( 'Please select', 'surveyval-locale' ) . ' -</option>';
+		return $html;
+	}
+	
+	public function after_answers(){
+		$html = '</select>';
 		return $html;
 	}
 
@@ -74,6 +64,24 @@ class SurveyVal_SurveyElement_Select extends SurveyVal_SurveyElement{
 		
 		return $html;
 	}
+
+
+	public function validate( $input ){
+		$error = FALSE;
+		
+		if( 'please-select' == $input ):
+			$this->validate_errors[] = sprintf( __( 'Please select a value.', 'surveyval-locale' ) );
+			$error = TRUE;
+		endif;
+		
+		if( $error ):
+			return FALSE;
+		endif;
+		
+		return TRUE;
+	}
+
+	
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_Select' );
 

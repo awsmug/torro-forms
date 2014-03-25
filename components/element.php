@@ -144,6 +144,14 @@ abstract class SurveyVal_SurveyElement{
 		return $html;
 	}
 	
+	public function before_answers(){
+		return $html;
+	}
+	
+	public function after_answers(){
+		return $html;
+	}
+	
 	public function before_answer(){
 		return $html;
 	}
