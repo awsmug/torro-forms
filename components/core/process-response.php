@@ -254,99 +254,105 @@ class SurveyVal_ProcessResponse{
 		$html.= '<h5>' . $element->question . '</h5>';
 		$html.= $element->after_question();
 		
-		if( !$element->preset_of_answers ):
-			/*
-			 * On simple input
-			 */
-			$param_arr = array();
-			$param_arr[] = $element->answer_syntax;
-			
-			foreach( $element->answer_params AS $param ):
-				switch( $param ){
-					case 'name':
-						$param_value = 'surveyval_response[' . $element->id . ']';
-						break;
-						
-					case 'value':
-						$param_value = $answer;
-						break;
-						
-					case 'answer';
-						$param_value = $answer;
-						break;
-				}
-				$param_arr[] = $param_value;			
-			endforeach;
-			
-			$html.= '<div class="answer">';
-			$html.= $element->before_answers();
-			$html.= $element->before_answer();
-			$html.= call_user_func_array( 'sprintf', $param_arr );
-			$html.= $element->after_answer();
-			$html.= $element->after_answers();
-			$html.= '</div>';
-			
+		if( FALSE != $element->show() ):
+			// Using own method to show 
+			$html.= $element->show();
 		else:
-			/*
-			 * With preset of answers
-			 */
-			 
-			 $html.= $element->before_answers();
-			 
-			foreach( $element->answers AS $answer ):
+			// Using standard functions to show element
+			if( !$element->preset_of_answers ):
+				/*
+				 * On simple input
+				 */
 				$param_arr = array();
+				$param_arr[] = $element->answer_syntax;
 				
-				// Is answer selected choose right syntax
-				if( $element->answer_is_multiple ):
-					
-					if( is_array( $response[ $element->id ] ) && in_array( $answer['text'], $response[ $element->id ] ) ):
-						$param_arr[] = $element->answer_selected_syntax;
-					else:
-						$param_arr[] = $element->answer_syntax;
-					endif;
-					
-				else:
-					
-					if( $response[ $element->id ] == $answer['text'] && !empty( $element->answer_selected_syntax ) ):
-						$param_arr[] = $element->answer_selected_syntax;
-					else:
-						$param_arr[] = $element->answer_syntax;
-					endif;
-					
-				endif;
-				
-				// Running every parameter for later calling
 				foreach( $element->answer_params AS $param ):
 					switch( $param ){
-						
 						case 'name':
-							if( $element->answer_is_multiple )
-								$param_value = 'surveyval_response[' . $element->id . '][]';
-							else
-								$param_value = 'surveyval_response[' . $element->id . ']';
-								
+							$param_value = 'surveyval_response[' . $element->id . ']';
 							break;
 							
 						case 'value':
-							$param_value = $answer['text'];
+							$param_value = $answer;
 							break;
 							
 						case 'answer';
-							$param_value = $answer['text'];
+							$param_value = $answer;
 							break;
 					}
 					$param_arr[] = $param_value;			
 				endforeach;
-				//$html.= '<div class="answer">';
+				
+				$html.= '<div class="answer">';
+				$html.= $element->before_answers();
 				$html.= $element->before_answer();
 				$html.= call_user_func_array( 'sprintf', $param_arr );
 				$html.= $element->after_answer();
-				//$html.= '<pre>' . print_r( $param_arr, TRUE ) . '</pre>';
-				//$html.= '</div>';
-			endforeach;
-			
-			$html.= $element->after_answers();
-			
+				$html.= $element->after_answers();
+				$html.= '</div>';
+				
+			else:
+				/*
+				 * With preset of answers
+				 */
+				 
+				 $html.= $element->before_answers();
+				 
+				foreach( $element->answers AS $answer ):
+					$param_arr = array();
+					
+					// Is answer selected choose right syntax
+					if( $element->answer_is_multiple ):
+						
+						if( is_array( $response[ $element->id ] ) && in_array( $answer['text'], $response[ $element->id ] ) ):
+							$param_arr[] = $element->answer_selected_syntax;
+						else:
+							$param_arr[] = $element->answer_syntax;
+						endif;
+						
+					else:
+						
+						if( $response[ $element->id ] == $answer['text'] && !empty( $element->answer_selected_syntax ) ):
+							$param_arr[] = $element->answer_selected_syntax;
+						else:
+							$param_arr[] = $element->answer_syntax;
+						endif;
+						
+					endif;
+					
+					// Running every parameter for later calling
+					foreach( $element->answer_params AS $param ):
+						switch( $param ){
+							
+							case 'name':
+								if( $element->answer_is_multiple )
+									$param_value = 'surveyval_response[' . $element->id . '][]';
+								else
+									$param_value = 'surveyval_response[' . $element->id . ']';
+									
+								break;
+								
+							case 'value':
+								$param_value = $answer['text'];
+								break;
+								
+							case 'answer';
+								$param_value = $answer['text'];
+								break;
+						}
+						$param_arr[] = $param_value;			
+					endforeach;
+					//$html.= '<div class="answer">';
+					$html.= $element->before_answer();
+					$html.= call_user_func_array( 'sprintf', $param_arr );
+					$html.= $element->after_answer();
+					//$html.= '<pre>' . print_r( $param_arr, TRUE ) . '</pre>';
+					//$html.= '</div>';
+				endforeach;
+				
+				$html.= $element->after_answers();
+				
+			endif;
 		endif;
 		
 		$html.= '</div>';

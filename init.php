@@ -133,6 +133,7 @@ class SurveVal_Init{
 		$sql = "CREATE TABLE $table_answers (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			question_id int(11) NOT NULL,
+			section char(100) NOT NULL,
 			answer text NOT NULL,
 			sort int(11) NOT NULL,
 			UNIQUE KEY id (id)

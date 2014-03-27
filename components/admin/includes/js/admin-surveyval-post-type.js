@@ -181,23 +181,43 @@
 		surveyval_rewriteheadline();
 		
 		$( "#drag-drop-area" ).on( 'click', '.add-answer', function(){
+			
 			var element_id = $( this ).attr( 'rel' );
 			var nr = surveyval_rand();
 			
-			var input_name = 'input[name="surveyval\[' + element_id + '\]\[preset_is_multiple\]"]';
-			var preset_is_multiple = $( input_name ).val();
+			var preset_is_multiple = 'input[name="surveyval\[' + element_id + '\]\[preset_is_multiple\]"]';
+			var preset_is_multiple = $( preset_is_multiple ).val();
 			
 			var multiple_class = '';
-			if( preset_is_multiple ) multiple_class = ' preset_is_multiple';
+			if( preset_is_multiple == 'yes' ) multiple_class = ' preset_is_multiple';
 			
-			var answer_content = '<div class="answer' + multiple_class + '" id="answer_##nr##"><p><input type="text" name="surveyval[' + element_id + '][answers][id_##nr##][answer]" /></p><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][sort]" /> <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
+			var sections = 'input[name="surveyval\[' + element_id + '\]\[sections\]"]';
+			var sections = $( sections ).val();
 			
+			var answer_content = '';
+			answer_content = '<div class="answer' + multiple_class + '" id="answer_##nr##">';
+			answer_content = answer_content + '<p><input type="text" name="surveyval[' + element_id + '][answers][id_##nr##][answer]" /></p>';
+			answer_content = answer_content + '<input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][sort]" />';
+			
+			console.log( element_id );
+			console.log( sections );
+			
+			if( 'yes' == sections ){
+				var section_key = $( this ).parent().find( 'input[name="section_key"]' ).val();
+				answer_content = answer_content + '<input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][section]" value="' + section_key + '" />';
+			}
+			answer_content = answer_content + ' <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
+							
 			answer_content = answer_content.replace( /##nr##/g, nr );
 			
 			var order = 0;
 			$( this ).parent().find( '.answer' ).each( function( e ) { order++; });
 			
-			$( answer_content ).appendTo( "#" + element_id + " .answers" );
+			if( 'yes' == sections ){
+				$( answer_content ).appendTo( "#" + element_id + " #section_" + section_key + " .answers" );
+			}else{
+				$( answer_content ).appendTo( "#" + element_id + " .answers" );
+			}
 			
 			// Adding sorting number
 			var input_name = 'input[name="surveyval\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';

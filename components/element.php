@@ -91,7 +91,7 @@ abstract class SurveyVal_SurveyElement{
 				
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				$this->add_answer( $result->answer, $result->sort, $result->id );
+				$this->add_answer( $result->answer, $result->sort, $result->id, $result->section );
 			endforeach;
 		endif;
 		
@@ -118,7 +118,7 @@ abstract class SurveyVal_SurveyElement{
 		return TRUE;
 	}
 	
-	private function add_answer( $text, $sort = FALSE, $id = null ){ 
+	private function add_answer( $text, $sort = FALSE, $id = null, $section = null ){ 
 		if( '' == $text )
 			return FALSE;
 		
@@ -128,7 +128,8 @@ abstract class SurveyVal_SurveyElement{
 		$this->answers[ $id ] = array(
 			'id' => $id,
 			'text' => $text,
-			'sort' => $sort
+			'sort' => $sort,
+			'section' => $section
 		);
 	}
 	
@@ -168,6 +169,14 @@ abstract class SurveyVal_SurveyElement{
 	}
 	
 	public function get_element(){
+		return FALSE;
+	}
+	
+	public function show(){
+		return FALSE;
+	}
+	
+	public function save(){
 		return FALSE;
 	}
 	

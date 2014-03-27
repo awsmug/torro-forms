@@ -95,12 +95,14 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		$html = '<div id="surveyval-content" class="drag-drop">';
 			$html.= '<div id="drag-drop-area" class="widgets-holder-wrap">';
-				
+			
+				/* << INSIDE DRAG&DROP AREA >> */
 				$survey = new SurveyVal_Survey( $post->ID );
-
+				// Running each Element
 				foreach( $survey->elements AS $element ):
-					$html.=  $this->get_widget_html( $element );
+					$html.=  $this->element( $element );
 				endforeach;
+				/* << INSIDE DRAG&DROP AREA >> */
 				
 				$html.= '<div class="drag-drop-inside">';
 					$html.= '<p class="drag-drop-info">';
@@ -117,10 +119,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		echo $html;
 	}
 	
-	private function get_widget_html( $element, $new = FALSE ){
+	private function element( $element, $new = FALSE ){
 		$id = $element->id;
 		$title = empty( $element->question ) ? $element->title : $element->question;
-		$content = $this->get_settings_html( $element, $new );
 		$icon = $element->icon;
 		
 		if( null != $id && '' != $id )
@@ -142,7 +143,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$html.= '</div>';
 			$html.= '<div class="widget-inside">';
 				$html.= '<div class="widget-content">';
-					$html.= $content;
+					$html.= $this->element_form( $element, $new );
 				$html.= '</div>';
 			$html.= '</div>';
 		$html.= '</div>';
@@ -150,7 +151,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		return $html;
 	}
 	
-	public function get_settings_html( $element, $new = FALSE ){
+	public function element_form( $element, $new = FALSE ){
 		$id = $element->id;
 		
 		if( !$new )
@@ -159,7 +160,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$widget_id = 'widget_surveyelement_##nr##';
 		
 		$jquery_widget_id = str_replace( '#', '', $widget_id );
-		
 		
 		/*
 		 * Tab content
@@ -173,22 +173,28 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			if( is_array( $element->settings_fields ) && count( $element->settings_fields ) > 0 ):
 				$html.= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . __( 'Settings', 'surveyval-locale' ) . '</a></li>';
 			endif;
+			
+			$html = apply_filters( 'surveyval_element_tabs', $html, $element, $widget_id, $new );
+			
 		$html.= '</ul>';
 		
 		$html.= '<div class="clear tabs_underline"></div>';
 		
+		// Adding question HTML
 		if( $element->is_question ):
 			$html.= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';
-				$html.= $this->get_admin_question_tab_html( $element, $widget_id, $new );
+				$html.= $this->question( $element, $widget_id, $new );
 			$html.= '</div>'; 
 		endif;
 		
+		// Adding settings HTML
 		if( is_array( $element->settings_fields ) && count( $element->settings_fields ) > 0 ):
 			$html.= '<div id="tab_' . $jquery_widget_id . '_settings" class="tab_settings_content">';
-				$html.= $this->get_admin_settings_tab_html( $element, $widget_id, $new );
+				$html.= $this->settings( $element, $widget_id, $new );
 			$html.= '</div>';
 		endif;
 		
+		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'sv_element_bottom_actions', array(
 			'delete_survey_element' => array(
 				'text' => __( 'Delete element', 'surveyval-locale' ),
@@ -196,112 +202,45 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			)
 		));
 		
+		$html = apply_filters( 'surveyval_element_tabs_content', $html, $element, $widget_id, $new  );
+		
 		$html.= '<ul class="survey-element-bottom">';
 		foreach( $bottom_buttons AS $button ):
 			$html.= '<li><a class="' . $button[ 'classes' ] . ' survey-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
 		endforeach;
 		$html.= '</ul>';
 		
+		// Adding hidden Values for element
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $element->id . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $element->sort . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $element->slug . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_is_multiple]" value="' . ( $element->preset_is_multiple ? 'yes' : 'no' ) . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_of_answers]" value="' . ( $element->preset_of_answers ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sections]" value="' . ( is_array( $element->sections ) && count( $element->sections ) > 0  ? 'yes' : 'no' ) . '" />';
 	
 		$html.= '</div>'; 
 		
 		return $html;
 	}
 
-	private function get_admin_question_tab_html( $element, $widget_id, $new = FALSE ){
+	private function question( $element, $widget_id, $new = FALSE ){
+		// Question
 		$html = '<p><input type="text" name="surveyval[' . $widget_id . '][question]" value="' . $element->question . '" class="surveyval-question" /><p>';
-	
-		$i = 0;
 		
+		// Answers
 		if( $element->preset_of_answers ):
-			
-			$html.= '<p>' . __( 'Answer/s:', 'surveyval-locale' ) . '</p>';
-			
-			if( is_array( $element->answers ) && !$new ):
-				
-				$html.= '<div class="answers">';
-				
-				foreach( $element->answers AS $answer ):
-					$param_arr = array();
-					$param_arr[] = $element->create_answer_syntax;
-					
-					foreach ( $element->create_answer_params AS $param ):
-						
-						switch( $param ){
-							case 'name':
-								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
-								break;
-								
-							case 'value':
-								$param_value = $value;
-								break;
-								
-							case 'answer';
-								$param_value = $answer['text'];
-								break;
-						}
-						$param_arr[] = $param_value;
-					endforeach;
-					
-					if( $element->preset_is_multiple )
-						$answer_classes = ' preset_is_multiple';
-					
-					$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
-					$html.= call_user_func_array( 'sprintf', $param_arr );
-					$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
-					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
-					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
+			if( is_array( $element->sections ) && count( $element->sections ) > 0 ):
+				foreach( $element->sections as $section_key => $section_name ):
+					$html.= '<div class="surveyval-section" id="section_' . $section_key . '">';
+					$html.= '<p>' . $section_name . '</p>';
+					$html.= $this->answers( $element, $widget_id, $new, $section_key );
+					$html.= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
 					$html.= '</div>';
-					
 				endforeach;
-				
-				$html.= '</div><div class="clear"></div>';
-				
 			else:
-				if( $element->preset_of_answers ):
-					$param_arr[] = $element->create_answer_syntax;
-					$temp_answer_id = 'id_' . time() * rand();
-						
-					foreach ( $element->create_answer_params AS $param ):
-						switch( $param ){
-							case 'name':
-								$param_value = 'surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]';
-								break;
-								
-							case 'value':
-								$param_value = '';
-								break;
-								
-							case 'answer';
-								$param_value = '';
-								break;
-						}
-						$param_arr[] = $param_value;
-					endforeach;
-					
-					if( $element->preset_is_multiple )
-						$answer_classes = ' preset_is_multiple';
-					
-					$html.= '<div class="answers">';
-					$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
-					$html.= call_user_func_array( 'sprintf', $param_arr );
-					$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
-					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
-					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
-					$html.= '</div>';
-					$html.= '</div><div class="clear"></div>';
-					
-				endif;
-				
+				$html.= '<p>' . __( 'Answer/s:', 'surveyval-locale' ) . '</p>';
+				$html.= $this->answers( $element, $widget_id, $new );
 			endif;
-			
-			if( $element->preset_is_multiple )
-				$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
 		
 		endif;
 		
@@ -310,7 +249,112 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		return $html;
 	}
 
-	private function get_admin_settings_tab_html( $element, $widget_id, $new ){
+	public function answers( $element, $widget_id, $new = TRUE, $section = NULL ){
+		
+		if( is_array( $element->answers ) && !$new ):
+			
+			$html.= '<div class="answers">';
+			
+			foreach( $element->answers AS $answer ):
+				
+				// If there is a section
+				if( NULL != $section )
+					// Continue if answer is not of the section
+					if( $answer['section'] != $section )
+						continue;
+						
+				$param_arr = array();
+				$param_arr[] = $element->create_answer_syntax;
+				
+				foreach ( $element->create_answer_params AS $param ):
+					
+					switch( $param ){
+						case 'name':
+								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
+							break;
+							
+						case 'value':
+							$param_value = $value;
+							break;
+							
+						case 'answer';
+							$param_value = $answer['text'];
+							break;
+					}
+					$param_arr[] = $param_value;
+				endforeach;
+				
+				if( $element->preset_is_multiple )
+					$answer_classes = ' preset_is_multiple';
+				
+				$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
+				$html.= call_user_func_array( 'sprintf', $param_arr );
+				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
+				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
+				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
+				
+				if( NULL != $section )
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][section]" value="' . $section . '" />';
+				
+				$html.= '</div>';
+				
+				
+			endforeach;
+			
+			$html.= '</div><div class="clear"></div>';
+			
+		else:
+			if( $element->preset_of_answers ):
+				$param_arr[] = $element->create_answer_syntax;
+				$temp_answer_id = 'id_' . time() * rand();
+					
+				foreach ( $element->create_answer_params AS $param ):
+					switch( $param ){
+						case 'name':
+								$param_value = 'surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]';
+							break;
+							
+						case 'value':
+							$param_value = '';
+							break;
+							
+						case 'answer';
+							$param_value = '';
+							break;
+					}
+					$param_arr[] = $param_value;
+				endforeach;
+				
+				if( $element->preset_is_multiple )
+					$answer_classes = ' preset_is_multiple';
+				
+				$html.= '<div class="answers">';
+				$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
+				$html.= call_user_func_array( 'sprintf', $param_arr );
+				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
+				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
+				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
+				if( NULL != $section )
+					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . $section . '" />';
+				
+				$html.= '</div>';
+				$html.= '</div><div class="clear"></div>';
+				
+			endif;
+			
+		endif;
+		
+		if( $element->preset_is_multiple )
+			$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
+		
+		return $html;
+	}
+	
+	public function get_answer( $answer_id ){
+			
+	}
+	
+	private function settings( $element, $widget_id, $new ){
 		$html = '';
 		
 		foreach( $element->settings_fields AS $name => $field ):
@@ -381,7 +425,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		foreach( $surveyval_global->element_types AS $element_type ):
 			echo '<div class="surveyval-draggable">';
-			echo $this->get_widget_html( $element_type, TRUE );
+			echo $this->element( $element_type, TRUE );
 			echo '</div>';
 		endforeach;
 	}
@@ -595,6 +639,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$question = $survey_question['question'];
 			$sort = $survey_question['sort'];
 			$type = $survey_question['type'];
+			
 			$answers = array();
 			$settings = array();
 			
@@ -644,12 +689,14 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					$answer_id = $answer['id'];
 					$answer_text = $answer['answer'];
 					$answer_sort = $answer['sort'];
+					$answer_section = $answer['section'];
 					
 					if( '' != $answer_id ):
 						$wpdb->update(
 							$surveyval_global->tables->answers,
 							array( 
 								'answer' => $answer_text,
+								'section' => $answer_section,
 								'sort' => $answer_sort
 							),
 							array(
@@ -662,6 +709,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 							array(
 								'question_id' => $question_id,
 								'answer' => $answer_text,
+								'section' => $answer_section,
 								'sort' => $answer_sort
 							)
 						);
