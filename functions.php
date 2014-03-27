@@ -45,12 +45,6 @@ function sv_user_has_participated( $survey_id, $user_id ){
 }
 */
 
-function sv_add_post_rows( $actions, $post ){
-	$actions['view_poll_results'] = '<a href="#test">Umfrageergebnisse exportieren</a>';
-	return $actions;
-}
-add_filter( 'post_row_actions', 'sv_add_post_rows', 10, 2 );
-
 function sv_get_mail_template_text( $mailtext_title ){
 	switch ( $mailtext_title ){
 		case 'thankyou_participating':

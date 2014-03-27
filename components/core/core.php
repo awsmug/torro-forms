@@ -115,6 +115,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/surveyval.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/shortcodes.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/core/process-response.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/core/export.php' );
 	}
 	
 }
