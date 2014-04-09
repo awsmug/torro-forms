@@ -49,7 +49,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
 			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 10 );
-			add_action( 'save_post', array( $this, 'save_survey' ), 50 );
+			add_action( 'save_post', array( $this, 'save_survey' ) );
 			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 			add_action( 'wp_ajax_surveyval_add_members_standard', array( $this, 'filter_user_ajax' ) );
 			add_action( 'wp_ajax_surveyval_invite_participiants', array( $this, 'invite_participiants' ) );
@@ -571,6 +571,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function save_survey( $post_id ){
+		
 		if ( wp_is_post_revision( $post_id ) )
 			return;
 		
