@@ -45,9 +45,13 @@ class SurveyVal_ProcessResponse{
 	public function __construct() {
 		if( !is_admin() ):
 			add_action( 'init', array( $this, 'save_response_cookies' ) );
-			add_filter( 'the_content', array( $this, 'the_content' ) );
+			add_action( 'the_post', array( $this, 'load_post_filter' ) ); // Just hooking in at the beginning of a loop
 		endif;
 	} // end constructor
+	
+	public function load_post_filter(){
+		add_filter( 'the_content', array( $this, 'the_content' ) );
+	}
 	
 	public function the_content( $content ){
 		global $post, $surveyval_global;
@@ -56,6 +60,8 @@ class SurveyVal_ProcessResponse{
 			return $content;
 		
 		$content = $this->get_survey( $post->ID );
+		
+		remove_filter( 'the_content', array( $this, 'the_content' ) ); // only show once		
 		
 		return $content;
 	}
