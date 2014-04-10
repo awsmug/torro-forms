@@ -2,9 +2,8 @@
 	"use strict";
 	$( function () {
 		$( ".surveyval-draggable" ).draggable( { 
-			appendTo: "body",
 			helper: "clone",
-			cursor: "move"
+			cursor: "move",
 		});
 		
 		$( "#drag-drop-area" ).droppable({

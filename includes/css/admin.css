@@ -179,3 +179,14 @@
     border: 1px solid #CCC;
     margin: 0 10px 10px 10px;
 }
+.ui-draggable-dragging{
+	
+}
+.ui-draggable-dragging .widget-title{
+	width: 48px !important;
+	overflow:hidden !important;
+	height: 48px !important;
+}
+.ui-draggable-dragging .widget-title h4{
+	opacity:0;
+}
