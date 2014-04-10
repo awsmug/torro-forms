@@ -81,9 +81,11 @@ class SurveVal_Init{
 	    if( is_admin() ):
 			// Register admin styles and scripts
 			add_action( 'plugins_loaded', array( __CLASS__, 'check_requirements' ) );
+			add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+			
 			add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_admin_scripts' ) );
-			add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+			
 		else:
 			// Register plugin styles and scripts
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
