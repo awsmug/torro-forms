@@ -61,6 +61,9 @@
 #delete_answer_dialog{
 	display:none;
 }
+.survey_element_tabs ul{
+	margin-top:20px !important;
+}
 .survey_element_tabs .tabs_underline{
 	border-bottom: 1px solid #CCC;
 }
