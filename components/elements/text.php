@@ -44,13 +44,26 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 				'type'			=> 'text',
 				'description' 	=> __( 'The maximum number of chars which can be typed in.', 'surveyval-locale' ),
 				'default'		=> '100'
-			), 
+			),
+			'validation' => array(
+				'title'			=> __( 'Validation', 'surveyvalscience-locale' ),
+				'type'			=> 'radio',
+				'values'		=> array(
+					'none' => __( 'No validation', 'surveyvalscience-locale' ),
+					'numbers' => __( 'Numbers', 'surveyvalscience-locale' ),
+					'numbers_decimal' => __( 'Decimal Numers', 'surveyvalscience-locale' ),
+					'email_address' => __( 'Email-Address', 'surveyvalscience-locale' ),
+				),
+				'description' 	=> __( 'The will do a Validation for the input.', 'surveyvalscience-locale' ),
+				'default'		=> 'none'
+			),
 		);
 	}
 	
 	public function validate( $input ){
 		$min_length = $this->settings['min_length'];
 		$max_length = $this->settings['max_length'];
+		$validation = $this->settings['validation'];
 		
 		$error = FALSE;
 		
@@ -65,6 +78,29 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 				$this->validate_errors[] = sprintf( __( 'The input have to be at maximum %s chars.', 'surveyval-locale' ), $max_length );
 				$error = TRUE;
 			endif;
+			
+		if( 'none' != $validation ):
+			switch( $validation ){
+				case 'numbers':
+					if( !preg_match('/^[0-9]{1,}$/', $input ) ):
+						$this->validate_errors[] = sprintf( __( 'Please input a number.', 'surveyval-locale' ), $max_length );
+						$error = TRUE;
+					endif;
+					break;
+				case 'numbers_decimal':
+					if( !preg_match('/^-?([0-9])+\.?([0-9])+$/', $input ) && !preg_match('/^-?([0-9])+\,?([0-9])+$/', $input ) ):
+						$this->validate_errors[] = sprintf( __( 'Please input a decimal number.', 'surveyval-locale' ), $max_length );
+						$error = TRUE;
+					endif;	
+					break;
+				case 'email_address':
+					if( !preg_match('/^[\w-.]+[@][a-zA-Z0-9-.äöüÄÖÜ]{3,}\.[a-z.]{2,4}$/', $input ) ):
+						$this->validate_errors[] = sprintf( __( 'Please input an Email-Address.', 'surveyval-locale' ), $max_length );
+						$error = TRUE;
+					endif;
+					break;
+			}				
+		endif;
 			
 		if( $error ):
 			return FALSE;
