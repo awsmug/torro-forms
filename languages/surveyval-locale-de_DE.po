@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-10 17:53+0100\n"
-"PO-Revision-Date: 2014-04-10 18:22+0100\n"
+"POT-Creation-Date: 2014-04-10 19:32+0100\n"
+"PO-Revision-Date: 2014-04-10 19:32+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -371,7 +371,7 @@ msgstr "Weiter"
 # @ surveyval-locale
 #: components/core/process-response.php:451
 msgid "Pleas select a value."
-msgstr ""
+msgstr "Bitte w&auml;holen Sie einen Wert."
 
 # @ surveyval-locale
 #: components/core/process-response.php:458
@@ -386,9 +386,8 @@ msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 
 # @ surveyval-locale
 #: components/core/process-response.php:563
-#, fuzzy
 msgid "You already have participated this poll."
-msgstr "Vous avez d&eacute;j&agrave; vot&eacute;"
+msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
 # @ surveyval-locale
 #: components/core/process-response.php:570
@@ -464,8 +463,9 @@ msgstr "Minimale Anzahl an Antworten"
 
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:47
+#, fuzzy
 msgid "The minimum number of answers which have to be choosed."
-msgstr ""
+msgstr "Die maximale Anzahl an Antworten, welche eingegeben werden kann."
 
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:51
@@ -475,7 +475,7 @@ msgstr "Maximale Anzahl an Antworten"
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:53
 msgid "The maximum number of answers which can be choosed."
-msgstr ""
+msgstr "Die maximale Anzahl an Antworten, welche eingegeben werden kann."
 
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:67
@@ -499,11 +499,14 @@ msgstr "Einfach-Anwort"
 msgid ""
 "Add a question which can be answered by selecting one of the given answers."
 msgstr ""
+"Eine Frage hinzuf&uuml;gen, die mit einer oder mehreren Antworten "
+"beantwortet werden kann."
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:18
+#, fuzzy
 msgid "Range Emotional"
-msgstr ""
+msgstr "Von:"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:19
@@ -522,8 +525,9 @@ msgstr ""
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:43 components/elements/range.php:43
+#, fuzzy
 msgid "Range to"
-msgstr ""
+msgstr "Von:"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:45 components/elements/range.php:45
@@ -540,13 +544,15 @@ msgstr ""
 
 # @ surveyval-locale
 #: components/elements/range.php:18
+#, fuzzy
 msgid "Range"
-msgstr ""
+msgstr "Von:"
 
 # @ surveyval-locale
 #: components/elements/range.php:19
+#, fuzzy
 msgid "Add a question which can be answered within a range scale."
-msgstr ""
+msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
 
 # @ surveyval-locale
 #: components/elements/range.php:49
@@ -636,17 +642,57 @@ msgstr "Maximale L&auml;nge"
 msgid "The maximum number of chars which can be typed in."
 msgstr "Die maximale Anzahl an Zeichen, welche eingegeben werden kann."
 
+#: components/elements/text.php:49
+msgid "Validation"
+msgstr "Validierung"
+
+#: components/elements/text.php:52
+msgid "No validation"
+msgstr "Keine Validierung"
+
+#: components/elements/text.php:53
+#, fuzzy
+msgid "Numbers"
+msgstr ""
+"Im Benutzernamen sind nur Zahlen und kleingeschriebene Buchstaben erlaubt."
+
+#: components/elements/text.php:54
+msgid "Decimal Numbers"
+msgstr "Dezimalzahlen"
+
+#: components/elements/text.php:55
+msgid "Email-Address"
+msgstr "Email-Adresse"
+
+#: components/elements/text.php:57
+#, fuzzy
+msgid "The will do a Validation for the input."
+msgstr "Validierung"
+
 # @ surveyval-locale
-#: components/elements/text.php:59 components/elements/textarea.php:59
+#: components/elements/text.php:72 components/elements/textarea.php:59
 #, php-format
 msgid "The input have to be at minimum %s chars."
 msgstr "Es m&uuml;ssen mindestens %s Zeichen angegeben werden."
 
 # @ surveyval-locale
-#: components/elements/text.php:65 components/elements/textarea.php:65
+#: components/elements/text.php:78 components/elements/textarea.php:65
 #, php-format
 msgid "The input have to be at maximum %s chars."
 msgstr "Es d&uuml;rfen maximal %s Zeichen angegeben werden."
+
+#: components/elements/text.php:86
+msgid "Please input a number."
+msgstr "Bitte geben Sie eine ganze Zahl ein."
+
+#: components/elements/text.php:92
+msgid "Please input a decimal number."
+msgstr "Bitte geben Sie eine Dezimalzahl ein."
+
+#: components/elements/text.php:98
+#, fuzzy
+msgid "Please input a valid Email-Address."
+msgstr "Bitte geben Sie eine Email-Adresse an."
 
 # @ surveyval-locale
 #: components/elements/textarea.php:18
@@ -655,8 +701,9 @@ msgstr "Textara"
 
 # @ surveyval-locale
 #: components/elements/textarea.php:19
+#, fuzzy
 msgid "Add a question which can be answered within a text area."
-msgstr ""
+msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
 
 #: functions.php:53
 msgid ""
