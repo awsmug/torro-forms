@@ -51,10 +51,10 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 				'values'		=> array(
 					'none' => __( 'No validation', 'surveyvalscience-locale' ),
 					'numbers' => __( 'Numbers', 'surveyvalscience-locale' ),
-					'numbers_decimal' => __( 'Decimal Numers', 'surveyvalscience-locale' ),
+					'numbers_decimal' => __( 'Decimal Numbers', 'surveyvalscience-locale' ),
 					'email_address' => __( 'Email-Address', 'surveyvalscience-locale' ),
 				),
-				'description' 	=> __( 'The will do a Validation for the input.', 'surveyvalscience-locale' ),
+				'description' 	=> __( 'The will do a validation for the input.', 'surveyvalscience-locale' ),
 				'default'		=> 'none'
 			),
 		);
@@ -95,7 +95,7 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 					break;
 				case 'email_address':
 					if( !preg_match('/^[\w-.]+[@][a-zA-Z0-9-.äöüÄÖÜ]{3,}\.[a-z.]{2,4}$/', $input ) ):
-						$this->validate_errors[] = sprintf( __( 'Please input an Email-Address.', 'surveyval-locale' ), $max_length );
+						$this->validate_errors[] = sprintf( __( 'Please input a valid Email-Address.', 'surveyval-locale' ), $max_length );
 						$error = TRUE;
 					endif;
 					break;
