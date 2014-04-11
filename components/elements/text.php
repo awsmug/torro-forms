@@ -46,7 +46,7 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 				'default'		=> '100'
 			),
 			'validation' => array(
-				'title'			=> __( 'Validation', 'surveyvalscience-locale' ),
+				'title'			=> __( 'String Validation', 'surveyvalscience-locale' ),
 				'type'			=> 'radio',
 				'values'		=> array(
 					'none' => __( 'No validation', 'surveyvalscience-locale' ),

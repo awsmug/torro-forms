@@ -146,6 +146,13 @@
 	display:none;
 	font-size:12px;
 }
+.participiant.new{
+	background-color: #DD3D36;
+}
+.participiant.new td{
+	color:#FFF;
+}
+
 #surveyval-invite-button-cancel,
 #surveyval-reinvite-button-cancel{
 	display:none;
@@ -154,6 +161,7 @@
 	width:80%;
 	height:200px;
 }
+
 /* 
  * Dialogs
  */

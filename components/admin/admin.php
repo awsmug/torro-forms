@@ -433,6 +433,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	public function meta_box_survey_participiants(){
 		global $wpdb, $post, $surveyval_global;
 		
+		$survey_id = $post->ID;
+		
 		$options = apply_filters( 'surveyval_post_type_add_participiants_options', array(
 			'all_members' => __( 'Add all actual Members', 'surveyval-locale' ),
 		) );
@@ -463,7 +465,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$html.= ob_get_clean();
 		
 		$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s";
-		$sql = $wpdb->prepare( $sql, $post->ID );
+		$sql = $wpdb->prepare( $sql, $survey_id );
 		$user_ids = $wpdb->get_col( $sql );
 		
 		if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
@@ -481,6 +483,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 						$html.= '<th>' . __( 'User nicename', 'surveyval-locale' ) . '</th>';
 						$html.= '<th>' . __( 'Display name', 'surveyval-locale' ) . '</th>';
 						$html.= '<th>' . __( 'Email', 'surveyval-locale' ) . '</th>';
+						$html.= '<th>' . __( 'Status', 'surveyval-locale' ) . '</th>';
 						$html.= '<th>&nbsp</th>';
 					$html.= '</tr>';
 				$html.= '</thead>';
@@ -491,11 +494,20 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				if( is_array( $users ) && count( $users ) > 0 ):
 				
 					foreach( $users AS $user ):
-						$html.= '<tr class="participiant-user-' . $user->ID . '">';
+						if( sv_user_has_participated( $survey_id, $user->ID ) ):
+							$user_css = ' finished';
+							$user_text = __( 'finished', 'surveyval-locale' );
+						else:
+							$user_text = __( 'new', 'surveyval-locale' );
+							$user_css = ' new';
+						endif;
+						
+						$html.= '<tr class="participiant participiant-user-' . $user->ID . $user_css .'">';
 							$html.= '<td>' . $user->ID . '</td>';
 							$html.= '<td>' . $user->user_nicename . '</td>';
 							$html.= '<td>' . $user->display_name . '</td>';
 							$html.= '<td>' . $user->user_email . '</td>';
+							$html.= '<td>' . $user_text . '</td>';
 							$html.= '<td><a class="button surveyval-delete-participiant" rel="' . $user->ID . '">' . __( 'Delete', 'surveyval-locale' ) . '</a></th>';
 						$html.= '</tr>';
 					endforeach;
