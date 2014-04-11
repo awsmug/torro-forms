@@ -273,7 +273,7 @@
 					}else{
 						surveyval_participiants = surveyval_participiants + ',' + object.id;
 					}
-					$( "#surveyval-participiants-list tbody" ).append( '<tr class="surveyval-participiant-new participiant-user-' + object.id + '"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + translation_admin.delete + '</a></td></tr>' );
+					$( "#surveyval-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_admin.just_added + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + translation_admin.delete + '</a></td></tr>' );
 				}	
 				
 			    $( "#surveyval-participiants" ).val( surveyval_participiants );

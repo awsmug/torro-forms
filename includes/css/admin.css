@@ -146,11 +146,22 @@
 	display:none;
 	font-size:12px;
 }
-.participiant.new{
-	background-color: #DD3D36;
+.participiant.finished td:first-child{
+	border-left: 4px solid #7AD03A;
 }
 .participiant.new td{
-	color:#FFF;
+	background-color: #FEFAF7;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
+}
+.participiant.new td:first-child{
+	border-left: 4px solid #DD3D36;
+}
+.participiant.just-added td{
+	background-color: #F7FCFE;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
+}
+.participiant.just-added td:first-child{
+	border-left: 4px solid #2EA2CC;
 }
 
 #surveyval-invite-button-cancel,

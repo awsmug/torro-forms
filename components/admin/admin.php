@@ -558,7 +558,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( in_array( $post_type, $post_types )):
 			add_meta_box(
 	            'survey-invites',
-	            __( 'Send Invites', 'surveyval-locale' ),
+	            __( 'Invitations', 'surveyval-locale' ),
 	            array( $this, 'meta_box_survey_invites' ),
 	            'surveyval',
 	            'side'
@@ -927,6 +927,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			'delete' => __( 'Delete', 'surveyval-locale' ),
 			'yes' => __( 'Yes', 'surveyval-locale' ),
 			'no' => __( 'No', 'surveyval-locale' ),
+			'just_added' => __( 'just added', 'surveyval-locale' ),
 			'invitations_sent_successfully' => __( 'Invitations sent successfully!', 'surveyval-locale' ),
 			'invitations_not_sent_successfully' => __( 'Invitations could not be sent!', 'surveyval-locale' ),
 			'reinvitations_sent_successfully' => __( 'Renvitations sent successfully!', 'surveyval-locale' ),
