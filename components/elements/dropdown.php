@@ -11,13 +11,13 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_SurveyElement_Select extends SurveyVal_SurveyElement{
+class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
 	
 	public function __construct( $id = null ){
-		$this->slug = 'Select';
-		$this->title = __( 'Select', 'surveyval-locale' );
-		$this->description = __( 'Add a question which can be answered within a select field.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-select.png';
+		$this->slug = 'Dropdown';
+		$this->title = __( 'Dropdown', 'surveyval-locale' );
+		$this->description = __( 'Add a question which can be answered within a dropdown field.', 'surveyval-locale' );
+		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-dropdown.png';
 		
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
@@ -83,7 +83,7 @@ class SurveyVal_SurveyElement_Select extends SurveyVal_SurveyElement{
 
 	
 }
-sv_register_survey_element( 'SurveyVal_SurveyElement_Select' );
+sv_register_survey_element( 'SurveyVal_SurveyElement_Dropdown' );
 
 
 
