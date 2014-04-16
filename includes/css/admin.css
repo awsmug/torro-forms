@@ -172,6 +172,11 @@
 	width:80%;
 	height:200px;
 }
+.surveyval-remove-all-participiants{
+    display: block;
+    float: right;
+    padding: 5px 10px;
+}
 
 /* 
  * Dialogs

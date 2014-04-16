@@ -325,6 +325,12 @@
 			});
 		});
 		
+		
+		$( ".surveyval-remove-all-participiants" ).click( function(){
+			$( "#surveyval-participiants" ).val( '' );
+			$( "#surveyval-participiants-list tbody tr" ).remove();
+		});
+		
 		$( '#surveyval-invite-button' ).click( function(){
 			
 			var button = $( this )
