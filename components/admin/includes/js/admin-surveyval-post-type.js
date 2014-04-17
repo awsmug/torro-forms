@@ -238,7 +238,6 @@
 		
 		$( "#surveyval-participiants-select" ).change( function(){
 			surveyval_participiants_select = $( "#surveyval-participiants-select" ).val();
-			console.log( surveyval_participiants_select );
 			
 			if( 'all_members' == surveyval_participiants_select ){
 				$( "#surveyval-participiants-standard-options" ).show();
@@ -254,6 +253,7 @@
 		}
 		
 		$.surveyval_add_participiants = function( response ){
+			var surveyval_participiants = '';
 			
 			var surveyval_participiants_old = $( "#surveyval-participiants" ).val();
 			surveyval_participiants_old = surveyval_participiants_old.split( ',' );
@@ -261,13 +261,11 @@
 			$.each( response, function( i, object ) {
 				var found = false;
 				
-				$.each( surveyval_participiants_old, function( key, value ) {
-					if( value == object.id ){
-						found = true;
-					}
-				});
+				if( -1 != surveyval_participiants_old.indexOf( object.id ) ){
+					found = true;
+				}
 				
-				if( !found ){
+				if( false == found ){
 					if( '' == surveyval_participiants ){
 						surveyval_participiants =  object.id;
 					}else{
@@ -275,13 +273,11 @@
 					}
 					$( "#surveyval-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_admin.just_added + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + translation_admin.delete + '</a></td></tr>' );
 				}	
-				
-			    $( "#surveyval-participiants" ).val( surveyval_participiants );
-			    
-				$.surveyval_delete_participiant();
 			});
 			
-			$( "#surveyval-participiants-list" ).show();			
+			$( "#surveyval-participiants" ).val( surveyval_participiants );
+			$( "#surveyval-participiants-list" ).show();
+			$.surveyval_delete_participiant();	
 		}
 		
 		$.surveyval_delete_participiant = function(){
