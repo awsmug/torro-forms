@@ -456,7 +456,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		// if( count( $options ) < 2 ) $html.= '<p>' . __( 'Get more options to select participiants by adding extra plugins for SurveyVal.<br /><a href="%s" target="_blank">Get it here</a>!', 'surveyval-locale' ) . '</p>';
 		
 		$html.= '<div id="surveyval-participiants-standard-options" class="surveyval-participiants-options-content">';
-		$html.= '<div class="add"><input type="button" class="surveyval-add-participiants button" id="surveyval-add-members-standard" value="' . __( 'Add Participiants', 'surveyval-locale' ) . '" /><a href="#" class="surveyval-remove-all-participiants">' . __( 'Remove all Participiants', 'surveyval-locale' ) . '</div>';
+		$html.= '<div class="add"><input type="button" class="surveyval-add-participiants button" id="surveyval-add-members-standard" value="' . __( 'Add Participiants', 'surveyval-locale' ) . '" /><a href="#" class="surveyval-remove-all-participiants">' . __( 'Remove all Participiants', 'surveyval-locale' ) . '</a></div>';
 		$html.= '</div>';
 		
 		
