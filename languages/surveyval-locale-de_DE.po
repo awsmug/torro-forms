@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-10 19:32+0100\n"
-"PO-Revision-Date: 2014-04-10 19:32+0100\n"
+"POT-Creation-Date: 2014-04-17 15:51+0100\n"
+"PO-Revision-Date: 2014-04-17 15:51+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -31,8 +31,8 @@ msgstr "SurveyVal im WordPress Admin einstellen."
 
 # @ surveyval-locale
 #: components/admin/admin.php:65 components/core/core.php:88
-msgid "SurveyVal"
-msgstr "SurveyVal"
+msgid "Surveys"
+msgstr "Umfragen"
 
 # @ surveyval-locale
 #: components/admin/admin.php:66
@@ -81,7 +81,7 @@ msgstr "Antwort/en:"
 
 # @ surveyval-locale
 #: components/admin/admin.php:292 components/admin/admin.php:334
-#: components/admin/admin.php:499 components/admin/admin.php:915
+#: components/admin/admin.php:511 components/admin/admin.php:927
 msgid "Delete"
 msgstr "L&ouml;schen"
 
@@ -91,100 +91,121 @@ msgid "Add Answer"
 msgstr "Antwort hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:437
+#: components/admin/admin.php:439
 msgid "Add all actual Members"
 msgstr "Alle aktuellen Mitglieder hinzufügen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:457
+#: components/admin/admin.php:459
 msgid "Add Participiants"
 msgstr "Teilnehmer hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:480
+#: components/admin/admin.php:459
+msgid "Remove all Participiants"
+msgstr "Alle Teilnehmer entfernen"
+
+# @ surveyval-locale
+#: components/admin/admin.php:482
 msgid "ID"
 msgstr "ID"
 
 # @ surveyval-locale
-#: components/admin/admin.php:481
+#: components/admin/admin.php:483
 msgid "User nicename"
 msgstr "Spitzname"
 
 # @ surveyval-locale
-#: components/admin/admin.php:482
+#: components/admin/admin.php:484
 msgid "Display name"
 msgstr "Angezeigter Name"
 
 # @ surveyval-locale
-#: components/admin/admin.php:483
+#: components/admin/admin.php:485
 msgid "Email"
 msgstr "Email"
 
+#: components/admin/admin.php:486
+msgid "Status"
+msgstr "Status"
+
+#: components/admin/admin.php:499
+msgid "finished"
+msgstr "abgeschlossen"
+
+#: components/admin/admin.php:501
+msgid "new"
+msgstr "neu"
+
 # @ surveyval-locale
-#: components/admin/admin.php:527
+#: components/admin/admin.php:539
 msgid "Invite Participiants"
 msgstr "Teilnehmer einladen"
 
-#: components/admin/admin.php:528 components/admin/admin.php:534
+#: components/admin/admin.php:540 components/admin/admin.php:546
 msgid "Cancel"
 msgstr "Abbrechen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:533
+#: components/admin/admin.php:545
 msgid "Reinvite Participiants"
 msgstr "Erneut einladen"
 
-#: components/admin/admin.php:537
+#: components/admin/admin.php:549
 msgid ""
 "You can invite Participiants to this survey after the survey is published."
 msgstr ""
 "Sie k&ouml;nenn Teilnehmer einladen, sobald die Umfrage gespeichert ist."
 
-#: components/admin/admin.php:549
-msgid "Send Invites"
-msgstr "Versende Einladungen"
+#: components/admin/admin.php:561
+msgid "Invitations"
+msgstr "Einladungen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:556 components/elements/elements.php:40
+#: components/admin/admin.php:568 components/elements/elements.php:40
 msgid "Elements"
 msgstr "Elemente"
 
 # @ surveyval-locale
-#: components/admin/admin.php:564
+#: components/admin/admin.php:576
 msgid "Participiants list"
 msgstr "Teilnehmerliste"
 
-#: components/admin/admin.php:840
+#: components/admin/admin.php:852
 msgid "Survey Invitation"
 msgstr "Einlö"
 
-#: components/admin/admin.php:851
+#: components/admin/admin.php:863
 msgid "Survey Reinvitation"
 msgstr "Erneute Einladung"
 
 # @ surveyval-locale
-#: components/admin/admin.php:916 components/elements/range-emotional.php:53
+#: components/admin/admin.php:928 components/elements/range-emotional.php:53
 msgid "Yes"
 msgstr "Ja"
 
 # @ surveyval-locale
-#: components/admin/admin.php:917 components/elements/range-emotional.php:54
+#: components/admin/admin.php:929 components/elements/range-emotional.php:54
 msgid "No"
 msgstr "Nein"
 
-#: components/admin/admin.php:918
+#: components/admin/admin.php:930
+msgid "just added"
+msgstr "gerade hinzugef&uuml;gt"
+
+#: components/admin/admin.php:931
 msgid "Invitations sent successfully!"
 msgstr "Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:919
+#: components/admin/admin.php:932
 msgid "Invitations could not be sent!"
 msgstr "Einladungen konnten nicht versendet werden!"
 
-#: components/admin/admin.php:920
+#: components/admin/admin.php:933
 msgid "Renvitations sent successfully!"
 msgstr "Erneute Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:921
+#: components/admin/admin.php:934
 msgid "Renvitations could not be sent!"
 msgstr "Erneute Einladungen konnten nicht versendet werden!"
 
@@ -333,10 +354,9 @@ msgstr "Umfrage ansehen"
 msgid "Search Survey"
 msgstr "Umfrage suchen"
 
-# @ surveyval-locale
 #: components/core/core.php:96 components/core/core.php:97
-msgid "No Survey found"
-msgstr "Keine Umfrage gefunden"
+msgid "No Survey available"
+msgstr "Keine Umfrage vorhanden"
 
 #: components/core/export.php:45
 #, php-format
@@ -410,12 +430,11 @@ msgid "This is a SurveyVal Survey Element."
 msgstr "Dies ist ein SurveyVal Umfrage-Element."
 
 # @ surveyval-locale
-#: components/elements/description.php:18
+#: components/elements/description.php:18 components/elements/dropdown.php:39
 #: components/elements/multiplechoice.php:39
 #: components/elements/onechoice.php:39
 #: components/elements/range-emotional.php:31 components/elements/range.php:31
-#: components/elements/select.php:39 components/elements/text.php:31
-#: components/elements/textarea.php:31
+#: components/elements/text.php:31 components/elements/textarea.php:31
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -430,6 +449,32 @@ msgstr "Angezeigter Text"
 #: components/elements/description.php:32
 msgid "The text which will be shown in the form."
 msgstr "Dieser Text wird im Formular angezeigt."
+
+#: components/elements/dropdown.php:18
+msgid "Dropdown"
+msgstr "Dropdown"
+
+# @ surveyval-locale
+#: components/elements/dropdown.php:19
+#, fuzzy
+msgid "Add a question which can be answered within a dropdown field."
+msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
+
+#: components/elements/dropdown.php:41
+#: components/elements/multiplechoice.php:41
+#: components/elements/onechoice.php:41
+#: components/elements/range-emotional.php:33 components/elements/range.php:33
+#: components/elements/text.php:33 components/elements/textarea.php:33
+msgid "The description will be shown after the question."
+msgstr "Die Beschreibung wird unter der Frage angezeigt."
+
+#: components/elements/dropdown.php:49
+msgid "Please select"
+msgstr "Bitte w&auml;hlen"
+
+#: components/elements/dropdown.php:73
+msgid "Please select a value."
+msgstr "Bitte w&auml;hlen Sie einen Wert"
 
 #: components/elements/elements.php:41
 msgid "Base Elements to put into surveys"
@@ -447,14 +492,6 @@ msgid ""
 msgstr ""
 "Eine Frage hinzuf&uuml;gen, die mit einer oder mehreren Werten beantwortet "
 "werden kann."
-
-#: components/elements/multiplechoice.php:41
-#: components/elements/onechoice.php:41
-#: components/elements/range-emotional.php:33 components/elements/range.php:33
-#: components/elements/select.php:41 components/elements/text.php:33
-#: components/elements/textarea.php:33
-msgid "The description will be shown after the question."
-msgstr "Die Beschreibung wird unter der Frage angezeigt."
 
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:45
@@ -504,9 +541,8 @@ msgstr ""
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:18
-#, fuzzy
 msgid "Range Emotional"
-msgstr "Von:"
+msgstr "Emotionaler Bereich"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:19
@@ -525,9 +561,8 @@ msgstr ""
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:43 components/elements/range.php:43
-#, fuzzy
 msgid "Range to"
-msgstr "Von:"
+msgstr "Bereich von"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:45 components/elements/range.php:45
@@ -544,15 +579,16 @@ msgstr ""
 
 # @ surveyval-locale
 #: components/elements/range.php:18
-#, fuzzy
 msgid "Range"
-msgstr "Von:"
+msgstr "Bereich"
 
 # @ surveyval-locale
 #: components/elements/range.php:19
 #, fuzzy
 msgid "Add a question which can be answered within a range scale."
-msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
+msgstr ""
+"Eine Frage hinzufügen, die mittels eines gro&szlig;en Textfeldes beantwortet "
+"wird."
 
 # @ surveyval-locale
 #: components/elements/range.php:49
@@ -563,24 +599,6 @@ msgstr "Schrittgr&ouml;&szlig;e"
 #: components/elements/range.php:51
 msgid "The size of steps between from and to"
 msgstr "Die Gr&ouml;&szlig zwischen von und bis"
-
-#: components/elements/select.php:18
-msgid "Select"
-msgstr "W&auml;hle"
-
-# @ surveyval-locale
-#: components/elements/select.php:19
-#, fuzzy
-msgid "Add a question which can be answered within a select field."
-msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
-
-#: components/elements/select.php:49
-msgid "Please select"
-msgstr "Bitte w&auml;hlen"
-
-#: components/elements/select.php:73
-msgid "Please select a value."
-msgstr "Bitte w&auml;hlen Sie einen Wert"
 
 # @ surveyval-locale
 #: components/elements/separator.php:18
@@ -643,18 +661,16 @@ msgid "The maximum number of chars which can be typed in."
 msgstr "Die maximale Anzahl an Zeichen, welche eingegeben werden kann."
 
 #: components/elements/text.php:49
-msgid "Validation"
-msgstr "Validierung"
+msgid "String Validation"
+msgstr "Zeichen Validierung"
 
 #: components/elements/text.php:52
 msgid "No validation"
 msgstr "Keine Validierung"
 
 #: components/elements/text.php:53
-#, fuzzy
 msgid "Numbers"
-msgstr ""
-"Im Benutzernamen sind nur Zahlen und kleingeschriebene Buchstaben erlaubt."
+msgstr "Ganze Zahlen"
 
 #: components/elements/text.php:54
 msgid "Decimal Numbers"
@@ -666,7 +682,7 @@ msgstr "Email-Adresse"
 
 #: components/elements/text.php:57
 #, fuzzy
-msgid "The will do a Validation for the input."
+msgid "The will do a validation for the input."
 msgstr "Validierung"
 
 # @ surveyval-locale
@@ -690,9 +706,8 @@ msgid "Please input a decimal number."
 msgstr "Bitte geben Sie eine Dezimalzahl ein."
 
 #: components/elements/text.php:98
-#, fuzzy
 msgid "Please input a valid Email-Address."
-msgstr "Bitte geben Sie eine Email-Adresse an."
+msgstr "Bitte geben Sie eine g&uuml;ltige Email-Adresse an."
 
 # @ surveyval-locale
 #: components/elements/textarea.php:18
@@ -701,9 +716,10 @@ msgstr "Textara"
 
 # @ surveyval-locale
 #: components/elements/textarea.php:19
-#, fuzzy
 msgid "Add a question which can be answered within a text area."
-msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
+msgstr ""
+"Eine Frage hinzufügen, die mittels eines mehrzeiligen Textfeldes beantwortet "
+"wird."
 
 #: functions.php:53
 msgid ""
@@ -744,3 +760,23 @@ msgid ""
 "\n"
 "%site_name%"
 msgstr ""
+
+# @ surveyval-locale
+#~ msgid "SurveyVal"
+#~ msgstr "SurveyVal"
+
+# @ surveyval-locale
+#~ msgid "No Survey found"
+#~ msgstr "Keine Umfrage gefunden"
+
+#~ msgid "Send Invites"
+#~ msgstr "Versende Einladungen"
+
+#~ msgid "Select"
+#~ msgstr "W&auml;hle"
+
+# @ surveyval-locale
+#, fuzzy
+#~ msgid "Add a question which can be answered within a select field."
+#~ msgstr ""
+#~ "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."

@@ -85,7 +85,7 @@ class SurveyVal_Core extends SurveyVal_Component{
 		 */
 		$args_post_type = array(
 			'labels' => array(
-				'name' => __( 'SurveyVal', 'surveyval-locale' ),
+				'name' => __( 'Surveys', 'surveyval-locale' ),
 				'singular_name' => __( 'Survey', 'surveyval-locale' ),
 				'all_items' => __( 'All Surveys', 'surveyval-locale' ),
 				'add_new_item' => __( 'Add new Survey', 'surveyval-locale' ),
@@ -93,8 +93,8 @@ class SurveyVal_Core extends SurveyVal_Component{
 				'new_item' => __( 'Add new Survey', 'surveyval-locale' ),
 				'view_item' => __( 'View Survey', 'surveyval-locale' ),
 				'search_items' => __( 'Search Survey', 'surveyval-locale' ),
-				'not_found' => __( 'No Survey found', 'surveyval-locale' ),
-				'not_found_in_trash' => __( 'No Survey found', 'surveyval-locale' )
+				'not_found' => __( 'No Survey available', 'surveyval-locale' ),
+				'not_found_in_trash' => __( 'No Survey available', 'surveyval-locale' )
 			),
 			'public' => TRUE,
 			'has_archive' => TRUE,
