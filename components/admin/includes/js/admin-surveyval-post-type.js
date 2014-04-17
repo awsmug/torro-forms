@@ -253,15 +253,14 @@
 		}
 		
 		$.surveyval_add_participiants = function( response ){
-			var surveyval_participiants = '';
-			
 			var surveyval_participiants_old = $( "#surveyval-participiants" ).val();
 			surveyval_participiants_old = surveyval_participiants_old.split( ',' );
+			var surveyval_participiants = surveyval_participiants_old;
 			
 			$.each( response, function( i, object ) {
 				var found = false;
 				
-				if( -1 != surveyval_participiants_old.indexOf( object.id ) ){
+				if( in_array( object.id, surveyval_participiants_old ) ){
 					found = true;
 				}
 				
@@ -420,6 +419,14 @@
 			var now = new Date();
 			var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
 			return random * now.getTime();
+		}
+		
+		function in_array( needle, haystack ) {
+		    var length = haystack.length;
+		    for(var i = 0; i < length; i++) {
+		        if(haystack[i] == needle) return true;
+		    }
+		    return false;
 		}
 		
 		// $( ".drag-drop-inside" ).disableSelection();
