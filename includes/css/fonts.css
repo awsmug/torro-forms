@@ -30,16 +30,74 @@
   width: 0;
 }
 /* Icons */
-.icon-surveyval-checkbox::before {
-	content: "\e803"; 
+.icon-surveyval-checkbox-01::before {
+	content: "\E801"; 
 }
-.icon-surveyval-bars::before {
-	content: "\e808";
+.icon-surveyval-checkbox-01-off::before {
+	content: "\E800"; 
 }
+.icon-surveyval-check-01::before {
+	content: "\E803"; 
+}
+.icon-surveyval-check-02::before {
+	content: "\E813"; 
+}
+.icon-surveyval-pie-01::before {
+	content: "\E804"; 
+}
+.icon-surveyval-pie-02::before {
+	content: "\E802"; 
+}
+.icon-surveyval-chart-01::before {
+	content: "\E805"; 
+}
+.icon-surveyval-chart-02::before {
+	content: "\E806"; 
+}
+.icon-surveyval-chart-03::before {
+	content: "\E807"; 
+}
+.icon-surveyval-code-01::before {
+	content: "\E809"; 
+}
+.icon-surveyval-code-02::before {
+	content: "\E809"; 
+}
+.icon-surveyval-refresh::before {
+	content: "\E80B"; 
+}
+.icon-surveyval-download::before {
+	content: "\E80C"; 
+}
+.icon-surveyval-skype::before {
+	content: "\E80D"; 
+}
+.icon-surveyval-youtube::before {
+	content: "\E80F"; 
+}
+.icon-surveyval-wordpress::before {
+	content: "\E80D"; 
+}
+.icon-surveyval-facebook::before {
+	content: "\E811"; 
+}
+.icon-surveyval-twitter::before {
+	content: "\E812"; 
+}
+.icon-surveyval-googleplus::before {
+	content: "\E810"; 
+}
+.icon-surveyval-xing::before {
+	content: "\E814"; 
+}
+.icon-surveyval-linkedin::before {
+	content: "\E815"; 
+}
+
 #adminmenu #toplevel_page_ComponentSurveyValAdmin .dashicons-admin-generic:before{
-	font-family: surveyvalicons; 
-    content: "\e803";
-    font-size: 16px;
-    height: 16px;
-    width: 16px;
+	font-family: surveyvalicons;
+    content: "\E802";
+    font-size: 22px;
+    height: 22px;
+    width: 22px;
 }
