@@ -29,21 +29,6 @@ if( defined( 'SURVEYVAL_FOLDER') ):
 	    return $located;
 	}
 endif;
-/*
-function sv_user_has_participated( $survey_id, $user_id ){
-	global $wpdb, $surveyval_global;
-	
-	$sql = "SELECT COUNT(*) FROM {$surveyval_global->tables->resonds} WHERE survey_id = %d AND user_id = %d ";
-	$sql = $wpdb->prepare( $sql, $survey_id, $user_id );
-	$found = $wpdb->get_var( $sql );
-	
-	if( 0 == $found ):
-		return FALSE;
-	else:
-		return TRUE;
-	endif;
-}
-*/
 
 function sv_get_mail_template_text( $mailtext_title ){
 	switch ( $mailtext_title ){
