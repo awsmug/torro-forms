@@ -63,7 +63,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	 */	
 	public function admin_menu(){
 		add_menu_page( __( 'Surveys', 'surveyval-locale' ), __( 'Surveys', 'surveyval-locale' ), $this->capability, 'Component' . $this->name , array( $this, 'settings_page' ), '', 50 );
-		add_submenu_page( 'Component' . $this->name, __( 'Add Survey', 'surveyval-locale' ), __( 'Add Survey', 'surveyval-locale' ), $this->capability, 'post-new.php?post_type=surveyval' );
+		add_submenu_page( 'Component' . $this->name, __( 'Create', 'surveyval-locale' ), __( 'Create', 'surveyval-locale' ), $this->capability, 'post-new.php?post_type=surveyval' );
 		add_submenu_page( 'Component' . $this->name, __( 'Categories', 'surveyval-locale' ), __( 'Categories', 'surveyval-locale' ), $this->capability, 'edit-tags.php?taxonomy=surveyval-categories' );
 		add_submenu_page( 'Component' . $this->name, __( 'Settings', 'surveyval-locale' ), __( 'Settings', 'surveyval-locale' ), $this->capability, 'Component' . $this->name, array( $this, 'settings_page' ) );
 	}

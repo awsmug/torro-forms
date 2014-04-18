@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-17 15:51+0100\n"
-"PO-Revision-Date: 2014-04-17 15:51+0100\n"
+"POT-Creation-Date: 2014-04-18 14:36+0100\n"
+"PO-Revision-Date: 2014-04-18 14:42+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -34,10 +34,9 @@ msgstr "SurveyVal im WordPress Admin einstellen."
 msgid "Surveys"
 msgstr "Umfragen"
 
-# @ surveyval-locale
 #: components/admin/admin.php:66
-msgid "Add Survey"
-msgstr "Umfrage hinzugf&uuml;gen"
+msgid "Create"
+msgstr "Erstellen"
 
 # @ surveyval-locale
 #: components/admin/admin.php:67 components/core/core.php:74
@@ -221,7 +220,7 @@ msgstr "Text Platzhalter"
 # @ surveyval-locale
 #: components/admin/pages/settings.php:12
 msgid "Thanks for participating"
-msgstr "Danke f&uuml;r die Teilnahme!"
+msgstr "Danke f&uuml;r die Teilnahme"
 
 #: components/admin/pages/settings.php:14
 msgid "This text will be used on thanking members after participating survey."
@@ -456,9 +455,9 @@ msgstr "Dropdown"
 
 # @ surveyval-locale
 #: components/elements/dropdown.php:19
-#, fuzzy
 msgid "Add a question which can be answered within a dropdown field."
-msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
+msgstr ""
+"Eine Frage hinzufügen, die mittels eines Dropdown Feldes beantwortet wird."
 
 #: components/elements/dropdown.php:41
 #: components/elements/multiplechoice.php:41
@@ -500,9 +499,8 @@ msgstr "Minimale Anzahl an Antworten"
 
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:47
-#, fuzzy
 msgid "The minimum number of answers which have to be choosed."
-msgstr "Die maximale Anzahl an Antworten, welche eingegeben werden kann."
+msgstr "Die minimale Anzahl an Antworten, welche gew&auml;hlt werden kann."
 
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:51
@@ -542,27 +540,29 @@ msgstr ""
 # @ surveyval-locale
 #: components/elements/range-emotional.php:18
 msgid "Range Emotional"
-msgstr "Emotionaler Bereich"
+msgstr "Emotionale Skala"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:19
 msgid "Add a question which can be answered within a  emotional range scale."
 msgstr ""
+"F&uuml;gt eine Frage hinzu, welche mit einer emotionalen Skala beantwortet "
+"werden kann."
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:37 components/elements/range.php:37
 msgid "Range from"
-msgstr "Von:"
+msgstr "Skala von:"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:39 components/elements/range.php:39
 msgid "This value will be shown at the beginning of the scale."
-msgstr ""
+msgstr "Dieser Wert wird"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:43 components/elements/range.php:43
 msgid "Range to"
-msgstr "Bereich von"
+msgstr "Skala von"
 
 # @ surveyval-locale
 #: components/elements/range-emotional.php:45 components/elements/range.php:45
@@ -580,15 +580,13 @@ msgstr ""
 # @ surveyval-locale
 #: components/elements/range.php:18
 msgid "Range"
-msgstr "Bereich"
+msgstr "Skala"
 
 # @ surveyval-locale
 #: components/elements/range.php:19
-#, fuzzy
 msgid "Add a question which can be answered within a range scale."
 msgstr ""
-"Eine Frage hinzufügen, die mittels eines gro&szlig;en Textfeldes beantwortet "
-"wird."
+"F&uuml;gt eine Frage hinzu, welche mit einer Skala beantwortet werden kann."
 
 # @ surveyval-locale
 #: components/elements/range.php:49
@@ -681,9 +679,8 @@ msgid "Email-Address"
 msgstr "Email-Adresse"
 
 #: components/elements/text.php:57
-#, fuzzy
 msgid "The will do a validation for the input."
-msgstr "Validierung"
+msgstr "F&uuml;rt eine Validierung f&uuml;r die Eingabe durch."
 
 # @ surveyval-locale
 #: components/elements/text.php:72 components/elements/textarea.php:59
@@ -760,6 +757,10 @@ msgid ""
 "\n"
 "%site_name%"
 msgstr ""
+
+# @ surveyval-locale
+#~ msgid "Add Survey"
+#~ msgstr "Umfrage hinzugf&uuml;gen"
 
 # @ surveyval-locale
 #~ msgid "SurveyVal"
