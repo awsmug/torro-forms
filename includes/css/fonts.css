@@ -1,0 +1,45 @@
+@font-face { 
+  font-family: "surveyvalicons"; 
+  src: url("fonts/surveyval.eot"); 
+  src: url("fonts/surveyval.eot?#iefix") format("embedded-opentype"), 
+  	url("fonts/surveyval.woff") format("woff"), 
+  	url("fonts/surveyval.ttf") format("truetype"), 
+  	url("fonts/surveyval.svg#icons") format("svg"); 
+  font-weight: normal; 
+  font-style: normal;
+}
+[class*="icon-surveyval-"] { 
+  background-image: none; 
+  display: inline; 
+  font-size: 14px; 
+  font-style: normal !important; 
+  font-weight: normal !important; 
+  height: 14px;
+  overflow: visible; 
+  width: 14px;
+}
+[class*="icon-surveyval-"]::before {
+	font-family: surveyvalicons; 
+}
+.hide {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 0;
+  opacity: 0;
+  position: absolute;
+  visibility: hidden;
+  width: 0;
+}
+/* Icons */
+.icon-surveyval-checkbox::before {
+	content: "\e803"; 
+}
+.icon-surveyval-bars::before {
+	content: "\e808";
+}
+#adminmenu #toplevel_page_ComponentSurveyValAdmin .dashicons-admin-generic:before{
+	font-family: surveyvalicons; 
+    content: "\e803";
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}

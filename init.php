@@ -216,7 +216,7 @@ class SurveVal_Init{
 	 */
 	public static function register_admin_styles() {
 		wp_enqueue_style( 'surveyval-admin-styles', SURVEYVAL_URLPATH . '/includes/css/admin.css' );
-	
+		wp_enqueue_style( 'surveyval-admin-fonts', SURVEYVAL_URLPATH . '/includes/css/fonts.css' );
 	} // end register_admin_styles
 
 	/**
