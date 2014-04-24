@@ -256,6 +256,7 @@
 			var surveyval_participiants_old = $( "#surveyval-participiants" ).val();
 			surveyval_participiants_old = surveyval_participiants_old.split( ',' );
 			var surveyval_participiants = surveyval_participiants_old;
+			var count_added_participiants = 0;
 			
 			$.each( response, function( i, object ) {
 				var found = false;
@@ -271,12 +272,22 @@
 						surveyval_participiants = surveyval_participiants + ',' + object.id;
 					}
 					$( "#surveyval-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_admin.just_added + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + translation_admin.delete + '</a></td></tr>' );
+					count_added_participiants++;
 				}	
 			});
 			
+			var count_participiants = parseInt( $( "#surveyval-participiants-count" ).val() ) + count_added_participiants;
+			
 			$( "#surveyval-participiants" ).val( surveyval_participiants );
+			$.surveyval_participiants_counter( count_participiants );
 			$( "#surveyval-participiants-list" ).show();
 			$.surveyval_delete_participiant();	
+		}
+		
+		$.surveyval_participiants_counter = function( number ){
+			var text = number + ' ' + translation_admin.added_participiants;
+			$( "#surveyval-participiants-status p").html( text );
+			$( "#surveyval-participiants-count" ).val( number );
 		}
 		
 		$.surveyval_delete_participiant = function(){
@@ -303,6 +314,7 @@
 			    }
 				
 				$( "#surveyval-participiants" ).val( surveyval_participiants_new );
+				$.surveyval_participiants_counter( $( "#surveyval-participiants-count" ).val() - 1 );
 				$( ".participiant-user-" + delete_user_id ).remove();
 			});
 		}

@@ -475,6 +475,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			) );
 		endif;
 		
+		$html.= '<div id="surveyval-participiants-status" class="surveyval-participiants-status">';
+		// $html.= '<p>' . sprintf( _n( '%d participiant in list.', '%d participiants in list.', count( $users ), 'surveyval-locale' ), count( $users ) ) . '</p>';
+		$html.= '<p>' . count( $users ) . ' ' . __( 'participiant/s', 'surveyval-locale' ) . '</p>';
+		$html.= '</div>';
+		
 		$html.= '<div id="surveyval-participiants-list">';
 			$html.= '<table class="wp-list-table widefat">';
 				$html.= '<thead>';
@@ -521,6 +526,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$html.= '</table>';
 			
 			$html.= '<input type="hidden" id="surveyval-participiants" name="surveyval_participiants" value="' . $surveyval_participiants_value . '" />';
+			$html.= '<input type="hidden" id="surveyval-participiants-count" name="surveyval-participiants-count" value="' . count( $users ) . '" />';
 			
 		$html.= '</div>';
 		
@@ -931,7 +937,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			'invitations_sent_successfully' => __( 'Invitations sent successfully!', 'surveyval-locale' ),
 			'invitations_not_sent_successfully' => __( 'Invitations could not be sent!', 'surveyval-locale' ),
 			'reinvitations_sent_successfully' => __( 'Renvitations sent successfully!', 'surveyval-locale' ),
-			'reinvitations_not_sent_successfully' => __( 'Renvitations could not be sent!', 'surveyval-locale' )
+			'reinvitations_not_sent_successfully' => __( 'Renvitations could not be sent!', 'surveyval-locale' ),
+			'added_participiants' => __( 'participiant/s', 'surveyval-locale' )
 		);
 		
 		wp_enqueue_script( 'admin-surveyval-post-type', SURVEYVAL_URLPATH . '/components/admin/includes/js/admin-surveyval-post-type.js' );

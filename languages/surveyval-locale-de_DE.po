@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-24 16:22+0100\n"
-"PO-Revision-Date: 2014-04-24 16:26+0100\n"
+"POT-Creation-Date: 2014-04-24 18:13+0100\n"
+"PO-Revision-Date: 2014-04-24 18:13+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -80,7 +80,7 @@ msgstr "Antwort/en:"
 
 # @ surveyval-locale
 #: components/admin/admin.php:292 components/admin/admin.php:334
-#: components/admin/admin.php:511 components/admin/admin.php:927
+#: components/admin/admin.php:516 components/admin/admin.php:933
 msgid "Delete"
 msgstr "L&ouml;schen"
 
@@ -105,106 +105,111 @@ msgid "Remove all Participiants"
 msgstr "Alle Teilnehmer entfernen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:482
+#: components/admin/admin.php:480 components/admin/admin.php:941
+msgid "participiant/s"
+msgstr "Teilnehmer"
+
+# @ surveyval-locale
+#: components/admin/admin.php:487
 msgid "ID"
 msgstr "ID"
 
 # @ surveyval-locale
-#: components/admin/admin.php:483
+#: components/admin/admin.php:488
 msgid "User nicename"
 msgstr "Spitzname"
 
 # @ surveyval-locale
-#: components/admin/admin.php:484
+#: components/admin/admin.php:489
 msgid "Display name"
 msgstr "Angezeigter Name"
 
 # @ surveyval-locale
-#: components/admin/admin.php:485
+#: components/admin/admin.php:490
 msgid "Email"
 msgstr "Email"
 
-#: components/admin/admin.php:486
+#: components/admin/admin.php:491
 msgid "Status"
 msgstr "Status"
 
-#: components/admin/admin.php:499
+#: components/admin/admin.php:504
 msgid "finished"
 msgstr "abgeschlossen"
 
-#: components/admin/admin.php:501
+#: components/admin/admin.php:506
 msgid "new"
 msgstr "neu"
 
 # @ surveyval-locale
-#: components/admin/admin.php:539
+#: components/admin/admin.php:545
 msgid "Invite Participiants"
 msgstr "Teilnehmer einladen"
 
-#: components/admin/admin.php:540 components/admin/admin.php:546
+#: components/admin/admin.php:546 components/admin/admin.php:552
 msgid "Cancel"
 msgstr "Abbrechen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:545
+#: components/admin/admin.php:551
 msgid "Reinvite Participiants"
 msgstr "Erneut einladen"
 
-#: components/admin/admin.php:549
+#: components/admin/admin.php:555
 msgid ""
 "You can invite Participiants to this survey after the survey is published."
 msgstr ""
 "Sie k&ouml;nenn Teilnehmer einladen, sobald die Umfrage gespeichert ist."
 
-#: components/admin/admin.php:561
+#: components/admin/admin.php:567
 msgid "Invitations"
 msgstr "Einladungen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:568 components/elements/elements.php:40
+#: components/admin/admin.php:574 components/elements/elements.php:40
 msgid "Elements"
 msgstr "Elemente"
 
 # @ surveyval-locale
-#: components/admin/admin.php:576
+#: components/admin/admin.php:582
 msgid "Participiants list"
 msgstr "Teilnehmerliste"
 
-#: components/admin/admin.php:852
+#: components/admin/admin.php:858
 msgid "Survey Invitation"
 msgstr "Einlö"
 
-#: components/admin/admin.php:863
+#: components/admin/admin.php:869
 msgid "Survey Reinvitation"
 msgstr "Erneute Einladung"
 
 # @ surveyval-locale
-#: components/admin/admin.php:928 components/elements/range-emotional.php:53
+#: components/admin/admin.php:934 components/elements/range-emotional.php:53
 msgid "Yes"
 msgstr "Ja"
 
 # @ surveyval-locale
-#: components/admin/admin.php:929 components/elements/range-emotional.php:54
+#: components/admin/admin.php:935 components/elements/range-emotional.php:54
 msgid "No"
 msgstr "Nein"
 
-#: components/admin/admin.php:930
+#: components/admin/admin.php:936
 msgid "just added"
 msgstr "gerade hinzugef&uuml;gt"
 
-#: components/admin/admin.php:931
+#: components/admin/admin.php:937
 msgid "Invitations sent successfully!"
 msgstr "Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:932
+#: components/admin/admin.php:938
 msgid "Invitations could not be sent!"
 msgstr "Einladungen konnten nicht versendet werden!"
 
-#: components/admin/admin.php:933
+#: components/admin/admin.php:939
 msgid "Renvitations sent successfully!"
 msgstr "Erneute Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:934
+#: components/admin/admin.php:940
 msgid "Renvitations could not be sent!"
 msgstr "Erneute Einladungen konnten nicht versendet werden!"
 
