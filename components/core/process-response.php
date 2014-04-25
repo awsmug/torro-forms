@@ -156,6 +156,7 @@ class SurveyVal_ProcessResponse{
 				if( !$element->splitter ):
 					if( FALSE != $this->element_error( $element ) ):
 						$html.= '<div class="surveyval-element-error">';
+						$html.= '<div class="surveyval-element-error-message">' . $this->element_error( $element ) . '</div>';
 					endif;
 					
 					// Standard element
@@ -168,7 +169,7 @@ class SurveyVal_ProcessResponse{
 					endif;
 					
 					if( FALSE != $this->element_error( $element ) ):
-						$html.= '<div class="surveyval-element-error-message">' . $this->element_error( $element ) . '</div>';
+						
 						$html.= '</div>';
 					endif;
 				else:

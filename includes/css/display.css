@@ -34,8 +34,8 @@
 	border: 1px dashed #F00;
 	background-color:#F00;
 	display:block;
-	padding:10px;
-	margin: 0 -10px -10px -10px;
+    margin: -10px -10px 10px;
+    padding: 5px;
 }
 #surveyval table.surveyval-range-table{
 	width:auto;
