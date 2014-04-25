@@ -47,13 +47,15 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 				
 				$new_question_id = $wpdb->insert_id;
 				
+				unset( $data );
+				
 				// Dublicate answers
 				if( is_array( $question->answers ) && count( $question->answers ) && $copy_answers ):
 					foreach( $question->answers AS $answer ):
-						$data = (array) $question;
-				
+						$data = (array) $answer;
+						$data[ 'question_id' ] = $new_question_id;
 						unset( $data[ 'id' ] );
-				
+						
 						$wpdb->insert( 
 							$surveyval_global->tables->answers, 
 							$data,
