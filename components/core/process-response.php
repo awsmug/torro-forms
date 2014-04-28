@@ -154,6 +154,7 @@ class SurveyVal_ProcessResponse{
 			foreach( $elements AS $element ):
 				
 				if( !$element->splitter ):
+					
 					if( FALSE != $this->element_error( $element ) ):
 						$html.= '<div class="surveyval-element-error">';
 						$html.= '<div class="surveyval-element-error-message">' . $this->element_error( $element ) . '</div>';
@@ -203,12 +204,19 @@ class SurveyVal_ProcessResponse{
 
 	private function element_error( $element ){
 		$messages = array();
-
+		
+		$found_error = FALSE;
+		
 		if( is_array( $this->response_errors ) && count( $this->response_errors ) > 0 ):
 			foreach( $this->response_errors AS $error ):
-				if( $error[ 'question_id' ] == $element->id )
-					$messages[] = $error[ 'message' ];			
+				if( $error[ 'question_id' ] == $element->id ):
+					$messages[] = $error[ 'message' ];
+					$found_error = TRUE;
+				endif;
 			endforeach;
+			
+			if( FALSE == $found_error )
+				return FALSE;
 			
 			$text = '<ul class="surveyval-error-messages">';
 		
