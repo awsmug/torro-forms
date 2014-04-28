@@ -44,7 +44,7 @@ abstract class SurveyVal_Component{
 		global $surveyval_global;
 		
 		$this->name = get_class( $this );
-		add_action( 'init', array( $this, 'includes' ), 0 );
+		add_action( 'plugins_loaded', array( $this, 'includes' ), 0 );
 		
 		$this->title = ucfirst( $this->name );
 		$this->description = __( 'This is a SurveyVal component.', 'surveyval-locale' );

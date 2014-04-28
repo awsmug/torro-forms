@@ -31,6 +31,8 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class SurveyVal_Admin extends SurveyVal_Component{
+	var $notices = array();
+	
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -53,8 +55,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 			add_action( 'wp_ajax_surveyval_add_members_standard', array( $this, 'filter_user_ajax' ) );
 			add_action( 'wp_ajax_surveyval_invite_participiants', array( $this, 'invite_participiants' ) );
-			add_action( 'init', array( $this, 'save_settings' ) );
+			add_action( 'init', array( $this, 'save_settings' ), 20 );
 			add_action( 'init', array( $this, 'dublicate_survey' ) );
+			add_action( 'admin_notices', array( $this, 'show_notices' ) );
 		endif;
 	} // end constructor
 	
@@ -937,7 +940,27 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			return;
 		
 		$survey = new SurveyVal_PostSurvey( $post_id );
-		$survey->dublicate();		
+		$survey->dublicate();
+		
+		$this->notice( __( 'Dublicated Survey!', 'surveyval-locale' ) );
+	}
+	
+	public function notice( $message, $type = 'updated' ){
+		$this->notices[] = array( 
+			'message' => $message,
+			'type' => $type
+		);
+	}
+	
+	public function show_notices(){
+		
+		if( is_array( $this->notices ) && count( $notices ) > 0 ):
+			foreach( $notices AS $notice ):
+				echo '<div class="' . $notice[ 'type' ] . '">';
+				echo '<p>' . $notice[ 'message' ] . '</p>';
+				echo '</div>';
+			endforeach;
+		endif;
 	}
 	
 	/**
@@ -975,4 +998,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 }
 
+function test_alert(){
+	echo '<div class="updated">';
+	echo '<p>Test</p>';
+	echo '</div>';
+}
 $SurveyVal_Admin = new SurveyVal_Admin();
