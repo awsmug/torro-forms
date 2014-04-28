@@ -13,7 +13,7 @@
 				<td class="forminp forminp-textarea">
 					<p><?php _e( 'This text will be used on thanking members after participating survey.', 'surveyval-locale' ); ?></p>
 					<textarea id="surveyval-thankyou-participating-text-template" name="surveyval_thankyou_participating_text_template" class="surveyval-text-template" /><?php echo sv_get_mail_template_text( 'thankyou_participating' ); ?></textarea>
-					<br /><span class="description"><?php _e( 'Usable template tags:', 'surveyval-locale' ); ?> %username%, %survey_title%, %site_name%</span>
+					<br /><span class="description"><?php _e( 'Usable template tags:', 'surveyval-locale' ); ?> %username%, %displayname%, %survey_title%, %site_name%</span>
 				</td>
 			</tr>
 			<tr>
@@ -21,7 +21,7 @@
 				<td class="forminp forminp-textarea">
 					<p><?php _e( 'This text will be used as template if you want to send invitations to Participiants.', 'surveyval-locale' ); ?></p>
 					<textarea id="surveyval-invitation-text-template" name="surveyval_invitation_text_template" class="surveyval-text-template" /><?php echo sv_get_mail_template_text( 'invitation' ); ?></textarea>
-					<br /><span class="description"><?php _e( 'Usable template tags:', 'surveyval-locale' ); ?> %username%, %survey_title%, %survey_url%, %site_name%</span>
+					<br /><span class="description"><?php _e( 'Usable template tags:', 'surveyval-locale' ); ?> %username%, %displayname%, %survey_title%, %survey_url%, %site_name%</span>
 				</td>
 			</tr>
 			<tr>
@@ -29,7 +29,7 @@
 				<td class="forminp forminp-textarea">
 					<p><?php _e( 'This text will be used as template if you want to send reinvitations to Participiants.', 'surveyval-locale' ); ?></p>
 					<textarea id="surveyval-reinvitation-text-template" name="surveyval_reinvitation_text_template" class="surveyval-text-template" /><?php echo sv_get_mail_template_text( 'reinvitation' ); ?></textarea>
-					<br /><span class="description"><?php _e( 'Usable template tags:', 'surveyval-locale' ); ?> %username%, %survey_title%, %survey_url%, %site_name%</span>
+					<br /><span class="description"><?php _e( 'Usable template tags:', 'surveyval-locale' ); ?> %username%, %displayname%, %survey_title%, %survey_url%, %site_name%</span>
 				</td>
 			</tr>
 		</table>
