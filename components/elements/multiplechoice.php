@@ -70,7 +70,7 @@ class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
 		
 		if( !empty( $max_answers ) )		
 			if( count( $input ) > $max_answers ):
-				$this->validate_errors[] =__( 'Too many choices.', 'surveyval-locale' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'surveyval-locale' ), $min_answers, $max_answers );
+				$this->validate_errors[] = __( 'Too many choices.', 'surveyval-locale' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'surveyval-locale' ), $min_answers, $max_answers );
 				$error = TRUE;
 			endif;
 			
