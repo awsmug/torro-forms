@@ -142,7 +142,24 @@
 .surveyval-function-element .button{
 	width: 100%;
 }
-.surveyval-function-element textarea{
+#surveyval-invite-subject{
+	width:100%;
+	display:none;
+	font-size:12px;
+}
+#surveyval-invite-text{
+	width:100%;
+	min-height:200px;
+	margin-bottom:10px;
+	display:none;
+	font-size:12px;
+}
+#surveyval-reinvite-subject{
+	width:100%;
+	display:none;
+	font-size:12px;
+}
+#surveyval-reinvite-text{
 	width:100%;
 	min-height:200px;
 	margin-bottom:10px;
@@ -174,6 +191,9 @@
 #surveyval-settings .form-table .surveyval-text-template{
 	width:80%;
 	height:200px;
+}
+.settings-template-subject{
+	width:80%;
 }
 .surveyval-remove-all-participiants{
     display: block;

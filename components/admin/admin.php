@@ -543,18 +543,23 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$surveyval_invitation_text_template = sv_get_mail_template_text( 'invitation' );
 		$surveyval_reinvitation_text_template = sv_get_mail_template_text( 'reinvitation' );
 		
+		$surveyval_invitation_subject_template = sv_get_mail_template_subject( 'invitation' );
+		$surveyval_reinvitation_subject_template = sv_get_mail_template_subject( 'reinvitation' );
+		
 		$html = '<div class="surveyval-function-element">';
 			$html.= '<input id="surveyval-dublicate-survey" name="surveyval-dublicate-survey" type="submit" class="button" value="' . __( 'Dublicate Survey', 'surveyval-locale' ) . '" />';
 		$html.= '</div>';
 
 		if( 'publish' == $post->post_status  ):
 			$html.= '<div class="surveyval-function-element">';
+				$html.= '<input id="surveyval-invite-subject" type="text" name="surveyval_invite_subject" value="' . $surveyval_invitation_subject_template . '" />';
 				$html.= '<textarea id="surveyval-invite-text" name="surveyval_invite_text">' . $surveyval_invitation_text_template . '</textarea>';
 				$html.= '<input id="surveyval-invite-button" type="button" class="button" value="' . __( 'Invite Participiants', 'surveyval-locale' ) . '" /> ';
 				$html.= '<input id="surveyval-invite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
 			$html.= '</div>';
 			
 			$html.= '<div class="surveyval-function-element">';
+				$html.= '<input id="surveyval-reinvite-subject" type="text" name="surveyval_invite_subject" value="' . $surveyval_reinvitation_subject_template . '" />';
 				$html.= '<textarea id="surveyval-reinvite-text" name="surveyval_reinvite_text">' . $surveyval_reinvitation_text_template . '</textarea>';
 				$html.= '<input id="surveyval-reinvite-button" type="button" class="button" value="' . __( 'Reinvite Participiants', 'surveyval-locale' ) . '" /> ';
 				$html.= '<input id="surveyval-reinvite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
@@ -857,6 +862,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		);
 		
 		$survey_id = $_POST['survey_id'];
+		$subject_template = $_POST['subject_template'];
 		$text_template = $_POST['text_template'];
 		
 		$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %d";
@@ -889,9 +895,17 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$content = str_replace( '%survey_title%', $post->post_title, $content );
 			$content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
 			
+			$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject_template );
+			$subject = str_replace( '%survey_title%', $post->post_title, $subject );
+			$subject = str_replace( '%survey_url%', get_permalink( $post->ID ), $subject );
+			
 			foreach( $users AS $user ):
+				$subject = str_replace( '%displayname%', $user->display_name, $subject );
+				$subject = str_replace( '%username%', $user->user_nicename, $subject );
+				
 				$content = str_replace( '%displayname%', $user->display_name, $content );
 				$content = str_replace( '%username%', $user->user_nicename, $content );
+				
 				wp_mail( $user->user_email, $subject, stripslashes( $content ) );
 			endforeach;
 		
@@ -926,6 +940,10 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			
 		if ( !isset( $_POST['surveyval_save_settings_field'] ) || !wp_verify_nonce( $_POST['surveyval_save_settings_field'], 'surveyval_save_settings' ) )
 			return;
+		
+		update_option( 'surveyval_thankyou_participating_subject_template', $_POST['surveyval_thankyou_participating_subject_template'] );
+		update_option( 'surveyval_invitation_subject_template', $_POST['surveyval_invitation_subject_template'] );
+		update_option( 'surveyval_reinvitation_subject_template', $_POST['surveyval_reinvitation_subject_template'] );
 		
 		update_option( 'surveyval_thankyou_participating_text_template', $_POST['surveyval_thankyou_participating_text_template'] );
 		update_option( 'surveyval_invitation_text_template', $_POST['surveyval_invitation_text_template'] );

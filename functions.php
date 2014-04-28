@@ -82,3 +82,34 @@ Best regards,
 
 	return $text;
 }
+
+function sv_get_mail_template_subject( $mailtext_title ){
+	switch ( $mailtext_title ){
+		case 'thankyou_participating':
+			$text = stripslashes( get_option( 'surveyval_thankyou_participating_subject_template' ) );
+			if( empty( $text ) ):
+				$text = __( 'Thank you for participating!', 'surveyval-locale' );
+			endif;
+			
+			break;
+			
+		case 'invitation':
+			$text = stripslashes( get_option( 'surveyval_invitation_subject_template' ) );
+			if( empty( $text ) ):
+				$text = __( 'You are invited to answer a survey', 'surveyval-locale' );
+			endif;
+			
+			break;
+			
+		case 'reinvitation':
+			$text = stripslashes( get_option( 'surveyval_reinvitation_subject_template' ) );
+			if( empty( $text ) ):
+				$text = __( 'Don´t forget to answer the Survey', 'surveyval-locale' );
+			endif;
+			
+			break;
+			
+	}
+
+	return $text;
+}
