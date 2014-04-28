@@ -890,6 +890,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
 			
 			foreach( $users AS $user ):
+				$content = str_replace( '%displayname%', $user->display_name, $content );
 				$content = str_replace( '%username%', $user->user_nicename, $content );
 				wp_mail( $user->user_email, $subject, stripslashes( $content ) );
 			endforeach;
