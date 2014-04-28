@@ -920,12 +920,14 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function save_settings(){
+		
 		if( !array_key_exists( 'surveyval_settings_save', $_POST ) )
 			return;
 			
 		if ( !isset( $_POST['surveyval_save_settings_field'] ) || !wp_verify_nonce( $_POST['surveyval_save_settings_field'], 'surveyval_save_settings' ) )
 			return;
-			
+		
+		update_option( 'surveyval_thankyou_participating_text_template', $_POST['surveyval_thankyou_participating_text_template'] );
 		update_option( 'surveyval_invitation_text_template', $_POST['surveyval_invitation_text_template'] );
 		update_option( 'surveyval_reinvitation_text_template', $_POST['surveyval_reinvitation_text_template'] );
 	}
