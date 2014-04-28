@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-28 14:09+0100\n"
-"PO-Revision-Date: 2014-04-28 14:12+0100\n"
+"POT-Creation-Date: 2014-04-28 14:52+0100\n"
+"PO-Revision-Date: 2014-04-28 14:52+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -446,8 +446,8 @@ msgstr "Dies ist ein SurveyVal Umfrage-Element."
 # @ surveyval-locale
 #: components/elements/description.php:18 components/elements/dropdown.php:39
 #: components/elements/multiplechoice.php:39
-#: components/elements/onechoice.php:39 components/elements/range.php:31
-#: components/elements/text.php:31 components/elements/textarea.php:31
+#: components/elements/onechoice.php:39 components/elements/text.php:31
+#: components/elements/textarea.php:31
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -475,8 +475,8 @@ msgstr ""
 
 #: components/elements/dropdown.php:41
 #: components/elements/multiplechoice.php:41
-#: components/elements/onechoice.php:41 components/elements/range.php:33
-#: components/elements/text.php:33 components/elements/textarea.php:33
+#: components/elements/onechoice.php:41 components/elements/text.php:33
+#: components/elements/textarea.php:33
 msgid "The description will be shown after the question."
 msgstr "Die Beschreibung wird unter der Frage angezeigt."
 
@@ -525,17 +525,20 @@ msgstr "Maximale Anzahl an Antworten"
 msgid "The maximum number of answers which can be choosed."
 msgstr "Die maximale Anzahl an Antworten, welche eingegeben werden kann."
 
-# @ surveyval-locale
 #: components/elements/multiplechoice.php:67
-#, php-format
-msgid "You have to choose minimum %s answers."
-msgstr "Sie m&uuml;ssen mindestens %s Antworten ausw&auml;hlen."
+msgid "Too less choices."
+msgstr "Zu wenig Angaben."
 
 # @ surveyval-locale
+#: components/elements/multiplechoice.php:67
 #: components/elements/multiplechoice.php:73
 #, php-format
-msgid "You can to choose maximum %s answers."
-msgstr "Sie k&ouml;nnen maximal %s Antworten ausw&auml;hlen."
+msgid "You have to choose between %d and %d answers."
+msgstr "Sie m&uuml;ssen zwischen %d und %d Antworten ausw&auml;hlen."
+
+#: components/elements/multiplechoice.php:73
+msgid "Too many choices."
+msgstr "Zu viele Angaben."
 
 # @ surveyval-locale
 #: components/elements/onechoice.php:18
@@ -549,47 +552,6 @@ msgid ""
 msgstr ""
 "Eine Frage hinzuf&uuml;gen, die mit einer oder mehreren Antworten "
 "beantwortet werden kann."
-
-# @ surveyval-locale
-#: components/elements/range.php:18
-msgid "Range"
-msgstr "Skala"
-
-# @ surveyval-locale
-#: components/elements/range.php:19
-msgid "Add a question which can be answered within a range scale."
-msgstr ""
-"F&uuml;gt eine Frage hinzu, welche mit einer Skala beantwortet werden kann."
-
-# @ surveyval-locale
-#: components/elements/range.php:37
-msgid "Range from"
-msgstr "Skala von:"
-
-# @ surveyval-locale
-#: components/elements/range.php:39
-msgid "This value will be shown at the beginning of the scale."
-msgstr "Dieser Wert wird"
-
-# @ surveyval-locale
-#: components/elements/range.php:43
-msgid "Range to"
-msgstr "Skala von"
-
-# @ surveyval-locale
-#: components/elements/range.php:45
-msgid "This value will be shown at the end of the scale"
-msgstr "Dieser Wert wird am Ende der Skala angezeigt."
-
-# @ surveyval-locale
-#: components/elements/range.php:49
-msgid "Step size"
-msgstr "Schrittgr&ouml;&szlig;e"
-
-# @ surveyval-locale
-#: components/elements/range.php:51
-msgid "The size of steps between from and to"
-msgstr "Die Gr&ouml;&szlig zwischen von und bis"
 
 # @ surveyval-locale
 #: components/elements/separator.php:18
@@ -675,17 +637,18 @@ msgstr "Email-Adresse"
 msgid "The will do a validation for the input."
 msgstr "F&uuml;rt eine Validierung f&uuml;r die Eingabe durch."
 
-#: components/elements/text.php:72
+#: components/elements/text.php:72 components/elements/textarea.php:59
 msgid "The input ist too short."
 msgstr "Der eingegebene Wert ist zu kurz."
 
 # @ surveyval-locale
 #: components/elements/text.php:72 components/elements/text.php:78
+#: components/elements/textarea.php:59 components/elements/textarea.php:65
 #, php-format
 msgid "It have to be at minimum %d and maximum %d chars."
 msgstr "Bitte geben Sie zwischen %d und %d Zeichen ein."
 
-#: components/elements/text.php:78
+#: components/elements/text.php:78 components/elements/textarea.php:65
 msgid "The input is too long."
 msgstr "Der eingegebene Wert ist zu lang."
 
@@ -712,18 +675,6 @@ msgid "Add a question which can be answered within a text area."
 msgstr ""
 "Eine Frage hinzufügen, die mittels eines mehrzeiligen Textfeldes beantwortet "
 "wird."
-
-# @ surveyval-locale
-#: components/elements/textarea.php:59
-#, php-format
-msgid "The input have to be at minimum %s chars."
-msgstr "Es m&uuml;ssen mindestens %s Zeichen angegeben werden."
-
-# @ surveyval-locale
-#: components/elements/textarea.php:65
-#, php-format
-msgid "The input have to be at maximum %s chars."
-msgstr "Es d&uuml;rfen maximal %s Zeichen angegeben werden."
 
 #: functions.php:38
 msgid ""
@@ -771,12 +722,59 @@ msgid "Thank you for participating!"
 msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 
 #: functions.php:99
+#, fuzzy
 msgid "You are invited to answer a survey"
-msgstr ""
+msgstr "Sie siend eingeladen an der Umbrage teil"
 
 #: functions.php:107
 msgid "Don´t forget to answer the Survey"
 msgstr ""
+
+# @ surveyval-locale
+#~ msgid "Range"
+#~ msgstr "Skala"
+
+# @ surveyval-locale
+#~ msgid "Add a question which can be answered within a range scale."
+#~ msgstr ""
+#~ "F&uuml;gt eine Frage hinzu, welche mit einer Skala beantwortet werden "
+#~ "kann."
+
+# @ surveyval-locale
+#~ msgid "Range from"
+#~ msgstr "Skala von:"
+
+# @ surveyval-locale
+#~ msgid "This value will be shown at the beginning of the scale."
+#~ msgstr "Dieser Wert wird"
+
+# @ surveyval-locale
+#~ msgid "Range to"
+#~ msgstr "Skala von"
+
+# @ surveyval-locale
+#~ msgid "This value will be shown at the end of the scale"
+#~ msgstr "Dieser Wert wird am Ende der Skala angezeigt."
+
+# @ surveyval-locale
+#~ msgid "Step size"
+#~ msgstr "Schrittgr&ouml;&szlig;e"
+
+# @ surveyval-locale
+#~ msgid "The size of steps between from and to"
+#~ msgstr "Die Gr&ouml;&szlig zwischen von und bis"
+
+# @ surveyval-locale
+#~ msgid "You can to choose maximum %s answers."
+#~ msgstr "Sie k&ouml;nnen maximal %s Antworten ausw&auml;hlen."
+
+# @ surveyval-locale
+#~ msgid "The input have to be at minimum %s chars."
+#~ msgstr "Es m&uuml;ssen mindestens %s Zeichen angegeben werden."
+
+# @ surveyval-locale
+#~ msgid "The input have to be at maximum %s chars."
+#~ msgstr "Es d&uuml;rfen maximal %s Zeichen angegeben werden."
 
 # @ surveyval-locale
 #~ msgid "Range Emotional"

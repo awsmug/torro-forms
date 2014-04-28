@@ -53,7 +53,6 @@ class SurveyVal_Elements extends SurveyVal_Component{
 		include( SURVEYVAL_COMPONENTFOLDER . '/elements/onechoice.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/elements/multiplechoice.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/elements/dropdown.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/range.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/elements/separator.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/elements/splitter.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/elements/description.php' );
