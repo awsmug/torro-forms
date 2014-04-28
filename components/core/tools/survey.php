@@ -2,6 +2,7 @@
 
 class SurveyVal_PostSurvey extends SurveyVal_Post{
 	var $questions;
+	var $settings;
 	
 	public function __construct( $survey_id ){
 		parent::__construct( $survey_id );
@@ -19,7 +20,7 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 		return $new_post_id;
 	}
 	
-	public function dublicate_questions( $new_survey_id, $copy_answers = TRUE ){
+	public function dublicate_questions( $new_survey_id, $copy_answers = TRUE, $copy_settings = TRUE ){
 		global $wpdb, $surveyval_global;
 		
 		if( empty( $new_survey_id ) )
@@ -33,6 +34,7 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 				
 				unset( $data[ 'id' ] );
 				unset( $data[ 'answers' ] );
+				unset( $data[ 'settings' ] );
 				
 				$wpdb->insert( 
 					$surveyval_global->tables->questions, 
@@ -68,6 +70,25 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 						);
 					endforeach;
 				endif;
+				
+				// Dublicate Settings
+				if( is_array( $question->settings ) && count( $question->settings ) && $copy_settings ):
+					foreach( $question->settings AS $setting ):
+						$data = (array) $setting;
+						$data[ 'question_id' ] = $new_question_id;
+						unset( $data[ 'id' ] );
+						
+						$wpdb->insert( 
+							$surveyval_global->tables->settings, 
+							$data,
+							array( 
+								'%d', 
+								'%s',
+								'%s'
+							)
+						);
+					endforeach;
+				endif;
 			endforeach;	
 		endif;	
 	}
@@ -83,6 +104,7 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 		
 		foreach( $results AS $result ):
 			$result->answers = $this->get_answers( $result->id );
+			$result->settings = $this->get_settings( $result->id );
 		endforeach;
 			
 		return $results;
@@ -95,6 +117,16 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 			return FALSE;
 		
 		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->answers} WHERE question_id = %d", $question_id );
+		return $wpdb->get_results( $sql );
+	}
+	
+	public function get_settings( $question_id ){
+		global $wpdb, $surveyval_global;
+		
+		if( empty( $question_id ) )
+			return FALSE;
+		
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->settings} WHERE question_id = %d", $question_id );
 		return $wpdb->get_results( $sql );
 	}
 }
