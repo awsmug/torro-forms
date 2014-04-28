@@ -463,7 +463,7 @@ class SurveyVal_ProcessResponse{
 					endif;
 				elseif( !$element->splitter && $element->is_question ):
 					$this->response_errors[] = array(
-						'message' => __( 'Pleas select a value.', 'surveyval-locale' ),
+						'message' => __( 'You did´t answered this question.', 'surveyval-locale' ),
 						'question_id' =>  $element->id
 					);
 				endif;

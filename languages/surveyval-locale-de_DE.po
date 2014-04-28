@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-28 14:52+0100\n"
-"PO-Revision-Date: 2014-04-28 14:52+0100\n"
+"POT-Creation-Date: 2014-04-28 15:10+0100\n"
+"PO-Revision-Date: 2014-04-28 15:10+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -402,10 +402,9 @@ msgstr "Umfrage abschlie&szlig;en"
 msgid "Next Step"
 msgstr "Weiter"
 
-# @ surveyval-locale
 #: components/core/process-response.php:466
-msgid "Pleas select a value."
-msgstr "Bitte w&auml;hlen Sie einen Wert."
+msgid "You did´t answered this question."
+msgstr "Sie haben diese Frage nicht beantwortet."
 
 # @ surveyval-locale
 #: components/core/process-response.php:473
@@ -729,6 +728,10 @@ msgstr "Sie siend eingeladen an der Umbrage teil"
 #: functions.php:107
 msgid "Don´t forget to answer the Survey"
 msgstr ""
+
+# @ surveyval-locale
+#~ msgid "Pleas select a value."
+#~ msgstr "Bitte w&auml;hlen Sie einen Wert."
 
 # @ surveyval-locale
 #~ msgid "Range"
