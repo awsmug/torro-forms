@@ -31,6 +31,8 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class SurveyVal_Admin extends SurveyVal_Component{
+	var $notices = array();
+	
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -53,7 +55,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'delete_post', array( $this, 'delete_survey' ) );
 			add_action( 'wp_ajax_surveyval_add_members_standard', array( $this, 'filter_user_ajax' ) );
 			add_action( 'wp_ajax_surveyval_invite_participiants', array( $this, 'invite_participiants' ) );
-			add_action( 'init', array( $this, 'save_settings' ) );
+			add_action( 'init', array( $this, 'save_settings' ), 20 );
+			add_action( 'init', array( $this, 'dublicate_survey' ) );
+			add_action( 'admin_notices', array( $this, 'show_notices' ) );
 		endif;
 	} // end constructor
 	
@@ -533,20 +537,24 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		echo $html;
 	}
 
-	public function meta_box_survey_invites(){
+	public function meta_box_survey_functions(){
 		global $post;
 		
 		$surveyval_invitation_text_template = sv_get_mail_template_text( 'invitation' );
 		$surveyval_reinvitation_text_template = sv_get_mail_template_text( 'reinvitation' );
+		
+		$html = '<div class="surveyval-function-element">';
+			$html.= '<input id="surveyval-dublicate-survey" name="surveyval-dublicate-survey" type="submit" class="button" value="' . __( 'Dublicate Survey', 'surveyval-locale' ) . '" />';
+		$html.= '</div>';
 
 		if( 'publish' == $post->post_status  ):
-			$html = '<div class="surveyval-invites-element">';
+			$html.= '<div class="surveyval-function-element">';
 				$html.= '<textarea id="surveyval-invite-text" name="surveyval_invite_text">' . $surveyval_invitation_text_template . '</textarea>';
 				$html.= '<input id="surveyval-invite-button" type="button" class="button" value="' . __( 'Invite Participiants', 'surveyval-locale' ) . '" /> ';
 				$html.= '<input id="surveyval-invite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
 			$html.= '</div>';
 			
-			$html.= '<div class="surveyval-invites-element">';
+			$html.= '<div class="surveyval-function-element">';
 				$html.= '<textarea id="surveyval-reinvite-text" name="surveyval_reinvite_text">' . $surveyval_reinvitation_text_template . '</textarea>';
 				$html.= '<input id="surveyval-reinvite-button" type="button" class="button" value="' . __( 'Reinvite Participiants', 'surveyval-locale' ) . '" /> ';
 				$html.= '<input id="surveyval-reinvite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
@@ -564,8 +572,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( in_array( $post_type, $post_types )):
 			add_meta_box(
 	            'survey-invites',
-	            __( 'Invitations', 'surveyval-locale' ),
-	            array( $this, 'meta_box_survey_invites' ),
+	            __( 'Survey Functions', 'surveyval-locale' ),
+	            array( $this, 'meta_box_survey_functions' ),
 	            'surveyval',
 	            'side'
 	        );
@@ -882,6 +890,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
 			
 			foreach( $users AS $user ):
+				$content = str_replace( '%displayname%', $user->display_name, $content );
 				$content = str_replace( '%username%', $user->user_nicename, $content );
 				wp_mail( $user->user_email, $subject, stripslashes( $content ) );
 			endforeach;
@@ -916,9 +925,43 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			
 		if ( !isset( $_POST['surveyval_save_settings_field'] ) || !wp_verify_nonce( $_POST['surveyval_save_settings_field'], 'surveyval_save_settings' ) )
 			return;
-		
+			
 		update_option( 'surveyval_invitation_text_template', $_POST['surveyval_invitation_text_template'] );
 		update_option( 'surveyval_reinvitation_text_template', $_POST['surveyval_reinvitation_text_template'] );
+	}
+
+	public function dublicate_survey(){
+		$post_id =  $_REQUEST['post_ID'];
+		$post = get_post( $post_id );
+		
+		if( 'surveyval' != $post->post_type )
+			return;
+		
+		if( !array_key_exists( 'surveyval-dublicate-survey', $_REQUEST ) )
+			return;
+		
+		$survey = new SurveyVal_PostSurvey( $post_id );
+		$survey->dublicate();
+		
+		$this->notice( __( 'Dublicated Survey!', 'surveyval-locale' ) );
+	}
+	
+	public function notice( $message, $type = 'updated' ){
+		$this->notices[] = array( 
+			'message' => $message,
+			'type' => $type
+		);
+	}
+	
+	public function show_notices(){
+		
+		if( is_array( $this->notices ) && count( $notices ) > 0 ):
+			foreach( $notices AS $notice ):
+				echo '<div class="' . $notice[ 'type' ] . '">';
+				echo '<p>' . $notice[ 'message' ] . '</p>';
+				echo '</div>';
+			endforeach;
+		endif;
 	}
 	
 	/**
@@ -956,4 +999,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 }
 
+function test_alert(){
+	echo '<div class="updated">';
+	echo '<p>Test</p>';
+	echo '</div>';
+}
 $SurveyVal_Admin = new SurveyVal_Admin();

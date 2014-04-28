@@ -136,10 +136,13 @@
 .surveyval-participiants-options-content h5{
 	margin: 0 0 10px 0;
 }
-.surveyval-invites-element{
+.surveyval-function-element{
 	margin-bottom: 10px;
 }
-.surveyval-invites-element textarea{
+.surveyval-function-element .button{
+	width: 100%;
+}
+.surveyval-function-element textarea{
 	width:100%;
 	min-height:200px;
 	margin-bottom:10px;

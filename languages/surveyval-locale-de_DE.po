@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-24 18:13+0100\n"
-"PO-Revision-Date: 2014-04-24 18:13+0100\n"
+"POT-Creation-Date: 2014-04-25 17:15+0100\n"
+"PO-Revision-Date: 2014-04-25 17:16+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -30,186 +30,191 @@ msgid "Setting up SurveyVal in WordPress Admin."
 msgstr "SurveyVal im WordPress Admin einstellen."
 
 # @ surveyval-locale
-#: components/admin/admin.php:65 components/core/core.php:88
+#: components/admin/admin.php:66 components/core/core.php:88
 msgid "Surveys"
 msgstr "Umfragen"
 
-#: components/admin/admin.php:66
+#: components/admin/admin.php:67
 msgid "Create"
 msgstr "Erstellen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:67 components/core/core.php:74
+#: components/admin/admin.php:68 components/core/core.php:74
 msgid "Categories"
 msgstr "Kategorien"
 
 # @ surveyval-locale
-#: components/admin/admin.php:68 components/admin/admin.php:174
+#: components/admin/admin.php:69 components/admin/admin.php:175
 msgid "Settings"
 msgstr "Einstellungen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:109
+#: components/admin/admin.php:110
 msgid "Drop your Element here."
 msgstr "Element hierher ziehen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:114
+#: components/admin/admin.php:115
 msgid "Do you really want to delete this element?"
 msgstr "Soll dieses Element wirklich gel&ouml;scht werden?"
 
 # @ surveyval-locale
-#: components/admin/admin.php:115
+#: components/admin/admin.php:116
 msgid "Do you really want to delete this answer?"
 msgstr "Soll diese Antwort wirklich gel&ouml;scht werden?"
 
 # @ surveyval-locale
-#: components/admin/admin.php:171
+#: components/admin/admin.php:172
 msgid "Question"
 msgstr "Frage"
 
 # @ surveyval-locale
-#: components/admin/admin.php:200
+#: components/admin/admin.php:201
 msgid "Delete element"
 msgstr "Element l&ouml;schen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:241
+#: components/admin/admin.php:242
 msgid "Answer/s:"
 msgstr "Antwort/en:"
 
 # @ surveyval-locale
-#: components/admin/admin.php:292 components/admin/admin.php:334
-#: components/admin/admin.php:516 components/admin/admin.php:933
+#: components/admin/admin.php:293 components/admin/admin.php:335
+#: components/admin/admin.php:517 components/admin/admin.php:952
 msgid "Delete"
 msgstr "L&ouml;schen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:348
+#: components/admin/admin.php:349
 msgid "Add Answer"
 msgstr "Antwort hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:439
+#: components/admin/admin.php:440
 msgid "Add all actual Members"
 msgstr "Alle aktuellen Mitglieder hinzufügen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:459
+#: components/admin/admin.php:460
 msgid "Add Participiants"
 msgstr "Teilnehmer hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:459
+#: components/admin/admin.php:460
 msgid "Remove all Participiants"
 msgstr "Alle Teilnehmer entfernen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:480 components/admin/admin.php:941
+#: components/admin/admin.php:481 components/admin/admin.php:960
 msgid "participiant/s"
 msgstr "Teilnehmer"
 
 # @ surveyval-locale
-#: components/admin/admin.php:487
+#: components/admin/admin.php:488
 msgid "ID"
 msgstr "ID"
 
 # @ surveyval-locale
-#: components/admin/admin.php:488
+#: components/admin/admin.php:489
 msgid "User nicename"
 msgstr "Spitzname"
 
 # @ surveyval-locale
-#: components/admin/admin.php:489
+#: components/admin/admin.php:490
 msgid "Display name"
 msgstr "Angezeigter Name"
 
 # @ surveyval-locale
-#: components/admin/admin.php:490
+#: components/admin/admin.php:491
 msgid "Email"
 msgstr "Email"
 
-#: components/admin/admin.php:491
+#: components/admin/admin.php:492
 msgid "Status"
 msgstr "Status"
 
-#: components/admin/admin.php:504
+#: components/admin/admin.php:505
 msgid "finished"
 msgstr "abgeschlossen"
 
-#: components/admin/admin.php:506
+#: components/admin/admin.php:507
 msgid "new"
 msgstr "neu"
 
 # @ surveyval-locale
-#: components/admin/admin.php:545
+#: components/admin/admin.php:544
+msgid "Dublicate Survey"
+msgstr "Umfrage dublizieren"
+
+# @ surveyval-locale
+#: components/admin/admin.php:550
 msgid "Invite Participiants"
 msgstr "Teilnehmer einladen"
 
-#: components/admin/admin.php:546 components/admin/admin.php:552
+#: components/admin/admin.php:551 components/admin/admin.php:557
 msgid "Cancel"
 msgstr "Abbrechen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:551
+#: components/admin/admin.php:556
 msgid "Reinvite Participiants"
 msgstr "Erneut einladen"
 
-#: components/admin/admin.php:555
+#: components/admin/admin.php:560
 msgid ""
 "You can invite Participiants to this survey after the survey is published."
 msgstr ""
 "Sie k&ouml;nenn Teilnehmer einladen, sobald die Umfrage gespeichert ist."
 
-#: components/admin/admin.php:567
-msgid "Invitations"
-msgstr "Einladungen"
+#: components/admin/admin.php:572
+msgid "Survey Functions"
+msgstr "Umfragefunktionen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:574 components/elements/elements.php:40
+#: components/admin/admin.php:579 components/elements/elements.php:40
 msgid "Elements"
 msgstr "Elemente"
 
 # @ surveyval-locale
-#: components/admin/admin.php:582
+#: components/admin/admin.php:587
 msgid "Participiants list"
 msgstr "Teilnehmerliste"
 
-#: components/admin/admin.php:858
+#: components/admin/admin.php:863
 msgid "Survey Invitation"
 msgstr "Einlö"
 
-#: components/admin/admin.php:869
+#: components/admin/admin.php:874
 msgid "Survey Reinvitation"
 msgstr "Erneute Einladung"
 
 # @ surveyval-locale
-#: components/admin/admin.php:934 components/elements/range-emotional.php:53
+#: components/admin/admin.php:953 components/elements/range-emotional.php:53
 msgid "Yes"
 msgstr "Ja"
 
 # @ surveyval-locale
-#: components/admin/admin.php:935 components/elements/range-emotional.php:54
+#: components/admin/admin.php:954 components/elements/range-emotional.php:54
 msgid "No"
 msgstr "Nein"
 
-#: components/admin/admin.php:936
+#: components/admin/admin.php:955
 msgid "just added"
 msgstr "gerade hinzugef&uuml;gt"
 
-#: components/admin/admin.php:937
+#: components/admin/admin.php:956
 msgid "Invitations sent successfully!"
 msgstr "Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:938
+#: components/admin/admin.php:957
 msgid "Invitations could not be sent!"
 msgstr "Einladungen konnten nicht versendet werden!"
 
-#: components/admin/admin.php:939
+#: components/admin/admin.php:958
 msgid "Renvitations sent successfully!"
 msgstr "Erneute Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:940
+#: components/admin/admin.php:959
 msgid "Renvitations could not be sent!"
 msgstr "Erneute Einladungen konnten nicht versendet werden!"
 
@@ -378,48 +383,48 @@ msgstr ""
 "\"surveyval-highlight-number\">%s</span>"
 
 # @ surveyval-locale
-#: components/core/process-response.php:185
+#: components/core/process-response.php:186
 msgid "Previous Step"
 msgstr "Zur&uuml;ck"
 
 # @ surveyval-locale
-#: components/core/process-response.php:189
+#: components/core/process-response.php:190
 msgid "Finish Survey"
 msgstr "Umfrage abschlie&szlig;en"
 
 # @ surveyval-locale
-#: components/core/process-response.php:191
+#: components/core/process-response.php:192
 msgid "Next Step"
 msgstr "Weiter"
 
 # @ surveyval-locale
-#: components/core/process-response.php:451
+#: components/core/process-response.php:452
 msgid "Pleas select a value."
 msgstr "Bitte w&auml;hlen Sie einen Wert."
 
 # @ surveyval-locale
-#: components/core/process-response.php:458
+#: components/core/process-response.php:459
 msgid "There are no elements to save in survey"
 msgstr ""
 "Es gibt keine Elemente in der Umfrage, die gespeichert werden k&ouml;nnen."
 
 # @ surveyval-locale
-#: components/core/process-response.php:556
+#: components/core/process-response.php:557
 msgid "Thank you for participating this survey!"
 msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 
 # @ surveyval-locale
-#: components/core/process-response.php:563
+#: components/core/process-response.php:564
 msgid "You already have participated this poll."
 msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
 # @ surveyval-locale
-#: components/core/process-response.php:570
+#: components/core/process-response.php:571
 msgid "You have to be logged in to participate this survey."
 msgstr "Sie m&uuml;ssen eigeloggt sein um an der Umfrage teilzunehmen."
 
 # @ surveyval-locale
-#: components/core/process-response.php:577
+#: components/core/process-response.php:578
 msgid "You can't participate this survey."
 msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
 
@@ -762,6 +767,9 @@ msgid ""
 "\n"
 "%site_name%"
 msgstr ""
+
+#~ msgid "Invitations"
+#~ msgstr "Einladungen"
 
 # @ surveyval-locale
 #~ msgid "Add Survey"
