@@ -441,8 +441,6 @@
 		$( '#surveyval-dublicate-survey' ).click( function(){
 			var button = $( this )
 			
-			console.log( $( this ) );
-			
 			if( button.hasClass( 'button' ) ){
 				var data = {
 					action: 'surveyval_dublicate_survey',
