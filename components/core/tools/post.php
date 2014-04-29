@@ -75,11 +75,3 @@ class SurveyVal_Post{
 		endforeach;
 	}
 }
-
-$test = new SurveyVal_Post( 99 );
-// $test->dublicate( TRUE, TRUE, TRUE );
-
-/*
-echo '<pre>';
-print_r( $test );
-echo '</pre>';
