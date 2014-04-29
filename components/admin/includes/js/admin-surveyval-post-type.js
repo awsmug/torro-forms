@@ -450,9 +450,15 @@
 				button.addClass( 'button-loading' );
 				
 				$.post( ajaxurl, data, function( response ) {
+					response = jQuery.parseJSON( response );
+					
+					var response_text = translation_admin.dublicate_survey_successfully + '<br /><a href="' + response.admin_url + '">' + translation_admin.edit_survey + '</a>';
+					
+					button.after( '<p class="survey-dublicated-survey">' + response_text + '</p>' );
+					
 					button.removeClass( 'button-loading' );
-					button.after( '<p class="survey-dublicated-survey">' + translation_admin.dublicate_survey_successfully + '</p>' );
-					$( '.survey-dublicated-survey' ).fadeOut( 4000 );
+					
+					$( '.survey-dublicated-survey' ).fadeOut( 20000 );
 				});
 				
 			}else{

@@ -961,9 +961,19 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			return;
 		
 		$survey = new SurveyVal_PostSurvey( $survey_id );
-		$survey->dublicate();
+		$new_survey_id = $survey->dublicate( TRUE, FALSE, TRUE, TRUE, TRUE );
 		
-		// $this->notice( __( 'Dublicated Survey!', 'surveyval-locale' ) );
+		$post = get_post( $new_survey_id );
+		
+		$response =  array( 
+			'survey_id' => $new_survey_id,
+			'post_title' => $post->post_title,
+			'admin_url' => site_url( '/wp-admin/post.php?post=' . $new_survey_id . '&action=edit' )
+		);
+		
+		echo json_encode( $response );
+		
+		die();
 	}
 	
 	public function notice( $message, $type = 'updated' ){
@@ -1002,6 +1012,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			'reinvitations_sent_successfully' => __( 'Renvitations sent successfully!', 'surveyval-locale' ),
 			'reinvitations_not_sent_successfully' => __( 'Renvitations could not be sent!', 'surveyval-locale' ),
 			'dublicate_survey_successfully' => __( 'Survey dublicated successfully!', 'surveyval-locale' ),
+			'edit_survey' => __( 'Edit Survey', 'surveyval-locale' ),
 			'added_participiants' => __( 'participiant/s', 'surveyval-locale' )
 		);
 		
