@@ -961,7 +961,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			return;
 		
 		$survey = new SurveyVal_PostSurvey( $survey_id );
-		$new_survey_id = $survey->dublicate( TRUE, FALSE, TRUE, TRUE, TRUE );
+		$new_survey_id = $survey->dublicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 		
 		$post = get_post( $new_survey_id );
 		

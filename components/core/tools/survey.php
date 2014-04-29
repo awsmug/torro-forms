@@ -3,18 +3,24 @@
 class SurveyVal_PostSurvey extends SurveyVal_Post{
 	var $questions;
 	var $settings;
+	var $participiants;
 	
 	public function __construct( $survey_id ){
 		parent::__construct( $survey_id );
 		
 		$this->questions = $this->get_questions( $survey_id );
+		$this->participiants = $this->get_participiants( $survey_id );
 	}
 	
-	public function dublicate( $copy_meta = TRUE, $copy_comments = TRUE, $copy_questions = TRUE, $copy_answers = TRUE, $draft = FALSE ){
+	public function dublicate( $copy_meta = TRUE, $copy_comments = TRUE, $copy_questions = TRUE, $copy_answers = TRUE, $copy_participiants = TRUE, $draft = FALSE ){
 		$new_survey_id = parent::dublicate( $copy_meta, $copy_comments, $draft );
 		
 		if( $copy_questions ):
 			$this->dublicate_questions( $new_survey_id, $copy_answers );
+		endif;
+		
+		if( $copy_participiants ):
+			$this->dublicate_participiants( $new_survey_id );
 		endif;
 		
 		return $new_survey_id;
@@ -92,6 +98,32 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 			endforeach;	
 		endif;	
 	}
+
+	public function dublicate_participiants( $new_survey_id ){
+		global $wpdb, $surveyval_global;
+		
+		if( empty( $new_survey_id ) )
+			return FALSE;
+		
+		// Dublicate answers
+		if( is_array( $this->participiants ) && count( $this->participiants ) ):
+			foreach( $this->participiants AS $participiant ):
+				$data = (array) $participiant;
+				$data[ 'survey_id' ] = $new_survey_id;
+				
+				unset( $data[ 'id' ] );
+				
+				$wpdb->insert( 
+					$surveyval_global->tables->participiants, 
+					$data, 
+					array( 
+						'%d',
+						'%d',
+					)
+				);
+			endforeach;
+		endif;
+	}
 	
 	public function get_questions( $survey_id ){
 		global $wpdb, $surveyval_global;
@@ -127,6 +159,16 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 			return FALSE;
 		
 		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->settings} WHERE question_id = %d", $question_id );
+		return $wpdb->get_results( $sql );
+	}
+	
+	public function get_participiants( $survey_id ){
+		global $wpdb, $surveyval_global;
+		
+		if( empty( $survey_id ) )
+			return FALSE;
+		
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %d", $survey_id );
 		return $wpdb->get_results( $sql );
 	}
 }
