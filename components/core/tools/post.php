@@ -22,6 +22,11 @@ class SurveyVal_Post{
 		if( $draft )
 			$copy->post_status = 'draft';
 		
+		$copy->post_date = '';
+		$copy->post_modified = '';
+		$copy->post_date_gmt = '';
+		$copy->post_modified_gmt = '';
+		
 		$post_id = wp_insert_post( $copy );
 		
 		if( $copy_meta ):
