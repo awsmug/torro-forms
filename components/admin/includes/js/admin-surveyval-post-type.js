@@ -436,6 +436,31 @@
 			$( '#surveyval-reinvite-text' ).fadeOut( 200 );
 			$( '#surveyval-reinvite-button-cancel' ).fadeOut( 200 );
 		});
+		
+		
+		$( '#surveyval-dublicate-survey' ).click( function(){
+			var button = $( this )
+			
+			console.log( $( this ) );
+			
+			if( button.hasClass( 'button' ) ){
+				var data = {
+					action: 'surveyval_dublicate_survey',
+					survey_id: $( '#post_ID' ).val(),
+				};
+				
+				button.addClass( 'button-loading' );
+				
+				$.post( ajaxurl, data, function( response ) {
+					button.removeClass( 'button-loading' );
+					button.after( '<p class="survey-dublicated-survey">' + translation_admin.dublicate_survey_successfully + '</p>' );
+					$( '.survey-dublicated-survey' ).fadeOut( 4000 );
+				});
+				
+			}else{
+				button.addClass( 'button' );
+			}
+		});
 			
 		function surveyval_rand(){
 			var now = new Date();
