@@ -17,7 +17,7 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 			$this->dublicate_questions( $new_survey_id, $copy_answers );
 		endif;
 		
-		return $new_post_id;
+		return $new_survey_id;
 	}
 	
 	public function dublicate_questions( $new_survey_id, $copy_answers = TRUE, $copy_settings = TRUE ){
