@@ -82,16 +82,25 @@ class SurveyVal_ProcessResponse{
 		
 		// If user user has finished successfull
 		if( $this->finished && $this->finished_id == $survey_id ):
-			global $post;
 			
+			global $post;
 			get_currentuserinfo();
+			
+			$subject_template = sv_get_mail_template_subject( 'thankyou_participating' );
+			
+			$subject = str_replace( '%displayname%', $current_user->display_name, $subject_template );
+			$subject = str_replace( '%username%', $current_user->user_nicename, $subject );
+			$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
+			$subject = str_replace( '%survey_title%', $post->post_title, $subject );
+			
 			$text_template = sv_get_mail_template_text( 'thankyou_participating' );
 			
-			$content = str_replace( '%username%', $current_user->user_nicename, $text_template );
+			$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
+			$content = str_replace( '%username%', $current_user->user_nicename, $content );
 			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
 			$content = str_replace( '%survey_title%', $post->post_title, $content );
 			
-			wp_mail( $current_user->user_email, 'Thank you for participating survey!', $content );
+			wp_mail( $current_user->user_email, $subject, $content );
 			
 			return $this->text_thankyou_for_participation();
 		endif;
