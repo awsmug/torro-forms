@@ -152,8 +152,38 @@ function sv_mail( $to_email, $subject, $content ){
 	
 	$result = wp_mail( $to_email, $subject, $content );
 	
+	// Logging
+	$content = str_replace( chr(13), '', strip_tags( $content ) );
+	sv_create_log_entry( array( $to_email, $subject, $content ) );
+	
 	remove_filter( 'wp_mail_from_name', 'sv_change_email_return_name' );
 	remove_filter( 'wp_mail_from', 'sv_change_email_return_address' );
 	
 	return $result;
+}
+
+function sv_create_log_entry( $values ){
+	if( !is_array( $values ) )
+		return;
+	
+	$line = date( 'Y-m-d;H:i:s;');
+	
+	foreach( $values AS $value ):
+		$line.= $value . ';';
+	endforeach;
+	
+	$line = str_replace( array( "\r\n", "\n\r", "\n", "\r" ), ' ', $line );
+	
+	$line.= chr( 13 );
+		
+	$logdir = WP_CONTENT_DIR . '/logs/';
+	
+	if( !file_exists( $logdir ) )
+		mkdir( $logdir );
+	
+	$logfile = $logdir . 'surveyval.log';
+	
+	$file = fopen( $logfile, 'a' );
+	fwrite( $file, $line );
+	fclose( $file );
 }
