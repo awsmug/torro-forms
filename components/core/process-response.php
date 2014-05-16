@@ -100,7 +100,7 @@ class SurveyVal_ProcessResponse{
 			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
 			$content = str_replace( '%survey_title%', $post->post_title, $content );
 			
-			wp_mail( $current_user->user_email, $subject, $content );
+			sv_mail( $current_user->user_email, $subject, $content );
 			
 			return $this->text_thankyou_for_participation();
 		endif;
@@ -293,7 +293,7 @@ class SurveyVal_ProcessResponse{
 		
 		if( FALSE != $element->show() ):
 			// Using own method to show 
-			$html.= $element->show();
+			$html.= $element->show( $answer );
 		else:
 			// Using standard functions to show element
 			if( !$element->preset_of_answers ):

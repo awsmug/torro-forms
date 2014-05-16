@@ -909,7 +909,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				$content = str_replace( '%displayname%', $user->display_name, $content );
 				$content = str_replace( '%username%', $user->user_nicename, $content );
 				
-				wp_mail( $user->user_email, $subject, stripslashes( $content ) );
+				sv_mail( $user->user_email, $subject, stripslashes( $content ) );
 			endforeach;
 		
 			$return_array = array(
@@ -951,6 +951,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		update_option( 'surveyval_thankyou_participating_text_template', $_POST['surveyval_thankyou_participating_text_template'] );
 		update_option( 'surveyval_invitation_text_template', $_POST['surveyval_invitation_text_template'] );
 		update_option( 'surveyval_reinvitation_text_template', $_POST['surveyval_reinvitation_text_template'] );
+		
+		update_option( 'surveyval_mail_from_name', $_POST['surveyval_mail_from_name'] );
+		update_option( 'surveyval_mail_from_email', $_POST['surveyval_mail_from_email'] );
 	}
 
 	public function dublicate_survey(){

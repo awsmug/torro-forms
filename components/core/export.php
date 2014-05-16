@@ -87,8 +87,17 @@ class SurveyVal_Export{
 		$headline = 'UserID;';
 		
 		foreach( $survey->elements AS $element ):
-			if( $element->is_question )
-				$headline.= $element->question . ';';
+			if( $element->is_question ):
+				if( method_exists( $element , 'get_columns') ):
+					$columns = $element->get_columns();
+					
+					foreach( $columns AS $column ):
+						$headline.= $element->question . ' (' . $column . ');';
+					endforeach;
+				else:
+					$headline.= $element->question . ';';
+				endif;
+			endif;
 		endforeach;
 		
 		return $headline;
@@ -123,13 +132,13 @@ class SurveyVal_Export{
 		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->respond_answers} WHERE question_id=%d AND respond_id=%d", $question_id, $respond_id );
 		$answers = $wpdb->get_results( $sql );
 		
-		$counter = 1;
 		$count_answers = count( $answers );
 		$answers_text = '';
 		
+		$counter = 1;
 		foreach( $answers AS $answer ):
 			if( $counter < $count_answers ):
-				$answers_text.=$answer->value. '|';
+				$answers_text.=$answer->value. ';';
 			else:
 				$answers_text.=$answer->value;
 			endif;

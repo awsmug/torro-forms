@@ -113,3 +113,47 @@ function sv_get_mail_template_subject( $mailtext_title ){
 
 	return $text;
 }
+
+function sv_get_mail_settings( $option ){
+	switch ( $option ){
+		case 'from_name':
+			$setting = stripslashes( get_option( 'surveyval_mail_from_name' ) );
+			
+			if( empty( $setting ) ):
+				$setting = get_option( 'blogname' );
+			endif;
+			
+			break;
+			
+		case 'from_email':
+			$setting = stripslashes( get_option( 'surveyval_mail_from_email' ) );
+			
+			if( empty( $setting ) ):
+				$setting = get_option( 'admin_email' );
+			endif;
+			
+			break;
+	}
+
+	return $setting;
+}
+
+function sv_change_email_return_name(){
+	return sv_get_mail_settings( 'from_name' );
+}
+
+function sv_change_email_return_address(){
+	return sv_get_mail_settings( 'from_email' );
+}
+
+function sv_mail( $to_email, $subject, $content ){
+	add_filter( 'wp_mail_from_name', 'sv_change_email_return_name' );
+	add_filter( 'wp_mail_from', 'sv_change_email_return_address' );
+	
+	$result = wp_mail( $to_email, $subject, $content );
+	
+	remove_filter( 'wp_mail_from_name', 'sv_change_email_return_name' );
+	remove_filter( 'wp_mail_from', 'sv_change_email_return_address' );
+	
+	return $result;
+}

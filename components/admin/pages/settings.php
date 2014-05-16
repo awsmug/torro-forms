@@ -35,6 +35,22 @@
 					<br /><span class="description"><?php _e( 'Usable template tags:', 'surveyval-locale' ); ?> %username%, %displayname%, %survey_title%, %survey_url%, %site_name%</span>
 				</td>
 			</tr>
+			<tr>
+				<th class="titledesc"><?php _e( 'From Name', 'surveyval-locale' ); ?></th>
+				<td class="forminp forminp-textarea">
+					<p><?php _e( 'The Name which will be shown on Emails which are send out by SurveyVal.', 'surveyval-locale' ); ?></p>
+					<input class="settings-template-subject" type="text" name="surveyval_mail_from_name" value="<?php echo sv_get_mail_settings( 'from_name' ); ?>" /><br />
+					<br /><span class="description"><?php _e( 'e.g. Michael Jackson', 'surveyval-locale' ); ?></span>
+				</td>
+			</tr>
+			<tr>
+				<th class="titledesc"><?php _e( 'From Email', 'surveyval-locale' ); ?></th>
+				<td class="forminp forminp-textarea">
+					<p><?php _e( 'The Email will be used for the reply of the emails, send out by surveyval.', 'surveyval-locale' ); ?></p>
+					<input class="settings-template-subject" type="text" name="surveyval_mail_from_email" value="<?php echo sv_get_mail_settings( 'from_email' ); ?>" /><br />
+					<br /><span class="description"><?php _e( 'e.g. myname@mydomain.com', 'surveyval-locale' ); ?></span>
+				</td>
+			</tr>
 		</table>
 		<input type="submit" name="surveyval_settings_save" class="button button-primary" value="<?php _e( 'Save Changes', 'surveyval-locale' ); ?>" />
 	</form>
