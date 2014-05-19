@@ -198,9 +198,6 @@
 			answer_content = answer_content + '<p><input type="text" name="surveyval[' + element_id + '][answers][id_##nr##][answer]" /></p>';
 			answer_content = answer_content + '<input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][sort]" />';
 			
-			console.log( element_id );
-			console.log( sections );
-			
 			if( 'yes' == sections ){
 				var section_key = $( this ).parent().find( 'input[name="section_key"]' ).val();
 				answer_content = answer_content + '<input type="hidden" name="surveyval[' + element_id + '][answers][id_##nr##][section]" value="' + section_key + '" />';
@@ -273,7 +270,7 @@
 					}
 					$( "#surveyval-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_admin.just_added + '</td><td><a class="button surveyval-delete-participiant" rel="' + object.id +  '">' + translation_admin.delete + '</a></td></tr>' );
 					count_added_participiants++;
-				}	
+				}
 			});
 			
 			var count_participiants = parseInt( $( "#surveyval-participiants-count" ).val() ) + count_added_participiants;
@@ -325,10 +322,14 @@
 			var data = {
 				action: 'surveyval_add_members_standard'
 			};
+			
+			var button = $( this )
+			button.addClass( 'button-loading' );
 		
 			$.post( ajaxurl, data, function( response ) {
 				response = jQuery.parseJSON( response );
 				$.surveyval_add_participiants( response );
+				button.removeClass( 'button-loading' );
 			});
 		});
 		

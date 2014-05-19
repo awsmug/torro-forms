@@ -113,8 +113,15 @@
 #surveyval_participiants_select{
 	margin-bottom:10px;
 }
-.surveyval-invites-element .button-loading{
+#survey-participiants .button-loading{
 	background-image: url( '../../assets/images/loading.gif' );
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	padding-left:28px;
+}
+
+#survey-invites .button-loading{
+	background-image: url( '../../assets/images/loading-blue.gif' );
 	background-repeat: no-repeat;
 	background-position: 5px 5px;
 	padding-left:28px;
