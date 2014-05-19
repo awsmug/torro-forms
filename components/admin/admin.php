@@ -753,7 +753,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			endif;
 			
 			/*
-			 * Saving answers
+			 * Saving question settings
 			 */
 			if( is_array( $settings )  && count( $settings ) >  0 ):
 				foreach( $settings AS $name => $setting ):
@@ -805,7 +805,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			endforeach;
 		endif;
 		
-		// mail( 'sven@deinhilden.de', 'Check Participiants', print_r( $surveyval_participiant_ids, TRUE ) . print_r( $wpdb, TRUE ) );
+		// mail( 'sven@deinhilden.de', 'Check Participiants 2', print_r( $surveyval_participiant_ids, TRUE ) . print_r( $wpdb, TRUE ) . print_r( $_POST, TRUE ) );
 		
 		do_action( 'save_surveyval', $post_id );
 		
