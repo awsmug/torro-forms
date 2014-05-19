@@ -903,13 +903,21 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$subject = str_replace( '%survey_url%', get_permalink( $post->ID ), $subject );
 			
 			foreach( $users AS $user ):
-				$subject = str_replace( '%displayname%', $user->display_name, $subject );
-				$subject = str_replace( '%username%', $user->user_nicename, $subject );
+				if( '' != $user->data->display_name  )
+					$display_name = $user->data->display_name;
+				else
+					$display_name = $user->data->user_nicename;
 				
-				$content = str_replace( '%displayname%', $user->display_name, $content );
-				$content = str_replace( '%username%', $user->user_nicename, $content );
+				$user_nicename = $user->data->user_nicename;
+				$user_email = $user->data->user_email;
+
+				$subject_user = str_replace( '%displayname%', $display_name, $subject );
+				$subject_user = str_replace( '%username%', $user_nicename, $subject_user );
 				
-				sv_mail( $user->user_email, $subject, stripslashes( $content ) );
+				$content_user = str_replace( '%displayname%', $display_name, $content );
+				$content_user = str_replace( '%username%', $user_nicename, $content_user );
+				
+				sv_mail( $user_email, $subject_user, stripslashes( $content_user ) );
 			endforeach;
 		
 			$return_array = array(
