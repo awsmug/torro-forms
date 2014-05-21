@@ -44,7 +44,8 @@ class SurveyVal_ProcessResponse{
 	 */
 	public function __construct() {
 		if( !is_admin() ):
-			add_action( 'init', array( $this, 'save_response_cookies' ) );
+			add_action( 'init', array( $this, 'remind_response' ), 10  );
+			add_action( 'init', array( $this, 'save_response' ), 15 );
 			add_action( 'the_post', array( $this, 'load_post_filter' ) ); // Just hooking in at the beginning of a loop
 		endif;
 	} // end constructor
@@ -59,14 +60,14 @@ class SurveyVal_ProcessResponse{
 		if( 'surveyval' != $post->post_type )
 			return $content;
 		
-		$content = $this->get_survey( $post->ID );
+		$content = $this->survey( $post->ID );
 		
 		remove_filter( 'the_content', array( $this, 'the_content' ) ); // only show once		
 		
 		return $content;
 	}
 	
-	public function get_survey( $survey_id ){
+	public function survey( $survey_id ){
 		global $surveyval_survey_id, $current_user;
 		
 		$surveyval_survey_id = $survey_id;
@@ -115,7 +116,7 @@ class SurveyVal_ProcessResponse{
 			return $this->text_cant_participate();
 		endif;
 		
-		return $this->get_survey_form( $survey_id );
+		return $this->survey_form( $survey_id );
 	}
 	
 	public function user_can_participate( $survey_id, $user_id = NULL ){
@@ -134,9 +135,10 @@ class SurveyVal_ProcessResponse{
 		return apply_filters( 'surveyval_user_can_participate', $can_participate, $survey_id, $user_id );
 	}
 	
-	public function get_survey_form( $survey_id ){
+	public function survey_form( $survey_id ){
+		global $surveyval_response_errors;
 		
-		if( array_key_exists( 'surveyval_next_step', $_POST ) && 0 == count( $this->response_errors ) ):
+		if( array_key_exists( 'surveyval_next_step', $_POST ) && 0 == count( $surveyval_response_errors ) ):
 			$next_step = $_POST[ 'surveyval_next_step' ];
 		else:
 			$next_step = $_POST[ 'surveyval_actual_step' ];
@@ -157,34 +159,14 @@ class SurveyVal_ProcessResponse{
 		
 		$html.= '<div class="surveyval-description">' . sprintf( __( 'Step <span class="surveyval-highlight-number">%d</span> of <span class="surveyval-highlight-number">%s</span>', 'surveyval-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		
-		$elements = $this->get_actual_step_elements( $survey_id, $actual_step );
+		$elements = $this->get_elements( $survey_id, $actual_step );
 		
 		if( is_array( $elements ) && count( $elements ) > 0 ):
 			foreach( $elements AS $element ):
-				
 				if( !$element->splitter ):
-					
-					if( FALSE != $this->element_error( $element ) ):
-						$html.= '<div class="surveyval-element-error">';
-						$html.= '<div class="surveyval-element-error-message">' . $this->element_error( $element ) . '</div>';
-					endif;
-					
-					// Standard element
-					if( FALSE != $element->get_element() ):
-						// If element has own get_element function
-						$html.= $element->get_element( $element );
-					else:
-						// Use base get_element function
-						$html.= $this->get_element( $element );
-					endif;
-					
-					if( FALSE != $this->element_error( $element ) ):
-						
-						$html.= '</div>';
-					endif;
+					$html.= $element->draw();
 				else:
 					$next_step+=1;
-					// If element is form splitter
 					break;
 				endif;
 			endforeach;
@@ -211,43 +193,12 @@ class SurveyVal_ProcessResponse{
 		return $html;
 	}
 
-	private function element_error( $element ){
-		$messages = array();
-		
-		$found_error = FALSE;
-		
-		if( is_array( $this->response_errors ) && count( $this->response_errors ) > 0 ):
-			foreach( $this->response_errors AS $error ):
-				if( $error[ 'question_id' ] == $element->id ):
-					$messages[] = $error[ 'message' ];
-					$found_error = TRUE;
-				endif;
-			endforeach;
-			
-			if( FALSE == $found_error )
-				return FALSE;
-			
-			$text = '<ul class="surveyval-error-messages">';
-		
-			foreach( $messages AS $message ):
-				$text.= '<li>' . $message . '</li>';
-			endforeach;
-			
-			$text.= '</ul>';
-			
-			return $text;
-			
-		endif;
-		
-		return FALSE;
-	}
-
 	private function get_step_count( $survey_id ){
 		$survey = new SurveyVal_Survey( $survey_id );
 		return $survey->splitter_count;
 	}
 
-	private function get_actual_step_elements( $survey_id, $step = 0 ){
+	public function get_elements( $survey_id, $step = 0 ){
 		$survey = new SurveyVal_Survey( $survey_id );
 		
 		$actual_step = 0;
@@ -266,251 +217,124 @@ class SurveyVal_ProcessResponse{
 		return $elements[ $step ];
 	}
 
-	public function get_element( $element ){
-		global $surveyval_survey_id;
+	public function remind_response(){
+		// Exit if nothing was posted
+		if( !array_key_exists( 'surveyval_response', $_POST ) )
+		 	return;
 		
-		$answer = '';
-		
-		if( !empty( $surveyval_survey_id ) ):
-			if( isset( $_COOKIE[ 'surveyval_responses' ] ) ):
-				$surveyval_responses = $_COOKIE[ 'surveyval_responses' ];
-				$surveyval_responses = unserialize( stripslashes( $surveyval_responses ) );
-				$response = $surveyval_responses[ $surveyval_survey_id ];
-				$answer = $response[ $element->id ];
-			endif;				
-		endif;
-		
-		if( '' == $element->question && $element->is_question )
-			return FALSE;
-		
-		if( 0 == count( $element->answers )  && $element->preset_of_answers == TRUE )
-			return FALSE;
-		
-		$html = '<div class="survey-element survey-element-' . $element->id . '">';
-		$html.= $element->before_question();
-		$html.= '<h5>' . $element->question . '</h5>';
-		$html.= $element->after_question();
-		
-		if( FALSE != $element->show() ):
-			// Using own method to show 
-			$html.= $element->show( $answer );
-		else:
-			// Using standard functions to show element
-			if( !$element->preset_of_answers ):
-				/*
-				 * On simple input
-				 */
-				$param_arr = array();
-				$param_arr[] = $element->answer_syntax;
-				
-				foreach( $element->answer_params AS $param ):
-					switch( $param ){
-						case 'name':
-							$param_value = 'surveyval_response[' . $element->id . ']';
-							break;
-							
-						case 'value':
-							$param_value = $answer;
-							break;
-							
-						case 'answer';
-							$param_value = $answer;
-							break;
-					}
-					$param_arr[] = $param_value;			
-				endforeach;
-				
-				$html.= '<div class="answer">';
-				$html.= $element->before_answers();
-				$html.= $element->before_answer();
-				$html.= call_user_func_array( 'sprintf', $param_arr );
-				$html.= $element->after_answer();
-				$html.= $element->after_answers();
-				$html.= '</div>';
-				
-			else:
-				/*
-				 * With preset of answers
-				 */
-				 
-				 $html.= $element->before_answers();
-				 
-				foreach( $element->answers AS $answer ):
-					$param_arr = array();
-					
-					// Is answer selected choose right syntax
-					if( $element->answer_is_multiple ):
-						
-						if( is_array( $response[ $element->id ] ) && in_array( $answer['text'], $response[ $element->id ] ) ):
-							$param_arr[] = $element->answer_selected_syntax;
-						else:
-							$param_arr[] = $element->answer_syntax;
-						endif;
-						
-					else:
-						
-						if( $response[ $element->id ] == $answer['text'] && !empty( $element->answer_selected_syntax ) ):
-							$param_arr[] = $element->answer_selected_syntax;
-						else:
-							$param_arr[] = $element->answer_syntax;
-						endif;
-						
-					endif;
-					
-					// Running every parameter for later calling
-					foreach( $element->answer_params AS $param ):
-						switch( $param ){
-							
-							case 'name':
-								if( $element->answer_is_multiple )
-									$param_value = 'surveyval_response[' . $element->id . '][]';
-								else
-									$param_value = 'surveyval_response[' . $element->id . ']';
-									
-								break;
-								
-							case 'value':
-								$param_value = $answer['text'];
-								break;
-								
-							case 'answer';
-								$param_value = $answer['text'];
-								break;
-						}
-						$param_arr[] = $param_value;			
-					endforeach;
-					//$html.= '<div class="answer">';
-					$html.= $element->before_answer();
-					$html.= call_user_func_array( 'sprintf', $param_arr );
-					$html.= $element->after_answer();
-					//$html.= '<pre>' . print_r( $param_arr, TRUE ) . '</pre>';
-					//$html.= '</div>';
-				endforeach;
-				
-				$html.= $element->after_answers();
-				
-			endif;
-		endif;
-		
-		$html.= '</div>';
-		
-		return $html;
-	}
-
-	public function save_response_cookies(){
 		$response = array();
 		$this->finished = FALSE;
 		
-		if( !array_key_exists( 'surveyval_response', $_POST ) ):
-			return;
-		endif;
+		// Getting Post data
+		$survey_id = $_POST[ 'surveyval_id' ];
+		$survey_response = $_POST[ 'surveyval_response' ];
+		$survey_actual_step = $_POST[ 'surveyval_actual_step' ];
+		
+		// Validating response values and setting up error variables
+		$this->validate_response( $survey_id, $survey_response, $survey_actual_step );
+
+		// Getting Session Data
+		if( !isset( $_SESSION ) )
+			session_start();
+		
+		if( isset( $_SESSION[ 'surveyval_response' ] ) )
+			$saved_response = $_SESSION[ $survey_id ][ 'surveyval_response' ];
+		
+		// Adding / merging Values to response var
+		if( isset( $saved_response ) )
+			$response = array_merge( $saved_response, $survey_response );
+		else
+			$response = $survey_response;
+		
+		// Storing values in Session
+		$_SESSION[ 'surveyval_response' ][ $survey_id ] = $response;
+	}
+
+	public function save_response(){
+		global $surveyval_response_errors;
+		
+		// Exit if nothing was posted
+		if( !array_key_exists( 'surveyval_response', $_POST ) )
+		 	return;
+		
+		if( !array_key_exists( 'surveyval_id', $_POST ) )
+		 	return;
 		
 		$survey_id = $_POST[ 'surveyval_id' ];
-		$posted_values = $_POST[ 'surveyval_response' ];
-		$step = $_POST[ 'surveyval_actual_step' ];
-		$surveyval_responses = array();
-		$response = array();
 		
-		if( isset( $_COOKIE[ 'surveyval_responses' ] ) ):
-			$surveyval_responses = $_COOKIE[ 'surveyval_responses' ];
-			$surveyval_responses = unserialize( stripslashes( $surveyval_responses ) );
-			$response = $surveyval_responses[ $survey_id ];
-		endif;
+		// Getting Session Data
+		if( !isset( $_SESSION ) )
+			session_start();
 		
-		if( is_array( $posted_values ) ):
-			foreach( $posted_values AS $key =>$value ):
-				$response[ $key ] = $value;
-			endforeach;
-		endif;
-
-		$surveyval_responses[ $survey_id ] = $response; 
-		$surveyval_responses = serialize( $surveyval_responses );
+		if( !isset( $_SESSION[ 'surveyval_response' ][ $survey_id ] ) )
+			return;
 		
-		$this->validate_response( $survey_id, $response, $step );
-		
-		setcookie( 'surveyval_responses', $surveyval_responses, time() + 1200 ); // Save cookie for six hours
-		$_COOKIE[ 'surveyval_responses' ] = $surveyval_responses;
-		
-		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $this->response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
+		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $surveyval_response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
+			/*
+			$response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
 			
-			$response = unserialize( stripslashes( $_COOKIE['surveyval_responses'] ) );
-			if( $this->save_response( $survey_id, $response[ $survey_id ] ) ):
-				// Unsetting cookie, because not needed anymore
-				unset( $_COOKIE['surveyval_responses'] );
-				setcookie( 'surveyval_responses', null, -1, '/' );
+			if( $this->save_data( $survey_id, $response ) ):
+				// Unsetting Session, because not needed anymore
+				session_destroy();				
+				
 				$this->finished = TRUE;
 				$this->finished_id = $survey_id;
 			endif;
+			 */
 		endif;
 	}
 	
-	public function validate_response( $survey_id = NULL, $responses = NULL, $step = 0 ){
+	public function validate_response( $survey_id, $response, $step ){
+		global $surveyval_response_errors;
+		
 		if( array_key_exists( 'surveyval_submission_back', $_POST ) )
 			return FALSE;
 		
-		if( empty( $responses ) )
-			$responses = $_POST[ 'surveyval_response' ];
-		
-		if( empty( $responses ) )
-			return FALSE;
-		
 		if( empty( $survey_id ) )
-			$survey_id = $_POST[ 'surveyval_id' ];
+			return;
 		
-		if( empty( $survey_id ) )
-			return FALSE;
+		if( empty( $response ) )
+			return;
 		
-		$elements = $this->get_actual_step_elements( $survey_id, $step );
+		if( empty( $step ) && (int) $step != 0 )
+			return;
 		
-		if( is_array( $elements ) && count( $elements ) > 0 ):
-			// Running thru all elements
-			foreach( $elements AS $element ):
-				if( array_key_exists( $element->id, $responses ) && !$element->splitter ):
-					$response = $responses[ $element->id ];
-					if( !$element->validate( $response ) ):
-						// Gettign every error of question back
-						foreach( $element->validate_errors AS $error ):
-							$this->response_errors[] = array(
-								'message' => $error,
-								'question_id' =>  $element->id
-							);
-						endforeach;
+		$elements = $this->get_elements( $survey_id, $step );
+		
+		if( !is_array( $elements ) && count( $elements ) == 0 )
+			return;
+		
+		if( empty( $surveyval_response_errors ) )
+			$surveyval_response_errors = array();
+		
+		// Running thru all elements
+		foreach( $elements AS $element ):
+			if( $element->splitter )
+				continue;
 
-						$answer_error = TRUE;
-					endif;
-				elseif( !$element->splitter && $element->is_question ):
-					$this->response_errors[] = array(
-						'message' => __( 'You did´t answered this question.', 'surveyval-locale' ),
-						'question_id' =>  $element->id
-					);
-				endif;
-			endforeach;
-		else:
-			$this->response_errors[] = array(
-				'message' => __( 'There are no elements to save in survey', 'surveyval-locale' ),
-				'question_id' =>  0
-			);
-			$answer_error = TRUE;
-		endif;
+			$answer = $response[ $element->id ];
+			
+			if( !$element->validate( $answer ) ):
+				
+				if( empty( $surveyval_response_errors[ $element->id ] ) )
+					$surveyval_response_errors[ $element->id ] = array();
+				
+				// Gettign every error of question back
+				foreach( $element->validate_errors AS $error ):
+					$surveyval_response_errors[ $element->id ][] = $error;
+				endforeach;
+				
+			endif;
+		endforeach;
 		
-		if( is_array( $this->response_errors ) && count( $this->response_errors ) == 0 ):
+		if( is_array( $surveyval_response_errors[ $element->id ] ) && count( $surveyval_response_errors[ $element->id ] ) == 0 ):
 			return TRUE;
 		else:
 			return FALSE;
 		endif;
 	}
 
-	private function get_survey_element_by_id( $survey, $element_id ){
-		foreach( $survey->elements AS $element ):
-			if( $element->id == $element_id ):
-				return $element;
-			endif;
-		endforeach;
-		
-		return FALSE;
-	}
-	
-	public function save_response( $survey_id, $response ){
+	private function save_data( $survey_id, $response ){
 		global $wpdb, $surveyval_global, $current_user;
 		
 		get_currentuserinfo();

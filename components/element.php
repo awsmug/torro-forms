@@ -142,6 +142,12 @@ abstract class SurveyVal_SurveyElement{
 	}
 	
 	public function after_question(){
+		if( !empty( $this->settings[ 'description' ] ) ):
+			$html = '<p class="surveyval-element-description">';
+			$html.= $this->settings[ 'description' ];
+			$html.= '</p>';
+		endif;
+		
 		return $html;
 	}
 	
@@ -166,6 +172,112 @@ abstract class SurveyVal_SurveyElement{
 
 	public function validate( $input ){
 		return TRUE;
+	}
+	
+	public function draw(){
+		global $surveyval_response_errors;
+		
+		if( '' == $this->question && $this->is_question )
+			return FALSE;
+		
+		if( 0 == count( $this->answers )  && $this->preset_of_answers == TRUE )
+			return FALSE;
+		
+		$errors = $surveyval_response_errors[ $this->id ];
+		
+		$html = '';
+		
+		// Echo Errors
+		if( count( $errors ) > 0 ):
+			$html.= '<div class="surveyval-element-error">';
+			$html.= '<div class="surveyval-element-error-message">';
+			$html.= '<ul class="surveyval-error-messages">';
+			foreach( $errors AS $error ):
+				$html.= '<li>' . $error . '</li>';
+			endforeach;
+			$html.= '</ul>';
+			
+			$html.= '</div>';
+		endif;
+		
+		$html.= '<div class="survey-element survey-element-' . $this->id . '">';
+		$html.= $this->before_question();
+		$html.= '<h5>' . $this->question . '</h5>';
+		$html.= $this->after_question();
+		
+		$this->get_response();
+		
+		if( !$this->preset_of_answers ):
+			/*
+			 * On simple input
+			 */
+			$html.= '<div class="answer">';
+			$html.= $this->before_answers();
+			$html.= $this->before_answer();
+			
+			$html.= $this->input_html();
+			
+			$html.= $this->after_answer();
+			$html.= $this->after_answers();
+			$html.= '</div>';
+				
+		else:
+			/*
+			 * With preset of answers
+			 */
+			 
+			$html.= $this->before_answers();
+			 
+			foreach( $this->answers AS $answer ):
+				$html.= $this->before_answer();
+				
+				$html.= $this->input_html();
+				
+				$html.= $this->after_answer();
+			endforeach;
+			
+			$html.= $this->after_answers();
+		endif;
+		
+		$html.= '</div>';
+		
+		// End Echo Errors
+		if( count( $errors ) > 0 ):
+			$html.= '</div>';
+		endif;
+		
+		return $html;
+	}
+
+	public function get_response(){
+		global $surveyval_survey_id;
+		
+		$this->response = FALSE;
+		
+		// Getting Session Data
+		if( !isset( $_SESSION ) )
+			return;
+		
+		// Getting value/s
+		if( !empty( $surveyval_survey_id ) ):
+			if( isset( $_SESSION[ 'surveyval_response' ] ) ):
+				if( isset( $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ] ) ):
+					if( isset( $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ][ $this->id ] ) ):
+						$this->response = $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ][ $this->id ];
+					endif;
+				endif;
+			endif;
+		endif;
+		
+		return $this->response;
+	}
+	
+	public function get_input_name(){
+		return 'surveyval_response[' . $this->id . ']';
+	}
+
+	public function input_html(){
+		return __( 'No input HTML given. Please check element source.', 'surveyval-locale' );
 	}
 	
 	public function get_element(){

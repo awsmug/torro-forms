@@ -44,7 +44,13 @@ class SurveyVal_SurveyElement_Textarea extends SurveyVal_SurveyElement{
 				'type'			=> 'text',
 				'description' 	=> __( 'The maximum number of chars which can be typed in.', 'surveyval-locale' ),
 				'default'		=> '500'
-			), 
+			),
+			'size' => array(
+				'title'			=> __( 'Size', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'Size of the field', 'surveyval-locale' ),
+				'default'		=> '30'
+			),
 		);
 	}
 	

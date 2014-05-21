@@ -19,9 +19,6 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 		$this->description = __( 'Add a question which can be answered within a text field.', 'surveyval-locale' );
 		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-textfield.png';
 		
-		$this->answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
-		$this->answer_params = array( 'name', 'value' );
-		
 		parent::__construct( $id );
 	}
 	
@@ -109,15 +106,8 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 		return TRUE;
 	}
 
-	
-	public function after_question(){
-		if( !empty( $this->settings[ 'description' ] ) ):
-			$html = '<p class="surveyval-element-description">';
-			$html.= $this->settings[ 'description' ];
-			$html.= '</p>';
-		endif;
-		
-		return $html;
+	public function input_html(){
+		return '<p><input type="text" name="' . $this->get_input_name() . '" value="' . $this->response . '" /></p>';
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_Text' );
