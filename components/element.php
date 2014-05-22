@@ -202,44 +202,25 @@ abstract class SurveyVal_SurveyElement{
 		endif;
 		
 		$html.= '<div class="survey-element survey-element-' . $this->id . '">';
-		$html.= $this->before_question();
-		$html.= '<h5>' . $this->question . '</h5>';
-		$html.= $this->after_question();
+		
+		if( !empty( $this->question ) ):
+			$html.= $this->before_question();
+			$html.= '<h5>' . $this->question . '</h5>';
+			$html.= $this->after_question();
+		endif;
 		
 		$this->get_response();
 		
-		if( !$this->preset_of_answers ):
-			/*
-			 * On simple input
-			 */
-			$html.= '<div class="answer">';
-			$html.= $this->before_answers();
-			$html.= $this->before_answer();
-			
-			$html.= $this->input_html();
-			
-			$html.= $this->after_answer();
-			$html.= $this->after_answers();
-			$html.= '</div>';
-				
-		else:
-			/*
-			 * With preset of answers
-			 */
-			 
-			$html.= $this->before_answers();
-			 
-			foreach( $this->answers AS $answer ):
-				$html.= $this->before_answer();
-				
-				$html.= $this->input_html();
-				
-				$html.= $this->after_answer();
-			endforeach;
-			
-			$html.= $this->after_answers();
-		endif;
+		$html.= '<div class="answer">';
+		$html.= $this->before_answers();
+		$html.= $this->before_answer();
 		
+		$html.= $this->input_html();
+		
+		$html.= $this->after_answer();
+		$html.= $this->after_answers();
+		$html.= '</div>';
+				
 		$html.= '</div>';
 		
 		// End Echo Errors
@@ -248,6 +229,10 @@ abstract class SurveyVal_SurveyElement{
 		endif;
 		
 		return $html;
+	}
+
+	public function input_html(){
+		return '<p>' . __( 'No input HTML given. Please check element sourcecode.', 'surveyval-locale' ) . '</p>';
 	}
 
 	public function draw_admin(){
@@ -612,7 +597,7 @@ abstract class SurveyVal_SurveyElement{
 		return $html;		
 	}
 
-	public function get_response(){
+	private function get_response(){
 		global $surveyval_survey_id;
 		
 		$this->response = FALSE;
@@ -637,10 +622,6 @@ abstract class SurveyVal_SurveyElement{
 	
 	public function get_input_name(){
 		return 'surveyval_response[' . $this->id . ']';
-	}
-
-	public function input_html(){
-		return '<p>' . __( 'No input HTML given. Please check element source.', 'surveyval-locale' ) . '</p>';
 	}
 
 	private function reset(){
