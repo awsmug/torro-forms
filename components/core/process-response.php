@@ -68,14 +68,9 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	public function survey( $survey_id ){
-		global $surveyval_survey_id, $current_user;
-		
+		global $surveyval_survey_id;
 		$surveyval_survey_id = $survey_id;
 		
-		/*
-		 * Checks on starting surveys
-		 */
-		 
 		// If user is not logged in
 		if( !is_user_logged_in() ):
 			return $this->text_not_logged_in();
@@ -83,26 +78,7 @@ class SurveyVal_ProcessResponse{
 		
 		// If user user has finished successfull
 		if( $this->finished && $this->finished_id == $survey_id ):
-			
-			global $post;
-			get_currentuserinfo();
-			
-			$subject_template = sv_get_mail_template_subject( 'thankyou_participating' );
-			
-			$subject = str_replace( '%displayname%', $current_user->display_name, $subject_template );
-			$subject = str_replace( '%username%', $current_user->user_nicename, $subject );
-			$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
-			$subject = str_replace( '%survey_title%', $post->post_title, $subject );
-			
-			$text_template = sv_get_mail_template_text( 'thankyou_participating' );
-			
-			$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
-			$content = str_replace( '%username%', $current_user->user_nicename, $content );
-			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
-			$content = str_replace( '%survey_title%', $post->post_title, $content );
-			
-			sv_mail( $current_user->user_email, $subject, $content );
-			
+			$this->email_finished();
 			return $this->text_thankyou_for_participation();
 		endif;
 		
@@ -117,20 +93,6 @@ class SurveyVal_ProcessResponse{
 		endif;
 		
 		return $this->survey_form( $survey_id );
-	}
-	
-	public function user_can_participate( $survey_id, $user_id = NULL ){
-		global $wpdb, $current_user;
-		
-		// Setting up user ID
-		if( NULL == $user_id ):
-			get_currentuserinfo();
-			$user_id = $user_id = $current_user->ID;
-		endif;
-		
-		$can_participate = TRUE;
-		
-		return apply_filters( 'surveyval_user_can_participate', $can_participate, $survey_id, $user_id );
 	}
 	
 	public function survey_form( $survey_id ){
@@ -189,6 +151,20 @@ class SurveyVal_ProcessResponse{
 		$html.= '</form>';
 		
 		return $html;
+	}
+
+	public function user_can_participate( $survey_id, $user_id = NULL ){
+		global $wpdb, $current_user;
+		
+		// Setting up user ID
+		if( NULL == $user_id ):
+			get_currentuserinfo();
+			$user_id = $user_id = $current_user->ID;
+		endif;
+		
+		$can_participate = TRUE;
+		
+		return apply_filters( 'surveyval_user_can_participate', $can_participate, $survey_id, $user_id );
 	}
 
 	private function get_step_count( $survey_id ){
@@ -403,6 +379,27 @@ class SurveyVal_ProcessResponse{
 		else:
 			return TRUE;
 		endif;
+	}
+	
+	public function email_finished(){
+		global $post, $current_user;
+		get_currentuserinfo();
+		
+		$subject_template = sv_get_mail_template_subject( 'thankyou_participating' );
+		
+		$subject = str_replace( '%displayname%', $current_user->display_name, $subject_template );
+		$subject = str_replace( '%username%', $current_user->user_nicename, $subject );
+		$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
+		$subject = str_replace( '%survey_title%', $post->post_title, $subject );
+		
+		$text_template = sv_get_mail_template_text( 'thankyou_participating' );
+		
+		$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
+		$content = str_replace( '%username%', $current_user->user_nicename, $content );
+		$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
+		$content = str_replace( '%survey_title%', $post->post_title, $content );
+		
+		sv_mail( $current_user->user_email, $subject, $content );
 	}
 	
 	public function text_thankyou_for_participation(){

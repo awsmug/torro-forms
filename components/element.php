@@ -24,10 +24,6 @@ abstract class SurveyVal_SurveyElement{
 	var $answers = array();
 	var $settings = array();
 	
-	var $answer_params = array();
-	var $answer_syntax;
-	var $answer_selected_syntax;
-	
 	var $validate_errors = array();
 	
 	var $create_answer_params = array();
@@ -246,8 +242,6 @@ abstract class SurveyVal_SurveyElement{
 			$id_name = ' id="widget_surveyelement_' . $this->id . '"';
 		endif;
 		
-		$jquery_widget_id = str_replace( '#', '', $widget_id );
-			
 		/*
 		 * Widget
 		 */
@@ -279,7 +273,7 @@ abstract class SurveyVal_SurveyElement{
 		return $html;
 	}
 	
-	private function admin_get_widget_id(){
+	public function admin_get_widget_id(){
 		// Getting Widget ID
 		if( NULL == $this->id ): 
 			// New Element
@@ -294,6 +288,7 @@ abstract class SurveyVal_SurveyElement{
 
 	private function admin_widget_inside(){
 		$widget_id = $this->admin_get_widget_id();
+		$jquery_widget_id = str_replace( '#', '', $widget_id );
 		
 		// Widget Inside
 		$html.= '<div class="widget-inside">';
@@ -314,7 +309,7 @@ abstract class SurveyVal_SurveyElement{
 						
 						// Adding further tabs
 						ob_start();
-						do_action( 'surveyval_element_tabs', $html, $this );
+						do_action( 'surveyval_element_admin_tabs', $this );
 						$html.= ob_get_clean();
 					
 					$html.= '</ul>';
@@ -349,7 +344,7 @@ abstract class SurveyVal_SurveyElement{
 					
 					// Adding further content
 					ob_start();
-					do_action( 'surveyval_element_tabs_content', $html, $this );
+					do_action( 'surveyval_element_admin_tabs_content', $this );
 					$html.= ob_get_clean();
 					
 					$html.= $this->admin_widget_action_buttons();
@@ -508,12 +503,8 @@ abstract class SurveyVal_SurveyElement{
 	}
 	
 	private function admin_widget_settings_tab_field( $name, $field ){
-		global $wpdb, $surveyval_global;
-		
 		$widget_id = $this->admin_get_widget_id();
-		
-		$sql = $wpdb->prepare( "SELECT value FROM {$surveyval_global->tables->settings} WHERE question_id = %d AND name = %s", $this->id, $name );
-		$value = $wpdb->get_var( $sql );
+		$value = $this->settings[ $name ];
 		
 		if( empty( $value ) )
 			$value = $field['default'];
