@@ -25,6 +25,10 @@ class SurveyVal_SurveyElement_Textarea extends SurveyVal_SurveyElement{
 		parent::__construct( $id );
 	}
 	
+	public function input_html(){
+		return '<p><textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings['size'] . '" size="' . $this->settings['max_length'] . '">' . $this->response . '</textarea></p>';
+	}
+	
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
@@ -49,7 +53,7 @@ class SurveyVal_SurveyElement_Textarea extends SurveyVal_SurveyElement{
 				'title'			=> __( 'Size', 'surveyval-locale' ),
 				'type'			=> 'text',
 				'description' 	=> __( 'Size of the field', 'surveyval-locale' ),
-				'default'		=> '30'
+				'default'		=> '10'
 			),
 		);
 	}

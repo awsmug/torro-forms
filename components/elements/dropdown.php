@@ -33,6 +33,28 @@ class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
 		parent::__construct( $id );
 	}
 	
+	public function input_html(){
+		if( !is_array( $this->answers )  && count( $this->answers ) == 0 )
+			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'surveyval-locale' ) . '</p>';
+			
+		
+		$html = '<select name="' . $this->get_input_name() . '">';
+			$html.= '<option value="please-select"> - ' . __( 'Please select', 'surveyval-locale' ) . ' -</option>';
+		
+		foreach( $this->answers AS $answer ):
+			$checked = '';
+			
+			if( $this->response == $answer[ 'text' ] )
+				$checked = ' selected="selected"';
+				
+			$html.= '<option value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] .'</option>';
+		endforeach;
+		
+		$html.= '</select>';
+		
+		return $html;
+	}
+	
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
@@ -44,28 +66,6 @@ class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
 		);
 	}
 	
-	public function before_answers(){
-		$html = '<select name="surveyval_response[' . $this->id . ']">';
-		$html.= '<option value="please-select"> - ' . __( 'Please select', 'surveyval-locale' ) . ' -</option>';
-		return $html;
-	}
-	
-	public function after_answers(){
-		$html = '</select>';
-		return $html;
-	}
-
-	public function after_question(){
-		if( !empty( $this->settings[ 'description' ] ) ):
-			$html = '<p class="surveyval-element-description">';
-			$html.= $this->settings[ 'description' ];
-			$html.= '</p>';
-		endif;
-		
-		return $html;
-	}
-
-
 	public function validate( $input ){
 		$error = FALSE;
 		

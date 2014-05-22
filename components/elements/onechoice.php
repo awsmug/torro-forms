@@ -13,7 +13,7 @@ if( ! defined( 'ABSPATH' ) ) exit;
 
 class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 	
-	public function __construct( $id = null ){
+	public function __construct( $id = NULL ){
 		$this->slug = 'OneChoice';
 		$this->title = __( 'One Choice', 'surveyval-locale' );
 		$this->description = __( 'Add a question which can be answered by selecting one of the given answers.', 'surveyval-locale' );
@@ -23,14 +23,26 @@ class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 		$this->preset_is_multiple = TRUE;
 		$this->answer_is_multiple = FALSE;
 		
-		$this->answer_syntax = '<p><input type="radio" name="%s" value="%s" /> %s</p>';
-		$this->answer_selected_syntax = '<p><input type="radio" name="%s" value="%s" checked /> %s</p>';
-		$this->answer_params = array( 'name', 'value', 'answer' );
-		
 		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
 		$this->create_answer_params = array( 'name', 'answer' );
 		
 		parent::__construct( $id );
+	}
+	
+	public function input_html(){
+		if( !is_array( $this->answers )  && count( $this->answers ) == 0 )
+			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'surveyval-locale' ) . '</p>';
+		
+		$html = '';
+		foreach( $this->answers AS $answer ):
+			$checked = '';
+			if( $this->response == $answer[ 'text' ] )
+				$checked = ' checked="checked"';
+				
+			$html.= '<p><input type="radio" name="' . $this->get_input_name() . '" value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] .'</p>';
+		endforeach;
+		
+		return $html;
 	}
 	
 	public function settings_fields(){
@@ -42,16 +54,6 @@ class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 				'default'		=> ''
 			)
 		);
-	}
-
-	public function after_question(){
-		if( !empty( $this->settings[ 'description' ] ) ):
-			$html = '<p class="surveyval-element-description">';
-			$html.= $this->settings[ 'description' ];
-			$html.= '</p>';
-		endif;
-		
-		return $html;
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_OneChoice' );
