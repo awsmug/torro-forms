@@ -122,8 +122,6 @@ class SurveyVal_ProcessResponse{
 	public function user_can_participate( $survey_id, $user_id = NULL ){
 		global $wpdb, $current_user;
 		
-		$can_participate = FALSE;
-		
 		// Setting up user ID
 		if( NULL == $user_id ):
 			get_currentuserinfo();

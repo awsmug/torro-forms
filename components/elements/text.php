@@ -22,6 +22,10 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 		parent::__construct( $id );
 	}
 	
+	public function input_html(){
+		return '<p><input type="text" name="' . $this->get_input_name() . '" value="' . $this->response . '" /></p>';
+	}
+	
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
@@ -104,10 +108,6 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 		endif;
 		
 		return TRUE;
-	}
-
-	public function input_html(){
-		return '<p><input type="text" name="' . $this->get_input_name() . '" value="' . $this->response . '" /></p>';
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_Text' );
