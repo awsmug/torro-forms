@@ -332,8 +332,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
 		$surveyval_participiants = $_POST['surveyval_participiants'];
 		
-		// mail( 'sven@deinhilden.de', 'Test', print_r( $_POST, TRUE ) . print_r( $surveyval_global, TRUE ) );
-		
 		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
 		
 		/*
