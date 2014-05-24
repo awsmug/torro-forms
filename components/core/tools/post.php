@@ -16,7 +16,7 @@ class SurveyVal_Post{
 	}
 	
 	public function dublicate( $copy_meta = TRUE, $copy_comments = TRUE, $draft = FALSE ){
-		$copy = $this->post;
+		$copy = clone $this->post;
 		$copy->ID = '';
 		
 		if( $draft )
