@@ -320,6 +320,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		$this->save_survey_postdata( $post_id );
 		
+		do_action( 'surveyval_save_survey', $post_id );
+		
 		// Preventing dublicate saving
 		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
 	}
@@ -417,6 +419,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				$question_id = $wpdb->insert_id;
 			endif;
 			
+			do_action( 'surveyval_save_survey_after_saving_question', $survey_question, $question_id );
+			
 			/*
 			 * Saving answers
 			 */
@@ -449,7 +453,10 @@ class SurveyVal_Admin extends SurveyVal_Component{
 								'sort' => $answer_sort
 							)
 						);
+						$answer_id = $wpdb->insert_id;
 					endif;
+					
+					do_action( 'surveyval_save_survey_after_saving_answer', $survey_question, $answer_id );
 				endforeach;
 			endif;
 			
@@ -505,8 +512,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				);
 			endforeach;
 		endif;
-		
-		// mail( 'sven@deinhilden.de', 'Check Participiants 2', print_r( $surveyval_participiant_ids, TRUE ) . print_r( $wpdb, TRUE ) . print_r( $_POST, TRUE ) );
 		
 		do_action( 'save_surveyval', $post_id );
 		
