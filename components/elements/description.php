@@ -24,6 +24,14 @@ class SurveyVal_SurveyElement_Description extends SurveyVal_SurveyElement{
 		parent::__construct( $id );
 	}
 	
+	public function input_html(){
+		$html = '<div class="survey-element survey-element-' . $this->id . '">';
+		$html.= '<div class="survey-description">' . $this->settings['description'] . '</div>';
+		$html.= '</div>';
+		
+		return $html;
+	}
+	
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
@@ -33,14 +41,6 @@ class SurveyVal_SurveyElement_Description extends SurveyVal_SurveyElement{
 				'default'		=> ''
 			)
 		);
-	}
-	
-	public function get_element(){
-		$html = '<div class="survey-element survey-element-' . $this->id . '">';
-		$html.= '<div class="survey-description">' . $this->settings['description'] . '</div>';
-		$html.= '</div>';
-		
-		return $html;
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_Description' );

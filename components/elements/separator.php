@@ -24,6 +24,17 @@ class SurveyVal_SurveyElement_Separator extends SurveyVal_SurveyElement{
 		parent::__construct( $id );
 	}
 	
+	public function input_html(){
+		$html = '<div class="survey-element survey-element-' . $this->id . '">';
+		
+		if( !empty( $this->settings['header'] ) )
+			$html.= '<h3>' . $this->settings['header'] . '</h3>';
+			
+		$html.= '<hr /></div>';
+		
+		return $html;
+	}
+	
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'header' => array(
@@ -33,17 +44,6 @@ class SurveyVal_SurveyElement_Separator extends SurveyVal_SurveyElement{
 				'default'		=> ''
 			)
 		);
-	}
-	
-	public function get_element(){
-		$html = '<div class="survey-element survey-element-' . $this->id . '">';
-		
-		if( !empty( $this->settings['header'] ) )
-			$html.= '<h3>' . $this->settings['header'] . '</h3>';
-			
-		$html.= '<hr /></div>';
-		
-		return $html;
 	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_Separator' );
