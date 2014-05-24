@@ -5,6 +5,9 @@
 #surveyval-content #drag-drop-area {
 	height:auto;
 	min-height:200px;
+	-webkit-box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
+  	border:1px solid #E5E5E5;
+  	box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
 }
 #surveyval-content .drag-drop-info{
 	padding-bottom:65px;
