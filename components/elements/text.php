@@ -47,15 +47,15 @@ class SurveyVal_SurveyElement_Text extends SurveyVal_SurveyElement{
 				'default'		=> '100'
 			),
 			'validation' => array(
-				'title'			=> __( 'String Validation', 'surveyvalscience-locale' ),
+				'title'			=> __( 'String Validation', 'surveyval-locale' ),
 				'type'			=> 'radio',
 				'values'		=> array(
-					'none' => __( 'No validation', 'surveyvalscience-locale' ),
-					'numbers' => __( 'Numbers', 'surveyvalscience-locale' ),
-					'numbers_decimal' => __( 'Decimal Numbers', 'surveyvalscience-locale' ),
-					'email_address' => __( 'Email-Address', 'surveyvalscience-locale' ),
+					'none' => __( 'No validation', 'surveyval-locale' ),
+					'numbers' => __( 'Numbers', 'surveyval-locale' ),
+					'numbers_decimal' => __( 'Decimal Numbers', 'surveyval-locale' ),
+					'email_address' => __( 'Email-Address', 'surveyval-locale' ),
 				),
-				'description' 	=> __( 'The will do a validation for the input.', 'surveyvalscience-locale' ),
+				'description' 	=> __( 'The will do a validation for the input.', 'surveyval-locale' ),
 				'default'		=> 'none'
 			),
 		);
