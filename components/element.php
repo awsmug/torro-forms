@@ -532,19 +532,19 @@ abstract class SurveyVal_SurveyElement{
 					if( $value == $field_key )
 						$checked = ' checked="checked"';
 					
-					$input.= '<span class="settings-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
+					$input.= '<span class="surveval-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
 				endforeach;
 				
 				break;
 		}
 		
-		$html = '<div class="settings-fieldset">';
+		$html = '<div class="surveval-form-fieldset">';
 		
-			$html.= '<div class="settings-fieldset-title">';
+			$html.= '<div class="surveval-form-fieldset-title">';
 				$html.= '<label for="' . $name . '">' . $field['title'] . '</label>';
 			$html.= '</div>';
 			
-			$html.= '<div class="settings-fieldset-input">';
+			$html.= '<div class="surveval-form-fieldset-input">';
 				$html.= $input . '<br />';
 				$html.= '<small>' . $field['description'] . '</small>';
 			$html.= '</div>';
