@@ -37,10 +37,10 @@ class SurveyVal{
 	var $element_types = array();
 	
 	public function __construct(){
-		$this->tables();
+		add_action( 'plugins_loaded', array( $this, 'tables' ) );
 	}
 	
-	private function tables(){
+	public function tables(){
 		global $wpdb;
 		
 		$this->tables = new stdClass;
@@ -51,6 +51,8 @@ class SurveyVal{
 		$this->tables->respond_answers = $wpdb->prefix . 'surveyval_respond_answers';
 		$this->tables->settings = $wpdb->prefix . 'surveyval_settings';
 		$this->tables->participiants = $wpdb->prefix . 'surveyval_participiants';
+		
+		$this->tables = apply_filters( 'surveyval_tables', $this->tables );
 	}
 	
 	public function add_component( $slug, $object ){
