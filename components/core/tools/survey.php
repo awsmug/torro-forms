@@ -4,6 +4,9 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 	var $questions;
 	var $settings;
 	var $participiants;
+	var $question_transfers = array();
+	var $answer_transfers = array();
+	
 	
 	public function __construct( $survey_id ){
 		parent::__construct( $survey_id );
@@ -23,6 +26,8 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 			$this->dublicate_participiants( $new_survey_id );
 		endif;
 		
+		do_action( 'surveyval_dublicate_survey', $this->post, $new_survey_id, $this->question_transfers, $this->answer_transfers );
+		
 		return $new_survey_id;
 	}
 	
@@ -36,6 +41,7 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 		if( is_array( $this->questions ) && count( $this->questions ) ):
 			foreach( $this->questions AS $question ):
 				$data = (array) $question;
+				$old_question_id = $data[ 'id' ];
 				$data[ 'surveyval_id' ] = $new_survey_id;
 				
 				unset( $data[ 'id' ] );
@@ -55,12 +61,16 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 				
 				$new_question_id = $wpdb->insert_id;
 				
+				$this->question_transfers[ $old_question_id ] = $new_question_id;
+				
 				unset( $data );
 				
 				// Dublicate answers
 				if( is_array( $question->answers ) && count( $question->answers ) && $copy_answers ):
 					foreach( $question->answers AS $answer ):
 						$data = (array) $answer;
+						$old_answer_id = $data[ 'id' ];
+						
 						$data[ 'question_id' ] = $new_question_id;
 						unset( $data[ 'id' ] );
 						
@@ -74,6 +84,10 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 								'%d',
 							)
 						);
+						
+						$new_answer_id = $wpdb->insert_id;
+						$this->answer_transfers[ $old_answer_id ] = $new_answer_id;
+						
 					endforeach;
 				endif;
 				
@@ -95,6 +109,9 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 						);
 					endforeach;
 				endif;
+				
+				do_action( 'surveyval_dublicate_survey_question', $question, $new_question_id );
+				
 			endforeach;	
 		endif;	
 	}
