@@ -56,6 +56,7 @@
 #surveyval-content .add-answer{
 	font-weight: bold;
 	text-decoration: underline;
+	cursor:hand;
 }
 #delete_surveyelement_dialog,
 #delete_answer_dialog{
@@ -79,7 +80,6 @@
 	border-right:none;
 	background-color: #FAFAFA;
 	padding:6px;
-	border-radius:3px;
 }
 .survey_element_tabs .tabs li:last-child{
 	border-radius:0 3px 0 0;
@@ -95,21 +95,28 @@
 .tab_settings_content{
 	margin-top:20px;
 }
-.settings-fieldset{
+/*
+ * Form styles
+ */
+.surveval-form-fieldset{
 	margin-bottom:20px;
+	clear: both;
 }
-.settings-fieldset-title{
+.surveval-form-fieldset-title{
 	width:20%;
 	float:left;
 }
-.settings-fieldset-input{
+.surveval-form-fieldset-input{
 	width:80%;
 	float:right;
 }
-.settings-fieldset-input-radio{
+.surveval-form-fieldset-input-radio{
 	display: block;
 	margin-bottom:5px;
 }
+/*
+ * Buttons
+ */
 #surveyval_participiants_select{
 	margin-bottom:10px;
 }
