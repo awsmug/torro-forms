@@ -518,26 +518,73 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		return TRUE;
 	}
 
-	public function delete_survey( $post_id ){
+	public function delete_survey( $survey_id ){
 		global $wpdb, $surveyval_global;
 		
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->questions} WHERE surveyval_id=%d", $post_id );
-		
+		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->questions} WHERE surveyval_id=%d", $survey_id );
 		$elements = $wpdb->get_col( $sql );
 		
-		$wpdb->delete( 
-			$surveyval_global->tables->questions, 
-			array( 'surveyval_id' => $post_id ) 
-		);
-		
+		/*
+		 * Answers & Settings
+		 */
 		if( is_array( $elements ) && count( $elements ) > 0 ):
-			foreach( $elements AS $question ):
+			foreach( $elements AS $question_id ):
 				$wpdb->delete( 
 					$surveyval_global->tables->answers,
-					array( 'question_id' => $question ) 
+					array( 'question_id' => $question_id ) 
 				);
+				
+				$wpdb->delete( 
+					$surveyval_global->tables->settings,
+					array( 'question_id' => $question_id ) 
+				);
+				
+			do_action( 'surveyval_delete_element', $question_id, $survey_id );
 			endforeach;
 		endif;
+		
+		/*
+		 * Questions
+		 */
+		$wpdb->delete( 
+			$surveyval_global->tables->questions, 
+			array( 'surveyval_id' => $survey_id ) 
+		);
+		
+		do_action( 'surveyval_delete_survey', $survey_id );
+		
+		/*
+		 * Response Answers
+		 */
+		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->respond_answers} WHERE surveyval_id=%d", $survey_id );
+		$responses = $wpdb->get_col( $sql );
+		
+		if( is_array( $responses ) && count( $responses ) > 0 ):
+			foreach( $responses AS $respond_id ):
+				$wpdb->delete( 
+					$surveyval_global->tables->respond_answers,
+					array( 'respond_id' => $respond_id ) 
+				);
+				
+			do_action( 'surveyval_delete_responds', $respond_id, $survey_id );
+			endforeach;
+		endif;
+		
+		/*
+		 * Responds
+		 */
+		$wpdb->delete( 
+			$surveyval_global->tables->responds, 
+			array( 'surveyval_id' => $survey_id ) 
+		);
+		
+		/*
+		 * Participiants
+		 */
+		$wpdb->delete( 
+			$surveyval_global->tables->participiants, 
+			array( 'survey_id' => $survey_id ) 
+		);
 	}
 	
 	public function filter_user_ajax(){
