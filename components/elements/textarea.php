@@ -19,14 +19,11 @@ class SurveyVal_SurveyElement_Textarea extends SurveyVal_SurveyElement{
 		$this->description = __( 'Add a question which can be answered within a text area.', 'surveyval-locale' );
 		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-textarea.png';
 		
-		$this->answer_syntax = '<p><textarea name="%s" />%s</textarea></p>';
-		$this->answer_params = array( 'name', 'value' );
-		
 		parent::__construct( $id );
 	}
 	
 	public function input_html(){
-		return '<p><textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings['size'] . '" size="' . $this->settings['max_length'] . '">' . $this->response . '</textarea></p>';
+		return '<p><textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings['max_length'] . '" size="' . $this->settings['max_length'] . '" rows="' . $this->settings['rows'] . '" cols="' . $this->settings['cols'] . '">' . $this->response . '</textarea></p>';
 	}
 	
 	public function settings_fields(){
@@ -49,11 +46,17 @@ class SurveyVal_SurveyElement_Textarea extends SurveyVal_SurveyElement{
 				'description' 	=> __( 'The maximum number of chars which can be typed in.', 'surveyval-locale' ),
 				'default'		=> '500'
 			),
-			'size' => array(
-				'title'			=> __( 'Size', 'surveyval-locale' ),
+			'rows' => array(
+				'title'			=> __( 'Rows', 'surveyval-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'Size of the field', 'surveyval-locale' ),
-				'default'		=> '500'
+				'description' 	=> __( 'Number of rows for typing in  (can be overwritten by CSS).', 'surveyval-locale' ),
+				'default'		=> '10'
+			),
+			'cols' => array(
+				'title'			=> __( 'Columns', 'surveyval-locale' ),
+				'type'			=> 'text',
+				'description' 	=> __( 'Number of columns for typing in (can be overwritten by CSS).', 'surveyval-locale' ),
+				'default'		=> '75'
 			),
 		);
 	}
