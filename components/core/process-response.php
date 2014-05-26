@@ -205,7 +205,7 @@ class SurveyVal_ProcessResponse{
 			session_start();
 		
 		// Exit if nothing was posted
-		if( !array_key_exists( 'surveyval_response', $_POST ) )
+		if( !array_key_exists( 'surveyval_id', $_POST ) )
 		 	return;
 		
 		$response = array();
@@ -218,7 +218,7 @@ class SurveyVal_ProcessResponse{
 		
 		// Validating response values and setting up error variables
 		$this->validate_response( $survey_id, $survey_response, $survey_actual_step );
-
+		
 		if( isset( $_SESSION[ 'surveyval_response' ] ) )
 			$saved_response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
 		
@@ -266,7 +266,9 @@ class SurveyVal_ProcessResponse{
 		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $surveyval_response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
 			$response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
 			
+			session_destroy();	
 			
+			/*
 			if( $this->save_data( $survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
 				do_action( 'surveyval_after_save_response' );
 				
@@ -276,6 +278,7 @@ class SurveyVal_ProcessResponse{
 				$this->finished = TRUE;
 				$this->finished_id = $survey_id;
 			endif;
+			 */
 		endif;
 	}
 	
@@ -286,9 +289,6 @@ class SurveyVal_ProcessResponse{
 			return FALSE;
 		
 		if( empty( $survey_id ) )
-			return;
-		
-		if( empty( $response ) )
 			return;
 		
 		if( empty( $step ) && (int) $step != 0 )
