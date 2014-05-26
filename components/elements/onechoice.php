@@ -55,5 +55,18 @@ class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 			)
 		);
 	}
+
+	public function validate( $input ){
+		if( empty( $input ) ):
+			$this->validate_errors[] = sprintf( __( 'Please select a value.', 'surveyval-locale' ), $max_length );
+			$error = TRUE;
+		endif;
+		
+		if( $error ):
+			return FALSE;
+		endif;
+		
+		return TRUE;
+	}
 }
 sv_register_survey_element( 'SurveyVal_SurveyElement_OneChoice' );
