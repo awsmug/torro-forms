@@ -184,6 +184,15 @@ abstract class SurveyVal_SurveyElement{
 		
 		$html = '';
 		
+		$html = apply_filters( 'surveyval_draw_element_outer_start', $html, $this );
+
+		$element_classes = array( 'survey-element', 'survey-element-' . $this->id );
+		$element_classes = apply_filters( 'surveyval_element_classes', $element_classes , $this );
+		
+		$html.= '<div class="' . implode( ' ', $element_classes ) . '">';
+		
+		$html = apply_filters( 'surveyval_draw_element_inner_start', $html, $this );
+		
 		// Echo Errors
 		if( count( $errors ) > 0 ):
 			$html.= '<div class="surveyval-element-error">';
@@ -192,12 +201,11 @@ abstract class SurveyVal_SurveyElement{
 			foreach( $errors AS $error ):
 				$html.= '<li>' . $error . '</li>';
 			endforeach;
+			$html = apply_filters( 'surveyval_draw_element_errors', $html, $this );
 			$html.= '</ul>';
 			
 			$html.= '</div>';
 		endif;
-		
-		$html.= '<div class="survey-element survey-element-' . $this->id . '">';
 		
 		if( !empty( $this->question ) ):
 			$html.= $this->before_question();
@@ -216,13 +224,17 @@ abstract class SurveyVal_SurveyElement{
 		$html.= $this->after_answer();
 		$html.= $this->after_answers();
 		$html.= '</div>';
-				
-		$html.= '</div>';
 		
 		// End Echo Errors
 		if( count( $errors ) > 0 ):
 			$html.= '</div>';
 		endif;
+		
+		$html = apply_filters( 'surveyval_draw_element_inner_end', $html, $this );
+		
+		$html.= '</div>';
+		
+		$html = apply_filters( 'surveyval_draw_element_outer_end', $html, $this );
 		
 		return $html;
 	}

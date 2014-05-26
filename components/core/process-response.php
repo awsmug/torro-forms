@@ -44,15 +44,11 @@ class SurveyVal_ProcessResponse{
 	 */
 	public function __construct() {
 		if( !is_admin() ):
-			add_action( 'init', array( $this, 'remind_response' ), 10  );
+			add_action( 'init', array( $this, 'process_response' ), 10  );
 			add_action( 'init', array( $this, 'save_response' ), 15 );
-			add_action( 'the_post', array( $this, 'load_post_filter' ) ); // Just hooking in at the beginning of a loop
+			add_action( 'the_post', array( $this, 'add_post_filter' ) ); // Just hooking in at the beginning of a loop
 		endif;
 	} // end constructor
-	
-	public function load_post_filter(){
-		add_filter( 'the_content', array( $this, 'the_content' ) );
-	}
 	
 	public function the_content( $content ){
 		global $post, $surveyval_global;
@@ -67,9 +63,12 @@ class SurveyVal_ProcessResponse{
 		return $content;
 	}
 	
+	public function add_post_filter(){
+		add_filter( 'the_content', array( $this, 'the_content' ) );
+	}
+	
 	public function survey( $survey_id ){
 		global $surveyval_survey_id;
-		$surveyval_survey_id = $survey_id;
 		
 		// If user is not logged in
 		if( !is_user_logged_in() ):
@@ -95,7 +94,7 @@ class SurveyVal_ProcessResponse{
 		return $this->survey_form( $survey_id );
 	}
 	
-	public function survey_form( $survey_id ){
+	private function survey_form( $survey_id ){
 		global $surveyval_response_errors;
 		
 		if( array_key_exists( 'surveyval_next_step', $_POST ) && 0 == count( $surveyval_response_errors ) ):
@@ -191,7 +190,20 @@ class SurveyVal_ProcessResponse{
 		return $elements[ $step ];
 	}
 
-	public function remind_response(){
+	public function process_response(){
+		global $post, $surveyval_global, $surveyval_survey_id;
+		
+		if( '' == $_REQUEST[ 'p' ] && 'surveyval' != $_REQUEST[ 'post_type' ] )
+			return;
+		
+		$surveyval_survey_id = $_REQUEST[ 'p' ];
+		
+		do_action( 'surveyval_before_process_response', $_POST );
+		
+		// Getting Session Data
+		if( !isset( $_SESSION ) )
+			session_start();
+		
 		// Exit if nothing was posted
 		if( !array_key_exists( 'surveyval_response', $_POST ) )
 		 	return;
@@ -207,25 +219,37 @@ class SurveyVal_ProcessResponse{
 		// Validating response values and setting up error variables
 		$this->validate_response( $survey_id, $survey_response, $survey_actual_step );
 
-		// Getting Session Data
-		if( !isset( $_SESSION ) )
-			session_start();
-		
 		if( isset( $_SESSION[ 'surveyval_response' ] ) )
-			$saved_response = $_SESSION[ $survey_id ][ 'surveyval_response' ];
+			$saved_response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
 		
 		// Adding / merging Values to response var
-		if( isset( $saved_response ) )
-			$response = array_merge( $saved_response, $survey_response );
-		else
+		if( isset( $saved_response ) ):
+			// Replacing old values by key
+			foreach( $survey_response AS $key => $answer ):
+				$saved_response[ $key ] = $answer;
+			endforeach;
+			
+			$response = $saved_response;
+		else:
 			$response = $survey_response;
+		endif;
+		
+		$response = apply_filters( 'surveyval_process_response', $response );
 		
 		// Storing values in Session
 		$_SESSION[ 'surveyval_response' ][ $survey_id ] = $response;
+		
+		do_action( 'surveyval_after_process_response', $_POST );
 	}
 
 	public function save_response(){
 		global $surveyval_response_errors;
+		
+		// Getting Session Data
+		if( !isset( $_SESSION ) )
+			session_start();
+		
+		do_action( 'surveyval_before_save_response' );
 		
 		// Exit if nothing was posted
 		if( !array_key_exists( 'surveyval_response', $_POST ) )
@@ -236,25 +260,22 @@ class SurveyVal_ProcessResponse{
 		
 		$survey_id = $_POST[ 'surveyval_id' ];
 		
-		// Getting Session Data
-		if( !isset( $_SESSION ) )
-			session_start();
-		
 		if( !isset( $_SESSION[ 'surveyval_response' ][ $survey_id ] ) )
 			return;
 		
 		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $surveyval_response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
-			/*
 			$response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
 			
-			if( $this->save_data( $survey_id, $response ) ):
+			
+			if( $this->save_data( $survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
+				do_action( 'surveyval_after_save_response' );
+				
 				// Unsetting Session, because not needed anymore
-				session_destroy();				
+				session_destroy();	
 				
 				$this->finished = TRUE;
 				$this->finished_id = $survey_id;
 			endif;
-			 */
 		endif;
 	}
 	
@@ -301,6 +322,7 @@ class SurveyVal_ProcessResponse{
 			endif;
 		endforeach;
 		
+		// ??? One Element at the end ???
 		if( is_array( $surveyval_response_errors[ $element->id ] ) && count( $surveyval_response_errors[ $element->id ] ) == 0 ):
 			return TRUE;
 		else:

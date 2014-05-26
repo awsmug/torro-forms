@@ -53,7 +53,7 @@ class SurveyVal_SurveyElement_Textarea extends SurveyVal_SurveyElement{
 				'title'			=> __( 'Size', 'surveyval-locale' ),
 				'type'			=> 'text',
 				'description' 	=> __( 'Size of the field', 'surveyval-locale' ),
-				'default'		=> '10'
+				'default'		=> '500'
 			),
 		);
 	}
