@@ -44,8 +44,8 @@ class SurveyVal_ProcessResponse{
 	 */
 	public function __construct() {
 		if( !is_admin() ):
-			add_action( 'init', array( $this, 'process_response' ), 10  );
-			add_action( 'init', array( $this, 'save_response' ), 15 );
+			add_action( 'parse_request', array( $this, 'process_response' ), 1000  );
+			add_action( 'parse_request', array( $this, 'save_response' ), 1500 );
 			add_action( 'the_post', array( $this, 'add_post_filter' ) ); // Just hooking in at the beginning of a loop
 		endif;
 	} // end constructor
@@ -190,13 +190,20 @@ class SurveyVal_ProcessResponse{
 		return $elements[ $step ];
 	}
 
-	public function process_response(){
-		global $post, $surveyval_global, $surveyval_survey_id;
+	public function process_response( $wp_object ){
+		global $wpdb, $post, $surveyval_global, $surveyval_survey_id;
 		
-		if( '' == $_REQUEST[ 'p' ] && 'surveyval' != $_REQUEST[ 'post_type' ] )
+		if( 'surveyval' != $wp_object->query_vars[ 'post_type' ] )
 			return;
 		
-		$surveyval_survey_id = $_REQUEST[ 'p' ];
+		if( array_key_exists( 'name', $wp_object->query_vars) ):
+			$sql = $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_name = %s AND post_type='surveyval'", $wp_object->query_vars[ 'name' ] );
+			$surveyval_survey_id = $wpdb->get_var( $sql );
+		elseif( array_key_exists( 'p', $wp_object->query_vars) ):
+			$surveyval_survey_id = $wp_object->query_vars[ 'p' ];
+		else:
+			return FALSE;
+		endif;
 		
 		do_action( 'surveyval_before_process_response', $_POST );
 		
@@ -268,7 +275,6 @@ class SurveyVal_ProcessResponse{
 			
 			session_destroy();	
 			
-			/*
 			if( $this->save_data( $survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
 				do_action( 'surveyval_after_save_response' );
 				
@@ -278,7 +284,6 @@ class SurveyVal_ProcessResponse{
 				$this->finished = TRUE;
 				$this->finished_id = $survey_id;
 			endif;
-			 */
 		endif;
 	}
 	
@@ -305,6 +310,11 @@ class SurveyVal_ProcessResponse{
 		// Running thru all elements
 		foreach( $elements AS $element ):
 			if( $element->splitter )
+				continue;
+			
+			$skip_validating = apply_filters( 'surveyval_skip_validating', FALSE, $element, $response[ $element->id ] );
+			
+			if( $skip_validating )
 				continue;
 
 			$answer = $response[ $element->id ];
