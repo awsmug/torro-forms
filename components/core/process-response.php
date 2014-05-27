@@ -273,8 +273,6 @@ class SurveyVal_ProcessResponse{
 		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $surveyval_response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
 			$response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
 			
-			session_destroy();	
-			
 			if( $this->save_data( $survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
 				do_action( 'surveyval_after_save_response' );
 				
