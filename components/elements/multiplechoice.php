@@ -37,7 +37,7 @@ class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
 		foreach( $this->answers AS $answer ):
 			$checked = '';
 			
-			if( in_array( $answer[ 'text' ], $this->response ) )
+			if( is_array( $this->response ) && in_array( $answer[ 'text' ], $this->response ) )
 				$checked = ' checked="checked"';
 				
 			$html.= '<p><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] .'</p>';
