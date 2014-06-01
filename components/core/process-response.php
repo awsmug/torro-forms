@@ -232,9 +232,11 @@ class SurveyVal_ProcessResponse{
 		// Adding / merging Values to response var
 		if( isset( $saved_response ) ):
 			// Replacing old values by key
-			foreach( $survey_response AS $key => $answer ):
-				$saved_response[ $key ] = $answer;
-			endforeach;
+			if( is_array( $survey_response ) && count( $survey_response ) > 0 ):
+				foreach( $survey_response AS $key => $answer ):
+					$saved_response[ $key ] = $answer;
+				endforeach;
+			endif;
 			
 			$response = $saved_response;
 		else:
@@ -310,7 +312,7 @@ class SurveyVal_ProcessResponse{
 			if( $element->splitter )
 				continue;
 			
-			$skip_validating = apply_filters( 'surveyval_skip_validating', FALSE, $element, $response[ $element->id ] );
+			$skip_validating = apply_filters( 'surveyval_skip_validating', FALSE, $element );
 			
 			if( $skip_validating )
 				continue;
