@@ -68,6 +68,33 @@ class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
 			), 
 		);
 	}
+
+	public function get_responses(){
+		global $wpdb, $surveyval_global;
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} AS r, {$surveyval_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
+		$answers = $wpdb->get_results( $sql );
+		
+		$result_answers = array();
+		if( is_array( $this->answers ) && count( $this->answers ) > 0 ):
+			foreach( $this->answers AS $answer_id => $answer ):
+				$result_answers[ $answer->respond_id . '-' . $answer->id  ][ 'question'] = $this->question . ' (' . $answer->value . ')';
+				$result_answers[ $answer->respond_id . '-' . $answer->id  ][ $answer->respond_id ] = $answer->value;
+			endforeach;
+		endif;
+		
+		$result_answers = array();
+		$result_answers[ 'question' ] = $this->question; 
+		
+		if( is_array( $answers ) && count( $answers ) > 0 ):
+			foreach( $answers AS $answer ):
+				$result_answers[ $answer->respond_id ] = $answer->value;
+			endforeach;
+			
+			return array( $result_answers );
+		endif;
+		
+		return FALSE;
+	}
 	
 	public function validate( $input ){
 		$min_answers = $this->settings['min_answers'];

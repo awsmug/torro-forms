@@ -7,6 +7,7 @@ class SurveyVal_Survey{
 	public $elements = array();
 	public $response_errors = array();
 	public $splitter_count = 0;
+	public $db_responses = array();	
 	
 	public function __construct( $id = null ){
 		if( null != $id )
@@ -85,6 +86,39 @@ class SurveyVal_Survey{
 			
 		endif;
 	}
+	
+	public function get_responses_array(){
+		global $wpdb, $suveyval_global;
+		
+		$result_array = array();
+		
+		if( is_array( $this->elements ) && count( $this->elements ) > 0 ):
+			foreach( $this->elements AS $element ):
+				if( !$element->is_question )
+					continue;
+				
+				if( $repsonses = $element->get_responses() )
+					$this->add_responses( $element->id, $repsonses );
+
+			endforeach;
+			
+		endif;
+		
+		echo '<pre>';
+		print_r( $this->db_responses );
+		echo '</pre>';
+		
+		return $result_array;
+	}
+	
+	private function add_responses( $element_id, $repsonses ){
+		foreach ( $repsonses AS $answers ):
+			foreach( $answers AS $response_id => $answer ):	
+				$this->db_responses[ $element_id ][ $response_id ] = $answer;
+			endforeach;
+		endforeach;
+	}
+	
 	
 	private function add_element_obj( $element_object, $order = null ){
 		if( !is_object( $element_object ) || 'SurveyVal_SurveyElement' != get_parent_class( $element_object ) )

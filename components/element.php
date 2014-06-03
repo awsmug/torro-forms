@@ -626,7 +626,26 @@ abstract class SurveyVal_SurveyElement{
 	public function get_input_name(){
 		return 'surveyval_response[' . $this->id . ']';
 	}
-
+	
+	public function get_responses(){
+		global $wpdb, $surveyval_global;
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} AS r, {$surveyval_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
+		$answers = $wpdb->get_results( $sql );
+		
+		$result_answers = array();
+		$result_answers[ 'question' ] = $this->question; 
+		
+		if( is_array( $answers ) && count( $answers ) > 0 ):
+			foreach( $answers AS $answer ):
+				$result_answers[ $answer->respond_id ] = $answer->value;
+			endforeach;
+			
+			return array( $result_answers );
+		endif;
+		
+		return FALSE;
+	}
+	
 	private function reset(){
 		$this->question = '';
 		$this->answers = array();
