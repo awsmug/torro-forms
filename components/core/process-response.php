@@ -223,6 +223,9 @@ class SurveyVal_ProcessResponse{
 		$survey_response = $_POST[ 'surveyval_response' ];
 		$survey_actual_step = $_POST[ 'surveyval_actual_step' ];
 		
+		if( $this->has_participated( $survey_id ) )
+			return;
+		
 		// Validating response values and setting up error variables
 		$this->validate_response( $survey_id, $survey_response, $survey_actual_step );
 		
@@ -268,6 +271,9 @@ class SurveyVal_ProcessResponse{
 		 	return;
 		
 		$survey_id = $_POST[ 'surveyval_id' ];
+		
+		if( $this->has_participated( $survey_id ) )
+			return;
 		
 		if( !isset( $_SESSION[ 'surveyval_response' ][ $survey_id ] ) )
 			return;
