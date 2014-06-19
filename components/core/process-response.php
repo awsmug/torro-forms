@@ -45,10 +45,13 @@ class SurveyVal_ProcessResponse{
 	public function __construct() {
 		if( !is_admin() ):
 			add_action( 'parse_request', array( $this, 'process_response' ), 1000  );
-			add_action( 'parse_request', array( $this, 'save_response' ), 1500 );
 			add_action( 'the_post', array( $this, 'add_post_filter' ) ); // Just hooking in at the beginning of a loop
 		endif;
 	} // end constructor
+	
+	public function add_post_filter(){
+		add_filter( 'the_content', array( $this, 'the_content' ) );
+	}
 	
 	public function the_content( $content ){
 		global $post, $surveyval_global;
@@ -61,10 +64,6 @@ class SurveyVal_ProcessResponse{
 		remove_filter( 'the_content', array( $this, 'the_content' ) ); // only show once		
 		
 		return $content;
-	}
-	
-	public function add_post_filter(){
-		add_filter( 'the_content', array( $this, 'the_content' ) );
 	}
 	
 	public function survey( $survey_id ){
@@ -95,7 +94,8 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	private function survey_form( $survey_id ){
-		global $surveyval_response_errors;
+		global $surveyval_response_errors, $surveyval_survey_id;
+		$surveyval_survey_id = $survey_id;
 		
 		if( array_key_exists( 'surveyval_next_step', $_POST ) && 0 == count( $surveyval_response_errors ) ):
 			$next_step = $_POST[ 'surveyval_next_step' ];
@@ -193,47 +193,51 @@ class SurveyVal_ProcessResponse{
 	public function process_response( $wp_object ){
 		global $wpdb, $post, $surveyval_global, $surveyval_survey_id;
 		
+		// Survey ID was posted or die
+		if( !array_key_exists( 'surveyval_id', $_POST ) )
+		 	return;
+		
+		// Post Type is surveyval or die
 		if( 'surveyval' != $wp_object->query_vars[ 'post_type' ] )
 			return;
 		
+		// Getting Survey id from post or die
 		if( array_key_exists( 'name', $wp_object->query_vars) ):
 			$sql = $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_name = %s AND post_type='surveyval'", $wp_object->query_vars[ 'name' ] );
 			$surveyval_survey_id = $wpdb->get_var( $sql );
 		elseif( array_key_exists( 'p', $wp_object->query_vars) ):
 			$surveyval_survey_id = $wp_object->query_vars[ 'p' ];
 		else:
-			return FALSE;
+			return;
 		endif;
 		
-		do_action( 'surveyval_before_process_response', $_POST );
+		// User has not participated or die
+		if( $this->has_participated( $surveyval_survey_id ) )
+			return;
 		
 		// Getting Session Data
 		if( !isset( $_SESSION ) )
 			session_start();
 		
-		// Exit if nothing was posted
-		if( !array_key_exists( 'surveyval_id', $_POST ) )
-		 	return;
+		// If session has data, get it!
+		if( isset( $_SESSION[ 'surveyval_response' ] ) )
+			$saved_response = $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ];
+		
+		do_action( 'surveyval_before_process_response', $_POST );
 		
 		$response = array();
 		$this->finished = FALSE;
 		
-		// Getting Post data
-		$survey_id = $_POST[ 'surveyval_id' ];
+		// Getting data of posted step
 		$survey_response = $_POST[ 'surveyval_response' ];
 		$survey_actual_step = $_POST[ 'surveyval_actual_step' ];
 		
-		if( $this->has_participated( $survey_id ) )
-			return;
-		
 		// Validating response values and setting up error variables
-		$this->validate_response( $survey_id, $survey_response, $survey_actual_step );
-		
-		if( isset( $_SESSION[ 'surveyval_response' ] ) )
-			$saved_response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
+		$this->validate_response( $surveyval_survey_id, $survey_response, $survey_actual_step );
 		
 		// Adding / merging Values to response var
 		if( isset( $saved_response ) ):
+			
 			// Replacing old values by key
 			if( is_array( $survey_response ) && count( $survey_response ) > 0 ):
 				foreach( $survey_response AS $key => $answer ):
@@ -249,46 +253,37 @@ class SurveyVal_ProcessResponse{
 		$response = apply_filters( 'surveyval_process_response', $response );
 		
 		// Storing values in Session
-		$_SESSION[ 'surveyval_response' ][ $survey_id ] = $response;
+		$_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ] = $response;
+		
+		$this->save_response();
 		
 		do_action( 'surveyval_after_process_response', $_POST );
 	}
 
-	public function save_response(){
-		global $surveyval_response_errors;
-		
-		// Getting Session Data
-		if( !isset( $_SESSION ) )
-			session_start();
+	private function save_response(){
+		global $surveyval_response_errors, $surveyval_survey_id;
 		
 		do_action( 'surveyval_before_save_response' );
 		
-		// Exit if nothing was posted
-		if( !array_key_exists( 'surveyval_response', $_POST ) )
-		 	return;
-		
-		if( !array_key_exists( 'surveyval_id', $_POST ) )
-		 	return;
-		
-		$survey_id = $_POST[ 'surveyval_id' ];
-		
-		if( $this->has_participated( $survey_id ) )
-			return;
-		
-		if( !isset( $_SESSION[ 'surveyval_response' ][ $survey_id ] ) )
+		if( !isset( $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ] ) )
 			return;
 		
 		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $surveyval_response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
-			$response = $_SESSION[ 'surveyval_response' ][ $survey_id ];
+			$response = $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ];
 			
-			if( $this->save_data( $survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
+			if( $this->save_data( $surveyval_survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
 				do_action( 'surveyval_after_save_response' );
+				
+				if( $_SERVER['REMOTE_ADDR'] == '178.7.111.101' || $_SERVER[ 'REMOTE_ADDR' ] == '217.85.114.181' ):
+					echo 'Session Data destroyed and data saved';
+				endif;
 				
 				// Unsetting Session, because not needed anymore
 				session_destroy();	
+				unset( $_SESSION['surveyval_response'] );
 				
 				$this->finished = TRUE;
-				$this->finished_id = $survey_id;
+				$this->finished_id = $surveyval_survey_id;
 			endif;
 		endif;
 	}

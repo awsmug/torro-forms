@@ -607,7 +607,7 @@ abstract class SurveyVal_SurveyElement{
 		
 		// Getting Session Data
 		if( !isset( $_SESSION ) )
-			return;
+			session_start();
 		
 		// Getting value/s
 		if( !empty( $surveyval_survey_id ) ):
