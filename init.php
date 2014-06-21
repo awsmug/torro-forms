@@ -289,7 +289,8 @@ class SurveVal_Init{
 	* @since 1.0.0
 	*/
 	private static function get_url_path(){
-		$sub_path = substr( SURVEYVAL_FOLDER, strlen( ABSPATH ), ( strlen( SURVEYVAL_FOLDER ) - 11 ) );
+		$slashed_folder = str_replace( '\\', '/', SURVEYVAL_FOLDER ); // Replacing backslashes width slashes vor windows installations
+		$sub_path = substr( $slashed_folder, strlen( ABSPATH ), ( strlen( $slashed_folder ) - 11 ) );
 		$script_url = get_bloginfo( 'wpurl' ) . '/' . $sub_path;
 		return $script_url;
 	}
