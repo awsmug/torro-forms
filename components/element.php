@@ -605,10 +605,6 @@ abstract class SurveyVal_SurveyElement{
 		
 		$this->response = FALSE;
 		
-		// Getting Session Data
-		if( !isset( $_SESSION ) )
-			session_start();
-		
 		// Getting value/s
 		if( !empty( $surveyval_survey_id ) ):
 			if( isset( $_SESSION[ 'surveyval_response' ] ) ):
