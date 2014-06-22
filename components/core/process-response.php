@@ -37,6 +37,7 @@ class SurveyVal_ProcessResponse{
 	var $response_errors = array();
 	var $finished = FALSE;
 	var $finished_id;
+	var $respond_id;
 	
 	/**
 	 * Initializes the Component.
@@ -359,6 +360,7 @@ class SurveyVal_ProcessResponse{
 		do_action( 'surveyval_save_data', $survey_id, $response );
 		
 		$respond_id = $wpdb->insert_id;
+		$this->respond_id = $respond_id;
 		
 		foreach( $response AS $element_id => $answers ):
 			
@@ -440,6 +442,7 @@ class SurveyVal_ProcessResponse{
 	public function text_thankyou_for_participation(){
 		$html = '<div id="surveyval-thank-participation">';
 		$html.= __( 'Thank you for participating this survey!', 'surveyval-locale' );
+		$html.= '<input name="response_id" id="response_id" type="hidden" value="' . $this->respond_id . '" />';
 		$html.= '</div>';
 		return $html;
 	}
