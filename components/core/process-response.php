@@ -45,7 +45,7 @@ class SurveyVal_ProcessResponse{
 	 */
 	public function __construct() {
 		if( !is_admin() ):
-			add_action( 'parse_request', array( $this, 'process_response' ), 1000  );
+			add_action( 'parse_request', array( $this, 'process_response' ), 99  );
 			add_action( 'the_post', array( $this, 'add_post_filter' ) ); // Just hooking in at the beginning of a loop
 		endif;
 	} // end constructor
@@ -97,6 +97,8 @@ class SurveyVal_ProcessResponse{
 	private function survey_form( $survey_id ){
 		global $surveyval_response_errors, $surveyval_survey_id;
 		$surveyval_survey_id = $survey_id;
+		
+		do_action( 'before_survey_form' );
 		
 		if( array_key_exists( 'surveyval_next_step', $_POST ) && 0 == count( $surveyval_response_errors ) ):
 			$next_step = $_POST[ 'surveyval_next_step' ];
