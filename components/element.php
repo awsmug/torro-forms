@@ -630,10 +630,11 @@ abstract class SurveyVal_SurveyElement{
 		
 		$result_answers = array();
 		$result_answers[ 'question' ] = $this->question; 
+		$result_answers[ 'sections' ] = FALSE; 
 		
 		if( is_array( $answers ) && count( $answers ) > 0 ):
 			foreach( $answers AS $answer ):
-				$result_answers[ $answer->respond_id ] = $answer->value;
+				$result_answers[ $answer->respond_id ][] = $answer->value;
 			endforeach;
 			
 			return array( $result_answers );
