@@ -625,22 +625,40 @@ abstract class SurveyVal_SurveyElement{
 	
 	public function get_responses(){
 		global $wpdb, $surveyval_global;
+		
 		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} AS r, {$surveyval_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
-		$answers = $wpdb->get_results( $sql );
+		$responses = $wpdb->get_results( $sql );
 		
 		$result_answers = array();
 		$result_answers[ 'question' ] = $this->question; 
-		$result_answers[ 'sections' ] = FALSE; 
+		$result_answers[ 'sections' ] = FALSE;
 		
-		if( is_array( $answers ) && count( $answers ) > 0 ):
-			foreach( $answers AS $answer ):
-				$result_answers[ $answer->respond_id ][] = $answer->value;
+		if( is_array( $this->answers ) && count( $this->answers ) > 0 ):
+			// If element has predefined answers
+			foreach( $this->answers  AS $answer_id => $answer ):
+				$value = FALSE;
+				foreach( $responses AS $response ):
+					if( $answer['text'] == $response->value ):
+						$value = TRUE;
+						continue;
+					endif;
+				endforeach;
+				
+				$result_answers[ $response->respond_id ][ $answer['text'] ] = $value;			
 			endforeach;
-			
-			return array( $result_answers );
+		else:
+			// If element has no predefined answers
+			if( is_array( $responses ) && count( $responses ) > 0 ):
+				foreach( $responses AS $response ):
+					$result_answers[ $response->respond_id ] = $response->value;
+				endforeach;
+			endif;
 		endif;
 		
-		return FALSE;
+		if( is_array( $result_answers ) && count( $result_answers ) > 0 )
+			return array( $result_answers );
+		else
+			return FALSE;
 	}
 	
 	private function reset(){
