@@ -161,6 +161,9 @@ class SurveyVal_Export{
 	}
 
 	private function filter_csv_output( $string ){
+		if( '' ==  $string )
+			return '-';
+		
 		$string = $this->remove_new_lines( $string );
 		$string = str_replace( ';', '#', $string );
 		
