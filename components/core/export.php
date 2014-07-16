@@ -100,7 +100,8 @@ class SurveyVal_Export{
 						
 						foreach( $response AS $key => $values ):
 							foreach( $values AS $key2 => $value):
-								$lines[ 0 ][ $question_id . '-' . $i++ ] = $question[ 'question' ] . '(' . $key . ' / ' . $key2 . ')'; 
+								$column = $question[ 'question' ] . '(' . $key . ' / ' . $key2 . ')';
+								$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
 							endforeach;
 						endforeach;
 						
@@ -110,12 +111,13 @@ class SurveyVal_Export{
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
 						foreach( $response AS $key => $value ):
-							$lines[ 0 ][ $question_id . '-' . $i++ ] = $question[ 'question' ] . '(' . $key . ')'; 
+							$column = $question[ 'question' ] . '(' . $key . ')';
+							$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
 						endforeach;
 						break;					
 					endforeach;
 				else:
-					$lines[ 0 ][ $question_id ] = $question[ 'question' ]; 
+					$lines[ 0 ][ $question_id ] = $this->filter_csv_output( $question[ 'question' ] ); 
 				endif;
 			endforeach;
 			
@@ -127,7 +129,7 @@ class SurveyVal_Export{
 						
 						foreach( $response AS $key => $values ):
 							foreach( $values AS $key2 => $value):
-								$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->remove_new_lines( $value ); 
+								$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $value ); 
 							endforeach;
 						endforeach;
 						
@@ -136,12 +138,12 @@ class SurveyVal_Export{
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
 						foreach( $response AS $key => $value ):
-							$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->remove_new_lines( $value ); 
+							$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $value ); 
 						endforeach;
 					endforeach;
 				else:
 					foreach( $question[ 'responses' ]  AS $response_id => $value ):
-						$lines[ $response_id ][ $question_id ] = $this->remove_new_lines( $value ); 
+						$lines[ $response_id ][ $question_id ] = $this->filter_csv_output( $value ); 
 					endforeach;
 				endif;
 				
@@ -153,16 +155,19 @@ class SurveyVal_Export{
 			endforeach;
 			
 			return $output;			
-			
-			echo '<pre>';
-			print_r( $output );
-			echo '</pre>';
 		else:
 			return FALSE;
 		endif;
 	}
 
-	function remove_new_lines( $string ){
+	private function filter_csv_output( $string ){
+		$string = $this->remove_new_lines( $string );
+		$string = str_replace( ';', '#', $string );
+		
+		return $string;
+	}
+
+	private function remove_new_lines( $string ){
 		return trim( preg_replace( '/\s\s+/', ' ', $string ) );
 	}
 }
