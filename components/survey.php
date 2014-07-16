@@ -104,11 +104,7 @@ class SurveyVal_Survey{
 			
 		endif;
 		
-		echo '<pre>';
-		print_r( $this->db_responses );
-		echo '</pre>';
-		
-		return $result_array;
+		return $this->db_responses;
 	}
 	
 	private function add_responses( $element_id, $responses ){
