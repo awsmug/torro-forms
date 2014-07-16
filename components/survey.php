@@ -99,7 +99,7 @@ class SurveyVal_Survey{
 				
 				if( $responses = $element->get_responses() )
 					$this->add_responses( $element->id, $responses );
-
+				
 			endforeach;
 			
 		endif;
@@ -108,11 +108,7 @@ class SurveyVal_Survey{
 	}
 	
 	private function add_responses( $element_id, $responses ){
-		foreach ( $responses AS $answers ):
-			foreach( $answers AS $response_id => $answer ):	
-				$this->db_responses[ $element_id ][ $response_id ] = $answer;
-			endforeach;
-		endforeach;
+			$this->db_responses[ $element_id ] = $responses;
 	}
 	
 	

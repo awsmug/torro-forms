@@ -58,11 +58,8 @@ class SurveyVal_Export{
 			
 			$export_filename = sanitize_title( $survey->title );
 			
-			echo '<pre>';
-			print_r( $survey->get_responses_array() );
-			echo '</pre>';
-			
-			exit;
+			//echo $this->get_csv( $survey->get_responses_array() );
+			// exit;
 			
 			header( "Pragma: public");
 			header( "Expires: 0");
@@ -73,9 +70,10 @@ class SurveyVal_Export{
 			
 			switch( $export_type ){
 				case 'CSV':
-					echo $this->get_csv( $survey );
+					echo $this->get_csv( $survey->get_responses_array() );
 					break;
 				default:
+					echo $this->get_csv( $survey->get_responses_array() );
 					break;
 			}
 			
@@ -84,75 +82,88 @@ class SurveyVal_Export{
 		endif;
 	}
 	
-	public function get_csv( $survey ){
-		return $this->get_csv_headline( $survey ) . chr(13) . $this->get_csv_results( $survey );
-	}
-
-	public function get_csv_headline( $survey ){
-		$headline = 'UserID;';
+	public function get_csv( $response_array ){
+		/*echo '<pre>';
+		print_r( $response_array );
+		echo '</pre>';
+		*/
+		$lines = array();
 		
-		foreach( $survey->elements AS $element ):
-			if( $element->is_question ):
-				if( method_exists( $element , 'get_columns') ):
-					$columns = $element->get_columns();
-					
-					foreach( $columns AS $column ):
-						$headline.= $element->question . ' (' . $column . ');';
+		// Running each question (element without separators etc)
+		if( is_array( $response_array ) && count( $response_array ) > 0 ):
+			
+			// Getting Headlines
+			foreach( $response_array AS $question_id => $question ):
+				if( $question[ 'sections' ] ):
+					foreach( $question[ 'responses' ] AS $response ):
+						$i = 0;
+						
+						foreach( $response AS $key => $values ):
+							foreach( $values AS $key2 => $value):
+								$lines[ 0 ][ $question_id . '-' . $i++ ] = $question[ 'question' ] . '(' . $key . ' / ' . $key2 . ')'; 
+							endforeach;
+						endforeach;
+						
+						break;					
+					endforeach;
+				elseif( $question[ 'array' ] ):
+					foreach( $question[ 'responses' ] AS $response ):
+						$i = 0;
+						foreach( $response AS $key => $value ):
+							$lines[ 0 ][ $question_id . '-' . $i++ ] = $question[ 'question' ] . '(' . $key . ')'; 
+						endforeach;
+						break;					
 					endforeach;
 				else:
-					$headline.= $element->question . ';';
-				endif;
-			endif;
-		endforeach;
-		
-		return $headline;
-	}
-	
-	public function get_csv_results( $survey ){
-		global $wpdb, $surveyval_global;
-		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} WHERE surveyval_id=%d", $survey->id );
-		$results = $wpdb->get_results( $sql );
-		
-		foreach( $results AS $result ):
-			// Running each element
-			$line = $result->user_id . ';';
-			
-			foreach( $survey->elements AS $element ):
-				if( $element->is_question ):
-					$line.= $this->get_csv_answer( $element->id, $result->id ) . ';';
+					$lines[ 0 ][ $question_id ] = $question[ 'question' ]; 
 				endif;
 			endforeach;
 			
-			$content.= $line . chr(13);
+			// Getting Content	
+			foreach( $response_array AS $question_id => $question ):
+				if( $question[ 'sections' ] ):
+					foreach( $question[ 'responses' ] AS $response_id => $response ):
+						$i = 0;
+						
+						foreach( $response AS $key => $values ):
+							foreach( $values AS $key2 => $value):
+								$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->remove_new_lines( $value ); 
+							endforeach;
+						endforeach;
+						
+					endforeach;
+				elseif( $question[ 'array' ] ):
+					foreach( $question[ 'responses' ] AS $response ):
+						$i = 0;
+						foreach( $response AS $key => $value ):
+							$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->remove_new_lines( $value ); 
+						endforeach;
+					endforeach;
+				else:
+					foreach( $question[ 'responses' ]  AS $response_id => $value ):
+						$lines[ $response_id ][ $question_id ] = $this->remove_new_lines( $value ); 
+					endforeach;
+				endif;
+				
+			endforeach;
 			
-		endforeach;
-		
-		return $content;
+			$output = '';
+			foreach( $lines AS $response_id => $line ):
+				$output.= implode( ';', $line ) . chr( 13 );
+			endforeach;
+			
+			return $output;			
+			
+			echo '<pre>';
+			print_r( $output );
+			echo '</pre>';
+		else:
+			return FALSE;
+		endif;
 	}
 
-	public function get_csv_answer( $question_id, $respond_id ){
-		global $wpdb, $surveyval_global;
-		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->respond_answers} WHERE question_id=%d AND respond_id=%d", $question_id, $respond_id );
-		$answers = $wpdb->get_results( $sql );
-		
-		$count_answers = count( $answers );
-		$answers_text = '';
-		
-		$counter = 1;
-		foreach( $answers AS $answer ):
-			if( $counter < $count_answers ):
-				$answers_text.=$answer->value. ';';
-			else:
-				$answers_text.=$answer->value;
-			endif;
-			$counter++;
-		endforeach;
-		
-		return $answers_text;
+	function remove_new_lines( $string ){
+		return trim( preg_replace( '/\s\s+/', ' ', $string ) );
 	}
-	
-	
 }
 $SurveyVal_Export = new SurveyVal_Export();
