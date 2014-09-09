@@ -45,7 +45,7 @@ class SurveyVal_ChartsJS{
 		$labels = array();
 		$data = array();
 		foreach( $answers AS $data_name => $data_count ):
-			$labels[] = '"' . $data_name . '"';
+			$labels[] = '"' . utf8_encode( $data_name ) . '"';
 			$data[] = $data_count;
 		endforeach;
 		
