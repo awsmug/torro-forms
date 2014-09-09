@@ -58,15 +58,13 @@ class SurveyVal_Export{
 			
 			$export_filename = sanitize_title( $survey->title );
 			
-			/*echo '<pre>';
-			print_r( $survey->get_responses_array() );
-			echo '</pre>';*/
+			$charset = 'UTF-8';
 			
 			header( "Pragma: public" );
 			header( "Expires: 0" );
 			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
 			header( "Cache-Control: private", FALSE );
-			header( "Content-Type: Content-Type: text/html; charset=UTF-8");
+			header( "Content-Type: Content-Type: text/html; charset=" . $charset );
 			header( "Content-Disposition: attachment; filename=\"" . $export_filename . ".csv\";" );
 			
 			switch( $export_type ){
@@ -84,14 +82,11 @@ class SurveyVal_Export{
 	}
 	
 	public function get_csv( $response_array ){
-		/*echo '<pre>';
-		print_r( $response_array );
-		echo '</pre>';
-		*/
+		
 		$lines = array();
 		
 		// Running each question (element without separators etc)
-		if( is_array( $response_array ) && count( $response_array ) > 0 ):
+		if( is_array( $response_array ) ):
 			
 			// Getting Headlines
 			foreach( $response_array AS $question_id => $question ):
@@ -122,7 +117,7 @@ class SurveyVal_Export{
 				endif;
 			endforeach;
 			
-			// Getting Content	
+			// Getting Content
 			foreach( $response_array AS $question_id => $question ):
 				if( $question[ 'sections' ] ):
 					foreach( $question[ 'responses' ] AS $response_id => $response ):
@@ -162,6 +157,7 @@ class SurveyVal_Export{
 	}
 
 	private function filter_csv_output( $string ){
+		$string = utf8_decode( $string );
 		if( '' ==  $string )
 			return '-';
 		
