@@ -150,6 +150,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		// If there is only one option
 		// if( count( $options ) < 2 ) $disabled = ' disabled';
 		
+		$disabled = '';
+		$selected = '';
+		
 		$html = '<div id="surveyval_participiants_select">';
 			$html.= '<select name="surveyval_participiants_select" id="surveyval-participiants-select"' . $disabled . '>';
 			foreach( $options AS $key => $value ):
@@ -175,6 +178,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s";
 		$sql = $wpdb->prepare( $sql, $survey_id );
 		$user_ids = $wpdb->get_col( $sql );
+		
+		$users = array();
 		
 		if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
 			$users = get_users( array(
@@ -203,6 +208,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				
 				
 				$html.= '<tbody>';
+				
+				$surveyval_participiants_value = '';
 				
 				if( is_array( $users ) && count( $users ) > 0 ):
 				
@@ -748,9 +755,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function show_notices(){
-		
-		if( is_array( $this->notices ) && count( $notices ) > 0 ):
-			foreach( $notices AS $notice ):
+		if( is_array( $this->notices ) && count( $this->notices ) > 0 ):
+			foreach( $this->notices AS $notice ):
 				echo '<div class="' . $notice[ 'type' ] . '">';
 				echo '<p>' . $notice[ 'message' ] . '</p>';
 				echo '</div>';

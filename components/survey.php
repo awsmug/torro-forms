@@ -128,7 +128,7 @@ class SurveyVal_Survey{
 		return $responses;
 	}
 	
-	private function add_responses( $element_id, &$responses ){
+	private function add_responses( $element_id, $responses ){
 		$this->db_responses[ $element_id ] = $responses;
 		unset( $responses );
 	}
@@ -163,20 +163,3 @@ class SurveyVal_Survey{
 		$this->elements = array();
 	}
 }
-
-function SurveyvalGetArraySize( $array ) {
-	$serialized = serialize( $array );
-	
-	if( function_exists( 'mb_strlen' ) ):
-	    $size = mb_strlen( $serialized, '8bit' );
-	else:
-	    $size = strlen( $serialized );
-	endif;
-	
-	return $size; 
-}
-
-
-
-
-

@@ -270,7 +270,7 @@ abstract class SurveyVal_SurveyElement{
 		$title = empty( $this->question ) ? $this->title : $this->question;
 		
 		// Widget Head
-		$html.= '<div class="widget-top surveyval-admin-qu-text">';
+		$html = '<div class="widget-top surveyval-admin-qu-text">';
 			$html.= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 			$html.= '<div class="widget-title">';
 			
@@ -303,7 +303,7 @@ abstract class SurveyVal_SurveyElement{
 		$jquery_widget_id = str_replace( '#', '', $widget_id );
 		
 		// Widget Inside
-		$html.= '<div class="widget-inside">';
+		$html = '<div class="widget-inside">';
 			$html.= '<div class="widget-content">';
 				$html.='<div class="survey_element_tabs">';
 				
@@ -379,7 +379,7 @@ abstract class SurveyVal_SurveyElement{
 		if( $this->preset_of_answers ):
 		
 			// Answers have sections
-			if( is_array( $this->sections ) && count( $this->sections ) > 0 ):
+			if( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ):
 				foreach( $this->sections as $section_key => $section_name ):
 					$html.= '<div class="surveyval-section" id="section_' . $section_key . '">';
 					$html.= '<p>' . $section_name . '</p>';
@@ -516,7 +516,9 @@ abstract class SurveyVal_SurveyElement{
 	
 	private function admin_widget_settings_tab_field( $name, $field ){
 		$widget_id = $this->admin_get_widget_id();
-		$value = $this->settings[ $name ];
+		
+		if( array_key_exists( $name, $this->settings ) )
+			$value = $this->settings[ $name ];
 		
 		if( empty( $value ) )
 			$value = $field['default'];
@@ -595,7 +597,7 @@ abstract class SurveyVal_SurveyElement{
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_is_multiple]" value="' . ( $this->preset_is_multiple ? 'yes' : 'no' ) . '" />';
 		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_of_answers]" value="' . ( $this->preset_of_answers ? 'yes' : 'no' ) . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sections]" value="' . ( is_array( $this->sections ) && count( $this->sections ) > 0  ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0  ? 'yes' : 'no' ) . '" />';
 		
 		return $html;		
 	}
