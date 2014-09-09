@@ -63,10 +63,11 @@ class SurveyVal_ChartsJS{
 	}
 	
 	public static function show_chart( $data ){
-		$html.= '<canvas id="myChart" width="400" height="400"></canvas>';
+		$id = md5( rand( ) );
+		$html.= '<canvas id="' . $id . '" width="400" height="400"></canvas>';
 		$html.= '<script language="javascript">';
 		$html.= $data;
-		$html.= 'var ctx = document.getElementById("myChart").getContext("2d");';
+		$html.= 'var ctx = document.getElementById("' . $id . '").getContext("2d");';
 		$html.= 'var myNewChart = new Chart(ctx).Bar( data );';
 		$html.= '</script>';
 		
