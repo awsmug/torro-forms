@@ -91,10 +91,13 @@ class SurveyVal_Survey{
 		global $wpdb, $suveyval_global;
 		
 		if( is_array( $this->elements ) ):
+			$this->add_responses( '_user_id',  $this->get_user_ids() );
+			
 			foreach( $this->elements AS $element ):
 
 				if( !$element->is_question )
 					continue;
+				$responses = $element->get_responses();
 				
 				$this->add_responses( $element->id, $element->get_responses() );
 				
@@ -102,6 +105,27 @@ class SurveyVal_Survey{
 		endif;
 		
 		return $this->db_responses;
+	}
+	
+	private function get_user_ids(){
+		global $wpdb, $surveyval_global;
+		
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} WHERE surveyval_id = %s", $this->id );
+		$results = $wpdb->get_results( $sql );
+		
+		$responses = array();
+		$responses[ 'question' ] = 'User ID';
+		$responses[ 'sections' ] = FALSE;
+		$responses[ 'array' ] = FALSE;
+		$responses[ 'responses' ] = array();
+		
+		if( is_array( $results ) ):
+			foreach( $results AS $result ):
+				$responses[ 'responses' ][ $result->id ] = $result->user_id;
+			endforeach;
+		endif;
+		
+		return $responses;
 	}
 	
 	private function add_responses( $element_id, &$responses ){
