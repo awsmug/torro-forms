@@ -28,6 +28,8 @@
 
  */
  
+if ( !defined( 'ABSPATH' ) ) exit;
+ 
 class SurveyVal_Export{
 	/**
 	 * Initializes the Component.
@@ -55,7 +57,6 @@ class SurveyVal_Export{
 			$survey_id = $_GET['survey_id'];
 			
 			$survey = new SurveyVal_Survey( $survey_id );
-			
 			$export_filename = sanitize_title( $survey->title );
 			
 			header( "Pragma: public" );
@@ -84,83 +85,12 @@ class SurveyVal_Export{
 			
 		endif;
 	}
-	
+
 	public function get_csv( $response_array ){
-		
-		$lines = array();
+		$lines = SurveyVal_AbstractData::lines( $response_array );
 		
 		// Running each question (element without separators etc)
-		if( is_array( $response_array ) ):
-			
-			// Getting Headlines
-			foreach( $response_array AS $question_id => $question ):
-				
-				if( $question[ 'sections' ] ):
-					foreach( $question[ 'responses' ] AS $response ):
-						$i = 0;
-						
-						foreach( $response AS $key => $value ):
-							if( is_array( $value ) ):
-								foreach( $value AS $key2 => $key1 ):
-									$column = $question[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
-									$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
-								endforeach;
-							else:	
-								$column = $question[ 'question' ] . ' (' . $key . ')';
-								$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
-							endif;
-						endforeach;
-						
-						break;					
-					endforeach;
-
-				elseif( $question[ 'array' ] ):
-					foreach( $question[ 'responses' ] AS $response ):
-						$i = 0;
-						foreach( $response AS $key => $value ):
-							$column = $question[ 'question' ] . ' (' . $key . ')';
-							$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
-						endforeach;
-						break;					
-					endforeach;
-				else:
-					$lines[ 0 ][ $question_id ] = $this->filter_csv_output( $question[ 'question' ] ); 
-				endif;
-			endforeach;
-			
-			// Getting Content
-			foreach( $response_array AS $question_id => $question ):
-				
-				if( $question[ 'sections' ] ):
-					foreach( $question[ 'responses' ] AS $response_id => $response ):
-						$i = 0;
-						
-						foreach( $response AS $key => $value ):
-							if( is_array( $value ) ):
-								foreach( $value AS $key2 => $key1 ):
-									$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $key1 ); 
-								endforeach;
-							else:
-								$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $value ); 
-							endif;
-						endforeach;
-						
-					endforeach;
-				elseif( $question[ 'array' ] ):
-					foreach( $question[ 'responses' ] AS $response ):
-						$i = 0;
-						foreach( $response AS $key => $value ):
-							$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $value ); 
-						endforeach;
-					endforeach;
-				else:
-					foreach( $question[ 'responses' ]  AS $response_id => $value ):
-						$lines[ $response_id ][ $question_id ] = $this->filter_csv_output( $value ); 
-					endforeach;
-				endif;
-				
-			endforeach;
-			
+		if( is_array( $lines ) ):
 			$output = '';
 			foreach( $lines AS $response_id => $line ):
 				$output.= implode( ';', $line ) . chr( 13 );
@@ -170,21 +100,6 @@ class SurveyVal_Export{
 		else:
 			return FALSE;
 		endif;
-	}
-
-	private function filter_csv_output( $string ){
-		$string = utf8_decode( $string );
-		if( '' ==  $string )
-			return '-';
-		
-		$string = $this->remove_new_lines( $string );
-		$string = str_replace( ';', '#', $string );
-		
-		return $string;
-	}
-
-	private function remove_new_lines( $string ){
-		return trim( preg_replace( '/\s\s+/', ' ', $string ) );
 	}
 }
 $SurveyVal_Export = new SurveyVal_Export();
