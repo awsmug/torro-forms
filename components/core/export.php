@@ -58,12 +58,13 @@ class SurveyVal_Export{
 			
 			$export_filename = sanitize_title( $survey->title );
 			
-			//echo $this->get_csv( $survey->get_responses_array() );
-			// exit;
+			/*echo '<pre>';
+			print_r( $survey->get_responses_array() );
+			echo '</pre>';*/
 			
-			header( "Pragma: public");
-			header( "Expires: 0");
-			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0");
+			header( "Pragma: public" );
+			header( "Expires: 0" );
+			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
 			header( "Cache-Control: private", FALSE );
 			header( "Content-Type: Content-Type: text/html; charset=UTF-8");
 			header( "Content-Disposition: attachment; filename=\"" . $export_filename . ".csv\";" );
