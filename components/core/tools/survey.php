@@ -189,11 +189,3 @@ class SurveyVal_PostSurvey extends SurveyVal_Post{
 		return $wpdb->get_results( $sql );
 	}
 }
-
-
-/*
-$test = new SurveyVal_PostSurvey( 350 );
-$test->dublicate();
-echo '<pre>';
-print_r( $test );
-echo '</pre>';
