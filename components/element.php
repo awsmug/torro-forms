@@ -632,21 +632,27 @@ abstract class SurveyVal_SurveyElement{
 		$result_answers = array();
 		$result_answers[ 'question' ] = $this->question; 
 		$result_answers[ 'sections' ] = FALSE;
-		$result_answers[ 'array' ] = FALSE; 
+		$result_answers[ 'array' ] = $this->answer_is_multiple; 
 		
 		if( is_array( $this->answers ) && count( $this->answers ) > 0 ):
 			// If element has predefined answers
-			
-			$result_answers[ 'array' ] = TRUE; 
 			foreach( $this->answers  AS $answer_id => $answer ):
 				$value = FALSE;
-				foreach( $responses AS $response ):
-					if( $answer['text'] == $response->value ):
-						$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'Yes' );
-					elseif( !isset( $result_answers['responses'][ $response->respond_id ][ $answer['text'] ] ) ):
-						$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'No' );
-					endif;
-				endforeach;
+				if( $this->answer_is_multiple ):
+					foreach( $responses AS $response ):
+						if( $answer['text'] == $response->value ):
+							$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'Yes' );
+						elseif( !isset( $result_answers['responses'][ $response->respond_id ][ $answer['text'] ] ) ):
+							$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'No' );
+						endif;
+					endforeach;
+				else:
+					foreach( $responses AS $response ):
+						if( $answer['text'] == $response->value ):
+							$result_answers['responses'][ $response->respond_id ] = $response->value;
+						endif;
+					endforeach;
+				endif;
 				
 			endforeach;
 		else:
