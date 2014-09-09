@@ -59,14 +59,14 @@ class SurveyVal_Export{
 			$export_filename = sanitize_title( $survey->title );
 			
 			$charset = 'UTF-8';
-			
+
 			header( "Pragma: public" );
 			header( "Expires: 0" );
 			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
 			header( "Cache-Control: private", FALSE );
 			header( "Content-Type: Content-Type: text/html; charset=" . $charset );
 			header( "Content-Disposition: attachment; filename=\"" . $export_filename . ".csv\";" );
-			
+
 			switch( $export_type ){
 				case 'CSV':
 					echo $this->get_csv( $survey->get_responses_array() );
@@ -75,7 +75,6 @@ class SurveyVal_Export{
 					echo $this->get_csv( $survey->get_responses_array() );
 					break;
 			}
-			
 			exit;
 			
 		endif;
@@ -90,19 +89,26 @@ class SurveyVal_Export{
 			
 			// Getting Headlines
 			foreach( $response_array AS $question_id => $question ):
+				
 				if( $question[ 'sections' ] ):
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
 						
-						foreach( $response AS $key => $values ):
-							foreach( $values AS $key2 => $value):
-								$column = $question[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
+						foreach( $response AS $key => $value ):
+							if( is_array( $value ) ):
+								foreach( $value AS $key2 => $key1 ):
+									$column = $question[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
+									$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
+								endforeach;
+							else:	
+								$column = $question[ 'question' ] . ' (' . $key . ')';
 								$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
-							endforeach;
+							endif;
 						endforeach;
 						
 						break;					
 					endforeach;
+
 				elseif( $question[ 'array' ] ):
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
@@ -119,14 +125,19 @@ class SurveyVal_Export{
 			
 			// Getting Content
 			foreach( $response_array AS $question_id => $question ):
+				
 				if( $question[ 'sections' ] ):
 					foreach( $question[ 'responses' ] AS $response_id => $response ):
 						$i = 0;
 						
-						foreach( $response AS $key => $values ):
-							foreach( $values AS $key2 => $value):
+						foreach( $response AS $key => $value ):
+							if( is_array( $value ) ):
+								foreach( $value AS $key2 => $key1 ):
+									$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $key1 ); 
+								endforeach;
+							else:
 								$lines[ $response_id ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $value ); 
-							endforeach;
+							endif;
 						endforeach;
 						
 					endforeach;
