@@ -63,7 +63,7 @@ class SurveyVal_ChartsJS{
 	}
 	
 	public static function show_chart( $data ){
-		$id = md5( rand( ) );
+		$id = md5( rand() );
 		$html.= '<canvas id="' . $id . '" width="400" height="400"></canvas>';
 		$html.= '<script language="javascript">';
 		$html.= $data;
