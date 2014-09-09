@@ -90,25 +90,23 @@ class SurveyVal_Survey{
 	public function get_responses_array(){
 		global $wpdb, $suveyval_global;
 		
-		$result_array = array();
-		
-		if( is_array( $this->elements ) && count( $this->elements ) > 0 ):
+		if( is_array( $this->elements ) ):
 			foreach( $this->elements AS $element ):
+
 				if( !$element->is_question )
 					continue;
 				
-				if( $responses = $element->get_responses() )
-					$this->add_responses( $element->id, $responses );
+				$this->add_responses( $element->id, $element->get_responses() );
 				
 			endforeach;
-			
 		endif;
 		
 		return $this->db_responses;
 	}
 	
-	private function add_responses( $element_id, $responses ){
-			$this->db_responses[ $element_id ] = $responses;
+	private function add_responses( $element_id, &$responses ){
+		$this->db_responses[ $element_id ] = $responses;
+		unset( $responses );
 	}
 	
 	
@@ -140,6 +138,18 @@ class SurveyVal_Survey{
 	private function reset(){
 		$this->elements = array();
 	}
+}
+
+function SurveyvalGetArraySize( $array ) {
+	$serialized = serialize( $array );
+	
+	if( function_exists( 'mb_strlen' ) ):
+	    $size = mb_strlen( $serialized, '8bit' );
+	else:
+	    $size = strlen( $serialized );
+	endif;
+	
+	return $size; 
 }
 
 
