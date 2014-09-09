@@ -96,7 +96,7 @@ class SurveyVal_Export{
 						
 						foreach( $response AS $key => $values ):
 							foreach( $values AS $key2 => $value):
-								$column = $question[ 'question' ] . '(' . $key . ' / ' . $key2 . ')';
+								$column = $question[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
 								$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
 							endforeach;
 						endforeach;
@@ -107,7 +107,7 @@ class SurveyVal_Export{
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
 						foreach( $response AS $key => $value ):
-							$column = $question[ 'question' ] . '(' . $key . ')';
+							$column = $question[ 'question' ] . ' (' . $key . ')';
 							$lines[ 0 ][ $question_id . '-' . $i++ ] = $this->filter_csv_output( $column ); 
 						endforeach;
 						break;					
