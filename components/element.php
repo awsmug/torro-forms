@@ -642,10 +642,9 @@ abstract class SurveyVal_SurveyElement{
 				$value = FALSE;
 				foreach( $responses AS $response ):
 					if( $answer['text'] == $response->value ):
-						$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = TRUE;
-						continue;
-					elseif( !isset( $result_answers[ $response->respond_id ][ $answer['text'] ] ) ):
-						$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = FALSE;
+						$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'Yes' );
+					elseif( !isset( $result_answers['responses'][ $response->respond_id ][ $answer['text'] ] ) ):
+						$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'No' );
 					endif;
 				endforeach;
 				
@@ -658,10 +657,6 @@ abstract class SurveyVal_SurveyElement{
 				endforeach;
 			endif;
 		endif;
-		
-		//echo '<pre>';
-		//print_r( $result_answers );
-		//echo '</pre>';
 		
 		if( is_array( $result_answers ) && count( $result_answers ) > 0 )
 			return $result_answers;
