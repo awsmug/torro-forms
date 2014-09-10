@@ -226,7 +226,6 @@ class SurveVal_Init{
 	 * @since 1.0.0
 	 */	
 	public static function register_admin_scripts() {
-		wp_enqueue_script( 'surveyval-admin-script', SURVEYVAL_URLPATH . '/includes/js/admin.js' );
 	} // end register_admin_scripts
 	
 	/**
@@ -243,7 +242,6 @@ class SurveVal_Init{
 	 * @since 1.0.0
 	 */
 	public static function register_plugin_scripts() {
-		wp_enqueue_script( 'surveyval-plugin-script',  SURVEYVAL_URLPATH . '/includes/js/display.js' );
 	} // end register_plugin_scripts
 	
 	/**
