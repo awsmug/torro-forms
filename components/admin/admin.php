@@ -143,105 +143,127 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		$survey_id = $post->ID;
 		
-		$options = apply_filters( 'surveyval_post_type_add_participiants_options', array(
-			'all_members' => __( 'Add all actual Members', 'surveyval-locale' ),
-		) );
-		
-		// If there is only one option
-		// if( count( $options ) < 2 ) $disabled = ' disabled';
-		
 		$disabled = '';
 		$selected = '';
 		
-		$html = '<div id="surveyval_participiants_select">';
-			$html.= '<select name="surveyval_participiants_select" id="surveyval-participiants-select"' . $disabled . '>';
-			foreach( $options AS $key => $value ):
-				// $selected = '';
-				// if( $key == $surveyval_participiants ) $selected = ' selected="selected"';
+		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE ); 
+		
+		$restrictions = apply_filters( 'surveyval_post_type_participiant_restrictions', array(
+			'all_visitors' => __( 'All visitors of the site can participate the poll', 'surveyval-locale' ),
+			'all_members' => __( 'All members of the site can participate the poll', 'surveyval-locale' ),
+			'selected_members' => __( 'Only selected members can participate the poll ', 'surveyval-locale' ),
+		) );
+		
+		if( '' == $participiant_restrictions ) $participiant_restrictions = 'all_visitors';
+		
+		$html = '<div id="surveyval_participiants_select_restrictions">';
+			$html.= '<select name="surveyval_participiants_restrictions_select" id="surveyval-participiants-restrictions-select"' . $disabled . '>';
+			foreach( $restrictions AS $key => $value ):
+				$selected = '';
+				if( $key == $participiant_restrictions ) $selected = ' selected="selected"';
 				$html.= '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
 			endforeach;
 			$html.= '</select>';
 		$html.= '</div>';
 		
-		// If there is only one option
-		// if( count( $options ) < 2 ) $html.= '<p>' . __( 'Get more options to select participiants by adding extra plugins for SurveyVal.<br /><a href="%s" target="_blank">Get it here</a>!', 'surveyval-locale' ) . '</p>';
+		$options = apply_filters( 'surveyval_post_type_add_participiants_options', array(
+			'all_members' => __( 'Add all actual Members', 'surveyval-locale' ),
+		) );
 		
-		$html.= '<div id="surveyval-participiants-standard-options" class="surveyval-participiants-options-content">';
-		$html.= '<div class="add"><input type="button" class="surveyval-add-participiants button" id="surveyval-add-members-standard" value="' . __( 'Add Participiants', 'surveyval-locale' ) . '" /><a href="#" class="surveyval-remove-all-participiants">' . __( 'Remove all Participiants', 'surveyval-locale' ) . '</a></div>';
-		$html.= '</div>';
+		/*
+		 * Selected Members section
+		 */
+		$html.= '<div id="surveyval_selected_members">';
 		
-		
-		ob_start();
-		do_action( 'surveyval_post_type_participiants_content_top' );
-		$html.= ob_get_clean();
-		
-		$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s";
-		$sql = $wpdb->prepare( $sql, $survey_id );
-		$user_ids = $wpdb->get_col( $sql );
-		
-		$users = array();
-		
-		if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
-			$users = get_users( array(
-				'include' => $user_ids,
-				'orderby' => 'ID'
-			) );
-		endif;
-		
-		$html.= '<div id="surveyval-participiants-status" class="surveyval-participiants-status">';
-		// $html.= '<p>' . sprintf( _n( '%d participiant in list.', '%d participiants in list.', count( $users ), 'surveyval-locale' ), count( $users ) ) . '</p>';
-		$html.= '<p>' . count( $users ) . ' ' . __( 'participiant/s', 'surveyval-locale' ) . '</p>';
-		$html.= '</div>';
-		
-		$html.= '<div id="surveyval-participiants-list">';
-			$html.= '<table class="wp-list-table widefat">';
-				$html.= '<thead>';
-					$html.= '<tr>';
-						$html.= '<th>' . __( 'ID', 'surveyval-locale' ) . '</th>';
-						$html.= '<th>' . __( 'User nicename', 'surveyval-locale' ) . '</th>';
-						$html.= '<th>' . __( 'Display name', 'surveyval-locale' ) . '</th>';
-						$html.= '<th>' . __( 'Email', 'surveyval-locale' ) . '</th>';
-						$html.= '<th>' . __( 'Status', 'surveyval-locale' ) . '</th>';
-						$html.= '<th>&nbsp</th>';
-					$html.= '</tr>';
-				$html.= '</thead>';
-				
-				
-				$html.= '<tbody>';
-				
-				$surveyval_participiants_value = '';
-				
-				if( is_array( $users ) && count( $users ) > 0 ):
-				
-					foreach( $users AS $user ):
-						if( sv_user_has_participated( $survey_id, $user->ID ) ):
-							$user_css = ' finished';
-							$user_text = __( 'finished', 'surveyval-locale' );
-						else:
-							$user_text = __( 'new', 'surveyval-locale' );
-							$user_css = ' new';
-						endif;
-						
-						$html.= '<tr class="participiant participiant-user-' . $user->ID . $user_css .'">';
-							$html.= '<td>' . $user->ID . '</td>';
-							$html.= '<td>' . $user->user_nicename . '</td>';
-							$html.= '<td>' . $user->display_name . '</td>';
-							$html.= '<td>' . $user->user_email . '</td>';
-							$html.= '<td>' . $user_text . '</td>';
-							$html.= '<td><a class="button surveyval-delete-participiant" rel="' . $user->ID . '">' . __( 'Delete', 'surveyval-locale' ) . '</a></th>';
-						$html.= '</tr>';
-					endforeach;
-					
-					$surveyval_participiants_value = implode( ',', $user_ids );
-					
-				endif;
-				
-				$html.= '</tbody>';
-				
-			$html.= '</table>';
+			$disabled = '';
+			$selected = '';
 			
-			$html.= '<input type="hidden" id="surveyval-participiants" name="surveyval_participiants" value="' . $surveyval_participiants_value . '" />';
-			$html.= '<input type="hidden" id="surveyval-participiants-count" name="surveyval-participiants-count" value="' . count( $users ) . '" />';
+			$html.= '<div id="surveyval_participiants_select">';
+				$html.= '<select name="surveyval_participiants_select" id="surveyval-participiants-select"' . $disabled . '>';
+				foreach( $options AS $key => $value ):
+					// $selected = '';
+					// if( $key == $surveyval_participiants ) $selected = ' selected="selected"';
+					$html.= '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
+				endforeach;
+				$html.= '</select>';
+			$html.= '</div>';
+			
+			$html.= '<div id="surveyval-participiants-standard-options" class="surveyval-participiants-options-content">';
+			$html.= '<div class="add"><input type="button" class="surveyval-add-participiants button" id="surveyval-add-members-standard" value="' . __( 'Add Participiants', 'surveyval-locale' ) . '" /><a href="#" class="surveyval-remove-all-participiants">' . __( 'Remove all Participiants', 'surveyval-locale' ) . '</a></div>';
+			$html.= '</div>';
+			
+			ob_start();
+			do_action( 'surveyval_post_type_participiants_content_top' );
+			$html.= ob_get_clean();
+			
+			$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s";
+			$sql = $wpdb->prepare( $sql, $survey_id );
+			$user_ids = $wpdb->get_col( $sql );
+			
+			$users = array();
+			
+			if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
+				$users = get_users( array(
+					'include' => $user_ids,
+					'orderby' => 'ID'
+				) );
+			endif;
+		
+			$html.= '<div id="surveyval-participiants-status" class="surveyval-participiants-status">';
+			$html.= '<p>' . count( $users ) . ' ' . __( 'participiant/s', 'surveyval-locale' ) . '</p>';
+			$html.= '</div>';
+			
+			$html.= '<div id="surveyval-participiants-list">';
+				$html.= '<table class="wp-list-table widefat">';
+					$html.= '<thead>';
+						$html.= '<tr>';
+							$html.= '<th>' . __( 'ID', 'surveyval-locale' ) . '</th>';
+							$html.= '<th>' . __( 'User nicename', 'surveyval-locale' ) . '</th>';
+							$html.= '<th>' . __( 'Display name', 'surveyval-locale' ) . '</th>';
+							$html.= '<th>' . __( 'Email', 'surveyval-locale' ) . '</th>';
+							$html.= '<th>' . __( 'Status', 'surveyval-locale' ) . '</th>';
+							$html.= '<th>&nbsp</th>';
+						$html.= '</tr>';
+					$html.= '</thead>';
+					
+					
+					$html.= '<tbody>';
+					
+					$surveyval_participiants_value = '';
+					
+					if( is_array( $users ) && count( $users ) > 0 ):
+					
+						foreach( $users AS $user ):
+							if( sv_user_has_participated( $survey_id, $user->ID ) ):
+								$user_css = ' finished';
+								$user_text = __( 'finished', 'surveyval-locale' );
+							else:
+								$user_text = __( 'new', 'surveyval-locale' );
+								$user_css = ' new';
+							endif;
+							
+							$html.= '<tr class="participiant participiant-user-' . $user->ID . $user_css .'">';
+								$html.= '<td>' . $user->ID . '</td>';
+								$html.= '<td>' . $user->user_nicename . '</td>';
+								$html.= '<td>' . $user->display_name . '</td>';
+								$html.= '<td>' . $user->user_email . '</td>';
+								$html.= '<td>' . $user_text . '</td>';
+								$html.= '<td><a class="button surveyval-delete-participiant" rel="' . $user->ID . '">' . __( 'Delete', 'surveyval-locale' ) . '</a></th>';
+							$html.= '</tr>';
+						endforeach;
+						
+						$surveyval_participiants_value = implode( ',', $user_ids );
+						
+					endif;
+					
+					$html.= '</tbody>';
+					
+				$html.= '</table>';
+				
+				$html.= '<input type="hidden" id="surveyval-participiants" name="surveyval_participiants" value="' . $surveyval_participiants_value . '" />';
+				$html.= '<input type="hidden" id="surveyval-participiants-count" name="surveyval-participiants-count" value="' . count( $users ) . '" />';
+			
+			$html.= '</div>';
 			
 		$html.= '</div>';
 		
@@ -339,7 +361,13 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$survey_elements = $_POST['surveyval'];
 		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
+		$survey_participiant_restrictions = $_POST['surveyval_participiants_restrictions_select'];
 		$surveyval_participiants = $_POST['surveyval_participiants'];
+		
+		/*
+		 * Saving Restrictions
+		 */
+		update_post_meta( $post_id, 'participiant_restrictions', $survey_participiant_restrictions );
 		
 		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
 		

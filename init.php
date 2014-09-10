@@ -148,6 +148,8 @@ class SurveVal_Init{
 			surveyval_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
 			timestamp int(11) NOT NULL,
+			remote_addr char(15) NOT NULL,
+			cookie_key char(30) NOT NULL,
 			UNIQUE KEY id (id)
 			)";
 			
@@ -182,7 +184,7 @@ class SurveVal_Init{
 			
 		dbDelta( $sql );
 		
-		update_option( 'surveyval_db_version', '1.0.0' );
+		update_option( 'surveyval_db_version', '1.1.0' );
 		
 	} // end activate
 	

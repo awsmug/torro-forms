@@ -70,25 +70,56 @@ class SurveyVal_ProcessResponse{
 	public function survey( $survey_id ){
 		global $surveyval_survey_id;
 		
-		// If user is not logged in
-		if( !is_user_logged_in() ):
-			return $this->text_not_logged_in();
-		endif;
+		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE ); 
 		
-		// If user user has finished successfull
-		if( $this->finished && $this->finished_id == $survey_id ):
-			$this->email_finished();
-			return $this->text_thankyou_for_participation();
-		endif;
-		
-		// If user has already participated
-		if( $this->has_participated( $survey_id ) ):
-			return $this->text_already_participated();
-		endif;
-		
-		// If user can't participate the poll
-		if( !$this->user_can_participate( $survey_id ) ):
-			return $this->text_cant_participate();
+		if( '' == $participiant_restrictions || 'all_visitors' == $participiant_restrictions ):
+			
+			if( $this->finished && $this->finished_id == $survey_id ):
+				return $this->text_thankyou_for_participation();
+			endif;
+			
+			if( $this->ip_has_participated( $survey_id ) ):
+				return $this->text_already_participated();
+			endif;
+			
+		elseif( 'all_members' == $participiant_restrictions ):
+			// If user is not logged in
+			if( !is_user_logged_in() ):
+				return $this->text_not_logged_in();
+			endif;
+			
+			// If user user has finished successfull
+			if( $this->finished && $this->finished_id == $survey_id ):
+				$this->email_finished();
+				return $this->text_thankyou_for_participation();
+			endif;
+			
+			// If user has already participated
+			if( $this->has_participated( $survey_id ) ):
+				return $this->text_already_participated();
+			endif;
+			
+		elseif( 'selected_members' == $participiant_restrictions ):
+			// If user is not logged in
+			if( !is_user_logged_in() ):
+				return $this->text_not_logged_in();
+			endif;
+			
+			// If user user has finished successfull
+			if( $this->finished && $this->finished_id == $survey_id ):
+				$this->email_finished();
+				return $this->text_thankyou_for_participation();
+			endif;
+			
+			// If user has already participated
+			if( $this->has_participated( $survey_id ) ):
+				return $this->text_already_participated();
+			endif;
+			
+			// If user can't participate the poll
+			if( !$this->user_can_participate( $survey_id ) ):
+				return $this->text_cant_participate();
+			endif;
 		endif;
 		
 		return $this->survey_form( $survey_id );
@@ -277,10 +308,6 @@ class SurveyVal_ProcessResponse{
 			if( $this->save_data( $surveyval_survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
 				do_action( 'surveyval_after_save_response' );
 				
-				if( $_SERVER['REMOTE_ADDR'] == '178.7.111.101' || $_SERVER[ 'REMOTE_ADDR' ] == '217.85.114.181' ):
-					echo 'Session Data destroyed and data saved';
-				endif;
-				
 				// Unsetting Session, because not needed anymore
 				session_destroy();	
 				unset( $_SESSION['surveyval_response'] );
@@ -350,13 +377,18 @@ class SurveyVal_ProcessResponse{
 		get_currentuserinfo();
 		$user_id = $user_id = $current_user->ID;
 		
+		if( '' == $user_id )
+			$user_id = -1;
+		
 		// Adding new question
 		$wpdb->insert(
 			$surveyval_global->tables->responds,
 			array(
 				'surveyval_id' => $survey_id,
 				'user_id' => $user_id,
-				'timestamp' => time()  )
+				'timestamp' => time() ,
+				'remote_addr' => $_SERVER[ 'REMOTE_ADDR' ]
+			)
 		);
 		
 		do_action( 'surveyval_save_data', $survey_id, $response );
@@ -411,6 +443,21 @@ class SurveyVal_ProcessResponse{
 			return FALSE;
 		
 		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->responds} WHERE surveyval_id=%d AND user_id=%s", $surveyval_id, $user_id );
+		$count = $wpdb->get_var( $sql );
+		
+		if( 0 == $count ):
+			return FALSE;
+		else:
+			return TRUE;
+		endif;
+	}
+	
+	public function ip_has_participated( $surveyval_id ){
+		global $wpdb, $surveyval_global;
+		
+		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
+		
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->responds} WHERE surveyval_id=%d AND remote_addr=%s", $surveyval_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 		
 		if( 0 == $count ):

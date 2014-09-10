@@ -120,7 +120,8 @@
 /*
  * Buttons
  */
-#surveyval_participiants_select{
+#surveyval_participiants_select,
+#surveyval-participiants-restrictions-select{
 	margin-bottom:10px;
 }
 #survey-participiants .button-loading{

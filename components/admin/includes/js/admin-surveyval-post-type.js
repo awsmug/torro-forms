@@ -227,6 +227,29 @@
 		}
 		surveyval_survey_element_tabs();
 		
+		/*
+		 * Members - Participiants restrictions select
+		 */
+		var surveyval_participiants_restrictions_select = $( "#surveyval-participiants-restrictions-select" ).val();
+		$( "#surveyval_selected_members" ).hide();
+		
+		console.log( surveyval_participiants_restrictions_select );
+		
+		if( 'selected_members' == surveyval_participiants_restrictions_select ){ $( "#surveyval_selected_members" ).show(); }
+		
+		$( "#surveyval-participiants-restrictions-select" ).change( function(){
+			surveyval_participiants_select = $( "#surveyval-participiants-restrictions-select" ).val();
+			
+			if( 'selected_members' == surveyval_participiants_select ){
+				$( "#surveyval_selected_members" ).show();
+			}else{
+				$( "#surveyval_selected_members" ).hide();
+			}
+		});
+		
+		/*
+		 * Members - Member select
+		 */
 		var surveyval_participiants_select = $( "#surveyval-participiants-select" ).val();
 		
 		if( 'all_members' != surveyval_participiants_select ){
@@ -248,6 +271,10 @@
 		if( '' == surveyval_participiants ){
 			$( "#surveyval-participiants-list" ).hide();
 		}
+		
+		/*
+		 * Members - Adding Participiants
+		 */
 		
 		$.surveyval_add_participiants = function( response ){
 			var surveyval_participiants_old = $( "#surveyval-participiants" ).val();
