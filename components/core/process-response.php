@@ -68,12 +68,17 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	public function survey( $survey_id ){
-		global $surveyval_survey_id;
-		
+		if( TRUE === $this->check_restrictions( $survey_id ) ):
+			return $this->survey_form( $survey_id );
+		else:
+			return $this->check_restrictions( $survey_id );
+		endif;
+	}
+
+	private function check_restrictions( $survey_id ){
 		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE ); 
 		
 		if( '' == $participiant_restrictions || 'all_visitors' == $participiant_restrictions ):
-			
 			if( $this->finished && $this->finished_id == $survey_id ):
 				return $this->text_thankyou_for_participation();
 			endif;
@@ -122,7 +127,7 @@ class SurveyVal_ProcessResponse{
 			endif;
 		endif;
 		
-		return $this->survey_form( $survey_id );
+		return TRUE;
 	}
 	
 	private function survey_form( $survey_id ){
@@ -244,6 +249,9 @@ class SurveyVal_ProcessResponse{
 		else:
 			return;
 		endif;
+		
+		if( TRUE !== $this->check_restrictions( $surveyval_survey_id ) )
+			return;
 		
 		// User has not participated or die
 		if( $this->has_participated( $surveyval_survey_id ) )
