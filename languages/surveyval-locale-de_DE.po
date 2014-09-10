@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-26 19:09+0100\n"
-"PO-Revision-Date: 2014-05-26 19:10+0100\n"
+"POT-Creation-Date: 2014-09-10 23:18+0100\n"
+"PO-Revision-Date: 2014-09-10 23:23+0100\n"
 "Last-Translator: Sven Wagener <svenw@themekraft.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.9\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
@@ -63,147 +63,170 @@ msgstr "Soll dieses Element wirklich gel&ouml;scht werden?"
 msgid "Do you really want to delete this answer?"
 msgstr "Soll diese Antwort wirklich gel&ouml;scht werden?"
 
+#: components/admin/admin.php:152
+msgid "All visitors of the site can participate the poll"
+msgstr "Alle Besucher der Seite k&ouml;nenn an der Umfrage teilnehmen"
+
+#: components/admin/admin.php:153
+msgid "All members of the site can participate the poll"
+msgstr "Alle Mitglieder der Seite k&ouml;nenn an der Umfrage teilnehmen"
+
+#: components/admin/admin.php:154
+msgid "Only selected members can participate the poll "
+msgstr "Nur ausgew&auml;hlte Mitglieder k&ouml;nenn an der Umfrage teilnehmen"
+
 # @ surveyval-locale
-#: components/admin/admin.php:147
+#: components/admin/admin.php:170
 msgid "Add all actual Members"
 msgstr "Alle aktuellen Mitglieder hinzufügen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:167
+#: components/admin/admin.php:192
 msgid "Add Participiants"
 msgstr "Teilnehmer hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:167
+#: components/admin/admin.php:192
 msgid "Remove all Participiants"
 msgstr "Alle Teilnehmer entfernen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:188 components/admin/admin.php:780
+#: components/admin/admin.php:213 components/admin/admin.php:855
 msgid "participiant/s"
 msgstr "Teilnehmer"
 
 # @ surveyval-locale
-#: components/admin/admin.php:195
+#: components/admin/admin.php:220
 msgid "ID"
 msgstr "ID"
 
 # @ surveyval-locale
-#: components/admin/admin.php:196
+#: components/admin/admin.php:221
 msgid "User nicename"
 msgstr "Spitzname"
 
 # @ surveyval-locale
-#: components/admin/admin.php:197
+#: components/admin/admin.php:222
 msgid "Display name"
 msgstr "Angezeigter Name"
 
 # @ surveyval-locale
-#: components/admin/admin.php:198
+#: components/admin/admin.php:223
 msgid "Email"
 msgstr "Email"
 
-#: components/admin/admin.php:199
+#: components/admin/admin.php:224
 msgid "Status"
 msgstr "Status"
 
-#: components/admin/admin.php:212
+#: components/admin/admin.php:239
 msgid "finished"
 msgstr "abgeschlossen"
 
-#: components/admin/admin.php:214
+#: components/admin/admin.php:241
 msgid "new"
 msgstr "neu"
 
 # @ surveyval-locale
-#: components/admin/admin.php:224 components/admin/admin.php:770
+#: components/admin/admin.php:251 components/admin/admin.php:845
 #: components/element.php:445 components/element.php:488
 msgid "Delete"
 msgstr "L&ouml;schen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:254
+#: components/admin/admin.php:292
+msgid "Show Results after participating"
+msgstr "Ergebnisse nach Teilnahme anzeigen"
+
+# @ surveyval-locale
+#: components/admin/admin.php:293 components/admin/admin.php:846
+#: components/element.php:646
+msgid "Yes"
+msgstr "Ja"
+
+# @ surveyval-locale
+#: components/admin/admin.php:294 components/admin/admin.php:847
+#: components/element.php:648
+msgid "No"
+msgstr "Nein"
+
+# @ surveyval-locale
+#: components/admin/admin.php:311
 msgid "Dublicate Survey"
 msgstr "Umfrage dublizieren"
 
 # @ surveyval-locale
-#: components/admin/admin.php:261
+#: components/admin/admin.php:318
 msgid "Invite Participiants"
 msgstr "Teilnehmer einladen"
 
-#: components/admin/admin.php:262 components/admin/admin.php:269
+#: components/admin/admin.php:319 components/admin/admin.php:326
 msgid "Cancel"
 msgstr "Abbrechen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:268
+#: components/admin/admin.php:325
 msgid "Reinvite Participiants"
 msgstr "Erneut einladen"
 
-#: components/admin/admin.php:272
+#: components/admin/admin.php:329
 msgid ""
 "You can invite Participiants to this survey after the survey is published."
 msgstr ""
 "Sie k&ouml;nenn Teilnehmer einladen, sobald die Umfrage gespeichert ist."
 
-#: components/admin/admin.php:284
+#: components/admin/admin.php:341
+msgid "Survey Options"
+msgstr "Umfrage-Optionen"
+
+#: components/admin/admin.php:348
 msgid "Survey Functions"
-msgstr "Umfragefunktionen"
+msgstr "Umfrage-Funktionen"
 
 # @ surveyval-locale
-#: components/admin/admin.php:291 components/elements/elements.php:40
+#: components/admin/admin.php:355 components/elements/elements.php:40
 msgid "Elements"
 msgstr "Elemente"
 
 # @ surveyval-locale
-#: components/admin/admin.php:299
+#: components/admin/admin.php:363
 msgid "Participiants list"
 msgstr "Teilnehmerliste"
 
-#: components/admin/admin.php:628
+#: components/admin/admin.php:704
 msgid "Survey Invitation"
 msgstr "Einlö"
 
-#: components/admin/admin.php:639
+#: components/admin/admin.php:715
 msgid "Survey Reinvitation"
 msgstr "Erneute Einladung"
 
-# @ surveyval-locale
-#: components/admin/admin.php:771
-msgid "Yes"
-msgstr "Ja"
-
-# @ surveyval-locale
-#: components/admin/admin.php:772
-msgid "No"
-msgstr "Nein"
-
-#: components/admin/admin.php:773
+#: components/admin/admin.php:848
 msgid "just added"
 msgstr "gerade hinzugef&uuml;gt"
 
-#: components/admin/admin.php:774
+#: components/admin/admin.php:849
 msgid "Invitations sent successfully!"
 msgstr "Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:775
+#: components/admin/admin.php:850
 msgid "Invitations could not be sent!"
 msgstr "Einladungen konnten nicht versendet werden!"
 
-#: components/admin/admin.php:776
+#: components/admin/admin.php:851
 msgid "Renvitations sent successfully!"
 msgstr "Erneute Einladungen erfolgreich versendet!"
 
-#: components/admin/admin.php:777
+#: components/admin/admin.php:852
 msgid "Renvitations could not be sent!"
 msgstr "Erneute Einladungen konnten nicht versendet werden!"
 
-#: components/admin/admin.php:778
+#: components/admin/admin.php:853
 msgid "Survey dublicated successfully!"
 msgstr "Umfrage erfolgreich dupliziert!"
 
 # @ surveyval-locale
-#: components/admin/admin.php:779 components/core/core.php:92
+#: components/admin/admin.php:854 components/core/core.php:92
 msgid "Edit Survey"
 msgstr "Umfrage bearbeiten"
 
@@ -281,6 +304,19 @@ msgstr "z.B. meinname@meinedomain.de"
 #: components/admin/pages/settings.php:55
 msgid "Save Changes"
 msgstr "Änderungen übernehmen"
+
+# @ surveyval-locale
+#: components/charts/chart-creator.php:91
+msgid "Made with SurveyVal"
+msgstr "Erstellt mit SurveyVal"
+
+#: components/charts/charts.php:44
+msgid "Charts"
+msgstr "Diagramme"
+
+#: components/charts/charts.php:45
+msgid "Showing Charts in SurveyVal."
+msgstr "Anzeigen von Diagrammen in SurveyVal"
 
 # @ surveyval-locale
 #: components/component.php:50
@@ -378,13 +414,13 @@ msgstr "Umfrage suchen"
 msgid "No Survey available"
 msgstr "Keine Umfrage vorhanden"
 
-#: components/core/export.php:45
+#: components/core/export.php:47
 #, php-format
 msgid "<a href=\"%s\">Export Results</a>"
 msgstr "<a href=\"%s\">Ergebnisse Exportieren</a>"
 
 # @ surveyval-locale
-#: components/core/process-response.php:119
+#: components/core/process-response.php:158
 #, php-format
 msgid ""
 "Step <span class=\"surveyval-highlight-number\">%d</span> of <span class="
@@ -394,37 +430,41 @@ msgstr ""
 "\"surveyval-highlight-number\">%s</span>"
 
 # @ surveyval-locale
-#: components/core/process-response.php:137
+#: components/core/process-response.php:176
 msgid "Previous Step"
 msgstr "Zur&uuml;ck"
 
 # @ surveyval-locale
-#: components/core/process-response.php:141
+#: components/core/process-response.php:180
 msgid "Finish Survey"
 msgstr "Umfrage abschlie&szlig;en"
 
 # @ surveyval-locale
-#: components/core/process-response.php:143
+#: components/core/process-response.php:182
 msgid "Next Step"
 msgstr "Weiter"
 
 # @ surveyval-locale
-#: components/core/process-response.php:429
+#: components/core/process-response.php:503
 msgid "Thank you for participating this survey!"
 msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 
 # @ surveyval-locale
-#: components/core/process-response.php:436
+#: components/core/process-response.php:512
 msgid "You already have participated this poll."
 msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
+#: components/core/process-response.php:524
+msgid "This are the actual results:"
+msgstr "Das sind die aktuellen Ergebnisse"
+
 # @ surveyval-locale
-#: components/core/process-response.php:443
+#: components/core/process-response.php:533
 msgid "You have to be logged in to participate this survey."
 msgstr "Sie m&uuml;ssen eigeloggt sein um an der Umfrage teilzunehmen."
 
 # @ surveyval-locale
-#: components/core/process-response.php:450
+#: components/core/process-response.php:540
 msgid "You can't participate this survey."
 msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
 
@@ -439,8 +479,10 @@ msgid "This is a SurveyVal Survey Element."
 msgstr "Dies ist ein SurveyVal Umfrage-Element."
 
 #: components/element.php:243
-msgid "No input HTML given. Please check element sourcecode."
+msgid "No HTML for Element given. Please check element sourcecode."
 msgstr ""
+"Kein HTML f&uuml;r das Element angegeben. Bitte &uuml;berpr&uuml;fen Sie den "
+"Quellcode."
 
 # @ surveyval-locale
 #: components/element.php:316
@@ -448,7 +490,7 @@ msgid "Question"
 msgstr "Frage"
 
 # @ surveyval-locale
-#: components/element.php:352 components/element.php:575
+#: components/element.php:352 components/element.php:577
 msgid "Delete element"
 msgstr "Element l&ouml;schen"
 
@@ -466,7 +508,7 @@ msgstr "Antwort hinzuf&uuml;gen"
 #: components/elements/description.php:18 components/elements/dropdown.php:61
 #: components/elements/multiplechoice.php:52
 #: components/elements/onechoice.php:51 components/elements/text.php:32
-#: components/elements/textarea.php:35
+#: components/elements/textarea.php:32
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -496,7 +538,7 @@ msgstr ""
 #: components/elements/multiplechoice.php:34
 #: components/elements/onechoice.php:34
 msgid "You don´t entered any answers. Please add some to display answers here."
-msgstr ""
+msgstr "Es wird keine Antwort vorgegeben."
 
 #: components/elements/dropdown.php:42
 msgid "Please select"
@@ -505,7 +547,7 @@ msgstr "Bitte w&auml;hlen"
 #: components/elements/dropdown.php:63
 #: components/elements/multiplechoice.php:54
 #: components/elements/onechoice.php:53 components/elements/text.php:34
-#: components/elements/textarea.php:37
+#: components/elements/textarea.php:34
 msgid "The description will be shown after the question."
 msgstr "Die Beschreibung wird unter der Frage angezeigt."
 
@@ -515,7 +557,7 @@ msgstr "Bitte w&auml;hlen Sie einen Wert"
 
 #: components/elements/elements.php:41
 msgid "Base Elements to put into surveys"
-msgstr ""
+msgstr "Basis Elemente, welche in einer Umfrage verwendet werden können"
 
 # @ surveyval-locale
 #: components/elements/multiplechoice.php:18
@@ -619,22 +661,22 @@ msgid "Add a question which can be answered within a text field."
 msgstr "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
 
 # @ surveyval-locale
-#: components/elements/text.php:38 components/elements/textarea.php:41
+#: components/elements/text.php:38 components/elements/textarea.php:38
 msgid "Minimum length"
 msgstr "Minimale l&auml;nge"
 
 # @ surveyval-locale
-#: components/elements/text.php:40 components/elements/textarea.php:43
+#: components/elements/text.php:40 components/elements/textarea.php:40
 msgid "The minimum number of chars which can be typed in."
 msgstr "Die minimale Anzahl an Zeichen, welche eingegeben werden kann."
 
 # @ surveyval-locale
-#: components/elements/text.php:44 components/elements/textarea.php:47
+#: components/elements/text.php:44 components/elements/textarea.php:44
 msgid "Maximum length"
 msgstr "Maximale L&auml;nge"
 
 # @ surveyval-locale
-#: components/elements/text.php:46 components/elements/textarea.php:49
+#: components/elements/text.php:46 components/elements/textarea.php:46
 msgid "The maximum number of chars which can be typed in."
 msgstr "Die maximale Anzahl an Zeichen, welche eingegeben werden kann."
 
@@ -662,18 +704,18 @@ msgstr "Email-Adresse"
 msgid "The will do a validation for the input."
 msgstr "F&uuml;rt eine Validierung f&uuml;r die Eingabe durch."
 
-#: components/elements/text.php:73 components/elements/textarea.php:69
+#: components/elements/text.php:73 components/elements/textarea.php:72
 msgid "The input ist too short."
 msgstr "Der eingegebene Wert ist zu kurz."
 
 # @ surveyval-locale
 #: components/elements/text.php:73 components/elements/text.php:79
-#: components/elements/textarea.php:69 components/elements/textarea.php:75
+#: components/elements/textarea.php:72 components/elements/textarea.php:78
 #, php-format
 msgid "It have to be at minimum %d and maximum %d chars."
 msgstr "Bitte geben Sie zwischen %d und %d Zeichen ein."
 
-#: components/elements/text.php:79 components/elements/textarea.php:75
+#: components/elements/text.php:79 components/elements/textarea.php:78
 msgid "The input is too long."
 msgstr "Der eingegebene Wert ist zu lang."
 
@@ -701,13 +743,23 @@ msgstr ""
 "Eine Frage hinzufügen, die mittels eines mehrzeiligen Textfeldes beantwortet "
 "wird."
 
-#: components/elements/textarea.php:53
-msgid "Size"
-msgstr "Gr&ouml;&szlig;e"
+#: components/elements/textarea.php:50
+msgid "Rows"
+msgstr "Reihen"
 
-#: components/elements/textarea.php:55
-msgid "Size of the field"
-msgstr "Gr&ouml;&szlig;e des Feldes"
+#: components/elements/textarea.php:52
+msgid "Number of rows for typing in  (can be overwritten by CSS)."
+msgstr ""
+"Anzahl der Zeilen zur Eingabe (kann von CSS &uuml;berschrieben werden)."
+
+#: components/elements/textarea.php:56
+msgid "Columns"
+msgstr "Spalten"
+
+#: components/elements/textarea.php:58
+msgid "Number of columns for typing in (can be overwritten by CSS)."
+msgstr ""
+"Anzahl der Spalten zur Eingabe (kann von CSS &uuml;berschrieben werden)."
 
 #: functions.php:38
 msgid ""
@@ -761,6 +813,12 @@ msgstr "Sie sind eingeladen an der Umbrage teilzunehmen"
 #: functions.php:107
 msgid "Don´t forget to answer the Survey"
 msgstr "Vergessen Sie nicht, die Umfrage zu beantworten"
+
+#~ msgid "Size"
+#~ msgstr "Gr&ouml;&szlig;e"
+
+#~ msgid "Size of the field"
+#~ msgstr "Gr&ouml;&szlig;e des Feldes"
 
 # @ surveyval-locale
 #~ msgid "Dublicated Survey!"

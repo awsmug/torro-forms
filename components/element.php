@@ -240,7 +240,7 @@ abstract class SurveyVal_SurveyElement{
 	}
 
 	public function input_html(){
-		return '<p>' . __( 'No input HTML given. Please check element sourcecode.', 'surveyval-locale' ) . '</p>';
+		return '<p>' . __( 'No HTML for Element given. Please check element sourcecode.', 'surveyval-locale' ) . '</p>';
 	}
 
 	public function draw_admin(){
