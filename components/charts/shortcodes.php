@@ -12,8 +12,11 @@ function test_barchart( $atts ){
 			
 	$prepared_data = SurveyVal_AbstractData::order_for_charting( $survey->get_responses_array() );
 	
+	$html = '';
 	foreach ( $prepared_data[ 'questions' ] as $question_id => $question ):
-		echo SurveyVal_ChartCreator::show_pie( $question, $prepared_data['data'][ $question_id ] );
+		$html.= SurveyVal_ChartCreator::show_pie( $question, $prepared_data['data'][ $question_id ] );
 	endforeach;
+	
+	return $html;
 }
 add_shortcode( 'barchart', 'test_barchart' );

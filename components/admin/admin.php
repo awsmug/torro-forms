@@ -269,6 +269,34 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		echo $html;
 	}
+	
+	public function meta_box_survey_options(){
+		global $post;
+		
+		$survey_id = $post->ID;
+		$show_results_after_participating = get_post_meta( $survey_id, 'show_results_after_participating', TRUE ); 
+		
+		if( '' == $show_results_after_participating )
+			$show_results_after_participating = 'yes';
+		
+		$checked_no = '';
+		$checked_yes = '';
+		
+		if( 'no' == $show_results_after_participating )
+			$checked_no = ' checked="checked"';
+		else
+			$checked_yes = ' checked="checked"';
+		
+		$html = '<div class="surveyval-option-element">';
+			$html.= '<div class="surveyval-option-element">';
+				$html.= '<p><label for="show_results_after_participating">' . __( 'Show Results after participating', 'surveyval-locale' ) . '</label></p>';
+				$html.= '<input type="radio" name="show_results_after_participating" value="yes"' . $checked_yes .'>' . __( 'Yes') . '<br>';
+				$html.= '<input type="radio" name="show_results_after_participating" value="no"' . $checked_no .'>' . __( 'No') . '<br>';
+			$html.= '</div>';
+		$html.= '</div>';
+		
+		echo $html;
+	}
 
 	public function meta_box_survey_functions(){
 		global $post;
@@ -308,6 +336,13 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$post_types = array( 'surveyval' );
 		
 		if( in_array( $post_type, $post_types )):
+			add_meta_box(
+	            'survey-options',
+	            __( 'Survey Options', 'surveyval-locale' ),
+	            array( $this, 'meta_box_survey_options' ),
+	            'surveyval',
+	            'side'
+	        );
 			add_meta_box(
 	            'survey-invites',
 	            __( 'Survey Functions', 'surveyval-locale' ),
@@ -362,6 +397,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
 		$survey_participiant_restrictions = $_POST['surveyval_participiants_restrictions_select'];
+		$survey_show_results_after_participating = $_POST['show_results_after_participating'];
 		$surveyval_participiants = $_POST['surveyval_participiants'];
 		
 		/*
@@ -369,6 +405,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		 */
 		update_post_meta( $post_id, 'participiant_restrictions', $survey_participiant_restrictions );
 		
+		/*
+		 * Saving if results have to be shown after participating
+		 */
+		update_post_meta( $post_id, 'show_results_after_participating', $survey_show_results_after_participating );
+		 
 		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
 		
 		/*

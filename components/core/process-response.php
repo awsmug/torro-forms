@@ -80,11 +80,11 @@ class SurveyVal_ProcessResponse{
 		
 		if( '' == $participiant_restrictions || 'all_visitors' == $participiant_restrictions ):
 			if( $this->finished && $this->finished_id == $survey_id ):
-				return $this->text_thankyou_for_participation();
+				return $this->text_thankyou_for_participation( $survey_id );
 			endif;
 			
 			if( $this->ip_has_participated( $survey_id ) ):
-				return $this->text_already_participated();
+				return $this->text_already_participated( $survey_id );
 			endif;
 			
 		elseif( 'all_members' == $participiant_restrictions ):
@@ -96,12 +96,12 @@ class SurveyVal_ProcessResponse{
 			// If user user has finished successfull
 			if( $this->finished && $this->finished_id == $survey_id ):
 				$this->email_finished();
-				return $this->text_thankyou_for_participation();
+				return $this->text_thankyou_for_participation( $survey_id );
 			endif;
 			
 			// If user has already participated
 			if( $this->has_participated( $survey_id ) ):
-				return $this->text_already_participated();
+				return $this->text_already_participated( $survey_id );
 			endif;
 			
 		elseif( 'selected_members' == $participiant_restrictions ):
@@ -113,12 +113,12 @@ class SurveyVal_ProcessResponse{
 			// If user user has finished successfull
 			if( $this->finished && $this->finished_id == $survey_id ):
 				$this->email_finished();
-				return $this->text_thankyou_for_participation();
+				return $this->text_thankyou_for_participation( $survey_id );
 			endif;
 			
 			// If user has already participated
 			if( $this->has_participated( $survey_id ) ):
-				return $this->text_already_participated();
+				return $this->text_already_participated( $survey_id );
 			endif;
 			
 			// If user can't participate the poll
@@ -496,18 +496,35 @@ class SurveyVal_ProcessResponse{
 		sv_mail( $current_user->user_email, $subject, $content );
 	}
 	
-	public function text_thankyou_for_participation(){
+	public function text_thankyou_for_participation( $survey_id ){
+		
+		
 		$html = '<div id="surveyval-thank-participation">';
-		$html.= __( 'Thank you for participating this survey!', 'surveyval-locale' );
+		$html.= '<p>' . __( 'Thank you for participating this survey!', 'surveyval-locale' ) . '</p>';
+		$html.= $this->show_results( $survey_id );
 		$html.= '<input name="response_id" id="response_id" type="hidden" value="' . $this->respond_id . '" />';
 		$html.= '</div>';
 		return $html;
 	}
 	
-	public function text_already_participated(){
+	public function text_already_participated( $survey_id ){
 		$html = '<div id="surveyval-already-participated">';
-		$html.= __( 'You already have participated this poll.', 'surveyval-locale' );
+		$html.= '<p>' . __( 'You already have participated this poll.', 'surveyval-locale' ) . '</p>';
+		$html.= $this->show_results( $survey_id );
 		$html.= '</div>';
+		return $html;
+	}
+	
+	public function show_results( $survey_id ){
+		$show_results_after_participating = get_post_meta( $survey_id, 'show_results_after_participating', TRUE );
+		
+		$html = '';
+		
+		if( 'yes' == $show_results_after_participating ):
+			$html.= '<p>' . __( 'This are the actual results:', 'surveyval-locale' ) . '</p>';
+			$html.= do_shortcode( '[barchart id="' . $survey_id . '"]' );
+		endif;
+		
 		return $html;
 	}
 	
