@@ -225,7 +225,6 @@ class SurveVal_Init{
 	 */	
 	public static function register_admin_scripts() {
 		wp_enqueue_script( 'surveyval-admin-script', SURVEYVAL_URLPATH . '/includes/js/admin.js' );
-		wp_enqueue_script( 'surveyval-chart-js',  SURVEYVAL_URLPATH . '/includes/3rdparty/chart.js/Chart.min.js' );
 	} // end register_admin_scripts
 	
 	/**
@@ -243,7 +242,6 @@ class SurveVal_Init{
 	 */
 	public static function register_plugin_scripts() {
 		wp_enqueue_script( 'surveyval-plugin-script',  SURVEYVAL_URLPATH . '/includes/js/display.js' );
-		wp_enqueue_script( 'surveyval-chart-js',  SURVEYVAL_URLPATH . '/includes/3rdparty/chart.js/Chart.min.js' );
 	} // end register_plugin_scripts
 	
 	/**
@@ -282,6 +280,7 @@ class SurveVal_Init{
 		include( SURVEYVAL_FOLDER . '/components/admin/admin.php' );
 		include( SURVEYVAL_FOLDER . '/components/core/core.php' );
 		include( SURVEYVAL_FOLDER . '/components/elements/elements.php' );
+		include( SURVEYVAL_FOLDER . '/components/charts/charts.php' );
 	}
 	
 	/**
