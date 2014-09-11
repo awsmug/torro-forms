@@ -14,7 +14,7 @@ function test_barchart( $atts ){
 	
 	$html = '';
 	foreach ( $prepared_data[ 'questions' ] as $question_id => $question ):
-		$html.= SurveyVal_ChartCreator::show_pie( $question, $prepared_data['data'][ $question_id ] );
+		$html.= SurveyVal_ChartCreator_Dimple::show_bars( $question, $prepared_data['data'][ $question_id ] );
 	endforeach;
 	
 	return $html;

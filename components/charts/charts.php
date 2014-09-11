@@ -56,14 +56,13 @@ class SurveyVal_Charts extends SurveyVal_Component{
 	
 	public function includes(){
 		include( SURVEYVAL_COMPONENTFOLDER . '/charts/data-abstraction.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/charts/chart-creator.php' );
+		include( SURVEYVAL_COMPONENTFOLDER . '/charts/chart-creator-dimple.php' );
 		include( SURVEYVAL_COMPONENTFOLDER . '/charts/shortcodes.php' );
 	}
 	
 	public function register_component_scripts() {
-		wp_enqueue_script( 'surveyval-d3-js',  SURVEYVAL_URLPATH . '/components/charts/includes/3rdparty/d3/d3.min.js' );
-		wp_enqueue_script( 'surveyval-d2-js',  SURVEYVAL_URLPATH . '/components/charts/includes/3rdparty/c3/c3.min.js' );
-		wp_enqueue_style( 'surveyval-c3-css', SURVEYVAL_URLPATH . '/components/charts/includes/3rdparty/c3/c3.css' );
+		wp_enqueue_script( 'surveyval-d3-js',  SURVEYVAL_URLPATH . '/components/charts/includes/3rdparty/d3/d3.js' );
+		wp_enqueue_script( 'surveyval-dimple-js',  SURVEYVAL_URLPATH . '/components/charts/includes/3rdparty/dimple/dimple.v2.1.0.js' );
 	}
 }
 
