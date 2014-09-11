@@ -44,7 +44,7 @@ class SurveyVal_ChartCreator_Dimple{
 		$defaults = array(
 			'id' => 'dimple' . md5( rand() ),
  			'width' => 600,
-			'height' => 400,
+			'height' => 500,
 			'title_tag' => 'h3',
 		);
 		$atts = wp_parse_args( $defaults, $atts );
@@ -66,7 +66,18 @@ class SurveyVal_ChartCreator_Dimple{
 		$js.= 'x = chart.addCategoryAxis("x", "' . $answer_text . '");';
 		$js.= 'y = chart.addMeasureAxis("y", "' . $value_text . '");';
 		
-		$js.= 'chart.addSeries([ "' . $value_text . '", "'  . $answer_text . '" ], dimple.plot.bar);';
+		$js.= 'x.fontSize = "0.8em";';
+		// $js.= 'x.hidden = true;';
+		
+		$js.= 'y.fontSize = "0.8em";';
+		$js.= 'y.showGridlines = false;';
+		$js.= 'y.ticks = 2.5;';
+		
+		$js.= 'x.floatingBarWidth = 5;';
+		
+		$js.= 'var bars = chart.addSeries([ "' . $value_text . '", "'  . $answer_text . '" ], dimple.plot.bar);';
+		// $js.= 'chart.addLegend(60, 475, 500	, 600, "left", [ bars ]);';
+		
 		$js.= 'chart.draw();';
 		
 		$js.= 'x.titleShape.text("' . $title . '");';
