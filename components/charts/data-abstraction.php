@@ -39,6 +39,8 @@ class SurveyVal_AbstractData{
 	} // end constructor
 	
 	public static function order_for_charting( $response_array ){
+		global $wpdb, $surveyval_global;
+		
 		$lines = self::lines( $response_array );
 		
 		$ordered_data = array();
@@ -61,6 +63,16 @@ class SurveyVal_AbstractData{
 			foreach( $lines AS $response_id => $line ):
 				if( !isset( $merged_data[ $line[ $key ] ] ) ) $merged_data[ $line[ $key ] ] = 0;
 				$merged_data[ $line[ $key ] ]++;				
+			endforeach;
+			
+			// Fill up missed answers with 0
+			$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->answers} WHERE question_id = %s", $key );
+			$results = $wpdb->get_results( $sql );
+			
+			$voted_answers = array_keys( $merged_data );
+			foreach( $results AS $result ):
+				if( !in_array( $result->answer, $voted_answers ) )
+				 	$merged_data[ $result->answer ] = 0;
 			endforeach;
 			
 			$ordered_data[ 'data' ][ $key ] = $merged_data;
