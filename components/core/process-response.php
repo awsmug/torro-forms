@@ -522,7 +522,7 @@ class SurveyVal_ProcessResponse{
 		
 		if( 'yes' == $show_results_after_participating ):
 			$html.= '<p>' . __( 'This are the actual results:', 'surveyval-locale' ) . '</p>';
-			$html.= do_shortcode( '[barchart id="' . $survey_id . '"]' );
+			$html.= do_shortcode( '[show_survey_results id="' . $survey_id . '"]' );
 		endif;
 		
 		return $html;

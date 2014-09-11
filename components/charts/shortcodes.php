@@ -19,4 +19,4 @@ function test_barchart( $atts ){
 	
 	return $html;
 }
-add_shortcode( 'barchart', 'test_barchart' );
+add_shortcode( 'show_survey_results', 'test_barchart' );
