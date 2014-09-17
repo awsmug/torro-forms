@@ -60,16 +60,16 @@ class SurveyVal_ProcessResponse{
 		if( 'surveyval' != $post->post_type )
 			return $content;
 		
-		$content = $this->survey( $post->ID );
+		$content = $this->show_survey( $post->ID );
 		
 		remove_filter( 'the_content', array( $this, 'the_content' ) ); // only show once		
 		
 		return $content;
 	}
 	
-	public function survey( $survey_id ){
+	private function show_survey( $survey_id ){
 		if( TRUE === $this->check_restrictions( $survey_id ) ):
-			return $this->survey_form( $survey_id );
+			return $this->show_survey_form( $survey_id );
 		else:
 			return $this->check_restrictions( $survey_id );
 		endif;
@@ -78,7 +78,7 @@ class SurveyVal_ProcessResponse{
 	private function check_restrictions( $survey_id ){
 		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE ); 
 		
-		if( '' == $participiant_restrictions || 'all_visitors' == $participiant_restrictions ):
+		if( 'all_visitors' == $participiant_restrictions ):
 			if( $this->finished && $this->finished_id == $survey_id ):
 				return $this->text_thankyou_for_participation( $survey_id );
 			endif;
@@ -104,7 +104,7 @@ class SurveyVal_ProcessResponse{
 				return $this->text_already_participated( $survey_id );
 			endif;
 			
-		elseif( 'selected_members' == $participiant_restrictions ):
+		else: // Only selected members
 			// If user is not logged in
 			if( !is_user_logged_in() ):
 				return $this->text_not_logged_in();
@@ -497,20 +497,29 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	public function text_thankyou_for_participation( $survey_id ){
-		
+		$show_results = get_post_meta( $survey_id, 'show_results', TRUE );
+		if( '' == $show_results )
+			$show_results = 'no';
 		
 		$html = '<div id="surveyval-thank-participation">';
 		$html.= '<p>' . __( 'Thank you for participating this survey!', 'surveyval-locale' ) . '</p>';
-		$html.= $this->show_results( $survey_id );
+		if( 'yes' == $show_results ) $html.= $this->show_results( $survey_id );
+		
 		$html.= '<input name="response_id" id="response_id" type="hidden" value="' . $this->respond_id . '" />';
 		$html.= '</div>';
+		
 		return $html;
 	}
 	
 	public function text_already_participated( $survey_id ){
+		$show_results = get_post_meta( $survey_id, 'show_results', TRUE );
+		if( '' == $show_results )
+			$show_results = 'no';
+		
 		$html = '<div id="surveyval-already-participated">';
 		$html.= '<p>' . __( 'You already have participated this poll.', 'surveyval-locale' ) . '</p>';
-		$html.= $this->show_results( $survey_id );
+		if( 'yes' == $show_results ) $html.= $this->show_results( $survey_id );
+		
 		$html.= '</div>';
 		return $html;
 	}

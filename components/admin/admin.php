@@ -143,6 +143,18 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		$survey_id = $post->ID;
 		
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s", $survey_id );
+		$user_ids = $wpdb->get_col( $sql );
+		
+		$users = array();
+		
+		if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
+			$users = get_users( array(
+				'include' => $user_ids,
+				'orderby' => 'ID'
+			) );
+		endif;
+		
 		$disabled = '';
 		$selected = '';
 		
@@ -154,8 +166,12 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			'selected_members' => __( 'Only selected members can participate the poll ', 'surveyval-locale' ),
 		) );
 		
-		if( '' == $participiant_restrictions ) $participiant_restrictions = 'all_visitors';
-		
+		if( '' == $participiant_restrictions && count( $users ) > 0 ): // If there are participiants and nothing was selected before
+			$participiant_restrictions = 'selected_members';
+		elseif( '' == $participiant_restrictions ): // If there was selected nothing before
+			$participiant_restrictions = 'all_visitors';
+		endif;
+			
 		$html = '<div id="surveyval_participiants_select_restrictions">';
 			$html.= '<select name="surveyval_participiants_restrictions_select" id="surveyval-participiants-restrictions-select"' . $disabled . '>';
 			foreach( $restrictions AS $key => $value ):
@@ -196,19 +212,6 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			do_action( 'surveyval_post_type_participiants_content_top' );
 			$html.= ob_get_clean();
 			
-			$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s";
-			$sql = $wpdb->prepare( $sql, $survey_id );
-			$user_ids = $wpdb->get_col( $sql );
-			
-			$users = array();
-			
-			if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
-				$users = get_users( array(
-					'include' => $user_ids,
-					'orderby' => 'ID'
-				) );
-			endif;
-		
 			$html.= '<div id="surveyval-participiants-status" class="surveyval-participiants-status">';
 			$html.= '<p>' . count( $users ) . ' ' . __( 'participiant/s', 'surveyval-locale' ) . '</p>';
 			$html.= '</div>';
@@ -274,24 +277,24 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		global $post;
 		
 		$survey_id = $post->ID;
-		$show_results_after_participating = get_post_meta( $survey_id, 'show_results_after_participating', TRUE ); 
+		$show_results = get_post_meta( $survey_id, 'show_results', TRUE ); 
 		
-		if( '' == $show_results_after_participating )
-			$show_results_after_participating = 'yes';
+		if( '' == $show_results )
+			$show_results = 'no';
 		
 		$checked_no = '';
 		$checked_yes = '';
 		
-		if( 'no' == $show_results_after_participating )
+		if( 'no' == $show_results )
 			$checked_no = ' checked="checked"';
 		else
 			$checked_yes = ' checked="checked"';
 		
 		$html = '<div class="surveyval-option-element">';
 			$html.= '<div class="surveyval-option-element">';
-				$html.= '<p><label for="show_results_after_participating">' . __( 'Show Results after participating', 'surveyval-locale' ) . '</label></p>';
-				$html.= '<input type="radio" name="show_results_after_participating" value="yes"' . $checked_yes .'>' . __( 'Yes') . '<br>';
-				$html.= '<input type="radio" name="show_results_after_participating" value="no"' . $checked_no .'>' . __( 'No') . '<br>';
+				$html.= '<p><label for="show_results">' . __( 'Show Results', 'surveyval-locale' ) . '</label></p>';
+				$html.= '<input type="radio" name="show_results" value="yes"' . $checked_yes .'>' . __( 'Yes') . '<br>';
+				$html.= '<input type="radio" name="show_results" value="no"' . $checked_no .'>' . __( 'No') . '<br>';
 			$html.= '</div>';
 		$html.= '</div>';
 		
@@ -397,7 +400,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
 		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
 		$survey_participiant_restrictions = $_POST['surveyval_participiants_restrictions_select'];
-		$survey_show_results_after_participating = $_POST['show_results_after_participating'];
+		$survey_show_results = $_POST['show_results'];
 		$surveyval_participiants = $_POST['surveyval_participiants'];
 		
 		/*
@@ -408,7 +411,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		/*
 		 * Saving if results have to be shown after participating
 		 */
-		update_post_meta( $post_id, 'show_results_after_participating', $survey_show_results_after_participating );
+		update_post_meta( $post_id, 'show_results', $survey_show_results );
 		 
 		$survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
 		
