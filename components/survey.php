@@ -91,7 +91,8 @@ class SurveyVal_Survey{
 		global $wpdb, $suveyval_global;
 		
 		if( is_array( $this->elements ) ):
-			$this->add_responses( '_user_id',  $this->get_user_ids() );
+			$this->add_responses( '_user_id',  $this->get_user_ids() ); // Adding User IDs to response
+			$this->add_responses( '_datetime',  $this->get_timestrings() ); // Adding Time to response
 			
 			foreach( $this->elements AS $element ):
 
@@ -114,7 +115,7 @@ class SurveyVal_Survey{
 		$results = $wpdb->get_results( $sql );
 		
 		$responses = array();
-		$responses[ 'question' ] = 'User ID';
+		$responses[ 'question' ] = __( 'User ID', 'surveyval-locale' );
 		$responses[ 'sections' ] = FALSE;
 		$responses[ 'array' ] = FALSE;
 		$responses[ 'responses' ] = array();
@@ -126,6 +127,28 @@ class SurveyVal_Survey{
 		endif;
 		
 		return $responses;
+	}
+	
+	private function get_timestrings( $timeformat = 'd.m.Y H:i' ){
+		global $wpdb, $surveyval_global;
+		
+		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} WHERE surveyval_id = %s", $this->id );
+		$results = $wpdb->get_results( $sql );
+		
+		$responses = array();
+		$responses[ 'question' ] = __( 'Date/Time', 'surveyval-locale' );
+		$responses[ 'sections' ] = FALSE;
+		$responses[ 'array' ] = FALSE;
+		$responses[ 'responses' ] = array();
+		
+		if( is_array( $results ) ):
+			foreach( $results AS $result ):
+				$responses[ 'responses' ][ $result->id ] = date( $timeformat, $result->timestamp );
+			endforeach;
+		endif;
+		
+		return $responses;
+		
 	}
 	
 	private function add_responses( $element_id, $responses ){
