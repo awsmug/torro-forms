@@ -3,8 +3,8 @@
 * @package WordPress
 * @subpackage Questions
 * @author Sven Wagener
-* @copyright 2014, Rheinschmiede
-* @link http://rheinschmiede.de
+* @copyright 2015, awesome.ug
+* @link http://awesome.ug
 * @license http://www.opensource.org/licenses/gpl-2.0.php GPL License
 */
 

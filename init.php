@@ -4,7 +4,7 @@ Plugin Name: Questions
 Plugin URI: http://www.awesome.ug
 Description: Create your surveys or polls for WordPress Users.
 Version: 1.0
-Author: Rheinschmiede
+Author: awesome.ug
 Author URI: http://www.awesome.ug
 Author Email: contact@awesome.ug
 License:
