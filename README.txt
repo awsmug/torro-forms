@@ -10,7 +10,7 @@ Create your surveys or polls for WordPress.
 
 == Description ==
 
-Create your survey or poll by drag&drop with the Questions plugin.
+Create your survey or poll by drag&drop with the Questions plugin and export results in a CSV file.
 
 == Installation ==
 
