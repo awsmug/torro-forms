@@ -1,11 +1,11 @@
 <?php
 /*
- * SurveyVal Shortcodes
+ * Questions Shortcodes
  *
  * This should be used as parent class for Question-Answers.
  *
  * @author rheinschmiede.de <kontakt@rehinschmiede.de>, Sven Wagener <sven.wagener@rehinschmiede.de>
- * @package Facebook Fanpage Import/Admin
+ * @package Questions/Admin
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
@@ -29,29 +29,29 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyValShortCodes{
+class QuestionsShortCodes{
 	var $tables;
 	var $components = array();
 	var $question_types = array();
 	
 	public function __construct(){
-		add_shortcode( 'surveyval', array( $this, 'surveyval' ) );
+		add_shortcode( 'questions', array( $this, 'questions' ) );
 	}
 	
-	public function surveyval( $atts ){
-		global $SurveyVal_ProcessResponse;
+	public function questions( $atts ){
+		global $Questions_ProcessResponse;
 		extract( shortcode_atts( array(
 				'id' => '',
-				'title' => __( 'Survey', 'surveyval-locale' )
+				'title' => __( 'Survey', 'questions-locale' )
 			),
 			$atts ) );
 		
 		if( '' === $id ):
-			_e( 'Please enter an id in the survey shortcode!', 'surveyval-locale' );
+			_e( 'Please enter an id in the survey shortcode!', 'questions-locale' );
 			return;
 		endif;
 		
-		echo $SurveyVal_ProcessResponse->get_survey( $id );
+		echo $Questions_ProcessResponse->get_survey( $id );
 	}
 }
-$SurveyValShortCodes = new SurveyValShortCodes();
+$QuestionsShortCodes = new QuestionsShortCodes();

@@ -5,7 +5,7 @@
  * This class shows charts by charts.js
  *
  * @author rheinschmiede.de, Author <kontakt@rheinschmiede.de>
- * @package Surveyval/Data
+ * @package Questions/Data
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@
  
 if ( !defined( 'ABSPATH' ) ) exit;
  
-class SurveyVal_ChartCreator{
+class Questions_ChartCreator{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -88,7 +88,7 @@ class SurveyVal_ChartCreator{
 			 data: { columns: [ ' . implode( ',', $columns )  .' ], type: "' . $type . '" },
 			 axis: {
 			 	x: {
-			 		label: { text: \'' . __( 'Made with SurveyVal', 'surveyval-locale' ) . '\', position: \'outer-middle\' }
+			 		label: { text: \'' . __( 'Made with Questions', 'questions-locale' ) . '\', position: \'outer-middle\' }
 				} 
 			 }
 			 ' . $script . '

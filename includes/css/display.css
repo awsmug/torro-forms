@@ -1,35 +1,35 @@
 /* This stylesheet is used to style the public view of the plugin. */
-#surveyval .survey-element{
+#questions .survey-element{
 	margin-bottom:20px;
 }
-#surveyval .survey-element p{
+#questions .survey-element p{
 	margin:0;
 	font-size:0.9em;
 }
-#surveyval .survey-element h3,
-#surveyval .survey-element h5{
+#questions .survey-element h3,
+#questions .survey-element h5{
 	margin: 0 0 10px 0;
 }
-#surveyval .survey-element hr{
+#questions .survey-element hr{
 	margin: 0;
 	height: 5px;
 	border-radius: 3px;
 }
-#surveyval .surveyval-description{
+#questions .questions-description{
 	margin-bottom: 20px;
 }
-#surveyval .surveyval-description span.surveyval-highlight-number{
+#questions .questions-description span.questions-highlight-number{
 	border-radius: 3px;
 	background-color: #CCC;
 	padding:2px 6px;
 	color:#FFF;
 }
-#surveyval .surveyval-element-error{
+#questions .questions-element-error{
 	border: 1px dashed #F00;
 	padding:10px;
 	margin-bottom:20px;
 }
-#surveyval .surveyval-element-error-message{
+#questions .questions-element-error-message{
 	color:#FFF;
 	border: 1px dashed #F00;
 	background-color:#F00;
@@ -37,14 +37,14 @@
     margin: -10px -10px 10px;
     padding: 5px;
 }
-#surveyval ul.surveyval-error-messages{
+#questions ul.questions-error-messages{
 	margin: 0 0 0 20px;
 }
-#surveyval table.surveyval-range-table{
+#questions table.questions-range-table{
 	width:auto;
 	border:none;
 }
-#surveyval table.surveyval-range-table td{
+#questions table.questions-range-table td{
 	text-align:center;
 	border:none;
 }

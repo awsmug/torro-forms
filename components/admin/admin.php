@@ -30,7 +30,7 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_Admin extends SurveyVal_Component{
+class Questions_Admin extends Questions_Component{
 	var $notices = array();
 	
 	/**
@@ -38,9 +38,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	 * @since 1.0.0
 	 */
 	function __construct() {
-		$this->name = 'SurveyValAdmin';
-		$this->title = __( 'Admin', 'surveyval-locale' );
-		$this->description = __( 'Setting up SurveyVal in WordPress Admin.', 'surveyval-locale' );
+		$this->name = 'QuestionsAdmin';
+		$this->title = __( 'Admin', 'questions-locale' );
+		$this->description = __( 'Setting up Questions in WordPress Admin.', 'questions-locale' );
 		$this->required = TRUE;
 		$this->capability = 'edit_posts';
 		
@@ -53,9 +53,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 10 );
 			add_action( 'save_post', array( $this, 'save_survey' ) );
 			add_action( 'delete_post', array( $this, 'delete_survey' ) );
-			add_action( 'wp_ajax_surveyval_add_members_standard', array( $this, 'filter_user_ajax' ) );
-			add_action( 'wp_ajax_surveyval_invite_participiants', array( $this, 'invite_participiants' ) );
-			add_action( 'wp_ajax_surveyval_dublicate_survey', array( $this, 'dublicate_survey' ) );
+			add_action( 'wp_ajax_questions_add_members_standard', array( $this, 'filter_user_ajax' ) );
+			add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'invite_participiants' ) );
+			add_action( 'wp_ajax_questions_dublicate_survey', array( $this, 'dublicate_survey' ) );
 			
 			add_action( 'init', array( $this, 'save_settings' ), 20 );
 			add_action( 'admin_notices', array( $this, 'show_notices' ) );
@@ -67,10 +67,10 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	 * @since 1.0.0
 	 */	
 	public function admin_menu(){
-		add_menu_page( __( 'Surveys', 'surveyval-locale' ), __( 'Surveys', 'surveyval-locale' ), $this->capability, 'Component' . $this->name , array( $this, 'settings_page' ), '', 50 );
-		add_submenu_page( 'Component' . $this->name, __( 'Create', 'surveyval-locale' ), __( 'Create', 'surveyval-locale' ), $this->capability, 'post-new.php?post_type=surveyval' );
-		add_submenu_page( 'Component' . $this->name, __( 'Categories', 'surveyval-locale' ), __( 'Categories', 'surveyval-locale' ), $this->capability, 'edit-tags.php?taxonomy=surveyval-categories' );
-		add_submenu_page( 'Component' . $this->name, __( 'Settings', 'surveyval-locale' ), __( 'Settings', 'surveyval-locale' ), $this->capability, 'Component' . $this->name, array( $this, 'settings_page' ) );
+		add_menu_page( __( 'Surveys', 'questions-locale' ), __( 'Surveys', 'questions-locale' ), $this->capability, 'Component' . $this->name , array( $this, 'settings_page' ), '', 50 );
+		add_submenu_page( 'Component' . $this->name, __( 'Create', 'questions-locale' ), __( 'Create', 'questions-locale' ), $this->capability, 'post-new.php?post_type=questions' );
+		add_submenu_page( 'Component' . $this->name, __( 'Categories', 'questions-locale' ), __( 'Categories', 'questions-locale' ), $this->capability, 'edit-tags.php?taxonomy=questions-categories' );
+		add_submenu_page( 'Component' . $this->name, __( 'Settings', 'questions-locale' ), __( 'Settings', 'questions-locale' ), $this->capability, 'Component' . $this->name, array( $this, 'settings_page' ) );
 	}
 	
 	// Fix for getting correct menu and display
@@ -78,7 +78,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		global $current_screen;
 		$taxonomy = $current_screen->taxonomy;
 			
-		if ( $taxonomy == 'surveyval-categories' )
+		if ( $taxonomy == 'questions-categories' )
 			$parent_file = 'Component' . $this->name;
 		
 		return $parent_file;
@@ -89,20 +89,20 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	 * @since 1.0.0
 	 */
 	public function settings_page(){
-		include( SURVEYVAL_COMPONENTFOLDER . '/admin/pages/settings.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/admin/pages/settings.php' );
 	}
 
 	public function droppable_area(){
-		global $post, $surveyval_global;
+		global $post, $questions_global;
 		
-		if( !$this->is_surveyval_post_type() )
+		if( !$this->is_questions_post_type() )
 			return;
 		
-		$html = '<div id="surveyval-content" class="drag-drop">';
+		$html = '<div id="questions-content" class="drag-drop">';
 			$html.= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 			
 				/* << INSIDE DRAG&DROP AREA >> */
-				$survey = new SurveyVal_Survey( $post->ID );
+				$survey = new Questions_Survey( $post->ID );
 				// Running each Element
 				foreach( $survey->elements AS $element ):
 					$html.= $element->draw_admin();
@@ -111,26 +111,26 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				
 				$html.= '<div class="drag-drop-inside">';
 					$html.= '<p class="drag-drop-info">';
-						$html.= __( 'Drop your Element here.', 'surveyval-locale' );
+						$html.= __( 'Drop your Element here.', 'questions-locale' );
 					$html.= '</p>';
 				$html.= '</div>';
 			$html.= '</div>';
 		$html.= '</div>';
-		$html.= '<div id="delete_surveyelement_dialog">' . __( 'Do you really want to delete this element?', 'surveyval-locale' ). '</div>';
-		$html.= '<div id="delete_answer_dialog">' . __( 'Do you really want to delete this answer?', 'surveyval-locale' ). '</div>';
-		$html.= '<input type="hidden" id="deleted_surveyelements" name="surveyval_deleted_surveyelements" value="">';
-		$html.= '<input type="hidden" id="deleted_answers" name="surveyval_deleted_answers" value="">';
+		$html.= '<div id="delete_surveyelement_dialog">' . __( 'Do you really want to delete this element?', 'questions-locale' ). '</div>';
+		$html.= '<div id="delete_answer_dialog">' . __( 'Do you really want to delete this answer?', 'questions-locale' ). '</div>';
+		$html.= '<input type="hidden" id="deleted_surveyelements" name="questions_deleted_surveyelements" value="">';
+		$html.= '<input type="hidden" id="deleted_answers" name="questions_deleted_answers" value="">';
 		
 		echo $html;
 	}
 	
 	public function meta_box_survey_elements(){
-		global $surveyval_global;
+		global $questions_global;
 		
 		$html = '';
 		
-		foreach( $surveyval_global->element_types AS $element ):
-			$html.= '<div class="surveyval-draggable">';
+		foreach( $questions_global->element_types AS $element ):
+			$html.= '<div class="questions-draggable">';
 			$html.= $element->draw_admin();
 			$html.= '</div>';
 		endforeach;
@@ -139,11 +139,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function meta_box_survey_participiants(){
-		global $wpdb, $post, $surveyval_global;
+		global $wpdb, $post, $questions_global;
 		
 		$survey_id = $post->ID;
 		
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %s", $survey_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %s", $survey_id );
 		$user_ids = $wpdb->get_col( $sql );
 		
 		$users = array();
@@ -160,10 +160,10 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		
 		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE ); 
 		
-		$restrictions = apply_filters( 'surveyval_post_type_participiant_restrictions', array(
-			'all_visitors' => __( 'All visitors of the site can participate the poll', 'surveyval-locale' ),
-			'all_members' => __( 'All members of the site can participate the poll', 'surveyval-locale' ),
-			'selected_members' => __( 'Only selected members can participate the poll ', 'surveyval-locale' ),
+		$restrictions = apply_filters( 'questions_post_type_participiant_restrictions', array(
+			'all_visitors' => __( 'All visitors of the site can participate the poll', 'questions-locale' ),
+			'all_members' => __( 'All members of the site can participate the poll', 'questions-locale' ),
+			'selected_members' => __( 'Only selected members can participate the poll ', 'questions-locale' ),
 		) );
 		
 		if( '' == $participiant_restrictions && count( $users ) > 0 ): // If there are participiants and nothing was selected before
@@ -172,8 +172,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$participiant_restrictions = 'all_visitors';
 		endif;
 			
-		$html = '<div id="surveyval_participiants_select_restrictions">';
-			$html.= '<select name="surveyval_participiants_restrictions_select" id="surveyval-participiants-restrictions-select"' . $disabled . '>';
+		$html = '<div id="questions_participiants_select_restrictions">';
+			$html.= '<select name="questions_participiants_restrictions_select" id="questions-participiants-restrictions-select"' . $disabled . '>';
 			foreach( $restrictions AS $key => $value ):
 				$selected = '';
 				if( $key == $participiant_restrictions ) $selected = ' selected="selected"';
@@ -182,49 +182,47 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			$html.= '</select>';
 		$html.= '</div>';
 		
-		$options = apply_filters( 'surveyval_post_type_add_participiants_options', array(
-			'all_members' => __( 'Add all actual Members', 'surveyval-locale' ),
+		$options = apply_filters( 'questions_post_type_add_participiants_options', array(
+			'all_members' => __( 'Add all actual Members', 'questions-locale' ),
 		) );
 		
 		/*
 		 * Selected Members section
 		 */
-		$html.= '<div id="surveyval_selected_members">';
+		$html.= '<div id="questions_selected_members">';
 		
 			$disabled = '';
 			$selected = '';
 			
-			$html.= '<div id="surveyval_participiants_select">';
-				$html.= '<select name="surveyval_participiants_select" id="surveyval-participiants-select"' . $disabled . '>';
+			$html.= '<div id="questions_participiants_select">';
+				$html.= '<select name="questions_participiants_select" id="questions-participiants-select"' . $disabled . '>';
 				foreach( $options AS $key => $value ):
-					// $selected = '';
-					// if( $key == $surveyval_participiants ) $selected = ' selected="selected"';
 					$html.= '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
 				endforeach;
 				$html.= '</select>';
 			$html.= '</div>';
 			
-			$html.= '<div id="surveyval-participiants-standard-options" class="surveyval-participiants-options-content">';
-			$html.= '<div class="add"><input type="button" class="surveyval-add-participiants button" id="surveyval-add-members-standard" value="' . __( 'Add Participiants', 'surveyval-locale' ) . '" /><a href="#" class="surveyval-remove-all-participiants">' . __( 'Remove all Participiants', 'surveyval-locale' ) . '</a></div>';
+			$html.= '<div id="questions-participiants-standard-options" class="questions-participiants-options-content">';
+			$html.= '<div class="add"><input type="button" class="questions-add-participiants button" id="questions-add-members-standard" value="' . __( 'Add Participiants', 'questions-locale' ) . '" /><a href="#" class="questions-remove-all-participiants">' . __( 'Remove all Participiants', 'questions-locale' ) . '</a></div>';
 			$html.= '</div>';
 			
 			ob_start();
-			do_action( 'surveyval_post_type_participiants_content_top' );
+			do_action( 'questions_post_type_participiants_content_top' );
 			$html.= ob_get_clean();
 			
-			$html.= '<div id="surveyval-participiants-status" class="surveyval-participiants-status">';
-			$html.= '<p>' . count( $users ) . ' ' . __( 'participiant/s', 'surveyval-locale' ) . '</p>';
+			$html.= '<div id="questions-participiants-status" class="questions-participiants-status">';
+			$html.= '<p>' . count( $users ) . ' ' . __( 'participiant/s', 'questions-locale' ) . '</p>';
 			$html.= '</div>';
 			
-			$html.= '<div id="surveyval-participiants-list">';
+			$html.= '<div id="questions-participiants-list">';
 				$html.= '<table class="wp-list-table widefat">';
 					$html.= '<thead>';
 						$html.= '<tr>';
-							$html.= '<th>' . __( 'ID', 'surveyval-locale' ) . '</th>';
-							$html.= '<th>' . __( 'User nicename', 'surveyval-locale' ) . '</th>';
-							$html.= '<th>' . __( 'Display name', 'surveyval-locale' ) . '</th>';
-							$html.= '<th>' . __( 'Email', 'surveyval-locale' ) . '</th>';
-							$html.= '<th>' . __( 'Status', 'surveyval-locale' ) . '</th>';
+							$html.= '<th>' . __( 'ID', 'questions-locale' ) . '</th>';
+							$html.= '<th>' . __( 'User nicename', 'questions-locale' ) . '</th>';
+							$html.= '<th>' . __( 'Display name', 'questions-locale' ) . '</th>';
+							$html.= '<th>' . __( 'Email', 'questions-locale' ) . '</th>';
+							$html.= '<th>' . __( 'Status', 'questions-locale' ) . '</th>';
 							$html.= '<th>&nbsp</th>';
 						$html.= '</tr>';
 					$html.= '</thead>';
@@ -232,16 +230,16 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					
 					$html.= '<tbody>';
 					
-					$surveyval_participiants_value = '';
+					$questions_participiants_value = '';
 					
 					if( is_array( $users ) && count( $users ) > 0 ):
 					
 						foreach( $users AS $user ):
 							if( sv_user_has_participated( $survey_id, $user->ID ) ):
 								$user_css = ' finished';
-								$user_text = __( 'finished', 'surveyval-locale' );
+								$user_text = __( 'finished', 'questions-locale' );
 							else:
-								$user_text = __( 'new', 'surveyval-locale' );
+								$user_text = __( 'new', 'questions-locale' );
 								$user_css = ' new';
 							endif;
 							
@@ -251,11 +249,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 								$html.= '<td>' . $user->display_name . '</td>';
 								$html.= '<td>' . $user->user_email . '</td>';
 								$html.= '<td>' . $user_text . '</td>';
-								$html.= '<td><a class="button surveyval-delete-participiant" rel="' . $user->ID . '">' . __( 'Delete', 'surveyval-locale' ) . '</a></th>';
+								$html.= '<td><a class="button questions-delete-participiant" rel="' . $user->ID . '">' . __( 'Delete', 'questions-locale' ) . '</a></th>';
 							$html.= '</tr>';
 						endforeach;
 						
-						$surveyval_participiants_value = implode( ',', $user_ids );
+						$questions_participiants_value = implode( ',', $user_ids );
 						
 					endif;
 					
@@ -263,8 +261,8 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					
 				$html.= '</table>';
 				
-				$html.= '<input type="hidden" id="surveyval-participiants" name="surveyval_participiants" value="' . $surveyval_participiants_value . '" />';
-				$html.= '<input type="hidden" id="surveyval-participiants-count" name="surveyval-participiants-count" value="' . count( $users ) . '" />';
+				$html.= '<input type="hidden" id="questions-participiants" name="questions_participiants" value="' . $questions_participiants_value . '" />';
+				$html.= '<input type="hidden" id="questions-participiants-count" name="questions-participiants-count" value="' . count( $users ) . '" />';
 			
 			$html.= '</div>';
 			
@@ -290,9 +288,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		else
 			$checked_yes = ' checked="checked"';
 		
-		$html = '<div class="surveyval-option-element">';
-			$html.= '<div class="surveyval-option-element">';
-				$html.= '<p><label for="show_results">' . __( 'Show Results', 'surveyval-locale' ) . '</label></p>';
+		$html = '<div class="questions-option-element">';
+			$html.= '<div class="questions-option-element">';
+				$html.= '<p><label for="show_results">' . __( 'Show Results', 'questions-locale' ) . '</label></p>';
 				$html.= '<input type="radio" name="show_results" value="yes"' . $checked_yes .'>' . __( 'Yes') . '<br>';
 				$html.= '<input type="radio" name="show_results" value="no"' . $checked_no .'>' . __( 'No') . '<br>';
 			$html.= '</div>';
@@ -304,68 +302,68 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	public function meta_box_survey_functions(){
 		global $post;
 		
-		$surveyval_invitation_text_template = sv_get_mail_template_text( 'invitation' );
-		$surveyval_reinvitation_text_template = sv_get_mail_template_text( 'reinvitation' );
+		$questions_invitation_text_template = qu_get_mail_template_text( 'invitation' );
+		$questions_reinvitation_text_template = qu_get_mail_template_text( 'reinvitation' );
 		
-		$surveyval_invitation_subject_template = sv_get_mail_template_subject( 'invitation' );
-		$surveyval_reinvitation_subject_template = sv_get_mail_template_subject( 'reinvitation' );
+		$questions_invitation_subject_template = qu_get_mail_template_subject( 'invitation' );
+		$questions_reinvitation_subject_template = qu_get_mail_template_subject( 'reinvitation' );
 		
-		$html = '<div class="surveyval-function-element">';
-			$html.= '<input id="surveyval-dublicate-survey" name="surveyval-dublicate-survey" type="button" class="button" value="' . __( 'Dublicate Survey', 'surveyval-locale' ) . '" />';
+		$html = '<div class="questions-function-element">';
+			$html.= '<input id="questions-dublicate-survey" name="questions-dublicate-survey" type="button" class="button" value="' . __( 'Dublicate Survey', 'questions-locale' ) . '" />';
 		$html.= '</div>';
 
 		if( 'publish' == $post->post_status  ):
-			$html.= '<div class="surveyval-function-element">';
-				$html.= '<input id="surveyval-invite-subject" type="text" name="surveyval_invite_subject" value="' . $surveyval_invitation_subject_template . '" />';
-				$html.= '<textarea id="surveyval-invite-text" name="surveyval_invite_text">' . $surveyval_invitation_text_template . '</textarea>';
-				$html.= '<input id="surveyval-invite-button" type="button" class="button" value="' . __( 'Invite Participiants', 'surveyval-locale' ) . '" /> ';
-				$html.= '<input id="surveyval-invite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
+			$html.= '<div class="questions-function-element">';
+				$html.= '<input id="questions-invite-subject" type="text" name="questions_invite_subject" value="' . $questions_invitation_subject_template . '" />';
+				$html.= '<textarea id="questions-invite-text" name="questions_invite_text">' . $questions_invitation_text_template . '</textarea>';
+				$html.= '<input id="questions-invite-button" type="button" class="button" value="' . __( 'Invite Participiants', 'questions-locale' ) . '" /> ';
+				$html.= '<input id="questions-invite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'questions-locale' ) . '" />';
 			$html.= '</div>';
 			
-			$html.= '<div class="surveyval-function-element">';
-				$html.= '<input id="surveyval-reinvite-subject" type="text" name="surveyval_invite_subject" value="' . $surveyval_reinvitation_subject_template . '" />';
-				$html.= '<textarea id="surveyval-reinvite-text" name="surveyval_reinvite_text">' . $surveyval_reinvitation_text_template . '</textarea>';
-				$html.= '<input id="surveyval-reinvite-button" type="button" class="button" value="' . __( 'Reinvite Participiants', 'surveyval-locale' ) . '" /> ';
-				$html.= '<input id="surveyval-reinvite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'surveyval-locale' ) . '" />';
+			$html.= '<div class="questions-function-element">';
+				$html.= '<input id="questions-reinvite-subject" type="text" name="questions_invite_subject" value="' . $questions_reinvitation_subject_template . '" />';
+				$html.= '<textarea id="questions-reinvite-text" name="questions_reinvite_text">' . $questions_reinvitation_text_template . '</textarea>';
+				$html.= '<input id="questions-reinvite-button" type="button" class="button" value="' . __( 'Reinvite Participiants', 'questions-locale' ) . '" /> ';
+				$html.= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . __( 'Cancel', 'questions-locale' ) . '" />';
 			$html.= '</div>';
 		else:
-			$html.= '<p>' . __( 'You can invite Participiants to this survey after the survey is published.', 'surveyval-locale' ) . '</p>';
+			$html.= '<p>' . __( 'You can invite Participiants to this survey after the survey is published.', 'questions-locale' ) . '</p>';
 		endif;
 		
 		echo $html;
 	}
 	
 	public function meta_boxes( $post_type ){
-		$post_types = array( 'surveyval' );
+		$post_types = array( 'questions' );
 		
 		if( in_array( $post_type, $post_types )):
 			add_meta_box(
 	            'survey-options',
-	            __( 'Survey Options', 'surveyval-locale' ),
+	            __( 'Survey Options', 'questions-locale' ),
 	            array( $this, 'meta_box_survey_options' ),
-	            'surveyval',
+	            'questions',
 	            'side'
 	        );
 			add_meta_box(
 	            'survey-invites',
-	            __( 'Survey Functions', 'surveyval-locale' ),
+	            __( 'Survey Functions', 'questions-locale' ),
 	            array( $this, 'meta_box_survey_functions' ),
-	            'surveyval',
+	            'questions',
 	            'side'
 	        );
 			add_meta_box(
 	            'survey-elements',
-	            __( 'Elements', 'surveyval-locale' ),
+	            __( 'Elements', 'questions-locale' ),
 	            array( $this, 'meta_box_survey_elements' ),
-	            'surveyval',
+	            'questions',
 	            'side',
 	            'high'
 	        );
 	        add_meta_box(
 	            'survey-participiants',
-	            __( 'Participiants list', 'surveyval-locale' ),
+	            __( 'Participiants list', 'questions-locale' ),
 	            array( $this, 'meta_box_survey_participiants' ),
-	            'surveyval',
+	            'questions',
 	            'normal',
 	            'high'
 	        );
@@ -373,7 +371,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function save_survey( $post_id ){
-		if( array_key_exists( 'surveyval-dublicate-survey', $_REQUEST ) )
+		if( array_key_exists( 'questions-dublicate-survey', $_REQUEST ) )
 			return;
 		
 		if ( wp_is_post_revision( $post_id ) )
@@ -382,26 +380,26 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( !array_key_exists( 'post_type', $_POST ) )
 			return;
 		
-		if ( 'surveyval' != $_POST['post_type'] )
+		if ( 'questions' != $_POST['post_type'] )
 			return;
 		
 		$this->save_survey_postdata( $post_id );
 		
-		do_action( 'surveyval_save_survey', $post_id );
+		do_action( 'questions_save_survey', $post_id );
 		
 		// Preventing dublicate saving
 		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
 	}
 
 	public function save_survey_postdata( $post_id ){
-		global $surveyval_global, $wpdb;
+		global $questions_global, $wpdb;
 		
-		$survey_elements = $_POST['surveyval'];
-		$survey_deleted_surveyelements = $_POST['surveyval_deleted_surveyelements'];
-		$survey_deleted_answers = $_POST['surveyval_deleted_answers'];
-		$survey_participiant_restrictions = $_POST['surveyval_participiants_restrictions_select'];
+		$survey_elements = $_POST['questions'];
+		$survey_deleted_surveyelements = $_POST['questions_deleted_surveyelements'];
+		$survey_deleted_answers = $_POST['questions_deleted_answers'];
+		$survey_participiant_restrictions = $_POST['questions_participiants_restrictions_select'];
 		$survey_show_results = $_POST['show_results'];
-		$surveyval_participiants = $_POST['surveyval_participiants'];
+		$questions_participiants = $_POST['questions_participiants'];
 		
 		/*
 		 * Saving Restrictions
@@ -421,11 +419,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( is_array( $survey_deleted_surveyelements ) && count( $survey_deleted_surveyelements ) > 0 ):
 			foreach( $survey_deleted_surveyelements AS $deleted_question ):
 				$wpdb->delete( 
-					$surveyval_global->tables->questions, 
+					$questions_global->tables->questions, 
 					array( 'id' => $deleted_question ) 
 				);
 				$wpdb->delete( 
-					$surveyval_global->tables->answers, 
+					$questions_global->tables->answers, 
 					array( 'question_id' => $deleted_question ) 
 				);
 			endforeach;
@@ -439,7 +437,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
 			foreach( $survey_deleted_answers AS $deleted_answer ):
 				$wpdb->delete( 
-					$surveyval_global->tables->answers, 
+					$questions_global->tables->answers, 
 					array( 'id' => $deleted_answer ) 
 				);
 			endforeach;
@@ -472,7 +470,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			if( '' != $question_id ):
 				// Updating if question already exists
 				$wpdb->update(
-					$surveyval_global->tables->questions,
+					$questions_global->tables->questions,
 					array(
 						'question' => $question,
 						'sort' => $sort,
@@ -486,9 +484,9 @@ class SurveyVal_Admin extends SurveyVal_Component{
 
 				// Adding new question
 				$wpdb->insert(
-					$surveyval_global->tables->questions,
+					$questions_global->tables->questions,
 					array(
-						'surveyval_id' => $post_id,
+						'questions_id' => $post_id,
 						'question' => $question,
 						'sort' => $sort,
 						'type' => $type  )
@@ -498,7 +496,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 				$question_id = $wpdb->insert_id;
 			endif;
 			
-			do_action( 'surveyval_save_survey_after_saving_question', $survey_question, $question_id );
+			do_action( 'questions_save_survey_after_saving_question', $survey_question, $question_id );
 			
 			/*
 			 * Saving answers
@@ -508,11 +506,14 @@ class SurveyVal_Admin extends SurveyVal_Component{
 					$answer_id = $answer['id'];
 					$answer_text = $answer['answer'];
 					$answer_sort = $answer['sort'];
-					$answer_section = $answer['section'];
+					
+					$answer_section = '';
+					if( array_key_exists( 'section', $answer ) )
+						$answer_section = $answer['section'];
 					
 					if( '' != $answer_id ):
 						$wpdb->update(
-							$surveyval_global->tables->answers,
+							$questions_global->tables->answers,
 							array( 
 								'answer' => $answer_text,
 								'section' => $answer_section,
@@ -524,7 +525,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 						);
 					else:
 						$wpdb->insert(
-							$surveyval_global->tables->answers,
+							$questions_global->tables->answers,
 							array(
 								'question_id' => $question_id,
 								'answer' => $answer_text,
@@ -535,7 +536,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 						$answer_id = $wpdb->insert_id;
 					endif;
 					
-					do_action( 'surveyval_save_survey_after_saving_answer', $survey_question, $answer_id );
+					do_action( 'questions_save_survey_after_saving_answer', $survey_question, $answer_id );
 				endforeach;
 			endif;
 			
@@ -544,12 +545,12 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			 */
 			if( is_array( $settings )  && count( $settings ) >  0 ):
 				foreach( $settings AS $name => $setting ):
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
 					$count = $wpdb->get_var( $sql );
 					
 					if( $count > 0 ):
 						$wpdb->update(
-							$surveyval_global->tables->settings,
+							$questions_global->tables->settings,
 							array( 
 								'value' => $settings[ $name ]
 							),
@@ -560,7 +561,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 						);
 					else:
 						$wpdb->insert(
-							$surveyval_global->tables->settings,
+							$questions_global->tables->settings,
 							array(
 								'name' => $name,
 								'question_id' => $question_id,
@@ -574,16 +575,16 @@ class SurveyVal_Admin extends SurveyVal_Component{
 
 		endforeach;
 		
-		$surveyval_participiant_ids = explode( ',', $surveyval_participiants );
+		$questions_participiant_ids = explode( ',', $questions_participiants );
 		
-		$sql = "DELETE FROM {$surveyval_global->tables->participiants} WHERE survey_id = %d";
+		$sql = "DELETE FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
 		$sql = $wpdb->prepare( $sql, $post_id );
 		$wpdb->query( $sql );
 		
-		if( is_array( $surveyval_participiant_ids ) && count( $surveyval_participiant_ids ) > 0 ):
-			foreach( $surveyval_participiant_ids AS $user_id ):
+		if( is_array( $questions_participiant_ids ) && count( $questions_participiant_ids ) > 0 ):
+			foreach( $questions_participiant_ids AS $user_id ):
 				$wpdb->insert(
-					$surveyval_global->tables->participiants,
+					$questions_global->tables->participiants,
 					array(
 						'survey_id' => $post_id,
 						'user_id' => $user_id
@@ -592,15 +593,15 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			endforeach;
 		endif;
 		
-		do_action( 'save_surveyval', $post_id );
+		do_action( 'save_questions', $post_id );
 		
 		return TRUE;
 	}
 
 	public function delete_survey( $survey_id ){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->questions} WHERE surveyval_id=%d", $survey_id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->questions} WHERE questions_id=%d", $survey_id );
 		$elements = $wpdb->get_col( $sql );
 		
 		/*
@@ -609,16 +610,16 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		if( is_array( $elements ) && count( $elements ) > 0 ):
 			foreach( $elements AS $question_id ):
 				$wpdb->delete( 
-					$surveyval_global->tables->answers,
+					$questions_global->tables->answers,
 					array( 'question_id' => $question_id ) 
 				);
 				
 				$wpdb->delete( 
-					$surveyval_global->tables->settings,
+					$questions_global->tables->settings,
 					array( 'question_id' => $question_id ) 
 				);
 				
-			do_action( 'surveyval_delete_element', $question_id, $survey_id );
+			do_action( 'questions_delete_element', $question_id, $survey_id );
 			endforeach;
 		endif;
 		
@@ -626,26 +627,26 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		 * Questions
 		 */
 		$wpdb->delete( 
-			$surveyval_global->tables->questions, 
-			array( 'surveyval_id' => $survey_id ) 
+			$questions_global->tables->questions, 
+			array( 'questions_id' => $survey_id ) 
 		);
 		
-		do_action( 'surveyval_delete_survey', $survey_id );
+		do_action( 'questions_delete_survey', $survey_id );
 		
 		/*
 		 * Response Answers
 		 */
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->respond_answers} WHERE surveyval_id=%d", $survey_id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->respond_answers} WHERE questions_id=%d", $survey_id );
 		$responses = $wpdb->get_col( $sql );
 		
 		if( is_array( $responses ) && count( $responses ) > 0 ):
 			foreach( $responses AS $respond_id ):
 				$wpdb->delete( 
-					$surveyval_global->tables->respond_answers,
+					$questions_global->tables->respond_answers,
 					array( 'respond_id' => $respond_id ) 
 				);
 				
-			do_action( 'surveyval_delete_responds', $respond_id, $survey_id );
+			do_action( 'questions_delete_responds', $respond_id, $survey_id );
 			endforeach;
 		endif;
 		
@@ -653,15 +654,15 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		 * Responds
 		 */
 		$wpdb->delete( 
-			$surveyval_global->tables->responds, 
-			array( 'surveyval_id' => $survey_id ) 
+			$questions_global->tables->responds, 
+			array( 'questions_id' => $survey_id ) 
 		);
 		
 		/*
 		 * Participiants
 		 */
 		$wpdb->delete( 
-			$surveyval_global->tables->participiants, 
+			$questions_global->tables->participiants, 
 			array( 'survey_id' => $survey_id ) 
 		);
 	}
@@ -690,7 +691,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	}
 	
 	public function invite_participiants(){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
 		$return_array = array(
 			'sent' => FALSE
@@ -700,11 +701,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		$subject_template = $_POST['subject_template'];
 		$text_template = $_POST['text_template'];
 		
-		$sql = "SELECT user_id FROM {$surveyval_global->tables->participiants} WHERE survey_id = %d";
+		$sql = "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
 		$sql = $wpdb->prepare( $sql, $survey_id );
 		$user_ids = $wpdb->get_col( $sql );
 		
-		$subject =  __( 'Survey Invitation', 'surveyval-content' );
+		$subject =  __( 'Survey Invitation', 'questions-content' );
 		
 		if( 'reinvite' == $_POST['invitation_type'] ):
 			if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
@@ -715,7 +716,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			endforeach;
 			endif;
 			$user_ids = $user_ids_new;
-			$subject =  __( 'Survey Reinvitation', 'surveyval-content' );
+			$subject =  __( 'Survey Reinvitation', 'questions-content' );
 		endif;
 		
 		$post = get_post( $survey_id );
@@ -762,7 +763,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		die();
 	}
 
-	private function is_surveyval_post_type(){
+	private function is_questions_post_type(){
 		global $post;
 		
 		// If there is no post > stop adding scripts	
@@ -770,7 +771,7 @@ class SurveyVal_Admin extends SurveyVal_Component{
 			return FALSE;
 		
 		// If post type is wrong > stop adding scripts
-		if( 'surveyval' != $post->post_type )
+		if( 'questions' != $post->post_type )
 			return FALSE;
 			
 		return TRUE;
@@ -778,32 +779,32 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	
 	public function save_settings(){
 		
-		if( !array_key_exists( 'surveyval_settings_save', $_POST ) )
+		if( !array_key_exists( 'questions_settings_save', $_POST ) )
 			return;
 			
-		if ( !isset( $_POST['surveyval_save_settings_field'] ) || !wp_verify_nonce( $_POST['surveyval_save_settings_field'], 'surveyval_save_settings' ) )
+		if ( !isset( $_POST['questions_save_settings_field'] ) || !wp_verify_nonce( $_POST['questions_save_settings_field'], 'questions_save_settings' ) )
 			return;
 		
-		update_option( 'surveyval_thankyou_participating_subject_template', $_POST['surveyval_thankyou_participating_subject_template'] );
-		update_option( 'surveyval_invitation_subject_template', $_POST['surveyval_invitation_subject_template'] );
-		update_option( 'surveyval_reinvitation_subject_template', $_POST['surveyval_reinvitation_subject_template'] );
+		update_option( 'questions_thankyou_participating_subject_template', $_POST['questions_thankyou_participating_subject_template'] );
+		update_option( 'questions_invitation_subject_template', $_POST['questions_invitation_subject_template'] );
+		update_option( 'questions_reinvitation_subject_template', $_POST['questions_reinvitation_subject_template'] );
 		
-		update_option( 'surveyval_thankyou_participating_text_template', $_POST['surveyval_thankyou_participating_text_template'] );
-		update_option( 'surveyval_invitation_text_template', $_POST['surveyval_invitation_text_template'] );
-		update_option( 'surveyval_reinvitation_text_template', $_POST['surveyval_reinvitation_text_template'] );
+		update_option( 'questions_thankyou_participating_text_template', $_POST['questions_thankyou_participating_text_template'] );
+		update_option( 'questions_invitation_text_template', $_POST['questions_invitation_text_template'] );
+		update_option( 'questions_reinvitation_text_template', $_POST['questions_reinvitation_text_template'] );
 		
-		update_option( 'surveyval_mail_from_name', $_POST['surveyval_mail_from_name'] );
-		update_option( 'surveyval_mail_from_email', $_POST['surveyval_mail_from_email'] );
+		update_option( 'questions_mail_from_name', $_POST['questions_mail_from_name'] );
+		update_option( 'questions_mail_from_email', $_POST['questions_mail_from_email'] );
 	}
 
 	public function dublicate_survey(){
 		$survey_id =  $_REQUEST['survey_id'];
 		$survey = get_post( $survey_id );
 		
-		if( 'surveyval' != $survey->post_type )
+		if( 'questions' != $survey->post_type )
 			return;
 		
-		$survey = new SurveyVal_PostSurvey( $survey_id );
+		$survey = new questions_PostSurvey( $survey_id );
 		$new_survey_id = $survey->dublicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 		
 		$post = get_post( $new_survey_id );
@@ -841,24 +842,24 @@ class SurveyVal_Admin extends SurveyVal_Component{
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts(){
-		if( !$this->is_surveyval_post_type() )
+		if( !$this->is_questions_post_type() )
 			return;
 		
 		$translation_admin = array( 
-			'delete' => __( 'Delete', 'surveyval-locale' ),
-			'yes' => __( 'Yes', 'surveyval-locale' ),
-			'no' => __( 'No', 'surveyval-locale' ),
-			'just_added' => __( 'just added', 'surveyval-locale' ),
-			'invitations_sent_successfully' => __( 'Invitations sent successfully!', 'surveyval-locale' ),
-			'invitations_not_sent_successfully' => __( 'Invitations could not be sent!', 'surveyval-locale' ),
-			'reinvitations_sent_successfully' => __( 'Renvitations sent successfully!', 'surveyval-locale' ),
-			'reinvitations_not_sent_successfully' => __( 'Renvitations could not be sent!', 'surveyval-locale' ),
-			'dublicate_survey_successfully' => __( 'Survey dublicated successfully!', 'surveyval-locale' ),
-			'edit_survey' => __( 'Edit Survey', 'surveyval-locale' ),
-			'added_participiants' => __( 'participiant/s', 'surveyval-locale' )
+			'delete' => __( 'Delete', 'questions-locale' ),
+			'yes' => __( 'Yes', 'questions-locale' ),
+			'no' => __( 'No', 'questions-locale' ),
+			'just_added' => __( 'just added', 'questions-locale' ),
+			'invitations_sent_successfully' => __( 'Invitations sent successfully!', 'questions-locale' ),
+			'invitations_not_sent_successfully' => __( 'Invitations could not be sent!', 'questions-locale' ),
+			'reinvitations_sent_successfully' => __( 'Renvitations sent successfully!', 'questions-locale' ),
+			'reinvitations_not_sent_successfully' => __( 'Renvitations could not be sent!', 'questions-locale' ),
+			'dublicate_survey_successfully' => __( 'Survey dublicated successfully!', 'questions-locale' ),
+			'edit_survey' => __( 'Edit Survey', 'questions-locale' ),
+			'added_participiants' => __( 'participiant/s', 'questions-locale' )
 		);
 		
-		wp_enqueue_script( 'admin-surveyval-post-type', SURVEYVAL_URLPATH . '/components/admin/includes/js/admin-surveyval-post-type.js' );
+		wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/admin/includes/js/admin-questions-post-type.js' );
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
 		wp_enqueue_script( 'jquery-ui-dialog' );
@@ -866,11 +867,11 @@ class SurveyVal_Admin extends SurveyVal_Component{
 		wp_enqueue_script( 'admin-widgets' );
 		wp_enqueue_script( 'wpdialogs-popup' );
 		
-    	wp_localize_script( 'admin-surveyval-post-type', 'translation_admin', $translation_admin );
+    	wp_localize_script( 'admin-questions-post-type', 'translation_admin', $translation_admin );
 		
 		if ( wp_is_mobile() )
 			wp_enqueue_script( 'jquery-touch-punch' );
 	}
 }
 
-$SurveyVal_Admin = new SurveyVal_Admin();
+$Questions_Admin = new Questions_Admin();

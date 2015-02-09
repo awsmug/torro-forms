@@ -1,7 +1,7 @@
 <?php
 /**
 * @package WordPress
-* @subpackage SurveyVal
+* @subpackage Questions
 * @author Sven Wagener
 * @copyright 2014, Rheinschmiede
 * @link http://rheinschmiede.de
@@ -11,13 +11,13 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
+class Questions_SurveyElement_OneChoice extends Questions_SurveyElement{
 	
 	public function __construct( $id = NULL ){
 		$this->slug = 'OneChoice';
-		$this->title = __( 'One Choice', 'surveyval-locale' );
-		$this->description = __( 'Add a question which can be answered by selecting one of the given answers.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-onechoice.png';
+		$this->title = __( 'One Choice', 'questions-locale' );
+		$this->description = __( 'Add a question which can be answered by selecting one of the given answers.', 'questions-locale' );
+		$this->icon = QUESTIONS_URLPATH . '/assets/images/icon-onechoice.png';
 		
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
@@ -31,7 +31,7 @@ class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 	
 	public function input_html(){
 		if( !is_array( $this->answers )  && count( $this->answers ) == 0 )
-			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'surveyval-locale' ) . '</p>';
+			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'questions-locale' ) . '</p>';
 		
 		$html = '';
 		foreach( $this->answers AS $answer ):
@@ -48,17 +48,19 @@ class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
-				'title'			=> __( 'Description', 'surveyval-locale' ),
+				'title'			=> __( 'Description', 'questions-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'The description will be shown after the question.', 'surveyval-locale' ),
+				'description' 	=> __( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'		=> ''
 			)
 		);
 	}
 
 	public function validate( $input ){
+		$error = FALSE;
+		
 		if( empty( $input ) ):
-			$this->validate_errors[] = sprintf( __( 'Please select a value.', 'surveyval-locale' ), $max_length );
+			$this->validate_errors[] = sprintf( __( 'Please select a value.', 'questions-locale' ) );
 			$error = TRUE;
 		endif;
 		
@@ -69,4 +71,4 @@ class SurveyVal_SurveyElement_OneChoice extends SurveyVal_SurveyElement{
 		return TRUE;
 	}
 }
-sv_register_survey_element( 'SurveyVal_SurveyElement_OneChoice' );
+qu_register_survey_element( 'Questions_SurveyElement_OneChoice' );

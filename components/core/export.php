@@ -5,7 +5,7 @@
  * This class creates the export
  *
  * @author rheinschmiede.de, Author <kontakt@rheinschmiede.de>
- * @package PluginName/Admin
+ * @package Questions/Admin
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@
  
 if ( !defined( 'ABSPATH' ) ) exit;
  
-class SurveyVal_Export{
+class Questions_Export{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -41,22 +41,22 @@ class SurveyVal_Export{
 	} // end constructor
 	
 	function add_export_link( $actions, $post ){
-		if( 'surveyval' != $post->post_type )
+		if( 'questions' != $post->post_type )
 			return $actions;
 		
-		$actions['export_results'] = sprintf( __( '<a href="%s">Export Results</a>', 'surveyval-locale' ), '?post_type=surveyval&export_survey_results=CSV&survey_id=' . $post->ID );
+		$actions['export_results'] = sprintf( __( '<a href="%s">Export Results</a>', 'questions-locale' ), '?post_type=questions&export_survey_results=CSV&survey_id=' . $post->ID );
 		
 		return $actions;
 	}
 	
 	function export(){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
 		if( array_key_exists( 'export_survey_results', $_GET ) && is_array( $_GET ) ):
 			$export_type = $_GET['export_survey_results'];
 			$survey_id = $_GET['survey_id'];
 			
-			$survey = new SurveyVal_Survey( $survey_id );
+			$survey = new Questions_Survey( $survey_id );
 			$export_filename = sanitize_title( $survey->title );
 			
 			header( "Pragma: public" );
@@ -87,7 +87,7 @@ class SurveyVal_Export{
 	}
 
 	public function get_csv( $response_array ){
-		$lines = SurveyVal_AbstractData::lines( $response_array );
+		$lines = Questions_AbstractData::lines( $response_array );
 		
 		// Running each question (element without separators etc)
 		if( is_array( $lines ) ):
@@ -102,4 +102,4 @@ class SurveyVal_Export{
 		endif;
 	}
 }
-$SurveyVal_Export = new SurveyVal_Export();
+$Questions_Export = new Questions_Export();

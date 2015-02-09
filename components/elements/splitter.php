@@ -1,7 +1,7 @@
 <?php
 /**
 * @package WordPress
-* @subpackage SurveyVal
+* @subpackage Questions
 * @author Sven Wagener
 * @copyright 2014, Rheinschmiede
 * @link http://rheinschmiede.de
@@ -11,13 +11,13 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_SurveyElement_Splitter extends SurveyVal_SurveyElement{
+class Questions_SurveyElement_Splitter extends Questions_SurveyElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'Splitter';
-		$this->title = __( 'Split Form', 'surveyval-locale' );
-		$this->description = __( 'Splits a form into several steps', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-split-form.png';
+		$this->title = __( 'Split Form', 'questions-locale' );
+		$this->description = __( 'Splits a form into several steps', 'questions-locale' );
+		$this->icon = QUESTIONS_URLPATH . '/assets/images/icon-split-form.png';
 		
 		$this->is_question = FALSE;
 		$this->splitter = TRUE;
@@ -31,7 +31,7 @@ class SurveyVal_SurveyElement_Splitter extends SurveyVal_SurveyElement{
 	public function get_html(){
 	}
 }
-sv_register_survey_element( 'SurveyVal_SurveyElement_Splitter' );
+qu_register_survey_element( 'Questions_SurveyElement_Splitter' );
 
 
 

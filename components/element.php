@@ -1,6 +1,6 @@
 <?php
 
-abstract class SurveyVal_SurveyElement{
+abstract class Questions_SurveyElement{
 	var $id = NULL;
 	var $slug;
 	var $title;
@@ -41,12 +41,12 @@ abstract class SurveyVal_SurveyElement{
 	}	
 	
 	public function _register() {
-		global $surveyval_global;
+		global $questions_global;
 		
 		if( TRUE == $this->initialized )
 			return FALSE;
 		
-		if( !is_object( $surveyval_global ) )
+		if( !is_object( $questions_global ) )
 			return FALSE;
 		
 		if( '' == $this->slug )
@@ -56,34 +56,34 @@ abstract class SurveyVal_SurveyElement{
 			$this->title = ucwords( get_class( $this ) );
 		
 		if( '' == $this->description )
-			$this->description =  __( 'This is a SurveyVal Survey Element.', 'surveyval-locale' );
+			$this->description =  __( 'This is a Questions Survey Element.', 'questions-locale' );
 		
-		if( array_key_exists( $this->slug, $surveyval_global->element_types ) )
+		if( array_key_exists( $this->slug, $questions_global->element_types ) )
 			return FALSE;
 		
-		if( !is_array( $surveyval_global->element_types ) )
-			$surveyval_global->element_types = array();
+		if( !is_array( $questions_global->element_types ) )
+			$questions_global->element_types = array();
 		
 		$this->initialized = TRUE;
 		
-		return $surveyval_global->add_survey_element( $this->slug, $this );
+		return $questions_global->add_survey_element( $this->slug, $this );
 	}
 	
 	private function populate( $id ){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
 		$this->reset();
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->questions} WHERE id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->questions} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 		
 		$this->id = $id;
 		$this->set_question( $row->question );
-		$this->surveyval_id = $row->surveyval_id;
+		$this->questions_id = $row->questions_id;
 		
 		$this->sort = $row->sort;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->answers} WHERE question_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->answers} WHERE question_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 				
 		if( is_array( $results ) ):
@@ -93,7 +93,7 @@ abstract class SurveyVal_SurveyElement{
 		endif;
 		
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->settings} WHERE question_id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->settings} WHERE question_id = %s", $id );
 		$results = $wpdb->get_results( $sql );
 				
 		if( is_array( $results ) ):
@@ -135,12 +135,14 @@ abstract class SurveyVal_SurveyElement{
 	}
 	
 	public function before_question(){
-		return $html;
+		return '';
 	}
 	
 	public function after_question(){
+		$html = '';
+		
 		if( !empty( $this->settings[ 'description' ] ) ):
-			$html = '<p class="surveyval-element-description">';
+			$html = '<p class="questions-element-description">';
 			$html.= $this->settings[ 'description' ];
 			$html.= '</p>';
 		endif;
@@ -149,19 +151,19 @@ abstract class SurveyVal_SurveyElement{
 	}
 	
 	public function before_answers(){
-		return $html;
+		return '';
 	}
 	
 	public function after_answers(){
-		return $html;
+		return '';
 	}
 	
 	public function before_answer(){
-		return $html;
+		return '';
 	}
 	
 	public function after_answer(){
-		return $html;
+		return '';
 	}
 
 	public function settings_fields(){
@@ -172,7 +174,7 @@ abstract class SurveyVal_SurveyElement{
 	}
 	
 	public function draw(){
-		global $surveyval_response_errors;
+		global $questions_response_errors;
 		
 		if( '' == $this->question && $this->is_question )
 			return FALSE;
@@ -180,31 +182,31 @@ abstract class SurveyVal_SurveyElement{
 		if( 0 == count( $this->answers )  && $this->preset_of_answers == TRUE )
 			return FALSE;
 		
-		$errors = $surveyval_response_errors[ $this->id ];
+		$errors = '';
+		if( is_array( $questions_response_errors ) && array_key_exists( $this->id, $questions_response_errors ) )
+			$errors = $questions_response_errors[ $this->id ];
 		
 		$html = '';
 		
-		$html = apply_filters( 'surveyval_draw_element_outer_start', $html, $this );
+		$html = apply_filters( 'questions_draw_element_outer_start', $html, $this );
 
 		$element_classes = array( 'survey-element', 'survey-element-' . $this->id );
-		$element_classes = apply_filters( 'surveyval_element_classes', $element_classes , $this );
+		$element_classes = apply_filters( 'questions_element_classes', $element_classes , $this );
 		
 		$html.= '<div class="' . implode( ' ', $element_classes ) . '">';
 		
-		$html = apply_filters( 'surveyval_draw_element_inner_start', $html, $this );
+		$html = apply_filters( 'questions_draw_element_inner_start', $html, $this );
 		
 		// Echo Errors
-		if( count( $errors ) > 0 ):
-			$html.= '<div class="surveyval-element-error">';
-			$html.= '<div class="surveyval-element-error-message">';
-			$html.= '<ul class="surveyval-error-messages">';
+		if( is_array( $errors ) && count( $errors ) > 0 ):
+			$html.= '<div class="questions-element-error">';
+			$html.= '<div class="questions-element-error-message">';
+			$html.= '<ul class="questions-error-messages">';
 			foreach( $errors AS $error ):
 				$html.= '<li>' . $error . '</li>';
 			endforeach;
-			$html = apply_filters( 'surveyval_draw_element_errors', $html, $this );
-			$html.= '</ul>';
-			
-			$html.= '</div>';
+			$html = apply_filters( 'questions_draw_element_errors', $html, $this );
+			$html.= '</ul></div>';
 		endif;
 		
 		if( !empty( $this->question ) ):
@@ -226,21 +228,21 @@ abstract class SurveyVal_SurveyElement{
 		$html.= '</div>';
 		
 		// End Echo Errors
-		if( count( $errors ) > 0 ):
+		if( is_array( $errors ) && count( $errors ) > 0 ):
 			$html.= '</div>';
 		endif;
 		
-		$html = apply_filters( 'surveyval_draw_element_inner_end', $html, $this );
+		$html = apply_filters( 'questions_draw_element_inner_end', $html, $this );
 		
 		$html.= '</div>';
 		
-		$html = apply_filters( 'surveyval_draw_element_outer_end', $html, $this );
+		$html = apply_filters( 'questions_draw_element_outer_end', $html, $this );
 		
 		return $html;
 	}
 
 	public function input_html(){
-		return '<p>' . __( 'No HTML for Element given. Please check element sourcecode.', 'surveyval-locale' ) . '</p>';
+		return '<p>' . __( 'No HTML for Element given. Please check element sourcecode.', 'questions-locale' ) . '</p>';
 	}
 
 	public function draw_admin(){
@@ -270,12 +272,12 @@ abstract class SurveyVal_SurveyElement{
 		$title = empty( $this->question ) ? $this->title : $this->question;
 		
 		// Widget Head
-		$html = '<div class="widget-top surveyval-admin-qu-text">';
+		$html = '<div class="widget-top questions-admin-qu-text">';
 			$html.= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 			$html.= '<div class="widget-title">';
 			
 				if( '' != $this->icon ):
-					$html.= '<img class="surveyval-widget-icon" src ="' . $this->icon . '" />';
+					$html.= '<img class="questions-widget-icon" src ="' . $this->icon . '" />';
 				endif;
 				$html.= '<h4>' . $title . '</h4>';
 				
@@ -313,15 +315,15 @@ abstract class SurveyVal_SurveyElement{
 					$html.= '<ul class="tabs">';
 						// If Element is Question > Show question tab
 						if( $this->is_question )
-							$html.= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . __( 'Question', 'surveyval-locale' ) . '</a></li>';
+							$html.= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . __( 'Question', 'questions-locale' ) . '</a></li>';
 						
 						// If Element has settings > Show settings tab
 						if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 )
-							$html.= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . __( 'Settings', 'surveyval-locale' ) . '</a></li>';
+							$html.= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . __( 'Settings', 'questions-locale' ) . '</a></li>';
 						
 						// Adding further tabs
 						ob_start();
-						do_action( 'surveyval_element_admin_tabs', $this );
+						do_action( 'questions_element_admin_tabs', $this );
 						$html.= ob_get_clean();
 					
 					$html.= '</ul>';
@@ -349,14 +351,14 @@ abstract class SurveyVal_SurveyElement{
 					// Adding action Buttons
 					$bottom_buttons = apply_filters( 'sv_element_bottom_actions', array(
 						'delete_survey_element' => array(
-							'text' => __( 'Delete element', 'surveyval-locale' ),
+							'text' => __( 'Delete element', 'questions-locale' ),
 							'classes' => 'delete_survey_element'
 						)
 					));
 					
 					// Adding further content
 					ob_start();
-					do_action( 'surveyval_element_admin_tabs_content', $this );
+					do_action( 'questions_element_admin_tabs_content', $this );
 					$html.= ob_get_clean();
 					
 					$html.= $this->admin_widget_action_buttons();
@@ -373,7 +375,7 @@ abstract class SurveyVal_SurveyElement{
 		$widget_id = $this->admin_get_widget_id();
 		
 		// Question
-		$html = '<p><input type="text" name="surveyval[' . $widget_id . '][question]" value="' . $this->question . '" class="surveyval-question" /><p>';
+		$html = '<p><input type="text" name="questions[' . $widget_id . '][question]" value="' . $this->question . '" class="questions-question" /><p>';
 		
 		// Answers
 		if( $this->preset_of_answers ):
@@ -381,7 +383,7 @@ abstract class SurveyVal_SurveyElement{
 			// Answers have sections
 			if( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ):
 				foreach( $this->sections as $section_key => $section_name ):
-					$html.= '<div class="surveyval-section" id="section_' . $section_key . '">';
+					$html.= '<div class="questions-section" id="section_' . $section_key . '">';
 					$html.= '<p>' . $section_name . '</p>';
 					$html.= $this->admin_widget_question_tab_answers( $section_key );
 					$html.= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
@@ -389,7 +391,7 @@ abstract class SurveyVal_SurveyElement{
 				endforeach;
 			// Answers without sections
 			else:
-				$html.= '<p>' . __( 'Answer/s:', 'surveyval-locale' ) . '</p>';
+				$html.= '<p>' . __( 'Answer/s:', 'questions-locale' ) . '</p>';
 				$html.= $this->admin_widget_question_tab_answers();
 			endif;
 		
@@ -423,7 +425,7 @@ abstract class SurveyVal_SurveyElement{
 					
 					switch( $param ){
 						case 'name':
-								$param_value = 'surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
+								$param_value = 'questions[' . $widget_id . '][answers][id_' . $answer['id'] . '][answer]';
 							break;
 							
 						case 'value':
@@ -442,12 +444,12 @@ abstract class SurveyVal_SurveyElement{
 				
 				$html.= '<div class="answer' . $answer_classes .'" id="answer_' . $answer['id'] . '">';
 				$html.= call_user_func_array( 'sprintf', $param_arr );
-				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
+				$html.= ' <input type="button" value="' . __( 'Delete', 'questions-locale' ) . '" class="delete_answer button answer_action">';
+				$html.= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer['id'] . '][id]" value="' . $answer['id'] . '" />';
+				$html.= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer['id'] . '][sort]" value="' . $answer['sort'] . '" />';
 				
 				if( NULL != $section )
-					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][id_' . $answer['id'] . '][section]" value="' . $section . '" />';
+					$html.= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer['id'] . '][section]" value="' . $section . '" />';
 				
 				$html.= '</div>';
 				
@@ -465,7 +467,7 @@ abstract class SurveyVal_SurveyElement{
 				foreach ( $this->create_answer_params AS $param ):
 					switch( $param ){
 						case 'name':
-								$param_value = 'surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]';
+								$param_value = 'questions[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]';
 							break;
 							
 						case 'value':
@@ -485,11 +487,11 @@ abstract class SurveyVal_SurveyElement{
 				$html.= '<div class="answers">';
 				$html.= '<div class="answer ' . $answer_classes .'" id="answer_' . $temp_answer_id . '">';
 				$html.= call_user_func_array( 'sprintf', $param_arr );
-				$html.= ' <input type="button" value="' . __( 'Delete', 'surveyval-locale' ) . '" class="delete_answer button answer_action">';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
-				$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
+				$html.= ' <input type="button" value="' . __( 'Delete', 'questions-locale' ) . '" class="delete_answer button answer_action">';
+				$html.= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
+				$html.= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
 				if( NULL != $section )
-					$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . $section . '" />';
+					$html.= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . $section . '" />';
 				
 				$html.= '</div>';
 				$html.= '</div><div class="clear"></div>';
@@ -499,7 +501,7 @@ abstract class SurveyVal_SurveyElement{
 		endif;
 		
 		if( $this->preset_is_multiple )
-			$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'surveyval-locale' ). ' </a>';
+			$html.= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __( 'Add Answer', 'questions-locale' ). ' </a>';
 		
 		return $html;
 	}
@@ -523,7 +525,7 @@ abstract class SurveyVal_SurveyElement{
 		if( empty( $value ) )
 			$value = $field['default'];
 			
-		$name = 'surveyval[' . $widget_id . '][settings][' . $name . ']';
+		$name = 'questions[' . $widget_id . '][settings][' . $name . ']';
 		
 		switch( $field['type'] ){
 			case 'text':
@@ -574,7 +576,7 @@ abstract class SurveyVal_SurveyElement{
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'sv_element_bottom_actions', array(
 			'delete_survey_element' => array(
-				'text' => __( 'Delete element', 'surveyval-locale' ),
+				'text' => __( 'Delete element', 'questions-locale' ),
 				'classes' => 'delete_survey_element'
 			)
 		));
@@ -592,27 +594,27 @@ abstract class SurveyVal_SurveyElement{
 		$widget_id = $this->admin_get_widget_id();
 		
 		// Adding hidden Values for element
-		$html = '<input type="hidden" name="surveyval[' . $widget_id . '][id]" value="' . $this->id . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][type]" value="' . $this->slug . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_is_multiple]" value="' . ( $this->preset_is_multiple ? 'yes' : 'no' ) . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][preset_of_answers]" value="' . ( $this->preset_of_answers ? 'yes' : 'no' ) . '" />';
-		$html.= '<input type="hidden" name="surveyval[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0  ? 'yes' : 'no' ) . '" />';
+		$html = '<input type="hidden" name="questions[' . $widget_id . '][id]" value="' . $this->id . '" />';
+		$html.= '<input type="hidden" name="questions[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
+		$html.= '<input type="hidden" name="questions[' . $widget_id . '][type]" value="' . $this->slug . '" />';
+		$html.= '<input type="hidden" name="questions[' . $widget_id . '][preset_is_multiple]" value="' . ( $this->preset_is_multiple ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="questions[' . $widget_id . '][preset_of_answers]" value="' . ( $this->preset_of_answers ? 'yes' : 'no' ) . '" />';
+		$html.= '<input type="hidden" name="questions[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0  ? 'yes' : 'no' ) . '" />';
 		
 		return $html;		
 	}
 
 	private function get_response(){
-		global $surveyval_survey_id;
+		global $questions_survey_id;
 		
 		$this->response = FALSE;
 		
 		// Getting value/s
-		if( !empty( $surveyval_survey_id ) ):
-			if( isset( $_SESSION[ 'surveyval_response' ] ) ):
-				if( isset( $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ] ) ):
-					if( isset( $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ][ $this->id ] ) ):
-						$this->response = $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ][ $this->id ];
+		if( !empty( $questions_survey_id ) ):
+			if( isset( $_SESSION[ 'questions_response' ] ) ):
+				if( isset( $_SESSION[ 'questions_response' ][ $questions_survey_id ] ) ):
+					if( isset( $_SESSION[ 'questions_response' ][ $questions_survey_id ][ $this->id ] ) ):
+						$this->response = $_SESSION[ 'questions_response' ][ $questions_survey_id ][ $this->id ];
 					endif;
 				endif;
 			endif;
@@ -622,13 +624,13 @@ abstract class SurveyVal_SurveyElement{
 	}
 	
 	public function get_input_name(){
-		return 'surveyval_response[' . $this->id . ']';
+		return 'questions_response[' . $this->id . ']';
 	}
 	
 	public function get_responses(){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} AS r, {$surveyval_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->responds} AS r, {$questions_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
 		$responses = $wpdb->get_results( $sql );
 		
 		$result_answers = array();
@@ -684,7 +686,7 @@ abstract class SurveyVal_SurveyElement{
  * @param string Name of the element type class.
  * @return bool|null Returns false on failure, otherwise null.
  */
-function sv_register_survey_element( $element_type_class ) {
+function qu_register_survey_element( $element_type_class ) {
 	if ( ! class_exists( $element_type_class ) )
 		return false;
 	

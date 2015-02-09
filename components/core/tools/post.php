@@ -1,6 +1,6 @@
 <?php
 
-class SurveyVal_Post{
+class Questions_Post{
 	var $post_id;
 	var $post;
 	var $meta;

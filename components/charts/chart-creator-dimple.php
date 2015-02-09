@@ -5,7 +5,7 @@
  * This class shows charts by charts.js
  *
  * @author rheinschmiede.de, Author <kontakt@rheinschmiede.de>
- * @package Surveyval/Data
+ * @package Questions/Data
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@
  
 if ( !defined( 'ABSPATH' ) ) exit;
  
-class SurveyVal_ChartCreator_Dimple{
+class Questions_ChartCreator_Dimple{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -53,8 +53,8 @@ class SurveyVal_ChartCreator_Dimple{
 		$width = $atts[ 'width' ];
 		$height = $atts[ 'height' ];
 		
-		$answer_text = __( 'Answer', 'surveyval-locale' );
-		$value_text = __( 'Votes', 'surveyval-locale' );
+		$answer_text = __( 'Answer', 'questions-locale' );
+		$value_text = __( 'Votes', 'questions-locale' );
 		
 		$data = self::prepare_data( $answers, $answer_text, $value_text );
 		

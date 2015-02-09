@@ -5,7 +5,7 @@
  * This class initializes the component.
  *
  * @author rheinschmiede.de, Author <kontakt@rheinschmiede.de>
- * @package PluginName/Admin
+ * @package Questions/Admin
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
@@ -30,15 +30,15 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_Core extends SurveyVal_Component{
+class Questions_Core extends Questions_Component{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'SurveyValCore';
-		$this->title = __( 'Core', 'surveyval-locale' );
-		$this->description = __( 'Core functions of the SurveyVal Plugin', 'surveyval-locale' );
+		$this->name = 'QuestionsCore';
+		$this->title = __( 'Core', 'questions-locale' );
+		$this->description = __( 'Core functions of the Questions Plugin', 'questions-locale' );
 		$this->turn_off = FALSE;
 		
 		$this->slug = 'survey';
@@ -61,45 +61,45 @@ class SurveyVal_Core extends SurveyVal_Component{
 			'show_in_nav_menus' => TRUE,
 		    'hierarchical' => TRUE,
 		    'labels' => array(
-				'name' => _x( 'Categories', 'taxonomy general name', 'surveyval-locale' ),
-			    'singular_name' => _x( 'Category', 'taxonomy singular name', 'surveyval-locale' ),
-			    'search_items' =>  __( 'Search Categories', 'surveyval-locale' ),
-			    'all_items' => __( 'All Categories', 'surveyval-locale' ),
-			    'parent_item' => __( 'Parent Category', 'surveyval-locale' ),
-			    'parent_item_colon' => __( 'Parent Category:', 'surveyval-locale' ),
-			    'edit_item' => __( 'Edit Category', 'surveyval-locale' ), 
-			    'update_item' => __( 'Update Category', 'surveyval-locale' ),
-			    'add_new_item' => __( 'Add New Category', 'surveyval-locale' ),
-			    'new_item_name' => __( 'New Category', 'surveyval-locale' ),
-			    'menu_name' => __( 'Categories', 'surveyval-locale' ),
+				'name' => _x( 'Categories', 'taxonomy general name', 'questions-locale' ),
+			    'singular_name' => _x( 'Category', 'taxonomy singular name', 'questions-locale' ),
+			    'search_items' =>  __( 'Search Categories', 'questions-locale' ),
+			    'all_items' => __( 'All Categories', 'questions-locale' ),
+			    'parent_item' => __( 'Parent Category', 'questions-locale' ),
+			    'parent_item_colon' => __( 'Parent Category:', 'questions-locale' ),
+			    'edit_item' => __( 'Edit Category', 'questions-locale' ), 
+			    'update_item' => __( 'Update Category', 'questions-locale' ),
+			    'add_new_item' => __( 'Add New Category', 'questions-locale' ),
+			    'new_item_name' => __( 'New Category', 'questions-locale' ),
+			    'menu_name' => __( 'Categories', 'questions-locale' ),
 			),
 		    'show_ui' => TRUE,
 		    'query_var' => TRUE,
 		    'rewrite' => TRUE,
 		);
 		
-		register_taxonomy( 'surveyval-categories', array( 'surveyval' ), $args_taxonomy );
+		register_taxonomy( 'questions-categories', array( 'questions' ), $args_taxonomy );
 		
 		/**
 		 * Post Types
 		 */
 		$args_post_type = array(
 			'labels' => array(
-				'name' => __( 'Surveys', 'surveyval-locale' ),
-				'singular_name' => __( 'Survey', 'surveyval-locale' ),
-				'all_items' => __( 'All Surveys', 'surveyval-locale' ),
-				'add_new_item' => __( 'Add new Survey', 'surveyval-locale' ),
-				'edit_item' => __( 'Edit Survey', 'surveyval-locale' ),
-				'new_item' => __( 'Add new Survey', 'surveyval-locale' ),
-				'view_item' => __( 'View Survey', 'surveyval-locale' ),
-				'search_items' => __( 'Search Survey', 'surveyval-locale' ),
-				'not_found' => __( 'No Survey available', 'surveyval-locale' ),
-				'not_found_in_trash' => __( 'No Survey available', 'surveyval-locale' )
+				'name' => __( 'Surveys', 'questions-locale' ),
+				'singular_name' => __( 'Survey', 'questions-locale' ),
+				'all_items' => __( 'All Surveys', 'questions-locale' ),
+				'add_new_item' => __( 'Add new Survey', 'questions-locale' ),
+				'edit_item' => __( 'Edit Survey', 'questions-locale' ),
+				'new_item' => __( 'Add new Survey', 'questions-locale' ),
+				'view_item' => __( 'View Survey', 'questions-locale' ),
+				'search_items' => __( 'Search Survey', 'questions-locale' ),
+				'not_found' => __( 'No Survey available', 'questions-locale' ),
+				'not_found_in_trash' => __( 'No Survey available', 'questions-locale' )
 			),
 			'public' => TRUE,
 			'has_archive' => TRUE,
 			'supports' => array( 'title' ),
-			'show_in_menu'  => 'ComponentSurveyValAdmin',
+			'show_in_menu'  => 'ComponentQuestionsAdmin',
 			'show_in_nav_menus' => FALSE,
 			'rewrite' => array(
 	            'slug' => $this->slug,
@@ -108,17 +108,17 @@ class SurveyVal_Core extends SurveyVal_Component{
 				
 		); 
 		
-		register_post_type( 'surveyval', $args_post_type );
+		register_post_type( 'questions', $args_post_type );
 	}
 
 	public function includes(){
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/surveyval.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/shortcodes.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/process-response.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/export.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/tools/post.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/core/tools/survey.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/questions.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/shortcodes.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/process-response.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/tools/post.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/tools/survey.php' );
 	}
 	
 }
-$SurveyVal_Core = new SurveyVal_Core();
+$Questions_Core = new Questions_Core();

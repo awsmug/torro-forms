@@ -1,7 +1,7 @@
 <?php
 /**
 * @package WordPress
-* @subpackage SurveyVal
+* @subpackage Questions
 * @author Sven Wagener
 * @copyright 2014, Rheinschmiede
 * @link http://rheinschmiede.de
@@ -11,13 +11,13 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
+class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'MultipleChoice';
-		$this->title = __( 'Multiple Choice', 'surveyval-locale' );
-		$this->description = __( 'Add a question which can be answered by selecting one ore more given answers.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-multiplechoice.png';
+		$this->title = __( 'Multiple Choice', 'questions-locale' );
+		$this->description = __( 'Add a question which can be answered by selecting one ore more given answers.', 'questions-locale' );
+		$this->icon = QUESTIONS_URLPATH . '/assets/images/icon-multiplechoice.png';
 		
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
@@ -31,7 +31,7 @@ class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
 	
 	public function input_html(){
 		if( !is_array( $this->answers )  && count( $this->answers ) == 0 )
-			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'surveyval-locale' ) . '</p>';
+			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'questions-locale' ) . '</p>';
 		
 		$html = '';
 		foreach( $this->answers AS $answer ):
@@ -49,21 +49,21 @@ class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
-				'title'			=> __( 'Description', 'surveyval-locale' ),
+				'title'			=> __( 'Description', 'questions-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'The description will be shown after the question.', 'surveyval-locale' ),
+				'description' 	=> __( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'		=> ''
 			),
 			'min_answers' => array(
-				'title'			=> __( 'Minimum Answers', 'surveyval-locale' ),
+				'title'			=> __( 'Minimum Answers', 'questions-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'The minimum number of answers which have to be choosed.', 'surveyval-locale' ),
+				'description' 	=> __( 'The minimum number of answers which have to be choosed.', 'questions-locale' ),
 				'default'		=> '1'
 			), 
 			'max_answers' => array(
-				'title'			=> __( 'Maximum Answers', 'surveyval-locale' ),
+				'title'			=> __( 'Maximum Answers', 'questions-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'The maximum number of answers which can be choosed.', 'surveyval-locale' ),
+				'description' 	=> __( 'The maximum number of answers which can be choosed.', 'questions-locale' ),
 				'default'		=> '3'
 			), 
 		);
@@ -76,14 +76,14 @@ class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
 		$error = FALSE;
 		
 		if( !empty( $min_answers ) )
-			if( count( $input ) < $min_answers ):
-				$this->validate_errors[] = __( 'Too less choices.', 'surveyval-locale' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'surveyval-locale' ), $min_answers, $max_answers );
+			if( !is_array( $input ) || count( $input ) < $min_answers ):
+				$this->validate_errors[] = __( 'Too less choices.', 'questions-locale' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers, $max_answers );
 				$error = TRUE;
 			endif;
 		
 		if( !empty( $max_answers ) )		
-			if( count( $input ) > $max_answers ):
-				$this->validate_errors[] = __( 'Too many choices.', 'surveyval-locale' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'surveyval-locale' ), $min_answers, $max_answers );
+			if( is_array( $input ) && count( $input ) > $max_answers ):
+				$this->validate_errors[] = __( 'Too many choices.', 'questions-locale' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers, $max_answers );
 				$error = TRUE;
 			endif;
 			
@@ -94,4 +94,4 @@ class SurveyVal_SurveyElement_MultipleChoice extends SurveyVal_SurveyElement{
 		return TRUE;
 	}
 }
-sv_register_survey_element( 'SurveyVal_SurveyElement_MultipleChoice' );
+qu_register_survey_element( 'Questions_SurveyElement_MultipleChoice' );

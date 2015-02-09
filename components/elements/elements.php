@@ -1,6 +1,6 @@
 <?php
 /*
- * Surveyval Base Elements
+ * Questions Base Elements
  *
  * This class initializes the component.
  *
@@ -30,15 +30,15 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_Elements extends SurveyVal_Component{
+class Questions_Elements extends Questions_Component{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'SurveyValElements';
-		$this->title = __( 'Elements', 'surveyval-locale' );
-		$this->description = __( 'Base Elements to put into surveys', 'surveyval-locale' );
+		$this->name = 'QuestionsElements';
+		$this->title = __( 'Elements', 'questions-locale' );
+		$this->description = __( 'Base Elements to put into surveys', 'questions-locale' );
 		$this->turn_off = FALSE;
 		
 		$this->slug = 'surveyelements';
@@ -48,15 +48,15 @@ class SurveyVal_Elements extends SurveyVal_Component{
 	} // end constructor
 	
 	public function includes(){
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/text.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/textarea.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/onechoice.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/multiplechoice.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/dropdown.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/separator.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/splitter.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/elements/description.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/text.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/textarea.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/onechoice.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/multiplechoice.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/dropdown.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/separator.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/splitter.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/description.php' );
 	}
 	
 }
-$SurveyVal_Elements = new SurveyVal_Elements();
+$Questions_Elements = new Questions_Elements();

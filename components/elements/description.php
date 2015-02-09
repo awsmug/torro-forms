@@ -1,7 +1,7 @@
 <?php
 /**
 * @package WordPress
-* @subpackage SurveyVal
+* @subpackage Questions
 * @author Sven Wagener
 * @copyright 2014, Rheinschmiede
 * @link http://rheinschmiede.de
@@ -11,13 +11,13 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_SurveyElement_Description extends SurveyVal_SurveyElement{
+class Questions_SurveyElement_Description extends Questions_SurveyElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'Description';
-		$this->title = __( 'Description', 'surveyval-locale' );
-		$this->description = __( 'Adds a text to the form.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-text.png';
+		$this->title = __( 'Description', 'questions-locale' );
+		$this->description = __( 'Adds a text to the form.', 'questions-locale' );
+		$this->icon = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
 		
 		$this->is_question = FALSE;
 		
@@ -35,15 +35,15 @@ class SurveyVal_SurveyElement_Description extends SurveyVal_SurveyElement{
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
-				'title'			=> __( 'Text to show', 'surveyval-locale' ),
+				'title'			=> __( 'Text to show', 'questions-locale' ),
 				'type'			=> 'textarea',
-				'description' 	=> __( 'The text which will be shown in the form.', 'surveyval-locale' ),
+				'description' 	=> __( 'The text which will be shown in the form.', 'questions-locale' ),
 				'default'		=> ''
 			)
 		);
 	}
 }
-sv_register_survey_element( 'SurveyVal_SurveyElement_Description' );
+qu_register_survey_element( 'Questions_SurveyElement_Description' );
 
 
 

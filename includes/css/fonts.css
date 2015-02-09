@@ -1,14 +1,14 @@
 @font-face { 
-  font-family: "surveyvalicons"; 
-  src: url("fonts/surveyval.eot"); 
-  src: url("fonts/surveyval.eot?#iefix") format("embedded-opentype"), 
-  	url("fonts/surveyval.woff") format("woff"), 
-  	url("fonts/surveyval.ttf") format("truetype"), 
-  	url("fonts/surveyval.svg#icons") format("svg"); 
+  font-family: "questionsicons"; 
+  src: url("fonts/questions.eot"); 
+  src: url("fonts/questions.eot?#iefix") format("embedded-opentype"), 
+  	url("fonts/questions.woff") format("woff"), 
+  	url("fonts/questions.ttf") format("truetype"), 
+  	url("fonts/questions.svg#icons") format("svg"); 
   font-weight: normal; 
   font-style: normal;
 }
-[class*="icon-surveyval-"] { 
+[class*="icon-questions-"] { 
   background-image: none; 
   display: inline; 
   font-size: 14px; 
@@ -18,8 +18,8 @@
   overflow: visible; 
   width: 14px;
 }
-[class*="icon-surveyval-"]::before {
-	font-family: surveyvalicons; 
+[class*="icon-questions-"]::before {
+	font-family: questionsicons; 
 }
 .hide {
   clip: rect(1px, 1px, 1px, 1px);
@@ -30,72 +30,72 @@
   width: 0;
 }
 /* Icons */
-.icon-surveyval-checkbox-01::before {
+.icon-questions-checkbox-01::before {
 	content: "\E801"; 
 }
-.icon-surveyval-checkbox-01-off::before {
+.icon-questions-checkbox-01-off::before {
 	content: "\E800"; 
 }
-.icon-surveyval-check-01::before {
+.icon-questions-check-01::before {
 	content: "\E803"; 
 }
-.icon-surveyval-check-02::before {
+.icon-questions-check-02::before {
 	content: "\E813"; 
 }
-.icon-surveyval-pie-01::before {
+.icon-questions-pie-01::before {
 	content: "\E804"; 
 }
-.icon-surveyval-pie-02::before {
+.icon-questions-pie-02::before {
 	content: "\E802"; 
 }
-.icon-surveyval-chart-01::before {
+.icon-questions-chart-01::before {
 	content: "\E805"; 
 }
-.icon-surveyval-chart-02::before {
+.icon-questions-chart-02::before {
 	content: "\E806"; 
 }
-.icon-surveyval-chart-03::before {
+.icon-questions-chart-03::before {
 	content: "\E807"; 
 }
-.icon-surveyval-code-01::before {
+.icon-questions-code-01::before {
 	content: "\E809"; 
 }
-.icon-surveyval-code-02::before {
+.icon-questions-code-02::before {
 	content: "\E809"; 
 }
-.icon-surveyval-refresh::before {
+.icon-questions-refresh::before {
 	content: "\E80B"; 
 }
-.icon-surveyval-download::before {
+.icon-questions-download::before {
 	content: "\E80C"; 
 }
-.icon-surveyval-skype::before {
+.icon-questions-skype::before {
 	content: "\E80D"; 
 }
-.icon-surveyval-youtube::before {
+.icon-questions-youtube::before {
 	content: "\E80F"; 
 }
-.icon-surveyval-wordpress::before {
+.icon-questions-wordpress::before {
 	content: "\E80D"; 
 }
-.icon-surveyval-facebook::before {
+.icon-questions-facebook::before {
 	content: "\E811"; 
 }
-.icon-surveyval-twitter::before {
+.icon-questions-twitter::before {
 	content: "\E812"; 
 }
-.icon-surveyval-googleplus::before {
+.icon-questions-googleplus::before {
 	content: "\E810"; 
 }
-.icon-surveyval-xing::before {
+.icon-questions-xing::before {
 	content: "\E814"; 
 }
-.icon-surveyval-linkedin::before {
+.icon-questions-linkedin::before {
 	content: "\E815"; 
 }
 
-#adminmenu #toplevel_page_ComponentSurveyValAdmin .dashicons-admin-generic:before{
-	font-family: surveyvalicons;
+#adminmenu #toplevel_page_ComponentQuestionsAdmin .dashicons-admin-generic:before{
+	font-family: questionsicons;
     content: "\E802";
     font-size: 22px;
     height: 22px;

@@ -1,18 +1,18 @@
 /* This stylesheet is used to style the admin option form of the plugin. */
-#surveyval-content{
+#questions-content{
 	margin-bottom:20px;
 }
-#surveyval-content #drag-drop-area {
+#questions-content #drag-drop-area {
 	height:auto;
 	min-height:200px;
 	-webkit-box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
   	border:1px solid #E5E5E5;
   	box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
 }
-#surveyval-content .drag-drop-info{
+#questions-content .drag-drop-info{
 	padding-bottom:65px;
 }
-#surveyval-content .widget{
+#questions-content .widget{
 	margin-bottom:10px;
 }
 #survey-elements .widget-title-action{
@@ -25,38 +25,38 @@
 	height: 0px;
 	overflow: hidden;
 }
-#surveyval-content input[type=text].surveyval-question{
+#questions-content input[type=text].questions-question{
 	width:100%;
 }
-#surveyval-content input[type=text]{
+#questions-content input[type=text]{
 	width:80%;
 }
-#surveyval-content textarea{
+#questions-content textarea{
 	width:80%;
 }
-#surveyval-content div.answer{
+#questions-content div.answer{
 }
-.surveyval-widget-icon{
+.questions-widget-icon{
 	float:left;
 	margin: 6px 0px 6px 6px;
 }
-#surveyval-content div.preset_is_multiple{
+#questions-content div.preset_is_multiple{
 	padding-left:20px;
 	background-image: url( '../../assets/images/icon-updown.png' );
 	background-repeat: no-repeat;
 	background-position: top 7px left 0;
 	cursor:move;
 }
-#surveyval-content .answers{
+#questions-content .answers{
 	margin-bottom: 15px;
 }
-#surveyval-content .answer{
+#questions-content .answer{
 	height: 40px;
 }
-#surveyval-content .answer p{
+#questions-content .answer p{
 	display: inline;
 }
-#surveyval-content .add-answer{
+#questions-content .add-answer{
 	font-weight: bold;
 	text-decoration: underline;
 	cursor:hand;
@@ -120,8 +120,8 @@
 /*
  * Buttons
  */
-#surveyval_participiants_select,
-#surveyval-participiants-restrictions-select{
+#questions_participiants_select,
+#questions-participiants-restrictions-select{
 	margin-bottom:10px;
 }
 #survey-participiants .button-loading{
@@ -140,44 +140,44 @@
 /* 
  * Participiants
  */
-.surveyval-participiant-new{
+.questions-participiant-new{
 	background-color: #7AD03A;
 }
-.surveyval-participiants-options-content{
+.questions-participiants-options-content{
 	border: 1px #DFDFDF solid;
 	background-color: #FDFDFD;
 	padding: 10px;
 	margin-bottom: 10px;
 }
-.surveyval-participiants-options-content h3,
-.surveyval-participiants-options-content h4,
-.surveyval-participiants-options-content h5{
+.questions-participiants-options-content h3,
+.questions-participiants-options-content h4,
+.questions-participiants-options-content h5{
 	margin: 0 0 10px 0;
 }
-.surveyval-function-element{
+.questions-function-element{
 	margin-bottom: 10px;
 }
-.surveyval-function-element .button{
+.questions-function-element .button{
 	width: 100%;
 }
-#surveyval-invite-subject{
+#questions-invite-subject{
 	width:100%;
 	display:none;
 	font-size:12px;
 }
-#surveyval-invite-text{
+#questions-invite-text{
 	width:100%;
 	min-height:200px;
 	margin-bottom:10px;
 	display:none;
 	font-size:12px;
 }
-#surveyval-reinvite-subject{
+#questions-reinvite-subject{
 	width:100%;
 	display:none;
 	font-size:12px;
 }
-#surveyval-reinvite-text{
+#questions-reinvite-text{
 	width:100%;
 	min-height:200px;
 	margin-bottom:10px;
@@ -202,18 +202,18 @@
 	border-left: 4px solid #2EA2CC;
 }
 
-#surveyval-invite-button-cancel,
-#surveyval-reinvite-button-cancel{
+#questions-invite-button-cancel,
+#questions-reinvite-button-cancel{
 	display:none;
 }
-#surveyval-settings .form-table .surveyval-text-template{
+#questions-settings .form-table .questions-text-template{
 	width:80%;
 	height:200px;
 }
 .settings-template-subject{
 	width:80%;
 }
-.surveyval-remove-all-participiants{
+.questions-remove-all-participiants{
     display: block;
     float: right;
     padding: 5px 10px;

@@ -1,7 +1,7 @@
 <?php
 /**
 * @package WordPress
-* @subpackage SurveyVal
+* @subpackage Questions
 * @author Sven Wagener
 * @copyright 2014, Rheinschmiede
 * @link http://rheinschmiede.de
@@ -11,13 +11,13 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_SurveyElement_Separator extends SurveyVal_SurveyElement{
+class Questions_SurveyElement_Separator extends Questions_SurveyElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'Separator';
-		$this->title = __( 'Separator', 'surveyval-locale' );
-		$this->description = __( 'Adds a optical separator (<hr>) between questions.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-separator.png';
+		$this->title = __( 'Separator', 'questions-locale' );
+		$this->description = __( 'Adds a optical separator (<hr>) between questions.', 'questions-locale' );
+		$this->icon = QUESTIONS_URLPATH . '/assets/images/icon-separator.png';
 		
 		$this->is_question = FALSE;
 		
@@ -38,15 +38,15 @@ class SurveyVal_SurveyElement_Separator extends SurveyVal_SurveyElement{
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'header' => array(
-				'title'			=> __( 'Headline', 'surveyval-locale' ),
+				'title'			=> __( 'Headline', 'questions-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'Text which will be shown above the separator', 'surveyval-locale' ),
+				'description' 	=> __( 'Text which will be shown above the separator', 'questions-locale' ),
 				'default'		=> ''
 			)
 		);
 	}
 }
-sv_register_survey_element( 'SurveyVal_SurveyElement_Separator' );
+qu_register_survey_element( 'Questions_SurveyElement_Separator' );
 
 
 

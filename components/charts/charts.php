@@ -5,7 +5,7 @@
  * This class initializes the component.
  *
  * @author rheinschmiede.de, Author <kontakt@rheinschmiede.de>
- * @package PluginName/Admin
+ * @package Questions/Admin
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_Charts extends SurveyVal_Component{
+class Questions_Charts extends Questions_Component{
 	var $notices = array();
 	
 	/**
@@ -40,9 +40,9 @@ class SurveyVal_Charts extends SurveyVal_Component{
 	function __construct() {
 		parent::__construct();
 		
-		$this->name = 'SurveyValCharts';
-		$this->title = __( 'Charts', 'surveyval-locale' );
-		$this->description = __( 'Showing Charts in SurveyVal.', 'surveyval-locale' );
+		$this->name = 'QuestionsCharts';
+		$this->title = __( 'Charts', 'questions-locale' );
+		$this->description = __( 'Showing Charts in Questions.', 'questions-locale' );
 		$this->required = TRUE;
 		$this->capability = 'edit_posts';
 		
@@ -55,15 +55,15 @@ class SurveyVal_Charts extends SurveyVal_Component{
 	} // end constructor
 	
 	public function includes(){
-		include( SURVEYVAL_COMPONENTFOLDER . '/charts/data-abstraction.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/charts/chart-creator-dimple.php' );
-		include( SURVEYVAL_COMPONENTFOLDER . '/charts/shortcodes.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/charts/data-abstraction.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/charts/chart-creator-dimple.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/charts/shortcodes.php' );
 	}
 	
 	public function register_component_scripts() {
-		wp_enqueue_script( 'surveyval-d3-js',  SURVEYVAL_URLPATH . '/components/charts/includes/3rdparty/d3/d3.js' );
-		wp_enqueue_script( 'surveyval-dimple-js',  SURVEYVAL_URLPATH . '/components/charts/includes/3rdparty/dimple/dimple.v2.1.0.js' );
+		wp_enqueue_script( 'questions-d3-js',  QUESTIONS_URLPATH . '/components/charts/includes/3rdparty/d3/d3.js' );
+		wp_enqueue_script( 'questions-dimple-js',  QUESTIONS_URLPATH . '/components/charts/includes/3rdparty/dimple/dimple.v2.1.0.js' );
 	}
 }
 
-$SurveyVal_Charts = new SurveyVal_Charts();
+$Questions_Charts = new Questions_Charts();

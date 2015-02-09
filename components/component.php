@@ -1,8 +1,8 @@
 <?php
 /*
- * SurveyVal main component class
+ * Questions main component class
  *
- * This class is the base for every SurveyVal Component.
+ * This class is the base for every Questions Component.
  *
  * @author rheinschmiede.de <kontakt@rehinschmiede.de>, Sven Wagener <sven.wagener@rehinschmiede.de>
  * @package Facebook Fanpage Import/Admin
@@ -29,7 +29,7 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-abstract class SurveyVal_Component{
+abstract class Questions_Component{
 	var $name;
 	var $title;
 	var $description;
@@ -41,17 +41,15 @@ abstract class SurveyVal_Component{
 	 * @since 1.0.0
 	 */
 	function __construct() {
-		global $surveyval_global;
+		global $questions_global;
 		
 		$this->name = get_class( $this );
 		add_action( 'plugins_loaded', array( $this, 'includes' ), 0 );
 		
 		$this->title = ucfirst( $this->name );
-		$this->description = __( 'This is a SurveyVal component.', 'surveyval-locale' );
+		$this->description = __( 'This is a Questions component.', 'questions-locale' );
 		$this->capability = 'read';
 		
 		$this->required = TRUE;
-		
-		// $surveyval->add_component( $slug, $this );
 	} // end constructor
 }

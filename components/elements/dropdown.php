@@ -1,7 +1,7 @@
 <?php
 /**
 * @package WordPress
-* @subpackage SurveyVal
+* @subpackage Questions
 * @author Sven Wagener
 * @copyright 2014, Rheinschmiede
 * @link http://rheinschmiede.de
@@ -11,13 +11,13 @@
 // No direct access is allowed
 if( ! defined( 'ABSPATH' ) ) exit;
 
-class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
+class Questions_SurveyElement_Dropdown extends Questions_SurveyElement{
 	
 	public function __construct( $id = null ){
 		$this->slug = 'Dropdown';
-		$this->title = __( 'Dropdown', 'surveyval-locale' );
-		$this->description = __( 'Add a question which can be answered within a dropdown field.', 'surveyval-locale' );
-		$this->icon = SURVEYVAL_URLPATH . '/assets/images/icon-dropdown.png';
+		$this->title = __( 'Dropdown', 'questions-locale' );
+		$this->description = __( 'Add a question which can be answered within a dropdown field.', 'questions-locale' );
+		$this->icon = QUESTIONS_URLPATH . '/assets/images/icon-dropdown.png';
 		
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
@@ -35,11 +35,11 @@ class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
 	
 	public function input_html(){
 		if( !is_array( $this->answers )  && count( $this->answers ) == 0 )
-			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'surveyval-locale' ) . '</p>';
+			return '<p>' . __( 'You don´t entered any answers. Please add some to display answers here.', 'questions-locale' ) . '</p>';
 			
 		
 		$html = '<select name="' . $this->get_input_name() . '">';
-			$html.= '<option value="please-select"> - ' . __( 'Please select', 'surveyval-locale' ) . ' -</option>';
+			$html.= '<option value="please-select"> - ' . __( 'Please select', 'questions-locale' ) . ' -</option>';
 		
 		foreach( $this->answers AS $answer ):
 			$checked = '';
@@ -58,9 +58,9 @@ class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
-				'title'			=> __( 'Description', 'surveyval-locale' ),
+				'title'			=> __( 'Description', 'questions-locale' ),
 				'type'			=> 'text',
-				'description' 	=> __( 'The description will be shown after the question.', 'surveyval-locale' ),
+				'description' 	=> __( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'		=> ''
 			),
 		);
@@ -70,7 +70,7 @@ class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
 		$error = FALSE;
 		
 		if( 'please-select' == $input ):
-			$this->validate_errors[] = sprintf( __( 'Please select a value.', 'surveyval-locale' ) );
+			$this->validate_errors[] = sprintf( __( 'Please select a value.', 'questions-locale' ) );
 			$error = TRUE;
 		endif;
 		
@@ -83,7 +83,7 @@ class SurveyVal_SurveyElement_Dropdown extends SurveyVal_SurveyElement{
 
 	
 }
-sv_register_survey_element( 'SurveyVal_SurveyElement_Dropdown' );
+qu_register_survey_element( 'Questions_SurveyElement_Dropdown' );
 
 
 

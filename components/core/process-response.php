@@ -30,9 +30,9 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-global $SurveyVal_ProcessResponse;
+global $Questions_ProcessResponse;
 
-class SurveyVal_ProcessResponse{
+class Questions_ProcessResponse{
 	var $survey_id;
 	var $response_errors = array();
 	var $finished = FALSE;
@@ -55,9 +55,9 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	public function the_content( $content ){
-		global $post, $surveyval_global;
+		global $post, $questions_global;
 		
-		if( 'surveyval' != $post->post_type )
+		if( 'questions' != $post->post_type )
 			return $content;
 		
 		$content = $this->show_survey( $post->ID );
@@ -69,7 +69,7 @@ class SurveyVal_ProcessResponse{
 	
 	private function show_survey( $survey_id ){
 		if( TRUE === $this->check_restrictions( $survey_id ) ):
-			return $this->show_survey_form( $survey_id );
+			return $this->survey_form( $survey_id );
 		else:
 			return $this->check_restrictions( $survey_id );
 		endif;
@@ -131,31 +131,28 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	private function survey_form( $survey_id ){
-		global $surveyval_response_errors, $surveyval_survey_id;
-		$surveyval_survey_id = $survey_id;
+		global $questions_response_errors, $questions_survey_id;
+		$questions_survey_id = $survey_id;
 		
 		do_action( 'before_survey_form' );
 		
-		if( array_key_exists( 'surveyval_next_step', $_POST ) && 0 == count( $surveyval_response_errors ) ):
-			$next_step = $_POST[ 'surveyval_next_step' ];
+		if( array_key_exists( 'questions_next_step', $_POST ) && 0 == count( $questions_response_errors ) ):
+			$next_step = $_POST[ 'questions_next_step' ];
 		else:
-			$next_step = $_POST[ 'surveyval_actual_step' ];
-		endif;
-		
-		if( array_key_exists( 'surveyval_submission_back', $_POST ) ):
-			$next_step = $_POST[ 'surveyval_actual_step' ] - 1;
-		endif;
-		
-		if( empty( $next_step ) )
 			$next_step = 0;
+		endif;
+		
+		if( array_key_exists( 'questions_submission_back', $_POST ) ):
+			$next_step = $_POST[ 'questions_actual_step' ] - 1;
+		endif;
 		
 		$actual_step = $next_step;
 		
-		$html = '<form name="surveyval" id="surveyval" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
+		$html = '<form name="questions" id="questions" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
 		
 		$step_count = $this->get_step_count( $survey_id );
 		
-		$html.= '<div class="surveyval-description">' . sprintf( __( 'Step <span class="surveyval-highlight-number">%d</span> of <span class="surveyval-highlight-number">%s</span>', 'surveyval-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
+		$html.= '<div class="questions-description">' . sprintf( __( 'Step <span class="questions-highlight-number">%d</span> of <span class="questions-highlight-number">%s</span>', 'questions-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		
 		$elements = $this->get_elements( $survey_id, $actual_step );
 		
@@ -173,18 +170,18 @@ class SurveyVal_ProcessResponse{
 		endif;
 		
 		if( 0 < $actual_step ):
-			$html.= '<input type="submit" name="surveyval_submission_back" value="' . __( 'Previous Step', 'surveyval-locale' ) . '"> ';
+			$html.= '<input type="submit" name="questions_submission_back" value="' . __( 'Previous Step', 'questions-locale' ) . '"> ';
 		endif;
 		
 		if( $actual_step == $next_step ):
-			$html.= '<input type="submit" name="surveyval_submission" value="' . __( 'Finish Survey', 'surveyval-locale' ) . '">';
+			$html.= '<input type="submit" name="questions_submission" value="' . __( 'Finish Survey', 'questions-locale' ) . '">';
 		else:
-			$html.= '<input type="submit" name="surveyval_submission" value="' . __( 'Next Step', 'surveyval-locale' ) . '">';
+			$html.= '<input type="submit" name="questions_submission" value="' . __( 'Next Step', 'questions-locale' ) . '">';
 		endif;
 		
-		$html.= '<input type="hidden" name="surveyval_next_step" value="' . $next_step . '" />';
-		$html.= '<input type="hidden" name="surveyval_actual_step" value="' . $actual_step . '" />';
-		$html.= '<input type="hidden" name="surveyval_id" value="' . $survey_id . '" />';
+		$html.= '<input type="hidden" name="questions_next_step" value="' . $next_step . '" />';
+		$html.= '<input type="hidden" name="questions_actual_step" value="' . $actual_step . '" />';
+		$html.= '<input type="hidden" name="questions_id" value="' . $survey_id . '" />';
 		
 		$html.= '</form>';
 		
@@ -202,16 +199,16 @@ class SurveyVal_ProcessResponse{
 		
 		$can_participate = TRUE;
 		
-		return apply_filters( 'surveyval_user_can_participate', $can_participate, $survey_id, $user_id );
+		return apply_filters( 'questions_user_can_participate', $can_participate, $survey_id, $user_id );
 	}
 
 	private function get_step_count( $survey_id ){
-		$survey = new SurveyVal_Survey( $survey_id );
+		$survey = new Questions_Survey( $survey_id );
 		return $survey->splitter_count;
 	}
 
 	public function get_elements( $survey_id, $step = 0 ){
-		$survey = new SurveyVal_Survey( $survey_id );
+		$survey = new Questions_Survey( $survey_id );
 		
 		$actual_step = 0;
 		
@@ -230,31 +227,31 @@ class SurveyVal_ProcessResponse{
 	}
 
 	public function process_response( $wp_object ){
-		global $wpdb, $post, $surveyval_global, $surveyval_survey_id;
+		global $wpdb, $post, $questions_global, $questions_survey_id;
 		
 		// Survey ID was posted or die
-		if( !array_key_exists( 'surveyval_id', $_POST ) )
+		if( !array_key_exists( 'questions_id', $_POST ) )
 		 	return;
 		
-		// Post Type is surveyval or die
-		if( 'surveyval' != $wp_object->query_vars[ 'post_type' ] )
+		// Post Type is questions or die
+		if( 'questions' != $wp_object->query_vars[ 'post_type' ] )
 			return;
 		
 		// Getting Survey id from post or die
 		if( array_key_exists( 'name', $wp_object->query_vars) ):
-			$sql = $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_name = %s AND post_type='surveyval'", $wp_object->query_vars[ 'name' ] );
-			$surveyval_survey_id = $wpdb->get_var( $sql );
+			$sql = $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_name = %s AND post_type='questions'", $wp_object->query_vars[ 'name' ] );
+			$questions_survey_id = $wpdb->get_var( $sql );
 		elseif( array_key_exists( 'p', $wp_object->query_vars) ):
-			$surveyval_survey_id = $wp_object->query_vars[ 'p' ];
+			$questions_survey_id = $wp_object->query_vars[ 'p' ];
 		else:
 			return;
 		endif;
 		
-		if( TRUE !== $this->check_restrictions( $surveyval_survey_id ) )
+		if( TRUE !== $this->check_restrictions( $questions_survey_id ) )
 			return;
 		
 		// User has not participated or die
-		if( $this->has_participated( $surveyval_survey_id ) )
+		if( $this->has_participated( $questions_survey_id ) )
 			return;
 		
 		// Getting Session Data
@@ -262,20 +259,20 @@ class SurveyVal_ProcessResponse{
 			session_start();
 		
 		// If session has data, get it!
-		if( isset( $_SESSION[ 'surveyval_response' ] ) )
-			$saved_response = $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ];
+		if( isset( $_SESSION[ 'questions_response' ] ) )
+			$saved_response = $_SESSION[ 'questions_response' ][ $questions_survey_id ];
 		
-		do_action( 'surveyval_before_process_response', $_POST );
+		do_action( 'questions_before_process_response', $_POST );
 		
 		$response = array();
 		$this->finished = FALSE;
 		
 		// Getting data of posted step
-		$survey_response = $_POST[ 'surveyval_response' ];
-		$survey_actual_step = $_POST[ 'surveyval_actual_step' ];
+		$survey_response = $_POST[ 'questions_response' ];
+		$survey_actual_step = $_POST[ 'questions_actual_step' ];
 		
 		// Validating response values and setting up error variables
-		$this->validate_response( $surveyval_survey_id, $survey_response, $survey_actual_step );
+		$this->validate_response( $questions_survey_id, $survey_response, $survey_actual_step );
 		
 		// Adding / merging Values to response var
 		if( isset( $saved_response ) ):
@@ -292,44 +289,44 @@ class SurveyVal_ProcessResponse{
 			$response = $survey_response;
 		endif;
 		
-		$response = apply_filters( 'surveyval_process_response', $response );
+		$response = apply_filters( 'questions_process_response', $response );
 		
 		// Storing values in Session
-		$_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ] = $response;
+		$_SESSION[ 'questions_response' ][ $questions_survey_id ] = $response;
 		
 		$this->save_response();
 		
-		do_action( 'surveyval_after_process_response', $_POST );
+		do_action( 'questions_after_process_response', $_POST );
 	}
 
 	private function save_response(){
-		global $surveyval_response_errors, $surveyval_survey_id;
+		global $questions_response_errors, $questions_survey_id;
 		
-		do_action( 'surveyval_before_save_response' );
+		do_action( 'questions_before_save_response' );
 		
-		if( !isset( $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ] ) )
+		if( !isset( $_SESSION[ 'questions_response' ][ $questions_survey_id ] ) )
 			return;
 		
-		if( $_POST[ 'surveyval_actual_step' ] == $_POST[ 'surveyval_next_step' ]  && 0 == count( $surveyval_response_errors ) && !array_key_exists( 'surveyval_submission_back', $_POST ) ):
-			$response = $_SESSION[ 'surveyval_response' ][ $surveyval_survey_id ];
+		if( $_POST[ 'questions_actual_step' ] == $_POST[ 'questions_next_step' ]  && 0 == count( $questions_response_errors ) && !array_key_exists( 'questions_submission_back', $_POST ) ):
+			$response = $_SESSION[ 'questions_response' ][ $questions_survey_id ];
 			
-			if( $this->save_data( $surveyval_survey_id, apply_filters( 'surveyval_save_response', $response ) ) ):
-				do_action( 'surveyval_after_save_response' );
+			if( $this->save_data( $questions_survey_id, apply_filters( 'questions_save_response', $response ) ) ):
+				do_action( 'questions_after_save_response' );
 				
 				// Unsetting Session, because not needed anymore
 				session_destroy();	
-				unset( $_SESSION['surveyval_response'] );
+				unset( $_SESSION['questions_response'] );
 				
 				$this->finished = TRUE;
-				$this->finished_id = $surveyval_survey_id;
+				$this->finished_id = $questions_survey_id;
 			endif;
 		endif;
 	}
 	
 	public function validate_response( $survey_id, $response, $step ){
-		global $surveyval_response_errors;
+		global $questions_response_errors;
 		
-		if( array_key_exists( 'surveyval_submission_back', $_POST ) )
+		if( array_key_exists( 'questions_submission_back', $_POST ) )
 			return FALSE;
 		
 		if( empty( $survey_id ) )
@@ -343,44 +340,51 @@ class SurveyVal_ProcessResponse{
 		if( !is_array( $elements ) && count( $elements ) == 0 )
 			return;
 		
-		if( empty( $surveyval_response_errors ) )
-			$surveyval_response_errors = array();
+		if( empty( $questions_response_errors ) )
+			$questions_response_errors = array();
 		
 		// Running thru all elements
 		foreach( $elements AS $element ):
 			if( $element->splitter )
 				continue;
 			
-			$skip_validating = apply_filters( 'surveyval_skip_validating', FALSE, $element );
+			$skip_validating = apply_filters( 'questions_skip_validating', FALSE, $element );
 			
 			if( $skip_validating )
 				continue;
-
-			$answer = $response[ $element->id ];
+			
+			$answer = '';
+			if( array_key_exists( $element->id, $response ) )
+				$answer = $response[ $element->id ];
 			
 			if( !$element->validate( $answer ) ):
 				
-				if( empty( $surveyval_response_errors[ $element->id ] ) )
-					$surveyval_response_errors[ $element->id ] = array();
+				if( empty( $questions_response_errors[ $element->id ] ) )
+					$questions_response_errors[ $element->id ] = array();
 				
 				// Gettign every error of question back
 				foreach( $element->validate_errors AS $error ):
-					$surveyval_response_errors[ $element->id ][] = $error;
+					$questions_response_errors[ $element->id ][] = $error;
 				endforeach;
 				
 			endif;
 		endforeach;
 		
-		// ??? One Element at the end ???
-		if( is_array( $surveyval_response_errors[ $element->id ] ) && count( $surveyval_response_errors[ $element->id ] ) == 0 ):
-			return TRUE;
+		if( is_array( $questions_response_errors) && array_key_exists( $element->id, $questions_response_errors) ):
+			// ??? One Element at the end ???
+			if( is_array( $questions_response_errors[ $element->id ] ) && count( $questions_response_errors[ $element->id ] ) == 0 ):
+				return TRUE;
+			else:
+				return FALSE;
+			endif;
 		else:
-			return FALSE;
+			return TRUE;
 		endif;
+				
 	}
 
 	private function save_data( $survey_id, $response ){
-		global $wpdb, $surveyval_global, $current_user;
+		global $wpdb, $questions_global, $current_user;
 		
 		get_currentuserinfo();
 		$user_id = $user_id = $current_user->ID;
@@ -390,16 +394,16 @@ class SurveyVal_ProcessResponse{
 		
 		// Adding new question
 		$wpdb->insert(
-			$surveyval_global->tables->responds,
+			$questions_global->tables->responds,
 			array(
-				'surveyval_id' => $survey_id,
+				'questions_id' => $survey_id,
 				'user_id' => $user_id,
 				'timestamp' => time() ,
 				'remote_addr' => $_SERVER[ 'REMOTE_ADDR' ]
 			)
 		);
 		
-		do_action( 'surveyval_save_data', $survey_id, $response );
+		do_action( 'questions_save_data', $survey_id, $response );
 		
 		$respond_id = $wpdb->insert_id;
 		$this->respond_id = $respond_id;
@@ -410,7 +414,7 @@ class SurveyVal_ProcessResponse{
 				
 				foreach( $answers AS $answer ):
 					$wpdb->insert(
-						$surveyval_global->tables->respond_answers,
+						$questions_global->tables->respond_answers,
 						array(
 							'respond_id' => $respond_id,
 							'question_id' => $element_id,
@@ -423,7 +427,7 @@ class SurveyVal_ProcessResponse{
 				$answer = $answers;
 				
 				$wpdb->insert(
-					$surveyval_global->tables->respond_answers,
+					$questions_global->tables->respond_answers,
 					array(
 						'respond_id' => $respond_id,
 						'question_id' => $element_id,
@@ -437,8 +441,8 @@ class SurveyVal_ProcessResponse{
 		return TRUE;
 	}
 	
-	public function has_participated( $surveyval_id, $user_id = NULL ){
-		global $wpdb, $current_user, $surveyval_global;
+	public function has_participated( $questions_id, $user_id = NULL ){
+		global $wpdb, $current_user, $questions_global;
 		
 		// Setting up user ID
 		if( NULL == $user_id ):
@@ -447,10 +451,10 @@ class SurveyVal_ProcessResponse{
 		endif;
 				
 		// Setting up Survey ID
-		if( NULL == $surveyval_id )
+		if( NULL == $questions_id )
 			return FALSE;
 		
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->responds} WHERE surveyval_id=%d AND user_id=%s", $surveyval_id, $user_id );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND user_id=%s", $questions_id, $user_id );
 		$count = $wpdb->get_var( $sql );
 		
 		if( 0 == $count ):
@@ -460,12 +464,12 @@ class SurveyVal_ProcessResponse{
 		endif;
 	}
 	
-	public function ip_has_participated( $surveyval_id ){
-		global $wpdb, $surveyval_global;
+	public function ip_has_participated( $questions_id ){
+		global $wpdb, $questions_global;
 		
 		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
 		
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$surveyval_global->tables->responds} WHERE surveyval_id=%d AND remote_addr=%s", $surveyval_id, $remote_ip );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $questions_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 		
 		if( 0 == $count ):
@@ -501,8 +505,8 @@ class SurveyVal_ProcessResponse{
 		if( '' == $show_results )
 			$show_results = 'no';
 		
-		$html = '<div id="surveyval-thank-participation">';
-		$html.= '<p>' . __( 'Thank you for participating this survey!', 'surveyval-locale' ) . '</p>';
+		$html = '<div id="questions-thank-participation">';
+		$html.= '<p>' . __( 'Thank you for participating this survey!', 'questions-locale' ) . '</p>';
 		if( 'yes' == $show_results ) $html.= $this->show_results( $survey_id );
 		
 		$html.= '<input name="response_id" id="response_id" type="hidden" value="' . $this->respond_id . '" />';
@@ -516,8 +520,8 @@ class SurveyVal_ProcessResponse{
 		if( '' == $show_results )
 			$show_results = 'no';
 		
-		$html = '<div id="surveyval-already-participated">';
-		$html.= '<p>' . __( 'You already have participated this poll.', 'surveyval-locale' ) . '</p>';
+		$html = '<div id="questions-already-participated">';
+		$html.= '<p>' . __( 'You already have participated this poll.', 'questions-locale' ) . '</p>';
 		if( 'yes' == $show_results ) $html.= $this->show_results( $survey_id );
 		
 		$html.= '</div>';
@@ -530,7 +534,7 @@ class SurveyVal_ProcessResponse{
 		$html = '';
 		
 		if( 'yes' == $show_results_after_participating ):
-			$html.= '<p>' . __( 'This are the actual results:', 'surveyval-locale' ) . '</p>';
+			$html.= '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
 			$html.= do_shortcode( '[show_survey_results id="' . $survey_id . '"]' );
 		endif;
 		
@@ -538,25 +542,25 @@ class SurveyVal_ProcessResponse{
 	}
 	
 	public function text_not_logged_in(){
-		$html = '<div id="surveyval-not-logged-in">';
-		$html.= __( 'You have to be logged in to participate this survey.', 'surveyval-locale' );
+		$html = '<div id="questions-not-logged-in">';
+		$html.= __( 'You have to be logged in to participate this survey.', 'questions-locale' );
 		$html.= '</div>';
 		return $html;
 	}
 	
 	public function text_cant_participate(){
-		$html = '<div id="surveyval-cant-participate">';
-		$html.= __( 'You can\'t participate this survey.', 'surveyval-locale' );
+		$html = '<div id="questions-cant-participate">';
+		$html.= __( 'You can\'t participate this survey.', 'questions-locale' );
 		$html.= '</div>';
 		return $html;
 	}
 	
 }
-$SurveyVal_ProcessResponse = new SurveyVal_ProcessResponse();
+$Questions_ProcessResponse = new Questions_ProcessResponse();
 
-function sv_user_has_participated( $surveyval_id, $user_id = NULL){
-	global $SurveyVal_ProcessResponse;
-	return $SurveyVal_ProcessResponse->has_participated( $surveyval_id, $user_id );
+function sv_user_has_participated( $questions_id, $user_id = NULL){
+	global $Questions_ProcessResponse;
+	return $Questions_ProcessResponse->has_participated( $questions_id, $user_id );
 }
 
 

@@ -1,9 +1,9 @@
-=== SurveyVal ===
-Contributors: mahype, rheinschmiede
+=== Questions ===
+Contributors: mahype, awesome
 Donate link: http://example.com/
 Tags: survey, surveys, polls, poll, science
-Requires at least: 3.7
-Tested up to: 3.9
+Requires at least: 4.1
+Tested up to: 4.1
 Stable tag: 1.0
 
 Create your survey or poll within minutes.

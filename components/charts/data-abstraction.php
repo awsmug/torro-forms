@@ -5,7 +5,7 @@
  * This class abstracting data for further use
  *
  * @author rheinschmiede.de, Author <kontakt@rheinschmiede.de>
- * @package Surveyval/Data
+ * @package Questions/Data
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@
  
 if ( !defined( 'ABSPATH' ) ) exit;
  
-class SurveyVal_AbstractData{
+class Questions_AbstractData{
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -39,7 +39,7 @@ class SurveyVal_AbstractData{
 	} // end constructor
 	
 	public static function order_for_charting( $response_array ){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
 		$lines = self::lines( $response_array );
 		
@@ -66,7 +66,7 @@ class SurveyVal_AbstractData{
 			endforeach;
 			
 			// Fill up missed answers with 0
-			$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->answers} WHERE question_id = %s", $key );
+			$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->answers} WHERE question_id = %s", $key );
 			$results = $wpdb->get_results( $sql );
 			
 			$voted_answers = array_keys( $merged_data );

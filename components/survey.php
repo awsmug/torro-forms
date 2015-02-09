@@ -1,6 +1,6 @@
 <?php
 
-class SurveyVal_Survey{
+class Questions_Survey{
 	public $id;
 	public $title;
 	
@@ -15,7 +15,7 @@ class SurveyVal_Survey{
 	}
 	
 	private function populate( $id ){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
 		$this->reset();
 		
@@ -28,7 +28,7 @@ class SurveyVal_Survey{
 	}
 	
 	private function get_elements( $id = null ){
-		global $surveyval_global, $wpdb;
+		global $questions_global, $wpdb;
 		
 		if( null == $id )
 			$id = $this->id;
@@ -36,15 +36,15 @@ class SurveyVal_Survey{
 		if( '' == $id )
 			return FALSE;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->questions} WHERE surveyval_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->questions} WHERE questions_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 		
 		$elements = array();
 		
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				if( class_exists( 'SurveyVal_SurveyElement_' . $result->type ) ):
-					$class = 'SurveyVal_SurveyElement_' . $result->type;
+				if( class_exists( 'questions_SurveyElement_' . $result->type ) ):
+					$class = 'Questions_SurveyElement_' . $result->type;
 					$object = new $class( $result->id );
 					$elements[] = $object;
 					
@@ -61,12 +61,12 @@ class SurveyVal_Survey{
 	}
 	
 	private function add_element( $element, $element_type, $order = null ){
-		global $surveyval_global;
+		global $questions_global;
 		
-		if( !array_key_exists( $element_type, $surveyval_global->element_types ) )
+		if( !array_key_exists( $element_type, $questions_global->element_types ) )
 			return FALSE;
 		
-		$class = 'SurveyVal_SurveyElement_' . $element_type;
+		$class = 'Questions_SurveyElement_' . $element_type;
 		
 		if( null == $element_id )
 			$object = new $class();
@@ -109,13 +109,13 @@ class SurveyVal_Survey{
 	}
 	
 	private function get_user_ids(){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} WHERE surveyval_id = %s", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id );
 		$results = $wpdb->get_results( $sql );
 		
 		$responses = array();
-		$responses[ 'question' ] = __( 'User ID', 'surveyval-locale' );
+		$responses[ 'question' ] = __( 'User ID', 'questions-locale' );
 		$responses[ 'sections' ] = FALSE;
 		$responses[ 'array' ] = FALSE;
 		$responses[ 'responses' ] = array();
@@ -130,13 +130,13 @@ class SurveyVal_Survey{
 	}
 	
 	private function get_timestrings( $timeformat = 'd.m.Y H:i' ){
-		global $wpdb, $surveyval_global;
+		global $wpdb, $questions_global;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM {$surveyval_global->tables->responds} WHERE surveyval_id = %s", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id );
 		$results = $wpdb->get_results( $sql );
 		
 		$responses = array();
-		$responses[ 'question' ] = __( 'Date/Time', 'surveyval-locale' );
+		$responses[ 'question' ] = __( 'Date/Time', 'questions-locale' );
 		$responses[ 'sections' ] = FALSE;
 		$responses[ 'array' ] = FALSE;
 		$responses[ 'responses' ] = array();
@@ -158,7 +158,7 @@ class SurveyVal_Survey{
 	
 	
 	private function add_element_obj( $element_object, $order = null ){
-		if( !is_object( $element_object ) || 'SurveyVal_SurveyElement' != get_parent_class( $element_object ) )
+		if( !is_object( $element_object ) || 'Questions_SurveyElement' != get_parent_class( $element_object ) )
 			return FALSE;
 		
 		if( null == $order )
@@ -171,14 +171,14 @@ class SurveyVal_Survey{
 	
 	// Need to be here?
 	public function participated_polls( $user_id = NULL ){
-		global $wpdb, $current_user, $surveyval_global;
+		global $wpdb, $current_user, $questions_global;
 		
 		if( '' == $user_id ):
 			get_currentuserinfo();
 			$user_id = $user_id = $current_user->ID;
 		endif;
 		
-		$sql = $wpdb->prepare( "SELECT id FROM {$surveyval_global->tables->responds} WHERE  user_id=%s", $user_id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->responds} WHERE  user_id=%s", $user_id );
 		return $wpdb->get_col( $sql );
 	}
 	

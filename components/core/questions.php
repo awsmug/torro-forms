@@ -1,6 +1,6 @@
 <?php
 /*
- * SurveyVal main class
+ * Questions main class
  *
  * This should be used as parent class for Question-Answers.
  *
@@ -29,9 +29,9 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-global $surveyval_global;
+global $questions_global;
 
-class SurveyVal{
+class Questions{
 	var $tables;
 	var $components = array();
 	var $element_types = array();
@@ -45,21 +45,21 @@ class SurveyVal{
 		
 		$this->tables = new stdClass;
 		
-		$this->tables->questions = $wpdb->prefix . 'surveyval_questions';
-		$this->tables->answers = $wpdb->prefix . 'surveyval_answers';
-		$this->tables->responds = $wpdb->prefix . 'surveyval_responds';
-		$this->tables->respond_answers = $wpdb->prefix . 'surveyval_respond_answers';
-		$this->tables->settings = $wpdb->prefix . 'surveyval_settings';
-		$this->tables->participiants = $wpdb->prefix . 'surveyval_participiants';
+		$this->tables->questions = $wpdb->prefix . 'questions_questions';
+		$this->tables->answers = $wpdb->prefix . 'questions_answers';
+		$this->tables->responds = $wpdb->prefix . 'questions_responds';
+		$this->tables->respond_answers = $wpdb->prefix . 'questions_respond_answers';
+		$this->tables->settings = $wpdb->prefix . 'questions_settings';
+		$this->tables->participiants = $wpdb->prefix . 'questions_participiants';
 		
-		$this->tables = apply_filters( 'surveyval_tables', $this->tables );
+		$this->tables = apply_filters( 'questions_tables', $this->tables );
 	}
 	
 	public function add_component( $slug, $object ){
 		if( '' == $slug )
 			return FALSE;
 		
-		if( !is_object( $object ) && 'SurveyVal_Component' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'questions_Component' != get_parent_class( $object ) )
 			return FALSE;
 		
 		$this->components[ $slug ] = $object;
@@ -71,7 +71,7 @@ class SurveyVal{
 		if( '' == $slug )
 			return FALSE;
 		
-		if( !is_object( $object ) && 'SurveyVal_SurveyElement' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Questions_SurveyElement' != get_parent_class( $object ) )
 			return FALSE;
 		
 		$this->element_types[ $slug ] = $object;
@@ -79,4 +79,4 @@ class SurveyVal{
 		return TRUE;
 	}
 }
-$surveyval_global = new SurveyVal();
+$questions_global = new Questions();

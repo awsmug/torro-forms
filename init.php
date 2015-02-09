@@ -1,15 +1,15 @@
 <?php
 /*
-Plugin Name: SurveyVal
-Plugin URI: http://www.rheinschmiede.de
+Plugin Name: Questions
+Plugin URI: http://www.awesome.ug
 Description: Create your surveys or polls for WordPress Users.
 Version: 1.0
 Author: Rheinschmiede
-Author URI: http://www.rheonschmiede.de
-Author Email: kontakt@rheinschmiede.de
+Author URI: http://www.awesome.ug
+Author Email: contact@awesome.ug
 License:
 
-  Copyright 2013 (kontakt@rheinschmiede.de)
+  Copyright 2013 (contact@awesome.ug)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as 
@@ -26,46 +26,17 @@ License:
   
 */
 
-/*
- * PluginName Core Class for Surveys
- *
- * This class initializes the Plugin.
- *
- * @author rheinschmiede.de, Author <kontakt@rheinschmiede.de>
- * @package PluginName
- * @version 1.0.0
- * @since 1.0.0
- * @license GPL 2
-
-  Copyright 2013 (kontakt@rheinschmiede.de)
-
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License, version 2, as 
-  published by the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
- */
-
 if ( !defined( 'ABSPATH' ) ) exit;
  
-class SurveVal_Init{
-	 
+class Questions_Init{
 	/**
 	 * Initializes the plugin.
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		global $sv_plugin_errors, $sv_plugin_errors;
+		global $qu_plugin_errors, $qu_plugin_errors;
 		
-		$sv_plugin_errors = array();
+		$qu_plugin_errors = array();
 		
 		self::constants();
 		self::includes();
@@ -98,10 +69,7 @@ class SurveVal_Init{
 	 * @since 1.0.0 
 	 */
 	public static function check_requirements(){
-		global $sv_plugin_errors;
-		
-		//if( !class_exists( 'ImportantClass' ) )
-		//	$sv_plugin_errors[] = __( 'Import Class not existing.', 'surveyval-locale' );
+		global $qu_plugin_errors;
 	}
 	
 	/**
@@ -114,16 +82,16 @@ class SurveVal_Init{
 		
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		
-		$table_questions = $wpdb->prefix . 'surveyval_questions';
-		$table_answers = $wpdb->prefix . 'surveyval_answers';
-		$table_responds = $wpdb->prefix . 'surveyval_responds';
-		$table_respond_answers = $wpdb->prefix . 'surveyval_respond_answers';
-		$table_settings = $wpdb->prefix . 'surveyval_settings';
-		$table_participiants = $wpdb->prefix . 'surveyval_participiants';
+		$table_questions = $wpdb->prefix . 'questions_questions';
+		$table_answers = $wpdb->prefix . 'questions_answers';
+		$table_responds = $wpdb->prefix . 'questions_responds';
+		$table_respond_answers = $wpdb->prefix . 'questions_respond_answers';
+		$table_settings = $wpdb->prefix . 'questions_settings';
+		$table_participiants = $wpdb->prefix . 'questions_participiants';
 		
 		$sql = "CREATE TABLE $table_questions (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			surveyval_id int(11) NOT NULL,
+			questions_id int(11) NOT NULL,
 			question text NOT NULL,
 			sort int(11) NOT NULL,
 			type char(50) NOT NULL,
@@ -145,7 +113,7 @@ class SurveVal_Init{
 		
 		$sql = "CREATE TABLE $table_responds (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			surveyval_id int(11) NOT NULL,
+			questions_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
 			timestamp int(11) NOT NULL,
 			remote_addr char(15) NOT NULL,
@@ -184,7 +152,7 @@ class SurveVal_Init{
 			
 		dbDelta( $sql );
 		
-		update_option( 'surveyval_db_version', '1.1.0' );
+		update_option( 'questions_db_version', '1.1.0' );
 		
 	} // end activate
 	
@@ -208,7 +176,7 @@ class SurveVal_Init{
 	 * @since 1.0.0
 	 */
 	public static function load_textdomain() {
-		load_plugin_textdomain( 'surveyval-locale', false, SURVEYVAL_RELATIVE_FOLDER . '/languages' );
+		load_plugin_textdomain( 'questions-locale', FALSE, QUESTIONS_RELATIVE_FOLDER . '/languages' );
 		
 	} // end plugin_textdomain
 
@@ -217,8 +185,8 @@ class SurveVal_Init{
 	 * @since 1.0.0
 	 */
 	public static function register_admin_styles() {
-		wp_enqueue_style( 'surveyval-admin-styles', SURVEYVAL_URLPATH . '/includes/css/admin.css' );
-		wp_enqueue_style( 'surveyval-admin-fonts', SURVEYVAL_URLPATH . '/includes/css/fonts.css' );
+		wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/includes/css/admin.css' );
+		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . '/includes/css/fonts.css' );
 	} // end register_admin_styles
 
 	/**
@@ -233,7 +201,7 @@ class SurveVal_Init{
 	 * @since 1.0.0
 	 */
 	public static function register_plugin_styles() {
-		wp_enqueue_style( 'surveyval-plugin-styles', SURVEYVAL_URLPATH . '/includes/css/display.css' );
+		wp_enqueue_style( 'questions-plugin-styles', QUESTIONS_URLPATH . '/includes/css/display.css' );
 		
 	} // end register_plugin_styles
 	
@@ -249,10 +217,10 @@ class SurveVal_Init{
 	 * @since 1.0.0
 	 */
 	public static function constants(){
-		define( 'SURVEYVAL_FOLDER', 		self::get_folder() );
-		define( 'SURVEYVAL_RELATIVE_FOLDER', 	substr( SURVEYVAL_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( SURVEYVAL_FOLDER ) ) );  
-		define( 'SURVEYVAL_URLPATH', 		self::get_url_path() );
-		define( 'SURVEYVAL_COMPONENTFOLDER', SURVEYVAL_FOLDER . '/components' );
+		define( 'QUESTIONS_FOLDER', 		self::get_folder() );
+		define( 'QUESTIONS_RELATIVE_FOLDER', 	substr( QUESTIONS_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( QUESTIONS_FOLDER ) ) );  
+		define( 'QUESTIONS_URLPATH', 		self::get_url_path() );
+		define( 'QUESTIONS_COMPONENTFOLDER', QUESTIONS_FOLDER . '/components' );
 	}
 	
 	/**
@@ -261,11 +229,7 @@ class SurveVal_Init{
 	 */
 	public static function includes(){
 		// Loading functions
-		include( SURVEYVAL_FOLDER . '/functions.php' );
-		
-		// Loading Skip
-		//include( SURVEYVAL_FOLDER . '/includes/skip/loader.php' ); 
-		//skip_start();
+		include( QUESTIONS_FOLDER . '/functions.php' );
 	}
 
 	/**
@@ -274,13 +238,13 @@ class SurveVal_Init{
 	 */
 	public static function load_components(){
 		// Loading Components
-		include( SURVEYVAL_FOLDER . '/components/component.php' );
-		include( SURVEYVAL_FOLDER . '/components/survey.php' );
-		include( SURVEYVAL_FOLDER . '/components/element.php' );
-		include( SURVEYVAL_FOLDER . '/components/admin/admin.php' );
-		include( SURVEYVAL_FOLDER . '/components/core/core.php' );
-		include( SURVEYVAL_FOLDER . '/components/elements/elements.php' );
-		include( SURVEYVAL_FOLDER . '/components/charts/charts.php' );
+		include( QUESTIONS_FOLDER . '/components/component.php' );
+		include( QUESTIONS_FOLDER . '/components/survey.php' );
+		include( QUESTIONS_FOLDER . '/components/element.php' );
+		include( QUESTIONS_FOLDER . '/components/admin/admin.php' );
+		include( QUESTIONS_FOLDER . '/components/core/core.php' );
+		include( QUESTIONS_FOLDER . '/components/elements/elements.php' );
+		include( QUESTIONS_FOLDER . '/components/charts/charts.php' );
 	}
 	
 	/**
@@ -288,7 +252,7 @@ class SurveVal_Init{
 	* @since 1.0.0
 	*/
 	private static function get_url_path(){
-		$slashed_folder = str_replace( '\\', '/', SURVEYVAL_FOLDER ); // Replacing backslashes width slashes vor windows installations
+		$slashed_folder = str_replace( '\\', '/', QUESTIONS_FOLDER ); // Replacing backslashes width slashes vor windows installations
 		$sub_path = substr( $slashed_folder, strlen( ABSPATH ), ( strlen( $slashed_folder ) - 11 ) );
 		$script_url = get_bloginfo( 'wpurl' ) . '/' . $sub_path;
 		return $script_url;
@@ -309,21 +273,21 @@ class SurveVal_Init{
 	* @since 1.0.0
 	*/
 	public static function admin_notices(){
-		global $sv_plugin_errors, $sv_plugin_errors; 
+		global $qu_plugin_errors, $qu_plugin_errors; 
 		
-		if( count( $sv_plugin_errors ) > 0 ):
-				foreach( $sv_plugin_errors AS $error )
+		if( count( $qu_plugin_errors ) > 0 ):
+				foreach( $qu_plugin_errors AS $error )
 					echo '<div class="error"><p>' . $error . '</p></div>';
 		endif;
 		
-		if( count( $sv_plugin_errors ) > 0 ):
-				foreach( $sv_plugin_errors AS $notice )
+		if( count( $qu_plugin_errors ) > 0 ):
+				foreach( $qu_plugin_errors AS $notice )
 					echo '<div class="updated"><p>' . $notice . '</p></div>';
 		endif;	
 	} 
 	
 } // end class
 
-SurveVal_Init::init();
+Questions_Init::init();
 
 
