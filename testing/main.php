@@ -3,9 +3,9 @@
 include( '../../../../wp-load.php' );
 require_once( ABSPATH . 'wp-admin/includes/user.php' );
 
-class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
+class QuestionsTests extends PHPUnit_Extensions_SeleniumTestCase{
 		
-	var $browser_url = 'http://localhost/surveyval/';
+	var $browser_url = 'http://localhost/questions/';
 	var $is_local = FALSE;
 	
 	var $browser = '*firefox';
@@ -50,10 +50,10 @@ class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
 	var $survey_id = 4;
 	var $con;
 	
-	// protected $screenshotPath = 'C:/xampp/htdocs/surveyval';
-	protected $screenshotPath = '/Users/svenw/htdocs/surveyval/';
+	// protected $screenshotPath = 'C:/xampp/htdocs/questions';
+	protected $screenshotPath = '/Users/svenw/htdocs/questions/';
 	protected $captureScreenshotOnFailure = TRUE;
-	protected $screenshotUrl = 'http://localhost/surveyval';
+	protected $screenshotUrl = 'http://localhost/questions';
 	
 	public function setUp(){
 		$this->setBrowser( $this->browser );
@@ -151,7 +151,7 @@ class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
 		global $wpdb;
 		
 		$wpdb->insert( 
-			$wpdb->prefix . 'surveyval_participiants', 
+			$wpdb->prefix . 'questions_participiants', 
 			array( 
 				'survey_id' => $survey_id, 
 				'user_id' => $user_id 
@@ -169,7 +169,7 @@ class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
 	private function generate_scripts(){
 		global $wpdb;
 		
-		$survey = new SurveyVal_Survey( $this->survey_id );
+		$survey = new Questions_Survey( $this->survey_id );
 		
 		$values_code = '$values = array();' . chr( 13 );
 		$click_code = '';
@@ -179,38 +179,38 @@ class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
 			
 			print_r( $element );
 			switch( get_class( $element ) ){
-				case 'SurveyVal_SurveyElement_Text':
+				case 'Questions_SurveyElement_Text':
 					$values_code.= '$values[ ' . $element->id .' ] = \'\';' . chr( 13 );
-					$click_code.= '$this->type("name=surveyval_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
-					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'surveyval_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
+					$click_code.= '$this->type("name=questions_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
+					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'questions_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
 					break;
-				case 'SurveyVal_SurveyElement_Textarea':
+				case 'Questions_SurveyElement_Textarea':
 					$values_code.= '$values[ ' . $element->id .' ] = \'\';' . chr( 13 );
-					$click_code.= '$this->type("name=surveyval_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
-					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'surveyval_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
+					$click_code.= '$this->type("name=questions_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
+					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'questions_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
 					break;
-				case 'SurveyVal_SurveyElement_OneChoice':
+				case 'Qeustions_SurveyElement_OneChoice':
 					$values_code.= '$values[ ' . $element->id .' ] = \'\';' . chr( 13 );
-					$click_code.= '$this->type("name=surveyval_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
-					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'surveyval_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
+					$click_code.= '$this->type("name=questions_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
+					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'questions_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
 					break;
 					break;
-				case 'SurveyVal_SurveyElement_MultipleChoice':
+				case 'Qustions_SurveyElement_MultipleChoice':
 					$values_code.= '$values[ ' . $element->id .' ] = array(\'\');' . chr( 13 );
 					
-					$click_code.= '$this->click("name=surveyval_response[' . $element->id . '][]");' . chr( 13 );
+					$click_code.= '$this->click("name=questions_response[' . $element->id . '][]");' . chr( 13 );
 					$click_code.= 'foreach( $values[ ' . $element->id . ' ] AS $value ) ';
-					$click_code.= '$this->click("document.surveyval.elements[\'surveyval_response[' . $element->id . '][]\'][" . $value . "]");' . chr( 13 );
+					$click_code.= '$this->click("document.questions.elements[\'questions_response[' . $element->id . '][]\'][" . $value . "]");' . chr( 13 );
 					
 					break;
 					
-				case 'SurveyVal_SurveyElement_Dropdown':
+				case 'Questions_SurveyElement_Dropdown':
 					$values_code.= '$values[ ' . $element->id .' ] = \'\';' . chr( 13 );
-					$click_code.= '$this->select("name=surveyval_response[' . $element->id . ']", "label=" . $values[ ' . $element->id . ' ]);' . chr( 13 );
-					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'surveyval_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
+					$click_code.= '$this->select("name=questions_response[' . $element->id . ']", "label=" . $values[ ' . $element->id . ' ]);' . chr( 13 );
+					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'questions_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
 					
 					break;
-				case 'SurveyVal_SurveyElement_Matrix':
+				case 'Questions_SurveyElement_Matrix':
 					$values_code.= '$values[ ' . $element->id .' ] = array(\'\');' . chr( 13 );
 					
 					$combine_values = array();
@@ -227,27 +227,27 @@ class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
 					
 					$select_code.= '$combined_values[ ' . $element->id .' ] = array( ' . implode( ', ', $combine_values ) . ');' . chr( 13 );
 					
-					$click_code.= '$this->click("name=surveyval_response[' . $element->id . '][]");' . chr( 13 );
+					$click_code.= '$this->click("name=questions_response[' . $element->id . '][]");' . chr( 13 );
 					$click_code.= 'foreach( $values[ ' . $element->id . ' ] AS $value ) ';
-					$click_code.= '$this->click("document.surveyval.elements[\'surveyval_response[' . $element->id . '][]\'][" . $value . "]");' . chr( 13 );
+					$click_code.= '$this->click("document.questions.elements[\'questions_response[' . $element->id . '][]\'][" . $value . "]");' . chr( 13 );
 					
 					$select_code.= 'foreach( $values[ ' . $element->id . ' ] AS $value ) ';
-					$select_code.= '$sql[ ' . $element->id . ' ][] = "SELECT * FROM ' . $wpdb->prefix. 'surveyval_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $combined_values[' . $element->id . '][ $value ] . "\'";' . chr( 13 );
+					$select_code.= '$sql[ ' . $element->id . ' ][] = "SELECT * FROM ' . $wpdb->prefix. 'questions_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $combined_values[' . $element->id . '][ $value ] . "\'";' . chr( 13 );
 					
 					break;
-				case 'SurveyVal_SurveyElement_Range':
+				case 'Questions_SurveyElement_Range':
 					$values_code.= '$values[ ' . $element->id .' ] = \'\';' . chr( 13 );
-					$click_code.= '$this->type("name=surveyval_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
-					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'surveyval_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
+					$click_code.= '$this->type("name=questions_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
+					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'questions_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
 					break;
-				case 'SurveyVal_SurveyElement_RangeEmotional':
+				case 'Questions_SurveyElement_RangeEmotional':
 					$values_code.= '$values[ ' . $element->id .' ] = \'\';' . chr( 13 );
-					$click_code.= '$this->type("name=surveyval_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
-					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'surveyval_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
+					$click_code.= '$this->type("name=questions_response[' . $element->id . ']",  $values[ ' . $element->id . ' ] );' . chr( 13 );
+					$select_code.= '$sql[ ' . $element->id . ' ] = "SELECT * FROM ' . $wpdb->prefix. 'questions_respond_answers WHERE question_id=\'' . $element->id . '\' AND respond_id=\'" . $response_id. "\' AND value=\'" . $values[' . $element->id . '] . "\'";' . chr( 13 );
 					break;
 					
-				case 'SurveyVal_SurveyElement_Splitter':
-					$click_code.= '$this->click("name=surveyval_submission");' . chr( 13 );
+				case 'Questions_SurveyElement_Splitter':
+					$click_code.= '$this->click("name=questions_submission");' . chr( 13 );
 					$click_code.= '$this->waitForPageToLoad("30000");' . chr( 13 );
 					$click_code.= 'sleep(2);' . chr( 13 );
 					break;
@@ -255,7 +255,7 @@ class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
 			}
 		endforeach;
 		
-		$click_code.= '$this->click("name=surveyval_submission");' . chr( 13 );
+		$click_code.= '$this->click("name=questions_submission");' . chr( 13 );
 		$click_code.= '$this->waitForPageToLoad("30000");' . chr( 13 );
 		$click_code.= 'sleep(2);' . chr( 13 );
 		
@@ -274,7 +274,7 @@ class SurveyvalTests extends PHPUnit_Extensions_SeleniumTestCase{
 	}
 
 	private function log_line( $line ){
-		$file = fopen( 'surveyval.log', 'w' );
+		$file = fopen( 'questions.log', 'w' );
 		fputs( $file, $line . chr( 13 ) );
 		fclose( $file );
 	}
