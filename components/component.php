@@ -4,13 +4,13 @@
  *
  * This class is the base for every Questions Component.
  *
- * @author rheinschmiede.de <kontakt@rehinschmiede.de>, Sven Wagener <sven.wagener@rehinschmiede.de>
- * @package Facebook Fanpage Import/Admin
+ * @author awesome.ug, Author <support@awesome.ug>
+ * @package Questions/Core
  * @version 1.0.0
  * @since 1.0.0
  * @license GPL 2
 
-  Copyright 2013 rheinschmiede (kontakt@rheinschmiede.de)
+  Copyright 2015 awesome.ug (support@awesome.ug)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as 
