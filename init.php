@@ -3,13 +3,13 @@
 Plugin Name: Questions
 Plugin URI: http://www.awesome.ug
 Description: Create your surveys or polls for WordPress Users.
-Version: 1.0
+Version: 1.0.0
 Author: awesome.ug
 Author URI: http://www.awesome.ug
 Author Email: contact@awesome.ug
 License:
 
-  Copyright 2013 (contact@awesome.ug)
+  Copyright 2015 (contact@awesome.ug)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as 
