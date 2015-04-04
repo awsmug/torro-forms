@@ -34,7 +34,7 @@ Drag & drop your survey with the Questions plugin and export results as CSV.
 * English
 * German
 
-Feel free to add your own language. We will add it to the code if you send us Language files in your language.
+Feel free to add your own language. We will add it to the code if you send us language files in your language.
 
 **Bug Reporting**
 
