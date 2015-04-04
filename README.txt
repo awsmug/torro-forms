@@ -1,5 +1,5 @@
 === Questions ===
-Contributors: mahype, awesome
+Contributors: mahype, awesome-ug
 Donate link: http://awesome.ug/donate
 Tags: survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll
 Requires at least: 4.1.1
