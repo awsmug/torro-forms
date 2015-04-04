@@ -27,6 +27,7 @@ Create your survey or poll by drag&drop with the Questions plugin and export res
 * **Participiants** Add registered users to survey or let everybody participate.
 * **Remember Mail** Send a remembering Email to participiants.
 * **Lightweight CSS** Easy to overwrite CSS in Frontend.
+* **CVS Export** Get your Results as CVS File.
 
 **Bug Reporting**
 Please report issues at Github: https://github.com/awsmug/Questions/issues
