@@ -29,6 +29,13 @@ Drag & drop your survey with the Questions plugin and export results as CSV.
 * **Lightweight CSS** - Easy to overwrite CSS in frontend.
 * **CVS Export** - Get your results as CVS file.
 
+**Languages**
+
+* English
+* German
+
+Feel free to add your own language. We will add it to the code if you send us Language files in your language.
+
 **Bug Reporting**
 
 Please report issues at Github:
