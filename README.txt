@@ -26,6 +26,7 @@ Create your survey or poll by drag&drop with the Questions plugin and export res
 * **Validation** Validate the entered data in question settings.
 * **Participiants** Add registered users to survey or let everybody participate.
 * **Remember Mail** Send a remembering Email to participiants.
+* **Lightweight CSS** Easy to overwrite CSS in Frontend.
 
 **Bug Reporting**
 Please report issues at Github: https://github.com/awsmug/Questions/issues
@@ -42,7 +43,12 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Screenshots ==
 
-1. **Text**
+1. **Drag&drop your questions and move them up and down**
+2. **Also Drag&Drop Answers**
+3. **Published Survey**
+4. **Inviting WordPress users or let open who can participate**
+5. **Text element setting options**
+6. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
 
