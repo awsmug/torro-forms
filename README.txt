@@ -23,6 +23,7 @@ Drag & drop your survey with the Questions plugin and export results as CSV.
 **Features**
 
 * **Drag&Drop** - Drag&drop questions to your survey, also sort answers by drag&drop.
+* **Bar Chart Results** - Showing results after participating or with shortcodes.
 * **Validation** - Validate the entered data in question settings.
 * **Participiants** - Add registered users to survey or let everybody participate.
 * **Remember Mail** - Send a remembering Email to participiants.
@@ -62,6 +63,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 6. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
+
+= 1.0.0 beta 3 =
+* Added bar charts and shortcodes for showing results
 
 = 1.0.0 beta 2 =
 * Fixed bug after sending form as participiant
