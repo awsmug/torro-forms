@@ -63,5 +63,8 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 2 =
+* Fixed bug after sending form as participiant
+
 = 1.0.0 beta =
 * Fist official 1.0.0 beta

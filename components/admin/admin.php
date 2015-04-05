@@ -234,7 +234,7 @@ class Questions_Admin extends Questions_Component{
 					if( is_array( $users ) && count( $users ) > 0 ):
 					
 						foreach( $users AS $user ):
-							if( sv_user_has_participated( $survey_id, $user->ID ) ):
+							if( qu_user_has_participated( $survey_id, $user->ID ) ):
 								$user_css = ' finished';
 								$user_text = __( 'finished', 'questions-locale' );
 							else:
@@ -709,7 +709,7 @@ class Questions_Admin extends Questions_Component{
 		if( 'reinvite' == $_POST['invitation_type'] ):
 			if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
 				foreach( $user_ids AS $user_id ):
-					if( !sv_user_has_participated( $survey_id, $user_id ) ):
+					if( !qu_user_has_participated( $survey_id, $user_id ) ):
 						$user_ids_new[] = $user_id;
 					endif;
 			endforeach;
@@ -749,7 +749,7 @@ class Questions_Admin extends Questions_Component{
 				$content_user = str_replace( '%displayname%', $display_name, $content );
 				$content_user = str_replace( '%username%', $user_nicename, $content_user );
 				
-				sv_mail( $user_email, $subject_user, stripslashes( $content_user ) );
+				qu_mail( $user_email, $subject_user, stripslashes( $content_user ) );
 			endforeach;
 		
 			$return_array = array(

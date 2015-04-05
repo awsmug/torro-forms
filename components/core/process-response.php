@@ -482,21 +482,21 @@ class Questions_ProcessResponse{
 		global $post, $current_user;
 		get_currentuserinfo();
 		
-		$subject_template = sv_get_mail_template_subject( 'thankyou_participating' );
+		$subject_template = qu_get_mail_template_subject( 'thankyou_participating' );
 		
 		$subject = str_replace( '%displayname%', $current_user->display_name, $subject_template );
 		$subject = str_replace( '%username%', $current_user->user_nicename, $subject );
 		$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
 		$subject = str_replace( '%survey_title%', $post->post_title, $subject );
 		
-		$text_template = sv_get_mail_template_text( 'thankyou_participating' );
+		$text_template = qu_get_mail_template_text( 'thankyou_participating' );
 		
 		$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
 		$content = str_replace( '%username%', $current_user->user_nicename, $content );
 		$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
 		$content = str_replace( '%survey_title%', $post->post_title, $content );
 		
-		sv_mail( $current_user->user_email, $subject, $content );
+		qu_mail( $current_user->user_email, $subject, $content );
 	}
 	
 	public function text_thankyou_for_participation( $survey_id ){
@@ -557,7 +557,7 @@ class Questions_ProcessResponse{
 }
 $Questions_ProcessResponse = new Questions_ProcessResponse();
 
-function sv_user_has_participated( $questions_id, $user_id = NULL){
+function qu_user_has_participated( $questions_id, $user_id = NULL){
 	global $Questions_ProcessResponse;
 	return $Questions_ProcessResponse->has_participated( $questions_id, $user_id );
 }

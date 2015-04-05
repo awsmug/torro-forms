@@ -349,7 +349,7 @@ abstract class Questions_SurveyElement{
 					endif;
 					
 					// Adding action Buttons
-					$bottom_buttons = apply_filters( 'sv_element_bottom_actions', array(
+					$bottom_buttons = apply_filters( 'qu_element_bottom_actions', array(
 						'delete_survey_element' => array(
 							'text' => __( 'Delete element', 'questions-locale' ),
 							'classes' => 'delete_survey_element'
@@ -574,7 +574,7 @@ abstract class Questions_SurveyElement{
 	
 	private function admin_widget_action_buttons(){
 		// Adding action Buttons
-		$bottom_buttons = apply_filters( 'sv_element_bottom_actions', array(
+		$bottom_buttons = apply_filters( 'qu_element_bottom_actions', array(
 			'delete_survey_element' => array(
 				'text' => __( 'Delete element', 'questions-locale' ),
 				'classes' => 'delete_survey_element'
