@@ -9,6 +9,7 @@ abstract class Questions_SurveyElement{
 	
 	var $sort = 0;
 	var $is_question = TRUE;
+	var $is_displayable = FALSE;
 	var $splitter = FALSE;
 
 	var $survey_id;

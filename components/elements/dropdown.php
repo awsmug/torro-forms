@@ -22,6 +22,7 @@ class Questions_SurveyElement_Dropdown extends Questions_SurveyElement{
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
 		$this->answer_is_multiple = FALSE;
+		$this->is_displayable = TRUE;
 		
 		$this->answer_syntax = '<option value="%s" /> %s</option>';
 		$this->answer_selected_syntax = '<option value="%s" selected="selected" /> %s</option>';

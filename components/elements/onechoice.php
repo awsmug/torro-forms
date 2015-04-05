@@ -22,6 +22,7 @@ class Questions_SurveyElement_OneChoice extends Questions_SurveyElement{
 		$this->preset_of_answers = TRUE;
 		$this->preset_is_multiple = TRUE;
 		$this->answer_is_multiple = FALSE;
+		$this->is_displayable = TRUE;
 		
 		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
 		$this->create_answer_params = array( 'name', 'answer' );
