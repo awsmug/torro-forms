@@ -46,7 +46,7 @@ class Questions_Survey{
 	/**
 	 * @var int $splitter_count Counter for form splitters
 	 */
-	private $splitter_count = 0;
+	public $splitter_count = 0;
 	
 	/**
 	 * @var array $responses Responses in an array
