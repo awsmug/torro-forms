@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-04 12:29+0100\n"
-"PO-Revision-Date: 2015-04-04 12:37+0100\n"
+"POT-Creation-Date: 2015-04-05 14:50+0100\n"
+"PO-Revision-Date: 2015-04-05 14:53+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -91,7 +91,7 @@ msgid "Remove all Participiants"
 msgstr "Alle Teilnehmer entfernen"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:213 ../components/admin/admin.php:858
+#: ../components/admin/admin.php:213 ../components/admin/admin.php:860
 msgid "participiant/s"
 msgstr "Teilnehmer"
 
@@ -128,104 +128,106 @@ msgid "new"
 msgstr "neu"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:251 ../components/admin/admin.php:848
+#: ../components/admin/admin.php:251 ../components/admin/admin.php:850
 #: ../components/element.php:447 ../components/element.php:490
 msgid "Delete"
 msgstr "L&ouml;schen"
 
-#: ../components/admin/admin.php:292
-msgid "Show Results"
-msgstr "Ergebnisse anzeigen"
+# @ surveyval-locale
+#: ../components/admin/admin.php:291
+msgid "Show results after finishing survey"
+msgstr "Ergebnisse nach Teilnahme anzeigen"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:293 ../components/admin/admin.php:849
+#: ../components/admin/admin.php:292 ../components/admin/admin.php:851
 #: ../components/element.php:648
 msgid "Yes"
 msgstr "Ja"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:294 ../components/admin/admin.php:850
+#: ../components/admin/admin.php:293 ../components/admin/admin.php:852
 #: ../components/element.php:650
 msgid "No"
 msgstr "Nein"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:311
+#: ../components/admin/admin.php:313
 msgid "Dublicate Survey"
 msgstr "Umfrage dublizieren"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:318
+#: ../components/admin/admin.php:320
 msgid "Invite Participiants"
 msgstr "Teilnehmer einladen"
 
-#: ../components/admin/admin.php:319 ../components/admin/admin.php:326
+#: ../components/admin/admin.php:321 ../components/admin/admin.php:328
 msgid "Cancel"
 msgstr "Abbrechen"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:325
+#: ../components/admin/admin.php:327
 msgid "Reinvite Participiants"
 msgstr "Erneut einladen"
 
-#: ../components/admin/admin.php:329
+#: ../components/admin/admin.php:331
 msgid ""
 "You can invite Participiants to this survey after the survey is published."
 msgstr ""
 "Sie k&ouml;nenn Teilnehmer einladen, sobald die Umfrage gespeichert ist."
 
-#: ../components/admin/admin.php:341
-msgid "Survey Options"
-msgstr "Umfrage-Optionen"
+# @ surveyval-locale
+#: ../components/admin/admin.php:343
+msgid "Result Settings"
+msgstr "Ergebnis-Einstellungen"
 
-#: ../components/admin/admin.php:348
+#: ../components/admin/admin.php:350
 msgid "Survey Functions"
 msgstr "Umfrage-Funktionen"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:355 ../components/elements/elements.php:40
+#: ../components/admin/admin.php:357 ../components/elements/elements.php:40
 msgid "Elements"
 msgstr "Elemente"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:363
+#: ../components/admin/admin.php:365
 msgid "Participiants list"
 msgstr "Teilnehmerliste"
 
-#: ../components/admin/admin.php:707
+#: ../components/admin/admin.php:709
 msgid "Survey Invitation"
 msgstr "Einlö"
 
-#: ../components/admin/admin.php:718
+#: ../components/admin/admin.php:720
 msgid "Survey Reinvitation"
 msgstr "Erneute Einladung"
 
-#: ../components/admin/admin.php:851
+#: ../components/admin/admin.php:853
 msgid "just added"
 msgstr "gerade hinzugef&uuml;gt"
 
-#: ../components/admin/admin.php:852
+#: ../components/admin/admin.php:854
 msgid "Invitations sent successfully!"
 msgstr "Einladungen erfolgreich versendet!"
 
-#: ../components/admin/admin.php:853
+#: ../components/admin/admin.php:855
 msgid "Invitations could not be sent!"
 msgstr "Einladungen konnten nicht versendet werden!"
 
-#: ../components/admin/admin.php:854
+#: ../components/admin/admin.php:856
 msgid "Renvitations sent successfully!"
 msgstr "Erneute Einladungen erfolgreich versendet!"
 
-#: ../components/admin/admin.php:855
+#: ../components/admin/admin.php:857
 msgid "Renvitations could not be sent!"
 msgstr "Erneute Einladungen konnten nicht versendet werden!"
 
-#: ../components/admin/admin.php:856
+#: ../components/admin/admin.php:858
 msgid "Survey dublicated successfully!"
 msgstr "Umfrage erfolgreich dupliziert!"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:857 ../components/core/core.php:91
+#: ../components/admin/admin.php:859 ../components/core/core.php:91
 msgid "Edit Survey"
 msgstr "Umfrage bearbeiten"
 
@@ -332,6 +334,27 @@ msgstr "Diagramme"
 #: ../components/charts/charts.php:44
 msgid "Showing Charts in Questions."
 msgstr "Anzeigen von Diagrammen in Questions"
+
+# @ surveyval-locale
+#: ../components/charts/shortcodes.php:51
+msgid "Please enter a survey id in the survey shortcode!"
+msgstr "Bitte geben Sie die ID der Umfrage im Sportcode an."
+
+# @ surveyval-locale
+#: ../components/charts/shortcodes.php:74
+msgid "Please enter a question id in the survey shortcode!"
+msgstr "Bitte geben Sie die ID der Frage im Sportcode an."
+
+#: ../components/charts/shortcodes.php:94
+#: ../components/charts/shortcodes.php:103
+msgid "Shortcode:"
+msgstr "Shortcode:"
+
+#: ../components/charts/shortcodes.php:102
+msgid "(CTRL+C and paste into post to embed question results in post)"
+msgstr ""
+"(STRG +C  und anschließend in Post einfügen um die Ergebnisse der Frage "
+"anzuzeigen)"
 
 # @ surveyval-locale
 #: ../components/component.php:50
@@ -469,17 +492,17 @@ msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 msgid "You already have participated this poll."
 msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
-#: ../components/core/process-response.php:536
+#: ../components/core/process-response.php:531
 msgid "This are the actual results:"
 msgstr "Das sind die aktuellen Ergebnisse"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:545
+#: ../components/core/process-response.php:541
 msgid "You have to be logged in to participate this survey."
 msgstr "Sie m&uuml;ssen eigeloggt sein um an der Umfrage teilzunehmen."
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:552
+#: ../components/core/process-response.php:548
 msgid "You can't participate this survey."
 msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
 
@@ -779,11 +802,11 @@ msgid "Number of columns for typing in (can be overwritten by CSS)."
 msgstr ""
 "Anzahl der Spalten zur Eingabe (kann von CSS &uuml;berschrieben werden)."
 
-#: ../components/survey.php:118
+#: ../components/survey.php:172
 msgid "User ID"
 msgstr "Nutzer ID"
 
-#: ../components/survey.php:139
+#: ../components/survey.php:198
 msgid "Date/Time"
 msgstr "Datum / Uhrzeit"
 
@@ -868,9 +891,11 @@ msgstr "Sie sind eingeladen an der Umbrage teilzunehmen"
 msgid "Don´t forget to answer the Survey"
 msgstr "Vergessen Sie nicht, die Umfrage zu beantworten"
 
-# @ surveyval-locale
-#~ msgid "Show Results after participating"
-#~ msgstr "Ergebnisse nach Teilnahme anzeigen"
+#~ msgid "Show Results"
+#~ msgstr "Ergebnisse anzeigen"
+
+#~ msgid "Survey Options"
+#~ msgstr "Umfrage-Optionen"
 
 #~ msgid "Size"
 #~ msgstr "Gr&ouml;&szlig;e"

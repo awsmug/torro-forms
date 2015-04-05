@@ -95,6 +95,23 @@
 	color:#222;
 	text-decoration: none;
 }
+.survey_element_tabs .shortcode,
+.questions-resultsettings-value.shortcode{
+	background-color: #f7f7f7;
+	margin-top:20px;
+	padding:10px;
+	border: 1px solid #e5e5e5;
+}
+#questions-content .survey_element_tabs .shortcode .shortcode_input,
+.questions-resultsettings-value #survey_results_shortcode{
+    background-color: #f7f7f7;
+    font-size: 11px;
+    height: 25px;
+    margin-left: 10px;
+}
+#questions-content .survey_element_tabs .shortcode .shortcode_input{
+	width:25%;
+}
 .tab_settings_content{
 	margin-top:20px;
 }

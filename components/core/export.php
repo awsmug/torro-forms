@@ -65,7 +65,7 @@ class Questions_Export{
 
 			switch( $export_type ){
 				case 'CSV':
-					$content = $this->get_csv( $survey->get_responses_array() );
+					$content = $this->get_csv( $survey->get_responses() );
 					$bytes = strlen( $content );
 					$charset = 'UTF-8';
 					
@@ -77,7 +77,7 @@ class Questions_Export{
 					
 					break;
 				default:
-					echo $this->get_csv( $survey->get_responses_array() );
+					echo $this->get_csv( $survey->get_responses() );
 					break;
 			}
 			exit;

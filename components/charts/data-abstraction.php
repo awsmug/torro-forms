@@ -37,6 +37,12 @@ class Questions_AbstractData{
 	public function __construct() {
 	} // end constructor
 	
+	
+	/**
+	 * Prepare data to be used with charts
+	 * @param array $response_array
+	 * @return array $ordered_data
+	 */
 	public static function order_for_charting( $response_array ){
 		global $wpdb, $questions_global;
 		

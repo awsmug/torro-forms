@@ -528,14 +528,10 @@ class Questions_ProcessResponse{
 	}
 	
 	public function show_results( $survey_id ){
-		$show_results_after_participating = get_post_meta( $survey_id, 'show_results_after_participating', TRUE );
-		
-		$html = '';
-		
-		if( 'yes' == $show_results_after_participating ):
-			$html.= '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
-			$html.= do_shortcode( '[show_survey_results id="' . $survey_id . '"]' );
-		endif;
+		$html = '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
+		ob_start();
+		do_shortcode( '[survey_results id="' . $survey_id . '"]' );
+		$html.= ob_get_clean();
 		
 		return $html;
 	}

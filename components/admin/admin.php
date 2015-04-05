@@ -287,13 +287,15 @@ class Questions_Admin extends Questions_Component{
 		else
 			$checked_yes = ' checked="checked"';
 		
-		$html = '<div class="questions-option-element">';
-			$html.= '<div class="questions-option-element">';
-				$html.= '<p><label for="show_results">' . __( 'Show Results', 'questions-locale' ) . '</label></p>';
-				$html.= '<input type="radio" name="show_results" value="yes"' . $checked_yes .'>' . __( 'Yes') . '<br>';
-				$html.= '<input type="radio" name="show_results" value="no"' . $checked_no .'>' . __( 'No') . '<br>';
-			$html.= '</div>';
+		$html = '<div class="questions-resultsettings-value">';
+			$html.= '<p><label for="show_results">' . __( 'Show results after finishing survey', 'questions-locale' ) . '</label></p>';
+			$html.= '<input type="radio" name="show_results" value="yes"' . $checked_yes .'>' . __( 'Yes') . ' ';
+			$html.= '<input type="radio" name="show_results" value="no"' . $checked_no .'>' . __( 'No') . '<br>';
 		$html.= '</div>';
+		
+		ob_start();
+		do_action( 'questions_survey_result_settings', $survey_id );
+		$html.= ob_get_clean();
 		
 		echo $html;
 	}
@@ -338,7 +340,7 @@ class Questions_Admin extends Questions_Component{
 		if( in_array( $post_type, $post_types )):
 			add_meta_box(
 	            'survey-options',
-	            __( 'Survey Options', 'questions-locale' ),
+	            __( 'Result Settings', 'questions-locale' ),
 	            array( $this, 'meta_box_survey_options' ),
 	            'questions',
 	            'side'
