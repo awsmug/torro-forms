@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-05 14:50+0100\n"
-"PO-Revision-Date: 2015-04-05 14:53+0100\n"
+"PO-Revision-Date: 2015-04-05 15:02+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -494,7 +494,7 @@ msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
 #: ../components/core/process-response.php:531
 msgid "This are the actual results:"
-msgstr "Das sind die aktuellen Ergebnisse"
+msgstr "Das sind die aktuellen Ergebnisse:"
 
 # @ surveyval-locale
 #: ../components/core/process-response.php:541
