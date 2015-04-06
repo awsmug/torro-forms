@@ -6,11 +6,11 @@ Requires at least: 4.1.1
 Tested up to: 4.1.1
 Stable tag: 1.0.0
 
-Drag&Drop surveys / polls for WordPress.
+Drag&Drop surveys / polls in WordPress.
 
 == Description ==
 
-Drag & drop your survey with the Questions plugin and export results as CSV.
+Drag & drop your survey with the Questions plugin.
 
 **Question Types**
 

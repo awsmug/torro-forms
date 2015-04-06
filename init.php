@@ -2,7 +2,7 @@
 /*
 Plugin Name: Questions
 Plugin URI: http://www.awesome.ug
-Description: Create your surveys or polls for WordPress Users.
+Description: Drag & drop your survey/poll with the WordPress Questions plugin.
 Version: 1.0.0 beta 3
 Author: awesome.ug
 Author URI: http://www.awesome.ug
