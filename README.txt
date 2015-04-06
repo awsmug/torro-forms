@@ -58,9 +58,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 1. **Drag&Drop your questions and move them up and down**
 2. **Also Drag&Drop answers**
 3. **Published survey**
-4. **Inviting WordPress users or let open who can participate**
-5. **Text element setting options**
-6. **Setup templates for inviting and remembering mails**
+4. **Results of a survey**
+5. **Inviting WordPress users or let open who can participate**
+6. **Text element setting options**
+7. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
 
