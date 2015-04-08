@@ -523,9 +523,9 @@ abstract class Questions_SurveyElement{
 		if( array_key_exists( $name, $this->settings ) )
 			$value = $this->settings[ $name ];
 		
-		if( empty( $value ) )
+		if( '' == $value )
 			$value = $field['default'];
-			
+		
 		$name = 'questions[' . $widget_id . '][settings][' . $name . ']';
 		
 		switch( $field['type'] ){

@@ -65,6 +65,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 4 =
+* Min length of 0 is possible too now
+
 = 1.0.0 beta 3 =
 * Added bar charts and shortcodes for showing results
 
