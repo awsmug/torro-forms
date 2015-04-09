@@ -223,3 +223,14 @@ class Questions_Survey{
 		return $wpdb->get_col( $sql );
 	}
 }
+function qu_survey_exists( $survey_id ){
+	global $wpdb;
+	
+	$sql = $wpdb->prepare( "SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d and post_type = 'questions'", $survey_id );
+	$var = $wpdb->get_var( $sql );
+	
+	if( $var > 0 )
+		return TRUE;
+	
+	return FALSE;
+}

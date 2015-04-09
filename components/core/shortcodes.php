@@ -34,24 +34,40 @@ class QuestionsShortCodes{
 	var $components = array();
 	var $question_types = array();
 	
-	public function __construct(){
-		add_shortcode( 'questions', array( $this, 'questions' ) );
+	public static function init(){
+		add_shortcode( 'survey', array( __CLASS__, 'survey' ) );
+		add_action( 'questions_survey_options', array( __CLASS__ , 'show_survey_shortcode' ), 5 );
 	}
 	
-	public function questions( $atts ){
+	public static function survey( $atts ){
 		global $Questions_ProcessResponse;
-		extract( shortcode_atts( array(
+		
+		$atts = shortcode_atts( array(
 				'id' => '',
 				'title' => __( 'Survey', 'questions-locale' )
 			),
-			$atts ) );
+			$atts );
 		
-		if( '' === $id ):
+		if( '' == $atts[ 'id' ] ):
 			_e( 'Please enter an id in the survey shortcode!', 'questions-locale' );
 			return;
 		endif;
 		
-		echo $Questions_ProcessResponse->get_survey( $id );
+		if( !qu_survey_exists( $atts[ 'id' ] ) ):
+			_e( 'Survey not found. Please enter another ID in your shortcode.', 'questions-locale' );
+			return;
+		endif;
+		
+		echo $Questions_ProcessResponse->show_survey( $atts[ 'id' ] );
+	}
+	
+	public static function show_survey_shortcode( $survey_id ){
+		$html = '<div class="questions-options shortcode">';
+		$html.= '<label for="survey_results_shortcode">' . __( 'Survey Shortcode:', 'questions-locale' ) . '</label><br />';
+		$html.= '<input type="text" id="survey_results_shortcode" value="[survey id=' . $survey_id . ']" />';
+		$html.= '</div>';
+		
+		echo $html;	
 	}
 }
-$QuestionsShortCodes = new QuestionsShortCodes();
+QuestionsShortCodes::init();

@@ -96,14 +96,19 @@
 	text-decoration: none;
 }
 .survey_element_tabs .shortcode,
-.questions-resultsettings-value.shortcode{
+.questions-options.shortcode{
 	background-color: #f7f7f7;
 	margin-top:20px;
 	padding:10px;
 	border: 1px solid #e5e5e5;
 }
-#questions-content .survey_element_tabs .shortcode .shortcode_input,
-.questions-resultsettings-value #survey_results_shortcode{
+.questions-options input[type="text"]{
+    background-color: #f7f7f7;
+    font-size: 11px;
+    height: 25px;
+    width:100%;
+}
+#questions-content .survey_element_tabs .shortcode .shortcode_input{
     background-color: #f7f7f7;
     font-size: 11px;
     height: 25px;

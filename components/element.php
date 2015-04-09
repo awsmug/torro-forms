@@ -519,6 +519,7 @@ abstract class Questions_SurveyElement{
 	
 	private function admin_widget_settings_tab_field( $name, $field ){
 		$widget_id = $this->admin_get_widget_id();
+		$value = '';
 		
 		if( array_key_exists( $name, $this->settings ) )
 			$value = $this->settings[ $name ];

@@ -38,7 +38,7 @@ class QuestionsChartsShortCodes{
 		add_shortcode( 'survey_results', array( __CLASS__ , 'sc_survey_results' ) );
 		add_shortcode( 'question_results', array( __CLASS__ , 'sc_question_results' ) );
 		
-		add_action( 'questions_survey_result_settings', array( __CLASS__ , 'show_survey_result_shortcode' ) );
+		add_action( 'questions_survey_options', array( __CLASS__ , 'show_survey_result_shortcode' ) );
 		add_action( 'questions_element_admin_tabs_content', array( __CLASS__ , 'show_question_result_shortcode' ) );
 	}
 	
@@ -90,9 +90,9 @@ class QuestionsChartsShortCodes{
 	}
 	
 	public static function show_survey_result_shortcode( $survey_id ){
-		$html = '<div class="questions-resultsettings-value shortcode">';
-		$html.= '<label for="survey_results_shortcode">' . __( 'Shortcode:', 'questions-locale' ) . '</label>';
-		$html.= '<input type="text" id="survey_results_shortcode" value="[survey_results id=' . $survey_id . ']" />';
+		$html = '<div class="questions-options shortcode">';
+		$html.= '<label for="survey_results_shortcode">' . __( 'Results Shortcode:', 'questions-locale' ) . '</label><br />';
+		$html.= '<input type="text" id="survey_questions_shortcode" value="[survey_results id=' . $survey_id . ']" />';
 		$html.= '</div>';
 		
 		echo $html;	

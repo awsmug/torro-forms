@@ -66,7 +66,7 @@ class Questions_ProcessResponse{
 		return $content;
 	}
 	
-	private function show_survey( $survey_id ){
+	public function show_survey( $survey_id ){
 		if( TRUE === $this->check_restrictions( $survey_id ) ):
 			return $this->survey_form( $survey_id );
 		else:
@@ -232,19 +232,11 @@ class Questions_ProcessResponse{
 		if( !array_key_exists( 'questions_id', $_POST ) )
 		 	return;
 		
-		// Post Type is questions or die
-		if( 'questions' != $wp_object->query_vars[ 'post_type' ] )
-			return;
+		$questions_survey_id = $_POST[ 'questions_id' ];
 		
-		// Getting Survey id from post or die
-		if( array_key_exists( 'name', $wp_object->query_vars) ):
-			$sql = $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_name = %s AND post_type='questions'", $wp_object->query_vars[ 'name' ] );
-			$questions_survey_id = $wpdb->get_var( $sql );
-		elseif( array_key_exists( 'p', $wp_object->query_vars) ):
-			$questions_survey_id = $wp_object->query_vars[ 'p' ];
-		else:
+		// Post Type is questions or die
+		if( !qu_survey_exists( $questions_survey_id ) )
 			return;
-		endif;
 		
 		if( TRUE !== $this->check_restrictions( $questions_survey_id ) )
 			return;
