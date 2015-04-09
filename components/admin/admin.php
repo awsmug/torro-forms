@@ -452,9 +452,12 @@ class Questions_Admin extends Questions_Component{
 				continue;
 			
 			$question_id = $survey_question['id'];
-			$question = $survey_question['question'];
+			$question = '';
 			$sort = $survey_question['sort'];
 			$type = $survey_question['type'];
+			
+			if( array_key_exists( 'question', $survey_question ) )
+				$question = $survey_question['question'];
 			
 			$answers = array();
 			$settings = array();
