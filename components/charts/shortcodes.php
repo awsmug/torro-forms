@@ -53,7 +53,8 @@ class QuestionsChartsShortCodes{
 		endif;
 		
 		$survey = new Questions_Survey( $atts[ 'id' ] );
-		$ordered_data = Questions_AbstractData::order_for_charting( $survey->get_responses( FALSE, FALSE ) );
+		$response = $survey->get_responses( FALSE, FALSE );
+		$ordered_data = Questions_AbstractData::order_for_charting( $response );
 		
 		$html = '';
 		foreach ( $ordered_data[ 'questions' ] as $question_id => $question ):

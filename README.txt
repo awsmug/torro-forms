@@ -65,6 +65,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 6 =
+* Fixed result charts bug
+* Fixed some translation fails
+
 = 1.0.0 beta 5 =
 * Added Questions Shortcode for embedding surveys
 * Fixed some translation fails

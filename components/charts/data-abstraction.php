@@ -46,29 +46,29 @@ class Questions_AbstractData{
 	public static function order_for_charting( $response_array ){
 		global $wpdb, $questions_global;
 		
-		$lines = self::lines( $response_array );
-		
 		$ordered_data = array();
 		
-		// Getting Labels
-		foreach( $lines[ 0 ] AS $key => $line ):
-			if( $key != '_user_id' ):
-				$ordered_data[ 'questions' ][ $key ] = $line;
-			endif;
-		endforeach;
-		
-		unset ( $lines[0] ); // Throw away headlines
-		
+		$ordered_data[ 'questions' ] = array();
 		$ordered_data[ 'data' ] = array();
 		
 		// Getting every entery of one 
-		foreach( $ordered_data[ 'questions' ] AS $key => $line ):
+		foreach( $response_array AS $key => $line ):
 			$merged_data = array();
 			
-			foreach( $lines AS $response_id => $line ):
-				if( !isset( $merged_data[ $line[ $key ] ] ) ) $merged_data[ $line[ $key ] ] = 0;
-				$merged_data[ $line[ $key ] ]++;				
-			endforeach;
+			$sql = $wpdb->prepare( "SELECT type FROM {$questions_global->tables->questions} WHERE id = %s", $key );
+			$result = $wpdb->get_row( $sql );
+			
+			$element_class = 'Questions_SurveyElement_' . $result->type;
+			
+			if( !class_exists( $element_class ) )
+				continue;
+			
+			$element = new $element_class( $key );
+			
+			if( !$element->is_displayable )
+				continue;
+			
+			$ordered_data[ 'questions' ][ $key ] = $line[ 'question' ];
 			
 			// Fill up missed answers with 0
 			$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->answers} WHERE question_id = %s", $key );
@@ -76,8 +76,21 @@ class Questions_AbstractData{
 			
 			$voted_answers = array_keys( $merged_data );
 			foreach( $results AS $result ):
-				if( !in_array( $result->answer, $voted_answers ) )
-				 	$merged_data[ $result->answer ] = 0;
+			 	$merged_data[ $result->answer ] = 0;
+			endforeach;
+			
+			// Adding voted data
+			$responses = $response_array[ $key ][ 'responses' ];
+			
+			foreach( $responses AS $response ):
+				if( !$element->answer_is_multiple ):
+					$merged_data[ $response ] += 1;
+				else:
+					foreach( $response AS $answer_option => $answer ):
+						if( $answer == __( 'Yes', 'questions-locale' ) )
+							$merged_data[ $answer_option ] += 1;
+					endforeach;
+				endif;
 			endforeach;
 			
 			$ordered_data[ 'data' ][ $key ] = $merged_data;
