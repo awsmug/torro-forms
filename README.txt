@@ -65,6 +65,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 5 =
+* Added Questions Shortcode for embedding surveys
+* Fixed some translation fails
+
 = 1.0.0 beta 4 =
 * Min length of 0 is possible too now
 
