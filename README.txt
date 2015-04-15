@@ -65,6 +65,14 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 7 =
+* Fixed problems with errors on further steps
+* Made (int) for steps
+* Returning shortcode content and not echo it
+* Changed collation of tables to utf8_general_ci
+* Changed to more secure getting path function
+* Fixed text mistake on separator
+
 = 1.0.0 beta 6 =
 * Fixed result charts bug
 * Fixed some translation fails
