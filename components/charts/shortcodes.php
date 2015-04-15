@@ -61,7 +61,7 @@ class QuestionsChartsShortCodes{
 			$html.= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data['data'][ $question_id ] );
 		endforeach;
 		
-		echo $html;
+		return $html;
 	}
 	
 	public static function sc_question_results( $atts ){
@@ -87,7 +87,7 @@ class QuestionsChartsShortCodes{
 			$html.= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data['data'][ $question_id ] );
 		endforeach;
 		
-		echo $html;
+		return $html;
 	}
 	
 	public static function show_survey_result_shortcode( $survey_id ){

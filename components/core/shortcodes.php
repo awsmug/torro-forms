@@ -58,7 +58,7 @@ class QuestionsShortCodes{
 			return;
 		endif;
 		
-		echo $Questions_ProcessResponse->show_survey( $atts[ 'id' ] );
+		return $Questions_ProcessResponse->show_survey( $atts[ 'id' ] );
 	}
 	
 	public static function show_survey_shortcode( $survey_id ){

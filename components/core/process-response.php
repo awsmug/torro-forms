@@ -521,9 +521,7 @@ class Questions_ProcessResponse{
 	
 	public function show_results( $survey_id ){
 		$html = '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
-		ob_start();
-		do_shortcode( '[survey_results id="' . $survey_id . '"]' );
-		$html.= ob_get_clean();
+		$html.= do_shortcode( '[survey_results id="' . $survey_id . '"]' );
 		
 		return $html;
 	}
