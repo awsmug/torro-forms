@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-09 15:39+0100\n"
-"PO-Revision-Date: 2015-04-09 15:41+0100\n"
+"POT-Creation-Date: 2015-04-15 19:55+0100\n"
+"PO-Revision-Date: 2015-04-15 19:55+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -91,7 +91,7 @@ msgid "Remove all Participiants"
 msgstr "Alle Teilnehmer entfernen"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:213 ../components/admin/admin.php:860
+#: ../components/admin/admin.php:213 ../components/admin/admin.php:863
 msgid "participiant/s"
 msgstr "Teilnehmer"
 
@@ -128,7 +128,7 @@ msgid "new"
 msgstr "neu"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:251 ../components/admin/admin.php:850
+#: ../components/admin/admin.php:251 ../components/admin/admin.php:853
 #: ../components/element.php:448 ../components/element.php:491
 msgid "Delete"
 msgstr "L&ouml;schen"
@@ -139,13 +139,13 @@ msgid "Show results after finishing survey"
 msgstr "Ergebnisse nach Teilnahme anzeigen"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:292 ../components/admin/admin.php:851
-#: ../components/element.php:650
+#: ../components/admin/admin.php:292 ../components/admin/admin.php:854
+#: ../components/charts/data-abstraction.php:90 ../components/element.php:650
 msgid "Yes"
 msgstr "Ja"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:293 ../components/admin/admin.php:852
+#: ../components/admin/admin.php:293 ../components/admin/admin.php:855
 #: ../components/element.php:652
 msgid "No"
 msgstr "Nein"
@@ -193,40 +193,40 @@ msgstr "Elemente"
 msgid "Participiants list"
 msgstr "Teilnehmerliste"
 
-#: ../components/admin/admin.php:709
+#: ../components/admin/admin.php:712
 msgid "Survey Invitation"
 msgstr "Einlö"
 
-#: ../components/admin/admin.php:720
+#: ../components/admin/admin.php:723
 msgid "Survey Reinvitation"
 msgstr "Erneute Einladung"
 
-#: ../components/admin/admin.php:853
+#: ../components/admin/admin.php:856
 msgid "just added"
 msgstr "gerade hinzugef&uuml;gt"
 
-#: ../components/admin/admin.php:854
+#: ../components/admin/admin.php:857
 msgid "Invitations sent successfully!"
 msgstr "Einladungen erfolgreich versendet!"
 
-#: ../components/admin/admin.php:855
+#: ../components/admin/admin.php:858
 msgid "Invitations could not be sent!"
 msgstr "Einladungen konnten nicht versendet werden!"
 
-#: ../components/admin/admin.php:856
+#: ../components/admin/admin.php:859
 msgid "Renvitations sent successfully!"
 msgstr "Erneute Einladungen erfolgreich versendet!"
 
-#: ../components/admin/admin.php:857
+#: ../components/admin/admin.php:860
 msgid "Renvitations could not be sent!"
 msgstr "Erneute Einladungen konnten nicht versendet werden!"
 
-#: ../components/admin/admin.php:858
+#: ../components/admin/admin.php:861
 msgid "Survey dublicated successfully!"
 msgstr "Umfrage erfolgreich dupliziert!"
 
 # @ surveyval-locale
-#: ../components/admin/admin.php:859 ../components/core/core.php:91
+#: ../components/admin/admin.php:862 ../components/core/core.php:91
 msgid "Edit Survey"
 msgstr "Umfrage bearbeiten"
 
@@ -340,21 +340,21 @@ msgid "Please enter a survey id in the survey shortcode!"
 msgstr "Bitte geben Sie die ID der Umfrage im Sportcode an."
 
 # @ surveyval-locale
-#: ../components/charts/shortcodes.php:74
+#: ../components/charts/shortcodes.php:75
 msgid "Please enter a question id in the survey shortcode!"
 msgstr "Bitte geben Sie die ID der Frage im Sportcode an."
 
-#: ../components/charts/shortcodes.php:94
+#: ../components/charts/shortcodes.php:95
 msgid "Results Shortcode:"
 msgstr "Ergebnis-Shortcode:"
 
-#: ../components/charts/shortcodes.php:103
+#: ../components/charts/shortcodes.php:104
 msgid "(CTRL+C and paste into post to embed question results in post)"
 msgstr ""
 "(STRG +C  und anschließend in Post einfügen um die Ergebnisse der Frage "
 "anzuzeigen)"
 
-#: ../components/charts/shortcodes.php:104
+#: ../components/charts/shortcodes.php:105
 msgid "Shortcode:"
 msgstr "Shortcode:"
 
@@ -485,26 +485,26 @@ msgid "Next Step"
 msgstr "Weiter"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:508
+#: ../components/core/process-response.php:500
 msgid "Thank you for participating this survey!"
 msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:523
+#: ../components/core/process-response.php:515
 msgid "You already have participated this poll."
 msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
-#: ../components/core/process-response.php:531
+#: ../components/core/process-response.php:523
 msgid "This are the actual results:"
 msgstr "Das sind die aktuellen Ergebnisse:"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:541
+#: ../components/core/process-response.php:533
 msgid "You have to be logged in to participate this survey."
 msgstr "Sie m&uuml;ssen eigeloggt sein um an der Umfrage teilzunehmen."
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:548
+#: ../components/core/process-response.php:540
 msgid "You can't participate this survey."
 msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
 
@@ -675,7 +675,7 @@ msgstr ""
 # @ surveyval-locale
 #: ../components/elements/separator.php:18
 msgid "Separator"
-msgstr "Separatorn"
+msgstr "Separator"
 
 # @ surveyval-locale
 #: ../components/elements/separator.php:19
