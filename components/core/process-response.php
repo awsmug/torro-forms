@@ -167,7 +167,11 @@ class Questions_ProcessResponse{
 		if( array_key_exists( 'questions_next_step', $_POST ) && 0 == count( $questions_response_errors ) ):
 			$next_step = (int) $_POST[ 'questions_next_step' ];
 		else:
-			$next_step = (int) $_POST[ 'questions_actual_step' ];
+			if( array_key_exists( 'questions_actual_step', $_POST ) ):
+				$next_step = (int) $_POST[ 'questions_actual_step' ];
+			else:
+				$next_step = 0;
+			endif;
 		endif;
 		
 		if( array_key_exists( 'questions_submission_back', $_POST ) ):
@@ -308,7 +312,10 @@ class Questions_ProcessResponse{
 		$this->finished = FALSE;
 		
 		// Getting data of posted step
-		$survey_response = $_POST[ 'questions_response' ];
+		$survey_response = array();
+		if( array_key_exists( 'questions_response', $_POST ) )
+			$survey_response = $_POST[ 'questions_response' ];
+		
 		$survey_actual_step = (int) $_POST[ 'questions_actual_step' ];
 		
 		// Validating response values and setting up error variables
