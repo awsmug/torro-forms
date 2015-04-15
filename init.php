@@ -96,7 +96,7 @@ class Questions_Init{
 			sort int(11) NOT NULL,
 			type char(50) NOT NULL,
 			UNIQUE KEY id (id)
-			)";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 			
 		dbDelta( $sql );
 		
@@ -107,7 +107,7 @@ class Questions_Init{
 			answer text NOT NULL,
 			sort int(11) NOT NULL,
 			UNIQUE KEY id (id)
-			)";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 			
 		dbDelta( $sql );
 		
@@ -119,7 +119,7 @@ class Questions_Init{
 			remote_addr char(15) NOT NULL,
 			cookie_key char(30) NOT NULL,
 			UNIQUE KEY id (id)
-			)";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 			
 		dbDelta( $sql );
 		
@@ -129,7 +129,7 @@ class Questions_Init{
 			question_id int(11) NOT NULL,
 			value text NOT NULL,
 			UNIQUE KEY id (id)
-			)";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 			
 		dbDelta( $sql );
 		
@@ -139,7 +139,7 @@ class Questions_Init{
 			name text NOT NULL,
 			value text NOT NULL,
 			UNIQUE KEY id (id)
-			)";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 			
 		dbDelta( $sql );
 		
@@ -148,9 +148,27 @@ class Questions_Init{
 			survey_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
 			UNIQUE KEY id (id)
-			)";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 			
 		dbDelta( $sql );
+		
+		$sql = "ALTER TABLE $table_questions CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$wpdb->query( $sql );
+		
+		$sql = "ALTER TABLE $table_answers CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$wpdb->query( $sql );
+		
+		$sql = "ALTER TABLE $table_responds CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$wpdb->query( $sql );
+		
+		$sql = "ALTER TABLE $table_respond_answers CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$wpdb->query( $sql );
+		
+		$sql = "ALTER TABLE $table_participiants CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$wpdb->query( $sql );
+		
+		$sql = "ALTER TABLE $table_settings CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$wpdb->query( $sql );
 		
 		update_option( 'questions_db_version', '1.1.0' );
 		
