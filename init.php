@@ -263,9 +263,7 @@ class Questions_Init{
 	* @since 1.0.0
 	*/
 	private static function get_folder(){
-		$sub_folder = substr( dirname(__FILE__), strlen( ABSPATH ), ( strlen( dirname(__FILE__) ) - strlen( ABSPATH ) ) );
-		$script_folder = ABSPATH . $sub_folder;
-		return $script_folder;
+		return plugin_dir_path( __FILE__ );
 	}
 	
 	/**
