@@ -49,10 +49,18 @@ class Questions_ProcessResponse{
 		endif;
 	} // end constructor
 	
+	/**
+	 * Adding filter for the content to show Survey
+	 */
 	public function add_post_filter(){
 		add_filter( 'the_content', array( $this, 'the_content' ) );
 	}
 	
+	/**
+	 * The filtered content gehts a survey
+	 * @param string $content
+	 * @return strint $content
+	 */
 	public function the_content( $content ){
 		global $post, $questions_global;
 		
@@ -66,6 +74,11 @@ class Questions_ProcessResponse{
 		return $content;
 	}
 	
+	/**
+	 * Showing survey
+	 * @param int $survey_id
+	 * @return string $survey_html
+	 */
 	public function show_survey( $survey_id ){
 		if( TRUE === $this->check_restrictions( $survey_id ) ):
 			return $this->survey_form( $survey_id );
@@ -73,7 +86,15 @@ class Questions_ProcessResponse{
 			return $this->check_restrictions( $survey_id );
 		endif;
 	}
-
+	
+	/**
+	 * Check restrictions
+	 * 
+	 * Checking restrictions if user can participate
+	 * 
+	 * @param int $survey_id
+	 * @return boolean $can_participate
+	 */
 	private function check_restrictions( $survey_id ){
 		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE ); 
 		
@@ -129,6 +150,14 @@ class Questions_ProcessResponse{
 		return TRUE;
 	}
 	
+	/**
+	 * Survey form
+	 * 
+	 * Creating form HTML
+	 * 
+	 * @param int $survey_id
+	 * @return string $html
+	 */
 	private function survey_form( $survey_id ){
 		global $questions_response_errors, $questions_survey_id;
 		$questions_survey_id = $survey_id;
@@ -136,13 +165,13 @@ class Questions_ProcessResponse{
 		do_action( 'before_survey_form' );
 		
 		if( array_key_exists( 'questions_next_step', $_POST ) && 0 == count( $questions_response_errors ) ):
-			$next_step = $_POST[ 'questions_next_step' ];
+			$next_step = (int) $_POST[ 'questions_next_step' ];
 		else:
-			$next_step = 0;
+			$next_step = (int) $_POST[ 'questions_actual_step' ];
 		endif;
 		
 		if( array_key_exists( 'questions_submission_back', $_POST ) ):
-			$next_step = $_POST[ 'questions_actual_step' ] - 1;
+			$next_step = (int) $_POST[ 'questions_actual_step' ] - 1;
 		endif;
 		
 		$actual_step = $next_step;
@@ -187,6 +216,12 @@ class Questions_ProcessResponse{
 		return $html;
 	}
 
+	/**
+	 * Checks if a user can participate
+	 * @param int $survey_id
+	 * @param int $user_id
+	 * @return boolean $can_participate
+	 */
 	public function user_can_participate( $survey_id, $user_id = NULL ){
 		global $wpdb, $current_user;
 		
@@ -201,11 +236,22 @@ class Questions_ProcessResponse{
 		return apply_filters( 'questions_user_can_participate', $can_participate, $survey_id, $user_id );
 	}
 
+	/**
+	 * Get numer of spits in survey
+	 * @param int $survey_id
+	 * @return int $splitter_count
+	 */
 	private function get_step_count( $survey_id ){
 		$survey = new Questions_Survey( $survey_id );
 		return $survey->splitter_count;
 	}
-
+	
+	/**
+	 * Getting elements of a survey
+	 * @param int $survey_id
+	 * @param int $step
+	 * @return array $elements
+	 */
 	public function get_elements( $survey_id, $step = 0 ){
 		$survey = new Questions_Survey( $survey_id );
 		
@@ -224,7 +270,10 @@ class Questions_ProcessResponse{
 		
 		return $elements[ $step ];
 	}
-
+	
+	/**
+	 * Processing entered data
+	 */
 	public function process_response( $wp_object ){
 		global $wpdb, $post, $questions_global, $questions_survey_id;
 		
@@ -260,7 +309,7 @@ class Questions_ProcessResponse{
 		
 		// Getting data of posted step
 		$survey_response = $_POST[ 'questions_response' ];
-		$survey_actual_step = $_POST[ 'questions_actual_step' ];
+		$survey_actual_step = (int) $_POST[ 'questions_actual_step' ];
 		
 		// Validating response values and setting up error variables
 		$this->validate_response( $questions_survey_id, $survey_response, $survey_actual_step );
@@ -290,6 +339,9 @@ class Questions_ProcessResponse{
 		do_action( 'questions_after_process_response', $_POST );
 	}
 
+	/**
+	 * Saving response data
+	 */
 	private function save_response(){
 		global $questions_response_errors, $questions_survey_id;
 		
@@ -298,7 +350,7 @@ class Questions_ProcessResponse{
 		if( !isset( $_SESSION[ 'questions_response' ][ $questions_survey_id ] ) )
 			return;
 		
-		if( $_POST[ 'questions_actual_step' ] == $_POST[ 'questions_next_step' ]  && 0 == count( $questions_response_errors ) && !array_key_exists( 'questions_submission_back', $_POST ) ):
+		if( (int) $_POST[ 'questions_actual_step' ] == (int) $_POST[ 'questions_next_step' ]  && 0 == count( $questions_response_errors ) && !array_key_exists( 'questions_submission_back', $_POST ) ):
 			$response = $_SESSION[ 'questions_response' ][ $questions_survey_id ];
 			
 			if( $this->save_data( $questions_survey_id, apply_filters( 'questions_save_response', $response ) ) ):
@@ -314,6 +366,13 @@ class Questions_ProcessResponse{
 		endif;
 	}
 	
+	/**
+	 * Validating response
+	 * @param int $survey_id
+	 * @param array $response
+	 * @param int $step
+	 * @return boolean $validated
+	 */
 	public function validate_response( $survey_id, $response, $step ){
 		global $questions_response_errors;
 		
@@ -361,7 +420,7 @@ class Questions_ProcessResponse{
 			endif;
 		endforeach;
 		
-		if( is_array( $questions_response_errors) && array_key_exists( $element->id, $questions_response_errors) ):
+		if( is_array( $questions_response_errors ) && array_key_exists( $element->id, $questions_response_errors ) ):
 			// ??? One Element at the end ???
 			if( is_array( $questions_response_errors[ $element->id ] ) && count( $questions_response_errors[ $element->id ] ) == 0 ):
 				return TRUE;
@@ -374,6 +433,12 @@ class Questions_ProcessResponse{
 				
 	}
 
+	/**
+	 * Sub function for save_response
+	 * @param int $survey_id
+	 * @param array $response
+	 * @return boolean $saved
+	 */
 	private function save_data( $survey_id, $response ){
 		global $wpdb, $questions_global, $current_user;
 		
@@ -432,6 +497,12 @@ class Questions_ProcessResponse{
 		return TRUE;
 	}
 	
+	/**
+	 * Has the user participated survey
+	 * @param int $survey_id
+	 * @param int $user_id
+	 * @return boolean $has_participated
+	 */
 	public function has_participated( $questions_id, $user_id = NULL ){
 		global $wpdb, $current_user, $questions_global;
 		
@@ -455,6 +526,11 @@ class Questions_ProcessResponse{
 		endif;
 	}
 	
+	/**
+	 * Has IP already participated
+	 * @param int $survey_id
+	 * @return boolean $has_participated
+	 */
 	public function ip_has_participated( $questions_id ){
 		global $wpdb, $questions_global;
 		
@@ -470,6 +546,9 @@ class Questions_ProcessResponse{
 		endif;
 	}
 	
+	/**
+	 * Sending out finish email to participator
+	 */
 	public function email_finished(){
 		global $post, $current_user;
 		get_currentuserinfo();
@@ -491,6 +570,11 @@ class Questions_ProcessResponse{
 		qu_mail( $current_user->user_email, $subject, $content );
 	}
 	
+	/**
+	 * Text which will be shown after a user has participated successful
+	 * @param int $survey_id
+	 * @return string $html
+	 */
 	public function text_thankyou_for_participation( $survey_id ){
 		$show_results = get_post_meta( $survey_id, 'show_results', TRUE );
 		if( '' == $show_results )
@@ -506,6 +590,11 @@ class Questions_ProcessResponse{
 		return $html;
 	}
 	
+	/**
+	 * Text which will be shown if a user has participated already
+	 * @param int $survey_id
+	 * @return string $html
+	 */
 	public function text_already_participated( $survey_id ){
 		$show_results = get_post_meta( $survey_id, 'show_results', TRUE );
 		if( '' == $show_results )
@@ -519,6 +608,11 @@ class Questions_ProcessResponse{
 		return $html;
 	}
 	
+	/**
+	 * Showing results
+	 * @param int $survey_id
+	 * @return string $html
+	 */
 	public function show_results( $survey_id ){
 		$html = '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
 		$html.= do_shortcode( '[survey_results id="' . $survey_id . '"]' );
@@ -526,6 +620,10 @@ class Questions_ProcessResponse{
 		return $html;
 	}
 	
+	/**
+	 * Text which will be shown if a user has to login to participate
+	 * @return string $html
+	 */
 	public function text_not_logged_in(){
 		$html = '<div id="questions-not-logged-in">';
 		$html.= __( 'You have to be logged in to participate this survey.', 'questions-locale' );
@@ -533,6 +631,10 @@ class Questions_ProcessResponse{
 		return $html;
 	}
 	
+	/**
+	 * Text which will be shown if a user cant participate
+	 * @return string $html
+	 */
 	public function text_cant_participate(){
 		$html = '<div id="questions-cant-participate">';
 		$html.= __( 'You can\'t participate this survey.', 'questions-locale' );
@@ -543,6 +645,11 @@ class Questions_ProcessResponse{
 }
 $Questions_ProcessResponse = new Questions_ProcessResponse();
 
+/**
+ * Checks if a user has participated on a survey
+ * @return int $survey_id
+ * @return boolean $has_participated
+ */
 function qu_user_has_participated( $questions_id, $user_id = NULL){
 	global $Questions_ProcessResponse;
 	return $Questions_ProcessResponse->has_participated( $questions_id, $user_id );
