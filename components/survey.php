@@ -3,7 +3,7 @@
 /**
  * Survey base class
  *
- * Init Surveys with this class to get informations about it
+ * Init Surveys with this class to get information about it
  *
  * @author  awesome.ug <contact@awesome.ug>
  * @package Questions
@@ -66,8 +66,6 @@ class Questions_Survey {
 	 * @param int $id The id of the survey
 	 */
 	private function populate( $id ) {
-
-		global $questions_global;
 
 		$this->elements = array();
 
@@ -134,8 +132,6 @@ class Questions_Survey {
 	 * @return array $responses
 	 */
 	public function get_responses( $element_id = FALSE, $userdata = TRUE ) {
-
-		global $suveyval_global;
 
 		// If there are any elements
 		if ( is_array( $this->elements ) ):
