@@ -48,23 +48,28 @@ class Questions_Admin extends Questions_Component {
 		$this->required    = TRUE;
 		$this->capability  = 'edit_posts';
 
-		// Functions in Admin
-		if ( is_admin() ):
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-			add_action( 'parent_file', array( $this, 'tax_menu_correction' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
-			add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 10 );
-			add_action( 'save_post', array( $this, 'save_survey' ) );
-			add_action( 'delete_post', array( $this, 'delete_survey' ) );
-			add_action( 'wp_ajax_questions_add_members_standard', array( $this, 'filter_user_ajax' ) );
-			add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'invite_participiants' ) );
-			add_action( 'wp_ajax_questions_dublicate_survey', array( $this, 'dublicate_survey' ) );
-
-			add_action( 'init', array( $this, 'save_settings' ), 20 );
-			add_action( 'admin_notices', array( $this, 'show_notices' ) );
-		endif;
+		$this->on_admin();
 	} // end constructor
+
+	public function on_admin() {
+
+		if ( ! is_admin() ) {
+			return NULL;
+		}
+
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'parent_file', array( $this, 'tax_menu_correction' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
+		add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 10 );
+		add_action( 'save_post', array( $this, 'save_survey' ) );
+		add_action( 'delete_post', array( $this, 'delete_survey' ) );
+		add_action( 'wp_ajax_questions_add_members_standard', array( $this, 'filter_user_ajax' ) );
+		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'invite_participiants' ) );
+		add_action( 'wp_ajax_questions_dublicate_survey', array( $this, 'dublicate_survey' ) );
+		add_action( 'init', array( $this, 'save_settings' ), 20 );
+		add_action( 'admin_notices', array( $this, 'show_notices' ) );
+	}
 
 	/**
 	 * Adds the Admin menu.
@@ -196,10 +201,19 @@ class Questions_Admin extends Questions_Component {
 
 		$restrictions = apply_filters(
 			'questions_post_type_participiant_restrictions', array(
-			'all_visitors'     => __( 'All visitors of the site can participate the poll', 'questions-locale' ),
-			'all_members'      => __( 'All members of the site can participate the poll', 'questions-locale' ),
-			'selected_members' => __( 'Only selected members can participate the poll ', 'questions-locale' ),
-		)
+				                                               'all_visitors'     => __(
+					                                               'All visitors of the site can participate the poll',
+					                                               'questions-locale'
+				                                               ),
+				                                               'all_members'      => __(
+					                                               'All members of the site can participate the poll',
+					                                               'questions-locale'
+				                                               ),
+				                                               'selected_members' => __(
+					                                               'Only selected members can participate the poll ',
+					                                               'questions-locale'
+				                                               ),
+			                                               )
 		);
 
 		if ( '' == $participiant_restrictions
@@ -226,8 +240,10 @@ class Questions_Admin extends Questions_Component {
 
 		$options = apply_filters(
 			'questions_post_type_add_participiants_options', array(
-			'all_members' => __( 'Add all actual Members', 'questions-locale' ),
-		)
+				                                               'all_members' => __(
+					                                               'Add all actual Members', 'questions-locale'
+				                                               ),
+			                                               )
 		);
 
 		/*
