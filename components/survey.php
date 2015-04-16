@@ -7,7 +7,7 @@
  *
  * @author  awesome.ug <contact@awesome.ug>
  * @package Questions
- * @version 1.0.0
+ * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
  *
