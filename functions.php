@@ -35,11 +35,12 @@ endif;
 
 function qu_get_mail_template_text( $mailtext_title ) {
 
+	$text = '';
 	switch ( $mailtext_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_text_template' ) );
 			if ( empty( $text ) ):
-				$text = __(
+				$text = esc_attr__(
 					'Dear %username%,
 
 thank you for participating on the survey "%survey_title%". Your survey data was saved successfully.
@@ -55,7 +56,7 @@ Best regards,
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_text_template' ) );
 			if ( empty( $text ) ):
-				$text = __(
+				$text = esc_attr__(
 					'Dear %username%,
 
 you have been invited to participate to the survey "%survey_title%". Participate here:
@@ -73,7 +74,7 @@ Best regards,
 		case 'reinvitation':
 			$text = stripslashes( get_option( 'questions_reinvitation_text_template' ) );
 			if ( empty( $text ) ):
-				$text = __(
+				$text = esc_attr__(
 					'Dear %username%,
 
 the survey "%survey_title%" is not finished yet. Please fill out and finish the survey. Participate here:
@@ -95,11 +96,12 @@ Best regards,
 
 function qu_get_mail_template_subject( $mailtext_title ) {
 
+	$text = '';
 	switch ( $mailtext_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questionsthankyou_participating_subject_template' ) );
 			if ( empty( $text ) ):
-				$text = __( 'Thank you for participating!', 'questions-locale' );
+				$text = esc_attr__( 'Thank you for participating!', 'questions-locale' );
 			endif;
 
 			break;
@@ -107,7 +109,7 @@ function qu_get_mail_template_subject( $mailtext_title ) {
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_subject_template' ) );
 			if ( empty( $text ) ):
-				$text = __( 'You are invited to answer a survey', 'questions-locale' );
+				$text = esc_attr__( 'You are invited to answer a survey', 'questions-locale' );
 			endif;
 
 			break;
@@ -115,7 +117,7 @@ function qu_get_mail_template_subject( $mailtext_title ) {
 		case 'reinvitation':
 			$text = stripslashes( get_option( 'questions_reinvitation_subject_template' ) );
 			if ( empty( $text ) ):
-				$text = __( 'Don´t forget to answer the Survey', 'questions-locale' );
+				$text = esc_attr__( 'Don´t forget to answer the Survey', 'questions-locale' );
 			endif;
 
 			break;
@@ -127,6 +129,7 @@ function qu_get_mail_template_subject( $mailtext_title ) {
 
 function qu_get_mail_settings( $option ) {
 
+	$setting = '';
 	switch ( $option ) {
 		case 'from_name':
 			$setting = stripslashes( get_option( 'questions_mail_from_name' ) );
