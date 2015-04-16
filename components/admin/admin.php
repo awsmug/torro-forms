@@ -43,14 +43,19 @@ class Questions_Admin extends Questions_Component {
 	public function __construct() {
 
 		$this->name        = 'QuestionsAdmin';
-		$this->title       = __( 'Admin', 'questions-locale' );
-		$this->description = __( 'Setting up Questions in WordPress Admin.', 'questions-locale' );
+		$this->title       = esc_attr__( 'Admin', 'questions-locale' );
+		$this->description = esc_attr__( 'Setting up Questions in WordPress Admin.', 'questions-locale' );
 		$this->required    = TRUE;
 		$this->capability  = 'edit_posts';
 
 		$this->on_admin();
 	} // end constructor
 
+	/**
+	 * Init in WordPress, run on constructor
+	 *
+	 * @return null
+	 */
 	public function on_admin() {
 
 		if ( ! is_admin() ) {
@@ -79,20 +84,35 @@ class Questions_Admin extends Questions_Component {
 	public function admin_menu() {
 
 		add_menu_page(
-			__( 'Surveys', 'questions-locale' ), __( 'Surveys', 'questions-locale' ), $this->capability,
-			'Component' . $this->name, array( $this, 'settings_page' ), '', 50
+			__( 'Surveys', 'questions-locale' ),
+			esc_attr__( 'Surveys', 'questions-locale' ),
+			$this->capability,
+			'Component' . $this->name,
+			array( $this, 'settings_page' ),
+			'',
+			50
 		);
 		add_submenu_page(
-			'Component' . $this->name, __( 'Create', 'questions-locale' ), __( 'Create', 'questions-locale' ),
-			$this->capability, 'post-new.php?post_type=questions'
+			'Component' . $this->name,
+			esc_attr__( 'Create', 'questions-locale' ),
+			esc_attr__( 'Create', 'questions-locale' ),
+			$this->capability,
+			'post-new.php?post_type=questions'
 		);
 		add_submenu_page(
-			'Component' . $this->name, __( 'Categories', 'questions-locale' ), __( 'Categories', 'questions-locale' ),
-			$this->capability, 'edit-tags.php?taxonomy=questions-categories'
+			'Component' . $this->name,
+			esc_attr__( 'Categories', 'questions-locale' ),
+			esc_attr__( 'Categories', 'questions-locale' ),
+			$this->capability,
+			'edit-tags.php?taxonomy=questions-categories'
 		);
 		add_submenu_page(
-			'Component' . $this->name, __( 'Settings', 'questions-locale' ), __( 'Settings', 'questions-locale' ),
-			$this->capability, 'Component' . $this->name, array( $this, 'settings_page' )
+			'Component' . $this->name,
+			esc_attr__( 'Settings', 'questions-locale' ),
+			esc_attr__( 'Settings', 'questions-locale' ),
+			$this->capability,
+			'Component' . $this->name,
+			array( $this, 'settings_page' )
 		);
 	}
 
@@ -140,15 +160,15 @@ class Questions_Admin extends Questions_Component {
 
 		$html .= '<div class="drag-drop-inside">';
 		$html .= '<p class="drag-drop-info">';
-		$html .= __( 'Drop your Element here.', 'questions-locale' );
+		$html .= esc_attr__( 'Drop your Element here.', 'questions-locale' );
 		$html .= '</p>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
-		$html .= '<div id="delete_surveyelement_dialog">' . __(
+		$html .= '<div id="delete_surveyelement_dialog">' . esc_attr__(
 				'Do you really want to delete this element?', 'questions-locale'
 			) . '</div>';
-		$html .= '<div id="delete_answer_dialog">' . __(
+		$html .= '<div id="delete_answer_dialog">' . esc_attr__(
 				'Do you really want to delete this answer?', 'questions-locale'
 			) . '</div>';
 		$html .= '<input type="hidden" id="deleted_surveyelements" name="questions_deleted_surveyelements" value="">';
@@ -200,20 +220,21 @@ class Questions_Admin extends Questions_Component {
 		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE );
 
 		$restrictions = apply_filters(
-			'questions_post_type_participiant_restrictions', array(
-				                                               'all_visitors'     => __(
-					                                               'All visitors of the site can participate the poll',
-					                                               'questions-locale'
-				                                               ),
-				                                               'all_members'      => __(
-					                                               'All members of the site can participate the poll',
-					                                               'questions-locale'
-				                                               ),
-				                                               'selected_members' => __(
-					                                               'Only selected members can participate the poll ',
-					                                               'questions-locale'
-				                                               ),
-			                                               )
+			'questions_post_type_participiant_restrictions',
+			array(
+				'all_visitors'     => esc_attr__(
+					'All visitors of the site can participate the poll',
+					'questions-locale'
+				),
+				'all_members'      => esc_attr__(
+					'All members of the site can participate the poll',
+					'questions-locale'
+				),
+				'selected_members' => esc_attr__(
+					'Only selected members can participate the poll ',
+					'questions-locale'
+				),
+			)
 		);
 
 		if ( '' == $participiant_restrictions
@@ -239,11 +260,12 @@ class Questions_Admin extends Questions_Component {
 		$html .= '</div>';
 
 		$options = apply_filters(
-			'questions_post_type_add_participiants_options', array(
-				                                               'all_members' => __(
-					                                               'Add all actual Members', 'questions-locale'
-				                                               ),
-			                                               )
+			'questions_post_type_add_participiants_options',
+			array(
+				'all_members' => esc_attr__(
+					'Add all actual Members', 'questions-locale'
+				),
+			)
 		);
 
 		/*
@@ -263,9 +285,11 @@ class Questions_Admin extends Questions_Component {
 		$html .= '</div>';
 
 		$html .= '<div id="questions-participiants-standard-options" class="questions-participiants-options-content">';
-		$html .= '<div class="add"><input type="button" class="questions-add-participiants button" id="questions-add-members-standard" value="' . __(
+		$html .= '<div class="add"><input type="button" class="questions-add-participiants button" id="questions-add-members-standard" value="'
+			. esc_attr__(
 				'Add Participiants', 'questions-locale'
-			) . '" /><a href="#" class="questions-remove-all-participiants">' . __(
+			) . '" /><a href="#" class="questions-remove-all-participiants">'
+			. esc_attr__(
 				'Remove all Participiants', 'questions-locale'
 			) . '</a></div>';
 		$html .= '</div>';
@@ -275,18 +299,18 @@ class Questions_Admin extends Questions_Component {
 		$html .= ob_get_clean();
 
 		$html .= '<div id="questions-participiants-status" class="questions-participiants-status">';
-		$html .= '<p>' . count( $users ) . ' ' . __( 'participiant/s', 'questions-locale' ) . '</p>';
+		$html .= '<p>' . count( $users ) . ' ' . esc_attr__( 'participiant/s', 'questions-locale' ) . '</p>';
 		$html .= '</div>';
 
 		$html .= '<div id="questions-participiants-list">';
 		$html .= '<table class="wp-list-table widefat">';
 		$html .= '<thead>';
 		$html .= '<tr>';
-		$html .= '<th>' . __( 'ID', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . __( 'User nicename', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . __( 'Display name', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . __( 'Email', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . __( 'Status', 'questions-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'ID', 'questions-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'User nicename', 'questions-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Display name', 'questions-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Email', 'questions-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Status', 'questions-locale' ) . '</th>';
 		$html .= '<th>&nbsp</th>';
 		$html .= '</tr>';
 		$html .= '</thead>';
@@ -300,9 +324,9 @@ class Questions_Admin extends Questions_Component {
 			foreach ( $users AS $user ):
 				if ( qu_user_has_participated( $survey_id, $user->ID ) ):
 					$user_css  = ' finished';
-					$user_text = __( 'finished', 'questions-locale' );
+					$user_text = esc_attr__( 'finished', 'questions-locale' );
 				else:
-					$user_text = __( 'new', 'questions-locale' );
+					$user_text = esc_attr__( 'new', 'questions-locale' );
 					$user_css  = ' new';
 				endif;
 
@@ -312,7 +336,7 @@ class Questions_Admin extends Questions_Component {
 				$html .= '<td>' . $user->display_name . '</td>';
 				$html .= '<td>' . $user->user_email . '</td>';
 				$html .= '<td>' . $user_text . '</td>';
-				$html .= '<td><a class="button questions-delete-participiant" rel="' . $user->ID . '">' . __(
+				$html .= '<td><a class="button questions-delete-participiant" rel="' . $user->ID . '">' . esc_attr__(
 						'Delete', 'questions-locale'
 					) . '</a></th>';
 				$html .= '</tr>';
@@ -359,11 +383,11 @@ class Questions_Admin extends Questions_Component {
 		}
 
 		$html = '<div class="questions-options">';
-		$html .= '<p><label for="show_results">' . __(
+		$html .= '<p><label for="show_results">' . esc_attr__(
 				'Show results after finishing survey', 'questions-locale'
 			) . '</label></p>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . __( 'Yes' ) . ' ';
-		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . __( 'No' ) . '<br>';
+		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
+		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';
 		$html .= '</div>';
 
 		ob_start();
@@ -384,7 +408,7 @@ class Questions_Admin extends Questions_Component {
 		$questions_reinvitation_subject_template = qu_get_mail_template_subject( 'reinvitation' );
 
 		$html = '<div class="questions-function-element">';
-		$html .= '<input id="questions-dublicate-survey" name="questions-dublicate-survey" type="button" class="button" value="' . __(
+		$html .= '<input id="questions-dublicate-survey" name="questions-dublicate-survey" type="button" class="button" value="' . esc_attr__(
 				'Dublicate Survey', 'questions-locale'
 			) . '" />';
 		$html .= '</div>';
@@ -393,10 +417,10 @@ class Questions_Admin extends Questions_Component {
 			$html .= '<div class="questions-function-element">';
 			$html .= '<input id="questions-invite-subject" type="text" name="questions_invite_subject" value="' . $questions_invitation_subject_template . '" />';
 			$html .= '<textarea id="questions-invite-text" name="questions_invite_text">' . $questions_invitation_text_template . '</textarea>';
-			$html .= '<input id="questions-invite-button" type="button" class="button" value="' . __(
+			$html .= '<input id="questions-invite-button" type="button" class="button" value="' . esc_attr__(
 					'Invite Participiants', 'questions-locale'
 				) . '" /> ';
-			$html .= '<input id="questions-invite-button-cancel" type="button" class="button" value="' . __(
+			$html .= '<input id="questions-invite-button-cancel" type="button" class="button" value="' . esc_attr__(
 					'Cancel', 'questions-locale'
 				) . '" />';
 			$html .= '</div>';
@@ -404,15 +428,15 @@ class Questions_Admin extends Questions_Component {
 			$html .= '<div class="questions-function-element">';
 			$html .= '<input id="questions-reinvite-subject" type="text" name="questions_invite_subject" value="' . $questions_reinvitation_subject_template . '" />';
 			$html .= '<textarea id="questions-reinvite-text" name="questions_reinvite_text">' . $questions_reinvitation_text_template . '</textarea>';
-			$html .= '<input id="questions-reinvite-button" type="button" class="button" value="' . __(
+			$html .= '<input id="questions-reinvite-button" type="button" class="button" value="' . esc_attr__(
 					'Reinvite Participiants', 'questions-locale'
 				) . '" /> ';
-			$html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . __(
+			$html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__(
 					'Cancel', 'questions-locale'
 				) . '" />';
 			$html .= '</div>';
 		else:
-			$html .= '<p>' . __(
+			$html .= '<p>' . esc_attr__(
 					'You can invite Participiants to this survey after the survey is published.', 'questions-locale'
 				) . '</p>';
 		endif;
@@ -557,8 +581,6 @@ class Questions_Admin extends Questions_Component {
 			$answers  = array();
 			$settings = array();
 
-			$new_question = FALSE;
-
 			if ( array_key_exists( 'answers', $survey_question ) ) {
 				$answers = $survey_question[ 'answers' ];
 			}
@@ -594,7 +616,6 @@ class Questions_Admin extends Questions_Component {
 					)
 				);
 
-				$new_question = TRUE;
 				$question_id  = $wpdb->insert_id;
 			endif;
 
@@ -780,8 +801,6 @@ class Questions_Admin extends Questions_Component {
 
 	public function filter_user_ajax() {
 
-		global $wpdb, $bp;
-
 		$users = get_users(
 			array(
 				'orderby' => 'ID'
@@ -820,9 +839,11 @@ class Questions_Admin extends Questions_Component {
 		$sql      = $wpdb->prepare( $sql, $survey_id );
 		$user_ids = $wpdb->get_col( $sql );
 
-		$subject = __( 'Survey Invitation', 'questions-content' );
+		// @todo: Not used, maybe delete
+		$subject = esc_attr__( 'Survey Invitation', 'questions-content' );
 
 		if ( 'reinvite' == $_POST[ 'invitation_type' ] ):
+			$user_ids_new = '';
 			if ( is_array( $user_ids ) && count( $user_ids ) > 0 ):
 				foreach ( $user_ids AS $user_id ):
 					if ( ! qu_user_has_participated( $survey_id, $user_id ) ):
@@ -831,7 +852,8 @@ class Questions_Admin extends Questions_Component {
 				endforeach;
 			endif;
 			$user_ids = $user_ids_new;
-			$subject  = __( 'Survey Reinvitation', 'questions-content' );
+			// @todo: Not used, maybe delete
+			$subject = esc_attr__( 'Survey Reinvitation', 'questions-content' );
 		endif;
 
 		$post = get_post( $survey_id );
@@ -840,7 +862,7 @@ class Questions_Admin extends Questions_Component {
 			$users = get_users(
 				array(
 					'include' => $user_ids,
-					'orderby' => 'ID'
+					'orderby' => 'ID',
 				)
 			);
 
@@ -958,7 +980,7 @@ class Questions_Admin extends Questions_Component {
 
 		$this->notices[ ] = array(
 			'message' => $message,
-			'type'    => $type
+			'type'    => $type,
 		);
 	}
 
@@ -985,17 +1007,23 @@ class Questions_Admin extends Questions_Component {
 		}
 
 		$translation_admin = array(
-			'delete'                              => __( 'Delete', 'questions-locale' ),
-			'yes'                                 => __( 'Yes', 'questions-locale' ),
-			'no'                                  => __( 'No', 'questions-locale' ),
-			'just_added'                          => __( 'just added', 'questions-locale' ),
-			'invitations_sent_successfully'       => __( 'Invitations sent successfully!', 'questions-locale' ),
-			'invitations_not_sent_successfully'   => __( 'Invitations could not be sent!', 'questions-locale' ),
-			'reinvitations_sent_successfully'     => __( 'Renvitations sent successfully!', 'questions-locale' ),
-			'reinvitations_not_sent_successfully' => __( 'Renvitations could not be sent!', 'questions-locale' ),
-			'dublicate_survey_successfully'       => __( 'Survey dublicated successfully!', 'questions-locale' ),
-			'edit_survey'                         => __( 'Edit Survey', 'questions-locale' ),
-			'added_participiants'                 => __( 'participiant/s', 'questions-locale' )
+			'delete'                              => esc_attr__( 'Delete', 'questions-locale' ),
+			'yes'                                 => esc_attr__( 'Yes', 'questions-locale' ),
+			'no'                                  => esc_attr__( 'No', 'questions-locale' ),
+			'just_added'                          => esc_attr__( 'just added', 'questions-locale' ),
+			'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'questions-locale' ),
+			'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'questions-locale' ),
+			'reinvitations_sent_successfully'     => esc_attr__(
+				'Renvitations sent successfully!', 'questions-locale'
+			),
+			'reinvitations_not_sent_successfully' => esc_attr__(
+				'Renvitations could not be sent!', 'questions-locale'
+			),
+			'dublicate_survey_successfully'       => esc_attr__(
+				'Survey dublicated successfully!', 'questions-locale'
+			),
+			'edit_survey'                         => esc_attr__( 'Edit Survey', 'questions-locale' ),
+			'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' )
 		);
 
 		wp_enqueue_script(
