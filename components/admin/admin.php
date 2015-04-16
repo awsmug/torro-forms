@@ -6,7 +6,7 @@
  *
  * @author awesome.ug, Author <support@awesome.ug>
  * @package Questions/Core
- * @version 1.0.0
+ * @version 2015-04-16
  * @since 1.0.0
  * @license GPL 2
 
@@ -84,7 +84,7 @@ class Questions_Admin extends Questions_Component {
 	public function admin_menu() {
 
 		add_menu_page(
-			__( 'Surveys', 'questions-locale' ),
+			esc_attr__( 'Surveys', 'questions-locale' ),
 			esc_attr__( 'Surveys', 'questions-locale' ),
 			$this->capability,
 			'Component' . $this->name,
@@ -451,21 +451,21 @@ class Questions_Admin extends Questions_Component {
 		if ( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'survey-options',
-				__( 'Options', 'questions-locale' ),
+				esc_attr__( 'Options', 'questions-locale' ),
 				array( $this, 'meta_box_survey_options' ),
 				'questions',
 				'side'
 			);
 			add_meta_box(
 				'survey-invites',
-				__( 'Survey Functions', 'questions-locale' ),
+				esc_attr__( 'Survey Functions', 'questions-locale' ),
 				array( $this, 'meta_box_survey_functions' ),
 				'questions',
 				'side'
 			);
 			add_meta_box(
 				'survey-elements',
-				__( 'Elements', 'questions-locale' ),
+				esc_attr__( 'Elements', 'questions-locale' ),
 				array( $this, 'meta_box_survey_elements' ),
 				'questions',
 				'side',
@@ -473,7 +473,7 @@ class Questions_Admin extends Questions_Component {
 			);
 			add_meta_box(
 				'survey-participiants',
-				__( 'Participiants list', 'questions-locale' ),
+				esc_attr__( 'Participiants list', 'questions-locale' ),
 				array( $this, 'meta_box_survey_participiants' ),
 				'questions',
 				'normal',
