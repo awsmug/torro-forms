@@ -161,6 +161,8 @@ abstract class Questions_SurveyElement {
 			'sort'    => $sort,
 			'section' => $section
 		);
+
+		return NULL;
 	}
 
 	private function add_settings( $name, $value ) {
@@ -170,7 +172,7 @@ abstract class Questions_SurveyElement {
 
 	public function before_question() {
 
-		return '';
+		return NULL;
 	}
 
 	public function after_question() {
@@ -188,32 +190,40 @@ abstract class Questions_SurveyElement {
 
 	public function before_answers() {
 
-		return '';
+		return NULL;
 	}
 
 	public function after_answers() {
 
-		return '';
+		return NULL;
 	}
 
 	public function before_answer() {
 
-		return '';
+		return NULL;
 	}
 
 	public function after_answer() {
 
-		return '';
+		return NULL;
 	}
 
 	public function settings_fields() {
 	}
 
+	/**
+	 * @param $input
+	 *
+	 * @return bool
+	 */
 	public function validate( $input ) {
 
 		return TRUE;
 	}
 
+	/**
+	 * @return mixed|string|void
+	 */
 	public function draw() {
 
 		global $questions_response_errors;
