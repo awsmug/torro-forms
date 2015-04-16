@@ -406,11 +406,11 @@ abstract class Questions_SurveyElement {
 		// Adding action Buttons
 		$bottom_buttons = apply_filters(
 			'qu_element_bottom_actions', array(
-			'delete_survey_element' => array(
-				'text'    => __( 'Delete element', 'questions-locale' ),
-				'classes' => 'delete_survey_element'
-			)
-		)
+				                           'delete_survey_element' => array(
+					                           'text'    => __( 'Delete element', 'questions-locale' ),
+					                           'classes' => 'delete_survey_element'
+				                           )
+			                           )
 		);
 
 		// Adding further content
@@ -656,11 +656,11 @@ abstract class Questions_SurveyElement {
 		// Adding action Buttons
 		$bottom_buttons = apply_filters(
 			'qu_element_bottom_actions', array(
-			'delete_survey_element' => array(
-				'text'    => __( 'Delete element', 'questions-locale' ),
-				'classes' => 'delete_survey_element'
-			)
-		)
+				                           'delete_survey_element' => array(
+					                           'text'    => __( 'Delete element', 'questions-locale' ),
+					                           'classes' => 'delete_survey_element'
+				                           )
+			                           )
 		);
 
 		$html = '<ul class="survey-element-bottom">';
