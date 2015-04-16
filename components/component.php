@@ -48,7 +48,7 @@ abstract class Questions_Component {
 	 *
 	 * @since 1.0.0
 	 */
-	function __construct() {
+	public function __construct() {
 
 		$this->name = get_class( $this );
 		add_action( 'plugins_loaded', array( $this, 'includes' ), 0 );
