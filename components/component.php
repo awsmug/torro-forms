@@ -50,15 +50,12 @@ abstract class Questions_Component {
 	 */
 	function __construct() {
 
-		global $questions_global;
-
 		$this->name = get_class( $this );
 		add_action( 'plugins_loaded', array( $this, 'includes' ), 0 );
 
 		$this->title       = ucfirst( $this->name );
-		$this->description = __( 'This is a Questions component.', 'questions-locale' );
+		$this->description = esc_attr__( 'This is a Questions component.', 'questions-locale' );
 		$this->capability  = 'read';
-
-		$this->required = TRUE;
+		$this->required    = TRUE;
 	} // end constructor
 }
