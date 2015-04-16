@@ -123,12 +123,14 @@ class Questions_Survey{
 
 	/**
 	 * Getting responses of a survey
-	 * @param int $element_id Get responses of a special element
-	 * @param boolean $userdata Adding user specified data to response array
+	 *
+	 * @param bool|int $element_id Get responses of a special element
+	 * @param boolean  $userdata   Adding user specified data to response array
+	 *
 	 * @return array $responses
 	 */
 	public function get_responses( $element_id = FALSE, $userdata = TRUE ){
-		global $wpdb, $suveyval_global;
+		global $suveyval_global;
 
 		// If there are any elements
 		if( is_array( $this->elements ) ):
