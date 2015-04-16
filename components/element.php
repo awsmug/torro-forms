@@ -24,6 +24,8 @@ abstract class Questions_SurveyElement {
 
 	var $question;
 
+	var $sections;
+
 	var $response;
 
 	var $error = FALSE;
@@ -78,7 +80,7 @@ abstract class Questions_SurveyElement {
 		}
 
 		if ( '' == $this->description ) {
-			$this->description = __( 'This is a Questions Survey Element.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Questions Survey Element.', 'questions-locale' );
 		}
 
 		if ( array_key_exists( $this->slug, $questions_global->element_types ) ) {
@@ -298,7 +300,9 @@ abstract class Questions_SurveyElement {
 
 	public function input_html() {
 
-		return '<p>' . __( 'No HTML for Element given. Please check element sourcecode.', 'questions-locale' ) . '</p>';
+		return '<p>' . esc_attr__(
+			'No HTML for Element given. Please check element sourcecode.', 'questions-locale'
+		) . '</p>';
 	}
 
 	public function draw_admin() {
@@ -374,14 +378,14 @@ abstract class Questions_SurveyElement {
 		$html .= '<ul class="tabs">';
 		// If Element is Question > Show question tab
 		if ( $this->is_question ) {
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . __(
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__(
 					'Question', 'questions-locale'
 				) . '</a></li>';
 		}
 
 		// If Element has settings > Show settings tab
 		if ( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ) {
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . __(
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . esc_attr__(
 					'Settings', 'questions-locale'
 				) . '</a></li>';
 		}
@@ -414,13 +418,15 @@ abstract class Questions_SurveyElement {
 		endif;
 
 		// Adding action Buttons
+		// @todo: unused var, why?
 		$bottom_buttons = apply_filters(
-			'qu_element_bottom_actions', array(
-				                           'delete_survey_element' => array(
-					                           'text'    => __( 'Delete element', 'questions-locale' ),
-					                           'classes' => 'delete_survey_element'
-				                           )
-			                           )
+			'qu_element_bottom_actions',
+			array(
+				'delete_survey_element' => array(
+					'text'    => esc_attr__( 'Delete element', 'questions-locale' ),
+					'classes' => 'delete_survey_element'
+				)
+			)
 		);
 
 		// Adding further content
@@ -443,7 +449,8 @@ abstract class Questions_SurveyElement {
 		$widget_id = $this->admin_get_widget_id();
 
 		// Question
-		$html = '<p><input type="text" name="questions[' . $widget_id . '][question]" value="' . $this->question . '" class="questions-question" /><p>';
+		$html = '<p><input type="text" name="questions[' . $widget_id . '][question]" value="'
+			. $this->question . '" class="questions-question" /><p>';
 
 		// Answers
 		if ( $this->preset_of_answers ):
@@ -459,7 +466,7 @@ abstract class Questions_SurveyElement {
 				endforeach;
 			// Answers without sections
 			else:
-				$html .= '<p>' . __( 'Answer/s:', 'questions-locale' ) . '</p>';
+				$html .= '<p>' . esc_attr__( 'Answer/s:', 'questions-locale' ) . '</p>';
 				$html .= $this->admin_widget_question_tab_answers();
 			endif;
 
@@ -493,6 +500,7 @@ abstract class Questions_SurveyElement {
 				$param_arr    = array();
 				$param_arr[ ] = $this->create_answer_syntax;
 
+				$param_value = '';
 				foreach ( $this->create_answer_params AS $param ):
 
 					switch ( $param ) {
@@ -500,6 +508,7 @@ abstract class Questions_SurveyElement {
 							$param_value = 'questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]';
 							break;
 
+						// @todo Why this var, where you set this, currently is the var always unseated
 						case 'value':
 							$param_value = $value;
 							break;
@@ -517,18 +526,20 @@ abstract class Questions_SurveyElement {
 
 				$html .= '<div class="answer' . $answer_classes . '" id="answer_' . $answer[ 'id' ] . '">';
 				$html .= call_user_func_array( 'sprintf', $param_arr );
-				$html .= ' <input type="button" value="' . __(
+				$html .= ' <input type="button" value="' . esc_attr__(
 						'Delete', 'questions-locale'
 					) . '" class="delete_answer button answer_action">';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
+				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_'
+					. $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
+				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_'
+					. $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
 
 				if ( NULL != $section ) {
-					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
+					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_'
+						. $answer[ 'id' ] . '][section]" value="' . $section . '" />';
 				}
 
 				$html .= '</div>';
-
 
 			endforeach;
 
@@ -540,6 +551,7 @@ abstract class Questions_SurveyElement {
 				$param_arr[ ]   = $this->create_answer_syntax;
 				$temp_answer_id = 'id_' . time() * rand();
 
+				$param_value = '';
 				foreach ( $this->create_answer_params AS $param ):
 					switch ( $param ) {
 						case 'name':
@@ -564,13 +576,14 @@ abstract class Questions_SurveyElement {
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer ' . $answer_classes . '" id="answer_' . $temp_answer_id . '">';
 				$html .= call_user_func_array( 'sprintf', $param_arr );
-				$html .= ' <input type="button" value="' . __(
+				$html .= ' <input type="button" value="' . esc_attr__(
 						'Delete', 'questions-locale'
 					) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
 				if ( NULL != $section ) {
-					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . $section . '" />';
+					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers]['
+						. $temp_answer_id . '][section]" value="' . $section . '" />';
 				}
 
 				$html .= '</div>';
@@ -581,7 +594,7 @@ abstract class Questions_SurveyElement {
 		endif;
 
 		if ( $this->preset_is_multiple ) {
-			$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . __(
+			$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_attr__(
 					'Add Answer', 'questions-locale'
 				) . ' </a>';
 		}
@@ -615,6 +628,7 @@ abstract class Questions_SurveyElement {
 
 		$name = 'questions[' . $widget_id . '][settings][' . $name . ']';
 
+		$input = '';
 		switch ( $field[ 'type' ] ) {
 			case 'text':
 
@@ -637,7 +651,8 @@ abstract class Questions_SurveyElement {
 						$checked = ' checked="checked"';
 					}
 
-					$input .= '<span class="surveval-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
+					$input .= '<span class="surveval-form-fieldset-input-radio"><input type="radio" name="'
+						. $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
 				endforeach;
 
 				break;
@@ -667,7 +682,7 @@ abstract class Questions_SurveyElement {
 		$bottom_buttons = apply_filters(
 			'qu_element_bottom_actions', array(
 				                           'delete_survey_element' => array(
-					                           'text'    => __( 'Delete element', 'questions-locale' ),
+					                           'text'    => esc_attr__( 'Delete element', 'questions-locale' ),
 					                           'classes' => 'delete_survey_element'
 				                           )
 			                           )
@@ -750,9 +765,13 @@ abstract class Questions_SurveyElement {
 				if ( $this->answer_is_multiple ):
 					foreach ( $responses AS $response ):
 						if ( $answer[ 'text' ] == $response->value ):
-							$result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] = __( 'Yes' );
+							$result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] = esc_attr__(
+								'Yes'
+							);
 						elseif ( ! isset( $result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] ) ):
-							$result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] = __( 'No' );
+							$result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] = esc_attr__(
+								'No'
+							);
 						endif;
 					endforeach;
 				else:
@@ -790,7 +809,7 @@ abstract class Questions_SurveyElement {
 /**
  * Register a new Group Extension.
  *
- * @param string Name of the element type class.
+ * @param $element_type_class name of the element type class.
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
@@ -803,11 +822,10 @@ function qu_register_survey_element( $element_type_class ) {
 	// Register the group extension on the bp_init action so we have access
 	// to all plugins.
 	add_action(
-		'init', create_function(
-		'', '
-		$extension = new ' . $element_type_class . ';
-		add_action( "init", array( &$extension, "_register" ), 2 );
-	'
-	), 1
+		'init',
+		create_function(
+			'', '$extension = new ' . $element_type_class . ';
+			add_action( "init", array( &$extension, "_register" ), 2 ); '
+		), 1
 	);
 }
