@@ -18,8 +18,8 @@ class Questions_SurveyElement_Dropdown extends Questions_SurveyElement {
 	public function __construct( $id = NULL ) {
 
 		$this->slug        = 'Dropdown';
-		$this->title       = __( 'Dropdown', 'questions-locale' );
-		$this->description = __( 'Add a question which can be answered within a dropdown field.', 'questions-locale' );
+		$this->title       = esc_attr__( 'Dropdown', 'questions-locale' );
+		$this->description = esc_attr__( 'Add a question which can be answered within a dropdown field.', 'questions-locale' );
 		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-dropdown.png';
 
 		$this->preset_of_answers  = TRUE;
@@ -40,13 +40,13 @@ class Questions_SurveyElement_Dropdown extends Questions_SurveyElement {
 	public function input_html() {
 
 		if ( ! is_array( $this->answers ) && count( $this->answers ) == 0 ) {
-			return '<p>' . __(
+			return '<p>' . esc_attr__(
 				'You don´t entered any answers. Please add some to display answers here.', 'questions-locale'
 			) . '</p>';
 		}
 
 		$html = '<select name="' . $this->get_input_name() . '">';
-		$html .= '<option value="please-select"> - ' . __( 'Please select', 'questions-locale' ) . ' -</option>';
+		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'questions-locale' ) . ' -</option>';
 
 		foreach ( $this->answers AS $answer ):
 			$checked = '';
@@ -67,9 +67,9 @@ class Questions_SurveyElement_Dropdown extends Questions_SurveyElement {
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => __( 'Description', 'questions-locale' ),
+				'title'       => esc_attr__( 'Description', 'questions-locale' ),
 				'type'        => 'text',
-				'description' => __( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'     => ''
 			),
 		);
@@ -80,7 +80,7 @@ class Questions_SurveyElement_Dropdown extends Questions_SurveyElement {
 		$error = FALSE;
 
 		if ( 'please-select' == $input ):
-			$this->validate_errors[ ] = sprintf( __( 'Please select a value.', 'questions-locale' ) );
+			$this->validate_errors[ ] = sprintf( esc_attr__( 'Please select a value.', 'questions-locale' ) );
 			$error                    = TRUE;
 		endif;
 
