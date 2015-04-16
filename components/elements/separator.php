@@ -18,8 +18,8 @@ class Questions_SurveyElement_Separator extends Questions_SurveyElement {
 	public function __construct( $id = NULL ) {
 
 		$this->slug        = 'Separator';
-		$this->title       = __( 'Separator', 'questions-locale' );
-		$this->description = __( 'Adds a optical separator (<hr>) between questions.', 'questions-locale' );
+		$this->title       = esc_attr__( 'Separator', 'questions-locale' );
+		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between questions.', 'questions-locale' );
 		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-separator.png';
 
 		$this->is_question = FALSE;
@@ -44,9 +44,9 @@ class Questions_SurveyElement_Separator extends Questions_SurveyElement {
 
 		$this->settings_fields = array(
 			'header' => array(
-				'title'       => __( 'Headline', 'questions-locale' ),
+				'title'       => esc_attr__( 'Headline', 'questions-locale' ),
 				'type'        => 'text',
-				'description' => __( 'Text which will be shown above the separator', 'questions-locale' ),
+				'description' => esc_attr__( 'Text which will be shown above the separator', 'questions-locale' ),
 				'default'     => ''
 			)
 		);
@@ -54,9 +54,3 @@ class Questions_SurveyElement_Separator extends Questions_SurveyElement {
 }
 
 qu_register_survey_element( 'Questions_SurveyElement_Separator' );
-
-
-
-
-
-
