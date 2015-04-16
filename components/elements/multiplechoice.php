@@ -18,8 +18,8 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 	public function __construct( $id = NULL ) {
 
 		$this->slug        = 'MultipleChoice';
-		$this->title       = __( 'Multiple Choice', 'questions-locale' );
-		$this->description = __(
+		$this->title       = esc_attr__( 'Multiple Choice', 'questions-locale' );
+		$this->description = esc_attr__(
 			'Add a question which can be answered by selecting one ore more given answers.', 'questions-locale'
 		);
 		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-multiplechoice.png';
@@ -38,7 +38,7 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 	public function input_html() {
 
 		if ( ! is_array( $this->answers ) && count( $this->answers ) == 0 ) {
-			return '<p>' . __(
+			return '<p>' . esc_attr__(
 				'You don´t entered any answers. Please add some to display answers here.', 'questions-locale'
 			) . '</p>';
 		}
@@ -62,21 +62,25 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => __( 'Description', 'questions-locale' ),
+				'title'       => esc_attr__( 'Description', 'questions-locale' ),
 				'type'        => 'text',
-				'description' => __( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'     => ''
 			),
 			'min_answers' => array(
-				'title'       => __( 'Minimum Answers', 'questions-locale' ),
+				'title'       => esc_attr__( 'Minimum Answers', 'questions-locale' ),
 				'type'        => 'text',
-				'description' => __( 'The minimum number of answers which have to be choosed.', 'questions-locale' ),
+				'description' => esc_attr__(
+					'The minimum number of answers which have to be choosed.', 'questions-locale'
+				),
 				'default'     => '1'
 			),
 			'max_answers' => array(
-				'title'       => __( 'Maximum Answers', 'questions-locale' ),
+				'title'       => esc_attr__( 'Maximum Answers', 'questions-locale' ),
 				'type'        => 'text',
-				'description' => __( 'The maximum number of answers which can be choosed.', 'questions-locale' ),
+				'description' => esc_attr__(
+					'The maximum number of answers which can be choosed.', 'questions-locale'
+				),
 				'default'     => '3'
 			),
 		);
@@ -91,8 +95,8 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 
 		if ( ! empty( $min_answers ) ) {
 			if ( ! is_array( $input ) || count( $input ) < $min_answers ):
-				$this->validate_errors[ ] = __( 'Too less choices.', 'questions-locale' ) . ' ' . sprintf(
-						__( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers,
+				$this->validate_errors[ ] = esc_attr__( 'Too less choices.', 'questions-locale' ) . ' ' . sprintf(
+						esc_attr__( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers,
 						$max_answers
 					);
 				$error                    = TRUE;
@@ -101,8 +105,8 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 
 		if ( ! empty( $max_answers ) ) {
 			if ( is_array( $input ) && count( $input ) > $max_answers ):
-				$this->validate_errors[ ] = __( 'Too many choices.', 'questions-locale' ) . ' ' . sprintf(
-						__( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers,
+				$this->validate_errors[ ] = esc_attr__( 'Too many choices.', 'questions-locale' ) . ' ' . sprintf(
+						esc_attr__( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers,
 						$max_answers
 					);
 				$error                    = TRUE;
