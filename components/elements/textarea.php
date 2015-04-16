@@ -12,20 +12,20 @@
 if( ! defined( 'ABSPATH' ) ) exit;
 
 class Questions_SurveyElement_Textarea extends Questions_SurveyElement{
-	
+
 	public function __construct( $id = null ){
 		$this->slug = 'Textarea';
 		$this->title = __( 'Textarea', 'questions-locale' );
 		$this->description = __( 'Add a question which can be answered within a text area.', 'questions-locale' );
 		$this->icon = QUESTIONS_URLPATH . '/assets/images/icon-textarea.png';
-		
+
 		parent::__construct( $id );
 	}
-	
+
 	public function input_html(){
-		return '<p><textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings['max_length'] . '" size="' . $this->settings['max_length'] . '" rows="' . $this->settings['rows'] . '" cols="' . $this->settings['cols'] . '">' . $this->response . '</textarea></p>';
+		return '<p><textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings['max_length'] . '" rows="' . $this->settings['rows'] . '" cols="' . $this->settings['cols'] . '">' . $this->response . '</textarea></p>';
 	}
-	
+
 	public function settings_fields(){
 		$this->settings_fields = array(
 			'description' => array(
@@ -60,41 +60,41 @@ class Questions_SurveyElement_Textarea extends Questions_SurveyElement{
 			),
 		);
 	}
-	
+
 	public function validate( $input ){
 		$min_length = $this->settings['min_length'];
 		$max_length = $this->settings['max_length'];
-		
+
 		$error = FALSE;
-		
+
 		if( !empty( $min_length ) )
 			if( strlen( $input ) < $min_length ):
 				$this->validate_errors[] = __( 'The input ist too short.', 'questions-locale' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
-		
-		if( !empty( $max_length ) )		
+
+		if( !empty( $max_length ) )
 			if( strlen( $input ) > $max_length ):
 				$this->validate_errors[] =  __( 'The input is too long.', 'questions-locale' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
-			
+
 		if( $error ):
 			return FALSE;
 		endif;
-		
+
 		return TRUE;
 	}
 
 	public function after_question(){
 		$html = '';
-		
+
 		if( !empty( $this->settings[ 'description' ] ) ):
 			$html = '<p class="questions-element-description">';
 			$html.= $this->settings[ 'description' ];
 			$html.= '</p>';
 		endif;
-		
+
 		return $html;
 	}
 }
