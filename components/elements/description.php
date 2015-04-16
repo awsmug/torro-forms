@@ -18,8 +18,8 @@ class Questions_SurveyElement_Description extends Questions_SurveyElement {
 	public function __construct( $id = NULL ) {
 
 		$this->slug        = 'Description';
-		$this->title       = __( 'Description', 'questions-locale' );
-		$this->description = __( 'Adds a text to the form.', 'questions-locale' );
+		$this->title       = esc_attr__( 'Description', 'questions-locale' );
+		$this->description = esc_attr__( 'Adds a text to the form.', 'questions-locale' );
 		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
 
 		$this->is_question = FALSE;
@@ -40,9 +40,9 @@ class Questions_SurveyElement_Description extends Questions_SurveyElement {
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => __( 'Text to show', 'questions-locale' ),
+				'title'       => esc_attr__( 'Text to show', 'questions-locale' ),
 				'type'        => 'textarea',
-				'description' => __( 'The text which will be shown in the form.', 'questions-locale' ),
+				'description' => esc_attr__( 'The text which will be shown in the form.', 'questions-locale' ),
 				'default'     => ''
 			)
 		);
@@ -50,9 +50,3 @@ class Questions_SurveyElement_Description extends Questions_SurveyElement {
 }
 
 qu_register_survey_element( 'Questions_SurveyElement_Description' );
-
-
-
-
-
-
