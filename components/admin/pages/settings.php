@@ -12,8 +12,8 @@
 		<table class="form-table">
 			<tr>
 				<th class="titledesc"><label for="questions_thankyou_participating_subject_template">
-					<?php esc_attr_e( 'Thanks for participating', 'questions-locale' ); ?>
-				</label></th>
+						<?php esc_attr_e( 'Thanks for participating', 'questions-locale' ); ?>
+					</label></th>
 				<td class="forminp forminp-textarea">
 					<p><?php esc_attr_e(
 							'This text will be used on thanking members after participating survey.', 'questions-locale'
@@ -30,9 +30,9 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="titledesc"><label for ="questions_invitation_subject_template">
-					<?php esc_attr_e( 'Invitation text Template', 'questions-locale' ); ?>
-				</label></th>
+				<th class="titledesc"><label for="questions_invitation_subject_template">
+						<?php esc_attr_e( 'Invitation text Template', 'questions-locale' ); ?>
+					</label></th>
 				<td class="forminp forminp-textarea">
 					<p><?php esc_attr_e(
 							'This text will be used as template if you want to send invitations to Participiants.',
@@ -50,7 +50,9 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="titledesc"><label for ="questions_reinvitation_subject_template"><?php esc_attr_e( 'Reinvitation text Template', 'questions-locale' ); ?></label></th>
+				<th class="titledesc"><label for="questions_reinvitation_subject_template"><?php esc_attr_e(
+							'Reinvitation text Template', 'questions-locale'
+						); ?></label></th>
 				<td class="forminp forminp-textarea">
 					<p><?php esc_attr_e(
 							'This text will be used as template if you want to send reinvitations to Participiants.',
@@ -68,7 +70,9 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="titledesc"><label for="questions_mail_from_name"><?php esc_attr_e( 'From Name', 'questions-locale' ); ?></label></th>
+				<th class="titledesc"><label for="questions_mail_from_name"><?php esc_attr_e(
+							'From Name', 'questions-locale'
+						); ?></label></th>
 				<td class="forminp forminp-textarea">
 					<p><?php esc_attr_e(
 							'The Name which will be shown on Emails which are send out by Questions.',
@@ -77,11 +81,15 @@
 					<input class="settings-template-subject" type="text" id="questions_mail_from_name" name="questions_mail_from_name" value="<?php echo qu_get_mail_settings(
 						'from_name'
 					); ?>" /><br />
-					<br /><span class="description"><?php esc_attr_e( 'e.g. Michael Jackson', 'questions-locale' ); ?></span>
+					<br /><span class="description"><?php esc_attr_e(
+							'e.g. Michael Jackson', 'questions-locale'
+						); ?></span>
 				</td>
 			</tr>
 			<tr>
-				<th class="titledesc"><label for="questions_mail_from_email"><?php esc_attr_e( 'From Email', 'questions-locale' ); ?></label></th>
+				<th class="titledesc"><label for="questions_mail_from_email"><?php esc_attr_e(
+							'From Email', 'questions-locale'
+						); ?></label></th>
 				<td class="forminp forminp-textarea">
 					<p><?php esc_attr_e(
 							'The Email will be used for the reply of the emails, send out by questions.',
