@@ -18,8 +18,8 @@ class Questions_SurveyElement_OneChoice extends Questions_SurveyElement {
 	public function __construct( $id = NULL ) {
 
 		$this->slug        = 'OneChoice';
-		$this->title       = __( 'One Choice', 'questions-locale' );
-		$this->description = __(
+		$this->title       = esc_attr__( 'One Choice', 'questions-locale' );
+		$this->description = esc_attr__(
 			'Add a question which can be answered by selecting one of the given answers.', 'questions-locale'
 		);
 		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-onechoice.png';
@@ -38,7 +38,7 @@ class Questions_SurveyElement_OneChoice extends Questions_SurveyElement {
 	public function input_html() {
 
 		if ( ! is_array( $this->answers ) && count( $this->answers ) == 0 ) {
-			return '<p>' . __(
+			return '<p>' . esc_attr__(
 				'You don´t entered any answers. Please add some to display answers here.', 'questions-locale'
 			) . '</p>';
 		}
@@ -61,9 +61,9 @@ class Questions_SurveyElement_OneChoice extends Questions_SurveyElement {
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => __( 'Description', 'questions-locale' ),
+				'title'       => esc_attr__( 'Description', 'questions-locale' ),
 				'type'        => 'text',
-				'description' => __( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'     => ''
 			)
 		);
@@ -74,7 +74,7 @@ class Questions_SurveyElement_OneChoice extends Questions_SurveyElement {
 		$error = FALSE;
 
 		if ( empty( $input ) ):
-			$this->validate_errors[ ] = sprintf( __( 'Please select a value.', 'questions-locale' ) );
+			$this->validate_errors[ ] = sprintf( esc_attr__( 'Please select a value.', 'questions-locale' ) );
 			$error                    = TRUE;
 		endif;
 
