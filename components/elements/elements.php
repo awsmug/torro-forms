@@ -6,15 +6,15 @@
  *
  * @author awesome.ug, Author <support@awesome.ug>
  * @package Questions/Elements
- * @version 1.0.0
+ * @version 2015-04-16
  * @since 1.0.0
  * @license GPL 2
- * 
+ *
 
   Copyright 2015 awesome.ug (support@awesome.ug)
 
   This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License, version 2, as 
+  it under the terms of the GNU General Public License, version 2, as
   published by the Free Software Foundation.
 
   This program is distributed in the hope that it will be useful,
@@ -28,26 +28,32 @@
 
  */
 
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-class Questions_Elements extends Questions_Component{
+class Questions_Elements extends Questions_Component {
+
 	/**
 	 * Initializes the Component.
+	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'QuestionsElements';
-		$this->title = __( 'Elements', 'questions-locale' );
-		$this->description = __( 'Base Elements to put into surveys', 'questions-locale' );
-		$this->turn_off = FALSE;
-		
+
+		$this->name        = 'QuestionsElements';
+		$this->title       = esc_attr__( 'Elements', 'questions-locale' );
+		$this->description = esc_attr__( 'Base Elements to put into surveys', 'questions-locale' );
+		$this->turn_off    = FALSE;
+
 		$this->slug = 'surveyelements';
-		
+
 		parent::__construct();
-		
+
 	} // end constructor
-	
-	public function includes(){
+
+	public function includes() {
+
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/text.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/textarea.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/onechoice.php' );
@@ -57,6 +63,7 @@ class Questions_Elements extends Questions_Component{
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/splitter.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/description.php' );
 	}
-	
+
 }
+
 $Questions_Elements = new Questions_Elements();
