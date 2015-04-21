@@ -34,8 +34,8 @@ Drag & drop your survey with the Questions plugin.
 
 * English
 * German
-* Persian
-* Swedish
+* Persian (Thanks to Hos3in)
+* Swedish (Thanks to Elger Lindgren)
 
 Feel free to add your own language. We will add it to the code if you send us language files in your language.
 
