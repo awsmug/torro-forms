@@ -67,6 +67,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 9 =
+* Fixed restrictions bug
+
 = 1.0.0 beta 8 =
 * Added pariticipiants option "No restrictions"
 * Added filters for default on $participiants_restrictions

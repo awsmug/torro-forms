@@ -80,7 +80,6 @@ class Questions_ProcessResponse{
 	 * @return string $survey_html
 	 */
 	public function show_survey( $survey_id ){
-		
 		$checked = $this->check_restrictions( $survey_id );
 		
 		if( TRUE === $checked ):
@@ -117,6 +116,8 @@ class Questions_ProcessResponse{
 					return $this->text_already_participated( $survey_id );
 				endif;
 				
+				return TRUE;
+				
 				break;
 				
 			/**
@@ -139,6 +140,8 @@ class Questions_ProcessResponse{
 				if( $this->has_participated( $survey_id ) ):
 					return $this->text_already_participated( $survey_id );
 				endif;
+				
+				return TRUE;
 				
 				break;
 			
@@ -166,6 +169,8 @@ class Questions_ProcessResponse{
 				if( !$this->user_can_participate( $survey_id ) ):
 					return $this->text_cant_participate();
 				endif;
+				
+				return TRUE;
 				
 				break;
 			/**
