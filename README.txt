@@ -67,6 +67,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 10 =
+* Enhanced code structure
+
 = 1.0.0 beta 9 =
 * Fixed restrictions bug
 
