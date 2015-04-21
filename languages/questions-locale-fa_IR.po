@@ -1,0 +1,1017 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SurveyVal v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-09 15:39+0100\n"
+"PO-Revision-Date: 2015-04-21 09:55+0330\n"
+"Last-Translator: hosein <cs.masoudi@gmail.com>\n"
+"Language-Team: \n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:41
+msgid "Admin"
+msgstr "مدیر"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:42
+msgid "Setting up Questions in WordPress Admin."
+msgstr "راه اندازی پلاگین در بخش مدیریت وردپرس"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:69 ../components/core/core.php:87
+msgid "Surveys"
+msgstr "نظرسنجی"
+
+#: ../components/admin/admin.php:70
+msgid "Create"
+msgstr "ایجاد"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:71 ../components/core/core.php:73
+msgid "Categories"
+msgstr "دسته ها"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:72 ../components/element.php:323
+msgid "Settings"
+msgstr "تنظیمات"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:113
+msgid "Drop your Element here."
+msgstr "المان مورد نظر خود را از ستون سمت چپ بگیرید بکشید اینجا و رها کنید"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:118
+msgid "Do you really want to delete this element?"
+msgstr "آیا مطمن هستید که میخواهید این المان حذف شود ؟"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:119
+msgid "Do you really want to delete this answer?"
+msgstr "آیا مطمن هستید که میخواهید این \"پاسخ\" حذف شود ؟"
+
+#: ../components/admin/admin.php:163
+msgid "All visitors of the site can participate the poll"
+msgstr " همه بازدید کنندگان سایت می توانند در نظرسنجی شرکت کنند ."
+
+#: ../components/admin/admin.php:164
+msgid "All members of the site can participate the poll"
+msgstr " همه اعضای سایت می توانند در نظرسنجی شرکت کنند ."
+
+#: ../components/admin/admin.php:165
+msgid "Only selected members can participate the poll "
+msgstr " فقط اعضای انتخاب شده می توانند در نظرسنجی شرکت کنند ."
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:185
+msgid "Add all actual Members"
+msgstr "اضافه کردن همه کاربران حقیقی."
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:205
+msgid "Add Participiants"
+msgstr "اضافه کردن رای دهندگان"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:205
+msgid "Remove all Participiants"
+msgstr "حذف همه رای دهندگان"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:213 ../components/admin/admin.php:860
+msgid "participiant/s"
+msgstr "رای دهندگان"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:220
+msgid "ID"
+msgstr "شناسه"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:221
+msgid "User nicename"
+msgstr "نام کاربر"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:222
+msgid "Display name"
+msgstr "نمایش نام"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:223
+msgid "Email"
+msgstr "آدرس ایمیل"
+
+#: ../components/admin/admin.php:224
+msgid "Status"
+msgstr "وضعیت"
+
+#: ../components/admin/admin.php:239
+msgid "finished"
+msgstr "پایان یافت."
+
+#: ../components/admin/admin.php:241
+msgid "new"
+msgstr "جدید"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:251 ../components/admin/admin.php:850
+#: ../components/element.php:448 ../components/element.php:491
+msgid "Delete"
+msgstr "حذف"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:291
+msgid "Show results after finishing survey"
+msgstr "نمایش نتیجه نظرسنجی پس از پایان یافتن نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:292 ../components/admin/admin.php:851
+#: ../components/element.php:650
+msgid "Yes"
+msgstr "بله"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:293 ../components/admin/admin.php:852
+#: ../components/element.php:652
+msgid "No"
+msgstr "خیر"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:313
+msgid "Dublicate Survey"
+msgstr "تکثیر(ایجاد کپی) از نظرسنجی "
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:320
+msgid "Invite Participiants"
+msgstr "دعوت به نظرسنجی"
+
+#: ../components/admin/admin.php:321 ../components/admin/admin.php:328
+msgid "Cancel"
+msgstr "انصراف"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:327
+msgid "Reinvite Participiants"
+msgstr "دعوت مجدد به نظرسنجی"
+
+#: ../components/admin/admin.php:331
+msgid ""
+"You can invite Participiants to this survey after the survey is published."
+msgstr ""
+"شما می توانید دیگران را پس از منتشر شدن نظرسنجی به این نظرسنجی دعوت کنید."
+
+#: ../components/admin/admin.php:343
+msgid "Options"
+msgstr "گزینه ها"
+
+#: ../components/admin/admin.php:350
+msgid "Survey Functions"
+msgstr "امکانات نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:357 ../components/elements/elements.php:40
+msgid "Elements"
+msgstr "المان ها"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:365
+msgid "Participiants list"
+msgstr "لیست شرکت کنندگان"
+
+#: ../components/admin/admin.php:709
+msgid "Survey Invitation"
+msgstr "دعوت به نظرسنجی"
+
+#: ../components/admin/admin.php:720
+msgid "Survey Reinvitation"
+msgstr "دعوت دوباره به نظرسنجی"
+
+#: ../components/admin/admin.php:853
+msgid "just added"
+msgstr "اضافه شد"
+
+#: ../components/admin/admin.php:854
+msgid "Invitations sent successfully!"
+msgstr "دعوت به نظرسنجی با موفقیت ارسال شد"
+
+#: ../components/admin/admin.php:855
+msgid "Invitations could not be sent!"
+msgstr "ارسال دعوتنامه با مشکل روبرو شد"
+
+#: ../components/admin/admin.php:856
+msgid "Renvitations sent successfully!"
+msgstr "ارسال مجدد دعوتنامه با موفقیت انجام شد"
+
+#: ../components/admin/admin.php:857
+msgid "Renvitations could not be sent!"
+msgstr "ارسال مجدد دعوتنامه با مشکل روبرو شد"
+
+#: ../components/admin/admin.php:858
+msgid "Survey dublicated successfully!"
+msgstr "تکثیر نظرسنجی با موفقیت انجام شد"
+
+# @ surveyval-locale
+#: ../components/admin/admin.php:859 ../components/core/core.php:91
+msgid "Edit Survey"
+msgstr "ویرایش نظرسنجی "
+
+#: ../components/admin/pages/settings.php:5
+msgid "General"
+msgstr "عمومی"
+
+# @ surveyval-locale
+#: ../components/admin/pages/settings.php:8
+msgid "Text templates"
+msgstr "قالب متن "
+
+# @ surveyval-locale
+#: ../components/admin/pages/settings.php:12
+msgid "Thanks for participating"
+msgstr "با تشکر از شما جهت مشارکت. "
+
+#: ../components/admin/pages/settings.php:14
+msgid "This text will be used on thanking members after participating survey."
+msgstr "این متن برای تشکر از اعضا بعد از شرکت در نظرسنجی استفاده خواهد شد."
+
+#: ../components/admin/pages/settings.php:17
+#: ../components/admin/pages/settings.php:26
+#: ../components/admin/pages/settings.php:35
+msgid "Usable template tags:"
+msgstr "تگ های قالب قابل استفاده:"
+
+#: ../components/admin/pages/settings.php:21
+msgid "Invitation text Template"
+msgstr "متن قالب دعوت نامه"
+
+#: ../components/admin/pages/settings.php:23
+msgid ""
+"This text will be used as template if you want to send invitations to "
+"Participiants."
+msgstr ""
+"این متن به عنوان قالب استفاده خواهد شد اگر شما بخواهید یک دعوتنامه برای "
+"مشترکین ارسال کنید."
+
+#: ../components/admin/pages/settings.php:30
+msgid "Reinvitation text Template"
+msgstr "متن دعوت مجدد "
+
+#: ../components/admin/pages/settings.php:32
+msgid ""
+"This text will be used as template if you want to send reinvitations to "
+"Participiants."
+msgstr ""
+"این متن به عنوان قالب استفاده خواهد شد اگر شما بخواهید یک دعوتنامه مجدد برای "
+"مشترکین ارسال کنید."
+
+#: ../components/admin/pages/settings.php:39
+msgid "From Name"
+msgstr "از نام"
+
+#: ../components/admin/pages/settings.php:41
+msgid "The Name which will be shown on Emails which are send out by Questions."
+msgstr "نامی که همراه ایمیلی که توسط پلاگین ارسال می گردد."
+
+#: ../components/admin/pages/settings.php:43
+msgid "e.g. Michael Jackson"
+msgstr "به عنوان مثال حسین مسعودی"
+
+# @ surveyval-locale
+#: ../components/admin/pages/settings.php:47
+msgid "From Email"
+msgstr "از آدرس ایمیل"
+
+#: ../components/admin/pages/settings.php:49
+msgid ""
+"The Email will be used for the reply of the emails, send out by questions."
+msgstr ""
+"این ایمیل برای پاسخ به ایمیل های که توسط پلاگین ارسال می شود استفاده می گردد."
+
+#: ../components/admin/pages/settings.php:51
+msgid "e.g. myname@mydomain.com"
+msgstr "myname@mydomain.comبه عنوان مثال "
+
+#: ../components/admin/pages/settings.php:55
+msgid "Save Changes"
+msgstr "ذخیره تغییرات"
+
+# @ surveyval-locale
+#: ../components/charts/chart-creator-dimple.php:55
+msgid "Answer"
+msgstr "پاسخ"
+
+#: ../components/charts/chart-creator-dimple.php:56
+msgid "Votes"
+msgstr "رای ها"
+
+# @ surveyval-locale
+#: ../components/charts/chart-creator.php:90
+msgid "Made with Questions"
+msgstr "ساخته شده توسط سوالات"
+
+#: ../components/charts/charts.php:43
+msgid "Charts"
+msgstr "نمودار"
+
+#: ../components/charts/charts.php:44
+msgid "Showing Charts in Questions."
+msgstr "نمایش نمودار در سوالات"
+
+# @ surveyval-locale
+#: ../components/charts/shortcodes.php:51
+msgid "Please enter a survey id in the survey shortcode!"
+msgstr "لطفا شناسه عددی نظرسنجی را در کد زیر وارد نمایید"
+
+# @ surveyval-locale
+#: ../components/charts/shortcodes.php:74
+msgid "Please enter a question id in the survey shortcode!"
+msgstr "لطفا شناسه عددی سوال را در کد زیر وارد نمایید"
+
+#: ../components/charts/shortcodes.php:94
+msgid "Results Shortcode:"
+msgstr "کد میانبر نمایش نتیجه نظرسنجی"
+
+#: ../components/charts/shortcodes.php:103
+msgid "(CTRL+C and paste into post to embed question results in post)"
+msgstr ""
+"با استفاده از Ctrl+c و کپی کردن آن در پست می توانید نتایج نظرسنجی را در پست "
+"مورد نظر نمایش دهید."
+
+#: ../components/charts/shortcodes.php:104
+msgid "Shortcode:"
+msgstr "کد میانبر:"
+
+# @ surveyval-locale
+#: ../components/component.php:50
+msgid "This is a Questions component."
+msgstr "این یک کامپوننت این پلاگین است."
+
+# @ surveyval-locale
+#: ../components/core/core.php:39
+msgid "Core"
+msgstr "هسته"
+
+# @ surveyval-locale
+#: ../components/core/core.php:40
+msgid "Core functions of the Questions Plugin"
+msgstr "هسته توابع اصلی پلاگین"
+
+# @ surveyval-locale
+#: ../components/core/core.php:63
+msgctxt "taxonomy general name"
+msgid "Categories"
+msgstr "دسته ها"
+
+# @ surveyval-locale
+#: ../components/core/core.php:64
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr "دسته "
+
+# @ surveyval-locale
+#: ../components/core/core.php:65
+msgid "Search Categories"
+msgstr "جست و جوی دسته ها"
+
+# @ surveyval-locale
+#: ../components/core/core.php:66
+msgid "All Categories"
+msgstr "همه دسته ها"
+
+# @ surveyval-locale
+#: ../components/core/core.php:67
+msgid "Parent Category"
+msgstr "دسته والد"
+
+# @ surveyval-locale
+#: ../components/core/core.php:68
+msgid "Parent Category:"
+msgstr "دسته والد:"
+
+# @ surveyval-locale
+#: ../components/core/core.php:69
+msgid "Edit Category"
+msgstr "ویرایش دسته"
+
+# @ surveyval-locale
+#: ../components/core/core.php:70
+msgid "Update Category"
+msgstr "بروزرسانی دسته"
+
+# @ surveyval-locale
+#: ../components/core/core.php:71
+msgid "Add New Category"
+msgstr "اضافه کردن دسته جدید"
+
+# @ surveyval-locale
+#: ../components/core/core.php:72
+msgid "New Category"
+msgstr "دسته جدید"
+
+# @ surveyval-locale
+#: ../components/core/core.php:88 ../components/core/shortcodes.php:47
+msgid "Survey"
+msgstr "نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/core/core.php:89
+msgid "All Surveys"
+msgstr "همه نظرسنجی ها"
+
+# @ surveyval-locale
+#: ../components/core/core.php:90 ../components/core/core.php:92
+msgid "Add new Survey"
+msgstr "اضافه کردن یک نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/core/core.php:93
+msgid "View Survey"
+msgstr "نمایش نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/core/core.php:94
+msgid "Search Survey"
+msgstr "جست و جوی نظرسنجی"
+
+#: ../components/core/core.php:95 ../components/core/core.php:96
+msgid "No Survey available"
+msgstr "نظرسنجی ای موجود نیست"
+
+#: ../components/core/export.php:46
+#, php-format
+msgid "<a href=\"%s\">Export Results</a>"
+msgstr "<a href=\"%s\">گرفتن خروجی از نتایج</a>"
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:154
+#, php-format
+msgid ""
+"Step <span class=\"questions-highlight-number\">%d</span> of <span class="
+"\"questions-highlight-number\">%s</span>"
+msgstr ""
+"مرحله<span class=\"surveyval-highlight-number\">%d</span> از <span class="
+"\"surveyval-highlight-number\">%s</span>"
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:172
+msgid "Previous Step"
+msgstr "مرحله قبلی"
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:176
+msgid "Finish Survey"
+msgstr "ثبت رای"
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:178
+msgid "Next Step"
+msgstr "مرحله بعدی"
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:508
+msgid "Thank you for participating this survey!"
+msgstr "با تشکر از شما جهت شرکت در نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:523
+msgid "You already have participated this poll."
+msgstr "توجه: شما قبلا در این نظرسنجی شرکت کرده اید."
+
+#: ../components/core/process-response.php:531
+msgid "This are the actual results:"
+msgstr "نتایج نظر سنجی تا این لحظه:"
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:541
+msgid "You have to be logged in to participate this survey."
+msgstr "شما باید برای شرکت در نظرسنجی وارد شوید."
+
+# @ surveyval-locale
+#: ../components/core/process-response.php:548
+msgid "You can't participate this survey."
+msgstr "شما نمی توانید در این نظرسنجی شرکت کنید."
+
+# @ surveyval-locale
+#: ../components/core/shortcodes.php:52
+msgid "Please enter an id in the survey shortcode!"
+msgstr "لطفا کد میانبر نظرسنجی را وارد نمایید."
+
+# @ surveyval-locale
+#: ../components/core/shortcodes.php:57
+msgid "Survey not found. Please enter another ID in your shortcode."
+msgstr ""
+"نظرسنجی مورد نظر وجود ندارد. لطفا ID کد میانبر یک نظر سنجی دیگر را وارد "
+"نمایید."
+
+#: ../components/core/shortcodes.php:66
+msgid "Survey Shortcode:"
+msgstr "کد میانبر نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/element.php:60
+msgid "This is a Questions Survey Element."
+msgstr "این یک المان سوال نظرسنجی است."
+
+#: ../components/element.php:246
+msgid "No HTML for Element given. Please check element sourcecode."
+msgstr ""
+"هیچ کد HTML ای برای این المان وجود ندارد . لطفا سورس کد المان را بررسی "
+"نمایید."
+
+# @ surveyval-locale
+#: ../components/element.php:319
+msgid "Question"
+msgstr "سوال"
+
+# @ surveyval-locale
+#: ../components/element.php:355 ../components/element.php:581
+msgid "Delete element"
+msgstr "حذف کردن المان"
+
+# @ surveyval-locale
+#: ../components/element.php:395
+msgid "Answer/s:"
+msgstr "پاسخ ها:"
+
+# @ surveyval-locale
+#: ../components/element.php:505
+msgid "Add Answer"
+msgstr "اضافه کردن پاسخ"
+
+# @ surveyval-locale
+#: ../components/elements/description.php:18
+#: ../components/elements/dropdown.php:62
+#: ../components/elements/multiplechoice.php:53
+#: ../components/elements/onechoice.php:52 ../components/elements/text.php:32
+#: ../components/elements/textarea.php:32
+msgid "Description"
+msgstr "توضیحات"
+
+#: ../components/elements/description.php:19
+msgid "Adds a text to the form."
+msgstr "اضافه کردن متن به فرم"
+
+#: ../components/elements/description.php:38
+msgid "Text to show"
+msgstr "متن برای نمایش"
+
+#: ../components/elements/description.php:40
+msgid "The text which will be shown in the form."
+msgstr "متنی که در در فرم نمایش داده خواهد شد."
+
+#: ../components/elements/dropdown.php:18
+msgid "Dropdown"
+msgstr "ایجاد نظرسنجی کشویی"
+
+# @ surveyval-locale
+#: ../components/elements/dropdown.php:19
+msgid "Add a question which can be answered within a dropdown field."
+msgstr "اضافه کردن سوالی که میتوان با استفاده از یک فیلد کشویی به آن پاسخ داد."
+
+#: ../components/elements/dropdown.php:39
+#: ../components/elements/multiplechoice.php:35
+#: ../components/elements/onechoice.php:35
+msgid "You don´t entered any answers. Please add some to display answers here."
+msgstr ""
+"شما نمی توانید پاسخی وارد نمایید. لطفا برای نمایش پاسخ یک مورد اضافه کنید."
+
+#: ../components/elements/dropdown.php:43
+msgid "Please select"
+msgstr "لطفا انتخاب کنید"
+
+#: ../components/elements/dropdown.php:64
+#: ../components/elements/multiplechoice.php:55
+#: ../components/elements/onechoice.php:54 ../components/elements/text.php:34
+#: ../components/elements/textarea.php:34
+msgid "The description will be shown after the question."
+msgstr "توضیحات بعد از سوال نمایش داده خواهد شد."
+
+#: ../components/elements/dropdown.php:74
+#: ../components/elements/onechoice.php:64
+msgid "Please select a value."
+msgstr "لطفا یک مقدار انتخاب کنید."
+
+#: ../components/elements/elements.php:41
+msgid "Base Elements to put into surveys"
+msgstr "المان های اساسی برای قرار دادن در نظرسنجی"
+
+# @ surveyval-locale
+#: ../components/elements/multiplechoice.php:18
+msgid "Multiple Choice"
+msgstr "ایجاد نظرسنجی چند انتخابی"
+
+# @ surveyval-locale
+#: ../components/elements/multiplechoice.php:19
+msgid ""
+"Add a question which can be answered by selecting one ore more given answers."
+msgstr ""
+"اضافه کردن یک سوالی که می توان جواب آن را با انتخاب یک گزینه یا بیشتر انتخاب "
+"نمود."
+
+# @ surveyval-locale
+#: ../components/elements/multiplechoice.php:59
+msgid "Minimum Answers"
+msgstr "حداقل پاسخ ها"
+
+# @ surveyval-locale
+#: ../components/elements/multiplechoice.php:61
+msgid "The minimum number of answers which have to be choosed."
+msgstr "کمترین تعاد پاسخی که می توان انتخاب کرد."
+
+# @ surveyval-locale
+#: ../components/elements/multiplechoice.php:65
+msgid "Maximum Answers"
+msgstr "بیشترین پاسخ ها"
+
+# @ surveyval-locale
+#: ../components/elements/multiplechoice.php:67
+msgid "The maximum number of answers which can be choosed."
+msgstr "بیشترین تعاد پاسخی که می توان انتخاب کرد."
+
+#: ../components/elements/multiplechoice.php:81
+msgid "Too less choices."
+msgstr "انتخاب کمتر از"
+
+# @ surveyval-locale
+#: ../components/elements/multiplechoice.php:81
+#: ../components/elements/multiplechoice.php:87
+#, php-format
+msgid "You have to choose between %d and %d answers."
+msgstr "شما می توانید بین %d و %d تعداد پاسخ انتخاب نمایید."
+
+#: ../components/elements/multiplechoice.php:87
+msgid "Too many choices."
+msgstr "انتخاب بیش از حد"
+
+# @ surveyval-locale
+#: ../components/elements/onechoice.php:18
+msgid "One Choice"
+msgstr "ایجاد نظرسنجی تک انتخابی"
+
+# @ surveyval-locale
+#: ../components/elements/onechoice.php:19
+msgid ""
+"Add a question which can be answered by selecting one of the given answers."
+msgstr "یک سوال اضافه کنید که میتوانید با انتخاب یک گزینه به آن پاسخ داده شود."
+
+# @ surveyval-locale
+#: ../components/elements/separator.php:18
+msgid "Separator"
+msgstr "جداکننده"
+
+# @ surveyval-locale
+#: ../components/elements/separator.php:19
+msgid "Adds a optical separator (<hr>) between questions."
+msgstr "اضافه کردن یک گزینه جداکننده (<hr>) بین سوالات."
+
+# @ surveyval-locale
+#: ../components/elements/separator.php:41
+msgid "Headline"
+msgstr "عنوان"
+
+# @ surveyval-locale
+#: ../components/elements/separator.php:43
+msgid "Text which will be shown above the separator"
+msgstr "متنی که بالای جداکننده نشان داده خواهد شد."
+
+# @ surveyval-locale
+#: ../components/elements/splitter.php:18
+msgid "Split Form"
+msgstr "تقسیم بندی فرم"
+
+# @ surveyval-locale
+#: ../components/elements/splitter.php:19
+msgid "Splits a form into several steps"
+msgstr "تقسیم بندی به چندین مرحله"
+
+# @ surveyval-locale
+#: ../components/elements/text.php:18
+msgid "Text"
+msgstr "متن"
+
+# @ surveyval-locale
+#: ../components/elements/text.php:19
+msgid "Add a question which can be answered within a text field."
+msgstr ""
+"اضافه کردن یک سوال که می توان به آن پاسخ داد با استفاده از یک فیلد متنی."
+
+# @ surveyval-locale
+#: ../components/elements/text.php:38 ../components/elements/textarea.php:38
+msgid "Minimum length"
+msgstr "حداقل طول متن"
+
+# @ surveyval-locale
+#: ../components/elements/text.php:40 ../components/elements/textarea.php:40
+msgid "The minimum number of chars which can be typed in."
+msgstr "حداقل تعداد کاراکتر هایی که کاربر می تواند تایپ کند."
+
+# @ surveyval-locale
+#: ../components/elements/text.php:44 ../components/elements/textarea.php:44
+msgid "Maximum length"
+msgstr "حداکثر طول متن"
+
+# @ surveyval-locale
+#: ../components/elements/text.php:46 ../components/elements/textarea.php:46
+msgid "The maximum number of chars which can be typed in."
+msgstr "بیشترین تعداد کاراکتر هایی که کاربر می تواند تایپ کند."
+
+#: ../components/elements/text.php:50
+msgid "String Validation"
+msgstr "رشته معتبر"
+
+#: ../components/elements/text.php:53
+msgid "No validation"
+msgstr "بدون اعتبارسنجی مقدار ورودی"
+
+#: ../components/elements/text.php:54
+msgid "Numbers"
+msgstr "اعداد"
+
+#: ../components/elements/text.php:55
+msgid "Decimal Numbers"
+msgstr "اعداد دسیمال"
+
+#: ../components/elements/text.php:56
+msgid "Email-Address"
+msgstr "آدرس ایمیل"
+
+#: ../components/elements/text.php:58
+msgid "The will do a validation for the input."
+msgstr "این اعتبارسنجی برای ورودی کاربر اعمال خواهد شد."
+
+#: ../components/elements/text.php:73 ../components/elements/textarea.php:72
+msgid "The input ist too short."
+msgstr "ورودی کوتاه است"
+
+# @ surveyval-locale
+#: ../components/elements/text.php:73 ../components/elements/text.php:79
+#: ../components/elements/textarea.php:72
+#: ../components/elements/textarea.php:78
+#, php-format
+msgid "It have to be at minimum %d and maximum %d chars."
+msgstr "متن شما باید حداقل  %d و حداکثر %d کاراکتر باشد "
+
+#: ../components/elements/text.php:79 ../components/elements/textarea.php:78
+msgid "The input is too long."
+msgstr "عبارت وارد شده بزرگتر از حد مجاز است."
+
+#: ../components/elements/text.php:87
+msgid "Please input a number."
+msgstr "لطفا یک مقدار عددی وارد کنید"
+
+#: ../components/elements/text.php:93
+msgid "Please input a decimal number."
+msgstr "لطفا یک مقدار عددی غیر اعشاری وارد کنید"
+
+#: ../components/elements/text.php:99
+msgid "Please input a valid Email-Address."
+msgstr "لطفا یک آدرس ایمیل معتبر وارد نمایید"
+
+# @ surveyval-locale
+#: ../components/elements/textarea.php:18
+msgid "Textarea"
+msgstr "متن چند خطی"
+
+# @ surveyval-locale
+#: ../components/elements/textarea.php:19
+msgid "Add a question which can be answered within a text area."
+msgstr "سوال مورد نظر خود را که میخواهید به آن پاسخ داده شود اضافه کنید."
+
+#: ../components/elements/textarea.php:50
+msgid "Rows"
+msgstr "سطرها"
+
+#: ../components/elements/textarea.php:52
+msgid "Number of rows for typing in  (can be overwritten by CSS)."
+msgstr ""
+"تعداد سطرها برای نوشتن (میتوانید آن را با کدهای css نیز جایگذین نمایید.("
+
+#: ../components/elements/textarea.php:56
+msgid "Columns"
+msgstr "ستون ها"
+
+#: ../components/elements/textarea.php:58
+msgid "Number of columns for typing in (can be overwritten by CSS)."
+msgstr ""
+"تعداد ستون ها برای نوشتن (میتوانید آن را با کدهای css نیز جایگذین نمایید.("
+
+#: ../components/survey.php:172
+msgid "User ID"
+msgstr "کاربر ID"
+
+#: ../components/survey.php:198
+msgid "Date/Time"
+msgstr "روز /  زمان"
+
+#: ../functions.php:38
+msgid ""
+"Dear %username%,\n"
+"\t\n"
+"thank you for participating on the survey \"%survey_title%\". Your survey "
+"data was saved successfully.\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+"سلام %username%,\n"
+"\t\n"
+"از اینکه در نظر سنجی شرکت نمودید تشکر می کنیم \"%survey_title%\". نظر شما با "
+"موفقیت ثبت گردید..\n"
+"\n"
+"موفق و پیروز باشید,\n"
+"\n"
+"%site_name%"
+
+#: ../functions.php:52
+msgid ""
+"Dear %username%,\n"
+"\t\n"
+"you have been invited to participate to the survey \"%survey_title%\". "
+"Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+"سلام %username%,\n"
+"\t\n"
+"شما برای شرکت در یک نظرسنجی دعوت شده اید. \"%survey_title%\" شرکت در نظرسنجی "
+"در اینجا:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"موفق و پیروز باشید.,\n"
+"\n"
+"%site_name%"
+
+#: ../functions.php:68
+msgid ""
+"Dear %username%,\n"
+"\t\n"
+"the survey \"%survey_title%\" is not finished yet. Please fill out and "
+"finish the survey. Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+"سلام  %username%,\n"
+"\t\n"
+"نظرسنجی \"%survey_title%\" هنوز تمام نشده است.لطفا با جهت شرکت در نظرسنجی و "
+"پایان آن در اینجا کلیک کنید::\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"موفق و پیروز باشید.,\n"
+"\n"
+"%site_name%"
+
+# @ surveyval-locale
+#: ../functions.php:91
+msgid "Thank you for participating!"
+msgstr "از اینکه در رای گیری شرکت نمودید متشکریم."
+
+#: ../functions.php:99
+msgid "You are invited to answer a survey"
+msgstr "شما جهت پاسخ به یک نظرسنجی دعوت شده اید."
+
+#: ../functions.php:107
+msgid "Don´t forget to answer the Survey"
+msgstr "فراموش نکنید به نظرسنجی پاسخ دهید."
+
+# @ surveyval-locale
+#~ msgid "Result Settings"
+#~ msgstr "Ergebnis-Einstellungen"
+
+#~ msgid "Show Results"
+#~ msgstr "Ergebnisse anzeigen"
+
+#~ msgid "Size"
+#~ msgstr "Gr&ouml;&szlig;e"
+
+#~ msgid "Size of the field"
+#~ msgstr "Gr&ouml;&szlig;e des Feldes"
+
+# @ surveyval-locale
+#~ msgid "Dublicated Survey!"
+#~ msgstr "Umfrage dublizieren!"
+
+#~ msgid "You did´t answered this question."
+#~ msgstr "Sie haben diese Frage nicht beantwortet."
+
+# @ surveyval-locale
+#~ msgid "There are no elements to save in survey"
+#~ msgstr ""
+#~ "Es gibt keine Elemente in der Umfrage, die gespeichert werden k&ouml;nnen."
+
+# @ surveyval-locale
+#~ msgid "Pleas select a value."
+#~ msgstr "Bitte w&auml;hlen Sie einen Wert."
+
+# @ surveyval-locale
+#~ msgid "Range"
+#~ msgstr "Skala"
+
+# @ surveyval-locale
+#~ msgid "Add a question which can be answered within a range scale."
+#~ msgstr ""
+#~ "F&uuml;gt eine Frage hinzu, welche mit einer Skala beantwortet werden "
+#~ "kann."
+
+# @ surveyval-locale
+#~ msgid "Range from"
+#~ msgstr "Skala von:"
+
+# @ surveyval-locale
+#~ msgid "This value will be shown at the beginning of the scale."
+#~ msgstr "Dieser Wert wird"
+
+# @ surveyval-locale
+#~ msgid "Range to"
+#~ msgstr "Skala von"
+
+# @ surveyval-locale
+#~ msgid "This value will be shown at the end of the scale"
+#~ msgstr "Dieser Wert wird am Ende der Skala angezeigt."
+
+# @ surveyval-locale
+#~ msgid "Step size"
+#~ msgstr "Schrittgr&ouml;&szlig;e"
+
+# @ surveyval-locale
+#~ msgid "The size of steps between from and to"
+#~ msgstr "Die Gr&ouml;&szlig zwischen von und bis"
+
+# @ surveyval-locale
+#~ msgid "You can to choose maximum %s answers."
+#~ msgstr "Sie k&ouml;nnen maximal %s Antworten ausw&auml;hlen."
+
+# @ surveyval-locale
+#~ msgid "The input have to be at minimum %s chars."
+#~ msgstr "Es m&uuml;ssen mindestens %s Zeichen angegeben werden."
+
+# @ surveyval-locale
+#~ msgid "The input have to be at maximum %s chars."
+#~ msgstr "Es d&uuml;rfen maximal %s Zeichen angegeben werden."
+
+# @ surveyval-locale
+#~ msgid "Range Emotional"
+#~ msgstr "Emotionale Skala"
+
+# @ surveyval-locale
+#~ msgid ""
+#~ "Add a question which can be answered within a  emotional range scale."
+#~ msgstr ""
+#~ "F&uuml;gt eine Frage hinzu, welche mit einer emotionalen Skala "
+#~ "beantwortet werden kann."
+
+#~ msgid "Show selected Value"
+#~ msgstr "Gew&auml;hlten Wert anzeigen"
+
+#~ msgid "Showing the selected value in a box after the field."
+#~ msgstr "Zeigt den gew&auml;hlten Wert in einer Box nach dem Feld an."
+
+#~ msgid "Invitations"
+#~ msgstr "Einladungen"
+
+# @ surveyval-locale
+#~ msgid "Add Survey"
+#~ msgstr "Umfrage hinzugf&uuml;gen"
+
+# @ surveyval-locale
+#~ msgid "SurveyVal"
+#~ msgstr "SurveyVal"
+
+# @ surveyval-locale
+#~ msgid "No Survey found"
+#~ msgstr "Keine Umfrage gefunden"
+
+#~ msgid "Send Invites"
+#~ msgstr "Versende Einladungen"
+
+#~ msgid "Select"
+#~ msgstr "W&auml;hle"
+
+# @ surveyval-locale
+#, fuzzy
+#~ msgid "Add a question which can be answered within a select field."
+#~ msgstr ""
+#~ "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
