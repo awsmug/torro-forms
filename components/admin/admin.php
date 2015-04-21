@@ -223,17 +223,21 @@ class Questions_Admin extends Questions_Component {
 			'questions_post_type_participiant_restrictions',
 			array(
 				'all_visitors'     => esc_attr__(
-					'All visitors of the site can participate the poll',
+					'All visitors of the site can participate',
 					'questions-locale'
 				),
 				'all_members'      => esc_attr__(
-					'All members of the site can participate the poll',
+					'All members of the site can participate',
 					'questions-locale'
 				),
 				'selected_members' => esc_attr__(
-					'Only selected members can participate the poll ',
+					'Only selected members can participate',
 					'questions-locale'
 				),
+				'no_restrictions'     => esc_attr__(
+					'No restrictions',
+					'questions-locale'
+				)
 			)
 		);
 
@@ -839,9 +843,6 @@ class Questions_Admin extends Questions_Component {
 		$sql      = $wpdb->prepare( $sql, $survey_id );
 		$user_ids = $wpdb->get_col( $sql );
 
-		// @todo: Not used, maybe delete
-		$subject = esc_attr__( 'Survey Invitation', 'questions-content' );
-
 		if ( 'reinvite' == $_POST[ 'invitation_type' ] ):
 			$user_ids_new = '';
 			if ( is_array( $user_ids ) && count( $user_ids ) > 0 ):
@@ -852,8 +853,6 @@ class Questions_Admin extends Questions_Component {
 				endforeach;
 			endif;
 			$user_ids = $user_ids_new;
-			// @todo: Not used, maybe delete
-			$subject = esc_attr__( 'Survey Reinvitation', 'questions-content' );
 		endif;
 
 		$post = get_post( $survey_id );

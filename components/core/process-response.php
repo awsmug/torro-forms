@@ -57,7 +57,7 @@ class Questions_ProcessResponse{
 	}
 	
 	/**
-	 * The filtered content gehts a survey
+	 * The filtered content gets a survey
 	 * @param string $content
 	 * @return strint $content
 	 */
@@ -80,10 +80,13 @@ class Questions_ProcessResponse{
 	 * @return string $survey_html
 	 */
 	public function show_survey( $survey_id ){
-		if( TRUE === $this->check_restrictions( $survey_id ) ):
+		
+		$checked = $this->check_restrictions( $survey_id );
+		
+		if( TRUE === $checked ):
 			return $this->survey_form( $survey_id );
 		else:
-			return $this->check_restrictions( $survey_id );
+			return $checked;
 		endif;
 	}
 	
@@ -93,61 +96,91 @@ class Questions_ProcessResponse{
 	 * Checking restrictions if user can participate
 	 * 
 	 * @param int $survey_id
-	 * @return boolean $can_participate
+	 * @return mixed $participate True
 	 */
 	private function check_restrictions( $survey_id ){
+		
 		$participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE ); 
 		
-		if( 'all_visitors' == $participiant_restrictions ):
-			if( $this->finished && $this->finished_id == $survey_id ):
-				return $this->text_thankyou_for_participation( $survey_id );
-			endif;
+		switch( $participiant_restrictions ){
 			
-			if( $this->ip_has_participated( $survey_id ) ):
-				return $this->text_already_participated( $survey_id );
-			endif;
+			/**
+			 * All Visitors can participate once
+			 */
+			case 'all_visitors':
+				
+				if( $this->finished && $this->finished_id == $survey_id ):
+					return $this->text_thankyou_for_participation( $survey_id );
+				endif;
+				
+				if( $this->ip_has_participated( $survey_id ) ):
+					return $this->text_already_participated( $survey_id );
+				endif;
+				
+				break;
+				
+			/**
+			 * All WordPress members can participate once
+			 */	
+			case 'all_members':
+				
+				// If user is not logged in
+				if( !is_user_logged_in() ):
+					return $this->text_not_logged_in();
+				endif;
+				
+				// If user user has finished successfull
+				if( $this->finished && $this->finished_id == $survey_id ):
+					$this->email_finished();
+					return $this->text_thankyou_for_participation( $survey_id );
+				endif;
+				
+				// If user has already participated
+				if( $this->has_participated( $survey_id ) ):
+					return $this->text_already_participated( $survey_id );
+				endif;
+				
+				break;
 			
-		elseif( 'all_members' == $participiant_restrictions ):
-			// If user is not logged in
-			if( !is_user_logged_in() ):
-				return $this->text_not_logged_in();
-			endif;
+			/**
+			 * Only selected members can participate once
+			 */
+			case 'selected_members':
 			
-			// If user user has finished successfull
-			if( $this->finished && $this->finished_id == $survey_id ):
-				$this->email_finished();
-				return $this->text_thankyou_for_participation( $survey_id );
-			endif;
-			
-			// If user has already participated
-			if( $this->has_participated( $survey_id ) ):
-				return $this->text_already_participated( $survey_id );
-			endif;
-			
-		else: // Only selected members
-			// If user is not logged in
-			if( !is_user_logged_in() ):
-				return $this->text_not_logged_in();
-			endif;
-			
-			// If user user has finished successfull
-			if( $this->finished && $this->finished_id == $survey_id ):
-				$this->email_finished();
-				return $this->text_thankyou_for_participation( $survey_id );
-			endif;
-			
-			// If user has already participated
-			if( $this->has_participated( $survey_id ) ):
-				return $this->text_already_participated( $survey_id );
-			endif;
-			
-			// If user can't participate the poll
-			if( !$this->user_can_participate( $survey_id ) ):
-				return $this->text_cant_participate();
-			endif;
-		endif;
-		
-		return TRUE;
+				if( !is_user_logged_in() ):
+					return $this->text_not_logged_in();
+				endif;
+				
+				// If user user has finished successfull
+				if( $this->finished && $this->finished_id == $survey_id ):
+					$this->email_finished();
+					return $this->text_thankyou_for_participation( $survey_id );
+				endif;
+				
+				// If user has already participated
+				if( $this->has_participated( $survey_id ) ):
+					return $this->text_already_participated( $survey_id );
+				endif;
+				
+				// If user can't participate the poll
+				if( !$this->user_can_participate( $survey_id ) ):
+					return $this->text_cant_participate();
+				endif;
+				
+				break;
+			/**
+			 * Only selected members can participate
+			 */	
+			default:
+				// If user user has finished successfull
+				if( $this->finished && $this->finished_id == $survey_id ):
+					return $this->text_thankyou_for_participation( $survey_id );
+				endif;
+				
+				return apply_filters( 'questions_check_restrictions', TRUE, $survey_id, $participiant_restrictions );
+
+				break;
+		}
 	}
 	
 	/**
@@ -278,7 +311,7 @@ class Questions_ProcessResponse{
 	/**
 	 * Processing entered data
 	 */
-	public function process_response( $wp_object ){
+	public function process_response(){
 		global $wpdb, $post, $questions_global, $questions_survey_id;
 		
 		// Survey ID was posted or die
@@ -287,15 +320,12 @@ class Questions_ProcessResponse{
 		
 		$questions_survey_id = $_POST[ 'questions_id' ];
 		
-		// Post Type is questions or die
+		// Survey exists or die
 		if( !qu_survey_exists( $questions_survey_id ) )
 			return;
 		
+		// Checking restrictions
 		if( TRUE !== $this->check_restrictions( $questions_survey_id ) )
-			return;
-		
-		// User has not participated or die
-		if( $this->has_participated( $questions_survey_id ) )
 			return;
 		
 		// Getting Session Data
@@ -567,12 +597,16 @@ class Questions_ProcessResponse{
 		$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
 		$subject = str_replace( '%survey_title%', $post->post_title, $subject );
 		
+		$subject = apply_filters( 'questions_email_finished_subject', $subject );
+		
 		$text_template = qu_get_mail_template_text( 'thankyou_participating' );
 		
 		$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
 		$content = str_replace( '%username%', $current_user->user_nicename, $content );
 		$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
 		$content = str_replace( '%survey_title%', $post->post_title, $content );
+		
+		$content = apply_filters( 'questions_email_finished_content', $content );
 		
 		qu_mail( $current_user->user_email, $subject, $content );
 	}
@@ -594,7 +628,7 @@ class Questions_ProcessResponse{
 		$html.= '<input name="response_id" id="response_id" type="hidden" value="' . $this->respond_id . '" />';
 		$html.= '</div>';
 		
-		return $html;
+		return apply_filters( 'questions_text_thankyou_for_participation', $html, $survey_id );
 	}
 	
 	/**
@@ -612,19 +646,8 @@ class Questions_ProcessResponse{
 		if( 'yes' == $show_results ) $html.= $this->show_results( $survey_id );
 		
 		$html.= '</div>';
-		return $html;
-	}
-	
-	/**
-	 * Showing results
-	 * @param int $survey_id
-	 * @return string $html
-	 */
-	public function show_results( $survey_id ){
-		$html = '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
-		$html.= do_shortcode( '[survey_results id="' . $survey_id . '"]' );
 		
-		return $html;
+		return apply_filters( 'questions_text_already_participated', $html, $survey_id );
 	}
 	
 	/**
@@ -635,7 +658,8 @@ class Questions_ProcessResponse{
 		$html = '<div id="questions-not-logged-in">';
 		$html.= __( 'You have to be logged in to participate this survey.', 'questions-locale' );
 		$html.= '</div>';
-		return $html;
+		
+		return apply_filters( 'questions_text_not_logged_in', $html );
 	}
 	
 	/**
@@ -646,9 +670,21 @@ class Questions_ProcessResponse{
 		$html = '<div id="questions-cant-participate">';
 		$html.= __( 'You can\'t participate this survey.', 'questions-locale' );
 		$html.= '</div>';
-		return $html;
+		
+		return apply_filters( 'questions_text_cant_participate', $html );
 	}
-	
+
+	/**
+	 * Showing results
+	 * @param int $survey_id
+	 * @return string $html
+	 */
+	public function show_results( $survey_id ){
+		$html = '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
+		$html.= do_shortcode( '[survey_results id="' . $survey_id . '"]' );
+		
+		return apply_filters( 'questions_show_results', $html, $survey_id );
+	}
 }
 $Questions_ProcessResponse = new Questions_ProcessResponse();
 
