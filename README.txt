@@ -34,6 +34,8 @@ Drag & drop your survey with the Questions plugin.
 
 * English
 * German
+* Persian
+* Swedish
 
 Feel free to add your own language. We will add it to the code if you send us language files in your language.
 
@@ -64,6 +66,11 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 7. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
+
+= 1.0.0 beta 8 =
+* Added swedish language files (Thanks to Elger Lindgren)
+* Added persian language files (Thanks to Hos3in)
+* Code enhancements (Thanks to Frank Bültge)
 
 = 1.0.0 beta 7 =
 * Fixed problems with errors on further steps
