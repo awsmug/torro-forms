@@ -515,7 +515,7 @@ class Questions_Admin extends Questions_Component {
 		$survey_elements                  = $_POST[ 'questions' ];
 		$survey_deleted_surveyelements    = $_POST[ 'questions_deleted_surveyelements' ];
 		$survey_deleted_answers           = $_POST[ 'questions_deleted_answers' ];
-		$survey_participiant_restrictions = $_POST[ 'questions_participiants_restrictions_select' ];
+		$survey_participiant_restrictions = 'all_visitors'; //$_POST[ 'questions_participiants_restrictions_select' ];
 		$survey_show_results              = $_POST[ 'show_results' ];
 		$questions_participiants          = $_POST[ 'questions_participiants' ];
 
