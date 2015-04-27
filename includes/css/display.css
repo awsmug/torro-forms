@@ -29,12 +29,12 @@
 	padding:10px;
 	margin-bottom:20px;
 }
-#questions .questions-element-error-message{
+.questions-element-error-message{
 	color:#FFF;
 	border: 1px dashed #F00;
 	background-color:#F00;
 	display:block;
-    margin: -10px -10px 10px;
+    margin: 0 0 10px 0;
     padding: 5px;
 }
 #questions ul.questions-error-messages{
