@@ -61,7 +61,7 @@ class Questions_Charts extends Questions_Component{
 	
 	public function register_component_scripts() {
 		wp_enqueue_script( 'questions-d3-js',  QUESTIONS_URLPATH . '/components/charts/includes/3rdparty/d3/d3.js' );
-		wp_enqueue_script( 'questions-dimple-js',  QUESTIONS_URLPATH . '/components/charts/includes/3rdparty/dimple/dimple.v2.1.0.js' );
+		wp_enqueue_script( 'questions-dimple-js',  QUESTIONS_URLPATH . '/components/charts/includes/3rdparty/dimple/dimple.v2.1.2.min.js' );
 	}
 }
 
