@@ -78,11 +78,11 @@ class Questions_ProcessResponse {
 	 */
 	public function the_content( $content ) {
 
-		global $post, $questions_response_errors, $questions_global;
+		global $post, $questions_response_errors;
 
 		// Set global message on top of page
 		if ( ! empty( $questions_response_errors ) ) {
-			$html  = '<div class="questions-element-error">';
+			$html = '<div class="questions-element-error">';
 			$html .= '<div class="questions-element-error-message"><p>';
 			$html .= esc_attr__( 'There are open answers', 'questions-locale' );
 			$html .= '</p></div></div>';
@@ -315,7 +315,7 @@ class Questions_ProcessResponse {
 	 */
 	public function user_can_participate( $survey_id, $user_id = NULL ) {
 
-		global $wpdb, $current_user;
+		global $current_user;
 
 		// Setting up user ID
 		if ( NULL == $user_id ):
@@ -376,7 +376,7 @@ class Questions_ProcessResponse {
 	 */
 	public function process_response() {
 
-		global $wpdb, $post, $questions_global, $questions_survey_id;
+		global $questions_survey_id;
 
 		// Survey ID was posted or die
 		if ( ! array_key_exists( 'questions_id', $_POST ) ) {
@@ -498,24 +498,24 @@ class Questions_ProcessResponse {
 		}
 
 		if ( empty( $survey_id ) ) {
-			return;
+			return NULL;
 		}
 
 		if ( empty( $step ) && (int) $step != 0 ) {
-			return;
+			return NULL;
 		}
 
 		$elements = $this->get_elements( $survey_id, $step );
 
 		if ( ! is_array( $elements ) && count( $elements ) == 0 ) {
-			return;
+			return NULL;
 		}
 
 		if ( empty( $questions_response_errors ) ) {
 			$questions_response_errors = array();
 		}
 
-		// Running thru all elements
+		// Running true all elements
 		foreach ( $elements AS $element ):
 			if ( $element->splitter ) {
 				continue;
@@ -538,7 +538,7 @@ class Questions_ProcessResponse {
 					$questions_response_errors[ $element->id ] = array();
 				}
 
-				// Gettign every error of question back
+				// Getting every error of question back
 				foreach ( $element->validate_errors AS $error ):
 					$questions_response_errors[ $element->id ][ ] = $error;
 				endforeach;
@@ -634,10 +634,11 @@ class Questions_ProcessResponse {
 	/**
 	 * Has the user participated survey
 	 *
-	 * @param int $survey_id
-	 * @param int $user_id
+	 * @param         $questions_id
+	 * @param     int $user_id
 	 *
-	 * @return boolean $has_participated
+	 * @return bool $has_participated
+	 * @internal param int $survey_id
 	 */
 	public function has_participated( $questions_id, $user_id = NULL ) {
 
@@ -670,9 +671,11 @@ class Questions_ProcessResponse {
 	/**
 	 * Has IP already participated
 	 *
-	 * @param int $survey_id
+	 * @param $questions_id
 	 *
-	 * @return boolean $has_participated
+	 * @return bool $has_participated
+	 * @internal param int $survey_id
+	 *
 	 */
 	public function ip_has_participated( $questions_id ) {
 
@@ -822,8 +825,10 @@ $Questions_ProcessResponse = new Questions_ProcessResponse();
 /**
  * Checks if a user has participated on a survey
  *
+ * @param      $questions_id
+ * @param null $user_id
+ *
  * @return int $survey_id
- * @return boolean $has_participated
  */
 function qu_user_has_participated( $questions_id, $user_id = NULL ) {
 
@@ -831,5 +836,3 @@ function qu_user_has_participated( $questions_id, $user_id = NULL ) {
 
 	return $Questions_ProcessResponse->has_participated( $questions_id, $user_id );
 }
-
-
