@@ -34,7 +34,7 @@ Drag & drop your survey with the Questions plugin.
 
 * English
 * German
-* Dutch (Thanks to )
+* Dutch (Thanks to Remco Wesselius)
 * Persian (Thanks to Hos3in)
 * Swedish (Thanks to Elger Lindgren)
 
@@ -71,6 +71,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 = 1.0.0 beta 10 =
 * Enhanced code structure
 * Added Dutch language files (Thanks to Remco Wesselius)
+* Deleted validating of description texts
 
 = 1.0.0 beta 9 =
 * Fixed restrictions bug
