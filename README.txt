@@ -73,6 +73,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Added Dutch language files (Thanks to Remco Wesselius)
 * Also showing questions if question text not have been filled
 * Reworked Drag&Drop area to be sortable from the first drop
+* Preparing data after submitting
 
 = 1.0.0 beta 9 =
 * Fixed restrictions bug
