@@ -71,7 +71,8 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 = 1.0.0 beta 10 =
 * Enhanced code structure
 * Added Dutch language files (Thanks to Remco Wesselius)
-* Deleted validating of description texts
+* Also showing questions if question text not have been filled
+* Reworked Drag&Drop area to be sortable from the first drop
 
 = 1.0.0 beta 9 =
 * Fixed restrictions bug
