@@ -159,7 +159,8 @@ class Questions_Admin extends Questions_Component {
 
 		$html = '<div id="questions-content" class="drag-drop">';
 		$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
-
+		
+		$html .= '<div id="drag-drop-inside">';
 		/* << INSIDE DRAG&DROP AREA >> */
 		$survey = new Questions_Survey( $post->ID );
 		// Running each Element
@@ -167,12 +168,8 @@ class Questions_Admin extends Questions_Component {
 			$html .= $element->draw_admin();
 		endforeach;
 		/* << INSIDE DRAG&DROP AREA >> */
-
-		$html .= '<div class="drag-drop-inside">';
-		$html .= '<p class="drag-drop-info">';
-		$html .= esc_attr__( 'Drop your Element here.', 'questions-locale' );
-		$html .= '</p>';
 		$html .= '</div>';
+		
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div id="delete_surveyelement_dialog">' . esc_attr__(
@@ -243,9 +240,7 @@ class Questions_Admin extends Questions_Component {
 		$html = '';
 
 		foreach ( $questions_global->element_types AS $element ):
-			$html .= '<div class="questions-draggable">';
 			$html .= $element->draw_admin();
-			$html .= '</div>';
 		endforeach;
 
 		echo $html;

@@ -2,28 +2,18 @@
 #questions-content{
 	margin-bottom:20px;
 }
-#questions-content #drag-drop-area {
+#questions-content #drag-drop-area{
 	height:auto;
-	min-height:200px;
 	-webkit-box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
   	border:1px solid #E5E5E5;
   	box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
+  	padding:10px;
 }
-#questions-content .drag-drop-info{
-	padding-bottom:65px;
+#questions-content #drag-drop-inside{
+	min-height:200px;
 }
-#questions-content .widget{
+#questions-content .surveyelement{
 	margin-bottom:10px;
-}
-#survey-elements .widget-title-action{
-	display:none;
-}
-#drag-drop-area.widgets-holder-wrap{
-	padding:10px;
-}
-#survey-elements .widget-inside{
-	height: 0px;
-	overflow: hidden;
 }
 #questions-content input[type=text].questions-question{
 	width:100%;
@@ -33,8 +23,6 @@
 }
 #questions-content textarea{
 	width:80%;
-}
-#questions-content div.answer{
 }
 .questions-widget-icon{
 	float:left;
@@ -61,10 +49,16 @@
 	text-decoration: underline;
 	cursor:hand;
 }
-#delete_surveyelement_dialog,
-#delete_answer_dialog{
+#survey-elements .widget-title-action{
 	display:none;
 }
+#survey-elements .widget-inside{
+	height: 0px;
+	overflow: hidden;
+}
+/**
+ * 	Inside Element
+ */
 .survey_element_tabs ul{
 	margin-top:20px !important;
 }
@@ -101,6 +95,13 @@
 	margin-top:20px;
 	padding:10px;
 	border: 1px solid #e5e5e5;
+}
+/**
+ * 	Dialog
+ */
+#delete_surveyelement_dialog,
+#delete_answer_dialog{
+	display:none;
 }
 .questions-options input[type="text"]{
     background-color: #f7f7f7;
@@ -266,6 +267,9 @@
     border: 1px solid #CCC;
     margin: 0 10px 10px 10px;
 }
+/*
+ * jQuery ui
+ */
 .ui-draggable-dragging{
 	
 }
@@ -276,4 +280,9 @@
 }
 .ui-draggable-dragging .widget-title h4{
 	opacity:0;
+}
+.survey-element-placeholder{
+	border: #CCC dashed 1px;
+	height: 50px;
+	margin-bottom:10px;
 }
