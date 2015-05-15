@@ -208,3 +208,14 @@ function qu_create_log_entry( $values ) {
 	fwrite( $file, $line );
 	fclose( $file );
 }
+
+/**
+ * Debugging helper function
+ */
+if( !function_exists( 'p' ) ){
+	function p( $var ){
+		echo '<pre>';
+		print_r( $var );
+		echo '</pre>';
+	}
+}
