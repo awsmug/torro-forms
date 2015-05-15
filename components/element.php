@@ -230,10 +230,6 @@ abstract class Questions_SurveyElement {
 	
 		global $questions_response_errors;
 	
-		if ( '' == $this->question && $this->is_question ) {
-			return FALSE;
-		}
-	
 		if ( 0 == count( $this->answers ) && $this->preset_of_answers == TRUE ) {
 			return FALSE;
 		}
