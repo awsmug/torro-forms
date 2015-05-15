@@ -50,12 +50,9 @@
 		var questions_answersortable = function (){
 			$( "#drag-drop-area .answers" ).sortable({
 				update: function(  event, ui ){
-					console.log( $( this ) );
 	
 					var element_id = $( this ).closest( '.widget' ).attr('id');
 					var order = []; 
-					
-					console.log( element_id );
 					
 					$( this ).find( '.answer' ).each( function( e ) {
 						var nr = $( this ).attr( 'id' );
@@ -195,7 +192,7 @@
 			
 			var answer_content = '';
 			answer_content = '<div class="answer' + multiple_class + '" id="answer_##nr##">';
-			answer_content = answer_content + '<p><input type="text" name="questions[' + element_id + '][answers][id_##nr##][answer]" /></p>';
+			answer_content = answer_content + '<p><input type="text" id="answer_##nr##_input" name="questions[' + element_id + '][answers][id_##nr##][answer]" /></p>';
 			answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][sort]" />';
 			
 			if( 'yes' == sections ){
@@ -203,7 +200,6 @@
 				answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][section]" value="' + section_key + '" />';
 			}
 			answer_content = answer_content + ' <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
-							
 			answer_content = answer_content.replace( /##nr##/g, nr );
 			
 			var order = 0;
@@ -214,6 +210,9 @@
 			}else{
 				$( answer_content ).appendTo( "#" + element_id + " .answers" );
 			}
+			
+			var answer_input = $( "#answer_" + nr + "_input" );
+			answer_input.focus();
 			
 			// Adding sorting number
 			var input_name = 'input[name="questions\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
@@ -232,8 +231,6 @@
 		 */
 		var questions_participiants_restrictions_select = $( "#questions-participiants-restrictions-select" ).val();
 		$( "#questions_selected_members" ).hide();
-		
-		console.log( questions_participiants_restrictions_select );
 		
 		if( 'selected_members' == questions_participiants_restrictions_select ){ $( "#questions_selected_members" ).show(); }
 		
