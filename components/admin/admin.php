@@ -549,6 +549,7 @@ class Questions_Admin extends Questions_Component {
 		$survey_show_results              = $_POST[ 'show_results' ];
 		$questions_participiants          = $_POST[ 'questions_participiants' ];
 
+		// p( $_POST );
 		/*
 		 * Saving Restrictions
 		 */
@@ -599,13 +600,13 @@ class Questions_Admin extends Questions_Component {
 				continue;
 			}
 
-			$question_id = $survey_question[ 'id' ];
+			$question_id = (int) $survey_question[ 'id' ];
 			$question    = '';
-			$sort        = $survey_question[ 'sort' ];
+			$sort        = (int) $survey_question[ 'sort' ];
 			$type        = $survey_question[ 'type' ];
 
 			if ( array_key_exists( 'question', $survey_question ) ) {
-				$question = $survey_question[ 'question' ];
+				$question = qu_prepare_post_data( $survey_question[ 'question' ] );
 			}
 
 			$answers  = array();
@@ -656,9 +657,9 @@ class Questions_Admin extends Questions_Component {
 			 */
 			if ( is_array( $answers ) && count( $answers ) > 0 ):
 				foreach ( $answers AS $answer ):
-					$answer_id   = $answer[ 'id' ];
-					$answer_text = $answer[ 'answer' ];
-					$answer_sort = $answer[ 'sort' ];
+					$answer_id   = (int) $answer[ 'id' ];
+					$answer_text = qu_prepare_post_data( $answer[ 'answer' ] );
+					$answer_sort = (int) $answer[ 'sort' ];
 
 					$answer_section = '';
 					if ( array_key_exists( 'section', $answer ) ) {
@@ -709,7 +710,7 @@ class Questions_Admin extends Questions_Component {
 						$wpdb->update(
 							$questions_global->tables->settings,
 							array(
-								'value' => $settings[ $name ]
+								'value' => qu_prepare_post_data( $settings[ $name ] )
 							),
 							array(
 								'question_id' => $question_id,
@@ -722,7 +723,7 @@ class Questions_Admin extends Questions_Component {
 							array(
 								'name'        => $name,
 								'question_id' => $question_id,
-								'value'       => $settings[ $name ]
+								'value'       => qu_prepare_post_data( $settings[ $name ] )
 							)
 						);
 
@@ -781,16 +782,16 @@ class Questions_Admin extends Questions_Component {
 			'questions_thankyou_participating_subject_template',
 			$_POST[ 'questions_thankyou_participating_subject_template' ]
 		);
-		update_option( 'questions_invitation_subject_template', $_POST[ 'questions_invitation_subject_template' ] );
-		update_option( 'questions_reinvitation_subject_template', $_POST[ 'questions_reinvitation_subject_template' ] );
+		update_option( 'questions_invitation_subject_template', qu_prepare_post_data( $_POST[ 'questions_invitation_subject_template' ] ) );
+		update_option( 'questions_reinvitation_subject_template', qu_prepare_post_data( $_POST[ 'questions_reinvitation_subject_template' ] ) );
 
 		update_option(
-			'questions_thankyou_participating_text_template', $_POST[ 'questions_thankyou_participating_text_template' ]
-		);
-		update_option( 'questions_invitation_text_template', $_POST[ 'questions_invitation_text_template' ] );
-		update_option( 'questions_reinvitation_text_template', $_POST[ 'questions_reinvitation_text_template' ] );
+			'questions_thankyou_participating_text_template', qu_prepare_post_data( $_POST[ 'questions_thankyou_participating_text_template' ]
+		));
+		update_option( 'questions_invitation_text_template', qu_prepare_post_data( $_POST[ 'questions_invitation_text_template' ] ));
+		update_option( 'questions_reinvitation_text_template', qu_prepare_post_data( $_POST[ 'questions_reinvitation_text_template' ] ));
 
-		update_option( 'questions_mail_from_name', $_POST[ 'questions_mail_from_name' ] );
+		update_option( 'questions_mail_from_name', qu_prepare_post_data( $_POST[ 'questions_mail_from_name' ] ) );
 		update_option( 'questions_mail_from_email', $_POST[ 'questions_mail_from_email' ] );
 	}
 	

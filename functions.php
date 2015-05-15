@@ -210,6 +210,22 @@ function qu_create_log_entry( $values ) {
 }
 
 /**
+ * Preparing input data
+ * @param string $data
+ * @return string $data 
+ */
+function qu_prepare_post_data( $data ){
+	// Do not preparing objects or arrays	
+	if( is_object( $data ) || is_array( $data ) )
+		return $data;
+	
+	$data = trim( $data );
+	$data = stripslashes( $data );
+	$data = htmlspecialchars( $data );
+	return $data;
+}
+
+/**
  * Debugging helper function
  */
 if( !function_exists( 'p' ) ){

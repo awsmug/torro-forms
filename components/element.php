@@ -104,6 +104,7 @@ abstract class Questions_SurveyElement {
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->questions} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
+		
 
 		$this->id = $id;
 		$this->set_question( $row->question );
@@ -143,7 +144,7 @@ abstract class Questions_SurveyElement {
 		}
 
 		$this->question = $question;
-
+		
 		return TRUE;
 	}
 

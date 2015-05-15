@@ -427,7 +427,7 @@ class Questions_ProcessResponse {
 			// Replacing old values by key
 			if ( is_array( $survey_response ) && count( $survey_response ) > 0 ):
 				foreach ( $survey_response AS $key => $answer ):
-					$saved_response[ $key ] = $answer;
+					$saved_response[ $key ] = qu_prepare_post_data( $answer );
 				endforeach;
 			endif;
 
