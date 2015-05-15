@@ -472,12 +472,12 @@
 		});
 		
 		
-		$( '#questions-dublicate-survey' ).click( function(){
+		$( '#questions-duplicate-survey' ).click( function(){
 			var button = $( this )
 			
 			if( button.hasClass( 'button' ) ){
 				var data = {
-					action: 'questions_dublicate_survey',
+					action: 'questions_duplicate_survey',
 					survey_id: $( '#post_ID' ).val(),
 				};
 				
@@ -486,13 +486,13 @@
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
 					
-					var response_text = translation_admin.dublicate_survey_successfully + '<br /><a href="' + response.admin_url + '">' + translation_admin.edit_survey + '</a>';
+					var response_text = translation_admin.duplicate_survey_successfully + '<br /><a href="' + response.admin_url + '">' + translation_admin.edit_survey + '</a>';
 					
-					button.after( '<p class="survey-dublicated-survey">' + response_text + '</p>' );
+					button.after( '<p class="survey-duplicated-survey">' + response_text + '</p>' );
 					
 					button.removeClass( 'button-loading' );
 					
-					$( '.survey-dublicated-survey' ).fadeOut( 20000 );
+					$( '.survey-duplicated-survey' ).fadeOut( 20000 );
 				});
 				
 			}else{

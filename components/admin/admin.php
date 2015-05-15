@@ -72,7 +72,7 @@ class Questions_Admin extends Questions_Component {
 		add_action( 'delete_post', array( $this, 'delete_survey' ) );
 		add_action( 'wp_ajax_questions_add_members_standard', array( $this, 'ajax_add_members' ) );
 		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
-		add_action( 'wp_ajax_questions_dublicate_survey', array( $this, 'ajax_dublicate_survey' ) );
+		add_action( 'wp_ajax_questions_duplicate_survey', array( $this, 'ajax_duplicate_survey' ) );
 		add_action( 'init', array( $this, 'save_settings' ), 20 );
 		add_action( 'admin_notices', array( $this, 'show_notices' ) );
 	}
@@ -481,7 +481,7 @@ class Questions_Admin extends Questions_Component {
 		$questions_reinvitation_subject_template = qu_get_mail_template_subject( 'reinvitation' );
 
 		$html = '<div class="questions-function-element">';
-		$html .= '<input id="questions-dublicate-survey" name="questions-dublicate-survey" type="button" class="button" value="' . esc_attr__(
+		$html .= '<input id="questions-duplicate-survey" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__(
 				'Dublicate Survey', 'questions-locale'
 			) . '" />';
 		$html .= '</div>';
@@ -526,7 +526,7 @@ class Questions_Admin extends Questions_Component {
 	public function save_survey( $post_id ) {
 		global $questions_global, $wpdb;
 
-		if ( array_key_exists( 'questions-dublicate-survey', $_REQUEST ) ) {
+		if ( array_key_exists( 'questions-duplicate-survey', $_REQUEST ) ) {
 			return;
 		}
 
@@ -754,7 +754,7 @@ class Questions_Admin extends Questions_Component {
 
 		do_action( 'questions_save_survey', $post_id );
 
-		// Preventing dublicate saving
+		// Preventing duplicate saving
 		remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
 	}
 	
@@ -988,7 +988,7 @@ class Questions_Admin extends Questions_Component {
 	 * 
 	 * @since 1.0.0
 	 */
-	public function ajax_dublicate_survey() {
+	public function ajax_duplicate_survey() {
 
 		$survey_id = $_REQUEST[ 'survey_id' ];
 		$survey    = get_post( $survey_id );
@@ -998,7 +998,7 @@ class Questions_Admin extends Questions_Component {
 		}
 
 		$survey        = new questions_PostSurvey( $survey_id );
-		$new_survey_id = $survey->dublicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
+		$new_survey_id = $survey->duplicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 
 		$post = get_post( $new_survey_id );
 
@@ -1091,8 +1091,8 @@ class Questions_Admin extends Questions_Component {
 			'reinvitations_not_sent_successfully' => esc_attr__(
 				'Renvitations could not be sent!', 'questions-locale'
 			),
-			'dublicate_survey_successfully'       => esc_attr__(
-				'Survey dublicated successfully!', 'questions-locale'
+			'duplicate_survey_successfully'       => esc_attr__(
+				'Survey duplicated successfully!', 'questions-locale'
 			),
 			'edit_survey'                         => esc_attr__( 'Edit Survey', 'questions-locale' ),
 			'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' )
