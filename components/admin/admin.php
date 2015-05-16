@@ -1075,7 +1075,7 @@ class Questions_Admin extends Questions_Component {
 	 */
 	public function jquery_messages_area(){
 		$max_input_vars = ini_get( 'max_input_vars' );
-		$html = '<div id="questions-messages" style="display:none;"><p class="questions-message">Das ist eine Nachricht</p><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '"></div>'; // Updated, error, notice 
+		$html = '<div id="questions-messages" style="display:none;"><p class="questions-message">Das ist eine Nachricht</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice 
 		echo $html;
 	}
 
