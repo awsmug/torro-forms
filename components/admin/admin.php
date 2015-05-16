@@ -74,7 +74,8 @@ class Questions_Admin extends Questions_Component {
 		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
 		add_action( 'wp_ajax_questions_duplicate_survey', array( $this, 'ajax_duplicate_survey' ) );
 		add_action( 'init', array( $this, 'save_settings' ), 20 );
-		add_action( 'admin_notices', array( $this, 'show_notices' ) );
+		add_action( 'admin_notices', array( $this, 'messages' ) );
+		add_action( 'admin_notices', array( $this, 'jquery_messages_area' ) );
 	}
 
 	/**
@@ -143,7 +144,7 @@ class Questions_Admin extends Questions_Component {
 
 		include( QUESTIONS_COMPONENTFOLDER . '/admin/pages/settings.php' );
 	}
-	
+
 	/**
 	 * Place to drop elements
 	 * 
@@ -158,6 +159,7 @@ class Questions_Admin extends Questions_Component {
 		}
 
 		$html = '<div id="questions-content" class="drag-drop">';
+		
 		$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 		
 		$html .= '<div id="drag-drop-inside">';
@@ -1057,8 +1059,7 @@ class Questions_Admin extends Questions_Component {
 	 * 
 	 * @since 1.0.0
 	 */
-	public function show_notices() {
-
+	public function messages() {
 		if ( is_array( $this->notices ) && count( $this->notices ) > 0 ):
 			foreach ( $this->notices AS $notice ):
 				echo '<div class="' . $notice[ 'type' ] . '">';
@@ -1066,6 +1067,16 @@ class Questions_Admin extends Questions_Component {
 				echo '</div>';
 			endforeach;
 		endif;
+	}
+	
+	/**
+	 * Adds the message area to the edit post site
+	 * @since 1.0.0
+	 */
+	public function jquery_messages_area(){
+		$max_input_vars = ini_get( 'max_input_vars' );
+		$html = '<div id="questions-messages" style="display:none;"><p class="questions-message">Das ist eine Nachricht</p><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '"></div>'; // Updated, error, notice 
+		echo $html;
 	}
 
 	/**
@@ -1096,7 +1107,10 @@ class Questions_Admin extends Questions_Component {
 				'Survey duplicated successfully!', 'questions-locale'
 			),
 			'edit_survey'                         => esc_attr__( 'Edit Survey', 'questions-locale' ),
-			'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' )
+			'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' ),
+			'max_fields_near_limit'				  => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
+			'max_fields_over_limit'				  => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
+			'max_fields_todo'					  => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' )
 		);
 
 		wp_enqueue_script(
