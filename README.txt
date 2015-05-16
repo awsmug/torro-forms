@@ -68,6 +68,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 11 =
+* Added message on reaching PHP max_num_fields
+* Enhanced code structure
+
 = 1.0.0 beta 10 =
 * Enhanced code structure
 * Added Dutch language files (Thanks to Remco Wesselius)
