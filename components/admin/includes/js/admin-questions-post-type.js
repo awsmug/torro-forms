@@ -3,6 +3,51 @@
 	$( function () {
 	    
 	    /**
+         * Counting all input fields of a selected container
+         */
+        var count_form_elements = function( selector ){
+          var count_inputs = $( selector ).find( 'input' ).length;
+          var count_textareas = $( selector ).find( 'textarea' ).length;
+          var count_select = $( selector ).find( 'select' ).length;
+          
+          var count_all = count_inputs + count_textareas + count_select;
+          
+          return count_all;
+        }
+        
+	    /**
+         * Counting form input vars and showing 
+         */
+        var check_max_input_vars = function(){
+            var max_input_vars =  parseInt( $( "#max_input_vars" ).val() );
+            var input_vars = parseInt( count_form_elements( '#post' ) );
+            var alert_zone = 50; // The alert will start the alert X before max_input_vars have been reached 
+            
+            var msg_near_limit = '<strong>' + translation_admin.max_fields_near_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
+            var msg_over_limit = '<strong>' + translation_admin.max_fields_over_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
+            
+            // console.log( 'Max input vars: ' + max_input_vars );
+            // console.log( 'Input vars: ' + input_vars );
+            
+            if( input_vars + alert_zone >= max_input_vars ){
+                $( "#questions-messages" )
+                  .removeClass( 'notice error updated' )
+                  .addClass( 'notice' )
+                  .html( '<p>' +  msg_near_limit + '</p>' )
+                  .show();
+            }
+            
+            if( input_vars >= max_input_vars ){
+                $( "#questions-messages" )
+                  .removeClass( 'notice error updated' )
+                  .addClass( 'error' )
+                  .html( '<p>' +  msg_over_limit + '</p>' )
+                  .show();
+            }
+        }
+        check_max_input_vars();
+	    
+	    /**
 	     * Making elements draggable
 	     */
 		$( "#survey-elements .surveyelement" ).draggable( { 
@@ -45,6 +90,7 @@
               	questions_deleteanswer();
               	questions_rewriteheadline();
               	questions_survey_element_tabs();
+              	check_max_input_vars();
 			},
 			update: function( event, ui ) {
 				var order = []; 
@@ -106,6 +152,7 @@
                 event.preventDefault();
                 questions_delete_surveyelement_dialog.dialog( 'open' );
             });
+            check_max_input_vars();
         }
         questions_delete_surveyelement();
 		
@@ -135,8 +182,9 @@
 		questions_answersortable();
 		
 		
-		
-		
+		/**
+		 * Deleting answer
+		 */
 		var questions_deleteanswer = function(){
 			var questions_deletanswerdialog = $( '#delete_answer_dialog' );
 			var answer_id;
@@ -183,6 +231,7 @@
 		        event.preventDefault();
 		        questions_deletanswerdialog.dialog( 'open' );
 			});
+			check_max_input_vars();
 		}
 		questions_deleteanswer();
 		
@@ -234,6 +283,8 @@
 	          	
 	          	questions_deleteanswer();
 			});
+			
+			check_max_input_vars();
 		}
 		questions_add_answer();
 		
@@ -514,51 +565,6 @@
 				button.addClass( 'button' );
 			}
 		});
-		
-		/**
-		 * Counting all input fields of a selected container
-		 */
-		var count_form_elements = function( selector ){
-		  var count_inputs = $( selector ).find( 'input' ).length;
-		  var count_textareas = $( selector ).find( 'textarea' ).length;
-		  var count_select = $( selector ).find( 'select' ).length;
-		  
-		  var count_all = count_inputs + count_textareas + count_select;
-		  
-		  return count_all;
-		}
-		
-		/**
-		 * Counting form input vars and showing 
-		 */
-		var check_max_input_vars = function(){
-		    var max_input_vars =  parseInt( $( "#max_input_vars" ).val() );
-		    var input_vars = parseInt( count_form_elements( '#post' ) );
-		    var alert_zone = 50; // The alert will start the alert X before max_input_vars have been reached 
-		    
-		    var msg_near_limit = '<strong>' + translation_admin.max_fields_near_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
-		    var msg_over_limit = '<strong>' + translation_admin.max_fields_over_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
-		    
-		    console.log( 'Input vars: ' + input_vars );
-		    console.log( 'Max input vars: ' + max_input_vars );
-		    
-		    if( input_vars + alert_zone >= max_input_vars ){
-		        $( "#questions-messages" )
-		          .removeClass( 'notice error updated' )
-		          .addClass( 'notice' )
-		          .html( '<p>' +  msg_near_limit + '</p>' )
-		          .show();
-            }
-            
-            if( input_vars >= max_input_vars ){
-                $( "#questions-messages" )
-                  .removeClass( 'notice error updated' )
-                  .addClass( 'error' )
-                  .html( '<p>' +  msg_over_limit + '</p>' )
-                  .show();
-            }
-		}
-		check_max_input_vars();
 		
 		/**
          * Initializing jquery tabs in elements
