@@ -137,7 +137,7 @@
 .tab_settings_content{
 	margin-top:20px;
 }
-/*
+/**
  * Form styles
  */
 .surveval-form-fieldset{
@@ -157,7 +157,7 @@
 	margin-bottom:5px;
 }
 /**
- * Buttons
+ * Survey participiants
  */
 #questions_participiants_select,
 #questions-participiants-restrictions-select{
@@ -169,13 +169,34 @@
 	background-position: 5px 5px;
 	padding-left:28px;
 }
-
-#survey-invites .button-loading{
-	background-image: url( '../../assets/images/loading-blue.gif' );
+/**
+ * Survey functions
+ */
+#survey-functions .inside{
+	padding-bottom: 0;
+}
+#survey-functions .button{
+	margin-bottom:10px;
+}
+#survey-functions .button-loading{
+	background-image: url( '../../assets/images/loading.gif' );
 	background-repeat: no-repeat;
 	background-position: 5px 5px;
 	padding-left:28px;
 }
+#survey-functions #questions-invite-button.button-loading,
+#survey-functions #questions-reinvite-button.button-loading{
+	background-image: url( '../../assets/images/loading-blue.gif' );
+}
+#survey-functions .survey-duplicated-survey,
+#survey-functions .survey-reinvitations-sent{
+	margin-top:0;
+	margin-bottom: 10px;
+}
+#survey-functions .questions-function-element:first-child{
+	margin-top:10px;
+}
+
 /* 
  * Participiants
  */
@@ -194,7 +215,6 @@
 	margin: 0 0 10px 0;
 }
 .questions-function-element{
-	margin-bottom: 10px;
 }
 .questions-function-element .button{
 	width: 100%;

@@ -186,6 +186,9 @@
 		}
 		questions_deleteanswer();
 		
+		/**
+		 * Adding answer to element
+		 */
 		var questions_add_answer = function(){
 			$( "#drag-drop-inside" ).on( 'click', '.add-answer', function(){
 				
@@ -486,7 +489,7 @@
 		/**
 		 * Dublicate survey
 		 */
-		$( '#questions-duplicate-survey' ).click( function(){
+		$( '#questions-duplicate-button' ).click( function(){
 			var button = $( this )
 			
 			if( button.hasClass( 'button' ) ){

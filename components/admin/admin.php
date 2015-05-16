@@ -203,7 +203,7 @@ class Questions_Admin extends Questions_Component {
 				'side'
 			);
 			add_meta_box(
-				'survey-invites',
+				'survey-functions',
 				esc_attr__( 'Survey Functions', 'questions-locale' ),
 				array( $this, 'meta_box_survey_functions' ),
 				'questions',
@@ -481,7 +481,7 @@ class Questions_Admin extends Questions_Component {
 		$questions_reinvitation_subject_template = qu_get_mail_template_subject( 'reinvitation' );
 
 		$html = '<div class="questions-function-element">';
-		$html .= '<input id="questions-duplicate-survey" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__(
+		$html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__(
 				'Dublicate Survey', 'questions-locale'
 			) . '" />';
 		$html .= '</div>';
