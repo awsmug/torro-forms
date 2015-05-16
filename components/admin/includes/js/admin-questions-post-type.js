@@ -536,8 +536,8 @@
 		    var input_vars = parseInt( count_form_elements( '#post' ) );
 		    var alert_zone = 50; // The alert will start the alert X before max_input_vars have been reached 
 		    
-		    var msg_near_limit = '<strong>' + translation_admin.max_fields_near_limit + '</strong><br /> ' + translation_admin.max_fields_todo;
-		    var msg_over_limit = '<strong>' + translation_admin.max_fields_over_limit + '</strong><br /> ' + translation_admin.max_fields_todo;
+		    var msg_near_limit = '<strong>' + translation_admin.max_fields_near_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
+		    var msg_over_limit = '<strong>' + translation_admin.max_fields_over_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
 		    
 		    console.log( 'Input vars: ' + input_vars );
 		    console.log( 'Max input vars: ' + max_input_vars );

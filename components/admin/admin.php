@@ -1110,7 +1110,8 @@ class Questions_Admin extends Questions_Component {
 			'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' ),
 			'max_fields_near_limit'				  => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
 			'max_fields_over_limit'				  => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
-			'max_fields_todo'					  => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' )
+			'max_fields_todo'					  => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
+			'of'								  => esc_attr__( 'of', 'questions-locale' )
 		);
 
 		wp_enqueue_script(
