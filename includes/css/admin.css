@@ -1,7 +1,16 @@
-/* This stylesheet is used to style the admin option form of the plugin. */
+/**
+ * 	General
+ */
 #questions-content{
 	margin-bottom:20px;
 }
+.questions-widget-icon{
+	float:left;
+	margin: 6px 0px 6px 6px;
+}
+/**
+ * 	Drag & Drop Area
+ */
 #questions-content #drag-drop-area{
 	height:auto;
 	-webkit-box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
@@ -9,9 +18,15 @@
   	box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
   	padding:10px;
 }
+/**
+ * 	Sortable area
+ */
 #questions-content #drag-drop-inside{
 	min-height:200px;
 }
+/**
+ * Element
+ */
 #questions-content .surveyelement{
 	margin-bottom:10px;
 }
@@ -24,10 +39,7 @@
 #questions-content textarea{
 	width:80%;
 }
-.questions-widget-icon{
-	float:left;
-	margin: 6px 0px 6px 6px;
-}
+
 #questions-content div.preset_is_multiple{
 	padding-left:20px;
 	background-image: url( '../../assets/images/icon-updown.png' );
@@ -35,6 +47,49 @@
 	background-position: top 7px left 0;
 	cursor:move;
 }
+/**
+ * 	Element Tabs
+ */
+.survey_element_tabs ul{
+	margin-top:20px !important;
+}
+.survey_element_tabs .tabs_underline{
+	border-bottom: 1px solid #CCC;
+}
+.survey_element_tabs .tabs li{
+	float:left;
+	margin: 0;
+	border: 1px solid #CCC;
+	border-bottom:none;
+	border-right:none;
+	background-color: #FAFAFA;
+	padding:6px;
+}
+.survey_element_tabs .tabs li:first-child{
+	border-top-left-radius: 3px;
+	border-right:none;
+}
+.survey_element_tabs .tabs li:last-child{
+	border-top-right-radius: 3px;
+	border-right: 1px solid #CCC;
+}
+.survey_element_tabs .tabs li.ui-state-active{
+	font-weight:bold;
+}
+.survey_element_tabs .tabs li a{
+	color:#222;
+	text-decoration: none;
+}
+.survey_element_tabs .shortcode,
+.questions-options.shortcode{
+	background-color: #f7f7f7;
+	margin-top:20px;
+	padding:10px;
+	border: 1px solid #e5e5e5;
+}
+/**
+ * 	Element Answers
+ */
 #questions-content .answers{
 	margin-bottom: 15px;
 }
@@ -56,46 +111,7 @@
 	height: 0px;
 	overflow: hidden;
 }
-/**
- * 	Inside Element
- */
-.survey_element_tabs ul{
-	margin-top:20px !important;
-}
-.survey_element_tabs .tabs_underline{
-	border-bottom: 1px solid #CCC;
-}
-.survey_element_tabs .tabs li:first-child{
-	border-radius:3px 0 0 0;
-	border-right:none;
-}	
-.survey_element_tabs .tabs li{
-	float:left;
-	margin: 0;
-	border: 1px solid #CCC;
-	border-bottom:none;
-	border-right:none;
-	background-color: #FAFAFA;
-	padding:6px;
-}
-.survey_element_tabs .tabs li:last-child{
-	border-radius:0 3px 0 0;
-	border-right: 1px solid #CCC;
-}
-.survey_element_tabs .tabs li.ui-state-active{
-	font-weight:bold;
-}
-.survey_element_tabs .tabs li a{
-	color:#222;
-	text-decoration: none;
-}
-.survey_element_tabs .shortcode,
-.questions-options.shortcode{
-	background-color: #f7f7f7;
-	margin-top:20px;
-	padding:10px;
-	border: 1px solid #e5e5e5;
-}
+
 /**
  * 	Dialog
  */
@@ -140,7 +156,7 @@
 	display: block;
 	margin-bottom:5px;
 }
-/*
+/**
  * Buttons
  */
 #questions_participiants_select,
