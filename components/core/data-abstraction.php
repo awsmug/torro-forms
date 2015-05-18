@@ -133,14 +133,16 @@ class Questions_AbstractData{
 				// If there are more answers than one posssible (e.g. Multiple Choice)
 				elseif( array_key_exists( 'array', $question ) && TRUE == $question[ 'array' ] ):
 					
-					foreach( $question[ 'responses' ] AS $response ):
-						$i = 0;
-						foreach( $response AS $key => $value ):
-							$column = $question[ 'question' ] . ' (' . $key . ')';
-							$lines[ 0 ][ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
+					if( array_key_exists( 'responses', $question ) ):
+						foreach( $question[ 'responses' ] AS $response ):
+							$i = 0;
+							foreach( $response AS $key => $value ):
+								$column = $question[ 'question' ] . ' (' . $key . ')';
+								$lines[ 0 ][ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
+							endforeach;
+							break;
 						endforeach;
-						break;
-					endforeach;
+					endif;
 					
 				// If there is only one value for one element possible
 				else:
@@ -188,9 +190,11 @@ class Questions_AbstractData{
 				// If there is only one value for one element possible
 				else:
 					
-					foreach( $question[ 'responses' ]  AS $response_id => $value ):
-						$lines[ $response_id ][ $question_id ] = self::filter_string( $value ); 
-					endforeach;
+					if( array_key_exists( 'responses', $question ) ):
+						foreach( $question[ 'responses' ]  AS $response_id => $value ):
+							$lines[ $response_id ][ $question_id ] = self::filter_string( $value ); 
+						endforeach;
+					endif;
 					
 				endif;
 				

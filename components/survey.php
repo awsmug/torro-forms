@@ -26,32 +26,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+ 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Questions_Survey {
 
 	/**
 	 * @var int $id Survey ID
+	 * @since 1.0.0
 	 */
 	public $id;
 
 	/**
 	 * @var string $title Title of Survey
+	 * @since 1.0.0
 	 */
 	public $title;
 
 	/**
 	 * @var array $elements All elements of the survey
+	 * @since 1.0.0
 	 */
 	public $elements = array();
 
 	/**
 	 * @var int $splitter_count Counter for form splitters
+	 * @since 1.0.0
 	 */
 	public $splitter_count = 0;
 
 	/**
 	 * Constructor
-	 *
 	 * @param int $id The id of the survey
+	 * @since 1.0.0
 	 */
 	public function __construct( $id = NULL ) {
 
@@ -62,8 +71,9 @@ class Questions_Survey {
 
 	/**
 	 * Populating class variables
-	 *
+	 * 
 	 * @param int $id The id of the survey
+	 * @since 1.0.0
 	 */
 	private function populate( $id ) {
 
@@ -79,10 +89,10 @@ class Questions_Survey {
 
 	/**
 	 * Getting all element objects
-	 *
+	 * 
 	 * @param int $id The id of the survey
-	 *
 	 * @return array $elements All element objects of the survey
+	 * @since 1.0.0
 	 */
 	public function get_elements( $id = NULL ) {
 
@@ -125,11 +135,11 @@ class Questions_Survey {
 
 	/**
 	 * Getting responses of a survey
-	 *
+	 * 
 	 * @param bool|int $element_id Get responses of a special element
 	 * @param boolean  $userdata   Adding user specified data to response array
-	 *
 	 * @return array $responses
+	 * @since 1.0.0
 	 */
 	public function get_responses( $element_id = FALSE, $userdata = TRUE ) {
 
@@ -165,8 +175,9 @@ class Questions_Survey {
 
 	/**
 	 * Gettiung all user ids of a survey
-	 *
+	 * 
 	 * @return array $responses All user ids formatted for response array
+	 * @since 1.0.0
 	 */
 	private function get_response_user_ids() {
 
@@ -195,10 +206,10 @@ class Questions_Survey {
 
 	/**
 	 * Gettiung all timestrings of a survey
-	 *
+	 * 
 	 * @param string $timeformat
-	 *
 	 * @return array $responses All timestrings formatted for response array
+	 * @since 1.0.0
 	 */
 	private function get_response_timestrings( $timeformat = 'd.m.Y H:i' ) {
 
@@ -224,23 +235,14 @@ class Questions_Survey {
 
 		return $responses;
 	}
-
-	// Need to be here?
-	public function participated_survey( $user_id = NULL ) {
-
-		global $wpdb, $current_user, $questions_global;
-
-		if ( '' == $user_id ):
-			get_currentuserinfo();
-			$user_id = $user_id = $current_user->ID;
-		endif;
-
-		$sql = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->responds} WHERE  user_id=%s", $user_id );
-
-		return $wpdb->get_col( $sql );
-	}
 }
 
+/**
+ * Checks if a survey exists
+ * 
+ * @param int $survey_id Survey id
+ * @return boolean $exists TRUE if survey exists, FALSE if not
+ */
 function qu_survey_exists( $survey_id ) {
 
 	global $wpdb;

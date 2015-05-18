@@ -119,6 +119,8 @@ abstract class Questions_SurveyElement {
 	 */
 	var $create_answer_params = array();
 	
+	var $answer_is_multiple = FALSE;
+	
 	/**
 	 * Control variable if element is already initialized
 	 * @since 1.0.0
