@@ -30,20 +30,15 @@
 if ( !defined( 'ABSPATH' ) ) exit;
  
 class Questions_AbstractData{
-	/**
-	 * Initializes the Component.
-	 * @since 1.0.0
-	 */
-	public function __construct() {
-	} // end constructor
-	
 	
 	/**
 	 * Prepare data to be used with charts
 	 * @param array $response_array
 	 * @return array $ordered_data
+	 * @since 1.0.0
 	 */
 	public static function order_for_charting( $response_array ){
+		
 		global $wpdb, $questions_global;
 		
 		$ordered_data = array();
@@ -99,14 +94,24 @@ class Questions_AbstractData{
 		return $ordered_data;		
 	}
 	
-	
-	public static function lines( $response_array ){
+	/**
+	 * Prepare data for printing content in lines (e.g. for CSV export)
+	 * @param array $response_array Response array of a survey
+	 * @return array $lines Ordered data prepared to be used in lines
+	 * @since 1.0.0
+	 */
+	public static function order_in_lines( $response_array ){
+				
+		// Only starting if there is any data		
 		if( is_array( $response_array ) ):
 			
-			// Getting Headlines
+			/**
+			 * Getting Headlines by running each element
+			 */
 			foreach( $response_array AS $question_id => $question ):
 				
-				if( $question[ 'sections' ] ):
+				// If element uses sections
+				if( array_key_exists( 'sections', $question ) && TRUE == $question[ 'sections' ]):
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
 						
@@ -122,27 +127,35 @@ class Questions_AbstractData{
 							endif;
 						endforeach;
 						
-						break;					
+						break;
 					endforeach;
-
-				elseif( $question[ 'array' ] ):
+				
+				// If there are more answers than one posssible (e.g. Multiple Choice)
+				elseif( array_key_exists( 'array', $question ) && TRUE == $question[ 'array' ] ):
+					
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
 						foreach( $response AS $key => $value ):
 							$column = $question[ 'question' ] . ' (' . $key . ')';
 							$lines[ 0 ][ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
 						endforeach;
-						break;					
+						break;
 					endforeach;
+					
+				// If there is only one value for one element possible
 				else:
 					$lines[ 0 ][ $question_id ] = self::filter_string( $question[ 'question' ] ); 
 				endif;
 			endforeach;
 			
-			// Getting Content
+			/**
+			 * Getting content by running each element
+			 */
 			foreach( $response_array AS $question_id => $question ):
 				
-				if( $question[ 'sections' ] ):
+				// If element uses sections
+				if( array_key_exists( 'sections', $question ) && TRUE == $question[ 'sections' ] ):
+					
 					foreach( $question[ 'responses' ] AS $response_id => $response ):
 						$i = 0;
 						
@@ -157,17 +170,28 @@ class Questions_AbstractData{
 						endforeach;
 						
 					endforeach;
-				elseif( $question[ 'array' ] ):
-					foreach( $question[ 'responses' ] AS $response ):
+					
+				// If there are more answers than one posssible (e.g. Multiple Choice)
+				elseif( array_key_exists( 'array', $question ) && TRUE == $question[ 'array' ] ):
+					
+					// Running response of each user
+					foreach( $question[ 'responses' ] AS $response_id => $response ):
 						$i = 0;
+						
+						// Running each answer of response
 						foreach( $response AS $key => $value ):
 							$lines[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value ); 
 						endforeach;
+						
 					endforeach;
+					
+				// If there is only one value for one element possible
 				else:
+					
 					foreach( $question[ 'responses' ]  AS $response_id => $value ):
 						$lines[ $response_id ][ $question_id ] = self::filter_string( $value ); 
 					endforeach;
+					
 				endif;
 				
 			endforeach;
@@ -178,6 +202,12 @@ class Questions_AbstractData{
 		endif;
 	}
 
+	/**
+	 * Filtering not wanted chars
+	 * @param string $string The string to filter
+	 * @return string $string The filtered string
+	 * @since 1.0.0
+	 */
 	public static function filter_string( $string ){
 		$string = utf8_decode( $string );
 		if( '' ==  $string )
@@ -189,6 +219,12 @@ class Questions_AbstractData{
 		return $string;
 	}
 	
+	/**
+	 * Removing new lines
+	 * @param string $string The string to filter
+	 * @return string $string The filtered string
+	 * @since 1.0.0
+	 */
 	public static function remove_new_lines( $string ){
 		return trim( preg_replace( '/\s\s+/', ' ', $string ) );
 	}

@@ -68,6 +68,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 12 =
+* Fixed exporting bug on exporting multiple choice fields results
+* Enhanced code structure
+
 = 1.0.0 beta 11 =
 * Added message on reaching PHP max_num_fields
 * Enhanced code structure

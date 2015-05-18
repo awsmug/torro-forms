@@ -30,6 +30,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
  
 class Questions_Export{
+	
 	/**
 	 * Initializes the Component.
 	 * @since 1.0.0
@@ -39,6 +40,12 @@ class Questions_Export{
 		add_filter( 'post_row_actions', array( $this, 'add_export_link' ), 10, 2 );
 	} // end constructor
 	
+	/**
+	 * Add export link to the overview page
+	 * @param array $actions Actions links in an array
+	 * @param object $post Post object
+	 * @since 1.0.0
+	 */
 	function add_export_link( $actions, $post ){
 		if( 'questions' != $post->post_type )
 			return $actions;
@@ -48,6 +55,10 @@ class Questions_Export{
 		return $actions;
 	}
 	
+	/**
+	 * Start exporting by evaluating $_GET variables
+	 * @since 1.0.0
+	 */
 	function export(){
 		global $wpdb, $questions_global;
 		
@@ -57,6 +68,7 @@ class Questions_Export{
 			
 			$survey = new Questions_Survey( $survey_id );
 			$export_filename = sanitize_title( $survey->title );
+			$export_data = $survey->get_responses();
 			
 			header( "Pragma: public" );
 			header( "Expires: 0" );
@@ -65,7 +77,7 @@ class Questions_Export{
 
 			switch( $export_type ){
 				case 'CSV':
-					$content = $this->get_csv( $survey->get_responses() );
+					$content = $this->get_csv( $export_data );
 					$bytes = strlen( $content );
 					$charset = 'UTF-8';
 					
@@ -84,9 +96,14 @@ class Questions_Export{
 			
 		endif;
 	}
-
+	
+	/**
+	 * Getting CSV content
+	 * @param array $response_array Response array of a survey
+	 * @return string $output CSV content
+	 */
 	public function get_csv( $response_array ){
-		$lines = Questions_AbstractData::lines( $response_array );
+		$lines = Questions_AbstractData::order_in_lines( $response_array );
 		
 		// Running each question (element without separators etc)
 		if( is_array( $lines ) ):
