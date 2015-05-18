@@ -54,7 +54,6 @@ class Questions_Charts extends Questions_Component{
 	} // end constructor
 	
 	public function includes(){
-		include( QUESTIONS_COMPONENTFOLDER . '/charts/data-abstraction.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/charts/chart-creator-dimple.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/charts/shortcodes.php' );
 	}

@@ -117,6 +117,7 @@ class Questions_Core extends Questions_Component{
 		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/tools/post.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/tools/survey.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
 	}
 	
 }
