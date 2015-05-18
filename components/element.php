@@ -1,55 +1,135 @@
 <?php
-
+/**
+ * Element API Class
+ * 
+ * Parent class of all elements
+ * 
+ */
 abstract class Questions_SurveyElement {
-
+	
+	/**
+	 * ID of instanced Element
+	 * @since 1.0.0
+	 */
 	var $id = NULL;
-
+	
+	/**
+	 * Contains the Survey ID of the element
+	 * @since 1.0.0
+	 */	
+	var $survey_id;
+	
+	/**
+	 * Slug of element
+	 * @since 1.0.0
+	 */
 	var $slug;
 
+	/**
+	 * Title of element which will be shown in admin
+	 * @since 1.0.0
+	 */
 	var $title;
 
+	/**
+	 * Description of element
+	 * @since 1.0.0
+	 */
 	var $description;
 
-	var $icon;
-
-	var $sort = 0;
-
-	var $is_question = TRUE;
-
-	var $is_displayable = FALSE;
-
-	var $splitter = FALSE;
-
-	var $survey_id;
-
+	/**
+	 * Icon URl of element
+	 * @since 1.0.0
+	 */
+	var $icon_url;
+	
+	/**
+	 * Question text
+	 * @since 1.0.0
+	 */
 	var $question;
 
-	var $sections;
+	/**
+	 * Sort number where to display element
+	 * @since 1.0.0
+	 */
+	var $sort = 0;
 
-	var $response;
+	/**
+	 * Contains if this element a question or is this element for anything else (like description element or something else)
+	 * @since 1.0.0
+	 */
+	var $is_question = TRUE;
 
-	var $error = FALSE;
+	/**
+	 * If value is true, Questions will try to create charts from results
+	 * @since 1.0.0
+	 */
+	var $is_analyzable = FALSE;
+	
+	/**
+	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
+	 * @since 1.0.0
+	 */
+	var $has_answers = FALSE;
+	
+	
+	var $splits_form = FALSE;
+	
 
-	var $preset_of_answers = FALSE;
-
-	var $preset_is_multiple = FALSE;
-
-	var $answer_is_multiple = FALSE;
-
+	/**
+	 * Sections for answers
+	 * @since 1.0.0
+	 */
+	var $sections = array();
+	
+	/**
+	 * If elements has answers they will be stored here after populating object.
+	 * @since 1.0.0
+	 */
 	var $answers = array();
-
-	var $settings = array();
-
-	var $validate_errors = array();
-
-	var $create_answer_params = array();
-
-	var $create_answer_syntax;
-
+	
+	/**
+	 * Contains users response of element after submitting
+	 * @since 1.0.0
+	 */
+	var $response;
+	
+	/**
+	 * The settings field setup
+	 * @since 1.0.0
+	 */
 	var $settings_fields = array();
 
+	/**
+	 * Contains all settings of the element
+	 * @since 1.0.0
+	 */
+	var $settings = array();
+	
+	/**
+	 * HTML template for answer
+	 * @since 1.0.0
+	 */
+	var $create_answer_syntax;
+
+	/**
+	 * Parameters which have to be added on answer
+	 * @since 1.0.0
+	 */
+	var $create_answer_params = array();
+	
+	/**
+	 * Control variable if element is already initialized
+	 * @since 1.0.0
+	 */
 	var $initialized = FALSE;
 
+	/**
+	 * Constructor
+	 * @param int $id ID of the element
+	 * @since 1.0.0
+	 */
 	public function __construct( $id = NULL ) {
 
 		if ( NULL != $id && '' != $id ) {
@@ -58,7 +138,15 @@ abstract class Questions_SurveyElement {
 
 		$this->settings_fields();
 	}
-
+	
+	/**
+	 * Function to register element in Questions
+	 * 
+	 * After registerung was successfull the new element will be shown in the elements list.
+	 * 
+	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+	 * @since 1.0.0
+	 */
 	public function _register() {
 
 		global $questions_global;
@@ -96,11 +184,17 @@ abstract class Questions_SurveyElement {
 		return $questions_global->add_survey_element( $this->slug, $this );
 	}
 
+	/**
+	 * Populating element object with data
+	 * @param int $id Element id
+	 * @since 1.0.0
+	 */
 	private function populate( $id ) {
 
 		global $wpdb, $questions_global;
 
-		$this->reset();
+		$this->question = '';
+		$this->answers  = array();
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->questions} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
@@ -128,11 +222,16 @@ abstract class Questions_SurveyElement {
 
 		if ( is_array( $results ) ):
 			foreach ( $results AS $result ):
-				$this->add_settings( $result->name, $result->value );
+				$this->add_setting( $result->name, $result->value );
 			endforeach;
 		endif;
 	}
-
+	
+	/**
+	 * Setting question for element
+	 * @param string $question Question text
+	 * @since 1.0.0
+	 */
 	private function set_question( $question, $order = NULL ) {
 
 		if ( '' == $question ) {
@@ -148,13 +247,18 @@ abstract class Questions_SurveyElement {
 		return TRUE;
 	}
 
+	/**
+	 * Adding answer to object data
+	 * @param string $text Answer text
+	 * @param int $sort Sort number
+	 * @param int $id Answer ID from DB
+	 * @param string $section Section of answer
+	 * @return boolean $is_added TRUE if answer was added, False if not
+	 * @since 1.0.0
+	 */
 	private function add_answer( $text, $sort = FALSE, $id = NULL, $section = NULL ) {
 
 		if ( '' == $text ) {
-			return FALSE;
-		}
-
-		if ( FALSE == $this->preset_is_multiple && count( $this->answers ) > 0 ) {
 			return FALSE;
 		}
 
@@ -165,59 +269,27 @@ abstract class Questions_SurveyElement {
 			'section' => $section
 		);
 
-		return NULL;
+		return TRUE;
 	}
 
-	private function add_settings( $name, $value ) {
+	/**
+	 * Add setting to object data
+	 * @param string $name Name of setting
+	 * @param string $value Value of setting
+	 * @since 1.0.0
+	 */
+	private function add_setting( $name, $value ) {
 
 		$this->settings[ $name ] = $value;
-	}
-
-	public function before_question() {
-
-		return NULL;
-	}
-
-	public function after_question() {
-
-		$html = '';
-
-		if ( ! empty( $this->settings[ 'description' ] ) ):
-			$html = '<p class="questions-element-description">';
-			$html .= $this->settings[ 'description' ];
-			$html .= '</p>';
-		endif;
-
-		return $html;
-	}
-
-	public function before_answers() {
-
-		return NULL;
-	}
-
-	public function after_answers() {
-
-		return NULL;
-	}
-
-	public function before_answer() {
-
-		return NULL;
-	}
-
-	public function after_answer() {
-
-		return NULL;
 	}
 
 	public function settings_fields() {
 	}
 
 	/**
-	 * @param $input
-	 *
+	 * Validate user input - Have to be overwritten by child classes if element needs validation
 	 * @return bool
+	 * @since 1.0.0
 	 */
 	public function validate( $input ) {
 
@@ -225,13 +297,15 @@ abstract class Questions_SurveyElement {
 	}
 
 	/**
-	 * @return mixed|string|void
+	 * Drawing Element on frontend
+	 * @return string $html Element HTML
+	 * @since 1.0.0
 	 */
 	public function draw() {
 	
 		global $questions_response_errors;
 	
-		if ( 0 == count( $this->answers ) && $this->preset_of_answers == TRUE ) {
+		if ( 0 == count( $this->answers ) && $this->has_answers == TRUE ) {
 			return FALSE;
 		}
 	
@@ -264,21 +338,22 @@ abstract class Questions_SurveyElement {
 		endif;
 	
 		if ( ! empty( $this->question ) ):
-			$html .= $this->before_question();
 			$html .= '<h5>' . $this->question . '</h5>';
-			$html .= $this->after_question();
 		endif;
-	
+		
+		// Fetching user response data
 		$this->get_response();
 	
 		$html .= '<div class="answer">';
-		$html .= $this->before_answers();
-		$html .= $this->before_answer();
-	
 		$html .= $this->input_html();
-	
-		$html .= $this->after_answer();
-		$html .= $this->after_answers();
+		
+		// Adding description
+		if ( ! empty( $this->settings[ 'description' ] ) ):
+			$html .= '<p class="questions-element-description">';
+			$html .= $this->settings[ 'description' ];
+			$html .= '</p>';
+		endif;
+
 		$html .= '</div>';
 	
 		// End Echo Errors
@@ -294,58 +369,22 @@ abstract class Questions_SurveyElement {
 	
 		return $html;
 	}
-
+	
+	/**
+	 * Contains element HTML on frontend - Have to be overwritten by child classes
+	 * @return string $html Element frontend HTML
+	 */
 	public function input_html() {
 	
-		return '<p>' . esc_attr__(
-			'No HTML for Element given. Please check element sourcecode.', 'questions-locale'
-		) . '</p>';
+		return '<p>' . esc_attr__( 'No HTML for Element given. Please check element sourcecode.', 'questions-locale' ) . '</p>';
 	}
-	
-	public function draw_admin() {
-	
-		// Getting id string
-		if ( NULL == $this->id ):
-			// New Element
-			$id_name = ' id="widget_surveyelement_##nr##"';
-		else:
-			// Existing Element
-			$id_name = ' id="widget_surveyelement_' . $this->id . '"';
-		endif;
-	
-		/*
-		 * Widget
-		 */
-		$html = '<div class="widget surveyelement"' . $id_name . '>';
-		$html .= $this->admin_widget_head();
-		$html .= $this->admin_widget_inside();
-		$html .= '</div>';
-	
-		return $html;
-	}
-	
-	private function admin_widget_head() {
-	
-		// Getting basic values for elements
-		$title = empty( $this->question ) ? $this->title : $this->question;
-	
-		// Widget Head
-		$html = '<div class="widget-top questions-admin-qu-text">';
-		$html .= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
-		$html .= '<div class="widget-title">';
-	
-		if ( '' != $this->icon ):
-			$html .= '<img class="questions-widget-icon" src ="' . $this->icon . '" />';
-		endif;
-		$html .= '<h4>' . $title . '</h4>';
-	
-		$html .= '</div>';
-		$html .= '</div>';
-	
-		return $html;
-	}
-	
-	public function admin_get_widget_id() {
+
+	/**
+	 * Returns the widget id which will be used in HTML
+	 * @return string $widget_id The widget id
+	 * @since 1.0.0
+	 */
+	private function admin_get_widget_id() {
 	
 		// Getting Widget ID
 		if ( NULL == $this->id ):
@@ -359,88 +398,120 @@ abstract class Questions_SurveyElement {
 		return $widget_id;
 	}
 	
-	private function admin_widget_inside() {
+	/**
+	 * Draws element box in Admin
+	 * @return string $html The admin element HTML code
+	 * @since 1.0.0
+	 */
+	public function draw_admin() {
 	
-		$widget_id        = $this->admin_get_widget_id();
-		$jquery_widget_id = str_replace( '#', '', $widget_id );
-	
-		// Widget Inside
-		$html = '<div class="widget-inside">';
-		$html .= '<div class="widget-content">';
-		$html .= '<div class="survey_element_tabs">';
-	
-		/*
-		 * Tab Navi
-		 */
-		$html .= '<ul class="tabs">';
-		// If Element is Question > Show question tab
-		if ( $this->is_question ) {
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__(
-					'Question', 'questions-locale'
-				) . '</a></li>';
-		}
-	
-		// If Element has settings > Show settings tab
-		if ( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ) {
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . esc_attr__(
-					'Settings', 'questions-locale'
-				) . '</a></li>';
-		}
-	
-		// Adding further tabs
-		ob_start();
-		do_action( 'questions_element_admin_tabs', $this );
-		$html .= ob_get_clean();
-	
-		$html .= '</ul>';
-	
-		$html .= '<div class="clear tabs_underline"></div>'; // Underline of tabs
-	
-		/*
-		 * Content of Tabs
-		 */
-	
-		// Adding question HTML
-		if ( $this->is_question ):
-			$html .= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';
-			$html .= $this->admin_widget_question_tab();
-			$html .= '</div>';
+		// Getting id string
+		if ( NULL == $this->id ):
+			// New Element
+			$id_name = ' id="widget_surveyelement_##nr##"';
+		else:
+			// Existing Element
+			$id_name = ' id="widget_surveyelement_' . $this->id . '"';
 		endif;
 	
-		// Adding settings HTML
-		if ( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ):
-			$html .= '<div id="tab_' . $jquery_widget_id . '_settings" class="tab_settings_content">';
-			$html .= $this->admin_widget_settings_tab();
+		/**
+		 * Widget
+		 */
+		$html = '<div class="widget surveyelement"' . $id_name . '>';
+		
+			/**
+			 * Widget head
+			 */
+			$title = empty( $this->question ) ? $this->title : $this->question;
+		
+			$html .= '<div class="widget-top questions-admin-qu-text">';
+			$html .= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
+			$html .= '<div class="widget-title">';
+		
+			if ( '' != $this->icon_url ):
+				$html .= '<img class="questions-widget-icon" src ="' . $this->icon_url . '" />';
+			endif;
+			$html .= '<h4>' . $title . '</h4>';
+		
 			$html .= '</div>';
-		endif;
-	
-		// Adding action Buttons
-		// @todo: unused var, why?
-		$bottom_buttons = apply_filters(
-			'qu_element_bottom_actions',
-			array(
-				'delete_survey_element' => array(
-					'text'    => esc_attr__( 'Delete element', 'questions-locale' ),
-					'classes' => 'delete_survey_element'
-				)
-			)
-		);
-	
-		// Adding further content
-		ob_start();
-		do_action( 'questions_element_admin_tabs_content', $this );
-		$html .= ob_get_clean();
-	
-		$html .= $this->admin_widget_action_buttons();
-		$html .= $this->admin_widget_hidden_fields();
-	
-		$html .= '</div>';
-		$html .= '</div>';
+			$html .= '</div>';
+			
+			/**
+			 * Widget inside
+			 */
+			$widget_id        = $this->admin_get_widget_id();
+			$jquery_widget_id = str_replace( '#', '', $widget_id );
+		
+			$html .= '<div class="widget-inside">';
+			$html .= '<div class="widget-content">';
+			$html .= '<div class="survey_element_tabs">';
+		
+			/**
+			 * Tab Navi
+			 */
+			$html .= '<ul class="tabs">';
+			// If Element is Question > Show question tab
+			if ( $this->is_question ) {
+				$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__(
+						'Question', 'questions-locale'
+					) . '</a></li>';
+			}
+		
+			// If Element has settings > Show settings tab
+			if ( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ) {
+				$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . esc_attr__(
+						'Settings', 'questions-locale'
+					) . '</a></li>';
+			}
+		
+			// Adding further tabs
+			ob_start();
+			do_action( 'questions_element_admin_tabs', $this );
+			$html .= ob_get_clean();
+		
+			$html .= '</ul>';
+		
+			$html .= '<div class="clear tabs_underline"></div>'; // Underline of tabs
+		
+			/**
+			 * Content of Tabs
+			 */
+		
+			// Adding question tab
+			if ( $this->is_question ):
+				$html .= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';
+				$html .= $this->admin_widget_question_tab();
+				$html .= '</div>';
+			endif;
+		
+			// Adding settings tab
+			if ( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ):
+				$html .= '<div id="tab_' . $jquery_widget_id . '_settings" class="tab_settings_content">';
+				$html .= $this->admin_widget_settings_tab();
+				$html .= '</div>';
+			endif;
+		
+			// Adding further content
+			ob_start();
+			do_action( 'questions_element_admin_tabs_content', $this );
+			$html .= ob_get_clean();
+		
+			$html .= $this->admin_widget_action_buttons();
+			$html .= $this->admin_widget_hidden_fields();
+		
+			$html .= '</div>';
+			$html .= '</div>';
+			$html .= '</div>';
+			
 		$html .= '</div>';
 	
 		return $html;
 	}
 	
+	/**
+	 * Content of the question tab
+	 * @since 1.0.0
+	 */
 	private function admin_widget_question_tab() {
 	
 		$widget_id = $this->admin_get_widget_id();
@@ -450,21 +521,21 @@ abstract class Questions_SurveyElement {
 			. $this->question . '" class="questions-question" /><p>';
 	
 		// Answers
-		if ( $this->preset_of_answers ):
+		if ( $this->has_answers ):
 	
 			// Answers have sections
 			if ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ):
 				foreach ( $this->sections as $section_key => $section_name ):
 					$html .= '<div class="questions-section" id="section_' . $section_key . '">';
 					$html .= '<p>' . $section_name . '</p>';
-					$html .= $this->admin_widget_question_tab_answers( $section_key );
+					$html .= $this->admin_widget_question_answers( $section_key );
 					$html .= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
 					$html .= '</div>';
 				endforeach;
 			// Answers without sections
 			else:
 				$html .= '<p>' . esc_attr__( 'Answer/s:', 'questions-locale' ) . '</p>';
-				$html .= $this->admin_widget_question_tab_answers();
+				$html .= $this->admin_widget_question_answers();
 			endif;
 	
 		endif;
@@ -474,7 +545,13 @@ abstract class Questions_SurveyElement {
 		return $html;
 	}
 	
-	private function admin_widget_question_tab_answers( $section = NULL ) {
+	/**
+	 * Content of the answers under the question
+	 * @param string $section Name of the section
+	 * @return string $html The answers HTML
+	 * @since 1.0.0
+	 */
+	private function admin_widget_question_answers( $section = NULL ) {
 	
 		$widget_id = $this->admin_get_widget_id();
 	
@@ -517,23 +594,14 @@ abstract class Questions_SurveyElement {
 					$param_arr[ ] = $param_value;
 				endforeach;
 	
-				if ( $this->preset_is_multiple ) {
-					$answer_classes = ' preset_is_multiple';
-				}
-	
-				$html .= '<div class="answer' . $answer_classes . '" id="answer_' . $answer[ 'id' ] . '">';
+				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
 				$html .= call_user_func_array( 'sprintf', $param_arr );
-				$html .= ' <input type="button" value="' . esc_attr__(
-						'Delete', 'questions-locale'
-					) . '" class="delete_answer button answer_action">';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_'
-					. $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_'
-					. $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
+				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'questions-locale' ) . '" class="delete_answer button answer_action">';
+				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
+				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
 	
 				if ( NULL != $section ) {
-					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_'
-						. $answer[ 'id' ] . '][section]" value="' . $section . '" />';
+					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
 				}
 	
 				$html .= '</div>';
@@ -543,7 +611,7 @@ abstract class Questions_SurveyElement {
 			$html .= '</div><div class="clear"></div>';
 	
 		else:
-			if ( $this->preset_of_answers ):
+			if ( $this->has_answers ):
 	
 				$param_arr[ ]   = $this->create_answer_syntax;
 				$temp_answer_id = 'id_' . time() * rand();
@@ -566,12 +634,8 @@ abstract class Questions_SurveyElement {
 					$param_arr[ ] = $param_value;
 				endforeach;
 	
-				if ( $this->preset_is_multiple ) {
-					$answer_classes = ' preset_is_multiple';
-				}
-	
 				$html .= '<div class="answers">';
-				$html .= '<div class="answer ' . $answer_classes . '" id="answer_' . $temp_answer_id . '">';
+				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
 				$html .= call_user_func_array( 'sprintf', $param_arr );
 				$html .= ' <input type="button" value="' . esc_attr__(
 						'Delete', 'questions-locale'
@@ -590,27 +654,36 @@ abstract class Questions_SurveyElement {
 	
 		endif;
 	
-		if ( $this->preset_is_multiple ) {
-			$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_attr__(
-					'Add Answer', 'questions-locale'
-				) . ' </a>';
-		}
-	
+		$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_attr__( 'Add Answer', 'questions-locale' ) . ' </a>';
+		
 		return $html;
 	}
 	
+	/**
+	 * Content of the settings tab
+	 * @return string $html The settings tab HTML
+	 * @since 1.0.0
+	 */
 	private function admin_widget_settings_tab() {
 	
 		$html = '';
-	
+		
+		// Running each setting field
 		foreach ( $this->settings_fields AS $name => $field ):
-			$html .= $this->admin_widget_settings_tab_field( $name, $field );
+			$html .= $this->admin_widget_settings_field( $name, $field );
 		endforeach;
 	
 		return $html;
 	}
 	
-	private function admin_widget_settings_tab_field( $name, $field ) {
+	/**
+	 * Creating a settings field
+	 * @param string $name Internal name of the field
+	 * @param array $field Field settings
+	 * @return string $html The field HTML
+	 * @since 1.0.0
+	 */
+	private function admin_widget_settings_field( $name, $field ) {
 	
 		$widget_id = $this->admin_get_widget_id();
 		$value     = '';
@@ -699,22 +772,20 @@ abstract class Questions_SurveyElement {
 		$widget_id = $this->admin_get_widget_id();
 	
 		// Adding hidden Values for element
-		$html = '<input type="hidden" name="questions[' . $widget_id . '][id]" value="' . $this->id . '" />';
+		$html  = '<input type="hidden" name="questions[' . $widget_id . '][id]" value="' . $this->id . '" />';
 		$html .= '<input type="hidden" name="questions[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
 		$html .= '<input type="hidden" name="questions[' . $widget_id . '][type]" value="' . $this->slug . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][preset_is_multiple]" value="' . ( $this->preset_is_multiple
-				? 'yes' : 'no' ) . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][preset_of_answers]" value="' . ( $this->preset_of_answers
-				? 'yes' : 'no' ) . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][sections]" value="' . ( property_exists(
-				$this, 'sections'
-			)
-			&& is_array( $this->sections )
-			&& count( $this->sections ) > 0 ? 'yes' : 'no' ) . '" />';
+		$html .= '<input type="hidden" name="questions[' . $widget_id . '][has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
+		$html .= '<input type="hidden" name="questions[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ? 'yes' : 'no' ) . '" />';
 	
 		return $html;
 	}
 	
+	/**
+	 * Getting posted data from an answering user
+	 * @return array $response The post response
+	 * @since 1.0.0
+	 */
 	private function get_response() {
 	
 		global $questions_survey_id;
@@ -735,11 +806,21 @@ abstract class Questions_SurveyElement {
 		return $this->response;
 	}
 	
+	/**
+	 * Returns the name of an input element
+	 * @return string $input_name The name of the input
+	 * @since 1.0.0
+	 */
 	public function get_input_name() {
-	
-		return 'questions_response[' . $this->id . ']';
+		$input_name = 'questions_response[' . $this->id . ']';
+		return $input_name;
 	}
 	
+	/**
+	 * Get all saved responses of an element
+	 * @return mixed $responses The responses as array or FALSE if failed to get responses
+	 * @since 1.0.0
+	 */
 	public function get_responses() {
 	
 		global $wpdb, $questions_global;
@@ -794,12 +875,6 @@ abstract class Questions_SurveyElement {
 		} else {
 			return FALSE;
 		}
-	}
-	
-	private function reset() {
-	
-		$this->question = '';
-		$this->answers  = array();
 	}
 }
 

@@ -22,14 +22,13 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 		$this->description = esc_attr__(
 			'Add a question which can be answered by selecting one ore more given answers.', 'questions-locale'
 		);
-		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-multiplechoice.png';
+		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-multiplechoice.png';
 
-		$this->preset_of_answers  = TRUE;
-		$this->preset_is_multiple = TRUE;
+		$this->has_answers  = TRUE;
 		$this->answer_is_multiple = TRUE;
-		$this->is_displayable     = TRUE;
+		$this->is_analyzable     = TRUE;
 
-		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
+		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" class="question-answer" /></p>';
 		$this->create_answer_params = array( 'name', 'answer' );
 
 		parent::__construct( $id );
@@ -52,7 +51,7 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 			}
 
 			$html .= '<p><input type="checkbox" name="' . $this->get_input_name(
-				) . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] . '</p>';
+				) . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . ' /> ' . $answer[ 'text' ] . '</p>';
 		endforeach;
 
 		return $html;

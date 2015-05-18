@@ -22,7 +22,7 @@ class Questions_SurveyElement_Textarea extends Questions_SurveyElement {
 		$this->description = esc_attr__(
 			'Add a question which can be answered within a text area.', 'questions-locale'
 		);
-		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-textarea.png';
+		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-textarea.png';
 
 		parent::__construct( $id );
 	}

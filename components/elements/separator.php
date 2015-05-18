@@ -20,7 +20,7 @@ class Questions_SurveyElement_Separator extends Questions_SurveyElement {
 		$this->slug        = 'Separator';
 		$this->title       = esc_attr__( 'Separator', 'questions-locale' );
 		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between questions.', 'questions-locale' );
-		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-separator.png';
+		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-separator.png';
 
 		$this->is_question = FALSE;
 

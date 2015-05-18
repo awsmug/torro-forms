@@ -65,7 +65,7 @@ class Questions_AbstractData{
 			
 			$element = new $element_class( $key );
 			
-			if( !$element->is_displayable )
+			if( !$element->is_analyzable )
 				continue;
 			
 			$ordered_data[ 'questions' ][ $key ] = $line[ 'question' ];

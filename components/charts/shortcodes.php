@@ -100,7 +100,7 @@ class QuestionsChartsShortCodes{
 	}
 	
 	public static function show_question_result_shortcode( $object ){
-		if( $object->id != '' && $object->is_displayable ):
+		if( $object->id != '' && $object->is_analyzable ):
 			$small = '<small>' . __( '(CTRL+C and paste into post to embed question results in post)', 'questions-locale' ) . '</small>';
 			echo sprintf( '<div class="shortcode"><label for="question_shortcode_%d">' . __( 'Shortcode:', 'questions-locale' ) . '</label><input class="shortcode_input" type="text" id="question_shortcode_%d" value="[question_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
 		endif;

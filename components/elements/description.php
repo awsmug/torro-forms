@@ -20,7 +20,7 @@ class Questions_SurveyElement_Description extends Questions_SurveyElement {
 		$this->slug        = 'Description';
 		$this->title       = esc_attr__( 'Description', 'questions-locale' );
 		$this->description = esc_attr__( 'Adds a text to the form.', 'questions-locale' );
-		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
+		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
 
 		$this->is_question = FALSE;
 

@@ -20,18 +20,17 @@ class Questions_SurveyElement_Dropdown extends Questions_SurveyElement {
 		$this->slug        = 'Dropdown';
 		$this->title       = esc_attr__( 'Dropdown', 'questions-locale' );
 		$this->description = esc_attr__( 'Add a question which can be answered within a dropdown field.', 'questions-locale' );
-		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-dropdown.png';
+		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-dropdown.png';
 
-		$this->preset_of_answers  = TRUE;
-		$this->preset_is_multiple = TRUE;
+		$this->has_answers  = TRUE;
 		$this->answer_is_multiple = FALSE;
-		$this->is_displayable     = TRUE;
+		$this->is_analyzable     = TRUE;
 
 		$this->answer_syntax          = '<option value="%s" /> %s</option>';
 		$this->answer_selected_syntax = '<option value="%s" selected="selected" /> %s</option>';
 		$this->answer_params          = array( 'value', 'answer' );
 
-		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
+		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" class="question-answer" /></p>';
 		$this->create_answer_params = array( 'name', 'answer' );
 
 		parent::__construct( $id );

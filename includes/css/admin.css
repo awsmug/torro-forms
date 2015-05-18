@@ -40,13 +40,6 @@
 	width:80%;
 }
 
-#questions-content div.preset_is_multiple{
-	padding-left:20px;
-	background-image: url( '../../assets/images/icon-updown.png' );
-	background-repeat: no-repeat;
-	background-position: top 7px left 0;
-	cursor:move;
-}
 /**
  * 	Element Tabs
  */
@@ -95,6 +88,11 @@
 }
 #questions-content .answer{
 	height: 40px;
+	padding-left:20px;
+	background-image: url( '../../assets/images/icon-updown.png' );
+	background-repeat: no-repeat;
+	background-position: top 7px left 0;
+	cursor:move;
 }
 #questions-content .answer p{
 	display: inline;

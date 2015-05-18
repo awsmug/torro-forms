@@ -20,10 +20,10 @@ class Questions_SurveyElement_Splitter extends Questions_SurveyElement {
 		$this->slug        = 'Splitter';
 		$this->title       = esc_attr__( 'Split Form', 'questions-locale' );
 		$this->description = esc_attr__( 'Splits a form into several steps', 'questions-locale' );
-		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-split-form.png';
+		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-split-form.png';
 
 		$this->is_question = FALSE;
-		$this->splitter    = TRUE;
+		$this->splits_form    = TRUE;
 
 		parent::__construct( $id );
 	}

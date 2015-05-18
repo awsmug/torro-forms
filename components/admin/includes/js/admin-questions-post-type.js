@@ -238,55 +238,65 @@
 		/**
 		 * Adding answer to element
 		 */
-		var questions_add_answer = function(){
+		var questions_add_answer_button = function(){
 			$( "#drag-drop-inside" ).on( 'click', '.add-answer', function(){
-				
 				var element_id = $( this ).attr( 'rel' );
-				var nr = questions_rand();
-				
-				var preset_is_multiple = 'input[name="questions\[' + element_id + '\]\[preset_is_multiple\]"]';
-				var preset_is_multiple = $( preset_is_multiple ).val();
-				
-				var multiple_class = '';
-				if( preset_is_multiple == 'yes' ) multiple_class = ' preset_is_multiple';
-				
-				var sections = 'input[name="questions\[' + element_id + '\]\[sections\]"]';
-				var sections = $( sections ).val();
-				
-				var answer_content = '';
-				answer_content = '<div class="answer' + multiple_class + '" id="answer_##nr##">';
-				answer_content = answer_content + '<p><input type="text" id="answer_##nr##_input" name="questions[' + element_id + '][answers][id_##nr##][answer]" /></p>';
-				answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][sort]" />';
-				
-				if( 'yes' == sections ){
-					var section_key = $( this ).parent().find( 'input[name="section_key"]' ).val();
-					answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][section]" value="' + section_key + '" />';
-				}
-				answer_content = answer_content + ' <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
-				answer_content = answer_content.replace( /##nr##/g, nr );
-				
-				var order = 0;
-				$( this ).parent().find( '.answer' ).each( function( e ) { order++; });
-				
-				if( 'yes' == sections ){
-					$( answer_content ).appendTo( "#" + element_id + " #section_" + section_key + " .answers" );
-				}else{
-					$( answer_content ).appendTo( "#" + element_id + " .answers" );
-				}
-				
-				var answer_input = $( "#answer_" + nr + "_input" );
-				answer_input.focus();
-				
-				// Adding sorting number
-				var input_name = 'input[name="questions\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
-	          	$( input_name ).val( order ) ;
-	          	
-	          	questions_deleteanswer();
+				questions_add_answer( element_id, this );
 			});
 			
 			check_max_input_vars();
 		}
-		questions_add_answer();
+		questions_add_answer_button();
+		
+		$( ".question-answer" ).keypress( function( e ) {
+            if( e.which == 13 ) {
+                e.preventDefault();
+                var add_answer = $( this ).parent().find( '.add_answer ');
+                
+            }
+        });
+        
+        /**
+         * Adding empty answer field
+         */
+        var questions_add_answer = function ( element_id, clicked_container ){
+            var nr = questions_rand();
+
+            var sections = 'input[name="questions\[' + element_id + '\]\[sections\]"]';
+            var sections = $( sections ).val();
+            
+            // Setting up new answer HTML
+            var answer_content = '';
+            answer_content = '<div class="answer" id="answer_##nr##">';
+            answer_content = answer_content + '<p><input type="text" id="answer_##nr##_input" name="questions[' + element_id + '][answers][id_##nr##][answer]" /></p>';
+            answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][sort]" />';
+            if( 'yes' == sections ){
+                var section_key = $( clicked_container ).parent().find( 'input[name="section_key"]' ).val();
+                answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][section]" value="' + section_key + '" />';
+            }
+            answer_content = answer_content + ' <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
+            answer_content = answer_content.replace( /##nr##/g, nr );
+            
+            // Getting order number for new answer
+            var order = 0;
+            $( clicked_container ).parent().find( '.answer' ).each( function( e ) { order++; });
+            
+            // Adding Content
+            if( 'yes' == sections ){
+                $( answer_content ).appendTo( "#" + element_id + " #section_" + section_key + " .answers" );
+            }else{
+                $( answer_content ).appendTo( "#" + element_id + " .answers" );
+            }
+            
+            var answer_input = $( "#answer_" + nr + "_input" );
+            answer_input.focus();
+            
+            // Adding sorting number
+            var input_name = 'input[name="questions\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
+            $( input_name ).val( order ) ;
+            
+            questions_deleteanswer();
+        };
 		
 		/**
 		 * Members - Participiants restrictions select

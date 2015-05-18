@@ -22,14 +22,13 @@ class Questions_SurveyElement_OneChoice extends Questions_SurveyElement {
 		$this->description = esc_attr__(
 			'Add a question which can be answered by selecting one of the given answers.', 'questions-locale'
 		);
-		$this->icon        = QUESTIONS_URLPATH . '/assets/images/icon-onechoice.png';
+		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-onechoice.png';
 
-		$this->preset_of_answers  = TRUE;
-		$this->preset_is_multiple = TRUE;
+		$this->has_answers  = TRUE;
 		$this->answer_is_multiple = FALSE;
-		$this->is_displayable     = TRUE;
+		$this->is_analyzable     = TRUE;
 
-		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" /></p>';
+		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" class="question-answer" /></p>';
 		$this->create_answer_params = array( 'name', 'answer' );
 
 		parent::__construct( $id );

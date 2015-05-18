@@ -269,7 +269,7 @@ class Questions_ProcessResponse {
 
 		if ( is_array( $elements ) && count( $elements ) > 0 ):
 			foreach ( $elements AS $element ):
-				if ( ! $element->splitter ):
+				if ( ! $element->splits_form ):
 					$html .= $element->draw();
 				else:
 					$next_step += 1;
@@ -359,7 +359,7 @@ class Questions_ProcessResponse {
 		$elements = array();
 		foreach ( $survey->elements AS $element ):
 			$elements[ $actual_step ][ ] = $element;
-			if ( $element->splitter ):
+			if ( $element->splits_form ):
 				$actual_step ++;
 			endif;
 		endforeach;
@@ -517,7 +517,7 @@ class Questions_ProcessResponse {
 
 		// Running true all elements
 		foreach ( $elements AS $element ):
-			if ( $element->splitter ) {
+			if ( $element->splits_form ) {
 				continue;
 			}
 

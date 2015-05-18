@@ -111,7 +111,7 @@ class Questions_Survey {
 					$object      = new $class( $result->id );
 					$elements[ ] = $object; // Adding element
 
-					if ( $object->splitter ):
+					if ( $object->splits_form ):
 						$this->splitter_count ++;
 					endif;
 				else:
