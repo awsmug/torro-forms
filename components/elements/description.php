@@ -30,7 +30,7 @@ class Questions_SurveyElement_Description extends Questions_SurveyElement {
 	public function input_html() {
 
 		$html = '<div class="survey-element survey-element-' . $this->id . '">';
-		$html .= '<div class="survey-description">' . $this->settings[ 'description' ] . '</div>';
+		$html .= '<div class="survey-description">' . $this->settings[ 'element_description' ] . '</div>';
 		$html .= '</div>';
 
 		return $html;
@@ -39,7 +39,7 @@ class Questions_SurveyElement_Description extends Questions_SurveyElement {
 	public function settings_fields() {
 
 		$this->settings_fields = array(
-			'description' => array(
+			'element_description' => array(
 				'title'       => esc_attr__( 'Text to show', 'questions-locale' ),
 				'type'        => 'textarea',
 				'description' => esc_attr__( 'The text which will be shown in the form.', 'questions-locale' ),

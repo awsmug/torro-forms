@@ -348,7 +348,7 @@ abstract class Questions_SurveyElement {
 	
 		$html .= '<div class="answer">';
 		$html .= $this->input_html();
-		
+
 		// Adding description
 		if ( ! empty( $this->settings[ 'description' ] ) ):
 			$html .= '<p class="questions-element-description">';
