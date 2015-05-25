@@ -262,7 +262,7 @@ class Questions_ProcessResponse {
 
 		$step_count = $this->get_step_count( $survey_id );
 
-		$html .= '<div class="questions-description">' . sprintf(
+		$html .= '<div class="questions-pagination">' . sprintf(
 				__(
 					'Step <span class="questions-highlight-number">%d</span> of <span class="questions-highlight-number">%s</span>',
 					'questions-locale'
