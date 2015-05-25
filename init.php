@@ -38,6 +38,10 @@ class Questions_Init {
 		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
+		
+		// If plugin isn't installed, install it now
+		if( !self::is_installed() )
+			self::create_tables();
 
 		// Functions on Frontend
 		if ( is_admin() ):
@@ -74,9 +78,51 @@ class Questions_Init {
 	 * @since 1.0.0
 	 */
 	public static function activate( $network_wide ) {
-
 		global $wpdb;
-
+		
+		if( !$network_wide )
+			self::create_tables();
+		
+	} // end activate
+	
+	/**
+	 * Is plugin already installed?
+	 */
+	public static function is_installed(){
+		global $wpdb;
+		
+		$tables = array(		
+			$wpdb->prefix . 'questions_questions',
+			$wpdb->prefix . 'questions_answers',
+			$wpdb->prefix . 'questions_responds',
+			$wpdb->prefix . 'questions_respond_answers',
+			$wpdb->prefix . 'questions_settings',
+			$wpdb->prefix . 'questions_participiants'
+		);
+		
+		// Checking if all tables are existing
+		$not_found = FALSE;
+		foreach( $tables AS $table ):
+			if( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table ):
+			    $not_found = TRUE;
+			endif;
+		endforeach;
+		
+		if( $not_found )
+			return FALSE;
+		
+		return TRUE;
+	}
+	
+	/**
+	 * Creates tables for a blog
+	 */
+	private function create_tables( $blog_id = FALSE ){
+		global $wpdb;
+		
+		if( FALSE != $blog_id )
+			switch_to_blog( $blog_id );
+		
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$table_questions       = $wpdb->prefix . 'questions_questions';
@@ -168,8 +214,10 @@ class Questions_Init {
 		$wpdb->query( $sql );
 
 		update_option( 'questions_db_version', '1.1.0' );
-
-	} // end activate
+		
+		if( FALSE != $blog_id )
+			restore_current_blog();
+	}
 
 	/**
 	 * Fired when the plugin is deactivated.
