@@ -72,6 +72,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Added WP Editor to settings API
 * Changed description editor to WP Editor
 * Moved description text under question, before fields
+* Fixed bug on double description output
 * Bettered up Plugin CSS
 * Enhanced code structure
 
