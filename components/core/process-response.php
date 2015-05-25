@@ -35,10 +35,14 @@ global $Questions_ProcessResponse;
 
 class Questions_ProcessResponse {
 
+	/**
+	 * Survey id of processed survey
+	 */
 	var $survey_id;
 
-	var $response_errors = array();
-
+	/**
+	 * Is survey fineshed?
+	 */
 	var $finished = FALSE;
 
 	var $finished_id;
@@ -47,7 +51,6 @@ class Questions_ProcessResponse {
 
 	/**
 	 * Initializes the Component.
-	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
@@ -63,6 +66,7 @@ class Questions_ProcessResponse {
 
 	/**
 	 * Adding filter for the content to show Survey
+	 * @since 1.0.0
 	 */
 	public function add_post_filter() {
 
@@ -73,8 +77,8 @@ class Questions_ProcessResponse {
 	 * The filtered content gets a survey
 	 *
 	 * @param string $content
-	 *
 	 * @return string $content
+	 * @since 1.0.0
 	 */
 	public function the_content( $content ) {
 
@@ -106,8 +110,8 @@ class Questions_ProcessResponse {
 	 * Showing survey
 	 *
 	 * @param int $survey_id
-	 *
 	 * @return string $survey_html
+	 * @since 1.0.0
 	 */
 	public function show_survey( $survey_id ) {
 
@@ -126,8 +130,8 @@ class Questions_ProcessResponse {
 	 * Checking restrictions if user can participate
 	 *
 	 * @param int $survey_id
-	 *
 	 * @return mixed $participate True
+	 * @since 1.0.0
 	 */
 	private function check_restrictions( $survey_id ) {
 
@@ -228,8 +232,8 @@ class Questions_ProcessResponse {
 	 * Creating form HTML
 	 *
 	 * @param int $survey_id
-	 *
 	 * @return string $html
+	 * @since 1.0.0
 	 */
 	private function survey_form( $survey_id ) {
 
@@ -310,8 +314,8 @@ class Questions_ProcessResponse {
 	 *
 	 * @param int $survey_id
 	 * @param int $user_id
-	 *
 	 * @return boolean $can_participate
+	 * @since 1.0.0
 	 */
 	public function user_can_participate( $survey_id, $user_id = NULL ) {
 
@@ -332,8 +336,8 @@ class Questions_ProcessResponse {
 	 * Get numer of spits in survey
 	 *
 	 * @param int $survey_id
-	 *
 	 * @return int $splitter_count
+	 * @since 1.0.0
 	 */
 	private function get_step_count( $survey_id ) {
 
@@ -347,8 +351,8 @@ class Questions_ProcessResponse {
 	 *
 	 * @param int $survey_id
 	 * @param int $step
-	 *
 	 * @return array $elements
+	 * @since 1.0.0
 	 */
 	public function get_elements( $survey_id, $step = 0 ) {
 
@@ -373,6 +377,7 @@ class Questions_ProcessResponse {
 
 	/**
 	 * Processing entered data
+	 * @since 1.0.0
 	 */
 	public function process_response() {
 
@@ -448,6 +453,7 @@ class Questions_ProcessResponse {
 
 	/**
 	 * Saving response data
+	 * @since 1.0.0
 	 */
 	private function save_response() {
 
@@ -486,8 +492,8 @@ class Questions_ProcessResponse {
 	 * @param int   $survey_id
 	 * @param array $response
 	 * @param int   $step
-	 *
 	 * @return boolean $validated
+	 * @since 1.0.0
 	 */
 	public function validate_response( $survey_id, $response, $step ) {
 
@@ -568,8 +574,8 @@ class Questions_ProcessResponse {
 	 *
 	 * @param int   $survey_id
 	 * @param array $response
-	 *
 	 * @return boolean $saved
+	 * @since 1.0.0
 	 */
 	private function save_data( $survey_id, $response ) {
 
@@ -634,11 +640,11 @@ class Questions_ProcessResponse {
 	/**
 	 * Has the user participated survey
 	 *
-	 * @param         $questions_id
-	 * @param     int $user_id
-	 *
-	 * @return bool $has_participated
+	 * @param $questions_id
+	 * @param int $user_id
+	 * @return boolean $has_participated
 	 * @internal param int $survey_id
+	 * @since 1.0.0
 	 */
 	public function has_participated( $questions_id, $user_id = NULL ) {
 
@@ -672,9 +678,9 @@ class Questions_ProcessResponse {
 	 * Has IP already participated
 	 *
 	 * @param $questions_id
-	 *
 	 * @return bool $has_participated
 	 * @internal param int $survey_id
+	 * @since 1.0.0
 	 *
 	 */
 	public function ip_has_participated( $questions_id ) {
@@ -698,6 +704,7 @@ class Questions_ProcessResponse {
 
 	/**
 	 * Sending out finish email to participator
+	 * @since 1.0.0
 	 */
 	public function email_finished() {
 
@@ -729,8 +736,8 @@ class Questions_ProcessResponse {
 	 * Text which will be shown after a user has participated successful
 	 *
 	 * @param int $survey_id
-	 *
 	 * @return string $html
+	 * @since 1.0.0
 	 */
 	public function text_thankyou_for_participation( $survey_id ) {
 
@@ -755,8 +762,8 @@ class Questions_ProcessResponse {
 	 * Text which will be shown if a user has participated already
 	 *
 	 * @param int $survey_id
-	 *
 	 * @return string $html
+	 * @since 1.0.0
 	 */
 	public function text_already_participated( $survey_id ) {
 
@@ -780,6 +787,7 @@ class Questions_ProcessResponse {
 	 * Text which will be shown if a user has to login to participate
 	 *
 	 * @return string $html
+	 * @since 1.0.0
 	 */
 	public function text_not_logged_in() {
 
@@ -794,6 +802,7 @@ class Questions_ProcessResponse {
 	 * Text which will be shown if a user cant participate
 	 *
 	 * @return string $html
+	 * @since 1.0.0
 	 */
 	public function text_cant_participate() {
 
@@ -808,8 +817,8 @@ class Questions_ProcessResponse {
 	 * Showing results
 	 *
 	 * @param int $survey_id
-	 *
 	 * @return string $html
+	 * @since 1.0.0
 	 */
 	public function show_results( $survey_id ) {
 
