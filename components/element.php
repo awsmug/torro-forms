@@ -343,19 +343,18 @@ abstract class Questions_SurveyElement {
 			$html .= '<h5>' . $this->question . '</h5>';
 		endif;
 		
+		// Adding description
+		if ( ! empty( $this->settings[ 'description' ] ) ):
+			$html .= '<div class="questions-element-description">';
+			$html .= $this->settings[ 'description' ];
+			$html .= '</div>';
+		endif;
+		
 		// Fetching user response data
 		$this->get_response();
 	
 		$html .= '<div class="answer">';
 		$html .= $this->input_html();
-		
-		// Adding description
-		if ( ! empty( $this->settings[ 'description' ] ) ):
-			$html .= '<p class="questions-element-description">';
-			$html .= $this->settings[ 'description' ];
-			$html .= '</p>';
-		endif;
-
 		$html .= '</div>';
 	
 		// End Echo Errors
@@ -710,6 +709,15 @@ abstract class Questions_SurveyElement {
 			case 'textarea':
 	
 				$input = '<textarea name="' . $name . '">' . $value . '</textarea>';
+				break;
+				
+			case 'wp_editor':
+				$settings = array(
+					'textarea_name' => $name
+				);
+				ob_start();
+				wp_editor( $value, 'qu_wp_editor_' . md5( time() * rand() ), $settings );
+				$input = ob_get_clean();
 				break;
 	
 			case 'radio':

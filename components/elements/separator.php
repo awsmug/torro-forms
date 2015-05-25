@@ -45,7 +45,7 @@ class Questions_SurveyElement_Separator extends Questions_SurveyElement {
 		$this->settings_fields = array(
 			'header' => array(
 				'title'       => esc_attr__( 'Headline', 'questions-locale' ),
-				'type'        => 'text',
+				'type'        => 'wp_editor',
 				'description' => esc_attr__( 'Text which will be shown above the separator', 'questions-locale' ),
 				'default'     => ''
 			)

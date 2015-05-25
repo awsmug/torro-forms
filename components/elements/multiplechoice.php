@@ -62,7 +62,7 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 		$this->settings_fields = array(
 			'description' => array(
 				'title'       => esc_attr__( 'Description', 'questions-locale' ),
-				'type'        => 'text',
+				'type'        => 'wp_editor',
 				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'     => ''
 			),
