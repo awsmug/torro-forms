@@ -68,6 +68,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 13 =
+* Enhanced code structure
+
 = 1.0.0 beta 12 =
 * Fixed exporting bug on exporting multiple choice fields results
 * Enhanced code structure
