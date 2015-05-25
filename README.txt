@@ -69,6 +69,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 == Changelog ==
 
 = 1.0.0 beta 13 =
+* Added WP Editor to settings API
+* Changed description editor to WP Editor
+* Moved description text under question, before fields
+* Bettered up Plugin CSS
 * Enhanced code structure
 
 = 1.0.0 beta 12 =
