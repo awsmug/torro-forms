@@ -41,7 +41,7 @@ class Questions_Init {
 		
 		// If plugin isn't installed, install it now
 		if( !self::is_installed() )
-			self::create_tables();
+			add_action( 'init', array( __CLASS__, 'install_plugin' ), 100  );
 
 		// Functions on Frontend
 		if ( is_admin() ):
@@ -80,9 +80,7 @@ class Questions_Init {
 	public static function activate( $network_wide ) {
 		global $wpdb;
 		
-		if( !$network_wide )
-			self::create_tables();
-		
+		self::install_tables();
 	} // end activate
 	
 	/**
@@ -108,20 +106,28 @@ class Questions_Init {
 			endif;
 		endforeach;
 		
-		if( $not_found )
+		$is_installed_option = (boolean) get_option( 'questions_is_installed', FALSE );
+		
+		if( $not_found || FALSE == $is_installed_option )
 			return FALSE;
 		
 		return TRUE;
 	}
 	
 	/**
-	 * Creates tables for a blog
+	 * Installing plugin
 	 */
-	private function create_tables( $blog_id = FALSE ){
+	public static function install_plugin(){
+		self::install_tables();
+		flush_rewrite_rules();
+		update_option( 'questions_is_installed', TRUE );
+	}
+	
+	/**
+	 * Creating / Updating tables
+	 */
+	public static function install_tables(){
 		global $wpdb;
-		
-		if( FALSE != $blog_id )
-			switch_to_blog( $blog_id );
 		
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -214,9 +220,6 @@ class Questions_Init {
 		$wpdb->query( $sql );
 
 		update_option( 'questions_db_version', '1.1.0' );
-		
-		if( FALSE != $blog_id )
-			restore_current_blog();
 	}
 
 	/**
@@ -226,6 +229,8 @@ class Questions_Init {
 	 *                                 disabled or plugin is activated on an individual blog
 	 */
 	public static function deactivate( $network_wide ) {
+		
+		delete_option( 'questions_is_installed' );
 	} // end deactivate
 
 	/**
