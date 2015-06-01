@@ -94,6 +94,12 @@ class Questions_AbstractData{
 		return $ordered_data;		
 	}
 
+	/**
+	 * Getting all questions for in an array
+	 * @param array $response_array Response array of a survey
+	 * @return array $headlines Ordered data prepared to be used in lines
+	 * @since 1.0.0
+	 */
 	public static function get_headlines( $response_array ){
 		// Only starting if there is any data		
 		if( is_array( $response_array ) ):
