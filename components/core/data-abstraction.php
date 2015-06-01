@@ -93,17 +93,11 @@ class Questions_AbstractData{
 		
 		return $ordered_data;		
 	}
-	
-	/**
-	 * Prepare data for printing content in lines (e.g. for CSV export)
-	 * @param array $response_array Response array of a survey
-	 * @return array $lines Ordered data prepared to be used in lines
-	 * @since 1.0.0
-	 */
-	public static function order_in_lines( $response_array ){
-				
+
+	public static function get_headlines( $response_array ){
 		// Only starting if there is any data		
 		if( is_array( $response_array ) ):
+			$headlines = array();
 			
 			/**
 			 * Getting Headlines by running each element
@@ -111,7 +105,7 @@ class Questions_AbstractData{
 			foreach( $response_array AS $question_id => $question ):
 				
 				// If element uses sections
-				if( array_key_exists( 'sections', $question ) && TRUE == $question[ 'sections' ]):
+				if( array_key_exists( 'sections', $question ) && TRUE == $question[ 'sections' ] ):
 					foreach( $question[ 'responses' ] AS $response ):
 						$i = 0;
 						
@@ -119,11 +113,11 @@ class Questions_AbstractData{
 							if( is_array( $value ) ):
 								foreach( $value AS $key2 => $key1 ):
 									$column = $question[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
-									$lines[ 0 ][ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
+									$headlines[ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
 								endforeach;
 							else:	
 								$column = $question[ 'question' ] . ' (' . $key . ')';
-								$lines[ 0 ][ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
+								$headlines[ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
 							endif;
 						endforeach;
 						
@@ -138,7 +132,7 @@ class Questions_AbstractData{
 							$i = 0;
 							foreach( $response AS $key => $value ):
 								$column = $question[ 'question' ] . ' (' . $key . ')';
-								$lines[ 0 ][ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
+								$headlines[ $question_id . '-' . $i++ ] = self::filter_string( $column ); 
 							endforeach;
 							break;
 						endforeach;
@@ -146,9 +140,28 @@ class Questions_AbstractData{
 					
 				// If there is only one value for one element possible
 				else:
-					$lines[ 0 ][ $question_id ] = self::filter_string( $question[ 'question' ] ); 
+					$headlines[ $question_id ] = self::filter_string( $question[ 'question' ] ); 
 				endif;
 			endforeach;
+			
+			return $headlines;
+		else:
+			return FALSE;
+		endif;
+	}
+	
+	/**
+	 * Prepare data for printing content in lines (e.g. for CSV export)
+	 * @param array $response_array Response array of a survey
+	 * @return array $lines Ordered data prepared to be used in lines
+	 * @since 1.0.0
+	 */
+	public static function get_lines( $response_array ){
+		$headlines = self::get_headlines( $response_array );
+		
+		// Only starting if there is any data		
+		if( is_array( $response_array ) ):
+			$results = array();
 			
 			/**
 			 * Getting content by running each element
@@ -164,10 +177,10 @@ class Questions_AbstractData{
 						foreach( $response AS $key => $value ):
 							if( is_array( $value ) ):
 								foreach( $value AS $key2 => $key1 ):
-									$lines[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $key1 ); 
+									$results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $key1 ); 
 								endforeach;
 							else:
-								$lines[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value ); 
+								$results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value ); 
 							endif;
 						endforeach;
 						
@@ -182,17 +195,17 @@ class Questions_AbstractData{
 						
 						// Running each answer of response
 						foreach( $response AS $key => $value ):
-							$lines[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value ); 
+							$results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value ); 
 						endforeach;
 						
 					endforeach;
 					
 				// If there is only one value for one element possible
 				else:
-					
+
 					if( array_key_exists( 'responses', $question ) ):
 						foreach( $question[ 'responses' ]  AS $response_id => $value ):
-							$lines[ $response_id ][ $question_id ] = self::filter_string( $value ); 
+							$results[ $response_id ][ $question_id ] = self::filter_string( $value ); 
 						endforeach;
 					endif;
 					
@@ -200,7 +213,27 @@ class Questions_AbstractData{
 				
 			endforeach;
 			
-			return $lines;
+			// p( $results );
+			
+			// Cleaning up results
+			$cleaned_up_results = array();
+			
+			// Running each headline (column)
+			foreach( $headlines AS $headline_key => $headline_text ): 
+				
+				foreach( $results AS $response_id => $response ):
+					
+					if( !array_key_exists( $headline_key, $response ) ):
+						$cleaned_up_results[ $response_id ][ $headline_key ] = '-'; // Filling up missing columns in results
+					else:
+						$cleaned_up_results[ $response_id ][ $headline_key ] = $response[ $headline_key ]; // Filling with response
+					endif;
+				
+				endforeach;
+				
+			endforeach;
+			
+			return $cleaned_up_results;
 		else:
 			return FALSE;
 		endif;

@@ -103,7 +103,11 @@ class Questions_Export{
 	 * @return string $output CSV content
 	 */
 	public function get_csv( $response_array ){
-		$lines = Questions_AbstractData::order_in_lines( $response_array );
+		
+		$headlines = Questions_AbstractData::get_headlines( $response_array );
+		$lines = Questions_AbstractData::get_lines( $response_array );
+		
+		$lines = array_merge( array( $headlines ), $lines );
 		
 		// Running each question (element without separators etc)
 		if( is_array( $lines ) ):
