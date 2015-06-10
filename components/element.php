@@ -390,7 +390,7 @@ abstract class Questions_SurveyElement {
 		// Getting Widget ID
 		if ( NULL == $this->id ):
 			// New Element
-			$widget_id = 'widget_surveyelement_##nr##';
+			$widget_id = 'widget_surveyelement_XXnrXX';
 		else:
 			// Existing Element
 			$widget_id = 'widget_surveyelement_' . $this->id;
@@ -409,7 +409,7 @@ abstract class Questions_SurveyElement {
 		// Getting id string
 		if ( NULL == $this->id ):
 			// New Element
-			$id_name = ' id="widget_surveyelement_##nr##"';
+			$id_name = ' id="widget_surveyelement_XXnrXX"';
 		else:
 			// Existing Element
 			$id_name = ' id="widget_surveyelement_' . $this->id . '"';
@@ -711,15 +711,17 @@ abstract class Questions_SurveyElement {
 				$input = '<textarea name="' . $name . '">' . $value . '</textarea>';
 				break;
 				
+			/* @todo Get WP Editor working in droppables
+			 * Problems with the droppable. Editor ist not working anymore after dropping.
 			case 'wp_editor':
 				$settings = array(
 					'textarea_name' => $name
 				);
 				ob_start();
-				wp_editor( $value, 'qu_wp_editor_' . md5( time() * rand() ), $settings );
+				wp_editor( $value, 'qu_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
 				$input = ob_get_clean();
 				break;
-	
+			*/
 			case 'radio':
 	
 				$input = '';

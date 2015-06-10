@@ -37,7 +37,7 @@ class Questions_SurveyElement_Text extends Questions_SurveyElement {
 		$this->settings_fields = array(
 			'description' => array(
 				'title'       => esc_attr__( 'Description', 'questions-locale' ),
-				'type'        => 'wp_editor',
+				'type'        => 'textarea',
 				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
 				'default'     => ''
 			),

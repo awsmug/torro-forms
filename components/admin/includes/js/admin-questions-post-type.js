@@ -77,7 +77,7 @@
 				var nr = questions_rand();
 				
 				ui.helper.attr( 'id', 'widget_surveyelement_' + nr );
-				ui.helper.html( ui.helper.html().replace( /##nr##/g, nr ) );
+				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
 				
 				var i = 0;
 				$( '#drag-drop-inside .surveyelement' ).each( function( e ) { i++; });
@@ -267,15 +267,15 @@
             
             // Setting up new answer HTML
             var answer_content = '';
-            answer_content = '<div class="answer" id="answer_##nr##">';
-            answer_content = answer_content + '<p><input type="text" id="answer_##nr##_input" name="questions[' + element_id + '][answers][id_##nr##][answer]" /></p>';
-            answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][id]" /><input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][sort]" />';
+            answer_content = '<div class="answer" id="answer_XXnrXX">';
+            answer_content = answer_content + '<p><input type="text" id="answer_XXnrXX_input" name="questions[' + element_id + '][answers][id_XXnrXX][answer]" /></p>';
+            answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_XXnrXX][id]" /><input type="hidden" name="questions[' + element_id + '][answers][id_XXnrXX][sort]" />';
             if( 'yes' == sections ){
                 var section_key = $( clicked_container ).parent().find( 'input[name="section_key"]' ).val();
-                answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_##nr##][section]" value="' + section_key + '" />';
+                answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_XXnrXX][section]" value="' + section_key + '" />';
             }
             answer_content = answer_content + ' <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
-            answer_content = answer_content.replace( /##nr##/g, nr );
+            answer_content = answer_content.replace( /XXnrXX/g, nr );
             
             // Getting order number for new answer
             var order = 0;
@@ -601,7 +601,10 @@
 		function questions_rand(){
 			var now = new Date();
 			var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
-			return random * now.getTime();
+			random = random * now.getTime();
+			random = random.toString().substring( 0, 5 );
+			console.log( random ); 
+			return random;
 		}
 		
 		/**

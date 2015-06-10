@@ -598,7 +598,7 @@ class Questions_Admin extends Questions_Component {
 		 * Saving elements
 		 */
 		foreach ( $survey_elements AS $key => $survey_question ):
-			if ( 'widget_surveyelement_##nr##' == $key ) {
+			if ( 'widget_surveyelement_XXnrXX' == $key ) {
 				continue;
 			}
 
