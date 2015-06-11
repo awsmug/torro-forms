@@ -261,13 +261,16 @@ class Questions_ProcessResponse {
 		$html = '<form name="questions" id="questions" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
 
 		$step_count = $this->get_step_count( $survey_id );
-
-		$html .= '<div class="questions-pagination">' . sprintf(
-				__(
-					'Step <span class="questions-highlight-number">%d</span> of <span class="questions-highlight-number">%s</span>',
-					'questions-locale'
-				), $actual_step + 1, $step_count + 1
-			) . '</div>';
+		
+		if( 0 != $step_count ):
+			
+			$html .= '<div class="questions-pagination">' . sprintf(
+					__(
+						'Step <span class="questions-highlight-number">%d</span> of <span class="questions-highlight-number">%s</span>',
+						'questions-locale'
+					), $actual_step + 1, $step_count + 1
+				) . '</div>';
+		endif;
 
 		$elements = $this->get_elements( $survey_id, $actual_step );
 
@@ -343,7 +346,7 @@ class Questions_ProcessResponse {
 
 		$survey = new Questions_Survey( $survey_id );
 
-		return $survey->splitter_count;
+		return (int) $survey->splitter_count;
 	}
 
 	/**
