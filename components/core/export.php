@@ -79,7 +79,7 @@ class Questions_Export{
 				case 'CSV':
 					$content = $this->get_csv( $export_data );
 					$bytes = strlen( $content );
-					$charset = 'UTF-8';
+					$charset = get_bloginfo( 'blog_charset' );
 					
 					header( "Content-Length: " . $bytes );
 					header( "Content-Type: Content-Type: text/csv; charset=" . $charset );
