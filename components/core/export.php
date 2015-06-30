@@ -115,8 +115,8 @@ class Questions_Export{
 			foreach( $lines AS $response_id => $line ):
 				$output.= implode( ';', $line ) . chr( 13 );
 			endforeach;
-			
-			return $output;			
+
+			return $output;
 		else:
 			return FALSE;
 		endif;

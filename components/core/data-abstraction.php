@@ -258,6 +258,7 @@ class Questions_AbstractData{
 		
 		$string = self::remove_new_lines( $string );
 		$string = str_replace( ';', '#', $string );
+        $string = stripslashes( $string );
 		
 		return $string;
 	}
