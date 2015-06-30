@@ -36,12 +36,6 @@ class Questions_SurveyElement_MultipleChoice extends Questions_SurveyElement {
 
 	public function input_html() {
 
-		if ( ! is_array( $this->answers ) && count( $this->answers ) == 0 ) {
-			return '<p>' . esc_attr__(
-				'You don´t entered any answers. Please add some to display answers here.', 'questions-locale'
-			) . '</p>';
-		}
-
 		$html = '';
 		foreach ( $this->answers AS $answer ):
 			$checked = '';

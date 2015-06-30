@@ -306,11 +306,7 @@ abstract class Questions_SurveyElement {
 	public function draw() {
 	
 		global $questions_response_errors;
-	
-		if ( 0 == count( $this->answers ) && $this->has_answers == TRUE ) {
-			return FALSE;
-		}
-	
+
 		$errors = '';
 		if ( is_array( $questions_response_errors ) && array_key_exists( $this->id, $questions_response_errors ) ) {
 			$errors = $questions_response_errors[ $this->id ];
@@ -354,7 +350,15 @@ abstract class Questions_SurveyElement {
 		$this->get_response();
 	
 		$html .= '<div class="answer">';
-		$html .= $this->input_html();
+
+        if ( 0 == count( $this->answers ) && $this->has_answers == TRUE ) {
+            $html.= '<p>' . esc_attr__(
+                'You don´t entered any answers. Please add some to display answers here.', 'questions-locale'
+            ) . '</p>';
+        }else {
+            $html .= $this->input_html();
+        }
+
 		$html .= '</div>';
 	
 		// End Echo Errors

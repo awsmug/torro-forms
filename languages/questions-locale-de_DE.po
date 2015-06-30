@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:29+0100\n"
-"PO-Revision-Date: 2015-06-30 22:32+0100\n"
+"PO-Revision-Date: 2015-06-30 23:23+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -552,7 +552,9 @@ msgstr ""
 #: ../components/elements/multiplechoice.php:41
 #: ../components/elements/onechoice.php:41
 msgid "You don´t entered any answers. Please add some to display answers here."
-msgstr "Es wird keine Antwort vorgegeben."
+msgstr ""
+"Es wurden keine Antwort vorgegeben. Bitte geben Sie Antworten an, welche "
+"hier ausgegeben werden."
 
 #: ../components/elements/dropdown.php:48
 msgid "Please select"
