@@ -64,18 +64,25 @@ class Questions_Admin extends Questions_Component {
 		}
 
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'parent_file', array( $this, 'tax_menu_correction' ) );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
 		add_action( 'edit_form_after_title', array( $this, 'droppable_area' ) );
 		add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ), 10 );
+
 		add_action( 'save_post', array( $this, 'save_survey' ) );
 		add_action( 'delete_post', array( $this, 'delete_survey' ) );
+
 		add_action( 'wp_ajax_questions_add_members_standard', array( $this, 'ajax_add_members' ) );
 		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
-		add_action( 'wp_ajax_questions_duplicate_survey', array( $this, 'ajax_duplicate_survey' ) );
+        add_action( 'wp_ajax_questions_duplicate_survey', array( $this, 'ajax_duplicate_survey' ) );
+        add_action( 'wp_ajax_questions_delete_results', array( $this, 'ajax_delete_results' ) );
+
 		add_action( 'init', array( $this, 'save_settings' ), 20 );
 		add_action( 'admin_notices', array( $this, 'messages' ) );
 		add_action( 'admin_notices', array( $this, 'jquery_messages_area' ) );
+
+        add_action( 'parent_file', array( $this, 'tax_menu_correction' ) );
 	}
 
 	/**
@@ -174,9 +181,12 @@ class Questions_Admin extends Questions_Component {
 		
 		$html .= '</div>';
 		$html .= '</div>';
-		$html .= '<div id="delete_surveyelement_dialog">' . esc_attr__(
-				'Do you really want to delete this element?', 'questions-locale'
-			) . '</div>';
+        $html .= '<div id="delete_results_dialog"><h3>' . esc_attr__( 'Attention!', 'questions-locale' ) . '</h3><p>' . esc_attr__(
+                'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'questions-locale'
+            ) . '</p></div>';
+        $html .= '<div id="delete_surveyelement_dialog">' . esc_attr__(
+                'Do you really want to delete this element?', 'questions-locale'
+            ) . '</div>';
 		$html .= '<div id="delete_answer_dialog">' . esc_attr__(
 				'Do you really want to delete this answer?', 'questions-locale'
 			) . '</div>';
@@ -482,11 +492,19 @@ class Questions_Admin extends Questions_Component {
 		$questions_invitation_subject_template   = qu_get_mail_template_subject( 'invitation' );
 		$questions_reinvitation_subject_template = qu_get_mail_template_subject( 'reinvitation' );
 
-		$html = '<div class="questions-function-element">';
-		$html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__(
-				'Dublicate Survey', 'questions-locale'
-			) . '" />';
-		$html .= '</div>';
+        // Dublicate survey
+        $html = '<div class="questions-function-element">';
+        $html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__(
+                'Dublicate Survey', 'questions-locale'
+            ) . '" />';
+        $html .= '</div>';
+
+        // Delete results
+        $html .= '<div class="questions-function-element">';
+        $html .= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__(
+                'Delete survey results', 'questions-locale'
+            ) . '" />';
+        $html .= '</div>';
 
 		if ( 'publish' == $post->post_status ):
 			$html .= '<div class="questions-function-element">';
@@ -506,9 +524,10 @@ class Questions_Admin extends Questions_Component {
 			$html .= '<input id="questions-reinvite-button" type="button" class="button" value="' . esc_attr__(
 					'Reinvite Participiants', 'questions-locale'
 				) . '" /> ';
-			$html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__(
-					'Cancel', 'questions-locale'
-				) . '" />';
+            $html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__(
+                    'Cancel', 'questions-locale'
+                ) . '" />';
+
 			$html .= '</div>';
 		else:
 			$html .= '<p>' . esc_attr__(
@@ -986,36 +1005,63 @@ class Questions_Admin extends Questions_Component {
 		die();
 	}
 
-	/**
-	 * Dublicating survey AJAX
-	 * 
-	 * @since 1.0.0
-	 */
-	public function ajax_duplicate_survey() {
+    /**
+     * Dublicating survey AJAX
+     *
+     * @since 1.0.0
+     */
+    public function ajax_duplicate_survey() {
 
-		$survey_id = $_REQUEST[ 'survey_id' ];
-		$survey    = get_post( $survey_id );
+        $survey_id = $_REQUEST[ 'survey_id' ];
+        $survey    = get_post( $survey_id );
 
-		if ( 'questions' != $survey->post_type ) {
-			return;
-		}
+        if ( 'questions' != $survey->post_type ) {
+            return;
+        }
 
-		$survey        = new questions_PostSurvey( $survey_id );
-		$new_survey_id = $survey->duplicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
+        $survey        = new questions_PostSurvey( $survey_id );
+        $new_survey_id = $survey->duplicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 
-		$post = get_post( $new_survey_id );
+        $post = get_post( $new_survey_id );
 
-		$response = array(
-			'survey_id'  => $new_survey_id,
-			'post_title' => $post->post_title,
-			'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_survey_id . '&action=edit' )
-		);
+        $response = array(
+            'survey_id'  => $new_survey_id,
+            'post_title' => $post->post_title,
+            'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_survey_id . '&action=edit' )
+        );
 
-		echo json_encode( $response );
+        echo json_encode( $response );
 
-		die();
-	}
-	
+        die();
+    }
+
+    /**
+     * Deleting survey results
+     *
+     * @since 1.0.0
+     */
+    public function ajax_delete_results() {
+
+        $survey_id = $_REQUEST[ 'survey_id' ];
+        $survey    = get_post( $survey_id );
+
+        if ( 'questions' != $survey->post_type ) {
+            return;
+        }
+
+        $survey        = new questions_PostSurvey( $survey_id );
+        $new_survey_id = $survey->delete_results();
+
+        $response = array(
+            'survey_id'  => $survey_id,
+            'deleted' => TRUE
+        );
+
+        echo json_encode( $response );
+
+        die();
+    }
+
 	/**
 	 * Cheks if we are in correct post type
 	 * 
@@ -1103,7 +1149,10 @@ class Questions_Admin extends Questions_Component {
 			'reinvitations_not_sent_successfully' => esc_attr__(
 				'Renvitations could not be sent!', 'questions-locale'
 			),
-			'duplicate_survey_successfully'       => esc_attr__(
+			'deleted_results_successfully'       => esc_attr__(
+                'Survey results deleted successfully!', 'questions-locale'
+            ),
+            'duplicate_survey_successfully'       => esc_attr__(
 				'Survey duplicated successfully!', 'questions-locale'
 			),
 			'edit_survey'                         => esc_attr__( 'Edit Survey', 'questions-locale' ),

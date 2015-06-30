@@ -116,6 +116,25 @@ class Questions_PostSurvey extends Questions_Post{
 		endif;	
 	}
 
+    public function delete_results(){
+        global $wpdb, $questions_global;
+
+        $sql     = $wpdb->prepare(
+            "SELECT id FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id
+        );
+
+        $results = $wpdb->get_results( $sql );
+
+        // Putting results in array
+        if ( is_array( $results ) ):
+            foreach ( $results AS $result ):
+                $wpdb->delete( $questions_global->tables->respond_answers, array( 'respond_id' => $result->id ) );
+            endforeach;
+        endif;
+
+        return $wpdb->delete( $questions_global->tables->responds, array( 'questions_id' => $this->id ) );
+    }
+
 	public function duplicate_participiants( $new_survey_id ){
 		global $wpdb, $questions_global;
 		

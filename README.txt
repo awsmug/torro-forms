@@ -70,6 +70,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0 beta 15 =
 * Only showing steps if there is more then one step
+* Results can be deleted
 
 = 1.0.0 beta 14 =
 * Added missing columns on export if an answer was not given

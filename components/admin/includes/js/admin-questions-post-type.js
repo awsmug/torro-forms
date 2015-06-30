@@ -568,14 +568,71 @@
 					button.after( '<p class="survey-duplicated-survey">' + response_text + '</p>' );
 					button.removeClass( 'button-loading' );
 					
-					$( '.survey-duplicated-survey' ).fadeOut( 20000 );
+					$( '.survey-duplicated-survey' ).fadeOut( 10000 );
 				});
 				
 			}else{
 				button.addClass( 'button' );
 			}
 		});
-		
+
+        /**
+         * Delete survey results
+         */
+        $( '#questions-delete-results-button' ).click( function(){
+            var button = $( this );
+
+            if( button.hasClass( 'button' ) ){
+
+                var questions_deletresults_dialog = $( '#delete_results_dialog' );
+
+                questions_deletresults_dialog.dialog({
+                    'dialogClass'   : 'wp-dialog',
+                    'modal'         : true,
+                    'autoOpen'      : false,
+                    'closeOnEscape' : true,
+                    'minHeight'		: 80,
+                    'buttons'       : [{
+                        text: translation_admin.yes,
+                        click: function() {
+
+                            $( this ).dialog('close');
+                            button.addClass( 'button-loading' );
+
+                            var data = {
+                                action: 'questions_delete_results',
+                                survey_id: $( '#post_ID' ).val()
+                            };
+
+                            $.post( ajaxurl, data, function( response ) {
+                                response = jQuery.parseJSON( response );
+
+                                var response_text = translation_admin.deleted_results_successfully;
+                                button.after( '<p class="survey-deleted-results">' + response_text + '</p>' );
+                                button.removeClass( 'button-loading' );
+
+                                $( '.survey-deleted-results' ).fadeOut( 20000 );
+                            });
+                        }
+                    },
+                        {
+                            text: translation_admin.no,
+                            click: function() {
+
+                                $( this ).dialog( "close" );
+                            }
+                        },
+                    ],
+
+                });
+
+                questions_deletresults_dialog.dialog( 'open' );
+
+            }else{
+                button.addClass( 'button' );
+            }
+        });
+
 		/**
          * Initializing jquery tabs in elements
          */

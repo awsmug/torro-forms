@@ -1,7 +1,7 @@
 <?php
 
 class Questions_Post{
-	var $post_id;
+	var $id;
 	var $post;
 	var $meta;
 	var $comments;
@@ -9,7 +9,8 @@ class Questions_Post{
 	public function __construct( $post_id ){
 		if( empty( $post_id ) )
 			return FALSE;
-		
+
+        $this->id = $post_id;
 		$this->post = get_post( $post_id );
 		$this->meta = get_post_meta( $post_id );
 		$this->comments = get_comments( array( 'post_id' => $post_id ) );

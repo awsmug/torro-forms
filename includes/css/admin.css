@@ -186,10 +186,12 @@
 #survey-functions #questions-reinvite-button.button-loading{
 	background-image: url( '../../assets/images/loading-blue.gif' );
 }
+#survey-functions .survey-deleted-results,
 #survey-functions .survey-duplicated-survey,
 #survey-functions .survey-reinvitations-sent{
 	margin-top:0;
 	margin-bottom: 10px;
+    text-align: center;
 }
 #survey-functions .questions-function-element:first-child{
 	margin-top:10px;
