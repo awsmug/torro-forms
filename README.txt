@@ -73,6 +73,8 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Results can be deleted
 * Stripping slashes on exporting CSV
 * Showing error messages if there is no answer given
+* Switched to Charts.js
+* Refactored file structure
 
 = 1.0.0 beta 14 =
 * Added missing columns on export if an answer was not given
