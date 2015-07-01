@@ -110,13 +110,20 @@ class Questions_Core extends Questions_Component{
 		register_post_type( 'questions', $args_post_type );
 	}
 
+    /**
+     * Including files of component
+     */
 	public function includes(){
-		include( QUESTIONS_COMPONENTFOLDER . '/core/questions.php' );
+        // Base classes
+        include( QUESTIONS_COMPONENTFOLDER . '/core/class-post.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/core/class-survey.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/core/global-questions.php' ); // Global Questions object $questions_global
+
+        // Functions
+        include( QUESTIONS_COMPONENTFOLDER . '/core/survey.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/shortcodes.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/process-response.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/tools/post.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/tools/survey.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
 	}
 	

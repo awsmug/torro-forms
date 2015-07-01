@@ -30,19 +30,24 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class QuestionsChartsShortCodes{
-	var $tables;
-	var $components = array();
-	var $question_types = array();
-	
+
+    /**
+     * Adding Shortcodes and Actionhooks
+     */
 	public static function init(){
-		add_shortcode( 'survey_results', array( __CLASS__ , 'sc_survey_results' ) );
-		add_shortcode( 'question_results', array( __CLASS__ , 'sc_question_results' ) );
+		add_shortcode( 'survey_results', array( __CLASS__ , 'survey_results' ) );
+		add_shortcode( 'question_results', array( __CLASS__ , 'question_results' ) );
 		
 		add_action( 'questions_survey_options', array( __CLASS__ , 'show_survey_result_shortcode' ) );
 		add_action( 'questions_element_admin_tabs_content', array( __CLASS__ , 'show_question_result_shortcode' ) );
 	}
-	
-	public static function sc_survey_results( $atts ){
+
+    /**
+     * Showing all results of a survey
+     * @param $atts
+     * @return string|void
+     */
+	public static function survey_results( $atts ){
 		$atts = shortcode_atts( array(
 					'id' => ''
 				), $atts );
@@ -58,13 +63,18 @@ class QuestionsChartsShortCodes{
 		
 		$html = '';
 		foreach ( $ordered_data[ 'questions' ] as $question_id => $question ):
-			$html.= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data['data'][ $question_id ] );
+			$html.= Questions_ChartCreator_Chartsjs::show_bars( $question, $ordered_data['data'][ $question_id ] );
 		endforeach;
 		
 		return $html;
 	}
-	
-	public static function sc_question_results( $atts ){
+
+    /**
+     * Showing results of a question
+     * @param array $atts Arguments which can be added to the shortcode
+     * @return string $html HTML of results
+     */
+	public static function question_results( $atts ){
 		global $wpdb, $questions_global;
 		
 		$atts = shortcode_atts( array(
@@ -84,12 +94,17 @@ class QuestionsChartsShortCodes{
 		
 		$html = '';
 		foreach ( $ordered_data[ 'questions' ] as $question_id => $question ):
-			$html.= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data['data'][ $question_id ] );
+			$html.= Questions_ChartCreator_Chartsjs::show_bars( $question, $ordered_data['data'][ $question_id ] );
 		endforeach;
 		
 		return $html;
 	}
-	
+
+    /**
+     * Showing survey result schortcodes in admin area for copy&paste
+     * @param int $survey_id Id of the survey
+     * @return string $html HTML for shortcode summary in admon
+     */
 	public static function show_survey_result_shortcode( $survey_id ){
 		$html = '<div class="questions-options shortcode">';
 		$html.= '<label for="survey_results_shortcode">' . __( 'Results Shortcode:', 'questions-locale' ) . '</label><br />';
@@ -98,7 +113,12 @@ class QuestionsChartsShortCodes{
 		
 		echo $html;	
 	}
-	
+
+    /**
+     * Showing question result schortcodes in admin area for copy&paste
+     * @param object $object Object element
+     * @return string $html HTML for shortcode summary in admin
+     */
 	public static function show_question_result_shortcode( $object ){
 		if( $object->id != '' && $object->is_analyzable ):
 			$small = '<small>' . __( '(CTRL+C and paste into post to embed question results in post)', 'questions-locale' ) . '</small>';

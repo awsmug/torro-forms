@@ -114,6 +114,7 @@
  * 	Dialog
  */
 #delete_surveyelement_dialog,
+#delete_results_dialog,
 #delete_answer_dialog{
 	display:none;
 }

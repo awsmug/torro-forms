@@ -312,7 +312,6 @@ class Questions_Init {
 
 	/**
 	 * Getting include files
-	 *
 	 * @since 1.0.0
 	 */
 	public static function includes() {
@@ -322,20 +321,19 @@ class Questions_Init {
 	}
 
 	/**
-	 * Loading components dynamical
-	 *
+	 * Loading components
 	 * @since 1.0.0
 	 */
 	public static function load_components() {
 
-		// Loading Components
-		include( QUESTIONS_FOLDER . '/components/component.php' );
-		include( QUESTIONS_FOLDER . '/components/survey.php' );
-		include( QUESTIONS_FOLDER . '/components/element.php' );
-		include( QUESTIONS_FOLDER . '/components/admin/admin.php' );
-		include( QUESTIONS_FOLDER . '/components/core/core.php' );
-		include( QUESTIONS_FOLDER . '/components/elements/elements.php' );
-		include( QUESTIONS_FOLDER . '/components/charts/charts.php' );
+		// Loading base functions
+        include( QUESTIONS_COMPONENTFOLDER . '/class-component.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/core/component.php' );
+
+        // Loading components
+		include( QUESTIONS_COMPONENTFOLDER . '/admin/component.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/charts/component.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/component.php' );
 	}
 
 	/**

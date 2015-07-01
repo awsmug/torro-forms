@@ -33,10 +33,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Questions_Component {
 
-	var $name;
-
+    /**
+     * Title
+     * @since 1.0.0
+     */
 	var $title;
 
+    /**
+     * Name
+     * @since 1.0.0
+     */
+    var $name;
+
+    /**
+     * Description
+     * @since 1.0.0
+     */
 	var $description;
 
 	var $capability;
@@ -44,8 +56,7 @@ abstract class Questions_Component {
 	var $required;
 
 	/**
-	 * Initializes the Component.
-	 *
+	 * Initialiing the Component.
 	 * @since 1.0.0
 	 */
 	public function __construct() {

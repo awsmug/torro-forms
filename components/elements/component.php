@@ -36,7 +36,6 @@ class Questions_Elements extends Questions_Component {
 
 	/**
 	 * Initializes the Component.
-	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
@@ -52,18 +51,23 @@ class Questions_Elements extends Questions_Component {
 
 	} // end constructor
 
+    /**
+     * Including files of component
+     */
 	public function includes() {
+        // Base class for elements
+        include( QUESTIONS_COMPONENTFOLDER . '/elements/class-element.php' );
 
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/text.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/textarea.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/onechoice.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/multiplechoice.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/dropdown.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/separator.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/splitter.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/description.php' );
+        // Base elements
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/text.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/textarea.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/onechoice.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/multiplechoice.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/dropdown.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/separator.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/splitter.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/elements/base-elements/description.php' );
 	}
-
 }
 
 $Questions_Elements = new Questions_Elements();

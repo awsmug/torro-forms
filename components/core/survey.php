@@ -239,7 +239,6 @@ class Questions_Survey {
 
 /**
  * Checks if a survey exists
- * 
  * @param int $survey_id Survey id
  * @return boolean $exists TRUE if survey exists, FALSE if not
  */

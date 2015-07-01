@@ -1,4 +1,28 @@
 <?php
+/**
+ * Helper functions for plugin
+ * @author awesome.ug, Author <support@awesome.ug>
+ * @package Questions/Core
+ * @version 1.0.0
+ * @since 1.0.0
+ * @license GPL 2
+
+Copyright 2015 awesome.ug (support@awesome.ug)
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License, version 2, as
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -33,6 +57,11 @@ if ( defined( 'QUESTIONS_FOLDER' ) ):
 	}
 endif;
 
+/**
+ * Getting standard mailtext strings
+ * @param string $mailtext_title Type of mailtext which have to be chosen
+ * @return string $mailtext Mailtext as String
+ */
 function qu_get_mail_template_text( $mailtext_title ) {
 
 	$text = '';
@@ -94,10 +123,15 @@ Best regards,
 	return $text;
 }
 
-function qu_get_mail_template_subject( $mailtext_title ) {
+/**
+ * Getting standard mailsubject strings
+ * @param string $mailtext_title Type of mail subject which have to be chosen
+ * @return string $mailtext Mail subject as String
+ */
+function qu_get_mail_template_subject( $mailsubject_title ) {
 
 	$text = '';
-	switch ( $mailtext_title ) {
+	switch ( $mailsubject_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questionsthankyou_participating_subject_template' ) );
 			if ( empty( $text ) ):
@@ -127,6 +161,11 @@ function qu_get_mail_template_subject( $mailtext_title ) {
 	return $text;
 }
 
+/**
+ * Get mail sender settings
+ * @param $option string Mail sender option to get
+ * @return mixed $setting Setting
+ */
 function qu_get_mail_settings( $option ) {
 
 	$setting = '';
@@ -153,16 +192,31 @@ function qu_get_mail_settings( $option ) {
 	return $setting;
 }
 
+/**
+ * Shortener to get email return name from options
+ * @return string $from_name "From" name
+ */
 function qu_change_email_return_name() {
 
 	return qu_get_mail_settings( 'from_name' );
 }
 
+/**
+ * Shortener to get email return address from options
+ * @return string $from_email "From" email address
+ */
 function qu_change_email_return_address() {
 
 	return qu_get_mail_settings( 'from_email' );
 }
 
+/**
+ * Own Email function
+ * @param string $to_email Mail address for sending to
+ * @param string $subject Subject of mail
+ * @param string $content
+ * @return bool
+ */
 function qu_mail( $to_email, $subject, $content ) {
 
 	add_filter( 'wp_mail_from_name', 'qu_change_email_return_name' );
@@ -180,6 +234,10 @@ function qu_mail( $to_email, $subject, $content ) {
 	return $result;
 }
 
+/**
+ * Base logging function
+ * @param array $values The values which have to be saved
+ */
 function qu_create_log_entry( $values ) {
 
 	if ( ! is_array( $values ) ) {
@@ -222,6 +280,15 @@ function qu_prepare_post_data( $data ){
 	$data = trim( $data );
 	$data = stripslashes( $data );
 	return $data;
+}
+
+/**
+ * Creates a random id
+ * @return string $id ID string
+ */
+function qu_id(){
+    $id = md5( rand() );
+    return $id;
 }
 
 /**

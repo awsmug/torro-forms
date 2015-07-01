@@ -1,6 +1,6 @@
 <?php
-/*
- * Display Admin Class
+/**
+ * Questions Charts Component
  *
  * This class initializes the component.
  *
@@ -44,23 +44,26 @@ class Questions_Charts extends Questions_Component{
 		$this->description = __( 'Showing Charts in Questions.', 'questions-locale' );
 		$this->required = TRUE;
 		$this->capability = 'edit_posts';
-		
-		if( is_admin() ):
-			add_action( 'admin_enqueue_scripts', array( $this, 'register_component_scripts' ) );
-		else:
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_component_scripts' ) );
-		endif;
-		
 	} // end constructor
 	
 	public function includes(){
-		include( QUESTIONS_COMPONENTFOLDER . '/charts/chart-creator-dimple.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/charts/shortcodes.php' );
+        // Base classes
+        include( QUESTIONS_COMPONENTFOLDER . '/charts/class-chart-creator.php' );
+
+        // Base functions
+        include( QUESTIONS_COMPONENTFOLDER . '/charts/shortcodes.php' );
+
+        // Loading chart creators
+		include( QUESTIONS_COMPONENTFOLDER . '/charts/charts.js/chart-creator.php' );
+
+        do_action( 'questions_loading_chart_creators' );
 	}
-	
+
+    /**
+     * Loading component scripts
+     */
 	public function register_component_scripts() {
-		wp_enqueue_script( 'questions-d3-js',  QUESTIONS_URLPATH . '/components/charts/includes/3rdparty/d3/d3.js' );
-		wp_enqueue_script( 'questions-dimple-js',  QUESTIONS_URLPATH . '/components/charts/includes/3rdparty/dimple/dimple.v2.1.2.min.js' );
+
 	}
 }
 
