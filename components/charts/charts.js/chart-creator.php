@@ -154,7 +154,7 @@ class Questions_ChartCreator_Chartsjs extends Questions_ChartCreator{
      * Loading Scripts
      */
     public function load_scripts(){
-        wp_enqueue_script( 'questions-chartsjs-js',  QUESTIONS_URLPATH . '/components/charts/charts.js/lib/chart.js' );
+        wp_enqueue_script( 'questions-chartsjs-js',  QUESTIONS_URLPATH . '/components/charts/charts.js/lib/Chart.min.js' );
     }
 }
 qu_register_chart_creator( 'Questions_ChartCreator_Chartsjs' );
