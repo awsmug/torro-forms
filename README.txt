@@ -68,6 +68,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 16 =
+* Changed URL to Chartjs because name of file was not uppercase.
+
 = 1.0.0 beta 15 =
 * Only showing steps if there is more then one step
 * Results can be deleted
