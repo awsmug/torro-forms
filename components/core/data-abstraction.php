@@ -40,16 +40,16 @@ class Questions_AbstractData{
 	public static function order_for_charting( $response_array ){
 		
 		global $wpdb, $questions_global;
-		
+
 		$ordered_data = array();
-		
+
 		$ordered_data[ 'questions' ] = array();
 		$ordered_data[ 'data' ] = array();
 		
 		// Getting every entery of one 
 		foreach( $response_array AS $key => $line ):
 			$merged_data = array();
-			
+
 			$sql = $wpdb->prepare( "SELECT type FROM {$questions_global->tables->questions} WHERE id = %s", $key );
 			$result = $wpdb->get_row( $sql );
 			
@@ -75,6 +75,9 @@ class Questions_AbstractData{
 			endforeach;
 			
 			// Adding voted data
+            if( !array_key_exists( 'responses', $response_array[ $key ] ) )
+                continue;
+
 			$responses = $response_array[ $key ][ 'responses' ];
 			
 			foreach( $responses AS $response ):

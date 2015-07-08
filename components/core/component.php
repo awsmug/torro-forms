@@ -43,6 +43,7 @@ class Questions_Core extends Questions_Component{
 		$this->slug = 'survey';
 		
 		add_action( 'init', array( $this, 'custom_post_types' ), 11 );
+        add_filter( 'body_class', array( $this, 'add_body_class' ) );
 		
 		parent::__construct();
 		
@@ -109,6 +110,25 @@ class Questions_Core extends Questions_Component{
 		
 		register_post_type( 'questions', $args_post_type );
 	}
+
+    /**
+     * Adding CSS Classes to body
+     * @param array $classes Classes for body
+     * @return array $classes Classes for body
+     */
+    public function add_body_class( $classes ){
+
+        global $post;
+
+        // Check if we are on the right place
+        if( !is_object( $post )  || !property_exists( $post, 'post_type' ) || 'questions' != $post->post_type )
+            return $classes;
+
+        $classes[] = 'questions';
+        $classes[] = 'question-' . $post->ID ;
+
+        return $classes;
+    }
 
     /**
      * Including files of component

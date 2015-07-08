@@ -260,6 +260,8 @@ class Questions_ProcessResponse {
 
 		$html = '<form name="questions" id="questions" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
 
+        $html.= '<input type="hidden" name="_wpnonce" value="' .  wp_create_nonce( 'questions-' . $survey_id ) . '" />';
+
 		$step_count = $this->get_step_count( $survey_id );
 		
 		if( 0 != $step_count ):
@@ -387,16 +389,18 @@ class Questions_ProcessResponse {
 		global $questions_survey_id;
 
 		// Survey ID was posted or die
-		if ( ! array_key_exists( 'questions_id', $_POST ) ) {
+		if ( ! array_key_exists( 'questions_id', $_POST ) )
 			return;
-		}
 
-		$questions_survey_id = $_POST[ 'questions_id' ];
+        $questions_survey_id = $_POST[ 'questions_id' ];
+
+        // WP Nonce Check
+        if( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'questions-' . $questions_survey_id ) )
+            return;
 
 		// Survey exists or die
-		if ( ! qu_survey_exists( $questions_survey_id ) ) {
+		if ( ! qu_survey_exists( $questions_survey_id ) )
 			return;
-		}
 
 		// Checking restrictions
 		if ( TRUE !== $this->check_restrictions( $questions_survey_id ) ) {

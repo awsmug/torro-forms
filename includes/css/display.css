@@ -61,4 +61,11 @@
 	text-align:center;
 	border:none;
 }
-
+/**
+ * Dimple chart CSS
+ */
+.questions-dimplechart{
+    margin-bottom: 20px;
+    width:100%;
+    display: block;
+}
