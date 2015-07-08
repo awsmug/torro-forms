@@ -73,6 +73,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Added result charts to admin
 * Ordering charts like ordered in admin
 * Added body class on Questions pages
+* Added WP Nonce check to forms
 
 = 1.0.0 beta 16 =
 * Changed URL to Chartjs because name of file was not uppercase.
