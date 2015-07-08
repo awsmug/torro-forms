@@ -33,8 +33,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Questions_AdminPostType{
 
-    var $notices = array();
-
     /**
      * Init in WordPress, run on constructor
      *
@@ -60,7 +58,6 @@ class Questions_AdminPostType{
         add_action( 'wp_ajax_questions_delete_results', array( __CLASS__, 'ajax_delete_results' ) );
 
         add_action( 'init', array( __CLASS__, 'save_settings' ), 20 );
-        add_action( 'admin_notices', array( __CLASS__, 'messages' ) );
         add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
     }
 
@@ -707,7 +704,7 @@ class Questions_AdminPostType{
         do_action( 'questions_save_survey', $post_id );
 
         // Preventing duplicate saving
-        remove_action( 'save_post', array( $this, 'save_survey' ), 50 );
+        remove_action( 'save_post', array( __CLASS__, 'save_survey' ), 50 );
     }
 
     /**
@@ -1014,38 +1011,6 @@ class Questions_AdminPostType{
         }
 
         return TRUE;
-    }
-
-    /**
-     * Adding notice to admin
-     *
-     * @param string $message
-     * @param string $type
-     * @since 1.0.0
-     */
-    public static function add_notice( $message, $type = 'updated' ) {
-
-        $this->notices[ ] = array(
-            'message' => $message,
-            'type'    => $type,
-        );
-    }
-
-    /**
-     * Showing notices in admin
-     *
-     * @since 1.0.0
-     */
-    public static function messages() {
-        /*
-        if ( is_array( self::$notices ) && count( self::$notices ) > 0 ):
-            foreach ( self::$notices AS $notice ):
-                echo '<div class="' . $notice[ 'type' ] . '">';
-                echo '<p>' . $notice[ 'message' ] . '</p>';
-                echo '</div>';
-            endforeach;
-        endif;
-        */
     }
 
     /**
