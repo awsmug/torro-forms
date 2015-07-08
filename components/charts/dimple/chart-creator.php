@@ -64,7 +64,7 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         $width = $atts[ 'width' ];
         $height = $atts[ 'height' ];
 
-        $answer_text = __( 'Answer', 'questions-locale' );
+        $answer_text = __( 'Answers', 'questions-locale' );
         $value_text = __( 'Votes', 'questions-locale' );
 
         $data = self::prepare_data( $answers, $answer_text, $value_text );
@@ -76,34 +76,25 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         $js.= 'y = chart.addMeasureAxis("y", "' . $value_text . '");';
 
         $js.= 'x.fontSize = "0.8em";';
-        // $js.= 'x.hidden = true;';
-
         $js.= 'y.fontSize = "0.8em";';
-        $js.= 'y.showGridlines = false;';
-        $js.= 'y.ticks = 2.5;';
 
-        $js.= 'x.floatingBarWidth = 5;';
+        $js.= 'y.showGridlines = false;';
+        $js.= 'y.ticks = 5;';
 
         $js.= 'var bars = chart.addSeries([ "' . $value_text . '", "'  . $answer_text . '" ], dimple.plot.bar);';
-        // $js.= 'chart.addLegend(60, 475, 500	, 600, "left", [ bars ]);';
 
         $js.= 'chart.draw();';
 
-        $js.= 'x.titleShape.text("' . $title . '");';
-        $js.= 'x.titleShape.style( "font-size", "14px");';
-        $js.= 'x.titleShape.style( "font-weight", "bold");';
-        $js.= 'x.titleShape.style( "padding-top", "30px");';
-
-        // $js.= 'var height = document.getElementById("' . $id . '").getBBox().height;';
-
+        // Autosize charts
         $js.= 'jQuery( function ($) { ';
         $js.= 'var gcontainer = $( "#' . $id . ' g" );';
         $js.= 'var grect = gcontainer[0].getBoundingClientRect();';
-        $js.= '$( "#' . $id . '" ).width( grect.width );';
-        $js.= '$( "#' . $id . '" ).height( grect.height );';
+        $js.= '$( "#' . $id . ' svg" ).width( grect.width );';
+        $js.= '$( "#' . $id . ' svg" ).height( grect.height + 15 );';
         $js.= '});';
 
         $html = '<div id="' . $id . '" class="questions-dimplechart">';
+        $html.= '<' . $atts[ 'title_tag' ] . '>' . $title . '</' . $atts[ 'title_tag' ] . '>';
         $html.= '<script type="text/javascript">';
         $html.= $js;
         $html.= '</script>';
