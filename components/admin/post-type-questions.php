@@ -1,8 +1,8 @@
 <?php
 /**
- * All question post type functions
+ * Question post type functions
  *
- * This class initializes the component.
+ * This class adds question post type functions.
  *
  * @author awesome.ug, Author <support@awesome.ug>
  * @package Questions/Core
