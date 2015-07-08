@@ -61,4 +61,12 @@
 	text-align:center;
 	border:none;
 }
+.questions-dimplechart svg{
+    overflow: visible;
+    display: block;
+    width:attr(width);
+    height:attr(height)
+}
+.questions-dimplechart svg g{
+}
 

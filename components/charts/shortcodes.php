@@ -63,7 +63,7 @@ class QuestionsChartsShortCodes{
 		
 		$html = '';
 		foreach ( $ordered_data[ 'questions' ] as $question_id => $question ):
-			$html.= Questions_ChartCreator_Chartsjs::show_bars( $question, $ordered_data['data'][ $question_id ] );
+			$html.= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data['data'][ $question_id ] );
 		endforeach;
 		
 		return $html;

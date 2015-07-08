@@ -38,7 +38,7 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         parent::__construct(
             'Dimple chart creator',
             'Creates charts with D3 Dimple library',
-            'chartsjs'
+            'dimple'
         );
     } // end constructor
 
@@ -54,8 +54,8 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
 
         $defaults = array(
             'id' => 'dimple' . md5( rand() ),
-            'width' => 600,
-            'height' => 500,
+            'width' => '100%',
+            'height' => '100%',
             'title_tag' => 'h3',
         );
         $atts = wp_parse_args( $defaults, $atts );
@@ -69,9 +69,7 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
 
         $data = self::prepare_data( $answers, $answer_text, $value_text );
 
-        $js = '';
-
-        $js.= 'var svg = dimple.newSvg("#' . $id . '", ' . $width . ', ' . $height . '), data = [ ' . $data . ' ], chart=null, x=null;';
+        $js = 'var svg = dimple.newSvg("#' . $id . '", "' . $width . '", "' . $height . '"  ), data = [ ' . $data . ' ], chart=null, x=null;';
         $js.= 'chart = new dimple.chart( svg, data );';
 
         $js.= 'x = chart.addCategoryAxis("x", "' . $answer_text . '");';
@@ -96,10 +94,20 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         $js.= 'x.titleShape.style( "font-weight", "bold");';
         $js.= 'x.titleShape.style( "padding-top", "30px");';
 
-        $html = '<div id="' . $id . '"></div>';
+        // $js.= 'var height = document.getElementById("' . $id . '").getBBox().height;';
+
+        $js.= 'jQuery( function ($) { ';
+        $js.= 'var gcontainer = $( "#' . $id . ' g" );';
+        $js.= 'var grect = gcontainer[0].getBoundingClientRect();';
+        $js.= '$( "#' . $id . '" ).width( grect.width );';
+        $js.= '$( "#' . $id . '" ).height( grect.height );';
+        $js.= '});';
+
+        $html = '<div id="' . $id . '" class="questions-dimplechart">';
         $html.= '<script type="text/javascript">';
         $html.= $js;
         $html.= '</script>';
+        $html.= '<div style="clear:both;"></div></div>';
 
         return $html;
     }
