@@ -229,14 +229,22 @@ class Questions_Admin extends Questions_Component {
 				'side',
 				'high'
 			);
-			add_meta_box(
-				'survey-participiants',
-				esc_attr__( 'Participiants list', 'questions-locale' ),
-				array( $this, 'meta_box_survey_participiants' ),
-				'questions',
-				'normal',
-				'high'
-			);
+            add_meta_box(
+                'survey-participiants',
+                esc_attr__( 'Participiants list', 'questions-locale' ),
+                array( $this, 'meta_box_survey_participiants' ),
+                'questions',
+                'normal',
+                'high'
+            );
+            add_meta_box(
+                'survey-results',
+                esc_attr__( 'Results', 'questions-locale' ),
+                array( $this, 'meta_box_survey_results' ),
+                'questions',
+                'normal',
+                'high'
+            );
 		endif;
 	}
 	
@@ -436,10 +444,23 @@ class Questions_Admin extends Questions_Component {
 
 		echo $html;
 	}
+
+    /**
+     * Showing survey results in admin
+     * @since 1.0.0
+     */
+    public function meta_box_survey_results(){
+        global $wpdb, $post, $questions_global;
+
+        $survey_id = $post->ID;
+
+        $html = do_shortcode( '[survey_results id="' . $survey_id . '"]' );
+
+        echo $html;
+    }
 	
 	/**
 	 * Survey options
-	 * 
 	 * @since 1.0.0
 	 */
 	public function meta_box_survey_options() {

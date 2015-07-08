@@ -62,9 +62,17 @@ class QuestionsChartsShortCodes{
 		$ordered_data = Questions_AbstractData::order_for_charting( $response );
 		
 		$html = '';
+        $count_bars = 0;
 		foreach ( $ordered_data[ 'questions' ] as $question_id => $question ):
+            if( !array_key_exists( $question_id, $ordered_data['data']  ) )
+                continue;
+
 			$html.= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data['data'][ $question_id ] );
+            $count_bars++;
 		endforeach;
+
+        if( 0 == $count_bars )
+            _e( 'There are no results to show.', 'questions-locale' );
 		
 		return $html;
 	}
