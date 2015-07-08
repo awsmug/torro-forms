@@ -89,7 +89,6 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         $js.= 'jQuery( function ($) { ';
         $js.= 'var gcontainer = $( "#' . $id . ' g" );';
         $js.= 'var grect = gcontainer[0].getBoundingClientRect();';
-        $js.= '$( "#' . $id . ' svg" ).width( grect.width );';
         $js.= '$( "#' . $id . ' svg" ).height( grect.height + 15 );';
         $js.= '});';
 
