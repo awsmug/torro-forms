@@ -81,7 +81,15 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         $js.= 'y.showGridlines = false;';
         $js.= 'y.ticks = 5;';
 
-        $js.= 'var bars = chart.addSeries([ "' . $value_text . '", "'  . $answer_text . '" ], dimple.plot.bar);';
+        $js.= 'var series = chart.addSeries([ "' . $value_text . '", "'  . $answer_text . '" ], dimple.plot.bar);';
+
+        // Adding order rule
+        $bar_titles = array_keys( $answers );
+        foreach( $bar_titles AS $key => $bar_title ){
+            $bar_titles[ $key ] = '"' . $bar_title . '"';
+        }
+        $bar_titles = implode(',', $bar_titles );
+        $js.= 'x.addOrderRule([' . $bar_titles . ']);';
 
         $js.= 'chart.draw();';
 
@@ -92,6 +100,7 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         $js.= '$( "#' . $id . ' svg" ).height( grect.height + 15 );';
         $js.= '});';
 
+        // Drawing HTML Containers
         $html = '<div id="' . $id . '" class="questions-dimplechart">';
         $html.= '<' . $atts[ 'title_tag' ] . '>' . $title . '</' . $atts[ 'title_tag' ] . '>';
         $html.= '<script type="text/javascript">';

@@ -71,6 +71,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 = 1.0.0 beta 17 =
 * Bettered up Chart view
 * Added result charts to admin
+* Ordering charts like ordered in admin
 
 = 1.0.0 beta 16 =
 * Changed URL to Chartjs because name of file was not uppercase.
