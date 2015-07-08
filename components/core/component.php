@@ -124,7 +124,8 @@ class Questions_Core extends Questions_Component{
         if( !is_object( $post )  || !property_exists( $post, 'post_type' ) || 'questions' != $post->post_type )
             return $classes;
 
-        $classes[] = 'questions question-' . $post->ID ;
+        $classes[] = 'questions';
+        $classes[] = 'question-' . $post->ID ;
 
         return $classes;
     }
