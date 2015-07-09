@@ -324,7 +324,9 @@ class Questions_ProcessResponse {
 	 */
 	public function user_can_participate( $survey_id, $user_id = NULL ) {
 
-		global $current_user;
+		global $wpdb, $current_user, $questions_global;
+
+        $can_participate = FALSE;
 
 		// Setting up user ID
 		if ( NULL == $user_id ):
@@ -332,7 +334,11 @@ class Questions_ProcessResponse {
 			$user_id = $user_id = $current_user->ID;
 		endif;
 
-		$can_participate = TRUE;
+        $sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d", $survey_id );
+        $user_ids = $wpdb->get_col( $sql );
+
+        if( in_array( $user_id, $user_ids  ) )
+		    $can_participate = TRUE;
 
 		return apply_filters( 'questions_user_can_participate', $can_participate, $survey_id, $user_id );
 	}

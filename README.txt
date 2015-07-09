@@ -72,6 +72,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Reworked admin component
 * Fixed Settings page
 * Fixed UTF8 bug on exporting surveys
+* Removed save function from bulk editing
 
 = 1.0.0 beta 17 =
 * Bettered up Chart view (Switched back to Dimple)
