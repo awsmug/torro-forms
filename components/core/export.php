@@ -49,8 +49,16 @@ class Questions_Export{
 	function add_export_link( $actions, $post ){
 		if( 'questions' != $post->post_type )
 			return $actions;
+
+        $survey = new Questions_Survey( $post->ID );
+        $responses = $survey->get_response_user_ids();
+
+        if( 0 == count( $responses['responses'] ) )
+            $button_text = sprintf( __( 'No answers, no exports!', 'questions-locale' ) );
+        else
+            $button_text = sprintf( __( '<a href="%s">Export Results</a>', 'questions-locale' ), '?post_type=questions&export_survey_results=CSV&survey_id=' . $post->ID );
 		
-		$actions['export_results'] = sprintf( __( '<a href="%s">Export Results</a>', 'questions-locale' ), '?post_type=questions&export_survey_results=CSV&survey_id=' . $post->ID );
+		$actions['export_results'] = $button_text;
 		
 		return $actions;
 	}

@@ -180,7 +180,7 @@ class Questions_Survey {
      * @return array $responses All user ids formatted for response array
      * @since 1.0.0
      */
-    private function get_response_user_ids() {
+    public function get_response_user_ids() {
 
         global $wpdb, $questions_global;
 
