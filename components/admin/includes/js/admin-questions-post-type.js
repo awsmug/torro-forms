@@ -651,6 +651,18 @@
             });
         }
         questions_rewriteheadline();
+
+        /**
+         * Datepicker
+         */
+        jQuery(document).ready(function() {
+            jQuery('#start_date').datepicker({
+                dateFormat : translation_admin.dateformat
+            });
+            jQuery('#end_date').datepicker({
+                dateFormat : translation_admin.dateformat
+            });
+        });
 		
 		/**
 		 * Helper function - Getting a random number

@@ -137,6 +137,14 @@ class Questions_AdminPostType{
                 'high'
             );
             add_meta_box(
+                'survey-timerange',
+                esc_attr__( 'Timerange', 'questions-locale' ),
+                array( __CLASS__, 'meta_box_survey_timerange' ),
+                'questions',
+                'side',
+                'high'
+            );
+            add_meta_box(
                 'survey-participiants',
                 esc_attr__( 'Participiants list', 'questions-locale' ),
                 array( __CLASS__, 'meta_box_survey_participiants' ),
@@ -168,6 +176,26 @@ class Questions_AdminPostType{
         foreach ( $questions_global->element_types AS $element ):
             $html .= $element->draw_admin();
         endforeach;
+
+        echo $html;
+    }
+
+    /**
+     *
+     */
+    public static function meta_box_survey_timerange(){
+        global $post;
+
+        $survey_id = $post->ID;
+
+        $start_date = get_post_meta( $survey_id, 'start_date', TRUE );
+        $end_date = get_post_meta( $survey_id, 'end_date', TRUE );
+
+
+        $html = '<label for="start_date">' . esc_attr__( 'When does the survey start?', 'questions-locale' ) . '</label>';
+        $html.= '<p><input type="text" id="start_date" name="start_date" value="' . $start_date . '"/></p>';
+        $html.= '<label for="end_date">' . esc_attr__( 'When does the survey end?', 'questions-locale' ) . '</label>';
+        $html.= '<p><input type="text" id="end_date" name="end_date" value="' . $end_date . '"/></p>';
 
         echo $html;
     }
@@ -499,21 +527,28 @@ class Questions_AdminPostType{
         $survey_participiant_restrictions = $_POST[ 'questions_participiants_restrictions_select' ];
         $survey_show_results              = $_POST[ 'show_results' ];
         $questions_participiants          = $_POST[ 'questions_participiants' ];
+        $start_date                       = $_POST[ 'start_date' ];
+        $end_date                         = $_POST[ 'end_date' ];
 
-        // p( $_POST );
-        /*
+        /**
          * Saving Restrictions
          */
         update_post_meta( $post_id, 'participiant_restrictions', $survey_participiant_restrictions );
 
-        /*
+        /**
          * Saving if results have to be shown after participating
          */
         update_post_meta( $post_id, 'show_results', $survey_show_results );
 
+        /**
+         * Saving start and end date
+         */
+        update_post_meta( $post_id, 'start_date', $start_date );
+        update_post_meta( $post_id, 'end_date', $end_date );
+
         $survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
 
-        /*
+        /**
          * Deleting deleted answers
          */
         if ( is_array( $survey_deleted_surveyelements ) && count( $survey_deleted_surveyelements ) > 0 ):
@@ -1020,7 +1055,8 @@ class Questions_AdminPostType{
             'max_fields_near_limit'				  => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
             'max_fields_over_limit'				  => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
             'max_fields_todo'					  => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
-            'of'								  => esc_attr__( 'of', 'questions-locale' )
+            'of'								  => esc_attr__( 'of', 'questions-locale' ),
+            'dateformat'                          => esc_attr__( 'yy/mm/dd', 'questions-locale' ),
         );
 
         wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/admin/includes/js/admin-questions-post-type.js' );
@@ -1028,8 +1064,11 @@ class Questions_AdminPostType{
         wp_enqueue_script( 'jquery-ui-droppable' );
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-tabs' );
+        wp_enqueue_script( 'jquery-ui-datepicker');
         wp_enqueue_script( 'admin-widgets' );
         wp_enqueue_script( 'wpdialogs-popup' );
+
+        wp_enqueue_style( 'jquery-style', QUESTIONS_URLPATH . '/components/admin/includes/css/datepicker.css' );
 
         wp_localize_script( 'admin-questions-post-type', 'translation_admin', $translation_admin );
 
