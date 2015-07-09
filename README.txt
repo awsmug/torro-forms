@@ -10,7 +10,7 @@ Drag&Drop surveys / polls in WordPress.
 
 == Description ==
 
-Drag & drop your survey with the Questions plugin.
+Drag & drop your survey with the Questions plugin. Do your survey and own the data. This is not software as a service, Questions is a totally independend and free plugin.
 
 **Question Types**
 
@@ -23,6 +23,7 @@ Drag & drop your survey with the Questions plugin.
 **Features**
 
 * **Drag&Drop** - Drag&drop questions to your survey, also sort answers by drag&drop.
+* **Timerange** - Give Surveys a start and an end date.
 * **Bar Chart Results** - Showing results after participating or with shortcodes.
 * **Validation** - Validate the entered data in question settings.
 * **Participiants** - Add registered users to survey or let everybody participate.
