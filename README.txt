@@ -1,7 +1,7 @@
 === Questions ===
 Contributors: mahype, awesome-ug
 Donate link: http://awesome.ug/donate
-Tags: survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll
+Tags: survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 Requires at least: 4.1.1
 Tested up to: 4.2.2
 Stable tag: 1.0.0
@@ -10,11 +10,11 @@ Drag&Drop surveys / polls in WordPress.
 
 == Description ==
 
-Drag & drop your survey or poll in the WordPress way with the Questions plugin. It never felt better to create your survey like with this plugin.
+**Drag & drop your survey in the WordPress way!**
 
-Do your survey and own the data. This is not software as a service, Questions is a totally independent and free plugin.
+It never felt better to create your survey like with this plugin. Do your survey and own the survey data. This is not software as a service, Questions is a totally independent and free plugin.
 
-**Question Types**
+**Elements**
 
 * **Text** - Simple text input.
 * **Textarea** - Multiple line text input.
@@ -25,7 +25,7 @@ Do your survey and own the data. This is not software as a service, Questions is
 **Features**
 
 * **Drag&Drop** - Drag&drop questions to your survey, also sort answers by drag&drop.
-* **Timerange** - Give Surveys a start and an end date.
+* **Timerange** - Give surveys a start and an end date.
 * **Bar Chart Results** - Showing results after participating or with shortcodes.
 * **Validation** - Validate the entered data in question settings.
 * **Participiants** - Add registered users to survey or let everybody participate.
