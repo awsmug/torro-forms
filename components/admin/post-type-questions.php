@@ -473,6 +473,10 @@ class Questions_AdminPostType{
     public static function save_survey( $post_id ) {
         global $questions_global, $wpdb;
 
+        if ( !array_key_exists( 'questions', $_REQUEST ) ) {
+            return;
+        }
+
         if ( array_key_exists( 'questions-duplicate-survey', $_REQUEST ) ) {
             return;
         }
