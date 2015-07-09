@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-09 23:27+0100\n"
-"PO-Revision-Date: 2015-07-09 23:27+0100\n"
+"POT-Creation-Date: 2015-07-10 01:51+0100\n"
+"PO-Revision-Date: 2015-07-10 01:51+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -524,7 +524,11 @@ msgstr "Umfrage suchen"
 msgid "No Survey available"
 msgstr "Keine Umfrage vorhanden"
 
-#: ../components/core/export.php:53
+#: ../components/core/export.php:57
+msgid "No answers, no exports!"
+msgstr "Keine Antworten, keine Exporte!"
+
+#: ../components/core/export.php:59
 #, php-format
 msgid "<a href=\"%s\">Export Results</a>"
 msgstr "<a href=\"%s\">Ergebnisse Exportieren</a>"
@@ -534,7 +538,7 @@ msgid "There are open answers"
 msgstr "Es gibt offene Antworten"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:306
+#: ../components/core/process-response.php:308
 #, php-format
 msgid ""
 "Step <span class=\"questions-highlight-number\">%d</span> of <span class="
@@ -544,41 +548,41 @@ msgstr ""
 "\"surveyval-highlight-number\">%s</span>"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:329
+#: ../components/core/process-response.php:331
 msgid "Previous Step"
 msgstr "Zur&uuml;ck"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:335
+#: ../components/core/process-response.php:337
 msgid "Finish Survey"
 msgstr "Umfrage abschlie&szlig;en"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:339
+#: ../components/core/process-response.php:341
 msgid "Next Step"
 msgstr "Weiter"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:798
+#: ../components/core/process-response.php:800
 msgid "Thank you for participating this survey!"
 msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:824
+#: ../components/core/process-response.php:826
 msgid "You already have participated this poll."
 msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:843
+#: ../components/core/process-response.php:845
 msgid "You have to be logged in to participate this survey."
 msgstr "Sie m&uuml;ssen eigeloggt sein um an der Umfrage teilzunehmen."
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:858
+#: ../components/core/process-response.php:860
 msgid "You can't participate this survey."
 msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
 
-#: ../components/core/process-response.php:873
+#: ../components/core/process-response.php:875
 msgid "This are the actual results:"
 msgstr "Das sind die aktuellen Ergebnisse:"
 

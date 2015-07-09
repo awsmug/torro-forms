@@ -197,17 +197,20 @@ class Questions_AbstractData{
 					
 				// If there are more answers than one posssible (e.g. Multiple Choice)
 				elseif( array_key_exists( 'array', $question ) && TRUE == $question[ 'array' ] ):
-					
-					// Running response of each user
-					foreach( $question[ 'responses' ] AS $response_id => $response ):
-						$i = 0;
-						
-						// Running each answer of response
-						foreach( $response AS $key => $value ):
-							$results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value ); 
-						endforeach;
-						
-					endforeach;
+
+
+                    if( is_array( $question[ 'responses' ] ) && 0 != count( $question[ 'responses' ] ) ):
+                        // Running response of each user
+                        foreach( $question[ 'responses' ] AS $response_id => $response ):
+                            $i = 0;
+
+                            // Running each answer of response
+                            foreach( $response AS $key => $value ):
+                                $results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value );
+                            endforeach;
+
+                        endforeach;
+                    endif;
 					
 				// If there is only one value for one element possible
 				else:
