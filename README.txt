@@ -1,7 +1,7 @@
 === Questions ===
 Contributors: mahype, awesome-ug
 Donate link: http://awesome.ug/donate
-Tags: survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll
+Tags: survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 Requires at least: 4.1.1
 Tested up to: 4.2.2
 Stable tag: 1.0.0
@@ -10,9 +10,11 @@ Drag&Drop surveys / polls in WordPress.
 
 == Description ==
 
-Drag & drop your survey with the Questions plugin.
+**Drag & drop your survey in the WordPress way!**
 
-**Question Types**
+It never felt better to create your survey like with this plugin. Do your survey and own the survey data. This is not software as a service, Questions is a totally independent and free plugin.
+
+**Elements**
 
 * **Text** - Simple text input.
 * **Textarea** - Multiple line text input.
@@ -23,6 +25,7 @@ Drag & drop your survey with the Questions plugin.
 **Features**
 
 * **Drag&Drop** - Drag&drop questions to your survey, also sort answers by drag&drop.
+* **Timerange** - Give surveys a start and an end date.
 * **Bar Chart Results** - Showing results after participating or with shortcodes.
 * **Validation** - Validate the entered data in question settings.
 * **Participiants** - Add registered users to survey or let everybody participate.
@@ -67,6 +70,15 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 7. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
+
+= 1.0.0 beta 18 =
+* Added timerange
+* Added usernames to export
+* Reworked admin component
+* Fixed settings page
+* Fixed UTF8 bug on exporting surveys
+* Removed save function from bulk editing
+* Fixed bug on participating with selected members
 
 = 1.0.0 beta 17 =
 * Bettered up Chart view (Switched back to Dimple)

@@ -115,14 +115,51 @@ class Questions_ProcessResponse {
 	 */
 	public function show_survey( $survey_id ) {
 
-		$checked = $this->check_restrictions( $survey_id );
+        $checked_restrictions = $this->check_restrictions( $survey_id );
+        $checked_timerange = $this->check_timerange( $survey_id );
 
-		if ( TRUE === $checked ):
+		if ( TRUE === $checked_restrictions && TRUE === $checked_timerange ):
+
 			return $this->survey_form( $survey_id );
-		else:
-			return $checked;
+		elseif( TRUE !== $checked_restrictions ):
+
+            return $checked_restrictions;
+        elseif( TRUE !== $checked_timerange ):
+
+            return $checked_timerange;
 		endif;
 	}
+
+    /**
+     * Check Timerange
+     *
+     * Checking if the survey has not yet begun or is already over
+     *
+     * @param int $survey_id
+     * @return mixed $intime
+     * @since 1.0.0
+     */
+    private function check_timerange( $survey_id ){
+        $actual_date = time();
+        $start_date = strtotime( get_post_meta( $survey_id, 'start_date', TRUE ) );
+        $end_date = strtotime( get_post_meta( $survey_id, 'end_date', TRUE ) );
+
+        if( '' != $start_date  && 0 != (int)$start_date && FALSE != $start_date && $actual_date < $start_date ){
+            $html = '<div id="questions-out-of-timerange">';
+            $html.= '<p>' . esc_attr( 'The survey has not yet begun.', 'questions-locale' ) . '</p>';
+            $html.= '</div>';
+            return $html;
+        }
+
+        if( '' != $end_date  && 0 != (int)$end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date ){
+            $html = '<div id="questions-out-of-timerange">';
+            $html.= '<p>' . esc_attr( 'The survey is already over.', 'questions-locale' ) . '</p>';
+            $html.= '</div>';
+            return $html;
+        }
+
+        return TRUE;
+    }
 
 	/**
 	 * Check restrictions
@@ -324,7 +361,9 @@ class Questions_ProcessResponse {
 	 */
 	public function user_can_participate( $survey_id, $user_id = NULL ) {
 
-		global $current_user;
+		global $wpdb, $current_user, $questions_global;
+
+        $can_participate = FALSE;
 
 		// Setting up user ID
 		if ( NULL == $user_id ):
@@ -332,7 +371,11 @@ class Questions_ProcessResponse {
 			$user_id = $user_id = $current_user->ID;
 		endif;
 
-		$can_participate = TRUE;
+        $sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d", $survey_id );
+        $user_ids = $wpdb->get_col( $sql );
+
+        if( in_array( $user_id, $user_ids  ) )
+		    $can_participate = TRUE;
 
 		return apply_filters( 'questions_user_can_participate', $can_participate, $survey_id, $user_id );
 	}

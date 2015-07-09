@@ -99,7 +99,7 @@ class Questions_Core extends Questions_Component{
 			'public' => TRUE,
 			'has_archive' => TRUE,
 			'supports' => array( 'title' ),
-			'show_in_menu'  => 'ComponentQuestionsAdmin',
+			'show_in_menu'  => 'QuestionsAdmin',
 			'show_in_nav_menus' => FALSE,
 			'rewrite' => array(
 	            'slug' => $this->slug,
