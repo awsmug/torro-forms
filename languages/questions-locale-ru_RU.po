@@ -1,0 +1,962 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Questions\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Tue Jul 07 2015 15:55:45 GMT+0300\n"
+"PO-Revision-Date: Fri Jul 10 2015 01:32:38 GMT+0300\n"
+"Last-Translator: Админ <infoo@mk1k6a.ru>\n"
+"Language-Team: \n"
+"Language: Russian\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Loco-Target-Locale: ru_RU\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: ../components/class-component.php:68
+msgid "This is a Questions component."
+msgstr "Это компонент Questions."
+
+#: ../components/charts/class-chart-creator.php:101 ../components/elements/class-
+#: element.php:197
+msgid "This is a Questions Survey Element."
+msgstr "Это элемент опроса Questions."
+
+#: ../components/charts/component.php:44
+msgid "Showing Charts in Questions."
+msgstr "Показывать графики в Questions."
+
+#: ../components/admin/post-type-questions.php:1060
+msgid "yy/mm/dd"
+msgstr "гг/мм/дд\n"
+
+#: ../components/admin/post-type-questions.php:1061
+msgid "Su"
+msgstr "Вс"
+
+#: ../components/admin/post-type-questions.php:1062
+msgid "Mo"
+msgstr "Пн"
+
+#: ../components/admin/post-type-questions.php:1063
+msgid "Tu"
+msgstr "Вт"
+
+#: ../components/admin/post-type-questions.php:1064
+msgid "We"
+msgstr "Ср"
+
+#: ../components/admin/post-type-questions.php:1065
+msgid "Th"
+msgstr "Чт"
+
+#: ../components/admin/post-type-questions.php:1066
+msgid "Fr"
+msgstr "Пят"
+
+#: ../components/admin/post-type-questions.php:1067
+msgid "Sa"
+msgstr "Суб"
+
+#: ../components/admin/post-type-questions.php:1068
+msgid "January"
+msgstr "Январь"
+
+#: ../components/admin/post-type-questions.php:1069
+msgid "February"
+msgstr "Февраль"
+
+#: ../components/admin/post-type-questions.php:1070
+msgid "March"
+msgstr "Март"
+
+#: ../components/admin/post-type-questions.php:1071
+msgid "April"
+msgstr "Апрель"
+
+#: ../components/admin/post-type-questions.php:1072
+msgid "May"
+msgstr "Май"
+
+#: ../components/admin/post-type-questions.php:1073
+msgid "June"
+msgstr "Июнь"
+
+#: ../components/admin/post-type-questions.php:1074
+msgid "July"
+msgstr "Июль"
+
+#: ../components/admin/post-type-questions.php:1075
+msgid "August"
+msgstr "Август"
+
+#: ../components/admin/post-type-questions.php:1076
+msgid "September"
+msgstr "Сентябрь"
+
+#: ../components/admin/post-type-questions.php:1077
+msgid "October"
+msgstr "Октябрь"
+
+#: ../components/admin/post-type-questions.php:1078
+msgid "November"
+msgstr "Ноябрь"
+
+#: ../components/admin/post-type-questions.php:1079
+msgid "December"
+msgstr "Декабрь"
+
+#: ../components/core/survey.php:224
+msgid "Username"
+msgstr "Имя пользователя\n"
+
+#: ../functions.php:72
+#, php-format
+msgid ""
+"Dear %username%,\n"
+"\n"
+"thank you for participating on the survey \"%survey_title%\". Your survey data "
+"was saved successfully.\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+"Уважаемый(ая) %username%!\n"
+"\n"
+"\n"
+"Благодарим вас за участие в опросе \"%survey_title%\". Ваш голос зачтен.\n"
+"\n"
+"\n"
+"Это письмо создано автоматически. На него отвечать не нужно.\n"
+"\n"
+"\n"
+"С наилучшими пожеланиями,\n"
+"\n"
+"%site_name%"
+
+#: ../functions.php:88
+#, php-format
+msgid ""
+"Dear %username%,\n"
+"\n"
+"you have been invited to participate to the survey \"%survey_title%\". "
+"Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+"Уважаемый(ая) %username%!\n"
+"\n"
+"\n"
+"Приглашаем вас принять участие в опросе \"%survey_title%\".\n"
+"\n"
+"\n"
+"Опрос проводится здесь: %survey_url%\n"
+"\n"
+"\n"
+"Это письмо создано автоматически. На него отвечать не нужно.\n"
+"\n"
+"\n"
+"С наилучшими пожеланиями,\n"
+"\n"
+"%site_name%"
+
+#: ../functions.php:106
+#, php-format
+msgid ""
+"Dear %username%,\n"
+"\n"
+"the survey \"%survey_title%\" is not finished yet. Please fill out and finish "
+"the survey. Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+"Уважаемый(ая) %username%!\n"
+"\n"
+"\n"
+"Напоминаем вам, что опрос \"%survey_title%\" продолжается. Ваш голос очень "
+"важен для нас.\n"
+"\n"
+"\n"
+"Опрос проводится здесь: %survey_url%\n"
+"\n"
+"\n"
+"Это письмо создано автоматически. На него отвечать не нужно.\n"
+"\n"
+"\n"
+"С наилучшими пожеланиями,\n"
+"\n"
+"%site_name%"
+
+#: ../functions.php:138
+msgid "Thank you for participating!"
+msgstr "%site_name%. Спасибо за участие в опросе!"
+
+#: ../functions.php:146
+msgid "You are invited to answer a survey"
+msgstr "%site_name%. Приглашаем вас принять участие в опросе!"
+
+#: ../functions.php:154
+msgid "Don´t forget to answer the Survey"
+msgstr "%site_name%. Не забудьте принять участие в опросе!"
+
+#: ../components/charts/component.php:43
+msgid "Charts"
+msgstr "Графики"
+
+#: ../components/charts/shortcodes.php:56
+msgid "Please enter a survey id in the survey shortcode!"
+msgstr "Введите ID опроса в шорткод опроса."
+
+#: ../components/charts/shortcodes.php:76
+msgid "There are no results to show."
+msgstr "Нет результатов для отображения."
+
+#: ../components/charts/shortcodes.php:94
+msgid "Please enter a question id in the survey shortcode!"
+msgstr ""
+"Введите ID вопроса в \n"
+"шорткод \n"
+"опроса."
+
+#: ../components/charts/shortcodes.php:119
+msgid "Results Shortcode:"
+msgstr "Шорткод результатов опроса:\n"
+
+#: ../components/charts/shortcodes.php:133
+msgid "(CTRL+C and paste into post to embed question results in post)"
+msgstr "(скопируйте (CTRL+C) и вставьте в текст поста)"
+
+#: ../components/charts/shortcodes.php:134
+msgid "Shortcode:"
+msgstr "Шорткод:"
+
+#: ../components/charts/dimple/chart-creator.php:67
+msgid "Answers"
+msgstr "Ответы"
+
+#: ../components/charts/dimple/chart-creator.php:68
+msgid "Votes"
+msgstr "Голоса"
+
+#: ../components/elements/class-element.php:379
+msgid "You don´t entered any answers. Please add some to display answers here."
+msgstr "Вы не ввели никаких ответов."
+
+#: ../components/elements/class-element.php:408
+msgid "No HTML for Element given. Please check element sourcecode."
+msgstr "Нет HTML . Проверьте исходный код."
+
+#: ../components/elements/class-element.php:484
+msgid "Question"
+msgstr "Вопрос"
+
+#: ../components/elements/class-element.php:491 ../components/admin/menu.php:84 ..
+#: components/admin/menu.php:85
+msgid "Settings"
+msgstr "Настройки"
+
+#: ../components/elements/class-element.php:566
+msgid "Answer/s:"
+msgstr "Ответ(ы):"
+
+#: ../components/elements/class-element.php:628 ../components/elements/class-
+#: element.php:669 ../components/admin/post-type-questions.php:355 ..
+#: components/admin/post-type-questions.php:1035
+msgid "Delete"
+msgstr "Удалить"
+
+#: ../components/elements/class-element.php:686
+msgid "Add Answer"
+msgstr "Добавить вариант ответа"
+
+#: ../components/elements/class-element.php:795
+msgid "Delete element"
+msgstr "Удалить элемент"
+
+#: ../components/elements/class-element.php:886 ../components/admin/post-type-
+#: questions.php:423 ../components/admin/post-type-questions.php:1036 ..
+#: components/core/data-abstraction.php:88
+msgid "Yes"
+msgstr "Да"
+
+#: ../components/elements/class-element.php:890 ../components/admin/post-type-
+#: questions.php:424 ../components/admin/post-type-questions.php:1037
+msgid "No"
+msgstr "Нет"
+
+#: ../components/elements/component.php:44 ../components/admin/post-type-
+#: questions.php:133
+msgid "Elements"
+msgstr "Элементы"
+
+#: ../components/elements/component.php:45
+msgid "Base Elements to put into surveys"
+msgstr "Базовые элементы для добавления в опросы"
+
+#: ../components/elements/base-elements/splitter.php:21
+msgid "Split Form"
+msgstr "Разделитель формы на страницы"
+
+#: ../components/elements/base-elements/splitter.php:22
+msgid "Splits a form into several steps"
+msgstr "Разделяет форму на отдельные шаги"
+
+#: ../components/elements/base-elements/description.php:21 ..
+#: components/elements/base-elements/textarea.php:40 ../components/elements/base-
+#: elements/text.php:39 ../components/elements/base-elements/dropdown.php:63 ..
+#: components/elements/base-elements/multiplechoice.php:58 ..
+#: components/elements/base-elements/onechoice.php:56
+msgid "Description"
+msgstr "Текстовое описание"
+
+#: ../components/elements/base-elements/description.php:22
+msgid "Adds a text to the form."
+msgstr "Добавьте текст в форму."
+
+#: ../components/elements/base-elements/description.php:37
+msgid "Text to show"
+msgstr "Текст для отображения"
+
+#: ../components/elements/base-elements/description.php:39
+msgid "The text which will be shown in the form."
+msgstr "Текст, который будет показан в форме."
+
+#: ../components/elements/base-elements/textarea.php:21
+msgid "Textarea"
+msgstr "Текстовое поле"
+
+#: ../components/elements/base-elements/textarea.php:22
+msgid "Add a question which can be answered within a text area."
+msgstr "Добавьте вопрос, на который нужно ответить в текстовом поле."
+
+#: ../components/elements/base-elements/textarea.php:42 ..
+#: components/elements/base-elements/text.php:41 ../components/elements/base-
+#: elements/dropdown.php:65 ../components/elements/base-elements/multiplechoice.
+#: php:60 ../components/elements/base-elements/onechoice.php:58
+msgid "The description will be shown after the question."
+msgstr "Описание будет показано после вопроса."
+
+#: ../components/elements/base-elements/textarea.php:46 ..
+#: components/elements/base-elements/text.php:45
+msgid "Minimum length"
+msgstr "Минимальная длина"
+
+#: ../components/elements/base-elements/textarea.php:48 ..
+#: components/elements/base-elements/text.php:47
+msgid "The minimum number of chars which can be typed in."
+msgstr "Минимальное количество символов, которое можно ввести."
+
+#: ../components/elements/base-elements/textarea.php:52 ..
+#: components/elements/base-elements/text.php:51
+msgid "Maximum length"
+msgstr "Максимальная длина"
+
+#: ../components/elements/base-elements/textarea.php:54 ..
+#: components/elements/base-elements/text.php:53
+msgid "The maximum number of chars which can be typed in."
+msgstr "Максимальное количество символов, которое можно ввести."
+
+#: ../components/elements/base-elements/textarea.php:58
+msgid "Rows"
+msgstr "Строки"
+
+#: ../components/elements/base-elements/textarea.php:60
+msgid "Number of rows for typing in  (can be overwritten by CSS)."
+msgstr "Количество строк в поле ввода (может быть переопределено в CSS)."
+
+#: ../components/elements/base-elements/textarea.php:66
+msgid "Columns"
+msgstr "Столбцы"
+
+#: ../components/elements/base-elements/textarea.php:68
+msgid "Number of columns for typing in (can be overwritten by CSS)."
+msgstr "Количество столбцов в поле ввода (может быть переопределено в CSS)."
+
+#: ../components/elements/base-elements/textarea.php:85 ..
+#: components/elements/base-elements/text.php:81
+msgid "The input ist too short."
+msgstr "Слишком короткое значение."
+
+#: ../components/elements/base-elements/textarea.php:88 ..
+#: components/elements/base-elements/textarea.php:99 ../components/elements/base-
+#: elements/text.php:84 ../components/elements/base-elements/text.php:95
+#, php-format
+msgid "It have to be at minimum %d and maximum %d chars."
+msgstr "Значение должно быть в интервале от %d до %d знаков."
+
+#: ../components/elements/base-elements/textarea.php:98 ..
+#: components/elements/base-elements/text.php:94
+msgid "The input is too long."
+msgstr "Слишком длинное значение."
+
+#: ../components/elements/base-elements/text.php:21
+msgid "Text"
+msgstr "Тестовая строка"
+
+#: ../components/elements/base-elements/text.php:22
+msgid "Add a question which can be answered within a text field."
+msgstr "Добавляет вопрос, на который можно ответить тестовой строкой."
+
+#: ../components/elements/base-elements/text.php:57
+msgid "String Validation"
+msgstr "Проверка строки\n"
+
+#: ../components/elements/base-elements/text.php:60
+msgid "No validation"
+msgstr "Без проверки\n"
+
+#: ../components/elements/base-elements/text.php:61
+msgid "Numbers"
+msgstr "Целые числа"
+
+#: ../components/elements/base-elements/text.php:62
+msgid "Decimal Numbers"
+msgstr "Десятичные числа"
+
+#: ../components/elements/base-elements/text.php:63
+msgid "Email-Address"
+msgstr "Email-адрес"
+
+#: ../components/elements/base-elements/text.php:65
+msgid "The will do a validation for the input."
+msgstr "Вариант проверки введенного значения."
+
+#: ../components/elements/base-elements/text.php:108
+msgid "Please input a number."
+msgstr "Введите целое число."
+
+#: ../components/elements/base-elements/text.php:120
+msgid "Please input a decimal number."
+msgstr "Введите десятичное число."
+
+#: ../components/elements/base-elements/text.php:128
+msgid "Please input a valid Email-Address."
+msgstr "Введите корректный Email-адрес."
+
+#: ../components/elements/base-elements/dropdown.php:21
+msgid "Dropdown"
+msgstr "Выпадающий список"
+
+#: ../components/elements/base-elements/dropdown.php:22
+msgid "Add a question which can be answered within a dropdown field."
+msgstr "Добавляет вопрос, на который можно ответить выпадающим списком."
+
+#: ../components/elements/base-elements/dropdown.php:42
+msgid "Please select"
+msgstr "Выберите"
+
+#: ../components/elements/base-elements/dropdown.php:76 ..
+#: components/elements/base-elements/onechoice.php:69
+msgid "Please select a value."
+msgstr "Выберите значение"
+
+#: ../components/elements/base-elements/multiplechoice.php:21
+msgid "Multiple Choice"
+msgstr "Много ответов"
+
+#: ../components/elements/base-elements/multiplechoice.php:22
+msgid "Add a question which can be answered by selecting one ore more given answers."
+msgstr ""
+"Добавляет вопрос, на который можно ответить одним или несколькими из "
+"предложенных вариантов."
+
+#: ../components/elements/base-elements/multiplechoice.php:64
+msgid "Minimum Answers"
+msgstr "Минимальное кол-во ответов"
+
+#: ../components/elements/base-elements/multiplechoice.php:66
+msgid "The minimum number of answers which have to be choosed."
+msgstr "Минимальное число выбранных ответов."
+
+#: ../components/elements/base-elements/multiplechoice.php:72
+msgid "Maximum Answers"
+msgstr "Максимальное кол-во ответов"
+
+#: ../components/elements/base-elements/multiplechoice.php:74
+msgid "The maximum number of answers which can be choosed."
+msgstr "Максимальное число выбранных ответов."
+
+#: ../components/elements/base-elements/multiplechoice.php:91
+msgid "Too less choices."
+msgstr "Слишком мало вариантов ответа."
+
+#: ../components/elements/base-elements/multiplechoice.php:92 ..
+#: components/elements/base-elements/multiplechoice.php:102
+#, php-format
+msgid "You have to choose between %d and %d answers."
+msgstr "Выдолжны выбрать от %d до %d ответов."
+
+#: ../components/elements/base-elements/multiplechoice.php:101
+msgid "Too many choices."
+msgstr "Слишком много вариантов."
+
+#: ../components/elements/base-elements/separator.php:21
+msgid "Separator"
+msgstr "Разделитель\n"
+
+#: ../components/elements/base-elements/separator.php:22
+msgid "Adds a optical separator (<hr>) between questions."
+msgstr "Добавить разделитель <hr> между вопросами."
+
+#: ../components/elements/base-elements/separator.php:47
+msgid "Headline"
+msgstr "Заголовок"
+
+#: ../components/elements/base-elements/separator.php:49
+msgid "Text which will be shown above the separator"
+msgstr "Текст будет показан после разделителя."
+
+#: ../components/elements/base-elements/onechoice.php:21
+msgid "One Choice"
+msgstr "Один ответ\n"
+
+#: ../components/elements/base-elements/onechoice.php:22
+msgid "Add a question which can be answered by selecting one of the given answers."
+msgstr ""
+"Добавляет вопрос, на который можно ответить выбором одного из предложенных "
+"вариантов."
+
+#: ../components/admin/menu.php:60 ../components/admin/menu.php:61 ..
+#: components/core/component.php:88
+msgid "Surveys"
+msgstr "Опросы"
+
+#: ../components/admin/menu.php:70 ../components/admin/menu.php:71
+msgid "Create"
+msgstr "Создать"
+
+#: ../components/admin/menu.php:77 ../components/admin/menu.php:78 ..
+#: components/core/component.php:74
+msgid "Categories"
+msgstr "Категории"
+
+#: ../components/admin/component.php:46
+msgid "Admin"
+msgstr "Админ\n"
+
+#: ../components/admin/component.php:47
+msgid "Setting up Questions in WordPress Admin."
+msgstr "Установите Questions в панеле управления WordPress."
+
+#: ../components/admin/post-type-questions.php:91
+msgid "Attention!"
+msgstr "Внимание!"
+
+#: ../components/admin/post-type-questions.php:91
+msgid ""
+"This will erase all Answers who people given to this survey. Do you really "
+"want to delete all results of this survey?"
+msgstr "Будут удалены все ответы на опрос. Вы уверены, что хотите все удалить?\n"
+
+#: ../components/admin/post-type-questions.php:94
+msgid "Do you really want to delete this element?"
+msgstr "Вы уверены, что хотите удалить этот элемент?"
+
+#: ../components/admin/post-type-questions.php:97
+msgid "Do you really want to delete this answer?"
+msgstr "Вы уверены, что хотите удалить этот вариант ответа?"
+
+#: ../components/admin/post-type-questions.php:119
+msgid "Options"
+msgstr "Настройки"
+
+#: ../components/admin/post-type-questions.php:126
+msgid "Survey Functions"
+msgstr "Функции опроса"
+
+#: ../components/admin/post-type-questions.php:141
+msgid "Timerange"
+msgstr "Временной интервал опроса"
+
+#: ../components/admin/post-type-questions.php:149
+msgid "Participiants list"
+msgstr "Список участников"
+
+#: ../components/admin/post-type-questions.php:157
+msgid "Results"
+msgstr "Результаты"
+
+#: ../components/admin/post-type-questions.php:195
+msgid "When does the survey start?"
+msgstr "Дата начала опроса:"
+
+#: ../components/admin/post-type-questions.php:197
+msgid "When does the survey end?"
+msgstr "Дата окончания опроса:"
+
+#: ../components/admin/post-type-questions.php:237
+msgid "All visitors of the site can participate"
+msgstr "Все посетили сайта могут участвовать"
+
+#: ../components/admin/post-type-questions.php:241
+msgid "All members of the site can participate"
+msgstr "Только зарегистрированные пользователи могут участвовать"
+
+#: ../components/admin/post-type-questions.php:245
+msgid "Only selected members can participate"
+msgstr "Только выбранные пользователи могут участвовать"
+
+#: ../components/admin/post-type-questions.php:249
+msgid "No restrictions"
+msgstr "Без ограничений"
+
+#: ../components/admin/post-type-questions.php:281
+msgid "Add all actual Members"
+msgstr "Добавить всех актуальных пользователей"
+
+#: ../components/admin/post-type-questions.php:305
+msgid "Add Participiants"
+msgstr "Добавить участников"
+
+#: ../components/admin/post-type-questions.php:308
+msgid "Remove all Participiants"
+msgstr "Удалить всех участников"
+
+#: ../components/admin/post-type-questions.php:318 ../components/admin/post-type-
+#: questions.php:1054
+msgid "participiant/s"
+msgstr "участник(и)"
+
+#: ../components/admin/post-type-questions.php:325
+msgid "ID"
+msgstr "ID"
+
+#: ../components/admin/post-type-questions.php:326
+msgid "User nicename"
+msgstr "Имя пользователя"
+
+#: ../components/admin/post-type-questions.php:327
+msgid "Display name"
+msgstr "Ник"
+
+#: ../components/admin/post-type-questions.php:328
+msgid "Email"
+msgstr "E-mail"
+
+#: ../components/admin/post-type-questions.php:329
+msgid "Status"
+msgstr "Статус"
+
+#: ../components/admin/post-type-questions.php:343
+msgid "finished"
+msgstr "проголосовал"
+
+#: ../components/admin/post-type-questions.php:345
+msgid "new"
+msgstr "новый"
+
+#: ../components/admin/post-type-questions.php:420
+msgid "Show results after finishing survey"
+msgstr "Показывать результаты после окончания опроса"
+
+#: ../components/admin/post-type-questions.php:451
+msgid "Dublicate Survey"
+msgstr "Дублировать опрос"
+
+#: ../components/admin/post-type-questions.php:458
+msgid "Delete survey results"
+msgstr "Удалить результаты опроса"
+
+#: ../components/admin/post-type-questions.php:467
+msgid "Invite Participiants"
+msgstr "Пригласить участников"
+
+#: ../components/admin/post-type-questions.php:470 ../components/admin/post-type-
+#: questions.php:481
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ../components/admin/post-type-questions.php:478
+msgid "Reinvite Participiants"
+msgstr "Повторно пригласить участников"
+
+#: ../components/admin/post-type-questions.php:487
+msgid "You can invite Participiants to this survey after the survey is published."
+msgstr ""
+"Вы можете пригласить участников опроса после того, как опрос будет "
+"опубликован."
+
+#: ../components/admin/post-type-questions.php:1038
+msgid "just added"
+msgstr "только добавлен"
+
+#: ../components/admin/post-type-questions.php:1039
+msgid "Invitations sent successfully!"
+msgstr "Приглашения отправлены!"
+
+#: ../components/admin/post-type-questions.php:1040
+msgid "Invitations could not be sent!"
+msgstr "Не могу отправить приглашения!"
+
+#: ../components/admin/post-type-questions.php:1041
+msgid "Renvitations sent successfully!"
+msgstr "Повторные приглашения отправлены!"
+
+#: ../components/admin/post-type-questions.php:1044
+msgid "Renvitations could not be sent!"
+msgstr "Не могу отправить повторные приглашения!"
+
+#: ../components/admin/post-type-questions.php:1047
+msgid "Survey results deleted successfully!"
+msgstr "Результаты опроса удалены!"
+
+#: ../components/admin/post-type-questions.php:1050
+msgid "Survey duplicated successfully!"
+msgstr "Опрос удачно скопирован!"
+
+#: ../components/admin/post-type-questions.php:1053 ../components/core/component.
+#: php:92
+msgid "Edit Survey"
+msgstr "Редактировать опрос"
+
+#: ../components/admin/post-type-questions.php:1055
+msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
+msgstr "У вас осталось 50 полей до достижения PHP max_num_fields!\n"
+
+#: ../components/admin/post-type-questions.php:1056
+msgid "You are over the limit of PHP max_num_fields!"
+msgstr "Вы превысили лимит PHP max_num_fields!"
+
+#: ../components/admin/post-type-questions.php:1057
+msgid ""
+"Please increase the value by adding <code>php_value max_input_vars [NUMBER "
+"OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
+"your form can not be saved correct."
+msgstr ""
+"Необходимо увеличить значение путем добавления <code>php_value "
+"max_input_vars [NUMBER OF INPUT VARS]</code> в файл .htaccess. В противном "
+"случае ваша форма не будет корректно сохраняться."
+
+#: ../components/admin/post-type-questions.php:1058
+msgid "of"
+msgstr "из"
+
+#: ../components/admin/pages/settings.php:51
+msgid "General"
+msgstr "Основные"
+
+#: ../components/admin/pages/settings.php:68
+msgid "Text templates"
+msgstr "Текстовые шаблоны"
+
+#: ../components/admin/pages/settings.php:72
+msgid "Thanks for participating"
+msgstr "Спасибо за участие"
+
+#: ../components/admin/pages/settings.php:75
+msgid "This text will be used on thanking members after participating survey."
+msgstr "Этот текст будет отправлен пользователю после участия в опросе.\n"
+
+#: ../components/admin/pages/settings.php:78 ../components/admin/pages/settings.
+#: php:89 ../components/admin/pages/settings.php:98
+msgid "Usable template tags:"
+msgstr "Допустимые подстановки:\n"
+
+#: ../components/admin/pages/settings.php:83
+msgid "Invitation text Template"
+msgstr "Шаблон уведомления об опросе"
+
+#: ../components/admin/pages/settings.php:86
+msgid ""
+"This text will be used as template if you want to send invitations to "
+"Participiants."
+msgstr "Шаблон приглашения для участия в опросе"
+
+#: ../components/admin/pages/settings.php:93
+msgid "Reinvitation text Template"
+msgstr "Шаблон напоминания об опросе"
+
+#: ../components/admin/pages/settings.php:95
+msgid ""
+"This text will be used as template if you want to send reinvitations to "
+"Participiants."
+msgstr "Шаблон повторного приглашения (напоминания) для участия в опросе"
+
+#: ../components/admin/pages/settings.php:102
+msgid "From Name"
+msgstr "От кого (подпись отправителя)"
+
+#: ../components/admin/pages/settings.php:104
+msgid "The Name which will be shown on Emails which are send out by Questions."
+msgstr "Эта подпись будет показана в рассылаемых письмах.\n"
+
+#: ../components/admin/pages/settings.php:106
+msgid "e.g. Michael Jackson"
+msgstr "например, Вася Пупкин"
+
+#: ../components/admin/pages/settings.php:110
+msgid "From Email"
+msgstr "От кого (email отправителя)"
+
+#: ../components/admin/pages/settings.php:112
+msgid "The Email will be used for the reply of the emails, send out by questions."
+msgstr ""
+"Этот email адрес будет показан в рассылаемых письмах в качестве обратного "
+"адреса."
+
+#: ../components/admin/pages/settings.php:114
+msgid "e.g. myname@mydomain.com"
+msgstr "например, myname@mydomain.com"
+
+#: ../components/core/export.php:53
+#, php-format
+msgid "<a href=\"%s\">Export Results</a>"
+msgstr "<a href=\"%s\">Экспорт результатов</a>"
+
+#: ../components/core/component.php:39
+msgid "Core"
+msgstr "Ядро"
+
+#: ../components/core/component.php:40
+msgid "Core functions of the Questions Plugin"
+msgstr "Функции ядра в Questions плагине"
+
+#: ../components/core/component.php:64
+msgctxt "taxonomy general name"
+msgid "Categories"
+msgstr "Категории"
+
+#: ../components/core/component.php:65
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr "Категория"
+
+#: ../components/core/component.php:66
+msgid "Search Categories"
+msgstr "Поиск категорий"
+
+#: ../components/core/component.php:67
+msgid "All Categories"
+msgstr "Все категории"
+
+#: ../components/core/component.php:68
+msgid "Parent Category"
+msgstr "Родительская категория"
+
+#: ../components/core/component.php:69
+msgid "Parent Category:"
+msgstr "Родительская категория:"
+
+#: ../components/core/component.php:70
+msgid "Edit Category"
+msgstr "Редактировать катерию"
+
+#: ../components/core/component.php:71
+msgid "Update Category"
+msgstr "Обновить категорию"
+
+#: ../components/core/component.php:72
+msgid "Add New Category"
+msgstr "Добавить новую категорию"
+
+#: ../components/core/component.php:73
+msgid "New Category"
+msgstr "Новая категория"
+
+#: ../components/core/component.php:89 ../components/core/shortcodes.php:47
+msgid "Survey"
+msgstr "Опрос"
+
+#: ../components/core/component.php:90
+msgid "All Surveys"
+msgstr "Все опросы"
+
+#: ../components/core/component.php:91 ../components/core/component.php:93
+msgid "Add new Survey"
+msgstr "Добавить новый опрос"
+
+#: ../components/core/component.php:94
+msgid "View Survey"
+msgstr "Просмотреть опрос"
+
+#: ../components/core/component.php:95
+msgid "Search Survey"
+msgstr "Поиск опроса"
+
+#: ../components/core/component.php:96 ../components/core/component.php:97
+msgid "No Survey available"
+msgstr "Нет доступных опросов"
+
+#: ../components/core/survey.php:193
+msgid "User ID"
+msgstr "ID пользователя"
+
+#: ../components/core/survey.php:257
+msgid "Date/Time"
+msgstr "Дата/Время"
+
+#: ../components/core/shortcodes.php:52
+msgid "Please enter an id in the survey shortcode!"
+msgstr "Вставьте ID в шорткод.\n"
+
+#: ../components/core/shortcodes.php:57
+msgid "Survey not found. Please enter another ID in your shortcode."
+msgstr "Опрос не найден, неверно указан ID опроса в шорткоде."
+
+#: ../components/core/shortcodes.php:66
+msgid "Survey Shortcode:"
+msgstr "Шорткод опроса:"
+
+#: ../components/core/process-response.php:91
+msgid "There are open answers"
+msgstr "Необходимо ответить на все вопросы"
+
+#: ../components/core/process-response.php:307
+#, php-format
+msgid ""
+"Step <span class=\"questions-highlight-number\">%d</span> of <span "
+"class=\"questions-highlight-number\">%s</span>"
+msgstr ""
+"Шаг <span class=\"questions-highlight-number\">%d</span> из <span "
+"class=\"questions-highlight-number\">%s</span>"
+
+#: ../components/core/process-response.php:330
+msgid "Previous Step"
+msgstr "Назад\n"
+
+#: ../components/core/process-response.php:336
+msgid "Finish Survey"
+msgstr "Проголосовать"
+
+#: ../components/core/process-response.php:340
+msgid "Next Step"
+msgstr "Вперед"
+
+#: ../components/core/process-response.php:800
+msgid "Thank you for participating this survey!"
+msgstr "Ваш голос принят, спасибо!"
+
+#: ../components/core/process-response.php:826
+msgid "You already have participated this poll."
+msgstr "Вы уже проголосовали в этом опросе."
+
+#: ../components/core/process-response.php:845
+msgid "You have to be logged in to participate this survey."
+msgstr "Вы должны зарегистрироваться для участия в данном опросе."
+
+#: ../components/core/process-response.php:860
+msgid "You can't participate this survey."
+msgstr "Вы не можете участвовать в данном опросе."
+
+#: ../components/core/process-response.php:875
+msgid "This are the actual results:"
+msgstr "Текущие результаты опроса:"
