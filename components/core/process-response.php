@@ -118,10 +118,15 @@ class Questions_ProcessResponse {
         $checked_restrictions = $this->check_restrictions( $survey_id );
         $checked_timerange = $this->check_timerange( $survey_id );
 
-		if ( TRUE === $checked_restrictions && TRUE == $checked_timerange ):
+		if ( TRUE === $checked_restrictions && TRUE === $checked_timerange ):
+
 			return $this->survey_form( $survey_id );
-		else:
-			return FALSE;
+		elseif( TRUE !== $checked_restrictions ):
+
+            return $checked_restrictions;
+        elseif( TRUE !== $checked_timerange ):
+
+            return $checked_timerange;
 		endif;
 	}
 
@@ -131,7 +136,7 @@ class Questions_ProcessResponse {
      * Checking if the survey has not yet begun or is already over
      *
      * @param int $survey_id
-     * @return boolean $intime
+     * @return mixed $intime
      * @since 1.0.0
      */
     private function check_timerange( $survey_id ){
@@ -143,17 +148,14 @@ class Questions_ProcessResponse {
             $html = '<div id="questions-out-of-timerange">';
             $html.= '<p>' . esc_attr( 'The survey has not yet begun.', 'questions-locale' ) . '</p>';
             $html.= '</div>';
-            echo $html;
-
-            return FALSE;
+            return $html;
         }
 
         if( '' != $end_date  && 0 != (int)$end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date ){
             $html = '<div id="questions-out-of-timerange">';
             $html.= '<p>' . esc_attr( 'The survey is already over.', 'questions-locale' ) . '</p>';
             $html.= '</div>';
-            echo $html;
-            return FALSE;
+            return $html;
         }
 
         return TRUE;
