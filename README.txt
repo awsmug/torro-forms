@@ -70,6 +70,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0 beta 18 =
 * Added timerange
+* Added usernames to export
 * Reworked admin component
 * Fixed settings page
 * Fixed UTF8 bug on exporting surveys

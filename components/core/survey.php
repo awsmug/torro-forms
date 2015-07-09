@@ -149,7 +149,8 @@ class Questions_Survey {
 
 			// Adding user data
 			if ( $userdata ):
-				$responses[ '_user_id' ]  = $this->get_response_user_ids();
+                $responses[ '_user_id' ]  = $this->get_response_user_ids();
+                $responses[ '_username' ]  = $this->get_response_user_names();
 				$responses[ '_datetime' ] = $this->get_response_timestrings();
 			endif;
 
@@ -173,36 +174,68 @@ class Questions_Survey {
 		endif;
 	}
 
-	/**
-	 * Gettiung all user ids of a survey
-	 * 
-	 * @return array $responses All user ids formatted for response array
-	 * @since 1.0.0
-	 */
-	private function get_response_user_ids() {
+    /**
+     * Gettiung all user ids of a survey
+     *
+     * @return array $responses All user ids formatted for response array
+     * @since 1.0.0
+     */
+    private function get_response_user_ids() {
 
-		global $wpdb, $questions_global;
+        global $wpdb, $questions_global;
 
-		$sql     = $wpdb->prepare(
-			"SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id
-		);
-		$results = $wpdb->get_results( $sql );
+        $sql     = $wpdb->prepare(
+            "SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id
+        );
+        $results = $wpdb->get_results( $sql );
 
-		$responses                = array();
-		$responses[ 'question' ]  = __( 'User ID', 'questions-locale' );
-		$responses[ 'sections' ]  = FALSE;
-		$responses[ 'array' ]     = FALSE;
-		$responses[ 'responses' ] = array();
+        $responses                = array();
+        $responses[ 'question' ]  = __( 'User ID', 'questions-locale' );
+        $responses[ 'sections' ]  = FALSE;
+        $responses[ 'array' ]     = FALSE;
+        $responses[ 'responses' ] = array();
 
-		// Putting results in array
-		if ( is_array( $results ) ):
-			foreach ( $results AS $result ):
-				$responses[ 'responses' ][ $result->id ] = $result->user_id;
-			endforeach;
-		endif;
+        // Putting results in array
+        if ( is_array( $results ) ):
+            foreach ( $results AS $result ):
+                $responses[ 'responses' ][ $result->id ] = $result->user_id;
+            endforeach;
+        endif;
 
-		return $responses;
-	}
+        return $responses;
+    }
+
+    /**
+     * Gettiung all user names of a survey
+     *
+     * @return array $responses All user names formatted for response array
+     * @since 1.0.0
+     */
+    private function get_response_user_names() {
+
+        global $wpdb, $questions_global;
+
+        $sql     = $wpdb->prepare(
+            "SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id
+        );
+        $results = $wpdb->get_results( $sql );
+
+        $responses                = array();
+        $responses[ 'question' ]  = __( 'Username', 'questions-locale' );
+        $responses[ 'sections' ]  = FALSE;
+        $responses[ 'array' ]     = FALSE;
+        $responses[ 'responses' ] = array();
+
+        // Putting results in array
+        if ( is_array( $results ) ):
+            foreach ( $results AS $result ):
+                $user = get_user_by( 'id', $result->user_id );
+                $responses[ 'responses' ][ $result->id ] = $user->user_login;
+            endforeach;
+        endif;
+
+        return $responses;
+    }
 
 	/**
 	 * Gettiung all timestrings of a survey
