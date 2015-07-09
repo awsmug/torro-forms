@@ -139,7 +139,7 @@ class Questions_ProcessResponse {
         $start_date = strtotime( get_post_meta( $survey_id, 'start_date', TRUE ) );
         $end_date = strtotime( get_post_meta( $survey_id, 'end_date', TRUE ) );
 
-        if( $actual_date < $start_date ){
+        if( '' != $start_date  && 0 != (int)$start_date && FALSE != $start_date && $actual_date < $start_date ){
             $html = '<div id="questions-out-of-timerange">';
             $html.= '<p>' . esc_attr( 'The survey has not yet begun.', 'questions-locale' ) . '</p>';
             $html.= '</div>';
@@ -148,7 +148,7 @@ class Questions_ProcessResponse {
             return FALSE;
         }
 
-        if( $actual_date > $end_date ){
+        if( '' != $end_date  && 0 != (int)$end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date ){
             $html = '<div id="questions-out-of-timerange">';
             $html.= '<p>' . esc_attr( 'The survey is already over.', 'questions-locale' ) . '</p>';
             $html.= '</div>';
