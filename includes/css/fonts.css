@@ -94,7 +94,7 @@
 	content: "\E815"; 
 }
 
-#adminmenu #toplevel_page_ComponentQuestionsAdmin .dashicons-admin-generic:before{
+#adminmenu #toplevel_page_QuestionsAdmin .dashicons-admin-generic:before{
 	font-family: questionsicons;
     content: "\E802";
     font-size: 22px;

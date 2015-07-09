@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SurveyVal v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-08 15:46+0100\n"
-"PO-Revision-Date: 2015-07-08 15:46+0100\n"
+"POT-Creation-Date: 2015-07-09 23:27+0100\n"
+"PO-Revision-Date: 2015-07-09 23:27+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -31,32 +31,32 @@ msgid "Setting up Questions in WordPress Admin."
 msgstr "Questions im WordPress Admin einstellen."
 
 # @ surveyval-locale
-#: ../components/admin/component.php:96 ../components/admin/component.php:97
-#: ../components/core/component.php:87
+#: ../components/admin/menu.php:60 ../components/admin/menu.php:61
+#: ../components/core/component.php:88
 msgid "Surveys"
 msgstr "Umfragen"
 
-#: ../components/admin/component.php:106 ../components/admin/component.php:107
+#: ../components/admin/menu.php:70 ../components/admin/menu.php:71
 msgid "Create"
 msgstr "Erstellen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:113 ../components/admin/component.php:114
-#: ../components/core/component.php:73
+#: ../components/admin/menu.php:77 ../components/admin/menu.php:78
+#: ../components/core/component.php:74
 msgid "Categories"
 msgstr "Kategorien"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:120 ../components/admin/component.php:121
+#: ../components/admin/menu.php:84 ../components/admin/menu.php:85
 #: ../components/elements/class-element.php:492
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ../components/admin/component.php:184
+#: ../components/admin/post-type-questions.php:91
 msgid "Attention!"
 msgstr "Achtung!"
 
-#: ../components/admin/component.php:185
+#: ../components/admin/post-type-questions.php:92
 msgid ""
 "This will erase all Answers who people given to this survey. Do you really "
 "want to delete all results of this survey?"
@@ -65,209 +65,223 @@ msgstr ""
 "wirklich alle Ergebnisse dieser Umfrage löschen?"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:188
+#: ../components/admin/post-type-questions.php:95
 msgid "Do you really want to delete this element?"
 msgstr "Soll dieses Element wirklich gel&ouml;scht werden?"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:191
+#: ../components/admin/post-type-questions.php:98
 msgid "Do you really want to delete this answer?"
 msgstr "Soll diese Antwort wirklich gel&ouml;scht werden?"
 
-#: ../components/admin/component.php:212
+#: ../components/admin/post-type-questions.php:119
 msgid "Options"
 msgstr "Optionen"
 
-#: ../components/admin/component.php:219
+#: ../components/admin/post-type-questions.php:126
 msgid "Survey Functions"
 msgstr "Umfrage-Funktionen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:226
+#: ../components/admin/post-type-questions.php:133
 #: ../components/elements/component.php:44
 msgid "Elements"
 msgstr "Elemente"
 
+#: ../components/admin/post-type-questions.php:141
+msgid "Timerange"
+msgstr "Zeitspanne"
+
 # @ surveyval-locale
-#: ../components/admin/component.php:234
+#: ../components/admin/post-type-questions.php:149
 msgid "Participiants list"
 msgstr "Teilnehmerliste"
 
-#: ../components/admin/component.php:242
+#: ../components/admin/post-type-questions.php:157
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: ../components/admin/component.php:305
+#: ../components/admin/post-type-questions.php:195
+msgid "When does the survey start?"
+msgstr "Wann startet die Umfrage?"
+
+#: ../components/admin/post-type-questions.php:197
+msgid "When does the survey end?"
+msgstr "Wann endet die Umfrage?"
+
+#: ../components/admin/post-type-questions.php:238
 msgid "All visitors of the site can participate"
 msgstr "Alle Besucher der Seite können teilnehmen"
 
-#: ../components/admin/component.php:309
+#: ../components/admin/post-type-questions.php:242
 msgid "All members of the site can participate"
 msgstr "Alle Mitglieder der Seite k&ouml;nnen an der Umfrage teilnehmen"
 
-#: ../components/admin/component.php:313
+#: ../components/admin/post-type-questions.php:246
 msgid "Only selected members can participate"
 msgstr "Nur ausgew&auml;hlte Mitglieder k&ouml;nenn an der Umfrage teilnehmen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:317
+#: ../components/admin/post-type-questions.php:250
 msgid "No restrictions"
 msgstr "Keine Einschränkungen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:349
+#: ../components/admin/post-type-questions.php:282
 msgid "Add all actual Members"
 msgstr "Alle aktuellen Mitglieder hinzufügen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:373
+#: ../components/admin/post-type-questions.php:306
 msgid "Add Participiants"
 msgstr "Teilnehmer hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:376
+#: ../components/admin/post-type-questions.php:309
 msgid "Remove all Participiants"
 msgstr "Alle Teilnehmer entfernen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:385
-#: ../components/admin/component.php:1180
+#: ../components/admin/post-type-questions.php:318
+#: ../components/admin/post-type-questions.php:1054
 msgid "participiant/s"
 msgstr "Teilnehmer"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:392
+#: ../components/admin/post-type-questions.php:325
 msgid "ID"
 msgstr "ID"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:393
+#: ../components/admin/post-type-questions.php:326
 msgid "User nicename"
 msgstr "Spitzname"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:394
+#: ../components/admin/post-type-questions.php:327
 msgid "Display name"
 msgstr "Angezeigter Name"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:395
+#: ../components/admin/post-type-questions.php:328
 msgid "Email"
 msgstr "Email"
 
-#: ../components/admin/component.php:396
+#: ../components/admin/post-type-questions.php:329
 msgid "Status"
 msgstr "Status"
 
-#: ../components/admin/component.php:410
+#: ../components/admin/post-type-questions.php:343
 msgid "finished"
 msgstr "abgeschlossen"
 
-#: ../components/admin/component.php:412
+#: ../components/admin/post-type-questions.php:345
 msgid "new"
 msgstr "neu"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:423
-#: ../components/admin/component.php:1161
+#: ../components/admin/post-type-questions.php:356
+#: ../components/admin/post-type-questions.php:1035
 #: ../components/elements/class-element.php:628
 #: ../components/elements/class-element.php:670
 msgid "Delete"
 msgstr "L&ouml;schen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:488
+#: ../components/admin/post-type-questions.php:421
 msgid "Show results after finishing survey"
 msgstr "Ergebnisse nach Teilnahme anzeigen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:490
-#: ../components/admin/component.php:1162
+#: ../components/admin/post-type-questions.php:423
+#: ../components/admin/post-type-questions.php:1036
 #: ../components/core/data-abstraction.php:88
 #: ../components/elements/class-element.php:887
 msgid "Yes"
 msgstr "Ja"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:491
-#: ../components/admin/component.php:1163
+#: ../components/admin/post-type-questions.php:424
+#: ../components/admin/post-type-questions.php:1037
 #: ../components/elements/class-element.php:891
 msgid "No"
 msgstr "Nein"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:519
+#: ../components/admin/post-type-questions.php:452
 msgid "Dublicate Survey"
 msgstr "Umfrage dublizieren"
 
-#: ../components/admin/component.php:526
+#: ../components/admin/post-type-questions.php:459
 msgid "Delete survey results"
 msgstr "Umfrageergebnisse löschen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:535
+#: ../components/admin/post-type-questions.php:468
 msgid "Invite Participiants"
 msgstr "Teilnehmer einladen"
 
-#: ../components/admin/component.php:538 ../components/admin/component.php:549
+#: ../components/admin/post-type-questions.php:471
+#: ../components/admin/post-type-questions.php:482
 msgid "Cancel"
 msgstr "Abbrechen"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:546
+#: ../components/admin/post-type-questions.php:479
 msgid "Reinvite Participiants"
 msgstr "Erneut einladen"
 
-#: ../components/admin/component.php:555
+#: ../components/admin/post-type-questions.php:488
 msgid ""
 "You can invite Participiants to this survey after the survey is published."
 msgstr ""
 "Sie k&ouml;nenn Teilnehmer einladen, sobald die Umfrage gespeichert ist."
 
-#: ../components/admin/component.php:1164
+#: ../components/admin/post-type-questions.php:1038
 msgid "just added"
 msgstr "gerade hinzugef&uuml;gt"
 
-#: ../components/admin/component.php:1165
+#: ../components/admin/post-type-questions.php:1039
 msgid "Invitations sent successfully!"
 msgstr "Einladungen erfolgreich versendet!"
 
-#: ../components/admin/component.php:1166
+#: ../components/admin/post-type-questions.php:1040
 msgid "Invitations could not be sent!"
 msgstr "Einladungen konnten nicht versendet werden!"
 
-#: ../components/admin/component.php:1168
+#: ../components/admin/post-type-questions.php:1042
 msgid "Renvitations sent successfully!"
 msgstr "Erneute Einladungen erfolgreich versendet!"
 
-#: ../components/admin/component.php:1171
+#: ../components/admin/post-type-questions.php:1045
 msgid "Renvitations could not be sent!"
 msgstr "Erneute Einladungen konnten nicht versendet werden!"
 
-#: ../components/admin/component.php:1174
+#: ../components/admin/post-type-questions.php:1048
 msgid "Survey results deleted successfully!"
 msgstr "Umfrageergebnisse erfolgreich gelöscht!"
 
-#: ../components/admin/component.php:1177
+#: ../components/admin/post-type-questions.php:1051
 msgid "Survey duplicated successfully!"
 msgstr "Umfrage erfolgreich dupliziert!"
 
 # @ surveyval-locale
-#: ../components/admin/component.php:1179 ../components/core/component.php:91
+#: ../components/admin/post-type-questions.php:1053
+#: ../components/core/component.php:92
 msgid "Edit Survey"
 msgstr "Umfrage bearbeiten"
 
-#: ../components/admin/component.php:1181
+#: ../components/admin/post-type-questions.php:1055
 msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
 msgstr ""
 "Sie sind nur noch 50 Formularfelder vom Erreichen von PHP max_num_fields "
 "entfernt!"
 
-#: ../components/admin/component.php:1182
+#: ../components/admin/post-type-questions.php:1056
 msgid "You are over the limit of PHP max_num_fields!"
 msgstr "Sie sind über der Grenze von PHP max_num_fields!"
 
-#: ../components/admin/component.php:1183
+#: ../components/admin/post-type-questions.php:1057
 msgid ""
 "Please increase the value by adding <code>php_value max_input_vars [NUMBER "
 "OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
@@ -278,9 +292,89 @@ msgstr ""
 "kontaktieren Sie Ihren Hoster. Andernfalls wird Ihr Formular nicht richtig "
 "gespeichert."
 
-#: ../components/admin/component.php:1184
+#: ../components/admin/post-type-questions.php:1058
 msgid "of"
 msgstr "von"
+
+#: ../components/admin/post-type-questions.php:1060
+msgid "yy/mm/dd"
+msgstr "dd.mm.yy"
+
+#: ../components/admin/post-type-questions.php:1061
+msgid "Su"
+msgstr "So"
+
+#: ../components/admin/post-type-questions.php:1062
+msgid "Mo"
+msgstr "Mo"
+
+#: ../components/admin/post-type-questions.php:1063
+msgid "Tu"
+msgstr "Di"
+
+#: ../components/admin/post-type-questions.php:1064
+msgid "We"
+msgstr "Mi"
+
+#: ../components/admin/post-type-questions.php:1065
+msgid "Th"
+msgstr "Do"
+
+#: ../components/admin/post-type-questions.php:1066
+msgid "Fr"
+msgstr "Fr"
+
+#: ../components/admin/post-type-questions.php:1067
+msgid "Sa"
+msgstr "Sa"
+
+#: ../components/admin/post-type-questions.php:1068
+msgid "January"
+msgstr "January"
+
+#: ../components/admin/post-type-questions.php:1069
+msgid "February"
+msgstr "Februar"
+
+#: ../components/admin/post-type-questions.php:1070
+msgid "March"
+msgstr "März"
+
+#: ../components/admin/post-type-questions.php:1071
+msgid "April"
+msgstr "April"
+
+#: ../components/admin/post-type-questions.php:1072
+msgid "May"
+msgstr "Mai"
+
+#: ../components/admin/post-type-questions.php:1073
+msgid "June"
+msgstr "Juni"
+
+#: ../components/admin/post-type-questions.php:1074
+msgid "July"
+msgstr "Juli"
+
+#: ../components/admin/post-type-questions.php:1075
+msgid "August"
+msgstr "August"
+
+#: ../components/admin/post-type-questions.php:1076
+msgid "September"
+msgstr "September"
+
+#: ../components/admin/post-type-questions.php:1077
+msgid "October"
+msgstr "Oktober"
+
+#: ../components/admin/post-type-questions.php:1078
+msgid "November"
+msgstr "November"
+
+#: ../components/admin/post-type-questions.php:1079
+msgid "December"
+msgstr "Dezember"
 
 # @ surveyval-locale
 #: ../components/charts/class-chart-creator.php:101
@@ -311,26 +405,26 @@ msgid "Please enter a survey id in the survey shortcode!"
 msgstr "Bitte geben Sie die ID der Umfrage im Sportcode an."
 
 # @ surveyval-locale
-#: ../components/charts/shortcodes.php:75
+#: ../components/charts/shortcodes.php:76
 msgid "There are no results to show."
 msgstr "Es gibt keine Ergebnisse zu zeigen."
 
 # @ surveyval-locale
-#: ../components/charts/shortcodes.php:93
+#: ../components/charts/shortcodes.php:94
 msgid "Please enter a question id in the survey shortcode!"
 msgstr "Bitte geben Sie die ID der Frage im Sportcode an."
 
-#: ../components/charts/shortcodes.php:118
+#: ../components/charts/shortcodes.php:119
 msgid "Results Shortcode:"
 msgstr "Ergebnis-Shortcode:"
 
-#: ../components/charts/shortcodes.php:132
+#: ../components/charts/shortcodes.php:133
 msgid "(CTRL+C and paste into post to embed question results in post)"
 msgstr ""
 "(STRG +C  und anschließend in Post einfügen um die Ergebnisse der Frage "
 "anzuzeigen)"
 
-#: ../components/charts/shortcodes.php:133
+#: ../components/charts/shortcodes.php:134
 msgid "Shortcode:"
 msgstr "Shortcode:"
 
@@ -350,83 +444,83 @@ msgid "Core functions of the Questions Plugin"
 msgstr "Kernfunktionen des Question Plugins"
 
 # @ surveyval-locale
-#: ../components/core/component.php:63
+#: ../components/core/component.php:64
 msgctxt "taxonomy general name"
 msgid "Categories"
 msgstr "Kategorien"
 
 # @ surveyval-locale
-#: ../components/core/component.php:64
+#: ../components/core/component.php:65
 msgctxt "taxonomy singular name"
 msgid "Category"
 msgstr "Kategorie"
 
 # @ surveyval-locale
-#: ../components/core/component.php:65
+#: ../components/core/component.php:66
 msgid "Search Categories"
 msgstr "Kategorien durchsuchen"
 
 # @ surveyval-locale
-#: ../components/core/component.php:66
+#: ../components/core/component.php:67
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
 # @ surveyval-locale
-#: ../components/core/component.php:67
+#: ../components/core/component.php:68
 msgid "Parent Category"
 msgstr "Eltern-Kategorie"
 
 # @ surveyval-locale
-#: ../components/core/component.php:68
+#: ../components/core/component.php:69
 msgid "Parent Category:"
 msgstr "Eltern-Kategorie:"
 
 # @ surveyval-locale
-#: ../components/core/component.php:69
+#: ../components/core/component.php:70
 msgid "Edit Category"
 msgstr "Kategorie bearbeiten"
 
 # @ surveyval-locale
-#: ../components/core/component.php:70
+#: ../components/core/component.php:71
 msgid "Update Category"
 msgstr "Kategorie speichern"
 
 # @ surveyval-locale
-#: ../components/core/component.php:71
+#: ../components/core/component.php:72
 msgid "Add New Category"
 msgstr "Neue Kategorie hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: ../components/core/component.php:72
+#: ../components/core/component.php:73
 msgid "New Category"
 msgstr "Neue Kategorie"
 
 # @ surveyval-locale
-#: ../components/core/component.php:88 ../components/core/shortcodes.php:47
+#: ../components/core/component.php:89 ../components/core/shortcodes.php:47
 msgid "Survey"
 msgstr "Umfrage"
 
 # @ surveyval-locale
-#: ../components/core/component.php:89
+#: ../components/core/component.php:90
 msgid "All Surveys"
 msgstr "Alle Umfragen"
 
 # @ surveyval-locale
-#: ../components/core/component.php:90 ../components/core/component.php:92
+#: ../components/core/component.php:91 ../components/core/component.php:93
 msgid "Add new Survey"
 msgstr "Umfrage hinzuf&uuml;gen"
 
 # @ surveyval-locale
-#: ../components/core/component.php:93
+#: ../components/core/component.php:94
 msgid "View Survey"
 msgstr "Umfrage ansehen"
 
 # @ surveyval-locale
-#: ../components/core/component.php:94
+#: ../components/core/component.php:95
 msgid "Search Survey"
 msgstr "Umfrage suchen"
 
-#: ../components/core/component.php:95 ../components/core/component.php:96
+#: ../components/core/component.php:96 ../components/core/component.php:97
 msgid "No Survey available"
 msgstr "Keine Umfrage vorhanden"
 
@@ -440,7 +534,7 @@ msgid "There are open answers"
 msgstr "Es gibt offene Antworten"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:269
+#: ../components/core/process-response.php:306
 #, php-format
 msgid ""
 "Step <span class=\"questions-highlight-number\">%d</span> of <span class="
@@ -450,41 +544,41 @@ msgstr ""
 "\"surveyval-highlight-number\">%s</span>"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:292
+#: ../components/core/process-response.php:329
 msgid "Previous Step"
 msgstr "Zur&uuml;ck"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:298
+#: ../components/core/process-response.php:335
 msgid "Finish Survey"
 msgstr "Umfrage abschlie&szlig;en"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:302
+#: ../components/core/process-response.php:339
 msgid "Next Step"
 msgstr "Weiter"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:753
+#: ../components/core/process-response.php:798
 msgid "Thank you for participating this survey!"
 msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:779
+#: ../components/core/process-response.php:824
 msgid "You already have participated this poll."
 msgstr "Sie haben bereits an der Umfrage teilgenommen."
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:798
+#: ../components/core/process-response.php:843
 msgid "You have to be logged in to participate this survey."
 msgstr "Sie m&uuml;ssen eigeloggt sein um an der Umfrage teilzunehmen."
 
 # @ surveyval-locale
-#: ../components/core/process-response.php:813
+#: ../components/core/process-response.php:858
 msgid "You can't participate this survey."
 msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
 
-#: ../components/core/process-response.php:828
+#: ../components/core/process-response.php:873
 msgid "This are the actual results:"
 msgstr "Das sind die aktuellen Ergebnisse:"
 
@@ -503,11 +597,16 @@ msgstr ""
 msgid "Survey Shortcode:"
 msgstr "Umfrage-Shortcode:"
 
-#: ../components/core/survey.php:192
+#: ../components/core/survey.php:193
 msgid "User ID"
 msgstr "Nutzer ID"
 
+# @ surveyval-locale
 #: ../components/core/survey.php:224
+msgid "Username"
+msgstr "Benutzername"
+
+#: ../components/core/survey.php:257
 msgid "Date/Time"
 msgstr "Datum / Uhrzeit"
 
