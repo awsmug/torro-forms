@@ -1056,7 +1056,27 @@ class Questions_AdminPostType{
             'max_fields_over_limit'				  => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
             'max_fields_todo'					  => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
             'of'								  => esc_attr__( 'of', 'questions-locale' ),
+
             'dateformat'                          => esc_attr__( 'yy/mm/dd', 'questions-locale' ),
+            'min_sun'                             => esc_attr__( 'Su', 'questions-locale' ),
+            'min_mon'                             => esc_attr__( 'Mo', 'questions-locale' ),
+            'min_tue'                             => esc_attr__( 'Tu', 'questions-locale' ),
+            'min_wed'                             => esc_attr__( 'We', 'questions-locale' ),
+            'min_thu'                             => esc_attr__( 'Th', 'questions-locale' ),
+            'min_fri'                             => esc_attr__( 'Fr', 'questions-locale' ),
+            'min_sat'                             => esc_attr__( 'Sa', 'questions-locale' ),
+            'january'                             => esc_attr__( 'January', 'questions-locale' ),
+            'february'                            => esc_attr__( 'February', 'questions-locale' ),
+            'march'                               => esc_attr__( 'March', 'questions-locale' ),
+            'april'                               => esc_attr__( 'April', 'questions-locale' ),
+            'may'                                 => esc_attr__( 'May', 'questions-locale' ),
+            'june'                                => esc_attr__( 'June', 'questions-locale' ),
+            'july'                                => esc_attr__( 'July', 'questions-locale' ),
+            'august'                              => esc_attr__( 'August', 'questions-locale' ),
+            'september'                           => esc_attr__( 'September', 'questions-locale' ),
+            'october'                             => esc_attr__( 'October', 'questions-locale' ),
+            'november'                            => esc_attr__( 'November', 'questions-locale' ),
+            'december'                            => esc_attr__( 'December', 'questions-locale' ),
         );
 
         wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/admin/includes/js/admin-questions-post-type.js' );
