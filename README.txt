@@ -69,8 +69,8 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 == Changelog ==
 
 = 1.0.0 beta 18 =
-* Added timerange for survey
 * Reworked admin component
+* Fixed UTF8 bug on exporting surveys
 
 = 1.0.0 beta 17 =
 * Bettered up Chart view (Switched back to Dimple)
