@@ -38,7 +38,7 @@ class Questions_Export{
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'export' ), 10 );
 		add_filter( 'post_row_actions', array( $this, 'add_export_link' ), 10, 2 );
-	} // end constructor
+	}
 	
 	/**
 	 * Add export link to the overview page
@@ -69,7 +69,9 @@ class Questions_Export{
 			$survey = new Questions_Survey( $survey_id );
 			$export_filename = sanitize_title( $survey->title );
 			$export_data = $survey->get_responses();
-			
+
+            $content = $this->get_csv( $export_data );
+
 			header( "Pragma: public" );
 			header( "Expires: 0" );
 			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
@@ -78,11 +80,12 @@ class Questions_Export{
 			switch( $export_type ){
 				case 'CSV':
 					$content = $this->get_csv( $export_data );
+
 					$bytes = strlen( $content );
-					$charset = get_bloginfo( 'blog_charset' );
-					
+					$charset = 'UTF-8';
+
 					header( "Content-Length: " . $bytes );
-					header( "Content-Type: Content-Type: text/csv; charset=" . $charset );
+					header( "Content-Type: text/html; charset=" . $charset );
 					header( "Content-Disposition: attachment; filename=\"" . $export_filename . ".csv\";" );
 					
 					echo $content;
@@ -103,10 +106,10 @@ class Questions_Export{
 	 * @return string $output CSV content
 	 */
 	public function get_csv( $response_array ){
-		
+
 		$headlines = Questions_AbstractData::get_headlines( $response_array );
 		$lines = Questions_AbstractData::get_lines( $response_array );
-		
+
 		$lines = array_merge( array( $headlines ), $lines );
 		
 		// Running each question (element without separators etc)

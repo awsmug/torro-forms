@@ -255,7 +255,6 @@ class Questions_AbstractData{
 	 * @since 1.0.0
 	 */
 	public static function filter_string( $string ){
-		$string = utf8_decode( $string );
 		if( '' ==  $string )
 			return '-';
 		
