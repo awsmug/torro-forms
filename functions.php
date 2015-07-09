@@ -133,7 +133,7 @@ function qu_get_mail_template_subject( $mailsubject_title ) {
 	$text = '';
 	switch ( $mailsubject_title ) {
 		case 'thankyou_participating':
-			$text = stripslashes( get_option( 'questionsthankyou_participating_subject_template' ) );
+			$text = stripslashes( get_option( 'questions_thankyou_participating_subject_template' ) );
 			if ( empty( $text ) ):
 				$text = esc_attr__( 'Thank you for participating!', 'questions-locale' );
 			endif;

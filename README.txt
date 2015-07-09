@@ -70,6 +70,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0 beta 18 =
 * Reworked admin component
+* Fixed Settings page
 * Fixed UTF8 bug on exporting surveys
 
 = 1.0.0 beta 17 =

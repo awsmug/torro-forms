@@ -61,7 +61,7 @@ class Questions_AdminMenu {
             esc_attr__( 'Surveys', 'questions-locale' ),
             'edit_posts',
             'QuestionsAdmin',
-            array( __CLASS__, 'settings_page' ),
+            array( 'Questions_AdminSettingsPage', 'show' ),
             '',
             50
         );
@@ -85,7 +85,7 @@ class Questions_AdminMenu {
             esc_attr__( 'Settings', 'questions-locale' ),
             'edit_posts',
             'QuestionsAdmin',
-            array( __CLASS__, 'settings_page' )
+            array( 'Questions_AdminSettingsPage', 'show' )
         );
     }
 
@@ -103,15 +103,6 @@ class Questions_AdminMenu {
         }
 
         return $parent_file;
-    }
-
-    /**
-     * Content of the settings page.
-     * @since 1.0.0
-     */
-    public static function settings_page() {
-
-        include( QUESTIONS_COMPONENTFOLDER . '/admin/pages/settings.php' );
     }
 }
 

@@ -57,7 +57,6 @@ class Questions_AdminPostType{
         add_action( 'wp_ajax_questions_duplicate_survey', array( __CLASS__, 'ajax_duplicate_survey' ) );
         add_action( 'wp_ajax_questions_delete_results', array( __CLASS__, 'ajax_delete_results' ) );
 
-        add_action( 'init', array( __CLASS__, 'save_settings' ), 20 );
         add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
     }
 
@@ -648,10 +647,7 @@ class Questions_AdminPostType{
              */
             if ( is_array( $settings ) && count( $settings ) > 0 ):
                 foreach ( $settings AS $name => $setting ):
-                    $sql   = $wpdb->prepare(
-                        "SELECT COUNT(*) FROM {$questions_global->tables->settings} WHERE question_id = %d AND name = %s",
-                        $question_id, $name
-                    );
+                    $sql   = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->settings} WHERE question_id = %d AND name = %s",  $question_id, $name );
                     $count = $wpdb->get_var( $sql );
 
                     if ( $count > 0 ):
@@ -705,43 +701,6 @@ class Questions_AdminPostType{
 
         // Preventing duplicate saving
         remove_action( 'save_post', array( __CLASS__, 'save_survey' ), 50 );
-    }
-
-    /**
-     * Saving settings of survey
-     *
-     * @since 1.0.0
-     */
-    public static function save_settings() {
-
-        // If there is nothing, do noting
-        if ( ! array_key_exists( 'questions_settings_save', $_POST ) )
-            return;
-
-        // Verifying nonce
-        if ( ! isset( $_POST[ 'questions_save_settings_field' ] )
-            || ! wp_verify_nonce(
-                $_POST[ 'questions_save_settings_field' ], 'questions_save_settings'
-            )
-        ) {
-            return;
-        }
-
-        update_option(
-            'questions_thankyou_participating_subject_template',
-            $_POST[ 'questions_thankyou_participating_subject_template' ]
-        );
-        update_option( 'questions_invitation_subject_template', qu_prepare_post_data( $_POST[ 'questions_invitation_subject_template' ] ) );
-        update_option( 'questions_reinvitation_subject_template', qu_prepare_post_data( $_POST[ 'questions_reinvitation_subject_template' ] ) );
-
-        update_option(
-            'questions_thankyou_participating_text_template', qu_prepare_post_data( $_POST[ 'questions_thankyou_participating_text_template' ]
-        ));
-        update_option( 'questions_invitation_text_template', qu_prepare_post_data( $_POST[ 'questions_invitation_text_template' ] ));
-        update_option( 'questions_reinvitation_text_template', qu_prepare_post_data( $_POST[ 'questions_reinvitation_text_template' ] ));
-
-        update_option( 'questions_mail_from_name', qu_prepare_post_data( $_POST[ 'questions_mail_from_name' ] ) );
-        update_option( 'questions_mail_from_email', $_POST[ 'questions_mail_from_email' ] );
     }
 
     /**
@@ -1060,10 +1019,7 @@ class Questions_AdminPostType{
             'of'								  => esc_attr__( 'of', 'questions-locale' )
         );
 
-        wp_enqueue_script(
-            'admin-questions-post-type',
-            QUESTIONS_URLPATH . '/components/admin/includes/js/admin-questions-post-type.js'
-        );
+        wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/admin/includes/js/admin-questions-post-type.js' );
         wp_enqueue_script( 'jquery-ui-draggable' );
         wp_enqueue_script( 'jquery-ui-droppable' );
         wp_enqueue_script( 'jquery-ui-dialog' );
