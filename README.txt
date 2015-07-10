@@ -71,6 +71,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
+= 1.0.0 beta 19 =
+* Added russian language files (Thanks to [@kosm])
+* No export on no results possible
+
 = 1.0.0 beta 18 =
 * Added timerange
 * Added usernames to export
@@ -122,7 +126,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0 beta 10 =
 * Enhanced code structure
-* Added Dutch language files (Thanks to Remco Wesselius)
+* Added Dutch language files (Thanks to [@remcow])
 * Also showing questions if question text not have been filled in
 * Reworked Drag&Drop area to be sortable from the first drop
 * Preparing data after submitting
@@ -134,9 +138,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Added pariticipiants option "No restrictions"
 * Added filters for default on $participiants_restrictions
 * Added filters for texts
-* Added swedish language files (Thanks to Remco Wesselius)
+* Added swedish language files (Thanks to [@elle_])
 * Added persian language files (Thanks to Hos3in)
-* Code enhancements (Thanks to Frank Bültge)
+* Code enhancements (Thanks to [@bueltge])
 
 = 1.0.0 beta 7 =
 * Fixed problems with errors on further steps
