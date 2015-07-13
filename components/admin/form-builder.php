@@ -865,7 +865,7 @@ class Questions_FormBuilder{
         }
 
         $form        = new Questions_Form( $form_id );
-        $new_form_id = $form->duplicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
+        $new_form_id = $form->duplicate( TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 
         $post = get_post( $new_form_id );
 

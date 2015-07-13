@@ -33,6 +33,7 @@ class Questions_Post{
 	var $id;
 	var $post;
 	var $meta;
+    var $terms;
 	var $comments;
 
     /**
@@ -53,10 +54,11 @@ class Questions_Post{
      * Dublicating posts
      * @param bool $copy_meta
      * @param bool $copy_comments
+     * @param bool $copy_taxonomies
      * @param bool $draft
      * @return int $post_id The id of the new post
      */
-	public function duplicate( $copy_meta = TRUE, $copy_comments = TRUE, $draft = FALSE ){
+	public function duplicate( $copy_meta = TRUE, $copy_taxonomies = TRUE, $copy_comments = TRUE, $draft = FALSE ){
 		$copy = clone $this->post;
 		$copy->ID = '';
 		
@@ -73,6 +75,10 @@ class Questions_Post{
 		if( $copy_meta ):
 			$this->duplicate_meta( $post_id );
 		endif;
+
+        if( $copy_taxonomies ):
+            $this->dublicate_taxonomies( $post_id );
+        endif;
 			
 		if( $copy_comments ):
 			$this->duplicate_comments( $post_id );
@@ -115,17 +121,52 @@ class Questions_Post{
 	}
 
     /**
+     * Dublicating taxonomies of a post
+     * @param $post_id
+     */
+    public function dublicate_taxonomies( $post_id ){
+        global $wpdb;
+
+        if( empty( $post_id ) )
+            return FALSE;
+
+        $sql = $wpdb->prepare( "SELECT * FROM {$wpdb->term_relationships} WHERE object_id=%d", $this->id );
+        $results = $wpdb->get_results( $sql );
+
+        if( count( $results ) > 0 ) {
+            foreach ( $results AS $result ) {
+                $wpdb->insert(
+                    $wpdb->term_relationships,
+                    array(
+                        'object_id'         => $post_id,
+                        'term_taxonomy_id'  => $result->term_taxonomy_id,
+                        'term_order'        => $result->term_order
+                    ),
+                    array(
+                        '%d',
+                        '%d',
+                        '%d'
+                    )
+                );
+            }
+        }
+        return TRUE;
+    }
+
+    /**
      * Dublicates comments of a post
      * @param $post_id The ID of the post
      * @return bool
      */
 	public function duplicate_meta( $post_id ){
-		$forbidden_keys = array(
-			'_edit_lock',
-			'_edit_last'
-		);
+
 		if( empty( $post_id ) )
 			return FALSE;
+
+        $forbidden_keys = apply_filters( 'questions_dublicate_forbidden_terms', array(
+            '_edit_lock',
+            '_edit_last'
+        ));
 
 		foreach( $this->meta AS $meta_key => $meta_value ):
 			if( !in_array( $meta_key, $forbidden_keys ) )

@@ -73,7 +73,8 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0 beta 19 =
 * Added russian language files (Thanks to [@kosm])
-* No export on no results possible
+* No export if no results
+* Refactored code
 
 = 1.0.0 beta 18 =
 * Added timerange

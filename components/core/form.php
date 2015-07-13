@@ -165,8 +165,8 @@ class Questions_Form extends Questions_Post{
      * @param bool $draft True if dublicated form have to be a draft
      * @return int
      */
-    public function duplicate( $copy_meta = TRUE, $copy_comments = TRUE, $copy_elements = TRUE, $copy_answers = TRUE, $copy_participiants = TRUE, $draft = FALSE ){
-        $new_form_id = parent::duplicate( $copy_meta, $copy_comments, $draft );
+    public function duplicate( $copy_meta = TRUE, $copy_taxonomies = TRUE, $copy_comments = TRUE, $copy_elements = TRUE, $copy_answers = TRUE, $copy_participiants = TRUE, $draft = FALSE ){
+        $new_form_id = parent::duplicate( $copy_meta, $copy_taxonomies, $copy_comments, $draft );
 
         if( $copy_elements ):
             $this->duplicate_elements( $new_form_id, $copy_answers );
