@@ -40,7 +40,7 @@ class QuestionsShortCodes{
 	}
 	
 	public static function survey( $atts ){
-		global $Questions_ProcessResponse;
+		global $Questions_FormProcess;
 		
 		$atts = shortcode_atts( array(
 				'id' => '',
@@ -53,12 +53,12 @@ class QuestionsShortCodes{
 			return;
 		endif;
 		
-		if( !qu_survey_exists( $atts[ 'id' ] ) ):
+		if( !qu_form_exists( $atts[ 'id' ] ) ):
 			_e( 'Survey not found. Please enter another ID in your shortcode.', 'questions-locale' );
 			return;
 		endif;
 		
-		return $Questions_ProcessResponse->show_survey( $atts[ 'id' ] );
+		return $Questions_FormProcess->show_survey( $atts[ 'id' ] );
 	}
 	
 	public static function show_survey_shortcode( $survey_id ){

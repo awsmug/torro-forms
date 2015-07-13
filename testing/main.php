@@ -169,7 +169,7 @@ class QuestionsTests extends PHPUnit_Extensions_SeleniumTestCase{
 	private function generate_scripts(){
 		global $wpdb;
 		
-		$survey = new Questions_Survey( $this->survey_id );
+		$survey = new Questions_Form( $this->survey_id );
 		
 		$values_code = '$values = array();' . chr( 13 );
 		$click_code = '';

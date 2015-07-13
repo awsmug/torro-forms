@@ -1,6 +1,6 @@
 <?php
 /**
- * Question post type functions
+ * Question Form Builder
  *
  * This class adds question post type functions.
  *
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Questions_AdminPostType{
+class Questions_FormBuilder{
 
     /**
      * Init in WordPress, run on constructor
@@ -49,12 +49,12 @@ class Questions_AdminPostType{
         add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ) );
         add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 10 );
 
-        add_action( 'save_post', array( __CLASS__, 'save_survey' ) );
-        add_action( 'delete_post', array( __CLASS__, 'delete_survey' ) );
+        add_action( 'save_post', array( __CLASS__, 'save_form' ) );
+        add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
 
         add_action( 'wp_ajax_questions_add_members_standard', array( __CLASS__, 'ajax_add_members' ) );
         add_action( 'wp_ajax_questions_invite_participiants', array( __CLASS__, 'ajax_invite_participiants' ) );
-        add_action( 'wp_ajax_questions_duplicate_survey', array( __CLASS__, 'ajax_duplicate_survey' ) );
+        add_action( 'wp_ajax_questions_duplicate_survey', array( __CLASS__, 'ajax_duplicate_form' ) );
         add_action( 'wp_ajax_questions_delete_results', array( __CLASS__, 'ajax_delete_results' ) );
 
         add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
@@ -78,9 +78,9 @@ class Questions_AdminPostType{
 
         $html .= '<div id="drag-drop-inside">';
         /* << INSIDE DRAG&DROP AREA >> */
-        $survey = new Questions_Survey( $post->ID );
+        $form = new Questions_Form( $post->ID );
         // Running each Element
-        foreach ( $survey->elements AS $element ):
+        foreach ( $form->elements AS $element ):
             $html .= $element->draw_admin();
         endforeach;
         /* << INSIDE DRAG&DROP AREA >> */
@@ -91,13 +91,13 @@ class Questions_AdminPostType{
         $html .= '<div id="delete_results_dialog"><h3>' . esc_attr__( 'Attention!', 'questions-locale' ) . '</h3><p>' . esc_attr__(
                 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'questions-locale'
             ) . '</p></div>';
-        $html .= '<div id="delete_surveyelement_dialog">' . esc_attr__(
+        $html .= '<div id="delete_formelement_dialog">' . esc_attr__(
                 'Do you really want to delete this element?', 'questions-locale'
             ) . '</div>';
         $html .= '<div id="delete_answer_dialog">' . esc_attr__(
                 'Do you really want to delete this answer?', 'questions-locale'
             ) . '</div>';
-        $html .= '<input type="hidden" id="deleted_surveyelements" name="questions_deleted_surveyelements" value="">';
+        $html .= '<input type="hidden" id="deleted_formelements" name="questions_deleted_formelements" value="">';
         $html .= '<input type="hidden" id="deleted_answers" name="questions_deleted_answers" value="">';
 
         echo $html;
@@ -115,47 +115,47 @@ class Questions_AdminPostType{
 
         if ( in_array( $post_type, $post_types ) ):
             add_meta_box(
-                'survey-options',
+                'form-options',
                 esc_attr__( 'Options', 'questions-locale' ),
-                array( __CLASS__, 'meta_box_survey_options' ),
+                array( __CLASS__, 'meta_box_form_options' ),
                 'questions',
                 'side'
             );
             add_meta_box(
-                'survey-functions',
+                'form-functions',
                 esc_attr__( 'Survey Functions', 'questions-locale' ),
-                array( __CLASS__, 'meta_box_survey_functions' ),
+                array( __CLASS__, 'meta_box_form_functions' ),
                 'questions',
                 'side'
             );
             add_meta_box(
-                'survey-elements',
+                'form-elements',
                 esc_attr__( 'Elements', 'questions-locale' ),
-                array( __CLASS__, 'meta_box_survey_elements' ),
+                array( __CLASS__, 'meta_box_form_elements' ),
                 'questions',
                 'side',
                 'high'
             );
             add_meta_box(
-                'survey-timerange',
+                'form-timerange',
                 esc_attr__( 'Timerange', 'questions-locale' ),
-                array( __CLASS__, 'meta_box_survey_timerange' ),
+                array( __CLASS__, 'meta_box_form_timerange' ),
                 'questions',
                 'side',
                 'high'
             );
             add_meta_box(
-                'survey-participiants',
+                'form-participiants',
                 esc_attr__( 'Participiants list', 'questions-locale' ),
-                array( __CLASS__, 'meta_box_survey_participiants' ),
+                array( __CLASS__, 'meta_box_form_participiants' ),
                 'questions',
                 'normal',
                 'high'
             );
             add_meta_box(
-                'survey-results',
+                'form-results',
                 esc_attr__( 'Results', 'questions-locale' ),
-                array( __CLASS__, 'meta_box_survey_results' ),
+                array( __CLASS__, 'meta_box_form_results' ),
                 'questions',
                 'normal',
                 'high'
@@ -167,7 +167,7 @@ class Questions_AdminPostType{
      * Elements for dropping
      * @since 1.0.0
      */
-    public static function meta_box_survey_elements() {
+    public static function meta_box_form_elements() {
 
         global $questions_global;
 
@@ -183,14 +183,13 @@ class Questions_AdminPostType{
     /**
      *
      */
-    public static function meta_box_survey_timerange(){
+    public static function meta_box_form_timerange(){
         global $post;
 
-        $survey_id = $post->ID;
+        $form_id = $post->ID;
 
-        $start_date = get_post_meta( $survey_id, 'start_date', TRUE );
-        $end_date = get_post_meta( $survey_id, 'end_date', TRUE );
-
+        $start_date = get_post_meta( $form_id, 'start_date', TRUE );
+        $end_date = get_post_meta( $form_id, 'end_date', TRUE );
 
         $html = '<label for="start_date">' . esc_attr__( 'When does the survey start?', 'questions-locale' ) . '</label>';
         $html.= '<p><input type="text" id="start_date" name="start_date" value="' . $start_date . '"/></p>';
@@ -204,15 +203,13 @@ class Questions_AdminPostType{
      * Survey participiants box
      * @since 1.0.0
      */
-    public static function meta_box_survey_participiants() {
+    public static function meta_box_form_participiants() {
 
         global $wpdb, $post, $questions_global;
 
-        $survey_id = $post->ID;
+        $form_id = $post->ID;
 
-        $sql      = $wpdb->prepare(
-            "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %s", $survey_id
-        );
+        $sql      = $wpdb->prepare(  "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %s", $form_id );
         $user_ids = $wpdb->get_col( $sql );
 
         $users = array();
@@ -229,7 +226,7 @@ class Questions_AdminPostType{
         $disabled = '';
         $selected = '';
 
-        $participiant_restrictions = get_post_meta( $survey_id, 'participiant_restrictions', TRUE );
+        $participiant_restrictions = get_post_meta( $form_id, 'participiant_restrictions', TRUE );
 
         $restrictions = apply_filters(
             'questions_post_type_participiant_restrictions',
@@ -253,11 +250,7 @@ class Questions_AdminPostType{
             )
         );
 
-        if ( '' == $participiant_restrictions
-            && count(
-                $users
-            ) > 0
-        ): // If there are participiants and nothing was selected before
+        if ( '' == $participiant_restrictions && count( $users ) > 0 ): // If there are participiants and nothing was selected before
             $participiant_restrictions = 'selected_members';
         elseif ( '' == $participiant_restrictions ): // If there was selected nothing before
             $participiant_restrictions = 'all_visitors';
@@ -338,7 +331,7 @@ class Questions_AdminPostType{
         if ( is_array( $users ) && count( $users ) > 0 ):
 
             foreach ( $users AS $user ):
-                if ( qu_user_has_participated( $survey_id, $user->ID ) ):
+                if ( qu_user_has_participated( $form_id, $user->ID ) ):
                     $user_css  = ' finished';
                     $user_text = esc_attr__( 'finished', 'questions-locale' );
                 else:
@@ -382,12 +375,12 @@ class Questions_AdminPostType{
      * Showing survey results in admin
      * @since 1.0.0
      */
-    public static function meta_box_survey_results(){
+    public static function meta_box_form_results(){
         global $wpdb, $post, $questions_global;
 
-        $survey_id = $post->ID;
+        $form_id = $post->ID;
 
-        $html = do_shortcode( '[survey_results id="' . $survey_id . '"]' );
+        $html = do_shortcode( '[survey_results id="' . $form_id . '"]' );
 
         echo $html;
     }
@@ -396,12 +389,12 @@ class Questions_AdminPostType{
      * Survey options
      * @since 1.0.0
      */
-    public static function meta_box_survey_options() {
+    public static function meta_box_form_options() {
 
         global $post;
 
-        $survey_id    = $post->ID;
-        $show_results = get_post_meta( $survey_id, 'show_results', TRUE );
+        $form_id    = $post->ID;
+        $show_results = get_post_meta( $form_id, 'show_results', TRUE );
 
         if ( '' == $show_results ) {
             $show_results = 'no';
@@ -425,7 +418,7 @@ class Questions_AdminPostType{
         $html .= '</div>';
 
         ob_start();
-        do_action( 'questions_survey_options', $survey_id );
+        do_action( 'questions_survey_options', $form_id );
         $html .= ob_get_clean();
 
         echo $html;
@@ -436,7 +429,7 @@ class Questions_AdminPostType{
      *
      * @since 1.0.0
      */
-    public static function meta_box_survey_functions() {
+    public static function meta_box_form_functions() {
 
         global $post;
 
@@ -495,10 +488,10 @@ class Questions_AdminPostType{
     /**
      * Saving data
      *
-     * @param int $post_id
+     * @param int $form_id
      * @since 1.0.0
      */
-    public static function save_survey( $post_id ) {
+    public static function save_form( $form_id ) {
         global $questions_global, $wpdb;
 
         if ( !array_key_exists( 'questions', $_REQUEST ) ) {
@@ -509,7 +502,7 @@ class Questions_AdminPostType{
             return;
         }
 
-        if ( wp_is_post_revision( $post_id ) ) {
+        if ( wp_is_post_revision( $form_id ) ) {
             return;
         }
 
@@ -522,7 +515,7 @@ class Questions_AdminPostType{
         }
 
         $survey_elements                  = $_POST[ 'questions' ];
-        $survey_deleted_surveyelements    = $_POST[ 'questions_deleted_surveyelements' ];
+        $survey_deleted_formelements    = $_POST[ 'questions_deleted_formelements' ];
         $survey_deleted_answers           = $_POST[ 'questions_deleted_answers' ];
         $survey_participiant_restrictions = $_POST[ 'questions_participiants_restrictions_select' ];
         $survey_show_results              = $_POST[ 'show_results' ];
@@ -533,26 +526,26 @@ class Questions_AdminPostType{
         /**
          * Saving Restrictions
          */
-        update_post_meta( $post_id, 'participiant_restrictions', $survey_participiant_restrictions );
+        update_post_meta( $form_id, 'participiant_restrictions', $survey_participiant_restrictions );
 
         /**
          * Saving if results have to be shown after participating
          */
-        update_post_meta( $post_id, 'show_results', $survey_show_results );
+        update_post_meta( $form_id, 'show_results', $survey_show_results );
 
         /**
          * Saving start and end date
          */
-        update_post_meta( $post_id, 'start_date', $start_date );
-        update_post_meta( $post_id, 'end_date', $end_date );
+        update_post_meta( $form_id, 'start_date', $start_date );
+        update_post_meta( $form_id, 'end_date', $end_date );
 
-        $survey_deleted_surveyelements = explode( ',', $survey_deleted_surveyelements );
+        $survey_deleted_formelements = explode( ',', $survey_deleted_formelements );
 
         /**
          * Deleting deleted answers
          */
-        if ( is_array( $survey_deleted_surveyelements ) && count( $survey_deleted_surveyelements ) > 0 ):
-            foreach ( $survey_deleted_surveyelements AS $deleted_question ):
+        if ( is_array( $survey_deleted_formelements ) && count( $survey_deleted_formelements ) > 0 ):
+            foreach ( $survey_deleted_formelements AS $deleted_question ):
                 $wpdb->delete(
                     $questions_global->tables->questions,
                     array( 'id' => $deleted_question )
@@ -571,10 +564,7 @@ class Questions_AdminPostType{
          */
         if ( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
             foreach ( $survey_deleted_answers AS $deleted_answer ):
-                $wpdb->delete(
-                    $questions_global->tables->answers,
-                    array( 'id' => $deleted_answer )
-                );
+                $wpdb->delete( $questions_global->tables->answers, array( 'id' => $deleted_answer ) );
             endforeach;
         endif;
 
@@ -582,7 +572,7 @@ class Questions_AdminPostType{
          * Saving elements
          */
         foreach ( $survey_elements AS $key => $survey_question ):
-            if ( 'widget_surveyelement_XXnrXX' == $key ) {
+            if ( 'widget_formelement_XXnrXX' == $key ) {
                 continue;
             }
 
@@ -626,7 +616,7 @@ class Questions_AdminPostType{
                 $wpdb->insert(
                     $questions_global->tables->questions,
                     array(
-                        'questions_id' => $post_id,
+                        'questions_id' => $form_id,
                         'question'     => $question,
                         'sort'         => $sort,
                         'type'         => $type
@@ -636,7 +626,7 @@ class Questions_AdminPostType{
                 $question_id  = $wpdb->insert_id;
             endif;
 
-            do_action( 'questions_save_survey_after_saving_question', $survey_question, $question_id );
+            do_action( 'questions_save_form_after_saving_question', $survey_question, $question_id );
 
             /*
              * Saving answers
@@ -677,7 +667,7 @@ class Questions_AdminPostType{
                         $answer_id = $wpdb->insert_id;
                     endif;
 
-                    do_action( 'questions_save_survey_after_saving_answer', $survey_question, $answer_id );
+                    do_action( 'questions_save_form_after_saving_answer', $survey_question, $answer_id );
                 endforeach;
             endif;
 
@@ -719,7 +709,7 @@ class Questions_AdminPostType{
         $questions_participiant_ids = explode( ',', $questions_participiants );
 
         $sql = "DELETE FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
-        $sql = $wpdb->prepare( $sql, $post_id );
+        $sql = $wpdb->prepare( $sql, $form_id );
         $wpdb->query( $sql );
 
         if ( is_array( $questions_participiant_ids ) && count( $questions_participiant_ids ) > 0 ):
@@ -727,99 +717,28 @@ class Questions_AdminPostType{
                 $wpdb->insert(
                     $questions_global->tables->participiants,
                     array(
-                        'survey_id' => $post_id,
+                        'survey_id' => $form_id,
                         'user_id'   => $user_id
                     )
                 );
             endforeach;
         endif;
 
-        do_action( 'save_questions', $post_id );
-
-        do_action( 'questions_save_survey', $post_id );
+        do_action( 'questions_save_form', $form_id );
 
         // Preventing duplicate saving
-        remove_action( 'save_post', array( __CLASS__, 'save_survey' ), 50 );
+        remove_action( 'save_post', array( __CLASS__, 'save_form' ), 50 );
     }
 
     /**
-     * Delete survey
+     * Delete form
      *
-     * @param int $survey_id
+     * @param int $form_id
      * @since 1.0.0
      */
-    public static function delete_survey( $survey_id ) {
-
-        global $wpdb, $questions_global;
-
-        $sql      = $wpdb->prepare(
-            "SELECT id FROM {$questions_global->tables->questions} WHERE questions_id=%d", $survey_id
-        );
-        $elements = $wpdb->get_col( $sql );
-
-        /*
-         * Answers & Settings
-         */
-        if ( is_array( $elements ) && count( $elements ) > 0 ):
-            foreach ( $elements AS $question_id ):
-                $wpdb->delete(
-                    $questions_global->tables->answers,
-                    array( 'question_id' => $question_id )
-                );
-
-                $wpdb->delete(
-                    $questions_global->tables->settings,
-                    array( 'question_id' => $question_id )
-                );
-
-                do_action( 'questions_delete_element', $question_id, $survey_id );
-            endforeach;
-        endif;
-
-        /*
-         * Questions
-         */
-        $wpdb->delete(
-            $questions_global->tables->questions,
-            array( 'questions_id' => $survey_id )
-        );
-
-        do_action( 'questions_delete_survey', $survey_id );
-
-        /*
-         * Response Answers
-         */
-        $sql       = $wpdb->prepare(
-            "SELECT id FROM {$questions_global->tables->respond_answers} WHERE questions_id=%d", $survey_id
-        );
-        $responses = $wpdb->get_col( $sql );
-
-        if ( is_array( $responses ) && count( $responses ) > 0 ):
-            foreach ( $responses AS $respond_id ):
-                $wpdb->delete(
-                    $questions_global->tables->respond_answers,
-                    array( 'respond_id' => $respond_id )
-                );
-
-                do_action( 'questions_delete_responds', $respond_id, $survey_id );
-            endforeach;
-        endif;
-
-        /*
-         * Responds
-         */
-        $wpdb->delete(
-            $questions_global->tables->responds,
-            array( 'questions_id' => $survey_id )
-        );
-
-        /*
-         * Participiants
-         */
-        $wpdb->delete(
-            $questions_global->tables->participiants,
-            array( 'survey_id' => $survey_id )
-        );
+    public static function delete_form( $form_id ) {
+        $form = new Questions_Form( $form_id );
+        $form->delete();
     }
 
     /**
@@ -864,19 +783,19 @@ class Questions_AdminPostType{
             'sent' => FALSE
         );
 
-        $survey_id        = $_POST[ 'survey_id' ];
+        $form_id        = $_POST[ 'form_id' ];
         $subject_template = $_POST[ 'subject_template' ];
         $text_template    = $_POST[ 'text_template' ];
 
         $sql      = "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
-        $sql      = $wpdb->prepare( $sql, $survey_id );
+        $sql      = $wpdb->prepare( $sql, $form_id );
         $user_ids = $wpdb->get_col( $sql );
 
         if ( 'reinvite' == $_POST[ 'invitation_type' ] ):
             $user_ids_new = '';
             if ( is_array( $user_ids ) && count( $user_ids ) > 0 ):
                 foreach ( $user_ids AS $user_id ):
-                    if ( ! qu_user_has_participated( $survey_id, $user_id ) ):
+                    if ( ! qu_user_has_participated( $form_id, $user_id ) ):
                         $user_ids_new[ ] = $user_id;
                     endif;
                 endforeach;
@@ -884,7 +803,7 @@ class Questions_AdminPostType{
             $user_ids = $user_ids_new;
         endif;
 
-        $post = get_post( $survey_id );
+        $post = get_post( $form_id );
 
         if ( is_array( $user_ids ) && count( $user_ids ) > 0 ):
             $users = get_users(
@@ -936,24 +855,24 @@ class Questions_AdminPostType{
      *
      * @since 1.0.0
      */
-    public static function ajax_duplicate_survey() {
+    public static function ajax_duplicate_form() {
 
-        $survey_id = $_REQUEST[ 'survey_id' ];
-        $survey    = get_post( $survey_id );
+        $form_id = $_REQUEST[ 'form_id' ];
+        $form = get_post( $form_id );
 
-        if ( 'questions' != $survey->post_type ) {
+        if ( 'questions' != $form->post_type ) {
             return;
         }
 
-        $survey        = new questions_PostSurvey( $survey_id );
-        $new_survey_id = $survey->duplicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
+        $form        = new Questions_Form( $form_id );
+        $new_form_id = $form->duplicate( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 
-        $post = get_post( $new_survey_id );
+        $post = get_post( $new_form_id );
 
         $response = array(
-            'survey_id'  => $new_survey_id,
+            'survey_id'  => $new_form_id,
             'post_title' => $post->post_title,
-            'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_survey_id . '&action=edit' )
+            'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_form_id . '&action=edit' )
         );
 
         echo json_encode( $response );
@@ -968,18 +887,18 @@ class Questions_AdminPostType{
      */
     public static function ajax_delete_results() {
 
-        $survey_id = $_REQUEST[ 'survey_id' ];
-        $survey    = get_post( $survey_id );
+        $form_id = $_REQUEST[ 'form_id' ];
+        $form    = get_post( $form_id );
 
-        if ( 'questions' != $survey->post_type ) {
+        if ( 'questions' != $form->post_type ) {
             return;
         }
 
-        $survey        = new questions_PostSurvey( $survey_id );
-        $new_survey_id = $survey->delete_results();
+        $form = new Questions_form( $form_id );
+        $new_form_id = $form->delete_results();
 
         $response = array(
-            'survey_id'  => $survey_id,
+            'survey_id'  => $form_id,
             'deleted' => TRUE
         );
 
@@ -1047,7 +966,7 @@ class Questions_AdminPostType{
             'deleted_results_successfully'       => esc_attr__(
                 'Survey results deleted successfully!', 'questions-locale'
             ),
-            'duplicate_survey_successfully'       => esc_attr__(
+            'duplicate_form_successfully'       => esc_attr__(
                 'Survey duplicated successfully!', 'questions-locale'
             ),
             'edit_survey'                         => esc_attr__( 'Edit Survey', 'questions-locale' ),
@@ -1098,4 +1017,4 @@ class Questions_AdminPostType{
     }
 }
 
-Questions_AdminPostType::init();
+Questions_FormBuilder::init();

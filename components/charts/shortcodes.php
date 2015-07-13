@@ -56,11 +56,10 @@ class QuestionsChartsShortCodes{
 			_e( 'Please enter a survey id in the survey shortcode!', 'questions-locale' );
 			return;
 		endif;
-		
-		$survey = new Questions_Survey( $atts[ 'id' ] );
-		$response = $survey->get_responses( FALSE, FALSE );
 
-		$ordered_data = Questions_AbstractData::order_for_charting( $response );
+		$responses = new Questions_Responses( $atts[ 'id' ] );
+
+		$ordered_data = Questions_AbstractData::order_for_charting( $responses->get_responses( FALSE, FALSE ) );
 
 		$html = '';
         $count_bars = 0;
@@ -98,7 +97,7 @@ class QuestionsChartsShortCodes{
 		$sql = $wpdb->prepare( "SELECT questions_id FROM {$questions_global->tables->questions} WHERE id = %d", $atts[ 'id' ] );
 		$survey_id = $wpdb->get_var( $sql );
 		
-		$survey = new Questions_Survey( $survey_id );
+		$survey = new Questions_Form( $survey_id );
 		$ordered_data = Questions_AbstractData::order_for_charting( $survey->get_responses( $atts[ 'id' ], FALSE ) );
 		
 		$html = '';

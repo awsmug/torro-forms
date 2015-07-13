@@ -58,7 +58,7 @@ class Questions_Admin extends Questions_Component {
     public function includes(){
         // Base class for elements
         include( QUESTIONS_COMPONENTFOLDER . '/admin/menu.php');
-        include( QUESTIONS_COMPONENTFOLDER . '/admin/post-type-questions.php');
+        include( QUESTIONS_COMPONENTFOLDER . '/admin/form-builder.php');
 
         // Pages
         include( QUESTIONS_COMPONENTFOLDER . '/admin/pages/settings.php');

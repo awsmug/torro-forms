@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Questions_SurveyElement_Separator extends Questions_SurveyElement {
+class Questions_FormElement_Separator extends Questions_FormElement {
 
 	public function __construct( $id = NULL ) {
 
@@ -53,4 +53,4 @@ class Questions_SurveyElement_Separator extends Questions_SurveyElement {
 	}
 }
 
-qu_register_survey_element( 'Questions_SurveyElement_Separator' );
+qu_register_survey_element( 'Questions_FormElement_Separator' );

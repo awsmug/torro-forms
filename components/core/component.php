@@ -135,16 +135,18 @@ class Questions_Core extends Questions_Component{
      */
 	public function includes(){
         // Base classes
+        include( QUESTIONS_COMPONENTFOLDER . '/core/global.php' ); // Global Questions object $questions_global
         include( QUESTIONS_COMPONENTFOLDER . '/core/class-post.php' );
-        include( QUESTIONS_COMPONENTFOLDER . '/core/class-survey.php' );
-        include( QUESTIONS_COMPONENTFOLDER . '/core/global-questions.php' ); // Global Questions object $questions_global
 
         // Functions
-        include( QUESTIONS_COMPONENTFOLDER . '/core/survey.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/core/form.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/core/form-process.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/core/responses.php' );
+
+        include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
+        include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
+
 		include( QUESTIONS_COMPONENTFOLDER . '/core/shortcodes.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/process-response.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
 	}
 	
 }

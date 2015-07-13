@@ -50,10 +50,10 @@ class Questions_Export{
 		if( 'questions' != $post->post_type )
 			return $actions;
 
-        $survey = new Questions_Survey( $post->ID );
-        $responses = $survey->get_response_user_ids();
+        $responses = new Questions_Responses( $post->ID );
+        $resonses_user_ids = $responses->get_response_user_ids();
 
-        if( 0 == count( $responses['responses'] ) )
+        if( 0 == count( $resonses_user_ids['responses'] ) )
             $button_text = sprintf( __( 'No answers, no exports!', 'questions-locale' ) );
         else
             $button_text = sprintf( __( '<a href="%s">Export Results</a>', 'questions-locale' ), '?post_type=questions&export_survey_results=CSV&survey_id=' . $post->ID );
@@ -73,10 +73,12 @@ class Questions_Export{
 		if( array_key_exists( 'export_survey_results', $_GET ) && is_array( $_GET ) ):
 			$export_type = $_GET['export_survey_results'];
 			$survey_id = $_GET['survey_id'];
-			
-			$survey = new Questions_Survey( $survey_id );
+
+			$survey = new Questions_Form( $survey_id );
+            $responses = new Questions_Responses( $survey_id );
+
 			$export_filename = sanitize_title( $survey->title );
-			$export_data = $survey->get_responses();
+			$export_data = $responses->get_responses();
 
             $content = $this->get_csv( $export_data );
 
@@ -100,7 +102,7 @@ class Questions_Export{
 					
 					break;
 				default:
-					echo $this->get_csv( $survey->get_responses() );
+					echo $this->get_csv( $export_data );
 					break;
 			}
 			exit;

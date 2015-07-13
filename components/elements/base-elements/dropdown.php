@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Questions_SurveyElement_Dropdown extends Questions_SurveyElement {
+class Questions_FormElement_Dropdown extends Questions_FormElement {
 
 	public function __construct( $id = NULL ) {
 
@@ -86,7 +86,7 @@ class Questions_SurveyElement_Dropdown extends Questions_SurveyElement {
 
 }
 
-qu_register_survey_element( 'Questions_SurveyElement_Dropdown' );
+qu_register_survey_element( 'Questions_FormElement_Dropdown' );
 
 
 

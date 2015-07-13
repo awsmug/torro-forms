@@ -50,7 +50,7 @@
 	    /**
 	     * Making elements draggable
 	     */
-		$( "#survey-elements .surveyelement" ).draggable( { 
+		$( "#form-elements .formelement" ).draggable( {
 			helper: 'clone',
 			cursor: "move",
 			connectToSortable: "#drag-drop-inside",
@@ -67,34 +67,34 @@
 		 * Setting up droppable and sortable areas
 		 */
 		$( "#drag-drop-inside" ).droppable({
-			accept: "#survey-elements .surveyelement",
+			accept: "#form-elements .formelement",
 			drop: function( event, ui ) {
 			}
 		}).sortable({
-			placeholder: 'survey-element-placeholder',
-			items:'.surveyelement',
+			placeholder: 'form-element-placeholder',
+			items:'.formelement',
 			receive: function( event, ui ){
 				var nr = questions_rand();
 				
-				ui.helper.attr( 'id', 'widget_surveyelement_' + nr );
+				ui.helper.attr( 'id', 'widget_formelement_' + nr );
 				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
 				
 				var i = 0;
-				$( '#drag-drop-inside .surveyelement' ).each( function( e ) { i++; });
+				$( '#drag-drop-inside .formelement' ).each( function( e ) { i++; });
 				
-				var input_name = 'input[name="questions\[widget_surveyelement_' + nr +'\]\[sort\]"]';
+				var input_name = 'input[name="questions\[widget_formelement_' + nr +'\]\[sort\]"]';
               	$( input_name ).val( i ) ;
 				
 				questions_answersortable();
-              	questions_delete_surveyelement();
+              	questions_delete_formelement();
               	questions_deleteanswer();
               	questions_rewriteheadline();
-              	questions_survey_element_tabs();
+              	questions_element_tabs();
               	check_max_input_vars();
 			},
 			update: function( event, ui ) {
 				var order = []; 
-				$( '#drag-drop-inside .surveyelement' ).each( function( e ) {
+				$( '#drag-drop-inside .formelement' ).each( function( e ) {
 					var element_id = $( this ).attr('id') ;
 					var input_name = 'input[name="questions\[' + element_id +'\]\[sort\]"]';
 					var index = $( this ).index();
@@ -104,14 +104,14 @@
 		});
 		
 		/**
-         * Deleting survey element
+         * Deleting form element
          */
-        var questions_delete_surveyelement = function(){
-            var questions_delete_surveyelement_dialog = $( '#delete_surveyelement_dialog' );
-            var surveyelement_id;
-            var deleted_surveyelements;
+        var questions_delete_formelement = function(){
+            var questions_delete_formelement_dialog = $( '#delete_formelement_dialog' );
+            var formelement_id;
+            var deleted_formelements;
             
-            questions_delete_surveyelement_dialog.dialog({                   
+            questions_delete_formelement_dialog.dialog({
                 'dialogClass'   : 'wp-dialog',           
                 'modal'         : true,
                 'autoOpen'      : false, 
@@ -120,18 +120,18 @@
                 'buttons'       : [{
                         text: translation_admin.yes,
                         click: function() {
-                                surveyelement_id = surveyelement_id.split( '_' );
-                                surveyelement_id = surveyelement_id[2];
+                                formelement_id = formelement_id.split( '_' );
+                                formelement_id = formelement_id[2];
                                 
-                                deleted_surveyelements = $( '#deleted_surveyelements' ).val();
+                                deleted_formelements = $( '#deleted_formelements' ).val();
                                 
-                                if( '' == deleted_surveyelements )
-                                    deleted_surveyelements += surveyelement_id;
+                                if( '' == deleted_formelements )
+                                    deleted_formelements += formelement_id;
                                 else
-                                    deleted_surveyelements += ',' + surveyelement_id;
+                                    deleted_formelements += ',' + formelement_id;
                                     
-                                $( '#deleted_surveyelements' ).val( deleted_surveyelements );
-                                $( '#widget_surveyelement_' + surveyelement_id ).remove();
+                                $( '#deleted_formelements' ).val( deleted_formelements );
+                                $( '#widget_formelement_' + formelement_id ).remove();
                                 
                                 $( this ).dialog('close');
                             }
@@ -147,14 +147,14 @@
                     
             });
             
-            $( '.delete_survey_element' ).click( function( event ){
-                surveyelement_id = $( this ).closest( '.surveyelement' ).attr('id');
+            $( '.delete_form_element' ).click( function( event ){
+                formelement_id = $( this ).closest( '.formelement' ).attr('id');
                 event.preventDefault();
-                questions_delete_surveyelement_dialog.dialog( 'open' );
+                questions_delete_formelement_dialog.dialog( 'open' );
             });
             check_max_input_vars();
         }
-        questions_delete_surveyelement();
+        questions_delete_formelement();
 		
 		/**
 		 * Making answers in questions sortable
@@ -456,7 +456,7 @@
 				var data = {
 					action: 'questions_invite_participiants',
 					invitation_type: 'invite',
-					survey_id: $( '#post_ID' ).val(),
+					form_id: $( '#post_ID' ).val(),
 					subject_template: $( '#questions-invite-subject' ).val(),
 					text_template: $( '#questions-invite-text' ).val()
 				};
@@ -468,15 +468,15 @@
 					if( response.sent ){
 						$( '#questions-invite-subject' ).fadeOut( 200 );
 						$( '#questions-invite-text' ).fadeOut( 200 );
-						$( '#questions-invite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.invitations_sent_successfully + '</p>' );
+						$( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.invitations_sent_successfully + '</p>' );
 					}else{
 						$( '#questions-invite-subject' ).fadeOut( 200 );
 						$( '#questions-invite-text' ).fadeOut( 200 );
-						$( '#questions-invite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.invitations_sent_not_successfully + '</p>' );
+						$( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.invitations_sent_not_successfully + '</p>' );
 					}
 					button.removeClass( 'button-loading' );
 
-					$( '.survey-reinvitations-sent' ).fadeOut( 4000 );
+					$( '.form-reinvitations-sent' ).fadeOut( 4000 );
 					$( '#questions-invite-button' ).removeClass( 'button-primary' );
 					$( '#questions-invite-text' ).fadeOut( 200 );
 					$( '#questions-invite-button-cancel' ).fadeOut( 200 );
@@ -504,7 +504,7 @@
 				var data = {
 					action: 'questions_invite_participiants',
 					invitation_type: 'reinvite',
-					survey_id: $( '#post_ID' ).val(),
+					form_id: $( '#post_ID' ).val(),
 					subject_template: $( '#questions-reinvite-subject' ).val(),
 					text_template: $( '#questions-reinvite-text' ).val()
 				};
@@ -516,17 +516,17 @@
 					if( response.sent ){
 						$( '#questions-reinvite-subject' ).fadeOut( 200 );
 						$( '#questions-reinvite-text' ).fadeOut( 200 );
-						$( '#questions-reinvite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.reinvitations_sent_successfully + '</p>' );
+						$( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.reinvitations_sent_successfully + '</p>' );
 						button.removeClass( 'button-loading' );
-						$( '.survey-reinvitations-sent' ).fadeOut( 4000 );
+						$( '.form-reinvitations-sent' ).fadeOut( 4000 );
 					}else{
 						$( '#questions-reinvite-subject' ).fadeOut( 200 );
 						$( '#questions-reinvite-text' ).fadeOut( 200 );
-						$( '#questions-reinvite-text' ).after( '<p class="survey-reinvitations-sent">' + translation_admin.reinvitations_sent_not_successfully + '</p>' );
+						$( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.reinvitations_sent_not_successfully + '</p>' );
 						
 					}
 					button.removeClass( 'button-loading' );
-					$( '.survey-reinvitations-sent' ).fadeOut( 4000 );
+					$( '.form-reinvitations-sent' ).fadeOut( 4000 );
 					$( '#questions-reinvite-button' ).removeClass( 'button-primary' );
 					$( '#questions-reinvite-text' ).fadeOut( 200 );
 					$( '#questions-reinvite-button-cancel' ).fadeOut( 200 );
@@ -548,7 +548,7 @@
 		});
 		
 		/**
-		 * Dublicate survey
+		 * Dublicate form
 		 */
 		$( '#questions-duplicate-button' ).click( function(){
 			var button = $( this )
@@ -556,19 +556,19 @@
 			if( button.hasClass( 'button' ) ){
 				var data = {
 					action: 'questions_duplicate_survey',
-					survey_id: $( '#post_ID' ).val(),
+					form_id: $( '#post_ID' ).val(),
 				};
 				
 				button.addClass( 'button-loading' );
 				
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
-					
-					var response_text = translation_admin.duplicate_survey_successfully + '<br /><a href="' + response.admin_url + '">' + translation_admin.edit_survey + '</a>';
-					button.after( '<p class="survey-duplicated-survey">' + response_text + '</p>' );
+
+					var response_text = translation_admin.duplicate_form_successfully + '<br /><a href="' + response.admin_url + '">' + translation_admin.edit_survey + '</a>';
+					button.after( '<p class="form-duplicated">' + response_text + '</p>' );
 					button.removeClass( 'button-loading' );
 					
-					$( '.survey-duplicated-survey' ).fadeOut( 10000 );
+					$( '.form-duplicated' ).fadeOut( 10000 );
 				});
 				
 			}else{
@@ -577,7 +577,7 @@
 		});
 
         /**
-         * Delete survey results
+         * Delete form results
          */
         $( '#questions-delete-results-button' ).click( function(){
             var button = $( this );
@@ -601,17 +601,17 @@
 
                             var data = {
                                 action: 'questions_delete_results',
-                                survey_id: $( '#post_ID' ).val()
+                                form_id: $( '#post_ID' ).val()
                             };
 
                             $.post( ajaxurl, data, function( response ) {
                                 response = jQuery.parseJSON( response );
 
                                 var response_text = translation_admin.deleted_results_successfully;
-                                button.after( '<p class="survey-deleted-results">' + response_text + '</p>' );
+                                button.after( '<p class="form-deleted-results">' + response_text + '</p>' );
                                 button.removeClass( 'button-loading' );
 
-                                $( '.survey-deleted-results' ).fadeOut( 20000 );
+                                $( '.form-deleted-results' ).fadeOut( 20000 );
                             });
                         }
                     },
@@ -636,10 +636,10 @@
 		/**
          * Initializing jquery tabs in elements
          */
-        var questions_survey_element_tabs = function(){
-            $( ".survey_element_tabs" ).tabs({ active: 0 });
+        var questions_element_tabs = function(){
+            $( ".form_element_tabs" ).tabs({ active: 0 });
         }
-        questions_survey_element_tabs();
+        questions_element_tabs();
 		
 		/**
 		 * Live typing of element headline

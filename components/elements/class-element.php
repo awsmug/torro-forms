@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-abstract class Questions_SurveyElement {
+abstract class Questions_FormElement {
 	
 	/**
 	 * ID of instanced Element
@@ -207,7 +207,7 @@ abstract class Questions_SurveyElement {
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_survey_element( $this->slug, $this );
+		return $questions_global->add_form_element( $this->slug, $this );
 	}
 
 	/**
@@ -418,10 +418,10 @@ abstract class Questions_SurveyElement {
 		// Getting Widget ID
 		if ( NULL == $this->id ):
 			// New Element
-			$widget_id = 'widget_surveyelement_XXnrXX';
+			$widget_id = 'widget_formelement_XXnrXX';
 		else:
 			// Existing Element
-			$widget_id = 'widget_surveyelement_' . $this->id;
+			$widget_id = 'widget_formelement_' . $this->id;
 		endif;
 	
 		return $widget_id;
@@ -437,16 +437,16 @@ abstract class Questions_SurveyElement {
 		// Getting id string
 		if ( NULL == $this->id ):
 			// New Element
-			$id_name = ' id="widget_surveyelement_XXnrXX"';
+			$id_name = ' id="widget_formelement_XXnrXX"';
 		else:
 			// Existing Element
-			$id_name = ' id="widget_surveyelement_' . $this->id . '"';
+			$id_name = ' id="widget_formelement_' . $this->id . '"';
 		endif;
 	
 		/**
 		 * Widget
 		 */
-		$html = '<div class="widget surveyelement"' . $id_name . '>';
+		$html = '<div class="widget formelement"' . $id_name . '>';
 		
 			/**
 			 * Widget head
@@ -473,7 +473,7 @@ abstract class Questions_SurveyElement {
 		
 			$html .= '<div class="widget-inside">';
 			$html .= '<div class="widget-content">';
-			$html .= '<div class="survey_element_tabs">';
+			$html .= '<div class="form_element_tabs">';
 		
 			/**
 			 * Tab Navi

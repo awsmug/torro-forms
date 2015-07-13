@@ -37,7 +37,7 @@ class Questions{
 
 
 	public function __construct(){
-		add_action( 'plugins_loaded', array( $this, 'tables' ) );
+		$this->tables();
 	}
 	
 	public function tables(){
@@ -67,11 +67,11 @@ class Questions{
 		return TRUE;
 	}
 	
-	public function add_survey_element( $slug, $object ){
+	public function add_form_element( $slug, $object ){
 		if( '' == $slug )
 			return FALSE;
 		
-		if( !is_object( $object ) && 'Questions_SurveyElement' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Questions_FormElement' != get_parent_class( $object ) )
 			return FALSE;
 		
 		$this->element_types[ $slug ] = $object;
