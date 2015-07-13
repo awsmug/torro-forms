@@ -54,7 +54,6 @@ class Questions_Charts extends Questions_Component{
         include( QUESTIONS_COMPONENTFOLDER . '/charts/shortcodes.php' );
 
         // Loading chart creators
-        include( QUESTIONS_COMPONENTFOLDER . '/charts/charts.js/chart-creator.php' );
         include( QUESTIONS_COMPONENTFOLDER . '/charts/dimple/chart-creator.php' );
 
         do_action( 'questions_loading_chart_creators' );
