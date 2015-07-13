@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Questions\n"
-"POT-Creation-Date: 2015-07-10 09:58+0100\n"
+"POT-Creation-Date: 2015-07-13 20:48+0100\n"
 "PO-Revision-Date: 2015-07-10 09:47+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: awesome.ug <very@awesome.ug>\n"
@@ -25,6 +25,293 @@ msgstr ""
 
 #: components/admin/component.php:47
 msgid "Setting up Questions in WordPress Admin."
+msgstr ""
+
+#: components/admin/form-builder.php:91
+msgid "Attention!"
+msgstr ""
+
+#: components/admin/form-builder.php:92
+msgid ""
+"This will erase all Answers who people given to this survey. Do you really "
+"want to delete all results of this survey?"
+msgstr ""
+
+#: components/admin/form-builder.php:95
+msgid "Do you really want to delete this element?"
+msgstr ""
+
+#: components/admin/form-builder.php:98
+msgid "Do you really want to delete this answer?"
+msgstr ""
+
+#: components/admin/form-builder.php:119
+msgid "Options"
+msgstr ""
+
+#: components/admin/form-builder.php:126
+msgid "Survey Functions"
+msgstr ""
+
+#: components/admin/form-builder.php:133 components/elements/component.php:44
+msgid "Elements"
+msgstr ""
+
+#: components/admin/form-builder.php:141
+msgid "Timerange"
+msgstr ""
+
+#: components/admin/form-builder.php:149
+msgid "Participiants list"
+msgstr ""
+
+#: components/admin/form-builder.php:157
+msgid "Results"
+msgstr ""
+
+#: components/admin/form-builder.php:194
+msgid "When does the survey start?"
+msgstr ""
+
+#: components/admin/form-builder.php:196
+msgid "When does the survey end?"
+msgstr ""
+
+#: components/admin/form-builder.php:235
+msgid "All visitors of the site can participate"
+msgstr ""
+
+#: components/admin/form-builder.php:239
+msgid "All members of the site can participate"
+msgstr ""
+
+#: components/admin/form-builder.php:243
+msgid "Only selected members can participate"
+msgstr ""
+
+#: components/admin/form-builder.php:247
+msgid "No restrictions"
+msgstr ""
+
+#: components/admin/form-builder.php:275
+msgid "Add all actual Members"
+msgstr ""
+
+#: components/admin/form-builder.php:299
+msgid "Add Participiants"
+msgstr ""
+
+#: components/admin/form-builder.php:302
+msgid "Remove all Participiants"
+msgstr ""
+
+#: components/admin/form-builder.php:311 components/admin/form-builder.php:973
+msgid "participiant/s"
+msgstr ""
+
+#: components/admin/form-builder.php:318
+msgid "ID"
+msgstr ""
+
+#: components/admin/form-builder.php:319
+msgid "User nicename"
+msgstr ""
+
+#: components/admin/form-builder.php:320
+msgid "Display name"
+msgstr ""
+
+#: components/admin/form-builder.php:321
+msgid "Email"
+msgstr ""
+
+#: components/admin/form-builder.php:322
+msgid "Status"
+msgstr ""
+
+#: components/admin/form-builder.php:336
+msgid "finished"
+msgstr ""
+
+#: components/admin/form-builder.php:338
+msgid "new"
+msgstr ""
+
+#: components/admin/form-builder.php:349 components/admin/form-builder.php:954
+#: components/elements/class-element.php:628
+#: components/elements/class-element.php:670
+msgid "Delete"
+msgstr ""
+
+#: components/admin/form-builder.php:414
+msgid "Show results after finishing survey"
+msgstr ""
+
+#: components/admin/form-builder.php:416 components/admin/form-builder.php:955
+#: components/core/data-abstraction.php:88
+#: components/elements/class-element.php:887
+msgid "Yes"
+msgstr ""
+
+#: components/admin/form-builder.php:417 components/admin/form-builder.php:956
+#: components/elements/class-element.php:891
+msgid "No"
+msgstr ""
+
+#: components/admin/form-builder.php:445
+msgid "Dublicate Survey"
+msgstr ""
+
+#: components/admin/form-builder.php:452
+msgid "Delete survey results"
+msgstr ""
+
+#: components/admin/form-builder.php:461
+msgid "Invite Participiants"
+msgstr ""
+
+#: components/admin/form-builder.php:464 components/admin/form-builder.php:475
+msgid "Cancel"
+msgstr ""
+
+#: components/admin/form-builder.php:472
+msgid "Reinvite Participiants"
+msgstr ""
+
+#: components/admin/form-builder.php:481
+msgid ""
+"You can invite Participiants to this survey after the survey is published."
+msgstr ""
+
+#: components/admin/form-builder.php:957
+msgid "just added"
+msgstr ""
+
+#: components/admin/form-builder.php:958
+msgid "Invitations sent successfully!"
+msgstr ""
+
+#: components/admin/form-builder.php:959
+msgid "Invitations could not be sent!"
+msgstr ""
+
+#: components/admin/form-builder.php:961
+msgid "Renvitations sent successfully!"
+msgstr ""
+
+#: components/admin/form-builder.php:964
+msgid "Renvitations could not be sent!"
+msgstr ""
+
+#: components/admin/form-builder.php:967
+msgid "Survey results deleted successfully!"
+msgstr ""
+
+#: components/admin/form-builder.php:970
+msgid "Survey duplicated successfully!"
+msgstr ""
+
+#: components/admin/form-builder.php:972 components/core/component.php:92
+msgid "Edit Survey"
+msgstr ""
+
+#: components/admin/form-builder.php:974
+msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
+msgstr ""
+
+#: components/admin/form-builder.php:975
+msgid "You are over the limit of PHP max_num_fields!"
+msgstr ""
+
+#: components/admin/form-builder.php:976
+msgid ""
+"Please increase the value by adding <code>php_value max_input_vars [NUMBER "
+"OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
+"your form can not be saved correct."
+msgstr ""
+
+#: components/admin/form-builder.php:977
+msgid "of"
+msgstr ""
+
+#: components/admin/form-builder.php:979
+msgid "yy/mm/dd"
+msgstr ""
+
+#: components/admin/form-builder.php:980
+msgid "Su"
+msgstr ""
+
+#: components/admin/form-builder.php:981
+msgid "Mo"
+msgstr ""
+
+#: components/admin/form-builder.php:982
+msgid "Tu"
+msgstr ""
+
+#: components/admin/form-builder.php:983
+msgid "We"
+msgstr ""
+
+#: components/admin/form-builder.php:984
+msgid "Th"
+msgstr ""
+
+#: components/admin/form-builder.php:985
+msgid "Fr"
+msgstr ""
+
+#: components/admin/form-builder.php:986
+msgid "Sa"
+msgstr ""
+
+#: components/admin/form-builder.php:987
+msgid "January"
+msgstr ""
+
+#: components/admin/form-builder.php:988
+msgid "February"
+msgstr ""
+
+#: components/admin/form-builder.php:989
+msgid "March"
+msgstr ""
+
+#: components/admin/form-builder.php:990
+msgid "April"
+msgstr ""
+
+#: components/admin/form-builder.php:991
+msgid "May"
+msgstr ""
+
+#: components/admin/form-builder.php:992
+msgid "June"
+msgstr ""
+
+#: components/admin/form-builder.php:993
+msgid "July"
+msgstr ""
+
+#: components/admin/form-builder.php:994
+msgid "August"
+msgstr ""
+
+#: components/admin/form-builder.php:995
+msgid "September"
+msgstr ""
+
+#: components/admin/form-builder.php:996
+msgid "October"
+msgstr ""
+
+#: components/admin/form-builder.php:997
+msgid "November"
+msgstr ""
+
+#: components/admin/form-builder.php:998
+msgid "December"
 msgstr ""
 
 #: components/admin/menu.php:60 components/admin/menu.php:61
@@ -113,300 +400,6 @@ msgstr ""
 msgid "e.g. myname@mydomain.com"
 msgstr ""
 
-#: components/admin/post-type-questions.php:91
-msgid "Attention!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:92
-msgid ""
-"This will erase all Answers who people given to this survey. Do you really "
-"want to delete all results of this survey?"
-msgstr ""
-
-#: components/admin/post-type-questions.php:95
-msgid "Do you really want to delete this element?"
-msgstr ""
-
-#: components/admin/post-type-questions.php:98
-msgid "Do you really want to delete this answer?"
-msgstr ""
-
-#: components/admin/post-type-questions.php:119
-msgid "Options"
-msgstr ""
-
-#: components/admin/post-type-questions.php:126
-msgid "Survey Functions"
-msgstr ""
-
-#: components/admin/post-type-questions.php:133
-#: components/elements/component.php:44
-msgid "Elements"
-msgstr ""
-
-#: components/admin/post-type-questions.php:141
-msgid "Timerange"
-msgstr ""
-
-#: components/admin/post-type-questions.php:149
-msgid "Participiants list"
-msgstr ""
-
-#: components/admin/post-type-questions.php:157
-msgid "Results"
-msgstr ""
-
-#: components/admin/post-type-questions.php:195
-msgid "When does the survey start?"
-msgstr ""
-
-#: components/admin/post-type-questions.php:197
-msgid "When does the survey end?"
-msgstr ""
-
-#: components/admin/post-type-questions.php:238
-msgid "All visitors of the site can participate"
-msgstr ""
-
-#: components/admin/post-type-questions.php:242
-msgid "All members of the site can participate"
-msgstr ""
-
-#: components/admin/post-type-questions.php:246
-msgid "Only selected members can participate"
-msgstr ""
-
-#: components/admin/post-type-questions.php:250
-msgid "No restrictions"
-msgstr ""
-
-#: components/admin/post-type-questions.php:282
-msgid "Add all actual Members"
-msgstr ""
-
-#: components/admin/post-type-questions.php:306
-msgid "Add Participiants"
-msgstr ""
-
-#: components/admin/post-type-questions.php:309
-msgid "Remove all Participiants"
-msgstr ""
-
-#: components/admin/post-type-questions.php:318
-#: components/admin/post-type-questions.php:1054
-msgid "participiant/s"
-msgstr ""
-
-#: components/admin/post-type-questions.php:325
-msgid "ID"
-msgstr ""
-
-#: components/admin/post-type-questions.php:326
-msgid "User nicename"
-msgstr ""
-
-#: components/admin/post-type-questions.php:327
-msgid "Display name"
-msgstr ""
-
-#: components/admin/post-type-questions.php:328
-msgid "Email"
-msgstr ""
-
-#: components/admin/post-type-questions.php:329
-msgid "Status"
-msgstr ""
-
-#: components/admin/post-type-questions.php:343
-msgid "finished"
-msgstr ""
-
-#: components/admin/post-type-questions.php:345
-msgid "new"
-msgstr ""
-
-#: components/admin/post-type-questions.php:356
-#: components/admin/post-type-questions.php:1035
-#: components/elements/class-element.php:628
-#: components/elements/class-element.php:670
-msgid "Delete"
-msgstr ""
-
-#: components/admin/post-type-questions.php:421
-msgid "Show results after finishing survey"
-msgstr ""
-
-#: components/admin/post-type-questions.php:423
-#: components/admin/post-type-questions.php:1036
-#: components/core/data-abstraction.php:88
-#: components/elements/class-element.php:887
-msgid "Yes"
-msgstr ""
-
-#: components/admin/post-type-questions.php:424
-#: components/admin/post-type-questions.php:1037
-#: components/elements/class-element.php:891
-msgid "No"
-msgstr ""
-
-#: components/admin/post-type-questions.php:452
-msgid "Dublicate Survey"
-msgstr ""
-
-#: components/admin/post-type-questions.php:459
-msgid "Delete survey results"
-msgstr ""
-
-#: components/admin/post-type-questions.php:468
-msgid "Invite Participiants"
-msgstr ""
-
-#: components/admin/post-type-questions.php:471
-#: components/admin/post-type-questions.php:482
-msgid "Cancel"
-msgstr ""
-
-#: components/admin/post-type-questions.php:479
-msgid "Reinvite Participiants"
-msgstr ""
-
-#: components/admin/post-type-questions.php:488
-msgid ""
-"You can invite Participiants to this survey after the survey is published."
-msgstr ""
-
-#: components/admin/post-type-questions.php:1038
-msgid "just added"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1039
-msgid "Invitations sent successfully!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1040
-msgid "Invitations could not be sent!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1042
-msgid "Renvitations sent successfully!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1045
-msgid "Renvitations could not be sent!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1048
-msgid "Survey results deleted successfully!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1051
-msgid "Survey duplicated successfully!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1053
-#: components/core/component.php:92
-msgid "Edit Survey"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1055
-msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1056
-msgid "You are over the limit of PHP max_num_fields!"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1057
-msgid ""
-"Please increase the value by adding <code>php_value max_input_vars [NUMBER "
-"OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
-"your form can not be saved correct."
-msgstr ""
-
-#: components/admin/post-type-questions.php:1058
-msgid "of"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1060
-msgid "yy/mm/dd"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1061
-msgid "Su"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1062
-msgid "Mo"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1063
-msgid "Tu"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1064
-msgid "We"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1065
-msgid "Th"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1066
-msgid "Fr"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1067
-msgid "Sa"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1068
-msgid "January"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1069
-msgid "February"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1070
-msgid "March"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1071
-msgid "April"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1072
-msgid "May"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1073
-msgid "June"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1074
-msgid "July"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1075
-msgid "August"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1076
-msgid "September"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1077
-msgid "October"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1078
-msgid "November"
-msgstr ""
-
-#: components/admin/post-type-questions.php:1079
-msgid "December"
-msgstr ""
-
 #: components/charts/class-chart-creator.php:101
 #: components/elements/class-element.php:197
 msgid "This is a Questions Survey Element."
@@ -432,23 +425,23 @@ msgstr ""
 msgid "Please enter a survey id in the survey shortcode!"
 msgstr ""
 
-#: components/charts/shortcodes.php:76
+#: components/charts/shortcodes.php:75
 msgid "There are no results to show."
 msgstr ""
 
-#: components/charts/shortcodes.php:94
+#: components/charts/shortcodes.php:93
 msgid "Please enter a question id in the survey shortcode!"
 msgstr ""
 
-#: components/charts/shortcodes.php:119
+#: components/charts/shortcodes.php:118
 msgid "Results Shortcode:"
 msgstr ""
 
-#: components/charts/shortcodes.php:133
+#: components/charts/shortcodes.php:132
 msgid "(CTRL+C and paste into post to embed question results in post)"
 msgstr ""
 
-#: components/charts/shortcodes.php:134
+#: components/charts/shortcodes.php:133
 msgid "Shortcode:"
 msgstr ""
 
@@ -539,47 +532,59 @@ msgstr ""
 msgid "<a href=\"%s\">Export Results</a>"
 msgstr ""
 
-#: components/core/process-response.php:91
+#: components/core/form-process.php:91
 msgid "There are open answers"
 msgstr ""
 
-#: components/core/process-response.php:308
+#: components/core/form-process.php:308
 #, php-format
 msgid ""
 "Step <span class=\"questions-highlight-number\">%d</span> of <span class="
 "\"questions-highlight-number\">%s</span>"
 msgstr ""
 
-#: components/core/process-response.php:331
+#: components/core/form-process.php:331
 msgid "Previous Step"
 msgstr ""
 
-#: components/core/process-response.php:337
+#: components/core/form-process.php:337
 msgid "Finish Survey"
 msgstr ""
 
-#: components/core/process-response.php:341
+#: components/core/form-process.php:341
 msgid "Next Step"
 msgstr ""
 
-#: components/core/process-response.php:800
+#: components/core/form-process.php:798
 msgid "Thank you for participating this survey!"
 msgstr ""
 
-#: components/core/process-response.php:826
+#: components/core/form-process.php:824
 msgid "You already have participated this poll."
 msgstr ""
 
-#: components/core/process-response.php:845
+#: components/core/form-process.php:843
 msgid "You have to be logged in to participate this survey."
 msgstr ""
 
-#: components/core/process-response.php:860
+#: components/core/form-process.php:858
 msgid "You can't participate this survey."
 msgstr ""
 
-#: components/core/process-response.php:875
+#: components/core/form-process.php:873
 msgid "This are the actual results:"
+msgstr ""
+
+#: components/core/responses.php:116
+msgid "User ID"
+msgstr ""
+
+#: components/core/responses.php:147
+msgid "Username"
+msgstr ""
+
+#: components/core/responses.php:180
+msgid "Date/Time"
 msgstr ""
 
 #: components/core/shortcodes.php:52
@@ -592,18 +597,6 @@ msgstr ""
 
 #: components/core/shortcodes.php:66
 msgid "Survey Shortcode:"
-msgstr ""
-
-#: components/core/survey.php:193
-msgid "User ID"
-msgstr ""
-
-#: components/core/survey.php:224
-msgid "Username"
-msgstr ""
-
-#: components/core/survey.php:257
-msgid "Date/Time"
 msgstr ""
 
 #: components/elements/base-elements/description.php:21

@@ -156,6 +156,17 @@ class Questions_Form extends Questions_Post{
     }
 
     /**
+     * Get number of splits in survey
+     *
+     * @param int $form_id
+     * @return int $splitter_count
+     * @since 1.0.0
+     */
+    public function get_step_count() {
+        return (int) $this->splitter_count;
+    }
+
+    /**
      * Dublicating a form
      * @param bool $copy_meta True if meta have to be copied
      * @param bool $copy_comments True if comments have to be copied
