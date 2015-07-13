@@ -584,7 +584,7 @@
 
             if( button.hasClass( 'button' ) ){
 
-                var questions_deletresults_dialog = $( '#delete_results_dialog' );
+                var questions_deletresults_dialog = $( '#delete_responses_dialog' );
 
                 questions_deletresults_dialog.dialog({
                     'dialogClass'   : 'wp-dialog',
@@ -600,7 +600,7 @@
                             button.addClass( 'button-loading' );
 
                             var data = {
-                                action: 'questions_delete_results',
+                                action: 'questions_delete_responses',
                                 form_id: $( '#post_ID' ).val()
                             };
 
@@ -608,10 +608,10 @@
                                 response = jQuery.parseJSON( response );
 
                                 var response_text = translation_admin.deleted_results_successfully;
-                                button.after( '<p class="form-deleted-results">' + response_text + '</p>' );
+                                button.after( '<p class="form-deleted-responses">' + response_text + '</p>' );
                                 button.removeClass( 'button-loading' );
 
-                                $( '.form-deleted-results' ).fadeOut( 20000 );
+                                $( '.form-deleted-responses' ).fadeOut( 20000 );
                             });
                         }
                     },

@@ -305,7 +305,7 @@ class Questions_Form extends Questions_Post{
      * Deleting all results of a survey
      * @return mixed
      */
-    public function delete_results(){
+    public function delete_responses(){
         global $wpdb, $questions_global;
 
         $sql     = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id  );
@@ -330,6 +330,11 @@ class Questions_Form extends Questions_Post{
 
         global $wpdb, $questions_global;
 
+        /**
+         * Responses
+         */
+        $this->delete_responses();
+
         $sql      = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->questions} WHERE questions_id=%d", $this->id );
         $elements = $wpdb->get_col( $sql );
 
@@ -353,7 +358,7 @@ class Questions_Form extends Questions_Post{
         endif;
 
         /**
-         * Questions
+         * Elements
          */
         $wpdb->delete(
             $questions_global->tables->questions,
@@ -361,31 +366,6 @@ class Questions_Form extends Questions_Post{
         );
 
         do_action( 'questions_delete_survey', $this->id );
-
-        /**
-         * Response Answers
-         */
-        $sql       = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->responds} WHERE questions_id=%d", $this->id );
-        $responses = $wpdb->get_col( $sql );
-
-        if ( is_array( $responses ) && count( $responses ) > 0 ):
-            foreach ( $responses AS $respond_id ):
-                $wpdb->delete(
-                    $questions_global->tables->respond_answers,
-                    array( 'respond_id' => $respond_id )
-                );
-
-                do_action( 'questions_delete_responds', $respond_id, $this->id );
-            endforeach;
-        endif;
-
-        /**
-         * Responds
-         */
-        $wpdb->delete(
-            $questions_global->tables->responds,
-            array( 'questions_id' => $this->id )
-        );
 
         /**
          * Participiants
@@ -406,9 +386,7 @@ function qu_form_exists( $form_id ) {
 
 	global $wpdb;
 
-	$sql = $wpdb->prepare(
-		"SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d and post_type = 'questions'", $form_id
-	);
+	$sql = $wpdb->prepare( "SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d and post_type = 'questions'", $form_id );
 	$var = $wpdb->get_var( $sql );
 
 	if ( $var > 0 ) {

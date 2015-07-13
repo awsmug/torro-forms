@@ -75,6 +75,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Added russian language files (Thanks to [@kosm])
 * No export if no results
 * Refactored code
+* Also dublicating terms for form
 
 = 1.0.0 beta 18 =
 * Added timerange

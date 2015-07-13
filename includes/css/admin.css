@@ -114,7 +114,7 @@
  * 	Dialog
  */
 #delete_surveyelement_dialog,
-#delete_results_dialog,
+#delete_responses_dialog,
 #delete_answer_dialog{
 	display:none;
 }
@@ -188,7 +188,7 @@
 	background-image: url( '../../assets/images/loading-blue.gif' );
 }
 #form-functions .form-deleted-results,
-#form-functions .form-duplicated-survey,
+#form-functions .form-duplicated,
 #form-functions .form-reinvitations-sent{
 	margin-top:0;
 	margin-bottom: 10px;

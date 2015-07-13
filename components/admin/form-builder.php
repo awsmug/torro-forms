@@ -55,7 +55,7 @@ class Questions_FormBuilder{
         add_action( 'wp_ajax_questions_add_members_standard', array( __CLASS__, 'ajax_add_members' ) );
         add_action( 'wp_ajax_questions_invite_participiants', array( __CLASS__, 'ajax_invite_participiants' ) );
         add_action( 'wp_ajax_questions_duplicate_survey', array( __CLASS__, 'ajax_duplicate_form' ) );
-        add_action( 'wp_ajax_questions_delete_results', array( __CLASS__, 'ajax_delete_results' ) );
+        add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
         add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
     }
@@ -88,7 +88,7 @@ class Questions_FormBuilder{
 
         $html .= '</div>';
         $html .= '</div>';
-        $html .= '<div id="delete_results_dialog"><h3>' . esc_attr__( 'Attention!', 'questions-locale' ) . '</h3><p>' . esc_attr__(
+        $html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'questions-locale' ) . '</h3><p>' . esc_attr__(
                 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'questions-locale'
             ) . '</p></div>';
         $html .= '<div id="delete_formelement_dialog">' . esc_attr__(
@@ -881,11 +881,11 @@ class Questions_FormBuilder{
     }
 
     /**
-     * Deleting survey results
+     * Deleting survey responses
      *
      * @since 1.0.0
      */
-    public static function ajax_delete_results() {
+    public static function ajax_delete_responses() {
 
         $form_id = $_REQUEST[ 'form_id' ];
         $form    = get_post( $form_id );
@@ -895,7 +895,7 @@ class Questions_FormBuilder{
         }
 
         $form = new Questions_form( $form_id );
-        $new_form_id = $form->delete_results();
+        $new_form_id = $form->delete_responses();
 
         $response = array(
             'survey_id'  => $form_id,
