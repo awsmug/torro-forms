@@ -192,3 +192,8 @@ class Questions_Responses{
         return $responses;
     }
 }
+
+class Questions_Response{
+
+
+}

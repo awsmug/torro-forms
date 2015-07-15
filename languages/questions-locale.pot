@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Questions\n"
-"POT-Creation-Date: 2015-07-13 20:48+0100\n"
+"POT-Creation-Date: 2015-07-15 10:05+0100\n"
 "PO-Revision-Date: 2015-07-10 09:47+0100\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
 "Language-Team: awesome.ug <very@awesome.ug>\n"
@@ -532,46 +532,46 @@ msgstr ""
 msgid "<a href=\"%s\">Export Results</a>"
 msgstr ""
 
-#: components/core/form-process.php:91
+#: components/core/form-process.php:95
 msgid "There are open answers"
 msgstr ""
 
-#: components/core/form-process.php:308
+#: components/core/form-process.php:179
 #, php-format
 msgid ""
 "Step <span class=\"questions-highlight-number\">%d</span> of <span class="
 "\"questions-highlight-number\">%s</span>"
 msgstr ""
 
-#: components/core/form-process.php:331
+#: components/core/form-process.php:202
 msgid "Previous Step"
 msgstr ""
 
-#: components/core/form-process.php:337
+#: components/core/form-process.php:208
 msgid "Finish Survey"
 msgstr ""
 
-#: components/core/form-process.php:341
+#: components/core/form-process.php:212
 msgid "Next Step"
 msgstr ""
 
-#: components/core/form-process.php:798
+#: components/core/form-process.php:782
 msgid "Thank you for participating this survey!"
 msgstr ""
 
-#: components/core/form-process.php:824
-msgid "You already have participated this poll."
+#: components/core/form-process.php:808
+msgid "You already have participated in this poll."
 msgstr ""
 
-#: components/core/form-process.php:843
+#: components/core/form-process.php:827
 msgid "You have to be logged in to participate this survey."
 msgstr ""
 
-#: components/core/form-process.php:858
+#: components/core/form-process.php:842
 msgid "You can't participate this survey."
 msgstr ""
 
-#: components/core/form-process.php:873
+#: components/core/form-process.php:857
 msgid "This are the actual results:"
 msgstr ""
 

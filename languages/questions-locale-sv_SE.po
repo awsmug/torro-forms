@@ -1,238 +1,377 @@
+#
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Questions\n"
-"POT-Creation-Date: 2015-04-14 14:39+0100\n"
-"PO-Revision-Date: 2015-04-17 11:43+0100\n"
-"Last-Translator: \n"
-"Language-Team: Elger Lindgren <elger@bilddigital.se>\n"
+"POT-Creation-Date: 2015-07-15 10:26+0100\n"
+"PO-Revision-Date: 2015-07-15 10:30+0100\n"
+"Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
+"Language-Team: Swedish (Sweden) (http://www.transifex.com/p/questions/"
+"language/sv_SE/)\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.1\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-WPHeader: init.php\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: components/admin/admin.php:41
+#: components/admin/component.php:46
 msgid "Admin"
 msgstr "Admin"
 
-#: components/admin/admin.php:42
+#: components/admin/component.php:47
 msgid "Setting up Questions in WordPress Admin."
 msgstr "Ställa in frågor i WordPress Admin."
 
-#: components/admin/admin.php:69 components/core/core.php:87
-msgid "Surveys"
-msgstr "Undersökningar"
+#: components/admin/form-builder.php:91
+msgid "Attention!"
+msgstr "Observera!"
 
-#: components/admin/admin.php:70
-msgid "Create"
-msgstr "Skapa"
+#: components/admin/form-builder.php:92
+msgid ""
+"This will erase all Answers who people given to this survey. Do you really "
+"want to delete all results of this survey?"
+msgstr ""
+"Detta kommer att radera alla svar som skickats till denna undersökning. Vill "
+"du verkligen vill radera alla resultat av denna undersökning?"
 
-#: components/admin/admin.php:71 components/core/core.php:73
-msgid "Categories"
-msgstr "Kategorier"
-
-#: components/admin/admin.php:72 components/element.php:323
-msgid "Settings"
-msgstr "Inställningar"
-
-#: components/admin/admin.php:113
-msgid "Drop your Element here."
-msgstr "Släpp ditt Element här."
-
-#: components/admin/admin.php:118
+#: components/admin/form-builder.php:95
 msgid "Do you really want to delete this element?"
 msgstr "Vill du verkligen ta bort detta element?"
 
-#: components/admin/admin.php:119
+#: components/admin/form-builder.php:98
 msgid "Do you really want to delete this answer?"
 msgstr "Vill du verkligen ta bort detta svar?"
 
-#: components/admin/admin.php:163
-msgid "All visitors of the site can participate the poll"
-msgstr "Alla besökare av webbplatsen kan delta i undersökningen"
+#: components/admin/form-builder.php:119
+msgid "Options"
+msgstr "Alternativ"
 
-#: components/admin/admin.php:164
-msgid "All members of the site can participate the poll"
-msgstr "Alla medlemmar på webbplatsen kan delta i undersökningen"
+#: components/admin/form-builder.php:126
+msgid "Survey Functions"
+msgstr "Undersöknings funktioner"
 
-#: components/admin/admin.php:165
-msgid "Only selected members can participate the poll "
+#: components/admin/form-builder.php:133 components/elements/component.php:44
+msgid "Elements"
+msgstr "Element"
+
+#: components/admin/form-builder.php:141
+msgid "Timerange"
+msgstr "Tidsintervall"
+
+#: components/admin/form-builder.php:149
+msgid "Participiants list"
+msgstr "Deltagarlista"
+
+#: components/admin/form-builder.php:157
+msgid "Results"
+msgstr "Resultat"
+
+#: components/admin/form-builder.php:194
+msgid "When does the survey start?"
+msgstr "När startar undersökningen?"
+
+#: components/admin/form-builder.php:196
+msgid "When does the survey end?"
+msgstr "När slutar undersökningen?"
+
+#: components/admin/form-builder.php:235
+msgid "All visitors of the site can participate"
+msgstr "Alla besökare på webbplatsen kan deltaga"
+
+#: components/admin/form-builder.php:239
+msgid "All members of the site can participate"
+msgstr "Alla medlemmar på webbplatsen kan deltaga"
+
+#: components/admin/form-builder.php:243
+msgid "Only selected members can participate"
 msgstr "Endast markerade medlemmar kan delta i undersökningen"
 
-#: components/admin/admin.php:185
+#: components/admin/form-builder.php:247
+msgid "No restrictions"
+msgstr "Inga begränsningar"
+
+#: components/admin/form-builder.php:275
 msgid "Add all actual Members"
 msgstr "Lägg till alla faktiska medlemmar"
 
-#: components/admin/admin.php:205
+#: components/admin/form-builder.php:299
 msgid "Add Participiants"
 msgstr "Lägg till deltagare"
 
-#: components/admin/admin.php:205
+#: components/admin/form-builder.php:302
 msgid "Remove all Participiants"
 msgstr "Ta bort alla deltagare"
 
-#: components/admin/admin.php:213 components/admin/admin.php:863
+#: components/admin/form-builder.php:311 components/admin/form-builder.php:973
 msgid "participiant/s"
 msgstr "deltagare"
 
-#: components/admin/admin.php:220
+#: components/admin/form-builder.php:318
 msgid "ID"
 msgstr "ID"
 
-#: components/admin/admin.php:221
+#: components/admin/form-builder.php:319
 msgid "User nicename"
 msgstr "Användarens smeknamn"
 
-#: components/admin/admin.php:222
+#: components/admin/form-builder.php:320
 msgid "Display name"
 msgstr "Visningsnamn"
 
-#: components/admin/admin.php:223
+#: components/admin/form-builder.php:321
 msgid "Email"
 msgstr "E-post"
 
-#: components/admin/admin.php:224
+#: components/admin/form-builder.php:322
 msgid "Status"
 msgstr "Status"
 
-#: components/admin/admin.php:239
+#: components/admin/form-builder.php:336
 msgid "finished"
 msgstr "avslutad"
 
-#: components/admin/admin.php:241
+#: components/admin/form-builder.php:338
 msgid "new"
 msgstr "ny"
 
-#: components/admin/admin.php:251 components/admin/admin.php:853
-#: components/element.php:448 components/element.php:491
+#: components/admin/form-builder.php:349 components/admin/form-builder.php:954
+#: components/elements/class-element.php:628
+#: components/elements/class-element.php:670
 msgid "Delete"
 msgstr "Radera"
 
-#: components/admin/admin.php:291
+#: components/admin/form-builder.php:414
 msgid "Show results after finishing survey"
 msgstr "Visa resultaten efter avslutad undersökning"
 
-#: components/admin/admin.php:292 components/admin/admin.php:854
-#: components/charts/data-abstraction.php:90 components/element.php:650
+#: components/admin/form-builder.php:416 components/admin/form-builder.php:955
+#: components/core/data-abstraction.php:88
+#: components/elements/class-element.php:887
 msgid "Yes"
 msgstr "Ja"
 
-#: components/admin/admin.php:293 components/admin/admin.php:855
-#: components/element.php:652
+#: components/admin/form-builder.php:417 components/admin/form-builder.php:956
+#: components/elements/class-element.php:891
 msgid "No"
 msgstr "Nej"
 
-#: components/admin/admin.php:313
+#: components/admin/form-builder.php:445
 msgid "Dublicate Survey"
 msgstr "Duplicera undersökning"
 
-#: components/admin/admin.php:320
+#: components/admin/form-builder.php:452
+msgid "Delete survey results"
+msgstr "Radera undersökningsresultaten"
+
+#: components/admin/form-builder.php:461
 msgid "Invite Participiants"
 msgstr "Bjud in deltagare"
 
-#: components/admin/admin.php:321 components/admin/admin.php:328
+#: components/admin/form-builder.php:464 components/admin/form-builder.php:475
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: components/admin/admin.php:327
+#: components/admin/form-builder.php:472
 msgid "Reinvite Participiants"
 msgstr "Bjud in deltagare igen"
 
-#: components/admin/admin.php:331
+#: components/admin/form-builder.php:481
 msgid ""
 "You can invite Participiants to this survey after the survey is published."
 msgstr ""
 "Du kan bjuda in deltagare till denna undersökning efter undersökningen "
 "publiceras."
 
-#: components/admin/admin.php:343
-msgid "Options"
-msgstr "Alternativ"
-
-#: components/admin/admin.php:350
-msgid "Survey Functions"
-msgstr "Undersöknings funktioner"
-
-#: components/admin/admin.php:357 components/elements/elements.php:40
-msgid "Elements"
-msgstr "Element"
-
-#: components/admin/admin.php:365
-msgid "Participiants list"
-msgstr "Deltagarlista"
-
-#: components/admin/admin.php:712
-msgid "Survey Invitation"
-msgstr "Undersökningsinbjudan"
-
-#: components/admin/admin.php:723
-msgid "Survey Reinvitation"
-msgstr "Upprepa undersökningsinbjudan"
-
-#: components/admin/admin.php:856
+#: components/admin/form-builder.php:957
 msgid "just added"
 msgstr "lades nyss till"
 
-#: components/admin/admin.php:857
+#: components/admin/form-builder.php:958
 msgid "Invitations sent successfully!"
 msgstr "Inbjudningarna har skickats!"
 
-#: components/admin/admin.php:858
+#: components/admin/form-builder.php:959
 msgid "Invitations could not be sent!"
 msgstr "Det gick inte att skicka inbjudningarna!"
 
-#: components/admin/admin.php:859
+#: components/admin/form-builder.php:961
 msgid "Renvitations sent successfully!"
 msgstr "Återinbjudningarna har skickats!"
 
-#: components/admin/admin.php:860
+#: components/admin/form-builder.php:964
 msgid "Renvitations could not be sent!"
 msgstr "Återinbjudningarna kunde inte skickas!"
 
-#: components/admin/admin.php:861
-msgid "Survey dublicated successfully!"
-msgstr "Undersökning duplicerad framgångsrikt!"
+#: components/admin/form-builder.php:967
+msgid "Survey results deleted successfully!"
+msgstr "Undersökningsresultaten har raderats!"
 
-#: components/admin/admin.php:862 components/core/core.php:91
+#: components/admin/form-builder.php:970
+msgid "Survey duplicated successfully!"
+msgstr "Undersökningen har dupliceras!"
+
+#: components/admin/form-builder.php:972 components/core/component.php:92
 msgid "Edit Survey"
 msgstr "Redigera undersökning"
 
-#: components/admin/pages/settings.php:5
+#: components/admin/form-builder.php:974
+msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
+msgstr "Du är under 50 formulärfält bort från att nå PHP max_num_fields!"
+
+#: components/admin/form-builder.php:975
+msgid "You are over the limit of PHP max_num_fields!"
+msgstr "Du är över gränsen för PHP max_num_fields!"
+
+#: components/admin/form-builder.php:976
+msgid ""
+"Please increase the value by adding <code>php_value max_input_vars [NUMBER "
+"OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
+"your form can not be saved correct."
+msgstr ""
+"Öka värdet genom att lägga till <code>php_value max_input_vars [NUMBER OF "
+"INPUT VARS]</code> i din htaccess eller kontakta din webhost. Annars kan "
+"inte formuläret  sparas korrekt."
+
+#: components/admin/form-builder.php:977
+msgid "of"
+msgstr "av"
+
+#: components/admin/form-builder.php:979
+msgid "yy/mm/dd"
+msgstr "åååå-mm-dd"
+
+#: components/admin/form-builder.php:980
+msgid "Su"
+msgstr "Sö"
+
+#: components/admin/form-builder.php:981
+msgid "Mo"
+msgstr "Må"
+
+#: components/admin/form-builder.php:982
+msgid "Tu"
+msgstr "Ti"
+
+#: components/admin/form-builder.php:983
+msgid "We"
+msgstr "On"
+
+#: components/admin/form-builder.php:984
+msgid "Th"
+msgstr "To"
+
+#: components/admin/form-builder.php:985
+msgid "Fr"
+msgstr "Fr"
+
+#: components/admin/form-builder.php:986
+msgid "Sa"
+msgstr "Lö"
+
+#: components/admin/form-builder.php:987
+msgid "January"
+msgstr "Januari"
+
+#: components/admin/form-builder.php:988
+msgid "February"
+msgstr "Februari"
+
+#: components/admin/form-builder.php:989
+msgid "March"
+msgstr "Mars"
+
+#: components/admin/form-builder.php:990
+msgid "April"
+msgstr "April"
+
+#: components/admin/form-builder.php:991
+msgid "May"
+msgstr "Maj"
+
+#: components/admin/form-builder.php:992
+msgid "June"
+msgstr "Juni"
+
+#: components/admin/form-builder.php:993
+msgid "July"
+msgstr "Juli"
+
+#: components/admin/form-builder.php:994
+msgid "August"
+msgstr "Augusti"
+
+#: components/admin/form-builder.php:995
+msgid "September"
+msgstr "September"
+
+#: components/admin/form-builder.php:996
+msgid "October"
+msgstr "Oktober"
+
+#: components/admin/form-builder.php:997
+msgid "November"
+msgstr "November"
+
+#: components/admin/form-builder.php:998
+msgid "December"
+msgstr "December"
+
+#: components/admin/menu.php:60 components/admin/menu.php:61
+#: components/core/component.php:88
+msgid "Surveys"
+msgstr "Undersökningar"
+
+#: components/admin/menu.php:70 components/admin/menu.php:71
+msgid "Create"
+msgstr "Skapa"
+
+#: components/admin/menu.php:77 components/admin/menu.php:78
+#: components/core/component.php:74
+msgid "Categories"
+msgstr "Kategorier"
+
+#: components/admin/menu.php:84 components/admin/menu.php:85
+#: components/elements/class-element.php:492
+msgid "Settings"
+msgstr "Inställningar"
+
+#: components/admin/pages/settings.php:51
 msgid "General"
 msgstr "Allmän"
 
-#: components/admin/pages/settings.php:8
+#: components/admin/pages/settings.php:68
 msgid "Text templates"
 msgstr "Textmallar"
 
-#: components/admin/pages/settings.php:12
+#: components/admin/pages/settings.php:72
 msgid "Thanks for participating"
 msgstr "Tack för att du deltog"
 
-#: components/admin/pages/settings.php:14
+#: components/admin/pages/settings.php:75
 msgid "This text will be used on thanking members after participating survey."
 msgstr ""
 "Denna text kommer att användas på tacka medlemmar efter undersökningen."
 
-#: components/admin/pages/settings.php:17
-#: components/admin/pages/settings.php:26
-#: components/admin/pages/settings.php:35
+#: components/admin/pages/settings.php:78
+#: components/admin/pages/settings.php:89
+#: components/admin/pages/settings.php:98
 msgid "Usable template tags:"
 msgstr "Användbara malltaggar:"
 
-#: components/admin/pages/settings.php:21
+#: components/admin/pages/settings.php:83
 msgid "Invitation text Template"
 msgstr "Inbjudantext mall"
 
-#: components/admin/pages/settings.php:23
+#: components/admin/pages/settings.php:86
 msgid ""
 "This text will be used as template if you want to send invitations to "
 "Participiants."
@@ -240,11 +379,11 @@ msgstr ""
 "Denna text kommer att användas som mall om du vill skicka inbjudningar till "
 "deltagare."
 
-#: components/admin/pages/settings.php:30
+#: components/admin/pages/settings.php:93
 msgid "Reinvitation text Template"
 msgstr "Återinbjudanstext mall"
 
-#: components/admin/pages/settings.php:32
+#: components/admin/pages/settings.php:95
 msgid ""
 "This text will be used as template if you want to send reinvitations to "
 "Participiants."
@@ -252,163 +391,172 @@ msgstr ""
 "Denna text kommer att användas som mall om du vill skicka inbjudningar till "
 "deltagare."
 
-#: components/admin/pages/settings.php:39
+#: components/admin/pages/settings.php:102
 msgid "From Name"
 msgstr "Från namn"
 
-#: components/admin/pages/settings.php:41
+#: components/admin/pages/settings.php:104
 msgid "The Name which will be shown on Emails which are send out by Questions."
 msgstr "Namnet som visas på e-postmeddelanden som skickas ut av Questions."
 
-#: components/admin/pages/settings.php:43
+#: components/admin/pages/settings.php:106
 msgid "e.g. Michael Jackson"
 msgstr "t.ex. Michael Jackson"
 
-#: components/admin/pages/settings.php:47
+#: components/admin/pages/settings.php:110
 msgid "From Email"
 msgstr "Från E-post"
 
-#: components/admin/pages/settings.php:49
+#: components/admin/pages/settings.php:112
 msgid ""
 "The Email will be used for the reply of the emails, send out by questions."
 msgstr ""
 "E-postadressen kommer att användas för svar på e-post, skickad ut av "
 "Questions."
 
-#: components/admin/pages/settings.php:51
+#: components/admin/pages/settings.php:114
 msgid "e.g. myname@mydomain.com"
 msgstr "t.ex. myname@mydomain.com"
 
-#: components/admin/pages/settings.php:55
-msgid "Save Changes"
-msgstr "Spara ändringar"
+#: components/charts/class-chart-creator.php:101
+#: components/elements/class-element.php:197
+msgid "This is a Questions Survey Element."
+msgstr "Detta är ett undersökningselement i Questions."
 
-#: components/charts/chart-creator-dimple.php:55
-msgid "Answer"
-msgstr "Svar"
-
-#: components/charts/chart-creator-dimple.php:56
-msgid "Votes"
-msgstr "Röster"
-
-#: components/charts/chart-creator.php:90
-msgid "Made with Questions"
-msgstr "Skapad med Questions"
-
-#: components/charts/charts.php:43
+#: components/charts/component.php:43
 msgid "Charts"
 msgstr "Diagram"
 
-#: components/charts/charts.php:44
+#: components/charts/component.php:44
 msgid "Showing Charts in Questions."
 msgstr "Visar diagram i Questions."
 
-#: components/charts/shortcodes.php:51
+#: components/charts/dimple/chart-creator.php:67
+msgid "Answers"
+msgstr "Svar"
+
+#: components/charts/dimple/chart-creator.php:68
+msgid "Votes"
+msgstr "Röster"
+
+#: components/charts/shortcodes.php:56
 msgid "Please enter a survey id in the survey shortcode!"
 msgstr "Ange ett undersöknings-id i undersökningens kortkod!"
 
 #: components/charts/shortcodes.php:75
+msgid "There are no results to show."
+msgstr "Det finns inga resultat att visa."
+
+#: components/charts/shortcodes.php:93
 msgid "Please enter a question id in the survey shortcode!"
 msgstr "Ange ett fråge-id i undersökningens kortkod!"
 
-#: components/charts/shortcodes.php:95
+#: components/charts/shortcodes.php:118
 msgid "Results Shortcode:"
 msgstr "Resulterande Kortkod:"
 
-#: components/charts/shortcodes.php:104
+#: components/charts/shortcodes.php:132
 msgid "(CTRL+C and paste into post to embed question results in post)"
 msgstr ""
 "(CTRL+C och klistra in i inlägget för att bädda in frågeresultaten i "
 "inlägget)"
 
-#: components/charts/shortcodes.php:105
+#: components/charts/shortcodes.php:133
 msgid "Shortcode:"
 msgstr "Kortkod:"
 
-#: components/component.php:50
+#: components/class-component.php:68
 msgid "This is a Questions component."
 msgstr "Detta är en Questions-komponent."
 
-#: components/core/core.php:39
+#: components/core/component.php:39
 msgid "Core"
 msgstr "Kärna"
 
-#: components/core/core.php:40
+#: components/core/component.php:40
 msgid "Core functions of the Questions Plugin"
 msgstr "Kärnfunktioner i Questions Plugin"
 
-#: components/core/core.php:63
+#: components/core/component.php:64
 msgctxt "taxonomy general name"
 msgid "Categories"
 msgstr "Kategorier"
 
-#: components/core/core.php:64
+#: components/core/component.php:65
 msgctxt "taxonomy singular name"
 msgid "Category"
 msgstr "Kategori"
 
-#: components/core/core.php:65
+#: components/core/component.php:66
 msgid "Search Categories"
 msgstr "Sök Kategorier"
 
-#: components/core/core.php:66
+#: components/core/component.php:67
 msgid "All Categories"
 msgstr "Alla kategorier"
 
-#: components/core/core.php:67
+#: components/core/component.php:68
 msgid "Parent Category"
 msgstr "Huvudkategori"
 
-#: components/core/core.php:68
+#: components/core/component.php:69
 msgid "Parent Category:"
 msgstr "Huvudkategori:"
 
-#: components/core/core.php:69
+#: components/core/component.php:70
 msgid "Edit Category"
 msgstr "Redigera kategori"
 
-#: components/core/core.php:70
+#: components/core/component.php:71
 msgid "Update Category"
 msgstr "Uppdatera kategori"
 
-#: components/core/core.php:71
+#: components/core/component.php:72
 msgid "Add New Category"
 msgstr "Lägg till ny kategori"
 
-#: components/core/core.php:72
+#: components/core/component.php:73
 msgid "New Category"
 msgstr "Ny kategori"
 
-#: components/core/core.php:88 components/core/shortcodes.php:47
+#: components/core/component.php:89 components/core/shortcodes.php:47
 msgid "Survey"
 msgstr "Undersökning"
 
-#: components/core/core.php:89
+#: components/core/component.php:90
 msgid "All Surveys"
 msgstr "Alla undersökningar"
 
-#: components/core/core.php:90 components/core/core.php:92
+#: components/core/component.php:91 components/core/component.php:93
 msgid "Add new Survey"
 msgstr "Lägg till ny undersökning"
 
-#: components/core/core.php:93
+#: components/core/component.php:94
 msgid "View Survey"
 msgstr "Visa undersökning"
 
-#: components/core/core.php:94
+#: components/core/component.php:95
 msgid "Search Survey"
 msgstr "Sök undersökning"
 
-#: components/core/core.php:95 components/core/core.php:96
+#: components/core/component.php:96 components/core/component.php:97
 msgid "No Survey available"
 msgstr "Ingen undersökning tillgänglig"
 
-#: components/core/export.php:46
+#: components/core/export.php:57
+msgid "No answers, no exports!"
+msgstr "Inga svar, ingen export!"
+
+#: components/core/export.php:59
 #, php-format
 msgid "<a href=\"%s\">Export Results</a>"
 msgstr "<a href=\"%s\">Exportera Resultaten</a>"
 
-#: components/core/process-response.php:154
+#: components/core/form-process.php:95
+msgid "There are open answers"
+msgstr "Det finns öppna svar"
+
+#: components/core/form-process.php:179
 #, php-format
 msgid ""
 "Step <span class=\"questions-highlight-number\">%d</span> of <span class="
@@ -417,37 +565,49 @@ msgstr ""
 "Steg <span class=\"questions-highlight-number\">%d</span> av <span class="
 "\"questions-highlight-number\">%s</span>"
 
-#: components/core/process-response.php:172
+#: components/core/form-process.php:202
 msgid "Previous Step"
 msgstr "Föregående steg"
 
-#: components/core/process-response.php:176
+#: components/core/form-process.php:208
 msgid "Finish Survey"
 msgstr "Avsluta undersökningen"
 
-#: components/core/process-response.php:178
+#: components/core/form-process.php:212
 msgid "Next Step"
 msgstr "Nästa steg"
 
-#: components/core/process-response.php:500
+#: components/core/form-process.php:782
 msgid "Thank you for participating this survey!"
 msgstr "Tack för att du deltagit i denna undersökning!"
 
-#: components/core/process-response.php:515
-msgid "You already have participated this poll."
+#: components/core/form-process.php:808
+msgid "You already have participated in this poll."
 msgstr "Du har redan deltagit i denna undersökning."
 
-#: components/core/process-response.php:523
-msgid "This are the actual results:"
-msgstr "Detta är de faktiska resultaten:"
-
-#: components/core/process-response.php:533
+#: components/core/form-process.php:827
 msgid "You have to be logged in to participate this survey."
 msgstr "Du måste vara inloggad för att delta i denna undersökning."
 
-#: components/core/process-response.php:540
+#: components/core/form-process.php:842
 msgid "You can't participate this survey."
 msgstr "Du kan inte delta i denna undersökning."
+
+#: components/core/form-process.php:857
+msgid "This are the actual results:"
+msgstr "Detta är de faktiska resultaten:"
+
+#: components/core/responses.php:116
+msgid "User ID"
+msgstr "Användar ID:"
+
+#: components/core/responses.php:147
+msgid "Username"
+msgstr "Användarnamn"
+
+#: components/core/responses.php:180
+msgid "Date/Time"
+msgstr "Datum/tid"
 
 #: components/core/shortcodes.php:52
 msgid "Please enter an id in the survey shortcode!"
@@ -461,266 +621,264 @@ msgstr "Undersökningen hittades inte. Ange ett annat ID i din kortkod."
 msgid "Survey Shortcode:"
 msgstr "Undersökningens kortkod:"
 
-#: components/element.php:60
-msgid "This is a Questions Survey Element."
-msgstr "Detta är ett undersökningselement i Questions."
-
-#: components/element.php:246
-msgid "No HTML for Element given. Please check element sourcecode."
-msgstr "Ingen HTML för element har angivits. Kontrollera elementets källkod."
-
-#: components/element.php:319
-msgid "Question"
-msgstr "Frågor"
-
-#: components/element.php:355 components/element.php:581
-msgid "Delete element"
-msgstr "Ta bort element"
-
-#: components/element.php:395
-msgid "Answer/s:"
-msgstr "Svar:"
-
-#: components/element.php:505
-msgid "Add Answer"
-msgstr "Lägg till svar"
-
-#: components/elements/description.php:18 components/elements/dropdown.php:62
-#: components/elements/multiplechoice.php:53
-#: components/elements/onechoice.php:52 components/elements/text.php:32
-#: components/elements/textarea.php:32
+#: components/elements/base-elements/description.php:21
+#: components/elements/base-elements/dropdown.php:63
+#: components/elements/base-elements/multiplechoice.php:58
+#: components/elements/base-elements/onechoice.php:56
+#: components/elements/base-elements/text.php:39
+#: components/elements/base-elements/textarea.php:40
 msgid "Description"
 msgstr "Beskrivning"
 
-#: components/elements/description.php:19
+#: components/elements/base-elements/description.php:22
 msgid "Adds a text to the form."
 msgstr "Lägger till en text i formuläret."
 
-#: components/elements/description.php:38
+#: components/elements/base-elements/description.php:37
 msgid "Text to show"
 msgstr "Text att visa"
 
-#: components/elements/description.php:40
+#: components/elements/base-elements/description.php:39
 msgid "The text which will be shown in the form."
 msgstr "Den text som visas i formuläret."
 
-#: components/elements/dropdown.php:18
+#: components/elements/base-elements/dropdown.php:21
 msgid "Dropdown"
 msgstr "Rullgardinsmeny"
 
-#: components/elements/dropdown.php:19
+#: components/elements/base-elements/dropdown.php:22
 msgid "Add a question which can be answered within a dropdown field."
 msgstr "Lägga till en fråga som kan besvaras inom en dropdown."
 
-#: components/elements/dropdown.php:39
-#: components/elements/multiplechoice.php:35
-#: components/elements/onechoice.php:35
-msgid "You don´t entered any answers. Please add some to display answers here."
-msgstr "Du har inte angivit några svar. Lägg till några för att visa svar här."
-
-#: components/elements/dropdown.php:43
+#: components/elements/base-elements/dropdown.php:42
 msgid "Please select"
 msgstr "Välj"
 
-#: components/elements/dropdown.php:64
-#: components/elements/multiplechoice.php:55
-#: components/elements/onechoice.php:54 components/elements/text.php:34
-#: components/elements/textarea.php:34
+#: components/elements/base-elements/dropdown.php:65
+#: components/elements/base-elements/multiplechoice.php:60
+#: components/elements/base-elements/onechoice.php:58
+#: components/elements/base-elements/text.php:41
+#: components/elements/base-elements/textarea.php:42
 msgid "The description will be shown after the question."
 msgstr "Beskrivningen visas efter frågan."
 
-#: components/elements/dropdown.php:74 components/elements/onechoice.php:64
+#: components/elements/base-elements/dropdown.php:76
+#: components/elements/base-elements/onechoice.php:69
 msgid "Please select a value."
 msgstr "Välj ett värde."
 
-#: components/elements/elements.php:41
-msgid "Base Elements to put into surveys"
-msgstr "Grundelement att sätta in i undersökningar"
-
-#: components/elements/multiplechoice.php:18
+#: components/elements/base-elements/multiplechoice.php:21
 msgid "Multiple Choice"
 msgstr "Flervalsfrågor"
 
-#: components/elements/multiplechoice.php:19
+#: components/elements/base-elements/multiplechoice.php:23
 msgid ""
 "Add a question which can be answered by selecting one ore more given answers."
 msgstr ""
 "Lägga till en fråga som kan besvaras genom att välja en eller flera svar."
 
-#: components/elements/multiplechoice.php:59
+#: components/elements/base-elements/multiplechoice.php:64
 msgid "Minimum Answers"
 msgstr "Minsta antal svar"
 
-#: components/elements/multiplechoice.php:61
+#: components/elements/base-elements/multiplechoice.php:67
 msgid "The minimum number of answers which have to be choosed."
 msgstr "Det minsta antalet svar som måste vara valda."
 
-#: components/elements/multiplechoice.php:65
+#: components/elements/base-elements/multiplechoice.php:72
 msgid "Maximum Answers"
 msgstr "Maxantal svar"
 
-#: components/elements/multiplechoice.php:67
+#: components/elements/base-elements/multiplechoice.php:75
 msgid "The maximum number of answers which can be choosed."
 msgstr "Det maximala antalet svar som kan vara valde."
 
-#: components/elements/multiplechoice.php:81
+#: components/elements/base-elements/multiplechoice.php:91
 msgid "Too less choices."
 msgstr "För få val."
 
-#: components/elements/multiplechoice.php:81
-#: components/elements/multiplechoice.php:87
+#: components/elements/base-elements/multiplechoice.php:92
+#: components/elements/base-elements/multiplechoice.php:102
 #, php-format
 msgid "You have to choose between %d and %d answers."
 msgstr "Du måste välja mellan %d och %d svar."
 
-#: components/elements/multiplechoice.php:87
+#: components/elements/base-elements/multiplechoice.php:101
 msgid "Too many choices."
 msgstr "För många val."
 
-#: components/elements/onechoice.php:18
+#: components/elements/base-elements/onechoice.php:21
 msgid "One Choice"
 msgstr "Ett val"
 
-#: components/elements/onechoice.php:19
+#: components/elements/base-elements/onechoice.php:23
 msgid ""
 "Add a question which can be answered by selecting one of the given answers."
 msgstr ""
 "Lägga till en fråga som kan besvaras genom att välja ett av de givna svaren."
 
-#: components/elements/separator.php:18
+#: components/elements/base-elements/separator.php:21
 msgid "Separator"
 msgstr "Avskiljare"
 
-#: components/elements/separator.php:19
+#: components/elements/base-elements/separator.php:22
 msgid "Adds a optical separator (<hr>) between questions."
 msgstr "Lägger till en optisk avgränsade (<hr>) mellan frågorna."
 
-#: components/elements/separator.php:41
+#: components/elements/base-elements/separator.php:47
 msgid "Headline"
 msgstr "Rubrik"
 
-#: components/elements/separator.php:43
+#: components/elements/base-elements/separator.php:49
 msgid "Text which will be shown above the separator"
 msgstr "Texten som visas ovanför avgränsaren"
 
-#: components/elements/splitter.php:18
+#: components/elements/base-elements/splitter.php:21
 msgid "Split Form"
 msgstr "Avdela formuläret"
 
-#: components/elements/splitter.php:19
+#: components/elements/base-elements/splitter.php:22
 msgid "Splits a form into several steps"
 msgstr "Delar ett formulär i flera steg"
 
-#: components/elements/text.php:18
+#: components/elements/base-elements/text.php:21
 msgid "Text"
 msgstr "Text"
 
-#: components/elements/text.php:19
+#: components/elements/base-elements/text.php:23
 msgid "Add a question which can be answered within a text field."
 msgstr "Lägg till en fråga som kan besvaras inom ett textfält."
 
-#: components/elements/text.php:38 components/elements/textarea.php:38
+#: components/elements/base-elements/text.php:45
+#: components/elements/base-elements/textarea.php:46
 msgid "Minimum length"
 msgstr "Min. ordlängd"
 
-#: components/elements/text.php:40 components/elements/textarea.php:40
+#: components/elements/base-elements/text.php:47
+#: components/elements/base-elements/textarea.php:48
 msgid "The minimum number of chars which can be typed in."
 msgstr "Det minsta antalet tecken som kan skrivas in."
 
-#: components/elements/text.php:44 components/elements/textarea.php:44
+#: components/elements/base-elements/text.php:51
+#: components/elements/base-elements/textarea.php:52
 msgid "Maximum length"
 msgstr "Max. textlängd"
 
-#: components/elements/text.php:46 components/elements/textarea.php:46
+#: components/elements/base-elements/text.php:53
+#: components/elements/base-elements/textarea.php:54
 msgid "The maximum number of chars which can be typed in."
 msgstr "Det maximala antalet tecken som kan skrivas in."
 
-#: components/elements/text.php:50
+#: components/elements/base-elements/text.php:57
 msgid "String Validation"
 msgstr "Sträng validering"
 
-#: components/elements/text.php:53
+#: components/elements/base-elements/text.php:60
 msgid "No validation"
 msgstr "Ingen validering"
 
-#: components/elements/text.php:54
+#: components/elements/base-elements/text.php:61
 msgid "Numbers"
 msgstr "Tal"
 
-#: components/elements/text.php:55
+#: components/elements/base-elements/text.php:62
 msgid "Decimal Numbers"
 msgstr "Decimaltal"
 
-#: components/elements/text.php:56
+#: components/elements/base-elements/text.php:63
 msgid "Email-Address"
 msgstr "Epost-adress"
 
-#: components/elements/text.php:58
+#: components/elements/base-elements/text.php:65
 msgid "The will do a validation for the input."
 msgstr "Den kommer att göra en validering av inmatningen."
 
-#: components/elements/text.php:73 components/elements/textarea.php:72
+#: components/elements/base-elements/text.php:82
+#: components/elements/base-elements/textarea.php:86
 msgid "The input ist too short."
 msgstr "Innehållet är för kort."
 
-#: components/elements/text.php:73 components/elements/text.php:79
-#: components/elements/textarea.php:72 components/elements/textarea.php:78
+#: components/elements/base-elements/text.php:84
+#: components/elements/base-elements/text.php:95
+#: components/elements/base-elements/textarea.php:88
+#: components/elements/base-elements/textarea.php:99
 #, php-format
 msgid "It have to be at minimum %d and maximum %d chars."
 msgstr "Det måste vara minst %d och högst %d tecken."
 
-#: components/elements/text.php:79 components/elements/textarea.php:78
+#: components/elements/base-elements/text.php:94
+#: components/elements/base-elements/textarea.php:98
 msgid "The input is too long."
 msgstr "Innehållet är för långt."
 
-#: components/elements/text.php:87
+#: components/elements/base-elements/text.php:108
 msgid "Please input a number."
 msgstr "Skriv in ett nummer."
 
-#: components/elements/text.php:93
+#: components/elements/base-elements/text.php:120
 msgid "Please input a decimal number."
 msgstr "Ange ett decimaltal."
 
-#: components/elements/text.php:99
+#: components/elements/base-elements/text.php:128
 msgid "Please input a valid Email-Address."
 msgstr "Skriv in en giltig e-postadress."
 
-#: components/elements/textarea.php:18
+#: components/elements/base-elements/textarea.php:21
 msgid "Textarea"
 msgstr "Textyta"
 
-#: components/elements/textarea.php:19
+#: components/elements/base-elements/textarea.php:23
 msgid "Add a question which can be answered within a text area."
 msgstr "Lägg till en fråga som kan besvaras inom ett textfält."
 
-#: components/elements/textarea.php:50
+#: components/elements/base-elements/textarea.php:58
 msgid "Rows"
 msgstr "Rader"
 
-#: components/elements/textarea.php:52
+#: components/elements/base-elements/textarea.php:61
 msgid "Number of rows for typing in  (can be overwritten by CSS)."
 msgstr "Antalet rader för att skriva in (kan skrivas över av CSS)."
 
-#: components/elements/textarea.php:56
+#: components/elements/base-elements/textarea.php:66
 msgid "Columns"
 msgstr "Kolumner"
 
-#: components/elements/textarea.php:58
+#: components/elements/base-elements/textarea.php:69
 msgid "Number of columns for typing in (can be overwritten by CSS)."
 msgstr "Antalet kolumner för att skriva in (kan skrivas över av CSS)."
 
-#: components/survey.php:172
-msgid "User ID"
-msgstr "Användar ID:"
+#: components/elements/class-element.php:380
+msgid "You don´t entered any answers. Please add some to display answers here."
+msgstr "Du har inte angivit några svar. Lägg till några för att visa svar här."
 
-#: components/survey.php:198
-msgid "Date/Time"
-msgstr "Datum/tid"
+#: components/elements/class-element.php:408
+msgid "No HTML for Element given. Please check element sourcecode."
+msgstr "Ingen HTML för element har angivits. Kontrollera elementets källkod."
 
-#: functions.php:38
+#: components/elements/class-element.php:485
+msgid "Question"
+msgstr "Frågor"
+
+#: components/elements/class-element.php:566
+msgid "Answer/s:"
+msgstr "Svar:"
+
+#: components/elements/class-element.php:686
+msgid "Add Answer"
+msgstr "Lägg till svar"
+
+#: components/elements/class-element.php:795
+msgid "Delete element"
+msgstr "Ta bort element"
+
+#: components/elements/component.php:45
+msgid "Base Elements to put into surveys"
+msgstr "Grundelement att sätta in i undersökningar"
+
+#: functions.php:73
 msgid ""
 "Dear %username%,\n"
-"\t\n"
+"\n"
 "thank you for participating on the survey \"%survey_title%\". Your survey "
 "data was saved successfully.\n"
 "\n"
@@ -729,7 +887,7 @@ msgid ""
 "%site_name%"
 msgstr ""
 "Hej %username%,\n"
-"\t\n"
+"\n"
 "tack för att du deltar i undersökningen \"%survey_title%\". Dina svar har "
 "sparats.\n"
 "\n"
@@ -737,10 +895,10 @@ msgstr ""
 "\n"
 "%site_name%"
 
-#: functions.php:52
+#: functions.php:89
 msgid ""
 "Dear %username%,\n"
-"\t\n"
+"\n"
 "you have been invited to participate to the survey \"%survey_title%\". "
 "Participate here:\n"
 "\n"
@@ -751,8 +909,8 @@ msgid ""
 "%site_name%"
 msgstr ""
 "Hej %username%,\n"
-"\t\n"
-"du har blivit inbjuden till undersökningen \"%survey_title%\". Delta här:\n"
+"\n"
+"du har blivit inbjuden till undersökningen \"%survey_title%\". Deltag här:\n"
 "\n"
 "%survey_url%\n"
 "\n"
@@ -760,10 +918,10 @@ msgstr ""
 "\n"
 "%site_name%"
 
-#: functions.php:68
+#: functions.php:107
 msgid ""
 "Dear %username%,\n"
-"\t\n"
+"\n"
 "the survey \"%survey_title%\" is not finished yet. Please fill out and "
 "finish the survey. Participate here:\n"
 "\n"
@@ -774,9 +932,9 @@ msgid ""
 "%site_name%"
 msgstr ""
 "Hej %username%,\n"
-"\t\n"
-"undersökningen \"%survey_title %\" är inte klar ännu. Fyll och avsluta "
-"undersökningen. Delta här:\n"
+"\n"
+"undersökningen \"%survey_title %\" är inte klar ännu. Fyll i och avsluta "
+"undersökningen. Deltag här:\n"
 "\n"
 "%survey_url%\n"
 "\n"
@@ -784,14 +942,31 @@ msgstr ""
 "\n"
 "%site_name%"
 
-#: functions.php:91
+#: functions.php:138
 msgid "Thank you for participating!"
 msgstr "Tack för att du deltar!"
 
-#: functions.php:99
+#: functions.php:146
 msgid "You are invited to answer a survey"
 msgstr "Du är inbjuden att besvara en enkät"
 
-#: functions.php:107
+#: functions.php:154
 msgid "Don´t forget to answer the Survey"
 msgstr "Glöm inte bort att besvara enkäten"
+
+#. Plugin Name of the plugin/theme
+msgid "Questions"
+msgstr "Frågor"
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://www.awesome.ug"
+msgstr "http://www.awesome.ug"
+
+#. Description of the plugin/theme
+msgid "Drag & drop your survey/poll with the WordPress Questions plugin."
+msgstr "Dra och släpp din undersökning/enkät med Wordpresstillägget Questions."
+
+#. Author of the plugin/theme
+msgid "awesome.ug"
+msgstr "awesome.ug"

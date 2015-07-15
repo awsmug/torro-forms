@@ -805,7 +805,7 @@ class Questions_FormProcess{
 		}
 
 		$html = '<div id="questions-already-participated">';
-		$html .= '<p>' . __( 'You already have participated this poll.', 'questions-locale' ) . '</p>';
+		$html .= '<p>' . __( 'You already have participated in this poll.', 'questions-locale' ) . '</p>';
 		if ( 'yes' == $show_results ) {
 			$html .= $this->show_results( $form_id );
 		}
