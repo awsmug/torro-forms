@@ -73,6 +73,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0 beta 19 =
 * Added russian language files (Thanks to [@kosm])
+* Added italian language files (Thanks to Giovanni Simiani)
 * No export if no results
 * Refactored code
 * Also dublicating terms for form
