@@ -73,7 +73,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 == Changelog ==
 
 = 1.0.0 beta 20 =
-*
+* Refactoring Core
 
 = 1.0.0 beta 19 =
 * Added russian language files (Thanks to [@kosm])
