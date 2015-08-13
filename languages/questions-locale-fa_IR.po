@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Questions\n"
 "POT-Creation-Date: 2015-07-15 10:05+0100\n"
-"PO-Revision-Date: 2015-07-15 10:25+0100\n"
+"PO-Revision-Date: 2015-08-13 16:26+0200\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
-"Language-Team: Persian (Iran) (http://www.transifex.com/p/questions/language/fa_IR/)\n"
+"Language-Team: Persian (Iran) (http://www.transifex.com/mahype/questions/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa_IR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
 "esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
@@ -68,7 +68,7 @@ msgstr "لیست شرکت کنندگان"
 
 #: components/admin/form-builder.php:157
 msgid "Results"
-msgstr "نتایج"
+msgstr ""
 
 #: components/admin/form-builder.php:194
 msgid "When does the survey start?"
@@ -264,51 +264,51 @@ msgstr ""
 
 #: components/admin/form-builder.php:987
 msgid "January"
-msgstr "فروردین"
+msgstr ""
 
 #: components/admin/form-builder.php:988
 msgid "February"
-msgstr "اردیبهشت"
+msgstr ""
 
 #: components/admin/form-builder.php:989
 msgid "March"
-msgstr "خرداد"
+msgstr ""
 
 #: components/admin/form-builder.php:990
 msgid "April"
-msgstr "تیر"
+msgstr ""
 
 #: components/admin/form-builder.php:991
 msgid "May"
-msgstr "می"
+msgstr ""
 
 #: components/admin/form-builder.php:992
 msgid "June"
-msgstr "شهریور"
+msgstr ""
 
 #: components/admin/form-builder.php:993
 msgid "July"
-msgstr "مهر"
+msgstr ""
 
 #: components/admin/form-builder.php:994
 msgid "August"
-msgstr "آگوست"
+msgstr ""
 
 #: components/admin/form-builder.php:995
 msgid "September"
-msgstr "آذر"
+msgstr ""
 
 #: components/admin/form-builder.php:996
 msgid "October"
-msgstr "دی"
+msgstr ""
 
 #: components/admin/form-builder.php:997
 msgid "November"
-msgstr "بهمن"
+msgstr ""
 
 #: components/admin/form-builder.php:998
 msgid "December"
-msgstr "بهمن"
+msgstr ""
 
 #: components/admin/menu.php:60 components/admin/menu.php:61 components/core/component.php:88
 msgid "Surveys"
@@ -400,7 +400,7 @@ msgstr "نمایش نمودار در سوالات"
 
 #: components/charts/dimple/chart-creator.php:67
 msgid "Answers"
-msgstr "پاسخ ها"
+msgstr ""
 
 #: components/charts/dimple/chart-creator.php:68
 msgid "Votes"
@@ -564,7 +564,7 @@ msgstr "کاربر ID"
 
 #: components/core/responses.php:147
 msgid "Username"
-msgstr "نام کاربری"
+msgstr ""
 
 #: components/core/responses.php:180
 msgid "Date/Time"
@@ -873,7 +873,7 @@ msgstr ""
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
 msgid "http://www.awesome.ug"
-msgstr "‏http://www.awesome.ug"
+msgstr ""
 
 #. Description of the plugin/theme
 msgid "Drag & drop your survey/poll with the WordPress Questions plugin."
@@ -881,4 +881,4 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "awesome.ug"
-msgstr "‏awesome.ug"
+msgstr ""

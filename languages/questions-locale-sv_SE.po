@@ -1,23 +1,22 @@
 #
 # Translators:
+# Sven Wagener <sven.wagener@rheinschmiede.de>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Questions\n"
-"POT-Creation-Date: 2015-07-15 10:26+0100\n"
-"PO-Revision-Date: 2015-07-15 10:30+0100\n"
+"POT-Creation-Date: 2015-07-15 10:05+0100\n"
+"PO-Revision-Date: 2015-08-13 16:26+0200\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
-"Language-Team: Swedish (Sweden) (http://www.transifex.com/p/questions/"
-"language/sv_SE/)\n"
-"Language: sv_SE\n"
+"Language-Team: Swedish (Sweden) (http://www.transifex.com/mahype/questions/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv_SE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.3\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;"
+"__ngettext_noop:1,2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-WPHeader: init.php\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -36,12 +35,8 @@ msgid "Attention!"
 msgstr "Observera!"
 
 #: components/admin/form-builder.php:92
-msgid ""
-"This will erase all Answers who people given to this survey. Do you really "
-"want to delete all results of this survey?"
-msgstr ""
-"Detta kommer att radera alla svar som skickats till denna undersökning. Vill "
-"du verkligen vill radera alla resultat av denna undersökning?"
+msgid "This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?"
+msgstr "Detta kommer att radera alla svar som skickats till denna undersökning. Vill du verkligen vill radera alla resultat av denna undersökning?"
 
 #: components/admin/form-builder.php:95
 msgid "Do you really want to delete this element?"
@@ -143,9 +138,7 @@ msgstr "avslutad"
 msgid "new"
 msgstr "ny"
 
-#: components/admin/form-builder.php:349 components/admin/form-builder.php:954
-#: components/elements/class-element.php:628
-#: components/elements/class-element.php:670
+#: components/admin/form-builder.php:349 components/admin/form-builder.php:954 components/elements/class-element.php:628 components/elements/class-element.php:670
 msgid "Delete"
 msgstr "Radera"
 
@@ -153,14 +146,11 @@ msgstr "Radera"
 msgid "Show results after finishing survey"
 msgstr "Visa resultaten efter avslutad undersökning"
 
-#: components/admin/form-builder.php:416 components/admin/form-builder.php:955
-#: components/core/data-abstraction.php:88
-#: components/elements/class-element.php:887
+#: components/admin/form-builder.php:416 components/admin/form-builder.php:955 components/core/data-abstraction.php:88 components/elements/class-element.php:887
 msgid "Yes"
 msgstr "Ja"
 
-#: components/admin/form-builder.php:417 components/admin/form-builder.php:956
-#: components/elements/class-element.php:891
+#: components/admin/form-builder.php:417 components/admin/form-builder.php:956 components/elements/class-element.php:891
 msgid "No"
 msgstr "Nej"
 
@@ -185,11 +175,8 @@ msgid "Reinvite Participiants"
 msgstr "Bjud in deltagare igen"
 
 #: components/admin/form-builder.php:481
-msgid ""
-"You can invite Participiants to this survey after the survey is published."
-msgstr ""
-"Du kan bjuda in deltagare till denna undersökning efter undersökningen "
-"publiceras."
+msgid "You can invite Participiants to this survey after the survey is published."
+msgstr "Du kan bjuda in deltagare till denna undersökning efter undersökningen publiceras."
 
 #: components/admin/form-builder.php:957
 msgid "just added"
@@ -233,13 +220,8 @@ msgstr "Du är över gränsen för PHP max_num_fields!"
 
 #: components/admin/form-builder.php:976
 msgid ""
-"Please increase the value by adding <code>php_value max_input_vars [NUMBER "
-"OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
-"your form can not be saved correct."
-msgstr ""
-"Öka värdet genom att lägga till <code>php_value max_input_vars [NUMBER OF "
-"INPUT VARS]</code> i din htaccess eller kontakta din webhost. Annars kan "
-"inte formuläret  sparas korrekt."
+"Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct."
+msgstr "Öka värdet genom att lägga till <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> i din htaccess eller kontakta din webhost. Annars kan inte formuläret  sparas korrekt."
 
 #: components/admin/form-builder.php:977
 msgid "of"
@@ -325,8 +307,7 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: components/admin/menu.php:60 components/admin/menu.php:61
-#: components/core/component.php:88
+#: components/admin/menu.php:60 components/admin/menu.php:61 components/core/component.php:88
 msgid "Surveys"
 msgstr "Undersökningar"
 
@@ -334,13 +315,11 @@ msgstr "Undersökningar"
 msgid "Create"
 msgstr "Skapa"
 
-#: components/admin/menu.php:77 components/admin/menu.php:78
-#: components/core/component.php:74
+#: components/admin/menu.php:77 components/admin/menu.php:78 components/core/component.php:74
 msgid "Categories"
 msgstr "Kategorier"
 
-#: components/admin/menu.php:84 components/admin/menu.php:85
-#: components/elements/class-element.php:492
+#: components/admin/menu.php:84 components/admin/menu.php:85 components/elements/class-element.php:492
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -358,12 +337,9 @@ msgstr "Tack för att du deltog"
 
 #: components/admin/pages/settings.php:75
 msgid "This text will be used on thanking members after participating survey."
-msgstr ""
-"Denna text kommer att användas på tacka medlemmar efter undersökningen."
+msgstr "Denna text kommer att användas på tacka medlemmar efter undersökningen."
 
-#: components/admin/pages/settings.php:78
-#: components/admin/pages/settings.php:89
-#: components/admin/pages/settings.php:98
+#: components/admin/pages/settings.php:78 components/admin/pages/settings.php:89 components/admin/pages/settings.php:98
 msgid "Usable template tags:"
 msgstr "Användbara malltaggar:"
 
@@ -372,24 +348,16 @@ msgid "Invitation text Template"
 msgstr "Inbjudantext mall"
 
 #: components/admin/pages/settings.php:86
-msgid ""
-"This text will be used as template if you want to send invitations to "
-"Participiants."
-msgstr ""
-"Denna text kommer att användas som mall om du vill skicka inbjudningar till "
-"deltagare."
+msgid "This text will be used as template if you want to send invitations to Participiants."
+msgstr "Denna text kommer att användas som mall om du vill skicka inbjudningar till deltagare."
 
 #: components/admin/pages/settings.php:93
 msgid "Reinvitation text Template"
 msgstr "Återinbjudanstext mall"
 
 #: components/admin/pages/settings.php:95
-msgid ""
-"This text will be used as template if you want to send reinvitations to "
-"Participiants."
-msgstr ""
-"Denna text kommer att användas som mall om du vill skicka inbjudningar till "
-"deltagare."
+msgid "This text will be used as template if you want to send reinvitations to Participiants."
+msgstr "Denna text kommer att användas som mall om du vill skicka inbjudningar till deltagare."
 
 #: components/admin/pages/settings.php:102
 msgid "From Name"
@@ -408,18 +376,14 @@ msgid "From Email"
 msgstr "Från E-post"
 
 #: components/admin/pages/settings.php:112
-msgid ""
-"The Email will be used for the reply of the emails, send out by questions."
-msgstr ""
-"E-postadressen kommer att användas för svar på e-post, skickad ut av "
-"Questions."
+msgid "The Email will be used for the reply of the emails, send out by questions."
+msgstr "E-postadressen kommer att användas för svar på e-post, skickad ut av Questions."
 
 #: components/admin/pages/settings.php:114
 msgid "e.g. myname@mydomain.com"
 msgstr "t.ex. myname@mydomain.com"
 
-#: components/charts/class-chart-creator.php:101
-#: components/elements/class-element.php:197
+#: components/charts/class-chart-creator.php:101 components/elements/class-element.php:197
 msgid "This is a Questions Survey Element."
 msgstr "Detta är ett undersökningselement i Questions."
 
@@ -457,9 +421,7 @@ msgstr "Resulterande Kortkod:"
 
 #: components/charts/shortcodes.php:132
 msgid "(CTRL+C and paste into post to embed question results in post)"
-msgstr ""
-"(CTRL+C och klistra in i inlägget för att bädda in frågeresultaten i "
-"inlägget)"
+msgstr "(CTRL+C och klistra in i inlägget för att bädda in frågeresultaten i inlägget)"
 
 #: components/charts/shortcodes.php:133
 msgid "Shortcode:"
@@ -558,12 +520,8 @@ msgstr "Det finns öppna svar"
 
 #: components/core/form-process.php:179
 #, php-format
-msgid ""
-"Step <span class=\"questions-highlight-number\">%d</span> of <span class="
-"\"questions-highlight-number\">%s</span>"
-msgstr ""
-"Steg <span class=\"questions-highlight-number\">%d</span> av <span class="
-"\"questions-highlight-number\">%s</span>"
+msgid "Step <span class=\"questions-highlight-number\">%d</span> of <span class=\"questions-highlight-number\">%s</span>"
+msgstr "Steg <span class=\"questions-highlight-number\">%d</span> av <span class=\"questions-highlight-number\">%s</span>"
 
 #: components/core/form-process.php:202
 msgid "Previous Step"
@@ -621,12 +579,8 @@ msgstr "Undersökningen hittades inte. Ange ett annat ID i din kortkod."
 msgid "Survey Shortcode:"
 msgstr "Undersökningens kortkod:"
 
-#: components/elements/base-elements/description.php:21
-#: components/elements/base-elements/dropdown.php:63
-#: components/elements/base-elements/multiplechoice.php:58
-#: components/elements/base-elements/onechoice.php:56
-#: components/elements/base-elements/text.php:39
-#: components/elements/base-elements/textarea.php:40
+#: components/elements/base-elements/description.php:21 components/elements/base-elements/dropdown.php:63 components/elements/base-elements/multiplechoice.php:58
+#: components/elements/base-elements/onechoice.php:56 components/elements/base-elements/text.php:39 components/elements/base-elements/textarea.php:40
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -654,16 +608,12 @@ msgstr "Lägga till en fråga som kan besvaras inom en dropdown."
 msgid "Please select"
 msgstr "Välj"
 
-#: components/elements/base-elements/dropdown.php:65
-#: components/elements/base-elements/multiplechoice.php:60
-#: components/elements/base-elements/onechoice.php:58
-#: components/elements/base-elements/text.php:41
-#: components/elements/base-elements/textarea.php:42
+#: components/elements/base-elements/dropdown.php:65 components/elements/base-elements/multiplechoice.php:60 components/elements/base-elements/onechoice.php:58
+#: components/elements/base-elements/text.php:41 components/elements/base-elements/textarea.php:42
 msgid "The description will be shown after the question."
 msgstr "Beskrivningen visas efter frågan."
 
-#: components/elements/base-elements/dropdown.php:76
-#: components/elements/base-elements/onechoice.php:69
+#: components/elements/base-elements/dropdown.php:76 components/elements/base-elements/onechoice.php:69
 msgid "Please select a value."
 msgstr "Välj ett värde."
 
@@ -672,10 +622,8 @@ msgid "Multiple Choice"
 msgstr "Flervalsfrågor"
 
 #: components/elements/base-elements/multiplechoice.php:23
-msgid ""
-"Add a question which can be answered by selecting one ore more given answers."
-msgstr ""
-"Lägga till en fråga som kan besvaras genom att välja en eller flera svar."
+msgid "Add a question which can be answered by selecting one ore more given answers."
+msgstr "Lägga till en fråga som kan besvaras genom att välja en eller flera svar."
 
 #: components/elements/base-elements/multiplechoice.php:64
 msgid "Minimum Answers"
@@ -697,8 +645,7 @@ msgstr "Det maximala antalet svar som kan vara valde."
 msgid "Too less choices."
 msgstr "För få val."
 
-#: components/elements/base-elements/multiplechoice.php:92
-#: components/elements/base-elements/multiplechoice.php:102
+#: components/elements/base-elements/multiplechoice.php:92 components/elements/base-elements/multiplechoice.php:102
 #, php-format
 msgid "You have to choose between %d and %d answers."
 msgstr "Du måste välja mellan %d och %d svar."
@@ -712,10 +659,8 @@ msgid "One Choice"
 msgstr "Ett val"
 
 #: components/elements/base-elements/onechoice.php:23
-msgid ""
-"Add a question which can be answered by selecting one of the given answers."
-msgstr ""
-"Lägga till en fråga som kan besvaras genom att välja ett av de givna svaren."
+msgid "Add a question which can be answered by selecting one of the given answers."
+msgstr "Lägga till en fråga som kan besvaras genom att välja ett av de givna svaren."
 
 #: components/elements/base-elements/separator.php:21
 msgid "Separator"
@@ -749,23 +694,19 @@ msgstr "Text"
 msgid "Add a question which can be answered within a text field."
 msgstr "Lägg till en fråga som kan besvaras inom ett textfält."
 
-#: components/elements/base-elements/text.php:45
-#: components/elements/base-elements/textarea.php:46
+#: components/elements/base-elements/text.php:45 components/elements/base-elements/textarea.php:46
 msgid "Minimum length"
 msgstr "Min. ordlängd"
 
-#: components/elements/base-elements/text.php:47
-#: components/elements/base-elements/textarea.php:48
+#: components/elements/base-elements/text.php:47 components/elements/base-elements/textarea.php:48
 msgid "The minimum number of chars which can be typed in."
 msgstr "Det minsta antalet tecken som kan skrivas in."
 
-#: components/elements/base-elements/text.php:51
-#: components/elements/base-elements/textarea.php:52
+#: components/elements/base-elements/text.php:51 components/elements/base-elements/textarea.php:52
 msgid "Maximum length"
 msgstr "Max. textlängd"
 
-#: components/elements/base-elements/text.php:53
-#: components/elements/base-elements/textarea.php:54
+#: components/elements/base-elements/text.php:53 components/elements/base-elements/textarea.php:54
 msgid "The maximum number of chars which can be typed in."
 msgstr "Det maximala antalet tecken som kan skrivas in."
 
@@ -793,21 +734,17 @@ msgstr "Epost-adress"
 msgid "The will do a validation for the input."
 msgstr "Den kommer att göra en validering av inmatningen."
 
-#: components/elements/base-elements/text.php:82
-#: components/elements/base-elements/textarea.php:86
+#: components/elements/base-elements/text.php:82 components/elements/base-elements/textarea.php:86
 msgid "The input ist too short."
 msgstr "Innehållet är för kort."
 
-#: components/elements/base-elements/text.php:84
-#: components/elements/base-elements/text.php:95
-#: components/elements/base-elements/textarea.php:88
+#: components/elements/base-elements/text.php:84 components/elements/base-elements/text.php:95 components/elements/base-elements/textarea.php:88
 #: components/elements/base-elements/textarea.php:99
 #, php-format
 msgid "It have to be at minimum %d and maximum %d chars."
 msgstr "Det måste vara minst %d och högst %d tecken."
 
-#: components/elements/base-elements/text.php:94
-#: components/elements/base-elements/textarea.php:98
+#: components/elements/base-elements/text.php:94 components/elements/base-elements/textarea.php:98
 msgid "The input is too long."
 msgstr "Innehållet är för långt."
 
@@ -879,8 +816,7 @@ msgstr "Grundelement att sätta in i undersökningar"
 msgid ""
 "Dear %username%,\n"
 "\n"
-"thank you for participating on the survey \"%survey_title%\". Your survey "
-"data was saved successfully.\n"
+"thank you for participating on the survey \"%survey_title%\". Your survey data was saved successfully.\n"
 "\n"
 "Best regards,\n"
 "\n"
@@ -888,8 +824,7 @@ msgid ""
 msgstr ""
 "Hej %username%,\n"
 "\n"
-"tack för att du deltar i undersökningen \"%survey_title%\". Dina svar har "
-"sparats.\n"
+"tack för att du deltar i undersökningen \"%survey_title%\". Dina svar har sparats.\n"
 "\n"
 "Med vänlig hälsning,\n"
 "\n"
@@ -899,8 +834,7 @@ msgstr ""
 msgid ""
 "Dear %username%,\n"
 "\n"
-"you have been invited to participate to the survey \"%survey_title%\". "
-"Participate here:\n"
+"you have been invited to participate to the survey \"%survey_title%\". Participate here:\n"
 "\n"
 "%survey_url%\n"
 "\n"
@@ -922,8 +856,7 @@ msgstr ""
 msgid ""
 "Dear %username%,\n"
 "\n"
-"the survey \"%survey_title%\" is not finished yet. Please fill out and "
-"finish the survey. Participate here:\n"
+"the survey \"%survey_title%\" is not finished yet. Please fill out and finish the survey. Participate here:\n"
 "\n"
 "%survey_url%\n"
 "\n"
@@ -933,8 +866,7 @@ msgid ""
 msgstr ""
 "Hej %username%,\n"
 "\n"
-"undersökningen \"%survey_title %\" är inte klar ännu. Fyll i och avsluta "
-"undersökningen. Deltag här:\n"
+"undersökningen \"%survey_title %\" är inte klar ännu. Fyll i och avsluta undersökningen. Deltag här:\n"
 "\n"
 "%survey_url%\n"
 "\n"

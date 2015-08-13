@@ -3,23 +3,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Questions\n"
-"POT-Creation-Date: 2015-07-15 10:25+0100\n"
-"PO-Revision-Date: 2015-07-15 10:26+0100\n"
+"POT-Creation-Date: 2015-07-15 10:05+0100\n"
+"PO-Revision-Date: 2015-08-13 16:26+0200\n"
 "Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
-"Language-Team: Russian (Russia) (http://www.transifex.com/p/questions/"
-"language/ru_RU/)\n"
-"Language: ru_RU\n"
+"Language-Team: Russian (Russia) (http://www.transifex.com/mahype/questions/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Poedit 1.8.1\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Poedit 1.8.3\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-WPHeader: init.php\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -38,9 +33,7 @@ msgid "Attention!"
 msgstr "Внимание!"
 
 #: components/admin/form-builder.php:92
-msgid ""
-"This will erase all Answers who people given to this survey. Do you really "
-"want to delete all results of this survey?"
+msgid "This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?"
 msgstr "Будут удалены все ответы на опрос. Вы уверены, что хотите все удалить?"
 
 #: components/admin/form-builder.php:95
@@ -143,9 +136,7 @@ msgstr "проголосовал"
 msgid "new"
 msgstr "новый"
 
-#: components/admin/form-builder.php:349 components/admin/form-builder.php:954
-#: components/elements/class-element.php:628
-#: components/elements/class-element.php:670
+#: components/admin/form-builder.php:349 components/admin/form-builder.php:954 components/elements/class-element.php:628 components/elements/class-element.php:670
 msgid "Delete"
 msgstr "Удалить"
 
@@ -153,14 +144,11 @@ msgstr "Удалить"
 msgid "Show results after finishing survey"
 msgstr "Показывать результаты после окончания опроса"
 
-#: components/admin/form-builder.php:416 components/admin/form-builder.php:955
-#: components/core/data-abstraction.php:88
-#: components/elements/class-element.php:887
+#: components/admin/form-builder.php:416 components/admin/form-builder.php:955 components/core/data-abstraction.php:88 components/elements/class-element.php:887
 msgid "Yes"
 msgstr "Да"
 
-#: components/admin/form-builder.php:417 components/admin/form-builder.php:956
-#: components/elements/class-element.php:891
+#: components/admin/form-builder.php:417 components/admin/form-builder.php:956 components/elements/class-element.php:891
 msgid "No"
 msgstr "Нет"
 
@@ -185,11 +173,8 @@ msgid "Reinvite Participiants"
 msgstr "Повторно пригласить участников"
 
 #: components/admin/form-builder.php:481
-msgid ""
-"You can invite Participiants to this survey after the survey is published."
-msgstr ""
-"Вы можете пригласить участников опроса после того, как опрос будет "
-"опубликован."
+msgid "You can invite Participiants to this survey after the survey is published."
+msgstr "Вы можете пригласить участников опроса после того, как опрос будет опубликован."
 
 #: components/admin/form-builder.php:957
 msgid "just added"
@@ -232,14 +217,8 @@ msgid "You are over the limit of PHP max_num_fields!"
 msgstr "Вы превысили лимит PHP max_num_fields!"
 
 #: components/admin/form-builder.php:976
-msgid ""
-"Please increase the value by adding <code>php_value max_input_vars [NUMBER "
-"OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
-"your form can not be saved correct."
-msgstr ""
-"Необходимо увеличить значение путем добавления <code>php_value "
-"max_input_vars [NUMBER OF INPUT VARS]</code> в файл .htaccess. В противном "
-"случае ваша форма не будет корректно сохраняться."
+msgid "Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct."
+msgstr "Необходимо увеличить значение путем добавления <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> в файл .htaccess. В противном случае ваша форма не будет корректно сохраняться."
 
 #: components/admin/form-builder.php:977
 msgid "of"
@@ -325,8 +304,7 @@ msgstr "Ноябрь"
 msgid "December"
 msgstr "Декабрь"
 
-#: components/admin/menu.php:60 components/admin/menu.php:61
-#: components/core/component.php:88
+#: components/admin/menu.php:60 components/admin/menu.php:61 components/core/component.php:88
 msgid "Surveys"
 msgstr "Опросы"
 
@@ -334,13 +312,11 @@ msgstr "Опросы"
 msgid "Create"
 msgstr "Создать"
 
-#: components/admin/menu.php:77 components/admin/menu.php:78
-#: components/core/component.php:74
+#: components/admin/menu.php:77 components/admin/menu.php:78 components/core/component.php:74
 msgid "Categories"
 msgstr "Категории"
 
-#: components/admin/menu.php:84 components/admin/menu.php:85
-#: components/elements/class-element.php:492
+#: components/admin/menu.php:84 components/admin/menu.php:85 components/elements/class-element.php:492
 msgid "Settings"
 msgstr "Настройки"
 
@@ -360,9 +336,7 @@ msgstr "Спасибо за участие"
 msgid "This text will be used on thanking members after participating survey."
 msgstr "Этот текст будет отправлен пользователю после участия в опросе."
 
-#: components/admin/pages/settings.php:78
-#: components/admin/pages/settings.php:89
-#: components/admin/pages/settings.php:98
+#: components/admin/pages/settings.php:78 components/admin/pages/settings.php:89 components/admin/pages/settings.php:98
 msgid "Usable template tags:"
 msgstr "Допустимые подстановки:"
 
@@ -371,9 +345,7 @@ msgid "Invitation text Template"
 msgstr "Шаблон уведомления об опросе"
 
 #: components/admin/pages/settings.php:86
-msgid ""
-"This text will be used as template if you want to send invitations to "
-"Participiants."
+msgid "This text will be used as template if you want to send invitations to Participiants."
 msgstr "Шаблон приглашения для участия в опросе"
 
 #: components/admin/pages/settings.php:93
@@ -381,9 +353,7 @@ msgid "Reinvitation text Template"
 msgstr "Шаблон напоминания об опросе"
 
 #: components/admin/pages/settings.php:95
-msgid ""
-"This text will be used as template if you want to send reinvitations to "
-"Participiants."
+msgid "This text will be used as template if you want to send reinvitations to Participiants."
 msgstr "Шаблон повторного приглашения (напоминания) для участия в опросе"
 
 #: components/admin/pages/settings.php:102
@@ -403,18 +373,14 @@ msgid "From Email"
 msgstr "От кого (email отправителя)"
 
 #: components/admin/pages/settings.php:112
-msgid ""
-"The Email will be used for the reply of the emails, send out by questions."
-msgstr ""
-"Этот email адрес будет показан в рассылаемых письмах в качестве обратного "
-"адреса."
+msgid "The Email will be used for the reply of the emails, send out by questions."
+msgstr "Этот email адрес будет показан в рассылаемых письмах в качестве обратного адреса."
 
 #: components/admin/pages/settings.php:114
 msgid "e.g. myname@mydomain.com"
 msgstr "например, myname@mydomain.com"
 
-#: components/charts/class-chart-creator.php:101
-#: components/elements/class-element.php:197
+#: components/charts/class-chart-creator.php:101 components/elements/class-element.php:197
 msgid "This is a Questions Survey Element."
 msgstr "Это элемент опроса Questions."
 
@@ -554,12 +520,8 @@ msgstr "Необходимо ответить на все вопросы"
 
 #: components/core/form-process.php:179
 #, php-format
-msgid ""
-"Step <span class=\"questions-highlight-number\">%d</span> of <span class="
-"\"questions-highlight-number\">%s</span>"
-msgstr ""
-"Шаг <span class=\"questions-highlight-number\">%d</span> из <span class="
-"\"questions-highlight-number\">%s</span>"
+msgid "Step <span class=\"questions-highlight-number\">%d</span> of <span class=\"questions-highlight-number\">%s</span>"
+msgstr "Шаг <span class=\"questions-highlight-number\">%d</span> из <span class=\"questions-highlight-number\">%s</span>"
 
 #: components/core/form-process.php:202
 msgid "Previous Step"
@@ -579,7 +541,7 @@ msgstr "Ваш голос принят, спасибо!"
 
 #: components/core/form-process.php:808
 msgid "You already have participated in this poll."
-msgstr "Вы уже проголосовали в этом опросе."
+msgstr ""
 
 #: components/core/form-process.php:827
 msgid "You have to be logged in to participate this survey."
@@ -617,11 +579,7 @@ msgstr "Опрос не найден, неверно указан ID опрос�
 msgid "Survey Shortcode:"
 msgstr "Шорткод опроса:"
 
-#: components/elements/base-elements/description.php:21
-#: components/elements/base-elements/dropdown.php:63
-#: components/elements/base-elements/multiplechoice.php:58
-#: components/elements/base-elements/onechoice.php:56
-#: components/elements/base-elements/text.php:39
+#: components/elements/base-elements/description.php:21 components/elements/base-elements/dropdown.php:63 components/elements/base-elements/multiplechoice.php:58 components/elements/base-elements/onechoice.php:56 components/elements/base-elements/text.php:39
 #: components/elements/base-elements/textarea.php:40
 msgid "Description"
 msgstr "Текстовое описание"
@@ -650,16 +608,11 @@ msgstr "Добавляет вопрос, на который можно отве
 msgid "Please select"
 msgstr "Выберите"
 
-#: components/elements/base-elements/dropdown.php:65
-#: components/elements/base-elements/multiplechoice.php:60
-#: components/elements/base-elements/onechoice.php:58
-#: components/elements/base-elements/text.php:41
-#: components/elements/base-elements/textarea.php:42
+#: components/elements/base-elements/dropdown.php:65 components/elements/base-elements/multiplechoice.php:60 components/elements/base-elements/onechoice.php:58 components/elements/base-elements/text.php:41 components/elements/base-elements/textarea.php:42
 msgid "The description will be shown after the question."
 msgstr "Описание будет показано после вопроса."
 
-#: components/elements/base-elements/dropdown.php:76
-#: components/elements/base-elements/onechoice.php:69
+#: components/elements/base-elements/dropdown.php:76 components/elements/base-elements/onechoice.php:69
 msgid "Please select a value."
 msgstr "Выберите значение"
 
@@ -668,11 +621,8 @@ msgid "Multiple Choice"
 msgstr "Много ответов"
 
 #: components/elements/base-elements/multiplechoice.php:23
-msgid ""
-"Add a question which can be answered by selecting one ore more given answers."
-msgstr ""
-"Добавляет вопрос, на который можно ответить одним или несколькими из "
-"предложенных вариантов."
+msgid "Add a question which can be answered by selecting one ore more given answers."
+msgstr "Добавляет вопрос, на который можно ответить одним или несколькими из предложенных вариантов."
 
 #: components/elements/base-elements/multiplechoice.php:64
 msgid "Minimum Answers"
@@ -694,8 +644,7 @@ msgstr "Максимальное число выбранных ответов."
 msgid "Too less choices."
 msgstr "Слишком мало вариантов ответа."
 
-#: components/elements/base-elements/multiplechoice.php:92
-#: components/elements/base-elements/multiplechoice.php:102
+#: components/elements/base-elements/multiplechoice.php:92 components/elements/base-elements/multiplechoice.php:102
 #, php-format
 msgid "You have to choose between %d and %d answers."
 msgstr "Выдолжны выбрать от %d до %d ответов."
@@ -709,11 +658,8 @@ msgid "One Choice"
 msgstr "Один ответ"
 
 #: components/elements/base-elements/onechoice.php:23
-msgid ""
-"Add a question which can be answered by selecting one of the given answers."
-msgstr ""
-"Добавляет вопрос, на который можно ответить выбором одного из предложенных "
-"вариантов."
+msgid "Add a question which can be answered by selecting one of the given answers."
+msgstr "Добавляет вопрос, на который можно ответить выбором одного из предложенных вариантов."
 
 #: components/elements/base-elements/separator.php:21
 msgid "Separator"
@@ -747,23 +693,19 @@ msgstr "Тестовая строка"
 msgid "Add a question which can be answered within a text field."
 msgstr "Добавляет вопрос, на который можно ответить тестовой строкой."
 
-#: components/elements/base-elements/text.php:45
-#: components/elements/base-elements/textarea.php:46
+#: components/elements/base-elements/text.php:45 components/elements/base-elements/textarea.php:46
 msgid "Minimum length"
 msgstr "Минимальная длина"
 
-#: components/elements/base-elements/text.php:47
-#: components/elements/base-elements/textarea.php:48
+#: components/elements/base-elements/text.php:47 components/elements/base-elements/textarea.php:48
 msgid "The minimum number of chars which can be typed in."
 msgstr "Минимальное количество символов, которое можно ввести."
 
-#: components/elements/base-elements/text.php:51
-#: components/elements/base-elements/textarea.php:52
+#: components/elements/base-elements/text.php:51 components/elements/base-elements/textarea.php:52
 msgid "Maximum length"
 msgstr "Максимальная длина"
 
-#: components/elements/base-elements/text.php:53
-#: components/elements/base-elements/textarea.php:54
+#: components/elements/base-elements/text.php:53 components/elements/base-elements/textarea.php:54
 msgid "The maximum number of chars which can be typed in."
 msgstr "Максимальное количество символов, которое можно ввести."
 
@@ -791,21 +733,16 @@ msgstr "Email-адрес"
 msgid "The will do a validation for the input."
 msgstr "Вариант проверки введенного значения."
 
-#: components/elements/base-elements/text.php:82
-#: components/elements/base-elements/textarea.php:86
+#: components/elements/base-elements/text.php:82 components/elements/base-elements/textarea.php:86
 msgid "The input ist too short."
 msgstr "Слишком короткое значение."
 
-#: components/elements/base-elements/text.php:84
-#: components/elements/base-elements/text.php:95
-#: components/elements/base-elements/textarea.php:88
-#: components/elements/base-elements/textarea.php:99
+#: components/elements/base-elements/text.php:84 components/elements/base-elements/text.php:95 components/elements/base-elements/textarea.php:88 components/elements/base-elements/textarea.php:99
 #, php-format
 msgid "It have to be at minimum %d and maximum %d chars."
 msgstr "Значение должно быть в интервале от %d до %d знаков."
 
-#: components/elements/base-elements/text.php:94
-#: components/elements/base-elements/textarea.php:98
+#: components/elements/base-elements/text.php:94 components/elements/base-elements/textarea.php:98
 msgid "The input is too long."
 msgstr "Слишком длинное значение."
 
@@ -877,8 +814,7 @@ msgstr "Базовые элементы для добавления в опро�
 msgid ""
 "Dear %username%,\n"
 "\n"
-"thank you for participating on the survey \"%survey_title%\". Your survey "
-"data was saved successfully.\n"
+"thank you for participating on the survey \"%survey_title%\". Your survey data was saved successfully.\n"
 "\n"
 "Best regards,\n"
 "\n"
@@ -901,8 +837,7 @@ msgstr ""
 msgid ""
 "Dear %username%,\n"
 "\n"
-"you have been invited to participate to the survey \"%survey_title%\". "
-"Participate here:\n"
+"you have been invited to participate to the survey \"%survey_title%\". Participate here:\n"
 "\n"
 "%survey_url%\n"
 "\n"
@@ -930,8 +865,7 @@ msgstr ""
 msgid ""
 "Dear %username%,\n"
 "\n"
-"the survey \"%survey_title%\" is not finished yet. Please fill out and "
-"finish the survey. Participate here:\n"
+"the survey \"%survey_title%\" is not finished yet. Please fill out and finish the survey. Participate here:\n"
 "\n"
 "%survey_url%\n"
 "\n"
@@ -942,8 +876,7 @@ msgstr ""
 "Уважаемый(ая) %username%!\n"
 "\n"
 "\n"
-"Напоминаем вам, что опрос \"%survey_title%\" продолжается. Ваш голос очень "
-"важен для нас.\n"
+"Напоминаем вам, что опрос \"%survey_title%\" продолжается. Ваш голос очень важен для нас.\n"
 "\n"
 "\n"
 "Опрос проводится здесь: %survey_url%\n"
@@ -969,14 +902,13 @@ msgid "Don´t forget to answer the Survey"
 msgstr "%site_name%. Не забудьте принять участие в опросе!"
 
 #. Plugin Name of the plugin/theme
-#, fuzzy
 msgid "Questions"
-msgstr "Это элемент опроса Questions."
+msgstr ""
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
 msgid "http://www.awesome.ug"
-msgstr "http://www.awesome.ug"
+msgstr ""
 
 #. Description of the plugin/theme
 msgid "Drag & drop your survey/poll with the WordPress Questions plugin."
@@ -984,4 +916,4 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "awesome.ug"
-msgstr "awesome.ug"
+msgstr ""
