@@ -1,6 +1,5 @@
 === Questions ===
 Contributors: mahype, awesome-ug
-Donate link: http://awesome.ug/donate
 Tags: survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 Requires at least: 4.1.1
 Tested up to: 4.3.0
@@ -72,6 +71,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 7. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
+
+= 1.0.0 beta 20 =
+*
 
 = 1.0.0 beta 19 =
 * Added russian language files (Thanks to [@kosm])

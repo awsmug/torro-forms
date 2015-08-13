@@ -1,9 +1,9 @@
 <?php
-/*
+/**
  * Plugin Name:  Questions
  * Plugin URI:   http://www.awesome.ug
  * Description:  Drag & drop your survey/poll with the WordPress Questions plugin.
- * Version:      1.0.0 beta 19
+ * Version:      1.0.0 beta 20
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
  * Author Email: contact@awesome.ug
