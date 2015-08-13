@@ -37,9 +37,11 @@ Drag & drop your survey in the WordPress way!
 
 * English
 * German
-* Dutch (Thanks to Remco Wesselius)
+* Dutch (Thanks to [@remcow])
+* Italian (Thanks to Giovanni Simiani)
 * Persian (Thanks to Hos3in)
-* Swedish (Thanks to Elger Lindgren)
+* Russian (Thanks to [@kosm])
+* Swedish (Thanks to [@elle_])
 
 >Feel free to add your own language! We will add it to the code if you send us language files in your language.
 
