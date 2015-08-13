@@ -21,6 +21,7 @@
 [class*="icon-questions-"]::before {
 	font-family: questionsicons; 
 }
+/* Does conflicts with All in one SEO Pack
 .hide {
   clip: rect(1px, 1px, 1px, 1px);
   height: 0;
@@ -29,6 +30,7 @@
   visibility: hidden;
   width: 0;
 }
+*/
 /* Icons */
 .icon-questions-checkbox-01::before {
 	content: "\E801"; 
