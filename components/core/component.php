@@ -140,7 +140,10 @@ class Questions_Core extends Questions_Component{
 
         // Functions
         include( QUESTIONS_COMPONENTFOLDER . '/core/form.php' );
-        include( QUESTIONS_COMPONENTFOLDER . '/core/form-process.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/form-loader.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/form-process.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/form-restrictions.php' );
+
         include( QUESTIONS_COMPONENTFOLDER . '/core/responses.php' );
 
         include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
