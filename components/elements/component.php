@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Questions Base Elements
  *
  * This class initializes the component.

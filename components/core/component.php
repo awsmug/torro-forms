@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Core Component
  *
  * This class initializes the component.

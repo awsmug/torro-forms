@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Questions Shortcodes
  *
  * This should be used as parent class for Question-Answers.

@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Exporting data
  *
  * This class creates the export

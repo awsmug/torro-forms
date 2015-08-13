@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Processing form
  *
  * This class initializes the component.

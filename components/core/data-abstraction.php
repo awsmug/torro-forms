@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Abstracting data
  *
  * This class abstracting data for further use

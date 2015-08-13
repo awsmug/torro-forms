@@ -1,8 +1,8 @@
 <?php
-/*
- * Processing form
+/**
+ * Loading form
  *
- * This class initializes the component.
+ * This class will load the form
  *
  * @author awesome.ug, Author <support@awesome.ug>
  * @package Questions/Core

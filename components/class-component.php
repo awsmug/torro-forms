@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Questions main component class
  *
  * This class is the base for every Questions Component.

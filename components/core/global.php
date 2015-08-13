@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Questions Class for main global $questions_global
  *
  * @author awesome.ug, Author <support@awesome.ug>

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/*
+/**
 * Getting Plugin Template
 * @since 1.0.0
 */
@@ -56,6 +56,8 @@ if ( defined( 'QUESTIONS_FOLDER' ) ):
 		return $located;
 	}
 endif;
+
+// @todo Getting a Mail class or API
 
 /**
  * Getting standard mailtext strings
