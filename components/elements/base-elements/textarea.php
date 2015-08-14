@@ -81,24 +81,14 @@ class Questions_FormElement_Textarea extends Questions_FormElement {
 
 		if ( ! empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ):
-				$this->validate_errors[ ] = esc_attr__(
-						'The input ist too short.', 'questions-locale'
-					) . ' ' . sprintf(
-						esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ),
-						$min_length,
-						$max_length
-					);
+				$this->validate_errors[ ] = esc_attr__( 'The input ist too short.', 'questions-locale') . ' ' . sprintf(esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length);
 				$error                    = TRUE;
 			endif;
 		}
 
 		if ( ! empty( $max_length ) ) {
 			if ( strlen( $input ) > $max_length ):
-				$this->validate_errors[ ] = esc_attr__( 'The input is too long.', 'questions-locale' ) . ' ' . sprintf(
-						esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ),
-						$min_length,
-						$max_length
-					);
+				$this->validate_errors[ ] = esc_attr__( 'The input is too long.', 'questions-locale' ) . ' ' . sprintf(esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length);
 				$error                    = TRUE;
 			endif;
 		}

@@ -33,6 +33,7 @@ class Questions{
 	var $tables;
     var $components = array();
 	var $element_types = array();
+	var $restrictions = array();
     var $chart_creators = array();
 
 
@@ -66,16 +67,28 @@ class Questions{
 		
 		return TRUE;
 	}
-	
+
 	public function add_form_element( $slug, $object ){
 		if( '' == $slug )
 			return FALSE;
-		
+
 		if( !is_object( $object ) && 'Questions_FormElement' != get_parent_class( $object ) )
 			return FALSE;
-		
+
 		$this->element_types[ $slug ] = $object;
-		
+
+		return TRUE;
+	}
+
+	public function add_restriction( $slug, $object ){
+		if( '' == $slug )
+			return FALSE;
+
+		if( !is_object( $object ) && 'Questions_Restriction' != get_parent_class( $object ) )
+			return FALSE;
+
+		$this->restrictions[ $slug ] = $object;
+
 		return TRUE;
 	}
 

@@ -503,7 +503,6 @@ abstract class Questions_FormElement {
 			/**
 			 * Content of Tabs
 			 */
-		
 			// Adding question tab
 			if ( $this->is_question ):
 				$html .= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';

@@ -106,7 +106,7 @@ class Questions_FormProcess{
      * @return string $html
      * @since 1.0.0
      */
-    private function show_form() {
+    public function show_form() {
 
         // Getting actual step for form
         $actual_step = $this->get_actual_step();
