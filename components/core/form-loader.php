@@ -63,17 +63,28 @@ class Questions_FormLoader
     public static function process_response( $response ){
         global $questions_form_id, $questions_process, $questions_form_id;
 
-        // Getting Post ID
-        $post_id = $response->query_vars[ 'p' ];
-        $questions_form_id = $post_id;
-
-        $post = get_post( $questions_form_id );
-
-        if( 'questions' != $post->post_type ){
+        // If is nothing there to process, just leave
+        if( is_array( $response->query_vars ) && !array_key_exists( 'p', $response->query_vars  ) && is_array( $_POST ) && !array_key_exists( 'questions_id', $_POST ) ){
             return;
         }
 
-        $questions_process_id = $post->ID;
+        // Getting form ID
+        if( array_key_exists( 'questions_id', $_POST ) ) {
+            $questions_form_id = $_POST['questions_id'];
+        }else{
+            $questions_form_id = $response->query_vars[ 'p' ];
+        }
+
+        // Form exists or die
+        if ( ! qu_form_exists( $questions_form_id ) ) {
+            return;
+        }
+
+        // Checking if the ID is questions post type
+        $post = get_post( $questions_form_id );
+        if( 'questions' != $post->post_type ){
+            return;
+        }
 
         $questions_process = new Questions_FormProcess( $questions_form_id ); // @todo Doing it with globals and static class?
         $questions_process->process_response();

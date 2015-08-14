@@ -29,8 +29,7 @@ class Questions_FormElement_Textarea extends Questions_FormElement {
 
 	public function input_html() {
 
-		return '<p><textarea name="' . $this->get_input_name(
-		) . '" maxlength="' . $this->settings[ 'max_length' ] . '" rows="' . $this->settings[ 'rows' ] . '" cols="' . $this->settings[ 'cols' ] . '">' . $this->response . '</textarea></p>';
+		return '<p><textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ] . '" rows="' . $this->settings[ 'rows' ] . '" cols="' . $this->settings[ 'cols' ] . '">' . $this->response . '</textarea></p>';
 	}
 
 	public function settings_fields() {

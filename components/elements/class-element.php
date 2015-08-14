@@ -376,9 +376,7 @@ abstract class Questions_FormElement {
 		$html .= '<div class="answer">';
 
         if ( 0 == count( $this->answers ) && $this->has_answers == TRUE ) {
-            $html.= '<p>' . esc_attr__(
-                'You don´t entered any answers. Please add some to display answers here.', 'questions-locale'
-            ) . '</p>';
+            $html.= '<p>' . esc_attr__('You don´t entered any answers. Please add some to display answers here.', 'questions-locale') . '</p>';
         }else {
             $html .= $this->input_html();
         }
@@ -822,22 +820,22 @@ abstract class Questions_FormElement {
 	}
 	
 	/**
-	 * Getting posted data from an answering user
+	 * Getting element data from Session
 	 * @return array $response The post response
 	 * @since 1.0.0
 	 */
 	private function get_response() {
 	
-		global $questions_survey_id;
+		global $questions_form_id;
 	
 		$this->response = FALSE;
 	
 		// Getting value/s
-		if ( ! empty( $questions_survey_id ) ):
+		if ( ! empty( $questions_form_id ) ):
 			if ( isset( $_SESSION[ 'questions_response' ] ) ):
-				if ( isset( $_SESSION[ 'questions_response' ][ $questions_survey_id ] ) ):
-					if ( isset( $_SESSION[ 'questions_response' ][ $questions_survey_id ][ $this->id ] ) ):
-						$this->response = $_SESSION[ 'questions_response' ][ $questions_survey_id ][ $this->id ];
+				if ( isset( $_SESSION[ 'questions_response' ][ $questions_form_id ] ) ):
+					if ( isset( $_SESSION[ 'questions_response' ][ $questions_form_id ][ $this->id ] ) ):
+						$this->response = $_SESSION[ 'questions_response' ][ $questions_form_id ][ $this->id ];
 					endif;
 				endif;
 			endif;

@@ -132,7 +132,7 @@ class Questions_FormProcess{
                 if ( ! $element->splits_form ):
                     $html .= $element->draw();
                 else:
-                    $next_step += 1;
+                    $next_step += 1; // If there is a next step, setting up next step var
                     break;
                 endif;
             endforeach;
@@ -158,25 +158,13 @@ class Questions_FormProcess{
      * @since 1.0.0
      */
     public function process_response() {
-        global $questions_form_id;
-
-        // Form ID was posted or die
-        if ( ! array_key_exists( 'questions_id', $_POST ) )
-            return;
-
-        // Setting up Questions form ID after submitting
-        $questions_form_id = $_POST[ 'questions_id' ];
+        global $questions_form_id, $questions_response_errors;
 
         // WP Nonce Check
         if( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'questions-' . $questions_form_id ) )
             return;
 
-        // Form exists or die
-        if ( ! qu_form_exists( $questions_form_id ) )
-            return;
-
         // Checking restrictions
-        // @todo Should check restrictions at this place? Should be done before!
         if ( TRUE !== $this->check_restrictions( $questions_form_id ) )
             return;
 
@@ -195,9 +183,9 @@ class Questions_FormProcess{
 
         // Getting data of posted step if existing
         $response = array();
-        if ( array_key_exists( 'questions_response', $_POST ) )
-            $response = $_POST[ 'questions_response' ];
-
+        if ( array_key_exists( 'questions_response', $_POST ) ){
+            $response = $_POST['questions_response'];
+        }
 
         $actual_step = (int) $_POST[ 'questions_actual_step' ];
 
@@ -233,7 +221,10 @@ class Questions_FormProcess{
 
                 $this->finished    = TRUE;
                 $this->finished_id = $questions_form_id;
+
+                // @todo: Adding a redirection after finishing survey
             endif;
+
         endif;
 
         do_action( 'questions_process_response_end' );
@@ -284,12 +275,8 @@ class Questions_FormProcess{
         endforeach;
 
         if ( is_array( $questions_response_errors ) && array_key_exists( $element->id, $questions_response_errors ) ):
-            // ??? One Element at the end ???
-            if ( is_array( $questions_response_errors[ $element->id ] )
-                && count(
-                    $questions_response_errors[ $element->id ]
-                ) == 0
-            ):
+            // @todo: One Element at the end ???
+            if ( is_array( $questions_response_errors[ $element->id ] ) && count( $questions_response_errors[ $element->id ] ) == 0):
                 return TRUE;
             else:
                 return FALSE;
