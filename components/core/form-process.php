@@ -706,5 +706,5 @@ class Questions_FormProcess{
 function qu_user_has_participated( $form_id, $user_id = NULL ) {
 
 	global $Questions_FormProcess;
-	return $Questions_FormProcess->has_participated( $form_id, $user_id );
+	// return $Questions_FormProcess->has_participated( $form_id, $user_id );
 }

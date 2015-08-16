@@ -38,19 +38,13 @@ class Questions_FormBuilder_RestrictionsExtension{
      * @return null
      * @since 1.0.0
      */
-    public static function init() {
-
+    public static function init()
+    {
         if ( ! is_admin() )
             return NULL;
 
         add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
-
-        add_action( 'save_post', array( __CLASS__, 'save_form' ) );
-        add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
-
-        add_action( 'wp_ajax_questions_add_members_standard', array( __CLASS__, 'ajax_add_members' ) );
-        add_action( 'wp_ajax_questions_invite_participiants', array( __CLASS__, 'ajax_invite_participiants' ) );
-        add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
+        add_action( 'questions_save_form', array( __CLASS__, 'save' ), 10, 1 );
     }
 
     /**
@@ -59,15 +53,15 @@ class Questions_FormBuilder_RestrictionsExtension{
      * @param string $post_type Actual post type
      * @since 1.0.0
      */
-    public static function meta_boxes( $post_type ) {
-
+    public static function meta_boxes( $post_type )
+    {
         $post_types = array( 'questions' );
 
         if ( in_array( $post_type, $post_types ) ):
             add_meta_box(
                 'form-restrictions',
                 esc_attr__( 'Restrictions', 'questions-locale' ),
-                array( __CLASS__, 'meta_box_form_restrictions' ),
+                array( __CLASS__, 'meta_box_restrictions' ),
                 'questions',
                 'normal',
                 'high'
@@ -79,7 +73,8 @@ class Questions_FormBuilder_RestrictionsExtension{
      * Form Restrictions box
      * @since 1.0.0
      */
-    public static function meta_box_form_restrictions() {
+    public static function meta_box_restrictions()
+    {
         global $wpdb, $post, $questions_global;
 
         $form_id = $post->ID;
@@ -92,25 +87,25 @@ class Questions_FormBuilder_RestrictionsExtension{
         /**
          * Select field for Restriction
          */
-        $selected_restriction = get_post_meta( $form_id, 'participiant_restrictions', TRUE );
+        $restrictions_option = get_post_meta( $form_id, 'restrictions_option', TRUE );
 
-        if ( '' == $selected_restriction ): // If there was selected nothing before
-            $selected_restriction = 'allvisitors';
+        if ( '' == $restrictions_option ): // If there was selected nothing before
+            $restrictions_option = 'allvisitors';
         endif;
 
-        $html  = '<div id="questions_restrictions">';
-        $html .= '<select name="questions_restrictions_select" id="questions-restrictions-select">';
-        foreach( $restrictions AS $slug => $restriction ) {
-            if( !$restriction->has_option() ){
-                continue;
+        $html  = '<div id="questions-restrictions-options">';
+            $html .= '<select name="questions_restrictions_option" id="questions-restrictions-option">';
+            foreach( $restrictions AS $slug => $restriction ) {
+                if( !$restriction->has_option() ){
+                    continue;
+                }
+                $selected = '';
+                if ( $slug == $restrictions_option ) {
+                    $selected = ' selected="selected"';
+                }
+                $html .= '<option value="' . $slug . '"' . $selected . '>' . $restriction->option_name . '</option>';
             }
-            $selected = '';
-            if ( $slug == $selected_restriction ) {
-                $selected = ' selected="selected"';
-            }
-            $html .= '<option value="' . $slug . '"' . $selected . '>' . $restriction->option_name . '</option>';
-        }
-        $html .= '</select>';
+            $html .= '</select>';
         $html .= '</div>';
 
         /**
@@ -121,10 +116,25 @@ class Questions_FormBuilder_RestrictionsExtension{
             if( !$restriction->has_option() || !$option_content ){
                 continue;
             }
-            $html .= '<div id="questions_restrictions_content_' . $restriction->slug . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->slug . '">' . $option_content . '</div>';
+            $html .= '<div id="questions-restrictions-content-' . $restriction->slug . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->slug . '">' . $option_content . '</div>';
         }
 
         echo $html;
+    }
+
+    /**
+     * Saving data
+     *
+     * @param int $form_id
+     * @since 1.0.0
+     */
+    public static function save( $form_id )
+    {
+        /**
+         * Saving restriction options
+         */
+        $restrictions_option = $_POST[ 'questions_restrictions_option' ];
+        update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
     }
 }
 Questions_FormBuilder_RestrictionsExtension::init();

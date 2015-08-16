@@ -52,8 +52,6 @@ class Questions_FormBuilder{
         add_action( 'save_post', array( __CLASS__, 'save_form' ) );
         add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
 
-        add_action( 'wp_ajax_questions_add_members_standard', array( __CLASS__, 'ajax_add_members' ) );
-        add_action( 'wp_ajax_questions_invite_participiants', array( __CLASS__, 'ajax_invite_participiants' ) );
         add_action( 'wp_ajax_questions_duplicate_survey', array( __CLASS__, 'ajax_duplicate_form' ) );
         add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
@@ -255,54 +253,19 @@ class Questions_FormBuilder{
 
         global $post;
 
-        $questions_invitation_text_template   = qu_get_mail_template_text( 'invitation' );
-        $questions_reinvitation_text_template = qu_get_mail_template_text( 'reinvitation' );
-
-        $questions_invitation_subject_template   = qu_get_mail_template_subject( 'invitation' );
-        $questions_reinvitation_subject_template = qu_get_mail_template_subject( 'reinvitation' );
-
         // Dublicate survey
         $html = '<div class="questions-function-element">';
-        $html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__(
-                'Dublicate Survey', 'questions-locale'
-            ) . '" />';
+        $html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Survey', 'questions-locale' ) . '" />';
         $html .= '</div>';
 
         // Delete results
         $html .= '<div class="questions-function-element">';
-        $html .= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__(
-                'Delete survey results', 'questions-locale'
-            ) . '" />';
+        $html .= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete survey results', 'questions-locale' ) . '" />';
         $html .= '</div>';
 
-        if ( 'publish' == $post->post_status ):
-            $html .= '<div class="questions-function-element">';
-            $html .= '<input id="questions-invite-subject" type="text" name="questions_invite_subject" value="' . $questions_invitation_subject_template . '" />';
-            $html .= '<textarea id="questions-invite-text" name="questions_invite_text">' . $questions_invitation_text_template . '</textarea>';
-            $html .= '<input id="questions-invite-button" type="button" class="button" value="' . esc_attr__(
-                    'Invite Participiants', 'questions-locale'
-                ) . '" /> ';
-            $html .= '<input id="questions-invite-button-cancel" type="button" class="button" value="' . esc_attr__(
-                    'Cancel', 'questions-locale'
-                ) . '" />';
-            $html .= '</div>';
-
-            $html .= '<div class="questions-function-element">';
-            $html .= '<input id="questions-reinvite-subject" type="text" name="questions_invite_subject" value="' . $questions_reinvitation_subject_template . '" />';
-            $html .= '<textarea id="questions-reinvite-text" name="questions_reinvite_text">' . $questions_reinvitation_text_template . '</textarea>';
-            $html .= '<input id="questions-reinvite-button" type="button" class="button" value="' . esc_attr__(
-                    'Reinvite Participiants', 'questions-locale'
-                ) . '" /> ';
-            $html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__(
-                    'Cancel', 'questions-locale'
-                ) . '" />';
-
-            $html .= '</div>';
-        else:
-            $html .= '<p>' . esc_attr__(
-                    'You can invite Participiants to this survey after the survey is published.', 'questions-locale'
-                ) . '</p>';
-        endif;
+        ob_start();
+        do_action( 'questions_functions' );
+        $html.= ob_get_clean();
 
         echo $html;
     }
@@ -339,16 +302,16 @@ class Questions_FormBuilder{
         $survey_elements                  = $_POST[ 'questions' ];
         $survey_deleted_formelements    = $_POST[ 'questions_deleted_formelements' ];
         $survey_deleted_answers           = $_POST[ 'questions_deleted_answers' ];
-        $survey_participiant_restrictions = $_POST[ 'questions_participiants_restrictions_select' ];
+        // $survey_participiant_restrictions = $_POST[ 'questions_participiants_restrictions_select' ];
         $survey_show_results              = $_POST[ 'show_results' ];
-        $questions_participiants          = $_POST[ 'questions_participiants' ];
+
         $start_date                       = $_POST[ 'start_date' ];
         $end_date                         = $_POST[ 'end_date' ];
 
         /**
          * Saving Restrictions
          */
-        update_post_meta( $form_id, 'participiant_restrictions', $survey_participiant_restrictions );
+        // update_post_meta( $form_id, 'participiant_restrictions', $survey_participiant_restrictions );
 
         /**
          * Saving if results have to be shown after participating
@@ -528,24 +491,6 @@ class Questions_FormBuilder{
 
         endforeach;
 
-        $questions_participiant_ids = explode( ',', $questions_participiants );
-
-        $sql = "DELETE FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
-        $sql = $wpdb->prepare( $sql, $form_id );
-        $wpdb->query( $sql );
-
-        if ( is_array( $questions_participiant_ids ) && count( $questions_participiant_ids ) > 0 ):
-            foreach ( $questions_participiant_ids AS $user_id ):
-                $wpdb->insert(
-                    $questions_global->tables->participiants,
-                    array(
-                        'survey_id' => $form_id,
-                        'user_id'   => $user_id
-                    )
-                );
-            endforeach;
-        endif;
-
         do_action( 'questions_save_form', $form_id );
 
         // Preventing duplicate saving
@@ -561,115 +506,6 @@ class Questions_FormBuilder{
     public static function delete_form( $form_id ) {
         $form = new Questions_Form( $form_id );
         $form->delete();
-    }
-
-    /**
-     * Adding user by AJAX
-     *
-     * @since 1.0.0
-     */
-    public static function ajax_add_members() {
-
-        $users = get_users(
-            array(
-                'orderby' => 'ID'
-            )
-        );
-
-        $return_array = array();
-
-        foreach ( $users AS $user ):
-            $return_array[ ] = array(
-                'id'            => $user->ID,
-                'user_nicename' => $user->user_nicename,
-                'display_name'  => $user->display_name,
-                'user_email'    => $user->user_email,
-            );
-        endforeach;
-
-        echo json_encode( $return_array );
-
-        die();
-    }
-
-    /**
-     * Invite participiants AJAX
-     *
-     * @since 1.0.0
-     */
-    public static function ajax_invite_participiants() {
-
-        global $wpdb, $questions_global;
-
-        $return_array = array(
-            'sent' => FALSE
-        );
-
-        $form_id        = $_POST[ 'form_id' ];
-        $subject_template = $_POST[ 'subject_template' ];
-        $text_template    = $_POST[ 'text_template' ];
-
-        $sql      = "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
-        $sql      = $wpdb->prepare( $sql, $form_id );
-        $user_ids = $wpdb->get_col( $sql );
-
-        if ( 'reinvite' == $_POST[ 'invitation_type' ] ):
-            $user_ids_new = '';
-            if ( is_array( $user_ids ) && count( $user_ids ) > 0 ):
-                foreach ( $user_ids AS $user_id ):
-                    if ( ! qu_user_has_participated( $form_id, $user_id ) ):
-                        $user_ids_new[ ] = $user_id;
-                    endif;
-                endforeach;
-            endif;
-            $user_ids = $user_ids_new;
-        endif;
-
-        $post = get_post( $form_id );
-
-        if ( is_array( $user_ids ) && count( $user_ids ) > 0 ):
-            $users = get_users(
-                array(
-                    'include' => $user_ids,
-                    'orderby' => 'ID',
-                )
-            );
-
-            $content = str_replace( '%site_name%', get_bloginfo( 'name' ), $text_template );
-            $content = str_replace( '%survey_title%', $post->post_title, $content );
-            $content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
-
-            $subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject_template );
-            $subject = str_replace( '%survey_title%', $post->post_title, $subject );
-            $subject = str_replace( '%survey_url%', get_permalink( $post->ID ), $subject );
-
-            foreach ( $users AS $user ):
-                if ( '' != $user->data->display_name ) {
-                    $display_name = $user->data->display_name;
-                } else {
-                    $display_name = $user->data->user_nicename;
-                }
-
-                $user_nicename = $user->data->user_nicename;
-                $user_email    = $user->data->user_email;
-
-                $subject_user = str_replace( '%displayname%', $display_name, $subject );
-                $subject_user = str_replace( '%username%', $user_nicename, $subject_user );
-
-                $content_user = str_replace( '%displayname%', $display_name, $content );
-                $content_user = str_replace( '%username%', $user_nicename, $content_user );
-
-                qu_mail( $user_email, $subject_user, stripslashes( $content_user ) );
-            endforeach;
-
-            $return_array = array(
-                'sent' => TRUE
-            );
-        endif;
-
-        echo json_encode( $return_array );
-
-        die();
     }
 
     /**
@@ -776,28 +612,13 @@ class Questions_FormBuilder{
             'delete'                              => esc_attr__( 'Delete', 'questions-locale' ),
             'yes'                                 => esc_attr__( 'Yes', 'questions-locale' ),
             'no'                                  => esc_attr__( 'No', 'questions-locale' ),
-            'just_added'                          => esc_attr__( 'just added', 'questions-locale' ),
             'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'questions-locale' ),
             'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'questions-locale' ),
-            'reinvitations_sent_successfully'     => esc_attr__(
-                'Renvitations sent successfully!', 'questions-locale'
-            ),
-            'reinvitations_not_sent_successfully' => esc_attr__(
-                'Renvitations could not be sent!', 'questions-locale'
-            ),
-            'deleted_results_successfully'       => esc_attr__(
-                'Survey results deleted successfully!', 'questions-locale'
-            ),
-            'duplicate_form_successfully'       => esc_attr__(
-                'Survey duplicated successfully!', 'questions-locale'
-            ),
             'edit_survey'                         => esc_attr__( 'Edit Survey', 'questions-locale' ),
-            'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' ),
             'max_fields_near_limit'				  => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
             'max_fields_over_limit'				  => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
             'max_fields_todo'					  => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
             'of'								  => esc_attr__( 'of', 'questions-locale' ),
-
             'dateformat'                          => esc_attr__( 'yy/mm/dd', 'questions-locale' ),
             'min_sun'                             => esc_attr__( 'Su', 'questions-locale' ),
             'min_mon'                             => esc_attr__( 'Mo', 'questions-locale' ),

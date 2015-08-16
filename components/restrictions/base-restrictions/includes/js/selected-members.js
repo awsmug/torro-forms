@@ -1,66 +1,58 @@
 (function ($) {
     "use strict";
     $( function () {
-        /**
-         * Members - Participiants restrictions select
-         */
-        var questions_participiants_restrictions_select = $( "#questions-participiants-restrictions-select" ).val();
-        $( "#questions_restrictions_content_selectedmembers" ).hide();
-
-        if( 'selected_members' == questions_participiants_restrictions_select ){ $( "#questions_selected_members" ).show(); }
-
-        $( "#questions-participiants-restrictions-select" ).change( function(){
-            questions_participiants_select = $( "#questions-participiants-restrictions-select" ).val();
-
-            if( 'selected_members' == questions_participiants_select ){
-                $( "#questions_selected_members" ).show();
-            }else{
-                $( "#questions_selected_members" ).hide();
-            }
-        });
 
         /**
-         * Members - Member select
+         * Initializing adding participiants option
          */
-        var questions_participiants_select = $( "#questions-participiants-select" ).val();
-
-        if( 'all_members' != questions_participiants_select ){
-            $( "#questions-participiants-standard-options" ).hide();
-        }
-
-        $( "#questions-participiants-select" ).change( function(){
-            questions_participiants_select = $( "#questions-participiants-select" ).val();
-
-            if( 'all_members' == questions_participiants_select ){
-                $( "#questions-participiants-standard-options" ).show();
-            }else{
-                $( "#questions-participiants-standard-options" ).hide();
-            }
+        $( "#questions-add-participiants-option" ).change( function(){
+            questions_add_participiants_show_hide_boxes();
         });
 
-        var questions_participiants = $( "#questions-participiants" ).val();
+        var questions_add_participiants_show_hide_boxes = function(){
+            var questions_add_participiants_option = $( "#questions-add-participiants-option" ).val(); // Getting selected box
 
-        if( '' == questions_participiants ){
-            $( "#questions-participiants-list" ).hide();
+            $( ".questions-add-participiants-content" ).hide(); // Hiding all boxes
+            $( "#questions-add-participiants-content-" +  questions_add_participiants_option ).show(); // Showing selected box
         }
+
+        questions_add_participiants_show_hide_boxes();
+
+        /**
+         * Setup "Not found"
+         */
+        var questions_setup_not_found_message = function() {
+            var count_participiants = parseInt($("#questions-participiants-count").val());
+
+            if( count_participiants > 0 ){
+                $( ".no-users-found" ).hide();
+            }else{
+                $( ".no-users-found" ).show();
+            }
+        }
+
+        questions_setup_not_found_message();
 
         /**
          * Members - Adding Participiants
          */
         $.questions_add_participiants = function( response ){
-            var questions_participiants_old = $( "#questions-participiants" ).val();
-            questions_participiants_old = questions_participiants_old.split( ',' );
-            var questions_participiants = questions_participiants_old;
+            var questions_participiants = $( "#questions-participiants" ).val();
+            questions_participiants = questions_participiants.split( ',' );
+
             var count_added_participiants = 0;
 
             $.each( response, function( i, object ) {
                 var found = false;
 
-                if( in_array( object.id, questions_participiants_old ) ){
+                if( in_array( object.id, questions_participiants ) ){
                     found = true;
                 }
 
+                // If there where found participiants
                 if( false == found ){
+
+                    // Adding participiants
                     if( '' == questions_participiants ){
                         questions_participiants =  object.id;
                     }else{
@@ -75,17 +67,17 @@
 
             $( "#questions-participiants" ).val( questions_participiants );
             $.questions_participiants_counter( count_participiants );
+
             $( "#questions-participiants-list" ).show();
             $.questions_delete_participiant();
+
+            questions_setup_not_found_message();
         }
 
-        /**
-         * Adding all existing members to participiants list
-         */
-        $( "#questions-add-members-standard" ).click( function(){
+        $( "#questions-add-participiants-allmembers-button" ).click( function(){
 
             var data = {
-                action: 'questions_add_members_standard'
+                action: 'questions_add_participiants_allmembers'
             };
 
             var button = $( this )
@@ -129,13 +121,11 @@
                     }
                 });
 
-                if( '' == questions_participiants_new ){
-                    $( "#questions-participiants-list" ).hide();
-                }
-
                 $( "#questions-participiants" ).val( questions_participiants_new );
                 $.questions_participiants_counter( $( "#questions-participiants-count" ).val() - 1 );
                 $( ".participiant-user-" + delete_user_id ).remove();
+
+                questions_setup_not_found_message();
             });
         }
         $.questions_delete_participiant();
@@ -145,7 +135,12 @@
          */
         $( ".questions-remove-all-participiants" ).click( function(){
             $( "#questions-participiants" ).val( '' );
-            $( "#questions-participiants-list tbody tr" ).remove();
+            $( "#questions-participiants-count" ).val( 0 );
+            $.questions_participiants_counter( 0 );
+
+            $( "#questions-participiants-list tbody .participiant" ).remove();
+
+            questions_setup_not_found_message();
         });
 
         /**

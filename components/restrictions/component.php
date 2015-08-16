@@ -49,6 +49,8 @@ class Questions_Restrictions extends Questions_Component {
 
 		parent::__construct();
 
+        add_action( 'admin_enqueue_scripts', array( $this , 'enqueue_scripts' ), 15 );
+
 	} // end constructor
 
     /**
@@ -66,6 +68,14 @@ class Questions_Restrictions extends Questions_Component {
         include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/all-members.php' );
         include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/selected-members.php' );
 	}
+
+    /**
+     * Enqueue Scripts
+     */
+    public function enqueue_scripts(){
+        wp_enqueue_script( 'questions-restrictions', QUESTIONS_URLPATH . '/components/restrictions/includes/js/restrictions.js' );
+    }
+
 }
 
 $Questions_Restrictions = new Questions_Restrictions();
