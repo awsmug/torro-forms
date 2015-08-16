@@ -58,7 +58,7 @@
                     }else{
                         questions_participiants = questions_participiants + ',' + object.id;
                     }
-                    $( "#questions-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_admin.just_added + '</td><td><a class="button questions-delete-participiant" rel="' + object.id +  '">' + translation_admin.delete + '</a></td></tr>' );
+                    $( "#questions-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button questions-delete-participiant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
                     count_added_participiants++;
                 }
             });
@@ -94,7 +94,7 @@
          * Counting participiants
          */
         $.questions_participiants_counter = function( number ){
-            var text = number + ' ' + translation_admin.added_participiants;
+            var text = number + ' ' + translation_sm.added_participiants;
             $( "#questions-participiants-status p").html( text );
             $( "#questions-participiants-count" ).val( number );
         }
@@ -166,11 +166,11 @@
                     if( response.sent ){
                         $( '#questions-invite-subject' ).fadeOut( 200 );
                         $( '#questions-invite-text' ).fadeOut( 200 );
-                        $( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.invitations_sent_successfully + '</p>' );
+                        $( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.invitations_sent_successfully + '</p>' );
                     }else{
                         $( '#questions-invite-subject' ).fadeOut( 200 );
                         $( '#questions-invite-text' ).fadeOut( 200 );
-                        $( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.invitations_sent_not_successfully + '</p>' );
+                        $( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.invitations_sent_not_successfully + '</p>' );
                     }
                     button.removeClass( 'button-loading' );
 
@@ -214,13 +214,13 @@
                     if( response.sent ){
                         $( '#questions-reinvite-subject' ).fadeOut( 200 );
                         $( '#questions-reinvite-text' ).fadeOut( 200 );
-                        $( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.reinvitations_sent_successfully + '</p>' );
+                        $( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.reinvitations_sent_successfully + '</p>' );
                         button.removeClass( 'button-loading' );
                         $( '.form-reinvitations-sent' ).fadeOut( 4000 );
                     }else{
                         $( '#questions-reinvite-subject' ).fadeOut( 200 );
                         $( '#questions-reinvite-text' ).fadeOut( 200 );
-                        $( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_admin.reinvitations_sent_not_successfully + '</p>' );
+                        $( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.reinvitations_sent_not_successfully + '</p>' );
 
                     }
                     button.removeClass( 'button-loading' );

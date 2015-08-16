@@ -439,14 +439,14 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction{
      */
     public function enqueue_scripts()
     {
-        $translation_admin = array(
+        $translation = array(
             'delete'                              => esc_attr__( 'Delete', 'questions-locale' ),
             'yes'                                 => esc_attr__( 'Yes', 'questions-locale' ),
             'no'                                  => esc_attr__( 'No', 'questions-locale' ),
             'just_added'                          => esc_attr__( 'just added', 'questions-locale' ),
             'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'questions-locale' ),
             'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'questions-locale' ),
-            'reinvitations_sent_successfully'     => esc_attr__( 'Renvitations sent successfully!', 'questions-locale' ),
+            'reinvitations_sent_succes  sfully'     => esc_attr__( 'Renvitations sent successfully!', 'questions-locale' ),
             'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'questions-locale' ),
             'deleted_results_successfully'        => esc_attr__( 'Survey results deleted successfully!', 'questions-locale' ),
             'duplicate_form_successfully'         => esc_attr__( 'Survey duplicated successfully!', 'questions-locale' ),
@@ -454,7 +454,7 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction{
         );
 
         wp_enqueue_script( 'questions-selected-members', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/selected-members.js' );
-        wp_localize_script( 'questions-selected-members', 'translation_admin', $translation_admin );
+        wp_localize_script( 'questions-selected-members', 'translation_sm', $translation );
     }
 
 
