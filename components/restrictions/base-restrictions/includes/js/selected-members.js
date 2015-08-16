@@ -80,7 +80,7 @@
                 action: 'questions_add_participiants_allmembers'
             };
 
-            var button = $( this )
+            var button = $( this );
             button.addClass( 'button-loading' );
 
             $.post( ajaxurl, data, function( response ) {
