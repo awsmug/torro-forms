@@ -59,6 +59,7 @@ class Questions_Restrictions extends Questions_Component {
 	public function includes() {
         // Loading form builder extension
         include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/form-builder-extension.php' );
+        include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/form-process-extension.php' );
 
         // Base class for restrictions
         include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/class-restrictions.php' );

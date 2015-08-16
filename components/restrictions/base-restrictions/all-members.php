@@ -59,5 +59,41 @@ class Questions_Restriction_AllMembers extends Questions_Restriction{
         return TRUE;
     }
 
+    /**
+     * Has the user participated survey
+     *
+     * @param $questions_id
+     * @param int $user_id
+     * @return boolean $has_participated
+     * @since 1.0.0
+     */
+    public function has_participated( $form_id, $user_id = NULL ) {
+
+        global $wpdb, $current_user, $questions_global;
+
+        // Setting up user ID
+        if ( NULL == $user_id ):
+            get_currentuserinfo();
+            $user_id = $user_id = $current_user->ID;
+        endif;
+
+        // Setting up Form ID
+        if ( NULL == $form_id ) {
+            return FALSE;
+        }
+
+        $sql   = $wpdb->prepare(
+            "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND user_id=%s",
+            $form_id, $user_id
+        );
+        $count = $wpdb->get_var( $sql );
+
+        if ( 0 == $count ):
+            return FALSE;
+        else:
+            return TRUE;
+        endif;
+    }
+
 }
 qu_register_restriction( 'Questions_Restriction_AllMembers' );

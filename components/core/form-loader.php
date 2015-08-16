@@ -127,7 +127,7 @@ class Questions_FormLoader
             echo $html;
         }
 
-        self::show();
+        self::show( $post->ID );
 
         remove_filter('the_content', array( __CLASS__ , 'the_content')); // only show once
 
@@ -144,9 +144,8 @@ class Questions_FormLoader
         if(0 != $post_id){
             $questions_form_id = $post_id;
             $questions_process = new Questions_FormProcess( $questions_form_id );
+            $questions_process->show_form();
         }
-
-        $questions_process->init_form();
     }
 }
 Questions_FormLoader::init( TRUE );

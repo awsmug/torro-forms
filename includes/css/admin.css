@@ -162,15 +162,12 @@
 #questions-participiants-restrictions-select{
 	margin-bottom:10px;
 }
-#survey-participiants .button-loading{
-	background-image: url( '../../assets/images/loading.gif' );
-	background-repeat: no-repeat;
-	background-position: 5px 5px;
-	padding-left:28px;
-}
 /**
  * Survey functions
  */
+.questions-function-element .button{
+	width: 100%;
+}
 #form-functions .inside{
 	padding-bottom: 0;
 }

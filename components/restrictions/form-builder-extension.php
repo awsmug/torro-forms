@@ -45,6 +45,8 @@ class Questions_FormBuilder_RestrictionsExtension{
 
         add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
         add_action( 'questions_save_form', array( __CLASS__, 'save' ), 10, 1 );
+
+        add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
     }
 
     /**
@@ -135,6 +137,16 @@ class Questions_FormBuilder_RestrictionsExtension{
          */
         $restrictions_option = $_POST[ 'questions_restrictions_option' ];
         update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
+    }
+
+    /**
+     * Registers and enqueues admin-specific styles.
+     *
+     * @since 1.0.0
+     */
+    public static function register_admin_styles()
+    {
+        wp_enqueue_style( 'questions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
     }
 }
 Questions_FormBuilder_RestrictionsExtension::init();

@@ -90,7 +90,7 @@ abstract class Questions_Restriction{
 
 		if( count( $this->messages ) > 0 ){
 			$html = '';
-			foreach( $messages AS $message ){
+			foreach( $this->messages AS $message ){
 				$html.= '<div class="questions-message ' . $message[ 'type' ] .'">' . $message[ 'text' ] .'</div>';
 			}
 			return $html;
@@ -103,8 +103,8 @@ abstract class Questions_Restriction{
 	 * @param $type
 	 * @param $text
 	 */
-	private function add_message( $type, $text ){
-		$this->messages = array(
+	public function add_message( $type, $text ){
+		$this->messages[] = array(
 			'type' => $type,
 			'text' => $text
 		);

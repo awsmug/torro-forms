@@ -74,6 +74,8 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0 beta 20 =
 * Refactoring Core
+* Added restrictions API
+* Restriction checks on "All Visitors" can be switched off now
 
 = 1.0.0 beta 19 =
 * Added russian language files (Thanks to [@kosm])

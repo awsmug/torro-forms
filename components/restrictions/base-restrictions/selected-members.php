@@ -245,8 +245,9 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction{
             return FALSE;
         }
 
-        if ( ! is_participiant() ) {
+        if ( ! $this->is_participiant() ) {
             $this->add_message('error', esc_attr('You can\'t participate this survey.', 'questions-locale'));
+            return FALSE;
         }
 
         return TRUE;
@@ -276,10 +277,11 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction{
         $sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d", $questions_form_id );
         $user_ids = $wpdb->get_col( $sql );
 
-        if( in_array( $user_id, $user_ids  ) )
-            $is_participiant = TRUE;
+        if( !in_array( $user_id, $user_ids  ) ){
+            return FALSE;
+        }
 
-        return apply_filters( 'questions_user_is_participiant', $is_participiant, $user_id );
+        return TRUE;
     }
 
     /**

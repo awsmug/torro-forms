@@ -69,35 +69,6 @@ class Questions_FormProcess{
 	} // end constructor
 
     /**
-     * Showing form
-     *
-     * @param int $form_id
-     * @return string $survey_html
-     * @since 1.0.0
-     */
-    public function init_form() {
-
-        $checked_restrictions = $this->check_restrictions( $this->form_id );
-        $checked_timerange = $this->check_timerange( $this->form_id );
-
-        // @todo Adding restrictions API
-
-        if ( TRUE === $checked_restrictions && TRUE === $checked_timerange ):
-
-            echo $this->show_form();
-
-        elseif( TRUE !== $checked_restrictions ):
-
-            echo $checked_restrictions;
-
-        elseif( TRUE !== $checked_timerange ):
-
-            echo $checked_timerange;
-
-        endif;
-    }
-
-    /**
      * Survey form
      *
      * Creating form HTML
@@ -106,14 +77,23 @@ class Questions_FormProcess{
      * @return string $html
      * @since 1.0.0
      */
-    public function show_form() {
+    public function show_form()
+    {
+
+        $show_form = apply_filters( 'questions_show_form', TRUE ); // Hook for adding restrictions and so on ...
+
+        if( FALSE == $show_form ){
+            return;
+        }
 
         // Getting actual step for form
         $actual_step = $this->get_actual_step();
 
+        ob_start();
         do_action( 'questions_form_start' );
+        $html = ob_get_clean();
 
-        $html = '<form name="questions" id="questions" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
+        $html.= '<form name="questions" id="questions" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
         $html.= '<input type="hidden" name="_wpnonce" value="' .  wp_create_nonce( 'questions-' . $this->form_id ) . '" />';
 
         $step_count = $this->form->get_step_count();
@@ -148,9 +128,11 @@ class Questions_FormProcess{
 
         $html .= '</form>';
 
+        ob_start();
         do_action( 'questions_form_end' );
+        $html .= ob_get_clean();
 
-        return $html;
+        echo $html;
     }
 
     /**
@@ -164,9 +146,11 @@ class Questions_FormProcess{
         if( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'questions-' . $questions_form_id ) )
             return;
 
-        // Checking restrictions
-        if ( TRUE !== $this->check_restrictions( $questions_form_id ) )
+        $show_form = apply_filters( 'questions_show_form', TRUE ); // Hook for adding restrictions and so on ...
+
+        if( FALSE == $show_form ){
             return;
+        }
 
         // Setting up session if not exists
         if ( ! isset( $_SESSION ) )
@@ -399,61 +383,6 @@ class Questions_FormProcess{
 	}
 
 	/**
-	 * Text which will be shown if a user has participated already
-	 *
-	 * @param int $form_id
-	 * @return string $html
-	 * @since 1.0.0
-	 */
-	public function text_already_participated( $form_id ) {
-
-		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
-		if ( '' == $show_results ) {
-			$show_results = 'no';
-		}
-
-		$html = '<div id="questions-already-participated">';
-		$html .= '<p>' . __( 'You already have participated in this poll.', 'questions-locale' ) . '</p>';
-		if ( 'yes' == $show_results ) {
-			$html .= $this->show_results( $form_id );
-		}
-
-		$html .= '</div>';
-
-		return apply_filters( 'questions_text_already_participated', $html, $form_id );
-	}
-
-	/**
-	 * Text which will be shown if a user has to login to participate
-	 *
-	 * @return string $html
-	 * @since 1.0.0
-	 */
-	public function text_not_logged_in() {
-
-		$html = '<div id="questions-not-logged-in">';
-		$html .= __( 'You have to be logged in to participate this survey.', 'questions-locale' );
-		$html .= '</div>';
-
-		return apply_filters( 'questions_text_not_logged_in', $html );
-	}
-
-	/**
-	 * Text which will be shown if a user cant participate
-	 *
-	 * @return string $html
-	 * @since 1.0.0
-	 */
-	public function text_cant_participate() {
-
-		$html = '<div id="questions-cant-participate">';
-		$html .= __( 'You can\'t participate this survey.', 'questions-locale' );
-		$html .= '</div>';
-
-		return apply_filters( 'questions_text_cant_participate', $html );
-	}
-
-	/**
 	 * Showing results
 	 *
 	 * @param int $survey_id
@@ -468,201 +397,6 @@ class Questions_FormProcess{
 		return apply_filters( 'questions_show_results', $html, $form_id );
 	}
 
-    /**
-     * Check restrictions
-     *
-     * Checking restrictions if user can participate
-     *
-     * @param int $form_id
-     * @return mixed $participate True
-     * @since 1.0.0
-     */
-    public function check_restrictions( $form_id ) {
-
-        $participiant_restrictions = get_post_meta( $form_id, 'participiant_restrictions', TRUE );
-
-        switch ( $participiant_restrictions ) {
-
-            /**
-             * All Visitors can participate once
-             */
-            case 'all_visitors':
-
-                if ( $this->finished && $this->finished_id == $form_id ):
-                    return $this->text_thankyou_for_participation( $form_id );
-                endif;
-
-                if ( $this->ip_has_participated( $form_id ) ):
-                    return $this->text_already_participated( $form_id );
-                endif;
-
-                return TRUE;
-
-                break;
-
-            /**
-             * All WordPress members can participate once
-             */
-            case 'all_members':
-
-                // If user is not logged in
-                if ( ! is_user_logged_in() ):
-                    return $this->text_not_logged_in();
-                endif;
-
-                // If user user has finished successfull
-                if ( $this->finished && $this->finished_id == $form_id ):
-                    $this->email_finished();
-
-                    return $this->text_thankyou_for_participation( $form_id );
-                endif;
-
-                // If user has already participated
-                if ( $this->has_participated( $form_id ) ):
-                    return $this->text_already_participated( $form_id );
-                endif;
-
-                return TRUE;
-
-                break;
-
-            /**
-             * Only selected members can participate once
-             */
-            case 'selected_members':
-
-                if ( ! is_user_logged_in() ):
-                    return $this->text_not_logged_in();
-                endif;
-
-                // If user user has finished successfull
-                if ( $this->finished && $this->finished_id == $form_id ):
-                    $this->email_finished();
-
-                    return $this->text_thankyou_for_participation( $form_id );
-                endif;
-
-                // If user has already participated
-                if ( $this->has_participated( $form_id ) ):
-                    return $this->text_already_participated( $form_id );
-                endif;
-
-                // If user can't participate the poll
-                if ( ! $this->user_can_participate( $form_id ) ):
-                    return $this->text_cant_participate();
-                endif;
-
-                return TRUE;
-
-                break;
-            /**
-             * Only selected members can participate
-             */
-            default:
-                // If user user has finished successfull
-                if ( $this->finished && $this->finished_id == $form_id ):
-                    return $this->text_thankyou_for_participation( $form_id );
-                endif;
-
-                return apply_filters( 'questions_check_restrictions', TRUE, $form_id, $participiant_restrictions );
-
-                break;
-        }
-    }
-
-    /**
-     * Has the user participated survey
-     *
-     * @param $questions_id
-     * @param int $user_id
-     * @return boolean $has_participated
-     * @since 1.0.0
-     */
-    public function has_participated( $form_id, $user_id = NULL ) {
-
-        global $wpdb, $current_user, $questions_global;
-
-        // Setting up user ID
-        if ( NULL == $user_id ):
-            get_currentuserinfo();
-            $user_id = $user_id = $current_user->ID;
-        endif;
-
-        // Setting up Form ID
-        if ( NULL == $form_id ) {
-            return FALSE;
-        }
-
-        $sql   = $wpdb->prepare(
-            "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND user_id=%s",
-            $form_id, $user_id
-        );
-        $count = $wpdb->get_var( $sql );
-
-        if ( 0 == $count ):
-            return FALSE;
-        else:
-            return TRUE;
-        endif;
-    }
-
-    /**
-     * Has IP already participated
-     *
-     * @param $questions_id
-     * @return bool $has_participated
-     * @since 1.0.0
-     *
-     */
-    public function ip_has_participated( $form_id ) {
-
-        global $wpdb, $questions_global;
-
-        $remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
-
-        $sql   = $wpdb->prepare(
-            "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s",
-            $form_id, $remote_ip
-        );
-        $count = $wpdb->get_var( $sql );
-
-        if ( 0 == $count ):
-            return FALSE;
-        else:
-            return TRUE;
-        endif;
-    }
-
-
-
-    /**
-     * Checks if a user can participate
-     *
-     * @param int $form_id
-     * @param int $user_id
-     * @return boolean $can_participate
-     * @since 1.0.0
-     */
-    public function user_can_participate( $form_id, $user_id = NULL ) {
-
-        global $wpdb, $current_user, $questions_global;
-
-        $can_participate = FALSE;
-
-        // Setting up user ID
-        if ( NULL == $user_id ):
-            get_currentuserinfo();
-            $user_id = $user_id = $current_user->ID;
-        endif;
-
-        $sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d", $form_id );
-        $user_ids = $wpdb->get_col( $sql );
-
-        if( in_array( $user_id, $user_ids  ) )
-            $can_participate = TRUE;
-
-        return apply_filters( 'questions_user_can_participate', $can_participate, $form_id, $user_id );
-    }
 
     /**
      * Check Timerange
