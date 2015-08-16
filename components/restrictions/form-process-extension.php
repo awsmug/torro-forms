@@ -67,7 +67,7 @@ class Questions_FormBuilder_FormProcesExtension{
             return FALSE;
         }
 
-        return TRUE;
+        return apply_filters( 'questions_additional_restrictions_check', TRUE );
     }
 }
 Questions_FormBuilder_FormProcesExtension::init();

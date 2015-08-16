@@ -53,7 +53,7 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction{
 
         $form_id = $post->ID;
 
-        $html = '<h3>' . esc_attr( 'User filters', 'questions-locale' ) . '</h3>';
+        $html = '<h3>' . esc_attr( 'Visitor filters', 'questions-locale' ) . '</h3>';
 
         /**
          * Check IP
@@ -63,7 +63,7 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction{
 
         $html.= '<div class="questions-restrictions-allvisitors-userfilter">';
         $html.= '<input type="checkbox" name="questions_restrictions_check_ip" value="yes" ' . $checked . '/>';
-        $html.= '<label for="questions_restrictions_check_ip">' . esc_attr( 'Check IP if user already has filled out form and ban him.', 'questions-locale' ) . '</label>';
+        $html.= '<label for="questions_restrictions_check_ip">' . esc_attr( 'Check IP if user already has filled out form.', 'questions-locale' ) . '</label>';
         $html.= '</div>';
 
         ob_start();

@@ -403,64 +403,6 @@
         }
         questions_rewriteheadline();
 
-        /**
-         * Datepicker
-         */
-        jQuery(document).ready(function() {
-            jQuery('#start_date').datepicker({
-                dateFormat : translation_admin.dateformat,
-                monthNames: [
-                    translation_admin.january,
-                    translation_admin.february,
-                    translation_admin.march,
-                    translation_admin.april,
-                    translation_admin.may,
-                    translation_admin.june,
-                    translation_admin.july,
-                    translation_admin.august,
-                    translation_admin.september,
-                    translation_admin.october,
-                    translation_admin.november,
-                    translation_admin.december
-                ],
-                dayNamesMin: [
-                    translation_admin.min_sun,
-                    translation_admin.min_mon,
-                    translation_admin.min_tue,
-                    translation_admin.min_wed,
-                    translation_admin.min_thu,
-                    translation_admin.min_fri,
-                    translation_admin.min_sat
-                ]
-            });
-            jQuery('#end_date').datepicker({
-                dateFormat : translation_admin.dateformat,
-                monthNames: [
-                    translation_admin.january,
-                    translation_admin.february,
-                    translation_admin.march,
-                    translation_admin.april,
-                    translation_admin.may,
-                    translation_admin.june,
-                    translation_admin.july,
-                    translation_admin.august,
-                    translation_admin.september,
-                    translation_admin.october,
-                    translation_admin.november,
-                    translation_admin.december
-                ]   ,
-                dayNamesMin: [
-                    translation_admin.min_sun,
-                    translation_admin.min_mon,
-                    translation_admin.min_tue,
-                    translation_admin.min_wed,
-                    translation_admin.min_thu,
-                    translation_admin.min_fri,
-                    translation_admin.min_sat
-                ]
-            });
-        });
-		
 		/**
 		 * Helper function - Getting a random number
 		 */

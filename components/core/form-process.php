@@ -396,38 +396,6 @@ class Questions_FormProcess{
 
 		return apply_filters( 'questions_show_results', $html, $form_id );
 	}
-
-
-    /**
-     * Check Timerange
-     *
-     * Checking if the survey has not yet begun or is already over
-     *
-     * @param int $form_id
-     * @return mixed $intime
-     * @since 1.0.0
-     */
-    public function check_timerange( $form_id ){
-        $actual_date = time();
-        $start_date = strtotime( get_post_meta( $form_id, 'start_date', TRUE ) );
-        $end_date = strtotime( get_post_meta( $form_id, 'end_date', TRUE ) );
-
-        if( '' != $start_date  && 0 != (int)$start_date && FALSE != $start_date && $actual_date < $start_date ){
-            $html = '<div id="questions-out-of-timerange">';
-            $html.= '<p>' . esc_attr( 'The survey has not yet begun.', 'questions-locale' ) . '</p>';
-            $html.= '</div>';
-            return $html;
-        }
-
-        if( '' != $end_date  && 0 != (int)$end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date ){
-            $html = '<div id="questions-out-of-timerange">';
-            $html.= '<p>' . esc_attr( 'The survey is already over.', 'questions-locale' ) . '</p>';
-            $html.= '</div>';
-            return $html;
-        }
-
-        return TRUE;
-    }
 }
 
 /**
