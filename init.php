@@ -7,7 +7,7 @@
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
  * Author Email: contact@awesome.ug
- * License:      GPLv2+
+ * License:      GPLv3.0
  * License URI: ./assets/license.txt
  * Text Domain: questions-locale
  * Domain Path: /languages
