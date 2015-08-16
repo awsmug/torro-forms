@@ -56,6 +56,10 @@ class Questions_FormBuilder_FormProcesExtension{
             return;
         }
 
+        if( FALSE == apply_filters( 'questions_additional_restrictions_check_start', TRUE ) ){
+            return FALSE;
+        }
+
         /**
          * Select field for Restriction
          */
@@ -67,7 +71,7 @@ class Questions_FormBuilder_FormProcesExtension{
             return FALSE;
         }
 
-        return apply_filters( 'questions_additional_restrictions_check', TRUE );
+        return apply_filters( 'questions_additional_restrictions_check_end', TRUE );
     }
 }
 Questions_FormBuilder_FormProcesExtension::init();

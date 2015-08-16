@@ -45,7 +45,7 @@ class Questions_Restriction_Timerange extends Questions_Restriction{
         add_action( 'admin_enqueue_scripts', array( $this , 'enqueue_scripts' ), 15 );
         add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 
-        add_action( 'questions_additional_restrictions_check', array( $this, 'check' ) );
+        add_action( 'questions_additional_restrictions_check_start', array( $this, 'check' ) );
     }
 
     /**
