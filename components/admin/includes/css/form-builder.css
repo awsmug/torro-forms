@@ -37,9 +37,6 @@
     margin-bottom: 10px;
     cursor: move;
 }
-#questions-content .surveyelement {
-    margin-bottom: 10px;
-}
 
 #questions-content input[type=text].questions-question {
     width: 100%;
@@ -127,17 +124,8 @@
     cursor: hand;
 }
 
-#survey-elements .widget-title-action {
-    display: none;
-}
-
-#survey-elements .widget-inside {
-    height: 0px;
-    overflow: hidden;
-}
-
 /**
- * 	Dialog
+ * 	Dialogs
  */
 #delete_surveyelement_dialog,
 #delete_responses_dialog,

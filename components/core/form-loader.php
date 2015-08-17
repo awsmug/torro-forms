@@ -109,17 +109,28 @@ class Questions_FormLoader
             return $content;
         }
 
-        if ( isset( $_SESSION['questions_response'][$questions_form_id]['finished'] ) ) {
-            $html = self::text_thankyou_for_participation($questions_form_id);
-            session_destroy();
-
-        }else {
-            $questions_process = new Questions_FormProcess( $questions_form_id );
-            $html = $questions_process->show_form();
-        }
+        $html = self::get_form( $questions_form_id );
 
         remove_filter('the_content', array( __CLASS__ , 'the_content')); // only show once
 
+        return $html;
+    }
+
+    /**
+     * Getting form
+     *
+     * @param $form_id
+     * @return string
+     */
+    public static function get_form( $form_id ){
+        if ( isset( $_SESSION['questions_response'][$form_id]['finished'] ) ) {
+            $html = self::text_thankyou_for_participation($form_id);
+            session_destroy();
+
+        }else {
+            $questions_process = new Questions_FormProcess( $form_id );
+            $html = $questions_process->show_form();
+        }
         return $html;
     }
 

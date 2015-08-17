@@ -87,9 +87,9 @@ class Questions_FormBuilder
 		$html .= '</div>';
 		$html .= '</div>';
 
-		$html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'questions-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'questions-locale' ) . '</p></div>';
 		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'questions-locale' ) . '</div>';
 		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'questions-locale' ) . '</div>';
+		$html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'questions-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'questions-locale' ) . '</p></div>';
 
 		$html .= '<input type="hidden" id="deleted_formelements" name="questions_deleted_formelements" value="">';
 		$html .= '<input type="hidden" id="deleted_answers" name="questions_deleted_answers" value="">';
@@ -184,13 +184,13 @@ class Questions_FormBuilder
 		}
 
 		$html = '<div class="questions-options">';
-		$html .= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing survey', 'questions-locale' ) . '</label></p>';
+		$html .= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'questions-locale' ) . '</label></p>';
 		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
 		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';
 		$html .= '</div>';
 
 		ob_start();
-		do_action( 'questions_survey_options', $form_id );
+		do_action( 'questions_form_options', $form_id );
 		$html .= ob_get_clean();
 
 		echo $html;
