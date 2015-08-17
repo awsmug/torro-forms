@@ -22,6 +22,12 @@
     width: 100%;
 }
 /**
+ * User Filter
+ */
+#questions-selectedmembers-userfilter{
+    margin-bottom: 20px;
+}
+/**
  * Adding participiants bar
  */
 .questions-add-participiants-content{

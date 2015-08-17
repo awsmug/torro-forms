@@ -75,10 +75,25 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 
 		$form_id = $post->ID;
 
+		$html = '<div id="questions-selectedmembers-userfilter">';
+			$html.= '<h3>' . esc_attr( 'Restrict Members', 'questions-locale' ) . '</h3>';
+
+			/**
+			 * Check User
+			 */
+			$restrictions_same_users = get_post_meta( $form_id, 'questions_restrictions_selectedmembers_same_users', TRUE );
+			$checked = 'yes' == $restrictions_same_users ? ' checked' : '';
+
+			$html .= '<div class="questions-restrictions-same-users-userfilter">';
+				$html .= '<input type="checkbox" name="questions_restrictions_selectedmembers_same_users" value="yes" ' . $checked . '/>';
+				$html .= '<label for="questions_restrictions_selectedmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'questions-locale' ) . '</label>';
+			$html .= '</div>';
+		$html .= '</div>';
+
 		/**
 		 * Add participiants functions
 		 */
-		$html = '<div id="questions-add-participiants">';
+		$html .= '<div id="questions-add-participiants">';
 
 		$options = apply_filters( 'questions_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'questions-locale' ), ) );
 
@@ -236,6 +251,8 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	 */
 	public function check()
 	{
+		global $questions_form_id;
+
 		if( !is_user_logged_in() ){
 			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'questions-locale' ) );
 
@@ -244,6 +261,14 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 
 		if( !$this->is_participiant() ){
 			$this->add_message( 'error', esc_attr( 'You can\'t participate this survey.', 'questions-locale' ) );
+
+			return FALSE;
+		}
+
+		$restrictions_same_users = get_post_meta( $questions_form_id, 'questions_restrictions_selectedmembers_same_users', TRUE );
+
+		if( 'yes' == $restrictions_same_users && qu_user_has_participated( $questions_form_id ) ){
+			$this->add_message( 'error', esc_attr( 'You have already filled out this form.', 'wcsc-locale' ) );
 
 			return FALSE;
 		}
@@ -292,6 +317,16 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	public static function save( $form_id )
 	{
 		global $wpdb, $questions_global;
+
+		/**
+		 * Saving restriction options
+		 */
+		if( array_key_exists( 'questions_restrictions_selectedmembers_same_users', $_POST ) ){
+			$restrictions_same_users = $_POST[ 'questions_restrictions_selectedmembers_same_users' ];
+			update_post_meta( $form_id, 'questions_restrictions_selectedmembers_same_users', $restrictions_same_users );
+		}else{
+			update_post_meta( $form_id, 'questions_restrictions_selectedmembers_same_users', '' );
+		}
 
 		/**
 		 * Saving restriction options

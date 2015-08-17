@@ -58,14 +58,14 @@ class Questions_Restriction_AllMembers extends Questions_Restriction
 		$html = '<h3>' . esc_attr( 'Restrict Members', 'questions-locale' ) . '</h3>';
 
 		/**
-		 * Check IP
+		 * Check User
 		 */
-		$restrictions_same_users = get_post_meta( $form_id, 'questions_restrictions_same_users', TRUE );
+		$restrictions_same_users = get_post_meta( $form_id, 'questions_restrictions_allmembers_same_users', TRUE );
 		$checked = 'yes' == $restrictions_same_users ? ' checked' : '';
 
 		$html .= '<div class="questions-restrictions-same-users-userfilter">';
-			$html .= '<input type="checkbox" name="questions_restrictions_same_users" value="yes" ' . $checked . '/>';
-			$html .= '<label for="questions_restrictions_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'questions-locale' ) . '</label>';
+			$html .= '<input type="checkbox" name="questions_restrictions_allmembers_same_users" value="yes" ' . $checked . '/>';
+			$html .= '<label for="questions_restrictions_allmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'questions-locale' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
@@ -88,7 +88,7 @@ class Questions_Restriction_AllMembers extends Questions_Restriction
 			return FALSE;
 		}
 
-		$restrictions_same_users = get_post_meta( $questions_form_id, 'questions_restrictions_same_users', TRUE );
+		$restrictions_same_users = get_post_meta( $questions_form_id, 'questions_restrictions_allmembers_same_users', TRUE );
 
 		if( 'yes' == $restrictions_same_users && qu_user_has_participated( $questions_form_id ) ){
 			$this->add_message( 'error', esc_attr( 'You have already filled out this form.', 'wcsc-locale' ) );
@@ -111,11 +111,11 @@ class Questions_Restriction_AllMembers extends Questions_Restriction
 		/**
 		 * Saving restriction options
 		 */
-		if( array_key_exists( 'questions_restrictions_same_users', $_POST ) ){
-			$restrictions_same_users = $_POST[ 'questions_restrictions_same_users' ];
-			update_post_meta( $form_id, 'questions_restrictions_same_users', $restrictions_same_users );
+		if( array_key_exists( 'questions_restrictions_allmembers_same_users', $_POST ) ){
+			$restrictions_same_users = $_POST[ 'questions_restrictions_allmembers_same_users' ];
+			update_post_meta( $form_id, 'questions_restrictions_allmembers_same_users', $restrictions_same_users );
 		}else{
-			update_post_meta( $form_id, 'questions_restrictions_same_users', '' );
+			update_post_meta( $form_id, 'questions_restrictions_allmembers_same_users', '' );
 		}
 	}
 }

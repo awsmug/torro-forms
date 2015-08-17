@@ -162,7 +162,7 @@ class Questions_FormLoader
 		}
 
 		$html = '<div id="questions-thank-participation">';
-		$html .= '<p>' . __( 'Thank you for participating this survey!', 'questions-locale' ) . '</p>';
+		$html .= '<p>' . __( 'Thank you for participating!', 'questions-locale' ) . '</p>';
 		if( 'yes' == $show_results ){
 			$html .= self::show_results( $form_id );
 		}
