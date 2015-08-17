@@ -217,7 +217,7 @@ class Questions_Form extends Questions_Post{
                 'questions_id' => $this->id,
                 'user_id'      => $user_id,
                 'timestamp'    => time(),
-                'remote_addr'  => $_SERVER[ 'REMOTE_ADDR' ]
+                'remote_addr'  => $_SERVER[ 'REMOTE_ADDR' ] // @todo - Saving of IP have to be optional
             )
         );
 

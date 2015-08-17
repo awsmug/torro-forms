@@ -48,10 +48,6 @@ class Questions_Init {
 			// Register admin styles and scripts
 			add_action( 'plugins_loaded', array( __CLASS__, 'check_requirements' ) );
 			add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
-
-			add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
-			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_admin_scripts' ) );
-
 		else:
 			// Register plugin styles and scripts
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
@@ -254,25 +250,6 @@ class Questions_Init {
 		load_plugin_textdomain( 'questions-locale', FALSE, QUESTIONS_RELATIVE_FOLDER . '/languages' );
 
 	} // end plugin_textdomain
-
-	/**
-	 * Registers and enqueues admin-specific styles.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function register_admin_styles() {
-
-		wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/includes/css/admin.css' );
-		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . '/includes/css/fonts.css' );
-	} // end register_admin_styles
-
-	/**
-	 * Registers and enqueues admin-specific JavaScript.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function register_admin_scripts() {
-	} // end register_admin_scripts
 
 	/**
 	 * Registers and enqueues plugin-specific styles.

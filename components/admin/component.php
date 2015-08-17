@@ -48,6 +48,8 @@ class Questions_Admin extends Questions_Component {
 		$this->required    = TRUE;
 		$this->capability  = 'edit_posts';
 
+        add_action( 'admin_print_styles', array( $this, 'register_styles' ) );
+
         parent::__construct();
 
 	} // end constructor
@@ -62,6 +64,16 @@ class Questions_Admin extends Questions_Component {
 
         // Pages
         include( QUESTIONS_COMPONENTFOLDER . '/admin/pages/settings.php');
+    }
+
+    /**
+     * Registers and enqueues admin-specific styles.
+     *
+     * @since 1.0.0
+     */
+    public static function register_styles() {
+        wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/components/admin/includes/css/admin.css' );
+        wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . '/components/admin/includes/css/fonts.css' );
     }
 }
 
