@@ -45,7 +45,7 @@ class QuestionsChartsShortCodes
 		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
 
 		add_action( 'questions_form_options', array( __CLASS__, 'show_form_result_shortcode' ) );
-		add_action( 'questions_element_admin_tabs_content', array( __CLASS__, 'show_element_result_shortcode' ) );
+		add_action( 'questions_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
 
@@ -173,7 +173,7 @@ class QuestionsChartsShortCodes
 	{
 		if( $object->id != '' && $object->is_analyzable ):
 			$small = '<small>' . __( '(CTRL+C and paste into post to embed element results in post)', 'questions-locale' ) . '</small>';
-			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Shortcode:', 'questions-locale' ) . '</label><input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
+			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Results Shortcode:', 'questions-locale' ) . '</label><input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
 		endif;
 	}
 }

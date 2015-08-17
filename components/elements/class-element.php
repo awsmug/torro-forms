@@ -558,6 +558,12 @@ abstract class Questions_FormElement
 		$html .= ob_get_clean();
 
 		$html .= $this->admin_widget_action_buttons();
+
+		// Adding content at the bottom
+		ob_start();
+		do_action( 'questions_element_admin_tabs_bottom', $this );
+		$html .= ob_get_clean();
+
 		$html .= $this->admin_widget_hidden_fields();
 
 		$html .= '</div>';

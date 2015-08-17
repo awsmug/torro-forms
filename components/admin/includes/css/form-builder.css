@@ -93,7 +93,7 @@
 .form_element_tabs .shortcode,
 .questions-options.shortcode {
     background-color: #f7f7f7;
-    margin-top: 20px;
+    margin: 20px -16px -18px;
     padding: 10px;
     border: 1px solid #e5e5e5;
 }
