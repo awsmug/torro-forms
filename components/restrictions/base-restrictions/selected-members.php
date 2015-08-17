@@ -214,7 +214,7 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 
 			$html .= '</div>';
 		else:
-			$html .= '<p>' . esc_attr__( 'You can invite Participiants to this survey after the survey is published.', 'questions-locale' ) . '</p>';
+			$html .= '<p>' . esc_attr__( 'You can invite Participiants to this form after it is published.', 'questions-locale' ) . '</p>';
 		endif;
 
 		echo $html;

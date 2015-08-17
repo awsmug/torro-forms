@@ -317,7 +317,7 @@ class Questions_FormProcess
 
 		if( $actual_step == $next_step ){
 			// If actual step is next step, show finish form button
-			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Finish Survey', 'questions-locale' ) . '">';
+			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Send', 'questions-locale' ) . '">';
 		}else{
 			// Show next button
 			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Next Step', 'questions-locale' ) . '">';
