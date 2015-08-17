@@ -1,17 +1,19 @@
 === Questions ===
 Contributors: mahype, awesome-ug
-Tags: survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
+Tags: forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 Requires at least: 4.1.1
 Tested up to: 4.3.0
 Stable tag: 1.0.0
 
-Drag & drop your survey in the WordPress way!
+Drag&drop your form in the WordPress way!
 
 == Description ==
 
->**Drag & drop your survey in the WordPress way!**
+>**Drag & drop your form in the WordPress way!**
 >
->It never felt better to create your survey like with this plugin. Do your survey and own the survey data. This is not software as a service, Questions is a totally independent and free plugin.
+>It never felt better to create your form like with this plugin! Drag&Drop your your form and view also in chartable results.
+
+This is not software as a service, Questions is a totally independent and free plugin!
 
 **Elements to drop**
 
@@ -23,14 +25,21 @@ Drag & drop your survey in the WordPress way!
 
 **Features**
 
-* **Drag&Drop** - Drag&drop questions to your survey, also sort answers by drag&drop.
-* **Timerange** - Give surveys a start and an end date.
+* **Drag&Drop** - Drag&drop questions to your form, also sort answers by drag&drop.
+* **Timerange** - Give forms a start and an end date.
+* **Split forms** - Split your form into several steps.
 * **Bar Chart Results** - Showing results after participating or with shortcodes.
 * **Validation** - Validate the entered data in question settings.
-* **Participiants** - Add registered users to survey or let everybody participate.
-* **Remember Mail** - Send a remembering Email to participiants.
+* **Participiants** - Add registered users to forms or let everybody participate.
+* **Invite participiants** - Send a remembering Email to participiants.
 * **Lightweight CSS** - Easy to overwrite CSS in frontend.
 * **CVS Export** - Get your results as CVS file.
+
+**API**
+* **Element API** - Easy add your own elements by extending the core element class.
+* **Restriction API** - Easy add your own restriction who can see the form or not by extendiong the core restriction class.
+
+>Extend the form builder with our easy to use API! You're missing something? Just let us know at https://github.com/awsmug/Questions/issues!
 
 **Languages**
 
@@ -58,21 +67,22 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 1. Upload `questions` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. In the left menu appears the `Surveys` button
+3. In the left menu appears the `Forms` button
 
 == Screenshots ==
 
 1. **Drag&Drop your questions and move them up and down**
 2. **Also Drag&Drop answers**
-3. **Published survey**
-4. **Results of a survey**
-5. **Inviting WordPress users or let open who can participate**
+3. **Published form**
+4. **Results of a form**
+5. **Invite WordPress users or let open who can participate**
 6. **Text element setting options**
 7. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
 
 = 1.0.0 beta 20 =
+* Questions becomes a form builder with chartable results
 * Refactoring Core
 * Added restrictions API
 * Restriction checks on "All Visitors" can be switched off now
