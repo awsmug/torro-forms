@@ -169,7 +169,7 @@ class Questions_FormLoader
     {
 
         $html = '<p>' . __('This are the actual results:', 'questions-locale') . '</p>';
-        $html .= do_shortcode('[survey_results id="' . $form_id . '"]');
+        $html .= do_shortcode('[form_results id="' . $form_id . '"]');
 
         return apply_filters('questions_show_results', $html, $form_id);
     }

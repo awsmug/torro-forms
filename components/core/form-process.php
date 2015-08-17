@@ -221,7 +221,6 @@ class Questions_FormProcess
 	 */
 	public function validate( $form_id, $response, $step )
 	{
-
 		global $questions_response_errors;
 
 		$elements = $this->form->get_step_elements( $step );
@@ -309,7 +308,6 @@ class Questions_FormProcess
 	 */
 	public function get_navigation( $actual_step, $next_step )
 	{
-
 		$html = '';
 
 		// If there was a step before, show previous button
@@ -335,7 +333,6 @@ class Questions_FormProcess
 	 */
 	public function email_finished()
 	{
-
 		global $post, $current_user;
 		get_currentuserinfo();
 

@@ -112,7 +112,7 @@ class Questions_FormBuilder
 			add_meta_box( 'form-options', esc_attr__( 'Options', 'questions-locale' ), array( __CLASS__,
 			                                                                                  'meta_box_form_options'
 			), 'questions', 'side' );
-			add_meta_box( 'form-functions', esc_attr__( 'Survey Functions', 'questions-locale' ), array( __CLASS__,
+			add_meta_box( 'form-functions', esc_attr__( 'Form Functions', 'questions-locale' ), array( __CLASS__,
 			                                                                                             'meta_box_form_functions'
 			), 'questions', 'side' );
 			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'questions-locale' ), array( __CLASS__,
@@ -153,7 +153,7 @@ class Questions_FormBuilder
 
 		$form_id = $post->ID;
 
-		$html = do_shortcode( '[survey_results id="' . $form_id . '"]' );
+		$html = do_shortcode( '[form_results id="' . $form_id . '"]' );
 
 		echo $html;
 	}
@@ -207,12 +207,12 @@ class Questions_FormBuilder
 
 		// Dublicate survey
 		$html = '<div class="questions-function-element">';
-		$html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Survey', 'questions-locale' ) . '" />';
+		$html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'questions-locale' ) . '" />';
 		$html .= '</div>';
 
 		// Delete results
 		$html .= '<div class="questions-function-element">';
-		$html .= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete survey results', 'questions-locale' ) . '" />';
+		$html .= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete Form results', 'questions-locale' ) . '" />';
 		$html .= '</div>';
 
 		ob_start();
