@@ -72,7 +72,6 @@ class Questions_Admin extends Questions_Component {
      * @since 1.0.0
      */
     public static function register_styles() {
-        wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/components/admin/includes/css/admin.css' );
         wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . '/components/admin/includes/css/fonts.css' );
     }
 }

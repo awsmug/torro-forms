@@ -45,8 +45,6 @@ class Questions_FormBuilder
 			return NULL;
 		}
 
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
-
 		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ) );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 10 );
 
@@ -57,6 +55,9 @@ class Questions_FormBuilder
 		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
+
+		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -492,8 +493,22 @@ class Questions_FormBuilder
 	public static function jquery_messages_area()
 	{
 		$max_input_vars = ini_get( 'max_input_vars' );
-		$html = '<div id="questions-messages" style="display:none;"><p class="questions-message">Das ist eine Nachricht</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
+		$html = '<div id="questions-messages" style="display:none;"><p class="questions-message">This is a dummy messaget</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
 		echo $html;
+	}
+
+	/**
+	 * Registers and enqueues admin-specific styles.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function register_styles()
+	{
+		if( !self::is_questions_post_type() ){
+			return;
+		}
+
+		wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/components/admin/includes/css/form-builder.css' );
 	}
 
 	/**
@@ -507,24 +522,26 @@ class Questions_FormBuilder
 			return;
 		}
 
-		$translation = array( 'delete'                => esc_attr__( 'Delete', 'questions-locale' ),
-		                      'yes'                   => esc_attr__( 'Yes', 'questions-locale' ),
-		                      'no'                    => esc_attr__( 'No', 'questions-locale' ),
-		                      'edit_survey'           => esc_attr__( 'Edit Survey', 'questions-locale' ),
-		                      'max_fields_near_limit' => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
-		                      'max_fields_over_limit' => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
-		                      'max_fields_todo'       => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
-		                      'of'                    => esc_attr__( 'of', 'questions-locale' ),
+		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
+		                      'yes'                          => esc_attr__( 'Yes', 'questions-locale' ),
+		                      'no'                           => esc_attr__( 'No', 'questions-locale' ),
+		                      'edit_survey'                  => esc_attr__( 'Edit Survey', 'questions-locale' ),
+		                      'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
+		                      'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
+		                      'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
+		                      'of'                           => esc_attr__( 'of', 'questions-locale' ),
+		                      'deleted_results_successfully' => esc_attr__( 'Survey results deleted successfully!', 'questions-locale' )
 		);
 
-		wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/admin/includes/js/form-builder.js' );
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
 		wp_enqueue_script( 'jquery-ui-dialog' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
+
 		wp_enqueue_script( 'admin-widgets' );
 		wp_enqueue_script( 'wpdialogs-popup' );
 
+		wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/admin/includes/js/form-builder.js' );
 		wp_localize_script( 'admin-questions-post-type', 'translation_fb', $translation );
 
 		if( wp_is_mobile() ){

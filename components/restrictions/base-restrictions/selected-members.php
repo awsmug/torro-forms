@@ -448,7 +448,6 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction{
             'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'questions-locale' ),
             'reinvitations_sent_succes  sfully'     => esc_attr__( 'Renvitations sent successfully!', 'questions-locale' ),
             'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'questions-locale' ),
-            'deleted_results_successfully'        => esc_attr__( 'Survey results deleted successfully!', 'questions-locale' ),
             'duplicate_form_successfully'         => esc_attr__( 'Survey duplicated successfully!', 'questions-locale' ),
             'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' ),
         );
