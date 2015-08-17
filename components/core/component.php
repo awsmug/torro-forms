@@ -92,7 +92,7 @@ class Questions_Core extends Questions_Component{
 				'edit_item' => __( 'Edit Form', 'questions-locale' ),
 				'new_item' => __( 'Add new Form', 'questions-locale' ),
 				'view_item' => __( 'View Form', 'questions-locale' ),
-				'search_items' => __( 'Search Form', 'questions-locale' ),
+				'search_items' => __( 'Search Forms', 'questions-locale' ),
 				'not_found' => __( 'No Form found', 'questions-locale' ),
 				'not_found_in_trash' => __( 'No Form found in trash', 'questions-locale' )
 			),
