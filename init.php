@@ -38,40 +38,24 @@ class Questions_Init
 		self::load_textdomain();
 
 		// Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
-		register_activation_hook( __FILE__, array(
-			__CLASS__,
-			'activate' ) );
-		register_deactivation_hook( __FILE__, array(
-			__CLASS__,
-			'deactivate' ) );
-		register_uninstall_hook( __FILE__, array(
-			__CLASS__,
-			'uninstall' ) );
+		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
+		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
+		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 
 		// If plugin isn't installed, install it now
 		if( !self::is_installed() ){
-			add_action( 'init', array(
-				__CLASS__,
-				'install_plugin' ), 100 );
+			add_action( 'init', array( __CLASS__, 'install_plugin' ), 100 );
 		}
 
 		// Functions on Frontend
 		if( is_admin() ):
 			// Register admin styles and scripts
-			add_action( 'plugins_loaded', array(
-				__CLASS__,
-				'check_requirements' ) );
-			add_action( 'admin_notices', array(
-				__CLASS__,
-				'admin_notices' ) );
+			add_action( 'plugins_loaded', array( __CLASS__, 'check_requirements' ) );
+			add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
 		else:
 			// Register plugin styles and scripts
-			add_action( 'wp_enqueue_scripts', array(
-				__CLASS__,
-				'register_plugin_styles' ) );
-			add_action( 'wp_enqueue_scripts', array(
-				__CLASS__,
-				'register_plugin_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_scripts' ) );
 		endif;
 	} // end constructor
 
@@ -108,8 +92,7 @@ class Questions_Init
 	{
 		global $wpdb;
 
-		$tables = array(
-			$wpdb->prefix . 'questions_questions',
+		$tables = array( $wpdb->prefix . 'questions_questions',
 			$wpdb->prefix . 'questions_answers',
 			$wpdb->prefix . 'questions_responds',
 			$wpdb->prefix . 'questions_respond_answers',
