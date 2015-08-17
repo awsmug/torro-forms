@@ -50,7 +50,7 @@ class Questions_FormLoader
      * @since 1.0.0
      */
     public static function init( $filter_the_content = FALSE ){
-        add_action('parse_request', array(__CLASS__, 'process_response'), 10, 1 );
+        add_action('parse_request', array(__CLASS__, 'process_response'), 100, 1 );
 
         if( TRUE == $filter_the_content ) {
             add_action('the_post', array(__CLASS__, 'add_post_filter')); // Just hooking in at the beginning of a loop
@@ -61,32 +61,24 @@ class Questions_FormLoader
      * Porcessing Response
      */
     public static function process_response( $response ){
-        global $questions_form_id, $questions_process, $questions_form_id;
+        global $questions_form_id;
 
-        // If is nothing there to process, just leave
-        if( is_array( $response->query_vars ) && !array_key_exists( 'p', $response->query_vars  ) && is_array( $_POST ) && !array_key_exists( 'questions_id', $_POST ) ){
+        if ( !isset($_SESSION) )
+            session_start();
+
+        // If there is no nothing submitted and there is no session data > exit
+        if( !isset( $_POST[ 'questions_id' ] ) ){
             return;
         }
 
-        // Getting form ID
-        if( array_key_exists( 'questions_id', $_POST ) ) {
-            $questions_form_id = $_POST['questions_id'];
-        }else{
-            $questions_form_id = $response->query_vars[ 'p' ];
-        }
+        $questions_form_id = $_POST[ 'questions_id' ];
 
-        // Form exists or die
+        // If form doesn't exists > exit
         if ( ! qu_form_exists( $questions_form_id ) ) {
             return;
         }
 
-        // Checking if the ID is questions post type
-        $post = get_post( $questions_form_id );
-        if( 'questions' != $post->post_type ){
-            return;
-        }
-
-        $questions_process = new Questions_FormProcess( $questions_form_id ); // @todo Doing it with globals and static class?
+        $questions_process = new Questions_FormProcess( $questions_form_id );
         $questions_process->process_response();
     }
 
@@ -111,41 +103,64 @@ class Questions_FormLoader
         global $questions_process, $questions_form_id, $questions_response_errors;
 
         $post = get_post( $questions_form_id );
+        $questions_form_id = $post->ID;
 
         if( 'questions' != $post->post_type ){
-            return;
+            return $content;
         }
 
-        // @todo: Should move to processing
-        // Set global message on top of page
-        if (!empty($questions_response_errors)) {
-            $html = '<div class="questions-element-error">';
-            $html .= '<div class="questions-element-error-message"><p>';
-            $html .= esc_attr__('There are open answers', 'questions-locale');
-            $html .= '</p></div></div>';
+        if ( isset( $_SESSION['questions_response'][$questions_form_id]['finished'] ) ) {
+            $html = self::text_thankyou_for_participation($questions_form_id);
+            session_destroy();
 
-            echo $html;
+        }else {
+            $questions_process = new Questions_FormProcess( $questions_form_id );
+            $html = $questions_process->show_form();
         }
-
-        self::show( $post->ID );
 
         remove_filter('the_content', array( __CLASS__ , 'the_content')); // only show once
 
-        return $content;
+        return $html;
     }
 
     /**
-     * Show form
-     * @param int $post_id
+     * Text which will be shown after a user has participated successful
+     *
+     * @param int $form_id
+     * @return string $html
+     * @since 1.0.0
      */
-    public static function show( $post_id = 0 ){
-        global $questions_process, $questions_form_id;
+    public static function text_thankyou_for_participation( $form_id ) {
 
-        if(0 != $post_id){
-            $questions_form_id = $post_id;
-            $questions_process = new Questions_FormProcess( $questions_form_id );
-            $questions_process->show_form();
+        $show_results = get_post_meta( $form_id, 'show_results', TRUE );
+        if ( '' == $show_results ) {
+            $show_results = 'no';
         }
+
+        $html = '<div id="questions-thank-participation">';
+        $html .= '<p>' . __( 'Thank you for participating this survey!', 'questions-locale' ) . '</p>';
+        if ( 'yes' == $show_results ) {
+            $html .= self::show_results( $form_id );
+        }
+        $html .= '</div>';
+
+        return apply_filters( 'questions_text_thankyou_for_participation', $html, $form_id );
+    }
+
+    /**
+     * Showing results
+     *
+     * @param int $survey_id
+     * @return string $html
+     * @since 1.0.0
+     */
+    public static function show_results($form_id)
+    {
+
+        $html = '<p>' . __('This are the actual results:', 'questions-locale') . '</p>';
+        $html .= do_shortcode('[survey_results id="' . $form_id . '"]');
+
+        return apply_filters('questions_show_results', $html, $form_id);
     }
 }
 Questions_FormLoader::init( TRUE );
