@@ -1,113 +1,139 @@
 /**
  * 	General
  */
-#questions-content{
-	margin:10px 0 10px;
+#questions-content {
+    margin: 10px 0 10px;
 }
-.questions-widget-icon{
-	float:left;
-	margin: 6px 0px 6px 6px;
+
+.questions-widget-icon {
+    float: left;
+    margin: 6px 0px 6px 6px;
 }
+
 /**
  * 	Drag & Drop Area
  */
-#questions-content #drag-drop-area{
-	height:auto;
-	-webkit-box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
-  	border:1px solid #E5E5E5;
-  	box-shadow:rgba(0, 0, 0, 0.0392157) 0 1px 1px;
-  	padding:10px;
+#questions-content #drag-drop-area {
+    height: auto;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
+    border: 1px solid #E5E5E5;
+    box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
+    padding: 10px;
 }
+
 /**
  * 	Sortable area
  */
-#questions-content #drag-drop-inside{
-	min-height:200px;
+#questions-content #drag-drop-inside {
+    min-height: 200px;
 }
+
 /**
  * Element
  */
-#questions-content .surveyelement{
-	margin-bottom:10px;
+#form-elements .formelement{
+    height:45px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    cursor: move;
 }
-#questions-content input[type=text].questions-question{
-	width:100%;
+#questions-content .surveyelement {
+    margin-bottom: 10px;
 }
-#questions-content input[type=text]{
-	width:80%;
+
+#questions-content input[type=text].questions-question {
+    width: 100%;
 }
-#questions-content textarea{
-	width:80%;
+
+#questions-content input[type=text] {
+    width: 80%;
+}
+
+#questions-content textarea {
+    width: 80%;
 }
 
 /**
  * 	Element Tabs
  */
-.form_element_tabs ul{
-	margin-top:20px !important;
+.form_element_tabs ul {
+    margin-top: 20px !important;
 }
-.form_element_tabs .tabs_underline{
-	border-bottom: 1px solid #CCC;
+
+.form_element_tabs .tabs_underline {
+    border-bottom: 1px solid #CCC;
 }
-.form_element_tabs .tabs li{
-	float:left;
-	margin: 0;
-	border: 1px solid #CCC;
-	border-bottom:none;
-	border-right:none;
-	background-color: #FAFAFA;
-	padding:6px;
+
+.form_element_tabs .tabs li {
+    float: left;
+    margin: 0;
+    border: 1px solid #CCC;
+    border-bottom: none;
+    border-right: none;
+    background-color: #FAFAFA;
+    padding: 6px;
 }
-.form_element_tabs .tabs li:first-child{
-	border-top-left-radius: 3px;
-	border-right:none;
+
+.form_element_tabs .tabs li:first-child {
+    border-top-left-radius: 3px;
+    border-right: none;
 }
-.form_element_tabs .tabs li:last-child{
-	border-top-right-radius: 3px;
-	border-right: 1px solid #CCC;
+
+.form_element_tabs .tabs li:last-child {
+    border-top-right-radius: 3px;
+    border-right: 1px solid #CCC;
 }
-.form_element_tabs .tabs li.ui-state-active{
-	font-weight:bold;
+
+.form_element_tabs .tabs li.ui-state-active {
+    font-weight: bold;
 }
-.form_element_tabs .tabs li a{
-	color:#222;
-	text-decoration: none;
+
+.form_element_tabs .tabs li a {
+    color: #222;
+    text-decoration: none;
 }
+
 .form_element_tabs .shortcode,
-.questions-options.shortcode{
-	background-color: #f7f7f7;
-	margin-top:20px;
-	padding:10px;
-	border: 1px solid #e5e5e5;
+.questions-options.shortcode {
+    background-color: #f7f7f7;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
 }
+
 /**
  * 	Element Answers
  */
-#questions-content .answers{
-	margin-bottom: 15px;
+#questions-content .answers {
+    margin-bottom: 15px;
 }
-#questions-content .answer{
-	height: 40px;
-	padding-left:20px;
-	background-image: url( '../../../../assets/images/icon-updown.png' );
-	background-repeat: no-repeat;
-	background-position: top 7px left 0;
-	cursor:move;
+
+#questions-content .answer {
+    height: 40px;
+    padding-left: 20px;
+    background-image: url('../../../../assets/images/icon-updown.png');
+    background-repeat: no-repeat;
+    background-position: top 7px left 0;
+    cursor: move;
 }
-#questions-content .answer p{
-	display: inline;
+
+#questions-content .answer p {
+    display: inline;
 }
-#questions-content .add-answer{
-	font-weight: bold;
-	text-decoration: underline;
-	cursor:hand;
+
+#questions-content .add-answer {
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: hand;
 }
-#survey-elements .widget-title-action{
-	display:none;
+
+#survey-elements .widget-title-action {
+    display: none;
 }
-#survey-elements .widget-inside{
-	height: 0px;
-	overflow: hidden;
+
+#survey-elements .widget-inside {
+    height: 0px;
+    overflow: hidden;
 }
 
 /**
@@ -115,126 +141,146 @@
  */
 #delete_surveyelement_dialog,
 #delete_responses_dialog,
-#delete_answer_dialog{
-	display:none;
+#delete_answer_dialog {
+    display: none;
 }
-.questions-options input[type="text"]{
+
+.questions-options input[type="text"] {
     background-color: #f7f7f7;
     font-size: 11px;
     height: 25px;
-    width:100%;
+    width: 100%;
 }
-#questions-content .form_element_tabs .shortcode .shortcode_input{
+
+#questions-content .form_element_tabs .shortcode .shortcode_input {
     background-color: #f7f7f7;
     font-size: 11px;
     height: 25px;
     margin-left: 10px;
 }
-#questions-content .form_element_tabs .shortcode .shortcode_input{
-	width:25%;
+
+#questions-content .form_element_tabs .shortcode .shortcode_input {
+    width: 25%;
 }
-.tab_settings_content{
-	margin-top:20px;
+
+.tab_settings_content {
+    margin-top: 20px;
 }
+
 /**
  * Form styles
  */
-.surveval-form-fieldset{
-	margin-bottom:20px;
-	clear: both;
+.surveval-form-fieldset {
+    margin-bottom: 20px;
+    clear: both;
 }
-.surveval-form-fieldset-title{
-	width:20%;
-	float:left;
+
+.surveval-form-fieldset-title {
+    width: 20%;
+    float: left;
 }
-.surveval-form-fieldset-input{
-	width:80%;
-	float:right;
+
+.surveval-form-fieldset-input {
+    width: 80%;
+    float: right;
 }
-.surveval-form-fieldset-input-radio{
-	display: block;
-	margin-bottom:5px;
+
+.surveval-form-fieldset-input-radio {
+    display: block;
+    margin-bottom: 5px;
 }
+
 /**
  * Survey participiants
  */
 #questions_participiants_select,
-#questions-participiants-restrictions-select{
-	margin-bottom:10px;
+#questions-participiants-restrictions-select {
+    margin-bottom: 10px;
 }
 
 /**
  * Survey functions
  */
-#form-functions .inside{
-	padding-bottom: 0;
+#form-functions .inside {
+    padding-bottom: 0;
 }
-#form-functions .button{
-	margin-bottom:10px;
+
+#form-functions .button {
+    margin-bottom: 10px;
 }
-#form-functions .button-loading{
-	background-image: url( '../../assets/images/loading.gif' );
-	background-repeat: no-repeat;
-	background-position: 5px 5px;
-	padding-left:28px;
+
+#form-functions .button-loading {
+    background-image: url('../../assets/images/loading.gif');
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    padding-left: 28px;
 }
+
 #form-functions #questions-invite-button.button-loading,
-#form-functions #questions-reinvite-button.button-loading{
-	background-image: url( '../../assets/images/loading-blue.gif' );
+#form-functions #questions-reinvite-button.button-loading {
+    background-image: url('../../assets/images/loading-blue.gif');
 }
+
 #form-functions .form-deleted-results,
 #form-functions .form-duplicated,
-#form-functions .form-reinvitations-sent{
-	margin-top:0;
-	margin-bottom: 10px;
+#form-functions .form-reinvitations-sent {
+    margin-top: 0;
+    margin-bottom: 10px;
     text-align: center;
 }
-#form-functions .questions-function-element:first-child{
-	margin-top:10px;
+
+#form-functions .questions-function-element:first-child {
+    margin-top: 10px;
 }
 
-
-/* 
+/*
  * Dialogs
  */
-.ui-dialog{
-    background-color:#FFF;
-    border:1px solid #CCC;
-    text-align:center;
-    width:300px;
-    -moz-box-shadow:5px 5px 5px rgba(0,0,0,0.5); /* Firefox - alte Syntax */
-    -webkit-box-shadow:5px 5px 5px rgba(0,0,0,0.5); /* Safari, Chrome - alte Syntax */
-    box-shadow:5px 5px 5px rgba(0,0,0,0.5); /* alle neuen Browser, W3C Standard */
+.ui-dialog {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    text-align: center;
+    width: 300px;
+    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); /* Firefox - alte Syntax */
+    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); /* Safari, Chrome - alte Syntax */
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); /* alle neuen Browser, W3C Standard */
 }
-.wp-dialog .ui-dialog-titlebar{
-    display:none;
+
+.wp-dialog .ui-dialog-titlebar {
+    display: none;
 }
-.wp-dialog .ui-dialog-content{
-    padding:10px;
-    font-size:14px;
+
+.wp-dialog .ui-dialog-content {
+    padding: 10px;
+    font-size: 14px;
 }
-.wp-dialog .ui-button{
-    width:40%;
-    background-color:#FFF;
+
+.wp-dialog .ui-button {
+    width: 40%;
+    background-color: #FFF;
     border: 1px solid #CCC;
     margin: 0 10px 10px 10px;
 }
+
 /*
  * jQuery ui
  */
-.ui-draggable-dragging{
-	
+.ui-draggable-dragging {
+
 }
-.ui-draggable-dragging .widget-title{
-	width: 48px !important;
-	overflow:hidden !important;
-	height: 48px !important;
+
+.ui-draggable-dragging .widget-title {
+    width: 48px !important;
+    overflow: hidden !important;
+    height: 48px !important;
 }
-.ui-draggable-dragging .widget-title h4{
-	opacity:0;
+
+.ui-draggable-dragging .widget-title h4 {
+    opacity: 0;
 }
-.form-element-placeholder{
-	border: #CCC dashed 1px;
-	height: 50px;
-	margin-bottom:10px;
+
+.form-element-placeholder {
+    border: #CCC dashed 1px;
+    height: 50px;
+    margin-bottom: 10px;
 }

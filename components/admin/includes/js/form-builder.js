@@ -60,6 +60,7 @@
 		    },
 		    stop: function( event, ui ) {
 		        ui.helper.css( 'width', '100%' ).css( 'height', 'auto' );
+				ui.helper.addClass( 'widget' );
 		    }
 		});
 		

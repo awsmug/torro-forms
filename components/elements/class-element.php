@@ -236,6 +236,7 @@ abstract class Questions_FormElement
 	 * Populating element object with data
 	 *
 	 * @param int $id Element id
+	 *
 	 * @since 1.0.0
 	 */
 	private function populate( $id )
@@ -277,6 +278,7 @@ abstract class Questions_FormElement
 	 * Setting question for element
 	 *
 	 * @param string $question Question text
+	 *
 	 * @since 1.0.0
 	 */
 	private function set_question( $question, $order = NULL )
@@ -477,7 +479,11 @@ abstract class Questions_FormElement
 		/**
 		 * Widget
 		 */
-		$html = '<div class="widget formelement"' . $id_name . '>';
+		if( NULL == $this->id ){
+			$html = '<div class="formelement"' . $id_name . '>';
+		}else{
+			$html = '<div class="widget formelement"' . $id_name . '>';
+		}
 
 		/**
 		 * Widget head
@@ -821,7 +827,10 @@ abstract class Questions_FormElement
 	{
 
 		// Adding action Buttons
-		$bottom_buttons = apply_filters( 'qu_element_bottom_actions', array( 'delete_form_element' => array( 'text' => esc_attr__( 'Delete element', 'questions-locale' ), 'classes' => 'delete_form_element' ) ) );
+		$bottom_buttons = apply_filters( 'qu_element_bottom_actions', array( 'delete_form_element' => array( 'text'    => esc_attr__( 'Delete element', 'questions-locale' ),
+		                                                                                                     'classes' => 'delete_form_element'
+		)
+		) );
 
 		$html = '<ul class="survey-element-bottom">';
 		foreach( $bottom_buttons AS $button ):
@@ -948,6 +957,7 @@ abstract class Questions_FormElement
  * Register a new Group Extension.
  *
  * @param $element_type_class name of the element type class.
+ *
  * @return bool|null Returns false on failure, otherwise null.
  */
 function qu_register_survey_element( $element_type_class )
