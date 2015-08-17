@@ -124,15 +124,6 @@
     cursor: hand;
 }
 
-/**
- * 	Dialogs
- */
-#delete_surveyelement_dialog,
-#delete_responses_dialog,
-#delete_answer_dialog {
-    display: none;
-}
-
 .questions-options input[type="text"] {
     background-color: #f7f7f7;
     font-size: 11px;
@@ -198,32 +189,30 @@
 }
 
 #form-functions .button-loading {
-    background-image: url('../../assets/images/loading.gif');
+    background-image: url('../../../../../assets/images/loading.gif');
     background-repeat: no-repeat;
     background-position: 5px 5px;
     padding-left: 28px;
 }
-
-#form-functions #questions-invite-button.button-loading,
-#form-functions #questions-reinvite-button.button-loading {
-    background-image: url('../../assets/images/loading-blue.gif');
-}
-
-#form-functions .form-deleted-results,
-#form-functions .form-duplicated,
-#form-functions .form-reinvitations-sent {
-    margin-top: 0;
-    margin-bottom: 10px;
+#form-functions p{
     text-align: center;
+    margin-top: 0;
 }
 
 #form-functions .questions-function-element:first-child {
     margin-top: 10px;
 }
 
-/*
+/**
  * Dialogs
  */
+#delete_formelement_dialog,
+#delete_responses_dialog,
+#delete_answer_dialog,
+.wp-dialog .ui-dialog-titlebar {
+    display: none;
+}
+
 .ui-dialog {
     background-color: #FFF;
     border: 1px solid #CCC;
@@ -232,10 +221,6 @@
     -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); /* Firefox - alte Syntax */
     -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); /* Safari, Chrome - alte Syntax */
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); /* alle neuen Browser, W3C Standard */
-}
-
-.wp-dialog .ui-dialog-titlebar {
-    display: none;
 }
 
 .wp-dialog .ui-dialog-content {
@@ -250,7 +235,7 @@
     margin: 0 10px 10px 10px;
 }
 
-/*
+/**
  * jQuery ui
  */
 .ui-draggable-dragging {

@@ -85,16 +85,16 @@ class Questions_Core extends Questions_Component{
 		 */
 		$args_post_type = array(
 			'labels' => array(
-				'name' => __( 'Surveys', 'questions-locale' ),
-				'singular_name' => __( 'Survey', 'questions-locale' ),
-				'all_items' => __( 'All Surveys', 'questions-locale' ),
-				'add_new_item' => __( 'Add new Survey', 'questions-locale' ),
-				'edit_item' => __( 'Edit Survey', 'questions-locale' ),
-				'new_item' => __( 'Add new Survey', 'questions-locale' ),
-				'view_item' => __( 'View Survey', 'questions-locale' ),
-				'search_items' => __( 'Search Survey', 'questions-locale' ),
-				'not_found' => __( 'No Survey available', 'questions-locale' ),
-				'not_found_in_trash' => __( 'No Survey available', 'questions-locale' )
+				'name' => __( 'Forms', 'questions-locale' ),
+				'singular_name' => __( 'Form', 'questions-locale' ),
+				'all_items' => __( 'All Forms', 'questions-locale' ),
+				'add_new_item' => __( 'Add new Form', 'questions-locale' ),
+				'edit_item' => __( 'Edit Form', 'questions-locale' ),
+				'new_item' => __( 'Add new Form', 'questions-locale' ),
+				'view_item' => __( 'View Form', 'questions-locale' ),
+				'search_items' => __( 'Search Form', 'questions-locale' ),
+				'not_found' => __( 'No Form found', 'questions-locale' ),
+				'not_found_in_trash' => __( 'No Form found in trash', 'questions-locale' )
 			),
 			'public' => TRUE,
 			'has_archive' => TRUE,

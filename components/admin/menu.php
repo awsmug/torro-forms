@@ -57,8 +57,8 @@ class Questions_AdminMenu {
     public static function admin_menu() {
 
         add_menu_page(
-            esc_attr__( 'Surveys', 'questions-locale' ),
-            esc_attr__( 'Surveys', 'questions-locale' ),
+            esc_attr__( 'Forms', 'questions-locale' ),
+            esc_attr__( 'Forms', 'questions-locale' ),
             'edit_posts',
             'QuestionsAdmin',
             array( 'Questions_AdminSettingsPage', 'show' ),

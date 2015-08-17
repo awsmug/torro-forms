@@ -51,7 +51,7 @@ class Questions_FormBuilder
 		add_action( 'save_post', array( __CLASS__, 'save_form' ) );
 		add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
 
-		add_action( 'wp_ajax_questions_duplicate_survey', array( __CLASS__, 'ajax_duplicate_form' ) );
+		add_action( 'wp_ajax_questions_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
 		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
@@ -120,7 +120,7 @@ class Questions_FormBuilder
 			), 'questions', 'side', 'high' );
 			add_meta_box( 'form-results', esc_attr__( 'Results', 'questions-locale' ), array( __CLASS__,
 			                                                                                  'meta_box_form_results'
-			), 'questions', 'normal', 'high' );
+			), 'questions', 'normal', 'low' );
 		endif;
 	}
 
@@ -143,7 +143,7 @@ class Questions_FormBuilder
 	}
 
 	/**
-	 * Showing survey results in admin
+	 * Showing form results in admin
 	 *
 	 * @since 1.0.0
 	 */
@@ -159,7 +159,7 @@ class Questions_FormBuilder
 	}
 
 	/**
-	 * Survey options
+	 * Form options
 	 *
 	 * @since 1.0.0
 	 */
@@ -399,7 +399,6 @@ class Questions_FormBuilder
 	 * Delete form
 	 *
 	 * @param int $form_id
-	 *
 	 * @since 1.0.0
 	 */
 	public static function delete_form( $form_id )
@@ -409,8 +408,7 @@ class Questions_FormBuilder
 	}
 
 	/**
-	 * Dublicating survey AJAX
-	 *
+	 * Dublicating form AJAX
 	 * @since 1.0.0
 	 */
 	public static function ajax_duplicate_form()
@@ -438,7 +436,7 @@ class Questions_FormBuilder
 	}
 
 	/**
-	 * Deleting survey responses
+	 * Deleting form responses
 	 *
 	 * @since 1.0.0
 	 */
@@ -455,7 +453,7 @@ class Questions_FormBuilder
 		$form = new Questions_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
-		$response = array( 'survey_id' => $form_id, 'deleted' => TRUE );
+		$response = array( 'form_id' => $form_id, 'deleted' => TRUE );
 
 		echo json_encode( $response );
 
@@ -525,12 +523,13 @@ class Questions_FormBuilder
 		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
 		                      'yes'                          => esc_attr__( 'Yes', 'questions-locale' ),
 		                      'no'                           => esc_attr__( 'No', 'questions-locale' ),
-		                      'edit_survey'                  => esc_attr__( 'Edit Survey', 'questions-locale' ),
+		                      'edit_form'                    => esc_attr__( 'Edit Form', 'questions-locale' ),
 		                      'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
 		                      'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
 		                      'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
 		                      'of'                           => esc_attr__( 'of', 'questions-locale' ),
-		                      'deleted_results_successfully' => esc_attr__( 'Survey results deleted successfully!', 'questions-locale' )
+		                      'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'questions-locale' ),
+		                      'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'questions-locale' )
 		);
 
 		wp_enqueue_script( 'jquery-ui-draggable' );

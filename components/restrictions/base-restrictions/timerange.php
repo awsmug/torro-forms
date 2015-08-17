@@ -77,9 +77,9 @@ class Questions_Restriction_Timerange extends Questions_Restriction{
         $start_date = get_post_meta( $form_id, 'start_date', TRUE );
         $end_date = get_post_meta( $form_id, 'end_date', TRUE );
 
-        $html = '<label for="start_date">' . esc_attr__( 'When does the survey start?', 'questions-locale' ) . '</label>';
+        $html = '<label for="start_date">' . esc_attr__( 'Input data start:', 'questions-locale' ) . '</label>';
         $html.= '<p><input type="text" id="start_date" name="start_date" value="' . $start_date . '"/></p>';
-        $html.= '<label for="end_date">' . esc_attr__( 'When does the survey end?', 'questions-locale' ) . '</label>';
+        $html.= '<label for="end_date">' . esc_attr__( 'Input data end:', 'questions-locale' ) . '</label>';
         $html.= '<p><input type="text" id="end_date" name="end_date" value="' . $end_date . '"/></p>';
 
         echo $html;

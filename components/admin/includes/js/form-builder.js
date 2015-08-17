@@ -307,7 +307,7 @@
 			
 			if( button.hasClass( 'button' ) ){
 				var data = {
-					action: 'questions_duplicate_survey',
+					action: 'questions_duplicate_form',
 					form_id: $( '#post_ID' ).val(),
 				};
 				
@@ -316,7 +316,7 @@
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
 
-					var response_text = translation_fb.duplicate_form_successfully + '<br /><a href="' + response.admin_url + '">' + translation_fb.edit_survey + '</a>';
+					var response_text = translation_fb.duplicated_form_successfully + '<br /><a href="' + response.admin_url + '">' + translation_fb.edit_form + '</a>';
 					button.after( '<p class="form-duplicated">' + response_text + '</p>' );
 					button.removeClass( 'button-loading' );
 					
