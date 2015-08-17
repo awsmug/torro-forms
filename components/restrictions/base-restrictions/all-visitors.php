@@ -99,12 +99,11 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction{
      */
     public function ip_has_participated()
     {
-
-        global $wpdb, $questions_global, $quesions_form_id;
+        global $wpdb, $questions_global, $questions_form_id;
 
         $remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-        $sql   = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $quesions_form_id, $remote_ip );
+        $sql   = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $questions_form_id, $remote_ip );
         $count = $wpdb->get_var( $sql );
 
         if ( 0 == $count ){
