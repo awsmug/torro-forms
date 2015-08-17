@@ -324,6 +324,7 @@ class Questions_Init
 		include( QUESTIONS_COMPONENTFOLDER . '/charts/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/restrictions/component.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/notifications/component.php' );
 	}
 
 	/**

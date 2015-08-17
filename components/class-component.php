@@ -66,9 +66,7 @@ abstract class Questions_Component
 	public function __construct()
 	{
 		$this->name = get_class( $this );
-		add_action( 'plugins_loaded', array(
-			$this,
-			'includes' ), 0 );
+		add_action( 'plugins_loaded', array( $this, 'includes' ), 0 );
 
 		$this->title = ucfirst( $this->name );
 		$this->description = esc_attr__( 'This is a Questions component.', 'questions-locale' );

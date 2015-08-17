@@ -85,6 +85,7 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', TRUE );
 
 		$html .= '<div id="questions-add-participiants-options">';
+		$html .= '<label for"questions_add_participiants_option">' . esc_attr( 'Add Members', 'questions-locale' ) . '';
 		$html .= '<select id="questions-add-participiants-option" name="questions_add_participiants_option">';
 		foreach( $options AS $slug => $value ):
 			$selected = '';
@@ -94,6 +95,7 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 			$html .= '<option value="' . $slug . '"' . $selected . '>' . $value . '</option>';
 		endforeach;
 		$html .= '</select>';
+		$html .= '</label>';
 		$html .= '</div>';
 
 		$html .= '<div id="questions-add-participiants-content-allmembers" class="questions-add-participiants-content-allmembers questions-add-participiants-content">';

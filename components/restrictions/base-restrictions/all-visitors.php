@@ -43,9 +43,7 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 
 		$this->option_name = __( 'All Visitors of site', 'wcsc-locale' );
 
-		add_action( 'questions_save_form', array(
-			$this,
-			'save' ), 10, 1 );
+		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
 	}
 
 	/**
@@ -57,7 +55,7 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_attr( 'Visitor filters', 'questions-locale' ) . '</h3>';
+		$html = '<h3>' . esc_attr( 'Restrict Visitors', 'questions-locale' ) . '</h3>';
 
 		/**
 		 * Check IP
@@ -66,8 +64,8 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 		$checked = 'yes' == $restrictions_check_ip ? ' checked' : '';
 
 		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
-		$html .= '<input type="checkbox" name="questions_restrictions_check_ip" value="yes" ' . $checked . '/>';
-		$html .= '<label for="questions_restrictions_check_ip">' . esc_attr( 'Check IP if user already has filled out form.', 'questions-locale' ) . '</label>';
+			$html .= '<input type="checkbox" name="questions_restrictions_check_ip" value="yes" ' . $checked . '/>';
+			$html .= '<label for="questions_restrictions_check_ip">' . esc_attr( 'Prevent multiple entries from same IP', 'questions-locale' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
@@ -129,8 +127,6 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 	 */
 	public static function save( $form_id )
 	{
-		global $wpdb, $questions_global;
-
 		/**
 		 * Saving restriction options
 		 */

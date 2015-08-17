@@ -1,6 +1,6 @@
 <?php
 /**
- * Question Form Builder Restrictions extension
+ * Question Form Builder Notifications extension
  *
  * This class adds question post type functions.
  *
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormBuilder_RestrictionsExtension
+class Questions_FormBuilder_NotificationsExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -63,9 +63,9 @@ class Questions_FormBuilder_RestrictionsExtension
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
-				'form-restrictions',
-				esc_attr__( 'Restrictions', 'questions-locale' ),
-				array( __CLASS__, 'meta_box_restrictions' ),
+				'form-notifications',
+				esc_attr__( 'Notifications', 'questions-locale' ),
+				array( __CLASS__, 'meta_box_notifications' ),
 				'questions',
 				'normal',
 				'high' );
@@ -77,54 +77,9 @@ class Questions_FormBuilder_RestrictionsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_restrictions()
+	public static function meta_box_notifications()
 	{
-		global $wpdb, $post, $questions_global;
-
-		$form_id = $post->ID;
-		$restrictions = $questions_global->restrictions;
-
-		if( !is_array( $restrictions ) || count( $restrictions ) == 0 ){
-			return;
-		}
-
-		/**
-		 * Select field for Restriction
-		 */
-		$restrictions_option = get_post_meta( $form_id, 'restrictions_option', TRUE );
-
-		if( '' == $restrictions_option ): // If there was selected nothing before
-			$restrictions_option = 'allvisitors';
-		endif;
-
-		$html = '<div id="questions-restrictions-options">';
-		$html .= '<label for"questions_restrictions_option">' . esc_attr( 'Who has access to this form?', 'questions-locale' ) . '';
-		$html .= '<select name="questions_restrictions_option" id="questions-restrictions-option">';
-		foreach( $restrictions AS $slug => $restriction ){
-			if( !$restriction->has_option() ){
-				continue;
-			}
-			$selected = '';
-			if( $slug == $restrictions_option ){
-				$selected = ' selected="selected"';
-			}
-			$html .= '<option value="' . $slug . '"' . $selected . '>' . $restriction->option_name . '</option>';
-		}
-		$html .= '</select></label>';
-		$html .= '</div>';
-
-		/**
-		 * Option content
-		 */
-		foreach( $restrictions AS $slug => $restriction ){
-			$option_content = $restriction->option_content();
-			if( !$restriction->has_option() || !$option_content ){
-				continue;
-			}
-			$html .= '<div id="questions-restrictions-content-' . $restriction->slug . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->slug . '">' . $option_content . '</div>';
-		}
-
-		echo $html;
+		// echo $html;
 	}
 
 	/**
@@ -150,8 +105,8 @@ class Questions_FormBuilder_RestrictionsExtension
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'questions-notifications-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/notifications/includes/css/form-builder-extension.css' );
 	}
 }
 
-Questions_FormBuilder_RestrictionsExtension::init();
+Questions_FormBuilder_NotificationsExtension::init();

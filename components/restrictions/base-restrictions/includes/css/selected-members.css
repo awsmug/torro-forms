@@ -4,7 +4,6 @@
 .questions-participiants-options-content h3,
 .questions-participiants-options-content h4,
 .questions-participiants-options-content h5,
-#questions-restrictions-options,
 #questions-restrictions-content-selectedmembers,
 #questions-add-participiants-options{
     margin: 0 0 10px 0;
@@ -21,6 +20,15 @@
 
 .questions-function-element .button{
     width: 100%;
+}
+/**
+ * Adding participiants bar
+ */
+.questions-add-participiants-content{
+    background-color: #f7f7f7;
+    border: 1px solid #e5e5e5;
+    margin: 0 -11px;
+    padding: 10px;
 }
 /**
  * Participiants List
