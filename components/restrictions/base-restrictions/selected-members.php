@@ -263,7 +263,6 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction{
      */
     public function is_participiant( $user_id = NULL )
     {
-
         global $wpdb, $current_user, $questions_global, $questions_form_id;
 
         $is_participiant = FALSE;
