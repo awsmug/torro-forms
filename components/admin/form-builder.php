@@ -45,19 +45,28 @@ class Questions_FormBuilder
 			return NULL;
 		}
 
-		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ) );
-		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 10 );
+		add_action( 'edit_form_after_title', array( __CLASS__,
+		                                            'droppable_area' ) );
+		add_action( 'add_meta_boxes', array( __CLASS__,
+		                                     'meta_boxes' ), 10 );
 
-		add_action( 'save_post', array( __CLASS__, 'save_form' ) );
-		add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
+		add_action( 'save_post', array( __CLASS__,
+		                                'save_form' ) );
+		add_action( 'delete_post', array( __CLASS__,
+		                                  'delete_form' ) );
 
-		add_action( 'wp_ajax_questions_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
-		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
+		add_action( 'wp_ajax_questions_duplicate_form', array( __CLASS__,
+		                                                       'ajax_duplicate_form' ) );
+		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__,
+		                                                         'ajax_delete_responses' ) );
 
-		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
+		add_action( 'admin_notices', array( __CLASS__,
+		                                    'jquery_messages_area' ) );
 
-		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+		add_action( 'admin_print_styles', array( __CLASS__,
+		                                         'register_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__,
+		                                            'enqueue_scripts' ) );
 	}
 
 	/**
@@ -110,17 +119,13 @@ class Questions_FormBuilder
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box( 'form-options', esc_attr__( 'Options', 'questions-locale' ), array( __CLASS__,
-			                                                                                  'meta_box_form_options'
-			), 'questions', 'side' );
+			                                                                                  'meta_box_form_options' ), 'questions', 'side' );
 			add_meta_box( 'form-functions', esc_attr__( 'Form Functions', 'questions-locale' ), array( __CLASS__,
-			                                                                                             'meta_box_form_functions'
-			), 'questions', 'side' );
+			                                                                                           'meta_box_form_functions' ), 'questions', 'side' );
 			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'questions-locale' ), array( __CLASS__,
-			                                                                                    'meta_box_form_elements'
-			), 'questions', 'side', 'high' );
+			                                                                                    'meta_box_form_elements' ), 'questions', 'side', 'high' );
 			add_meta_box( 'form-results', esc_attr__( 'Results', 'questions-locale' ), array( __CLASS__,
-			                                                                                  'meta_box_form_results'
-			), 'questions', 'normal', 'low' );
+			                                                                                  'meta_box_form_results' ), 'questions', 'normal', 'low' );
 		endif;
 	}
 
@@ -317,16 +322,16 @@ class Questions_FormBuilder
 			// Saving question
 			if( '' != $question_id ):
 				// Updating if question already exists
-				$wpdb->update( $questions_global->tables->questions, array( 'question' => $question, 'sort' => $sort,
-				                                                            'type'     => $type
-				), array( 'id' => $question_id ) );
+				$wpdb->update( $questions_global->tables->questions, array( 'question' => $question,
+				                                                            'sort'     => $sort,
+				                                                            'type'     => $type ), array( 'id' => $question_id ) );
 			else:
 
 				// Adding new question
 				$wpdb->insert( $questions_global->tables->questions, array( 'questions_id' => $form_id,
 				                                                            'question'     => $question,
-				                                                            'sort'         => $sort, 'type' => $type
-				) );
+				                                                            'sort'         => $sort,
+				                                                            'type'         => $type ) );
 
 				$question_id = $wpdb->insert_id;
 			endif;
@@ -350,14 +355,12 @@ class Questions_FormBuilder
 					if( '' != $answer_id ):
 						$wpdb->update( $questions_global->tables->answers, array( 'answer'  => $answer_text,
 						                                                          'section' => $answer_section,
-						                                                          'sort'    => $answer_sort
-						), array( 'id' => $answer_id ) );
+						                                                          'sort'    => $answer_sort ), array( 'id' => $answer_id ) );
 					else:
 						$wpdb->insert( $questions_global->tables->answers, array( 'question_id' => $question_id,
 						                                                          'answer'      => $answer_text,
 						                                                          'section'     => $answer_section,
-						                                                          'sort'        => $answer_sort
-						) );
+						                                                          'sort'        => $answer_sort ) );
 						$answer_id = $wpdb->insert_id;
 					endif;
 
@@ -375,13 +378,11 @@ class Questions_FormBuilder
 
 					if( $count > 0 ):
 						$wpdb->update( $questions_global->tables->settings, array( 'value' => qu_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $question_id,
-						                                                                                                                           'name'        => $name
-						) );
+						                                                                                                                           'name'        => $name ) );
 					else:
 						$wpdb->insert( $questions_global->tables->settings, array( 'name'        => $name,
 						                                                           'question_id' => $question_id,
-						                                                           'value'       => qu_prepare_post_data( $settings[ $name ] )
-						) );
+						                                                           'value'       => qu_prepare_post_data( $settings[ $name ] ) ) );
 
 					endif;
 				endforeach;
@@ -392,13 +393,15 @@ class Questions_FormBuilder
 		do_action( 'questions_save_form', $form_id );
 
 		// Preventing duplicate saving
-		remove_action( 'save_post', array( __CLASS__, 'save_form' ), 50 );
+		remove_action( 'save_post', array( __CLASS__,
+		                                   'save_form' ), 50 );
 	}
 
 	/**
 	 * Delete form
 	 *
 	 * @param int $form_id
+	 *
 	 * @since 1.0.0
 	 */
 	public static function delete_form( $form_id )
@@ -409,6 +412,7 @@ class Questions_FormBuilder
 
 	/**
 	 * Dublicating form AJAX
+	 *
 	 * @since 1.0.0
 	 */
 	public static function ajax_duplicate_form()
@@ -426,9 +430,9 @@ class Questions_FormBuilder
 
 		$post = get_post( $new_form_id );
 
-		$response = array( 'survey_id' => $new_form_id, 'post_title' => $post->post_title,
-		                   'admin_url' => site_url( '/wp-admin/post.php?post=' . $new_form_id . '&action=edit' )
-		);
+		$response = array( 'survey_id'  => $new_form_id,
+		                   'post_title' => $post->post_title,
+		                   'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_form_id . '&action=edit' ) );
 
 		echo json_encode( $response );
 
@@ -453,7 +457,8 @@ class Questions_FormBuilder
 		$form = new Questions_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
-		$response = array( 'form_id' => $form_id, 'deleted' => TRUE );
+		$response = array( 'form_id' => $form_id,
+		                   'deleted' => TRUE );
 
 		echo json_encode( $response );
 
@@ -529,8 +534,7 @@ class Questions_FormBuilder
 		                      'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
 		                      'of'                           => esc_attr__( 'of', 'questions-locale' ),
 		                      'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'questions-locale' ),
-		                      'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'questions-locale' )
-		);
+		                      'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'questions-locale' ) );
 
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );

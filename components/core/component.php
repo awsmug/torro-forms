@@ -47,11 +47,9 @@ class Questions_Core extends Questions_Component
 		$this->slug = 'survey';
 
 		add_action( 'init', array( $this,
-		                           'custom_post_types'
-		), 11 );
+		                           'custom_post_types' ), 11 );
 		add_filter( 'body_class', array( $this,
-		                                 'add_body_class'
-		) );
+		                                 'add_body_class' ) );
 
 		parent::__construct();
 	} // end constructor
@@ -78,12 +76,10 @@ class Questions_Core extends Questions_Component
 		                                                      'update_item'       => __( 'Update Category', 'questions-locale' ),
 		                                                      'add_new_item'      => __( 'Add New Category', 'questions-locale' ),
 		                                                      'new_item_name'     => __( 'New Category', 'questions-locale' ),
-		                                                      'menu_name'         => __( 'Categories', 'questions-locale' ),
-		                        ),
+		                                                      'menu_name'         => __( 'Categories', 'questions-locale' ), ),
 		                        'show_ui'           => TRUE,
 		                        'query_var'         => TRUE,
-		                        'rewrite'           => TRUE,
-		);
+		                        'rewrite'           => TRUE, );
 
 		register_taxonomy( 'questions-categories', array( 'questions' ), $args_taxonomy );
 
@@ -99,16 +95,14 @@ class Questions_Core extends Questions_Component
 		                                                       'view_item'          => __( 'View Form', 'questions-locale' ),
 		                                                       'search_items'       => __( 'Search Forms', 'questions-locale' ),
 		                                                       'not_found'          => __( 'No Form found', 'questions-locale' ),
-		                                                       'not_found_in_trash' => __( 'No Form found in trash', 'questions-locale' )
-								 ),
+		                                                       'not_found_in_trash' => __( 'No Form found in trash', 'questions-locale' ) ),
 		                         'public'            => TRUE,
 		                         'has_archive'       => TRUE,
 		                         'supports'          => array( 'title' ),
 		                         'show_in_menu'      => 'QuestionsAdmin',
 		                         'show_in_nav_menus' => FALSE,
 		                         'rewrite'           => array( 'slug'       => $this->slug,
-		                                                       'with_front' => TRUE
-		                         )
+		                                                       'with_front' => TRUE )
 
 		);
 
@@ -151,7 +145,6 @@ class Questions_Core extends Questions_Component
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form-loader.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form-process.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/form-restrictions.php' );
 
 		include( QUESTIONS_COMPONENTFOLDER . '/core/responses.php' );
 

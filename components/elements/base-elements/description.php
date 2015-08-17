@@ -9,37 +9,39 @@
  */
 
 // No direct access is allowed
-if ( ! defined( 'ABSPATH' ) ) {
+if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormElement_Description extends Questions_FormElement {
+class Questions_FormElement_Description extends Questions_FormElement
+{
 
-	public function __construct( $id = NULL ) {
+	public function __construct( $id = NULL )
+	{
 
-		$this->slug        = 'Description';
-		$this->title       = esc_attr__( 'Description', 'questions-locale' );
+		$this->slug = 'Description';
+		$this->title = esc_attr__( 'Description', 'questions-locale' );
 		$this->description = esc_attr__( 'Adds a text to the form.', 'questions-locale' );
-		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
+		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
 
 		$this->is_question = FALSE;
 
 		parent::__construct( $id );
 	}
 
-	public function input_html() {
+	public function input_html()
+	{
 	}
 
-	public function settings_fields() {
+	public function settings_fields()
+	{
 
 		$this->settings_fields = array(
 			'description' => array(
 				'title'       => esc_attr__( 'Text to show', 'questions-locale' ),
 				'type'        => 'textarea',
 				'description' => esc_attr__( 'The text which will be shown in the form.', 'questions-locale' ),
-				'default'     => ''
-			)
-		);
+				'default'     => '' ) );
 	}
 }
 

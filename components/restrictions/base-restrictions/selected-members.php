@@ -43,17 +43,27 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 
 		$this->option_name = __( 'Selected Members of site', 'questions-locale' );
 
-		add_action( 'questions_functions', array( $this, 'invite_buttons' ) );
+		add_action( 'questions_functions', array(
+			$this,
+			'invite_buttons' ) );
 
-		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
+		add_action( 'questions_save_form', array(
+			$this,
+			'save' ), 10, 1 );
 
-		add_action( 'wp_ajax_questions_add_participiants_allmembers', array( $this,
-		                                                                     'ajax_add_participiants_allmembers'
-		) );
-		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
+		add_action( 'wp_ajax_questions_add_participiants_allmembers', array(
+			$this,
+			'ajax_add_participiants_allmembers' ) );
+		add_action( 'wp_ajax_questions_invite_participiants', array(
+			$this,
+			'ajax_invite_participiants' ) );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
-		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
+		add_action( 'admin_enqueue_scripts', array(
+			$this,
+			'enqueue_scripts' ), 15 );
+		add_action( 'admin_print_styles', array(
+			$this,
+			'register_admin_styles' ) );
 	}
 
 	/**
@@ -70,8 +80,7 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 		 */
 		$html = '<div id="questions-add-participiants">';
 
-		$options = apply_filters( 'questions_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'questions-locale' ),
-		                                                               ) );
+		$options = apply_filters( 'questions_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'questions-locale' ), ) );
 
 		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', TRUE );
 
@@ -108,8 +117,9 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 		$users = array();
 
 		if( is_array( $user_ids ) && count( $user_ids ) > 0 ){
-			$users = get_users( array( 'include' => $user_ids, 'orderby' => 'ID'
-			                    ) );
+			$users = get_users( array(
+				                    'include' => $user_ids,
+				                    'orderby' => 'ID' ) );
 		}
 		/**
 		 * Participiants Statistics
@@ -187,7 +197,6 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	 */
 	public static function invite_buttons()
 	{
-
 		global $post;
 
 		$questions_invitation_text_template = qu_get_mail_template_text( 'invitation' );
@@ -225,7 +234,6 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	 */
 	public function check()
 	{
-
 		if( !is_user_logged_in() ){
 			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'questions-locale' ) );
 
@@ -301,9 +309,9 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 
 		if( is_array( $questions_participiant_ids ) && count( $questions_participiant_ids ) > 0 ):
 			foreach( $questions_participiant_ids AS $user_id ):
-				$wpdb->insert( $questions_global->tables->participiants, array( 'survey_id' => $form_id,
-				                                                                'user_id'   => $user_id
-				                                                       ) );
+				$wpdb->insert( $questions_global->tables->participiants, array(
+					'survey_id' => $form_id,
+					'user_id'   => $user_id ) );
 			endforeach;
 		endif;
 	}
@@ -315,16 +323,16 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	 */
 	public static function ajax_add_participiants_allmembers()
 	{
-
-		$users = get_users( array( 'orderby' => 'ID'
-		                    ) );
+		$users = get_users( array( 'orderby' => 'ID' ) );
 
 		$return_array = array();
 
 		foreach( $users AS $user ):
-			$return_array[] = array( 'id'           => $user->ID, 'user_nicename' => $user->user_nicename,
-			                         'display_name' => $user->display_name, 'user_email' => $user->user_email,
-			);
+			$return_array[] = array(
+				'id'            => $user->ID,
+				'user_nicename' => $user->user_nicename,
+				'display_name'  => $user->display_name,
+				'user_email'    => $user->user_email, );
 		endforeach;
 
 		echo json_encode( $return_array );
@@ -339,11 +347,9 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	 */
 	public static function ajax_invite_participiants()
 	{
-
 		global $wpdb, $questions_global;
 
-		$return_array = array( 'sent' => FALSE
-		);
+		$return_array = array( 'sent' => FALSE );
 
 		$form_id = $_POST[ 'form_id' ];
 		$subject_template = $_POST[ 'subject_template' ];
@@ -368,8 +374,9 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 		$post = get_post( $form_id );
 
 		if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
-			$users = get_users( array( 'include' => $user_ids, 'orderby' => 'ID',
-			                    ) );
+			$users = get_users( array(
+				                    'include' => $user_ids,
+				                    'orderby' => 'ID', ) );
 
 			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $text_template );
 			$content = str_replace( '%survey_title%', $post->post_title, $content );
@@ -398,8 +405,7 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 				qu_mail( $user_email, $subject_user, stripslashes( $content_user ) );
 			endforeach;
 
-			$return_array = array( 'sent' => TRUE
-			);
+			$return_array = array( 'sent' => TRUE );
 		endif;
 
 		echo json_encode( $return_array );
@@ -412,16 +418,16 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	 */
 	public function enqueue_scripts()
 	{
-		$translation = array( 'delete'                              => esc_attr__( 'Delete', 'questions-locale' ),
-		                      'yes'                                 => esc_attr__( 'Yes', 'questions-locale' ),
-		                      'no'                                  => esc_attr__( 'No', 'questions-locale' ),
-		                      'just_added'                          => esc_attr__( 'just added', 'questions-locale' ),
-		                      'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'questions-locale' ),
-		                      'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'questions-locale' ),
-		                      'reinvitations_sent_succes  sfully'   => esc_attr__( 'Renvitations sent successfully!', 'questions-locale' ),
-		                      'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'questions-locale' ),
-		                      'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' ),
-		);
+		$translation = array(
+			'delete'                              => esc_attr__( 'Delete', 'questions-locale' ),
+			'yes'                                 => esc_attr__( 'Yes', 'questions-locale' ),
+			'no'                                  => esc_attr__( 'No', 'questions-locale' ),
+			'just_added'                          => esc_attr__( 'just added', 'questions-locale' ),
+			'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'questions-locale' ),
+			'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'questions-locale' ),
+			'reinvitations_sent_succes  sfully'   => esc_attr__( 'Renvitations sent successfully!', 'questions-locale' ),
+			'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'questions-locale' ),
+			'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' ), );
 
 		wp_enqueue_script( 'questions-selected-members', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/selected-members.js' );
 		wp_localize_script( 'questions-selected-members', 'translation_sm', $translation );
