@@ -34,8 +34,11 @@
 #form-elements .formelement{
     height:45px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     cursor: move;
+}
+#form-elements .formelement:first-child {
+    margin-top: 15px;
 }
 
 #questions-content input[type=text].questions-question {

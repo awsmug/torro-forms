@@ -155,7 +155,7 @@ class QuestionsChartsShortCodes
 	public static function show_form_result_shortcode( $form_id )
 	{
 		$html = '<div class="questions-options shortcode">';
-		$html .= '<label for="form_results_shortcode">' . __( 'Results Shortcode:', 'questions-locale' ) . '</label><br />';
+		$html .= '<label for="form_results_shortcode">' . __( 'Charts Shortcode:', 'questions-locale' ) . '</label><br />';
 		$html .= '<input type="text" id="form_results_shortcode" value="[form_results id=' . $form_id . ']" />';
 		$html .= '</div>';
 
@@ -172,8 +172,8 @@ class QuestionsChartsShortCodes
 	public static function show_element_result_shortcode( $object )
 	{
 		if( $object->id != '' && $object->is_analyzable ):
-			$small = '<small>' . __( '(CTRL+C and paste into post to embed element results in post)', 'questions-locale' ) . '</small>';
-			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Results Shortcode:', 'questions-locale' ) . '</label><input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
+			$small = '<small>' . __( '(CTRL+C and paste into a post to embed element result charts in a post)', 'questions-locale' ) . '</small>';
+			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Charts Shortcode:', 'questions-locale' ) . '</label><input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
 		endif;
 	}
 }
