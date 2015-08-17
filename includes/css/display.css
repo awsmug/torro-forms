@@ -48,7 +48,9 @@
     padding: 5px;
 }
 #questions ul.questions-error-messages{
-	margin: 0 0 0 20px;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
 }
 /**
  * 	?
