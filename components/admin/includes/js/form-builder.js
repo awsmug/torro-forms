@@ -23,8 +23,8 @@
             var input_vars = parseInt( count_form_elements( '#post' ) );
             var alert_zone = 50; // The alert will start the alert X before max_input_vars have been reached 
             
-            var msg_near_limit = '<strong>' + translation_admin.max_fields_near_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
-            var msg_over_limit = '<strong>' + translation_admin.max_fields_over_limit + '</strong> (' + input_vars + ' ' + translation_admin.of + ' ' + max_input_vars + ')<br /> ' + translation_admin.max_fields_todo;
+            var msg_near_limit = '<strong>' + translation_fb.max_fields_near_limit + '</strong> (' + input_vars + ' ' + translation_fb.of + ' ' + max_input_vars + ')<br /> ' + translation_fb.max_fields_todo;
+            var msg_over_limit = '<strong>' + translation_fb.max_fields_over_limit + '</strong> (' + input_vars + ' ' + translation_fb.of + ' ' + max_input_vars + ')<br /> ' + translation_fb.max_fields_todo;
             
             // console.log( 'Max input vars: ' + max_input_vars );
             // console.log( 'Input vars: ' + input_vars );
@@ -118,7 +118,7 @@
                 'closeOnEscape' : true,
                 'minHeight'     : 80,
                 'buttons'       : [{
-                        text: translation_admin.yes,
+                        text: translation_fb.yes,
                         click: function() {
                                 formelement_id = formelement_id.split( '_' );
                                 formelement_id = formelement_id[2];
@@ -137,7 +137,7 @@
                             }
                         },
                         {
-                        text: translation_admin.no,
+                        text: translation_fb.no,
                         click: function() {
                             
                             $( this ).dialog( "close" );
@@ -197,7 +197,7 @@
 		        'closeOnEscape' : true,
 		        'minHeight'		: 80,
 		        'buttons'       : [{
-						text: translation_admin.yes,
+						text: translation_fb.yes,
 						click: function() {
 								answer_id = answer_id.split( '_' );
 								answer_id = answer_id[1];
@@ -216,7 +216,7 @@
 							}
 						},
 						{
-						text: translation_admin.no,
+						text: translation_fb.no,
 						click: function() {
 							
 							$( this ).dialog( "close" );
@@ -274,7 +274,7 @@
                 var section_key = $( clicked_container ).parent().find( 'input[name="section_key"]' ).val();
                 answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_XXnrXX][section]" value="' + section_key + '" />';
             }
-            answer_content = answer_content + ' <input type="button" value="' + translation_admin.delete + '" class="delete_answer button answer_action"></div>';
+            answer_content = answer_content + ' <input type="button" value="' + translation_fb.delete + '" class="delete_answer button answer_action"></div>';
             answer_content = answer_content.replace( /XXnrXX/g, nr );
             
             // Getting order number for new answer
@@ -315,7 +315,7 @@
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
 
-					var response_text = translation_admin.duplicate_form_successfully + '<br /><a href="' + response.admin_url + '">' + translation_admin.edit_survey + '</a>';
+					var response_text = translation_fb.duplicate_form_successfully + '<br /><a href="' + response.admin_url + '">' + translation_fb.edit_survey + '</a>';
 					button.after( '<p class="form-duplicated">' + response_text + '</p>' );
 					button.removeClass( 'button-loading' );
 					
@@ -344,7 +344,7 @@
                     'closeOnEscape' : true,
                     'minHeight'		: 80,
                     'buttons'       : [{
-                        text: translation_admin.yes,
+                        text: translation_fb.yes,
                         click: function() {
 
                             $( this ).dialog('close');
@@ -358,7 +358,7 @@
                             $.post( ajaxurl, data, function( response ) {
                                 response = jQuery.parseJSON( response );
 
-                                var response_text = translation_admin.deleted_results_successfully;
+                                var response_text = translation_fb.deleted_results_successfully;
                                 button.after( '<p class="form-deleted-responses">' + response_text + '</p>' );
                                 button.removeClass( 'button-loading' );
 
@@ -367,7 +367,7 @@
                         }
                     },
                         {
-                            text: translation_admin.no,
+                            text: translation_fb.no,
                             click: function() {
 
                                 $( this ).dialog( "close" );
