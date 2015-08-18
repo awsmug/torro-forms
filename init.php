@@ -170,7 +170,7 @@ class Questions_Init
 			user_id int(11) NOT NULL,
 			timestamp int(11) NOT NULL,
 			remote_addr char(15) NOT NULL,
-			cookie_key char(30) NOT NULL,
+			cookie_key char(50) NOT NULL,
 			UNIQUE KEY id (id)
 			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 
@@ -376,6 +376,5 @@ class Questions_Init
 		endif;
 	}
 
-} // end class
-
+}
 Questions_Init::init();

@@ -45,28 +45,19 @@ class Questions_FormBuilder
 			return NULL;
 		}
 
-		add_action( 'edit_form_after_title', array( __CLASS__,
-		                                            'droppable_area' ) );
-		add_action( 'add_meta_boxes', array( __CLASS__,
-		                                     'meta_boxes' ), 10 );
+		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ) );
+		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 10 );
 
-		add_action( 'save_post', array( __CLASS__,
-		                                'save_form' ) );
-		add_action( 'delete_post', array( __CLASS__,
-		                                  'delete_form' ) );
+		add_action( 'save_post', array( __CLASS__, 'save_form' ) );
+		add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
 
-		add_action( 'wp_ajax_questions_duplicate_form', array( __CLASS__,
-		                                                       'ajax_duplicate_form' ) );
-		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__,
-		                                                         'ajax_delete_responses' ) );
+		add_action( 'wp_ajax_questions_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
+		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
-		add_action( 'admin_notices', array( __CLASS__,
-		                                    'jquery_messages_area' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
 
-		add_action( 'admin_print_styles', array( __CLASS__,
-		                                         'register_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__,
-		                                            'enqueue_scripts' ) );
+		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -393,8 +384,7 @@ class Questions_FormBuilder
 		do_action( 'questions_save_form', $form_id );
 
 		// Preventing duplicate saving
-		remove_action( 'save_post', array( __CLASS__,
-		                                   'save_form' ), 50 );
+		remove_action( 'save_post', array( __CLASS__, 'save_form' ), 50 );
 	}
 
 	/**
@@ -457,8 +447,7 @@ class Questions_FormBuilder
 		$form = new Questions_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
-		$response = array( 'form_id' => $form_id,
-		                   'deleted' => TRUE );
+		$response = array( 'form_id' => $form_id, 'deleted' => TRUE );
 
 		echo json_encode( $response );
 

@@ -44,28 +44,26 @@ class Questions_FormProcess
 	var $form;
 
 	/**
-	 * Is form processing fineshed
+	 * Action URL
 	 */
-	var $finished = FALSE;
-
-	var $finished_id;
-
-	var $response_id;
+	var $action_url;
 
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $form_id )
+	public function __construct( $form_id, $action_url = NULL )
 	{
-		if( is_admin() ){
-			return NULL;
-		}
-
 		$this->form_id = $form_id;
 		$this->form = new Questions_Form( $this->form_id );
-	} // end constructor
+
+		if( NULL == $action_url ){
+			$this->action_url = $_SERVER[ 'REQUEST_URI' ];
+		}else{
+			$this->action_url = $action_url;
+		}
+	}
 
 	/**
 	 * Survey form
@@ -73,7 +71,6 @@ class Questions_FormProcess
 	 * Creating form HTML
 	 *
 	 * @param int $form_id
-	 *
 	 * @return string $html
 	 * @since 1.0.0
 	 */
@@ -100,12 +97,12 @@ class Questions_FormProcess
 		// Getting actual step for form
 		$actual_step = $this->get_actual_step();
 
+		$html .= '<form name="questions" id="questions" action="' . $this->action_url . '" method="POST">';
+		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'questions-' . $this->form_id ) . '" />';
+
 		ob_start();
 		do_action( 'questions_form_start' );
 		$html .= ob_get_clean();
-
-		$html .= '<form name="questions" id="questions" action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="POST">';
-		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'questions-' . $this->form_id ) . '" />';
 
 		$step_count = $this->form->get_step_count();
 
@@ -133,15 +130,15 @@ class Questions_FormProcess
 
 		$html .= $this->get_navigation( $actual_step, $next_step );
 
+		ob_start();
+		do_action( 'questions_form_end' );
+		$html .= ob_get_clean();
+
 		$html .= '<input type="hidden" name="questions_next_step" value="' . $next_step . '" />';
 		$html .= '<input type="hidden" name="questions_actual_step" value="' . $actual_step . '" />';
 		$html .= '<input type="hidden" name="questions_id" value="' . $this->form_id . '" />';
 
 		$html .= '</form>';
-
-		ob_start();
-		do_action( 'questions_form_end' );
-		$html .= ob_get_clean();
 
 		return $html;
 	}
@@ -194,9 +191,10 @@ class Questions_FormProcess
 		if( (int) $_POST[ 'questions_actual_step' ] == (int) $_POST[ 'questions_next_step' ] && 0 == count( $questions_response_errors ) && !isset( $_POST[ 'questions_submission_back' ] ) ){
 
 			$questions_form = new Questions_Form( $questions_form_id );
+			$response_id = $questions_form->save_response( $_SESSION[ 'questions_response' ][ $questions_form_id ] );
 
-			if( $questions_form->save_response( $_SESSION[ 'questions_response' ][ $questions_form_id ] ) ){
-				do_action( 'questions_save_response' );
+			if( FALSE != $response_id ){
+				do_action( 'questions_save_response', $response_id );
 
 				unset( $_SESSION[ 'questions_response' ][ $questions_form_id ] );
 				$_SESSION[ 'questions_response' ][ $questions_form_id ][ 'finished' ] = TRUE;

@@ -50,12 +50,10 @@ class Questions_FormLoader
 	 */
 	public static function init( $filter_the_content = FALSE )
 	{
-		add_action( 'parse_request', array( __CLASS__,
-		                                    'process_response' ), 100, 1 );
+		add_action( 'parse_request', array( __CLASS__, 'process_response' ), 100, 1 );
 
 		if( TRUE == $filter_the_content ){
-			add_action( 'the_post', array( __CLASS__,
-			                               'add_post_filter' ) ); // Just hooking in at the beginning of a loop
+			add_action( 'the_post', array( __CLASS__, 'add_post_filter' ) ); // Just hooking in at the beginning of a loop
 		}
 	} // end constructor
 
@@ -81,6 +79,8 @@ class Questions_FormLoader
 		if( !qu_form_exists( $questions_form_id ) ){
 			return;
 		}
+
+		do_action( 'questions_form_process' );
 
 		$questions_process = new Questions_FormProcess( $questions_form_id );
 		$questions_process->process_response();
@@ -155,7 +155,6 @@ class Questions_FormLoader
 	 */
 	public static function text_thankyou_for_participation( $form_id )
 	{
-
 		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
 		if( '' == $show_results ){
 			$show_results = 'no';

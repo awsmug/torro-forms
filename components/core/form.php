@@ -216,12 +216,9 @@ class Questions_Form extends Questions_Post{
             array(
                 'questions_id' => $this->id,
                 'user_id'      => $user_id,
-                'timestamp'    => time(),
-                'remote_addr'  => $_SERVER[ 'REMOTE_ADDR' ] // @todo - Saving of IP have to be optional
+                'timestamp'    => time()
             )
         );
-
-        do_action( 'questions_save_response', $this->id, $response );
 
         $response_id       = $wpdb->insert_id;
         $this->response_id = $response_id;
@@ -256,7 +253,7 @@ class Questions_Form extends Questions_Post{
             endif;
         endforeach;
 
-        return TRUE;
+        return $response_id;
     }
 
     /**
