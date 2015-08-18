@@ -870,7 +870,6 @@ abstract class Questions_FormElement
 	 */
 	private function get_response()
 	{
-
 		global $questions_form_id;
 
 		$this->response = FALSE;

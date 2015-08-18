@@ -27,7 +27,6 @@ class Questions_Init
 	 */
 	public static function init()
 	{
-
 		global $qu_plugin_errors;
 
 		$qu_plugin_errors = array();
@@ -66,7 +65,6 @@ class Questions_Init
 	 */
 	public static function check_requirements()
 	{
-
 		global $qu_plugin_errors;
 	}
 
@@ -83,7 +81,7 @@ class Questions_Init
 		global $wpdb;
 
 		self::install_tables();
-	} // end activate
+	}
 
 	/**
 	 * Is plugin already installed?
@@ -223,7 +221,7 @@ class Questions_Init
 		$sql = "ALTER TABLE $table_settings CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
 		$wpdb->query( $sql );
 
-		update_option( 'questions_db_version', '1.1.0' );
+		update_option( 'questions_db_version', '1.1.1' );
 	}
 
 	/**
@@ -234,9 +232,8 @@ class Questions_Init
 	 */
 	public static function deactivate( $network_wide )
 	{
-
 		delete_option( 'questions_is_installed' );
-	} // end deactivate
+	}
 
 	/**
 	 * Fired when the plugin is uninstalled.
@@ -248,7 +245,7 @@ class Questions_Init
 	 */
 	public static function uninstall( $network_wide )
 	{
-	} // end uninstall
+	}
 
 	/**
 	 * Loads the plugin text domain for translation.
@@ -257,9 +254,8 @@ class Questions_Init
 	 */
 	public static function load_textdomain()
 	{
-
 		load_plugin_textdomain( 'questions-locale', FALSE, QUESTIONS_RELATIVE_FOLDER . '/languages' );
-	} // end plugin_textdomain
+	}
 
 	/**
 	 * Registers and enqueues plugin-specific styles.
@@ -268,9 +264,8 @@ class Questions_Init
 	 */
 	public static function register_plugin_styles()
 	{
-
 		wp_enqueue_style( 'questions-plugin-styles', QUESTIONS_URLPATH . '/includes/css/display.css' );
-	} // end register_plugin_styles
+	}
 
 	/**
 	 * Registers and enqueues plugin-specific scripts.
@@ -279,7 +274,7 @@ class Questions_Init
 	 */
 	public static function register_plugin_scripts()
 	{
-	} // end register_plugin_scripts
+	}
 
 	/**
 	 * Defining Constants for Use in Plugin
@@ -288,7 +283,6 @@ class Questions_Init
 	 */
 	public static function constants()
 	{
-
 		define( 'QUESTIONS_FOLDER', self::get_folder() );
 		define( 'QUESTIONS_RELATIVE_FOLDER', substr( QUESTIONS_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( QUESTIONS_FOLDER ) ) );
 		define( 'QUESTIONS_URLPATH', self::get_url_path() );
@@ -302,7 +296,6 @@ class Questions_Init
 	 */
 	public static function includes()
 	{
-
 		// Loading functions
 		include( QUESTIONS_FOLDER . '/functions.php' );
 	}
@@ -314,7 +307,6 @@ class Questions_Init
 	 */
 	public static function load_components()
 	{
-
 		// Loading base functions
 		include( QUESTIONS_COMPONENTFOLDER . '/class-component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/component.php' );

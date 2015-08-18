@@ -50,7 +50,9 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 		add_action( 'questions_save_response', array( $this, 'set_cookie' ), 10 );
 		add_action( 'questions_save_response', array( $this, 'save_ip' ), 10 );
 		add_action( 'questions_save_response', array( $this, 'save_fingerprint' ), 10 );
+
 		add_action( 'wp_ajax_questions_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
+		add_action( 'wp_ajax_nopriv_questions_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
 	}
 
 	/**
@@ -135,6 +137,18 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'questions_restrictions_check_fingerprint', TRUE );
 
 		if( 'yes' == $restrictions_check_fingerprint && $questions_skip_fingerrint_check != TRUE ){
+			$actual_step = 0;
+			if( isset( $_POST[ 'questions_actual_step' ] ))
+				$actual_step = $_POST[ 'questions_actual_step' ];
+
+			$next_step = 0;
+			if( isset( $_POST[ 'questions_next_step' ] ))
+				$next_step = $_POST[ 'questions_next_step' ];
+
+			$maybe_vars = '';
+
+			if( isset( $_POST[ 'questions_submission_back' ] ) )
+				$maybe_vars = 'questions_submission_back: \'yes\',';
 
 			$html = '<script language="JavaScript">
 					    (function ($) {
@@ -145,6 +159,9 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 								    var data = {
 										action: \'questions_check_fngrprnt\',
 										questions_form_id: ' . $questions_form_id . ',
+										questions_actual_step: ' . $actual_step . ',
+										questions_next_step: ' . $next_step . ',
+										' . $maybe_vars .'
 										action_url: \'' . $_SERVER[ 'REQUEST_URI' ] . '\',
 										fngrprnt: fngrprnt
 								    };

@@ -84,6 +84,10 @@ class Questions_FormProcess
 			return;
 		}
 
+		if( !isset( $_SESSION ) ){
+			session_start();
+		}
+
 		$html = '';
 
 		// Set global message on top of page
@@ -136,7 +140,7 @@ class Questions_FormProcess
 
 		$html .= '<input type="hidden" name="questions_next_step" value="' . $next_step . '" />';
 		$html .= '<input type="hidden" name="questions_actual_step" value="' . $actual_step . '" />';
-		$html .= '<input type="hidden" name="questions_id" value="' . $this->form_id . '" />';
+		$html .= '<input type="hidden" name="questions_form_id" value="' . $this->form_id . '" />';
 
 		$html .= '</form>';
 

@@ -69,11 +69,11 @@ class Questions_FormLoader
 		}
 
 		// If there is no nothing submitted and there is no session data > exit
-		if( !isset( $_POST[ 'questions_id' ] ) ){
+		if( !isset( $_POST[ 'questions_form_id' ] ) ){
 			return;
 		}
 
-		$questions_form_id = $_POST[ 'questions_id' ];
+		$questions_form_id = $_POST[ 'questions_form_id' ];
 
 		// If form doesn't exists > exit
 		if( !qu_form_exists( $questions_form_id ) ){
@@ -93,8 +93,7 @@ class Questions_FormLoader
 	 */
 	public static function add_post_filter()
 	{
-		add_filter( 'the_content', array( __CLASS__,
-		                                  'the_content' ) );
+		add_filter( 'the_content', array( __CLASS__, 'the_content' ) );
 	}
 
 	/**
@@ -107,7 +106,6 @@ class Questions_FormLoader
 	 */
 	public static function the_content( $content )
 	{
-
 		global $questions_process, $questions_form_id, $questions_response_errors;
 
 		$post = get_post( $questions_form_id );
@@ -119,8 +117,7 @@ class Questions_FormLoader
 
 		$html = self::get_form( $questions_form_id );
 
-		remove_filter( 'the_content', array( __CLASS__,
-		                                     'the_content' ) ); // only show once
+		remove_filter( 'the_content', array( __CLASS__, 'the_content' ) ); // only show once
 
 		return $html;
 	}
@@ -180,7 +177,6 @@ class Questions_FormLoader
 	 */
 	public static function show_results( $form_id )
 	{
-
 		$html = '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
 		$html .= do_shortcode( '[form_results id="' . $form_id . '"]' );
 
