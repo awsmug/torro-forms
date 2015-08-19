@@ -154,8 +154,8 @@ msgid "No"
 msgstr "Nein"
 
 #: components/admin/form-builder.php:445
-msgid "Dublicate Survey"
-msgstr "Umfrage dublizieren"
+msgid "Duplicate Survey"
+msgstr "Umfrage duplizieren"
 
 #: components/admin/form-builder.php:452
 msgid "Delete survey results"
