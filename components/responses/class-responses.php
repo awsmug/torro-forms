@@ -80,8 +80,7 @@ abstract class Questions_ResponseHandler
 	/**
 	 * Handling the response
 	 */
-	abstract protected function handle( $response_id, $response ){
-	}
+	abstract protected function handle( $response_id, $response );
 
 	/**
 	 * Function to register element in Questions
