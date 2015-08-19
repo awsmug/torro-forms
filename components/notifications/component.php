@@ -59,7 +59,7 @@ class Questions_Notificatons extends Questions_Component
 	public function includes()
 	{
 		// Loading form builder extension
-		include_once( QUESTIONS_COMPONENTFOLDER . '/notifications/form-builder-extension.php' );
+		// include_once( QUESTIONS_COMPONENTFOLDER . '/notifications/form-builder-extension.php' );
 	}
 
 	/**

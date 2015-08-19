@@ -35,6 +35,7 @@ class Questions
 	var $tables;
 	var $components = array();
 	var $element_types = array();
+	var $response_handlers = array();
 	var $restrictions = array();
 	var $chart_creators = array();
 
@@ -104,7 +105,22 @@ class Questions
 		return TRUE;
 	}
 
-	public function add_charts_creator( $slug, $object )
+	public function add_response_handler( $slug, $object )
+	{
+		if( '' == $slug ){
+			return FALSE;
+		}
+
+		if( !is_object( $object ) && 'Questions_ResponseHandler' != get_parent_class( $object ) ){
+			return FALSE;
+		}
+
+		$this->response_handlers[ $slug ] = $object;
+
+		return TRUE;
+	}
+
+	public function add_chartscreator( $slug, $object )
 	{
 		if( '' == $slug ){
 			return FALSE;

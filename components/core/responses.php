@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Response base class
+ * Results base class
  *
- * Class for handling responses from database
+ * Class for handling results from database
  *
  * @author  awesome.ug <contact@awesome.ug>
  * @package Questions

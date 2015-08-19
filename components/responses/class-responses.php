@@ -1,8 +1,8 @@
 <?php
 /**
- * Restriction abstraction class
+ * Responses abstraction class
  *
- * Motherclass for all Restrictions
+ * Motherclass for all Response handlers
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package Questions/Restrictions
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-abstract class Questions_Restriction
+abstract class Questions_ResponseHandler
 {
 	/**
 	 * Slug of restriction
@@ -68,18 +68,9 @@ abstract class Questions_Restriction
 	var $initialized = FALSE;
 
 	/**
-	 * Message
-	 *
-	 * @var array
-	 * @since 1.0.0
-	 */
-	var $messages = array();
-
-	/**
 	 * Constructor
 	 *
 	 * @param int $id ID of the element
-	 *
 	 * @since 1.0.0
 	 */
 	public function __construct()
@@ -87,63 +78,9 @@ abstract class Questions_Restriction
 	}
 
 	/**
-	 * Checks if the user can pass
+	 * Handling the response
 	 */
-	public function check()
-	{
-		return TRUE;
-	}
-
-	/**
-	 * Printing out messages
-	 */
-	public function messages()
-	{
-		if( count( $this->messages ) > 0 ){
-			$html = '';
-			foreach( $this->messages AS $message ){
-				$html .= '<div class="questions-message ' . $message[ 'type' ] . '">' . $message[ 'text' ] . '</div>';
-			}
-
-			return $html;
-		}
-
-		return FALSE;
-	}
-
-	/**
-	 * Adding messages
-	 *
-	 * @param $type
-	 * @param $text
-	 */
-	public function add_message( $type, $text )
-	{
-		$this->messages[] = array(
-			'type' => $type,
-			'text' => $text );
-	}
-
-	/**
-	 * Adds a Restriction option to the restrictions meta box
-	 *
-	 * @return bool
-	 */
-	public function has_option()
-	{
-		if( FALSE != $this->option_name ){
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	/**
-	 * Adds content to the option
-	 */
-	public function option_content()
-	{
-		return FALSE;
+	abstract protected function handle( $response_id, $response ){
 	}
 
 	/**
@@ -175,37 +112,36 @@ abstract class Questions_Restriction
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Questions Restriction.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is the Questions Responsehandler extension.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->slug, $questions_global->restrictions ) ){
+		if( array_key_exists( $this->slug, $questions_global->response_handlers ) ){
 			return FALSE;
 		}
 
-		if( !is_array( $questions_global->restrictions ) ){
-			$questions_global->restrictions = array();
+		if( !is_array( $questions_global->response_handlers ) ){
+			$questions_global->response_handlers = array();
 		}
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_restriction( $this->slug, $this );
+		return $questions_global->add_response_handler( $this->slug, $this );
 	}
 }
 
 /**
- * Register a new Restriction
+ * Register a new Response handler
  *
  * @param $element_type_class name of the element type class.
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_restriction( $restriction_class )
+function qu_register_response_handler( $responsehandler_class )
 {
 
-	if( !class_exists( $restriction_class ) ){
+	if( !class_exists( $responsehandler_class ) ){
 		return FALSE;
 	}
 
-	add_action( 'init', create_function( '', '$extension = new ' . $restriction_class . ';
-			add_action( "init", array( &$extension, "_register" ), 2 ); ' ), 1 );
+	add_action( 'init', create_function( '', '$extension = new ' . $response_class . '; add_action( "init", array( &$extension, "_register" ), 2 ); ' ), 1 );
 }

@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Restrictions extends Questions_Component
+class Questions_Responses extends Questions_Component
 {
 
 	/**
@@ -41,18 +41,16 @@ class Questions_Restrictions extends Questions_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'QuestionsRestrictions';
-		$this->title = esc_attr__( 'Restrictions', 'questions-locale' );
-		$this->description = esc_attr__( 'Restrictions if a user can fillout a form or not', 'questions-locale' );
+		$this->name = 'QuestionsResponses';
+		$this->title = esc_attr__( 'Responses', 'questions-locale' );
+		$this->description = esc_attr__( 'Responses component helps to catch the entered data after sending form.', 'questions-locale' );
 		$this->turn_off = FALSE;
 
-		$this->slug = 'questionsrestrictions';
+		$this->slug = 'questionsresponses';
 
 		parent::__construct();
 
-		add_action( 'admin_enqueue_scripts', array(
-			$this,
-			'enqueue_scripts' ), 15 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 	} // end constructor
 
 	/**
@@ -61,17 +59,11 @@ class Questions_Restrictions extends Questions_Component
 	public function includes()
 	{
 		// Loading form builder extension
-		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/form-builder-extension.php' );
-		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/form-process-extension.php' );
+		//include_once( QUESTIONS_COMPONENTFOLDER . '/responses/form-builder-extension.php' );
+		//include_once( QUESTIONS_COMPONENTFOLDER . '/responses/form-process-extension.php' );
 
 		// Base class for restrictions
-		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/class-restrictions.php' );
-
-		// Base restrictions
-		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/all-visitors.php' );
-		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/all-members.php' );
-		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/selected-members.php' );
-		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/timerange.php' );
+		include_once( QUESTIONS_COMPONENTFOLDER . '/responses/class-responses.php' );
 	}
 
 	/**
@@ -79,9 +71,9 @@ class Questions_Restrictions extends Questions_Component
 	 */
 	public function enqueue_scripts()
 	{
-		wp_enqueue_script( 'questions-restrictions', QUESTIONS_URLPATH . '/components/restrictions/includes/js/restrictions.js' );
+		// wp_enqueue_script( 'questions-responses', QUESTIONS_URLPATH . '/components/restrictions/includes/js/responses.js' );
 	}
 
 }
 
-$Questions_Restrictions = new Questions_Restrictions();
+$Questions_Responses = new Questions_Responses();

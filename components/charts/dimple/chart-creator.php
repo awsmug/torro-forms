@@ -138,4 +138,4 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         wp_enqueue_script( 'questions-dimple-js',  QUESTIONS_URLPATH . '/components/charts/dimple/lib/dimple.v2.1.2.min.js' );
     }
 }
-qu_register_chart_creator( 'Questions_ChartCreator_Dimple' );
+qu_register_chartcreator( 'Questions_ChartCreator_Dimple' );

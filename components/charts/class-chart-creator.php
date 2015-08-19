@@ -111,7 +111,7 @@ abstract class Questions_ChartCreator{
 
         $this->initialized = TRUE;
 
-        return $questions_global->add_charts_creator( $this->slug, $this );
+        return $questions_global->add_chartscreator( $this->slug, $this );
     }
 
     /**
@@ -126,7 +126,7 @@ abstract class Questions_ChartCreator{
  * @param $element_type_class name of the element type class.
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_chart_creator( $chart_creator_class ) {
+function qu_register_chartcreator( $chart_creator_class ) {
 
     if ( ! class_exists( $chart_creator_class ) ) {
         return FALSE;

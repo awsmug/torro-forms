@@ -316,6 +316,7 @@ class Questions_Init
 		include( QUESTIONS_COMPONENTFOLDER . '/charts/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/restrictions/component.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/responses/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/notifications/component.php' );
 	}
 
@@ -326,7 +327,6 @@ class Questions_Init
 	 */
 	private static function get_url_path()
 	{
-
 		$slashed_folder = str_replace( '\\', '/', QUESTIONS_FOLDER ); // Replacing backslashes width slashes vor windows installations
 		$sub_path = substr( $slashed_folder, strlen( ABSPATH ), ( strlen( $slashed_folder ) - 11 ) );
 		$script_url = get_bloginfo( 'wpurl' ) . '/' . $sub_path;
@@ -341,7 +341,6 @@ class Questions_Init
 	 */
 	private static function get_folder()
 	{
-
 		return plugin_dir_path( __FILE__ );
 	}
 
@@ -352,7 +351,6 @@ class Questions_Init
 	 */
 	public static function admin_notices()
 	{
-
 		global $qu_plugin_errors, $qu_plugin_errors;
 
 		if( count( $qu_plugin_errors ) > 0 ):
