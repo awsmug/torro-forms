@@ -99,7 +99,8 @@
 #adminmenu #toplevel_page_QuestionsAdmin .dashicons-admin-generic:before{
 	font-family: questionsicons;
     content: "\E801";
-    font-size: 16px;
+    font-size: 14px;
     height: 20px;
     width: 20px;
+	line-height: 20px;
 }
