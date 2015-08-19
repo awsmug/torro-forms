@@ -60,8 +60,8 @@ class Questions_Export
 			return $actions;
 		}
 
-		$responses = new Questions_Responses( $post->ID );
-		$resonses_user_ids = $responses->get_response_user_ids();
+		$results = new Questions_Results( $post->ID );
+		$resonses_user_ids = $results->get_response_user_ids();
 
 		if( 0 == count( $resonses_user_ids[ 'responses' ] ) ){
 			$button_text = sprintf( __( 'No answers, no exports!', 'questions-locale' ) );
@@ -88,10 +88,10 @@ class Questions_Export
 			$survey_id = $_GET[ 'survey_id' ];
 
 			$survey = new Questions_Form( $survey_id );
-			$responses = new Questions_Responses( $survey_id );
+			$results = new Questions_Results( $survey_id );
 
 			$export_filename = sanitize_title( $survey->title );
-			$export_data = $responses->get_responses();
+			$export_data = $results->get_responses();
 
 			$content = $this->get_csv( $export_data );
 

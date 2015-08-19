@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Questions_Responses{
+class Questions_Results{
     var $form_id;
 
     /**
@@ -191,9 +191,4 @@ class Questions_Responses{
 
         return $responses;
     }
-}
-
-class Questions_Response{
-
-
 }

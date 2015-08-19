@@ -88,9 +88,9 @@ class QuestionsChartsShortCodes
 			return esc_attr( 'Please enter a valid form id into the shortcode!', 'questions-locale' );
 		}
 
-		$responses = new Questions_Responses( $form_id );
+		$results = new Questions_Results( $form_id );
 
-		$ordered_data = Questions_AbstractData::order_for_charting( $responses->get_responses( FALSE, FALSE ) );
+		$ordered_data = Questions_AbstractData::order_for_charting( $results->get_responses( FALSE, FALSE ) );
 
 		$html = '';
 
@@ -134,8 +134,8 @@ class QuestionsChartsShortCodes
 		$sql = $wpdb->prepare( "SELECT questions_id FROM {$questions_global->tables->questions} WHERE id = %d", $element_id );
 		$form_id = $wpdb->get_var( $sql );
 
-		$response = new Questions_Responses( $form_id );
-		$ordered_data = Questions_AbstractData::order_for_charting( $response->get_responses( $element_id, FALSE ) );
+		$results = new Questions_Results( $form_id );
+		$ordered_data = Questions_AbstractData::order_for_charting( $results->get_responses( $element_id, FALSE ) );
 
 		$html = '';
 		foreach( $ordered_data[ 'questions' ] as $element_id => $question ){
