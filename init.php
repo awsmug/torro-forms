@@ -312,7 +312,6 @@ class Questions_Init
 		include( QUESTIONS_COMPONENTFOLDER . '/core/component.php' );
 
 		// Loading components
-		include( QUESTIONS_COMPONENTFOLDER . '/admin/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/charts/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/elements/component.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/restrictions/component.php' );

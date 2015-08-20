@@ -500,7 +500,7 @@ class Questions_FormBuilder
 			return;
 		}
 
-		wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/components/admin/includes/css/form-builder.css' );
+		wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/components/core/includes/css/form-builder.css' );
 	}
 
 	/**
@@ -533,7 +533,7 @@ class Questions_FormBuilder
 		wp_enqueue_script( 'admin-widgets' );
 		wp_enqueue_script( 'wpdialogs-popup' );
 
-		wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/admin/includes/js/form-builder.js' );
+		wp_enqueue_script( 'admin-questions-post-type', QUESTIONS_URLPATH . '/components/core/includes/js/form-builder.js' );
 		wp_localize_script( 'admin-questions-post-type', 'translation_fb', $translation );
 
 		if( wp_is_mobile() ){

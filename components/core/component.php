@@ -46,10 +46,9 @@ class Questions_Core extends Questions_Component
 
 		$this->slug = 'survey';
 
-		add_action( 'init', array( $this,
-		                           'custom_post_types' ), 11 );
-		add_filter( 'body_class', array( $this,
-		                                 'add_body_class' ) );
+		add_action( 'init', array( $this, 'custom_post_types' ), 11 );
+		add_filter( 'body_class', array( $this, 'add_body_class' ) );
+		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 
 		parent::__construct();
 	} // end constructor
@@ -141,6 +140,11 @@ class Questions_Core extends Questions_Component
 		include( QUESTIONS_COMPONENTFOLDER . '/core/global.php' ); // Global Questions object $questions_global
 		include( QUESTIONS_COMPONENTFOLDER . '/core/class-post.php' );
 
+		// Admin
+		include( QUESTIONS_COMPONENTFOLDER . '/core/menu.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/form-builder.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/pages/settings.php' ); // @todo - Adding real settings pages
+
 		// Functions
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form-loader.php' );
@@ -152,6 +156,15 @@ class Questions_Core extends Questions_Component
 		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
 
 		include( QUESTIONS_COMPONENTFOLDER . '/core/shortcodes.php' );
+	}
+
+	/**
+	 * Registers and enqueues admin-specific styles.
+	 * @since 1.0.0
+	 */
+	public static function register_admin_styles()
+	{
+		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . '/core/includes/css/fonts.css' );
 	}
 
 }
