@@ -34,53 +34,33 @@ abstract class Questions_ResponseHandler
 {
 	/**
 	 * Slug of restriction
-	 *
 	 * @since 1.0.0
 	 */
-	var $slug;
+	private $slug;
 
 	/**
 	 * Title of restriction
-	 *
 	 * @since 1.0.0
 	 */
-	var $title;
+	private $title;
 
 	/**
 	 * Description of restriction
-	 *
 	 * @since 1.0.0
 	 */
-	var $description;
-
-	/**
-	 * Option name
-	 *
-	 * @since 1.0.0
-	 */
-	var $option_name = FALSE;
+	private $description;
 
 	/**
 	 * Already initialized?
-	 *
 	 * @since 1.0.0
 	 */
-	var $initialized = FALSE;
+	private $initialized = FALSE;
 
-	/**
-	 * Constructor
-	 *
-	 * @param int $id ID of the element
-	 * @since 1.0.0
-	 */
-	public function __construct()
-	{
-	}
 
 	/**
 	 * Handling the response
 	 */
-	abstract protected function handle( $response_id, $response );
+	abstract function handle( $response_id, $response );
 
 	/**
 	 * Function to register element in Questions
@@ -137,7 +117,6 @@ abstract class Questions_ResponseHandler
  */
 function qu_register_response_handler( $responsehandler_class )
 {
-
 	if( !class_exists( $responsehandler_class ) ){
 		return FALSE;
 	}

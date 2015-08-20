@@ -1,11 +1,11 @@
 <?php
 /**
- * Questions Notifications component
+ * Questions Restrictions
  *
- * This class initializes the notifications component.
+ * Component for the Restrictions API
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package Questions/Notifications
+ * @package Questions/Restrictions
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Notificatons extends Questions_Component
+class Questions_Responses extends Questions_Component
 {
 
 	/**
@@ -41,12 +41,12 @@ class Questions_Notificatons extends Questions_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'QuestionsNotifications';
-		$this->title = esc_attr__( 'Notifications', 'questions-locale' );
-		$this->description = esc_attr__( 'Notifications for forms', 'questions-locale' );
+		$this->name = 'QuestionsResponses';
+		$this->title = esc_attr__( 'Responses', 'questions-locale' );
+		$this->description = esc_attr__( 'Responses component helps to catch the entered data after sending form.', 'questions-locale' );
 		$this->turn_off = FALSE;
 
-		$this->slug = 'questionsnotifications';
+		$this->slug = 'questionsresponses';
 
 		parent::__construct();
 
@@ -59,7 +59,11 @@ class Questions_Notificatons extends Questions_Component
 	public function includes()
 	{
 		// Loading form builder extension
-		// include_once( QUESTIONS_COMPONENTFOLDER . '/notifications/form-builder-extension.php' );
+		//include_once( QUESTIONS_COMPONENTFOLDER . '/responses/form-builder-extension.php' );
+		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handler/form-process-extension.php' );
+
+		// Base class for restrictions
+		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handler/class-response-handler.php' );
 	}
 
 	/**
@@ -67,9 +71,9 @@ class Questions_Notificatons extends Questions_Component
 	 */
 	public function enqueue_scripts()
 	{
-		// wp_enqueue_script( 'questions-restrictions', QUESTIONS_URLPATH . '/components/restrictions/includes/js/restrictions.js' );
+		// wp_enqueue_script( 'questions-responses', QUESTIONS_URLPATH . '/components/restrictions/includes/js/responses.js' );
 	}
 
 }
 
-$Questions_Notificatons = new Questions_Notificatons();
+$Questions_Responses = new Questions_Responses();
