@@ -164,7 +164,7 @@ class Questions_Core extends Questions_Component
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . '/core/includes/css/fonts.css' );
+		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . 'components/core/includes/css/fonts.css' );
 	}
 
 }

@@ -5,7 +5,7 @@
   	url("fonts/questions.woff") format("woff"), 
   	url("fonts/questions.ttf") format("truetype"), 
   	url("fonts/questions.svg#icons") format("svg"); 
-  font-weight: normal; 
+  font-weight: normal;
   font-style: normal;
 }
 [class*="icon-questions-"] { 

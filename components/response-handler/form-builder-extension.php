@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormBuilder_RestrictionsExtension
+class Questions_FormBuilder_ResponseHandlerExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -63,21 +63,21 @@ class Questions_FormBuilder_RestrictionsExtension
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
-				'form-restrictions',
-				esc_attr__( 'Restrictions', 'questions-locale' ),
-				array( __CLASS__, 'meta_box_restrictions' ),
+				'form-response-handlers',
+				esc_attr__( 'Response Handling', 'questions-locale' ),
+				array( __CLASS__, 'meta_box_response_handlers' ),
 				'questions',
 				'normal',
-				'low' );
+				'high' );
 		endif;
 	}
 
 	/**
-	 * Form Restrictions box
+	 * Response Handlers box
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_restrictions()
+	public static function meta_box_response_handlers()
 	{
 		global $wpdb, $post, $questions_global;
 
@@ -154,4 +154,4 @@ class Questions_FormBuilder_RestrictionsExtension
 	}
 }
 
-Questions_FormBuilder_RestrictionsExtension::init();
+Questions_FormBuilder_ResponseHandlerExtension::init();
