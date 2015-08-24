@@ -50,9 +50,7 @@ class Questions_Restrictions extends Questions_Component
 
 		parent::__construct();
 
-		add_action( 'admin_enqueue_scripts', array(
-			$this,
-			'enqueue_scripts' ), 15 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 	} // end constructor
 
 	/**
