@@ -52,7 +52,48 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	}
 
 	public function option_content(){
-		$html = 'Da isser doch!';
+
+		$html = '<div id="questions-email-notifications">';
+			$html.= '<div class="list">';
+
+				ob_start();
+				wp_editor( '', 'email_notification_text' );
+				$editor = ob_get_clean();
+				$html.= '<div class="notification">';
+					$html.= '<table class="form-table">';
+						$html.= '<tr>';
+							$html.= '<th><label for="email_notification_name">' . esc_attr( 'Notification Name', 'questions-locale' ) . '</label></th>';
+							$html.= '<td><input type="text" name="email_notification_to" value=""></td>';
+						$html.= '</tr>';
+						$html.= '<tr>';
+							$html.= '<th><label for="email_notification_from">' . esc_attr( 'From Name', 'questions-locale' ) . '</label></th>';
+							$html.= '<td><input type="text" name="email_notification_from" value=""></td>';
+						$html.= '</tr>';
+						$html.= '<tr>';
+							$html.= '<th><label for="email_notification_from_email">' . esc_attr( 'From Email', 'questions-locale' ) . '</label></th>';
+							$html.= '<td><input type="text" name="email_notification_from" value=""></td>';
+						$html.= '</tr>';
+						$html.= '<tr>';
+							$html.= '<th><label for="email_notification_to">' . esc_attr( 'To', 'questions-locale' ) . '</label></th>';
+							$html.= '<td><input type="text" name="email_notification_to" value=""></td>';
+						$html.= '</tr>';
+						$html.= '<tr>';
+							$html.= '<th><label for="email_notification_subject">' . esc_attr( 'Subject', 'questions-locale' ) . '</label></th>';
+							$html.= '<td><input type="text" name="email_notification_subject" value=""></td>';
+						$html.= '</tr>';
+						$html.= '<tr>';
+							$html.= '<th><label for="email_notification_message">' . esc_attr( 'Message', 'questions-locale' ) . '</label></th>';
+							$html.= '<td>' . $editor . '</td>';
+						$html.= '</tr>';
+					$html.= '</table>';
+				$html.= '</div>';
+			$html.= '</div>';
+			$html.= '<div class="actions">';
+			$html.= '<input type="button" value="' . esc_attr( 'Add Notification', 'questions-locale' ) . '" class="button" />';
+			$html.= '</div>';
+		$html.= '</div>';
+		$html.= '<div class="clear"></div>';
+
 		return $html;
 	}
 

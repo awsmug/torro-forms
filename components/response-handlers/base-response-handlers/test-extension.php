@@ -54,4 +54,4 @@ class Questions_TestExtension extends  Questions_ResponseHandler{
 		return $html;
 	}
 }
-qu_register_response_handler( 'Questions_TestExtension' );
+// qu_register_response_handler( 'Questions_TestExtension' );
