@@ -44,10 +44,11 @@ class Questions_FormBuilder_ResponseHandlerExtension
 			return NULL;
 		}
 
-		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
-		add_action( 'questions_save_form', array( __CLASS__, 'save' ), 10, 1 );
+		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ) );
+		add_action( 'questions_save_form', array( __CLASS__, 'save' ) );
 
-		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
+		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
 	}
 
 	/**
@@ -82,47 +83,31 @@ class Questions_FormBuilder_ResponseHandlerExtension
 		global $wpdb, $post, $questions_global;
 
 		$form_id = $post->ID;
-		$restrictions = $questions_global->restrictions;
+		$response_handlers = $questions_global->response_handlers;
 
-		if( !is_array( $restrictions ) || count( $restrictions ) == 0 ){
+		if( !is_array( $response_handlers ) || count( $response_handlers ) == 0 ){
 			return;
 		}
 
-		/**
-		 * Select field for Restriction
-		 */
-		$restrictions_option = get_post_meta( $form_id, 'restrictions_option', TRUE );
+		$html = '<div id="questions-response-handlers-tabs">';
 
-		if( '' == $restrictions_option ): // If there was selected nothing before
-			$restrictions_option = 'allvisitors';
-		endif;
+			$html.= '<ul>';
+			foreach( $response_handlers AS $response_handler ){
+				if( !$response_handler->has_option() ){
+					continue;
+				}
+				$html .= '<li><a href="#' . $response_handler->slug . '">' . $response_handler->title . '</a></option>';
+			}
+			$html .= '</ul>';
 
-		$html = '<div id="questions-restrictions-options">';
-		$html .= '<label for"questions_restrictions_option">' . esc_attr( 'Who has access to this form?', 'questions-locale' ) . '';
-		$html .= '<select name="questions_restrictions_option" id="questions-restrictions-option">';
-		foreach( $restrictions AS $slug => $restriction ){
-			if( !$restriction->has_option() ){
-				continue;
+			foreach( $response_handlers AS $response_handler ){
+				if( ! $response_handler->has_option() ){
+					continue;
+				}
+				$html .= '<div id="' . $response_handler->slug . '">' . $response_handler->option_content . '</div>';
 			}
-			$selected = '';
-			if( $slug == $restrictions_option ){
-				$selected = ' selected="selected"';
-			}
-			$html .= '<option value="' . $slug . '"' . $selected . '>' . $restriction->option_name . '</option>';
-		}
-		$html .= '</select></label>';
+
 		$html .= '</div>';
-
-		/**
-		 * Option content
-		 */
-		foreach( $restrictions AS $slug => $restriction ){
-			$option_content = $restriction->option_content();
-			if( !$restriction->has_option() || !$option_content ){
-				continue;
-			}
-			$html .= '<div id="questions-restrictions-content-' . $restriction->slug . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->slug . '">' . $option_content . '</div>';
-		}
 
 		echo $html;
 	}
@@ -139,19 +124,24 @@ class Questions_FormBuilder_ResponseHandlerExtension
 		/**
 		 * Saving restriction options
 		 */
-		$restrictions_option = $_POST[ 'questions_restrictions_option' ];
-		update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
+		// $restrictions_option = $_POST[ 'questions_restrictions_option' ];
+		// update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
 	}
 
 	/**
-	 * Registers and enqueues admin-specific styles.
-	 *
-	 * @since 1.0.0
+	 * Enqueue admin scripts
 	 */
-	public static function register_admin_styles()
+	public static function enqueue_admin_scripts()
 	{
-		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
+		wp_enqueue_script( 'questions-response-handlers-form-bulder-extension', QUESTIONS_URLPATH . '/components/response-handlers/includes/js/form-builder-extension.js' );
+	}
+
+	/**
+	 * Enqueue admin styles
+	 */
+	public static function enqueue_admin_styles()
+	{
+		// wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
-
 Questions_FormBuilder_ResponseHandlerExtension::init();
