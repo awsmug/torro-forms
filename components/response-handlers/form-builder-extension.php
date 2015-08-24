@@ -47,7 +47,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ) );
 		add_action( 'questions_save_form', array( __CLASS__, 'save' ) );
 
-		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
+		// add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
 	}
 
@@ -89,7 +89,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 			return;
 		}
 
-		$html = '<div id="questions-response-handlers-tabs">';
+		$html = '<div id="questions-response-handlers-tabs" class="form_element_tabs">';
 
 			$html.= '<ul>';
 			foreach( $response_handlers AS $response_handler ){
@@ -99,6 +99,8 @@ class Questions_FormBuilder_ResponseHandlerExtension
 				$html .= '<li><a href="#' . $response_handler->slug . '">' . $response_handler->title . '</a></option>';
 			}
 			$html .= '</ul>';
+
+			$html .= '<div class="clear"></div>';
 
 			foreach( $response_handlers AS $response_handler ){
 				if( ! $response_handler->has_option() ){
@@ -141,7 +143,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 	 */
 	public static function enqueue_admin_styles()
 	{
-		// wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
 Questions_FormBuilder_ResponseHandlerExtension::init();
