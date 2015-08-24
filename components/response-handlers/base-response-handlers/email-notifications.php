@@ -61,7 +61,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 */
 	public static function enqueue_admin_scripts()
 	{
-		wp_enqueue_script( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/includes/js/form-builder-extension.js' );
+		wp_enqueue_script( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/base-response-handlers/includes/js/email-notifications.js' );
 	}
 
 	/**

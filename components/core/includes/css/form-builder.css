@@ -31,12 +31,13 @@
 /**
  * Element
  */
-#form-elements .formelement{
-    height:45px;
+#form-elements .formelement {
+    height: 45px;
     overflow: hidden;
     margin-bottom: 5px;
     cursor: move;
 }
+
 #form-elements .formelement:first-child {
     margin-top: 15px;
 }
@@ -56,41 +57,36 @@
 /**
  * 	Element Tabs
  */
-.form_element_tabs ul {
-    margin-top: 20px !important;
-}
-
-.form_element_tabs .tabs_underline {
+.form_element_tabs > ul {
+    padding: 0 5px;
     border-bottom: 1px solid #CCC;
+    height:29px;
 }
-
-.form_element_tabs .tabs li {
+.form_element_tabs > ul > li {
     float: left;
-    margin: 0;
+    margin: 0 3px 0 0;
     border: 1px solid #CCC;
-    border-bottom: none;
-    border-right: none;
-    background-color: #FAFAFA;
-    padding: 6px;
+    background-color: #e4e4e4;
+    height:28px;
 }
-
-.form_element_tabs .tabs li:first-child {
-    border-top-left-radius: 3px;
-    border-right: none;
+.form_element_tabs > ul > li:first-child {
 }
-
-.form_element_tabs .tabs li:last-child {
-    border-top-right-radius: 3px;
+.form_element_tabs > ul > li:last-child {
     border-right: 1px solid #CCC;
 }
-
-.form_element_tabs .tabs li.ui-state-active {
-    font-weight: bold;
+.form_element_tabs > ul > li.ui-state-active {
+    border-bottom: #FFF 1px solid;
+    background-color: #FFF;
 }
-
-.form_element_tabs .tabs li a {
-    color: #222;
+.form_element_tabs > ul > li.ui-state-active a{
+}
+.form_element_tabs > ul > li a {
     text-decoration: none;
+    display: block;
+    height: 14px;
+    padding: 7px;
+    line-height: 14px;
+    color:#000;
 }
 
 .form_element_tabs .shortcode,
@@ -197,7 +193,8 @@
     background-position: 5px 5px;
     padding-left: 28px;
 }
-#form-functions p{
+
+#form-functions p {
     text-align: center;
     margin-top: 0;
 }

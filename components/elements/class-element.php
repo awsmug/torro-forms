@@ -533,7 +533,7 @@ abstract class Questions_FormElement
 
 		$html .= '</ul>';
 
-		$html .= '<div class="clear tabs_underline"></div>'; // Underline of tabs
+		$html .= '<div class="clear"></div>'; // Underline of tabs
 
 		/**
 		 * Content of Tabs
@@ -838,11 +838,13 @@ abstract class Questions_FormElement
 		)
 		) );
 
-		$html = '<ul class="survey-element-bottom">';
-		foreach( $bottom_buttons AS $button ):
-			$html .= '<li><a class="' . $button[ 'classes' ] . ' survey-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
-		endforeach;
-		$html .= '</ul>';
+		$html = '<div class="survey-element-buttom">';
+			$html .= '<ul>';
+			foreach( $bottom_buttons AS $button ):
+				$html .= '<li><a class="' . $button[ 'classes' ] . ' survey-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
+			endforeach;
+			$html .= '</ul>';
+		$html .= '</div>';
 
 		return $html;
 	}
