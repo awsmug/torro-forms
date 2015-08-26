@@ -144,23 +144,26 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 */
 	public static function ajax_get_email_notification_html(){
 		$id = time();
-
-		$html = self::get_notification_settings_html( $id );
 		$editor_id = 'email_notification_text_' . $id;
 
+		$html = self::get_notification_settings_html( $id );
+
+		// Get settings for Editor
 		$mce_init = Quesions_WPEditorBox::get_mce_init( $editor_id );
 		$qt_init = Quesions_WPEditorBox::get_qt_init( $editor_id );
 
+		// Extending editor gobals
 		$html.= '<script type="text/javascript">
 			tinyMCEPreInit.mceInit = jQuery.extend( tinyMCEPreInit.mceInit, ' . $mce_init . ' );
             tinyMCEPreInit.qtInit = jQuery.extend( tinyMCEPreInit.qtInit, ' . $qt_init . ' );
-            console.log( tinyMCEPreInit.qtInit["' . $editor_id . '"] );
-
-            tinyMCE.init( tinyMCEPreInit.mceInit["' . $editor_id . '"] );
-            try { quicktags( tinyMCEPreInit.qtInit["' . $editor_id . '"] ); } catch(e){ console.log( e )}
         </script>';
 
-		echo $html;
+		$data = array(
+			'editor_id' => $editor_id,
+			'html'      => $html
+		);
+
+		echo json_encode( $data );
 		die();
 	}
 
