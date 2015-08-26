@@ -139,6 +139,7 @@ class Questions_Init
 		$table_respond_answers = $wpdb->prefix . 'questions_respond_answers';
 		$table_settings = $wpdb->prefix . 'questions_settings';
 		$table_participiants = $wpdb->prefix . 'questions_participiants';
+		$table_email_notifications = $wpdb->prefix . 'questions_email_notifications';
 
 		$sql = "CREATE TABLE $table_questions (
 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -198,6 +199,21 @@ class Questions_Init
 			id int(11) NOT NULL AUTO_INCREMENT,
 			survey_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
+			UNIQUE KEY id (id)
+			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_email_notifications (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			form_id int(11) NOT NULL,
+			notification_name text NOT NULL,
+			from_name text NOT NULL,
+			from_email text NOT NULL,
+			to_name text NOT NULL,
+			to_email text NOT NULL,
+			subject text NOT NULL,
+			message text NOT NULL,
 			UNIQUE KEY id (id)
 			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
 

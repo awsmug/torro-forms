@@ -56,6 +56,7 @@ class Questions
 		$this->tables->respond_answers = $wpdb->prefix . 'questions_respond_answers';
 		$this->tables->settings = $wpdb->prefix . 'questions_settings';
 		$this->tables->participiants = $wpdb->prefix . 'questions_participiants';
+		$this->tables->email_notifications = $wpdb->prefix . 'questions_email_notifications';
 
 		$this->tables = apply_filters( 'questions_tables', $this->tables );
 	}

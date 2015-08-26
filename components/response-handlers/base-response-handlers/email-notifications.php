@@ -42,6 +42,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
+		add_action( 'questions_save_form', array( __CLASS__, 'save_option_content' ) );
 
 		add_action( 'wp_ajax_get_email_notification_html', array( __CLASS__, 'ajax_get_email_notification_html' ) );
 
@@ -59,22 +60,31 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	}
 
 	public function option_content(){
+		global $wpdb, $post, $questions_global;
+
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
+		$notifications = $wpdb->get_results( $sql );
 
 		$html = '<div id="questions-email-notifications">';
 			$html.= '<div class="list">';
 
-					$notifications = array( 1, 2, 3 );
-
 					$html.= '<div class="notifications widget-title">';
 
-					foreach( $notifications AS $notification ){
-						$notification_name = '';
-						$notification_from_name = '';
-						$notification_from_email = '';
-						$notification_to_email = '';
-						$notification_subject = '';
-						$notification_message = '';
-						$html.= self::get_notification_settings_html( $notification, $notification_name, $notification_from_name, $notification_from_email, $notification_to_email, $notification_subject, $notification_message );
+					if( count( $notifications ) > 0 ){
+
+						foreach( $notifications AS $notification ){
+							$html.= self::get_notification_settings_html(
+								$notification->id,
+								$notification->notification_name,
+								$notification->from_name,
+								$notification->from_email,
+								$notification->to_email,
+								$notification->subject,
+								$notification->message
+							);
+						}
+					}else{
+						$html.= '<p class="no-entry-found">' . esc_attr( 'No notification found.', 'questions-locale' ) . '</p>';
 					}
 
 				$html.= '</div>';
@@ -89,6 +99,69 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	}
 
 	/**
+	 * Saving option content
+	 */
+	public static function save_option_content(){
+		global $wpdb, $post, $questions_global;
+
+		if( isset( $_POST[ 'email_notifications' ] )  ){
+			foreach(  $_POST[ 'email_notifications' ] AS $id => $notification  ){
+				$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->email_notifications} WHERE id = %d", $id );
+
+				if( $wpdb->get_var( $sql ) > 0 ){
+
+					$wpdb->update(
+						$questions_global->tables->email_notifications,
+						array(
+							'form_id'           => $post->ID,
+							'notification_name' => $notification[ 'notification_name' ],
+							'from_name'         => $notification[ 'from_name' ],
+							'from_email'        => $notification[ 'from_email' ],
+							'to_email'          => $notification[ 'to_email' ],
+							'subject'           => $notification[ 'subject' ],
+							'message'           => $_POST[ 'email_notification_message_' . $id ]
+						),
+						array( 'id' => $id ),
+						array(
+							'%d',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+						),
+						array( '%d' )
+					);
+
+				}else{
+					$wpdb->insert(
+						$questions_global->tables->email_notifications,
+						array(
+							'form_id'           => $post->ID,
+							'notification_name' => $notification[ 'notification_name' ],
+							'from_name'         => $notification[ 'from_name' ],
+							'from_email'        => $notification[ 'from_email' ],
+							'to_email'          => $notification[ 'to_email' ],
+							'subject'           => $notification[ 'subject' ],
+							'message'           => $_POST[ 'email_notification_message_' . $id ]
+						),
+						array(
+							'%d',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+						)
+					);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Getting HTML for notification
 	 *
 	 * @param $notification_name
@@ -100,38 +173,41 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 *
 	 * @return string $html
 	 */
-	public static function get_notification_settings_html( $id, $notification_name = '', $notification_from_name = '', $notification_from_email = '', $notification_to_email = '', $notification_subject = '', $notification_message = '' ){
+	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ){
 
 		ob_start();
-		wp_editor( $notification_message, 'email_notification_text_' . $id );
+		wp_editor( $message, 'email_notification_message_' . $id  );
 		$editor = ob_get_clean();
 
-		$html = '<h4 class="widget-top">' . esc_attr( 'Name', 'questions-locale' ) . '</h4>';
+		$html = '<h4 class="widget-top notification-' . $id . '">' . $notification_name . '</h4>';
 		$html.= '<div class="notification widget-inside">';
 			$html.= '<table class="form-table">';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_name">' . esc_attr( 'Notification Name', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notification_to" value="' . $notification_name . '"></td>';
+					$html.= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_attr( 'Notification Name', 'questions-locale' ) . '</label></th>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][notification_name]" value="' . $notification_name . '"></td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_from_name">' . esc_attr( 'From Name', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notification_from_name" value="' . $notification_from_name . '"></td>';
+					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr( 'From Name', 'questions-locale' ) . '</label></th>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '"></td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_from_email">' . esc_attr( 'From Email', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notification_from_email" value="' . $notification_from_email . '"></td>';
+					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr( 'From Email', 'questions-locale' ) . '</label></th>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '"></td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_to_email">' . esc_attr( 'To Email', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notification_to_email" value="' . $notification_to_email . '"></td>';
+					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr( 'To Email', 'questions-locale' ) . '</label></th>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '"></td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_subject">' . esc_attr( 'Subject', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notification_subject" value="' . $notification_subject . '"></td>';
+					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr( 'Subject', 'questions-locale' ) . '</label></th>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '"></td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_message">' . esc_attr( 'Message', 'questions-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notification_message_' . $id . '">' . esc_attr( 'Message', 'questions-locale' ) . '</label></th>';
 					$html.= '<td>' . $editor . '</td>';
+				$html.= '</tr>';
+				$html.= '<tr>';
+					$html.= '<td><input type="button" value="' . esc_attr( 'Delete Email Notification', 'questions-locale' ) . '" class="button" /></td>';
 				$html.= '</tr>';
 			$html.= '</table>';
 		$html.= '</div>';
@@ -144,9 +220,9 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 */
 	public static function ajax_get_email_notification_html(){
 		$id = time();
-		$editor_id = 'email_notification_text_' . $id;
+		$editor_id = 'email_notification_message_' . $id;
 
-		$html = self::get_notification_settings_html( $id );
+		$html = self::get_notification_settings_html( $id, esc_attr( 'New Email Notification' ) );
 
 		// Get settings for Editor
 		$mce_init = Quesions_WPEditorBox::get_mce_init( $editor_id );
@@ -159,6 +235,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
         </script>';
 
 		$data = array(
+			'id' => $id,
 			'editor_id' => $editor_id,
 			'html'      => $html
 		);

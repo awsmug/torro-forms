@@ -24,6 +24,8 @@
                 $( "#questions-email-notifications .notifications" ).accordion( "destroy" );
                 questions_response_handlers_email_notifications();
 
+                $( ".notification-" + response.id ).hide().fadeIn(2500);
+
                 // Initializing HTML & Text-Editors
                 tinyMCE.init( tinyMCEPreInit.mceInit[ response.editor_id ] );
                 try { quicktags( tinyMCEPreInit.qtInit[ response.editor_id ] ); } catch(e){ console.log( "error" ); }
