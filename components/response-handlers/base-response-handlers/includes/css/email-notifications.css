@@ -1,7 +1,21 @@
 #questions-email-notifications .list{
-    width:75%;
+    width:85%;
     float:left;
+}
+#questions-email-notifications .actions{
+    width:15%;
+    float:right;
+    text-align: right;
+}
+#questions-email-notifications .notifications{
+}
+#questions-email-notifications .notifications h4{
+    cursor:pointer;
 }
 #questions-email-notifications .notification{
     padding: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+#questions-email-notifications .notification input[type="text"]{
+    width:90%;
 }

@@ -298,6 +298,7 @@ class Questions_Init
 	{
 		// Loading functions
 		include( QUESTIONS_FOLDER . '/functions.php' );
+		include( QUESTIONS_FOLDER . '/includes/wp-editor.php' );
 	}
 
 	/**
