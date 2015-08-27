@@ -13,7 +13,13 @@
 #questions-email-notifications .list .widget-title .notice{
     margin-bottom: 10px;
 }
-
+#questions-email-notifications .form-table label,
+#questions-email-notifications .form-table input{
+    font-size: 13px;
+}
+#questions-email-notifications .form-table th{
+    font-weight: normal;
+}
 #questions-email-notifications .actions{
     width:15%;
     float:right;
