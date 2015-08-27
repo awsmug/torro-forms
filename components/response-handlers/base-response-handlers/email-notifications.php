@@ -57,6 +57,20 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 * @param $response
 	 */
 	public function handle( $response_id, $response ){
+		global $wpdb, $questions_form_id, $questions_global;
+
+		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->email_notifications} WHERE form_id = %d", $questions_form_id );
+		$notifications = $wpdb->get_results( $sql );
+
+		if( count( $notifications ) > 0 ){
+
+			foreach( $notifications AS $notification ){
+				$message = $notification->message;
+				$subject = $notification->subject;
+
+				wp_mail( $notification->to_email, $notification->subject );
+			}
+		}
 	}
 
 	public function option_content(){
