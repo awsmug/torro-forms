@@ -9,7 +9,7 @@
 
             if( notifications_list.hasClass( 'ui-accordion' ) )
             {
-                notifications_list.accordion( "destroy" );
+                notifications_list.accordion( 'destroy' );
             }
 
             notifications_list.accordion({
@@ -18,9 +18,6 @@
                 header: "h4",
                 heightStyle: "content"
             });
-
-            console.log( 'Test: ' + notifications_list_count );
-            console.log( tinyMCEPreInit );
 
             if( notifications_list_count == 0 ){
                 $( '#questions-email-notifications .notifications .no-entry-found' ).show();
@@ -39,16 +36,9 @@
                 response = jQuery.parseJSON( response );
 
                 $( '#questions-email-notifications .notifications' ).prepend( response.html );
-
                 questions_response_handlers_init_email_notifications();
 
                 $( ".notification-" + response.id ).hide().fadeIn(2500);
-
-                // Initializing HTML & Text-Editors
-                tinyMCE.init( tinyMCEPreInit.mceInit[ response.editor_id ] );
-                try { quicktags( tinyMCEPreInit.qtInit[ response.editor_id ] ); } catch(e){ console.log( "error" ); }
-
-                // console.log( tinyMCEPreInit.qtInit );
             });
         })
     });

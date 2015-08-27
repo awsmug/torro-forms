@@ -253,6 +253,11 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		$html.= '<script type="text/javascript">
 			tinyMCEPreInit.mceInit = jQuery.extend( tinyMCEPreInit.mceInit, ' . $mce_init . ' );
             tinyMCEPreInit.qtInit = jQuery.extend( tinyMCEPreInit.qtInit, ' . $qt_init . ' );
+
+            tinyMCE.init( tinyMCEPreInit.mceInit[ "' . $editor_id . '" ] );
+            try { quicktags( tinyMCEPreInit.qtInit[ "' . $editor_id . '" ] ); } catch(e){ console.log( "error" ); }
+
+            QTags.instances["0"] =""; // Dirty Hack, but needed to start second instance of quicktags in editor
         </script>';
 
 		$data = array(
