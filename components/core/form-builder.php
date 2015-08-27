@@ -73,18 +73,27 @@ class Questions_FormBuilder
 			return;
 		}
 
-		$html = '<div id="questions-content" class="drag-drop">';
-		$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
-		$html .= '<div id="drag-drop-inside">';
-		$form = new Questions_Form( $post->ID );
+		$html  = '<div id="questions-content" class="drag-drop">';
+			$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 
-		// Running each Element
-		foreach( $form->elements AS $element ):
-			$html .= $element->draw_admin();
-		endforeach;
+				ob_start();
+				do_action( 'questions_drag_drop_top' );
+				$html .= ob_get_clean();
 
-		$html .= '</div>';
-		$html .= '</div>';
+				$html .= '<div id="drag-drop-inside">';
+					$form = new Questions_Form( $post->ID );
+
+					// Running each Element
+					foreach( $form->elements AS $element ):
+						$html .= $element->draw_admin();
+					endforeach;
+				$html .= '</div>';
+
+				ob_start();
+				do_action( 'questions_drag_drop_bottom' );
+				$html .= ob_get_clean();
+
+			$html .= '</div>';
 		$html .= '</div>';
 
 		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'questions-locale' ) . '</div>';

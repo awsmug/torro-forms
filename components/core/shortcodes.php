@@ -44,7 +44,7 @@ class QuestionsShortCodes
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
-		add_action( 'questions_form_options', array( __CLASS__, 'show_form_shortcode' ), 5 );
+		add_action( 'edit_form_after_title', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
 	public static function form( $atts )
@@ -65,11 +65,13 @@ class QuestionsShortCodes
 		return Questions_FormLoader::get_form( $questions_form_id );
 	}
 
-	public static function show_form_shortcode( $form_id )
+	public static function show_form_shortcode()
 	{
+		global $post;
+
 		$html = '<div class="questions-options shortcode">';
 		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'questions-locale' ) . '</label><br />';
-		$html .= '<input type="text" id="form_shortcode" value="[form id=' . $form_id . ']" />';
+		$html .= '<input type="text" id="form_shortcode" value="[form id=' . $post->ID . ']" />';
 		$html .= '</div>';
 
 		echo $html;

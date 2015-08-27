@@ -44,7 +44,7 @@ class QuestionsChartsShortCodes
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
 
-		add_action( 'questions_form_options', array( __CLASS__, 'show_form_result_shortcode' ) );
+		add_action( 'edit_form_after_title', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
 		add_action( 'questions_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
@@ -152,11 +152,13 @@ class QuestionsChartsShortCodes
 	 *
 	 * @return string $html HTML for shortcode summary in admon
 	 */
-	public static function show_form_result_shortcode( $form_id )
+	public static function show_form_result_shortcode()
 	{
+		global $post;
+
 		$html = '<div class="questions-options shortcode">';
 		$html .= '<label for="form_results_shortcode">' . __( 'Charts Shortcode:', 'questions-locale' ) . '</label><br />';
-		$html .= '<input type="text" id="form_results_shortcode" value="[form_results id=' . $form_id . ']" />';
+		$html .= '<input type="text" id="form_results_shortcode" value="[form_results id=' . $post->ID . ']" />';
 		$html .= '</div>';
 
 		echo $html;
