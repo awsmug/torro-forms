@@ -18,8 +18,8 @@
                 header: "h4",
                 heightStyle: "content"
             });
-            console.log( 'Test: ' + notifications_list_count );
 
+            console.log( 'Test: ' + notifications_list_count );
             console.log( tinyMCEPreInit );
 
             if( notifications_list_count == 0 ){

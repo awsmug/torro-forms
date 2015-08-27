@@ -18,10 +18,6 @@ class Quesions_WPEditorBox
 		$qt_init = self::get_qt_init( $_POST[ 'id' ] );
 	}
 
-	/*
-	* Used to retrieve the javascript settings that the editor generates
-	*/
-
 	private static $mce_settings = NULL;
 	private static $qt_settings = NULL;
 
