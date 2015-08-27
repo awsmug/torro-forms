@@ -196,9 +196,11 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 */
 	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ){
 
+		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 		ob_start();
 		wp_editor( $message, 'email_notification_message_' . $id  );
 		$editor = ob_get_clean();
+		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 
 		$html = '<h4 class="widget-top notification-' . $id . '">' . $notification_name . '</h4>';
 		$html.= '<div class="notification widget-inside">';
@@ -268,6 +270,10 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		echo json_encode( $data );
 		die();
+	}
+
+	public static function std_editor_tinymce(){
+		return 'tinymce';
 	}
 
 	/**
