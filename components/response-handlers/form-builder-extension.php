@@ -47,7 +47,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ) );
 		add_action( 'questions_save_form', array( __CLASS__, 'save' ) );
 
-		// add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
+		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
 	}
 
@@ -135,7 +135,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 	 */
 	public static function enqueue_admin_scripts()
 	{
-		wp_enqueue_script( 'questions-response-handlers-form-bulder-extension', QUESTIONS_URLPATH . '/components/response-handlers/includes/js/form-builder-extension.js' );
+		wp_enqueue_script( 'questions-response-handlers-form-builder-extension', QUESTIONS_URLPATH . '/components/response-handlers/includes/js/form-builder-extension.js' );
 	}
 
 	/**
@@ -143,7 +143,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 	 */
 	public static function enqueue_admin_styles()
 	{
-		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'questions-response-handlers-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/response-handlers/includes/css/form-builder-extension.css' );
 	}
 }
 Questions_FormBuilder_ResponseHandlerExtension::init();

@@ -1,7 +1,19 @@
+#questions-email-notifications .notifications{
+    padding: 0 10px 10px;
+}
 #questions-email-notifications .list{
     width:85%;
     float:left;
 }
+
+#questions-email-notifications .list .widget-title h4{
+    padding: 10px;
+    font-weight: normal;
+}
+#questions-email-notifications .list .widget-title .notice{
+    margin-bottom: 10px;
+}
+
 #questions-email-notifications .actions{
     width:15%;
     float:right;
