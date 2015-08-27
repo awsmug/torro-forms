@@ -102,7 +102,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 				$html.= '</div>';
 			$html.= '</div>';
 			$html.= '<div class="actions">';
-				$html.= '<input id="questions_add_email_notification" type="button" value="' . esc_attr( 'Add Notification', 'questions-locale' ) . '" class="button" />';
+				$html.= '<input id="questions_add_email_notification" type="button" value="' . esc_attr( '+', 'questions-locale' ) . '" class="button" />';
 			$html.= '</div>';
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';

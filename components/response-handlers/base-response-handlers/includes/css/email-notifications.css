@@ -2,7 +2,7 @@
     padding: 0 10px 10px;
 }
 #questions-email-notifications .list{
-    width:85%;
+    width:95%;
     float:left;
 }
 
@@ -21,7 +21,7 @@
     font-weight: normal;
 }
 #questions-email-notifications .actions{
-    width:15%;
+    width:5%;
     float:right;
     text-align: right;
 }
@@ -29,6 +29,7 @@
 }
 #questions-email-notifications .no-entry-found{
     display: none;
+    margin: 0;
 }
 #questions-email-notifications .notifications h4{
     cursor:pointer;
