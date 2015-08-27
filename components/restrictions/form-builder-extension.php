@@ -97,7 +97,11 @@ class Questions_FormBuilder_RestrictionsExtension
 			$restrictions_option = 'allvisitors';
 		endif;
 
-		$html = '<div id="questions-restrictions-options">';
+		ob_start();
+		do_action( 'questions_restrictions_content_top' );
+		$html = ob_get_clean();
+
+		$html .= '<div id="questions-restrictions-options">';
 		$html .= '<label for"questions_restrictions_option">' . esc_attr( 'Who has access to this form?', 'questions-locale' ) . '';
 		$html .= '<select name="questions_restrictions_option" id="questions-restrictions-option">';
 		foreach( $restrictions AS $slug => $restriction ){
@@ -123,6 +127,10 @@ class Questions_FormBuilder_RestrictionsExtension
 			}
 			$html .= '<div id="questions-restrictions-content-' . $restriction->slug . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->slug . '">' . $option_content . '</div>';
 		}
+
+		ob_start();
+		do_action( 'questions_restrictions_content_bottom' );
+		$html .= ob_get_clean();
 
 		echo $html;
 	}

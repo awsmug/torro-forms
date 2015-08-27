@@ -41,43 +41,19 @@ class Questions_Restriction_Timerange extends Questions_Restriction
 		$this->title = __( 'Timerange', 'wcsc-locale' );
 		$this->slug = 'timerange';
 
-		add_action( 'add_meta_boxes', array(
-			$this,
-			'meta_boxes' ), 10 );
-		add_action( 'questions_save_form', array(
-			$this,
-			'save' ), 10, 1 );
+		add_action( 'questions_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
+		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
 
-		add_action( 'admin_enqueue_scripts', array(
-			$this,
-			'enqueue_scripts' ), 15 );
-		add_action( 'admin_print_styles', array(
-			$this,
-			'register_admin_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
+		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 
-		add_action( 'questions_additional_restrictions_check_start', array(
-			$this,
-			'check' ) );
-	}
-
-	/**
-	 * Adding meta boxes
-	 *
-	 * @param string $post_type Actual post type
-	 *
-	 * @since 1.0.0
-	 */
-	public function meta_boxes( $post_type )
-	{
-		add_meta_box( 'form-timerange', esc_attr__( 'Timerange', 'questions-locale' ), array(
-			                              $this,
-			                              'meta_box_timerange' ), 'questions', 'side', 'high' );
+		add_action( 'questions_additional_restrictions_check_start', array( $this, 'check' ) );
 	}
 
 	/**
 	 * Timerange meta box
 	 */
-	public static function meta_box_timerange()
+	public static function timerange_fields()
 	{
 		global $post;
 
@@ -86,10 +62,18 @@ class Questions_Restriction_Timerange extends Questions_Restriction
 		$start_date = get_post_meta( $form_id, 'start_date', TRUE );
 		$end_date = get_post_meta( $form_id, 'end_date', TRUE );
 
-		$html = '<label for="start_date">' . esc_attr__( 'Input data start:', 'questions-locale' ) . '</label>';
-		$html .= '<p><input type="text" id="start_date" name="start_date" value="' . $start_date . '"/></p>';
-		$html .= '<label for="end_date">' . esc_attr__( 'Input data end:', 'questions-locale' ) . '</label>';
-		$html .= '<p><input type="text" id="end_date" name="end_date" value="' . $end_date . '"/></p>';
+		$html = '<div id="questions-restrictions-content-timerange">';
+			$html .= '<h3>' . esc_attr( 'Restrict input timerange', 'questions-locale' ) .'</h3>';
+			$html .= '<div class="timerange-start">';
+				$html .= '<label for="start_date">' . esc_attr__( 'Start:', 'questions-locale' ) . '</label>';
+				$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
+			$html .= '</div>';
+			$html .= '<div class="timerange-end">';
+				$html .= '<label for="end_date">' . esc_attr__( 'End:', 'questions-locale' ) . '</label>';
+				$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
+			$html .= '</div>';
+		$html .= '<div class="clear"></div>';
+		$html .= '</div>';
 
 		echo $html;
 	}
@@ -176,31 +160,30 @@ class Questions_Restriction_Timerange extends Questions_Restriction
 	 */
 	public function enqueue_scripts()
 	{
-		$translation_admin = array(
-			'dateformat' => esc_attr__( 'yy/mm/dd', 'questions-locale' ),
-			'min_sun'    => esc_attr__( 'Su', 'questions-locale' ),
-			'min_mon'    => esc_attr__( 'Mo', 'questions-locale' ),
-			'min_tue'    => esc_attr__( 'Tu', 'questions-locale' ),
-			'min_wed'    => esc_attr__( 'We', 'questions-locale' ),
-			'min_thu'    => esc_attr__( 'Th', 'questions-locale' ),
-			'min_fri'    => esc_attr__( 'Fr', 'questions-locale' ),
-			'min_sat'    => esc_attr__( 'Sa', 'questions-locale' ),
-			'january'    => esc_attr__( 'January', 'questions-locale' ),
-			'february'   => esc_attr__( 'February', 'questions-locale' ),
-			'march'      => esc_attr__( 'March', 'questions-locale' ),
-			'april'      => esc_attr__( 'April', 'questions-locale' ),
-			'may'        => esc_attr__( 'May', 'questions-locale' ),
-			'june'       => esc_attr__( 'June', 'questions-locale' ),
-			'july'       => esc_attr__( 'July', 'questions-locale' ),
-			'august'     => esc_attr__( 'August', 'questions-locale' ),
-			'september'  => esc_attr__( 'September', 'questions-locale' ),
-			'october'    => esc_attr__( 'October', 'questions-locale' ),
-			'november'   => esc_attr__( 'November', 'questions-locale' ),
-			'december'   => esc_attr__( 'December', 'questions-locale' ), );
+		$translation_admin = array( 'dateformat' => esc_attr__( 'yy/mm/dd', 'questions-locale' ),
+		                            'min_sun'    => esc_attr__( 'Su', 'questions-locale' ),
+		                            'min_mon'    => esc_attr__( 'Mo', 'questions-locale' ),
+		                            'min_tue'    => esc_attr__( 'Tu', 'questions-locale' ),
+		                            'min_wed'    => esc_attr__( 'We', 'questions-locale' ),
+		                            'min_thu'    => esc_attr__( 'Th', 'questions-locale' ),
+		                            'min_fri'    => esc_attr__( 'Fr', 'questions-locale' ),
+		                            'min_sat'    => esc_attr__( 'Sa', 'questions-locale' ),
+		                            'january'    => esc_attr__( 'January', 'questions-locale' ),
+		                            'february'   => esc_attr__( 'February', 'questions-locale' ),
+		                            'march'      => esc_attr__( 'March', 'questions-locale' ),
+		                            'april'      => esc_attr__( 'April', 'questions-locale' ),
+		                            'may'        => esc_attr__( 'May', 'questions-locale' ),
+		                            'june'       => esc_attr__( 'June', 'questions-locale' ),
+		                            'july'       => esc_attr__( 'July', 'questions-locale' ),
+		                            'august'     => esc_attr__( 'August', 'questions-locale' ),
+		                            'september'  => esc_attr__( 'September', 'questions-locale' ),
+		                            'october'    => esc_attr__( 'October', 'questions-locale' ),
+		                            'november'   => esc_attr__( 'November', 'questions-locale' ),
+		                            'december'   => esc_attr__( 'December', 'questions-locale' ), );
 
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
-		wp_enqueue_script( 'questions-datepicker', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/datepicker.js' );
+		wp_enqueue_script( 'questions-datepicker', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/timerange.js' );
 		wp_localize_script( 'questions-datepicker', 'translation_admin', $translation_admin );
 	}
 
@@ -211,7 +194,7 @@ class Questions_Restriction_Timerange extends Questions_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-timerange-styles', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/css/datepicker.css' );
+		wp_enqueue_style( 'questions-timerange-styles', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/css/timerange.css' );
 	}
 }
 
