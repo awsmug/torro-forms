@@ -272,6 +272,10 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		die();
 	}
 
+	/**
+	 * Function to set standard editor to tinymce prevent tab issues on editor
+	 * @return string
+	 */
 	public static function std_editor_tinymce(){
 		return 'tinymce';
 	}
