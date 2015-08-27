@@ -9,6 +9,9 @@
 }
 #questions-email-notifications .notifications{
 }
+#questions-email-notifications .no-entry-found{
+    display: none;
+}
 #questions-email-notifications .notifications h4{
     cursor:pointer;
 }

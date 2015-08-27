@@ -97,14 +97,12 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 								$notification->message
 							);
 						}
-					}else{
-						$html.= '<p class="no-entry-found">' . esc_attr( 'No notification found.', 'questions-locale' ) . '</p>';
 					}
-
+					$html.= '<p class="no-entry-found">' . esc_attr( 'No notification found.', 'questions-locale' ) . '</p>';
 				$html.= '</div>';
 			$html.= '</div>';
 			$html.= '<div class="actions">';
-			$html.= '<input id="questions_add_email_notification" type="button" value="' . esc_attr( 'Add Notification', 'questions-locale' ) . '" class="button" />';
+				$html.= '<input id="questions_add_email_notification" type="button" value="' . esc_attr( 'Add Notification', 'questions-locale' ) . '" class="button" />';
 			$html.= '</div>';
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
@@ -244,6 +242,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		// Extending editor gobals
 		$html.= '<script type="text/javascript">
+			console.log( tinyMCEPreInit );
 			tinyMCEPreInit.mceInit = jQuery.extend( tinyMCEPreInit.mceInit, ' . $mce_init . ' );
             tinyMCEPreInit.qtInit = jQuery.extend( tinyMCEPreInit.qtInit, ' . $qt_init . ' );
         </script>';
