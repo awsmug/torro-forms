@@ -24,6 +24,43 @@
             }else{
                 $( '#questions-email-notifications .notifications .no-entry-found' ).hide();
             }
+
+            var questions_deletemailnotificationdialog = $( '#delete_email_notification_dialog' );
+            var email_notification_id;
+
+            questions_deletemailnotificationdialog.dialog({
+                'dialogClass'   : 'wp-dialog',
+                'modal'         : true,
+                'autoOpen'      : false,
+                'closeOnEscape' : true,
+                'minHeight'		: 80,
+                'buttons'       : [{
+                    text: translation_email_notifications.yes,
+                    click: function() {
+                        $( '.notification-' + email_notification_id ).remove();
+                        $( '.notification-' + email_notification_id + '-content' ).remove();
+
+                        $( this ).dialog('close');
+                    }
+                },
+                    {
+                        text: translation_email_notifications.no,
+                        click: function() {
+
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                ],
+
+            });
+
+            $( '.questions-delete-email-notification' ).click( function( event ){
+                email_notification_id = $( this ).attr( 'data-emailnotificationid' );
+
+                event.preventDefault();
+
+                questions_deletemailnotificationdialog.dialog( 'open' );
+            });
         }
         questions_response_handlers_init_email_notifications();
 

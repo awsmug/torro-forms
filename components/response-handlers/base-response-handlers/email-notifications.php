@@ -106,6 +106,8 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
 
+		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this notification?', 'questions-locale' ) . '</div>';
+
 		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();
 		wp_editor( '', 'xxx' );
@@ -120,59 +122,31 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	public static function save_option_content(){
 		global $wpdb, $post, $questions_global;
 
-		if( isset( $_POST[ 'email_notifications' ] )  ){
+		if( isset( $_POST[ 'email_notifications' ] ) && count( $_POST[ 'email_notifications' ] ) > 0 ){
+			$wpdb->delete( $questions_global->tables->email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
+
 			foreach(  $_POST[ 'email_notifications' ] AS $id => $notification  ){
-				$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->email_notifications} WHERE id = %d", $id );
-
-				if( $wpdb->get_var( $sql ) > 0 ){
-
-					$wpdb->update(
-						$questions_global->tables->email_notifications,
-						array(
-							'form_id'           => $post->ID,
-							'notification_name' => $notification[ 'notification_name' ],
-							'from_name'         => $notification[ 'from_name' ],
-							'from_email'        => $notification[ 'from_email' ],
-							'to_email'          => $notification[ 'to_email' ],
-							'subject'           => $notification[ 'subject' ],
-							'message'           => $_POST[ 'email_notification_message_' . $id ]
-						),
-						array( 'id' => $id ),
-						array(
-							'%d',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-						),
-						array( '%d' )
-					);
-
-				}else{
-					$wpdb->insert(
-						$questions_global->tables->email_notifications,
-						array(
-							'form_id'           => $post->ID,
-							'notification_name' => $notification[ 'notification_name' ],
-							'from_name'         => $notification[ 'from_name' ],
-							'from_email'        => $notification[ 'from_email' ],
-							'to_email'          => $notification[ 'to_email' ],
-							'subject'           => $notification[ 'subject' ],
-							'message'           => $_POST[ 'email_notification_message_' . $id ]
-						),
-						array(
-							'%d',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-						)
-					);
-				}
+				$wpdb->insert(
+					$questions_global->tables->email_notifications,
+					array(
+						'form_id'           => $post->ID,
+						'notification_name' => $notification[ 'notification_name' ],
+						'from_name'         => $notification[ 'from_name' ],
+						'from_email'        => $notification[ 'from_email' ],
+						'to_email'          => $notification[ 'to_email' ],
+						'subject'           => $notification[ 'subject' ],
+						'message'           => $_POST[ 'email_notification_message_' . $id ]
+					),
+					array(
+						'%d',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+					)
+				);
 			}
 		}
 	}
@@ -198,7 +172,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 
 		$html = '<h4 class="widget-top notification-' . $id . '">' . $notification_name . '</h4>';
-		$html.= '<div class="notification widget-inside">';
+		$html.= '<div class="notification widget-inside notification-' . $id . '-content">';
 
 			$html.= '<table class="form-table">';
 				$html.= '<tr>';
@@ -226,7 +200,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 					$html.= '<td>' . $editor . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-
+					$html.= '<td colspan="2"><input type="button" class="button questions-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr( 'Delete Notification', 'questions-locale' ) . '" /></td>';
 				$html.= '</tr>';
 			$html.= '</table>';
 		$html.= '</div>';
@@ -281,8 +255,13 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 */
 	public static function enqueue_admin_scripts()
 	{
+		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
+		                      'yes'                          => esc_attr__( 'Yes', 'questions-locale' ),
+		                      'no'                           => esc_attr__( 'No', 'questions-locale' ) );
+
 		wp_enqueue_script( 'jquery-ui-accordion' );
 		wp_enqueue_script( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/base-response-handlers/includes/js/email-notifications.js' );
+		wp_localize_script( 'questions-response-handlers-email-notification', 'translation_email_notifications', $translation );
 	}
 
 	/**

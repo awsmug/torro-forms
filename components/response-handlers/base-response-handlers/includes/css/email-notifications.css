@@ -42,3 +42,6 @@
 #questions-email-notifications .notification input[type="text"]{
     width:90%;
 }
+#delete_email_notification_dialog{
+    display: none;
+}
