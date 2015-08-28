@@ -154,7 +154,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		wp_editor( '', 'xxx' );
 		ob_clean();
 
-		$html.= qu_filter_templatetags( '{sitetitle} - {formtitle}' );
+		// $html.= qu_filter_templatetags( '{sitetitle} - {formtitle}' );
 
 		return $html;
 	}
