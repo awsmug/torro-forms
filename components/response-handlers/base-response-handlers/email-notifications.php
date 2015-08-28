@@ -70,7 +70,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 			foreach( $notifications AS $notification ){
 				$from_name  = qu_filter_templatetags( $notification->from_name );
 				$from_email = qu_filter_templatetags( $notification->from_email );
-				$to_email = qu_filter_templatetags( $notification->subject );
+				$to_email = qu_filter_templatetags( $notification->to_email );
 				$subject = qu_filter_templatetags( $notification->subject );
 				$message = qu_filter_templatetags( $notification->message );
 
