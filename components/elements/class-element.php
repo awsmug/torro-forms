@@ -517,8 +517,11 @@ abstract class Questions_FormElement
 		 */
 		$html .= '<ul class="tabs">';
 		// If Element is Question > Show question tab
-		if( $this->is_question ){
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Question', 'questions-locale' ) . '</a></li>';
+		if( $this->is_question && !$this->has_answers ){
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label', 'questions-locale' ) . '</a></li>';
+		}
+		if( $this->is_question && $this->has_answers ){
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label & Answers', 'questions-locale' ) . '</a></li>';
 		}
 
 		// If Element has settings > Show settings tab
