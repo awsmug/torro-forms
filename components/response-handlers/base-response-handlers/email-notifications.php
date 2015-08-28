@@ -200,33 +200,34 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		$html = '<h4 class="widget-top notification-' . $id . '">' . $notification_name . '</h4>';
 		$html.= '<div class="notification widget-inside">';
+
 			$html.= '<table class="form-table">';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_attr( 'Notification Name', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][notification_name]" value="' . $notification_name . '"></td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][notification_name]" value="' . $notification_name . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][notification_name]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr( 'From Name', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '"></td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr( 'From Email', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '"></td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr( 'To Email', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '"></td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr( 'Subject', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '"></td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notification_message_' . $id . '">' . esc_attr( 'Message', 'questions-locale' ) . '</label></th>';
 					$html.= '<td>' . $editor . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<td><input type="button" value="' . esc_attr( 'Delete Email Notification', 'questions-locale' ) . '" class="button" /></td>';
+
 				$html.= '</tr>';
 			$html.= '</table>';
 		$html.= '</div>';

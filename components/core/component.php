@@ -152,6 +152,9 @@ class Questions_Core extends Questions_Component
 
 		include( QUESTIONS_COMPONENTFOLDER . '/core/responses.php' );
 
+		include( QUESTIONS_COMPONENTFOLDER . '/core/class-templatetags.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags-global.php' );
+
 		include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
 

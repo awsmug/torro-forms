@@ -38,6 +38,7 @@ class Questions
 	var $response_handlers = array();
 	var $restrictions = array();
 	var $chart_creators = array();
+	var $templatetags = array();
 
 	public function __construct()
 	{
@@ -132,6 +133,21 @@ class Questions
 		}
 
 		$this->chart_creators[ $slug ] = $object;
+
+		return TRUE;
+	}
+
+	public function add_templatetags( $slug, $object )
+	{
+		if( '' == $slug ){
+			return FALSE;
+		}
+
+		if( !is_object( $object ) && 'Questions_TemplateTags' != get_parent_class( $object ) ){
+			return FALSE;
+		}
+
+		$this->templatetags[ $slug ] = $object;
 
 		return TRUE;
 	}

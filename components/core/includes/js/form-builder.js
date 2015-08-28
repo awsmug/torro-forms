@@ -404,6 +404,40 @@
         }
         questions_rewriteheadline();
 
+
+		/**
+		 * Handling the Templatetag Button
+		 */
+		var questions_templatetag_buttons = function(){
+			var button = $( '.questions-templatetag-button');
+
+			$('html').click(function() {
+				$( '.questions-templatetag-list').hide();
+			});
+
+			button.click( function( event ){
+				var templatetag_list = $( this ).find( '.questions-templatetag-list' );
+
+				if( templatetag_list.css( 'display' ) == 'none' ){
+					templatetag_list.show();
+				}else{
+					templatetag_list.hide();
+				}
+				event.stopPropagation();
+			});
+
+			var template_tag = $( '.questions-templatetag-list .questions-templatetag' );
+
+			template_tag.click( function(){
+				var tag = $( this ).text();
+				var input_name = 'input[name="' + $( this ).attr( 'rel' ) + '"]';
+
+				$( input_name ).val( $( input_name ).val() + tag );
+			});
+
+		}
+		questions_templatetag_buttons();
+
 		/**
 		 * Helper function - Getting a random number
 		 */

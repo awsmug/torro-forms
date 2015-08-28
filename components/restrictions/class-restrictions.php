@@ -78,8 +78,6 @@ abstract class Questions_Restriction
 	/**
 	 * Constructor
 	 *
-	 * @param int $id ID of the element
-	 *
 	 * @since 1.0.0
 	 */
 	public function __construct()
@@ -89,10 +87,7 @@ abstract class Questions_Restriction
 	/**
 	 * Checks if the user can pass
 	 */
-	public function check()
-	{
-		return TRUE;
-	}
+	abstract function check();
 
 	/**
 	 * Printing out messages
