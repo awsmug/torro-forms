@@ -49,7 +49,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	/**
 	 * %sitename%
 	 */
-	private static function formtitle()
+	public static function formtitle()
 	{
 		global $questions_form_id;
 
@@ -75,7 +75,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	 * Shows the Element content
 	 * @param $element_id
 	 */
-	public function element_content( $element_id ){
+	public static function element_content( $element_id ){
 
 	}
 }

@@ -32,6 +32,9 @@ if( !defined( 'ABSPATH' ) ){
 
 class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
+	private $from_name;
+	private $from_email;
+
 	/**
 	 * Constructor
 	 */
@@ -65,12 +68,47 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		if( count( $notifications ) > 0 ){
 
 			foreach( $notifications AS $notification ){
-				$message = $notification->message;
-				$subject = $notification->subject;
+				$from_name  = qu_filter_templatetags( $notification->from_name );
+				$from_email = qu_filter_templatetags( $notification->from_email );
+				$to_email = qu_filter_templatetags( $notification->subject );
+				$subject = qu_filter_templatetags( $notification->subject );
+				$message = qu_filter_templatetags( $notification->message );
 
-				wp_mail( $notification->to_email, $notification->subject );
+				$this->from_name = $from_name;
+				$this->from_email = $from_email;
+
+				add_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' );
+				add_filter( 'wp_mail_from', array( $this, 'set_email_from' );
+				add_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
+
+				wp_mail( $to_email, $subject );
+
+				remove_filter( 'wp_mail_from', array( $this, 'set_email_from' );
+				remove_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
+				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' );
 			}
 		}
+	}
+
+	/**
+	 * Setting HTML Content-Type
+	 */
+	function set_email_html_content_type() {
+		return 'text/html';
+	}
+
+	/**
+	 * Setting From Email
+	 */
+	public function set_email_from(){
+		return $this->from_name;
+	}
+
+	/**
+	 * Setting From Email Name
+	 */
+	public function set_email_from_name(){
+		return $this->from_email;
 	}
 
 	public function option_content(){
@@ -115,6 +153,8 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		ob_start();
 		wp_editor( '', 'xxx' );
 		ob_clean();
+
+		$html.= qu_filter_templatetags( '{sitetitle} - {formtitle}' );
 
 		return $html;
 	}

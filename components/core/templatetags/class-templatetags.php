@@ -178,7 +178,7 @@ function qu_get_templatetag_collections()
  * Getting all Templatetags of a collection
  * @param $templatetag_collection
  */
-function qu_get_get_templatetags( $templatetag_collection )
+function qu_get_templatetags( $templatetag_collection )
 {
 	global $questions_global;
 
@@ -215,7 +215,7 @@ function qu_template_tag_button( $input_name ){
 			$html.= '<div class="questions-templatetag-collection">';
 			$html.= '<div class="questions-templatetag-collection-headline">' . $collection->title . '</div>';
 
-			$template_tags = qu_get_get_templatetags( $collection_slug );
+			$template_tags = qu_get_templatetags( $collection_slug );
 
 			foreach( $template_tags AS $tag_name => $template_tag )
 			{
@@ -229,4 +229,27 @@ function qu_template_tag_button( $input_name ){
 	$html.= '</div>';
 
 	return $html;
+}
+
+/**
+ * Filtering templatetags from content
+ * @param $content
+ * @return mixed
+ */
+function qu_filter_templatetags( $content ){
+	global $questions_global;
+
+	$collections = qu_get_templatetag_collections();
+
+	foreach( $collections AS $collection_slug => $collection ){
+		$template_tags = qu_get_templatetags( $collection_slug );
+
+		foreach( $template_tags AS $tag_name => $template_tag )
+		{
+			$template_content = call_user_func( $template_tag[ 'callback' ], $template_tag[ 'args' ] );
+			$content = str_replace( '{' . $tag_name . '}', $template_content, $content );
+		}
+	}
+
+	return $content;
 }

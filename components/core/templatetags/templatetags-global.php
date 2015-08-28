@@ -52,7 +52,7 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 	/**
 	 * %sitename%
 	 */
-	private static function sitetitle()
+	public static function sitetitle()
 	{
 		return get_bloginfo( 'name' );
 	}
@@ -60,7 +60,7 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 	/**
 	 * %sitename%
 	 */
-	private function sitetagline()
+	public static function sitetagline()
 	{
 		return get_bloginfo( 'description' );
 	}
@@ -68,7 +68,7 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 	/**
 	 * %sitename%
 	 */
-	private function adminemail()
+	public static function adminemail()
 	{
 		return get_option( 'admin_email' );;
 	}
@@ -76,7 +76,7 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 	/**
 	 * %sitename%
 	 */
-	private function userip()
+	public static function userip()
 	{
 		return $_SERVER[ 'REMOTE_ADDR' ];
 	}
