@@ -107,7 +107,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
 
-		// Running one time for fake, to get all variables
+		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();
 		wp_editor( '', 'xxx' );
 		ob_clean();

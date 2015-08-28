@@ -19,6 +19,7 @@
 }
 #questions-email-notifications .form-table th{
     font-weight: normal;
+    width: 180px;
 }
 #questions-email-notifications .actions{
     width:5%;
