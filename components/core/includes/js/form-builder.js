@@ -432,8 +432,12 @@
 				var tag = $( this ).text();
 				var tag_name = $( this ).attr( 'data-tagname' );
 				var input_name = 'input[name="' + $( this ).attr( 'rel' ) + '"]';
+				var value = '{' + tag_name + '}';
 
-				$( input_name ).val( $( input_name ).val() + '{' + tag_name + '}' );
+				$( input_name ).val( $( input_name ).val() + value );
+
+
+				// window.send_to_editor( value ); // @todo: How thiiiis works?
 			});
 
 		}

@@ -48,6 +48,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		add_filter( 'tiny_mce_before_init', 'Quesions_WPEditorBox::tiny_mce_before_init', 10, 2 );
 		add_filter( 'quicktags_settings', 'Quesions_WPEditorBox::quicktags_settings', 10, 2 );
+		add_action( 'media_buttons', array( __CLASS__, 'add_media_button' ), 20 );
 	}
 
 	/**
@@ -106,6 +107,8 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
 
+		$html.= '<script language="javascript">jQuery( document ).ready(function ($) {$.questions_templatetag_buttons();});</script>';
+
 		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this notification?', 'questions-locale' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
@@ -114,6 +117,13 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		ob_clean();
 
 		return $html;
+	}
+
+	/**
+	 * Adding media button
+	 */
+	public static function add_media_button(){
+		echo qu_template_tag_button( 'test' );
 	}
 
 	/**
