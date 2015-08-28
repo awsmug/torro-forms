@@ -41,7 +41,7 @@ class Questions_ResponseHandler_FormProcessExtension
 	 */
 	public static function init()
 	{
-		add_filter( 'questions_save_response', array( __CLASS__, 'response_handler' ), 1 );
+		add_filter( 'questions_save_response', array( __CLASS__, 'response_handler' ), 10, 1 );
 	}
 
 	/**

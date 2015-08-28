@@ -244,7 +244,7 @@ function qu_filter_templatetags( $content ){
 
 		foreach( $template_tags AS $tag_name => $template_tag )
 		{
-			$template_content = call_user_func( $template_tag[ 'callback' ], $template_tag[ 'args' ] );
+			$template_content = call_user_func_array( $template_tag[ 'callback' ], $template_tag[ 'args' ] );
 			$content = str_replace( '{' . $tag_name . '}', $template_content, $content );
 		}
 	}

@@ -76,7 +76,12 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	 * @param $element_id
 	 */
 	public static function element_content( $element_id ){
+		global $questions_response_id, $questions_response;
 
+		if( !isset( $questions_response[ $element_id ] ) )
+			return;
+
+		return $questions_response[ $element_id ];
 	}
 }
 qu_register_templatetags( 'Questions_FormTemplateTags' );

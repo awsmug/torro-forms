@@ -198,9 +198,8 @@ class Questions_Form extends Questions_Post{
      * @return boolean $saved
      * @since 1.0.0
      */
-    public function save_response( $response ) {
-        // @todo Move to Questions_Form Class
-
+    public function save_response( $response )
+    {
         global $wpdb, $questions_global, $current_user;
 
         get_currentuserinfo();

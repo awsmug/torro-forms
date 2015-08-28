@@ -60,12 +60,20 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 * @param $response
 	 */
 	public function handle( $response_id, $response ){
-		global $wpdb, $questions_form_id, $questions_global;
+		global $wpdb, $questions_form_id, $questions_global, $questions_response_id, $questions_response;
+
+		$questions_response_id = $response_id;
+		$questions_response = $response;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->email_notifications} WHERE form_id = %d", $questions_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
 		if( count( $notifications ) > 0 ){
+			// Adding elements templatetags
+			$form = new Questions_Form( $questions_form_id );
+			foreach( $form->elements AS $element ){
+				qu_add_element_templatetag( $element->id, $element->question );
+			}
 
 			foreach( $notifications AS $notification ){
 				$from_name  = qu_filter_templatetags( $notification->from_name );
@@ -80,6 +88,12 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 				add_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
 				add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
 				add_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
+
+				p( $from_name );
+				p( $from_email );
+				p( $to_email );
+				p( $subject );
+				p( $message );
 
 				wp_mail( $to_email, $subject, $message );
 
