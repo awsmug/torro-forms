@@ -77,15 +77,15 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 				$this->from_name = $from_name;
 				$this->from_email = $from_email;
 
-				add_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' );
-				add_filter( 'wp_mail_from', array( $this, 'set_email_from' );
+				add_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
+				add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
 				add_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
 
 				wp_mail( $to_email, $subject );
 
-				remove_filter( 'wp_mail_from', array( $this, 'set_email_from' );
+				remove_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
 				remove_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
-				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' );
+				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
 			}
 		}
 	}

@@ -219,8 +219,6 @@ function qu_template_tag_button( $input_name ){
 
 			foreach( $template_tags AS $tag_name => $template_tag )
 			{
-				// p( $template_tag );
-
 				$html.= '<div class="questions-templatetag" rel="' . $input_name. '" data-tagname="' . $tag_name. '">' . $template_tag[ 'display_name' ] . '</div>';
 			}
 			$html.= '</div>';
