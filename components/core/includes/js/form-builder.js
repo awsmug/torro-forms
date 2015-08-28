@@ -408,7 +408,7 @@
 		/**
 		 * Handling the Templatetag Button
 		 */
-		var questions_templatetag_buttons = function(){
+		$.questions_templatetag_buttons = function(){
 			var button = $( '.questions-templatetag-button');
 
 			$('html').click(function() {
@@ -437,7 +437,7 @@
 			});
 
 		}
-		questions_templatetag_buttons();
+		$.questions_templatetag_buttons();
 
 		/**
 		 * Helper function - Getting a random number
