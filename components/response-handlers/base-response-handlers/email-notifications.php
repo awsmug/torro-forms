@@ -89,12 +89,6 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 				add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
 				add_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
 
-				p( $from_name );
-				p( $from_email );
-				p( $to_email );
-				p( $subject );
-				p( $message );
-
 				wp_mail( $to_email, $subject, $message );
 
 				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
