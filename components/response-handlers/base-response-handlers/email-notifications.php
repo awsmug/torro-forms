@@ -83,9 +83,9 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 				wp_mail( $to_email, $subject, $message );
 
+				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
 				remove_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
 				remove_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
-				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
 			}
 		}
 	}
@@ -101,14 +101,14 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 * Setting From Email
 	 */
 	public function set_email_from(){
-		return $this->from_name;
+		return $this->from_email;
 	}
 
 	/**
 	 * Setting From Email Name
 	 */
 	public function set_email_from_name(){
-		return $this->from_email;
+		return $this->from_name;
 	}
 
 	public function option_content(){
