@@ -86,6 +86,7 @@ class Questions_FormBuilder
 					// Running each Element
 					foreach( $form->elements AS $element ):
 						$html .= $element->draw_admin();
+						qu_add_element_templatetag( $element->id, $element->question );
 					endforeach;
 				$html .= '</div>';
 

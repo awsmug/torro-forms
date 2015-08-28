@@ -430,9 +430,10 @@
 
 			template_tag.click( function(){
 				var tag = $( this ).text();
+				var tag_name = $( this ).attr( 'data-tagname' );
 				var input_name = 'input[name="' + $( this ).attr( 'rel' ) + '"]';
 
-				$( input_name ).val( $( input_name ).val() + tag );
+				$( input_name ).val( $( input_name ).val() + '{' + tag_name + '}' );
 			});
 
 		}

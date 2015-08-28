@@ -70,9 +70,9 @@ abstract class Questions_TemplateTags{
 	 * @param       $callback
 	 * @param array $args
 	 */
-	final function add_tag( $name, $description, $callback, $args = array() )
+	final function add_tag( $name, $display_name, $description, $callback, $args = array() )
 	{
-		$this->tags[ $name ] = array( 'description' => $description, 'callback' => $callback, 'args' => $args );
+		$this->tags[ $name ] = array( 'description' => $description, 'display_name' => $display_name, 'callback' => $callback, 'args' => $args );
 	}
 
 	/**
@@ -219,7 +219,9 @@ function qu_template_tag_button( $input_name ){
 
 			foreach( $template_tags AS $tag_name => $template_tag )
 			{
-				$html.= '<div class="questions-templatetag ' . $tag_name .'" rel="' . $input_name. '">' . qu_quote_templatetag( $tag_name ) . '</div>';
+				// p( $template_tag );
+
+				$html.= '<div class="questions-templatetag" rel="' . $input_name. '" data-tagname="' . $tag_name. '">' . $template_tag[ 'display_name' ] . '</div>';
 			}
 			$html.= '</div>';
 		}
@@ -227,13 +229,4 @@ function qu_template_tag_button( $input_name ){
 	$html.= '</div>';
 
 	return $html;
-}
-
-/**
- * Getting the real templatetag
- * @param $templatetag_name
- * @return string
- */
-function qu_quote_templatetag( $templatetag_name ){
-	return '{' . $templatetag_name . '}';
 }

@@ -43,15 +43,16 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 	 */
 	public function tags()
 	{
-		$this->add_tag( 'sitetitle', esc_attr( 'Adds the Site Title', 'questions-locale' ), array( __CLASS__ , 'sitetitle' ) );
-		$this->add_tag( 'sitetagline', esc_attr( 'Adds the Sites Tagline', 'questions-locale' ), array( __CLASS__, 'sitetagline') );
-		$this->add_tag( 'userip', esc_attr( 'Adds the Sites User IP', 'questions-locale' ), array( __CLASS__, 'userip' ) );
+		$this->add_tag( 'sitetitle', esc_attr( 'Site Title', 'questions-locale' ), esc_attr( 'Adds the Site Title', 'questions-locale' ), array( __CLASS__ , 'sitetitle' ) );
+		$this->add_tag( 'sitetagline', esc_attr( 'Site Tagline', 'questions-locale' ), esc_attr( 'Adds the Sites Tagline', 'questions-locale' ), array( __CLASS__, 'sitetagline') );
+		$this->add_tag( 'adminemail', esc_attr( 'Admin Email', 'questions-locale' ), esc_attr( 'Adds the Admin Email-Address', 'questions-locale' ), array( __CLASS__, 'adminemail') );
+		$this->add_tag( 'userip', esc_attr( 'User IP', 'questions-locale' ), esc_attr( 'Adds the Sites User IP', 'questions-locale' ), array( __CLASS__, 'userip' ) );
 	}
 
 	/**
 	 * %sitename%
 	 */
-	private static function sitename()
+	private static function sitetitle()
 	{
 		return get_bloginfo( 'name' );
 	}
@@ -59,9 +60,17 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 	/**
 	 * %sitename%
 	 */
-	private function sitedesc()
+	private function sitetagline()
 	{
 		return get_bloginfo( 'description' );
+	}
+
+	/**
+	 * %sitename%
+	 */
+	private function adminemail()
+	{
+		return get_option( 'admin_email' );;
 	}
 
 	/**
