@@ -45,12 +45,12 @@ class Questions_FormElement_Text extends Questions_FormElement
 				'title'       => esc_attr__( 'Minimum length', 'questions-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'questions-locale' ),
-				'default'     => '10' ),
+				'default'     => '0' ),
 			'max_length'  => array(
 				'title'       => esc_attr__( 'Maximum length', 'questions-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'questions-locale' ),
-				'default'     => '100' ),
+				'default'     => '1000' ),
 			'validation'  => array(
 				'title'       => esc_attr__( 'String Validation', 'questions-locale' ),
 				'type'        => 'radio',
