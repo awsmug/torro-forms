@@ -430,18 +430,17 @@
 
 			template_tag.unbind();
 
-			template_tag.click( function(){
-				var tag = $( this ).text();
+			template_tag.click( function()
+			{
 				var tag_name = $( this ).attr( 'data-tagname' );
-				var input_name = 'input[name="' + $( this ).attr( 'rel' ) + '"]';
 				var value = '{' + tag_name + '}';
 
-				$( input_name ).val( $( input_name ).val() + value );
+				var input_name = $( this ).attr( 'rel' );
+				var input_selector = 'input[name="' + $( this ).attr( 'rel' ) + '"]';
 
-				console.log( value );
+				$( input_selector ).val( $( input_selector ).val() + value );
 
-
-				// window.send_to_editor( value ); // @todo: How thiiiis works?
+				tinymce.editors[ input_name ].execCommand( 'mceInsertContent', false, value )
 			});
 
 		}

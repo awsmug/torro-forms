@@ -168,8 +168,8 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	/**
 	 * Adding media button
 	 */
-	public static function add_media_button(){
-		echo qu_template_tag_button( 'test' );
+	public static function add_media_button( $editor_id ){
+		echo qu_template_tag_button( $editor_id );
 	}
 
 	/**
