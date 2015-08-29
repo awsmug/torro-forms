@@ -147,6 +147,7 @@ class Questions_Core extends Questions_Component
 
 		// Settings
 		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/class-settings.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/class-settings-handler.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/base-settings/general.php' );
 
 		// Form functions

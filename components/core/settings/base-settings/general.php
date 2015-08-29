@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_GeneralSettings extends  Questions_Settings
+class Questions_GeneralSettings extends Questions_Settings
 {
 
 	/**
@@ -43,7 +43,18 @@ class Questions_GeneralSettings extends  Questions_Settings
 	}
 
 	public function settings(){
-		$html = 'Das ist mein Inhalt';
+
+		$settings = array(
+			'name' => array(
+				'title'       => esc_attr( 'Name', 'questions-locale' ),
+				'description' => esc_attr( 'Test', 'questions-locale' ),
+				'type' => 'text'
+			)
+		);
+
+		$settings_handler = new Questions_SettingsHandler( 'general', $settings );
+
+		$html = $settings_handler->get();
 
 		return $html;
 	}
