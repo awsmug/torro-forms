@@ -1,11 +1,9 @@
 <?php
 /**
- * Questions Shortcodes
- *
- * Adding charts shortcodes into Questions
+ * Questions Chart Shortcodes
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package Questions/Core
+ * @package Questions/Charts
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -44,8 +42,8 @@ class QuestionsChartsShortCodes
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
 
-		add_action( 'edit_form_after_title', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
-		add_action( 'questions_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
+		add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
+		// add_action( 'questions_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
 

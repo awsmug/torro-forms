@@ -45,7 +45,7 @@ class Questions_FormBuilder
 			return NULL;
 		}
 
-		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ) );
+		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ), 20 );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 10 );
 
 		add_action( 'save_post', array( __CLASS__, 'save_form' ) );

@@ -1,6 +1,6 @@
 <?php
 /**
- * Questions Shortcodes
+ * Questions Core Shortcodes
  *
  * This should be used as parent class for Question-Answers.
  *
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class QuestionsShortCodes
+class Questions_ShortCodes
 {
 	var $tables;
 	var $components = array();
@@ -44,7 +44,7 @@ class QuestionsShortCodes
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
-		add_action( 'edit_form_after_title', array( __CLASS__, 'show_form_shortcode' ), 15 );
+		add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
 	public static function form( $atts )
@@ -78,4 +78,4 @@ class QuestionsShortCodes
 	}
 }
 
-QuestionsShortCodes::init();
+Questions_ShortCodes::init();
