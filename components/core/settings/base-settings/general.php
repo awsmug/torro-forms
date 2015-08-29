@@ -46,12 +46,12 @@ class Questions_GeneralSettings extends Questions_Settings
 
 		$settings = array(
 			'disclaimer' => array(
-				'title'       => esc_attr( 'Welcome to Questions!', 'questions-locale' ),
-				'description' => esc_attr( 'Questions gives you ...', 'questions-locale' ),
+				'title'       => esc_attr( 'Welcome to Awesome Forms!', 'questions-locale' ),
+				'description' => esc_attr( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'questions-locale' ),
 				'type' => 'disclaimer'
 			),
 			'modules_title' => array(
-				'title'       => esc_attr( 'Modules', 'questions-locale' ),
+				'title'       => esc_attr( 'Form Modules', 'questions-locale' ),
 				'description' => esc_attr( 'Check the modules of Questions which have to be activated.', 'questions-locale' ),
 				'type' => 'title'
 			),
@@ -63,6 +63,7 @@ class Questions_GeneralSettings extends Questions_Settings
 					'restrictions' => esc_attr( 'Restrictions', 'questions-locale' ),
 					'response' => esc_attr( 'Response Handling', 'questions-locale' )
 				),
+				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'questions-locale' ),
 				'defaults' => array( 'charts', 'restrictions', 'response' )
 			)
 		);
