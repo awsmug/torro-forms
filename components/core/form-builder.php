@@ -117,7 +117,6 @@ class Questions_FormBuilder
 		$post_types = array( 'questions' );
 
 		if( in_array( $post_type, $post_types ) ):
-			add_meta_box( 'form-options', esc_attr__( 'Options', 'questions-locale' ), array( __CLASS__, 'meta_box_form_options' ), 'questions', 'side' );
 			add_meta_box( 'form-functions', esc_attr__( 'Form Functions', 'questions-locale' ), array( __CLASS__, 'meta_box_form_functions' ), 'questions', 'side' );
 			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'questions-locale' ), array( __CLASS__, 'meta_box_form_elements' ), 'questions', 'side', 'high' );
 		endif;
@@ -137,44 +136,6 @@ class Questions_FormBuilder
 		foreach( $questions_global->element_types AS $element ):
 			$html .= $element->draw_admin();
 		endforeach;
-
-		echo $html;
-	}
-
-	/**
-	 * Form options
-	 *
-	 * @since 1.0.0
-	 */
-	public static function meta_box_form_options()
-	{
-		global $post;
-
-		$form_id = $post->ID;
-		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
-
-		if( '' == $show_results ){
-			$show_results = 'no';
-		}
-
-		$checked_no = '';
-		$checked_yes = '';
-
-		if( 'no' == $show_results ){
-			$checked_no = ' checked="checked"';
-		}else{
-			$checked_yes = ' checked="checked"';
-		}
-
-		$html = '<div class="questions-options">';
-		$html .= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'questions-locale' ) . '</label></p>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
-		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';
-		$html .= '</div>';
-
-		ob_start();
-		do_action( 'questions_form_options', $form_id );
-		$html .= ob_get_clean();
 
 		echo $html;
 	}

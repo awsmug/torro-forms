@@ -82,7 +82,31 @@ class Questions_FormBuilder_ChartsExtension
 
 		$form_id = $post->ID;
 
-		$html = do_shortcode( '[form_results id="' . $form_id . '"]' );
+		global $post;
+
+		$form_id = $post->ID;
+		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
+
+		if( '' == $show_results ){
+			$show_results = 'no';
+		}
+
+		$checked_no = '';
+		$checked_yes = '';
+
+		if( 'no' == $show_results ){
+			$checked_no = ' checked="checked"';
+		}else{
+			$checked_yes = ' checked="checked"';
+		}
+
+		$html = '<div class="questions-options">';
+		$html.= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'questions-locale' ) . '</label></p>';
+		$html.= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
+		$html.= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';
+		$html.= '</div>';
+
+		$html.= do_shortcode( '[form_results id="' . $form_id . '"]' );
 
 		echo $html;
 	}
