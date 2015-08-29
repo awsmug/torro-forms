@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_RestrictionsSettings extends Questions_Settings
+class Questions_ResponseSettings extends Questions_Settings
 {
 
 	/**
@@ -38,33 +38,19 @@ class Questions_RestrictionsSettings extends Questions_Settings
 	{
 		global $post;
 
-		$this->title = __( 'Restrictions', 'wcsc-locale' );
-		$this->slug = 'restrictions';
+		$this->title = __( 'Response Handling', 'wcsc-locale' );
+		$this->slug = 'responsehandling';
 	}
 
 	public function settings(){
 
 		$settings = array(
 			'modules_title' => array(
-				'title'       => esc_attr( 'Restrictions', 'questions-locale' ),
-				'description' => esc_attr( 'Setup the restrictions settings.', 'questions-locale' ),
+				'title'       => esc_attr( 'Response Handling', 'questions-locale' ),
+				'description' => esc_attr( 'Setup the Response Handling settings.', 'questions-locale' ),
 				'type' => 'title'
 			),
-			'invite_from_name' => array(
-				'title'       => esc_attr( 'Invite From Name', 'questions-locale' ),
-				'description' => esc_attr( 'The Mail Sender Name.', 'questions-locale' ),
-				'type' => 'text'
-			),
-			'invite_from' => array(
-				'title'       => esc_attr( 'Invite From Email', 'questions-locale' ),
-				'description' => esc_attr( 'The Mail Sender Email.', 'questions-locale' ),
-				'type' => 'text'
-			),
-			'invite_text' => array(
-				'title'       => esc_attr( 'Invite Email Text', 'questions-locale' ),
-				'description' => esc_attr( 'The Mail Sender Email.', 'questions-locale' ),
-				'type' => 'textarea'
-			)
+
 		);
 
 		$settings_handler = new Questions_SettingsHandler( 'general', $settings );
@@ -74,4 +60,4 @@ class Questions_RestrictionsSettings extends Questions_Settings
 		return $html;
 	}
 }
-qu_register_settings( 'Questions_RestrictionsSettings' );
+qu_register_settings( 'Questions_ResponseSettings' );

@@ -67,6 +67,9 @@ class Questions_Responses extends Questions_Component
 		// Base response handlers
 		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/base-response-handlers/email-notifications.php' );
 		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/base-response-handlers/test-extension.php' );
+
+		// Settings
+		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/settings.php' );
 	}
 }
 
