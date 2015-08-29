@@ -117,14 +117,9 @@ class Questions_FormBuilder
 		$post_types = array( 'questions' );
 
 		if( in_array( $post_type, $post_types ) ):
-			add_meta_box( 'form-options', esc_attr__( 'Options', 'questions-locale' ), array( __CLASS__,
-			                                                                                  'meta_box_form_options' ), 'questions', 'side' );
-			add_meta_box( 'form-functions', esc_attr__( 'Form Functions', 'questions-locale' ), array( __CLASS__,
-			                                                                                           'meta_box_form_functions' ), 'questions', 'side' );
-			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'questions-locale' ), array( __CLASS__,
-			                                                                                    'meta_box_form_elements' ), 'questions', 'side', 'high' );
-			add_meta_box( 'form-results', esc_attr__( 'Results', 'questions-locale' ), array( __CLASS__,
-			                                                                                  'meta_box_form_results' ), 'questions', 'normal', 'low' );
+			add_meta_box( 'form-options', esc_attr__( 'Options', 'questions-locale' ), array( __CLASS__, 'meta_box_form_options' ), 'questions', 'side' );
+			add_meta_box( 'form-functions', esc_attr__( 'Form Functions', 'questions-locale' ), array( __CLASS__, 'meta_box_form_functions' ), 'questions', 'side' );
+			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'questions-locale' ), array( __CLASS__, 'meta_box_form_elements' ), 'questions', 'side', 'high' );
 		endif;
 	}
 
@@ -142,22 +137,6 @@ class Questions_FormBuilder
 		foreach( $questions_global->element_types AS $element ):
 			$html .= $element->draw_admin();
 		endforeach;
-
-		echo $html;
-	}
-
-	/**
-	 * Showing form results in admin
-	 *
-	 * @since 1.0.0
-	 */
-	public static function meta_box_form_results()
-	{
-		global $wpdb, $post, $questions_global;
-
-		$form_id = $post->ID;
-
-		$html = do_shortcode( '[form_results id="' . $form_id . '"]' );
 
 		echo $html;
 	}

@@ -47,6 +47,10 @@ class Questions_Charts extends Questions_Component{
 	} // end constructor
 	
 	public function includes(){
+
+        // Loading form builder extension
+        include( QUESTIONS_COMPONENTFOLDER . '/charts/form-builder-extension.php' );
+
         // Base classes
         include( QUESTIONS_COMPONENTFOLDER . '/charts/class-chart-creator.php' );
 
@@ -57,13 +61,6 @@ class Questions_Charts extends Questions_Component{
         include( QUESTIONS_COMPONENTFOLDER . '/charts/dimple/chart-creator.php' );
 
         do_action( 'questions_loading_chart_creators' );
-	}
-
-    /**
-     * Loading component scripts
-     */
-	public function register_component_scripts() {
-
 	}
 }
 
