@@ -44,7 +44,7 @@ class Questions_RestrictionsSettings extends Questions_Settings
 
 	public function settings(){
 
-		$settings = array(
+		$this->settings = array(
 			'modules_title' => array(
 				'title'       => esc_attr( 'Restrictions', 'questions-locale' ),
 				'description' => esc_attr( 'Setup the restrictions settings.', 'questions-locale' ),
@@ -66,12 +66,6 @@ class Questions_RestrictionsSettings extends Questions_Settings
 				'type' => 'textarea'
 			)
 		);
-
-		$settings_handler = new Questions_SettingsHandler( 'general', $settings );
-
-		$html = $settings_handler->get();
-
-		return $html;
 	}
 }
 qu_register_settings( 'Questions_RestrictionsSettings' );

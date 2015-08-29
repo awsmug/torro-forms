@@ -30,7 +30,6 @@ if( !defined( 'ABSPATH' ) ){
 
 class Questions_GeneralSettings extends Questions_Settings
 {
-
 	/**
 	 * Constructor
 	 */
@@ -42,9 +41,9 @@ class Questions_GeneralSettings extends Questions_Settings
 		$this->slug = 'general';
 	}
 
-	public function settings(){
-
-		$settings = array(
+	public function settings()
+	{
+		$this->settings = array(
 			'disclaimer' => array(
 				'title'       => esc_attr( 'Welcome to Awesome Forms!', 'questions-locale' ),
 				'description' => esc_attr( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'questions-locale' ),
@@ -67,12 +66,6 @@ class Questions_GeneralSettings extends Questions_Settings
 				'defaults' => array( 'charts', 'restrictions', 'response' )
 			)
 		);
-
-		$settings_handler = new Questions_SettingsHandler( 'general', $settings );
-
-		$html = $settings_handler->get();
-
-		return $html;
 	}
 }
 qu_register_settings( 'Questions_GeneralSettings' );

@@ -75,7 +75,27 @@ class Questions_SettingsHandler
 	 */
 	public function save()
 	{
+		global $post;
 
+		if( count( $this->fields ) == 0 ){
+			return FALSE;
+		}
+
+		foreach( $this->fields AS $name => $settings ){
+
+			if( array_key_exists( $name, $_POST ) ){
+				$option_name = 'af_settings_' . $this->slug . '_' .  $name;
+
+				if( 'options' == $this->type ){
+					update_option( $option_name , $_POST[ $name ] );
+
+				}elseif( 'post' == $this->type ){
+					if( property_exists( $post, 'ID' ) ){
+						update_post_meta( $post->ID, $option_name, $_POST[ $name ] );
+					}
+				}
+			}
+		}
 	}
 
 	private function get_field( $name, $settings )
@@ -227,7 +247,7 @@ class Questions_SettingsHandler
 						$checked = ' checked="checked"';
 					}
 
-					$html .= '<div class="questions-checkbox"><input type="checkbox" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value .'</div>' ;
+					$html .= '<div class="questions-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value .'</div>' ;
 				endforeach;
 				if( isset( $settings[ 'description' ] ) ){
 					$html .= '<small>' . $settings[ 'description' ] . '</small>';

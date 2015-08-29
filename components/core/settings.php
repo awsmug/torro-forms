@@ -44,9 +44,10 @@ class Questions_SettingsPage{
     public static function init()
     {
         if( !is_admin() ){
-            return NULL;
+            return;
         }
 
+        add_action( 'init', array( __CLASS__, 'save' ), 100 );
         add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
     }
 
@@ -76,14 +77,18 @@ class Questions_SettingsPage{
                     $html.= '</h2>';
 
                     $html.= '<div id="questions-settings-content">';
-                    $html.= $questions_global->settings[ self::$current_tab ]->settings();
+                    $html.= $questions_global->settings[ self::$current_tab ]->show();
+
+                    ob_start();
+                    do_action( 'questions_settings_' . self::$current_tab );
+                    $html.= ob_get_clean();
+
                     $html.= '</div>';
 
-                    $html.= '<input type="button" class="button-primary button-save-settings" value="' . esc_attr( 'Save Settings', 'questions-locale' ) . '" />';
+                    $html.= '<input name="questions_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr( 'Save Settings', 'questions-locale' ) . '" />';
 
                 }else{
                     $html.= '<p>' . esc_attr( 'There are no settings available', 'questions-locale' ) . '</p>';
-                    p( $questions_global->settings );
                 }
 
             $html.= '</form>';
@@ -91,6 +96,17 @@ class Questions_SettingsPage{
         $html.= '</div>';
 
         echo $html;
+    }
+
+    /**
+     * Saving settings
+     */
+    public static function save()
+    {
+        if( !isset( $_POST[ 'questions_save_settings' ] ) )
+            return;
+
+        do_action( 'questions_save_settings' );
     }
 
     /**

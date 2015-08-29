@@ -55,10 +55,38 @@ abstract class Questions_Settings
 	private $initialized = FALSE;
 
 	/**
+	 * Settings
+	 * @since 1.0.0
+	 */
+	public $settings;
+
+	/**
 	 * Will be shown within settings tab
 	 * @return mixed
 	 */
 	abstract function settings();
+
+	/**
+	 * Shows the Settings
+	 * @return string
+	 */
+	public function show(){
+		$settings_handler = new Questions_SettingsHandler( $this->slug, $this->settings );
+		$html = $settings_handler->get();
+
+		return $html;
+	}
+
+	/**
+	 * Saving Settngs
+	 */
+	public function save_settings()
+	{
+		$settings_handler = new Questions_SettingsHandler( $this->slug, $this->settings );
+		$settings_handler->save();
+
+		do_action( 'questions_save_settings_' . $this->slug );
+	}
 
 	/**
 	 * Function to register element in Questions
@@ -101,6 +129,10 @@ abstract class Questions_Settings
 		}
 
 		$this->initialized = TRUE;
+
+		$this->settings(); // Initializing settings
+
+		add_action( 'init', array( $this, 'save_settings' ), 50 );
 
 		return $questions_global->add_settings( $this->slug, $this );
 	}

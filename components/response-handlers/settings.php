@@ -44,7 +44,7 @@ class Questions_ResponseSettings extends Questions_Settings
 
 	public function settings(){
 
-		$settings = array(
+		$this->settings = array(
 			'modules_title' => array(
 				'title'       => esc_attr( 'Response Handling', 'questions-locale' ),
 				'description' => esc_attr( 'Setup the Response Handling settings.', 'questions-locale' ),
@@ -52,12 +52,6 @@ class Questions_ResponseSettings extends Questions_Settings
 			),
 
 		);
-
-		$settings_handler = new Questions_SettingsHandler( 'general', $settings );
-
-		$html = $settings_handler->get();
-
-		return $html;
 	}
 }
 qu_register_settings( 'Questions_ResponseSettings' );
