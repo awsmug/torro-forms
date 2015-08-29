@@ -70,6 +70,9 @@ class Questions_Restrictions extends Questions_Component
 		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/all-members.php' );
 		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/selected-members.php' );
 		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/base-restrictions/timerange.php' );
+
+		// Settings
+		include_once( QUESTIONS_COMPONENTFOLDER . '/restrictions/settings.php' );
 	}
 
 	/**

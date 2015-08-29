@@ -47,8 +47,6 @@ class Questions_SettingsPage{
             return NULL;
         }
 
-        self::init_tabs();
-
         add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
     }
 
@@ -58,21 +56,24 @@ class Questions_SettingsPage{
     public static function show(){
         global $questions_global;
 
+        self::init_tabs();
+
         $html = '<div class="wrap questions">';
             $html.= '<form name="questions_settings" id="questions-settings" method="POST">';
                 $html.= '<input type="hidden" id="questions_save_settings" name="questions_save_settings" value="' . wp_create_nonce( '_questions_save_settings_nonce' ) . '" />';
 
                 if( property_exists( $questions_global, 'settings' ) && count( $questions_global->settings ) > 0 ){
 
+                    $html.= '<h2 class="nav-tab-wrapper">';
                     foreach( $questions_global->settings AS $setting ){
 
+                        $css_classes = '';
                         if( $setting->slug == self::$current_tab )
                             $css_classes = ' nav-tab-active';
 
-                        $html.= '<h2 class="nav-tab-wrapper">';
-                        $html.= '<a href="' . admin_url( 'admin.php?page=ComponentQuestionsAdmin&tab=' . $setting->slug ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
-                        $html.= '</h2>';
+                        $html.= '<a href="' . admin_url( 'admin.php?page=QuestionsAdmin&tab=' . $setting->slug ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
                     }
+                    $html.= '</h2>';
 
                     $html.= '<div id="questions-settings-content">';
                     $html.= $questions_global->settings[ self::$current_tab ]->settings();
