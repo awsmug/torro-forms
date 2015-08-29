@@ -59,7 +59,31 @@ if( defined( 'QUESTIONS_FOLDER' ) ):
 	}
 endif;
 
-// @todo Getting a Mail class or API
+/**
+ * Checks if we are a questions post type in admin
+ * @return bool
+ */
+function qu_is_questions_admin(){
+	global $post;
+
+	if( is_admin() && qu_is_questions() )
+		return TRUE;
+
+	return FALSE;
+}
+/**
+ * Checks if we are in a questions post type
+ * @return bool
+ */
+function qu_is_questions(){
+	global $post;
+
+	if( is_admin() && is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type  )
+		return TRUE;
+
+	return FALSE;
+}
+
 
 /**
  * Getting standard mailtext strings
@@ -68,6 +92,7 @@ endif;
  *
  * @return string $mailtext Mailtext as String
  */
+// @todo Getting to Mail class or API
 function qu_get_mail_template_text( $mailtext_title )
 {
 

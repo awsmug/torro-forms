@@ -175,9 +175,8 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	public static function add_media_button( $editor_id ){
 		global $post;
 
-		if( is_object( $post ) )
-			if( 'questions' != $post->post_type )
-				return;
+		if( !qu_is_questions_admin() )
+			return;
 
 		echo qu_template_tag_button( $editor_id );
 	}
@@ -321,6 +320,11 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 */
 	public static function enqueue_admin_scripts()
 	{
+		global $post;
+
+		if( !qu_is_questions_admin() )
+			return;
+
 		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
 		                      'yes'                          => esc_attr__( 'Yes', 'questions-locale' ),
 		                      'no'                           => esc_attr__( 'No', 'questions-locale' ) );

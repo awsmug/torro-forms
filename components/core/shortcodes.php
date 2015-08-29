@@ -41,12 +41,10 @@ class Questions_ShortCodes
 	 */
 	public static function init()
 	{
-		global $post;
-
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
-		if( is_object( $post ) && 'questions' == $post->post_type ){
+		if( qu_is_questions_admin() ){
 			add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_shortcode' ), 15 );
 		}
 	}
