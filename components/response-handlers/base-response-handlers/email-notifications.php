@@ -82,8 +82,6 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 				$subject = qu_filter_templatetags( $notification->subject );
 				$message = apply_filters( 'the_content', qu_filter_templatetags( $notification->message ) );
 
-				p( $message );
-
 				$this->from_name = $from_name;
 				$this->from_email = $from_email;
 

@@ -75,18 +75,46 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	 * Shows the Element content
 	 * @param $element_id
 	 */
-	public static function element_content( $element_id ){
-		global $questions_response_id, $questions_response;
+	public static function element_content( $element_id )
+	{
+		global $questions_response;
 
 		if( !isset( $questions_response[ $element_id ] ) )
 			return;
 
-		if( is_array( $questions_response[ $element_id ] ) )
+		$element = qu_get_element( $element_id );
+
+		/**
+		 * Displaying elements
+		 */
+		if( count( $element->sections ) > 0 )
 		{
-			return print_r( $questions_response[ $element_id ], TRUE );
+			/**
+			 * Elements with sections
+			 */
+			// @todo Checking if element had sections and giving them HTML > Try with Matrix
+
+		}elseif( is_array( $questions_response[ $element_id ] ) )
+		{
+			/**
+			 * Elements with multiple answers
+			 */
+			$html = '<ul>';
+			foreach( $questions_response[ $element_id ] AS $response ){
+				$html.= '<li>' . $response . '</li>';
+			}
+			$html.= '</ul>';
+
+			return $html;
+		}else
+		{
+			/**
+			 * Elements with string response value
+			 */
+			return $questions_response[ $element_id ];
 		}
 
-		return $questions_response[ $element_id ];
+
 	}
 }
 qu_register_templatetags( 'Questions_FormTemplateTags' );
