@@ -42,9 +42,7 @@ class QuestionsChartsShortCodes
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
 
-		if( qu_is_questions_formbuilder() ){
-			add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
-		}
+		add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
 
 		// add_action( 'questions_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
@@ -157,6 +155,9 @@ class QuestionsChartsShortCodes
 	{
 		global $post;
 
+		if( !qu_is_questions_formbuilder() )
+			return;
+
 		$html = '<div class="questions-options shortcode">';
 		$html .= '<label for="form_results_shortcode">' . __( 'Charts Shortcode:', 'questions-locale' ) . '</label><br />';
 		$html .= '<input type="text" id="form_results_shortcode" value="[form_results id=' . $post->ID . ']" />';
@@ -174,10 +175,10 @@ class QuestionsChartsShortCodes
 	 */
 	public static function show_element_result_shortcode( $object )
 	{
-		if( $object->id != '' && $object->is_analyzable ):
+		if( $object->id != '' && $object->is_analyzable ){
 			$small = '<small>' . __( '(CTRL+C and paste into a post to embed element result charts in a post)', 'questions-locale' ) . '</small>';
 			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Charts Shortcode:', 'questions-locale' ) . '</label><input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
-		endif;
+		}
 	}
 }
 
