@@ -43,7 +43,8 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	 */
 	public function tags()
 	{
-		$this->add_tag( 'formtitle', esc_attr( 'Form Title', 'questions-locale' ), esc_attr( 'Adds the Form Title', 'questions-locale' ), array( __CLASS__ , 'formtitle' ) );
+		$this->add_tag( 'formtitle', esc_attr( 'Form Title', 'questions-locale' ), esc_attr( 'Shows the Form Title', 'questions-locale' ), array( __CLASS__ , 'formtitle' ) );
+		$this->add_tag( 'allelments', esc_attr( 'All Elements', 'questions-locale' ), esc_attr( 'Shows all Answers', 'questions-locale' ), array( __CLASS__ , 'allelments' ) );
 	}
 
 	/**
@@ -53,8 +54,8 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	{
 		global $questions_form_id;
 
-		$form_id = $questions_form_id;
-
+		$form = new Questions_Form( $questions_form_id );
+		return $form->title;
 	}
 
 	/**
@@ -113,8 +114,28 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 			 */
 			return $questions_response[ $element_id ];
 		}
+	}
 
+	/**
+	 * Shows the Element content
+	 * @param $element_id
+	 */
+	public static function allelments(){
+		global $questions_form_id, $questions_response;
 
+		$form = new Questions_Form( $questions_form_id );
+
+		p( $questions_response );
+		$html = '<table style="width:100%;">';
+		foreach( $form->get_elements() AS $element ){
+			$html.= '<tr>';
+				$html.= '<td>' . $element->question . '</td>';
+				$html.= '<td>' . self::element_content( $element->id ) . '</td>';
+			$html.= '</tr>';
+		}
+		$html.= '</table>';
+
+		return $html;
 	}
 }
 qu_register_templatetags( 'Questions_FormTemplateTags' );
