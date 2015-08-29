@@ -63,10 +63,20 @@ endif;
  * Checks if we are a questions post type in admin
  * @return bool
  */
-function qu_is_questions_admin(){
+function qu_is_questions_formbuilder(){
 	global $post;
 
 	if( is_admin() && qu_is_questions() )
+		return TRUE;
+
+	return FALSE;
+}
+/**
+ * Checks if we are on questions settings page
+ * @return bool
+ */
+function qu_is_questions_settings(){
+	if( is_admin() && isset( $_GET[ 'page' ] ) && 'QuestionsAdmin' == $_GET[ 'page' ] )
 		return TRUE;
 
 	return FALSE;
@@ -78,7 +88,7 @@ function qu_is_questions_admin(){
 function qu_is_questions(){
 	global $post;
 
-	if( is_admin() && is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type  )
+	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type  )
 		return TRUE;
 
 	return FALSE;

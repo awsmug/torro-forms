@@ -42,7 +42,7 @@ class QuestionsChartsShortCodes
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
 
-		if( qu_is_questions_admin() ){
+		if( qu_is_questions_formbuilder() ){
 			add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
 		}
 

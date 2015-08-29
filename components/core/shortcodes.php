@@ -69,7 +69,7 @@ class Questions_ShortCodes
 	{
 		global $post;
 
-		if( !qu_is_questions_admin() )
+		if( !qu_is_questions_formbuilder() )
 			return;
 
 		$html = '<div class="questions-options shortcode">';

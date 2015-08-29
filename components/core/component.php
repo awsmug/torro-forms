@@ -143,23 +143,29 @@ class Questions_Core extends Questions_Component
 		// Admin
 		include( QUESTIONS_COMPONENTFOLDER . '/core/menu.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form-builder.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/pages/settings.php' ); // @todo - Adding real settings pages
+		include( QUESTIONS_COMPONENTFOLDER . '/core/settings.php' );
 
-		// Functions
+		// Settings
+		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/class-settings.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/base-settings/general.php' );
+
+		// Form functions
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form-loader.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/form-process.php' );
-
 		include( QUESTIONS_COMPONENTFOLDER . '/core/responses.php' );
 
+		// Template tags
 		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/class-templatetags.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/templatetags-global.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/templatetags-form.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/base-templatetags/templatetags-global.php' );
+		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/base-templatetags/templatetags-form.php' );
 
+		// Shortcodes
+		include( QUESTIONS_COMPONENTFOLDER . '/core/shortcodes.php' );
+
+		// Helper functions
 		include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
 		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
-
-		include( QUESTIONS_COMPONENTFOLDER . '/core/shortcodes.php' );
 	}
 
 	/**
@@ -168,6 +174,7 @@ class Questions_Core extends Questions_Component
 	 */
 	public static function register_admin_styles()
 	{
+		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . 'components/core/includes/css/fonts.css' );
 		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . 'components/core/includes/css/fonts.css' );
 	}
 

@@ -175,7 +175,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	public static function add_media_button( $editor_id ){
 		global $post;
 
-		if( !qu_is_questions_admin() )
+		if( !qu_is_questions_formbuilder() )
 			return;
 
 		echo qu_template_tag_button( $editor_id );
@@ -322,7 +322,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	{
 		global $post;
 
-		if( !qu_is_questions_admin() )
+		if( !qu_is_questions_formbuilder() )
 			return;
 
 		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),

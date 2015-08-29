@@ -2,8 +2,6 @@
 /**
  * Questions Post Class
  *
- * Extended functions for posts
- *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package Questions/Core
  * @version 1.0.0

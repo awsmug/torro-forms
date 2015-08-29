@@ -34,6 +34,7 @@ class Questions
 {
 	var $tables;
 	var $components = array();
+	var $settings = array();
 	var $element_types = array();
 	var $response_handlers = array();
 	var $restrictions = array();
@@ -77,18 +78,30 @@ class Questions
 		return TRUE;
 	}
 
-	public function add_form_element( $slug, $object )
+	public function add_settings( $slug, $object )
 	{
 		if( '' == $slug ){
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'Questions_FormElement' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'Questions_Settings' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 
-		$this->element_types[ $slug ] = $object;
+		$this->settings[ $slug ] = $object;
 
+		return TRUE;
+	}
+
+	public function add_form_element( $slug, $object )
+	{
+		if( '' == $slug ){
+			return FALSE;
+		}
+		if( !is_object( $object ) && 'Questions_FormElement' != get_parent_class( $object ) ){
+			return FALSE;
+		}
+		$this->element_types[ $slug ] = $object;
 		return TRUE;
 	}
 

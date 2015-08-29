@@ -357,7 +357,6 @@ abstract class Questions_FormElement
 	 */
 	public function draw()
 	{
-
 		global $questions_response_errors;
 
 		$errors = '';
@@ -738,7 +737,6 @@ abstract class Questions_FormElement
 	 */
 	private function admin_widget_settings_tab()
 	{
-
 		$html = '';
 
 		// Running each setting field
@@ -760,7 +758,6 @@ abstract class Questions_FormElement
 	 */
 	private function admin_widget_settings_field( $name, $field )
 	{
-
 		$widget_id = $this->admin_get_widget_id();
 		$value = '';
 

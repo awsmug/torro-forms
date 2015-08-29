@@ -41,9 +41,8 @@ class Questions_AdminMenu
 	 */
 	public static function init()
 	{
-
 		if( !is_admin() ){
-			return NULL;
+			return;
 		}
 
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
@@ -57,13 +56,10 @@ class Questions_AdminMenu
 	 */
 	public static function admin_menu()
 	{
-
-		add_menu_page( esc_attr__( 'Forms', 'questions-locale' ), esc_attr__( 'Forms', 'questions-locale' ), 'edit_posts', 'QuestionsAdmin', array( 'Questions_AdminSettingsPage',
-		                                                                                                                                            'show' ), '', 50 );
+		add_menu_page( esc_attr__( 'Forms', 'questions-locale' ), esc_attr__( 'Forms', 'questions-locale' ), 'edit_posts', 'QuestionsAdmin', array( 'Questions_SettingsPage', 'show' ), '', 50 );
 		add_submenu_page( 'QuestionsAdmin', esc_attr__( 'Create', 'questions-locale' ), esc_attr__( 'Create', 'questions-locale' ), 'edit_posts', 'post-new.php?post_type=questions' );
 		add_submenu_page( 'QuestionsAdmin', esc_attr__( 'Categories', 'questions-locale' ), esc_attr__( 'Categories', 'questions-locale' ), 'edit_posts', 'edit-tags.php?taxonomy=questions-categories' );
-		add_submenu_page( 'QuestionsAdmin', esc_attr__( 'Settings', 'questions-locale' ), esc_attr__( 'Settings', 'questions-locale' ), 'edit_posts', 'QuestionsAdmin', array( 'Questions_AdminSettingsPage',
-		                                                                                                                                                                       'show' ) );
+		add_submenu_page( 'QuestionsAdmin', esc_attr__( 'Settings', 'questions-locale' ), esc_attr__( 'Settings', 'questions-locale' ), 'edit_posts', 'QuestionsAdmin', array( 'Questions_SettingsPage', 'show' ) );
 	}
 
 	/**
@@ -73,7 +69,6 @@ class Questions_AdminMenu
 	 */
 	public static function tax_menu_correction( $parent_file )
 	{
-
 		global $current_screen;
 		$taxonomy = $current_screen->taxonomy;
 
