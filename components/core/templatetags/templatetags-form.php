@@ -81,11 +81,20 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 		if( !isset( $questions_response[ $element_id ] ) )
 			return;
 
+
+
 		return $questions_response[ $element_id ];
 	}
 }
 qu_register_templatetags( 'Questions_FormTemplateTags' );
 
+/**
+ * Live registering element templatetags
+ * @param $element_id
+ * @param $element_name
+ *
+ * @return bool
+ */
 function qu_add_element_templatetag( $element_id, $element_name ){
 	global $questions_global;
 

@@ -155,14 +155,12 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		$html.= '<script language="javascript">jQuery( document ).ready(function ($) {$.questions_templatetag_buttons();});</script>';
 
-		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this notification?', 'questions-locale' ) . '</div>';
+		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this Email-Notification?', 'questions-locale' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();
 		wp_editor( '', 'xxx' );
 		ob_clean();
-
-		// $html.= qu_filter_templatetags( '{sitetitle} - {formtitle}' );
 
 		return $html;
 	}

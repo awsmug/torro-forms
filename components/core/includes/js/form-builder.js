@@ -428,6 +428,8 @@
 
 			var template_tag = $( '.questions-templatetag-list .questions-templatetag' );
 
+			template_tag.unbind();
+
 			template_tag.click( function(){
 				var tag = $( this ).text();
 				var tag_name = $( this ).attr( 'data-tagname' );
@@ -435,6 +437,8 @@
 				var value = '{' + tag_name + '}';
 
 				$( input_name ).val( $( input_name ).val() + value );
+
+				console.log( value );
 
 
 				// window.send_to_editor( value ); // @todo: How thiiiis works?
