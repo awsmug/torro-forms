@@ -81,7 +81,10 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 		if( !isset( $questions_response[ $element_id ] ) )
 			return;
 
-
+		if( is_array( $questions_response[ $element_id ] ) )
+		{
+			return print_r( $questions_response[ $element_id ], TRUE );
+		}
 
 		return $questions_response[ $element_id ];
 	}

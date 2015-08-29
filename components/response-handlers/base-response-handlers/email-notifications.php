@@ -80,7 +80,9 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 				$from_email = qu_filter_templatetags( $notification->from_email );
 				$to_email = qu_filter_templatetags( $notification->to_email );
 				$subject = qu_filter_templatetags( $notification->subject );
-				$message = qu_filter_templatetags( $notification->message );
+				$message = apply_filters( 'the_content', qu_filter_templatetags( $notification->message ) );
+
+				p( $message );
 
 				$this->from_name = $from_name;
 				$this->from_email = $from_email;
@@ -89,7 +91,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 				add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
 				add_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
 
-				wp_mail( $to_email, $subject, apply_filters( 'the_content', $message ) );
+				wp_mail( $to_email, $subject, $message );
 
 				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
 				remove_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
