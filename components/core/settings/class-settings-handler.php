@@ -108,7 +108,9 @@ class Questions_SettingsHandler
 		}
 		elseif( 'post' == $this->type )
 		{
-			$value = get_post_meta ( $post->ID, $name, TRUE );
+			if( property_exists( $post, 'ID' ) ){
+				$value = get_post_meta( $post->ID, $name, TRUE );
+			}
 		}
 
 		switch ( $settings[ 'type' ] ){
@@ -130,7 +132,7 @@ class Questions_SettingsHandler
 
 			case 'checkbox':
 
-				$html = $this->get_checkboxes( $name, $settings, $value, $settings[ 'values' ] );
+				$html = $this->get_checkboxes( $name, $settings, $value );
 				break;
 
 			case 'title':
@@ -243,7 +245,7 @@ class Questions_SettingsHandler
 				foreach( $settings[ 'values' ] AS $field_key => $field_value ):
 					$checked = '';
 
-					if( $value == $field_key ){
+					if( in_array( $field_key, $value ) ){
 						$checked = ' checked="checked"';
 					}
 
