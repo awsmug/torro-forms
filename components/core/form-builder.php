@@ -57,6 +57,8 @@ class Questions_FormBuilder
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+
+		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'form_functions' ) );
 	}
 
 	/**
@@ -117,7 +119,6 @@ class Questions_FormBuilder
 		$post_types = array( 'questions' );
 
 		if( in_array( $post_type, $post_types ) ):
-			add_meta_box( 'form-functions', esc_attr__( 'Form Functions', 'questions-locale' ), array( __CLASS__, 'meta_box_form_functions' ), 'questions', 'side' );
 			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'questions-locale' ), array( __CLASS__, 'meta_box_form_elements' ), 'questions', 'side', 'high' );
 		endif;
 	}
@@ -145,23 +146,19 @@ class Questions_FormBuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_form_functions()
+	public static function form_functions()
 	{
 		global $post;
 
-		// Dublicate survey
-		$html = '<div class="questions-function-element">';
-		$html .= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'questions-locale' ) . '" />';
-		$html .= '</div>';
+		$html = '<div id="questions-functions" class="misc-pub-section">';
+			$html.= '<div id="questions-functions-notices"></div>';
+			$html.= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'questions-locale' ) . '" />';
+			$html.= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'questions-locale' ) . '" />';
 
-		// Delete results
-		$html .= '<div class="questions-function-element">';
-		$html .= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete Form results', 'questions-locale' ) . '" />';
-		$html .= '</div>';
-
-		ob_start();
-		do_action( 'questions_functions' );
-		$html .= ob_get_clean();
+			ob_start();
+			do_action( 'questions_functions' );
+			$html.= ob_get_clean();
+		$html.= '</div>';
 
 		echo $html;
 	}

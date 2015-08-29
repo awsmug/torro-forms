@@ -219,28 +219,30 @@
 /**
  * Form functions
  */
-#form-functions .inside {
-    padding-bottom: 0;
+#questions-functions{
+    text-align: left;
 }
-
-#form-functions .button {
-    margin-bottom: 10px;
-}
-
-#form-functions .button-loading {
+#questions-functions .button-loading {
     background-image: url('../../../../../assets/images/loading.gif');
     background-repeat: no-repeat;
     background-position: 5px 5px;
     padding-left: 28px;
 }
 
-#form-functions p {
-    text-align: center;
-    margin-top: 0;
+#questions-functions input {
+   margin-right: 10px;
+}
+#questions-functions input:last-child{
+    margin-right: 0;
 }
 
-#form-functions .questions-function-element:first-child {
-    margin-top: 10px;
+#questions-functions-notices{
+    display: none;
+    border: 1px dashed #CCC;
+    padding: 5px;
+    font-size: 11px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 /**

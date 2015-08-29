@@ -43,27 +43,15 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 
 		$this->option_name = __( 'Selected Members of site', 'questions-locale' );
 
-		add_action( 'questions_functions', array(
-			$this,
-			'invite_buttons' ) );
+		// add_action( 'questions_functions', array( $this, 'invite_buttons' ) );
 
-		add_action( 'questions_save_form', array(
-			$this,
-			'save' ), 10, 1 );
+		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
 
-		add_action( 'wp_ajax_questions_add_participiants_allmembers', array(
-			$this,
-			'ajax_add_participiants_allmembers' ) );
-		add_action( 'wp_ajax_questions_invite_participiants', array(
-			$this,
-			'ajax_invite_participiants' ) );
+		add_action( 'wp_ajax_questions_add_participiants_allmembers', array( $this, 'ajax_add_participiants_allmembers' ) );
+		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
 
-		add_action( 'admin_enqueue_scripts', array(
-			$this,
-			'enqueue_scripts' ), 15 );
-		add_action( 'admin_print_styles', array(
-			$this,
-			'register_admin_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
+		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 	}
 
 	/**

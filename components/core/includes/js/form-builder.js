@@ -316,11 +316,14 @@
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
 
-					var response_text = translation_fb.duplicated_form_successfully + '<br /><a href="' + response.admin_url + '">' + translation_fb.edit_form + '</a>';
-					button.after( '<p class="form-duplicated">' + response_text + '</p>' );
+					var response_text = translation_fb.duplicated_form_successfully + ' <a href="' + response.admin_url + '">' + translation_fb.edit_form + '</a>';
+
+					$( '#questions-functions-notices').html( response_text );
+					$( '#questions-functions-notices').show();
+
 					button.removeClass( 'button-loading' );
 					
-					$( '.form-duplicated' ).fadeOut( 10000 );
+					$( '#questions-functions-notices' ).fadeOut( 5000 );
 				});
 				
 			}else{
@@ -360,10 +363,13 @@
                                 response = jQuery.parseJSON( response );
 
                                 var response_text = translation_fb.deleted_results_successfully;
-                                button.after( '<p class="form-deleted-responses">' + response_text + '</p>' );
+
+								$( '#questions-functions-notices').html( response_text );
+								$( '#questions-functions-notices').show();
+
                                 button.removeClass( 'button-loading' );
 
-                                $( '.form-deleted-responses' ).fadeOut( 20000 );
+                                $( '#questions-functions-notices' ).fadeOut( 5000 );
                             });
                         }
                     },
