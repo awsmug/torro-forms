@@ -44,7 +44,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	public function tags()
 	{
 		$this->add_tag( 'formtitle', esc_attr( 'Form Title', 'questions-locale' ), esc_attr( 'Shows the Form Title', 'questions-locale' ), array( __CLASS__ , 'formtitle' ) );
-		$this->add_tag( 'allelments', esc_attr( 'All Elements', 'questions-locale' ), esc_attr( 'Shows all Answers', 'questions-locale' ), array( __CLASS__ , 'allelments' ) );
+		$this->add_tag( 'allelements', esc_attr( 'All Elements', 'questions-locale' ), esc_attr( 'Shows all Answers', 'questions-locale' ), array( __CLASS__ , 'allelements' ) );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	 * Shows the Element content
 	 * @param $element_id
 	 */
-	public static function allelments(){
+	public static function allelements(){
 		global $questions_form_id, $questions_response;
 
 		$form = new Questions_Form( $questions_form_id );
