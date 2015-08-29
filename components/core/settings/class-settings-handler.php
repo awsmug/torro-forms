@@ -62,10 +62,7 @@ class Questions_SettingsHandler
 		$html = '<table class="form-table">';
 		$html.= '<tbody>';
 		foreach( $this->fields AS $name => $settings ){
-			$html.= '<tr>';
-				$html.= '<th>' . $settings[ 'title' ] . '</th>';
-				$html.= '<td>' . $this->get_field( $name, $settings ) . '</td>';
-			$html.= '</tr>';
+				$html.= $this->get_field( $name, $settings );
 		}
 		$html.= '</tbody>';
 		$html.= '</table>';
@@ -98,30 +95,25 @@ class Questions_SettingsHandler
 
 			case 'text':
 
-				$input = $this->get_textfield( $name, $value );
+				$html = $this->get_textfield( $name, $settings, $value );
 				break;
 
 			case 'textarea':
 
-				$input = $this->get_textarea( $name, $value );
+				$html = $this->get_textarea( $name, $settings, $value );
 				break;
 
 			case 'radio':
 
-				$input = $this->get_radio( $name, $value, $settings[ 'values' ] );
+				$html = $this->get_radios( $name, $settings, $value );
+				break;
+
+			case 'checkbox':
+
+				$html = $this->get_checkboxes( $name, $settings, $value, $settings[ 'values' ] );
 				break;
 
 		}
-
-		$html = '<div class="questions-inputfield">';
-		$html.= $input . '<br />';
-
-		if( isset( $settings[ 'description' ] ) ){
-			$html .= '<small>' . $settings[ 'description' ] . '</small>';
-		}
-
-		$html.= '</div>';
-
 		return $html;
 	}
 
@@ -133,9 +125,17 @@ class Questions_SettingsHandler
 	 *
 	 * @return string
 	 */
-	private function get_textfield( $name, $value )
+	private function get_textfield( $name, $settings, $value )
 	{
-		$input = '<input type="text" name="' . $name . '" value="' . $value . '" />';
+		$html.= '<tr>';
+			$html.= '<th>' . $settings[ 'title' ] . '</th>';
+			$html.= '</td>';
+				$html.= '<input type="text" name="' . $name . '" value="' . $value . '" />';
+				if( isset( $settings[ 'description' ] ) ){
+					$html .= '<small>' . $settings[ 'description' ] . '</small>';
+				}
+			$html.= '</td>';
+		$html.= '</tr>';
 
 		return $input;
 	}
@@ -148,15 +148,23 @@ class Questions_SettingsHandler
 	 *
 	 * @return string
 	 */
-	private function get_textarea( $name, $value )
+	private function get_textarea( $name, $settings, $value )
 	{
-		$input = '<textarea name="' . $name . '">' . $value . '</textarea>';
+		$html.= '<tr>';
+			$html.= '<th>' . $settings[ 'title' ] . '</th>';
+			$html.= '<td>';
+					$html.= '<textarea name="' . $name . '">' . $value . '</textarea>';
+					if( isset( $settings[ 'description' ] ) ){
+						$html .= '<small>' . $settings[ 'description' ] . '</small>';
+					}
+			$html.= '</td>';
+		$html.= '</tr>';
 
 		return $input;
 	}
 
 	/**
-	 * Returns Textarea
+	 * Returns Radio button
 	 *
 	 * @param $name
 	 * @param $value
@@ -164,20 +172,61 @@ class Questions_SettingsHandler
 	 *
 	 * @return string
 	 */
-	private function get_radio( $name, $value, $values )
+	private function get_radios( $name, $settings, $value )
 	{
 		$input = '';
 
-		foreach( $values AS $field_key => $field_value ):
-			$checked = '';
+		$html.= '<tr>';
+			$html.= '<th>' . $settings[ 'title' ] . '</th>';
+			$html.= '<td>';
+				foreach( $values AS $field_key => $field_value ):
+					$checked = '';
 
-			if( $value == $field_key ){
-				$checked = ' checked="checked"';
-			}
+					if( $value == $field_key ){
+						$checked = ' checked="checked"';
+					}
 
-			$input .= '<span class="surveval-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
-		endforeach;
+
+					$html .= '<div class="questions-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
+				endforeach;
+				if( isset( $settings[ 'description' ] ) ){
+					$html .= '<small>' . $settings[ 'description' ] . '</small>';
+				}
+			$html.= '</td>';
+		$html.= '</tr>';
 
 		return $input;
+	}
+
+	/**
+	 * Returns Checkboxes
+	 *
+	 * @param $name
+	 * @param $value
+	 * @param $values
+	 *
+	 * @return string
+	 */
+	private function get_checkboxes( $name, $settings, $value )
+	{
+		$html = '<tr>';
+			$html.= '<th>' . $settings[ 'title' ] . '</th>';
+			$html.= '<td>';
+				foreach( $settings[ 'values' ] AS $field_key => $field_value ):
+					$checked = '';
+
+					if( $value == $field_key ){
+						$checked = ' checked="checked"';
+					}
+
+					$html .= '<div class="questions-checkbox"><input type="checkbox" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value .'</div>' ;
+				endforeach;
+				if( isset( $settings[ 'description' ] ) ){
+					$html .= '<small>' . $settings[ 'description' ] . '</small>';
+				}
+			$html.= '</td>';
+		$html.= '</tr>';
+
+		return $html;
 	}
 }
