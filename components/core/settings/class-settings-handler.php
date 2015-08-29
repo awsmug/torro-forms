@@ -62,7 +62,7 @@ class Questions_SettingsHandler
 		$html = '<table class="form-table">';
 		$html.= '<tbody>';
 		foreach( $this->fields AS $name => $settings ){
-				$html.= $this->get_field( $name, $settings );
+			$html.= $this->get_field( $name, $settings );
 		}
 		$html.= '</tbody>';
 		$html.= '</table>';
@@ -118,6 +118,11 @@ class Questions_SettingsHandler
 				$html = $this->get_title( $name, $settings );
 				break;
 
+			case 'disclaimer':
+
+				$html = $this->get_disclaimer( $name, $settings );
+				break;
+
 		}
 		return $html;
 	}
@@ -134,10 +139,10 @@ class Questions_SettingsHandler
 	{
 		$html = '<tr>';
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
-			$html.= '</td>';
+			$html.= '<td>';
 				$html.= '<input type="text" name="' . $name . '" value="' . $value . '" />';
 				if( isset( $settings[ 'description' ] ) ){
-					$html .= '<small>' . $settings[ 'description' ] . '</small>';
+					$html.= '<br /><small>' . $settings[ 'description' ] . '</small>';
 				}
 			$html.= '</td>';
 		$html.= '</tr>';
@@ -158,9 +163,9 @@ class Questions_SettingsHandler
 		$html = '<tr>';
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
 			$html.= '<td>';
-					$html.= '<textarea name="' . $name . '">' . $value . '</textarea>';
+					$html.= '<textarea name="' . $name . '" cols="50" rows="8">' . $value . '</textarea>';
 					if( isset( $settings[ 'description' ] ) ){
-						$html .= '<small>' . $settings[ 'description' ] . '</small>';
+						$html .= '<br /><small>' . $settings[ 'description' ] . '</small>';
 					}
 			$html.= '</td>';
 		$html.= '</tr>';
@@ -252,6 +257,33 @@ class Questions_SettingsHandler
 		if( isset( $settings[ 'description' ] ) ){
 			$html .= '<p>' . $settings[ 'description' ] . '</p>';
 		}
+
+		$html.= '<table class="form-table">';
+		$html.= '<tbody>';
+
+		return $html;
+	}
+
+	/**
+	 * Returns Textarea
+	 *
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	private function get_disclaimer( $name, $settings )
+	{
+		$html = '</tbody>';
+		$html.= '</table>';
+
+		$html.= '<div class="questions-settings-disclaimer">';
+		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
+
+		if( isset( $settings[ 'description' ] ) ){
+			$html .= '<p>' . $settings[ 'description' ] . '</p>';
+		}
+		$html.= '</div>';
 
 		$html.= '<table class="form-table">';
 		$html.= '<tbody>';

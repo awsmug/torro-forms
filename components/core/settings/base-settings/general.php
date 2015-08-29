@@ -45,6 +45,11 @@ class Questions_GeneralSettings extends Questions_Settings
 	public function settings(){
 
 		$settings = array(
+			'disclaimer' => array(
+				'title'       => esc_attr( 'Welcome to Questions!', 'questions-locale' ),
+				'description' => esc_attr( 'Questions gives you ...', 'questions-locale' ),
+				'type' => 'disclaimer'
+			),
 			'modules_title' => array(
 				'title'       => esc_attr( 'Modules', 'questions-locale' ),
 				'description' => esc_attr( 'Check the modules of Questions which have to be activated.', 'questions-locale' ),
