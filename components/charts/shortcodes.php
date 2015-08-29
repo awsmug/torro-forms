@@ -36,13 +36,18 @@ class QuestionsChartsShortCodes
 	 */
 	public static function init()
 	{
+		global $post;
+
 		add_shortcode( 'survey_results', array( __CLASS__, 'survey_results' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form_results', array( __CLASS__, 'form_results' ) );
 
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
 
-		add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
+		if( is_object( $post ) && 'questions' == $post->post_type ){
+			add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
+		}
+
 		// add_action( 'questions_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 

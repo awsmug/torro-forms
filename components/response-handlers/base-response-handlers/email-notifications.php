@@ -40,6 +40,8 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 */
 	public function __construct()
 	{
+		global $post;
+
 		$this->title = __( 'Email Notifications', 'wcsc-locale' );
 		$this->slug = 'emailnotifications';
 
@@ -51,6 +53,8 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		add_filter( 'tiny_mce_before_init', 'Quesions_WPEditorBox::tiny_mce_before_init', 10, 2 );
 		add_filter( 'quicktags_settings', 'Quesions_WPEditorBox::quicktags_settings', 10, 2 );
+
+
 		add_action( 'media_buttons', array( __CLASS__, 'add_media_button' ), 20 );
 	}
 
@@ -169,6 +173,12 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 	 * Adding media button
 	 */
 	public static function add_media_button( $editor_id ){
+		global $post;
+
+		if( is_object( $post ) )
+			if( 'questions' != $post->post_type )
+				return;
+
 		echo qu_template_tag_button( $editor_id );
 	}
 
