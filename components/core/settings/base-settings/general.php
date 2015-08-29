@@ -45,9 +45,13 @@ class Questions_GeneralSettings extends Questions_Settings
 	public function settings(){
 
 		$settings = array(
-			'modules' => array(
+			'modules_title' => array(
 				'title'       => esc_attr( 'Modules', 'questions-locale' ),
 				'description' => esc_attr( 'Check the modules of Questions which have to be activated.', 'questions-locale' ),
+				'type' => 'title'
+			),
+			'modules' => array(
+				'title'       => esc_attr( 'Modules', 'questions-locale' ),
 				'type' => 'checkbox',
 				'values' => array(
 					'charts' => esc_attr( 'Charts', 'questions-locale' ),

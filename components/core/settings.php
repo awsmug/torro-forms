@@ -78,7 +78,7 @@ class Questions_SettingsPage{
                     $html.= $questions_global->settings[ self::$current_tab ]->settings();
                     $html.= '</div>';
 
-                    $html.= '<input type="button" class="button" value="' . esc_attr( 'Save', 'questions-locale' ) . '" />';
+                    $html.= '<input type="button" class="button-primary button-save-settings" value="' . esc_attr( 'Save Settings', 'questions-locale' ) . '" />';
 
                 }else{
                     $html.= '<p>' . esc_attr( 'There are no settings available', 'questions-locale' ) . '</p>';

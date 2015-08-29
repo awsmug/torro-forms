@@ -113,6 +113,11 @@ class Questions_SettingsHandler
 				$html = $this->get_checkboxes( $name, $settings, $value, $settings[ 'values' ] );
 				break;
 
+			case 'title':
+
+				$html = $this->get_title( $name, $settings );
+				break;
+
 		}
 		return $html;
 	}
@@ -127,7 +132,7 @@ class Questions_SettingsHandler
 	 */
 	private function get_textfield( $name, $settings, $value )
 	{
-		$html.= '<tr>';
+		$html = '<tr>';
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
 			$html.= '</td>';
 				$html.= '<input type="text" name="' . $name . '" value="' . $value . '" />';
@@ -137,7 +142,7 @@ class Questions_SettingsHandler
 			$html.= '</td>';
 		$html.= '</tr>';
 
-		return $input;
+		return $html;
 	}
 
 	/**
@@ -150,7 +155,7 @@ class Questions_SettingsHandler
 	 */
 	private function get_textarea( $name, $settings, $value )
 	{
-		$html.= '<tr>';
+		$html = '<tr>';
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
 			$html.= '<td>';
 					$html.= '<textarea name="' . $name . '">' . $value . '</textarea>';
@@ -160,7 +165,7 @@ class Questions_SettingsHandler
 			$html.= '</td>';
 		$html.= '</tr>';
 
-		return $input;
+		return $html;
 	}
 
 	/**
@@ -174,9 +179,7 @@ class Questions_SettingsHandler
 	 */
 	private function get_radios( $name, $settings, $value )
 	{
-		$input = '';
-
-		$html.= '<tr>';
+		$html = '<tr>';
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
 			$html.= '<td>';
 				foreach( $values AS $field_key => $field_value ):
@@ -195,7 +198,7 @@ class Questions_SettingsHandler
 			$html.= '</td>';
 		$html.= '</tr>';
 
-		return $input;
+		return $html;
 	}
 
 	/**
@@ -226,6 +229,32 @@ class Questions_SettingsHandler
 				}
 			$html.= '</td>';
 		$html.= '</tr>';
+
+		return $html;
+	}
+
+	/**
+	 * Returns Textarea
+	 *
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	private function get_title( $name, $settings )
+	{
+		$html = '</tbody>';
+		$html.= '</table>';
+
+
+		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
+
+		if( isset( $settings[ 'description' ] ) ){
+			$html .= '<p>' . $settings[ 'description' ] . '</p>';
+		}
+
+		$html.= '<table class="form-table">';
+		$html.= '<tbody>';
 
 		return $html;
 	}
