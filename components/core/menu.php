@@ -2,8 +2,6 @@
 /**
  * Menus of WP Admin
  *
- * This class Display Adds the menu WP Admin
- *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package Questions/Core
  * @version 2015-04-16
