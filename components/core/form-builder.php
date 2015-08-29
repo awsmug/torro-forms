@@ -55,7 +55,6 @@ class Questions_FormBuilder
 		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
-
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
@@ -69,9 +68,8 @@ class Questions_FormBuilder
 	{
 		global $post, $questions_global;
 
-		if( !self::is_questions_post_type() ){
+		if( !qu_is_questions_admin() )
 			return;
-		}
 
 		$html  = '<div id="questions-content" class="drag-drop">';
 			$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
@@ -465,35 +463,15 @@ class Questions_FormBuilder
 	}
 
 	/**
-	 * Cheks if we are in correct post type
-	 *
-	 * @return boolean $is_questions_post_type
-	 * @since 1.0.0
-	 */
-	private static function is_questions_post_type()
-	{
-		global $post;
-
-		// If there is no post > stop adding scripts
-		if( !isset( $post ) ){
-			return FALSE;
-		}
-
-		// If post type is wrong > stop adding scripts
-		if( 'questions' != $post->post_type ){
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	/**
 	 * Adds the message area to the edit post site
 	 *
 	 * @since 1.0.0
 	 */
 	public static function jquery_messages_area()
 	{
+		if( !qu_is_questions_admin() )
+			return;
+
 		$max_input_vars = ini_get( 'max_input_vars' );
 		$html = '<div id="questions-messages" style="display:none;"><p class="questions-message">This is a dummy messaget</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
 		echo $html;
@@ -506,9 +484,8 @@ class Questions_FormBuilder
 	 */
 	public static function register_styles()
 	{
-		if( !self::is_questions_post_type() ){
+		if( !qu_is_questions_admin() )
 			return;
-		}
 
 		wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/components/core/includes/css/form-builder.css' );
 	}
@@ -520,9 +497,9 @@ class Questions_FormBuilder
 	 */
 	public static function enqueue_scripts()
 	{
-		if( !self::is_questions_post_type() ){
+		if( !qu_is_questions_admin() )
 			return;
-		}
+
 
 		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
 		                      'yes'                          => esc_attr__( 'Yes', 'questions-locale' ),

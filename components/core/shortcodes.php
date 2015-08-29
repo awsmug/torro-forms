@@ -44,9 +44,7 @@ class Questions_ShortCodes
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
-		if( qu_is_questions_admin() ){
-			add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_shortcode' ), 15 );
-		}
+		add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
 	public static function form( $atts )
@@ -70,6 +68,9 @@ class Questions_ShortCodes
 	public static function show_form_shortcode()
 	{
 		global $post;
+
+		if( !qu_is_questions_admin() )
+			return;
 
 		$html = '<div class="questions-options shortcode">';
 		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'questions-locale' ) . '</label><br />';
