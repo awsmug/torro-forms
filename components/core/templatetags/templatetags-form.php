@@ -125,7 +125,6 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 
 		$form = new Questions_Form( $questions_form_id );
 
-		p( $questions_response );
 		$html = '<table style="width:100%;">';
 		foreach( $form->get_elements() AS $element ){
 			$html.= '<tr>';
