@@ -17,7 +17,7 @@ class Questions_FormElement_Separator extends Questions_FormElement {
 
 	public function __construct( $id = NULL ) {
 
-		$this->slug        = 'Separator';
+		$this->name        = 'Separator';
 		$this->title       = esc_attr__( 'Separator', 'questions-locale' );
 		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between questions.', 'questions-locale' );
 		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-separator.png';

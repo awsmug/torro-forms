@@ -30,11 +30,11 @@ if( !defined( 'ABSPATH' ) ){
 
 abstract class Questions_TemplateTags{
 	/**
-	 * Slug of templatetags collection
+	 * Name of templatetags collection
 	 *
 	 * @since 1.0.0
 	 */
-	var $slug;
+	var $name;
 
 	/**
 	 * Title of templatetags collection
@@ -100,8 +100,8 @@ abstract class Questions_TemplateTags{
 			return FALSE;
 		}
 
-		if( '' == $this->slug ){
-			$this->slug = get_class( $this );
+		if( '' == $this->name ){
+			$this->name = get_class( $this );
 		}
 
 		if( '' == $this->title ){
@@ -112,7 +112,7 @@ abstract class Questions_TemplateTags{
 			$this->description = esc_attr__( 'This is a Questions Templatetag collection.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->slug, $questions_global->restrictions ) ){
+		if( array_key_exists( $this->name, $questions_global->restrictions ) ){
 			return FALSE;
 		}
 
@@ -124,7 +124,7 @@ abstract class Questions_TemplateTags{
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_templatetags( $this->slug, $this );
+		return $questions_global->add_templatetags( $this->name, $this );
 	}
 }
 
@@ -163,11 +163,11 @@ function qu_get_templatetag_collections()
 	}
 
 	$templatetag_collections = array();
-	foreach( $questions_global->templatetags AS $templatetag_collection_slug => $templatetag_collection )
+	foreach( $questions_global->templatetags AS $templatetag_collection_name => $templatetag_collection )
 	{
-		$templatetag_collections[ $templatetag_collection_slug ] = new stdClass();
-		$templatetag_collections[ $templatetag_collection_slug ]->title = $templatetag_collection->title;
-		$templatetag_collections[ $templatetag_collection_slug ]->description = $templatetag_collection->description;
+		$templatetag_collections[ $templatetag_collection_name ] = new stdClass();
+		$templatetag_collections[ $templatetag_collection_name ]->title = $templatetag_collection->title;
+		$templatetag_collections[ $templatetag_collection_name ]->description = $templatetag_collection->description;
 	}
 	return $templatetag_collections;
 }
@@ -209,12 +209,12 @@ function qu_template_tag_button( $input_name ){
 		$html.= '<input type="button" value="' . esc_attr( '+', 'questions-locale' ) . '" class="button" rel="' . $input_name . '" />';
 		$html.= '<div class="questions-templatetag-list">';
 
-		foreach( $collections AS $collection_slug => $collection )
+		foreach( $collections AS $collection_name => $collection )
 		{
 			$html.= '<div class="questions-templatetag-collection">';
 			$html.= '<div class="questions-templatetag-collection-headline">' . $collection->title . '</div>';
 
-			$template_tags = qu_get_templatetags( $collection_slug );
+			$template_tags = qu_get_templatetags( $collection_name );
 
 			foreach( $template_tags AS $tag_name => $template_tag )
 			{
@@ -238,8 +238,8 @@ function qu_filter_templatetags( $content ){
 
 	$collections = qu_get_templatetag_collections();
 
-	foreach( $collections AS $collection_slug => $collection ){
-		$template_tags = qu_get_templatetags( $collection_slug );
+	foreach( $collections AS $collection_name => $collection ){
+		$template_tags = qu_get_templatetags( $collection_name );
 
 		foreach( $template_tags AS $tag_name => $template_tag )
 		{

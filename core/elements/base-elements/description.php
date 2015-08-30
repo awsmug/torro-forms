@@ -19,7 +19,7 @@ class Questions_FormElement_Description extends Questions_FormElement
 	public function __construct( $id = NULL )
 	{
 
-		$this->slug = 'Description';
+		$this->name = 'Description';
 		$this->title = esc_attr__( 'Description', 'questions-locale' );
 		$this->description = esc_attr__( 'Adds a text to the form.', 'questions-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-text.png';

@@ -306,7 +306,7 @@ class Questions_Form extends Questions_Post
 				$wpdb->insert( $questions_global->tables->questions, array( 'questions_id' => $new_form_id,
 				                                                            'question'     => $element->question,
 				                                                            'sort'         => $element->sort,
-				                                                            'type'         => $element->slug ), array( '%d',
+				                                                            'type'         => $element->name ), array( '%d',
 					               '%s',
 					               '%d',
 					               '%s' ) );

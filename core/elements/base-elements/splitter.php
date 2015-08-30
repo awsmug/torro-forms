@@ -18,7 +18,7 @@ class Questions_FormElement_Splitter extends Questions_FormElement
 
 	public function __construct( $id = NULL )
 	{
-		$this->slug = 'Splitter';
+		$this->name = 'Splitter';
 		$this->title = esc_attr__( 'Split Form', 'questions-locale' );
 		$this->description = esc_attr__( 'Splits a form into several steps', 'questions-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-split-form.png';

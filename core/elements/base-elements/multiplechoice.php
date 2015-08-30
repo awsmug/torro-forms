@@ -18,7 +18,7 @@ class Questions_FormElement_MultipleChoice extends Questions_FormElement
 
 	public function __construct( $id = NULL )
 	{
-		$this->slug = 'MultipleChoice';
+		$this->name = 'MultipleChoice';
 		$this->title = esc_attr__( 'Multiple Choice', 'questions-locale' );
 		$this->description = esc_attr__( 'Add a question which can be answered by selecting one ore more given answers.', 'questions-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-multiplechoice.png';

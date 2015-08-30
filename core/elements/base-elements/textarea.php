@@ -19,7 +19,7 @@ class Questions_FormElement_Textarea extends Questions_FormElement
 	public function __construct( $id = NULL )
 	{
 
-		$this->slug = 'Textarea';
+		$this->name = 'Textarea';
 		$this->title = esc_attr__( 'Textarea', 'questions-locale' );
 		$this->description = esc_attr__( 'Add a question which can be answered within a text area.', 'questions-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-textarea.png';

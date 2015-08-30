@@ -33,10 +33,10 @@ if( !defined( 'ABSPATH' ) ){
 abstract class Questions_ResponseHandler
 {
 	/**
-	 * Slug of restriction
+	 * name of restriction
 	 * @since 1.0.0
 	 */
-	public $slug;
+	public $name;
 
 	/**
 	 * Title of restriction
@@ -110,8 +110,8 @@ abstract class Questions_ResponseHandler
 			return FALSE;
 		}
 
-		if( '' == $this->slug ){
-			$this->slug = get_class( $this );
+		if( '' == $this->name ){
+			$this->name = get_class( $this );
 		}
 
 		if( '' == $this->title ){
@@ -122,7 +122,7 @@ abstract class Questions_ResponseHandler
 			$this->description = esc_attr__( 'This is the Questions Responsehandler extension.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->slug, $questions_global->response_handlers ) ){
+		if( array_key_exists( $this->name, $questions_global->response_handlers ) ){
 			return FALSE;
 		}
 
@@ -132,7 +132,7 @@ abstract class Questions_ResponseHandler
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_response_handler( $this->slug, $this );
+		return $questions_global->add_response_handler( $this->name, $this );
 	}
 }
 

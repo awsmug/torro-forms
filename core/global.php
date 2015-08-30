@@ -63,9 +63,9 @@ class Questions
 		$this->tables = apply_filters( 'questions_tables', $this->tables );
 	}
 
-	public function add_component( $slug, $object )
+	public function add_component( $name, $object )
 	{
-		if( '' == $slug ){
+		if( '' == $name ){
 			return FALSE;
 		}
 
@@ -73,14 +73,14 @@ class Questions
 			return FALSE;
 		}
 
-		$this->components[ $slug ] = $object;
+		$this->components[ $name ] = $object;
 
 		return TRUE;
 	}
 
-	public function add_settings( $slug, $object )
+	public function add_settings( $name, $object )
 	{
-		if( '' == $slug ){
+		if( '' == $name ){
 			return FALSE;
 		}
 
@@ -88,26 +88,26 @@ class Questions
 			return FALSE;
 		}
 
-		$this->settings[ $slug ] = $object;
+		$this->settings[ $name ] = $object;
 
 		return TRUE;
 	}
 
-	public function add_form_element( $slug, $object )
+	public function add_form_element( $name, $object )
 	{
-		if( '' == $slug ){
+		if( '' == $name ){
 			return FALSE;
 		}
 		if( !is_object( $object ) && 'Questions_FormElement' != get_parent_class( $object ) ){
 			return FALSE;
 		}
-		$this->element_types[ $slug ] = $object;
+		$this->element_types[ $name ] = $object;
 		return TRUE;
 	}
 
-	public function add_restriction( $slug, $object )
+	public function add_restriction( $name, $object )
 	{
-		if( '' == $slug ){
+		if( '' == $name ){
 			return FALSE;
 		}
 
@@ -115,14 +115,14 @@ class Questions
 			return FALSE;
 		}
 
-		$this->restrictions[ $slug ] = $object;
+		$this->restrictions[ $name ] = $object;
 
 		return TRUE;
 	}
 
-	public function add_response_handler( $slug, $object )
+	public function add_response_handler( $name, $object )
 	{
-		if( '' == $slug ){
+		if( '' == $name ){
 			return FALSE;
 		}
 
@@ -130,14 +130,14 @@ class Questions
 			return FALSE;
 		}
 
-		$this->response_handlers[ $slug ] = $object;
+		$this->response_handlers[ $name ] = $object;
 
 		return TRUE;
 	}
 
-	public function add_chartscreator( $slug, $object )
+	public function add_chartscreator( $name, $object )
 	{
-		if( '' == $slug ){
+		if( '' == $name ){
 			return FALSE;
 		}
 
@@ -145,14 +145,14 @@ class Questions
 			return FALSE;
 		}
 
-		$this->chart_creators[ $slug ] = $object;
+		$this->chart_creators[ $name ] = $object;
 
 		return TRUE;
 	}
 
-	public function add_templatetags( $slug, $object )
+	public function add_templatetags( $name, $object )
 	{
-		if( '' == $slug ){
+		if( '' == $name ){
 			return FALSE;
 		}
 
@@ -160,7 +160,7 @@ class Questions
 			return FALSE;
 		}
 
-		$this->templatetags[ $slug ] = $object;
+		$this->templatetags[ $name ] = $object;
 
 		return TRUE;
 	}

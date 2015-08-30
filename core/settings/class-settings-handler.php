@@ -33,7 +33,7 @@ class Questions_SettingsHandler
 	/**
 	 * @var string
 	 */
-	var $slug;
+	var $name;
 
 	/**
 	 * Settings field array
@@ -46,9 +46,9 @@ class Questions_SettingsHandler
 	 */
 	var $type = 'options';
 
-	public function __construct( $settings_slug, $settings_fields, $settings_type = 'options' )
+	public function __construct( $settings_name, $settings_fields, $settings_type = 'options' )
 	{
-		$this->slug = $settings_slug;
+		$this->name = $settings_name;
 		$this->fields = $settings_fields;
 		$this->type = $settings_type;
 	}
@@ -84,7 +84,7 @@ class Questions_SettingsHandler
 		foreach( $this->fields AS $name => $settings ){
 
 			if( array_key_exists( $name, $_POST ) ){
-				$option_name = 'af_settings_' . $this->slug . '_' .  $name;
+				$option_name = 'af_settings_' . $this->name . '_' .  $name;
 
 				if( 'options' == $this->type ){
 					update_option( $option_name , $_POST[ $name ] );
@@ -104,7 +104,7 @@ class Questions_SettingsHandler
 
 		if( 'options' == $this->type )
 		{
-			$value = get_option( 'af_settings_' . $this->slug . '_' . $name );
+			$value = get_option( 'af_settings_' . $this->name . '_' . $name );
 		}
 		elseif( 'post' == $this->type )
 		{

@@ -44,10 +44,10 @@ abstract class Questions_ChartCreator{
     var $description;
 
     /**
-     * Slug of ChartCreator
+     * Name of ChartCreator
      * @since 1.0.0
      */
-    var $slug;
+    var $name;
 
     /**
      * Control variable if ChartCreator is already initialized
@@ -59,11 +59,11 @@ abstract class Questions_ChartCreator{
 	 * Initializes the Component.
 	 * @since 1.0.0
 	 */
-	public function __construct( $title, $description, $slug ) {
+	public function __construct( $title, $description, $name ) {
 
         $this->title = $title;
         $this->description = $description;
-        $this->slug = $slug;
+        $this->name = $name;
 
         if( is_admin() ):
             add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
@@ -89,8 +89,8 @@ abstract class Questions_ChartCreator{
             return FALSE;
         }
 
-        if ( '' == $this->slug ) {
-            $this->slug = get_class( $this );
+        if ( '' == $this->name ) {
+            $this->name = get_class( $this );
         }
 
         if ( '' == $this->title ) {
@@ -101,7 +101,7 @@ abstract class Questions_ChartCreator{
             $this->description = esc_attr__( 'This is a Questions Survey Element.', 'questions-locale' );
         }
 
-        if ( array_key_exists( $this->slug, $questions_global->chart_creators ) ) {
+        if ( array_key_exists( $this->name, $questions_global->chart_creators ) ) {
             return FALSE;
         }
 
@@ -111,7 +111,7 @@ abstract class Questions_ChartCreator{
 
         $this->initialized = TRUE;
 
-        return $questions_global->add_chartscreator( $this->slug, $this );
+        return $questions_global->add_chartscreator( $this->name, $this );
     }
 
     /**

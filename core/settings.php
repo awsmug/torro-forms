@@ -47,7 +47,7 @@ class Questions_SettingsPage{
             return;
         }
 
-        add_action( 'init', array( __CLASS__, 'save' ), 100 );
+        add_action( 'init', array( __CLASS__, 'save' ), 20 );
         add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
     }
 
@@ -69,10 +69,10 @@ class Questions_SettingsPage{
                     foreach( $questions_global->settings AS $setting ){
 
                         $css_classes = '';
-                        if( $setting->slug == self::$current_tab )
+                        if( $setting->name == self::$current_tab )
                             $css_classes = ' nav-tab-active';
 
-                        $html.= '<a href="' . admin_url( 'admin.php?page=QuestionsAdmin&tab=' . $setting->slug ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
+                        $html.= '<a href="' . admin_url( 'admin.php?page=QuestionsAdmin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
                     }
                     $html.= '</h2>';
 

@@ -39,7 +39,7 @@ class Questions_ResponseSettings extends Questions_Settings
 		global $post;
 
 		$this->title = __( 'Response Handling', 'wcsc-locale' );
-		$this->slug = 'responsehandling';
+		$this->name = 'responsehandling';
 	}
 
 	public function settings(){

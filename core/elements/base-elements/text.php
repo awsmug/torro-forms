@@ -18,7 +18,7 @@ class Questions_FormElement_Text extends Questions_FormElement
 
 	public function __construct( $id = NULL )
 	{
-		$this->slug = 'Text';
+		$this->name = 'Text';
 		$this->title = esc_attr__( 'Text', 'questions-locale' );
 		$this->description = esc_attr__( 'Add a question which can be answered within a text field.', 'questions-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-textfield.png';

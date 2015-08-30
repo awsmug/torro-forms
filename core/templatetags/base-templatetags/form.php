@@ -34,7 +34,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	public function __construct()
 	{
 		$this->title = __( 'Form', 'wcsc-locale' );
-		$this->slug = 'formtags';
+		$this->name = 'formtags';
 		$this->description = __( 'Form Templatetags', 'wcsc-locale' );
 	}
 

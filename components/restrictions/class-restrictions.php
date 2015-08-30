@@ -33,11 +33,11 @@ if( !defined( 'ABSPATH' ) ){
 abstract class Questions_Restriction
 {
 	/**
-	 * Slug of restriction
+	 * name of restriction
 	 *
 	 * @since 1.0.0
 	 */
-	var $slug;
+	var $name;
 
 	/**
 	 * Title of restriction
@@ -161,8 +161,8 @@ abstract class Questions_Restriction
 			return FALSE;
 		}
 
-		if( '' == $this->slug ){
-			$this->slug = get_class( $this );
+		if( '' == $this->name ){
+			$this->name = get_class( $this );
 		}
 
 		if( '' == $this->title ){
@@ -173,7 +173,7 @@ abstract class Questions_Restriction
 			$this->description = esc_attr__( 'This is a Questions Restriction.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->slug, $questions_global->restrictions ) ){
+		if( array_key_exists( $this->name, $questions_global->restrictions ) ){
 			return FALSE;
 		}
 
@@ -183,7 +183,7 @@ abstract class Questions_Restriction
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_restriction( $this->slug, $this );
+		return $questions_global->add_restriction( $this->name, $this );
 	}
 }
 

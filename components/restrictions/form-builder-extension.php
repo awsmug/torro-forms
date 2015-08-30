@@ -104,15 +104,15 @@ class Questions_FormBuilder_RestrictionsExtension
 		$html .= '<div id="questions-restrictions-options">';
 		$html .= '<label for"questions_restrictions_option">' . esc_attr( 'Who has access to this form?', 'questions-locale' ) . '';
 		$html .= '<select name="questions_restrictions_option" id="questions-restrictions-option">';
-		foreach( $restrictions AS $slug => $restriction ){
+		foreach( $restrictions AS $name => $restriction ){
 			if( !$restriction->has_option() ){
 				continue;
 			}
 			$selected = '';
-			if( $slug == $restrictions_option ){
+			if( $name == $restrictions_option ){
 				$selected = ' selected="selected"';
 			}
-			$html .= '<option value="' . $slug . '"' . $selected . '>' . $restriction->option_name . '</option>';
+			$html .= '<option value="' . $name . '"' . $selected . '>' . $restriction->option_name . '</option>';
 		}
 		$html .= '</select></label>';
 		$html .= '</div>';
@@ -120,12 +120,12 @@ class Questions_FormBuilder_RestrictionsExtension
 		/**
 		 * Option content
 		 */
-		foreach( $restrictions AS $slug => $restriction ){
+		foreach( $restrictions AS $name => $restriction ){
 			$option_content = $restriction->option_content();
 			if( !$restriction->has_option() || !$option_content ){
 				continue;
 			}
-			$html .= '<div id="questions-restrictions-content-' . $restriction->slug . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->slug . '">' . $option_content . '</div>';
+			$html .= '<div id="questions-restrictions-content-' . $restriction->name . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->name . '">' . $option_content . '</div>';
 		}
 
 		ob_start();

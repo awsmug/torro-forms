@@ -39,7 +39,7 @@ class Questions_Restriction_Timerange extends Questions_Restriction
 	public function __construct()
 	{
 		$this->title = __( 'Timerange', 'wcsc-locale' );
-		$this->slug = 'timerange';
+		$this->name = 'timerange';
 
 		add_action( 'questions_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
 		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );

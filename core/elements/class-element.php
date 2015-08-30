@@ -48,11 +48,11 @@ abstract class Questions_FormElement
 	var $survey_id;
 
 	/**
-	 * Slug of element
+	 * Name of element
 	 *
 	 * @since 1.0.0
 	 */
-	var $slug;
+	var $name;
 
 	/**
 	 * Title of element which will be shown in admin
@@ -207,8 +207,8 @@ abstract class Questions_FormElement
 			return FALSE;
 		}
 
-		if( '' == $this->slug ){
-			$this->slug = get_class( $this );
+		if( '' == $this->name ){
+			$this->name = get_class( $this );
 		}
 
 		if( '' == $this->title ){
@@ -219,7 +219,7 @@ abstract class Questions_FormElement
 			$this->description = esc_attr__( 'This is a Questions Survey Element.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->slug, $questions_global->element_types ) ){
+		if( array_key_exists( $this->name, $questions_global->element_types ) ){
 			return FALSE;
 		}
 
@@ -229,7 +229,7 @@ abstract class Questions_FormElement
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_form_element( $this->slug, $this );
+		return $questions_global->add_form_element( $this->name, $this );
 	}
 
 	/**
@@ -857,7 +857,7 @@ abstract class Questions_FormElement
 		// Adding hidden Values for element
 		$html = '<input type="hidden" name="questions[' . $widget_id . '][id]" value="' . $this->id . '" />';
 		$html .= '<input type="hidden" name="questions[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][type]" value="' . $this->slug . '" />';
+		$html .= '<input type="hidden" name="questions[' . $widget_id . '][type]" value="' . $this->name . '" />';
 		$html .= '<input type="hidden" name="questions[' . $widget_id . '][has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
 		$html .= '<input type="hidden" name="questions[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ? 'yes' : 'no' ) . '" />';
 

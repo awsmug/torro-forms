@@ -96,7 +96,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 				if( !$response_handler->has_option() ){
 					continue;
 				}
-				$html .= '<li><a href="#' . $response_handler->slug . '">' . $response_handler->title . '</a></option>';
+				$html .= '<li><a href="#' . $response_handler->name . '">' . $response_handler->title . '</a></option>';
 			}
 			$html .= '</ul>';
 
@@ -106,7 +106,7 @@ class Questions_FormBuilder_ResponseHandlerExtension
 				if( ! $response_handler->has_option() ){
 					continue;
 				}
-				$html .= '<div id="' . $response_handler->slug . '">' . $response_handler->option_content . '</div>';
+				$html .= '<div id="' . $response_handler->name . '">' . $response_handler->option_content . '</div>';
 			}
 
 		$html .= '</div>';

@@ -39,7 +39,7 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	public function __construct()
 	{
 		$this->title = __( 'Selected Members', 'questions-locale' );
-		$this->slug = 'selectedmembers';
+		$this->name = 'selectedmembers';
 
 		$this->option_name = __( 'Selected Members of site', 'questions-locale' );
 
@@ -90,12 +90,12 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 		$html .= '<div id="questions-add-participiants-options">';
 		$html .= '<label for"questions_add_participiants_option">' . esc_attr( 'Add Members', 'questions-locale' ) . '';
 		$html .= '<select id="questions-add-participiants-option" name="questions_add_participiants_option">';
-		foreach( $options AS $slug => $value ):
+		foreach( $options AS $name => $value ):
 			$selected = '';
-			if( $slug == $add_participiants_option ){
+			if( $name == $add_participiants_option ){
 				$selected = ' selected="selected"';
 			}
-			$html .= '<option value="' . $slug . '"' . $selected . '>' . $value . '</option>';
+			$html .= '<option value="' . $name . '"' . $selected . '>' . $value . '</option>';
 		endforeach;
 		$html .= '</select>';
 		$html .= '</label>';

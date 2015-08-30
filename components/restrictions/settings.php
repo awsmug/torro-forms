@@ -39,7 +39,7 @@ class Questions_RestrictionsSettings extends Questions_Settings
 		global $post;
 
 		$this->title = __( 'Restrictions', 'wcsc-locale' );
-		$this->slug = 'restrictions';
+		$this->name = 'restrictions';
 	}
 
 	public function settings(){

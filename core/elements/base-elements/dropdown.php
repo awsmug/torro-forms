@@ -17,7 +17,7 @@ class Questions_FormElement_Dropdown extends Questions_FormElement {
 
 	public function __construct( $id = NULL ) {
 
-		$this->slug        = 'Dropdown';
+		$this->name        = 'Dropdown';
 		$this->title       = esc_attr__( 'Dropdown', 'questions-locale' );
 		$this->description = esc_attr__( 'Add a question which can be answered within a dropdown field.', 'questions-locale' );
 		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-dropdown.png';

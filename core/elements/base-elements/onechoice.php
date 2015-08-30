@@ -18,7 +18,7 @@ class Questions_FormElement_OneChoice extends Questions_FormElement
 
 	public function __construct( $id = NULL )
 	{
-		$this->slug = 'OneChoice';
+		$this->name = 'OneChoice';
 		$this->title = esc_attr__( 'One Choice', 'questions-locale' );
 		$this->description = esc_attr__( 'Add a question which can be answered by selecting one of the given answers.', 'questions-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-onechoice.png';

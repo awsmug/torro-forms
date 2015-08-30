@@ -39,7 +39,7 @@ class Questions_Restriction_AllVisitors extends Questions_Restriction
 	public function __construct()
 	{
 		$this->title = __( 'All Visitors', 'wcsc-locale' );
-		$this->slug = 'allvisitors';
+		$this->name = 'allvisitors';
 		$this->option_name = __( 'All Visitors of site', 'wcsc-locale' );
 
 		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ) );

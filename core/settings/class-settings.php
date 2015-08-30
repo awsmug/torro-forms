@@ -31,10 +31,10 @@ if( !defined( 'ABSPATH' ) ){
 abstract class Questions_Settings
 {
 	/**
-	 * Slug of restriction
+	 * name of restriction
 	 * @since 1.0.0
 	 */
-	public $slug;
+	public $name;
 
 	/**
 	 * Title of restriction
@@ -71,7 +71,7 @@ abstract class Questions_Settings
 	 * @return string
 	 */
 	public function show(){
-		$settings_handler = new Questions_SettingsHandler( $this->slug, $this->settings );
+		$settings_handler = new Questions_SettingsHandler( $this->name, $this->settings );
 		$html = $settings_handler->get();
 
 		return $html;
@@ -82,10 +82,10 @@ abstract class Questions_Settings
 	 */
 	public function save_settings()
 	{
-		$settings_handler = new Questions_SettingsHandler( $this->slug, $this->settings );
+		$settings_handler = new Questions_SettingsHandler( $this->name, $this->settings );
 		$settings_handler->save();
 
-		do_action( 'questions_save_settings_' . $this->slug );
+		do_action( 'questions_save_settings_' . $this->name );
 	}
 
 	/**
@@ -108,8 +108,8 @@ abstract class Questions_Settings
 			return FALSE;
 		}
 
-		if( '' == $this->slug ){
-			$this->slug = get_class( $this );
+		if( '' == $this->name ){
+			$this->name = get_class( $this );
 		}
 
 		if( '' == $this->title ){
@@ -120,7 +120,7 @@ abstract class Questions_Settings
 			$this->description = esc_attr__( 'This is the Questions Responsehandler extension.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->slug, $questions_global->settings ) ){
+		if( array_key_exists( $this->name, $questions_global->settings ) ){
 			return FALSE;
 		}
 
@@ -132,9 +132,9 @@ abstract class Questions_Settings
 
 		$this->settings(); // Initializing settings
 
-		add_action( 'init', array( $this, 'save_settings' ), 50 );
+		add_action( 'questions_save_settings', array( $this, 'save_settings' ), 50 );
 
-		return $questions_global->add_settings( $this->slug, $this );
+		return $questions_global->add_settings( $this->name, $this );
 	}
 }
 

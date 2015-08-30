@@ -39,7 +39,7 @@ class Questions_Restriction_AllMembers extends Questions_Restriction
 	public function __construct()
 	{
 		$this->title = __( 'All Members', 'wcsc-locale' );
-		$this->slug = 'allmembers';
+		$this->name = 'allmembers';
 
 		$this->option_name = __( 'All Members of site', 'wcsc-locale' );
 

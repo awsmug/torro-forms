@@ -38,7 +38,7 @@ class Questions_GeneralSettings extends Questions_Settings
 		global $post;
 
 		$this->title = __( 'General', 'wcsc-locale' );
-		$this->slug = 'general';
+		$this->name = 'general';
 	}
 
 	public function settings()

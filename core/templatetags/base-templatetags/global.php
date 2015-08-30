@@ -34,7 +34,7 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 	public function __construct()
 	{
 		$this->title = __( 'Global', 'wcsc-locale' );
-		$this->slug = 'basetags';
+		$this->name = 'basetags';
 		$this->description = __( 'Global Templatetags', 'wcsc-locale' );
 	}
 
