@@ -299,7 +299,7 @@ class AF_SettingsForm
 		$html = '</tbody>';
 		$html.= '</table>';
 
-		$html.= '<div class="questions-settings-disclaimer">';
+		$html.= '<div class="af-settings-disclaimer">';
 		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
 
 		if( isset( $settings[ 'description' ] ) ){

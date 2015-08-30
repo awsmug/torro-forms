@@ -6,17 +6,17 @@
          * Initializing adding participiants option
          */
         $( "#questions-add-participiants-option" ).change( function(){
-            questions_add_participiants_show_hide_boxes();
+            form_add_participiants_show_hide_boxes();
         });
 
-        var questions_add_participiants_show_hide_boxes = function(){
-            var questions_add_participiants_option = $( "#questions-add-participiants-option" ).val(); // Getting selected box
+        var form_add_participiants_show_hide_boxes = function(){
+            var form_add_participiants_option = $( "#questions-add-participiants-option" ).val(); // Getting selected box
 
             $( ".questions-add-participiants-content" ).hide(); // Hiding all boxes
-            $( "#questions-add-participiants-content-" +  questions_add_participiants_option ).show(); // Showing selected box
+            $( "#questions-add-participiants-content-" +  form_add_participiants_option ).show(); // Showing selected box
         }
 
-        questions_add_participiants_show_hide_boxes();
+        form_add_participiants_show_hide_boxes();
 
         /**
          * Setup "Not found"
@@ -36,7 +36,7 @@
         /**
          * Members - Adding Participiants
          */
-        $.questions_add_participiants = function( response ){
+        $.form_add_participiants = function( response ){
             var questions_participiants = $( "#questions-participiants" ).val();
             questions_participiants = questions_participiants.split( ',' );
 
@@ -58,6 +58,7 @@
                     }else{
                         questions_participiants = questions_participiants + ',' + object.id;
                     }
+
                     $( "#questions-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button questions-delete-participiant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
                     count_added_participiants++;
                 }
@@ -77,7 +78,7 @@
         $( "#questions-add-participiants-allmembers-button" ).click( function(){
 
             var data = {
-                action: 'questions_add_participiants_allmembers'
+                action: 'form_add_participiants_allmembers'
             };
 
             var button = $( this );
@@ -85,7 +86,7 @@
 
             $.post( ajaxurl, data, function( response ) {
                 response = jQuery.parseJSON( response );
-                $.questions_add_participiants( response );
+                $.form_add_participiants( response );
                 button.removeClass( 'button-loading' );
             });
         });

@@ -1,8 +1,8 @@
-#questions-settings .button-save-settings{
+#af-settings .button-save-settings{
     margin-top:20px;
 }
 
-#questions-settings .questions-settings-disclaimer{
+#af-settings .af-settings-disclaimer{
     margin: 10px 0 0 0;
     border: 1px solid #CCC;
     background-color: #FFF;

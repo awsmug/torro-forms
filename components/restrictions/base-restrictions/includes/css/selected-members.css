@@ -1,17 +1,13 @@
 /**
  * Participiants
  */
-.questions-participiants-options-content h3,
-.questions-participiants-options-content h4,
-.questions-participiants-options-content h5,
-#questions-restrictions-content-selectedmembers,
-#questions-add-participiants-options{
+#af-add-participiants-options{
     margin: 0 0 10px 0;
 }
 .questions-participiant-new{
     background-color: #7AD03A;
 }
-.questions-participiants-options-content{
+.af-participiants-options-content{
     border: 1px #DFDFDF solid;
     background-color: #FDFDFD;
     padding: 10px;
@@ -89,7 +85,7 @@
     display:none;
     font-size:12px;
 }
-#questions-settings .form-table .questions-text-template{
+#af-settings .form-table .questions-text-template{
     width:80%;
     height:200px;
 }

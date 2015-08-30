@@ -47,7 +47,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
 
-		add_action( 'wp_ajax_questions_add_participiants_allmembers', array( $this, 'ajax_add_participiants_allmembers' ) );
+		add_action( 'wp_ajax_form_add_participiants_allmembers', array( $this, 'ajax_add_participiants_allmembers' ) );
 		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
@@ -83,13 +83,13 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		 */
 		$html .= '<div id="questions-add-participiants">';
 
-		$options = apply_filters( 'questions_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'af-locale' ), ) );
+		$options = apply_filters( 'form_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'af-locale' ), ) );
 
 		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', TRUE );
 
-		$html .= '<div id="questions-add-participiants-options">';
-		$html .= '<label for"questions_add_participiants_option">' . esc_attr( 'Add Members', 'af-locale' ) . '';
-		$html .= '<select id="questions-add-participiants-option" name="questions_add_participiants_option">';
+		$html .= '<div id="af-add-participiants-options">';
+		$html .= '<label for"form_add_participiants_option">' . esc_attr( 'Add Members', 'af-locale' ) . '';
+		$html .= '<select id="questions-add-participiants-option" name="form_add_participiants_option">';
 		foreach( $options AS $name => $value ):
 			$selected = '';
 			if( $name == $add_participiants_option ){
@@ -108,7 +108,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		// Hooking in
 		ob_start();
-		do_action( 'questions_add_participiants_content' );
+		do_action( 'form_add_participiants_content' );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
@@ -319,7 +319,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		/**
 		 * Saving restriction options
 		 */
-		$add_participiants_option = $_POST[ 'questions_add_participiants_option' ];
+		$add_participiants_option = $_POST[ 'form_add_participiants_option' ];
 		update_post_meta( $form_id, 'add_participiants_option', $add_participiants_option );
 
 		/**
