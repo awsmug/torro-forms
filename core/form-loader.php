@@ -69,11 +69,11 @@ class AF_FormLoader
 		}
 
 		// If there is no nothing submitted and there is no session data > exit
-		if( !isset( $_POST[ 'questions_form_id' ] ) ){
+		if( !isset( $_POST[ 'af_form_id' ] ) ){
 			return;
 		}
 
-		$ar_form_id = $_POST[ 'questions_form_id' ];
+		$ar_form_id = $_POST[ 'af_form_id' ];
 
 		// If form doesn't exists > exit
 		if( !af_form_exists( $ar_form_id ) ){

@@ -140,7 +140,7 @@ class AF_FormProcess
 
 		$html .= '<input type="hidden" name="af_next_step" value="' . $next_step . '" />';
 		$html .= '<input type="hidden" name="af_actual_step" value="' . $actual_step . '" />';
-		$html .= '<input type="hidden" name="questions_form_id" value="' . $this->form_id . '" />';
+		$html .= '<input type="hidden" name="af_form_id" value="' . $this->form_id . '" />';
 
 		$html .= '</form>';
 

@@ -158,7 +158,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 								    var data = {
 										action: \'questions_check_fngrprnt\',
-										questions_form_id: ' . $ar_form_id . ',
+										af_form_id: ' . $ar_form_id . ',
 										af_actual_step: ' . $actual_step . ',
 										af_next_step: ' . $next_step . ',
 										' . $maybe_vars .'
@@ -195,7 +195,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$content = '';
 		$restrict = FALSE;
 
-		if( !isset( $_POST[ 'questions_form_id' ]) ){
+		if( !isset( $_POST[ 'af_form_id' ]) ){
 			$content.= esc_attr( 'Question form ID is missing.'. 'af-locale' );
 			$restrict = TRUE;
 		}
@@ -206,7 +206,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		}
 
 		if( FALSE == $restrict ){
-			$ar_form_id = $_POST[ 'questions_form_id' ];
+			$ar_form_id = $_POST[ 'af_form_id' ];
 			$fingerprint = $_POST[ 'fngrprnt' ];
 
 			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
