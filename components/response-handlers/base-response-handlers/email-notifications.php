@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_EmailNotifications extends  Questions_ResponseHandler{
+class AF_EmailNotifications extends  AF_ResponseHandler{
 
 	private $from_name;
 	private $from_email;
@@ -74,7 +74,7 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 
 		if( count( $notifications ) > 0 ){
 			// Adding elements templatetags
-			$form = new Questions_Form( $questions_form_id );
+			$form = new AF_Form( $questions_form_id );
 			foreach( $form->elements AS $element ){
 				qu_add_element_templatetag( $element->id, $element->question );
 			}
@@ -342,4 +342,4 @@ class Questions_EmailNotifications extends  Questions_ResponseHandler{
 		wp_enqueue_style( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/base-response-handlers/includes/css/email-notifications.css' );
 	}
 }
-qu_register_response_handler( 'Questions_EmailNotifications' );
+qu_register_response_handler( 'AF_EmailNotifications' );

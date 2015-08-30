@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Restriction_AllMembers extends Questions_Restriction
+class AF_Restriction_AllMembers extends AF_Restriction
 {
 
 	/**
@@ -119,4 +119,4 @@ class Questions_Restriction_AllMembers extends Questions_Restriction
 		}
 	}
 }
-qu_register_restriction( 'Questions_Restriction_AllMembers' );
+qu_register_restriction( 'AF_Restriction_AllMembers' );

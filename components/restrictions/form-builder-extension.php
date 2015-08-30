@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormBuilder_RestrictionsExtension
+class AF_FormBuilder_RestrictionsExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -164,4 +164,4 @@ class Questions_FormBuilder_RestrictionsExtension
 		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
-Questions_FormBuilder_RestrictionsExtension::init();
+AF_FormBuilder_RestrictionsExtension::init();

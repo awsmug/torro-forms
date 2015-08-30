@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_AbstractData
+class AF_AbstractData
 {
 
 	/**
@@ -58,7 +58,7 @@ class Questions_AbstractData
 			$sql = $wpdb->prepare( "SELECT type FROM {$questions_global->tables->questions} WHERE id = %s", $key );
 			$result = $wpdb->get_row( $sql );
 
-			$element_class = 'Questions_FormElement_' . $result->type;
+			$element_class = 'AF_FormElement_' . $result->type;
 
 			if( !class_exists( $element_class ) ){
 				continue;

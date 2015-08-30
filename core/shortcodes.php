@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_ShortCodes
+class AF_ShortCodes
 {
 	var $tables;
 	var $components = array();
@@ -62,7 +62,7 @@ class Questions_ShortCodes
 			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'questions-locale' );
 		}
 
-		return Questions_FormLoader::get_form( $questions_form_id );
+		return AF_FormLoader::get_form( $questions_form_id );
 	}
 
 	public static function show_form_shortcode()
@@ -81,4 +81,4 @@ class Questions_ShortCodes
 	}
 }
 
-Questions_ShortCodes::init();
+AF_ShortCodes::init();

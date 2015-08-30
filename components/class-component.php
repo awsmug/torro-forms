@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-abstract class Questions_Component
+abstract class AF_Component
 {
 
 	/**

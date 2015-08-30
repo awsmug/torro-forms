@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Restriction_SelectedMembers extends Questions_Restriction
+class AF_Restriction_SelectedMembers extends AF_Restriction
 {
 
 	/**
@@ -469,4 +469,4 @@ class Questions_Restriction_SelectedMembers extends Questions_Restriction
 	}
 }
 
-qu_register_restriction( 'Questions_Restriction_SelectedMembers' );
+qu_register_restriction( 'AF_Restriction_SelectedMembers' );

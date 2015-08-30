@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Questions_Results{
+class AF_Results{
     var $form_id;
 
     /**
@@ -62,7 +62,7 @@ class Questions_Results{
      */
     public function get_responses( $element_id = FALSE, $userdata = TRUE ) {
 
-        $form = new Questions_Form( $this->form_id );
+        $form = new AF_Form( $this->form_id );
 
         // If there are any elements
         if ( is_array( $form->elements ) ):

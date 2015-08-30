@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormBuilder_ResponseHandlerExtension
+class AF_FormBuilder_ResponseHandlerExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -152,4 +152,4 @@ class Questions_FormBuilder_ResponseHandlerExtension
 		wp_enqueue_style( 'questions-response-handlers-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/response-handlers/includes/css/form-builder-extension.css' );
 	}
 }
-Questions_FormBuilder_ResponseHandlerExtension::init();
+AF_FormBuilder_ResponseHandlerExtension::init();

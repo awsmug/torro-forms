@@ -13,7 +13,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormElement_Text extends Questions_FormElement
+class AF_FormElement_Text extends AF_FormElement
 {
 
 	public function __construct( $id = NULL )
@@ -117,4 +117,4 @@ class Questions_FormElement_Text extends Questions_FormElement
 	}
 }
 
-qu_register_survey_element( 'Questions_FormElement_Text' );
+qu_register_survey_element( 'AF_FormElement_Text' );

@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-abstract class Questions_Settings
+abstract class AF_Settings
 {
 	/**
 	 * name of restriction
@@ -71,7 +71,7 @@ abstract class Questions_Settings
 	 * @return string
 	 */
 	public function show(){
-		$settings_handler = new Questions_SettingsHandler( $this->name, $this->settings );
+		$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
 		$html = $settings_handler->get();
 
 		return $html;
@@ -82,7 +82,7 @@ abstract class Questions_Settings
 	 */
 	public function save_settings()
 	{
-		$settings_handler = new Questions_SettingsHandler( $this->name, $this->settings );
+		$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
 		$settings_handler->save();
 
 		do_action( 'questions_save_settings_' . $this->name );

@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
  */
 
-class Questions_SettingsPage{
+class AF_SettingsPage{
 
     /**
      * The current tab
@@ -133,4 +133,4 @@ class Questions_SettingsPage{
         wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/core/includes/css/settings.css' );
     }
 }
-Questions_SettingsPage::init();
+AF_SettingsPage::init();

@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormBuilder
+class AF_FormBuilder
 {
 
 	/**
@@ -81,7 +81,7 @@ class Questions_FormBuilder
 				$html .= ob_get_clean();
 
 				$html .= '<div id="drag-drop-inside">';
-					$form = new Questions_Form( $post->ID );
+					$form = new AF_Form( $post->ID );
 
 					// Running each Element
 					foreach( $form->elements AS $element ):
@@ -341,7 +341,7 @@ class Questions_FormBuilder
 	 */
 	public static function delete_form( $form_id )
 	{
-		$form = new Questions_Form( $form_id );
+		$form = new AF_Form( $form_id );
 		$form->delete();
 	}
 
@@ -360,7 +360,7 @@ class Questions_FormBuilder
 			return;
 		}
 
-		$form = new Questions_Form( $form_id );
+		$form = new AF_Form( $form_id );
 		$new_form_id = $form->duplicate( TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 
 		$post = get_post( $new_form_id );
@@ -389,7 +389,7 @@ class Questions_FormBuilder
 			return;
 		}
 
-		$form = new Questions_form( $form_id );
+		$form = new AF_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
 		$response = array( 'form_id' => $form_id, 'deleted' => TRUE );
@@ -466,4 +466,4 @@ class Questions_FormBuilder
 	}
 }
 
-Questions_FormBuilder::init();
+AF_FormBuilder::init();

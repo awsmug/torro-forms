@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Form extends Questions_Post
+class AF_Form extends AF_Post
 {
 
 	/**
@@ -483,8 +483,8 @@ function qu_get_element( $element_id, $type = '' )
 		$type = $wpdb->get_var( $sql );
 	}
 
-	if( class_exists( 'Questions_FormElement_' . $type ) ){
-		$class = 'Questions_FormElement_' . $type;
+	if( class_exists( 'AF_FormElement_' . $type ) ){
+		$class = 'AF_FormElement_' . $type;
 
 		return new $class( $element_id );
 	}

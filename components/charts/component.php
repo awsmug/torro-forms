@@ -27,7 +27,7 @@
 if( !defined( 'ABSPATH' ) )
 	exit;
 
-class Questions_Charts extends Questions_Component
+class AF_Charts extends AF_Component
 {
 
 	/**
@@ -56,4 +56,4 @@ class Questions_Charts extends Questions_Component
 	}
 }
 
-af_register_component( 'Questions_Charts' );
+af_register_component( 'AF_Charts' );

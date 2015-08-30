@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Export
+class AF_Export
 {
 
 	/**
@@ -60,7 +60,7 @@ class Questions_Export
 			return $actions;
 		}
 
-		$results = new Questions_Results( $post->ID );
+		$results = new AF_Results( $post->ID );
 		$resonses_user_ids = $results->get_response_user_ids();
 
 		if( 0 == count( $resonses_user_ids[ 'responses' ] ) ){
@@ -87,8 +87,8 @@ class Questions_Export
 			$export_type = $_GET[ 'export_survey_results' ];
 			$survey_id = $_GET[ 'survey_id' ];
 
-			$survey = new Questions_Form( $survey_id );
-			$results = new Questions_Results( $survey_id );
+			$survey = new AF_Form( $survey_id );
+			$results = new AF_Results( $survey_id );
 
 			$export_filename = sanitize_title( $survey->title );
 			$export_data = $results->get_responses();
@@ -133,8 +133,8 @@ class Questions_Export
 	public function get_csv( $response_array )
 	{
 
-		$headlines = Questions_AbstractData::get_headlines( $response_array );
-		$lines = Questions_AbstractData::get_lines( $response_array );
+		$headlines = AF_AbstractData::get_headlines( $response_array );
+		$lines = AF_AbstractData::get_lines( $response_array );
 
 		$lines = array_merge( array( $headlines ), $lines );
 
@@ -152,4 +152,4 @@ class Questions_Export
 	}
 }
 
-$Questions_Export = new Questions_Export();
+$AF_Export = new AF_Export();

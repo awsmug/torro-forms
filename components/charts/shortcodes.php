@@ -87,9 +87,9 @@ class QuestionsChartsShortCodes
 			return esc_attr( 'Please enter a valid form id into the shortcode!', 'questions-locale' );
 		}
 
-		$results = new Questions_Results( $form_id );
+		$results = new AF_Results( $form_id );
 
-		$ordered_data = Questions_AbstractData::order_for_charting( $results->get_responses( FALSE, FALSE ) );
+		$ordered_data = AF_AbstractData::order_for_charting( $results->get_responses( FALSE, FALSE ) );
 
 		$html = '';
 
@@ -99,7 +99,7 @@ class QuestionsChartsShortCodes
 				continue;
 			}
 
-			$html .= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
+			$html .= AF_ChartCreator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
 			$count_bars++;
 		endforeach;
 
@@ -133,12 +133,12 @@ class QuestionsChartsShortCodes
 		$sql = $wpdb->prepare( "SELECT questions_id FROM {$questions_global->tables->questions} WHERE id = %d", $element_id );
 		$form_id = $wpdb->get_var( $sql );
 
-		$results = new Questions_Results( $form_id );
-		$ordered_data = Questions_AbstractData::order_for_charting( $results->get_responses( $element_id, FALSE ) );
+		$results = new AF_Results( $form_id );
+		$ordered_data = AF_AbstractData::order_for_charting( $results->get_responses( $element_id, FALSE ) );
 
 		$html = '';
 		foreach( $ordered_data[ 'questions' ] as $element_id => $question ){
-			$html .= Questions_ChartCreator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
+			$html .= AF_ChartCreator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
 		}
 
 		return $html;

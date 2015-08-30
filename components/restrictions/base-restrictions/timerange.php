@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Restriction_Timerange extends Questions_Restriction
+class AF_Restriction_Timerange extends AF_Restriction
 {
 
 	/**
@@ -198,4 +198,4 @@ class Questions_Restriction_Timerange extends Questions_Restriction
 	}
 }
 
-qu_register_restriction( 'Questions_Restriction_Timerange' );
+qu_register_restriction( 'AF_Restriction_Timerange' );

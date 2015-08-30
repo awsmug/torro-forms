@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_ResponseHandler_FormProcessExtension
+class AF_ResponseHandler_FormProcessExtension
 {
 
 	/**
@@ -61,4 +61,4 @@ class Questions_ResponseHandler_FormProcessExtension
 	}
 }
 
-Questions_ResponseHandler_FormProcessExtension::init();
+AF_ResponseHandler_FormProcessExtension::init();

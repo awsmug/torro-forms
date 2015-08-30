@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormProcess
+class AF_FormProcess
 {
 
 	/**
@@ -56,7 +56,7 @@ class Questions_FormProcess
 	public function __construct( $form_id, $action_url = NULL )
 	{
 		$this->form_id = $form_id;
-		$this->form = new Questions_Form( $this->form_id );
+		$this->form = new AF_Form( $this->form_id );
 
 		if( NULL == $action_url ){
 			$this->action_url = $_SERVER[ 'REQUEST_URI' ];
@@ -194,7 +194,7 @@ class Questions_FormProcess
 		// If form is finished and user don't have been gone backwards, save data
 		if( (int) $_POST[ 'questions_actual_step' ] == (int) $_POST[ 'questions_next_step' ] && 0 == count( $questions_response_errors ) && !isset( $_POST[ 'questions_submission_back' ] ) ){
 
-			$questions_form = new Questions_Form( $questions_form_id );
+			$questions_form = new AF_Form( $questions_form_id );
 			$response_id = $questions_form->save_response( $_SESSION[ 'questions_response' ][ $questions_form_id ] );
 
 			if( FALSE != $response_id ){

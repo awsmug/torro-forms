@@ -25,7 +25,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-class Questions_GlobalTemplateTags extends Questions_TemplateTags
+class AF_GlobalTemplateTags extends AF_TemplateTags
 {
 
 	/**
@@ -81,4 +81,4 @@ class Questions_GlobalTemplateTags extends Questions_TemplateTags
 		return $_SERVER[ 'REMOTE_ADDR' ];
 	}
 }
-qu_register_templatetags( 'Questions_GlobalTemplateTags' );
+qu_register_templatetags( 'AF_GlobalTemplateTags' );

@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Questions_FormBuilder_FormProcesExtension{
+class AF_FormBuilder_FormProcesExtension{
 
     /**
      * Init in WordPress, run on constructor
@@ -74,4 +74,4 @@ class Questions_FormBuilder_FormProcesExtension{
         return apply_filters( 'questions_additional_restrictions_check_end', TRUE );
     }
 }
-Questions_FormBuilder_FormProcesExtension::init();
+AF_FormBuilder_FormProcesExtension::init();

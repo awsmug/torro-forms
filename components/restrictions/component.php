@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Restrictions extends Questions_Component
+class AF_Restrictions extends AF_Component
 {
 
 	/**
@@ -78,4 +78,4 @@ class Questions_Restrictions extends Questions_Component
 
 }
 
-af_register_component( 'Questions_Restrictions' );
+af_register_component( 'AF_Restrictions' );

@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_GeneralSettings extends Questions_Settings
+class AF_GeneralSettings extends AF_Settings
 {
 	/**
 	 * Constructor
@@ -68,4 +68,4 @@ class Questions_GeneralSettings extends Questions_Settings
 		);
 	}
 }
-qu_register_settings( 'Questions_GeneralSettings' );
+qu_register_settings( 'AF_GeneralSettings' );

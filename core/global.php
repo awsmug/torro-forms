@@ -84,7 +84,7 @@ class Questions
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'Questions_Settings' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_Settings' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 
@@ -98,7 +98,7 @@ class Questions
 		if( '' == $name ){
 			return FALSE;
 		}
-		if( !is_object( $object ) && 'Questions_FormElement' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_FormElement' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 		$this->element_types[ $name ] = $object;
@@ -111,7 +111,7 @@ class Questions
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'Questions_Restriction' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_Restriction' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 
@@ -126,7 +126,7 @@ class Questions
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'Questions_ResponseHandler' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_ResponseHandler' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 
@@ -141,7 +141,7 @@ class Questions
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'Questions_ChartCreator' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_ChartCreator' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 
@@ -156,7 +156,7 @@ class Questions
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'Questions_TemplateTags' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_TemplateTags' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 

@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_ResponseSettings extends Questions_Settings
+class AF_ResponseSettings extends AF_Settings
 {
 
 	/**
@@ -54,4 +54,4 @@ class Questions_ResponseSettings extends Questions_Settings
 		);
 	}
 }
-qu_register_settings( 'Questions_ResponseSettings' );
+qu_register_settings( 'AF_ResponseSettings' );

@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-abstract class Questions_FormElement
+abstract class AF_FormElement
 {
 
 	/**

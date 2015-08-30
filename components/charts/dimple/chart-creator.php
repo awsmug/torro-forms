@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
+class AF_ChartCreator_Dimple extends AF_ChartCreator{
     /**
      * Initializes the Component.
      * @since 1.0.0
@@ -138,4 +138,4 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
         wp_enqueue_script( 'questions-dimple-js',  QUESTIONS_URLPATH . '/components/charts/dimple/lib/dimple.v2.1.2.min.js' );
     }
 }
-qu_register_chartcreator( 'Questions_ChartCreator_Dimple' );
+qu_register_chartcreator( 'AF_ChartCreator_Dimple' );

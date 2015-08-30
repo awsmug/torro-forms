@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Core
+class AF_Core
 {
 	/**
 	 * Initializes the Component.
@@ -186,4 +186,4 @@ class Questions_Core
 	}
 
 }
-Questions_Core::init();
+AF_Core::init();

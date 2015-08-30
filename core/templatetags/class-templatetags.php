@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-abstract class Questions_TemplateTags{
+abstract class AF_TemplateTags{
 	/**
 	 * Name of templatetags collection
 	 *

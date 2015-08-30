@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormBuilder_ChartsExtension
+class AF_FormBuilder_ChartsExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -140,4 +140,4 @@ class Questions_FormBuilder_ChartsExtension
 		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
-Questions_FormBuilder_ChartsExtension::init();
+AF_FormBuilder_ChartsExtension::init();

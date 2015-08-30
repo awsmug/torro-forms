@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_FormLoader
+class AF_FormLoader
 {
 
 	/**
@@ -82,7 +82,7 @@ class Questions_FormLoader
 
 		do_action( 'questions_form_process' );
 
-		$questions_process = new Questions_FormProcess( $questions_form_id );
+		$questions_process = new AF_FormProcess( $questions_form_id );
 		$questions_process->process_response();
 	}
 
@@ -135,7 +135,7 @@ class Questions_FormLoader
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
 		}else{
-			$questions_process = new Questions_FormProcess( $form_id );
+			$questions_process = new AF_FormProcess( $form_id );
 			$html = $questions_process->show_form();
 		}
 
@@ -184,4 +184,4 @@ class Questions_FormLoader
 	}
 }
 
-Questions_FormLoader::init( TRUE );
+AF_FormLoader::init( TRUE );

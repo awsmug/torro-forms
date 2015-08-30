@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Post
+class AF_Post
 {
 	var $id;
 	var $post;

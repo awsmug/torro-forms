@@ -17,7 +17,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Init
+class AF_Init
 {
 
 	/**
@@ -377,4 +377,4 @@ class Questions_Init
 	}
 
 }
-Questions_Init::init(); // Starting immediately!
+AF_Init::init(); // Starting immediately!

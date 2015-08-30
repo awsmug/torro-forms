@@ -25,7 +25,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-class Questions_FormTemplateTags extends Questions_TemplateTags
+class AF_FormTemplateTags extends AF_TemplateTags
 {
 
 	/**
@@ -54,7 +54,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	{
 		global $questions_form_id;
 
-		$form = new Questions_Form( $questions_form_id );
+		$form = new AF_Form( $questions_form_id );
 		return $form->title;
 	}
 
@@ -123,7 +123,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 	public static function allelements(){
 		global $questions_form_id, $questions_response;
 
-		$form = new Questions_Form( $questions_form_id );
+		$form = new AF_Form( $questions_form_id );
 
 		$html = '<table style="width:100%;">';
 		foreach( $form->get_elements() AS $element ){
@@ -137,7 +137,7 @@ class Questions_FormTemplateTags extends Questions_TemplateTags
 		return $html;
 	}
 }
-qu_register_templatetags( 'Questions_FormTemplateTags' );
+qu_register_templatetags( 'AF_FormTemplateTags' );
 
 /**
  * Live registering element templatetags

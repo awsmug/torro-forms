@@ -29,7 +29,7 @@
  
 if ( !defined( 'ABSPATH' ) ) exit;
  
-abstract class Questions_ChartCreator{
+abstract class AF_ChartCreator{
 
     /**
      * Title of ChartCreator which will be shown in admin

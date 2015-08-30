@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_SettingsHandler
+class AF_SettingsHandler
 {
 	/**
 	 * @var string

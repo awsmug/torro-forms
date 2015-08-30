@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-abstract class Questions_Restriction
+abstract class AF_Restriction
 {
 	/**
 	 * name of restriction
