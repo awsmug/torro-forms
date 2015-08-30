@@ -91,7 +91,7 @@ class AF_Core
 		                         'public'            => TRUE,
 		                         'has_archive'       => TRUE,
 		                         'supports'          => array( 'title' ),
-		                         'show_in_menu'      => 'QuestionsAdmin',
+		                         'show_in_menu'      => 'AF_Admin',
 		                         'show_in_nav_menus' => FALSE,
 		                         'rewrite'           => array( 'slug' => 'survey', 'with_front' => TRUE ) // @todo Change! Make variable! Doing in Permalink sections.
 

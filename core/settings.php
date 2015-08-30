@@ -72,7 +72,7 @@ class AF_SettingsPage{
                         if( $setting->name == self::$current_tab )
                             $css_classes = ' nav-tab-active';
 
-                        $html.= '<a href="' . admin_url( 'admin.php?page=QuestionsAdmin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
+                        $html.= '<a href="' . admin_url( 'admin.php?page=AF_Admin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
                     }
                     $html.= '</h2>';
 

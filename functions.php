@@ -76,7 +76,7 @@ function qu_is_questions_formbuilder(){
  * @return bool
  */
 function qu_is_questions_settings(){
-	if( is_admin() && isset( $_GET[ 'page' ] ) && 'QuestionsAdmin' == $_GET[ 'page' ] )
+	if( is_admin() && isset( $_GET[ 'page' ] ) && 'AF_Admin' == $_GET[ 'page' ] )
 		return TRUE;
 
 	return FALSE;
