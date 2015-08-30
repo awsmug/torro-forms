@@ -62,7 +62,6 @@ class Questions_Responses extends Questions_Component
 		// Response Handlers API
 		include_once( $folder . 'class-response-handler.php' );
 		include_once( $folder . 'base-response-handlers/email-notifications.php' );
-		include_once( $folder . 'base-response-handlers/test-extension.php' );
 	}
 }
 

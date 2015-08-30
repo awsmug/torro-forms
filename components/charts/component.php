@@ -44,7 +44,6 @@ class Questions_Charts extends Questions_Component
 
 	public function start()
 	{
-
 		$folder = QUESTIONS_COMPONENTFOLDER . 'charts/';
 
 		// Loading base functionalities

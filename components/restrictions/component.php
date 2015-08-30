@@ -53,17 +53,17 @@ class Questions_Restrictions extends Questions_Component
 	{
 		$folder = QUESTIONS_COMPONENTFOLDER . 'restrictions/';
 
-		// Loading own Extensions and setting up vars
+		// Loading base functionalities
+		include_once( $folder . 'settings.php' );
+		include_once( $folder . 'form-builder-extension.php' );
+		include_once( $folder . 'form-process-extension.php' );
+
+		// Restrictions API
 		include_once( $folder . 'class-restrictions.php' );
 		include_once( $folder . 'base-restrictions/all-visitors.php' );
 		include_once( $folder . 'base-restrictions/all-members.php' );
 		include_once( $folder . 'base-restrictions/selected-members.php' );
 		include_once( $folder . 'base-restrictions/timerange.php' );
-
-		// Filling Plugin with Content
-		include_once( $folder . 'settings.php' );
-		include_once( $folder . 'form-builder-extension.php' );
-		include_once( $folder . 'form-process-extension.php' );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
