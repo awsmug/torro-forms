@@ -78,7 +78,7 @@ class AF_FormProcess
 	{
 		global $ar_form_id;
 
-		$show_form = apply_filters( 'questions_show_form', TRUE ); // Hook for adding restrictions and so on ...
+		$show_form = apply_filters( 'af_show_form', TRUE ); // Hook for adding restrictions and so on ...
 
 		if( FALSE == $show_form ){
 			return;

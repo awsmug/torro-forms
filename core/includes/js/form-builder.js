@@ -302,7 +302,7 @@
 		/**
 		 * Dublicate form
 		 */
-		$( '#questions-duplicate-button' ).click( function(){
+		$( '#form-duplicate-button' ).click( function(){
 			var button = $( this )
 			
 			if( button.hasClass( 'button' ) ){

@@ -37,7 +37,7 @@ class AF_Charts extends AF_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'questionscharts';
+		$this->name = 'afcharts';
 		$this->title = __( 'Charts', 'af-locale' );
 		$this->description = __( 'Showing Charts form Forms.', 'af-locale' );
 	}

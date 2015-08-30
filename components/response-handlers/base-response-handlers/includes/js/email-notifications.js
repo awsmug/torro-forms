@@ -55,7 +55,7 @@
 
             });
 
-            $( '.questions-delete-email-notification' ).click( function( event ){
+            $( '.form-delete-email-notification' ).click( function( event ){
                 email_notification_id = $( this ).attr( 'data-emailnotificationid' );
 
                 event.preventDefault();

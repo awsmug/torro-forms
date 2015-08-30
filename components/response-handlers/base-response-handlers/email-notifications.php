@@ -265,7 +265,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 					$html.= '<td>' . $editor . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<td colspan="2"><input type="button" class="button questions-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr( 'Delete Notification', 'af-locale' ) . '" /></td>';
+					$html.= '<td colspan="2"><input type="button" class="button form-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr( 'Delete Notification', 'af-locale' ) . '" /></td>';
 				$html.= '</tr>';
 			$html.= '</table>';
 		$html.= '</div>';

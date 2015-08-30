@@ -41,7 +41,7 @@ class AF_Restrictions extends AF_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'questionsrestrictions';
+		$this->name = 'afrestrictions';
 		$this->title = esc_attr__( 'Restrictions', 'af-locale' );
 		$this->description = esc_attr__( 'Restrictions if a user can fillout a form or not', 'af-locale' );
 	}
@@ -73,7 +73,7 @@ class AF_Restrictions extends AF_Component
 	 */
 	public function enqueue_scripts()
 	{
-		wp_enqueue_script( 'questions-restrictions', AF_URLPATH . 'components/restrictions/includes/js/restrictions.js' );
+		wp_enqueue_script( 'af-restrictions', AF_URLPATH . 'components/restrictions/includes/js/restrictions.js' );
 	}
 
 }

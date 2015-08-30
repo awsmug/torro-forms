@@ -41,7 +41,7 @@ class AF_FormBuilder_FormProcesExtension{
      */
     public static function init()
     {
-        add_filter( 'questions_show_form', array( __CLASS__, 'check' ), 1 );
+        add_filter( 'af_show_form', array( __CLASS__, 'check' ), 1 );
     }
 
     /**
@@ -56,7 +56,7 @@ class AF_FormBuilder_FormProcesExtension{
             return;
         }
 
-        if( FALSE == apply_filters( 'questions_additional_restrictions_check_start', TRUE ) ){
+        if( FALSE == apply_filters( 'af_additional_restrictions_check_start', TRUE ) ){
             return FALSE;
         }
 
@@ -71,7 +71,7 @@ class AF_FormBuilder_FormProcesExtension{
             return FALSE;
         }
 
-        return apply_filters( 'questions_additional_restrictions_check_end', TRUE );
+        return apply_filters( 'af_additional_restrictions_check_end', TRUE );
     }
 }
 AF_FormBuilder_FormProcesExtension::init();

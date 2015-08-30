@@ -97,7 +97,7 @@ abstract class AF_Restriction
 		if( count( $this->messages ) > 0 ){
 			$html = '';
 			foreach( $this->messages AS $message ){
-				$html .= '<div class="questions-message ' . $message[ 'type' ] . '">' . $message[ 'text' ] . '</div>';
+				$html .= '<div class="form-message ' . $message[ 'type' ] . '">' . $message[ 'text' ] . '</div>';
 			}
 
 			return $html;

@@ -35,7 +35,7 @@ class AF_FormElement_Separator extends AF_FormElement {
 
 		$this->name        = 'Separator';
 		$this->title       = esc_attr__( 'Separator', 'af-locale' );
-		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between questions.', 'af-locale' );
+		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between elements.', 'af-locale' );
 		$this->icon_url        = AF_URLPATH . '/assets/images/icon-separator.png';
 
 		$this->is_question = FALSE;

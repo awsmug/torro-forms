@@ -218,7 +218,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 				$af_form_process = new AF_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
 				$content .= $af_form_process->show_form();
 			}else{
-				$content .= '<div class="questions-message error">' . esc_attr( 'You have already entered your data.', 'af-locale' ) . '</div>';
+				$content .= '<div class="form-message error">' . esc_attr( 'You have already entered your data.', 'af-locale' ) . '</div>';
 			}
 		}
 

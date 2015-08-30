@@ -152,7 +152,7 @@ class AF_FormBuilder
 
 		$html = '<div id="form-functions" class="misc-pub-section">';
 			$html.= '<div id="form-functions-notices"></div>';
-			$html.= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
+			$html.= '<input id="form-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
 			$html.= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
 
 			ob_start();
@@ -410,7 +410,7 @@ class AF_FormBuilder
 			return;
 
 		$max_input_vars = ini_get( 'max_input_vars' );
-		$html = '<div id="form-messages" style="display:none;"><p class="questions-message">This is a dummy messaget</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
+		$html = '<div id="form-messages" style="display:none;"><p class="form-message">This is a dummy messaget</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
 		echo $html;
 	}
 
