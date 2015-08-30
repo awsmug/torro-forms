@@ -1,11 +1,11 @@
 <?php
 /**
- * Question settings page
+ * Awesome Forms settings page
  *
  * This class shows and saves the settings page
  *
  * @author awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package AwesomeForms/Core/Settings
  * @version 2015-04-16
  * @since 1.0.0
  * @license GPL 2
@@ -61,7 +61,7 @@ class AF_SettingsPage{
 
         $html = '<div class="wrap questions">';
             $html.= '<form name="questions_settings" id="questions-settings" method="POST">';
-                $html.= '<input type="hidden" id="questions_save_settings" name="questions_save_settings" value="' . wp_create_nonce( '_questions_save_settings_nonce' ) . '" />';
+                $html.= '<input type="hidden" id="af_save_settings" name="af_save_settings" value="' . wp_create_nonce( '_af_save_settings_nonce' ) . '" />';
 
                 if( property_exists( $af_global, 'settings' ) && count( $af_global->settings ) > 0 ){
 
@@ -85,7 +85,7 @@ class AF_SettingsPage{
 
                     $html.= '</div>';
 
-                    $html.= '<input name="questions_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr( 'Save Settings', 'af-locale' ) . '" />';
+                    $html.= '<input name="af_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr( 'Save Settings', 'af-locale' ) . '" />';
 
                 }else{
                     $html.= '<p>' . esc_attr( 'There are no settings available', 'af-locale' ) . '</p>';
@@ -103,10 +103,10 @@ class AF_SettingsPage{
      */
     public static function save()
     {
-        if( !isset( $_POST[ 'questions_save_settings' ] ) )
+        if( !isset( $_POST[ 'af_save_settings' ] ) )
             return;
 
-        do_action( 'questions_save_settings' );
+        do_action( 'af_save_settings' );
     }
 
     /**

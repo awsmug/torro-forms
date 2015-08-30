@@ -38,7 +38,7 @@ class AF_ResponseSettings extends AF_Settings
 	{
 		global $post;
 
-		$this->title = __( 'Response Handling', 'wcsc-locale' );
+		$this->title = __( 'Response Handling', 'af-locale' );
 		$this->name = 'responsehandling';
 	}
 

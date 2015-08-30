@@ -38,9 +38,9 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'All Visitors', 'wcsc-locale' );
+		$this->title = __( 'All Visitors', 'af-locale' );
 		$this->name = 'allvisitors';
-		$this->option_name = __( 'All Visitors of site', 'wcsc-locale' );
+		$this->option_name = __( 'All Visitors of site', 'af-locale' );
 
 		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ) );
 		add_action( 'questions_save_form', array( $this, 'save_settings' ), 10, 1 );
@@ -118,7 +118,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$restrictions_check_ip = get_post_meta( $questions_form_id, 'questions_restrictions_check_ip', TRUE );
 
 		if( 'yes' == $restrictions_check_ip && $this->ip_has_participated() ){
-			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'wcsc-locale' ) );
+			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;
 		}
@@ -128,7 +128,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'questions_has_participated_form_' . $questions_form_id ] )  ){
 
 			if( $_COOKIE[ 'questions_has_participated_form_' . $questions_form_id ] == 'yes' ){
-				$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'wcsc-locale' ) );
+				$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 			}
 
 			return FALSE;

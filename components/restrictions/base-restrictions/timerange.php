@@ -38,7 +38,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Timerange', 'wcsc-locale' );
+		$this->title = __( 'Timerange', 'af-locale' );
 		$this->name = 'timerange';
 
 		add_action( 'questions_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );

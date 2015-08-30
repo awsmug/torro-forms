@@ -33,9 +33,9 @@ class AF_GlobalTemplateTags extends AF_TemplateTags
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Global', 'wcsc-locale' );
+		$this->title = __( 'Global', 'af-locale' );
 		$this->name = 'basetags';
-		$this->description = __( 'Global Templatetags', 'wcsc-locale' );
+		$this->description = __( 'Global Templatetags', 'af-locale' );
 	}
 
 	/**

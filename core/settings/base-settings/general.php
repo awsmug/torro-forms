@@ -3,7 +3,7 @@
  * General Settings Tab
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package AwesomeForms/Core/Settings
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -37,7 +37,7 @@ class AF_GeneralSettings extends AF_Settings
 	{
 		global $post;
 
-		$this->title = __( 'General', 'wcsc-locale' );
+		$this->title = __( 'General', 'af-locale' );
 		$this->name = 'general';
 	}
 

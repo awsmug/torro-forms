@@ -38,10 +38,10 @@ class AF_Restriction_AllMembers extends AF_Restriction
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'All Members', 'wcsc-locale' );
+		$this->title = __( 'All Members', 'af-locale' );
 		$this->name = 'allmembers';
 
-		$this->option_name = __( 'All Members of site', 'wcsc-locale' );
+		$this->option_name = __( 'All Members of site', 'af-locale' );
 
 		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
 	}
@@ -83,7 +83,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 		global $questions_form_id;
 
 		if( !is_user_logged_in() ){
-			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'wcsc-locale' ) );
+			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'af-locale' ) );
 
 			return FALSE;
 		}
@@ -91,7 +91,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 		$restrictions_same_users = get_post_meta( $questions_form_id, 'questions_restrictions_allmembers_same_users', TRUE );
 
 		if( 'yes' == $restrictions_same_users && af_user_has_participated( $questions_form_id ) ){
-			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'wcsc-locale' ) );
+			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;
 		}

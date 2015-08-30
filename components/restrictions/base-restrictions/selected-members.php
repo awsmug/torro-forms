@@ -256,7 +256,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$restrictions_same_users = get_post_meta( $questions_form_id, 'questions_restrictions_selectedmembers_same_users', TRUE );
 
 		if( 'yes' == $restrictions_same_users && af_user_has_participated( $questions_form_id ) ){
-			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'wcsc-locale' ) );
+			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;
 		}

@@ -42,7 +42,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	{
 		global $post;
 
-		$this->title = __( 'Email Notifications', 'wcsc-locale' );
+		$this->title = __( 'Email Notifications', 'af-locale' );
 		$this->name = 'emailnotifications';
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );

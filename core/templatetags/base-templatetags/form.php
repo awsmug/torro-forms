@@ -33,9 +33,9 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Form', 'wcsc-locale' );
+		$this->title = __( 'Form', 'af-locale' );
 		$this->name = 'formtags';
-		$this->description = __( 'Form Templatetags', 'wcsc-locale' );
+		$this->description = __( 'Form Templatetags', 'af-locale' );
 	}
 
 	/**

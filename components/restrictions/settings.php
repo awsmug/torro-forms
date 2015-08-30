@@ -38,7 +38,7 @@ class AF_RestrictionsSettings extends AF_Settings
 	{
 		global $post;
 
-		$this->title = __( 'Restrictions', 'wcsc-locale' );
+		$this->title = __( 'Restrictions', 'af-locale' );
 		$this->name = 'restrictions';
 	}
 

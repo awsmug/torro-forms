@@ -1,9 +1,9 @@
 <?php
 /**
- * General Settings Tab
+ * Settings handler for showing settings forms
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package AwesomeForms/Core/Settings
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2

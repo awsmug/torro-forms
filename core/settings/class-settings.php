@@ -1,9 +1,9 @@
 <?php
 /**
- * Awesome Forms Post Class
+ * Awesome Forms Settings Class
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package AwesomeForms/Core/Settings
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -85,7 +85,7 @@ abstract class AF_Settings
 		$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
 		$settings_handler->save();
 
-		do_action( 'questions_save_settings_' . $this->name );
+		do_action( 'af_save_settings_' . $this->name );
 	}
 
 	/**
@@ -132,7 +132,7 @@ abstract class AF_Settings
 
 		$this->settings(); // Initializing settings
 
-		add_action( 'questions_save_settings', array( $this, 'save_settings' ), 50 );
+		add_action( 'af_save_settings', array( $this, 'save_settings' ), 50 );
 
 		return $af_global->add_settings( $this->name, $this );
 	}
