@@ -323,34 +323,6 @@ class AF_FormProcess
 
 		return $html;
 	}
-
-	/**
-	 * Sending out finish email to participator
-	 *
-	 * @since 1.0.0
-	 */
-	public function email_finished()
-	{
-		// @todo Should be deleted because of email response handler
-		global $post, $current_user;
-		get_currentuserinfo();
-
-		$subject_template = af_get_mail_template_subject( 'thankyou_participating' );
-
-		$subject = str_replace( '%displayname%', $current_user->display_name, $subject_template );
-		$subject = str_replace( '%username%', $current_user->user_nicename, $subject );
-		$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
-		$subject = str_replace( '%survey_title%', $post->post_title, $subject );
-
-		$text_template = af_get_mail_template_text( 'thankyou_participating' );
-
-		$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
-		$content = str_replace( '%username%', $current_user->user_nicename, $content );
-		$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
-		$content = str_replace( '%survey_title%', $post->post_title, $content );
-
-		af_mail( $current_user->user_email, $subject, $content );
-	}
 }
 
 /**
