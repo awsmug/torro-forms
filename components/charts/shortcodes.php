@@ -44,7 +44,7 @@ class AF_ChartsShortCodes
 
 		add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_result_shortcode' ), 20 );
 
-		// add_action( 'questions_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
+		// add_action( 'af_element_admin_tabs_bottom', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
 

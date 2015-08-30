@@ -22,7 +22,7 @@
          * Setup "Not found"
          */
         var questions_setup_not_found_message = function() {
-            var count_participiants = parseInt($("#questions-participiants-count").val());
+            var count_participiants = parseInt($("#form-participiants-count").val());
 
             if( count_participiants > 0 ){
                 $( ".no-users-found" ).hide();
@@ -37,15 +37,15 @@
          * Members - Adding Participiants
          */
         $.form_add_participiants = function( response ){
-            var questions_participiants = $( "#questions-participiants" ).val();
-            questions_participiants = questions_participiants.split( ',' );
+            var form_participiants = $( "#form-participiants" ).val();
+            form_participiants = form_participiants.split( ',' );
 
             var count_added_participiants = 0;
 
             $.each( response, function( i, object ) {
                 var found = false;
 
-                if( in_array( object.id, questions_participiants ) ){
+                if( in_array( object.id, form_participiants ) ){
                     found = true;
                 }
 
@@ -53,23 +53,23 @@
                 if( false == found ){
 
                     // Adding participiants
-                    if( '' == questions_participiants ){
-                        questions_participiants =  object.id;
+                    if( '' == form_participiants ){
+                        form_participiants =  object.id;
                     }else{
-                        questions_participiants = questions_participiants + ',' + object.id;
+                        form_participiants = form_participiants + ',' + object.id;
                     }
 
-                    $( "#questions-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button questions-delete-participiant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
+                    $( "#form-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button questions-delete-participiant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
                     count_added_participiants++;
                 }
             });
 
-            var count_participiants = parseInt( $( "#questions-participiants-count" ).val() ) + count_added_participiants;
+            var count_participiants = parseInt( $( "#form-participiants-count" ).val() ) + count_added_participiants;
 
-            $( "#questions-participiants" ).val( questions_participiants );
-            $.questions_participiants_counter( count_participiants );
+            $( "#form-participiants" ).val( form_participiants );
+            $.form_participiants_counter( count_participiants );
 
-            $( "#questions-participiants-list" ).show();
+            $( "#form-participiants-list" ).show();
             $.questions_delete_participiant();
 
             questions_setup_not_found_message();
@@ -94,10 +94,10 @@
         /**
          * Counting participiants
          */
-        $.questions_participiants_counter = function( number ){
+        $.form_participiants_counter = function( number ){
             var text = number + ' ' + translation_sm.added_participiants;
-            $( "#questions-participiants-status p").html( text );
-            $( "#questions-participiants-count" ).val( number );
+            $( "#form-participiants-status p").html( text );
+            $( "#form-participiants-count" ).val( number );
         }
 
         /**
@@ -107,23 +107,23 @@
             $( ".questions-delete-participiant" ).click( function(){
                 var delete_user_id = $( this ).attr( 'rel' );
 
-                var questions_participiants_new = '';
+                var form_participiants_new = '';
 
-                var questions_participiants = $( "#questions-participiants" ).val();
-                questions_participiants = questions_participiants.split( "," );
+                var form_participiants = $( "#form-participiants" ).val();
+                form_participiants = form_participiants.split( "," );
 
-                $.each( questions_participiants, function( key, value ) {
+                $.each( form_participiants, function( key, value ) {
                     if( value != delete_user_id ){
-                        if( '' == questions_participiants_new ){
-                            questions_participiants_new = value;
+                        if( '' == form_participiants_new ){
+                            form_participiants_new = value;
                         }else{
-                            questions_participiants_new = questions_participiants_new + ',' + value;
+                            form_participiants_new = form_participiants_new + ',' + value;
                         }
                     }
                 });
 
-                $( "#questions-participiants" ).val( questions_participiants_new );
-                $.questions_participiants_counter( $( "#questions-participiants-count" ).val() - 1 );
+                $( "#form-participiants" ).val( form_participiants_new );
+                $.form_participiants_counter( $( "#form-participiants-count" ).val() - 1 );
                 $( ".participiant-user-" + delete_user_id ).remove();
 
                 questions_setup_not_found_message();
@@ -135,11 +135,11 @@
          * Removing all Participiants from list
          */
         $( ".questions-remove-all-participiants" ).click( function(){
-            $( "#questions-participiants" ).val( '' );
-            $( "#questions-participiants-count" ).val( 0 );
-            $.questions_participiants_counter( 0 );
+            $( "#form-participiants" ).val( '' );
+            $( "#form-participiants-count" ).val( 0 );
+            $.form_participiants_counter( 0 );
 
-            $( "#questions-participiants-list tbody .participiant" ).remove();
+            $( "#form-participiants-list tbody .participiant" ).remove();
 
             questions_setup_not_found_message();
         });

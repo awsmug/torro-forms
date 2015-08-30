@@ -151,22 +151,22 @@
 /**
  * Form styles
  */
-.surveval-form-fieldset {
+.af-form-fieldset {
     margin-bottom: 20px;
     clear: both;
 }
 
-.surveval-form-fieldset-title {
+.af-form-fieldset-title {
     width: 20%;
     float: left;
 }
 
-.surveval-form-fieldset-input {
+.af-form-fieldset-input {
     width: 80%;
     float: right;
 }
 
-.surveval-form-fieldset-input-radio {
+.af-form-fieldset-input-radio {
     display: block;
     margin-bottom: 5px;
 }
@@ -174,21 +174,21 @@
 /**
  * Survey participiants
  */
-#questions_participiants_select,
-#questions-participiants-restrictions-select {
+#form_participiants_select,
+#form-participiants-restrictions-select {
     margin-bottom: 10px;
 }
 
 /**
  * Templatetag Button
  */
-.questions-templatetag-button{
+.af-templatetag-button{
     float: right;
     height: 28px;
     width: 30px;
     z-index: 1000;
 }
-.questions-templatetag-list{
+.af-templatetag-list{
     background-color: #fff;
     border: 1px solid #e3e3e3;
     display: none;
@@ -201,16 +201,16 @@
     font-size: 11px;
     cursor:hand;
 }
-.questions-templatetag-list .questions-templatetag-collection-headline{
+.af-templatetag-list .af-templatetag-collection-headline{
     background-color: #E3E3E3;
     padding: 8px 12px;
 
 }
-.questions-templatetag-list .questions-templatetag{
+.af-templatetag-list .af-templatetag{
     border-bottom: 1px solid #CCC;
     padding: 8px 12px;
 }
-.questions-templatetag-list .questions-templatetag:hover{
+.af-templatetag-list .af-templatetag:hover{
     cursor:hand;
     background-color: #0073aa;
     color:#FFF;

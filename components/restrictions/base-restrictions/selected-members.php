@@ -72,7 +72,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			$restrictions_same_users = get_post_meta( $form_id, 'form_restrictions_selectedmembers_same_users', TRUE );
 			$checked = 'yes' == $restrictions_same_users ? ' checked' : '';
 
-			$html .= '<div class="questions-restrictions-same-users-userfilter">';
+			$html .= '<div class="form-restrictions-same-users-userfilter">';
 				$html .= '<input type="checkbox" name="form_restrictions_selectedmembers_same_users" value="yes" ' . $checked . '/>';
 				$html .= '<label for="form_restrictions_selectedmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
 			$html .= '</div>';
@@ -129,7 +129,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		/**
 		 * Participiants Statistics
 		 */
-		$html .= '<div id="questions-participiants-status" class="questions-participiants-status">';
+		$html .= '<div id="form-participiants-status" class="form-participiants-status">';
 		$html .= '<p>' . count( $users ) . ' ' . esc_attr__( 'participiant/s', 'af-locale' ) . '</p>';
 		$html .= '</div>';
 
@@ -138,7 +138,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		 */
 
 		// Head
-		$html .= '<div id="questions-participiants-list">';
+		$html .= '<div id="form-participiants-list">';
 		$html .= '<table class="wp-list-table widefat">';
 		$html .= '<thead>';
 		$html .= '<tr>';
@@ -153,7 +153,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$html .= '<tbody>';
 
-		$questions_participiants_value = '';
+		$form_participiants_value = '';
 
 		if( is_array( $users ) && count( $users ) > 0 ){
 
@@ -177,7 +177,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 				$html .= '</tr>';
 			endforeach;
 
-			$questions_participiants_value = implode( ',', $user_ids );
+			$form_participiants_value = implode( ',', $user_ids );
 		}
 		$html .= '<tr class="no-users-found">';
 		$html .= '<td colspan="6">' . esc_attr( 'No Users found.', 'af-locale' ) . '</td>';
@@ -187,8 +187,8 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$html .= '</table>';
 
-		$html .= '<input type="hidden" id="questions-participiants" name="questions_participiants" value="' . $questions_participiants_value . '" />';
-		$html .= '<input type="hidden" id="questions-participiants-count" name="questions-participiants-count" value="' . count( $users ) . '" />';
+		$html .= '<input type="hidden" id="form-participiants" name="form_participiants" value="' . $form_participiants_value . '" />';
+		$html .= '<input type="hidden" id="form-participiants-count" name="form-participiants-count" value="' . count( $users ) . '" />';
 
 		$html .= '</div>';
 
@@ -325,8 +325,8 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		/**
 		 * Saving participiants
 		 */
-		$questions_participiants = $_POST[ 'questions_participiants' ];
-		$questions_participiant_ids = explode( ',', $questions_participiants );
+		$form_participiants = $_POST[ 'form_participiants' ];
+		$questions_participiant_ids = explode( ',', $form_participiants );
 
 		$sql = "DELETE FROM {$af_global->tables->participiants} WHERE survey_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );

@@ -90,7 +90,7 @@
               	questions_delete_formelement();
               	questions_deleteanswer();
               	questions_rewriteheadline();
-              	questions_element_tabs();
+              	af_element_tabs();
               	check_max_input_vars();
 			},
 			update: function( event, ui ) {
@@ -394,10 +394,10 @@
 		/**
          * Initializing jquery tabs in elements
          */
-        var questions_element_tabs = function(){
+        var af_element_tabs = function(){
             $( ".form_element_tabs" ).tabs({ active: 0 });
         }
-        questions_element_tabs();
+        af_element_tabs();
 		
 		/**
 		 * Live typing of element headline
@@ -415,14 +415,14 @@
 		 * Handling the Templatetag Button
 		 */
 		$.questions_templatetag_buttons = function(){
-			var button = $( '.questions-templatetag-button');
+			var button = $( '.af-templatetag-button');
 
 			$('html').click(function() {
-				$( '.questions-templatetag-list').hide();
+				$( '.af-templatetag-list').hide();
 			});
 
 			button.click( function( event ){
-				var templatetag_list = $( this ).find( '.questions-templatetag-list' );
+				var templatetag_list = $( this ).find( '.af-templatetag-list' );
 
 				if( templatetag_list.css( 'display' ) == 'none' ){
 					templatetag_list.show();
@@ -432,7 +432,7 @@
 				event.stopPropagation();
 			});
 
-			var template_tag = $( '.questions-templatetag-list .questions-templatetag' );
+			var template_tag = $( '.af-templatetag-list .af-templatetag' );
 
 			template_tag.unbind();
 

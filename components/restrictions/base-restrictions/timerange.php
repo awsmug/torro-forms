@@ -62,7 +62,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$start_date = get_post_meta( $form_id, 'start_date', TRUE );
 		$end_date = get_post_meta( $form_id, 'end_date', TRUE );
 
-		$html = '<div id="questions-restrictions-content-timerange">';
+		$html = '<div id="form-restrictions-content-timerange">';
 			$html .= '<h3>' . esc_attr( 'Restrict input timerange', 'af-locale' ) .'</h3>';
 			$html .= '<div class="timerange-start">';
 				$html .= '<label for="start_date">' . esc_attr__( 'Start:', 'af-locale' ) . '</label>';

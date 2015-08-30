@@ -101,9 +101,9 @@ class AF_FormBuilder_RestrictionsExtension
 		do_action( 'form_restrictions_content_top' );
 		$html = ob_get_clean();
 
-		$html .= '<div id="questions-restrictions-options">';
+		$html .= '<div id="form-restrictions-options">';
 		$html .= '<label for"form_restrictions_option">' . esc_attr( 'Who has access to this form?', 'af-locale' ) . '';
-		$html .= '<select name="form_restrictions_option" id="questions-restrictions-option">';
+		$html .= '<select name="form_restrictions_option" id="form-restrictions-option">';
 		foreach( $restrictions AS $name => $restriction ){
 			if( !$restriction->has_option() ){
 				continue;
@@ -125,7 +125,7 @@ class AF_FormBuilder_RestrictionsExtension
 			if( !$restriction->has_option() || !$option_content ){
 				continue;
 			}
-			$html .= '<div id="questions-restrictions-content-' . $restriction->name . '" class="questions-restrictions-content questions-restrictions-content-' . $restriction->name . '">' . $option_content . '</div>';
+			$html .= '<div id="form-restrictions-content-' . $restriction->name . '" class="form-restrictions-content form-restrictions-content-' . $restriction->name . '">' . $option_content . '</div>';
 		}
 
 		ob_start();
@@ -161,7 +161,7 @@ class AF_FormBuilder_RestrictionsExtension
 		if( !af_is_questions_formbuilder() )
 			return;
 
-		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'form-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
 AF_FormBuilder_RestrictionsExtension::init();

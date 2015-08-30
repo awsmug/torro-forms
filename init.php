@@ -96,7 +96,7 @@ class AF_Init
 			$wpdb->prefix . 'questions_responds',
 			$wpdb->prefix . 'questions_respond_answers',
 			$wpdb->prefix . 'questions_settings',
-			$wpdb->prefix . 'questions_participiants' );
+			$wpdb->prefix . 'form_participiants' );
 
 		// Checking if all tables are existing
 		$not_found = FALSE;

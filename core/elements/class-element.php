@@ -369,7 +369,7 @@ abstract class AF_FormElement
 		$html = apply_filters( 'questions_draw_element_outer_start', $html, $this );
 
 		$element_classes = array( 'survey-element', 'survey-element-' . $this->id );
-		$element_classes = apply_filters( 'questions_element_classes', $element_classes, $this );
+		$element_classes = apply_filters( 'af_element_classes', $element_classes, $this );
 
 		$html .= '<div class="' . implode( ' ', $element_classes ) . '">';
 
@@ -530,7 +530,7 @@ abstract class AF_FormElement
 
 		// Adding further tabs
 		ob_start();
-		do_action( 'questions_element_admin_tabs', $this );
+		do_action( 'af_element_admin_tabs', $this );
 		$html .= ob_get_clean();
 
 		$html .= '</ul>';
@@ -556,14 +556,14 @@ abstract class AF_FormElement
 
 		// Adding further content
 		ob_start();
-		do_action( 'questions_element_admin_tabs_content', $this );
+		do_action( 'af_element_admin_tabs_content', $this );
 		$html .= ob_get_clean();
 
 		$html .= $this->admin_widget_action_buttons();
 
 		// Adding content at the bottom
 		ob_start();
-		do_action( 'questions_element_admin_tabs_bottom', $this );
+		do_action( 'af_element_admin_tabs_bottom', $this );
 		$html .= ob_get_clean();
 
 		$html .= $this->admin_widget_hidden_fields();
@@ -805,19 +805,19 @@ abstract class AF_FormElement
 						$checked = ' checked="checked"';
 					}
 
-					$input .= '<span class="surveval-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
+					$input .= '<span class="af-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
 				endforeach;
 
 				break;
 		}
 
-		$html = '<div class="surveval-form-fieldset">';
+		$html = '<div class="af-form-fieldset">';
 
-		$html .= '<div class="surveval-form-fieldset-title">';
+		$html .= '<div class="af-form-fieldset-title">';
 		$html .= '<label for="' . $name . '">' . $field[ 'title' ] . '</label>';
 		$html .= '</div>';
 
-		$html .= '<div class="surveval-form-fieldset-input">';
+		$html .= '<div class="af-form-fieldset-input">';
 		$html .= $input . '<br />';
 		$html .= '<small>' . $field[ 'description' ] . '</small>';
 		$html .= '</div>';

@@ -72,7 +72,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$restrictions_check_ip = get_post_meta( $form_id, 'form_restrictions_check_ip', TRUE );
 		$checked = 'yes' == $restrictions_check_ip ? ' checked' : '';
 
-		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
+		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_restrictions_check_ip" value="yes" ' . $checked . '/>';
 		$html .= '<label for="form_restrictions_check_ip">' . esc_attr( 'Prevent multiple entries from same IP', 'af-locale' ) . '</label>';
 		$html .= '</div>';
@@ -83,7 +83,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$restrictions_check_cookie = get_post_meta( $form_id, 'form_restrictions_check_cookie', TRUE );
 		$checked = 'yes' == $restrictions_check_cookie ? ' checked' : '';
 
-		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
+		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_restrictions_check_cookie" value="yes" ' . $checked . '/>';
 		$html .= '<label for="form_restrictions_check_cookie">' . esc_attr( 'Prevent multiple entries by checking cookie', 'af-locale' ) . '</label>';
 		$html .= '</div>';
@@ -94,7 +94,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$restrictions_check_fingerprint = get_post_meta( $form_id, 'form_restrictions_check_fingerprint', TRUE );
 		$checked = 'yes' == $restrictions_check_fingerprint ? ' checked' : '';
 
-		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
+		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_restrictions_check_fingerprint" value="yes" ' . $checked . '/>';
 		$html .= '<label for="form_restrictions_check_fingerprint">' . esc_attr( 'Prevent multiple entries by checking browser fingerprint', 'af-locale' ) . '</label>';
 		$html .= '</div>';
@@ -364,7 +364,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 * Loading fingerprint scripts
 	 */
 	public static function load_fingerprint_scripts(){
-		wp_enqueue_script( 'admin-questions-restrictions-fingerprint-script', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/detection.min.js' );
+		wp_enqueue_script( 'admin-form-restrictions-fingerprint-script', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/detection.min.js' );
 	}
 
 }

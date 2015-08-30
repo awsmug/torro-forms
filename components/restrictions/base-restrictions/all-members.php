@@ -63,7 +63,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 		$restrictions_same_users = get_post_meta( $form_id, 'form_restrictions_allmembers_same_users', TRUE );
 		$checked = 'yes' == $restrictions_same_users ? ' checked' : '';
 
-		$html .= '<div class="questions-restrictions-same-users-userfilter">';
+		$html .= '<div class="form-restrictions-same-users-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_allmembers_same_users" value="yes" ' . $checked . '/>';
 			$html .= '<label for="form_restrictions_allmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
 		$html .= '</div>';
