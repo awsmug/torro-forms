@@ -66,7 +66,7 @@ class AF_Export
 		if( 0 == count( $resonses_user_ids[ 'responses' ] ) ){
 			$button_text = sprintf( __( 'No answers, no exports!', 'af-locale' ) );
 		}else{
-			$button_text = sprintf( __( '<a href="%s">Export Results</a>', 'af-locale' ), '?post_type=questions&export_survey_results=CSV&form_id=' . $post->ID );
+			$button_text = sprintf( __( '<a href="%s">Export Results</a>', 'af-locale' ), '?post_type=questions&export_form_results=CSV&form_id=' . $post->ID );
 		}
 
 		$actions[ 'export_results' ] = $button_text;
@@ -83,8 +83,8 @@ class AF_Export
 	{
 		global $wpdb, $af_global;
 
-		if( array_key_exists( 'export_survey_results', $_GET ) && is_array( $_GET ) ):
-			$export_type = $_GET[ 'export_survey_results' ];
+		if( array_key_exists( 'export_form_results', $_GET ) && is_array( $_GET ) ):
+			$export_type = $_GET[ 'export_form_results' ];
 			$form_id = $_GET[ 'form_id' ];
 
 			$survey = new AF_Form( $form_id );

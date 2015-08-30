@@ -182,7 +182,7 @@ class AF_Core
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-admin-fonts', AF_URLPATH . 'core/includes/css/fonts.css' );
+		wp_enqueue_style( 'af-admin-fonts', AF_URLPATH . 'core/includes/css/fonts.css' );
 	}
 
 }

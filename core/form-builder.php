@@ -152,7 +152,7 @@ class AF_FormBuilder
 
 		$html = '<div id="form-functions" class="misc-pub-section">';
 			$html.= '<div id="form-functions-notices"></div>';
-			$html.= '<input id="form-duplicate-button" name="form-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
+			$html.= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
 			$html.= '<input id="form-delete-results-button" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
 
 			ob_start();
@@ -180,7 +180,7 @@ class AF_FormBuilder
 			return;
 		}
 
-		if( array_key_exists( 'form-duplicate-survey', $_REQUEST ) ){
+		if( array_key_exists( 'form-duplicate', $_REQUEST ) ){
 			return;
 		}
 
