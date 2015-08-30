@@ -69,38 +69,38 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		/**
 		 * Check IP
 		 */
-		$restrictions_check_ip = get_post_meta( $form_id, 'questions_restrictions_check_ip', TRUE );
+		$restrictions_check_ip = get_post_meta( $form_id, 'form_restrictions_check_ip', TRUE );
 		$checked = 'yes' == $restrictions_check_ip ? ' checked' : '';
 
 		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
-		$html .= '<input type="checkbox" name="questions_restrictions_check_ip" value="yes" ' . $checked . '/>';
-		$html .= '<label for="questions_restrictions_check_ip">' . esc_attr( 'Prevent multiple entries from same IP', 'af-locale' ) . '</label>';
+		$html .= '<input type="checkbox" name="form_restrictions_check_ip" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_restrictions_check_ip">' . esc_attr( 'Prevent multiple entries from same IP', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		/**
 		 * Check Cookie
 		 */
-		$restrictions_check_cookie = get_post_meta( $form_id, 'questions_restrictions_check_cookie', TRUE );
+		$restrictions_check_cookie = get_post_meta( $form_id, 'form_restrictions_check_cookie', TRUE );
 		$checked = 'yes' == $restrictions_check_cookie ? ' checked' : '';
 
 		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
-		$html .= '<input type="checkbox" name="questions_restrictions_check_cookie" value="yes" ' . $checked . '/>';
-		$html .= '<label for="questions_restrictions_check_cookie">' . esc_attr( 'Prevent multiple entries by checking cookie', 'af-locale' ) . '</label>';
+		$html .= '<input type="checkbox" name="form_restrictions_check_cookie" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_restrictions_check_cookie">' . esc_attr( 'Prevent multiple entries by checking cookie', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		/**
 		 * Check browser fingerprint
 		 */
-		$restrictions_check_fingerprint = get_post_meta( $form_id, 'questions_restrictions_check_fingerprint', TRUE );
+		$restrictions_check_fingerprint = get_post_meta( $form_id, 'form_restrictions_check_fingerprint', TRUE );
 		$checked = 'yes' == $restrictions_check_fingerprint ? ' checked' : '';
 
 		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
-		$html .= '<input type="checkbox" name="questions_restrictions_check_fingerprint" value="yes" ' . $checked . '/>';
-		$html .= '<label for="questions_restrictions_check_fingerprint">' . esc_attr( 'Prevent multiple entries by checking browser fingerprint', 'af-locale' ) . '</label>';
+		$html .= '<input type="checkbox" name="form_restrictions_check_fingerprint" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_restrictions_check_fingerprint">' . esc_attr( 'Prevent multiple entries by checking browser fingerprint', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
-		do_action( 'questions_restrictions_allvisitors_userfilters' );
+		do_action( 'form_restrictions_allvisitors_userfilters' );
 		$html .= ob_get_clean();
 
 		return $html;
@@ -115,7 +115,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	{
 		global $questions_form_id, $questions_skip_fingerrint_check;
 
-		$restrictions_check_ip = get_post_meta( $questions_form_id, 'questions_restrictions_check_ip', TRUE );
+		$restrictions_check_ip = get_post_meta( $questions_form_id, 'form_restrictions_check_ip', TRUE );
 
 		if( 'yes' == $restrictions_check_ip && $this->ip_has_participated() ){
 			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
@@ -123,7 +123,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			return FALSE;
 		}
 
-		$restrictions_check_cookie = get_post_meta( $questions_form_id, 'questions_restrictions_check_cookie', TRUE );
+		$restrictions_check_cookie = get_post_meta( $questions_form_id, 'form_restrictions_check_cookie', TRUE );
 
 		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'questions_has_participated_form_' . $questions_form_id ] )  ){
 
@@ -134,7 +134,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			return FALSE;
 		}
 
-		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'questions_restrictions_check_fingerprint', TRUE );
+		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'form_restrictions_check_fingerprint', TRUE );
 
 		if( 'yes' == $restrictions_check_fingerprint && $questions_skip_fingerrint_check != TRUE ){
 			$actual_step = 0;
@@ -240,7 +240,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	public function save_ip( $response_id ){
 		global $wpdb, $af_global, $questions_form_id;
 
-		$restrictions_check_ip = get_post_meta( $questions_form_id, 'questions_restrictions_check_ip', TRUE );
+		$restrictions_check_ip = get_post_meta( $questions_form_id, 'form_restrictions_check_ip', TRUE );
 		if( '' == $restrictions_check_ip )
 			return;
 
@@ -262,7 +262,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	public function save_fingerprint( $response_id ){
 		global $wpdb, $af_global, $questions_form_id;
 
-		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'questions_restrictions_check_fingerprint', TRUE );
+		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'form_restrictions_check_fingerprint', TRUE );
 		if( '' == $restrictions_check_fingerprint )
 			return;
 
@@ -283,7 +283,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	public function add_fingerprint_input(){
 		global $questions_form_id;
 
-		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'questions_restrictions_check_fingerprint', TRUE );
+		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'form_restrictions_check_fingerprint', TRUE );
 		if( '' == $restrictions_check_fingerprint )
 			return;
 
@@ -325,31 +325,31 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		/**
 		 * Check IP
 		 */
-		if( array_key_exists( 'questions_restrictions_check_ip', $_POST ) ){
-			$restrictions_check_ip = $_POST[ 'questions_restrictions_check_ip' ];
-			update_post_meta( $form_id, 'questions_restrictions_check_ip', $restrictions_check_ip );
+		if( array_key_exists( 'form_restrictions_check_ip', $_POST ) ){
+			$restrictions_check_ip = $_POST[ 'form_restrictions_check_ip' ];
+			update_post_meta( $form_id, 'form_restrictions_check_ip', $restrictions_check_ip );
 		}else{
-			update_post_meta( $form_id, 'questions_restrictions_check_ip', '' );
+			update_post_meta( $form_id, 'form_restrictions_check_ip', '' );
 		}
 
 		/**
 		 * Check Cookie
 		 */
-		if( array_key_exists( 'questions_restrictions_check_cookie', $_POST ) ){
-			$restrictions_check_cookie = $_POST[ 'questions_restrictions_check_cookie' ];
-			update_post_meta( $form_id, 'questions_restrictions_check_cookie', $restrictions_check_cookie );
+		if( array_key_exists( 'form_restrictions_check_cookie', $_POST ) ){
+			$restrictions_check_cookie = $_POST[ 'form_restrictions_check_cookie' ];
+			update_post_meta( $form_id, 'form_restrictions_check_cookie', $restrictions_check_cookie );
 		}else{
-			update_post_meta( $form_id, 'questions_restrictions_check_cookie', '' );
+			update_post_meta( $form_id, 'form_restrictions_check_cookie', '' );
 		}
 
 		/**
 		 * Check browser fingerprint
 		 */
-		if( array_key_exists( 'questions_restrictions_check_fingerprint', $_POST ) ){
-			$restrictions_check_fingerprint = $_POST[ 'questions_restrictions_check_fingerprint' ];
-			update_post_meta( $form_id, 'questions_restrictions_check_fingerprint', $restrictions_check_fingerprint );
+		if( array_key_exists( 'form_restrictions_check_fingerprint', $_POST ) ){
+			$restrictions_check_fingerprint = $_POST[ 'form_restrictions_check_fingerprint' ];
+			update_post_meta( $form_id, 'form_restrictions_check_fingerprint', $restrictions_check_fingerprint );
 		}else{
-			update_post_meta( $form_id, 'questions_restrictions_check_fingerprint', '' );
+			update_post_meta( $form_id, 'form_restrictions_check_fingerprint', '' );
 		}
 	}
 

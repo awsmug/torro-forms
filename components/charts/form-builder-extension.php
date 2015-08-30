@@ -123,7 +123,7 @@ class AF_FormBuilder_ChartsExtension
 		/**
 		 * Saving restriction options
 		 */
-		$restrictions_option = $_POST[ 'questions_restrictions_option' ];
+		$restrictions_option = $_POST[ 'form_restrictions_option' ];
 		update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
 	}
 

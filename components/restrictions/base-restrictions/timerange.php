@@ -41,7 +41,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$this->title = __( 'Timerange', 'af-locale' );
 		$this->name = 'timerange';
 
-		add_action( 'questions_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
+		add_action( 'form_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
 		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );

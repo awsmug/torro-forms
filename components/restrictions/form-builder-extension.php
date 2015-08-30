@@ -98,12 +98,12 @@ class AF_FormBuilder_RestrictionsExtension
 		endif;
 
 		ob_start();
-		do_action( 'questions_restrictions_content_top' );
+		do_action( 'form_restrictions_content_top' );
 		$html = ob_get_clean();
 
 		$html .= '<div id="questions-restrictions-options">';
-		$html .= '<label for"questions_restrictions_option">' . esc_attr( 'Who has access to this form?', 'af-locale' ) . '';
-		$html .= '<select name="questions_restrictions_option" id="questions-restrictions-option">';
+		$html .= '<label for"form_restrictions_option">' . esc_attr( 'Who has access to this form?', 'af-locale' ) . '';
+		$html .= '<select name="form_restrictions_option" id="questions-restrictions-option">';
 		foreach( $restrictions AS $name => $restriction ){
 			if( !$restriction->has_option() ){
 				continue;
@@ -129,7 +129,7 @@ class AF_FormBuilder_RestrictionsExtension
 		}
 
 		ob_start();
-		do_action( 'questions_restrictions_content_bottom' );
+		do_action( 'form_restrictions_content_bottom' );
 		$html .= ob_get_clean();
 
 		echo $html;
@@ -147,7 +147,7 @@ class AF_FormBuilder_RestrictionsExtension
 		/**
 		 * Saving restriction options
 		 */
-		$restrictions_option = $_POST[ 'questions_restrictions_option' ];
+		$restrictions_option = $_POST[ 'form_restrictions_option' ];
 		update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
 	}
 

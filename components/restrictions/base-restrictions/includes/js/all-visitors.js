@@ -5,7 +5,7 @@
             console.log(fngrprnt);
 
             var data = {
-                action: 'questions_restrictions_save_fngrprnt',
+                action: 'form_restrictions_save_fngrprnt',
                 fingerprint: $( fngrprnt ).val(),
             };
 
