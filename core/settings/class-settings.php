@@ -71,7 +71,7 @@ abstract class AF_Settings
 	 * @return string
 	 */
 	public function show(){
-		$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
+		$settings_handler = new AF_SettingsForm( $this->name, $this->settings );
 		$html = $settings_handler->get();
 
 		return $html;
@@ -82,7 +82,7 @@ abstract class AF_Settings
 	 */
 	public function save_settings()
 	{
-		$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
+		$settings_handler = new AF_SettingsForm( $this->name, $this->settings );
 		$settings_handler->save();
 
 		do_action( 'af_save_settings_' . $this->name );

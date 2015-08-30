@@ -141,7 +141,7 @@ class AF_Core
 
 		// Settings
 		include( $core_folder . 'settings/class-settings.php' );
-		include( $core_folder . 'settings/class-settings-handler.php' );
+		include( $core_folder . 'settings/class-settingsform.php' );
 		include( $core_folder . 'settings/base-settings/general.php' );
 
 		// Form functions
