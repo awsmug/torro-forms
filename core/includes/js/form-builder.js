@@ -75,7 +75,7 @@
 			placeholder: 'form-element-placeholder',
 			items:'.formelement',
 			receive: function( event, ui ){
-				var nr = questions_rand();
+				var nr = af_rand();
 				
 				ui.helper.attr( 'id', 'widget_formelement_' + nr );
 				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
@@ -89,7 +89,7 @@
 				questions_answersortable();
               	questions_delete_formelement();
               	questions_deleteanswer();
-              	questions_rewriteheadline();
+              	af_rewriteheadline();
               	af_element_tabs();
               	check_max_input_vars();
 			},
@@ -261,7 +261,7 @@
          * Adding empty answer field
          */
         var questions_add_answer = function ( element_id, clicked_container ){
-            var nr = questions_rand();
+            var nr = af_rand();
 
             var sections = 'input[name="questions\[' + element_id + '\]\[sections\]"]';
             var sections = $( sections ).val();
@@ -402,19 +402,19 @@
 		/**
 		 * Live typing of element headline
 		 */
-		var questions_rewriteheadline = function(){
+		var af_rewriteheadline = function(){
             $( ".questions-question" ).on( 'input', function(){
                 var element_id = $( this ).closest( '.widget' ).attr('id');
                 $( "#" +element_id + " .widget-title h4" ).text( $( this ).val() );
             });
         }
-        questions_rewriteheadline();
+		af_rewriteheadline();
 
 
 		/**
 		 * Handling the Templatetag Button
 		 */
-		$.questions_templatetag_buttons = function(){
+		$.af_templatetag_buttons = function(){
 			var button = $( '.af-templatetag-button');
 
 			$('html').click(function() {
@@ -450,12 +450,12 @@
 			});
 
 		}
-		$.questions_templatetag_buttons();
+		$.af_templatetag_buttons();
 
 		/**
 		 * Helper function - Getting a random number
 		 */
-		function questions_rand(){
+		function af_rand(){
 			var now = new Date();
 			var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
 			random = random * now.getTime();

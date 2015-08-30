@@ -25,7 +25,7 @@
                 $( '#questions-email-notifications .notifications .no-entry-found' ).hide();
             }
 
-            $.questions_templatetag_buttons();
+            $.af_templatetag_buttons();
 
             var questions_deletemailnotificationdialog = $( '#delete_email_notification_dialog' );
             var email_notification_id;

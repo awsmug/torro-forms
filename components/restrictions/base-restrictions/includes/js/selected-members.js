@@ -249,7 +249,7 @@
         /**
          * Helper function - Getting a random number
          */
-        function questions_rand(){
+        function af_rand(){
             var now = new Date();
             var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
             random = random * now.getTime();

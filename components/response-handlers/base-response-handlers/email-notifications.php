@@ -157,7 +157,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
 
-		$html.= '<script language="javascript">jQuery( document ).ready(function ($) {$.questions_templatetag_buttons();});</script>';
+		$html.= '<script language="javascript">jQuery( document ).ready(function ($) {$.af_templatetag_buttons();});</script>';
 
 		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this Email-Notification?', 'af-locale' ) . '</div>';
 
