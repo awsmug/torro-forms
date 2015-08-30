@@ -131,7 +131,7 @@ class AF_FormLoader
 	 */
 	public static function get_form( $form_id )
 	{
-		if( isset( $_SESSION[ 'questions_response' ][ $form_id ][ 'finished' ] ) ){
+		if( isset( $_SESSION[ 'af_response' ][ $form_id ][ 'finished' ] ) ){
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
 		}else{
@@ -171,7 +171,7 @@ class AF_FormLoader
 	/**
 	 * Showing results
 	 *
-	 * @param int $survey_id
+	 * @param int $form_id
 	 *
 	 * @return string $html
 	 * @since 1.0.0

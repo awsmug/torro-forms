@@ -48,7 +48,6 @@
                     {
                         text: translation_email_notifications.no,
                         click: function() {
-
                             $( this ).dialog( "close" );
                         }
                     },
@@ -66,7 +65,7 @@
         }
         af_response_handlers_init_email_notifications();
 
-        $( '#questions_add_email_notification').click( function(){
+        $( '#form_add_email_notification').click( function(){
             var data = {
                 action: 'get_email_notification_html',
             };

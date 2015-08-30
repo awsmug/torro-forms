@@ -92,8 +92,8 @@ class AF_FormProcess
 
 		// Set global message on top of page
 		if( !empty( $af_response_errors ) ){
-			$html .= '<div class="questions-element-error">';
-			$html .= '<div class="questions-element-error-message"><p>';
+			$html .= '<div class="qr-element-error">';
+			$html .= '<div class="qr-element-error-message"><p>';
 			$html .= esc_attr__( 'There are open answers', 'af-locale' );
 			$html .= '</p></div></div>';
 		}
@@ -161,45 +161,45 @@ class AF_FormProcess
 		}
 
 		$response = array();
-		if( isset( $_POST[ 'questions_response' ] ) ){
-			$response = $_POST[ 'questions_response' ];
+		if( isset( $_POST[ 'af_response' ] ) ){
+			$response = $_POST[ 'af_response' ];
 		}
 
 		$actual_step = (int) $_POST[ 'af_actual_step' ];
 
 		// If there was a saved response
-		if( isset( $_SESSION[ 'questions_response' ][ $ar_form_id ] ) ){
+		if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) ){
 
 			// Merging data
-			$merged_response = $_SESSION[ 'questions_response' ][ $ar_form_id ];
+			$merged_response = $_SESSION[ 'af_response' ][ $ar_form_id ];
 			if( is_array( $response ) && count( $response ) > 0 ){
 				foreach( $response AS $key => $answer )
 					$merged_response[ $key ] = af_prepare_post_data( $answer );
 			}
 
-			$_SESSION[ 'questions_response' ][ $ar_form_id ] = $merged_response;
+			$_SESSION[ 'af_response' ][ $ar_form_id ] = $merged_response;
 		}else{
 			$merged_response = $response;
 		}
 
-		$_SESSION[ 'questions_response' ][ $ar_form_id ] = $merged_response;
+		$_SESSION[ 'af_response' ][ $ar_form_id ] = $merged_response;
 
 		// Validate submitted data if user not has gone backwards
 		if( !array_key_exists( 'af_submission_back', $_POST ) ){
-			$this->validate( $ar_form_id, $_SESSION[ 'questions_response' ][ $ar_form_id ], $actual_step );
+			$this->validate( $ar_form_id, $_SESSION[ 'af_response' ][ $ar_form_id ], $actual_step );
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
 		if( (int) $_POST[ 'af_actual_step' ] == (int) $_POST[ 'af_next_step' ] && 0 == count( $af_response_errors ) && !isset( $_POST[ 'af_submission_back' ] ) ){
 
 			$form = new AF_Form( $ar_form_id );
-			$response_id = $form->save_response( $_SESSION[ 'questions_response' ][ $ar_form_id ] );
+			$response_id = $form->save_response( $_SESSION[ 'af_response' ][ $ar_form_id ] );
 
 			if( FALSE != $response_id ){
-				do_action( 'questions_save_response', $response_id );
+				do_action( 'af_save_response', $response_id );
 
-				unset( $_SESSION[ 'questions_response' ][ $ar_form_id ] );
-				$_SESSION[ 'questions_response' ][ $ar_form_id ][ 'finished' ] = TRUE;
+				unset( $_SESSION[ 'af_response' ][ $ar_form_id ] );
+				$_SESSION[ 'af_response' ][ $ar_form_id ][ 'finished' ] = TRUE;
 
 				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
 				die();

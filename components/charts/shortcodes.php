@@ -147,7 +147,7 @@ class AF_ChartsShortCodes
 	/**
 	 * Showing survey result schortcodes in admin area for copy&paste
 	 *
-	 * @param int $survey_id Id of the survey
+	 * @param int $form_id Id of the survey
 	 *
 	 * @return string $html HTML for shortcode summary in admon
 	 */

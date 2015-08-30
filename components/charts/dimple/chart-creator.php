@@ -101,7 +101,7 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator{
         $js.= '});';
 
         // Drawing HTML Containers
-        $html = '<div id="' . $id . '" class="questions-dimplechart">';
+        $html = '<div id="' . $id . '" class="ar-dimplechart">';
         $html.= '<' . $atts[ 'title_tag' ] . '>' . $title . '</' . $atts[ 'title_tag' ] . '>';
         $html.= '<script type="text/javascript">';
         $html.= $js;
@@ -134,8 +134,8 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator{
      * Loading Scripts
      */
     public function load_scripts(){
-        wp_enqueue_script( 'questions-d3-js',  AF_URLPATH . '/components/charts/dimple/lib/d3.min.js' );
-        wp_enqueue_script( 'questions-dimple-js',  AF_URLPATH . '/components/charts/dimple/lib/dimple.v2.1.2.min.js' );
+        wp_enqueue_script( 'af-d3-js',  AF_URLPATH . '/components/charts/dimple/lib/d3.min.js' );
+        wp_enqueue_script( 'af-dimple-js',  AF_URLPATH . '/components/charts/dimple/lib/dimple.v2.1.2.min.js' );
     }
 }
 af_register_chartcreator( 'AF_ChartCreator_Dimple' );

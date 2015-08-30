@@ -365,7 +365,7 @@ class AF_FormBuilder
 
 		$post = get_post( $new_form_id );
 
-		$response = array( 'survey_id'  => $new_form_id,
+		$response = array( 'form_id'  => $new_form_id,
 		                   'post_title' => $post->post_title,
 		                   'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_form_id . '&action=edit' ) );
 

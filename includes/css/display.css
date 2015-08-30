@@ -34,12 +34,12 @@
 /**
  * 	Errors
  */
-#questions .questions-element-error{
+#questions .qr-element-error{
 	border: 1px dashed #F00;
 	padding:10px;
 	margin-bottom:20px;
 }
-.questions-element-error-message{
+.qr-element-error-message{
 	color:#FFF;
 	border: 1px dashed #F00;
 	background-color:#F00;
@@ -66,7 +66,7 @@
 /**
  * Dimple chart CSS
  */
-.questions-dimplechart{
+.ar-dimplechart{
     margin-bottom: 20px;
     width:100%;
     display: block;

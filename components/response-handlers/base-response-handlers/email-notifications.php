@@ -152,7 +152,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 				$html.= '</div>';
 			$html.= '</div>';
 			$html.= '<div class="actions">';
-				$html.= '<input id="questions_add_email_notification" type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" />';
+				$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" />';
 			$html.= '</div>';
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
@@ -330,8 +330,8 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		                      'no'                           => esc_attr__( 'No', 'af-locale' ) );
 
 		wp_enqueue_script( 'jquery-ui-accordion' );
-		wp_enqueue_script( 'questions-response-handlers-email-notification', AF_URLPATH . '/components/response-handlers/base-response-handlers/includes/js/email-notifications.js' );
-		wp_localize_script( 'questions-response-handlers-email-notification', 'translation_email_notifications', $translation );
+		wp_enqueue_script( 'af-response-handlers-email-notification', AF_URLPATH . '/components/response-handlers/base-response-handlers/includes/js/email-notifications.js' );
+		wp_localize_script( 'af-response-handlers-email-notification', 'translation_email_notifications', $translation );
 	}
 
 	/**
@@ -339,7 +339,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	 */
 	public static function enqueue_admin_styles()
 	{
-		wp_enqueue_style( 'questions-response-handlers-email-notification', AF_URLPATH . '/components/response-handlers/base-response-handlers/includes/css/email-notifications.css' );
+		wp_enqueue_style( 'af-response-handlers-email-notification', AF_URLPATH . '/components/response-handlers/base-response-handlers/includes/css/email-notifications.css' );
 	}
 }
 af_register_response_handler( 'AF_EmailNotifications' );

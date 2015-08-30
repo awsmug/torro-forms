@@ -313,7 +313,7 @@ function af_create_log_entry( $values )
 		mkdir( $logdir );
 	}
 
-	$logfile = $logdir . 'questions.log';
+	$logfile = $logdir . 'awesome-forms.log';
 
 	$file = fopen( $logfile, 'a' );
 	fwrite( $file, $line );

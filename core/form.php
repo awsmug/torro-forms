@@ -257,7 +257,7 @@ class AF_Form extends AF_Post
 	 *
 	 * @param bool $copy_meta          True if meta have to be copied
 	 * @param bool $copy_comments      True if comments have to be copied
-	 * @param bool $copy_questions     True if elements have to be copied
+	 * @param bool $copy_elements     True if elements have to be copied
 	 * @param bool $copy_answers       True if answers of elements have to be copied
 	 * @param bool $copy_participiants True if participiants have to be copied
 	 * @param bool $draft              True if dublicated form have to be a draft
@@ -447,7 +447,7 @@ class AF_Form extends AF_Post
 /**
  * Checks if a survey exists
  *
- * @param int $survey_id Survey id
+ * @param int $form_id Survey id
  *
  * @return boolean $exists TRUE if survey exists, FALSE if not
  */

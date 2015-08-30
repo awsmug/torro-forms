@@ -41,10 +41,9 @@ class AF_Responses extends AF_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'questionsresponses';
+		$this->name = 'afresponses';
 		$this->title = esc_attr__( 'Responses', 'af-locale' );
 		$this->description = esc_attr__( 'Responses component helps to catch the entered data after sending form.', 'af-locale' );
-
 	}
 
 	/**

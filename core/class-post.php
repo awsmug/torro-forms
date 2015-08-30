@@ -174,8 +174,7 @@ class AF_Post
 			return FALSE;
 		}
 
-		$forbidden_keys = apply_filters( 'questions_dublicate_forbidden_terms', array( '_edit_lock',
-		                                                                               '_edit_last' ) );
+		$forbidden_keys = apply_filters( 'af_dublicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
 
 		foreach( $this->meta AS $meta_key => $meta_value ):
 			if( !in_array( $meta_key, $forbidden_keys ) ){

@@ -131,7 +131,7 @@ class AF_Core
 		$core_folder = AF_FOLDER . 'core/';
 
 		// Base classes
-		include( $core_folder . 'global.php' ); // Global Questions object $af_global
+		include( $core_folder . 'global.php' ); // Global Awesome Forms object $af_global
 		include( $core_folder . 'class-post.php' );
 
 		// Admin

@@ -282,7 +282,7 @@ class AF_Init
 	 */
 	public static function register_plugin_styles()
 	{
-		wp_enqueue_style( 'questions-plugin-styles', AF_URLPATH . '/includes/css/display.css' );
+		wp_enqueue_style( 'af-plugin-styles', AF_URLPATH . '/includes/css/display.css' );
 	}
 
 	/**

@@ -45,7 +45,7 @@ abstract class AF_FormElement
 	 *
 	 * @since 1.0.0
 	 */
-	var $survey_id;
+	var $form_id;
 
 	/**
 	 * Name of element
@@ -251,7 +251,7 @@ abstract class AF_FormElement
 
 		$this->id = $id;
 		$this->set_question( $row->question );
-		$this->questions_id = $row->questions_id;
+		$this->form_id = $row->questions_id;
 
 		$this->sort = $row->sort;
 
@@ -378,8 +378,8 @@ abstract class AF_FormElement
 
 		// Echo Errors
 		if( is_array( $errors ) && count( $errors ) > 0 ):
-			$html .= '<div class="questions-element-error">';
-			$html .= '<div class="questions-element-error-message">';
+			$html .= '<div class="qr-element-error">';
+			$html .= '<div class="qr-element-error-message">';
 			$html .= '<ul class="questions-error-messages">';
 			foreach( $errors AS $error ):
 				$html .= '<li>' . $error . '</li>';
@@ -878,10 +878,10 @@ abstract class AF_FormElement
 
 		// Getting value/s
 		if( !empty( $ar_form_id ) ):
-			if( isset( $_SESSION[ 'questions_response' ] ) ):
-				if( isset( $_SESSION[ 'questions_response' ][ $ar_form_id ] ) ):
-					if( isset( $_SESSION[ 'questions_response' ][ $ar_form_id ][ $this->id ] ) ):
-						$this->response = $_SESSION[ 'questions_response' ][ $ar_form_id ][ $this->id ];
+			if( isset( $_SESSION[ 'af_response' ] ) ):
+				if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) ):
+					if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ] ) ):
+						$this->response = $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ];
 					endif;
 				endif;
 			endif;
@@ -898,7 +898,7 @@ abstract class AF_FormElement
 	 */
 	public function get_input_name()
 	{
-		$input_name = 'questions_response[' . $this->id . ']';
+		$input_name = 'af_response[' . $this->id . ']';
 
 		return $input_name;
 	}

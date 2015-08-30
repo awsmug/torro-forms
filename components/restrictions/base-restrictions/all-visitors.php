@@ -47,9 +47,9 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		add_action( 'questions_form_end', array( $this, 'add_fingerprint_input' ) );
 
-		add_action( 'questions_save_response', array( $this, 'set_cookie' ), 10 );
-		add_action( 'questions_save_response', array( $this, 'save_ip' ), 10 );
-		add_action( 'questions_save_response', array( $this, 'save_fingerprint' ), 10 );
+		add_action( 'af_save_response', array( $this, 'set_cookie' ), 10 );
+		add_action( 'af_save_response', array( $this, 'save_ip' ), 10 );
+		add_action( 'af_save_response', array( $this, 'save_fingerprint' ), 10 );
 
 		add_action( 'wp_ajax_questions_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
 		add_action( 'wp_ajax_nopriv_questions_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );

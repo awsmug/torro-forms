@@ -41,7 +41,7 @@ class AF_ResponseHandler_FormProcessExtension
 	 */
 	public static function init()
 	{
-		add_filter( 'questions_save_response', array( __CLASS__, 'response_handler' ), 10, 1 );
+		add_filter( 'af_save_response', array( __CLASS__, 'response_handler' ), 10, 1 );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class AF_ResponseHandler_FormProcessExtension
 		}
 
 		foreach( $af_global->response_handlers AS $response_handler ){
-			$response_handler->handle( $response_id, $_SESSION[ 'questions_response' ][ $ar_form_id ] );
+			$response_handler->handle( $response_id, $_SESSION[ 'af_response' ][ $ar_form_id ] );
 		}
 	}
 }
