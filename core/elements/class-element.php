@@ -588,7 +588,7 @@ abstract class AF_FormElement
 		$widget_id = $this->admin_get_widget_id();
 
 		// Question
-		$html = '<p><input type="text" name="questions[' . $widget_id . '][question]" value="' . $this->question . '" class="questions-question" /><p>';
+		$html = '<p><input type="text" name="questions[' . $widget_id . '][question]" value="' . $this->question . '" class="form-label" /><p>';
 
 		// Answers
 		if( $this->has_answers ):

@@ -1,45 +1,45 @@
-#questions-email-notifications .notifications{
+#form-email-notifications .notifications{
     padding: 0 10px 10px;
 }
-#questions-email-notifications .list{
+#form-email-notifications .list{
     width:95%;
     float:left;
 }
 
-#questions-email-notifications .list .widget-title h4{
+#form-email-notifications .list .widget-title h4{
     padding: 10px;
     font-weight: normal;
 }
-#questions-email-notifications .list .widget-title .notice{
+#form-email-notifications .list .widget-title .notice{
     margin-bottom: 10px;
 }
-#questions-email-notifications .form-table label,
-#questions-email-notifications .form-table input{
+#form-email-notifications .form-table label,
+#form-email-notifications .form-table input{
     font-size: 13px;
 }
-#questions-email-notifications .form-table th{
+#form-email-notifications .form-table th{
     font-weight: normal;
     width: 180px;
 }
-#questions-email-notifications .actions{
+#form-email-notifications .actions{
     width:5%;
     float:right;
     text-align: right;
 }
-#questions-email-notifications .notifications{
+#form-email-notifications .notifications{
 }
-#questions-email-notifications .no-entry-found{
+#form-email-notifications .no-entry-found{
     display: none;
     margin: 0;
 }
-#questions-email-notifications .notifications h4{
+#form-email-notifications .notifications h4{
     cursor:pointer;
 }
-#questions-email-notifications .notification{
+#form-email-notifications .notification{
     padding: 20px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
-#questions-email-notifications .notification input[type="text"]{
+#form-email-notifications .notification input[type="text"]{
     width:90%;
 }
 #delete_email_notification_dialog{

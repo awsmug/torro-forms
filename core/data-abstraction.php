@@ -107,7 +107,7 @@ class AF_AbstractData
 	}
 
 	/**
-	 * Getting all questions for in an array
+	 * Getting all labels for in an array
 	 *
 	 * @param array $response_array Response array of a survey
 	 *

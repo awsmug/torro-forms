@@ -43,7 +43,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$this->option_name = __( 'Selected Members of site', 'af-locale' );
 
-		// add_action( 'questions_functions', array( $this, 'invite_buttons' ) );
+		// add_action( 'form_functions', array( $this, 'invite_buttons' ) );
 
 		add_action( 'af_save_form', array( $this, 'save' ), 10, 1 );
 
@@ -103,7 +103,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$html .= '<div id="form-add-participiants-content-allmembers" class="form-add-participiants-content-allmembers form-add-participiants-content">';
 		$html .= '<input type="button" class="form-add-participiants-allmembers-button button" id="form-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'af-locale' ) . '" />';
-		$html .= '<a class="questions-remove-all-participiants">' . esc_attr__( 'Remove all Participiants', 'af-locale' ) . '</a>';
+		$html .= '<a class="form-remove-all-participiants">' . esc_attr__( 'Remove all Participiants', 'af-locale' ) . '</a>';
 		$html .= '</div>';
 
 		// Hooking in
@@ -204,25 +204,25 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	{
 		global $post;
 
-		$questions_invitation_text_template = af_get_mail_template_text( 'invitation' );
-		$questions_reinvitation_text_template = af_get_mail_template_text( 'reinvitation' );
+		$af_invitation_text_template = af_get_mail_template_text( 'invitation' );
+		$af_reinvitation_text_template = af_get_mail_template_text( 'reinvitation' );
 
-		$questions_invitation_subject_template = af_get_mail_template_subject( 'invitation' );
-		$questions_reinvitation_subject_template = af_get_mail_template_subject( 'reinvitation' );
+		$af_invitation_subject_template = af_get_mail_template_subject( 'invitation' );
+		$af_reinvitation_subject_template = af_get_mail_template_subject( 'reinvitation' );
 
 		$html = '';
 
 		if( 'publish' == $post->post_status ):
 			$html .= '<div class="form-function-element">';
-			$html .= '<input id="form-invite-subject" type="text" name="form_invite_subject" value="' . $questions_invitation_subject_template . '" />';
-			$html .= '<textarea id="form-invite-text" name="form_invite_text">' . $questions_invitation_text_template . '</textarea>';
+			$html .= '<input id="form-invite-subject" type="text" name="form_invite_subject" value="' . $af_invitation_subject_template . '" />';
+			$html .= '<textarea id="form-invite-text" name="form_invite_text">' . $af_invitation_text_template . '</textarea>';
 			$html .= '<input id="form-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'af-locale' ) . '" /> ';
 			$html .= '<input id="form-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 			$html .= '</div>';
 
 			$html .= '<div class="form-function-element">';
-			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $questions_reinvitation_subject_template . '" />';
-			$html .= '<textarea id="form-reinvite-text" name="questions_reinvite_text">' . $questions_reinvitation_text_template . '</textarea>';
+			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $af_reinvitation_subject_template . '" />';
+			$html .= '<textarea id="form-reinvite-text" name="questions_reinvite_text">' . $af_reinvitation_text_template . '</textarea>';
 			$html .= '<input id="form-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'af-locale' ) . '" /> ';
 			$html .= '<input id="form-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 
@@ -326,14 +326,14 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		 * Saving participiants
 		 */
 		$form_participiants = $_POST[ 'form_participiants' ];
-		$questions_participiant_ids = explode( ',', $form_participiants );
+		$af_participiant_ids = explode( ',', $form_participiants );
 
 		$sql = "DELETE FROM {$af_global->tables->participiants} WHERE survey_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$wpdb->query( $sql );
 
-		if( is_array( $questions_participiant_ids ) && count( $questions_participiant_ids ) > 0 ):
-			foreach( $questions_participiant_ids AS $user_id ):
+		if( is_array( $af_participiant_ids ) && count( $af_participiant_ids ) > 0 ):
+			foreach( $af_participiant_ids AS $user_id ):
 				$wpdb->insert( $af_global->tables->participiants, array(
 					'survey_id' => $form_id,
 					'user_id'   => $user_id ) );

@@ -21,7 +21,7 @@
         /**
          * Setup "Not found"
          */
-        var questions_setup_not_found_message = function() {
+        var form_setup_not_found_message = function() {
             var count_participiants = parseInt($("#form-participiants-count").val());
 
             if( count_participiants > 0 ){
@@ -31,7 +31,7 @@
             }
         }
 
-        questions_setup_not_found_message();
+        form_setup_not_found_message();
 
         /**
          * Members - Adding Participiants
@@ -70,9 +70,9 @@
             $.form_participiants_counter( count_participiants );
 
             $( "#form-participiants-list" ).show();
-            $.questions_delete_participiant();
+            $.form_delete_participiant();
 
-            questions_setup_not_found_message();
+            form_setup_not_found_message();
         }
 
         $( "#form-add-participiants-allmembers-button" ).click( function(){
@@ -103,7 +103,7 @@
         /**
          * Removing participiant from list
          */
-        $.questions_delete_participiant = function(){
+        $.form_delete_participiant = function(){
             $( ".form-delete-participiant" ).click( function(){
                 var delete_user_id = $( this ).attr( 'rel' );
 
@@ -126,22 +126,22 @@
                 $.form_participiants_counter( $( "#form-participiants-count" ).val() - 1 );
                 $( ".participiant-user-" + delete_user_id ).remove();
 
-                questions_setup_not_found_message();
+                form_setup_not_found_message();
             });
         }
-        $.questions_delete_participiant();
+        $.form_delete_participiant();
 
         /**
          * Removing all Participiants from list
          */
-        $( ".questions-remove-all-participiants" ).click( function(){
+        $( ".form-remove-all-participiants" ).click( function(){
             $( "#form-participiants" ).val( '' );
             $( "#form-participiants-count" ).val( 0 );
             $.form_participiants_counter( 0 );
 
             $( "#form-participiants-list tbody .participiant" ).remove();
 
-            questions_setup_not_found_message();
+            form_setup_not_found_message();
         });
 
         /**

@@ -138,8 +138,8 @@ class AF_FormProcess
 		do_action( 'questions_form_end' );
 		$html .= ob_get_clean();
 
-		$html .= '<input type="hidden" name="questions_next_step" value="' . $next_step . '" />';
-		$html .= '<input type="hidden" name="questions_actual_step" value="' . $actual_step . '" />';
+		$html .= '<input type="hidden" name="af_next_step" value="' . $next_step . '" />';
+		$html .= '<input type="hidden" name="af_actual_step" value="' . $actual_step . '" />';
 		$html .= '<input type="hidden" name="questions_form_id" value="' . $this->form_id . '" />';
 
 		$html .= '</form>';
@@ -154,9 +154,7 @@ class AF_FormProcess
 	 */
 	public function process_response()
 	{
-		global $ar_form_id, $af_response_errors, $questions_finished;
-
-		$questions_finished = FALSE;
+		global $ar_form_id, $af_response_errors;
 
 		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'questions-' . $ar_form_id ) ){
 			return;
@@ -167,7 +165,7 @@ class AF_FormProcess
 			$response = $_POST[ 'questions_response' ];
 		}
 
-		$actual_step = (int) $_POST[ 'questions_actual_step' ];
+		$actual_step = (int) $_POST[ 'af_actual_step' ];
 
 		// If there was a saved response
 		if( isset( $_SESSION[ 'questions_response' ][ $ar_form_id ] ) ){
@@ -187,15 +185,15 @@ class AF_FormProcess
 		$_SESSION[ 'questions_response' ][ $ar_form_id ] = $merged_response;
 
 		// Validate submitted data if user not has gone backwards
-		if( !array_key_exists( 'questions_submission_back', $_POST ) ){
+		if( !array_key_exists( 'af_submission_back', $_POST ) ){
 			$this->validate( $ar_form_id, $_SESSION[ 'questions_response' ][ $ar_form_id ], $actual_step );
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
-		if( (int) $_POST[ 'questions_actual_step' ] == (int) $_POST[ 'questions_next_step' ] && 0 == count( $af_response_errors ) && !isset( $_POST[ 'questions_submission_back' ] ) ){
+		if( (int) $_POST[ 'af_actual_step' ] == (int) $_POST[ 'af_next_step' ] && 0 == count( $af_response_errors ) && !isset( $_POST[ 'af_submission_back' ] ) ){
 
-			$questions_form = new AF_Form( $ar_form_id );
-			$response_id = $questions_form->save_response( $_SESSION[ 'questions_response' ][ $ar_form_id ] );
+			$form = new AF_Form( $ar_form_id );
+			$response_id = $form->save_response( $_SESSION[ 'questions_response' ][ $ar_form_id ] );
 
 			if( FALSE != $response_id ){
 				do_action( 'questions_save_response', $response_id );
@@ -278,14 +276,14 @@ class AF_FormProcess
 	{
 		global $af_response_errors;
 
-		// If there was posted questions_next_step and there was no error
-		if( isset( $_POST[ 'questions_next_step' ] ) && 0 == count( $af_response_errors ) ){
-			$actual_step = (int) $_POST[ 'questions_next_step' ];
+		// If there was posted af_next_step and there was no error
+		if( isset( $_POST[ 'af_next_step' ] ) && 0 == count( $af_response_errors ) ){
+			$actual_step = (int) $_POST[ 'af_next_step' ];
 		}else{
 
-			// If there was posted questions_next_step and there was an error
-			if( isset( $_POST[ 'questions_actual_step' ] ) ){
-				$actual_step = (int) $_POST[ 'questions_actual_step' ];
+			// If there was posted af_next_step and there was an error
+			if( isset( $_POST[ 'af_actual_step' ] ) ){
+				$actual_step = (int) $_POST[ 'af_actual_step' ];
 				// If there was nothing posted, start at the beginning
 			}else{
 				$actual_step = 0;
@@ -293,8 +291,8 @@ class AF_FormProcess
 		}
 
 		// If user wanted to go backwards, set one step back
-		if( array_key_exists( 'questions_submission_back', $_POST ) ){
-			$actual_step = (int) $_POST[ 'questions_actual_step' ] - 1;
+		if( array_key_exists( 'af_submission_back', $_POST ) ){
+			$actual_step = (int) $_POST[ 'af_actual_step' ] - 1;
 		}
 
 		return $actual_step;
@@ -314,15 +312,15 @@ class AF_FormProcess
 
 		// If there was a step before, show previous button
 		if( $actual_step > 0 ){
-			$html .= '<input type="submit" name="questions_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
+			$html .= '<input type="submit" name="af_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
 		}
 
 		if( $actual_step == $next_step ){
 			// If actual step is next step, show finish form button
-			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Send', 'af-locale' ) . '">';
+			$html .= '<input type="submit" name="af_submission" value="' . __( 'Send', 'af-locale' ) . '">';
 		}else{
 			// Show next button
-			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
+			$html .= '<input type="submit" name="af_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
 		}
 
 		return $html;

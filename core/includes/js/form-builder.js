@@ -158,7 +158,7 @@
         af_delete_formelement();
 		
 		/**
-		 * Making answers in questions sortable
+		 * Making answers in form sortable
 		 */
 		var af_answersortable = function (){
 			$( "#drag-drop-inside .answers" ).sortable({
@@ -187,11 +187,11 @@
 		 * Deleting answer
 		 */
 		var af_deleteanswer = function(){
-			var questions_deletanswerdialog = $( '#delete_answer_dialog' );
+			var form_deletanswer_dialog = $( '#delete_answer_dialog' );
 			var answer_id;
 			var deleted_answers;
 			
-			questions_deletanswerdialog.dialog({                   
+			form_deletanswer_dialog.dialog({
 		        'dialogClass'   : 'wp-dialog',           
 		        'modal'         : true,
 		        'autoOpen'      : false, 
@@ -230,7 +230,7 @@
 			$( '.delete_answer' ).click( function( event ){
 				answer_id = $( this ).closest( '.answer' ).attr('id');
 		        event.preventDefault();
-		        questions_deletanswerdialog.dialog( 'open' );
+		        form_deletanswer_dialog.dialog( 'open' );
 			});
 			check_max_input_vars();
 		}
@@ -339,9 +339,9 @@
 
             if( button.hasClass( 'button' ) ){
 
-                var questions_deletresults_dialog = $( '#delete_responses_dialog' );
+                var form_deletresults_dialog = $( '#delete_responses_dialog' );
 
-                questions_deletresults_dialog.dialog({
+                form_deletresults_dialog.dialog({
                     'dialogClass'   : 'wp-dialog',
                     'modal'         : true,
                     'autoOpen'      : false,
@@ -384,7 +384,7 @@
 
                 });
 
-                questions_deletresults_dialog.dialog( 'open' );
+                form_deletresults_dialog.dialog( 'open' );
 
             }else{
                 button.addClass( 'button' );
@@ -403,7 +403,7 @@
 		 * Live typing of element headline
 		 */
 		var af_rewriteheadline = function(){
-            $( ".questions-question" ).on( 'input', function(){
+            $( ".form-label" ).on( 'input', function(){
                 var element_id = $( this ).closest( '.widget' ).attr('id');
                 $( "#" +element_id + " .widget-title h4" ).text( $( this ).val() );
             });

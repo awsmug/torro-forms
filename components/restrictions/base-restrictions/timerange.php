@@ -109,8 +109,6 @@ class AF_Restriction_Timerange extends AF_Restriction
 	/**
 	 * Has IP already participated
 	 *
-	 * @param $questions_id
-	 *
 	 * @return bool $has_participated
 	 * @since 1.0.0
 	 *

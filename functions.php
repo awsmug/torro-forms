@@ -60,7 +60,7 @@ if( defined( 'AF_FOLDER' ) ):
 endif;
 
 /**
- * Checks if we are a questions post type in admin
+ * Checks if we are a Awesome Forms post type in admin
  * @return bool
  */
 function af_is_formbuilder(){
@@ -72,7 +72,7 @@ function af_is_formbuilder(){
 	return FALSE;
 }
 /**
- * Checks if we are on questions settings page
+ * Checks if we are on Awesome Forms settings page
  * @return bool
  */
 function af_is_settingspage(){
@@ -82,7 +82,7 @@ function af_is_settingspage(){
 	return FALSE;
 }
 /**
- * Checks if we are in a questions post type
+ * Checks if we are in a Awesome Forms post type
  * @return bool
  */
 function af_is_form(){

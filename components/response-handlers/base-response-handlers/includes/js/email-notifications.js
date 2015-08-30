@@ -3,9 +3,9 @@
     "use strict";
     $( function ()
     {
-        var questions_response_handlers_init_email_notifications = function(){
-            var notifications_list = $( "#questions-email-notifications .notifications" );
-            var notifications_list_count = $( '#questions-email-notifications .notifications  > div' ).length;
+        var af_response_handlers_init_email_notifications = function(){
+            var notifications_list = $( "#form-email-notifications .notifications" );
+            var notifications_list_count = $( '#form-email-notifications .notifications  > div' ).length;
 
             if( notifications_list.hasClass( 'ui-accordion' ) )
             {
@@ -20,17 +20,17 @@
             });
 
             if( notifications_list_count == 0 ){
-                $( '#questions-email-notifications .notifications .no-entry-found' ).show();
+                $( '#form-email-notifications .notifications .no-entry-found' ).show();
             }else{
-                $( '#questions-email-notifications .notifications .no-entry-found' ).hide();
+                $( '#form-email-notifications .notifications .no-entry-found' ).hide();
             }
 
             $.af_templatetag_buttons();
 
-            var questions_deletemailnotificationdialog = $( '#delete_email_notification_dialog' );
+            var form_deletemailnotification_dialog = $( '#delete_email_notification_dialog' );
             var email_notification_id;
 
-            questions_deletemailnotificationdialog.dialog({
+            form_deletemailnotification_dialog.dialog({
                 'dialogClass'   : 'wp-dialog',
                 'modal'         : true,
                 'autoOpen'      : false,
@@ -61,10 +61,10 @@
 
                 event.preventDefault();
 
-                questions_deletemailnotificationdialog.dialog( 'open' );
+                form_deletemailnotification_dialog.dialog( 'open' );
             });
         }
-        questions_response_handlers_init_email_notifications();
+        af_response_handlers_init_email_notifications();
 
         $( '#questions_add_email_notification').click( function(){
             var data = {
@@ -74,8 +74,8 @@
             $.post( ajaxurl, data, function( response ) {
                 response = jQuery.parseJSON( response );
 
-                $( '#questions-email-notifications .notifications' ).prepend( response.html );
-                questions_response_handlers_init_email_notifications();
+                $( '#form-email-notifications .notifications' ).prepend( response.html );
+                af_response_handlers_init_email_notifications();
 
                 $( ".notification-" + response.id ).hide().fadeIn(2500);
             });

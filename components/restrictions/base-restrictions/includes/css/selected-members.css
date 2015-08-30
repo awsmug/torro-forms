@@ -48,7 +48,7 @@
 .participiant.just-added td:first-child{
     border-left: 4px solid #2EA2CC;
 }
-.questions-remove-all-participiants{
+.form-remove-all-participiants{
     display: block;
     float: right;
     padding: 5px 10px;
@@ -84,10 +84,6 @@
     margin-bottom:10px;
     display:none;
     font-size:12px;
-}
-#af-settings .form-table .questions-text-template{
-    width:80%;
-    height:200px;
 }
 .settings-template-subject{
     width:80%;

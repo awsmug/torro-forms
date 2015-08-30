@@ -113,7 +113,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public function check()
 	{
-		global $ar_form_id, $questions_skip_fingerrint_check;
+		global $ar_form_id, $af_skip_fingerrint_check;
 
 		$restrictions_check_ip = get_post_meta( $ar_form_id, 'form_restrictions_check_ip', TRUE );
 
@@ -136,19 +136,19 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$restrictions_check_fingerprint = get_post_meta( $ar_form_id, 'form_restrictions_check_fingerprint', TRUE );
 
-		if( 'yes' == $restrictions_check_fingerprint && $questions_skip_fingerrint_check != TRUE ){
+		if( 'yes' == $restrictions_check_fingerprint && $af_skip_fingerrint_check != TRUE ){
 			$actual_step = 0;
-			if( isset( $_POST[ 'questions_actual_step' ] ))
-				$actual_step = $_POST[ 'questions_actual_step' ];
+			if( isset( $_POST[ 'af_actual_step' ] ))
+				$actual_step = $_POST[ 'af_actual_step' ];
 
 			$next_step = 0;
-			if( isset( $_POST[ 'questions_next_step' ] ))
-				$next_step = $_POST[ 'questions_next_step' ];
+			if( isset( $_POST[ 'af_next_step' ] ))
+				$next_step = $_POST[ 'af_next_step' ];
 
 			$maybe_vars = '';
 
-			if( isset( $_POST[ 'questions_submission_back' ] ) )
-				$maybe_vars = 'questions_submission_back: \'yes\',';
+			if( isset( $_POST[ 'af_submission_back' ] ) )
+				$maybe_vars = 'af_submission_back: \'yes\',';
 
 			$html = '<script language="JavaScript">
 					    (function ($) {
@@ -159,8 +159,8 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 								    var data = {
 										action: \'questions_check_fngrprnt\',
 										questions_form_id: ' . $ar_form_id . ',
-										questions_actual_step: ' . $actual_step . ',
-										questions_next_step: ' . $next_step . ',
+										af_actual_step: ' . $actual_step . ',
+										af_next_step: ' . $next_step . ',
 										' . $maybe_vars .'
 										action_url: \'' . $_SERVER[ 'REQUEST_URI' ] . '\',
 										fngrprnt: fngrprnt
@@ -190,7 +190,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public static function ajax_check_fingerprint()
 	{
-		global $wpdb, $af_global, $ar_form_id, $questions_skip_fingerrint_check;
+		global $wpdb, $af_global, $ar_form_id, $af_skip_fingerrint_check;
 
 		$content = '';
 		$restrict = FALSE;
@@ -213,7 +213,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			$count = $wpdb->get_var( $sql );
 
 			if( 0 == $count ){
-				$questions_skip_fingerrint_check = TRUE;
+				$af_skip_fingerrint_check = TRUE;
 
 				$af_form_process = new AF_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
 				$content .= $af_form_process->show_form();
@@ -293,7 +293,6 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	/**
 	 * Has IP already participated
 	 *
-	 * @param $questions_id
 	 * @return bool $has_participated
 	 * @since 1.0.0
 	 *

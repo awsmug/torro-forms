@@ -129,7 +129,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
 		$notifications = $wpdb->get_results( $sql );
 
-		$html = '<div id="questions-email-notifications">';
+		$html = '<div id="form-email-notifications">';
 			$html.= '<div class="list">';
 
 					$html.= '<div class="notifications widget-title">';
