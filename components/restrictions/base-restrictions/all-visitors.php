@@ -42,7 +42,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$this->name = 'allvisitors';
 		$this->option_name = __( 'All Visitors of site', 'af-locale' );
 
-		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ) );
+		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ), 20 );
 		add_action( 'af_save_form', array( $this, 'save_settings' ), 10, 1 );
 
 		add_action( 'af_form_end', array( $this, 'add_fingerprint_input' ) );
@@ -51,8 +51,8 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		add_action( 'af_save_response', array( $this, 'save_ip' ), 10 );
 		add_action( 'af_save_response', array( $this, 'save_fingerprint' ), 10 );
 
-		add_action( 'wp_ajax_questions_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
-		add_action( 'wp_ajax_nopriv_questions_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
+		add_action( 'wp_ajax_af_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
+		add_action( 'wp_ajax_nopriv_af_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
 	}
 
 	/**
@@ -157,7 +157,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 					            new Fingerprint2().get(function(fngrprnt){
 
 								    var data = {
-										action: \'questions_check_fngrprnt\',
+										action: \'af_check_fngrprnt\',
 										af_form_id: ' . $ar_form_id . ',
 										af_actual_step: ' . $actual_step . ',
 										af_next_step: ' . $next_step . ',
