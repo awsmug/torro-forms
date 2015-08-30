@@ -65,7 +65,7 @@ class AF_FormBuilder_ResponseHandlerExtension
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-response-handlers',
-				esc_attr__( 'Response Handling', 'questions-locale' ),
+				esc_attr__( 'Response Handling', 'af-locale' ),
 				array( __CLASS__, 'meta_box_response_handlers' ),
 				'questions',
 				'normal',

@@ -35,8 +35,8 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 	public function __construct( $id = NULL )
 	{
 		$this->name = 'MultipleChoice';
-		$this->title = esc_attr__( 'Multiple Choice', 'questions-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered by selecting one ore more given answers.', 'questions-locale' );
+		$this->title = esc_attr__( 'Multiple Choice', 'af-locale' );
+		$this->description = esc_attr__( 'Add a question which can be answered by selecting one ore more given answers.', 'af-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-multiplechoice.png';
 
 		$this->has_answers = TRUE;
@@ -72,19 +72,19 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'questions-locale' ),
+				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
 				'default'     => '' ),
 			'min_answers' => array(
-				'title'       => esc_attr__( 'Minimum Answers', 'questions-locale' ),
+				'title'       => esc_attr__( 'Minimum Answers', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of answers which have to be choosed.', 'questions-locale' ),
+				'description' => esc_attr__( 'The minimum number of answers which have to be choosed.', 'af-locale' ),
 				'default'     => '1' ),
 			'max_answers' => array(
-				'title'       => esc_attr__( 'Maximum Answers', 'questions-locale' ),
+				'title'       => esc_attr__( 'Maximum Answers', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of answers which can be choosed.', 'questions-locale' ),
+				'description' => esc_attr__( 'The maximum number of answers which can be choosed.', 'af-locale' ),
 				'default'     => '3' ), );
 	}
 
@@ -98,14 +98,14 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 
 		if( !empty( $min_answers ) ){
 			if( !is_array( $input ) || count( $input ) < $min_answers ):
-				$this->validate_errors[] = esc_attr__( 'Too less choices.', 'questions-locale' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers, $max_answers );
+				$this->validate_errors[] = esc_attr__( 'Too less choices.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'af-locale' ), $min_answers, $max_answers );
 				$error = TRUE;
 			endif;
 		}
 
 		if( !empty( $max_answers ) ){
 			if( is_array( $input ) && count( $input ) > $max_answers ):
-				$this->validate_errors[] = esc_attr__( 'Too many choices.', 'questions-locale' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'questions-locale' ), $min_answers, $max_answers );
+				$this->validate_errors[] = esc_attr__( 'Too many choices.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'af-locale' ), $min_answers, $max_answers );
 				$error = TRUE;
 			endif;
 		}

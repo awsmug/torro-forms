@@ -64,7 +64,7 @@ class AF_FormBuilder_RestrictionsExtension
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-restrictions',
-				esc_attr__( 'Restrictions', 'questions-locale' ),
+				esc_attr__( 'Restrictions', 'af-locale' ),
 				array( __CLASS__, 'meta_box_restrictions' ),
 				'questions',
 				'normal',
@@ -102,7 +102,7 @@ class AF_FormBuilder_RestrictionsExtension
 		$html = ob_get_clean();
 
 		$html .= '<div id="questions-restrictions-options">';
-		$html .= '<label for"questions_restrictions_option">' . esc_attr( 'Who has access to this form?', 'questions-locale' ) . '';
+		$html .= '<label for"questions_restrictions_option">' . esc_attr( 'Who has access to this form?', 'af-locale' ) . '';
 		$html .= '<select name="questions_restrictions_option" id="questions-restrictions-option">';
 		foreach( $restrictions AS $name => $restriction ){
 			if( !$restriction->has_option() ){

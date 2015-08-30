@@ -112,7 +112,7 @@ class AF_Results{
         $results = $wpdb->get_results( $sql );
 
         $responses                = array();
-        $responses[ 'question' ]  = __( 'User ID', 'questions-locale' );
+        $responses[ 'question' ]  = __( 'User ID', 'af-locale' );
         $responses[ 'sections' ]  = FALSE;
         $responses[ 'array' ]     = FALSE;
         $responses[ 'responses' ] = array();
@@ -143,7 +143,7 @@ class AF_Results{
         $results = $wpdb->get_results( $sql );
 
         $responses                = array();
-        $responses[ 'question' ]  = __( 'Username', 'questions-locale' );
+        $responses[ 'question' ]  = __( 'Username', 'af-locale' );
         $responses[ 'sections' ]  = FALSE;
         $responses[ 'array' ]     = FALSE;
         $responses[ 'responses' ] = array();
@@ -176,7 +176,7 @@ class AF_Results{
         $results = $wpdb->get_results( $sql );
 
         $responses                = array();
-        $responses[ 'question' ]  = __( 'Date/Time', 'questions-locale' );
+        $responses[ 'question' ]  = __( 'Date/Time', 'af-locale' );
         $responses[ 'sections' ]  = FALSE;
         $responses[ 'array' ]     = FALSE;
         $responses[ 'responses' ] = array();

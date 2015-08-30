@@ -43,10 +43,10 @@ class AF_GlobalTemplateTags extends AF_TemplateTags
 	 */
 	public function tags()
 	{
-		$this->add_tag( 'sitetitle', esc_attr( 'Site Title', 'questions-locale' ), esc_attr( 'Adds the Site Title', 'questions-locale' ), array( __CLASS__ , 'sitetitle' ) );
-		$this->add_tag( 'sitetagline', esc_attr( 'Site Tagline', 'questions-locale' ), esc_attr( 'Adds the Sites Tagline', 'questions-locale' ), array( __CLASS__, 'sitetagline') );
-		$this->add_tag( 'adminemail', esc_attr( 'Admin Email', 'questions-locale' ), esc_attr( 'Adds the Admin Email-Address', 'questions-locale' ), array( __CLASS__, 'adminemail') );
-		$this->add_tag( 'userip', esc_attr( 'User IP', 'questions-locale' ), esc_attr( 'Adds the Sites User IP', 'questions-locale' ), array( __CLASS__, 'userip' ) );
+		$this->add_tag( 'sitetitle', esc_attr( 'Site Title', 'af-locale' ), esc_attr( 'Adds the Site Title', 'af-locale' ), array( __CLASS__ , 'sitetitle' ) );
+		$this->add_tag( 'sitetagline', esc_attr( 'Site Tagline', 'af-locale' ), esc_attr( 'Adds the Sites Tagline', 'af-locale' ), array( __CLASS__, 'sitetagline') );
+		$this->add_tag( 'adminemail', esc_attr( 'Admin Email', 'af-locale' ), esc_attr( 'Adds the Admin Email-Address', 'af-locale' ), array( __CLASS__, 'adminemail') );
+		$this->add_tag( 'userip', esc_attr( 'User IP', 'af-locale' ), esc_attr( 'Adds the Sites User IP', 'af-locale' ), array( __CLASS__, 'userip' ) );
 	}
 
 	/**

@@ -64,9 +64,9 @@ class AF_Export
 		$resonses_user_ids = $results->get_response_user_ids();
 
 		if( 0 == count( $resonses_user_ids[ 'responses' ] ) ){
-			$button_text = sprintf( __( 'No answers, no exports!', 'questions-locale' ) );
+			$button_text = sprintf( __( 'No answers, no exports!', 'af-locale' ) );
 		}else{
-			$button_text = sprintf( __( '<a href="%s">Export Results</a>', 'questions-locale' ), '?post_type=questions&export_survey_results=CSV&survey_id=' . $post->ID );
+			$button_text = sprintf( __( '<a href="%s">Export Results</a>', 'af-locale' ), '?post_type=questions&export_survey_results=CSV&survey_id=' . $post->ID );
 		}
 
 		$actions[ 'export_results' ] = $button_text;

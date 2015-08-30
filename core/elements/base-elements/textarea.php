@@ -36,8 +36,8 @@ class AF_FormElement_Textarea extends AF_FormElement
 	{
 
 		$this->name = 'Textarea';
-		$this->title = esc_attr__( 'Textarea', 'questions-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered within a text area.', 'questions-locale' );
+		$this->title = esc_attr__( 'Textarea', 'af-locale' );
+		$this->description = esc_attr__( 'Add a question which can be answered within a text area.', 'af-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-textarea.png';
 
 		parent::__construct( $id );
@@ -54,29 +54,29 @@ class AF_FormElement_Textarea extends AF_FormElement
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'questions-locale' ),
+				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
 				'default'     => '' ),
 			'min_length'  => array(
-				'title'       => esc_attr__( 'Minimum length', 'questions-locale' ),
+				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'questions-locale' ),
+				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'af-locale' ),
 				'default'     => '0' ),
 			'max_length'  => array(
-				'title'       => esc_attr__( 'Maximum length', 'questions-locale' ),
+				'title'       => esc_attr__( 'Maximum length', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'questions-locale' ),
+				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'af-locale' ),
 				'default'     => '1000' ),
 			'rows'        => array(
-				'title'       => esc_attr__( 'Rows', 'questions-locale' ),
+				'title'       => esc_attr__( 'Rows', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'Number of rows for typing in  (can be overwritten by CSS).', 'questions-locale' ),
+				'description' => esc_attr__( 'Number of rows for typing in  (can be overwritten by CSS).', 'af-locale' ),
 				'default'     => '10' ),
 			'cols'        => array(
-				'title'       => esc_attr__( 'Columns', 'questions-locale' ),
+				'title'       => esc_attr__( 'Columns', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'Number of columns for typing in (can be overwritten by CSS).', 'questions-locale' ),
+				'description' => esc_attr__( 'Number of columns for typing in (can be overwritten by CSS).', 'af-locale' ),
 				'default'     => '75' ), );
 	}
 
@@ -90,14 +90,14 @@ class AF_FormElement_Textarea extends AF_FormElement
 
 		if( !empty( $min_length ) ){
 			if( strlen( $input ) < $min_length ):
-				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'questions-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}
 
 		if( !empty( $max_length ) ){
 			if( strlen( $input ) > $max_length ):
-				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'questions-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}

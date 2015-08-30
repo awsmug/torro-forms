@@ -64,7 +64,7 @@ abstract class AF_Component
 		// Standard values
 		$this->name = get_class( $this );
 		$this->title = ucfirst( $this->name );
-		$this->description = esc_attr__( 'This is a Awesome Forms component.', 'questions-locale' );
+		$this->description = esc_attr__( 'This is a Awesome Forms component.', 'af-locale' );
 	}
 
 	/**

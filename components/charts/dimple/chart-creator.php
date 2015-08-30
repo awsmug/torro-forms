@@ -64,8 +64,8 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator{
         $width = $atts[ 'width' ];
         $height = $atts[ 'height' ];
 
-        $answer_text = __( 'Answers', 'questions-locale' );
-        $value_text = __( 'Votes', 'questions-locale' );
+        $answer_text = __( 'Answers', 'af-locale' );
+        $value_text = __( 'Votes', 'af-locale' );
 
         $data = self::prepare_data( $answers, $answer_text, $value_text );
 

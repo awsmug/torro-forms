@@ -56,10 +56,10 @@ class AF_AdminMenu
 	 */
 	public static function admin_menu()
 	{
-		add_menu_page( esc_attr__( 'Forms', 'questions-locale' ), esc_attr__( 'Forms', 'questions-locale' ), 'edit_posts', 'AF_Admin', array( 'AF_SettingsPage', 'show' ), '', 50 );
-		add_submenu_page( 'AF_Admin', esc_attr__( 'Create', 'questions-locale' ), esc_attr__( 'Create', 'questions-locale' ), 'edit_posts', 'post-new.php?post_type=questions' );
-		add_submenu_page( 'AF_Admin', esc_attr__( 'Categories', 'questions-locale' ), esc_attr__( 'Categories', 'questions-locale' ), 'edit_posts', 'edit-tags.php?taxonomy=questions-categories' );
-		add_submenu_page( 'AF_Admin', esc_attr__( 'Settings', 'questions-locale' ), esc_attr__( 'Settings', 'questions-locale' ), 'edit_posts', 'AF_Admin', array( 'AF_SettingsPage', 'show' ) );
+		add_menu_page( esc_attr__( 'Forms', 'af-locale' ), esc_attr__( 'Forms', 'af-locale' ), 'edit_posts', 'AF_Admin', array( 'AF_SettingsPage', 'show' ), '', 50 );
+		add_submenu_page( 'AF_Admin', esc_attr__( 'Create', 'af-locale' ), esc_attr__( 'Create', 'af-locale' ), 'edit_posts', 'post-new.php?post_type=questions' );
+		add_submenu_page( 'AF_Admin', esc_attr__( 'Categories', 'af-locale' ), esc_attr__( 'Categories', 'af-locale' ), 'edit_posts', 'edit-tags.php?taxonomy=questions-categories' );
+		add_submenu_page( 'AF_Admin', esc_attr__( 'Settings', 'af-locale' ), esc_attr__( 'Settings', 'af-locale' ), 'edit_posts', 'AF_Admin', array( 'AF_SettingsPage', 'show' ) );
 	}
 
 	/**

@@ -38,10 +38,10 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Selected Members', 'questions-locale' );
+		$this->title = __( 'Selected Members', 'af-locale' );
 		$this->name = 'selectedmembers';
 
-		$this->option_name = __( 'Selected Members of site', 'questions-locale' );
+		$this->option_name = __( 'Selected Members of site', 'af-locale' );
 
 		// add_action( 'questions_functions', array( $this, 'invite_buttons' ) );
 
@@ -64,7 +64,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$form_id = $post->ID;
 
 		$html = '<div id="questions-selectedmembers-userfilter">';
-			$html.= '<h3>' . esc_attr( 'Restrict Members', 'questions-locale' ) . '</h3>';
+			$html.= '<h3>' . esc_attr( 'Restrict Members', 'af-locale' ) . '</h3>';
 
 			/**
 			 * Check User
@@ -74,7 +74,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 			$html .= '<div class="questions-restrictions-same-users-userfilter">';
 				$html .= '<input type="checkbox" name="questions_restrictions_selectedmembers_same_users" value="yes" ' . $checked . '/>';
-				$html .= '<label for="questions_restrictions_selectedmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'questions-locale' ) . '</label>';
+				$html .= '<label for="questions_restrictions_selectedmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
 			$html .= '</div>';
 		$html .= '</div>';
 
@@ -83,12 +83,12 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		 */
 		$html .= '<div id="questions-add-participiants">';
 
-		$options = apply_filters( 'questions_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'questions-locale' ), ) );
+		$options = apply_filters( 'questions_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'af-locale' ), ) );
 
 		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', TRUE );
 
 		$html .= '<div id="questions-add-participiants-options">';
-		$html .= '<label for"questions_add_participiants_option">' . esc_attr( 'Add Members', 'questions-locale' ) . '';
+		$html .= '<label for"questions_add_participiants_option">' . esc_attr( 'Add Members', 'af-locale' ) . '';
 		$html .= '<select id="questions-add-participiants-option" name="questions_add_participiants_option">';
 		foreach( $options AS $name => $value ):
 			$selected = '';
@@ -102,8 +102,8 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$html .= '</div>';
 
 		$html .= '<div id="questions-add-participiants-content-allmembers" class="questions-add-participiants-content-allmembers questions-add-participiants-content">';
-		$html .= '<input type="button" class="questions-add-participiants-allmembers-button button" id="questions-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'questions-locale' ) . '" />';
-		$html .= '<a class="questions-remove-all-participiants">' . esc_attr__( 'Remove all Participiants', 'questions-locale' ) . '</a>';
+		$html .= '<input type="button" class="questions-add-participiants-allmembers-button button" id="questions-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'af-locale' ) . '" />';
+		$html .= '<a class="questions-remove-all-participiants">' . esc_attr__( 'Remove all Participiants', 'af-locale' ) . '</a>';
 		$html .= '</div>';
 
 		// Hooking in
@@ -130,7 +130,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		 * Participiants Statistics
 		 */
 		$html .= '<div id="questions-participiants-status" class="questions-participiants-status">';
-		$html .= '<p>' . count( $users ) . ' ' . esc_attr__( 'participiant/s', 'questions-locale' ) . '</p>';
+		$html .= '<p>' . count( $users ) . ' ' . esc_attr__( 'participiant/s', 'af-locale' ) . '</p>';
 		$html .= '</div>';
 
 		/**
@@ -142,11 +142,11 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$html .= '<table class="wp-list-table widefat">';
 		$html .= '<thead>';
 		$html .= '<tr>';
-		$html .= '<th>' . esc_attr__( 'ID', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'User nicename', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'Display name', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'Email', 'questions-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'Status', 'questions-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'ID', 'af-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'User nicename', 'af-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Display name', 'af-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Email', 'af-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Status', 'af-locale' ) . '</th>';
 		$html .= '<th>&nbsp</th>';
 		$html .= '</tr>';
 		$html .= '</thead>';
@@ -161,9 +161,9 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			foreach( $users AS $user ):
 				if( af_user_has_participated( $form_id, $user->ID ) ):
 					$user_css = ' finished';
-					$user_text = esc_attr__( 'finished', 'questions-locale' );
+					$user_text = esc_attr__( 'finished', 'af-locale' );
 				else:
-					$user_text = esc_attr__( 'new', 'questions-locale' );
+					$user_text = esc_attr__( 'new', 'af-locale' );
 					$user_css = ' new';
 				endif;
 
@@ -173,14 +173,14 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 				$html .= '<td>' . $user->display_name . '</td>';
 				$html .= '<td>' . $user->user_email . '</td>';
 				$html .= '<td>' . $user_text . '</td>';
-				$html .= '<td><a class="button questions-delete-participiant" rel="' . $user->ID . '">' . esc_attr__( 'Delete', 'questions-locale' ) . '</a></td>';
+				$html .= '<td><a class="button questions-delete-participiant" rel="' . $user->ID . '">' . esc_attr__( 'Delete', 'af-locale' ) . '</a></td>';
 				$html .= '</tr>';
 			endforeach;
 
 			$questions_participiants_value = implode( ',', $user_ids );
 		}
 		$html .= '<tr class="no-users-found">';
-		$html .= '<td colspan="6">' . esc_attr( 'No Users found.', 'questions-locale' ) . '</td>';
+		$html .= '<td colspan="6">' . esc_attr( 'No Users found.', 'af-locale' ) . '</td>';
 		$html .= '</tr>';
 
 		$html .= '</tbody>';
@@ -216,19 +216,19 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			$html .= '<div class="questions-function-element">';
 			$html .= '<input id="questions-invite-subject" type="text" name="questions_invite_subject" value="' . $questions_invitation_subject_template . '" />';
 			$html .= '<textarea id="questions-invite-text" name="questions_invite_text">' . $questions_invitation_text_template . '</textarea>';
-			$html .= '<input id="questions-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'questions-locale' ) . '" /> ';
-			$html .= '<input id="questions-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'questions-locale' ) . '" />';
+			$html .= '<input id="questions-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'af-locale' ) . '" /> ';
+			$html .= '<input id="questions-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 			$html .= '</div>';
 
 			$html .= '<div class="questions-function-element">';
 			$html .= '<input id="questions-reinvite-subject" type="text" name="questions_invite_subject" value="' . $questions_reinvitation_subject_template . '" />';
 			$html .= '<textarea id="questions-reinvite-text" name="questions_reinvite_text">' . $questions_reinvitation_text_template . '</textarea>';
-			$html .= '<input id="questions-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'questions-locale' ) . '" /> ';
-			$html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'questions-locale' ) . '" />';
+			$html .= '<input id="questions-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'af-locale' ) . '" /> ';
+			$html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 
 			$html .= '</div>';
 		else:
-			$html .= '<p>' . esc_attr__( 'You can invite Participiants to this form after it is published.', 'questions-locale' ) . '</p>';
+			$html .= '<p>' . esc_attr__( 'You can invite Participiants to this form after it is published.', 'af-locale' ) . '</p>';
 		endif;
 
 		echo $html;
@@ -242,13 +242,13 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		global $questions_form_id;
 
 		if( !is_user_logged_in() ){
-			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'questions-locale' ) );
+			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'af-locale' ) );
 
 			return FALSE;
 		}
 
 		if( !$this->is_participiant() ){
-			$this->add_message( 'error', esc_attr( 'You can\'t participate this survey.', 'questions-locale' ) );
+			$this->add_message( 'error', esc_attr( 'You can\'t participate this survey.', 'af-locale' ) );
 
 			return FALSE;
 		}
@@ -444,15 +444,15 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	public function enqueue_scripts()
 	{
 		$translation = array(
-			'delete'                              => esc_attr__( 'Delete', 'questions-locale' ),
-			'yes'                                 => esc_attr__( 'Yes', 'questions-locale' ),
-			'no'                                  => esc_attr__( 'No', 'questions-locale' ),
-			'just_added'                          => esc_attr__( 'just added', 'questions-locale' ),
-			'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'questions-locale' ),
-			'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'questions-locale' ),
-			'reinvitations_sent_succes  sfully'   => esc_attr__( 'Renvitations sent successfully!', 'questions-locale' ),
-			'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'questions-locale' ),
-			'added_participiants'                 => esc_attr__( 'participiant/s', 'questions-locale' ), );
+			'delete'                              => esc_attr__( 'Delete', 'af-locale' ),
+			'yes'                                 => esc_attr__( 'Yes', 'af-locale' ),
+			'no'                                  => esc_attr__( 'No', 'af-locale' ),
+			'just_added'                          => esc_attr__( 'just added', 'af-locale' ),
+			'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'af-locale' ),
+			'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'af-locale' ),
+			'reinvitations_sent_succes  sfully'   => esc_attr__( 'Renvitations sent successfully!', 'af-locale' ),
+			'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'af-locale' ),
+			'added_participiants'                 => esc_attr__( 'participiant/s', 'af-locale' ), );
 
 		wp_enqueue_script( 'questions-selected-members', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/selected-members.js' );
 		wp_localize_script( 'questions-selected-members', 'translation_sm', $translation );

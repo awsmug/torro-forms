@@ -93,7 +93,7 @@ class AF_AbstractData
 					$merged_data[ $response ] += 1;
 				else:
 					foreach( $response AS $answer_option => $answer ):
-						if( $answer == __( 'Yes', 'questions-locale' ) ){
+						if( $answer == __( 'Yes', 'af-locale' ) ){
 							$merged_data[ $answer_option ] += 1;
 						}
 					endforeach;

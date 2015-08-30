@@ -45,24 +45,24 @@ class AF_GeneralSettings extends AF_Settings
 	{
 		$this->settings = array(
 			'disclaimer' => array(
-				'title'       => esc_attr( 'Welcome to Awesome Forms!', 'questions-locale' ),
-				'description' => esc_attr( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'questions-locale' ),
+				'title'       => esc_attr( 'Welcome to Awesome Forms!', 'af-locale' ),
+				'description' => esc_attr( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'af-locale' ),
 				'type' => 'disclaimer'
 			),
 			'modules_title' => array(
-				'title'       => esc_attr( 'Form Modules', 'questions-locale' ),
-				'description' => esc_attr( 'Check the modules of Awesome Forms which have to be activated.', 'questions-locale' ),
+				'title'       => esc_attr( 'Form Modules', 'af-locale' ),
+				'description' => esc_attr( 'Check the modules of Awesome Forms which have to be activated.', 'af-locale' ),
 				'type' => 'title'
 			),
 			'modules' => array(
-				'title'       => esc_attr( 'Modules', 'questions-locale' ),
+				'title'       => esc_attr( 'Modules', 'af-locale' ),
 				'type' => 'checkbox',
 				'values' => array(
-					'charts' => esc_attr( 'Charts', 'questions-locale' ),
-					'restrictions' => esc_attr( 'Restrictions', 'questions-locale' ),
-					'response' => esc_attr( 'Response Handling', 'questions-locale' )
+					'charts' => esc_attr( 'Charts', 'af-locale' ),
+					'restrictions' => esc_attr( 'Restrictions', 'af-locale' ),
+					'response' => esc_attr( 'Response Handling', 'af-locale' )
 				),
-				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'questions-locale' ),
+				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'af-locale' ),
 				'defaults' => array( 'charts', 'restrictions', 'response' )
 			)
 		);

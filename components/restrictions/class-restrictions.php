@@ -170,7 +170,7 @@ abstract class AF_Restriction
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Awesome Forms Restriction.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Restriction.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->restrictions ) ){

@@ -216,7 +216,7 @@ abstract class AF_FormElement
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Awesome Forms Survey Element.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Survey Element.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->element_types ) ){
@@ -404,7 +404,7 @@ abstract class AF_FormElement
 		$html .= '<div class="answer">';
 
 		if( 0 == count( $this->answers ) && $this->has_answers == TRUE ){
-			$html .= '<p>' . esc_attr__( 'You don´t entered any answers. Please add some to display answers here.', 'questions-locale' ) . '</p>';
+			$html .= '<p>' . esc_attr__( 'You don´t entered any answers. Please add some to display answers here.', 'af-locale' ) . '</p>';
 		}else{
 			$html .= $this->input_html();
 		}
@@ -433,7 +433,7 @@ abstract class AF_FormElement
 	public function input_html()
 	{
 
-		return '<p>' . esc_attr__( 'No HTML for Element given. Please check element sourcecode.', 'questions-locale' ) . '</p>';
+		return '<p>' . esc_attr__( 'No HTML for Element given. Please check element sourcecode.', 'af-locale' ) . '</p>';
 	}
 
 	/**
@@ -517,15 +517,15 @@ abstract class AF_FormElement
 		$html .= '<ul class="tabs">';
 		// If Element is Question > Show question tab
 		if( $this->is_question && !$this->has_answers ){
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label', 'questions-locale' ) . '</a></li>';
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label', 'af-locale' ) . '</a></li>';
 		}
 		if( $this->is_question && $this->has_answers ){
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label & Answers', 'questions-locale' ) . '</a></li>';
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label & Answers', 'af-locale' ) . '</a></li>';
 		}
 
 		// If Element has settings > Show settings tab
 		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ){
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . esc_attr__( 'Settings', 'questions-locale' ) . '</a></li>';
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . esc_attr__( 'Settings', 'af-locale' ) . '</a></li>';
 		}
 
 		// Adding further tabs
@@ -604,7 +604,7 @@ abstract class AF_FormElement
 				endforeach;
 			// Answers without sections
 			else:
-				$html .= '<p>' . esc_attr__( 'Answer/s:', 'questions-locale' ) . '</p>';
+				$html .= '<p>' . esc_attr__( 'Answer/s:', 'af-locale' ) . '</p>';
 				$html .= $this->admin_widget_question_answers();
 			endif;
 
@@ -669,7 +669,7 @@ abstract class AF_FormElement
 
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
 				$html .= call_user_func_array( 'sprintf', $param_arr );
-				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'questions-locale' ) . '" class="delete_answer button answer_action">';
+				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
 
@@ -710,7 +710,7 @@ abstract class AF_FormElement
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
 				$html .= call_user_func_array( 'sprintf', $param_arr );
-				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'questions-locale' ) . '" class="delete_answer button answer_action">';
+				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
 				if( NULL != $section ){
@@ -724,7 +724,7 @@ abstract class AF_FormElement
 
 		endif;
 
-		$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_attr__( 'Add Answer', 'questions-locale' ) . ' </a>';
+		$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_attr__( 'Add Answer', 'af-locale' ) . ' </a>';
 
 		return $html;
 	}
@@ -833,7 +833,7 @@ abstract class AF_FormElement
 	{
 
 		// Adding action Buttons
-		$bottom_buttons = apply_filters( 'af_element_bottom_actions', array( 'delete_form_element' => array( 'text'    => esc_attr__( 'Delete element', 'questions-locale' ),
+		$bottom_buttons = apply_filters( 'af_element_bottom_actions', array( 'delete_form_element' => array( 'text'    => esc_attr__( 'Delete element', 'af-locale' ),
 		                                                                                                     'classes' => 'delete_form_element'
 		)
 		) );

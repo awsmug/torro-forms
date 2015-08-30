@@ -97,9 +97,9 @@ class AF_FormBuilder
 			$html .= '</div>';
 		$html .= '</div>';
 
-		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'questions-locale' ) . '</div>';
-		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'questions-locale' ) . '</div>';
-		$html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'questions-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'questions-locale' ) . '</p></div>';
+		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'af-locale' ) . '</div>';
+		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'af-locale' ) . '</div>';
+		$html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'af-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'af-locale' ) . '</p></div>';
 
 		$html .= '<input type="hidden" id="deleted_formelements" name="questions_deleted_formelements" value="">';
 		$html .= '<input type="hidden" id="deleted_answers" name="questions_deleted_answers" value="">';
@@ -119,7 +119,7 @@ class AF_FormBuilder
 		$post_types = array( 'questions' );
 
 		if( in_array( $post_type, $post_types ) ):
-			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'questions-locale' ), array( __CLASS__, 'meta_box_form_elements' ), 'questions', 'side', 'high' );
+			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'af-locale' ), array( __CLASS__, 'meta_box_form_elements' ), 'questions', 'side', 'high' );
 		endif;
 	}
 
@@ -152,8 +152,8 @@ class AF_FormBuilder
 
 		$html = '<div id="questions-functions" class="misc-pub-section">';
 			$html.= '<div id="questions-functions-notices"></div>';
-			$html.= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'questions-locale' ) . '" />';
-			$html.= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'questions-locale' ) . '" />';
+			$html.= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
+			$html.= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
 
 			ob_start();
 			do_action( 'questions_functions' );
@@ -438,16 +438,16 @@ class AF_FormBuilder
 			return;
 
 
-		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
-		                      'yes'                          => esc_attr__( 'Yes', 'questions-locale' ),
-		                      'no'                           => esc_attr__( 'No', 'questions-locale' ),
-		                      'edit_form'                    => esc_attr__( 'Edit Form', 'questions-locale' ),
-		                      'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'questions-locale' ),
-		                      'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'questions-locale' ),
-		                      'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'questions-locale' ),
-		                      'of'                           => esc_attr__( 'of', 'questions-locale' ),
-		                      'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'questions-locale' ),
-		                      'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'questions-locale' ) );
+		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'af-locale' ),
+		                      'yes'                          => esc_attr__( 'Yes', 'af-locale' ),
+		                      'no'                           => esc_attr__( 'No', 'af-locale' ),
+		                      'edit_form'                    => esc_attr__( 'Edit Form', 'af-locale' ),
+		                      'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'af-locale' ),
+		                      'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'af-locale' ),
+		                      'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'af-locale' ),
+		                      'of'                           => esc_attr__( 'of', 'af-locale' ),
+		                      'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'af-locale' ),
+		                      'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'af-locale' ) );
 
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );

@@ -63,13 +63,13 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$end_date = get_post_meta( $form_id, 'end_date', TRUE );
 
 		$html = '<div id="questions-restrictions-content-timerange">';
-			$html .= '<h3>' . esc_attr( 'Restrict input timerange', 'questions-locale' ) .'</h3>';
+			$html .= '<h3>' . esc_attr( 'Restrict input timerange', 'af-locale' ) .'</h3>';
 			$html .= '<div class="timerange-start">';
-				$html .= '<label for="start_date">' . esc_attr__( 'Start:', 'questions-locale' ) . '</label>';
+				$html .= '<label for="start_date">' . esc_attr__( 'Start:', 'af-locale' ) . '</label>';
 				$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
 			$html .= '</div>';
 			$html .= '<div class="timerange-end">';
-				$html .= '<label for="end_date">' . esc_attr__( 'End:', 'questions-locale' ) . '</label>';
+				$html .= '<label for="end_date">' . esc_attr__( 'End:', 'af-locale' ) . '</label>';
 				$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
 			$html .= '</div>';
 		$html .= '<div class="clear"></div>';
@@ -90,14 +90,14 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$end_date = strtotime( get_post_meta( $questions_form_id, 'end_date', TRUE ) );
 
 		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date ){
-			$this->add_message( 'error', esc_attr( 'The survey has not yet begun.', 'questions-locale' ) );
+			$this->add_message( 'error', esc_attr( 'The survey has not yet begun.', 'af-locale' ) );
 			echo $this->messages();
 
 			return FALSE;
 		}
 
 		if( '' != $end_date && 0 != (int) $end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date ){
-			$this->add_message( 'error', esc_attr( 'The survey is already over.', 'questions-locale' ) );
+			$this->add_message( 'error', esc_attr( 'The survey is already over.', 'af-locale' ) );
 			echo $this->messages();
 
 			return FALSE;
@@ -160,26 +160,26 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public function enqueue_scripts()
 	{
-		$translation_admin = array( 'dateformat' => esc_attr__( 'yy/mm/dd', 'questions-locale' ),
-		                            'min_sun'    => esc_attr__( 'Su', 'questions-locale' ),
-		                            'min_mon'    => esc_attr__( 'Mo', 'questions-locale' ),
-		                            'min_tue'    => esc_attr__( 'Tu', 'questions-locale' ),
-		                            'min_wed'    => esc_attr__( 'We', 'questions-locale' ),
-		                            'min_thu'    => esc_attr__( 'Th', 'questions-locale' ),
-		                            'min_fri'    => esc_attr__( 'Fr', 'questions-locale' ),
-		                            'min_sat'    => esc_attr__( 'Sa', 'questions-locale' ),
-		                            'january'    => esc_attr__( 'January', 'questions-locale' ),
-		                            'february'   => esc_attr__( 'February', 'questions-locale' ),
-		                            'march'      => esc_attr__( 'March', 'questions-locale' ),
-		                            'april'      => esc_attr__( 'April', 'questions-locale' ),
-		                            'may'        => esc_attr__( 'May', 'questions-locale' ),
-		                            'june'       => esc_attr__( 'June', 'questions-locale' ),
-		                            'july'       => esc_attr__( 'July', 'questions-locale' ),
-		                            'august'     => esc_attr__( 'August', 'questions-locale' ),
-		                            'september'  => esc_attr__( 'September', 'questions-locale' ),
-		                            'october'    => esc_attr__( 'October', 'questions-locale' ),
-		                            'november'   => esc_attr__( 'November', 'questions-locale' ),
-		                            'december'   => esc_attr__( 'December', 'questions-locale' ), );
+		$translation_admin = array( 'dateformat' => esc_attr__( 'yy/mm/dd', 'af-locale' ),
+		                            'min_sun'    => esc_attr__( 'Su', 'af-locale' ),
+		                            'min_mon'    => esc_attr__( 'Mo', 'af-locale' ),
+		                            'min_tue'    => esc_attr__( 'Tu', 'af-locale' ),
+		                            'min_wed'    => esc_attr__( 'We', 'af-locale' ),
+		                            'min_thu'    => esc_attr__( 'Th', 'af-locale' ),
+		                            'min_fri'    => esc_attr__( 'Fr', 'af-locale' ),
+		                            'min_sat'    => esc_attr__( 'Sa', 'af-locale' ),
+		                            'january'    => esc_attr__( 'January', 'af-locale' ),
+		                            'february'   => esc_attr__( 'February', 'af-locale' ),
+		                            'march'      => esc_attr__( 'March', 'af-locale' ),
+		                            'april'      => esc_attr__( 'April', 'af-locale' ),
+		                            'may'        => esc_attr__( 'May', 'af-locale' ),
+		                            'june'       => esc_attr__( 'June', 'af-locale' ),
+		                            'july'       => esc_attr__( 'July', 'af-locale' ),
+		                            'august'     => esc_attr__( 'August', 'af-locale' ),
+		                            'september'  => esc_attr__( 'September', 'af-locale' ),
+		                            'october'    => esc_attr__( 'October', 'af-locale' ),
+		                            'november'   => esc_attr__( 'November', 'af-locale' ),
+		                            'december'   => esc_attr__( 'December', 'af-locale' ), );
 
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 

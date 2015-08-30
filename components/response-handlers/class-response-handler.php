@@ -119,7 +119,7 @@ abstract class AF_ResponseHandler
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is the Awesome Forms Responsehandler extension.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is the Awesome Forms Responsehandler extension.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->response_handlers ) ){

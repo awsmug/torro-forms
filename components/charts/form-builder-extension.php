@@ -63,7 +63,7 @@ class AF_FormBuilder_ChartsExtension
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-charts',
-				esc_attr__( 'Charts', 'questions-locale' ),
+				esc_attr__( 'Charts', 'af-locale' ),
 				array( __CLASS__, 'meta_box_charts' ),
 				'questions',
 				'normal',
@@ -101,7 +101,7 @@ class AF_FormBuilder_ChartsExtension
 		}
 
 		$html = '<div class="questions-options">';
-		$html.= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'questions-locale' ) . '</label></p>';
+		$html.= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'af-locale' ) . '</label></p>';
 		$html.= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
 		$html.= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';
 		$html.= '</div>';

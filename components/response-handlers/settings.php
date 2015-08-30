@@ -46,8 +46,8 @@ class AF_ResponseSettings extends AF_Settings
 
 		$this->settings = array(
 			'modules_title' => array(
-				'title'       => esc_attr( 'Response Handling', 'questions-locale' ),
-				'description' => esc_attr( 'Setup the Response Handling settings.', 'questions-locale' ),
+				'title'       => esc_attr( 'Response Handling', 'af-locale' ),
+				'description' => esc_attr( 'Setup the Response Handling settings.', 'af-locale' ),
 				'type' => 'title'
 			),
 

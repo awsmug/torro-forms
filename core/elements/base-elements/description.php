@@ -36,8 +36,8 @@ class AF_FormElement_Description extends AF_FormElement
 	{
 
 		$this->name = 'Description';
-		$this->title = esc_attr__( 'Description', 'questions-locale' );
-		$this->description = esc_attr__( 'Adds a text to the form.', 'questions-locale' );
+		$this->title = esc_attr__( 'Description', 'af-locale' );
+		$this->description = esc_attr__( 'Adds a text to the form.', 'af-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
 
 		$this->is_question = FALSE;
@@ -54,9 +54,9 @@ class AF_FormElement_Description extends AF_FormElement
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Text to show', 'questions-locale' ),
+				'title'       => esc_attr__( 'Text to show', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The text which will be shown in the form.', 'questions-locale' ),
+				'description' => esc_attr__( 'The text which will be shown in the form.', 'af-locale' ),
 				'default'     => '' ) );
 	}
 }

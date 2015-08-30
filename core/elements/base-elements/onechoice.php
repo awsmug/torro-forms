@@ -35,8 +35,8 @@ class AF_FormElement_OneChoice extends AF_FormElement
 	public function __construct( $id = NULL )
 	{
 		$this->name = 'OneChoice';
-		$this->title = esc_attr__( 'One Choice', 'questions-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered by selecting one of the given answers.', 'questions-locale' );
+		$this->title = esc_attr__( 'One Choice', 'af-locale' );
+		$this->description = esc_attr__( 'Add a question which can be answered by selecting one of the given answers.', 'af-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-onechoice.png';
 
 		$this->has_answers = TRUE;
@@ -70,9 +70,9 @@ class AF_FormElement_OneChoice extends AF_FormElement
 	{
 		$this->settings_fields = array(
 			'description' => array(
-				'title' => esc_attr__( 'Description', 'questions-locale' ),
+				'title' => esc_attr__( 'Description', 'af-locale' ),
 				'type' => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
 				'default' => '' ) );
 	}
 
@@ -81,7 +81,7 @@ class AF_FormElement_OneChoice extends AF_FormElement
 		$error = FALSE;
 
 		if( empty( $input ) ):
-			$this->validate_errors[] = sprintf( esc_attr__( 'Please select a value.', 'questions-locale' ) );
+			$this->validate_errors[] = sprintf( esc_attr__( 'Please select a value.', 'af-locale' ) );
 			$error = TRUE;
 		endif;
 

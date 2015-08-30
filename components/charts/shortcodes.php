@@ -84,7 +84,7 @@ class AF_ChartsShortCodes
 		$form_id = $atts[ 'id' ];
 
 		if( '' == $form_id || !af_form_exists( $form_id ) ){
-			return esc_attr( 'Please enter a valid form id into the shortcode!', 'questions-locale' );
+			return esc_attr( 'Please enter a valid form id into the shortcode!', 'af-locale' );
 		}
 
 		$results = new AF_Results( $form_id );
@@ -104,7 +104,7 @@ class AF_ChartsShortCodes
 		endforeach;
 
 		if( 0 == $count_bars ){
-			$html.= esc_attr( 'There are no results to show.', 'questions-locale' );
+			$html.= esc_attr( 'There are no results to show.', 'af-locale' );
 		}
 
 		return $html;
@@ -127,7 +127,7 @@ class AF_ChartsShortCodes
 		$element_id = $wpdb->get_var( $sql );
 
 		if( '' == $element_id ){
-			return esc_attr( 'Please enter a valid element id into the shortcode!', 'questions-locale' );
+			return esc_attr( 'Please enter a valid element id into the shortcode!', 'af-locale' );
 		}
 
 		$sql = $wpdb->prepare( "SELECT questions_id FROM {$af_global->tables->questions} WHERE id = %d", $element_id );
@@ -159,7 +159,7 @@ class AF_ChartsShortCodes
 			return;
 
 		$html = '<div class="questions-options shortcode">';
-		$html .= '<label for="form_results_shortcode">' . __( 'Charts Shortcode:', 'questions-locale' ) . '</label><br />';
+		$html .= '<label for="form_results_shortcode">' . __( 'Charts Shortcode:', 'af-locale' ) . '</label><br />';
 		$html .= '<input type="text" id="form_results_shortcode" value="[form_results id=' . $post->ID . ']" />';
 		$html .= '</div>';
 
@@ -176,8 +176,8 @@ class AF_ChartsShortCodes
 	public static function show_element_result_shortcode( $object )
 	{
 		if( $object->id != '' && $object->is_analyzable ){
-			$small = '<small>' . __( '(CTRL+C and paste into a post to embed element result charts in a post)', 'questions-locale' ) . '</small>';
-			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Charts Shortcode:', 'questions-locale' ) . '</label><input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
+			$small = '<small>' . __( '(CTRL+C and paste into a post to embed element result charts in a post)', 'af-locale' ) . '</small>';
+			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Charts Shortcode:', 'af-locale' ) . '</label><input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
 		}
 	}
 }

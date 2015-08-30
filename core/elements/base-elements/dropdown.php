@@ -34,8 +34,8 @@ class AF_FormElement_Dropdown extends AF_FormElement {
 	public function __construct( $id = NULL ) {
 
 		$this->name        = 'Dropdown';
-		$this->title       = esc_attr__( 'Dropdown', 'questions-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered within a dropdown field.', 'questions-locale' );
+		$this->title       = esc_attr__( 'Dropdown', 'af-locale' );
+		$this->description = esc_attr__( 'Add a question which can be answered within a dropdown field.', 'af-locale' );
 		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-dropdown.png';
 
 		$this->has_answers  = TRUE;
@@ -55,7 +55,7 @@ class AF_FormElement_Dropdown extends AF_FormElement {
 	public function input_html() {
 
 		$html = '<select name="' . $this->get_input_name() . '">';
-		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'questions-locale' ) . ' -</option>';
+		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'af-locale' ) . ' -</option>';
 
 		foreach ( $this->answers AS $answer ):
 			$checked = '';
@@ -76,9 +76,9 @@ class AF_FormElement_Dropdown extends AF_FormElement {
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'questions-locale' ),
+				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
 				'default'     => ''
 			),
 		);
@@ -89,7 +89,7 @@ class AF_FormElement_Dropdown extends AF_FormElement {
 		$error = FALSE;
 
 		if ( 'please-select' == $input ):
-			$this->validate_errors[ ] = sprintf( esc_attr__( 'Please select a value.', 'questions-locale' ) );
+			$this->validate_errors[ ] = sprintf( esc_attr__( 'Please select a value.', 'af-locale' ) );
 			$error                    = TRUE;
 		endif;
 

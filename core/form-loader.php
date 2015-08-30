@@ -158,7 +158,7 @@ class AF_FormLoader
 		}
 
 		$html = '<div id="questions-thank-participation">';
-		$html .= '<p>' . __( 'Thank you for participating!', 'questions-locale' ) . '</p>';
+		$html .= '<p>' . __( 'Thank you for participating!', 'af-locale' ) . '</p>';
 		if( 'yes' == $show_results ){
 			$html .= self::show_results( $form_id );
 		}
@@ -177,7 +177,7 @@ class AF_FormLoader
 	 */
 	public static function show_results( $form_id )
 	{
-		$html = '<p>' . __( 'This are the actual results:', 'questions-locale' ) . '</p>';
+		$html = '<p>' . __( 'This are the actual results:', 'af-locale' ) . '</p>';
 		$html .= do_shortcode( '[form_results id="' . $form_id . '"]' );
 
 		return apply_filters( 'questions_show_results', $html, $form_id );

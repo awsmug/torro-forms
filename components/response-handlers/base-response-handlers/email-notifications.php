@@ -148,18 +148,18 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 							);
 						}
 					}
-					$html.= '<p class="no-entry-found">' . esc_attr( 'No notification found.', 'questions-locale' ) . '</p>';
+					$html.= '<p class="no-entry-found">' . esc_attr( 'No notification found.', 'af-locale' ) . '</p>';
 				$html.= '</div>';
 			$html.= '</div>';
 			$html.= '<div class="actions">';
-				$html.= '<input id="questions_add_email_notification" type="button" value="' . esc_attr( '+', 'questions-locale' ) . '" class="button" />';
+				$html.= '<input id="questions_add_email_notification" type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" />';
 			$html.= '</div>';
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
 
 		$html.= '<script language="javascript">jQuery( document ).ready(function ($) {$.questions_templatetag_buttons();});</script>';
 
-		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this Email-Notification?', 'questions-locale' ) . '</div>';
+		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this Email-Notification?', 'af-locale' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();
@@ -241,31 +241,31 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 
 			$html.= '<table class="form-table">';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_attr( 'Notification Name', 'questions-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_attr( 'Notification Name', 'af-locale' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][notification_name]" value="' . $notification_name . '"></td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr( 'From Name', 'questions-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr( 'From Name', 'af-locale' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . af_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr( 'From Email', 'questions-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr( 'From Email', 'af-locale' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . af_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr( 'To Email', 'questions-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr( 'To Email', 'af-locale' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . af_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr( 'Subject', 'questions-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr( 'Subject', 'af-locale' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . af_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_message_' . $id . '">' . esc_attr( 'Message', 'questions-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notification_message_' . $id . '">' . esc_attr( 'Message', 'af-locale' ) . '</label></th>';
 					$html.= '<td>' . $editor . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<td colspan="2"><input type="button" class="button questions-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr( 'Delete Notification', 'questions-locale' ) . '" /></td>';
+					$html.= '<td colspan="2"><input type="button" class="button questions-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr( 'Delete Notification', 'af-locale' ) . '" /></td>';
 				$html.= '</tr>';
 			$html.= '</table>';
 		$html.= '</div>';
@@ -325,9 +325,9 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		if( !af_is_questions_formbuilder() )
 			return;
 
-		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
-		                      'yes'                          => esc_attr__( 'Yes', 'questions-locale' ),
-		                      'no'                           => esc_attr__( 'No', 'questions-locale' ) );
+		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'af-locale' ),
+		                      'yes'                          => esc_attr__( 'Yes', 'af-locale' ),
+		                      'no'                           => esc_attr__( 'No', 'af-locale' ) );
 
 		wp_enqueue_script( 'jquery-ui-accordion' );
 		wp_enqueue_script( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/base-response-handlers/includes/js/email-notifications.js' );

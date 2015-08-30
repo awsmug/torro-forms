@@ -51,15 +51,15 @@ class AF_ShortCodes
 	{
 		global $questions_form_id;
 
-		$atts = shortcode_atts( array( 'id' => '', 'title' => __( 'Survey', 'questions-locale' ) ), $atts );
+		$atts = shortcode_atts( array( 'id' => '', 'title' => __( 'Survey', 'af-locale' ) ), $atts );
 		$questions_form_id = $atts[ 'id' ];
 
 		if( '' == $questions_form_id ){
-			return esc_attr( 'Please enter an id in the form shortcode!', 'questions-locale' );
+			return esc_attr( 'Please enter an id in the form shortcode!', 'af-locale' );
 		}
 
 		if( !af_form_exists( $questions_form_id ) ){
-			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'questions-locale' );
+			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
 		}
 
 		return AF_FormLoader::get_form( $questions_form_id );
@@ -73,7 +73,7 @@ class AF_ShortCodes
 			return;
 
 		$html = '<div class="questions-options shortcode">';
-		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'questions-locale' ) . '</label><br />';
+		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'af-locale' ) . '</label><br />';
 		$html .= '<input type="text" id="form_shortcode" value="[form id=' . $post->ID . ']" />';
 		$html .= '</div>';
 

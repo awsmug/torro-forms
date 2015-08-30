@@ -2,14 +2,14 @@
 /**
  * Plugin Name:  Awesome Forms
  * Plugin URI:   http://www.awesome.ug
- * Description:  Drag & drop your survey/poll with the WordPress Awesome Forms plugin.
+ * Description:  Drag & drop your survey/poll with the WordPress Awesome Forms Plugin.
  * Version:      1.0.0 beta 20
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
  * Author Email: contact@awesome.ug
  * License:      GPLv3.0
  * License URI: ./assets/license.txt
- * Text Domain: questions-locale
+ * Text Domain: af-locale
  * Domain Path: /languages
  */
 
@@ -272,7 +272,7 @@ class AF_Init
 	 */
 	public static function load_textdomain()
 	{
-		load_plugin_textdomain( 'questions-locale', FALSE, QUESTIONS_RELATIVE_FOLDER . '/languages' );
+		load_plugin_textdomain( 'af-locale', FALSE, QUESTIONS_RELATIVE_FOLDER . '/languages' );
 	}
 
 	/**

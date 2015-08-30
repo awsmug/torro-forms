@@ -43,8 +43,8 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 */
 	public function tags()
 	{
-		$this->add_tag( 'formtitle', esc_attr( 'Form Title', 'questions-locale' ), esc_attr( 'Shows the Form Title', 'questions-locale' ), array( __CLASS__ , 'formtitle' ) );
-		$this->add_tag( 'allelements', esc_attr( 'All Elements', 'questions-locale' ), esc_attr( 'Shows all Answers', 'questions-locale' ), array( __CLASS__ , 'allelements' ) );
+		$this->add_tag( 'formtitle', esc_attr( 'Form Title', 'af-locale' ), esc_attr( 'Shows the Form Title', 'af-locale' ), array( __CLASS__ , 'formtitle' ) );
+		$this->add_tag( 'allelements', esc_attr( 'All Elements', 'af-locale' ), esc_attr( 'Shows all Answers', 'af-locale' ), array( __CLASS__ , 'allelements' ) );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	public function add_element( $element_id, $element_name ){
 		$this->add_tag( $element_name . ':' . $element_id,
 		                $element_name,
-		                esc_attr( 'Adds the Element Content', 'questions-locale' ),
+		                esc_attr( 'Adds the Element Content', 'af-locale' ),
 		                array( __CLASS__ , 'element_content' ),
 		                array( 'element_id' => $element_id )
 		);

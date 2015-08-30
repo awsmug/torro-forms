@@ -55,7 +55,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_attr( 'Restrict Members', 'questions-locale' ) . '</h3>';
+		$html = '<h3>' . esc_attr( 'Restrict Members', 'af-locale' ) . '</h3>';
 
 		/**
 		 * Check User
@@ -65,7 +65,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 
 		$html .= '<div class="questions-restrictions-same-users-userfilter">';
 			$html .= '<input type="checkbox" name="questions_restrictions_allmembers_same_users" value="yes" ' . $checked . '/>';
-			$html .= '<label for="questions_restrictions_allmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'questions-locale' ) . '</label>';
+			$html .= '<label for="questions_restrictions_allmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();

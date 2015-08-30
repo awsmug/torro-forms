@@ -34,8 +34,8 @@ class AF_FormElement_Separator extends AF_FormElement {
 	public function __construct( $id = NULL ) {
 
 		$this->name        = 'Separator';
-		$this->title       = esc_attr__( 'Separator', 'questions-locale' );
-		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between questions.', 'questions-locale' );
+		$this->title       = esc_attr__( 'Separator', 'af-locale' );
+		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between questions.', 'af-locale' );
 		$this->icon_url        = QUESTIONS_URLPATH . '/assets/images/icon-separator.png';
 
 		$this->is_question = FALSE;
@@ -60,9 +60,9 @@ class AF_FormElement_Separator extends AF_FormElement {
 
 		$this->settings_fields = array(
 			'header' => array(
-				'title'       => esc_attr__( 'Headline', 'questions-locale' ),
+				'title'       => esc_attr__( 'Headline', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'Text which will be shown above the separator', 'questions-locale' ),
+				'description' => esc_attr__( 'Text which will be shown above the separator', 'af-locale' ),
 				'default'     => ''
 			)
 		);

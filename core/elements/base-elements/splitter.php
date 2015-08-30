@@ -35,8 +35,8 @@ class AF_FormElement_Splitter extends AF_FormElement
 	public function __construct( $id = NULL )
 	{
 		$this->name = 'Splitter';
-		$this->title = esc_attr__( 'Split Form', 'questions-locale' );
-		$this->description = esc_attr__( 'Splits a form into several steps', 'questions-locale' );
+		$this->title = esc_attr__( 'Split Form', 'af-locale' );
+		$this->description = esc_attr__( 'Splits a form into several steps', 'af-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-split-form.png';
 
 		$this->is_question = FALSE;

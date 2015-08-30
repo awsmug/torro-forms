@@ -34,8 +34,8 @@ class AF_FormElement_Text extends AF_FormElement
 	public function __construct( $id = NULL )
 	{
 		$this->name = 'Text';
-		$this->title = esc_attr__( 'Text', 'questions-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered within a text field.', 'questions-locale' );
+		$this->title = esc_attr__( 'Text', 'af-locale' );
+		$this->description = esc_attr__( 'Add a question which can be answered within a text field.', 'af-locale' );
 		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-textfield.png';
 
 		parent::__construct( $id );
@@ -52,29 +52,29 @@ class AF_FormElement_Text extends AF_FormElement
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'questions-locale' ),
+				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'questions-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
 				'default'     => '' ),
 			'min_length'  => array(
-				'title'       => esc_attr__( 'Minimum length', 'questions-locale' ),
+				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'questions-locale' ),
+				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'af-locale' ),
 				'default'     => '0' ),
 			'max_length'  => array(
-				'title'       => esc_attr__( 'Maximum length', 'questions-locale' ),
+				'title'       => esc_attr__( 'Maximum length', 'af-locale' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'questions-locale' ),
+				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'af-locale' ),
 				'default'     => '100' ),
 			'validation'  => array(
-				'title'       => esc_attr__( 'String Validation', 'questions-locale' ),
+				'title'       => esc_attr__( 'String Validation', 'af-locale' ),
 				'type'        => 'radio',
 				'values'      => array(
-					'none'            => esc_attr__( 'No validation', 'questions-locale' ),
-					'numbers'         => esc_attr__( 'Numbers', 'questions-locale' ),
-					'numbers_decimal' => esc_attr__( 'Decimal Numbers', 'questions-locale' ),
-					'email_address'   => esc_attr__( 'Email-Address', 'questions-locale' ), ),
-				'description' => esc_attr__( 'The will do a validation for the input.', 'questions-locale' ),
+					'none'            => esc_attr__( 'No validation', 'af-locale' ),
+					'numbers'         => esc_attr__( 'Numbers', 'af-locale' ),
+					'numbers_decimal' => esc_attr__( 'Decimal Numbers', 'af-locale' ),
+					'email_address'   => esc_attr__( 'Email-Address', 'af-locale' ), ),
+				'description' => esc_attr__( 'The will do a validation for the input.', 'af-locale' ),
 				'default'     => 'none' ), );
 	}
 
@@ -89,14 +89,14 @@ class AF_FormElement_Text extends AF_FormElement
 
 		if( !empty( $min_length ) ){
 			if( strlen( $input ) < $min_length ):
-				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'questions-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}
 
 		if( !empty( $max_length ) ){
 			if( strlen( $input ) > $max_length ):
-				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'questions-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'questions-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}
@@ -105,19 +105,19 @@ class AF_FormElement_Text extends AF_FormElement
 			switch ( $validation ){
 				case 'numbers':
 					if( !preg_match( '/^[0-9]{1,}$/', $input ) ):
-						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a number.', 'questions-locale' ), $max_length );
+						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a number.', 'af-locale' ), $max_length );
 						$error = TRUE;
 					endif;
 					break;
 				case 'numbers_decimal':
 					if( !preg_match( '/^-?([0-9])+\.?([0-9])+$/', $input ) && !preg_match( '/^-?([0-9])+\,?([0-9])+$/', $input ) ):
-						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a decimal number.', 'questions-locale' ), $max_length );
+						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a decimal number.', 'af-locale' ), $max_length );
 						$error = TRUE;
 					endif;
 					break;
 				case 'email_address':
 					if( !preg_match( '/^[\w-.]+[@][a-zA-Z0-9-.äöüÄÖÜ]{3,}\.[a-z.]{2,4}$/', $input ) ):
-						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a valid Email-Address.', 'questions-locale' ), $max_length );
+						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a valid Email-Address.', 'af-locale' ), $max_length );
 						$error = TRUE;
 					endif;
 					break;

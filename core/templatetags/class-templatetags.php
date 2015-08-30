@@ -109,7 +109,7 @@ abstract class AF_TemplateTags{
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Awesome Forms Templatetag collection.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Templatetag collection.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->restrictions ) ){
@@ -206,7 +206,7 @@ function af_template_tag_button( $input_name ){
 	$collections = af_get_templatetag_collections();
 
 	$html = '<div class="questions-templatetag-button">';
-		$html.= '<input type="button" value="' . esc_attr( '+', 'questions-locale' ) . '" class="button" rel="' . $input_name . '" />';
+		$html.= '<input type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" rel="' . $input_name . '" />';
 		$html.= '<div class="questions-templatetag-list">';
 
 		foreach( $collections AS $collection_name => $collection )

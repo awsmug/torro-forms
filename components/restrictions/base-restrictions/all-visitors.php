@@ -64,7 +64,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_attr( 'Restrict Visitors', 'questions-locale' ) . '</h3>';
+		$html = '<h3>' . esc_attr( 'Restrict Visitors', 'af-locale' ) . '</h3>';
 
 		/**
 		 * Check IP
@@ -74,7 +74,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="questions_restrictions_check_ip" value="yes" ' . $checked . '/>';
-		$html .= '<label for="questions_restrictions_check_ip">' . esc_attr( 'Prevent multiple entries from same IP', 'questions-locale' ) . '</label>';
+		$html .= '<label for="questions_restrictions_check_ip">' . esc_attr( 'Prevent multiple entries from same IP', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		/**
@@ -85,7 +85,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="questions_restrictions_check_cookie" value="yes" ' . $checked . '/>';
-		$html .= '<label for="questions_restrictions_check_cookie">' . esc_attr( 'Prevent multiple entries by checking cookie', 'questions-locale' ) . '</label>';
+		$html .= '<label for="questions_restrictions_check_cookie">' . esc_attr( 'Prevent multiple entries by checking cookie', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		/**
@@ -96,7 +96,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$html .= '<div class="questions-restrictions-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="questions_restrictions_check_fingerprint" value="yes" ' . $checked . '/>';
-		$html .= '<label for="questions_restrictions_check_fingerprint">' . esc_attr( 'Prevent multiple entries by checking browser fingerprint', 'questions-locale' ) . '</label>';
+		$html .= '<label for="questions_restrictions_check_fingerprint">' . esc_attr( 'Prevent multiple entries by checking browser fingerprint', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
@@ -196,12 +196,12 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$restrict = FALSE;
 
 		if( !isset( $_POST[ 'questions_form_id' ]) ){
-			$content.= esc_attr( 'Question form ID is missing.'. 'questions-locale' );
+			$content.= esc_attr( 'Question form ID is missing.'. 'af-locale' );
 			$restrict = TRUE;
 		}
 
 		if( !isset( $_POST[ 'fngrprnt' ]) ){
-			$content.= esc_attr( 'Error on processing form'. 'questions-locale' );
+			$content.= esc_attr( 'Error on processing form'. 'af-locale' );
 			$restrict = TRUE;
 		}
 
@@ -218,7 +218,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 				$questions_process = new AF_FormProcess( $questions_form_id, $_POST[ 'action_url' ] );
 				$content .= $questions_process->show_form();
 			}else{
-				$content .= '<div class="questions-message error">' . esc_attr( 'You have already entered your data.', 'questions-locale' ) . '</div>';
+				$content .= '<div class="questions-message error">' . esc_attr( 'You have already entered your data.', 'af-locale' ) . '</div>';
 			}
 		}
 

@@ -94,7 +94,7 @@ class AF_FormProcess
 		if( !empty( $questions_response_errors ) ){
 			$html .= '<div class="questions-element-error">';
 			$html .= '<div class="questions-element-error-message"><p>';
-			$html .= esc_attr__( 'There are open answers', 'questions-locale' );
+			$html .= esc_attr__( 'There are open answers', 'af-locale' );
 			$html .= '</p></div></div>';
 		}
 
@@ -112,7 +112,7 @@ class AF_FormProcess
 
 		// Switch on navigation if there is more than one page
 		if( 0 != $step_count ){
-			$html .= '<div class="questions-pagination">' . sprintf( __( 'Step <span class="questions-highlight-number">%d</span> of <span class="questions-highlight-number">%s</span>', 'questions-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
+			$html .= '<div class="questions-pagination">' . sprintf( __( 'Step <span class="questions-highlight-number">%d</span> of <span class="questions-highlight-number">%s</span>', 'af-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		}
 
 		// Getting all elements of step and running them
@@ -314,15 +314,15 @@ class AF_FormProcess
 
 		// If there was a step before, show previous button
 		if( $actual_step > 0 ){
-			$html .= '<input type="submit" name="questions_submission_back" value="' . __( 'Previous Step', 'questions-locale' ) . '"> ';
+			$html .= '<input type="submit" name="questions_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
 		}
 
 		if( $actual_step == $next_step ){
 			// If actual step is next step, show finish form button
-			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Send', 'questions-locale' ) . '">';
+			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Send', 'af-locale' ) . '">';
 		}else{
 			// Show next button
-			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Next Step', 'questions-locale' ) . '">';
+			$html .= '<input type="submit" name="questions_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
 		}
 
 		return $html;
