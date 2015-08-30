@@ -283,7 +283,6 @@ abstract class AF_FormElement
 	 */
 	private function set_question( $question, $order = NULL )
 	{
-
 		if( '' == $question ){
 			return FALSE;
 		}
@@ -644,39 +643,15 @@ abstract class AF_FormElement
 					}
 				}
 
-				$param_arr = array();
-				$param_arr[] = $this->create_answer_syntax;
-
-				$param_value = '';
-				foreach( $this->create_answer_params AS $param ):
-
-					switch ( $param ){
-						case 'name':
-							$param_value = 'questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]';
-							break;
-
-						// @todo Why this var, where you set this, currently is the var always unseated
-						case 'value':
-							$param_value = $value;
-							break;
-
-						case 'answer';
-							$param_value = $answer[ 'text' ];
-							break;
-					}
-					$param_arr[] = $param_value;
-				endforeach;
-
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
-				$html .= call_user_func_array( 'sprintf', $param_arr );
-				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
+					$html .= '<p><input type="text" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="question-answer" /></p>';
+					$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
+					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
+					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
 
-				if( NULL != $section ){
-					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
-				}
-
+					if( NULL != $section ){
+						$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
+					}
 				$html .= '</div>';
 
 			endforeach;
@@ -689,27 +664,9 @@ abstract class AF_FormElement
 				$param_arr[] = $this->create_answer_syntax;
 				$temp_answer_id = 'id_' . time() * rand();
 
-				$param_value = '';
-				foreach( $this->create_answer_params AS $param ):
-					switch ( $param ){
-						case 'name':
-							$param_value = 'questions[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]';
-							break;
-
-						case 'value':
-							$param_value = '';
-							break;
-
-						case 'answer';
-							$param_value = '';
-							break;
-					}
-					$param_arr[] = $param_value;
-				endforeach;
-
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
-				$html .= call_user_func_array( 'sprintf', $param_arr );
+				$html .= '<p><input type="text" name="questions[' . $widget_id . '][answers][' .$temp_answer_id . '][answer]" value="" class="question-answer" /></p>';
 				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';

@@ -49,6 +49,7 @@ class AF_FormElement_OneChoice extends AF_FormElement
 	public function input_html()
 	{
 		$html = '';
+
 		foreach( $this->answers AS $answer ):
 			$checked = '';
 			if( $this->response == $answer[ 'text' ] ){
