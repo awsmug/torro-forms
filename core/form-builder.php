@@ -174,7 +174,9 @@ class AF_FormBuilder
 	{
 		global $af_global, $wpdb;
 
-		if( !array_key_exists( 'questions', $_REQUEST ) ){
+		// p( $_REQUEST );
+
+		if( !array_key_exists( 'elements', $_REQUEST ) ){
 			return;
 		}
 
@@ -194,7 +196,7 @@ class AF_FormBuilder
 			return;
 		}
 
-		$form_elements = $_POST[ 'questions' ];
+		$form_elements = $_POST[ 'elements' ];
 		$form_deleted_formelements = $_POST[ 'form_deleted_formelements' ];
 		$form_deleted_answers = $_POST[ 'form_deleted_answers' ];
 		$form_show_results = $_POST[ 'show_results' ];

@@ -216,7 +216,7 @@ abstract class AF_FormElement
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Awesome Forms Survey Element.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Element.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->element_types ) ){
@@ -366,14 +366,10 @@ abstract class AF_FormElement
 
 		$html = '';
 
-		$html = apply_filters( 'questions_draw_element_outer_start', $html, $this );
-
 		$element_classes = array( 'form-element', 'form-element-' . $this->id );
 		$element_classes = apply_filters( 'af_element_classes', $element_classes, $this );
 
 		$html .= '<div class="' . implode( ' ', $element_classes ) . '">';
-
-		$html = apply_filters( 'questions_draw_element_inner_start', $html, $this );
 
 		// Echo Errors
 		if( is_array( $errors ) && count( $errors ) > 0 ):
@@ -383,7 +379,7 @@ abstract class AF_FormElement
 			foreach( $errors AS $error ):
 				$html .= '<li>' . $error . '</li>';
 			endforeach;
-			$html = apply_filters( 'questions_draw_element_errors', $html, $this );
+			$html = apply_filters( 'draw_element_errors', $html, $this );
 			$html .= '</ul></div>';
 		endif;
 
@@ -416,11 +412,7 @@ abstract class AF_FormElement
 			$html .= '</div>';
 		endif;
 
-		$html = apply_filters( 'questions_draw_element_inner_end', $html, $this );
-
 		$html .= '</div>';
-
-		$html = apply_filters( 'questions_draw_element_outer_end', $html, $this );
 
 		return $html;
 	}
@@ -516,10 +508,10 @@ abstract class AF_FormElement
 		$html .= '<ul class="tabs">';
 		// If Element is Question > Show question tab
 		if( $this->is_question && !$this->has_answers ){
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label', 'af-locale' ) . '</a></li>';
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label', 'af-locale' ) . '</a></li>';
 		}
 		if( $this->is_question && $this->has_answers ){
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_questions">' . esc_attr__( 'Label & Answers', 'af-locale' ) . '</a></li>';
+			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label & Answers', 'af-locale' ) . '</a></li>';
 		}
 
 		// If Element has settings > Show settings tab
@@ -541,7 +533,7 @@ abstract class AF_FormElement
 		 */
 		// Adding question tab
 		if( $this->is_question ):
-			$html .= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_label_answers_content">';
+			$html .= '<div id="tab_' . $jquery_widget_id . '_label" class="tab_label_answers_content">';
 			$html .= $this->admin_widget_question_tab();
 			$html .= '</div>';
 		endif;
@@ -587,7 +579,7 @@ abstract class AF_FormElement
 		$widget_id = $this->admin_get_widget_id();
 
 		// Question
-		$html = '<p><input type="text" name="questions[' . $widget_id . '][question]" value="' . $this->question . '" class="form-label" /><p>';
+		$html = '<p><input type="text" name="elements[' . $widget_id . '][question]" value="' . $this->question . '" class="form-label" /><p>';
 
 		// Answers
 		if( $this->has_answers ):
@@ -595,7 +587,7 @@ abstract class AF_FormElement
 			// Answers have sections
 			if( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ):
 				foreach( $this->sections as $section_key => $section_name ):
-					$html .= '<div class="questions-section" id="section_' . $section_key . '">';
+					$html .= '<div class="element-section" id="section_' . $section_key . '">';
 					$html .= '<p>' . $section_name . '</p>';
 					$html .= $this->admin_widget_question_answers( $section_key );
 					$html .= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
@@ -644,13 +636,13 @@ abstract class AF_FormElement
 				}
 
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
-					$html .= '<p><input type="text" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="question-answer" /></p>';
+					$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="question-answer" /></p>';
 					$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
-					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
-					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
+					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
+					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
 
 					if( NULL != $section ){
-						$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
+						$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
 					}
 				$html .= '</div>';
 
@@ -666,12 +658,12 @@ abstract class AF_FormElement
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
-				$html .= '<p><input type="text" name="questions[' . $widget_id . '][answers][' .$temp_answer_id . '][answer]" value="" class="question-answer" /></p>';
+				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][' .$temp_answer_id . '][answer]" value="" class="question-answer" /></p>';
 				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
-				$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
+				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
+				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
 				if( NULL != $section ){
-					$html .= '<input type="hidden" name="questions[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . $section . '" />';
+					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . $section . '" />';
 				}
 
 				$html .= '</div>';
@@ -726,7 +718,7 @@ abstract class AF_FormElement
 			$value = $field[ 'default' ];
 		}
 
-		$name = 'questions[' . $widget_id . '][settings][' . $name . ']';
+		$name = 'elements[' . $widget_id . '][settings][' . $name . ']';
 
 		$input = '';
 		switch ( $field[ 'type' ] ){
@@ -812,11 +804,11 @@ abstract class AF_FormElement
 		$widget_id = $this->admin_get_widget_id();
 
 		// Adding hidden Values for element
-		$html = '<input type="hidden" name="questions[' . $widget_id . '][id]" value="' . $this->id . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][type]" value="' . $this->name . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
-		$html .= '<input type="hidden" name="questions[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ? 'yes' : 'no' ) . '" />';
+		$html = '<input type="hidden" name="elements[' . $widget_id . '][id]" value="' . $this->id . '" />';
+		$html .= '<input type="hidden" name="elements[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
+		$html .= '<input type="hidden" name="elements[' . $widget_id . '][type]" value="' . $this->name . '" />';
+		$html .= '<input type="hidden" name="elements[' . $widget_id . '][has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
+		$html .= '<input type="hidden" name="elements[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ? 'yes' : 'no' ) . '" />';
 
 		return $html;
 	}

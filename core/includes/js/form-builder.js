@@ -83,7 +83,7 @@
 				var i = 0;
 				$( '#drag-drop-inside .formelement' ).each( function( e ) { i++; });
 				
-				var input_name = 'input[name="questions\[widget_formelement_' + nr +'\]\[sort\]"]';
+				var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
               	$( input_name ).val( i ) ;
 				
 				af_answersortable();
@@ -97,7 +97,7 @@
 				var order = []; 
 				$( '#drag-drop-inside .formelement' ).each( function( e ) {
 					var element_id = $( this ).attr('id') ;
-					var input_name = 'input[name="questions\[' + element_id +'\]\[sort\]"]';
+					var input_name = 'input[name="elements\[' + element_id +'\]\[sort\]"]';
 					var index = $( this ).index();
               		$( input_name ).val( index ) ;
               	});
@@ -172,7 +172,7 @@
 						nr = nr.split( '_' );
 						nr = nr[1];
 						
-						var input_name = 'input[name="questions\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
+						var input_name = 'input[name="elements\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
 						var index = $( this ).index();
 	              		$( input_name ).val( index ) ;
 	              	});
@@ -263,17 +263,17 @@
         var af_add_answer = function ( element_id, clicked_container ){
             var nr = af_rand();
 
-            var sections = 'input[name="questions\[' + element_id + '\]\[sections\]"]';
+            var sections = 'input[name="elements\[' + element_id + '\]\[sections\]"]';
             var sections = $( sections ).val();
             
             // Setting up new answer HTML
             var answer_content = '';
             answer_content = '<div class="answer" id="answer_XXnrXX">';
-            answer_content = answer_content + '<p><input type="text" id="answer_XXnrXX_input" name="questions[' + element_id + '][answers][id_XXnrXX][answer]" /></p>';
-            answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_XXnrXX][id]" /><input type="hidden" name="questions[' + element_id + '][answers][id_XXnrXX][sort]" />';
+            answer_content = answer_content + '<p><input type="text" id="answer_XXnrXX_input" name="elements[' + element_id + '][answers][id_XXnrXX][answer]" /></p>';
+            answer_content = answer_content + '<input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][id]" /><input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][sort]" />';
             if( 'yes' == sections ){
                 var section_key = $( clicked_container ).parent().find( 'input[name="section_key"]' ).val();
-                answer_content = answer_content + '<input type="hidden" name="questions[' + element_id + '][answers][id_XXnrXX][section]" value="' + section_key + '" />';
+                answer_content = answer_content + '<input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][section]" value="' + section_key + '" />';
             }
             answer_content = answer_content + ' <input type="button" value="' + translation_fb.delete + '" class="delete_answer button answer_action"></div>';
             answer_content = answer_content.replace( /XXnrXX/g, nr );
@@ -293,7 +293,7 @@
             answer_input.focus();
             
             // Adding sorting number
-            var input_name = 'input[name="questions\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
+            var input_name = 'input[name="elements\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
             $( input_name ).val( order ) ;
             
             af_deleteanswer();
