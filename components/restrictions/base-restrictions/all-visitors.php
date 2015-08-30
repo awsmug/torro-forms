@@ -45,7 +45,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ) );
 		add_action( 'af_save_form', array( $this, 'save_settings' ), 10, 1 );
 
-		add_action( 'questions_form_end', array( $this, 'add_fingerprint_input' ) );
+		add_action( 'af_form_end', array( $this, 'add_fingerprint_input' ) );
 
 		add_action( 'af_save_response', array( $this, 'set_cookie' ), 10 );
 		add_action( 'af_save_response', array( $this, 'save_ip' ), 10 );

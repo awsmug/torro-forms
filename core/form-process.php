@@ -1,8 +1,6 @@
 <?php
 /**
- * Processing form
- *
- * This class processes the submitted form.
+ * Processing submitted form
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
@@ -101,11 +99,11 @@ class AF_FormProcess
 		// Getting actual step for form
 		$actual_step = $this->get_actual_step();
 
-		$html .= '<form name="questions" id="questions" action="' . $this->action_url . '" method="POST">';
-		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'questions-' . $this->form_id ) . '" />';
+		$html .= '<form class="af-form" action="' . $this->action_url . '" method="POST">';
+		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'af-form-' . $this->form_id ) . '" />';
 
 		ob_start();
-		do_action( 'questions_form_start' );
+		do_action( 'af_form_start' );
 		$html .= ob_get_clean();
 
 		$step_count = $this->form->get_step_count();
@@ -135,7 +133,7 @@ class AF_FormProcess
 		$html .= $this->get_navigation( $actual_step, $next_step );
 
 		ob_start();
-		do_action( 'questions_form_end' );
+		do_action( 'af_form_end' );
 		$html .= ob_get_clean();
 
 		$html .= '<input type="hidden" name="af_next_step" value="' . $next_step . '" />';
@@ -156,7 +154,7 @@ class AF_FormProcess
 	{
 		global $ar_form_id, $af_response_errors;
 
-		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'questions-' . $ar_form_id ) ){
+		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'af-form-' . $ar_form_id ) ){
 			return;
 		}
 
@@ -206,7 +204,7 @@ class AF_FormProcess
 			}
 		}
 
-		do_action( 'questions_process_response_end' );
+		do_action( 'af_process_response_end' );
 	}
 
 	/**
@@ -247,7 +245,7 @@ class AF_FormProcess
 					$af_response_errors[ $element->id ] = array();
 				}
 
-				// Getting every error of question back
+				// Getting every error of element back
 				foreach( $element->validate_errors AS $error ):
 					$af_response_errors[ $element->id ][] = $error;
 				endforeach;
@@ -333,6 +331,7 @@ class AF_FormProcess
 	 */
 	public function email_finished()
 	{
+		// @todo Should be deleted because of email response handler
 		global $post, $current_user;
 		get_currentuserinfo();
 
@@ -343,16 +342,12 @@ class AF_FormProcess
 		$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
 		$subject = str_replace( '%survey_title%', $post->post_title, $subject );
 
-		$subject = apply_filters( 'questions_email_finished_subject', $subject );
-
 		$text_template = af_get_mail_template_text( 'thankyou_participating' );
 
 		$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
 		$content = str_replace( '%username%', $current_user->user_nicename, $content );
 		$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $content );
 		$content = str_replace( '%survey_title%', $post->post_title, $content );
-
-		$content = apply_filters( 'questions_email_finished_content', $content );
 
 		af_mail( $current_user->user_email, $subject, $content );
 	}
@@ -385,6 +380,7 @@ function af_user_has_participated( $form_id, $user_id = NULL )
 		"SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND user_id=%s",
 		$form_id, $user_id
 	);
+
 	$count = $wpdb->get_var( $sql );
 
 	if ( 0 == $count )

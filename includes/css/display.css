@@ -2,19 +2,19 @@
 /**
  * 	Survey Element
  */
-#questions .form-element{
+.af-form .form-element{
 	margin-bottom:20px;
 }
-#questions .form-element p{
+.af-form .form-element p{
 	margin:5px;
 }
-#questions .form-element > h3,
-#questions .form-element > h5,
-#questions .form-element > div
+.af-form .form-element > h3,
+.af-form .form-element > h5,
+.af-form .form-element > div
 {
 	margin-bottom:10px;
 }
-#questions .form-element hr{
+.af-form .form-element hr{
 	margin: 0;
 	height: 5px;
 	border-radius: 3px;
@@ -22,10 +22,10 @@
 /**
  * 	Pagination
  */
-#questions .af-pagination{
+.af-form .af-pagination{
 	margin-bottom: 20px;
 }
-#questions .af-pagination span.af-highlight-number{
+.af-form .af-pagination span.af-highlight-number{
 	border-radius: 3px;
 	background-color: #CCC;
 	padding:2px 6px;
@@ -34,7 +34,7 @@
 /**
  * 	Errors
  */
-#questions .af-element-error{
+.af-form .af-element-error{
 	border: 1px dashed #F00;
 	padding:10px;
 	margin-bottom:20px;
@@ -47,7 +47,7 @@
     margin: 0 0 10px 0;
     padding: 5px;
 }
-#questions ul.af-error-messages{
+.af-form ul.af-error-messages{
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
