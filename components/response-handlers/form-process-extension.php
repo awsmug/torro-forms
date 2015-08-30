@@ -49,14 +49,14 @@ class AF_ResponseHandler_FormProcessExtension
 	 */
 	public static function response_handler( $response_id )
 	{
-		global $af_global, $questions_form_id;
+		global $af_global, $ar_form_id;
 
 		if( count( $af_global->response_handlers ) == 0 ){
 			return;
 		}
 
 		foreach( $af_global->response_handlers AS $response_handler ){
-			$response_handler->handle( $response_id, $_SESSION[ 'questions_response' ][ $questions_form_id ] );
+			$response_handler->handle( $response_id, $_SESSION[ 'questions_response' ][ $ar_form_id ] );
 		}
 	}
 }

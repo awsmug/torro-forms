@@ -36,7 +36,7 @@ class AF_FormElement_Text extends AF_FormElement
 		$this->name = 'Text';
 		$this->title = esc_attr__( 'Text', 'af-locale' );
 		$this->description = esc_attr__( 'Add a question which can be answered within a text field.', 'af-locale' );
-		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-textfield.png';
+		$this->icon_url = AF_URLPATH . '/assets/images/icon-textfield.png';
 
 		parent::__construct( $id );
 	}

@@ -59,7 +59,7 @@
                         form_participiants = form_participiants + ',' + object.id;
                     }
 
-                    $( "#form-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button questions-delete-participiant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
+                    $( "#form-participiants-list tbody" ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button form-delete-participiant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
                     count_added_participiants++;
                 }
             });
@@ -104,7 +104,7 @@
          * Removing participiant from list
          */
         $.questions_delete_participiant = function(){
-            $( ".questions-delete-participiant" ).click( function(){
+            $( ".form-delete-participiant" ).click( function(){
                 var delete_user_id = $( this ).attr( 'rel' );
 
                 var form_participiants_new = '';
@@ -147,17 +147,17 @@
         /**
          * Invite participiants
          */
-        $( '#questions-invite-button' ).click( function(){
+        $( '#form-invite-button' ).click( function(){
 
             var button = $( this )
 
             if( button.hasClass( 'button-primary' ) ){
                 var data = {
-                    action: 'questions_invite_participiants',
+                    action: 'form_invite_participiants',
                     invitation_type: 'invite',
                     form_id: $( '#post_ID' ).val(),
-                    subject_template: $( '#questions-invite-subject' ).val(),
-                    text_template: $( '#questions-invite-text' ).val()
+                    subject_template: $( '#form-invite-subject' ).val(),
+                    text_template: $( '#form-invite-text' ).val()
                 };
 
                 button.addClass( 'button-loading' );
@@ -165,47 +165,47 @@
                 $.post( ajaxurl, data, function( response ) {
                     response = jQuery.parseJSON( response );
                     if( response.sent ){
-                        $( '#questions-invite-subject' ).fadeOut( 200 );
-                        $( '#questions-invite-text' ).fadeOut( 200 );
-                        $( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.invitations_sent_successfully + '</p>' );
+                        $( '#form-invite-subject' ).fadeOut( 200 );
+                        $( '#form-invite-text' ).fadeOut( 200 );
+                        $( '#form-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.invitations_sent_successfully + '</p>' );
                     }else{
-                        $( '#questions-invite-subject' ).fadeOut( 200 );
-                        $( '#questions-invite-text' ).fadeOut( 200 );
-                        $( '#questions-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.invitations_sent_not_successfully + '</p>' );
+                        $( '#form-invite-subject' ).fadeOut( 200 );
+                        $( '#form-invite-text' ).fadeOut( 200 );
+                        $( '#form-invite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.invitations_sent_not_successfully + '</p>' );
                     }
                     button.removeClass( 'button-loading' );
 
                     $( '.form-reinvitations-sent' ).fadeOut( 4000 );
-                    $( '#questions-invite-button' ).removeClass( 'button-primary' );
-                    $( '#questions-invite-text' ).fadeOut( 200 );
-                    $( '#questions-invite-button-cancel' ).fadeOut( 200 );
+                    $( '#form-invite-button' ).removeClass( 'button-primary' );
+                    $( '#form-invite-text' ).fadeOut( 200 );
+                    $( '#form-invite-button-cancel' ).fadeOut( 200 );
                 });
 
             }else{
                 button.addClass( 'button-primary' );
-                $( '#questions-invite-subject' ).fadeIn( 200 );
-                $( '#questions-invite-text' ).fadeIn( 200 );
-                $( '#questions-invite-button-cancel' ).fadeIn( 200 );
+                $( '#form-invite-subject' ).fadeIn( 200 );
+                $( '#form-invite-text' ).fadeIn( 200 );
+                $( '#form-invite-button-cancel' ).fadeIn( 200 );
             }
         });
 
-        $( '#questions-invite-button-cancel' ).click( function(){
-            $( '#questions-invite-button' ).removeClass( 'button-primary' );
-            $( '#questions-invite-subject' ).fadeOut( 200 );
-            $( '#questions-invite-text' ).fadeOut( 200 );
-            $( '#questions-invite-button-cancel' ).fadeOut( 200 );
+        $( '#form-invite-button-cancel' ).click( function(){
+            $( '#form-invite-button' ).removeClass( 'button-primary' );
+            $( '#form-invite-subject' ).fadeOut( 200 );
+            $( '#form-invite-text' ).fadeOut( 200 );
+            $( '#form-invite-button-cancel' ).fadeOut( 200 );
         });
 
-        $( '#questions-reinvite-button' ).click( function(){
+        $( '#form-reinvite-button' ).click( function(){
             var button = $( this )
 
             if( button.hasClass( 'button-primary' ) ){
                 var data = {
-                    action: 'questions_invite_participiants',
+                    action: 'form_invite_participiants',
                     invitation_type: 'reinvite',
                     form_id: $( '#post_ID' ).val(),
-                    subject_template: $( '#questions-reinvite-subject' ).val(),
-                    text_template: $( '#questions-reinvite-text' ).val()
+                    subject_template: $( '#form-reinvite-subject' ).val(),
+                    text_template: $( '#form-reinvite-text' ).val()
                 };
 
                 button.addClass( 'button-loading' );
@@ -213,37 +213,37 @@
                 $.post( ajaxurl, data, function( response ) {
                     response = jQuery.parseJSON( response );
                     if( response.sent ){
-                        $( '#questions-reinvite-subject' ).fadeOut( 200 );
-                        $( '#questions-reinvite-text' ).fadeOut( 200 );
-                        $( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.reinvitations_sent_successfully + '</p>' );
+                        $( '#form-reinvite-subject' ).fadeOut( 200 );
+                        $( '#form-reinvite-text' ).fadeOut( 200 );
+                        $( '#form-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.reinvitations_sent_successfully + '</p>' );
                         button.removeClass( 'button-loading' );
                         $( '.form-reinvitations-sent' ).fadeOut( 4000 );
                     }else{
-                        $( '#questions-reinvite-subject' ).fadeOut( 200 );
-                        $( '#questions-reinvite-text' ).fadeOut( 200 );
-                        $( '#questions-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.reinvitations_sent_not_successfully + '</p>' );
+                        $( '#form-reinvite-subject' ).fadeOut( 200 );
+                        $( '#form-reinvite-text' ).fadeOut( 200 );
+                        $( '#form-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + translation_sm.reinvitations_sent_not_successfully + '</p>' );
 
                     }
                     button.removeClass( 'button-loading' );
                     $( '.form-reinvitations-sent' ).fadeOut( 4000 );
-                    $( '#questions-reinvite-button' ).removeClass( 'button-primary' );
-                    $( '#questions-reinvite-text' ).fadeOut( 200 );
-                    $( '#questions-reinvite-button-cancel' ).fadeOut( 200 );
+                    $( '#form-reinvite-button' ).removeClass( 'button-primary' );
+                    $( '#form-reinvite-text' ).fadeOut( 200 );
+                    $( '#form-reinvite-button-cancel' ).fadeOut( 200 );
                 });
 
             }else{
                 button.addClass( 'button-primary' );
-                $( '#questions-reinvite-subject' ).fadeIn( 200 );
-                $( '#questions-reinvite-text' ).fadeIn( 200 )
-                $( '#questions-reinvite-button-cancel' ).fadeIn( 200 )
+                $( '#form-reinvite-subject' ).fadeIn( 200 );
+                $( '#form-reinvite-text' ).fadeIn( 200 )
+                $( '#form-reinvite-button-cancel' ).fadeIn( 200 )
             }
         });
 
-        $( '#questions-reinvite-button-cancel' ).click( function(){
-            $( '#questions-reinvite-button' ).removeClass( 'button-primary' );
-            $( '#questions-reinvite-subject' ).fadeOut( 200 );
-            $( '#questions-reinvite-text' ).fadeOut( 200 );
-            $( '#questions-reinvite-button-cancel' ).fadeOut( 200 );
+        $( '#form-reinvite-button-cancel' ).click( function(){
+            $( '#form-reinvite-button' ).removeClass( 'button-primary' );
+            $( '#form-reinvite-subject' ).fadeOut( 200 );
+            $( '#form-reinvite-text' ).fadeOut( 200 );
+            $( '#form-reinvite-button-cancel' ).fadeOut( 200 );
         });
 
         /**

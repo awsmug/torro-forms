@@ -138,7 +138,7 @@ class AF_FormBuilder_ResponseHandlerExtension
 		if( !af_is_questions_formbuilder() )
 			return;
 
-		wp_enqueue_script( 'questions-response-handlers-form-builder-extension', QUESTIONS_URLPATH . '/components/response-handlers/includes/js/form-builder-extension.js' );
+		wp_enqueue_script( 'questions-response-handlers-form-builder-extension', AF_URLPATH . '/components/response-handlers/includes/js/form-builder-extension.js' );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class AF_FormBuilder_ResponseHandlerExtension
 		if( !af_is_questions_formbuilder() )
 			return;
 
-		wp_enqueue_style( 'questions-response-handlers-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/response-handlers/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'questions-response-handlers-form-builder-extension-styles', AF_URLPATH . '/components/response-handlers/includes/css/form-builder-extension.css' );
 	}
 }
 AF_FormBuilder_ResponseHandlerExtension::init();

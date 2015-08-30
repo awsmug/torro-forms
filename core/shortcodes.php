@@ -49,20 +49,20 @@ class AF_ShortCodes
 
 	public static function form( $atts )
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
 		$atts = shortcode_atts( array( 'id' => '', 'title' => __( 'Survey', 'af-locale' ) ), $atts );
-		$questions_form_id = $atts[ 'id' ];
+		$ar_form_id = $atts[ 'id' ];
 
-		if( '' == $questions_form_id ){
+		if( '' == $ar_form_id ){
 			return esc_attr( 'Please enter an id in the form shortcode!', 'af-locale' );
 		}
 
-		if( !af_form_exists( $questions_form_id ) ){
+		if( !af_form_exists( $ar_form_id ) ){
 			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
 		}
 
-		return AF_FormLoader::get_form( $questions_form_id );
+		return AF_FormLoader::get_form( $ar_form_id );
 	}
 
 	public static function show_form_shortcode()

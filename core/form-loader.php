@@ -62,7 +62,7 @@ class AF_FormLoader
 	 */
 	public static function process_response( $response )
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
 		if( !isset( $_SESSION ) ){
 			session_start();
@@ -73,16 +73,16 @@ class AF_FormLoader
 			return;
 		}
 
-		$questions_form_id = $_POST[ 'questions_form_id' ];
+		$ar_form_id = $_POST[ 'questions_form_id' ];
 
 		// If form doesn't exists > exit
-		if( !af_form_exists( $questions_form_id ) ){
+		if( !af_form_exists( $ar_form_id ) ){
 			return;
 		}
 
 		do_action( 'questions_form_process' );
 
-		$questions_process = new AF_FormProcess( $questions_form_id );
+		$questions_process = new AF_FormProcess( $ar_form_id );
 		$questions_process->process_response();
 	}
 
@@ -106,16 +106,16 @@ class AF_FormLoader
 	 */
 	public static function the_content( $content )
 	{
-		global $questions_process, $questions_form_id, $questions_response_errors;
+		global $questions_process, $ar_form_id, $questions_response_errors;
 
-		$post = get_post( $questions_form_id );
-		$questions_form_id = $post->ID;
+		$post = get_post( $ar_form_id );
+		$ar_form_id = $post->ID;
 
 		if( 'questions' != $post->post_type ){
 			return $content;
 		}
 
-		$html = self::get_form( $questions_form_id );
+		$html = self::get_form( $ar_form_id );
 
 		remove_filter( 'the_content', array( __CLASS__, 'the_content' ) ); // only show once
 

@@ -872,16 +872,16 @@ abstract class AF_FormElement
 	 */
 	private function get_response()
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
 		$this->response = FALSE;
 
 		// Getting value/s
-		if( !empty( $questions_form_id ) ):
+		if( !empty( $ar_form_id ) ):
 			if( isset( $_SESSION[ 'questions_response' ] ) ):
-				if( isset( $_SESSION[ 'questions_response' ][ $questions_form_id ] ) ):
-					if( isset( $_SESSION[ 'questions_response' ][ $questions_form_id ][ $this->id ] ) ):
-						$this->response = $_SESSION[ 'questions_response' ][ $questions_form_id ][ $this->id ];
+				if( isset( $_SESSION[ 'questions_response' ][ $ar_form_id ] ) ):
+					if( isset( $_SESSION[ 'questions_response' ][ $ar_form_id ][ $this->id ] ) ):
+						$this->response = $_SESSION[ 'questions_response' ][ $ar_form_id ][ $this->id ];
 					endif;
 				endif;
 			endif;

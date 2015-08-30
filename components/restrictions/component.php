@@ -51,7 +51,7 @@ class AF_Restrictions extends AF_Component
 	 */
 	public function start()
 	{
-		$folder = QUESTIONS_COMPONENTFOLDER . 'restrictions/';
+		$folder = AF_COMPONENTFOLDER . 'restrictions/';
 
 		// Loading base functionalities
 		include_once( $folder . 'settings.php' );
@@ -73,7 +73,7 @@ class AF_Restrictions extends AF_Component
 	 */
 	public function enqueue_scripts()
 	{
-		wp_enqueue_script( 'questions-restrictions', QUESTIONS_URLPATH . 'components/restrictions/includes/js/restrictions.js' );
+		wp_enqueue_script( 'questions-restrictions', AF_URLPATH . 'components/restrictions/includes/js/restrictions.js' );
 	}
 
 }

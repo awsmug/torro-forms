@@ -52,9 +52,9 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 */
 	public static function formtitle()
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
-		$form = new AF_Form( $questions_form_id );
+		$form = new AF_Form( $ar_form_id );
 		return $form->title;
 	}
 
@@ -121,9 +121,9 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 * @param $element_id
 	 */
 	public static function allelements(){
-		global $questions_form_id, $questions_response;
+		global $ar_form_id, $questions_response;
 
-		$form = new AF_Form( $questions_form_id );
+		$form = new AF_Form( $ar_form_id );
 
 		$html = '<table style="width:100%;">';
 		foreach( $form->get_elements() AS $element ){

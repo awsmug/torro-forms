@@ -80,7 +80,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 	 */
 	public function check()
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
 		if( !is_user_logged_in() ){
 			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'af-locale' ) );
@@ -88,9 +88,9 @@ class AF_Restriction_AllMembers extends AF_Restriction
 			return FALSE;
 		}
 
-		$restrictions_same_users = get_post_meta( $questions_form_id, 'form_restrictions_allmembers_same_users', TRUE );
+		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_allmembers_same_users', TRUE );
 
-		if( 'yes' == $restrictions_same_users && af_user_has_participated( $questions_form_id ) ){
+		if( 'yes' == $restrictions_same_users && af_user_has_participated( $ar_form_id ) ){
 			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;

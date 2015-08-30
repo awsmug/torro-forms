@@ -76,7 +76,7 @@ class AF_FormProcess
 	 */
 	public function show_form()
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
 		$show_form = apply_filters( 'questions_show_form', TRUE ); // Hook for adding restrictions and so on ...
 
@@ -154,11 +154,11 @@ class AF_FormProcess
 	 */
 	public function process_response()
 	{
-		global $questions_form_id, $questions_response_errors, $questions_finished;
+		global $ar_form_id, $questions_response_errors, $questions_finished;
 
 		$questions_finished = FALSE;
 
-		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'questions-' . $questions_form_id ) ){
+		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'questions-' . $ar_form_id ) ){
 			return;
 		}
 
@@ -170,38 +170,38 @@ class AF_FormProcess
 		$actual_step = (int) $_POST[ 'questions_actual_step' ];
 
 		// If there was a saved response
-		if( isset( $_SESSION[ 'questions_response' ][ $questions_form_id ] ) ){
+		if( isset( $_SESSION[ 'questions_response' ][ $ar_form_id ] ) ){
 
 			// Merging data
-			$merged_response = $_SESSION[ 'questions_response' ][ $questions_form_id ];
+			$merged_response = $_SESSION[ 'questions_response' ][ $ar_form_id ];
 			if( is_array( $response ) && count( $response ) > 0 ){
 				foreach( $response AS $key => $answer )
 					$merged_response[ $key ] = af_prepare_post_data( $answer );
 			}
 
-			$_SESSION[ 'questions_response' ][ $questions_form_id ] = $merged_response;
+			$_SESSION[ 'questions_response' ][ $ar_form_id ] = $merged_response;
 		}else{
 			$merged_response = $response;
 		}
 
-		$_SESSION[ 'questions_response' ][ $questions_form_id ] = $merged_response;
+		$_SESSION[ 'questions_response' ][ $ar_form_id ] = $merged_response;
 
 		// Validate submitted data if user not has gone backwards
 		if( !array_key_exists( 'questions_submission_back', $_POST ) ){
-			$this->validate( $questions_form_id, $_SESSION[ 'questions_response' ][ $questions_form_id ], $actual_step );
+			$this->validate( $ar_form_id, $_SESSION[ 'questions_response' ][ $ar_form_id ], $actual_step );
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
 		if( (int) $_POST[ 'questions_actual_step' ] == (int) $_POST[ 'questions_next_step' ] && 0 == count( $questions_response_errors ) && !isset( $_POST[ 'questions_submission_back' ] ) ){
 
-			$questions_form = new AF_Form( $questions_form_id );
-			$response_id = $questions_form->save_response( $_SESSION[ 'questions_response' ][ $questions_form_id ] );
+			$questions_form = new AF_Form( $ar_form_id );
+			$response_id = $questions_form->save_response( $_SESSION[ 'questions_response' ][ $ar_form_id ] );
 
 			if( FALSE != $response_id ){
 				do_action( 'questions_save_response', $response_id );
 
-				unset( $_SESSION[ 'questions_response' ][ $questions_form_id ] );
-				$_SESSION[ 'questions_response' ][ $questions_form_id ][ 'finished' ] = TRUE;
+				unset( $_SESSION[ 'questions_response' ][ $ar_form_id ] );
+				$_SESSION[ 'questions_response' ][ $ar_form_id ][ 'finished' ] = TRUE;
 
 				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
 				die();

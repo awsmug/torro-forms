@@ -44,7 +44,7 @@ class AF_Charts extends AF_Component
 
 	public function start()
 	{
-		$folder = QUESTIONS_COMPONENTFOLDER . 'charts/';
+		$folder = AF_COMPONENTFOLDER . 'charts/';
 
 		// Loading base functionalities
 		include( $folder . 'form-builder-extension.php' );

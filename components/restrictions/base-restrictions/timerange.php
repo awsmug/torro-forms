@@ -83,11 +83,11 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public function check()
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
 		$actual_date = time();
-		$start_date = strtotime( get_post_meta( $questions_form_id, 'start_date', TRUE ) );
-		$end_date = strtotime( get_post_meta( $questions_form_id, 'end_date', TRUE ) );
+		$start_date = strtotime( get_post_meta( $ar_form_id, 'start_date', TRUE ) );
+		$end_date = strtotime( get_post_meta( $ar_form_id, 'end_date', TRUE ) );
 
 		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date ){
 			$this->add_message( 'error', esc_attr( 'The survey has not yet begun.', 'af-locale' ) );
@@ -183,7 +183,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
-		wp_enqueue_script( 'questions-datepicker', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/timerange.js' );
+		wp_enqueue_script( 'questions-datepicker', AF_URLPATH . '/components/restrictions/base-restrictions/includes/js/timerange.js' );
 		wp_localize_script( 'questions-datepicker', 'translation_admin', $translation_admin );
 	}
 
@@ -194,7 +194,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-timerange-styles', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/css/timerange.css' );
+		wp_enqueue_style( 'questions-timerange-styles', AF_URLPATH . '/components/restrictions/base-restrictions/includes/css/timerange.css' );
 	}
 }
 

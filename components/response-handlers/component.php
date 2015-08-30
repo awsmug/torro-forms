@@ -52,7 +52,7 @@ class AF_Responses extends AF_Component
 	 */
 	public function start()
 	{
-		$folder = QUESTIONS_COMPONENTFOLDER . 'response-handlers/';
+		$folder = AF_COMPONENTFOLDER . 'response-handlers/';
 
 		// Loading base functionalities
 		include_once( $folder . 'settings.php' );

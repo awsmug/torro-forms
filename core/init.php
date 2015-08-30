@@ -128,7 +128,7 @@ class AF_Core
 	 */
 	public static function includes()
 	{
-		$core_folder = QUESTIONS_FOLDER . 'core/';
+		$core_folder = AF_FOLDER . 'core/';
 
 		// Base classes
 		include( $core_folder . 'global.php' ); // Global Questions object $af_global
@@ -182,7 +182,7 @@ class AF_Core
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . 'core/includes/css/fonts.css' );
+		wp_enqueue_style( 'questions-admin-fonts', AF_URLPATH . 'core/includes/css/fonts.css' );
 	}
 
 }

@@ -38,7 +38,7 @@ class AF_FormElement_Description extends AF_FormElement
 		$this->name = 'Description';
 		$this->title = esc_attr__( 'Description', 'af-locale' );
 		$this->description = esc_attr__( 'Adds a text to the form.', 'af-locale' );
-		$this->icon_url = QUESTIONS_URLPATH . '/assets/images/icon-text.png';
+		$this->icon_url = AF_URLPATH . '/assets/images/icon-text.png';
 
 		$this->is_question = FALSE;
 

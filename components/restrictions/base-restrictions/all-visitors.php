@@ -113,9 +113,9 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public function check()
 	{
-		global $questions_form_id, $questions_skip_fingerrint_check;
+		global $ar_form_id, $questions_skip_fingerrint_check;
 
-		$restrictions_check_ip = get_post_meta( $questions_form_id, 'form_restrictions_check_ip', TRUE );
+		$restrictions_check_ip = get_post_meta( $ar_form_id, 'form_restrictions_check_ip', TRUE );
 
 		if( 'yes' == $restrictions_check_ip && $this->ip_has_participated() ){
 			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
@@ -123,18 +123,18 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			return FALSE;
 		}
 
-		$restrictions_check_cookie = get_post_meta( $questions_form_id, 'form_restrictions_check_cookie', TRUE );
+		$restrictions_check_cookie = get_post_meta( $ar_form_id, 'form_restrictions_check_cookie', TRUE );
 
-		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'questions_has_participated_form_' . $questions_form_id ] )  ){
+		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'questions_has_participated_form_' . $ar_form_id ] )  ){
 
-			if( $_COOKIE[ 'questions_has_participated_form_' . $questions_form_id ] == 'yes' ){
+			if( $_COOKIE[ 'questions_has_participated_form_' . $ar_form_id ] == 'yes' ){
 				$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 			}
 
 			return FALSE;
 		}
 
-		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'form_restrictions_check_fingerprint', TRUE );
+		$restrictions_check_fingerprint = get_post_meta( $ar_form_id, 'form_restrictions_check_fingerprint', TRUE );
 
 		if( 'yes' == $restrictions_check_fingerprint && $questions_skip_fingerrint_check != TRUE ){
 			$actual_step = 0;
@@ -158,7 +158,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 								    var data = {
 										action: \'questions_check_fngrprnt\',
-										questions_form_id: ' . $questions_form_id . ',
+										questions_form_id: ' . $ar_form_id . ',
 										questions_actual_step: ' . $actual_step . ',
 										questions_next_step: ' . $next_step . ',
 										' . $maybe_vars .'
@@ -190,7 +190,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public static function ajax_check_fingerprint()
 	{
-		global $wpdb, $af_global, $questions_form_id, $questions_skip_fingerrint_check;
+		global $wpdb, $af_global, $ar_form_id, $questions_skip_fingerrint_check;
 
 		$content = '';
 		$restrict = FALSE;
@@ -206,16 +206,16 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		}
 
 		if( FALSE == $restrict ){
-			$questions_form_id = $_POST[ 'questions_form_id' ];
+			$ar_form_id = $_POST[ 'questions_form_id' ];
 			$fingerprint = $_POST[ 'fngrprnt' ];
 
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND cookie_key=%s", $questions_form_id, $fingerprint );
+			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
 			$count = $wpdb->get_var( $sql );
 
 			if( 0 == $count ){
 				$questions_skip_fingerrint_check = TRUE;
 
-				$questions_process = new AF_FormProcess( $questions_form_id, $_POST[ 'action_url' ] );
+				$questions_process = new AF_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
 				$content .= $questions_process->show_form();
 			}else{
 				$content .= '<div class="questions-message error">' . esc_attr( 'You have already entered your data.', 'af-locale' ) . '</div>';
@@ -230,17 +230,17 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 * Setting Cookie for one year
 	 */
 	public function set_cookie(){
-		global $questions_form_id;
-		setcookie( 'questions_has_participated_form_' . $questions_form_id, 'yes', time() + 60 * 60 * 24 * 365 );
+		global $ar_form_id;
+		setcookie( 'questions_has_participated_form_' . $ar_form_id, 'yes', time() + 60 * 60 * 24 * 365 );
 	}
 
 	/**
 	 * Setting Cookie for one year
 	 */
 	public function save_ip( $response_id ){
-		global $wpdb, $af_global, $questions_form_id;
+		global $wpdb, $af_global, $ar_form_id;
 
-		$restrictions_check_ip = get_post_meta( $questions_form_id, 'form_restrictions_check_ip', TRUE );
+		$restrictions_check_ip = get_post_meta( $ar_form_id, 'form_restrictions_check_ip', TRUE );
 		if( '' == $restrictions_check_ip )
 			return;
 
@@ -260,9 +260,9 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 * Setting Cookie for one year
 	 */
 	public function save_fingerprint( $response_id ){
-		global $wpdb, $af_global, $questions_form_id;
+		global $wpdb, $af_global, $ar_form_id;
 
-		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'form_restrictions_check_fingerprint', TRUE );
+		$restrictions_check_fingerprint = get_post_meta( $ar_form_id, 'form_restrictions_check_fingerprint', TRUE );
 		if( '' == $restrictions_check_fingerprint )
 			return;
 
@@ -281,9 +281,9 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 * Adding fingerprint post field
 	 */
 	public function add_fingerprint_input(){
-		global $questions_form_id;
+		global $ar_form_id;
 
-		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'form_restrictions_check_fingerprint', TRUE );
+		$restrictions_check_fingerprint = get_post_meta( $ar_form_id, 'form_restrictions_check_fingerprint', TRUE );
 		if( '' == $restrictions_check_fingerprint )
 			return;
 
@@ -300,11 +300,11 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public function ip_has_participated()
 	{
-		global $wpdb, $af_global, $questions_form_id;
+		global $wpdb, $af_global, $ar_form_id;
 
 		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $questions_form_id, $remote_ip );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $ar_form_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 
 		if( 0 == $count ){
@@ -364,7 +364,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 * Loading fingerprint scripts
 	 */
 	public static function load_fingerprint_scripts(){
-		wp_enqueue_script( 'admin-form-restrictions-fingerprint-script', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/detection.min.js' );
+		wp_enqueue_script( 'admin-form-restrictions-fingerprint-script', AF_URLPATH . '/components/restrictions/base-restrictions/includes/js/detection.min.js' );
 	}
 
 }

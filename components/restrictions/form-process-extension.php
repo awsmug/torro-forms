@@ -48,7 +48,7 @@ class AF_FormBuilder_FormProcesExtension{
      * Checking restrictions
      */
     public static function check( $show_form ){
-        global $af_global, $questions_form_id;
+        global $af_global, $ar_form_id;
 
         $restrictions = $af_global->restrictions;
 
@@ -63,7 +63,7 @@ class AF_FormBuilder_FormProcesExtension{
         /**
          * Select field for Restriction
          */
-        $restrictions_option = get_post_meta( $questions_form_id, 'restrictions_option', TRUE );
+        $restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', TRUE );
         $restriction = $restrictions[ $restrictions_option ];
 
         if( FALSE == $restriction->check() ){

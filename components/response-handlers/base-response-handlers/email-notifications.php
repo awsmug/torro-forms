@@ -64,17 +64,17 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	 * @param $response
 	 */
 	public function handle( $response_id, $response ){
-		global $wpdb, $questions_form_id, $af_global, $questions_response_id, $questions_response;
+		global $wpdb, $ar_form_id, $af_global, $questions_response_id, $questions_response;
 
 		$questions_response_id = $response_id;
 		$questions_response = $response;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $questions_form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $ar_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
 		if( count( $notifications ) > 0 ){
 			// Adding elements templatetags
-			$form = new AF_Form( $questions_form_id );
+			$form = new AF_Form( $ar_form_id );
 			foreach( $form->elements AS $element ){
 				af_add_element_templatetag( $element->id, $element->question );
 			}
@@ -330,7 +330,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		                      'no'                           => esc_attr__( 'No', 'af-locale' ) );
 
 		wp_enqueue_script( 'jquery-ui-accordion' );
-		wp_enqueue_script( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/base-response-handlers/includes/js/email-notifications.js' );
+		wp_enqueue_script( 'questions-response-handlers-email-notification', AF_URLPATH . '/components/response-handlers/base-response-handlers/includes/js/email-notifications.js' );
 		wp_localize_script( 'questions-response-handlers-email-notification', 'translation_email_notifications', $translation );
 	}
 
@@ -339,7 +339,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	 */
 	public static function enqueue_admin_styles()
 	{
-		wp_enqueue_style( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/base-response-handlers/includes/css/email-notifications.css' );
+		wp_enqueue_style( 'questions-response-handlers-email-notification', AF_URLPATH . '/components/response-handlers/base-response-handlers/includes/css/email-notifications.css' );
 	}
 }
 af_register_response_handler( 'AF_EmailNotifications' );

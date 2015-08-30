@@ -48,7 +48,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		add_action( 'af_save_form', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'wp_ajax_form_add_participiants_allmembers', array( $this, 'ajax_add_participiants_allmembers' ) );
-		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
+		add_action( 'wp_ajax_form_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
@@ -173,7 +173,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 				$html .= '<td>' . $user->display_name . '</td>';
 				$html .= '<td>' . $user->user_email . '</td>';
 				$html .= '<td>' . $user_text . '</td>';
-				$html .= '<td><a class="button questions-delete-participiant" rel="' . $user->ID . '">' . esc_attr__( 'Delete', 'af-locale' ) . '</a></td>';
+				$html .= '<td><a class="button form-delete-participiant" rel="' . $user->ID . '">' . esc_attr__( 'Delete', 'af-locale' ) . '</a></td>';
 				$html .= '</tr>';
 			endforeach;
 
@@ -213,18 +213,18 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$html = '';
 
 		if( 'publish' == $post->post_status ):
-			$html .= '<div class="questions-function-element">';
-			$html .= '<input id="questions-invite-subject" type="text" name="questions_invite_subject" value="' . $questions_invitation_subject_template . '" />';
-			$html .= '<textarea id="questions-invite-text" name="questions_invite_text">' . $questions_invitation_text_template . '</textarea>';
-			$html .= '<input id="questions-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'af-locale' ) . '" /> ';
-			$html .= '<input id="questions-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
+			$html .= '<div class="form-function-element">';
+			$html .= '<input id="form-invite-subject" type="text" name="form_invite_subject" value="' . $questions_invitation_subject_template . '" />';
+			$html .= '<textarea id="form-invite-text" name="form_invite_text">' . $questions_invitation_text_template . '</textarea>';
+			$html .= '<input id="form-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'af-locale' ) . '" /> ';
+			$html .= '<input id="form-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 			$html .= '</div>';
 
-			$html .= '<div class="questions-function-element">';
-			$html .= '<input id="questions-reinvite-subject" type="text" name="questions_invite_subject" value="' . $questions_reinvitation_subject_template . '" />';
-			$html .= '<textarea id="questions-reinvite-text" name="questions_reinvite_text">' . $questions_reinvitation_text_template . '</textarea>';
-			$html .= '<input id="questions-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'af-locale' ) . '" /> ';
-			$html .= '<input id="questions-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
+			$html .= '<div class="form-function-element">';
+			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $questions_reinvitation_subject_template . '" />';
+			$html .= '<textarea id="form-reinvite-text" name="questions_reinvite_text">' . $questions_reinvitation_text_template . '</textarea>';
+			$html .= '<input id="form-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'af-locale' ) . '" /> ';
+			$html .= '<input id="form-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 
 			$html .= '</div>';
 		else:
@@ -239,7 +239,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public function check()
 	{
-		global $questions_form_id;
+		global $ar_form_id;
 
 		if( !is_user_logged_in() ){
 			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'af-locale' ) );
@@ -248,14 +248,14 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		}
 
 		if( !$this->is_participiant() ){
-			$this->add_message( 'error', esc_attr( 'You can\'t participate this survey.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr( 'You can\'t participate.', 'af-locale' ) );
 
 			return FALSE;
 		}
 
-		$restrictions_same_users = get_post_meta( $questions_form_id, 'form_restrictions_selectedmembers_same_users', TRUE );
+		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_selectedmembers_same_users', TRUE );
 
-		if( 'yes' == $restrictions_same_users && af_user_has_participated( $questions_form_id ) ){
+		if( 'yes' == $restrictions_same_users && af_user_has_participated( $ar_form_id ) ){
 			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;
@@ -275,7 +275,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public function is_participiant( $user_id = NULL )
 	{
-		global $wpdb, $current_user, $af_global, $questions_form_id;
+		global $wpdb, $current_user, $af_global, $ar_form_id;
 
 		$is_participiant = FALSE;
 
@@ -285,7 +285,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			$user_id = $user_id = $current_user->ID;
 		endif;
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $questions_form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $ar_form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		if( !in_array( $user_id, $user_ids ) ){
@@ -454,7 +454,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'af-locale' ),
 			'added_participiants'                 => esc_attr__( 'participiant/s', 'af-locale' ), );
 
-		wp_enqueue_script( 'af-selected-members', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/selected-members.js' );
+		wp_enqueue_script( 'af-selected-members', AF_URLPATH . '/components/restrictions/base-restrictions/includes/js/selected-members.js' );
 		wp_localize_script( 'af-selected-members', 'translation_sm', $translation );
 	}
 
@@ -465,7 +465,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-selected-member-styles', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/css/selected-members.css' );
+		wp_enqueue_style( 'af-selected-member-styles', AF_URLPATH . '/components/restrictions/base-restrictions/includes/css/selected-members.css' );
 	}
 }
 

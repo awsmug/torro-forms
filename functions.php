@@ -33,7 +33,7 @@ if( !defined( 'ABSPATH' ) ){
  *
  * @since 1.0.0
  */
-if( defined( 'QUESTIONS_FOLDER' ) ):
+if( defined( 'AF_FOLDER' ) ):
 	function af_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
 	{
 
@@ -44,8 +44,8 @@ if( defined( 'QUESTIONS_FOLDER' ) ):
 				if( !$template_name ){
 					continue;
 				}
-				if( file_exists( QUESTIONS_FOLDER . '/templates/' . $template_name ) ):
-					$located = QUESTIONS_FOLDER . '/templates/' . $template_name;
+				if( file_exists( AF_FOLDER . '/templates/' . $template_name ) ):
+					$located = AF_FOLDER . '/templates/' . $template_name;
 					break;
 				endif;
 			endforeach;

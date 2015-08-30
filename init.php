@@ -272,7 +272,7 @@ class AF_Init
 	 */
 	public static function load_textdomain()
 	{
-		load_plugin_textdomain( 'af-locale', FALSE, QUESTIONS_RELATIVE_FOLDER . '/languages' );
+		load_plugin_textdomain( 'af-locale', FALSE, AF_RELATIVE_FOLDER . '/languages' );
 	}
 
 	/**
@@ -282,7 +282,7 @@ class AF_Init
 	 */
 	public static function register_plugin_styles()
 	{
-		wp_enqueue_style( 'questions-plugin-styles', QUESTIONS_URLPATH . '/includes/css/display.css' );
+		wp_enqueue_style( 'questions-plugin-styles', AF_URLPATH . '/includes/css/display.css' );
 	}
 
 	/**
@@ -301,11 +301,11 @@ class AF_Init
 	 */
 	public static function constants()
 	{
-		define( 'QUESTIONS_FOLDER', self::get_folder() );
-		define( 'QUESTIONS_RELATIVE_FOLDER', substr( QUESTIONS_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( QUESTIONS_FOLDER ) ) );
-		define( 'QUESTIONS_URLPATH', self::get_url_path() );
+		define( 'AF_FOLDER', self::get_folder() );
+		define( 'AF_RELATIVE_FOLDER', substr( AF_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( AF_FOLDER ) ) );
+		define( 'AF_URLPATH', self::get_url_path() );
 
-		define( 'QUESTIONS_COMPONENTFOLDER', QUESTIONS_FOLDER . 'components/' );
+		define( 'AF_COMPONENTFOLDER', AF_FOLDER . 'components/' );
 	}
 
 	/**
@@ -316,18 +316,18 @@ class AF_Init
 	public static function includes()
 	{
 		// Loading Functions
-		include( QUESTIONS_FOLDER . 'functions.php' );
-		include( QUESTIONS_FOLDER . 'includes/wp-editor.php' );
+		include( AF_FOLDER . 'functions.php' );
+		include( AF_FOLDER . 'includes/wp-editor.php' );
 
 		// Loading Core
-		include( QUESTIONS_FOLDER . 'core/init.php' );
+		include( AF_FOLDER . 'core/init.php' );
 
 		// Loading Component Scripts
-		include( QUESTIONS_COMPONENTFOLDER . 'class-component.php' );
+		include( AF_COMPONENTFOLDER . 'class-component.php' );
 
-		include( QUESTIONS_COMPONENTFOLDER . 'charts/component.php' );
-		include( QUESTIONS_COMPONENTFOLDER . 'restrictions/component.php' );
-		include( QUESTIONS_COMPONENTFOLDER . 'response-handlers/component.php' );
+		include( AF_COMPONENTFOLDER . 'charts/component.php' );
+		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
+		include( AF_COMPONENTFOLDER . 'response-handlers/component.php' );
 	}
 
 	/**
@@ -337,7 +337,7 @@ class AF_Init
 	 */
 	private static function get_url_path()
 	{
-		$slashed_folder = str_replace( '\\', '/', QUESTIONS_FOLDER ); // Replacing backslashes width slashes vor windows installations
+		$slashed_folder = str_replace( '\\', '/', AF_FOLDER ); // Replacing backslashes width slashes vor windows installations
 		$sub_path = substr( $slashed_folder, strlen( ABSPATH ), ( strlen( $slashed_folder ) - 11 ) );
 		$script_url = get_bloginfo( 'wpurl' ) . '/' . $sub_path;
 
