@@ -43,11 +43,6 @@ class AF_FormElement_OneChoice extends AF_FormElement
 		$this->answer_is_multiple = FALSE;
 		$this->is_analyzable = TRUE;
 
-		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" class="question-answer" /></p>';
-		$this->create_answer_params = array(
-			'name',
-			'answer' );
-
 		parent::__construct( $id );
 	}
 
@@ -72,7 +67,7 @@ class AF_FormElement_OneChoice extends AF_FormElement
 			'description' => array(
 				'title' => esc_attr__( 'Description', 'af-locale' ),
 				'type' => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the field.', 'af-locale' ),
 				'default' => '' ) );
 	}
 

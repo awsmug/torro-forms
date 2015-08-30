@@ -44,14 +44,6 @@ class AF_FormElement_Splitter extends AF_FormElement
 
 		parent::__construct( $id );
 	}
-
-	public function settings_fields()
-	{
-	}
-
-	public function get_html()
-	{
-	}
 }
 
 af_register_survey_element( 'AF_FormElement_Splitter' );

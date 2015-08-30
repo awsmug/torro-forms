@@ -43,13 +43,11 @@ class AF_FormElement_Text extends AF_FormElement
 
 	public function input_html()
 	{
-
 		return '<p><input type="text" name="' . $this->get_input_name() . '" value="' . $this->response . '" /></p>';
 	}
 
 	public function settings_fields()
 	{
-
 		$this->settings_fields = array(
 			'description' => array(
 				'title'       => esc_attr__( 'Description', 'af-locale' ),

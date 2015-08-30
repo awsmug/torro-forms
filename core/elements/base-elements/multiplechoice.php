@@ -43,11 +43,6 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 		$this->answer_is_multiple = TRUE;
 		$this->is_analyzable = TRUE;
 
-		$this->create_answer_syntax = '<p><input type="text" name="%s" value="%s" class="question-answer" /></p>';
-		$this->create_answer_params = array(
-			'name',
-			'answer' );
-
 		parent::__construct( $id );
 	}
 

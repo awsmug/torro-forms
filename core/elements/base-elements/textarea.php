@@ -56,7 +56,7 @@ class AF_FormElement_Textarea extends AF_FormElement
 			'description' => array(
 				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the field.', 'af-locale' ),
 				'default'     => '' ),
 			'min_length'  => array(
 				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),
@@ -115,7 +115,7 @@ class AF_FormElement_Textarea extends AF_FormElement
 		$html = '';
 
 		if( !empty( $this->settings[ 'description' ] ) ):
-			$html = '<p class="questions-element-description">';
+			$html = '<p class="form-element-description">';
 			$html .= $this->settings[ 'description' ];
 			$html .= '</p>';
 		endif;

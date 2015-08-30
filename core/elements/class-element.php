@@ -333,9 +333,10 @@ abstract class AF_FormElement
 		$this->settings[ $name ] = $value;
 	}
 
-	public function settings_fields()
-	{
-	}
+	/**
+	 * Settings fields
+	 */
+	public function settings_fields(){}
 
 	/**
 	 * Validate user input - Have to be overwritten by child classes if element needs validation
@@ -393,7 +394,7 @@ abstract class AF_FormElement
 
 		// Adding description
 		if( !empty( $this->settings[ 'description' ] ) ):
-			$html .= '<div class="questions-element-description">';
+			$html .= '<div class="form-element-description">';
 			$html .= $this->settings[ 'description' ];
 			$html .= '</div>';
 		endif;
@@ -432,7 +433,6 @@ abstract class AF_FormElement
 	 */
 	public function input_html()
 	{
-
 		return '<p>' . esc_attr__( 'No HTML for Element given. Please check element sourcecode.', 'af-locale' ) . '</p>';
 	}
 
@@ -489,7 +489,7 @@ abstract class AF_FormElement
 		 */
 		$title = empty( $this->question ) ? $this->title : $this->question;
 
-		$html .= '<div class="widget-top questions-admin-qu-text">';
+		$html .= '<div class="widget-top">';
 		$html .= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 		$html .= '<div class="widget-title">';
 
