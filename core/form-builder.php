@@ -1,8 +1,6 @@
 <?php
 /**
- * Question Form Builder
- *
- * This class adds question post type functions.
+ * Awesome Forms Form Builder
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
@@ -86,7 +84,7 @@ class AF_FormBuilder
 					// Running each Element
 					foreach( $form->elements AS $element ):
 						$html .= $element->draw_admin();
-						af_add_element_templatetag( $element->id, $element->question );
+						af_add_element_templatetag( $element->id, $element->label );
 					endforeach;
 				$html .= '</div>';
 
@@ -242,8 +240,8 @@ class AF_FormBuilder
 			$sort = (int) $element[ 'sort' ];
 			$type = $element[ 'type' ];
 
-			if( array_key_exists( 'question', $element ) ){
-				$label = af_prepare_post_data( $element[ 'question' ] );
+			if( array_key_exists( 'label', $element ) ){
+				$label = af_prepare_post_data( $element[ 'label' ] );
 			}
 
 			$answers = array();
@@ -257,15 +255,15 @@ class AF_FormBuilder
 				$settings = $element[ 'settings' ];
 			}
 
-			// Saving question
+			// Saving Elements
 			if( '' != $element_id ):
-				// Updating if question already exists
+				// Updating if Element already exists
 				$wpdb->update( $af_global->tables->elements, array( 'question' => $label,
 				                                                            'sort'     => $sort,
 				                                                            'type'     => $type ), array( 'id' => $element_id ) );
 			else:
 
-				// Adding new question
+				// Adding new Element
 				$wpdb->insert( $af_global->tables->elements, array( 'questions_id' => $form_id,
 				                                                            'question'     => $label,
 				                                                            'sort'         => $sort,
@@ -307,7 +305,7 @@ class AF_FormBuilder
 			endif;
 
 			/*
-			 * Saving question settings
+			 * Saving Element Settings
 			 */
 			if( is_array( $settings ) && count( $settings ) > 0 ):
 				foreach( $settings AS $name => $setting ):

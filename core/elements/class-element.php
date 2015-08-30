@@ -76,11 +76,11 @@ abstract class AF_FormElement
 	var $icon_url;
 
 	/**
-	 * Question text
+	 * Element Label
 	 *
 	 * @since 1.0.0
 	 */
-	var $question;
+	var $label;
 
 	/**
 	 * Sort number where to display element
@@ -90,7 +90,7 @@ abstract class AF_FormElement
 	var $sort = 0;
 
 	/**
-	 * Contains if this element a question or is this element for anything else (like description element or something
+	 * Contains if this element a Label or is this element for anything else (like description element or something
 	 * else)
 	 *
 	 * @since 1.0.0
@@ -243,14 +243,14 @@ abstract class AF_FormElement
 	{
 		global $wpdb, $af_global;
 
-		$this->question = '';
+		$this->label = '';
 		$this->answers = array();
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->elements} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 
 		$this->id = $id;
-		$this->set_question( $row->question );
+		$this->set_label( $row->question );
 		$this->form_id = $row->questions_id;
 
 		$this->sort = $row->sort;
@@ -275,15 +275,15 @@ abstract class AF_FormElement
 	}
 
 	/**
-	 * Setting question for element
+	 * Setting Label for Element
 	 *
-	 * @param string $question Question text
+	 * @param string $label
 	 *
 	 * @since 1.0.0
 	 */
-	private function set_question( $question, $order = NULL )
+	private function set_label( $label, $order = NULL )
 	{
-		if( '' == $question ){
+		if( '' == $label ){
 			return FALSE;
 		}
 
@@ -291,7 +291,7 @@ abstract class AF_FormElement
 			$this->sort = $order;
 		}
 
-		$this->question = $question;
+		$this->label = $label;
 
 		return TRUE;
 	}
@@ -383,8 +383,8 @@ abstract class AF_FormElement
 			$html .= '</ul></div>';
 		endif;
 
-		if( !empty( $this->question ) ):
-			$html .= '<h5>' . $this->question . '</h5>';
+		if( !empty( $this->label ) ):
+			$html .= '<h5>' . $this->label . '</h5>';
 		endif;
 
 		// Adding description
@@ -478,7 +478,7 @@ abstract class AF_FormElement
 		/**
 		 * Widget head
 		 */
-		$title = empty( $this->question ) ? $this->title : $this->question;
+		$title = empty( $this->label ) ? $this->title : $this->label;
 
 		$html .= '<div class="widget-top">';
 		$html .= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
@@ -506,7 +506,7 @@ abstract class AF_FormElement
 		 * Tab Navi
 		 */
 		$html .= '<ul class="tabs">';
-		// If Element is Question > Show question tab
+		// If Element is form element> Show label tab
 		if( $this->is_question && !$this->has_answers ){
 			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label', 'af-locale' ) . '</a></li>';
 		}
@@ -531,10 +531,10 @@ abstract class AF_FormElement
 		/**
 		 * Content of Tabs
 		 */
-		// Adding question tab
+		// Adding Label Tab
 		if( $this->is_question ):
 			$html .= '<div id="tab_' . $jquery_widget_id . '_label" class="tab_label_answers_content">';
-			$html .= $this->admin_widget_question_tab();
+			$html .= $this->admin_widget_label_tab();
 			$html .= '</div>';
 		endif;
 
@@ -569,17 +569,17 @@ abstract class AF_FormElement
 	}
 
 	/**
-	 * Content of the question tab
+	 * Content of the label tab
 	 *
 	 * @since 1.0.0
 	 */
-	private function admin_widget_question_tab()
+	private function admin_widget_label_tab()
 	{
 
 		$widget_id = $this->admin_get_widget_id();
 
-		// Question
-		$html = '<p><input type="text" name="elements[' . $widget_id . '][question]" value="' . $this->question . '" class="form-label" /><p>';
+		// Label
+		$html = '<p><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" /><p>';
 
 		// Answers
 		if( $this->has_answers ):
@@ -589,14 +589,14 @@ abstract class AF_FormElement
 				foreach( $this->sections as $section_key => $section_name ):
 					$html .= '<div class="element-section" id="section_' . $section_key . '">';
 					$html .= '<p>' . $section_name . '</p>';
-					$html .= $this->admin_widget_question_answers( $section_key );
+					$html .= $this->admin_widget_label_answers( $section_key );
 					$html .= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
 					$html .= '</div>';
 				endforeach;
 			// Answers without sections
 			else:
 				$html .= '<p>' . esc_attr__( 'Answer/s:', 'af-locale' ) . '</p>';
-				$html .= $this->admin_widget_question_answers();
+				$html .= $this->admin_widget_label_answers();
 			endif;
 
 		endif;
@@ -607,14 +607,14 @@ abstract class AF_FormElement
 	}
 
 	/**
-	 * Content of the answers under the question
+	 * Content of the answers under the form element
 	 *
 	 * @param string $section Name of the section
 	 *
 	 * @return string $html The answers HTML
 	 * @since 1.0.0
 	 */
-	private function admin_widget_question_answers( $section = NULL )
+	private function admin_widget_label_answers( $section = NULL )
 	{
 
 		$widget_id = $this->admin_get_widget_id();
@@ -636,7 +636,7 @@ abstract class AF_FormElement
 				}
 
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
-					$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="question-answer" /></p>';
+					$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="element-answer" /></p>';
 					$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
 					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
 					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
@@ -658,7 +658,7 @@ abstract class AF_FormElement
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
-				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][' .$temp_answer_id . '][answer]" value="" class="question-answer" /></p>';
+				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][' .$temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
 				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
@@ -867,7 +867,7 @@ abstract class AF_FormElement
 		$responses = $wpdb->get_results( $sql );
 
 		$result_answers = array();
-		$result_answers[ 'question' ] = $this->question;
+		$result_answers[ 'label' ] = $this->label;
 		$result_answers[ 'sections' ] = FALSE;
 		$result_answers[ 'array' ] = $this->answer_is_multiple;
 

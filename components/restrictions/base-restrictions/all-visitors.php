@@ -196,7 +196,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$restrict = FALSE;
 
 		if( !isset( $_POST[ 'af_form_id' ]) ){
-			$content.= esc_attr( 'Question form ID is missing.'. 'af-locale' );
+			$content.= esc_attr( 'Form ID is missing.'. 'af-locale' );
 			$restrict = TRUE;
 		}
 

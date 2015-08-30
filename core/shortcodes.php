@@ -2,8 +2,6 @@
 /**
  * Awesome Forms Core Shortcodes
  *
- * This should be used as parent class for Question-Answers.
- *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
  * @version 1.0.0
@@ -37,7 +35,7 @@ class AF_ShortCodes
 	var $question_types = array();
 
 	/**
-	 * Loading all shortcodes
+	 * Loading all Shortcodes
 	 */
 	public static function init()
 	{

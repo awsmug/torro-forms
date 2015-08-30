@@ -138,7 +138,7 @@ class AF_Export
 
 		$lines = array_merge( array( $headlines ), $lines );
 
-		// Running each question (element without separators etc)
+		// Running each element
 		if( is_array( $lines ) ):
 			$output = '';
 			foreach( $lines AS $response_id => $line ):

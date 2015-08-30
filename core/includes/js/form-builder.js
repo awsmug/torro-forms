@@ -249,7 +249,7 @@
 		}
 		af_add_answer_button();
 		
-		$( ".question-answer" ).keypress( function( e ) {
+		$( ".element-answer" ).keypress( function( e ) {
             if( e.which == 13 ) {
                 e.preventDefault();
                 var add_answer = $( this ).parent().find( '.add_answer ');

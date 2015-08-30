@@ -221,7 +221,7 @@ class AF_Form extends AF_Post
 			$user_id = -1;
 		}
 
-		// Adding new question
+		// Adding new element
 		$wpdb->insert( $af_global->tables->responds, array( 'questions_id' => $this->id,
 		                                                           'user_id'      => $user_id,
 		                                                           'timestamp'    => time() ) );

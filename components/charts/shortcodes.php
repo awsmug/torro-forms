@@ -111,7 +111,7 @@ class AF_ChartsShortCodes
 	}
 
 	/**
-	 * Showing results of a question
+	 * Showing results of an Element
 	 *
 	 * @param array $atts Arguments which can be added to the shortcode
 	 * @return string $html HTML of results
@@ -167,7 +167,7 @@ class AF_ChartsShortCodes
 	}
 
 	/**
-	 * Showing question result schortcodes in admin area for copy&paste
+	 * Showing Element result schortcodes in admin area for copy&paste
 	 *
 	 * @param object $object Object element
 	 *

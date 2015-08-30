@@ -134,7 +134,7 @@ class AF_Init
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$table_questions = $wpdb->prefix . 'questions_questions';
+		$table_elements = $wpdb->prefix . 'questions_questions';
 		$table_answers = $wpdb->prefix . 'questions_answers';
 		$table_responds = $wpdb->prefix . 'questions_responds';
 		$table_respond_answers = $wpdb->prefix . 'questions_respond_answers';
@@ -142,7 +142,7 @@ class AF_Init
 		$table_participiants = $wpdb->prefix . 'questions_participiants';
 		$table_email_notifications = $wpdb->prefix . 'questions_email_notifications';
 
-		$sql = "CREATE TABLE $table_questions (
+		$sql = "CREATE TABLE $table_elements (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			questions_id int(11) NOT NULL,
 			question text NOT NULL,
@@ -220,7 +220,7 @@ class AF_Init
 
 		dbDelta( $sql );
 
-		$sql = "ALTER TABLE $table_questions CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$sql = "ALTER TABLE $table_elements CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
 		$wpdb->query( $sql );
 
 		$sql = "ALTER TABLE $table_answers CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";

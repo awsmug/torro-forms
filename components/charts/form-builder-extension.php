@@ -1,8 +1,6 @@
 <?php
 /**
- * Question Form Builder Restrictions extension
- *
- * This class adds question post type functions.
+ * Awesome Forms Charts Form Builder Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

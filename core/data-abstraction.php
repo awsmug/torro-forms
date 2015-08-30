@@ -70,7 +70,7 @@ class AF_AbstractData
 				continue;
 			}
 
-			$ordered_data[ 'questions' ][ $key ] = $line[ 'question' ];
+			$ordered_data[ 'questions' ][ $key ] = $line[ 'label' ];
 
 			// Fill up missed answers with 0
 			$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE question_id = %s", $key );

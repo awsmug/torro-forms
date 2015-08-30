@@ -128,7 +128,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 		$html = '<table style="width:100%;">';
 		foreach( $form->get_elements() AS $element ){
 			$html.= '<tr>';
-				$html.= '<td>' . $element->question . '</td>';
+				$html.= '<td>' . $element->label . '</td>';
 				$html.= '<td>' . self::element_content( $element->id ) . '</td>';
 			$html.= '</tr>';
 		}

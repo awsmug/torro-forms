@@ -1,8 +1,6 @@
 <?php
 /**
- * Question Form Processing Restrictions extension
- *
- * This class adds restriction functions to form processing
+ * Awesome Forms Processing Restrictions Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
