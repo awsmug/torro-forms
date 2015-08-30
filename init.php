@@ -27,9 +27,9 @@ class AF_Init
 	 */
 	public static function init()
 	{
-		global $qu_plugin_errors;
+		global $af_plugin_errors;
 
-		$qu_plugin_errors = array();
+		$af_plugin_errors = array();
 
 		// Loading variables
 		self::constants();
@@ -66,7 +66,7 @@ class AF_Init
 	 */
 	public static function check_requirements()
 	{
-		global $qu_plugin_errors;
+		global $af_plugin_errors;
 	}
 
 	/**
@@ -361,16 +361,16 @@ class AF_Init
 	 */
 	public static function admin_notices()
 	{
-		global $qu_plugin_errors, $qu_plugin_errors;
+		global $af_plugin_errors, $af_plugin_errors;
 
-		if( count( $qu_plugin_errors ) > 0 ):
-			foreach( $qu_plugin_errors AS $error ){
+		if( count( $af_plugin_errors ) > 0 ):
+			foreach( $af_plugin_errors AS $error ){
 				echo '<div class="error"><p>' . $error . '</p></div>';
 			}
 		endif;
 
-		if( count( $qu_plugin_errors ) > 0 ):
-			foreach( $qu_plugin_errors AS $notice ){
+		if( count( $af_plugin_errors ) > 0 ):
+			foreach( $af_plugin_errors AS $notice ){
 				echo '<div class="updated"><p>' . $notice . '</p></div>';
 			}
 		endif;

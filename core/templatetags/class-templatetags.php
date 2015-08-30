@@ -135,7 +135,7 @@ abstract class AF_TemplateTags{
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_templatetags( $templatetags_class )
+function af_register_templatetags( $templatetags_class )
 {
 	if( class_exists( $templatetags_class ) ){
 		$templatetags = new $templatetags_class();
@@ -148,7 +148,7 @@ function qu_register_templatetags( $templatetags_class )
  * Get all Templatetag collections
  * @return array|bool
  */
-function qu_get_templatetag_collections()
+function af_get_templatetag_collections()
 {
 	global $af_global;
 
@@ -176,7 +176,7 @@ function qu_get_templatetag_collections()
  * Getting all Templatetags of a collection
  * @param $templatetag_collection
  */
-function qu_get_templatetags( $templatetag_collection )
+function af_get_templatetags( $templatetag_collection )
 {
 	global $af_global;
 
@@ -202,8 +202,8 @@ function qu_get_templatetags( $templatetag_collection )
  * Adds a Button for templatetags and binds it to an input field
  * @return string
  */
-function qu_template_tag_button( $input_name ){
-	$collections = qu_get_templatetag_collections();
+function af_template_tag_button( $input_name ){
+	$collections = af_get_templatetag_collections();
 
 	$html = '<div class="questions-templatetag-button">';
 		$html.= '<input type="button" value="' . esc_attr( '+', 'questions-locale' ) . '" class="button" rel="' . $input_name . '" />';
@@ -214,7 +214,7 @@ function qu_template_tag_button( $input_name ){
 			$html.= '<div class="questions-templatetag-collection">';
 			$html.= '<div class="questions-templatetag-collection-headline">' . $collection->title . '</div>';
 
-			$template_tags = qu_get_templatetags( $collection_name );
+			$template_tags = af_get_templatetags( $collection_name );
 
 			foreach( $template_tags AS $tag_name => $template_tag )
 			{
@@ -233,13 +233,13 @@ function qu_template_tag_button( $input_name ){
  * @param $content
  * @return mixed
  */
-function qu_filter_templatetags( $content ){
+function af_filter_templatetags( $content ){
 	global $af_global;
 
-	$collections = qu_get_templatetag_collections();
+	$collections = af_get_templatetag_collections();
 
 	foreach( $collections AS $collection_name => $collection ){
-		$template_tags = qu_get_templatetags( $collection_name );
+		$template_tags = af_get_templatetags( $collection_name );
 
 		foreach( $template_tags AS $tag_name => $template_tag )
 		{

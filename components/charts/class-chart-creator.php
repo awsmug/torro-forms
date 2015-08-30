@@ -138,7 +138,7 @@ abstract class AF_ChartCreator
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_chartcreator( $chart_creator_class )
+function af_register_chartcreator( $chart_creator_class )
 {
 	if( class_exists( $chart_creator_class ) ){
 		$chart_creator = new $chart_creator_class();

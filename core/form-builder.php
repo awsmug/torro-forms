@@ -70,7 +70,7 @@ class AF_FormBuilder
 	{
 		global $post, $af_global;
 
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 		$html  = '<div id="questions-content" class="drag-drop">';
@@ -86,7 +86,7 @@ class AF_FormBuilder
 					// Running each Element
 					foreach( $form->elements AS $element ):
 						$html .= $element->draw_admin();
-						qu_add_element_templatetag( $element->id, $element->question );
+						af_add_element_templatetag( $element->id, $element->question );
 					endforeach;
 				$html .= '</div>';
 
@@ -241,7 +241,7 @@ class AF_FormBuilder
 			$type = $survey_question[ 'type' ];
 
 			if( array_key_exists( 'question', $survey_question ) ){
-				$question = qu_prepare_post_data( $survey_question[ 'question' ] );
+				$question = af_prepare_post_data( $survey_question[ 'question' ] );
 			}
 
 			$answers = array();
@@ -280,7 +280,7 @@ class AF_FormBuilder
 			if( is_array( $answers ) && count( $answers ) > 0 ):
 				foreach( $answers AS $answer ):
 					$answer_id = (int) $answer[ 'id' ];
-					$answer_text = qu_prepare_post_data( $answer[ 'answer' ] );
+					$answer_text = af_prepare_post_data( $answer[ 'answer' ] );
 					$answer_sort = (int) $answer[ 'sort' ];
 
 					$answer_section = '';
@@ -313,12 +313,12 @@ class AF_FormBuilder
 					$count = $wpdb->get_var( $sql );
 
 					if( $count > 0 ):
-						$wpdb->update( $af_global->tables->settings, array( 'value' => qu_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $question_id,
+						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $question_id,
 						                                                                                                                           'name'        => $name ) );
 					else:
 						$wpdb->insert( $af_global->tables->settings, array( 'name'        => $name,
 						                                                           'question_id' => $question_id,
-						                                                           'value'       => qu_prepare_post_data( $settings[ $name ] ) ) );
+						                                                           'value'       => af_prepare_post_data( $settings[ $name ] ) ) );
 
 					endif;
 				endforeach;
@@ -406,7 +406,7 @@ class AF_FormBuilder
 	 */
 	public static function jquery_messages_area()
 	{
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 		$max_input_vars = ini_get( 'max_input_vars' );
@@ -421,7 +421,7 @@ class AF_FormBuilder
 	 */
 	public static function register_styles()
 	{
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 		wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/core/includes/css/form-builder.css' );
@@ -434,7 +434,7 @@ class AF_FormBuilder
 	 */
 	public static function enqueue_scripts()
 	{
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 

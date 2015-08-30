@@ -76,15 +76,15 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 			// Adding elements templatetags
 			$form = new AF_Form( $questions_form_id );
 			foreach( $form->elements AS $element ){
-				qu_add_element_templatetag( $element->id, $element->question );
+				af_add_element_templatetag( $element->id, $element->question );
 			}
 
 			foreach( $notifications AS $notification ){
-				$from_name  = qu_filter_templatetags( $notification->from_name );
-				$from_email = qu_filter_templatetags( $notification->from_email );
-				$to_email = qu_filter_templatetags( $notification->to_email );
-				$subject = qu_filter_templatetags( $notification->subject );
-				$message = apply_filters( 'the_content', qu_filter_templatetags( $notification->message ) );
+				$from_name  = af_filter_templatetags( $notification->from_name );
+				$from_email = af_filter_templatetags( $notification->from_email );
+				$to_email = af_filter_templatetags( $notification->to_email );
+				$subject = af_filter_templatetags( $notification->subject );
+				$message = apply_filters( 'the_content', af_filter_templatetags( $notification->message ) );
 
 				$this->from_name = $from_name;
 				$this->from_email = $from_email;
@@ -175,10 +175,10 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	public static function add_media_button( $editor_id ){
 		global $post;
 
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
-		echo qu_template_tag_button( $editor_id );
+		echo af_template_tag_button( $editor_id );
 	}
 
 	/**
@@ -246,19 +246,19 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr( 'From Name', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . af_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr( 'From Email', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . af_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr( 'To Email', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . af_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr( 'Subject', 'questions-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . qu_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . af_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notification_message_' . $id . '">' . esc_attr( 'Message', 'questions-locale' ) . '</label></th>';
@@ -322,7 +322,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	{
 		global $post;
 
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'questions-locale' ),
@@ -342,4 +342,4 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		wp_enqueue_style( 'questions-response-handlers-email-notification', QUESTIONS_URLPATH . '/components/response-handlers/base-response-handlers/includes/css/email-notifications.css' );
 	}
 }
-qu_register_response_handler( 'AF_EmailNotifications' );
+af_register_response_handler( 'AF_EmailNotifications' );

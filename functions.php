@@ -34,7 +34,7 @@ if( !defined( 'ABSPATH' ) ){
  * @since 1.0.0
  */
 if( defined( 'QUESTIONS_FOLDER' ) ):
-	function qu_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
+	function af_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
 	{
 
 		$located = locate_template( $template_names, $load, $require_once );
@@ -63,10 +63,10 @@ endif;
  * Checks if we are a questions post type in admin
  * @return bool
  */
-function qu_is_questions_formbuilder(){
+function af_is_questions_formbuilder(){
 	global $post;
 
-	if( is_admin() && qu_is_questions() )
+	if( is_admin() && af_is_questions() )
 		return TRUE;
 
 	return FALSE;
@@ -75,7 +75,7 @@ function qu_is_questions_formbuilder(){
  * Checks if we are on questions settings page
  * @return bool
  */
-function qu_is_questions_settings(){
+function af_is_questions_settings(){
 	if( is_admin() && isset( $_GET[ 'page' ] ) && 'AF_Admin' == $_GET[ 'page' ] )
 		return TRUE;
 
@@ -85,7 +85,7 @@ function qu_is_questions_settings(){
  * Checks if we are in a questions post type
  * @return bool
  */
-function qu_is_questions(){
+function af_is_questions(){
 	global $post;
 
 	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type  )
@@ -103,7 +103,7 @@ function qu_is_questions(){
  * @return string $mailtext Mailtext as String
  */
 // @todo Getting to Mail class or API
-function qu_get_mail_template_text( $mailtext_title )
+function af_get_mail_template_text( $mailtext_title )
 {
 
 	$text = '';
@@ -165,7 +165,7 @@ Best regards,
  *
  * @return string $mailtext Mail subject as String
  */
-function qu_get_mail_template_subject( $mailsubject_title )
+function af_get_mail_template_subject( $mailsubject_title )
 {
 
 	$text = '';
@@ -205,7 +205,7 @@ function qu_get_mail_template_subject( $mailsubject_title )
  *
  * @return mixed $setting Setting
  */
-function qu_get_mail_settings( $option )
+function af_get_mail_settings( $option )
 {
 
 	$setting = '';
@@ -237,10 +237,10 @@ function qu_get_mail_settings( $option )
  *
  * @return string $from_name "From" name
  */
-function qu_change_email_return_name()
+function af_change_email_return_name()
 {
 
-	return qu_get_mail_settings( 'from_name' );
+	return af_get_mail_settings( 'from_name' );
 }
 
 /**
@@ -248,10 +248,10 @@ function qu_change_email_return_name()
  *
  * @return string $from_email "From" email address
  */
-function qu_change_email_return_address()
+function af_change_email_return_address()
 {
 
-	return qu_get_mail_settings( 'from_email' );
+	return af_get_mail_settings( 'from_email' );
 }
 
 /**
@@ -263,23 +263,23 @@ function qu_change_email_return_address()
  *
  * @return bool
  */
-function qu_mail( $to_email, $subject, $content )
+function af_mail( $to_email, $subject, $content )
 {
 
-	add_filter( 'wp_mail_from_name', 'qu_change_email_return_name' );
-	add_filter( 'wp_mail_from', 'qu_change_email_return_address' );
+	add_filter( 'wp_mail_from_name', 'af_change_email_return_name' );
+	add_filter( 'wp_mail_from', 'af_change_email_return_address' );
 
 	$result = wp_mail( $to_email, $subject, $content );
 
 	// Logging
 	$content = str_replace( chr( 13 ), '', strip_tags( $content ) );
-	qu_create_log_entry( array(
+	af_create_log_entry( array(
 		                     $to_email,
 		                     $subject,
 		                     $content ) );
 
-	remove_filter( 'wp_mail_from_name', 'qu_change_email_return_name' );
-	remove_filter( 'wp_mail_from', 'qu_change_email_return_address' );
+	remove_filter( 'wp_mail_from_name', 'af_change_email_return_name' );
+	remove_filter( 'wp_mail_from', 'af_change_email_return_address' );
 
 	return $result;
 }
@@ -289,7 +289,7 @@ function qu_mail( $to_email, $subject, $content )
  *
  * @param array $values The values which have to be saved
  */
-function qu_create_log_entry( $values )
+function af_create_log_entry( $values )
 {
 
 	if( !is_array( $values ) ){
@@ -330,7 +330,7 @@ function qu_create_log_entry( $values )
  *
  * @return string $data
  */
-function qu_prepare_post_data( $data )
+function af_prepare_post_data( $data )
 {
 	// Do not preparing objects or arrays	
 	if( is_object( $data ) || is_array( $data ) ){
@@ -348,7 +348,7 @@ function qu_prepare_post_data( $data )
  *
  * @return string $id ID string
  */
-function qu_id()
+function af_id()
 {
 	$id = md5( rand() );
 

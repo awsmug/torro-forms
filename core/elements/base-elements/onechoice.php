@@ -93,4 +93,4 @@ class AF_FormElement_OneChoice extends AF_FormElement
 	}
 }
 
-qu_register_survey_element( 'AF_FormElement_OneChoice' );
+af_register_survey_element( 'AF_FormElement_OneChoice' );

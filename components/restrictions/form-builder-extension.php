@@ -158,7 +158,7 @@ class AF_FormBuilder_RestrictionsExtension
 	 */
 	public static function register_admin_styles()
 	{
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );

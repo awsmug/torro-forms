@@ -198,4 +198,4 @@ class AF_Restriction_Timerange extends AF_Restriction
 	}
 }
 
-qu_register_restriction( 'AF_Restriction_Timerange' );
+af_register_restriction( 'AF_Restriction_Timerange' );

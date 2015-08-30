@@ -159,7 +159,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 			// Content
 			foreach( $users AS $user ):
-				if( qu_user_has_participated( $form_id, $user->ID ) ):
+				if( af_user_has_participated( $form_id, $user->ID ) ):
 					$user_css = ' finished';
 					$user_text = esc_attr__( 'finished', 'questions-locale' );
 				else:
@@ -204,11 +204,11 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	{
 		global $post;
 
-		$questions_invitation_text_template = qu_get_mail_template_text( 'invitation' );
-		$questions_reinvitation_text_template = qu_get_mail_template_text( 'reinvitation' );
+		$questions_invitation_text_template = af_get_mail_template_text( 'invitation' );
+		$questions_reinvitation_text_template = af_get_mail_template_text( 'reinvitation' );
 
-		$questions_invitation_subject_template = qu_get_mail_template_subject( 'invitation' );
-		$questions_reinvitation_subject_template = qu_get_mail_template_subject( 'reinvitation' );
+		$questions_invitation_subject_template = af_get_mail_template_subject( 'invitation' );
+		$questions_reinvitation_subject_template = af_get_mail_template_subject( 'reinvitation' );
 
 		$html = '';
 
@@ -255,7 +255,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$restrictions_same_users = get_post_meta( $questions_form_id, 'questions_restrictions_selectedmembers_same_users', TRUE );
 
-		if( 'yes' == $restrictions_same_users && qu_user_has_participated( $questions_form_id ) ){
+		if( 'yes' == $restrictions_same_users && af_user_has_participated( $questions_form_id ) ){
 			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'wcsc-locale' ) );
 
 			return FALSE;
@@ -388,7 +388,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			$user_ids_new = '';
 			if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
 				foreach( $user_ids AS $user_id ):
-					if( !qu_user_has_participated( $form_id, $user_id ) ):
+					if( !af_user_has_participated( $form_id, $user_id ) ):
 						$user_ids_new[] = $user_id;
 					endif;
 				endforeach;
@@ -427,7 +427,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 				$content_user = str_replace( '%displayname%', $display_name, $content );
 				$content_user = str_replace( '%username%', $user_nicename, $content_user );
 
-				qu_mail( $user_email, $subject_user, stripslashes( $content_user ) );
+				af_mail( $user_email, $subject_user, stripslashes( $content_user ) );
 			endforeach;
 
 			$return_array = array( 'sent' => TRUE );
@@ -469,4 +469,4 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	}
 }
 
-qu_register_restriction( 'AF_Restriction_SelectedMembers' );
+af_register_restriction( 'AF_Restriction_SelectedMembers' );

@@ -131,7 +131,7 @@ class AF_Form extends AF_Post
 
 			foreach( $results AS $result ){
 
-				if( $element = qu_get_element( $result->id, $result->type ) ){
+				if( $element = af_get_element( $result->id, $result->type ) ){
 
 					$elements[] = $element; // Adding element
 
@@ -451,7 +451,7 @@ class AF_Form extends AF_Post
  *
  * @return boolean $exists TRUE if survey exists, FALSE if not
  */
-function qu_form_exists( $form_id )
+function af_form_exists( $form_id )
 {
 
 	global $wpdb;
@@ -474,7 +474,7 @@ function qu_form_exists( $form_id )
  *
  * @return object|bool
  */
-function qu_get_element( $element_id, $type = '' )
+function af_get_element( $element_id, $type = '' )
 {
 	global $wpdb, $af_global;
 

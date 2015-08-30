@@ -369,4 +369,4 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 }
 
-qu_register_restriction( 'AF_Restriction_AllVisitors' );
+af_register_restriction( 'AF_Restriction_AllVisitors' );

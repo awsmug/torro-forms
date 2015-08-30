@@ -194,7 +194,7 @@ abstract class AF_Restriction
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_restriction( $restriction_class )
+function af_register_restriction( $restriction_class )
 {
 	if( class_exists( $restriction_class ) ){
 		$restriction = new $restriction_class();

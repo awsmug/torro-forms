@@ -68,4 +68,4 @@ class AF_GeneralSettings extends AF_Settings
 		);
 	}
 }
-qu_register_settings( 'AF_GeneralSettings' );
+af_register_settings( 'AF_GeneralSettings' );

@@ -102,7 +102,7 @@ class AF_FormElement_Dropdown extends AF_FormElement {
 
 }
 
-qu_register_survey_element( 'AF_FormElement_Dropdown' );
+af_register_survey_element( 'AF_FormElement_Dropdown' );
 
 
 

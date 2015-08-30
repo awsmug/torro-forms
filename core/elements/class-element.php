@@ -790,7 +790,7 @@ abstract class AF_FormElement
 			 * 'textarea_name' => $name
 			 * );
 			 * ob_start();
-			 * wp_editor( $value, 'qu_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
+			 * wp_editor( $value, 'af_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
 			 * $input = ob_get_clean();
 			 * break;
 			 */
@@ -833,7 +833,7 @@ abstract class AF_FormElement
 	{
 
 		// Adding action Buttons
-		$bottom_buttons = apply_filters( 'qu_element_bottom_actions', array( 'delete_form_element' => array( 'text'    => esc_attr__( 'Delete element', 'questions-locale' ),
+		$bottom_buttons = apply_filters( 'af_element_bottom_actions', array( 'delete_form_element' => array( 'text'    => esc_attr__( 'Delete element', 'questions-locale' ),
 		                                                                                                     'classes' => 'delete_form_element'
 		)
 		) );
@@ -967,7 +967,7 @@ abstract class AF_FormElement
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_survey_element( $element_type_class )
+function af_register_survey_element( $element_type_class )
 {
 	if( class_exists( $element_type_class ) ){
 		$element_type = new $element_type_class();

@@ -90,7 +90,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 
 		$restrictions_same_users = get_post_meta( $questions_form_id, 'questions_restrictions_allmembers_same_users', TRUE );
 
-		if( 'yes' == $restrictions_same_users && qu_user_has_participated( $questions_form_id ) ){
+		if( 'yes' == $restrictions_same_users && af_user_has_participated( $questions_form_id ) ){
 			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'wcsc-locale' ) );
 
 			return FALSE;
@@ -119,4 +119,4 @@ class AF_Restriction_AllMembers extends AF_Restriction
 		}
 	}
 }
-qu_register_restriction( 'AF_Restriction_AllMembers' );
+af_register_restriction( 'AF_Restriction_AllMembers' );

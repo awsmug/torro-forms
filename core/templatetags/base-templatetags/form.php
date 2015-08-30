@@ -83,7 +83,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 		if( !isset( $questions_response[ $element_id ] ) )
 			return;
 
-		$element = qu_get_element( $element_id );
+		$element = af_get_element( $element_id );
 
 		/**
 		 * Displaying elements
@@ -137,7 +137,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 		return $html;
 	}
 }
-qu_register_templatetags( 'AF_FormTemplateTags' );
+af_register_templatetags( 'AF_FormTemplateTags' );
 
 /**
  * Live registering element templatetags
@@ -146,7 +146,7 @@ qu_register_templatetags( 'AF_FormTemplateTags' );
  *
  * @return bool
  */
-function qu_add_element_templatetag( $element_id, $element_name ){
+function af_add_element_templatetag( $element_id, $element_name ){
 	global $af_global;
 
 	if( !property_exists( $af_global, 'templatetags' ) )

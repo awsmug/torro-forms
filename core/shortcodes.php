@@ -58,7 +58,7 @@ class AF_ShortCodes
 			return esc_attr( 'Please enter an id in the form shortcode!', 'questions-locale' );
 		}
 
-		if( !qu_form_exists( $questions_form_id ) ){
+		if( !af_form_exists( $questions_form_id ) ){
 			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'questions-locale' );
 		}
 
@@ -69,7 +69,7 @@ class AF_ShortCodes
 	{
 		global $post;
 
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 		$html = '<div class="questions-options shortcode">';

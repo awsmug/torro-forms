@@ -68,4 +68,4 @@ class AF_RestrictionsSettings extends AF_Settings
 		);
 	}
 }
-qu_register_settings( 'AF_RestrictionsSettings' );
+af_register_settings( 'AF_RestrictionsSettings' );

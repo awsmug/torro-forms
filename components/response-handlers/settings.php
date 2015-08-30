@@ -54,4 +54,4 @@ class AF_ResponseSettings extends AF_Settings
 		);
 	}
 }
-qu_register_settings( 'AF_ResponseSettings' );
+af_register_settings( 'AF_ResponseSettings' );

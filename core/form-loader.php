@@ -76,7 +76,7 @@ class AF_FormLoader
 		$questions_form_id = $_POST[ 'questions_form_id' ];
 
 		// If form doesn't exists > exit
-		if( !qu_form_exists( $questions_form_id ) ){
+		if( !af_form_exists( $questions_form_id ) ){
 			return;
 		}
 

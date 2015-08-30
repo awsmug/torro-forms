@@ -81,4 +81,4 @@ class AF_GlobalTemplateTags extends AF_TemplateTags
 		return $_SERVER[ 'REMOTE_ADDR' ];
 	}
 }
-qu_register_templatetags( 'AF_GlobalTemplateTags' );
+af_register_templatetags( 'AF_GlobalTemplateTags' );

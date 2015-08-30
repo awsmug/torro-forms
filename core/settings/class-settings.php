@@ -145,7 +145,7 @@ abstract class AF_Settings
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_settings( $settings_handler_class )
+function af_register_settings( $settings_handler_class )
 {
 	if( class_exists( $settings_handler_class ) ){
 		$settings_handler = new $settings_handler_class();

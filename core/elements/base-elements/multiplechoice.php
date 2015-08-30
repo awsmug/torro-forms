@@ -118,4 +118,4 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 	}
 }
 
-qu_register_survey_element( 'AF_FormElement_MultipleChoice' );
+af_register_survey_element( 'AF_FormElement_MultipleChoice' );

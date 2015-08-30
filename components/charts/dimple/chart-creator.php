@@ -138,4 +138,4 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator{
         wp_enqueue_script( 'questions-dimple-js',  QUESTIONS_URLPATH . '/components/charts/dimple/lib/dimple.v2.1.2.min.js' );
     }
 }
-qu_register_chartcreator( 'AF_ChartCreator_Dimple' );
+af_register_chartcreator( 'AF_ChartCreator_Dimple' );

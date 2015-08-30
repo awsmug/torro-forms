@@ -143,7 +143,7 @@ abstract class AF_ResponseHandler
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_response_handler( $response_handler_class )
+function af_register_response_handler( $response_handler_class )
 {
 	if( class_exists( $response_handler_class ) ){
 		$response_handler = new $response_handler_class();

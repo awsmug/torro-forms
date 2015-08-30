@@ -176,7 +176,7 @@ class AF_FormProcess
 			$merged_response = $_SESSION[ 'questions_response' ][ $questions_form_id ];
 			if( is_array( $response ) && count( $response ) > 0 ){
 				foreach( $response AS $key => $answer )
-					$merged_response[ $key ] = qu_prepare_post_data( $answer );
+					$merged_response[ $key ] = af_prepare_post_data( $answer );
 			}
 
 			$_SESSION[ 'questions_response' ][ $questions_form_id ] = $merged_response;
@@ -338,7 +338,7 @@ class AF_FormProcess
 		global $post, $current_user;
 		get_currentuserinfo();
 
-		$subject_template = qu_get_mail_template_subject( 'thankyou_participating' );
+		$subject_template = af_get_mail_template_subject( 'thankyou_participating' );
 
 		$subject = str_replace( '%displayname%', $current_user->display_name, $subject_template );
 		$subject = str_replace( '%username%', $current_user->user_nicename, $subject );
@@ -347,7 +347,7 @@ class AF_FormProcess
 
 		$subject = apply_filters( 'questions_email_finished_subject', $subject );
 
-		$text_template = qu_get_mail_template_text( 'thankyou_participating' );
+		$text_template = af_get_mail_template_text( 'thankyou_participating' );
 
 		$content = str_replace( '%displayname%', $current_user->display_name, $text_template );
 		$content = str_replace( '%username%', $current_user->user_nicename, $content );
@@ -356,7 +356,7 @@ class AF_FormProcess
 
 		$content = apply_filters( 'questions_email_finished_content', $content );
 
-		qu_mail( $current_user->user_email, $subject, $content );
+		af_mail( $current_user->user_email, $subject, $content );
 	}
 }
 
@@ -368,7 +368,7 @@ class AF_FormProcess
  *
  * @return boolean $has_participated
  */
-function qu_user_has_participated( $form_id, $user_id = NULL )
+function af_user_has_participated( $form_id, $user_id = NULL )
 {
 	global $wpdb, $current_user, $af_global;
 

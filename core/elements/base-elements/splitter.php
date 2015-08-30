@@ -54,7 +54,7 @@ class AF_FormElement_Splitter extends AF_FormElement
 	}
 }
 
-qu_register_survey_element( 'AF_FormElement_Splitter' );
+af_register_survey_element( 'AF_FormElement_Splitter' );
 
 
 

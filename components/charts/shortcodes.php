@@ -83,7 +83,7 @@ class AF_ChartsShortCodes
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$form_id = $atts[ 'id' ];
 
-		if( '' == $form_id || !qu_form_exists( $form_id ) ){
+		if( '' == $form_id || !af_form_exists( $form_id ) ){
 			return esc_attr( 'Please enter a valid form id into the shortcode!', 'questions-locale' );
 		}
 
@@ -155,7 +155,7 @@ class AF_ChartsShortCodes
 	{
 		global $post;
 
-		if( !qu_is_questions_formbuilder() )
+		if( !af_is_questions_formbuilder() )
 			return;
 
 		$html = '<div class="questions-options shortcode">';

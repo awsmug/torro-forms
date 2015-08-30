@@ -123,4 +123,4 @@ class AF_FormElement_Textarea extends AF_FormElement
 		return $html;
 	}
 }
-qu_register_survey_element( 'AF_FormElement_Textarea' );
+af_register_survey_element( 'AF_FormElement_Textarea' );
