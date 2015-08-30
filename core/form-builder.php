@@ -70,7 +70,7 @@ class AF_FormBuilder
 	{
 		global $post, $af_global;
 
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		$html  = '<div id="af-content" class="drag-drop">';
@@ -406,7 +406,7 @@ class AF_FormBuilder
 	 */
 	public static function jquery_messages_area()
 	{
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		$max_input_vars = ini_get( 'max_input_vars' );
@@ -421,7 +421,7 @@ class AF_FormBuilder
 	 */
 	public static function register_styles()
 	{
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		wp_enqueue_style( 'questions-admin-styles', AF_URLPATH . '/core/includes/css/form-builder.css' );
@@ -434,7 +434,7 @@ class AF_FormBuilder
 	 */
 	public static function enqueue_scripts()
 	{
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 

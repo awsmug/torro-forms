@@ -69,4 +69,4 @@ class AF_FormElement_Separator extends AF_FormElement {
 	}
 }
 
-af_register_survey_element( 'AF_FormElement_Separator' );
+af_register_form_element( 'AF_FormElement_Separator' );

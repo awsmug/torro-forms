@@ -91,7 +91,7 @@ class AF_FormProcess
 		$html = '';
 
 		// Set global message on top of page
-		if( !empty( $questions_response_errors ) ){
+		if( !empty( $af_response_errors ) ){
 			$html .= '<div class="questions-element-error">';
 			$html .= '<div class="questions-element-error-message"><p>';
 			$html .= esc_attr__( 'There are open answers', 'af-locale' );
@@ -154,7 +154,7 @@ class AF_FormProcess
 	 */
 	public function process_response()
 	{
-		global $ar_form_id, $questions_response_errors, $questions_finished;
+		global $ar_form_id, $af_response_errors, $questions_finished;
 
 		$questions_finished = FALSE;
 
@@ -192,7 +192,7 @@ class AF_FormProcess
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
-		if( (int) $_POST[ 'questions_actual_step' ] == (int) $_POST[ 'questions_next_step' ] && 0 == count( $questions_response_errors ) && !isset( $_POST[ 'questions_submission_back' ] ) ){
+		if( (int) $_POST[ 'questions_actual_step' ] == (int) $_POST[ 'questions_next_step' ] && 0 == count( $af_response_errors ) && !isset( $_POST[ 'questions_submission_back' ] ) ){
 
 			$questions_form = new AF_Form( $ar_form_id );
 			$response_id = $questions_form->save_response( $_SESSION[ 'questions_response' ][ $ar_form_id ] );
@@ -223,14 +223,14 @@ class AF_FormProcess
 	 */
 	public function validate( $form_id, $response, $step )
 	{
-		global $questions_response_errors;
+		global $af_response_errors;
 
 		$elements = $this->form->get_step_elements( $step );
 		if( !is_array( $elements ) && count( $elements ) == 0 ){
 			return;
 		}
 
-		$questions_response_errors = array();
+		$af_response_errors = array();
 
 		// Running true all elements
 		foreach( $elements AS $element ):
@@ -245,21 +245,21 @@ class AF_FormProcess
 
 			if( !$element->validate( $answer ) ):
 
-				if( empty( $questions_response_errors[ $element->id ] ) ){
-					$questions_response_errors[ $element->id ] = array();
+				if( empty( $af_response_errors[ $element->id ] ) ){
+					$af_response_errors[ $element->id ] = array();
 				}
 
 				// Getting every error of question back
 				foreach( $element->validate_errors AS $error ):
-					$questions_response_errors[ $element->id ][] = $error;
+					$af_response_errors[ $element->id ][] = $error;
 				endforeach;
 
 			endif;
 		endforeach;
 
-		if( is_array( $questions_response_errors ) && array_key_exists( $element->id, $questions_response_errors ) ):
+		if( is_array( $af_response_errors ) && array_key_exists( $element->id, $af_response_errors ) ):
 			// @todo: One Element at the end ???
-			if( is_array( $questions_response_errors[ $element->id ] ) && count( $questions_response_errors[ $element->id ] ) == 0 ):
+			if( is_array( $af_response_errors[ $element->id ] ) && count( $af_response_errors[ $element->id ] ) == 0 ):
 				return TRUE;
 			else:
 				return FALSE;
@@ -276,10 +276,10 @@ class AF_FormProcess
 	 */
 	public function get_actual_step()
 	{
-		global $questions_response_errors;
+		global $af_response_errors;
 
 		// If there was posted questions_next_step and there was no error
-		if( isset( $_POST[ 'questions_next_step' ] ) && 0 == count( $questions_response_errors ) ){
+		if( isset( $_POST[ 'questions_next_step' ] ) && 0 == count( $af_response_errors ) ){
 			$actual_step = (int) $_POST[ 'questions_next_step' ];
 		}else{
 

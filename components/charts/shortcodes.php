@@ -155,7 +155,7 @@ class AF_ChartsShortCodes
 	{
 		global $post;
 
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		$html = '<div class="form-options shortcode">';

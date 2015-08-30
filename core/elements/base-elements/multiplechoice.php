@@ -113,4 +113,4 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 	}
 }
 
-af_register_survey_element( 'AF_FormElement_MultipleChoice' );
+af_register_form_element( 'AF_FormElement_MultipleChoice' );

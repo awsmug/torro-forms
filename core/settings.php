@@ -127,7 +127,7 @@ class AF_SettingsPage{
      */
     public static function register_styles()
     {
-        if( !af_is_questions_settings() )
+        if( !af_is_settingspage() )
             return;
 
         wp_enqueue_style( 'questions-admin-styles', AF_URLPATH . '/core/includes/css/settings.css' );

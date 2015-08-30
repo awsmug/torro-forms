@@ -358,11 +358,11 @@ abstract class AF_FormElement
 	 */
 	public function draw()
 	{
-		global $questions_response_errors;
+		global $af_response_errors;
 
 		$errors = '';
-		if( is_array( $questions_response_errors ) && array_key_exists( $this->id, $questions_response_errors ) ){
-			$errors = $questions_response_errors[ $this->id ];
+		if( is_array( $af_response_errors ) && array_key_exists( $this->id, $af_response_errors ) ){
+			$errors = $af_response_errors[ $this->id ];
 		}
 
 		$html = '';
@@ -542,7 +542,7 @@ abstract class AF_FormElement
 		 */
 		// Adding question tab
 		if( $this->is_question ):
-			$html .= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_questions_content">';
+			$html .= '<div id="tab_' . $jquery_widget_id . '_questions" class="tab_label_answers_content">';
 			$html .= $this->admin_widget_question_tab();
 			$html .= '</div>';
 		endif;
@@ -967,7 +967,7 @@ abstract class AF_FormElement
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_survey_element( $element_type_class )
+function af_register_form_element( $element_type_class )
 {
 	if( class_exists( $element_type_class ) ){
 		$element_type = new $element_type_class();

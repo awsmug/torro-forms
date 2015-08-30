@@ -64,10 +64,10 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	 * @param $response
 	 */
 	public function handle( $response_id, $response ){
-		global $wpdb, $ar_form_id, $af_global, $questions_response_id, $questions_response;
+		global $wpdb, $ar_form_id, $af_global, $af_response_id, $af_response;
 
-		$questions_response_id = $response_id;
-		$questions_response = $response;
+		$af_response_id = $response_id;
+		$af_response = $response;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $ar_form_id );
 		$notifications = $wpdb->get_results( $sql );
@@ -175,7 +175,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	public static function add_media_button( $editor_id ){
 		global $post;
 
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		echo af_template_tag_button( $editor_id );
@@ -322,7 +322,7 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	{
 		global $post;
 
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'af-locale' ),

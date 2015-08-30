@@ -63,10 +63,10 @@ endif;
  * Checks if we are a questions post type in admin
  * @return bool
  */
-function af_is_questions_formbuilder(){
+function af_is_formbuilder(){
 	global $post;
 
-	if( is_admin() && af_is_questions() )
+	if( is_admin() && af_is_form() )
 		return TRUE;
 
 	return FALSE;
@@ -75,7 +75,7 @@ function af_is_questions_formbuilder(){
  * Checks if we are on questions settings page
  * @return bool
  */
-function af_is_questions_settings(){
+function af_is_settingspage(){
 	if( is_admin() && isset( $_GET[ 'page' ] ) && 'AF_Admin' == $_GET[ 'page' ] )
 		return TRUE;
 
@@ -85,7 +85,7 @@ function af_is_questions_settings(){
  * Checks if we are in a questions post type
  * @return bool
  */
-function af_is_questions(){
+function af_is_form(){
 	global $post;
 
 	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type  )
@@ -239,7 +239,6 @@ function af_get_mail_settings( $option )
  */
 function af_change_email_return_name()
 {
-
 	return af_get_mail_settings( 'from_name' );
 }
 
@@ -250,7 +249,6 @@ function af_change_email_return_name()
  */
 function af_change_email_return_address()
 {
-
 	return af_get_mail_settings( 'from_email' );
 }
 
@@ -265,7 +263,6 @@ function af_change_email_return_address()
  */
 function af_mail( $to_email, $subject, $content )
 {
-
 	add_filter( 'wp_mail_from_name', 'af_change_email_return_name' );
 	add_filter( 'wp_mail_from', 'af_change_email_return_address' );
 

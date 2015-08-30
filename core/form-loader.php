@@ -82,8 +82,8 @@ class AF_FormLoader
 
 		do_action( 'questions_form_process' );
 
-		$questions_process = new AF_FormProcess( $ar_form_id );
-		$questions_process->process_response();
+		$af_form_process = new AF_FormProcess( $ar_form_id );
+		$af_form_process->process_response();
 	}
 
 	/**
@@ -106,7 +106,7 @@ class AF_FormLoader
 	 */
 	public static function the_content( $content )
 	{
-		global $questions_process, $ar_form_id, $questions_response_errors;
+		global $af_form_process, $ar_form_id, $af_response_errors;
 
 		$post = get_post( $ar_form_id );
 		$ar_form_id = $post->ID;
@@ -135,8 +135,8 @@ class AF_FormLoader
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
 		}else{
-			$questions_process = new AF_FormProcess( $form_id );
-			$html = $questions_process->show_form();
+			$af_form_process = new AF_FormProcess( $form_id );
+			$html = $af_form_process->show_form();
 		}
 
 		return $html;
@@ -152,19 +152,20 @@ class AF_FormLoader
 	 */
 	public static function text_thankyou_for_participation( $form_id )
 	{
+		// @todo Should move to response handling
 		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
 		if( '' == $show_results ){
 			$show_results = 'no';
 		}
 
-		$html = '<div id="questions-thank-participation">';
+		$html = '<div id="af-thank-participation">';
 		$html .= '<p>' . __( 'Thank you for participating!', 'af-locale' ) . '</p>';
 		if( 'yes' == $show_results ){
 			$html .= self::show_results( $form_id );
 		}
 		$html .= '</div>';
 
-		return apply_filters( 'questions_text_thankyou_for_participation', $html, $form_id );
+		return apply_filters( 'af_text_thankyou_for_participation', $html, $form_id );
 	}
 
 	/**
@@ -180,7 +181,7 @@ class AF_FormLoader
 		$html = '<p>' . __( 'This are the actual results:', 'af-locale' ) . '</p>';
 		$html .= do_shortcode( '[form_results id="' . $form_id . '"]' );
 
-		return apply_filters( 'questions_show_results', $html, $form_id );
+		return apply_filters( 'af_show_results', $html, $form_id );
 	}
 }
 

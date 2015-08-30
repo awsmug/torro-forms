@@ -78,9 +78,9 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 */
 	public static function element_content( $element_id )
 	{
-		global $questions_response;
+		global $af_response;
 
-		if( !isset( $questions_response[ $element_id ] ) )
+		if( !isset( $af_response[ $element_id ] ) )
 			return;
 
 		$element = af_get_element( $element_id );
@@ -95,13 +95,13 @@ class AF_FormTemplateTags extends AF_TemplateTags
 			 */
 			// @todo Checking if element had sections and giving them HTML > Try with Matrix
 
-		}elseif( is_array( $questions_response[ $element_id ] ) )
+		}elseif( is_array( $af_response[ $element_id ] ) )
 		{
 			/**
 			 * Elements with multiple answers
 			 */
 			$html = '<ul>';
-			foreach( $questions_response[ $element_id ] AS $response ){
+			foreach( $af_response[ $element_id ] AS $response ){
 				$html.= '<li>' . $response . '</li>';
 			}
 			$html.= '</ul>';
@@ -112,7 +112,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 			/**
 			 * Elements with string response value
 			 */
-			return $questions_response[ $element_id ];
+			return $af_response[ $element_id ];
 		}
 	}
 
@@ -121,7 +121,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 * @param $element_id
 	 */
 	public static function allelements(){
-		global $ar_form_id, $questions_response;
+		global $ar_form_id, $af_response;
 
 		$form = new AF_Form( $ar_form_id );
 

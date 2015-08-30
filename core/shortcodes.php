@@ -69,7 +69,7 @@ class AF_ShortCodes
 	{
 		global $post;
 
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		$html = '<div class="form-options shortcode">';

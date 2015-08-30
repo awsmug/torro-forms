@@ -134,7 +134,7 @@ class AF_FormBuilder_ChartsExtension
 	 */
 	public static function register_admin_styles()
 	{
-		if( !af_is_questions_formbuilder() )
+		if( !af_is_formbuilder() )
 			return;
 
 		wp_enqueue_style( 'form-restrictions-form-builder-extension-styles', AF_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );

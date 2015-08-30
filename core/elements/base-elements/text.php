@@ -130,4 +130,4 @@ class AF_FormElement_Text extends AF_FormElement
 	}
 }
 
-af_register_survey_element( 'AF_FormElement_Text' );
+af_register_form_element( 'AF_FormElement_Text' );
