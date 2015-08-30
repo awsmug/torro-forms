@@ -969,12 +969,9 @@ abstract class Questions_FormElement
  */
 function qu_register_survey_element( $element_type_class )
 {
-
-	if( !class_exists( $element_type_class ) ){
-		return FALSE;
+	if( class_exists( $element_type_class ) ){
+		$element_type = new $element_type_class();
+		return $element_type->_register();
 	}
-
-	// Register the group extension on the bp_init action so we have access
-	// to all plugins.
-	add_action( 'init', create_function( '', '$extension = new ' . $element_type_class . '; add_action( "init", array( &$extension, "_register" ), 2 ); ' ), 1 );
+	return FALSE;
 }

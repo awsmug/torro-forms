@@ -119,5 +119,4 @@ class Questions_Restriction_AllMembers extends Questions_Restriction
 		}
 	}
 }
-
 qu_register_restriction( 'Questions_Restriction_AllMembers' );

@@ -31,19 +31,20 @@ class Questions_Init
 
 		$qu_plugin_errors = array();
 
+		// Loading variables
 		self::constants();
-		self::includes();
-		self::load_components();
 		self::load_textdomain();
 
-		// Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
+		// Loading other stuff
+		self::includes();
+
+		// Install & Uninstall Scripts
 		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 
-		// If plugin isn't installed, install it now
 		if( !self::is_installed() ){
-			add_action( 'init', array( __CLASS__, 'install_plugin' ), 100 );
+			add_action( 'init', array( __CLASS__, 'install_plugin' ) );
 		}
 
 		// Functions on Frontend
@@ -56,7 +57,7 @@ class Questions_Init
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_scripts' ) );
 		endif;
-	} // end constructor
+	}
 
 	/**
 	 * Checking Requirements and adding Error Messages.
@@ -261,6 +262,7 @@ class Questions_Init
 	 */
 	public static function uninstall( $network_wide )
 	{
+
 	}
 
 	/**
@@ -302,7 +304,8 @@ class Questions_Init
 		define( 'QUESTIONS_FOLDER', self::get_folder() );
 		define( 'QUESTIONS_RELATIVE_FOLDER', substr( QUESTIONS_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( QUESTIONS_FOLDER ) ) );
 		define( 'QUESTIONS_URLPATH', self::get_url_path() );
-		define( 'QUESTIONS_COMPONENTFOLDER', QUESTIONS_FOLDER . '/components' );
+
+		define( 'QUESTIONS_COMPONENTFOLDER', QUESTIONS_FOLDER . 'components/' );
 	}
 
 	/**
@@ -312,27 +315,19 @@ class Questions_Init
 	 */
 	public static function includes()
 	{
-		// Loading functions
-		include( QUESTIONS_FOLDER . '/functions.php' );
-		include( QUESTIONS_FOLDER . '/includes/wp-editor.php' );
-	}
+		// Loading Functions
+		include( QUESTIONS_FOLDER . 'functions.php' );
+		include( QUESTIONS_FOLDER . 'includes/wp-editor.php' );
 
-	/**
-	 * Loading components
-	 *
-	 * @since 1.0.0
-	 */
-	public static function load_components()
-	{
-		// Loading base functions
-		include( QUESTIONS_COMPONENTFOLDER . '/class-component.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/component.php' );
+		// Loading Core
+		include( QUESTIONS_FOLDER . 'core/init.php' );
 
-		// Loading components
-		include( QUESTIONS_COMPONENTFOLDER . '/charts/component.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/elements/component.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/restrictions/component.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/response-handlers/component.php' );
+		// Loading Component Scripts
+		include( QUESTIONS_COMPONENTFOLDER . 'class-component.php' );
+
+		include( QUESTIONS_COMPONENTFOLDER . 'charts/component.php' );
+		include( QUESTIONS_COMPONENTFOLDER . 'restrictions/component.php' );
+		include( QUESTIONS_COMPONENTFOLDER . 'response-handlers/component.php' );
 	}
 
 	/**
@@ -382,4 +377,4 @@ class Questions_Init
 	}
 
 }
-Questions_Init::init();
+Questions_Init::init(); // Starting immediately!

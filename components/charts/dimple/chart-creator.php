@@ -40,7 +40,7 @@ class Questions_ChartCreator_Dimple extends Questions_ChartCreator{
             'Creates charts with D3 Dimple library',
             'dimple'
         );
-    } // end constructor
+    }
 
     /**
      * Showing bars

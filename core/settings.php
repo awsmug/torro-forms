@@ -130,7 +130,7 @@ class Questions_SettingsPage{
         if( !qu_is_questions_settings() )
             return;
 
-        wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/components/core/includes/css/settings.css' );
+        wp_enqueue_style( 'questions-admin-styles', QUESTIONS_URLPATH . '/core/includes/css/settings.css' );
     }
 }
 Questions_SettingsPage::init();

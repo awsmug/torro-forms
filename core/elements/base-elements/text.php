@@ -50,7 +50,7 @@ class Questions_FormElement_Text extends Questions_FormElement
 				'title'       => esc_attr__( 'Maximum length', 'questions-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'questions-locale' ),
-				'default'     => '1000' ),
+				'default'     => '100' ),
 			'validation'  => array(
 				'title'       => esc_attr__( 'String Validation', 'questions-locale' ),
 				'type'        => 'radio',

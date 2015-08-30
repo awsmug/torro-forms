@@ -147,9 +147,9 @@ abstract class Questions_Settings
  */
 function qu_register_settings( $settings_handler_class )
 {
-	if( !class_exists( $settings_handler_class ) ){
-		return FALSE;
+	if( class_exists( $settings_handler_class ) ){
+		$settings_handler = new $settings_handler_class();
+		return $settings_handler->_register();
 	}
-
-	add_action( 'init', create_function( '', '$extension = new ' . $settings_handler_class . '; add_action( "init", array( &$extension, "_register" ), 2 ); ' ), 1 );
+	return FALSE;
 }

@@ -70,7 +70,7 @@ abstract class Questions_ChartCreator{
         else:
             add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
         endif;
-	} // end constructor
+	}
 
     /**
      * Function to register Charts creation module
@@ -126,19 +126,11 @@ abstract class Questions_ChartCreator{
  * @param $element_type_class name of the element type class.
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_chartcreator( $chart_creator_class ) {
-
-    if ( ! class_exists( $chart_creator_class ) ) {
-        return FALSE;
+function qu_register_chartcreator( $chart_creator_class )
+{
+    if ( class_exists( $chart_creator_class ) ) {
+        $chart_creator = new $chart_creator_class();
+        return $chart_creator->_register();
     }
-
-    // Register the group extension on the bp_init action so we have access
-    // to all plugins.
-    add_action(
-        'init',
-        create_function(
-            '', '$extension = new ' . $chart_creator_class . ';
-			add_action( "init", array( &$extension, "_register" ), 2 ); '
-        ), 1
-    );
+    return FALSE;
 }

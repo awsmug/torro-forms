@@ -41,36 +41,29 @@ class Questions_Responses extends Questions_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'QuestionsResponses';
+		$this->name = 'questionsresponses';
 		$this->title = esc_attr__( 'Responses', 'questions-locale' );
 		$this->description = esc_attr__( 'Responses component helps to catch the entered data after sending form.', 'questions-locale' );
 
-		$this->required = FALSE;
-
-		$this->slug = 'questionsresponses';
-
-		parent::__construct();
-	} // end constructor
+	}
 
 	/**
 	 * Including files of component
 	 */
-	public function includes()
+	public function start()
 	{
-		// Loading form builder extension
-		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/form-builder-extension.php' );
-		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/form-process-extension.php' );
+		$folder = QUESTIONS_COMPONENTFOLDER . 'response-handlers/';
 
-		// Base class for restrictions
-		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/class-response-handler.php' );
+		// Loading base functionalities
+		include_once( $folder . 'settings.php' );
+		include_once( $folder . 'form-builder-extension.php' );
+		include_once( $folder . 'form-process-extension.php' );
 
-		// Base response handlers
-		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/base-response-handlers/email-notifications.php' );
-		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/base-response-handlers/test-extension.php' );
-
-		// Settings
-		include_once( QUESTIONS_COMPONENTFOLDER . '/response-handlers/settings.php' );
+		// Response Handlers API
+		include_once( $folder . 'class-response-handler.php' );
+		include_once( $folder . 'base-response-handlers/email-notifications.php' );
+		include_once( $folder . 'base-response-handlers/test-extension.php' );
 	}
 }
 
-$Questions_Responses = new Questions_Responses();
+af_register_component( 'Questions_Responses' );

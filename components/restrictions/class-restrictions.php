@@ -196,11 +196,9 @@ abstract class Questions_Restriction
  */
 function qu_register_restriction( $restriction_class )
 {
-
-	if( !class_exists( $restriction_class ) ){
-		return FALSE;
+	if( class_exists( $restriction_class ) ){
+		$restriction = new $restriction_class();
+		return $restriction->_register();
 	}
-
-	add_action( 'init', create_function( '', '$extension = new ' . $restriction_class . ';
-			add_action( "init", array( &$extension, "_register" ), 2 ); ' ), 1 );
+	return FALSE;
 }

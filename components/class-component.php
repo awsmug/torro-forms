@@ -54,10 +54,6 @@ abstract class Questions_Component
 	 */
 	var $description;
 
-	var $capability;
-
-	var $required;
-
 	/**
 	 * Initialiing the Component.
 	 *
@@ -65,12 +61,48 @@ abstract class Questions_Component
 	 */
 	public function __construct()
 	{
+		// Standard values
 		$this->name = get_class( $this );
-		add_action( 'plugins_loaded', array( $this, 'includes' ), 0 );
-
 		$this->title = ucfirst( $this->name );
 		$this->description = esc_attr__( 'This is a Questions component.', 'questions-locale' );
-		$this->capability = 'read';
-		$this->required = TRUE;
-	} // end constructor
+	}
+
+	/**
+	 * Including files of component
+	 */
+	abstract function start();
+
+	/**
+	 * Registering component
+	 *
+	 * @return bool
+	 */
+	public function _register()
+	{
+		global $questions_global;
+
+		if( !is_object( $questions_global ) ){
+			return FALSE;
+		}
+
+		$questions_global->components[ $this->name ] = $this;
+
+		add_action( 'init', array( $this, 'start' ) ); // @todo Right Place for cheking if component can start
+
+		return TRUE;
+	}
+}
+
+/**
+ * Registering component
+ *
+ * @param $component_name
+ */
+function af_register_component( $component_name )
+{
+	if( class_exists( $component_name ) ){
+		$component = new $component_name();
+		return $component->_register();
+	}
+	return FALSE;
 }

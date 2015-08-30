@@ -55,7 +55,7 @@ class Questions_FormLoader
 		if( TRUE == $filter_the_content ){
 			add_action( 'the_post', array( __CLASS__, 'add_post_filter' ) ); // Just hooking in at the beginning of a loop
 		}
-	} // end constructor
+	}
 
 	/**
 	 * Porcessing Response

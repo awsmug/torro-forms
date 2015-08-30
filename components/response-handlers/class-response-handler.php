@@ -145,9 +145,9 @@ abstract class Questions_ResponseHandler
  */
 function qu_register_response_handler( $response_handler_class )
 {
-	if( !class_exists( $response_handler_class ) ){
-		return FALSE;
+	if( class_exists( $response_handler_class ) ){
+		$response_handler = new $response_handler_class();
+		return $response_handler->_register();
 	}
-
-	add_action( 'init', create_function( '', '$extension = new ' . $response_handler_class . '; add_action( "init", array( &$extension, "_register" ), 2 ); ' ), 1 );
+	return FALSE;
 }

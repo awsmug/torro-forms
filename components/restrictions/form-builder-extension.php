@@ -164,5 +164,4 @@ class Questions_FormBuilder_RestrictionsExtension
 		wp_enqueue_style( 'questions-restrictions-form-builder-extension-styles', QUESTIONS_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
-
 Questions_FormBuilder_RestrictionsExtension::init();

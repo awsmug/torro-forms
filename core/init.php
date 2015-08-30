@@ -30,35 +30,28 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class Questions_Core extends Questions_Component
+class Questions_Core
 {
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
+	public static function init()
 	{
-		$this->name = 'QuestionsCore';
-		$this->title = __( 'Core', 'questions-locale' );
-		$this->description = __( 'Core functions of the Questions Plugin', 'questions-locale' );
-		$this->turn_off = FALSE;
+		self::includes();
 
-		$this->slug = 'survey';
-
-		add_action( 'init', array( $this, 'custom_post_types' ), 11 );
-		add_filter( 'body_class', array( $this, 'add_body_class' ) );
-		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
-
-		parent::__construct();
-	} // end constructor
+		add_action( 'init', array( __CLASS__ , 'custom_post_types' ), 11 );
+		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
+		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
+	}
 
 	/**
 	 * Creates Custom Post Types for surveys
 	 *
 	 * @since 1.0.0
 	 */
-	public function custom_post_types()
+	public static function custom_post_types()
 	{
 		/**
 		 * Categories
@@ -100,8 +93,7 @@ class Questions_Core extends Questions_Component
 		                         'supports'          => array( 'title' ),
 		                         'show_in_menu'      => 'QuestionsAdmin',
 		                         'show_in_nav_menus' => FALSE,
-		                         'rewrite'           => array( 'slug'       => $this->slug,
-		                                                       'with_front' => TRUE )
+		                         'rewrite'           => array( 'slug' => 'survey', 'with_front' => TRUE ) // @todo Change! Make variable! Doing in Permalink sections.
 
 		);
 
@@ -115,7 +107,7 @@ class Questions_Core extends Questions_Component
 	 *
 	 * @return array $classes Classes for body
 	 */
-	public function add_body_class( $classes )
+	public static function add_body_class( $classes )
 	{
 
 		global $post;
@@ -134,39 +126,54 @@ class Questions_Core extends Questions_Component
 	/**
 	 * Including files of component
 	 */
-	public function includes()
+	public static function includes()
 	{
+		$core_folder = QUESTIONS_FOLDER . 'core/';
+
 		// Base classes
-		include( QUESTIONS_COMPONENTFOLDER . '/core/global.php' ); // Global Questions object $questions_global
-		include( QUESTIONS_COMPONENTFOLDER . '/core/class-post.php' );
+		include( $core_folder . 'global.php' ); // Global Questions object $questions_global
+		include( $core_folder . 'class-post.php' );
 
 		// Admin
-		include( QUESTIONS_COMPONENTFOLDER . '/core/menu.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/form-builder.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/settings.php' );
+		include( $core_folder . 'menu.php' );
+		include( $core_folder . 'form-builder.php' );
+		include( $core_folder . 'settings.php' );
 
 		// Settings
-		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/class-settings.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/class-settings-handler.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/settings/base-settings/general.php' );
+		include( $core_folder . 'settings/class-settings.php' );
+		include( $core_folder . 'settings/class-settings-handler.php' );
+		include( $core_folder . 'settings/base-settings/general.php' );
 
 		// Form functions
-		include( QUESTIONS_COMPONENTFOLDER . '/core/form.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/form-loader.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/form-process.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/responses.php' );
+		include( $core_folder . 'form.php' );
+		include( $core_folder . 'form-loader.php' );
+		include( $core_folder . 'form-process.php' );
+		include( $core_folder . 'responses.php' );
+
+		// Elements
+		include( $core_folder . 'elements/class-element.php' );
+
+		// Base elements
+		include( $core_folder . 'elements/base-elements/text.php' );
+		include( $core_folder . 'elements/base-elements/textarea.php' );
+		include( $core_folder . 'elements/base-elements/onechoice.php' );
+		include( $core_folder . 'elements/base-elements/multiplechoice.php' );
+		include( $core_folder . 'elements/base-elements/dropdown.php' );
+		include( $core_folder . 'elements/base-elements/separator.php' );
+		include( $core_folder . 'elements/base-elements/splitter.php' );
+		include( $core_folder . 'elements/base-elements/description.php' );
 
 		// Template tags
-		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/class-templatetags.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/base-templatetags/templatetags-global.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/templatetags/base-templatetags/templatetags-form.php' );
+		include( $core_folder . 'templatetags/class-templatetags.php' );
+		include( $core_folder . 'templatetags/base-templatetags/global.php' );
+		include( $core_folder . 'templatetags/base-templatetags/form.php' );
 
 		// Shortcodes
-		include( QUESTIONS_COMPONENTFOLDER . '/core/shortcodes.php' );
+		include( $core_folder . 'shortcodes.php' );
 
 		// Helper functions
-		include( QUESTIONS_COMPONENTFOLDER . '/core/data-abstraction.php' );
-		include( QUESTIONS_COMPONENTFOLDER . '/core/export.php' );
+		include( $core_folder . 'data-abstraction.php' );
+		include( $core_folder . 'export.php' );
 	}
 
 	/**
@@ -175,10 +182,8 @@ class Questions_Core extends Questions_Component
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . 'components/core/includes/css/fonts.css' );
-		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . 'components/core/includes/css/fonts.css' );
+		wp_enqueue_style( 'questions-admin-fonts', QUESTIONS_URLPATH . 'core/includes/css/fonts.css' );
 	}
 
 }
-
-$Questions_Core = new Questions_Core();
+Questions_Core::init();

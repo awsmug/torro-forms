@@ -131,19 +131,17 @@ abstract class Questions_TemplateTags{
 /**
  * Register a new Templatetags collection
  *
- * @param $element_type_class name of the templatetags collection
+ * @param $templatetags_class name of the templatetags collection
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function qu_register_templatetags( $restriction_class )
+function qu_register_templatetags( $templatetags_class )
 {
-
-	if( !class_exists( $restriction_class ) ){
-		return FALSE;
+	if( class_exists( $templatetags_class ) ){
+		$templatetags = new $templatetags_class();
+		return $templatetags->_register();
 	}
-
-	add_action( 'init', create_function( '', '$extension = new ' . $restriction_class . ';
-			add_action( "init", array( &$extension, "_register" ), 2 ); ' ), 1 );
+	return FALSE;
 }
 
 /**
@@ -210,6 +208,7 @@ function qu_template_tag_button( $input_name ){
 	$html = '<div class="questions-templatetag-button">';
 		$html.= '<input type="button" value="' . esc_attr( '+', 'questions-locale' ) . '" class="button" rel="' . $input_name . '" />';
 		$html.= '<div class="questions-templatetag-list">';
+
 		foreach( $collections AS $collection_slug => $collection )
 		{
 			$html.= '<div class="questions-templatetag-collection">';
