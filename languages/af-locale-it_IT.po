@@ -517,7 +517,7 @@ msgstr "Ci sono risposte aperte"
 
 #: components/core/form-process.php:179
 #, php-format
-msgid "Step <span class=\"questions-highlight-number\">%d</span> of <span class=\"questions-highlight-number\">%s</span>"
+msgid "Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-highlight-number\">%s</span>"
 msgstr "Step <span class=\"surveyval-highlight-number\">%d</span> di <span class=\"surveyval-highlight-number\">%s</span>"
 
 #: components/core/form-process.php:202

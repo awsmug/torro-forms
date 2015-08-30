@@ -410,7 +410,7 @@ class AF_FormBuilder
 			return;
 
 		$max_input_vars = ini_get( 'max_input_vars' );
-		$html = '<div id="questions-messages" style="display:none;"><p class="questions-message">This is a dummy messaget</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
+		$html = '<div id="form-messages" style="display:none;"><p class="questions-message">This is a dummy messaget</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
 		echo $html;
 	}
 

@@ -45,7 +45,7 @@ class AF_FormElement_Separator extends AF_FormElement {
 
 	public function input_html() {
 
-		$html = '<div class="survey-element survey-element-' . $this->id . '">';
+		$html = '<div class="form-element form-element-' . $this->id . '">';
 
 		if ( ! empty( $this->settings[ 'header' ] ) ) {
 			$html .= '<h3>' . $this->settings[ 'header' ] . '</h3>';

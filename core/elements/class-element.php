@@ -369,7 +369,7 @@ abstract class AF_FormElement
 
 		$html = apply_filters( 'questions_draw_element_outer_start', $html, $this );
 
-		$element_classes = array( 'survey-element', 'survey-element-' . $this->id );
+		$element_classes = array( 'form-element', 'form-element-' . $this->id );
 		$element_classes = apply_filters( 'af_element_classes', $element_classes, $this );
 
 		$html .= '<div class="' . implode( ' ', $element_classes ) . '">';
@@ -378,9 +378,9 @@ abstract class AF_FormElement
 
 		// Echo Errors
 		if( is_array( $errors ) && count( $errors ) > 0 ):
-			$html .= '<div class="qr-element-error">';
-			$html .= '<div class="qr-element-error-message">';
-			$html .= '<ul class="questions-error-messages">';
+			$html .= '<div class="af-element-error">';
+			$html .= '<div class="af-element-error-message">';
+			$html .= '<ul class="af-error-messages">';
 			foreach( $errors AS $error ):
 				$html .= '<li>' . $error . '</li>';
 			endforeach;
@@ -838,10 +838,10 @@ abstract class AF_FormElement
 		)
 		) );
 
-		$html = '<div class="survey-element-buttom">';
+		$html = '<div class="form-element-buttom">';
 			$html .= '<ul>';
 			foreach( $bottom_buttons AS $button ):
-				$html .= '<li><a class="' . $button[ 'classes' ] . ' survey-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
+				$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
 			endforeach;
 			$html .= '</ul>';
 		$html .= '</div>';

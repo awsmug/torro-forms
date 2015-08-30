@@ -92,8 +92,8 @@ class AF_FormProcess
 
 		// Set global message on top of page
 		if( !empty( $af_response_errors ) ){
-			$html .= '<div class="qr-element-error">';
-			$html .= '<div class="qr-element-error-message"><p>';
+			$html .= '<div class="af-element-error">';
+			$html .= '<div class="af-element-error-message"><p>';
 			$html .= esc_attr__( 'There are open answers', 'af-locale' );
 			$html .= '</p></div></div>';
 		}
@@ -112,7 +112,7 @@ class AF_FormProcess
 
 		// Switch on navigation if there is more than one page
 		if( 0 != $step_count ){
-			$html .= '<div class="questions-pagination">' . sprintf( __( 'Step <span class="questions-highlight-number">%d</span> of <span class="questions-highlight-number">%s</span>', 'af-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
+			$html .= '<div class="af-pagination">' . sprintf( __( 'Step <span class="af-highlight-number">%d</span> of <span class="af-highlight-number">%s</span>', 'af-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		}
 
 		// Getting all elements of step and running them

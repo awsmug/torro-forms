@@ -520,8 +520,8 @@ msgstr "Необходимо ответить на все вопросы"
 
 #: components/core/form-process.php:179
 #, php-format
-msgid "Step <span class=\"questions-highlight-number\">%d</span> of <span class=\"questions-highlight-number\">%s</span>"
-msgstr "Шаг <span class=\"questions-highlight-number\">%d</span> из <span class=\"questions-highlight-number\">%s</span>"
+msgid "Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-highlight-number\">%s</span>"
+msgstr "Шаг <span class=\"af-highlight-number\">%d</span> из <span class=\"af-highlight-number\">%s</span>"
 
 #: components/core/form-process.php:202
 msgid "Previous Step"

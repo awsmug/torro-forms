@@ -101,7 +101,7 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator{
         $js.= '});';
 
         // Drawing HTML Containers
-        $html = '<div id="' . $id . '" class="ar-dimplechart">';
+        $html = '<div id="' . $id . '" class="af-dimplechart">';
         $html.= '<' . $atts[ 'title_tag' ] . '>' . $title . '</' . $atts[ 'title_tag' ] . '>';
         $html.= '<script type="text/javascript">';
         $html.= $js;

@@ -30,7 +30,7 @@
             // console.log( 'Input vars: ' + input_vars );
             
             if( input_vars + alert_zone >= max_input_vars ){
-                $( "#questions-messages" )
+                $( "#form-messages" )
                   .removeClass( 'notice error updated' )
                   .addClass( 'notice' )
                   .html( '<p>' +  msg_near_limit + '</p>' )
@@ -38,7 +38,7 @@
             }
             
             if( input_vars >= max_input_vars ){
-                $( "#questions-messages" )
+                $( "#form-messages" )
                   .removeClass( 'notice error updated' )
                   .addClass( 'error' )
                   .html( '<p>' +  msg_over_limit + '</p>' )

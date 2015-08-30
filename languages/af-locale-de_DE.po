@@ -518,7 +518,7 @@ msgstr "Es gibt offene Antworten"
 
 #: components/core/form-process.php:179
 #, php-format
-msgid "Step <span class=\"questions-highlight-number\">%d</span> of <span class=\"questions-highlight-number\">%s</span>"
+msgid "Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-highlight-number\">%s</span>"
 msgstr "Schritt <span class=\"surveyval-highlight-number\">%d</span> von <span class=\"surveyval-highlight-number\">%s</span>"
 
 #: components/core/form-process.php:202
