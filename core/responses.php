@@ -104,10 +104,10 @@ class AF_Results{
      */
     public function get_response_user_ids() {
 
-        global $wpdb, $questions_global;
+        global $wpdb, $af_global;
 
         $sql     = $wpdb->prepare(
-            "SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->form_id
+            "SELECT * FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->form_id
         );
         $results = $wpdb->get_results( $sql );
 
@@ -135,10 +135,10 @@ class AF_Results{
      */
     public function get_response_user_names() {
 
-        global $wpdb, $questions_global;
+        global $wpdb, $af_global;
 
         $sql     = $wpdb->prepare(
-            "SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->form_id
+            "SELECT * FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->form_id
         );
         $results = $wpdb->get_results( $sql );
 
@@ -168,10 +168,10 @@ class AF_Results{
      */
     public function get_response_timestrings( $timeformat = 'd.m.Y H:i' ) {
 
-        global $wpdb, $questions_global;
+        global $wpdb, $af_global;
 
         $sql     = $wpdb->prepare(
-            "SELECT * FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->form_id
+            "SELECT * FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->form_id
         );
         $results = $wpdb->get_results( $sql );
 

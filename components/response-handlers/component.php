@@ -1,6 +1,6 @@
 <?php
 /**
- * Questions Restrictions
+ * Awesome Forms Restrictions
  *
  * Component for the Restrictions API
  *

@@ -81,7 +81,7 @@ class AF_Export
 	 */
 	function export()
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		if( array_key_exists( 'export_survey_results', $_GET ) && is_array( $_GET ) ):
 			$export_type = $_GET[ 'export_survey_results' ];

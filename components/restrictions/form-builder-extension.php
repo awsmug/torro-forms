@@ -79,10 +79,10 @@ class AF_FormBuilder_RestrictionsExtension
 	 */
 	public static function meta_box_restrictions()
 	{
-		global $wpdb, $post, $questions_global;
+		global $wpdb, $post, $af_global;
 
 		$form_id = $post->ID;
-		$restrictions = $questions_global->restrictions;
+		$restrictions = $af_global->restrictions;
 
 		if( !is_array( $restrictions ) || count( $restrictions ) == 0 ){
 			return;

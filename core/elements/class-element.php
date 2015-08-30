@@ -98,7 +98,7 @@ abstract class AF_FormElement
 	var $is_question = TRUE;
 
 	/**
-	 * If value is true, Questions will try to create charts from results
+	 * If value is true, Awesome Forms will try to create charts from results
 	 *
 	 * @since 1.0.0
 	 */
@@ -188,7 +188,7 @@ abstract class AF_FormElement
 	}
 
 	/**
-	 * Function to register element in Questions
+	 * Function to register element in Awesome Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -197,13 +197,13 @@ abstract class AF_FormElement
 	 */
 	public function _register()
 	{
-		global $questions_global;
+		global $af_global;
 
 		if( TRUE == $this->initialized ){
 			return FALSE;
 		}
 
-		if( !is_object( $questions_global ) ){
+		if( !is_object( $af_global ) ){
 			return FALSE;
 		}
 
@@ -216,20 +216,20 @@ abstract class AF_FormElement
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Questions Survey Element.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Survey Element.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->name, $questions_global->element_types ) ){
+		if( array_key_exists( $this->name, $af_global->element_types ) ){
 			return FALSE;
 		}
 
-		if( !is_array( $questions_global->element_types ) ){
-			$questions_global->element_types = array();
+		if( !is_array( $af_global->element_types ) ){
+			$af_global->element_types = array();
 		}
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_form_element( $this->name, $this );
+		return $af_global->add_form_element( $this->name, $this );
 	}
 
 	/**
@@ -241,12 +241,12 @@ abstract class AF_FormElement
 	 */
 	private function populate( $id )
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		$this->question = '';
 		$this->answers = array();
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->questions} WHERE id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->questions} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 
 		$this->id = $id;
@@ -255,7 +255,7 @@ abstract class AF_FormElement
 
 		$this->sort = $row->sort;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->answers} WHERE question_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE question_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if( is_array( $results ) ):
@@ -264,7 +264,7 @@ abstract class AF_FormElement
 			endforeach;
 		endif;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->settings} WHERE question_id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->settings} WHERE question_id = %s", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if( is_array( $results ) ):
@@ -912,9 +912,9 @@ abstract class AF_FormElement
 	public function get_responses()
 	{
 
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->responds} AS r, {$questions_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->responds} AS r, {$af_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
 		$responses = $wpdb->get_results( $sql );
 
 		$result_answers = array();

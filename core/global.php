@@ -1,6 +1,6 @@
 <?php
 /**
- * Questions Class for main global $questions_global
+ * Awesome Forms Class for main global $af_global
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
@@ -28,9 +28,9 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-global $questions_global;
+global $af_global;
 
-class Questions
+class AF_Global
 {
 	var $tables;
 	var $components = array();
@@ -166,4 +166,4 @@ class Questions
 	}
 }
 
-$questions_global = new Questions();
+$af_global = new AF_Global();

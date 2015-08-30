@@ -142,7 +142,7 @@ abstract class AF_Restriction
 	}
 
 	/**
-	 * Function to register element in Questions
+	 * Function to register element in Awesome Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -151,13 +151,13 @@ abstract class AF_Restriction
 	 */
 	public function _register()
 	{
-		global $questions_global;
+		global $af_global;
 
 		if( TRUE == $this->initialized ){
 			return FALSE;
 		}
 
-		if( !is_object( $questions_global ) ){
+		if( !is_object( $af_global ) ){
 			return FALSE;
 		}
 
@@ -170,20 +170,20 @@ abstract class AF_Restriction
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Questions Restriction.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Restriction.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->name, $questions_global->restrictions ) ){
+		if( array_key_exists( $this->name, $af_global->restrictions ) ){
 			return FALSE;
 		}
 
-		if( !is_array( $questions_global->restrictions ) ){
-			$questions_global->restrictions = array();
+		if( !is_array( $af_global->restrictions ) ){
+			$af_global->restrictions = array();
 		}
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_restriction( $this->name, $this );
+		return $af_global->add_restriction( $this->name, $this );
 	}
 }
 

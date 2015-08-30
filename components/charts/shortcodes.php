@@ -1,6 +1,6 @@
 <?php
 /**
- * Questions Chart Shortcodes
+ * Awesome Forms Chart Shortcodes
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Charts
@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class QuestionsChartsShortCodes
+class AF_ChartsShortCodes
 {
 
 	/**
@@ -118,19 +118,19 @@ class QuestionsChartsShortCodes
 	 */
 	public static function element_results( $atts )
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		$atts = shortcode_atts( array( 'id' => '', ), $atts );
 		$element_id = $atts[ 'id' ];
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->questions} WHERE id = %d", $element_id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->questions} WHERE id = %d", $element_id );
 		$element_id = $wpdb->get_var( $sql );
 
 		if( '' == $element_id ){
 			return esc_attr( 'Please enter a valid element id into the shortcode!', 'questions-locale' );
 		}
 
-		$sql = $wpdb->prepare( "SELECT questions_id FROM {$questions_global->tables->questions} WHERE id = %d", $element_id );
+		$sql = $wpdb->prepare( "SELECT questions_id FROM {$af_global->tables->questions} WHERE id = %d", $element_id );
 		$form_id = $wpdb->get_var( $sql );
 
 		$results = new AF_Results( $form_id );
@@ -182,4 +182,4 @@ class QuestionsChartsShortCodes
 	}
 }
 
-QuestionsChartsShortCodes::init();
+AF_ChartsShortCodes::init();

@@ -147,22 +147,22 @@ qu_register_templatetags( 'AF_FormTemplateTags' );
  * @return bool
  */
 function qu_add_element_templatetag( $element_id, $element_name ){
-	global $questions_global;
+	global $af_global;
 
-	if( !property_exists( $questions_global, 'templatetags' ) )
+	if( !property_exists( $af_global, 'templatetags' ) )
 	{
 		return FALSE;
 	}
 
-	if( count( $questions_global->templatetags ) == 0 )
+	if( count( $af_global->templatetags ) == 0 )
 	{
 		return FALSE;
 	}
 
-	if( !array_key_exists( 'formtags', $questions_global->templatetags ) )
+	if( !array_key_exists( 'formtags', $af_global->templatetags ) )
 	{
 		return FALSE;
 	}
 
-	$questions_global->templatetags[ 'formtags' ]->add_element( $element_id, $element_name );
+	$af_global->templatetags[ 'formtags' ]->add_element( $element_id, $element_name );
 }

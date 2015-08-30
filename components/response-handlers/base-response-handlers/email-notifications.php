@@ -64,12 +64,12 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	 * @param $response
 	 */
 	public function handle( $response_id, $response ){
-		global $wpdb, $questions_form_id, $questions_global, $questions_response_id, $questions_response;
+		global $wpdb, $questions_form_id, $af_global, $questions_response_id, $questions_response;
 
 		$questions_response_id = $response_id;
 		$questions_response = $response;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->email_notifications} WHERE form_id = %d", $questions_form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $questions_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
 		if( count( $notifications ) > 0 ){
@@ -124,9 +124,9 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	}
 
 	public function option_content(){
-		global $wpdb, $post, $questions_global;
+		global $wpdb, $post, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
 		$notifications = $wpdb->get_results( $sql );
 
 		$html = '<div id="questions-email-notifications">';
@@ -185,14 +185,14 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	 * Saving option content
 	 */
 	public static function save_option_content(){
-		global $wpdb, $post, $questions_global;
+		global $wpdb, $post, $af_global;
 
 		if( isset( $_POST[ 'email_notifications' ] ) && count( $_POST[ 'email_notifications' ] ) > 0 ){
-			$wpdb->delete( $questions_global->tables->email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
+			$wpdb->delete( $af_global->tables->email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
 
 			foreach(  $_POST[ 'email_notifications' ] AS $id => $notification  ){
 				$wpdb->insert(
-					$questions_global->tables->email_notifications,
+					$af_global->tables->email_notifications,
 					array(
 						'form_id'           => $post->ID,
 						'notification_name' => $notification[ 'notification_name' ],

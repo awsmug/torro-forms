@@ -81,7 +81,7 @@ abstract class AF_TemplateTags{
 	abstract function tags();
 
 	/**
-	 * Function to register element in Questions
+	 * Function to register element in Awesome Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -90,13 +90,13 @@ abstract class AF_TemplateTags{
 	 */
 	public function _register()
 	{
-		global $questions_global;
+		global $af_global;
 
 		if( TRUE == $this->initialized ){
 			return FALSE;
 		}
 
-		if( !is_object( $questions_global ) ){
+		if( !is_object( $af_global ) ){
 			return FALSE;
 		}
 
@@ -109,22 +109,22 @@ abstract class AF_TemplateTags{
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Questions Templatetag collection.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Templatetag collection.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->name, $questions_global->restrictions ) ){
+		if( array_key_exists( $this->name, $af_global->restrictions ) ){
 			return FALSE;
 		}
 
-		if( !is_array( $questions_global->templatetags ) ){
-			$questions_global->templatetags = array();
+		if( !is_array( $af_global->templatetags ) ){
+			$af_global->templatetags = array();
 		}
 
 		$this->tags(); // Getting Tags
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_templatetags( $this->name, $this );
+		return $af_global->add_templatetags( $this->name, $this );
 	}
 }
 
@@ -150,20 +150,20 @@ function qu_register_templatetags( $templatetags_class )
  */
 function qu_get_templatetag_collections()
 {
-	global $questions_global;
+	global $af_global;
 
-	if( !property_exists( $questions_global, 'templatetags' ) )
+	if( !property_exists( $af_global, 'templatetags' ) )
 	{
 		return FALSE;
 	}
 
-	if( count( $questions_global->templatetags ) == 0 )
+	if( count( $af_global->templatetags ) == 0 )
 	{
 		return FALSE;
 	}
 
 	$templatetag_collections = array();
-	foreach( $questions_global->templatetags AS $templatetag_collection_name => $templatetag_collection )
+	foreach( $af_global->templatetags AS $templatetag_collection_name => $templatetag_collection )
 	{
 		$templatetag_collections[ $templatetag_collection_name ] = new stdClass();
 		$templatetag_collections[ $templatetag_collection_name ]->title = $templatetag_collection->title;
@@ -178,24 +178,24 @@ function qu_get_templatetag_collections()
  */
 function qu_get_templatetags( $templatetag_collection )
 {
-	global $questions_global;
+	global $af_global;
 
-	if( !property_exists( $questions_global, 'templatetags' ) )
+	if( !property_exists( $af_global, 'templatetags' ) )
 	{
 		return FALSE;
 	}
 
-	if( count( $questions_global->templatetags ) == 0 )
+	if( count( $af_global->templatetags ) == 0 )
 	{
 		return FALSE;
 	}
 
-	if( !array_key_exists( $templatetag_collection, $questions_global->templatetags ) )
+	if( !array_key_exists( $templatetag_collection, $af_global->templatetags ) )
 	{
 		return FALSE;
 	}
 
-	return $questions_global->templatetags[ $templatetag_collection ]->tags;
+	return $af_global->templatetags[ $templatetag_collection ]->tags;
 }
 
 /**
@@ -234,7 +234,7 @@ function qu_template_tag_button( $input_name ){
  * @return mixed
  */
 function qu_filter_templatetags( $content ){
-	global $questions_global;
+	global $af_global;
 
 	$collections = qu_get_templatetag_collections();
 

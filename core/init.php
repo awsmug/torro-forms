@@ -131,7 +131,7 @@ class AF_Core
 		$core_folder = QUESTIONS_FOLDER . 'core/';
 
 		// Base classes
-		include( $core_folder . 'global.php' ); // Global Questions object $questions_global
+		include( $core_folder . 'global.php' ); // Global Questions object $af_global
 		include( $core_folder . 'class-post.php' );
 
 		// Admin

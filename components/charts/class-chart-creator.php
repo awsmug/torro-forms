@@ -88,13 +88,13 @@ abstract class AF_ChartCreator
 	public function _register()
 	{
 
-		global $questions_global;
+		global $af_global;
 
 		if( TRUE == $this->initialized ){
 			return FALSE;
 		}
 
-		if( !is_object( $questions_global ) ){
+		if( !is_object( $af_global ) ){
 			return FALSE;
 		}
 
@@ -107,20 +107,20 @@ abstract class AF_ChartCreator
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Questions Survey Element.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Survey Element.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->name, $questions_global->chart_creators ) ){
+		if( array_key_exists( $this->name, $af_global->chart_creators ) ){
 			return FALSE;
 		}
 
-		if( !is_array( $questions_global->element_types ) ){
-			$questions_global->element_types = array();
+		if( !is_array( $af_global->element_types ) ){
+			$af_global->element_types = array();
 		}
 
 		$this->initialized = TRUE;
 
-		return $questions_global->add_chartscreator( $this->name, $this );
+		return $af_global->add_chartscreator( $this->name, $this );
 	}
 
 	/**

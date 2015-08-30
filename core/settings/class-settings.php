@@ -1,6 +1,6 @@
 <?php
 /**
- * Questions Post Class
+ * Awesome Forms Post Class
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
@@ -89,7 +89,7 @@ abstract class AF_Settings
 	}
 
 	/**
-	 * Function to register element in Questions
+	 * Function to register element in Awesome Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -98,13 +98,13 @@ abstract class AF_Settings
 	 */
 	public function _register()
 	{
-		global $questions_global;
+		global $af_global;
 
 		if( TRUE == $this->initialized ){
 			return FALSE;
 		}
 
-		if( !is_object( $questions_global ) ){
+		if( !is_object( $af_global ) ){
 			return FALSE;
 		}
 
@@ -117,15 +117,15 @@ abstract class AF_Settings
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is the Questions Responsehandler extension.', 'questions-locale' );
+			$this->description = esc_attr__( 'This is the Awesome Forms Responsehandler extension.', 'questions-locale' );
 		}
 
-		if( array_key_exists( $this->name, $questions_global->settings ) ){
+		if( array_key_exists( $this->name, $af_global->settings ) ){
 			return FALSE;
 		}
 
-		if( !is_array( $questions_global->settings ) ){
-			$questions_global->settings = array();
+		if( !is_array( $af_global->settings ) ){
+			$af_global->settings = array();
 		}
 
 		$this->initialized = TRUE;
@@ -134,7 +134,7 @@ abstract class AF_Settings
 
 		add_action( 'questions_save_settings', array( $this, 'save_settings' ), 50 );
 
-		return $questions_global->add_settings( $this->name, $this );
+		return $af_global->add_settings( $this->name, $this );
 	}
 }
 

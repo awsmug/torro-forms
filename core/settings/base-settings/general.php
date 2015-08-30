@@ -51,7 +51,7 @@ class AF_GeneralSettings extends AF_Settings
 			),
 			'modules_title' => array(
 				'title'       => esc_attr( 'Form Modules', 'questions-locale' ),
-				'description' => esc_attr( 'Check the modules of Questions which have to be activated.', 'questions-locale' ),
+				'description' => esc_attr( 'Check the modules of Awesome Forms which have to be activated.', 'questions-locale' ),
 				'type' => 'title'
 			),
 			'modules' => array(

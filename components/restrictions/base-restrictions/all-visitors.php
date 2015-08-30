@@ -190,7 +190,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public static function ajax_check_fingerprint()
 	{
-		global $wpdb, $questions_global, $questions_form_id, $questions_skip_fingerrint_check;
+		global $wpdb, $af_global, $questions_form_id, $questions_skip_fingerrint_check;
 
 		$content = '';
 		$restrict = FALSE;
@@ -209,7 +209,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			$questions_form_id = $_POST[ 'questions_form_id' ];
 			$fingerprint = $_POST[ 'fngrprnt' ];
 
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND cookie_key=%s", $questions_form_id, $fingerprint );
+			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND cookie_key=%s", $questions_form_id, $fingerprint );
 			$count = $wpdb->get_var( $sql );
 
 			if( 0 == $count ){
@@ -238,7 +238,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 * Setting Cookie for one year
 	 */
 	public function save_ip( $response_id ){
-		global $wpdb, $questions_global, $questions_form_id;
+		global $wpdb, $af_global, $questions_form_id;
 
 		$restrictions_check_ip = get_post_meta( $questions_form_id, 'questions_restrictions_check_ip', TRUE );
 		if( '' == $restrictions_check_ip )
@@ -246,7 +246,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		// Adding IP to response
 		$wpdb->update(
-			$questions_global->tables->responds,
+			$af_global->tables->responds,
 			array(
 				'remote_addr' => $_SERVER[ 'REMOTE_ADDR' ],	// string
 			),
@@ -260,14 +260,14 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 * Setting Cookie for one year
 	 */
 	public function save_fingerprint( $response_id ){
-		global $wpdb, $questions_global, $questions_form_id;
+		global $wpdb, $af_global, $questions_form_id;
 
 		$restrictions_check_fingerprint = get_post_meta( $questions_form_id, 'questions_restrictions_check_fingerprint', TRUE );
 		if( '' == $restrictions_check_fingerprint )
 			return;
 
 		$wpdb->update(
-			$questions_global->tables->responds,
+			$af_global->tables->responds,
 			array(
 				'cookie_key' => $_POST[ 'questions_fngrprnt' ],	// string
 			),
@@ -300,11 +300,11 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public function ip_has_participated()
 	{
-		global $wpdb, $questions_global, $questions_form_id;
+		global $wpdb, $af_global, $questions_form_id;
 
 		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $questions_form_id, $remote_ip );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $questions_form_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 
 		if( 0 == $count ){

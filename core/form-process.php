@@ -370,7 +370,7 @@ class AF_FormProcess
  */
 function qu_user_has_participated( $form_id, $user_id = NULL )
 {
-	global $wpdb, $current_user, $questions_global;
+	global $wpdb, $current_user, $af_global;
 
 	// Setting up user ID
 	if ( NULL == $user_id ){
@@ -384,7 +384,7 @@ function qu_user_has_participated( $form_id, $user_id = NULL )
 	}
 
 	$sql   = $wpdb->prepare(
-		"SELECT COUNT(*) FROM {$questions_global->tables->responds} WHERE questions_id=%d AND user_id=%s",
+		"SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND user_id=%s",
 		$form_id, $user_id
 	);
 	$count = $wpdb->get_var( $sql );

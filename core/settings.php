@@ -55,7 +55,7 @@ class AF_SettingsPage{
      * Show admin Settings
      */
     public static function show(){
-        global $questions_global;
+        global $af_global;
 
         self::init_tabs();
 
@@ -63,10 +63,10 @@ class AF_SettingsPage{
             $html.= '<form name="questions_settings" id="questions-settings" method="POST">';
                 $html.= '<input type="hidden" id="questions_save_settings" name="questions_save_settings" value="' . wp_create_nonce( '_questions_save_settings_nonce' ) . '" />';
 
-                if( property_exists( $questions_global, 'settings' ) && count( $questions_global->settings ) > 0 ){
+                if( property_exists( $af_global, 'settings' ) && count( $af_global->settings ) > 0 ){
 
                     $html.= '<h2 class="nav-tab-wrapper">';
-                    foreach( $questions_global->settings AS $setting ){
+                    foreach( $af_global->settings AS $setting ){
 
                         $css_classes = '';
                         if( $setting->name == self::$current_tab )
@@ -77,7 +77,7 @@ class AF_SettingsPage{
                     $html.= '</h2>';
 
                     $html.= '<div id="questions-settings-content">';
-                    $html.= $questions_global->settings[ self::$current_tab ]->show();
+                    $html.= $af_global->settings[ self::$current_tab ]->show();
 
                     ob_start();
                     do_action( 'questions_settings_' . self::$current_tab );

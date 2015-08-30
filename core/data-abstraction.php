@@ -44,7 +44,7 @@ class AF_AbstractData
 	public static function order_for_charting( $response_array )
 	{
 
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		$ordered_data = array();
 
@@ -55,7 +55,7 @@ class AF_AbstractData
 		foreach( $response_array AS $key => $line ):
 			$merged_data = array();
 
-			$sql = $wpdb->prepare( "SELECT type FROM {$questions_global->tables->questions} WHERE id = %s", $key );
+			$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->questions} WHERE id = %s", $key );
 			$result = $wpdb->get_row( $sql );
 
 			$element_class = 'AF_FormElement_' . $result->type;
@@ -73,7 +73,7 @@ class AF_AbstractData
 			$ordered_data[ 'questions' ][ $key ] = $line[ 'question' ];
 
 			// Fill up missed answers with 0
-			$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->answers} WHERE question_id = %s", $key );
+			$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE question_id = %s", $key );
 			$results = $wpdb->get_results( $sql );
 
 			$voted_answers = array_keys( $merged_data );

@@ -59,7 +59,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public function option_content()
 	{
-		global $wpdb, $post, $questions_global;
+		global $wpdb, $post, $af_global;
 
 		$form_id = $post->ID;
 
@@ -116,7 +116,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		/**
 		 * Getting all users which have been added to participiants list
 		 */
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %s", $form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %s", $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		$users = array();
@@ -275,7 +275,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public function is_participiant( $user_id = NULL )
 	{
-		global $wpdb, $current_user, $questions_global, $questions_form_id;
+		global $wpdb, $current_user, $af_global, $questions_form_id;
 
 		$is_participiant = FALSE;
 
@@ -285,7 +285,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			$user_id = $user_id = $current_user->ID;
 		endif;
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d", $questions_form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $questions_form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		if( !in_array( $user_id, $user_ids ) ){
@@ -304,7 +304,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public static function save( $form_id )
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		/**
 		 * Saving restriction options
@@ -328,13 +328,13 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$questions_participiants = $_POST[ 'questions_participiants' ];
 		$questions_participiant_ids = explode( ',', $questions_participiants );
 
-		$sql = "DELETE FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
+		$sql = "DELETE FROM {$af_global->tables->participiants} WHERE survey_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$wpdb->query( $sql );
 
 		if( is_array( $questions_participiant_ids ) && count( $questions_participiant_ids ) > 0 ):
 			foreach( $questions_participiant_ids AS $user_id ):
-				$wpdb->insert( $questions_global->tables->participiants, array(
+				$wpdb->insert( $af_global->tables->participiants, array(
 					'survey_id' => $form_id,
 					'user_id'   => $user_id ) );
 			endforeach;
@@ -372,7 +372,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public static function ajax_invite_participiants()
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		$return_array = array( 'sent' => FALSE );
 
@@ -380,7 +380,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$subject_template = $_POST[ 'subject_template' ];
 		$text_template = $_POST[ 'text_template' ];
 
-		$sql = "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d";
+		$sql = "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 

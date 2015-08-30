@@ -48,9 +48,9 @@ class AF_FormBuilder_FormProcesExtension{
      * Checking restrictions
      */
     public static function check( $show_form ){
-        global $questions_global, $questions_form_id;
+        global $af_global, $questions_form_id;
 
-        $restrictions = $questions_global->restrictions;
+        $restrictions = $af_global->restrictions;
 
         if( !is_array( $restrictions ) || count( $restrictions ) == 0 ){
             return;

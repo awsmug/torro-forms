@@ -1,8 +1,8 @@
 <?php
 /**
- * Questions main component class
+ * Awesome Forms main component class
  *
- * This class is the base for every Questions Component.
+ * This class is the base for every Awesome Forms Component.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
@@ -64,7 +64,7 @@ abstract class AF_Component
 		// Standard values
 		$this->name = get_class( $this );
 		$this->title = ucfirst( $this->name );
-		$this->description = esc_attr__( 'This is a Questions component.', 'questions-locale' );
+		$this->description = esc_attr__( 'This is a Awesome Forms component.', 'questions-locale' );
 	}
 
 	/**
@@ -79,13 +79,13 @@ abstract class AF_Component
 	 */
 	public function _register()
 	{
-		global $questions_global;
+		global $af_global;
 
-		if( !is_object( $questions_global ) ){
+		if( !is_object( $af_global ) ){
 			return FALSE;
 		}
 
-		$questions_global->components[ $this->name ] = $this;
+		$af_global->components[ $this->name ] = $this;
 
 		add_action( 'init', array( $this, 'start' ) ); // @todo Right Place for cheking if component can start
 

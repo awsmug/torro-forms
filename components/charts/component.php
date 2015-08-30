@@ -1,6 +1,6 @@
 <?php
 /**
- * Questions Charts Component
+ * Awesome Forms Charts Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

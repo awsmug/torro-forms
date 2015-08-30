@@ -68,7 +68,7 @@ class AF_FormBuilder
 	 */
 	public static function droppable_area()
 	{
-		global $post, $questions_global;
+		global $post, $af_global;
 
 		if( !qu_is_questions_formbuilder() )
 			return;
@@ -130,11 +130,11 @@ class AF_FormBuilder
 	 */
 	public static function meta_box_form_elements()
 	{
-		global $questions_global;
+		global $af_global;
 
 		$html = '';
 
-		foreach( $questions_global->element_types AS $element ):
+		foreach( $af_global->element_types AS $element ):
 			$html .= $element->draw_admin();
 		endforeach;
 
@@ -172,7 +172,7 @@ class AF_FormBuilder
 	 */
 	public static function save_form( $form_id )
 	{
-		global $questions_global, $wpdb;
+		global $af_global, $wpdb;
 
 		if( !array_key_exists( 'questions', $_REQUEST ) ){
 			return;
@@ -211,8 +211,8 @@ class AF_FormBuilder
 		 */
 		if( is_array( $survey_deleted_formelements ) && count( $survey_deleted_formelements ) > 0 ):
 			foreach( $survey_deleted_formelements AS $deleted_question ):
-				$wpdb->delete( $questions_global->tables->questions, array( 'id' => $deleted_question ) );
-				$wpdb->delete( $questions_global->tables->answers, array( 'question_id' => $deleted_question ) );
+				$wpdb->delete( $af_global->tables->questions, array( 'id' => $deleted_question ) );
+				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $deleted_question ) );
 			endforeach;
 		endif;
 
@@ -223,7 +223,7 @@ class AF_FormBuilder
 		 */
 		if( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
 			foreach( $survey_deleted_answers AS $deleted_answer ):
-				$wpdb->delete( $questions_global->tables->answers, array( 'id' => $deleted_answer ) );
+				$wpdb->delete( $af_global->tables->answers, array( 'id' => $deleted_answer ) );
 			endforeach;
 		endif;
 
@@ -258,13 +258,13 @@ class AF_FormBuilder
 			// Saving question
 			if( '' != $question_id ):
 				// Updating if question already exists
-				$wpdb->update( $questions_global->tables->questions, array( 'question' => $question,
+				$wpdb->update( $af_global->tables->questions, array( 'question' => $question,
 				                                                            'sort'     => $sort,
 				                                                            'type'     => $type ), array( 'id' => $question_id ) );
 			else:
 
 				// Adding new question
-				$wpdb->insert( $questions_global->tables->questions, array( 'questions_id' => $form_id,
+				$wpdb->insert( $af_global->tables->questions, array( 'questions_id' => $form_id,
 				                                                            'question'     => $question,
 				                                                            'sort'         => $sort,
 				                                                            'type'         => $type ) );
@@ -289,11 +289,11 @@ class AF_FormBuilder
 					}
 
 					if( '' != $answer_id ):
-						$wpdb->update( $questions_global->tables->answers, array( 'answer'  => $answer_text,
+						$wpdb->update( $af_global->tables->answers, array( 'answer'  => $answer_text,
 						                                                          'section' => $answer_section,
 						                                                          'sort'    => $answer_sort ), array( 'id' => $answer_id ) );
 					else:
-						$wpdb->insert( $questions_global->tables->answers, array( 'question_id' => $question_id,
+						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $question_id,
 						                                                          'answer'      => $answer_text,
 						                                                          'section'     => $answer_section,
 						                                                          'sort'        => $answer_sort ) );
@@ -309,14 +309,14 @@ class AF_FormBuilder
 			 */
 			if( is_array( $settings ) && count( $settings ) > 0 ):
 				foreach( $settings AS $name => $setting ):
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$questions_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
 					$count = $wpdb->get_var( $sql );
 
 					if( $count > 0 ):
-						$wpdb->update( $questions_global->tables->settings, array( 'value' => qu_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $question_id,
+						$wpdb->update( $af_global->tables->settings, array( 'value' => qu_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $question_id,
 						                                                                                                                           'name'        => $name ) );
 					else:
-						$wpdb->insert( $questions_global->tables->settings, array( 'name'        => $name,
+						$wpdb->insert( $af_global->tables->settings, array( 'name'        => $name,
 						                                                           'question_id' => $question_id,
 						                                                           'value'       => qu_prepare_post_data( $settings[ $name ] ) ) );
 

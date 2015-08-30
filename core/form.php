@@ -111,7 +111,7 @@ class AF_Form extends AF_Post
 	public function get_elements( $id = NULL )
 	{
 
-		global $questions_global, $wpdb;
+		global $af_global, $wpdb;
 
 		if( NULL == $id ){
 			$id = $this->id;
@@ -121,7 +121,7 @@ class AF_Form extends AF_Post
 			return FALSE;
 		}
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$questions_global->tables->questions} WHERE questions_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->questions} WHERE questions_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		$elements = array();
@@ -180,9 +180,9 @@ class AF_Form extends AF_Post
 	 */
 	public function get_participiants()
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$questions_global->tables->participiants} WHERE survey_id = %d", $this->id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $this->id );
 		$participiant_ids = $wpdb->get_col( $sql );
 
 		return $participiant_ids;
@@ -212,7 +212,7 @@ class AF_Form extends AF_Post
 	 */
 	public function save_response( $response )
 	{
-		global $wpdb, $questions_global, $current_user;
+		global $wpdb, $af_global, $current_user;
 
 		get_currentuserinfo();
 		$user_id = $user_id = $current_user->ID;
@@ -222,7 +222,7 @@ class AF_Form extends AF_Post
 		}
 
 		// Adding new question
-		$wpdb->insert( $questions_global->tables->responds, array( 'questions_id' => $this->id,
+		$wpdb->insert( $af_global->tables->responds, array( 'questions_id' => $this->id,
 		                                                           'user_id'      => $user_id,
 		                                                           'timestamp'    => time() ) );
 
@@ -234,7 +234,7 @@ class AF_Form extends AF_Post
 			if( is_array( $answers ) ):
 
 				foreach( $answers AS $answer ):
-					$wpdb->insert( $questions_global->tables->respond_answers, array( 'respond_id'  => $response_id,
+					$wpdb->insert( $af_global->tables->respond_answers, array( 'respond_id'  => $response_id,
 					                                                                  'question_id' => $element_id,
 					                                                                  'value'       => $answer ) );
 				endforeach;
@@ -242,7 +242,7 @@ class AF_Form extends AF_Post
 			else:
 				$answer = $answers;
 
-				$wpdb->insert( $questions_global->tables->respond_answers, array( 'respond_id'  => $response_id,
+				$wpdb->insert( $af_global->tables->respond_answers, array( 'respond_id'  => $response_id,
 				                                                                  'question_id' => $element_id,
 				                                                                  'value'       => $answer ) );
 
@@ -292,7 +292,7 @@ class AF_Form extends AF_Post
 	 */
 	public function duplicate_elements( $new_form_id, $copy_answers = TRUE, $copy_settings = TRUE )
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		if( empty( $new_form_id ) ){
 			return FALSE;
@@ -303,7 +303,7 @@ class AF_Form extends AF_Post
 			foreach( $this->elements AS $element ):
 				$old_question_id = $element->id;
 
-				$wpdb->insert( $questions_global->tables->questions, array( 'questions_id' => $new_form_id,
+				$wpdb->insert( $af_global->tables->questions, array( 'questions_id' => $new_form_id,
 				                                                            'question'     => $element->question,
 				                                                            'sort'         => $element->sort,
 				                                                            'type'         => $element->name ), array( '%d',
@@ -319,7 +319,7 @@ class AF_Form extends AF_Post
 					foreach( $element->answers AS $answer ):
 						$old_answer_id = $answer[ 'id' ];
 
-						$wpdb->insert( $questions_global->tables->answers, array( 'question_id' => $new_question_id,
+						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $new_question_id,
 						                                                          'answer'      => $answer[ 'text' ],
 						                                                          'section'     => $answer[ 'section' ],
 						                                                          'sort'        => $answer[ 'sort' ] ), array( '%d',
@@ -337,7 +337,7 @@ class AF_Form extends AF_Post
 				if( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ):
 					foreach( $element->settings AS $name => $value ):
 
-						$wpdb->insert( $questions_global->tables->settings, array( 'question_id' => $new_question_id,
+						$wpdb->insert( $af_global->tables->settings, array( 'question_id' => $new_question_id,
 						                                                           'name'        => $name,
 						                                                           'value'       => $value ), array( '%d',
 							               '%s',
@@ -360,7 +360,7 @@ class AF_Form extends AF_Post
 	 */
 	public function duplicate_participiants( $new_form_id )
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		if( empty( $new_form_id ) ){
 			return FALSE;
@@ -370,7 +370,7 @@ class AF_Form extends AF_Post
 		if( is_array( $this->participiants ) && count( $this->participiants ) ):
 			foreach( $this->participiants AS $participiant_id ):
 
-				$wpdb->insert( $questions_global->tables->participiants, array( 'survey_id' => $new_form_id,
+				$wpdb->insert( $af_global->tables->participiants, array( 'survey_id' => $new_form_id,
 				                                                                'user_id'   => $participiant_id ), array( '%d',
 					               '%d', ) );
 			endforeach;
@@ -384,19 +384,19 @@ class AF_Form extends AF_Post
 	 */
 	public function delete_responses()
 	{
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->responds} WHERE questions_id = %s", $this->id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		// Putting results in array
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				$wpdb->delete( $questions_global->tables->respond_answers, array( 'respond_id' => $result->id ) );
+				$wpdb->delete( $af_global->tables->respond_answers, array( 'respond_id' => $result->id ) );
 			endforeach;
 		endif;
 
-		return $wpdb->delete( $questions_global->tables->responds, array( 'questions_id' => $this->id ) );
+		return $wpdb->delete( $af_global->tables->responds, array( 'questions_id' => $this->id ) );
 	}
 
 	/**
@@ -407,14 +407,14 @@ class AF_Form extends AF_Post
 	public function delete()
 	{
 
-		global $wpdb, $questions_global;
+		global $wpdb, $af_global;
 
 		/**
 		 * Responses
 		 */
 		$this->delete_responses();
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$questions_global->tables->questions} WHERE questions_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->questions} WHERE questions_id=%d", $this->id );
 		$elements = $wpdb->get_col( $sql );
 
 		/**
@@ -422,9 +422,9 @@ class AF_Form extends AF_Post
 		 */
 		if( is_array( $elements ) && count( $elements ) > 0 ):
 			foreach( $elements AS $question_id ):
-				$wpdb->delete( $questions_global->tables->answers, array( 'question_id' => $question_id ) );
+				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $question_id ) );
 
-				$wpdb->delete( $questions_global->tables->settings, array( 'question_id' => $question_id ) );
+				$wpdb->delete( $af_global->tables->settings, array( 'question_id' => $question_id ) );
 
 				do_action( 'questions_delete_element', $question_id, $this->id );
 			endforeach;
@@ -433,14 +433,14 @@ class AF_Form extends AF_Post
 		/**
 		 * Elements
 		 */
-		$wpdb->delete( $questions_global->tables->questions, array( 'questions_id' => $this->id ) );
+		$wpdb->delete( $af_global->tables->questions, array( 'questions_id' => $this->id ) );
 
 		do_action( 'questions_delete_survey', $this->id );
 
 		/**
 		 * Participiants
 		 */
-		$wpdb->delete( $questions_global->tables->participiants, array( 'survey_id' => $this->id ) );
+		$wpdb->delete( $af_global->tables->participiants, array( 'survey_id' => $this->id ) );
 	}
 }
 
@@ -476,10 +476,10 @@ function qu_form_exists( $form_id )
  */
 function qu_get_element( $element_id, $type = '' )
 {
-	global $wpdb, $questions_global;
+	global $wpdb, $af_global;
 
 	if( '' == $type ){
-		$sql = $wpdb->prepare( "SELECT type FROM {$questions_global->tables->questions} WHERE id = %d ORDER BY sort ASC", $element_id );
+		$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->questions} WHERE id = %d ORDER BY sort ASC", $element_id );
 		$type = $wpdb->get_var( $sql );
 	}
 
