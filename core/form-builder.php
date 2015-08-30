@@ -73,7 +73,7 @@ class AF_FormBuilder
 		if( !af_is_questions_formbuilder() )
 			return;
 
-		$html  = '<div id="questions-content" class="drag-drop">';
+		$html  = '<div id="af-content" class="drag-drop">';
 			$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 
 				ob_start();

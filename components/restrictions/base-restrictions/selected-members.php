@@ -63,7 +63,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$form_id = $post->ID;
 
-		$html = '<div id="questions-selectedmembers-userfilter">';
+		$html = '<div id="form-selectedmembers-userfilter">';
 			$html.= '<h3>' . esc_attr( 'Restrict Members', 'af-locale' ) . '</h3>';
 
 			/**
@@ -81,7 +81,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		/**
 		 * Add participiants functions
 		 */
-		$html .= '<div id="questions-add-participiants">';
+		$html .= '<div id="form-add-participiants">';
 
 		$options = apply_filters( 'form_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'af-locale' ), ) );
 
@@ -89,7 +89,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$html .= '<div id="af-add-participiants-options">';
 		$html .= '<label for"form_add_participiants_option">' . esc_attr( 'Add Members', 'af-locale' ) . '';
-		$html .= '<select id="questions-add-participiants-option" name="form_add_participiants_option">';
+		$html .= '<select id="form-add-participiants-option" name="form_add_participiants_option">';
 		foreach( $options AS $name => $value ):
 			$selected = '';
 			if( $name == $add_participiants_option ){
@@ -101,8 +101,8 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$html .= '</label>';
 		$html .= '</div>';
 
-		$html .= '<div id="questions-add-participiants-content-allmembers" class="questions-add-participiants-content-allmembers questions-add-participiants-content">';
-		$html .= '<input type="button" class="questions-add-participiants-allmembers-button button" id="questions-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'af-locale' ) . '" />';
+		$html .= '<div id="form-add-participiants-content-allmembers" class="form-add-participiants-content-allmembers form-add-participiants-content">';
+		$html .= '<input type="button" class="form-add-participiants-allmembers-button button" id="form-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'af-locale' ) . '" />';
 		$html .= '<a class="questions-remove-all-participiants">' . esc_attr__( 'Remove all Participiants', 'af-locale' ) . '</a>';
 		$html .= '</div>';
 
@@ -454,8 +454,8 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'af-locale' ),
 			'added_participiants'                 => esc_attr__( 'participiant/s', 'af-locale' ), );
 
-		wp_enqueue_script( 'questions-selected-members', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/selected-members.js' );
-		wp_localize_script( 'questions-selected-members', 'translation_sm', $translation );
+		wp_enqueue_script( 'af-selected-members', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/js/selected-members.js' );
+		wp_localize_script( 'af-selected-members', 'translation_sm', $translation );
 	}
 
 	/**
@@ -465,7 +465,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'questions-selected-member-styles', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/css/selected-members.css' );
+		wp_enqueue_style( 'af-selected-member-styles', QUESTIONS_URLPATH . '/components/restrictions/base-restrictions/includes/css/selected-members.css' );
 	}
 }
 

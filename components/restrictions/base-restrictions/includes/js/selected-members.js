@@ -5,15 +5,15 @@
         /**
          * Initializing adding participiants option
          */
-        $( "#questions-add-participiants-option" ).change( function(){
+        $( "#form-add-participiants-option" ).change( function(){
             form_add_participiants_show_hide_boxes();
         });
 
         var form_add_participiants_show_hide_boxes = function(){
-            var form_add_participiants_option = $( "#questions-add-participiants-option" ).val(); // Getting selected box
+            var form_add_participiants_option = $( "#form-add-participiants-option" ).val(); // Getting selected box
 
-            $( ".questions-add-participiants-content" ).hide(); // Hiding all boxes
-            $( "#questions-add-participiants-content-" +  form_add_participiants_option ).show(); // Showing selected box
+            $( ".form-add-participiants-content" ).hide(); // Hiding all boxes
+            $( "#form-add-participiants-content-" +  form_add_participiants_option ).show(); // Showing selected box
         }
 
         form_add_participiants_show_hide_boxes();
@@ -75,7 +75,7 @@
             questions_setup_not_found_message();
         }
 
-        $( "#questions-add-participiants-allmembers-button" ).click( function(){
+        $( "#form-add-participiants-allmembers-button" ).click( function(){
 
             var data = {
                 action: 'form_add_participiants_allmembers'

@@ -158,7 +158,7 @@ class AF_ChartsShortCodes
 		if( !af_is_questions_formbuilder() )
 			return;
 
-		$html = '<div class="questions-options shortcode">';
+		$html = '<div class="form-options shortcode">';
 		$html .= '<label for="form_results_shortcode">' . __( 'Charts Shortcode:', 'af-locale' ) . '</label><br />';
 		$html .= '<input type="text" id="form_results_shortcode" value="[form_results id=' . $post->ID . ']" />';
 		$html .= '</div>';

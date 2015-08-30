@@ -1,11 +1,11 @@
 /**
  * 	General
  */
-#questions-content {
+#af-content {
     margin: -10px 0 0;
 }
 
-.questions-widget-icon {
+.form-elements-widget-icon {
     float: left;
     margin: 6px 0px 6px 6px;
 }
@@ -13,7 +13,7 @@
 /**
  * 	Drag & Drop Area
  */
-#questions-content #drag-drop-area {
+#af-content #drag-drop-area {
     height: auto;
     -webkit-box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
     border: 1px solid #E5E5E5;
@@ -25,7 +25,7 @@
 /**
  * 	Sortable area
  */
-#questions-content #drag-drop-inside {
+#af-content #drag-drop-inside {
     min-height: 200px;
 }
 
@@ -43,15 +43,15 @@
     margin-top: 15px;
 }
 
-#questions-content input[type=text].questions-question {
+#af-content input[type=text].questions-question {
     width: 100%;
 }
 
-#questions-content input[type=text] {
+#af-content input[type=text] {
     width: 80%;
 }
 
-#questions-content textarea {
+#af-content textarea {
     width: 80%;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .form_element_tabs .shortcode,
-.questions-options.shortcode {
+.form-options.shortcode {
     background-color: #f7f7f7;
     padding: 10px;
     border: 1px solid #e5e5e5;
@@ -103,11 +103,11 @@
 /**
  * 	Element Answers
  */
-#questions-content .answers {
+#af-content .answers {
     margin-bottom: 15px;
 }
 
-#questions-content .answer {
+#af-content .answer {
     height: 40px;
     padding-left: 20px;
     background-image: url('../../../../assets/images/icon-updown.png');
@@ -116,31 +116,31 @@
     cursor: move;
 }
 
-#questions-content .answer p {
+#af-content .answer p {
     display: inline;
 }
 
-#questions-content .add-answer {
+#af-content .add-answer {
     font-weight: bold;
     text-decoration: underline;
     cursor: hand;
 }
 
-.questions-options input[type="text"] {
+.form-options input[type="text"] {
     background-color: #f7f7f7;
     font-size: 11px;
     height: 25px;
     width: 100%;
 }
 
-#questions-content .form_element_tabs .shortcode .shortcode_input {
+#af-content .form_element_tabs .shortcode .shortcode_input {
     background-color: #f7f7f7;
     font-size: 11px;
     height: 25px;
     margin-left: 10px;
 }
 
-#questions-content .form_element_tabs .shortcode .shortcode_input {
+#af-content .form_element_tabs .shortcode .shortcode_input {
     width: 25%;
 }
 

@@ -4,7 +4,7 @@
 #af-add-participiants-options{
     margin: 0 0 10px 0;
 }
-.questions-participiant-new{
+.form-participiant-new{
     background-color: #7AD03A;
 }
 .af-participiants-options-content{
@@ -16,13 +16,13 @@
 /**
  * User Filter
  */
-#questions-selectedmembers-userfilter{
+#form-selectedmembers-userfilter{
     margin-bottom: 20px;
 }
 /**
  * Adding participiants bar
  */
-.questions-add-participiants-content{
+.form-add-participiants-content{
     background-color: #f7f7f7;
     border: 1px solid #e5e5e5;
     margin: 0 -11px;

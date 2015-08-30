@@ -72,7 +72,7 @@ class AF_ShortCodes
 		if( !af_is_questions_formbuilder() )
 			return;
 
-		$html = '<div class="questions-options shortcode">';
+		$html = '<div class="form-options shortcode">';
 		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'af-locale' ) . '</label><br />';
 		$html .= '<input type="text" id="form_shortcode" value="[form id=' . $post->ID . ']" />';
 		$html .= '</div>';

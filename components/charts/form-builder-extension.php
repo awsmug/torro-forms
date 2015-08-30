@@ -100,7 +100,7 @@ class AF_FormBuilder_ChartsExtension
 			$checked_yes = ' checked="checked"';
 		}
 
-		$html = '<div class="questions-options">';
+		$html = '<div class="form-options">';
 		$html.= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'af-locale' ) . '</label></p>';
 		$html.= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
 		$html.= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';

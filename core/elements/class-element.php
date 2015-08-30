@@ -494,7 +494,7 @@ abstract class AF_FormElement
 		$html .= '<div class="widget-title">';
 
 		if( '' != $this->icon_url ):
-			$html .= '<img class="questions-widget-icon" src ="' . $this->icon_url . '" />';
+			$html .= '<img class="form-elements-widget-icon" src ="' . $this->icon_url . '" />';
 		endif;
 		$html .= '<h4>' . $title . '</h4>';
 
