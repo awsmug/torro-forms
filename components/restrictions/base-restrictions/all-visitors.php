@@ -125,9 +125,9 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$restrictions_check_cookie = get_post_meta( $ar_form_id, 'form_restrictions_check_cookie', TRUE );
 
-		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'questions_has_participated_form_' . $ar_form_id ] )  ){
+		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'af_has_participated_form_' . $ar_form_id ] )  ){
 
-			if( $_COOKIE[ 'questions_has_participated_form_' . $ar_form_id ] == 'yes' ){
+			if( $_COOKIE[ 'af_has_participated_form_' . $ar_form_id ] == 'yes' ){
 				$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 			}
 
@@ -169,13 +169,13 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 								    var ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '";
 
 								    $.post( ajaxurl, data, function( response ) {
-								        $( \'#questions-ajax-form\' ).html( response );
-								        $( \'#questions-fngrprnt\' ).val( fngrprnt );
+								        $( \'#af-ajax-form\' ).html( response );
+								        $( \'#af-fngrprnt\' ).val( fngrprnt );
 								    });
 						        });
 							});
 						}(jQuery))
-					  </script><div id="questions-ajax-form"></div>';
+					  </script><div id="af-ajax-form"></div>';
 
 			$this->add_message( 'check', $html );
 
@@ -231,7 +231,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public function set_cookie(){
 		global $ar_form_id;
-		setcookie( 'questions_has_participated_form_' . $ar_form_id, 'yes', time() + 60 * 60 * 24 * 365 );
+		setcookie( 'af_has_participated_form_' . $ar_form_id, 'yes', time() + 60 * 60 * 24 * 365 );
 	}
 
 	/**
@@ -269,7 +269,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$wpdb->update(
 			$af_global->tables->responds,
 			array(
-				'cookie_key' => $_POST[ 'questions_fngrprnt' ],	// string
+				'cookie_key' => $_POST[ 'af_fngrprnt' ],	// string
 			),
 			array(
 				'id' => $response_id,
@@ -287,7 +287,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		if( '' == $restrictions_check_fingerprint )
 			return;
 
-		echo '<input type="hidden" id="questions-fngrprnt" name="questions_fngrprnt" />';
+		echo '<input type="hidden" id="af-fngrprnt" name="af_fngrprnt" />';
 	}
 
 	/**

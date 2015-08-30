@@ -222,7 +222,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 			$html .= '<div class="form-function-element">';
 			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $af_reinvitation_subject_template . '" />';
-			$html .= '<textarea id="form-reinvite-text" name="questions_reinvite_text">' . $af_reinvitation_text_template . '</textarea>';
+			$html .= '<textarea id="form-reinvite-text" name="form_reinvite_text">' . $af_reinvitation_text_template . '</textarea>';
 			$html .= '<input id="form-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'af-locale' ) . '" /> ';
 			$html .= '<input id="form-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 

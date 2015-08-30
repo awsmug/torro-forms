@@ -1,14 +1,14 @@
 @font-face { 
-  font-family: "questionsicons"; 
-  src: url("fonts/questions.eot"); 
-  src: url("fonts/questions.eot?#iefix") format("embedded-opentype"), 
-  	url("fonts/questions.woff") format("woff"), 
-  	url("fonts/questions.ttf") format("truetype"), 
-  	url("fonts/questions.svg#icons") format("svg"); 
+  font-family: "aficons"; 
+  src: url("fonts/af.eot"); 
+  src: url("fonts/af.eot?#iefix") format("embedded-opentype"), 
+  	url("fonts/af.woff") format("woff"), 
+  	url("fonts/af.ttf") format("truetype"), 
+  	url("fonts/af.svg#icons") format("svg"); 
   font-weight: normal;
   font-style: normal;
 }
-[class*="icon-questions-"] { 
+[class*="icon-af-"] { 
   background-image: none; 
   display: inline; 
   font-size: 14px; 
@@ -18,8 +18,8 @@
   overflow: visible; 
   width: 14px;
 }
-[class*="icon-questions-"]::before {
-	font-family: questionsicons; 
+[class*="icon-af-"]::before {
+	font-family: aficons; 
 }
 /*
 .hide {
@@ -32,72 +32,72 @@
 }
 */
 /* Icons */
-.icon-questions-checkbox-01::before {
+.icon-af-checkbox-01::before {
 	content: "\E801"; 
 }
-.icon-questions-checkbox-01-off::before {
+.icon-af-checkbox-01-off::before {
 	content: "\E800"; 
 }
-.icon-questions-check-01::before {
+.icon-af-check-01::before {
 	content: "\E803"; 
 }
-.icon-questions-check-02::before {
+.icon-af-check-02::before {
 	content: "\E813"; 
 }
-.icon-questions-pie-01::before {
+.icon-af-pie-01::before {
 	content: "\E804"; 
 }
-.icon-questions-pie-02::before {
+.icon-af-pie-02::before {
 	content: "\E802"; 
 }
-.icon-questions-chart-01::before {
+.icon-af-chart-01::before {
 	content: "\E805"; 
 }
-.icon-questions-chart-02::before {
+.icon-af-chart-02::before {
 	content: "\E806"; 
 }
-.icon-questions-chart-03::before {
+.icon-af-chart-03::before {
 	content: "\E807"; 
 }
-.icon-questions-code-01::before {
+.icon-af-code-01::before {
 	content: "\E809"; 
 }
-.icon-questions-code-02::before {
+.icon-af-code-02::before {
 	content: "\E809"; 
 }
-.icon-questions-refresh::before {
+.icon-af-refresh::before {
 	content: "\E80B"; 
 }
-.icon-questions-download::before {
+.icon-af-download::before {
 	content: "\E80C"; 
 }
-.icon-questions-skype::before {
+.icon-af-skype::before {
 	content: "\E80D"; 
 }
-.icon-questions-youtube::before {
+.icon-af-youtube::before {
 	content: "\E80F"; 
 }
-.icon-questions-wordpress::before {
+.icon-af-wordpress::before {
 	content: "\E80D"; 
 }
-.icon-questions-facebook::before {
+.icon-af-facebook::before {
 	content: "\E811"; 
 }
-.icon-questions-twitter::before {
+.icon-af-twitter::before {
 	content: "\E812"; 
 }
-.icon-questions-googleplus::before {
+.icon-af-googleplus::before {
 	content: "\E810"; 
 }
-.icon-questions-xing::before {
+.icon-af-xing::before {
 	content: "\E814"; 
 }
-.icon-questions-linkedin::before {
+.icon-af-linkedin::before {
 	content: "\E815"; 
 }
 
 #adminmenu #toplevel_page_AF_Admin .dashicons-admin-generic:before{
-	font-family: questionsicons;
+	font-family: aficons;
     content: "\E801";
     font-size: 14px;
     height: 20px;

@@ -51,8 +51,8 @@ class AF_FormBuilder
 		add_action( 'save_post', array( __CLASS__, 'save_form' ) );
 		add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
 
-		add_action( 'wp_ajax_questions_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
-		add_action( 'wp_ajax_questions_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
+		add_action( 'wp_ajax_af_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
+		add_action( 'wp_ajax_af_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );

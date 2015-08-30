@@ -307,7 +307,7 @@
 			
 			if( button.hasClass( 'button' ) ){
 				var data = {
-					action: 'questions_duplicate_form',
+					action: 'af_duplicate_form',
 					form_id: $( '#post_ID' ).val(),
 				};
 				
@@ -355,7 +355,7 @@
                             button.addClass( 'button-loading' );
 
                             var data = {
-                                action: 'questions_delete_responses',
+                                action: 'af_delete_responses',
                                 form_id: $( '#post_ID' ).val()
                             };
 
