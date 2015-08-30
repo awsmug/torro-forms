@@ -52,7 +52,7 @@ class AF_Global
 
 		$this->tables = new stdClass;
 
-		$this->tables->questions = $wpdb->prefix . 'questions_questions';
+		$this->tables->elements = $wpdb->prefix . 'questions_questions';
 		$this->tables->answers = $wpdb->prefix . 'questions_answers';
 		$this->tables->responds = $wpdb->prefix . 'questions_responds';
 		$this->tables->respond_answers = $wpdb->prefix . 'questions_respond_answers';

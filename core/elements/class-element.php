@@ -246,7 +246,7 @@ abstract class AF_FormElement
 		$this->question = '';
 		$this->answers = array();
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->questions} WHERE id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->elements} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 
 		$this->id = $id;

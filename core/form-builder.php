@@ -213,7 +213,7 @@ class AF_FormBuilder
 		 */
 		if( is_array( $form_deleted_formelements ) && count( $form_deleted_formelements ) > 0 ):
 			foreach( $form_deleted_formelements AS $deleted_element ):
-				$wpdb->delete( $af_global->tables->questions, array( 'id' => $deleted_element ) );
+				$wpdb->delete( $af_global->tables->elements, array( 'id' => $deleted_element ) );
 				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $deleted_element ) );
 			endforeach;
 		endif;
@@ -260,13 +260,13 @@ class AF_FormBuilder
 			// Saving question
 			if( '' != $element_id ):
 				// Updating if question already exists
-				$wpdb->update( $af_global->tables->questions, array( 'question' => $label,
+				$wpdb->update( $af_global->tables->elements, array( 'question' => $label,
 				                                                            'sort'     => $sort,
 				                                                            'type'     => $type ), array( 'id' => $element_id ) );
 			else:
 
 				// Adding new question
-				$wpdb->insert( $af_global->tables->questions, array( 'questions_id' => $form_id,
+				$wpdb->insert( $af_global->tables->elements, array( 'questions_id' => $form_id,
 				                                                            'question'     => $label,
 				                                                            'sort'         => $sort,
 				                                                            'type'         => $type ) );

@@ -121,7 +121,7 @@ class AF_Form extends AF_Post
 			return FALSE;
 		}
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->questions} WHERE questions_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->elements} WHERE questions_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		$elements = array();
@@ -303,7 +303,7 @@ class AF_Form extends AF_Post
 			foreach( $this->elements AS $element ):
 				$old_question_id = $element->id;
 
-				$wpdb->insert( $af_global->tables->questions, array( 'questions_id' => $new_form_id,
+				$wpdb->insert( $af_global->tables->elements, array( 'questions_id' => $new_form_id,
 				                                                            'question'     => $element->question,
 				                                                            'sort'         => $element->sort,
 				                                                            'type'         => $element->name ), array( '%d',
@@ -414,7 +414,7 @@ class AF_Form extends AF_Post
 		 */
 		$this->delete_responses();
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->questions} WHERE questions_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->elements} WHERE questions_id=%d", $this->id );
 		$elements = $wpdb->get_col( $sql );
 
 		/**
@@ -433,7 +433,7 @@ class AF_Form extends AF_Post
 		/**
 		 * Elements
 		 */
-		$wpdb->delete( $af_global->tables->questions, array( 'questions_id' => $this->id ) );
+		$wpdb->delete( $af_global->tables->elements, array( 'questions_id' => $this->id ) );
 
 		do_action( 'form_delete', $this->id );
 
@@ -479,7 +479,7 @@ function af_get_element( $element_id, $type = '' )
 	global $wpdb, $af_global;
 
 	if( '' == $type ){
-		$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->questions} WHERE id = %d ORDER BY sort ASC", $element_id );
+		$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->elements} WHERE id = %d ORDER BY sort ASC", $element_id );
 		$type = $wpdb->get_var( $sql );
 	}
 

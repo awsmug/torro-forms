@@ -55,7 +55,7 @@ class AF_AbstractData
 		foreach( $response_array AS $key => $line ):
 			$merged_data = array();
 
-			$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->questions} WHERE id = %s", $key );
+			$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->elements} WHERE id = %s", $key );
 			$result = $wpdb->get_row( $sql );
 
 			$element_class = 'AF_FormElement_' . $result->type;
