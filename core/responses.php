@@ -83,7 +83,7 @@ class AF_Results{
                     continue;
                 }
 
-                if ( ! $element->is_question ) {
+                if ( ! $element->is_input ) {
                     continue;
                 }
 
@@ -112,7 +112,7 @@ class AF_Results{
         $results = $wpdb->get_results( $sql );
 
         $responses                = array();
-        $responses[ 'question' ]  = __( 'User ID', 'af-locale' );
+        $responses[ 'label' ]  = __( 'User ID', 'af-locale' );
         $responses[ 'sections' ]  = FALSE;
         $responses[ 'array' ]     = FALSE;
         $responses[ 'responses' ] = array();
@@ -143,7 +143,7 @@ class AF_Results{
         $results = $wpdb->get_results( $sql );
 
         $responses                = array();
-        $responses[ 'question' ]  = __( 'Username', 'af-locale' );
+        $responses[ 'label' ]  = __( 'Username', 'af-locale' );
         $responses[ 'sections' ]  = FALSE;
         $responses[ 'array' ]     = FALSE;
         $responses[ 'responses' ] = array();
@@ -176,7 +176,7 @@ class AF_Results{
         $results = $wpdb->get_results( $sql );
 
         $responses                = array();
-        $responses[ 'question' ]  = __( 'Date/Time', 'af-locale' );
+        $responses[ 'label' ]  = __( 'Date/Time', 'af-locale' );
         $responses[ 'sections' ]  = FALSE;
         $responses[ 'array' ]     = FALSE;
         $responses[ 'responses' ] = array();

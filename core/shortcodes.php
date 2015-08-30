@@ -32,7 +32,6 @@ class AF_ShortCodes
 {
 	var $tables;
 	var $components = array();
-	var $question_types = array();
 
 	/**
 	 * Loading all Shortcodes

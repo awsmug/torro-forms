@@ -276,7 +276,7 @@ class AF_Form extends AF_Post
 			$this->duplicate_participiants( $new_form_id );
 		endif;
 
-		do_action( 'form_duplicate_survey', $this->post, $new_form_id, $this->question_transfers, $this->answer_transfers );
+		do_action( 'form_duplicate', $this->post, $new_form_id, $this->element_transfers, $this->answer_transfers );
 
 		return $new_form_id;
 	}
@@ -301,7 +301,7 @@ class AF_Form extends AF_Post
 		// Dublicate answers
 		if( is_array( $this->elements ) && count( $this->elements ) ):
 			foreach( $this->elements AS $element ):
-				$old_question_id = $element->id;
+				$old_element_id = $element->id;
 
 				$wpdb->insert( $af_global->tables->elements, array( 'questions_id' => $new_form_id,
 				                                                            'question'     => $element->question,
@@ -311,15 +311,15 @@ class AF_Form extends AF_Post
 					               '%d',
 					               '%s' ) );
 
-				$new_question_id = $wpdb->insert_id;
-				$this->question_transfers[ $old_question_id ] = $new_question_id;
+				$new_element_id = $wpdb->insert_id;
+				$this->element_transfers[ $old_element_id ] = $new_element_id;
 
 				// Dublicate answers
 				if( is_array( $element->answers ) && count( $element->answers ) && $copy_answers ):
 					foreach( $element->answers AS $answer ):
 						$old_answer_id = $answer[ 'id' ];
 
-						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $new_question_id,
+						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $new_element_id,
 						                                                          'answer'      => $answer[ 'text' ],
 						                                                          'section'     => $answer[ 'section' ],
 						                                                          'sort'        => $answer[ 'sort' ] ), array( '%d',
@@ -337,7 +337,7 @@ class AF_Form extends AF_Post
 				if( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ):
 					foreach( $element->settings AS $name => $value ):
 
-						$wpdb->insert( $af_global->tables->settings, array( 'question_id' => $new_question_id,
+						$wpdb->insert( $af_global->tables->settings, array( 'question_id' => $new_element_id,
 						                                                           'name'        => $name,
 						                                                           'value'       => $value ), array( '%d',
 							               '%s',
@@ -345,7 +345,7 @@ class AF_Form extends AF_Post
 					endforeach;
 				endif;
 
-				do_action( 'af_duplicate_form_question', $element, $new_question_id );
+				do_action( 'af_duplicate_form_question', $element, $new_element_id );
 
 			endforeach;
 		endif;
@@ -421,12 +421,12 @@ class AF_Form extends AF_Post
 		 * Answers & Settings
 		 */
 		if( is_array( $elements ) && count( $elements ) > 0 ):
-			foreach( $elements AS $question_id ):
-				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $question_id ) );
+			foreach( $elements AS $element_id ):
+				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $element_id ) );
 
-				$wpdb->delete( $af_global->tables->settings, array( 'question_id' => $question_id ) );
+				$wpdb->delete( $af_global->tables->settings, array( 'question_id' => $element_id ) );
 
-				do_action( 'form_delete_element', $question_id, $this->id );
+				do_action( 'form_delete_element', $element_id, $this->id );
 			endforeach;
 		endif;
 

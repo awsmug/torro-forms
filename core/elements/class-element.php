@@ -95,7 +95,7 @@ abstract class AF_FormElement
 	 *
 	 * @since 1.0.0
 	 */
-	var $is_question = TRUE;
+	var $is_input = TRUE;
 
 	/**
 	 * If value is true, Awesome Forms will try to create charts from results
@@ -111,6 +111,10 @@ abstract class AF_FormElement
 	 */
 	var $has_answers = FALSE;
 
+	/**
+	 * Only for Form splitter Element!
+	 * @var bool
+	 */
 	var $splits_form = FALSE;
 
 	/**
@@ -162,6 +166,7 @@ abstract class AF_FormElement
 	 */
 	var $create_answer_params = array();
 
+	
 	var $answer_is_multiple = FALSE;
 
 	/**
@@ -507,10 +512,10 @@ abstract class AF_FormElement
 		 */
 		$html .= '<ul class="tabs">';
 		// If Element is form element> Show label tab
-		if( $this->is_question && !$this->has_answers ){
+		if( $this->is_input && !$this->has_answers ){
 			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label', 'af-locale' ) . '</a></li>';
 		}
-		if( $this->is_question && $this->has_answers ){
+		if( $this->is_input && $this->has_answers ){
 			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label & Answers', 'af-locale' ) . '</a></li>';
 		}
 
@@ -532,7 +537,7 @@ abstract class AF_FormElement
 		 * Content of Tabs
 		 */
 		// Adding Label Tab
-		if( $this->is_question ):
+		if( $this->is_input ):
 			$html .= '<div id="tab_' . $jquery_widget_id . '_label" class="tab_label_answers_content">';
 			$html .= $this->admin_widget_label_tab();
 			$html .= '</div>';

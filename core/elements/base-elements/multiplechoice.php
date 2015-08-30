@@ -36,7 +36,7 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 	{
 		$this->name = 'MultipleChoice';
 		$this->title = esc_attr__( 'Multiple Choice', 'af-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered by selecting one ore more given answers.', 'af-locale' );
+		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one ore more given answers.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . '/assets/images/icon-multiplechoice.png';
 
 		$this->has_answers = TRUE;

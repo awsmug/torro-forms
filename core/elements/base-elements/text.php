@@ -35,7 +35,7 @@ class AF_FormElement_Text extends AF_FormElement
 	{
 		$this->name = 'Text';
 		$this->title = esc_attr__( 'Text', 'af-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered within a text field.', 'af-locale' );
+		$this->description = esc_attr__( 'Add an Element which can be answered within a text field.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . '/assets/images/icon-textfield.png';
 
 		parent::__construct( $id );
@@ -52,7 +52,7 @@ class AF_FormElement_Text extends AF_FormElement
 			'description' => array(
 				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the Element.', 'af-locale' ),
 				'default'     => '' ),
 			'min_length'  => array(
 				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),

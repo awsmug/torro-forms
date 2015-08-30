@@ -123,22 +123,22 @@ class AF_AbstractData
 			/**
 			 * Getting Headlines by running each element
 			 */
-			foreach( $response_array AS $question_id => $question ):
+			foreach( $response_array AS $element_id => $element ):
 
 				// If element uses sections
-				if( array_key_exists( 'sections', $question ) && TRUE == $question[ 'sections' ] ):
-					foreach( $question[ 'responses' ] AS $response ):
+				if( array_key_exists( 'sections', $element ) && TRUE == $element[ 'sections' ] ):
+					foreach( $element[ 'responses' ] AS $response ):
 						$i = 0;
 
 						foreach( $response AS $key => $value ):
 							if( is_array( $value ) ):
 								foreach( $value AS $key2 => $key1 ):
-									$column = $question[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
-									$headlines[ $question_id . '-' . $i++ ] = self::filter_string( $column );
+									$column = $element[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
+									$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
 								endforeach;
 							else:
-								$column = $question[ 'question' ] . ' (' . $key . ')';
-								$headlines[ $question_id . '-' . $i++ ] = self::filter_string( $column );
+								$column = $element[ 'question' ] . ' (' . $key . ')';
+								$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
 							endif;
 						endforeach;
 
@@ -146,14 +146,14 @@ class AF_AbstractData
 					endforeach;
 
 				// If there are more answers than one posssible (e.g. Multiple Choice)
-				elseif( array_key_exists( 'array', $question ) && TRUE == $question[ 'array' ] ):
+				elseif( array_key_exists( 'array', $element ) && TRUE == $element[ 'array' ] ):
 
-					if( array_key_exists( 'responses', $question ) ):
-						foreach( $question[ 'responses' ] AS $response ):
+					if( array_key_exists( 'responses', $element ) ):
+						foreach( $element[ 'responses' ] AS $response ):
 							$i = 0;
 							foreach( $response AS $key => $value ):
-								$column = $question[ 'question' ] . ' (' . $key . ')';
-								$headlines[ $question_id . '-' . $i++ ] = self::filter_string( $column );
+								$column = $element[ 'question' ] . ' (' . $key . ')';
+								$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
 							endforeach;
 							break;
 						endforeach;
@@ -161,7 +161,7 @@ class AF_AbstractData
 
 				// If there is only one value for one element possible
 				else:
-					$headlines[ $question_id ] = self::filter_string( $question[ 'question' ] );
+					$headlines[ $element_id ] = self::filter_string( $element[ 'label' ] );
 				endif;
 			endforeach;
 
@@ -190,37 +190,37 @@ class AF_AbstractData
 			/**
 			 * Getting content by running each element
 			 */
-			foreach( $response_array AS $question_id => $question ):
+			foreach( $response_array AS $element_id => $element ):
 
 				// If element uses sections
-				if( array_key_exists( 'sections', $question ) && TRUE == $question[ 'sections' ] ):
+				if( array_key_exists( 'sections', $element ) && TRUE == $element[ 'sections' ] ):
 
-					foreach( $question[ 'responses' ] AS $response_id => $response ):
+					foreach( $element[ 'responses' ] AS $response_id => $response ):
 						$i = 0;
 
 						foreach( $response AS $key => $value ):
 							if( is_array( $value ) ):
 								foreach( $value AS $key2 => $key1 ):
-									$results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $key1 );
+									$results[ $response_id ][ $element_id . '-' . $i++ ] = self::filter_string( $key1 );
 								endforeach;
 							else:
-								$results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value );
+								$results[ $response_id ][ $element_id . '-' . $i++ ] = self::filter_string( $value );
 							endif;
 						endforeach;
 
 					endforeach;
 
 				// If there are more answers than one posssible (e.g. Multiple Choice)
-				elseif( array_key_exists( 'array', $question ) && TRUE == $question[ 'array' ] ):
+				elseif( array_key_exists( 'array', $element ) && TRUE == $element[ 'array' ] ):
 
-					if( is_array( $question[ 'responses' ] ) && 0 != count( $question[ 'responses' ] ) ):
+					if( is_array( $element[ 'responses' ] ) && 0 != count( $element[ 'responses' ] ) ):
 						// Running response of each user
-						foreach( $question[ 'responses' ] AS $response_id => $response ):
+						foreach( $element[ 'responses' ] AS $response_id => $response ):
 							$i = 0;
 
 							// Running each answer of response
 							foreach( $response AS $key => $value ):
-								$results[ $response_id ][ $question_id . '-' . $i++ ] = self::filter_string( $value );
+								$results[ $response_id ][ $element_id . '-' . $i++ ] = self::filter_string( $value );
 							endforeach;
 
 						endforeach;
@@ -229,9 +229,9 @@ class AF_AbstractData
 				// If there is only one value for one element possible
 				else:
 
-					if( array_key_exists( 'responses', $question ) ):
-						foreach( $question[ 'responses' ] AS $response_id => $value ):
-							$results[ $response_id ][ $question_id ] = self::filter_string( $value );
+					if( array_key_exists( 'responses', $element ) ):
+						foreach( $element[ 'responses' ] AS $response_id => $value ):
+							$results[ $response_id ][ $element_id ] = self::filter_string( $value );
 						endforeach;
 					endif;
 

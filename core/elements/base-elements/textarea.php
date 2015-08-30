@@ -34,10 +34,9 @@ class AF_FormElement_Textarea extends AF_FormElement
 
 	public function __construct( $id = NULL )
 	{
-
 		$this->name = 'Textarea';
 		$this->title = esc_attr__( 'Textarea', 'af-locale' );
-		$this->description = esc_attr__( 'Add a question which can be answered within a text area.', 'af-locale' );
+		$this->description = esc_attr__( 'Add an Element which can be answered within a text area.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . '/assets/images/icon-textarea.png';
 
 		parent::__construct( $id );
@@ -51,7 +50,6 @@ class AF_FormElement_Textarea extends AF_FormElement
 
 	public function settings_fields()
 	{
-
 		$this->settings_fields = array(
 			'description' => array(
 				'title'       => esc_attr__( 'Description', 'af-locale' ),
@@ -82,7 +80,6 @@ class AF_FormElement_Textarea extends AF_FormElement
 
 	public function validate( $input )
 	{
-
 		$min_length = $this->settings[ 'min_length' ];
 		$max_length = $this->settings[ 'max_length' ];
 
@@ -109,9 +106,8 @@ class AF_FormElement_Textarea extends AF_FormElement
 		return TRUE;
 	}
 
-	public function after_question()
+	public function after_element()
 	{
-
 		$html = '';
 
 		if( !empty( $this->settings[ 'description' ] ) ):
