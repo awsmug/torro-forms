@@ -44,6 +44,7 @@ class AF_Core
 		add_action( 'init', array( __CLASS__ , 'custom_post_types' ), 11 );
 		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
+		// add_settings_field( 'permalinks', 'Forms',  ); // @todo Add field to permalinks section
 	}
 
 	/**

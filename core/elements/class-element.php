@@ -2,8 +2,6 @@
 /**
  * Elements abstraction class
  *
- * Motherclass for element creation.
- *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
  * @version 1.0.0
@@ -35,78 +33,68 @@ abstract class AF_FormElement
 
 	/**
 	 * ID of instanced Element
-	 *
 	 * @since 1.0.0
 	 */
 	var $id = NULL;
 
 	/**
-	 * Contains the Form ID of the element
-	 *
+	 * Contains the Form ID of the Element
 	 * @since 1.0.0
 	 */
 	var $form_id;
 
 	/**
-	 * Name of element
-	 *
+	 * Name of the Element
 	 * @since 1.0.0
 	 */
 	var $name;
 
 	/**
-	 * Title of element which will be shown in admin
-	 *
+	 * Title of Element which will be shown in admin
 	 * @since 1.0.0
 	 */
 	var $title;
 
 	/**
-	 * Description of element
-	 *
+	 * Description of the Element
 	 * @since 1.0.0
 	 */
 	var $description;
 
 	/**
-	 * Icon URl of element
-	 *
+	 * Icon URl of the Element
 	 * @since 1.0.0
 	 */
 	var $icon_url;
 
 	/**
 	 * Element Label
-	 *
 	 * @since 1.0.0
 	 */
 	var $label;
 
 	/**
-	 * Sort number where to display element
-	 *
+	 * Sort number where to display the Element
 	 * @since 1.0.0
 	 */
 	var $sort = 0;
 
 	/**
-	 * Contains if this element a Label or is this element for anything else (like description element or something
-	 * else)
-	 *
+	 * Does this element have any input?
 	 * @since 1.0.0
 	 */
 	var $is_input = TRUE;
 
 	/**
 	 * If value is true, Awesome Forms will try to create charts from results
-	 *
+	 * @todo is_analyzable: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
 	var $is_analyzable = FALSE;
 
 	/**
 	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
-	 *
+	 * @todo has_answers: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
 	var $has_answers = FALSE;
@@ -119,59 +107,45 @@ abstract class AF_FormElement
 
 	/**
 	 * Sections for answers
-	 *
 	 * @since 1.0.0
 	 */
 	var $sections = array();
 
 	/**
-	 * If elements has answers they will be stored here after populating object.
-	 *
+	 * Element answers
 	 * @since 1.0.0
 	 */
 	var $answers = array();
 
 	/**
-	 * Contains users response of element after submitting
-	 *
+	 * Contains users response of an Element
 	 * @since 1.0.0
 	 */
 	var $response;
 
 	/**
-	 * The settings field setup
-	 *
+	 * The settings fields
 	 * @since 1.0.0
 	 */
 	var $settings_fields = array();
 
 	/**
 	 * Contains all settings of the element
-	 *
+	 * @var array
 	 * @since 1.0.0
 	 */
 	var $settings = array();
 
 	/**
-	 * HTML template for answer
-	 *
+	 * Has element moltiple Answers?
+	 * @var bool
 	 * @since 1.0.0
 	 */
-	var $create_answer_syntax;
-
-	/**
-	 * Parameters which have to be added on answer
-	 *
-	 * @since 1.0.0
-	 */
-	var $create_answer_params = array();
-
-
 	var $answer_is_multiple = FALSE;
 
 	/**
-	 * Control variable if element is already initialized
-	 *
+	 * Is Element initialized
+	 * @var bool
 	 * @since 1.0.0
 	 */
 	var $initialized = FALSE;
@@ -712,6 +686,7 @@ abstract class AF_FormElement
 	 */
 	private function admin_widget_settings_field( $name, $field )
 	{
+		// @todo Handle with class-settingsform.php
 		$widget_id = $this->admin_get_widget_id();
 		$value = '';
 

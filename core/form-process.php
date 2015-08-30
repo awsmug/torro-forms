@@ -254,7 +254,7 @@ class AF_FormProcess
 		endforeach;
 
 		if( is_array( $af_response_errors ) && array_key_exists( $element->id, $af_response_errors ) ):
-			// @todo: One Element at the end ???
+			// @todo One Element at the end ???
 			if( is_array( $af_response_errors[ $element->id ] ) && count( $af_response_errors[ $element->id ] ) == 0 ):
 				return TRUE;
 			else:
