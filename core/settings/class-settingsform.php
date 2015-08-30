@@ -217,7 +217,7 @@ class AF_SettingsForm
 					}
 
 
-					$html .= '<div class="questions-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
+					$html .= '<div class="af-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
 				endforeach;
 				if( isset( $settings[ 'description' ] ) ){
 					$html .= '<small>' . $settings[ 'description' ] . '</small>';
@@ -249,7 +249,7 @@ class AF_SettingsForm
 						$checked = ' checked="checked"';
 					}
 
-					$html .= '<div class="questions-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value .'</div>' ;
+					$html .= '<div class="af-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value .'</div>' ;
 				endforeach;
 				if( isset( $settings[ 'description' ] ) ){
 					$html .= '<small>' . $settings[ 'description' ] . '</small>';

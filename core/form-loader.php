@@ -80,7 +80,7 @@ class AF_FormLoader
 			return;
 		}
 
-		do_action( 'questions_form_process' );
+		do_action( 'af_form_process' );
 
 		$af_form_process = new AF_FormProcess( $ar_form_id );
 		$af_form_process->process_response();

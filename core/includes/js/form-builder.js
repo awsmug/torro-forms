@@ -334,7 +334,7 @@
         /**
          * Delete form results
          */
-        $( '#questions-delete-results-button' ).click( function(){
+        $( '#form-delete-results-button' ).click( function(){
             var button = $( this );
 
             if( button.hasClass( 'button' ) ){

@@ -77,7 +77,7 @@ class AF_FormBuilder
 			$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 
 				ob_start();
-				do_action( 'questions_drag_drop_top' );
+				do_action( 'form_drag_drop_top' );
 				$html .= ob_get_clean();
 
 				$html .= '<div id="drag-drop-inside">';
@@ -91,7 +91,7 @@ class AF_FormBuilder
 				$html .= '</div>';
 
 				ob_start();
-				do_action( 'questions_drag_drop_bottom' );
+				do_action( 'form_drag_drop_bottom' );
 				$html .= ob_get_clean();
 
 			$html .= '</div>';
@@ -101,8 +101,8 @@ class AF_FormBuilder
 		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'af-locale' ) . '</div>';
 		$html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'af-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'af-locale' ) . '</p></div>';
 
-		$html .= '<input type="hidden" id="deleted_formelements" name="questions_deleted_formelements" value="">';
-		$html .= '<input type="hidden" id="deleted_answers" name="questions_deleted_answers" value="">';
+		$html .= '<input type="hidden" id="deleted_formelements" name="form_deleted_formelements" value="">';
+		$html .= '<input type="hidden" id="deleted_answers" name="form_deleted_answers" value="">';
 
 		echo $html;
 	}
@@ -152,11 +152,11 @@ class AF_FormBuilder
 
 		$html = '<div id="form-functions" class="misc-pub-section">';
 			$html.= '<div id="form-functions-notices"></div>';
-			$html.= '<input id="form-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
-			$html.= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
+			$html.= '<input id="form-duplicate-button" name="form-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
+			$html.= '<input id="form-delete-results-button" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
 
 			ob_start();
-			do_action( 'questions_functions' );
+			do_action( 'form_functions' );
 			$html.= ob_get_clean();
 		$html.= '</div>';
 
@@ -178,7 +178,7 @@ class AF_FormBuilder
 			return;
 		}
 
-		if( array_key_exists( 'questions-duplicate-survey', $_REQUEST ) ){
+		if( array_key_exists( 'form-duplicate-survey', $_REQUEST ) ){
 			return;
 		}
 
@@ -194,35 +194,35 @@ class AF_FormBuilder
 			return;
 		}
 
-		$survey_elements = $_POST[ 'questions' ];
-		$survey_deleted_formelements = $_POST[ 'questions_deleted_formelements' ];
-		$survey_deleted_answers = $_POST[ 'questions_deleted_answers' ];
-		$survey_show_results = $_POST[ 'show_results' ];
+		$form_elements = $_POST[ 'questions' ];
+		$form_deleted_formelements = $_POST[ 'form_deleted_formelements' ];
+		$form_deleted_answers = $_POST[ 'form_deleted_answers' ];
+		$form_show_results = $_POST[ 'show_results' ];
 
 		/**
 		 * Saving if results have to be shown after participating
 		 */
-		update_post_meta( $form_id, 'show_results', $survey_show_results );
+		update_post_meta( $form_id, 'show_results', $form_show_results );
 
-		$survey_deleted_formelements = explode( ',', $survey_deleted_formelements );
+		$form_deleted_formelements = explode( ',', $form_deleted_formelements );
 
 		/**
 		 * Deleting deleted answers
 		 */
-		if( is_array( $survey_deleted_formelements ) && count( $survey_deleted_formelements ) > 0 ):
-			foreach( $survey_deleted_formelements AS $deleted_question ):
-				$wpdb->delete( $af_global->tables->questions, array( 'id' => $deleted_question ) );
-				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $deleted_question ) );
+		if( is_array( $form_deleted_formelements ) && count( $form_deleted_formelements ) > 0 ):
+			foreach( $form_deleted_formelements AS $deleted_element ):
+				$wpdb->delete( $af_global->tables->questions, array( 'id' => $deleted_element ) );
+				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $deleted_element ) );
 			endforeach;
 		endif;
 
-		$survey_deleted_answers = explode( ',', $survey_deleted_answers );
+		$form_deleted_answers = explode( ',', $form_deleted_answers );
 
 		/*
 		 * Deleting deleted answers
 		 */
-		if( is_array( $survey_deleted_answers ) && count( $survey_deleted_answers ) > 0 ):
-			foreach( $survey_deleted_answers AS $deleted_answer ):
+		if( is_array( $form_deleted_answers ) && count( $form_deleted_answers ) > 0 ):
+			foreach( $form_deleted_answers AS $deleted_answer ):
 				$wpdb->delete( $af_global->tables->answers, array( 'id' => $deleted_answer ) );
 			endforeach;
 		endif;
@@ -230,49 +230,49 @@ class AF_FormBuilder
 		/*
 		 * Saving elements
 		 */
-		foreach( $survey_elements AS $key => $survey_question ):
+		foreach( $form_elements AS $key => $element ):
 			if( 'widget_formelement_XXnrXX' == $key ){
 				continue;
 			}
 
-			$question_id = (int) $survey_question[ 'id' ];
-			$question = '';
-			$sort = (int) $survey_question[ 'sort' ];
-			$type = $survey_question[ 'type' ];
+			$element_id = (int) $element[ 'id' ];
+			$label = '';
+			$sort = (int) $element[ 'sort' ];
+			$type = $element[ 'type' ];
 
-			if( array_key_exists( 'question', $survey_question ) ){
-				$question = af_prepare_post_data( $survey_question[ 'question' ] );
+			if( array_key_exists( 'question', $element ) ){
+				$label = af_prepare_post_data( $element[ 'question' ] );
 			}
 
 			$answers = array();
 			$settings = array();
 
-			if( array_key_exists( 'answers', $survey_question ) ){
-				$answers = $survey_question[ 'answers' ];
+			if( array_key_exists( 'answers', $element ) ){
+				$answers = $element[ 'answers' ];
 			}
 
-			if( array_key_exists( 'settings', $survey_question ) ){
-				$settings = $survey_question[ 'settings' ];
+			if( array_key_exists( 'settings', $element ) ){
+				$settings = $element[ 'settings' ];
 			}
 
 			// Saving question
-			if( '' != $question_id ):
+			if( '' != $element_id ):
 				// Updating if question already exists
-				$wpdb->update( $af_global->tables->questions, array( 'question' => $question,
+				$wpdb->update( $af_global->tables->questions, array( 'question' => $label,
 				                                                            'sort'     => $sort,
-				                                                            'type'     => $type ), array( 'id' => $question_id ) );
+				                                                            'type'     => $type ), array( 'id' => $element_id ) );
 			else:
 
 				// Adding new question
 				$wpdb->insert( $af_global->tables->questions, array( 'questions_id' => $form_id,
-				                                                            'question'     => $question,
+				                                                            'question'     => $label,
 				                                                            'sort'         => $sort,
 				                                                            'type'         => $type ) );
 
-				$question_id = $wpdb->insert_id;
+				$element_id = $wpdb->insert_id;
 			endif;
 
-			do_action( 'af_save_form_after_saving_question', $survey_question, $question_id );
+			do_action( 'af_save_form_after_saving_question', $element, $element_id );
 
 			/*
 			 * Saving answers
@@ -293,14 +293,14 @@ class AF_FormBuilder
 						                                                          'section' => $answer_section,
 						                                                          'sort'    => $answer_sort ), array( 'id' => $answer_id ) );
 					else:
-						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $question_id,
+						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $element_id,
 						                                                          'answer'      => $answer_text,
 						                                                          'section'     => $answer_section,
 						                                                          'sort'        => $answer_sort ) );
 						$answer_id = $wpdb->insert_id;
 					endif;
 
-					do_action( 'af_save_form_after_saving_answer', $survey_question, $answer_id );
+					do_action( 'af_save_form_after_saving_answer', $element, $answer_id );
 				endforeach;
 			endif;
 
@@ -309,15 +309,15 @@ class AF_FormBuilder
 			 */
 			if( is_array( $settings ) && count( $settings ) > 0 ):
 				foreach( $settings AS $name => $setting ):
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->settings} WHERE question_id = %d AND name = %s", $question_id, $name );
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->settings} WHERE question_id = %d AND name = %s", $element_id, $name );
 					$count = $wpdb->get_var( $sql );
 
 					if( $count > 0 ):
-						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $question_id,
+						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $element_id,
 						                                                                                                                           'name'        => $name ) );
 					else:
 						$wpdb->insert( $af_global->tables->settings, array( 'name'        => $name,
-						                                                           'question_id' => $question_id,
+						                                                           'question_id' => $element_id,
 						                                                           'value'       => af_prepare_post_data( $settings[ $name ] ) ) );
 
 					endif;
@@ -424,7 +424,7 @@ class AF_FormBuilder
 		if( !af_is_formbuilder() )
 			return;
 
-		wp_enqueue_style( 'questions-admin-styles', AF_URLPATH . '/core/includes/css/form-builder.css' );
+		wp_enqueue_style( 'af-admin-styles', AF_URLPATH . '/core/includes/css/form-builder.css' );
 	}
 
 	/**
@@ -457,8 +457,8 @@ class AF_FormBuilder
 		wp_enqueue_script( 'admin-widgets' );
 		wp_enqueue_script( 'wpdialogs-popup' );
 
-		wp_enqueue_script( 'admin-questions-post-type', AF_URLPATH . '/core/includes/js/form-builder.js' );
-		wp_localize_script( 'admin-questions-post-type', 'translation_fb', $translation );
+		wp_enqueue_script( 'af-admin-forms-post-type', AF_URLPATH . '/core/includes/js/form-builder.js' );
+		wp_localize_script( 'af-admin-forms-post-type', 'translation_fb', $translation );
 
 		if( wp_is_mobile() ){
 			wp_enqueue_script( 'jquery-touch-punch' );

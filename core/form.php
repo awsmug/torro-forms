@@ -276,7 +276,7 @@ class AF_Form extends AF_Post
 			$this->duplicate_participiants( $new_form_id );
 		endif;
 
-		do_action( 'questions_duplicate_survey', $this->post, $new_form_id, $this->question_transfers, $this->answer_transfers );
+		do_action( 'form_duplicate_survey', $this->post, $new_form_id, $this->question_transfers, $this->answer_transfers );
 
 		return $new_form_id;
 	}
@@ -426,7 +426,7 @@ class AF_Form extends AF_Post
 
 				$wpdb->delete( $af_global->tables->settings, array( 'question_id' => $question_id ) );
 
-				do_action( 'questions_delete_element', $question_id, $this->id );
+				do_action( 'form_delete_element', $question_id, $this->id );
 			endforeach;
 		endif;
 
@@ -435,7 +435,7 @@ class AF_Form extends AF_Post
 		 */
 		$wpdb->delete( $af_global->tables->questions, array( 'questions_id' => $this->id ) );
 
-		do_action( 'questions_delete_survey', $this->id );
+		do_action( 'form_delete', $this->id );
 
 		/**
 		 * Participiants

@@ -69,7 +69,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'questions_Component' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_Component' != get_parent_class( $object ) ){
 			return FALSE;
 		}
 
