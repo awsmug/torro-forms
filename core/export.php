@@ -87,10 +87,10 @@ class AF_Export
 			$export_type = $_GET[ 'export_form_results' ];
 			$form_id = $_GET[ 'form_id' ];
 
-			$survey = new AF_Form( $form_id );
+			$form = new AF_Form( $form_id );
 			$results = new AF_Results( $form_id );
 
-			$export_filename = sanitize_title( $survey->title );
+			$export_filename = sanitize_title( $form->title );
 			$export_data = $results->get_responses();
 
 			$content = $this->get_csv( $export_data );
@@ -126,7 +126,7 @@ class AF_Export
 	/**
 	 * Getting CSV content
 	 *
-	 * @param array $response_array Response array of a survey
+	 * @param array $response_array Response array of a Form
 	 *
 	 * @return string $output CSV content
 	 */

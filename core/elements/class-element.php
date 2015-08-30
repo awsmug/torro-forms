@@ -41,7 +41,7 @@ abstract class AF_FormElement
 	var $id = NULL;
 
 	/**
-	 * Contains the Survey ID of the element
+	 * Contains the Form ID of the element
 	 *
 	 * @since 1.0.0
 	 */
@@ -166,7 +166,7 @@ abstract class AF_FormElement
 	 */
 	var $create_answer_params = array();
 
-	
+
 	var $answer_is_multiple = FALSE;
 
 	/**

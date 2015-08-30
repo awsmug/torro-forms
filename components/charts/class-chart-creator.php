@@ -107,7 +107,7 @@ abstract class AF_ChartCreator
 		}
 
 		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Awesome Forms Survey Element.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Awesome Forms Form Element.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->chart_creators ) ){

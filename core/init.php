@@ -47,7 +47,7 @@ class AF_Core
 	}
 
 	/**
-	 * Creates Custom Post Types for surveys
+	 * Creates Custom Post Types for Awesome Forms
 	 *
 	 * @since 1.0.0
 	 */

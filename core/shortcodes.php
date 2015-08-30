@@ -48,7 +48,7 @@ class AF_ShortCodes
 	{
 		global $ar_form_id;
 
-		$atts = shortcode_atts( array( 'id' => '', 'title' => __( 'Survey', 'af-locale' ) ), $atts );
+		$atts = shortcode_atts( array( 'id' => '', 'title' => __( 'Form', 'af-locale' ) ), $atts );
 		$ar_form_id = $atts[ 'id' ];
 
 		if( '' == $ar_form_id ){

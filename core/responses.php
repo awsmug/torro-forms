@@ -53,7 +53,7 @@ class AF_Results{
 
     }
     /**
-     * Getting responses of a survey
+     * Getting responses of a Form
      *
      * @param bool|int $element_id Get responses of a special element
      * @param boolean  $userdata   Adding user specified data to response array
@@ -75,7 +75,7 @@ class AF_Results{
                 $responses[ '_datetime' ] = $this->get_response_timestrings();
             endif;
 
-            // Running each element of survey
+            // Running each Element of Form
             foreach ( $form->elements AS $element ):
 
                 // If only one element have to be shown, skip the others
@@ -97,7 +97,7 @@ class AF_Results{
     }
 
     /**
-     * Gettiung all user ids of a survey
+     * Gettiung all user ids of a Form
      *
      * @return array $responses All user ids formatted for response array
      * @since 1.0.0
@@ -128,7 +128,7 @@ class AF_Results{
     }
 
     /**
-     * Gettiung all user names of a survey
+     * Gettiung all user names of a Form
      *
      * @return array $responses All user names formatted for response array
      * @since 1.0.0
@@ -160,7 +160,7 @@ class AF_Results{
     }
 
     /**
-     * Gettiung all timestrings of a survey
+     * Gettiung all timestrings of a Form
      *
      * @param string $timeformat
      * @return array $responses All timestrings formatted for response array

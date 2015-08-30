@@ -145,9 +145,9 @@ class AF_ChartsShortCodes
 	}
 
 	/**
-	 * Showing survey result schortcodes in admin area for copy&paste
+	 * Showing Form result Shortcodes in Admin for copy&paste
 	 *
-	 * @param int $form_id Id of the survey
+	 * @param int $form_id Id of the form
 	 *
 	 * @return string $html HTML for shortcode summary in admon
 	 */

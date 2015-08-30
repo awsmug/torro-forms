@@ -87,7 +87,7 @@ class AF_FormLoader
 	}
 
 	/**
-	 * Adding filter for the content to show Survey
+	 * Adding filter for the content to show Form
 	 *
 	 * @since 1.0.0
 	 */
@@ -97,7 +97,7 @@ class AF_FormLoader
 	}
 
 	/**
-	 * The filtered content gets a survey
+	 * The filtered content gets a Form
 	 *
 	 * @param string $content
 	 *

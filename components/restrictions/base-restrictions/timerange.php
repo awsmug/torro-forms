@@ -90,14 +90,14 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$end_date = strtotime( get_post_meta( $ar_form_id, 'end_date', TRUE ) );
 
 		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date ){
-			$this->add_message( 'error', esc_attr( 'The survey has not yet begun.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr( 'The Form is not accessible at this time.', 'af-locale' ) );
 			echo $this->messages();
 
 			return FALSE;
 		}
 
 		if( '' != $end_date && 0 != (int) $end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date ){
-			$this->add_message( 'error', esc_attr( 'The survey is already over.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr( 'The Form is not accessible at this time.', 'af-locale' ) );
 			echo $this->messages();
 
 			return FALSE;

@@ -64,7 +64,7 @@ class AF_FormProcess
 	}
 
 	/**
-	 * Survey form
+	 * Show Form
 	 *
 	 * Creating form HTML
 	 *
@@ -326,7 +326,7 @@ class AF_FormProcess
 }
 
 /**
- * Checks if a user has participated on a survey
+ * Checks if a user has participated on a Form
  *
  * @param int  $form_id
  * @param null $user_id

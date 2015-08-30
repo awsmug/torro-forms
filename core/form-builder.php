@@ -97,7 +97,7 @@ class AF_FormBuilder
 
 		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'af-locale' ) . '</div>';
 		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'af-locale' ) . '</div>';
-		$html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'af-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?', 'af-locale' ) . '</p></div>';
+		$html .= '<div id="delete_responses_dialog"><h3>' . esc_attr__( 'Attention!', 'af-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'af-locale' ) . '</p></div>';
 
 		$html .= '<input type="hidden" id="deleted_formelements" name="form_deleted_formelements" value="">';
 		$html .= '<input type="hidden" id="deleted_answers" name="form_deleted_answers" value="">';

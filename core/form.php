@@ -146,7 +146,7 @@ class AF_Form extends AF_Post
 	}
 
 	/**
-	 * Getting elements of a survey
+	 * Getting elements of a Form
 	 *
 	 * @param int $form_id
 	 * @param int $step
@@ -189,7 +189,7 @@ class AF_Form extends AF_Post
 	}
 
 	/**
-	 * Get number of splits in survey
+	 * Get number of splits in the Form
 	 *
 	 * @param int $form_id
 	 *
@@ -378,7 +378,7 @@ class AF_Form extends AF_Post
 	}
 
 	/**
-	 * Deleting all results of a survey
+	 * Deleting all results of the Form
 	 *
 	 * @return mixed
 	 */
@@ -445,11 +445,11 @@ class AF_Form extends AF_Post
 }
 
 /**
- * Checks if a survey exists
+ * Checks if a Form exists
  *
- * @param int $form_id Survey id
+ * @param int $form_id Form ID
  *
- * @return boolean $exists TRUE if survey exists, FALSE if not
+ * @return boolean $exists TRUE if Form exists, FALSE if not
  */
 function af_form_exists( $form_id )
 {

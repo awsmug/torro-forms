@@ -109,7 +109,7 @@ class AF_AbstractData
 	/**
 	 * Getting all labels for in an array
 	 *
-	 * @param array $response_array Response array of a survey
+	 * @param array $response_array Response array of a form
 	 *
 	 * @return array $headlines Ordered data prepared to be used in lines
 	 * @since 1.0.0
@@ -174,7 +174,7 @@ class AF_AbstractData
 	/**
 	 * Prepare data for printing content in lines (e.g. for CSV export)
 	 *
-	 * @param array $response_array Response array of a survey
+	 * @param array $response_array Response Array of a Form
 	 *
 	 * @return array $lines Ordered data prepared to be used in lines
 	 * @since 1.0.0
