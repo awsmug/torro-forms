@@ -5,7 +5,7 @@
  * This class is the base for every Questions Component.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package Questions/Core
+ * @package AwesomeForms/Core
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2

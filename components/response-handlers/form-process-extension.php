@@ -5,7 +5,7 @@
  * This class adds restriction functions to form processing
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package Questions/Core
+ * @package AwesomeForms/Core
  * @version 2015-08-16
  * @since   1.0.0
  * @license GPL 2

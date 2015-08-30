@@ -5,7 +5,7 @@
  * Class for handling results from database
  *
  * @author  awesome.ug <contact@awesome.ug>
- * @package Questions
+ * @package AwesomeForms
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2

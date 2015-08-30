@@ -5,7 +5,7 @@
  * This class creates the export
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package Questions/Core
+ * @package AwesomeForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2

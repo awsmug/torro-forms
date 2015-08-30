@@ -1,4 +1,4 @@
-=== Questions ===
+=== Awesome Forms ===
 Contributors: mahype, awesome-ug
 Tags: forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 Requires at least: 4.1.1
@@ -13,7 +13,7 @@ Drag&drop your form in the WordPress way!
 >
 >It never felt better to create your form like with this plugin! Drag&Drop your your form and view also in chartable results.
 
-This is not software as a service, Questions is a totally independent and free plugin!
+This is not software as a service, Awesome Forms is a totally independent and free plugin!
 
 **Elements to drop**
 

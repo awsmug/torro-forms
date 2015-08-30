@@ -5,7 +5,7 @@
  * Motherclass for all Restrictions
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package Questions/Restrictions
+ * @package AwesomeForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2

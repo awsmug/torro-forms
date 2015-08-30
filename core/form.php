@@ -6,7 +6,7 @@
  * Init Forms with this class to get information about it
  *
  * @author  awesome.ug <contact@awesome.ug>
- * @package Questions
+ * @package AwesomeForms
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
