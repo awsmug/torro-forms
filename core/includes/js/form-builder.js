@@ -86,9 +86,9 @@
 				var input_name = 'input[name="questions\[widget_formelement_' + nr +'\]\[sort\]"]';
               	$( input_name ).val( i ) ;
 				
-				questions_answersortable();
-              	questions_delete_formelement();
-              	questions_deleteanswer();
+				af_answersortable();
+              	af_delete_formelement();
+              	af_deleteanswer();
               	af_rewriteheadline();
               	af_element_tabs();
               	check_max_input_vars();
@@ -107,12 +107,12 @@
 		/**
          * Deleting form element
          */
-        var questions_delete_formelement = function(){
-            var questions_delete_formelement_dialog = $( '#delete_formelement_dialog' );
+        var af_delete_formelement = function(){
+            var af_delete_formelement_dialog = $( '#delete_formelement_dialog' );
             var formelement_id;
             var deleted_formelements;
             
-            questions_delete_formelement_dialog.dialog({
+            af_delete_formelement_dialog.dialog({
                 'dialogClass'   : 'wp-dialog',           
                 'modal'         : true,
                 'autoOpen'      : false, 
@@ -151,16 +151,16 @@
             $( '.delete_form_element' ).click( function( event ){
                 formelement_id = $( this ).closest( '.formelement' ).attr('id');
                 event.preventDefault();
-                questions_delete_formelement_dialog.dialog( 'open' );
+                af_delete_formelement_dialog.dialog( 'open' );
             });
             check_max_input_vars();
         }
-        questions_delete_formelement();
+        af_delete_formelement();
 		
 		/**
 		 * Making answers in questions sortable
 		 */
-		var questions_answersortable = function (){
+		var af_answersortable = function (){
 			$( "#drag-drop-inside .answers" ).sortable({
 				update: function(  event, ui ){
 	
@@ -180,13 +180,13 @@
 				items:'.answer'
 			});
 		}
-		questions_answersortable();
+		af_answersortable();
 		
 		
 		/**
 		 * Deleting answer
 		 */
-		var questions_deleteanswer = function(){
+		var af_deleteanswer = function(){
 			var questions_deletanswerdialog = $( '#delete_answer_dialog' );
 			var answer_id;
 			var deleted_answers;
@@ -234,20 +234,20 @@
 			});
 			check_max_input_vars();
 		}
-		questions_deleteanswer();
+		af_deleteanswer();
 		
 		/**
 		 * Adding answer to element
 		 */
-		var questions_add_answer_button = function(){
+		var af_add_answer_button = function(){
 			$( "#drag-drop-inside" ).on( 'click', '.add-answer', function(){
 				var element_id = $( this ).attr( 'rel' );
-				questions_add_answer( element_id, this );
+				af_add_answer( element_id, this );
 			});
 			
 			check_max_input_vars();
 		}
-		questions_add_answer_button();
+		af_add_answer_button();
 		
 		$( ".question-answer" ).keypress( function( e ) {
             if( e.which == 13 ) {
@@ -260,7 +260,7 @@
         /**
          * Adding empty answer field
          */
-        var questions_add_answer = function ( element_id, clicked_container ){
+        var af_add_answer = function ( element_id, clicked_container ){
             var nr = af_rand();
 
             var sections = 'input[name="questions\[' + element_id + '\]\[sections\]"]';
@@ -296,7 +296,7 @@
             var input_name = 'input[name="questions\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
             $( input_name ).val( order ) ;
             
-            questions_deleteanswer();
+            af_deleteanswer();
         };
 		
 		/**
@@ -318,12 +318,12 @@
 
 					var response_text = translation_fb.duplicated_form_successfully + ' <a href="' + response.admin_url + '">' + translation_fb.edit_form + '</a>';
 
-					$( '#questions-functions-notices').html( response_text );
-					$( '#questions-functions-notices').show();
+					$( '#form-functions-notices').html( response_text );
+					$( '#form-functions-notices').show();
 
 					button.removeClass( 'button-loading' );
 					
-					$( '#questions-functions-notices' ).fadeOut( 5000 );
+					$( '#form-functions-notices' ).fadeOut( 5000 );
 				});
 				
 			}else{
@@ -364,12 +364,12 @@
 
                                 var response_text = translation_fb.deleted_results_successfully;
 
-								$( '#questions-functions-notices').html( response_text );
-								$( '#questions-functions-notices').show();
+								$( '#form-functions-notices').html( response_text );
+								$( '#form-functions-notices').show();
 
                                 button.removeClass( 'button-loading' );
 
-                                $( '#questions-functions-notices' ).fadeOut( 5000 );
+                                $( '#form-functions-notices' ).fadeOut( 5000 );
                             });
                         }
                     },

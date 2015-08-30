@@ -150,8 +150,8 @@ class AF_FormBuilder
 	{
 		global $post;
 
-		$html = '<div id="questions-functions" class="misc-pub-section">';
-			$html.= '<div id="questions-functions-notices"></div>';
+		$html = '<div id="form-functions" class="misc-pub-section">';
+			$html.= '<div id="form-functions-notices"></div>';
 			$html.= '<input id="questions-duplicate-button" name="questions-duplicate-survey" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
 			$html.= '<input id="questions-delete-results-button" name="questions-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
 

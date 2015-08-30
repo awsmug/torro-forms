@@ -219,24 +219,24 @@
 /**
  * Form functions
  */
-#questions-functions{
+#form-functions{
     text-align: left;
 }
-#questions-functions .button-loading {
+#form-functions .button-loading {
     background-image: url('../../../../../assets/images/loading.gif');
     background-repeat: no-repeat;
     background-position: 5px 5px;
     padding-left: 28px;
 }
 
-#questions-functions input {
+#form-functions input {
    margin-right: 10px;
 }
-#questions-functions input:last-child{
+#form-functions input:last-child{
     margin-right: 0;
 }
 
-#questions-functions-notices{
+#form-functions-notices{
     display: none;
     border: 1px dashed #CCC;
     padding: 5px;
