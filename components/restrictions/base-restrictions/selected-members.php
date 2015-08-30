@@ -45,7 +45,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		// add_action( 'questions_functions', array( $this, 'invite_buttons' ) );
 
-		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
+		add_action( 'af_save_form', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'wp_ajax_form_add_participiants_allmembers', array( $this, 'ajax_add_participiants_allmembers' ) );
 		add_action( 'wp_ajax_questions_invite_participiants', array( $this, 'ajax_invite_participiants' ) );

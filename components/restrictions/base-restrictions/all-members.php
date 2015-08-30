@@ -43,7 +43,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 
 		$this->option_name = __( 'All Members of site', 'af-locale' );
 
-		add_action( 'questions_save_form', array( $this, 'save' ), 10, 1 );
+		add_action( 'af_save_form', array( $this, 'save' ), 10, 1 );
 	}
 
 	/**

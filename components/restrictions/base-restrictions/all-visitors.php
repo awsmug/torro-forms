@@ -43,7 +43,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$this->option_name = __( 'All Visitors of site', 'af-locale' );
 
 		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ) );
-		add_action( 'questions_save_form', array( $this, 'save_settings' ), 10, 1 );
+		add_action( 'af_save_form', array( $this, 'save_settings' ), 10, 1 );
 
 		add_action( 'questions_form_end', array( $this, 'add_fingerprint_input' ) );
 

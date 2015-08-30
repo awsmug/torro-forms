@@ -45,7 +45,7 @@ class AF_FormBuilder_RestrictionsExtension
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
-		add_action( 'questions_save_form', array( __CLASS__, 'save' ), 10, 1 );
+		add_action( 'af_save_form', array( __CLASS__, 'save' ), 10, 1 );
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
 	}

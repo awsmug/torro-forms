@@ -272,7 +272,7 @@ class AF_FormBuilder
 				$question_id = $wpdb->insert_id;
 			endif;
 
-			do_action( 'questions_save_form_after_saving_question', $survey_question, $question_id );
+			do_action( 'af_save_form_after_saving_question', $survey_question, $question_id );
 
 			/*
 			 * Saving answers
@@ -300,7 +300,7 @@ class AF_FormBuilder
 						$answer_id = $wpdb->insert_id;
 					endif;
 
-					do_action( 'questions_save_form_after_saving_answer', $survey_question, $answer_id );
+					do_action( 'af_save_form_after_saving_answer', $survey_question, $answer_id );
 				endforeach;
 			endif;
 
@@ -326,7 +326,7 @@ class AF_FormBuilder
 
 		endforeach;
 
-		do_action( 'questions_save_form', $form_id );
+		do_action( 'af_save_form', $form_id );
 
 		// Preventing duplicate saving
 		remove_action( 'save_post', array( __CLASS__, 'save_form' ), 50 );
