@@ -118,8 +118,8 @@ class AF_Core
 			return $classes;
 		}
 
-		$classes[] = 'questions';
-		$classes[] = 'question-' . $post->ID;
+		$classes[] = 'af-form';
+		$classes[] = 'af-form-' . $post->ID;
 
 		return $classes;
 	}

@@ -345,7 +345,7 @@ class AF_Form extends AF_Post
 					endforeach;
 				endif;
 
-				do_action( 'af_duplicate_form_question', $element, $new_element_id );
+				do_action( 'af_duplicate_form_element', $element, $new_element_id );
 
 			endforeach;
 		endif;

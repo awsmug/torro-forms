@@ -88,7 +88,7 @@ class AF_SettingsPage{
                     $html.= '<input name="af_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr( 'Save Settings', 'af-locale' ) . '" />';
 
                 }else{
-                    $html.= '<p>' . esc_attr( 'There are no settings available', 'af-locale' ) . '</p>';
+                    $html.= '<p>' . esc_attr( 'There are no settings available.', 'af-locale' ) . '</p>';
                 }
 
             $html.= '</form>';
