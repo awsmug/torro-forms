@@ -356,10 +356,16 @@ function af_id()
  * Debugging helper function
  */
 if( !function_exists( 'p' ) ){
-	function p( $var )
+	function p( $var, $return = FALSE  )
 	{
-		echo '<pre>';
-		print_r( $var );
-		echo '</pre>';
+		$content = '<pre>';
+		$content.= print_r( $var, TRUE );
+		$content.= '</pre>';
+
+		if( !$return ){
+			echo $content;
+		}
+
+		return $content;
 	}
 }
