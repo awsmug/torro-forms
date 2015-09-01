@@ -314,7 +314,7 @@ class AF_SettingsHandler
 		$html.= '</table>';
 		$html.= '</div>';
 
-		$html.= '<div class="af-settings-disclaimer">';
+		$html.= '<div class="settings-disclaimer">';
 		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
 
 		if( isset( $settings[ 'description' ] ) ){

@@ -82,7 +82,7 @@ class AF_SettingsPage{
                     }
                     $html.= '</h2>';
 
-                    $html.= '<div id="af-settings-content">';
+                    $html.= '<div id="af-settings-content" class="' . self::$current_tab . '">';
 
                     $settings = $af_global->settings[ self::$current_tab ];
                     $html .= $settings->show( self::$current_section );

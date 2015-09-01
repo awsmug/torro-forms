@@ -62,9 +62,9 @@
 }
 
 /**
- * Settings Fields
+ * Settings Disclaimer
  */
-#af-settings .af-settings-disclaimer{
+#af-settings .settings-disclaimer{
     border: 1px solid #CCC;
     background-color: #FFF;
     padding: 20px;
