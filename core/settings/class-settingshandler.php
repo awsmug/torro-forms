@@ -60,13 +60,14 @@ class AF_SettingsHandler
 		}
 
 		$html = '<div class="settings-table">';
-			$html = '<table class="form-table">';
+			$html.= '<table class="form-table">';
 				$html.= '<tbody>';
 				foreach( $this->fields AS $name => $settings ){
 					$html.= $this->get_field( $name, $settings );
 				}
 				$html.= '</tbody>';
 			$html.= '</table>';
+			$html.= '<div class="clear"></div>';
 		$html.= '</div>';
 
 		return $html;
