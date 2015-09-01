@@ -30,6 +30,10 @@
 #af-settings .form-table{
     margin: 0;
 }
+#af-settings input[type="text"],
+#af-settings textarea{
+    width: 25em;
+}
 
 #af-settings #af-settings-submenu{
     margin-bottom: 20px;

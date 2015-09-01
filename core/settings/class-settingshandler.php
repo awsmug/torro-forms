@@ -208,7 +208,7 @@ class AF_SettingsHandler
 		$html = '<tr>';
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
 			$html.= '<td>';
-					$html.= '<textarea name="' . $name . '" cols="50" rows="8">' . $value . '</textarea>';
+					$html.= '<textarea name="' . $name . '" rows="8">' . $value . '</textarea>';
 					if( isset( $settings[ 'description' ] ) ){
 						$html .= '<br /><small>' . $settings[ 'description' ] . '</small>';
 					}
