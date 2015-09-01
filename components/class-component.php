@@ -86,14 +86,16 @@ abstract class AF_Component
 
 		$af_global->components[ $this->name ] = $this;
 
-		add_action( 'init', array( $this, 'start_scripts' ) ); // @todo Right Place for cheking if component can start
+		add_action( 'init', array( $this, 'start_scripts' ), 20 );
 
 		return TRUE;
 	}
 
-	public function start_scripts(){
+	public function start_scripts()
+	{
 		global $af_global;
 
+		// @todo Make it easyier to acess data!
 		$settings_handler = new AF_SettingsHandler( 'general', $af_global->settings[ 'general' ]->settings );
 		$values = $settings_handler->get_field_values();
 
