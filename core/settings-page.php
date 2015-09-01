@@ -69,8 +69,8 @@ class AF_SettingsPage{
             $html.= '<form name="af_settings" id="af-settings" method="POST">';
                 $html.= '<input type="hidden" id="af_save_settings" name="af_save_settings" value="' . wp_create_nonce( '_af_save_settings_nonce' ) . '" />';
 
-                if( property_exists( $af_global, 'settings' ) && count( $af_global->settings ) > 0 ){
-
+                if( property_exists( $af_global, 'settings' ) && count( $af_global->settings ) > 0 )
+                {
                     $html.= '<h2 class="nav-tab-wrapper">';
                     foreach( $af_global->settings AS $setting )
                     {
@@ -94,14 +94,16 @@ class AF_SettingsPage{
                     $html.= '</div>';
 
                     $html.= '<input name="af_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr( 'Save Settings', 'af-locale' ) . '" />';
-
-                }else{
+                }
+                else
+                {
                     $html.= '<p>' . esc_attr( 'There are no settings available.', 'af-locale' ) . '</p>';
                 }
 
             $html.= '</form>';
 
         $html.= '</div>';
+        $html.= '<div class="clear"></div>';
 
         echo $html;
     }

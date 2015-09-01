@@ -31,18 +31,34 @@
     margin: 0;
 }
 
+#af-settings #af-settings-submenu{
+    margin-bottom: 20px;
+}
+
 /**
  * Sub menu settings
  */
 #af-settings #af-settings-submenu li{
     float: left;
-    margin-right: 10px;
+}
+#af-settings #af-settings-submenu li:after{
+    content: "|";
+    margin: 0 5px;
 }
 #af-settings #af-settings-submenu li:last-child{
     margin-right: 0;
 }
 #af-settings #af-settings-submenu li:last-child{
     float: none;
+}
+#af-settings #af-settings-submenu li:last-child:after{
+    margin: 0;
+    content: "";
+}
+#af-settings .submenu-tab.active a{
+    color:#555;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 /**

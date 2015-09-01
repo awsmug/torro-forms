@@ -98,7 +98,12 @@ abstract class AF_Settings
 			$html = '<ul id="af-settings-submenu">';
 			foreach( $sub_settings AS $name => $settings )
 			{
-				$html.= '<li><a href="' . admin_url( 'admin.php?page=AF_Admin&tab=' . $this->name . '&section=' . $name  ) . '">' . $settings[ 'title' ] . '</a></li>';
+				$css_classes = '';
+				if( $name == $sub_setting || ( '' == $sub_setting && 'general' == $name ) )
+				{
+					$css_classes =  ' active';
+				}
+				$html.= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'admin.php?page=AF_Admin&tab=' . $this->name . '&section=' . $name  ) . '">' . $settings[ 'title' ] . '</a></li>';
 			}
 			$html.= '</ul>';
 
@@ -114,6 +119,10 @@ abstract class AF_Settings
 
 			$settings_handler = new AF_SettingsHandler( $settings_name, $settings[ 'settings' ] );
 			$html.= $settings_handler->get();
+
+			ob_start();
+			do_action( $settings_name . '_content' );
+			$html.= ob_get_clean();
 
 			$html.= '</div>';
 		}
