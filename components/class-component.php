@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms main component class
+ * Awesome Forms Main Component Class
  *
  * This class is the base for every Awesome Forms Component.
  *
@@ -55,8 +55,7 @@ abstract class AF_Component
 	var $description;
 
 	/**
-	 * Initialiing the Component.
-	 *
+	 * Initializing.
 	 * @since 1.0.0
 	 */
 	public function __construct()
@@ -68,34 +67,44 @@ abstract class AF_Component
 	}
 
 	/**
-	 * Including files of component
+	 * Starting component
 	 */
 	abstract function start();
 
 	/**
 	 * Registering component
-	 *
 	 * @return bool
 	 */
 	public function _register()
 	{
 		global $af_global;
 
-		if( !is_object( $af_global ) ){
+		if( !is_object( $af_global ) )
+		{
 			return FALSE;
 		}
 
 		$af_global->components[ $this->name ] = $this;
 
-		add_action( 'init', array( $this, 'start' ) ); // @todo Right Place for cheking if component can start
+		add_action( 'init', array( $this, 'start_scripts' ) ); // @todo Right Place for cheking if component can start
 
 		return TRUE;
+	}
+
+	public function start_scripts(){
+		global $af_global;
+
+		$settings_handler = new AF_SettingsHandler( 'general', $af_global->settings[ 'general' ]->settings );
+		$values = $settings_handler->get_field_values();
+
+		if( is_array( $values[ 'modules' ] ) && in_array( $this->name, $values[ 'modules' ] ) ){
+			$this->start();
+		}
 	}
 }
 
 /**
  * Registering component
- *
  * @param $component_name
  */
 function af_register_component( $component_name )

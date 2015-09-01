@@ -39,6 +39,8 @@ class AF_GeneralSettings extends AF_Settings
 
 		$this->title = __( 'General', 'af-locale' );
 		$this->name = 'general';
+
+		add_action( 'init', array( $this, 'add_modules' ), 5 ); // Loading Modules dynamical
 	}
 
 	public function settings()
@@ -53,19 +55,32 @@ class AF_GeneralSettings extends AF_Settings
 				'title'       => esc_attr( 'Form Modules', 'af-locale' ),
 				'description' => esc_attr( 'Check the modules of Awesome Forms which have to be activated.', 'af-locale' ),
 				'type' => 'title'
-			),
-			'modules' => array(
-				'title'       => esc_attr( 'Modules', 'af-locale' ),
-				'type' => 'checkbox',
-				'values' => array(
-					'charts' => esc_attr( 'Charts', 'af-locale' ),
-					'restrictions' => esc_attr( 'Restrictions', 'af-locale' ),
-					'response' => esc_attr( 'Response Handling', 'af-locale' )
-				),
-				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'af-locale' ),
-				'default' => array( 'charts', 'restrictions', 'response' )
 			)
 		);
+	}
+
+	public function add_modules(){
+		global $af_global;
+
+		$components = array();
+		$defaults = array();
+
+		foreach( $af_global->components AS $component_name => $component ){
+			$components[ $component_name ] = $component->title;
+			$defaults[] = $component_name;
+		}
+
+		$settings_arr = array(
+			'modules' => array(
+				'title'       => esc_attr( 'Modules', 'af-locale' ),
+				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'af-locale' ),
+				'type' => 'checkbox',
+				'values' => $components,
+				'default' => $defaults
+			)
+		);
+
+		$af_global->settings[ 'general' ]->add_settings_field_arr( $settings_arr );
 	}
 }
 af_register_settings( 'AF_GeneralSettings' );

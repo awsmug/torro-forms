@@ -46,6 +46,11 @@ class AF_SettingsHandler
 	 */
 	var $type = 'options';
 
+	/**
+	 * @var array
+	 */
+	var $values = array();
+
 	public function __construct( $settings_name, $settings_fields, $settings_type = 'options' )
 	{
 		$this->name = $settings_name;
@@ -71,6 +76,56 @@ class AF_SettingsHandler
 		$html.= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Getting field values
+	 */
+	public function get_field_values()
+	{
+		global $post;
+
+		if( count( $this->fields ) == 0 )
+		{
+			return FALSE;
+		}
+
+		$values = array();
+
+		foreach( $this->fields AS $name => $settings )
+		{
+			$non_value_types = array( 'title', 'disclaimer' );
+
+			if( in_array( $settings[ 'type' ], $non_value_types ) )
+			{
+				continue;
+			}
+
+			$option_name = 'af_settings_' . $this->name . '_' .  $name;
+
+			if( 'options' == $this->type )
+			{
+				$default = '';
+				if( array_key_exists( 'default', $settings ) )
+				{
+					$default = $settings[ 'default' ];
+				}
+
+				$this->values[ $name ] = get_option( $option_name, $default );
+			}
+
+			/*
+			elseif( 'post' == $this->type )
+			{
+				if( property_exists( $post, 'ID' ) )
+				{
+					get_post_meta( $post->ID, $option_name );
+				}
+			}
+			*/
+		}
+
+		return $this->values;
 	}
 
 	/**

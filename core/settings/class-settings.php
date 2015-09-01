@@ -73,6 +73,24 @@ abstract class AF_Settings
 	abstract function settings();
 
 	/**
+	 * Adding settings field by array
+	 * @param array $settings_field_array
+	 */
+	public function add_settings_field_arr( $settings_field_array )
+	{
+		$this->settings = array_merge( $this->settings, $settings_field_array );
+	}
+
+	/**
+	 * Adding settings field by array
+	 * @param array $settings_field_array
+	 */
+	public function add_subsettings_field_arr( $sub_setting_name, $settings_field_array )
+	{
+		$this->sub_settings[ $sub_setting_name ] = $settings_field_array;
+	}
+
+	/**
 	 * Shows the Settings
 	 * @param string $sub_setting_name
 	 * @return string
