@@ -63,7 +63,7 @@ class AF_GeneralSettings extends AF_Settings
 					'response' => esc_attr( 'Response Handling', 'af-locale' )
 				),
 				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'af-locale' ),
-				'defaults' => array( 'charts', 'restrictions', 'response' )
+				'default' => array( 'charts', 'restrictions', 'response' )
 			)
 		);
 	}

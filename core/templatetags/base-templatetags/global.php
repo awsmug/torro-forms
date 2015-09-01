@@ -70,7 +70,7 @@ class AF_GlobalTemplateTags extends AF_TemplateTags
 	 */
 	public static function adminemail()
 	{
-		return get_option( 'admin_email' );;
+		return get_option( 'admin_email' );
 	}
 
 	/**

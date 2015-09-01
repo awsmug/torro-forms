@@ -64,12 +64,14 @@ class AF_RestrictionsSettings extends AF_Settings
 					'invite_from_name' => array(
 						'title'       => esc_attr( 'Invite From Name', 'af-locale' ),
 						'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
-						'type' => 'text'
+						'type' => 'text',
+						'default' => get_bloginfo( 'name' )
 					),
 					'invite_from' => array(
 						'title'       => esc_attr( 'Invite From Email', 'af-locale' ),
 						'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
-						'type' => 'text'
+						'type' => 'text',
+						'default' => get_option( 'admin_email' )
 					),
 					'invite_text' => array(
 						'title'       => esc_attr( 'Invite Email Text', 'af-locale' ),

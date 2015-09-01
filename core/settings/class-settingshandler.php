@@ -85,24 +85,25 @@ class AF_SettingsHandler
 			return FALSE;
 		}
 
-		foreach( $this->fields AS $name => $settings ){
+		foreach( $this->fields AS $name => $settings )
+		{
+			$option_name = 'af_settings_' . $this->name . '_' .  $name;
 
+			$value = '';
 			if( array_key_exists( $name, $_POST ) )
 			{
-				$option_name = 'af_settings_' . $this->name . '_' .  $name;
+				$value = $_POST[ $name ];
+			}
 
-				if( 'options' == $this->type )
+			if( 'options' == $this->type )
+			{
+				update_option( $option_name , $value );
+			}
+			elseif( 'post' == $this->type )
+			{
+				if( property_exists( $post, 'ID' ) )
 				{
-					p( $option_name );
-					update_option( $option_name , $_POST[ $name ] );
-
-				}
-				elseif( 'post' == $this->type )
-				{
-					if( property_exists( $post, 'ID' ) )
-					{
-						update_post_meta( $post->ID, $option_name, $_POST[ $name ] );
-					}
+					update_post_meta( $post->ID, $option_name, $value );
 				}
 			}
 		}
@@ -114,7 +115,17 @@ class AF_SettingsHandler
 
 		if( 'options' == $this->type )
 		{
-			$value = get_option( 'af_settings_' . $this->name . '_' . $name );
+			$default = '';
+			if( array_key_exists( 'default', $this->fields[ $name ] ) )
+			{
+				$default = $this->fields[ $name ][ 'default' ];
+			}
+
+			$option_name = 'af_settings_' . $this->name . '_' . $name;
+
+			$value = get_option( $option_name, $default );
+
+			// delete_option( $option_name );
 		}
 		elseif( 'post' == $this->type )
 		{
@@ -256,7 +267,7 @@ class AF_SettingsHandler
 				foreach( $settings[ 'values' ] AS $field_key => $field_value ):
 					$checked = '';
 
-					if( in_array( $field_key, $value ) ){
+					if( is_array( $value ) && in_array( $field_key, $value ) ){
 						$checked = ' checked="checked"';
 					}
 
