@@ -58,7 +58,13 @@ abstract class AF_Settings
 	 * Settings
 	 * @since 1.0.0
 	 */
-	public $settings;
+	public $settings = array();
+
+	/**
+	 * Sub Settings
+	 * @since 1.0.0
+	 */
+	public $sub_settings = array();
 
 	/**
 	 * Will be shown within settings tab
@@ -68,11 +74,49 @@ abstract class AF_Settings
 
 	/**
 	 * Shows the Settings
+	 * @param string $sub_settings
 	 * @return string
 	 */
-	public function show(){
-		$settings_handler = new AF_SettingsForm( $this->name, $this->settings );
-		$html = $settings_handler->get();
+	public function show( $sub_setting = '' )
+	{
+		if( count( $this->sub_settings ) == 0 )
+		{
+			$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
+			$html = $settings_handler->get();
+		}
+		else
+		{
+			$sub_settings = array(
+				'general' => array(
+					'title' => esc_attr( 'General', 'af-locale' ),
+					'settings' => $this->settings
+				)
+			);
+
+			$sub_settings = array_merge( $sub_settings, $this->sub_settings );
+
+			$html = '<ul id="af-settings-submenu">';
+			foreach( $sub_settings AS $name => $settings )
+			{
+				$html.= '<li><a href="' . admin_url( 'admin.php?page=AF_Admin&tab=' . $this->name . '&section=' . $name  ) . '">' . $settings[ 'title' ] . '</a></li>';
+			}
+			$html.= '</ul>';
+
+			$html.= '<div id="af-settings-subcontent">';
+
+			$settings_name = $this->name;
+			if( '' == $sub_settings )
+			{
+				$settings_name.= '_' . $sub_setting;
+			}
+
+			$settings = $sub_settings[ '' == $sub_setting ? 'general' : $sub_setting ];
+
+			$settings_handler = new AF_SettingsHandler( $settings_name, $settings[ 'settings' ] );
+			$html.= $settings_handler->get();
+
+			$html.= '</div>';
+		}
 
 		return $html;
 	}
@@ -82,7 +126,7 @@ abstract class AF_Settings
 	 */
 	public function save_settings()
 	{
-		$settings_handler = new AF_SettingsForm( $this->name, $this->settings );
+		$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
 		$settings_handler->save();
 
 		do_action( 'af_save_settings_' . $this->name );

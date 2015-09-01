@@ -138,11 +138,11 @@ class AF_Core
 		// Admin
 		include( $core_folder . 'menu.php' );
 		include( $core_folder . 'form-builder.php' );
-		include( $core_folder . 'settings.php' );
+		include( $core_folder . 'settings-page.php' );
 
 		// Settings
 		include( $core_folder . 'settings/class-settings.php' );
-		include( $core_folder . 'settings/class-settingsform.php' );
+		include( $core_folder . 'settings/class-settingshandler.php' );
 		include( $core_folder . 'settings/base-settings/general.php' );
 
 		// Form functions

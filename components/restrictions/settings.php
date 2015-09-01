@@ -48,22 +48,35 @@ class AF_RestrictionsSettings extends AF_Settings
 			'modules_title' => array(
 				'title'       => esc_attr( 'Restrictions', 'af-locale' ),
 				'description' => esc_attr( 'Setup the restrictions settings.', 'af-locale' ),
-				'type' => 'title'
-			),
-			'invite_from_name' => array(
-				'title'       => esc_attr( 'Invite From Name', 'af-locale' ),
-				'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
-				'type' => 'text'
-			),
-			'invite_from' => array(
-				'title'       => esc_attr( 'Invite From Email', 'af-locale' ),
-				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
-				'type' => 'text'
-			),
-			'invite_text' => array(
-				'title'       => esc_attr( 'Invite Email Text', 'af-locale' ),
-				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
-				'type' => 'textarea'
+				'type' => 'disclaimer'
+			)
+		);
+
+		$this->sub_settings = array(
+			'invitationmails' => array(
+				'title' => esc_attr( 'Invitation Mails', 'af-locale' ),
+				'settings' => array(
+					'invitations' => array(
+						'title' => esc_attr( 'Invitations', 'af-locale' ),
+						'description' => esc_attr( 'Setup the Invitation Mail Template', 'af-locale' ),
+						'type' => 'title'
+					),
+					'invite_from_name' => array(
+						'title'       => esc_attr( 'Invite From Name', 'af-locale' ),
+						'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
+						'type' => 'text'
+					),
+					'invite_from' => array(
+						'title'       => esc_attr( 'Invite From Email', 'af-locale' ),
+						'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
+						'type' => 'text'
+					),
+					'invite_text' => array(
+						'title'       => esc_attr( 'Invite Email Text', 'af-locale' ),
+						'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
+						'type' => 'textarea'
+					)
+				)
 			)
 		);
 	}

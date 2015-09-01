@@ -28,7 +28,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class AF_SettingsForm
+class AF_SettingsHandler
 {
 	/**
 	 * @var string
@@ -59,13 +59,15 @@ class AF_SettingsForm
 			return FALSE;
 		}
 
-		$html = '<table class="form-table">';
-		$html.= '<tbody>';
-		foreach( $this->fields AS $name => $settings ){
-			$html.= $this->get_field( $name, $settings );
-		}
-		$html.= '</tbody>';
-		$html.= '</table>';
+		$html = '<div class="settings-table">';
+			$html = '<table class="form-table">';
+				$html.= '<tbody>';
+				foreach( $this->fields AS $name => $settings ){
+					$html.= $this->get_field( $name, $settings );
+				}
+				$html.= '</tbody>';
+			$html.= '</table>';
+		$html.= '</div>';
 
 		return $html;
 	}
@@ -77,20 +79,26 @@ class AF_SettingsForm
 	{
 		global $post;
 
-		if( count( $this->fields ) == 0 ){
+		if( count( $this->fields ) == 0 )
+		{
 			return FALSE;
 		}
 
 		foreach( $this->fields AS $name => $settings ){
 
-			if( array_key_exists( $name, $_POST ) ){
+			if( array_key_exists( $name, $_POST ) )
+			{
 				$option_name = 'af_settings_' . $this->name . '_' .  $name;
 
-				if( 'options' == $this->type ){
+				if( 'options' == $this->type )
+				{
 					update_option( $option_name , $_POST[ $name ] );
 
-				}elseif( 'post' == $this->type ){
-					if( property_exists( $post, 'ID' ) ){
+				}
+				elseif( 'post' == $this->type )
+				{
+					if( property_exists( $post, 'ID' ) )
+					{
 						update_post_meta( $post->ID, $option_name, $_POST[ $name ] );
 					}
 				}
@@ -108,7 +116,8 @@ class AF_SettingsForm
 		}
 		elseif( 'post' == $this->type )
 		{
-			if( property_exists( $post, 'ID' ) ){
+			if( property_exists( $post, 'ID' ) )
+			{
 				$value = get_post_meta( $post->ID, $name, TRUE );
 			}
 		}
@@ -163,7 +172,8 @@ class AF_SettingsForm
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
 			$html.= '<td>';
 				$html.= '<input type="text" name="' . $name . '" value="' . $value . '" />';
-				if( isset( $settings[ 'description' ] ) ){
+				if( isset( $settings[ 'description' ] ) )
+				{
 					$html.= '<br /><small>' . $settings[ 'description' ] . '</small>';
 				}
 			$html.= '</td>';
@@ -209,16 +219,15 @@ class AF_SettingsForm
 		$html = '<tr>';
 			$html.= '<th>' . $settings[ 'title' ] . '</th>';
 			$html.= '<td>';
-				foreach( $values AS $field_key => $field_value ):
+				foreach( $values AS $field_key => $field_value ){
 					$checked = '';
 
 					if( $value == $field_key ){
 						$checked = ' checked="checked"';
 					}
 
-
 					$html .= '<div class="af-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
-				endforeach;
+				}
 				if( isset( $settings[ 'description' ] ) ){
 					$html .= '<small>' . $settings[ 'description' ] . '</small>';
 				}
@@ -272,14 +281,17 @@ class AF_SettingsForm
 	{
 		$html = '</tbody>';
 		$html.= '</table>';
+		$html.= '</div>';
 
-
+		$html.= '<div class="settings-title">';
 		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
 
 		if( isset( $settings[ 'description' ] ) ){
 			$html .= '<p>' . $settings[ 'description' ] . '</p>';
 		}
+		$html.= '</div>';
 
+		$html.= '<div class="settings-table">';
 		$html.= '<table class="form-table">';
 		$html.= '<tbody>';
 
@@ -298,6 +310,7 @@ class AF_SettingsForm
 	{
 		$html = '</tbody>';
 		$html.= '</table>';
+		$html.= '</div>';
 
 		$html.= '<div class="af-settings-disclaimer">';
 		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
@@ -307,6 +320,7 @@ class AF_SettingsForm
 		}
 		$html.= '</div>';
 
+		$html.= '<div class="settings-table">';
 		$html.= '<table class="form-table">';
 		$html.= '<tbody>';
 

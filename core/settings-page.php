@@ -36,6 +36,12 @@ class AF_SettingsPage{
     static $current_tab;
 
     /**
+     * The current section
+     * @var
+     */
+    static $current_section;
+
+    /**
      * Init in WordPress, run on constructor
      *
      * @return null
@@ -66,8 +72,8 @@ class AF_SettingsPage{
                 if( property_exists( $af_global, 'settings' ) && count( $af_global->settings ) > 0 ){
 
                     $html.= '<h2 class="nav-tab-wrapper">';
-                    foreach( $af_global->settings AS $setting ){
-
+                    foreach( $af_global->settings AS $setting )
+                    {
                         $css_classes = '';
                         if( $setting->name == self::$current_tab )
                             $css_classes = ' nav-tab-active';
@@ -77,7 +83,9 @@ class AF_SettingsPage{
                     $html.= '</h2>';
 
                     $html.= '<div id="af-settings-content">';
-                    $html.= $af_global->settings[ self::$current_tab ]->show();
+
+                    $settings = $af_global->settings[ self::$current_tab ];
+                    $html .= $settings->show( self::$current_section );
 
                     ob_start();
                     do_action( 'af_settings_' . self::$current_tab );
@@ -112,11 +120,20 @@ class AF_SettingsPage{
     /**
      * Initializing Tabs
      */
-    public static function init_tabs(){
-        if( isset( $_GET[ 'tab' ]) ){
+    public static function init_tabs()
+    {
+        if( isset( $_GET[ 'tab' ] ) )
+        {
             self::$current_tab = $_GET[ 'tab' ];
-        }else{
+        }
+        else
+        {
             self::$current_tab = 'general';
+        }
+
+        if( isset( $_GET[ 'section' ] ) )
+        {
+            self::$current_section = $_GET[ 'section' ];
         }
     }
 
