@@ -116,7 +116,13 @@ class AF_SettingsPage{
         if( !isset( $_POST[ 'af_save_settings' ] ) )
             return;
 
-        do_action( 'af_save_settings' );
+        $section = '';
+        if( isset( $_GET[ 'section' ] ) )
+        {
+            $section = $_GET[ 'section' ];
+        }
+
+        do_action( 'af_save_settings', $section );
     }
 
     /**

@@ -93,6 +93,7 @@ class AF_SettingsHandler
 
 				if( 'options' == $this->type )
 				{
+					p( $option_name );
 					update_option( $option_name , $_POST[ $name ] );
 
 				}

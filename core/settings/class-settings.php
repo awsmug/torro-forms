@@ -74,10 +74,10 @@ abstract class AF_Settings
 
 	/**
 	 * Shows the Settings
-	 * @param string $sub_settings
+	 * @param string $sub_setting_name
 	 * @return string
 	 */
-	public function show( $sub_setting = '' )
+	public function show( $sub_setting_name = '' )
 	{
 		if( count( $this->sub_settings ) == 0 )
 		{
@@ -99,7 +99,7 @@ abstract class AF_Settings
 			foreach( $sub_settings AS $name => $settings )
 			{
 				$css_classes = '';
-				if( $name == $sub_setting || ( '' == $sub_setting && 'general' == $name ) )
+				if( $name == $sub_setting_name || ( '' == $sub_setting_name && 'general' == $name ) )
 				{
 					$css_classes =  ' active';
 				}
@@ -110,12 +110,12 @@ abstract class AF_Settings
 			$html.= '<div id="af-settings-subcontent">';
 
 			$settings_name = $this->name;
-			if( '' == $sub_settings )
+			if( '' != $sub_settings )
 			{
-				$settings_name.= '_' . $sub_setting;
+				$settings_name.= '_' . $sub_setting_name;
 			}
 
-			$settings = $sub_settings[ '' == $sub_setting ? 'general' : $sub_setting ];
+			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
 
 			$settings_handler = new AF_SettingsHandler( $settings_name, $settings[ 'settings' ] );
 			$html.= $settings_handler->get();
@@ -132,13 +132,39 @@ abstract class AF_Settings
 
 	/**
 	 * Saving Settngs
+	 * @param string $sub_setting_name
 	 */
-	public function save_settings()
+	public function save_settings( $sub_setting_name = '' )
 	{
-		$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
-		$settings_handler->save();
+		if( count( $this->sub_settings ) == 0 )
+		{
+			$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
+			$settings_handler->save();
 
-		do_action( 'af_save_settings_' . $this->name );
+			do_action( 'af_save_settings_' . $this->name );
+		}
+		else{
+
+			$sub_settings = array(
+				'general' => array(
+					'title' => esc_attr( 'General', 'af-locale' ),
+					'settings' => $this->settings
+				)
+			);
+
+			$sub_settings = array_merge( $sub_settings, $this->sub_settings );
+
+			$settings_name = $this->name;
+			if( '' != $sub_setting_name )
+			{
+				$settings_name.= '_' . $sub_setting_name;
+			}
+
+			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
+
+			$settings_handler = new AF_SettingsHandler( $settings_name, $settings[ 'settings' ] );
+			$settings_handler->save();
+		}
 	}
 
 	/**
@@ -185,7 +211,7 @@ abstract class AF_Settings
 
 		$this->settings(); // Initializing settings
 
-		add_action( 'af_save_settings', array( $this, 'save_settings' ), 50 );
+		add_action( 'af_save_settings', array( $this, 'save_settings' ), 10, 1 );
 
 		return $af_global->add_settings( $this->name, $this );
 	}
