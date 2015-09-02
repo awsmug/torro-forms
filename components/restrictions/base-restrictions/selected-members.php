@@ -52,6 +52,31 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
+
+		$this->settings_fields = array(
+			'invitations'      => array(
+				'title'       => esc_attr( 'Invitations', 'af-locale' ),
+				'description' => esc_attr( 'Setup the Invitation Mail Template', 'af-locale' ),
+				'type'        => 'title'
+			),
+			'invite_from_name' => array(
+				'title'       => esc_attr( 'Invite From Name', 'af-locale' ),
+				'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
+				'type'        => 'text',
+				'default'     => get_bloginfo( 'name' )
+			),
+			'invite_from'      => array(
+				'title'       => esc_attr( 'Invite From Email', 'af-locale' ),
+				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
+				'type'        => 'text',
+				'default'     => get_option( 'admin_email' )
+			),
+			'invite_text'      => array(
+				'title'       => esc_attr( 'Invite Email Text', 'af-locale' ),
+				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
+				'type'        => 'textarea'
+			)
+		);
 	}
 
 	/**
