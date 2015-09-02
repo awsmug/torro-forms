@@ -74,15 +74,6 @@ abstract class AF_Settings
 	public $sub_settings = array();
 
 	/**
-	 * Will be shown within settings tab
-	 *
-	 * @return mixed
-	 */
-	public function settings()
-	{
-	}
-
-	/**
 	 * Adding settings field by array
 	 *
 	 * @param array $settings_fields
@@ -270,12 +261,7 @@ abstract class AF_Settings
 
 		$this->initialized = TRUE;
 
-		$this->settings(); // Initializing settings
-
-		add_action( 'af_save_settings', array(
-			$this,
-			'save_settings'
-		), 10, 1 );
+		add_action( 'af_save_settings', array( $this, 'save_settings' ), 10, 1 );
 
 		return $af_global->add_settings( $this->name, $this );
 	}
@@ -298,4 +284,21 @@ function af_register_settings( $settings_handler_class )
 	}
 
 	return FALSE;
+}
+
+/**
+ * @param $settings_name
+ */
+function af_get_settings( $settings_name ){
+	global $af_global;
+
+	if( !array_key_exists( $settings_name, $af_global->settings ) )
+	{
+		return FALSE;
+	}
+
+	$settings_handler = new AF_SettingsHandler( $settings_name, $af_global->settings[ $settings_name ]->settings );
+	$values = $settings_handler->get_field_values();
+
+	return $values;
 }

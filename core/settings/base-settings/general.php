@@ -40,11 +40,6 @@ class AF_GeneralSettings extends AF_Settings
 		$this->title = __( 'General', 'af-locale' );
 		$this->name = 'general';
 
-		add_action( 'init', array( $this, 'add_modules' ), 5 ); // Loading Modules dynamical
-	}
-
-	public function settings()
-	{
 		$this->settings = array(
 			'disclaimer' => array(
 				'title'       => esc_attr( 'Welcome to Awesome Forms!', 'af-locale' ),
@@ -57,6 +52,8 @@ class AF_GeneralSettings extends AF_Settings
 				'type' => 'title'
 			)
 		);
+
+		add_action( 'init', array( $this, 'add_modules' ), 5 ); // Loading Modules dynamical
 	}
 
 	public function add_modules(){

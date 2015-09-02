@@ -30,14 +30,11 @@ if( !defined( 'ABSPATH' ) ){
 
 class AF_RestrictionsSettings extends AF_Settings
 {
-
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		global $post;
-
 		$this->title = __( 'Restrictions', 'af-locale' );
 		$this->name = 'restrictions';
 	}

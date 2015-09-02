@@ -55,6 +55,13 @@ abstract class AF_Component
 	var $description;
 
 	/**
+	 * Settings
+	 *
+	 * @since 1.0.0
+	 */
+	var $settings;
+
+	/**
 	 * Initializing.
 	 * @since 1.0.0
 	 */
@@ -63,7 +70,7 @@ abstract class AF_Component
 		// Standard values
 		$this->name = get_class( $this );
 		$this->title = ucfirst( $this->name );
-		$this->description = esc_attr__( 'This is a Awesome Forms component.', 'af-locale' );
+		$this->description = esc_attr__( 'This is an Awesome Forms component.', 'af-locale' );
 	}
 
 	/**
@@ -86,21 +93,22 @@ abstract class AF_Component
 
 		$af_global->components[ $this->name ] = $this;
 
-		add_action( 'init', array( $this, 'start_scripts' ), 20 );
+		add_action( 'init', array( $this, 'start_component' ), 20 );
 
 		return TRUE;
 	}
 
-	public function start_scripts()
+	/**
+	 * Starting Module
+	 */
+	public function start_component()
 	{
-		global $af_global;
+		$values = af_get_settings( 'general' );
 
-		// @todo Make it easyier to acess data!
-		$settings_handler = new AF_SettingsHandler( 'general', $af_global->settings[ 'general' ]->settings );
-		$values = $settings_handler->get_field_values();
-
-		if( is_array( $values[ 'modules' ] ) && in_array( $this->name, $values[ 'modules' ] ) ){
+		if( is_array( $values[ 'modules' ] ) && in_array( $this->name, $values[ 'modules' ] ) )
+		{
 			$this->start();
+			$this->settings = af_get_settings( $this->name );
 		}
 	}
 }
