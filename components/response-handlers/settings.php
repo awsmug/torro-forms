@@ -42,8 +42,11 @@ class AF_ResponseSettings extends AF_Settings
 		$this->name = 'responsehandling';
 	}
 
-	public function settings(){
-
+	/**
+	 * Adding Settings to Settings Page
+	 */
+	public function settings()
+	{
 		$this->settings = array(
 			'modules_title' => array(
 				'title'       => esc_attr( 'Response Handling', 'af-locale' ),
@@ -51,6 +54,16 @@ class AF_ResponseSettings extends AF_Settings
 				'type' => 'title'
 			)
 		);
+	}
+
+	/**
+	 * Adding Settings to Settings Page dynamical
+	 * @param $settings_name
+	 * @param $settings_title
+	 * @param $settings_arr
+	 */
+	public function add_settings( $settings_name, $settings_title, $settings_arr ){
+		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
 	}
 }
 af_register_settings( 'AF_ResponseSettings' );

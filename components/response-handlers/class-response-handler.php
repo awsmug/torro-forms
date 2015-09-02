@@ -34,27 +34,38 @@ abstract class AF_ResponseHandler
 {
 	/**
 	 * name of restriction
+	 *
 	 * @since 1.0.0
 	 */
 	public $name;
 
 	/**
 	 * Title of restriction
+	 *
 	 * @since 1.0.0
 	 */
 	public $title;
 
 	/**
 	 * Description of restriction
+	 *
 	 * @since 1.0.0
 	 */
 	public $description;
 
 	/**
 	 * Already initialized?
+	 *
 	 * @since 1.0.0
 	 */
 	private $initialized = FALSE;
+
+	/**
+	 * Already initialized?
+	 *
+	 * @since 1.0.0
+	 */
+	var $settings_fields = array();
 
 	/**
 	 * Contains the option_content
@@ -63,6 +74,7 @@ abstract class AF_ResponseHandler
 
 	/**
 	 * Handles the data after user submitted the form
+	 *
 	 * @param $response_id
 	 * @param $response
 	 */
@@ -76,7 +88,8 @@ abstract class AF_ResponseHandler
 	/**
 	 * Checks if there is an option content
 	 */
-	public function has_option(){
+	public function has_option()
+	{
 		if( '' != $this->option_content ){
 			return $this->option_content;
 		}
@@ -88,6 +101,30 @@ abstract class AF_ResponseHandler
 		}
 
 		return TRUE;
+	}
+
+	/**
+	 * Add Settings to Settings Page
+	 */
+	public function add_settings(){
+		global $af_global;
+
+		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields  )
+		{
+			return FALSE;
+		}
+
+		$headline = array(
+			'headline' => array(
+				'title'       => $this->title,
+				'description' => sprintf( esc_attr( 'Setup the "%s" Response Gateway.', 'af-locale' ), $this->title ),
+				'type'  => 'title'
+ 			)
+		);
+
+		$settings_fields = array_merge( $headline, $this->settings_fields );
+
+		$af_global->settings[ 'responsehandling' ]->add_settings( $this->name, $this->title, $settings_fields );
 	}
 
 	/**
@@ -129,6 +166,8 @@ abstract class AF_ResponseHandler
 		if( !is_array( $af_global->response_handlers ) ){
 			$af_global->response_handlers = array();
 		}
+
+		add_action( 'init', array( $this, 'add_settings' ), 15 );
 
 		$this->initialized = TRUE;
 

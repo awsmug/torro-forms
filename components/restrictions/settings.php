@@ -42,45 +42,14 @@ class AF_RestrictionsSettings extends AF_Settings
 		$this->name = 'restrictions';
 	}
 
-	public function settings(){
-
-		$this->settings = array(
-			'modules_title' => array(
-				'title'       => esc_attr( 'Restrictions', 'af-locale' ),
-				'description' => esc_attr( 'Setup the restrictions settings.', 'af-locale' ),
-				'type' => 'disclaimer'
-			)
-		);
-
-		$this->sub_settings = array(
-			'invitationmails' => array(
-				'title' => esc_attr( 'Invitation Mails', 'af-locale' ),
-				'settings' => array(
-					'invitations' => array(
-						'title' => esc_attr( 'Invitations', 'af-locale' ),
-						'description' => esc_attr( 'Setup the Invitation Mail Template', 'af-locale' ),
-						'type' => 'title'
-					),
-					'invite_from_name' => array(
-						'title'       => esc_attr( 'Invite From Name', 'af-locale' ),
-						'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
-						'type' => 'text',
-						'default' => get_bloginfo( 'name' )
-					),
-					'invite_from' => array(
-						'title'       => esc_attr( 'Invite From Email', 'af-locale' ),
-						'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
-						'type' => 'text',
-						'default' => get_option( 'admin_email' )
-					),
-					'invite_text' => array(
-						'title'       => esc_attr( 'Invite Email Text', 'af-locale' ),
-						'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
-						'type' => 'textarea'
-					)
-				)
-			)
-		);
+	/**
+	 * Adding Settings to Settings Page
+	 * @param $settings_name
+	 * @param $settings_title
+	 * @param $settings_arr
+	 */
+	public function add_settings( $settings_name, $settings_title, $settings_arr ){
+		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
 	}
 }
 af_register_settings( 'AF_RestrictionsSettings' );

@@ -24,57 +24,68 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
 abstract class AF_Settings
 {
 	/**
-	 * name of restriction
+	 * Name
+	 *
 	 * @since 1.0.0
 	 */
 	public $name;
 
 	/**
-	 * Title of restriction
+	 * Title
+	 *
 	 * @since 1.0.0
 	 */
 	public $title;
 
 	/**
-	 * Description of restriction
+	 * Description
+	 *
 	 * @since 1.0.0
 	 */
 	public $description;
 
 	/**
 	 * Already initialized?
+	 *
 	 * @since 1.0.0
 	 */
 	private $initialized = FALSE;
 
 	/**
 	 * Settings
+	 *
 	 * @since 1.0.0
 	 */
 	public $settings = array();
 
 	/**
 	 * Sub Settings
+	 *
 	 * @since 1.0.0
 	 */
 	public $sub_settings = array();
 
 	/**
 	 * Will be shown within settings tab
+	 *
 	 * @return mixed
 	 */
-	abstract function settings();
+	public function settings()
+	{
+	}
 
 	/**
 	 * Adding settings field by array
-	 * @param array $settings_field_array
+	 *
+	 * @param array $settings_fields
 	 */
 	public function add_settings_field_arr( $settings_field_array )
 	{
@@ -83,16 +94,22 @@ abstract class AF_Settings
 
 	/**
 	 * Adding settings field by array
-	 * @param array $settings_field_array
+	 *
+	 * @param array $settings_fields
 	 */
-	public function add_subsettings_field_arr( $sub_setting_name, $settings_field_array )
+	public function add_subsettings_field_arr( $setting_name, $setting_title, $settings_fields )
 	{
-		$this->sub_settings[ $sub_setting_name ] = $settings_field_array;
+		$this->sub_settings[ $setting_name ] = array(
+			'title'    => $setting_title,
+			'settings' => $settings_fields
+		);
 	}
 
 	/**
 	 * Shows the Settings
+	 *
 	 * @param string $sub_setting_name
+	 *
 	 * @return string
 	 */
 	public function show( $sub_setting_name = '' )
@@ -104,28 +121,45 @@ abstract class AF_Settings
 		}
 		else
 		{
-			$sub_settings = array(
-				'general' => array(
-					'title' => esc_attr( 'General', 'af-locale' ),
-					'settings' => $this->settings
-				)
-			);
+			if( is_array( $this->settings ) && count( $this->settings ) > 0 )
+			{
+				// Adding General settings Page
+				$sub_settings = array(
+					'general' => array(
+						'title'    => esc_attr( 'General', 'af-locale' ),
+						'settings' => $this->settings
+					)
+				);
 
-			$sub_settings = array_merge( $sub_settings, $this->sub_settings );
+				$sub_settings = array_merge( $sub_settings, $this->sub_settings );
+			}
+			else
+			{
+				// Setting up first Tab, if there is no General Tab
+				$sub_settings = $this->sub_settings;
 
+				foreach( $this->sub_settings AS $key => $setting )
+				{
+					$sub_setting_name = $key;
+					break;
+				}
+			}
+
+			// Submenu
 			$html = '<ul id="af-settings-submenu">';
 			foreach( $sub_settings AS $name => $settings )
 			{
 				$css_classes = '';
 				if( $name == $sub_setting_name || ( '' == $sub_setting_name && 'general' == $name ) )
 				{
-					$css_classes =  ' active';
+					$css_classes = ' active';
 				}
-				$html.= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'admin.php?page=AF_Admin&tab=' . $this->name . '&section=' . $name  ) . '">' . $settings[ 'title' ] . '</a></li>';
+				$html .= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'admin.php?page=AF_Admin&tab=' . $this->name . '&section=' . $name ) . '">' . $settings[ 'title' ] . '</a></li>';
 			}
-			$html.= '</ul>';
+			$html .= '</ul>';
 
-			$html.= '<div id="af-settings-subcontent">';
+			// Content of Submenu Tab
+			$html .= '<div id="af-settings-subcontent">';
 
 			$settings_name = $this->name;
 			if( '' != $sub_settings )
@@ -136,13 +170,13 @@ abstract class AF_Settings
 			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
 
 			$settings_handler = new AF_SettingsHandler( $settings_name, $settings[ 'settings' ] );
-			$html.= $settings_handler->get();
+			$html .= $settings_handler->get();
 
 			ob_start();
 			do_action( $settings_name . '_content' );
-			$html.= ob_get_clean();
+			$html .= ob_get_clean();
 
-			$html.= '</div>';
+			$html .= '</div>';
 		}
 
 		return $html;
@@ -150,6 +184,7 @@ abstract class AF_Settings
 
 	/**
 	 * Saving Settngs
+	 *
 	 * @param string $sub_setting_name
 	 */
 	public function save_settings( $sub_setting_name = '' )
@@ -161,11 +196,12 @@ abstract class AF_Settings
 
 			do_action( 'af_save_settings_' . $this->name );
 		}
-		else{
+		else
+		{
 
 			$sub_settings = array(
 				'general' => array(
-					'title' => esc_attr( 'General', 'af-locale' ),
+					'title'    => esc_attr( 'General', 'af-locale' ),
 					'settings' => $this->settings
 				)
 			);
@@ -175,7 +211,7 @@ abstract class AF_Settings
 			$settings_name = $this->name;
 			if( '' != $sub_setting_name )
 			{
-				$settings_name.= '_' . $sub_setting_name;
+				$settings_name .= '_' . $sub_setting_name;
 			}
 
 			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
@@ -197,31 +233,38 @@ abstract class AF_Settings
 	{
 		global $af_global;
 
-		if( TRUE == $this->initialized ){
+		if( TRUE == $this->initialized )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) ){
+		if( !is_object( $af_global ) )
+		{
 			return FALSE;
 		}
 
-		if( '' == $this->name ){
+		if( '' == $this->name )
+		{
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title ){
+		if( '' == $this->title )
+		{
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description ){
+		if( '' == $this->description )
+		{
 			$this->description = esc_attr__( 'This is the Awesome Forms Responsehandler extension.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->settings ) ){
+		if( array_key_exists( $this->name, $af_global->settings ) )
+		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->settings ) ){
+		if( !is_array( $af_global->settings ) )
+		{
 			$af_global->settings = array();
 		}
 
@@ -229,7 +272,10 @@ abstract class AF_Settings
 
 		$this->settings(); // Initializing settings
 
-		add_action( 'af_save_settings', array( $this, 'save_settings' ), 10, 1 );
+		add_action( 'af_save_settings', array(
+			$this,
+			'save_settings'
+		), 10, 1 );
 
 		return $af_global->add_settings( $this->name, $this );
 	}
@@ -244,9 +290,12 @@ abstract class AF_Settings
  */
 function af_register_settings( $settings_handler_class )
 {
-	if( class_exists( $settings_handler_class ) ){
+	if( class_exists( $settings_handler_class ) )
+	{
 		$settings_handler = new $settings_handler_class();
+
 		return $settings_handler->_register();
 	}
+
 	return FALSE;
 }

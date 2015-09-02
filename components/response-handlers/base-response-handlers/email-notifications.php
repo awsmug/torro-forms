@@ -45,6 +45,13 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		$this->title = __( 'Email Notifications', 'af-locale' );
 		$this->name = 'emailnotifications';
 
+		$this->settings_fields = array(
+			'apikey' => array(
+				'title' => 'API Key',
+				'type' => 'text'
+			)
+		);
+
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
 		add_action( 'af_save_form', array( __CLASS__, 'save_option_content' ) );

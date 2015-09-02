@@ -68,6 +68,13 @@ abstract class AF_Restriction
 	var $initialized = FALSE;
 
 	/**
+	 * Already initialized?
+	 *
+	 * @since 1.0.0
+	 */
+	var $settings_fields = array();
+
+	/**
 	 * Message
 	 *
 	 * @var array
@@ -134,6 +141,30 @@ abstract class AF_Restriction
 	}
 
 	/**
+	 * Add Settings to Settings Page
+	 */
+	public function add_settings(){
+		global $af_global;
+
+		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields  )
+		{
+			return FALSE;
+		}
+
+		$headline = array(
+			'headline' => array(
+				'title'       => $this->title,
+				'description' => sprintf( esc_attr( 'Setup the "%s" Response Gateway.', 'af-locale' ), $this->title ),
+				'type'  => 'title'
+			)
+		);
+
+		$settings_fields = array_merge( $headline, $this->settings_fields );
+
+		$af_global->settings[ 'restrictions' ]->add_settings( $this->name, $this->title, $settings_fields );
+	}
+
+	/**
 	 * Adds content to the option
 	 */
 	public function option_content()
@@ -180,6 +211,8 @@ abstract class AF_Restriction
 		if( !is_array( $af_global->restrictions ) ){
 			$af_global->restrictions = array();
 		}
+
+		add_action( 'init', array( $this, 'add_settings' ), 15 );
 
 		$this->initialized = TRUE;
 

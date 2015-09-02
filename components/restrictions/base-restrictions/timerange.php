@@ -48,6 +48,14 @@ class AF_Restriction_Timerange extends AF_Restriction
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 
 		add_action( 'af_additional_restrictions_check_start', array( $this, 'check' ) );
+
+		$this->settings_fields = array(
+			'timerange' => array(
+				'title' => 'CHeck123',
+				'description' => 'Das ist ma ne Description!',
+				'type' => 'text'
+			)
+		);
 	}
 
 	/**
