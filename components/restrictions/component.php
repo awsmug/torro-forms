@@ -41,7 +41,7 @@ class AF_Restrictions extends AF_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'afrestrictions';
+		$this->name = 'restrictions';
 		$this->title = esc_attr__( 'Restrictions', 'af-locale' );
 		$this->description = esc_attr__( 'Restrictions if a user can fillout a form or not', 'af-locale' );
 	}
