@@ -71,9 +71,17 @@ class AF_SettingsPage{
 
                 if( property_exists( $af_global, 'settings' ) && count( $af_global->settings ) > 0 )
                 {
+                    /**
+                     * Tabs
+                     */
                     $html.= '<h2 class="nav-tab-wrapper">';
                     foreach( $af_global->settings AS $setting )
                     {
+                        // Discard Settings if there are no settings
+                        if( count( $setting->settings ) == 0 && count( $setting->sub_settings ) == 0  ){
+                            continue;
+                        }
+
                         $css_classes = '';
                         if( $setting->name == self::$current_tab )
                             $css_classes = ' nav-tab-active';
@@ -82,6 +90,9 @@ class AF_SettingsPage{
                     }
                     $html.= '</h2>';
 
+                    /**
+                     * Content
+                     */
                     $html.= '<div id="af-settings-content" class="' . self::$current_tab . '">';
 
                     $settings = $af_global->settings[ self::$current_tab ];
