@@ -55,25 +55,47 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$this->settings_fields = array(
 			'invitations'      => array(
-				'title'       => esc_attr( 'Invitations', 'af-locale' ),
-				'description' => esc_attr( 'Setup the Invitation Mail Template', 'af-locale' ),
+				'title'       => esc_attr( 'Invitation Mail Template', 'af-locale' ),
+				'description' => esc_attr( 'Setup Mail Templates for the Invitation Mail for selected Members.', 'af-locale' ),
 				'type'        => 'title'
 			),
 			'invite_from_name' => array(
-				'title'       => esc_attr( 'Invite From Name', 'af-locale' ),
+				'title'       => esc_attr( 'From Name', 'af-locale' ),
 				'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
 				'type'        => 'text',
 				'default'     => get_bloginfo( 'name' )
 			),
 			'invite_from'      => array(
-				'title'       => esc_attr( 'Invite From Email', 'af-locale' ),
+				'title'       => esc_attr( 'From Email', 'af-locale' ),
 				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),
 			'invite_text'      => array(
-				'title'       => esc_attr( 'Invite Email Text', 'af-locale' ),
+				'title'       => esc_attr( 'Email Text', 'af-locale' ),
+				'description' => esc_attr( 'The Text of the Mail.', 'af-locale' ),
+				'type'        => 'textarea'
+			),
+			'reinvitations'      => array(
+				'title'       => esc_attr( 'Reinvitation Mail Template', 'af-locale' ),
+				'description' => esc_attr( 'Setup Mail Templates for the Reinvitation Mail for selected Members.', 'af-locale' ),
+				'type'        => 'title'
+			),
+			'reinvite_from_name' => array(
+				'title'       => esc_attr( 'From Name', 'af-locale' ),
+				'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
+				'type'        => 'text',
+				'default'     => get_bloginfo( 'name' )
+			),
+			'reinvite_from'      => array(
+				'title'       => esc_attr( 'From Email', 'af-locale' ),
 				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
+				'type'        => 'text',
+				'default'     => get_option( 'admin_email' )
+			),
+			'reinvite_text'      => array(
+				'title'       => esc_attr( 'Email Text', 'af-locale' ),
+				'description' => esc_attr( 'The Text of the Mail.', 'af-locale' ),
 				'type'        => 'textarea'
 			)
 		);

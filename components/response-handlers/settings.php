@@ -40,14 +40,6 @@ class AF_ResponseSettings extends AF_Settings
 
 		$this->title = __( 'Response Handling', 'af-locale' );
 		$this->name = 'responsehandling';
-
-		$this->settings = array(
-			'modules_title' => array(
-				'title'       => esc_attr( 'Response Handling', 'af-locale' ),
-				'description' => esc_attr( 'Setup the Response Handling settings.', 'af-locale' ),
-				'type' => 'title'
-			)
-		);
 	}
 
 	/**
