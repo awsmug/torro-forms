@@ -143,7 +143,7 @@ abstract class AF_Restriction
 	/**
 	 * Add Settings to Settings Page
 	 */
-	public function add_settings(){
+	public function init_settings(){
 		global $af_global;
 
 		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields  )
@@ -161,7 +161,7 @@ abstract class AF_Restriction
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$af_global->settings[ 'restrictions' ]->add_settings( $this->name, $this->title, $settings_fields );
+		$af_global->settings[ 'restrictions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
 	}
 
 	/**
@@ -212,7 +212,7 @@ abstract class AF_Restriction
 			$af_global->restrictions = array();
 		}
 
-		add_action( 'init', array( $this, 'add_settings' ), 15 );
+		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
 		$this->initialized = TRUE;
 

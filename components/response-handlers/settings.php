@@ -48,7 +48,7 @@ class AF_ResponseSettings extends AF_Settings
 	 * @param $settings_title
 	 * @param $settings_arr
 	 */
-	public function add_settings( $settings_name, $settings_title, $settings_arr ){
+	public function add_settings_field( $settings_name, $settings_title, $settings_arr ){
 		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
 	}
 }
