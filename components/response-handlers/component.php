@@ -1,8 +1,6 @@
 <?php
 /**
- * Awesome Forms Restrictions
- *
- * Component for the Restrictions API
+ * Awesome Forms Responses Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Restrictions
