@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Charts Component
+ * Awesome Forms Results Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
@@ -27,7 +27,7 @@
 if( !defined( 'ABSPATH' ) )
 	exit;
 
-class AF_Charts extends AF_Component
+class AF_ResultsComponent extends AF_Component
 {
 
 	/**
@@ -37,14 +37,14 @@ class AF_Charts extends AF_Component
 	 */
 	public function __construct()
 	{
-		$this->name = 'charts';
-		$this->title = __( 'Charts', 'af-locale' );
-		$this->description = __( 'Showing Charts form Forms.', 'af-locale' );
+		$this->name = 'results';
+		$this->title = __( 'Results', 'af-locale' );
+		$this->description = __( 'Handling Results.', 'af-locale' );
 	}
 
 	public function start()
 	{
-		$folder = AF_COMPONENTFOLDER . 'charts/';
+		$folder = AF_COMPONENTFOLDER . 'results/';
 
 		// Loading base functionalities
 		include( $folder . 'form-builder-extension.php' );
@@ -56,4 +56,4 @@ class AF_Charts extends AF_Component
 	}
 }
 
-af_register_component( 'AF_Charts' );
+af_register_component( 'AF_ResultsComponent' );

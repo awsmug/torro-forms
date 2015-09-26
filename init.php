@@ -325,7 +325,7 @@ class AF_Init
 		// Loading Component Scripts
 		include( AF_COMPONENTFOLDER . 'class-component.php' );
 
-		include( AF_COMPONENTFOLDER . 'charts/component.php' );
+		include( AF_COMPONENTFOLDER . 'results/component.php' );
 		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
 		include( AF_COMPONENTFOLDER . 'response-handlers/component.php' );
 	}

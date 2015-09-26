@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) ){
 	exit;
 }
 
-class AF_Restrictions extends AF_Component
+class AF_RestrictionsComponent extends AF_Component
 {
 
 	/**
@@ -78,4 +78,4 @@ class AF_Restrictions extends AF_Component
 
 }
 
-af_register_component( 'AF_Restrictions' );
+af_register_component( 'AF_RestrictionsComponent' );
