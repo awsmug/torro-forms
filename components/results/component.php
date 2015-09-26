@@ -50,6 +50,13 @@ class AF_ResultsComponent extends AF_Component
 		include( $folder . 'form-builder-extension.php' );
 		include( $folder . 'shortcodes.php' );
 
+		// Data handling
+		include( $folder . 'data-abstraction.php' );
+		include( $folder . 'export.php' );
+
+		// Results base Class
+		include( $folder . 'class-results.php' );
+
 		// Charts API
 		include( $folder . 'class-chart-creator.php' );
 		include( $folder . 'dimple/chart-creator.php' );

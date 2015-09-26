@@ -40,10 +40,8 @@ class AF_Export
 	 */
 	public function __construct()
 	{
-		add_action( 'admin_init', array( $this,
-		                                 'export' ), 10 );
-		add_filter( 'post_row_actions', array( $this,
-		                                       'add_export_link' ), 10, 2 );
+		add_action( 'admin_init', array( $this, 'export' ), 10 );
+		add_filter( 'post_row_actions', array( $this, 'add_export_link' ), 10, 2 );
 	}
 
 	/**

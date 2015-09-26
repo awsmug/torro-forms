@@ -149,7 +149,6 @@ class AF_Core
 		include( $core_folder . 'form.php' );
 		include( $core_folder . 'form-loader.php' );
 		include( $core_folder . 'form-process.php' );
-		include( $core_folder . 'responses.php' );
 
 		// Elements
 		include( $core_folder . 'elements/class-element.php' );
@@ -171,10 +170,6 @@ class AF_Core
 
 		// Shortcodes
 		include( $core_folder . 'shortcodes.php' );
-
-		// Helper functions
-		include( $core_folder . 'data-abstraction.php' );
-		include( $core_folder . 'export.php' );
 	}
 
 	/**
