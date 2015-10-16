@@ -57,7 +57,9 @@ class AF_RestrictionsComponent extends AF_Component
 		include_once( $folder . 'form-process-extension.php' );
 
 		// Restrictions API
-		include_once( $folder . 'class-restrictions.php' );
+		include_once( $folder . 'abstract/class-restrictions.php' );
+
+		// Base Restrictions
 		include_once( $folder . 'base-restrictions/all-visitors.php' );
 		include_once( $folder . 'base-restrictions/all-members.php' );
 		include_once( $folder . 'base-restrictions/selected-members.php' );

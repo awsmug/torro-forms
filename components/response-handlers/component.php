@@ -57,7 +57,7 @@ class AF_ResponsesComponent extends AF_Component
 		include_once( $folder . 'form-process-extension.php' );
 
 		// Response Handlers API
-		include_once( $folder . 'class-response-handler.php' );
+		include_once( $folder . 'abstract/class-response-handler.php' );
 		include_once( $folder . 'base-response-handlers/email-notifications.php' );
 	}
 }
