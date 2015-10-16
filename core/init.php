@@ -135,6 +135,9 @@ class AF_Core
 		include( $core_folder . 'global.php' ); // Global Awesome Forms object $af_global
 		include( $core_folder . 'class-post.php' );
 
+		// Abstract
+		include( $core_folder . 'abstract/class-component.php' );
+
 		// Admin
 		include( $core_folder . 'menu.php' );
 		include( $core_folder . 'form-builder.php' );

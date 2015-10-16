@@ -322,12 +322,9 @@ class AF_Init
 		// Loading Core
 		include( AF_FOLDER . 'core/init.php' );
 
-		// Loading Component Scripts
-		include( AF_COMPONENTFOLDER . 'class-component.php' );
-
-		include( AF_COMPONENTFOLDER . 'results/component.php' );
-		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
 		include( AF_COMPONENTFOLDER . 'response-handlers/component.php' );
+		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
+		include( AF_COMPONENTFOLDER . 'result-handlers/component.php' );
 	}
 
 	/**

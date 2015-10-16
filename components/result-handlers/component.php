@@ -44,7 +44,7 @@ class AF_ResultsComponent extends AF_Component
 
 	public function start()
 	{
-		$folder = AF_COMPONENTFOLDER . 'results/';
+		$folder = AF_COMPONENTFOLDER . 'result-handlers/';
 
 		// Loading base functionalities
 		include( $folder . 'form-builder-extension.php' );
