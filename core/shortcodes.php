@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -51,11 +52,13 @@ class AF_ShortCodes
 		$atts = shortcode_atts( array( 'id' => '', 'title' => __( 'Form', 'af-locale' ) ), $atts );
 		$ar_form_id = $atts[ 'id' ];
 
-		if( '' == $ar_form_id ){
+		if( '' == $ar_form_id )
+		{
 			return esc_attr( 'Please enter an id in the form shortcode!', 'af-locale' );
 		}
 
-		if( !af_form_exists( $ar_form_id ) ){
+		if( !af_form_exists( $ar_form_id ) )
+		{
 			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
 		}
 
@@ -67,7 +70,9 @@ class AF_ShortCodes
 		global $post;
 
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 
 		$html = '<div class="form-options shortcode">';
 		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'af-locale' ) . '</label><br />';

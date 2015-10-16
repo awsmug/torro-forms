@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -49,11 +50,13 @@ class AF_ResponseHandler_FormProcessExtension
 	{
 		global $af_global, $ar_form_id;
 
-		if( count( $af_global->response_handlers ) == 0 ){
+		if( count( $af_global->response_handlers ) == 0 )
+		{
 			return;
 		}
 
-		foreach( $af_global->response_handlers AS $response_handler ){
+		foreach( $af_global->response_handlers AS $response_handler )
+		{
 			$response_handler->handle( $response_id, $_SESSION[ 'af_response' ][ $ar_form_id ] );
 		}
 	}

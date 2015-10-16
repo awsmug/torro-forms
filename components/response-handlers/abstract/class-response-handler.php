@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -52,25 +53,22 @@ abstract class AF_ResponseHandler
 	 * @since 1.0.0
 	 */
 	public $description;
-
-	/**
-	 * Already initialized?
-	 *
-	 * @since 1.0.0
-	 */
-	private $initialized = FALSE;
-
 	/**
 	 * Already initialized?
 	 *
 	 * @since 1.0.0
 	 */
 	var $settings_fields = array();
-
 	/**
 	 * Contains the option_content
 	 */
 	public $option_content = '';
+	/**
+	 * Already initialized?
+	 *
+	 * @since 1.0.0
+	 */
+	private $initialized = FALSE;
 
 	/**
 	 * Handles the data after user submitted the form
@@ -81,22 +79,19 @@ abstract class AF_ResponseHandler
 	abstract function handle( $response_id, $response );
 
 	/**
-	 * Content of option in Form builder
-	 */
-	abstract function option_content();
-
-	/**
 	 * Checks if there is an option content
 	 */
 	public function has_option()
 	{
-		if( '' != $this->option_content ){
+		if( '' != $this->option_content )
+		{
 			return $this->option_content;
 		}
 
 		$this->option_content = $this->option_content();
 
-		if( FALSE == $this->option_content ){
+		if( FALSE == $this->option_content )
+		{
 			return FALSE;
 		}
 
@@ -104,12 +99,18 @@ abstract class AF_ResponseHandler
 	}
 
 	/**
+	 * Content of option in Form builder
+	 */
+	abstract function option_content();
+
+	/**
 	 * Add Settings to Settings Page
 	 */
-	public function init_settings(){
+	public function init_settings()
+	{
 		global $af_global;
 
-		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields  )
+		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
 		{
 			return FALSE;
 		}
@@ -118,8 +119,8 @@ abstract class AF_ResponseHandler
 			'headline' => array(
 				'title'       => $this->title,
 				'description' => sprintf( esc_attr( 'Setup the "%s" Response Gateway.', 'af-locale' ), $this->title ),
-				'type'  => 'title'
- 			)
+				'type'        => 'title'
+			)
 		);
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
@@ -139,31 +140,38 @@ abstract class AF_ResponseHandler
 	{
 		global $af_global;
 
-		if( TRUE == $this->initialized ){
+		if( TRUE == $this->initialized )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) ){
+		if( !is_object( $af_global ) )
+		{
 			return FALSE;
 		}
 
-		if( '' == $this->name ){
+		if( '' == $this->name )
+		{
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title ){
+		if( '' == $this->title )
+		{
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description ){
+		if( '' == $this->description )
+		{
 			$this->description = esc_attr__( 'This is the Awesome Forms Responsehandler extension.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->response_handlers ) ){
+		if( array_key_exists( $this->name, $af_global->response_handlers ) )
+		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->response_handlers ) ){
+		if( !is_array( $af_global->response_handlers ) )
+		{
 			$af_global->response_handlers = array();
 		}
 
@@ -184,9 +192,12 @@ abstract class AF_ResponseHandler
  */
 function af_register_response_handler( $response_handler_class )
 {
-	if( class_exists( $response_handler_class ) ){
+	if( class_exists( $response_handler_class ) )
+	{
 		$response_handler = new $response_handler_class();
+
 		return $response_handler->_register();
 	}
+
 	return FALSE;
 }

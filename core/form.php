@@ -27,7 +27,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -113,11 +114,13 @@ class AF_Form extends AF_Post
 
 		global $af_global, $wpdb;
 
-		if( NULL == $id ){
+		if( NULL == $id )
+		{
 			$id = $this->id;
 		}
 
-		if( '' == $id ){
+		if( '' == $id )
+		{
 			return FALSE;
 		}
 
@@ -127,15 +130,19 @@ class AF_Form extends AF_Post
 		$elements = array();
 
 		// Running all elements which have been found
-		if( is_array( $results ) ){
+		if( is_array( $results ) )
+		{
 
-			foreach( $results AS $result ){
+			foreach( $results AS $result )
+			{
 
-				if( $element = af_get_element( $result->id, $result->type ) ){
+				if( $element = af_get_element( $result->id, $result->type ) )
+				{
 
 					$elements[] = $element; // Adding element
 
-					if( $element->splits_form ){
+					if( $element->splits_form )
+					{
 						$this->splitter_count++;
 					}
 				}
@@ -143,6 +150,21 @@ class AF_Form extends AF_Post
 		}
 
 		return $elements;
+	}
+
+	/**
+	 * Getting participiants
+	 *
+	 * @return array All participator ID's
+	 */
+	public function get_participiants()
+	{
+		global $wpdb, $af_global;
+
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $this->id );
+		$participiant_ids = $wpdb->get_col( $sql );
+
+		return $participiant_ids;
 	}
 
 	/**
@@ -166,26 +188,12 @@ class AF_Form extends AF_Post
 			endif;
 		endforeach;
 
-		if( $actual_step < $step ){
+		if( $actual_step < $step )
+		{
 			return FALSE;
 		}
 
 		return $elements[ $step ];
-	}
-
-	/**
-	 * Getting participiants
-	 *
-	 * @return array All participator ID's
-	 */
-	public function get_participiants()
-	{
-		global $wpdb, $af_global;
-
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $this->id );
-		$participiant_ids = $wpdb->get_col( $sql );
-
-		return $participiant_ids;
 	}
 
 	/**
@@ -217,14 +225,17 @@ class AF_Form extends AF_Post
 		get_currentuserinfo();
 		$user_id = $user_id = $current_user->ID;
 
-		if( '' == $user_id ){
+		if( '' == $user_id )
+		{
 			$user_id = -1;
 		}
 
 		// Adding new element
-		$wpdb->insert( $af_global->tables->responds, array( 'questions_id' => $this->id,
-		                                                           'user_id'      => $user_id,
-		                                                           'timestamp'    => time() ) );
+		$wpdb->insert( $af_global->tables->responds, array(
+			'questions_id' => $this->id,
+			'user_id'      => $user_id,
+			'timestamp'    => time()
+		) );
 
 		$response_id = $wpdb->insert_id;
 		$this->response_id = $response_id;
@@ -234,17 +245,21 @@ class AF_Form extends AF_Post
 			if( is_array( $answers ) ):
 
 				foreach( $answers AS $answer ):
-					$wpdb->insert( $af_global->tables->respond_answers, array( 'respond_id'  => $response_id,
-					                                                                  'question_id' => $element_id,
-					                                                                  'value'       => $answer ) );
+					$wpdb->insert( $af_global->tables->respond_answers, array(
+						'respond_id'  => $response_id,
+						'question_id' => $element_id,
+						'value'       => $answer
+					) );
 				endforeach;
 
 			else:
 				$answer = $answers;
 
-				$wpdb->insert( $af_global->tables->respond_answers, array( 'respond_id'  => $response_id,
-				                                                                  'question_id' => $element_id,
-				                                                                  'value'       => $answer ) );
+				$wpdb->insert( $af_global->tables->respond_answers, array(
+					'respond_id'  => $response_id,
+					'question_id' => $element_id,
+					'value'       => $answer
+				) );
 
 			endif;
 		endforeach;
@@ -257,7 +272,7 @@ class AF_Form extends AF_Post
 	 *
 	 * @param bool $copy_meta          True if meta have to be copied
 	 * @param bool $copy_comments      True if comments have to be copied
-	 * @param bool $copy_elements     True if elements have to be copied
+	 * @param bool $copy_elements      True if elements have to be copied
 	 * @param bool $copy_answers       True if answers of elements have to be copied
 	 * @param bool $copy_participiants True if participiants have to be copied
 	 * @param bool $draft              True if dublicated form have to be a draft
@@ -294,7 +309,8 @@ class AF_Form extends AF_Post
 	{
 		global $wpdb, $af_global;
 
-		if( empty( $new_form_id ) ){
+		if( empty( $new_form_id ) )
+		{
 			return FALSE;
 		}
 
@@ -303,13 +319,17 @@ class AF_Form extends AF_Post
 			foreach( $this->elements AS $element ):
 				$old_element_id = $element->id;
 
-				$wpdb->insert( $af_global->tables->elements, array( 'questions_id' => $new_form_id,
-				                                                            'question'     => $element->question,
-				                                                            'sort'         => $element->sort,
-				                                                            'type'         => $element->name ), array( '%d',
+				$wpdb->insert( $af_global->tables->elements, array(
+					'questions_id' => $new_form_id,
+					'question'     => $element->question,
+					'sort'         => $element->sort,
+					'type'         => $element->name
+				), array(
+					               '%d',
 					               '%s',
 					               '%d',
-					               '%s' ) );
+					               '%s'
+				               ) );
 
 				$new_element_id = $wpdb->insert_id;
 				$this->element_transfers[ $old_element_id ] = $new_element_id;
@@ -319,13 +339,17 @@ class AF_Form extends AF_Post
 					foreach( $element->answers AS $answer ):
 						$old_answer_id = $answer[ 'id' ];
 
-						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $new_element_id,
-						                                                          'answer'      => $answer[ 'text' ],
-						                                                          'section'     => $answer[ 'section' ],
-						                                                          'sort'        => $answer[ 'sort' ] ), array( '%d',
+						$wpdb->insert( $af_global->tables->answers, array(
+							'question_id' => $new_element_id,
+							'answer'      => $answer[ 'text' ],
+							'section'     => $answer[ 'section' ],
+							'sort'        => $answer[ 'sort' ]
+						), array(
+							               '%d',
 							               '%s',
 							               '%s',
-							               '%d' ) );
+							               '%d'
+						               ) );
 
 						$new_answer_id = $wpdb->insert_id;
 						$this->answer_transfers[ $old_answer_id ] = $new_answer_id;
@@ -337,11 +361,15 @@ class AF_Form extends AF_Post
 				if( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ):
 					foreach( $element->settings AS $name => $value ):
 
-						$wpdb->insert( $af_global->tables->settings, array( 'question_id' => $new_element_id,
-						                                                           'name'        => $name,
-						                                                           'value'       => $value ), array( '%d',
+						$wpdb->insert( $af_global->tables->settings, array(
+							'question_id' => $new_element_id,
+							'name'        => $name,
+							'value'       => $value
+						), array(
+							               '%d',
 							               '%s',
-							               '%s' ) );
+							               '%s'
+						               ) );
 					endforeach;
 				endif;
 
@@ -362,7 +390,8 @@ class AF_Form extends AF_Post
 	{
 		global $wpdb, $af_global;
 
-		if( empty( $new_form_id ) ){
+		if( empty( $new_form_id ) )
+		{
 			return FALSE;
 		}
 
@@ -370,33 +399,15 @@ class AF_Form extends AF_Post
 		if( is_array( $this->participiants ) && count( $this->participiants ) ):
 			foreach( $this->participiants AS $participiant_id ):
 
-				$wpdb->insert( $af_global->tables->participiants, array( 'survey_id' => $new_form_id,
-				                                                                'user_id'   => $participiant_id ), array( '%d',
-					               '%d', ) );
+				$wpdb->insert( $af_global->tables->participiants, array(
+					'survey_id' => $new_form_id,
+					'user_id'   => $participiant_id
+				), array(
+					               '%d',
+					               '%d',
+				               ) );
 			endforeach;
 		endif;
-	}
-
-	/**
-	 * Deleting all results of the Form
-	 *
-	 * @return mixed
-	 */
-	public function delete_responses()
-	{
-		global $wpdb, $af_global;
-
-		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		// Putting results in array
-		if( is_array( $results ) ):
-			foreach( $results AS $result ):
-				$wpdb->delete( $af_global->tables->respond_answers, array( 'respond_id' => $result->id ) );
-			endforeach;
-		endif;
-
-		return $wpdb->delete( $af_global->tables->responds, array( 'questions_id' => $this->id ) );
 	}
 
 	/**
@@ -442,6 +453,28 @@ class AF_Form extends AF_Post
 		 */
 		$wpdb->delete( $af_global->tables->participiants, array( 'survey_id' => $this->id ) );
 	}
+
+	/**
+	 * Deleting all results of the Form
+	 *
+	 * @return mixed
+	 */
+	public function delete_responses()
+	{
+		global $wpdb, $af_global;
+
+		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		// Putting results in array
+		if( is_array( $results ) ):
+			foreach( $results AS $result ):
+				$wpdb->delete( $af_global->tables->respond_answers, array( 'respond_id' => $result->id ) );
+			endforeach;
+		endif;
+
+		return $wpdb->delete( $af_global->tables->responds, array( 'questions_id' => $this->id ) );
+	}
 }
 
 /**
@@ -459,7 +492,8 @@ function af_form_exists( $form_id )
 	$sql = $wpdb->prepare( "SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d and post_type = 'questions'", $form_id );
 	$var = $wpdb->get_var( $sql );
 
-	if( $var > 0 ){
+	if( $var > 0 )
+	{
 		return TRUE;
 	}
 
@@ -469,7 +503,7 @@ function af_form_exists( $form_id )
 /**
  * Gets an element object
  *
- * @param int $element_id
+ * @param int    $element_id
  * @param string $type
  *
  * @return object|bool
@@ -478,12 +512,14 @@ function af_get_element( $element_id, $type = '' )
 {
 	global $wpdb, $af_global;
 
-	if( '' == $type ){
+	if( '' == $type )
+	{
 		$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->elements} WHERE id = %d ORDER BY sort ASC", $element_id );
 		$type = $wpdb->get_var( $sql );
 	}
 
-	if( class_exists( 'AF_FormElement_' . $type ) ){
+	if( class_exists( 'AF_FormElement_' . $type ) )
+	{
 		$class = 'AF_FormElement_' . $type;
 
 		return new $class( $element_id );

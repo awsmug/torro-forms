@@ -25,7 +25,8 @@
  */
 
 // No direct access is allowed
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 

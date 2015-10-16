@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -37,6 +38,7 @@ class AF_SettingsHandler
 
 	/**
 	 * Settings field array
+	 *
 	 * @var array
 	 */
 	var $fields = array();
@@ -60,108 +62,24 @@ class AF_SettingsHandler
 
 	public function get()
 	{
-		if( count( $this->fields ) == 0 ){
+		if( count( $this->fields ) == 0 )
+		{
 			return FALSE;
 		}
 
 		$html = '<div class="settings-table">';
-			$html.= '<table class="form-table">';
-				$html.= '<tbody>';
-				foreach( $this->fields AS $name => $settings ){
-					$html.= $this->get_field( $name, $settings );
-				}
-				$html.= '</tbody>';
-			$html.= '</table>';
-			$html.= '<div class="clear"></div>';
-		$html.= '</div>';
+		$html .= '<table class="form-table">';
+		$html .= '<tbody>';
+		foreach( $this->fields AS $name => $settings )
+		{
+			$html .= $this->get_field( $name, $settings );
+		}
+		$html .= '</tbody>';
+		$html .= '</table>';
+		$html .= '<div class="clear"></div>';
+		$html .= '</div>';
 
 		return $html;
-	}
-
-	/**
-	 * Getting field values
-	 */
-	public function get_field_values()
-	{
-		global $post;
-
-		if( count( $this->fields ) == 0 )
-		{
-			return FALSE;
-		}
-
-		$values = array();
-
-		foreach( $this->fields AS $name => $settings )
-		{
-			$non_value_types = array( 'title', 'disclaimer' );
-
-			if( in_array( $settings[ 'type' ], $non_value_types ) )
-			{
-				continue;
-			}
-
-			$option_name = 'af_settings_' . $this->name . '_' .  $name;
-
-			if( 'options' == $this->type )
-			{
-				$default = '';
-				if( array_key_exists( 'default', $settings ) )
-				{
-					$default = $settings[ 'default' ];
-				}
-
-				$this->values[ $name ] = get_option( $option_name, $default );
-			}
-
-			/*
-			elseif( 'post' == $this->type )
-			{
-				if( property_exists( $post, 'ID' ) )
-				{
-					get_post_meta( $post->ID, $option_name );
-				}
-			}
-			*/
-		}
-
-		return $this->values;
-	}
-
-	/**
-	 * Saving settings fields
-	 */
-	public function save()
-	{
-		global $post;
-
-		if( count( $this->fields ) == 0 )
-		{
-			return FALSE;
-		}
-
-		foreach( $this->fields AS $name => $settings )
-		{
-			$option_name = 'af_settings_' . $this->name . '_' .  $name;
-
-			$value = '';
-			if( array_key_exists( $name, $_POST ) )
-			{
-				$value = $_POST[ $name ];
-			}
-
-			if( 'options' == $this->type )
-			{
-				update_option( $option_name , $value );
-			}
-			elseif( 'post' == $this->type )
-			{
-				if( property_exists( $post, 'ID' ) )
-				{
-					update_post_meta( $post->ID, $option_name, $value );
-				}
-			}
-		}
 	}
 
 	private function get_field( $name, $settings )
@@ -179,7 +97,6 @@ class AF_SettingsHandler
 			$option_name = 'af_settings_' . $this->name . '_' . $name;
 
 			$value = get_option( $option_name, $default );
-
 			// delete_option( $option_name );
 		}
 		elseif( 'post' == $this->type )
@@ -190,7 +107,8 @@ class AF_SettingsHandler
 			}
 		}
 
-		switch ( $settings[ 'type' ] ){
+		switch ( $settings[ 'type' ] )
+		{
 
 			case 'text':
 
@@ -221,8 +139,8 @@ class AF_SettingsHandler
 
 				$html = $this->get_disclaimer( $name, $settings );
 				break;
-
 		}
+
 		return $html;
 	}
 
@@ -237,15 +155,15 @@ class AF_SettingsHandler
 	private function get_textfield( $name, $settings, $value )
 	{
 		$html = '<tr>';
-			$html.= '<th>' . $settings[ 'title' ] . '</th>';
-			$html.= '<td>';
-				$html.= '<input type="text" name="' . $name . '" value="' . $value . '" />';
-				if( isset( $settings[ 'description' ] ) )
-				{
-					$html.= '<br /><small>' . $settings[ 'description' ] . '</small>';
-				}
-			$html.= '</td>';
-		$html.= '</tr>';
+		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<td>';
+		$html .= '<input type="text" name="' . $name . '" value="' . $value . '" />';
+		if( isset( $settings[ 'description' ] ) )
+		{
+			$html .= '<br /><small>' . $settings[ 'description' ] . '</small>';
+		}
+		$html .= '</td>';
+		$html .= '</tr>';
 
 		return $html;
 	}
@@ -261,14 +179,15 @@ class AF_SettingsHandler
 	private function get_textarea( $name, $settings, $value )
 	{
 		$html = '<tr>';
-			$html.= '<th>' . $settings[ 'title' ] . '</th>';
-			$html.= '<td>';
-					$html.= '<textarea name="' . $name . '" rows="8">' . $value . '</textarea>';
-					if( isset( $settings[ 'description' ] ) ){
-						$html .= '<br /><small>' . $settings[ 'description' ] . '</small>';
-					}
-			$html.= '</td>';
-		$html.= '</tr>';
+		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<td>';
+		$html .= '<textarea name="' . $name . '" rows="8">' . $value . '</textarea>';
+		if( isset( $settings[ 'description' ] ) )
+		{
+			$html .= '<br /><small>' . $settings[ 'description' ] . '</small>';
+		}
+		$html .= '</td>';
+		$html .= '</tr>';
 
 		return $html;
 	}
@@ -285,22 +204,25 @@ class AF_SettingsHandler
 	private function get_radios( $name, $settings, $value )
 	{
 		$html = '<tr>';
-			$html.= '<th>' . $settings[ 'title' ] . '</th>';
-			$html.= '<td>';
-				foreach( $values AS $field_key => $field_value ){
-					$checked = '';
+		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<td>';
+		foreach( $values AS $field_key => $field_value )
+		{
+			$checked = '';
 
-					if( $value == $field_key ){
-						$checked = ' checked="checked"';
-					}
+			if( $value == $field_key )
+			{
+				$checked = ' checked="checked"';
+			}
 
-					$html .= '<div class="af-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
-				}
-				if( isset( $settings[ 'description' ] ) ){
-					$html .= '<small>' . $settings[ 'description' ] . '</small>';
-				}
-			$html.= '</td>';
-		$html.= '</tr>';
+			$html .= '<div class="af-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
+		}
+		if( isset( $settings[ 'description' ] ) )
+		{
+			$html .= '<small>' . $settings[ 'description' ] . '</small>';
+		}
+		$html .= '</td>';
+		$html .= '</tr>';
 
 		return $html;
 	}
@@ -317,22 +239,24 @@ class AF_SettingsHandler
 	private function get_checkboxes( $name, $settings, $value )
 	{
 		$html = '<tr>';
-			$html.= '<th>' . $settings[ 'title' ] . '</th>';
-			$html.= '<td>';
-				foreach( $settings[ 'values' ] AS $field_key => $field_value ):
-					$checked = '';
+		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<td>';
+		foreach( $settings[ 'values' ] AS $field_key => $field_value ):
+			$checked = '';
 
-					if( is_array( $value ) && in_array( $field_key, $value ) ){
-						$checked = ' checked="checked"';
-					}
+			if( is_array( $value ) && in_array( $field_key, $value ) )
+			{
+				$checked = ' checked="checked"';
+			}
 
-					$html .= '<div class="af-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value .'</div>' ;
-				endforeach;
-				if( isset( $settings[ 'description' ] ) ){
-					$html .= '<small>' . $settings[ 'description' ] . '</small>';
-				}
-			$html.= '</td>';
-		$html.= '</tr>';
+			$html .= '<div class="af-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
+		endforeach;
+		if( isset( $settings[ 'description' ] ) )
+		{
+			$html .= '<small>' . $settings[ 'description' ] . '</small>';
+		}
+		$html .= '</td>';
+		$html .= '</tr>';
 
 		return $html;
 	}
@@ -348,20 +272,21 @@ class AF_SettingsHandler
 	private function get_title( $name, $settings )
 	{
 		$html = '</tbody>';
-		$html.= '</table>';
-		$html.= '</div>';
+		$html .= '</table>';
+		$html .= '</div>';
 
-		$html.= '<div class="settings-title">';
-		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
+		$html .= '<div class="settings-title">';
+		$html .= '<h3>' . $settings[ 'title' ] . '</h3>';
 
-		if( isset( $settings[ 'description' ] ) ){
+		if( isset( $settings[ 'description' ] ) )
+		{
 			$html .= '<p>' . $settings[ 'description' ] . '</p>';
 		}
-		$html.= '</div>';
+		$html .= '</div>';
 
-		$html.= '<div class="settings-table">';
-		$html.= '<table class="form-table">';
-		$html.= '<tbody>';
+		$html .= '<div class="settings-table">';
+		$html .= '<table class="form-table">';
+		$html .= '<tbody>';
 
 		return $html;
 	}
@@ -377,21 +302,107 @@ class AF_SettingsHandler
 	private function get_disclaimer( $name, $settings )
 	{
 		$html = '</tbody>';
-		$html.= '</table>';
-		$html.= '</div>';
+		$html .= '</table>';
+		$html .= '</div>';
 
-		$html.= '<div class="settings-disclaimer">';
-		$html.= '<h3>' . $settings[ 'title' ] . '</h3>';
+		$html .= '<div class="settings-disclaimer">';
+		$html .= '<h3>' . $settings[ 'title' ] . '</h3>';
 
-		if( isset( $settings[ 'description' ] ) ){
+		if( isset( $settings[ 'description' ] ) )
+		{
 			$html .= '<p>' . $settings[ 'description' ] . '</p>';
 		}
-		$html.= '</div>';
+		$html .= '</div>';
 
-		$html.= '<div class="settings-table">';
-		$html.= '<table class="form-table">';
-		$html.= '<tbody>';
+		$html .= '<div class="settings-table">';
+		$html .= '<table class="form-table">';
+		$html .= '<tbody>';
 
 		return $html;
+	}
+
+	/**
+	 * Getting field values
+	 */
+	public function get_field_values()
+	{
+		global $post;
+
+		if( count( $this->fields ) == 0 )
+		{
+			return FALSE;
+		}
+
+		$values = array();
+
+		foreach( $this->fields AS $name => $settings )
+		{
+			$non_value_types = array( 'title', 'disclaimer' );
+
+			if( in_array( $settings[ 'type' ], $non_value_types ) )
+			{
+				continue;
+			}
+
+			$option_name = 'af_settings_' . $this->name . '_' . $name;
+
+			if( 'options' == $this->type )
+			{
+				$default = '';
+				if( array_key_exists( 'default', $settings ) )
+				{
+					$default = $settings[ 'default' ];
+				}
+
+				$this->values[ $name ] = get_option( $option_name, $default );
+			}
+			/*
+			elseif( 'post' == $this->type )
+			{
+				if( property_exists( $post, 'ID' ) )
+				{
+					get_post_meta( $post->ID, $option_name );
+				}
+			}
+			*/
+		}
+
+		return $this->values;
+	}
+
+	/**
+	 * Saving settings fields
+	 */
+	public function save()
+	{
+		global $post;
+
+		if( count( $this->fields ) == 0 )
+		{
+			return FALSE;
+		}
+
+		foreach( $this->fields AS $name => $settings )
+		{
+			$option_name = 'af_settings_' . $this->name . '_' . $name;
+
+			$value = '';
+			if( array_key_exists( $name, $_POST ) )
+			{
+				$value = $_POST[ $name ];
+			}
+
+			if( 'options' == $this->type )
+			{
+				update_option( $option_name, $value );
+			}
+			elseif( 'post' == $this->type )
+			{
+				if( property_exists( $post, 'ID' ) )
+				{
+					update_post_meta( $post->ID, $option_name, $value );
+				}
+			}
+		}
 	}
 }

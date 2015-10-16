@@ -25,29 +25,34 @@
  */
 
 // No direct access is allowed
-if ( ! defined( 'ABSPATH' ) ) {
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
-class AF_FormElement_Separator extends AF_FormElement {
+class AF_FormElement_Separator extends AF_FormElement
+{
 
-	public function __construct( $id = NULL ) {
+	public function __construct( $id = NULL )
+	{
 
-		$this->name        = 'Separator';
-		$this->title       = esc_attr__( 'Separator', 'af-locale' );
+		$this->name = 'Separator';
+		$this->title = esc_attr__( 'Separator', 'af-locale' );
 		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between elements.', 'af-locale' );
-		$this->icon_url        = AF_URLPATH . '/assets/images/icon-separator.png';
+		$this->icon_url = AF_URLPATH . '/assets/images/icon-separator.png';
 
 		$this->is_input = FALSE;
 
 		parent::__construct( $id );
 	}
 
-	public function input_html() {
+	public function input_html()
+	{
 
 		$html = '<div class="form-element form-element-' . $this->id . '">';
 
-		if ( ! empty( $this->settings[ 'header' ] ) ) {
+		if( !empty( $this->settings[ 'header' ] ) )
+		{
 			$html .= '<h3>' . $this->settings[ 'header' ] . '</h3>';
 		}
 
@@ -56,7 +61,8 @@ class AF_FormElement_Separator extends AF_FormElement {
 		return $html;
 	}
 
-	public function settings_fields() {
+	public function settings_fields()
+	{
 
 		$this->settings_fields = array(
 			'header' => array(

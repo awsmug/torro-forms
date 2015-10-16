@@ -25,7 +25,8 @@
  */
 
 // No direct access is allowed
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -52,7 +53,8 @@ class AF_FormElement_OneChoice extends AF_FormElement
 
 		foreach( $this->answers AS $answer ):
 			$checked = '';
-			if( $this->response == $answer[ 'text' ] ){
+			if( $this->response == $answer[ 'text' ] )
+			{
 				$checked = ' checked="checked"';
 			}
 
@@ -66,10 +68,12 @@ class AF_FormElement_OneChoice extends AF_FormElement
 	{
 		$this->settings_fields = array(
 			'description' => array(
-				'title' => esc_attr__( 'Description', 'af-locale' ),
-				'type' => 'textarea',
+				'title'       => esc_attr__( 'Description', 'af-locale' ),
+				'type'        => 'textarea',
 				'description' => esc_attr__( 'The description will be shown after the field.', 'af-locale' ),
-				'default' => '' ) );
+				'default'     => ''
+			)
+		);
 	}
 
 	public function validate( $input )

@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -43,7 +44,8 @@ class AF_Post
 	 */
 	public function __construct( $post_id )
 	{
-		if( empty( $post_id ) ){
+		if( empty( $post_id ) )
+		{
 			return FALSE;
 		}
 
@@ -68,7 +70,8 @@ class AF_Post
 		$copy = clone $this->post;
 		$copy->ID = '';
 
-		if( $draft ){
+		if( $draft )
+		{
 			$copy->post_status = 'draft';
 		}
 
@@ -97,6 +100,71 @@ class AF_Post
 	/**
 	 * Dublicates comments of a post
 	 *
+	 * @param $post_id The ID of the post
+	 *
+	 * @return bool
+	 */
+	public function duplicate_meta( $post_id )
+	{
+
+		if( empty( $post_id ) )
+		{
+			return FALSE;
+		}
+
+		$forbidden_keys = apply_filters( 'af_dublicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
+
+		foreach( $this->meta AS $meta_key => $meta_value ):
+			if( !in_array( $meta_key, $forbidden_keys ) )
+			{
+				foreach( $meta_value AS $value )
+					add_post_meta( $post_id, $meta_key, $value );
+			}
+
+		endforeach;
+
+		return TRUE;
+	}
+
+	/**
+	 * Dublicating taxonomies of a post
+	 *
+	 * @param $post_id
+	 */
+	public function dublicate_taxonomies( $post_id )
+	{
+		global $wpdb;
+
+		if( empty( $post_id ) )
+		{
+			return FALSE;
+		}
+
+		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->term_relationships} WHERE object_id=%d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if( count( $results ) > 0 )
+		{
+			foreach( $results AS $result )
+			{
+				$wpdb->insert( $wpdb->term_relationships, array(
+					'object_id'        => $post_id,
+					'term_taxonomy_id' => $result->term_taxonomy_id,
+					'term_order'       => $result->term_order
+				), array(
+					               '%d',
+					               '%d',
+					               '%d'
+				               ) );
+			}
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * Dublicates comments of a post
+	 *
 	 * @param int $post_id The ID of the post
 	 *
 	 * @return bool
@@ -105,7 +173,8 @@ class AF_Post
 	{
 		$comment_transfer = array();
 
-		if( empty( $post_id ) ){
+		if( empty( $post_id ) )
+		{
 			return FALSE;
 		}
 
@@ -126,62 +195,6 @@ class AF_Post
 				$comment[ 'comment_parent' ] = $comment_transfer[ $comment[ 'comment_parent' ] ];
 				wp_update_comment( $comment );
 			endif;
-		endforeach;
-
-		return TRUE;
-	}
-
-	/**
-	 * Dublicating taxonomies of a post
-	 *
-	 * @param $post_id
-	 */
-	public function dublicate_taxonomies( $post_id )
-	{
-		global $wpdb;
-
-		if( empty( $post_id ) ){
-			return FALSE;
-		}
-
-		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->term_relationships} WHERE object_id=%d", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if( count( $results ) > 0 ){
-			foreach( $results AS $result ){
-				$wpdb->insert( $wpdb->term_relationships, array( 'object_id'        => $post_id,
-				                                                 'term_taxonomy_id' => $result->term_taxonomy_id,
-				                                                 'term_order'       => $result->term_order ), array( '%d',
-				                                                                                                     '%d',
-				                                                                                                     '%d' ) );
-			}
-		}
-
-		return TRUE;
-	}
-
-	/**
-	 * Dublicates comments of a post
-	 *
-	 * @param $post_id The ID of the post
-	 *
-	 * @return bool
-	 */
-	public function duplicate_meta( $post_id )
-	{
-
-		if( empty( $post_id ) ){
-			return FALSE;
-		}
-
-		$forbidden_keys = apply_filters( 'af_dublicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
-
-		foreach( $this->meta AS $meta_key => $meta_value ):
-			if( !in_array( $meta_key, $forbidden_keys ) ){
-				foreach( $meta_value AS $value )
-					add_post_meta( $post_id, $meta_key, $value );
-			}
-
 		endforeach;
 
 		return TRUE;

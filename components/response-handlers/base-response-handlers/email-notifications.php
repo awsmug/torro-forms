@@ -26,11 +26,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
-class AF_EmailNotifications extends  AF_ResponseHandler{
+class AF_EmailNotifications extends AF_ResponseHandler
+{
 
 	private $from_name;
 	private $from_email;
@@ -51,8 +53,8 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 
 		add_action( 'wp_ajax_get_email_notification_html', array( __CLASS__, 'ajax_get_email_notification_html' ) );
 
-		add_filter( 'tiny_mce_before_init', 'Quesions_WPEditorBox::tiny_mce_before_init', 10, 2 );
-		add_filter( 'quicktags_settings', 'Quesions_WPEditorBox::quicktags_settings', 10, 2 );
+		add_filter( 'tiny_mce_before_init', 'AF_WPEditorBox::tiny_mce_before_init', 10, 2 );
+		add_filter( 'quicktags_settings', 'AF_WPEditorBox::quicktags_settings', 10, 2 );
 
 
 		add_action( 'media_buttons', array( __CLASS__, 'add_media_button' ), 20 );
@@ -60,10 +62,12 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 
 	/**
 	 * Handles the data after user submitted the form
+	 *
 	 * @param $response_id
 	 * @param $response
 	 */
-	public function handle( $response_id, $response ){
+	public function handle( $response_id, $response )
+	{
 		global $wpdb, $ar_form_id, $af_global, $af_response_id, $af_response;
 
 		$af_response_id = $response_id;
@@ -72,15 +76,18 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $ar_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
-		if( count( $notifications ) > 0 ){
+		if( count( $notifications ) > 0 )
+		{
 			// Adding elements templatetags
 			$form = new AF_Form( $ar_form_id );
-			foreach( $form->elements AS $element ){
+			foreach( $form->elements AS $element )
+			{
 				af_add_element_templatetag( $element->id, $element->question );
 			}
 
-			foreach( $notifications AS $notification ){
-				$from_name  = af_filter_templatetags( $notification->from_name );
+			foreach( $notifications AS $notification )
+			{
+				$from_name = af_filter_templatetags( $notification->from_name );
 				$from_email = af_filter_templatetags( $notification->from_email );
 				$to_email = af_filter_templatetags( $notification->to_email );
 				$subject = af_filter_templatetags( $notification->subject );
@@ -105,25 +112,29 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	/**
 	 * Setting HTML Content-Type
 	 */
-	function set_email_html_content_type() {
+	function set_email_html_content_type()
+	{
 		return 'text/html';
 	}
 
 	/**
 	 * Setting From Email
 	 */
-	public function set_email_from(){
+	public function set_email_from()
+	{
 		return $this->from_email;
 	}
 
 	/**
 	 * Setting From Email Name
 	 */
-	public function set_email_from_name(){
+	public function set_email_from_name()
+	{
 		return $this->from_name;
 	}
 
-	public function option_content(){
+	public function option_content()
+	{
 		global $wpdb, $post, $af_global;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
@@ -172,11 +183,14 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	/**
 	 * Adding media button
 	 */
-	public static function add_media_button( $editor_id ){
+	public static function add_media_button( $editor_id )
+	{
 		global $post;
 
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 
 		echo af_template_tag_button( $editor_id );
 	}
@@ -184,7 +198,8 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	/**
 	 * Saving option content
 	 */
-	public static function save_option_content(){
+	public static function save_option_content()
+	{
 		global $wpdb, $post, $af_global;
 
 		if( isset( $_POST[ 'email_notifications' ] ) && count( $_POST[ 'email_notifications' ] ) > 0 ){
@@ -228,8 +243,8 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	 *
 	 * @return string $html
 	 */
-	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ){
-
+	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' )
+	{
 		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 		ob_start();
 		wp_editor( $message, 'email_notification_message_' . $id  );
@@ -276,15 +291,16 @@ class AF_EmailNotifications extends  AF_ResponseHandler{
 	/**
 	 * Get Email notification HTML
 	 */
-	public static function ajax_get_email_notification_html(){
+	public static function ajax_get_email_notification_html()
+	{
 		$id = time();
 		$editor_id = 'email_notification_message_' . $id;
 
 		$html = self::get_notification_settings_html( $id, esc_attr( 'New Email Notification' ) );
 
 		// Get settings for Editor
-		$mce_init = Quesions_WPEditorBox::get_mce_init( $editor_id );
-		$qt_init = Quesions_WPEditorBox::get_qt_init( $editor_id );
+		$mce_init = AF_WPEditorBox::get_mce_init( $editor_id );
+		$qt_init = AF_WPEditorBox::get_qt_init( $editor_id );
 
 		// Extending editor gobals
 		$html.= '<script type="text/javascript">

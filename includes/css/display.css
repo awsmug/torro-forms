@@ -1,62 +1,71 @@
 /* This stylesheet is used to style the public view of the plugin. */
+
 /**
  * 	Form Element
  */
-.af-form .form-element{
-	margin-bottom:20px;
+.af-form .form-element {
+    margin-bottom: 20px;
 }
-.af-form .form-element p{
-	margin:5px;
+
+.af-form .form-element p {
+    margin: 5px;
 }
+
 .af-form .form-element > h3,
 .af-form .form-element > h5,
-.af-form .form-element > div
-{
-	margin-bottom:10px;
+.af-form .form-element > div {
+    margin-bottom: 10px;
 }
-.af-form .form-element hr{
-	margin: 0;
-	height: 5px;
-	border-radius: 3px;
+
+.af-form .form-element hr {
+    margin: 0;
+    height: 5px;
+    border-radius: 3px;
 }
+
 /**
  * 	Pagination
  */
-.af-form .af-pagination{
-	margin-bottom: 20px;
+.af-form .af-pagination {
+    margin-bottom: 20px;
 }
-.af-form .af-pagination span.af-highlight-number{
-	border-radius: 3px;
-	background-color: #CCC;
-	padding:2px 6px;
-	color:#FFF;
+
+.af-form .af-pagination span.af-highlight-number {
+    border-radius: 3px;
+    background-color: #CCC;
+    padding: 2px 6px;
+    color: #FFF;
 }
+
 /**
  * 	Errors
  */
-.af-form .af-element-error{
-	border: 1px dashed #F00;
-	padding:10px;
-	margin-bottom:20px;
+.af-form .af-element-error {
+    border: 1px dashed #F00;
+    padding: 10px;
+    margin-bottom: 20px;
 }
-.af-element-error-message{
-	color:#FFF;
-	border: 1px dashed #F00;
-	background-color:#F00;
-	display:block;
+
+.af-element-error-message {
+    color: #FFF;
+    border: 1px dashed #F00;
+    background-color: #F00;
+    display: block;
     margin: 0 0 10px 0;
     padding: 5px;
 }
-.af-form ul.af-error-messages{
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+
+.af-form ul.af-error-messages {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
+
 /**
  * Dimple chart CSS
  */
-.af-dimplechart{
+.af-dimplechart {
     margin-bottom: 20px;
-    width:100%;
+    width: 100%;
     display: block;
 }

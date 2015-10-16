@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -60,13 +61,15 @@ class AF_AbstractData
 
 			$element_class = 'AF_FormElement_' . $result->type;
 
-			if( !class_exists( $element_class ) ){
+			if( !class_exists( $element_class ) )
+			{
 				continue;
 			}
 
 			$element = new $element_class( $key );
 
-			if( !$element->is_analyzable ){
+			if( !$element->is_analyzable )
+			{
 				continue;
 			}
 
@@ -82,7 +85,8 @@ class AF_AbstractData
 			endforeach;
 
 			// Adding voted data
-			if( !array_key_exists( 'responses', $response_array[ $key ] ) ){
+			if( !array_key_exists( 'responses', $response_array[ $key ] ) )
+			{
 				continue;
 			}
 
@@ -93,7 +97,8 @@ class AF_AbstractData
 					$merged_data[ $response ] += 1;
 				else:
 					foreach( $response AS $answer_option => $answer ):
-						if( $answer == __( 'Yes', 'af-locale' ) ){
+						if( $answer == __( 'Yes', 'af-locale' ) )
+						{
 							$merged_data[ $answer_option ] += 1;
 						}
 					endforeach;
@@ -104,71 +109,6 @@ class AF_AbstractData
 		endforeach;
 
 		return $ordered_data;
-	}
-
-	/**
-	 * Getting all labels for in an array
-	 *
-	 * @param array $response_array Response array of a form
-	 *
-	 * @return array $headlines Ordered data prepared to be used in lines
-	 * @since 1.0.0
-	 */
-	public static function get_headlines( $response_array )
-	{
-		// Only starting if there is any data		
-		if( is_array( $response_array ) ):
-			$headlines = array();
-
-			/**
-			 * Getting Headlines by running each element
-			 */
-			foreach( $response_array AS $element_id => $element ):
-
-				// If element uses sections
-				if( array_key_exists( 'sections', $element ) && TRUE == $element[ 'sections' ] ):
-					foreach( $element[ 'responses' ] AS $response ):
-						$i = 0;
-
-						foreach( $response AS $key => $value ):
-							if( is_array( $value ) ):
-								foreach( $value AS $key2 => $key1 ):
-									$column = $element[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
-									$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
-								endforeach;
-							else:
-								$column = $element[ 'question' ] . ' (' . $key . ')';
-								$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
-							endif;
-						endforeach;
-
-						break;
-					endforeach;
-
-				// If there are more answers than one posssible (e.g. Multiple Choice)
-				elseif( array_key_exists( 'array', $element ) && TRUE == $element[ 'array' ] ):
-
-					if( array_key_exists( 'responses', $element ) ):
-						foreach( $element[ 'responses' ] AS $response ):
-							$i = 0;
-							foreach( $response AS $key => $value ):
-								$column = $element[ 'question' ] . ' (' . $key . ')';
-								$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
-							endforeach;
-							break;
-						endforeach;
-					endif;
-
-				// If there is only one value for one element possible
-				else:
-					$headlines[ $element_id ] = self::filter_string( $element[ 'label' ] );
-				endif;
-			endforeach;
-
-			return $headlines;
-		else:
-			return FALSE;
-		endif;
 	}
 
 	/**
@@ -183,7 +123,7 @@ class AF_AbstractData
 	{
 		$headlines = self::get_headlines( $response_array );
 
-		// Only starting if there is any data		
+		// Only starting if there is any data
 		if( is_array( $response_array ) ):
 			$results = array();
 
@@ -264,6 +204,71 @@ class AF_AbstractData
 	}
 
 	/**
+	 * Getting all labels for in an array
+	 *
+	 * @param array $response_array Response array of a form
+	 *
+	 * @return array $headlines Ordered data prepared to be used in lines
+	 * @since 1.0.0
+	 */
+	public static function get_headlines( $response_array )
+	{
+		// Only starting if there is any data
+		if( is_array( $response_array ) ):
+			$headlines = array();
+
+			/**
+			 * Getting Headlines by running each element
+			 */
+			foreach( $response_array AS $element_id => $element ):
+
+				// If element uses sections
+				if( array_key_exists( 'sections', $element ) && TRUE == $element[ 'sections' ] ):
+					foreach( $element[ 'responses' ] AS $response ):
+						$i = 0;
+
+						foreach( $response AS $key => $value ):
+							if( is_array( $value ) ):
+								foreach( $value AS $key2 => $key1 ):
+									$column = $element[ 'question' ] . ' (' . $key . ' / ' . $key2 . ')';
+									$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
+								endforeach;
+							else:
+								$column = $element[ 'question' ] . ' (' . $key . ')';
+								$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
+							endif;
+						endforeach;
+
+						break;
+					endforeach;
+
+				// If there are more answers than one posssible (e.g. Multiple Choice)
+				elseif( array_key_exists( 'array', $element ) && TRUE == $element[ 'array' ] ):
+
+					if( array_key_exists( 'responses', $element ) ):
+						foreach( $element[ 'responses' ] AS $response ):
+							$i = 0;
+							foreach( $response AS $key => $value ):
+								$column = $element[ 'question' ] . ' (' . $key . ')';
+								$headlines[ $element_id . '-' . $i++ ] = self::filter_string( $column );
+							endforeach;
+							break;
+						endforeach;
+					endif;
+
+				// If there is only one value for one element possible
+				else:
+					$headlines[ $element_id ] = self::filter_string( $element[ 'label' ] );
+				endif;
+			endforeach;
+
+			return $headlines;
+		else:
+			return FALSE;
+		endif;
+	}
+
+	/**
 	 * Filtering not wanted chars
 	 *
 	 * @param string $string The string to filter
@@ -273,7 +278,8 @@ class AF_AbstractData
 	 */
 	public static function filter_string( $string )
 	{
-		if( '' == $string ){
+		if( '' == $string )
+		{
 			return '-';
 		}
 

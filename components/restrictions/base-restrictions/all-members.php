@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -44,6 +45,29 @@ class AF_Restriction_AllMembers extends AF_Restriction
 		$this->option_name = __( 'All Members of site', 'af-locale' );
 
 		add_action( 'af_save_form', array( $this, 'save' ), 10, 1 );
+	}
+
+	/**
+	 * Saving data
+	 *
+	 * @param int $form_id
+	 *
+	 * @since 1.0.0
+	 */
+	public static function save( $form_id )
+	{
+		/**
+		 * Saving restriction options
+		 */
+		if( array_key_exists( 'form_restrictions_allmembers_same_users', $_POST ) )
+		{
+			$restrictions_same_users = $_POST[ 'form_restrictions_allmembers_same_users' ];
+			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', $restrictions_same_users );
+		}
+		else
+		{
+			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', '' );
+		}
 	}
 
 	/**
@@ -82,7 +106,8 @@ class AF_Restriction_AllMembers extends AF_Restriction
 	{
 		global $ar_form_id;
 
-		if( !is_user_logged_in() ){
+		if( !is_user_logged_in() )
+		{
 			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'af-locale' ) );
 
 			return FALSE;
@@ -90,7 +115,8 @@ class AF_Restriction_AllMembers extends AF_Restriction
 
 		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_allmembers_same_users', TRUE );
 
-		if( 'yes' == $restrictions_same_users && af_user_has_participated( $ar_form_id ) ){
+		if( 'yes' == $restrictions_same_users && af_user_has_participated( $ar_form_id ) )
+		{
 			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;
@@ -98,25 +124,6 @@ class AF_Restriction_AllMembers extends AF_Restriction
 
 		return TRUE;
 	}
-
-	/**
-	 * Saving data
-	 *
-	 * @param int $form_id
-	 *
-	 * @since 1.0.0
-	 */
-	public static function save( $form_id )
-	{
-		/**
-		 * Saving restriction options
-		 */
-		if( array_key_exists( 'form_restrictions_allmembers_same_users', $_POST ) ){
-			$restrictions_same_users = $_POST[ 'form_restrictions_allmembers_same_users' ];
-			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', $restrictions_same_users );
-		}else{
-			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', '' );
-		}
-	}
 }
+
 af_register_restriction( 'AF_Restriction_AllMembers' );

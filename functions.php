@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -41,7 +42,8 @@ if( defined( 'AF_FOLDER' ) ):
 
 		if( '' == $located ):
 			foreach( ( array ) $template_names as $template_name ):
-				if( !$template_name ){
+				if( !$template_name )
+				{
 					continue;
 				}
 				if( file_exists( AF_FOLDER . '/templates/' . $template_name ) ):
@@ -51,7 +53,8 @@ if( defined( 'AF_FOLDER' ) ):
 			endforeach;
 		endif;
 
-		if( $load && '' != $located ){
+		if( $load && '' != $located )
+		{
 			load_template( $located, $require_once );
 		}
 
@@ -61,39 +64,52 @@ endif;
 
 /**
  * Checks if we are a Awesome Forms post type in admin
+ *
  * @return bool
  */
-function af_is_formbuilder(){
+function af_is_formbuilder()
+{
 	global $post;
 
 	if( is_admin() && af_is_form() )
+	{
 		return TRUE;
+	}
 
 	return FALSE;
 }
+
 /**
  * Checks if we are on Awesome Forms settings page
+ *
  * @return bool
  */
-function af_is_settingspage(){
+function af_is_settingspage()
+{
 	if( is_admin() && isset( $_GET[ 'page' ] ) && 'AF_Admin' == $_GET[ 'page' ] )
+	{
 		return TRUE;
+	}
 
 	return FALSE;
 }
+
 /**
  * Checks if we are in a Awesome Forms post type
+ *
  * @return bool
  */
-function af_is_form(){
+function af_is_form()
+{
 	global $post;
 
-	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type  )
+	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type )
+	{
 		return TRUE;
+	}
 
 	return FALSE;
 }
-
 
 /**
  * Getting standard mailtext strings
@@ -107,7 +123,8 @@ function af_get_mail_template_text( $mailtext_title )
 {
 
 	$text = '';
-	switch ( $mailtext_title ){
+	switch ( $mailtext_title )
+	{
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_text_template' ) );
 			if( empty( $text ) ):
@@ -169,7 +186,8 @@ function af_get_mail_template_subject( $mailsubject_title )
 {
 
 	$text = '';
-	switch ( $mailsubject_title ){
+	switch ( $mailsubject_title )
+	{
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_subject_template' ) );
 			if( empty( $text ) ):
@@ -209,7 +227,8 @@ function af_get_mail_settings( $option )
 {
 
 	$setting = '';
-	switch ( $option ){
+	switch ( $option )
+	{
 		case 'from_name':
 			$setting = stripslashes( get_option( 'questions_mail_from_name' ) );
 
@@ -273,7 +292,8 @@ function af_mail( $to_email, $subject, $content )
 	af_create_log_entry( array(
 		                     $to_email,
 		                     $subject,
-		                     $content ) );
+		                     $content
+	                     ) );
 
 	remove_filter( 'wp_mail_from_name', 'af_change_email_return_name' );
 	remove_filter( 'wp_mail_from', 'af_change_email_return_address' );
@@ -289,7 +309,8 @@ function af_mail( $to_email, $subject, $content )
 function af_create_log_entry( $values )
 {
 
-	if( !is_array( $values ) ){
+	if( !is_array( $values ) )
+	{
 		return;
 	}
 
@@ -303,13 +324,15 @@ function af_create_log_entry( $values )
 		                     "\r\n",
 		                     "\n\r",
 		                     "\n",
-		                     "\r" ), ' ', $line );
+		                     "\r"
+	                     ), ' ', $line );
 
 	$line .= chr( 13 );
 
 	$logdir = WP_CONTENT_DIR . '/logs/';
 
-	if( !file_exists( $logdir ) ){
+	if( !file_exists( $logdir ) )
+	{
 		mkdir( $logdir );
 	}
 
@@ -330,7 +353,8 @@ function af_create_log_entry( $values )
 function af_prepare_post_data( $data )
 {
 	// Do not preparing objects or arrays	
-	if( is_object( $data ) || is_array( $data ) ){
+	if( is_object( $data ) || is_array( $data ) )
+	{
 		return $data;
 	}
 
@@ -355,14 +379,16 @@ function af_id()
 /**
  * Debugging helper function
  */
-if( !function_exists( 'p' ) ){
-	function p( $var, $return = FALSE  )
+if( !function_exists( 'p' ) )
+{
+	function p( $var, $return = FALSE )
 	{
 		$content = '<pre>';
-		$content.= print_r( $var, TRUE );
-		$content.= '</pre>';
+		$content .= print_r( $var, TRUE );
+		$content .= '</pre>';
 
-		if( !$return ){
+		if( !$return )
+		{
 			echo $content;
 		}
 

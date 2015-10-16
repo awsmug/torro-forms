@@ -25,7 +25,8 @@
  */
 
 // No direct access is allowed
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -55,27 +56,33 @@ class AF_FormElement_Textarea extends AF_FormElement
 				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
 				'description' => esc_attr__( 'The description will be shown after the field.', 'af-locale' ),
-				'default'     => '' ),
+				'default'     => ''
+			),
 			'min_length'  => array(
 				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'af-locale' ),
-				'default'     => '0' ),
+				'default'     => '0'
+			),
 			'max_length'  => array(
 				'title'       => esc_attr__( 'Maximum length', 'af-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'af-locale' ),
-				'default'     => '1000' ),
+				'default'     => '1000'
+			),
 			'rows'        => array(
 				'title'       => esc_attr__( 'Rows', 'af-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'Number of rows for typing in  (can be overwritten by CSS).', 'af-locale' ),
-				'default'     => '10' ),
+				'default'     => '10'
+			),
 			'cols'        => array(
 				'title'       => esc_attr__( 'Columns', 'af-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'Number of columns for typing in (can be overwritten by CSS).', 'af-locale' ),
-				'default'     => '75' ), );
+				'default'     => '75'
+			),
+		);
 	}
 
 	public function validate( $input )
@@ -85,14 +92,16 @@ class AF_FormElement_Textarea extends AF_FormElement
 
 		$error = FALSE;
 
-		if( !empty( $min_length ) ){
+		if( !empty( $min_length ) )
+		{
 			if( strlen( $input ) < $min_length ):
 				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}
 
-		if( !empty( $max_length ) ){
+		if( !empty( $max_length ) )
+		{
 			if( strlen( $input ) > $max_length ):
 				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
@@ -119,4 +128,5 @@ class AF_FormElement_Textarea extends AF_FormElement
 		return $html;
 	}
 }
+
 af_register_form_element( 'AF_FormElement_Textarea' );

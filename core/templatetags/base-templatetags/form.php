@@ -24,7 +24,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
 class AF_FormTemplateTags extends AF_TemplateTags
 {
 
@@ -43,8 +42,14 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 */
 	public function tags()
 	{
-		$this->add_tag( 'formtitle', esc_attr( 'Form Title', 'af-locale' ), esc_attr( 'Shows the Form Title', 'af-locale' ), array( __CLASS__ , 'formtitle' ) );
-		$this->add_tag( 'allelements', esc_attr( 'All Elements', 'af-locale' ), esc_attr( 'Shows all Answers', 'af-locale' ), array( __CLASS__ , 'allelements' ) );
+		$this->add_tag( 'formtitle', esc_attr( 'Form Title', 'af-locale' ), esc_attr( 'Shows the Form Title', 'af-locale' ), array(
+			__CLASS__,
+			'formtitle'
+		) );
+		$this->add_tag( 'allelements', esc_attr( 'All Elements', 'af-locale' ), esc_attr( 'Shows all Answers', 'af-locale' ), array(
+			__CLASS__,
+			'allelements'
+		) );
 	}
 
 	/**
@@ -55,6 +60,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 		global $ar_form_id;
 
 		$form = new AF_Form( $ar_form_id );
+
 		return $form->title;
 	}
 
@@ -63,7 +69,8 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 * @param $element_id
 	 * @param $element_name
 	 */
-	public function add_element( $element_id, $element_name ){
+	public function add_element( $element_id, $element_name )
+	{
 		$this->add_tag( $element_name . ':' . $element_id,
 		                $element_name,
 		                esc_attr( 'Adds the Element Content', 'af-locale' ),
@@ -74,6 +81,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 
 	/**
 	 * Shows the Element content
+	 *
 	 * @param $element_id
 	 */
 	public static function element_content( $element_id )
@@ -81,7 +89,9 @@ class AF_FormTemplateTags extends AF_TemplateTags
 		global $af_response;
 
 		if( !isset( $af_response[ $element_id ] ) )
+		{
 			return;
+		}
 
 		$element = af_get_element( $element_id );
 
@@ -95,19 +105,22 @@ class AF_FormTemplateTags extends AF_TemplateTags
 			 */
 			// @todo Checking if element had sections and giving them HTML > Try with Matrix
 
-		}elseif( is_array( $af_response[ $element_id ] ) )
+		}
+		elseif( is_array( $af_response[ $element_id ] ) )
 		{
 			/**
 			 * Elements with multiple answers
 			 */
 			$html = '<ul>';
-			foreach( $af_response[ $element_id ] AS $response ){
-				$html.= '<li>' . $response . '</li>';
+			foreach( $af_response[ $element_id ] AS $response )
+			{
+				$html .= '<li>' . $response . '</li>';
 			}
-			$html.= '</ul>';
+			$html .= '</ul>';
 
 			return $html;
-		}else
+		}
+		else
 		{
 			/**
 			 * Elements with string response value
@@ -120,13 +133,15 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	 * Shows the Element content
 	 * @param $element_id
 	 */
-	public static function allelements(){
+	public static function allelements()
+	{
 		global $ar_form_id, $af_response;
 
 		$form = new AF_Form( $ar_form_id );
 
 		$html = '<table style="width:100%;">';
-		foreach( $form->get_elements() AS $element ){
+		foreach( $form->get_elements() AS $element )
+		{
 			$html.= '<tr>';
 				$html.= '<td>' . $element->label . '</td>';
 				$html.= '<td>' . self::element_content( $element->id ) . '</td>';
@@ -137,16 +152,19 @@ class AF_FormTemplateTags extends AF_TemplateTags
 		return $html;
 	}
 }
+
 af_register_templatetags( 'AF_FormTemplateTags' );
 
 /**
  * Live registering element templatetags
+ *
  * @param $element_id
  * @param $element_name
  *
  * @return bool
  */
-function af_add_element_templatetag( $element_id, $element_name ){
+function af_add_element_templatetag( $element_id, $element_name )
+{
 	global $af_global;
 
 	if( !property_exists( $af_global, 'templatetags' ) )

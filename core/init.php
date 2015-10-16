@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -41,87 +42,10 @@ class AF_Core
 	{
 		self::includes();
 
-		add_action( 'init', array( __CLASS__ , 'custom_post_types' ), 11 );
+		add_action( 'init', array( __CLASS__, 'custom_post_types' ), 11 );
 		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
 		// add_settings_field( 'permalinks', 'Forms',  ); // @todo Add field to permalinks section
-	}
-
-	/**
-	 * Creates Custom Post Types for Awesome Forms
-	 *
-	 * @since 1.0.0
-	 */
-	public static function custom_post_types()
-	{
-		/**
-		 * Categories
-		 */
-		$args_taxonomy = array( 'show_in_nav_menus' => TRUE,
-		                        'hierarchical'      => TRUE,
-		                        'labels'            => array( 'name'              => _x( 'Categories', 'taxonomy general name', 'af-locale' ),
-		                                                      'singular_name'     => _x( 'Category', 'taxonomy singular name', 'af-locale' ),
-		                                                      'search_items'      => __( 'Search Categories', 'af-locale' ),
-		                                                      'all_items'         => __( 'All Categories', 'af-locale' ),
-		                                                      'parent_item'       => __( 'Parent Category', 'af-locale' ),
-		                                                      'parent_item_colon' => __( 'Parent Category:', 'af-locale' ),
-		                                                      'edit_item'         => __( 'Edit Category', 'af-locale' ),
-		                                                      'update_item'       => __( 'Update Category', 'af-locale' ),
-		                                                      'add_new_item'      => __( 'Add New Category', 'af-locale' ),
-		                                                      'new_item_name'     => __( 'New Category', 'af-locale' ),
-		                                                      'menu_name'         => __( 'Categories', 'af-locale' ), ),
-		                        'show_ui'           => TRUE,
-		                        'query_var'         => TRUE,
-		                        'rewrite'           => TRUE, );
-
-		register_taxonomy( 'questions-categories', array( 'questions' ), $args_taxonomy );
-
-		/**
-		 * Post Types
-		 */
-		$args_post_type = array( 'labels'            => array( 'name'               => __( 'Forms', 'af-locale' ),
-		                                                       'singular_name'      => __( 'Form', 'af-locale' ),
-		                                                       'all_items'          => __( 'All Forms', 'af-locale' ),
-		                                                       'add_new_item'       => __( 'Add new Form', 'af-locale' ),
-		                                                       'edit_item'          => __( 'Edit Form', 'af-locale' ),
-		                                                       'new_item'           => __( 'Add new Form', 'af-locale' ),
-		                                                       'view_item'          => __( 'View Form', 'af-locale' ),
-		                                                       'search_items'       => __( 'Search Forms', 'af-locale' ),
-		                                                       'not_found'          => __( 'No Form found', 'af-locale' ),
-		                                                       'not_found_in_trash' => __( 'No Form found in trash', 'af-locale' ) ),
-		                         'public'            => TRUE,
-		                         'has_archive'       => TRUE,
-		                         'supports'          => array( 'title' ),
-		                         'show_in_menu'      => 'AF_Admin',
-		                         'show_in_nav_menus' => FALSE,
-		                         'rewrite'           => array( 'slug' => 'survey', 'with_front' => TRUE ) // @todo Change! Make variable! Doing in Permalink sections.
-
-		);
-
-		register_post_type( 'questions', $args_post_type );
-	}
-
-	/**
-	 * Adding CSS Classes to body
-	 *
-	 * @param array $classes Classes for body
-	 *
-	 * @return array $classes Classes for body
-	 */
-	public static function add_body_class( $classes )
-	{
-
-		global $post;
-
-		// Check if we are on the right place
-		if( !is_object( $post ) || !property_exists( $post, 'post_type' ) || 'questions' != $post->post_type ){
-			return $classes;
-		}
-
-		$classes[] = 'af-form';
-		$classes[] = 'af-form-' . $post->ID;
-
-		return $classes;
 	}
 
 	/**
@@ -175,7 +99,94 @@ class AF_Core
 	}
 
 	/**
+	 * Creates Custom Post Types for Awesome Forms
+	 *
+	 * @since 1.0.0
+	 */
+	public static function custom_post_types()
+	{
+		/**
+		 * Categories
+		 */
+		$args_taxonomy = array(
+			'show_in_nav_menus' => TRUE,
+			'hierarchical'      => TRUE,
+			'labels'            => array(
+				'name'              => _x( 'Categories', 'taxonomy general name', 'af-locale' ),
+				'singular_name'     => _x( 'Category', 'taxonomy singular name', 'af-locale' ),
+				'search_items'      => __( 'Search Categories', 'af-locale' ),
+				'all_items'         => __( 'All Categories', 'af-locale' ),
+				'parent_item'       => __( 'Parent Category', 'af-locale' ),
+				'parent_item_colon' => __( 'Parent Category:', 'af-locale' ),
+				'edit_item'         => __( 'Edit Category', 'af-locale' ),
+				'update_item'       => __( 'Update Category', 'af-locale' ),
+				'add_new_item'      => __( 'Add New Category', 'af-locale' ),
+				'new_item_name'     => __( 'New Category', 'af-locale' ),
+				'menu_name'         => __( 'Categories', 'af-locale' ),
+			),
+			'show_ui'           => TRUE,
+			'query_var'         => TRUE,
+			'rewrite'           => TRUE,
+		);
+
+		register_taxonomy( 'questions-categories', array( 'questions' ), $args_taxonomy );
+
+		/**
+		 * Post Types
+		 */
+		$args_post_type = array(
+			'labels'            => array(
+				'name'               => __( 'Forms', 'af-locale' ),
+				'singular_name'      => __( 'Form', 'af-locale' ),
+				'all_items'          => __( 'All Forms', 'af-locale' ),
+				'add_new_item'       => __( 'Add new Form', 'af-locale' ),
+				'edit_item'          => __( 'Edit Form', 'af-locale' ),
+				'new_item'           => __( 'Add new Form', 'af-locale' ),
+				'view_item'          => __( 'View Form', 'af-locale' ),
+				'search_items'       => __( 'Search Forms', 'af-locale' ),
+				'not_found'          => __( 'No Form found', 'af-locale' ),
+				'not_found_in_trash' => __( 'No Form found in trash', 'af-locale' )
+			),
+			'public'            => TRUE,
+			'has_archive'       => TRUE,
+			'supports'          => array( 'title' ),
+			'show_in_menu'      => 'AF_Admin',
+			'show_in_nav_menus' => FALSE,
+			'rewrite'           => array( 'slug' => 'survey', 'with_front' => TRUE )
+			// @todo Change! Make variable! Doing in Permalink sections.
+
+		);
+
+		register_post_type( 'questions', $args_post_type );
+	}
+
+	/**
+	 * Adding CSS Classes to body
+	 *
+	 * @param array $classes Classes for body
+	 *
+	 * @return array $classes Classes for body
+	 */
+	public static function add_body_class( $classes )
+	{
+
+		global $post;
+
+		// Check if we are on the right place
+		if( !is_object( $post ) || !property_exists( $post, 'post_type' ) || 'questions' != $post->post_type )
+		{
+			return $classes;
+		}
+
+		$classes[] = 'af-form';
+		$classes[] = 'af-form-' . $post->ID;
+
+		return $classes;
+	}
+
+	/**
 	 * Registers and enqueues admin-specific styles.
+	 *
 	 * @since 1.0.0
 	 */
 	public static function register_admin_styles()
@@ -184,4 +195,5 @@ class AF_Core
 	}
 
 }
+
 AF_Core::init();

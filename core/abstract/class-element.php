@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -33,104 +34,121 @@ abstract class AF_FormElement
 
 	/**
 	 * ID of instanced Element
+	 *
 	 * @since 1.0.0
 	 */
 	var $id = NULL;
 
 	/**
 	 * Contains the Form ID of the Element
+	 *
 	 * @since 1.0.0
 	 */
 	var $form_id;
 
 	/**
 	 * Name of the Element
+	 *
 	 * @since 1.0.0
 	 */
 	var $name;
 
 	/**
 	 * Title of Element which will be shown in admin
+	 *
 	 * @since 1.0.0
 	 */
 	var $title;
 
 	/**
 	 * Description of the Element
+	 *
 	 * @since 1.0.0
 	 */
 	var $description;
 
 	/**
 	 * Icon URl of the Element
+	 *
 	 * @since 1.0.0
 	 */
 	var $icon_url;
 
 	/**
 	 * Element Label
+	 *
 	 * @since 1.0.0
 	 */
 	var $label;
 
 	/**
 	 * Sort number where to display the Element
+	 *
 	 * @since 1.0.0
 	 */
 	var $sort = 0;
 
 	/**
 	 * Does this element have any input?
+	 *
 	 * @since 1.0.0
 	 */
 	var $is_input = TRUE;
 
 	/**
 	 * If value is true, Awesome Forms will try to create charts from results
-	 * @todo is_analyzable: Is this a self spelling name?
+	 *
+	 * @todo  is_analyzable: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
 	var $is_analyzable = FALSE;
 
 	/**
 	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
-	 * @todo has_answers: Is this a self spelling name?
+	 *
+	 * @todo  has_answers: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
 	var $has_answers = FALSE;
 
 	/**
 	 * Only for Form splitter Element!
+	 *
 	 * @var bool
 	 */
 	var $splits_form = FALSE;
 
 	/**
 	 * Sections for answers
+	 *
 	 * @since 1.0.0
 	 */
 	var $sections = array();
 
 	/**
 	 * Element answers
+	 *
 	 * @since 1.0.0
 	 */
 	var $answers = array();
 
 	/**
 	 * Contains users response of an Element
+	 *
 	 * @since 1.0.0
 	 */
 	var $response;
 
 	/**
 	 * The settings fields
+	 *
 	 * @since 1.0.0
 	 */
 	var $settings_fields = array();
 
 	/**
 	 * Contains all settings of the element
+	 *
 	 * @var array
 	 * @since 1.0.0
 	 */
@@ -138,6 +156,7 @@ abstract class AF_FormElement
 
 	/**
 	 * Has element moltiple Answers?
+	 *
 	 * @var bool
 	 * @since 1.0.0
 	 */
@@ -145,6 +164,7 @@ abstract class AF_FormElement
 
 	/**
 	 * Is Element initialized
+	 *
 	 * @var bool
 	 * @since 1.0.0
 	 */
@@ -159,56 +179,12 @@ abstract class AF_FormElement
 	 */
 	public function __construct( $id = NULL )
 	{
-		if( NULL != $id && '' != $id ){
+		if( NULL != $id && '' != $id )
+		{
 			$this->populate( $id );
 		}
 
 		$this->settings_fields();
-	}
-
-	/**
-	 * Function to register element in Awesome Forms
-	 *
-	 * After registerung was successfull the new element will be shown in the elements list.
-	 *
-	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
-	 * @since 1.0.0
-	 */
-	public function _register()
-	{
-		global $af_global;
-
-		if( TRUE == $this->initialized ){
-			return FALSE;
-		}
-
-		if( !is_object( $af_global ) ){
-			return FALSE;
-		}
-
-		if( '' == $this->name ){
-			$this->name = get_class( $this );
-		}
-
-		if( '' == $this->title ){
-			$this->title = ucwords( get_class( $this ) );
-		}
-
-		if( '' == $this->description ){
-			$this->description = esc_attr__( 'This is a Awesome Forms Element.', 'af-locale' );
-		}
-
-		if( array_key_exists( $this->name, $af_global->element_types ) ){
-			return FALSE;
-		}
-
-		if( !is_array( $af_global->element_types ) ){
-			$af_global->element_types = array();
-		}
-
-		$this->initialized = TRUE;
-
-		return $af_global->add_form_element( $this->name, $this );
 	}
 
 	/**
@@ -262,11 +238,13 @@ abstract class AF_FormElement
 	 */
 	private function set_label( $label, $order = NULL )
 	{
-		if( '' == $label ){
+		if( '' == $label )
+		{
 			return FALSE;
 		}
 
-		if( NULL != $order ){
+		if( NULL != $order )
+		{
 			$this->sort = $order;
 		}
 
@@ -288,7 +266,8 @@ abstract class AF_FormElement
 	 */
 	private function add_answer( $text, $sort = FALSE, $id = NULL, $section = NULL )
 	{
-		if( '' == $text ){
+		if( '' == $text )
+		{
 			return FALSE;
 		}
 
@@ -314,7 +293,61 @@ abstract class AF_FormElement
 	/**
 	 * Settings fields
 	 */
-	public function settings_fields(){}
+	public function settings_fields()
+	{
+	}
+
+	/**
+	 * Function to register element in Awesome Forms
+	 *
+	 * After registerung was successfull the new element will be shown in the elements list.
+	 *
+	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+	 * @since 1.0.0
+	 */
+	public function _register()
+	{
+		global $af_global;
+
+		if( TRUE == $this->initialized )
+		{
+			return FALSE;
+		}
+
+		if( !is_object( $af_global ) )
+		{
+			return FALSE;
+		}
+
+		if( '' == $this->name )
+		{
+			$this->name = get_class( $this );
+		}
+
+		if( '' == $this->title )
+		{
+			$this->title = ucwords( get_class( $this ) );
+		}
+
+		if( '' == $this->description )
+		{
+			$this->description = esc_attr__( 'This is a Awesome Forms Element.', 'af-locale' );
+		}
+
+		if( array_key_exists( $this->name, $af_global->element_types ) )
+		{
+			return FALSE;
+		}
+
+		if( !is_array( $af_global->element_types ) )
+		{
+			$af_global->element_types = array();
+		}
+
+		$this->initialized = TRUE;
+
+		return $af_global->add_form_element( $this->name, $this );
+	}
 
 	/**
 	 * Validate user input - Have to be overwritten by child classes if element needs validation
@@ -339,7 +372,8 @@ abstract class AF_FormElement
 		global $af_response_errors;
 
 		$errors = '';
-		if( is_array( $af_response_errors ) && array_key_exists( $this->id, $af_response_errors ) ){
+		if( is_array( $af_response_errors ) && array_key_exists( $this->id, $af_response_errors ) )
+		{
 			$errors = $af_response_errors[ $this->id ];
 		}
 
@@ -378,9 +412,12 @@ abstract class AF_FormElement
 
 		$html .= '<div class="answer">';
 
-		if( 0 == count( $this->answers ) && $this->has_answers == TRUE ){
+		if( 0 == count( $this->answers ) && $this->has_answers == TRUE )
+		{
 			$html .= '<p>' . esc_attr__( 'You don´t entered any answers. Please add some to display answers here.', 'af-locale' ) . '</p>';
-		}else{
+		}
+		else
+		{
 			$html .= $this->input_html();
 		}
 
@@ -397,6 +434,32 @@ abstract class AF_FormElement
 	}
 
 	/**
+	 * Getting element data from Session
+	 *
+	 * @return array $response The post response
+	 * @since 1.0.0
+	 */
+	private function get_response()
+	{
+		global $ar_form_id;
+
+		$this->response = FALSE;
+
+		// Getting value/s
+		if( !empty( $ar_form_id ) ):
+			if( isset( $_SESSION[ 'af_response' ] ) ):
+				if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) ):
+					if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ] ) ):
+						$this->response = $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ];
+					endif;
+				endif;
+			endif;
+		endif;
+
+		return $this->response;
+	}
+
+	/**
 	 * Contains element HTML on frontend - Have to be overwritten by child classes
 	 *
 	 * @return string $html Element frontend HTML
@@ -404,27 +467,6 @@ abstract class AF_FormElement
 	public function input_html()
 	{
 		return '<p>' . esc_attr__( 'No HTML for Element given. Please check element sourcecode.', 'af-locale' ) . '</p>';
-	}
-
-	/**
-	 * Returns the widget id which will be used in HTML
-	 *
-	 * @return string $widget_id The widget id
-	 * @since 1.0.0
-	 */
-	private function admin_get_widget_id()
-	{
-
-		// Getting Widget ID
-		if( NULL == $this->id ):
-			// New Element
-			$widget_id = 'widget_formelement_XXnrXX';
-		else:
-			// Existing Element
-			$widget_id = 'widget_formelement_' . $this->id;
-		endif;
-
-		return $widget_id;
 	}
 
 	/**
@@ -448,9 +490,12 @@ abstract class AF_FormElement
 		/**
 		 * Widget
 		 */
-		if( NULL == $this->id ){
+		if( NULL == $this->id )
+		{
 			$html = '<div class="formelement"' . $id_name . '>';
-		}else{
+		}
+		else
+		{
 			$html = '<div class="widget formelement"' . $id_name . '>';
 		}
 
@@ -486,15 +531,18 @@ abstract class AF_FormElement
 		 */
 		$html .= '<ul class="tabs">';
 		// If Element is form element> Show label tab
-		if( $this->is_input && !$this->has_answers ){
+		if( $this->is_input && !$this->has_answers )
+		{
 			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label', 'af-locale' ) . '</a></li>';
 		}
-		if( $this->is_input && $this->has_answers ){
+		if( $this->is_input && $this->has_answers )
+		{
 			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label & Answers', 'af-locale' ) . '</a></li>';
 		}
 
 		// If Element has settings > Show settings tab
-		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ){
+		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 )
+		{
 			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . esc_attr__( 'Settings', 'af-locale' ) . '</a></li>';
 		}
 
@@ -545,6 +593,27 @@ abstract class AF_FormElement
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Returns the widget id which will be used in HTML
+	 *
+	 * @return string $widget_id The widget id
+	 * @since 1.0.0
+	 */
+	private function admin_get_widget_id()
+	{
+
+		// Getting Widget ID
+		if( NULL == $this->id ):
+			// New Element
+			$widget_id = 'widget_formelement_XXnrXX';
+		else:
+			// Existing Element
+			$widget_id = 'widget_formelement_' . $this->id;
+		endif;
+
+		return $widget_id;
 	}
 
 	/**
@@ -607,7 +676,8 @@ abstract class AF_FormElement
 			foreach( $this->answers AS $answer ):
 
 				// If there is a section
-				if( NULL != $section ){
+				if( NULL != $section )
+				{
 					if( $answer[ 'section' ] != $section ) // Continue if answer is not of the section
 					{
 						continue;
@@ -615,14 +685,15 @@ abstract class AF_FormElement
 				}
 
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
-					$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="element-answer" /></p>';
-					$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
-					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
-					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
+				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="element-answer" /></p>';
+				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
+				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
+				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
 
-					if( NULL != $section ){
-						$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
-					}
+				if( NULL != $section )
+				{
+					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . $section . '" />';
+				}
 				$html .= '</div>';
 
 			endforeach;
@@ -637,11 +708,12 @@ abstract class AF_FormElement
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
-				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][' .$temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
+				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
 				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
-				if( NULL != $section ){
+				if( NULL != $section )
+				{
 					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . $section . '" />';
 				}
 
@@ -690,18 +762,21 @@ abstract class AF_FormElement
 		$widget_id = $this->admin_get_widget_id();
 		$value = '';
 
-		if( array_key_exists( $name, $this->settings ) ){
+		if( array_key_exists( $name, $this->settings ) )
+		{
 			$value = $this->settings[ $name ];
 		}
 
-		if( '' == $value ){
+		if( '' == $value )
+		{
 			$value = $field[ 'default' ];
 		}
 
 		$name = 'elements[' . $widget_id . '][settings][' . $name . ']';
 
 		$input = '';
-		switch ( $field[ 'type' ] ){
+		switch ( $field[ 'type' ] )
+		{
 			case 'text':
 
 				$input = '<input type="text" name="' . $name . '" value="' . $value . '" />';
@@ -730,7 +805,8 @@ abstract class AF_FormElement
 				foreach( $field[ 'values' ] AS $field_key => $field_value ):
 					$checked = '';
 
-					if( $value == $field_key ){
+					if( $value == $field_key )
+					{
 						$checked = ' checked="checked"';
 					}
 
@@ -762,17 +838,19 @@ abstract class AF_FormElement
 	{
 
 		// Adding action Buttons
-		$bottom_buttons = apply_filters( 'af_element_bottom_actions', array( 'delete_form_element' => array( 'text'    => esc_attr__( 'Delete element', 'af-locale' ),
-		                                                                                                     'classes' => 'delete_form_element'
-		)
+		$bottom_buttons = apply_filters( 'af_element_bottom_actions', array(
+			'delete_form_element' => array(
+				'text'    => esc_attr__( 'Delete element', 'af-locale' ),
+				'classes' => 'delete_form_element'
+			)
 		) );
 
 		$html = '<div class="form-element-buttom">';
-			$html .= '<ul>';
-			foreach( $bottom_buttons AS $button ):
-				$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
-			endforeach;
-			$html .= '</ul>';
+		$html .= '<ul>';
+		foreach( $bottom_buttons AS $button ):
+			$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action button">' . $button[ 'text' ] . '</a></li>';
+		endforeach;
+		$html .= '</ul>';
 		$html .= '</div>';
 
 		return $html;
@@ -791,32 +869,6 @@ abstract class AF_FormElement
 		$html .= '<input type="hidden" name="elements[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ? 'yes' : 'no' ) . '" />';
 
 		return $html;
-	}
-
-	/**
-	 * Getting element data from Session
-	 *
-	 * @return array $response The post response
-	 * @since 1.0.0
-	 */
-	private function get_response()
-	{
-		global $ar_form_id;
-
-		$this->response = FALSE;
-
-		// Getting value/s
-		if( !empty( $ar_form_id ) ):
-			if( isset( $_SESSION[ 'af_response' ] ) ):
-				if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) ):
-					if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ] ) ):
-						$this->response = $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ];
-					endif;
-				endif;
-			endif;
-		endif;
-
-		return $this->response;
 	}
 
 	/**
@@ -881,9 +933,12 @@ abstract class AF_FormElement
 			endif;
 		endif;
 
-		if( is_array( $result_answers ) && count( $result_answers ) > 0 ){
+		if( is_array( $result_answers ) && count( $result_answers ) > 0 )
+		{
 			return $result_answers;
-		}else{
+		}
+		else
+		{
 			return FALSE;
 		}
 	}
@@ -898,9 +953,12 @@ abstract class AF_FormElement
  */
 function af_register_form_element( $element_type_class )
 {
-	if( class_exists( $element_type_class ) ){
+	if( class_exists( $element_type_class ) )
+	{
 		$element_type = new $element_type_class();
+
 		return $element_type->_register();
 	}
+
 	return FALSE;
 }

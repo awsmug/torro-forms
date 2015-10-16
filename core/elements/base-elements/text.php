@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 // No direct access is allowed
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -53,17 +54,20 @@ class AF_FormElement_Text extends AF_FormElement
 				'title'       => esc_attr__( 'Description', 'af-locale' ),
 				'type'        => 'textarea',
 				'description' => esc_attr__( 'The description will be shown after the Element.', 'af-locale' ),
-				'default'     => '' ),
+				'default'     => ''
+			),
 			'min_length'  => array(
 				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'af-locale' ),
-				'default'     => '0' ),
+				'default'     => '0'
+			),
 			'max_length'  => array(
 				'title'       => esc_attr__( 'Maximum length', 'af-locale' ),
 				'type'        => 'text',
 				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'af-locale' ),
-				'default'     => '100' ),
+				'default'     => '100'
+			),
 			'validation'  => array(
 				'title'       => esc_attr__( 'String Validation', 'af-locale' ),
 				'type'        => 'radio',
@@ -71,9 +75,12 @@ class AF_FormElement_Text extends AF_FormElement
 					'none'            => esc_attr__( 'No validation', 'af-locale' ),
 					'numbers'         => esc_attr__( 'Numbers', 'af-locale' ),
 					'numbers_decimal' => esc_attr__( 'Decimal Numbers', 'af-locale' ),
-					'email_address'   => esc_attr__( 'Email-Address', 'af-locale' ), ),
+					'email_address'   => esc_attr__( 'Email-Address', 'af-locale' ),
+				),
 				'description' => esc_attr__( 'The will do a validation for the input.', 'af-locale' ),
-				'default'     => 'none' ), );
+				'default'     => 'none'
+			),
+		);
 	}
 
 	public function validate( $input )
@@ -85,14 +92,16 @@ class AF_FormElement_Text extends AF_FormElement
 
 		$error = FALSE;
 
-		if( !empty( $min_length ) ){
+		if( !empty( $min_length ) )
+		{
 			if( strlen( $input ) < $min_length ):
 				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}
 
-		if( !empty( $max_length ) ){
+		if( !empty( $max_length ) )
+		{
 			if( strlen( $input ) > $max_length ):
 				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
@@ -100,7 +109,8 @@ class AF_FormElement_Text extends AF_FormElement
 		}
 
 		if( 'none' != $validation ):
-			switch ( $validation ){
+			switch ( $validation )
+			{
 				case 'numbers':
 					if( !preg_match( '/^[0-9]{1,}$/', $input ) ):
 						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a number.', 'af-locale' ), $max_length );

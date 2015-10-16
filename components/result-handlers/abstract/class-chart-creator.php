@@ -27,7 +27,9 @@
  */
 
 if( !defined( 'ABSPATH' ) )
+{
 	exit;
+}
 
 abstract class AF_ChartCreator
 {
@@ -90,31 +92,38 @@ abstract class AF_ChartCreator
 
 		global $af_global;
 
-		if( TRUE == $this->initialized ){
+		if( TRUE == $this->initialized )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) ){
+		if( !is_object( $af_global ) )
+		{
 			return FALSE;
 		}
 
-		if( '' == $this->name ){
+		if( '' == $this->name )
+		{
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title ){
+		if( '' == $this->title )
+		{
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description ){
+		if( '' == $this->description )
+		{
 			$this->description = esc_attr__( 'This is a Awesome Forms Form Element.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->chart_creators ) ){
+		if( array_key_exists( $this->name, $af_global->chart_creators ) )
+		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->element_types ) ){
+		if( !is_array( $af_global->element_types ) )
+		{
 			$af_global->element_types = array();
 		}
 
@@ -140,7 +149,8 @@ abstract class AF_ChartCreator
  */
 function af_register_chartcreator( $chart_creator_class )
 {
-	if( class_exists( $chart_creator_class ) ){
+	if( class_exists( $chart_creator_class ) )
+	{
 		$chart_creator = new $chart_creator_class();
 
 		return $chart_creator->_register();

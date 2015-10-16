@@ -24,11 +24,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
-abstract class AF_TemplateTags{
+abstract class AF_TemplateTags
+{
 	/**
 	 * Name of templatetags collection
 	 *
@@ -66,19 +68,19 @@ abstract class AF_TemplateTags{
 
 	/**
 	 * Add a tag to taglist
+	 *
 	 * @param       $description
 	 * @param       $callback
 	 * @param array $args
 	 */
 	final function add_tag( $name, $display_name, $description, $callback, $args = array() )
 	{
-		$this->tags[ $name ] = array( 'description' => $description, 'display_name' => $display_name, 'callback' => $callback, 'args' => $args );
+		$this->tags[ $name ] = array( 'description'  => $description,
+		                              'display_name' => $display_name,
+		                              'callback'     => $callback,
+		                              'args'         => $args
+		);
 	}
-
-	/**
-	 * @return mixed
-	 */
-	abstract function tags();
 
 	/**
 	 * Function to register element in Awesome Forms
@@ -92,31 +94,38 @@ abstract class AF_TemplateTags{
 	{
 		global $af_global;
 
-		if( TRUE == $this->initialized ){
+		if( TRUE == $this->initialized )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) ){
+		if( !is_object( $af_global ) )
+		{
 			return FALSE;
 		}
 
-		if( '' == $this->name ){
+		if( '' == $this->name )
+		{
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title ){
+		if( '' == $this->title )
+		{
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description ){
+		if( '' == $this->description )
+		{
 			$this->description = esc_attr__( 'This is a Awesome Forms Templatetag collection.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->restrictions ) ){
+		if( array_key_exists( $this->name, $af_global->restrictions ) )
+		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->templatetags ) ){
+		if( !is_array( $af_global->templatetags ) )
+		{
 			$af_global->templatetags = array();
 		}
 
@@ -126,6 +135,11 @@ abstract class AF_TemplateTags{
 
 		return $af_global->add_templatetags( $this->name, $this );
 	}
+
+	/**
+	 * @return mixed
+	 */
+	abstract function tags();
 }
 
 /**
@@ -137,15 +151,19 @@ abstract class AF_TemplateTags{
  */
 function af_register_templatetags( $templatetags_class )
 {
-	if( class_exists( $templatetags_class ) ){
+	if( class_exists( $templatetags_class ) )
+	{
 		$templatetags = new $templatetags_class();
+
 		return $templatetags->_register();
 	}
+
 	return FALSE;
 }
 
 /**
  * Get all Templatetag collections
+ *
  * @return array|bool
  */
 function af_get_templatetag_collections()
@@ -169,11 +187,13 @@ function af_get_templatetag_collections()
 		$templatetag_collections[ $templatetag_collection_name ]->title = $templatetag_collection->title;
 		$templatetag_collections[ $templatetag_collection_name ]->description = $templatetag_collection->description;
 	}
+
 	return $templatetag_collections;
 }
 
 /**
  * Getting all Templatetags of a collection
+ *
  * @param $templatetag_collection
  */
 function af_get_templatetags( $templatetag_collection )
@@ -200,45 +220,51 @@ function af_get_templatetags( $templatetag_collection )
 
 /**
  * Adds a Button for templatetags and binds it to an input field
+ *
  * @return string
  */
-function af_template_tag_button( $input_name ){
+function af_template_tag_button( $input_name )
+{
 	$collections = af_get_templatetag_collections();
 
 	$html = '<div class="af-templatetag-button">';
-		$html.= '<input type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" rel="' . $input_name . '" />';
-		$html.= '<div class="af-templatetag-list">';
+	$html .= '<input type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" rel="' . $input_name . '" />';
+	$html .= '<div class="af-templatetag-list">';
 
-		foreach( $collections AS $collection_name => $collection )
+	foreach( $collections AS $collection_name => $collection )
+	{
+		$html .= '<div class="af-templatetag-collection">';
+		$html .= '<div class="af-templatetag-collection-headline">' . $collection->title . '</div>';
+
+		$template_tags = af_get_templatetags( $collection_name );
+
+		foreach( $template_tags AS $tag_name => $template_tag )
 		{
-			$html.= '<div class="af-templatetag-collection">';
-			$html.= '<div class="af-templatetag-collection-headline">' . $collection->title . '</div>';
-
-			$template_tags = af_get_templatetags( $collection_name );
-
-			foreach( $template_tags AS $tag_name => $template_tag )
-			{
-				$html.= '<div class="af-templatetag" rel="' . $input_name. '" data-tagname="' . $tag_name. '">' . $template_tag[ 'display_name' ] . '</div>';
-			}
-			$html.= '</div>';
+			$html .= '<div class="af-templatetag" rel="' . $input_name . '" data-tagname="' . $tag_name . '">' . $template_tag[ 'display_name' ] . '</div>';
 		}
-		$html.= '</div>';
-	$html.= '</div>';
+		$html .= '</div>';
+	}
+	$html .= '</div>';
+	$html .= '</div>';
 
 	return $html;
 }
 
 /**
  * Filtering templatetags from content
+ *
  * @param $content
+ *
  * @return mixed
  */
-function af_filter_templatetags( $content ){
+function af_filter_templatetags( $content )
+{
 	global $af_global;
 
 	$collections = af_get_templatetag_collections();
 
-	foreach( $collections AS $collection_name => $collection ){
+	foreach( $collections AS $collection_name => $collection )
+	{
 		$template_tags = af_get_templatetags( $collection_name );
 
 		foreach( $template_tags AS $tag_name => $template_tag )

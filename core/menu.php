@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -41,7 +42,8 @@ class AF_AdminMenu
 	 */
 	public static function init()
 	{
-		if( !is_admin() ){
+		if( !is_admin() )
+		{
 			return;
 		}
 
@@ -72,7 +74,8 @@ class AF_AdminMenu
 		global $current_screen;
 		$taxonomy = $current_screen->taxonomy;
 
-		if( $taxonomy == 'questions-categories' ){
+		if( $taxonomy == 'questions-categories' )
+		{
 			$parent_file = 'AF_Admin';
 		}
 

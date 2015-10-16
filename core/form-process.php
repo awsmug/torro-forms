@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -56,9 +57,12 @@ class AF_FormProcess
 		$this->form_id = $form_id;
 		$this->form = new AF_Form( $this->form_id );
 
-		if( NULL == $action_url ){
+		if( NULL == $action_url )
+		{
 			$this->action_url = $_SERVER[ 'REQUEST_URI' ];
-		}else{
+		}
+		else
+		{
 			$this->action_url = $action_url;
 		}
 	}
@@ -69,6 +73,7 @@ class AF_FormProcess
 	 * Creating form HTML
 	 *
 	 * @param int $form_id
+	 *
 	 * @return string $html
 	 * @since 1.0.0
 	 */
@@ -78,18 +83,21 @@ class AF_FormProcess
 
 		$show_form = apply_filters( 'af_show_form', TRUE ); // Hook for adding restrictions and so on ...
 
-		if( FALSE == $show_form ){
+		if( FALSE == $show_form )
+		{
 			return;
 		}
 
-		if( !isset( $_SESSION ) ){
+		if( !isset( $_SESSION ) )
+		{
 			session_start();
 		}
 
 		$html = '';
 
 		// Set global message on top of page
-		if( !empty( $af_response_errors ) ){
+		if( !empty( $af_response_errors ) )
+		{
 			$html .= '<div class="af-element-error">';
 			$html .= '<div class="af-element-error-message"><p>';
 			$html .= esc_attr__( 'There are open answers', 'af-locale' );
@@ -109,7 +117,8 @@ class AF_FormProcess
 		$step_count = $this->form->get_step_count();
 
 		// Switch on navigation if there is more than one page
-		if( 0 != $step_count ){
+		if( 0 != $step_count )
+		{
 			$html .= '<div class="af-pagination">' . sprintf( __( 'Step <span class="af-highlight-number">%d</span> of <span class="af-highlight-number">%s</span>', 'af-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		}
 
@@ -146,6 +155,76 @@ class AF_FormProcess
 	}
 
 	/**
+	 * Getting actual step by POST data and error response
+	 *
+	 * @return int
+	 */
+	public function get_actual_step()
+	{
+		global $af_response_errors;
+
+		// If there was posted af_next_step and there was no error
+		if( isset( $_POST[ 'af_next_step' ] ) && 0 == count( $af_response_errors ) )
+		{
+			$actual_step = (int) $_POST[ 'af_next_step' ];
+		}
+		else
+		{
+
+			// If there was posted af_next_step and there was an error
+			if( isset( $_POST[ 'af_actual_step' ] ) )
+			{
+				$actual_step = (int) $_POST[ 'af_actual_step' ];
+				// If there was nothing posted, start at the beginning
+			}
+			else
+			{
+				$actual_step = 0;
+			}
+		}
+
+		// If user wanted to go backwards, set one step back
+		if( array_key_exists( 'af_submission_back', $_POST ) )
+		{
+			$actual_step = (int) $_POST[ 'af_actual_step' ] - 1;
+		}
+
+		return $actual_step;
+	}
+
+	/**
+	 * Getting navigation for form
+	 *
+	 * @param $actual_step
+	 * @param $next_step
+	 *
+	 * @return string
+	 */
+	public function get_navigation( $actual_step, $next_step )
+	{
+		$html = '';
+
+		// If there was a step before, show previous button
+		if( $actual_step > 0 )
+		{
+			$html .= '<input type="submit" name="af_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
+		}
+
+		if( $actual_step == $next_step )
+		{
+			// If actual step is next step, show finish form button
+			$html .= '<input type="submit" name="af_submission" value="' . __( 'Send', 'af-locale' ) . '">';
+		}
+		else
+		{
+			// Show next button
+			$html .= '<input type="submit" name="af_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
+		}
+
+		return $html;
+	}
+
+	/**
 	 * Processing entered data
 	 *
 	 * @since 1.0.0
@@ -154,46 +233,55 @@ class AF_FormProcess
 	{
 		global $ar_form_id, $af_response_errors;
 
-		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'af-form-' . $ar_form_id ) ){
+		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'af-form-' . $ar_form_id ) )
+		{
 			return;
 		}
 
 		$response = array();
-		if( isset( $_POST[ 'af_response' ] ) ){
+		if( isset( $_POST[ 'af_response' ] ) )
+		{
 			$response = $_POST[ 'af_response' ];
 		}
 
 		$actual_step = (int) $_POST[ 'af_actual_step' ];
 
 		// If there was a saved response
-		if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) ){
+		if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) )
+		{
 
 			// Merging data
 			$merged_response = $_SESSION[ 'af_response' ][ $ar_form_id ];
-			if( is_array( $response ) && count( $response ) > 0 ){
+			if( is_array( $response ) && count( $response ) > 0 )
+			{
 				foreach( $response AS $key => $answer )
 					$merged_response[ $key ] = af_prepare_post_data( $answer );
 			}
 
 			$_SESSION[ 'af_response' ][ $ar_form_id ] = $merged_response;
-		}else{
+		}
+		else
+		{
 			$merged_response = $response;
 		}
 
 		$_SESSION[ 'af_response' ][ $ar_form_id ] = $merged_response;
 
 		// Validate submitted data if user not has gone backwards
-		if( !array_key_exists( 'af_submission_back', $_POST ) ){
+		if( !array_key_exists( 'af_submission_back', $_POST ) )
+		{
 			$this->validate( $ar_form_id, $_SESSION[ 'af_response' ][ $ar_form_id ], $actual_step );
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
-		if( (int) $_POST[ 'af_actual_step' ] == (int) $_POST[ 'af_next_step' ] && 0 == count( $af_response_errors ) && !isset( $_POST[ 'af_submission_back' ] ) ){
+		if( (int) $_POST[ 'af_actual_step' ] == (int) $_POST[ 'af_next_step' ] && 0 == count( $af_response_errors ) && !isset( $_POST[ 'af_submission_back' ] ) )
+		{
 
 			$form = new AF_Form( $ar_form_id );
 			$response_id = $form->save_response( $_SESSION[ 'af_response' ][ $ar_form_id ] );
 
-			if( FALSE != $response_id ){
+			if( FALSE != $response_id )
+			{
 				do_action( 'af_save_response', $response_id );
 
 				unset( $_SESSION[ 'af_response' ][ $ar_form_id ] );
@@ -222,7 +310,8 @@ class AF_FormProcess
 		global $af_response_errors;
 
 		$elements = $this->form->get_step_elements( $step );
-		if( !is_array( $elements ) && count( $elements ) == 0 ){
+		if( !is_array( $elements ) && count( $elements ) == 0 )
+		{
 			return;
 		}
 
@@ -230,18 +319,21 @@ class AF_FormProcess
 
 		// Running true all elements
 		foreach( $elements AS $element ):
-			if( $element->splits_form ){
+			if( $element->splits_form )
+			{
 				continue;
 			}
 
 			$answer = '';
-			if( array_key_exists( $element->id, $response ) ){
+			if( array_key_exists( $element->id, $response ) )
+			{
 				$answer = $response[ $element->id ];
 			}
 
 			if( !$element->validate( $answer ) ):
 
-				if( empty( $af_response_errors[ $element->id ] ) ){
+				if( empty( $af_response_errors[ $element->id ] ) )
+				{
 					$af_response_errors[ $element->id ] = array();
 				}
 
@@ -264,65 +356,6 @@ class AF_FormProcess
 			return TRUE;
 		endif;
 	}
-
-	/**
-	 * Getting actual step by POST data and error response
-	 *
-	 * @return int
-	 */
-	public function get_actual_step()
-	{
-		global $af_response_errors;
-
-		// If there was posted af_next_step and there was no error
-		if( isset( $_POST[ 'af_next_step' ] ) && 0 == count( $af_response_errors ) ){
-			$actual_step = (int) $_POST[ 'af_next_step' ];
-		}else{
-
-			// If there was posted af_next_step and there was an error
-			if( isset( $_POST[ 'af_actual_step' ] ) ){
-				$actual_step = (int) $_POST[ 'af_actual_step' ];
-				// If there was nothing posted, start at the beginning
-			}else{
-				$actual_step = 0;
-			}
-		}
-
-		// If user wanted to go backwards, set one step back
-		if( array_key_exists( 'af_submission_back', $_POST ) ){
-			$actual_step = (int) $_POST[ 'af_actual_step' ] - 1;
-		}
-
-		return $actual_step;
-	}
-
-	/**
-	 * Getting navigation for form
-	 *
-	 * @param $actual_step
-	 * @param $next_step
-	 *
-	 * @return string
-	 */
-	public function get_navigation( $actual_step, $next_step )
-	{
-		$html = '';
-
-		// If there was a step before, show previous button
-		if( $actual_step > 0 ){
-			$html .= '<input type="submit" name="af_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
-		}
-
-		if( $actual_step == $next_step ){
-			// If actual step is next step, show finish form button
-			$html .= '<input type="submit" name="af_submission" value="' . __( 'Send', 'af-locale' ) . '">';
-		}else{
-			// Show next button
-			$html .= '<input type="submit" name="af_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
-		}
-
-		return $html;
-	}
 }
 
 /**
@@ -338,25 +371,26 @@ function af_user_has_participated( $form_id, $user_id = NULL )
 	global $wpdb, $current_user, $af_global;
 
 	// Setting up user ID
-	if ( NULL == $user_id ){
+	if( NULL == $user_id )
+	{
 		get_currentuserinfo();
 		$user_id = $user_id = $current_user->ID;
 	}
 
 	// Setting up Form ID
-	if ( NULL == $form_id ) {
+	if( NULL == $form_id )
+	{
 		return FALSE;
 	}
 
-	$sql   = $wpdb->prepare(
-		"SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND user_id=%s",
-		$form_id, $user_id
-	);
+	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND user_id=%s", $form_id, $user_id );
 
 	$count = $wpdb->get_var( $sql );
 
-	if ( 0 == $count )
+	if( 0 == $count )
+	{
 		return FALSE;
+	}
 
 	return TRUE;
 }

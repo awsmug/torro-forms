@@ -25,35 +25,40 @@
  */
 
 // No direct access is allowed
-if ( ! defined( 'ABSPATH' ) ) {
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
-class AF_FormElement_Dropdown extends AF_FormElement {
+class AF_FormElement_Dropdown extends AF_FormElement
+{
 
-	public function __construct( $id = NULL ) {
+	public function __construct( $id = NULL )
+	{
 
-		$this->name        = 'Dropdown';
-		$this->title       = esc_attr__( 'Dropdown', 'af-locale' );
+		$this->name = 'Dropdown';
+		$this->title = esc_attr__( 'Dropdown', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered within a dropdown field.', 'af-locale' );
-		$this->icon_url        = AF_URLPATH . '/assets/images/icon-dropdown.png';
+		$this->icon_url = AF_URLPATH . '/assets/images/icon-dropdown.png';
 
-		$this->has_answers  = TRUE;
+		$this->has_answers = TRUE;
 		$this->answer_is_multiple = FALSE;
-		$this->is_analyzable     = TRUE;
+		$this->is_analyzable = TRUE;
 
 		parent::__construct( $id );
 	}
 
-	public function input_html() {
+	public function input_html()
+	{
 
 		$html = '<select name="' . $this->get_input_name() . '">';
 		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'af-locale' ) . ' -</option>';
 
-		foreach ( $this->answers AS $answer ):
+		foreach( $this->answers AS $answer ):
 			$checked = '';
 
-			if ( $this->response == $answer[ 'text' ] ) {
+			if( $this->response == $answer[ 'text' ] )
+			{
 				$checked = ' selected="selected"';
 			}
 
@@ -65,7 +70,8 @@ class AF_FormElement_Dropdown extends AF_FormElement {
 		return $html;
 	}
 
-	public function settings_fields() {
+	public function settings_fields()
+	{
 
 		$this->settings_fields = array(
 			'description' => array(
@@ -77,16 +83,17 @@ class AF_FormElement_Dropdown extends AF_FormElement {
 		);
 	}
 
-	public function validate( $input ) {
+	public function validate( $input )
+	{
 
 		$error = FALSE;
 
-		if ( 'please-select' == $input ):
-			$this->validate_errors[ ] = sprintf( esc_attr__( 'Please select a value.', 'af-locale' ) );
-			$error                    = TRUE;
+		if( 'please-select' == $input ):
+			$this->validate_errors[] = sprintf( esc_attr__( 'Please select a value.', 'af-locale' ) );
+			$error = TRUE;
 		endif;
 
-		if ( $error ):
+		if( $error ):
 			return FALSE;
 		endif;
 

@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -54,16 +55,20 @@ class AF_Export
 	 */
 	function add_export_link( $actions, $post )
 	{
-		if( 'questions' != $post->post_type ){
+		if( 'questions' != $post->post_type )
+		{
 			return $actions;
 		}
 
 		$results = new AF_Form_Results( $post->ID );
 		$resonses_user_ids = $results->get_response_user_ids();
 
-		if( 0 == count( $resonses_user_ids[ 'responses' ] ) ){
+		if( 0 == count( $resonses_user_ids[ 'responses' ] ) )
+		{
 			$button_text = sprintf( __( 'No answers, no exports!', 'af-locale' ) );
-		}else{
+		}
+		else
+		{
 			$button_text = sprintf( __( '<a href="%s">Export Results</a>', 'af-locale' ), '?post_type=questions&export_form_results=CSV&form_id=' . $post->ID );
 		}
 
@@ -98,7 +103,8 @@ class AF_Export
 			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
 			header( "Cache-Control: private", FALSE );
 
-			switch ( $export_type ){
+			switch ( $export_type )
+			{
 				case 'CSV':
 					$content = $this->get_csv( $export_data );
 

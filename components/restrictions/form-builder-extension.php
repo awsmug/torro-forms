@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -38,7 +39,8 @@ class AF_FormBuilder_RestrictionsExtension
 	 */
 	public static function init()
 	{
-		if( !is_admin() ){
+		if( !is_admin() )
+		{
 			return NULL;
 		}
 
@@ -60,13 +62,10 @@ class AF_FormBuilder_RestrictionsExtension
 		$post_types = array( 'questions' );
 
 		if( in_array( $post_type, $post_types ) ):
-			add_meta_box(
-				'form-restrictions',
-				esc_attr__( 'Restrictions', 'af-locale' ),
-				array( __CLASS__, 'meta_box_restrictions' ),
-				'questions',
-				'normal',
-				'low' );
+			add_meta_box( 'form-restrictions', esc_attr__( 'Restrictions', 'af-locale' ), array(
+				                                 __CLASS__,
+				                                 'meta_box_restrictions'
+			                                 ), 'questions', 'normal', 'low' );
 		endif;
 	}
 
@@ -82,7 +81,8 @@ class AF_FormBuilder_RestrictionsExtension
 		$form_id = $post->ID;
 		$restrictions = $af_global->restrictions;
 
-		if( !is_array( $restrictions ) || count( $restrictions ) == 0 ){
+		if( !is_array( $restrictions ) || count( $restrictions ) == 0 )
+		{
 			return;
 		}
 
@@ -102,12 +102,15 @@ class AF_FormBuilder_RestrictionsExtension
 		$html .= '<div id="form-restrictions-options">';
 		$html .= '<label for"form_restrictions_option">' . esc_attr( 'Who has access to this form?', 'af-locale' ) . '';
 		$html .= '<select name="form_restrictions_option" id="form-restrictions-option">';
-		foreach( $restrictions AS $name => $restriction ){
-			if( !$restriction->has_option() ){
+		foreach( $restrictions AS $name => $restriction )
+		{
+			if( !$restriction->has_option() )
+			{
 				continue;
 			}
 			$selected = '';
-			if( $name == $restrictions_option ){
+			if( $name == $restrictions_option )
+			{
 				$selected = ' selected="selected"';
 			}
 			$html .= '<option value="' . $name . '"' . $selected . '>' . $restriction->option_name . '</option>';
@@ -118,9 +121,11 @@ class AF_FormBuilder_RestrictionsExtension
 		/**
 		 * Option content
 		 */
-		foreach( $restrictions AS $name => $restriction ){
+		foreach( $restrictions AS $name => $restriction )
+		{
 			$option_content = $restriction->option_content();
-			if( !$restriction->has_option() || !$option_content ){
+			if( !$restriction->has_option() || !$option_content )
+			{
 				continue;
 			}
 			$html .= '<div id="form-restrictions-content-' . $restriction->name . '" class="form-restrictions-content form-restrictions-content-' . $restriction->name . '">' . $option_content . '</div>';
@@ -157,9 +162,12 @@ class AF_FormBuilder_RestrictionsExtension
 	public static function register_admin_styles()
 	{
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 
 		wp_enqueue_style( 'form-restrictions-form-builder-extension-styles', AF_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
+
 AF_FormBuilder_RestrictionsExtension::init();

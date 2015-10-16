@@ -13,7 +13,8 @@
  * Domain Path: /languages
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -43,7 +44,8 @@ class AF_Init
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 
-		if( !self::is_installed() ){
+		if( !self::is_installed() )
+		{
 			add_action( 'init', array( __CLASS__, 'install_plugin' ) );
 		}
 
@@ -57,6 +59,107 @@ class AF_Init
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_scripts' ) );
 		endif;
+	}
+
+	/**
+	 * Defining Constants for Use in Plugin
+	 *
+	 * @since 1.0.0
+	 */
+	public static function constants()
+	{
+		define( 'AF_FOLDER', self::get_folder() );
+		define( 'AF_RELATIVE_FOLDER', substr( AF_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( AF_FOLDER ) ) );
+		define( 'AF_URLPATH', self::get_url_path() );
+
+		define( 'AF_COMPONENTFOLDER', AF_FOLDER . 'components/' );
+	}
+
+	/**
+	 * Getting Folder
+	 *
+	 * @since 1.0.0
+	 */
+	private static function get_folder()
+	{
+		return plugin_dir_path( __FILE__ );
+	}
+
+	/**
+	 * Getting URL
+	 *
+	 * @since 1.0.0
+	 */
+	private static function get_url_path()
+	{
+		$slashed_folder = str_replace( '\\', '/', AF_FOLDER ); // Replacing backslashes width slashes vor windows installations
+		$sub_path = substr( $slashed_folder, strlen( ABSPATH ), ( strlen( $slashed_folder ) - 11 ) );
+		$script_url = get_bloginfo( 'wpurl' ) . '/' . $sub_path;
+
+		return $script_url;
+	}
+
+	/**
+	 * Loads the plugin text domain for translation.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function load_textdomain()
+	{
+		load_plugin_textdomain( 'af-locale', FALSE, AF_RELATIVE_FOLDER . '/languages' );
+	}
+
+	/**
+	 * Getting include files
+	 *
+	 * @since 1.0.0
+	 */
+	public static function includes()
+	{
+		// Loading Functions
+		include( AF_FOLDER . 'functions.php' );
+		include( AF_FOLDER . 'includes/wp-editor.php' );
+
+		// Loading Core
+		include( AF_FOLDER . 'core/init.php' );
+
+		include( AF_COMPONENTFOLDER . 'response-handlers/component.php' );
+		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
+		include( AF_COMPONENTFOLDER . 'result-handlers/component.php' );
+	}
+
+	/**
+	 * Is plugin already installed?
+	 */
+	public static function is_installed()
+	{
+		global $wpdb;
+
+		$tables = array(
+			$wpdb->prefix . 'questions_questions',
+			$wpdb->prefix . 'questions_answers',
+			$wpdb->prefix . 'questions_responds',
+			$wpdb->prefix . 'questions_respond_answers',
+			$wpdb->prefix . 'questions_settings',
+			$wpdb->prefix . 'form_participiants'
+		);
+
+		// Checking if all tables are existing
+		$not_found = FALSE;
+		foreach( $tables AS $table ):
+			if( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table ):
+				$not_found = TRUE;
+			endif;
+		endforeach;
+
+		$is_installed_option = (boolean) get_option( 'questions_is_installed', FALSE );
+
+		if( $not_found || FALSE == $is_installed_option )
+		{
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	/**
@@ -82,47 +185,6 @@ class AF_Init
 		global $wpdb;
 
 		self::install_tables();
-	}
-
-	/**
-	 * Is plugin already installed?
-	 */
-	public static function is_installed()
-	{
-		global $wpdb;
-
-		$tables = array( $wpdb->prefix . 'questions_questions',
-			$wpdb->prefix . 'questions_answers',
-			$wpdb->prefix . 'questions_responds',
-			$wpdb->prefix . 'questions_respond_answers',
-			$wpdb->prefix . 'questions_settings',
-			$wpdb->prefix . 'form_participiants' );
-
-		// Checking if all tables are existing
-		$not_found = FALSE;
-		foreach( $tables AS $table ):
-			if( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table ):
-				$not_found = TRUE;
-			endif;
-		endforeach;
-
-		$is_installed_option = (boolean) get_option( 'questions_is_installed', FALSE );
-
-		if( $not_found || FALSE == $is_installed_option ){
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	/**
-	 * Installing plugin
-	 */
-	public static function install_plugin()
-	{
-		self::install_tables();
-		flush_rewrite_rules();
-		update_option( 'questions_is_installed', TRUE );
 	}
 
 	/**
@@ -242,6 +304,16 @@ class AF_Init
 	}
 
 	/**
+	 * Installing plugin
+	 */
+	public static function install_plugin()
+	{
+		self::install_tables();
+		flush_rewrite_rules();
+		update_option( 'questions_is_installed', TRUE );
+	}
+
+	/**
 	 * Fired when the plugin is deactivated.
 	 *
 	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is
@@ -262,17 +334,6 @@ class AF_Init
 	 */
 	public static function uninstall( $network_wide )
 	{
-
-	}
-
-	/**
-	 * Loads the plugin text domain for translation.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function load_textdomain()
-	{
-		load_plugin_textdomain( 'af-locale', FALSE, AF_RELATIVE_FOLDER . '/languages' );
 	}
 
 	/**
@@ -295,63 +356,6 @@ class AF_Init
 	}
 
 	/**
-	 * Defining Constants for Use in Plugin
-	 *
-	 * @since 1.0.0
-	 */
-	public static function constants()
-	{
-		define( 'AF_FOLDER', self::get_folder() );
-		define( 'AF_RELATIVE_FOLDER', substr( AF_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( AF_FOLDER ) ) );
-		define( 'AF_URLPATH', self::get_url_path() );
-
-		define( 'AF_COMPONENTFOLDER', AF_FOLDER . 'components/' );
-	}
-
-	/**
-	 * Getting include files
-	 *
-	 * @since 1.0.0
-	 */
-	public static function includes()
-	{
-		// Loading Functions
-		include( AF_FOLDER . 'functions.php' );
-		include( AF_FOLDER . 'includes/wp-editor.php' );
-
-		// Loading Core
-		include( AF_FOLDER . 'core/init.php' );
-
-		include( AF_COMPONENTFOLDER . 'response-handlers/component.php' );
-		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
-		include( AF_COMPONENTFOLDER . 'result-handlers/component.php' );
-	}
-
-	/**
-	 * Getting URL
-	 *
-	 * @since 1.0.0
-	 */
-	private static function get_url_path()
-	{
-		$slashed_folder = str_replace( '\\', '/', AF_FOLDER ); // Replacing backslashes width slashes vor windows installations
-		$sub_path = substr( $slashed_folder, strlen( ABSPATH ), ( strlen( $slashed_folder ) - 11 ) );
-		$script_url = get_bloginfo( 'wpurl' ) . '/' . $sub_path;
-
-		return $script_url;
-	}
-
-	/**
-	 * Getting Folder
-	 *
-	 * @since 1.0.0
-	 */
-	private static function get_folder()
-	{
-		return plugin_dir_path( __FILE__ );
-	}
-
-	/**
 	 * Showing Errors
 	 *
 	 * @since 1.0.0
@@ -361,17 +365,20 @@ class AF_Init
 		global $af_plugin_errors, $af_plugin_errors;
 
 		if( count( $af_plugin_errors ) > 0 ):
-			foreach( $af_plugin_errors AS $error ){
+			foreach( $af_plugin_errors AS $error )
+			{
 				echo '<div class="error"><p>' . $error . '</p></div>';
 			}
 		endif;
 
 		if( count( $af_plugin_errors ) > 0 ):
-			foreach( $af_plugin_errors AS $notice ){
+			foreach( $af_plugin_errors AS $notice )
+			{
 				echo '<div class="updated"><p>' . $notice . '</p></div>';
 			}
 		endif;
 	}
 
 }
+
 AF_Init::init(); // Starting immediately!

@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -44,12 +45,15 @@ class AF_ResponseSettings extends AF_Settings
 
 	/**
 	 * Adding Settings to Settings Page dynamical
+	 *
 	 * @param $settings_name
 	 * @param $settings_title
 	 * @param $settings_arr
 	 */
-	public function add_settings_field( $settings_name, $settings_title, $settings_arr ){
+	public function add_settings_field( $settings_name, $settings_title, $settings_arr )
+	{
 		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
 	}
 }
+
 af_register_settings( 'AF_ResponseSettings' );

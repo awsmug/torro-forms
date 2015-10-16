@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -89,14 +90,16 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$start_date = strtotime( get_post_meta( $ar_form_id, 'start_date', TRUE ) );
 		$end_date = strtotime( get_post_meta( $ar_form_id, 'end_date', TRUE ) );
 
-		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date ){
+		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date )
+		{
 			$this->add_message( 'error', esc_attr( 'The Form is not accessible at this time.', 'af-locale' ) );
 			echo $this->messages();
 
 			return FALSE;
 		}
 
-		if( '' != $end_date && 0 != (int) $end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date ){
+		if( '' != $end_date && 0 != (int) $end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date )
+		{
 			$this->add_message( 'error', esc_attr( 'The Form is not accessible at this time.', 'af-locale' ) );
 			echo $this->messages();
 
@@ -123,7 +126,8 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $quesions_form_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 
-		if( 0 == $count ){
+		if( 0 == $count )
+		{
 			return FALSE;
 		}
 

@@ -51,27 +51,24 @@ abstract class AF_Settings
 	 * @since 1.0.0
 	 */
 	public $description;
-
-	/**
-	 * Already initialized?
-	 *
-	 * @since 1.0.0
-	 */
-	private $initialized = FALSE;
-
 	/**
 	 * Settings
 	 *
 	 * @since 1.0.0
 	 */
 	public $settings = array();
-
 	/**
 	 * Sub Settings
 	 *
 	 * @since 1.0.0
 	 */
 	public $sub_settings = array();
+	/**
+	 * Already initialized?
+	 *
+	 * @since 1.0.0
+	 */
+	private $initialized = FALSE;
 
 	/**
 	 * Adding settings field by array
@@ -155,7 +152,7 @@ abstract class AF_Settings
 			$settings_name = $this->name;
 			if( '' != $sub_settings )
 			{
-				$settings_name.= '_' . $sub_setting_name;
+				$settings_name .= '_' . $sub_setting_name;
 			}
 
 			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
@@ -289,7 +286,8 @@ function af_register_settings( $settings_handler_class )
 /**
  * @param $settings_name
  */
-function af_get_settings( $settings_name ){
+function af_get_settings( $settings_name )
+{
 	global $af_global;
 
 	if( !array_key_exists( $settings_name, $af_global->settings ) )

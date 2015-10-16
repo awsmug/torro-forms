@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -52,8 +53,12 @@ class AF_FormLoader
 	{
 		add_action( 'parse_request', array( __CLASS__, 'process_response' ), 100, 1 );
 
-		if( TRUE == $filter_the_content ){
-			add_action( 'the_post', array( __CLASS__, 'add_post_filter' ) ); // Just hooking in at the beginning of a loop
+		if( TRUE == $filter_the_content )
+		{
+			add_action( 'the_post', array(
+				__CLASS__,
+				'add_post_filter'
+			) ); // Just hooking in at the beginning of a loop
 		}
 	}
 
@@ -64,19 +69,22 @@ class AF_FormLoader
 	{
 		global $ar_form_id;
 
-		if( !isset( $_SESSION ) ){
+		if( !isset( $_SESSION ) )
+		{
 			session_start();
 		}
 
 		// If there is no nothing submitted and there is no session data > exit
-		if( !isset( $_POST[ 'af_form_id' ] ) ){
+		if( !isset( $_POST[ 'af_form_id' ] ) )
+		{
 			return;
 		}
 
 		$ar_form_id = $_POST[ 'af_form_id' ];
 
 		// If form doesn't exists > exit
-		if( !af_form_exists( $ar_form_id ) ){
+		if( !af_form_exists( $ar_form_id ) )
+		{
 			return;
 		}
 
@@ -111,7 +119,8 @@ class AF_FormLoader
 		$post = get_post( $ar_form_id );
 		$ar_form_id = $post->ID;
 
-		if( 'questions' != $post->post_type ){
+		if( 'questions' != $post->post_type )
+		{
 			return $content;
 		}
 
@@ -131,10 +140,13 @@ class AF_FormLoader
 	 */
 	public static function get_form( $form_id )
 	{
-		if( isset( $_SESSION[ 'af_response' ][ $form_id ][ 'finished' ] ) ){
+		if( isset( $_SESSION[ 'af_response' ][ $form_id ][ 'finished' ] ) )
+		{
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
-		}else{
+		}
+		else
+		{
 			$af_form_process = new AF_FormProcess( $form_id );
 			$html = $af_form_process->show_form();
 		}
@@ -154,13 +166,15 @@ class AF_FormLoader
 	{
 		// @todo Should move to response handling
 		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
-		if( '' == $show_results ){
+		if( '' == $show_results )
+		{
 			$show_results = 'no';
 		}
 
 		$html = '<div id="af-thank-participation">';
 		$html .= '<p>' . __( 'Thank you for participating!', 'af-locale' ) . '</p>';
-		if( 'yes' == $show_results ){
+		if( 'yes' == $show_results )
+		{
 			$html .= self::show_results( $form_id );
 		}
 		$html .= '</div>';

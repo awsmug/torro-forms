@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -39,7 +40,8 @@ class AF_FormBuilder
 	 */
 	public static function init()
 	{
-		if( !is_admin() ){
+		if( !is_admin() )
+		{
 			return NULL;
 		}
 
@@ -69,30 +71,32 @@ class AF_FormBuilder
 		global $post, $af_global;
 
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 
-		$html  = '<div id="af-content" class="drag-drop">';
-			$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
+		$html = '<div id="af-content" class="drag-drop">';
+		$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 
-				ob_start();
-				do_action( 'form_drag_drop_top' );
-				$html .= ob_get_clean();
+		ob_start();
+		do_action( 'form_drag_drop_top' );
+		$html .= ob_get_clean();
 
-				$html .= '<div id="drag-drop-inside">';
-					$form = new AF_Form( $post->ID );
+		$html .= '<div id="drag-drop-inside">';
+		$form = new AF_Form( $post->ID );
 
-					// Running each Element
-					foreach( $form->elements AS $element ):
-						$html .= $element->draw_admin();
-						af_add_element_templatetag( $element->id, $element->label );
-					endforeach;
-				$html .= '</div>';
+		// Running each Element
+		foreach( $form->elements AS $element ):
+			$html .= $element->draw_admin();
+			af_add_element_templatetag( $element->id, $element->label );
+		endforeach;
+		$html .= '</div>';
 
-				ob_start();
-				do_action( 'form_drag_drop_bottom' );
-				$html .= ob_get_clean();
+		ob_start();
+		do_action( 'form_drag_drop_bottom' );
+		$html .= ob_get_clean();
 
-			$html .= '</div>';
+		$html .= '</div>';
 		$html .= '</div>';
 
 		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'af-locale' ) . '</div>';
@@ -117,7 +121,10 @@ class AF_FormBuilder
 		$post_types = array( 'questions' );
 
 		if( in_array( $post_type, $post_types ) ):
-			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'af-locale' ), array( __CLASS__, 'meta_box_form_elements' ), 'questions', 'side', 'high' );
+			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'af-locale' ), array(
+				__CLASS__,
+				'meta_box_form_elements'
+			), 'questions', 'side', 'high' );
 		endif;
 	}
 
@@ -149,14 +156,14 @@ class AF_FormBuilder
 		global $post;
 
 		$html = '<div id="form-functions" class="misc-pub-section">';
-			$html.= '<div id="form-functions-notices"></div>';
-			$html.= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
-			$html.= '<input id="form-delete-results-button" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
+		$html .= '<div id="form-functions-notices"></div>';
+		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
+		$html .= '<input id="form-delete-results-button" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
 
-			ob_start();
-			do_action( 'form_functions' );
-			$html.= ob_get_clean();
-		$html.= '</div>';
+		ob_start();
+		do_action( 'form_functions' );
+		$html .= ob_get_clean();
+		$html .= '</div>';
 
 		echo $html;
 	}
@@ -174,23 +181,28 @@ class AF_FormBuilder
 
 		// p( $_REQUEST );
 
-		if( !array_key_exists( 'elements', $_REQUEST ) ){
+		if( !array_key_exists( 'elements', $_REQUEST ) )
+		{
 			return;
 		}
 
-		if( array_key_exists( 'form-duplicate', $_REQUEST ) ){
+		if( array_key_exists( 'form-duplicate', $_REQUEST ) )
+		{
 			return;
 		}
 
-		if( wp_is_post_revision( $form_id ) ){
+		if( wp_is_post_revision( $form_id ) )
+		{
 			return;
 		}
 
-		if( !array_key_exists( 'post_type', $_POST ) ){
+		if( !array_key_exists( 'post_type', $_POST ) )
+		{
 			return;
 		}
 
-		if( 'questions' != $_POST[ 'post_type' ] ){
+		if( 'questions' != $_POST[ 'post_type' ] )
+		{
 			return;
 		}
 
@@ -231,7 +243,8 @@ class AF_FormBuilder
 		 * Saving elements
 		 */
 		foreach( $form_elements AS $key => $element ):
-			if( 'widget_formelement_XXnrXX' == $key ){
+			if( 'widget_formelement_XXnrXX' == $key )
+			{
 				continue;
 			}
 
@@ -240,34 +253,41 @@ class AF_FormBuilder
 			$sort = (int) $element[ 'sort' ];
 			$type = $element[ 'type' ];
 
-			if( array_key_exists( 'label', $element ) ){
+			if( array_key_exists( 'label', $element ) )
+			{
 				$label = af_prepare_post_data( $element[ 'label' ] );
 			}
 
 			$answers = array();
 			$settings = array();
 
-			if( array_key_exists( 'answers', $element ) ){
+			if( array_key_exists( 'answers', $element ) )
+			{
 				$answers = $element[ 'answers' ];
 			}
 
-			if( array_key_exists( 'settings', $element ) ){
+			if( array_key_exists( 'settings', $element ) )
+			{
 				$settings = $element[ 'settings' ];
 			}
 
 			// Saving Elements
 			if( '' != $element_id ):
 				// Updating if Element already exists
-				$wpdb->update( $af_global->tables->elements, array( 'question' => $label,
-				                                                            'sort'     => $sort,
-				                                                            'type'     => $type ), array( 'id' => $element_id ) );
+				$wpdb->update( $af_global->tables->elements, array(
+					'question' => $label,
+					'sort'     => $sort,
+					'type'     => $type
+				), array( 'id' => $element_id ) );
 			else:
 
 				// Adding new Element
-				$wpdb->insert( $af_global->tables->elements, array( 'questions_id' => $form_id,
-				                                                            'question'     => $label,
-				                                                            'sort'         => $sort,
-				                                                            'type'         => $type ) );
+				$wpdb->insert( $af_global->tables->elements, array(
+					'questions_id' => $form_id,
+					'question'     => $label,
+					'sort'         => $sort,
+					'type'         => $type
+				) );
 
 				$element_id = $wpdb->insert_id;
 			endif;
@@ -284,19 +304,24 @@ class AF_FormBuilder
 					$answer_sort = (int) $answer[ 'sort' ];
 
 					$answer_section = '';
-					if( array_key_exists( 'section', $answer ) ){
+					if( array_key_exists( 'section', $answer ) )
+					{
 						$answer_section = $answer[ 'section' ];
 					}
 
 					if( '' != $answer_id ):
-						$wpdb->update( $af_global->tables->answers, array( 'answer'  => $answer_text,
-						                                                          'section' => $answer_section,
-						                                                          'sort'    => $answer_sort ), array( 'id' => $answer_id ) );
+						$wpdb->update( $af_global->tables->answers, array(
+							'answer'  => $answer_text,
+							'section' => $answer_section,
+							'sort'    => $answer_sort
+						), array( 'id' => $answer_id ) );
 					else:
-						$wpdb->insert( $af_global->tables->answers, array( 'question_id' => $element_id,
-						                                                          'answer'      => $answer_text,
-						                                                          'section'     => $answer_section,
-						                                                          'sort'        => $answer_sort ) );
+						$wpdb->insert( $af_global->tables->answers, array(
+							'question_id' => $element_id,
+							'answer'      => $answer_text,
+							'section'     => $answer_section,
+							'sort'        => $answer_sort
+						) );
 						$answer_id = $wpdb->insert_id;
 					endif;
 
@@ -313,12 +338,16 @@ class AF_FormBuilder
 					$count = $wpdb->get_var( $sql );
 
 					if( $count > 0 ):
-						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array( 'question_id' => $element_id,
-						                                                                                                                           'name'        => $name ) );
+						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array(
+							'question_id' => $element_id,
+							'name'        => $name
+						) );
 					else:
-						$wpdb->insert( $af_global->tables->settings, array( 'name'        => $name,
-						                                                           'question_id' => $element_id,
-						                                                           'value'       => af_prepare_post_data( $settings[ $name ] ) ) );
+						$wpdb->insert( $af_global->tables->settings, array(
+							'name'        => $name,
+							'question_id' => $element_id,
+							'value'       => af_prepare_post_data( $settings[ $name ] )
+						) );
 
 					endif;
 				endforeach;
@@ -356,7 +385,8 @@ class AF_FormBuilder
 		$form_id = $_REQUEST[ 'form_id' ];
 		$form = get_post( $form_id );
 
-		if( 'questions' != $form->post_type ){
+		if( 'questions' != $form->post_type )
+		{
 			return;
 		}
 
@@ -365,9 +395,11 @@ class AF_FormBuilder
 
 		$post = get_post( $new_form_id );
 
-		$response = array( 'form_id'  => $new_form_id,
-		                   'post_title' => $post->post_title,
-		                   'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_form_id . '&action=edit' ) );
+		$response = array(
+			'form_id'    => $new_form_id,
+			'post_title' => $post->post_title,
+			'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_form_id . '&action=edit' )
+		);
 
 		echo json_encode( $response );
 
@@ -385,7 +417,8 @@ class AF_FormBuilder
 		$form_id = $_REQUEST[ 'form_id' ];
 		$form = get_post( $form_id );
 
-		if( 'questions' != $form->post_type ){
+		if( 'questions' != $form->post_type )
+		{
 			return;
 		}
 
@@ -407,7 +440,9 @@ class AF_FormBuilder
 	public static function jquery_messages_area()
 	{
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 
 		$max_input_vars = ini_get( 'max_input_vars' );
 		$html = '<div id="form-messages" style="display:none;"><p class="form-message">This is a dummy messaget</p></div><input type="hidden" id="max_input_vars" value ="' . $max_input_vars . '">'; // Updated, error, notice
@@ -422,7 +457,9 @@ class AF_FormBuilder
 	public static function register_styles()
 	{
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 
 		wp_enqueue_style( 'af-admin-styles', AF_URLPATH . '/core/includes/css/form-builder.css' );
 	}
@@ -435,19 +472,22 @@ class AF_FormBuilder
 	public static function enqueue_scripts()
 	{
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 
-
-		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'af-locale' ),
-		                      'yes'                          => esc_attr__( 'Yes', 'af-locale' ),
-		                      'no'                           => esc_attr__( 'No', 'af-locale' ),
-		                      'edit_form'                    => esc_attr__( 'Edit Form', 'af-locale' ),
-		                      'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'af-locale' ),
-		                      'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'af-locale' ),
-		                      'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'af-locale' ),
-		                      'of'                           => esc_attr__( 'of', 'af-locale' ),
-		                      'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'af-locale' ),
-		                      'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'af-locale' ) );
+		$translation = array(
+			'delete'                       => esc_attr__( 'Delete', 'af-locale' ),
+			'yes'                          => esc_attr__( 'Yes', 'af-locale' ),
+			'no'                           => esc_attr__( 'No', 'af-locale' ),
+			'edit_form'                    => esc_attr__( 'Edit Form', 'af-locale' ),
+			'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'af-locale' ),
+			'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'af-locale' ),
+			'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'af-locale' ),
+			'of'                           => esc_attr__( 'of', 'af-locale' ),
+			'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'af-locale' ),
+			'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'af-locale' )
+		);
 
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
@@ -460,7 +500,8 @@ class AF_FormBuilder
 		wp_enqueue_script( 'af-admin-forms-post-type', AF_URLPATH . '/core/includes/js/form-builder.js' );
 		wp_localize_script( 'af-admin-forms-post-type', 'translation_fb', $translation );
 
-		if( wp_is_mobile() ){
+		if( wp_is_mobile() )
+		{
 			wp_enqueue_script( 'jquery-touch-punch' );
 		}
 	}

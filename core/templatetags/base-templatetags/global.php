@@ -24,7 +24,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
 class AF_GlobalTemplateTags extends AF_TemplateTags
 {
 
@@ -81,4 +80,5 @@ class AF_GlobalTemplateTags extends AF_TemplateTags
 		return $_SERVER[ 'REMOTE_ADDR' ];
 	}
 }
+
 af_register_templatetags( 'AF_GlobalTemplateTags' );

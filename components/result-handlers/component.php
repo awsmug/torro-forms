@@ -25,7 +25,9 @@
  */
 
 if( !defined( 'ABSPATH' ) )
+{
 	exit;
+}
 
 class AF_ResultsComponent extends AF_Component
 {

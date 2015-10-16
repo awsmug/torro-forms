@@ -25,7 +25,8 @@
  */
 
 // No direct access is allowed
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -57,7 +58,9 @@ class AF_FormElement_Description extends AF_FormElement
 				'title'       => esc_attr__( 'Text to show', 'af-locale' ),
 				'type'        => 'textarea',
 				'description' => esc_attr__( 'The text which will be shown in the form.', 'af-locale' ),
-				'default'     => '' ) );
+				'default'     => ''
+			)
+		);
 	}
 }
 

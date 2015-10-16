@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -41,28 +42,30 @@ class AF_GeneralSettings extends AF_Settings
 		$this->name = 'general';
 
 		$this->settings = array(
-			'disclaimer' => array(
+			'disclaimer'    => array(
 				'title'       => esc_attr( 'Welcome to Awesome Forms!', 'af-locale' ),
 				'description' => esc_attr( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'af-locale' ),
-				'type' => 'disclaimer'
+				'type'        => 'disclaimer'
 			),
 			'modules_title' => array(
 				'title'       => esc_attr( 'Form Modules', 'af-locale' ),
 				'description' => esc_attr( 'Check the modules of Awesome Forms which have to be activated.', 'af-locale' ),
-				'type' => 'title'
+				'type'        => 'title'
 			)
 		);
 
 		add_action( 'init', array( $this, 'add_modules' ), 5 ); // Loading Modules dynamical
 	}
 
-	public function add_modules(){
+	public function add_modules()
+	{
 		global $af_global;
 
 		$components = array();
 		$defaults = array();
 
-		foreach( $af_global->components AS $component_name => $component ){
+		foreach( $af_global->components AS $component_name => $component )
+		{
 			$components[ $component_name ] = $component->title;
 			$defaults[] = $component_name;
 		}
@@ -71,13 +74,14 @@ class AF_GeneralSettings extends AF_Settings
 			'modules' => array(
 				'title'       => esc_attr( 'Modules', 'af-locale' ),
 				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'af-locale' ),
-				'type' => 'checkbox',
-				'values' => $components,
-				'default' => $defaults
+				'type'        => 'checkbox',
+				'values'      => $components,
+				'default'     => $defaults
 			)
 		);
 
 		$af_global->settings[ 'general' ]->add_settings_field_arr( $settings_arr );
 	}
 }
+
 af_register_settings( 'AF_GeneralSettings' );
