@@ -55,6 +55,25 @@ abstract class AF_ResultHandler
 	var $description;
 
 	/**
+	 * Getting Results
+	 *
+	 * @param int $form_id
+	 * @param array $filter
+	 */
+	protected function get_results( $form_id, $filter = array() )
+	{
+		$filter = wp_parse_args( $filter, array(
+			'start'       => 0,
+		    'end'           => FALSE,
+			'element_ids' => FALSE,
+			'user_ids'  => FALSE
+		));
+
+		$results = new AF_Form_Results( $form_id );
+		$results->get_responses();
+	}
+
+	/**
 	 * Function to register element in Awesome Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
