@@ -14,9 +14,15 @@ class AwesomeForms_Tests extends WP_Tests
 		$this->go( '/wp-admin/edit.php?post_type=questions' );
 	}
 
-	public function add_form()
+	public function add_form( $name = null )
 	{
 		$this->go_forms();
-		$this->byClass( '.page-title-action' ).click();
+		$this->byCssSelector( '.page-title-action' )->click();
+
+		if( null != $name )
+		{
+			$this->set_post_title( $name );
+			$this->save_post();
+		}
 	}
 }

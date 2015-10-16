@@ -8,7 +8,6 @@ class Main_Tests extends AwesomeForms_Tests
 	public function testCreateForm()
 	{
 		$this->login();
-
-		$this->add_form();
+		$this->add_form( 'Svens Automatic Title' );
 	}
 }
