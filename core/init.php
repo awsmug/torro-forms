@@ -139,6 +139,7 @@ class AF_Core
 		include( $core_folder . 'abstract/class-component.php' );
 		include( $core_folder . 'abstract/class-element.php' );
 		include( $core_folder . 'abstract/class-settings.php' );
+		include( $core_folder . 'abstract/class-templatetags.php' );
 
 		// Admin
 		include( $core_folder . 'menu.php' );
@@ -165,7 +166,7 @@ class AF_Core
 		include( $core_folder . 'elements/base-elements/description.php' );
 
 		// Template tags
-		include( $core_folder . 'templatetags/class-templatetags.php' );
+
 		include( $core_folder . 'templatetags/base-templatetags/global.php' );
 		include( $core_folder . 'templatetags/base-templatetags/form.php' );
 
