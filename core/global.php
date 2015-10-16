@@ -24,7 +24,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -38,6 +39,7 @@ class AF_Global
 	var $element_types = array();
 	var $response_handlers = array();
 	var $restrictions = array();
+	var $result_handlers = array();
 	var $chart_creators = array();
 	var $templatetags = array();
 
@@ -65,11 +67,13 @@ class AF_Global
 
 	public function add_component( $name, $object )
 	{
-		if( '' == $name ){
+		if( '' == $name )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Component' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_Component' != get_parent_class( $object ) )
+		{
 			return FALSE;
 		}
 
@@ -80,11 +84,13 @@ class AF_Global
 
 	public function add_settings( $name, $object )
 	{
-		if( '' == $name ){
+		if( '' == $name )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Settings' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_Settings' != get_parent_class( $object ) )
+		{
 			return FALSE;
 		}
 
@@ -95,23 +101,28 @@ class AF_Global
 
 	public function add_form_element( $name, $object )
 	{
-		if( '' == $name ){
+		if( '' == $name )
+		{
 			return FALSE;
 		}
-		if( !is_object( $object ) && 'AF_FormElement' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_FormElement' != get_parent_class( $object ) )
+		{
 			return FALSE;
 		}
 		$this->element_types[ $name ] = $object;
+
 		return TRUE;
 	}
 
 	public function add_restriction( $name, $object )
 	{
-		if( '' == $name ){
+		if( '' == $name )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Restriction' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_Restriction' != get_parent_class( $object ) )
+		{
 			return FALSE;
 		}
 
@@ -122,11 +133,13 @@ class AF_Global
 
 	public function add_response_handler( $name, $object )
 	{
-		if( '' == $name ){
+		if( '' == $name )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_ResponseHandler' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_ResponseHandler' != get_parent_class( $object ) )
+		{
 			return FALSE;
 		}
 
@@ -135,13 +148,32 @@ class AF_Global
 		return TRUE;
 	}
 
-	public function add_chartscreator( $name, $object )
+	public function add_result_handler( $name, $object )
 	{
-		if( '' == $name ){
+		if( '' == $name )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_ChartCreator' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_ResultHandler' != get_parent_class( $object ) )
+		{
+			return FALSE;
+		}
+
+		$this->result_handlers[ $name ] = $object;
+
+		return TRUE;
+	}
+
+	public function add_chartscreator( $name, $object )
+	{
+		if( '' == $name )
+		{
+			return FALSE;
+		}
+
+		if( !is_object( $object ) && 'AF_ChartCreator' != get_parent_class( $object ) )
+		{
 			return FALSE;
 		}
 
@@ -152,11 +184,13 @@ class AF_Global
 
 	public function add_templatetags( $name, $object )
 	{
-		if( '' == $name ){
+		if( '' == $name )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_TemplateTags' != get_parent_class( $object ) ){
+		if( !is_object( $object ) && 'AF_TemplateTags' != get_parent_class( $object ) )
+		{
 			return FALSE;
 		}
 

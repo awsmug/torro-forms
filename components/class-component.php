@@ -26,7 +26,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
@@ -63,6 +64,7 @@ abstract class AF_Component
 
 	/**
 	 * Initializing.
+	 *
 	 * @since 1.0.0
 	 */
 	public function __construct()
@@ -74,12 +76,8 @@ abstract class AF_Component
 	}
 
 	/**
-	 * Starting component
-	 */
-	abstract function start();
-
-	/**
 	 * Registering component
+	 *
 	 * @return bool
 	 */
 	public function _register()
@@ -111,17 +109,26 @@ abstract class AF_Component
 			$this->settings = af_get_settings( $this->name );
 		}
 	}
+
+	/**
+	 * Starting component
+	 */
+	abstract function start();
 }
 
 /**
  * Registering component
+ *
  * @param $component_name
  */
 function af_register_component( $component_name )
 {
-	if( class_exists( $component_name ) ){
+	if( class_exists( $component_name ) )
+	{
 		$component = new $component_name();
+
 		return $component->_register();
 	}
+
 	return FALSE;
 }

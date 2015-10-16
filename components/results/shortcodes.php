@@ -87,7 +87,7 @@ class AF_ChartsShortCodes
 			return esc_attr( 'Please enter a valid form id into the shortcode!', 'af-locale' );
 		}
 
-		$results = new AF_Results( $form_id );
+		$results = new AF_Form_Results( $form_id );
 
 		$ordered_data = AF_AbstractData::order_for_charting( $results->get_responses( FALSE, FALSE ) );
 
@@ -133,7 +133,7 @@ class AF_ChartsShortCodes
 		$sql = $wpdb->prepare( "SELECT questions_id FROM {$af_global->tables->elements} WHERE id = %d", $element_id );
 		$form_id = $wpdb->get_var( $sql );
 
-		$results = new AF_Results( $form_id );
+		$results = new AF_Form_Results( $form_id );
 		$ordered_data = AF_AbstractData::order_for_charting( $results->get_responses( $element_id, FALSE ) );
 
 		$html = '';

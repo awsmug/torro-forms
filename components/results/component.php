@@ -51,14 +51,14 @@ class AF_ResultsComponent extends AF_Component
 		include( $folder . 'shortcodes.php' );
 
 		// Data handling
-		include( $folder . 'data-abstraction.php' );
+		include( $folder . 'class-data-abstraction.php' );
 		include( $folder . 'export.php' );
 
 		// Results base Class
-		include( $folder . 'class-results.php' );
+		include( $folder . 'class-form-results.php' );
 
 		// Charts API
-		include( $folder . 'class-chart-creator.php' );
+		include( $folder . 'abstract/class-chart-creator.php' );
 		include( $folder . 'dimple/chart-creator.php' );
 	}
 }

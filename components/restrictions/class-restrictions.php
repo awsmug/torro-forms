@@ -26,14 +26,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) ){
+if( !defined( 'ABSPATH' ) )
+{
 	exit;
 }
 
 abstract class AF_Restriction
 {
 	/**
-	 * name of restriction
+	 * Name of restriction
 	 *
 	 * @since 1.0.0
 	 */
@@ -101,9 +102,11 @@ abstract class AF_Restriction
 	 */
 	public function messages()
 	{
-		if( count( $this->messages ) > 0 ){
+		if( count( $this->messages ) > 0 )
+		{
 			$html = '';
-			foreach( $this->messages AS $message ){
+			foreach( $this->messages AS $message )
+			{
 				$html .= '<div class="form-message ' . $message[ 'type' ] . '">' . $message[ 'text' ] . '</div>';
 			}
 
@@ -123,7 +126,8 @@ abstract class AF_Restriction
 	{
 		$this->messages[] = array(
 			'type' => $type,
-			'text' => $text );
+			'text' => $text
+		);
 	}
 
 	/**
@@ -133,7 +137,8 @@ abstract class AF_Restriction
 	 */
 	public function has_option()
 	{
-		if( FALSE != $this->option_name ){
+		if( FALSE != $this->option_name )
+		{
 			return TRUE;
 		}
 
@@ -143,10 +148,11 @@ abstract class AF_Restriction
 	/**
 	 * Add Settings to Settings Page
 	 */
-	public function init_settings(){
+	public function init_settings()
+	{
 		global $af_global;
 
-		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields  )
+		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
 		{
 			return FALSE;
 		}
@@ -155,7 +161,7 @@ abstract class AF_Restriction
 			'headline' => array(
 				'title'       => $this->title,
 				'description' => sprintf( esc_attr( 'Setup the "%s" Restriction.', 'af-locale' ), $this->title ),
-				'type'  => 'title'
+				'type'        => 'title'
 			)
 		);
 
@@ -184,31 +190,38 @@ abstract class AF_Restriction
 	{
 		global $af_global;
 
-		if( TRUE == $this->initialized ){
+		if( TRUE == $this->initialized )
+		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) ){
+		if( !is_object( $af_global ) )
+		{
 			return FALSE;
 		}
 
-		if( '' == $this->name ){
+		if( '' == $this->name )
+		{
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title ){
+		if( '' == $this->title )
+		{
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description ){
+		if( '' == $this->description )
+		{
 			$this->description = esc_attr__( 'This is a Awesome Forms Restriction.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->restrictions ) ){
+		if( array_key_exists( $this->name, $af_global->restrictions ) )
+		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->restrictions ) ){
+		if( !is_array( $af_global->restrictions ) )
+		{
 			$af_global->restrictions = array();
 		}
 
@@ -229,9 +242,12 @@ abstract class AF_Restriction
  */
 function af_register_restriction( $restriction_class )
 {
-	if( class_exists( $restriction_class ) ){
+	if( class_exists( $restriction_class ) )
+	{
 		$restriction = new $restriction_class();
+
 		return $restriction->_register();
 	}
+
 	return FALSE;
 }

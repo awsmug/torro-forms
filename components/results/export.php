@@ -58,7 +58,7 @@ class AF_Export
 			return $actions;
 		}
 
-		$results = new AF_Results( $post->ID );
+		$results = new AF_Form_Results( $post->ID );
 		$resonses_user_ids = $results->get_response_user_ids();
 
 		if( 0 == count( $resonses_user_ids[ 'responses' ] ) ){
@@ -86,7 +86,7 @@ class AF_Export
 			$form_id = $_GET[ 'form_id' ];
 
 			$form = new AF_Form( $form_id );
-			$results = new AF_Results( $form_id );
+			$results = new AF_Form_Results( $form_id );
 
 			$export_filename = sanitize_title( $form->title );
 			$export_data = $results->get_responses();

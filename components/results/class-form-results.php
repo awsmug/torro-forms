@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class AF_Results{
+class AF_Form_Results{
     var $form_id;
 
     /**
