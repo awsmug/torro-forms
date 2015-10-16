@@ -137,6 +137,8 @@ class AF_Core
 
 		// Abstract
 		include( $core_folder . 'abstract/class-component.php' );
+		include( $core_folder . 'abstract/class-element.php' );
+		include( $core_folder . 'abstract/class-settings.php' );
 
 		// Admin
 		include( $core_folder . 'menu.php' );
@@ -144,7 +146,6 @@ class AF_Core
 		include( $core_folder . 'settings-page.php' );
 
 		// Settings
-		include( $core_folder . 'settings/class-settings.php' );
 		include( $core_folder . 'settings/class-settingshandler.php' );
 		include( $core_folder . 'settings/base-settings/general.php' );
 
@@ -152,9 +153,6 @@ class AF_Core
 		include( $core_folder . 'form.php' );
 		include( $core_folder . 'form-loader.php' );
 		include( $core_folder . 'form-process.php' );
-
-		// Elements
-		include( $core_folder . 'elements/class-element.php' );
 
 		// Base elements
 		include( $core_folder . 'elements/base-elements/text.php' );
