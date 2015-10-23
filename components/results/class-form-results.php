@@ -77,11 +77,6 @@ class AF_Form_Results
 		return TRUE;
 	}
 
-	public function add_column( $name, $values )
-	{
-
-	}
-
 	/**
 	 * Counting Results
 	 *
@@ -112,62 +107,65 @@ class AF_Form_Results
 	 */
 	public function get_results( $filter = array() )
 	{
+		global $wpdb, $af_global;
+
 		$filter = wp_parse_args( $filter, array(
 			'start'       => 0,
 			'end'         => NULL,
 			'element_ids' => NULL,
 			'user_ids'    => NULL,
-			'response_ids'=> NULL,
+			'result_ids'=> NULL,
 			'orderby'     => 'response_id',
 			'order'       => 'ASC'
 		) );
 
-		$element_filter = array(
-			'start' => $filter[ 'start' ],
-			'end' => $filter[ 'end' ],
-			'user_ids' => $filter[ 'user_ids' ],
-			'response_ids' => $filter[ 'response_ids' ]
-		);
+		$sql_elements = "SELECT id, label FROM {$af_global->tables->elements} WHERE form_id=%d";
+		$sql_elements_values = array( $this->form_id );
 
-		$form = new AF_Form( $this->form_id );
-
-		// No elements? Stop!
-		if( !is_array( $form->elements ) )
+		// Filtering Response Ids
+		if( is_array( $filter[ 'result_ids' ] ) )
 		{
-			return FALSE;
-		}
-
-		$responses = array();
-
-		/*
-		// Adding user data
-		if( $userdata )
-		{
-			$responses[ '_user_id' ] = $this->get_response_user_ids();
-			$responses[ '_username' ] = $this->get_response_user_names();
-			$responses[ '_datetime' ] = $this->get_response_timestrings();
-		}
-		*/
-
-		// Running each Element of Form
-		foreach( $form->elements AS $element )
-		{
-			// Has Element data?
-			if( !$element->is_input )
+			$sql_elements_string_values = array();
+			foreach( $filter[ 'result_ids' ] AS $key => $response_id )
 			{
-				continue;
+				$sql_elements_string_values[] = ' id=%d';
+				$sql_elements_values[] = (int) $response_id;
 			}
 
-			// Filtering Elements
-			if( is_array( $filter[ 'element_ids' ]  ) && !in_array( $element->id, $filter[ 'element_ids' ] ) )
-			{
-				continue;
-			}
-
-			$responses[ $element->id ] = $this->get_element_results( $element->id , $element_filter );
+			$sql_elements .= ' AND (' . implode( ' OR ', $sql_elements_string_values  ) . ' )';
 		}
 
-		return $responses;
+		$sql = $wpdb->prepare( $sql_elements, $sql_elements_values );
+
+		$elements = $wpdb->get_results( $sql );
+
+		$sql_columns = array();
+
+		foreach( $elements AS $element )
+		{
+			$element_obj = af_get_element( $element->id );
+
+			if( !$element_obj->answer_is_multiple )
+			{
+				$sql_columns[] = "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = {$element->id}) AS '{$element->label}'";
+			}
+			else
+			{
+				foreach( $element_obj->answers AS $answer )
+				{
+					$answer = (object) $answer;
+					$sql_columns[] = "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = {$element->id} AND value='{$answer->text}') is NULL, 'no', 'yes' ) AS '{$element->label} - {$answer->text}'";
+				}
+			}
+		}
+
+		$sql_columns = implode( ', ', $sql_columns );
+
+		$sql_string = "SELECT id AS result_id, user_id, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id={$this->form_id}";
+
+		$results = $wpdb->get_results( $sql_string );
+
+		return $results;
 	}
 
 	/**
@@ -183,7 +181,7 @@ class AF_Form_Results
 		$filter = wp_parse_args( $filter, array(
 			'start'       => NULL,
 			'number_rows' => NULL,
-			'response_ids'=> NULL,
+			'result_ids'=> NULL,
 			'orderby'     => 'result_id',
 			'order'       => 'ASC'
 		) );
@@ -196,18 +194,17 @@ class AF_Form_Results
 			return NULL;
 		}
 
-		$sql_string = "SELECT r.id, r.questions_id, a.respond_id, a.value FROM {$af_global->tables->responds} AS r, {$af_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d AND r.questions_id=%d";
+		$sql_string = "SELECT r.id, r.form_id, a.result_id, a.value FROM {$af_global->tables->results} AS r, {$af_global->tables->result_values} AS a WHERE r.id=a.result_id AND a.element_id=%d AND r.form_id=%d";
 		$sql_values = array( $element_id ,$this->form_id );
 
 		// Filtering Response Ids
-		if( is_array( $filter[ 'response_ids' ] ) )
+		if( is_array( $filter[ 'result_ids' ] ) )
 		{
-
 			$sql_string_values = array();
-			foreach( $filter[ 'response_ids' ] AS $key => $response_id )
+			foreach( $filter[ 'result_ids' ] AS $key => $result_id )
 			{
 				$sql_string_values[] = ' r.id=%d';
-				$sql_values[] = (int) $response_id;
+				$sql_values[] = (int) $result_id;
 			}
 
 			$sql_string .= ' AND (' . implode( ' OR ', $sql_string_values  ) . ' )';
@@ -273,11 +270,11 @@ class AF_Form_Results
 					{
 						if( $answer[ 'text' ] == $response->value )
 						{
-							$result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] = esc_attr__( 'Yes' );
+							$result_answers[ 'results' ][ $response->respond_id ][ $answer[ 'text' ] ] = esc_attr__( 'Yes' );
 						}
 						elseif( !isset( $result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] ) )
 						{
-							$result_answers[ 'responses' ][ $response->respond_id ][ $answer[ 'text' ] ] = esc_attr__( 'No' );
+							$result_answers[ 'results' ][ $response->respond_id ][ $answer[ 'text' ] ] = esc_attr__( 'No' );
 						}
 					}
 				}
@@ -287,7 +284,7 @@ class AF_Form_Results
 					{
 						if( $answer[ 'text' ] == $response->value )
 						{
-							$result_answers[ 'responses' ][ $response->respond_id ] = $response->value;
+							$result_answers[ 'results' ][ $response->result_id ] = $response->value;
 						}
 					}
 				}
@@ -300,7 +297,7 @@ class AF_Form_Results
 			{
 				foreach( $responses AS $response )
 				{
-					$result_answers[ 'responses' ][ $response->respond_id ] = $response->value;
+					$result_answers[ 'results' ][ $response->result_id ] = $response->value;
 				}
 			}
 		}
