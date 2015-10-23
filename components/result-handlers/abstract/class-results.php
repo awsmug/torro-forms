@@ -118,9 +118,11 @@ abstract class AF_ResultHandler
 	{
 		$filter = wp_parse_args( $filter, array(
 			'start'       => 0,
-			'end'         => FALSE,
-			'element_ids' => FALSE,
-			'user_ids'    => FALSE
+			'end'         => NULL,
+			'element_ids' => NULL,
+			'user_ids'    => NULL,
+			'orderby'     => 'user_id',
+			'order'       => 'ASC'
 		) );
 
 		$results = new AF_Form_Results( $form_id );
