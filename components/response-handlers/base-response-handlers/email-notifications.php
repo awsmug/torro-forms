@@ -82,7 +82,7 @@ class AF_EmailNotifications extends AF_ResponseHandler
 			$form = new AF_Form( $ar_form_id );
 			foreach( $form->elements AS $element )
 			{
-				af_add_element_templatetag( $element->id, $element->question );
+				af_add_element_templatetag( $element->id, $element->label );
 			}
 
 			foreach( $notifications AS $notification )

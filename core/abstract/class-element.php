@@ -205,12 +205,12 @@ abstract class AF_FormElement
 		$row = $wpdb->get_row( $sql );
 
 		$this->id = $id;
-		$this->set_label( $row->question );
-		$this->form_id = $row->questions_id;
+		$this->set_label( $row->label );
+		$this->form_id = $row->form_id;
 
 		$this->sort = $row->sort;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE element_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if( is_array( $results ) ):

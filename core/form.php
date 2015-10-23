@@ -231,23 +231,23 @@ class AF_Form extends AF_Post
 		}
 
 		// Adding new element
-		$wpdb->insert( $af_global->tables->responds, array(
-			'questions_id' => $this->id,
+		$wpdb->insert( $af_global->tables->results, array(
+			'form_id' => $this->id,
 			'user_id'      => $user_id,
 			'timestamp'    => time()
 		) );
 
-		$response_id = $wpdb->insert_id;
-		$this->response_id = $response_id;
+		$result_id = $wpdb->insert_id;
+		$this->response_id = $result_id;
 
 		foreach( $response AS $element_id => $answers ):
 
 			if( is_array( $answers ) ):
 
 				foreach( $answers AS $answer ):
-					$wpdb->insert( $af_global->tables->respond_answers, array(
-						'respond_id'  => $response_id,
-						'question_id' => $element_id,
+					$wpdb->insert( $af_global->tables->result_values, array(
+						'result_id'  => $result_id,
+						'element_id' => $element_id,
 						'value'       => $answer
 					) );
 				endforeach;
@@ -255,16 +255,16 @@ class AF_Form extends AF_Post
 			else:
 				$answer = $answers;
 
-				$wpdb->insert( $af_global->tables->respond_answers, array(
-					'respond_id'  => $response_id,
-					'question_id' => $element_id,
+				$wpdb->insert( $af_global->tables->result_values, array(
+					'result_id'  => $result_id,
+					'element_id' => $element_id,
 					'value'       => $answer
 				) );
 
 			endif;
 		endforeach;
 
-		return $response_id;
+		return $result_id;
 	}
 
 	/**

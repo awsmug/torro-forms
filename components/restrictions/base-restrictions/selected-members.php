@@ -177,14 +177,14 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$form_participiants = $_POST[ 'form_participiants' ];
 		$af_participiant_ids = explode( ',', $form_participiants );
 
-		$sql = "DELETE FROM {$af_global->tables->participiants} WHERE survey_id = %d";
+		$sql = "DELETE FROM {$af_global->tables->participiants} WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$wpdb->query( $sql );
 
 		if( is_array( $af_participiant_ids ) && count( $af_participiant_ids ) > 0 ):
 			foreach( $af_participiant_ids AS $user_id ):
 				$wpdb->insert( $af_global->tables->participiants, array(
-					'survey_id' => $form_id,
+					'form_id' => $form_id,
 					'user_id'   => $user_id
 				) );
 			endforeach;

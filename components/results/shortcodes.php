@@ -80,7 +80,7 @@ class AF_ChartsShortCodes
 
 		$results = new AF_Form_Results( $form_id );
 
-		$ordered_data = AF_AbstractData::order_for_charting( $results->get_responses( FALSE, FALSE ) );
+		$ordered_data = AF_AbstractData::order_for_charting( $results->get_results() );
 
 		$html = '';
 

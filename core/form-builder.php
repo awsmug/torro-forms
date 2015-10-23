@@ -224,7 +224,7 @@ class AF_FormBuilder
 		if( is_array( $form_deleted_formelements ) && count( $form_deleted_formelements ) > 0 ):
 			foreach( $form_deleted_formelements AS $deleted_element ):
 				$wpdb->delete( $af_global->tables->elements, array( 'id' => $deleted_element ) );
-				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $deleted_element ) );
+				$wpdb->delete( $af_global->tables->element_answers, array( 'element_id' => $deleted_element ) );
 			endforeach;
 		endif;
 
@@ -235,7 +235,7 @@ class AF_FormBuilder
 		 */
 		if( is_array( $form_deleted_answers ) && count( $form_deleted_answers ) > 0 ):
 			foreach( $form_deleted_answers AS $deleted_answer ):
-				$wpdb->delete( $af_global->tables->answers, array( 'id' => $deleted_answer ) );
+				$wpdb->delete( $af_global->tables->element_answers, array( 'id' => $deleted_answer ) );
 			endforeach;
 		endif;
 
@@ -275,7 +275,7 @@ class AF_FormBuilder
 			if( '' != $element_id ):
 				// Updating if Element already exists
 				$wpdb->update( $af_global->tables->elements, array(
-					'question' => $label,
+					'label' => $label,
 					'sort'     => $sort,
 					'type'     => $type
 				), array( 'id' => $element_id ) );
@@ -283,8 +283,8 @@ class AF_FormBuilder
 
 				// Adding new Element
 				$wpdb->insert( $af_global->tables->elements, array(
-					'questions_id' => $form_id,
-					'question'     => $label,
+					'form_id' => $form_id,
+					'label'     => $label,
 					'sort'         => $sort,
 					'type'         => $type
 				) );
@@ -310,14 +310,14 @@ class AF_FormBuilder
 					}
 
 					if( '' != $answer_id ):
-						$wpdb->update( $af_global->tables->answers, array(
+						$wpdb->update( $af_global->tables->element_answers, array(
 							'answer'  => $answer_text,
 							'section' => $answer_section,
 							'sort'    => $answer_sort
 						), array( 'id' => $answer_id ) );
 					else:
-						$wpdb->insert( $af_global->tables->answers, array(
-							'question_id' => $element_id,
+						$wpdb->insert( $af_global->tables->element_answers, array(
+							'element_id' => $element_id,
 							'answer'      => $answer_text,
 							'section'     => $answer_section,
 							'sort'        => $answer_sort
@@ -339,13 +339,13 @@ class AF_FormBuilder
 
 					if( $count > 0 ):
 						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array(
-							'question_id' => $element_id,
+							'element_id' => $element_id,
 							'name'        => $name
 						) );
 					else:
 						$wpdb->insert( $af_global->tables->settings, array(
 							'name'        => $name,
-							'question_id' => $element_id,
+							'element_id' => $element_id,
 							'value'       => af_prepare_post_data( $settings[ $name ] )
 						) );
 
