@@ -196,78 +196,85 @@ class AF_Init
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$table_elements = $wpdb->prefix . 'questions_questions';
-		$table_answers = $wpdb->prefix . 'questions_answers';
-		$table_responds = $wpdb->prefix . 'questions_responds';
-		$table_respond_answers = $wpdb->prefix . 'questions_respond_answers';
-		$table_settings = $wpdb->prefix . 'questions_settings';
-		$table_participiants = $wpdb->prefix . 'questions_participiants';
-		$table_email_notifications = $wpdb->prefix . 'questions_email_notifications';
+		$table_elements = $wpdb->prefix . 'af_elements';
+		$table_element_answers = $wpdb->prefix . 'af_element_answers';
+		$table_results = $wpdb->prefix . 'af_results';
+		$table_results_values = $wpdb->prefix . 'af_result_values';
+		$table_settings = $wpdb->prefix . 'af_settings';
+		$table_participiants = $wpdb->prefix . 'af_participiants';
+		$table_email_notifications = $wpdb->prefix . 'af_email_notifications';
 
-		$sql = "CREATE TABLE $table_elements (
+		if( '1.1.1' == get_option( 'questions_db_version' ) )
+		{
+			self::update_from_questions_to_af();
+		}
+		elseif( '' == get_option( 'af_db_version' ) )
+		{
+
+			$sql = "CREATE TABLE $table_elements (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			questions_id int(11) NOT NULL,
-			question text NOT NULL,
+			form_id int(11) NOT NULL,
+			label text NOT NULL,
 			sort int(11) NOT NULL,
 			type char(50) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
 
-		dbDelta( $sql );
+			dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_answers (
+			$sql = "CREATE TABLE $table_element_answers (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			question_id int(11) NOT NULL,
+			element_id int(11) NOT NULL,
 			section char(100) NOT NULL,
 			answer text NOT NULL,
 			sort int(11) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
 
-		dbDelta( $sql );
+			dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_responds (
+			$sql = "CREATE TABLE $table_results (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			questions_id int(11) NOT NULL,
+			form_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
 			timestamp int(11) NOT NULL,
 			remote_addr char(15) NOT NULL,
 			cookie_key char(50) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
 
-		dbDelta( $sql );
+			dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_respond_answers (
+			$sql = "CREATE TABLE $table_results_values (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			respond_id int(11) NOT NULL,
-			question_id int(11) NOT NULL,
+			result_ int(11) NOT NULL,
+			element_id int(11) NOT NULL,
 			value text NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
 
-		dbDelta( $sql );
+			dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_settings (
+			$sql = "CREATE TABLE $table_settings (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			question_id int(11) NOT NULL,
+			element_id int(11) NOT NULL,
 			name text NOT NULL,
 			value text NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
 
-		dbDelta( $sql );
+			dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_participiants (
+			$sql = "CREATE TABLE $table_participiants (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			survey_id int(11) NOT NULL,
+			form_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
 
-		dbDelta( $sql );
+			dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_email_notifications (
+			$sql = "CREATE TABLE $table_email_notifications (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			form_id int(11) NOT NULL,
 			notification_name text NOT NULL,
@@ -278,29 +285,82 @@ class AF_Init
 			subject text NOT NULL,
 			message text NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8;";
+			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
 
-		dbDelta( $sql );
+			dbDelta( $sql );
 
-		$sql = "ALTER TABLE $table_elements CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+			update_option( 'af_db_version', '1.0.0' );
+		}
+	}
+
+	public static function update_from_questions_to_af()
+	{
+		global $wpdb;
+
+		$table_elements_old = $wpdb->prefix . 'questions_questions';
+		$table_answers_old = $wpdb->prefix . 'questions_answers';
+		$table_settings_old = $wpdb->prefix . 'questions_settings';
+		$table_responds_old = $wpdb->prefix . 'questions_responds';
+		$table_respond_answers_old = $wpdb->prefix . 'questions_respond_answers';
+		$table_participiants_old = $wpdb->prefix . 'questions_participiants';
+		$table_email_notifications_old = $wpdb->prefix . 'questions_email_notifications';
+
+		$table_elements_new = $wpdb->prefix . 'af_elements';
+		$table_answers_new = $wpdb->prefix . 'af_element_answers';
+		$table_settings_new = $wpdb->prefix . 'af_settings';
+		$table_responds_new = $wpdb->prefix . 'af_results';
+		$table_respond_answers_new = $wpdb->prefix . 'af_result_values';
+		$table_participiants_new = $wpdb->prefix . 'af_participiants';
+		$table_email_notifications_new = $wpdb->prefix . 'af_email_notifications';
+
+
+		$sql = "RENAME TABLE {$table_elements_old} TO {$table_elements_new}";
 		$wpdb->query( $sql );
 
-		$sql = "ALTER TABLE $table_answers CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$sql = "RENAME TABLE {$table_answers_old} TO {$table_answers_new}";
 		$wpdb->query( $sql );
 
-		$sql = "ALTER TABLE $table_responds CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$sql = "RENAME TABLE {$table_settings_old} TO {$table_settings_new}";
 		$wpdb->query( $sql );
 
-		$sql = "ALTER TABLE $table_respond_answers CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$sql = "RENAME TABLE {$table_responds_old} TO {$table_responds_new}";
 		$wpdb->query( $sql );
 
-		$sql = "ALTER TABLE $table_participiants CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$sql = "RENAME TABLE {$table_respond_answers_old} TO {$table_respond_answers_new}";
 		$wpdb->query( $sql );
 
-		$sql = "ALTER TABLE $table_settings CONVERT TO CHARACTER SET utf8 collate utf8_general_ci;";
+		$sql = "RENAME TABLE {$table_participiants_old} TO {$table_participiants_new}";
 		$wpdb->query( $sql );
 
-		update_option( 'questions_db_version', '1.1.1' );
+		$sql = "RENAME TABLE {$table_email_notifications_old} TO {$table_email_notifications_new}";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_elements_new} CHANGE questions_id form_id int(11)";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_elements_new} CHANGE question label text";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_answers_new} CHANGE question_id element_id int(11)";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_responds_new} CHANGE questions_id form_id int(11)";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_respond_answers_new} CHANGE respond_id result_id int(11)";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_respond_answers_new} CHANGE question_id element_id int(11)";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_settings_new} CHANGE question_id element_id int(11)";
+		$wpdb->query( $sql );
+
+		$sql = "ALTER TABLE {$table_participiants_new} CHANGE survey_id form_id int(11)";
+		$wpdb->query( $sql );
+
+		delete_option( 'questions_db_version' );
+		update_option( 'af_db_version', '1.0.0' );
 	}
 
 	/**
