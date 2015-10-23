@@ -111,14 +111,17 @@ class AF_Form_Results
 
 		$filter = wp_parse_args( $filter, array(
 			'start'       => 0,
-			'end'         => NULL,
+			'number_rows'         => NULL,
 			'element_ids' => NULL,
 			'user_ids'    => NULL,
 			'result_ids'=> NULL,
-			'orderby'     => 'response_id',
-			'order'       => 'ASC'
+			'orderby'     => NULL,
+			'order'       => NULL
 		) );
 
+		/**
+		 * Getting elements
+		 */
 		$sql_elements = "SELECT id, label FROM {$af_global->tables->elements} WHERE form_id=%d";
 		$sql_elements_values = array( $this->form_id );
 
@@ -136,32 +139,64 @@ class AF_Form_Results
 		}
 
 		$sql = $wpdb->prepare( $sql_elements, $sql_elements_values );
-
 		$elements = $wpdb->get_results( $sql );
 
+		/**
+		 * Preparing columns for form values
+		 */
 		$sql_columns = array();
-
 		foreach( $elements AS $element )
 		{
 			$element_obj = af_get_element( $element->id );
 
 			if( !$element_obj->answer_is_multiple )
 			{
-				$sql_columns[] = "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = {$element->id}) AS '{$element->label}'";
+				$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d) AS '%s'", $element->id, $element->label );
 			}
 			else
 			{
 				foreach( $element_obj->answers AS $answer )
 				{
 					$answer = (object) $answer;
-					$sql_columns[] = "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = {$element->id} AND value='{$answer->text}') is NULL, 'no', 'yes' ) AS '{$element->label} - {$answer->text}'";
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $element->label . ' - ' . $answer->text );
 				}
 			}
 		}
-
 		$sql_columns = implode( ', ', $sql_columns );
 
-		$sql_string = "SELECT id AS result_id, user_id, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id={$this->form_id}";
+		/**
+		 * Creating Result SQL
+		 */
+		$sql_result = "SELECT id AS result_id, user_id, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id=%d";
+		$sql_result_values = array( $this->form_id );
+
+		if( NULL !== $filter[ 'orderby' ] )
+		{
+			$sql_result .= ' ORDER BY %s';
+			$sql_result_values[] = $filter[ 'orderby' ];
+		}
+
+		if( 'ASC' == $filter[ 'order' ] || 'DESC' == $filter[ 'order' ] )
+		{
+			$sql_result .= ' ' . $filter[ 'order' ];
+		}
+
+		// Limiting
+		if( NULL !== $filter[ 'start' ] && NULL !== $filter[ 'number_rows' ] )
+		{
+			$sql_result .= ' LIMIT %d, %d';
+			$sql_result_values[] = (int) $filter[ 'start' ];
+			$sql_result_values[] = (int) $filter[ 'number_rows' ];
+		}
+		elseif( NULL === $filter[ 'start' ] && NULL !== $filter[ 'number_rows' ] )
+		{
+			$sql_result .= ' LIMIT %d';
+			$sql_result_values[] = (int) $filter[ 'number_rows' ];
+		}
+
+		$sql_string = $wpdb->prepare( $sql_result, $sql_result_values );
+
+		// print_r( $sql_string );
 
 		$results = $wpdb->get_results( $sql_string );
 
