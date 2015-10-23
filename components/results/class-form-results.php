@@ -146,6 +146,8 @@ class AF_Form_Results
 		 * Preparing columns for form values
 		 */
 		$sql_columns = array();
+		$column_titles = array();
+		$column_index = 3;
 		foreach( $elements AS $element )
 		{
 			$element_obj = af_get_element( $element->id );
@@ -163,6 +165,7 @@ class AF_Form_Results
 			if( !$element_obj->answer_is_multiple )
 			{
 				$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d) AS '%s'", $element->id, $column_name );
+				$column_titles[ $column_name ] = $column_index++;
 			}
 			else
 			{
@@ -183,6 +186,7 @@ class AF_Form_Results
 					}
 
 					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
+					$column_titles[ $column_name ] = $column_index++;
 				}
 			}
 		}
@@ -196,8 +200,11 @@ class AF_Form_Results
 
 		if( NULL !== $filter[ 'orderby' ] )
 		{
-			$sql_result .= ' ORDER BY %s';
-			$sql_result_values[] = $filter[ 'orderby' ];
+			if( array_key_exists( $filter[ 'orderby' ], $column_titles  ) )
+			{
+				$sql_result .= ' ORDER BY %d';
+				$sql_result_values[] = $column_titles[ $filter[ 'orderby' ] ];
+			}
 		}
 
 		if( 'ASC' == $filter[ 'order' ] || 'DESC' == $filter[ 'order' ] )
