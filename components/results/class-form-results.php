@@ -117,7 +117,7 @@ class AF_Form_Results
 			'result_ids'=> NULL,
 			'orderby'     => NULL,
 			'order'       => NULL,
-			'column_name' => 'title', // title, element_id
+			'column_name' => 'label', // label, element_id
 		) );
 
 		/**
