@@ -116,7 +116,8 @@ class AF_Form_Results
 			'user_ids'    => NULL,
 			'result_ids'=> NULL,
 			'orderby'     => NULL,
-			'order'       => NULL
+			'order'       => NULL,
+			'column_name' => 'title', // title, element_id
 		) );
 
 		/**
@@ -149,16 +150,39 @@ class AF_Form_Results
 		{
 			$element_obj = af_get_element( $element->id );
 
+			switch( $filter[ 'column_name' ] )
+			{
+				case 'element_id':
+					$column_name = 'element_' . $element->id;
+					break;
+				default:
+					$column_name = $element->label;
+					break;
+			}
+
 			if( !$element_obj->answer_is_multiple )
 			{
-				$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d) AS '%s'", $element->id, $element->label );
+				$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d) AS '%s'", $element->id, $column_name );
 			}
 			else
 			{
+				$i = 0;
+
 				foreach( $element_obj->answers AS $answer )
 				{
 					$answer = (object) $answer;
-					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $element->label . ' - ' . $answer->text );
+
+					switch( $filter[ 'column_name' ] )
+					{
+						case 'element_id':
+							$column_name = 'element_' . $element->id  . '_' . $i++;
+							break;
+						default:
+							$column_name = $element->label . ' - ' . $answer->text;
+							break;
+					}
+
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
 				}
 			}
 		}
@@ -196,7 +220,7 @@ class AF_Form_Results
 
 		$sql_string = $wpdb->prepare( $sql_result, $sql_result_values );
 
-		// print_r( $sql_string );
+		print_r( $sql_string );
 
 		$results = $wpdb->get_results( $sql_string );
 
