@@ -115,7 +115,7 @@ class AF_Form_Results
 			'element_ids' => NULL,
 			'user_ids'    => NULL,
 			'result_ids'  => NULL,
-			'where'       => NULL,
+			'filter'       => NULL,
 			'orderby'     => NULL,
 			'order'       => NULL,
 			'column_name' => 'label', // label, element_id
@@ -199,15 +199,14 @@ class AF_Form_Results
 		$sql_result = "SELECT id AS result_id, user_id, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
 
-		if( NULL !== $filter[ 'where' ] )
+		if( NULL !== $filter[ 'filter' ] )
 		{
-			if( is_array( $filter[ 'where' ] ) )
+			if( is_array( $filter[ 'filter' ] ) )
 			{
-				foreach( $filter[ 'where' ] AS $key => $value )
+				foreach( $filter[ 'filter' ] AS $key => $value )
 				{
-					$sql_result .= ' AND %s=%s';
-					// $sql_result_values[] = $column_titles[ $key ] ;
-					$sql_result_values[] = $key ;
+					$sql_result .= ' AND %d=%s';
+					$sql_result_values[] = $column_titles[ $key ] ;
 					$sql_result_values[] = $value ;
 				}
 			}
