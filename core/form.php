@@ -499,31 +499,3 @@ function af_form_exists( $form_id )
 
 	return FALSE;
 }
-
-/**
- * Gets an element object
- *
- * @param int    $element_id
- * @param string $type
- *
- * @return object|bool
- */
-function af_get_element( $element_id, $type = '' )
-{
-	global $wpdb, $af_global;
-
-	if( '' == $type )
-	{
-		$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->elements} WHERE id = %d ORDER BY sort ASC", $element_id );
-		$type = $wpdb->get_var( $sql );
-	}
-
-	if( class_exists( 'AF_FormElement_' . $type ) )
-	{
-		$class = 'AF_FormElement_' . $type;
-
-		return new $class( $element_id );
-	}
-
-	return FALSE;
-}

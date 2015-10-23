@@ -885,12 +885,12 @@ abstract class AF_FormElement
 	}
 
 	/**
-	 * Get all saved responses of an element
+	 * Get all saved results of an element
 	 *
-	 * @return mixed $responses The responses as array or FALSE if failed to get responses
+	 * @return mixed $responses The results as array or FALSE if failed to get responses
 	 * @since 1.0.0
 	 */
-	public function get_responses()
+	public function get_results()
 	{
 
 		global $wpdb, $af_global;
@@ -958,6 +958,35 @@ function af_register_form_element( $element_type_class )
 		$element_type = new $element_type_class();
 
 		return $element_type->_register();
+	}
+
+	return FALSE;
+}
+
+/**
+ * Gets an element object
+ *
+ * @param int    $element_id
+ * @param string $type
+ *
+ * @return object|bool
+ * @since 1.0.0
+ */
+function af_get_element( $element_id, $type = '' )
+{
+	global $wpdb, $af_global;
+
+	if( '' == $type )
+	{
+		$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->elements} WHERE id = %d ORDER BY sort ASC", $element_id );
+		$type = $wpdb->get_var( $sql );
+	}
+
+	if( class_exists( 'AF_FormElement_' . $type ) )
+	{
+		$class = 'AF_FormElement_' . $type;
+
+		return new $class( $element_id );
 	}
 
 	return FALSE;
