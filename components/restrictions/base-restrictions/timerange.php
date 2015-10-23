@@ -123,7 +123,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 
 		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $quesions_form_id, $remote_ip );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id_id=%d AND remote_addr=%s", $quesions_form_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 
 		if( 0 == $count )

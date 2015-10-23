@@ -139,7 +139,7 @@ class AF_ChartsShortCodes
 			return esc_attr( 'Please enter a valid element id into the shortcode!', 'af-locale' );
 		}
 
-		$sql = $wpdb->prepare( "SELECT questions_id FROM {$af_global->tables->elements} WHERE id = %d", $element_id );
+		$sql = $wpdb->prepare( "SELECT form_id FROM {$af_global->tables->elements} WHERE id = %d", $element_id );
 		$form_id = $wpdb->get_var( $sql );
 
 		$results = new AF_Form_Results( $form_id );

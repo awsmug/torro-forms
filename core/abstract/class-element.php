@@ -210,7 +210,7 @@ abstract class AF_FormElement
 
 		$this->sort = $row->sort;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE question_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE element_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if( is_array( $results ) ):
@@ -219,7 +219,7 @@ abstract class AF_FormElement
 			endforeach;
 		endif;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->settings} WHERE question_id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->settings} WHERE element_id = %s", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if( is_array( $results ) ):
@@ -895,7 +895,7 @@ abstract class AF_FormElement
 
 		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->responds} AS r, {$af_global->tables->respond_answers} AS a WHERE r.id=a.respond_id AND a.question_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} AS r, {$af_global->tables->result_answers} AS a WHERE r.id=a.result_id AND a.element_id=%d", $this->id );
 		$responses = $wpdb->get_results( $sql );
 
 		$result_answers = array();

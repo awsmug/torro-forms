@@ -76,7 +76,7 @@ class AF_AbstractData
 			$ordered_data[ 'questions' ][ $key ] = $line[ 'label' ];
 
 			// Fill up missed answers with 0
-			$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE question_id = %s", $key );
+			$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->answers} WHERE element_id = %s", $key );
 			$results = $wpdb->get_results( $sql );
 
 			$voted_answers = array_keys( $merged_data );

@@ -383,7 +383,7 @@ function af_user_has_participated( $form_id, $user_id = NULL )
 		return FALSE;
 	}
 
-	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND user_id=%s", $form_id, $user_id );
+	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id=%d AND user_id=%s", $form_id, $user_id );
 
 	$count = $wpdb->get_var( $sql );
 

@@ -54,13 +54,13 @@ class AF_Global
 
 		$this->tables = new stdClass;
 
-		$this->tables->elements = $wpdb->prefix . 'questions_questions';
-		$this->tables->answers = $wpdb->prefix . 'questions_answers';
-		$this->tables->responds = $wpdb->prefix . 'questions_responds';
-		$this->tables->respond_answers = $wpdb->prefix . 'questions_respond_answers';
-		$this->tables->settings = $wpdb->prefix . 'questions_settings';
-		$this->tables->participiants = $wpdb->prefix . 'questions_participiants';
-		$this->tables->email_notifications = $wpdb->prefix . 'questions_email_notifications';
+		$this->tables->elements = $wpdb->prefix . 'af_elements';
+		$this->tables->element_answers = $wpdb->prefix . 'af_element_answers';
+		$this->tables->results = $wpdb->prefix . 'af_results';
+		$this->tables->result_values = $wpdb->prefix . 'af_result_values';
+		$this->tables->settings = $wpdb->prefix . 'af_settings';
+		$this->tables->participiants = $wpdb->prefix . 'af_participiants';
+		$this->tables->email_notifications = $wpdb->prefix . 'af_email_notifications';
 
 		$this->tables = apply_filters( 'questions_tables', $this->tables );
 	}

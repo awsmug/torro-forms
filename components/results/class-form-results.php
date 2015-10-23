@@ -94,7 +94,7 @@ class AF_Form_Results
 
 		if( '' === $this->count )
 		{
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds}" );
+			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results}" );
 			$this->count = $wpdb->get_var( $sql );
 		}
 
@@ -326,7 +326,7 @@ class AF_Form_Results
 
 		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
 		$results = $wpdb->get_results( $sql );
 
 		$responses = array();
@@ -355,7 +355,7 @@ class AF_Form_Results
 	{
 		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
 		$results = $wpdb->get_results( $sql );
 
 		$responses = array();
@@ -388,7 +388,7 @@ class AF_Form_Results
 
 		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
 		$results = $wpdb->get_results( $sql );
 
 		$responses = array();

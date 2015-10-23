@@ -334,7 +334,7 @@ class AF_FormBuilder
 			 */
 			if( is_array( $settings ) && count( $settings ) > 0 ):
 				foreach( $settings AS $name => $setting ):
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->settings} WHERE question_id = %d AND name = %s", $element_id, $name );
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->settings} WHERE element_id = %d AND name = %s", $element_id, $name );
 					$count = $wpdb->get_var( $sql );
 
 					if( $count > 0 ):

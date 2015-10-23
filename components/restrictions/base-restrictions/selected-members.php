@@ -231,7 +231,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$subject_template = $_POST[ 'subject_template' ];
 		$text_template = $_POST[ 'text_template' ];
 
-		$sql = "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d";
+		$sql = "SELECT user_id FROM {$af_global->tables->participiants} WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
@@ -366,7 +366,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		/**
 		 * Getting all users which have been added to participiants list
 		 */
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %s", $form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE form_id = %s", $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		$users = array();
@@ -502,7 +502,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			$user_id = $user_id = $current_user->ID;
 		endif;
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $ar_form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE form_id = %d", $ar_form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		if( !in_array( $user_id, $user_ids ) )

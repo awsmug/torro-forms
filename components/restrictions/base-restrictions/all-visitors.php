@@ -83,7 +83,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			$ar_form_id = $_POST[ 'af_form_id' ];
 			$fingerprint = $_POST[ 'fngrprnt' ];
 
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
+			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
 			$count = $wpdb->get_var( $sql );
 
 			if( 0 == $count )
@@ -319,7 +319,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->responds} WHERE questions_id=%d AND remote_addr=%s", $ar_form_id, $remote_ip );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id=%d AND remote_addr=%s", $ar_form_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 
 		if( 0 == $count )

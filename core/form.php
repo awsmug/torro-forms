@@ -124,7 +124,7 @@ class AF_Form extends AF_Post
 			return FALSE;
 		}
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->elements} WHERE questions_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->elements} WHERE form_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		$elements = array();
@@ -161,7 +161,7 @@ class AF_Form extends AF_Post
 	{
 		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE survey_id = %d", $this->id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE form_id = %d", $this->id );
 		$participiant_ids = $wpdb->get_col( $sql );
 
 		return $participiant_ids;
@@ -425,7 +425,7 @@ class AF_Form extends AF_Post
 		 */
 		$this->delete_responses();
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->elements} WHERE questions_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->elements} WHERE form_id=%d", $this->id );
 		$elements = $wpdb->get_col( $sql );
 
 		/**
@@ -433,9 +433,9 @@ class AF_Form extends AF_Post
 		 */
 		if( is_array( $elements ) && count( $elements ) > 0 ):
 			foreach( $elements AS $element_id ):
-				$wpdb->delete( $af_global->tables->answers, array( 'question_id' => $element_id ) );
+				$wpdb->delete( $af_global->tables->answers, array( 'element_id' => $element_id ) );
 
-				$wpdb->delete( $af_global->tables->settings, array( 'question_id' => $element_id ) );
+				$wpdb->delete( $af_global->tables->settings, array( 'element_id' => $element_id ) );
 
 				do_action( 'form_delete_element', $element_id, $this->id );
 			endforeach;
@@ -444,14 +444,14 @@ class AF_Form extends AF_Post
 		/**
 		 * Elements
 		 */
-		$wpdb->delete( $af_global->tables->elements, array( 'questions_id' => $this->id ) );
+		$wpdb->delete( $af_global->tables->elements, array( 'form_id' => $this->id ) );
 
 		do_action( 'form_delete', $this->id );
 
 		/**
 		 * Participiants
 		 */
-		$wpdb->delete( $af_global->tables->participiants, array( 'survey_id' => $this->id ) );
+		$wpdb->delete( $af_global->tables->participiants, array( 'form_id' => $this->id ) );
 	}
 
 	/**
@@ -463,17 +463,17 @@ class AF_Form extends AF_Post
 	{
 		global $wpdb, $af_global;
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->responds} WHERE questions_id = %s", $this->id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->results} WHERE form_id = %s", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		// Putting results in array
 		if( is_array( $results ) ):
 			foreach( $results AS $result ):
-				$wpdb->delete( $af_global->tables->respond_answers, array( 'respond_id' => $result->id ) );
+				$wpdb->delete( $af_global->tables->result_values, array( 'result_id' => $result->id ) );
 			endforeach;
 		endif;
 
-		return $wpdb->delete( $af_global->tables->responds, array( 'questions_id' => $this->id ) );
+		return $wpdb->delete( $af_global->tables->responds, array( 'form_id' => $this->id ) );
 	}
 }
 
