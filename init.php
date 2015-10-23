@@ -125,7 +125,7 @@ class AF_Init
 
 		include( AF_COMPONENTFOLDER . 'response-handlers/component.php' );
 		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
-		include( AF_COMPONENTFOLDER . 'result-handlers/component.php' );
+		include( AF_COMPONENTFOLDER . 'results/component.php' );
 	}
 
 	/**
