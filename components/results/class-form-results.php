@@ -111,10 +111,11 @@ class AF_Form_Results
 
 		$filter = wp_parse_args( $filter, array(
 			'start'       => 0,
-			'number_rows'         => NULL,
+			'number_rows' => NULL,
 			'element_ids' => NULL,
 			'user_ids'    => NULL,
-			'result_ids'=> NULL,
+			'result_ids'  => NULL,
+			'where'       => NULL,
 			'orderby'     => NULL,
 			'order'       => NULL,
 			'column_name' => 'label', // label, element_id
@@ -197,6 +198,20 @@ class AF_Form_Results
 		 */
 		$sql_result = "SELECT id AS result_id, user_id, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
+
+		if( NULL !== $filter[ 'where' ] )
+		{
+			if( is_array( $filter[ 'where' ] ) )
+			{
+				foreach( $filter[ 'where' ] AS $key => $value )
+				{
+					$sql_result .= ' AND %s=%s';
+					// $sql_result_values[] = $column_titles[ $key ] ;
+					$sql_result_values[] = $key ;
+					$sql_result_values[] = $value ;
+				}
+			}
+		}
 
 		if( NULL !== $filter[ 'orderby' ] )
 		{
