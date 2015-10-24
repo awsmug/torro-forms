@@ -190,9 +190,6 @@ class AF_Form_Results
 		}
 
 		$sql_string = $wpdb->prepare( $sql_filter, $sql_filter_values );
-
-		print_r( $sql_string );
-
 		$results = $wpdb->get_results( $sql_string, ARRAY_A );
 
 		return $results;
@@ -281,11 +278,13 @@ class AF_Form_Results
 				}
 			}
 		}
-		$sql_columns = implode( ', ', $sql_columns );
+		// Making additional columns possible
+		$sql_columns = apply_filters( 'af_view_columns_sql', $sql_columns );
 
 		/**
 		 * Creating Result SQL
 		 */
+		$sql_columns = implode( ', ', $sql_columns );
 		$sql_result = "SELECT id AS result_id, user_id, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
 
@@ -331,36 +330,6 @@ class AF_Form_Results
 		$results = $this->get_results( $filter );
 
 		return $results;
-	}
-
-	/**
-	 * Gettiung all user ids of a Form
-	 *
-	 * @return array $responses All user ids formatted for response array
-	 * @since 1.0.0
-	 */
-	public function get_response_user_ids()
-	{
-
-		global $wpdb, $af_global;
-
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
-		$results = $wpdb->get_results( $sql );
-
-		$responses = array();
-		$responses[ 'label' ] = __( 'User ID', 'af-locale' );
-		$responses[ 'sections' ] = FALSE;
-		$responses[ 'array' ] = FALSE;
-		$responses[ 'responses' ] = array();
-
-		// Putting results in array
-		if( is_array( $results ) ):
-			foreach( $results AS $result ):
-				$responses[ 'responses' ][ $result->id ] = $result->user_id;
-			endforeach;
-		endif;
-
-		return $responses;
 	}
 
 	/**
