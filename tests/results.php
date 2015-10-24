@@ -62,5 +62,9 @@ class AF_ResultsTests extends PHPUnit_Framework_TestCase
 
 		$results = $af_results->get_results( $filter );
 		$this->assertEquals( 'Uli', $results[ 0 ][ 'Name' ] );
+
+		// Get element results
+		$results = $af_results->get_element_results( 528 );
+		$this->assertCount( 7, $results[ 0 ] );
 	}
 }
