@@ -285,7 +285,7 @@ class AF_Form_Results
 		 * Creating Result SQL
 		 */
 		$sql_columns = implode( ', ', $sql_columns );
-		$sql_result = "SELECT id AS result_id, user_id, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id=%d";
+		$sql_result = "SELECT id AS result_id, user_id, timestamp, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
 
 		/**
@@ -356,38 +356,6 @@ class AF_Form_Results
 			foreach( $results AS $result ):
 				$user = get_user_by( 'id', $result->user_id );
 				$responses[ 'responses' ][ $result->id ] = $user->user_login;
-			endforeach;
-		endif;
-
-		return $responses;
-	}
-
-	/**
-	 * Gettiung all timestrings of a Form
-	 *
-	 * @param string $timeformat
-	 *
-	 * @return array $responses All timestrings formatted for response array
-	 * @since 1.0.0
-	 */
-	public function get_response_timestrings( $timeformat = 'd.m.Y H:i' )
-	{
-
-		global $wpdb, $af_global;
-
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
-		$results = $wpdb->get_results( $sql );
-
-		$responses = array();
-		$responses[ 'label' ] = __( 'Date/Time', 'af-locale' );
-		$responses[ 'sections' ] = FALSE;
-		$responses[ 'array' ] = FALSE;
-		$responses[ 'responses' ] = array();
-
-		// Putting results in array
-		if( is_array( $results ) ):
-			foreach( $results AS $result ):
-				$responses[ 'responses' ][ $result->id ] = date_i18n( $timeformat, $result->timestamp );
 			endforeach;
 		endif;
 
