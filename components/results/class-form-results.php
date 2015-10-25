@@ -181,8 +181,12 @@ class AF_Form_Results
 			$sql_filter_values[] = (int) $filter[ 'number_rows' ];
 		}
 
-		$sql_string = $wpdb->prepare( $sql_filter, $sql_filter_values );
-		$results = $wpdb->get_results( $sql_string, ARRAY_A );
+		if( count( $sql_filter_values ) > 0 )
+		{
+			$sql_filter = $wpdb->prepare( $sql_filter, $sql_filter_values );
+		}
+
+		$results = $wpdb->get_results( $sql_filter, ARRAY_A );
 
 		if( FALSE == $results )
 		{

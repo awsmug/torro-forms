@@ -143,13 +143,14 @@ class AF_ChartsShortCodes
 		$form_id = $wpdb->get_var( $sql );
 
 		$results = new AF_Form_Results( $form_id );
-		$ordered_data = AF_AbstractData::order_for_charting( $results->get_responses( $element_id, FALSE ) );
 
 		$html = '';
+
+		/*
 		foreach( $ordered_data[ 'questions' ] as $element_id => $question )
 		{
 			$html .= AF_ChartCreator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
-		}
+		}*/
 
 		return $html;
 	}

@@ -53,7 +53,6 @@ class AF_ResultsComponent extends AF_Component
 		include( $folder . 'shortcodes.php' );
 
 		// Data handling
-		include( $folder . 'class-data-abstraction.php' );
 		include( $folder . 'export.php' );
 
 		// Results base Class

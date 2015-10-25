@@ -41,19 +41,21 @@ class AF_Export
 	 */
 	public function __construct()
 	{
+		require_once( dirname( __FILE__ ) . '/includes/php/PHPExcel.php' );
+
 		add_action( 'admin_init', array( $this, 'export' ), 10 );
 		add_filter( 'post_row_actions', array( $this, 'add_export_link' ), 10, 2 );
 	}
 
 	/**
-	 * Add export link to the overview page
+	 * Hooks in and adds export link to the overview page
 	 *
-	 * @param array  $actions Actions links in an array
-	 * @param object $post    Post object
-	 *
+	 * @param array  $actions
+	 * @param object $post
+	 * @return array $actions
 	 * @since 1.0.0
 	 */
-	function add_export_link( $actions, $post )
+	public function add_export_link( $actions, $post )
 	{
 		if( 'questions' != $post->post_type )
 		{
@@ -61,18 +63,16 @@ class AF_Export
 		}
 
 		$results = new AF_Form_Results( $post->ID );
-		$resonses_user_ids = $results->get_response_user_ids();
+		$results->results();
 
-		if( 0 == count( $resonses_user_ids[ 'responses' ] ) )
+		if( 0 == $results->count() )
 		{
-			$button_text = sprintf( __( 'No answers, no exports!', 'af-locale' ) );
+			$actions[ 'no_export' ] = sprintf( __( 'There are no results to export!', 'af-locale' ) );
 		}
 		else
 		{
-			$button_text = sprintf( __( '<a href="%s">Export Results</a>', 'af-locale' ), '?post_type=questions&export_form_results=CSV&form_id=' . $post->ID );
+			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=questions&export=xls&form_id=' . $post->ID, '?post_type=questions&export=csv&form_id=' . $post->ID );
 		}
-
-		$actions[ 'export_results' ] = $button_text;
 
 		return $actions;
 	}
@@ -84,76 +84,107 @@ class AF_Export
 	 */
 	function export()
 	{
-		global $wpdb, $af_global;
-
-		if( array_key_exists( 'export_form_results', $_GET ) && is_array( $_GET ) ):
-			$export_type = $_GET[ 'export_form_results' ];
+		if( array_key_exists( 'export', $_GET ) && is_array( $_GET ) )
+		{
+			$export_type = $_GET[ 'export' ];
 			$form_id = $_GET[ 'form_id' ];
 
 			$form = new AF_Form( $form_id );
-			$results = new AF_Form_Results( $form_id );
+			$form_results = new AF_Form_Results( $form_id );
 
-			$export_filename = sanitize_title( $form->title );
-			$export_data = $results->get_responses();
+			$filename = sanitize_title( $form->title );
+			$results = $form_results->results();
 
-			$content = $this->get_csv( $export_data );
-
-			header( "Pragma: public" );
-			header( "Expires: 0" );
-			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
-			header( "Cache-Control: private", FALSE );
+			do_action( 'af_export', $form_id, $filename );
 
 			switch ( $export_type )
 			{
-				case 'CSV':
-					$content = $this->get_csv( $export_data );
-
-					$bytes = strlen( $content );
-					$charset = 'UTF-8';
-
-					header( "Content-Length: " . $bytes );
-					header( "Content-Type: text/html; charset=" . $charset );
-					header( "Content-Disposition: attachment; filename=\"" . $export_filename . ".csv\";" );
-
-					echo $content;
-
+				case 'csv':
+					$this->csv( $results, $filename );
 					break;
+
+				case 'xls':
+					$this->excel( $results, $filename );
+					break;
+
 				default:
-					echo $this->get_csv( $export_data );
+
+					$this->excel( $results, $filename );
 					break;
 			}
 			exit;
-
-		endif;
+		}
 	}
 
 	/**
-	 * Getting CSV content
+	 * Serving Download for Excel export
 	 *
-	 * @param array $response_array Response array of a Form
-	 *
-	 * @return string $output CSV content
+	 * @param $results
+	 * @param $filename
+	 * @since 1.0.0
 	 */
-	public function get_csv( $response_array )
+	public function excel( $results, $filename )
 	{
+		// Redirect output to a client’s web browser (Excel5)
+		header( 'Content-Type: application/vnd.ms-excel' );
+		header( 'Content-Disposition: attachment;filename="' . $filename . '.xls"' );
+		header( 'Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header( 'Cache-Control: max-age=1');
 
-		$headlines = AF_AbstractData::get_headlines( $response_array );
-		$lines = AF_AbstractData::get_lines( $response_array );
+		// If you're serving to IE over SSL, then the following may be needed
+		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' ); // Date in the past
+		header( 'Last-Modified: '.gmdate('D, d M Y H:i:s' ).' GMT' ); // always modified
+		header( 'Cache-Control: cache, must-revalidate' ); // HTTP/1.1
+		header( 'Pragma: public'); // HTTP/1.0
 
-		$lines = array_merge( array( $headlines ), $lines );
+		$php_excel = new PHPExcel();
 
-		// Running each element
-		if( is_array( $lines ) ):
-			$output = '';
-			foreach( $lines AS $response_id => $line ):
-				$output .= implode( ';', $line ) . chr( 13 );
-			endforeach;
+		// Setting up Healines
+		$i = 0;
+		foreach( array_keys( $results[ 0 ] ) AS $headline )
+		{
+			$php_excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow( $i++, 1, $headline );
+		}
 
-			return $output;
-		else:
-			return FALSE;
-		endif;
+		// Setting up Content
+		$php_excel->getActiveSheet()->fromArray( $results, NULL, 'A2' );
+		$writer = PHPExcel_IOFactory::createWriter( $php_excel, 'Excel5' );
+		$writer->save('php://output');
+		exit;
+	}
+
+	/**
+	 * Serving Download for CSV export
+	 *
+	 * @param $results
+	 * @param $filename
+	 * @since 1.0.0
+	 */
+	public function csv( $results, $filename )
+	{
+		header( 'Content-type: text/csv' );
+		header( 'Content-Disposition: attachment; filename=' . $filename . '.csv');
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
+
+		$php_excel = new PHPExcel();
+
+		// Setting up Healines
+		$i = 0;
+		foreach( array_keys( $results[ 0 ] ) AS $headline )
+		{
+			$php_excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow( $i++, 1, $headline );
+		}
+
+		$php_excel->getActiveSheet()->fromArray( $results, NULL, 'A2' );
+		$writer = PHPExcel_IOFactory::createWriter( $php_excel, 'CSV' )->setDelimiter( ';' )
+			->setEnclosure( '"' )
+			->setLineEnding( "\r\n" )
+			->setSheetIndex( 0 );
+
+		$writer->save('php://output');
+		exit;
 	}
 }
-
 $AF_Export = new AF_Export();
