@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResultsShow extends AF_ResultHandler
+class AF_ResultsList extends AF_ResultHandler
 {
 	/**
 	 * Constructor
@@ -43,17 +43,12 @@ class AF_ResultsShow extends AF_ResultHandler
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
 
 		$this->settings_fields = array(
-			'invitations'        => array(
+			'invitations' => array(
 				'title'       => esc_attr( 'Test1', 'af-locale' ),
 				'description' => esc_attr( 'Test XXX1', 'af-locale' ),
 				'type'        => 'text'
 			),
 		);
-	}
-
-	public function option_content()
-	{
-		return 'Results are coming up!';
 	}
 
 	/**
@@ -62,7 +57,9 @@ class AF_ResultsShow extends AF_ResultHandler
 	public static function enqueue_admin_scripts()
 	{
 		if( !af_is_formbuilder() )
+		{
 			return;
+		}
 	}
 
 	/**
@@ -71,5 +68,59 @@ class AF_ResultsShow extends AF_ResultHandler
 	public static function enqueue_admin_styles()
 	{
 	}
+
+	public function option_content()
+	{
+		global $post;
+
+		$form_id = $post->ID;
+
+		$form_results = new AF_Form_Results( $form_id );
+		$results = $form_results->results();
+
+		$html = '<div id="af-result-list">';
+
+		if( $form_results->count() > 0 )
+		{
+
+			$html .= '<table class="widefat">';
+			$html .= '<thead>';
+			$html .= '<tr>';
+
+			foreach( array_keys( $results[ 0 ] ) AS $headline )
+			{
+				$html .= '<th nowrap>' . $headline . '</th>';
+			}
+
+			$html .= '</tr>';
+			$html .= '</thead>';
+
+			$html .= '<tbody>';
+
+			foreach( $results AS $result )
+			{
+				$html .= '<tr>';
+				foreach( array_keys( $results[ 0 ] ) AS $headline )
+				{
+					$html .= '<td>';
+					$html .= $result[ $headline ];
+					$html .= '</td>';
+				}
+				$html .= '</tr>';
+			}
+			$html .= '</tbody>';
+
+			$html .= '</table>';
+		}
+		else
+		{
+			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
 }
-af_register_result_handler( 'AF_ResultsShow' );
+
+af_register_result_handler( 'AF_ResultsList' );

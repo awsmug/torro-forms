@@ -242,6 +242,14 @@
 }
 
 /**
+ * Result / List
+ */
+#af-result-list
+{
+    overflow: scroll;
+}
+
+/**
  * Form functions
  */
 #form-functions{
