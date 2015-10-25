@@ -94,7 +94,7 @@ class AF_Form_Results
 	 */
 	public function results( $filter = array() )
 	{
-		global $wpdb;
+		global $wpdb, $af_global;
 
 		$filter = wp_parse_args( $filter, array(
 			'start_row'       => 0,
@@ -114,6 +114,14 @@ class AF_Form_Results
 
 		if( count( $form_elements ) == 0 )
 		{
+			return FALSE;
+		}
+
+		$sql_count = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
+
+		if( 0 == $wpdb->get_var( $sql_count) )
+		{
+			$this->num_rows = 0;
 			return FALSE;
 		}
 

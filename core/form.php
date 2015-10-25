@@ -417,7 +417,6 @@ class AF_Form extends AF_Post
 	 */
 	public function delete()
 	{
-
 		global $wpdb, $af_global;
 
 		/**
