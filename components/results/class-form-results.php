@@ -246,7 +246,7 @@ class AF_Form_Results
 		$column_index = 3;
 		foreach( $elements AS $element )
 		{
-			if( NULL != $params[ 'element_ids' ] && is_array( $params[ 'element_ids' ] ))
+			if( NULL != $params[ 'element_ids' ] && is_array( $params[ 'element_ids' ] ) )
 			{
 				if( !in_array( $element->id, $params[ 'element_ids' ] ) )
 				{
@@ -256,7 +256,7 @@ class AF_Form_Results
 
 			$element_obj = af_get_element( $element->id );
 
-			switch( $params[ 'column_name' ] )
+			switch ( $params[ 'column_name' ] )
 			{
 				case 'element_id':
 					$column_name = 'element_' . $element->id;
@@ -268,8 +268,11 @@ class AF_Form_Results
 
 			if( !$element_obj->answer_is_multiple )
 			{
-				$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
-				$column_titles[ $column_index++ ] = $column_name ;
+				if( '' != $column_name )
+				{
+					$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
+					$column_titles[ $column_index++ ] = $column_name;
+				}
 			}
 			else
 			{
@@ -279,18 +282,21 @@ class AF_Form_Results
 				{
 					$answer = (object) $answer;
 
-					switch( $params[ 'column_name' ] )
+					switch ( $params[ 'column_name' ] )
 					{
 						case 'element_id':
-							$column_name = 'element_' . $element->id  . '_' . $i++;
+							$column_name = 'element_' . $element->id . '_' . $i++;
 							break;
 						default:
 							$column_name = $element->label . ' - ' . $answer->text;
 							break;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
-					$column_titles[ $column_index++ ] = $column_name;
+					if( '' != $column_name )
+					{
+						$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
+						$column_titles[ $column_index++ ] = $column_name;
+					}
 				}
 			}
 		}
@@ -306,8 +312,12 @@ class AF_Form_Results
 		/**
 		 * Creating Result SQL
 		 */
-		$sql_columns = implode( ', ', $sql_columns );
-		$sql_result = "SELECT id AS result_id, user_id, timestamp, {$sql_columns} FROM {$af_global->tables->results} AS row WHERE form_id=%d";
+		$sql_columns_string = '';
+		if( count( $sql_columns ) > 0 )
+		{
+			$sql_columns_string = ', ' . implode( ', ', $sql_columns );
+		}
+		$sql_result = "SELECT id AS result_id, user_id, timestamp{$sql_columns_string} FROM {$af_global->tables->results} AS row WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
 
 		/**

@@ -67,7 +67,7 @@ class AF_Export
 
 		if( 0 == $results->count() )
 		{
-			$actions[ 'no_export' ] = sprintf( __( 'There are no results to export!', 'af-locale' ) );
+			$actions[ 'no_export' ] = sprintf( __( 'There are no results to export', 'af-locale' ) );
 		}
 		else
 		{
