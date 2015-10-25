@@ -189,6 +189,7 @@
  */
 .post-type-questions .postbox .inside{
     padding:0;
+    margin: 0;
 }
 .post-type-questions .postbox .inside > div{
     margin: 10px;
@@ -198,8 +199,8 @@
 }
 .post-type-questions .postbox .inside div.section {
     border-bottom: 1px solid #dfdfdf;
-    padding: 1% 2% 2%;
-    width: 96%;
+    padding: 1.5%;
+    width: 97%;
     margin:0;
 }
 

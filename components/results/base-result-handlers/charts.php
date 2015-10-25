@@ -86,7 +86,7 @@ class AF_ResultCharts extends AF_ResultHandler
 		$html .= '<tr>';
 		$html .= '<td><label for="show_results">' . esc_attr__( 'After finish Form:', 'af-locale' ) . '</label></td>';
 		$html .= '<td>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . '<br /> ';
+		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . ' ';
 		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'Do not Show Charts' ) . '';
 		$html .= '</td>';
 		$html .= '</tr>';
