@@ -106,6 +106,7 @@ class AF_Form_Results
 			'orderby'     => NULL,
 			'order'       => NULL,
 			'column_name' => 'label', // label, element_id
+		    'refresh_view' => TRUE
 		) );
 
 		$view_name = "{$wpdb->prefix}af_results_{$this->form_id}_view";
@@ -116,7 +117,10 @@ class AF_Form_Results
 			'column_name' => $filter[ 'column_name' ]
 		);
 
-		$column_titles = $this->create_view( $params );
+		if( TRUE == $filter[ 'refresh_view' ])
+		{
+			$column_titles = $this->create_view( $params );
+		}
 
 		if( FALSE == $column_titles )
 		{
