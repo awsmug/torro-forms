@@ -1,141 +1,184 @@
 <?php
 /**
- * Showing Charts with charts.js
+ * Charts abstraction class
  *
- * This class shows charts by charts.js
+ * Motherclass for chart creation
  *
- * @author awesome.ug, Author <support@awesome.ug>
+ * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
  * @version 1.0.0
- * @since 1.0.0
+ * @since   1.0.0
  * @license GPL 2
-
-Copyright 2015 awesome.ug (support@awesome.ug)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License, version 2, as
-published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
+ *
+ * Copyright 2015 awesome.ug (support@awesome.ug)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if ( !defined( 'ABSPATH' ) ) exit;
+if( !defined( 'ABSPATH' ) )
+{
+    exit;
+}
 
-class AF_ChartCreator_Dimple extends AF_ChartCreator{
+abstract class AF_ChartCreator
+{
+
     /**
-     * Initializes the Component.
+     * Title of ChartCreator which will be shown in admin
+     *
      * @since 1.0.0
      */
-    public function __construct() {
-        parent::__construct(
-            'Dimple chart creator',
-            'Creates charts with D3 Dimple library',
-            'dimple'
+    var $title;
+
+    /**
+     * Description of ChartCreator
+     *
+     * @since 1.0.0
+     */
+    var $description;
+
+    /**
+     * Name of ChartCreator
+     *
+     * @since 1.0.0
+     */
+    var $name;
+
+    /**
+     * Control variable if ChartCreator is already initialized
+     *
+     * @since 1.0.0
+     */
+    var $initialized = FALSE;
+
+    /**
+     * Chart Types
+     * @var array
+     * @since 1.0.0
+     */
+    var $chart_types = array();
+
+    /**
+     * Initializing
+     *
+     * @since 1.0.0
+     */
+    public function __construct()
+    {
+        // Standard values
+        $this->name = get_class( $this );
+        $this->title = ucfirst( $this->name );
+        $this->description = esc_attr__( 'This is an Awesome Forms Chart Creator.', 'af-locale' );
+
+        $this->register_chart_type( 'bars', esc_attr( 'Bars', 'af-locale' ), array( $this, 'bars' ) );
+        $this->register_chart_type( 'pies', esc_attr( 'Pies', 'af-locale' ), array( $this, 'pies' ) );
+    }
+
+    abstract function bars( $title, $results, $params = array() );
+
+    abstract function pies( $title, $results, $params = array() );
+
+    /**
+     * Register Chart types
+     *
+     * @param $name
+     * @param $display_name
+     * @param $callback
+     */
+    protected function register_chart_type( $name, $display_name, $callback )
+    {
+        $this->chart_types[] = array(
+            'name' => $name,
+            'display_name' => $display_name,
+            'callback' =>$callback
         );
     }
 
     /**
-     * Showing bars
-     * @param string $title Title
-     * @param array $answers
-     * @param array $attr
-     * @return mixed
+     * Function to register Charts creation module
+     *
+     * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+     * @since 1.0.0
      */
-    public static function show_bars( $title, $answers, $attr = array() ){
-        $atts = array();
+    public function _register()
+    {
 
-        $defaults = array(
-            'id' => 'dimple' . md5( rand() ),
-            'width' => '100%',
-            'height' => '100%',
-            'title_tag' => 'h3',
-        );
-        $atts = wp_parse_args( $defaults, $atts );
+        global $af_global;
 
-        $id = $atts[ 'id' ];
-        $width = $atts[ 'width' ];
-        $height = $atts[ 'height' ];
-
-        $answer_text = __( 'Answers', 'af-locale' );
-        $value_text = __( 'Votes', 'af-locale' );
-
-        $data = self::prepare_data( $answers, $answer_text, $value_text );
-
-        $js = 'var svg = dimple.newSvg("#' . $id . '", "' . $width . '", "' . $height . '"  ), data = [ ' . $data . ' ], chart=null, x=null;';
-        $js.= 'chart = new dimple.chart( svg, data );';
-
-        $js.= 'x = chart.addCategoryAxis("x", "' . $answer_text . '");';
-        $js.= 'y = chart.addMeasureAxis("y", "' . $value_text . '");';
-
-        $js.= 'x.fontSize = "0.8em";';
-        $js.= 'y.fontSize = "0.8em";';
-
-        $js.= 'y.showGridlines = false;';
-        $js.= 'y.ticks = 5;';
-
-        $js.= 'var series = chart.addSeries([ "' . $value_text . '", "'  . $answer_text . '" ], dimple.plot.bar);';
-
-        // Adding order rule
-        $bar_titles = array_keys( $answers );
-        foreach( $bar_titles AS $key => $bar_title ){
-            $bar_titles[ $key ] = '"' . $bar_title . '"';
+        if( TRUE == $this->initialized )
+        {
+            return FALSE;
         }
-        $bar_titles = implode(',', $bar_titles );
-        $js.= 'x.addOrderRule([' . $bar_titles . ']);';
 
-        $js.= 'chart.draw();';
+        if( !is_object( $af_global ) )
+        {
+            return FALSE;
+        }
 
-        // Autosize charts
-        $js.= 'jQuery( function ($) { ';
-        $js.= 'var gcontainer = $( "#' . $id . ' g" );';
-        $js.= 'var grect = gcontainer[0].getBoundingClientRect();';
-        $js.= '$( "#' . $id . ' svg" ).height( grect.height + 15 );';
-        $js.= '});';
+        if( '' == $this->name )
+        {
+            $this->name = get_class( $this );
+        }
 
-        // Drawing HTML Containers
-        $html = '<div id="' . $id . '" class="af-dimplechart">';
-        $html.= '<' . $atts[ 'title_tag' ] . '>' . $title . '</' . $atts[ 'title_tag' ] . '>';
-        $html.= '<script type="text/javascript">';
-        $html.= $js;
-        $html.= '</script>';
-        $html.= '<div style="clear:both;"></div></div>';
+        if( '' == $this->title )
+        {
+            $this->title = ucwords( get_class( $this ) );
+        }
 
-        return $html;
+        if( '' == $this->description )
+        {
+            $this->description = esc_attr__( 'This is a Awesome Forms Form Element.', 'af-locale' );
+        }
+
+        if( array_key_exists( $this->name, $af_global->chart_creators ) )
+        {
+            return FALSE;
+        }
+
+        if( !is_array( $af_global->element_types ) )
+        {
+            $af_global->element_types = array();
+        }
+
+        $this->initialized = TRUE;
+
+        return $af_global->add_chartscreator( $this->name, $this );
     }
 
     /**
-     * Preparing data for Dimple
-     * @param $answers
-     * @param $answer_text
-     * @param $value_text
-     * @return string
+     * Function to register library files
      */
-    private static function prepare_data( $answers, $answer_text, $value_text ){
-        $rows = array();
-
-        foreach( $answers AS $label => $value ):
-            $rows[] = '{"' . $answer_text . '" : "' . $label . '", "' . $value_text . '" : ' . $value. '}';
-        endforeach;
-
-        $data = implode( ',', $rows );
-
-        return $data;
-    }
-
-    /**
-     * Loading Scripts
-     */
-    public function load_scripts(){
-        wp_enqueue_script( 'af-d3-js',  AF_URLPATH . '/components/results/dimple/lib/d3.min.js' );
-        wp_enqueue_script( 'af-dimple-js',  AF_URLPATH . '/components/results/dimple/lib/dimple.v2.1.2.min.js' );
+    public function load_scripts()
+    {
     }
 }
-af_register_chartcreator( 'AF_ChartCreator_Dimple' );
+
+/**
+ * Register a new Chart creator
+ *
+ * @param $element_type_class name of the element type class.
+ *
+ * @return bool|null Returns false on failure, otherwise null.
+ */
+function af_register_chartcreator( $chart_creator_class )
+{
+    if( class_exists( $chart_creator_class ) )
+    {
+        $chart_creator = new $chart_creator_class();
+
+        return $chart_creator->_register();
+    }
+
+    return FALSE;
+}

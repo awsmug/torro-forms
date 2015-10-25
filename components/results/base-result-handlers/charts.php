@@ -44,7 +44,7 @@ class AF_ResultCharts extends AF_ResultHandler
 		add_action( 'form_results_content_bottom', array( $this, 'show_results_after_submitting_fields' ), 10 );
 
 		$this->settings_fields = array(
-			'invitations'        => array(
+			'invitations' => array(
 				'title'       => esc_attr( 'Test', 'af-locale' ),
 				'description' => esc_attr( 'Test XXX', 'af-locale' ),
 				'type'        => 'text'
@@ -52,9 +52,77 @@ class AF_ResultCharts extends AF_ResultHandler
 		);
 	}
 
+	/**
+	 * Enqueue admin scripts
+	 */
+	public static function enqueue_admin_scripts()
+	{
+		if( !af_is_formbuilder() )
+		{
+			return;
+		}
+	}
+
+	/**
+	 * Enqueue admin styles
+	 */
+	public static function enqueue_admin_styles()
+	{
+	}
+
 	public function option_content()
 	{
-		return 'Charts are coming up!';
+		global $post;
+
+		$form_id = $post->ID;
+
+		$form_results = new AF_Form_Results( $form_id );
+		$results = $form_results->results();
+
+		if( $form_results->count() > 0 )
+		{
+			$results = $this->format_results_by_element( $results );
+		}
+		else
+		{
+			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
+		}
+
+		$html = '';
+
+		return $html;
+	}
+
+	/**
+	 * Formating Results for Charting
+	 *
+	 * @param array $results
+	 * @return array $results_formatted
+	 * @since 1.0.0
+	 */
+	public function format_results_by_element( $results )
+	{
+		if( !is_array( $results ) )
+		{
+			return FALSE;
+		}
+
+		$headlines = array_keys( $results[ 0 ] );
+		$results_formatted = array();
+
+		p( $headlines );
+		p( $results );
+
+		foreach( $headlines AS $headline )
+		{
+			foreach( $results AS $result )
+			{
+
+			}
+			$results_formatted[ $headline ] = '';
+		}
+
+		return $results_formatted;
 	}
 
 	public function show_results_after_submitting_fields()
@@ -95,21 +163,6 @@ class AF_ResultCharts extends AF_ResultHandler
 
 		echo $html;
 	}
-
-	/**
-	 * Enqueue admin scripts
-	 */
-	public static function enqueue_admin_scripts()
-	{
-		if( !af_is_formbuilder() )
-			return;
-	}
-
-	/**
-	 * Enqueue admin styles
-	 */
-	public static function enqueue_admin_styles()
-	{
-	}
 }
+
 af_register_result_handler( 'AF_ResultCharts' );

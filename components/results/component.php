@@ -50,6 +50,7 @@ class AF_ResultsComponent extends AF_Component
 
 		// Loading abstract Classes
 		require_once( $folder . 'abstract/class-result-handler.php' );
+		require_once( $folder . 'abstract/class-chart-creator.php' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -67,8 +68,7 @@ class AF_ResultsComponent extends AF_Component
 		require_once( $folder . 'base-result-handlers/charts.php' );
 
 		// Charts API
-		// require_once( $folder . 'abstract/class-chart-creator.php' );
-		// require_once( $folder . 'dimple/chart-creator.php' );
+		require_once( $folder . 'base-result-handlers/charts-dimple.php' );
 	}
 }
 
