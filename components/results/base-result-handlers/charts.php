@@ -96,7 +96,15 @@ class AF_ResultCharts extends AF_ResultHandler
 				$chart_creator = new $chart_creator();
 				$chart_type = 'bars';
 
-				$html .= $chart_creator->$chart_type( $element->label, $element_result );
+				if( !$element->answer_is_multiple ){
+					$label = $element->label;
+				}
+				else
+				{
+					$label = $element->label . ' - ' . $element->answers[ $headline_arr[ 2 ] ][ 'text' ];
+				}
+
+				$html .= $chart_creator->$chart_type( $label, $element_result );
 			}
 		}
 		else
