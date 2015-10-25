@@ -93,7 +93,7 @@ class AF_Export
 			$form_results = new AF_Form_Results( $form_id );
 
 			$filename = sanitize_title( $form->title );
-			$results = $form_results->results();
+			$results = $form_results->results( array( 'column_name' => 'label' ) );
 
 			do_action( 'af_export', $form_id, $filename );
 

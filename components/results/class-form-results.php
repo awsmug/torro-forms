@@ -105,7 +105,7 @@ class AF_Form_Results
 			'filter'      => NULL,
 			'orderby'     => NULL,
 			'order'       => NULL,
-			'column_name' => 'label', // label, element_id
+			'column_name' => 'element_id', // label, element_id
 		    'refresh_view' => TRUE
 		) );
 
@@ -242,7 +242,7 @@ class AF_Form_Results
 		$params = wp_parse_args( $params, array(
 			'view_name'   => "{$wpdb->prefix}af_results_{$this->form_id}_view",
 			'element_ids' => NULL,
-			'column_name' => 'label', // label, element_id
+			'column_name' => 'element_id', // label, element_id
 		) );
 
 		/**
@@ -320,7 +320,7 @@ class AF_Form_Results
 					switch ( $params[ 'column_name' ] )
 					{
 						case 'element_id':
-							$column_name = 'element_' . $element->id . '_' . $i++;
+							$column_name = 'element_' . $element->id . '_' . $answer->id;
 							break;
 						default:
 							$column_name = $element->label . ' - ' . $answer->text;

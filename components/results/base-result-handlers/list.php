@@ -76,7 +76,7 @@ class AF_ResultsList extends AF_ResultHandler
 		$form_id = $post->ID;
 
 		$form_results = new AF_Form_Results( $form_id );
-		$results = $form_results->results();
+		$results = $form_results->results( array( 'column_name' => 'label' ) );
 
 		$html = '<div id="af-result-list">';
 
