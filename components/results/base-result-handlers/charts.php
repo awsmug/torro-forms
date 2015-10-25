@@ -164,7 +164,7 @@ class AF_ResultCharts extends AF_ResultHandler
 						else
 						{
 
-							$results_formatted[ $headline ][ $result[ $headline ] ] = 0;
+							$results_formatted[ $headline ][ $result[ $headline ] ] = 1;
 						}
 					}
 					else
@@ -176,7 +176,7 @@ class AF_ResultCharts extends AF_ResultHandler
 						else
 						{
 
-							$results_formatted[ $headline ][ $result[ $headline ] ] = 0;
+							$results_formatted[ $headline ][ $result[ $headline ] ] = 1;
 						}
 					}
 				}
