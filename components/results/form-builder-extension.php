@@ -78,9 +78,8 @@ class AF_FormBuilder_ChartsExtension
 	 */
 	public static function meta_box_results()
 	{
-		global $post, $af_global;
+		global $af_global;
 
-		$form_id = $post->ID;
 		$result_handlers = $af_global->result_handlers;
 
 		if( !is_array( $result_handlers ) || count( $result_handlers ) == 0 ){
@@ -109,38 +108,9 @@ class AF_FormBuilder_ChartsExtension
 
 		$html .= '</div>';
 
-		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
-
-		if( '' == $show_results )
-		{
-			$show_results = 'no';
-		}
-
-		$checked_no = '';
-		$checked_yes = '';
-
-		if( 'no' == $show_results )
-		{
-			$checked_no = ' checked="checked"';
-		}
-		else
-		{
-			$checked_yes = ' checked="checked"';
-		}
-
-		$html .= '<div class="form-options section general-settings">';
-		$html .= '<table>';
-		$html .= '<tr>';
-		$html .= '<td><label for="show_results">' . esc_attr__( 'After finish Form:', 'af-locale' ) . '</label></td>';
-		$html .= '<td>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . '<br /> ';
-		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'Do not Show Charts' ) . '';
-		$html .= '</td>';
-		$html .= '</tr>';
-		$html .= '</table>';
-		$html .= '</div>';
-
-		$html .= do_shortcode( '[form_results id="' . $form_id . '"]' );
+		ob_start();
+		do_action( 'form_results_content_bottom' );
+		$html .= ob_get_clean();
 
 		echo $html;
 	}

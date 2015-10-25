@@ -45,6 +45,7 @@ class AF_ResultCharts extends AF_ResultHandler
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
+		add_action( 'form_results_content_bottom', array( $this, 'show_results_after_submitting_fields' ), 10 );
 
 		$this->settings_fields = array(
 			'invitations'        => array(
@@ -58,6 +59,45 @@ class AF_ResultCharts extends AF_ResultHandler
 	public function option_content()
 	{
 		return 'Charts are coming up!';
+	}
+
+	public function show_results_after_submitting_fields()
+	{
+		global $post;
+
+		$form_id = $post->ID;
+		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
+
+		if( '' == $show_results )
+		{
+			$show_results = 'no';
+		}
+
+		$checked_no = '';
+		$checked_yes = '';
+
+		if( 'no' == $show_results )
+		{
+			$checked_no = ' checked="checked"';
+		}
+		else
+		{
+			$checked_yes = ' checked="checked"';
+		}
+
+		$html = '<div class="form-options section general-settings">';
+		$html .= '<table>';
+		$html .= '<tr>';
+		$html .= '<td><label for="show_results">' . esc_attr__( 'After finish Form:', 'af-locale' ) . '</label></td>';
+		$html .= '<td>';
+		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . '<br /> ';
+		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'Do not Show Charts' ) . '';
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
+		$html .= '</div>';
+
+		echo $html;
 	}
 
 	/**
