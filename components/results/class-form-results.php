@@ -50,6 +50,14 @@ class AF_Form_Results
 	protected $results;
 
 	/**
+	 * Count
+	 *
+	 * @var int $num_rows
+	 * @since 1.0.0
+	 */
+	protected $num_rows;
+
+	/**
 	 * Contaims Column Names and SQL added by User
 	 *
 	 * @var array $added_columns
@@ -172,7 +180,27 @@ class AF_Form_Results
 		$sql_string = $wpdb->prepare( $sql_filter, $sql_filter_values );
 		$results = $wpdb->get_results( $sql_string, ARRAY_A );
 
+		if( FALSE == $results )
+		{
+			return FALSE;
+		}
+
+		$this->num_rows = $wpdb->num_rows;
+
 		return $results;
+	}
+
+	/**
+	 * Counting Results
+	 *
+	 * Count results after getting results by results() function
+	 *
+	 * @return int $num_rows
+	 * @since 1.0.0
+	 */
+	public function count()
+	{
+		return $this->num_rows;
 	}
 
 	/**

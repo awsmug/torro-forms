@@ -72,6 +72,5 @@ class AF_ResultsTests extends PHPUnit_Framework_TestCase
 		$results = $af_results->results();
 
 		$this->assertArrayHasKey( 'username', $results[ 0 ] );
-
 	}
 }
