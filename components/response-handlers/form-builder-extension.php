@@ -89,7 +89,7 @@ class AF_FormBuilder_ResponseHandlerExtension
 			return;
 		}
 
-		$html = '<div id="form-response-handlers-tabs" class="form_element_tabs">';
+		$html = '<div id="form-response-handlers-tabs" class="section form_element_tabs">';
 
 			$html.= '<ul>';
 			foreach( $response_handlers AS $response_handler ){

@@ -62,6 +62,7 @@
     padding: 0 5px;
     border-bottom: 1px solid #CCC;
     height:29px;
+    margin: 0 0 10px;
 }
 .form_element_tabs > ul > li {
     float: left;
@@ -180,6 +181,25 @@
 }
 
 /**
+ * Postbox
+ */
+.post-type-questions .postbox .inside{
+    padding:0;
+}
+.post-type-questions .postbox .inside > div{
+    margin: 10px;
+}
+.post-type-questions .postbox .inside .general-settings {
+    background: #f8f8f8 none repeat scroll 0 0;
+}
+.post-type-questions .postbox .inside div.section {
+    border-bottom: 1px solid #dfdfdf;
+    padding: 1% 2% 2%;
+    width: 96%;
+    margin:0;
+}
+
+/**
  * Templatetag Button
  */
 .af-templatetag-button{
@@ -276,8 +296,6 @@
     border: 1px solid #CCC;
     margin: 0 10px 10px 10px;
 }
-
-
 
 /**
  * jQuery ui

@@ -99,6 +99,7 @@ class AF_FormBuilder_RestrictionsExtension
 		do_action( 'form_restrictions_content_top' );
 		$html = ob_get_clean();
 
+		$html .= '<div class="section">';
 		$html .= '<div id="form-restrictions-options">';
 		$html .= '<label for"form_restrictions_option">' . esc_attr( 'Who has access to this form?', 'af-locale' ) . '';
 		$html .= '<select name="form_restrictions_option" id="form-restrictions-option">';
@@ -130,6 +131,8 @@ class AF_FormBuilder_RestrictionsExtension
 			}
 			$html .= '<div id="form-restrictions-content-' . $restriction->name . '" class="form-restrictions-content form-restrictions-content-' . $restriction->name . '">' . $option_content . '</div>';
 		}
+
+		$html.= '</div>';
 
 		ob_start();
 		do_action( 'form_restrictions_content_bottom' );

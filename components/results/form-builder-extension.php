@@ -87,7 +87,7 @@ class AF_FormBuilder_ChartsExtension
 			return;
 		}
 
-		$html = '<div id="form-result-handlers-tabs" class="form_element_tabs">';
+		$html = '<div id="form-result-handlers-tabs" class="section form_element_tabs">';
 
 		$html.= '<ul>';
 		foreach( $result_handlers AS $result_handler ){
@@ -128,7 +128,7 @@ class AF_FormBuilder_ChartsExtension
 			$checked_yes = ' checked="checked"';
 		}
 
-		$html .= '<div class="form-options">';
+		$html .= '<div class="form-options section general-settings">';
 		$html .= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'af-locale' ) . '</label></p>';
 		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
 		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';
