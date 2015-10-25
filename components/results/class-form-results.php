@@ -109,6 +109,14 @@ class AF_Form_Results
 		    'refresh_view' => TRUE
 		) );
 
+		$form = new AF_Form( $this->form_id );
+		$form_elements = $form->get_elements();
+
+		if( count( $form_elements ) == 0 )
+		{
+			return FALSE;
+		}
+
 		$view_name = "{$wpdb->prefix}af_results_{$this->form_id}_view";
 
 		$params = array(
@@ -243,6 +251,8 @@ class AF_Form_Results
 		 */
 		$sql_columns = array();
 		$column_titles = array( 'id', 'label' );
+		$column_titles_assigned = array();
+
 		$column_index = 3;
 		foreach( $elements AS $element )
 		{
@@ -255,6 +265,11 @@ class AF_Form_Results
 			}
 
 			$element_obj = af_get_element( $element->id );
+
+			if( FALSE == $element_obj )
+			{
+				continue;
+			}
 
 			switch ( $params[ 'column_name' ] )
 			{
@@ -270,6 +285,18 @@ class AF_Form_Results
 			{
 				if( '' != $column_name )
 				{
+					// Preventing double assigned Column title
+					if( array_key_exists( $column_name, $column_titles_assigned ) )
+					{
+						$column_titles_assigned[ $column_name ]++;
+						$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
+					}
+					else
+					{
+						$column_titles_assigned[ $column_name ] = 1;
+						$column_name = $column_name;
+					}
+
 					$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
@@ -294,6 +321,18 @@ class AF_Form_Results
 
 					if( '' != $column_name )
 					{
+						// Preventing double assigned Column title
+						if( array_key_exists( $column_name, $column_titles_assigned ) )
+						{
+							$column_titles_assigned[ $column_name ]++;
+							$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
+						}
+						else
+						{
+							$column_titles_assigned[ $column_name ] = 1;
+							$column_name = $column_name;
+						}
+
 						$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
 						$column_titles[ $column_index++ ] = $column_name;
 					}
@@ -303,10 +342,23 @@ class AF_Form_Results
 		// Adding columns aded by 'add_column' function
 		foreach( $this->added_columns AS $column )
 		{
-			$added_column_sql = "({$column[ 'sql' ]}) AS {$column[ 'name' ]}";
+			$column_name = $column[ 'name' ];
 
+			// Preventing double assigned Column title
+			if( array_key_exists( $column_name, $column_titles_assigned ) )
+			{
+				$column_titles_assigned[ $column_name ]++;
+				$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
+			}
+			else
+			{
+				$column_titles_assigned[ $column_name ] = 1;
+				$column_name = $column_name;
+			}
+
+			$added_column_sql = "({$column[ 'sql' ]}) AS {$column_name}";
 			$sql_columns[] = $added_column_sql;
-			$column_titles[ $column_index++ ] = $column[ 'name' ];
+			$column_titles[ $column_index++ ] = $column_name;
 		}
 
 		/**
