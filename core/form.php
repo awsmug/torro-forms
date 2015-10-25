@@ -472,7 +472,7 @@ class AF_Form extends AF_Post
 			endforeach;
 		endif;
 
-		return $wpdb->delete( $af_global->tables->responds, array( 'form_id' => $this->id ) );
+		return $wpdb->delete( $af_global->tables->results, array( 'form_id' => $this->id ) );
 	}
 }
 
