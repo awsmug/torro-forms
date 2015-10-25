@@ -50,12 +50,12 @@ class AF_Form_Results
 	protected $results;
 
 	/**
-	 * Counted Results
+	 * Contaims Column Names and SQL added by User
 	 *
-	 * @var int $count
+	 * @var array $added_columns
 	 * @since 1.0.0
 	 */
-	protected $count;
+	protected $added_columns = array();
 
 	/**
 	 * Initializes the Class.
@@ -72,28 +72,8 @@ class AF_Form_Results
 		}
 
 		$this->form_id = $form_id;
-		$this->count_results();
 
 		return TRUE;
-	}
-
-	/**
-	 * Counting Results
-	 *
-	 * @return null|string
-	 * @since 1.0.0
-	 */
-	public function count_results()
-	{
-		global $wpdb, $af_global;
-
-		if( '' === $this->count )
-		{
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results}" );
-			$this->count = $wpdb->get_var( $sql );
-		}
-
-		return $this->count;
 	}
 
 	/**
@@ -104,7 +84,7 @@ class AF_Form_Results
 	 * @return array $responses
 	 * @since 1.0.0
 	 */
-	public function get_results( $filter = array() )
+	public function results( $filter = array() )
 	{
 		global $wpdb;
 
@@ -128,7 +108,7 @@ class AF_Form_Results
 			'column_name' => $filter[ 'column_name' ]
 		);
 
-		$column_titles = $this->create_result_view( $params );
+		$column_titles = $this->create_view( $params );
 
 		if( FALSE == $column_titles )
 		{
@@ -203,7 +183,7 @@ class AF_Form_Results
 	 * @return array $column_titles
 	 * @since 1.0.0
 	 */
-	public function create_result_view( $params = array() )
+	public function create_view( $params = array() )
 	{
 		global $wpdb, $af_global;
 
@@ -252,7 +232,7 @@ class AF_Form_Results
 
 			if( !$element_obj->answer_is_multiple )
 			{
-				$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d) AS '%s'", $element->id, $column_name );
+				$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
 				$column_titles[ $column_index++ ] = $column_name ;
 			}
 			else
@@ -273,19 +253,25 @@ class AF_Form_Results
 							break;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=r.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			}
 		}
-		// Making additional columns possible
-		$sql_columns = apply_filters( 'af_view_columns_sql', $sql_columns );
+		// Adding columns aded by 'add_column' function
+		foreach( $this->added_columns AS $column )
+		{
+			$added_column_sql = "({$column[ 'sql' ]}) AS {$column[ 'name' ]}";
+
+			$sql_columns[] = $added_column_sql;
+			$column_titles[ $column_index++ ] = $column[ 'name' ];
+		}
 
 		/**
 		 * Creating Result SQL
 		 */
 		$sql_columns = implode( ', ', $sql_columns );
-		$sql_result = "SELECT id AS result_id, user_id, timestamp, {$sql_columns} FROM {$af_global->tables->results} AS r WHERE form_id=%d";
+		$sql_result = "SELECT id AS result_id, user_id, timestamp, {$sql_columns} FROM {$af_global->tables->results} AS row WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
 
 		/**
@@ -298,7 +284,9 @@ class AF_Form_Results
 		$sql_view = "CREATE VIEW {$view_name} AS {$sql_result}";
 		$sql_view = $wpdb->prepare( $sql_view, $sql_result_values );
 
-		if( FALSE == $wpdb->query( $sql_view ) )
+		$result = $wpdb->query( $sql_view );
+
+		if( FALSE == $result )
 		{
 			return FALSE;
 		}
@@ -307,12 +295,39 @@ class AF_Form_Results
 	}
 
 	/**
+	 * Adding column to Result View
+	 *
+	 * Add individual columns by adding a Column name and SQL. The SQL is legal if it returns exactly one result for the
+	 * current dataset. Also there are SQL variables which can be handled in the SQL statement:
+	 *
+	 *  - row.result_id
+	 *  - row.user_id
+	 *  - row.timestamp
+	 *
+	 * Example for adding a User Name column:
+	 *
+	 *  $results = new AF_Form_Results( 5944 );
+	 *  $af_results->add_column( 'username', "SELECT user_login FROM {$wpdb->prefix}users WHERE ID=row.user_id" );
+	 *  $results = $af_results->results();
+	 *
+	 * @param string $column_name The Column name will be created in the Result View
+	 * @param string $sql         The SQL statement for getting new field in row
+	 */
+	public function add_column( $column_name, $sql )
+	{
+		$this->added_columns[] = array(
+			'name' => esc_sql( $column_name ),
+			'sql'  => $sql
+		);
+	}
+
+	/**
 	 * Get all saved results of an element
 	 *
 	 * @return mixed $responses The results as array or NULL if there are no results
 	 * @since 1.0.0
 	 */
-	public function get_element_results( $element_id, $filter = array() )
+	public function element( $element_id, $filter = array() )
 	{
 		$filter = wp_parse_args( $filter, array(
 			'start_row'       => 0,
@@ -327,38 +342,8 @@ class AF_Form_Results
 
 		$filter[ 'element_ids' ] = array( $element_id );
 
-		$results = $this->get_results( $filter );
+		$results = $this->results( $filter );
 
 		return $results;
-	}
-
-	/**
-	 * Gettiung all user names of a Form
-	 *
-	 * @return array $responses All user names formatted for response array
-	 * @since 1.0.0
-	 */
-	public function get_response_user_names()
-	{
-		global $wpdb, $af_global;
-
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
-		$results = $wpdb->get_results( $sql );
-
-		$responses = array();
-		$responses[ 'label' ] = __( 'Username', 'af-locale' );
-		$responses[ 'sections' ] = FALSE;
-		$responses[ 'array' ] = FALSE;
-		$responses[ 'responses' ] = array();
-
-		// Putting results in array
-		if( is_array( $results ) ):
-			foreach( $results AS $result ):
-				$user = get_user_by( 'id', $result->user_id );
-				$responses[ 'responses' ][ $result->id ] = $user->user_login;
-			endforeach;
-		endif;
-
-		return $responses;
 	}
 }
