@@ -83,6 +83,12 @@ abstract class AF_ChartCreator
 
         $this->register_chart_type( 'bars', esc_attr( 'Bars', 'af-locale' ), array( $this, 'bars' ) );
         $this->register_chart_type( 'pies', esc_attr( 'Pies', 'af-locale' ), array( $this, 'pies' ) );
+
+        if( is_admin() ):
+            add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
+        else:
+            add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
+        endif;
     }
 
     abstract function bars( $title, $results, $params = array() );

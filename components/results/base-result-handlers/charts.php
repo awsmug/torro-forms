@@ -78,17 +78,31 @@ class AF_ResultCharts extends AF_ResultHandler
 
 		$form_results = new AF_Form_Results( $form_id );
 		$results = $form_results->results();
+		$html = '';
 
 		if( $form_results->count() > 0 )
 		{
-			$results = $this->format_results_by_element( $results );
+			$element_results = $this->format_results_by_element( $results );
+
+			foreach( $element_results AS $headline => $element_result )
+			{
+				$headline_arr = explode( '_', $headline );
+
+				$element_id = (int) $headline_arr[ 1 ];
+				$element = af_get_element( $element_id );
+
+				$chart_creator = 'AF_ChartCreator_Dimple';
+
+				$chart_creator = new $chart_creator();
+				$chart_type = 'bars';
+
+				$html .= $chart_creator->$chart_type( $element->label, $element_result );
+			}
 		}
 		else
 		{
 			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
 		}
-
-		$html = '';
 
 		return $html;
 	}
@@ -97,6 +111,7 @@ class AF_ResultCharts extends AF_ResultHandler
 	 * Formating Results for Charting
 	 *
 	 * @param array $results
+	 *
 	 * @return array $results_formatted
 	 * @since 1.0.0
 	 */
@@ -110,16 +125,54 @@ class AF_ResultCharts extends AF_ResultHandler
 		$headlines = array_keys( $results[ 0 ] );
 		$results_formatted = array();
 
-		p( $headlines );
-		p( $results );
-
 		foreach( $headlines AS $headline )
 		{
-			foreach( $results AS $result )
-			{
+			$headline_arr = explode( '_', $headline );
+			$headline_type = $headline_arr[ 0 ];
 
+			if( 'element' == $headline_type )
+			{
+				$element_id = (int) $headline_arr[ 1 ];
+				$element = af_get_element( $element_id );
+
+				foreach( $results AS $result )
+				{
+					if( !$element->has_answers )
+					{
+						continue;
+					}
+
+					if( !array_key_exists( $headline, $results_formatted ) )
+					{
+						$results_formatted[ $headline ] = array();
+					}
+
+					if( !$element->answer_is_multiple )
+					{
+						if( array_key_exists( $result[ $headline ], $results_formatted[ $headline ] ) )
+						{
+							$results_formatted[ $headline ][ $result[ $headline ] ]++;
+						}
+						else
+						{
+
+							$results_formatted[ $headline ][ $result[ $headline ] ] = 0;
+						}
+					}
+					else
+					{
+						if( array_key_exists( $result[ $headline ], $results_formatted[ $headline ] ) )
+						{
+							$results_formatted[ $headline ][ $result[ $headline ] ]++;
+						}
+						else
+						{
+
+							$results_formatted[ $headline ][ $result[ $headline ] ] = 0;
+						}
+					}
+				}
 			}
-			$results_formatted[ $headline ] = '';
 		}
 
 		return $results_formatted;

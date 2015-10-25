@@ -43,6 +43,12 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 		$this->name = 'dimple';
 		$this->title = __( 'Dimple', 'af-locale' );
 		$this->description = __( 'Chart creating with dimple.', 'af-locale' );
+
+		if( is_admin() ):
+			add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
+		else:
+			add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
+		endif;
 	}
 
 	/**
@@ -72,7 +78,7 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 		$answer_text = __( 'Answers', 'af-locale' );
 		$value_text = __( 'Votes', 'af-locale' );
 
-		$data = self::prepare_data( $answers, $answer_text, $value_text );
+		$data = self::prepare_data( $results, $answer_text, $value_text );
 
 		$js = 'var svg = dimple.newSvg("#' . $id . '", "' . $width . '", "' . $height . '"  ), data = [ ' . $data . ' ], chart=null, x=null;';
 		$js .= 'chart = new dimple.chart( svg, data );';
@@ -89,7 +95,7 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 		$js .= 'var series = chart.addSeries([ "' . $value_text . '", "' . $answer_text . '" ], dimple.plot.bar);';
 
 		// Adding order rule
-		$bar_titles = array_keys( $answers );
+		$bar_titles = array_keys( $results );
 		foreach( $bar_titles AS $key => $bar_title )
 		{
 			$bar_titles[ $key ] = '"' . $bar_title . '"';
@@ -108,7 +114,7 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 
 		// Drawing HTML Containers
 		$html = '<div id="' . $id . '" class="af-dimplechart">';
-		$html .= '<' . $atts[ 'title_tag' ] . '>' . $title . '</' . $params[ 'title_tag' ] . '>';
+		$html .= '<' . $params[ 'title_tag' ] . '>' . $title . '</' . $params[ 'title_tag' ] . '>';
 		$html .= '<script type="text/javascript">';
 		$html .= $js;
 		$html .= '</script>';
@@ -148,8 +154,11 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 	 */
 	public function load_scripts()
 	{
-		wp_enqueue_script( 'af-d3-js', AF_URLPATH . '/components/results/base-result-handlers/includes/js/d3.min.js' );
-		wp_enqueue_script( 'af-dimple-js', AF_URLPATH . '/components/results/base-result-handlers/includes/js/dimple.v2.1.2.min.js' );
+		$dimple_script_url = AF_URLPATH . 'components/results/base-result-handlers/includes/js/d3.min.js';
+		wp_enqueue_script( 'af-d3', $dimple_script_url );
+
+		$dimple_script_url = AF_URLPATH . 'components/results/base-result-handlers/includes/js/dimple.v2.1.2.min.js';
+		wp_enqueue_script( 'af-dimple-js', $dimple_script_url );
 	}
 }
 
