@@ -62,9 +62,9 @@ class AF_FormBuilder_ChartsExtension
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
-				'form-charts',
-				esc_attr__( 'Charts', 'af-locale' ),
-				array( __CLASS__, 'meta_box_charts' ),
+				'form-results',
+				esc_attr__( 'Results', 'af-locale' ),
+				array( __CLASS__, 'meta_box_results' ),
 				'questions',
 				'normal',
 				'high' );
@@ -76,15 +76,39 @@ class AF_FormBuilder_ChartsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_charts()
+	public static function meta_box_results()
 	{
-		global $post;
+		global $post, $af_global;
 
 		$form_id = $post->ID;
+		$result_handlers = $af_global->result_handlers;
 
-		global $post;
+		if( !is_array( $result_handlers ) || count( $result_handlers ) == 0 ){
+			return;
+		}
 
-		$form_id = $post->ID;
+		$html = '<div id="form-result-handlers-tabs" class="form_element_tabs">';
+
+		$html.= '<ul>';
+		foreach( $result_handlers AS $result_handler ){
+			if( ! $result_handler->has_option() ){
+				continue;
+			}
+			$html .= '<li><a href="#' . $result_handler->name . '">' . $result_handler->title . '</a></option>';
+		}
+		$html .= '</ul>';
+
+		$html .= '<div class="clear"></div>';
+
+		foreach( $result_handlers AS $result_handler ){
+			if( ! $result_handler->has_option() ){
+				continue;
+			}
+			$html .= '<div id="' . $result_handler->name . '">' . $result_handler->option_content . '</div>';
+		}
+
+		$html .= '</div>';
+
 		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
 
 		if( '' == $show_results )
@@ -104,7 +128,7 @@ class AF_FormBuilder_ChartsExtension
 			$checked_yes = ' checked="checked"';
 		}
 
-		$html = '<div class="form-options">';
+		$html .= '<div class="form-options">';
 		$html .= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'af-locale' ) . '</label></p>';
 		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
 		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';

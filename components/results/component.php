@@ -48,19 +48,26 @@ class AF_ResultsComponent extends AF_Component
 	{
 		$folder = AF_COMPONENTFOLDER . 'results/';
 
+		// Loading abstract Classes
+		require_once( $folder . 'abstract/class-result-handler.php' );
+
 		// Loading base functionalities
-		include( $folder . 'form-builder-extension.php' );
-		include( $folder . 'shortcodes.php' );
+		require_once( $folder . 'settings.php' );
+		require_once( $folder . 'form-builder-extension.php' );
+		require_once( $folder . 'shortcodes.php' );
 
 		// Data handling
-		include( $folder . 'export.php' );
+		require_once( $folder . 'export.php' );
 
 		// Results base Class
-		include( $folder . 'class-form-results.php' );
+		require_once( $folder . 'class-form-results.php' );
+
+		// Base Result Handlers
+		require_once( $folder . 'base-result-handlers/charts.php' );
 
 		// Charts API
-		include( $folder . 'abstract/class-chart-creator.php' );
-		include( $folder . 'dimple/chart-creator.php' );
+		// require_once( $folder . 'abstract/class-chart-creator.php' );
+		// require_once( $folder . 'dimple/chart-creator.php' );
 	}
 }
 

@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResponseSettings extends AF_Settings
+class AF_ResultSettings extends AF_Settings
 {
 
 	/**
@@ -37,8 +37,8 @@ class AF_ResponseSettings extends AF_Settings
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Response Handling', 'af-locale' );
-		$this->name = 'responsehandling';
+		$this->title = __( 'Result Handling', 'af-locale' );
+		$this->name = 'resulthandling';
 	}
 
 	/**
@@ -54,4 +54,4 @@ class AF_ResponseSettings extends AF_Settings
 	}
 }
 
-af_register_settings( 'AF_ResponseSettings' );
+af_register_settings( 'AF_ResultSettings' );

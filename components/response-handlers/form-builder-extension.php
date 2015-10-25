@@ -80,7 +80,7 @@ class AF_FormBuilder_ResponseHandlerExtension
 	 */
 	public static function meta_box_response_handlers()
 	{
-		global $wpdb, $post, $af_global;
+		global $post, $af_global;
 
 		$form_id = $post->ID;
 		$response_handlers = $af_global->response_handlers;

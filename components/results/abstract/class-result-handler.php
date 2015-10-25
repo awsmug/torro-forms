@@ -55,6 +55,81 @@ abstract class AF_ResultHandler
 	var $description;
 
 	/**
+	 * Already initialized?
+	 *
+	 * @since 1.0.0
+	 */
+	private $initialized = FALSE;
+
+	/**
+	 * Settings fields
+	 *
+	 * @since 1.0.0
+	 */
+	var $settings_fields = array();
+
+	/**
+	 * Contains the option_content
+	 *
+	 * @since 1.0.0
+	 */
+	public $option_content = '';
+
+	/**
+	 * Content of option in Form builder
+	 *
+	 * @since 1.0.0
+	 */
+	abstract function option_content();
+
+	/**
+	 * Checks if there is an option content
+	 *
+	 * @since 1.0.0
+	 */
+	public function has_option()
+	{
+		if( '' != $this->option_content )
+		{
+			return $this->option_content;
+		}
+
+		$this->option_content = $this->option_content();
+
+		if( FALSE === $this->option_content )
+		{
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * Add Settings to Settings Page
+	 */
+	public function init_settings()
+	{
+		global $af_global;
+
+		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
+		{
+			return FALSE;
+		}
+
+		$headline = array(
+			'headline' => array(
+				'title'       => $this->title,
+				'description' => sprintf( esc_attr( 'Setup the "%s" Result Handler.', 'af-locale' ), $this->title ),
+				'type'        => 'title'
+			)
+		);
+
+		$settings_fields = array_merge( $headline, $this->settings_fields );
+
+		$af_global->settings[ 'resulthandling' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+	}
+
+	/**
 	 * Function to register element in Awesome Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
@@ -106,27 +181,6 @@ abstract class AF_ResultHandler
 		$this->initialized = TRUE;
 
 		return $af_global->add_result_handler( $this->name, $this );
-	}
-
-	/**
-	 * Getting Results
-	 *
-	 * @param int   $form_id
-	 * @param array $filter
-	 */
-	protected function get_results( $form_id, $filter = array() )
-	{
-		$filter = wp_parse_args( $filter, array(
-			'start'       => 0,
-			'end'         => NULL,
-			'element_ids' => NULL,
-			'user_ids'    => NULL,
-			'orderby'     => 'user_id',
-			'order'       => 'ASC'
-		) );
-
-		$results = new AF_Form_Results( $form_id );
-		$results->get_responses();
 	}
 }
 

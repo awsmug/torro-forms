@@ -1,9 +1,11 @@
 <?php
 /**
- * General Settings Tab
+ * Charts Result Handler
+ *
+ * Adds Charts Result Handler
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package AwesomeForms/Results
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,29 +31,49 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResponseSettings extends AF_Settings
+class AF_ResultCharts extends AF_ResultHandler
 {
-
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Response Handling', 'af-locale' );
-		$this->name = 'responsehandling';
+		global $post;
+
+		$this->title = __( 'Charts', 'af-locale' );
+		$this->name = 'charts';
+
+		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
+
+		$this->settings_fields = array(
+			'invitations'        => array(
+				'title'       => esc_attr( 'Test', 'af-locale' ),
+				'description' => esc_attr( 'Test XXX', 'af-locale' ),
+				'type'        => 'text'
+			),
+		);
+	}
+
+	public function option_content()
+	{
+		return 'Charts are coming up!';
 	}
 
 	/**
-	 * Adding Settings to Settings Page dynamical
-	 *
-	 * @param $settings_name
-	 * @param $settings_title
-	 * @param $settings_arr
+	 * Enqueue admin scripts
 	 */
-	public function add_settings_field( $settings_name, $settings_title, $settings_arr )
+	public static function enqueue_admin_scripts()
 	{
-		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
+		if( !af_is_formbuilder() )
+			return;
+	}
+
+	/**
+	 * Enqueue admin styles
+	 */
+	public static function enqueue_admin_styles()
+	{
 	}
 }
-
-af_register_settings( 'AF_ResponseSettings' );
+af_register_result_handler( 'AF_ResultCharts' );

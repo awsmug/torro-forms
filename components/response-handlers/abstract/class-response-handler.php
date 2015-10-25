@@ -53,16 +53,19 @@ abstract class AF_ResponseHandler
 	 * @since 1.0.0
 	 */
 	public $description;
+
 	/**
-	 * Already initialized?
+	 * Settings fields
 	 *
 	 * @since 1.0.0
 	 */
 	var $settings_fields = array();
+
 	/**
 	 * Contains the option_content
 	 */
 	public $option_content = '';
+
 	/**
 	 * Already initialized?
 	 *
