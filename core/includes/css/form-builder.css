@@ -32,6 +32,10 @@
 /**
  * Element
  */
+.formelement .widget-inside
+{
+    padding:15px;
+}
 #form-elements .formelement {
     height: 45px;
     overflow: hidden;

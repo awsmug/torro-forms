@@ -129,9 +129,15 @@ class AF_FormBuilder_ChartsExtension
 		}
 
 		$html .= '<div class="form-options section general-settings">';
-		$html .= '<p><label for="show_results">' . esc_attr__( 'Show results after finishing form:', 'af-locale' ) . '</label></p>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Yes' ) . ' ';
-		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'No' ) . '<br>';
+		$html .= '<table>';
+		$html .= '<tr>';
+		$html .= '<td><label for="show_results">' . esc_attr__( 'After finish Form:', 'af-locale' ) . '</label></td>';
+		$html .= '<td>';
+		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . '<br /> ';
+		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'Do not Show Charts' ) . '';
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
 		$html .= '</div>';
 
 		$html .= do_shortcode( '[form_results id="' . $form_id . '"]' );
