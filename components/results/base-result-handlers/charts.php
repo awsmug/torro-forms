@@ -83,6 +83,7 @@ class AF_ResultCharts extends AF_ResultHandler
 		if( $form_results->count() > 0 )
 		{
 			$element_results = $this->format_results_by_element( $results );
+			$count_charts = 0;
 
 			foreach( $element_results AS $headline => $element_result )
 			{
@@ -91,15 +92,24 @@ class AF_ResultCharts extends AF_ResultHandler
 				$element_id = (int) $headline_arr[ 1 ];
 				$element = af_get_element( $element_id );
 
+				// Skip collecting Data if there is no analyzable Data
+				if( !$element->has_answers )
+				{
+					continue;
+				}
+
 				$chart_creator = 'AF_ChartCreator_Dimple';
 
 				$chart_creator = new $chart_creator();
 				$chart_type = 'bars';
 
 				$html .= $chart_creator->$chart_type( $element->label, $element_result );
+
+				$count_charts++;
 			}
 		}
-		else
+		
+		if( 0 == $count_charts || 0 == $form_results->count() )
 		{
 			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
 		}
