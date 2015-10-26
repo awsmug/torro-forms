@@ -99,7 +99,7 @@ class AF_FormBuilder
 
 		$html .= '</div>';
 
-		$html .= '<div id="af-drag-drop-bottom" class="section general-settings">';
+		$html .= '<div id="af-drag-drop-bottom">';
 		ob_start();
 		do_action( 'af_drag_drop_bottom' );
 		$html .= ob_get_clean();
