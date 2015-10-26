@@ -185,19 +185,19 @@
 }
 
 /**
- * Postbox
+ * Postbox 2
  */
-.post-type-questions .postbox .inside{
+.post-type-questions #postbox-container-2 .inside{
     padding:0;
     margin: 0;
 }
-.post-type-questions .postbox .inside > div{
+.post-type-questions #postbox-container-2 .inside > div{
     margin: 10px;
 }
-.post-type-questions .postbox .inside .general-settings {
+.post-type-questions #postbox-container-2 .inside .general-settings {
     background: #f8f8f8 none repeat scroll 0 0;
 }
-.post-type-questions .postbox .inside div.section {
+.post-type-questions #postbox-container-2 .inside div.section {
     border-bottom: 1px solid #dfdfdf;
     padding: 1.5%;
     width: 97%;

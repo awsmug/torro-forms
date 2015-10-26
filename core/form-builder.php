@@ -120,12 +120,13 @@ class AF_FormBuilder
 	{
 		$post_types = array( 'questions' );
 
-		if( in_array( $post_type, $post_types ) ):
+		if( in_array( $post_type, $post_types ) )
+		{
 			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'af-locale' ), array(
 				__CLASS__,
 				'meta_box_form_elements'
 			), 'questions', 'side', 'high' );
-		endif;
+		}
 	}
 
 	/**
@@ -139,9 +140,10 @@ class AF_FormBuilder
 
 		$html = '';
 
-		foreach( $af_global->element_types AS $element ):
+		foreach( $af_global->element_types AS $element )
+		{
 			$html .= $element->draw_admin();
-		endforeach;
+		}
 
 		echo $html;
 	}
@@ -153,8 +155,6 @@ class AF_FormBuilder
 	 */
 	public static function form_functions()
 	{
-		global $post;
-
 		$html = '<div id="form-functions" class="misc-pub-section">';
 		$html .= '<div id="form-functions-notices"></div>';
 		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
@@ -178,8 +178,6 @@ class AF_FormBuilder
 	public static function save_form( $form_id )
 	{
 		global $af_global, $wpdb;
-
-		// p( $_REQUEST );
 
 		if( !array_key_exists( 'elements', $_REQUEST ) )
 		{
