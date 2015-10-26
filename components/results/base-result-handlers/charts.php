@@ -108,7 +108,7 @@ class AF_ResultCharts extends AF_ResultHandler
 				$count_charts++;
 			}
 		}
-		
+
 		if( 0 == $count_charts || 0 == $form_results->count() )
 		{
 			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';

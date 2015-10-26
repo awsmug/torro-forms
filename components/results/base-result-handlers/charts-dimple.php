@@ -106,11 +106,13 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 		$js .= 'chart.draw();';
 
 		// Autosize charts
+		/** Commented out after getting Problems in jQuery Tabs
 		$js .= 'jQuery( function ($) { ';
 		$js .= 'var gcontainer = $( "#' . $id . ' g" );';
 		$js .= 'var grect = gcontainer[0].getBoundingClientRect();';
 		$js .= '$( "#' . $id . ' svg" ).height( grect.height + 15 );';
 		$js .= '});';
+		*/
 
 		// Drawing HTML Containers
 		$html = '<div id="' . $id . '" class="af-dimplechart">';

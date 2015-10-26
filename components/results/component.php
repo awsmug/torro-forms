@@ -64,8 +64,8 @@ class AF_ResultsComponent extends AF_Component
 		require_once( $folder . 'class-form-results.php' );
 
 		// Base Result Handlers
-		require_once( $folder . 'base-result-handlers/charts.php' );
 		require_once( $folder . 'base-result-handlers/list.php' );
+		require_once( $folder . 'base-result-handlers/charts.php' );
 
 		// Charts API
 		require_once( $folder . 'base-result-handlers/charts-dimple.php' );
