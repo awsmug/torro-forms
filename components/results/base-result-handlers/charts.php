@@ -100,10 +100,6 @@ class AF_ResultCharts extends AF_ResultHandler
 				{
 					$label = $element->label;
 				}
-				else
-				{
-					$label = $element->label . ' - ' . $element->answers[ $headline_arr[ 2 ] ][ 'text' ];
-				}
 
 				$html .= $chart_creator->$chart_type( $label, $element_result );
 			}
