@@ -96,7 +96,8 @@ class AF_ResultCharts extends AF_ResultHandler
 				$chart_creator = new $chart_creator();
 				$chart_type = 'bars';
 
-				if( !$element->answer_is_multiple ){
+				if( !$element->answer_is_multiple )
+				{
 					$label = $element->label;
 				}
 				else
@@ -130,54 +131,64 @@ class AF_ResultCharts extends AF_ResultHandler
 			return FALSE;
 		}
 
-		$headlines = array_keys( $results[ 0 ] );
+		$column_names = array_keys( $results[ 0 ] );
 		$results_formatted = array();
 
-		foreach( $headlines AS $headline )
+		// Running thru all available Result Values
+		foreach( $column_names AS $column_name )
 		{
-			$headline_arr = explode( '_', $headline );
-			$headline_type = $headline_arr[ 0 ];
+			$column_name_arr = explode( '_', $column_name );
+			$element_type = $column_name_arr[ 0 ];
 
-			if( 'element' == $headline_type )
+			// Running all Elements
+			if( 'element' == $element_type )
 			{
-				$element_id = (int) $headline_arr[ 1 ];
+				$element_id = (int) $column_name_arr[ 1 ];
 				$element = af_get_element( $element_id );
 
+				$result_key = 'element_' . $element_id;
+
+				// Collecting Data from all Resultsets
 				foreach( $results AS $result )
 				{
+					// Skip collecting Data if there is no analyzable Data
 					if( !$element->has_answers )
 					{
 						continue;
 					}
 
-					if( !array_key_exists( $headline, $results_formatted ) )
+					// Counting different kind of Elements
+					if( $element->answer_is_multiple )
 					{
-						$results_formatted[ $headline ] = array();
-					}
+						$answer_id = (int) $column_name_arr[ 2 ];
+						$value = $element->answers[ $answer_id ][ 'text' ];
 
-					if( !$element->answer_is_multiple )
-					{
-						if( array_key_exists( $result[ $headline ], $results_formatted[ $headline ] ) )
+						if( is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) && 'yes' == $result[ $column_name ] )
 						{
-							$results_formatted[ $headline ][ $result[ $headline ] ]++;
+							$results_formatted[ $result_key ][ $value ]++;
+						}
+						elseif( 'yes' == $result[ $column_name ] )
+						{
+							$results_formatted[ $result_key ][ $value ] = 1;
 						}
 						else
 						{
-
-							$results_formatted[ $headline ][ $result[ $headline ] ] = 1;
+							$results_formatted[ $result_key ][ $value ] = 0;
 						}
 					}
 					else
 					{
-						if( array_key_exists( $result[ $headline ], $results_formatted[ $headline ] ) )
+						// Setting up all answers to 0 to have also Zero values
+						foreach( $element->answers AS $element_answers )
 						{
-							$results_formatted[ $headline ][ $result[ $headline ] ]++;
+							if( !isset( $results_formatted[ $result_key ][ $element_answers[ 'text' ] ] ) )
+							{
+								$results_formatted[ $result_key ][ $element_answers[ 'text' ] ] = 0;
+							}
 						}
-						else
-						{
 
-							$results_formatted[ $headline ][ $result[ $headline ] ] = 1;
-						}
+						$value = $result[ $column_name ];
+						$results_formatted[ $result_key ][ $value ]++;
 					}
 				}
 			}
@@ -186,6 +197,9 @@ class AF_ResultCharts extends AF_ResultHandler
 		return $results_formatted;
 	}
 
+	/**
+	 * Adding option for showing Charts after submitting Form
+	 */
 	public function show_results_after_submitting_fields()
 	{
 		global $post;
