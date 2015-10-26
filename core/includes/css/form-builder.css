@@ -52,7 +52,7 @@
 }
 
 #af-content input[type=text] {
-    width: 80%;
+    width: 120px;
 }
 
 #af-content textarea {
@@ -98,11 +98,10 @@
 .form_element_tabs .shortcode,
 .form-options.shortcode {
     background-color: #f7f7f7;
-    padding: 10px;
-    border: 1px solid #e5e5e5;
-    width: 15%;
-    float:left;
-    margin-right: 10px;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0 -10px;
+    padding: 1.5%;
 }
 
 /**

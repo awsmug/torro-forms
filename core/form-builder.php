@@ -90,11 +90,20 @@ class AF_FormBuilder
 			$html .= $element->draw_admin();
 			af_add_element_templatetag( $element->id, $element->label );
 		endforeach;
+
+		$html .= '<div id="af-drag-drop-inside">';
+		ob_start();
+		do_action( 'af_drag_drop_inside' );
+		$html .= ob_get_clean();
 		$html .= '</div>';
 
+		$html .= '</div>';
+
+		$html .= '<div id="af-drag-drop-bottom" class="section general-settings">';
 		ob_start();
-		do_action( 'form_drag_drop_bottom' );
+		do_action( 'af_drag_drop_bottom' );
 		$html .= ob_get_clean();
+		$html .= '</div>';
 
 		$html .= '</div>';
 		$html .= '</div>';

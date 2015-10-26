@@ -42,7 +42,7 @@ class AF_ShortCodes
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
-		add_action( 'edit_form_advanced', array( __CLASS__, 'show_form_shortcode' ), 15 );
+		add_action( 'af_drag_drop_bottom', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
 	public static function form( $atts )
@@ -75,7 +75,7 @@ class AF_ShortCodes
 		}
 
 		$html = '<div class="form-options shortcode">';
-		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'af-locale' ) . '</label><br />';
+		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'af-locale' ) . '</label> ';
 		$html .= '<input type="text" id="form_shortcode" value="[form id=' . $post->ID . ']" />';
 		$html .= '</div>';
 
