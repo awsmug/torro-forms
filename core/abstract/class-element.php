@@ -787,17 +787,17 @@ abstract class AF_FormElement
 				$input = '<textarea name="' . $name . '">' . $value . '</textarea>';
 				break;
 
-			/* @todo Get WP Editor working in droppables
-			 * Problems with the droppable. Editor ist not working anymore after dropping.
-			 * case 'wp_editor':
-			 * $settings = array(
-			 * 'textarea_name' => $name
-			 * );
-			 * ob_start();
-			 * wp_editor( $value, 'af_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
-			 * $input = ob_get_clean();
-			 * break;
-			 */
+
+			case 'wp_editor':
+				$settings = array(
+			        'textarea_name' => $name
+			    );
+			    ob_start();
+			    wp_editor( $value, 'af_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
+			    $input = ob_get_clean();
+
+			    break;
+
 			case 'radio':
 
 				$input = '';

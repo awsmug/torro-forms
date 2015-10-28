@@ -52,11 +52,10 @@ class AF_FormElement_Description extends AF_FormElement
 
 	public function settings_fields()
 	{
-
 		$this->settings_fields = array(
 			'description' => array(
 				'title'       => esc_attr__( 'Text to show', 'af-locale' ),
-				'type'        => 'textarea',
+				'type'        => 'wp_editor',
 				'description' => esc_attr__( 'The text which will be shown in the form.', 'af-locale' ),
 				'default'     => ''
 			)
