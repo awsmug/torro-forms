@@ -99,7 +99,7 @@ class AF_FormBuilder
 
 		$html .= '</div>';
 
-		$html .= '<div id="af-drag-drop-bottom">';
+		$html .= '<div id="af-drag-drop-bottom" class="section general-settings">';
 		ob_start();
 		do_action( 'af_drag_drop_bottom' );
 		$html .= ob_get_clean();
@@ -131,10 +131,16 @@ class AF_FormBuilder
 
 		if( in_array( $post_type, $post_types ) )
 		{
-			add_meta_box( 'form-elements', esc_attr__( 'Elements', 'af-locale' ), array(
-				__CLASS__,
-				'meta_box_form_elements'
-			), 'questions', 'side', 'high' );
+			add_meta_box( 'form-elements',
+			              esc_attr__( 'Elements', 'af-locale' ),
+			              array( __CLASS__, 'meta_box_form_elements' ),
+			              'questions', 'side', 'high' );
+
+			add_meta_box( 'form-options',
+			              esc_attr__( 'Options', 'af-locale' ),
+			              array( __CLASS__, 'meta_box_options' ),
+			              'questions', 'side', 'high' );
+
 		}
 	}
 
@@ -153,6 +159,18 @@ class AF_FormBuilder
 		{
 			$html .= $element->draw_admin();
 		}
+
+		echo $html;
+	}
+
+	/**
+	 * General Form options
+	 */
+	public static function meta_box_options()
+	{
+		$html  = '<label for="form-response-handlers-hide"><input id="form-response-handlers-hide" class="hide-postbox-tog" type="checkbox" checked="checked" value="form-response-handlers" name="form-response-handlers-hide">Response Handling</label><br />';
+		$html .= '<label for="form-results-hide"><input id="form-results-hide" class="hide-postbox-tog" type="checkbox" value="form-results" name="form-results-hide">Results</label><br />';
+		$html .= '<label for="form-restrictions-hide"><input id="form-restrictions-hide" class="hide-postbox-tog" type="checkbox" value="form-restrictions" name="form-restrictions-hide">Restrictions</label><br />';
 
 		echo $html;
 	}
@@ -283,17 +301,17 @@ class AF_FormBuilder
 				// Updating if Element already exists
 				$wpdb->update( $af_global->tables->elements, array(
 					'label' => $label,
-					'sort'     => $sort,
-					'type'     => $type
+					'sort'  => $sort,
+					'type'  => $type
 				), array( 'id' => $element_id ) );
 			else:
 
 				// Adding new Element
 				$wpdb->insert( $af_global->tables->elements, array(
 					'form_id' => $form_id,
-					'label'     => $label,
-					'sort'         => $sort,
-					'type'         => $type
+					'label'   => $label,
+					'sort'    => $sort,
+					'type'    => $type
 				) );
 
 				$element_id = $wpdb->insert_id;
@@ -325,9 +343,9 @@ class AF_FormBuilder
 					else:
 						$wpdb->insert( $af_global->tables->element_answers, array(
 							'element_id' => $element_id,
-							'answer'      => $answer_text,
-							'section'     => $answer_section,
-							'sort'        => $answer_sort
+							'answer'     => $answer_text,
+							'section'    => $answer_section,
+							'sort'       => $answer_sort
 						) );
 						$answer_id = $wpdb->insert_id;
 					endif;
@@ -347,13 +365,13 @@ class AF_FormBuilder
 					if( $count > 0 ):
 						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array(
 							'element_id' => $element_id,
-							'name'        => $name
+							'name'       => $name
 						) );
 					else:
 						$wpdb->insert( $af_global->tables->settings, array(
-							'name'        => $name,
+							'name'       => $name,
 							'element_id' => $element_id,
-							'value'       => af_prepare_post_data( $settings[ $name ] )
+							'value'      => af_prepare_post_data( $settings[ $name ] )
 						) );
 
 					endif;
