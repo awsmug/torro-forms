@@ -359,7 +359,6 @@ class AF_Init
 		$sql = "ALTER TABLE {$table_participiants_new} CHANGE survey_id form_id int(11)";
 		$wpdb->query( $sql );
 
-		delete_option( 'questions_db_version' );
 		update_option( 'af_db_version', '1.0.0' );
 	}
 

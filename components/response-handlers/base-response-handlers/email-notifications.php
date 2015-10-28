@@ -42,8 +42,6 @@ class AF_EmailNotifications extends AF_ResponseHandler
 	 */
 	public function __construct()
 	{
-		global $post;
-
 		$this->title = __( 'Email Notifications', 'af-locale' );
 		$this->name = 'emailnotifications';
 

@@ -105,6 +105,15 @@ class AF_Core
 	 */
 	public static function custom_post_types()
 	{
+
+		$settings = af_get_settings( 'general' );
+
+		$slug = 'forms';
+		if( array_key_exists( 'slug', $settings  ) )
+		{
+			$slug = $settings[ 'slug' ];
+		}
+
 		/**
 		 * Categories
 		 */
@@ -152,9 +161,7 @@ class AF_Core
 			'supports'          => array( 'title' ),
 			'show_in_menu'      => 'AF_Admin',
 			'show_in_nav_menus' => FALSE,
-			'rewrite'           => array( 'slug' => 'survey', 'with_front' => TRUE )
-			// @todo Change! Make variable! Doing in Permalink sections.
-
+			'rewrite'           => array( 'slug' => $slug, 'with_front' => TRUE )
 		);
 
 		register_post_type( 'questions', $args_post_type );

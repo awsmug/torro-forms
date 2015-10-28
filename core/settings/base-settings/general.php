@@ -36,8 +36,6 @@ class AF_GeneralSettings extends AF_Settings
 	 */
 	public function __construct()
 	{
-		global $post;
-
 		$this->title = __( 'General', 'af-locale' );
 		$this->name = 'general';
 
@@ -73,10 +71,16 @@ class AF_GeneralSettings extends AF_Settings
 		$settings_arr = array(
 			'modules' => array(
 				'title'       => esc_attr( 'Modules', 'af-locale' ),
-				'description' => esc_attr( 'You don´t need some of these functions? Switch it off!', 'af-locale' ),
+				'description' => esc_attr( 'You don´t need some of these components? Switch it off!', 'af-locale' ),
 				'type'        => 'checkbox',
 				'values'      => $components,
 				'default'     => $defaults
+			),
+		    'slug'  => array(
+			    'title'      => esc_attr( 'Slug', 'af-locale' ),
+			    'description'=> __( 'The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/<b>forms</b>/mycontactform)'),
+			    'type'       => 'text',
+			    'default'    => '' == get_option( 'questions_db_version' )? 'forms' : 'survey'
 			)
 		);
 
