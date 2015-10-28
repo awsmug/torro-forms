@@ -42,14 +42,6 @@ class AF_ResultCharts extends AF_ResultHandler
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
 		add_action( 'form_results_content_bottom', array( $this, 'charts_general_settings' ), 10 );
-
-		$this->settings_fields = array(
-			'invitations' => array(
-				'title'       => esc_attr( 'Test', 'af-locale' ),
-				'description' => esc_attr( 'Test XXX', 'af-locale' ),
-				'type'        => 'text'
-			),
-		);
 	}
 
 	/**
