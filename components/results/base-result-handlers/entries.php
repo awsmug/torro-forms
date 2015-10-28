@@ -69,7 +69,11 @@ class AF_ResultsEntries extends AF_ResultHandler
 
 		$form_results = new AF_Form_Results( $form_id );
 
-		$results = $form_results->results( array( 'column_name' => 'label' ) );
+		$params = array(
+			'num_rows' => 20
+		);
+
+		$results = $form_results->results( $params );
 
 		$html = '<div id="af-entries">';
 
