@@ -18,7 +18,6 @@
     -webkit-box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
     border: 1px solid #E5E5E5;
     box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
-    padding: 10px 10px 0;
     margin-top:20px;
 }
 
@@ -27,11 +26,14 @@
  */
 #af-content #drag-drop-inside {
     min-height: 200px;
+    padding:1.5% 1.5% 1.5% 1.5%;
 }
 
 /**
  * Element
  */
+.formelement.widget{
+}
 .formelement .widget-inside
 {
     padding:15px;
@@ -52,7 +54,7 @@
 }
 
 #af-content input[type=text] {
-    width: 120px;
+    width: 80%;
 }
 
 #af-content textarea {
@@ -97,11 +99,6 @@
 
 .form_element_tabs .shortcode,
 .form-options.shortcode {
-    background-color: #f7f7f7;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
-    margin: 0 -10px;
-    padding: 1.5%;
 }
 
 /**
@@ -191,13 +188,32 @@
     margin: 0;
 }
 .post-type-questions #postbox-container-2 .inside > div{
-    margin: 10px;
 }
-.post-type-questions #postbox-container-2 .inside .general-settings {
+
+
+.post-type-questions .general-settings {
     background: #f8f8f8 none repeat scroll 0 0;
 }
-.post-type-questions #postbox-container-2 .inside div.section {
-    border-bottom: 1px solid #dfdfdf;
+.post-type-questions .general-settings table{
+    width:100%;
+}
+.post-type-questions .general-settings tr td:first-child{
+    min-width: 15%;
+}
+.post-type-questions .general-settings tr td
+{
+    padding: 0.5% 0;
+}
+.post-type-questions .general-settings input
+{
+    margin-left: 10px;
+}
+.post-type-questions .general-settings .shortcode{
+    width:80%;
+}
+
+.post-type-questions div.section {
+    border-top: 1px solid #dfdfdf;
     padding: 1.5%;
     width: 97%;
     margin:0;

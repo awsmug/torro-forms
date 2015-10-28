@@ -41,7 +41,7 @@ class AF_ResultCharts extends AF_ResultHandler
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-		add_action( 'form_results_content_bottom', array( $this, 'show_results_after_submitting_fields' ), 10 );
+		add_action( 'form_results_content_bottom', array( $this, 'charts_general_settings' ), 10 );
 
 		$this->settings_fields = array(
 			'invitations' => array(
@@ -106,6 +106,10 @@ class AF_ResultCharts extends AF_ResultHandler
 				$html .= $chart_creator->$chart_type( $element->label, $element_result );
 
 				$count_charts++;
+
+				ob_start();
+				do_action( 'af_result_charts_postbox_element', $element );
+				$html .= ob_get_clean();
 			}
 		}
 
@@ -113,6 +117,10 @@ class AF_ResultCharts extends AF_ResultHandler
 		{
 			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
 		}
+
+		ob_start();
+		do_action( 'af_result_charts_postbox_bottom', $form_id );
+		$html .= ob_get_clean();
 
 		return $html;
 	}
@@ -201,7 +209,7 @@ class AF_ResultCharts extends AF_ResultHandler
 	/**
 	 * Adding option for showing Charts after submitting Form
 	 */
-	public function show_results_after_submitting_fields()
+	public function charts_general_settings()
 	{
 		global $post;
 
@@ -228,13 +236,20 @@ class AF_ResultCharts extends AF_ResultHandler
 		$html = '<div class="form-options section general-settings">';
 		$html .= '<table>';
 		$html .= '<tr>';
-		$html .= '<td><label for="show_results">' . esc_attr__( 'After submitting Form:', 'af-locale' ) . '</label></td>';
+		$html .= '<td><label for="show_results">' . esc_attr__( 'After submitting:', 'af-locale' ) . '</label></td>';
 		$html .= '<td>';
 		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . ' ';
 		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'Do not Show Charts' ) . '';
 		$html .= '</td>';
 		$html .= '</tr>';
+
+		ob_start();
+		do_action( 'af_charts_general_settings_table' );
+		$html .= ob_get_clean();
+
 		$html .= '</table>';
+
+
 		$html .= '</div>';
 
 		echo $html;
