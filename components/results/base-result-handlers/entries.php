@@ -29,26 +29,18 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResultsList extends AF_ResultHandler
+class AF_ResultsEntries extends AF_ResultHandler
 {
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Results', 'af-locale' );
-		$this->name = 'list';
+		$this->title = __( 'Entries', 'af-locale' );
+		$this->name = 'entries';
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-
-		$this->settings_fields = array(
-			'invitations' => array(
-				'title'       => esc_attr( 'Test1', 'af-locale' ),
-				'description' => esc_attr( 'Test XXX1', 'af-locale' ),
-				'type'        => 'text'
-			),
-		);
 	}
 
 	/**
@@ -123,4 +115,4 @@ class AF_ResultsList extends AF_ResultHandler
 	}
 }
 
-af_register_result_handler( 'AF_ResultsList' );
+af_register_result_handler( 'AF_ResultsEntries' );
