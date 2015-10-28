@@ -68,22 +68,44 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$form_id = $post->ID;
 
 		$form_results = new AF_Form_Results( $form_id );
+
 		$results = $form_results->results( array( 'column_name' => 'label' ) );
 
-		$html = '<div id="af-result-list">';
+		$html = '<div id="af-entries">';
 
 		if( $form_results->count() > 0 )
 		{
+			$date_format = get_option( 'date_format' );
 
-			$html .= '<table class="widefat">';
+			$html .= '<table class="widefat entries">';
 			$html .= '<thead>';
 			$html .= '<tr>';
 
+			$entry_columns = apply_filters( 'af_entry_columns', array( 'result_id', 'user_id', 'timestamp' ) );
+
 			foreach( array_keys( $results[ 0 ] ) AS $headline )
 			{
-				$html .= '<th nowrap>' . $headline . '</th>';
+				if( in_array( $headline, $entry_columns ) )
+				{
+					switch( $headline )
+					{
+						case 'result_id':
+							$headline_title = esc_attr( 'ID', 'af_locale' );
+							break;
+						case 'user_id':
+							$headline_title = esc_attr( 'User ID', 'af_locale' );
+							break;
+						case 'timestamp':
+							$headline_title = esc_attr( 'Date', 'af_locale' );
+							break;
+						default:
+							$headline_title = $headline;
+					}
+					$html .= '<th nowrap>' . $headline_title . '</th>';
+				}
 			}
 
+			$html .= '<th>&nbsp;</th>';
 			$html .= '</tr>';
 			$html .= '</thead>';
 
@@ -94,10 +116,27 @@ class AF_ResultsEntries extends AF_ResultHandler
 				$html .= '<tr>';
 				foreach( array_keys( $results[ 0 ] ) AS $headline )
 				{
-					$html .= '<td>';
-					$html .= $result[ $headline ];
-					$html .= '</td>';
+					if( in_array( $headline, $entry_columns ) )
+					{
+						switch( $headline )
+						{
+							case 'timestamp':
+								$content = date_i18n( $date_format, $result[ $headline ] );
+								break;
+							default:
+								$content = $result[ $headline ];
+						}
+
+						$html .= '<td>';
+						$html .= $content;
+						$html .= '</td>';
+					}
 				}
+
+				$html .= '<td class="entry-actions">';
+				$html .= '<input type="button" value="' . esc_attr( 'Show Details', 'af-locale' ) . '" class="button entry-show-details" />';
+				$html .= '</td>';
+
 				$html .= '</tr>';
 			}
 			$html .= '</tbody>';

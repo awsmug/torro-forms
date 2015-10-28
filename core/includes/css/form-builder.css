@@ -257,11 +257,18 @@
 }
 
 /**
- * Result / List
+ * Entries list
  */
-#af-result-list
+#af-entries
 {
     overflow: scroll;
+}
+#af-entries .entry-actions
+{
+    text-align: right;
+}
+#af-entries tbody > :nth-child(2n+1) {
+    background-color:#F9F9F9;
 }
 
 /**
