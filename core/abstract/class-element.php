@@ -89,11 +89,11 @@ abstract class AF_FormElement
 	var $sort = 0;
 
 	/**
-	 * Does this element have any input?
+	 * Does this element have a content tab
 	 *
 	 * @since 1.0.0
 	 */
-	var $is_input = TRUE;
+	var $has_content = TRUE;
 
 	/**
 	 * If value is true, Awesome Forms will try to create charts from results
@@ -530,15 +530,8 @@ abstract class AF_FormElement
 		 * Tab Navi
 		 */
 		$html .= '<ul class="tabs">';
-		// If Element is form element> Show label tab
-		if( $this->is_input && !$this->has_answers )
-		{
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label', 'af-locale' ) . '</a></li>';
-		}
-		if( $this->is_input && $this->has_answers )
-		{
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_label">' . esc_attr__( 'Label & Answers', 'af-locale' ) . '</a></li>';
-		}
+		// If Element is form element> Show content tab
+		$html .= '<li><a href="#tab_' . $jquery_widget_id . '_content">' . esc_attr__( 'Content', 'af-locale' ) . '</a></li>';
 
 		// If Element has settings > Show settings tab
 		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 )
@@ -558,10 +551,10 @@ abstract class AF_FormElement
 		/**
 		 * Content of Tabs
 		 */
-		// Adding Label Tab
-		if( $this->is_input ):
-			$html .= '<div id="tab_' . $jquery_widget_id . '_label" class="tab_label_answers_content">';
-			$html .= $this->admin_widget_label_tab();
+		// Adding Content Tab
+		if( $this->has_content ):
+			$html .= '<div id="tab_' . $jquery_widget_id . '_content" class="tab_content_answers_content">';
+			$html .= $this->admin_widget_content_tab();
 			$html .= '</div>';
 		endif;
 
@@ -601,9 +594,8 @@ abstract class AF_FormElement
 	 * @return string $widget_id The widget id
 	 * @since 1.0.0
 	 */
-	private function admin_get_widget_id()
+	protected function admin_get_widget_id()
 	{
-
 		// Getting Widget ID
 		if( NULL == $this->id ):
 			// New Element
@@ -617,41 +609,56 @@ abstract class AF_FormElement
 	}
 
 	/**
-	 * Content of the label tab
+	 * Content of the content tab
 	 *
 	 * @since 1.0.0
 	 */
-	private function admin_widget_label_tab()
+	private function admin_widget_content_tab()
 	{
-
 		$widget_id = $this->admin_get_widget_id();
+		$content_html = $this->admin_content_html();
 
-		// Label
-		$html = '<p><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" /><p>';
+		if( FALSE === $content_html )
+		{
+			// Label
+			$html = '<p><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" /><p>';
 
-		// Answers
-		if( $this->has_answers ):
+			// Answers
+			if( $this->has_answers ):
 
-			// Answers have sections
-			if( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ):
-				foreach( $this->sections as $section_key => $section_name ):
-					$html .= '<div class="element-section" id="section_' . $section_key . '">';
-					$html .= '<p>' . $section_name . '</p>';
-					$html .= $this->admin_widget_label_answers( $section_key );
-					$html .= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
-					$html .= '</div>';
-				endforeach;
-			// Answers without sections
-			else:
-				$html .= '<p>' . esc_attr__( 'Answer/s:', 'af-locale' ) . '</p>';
-				$html .= $this->admin_widget_label_answers();
+				// Answers have sections
+				if( property_exists( $this, 'sections' ) && is_array( $this->sections ) && count( $this->sections ) > 0 ):
+					foreach( $this->sections as $section_key => $section_name ):
+						$html .= '<div class="element-section" id="section_' . $section_key . '">';
+						$html .= '<p>' . $section_name . '</p>';
+						$html .= $this->admin_widget_content_answers( $section_key );
+						$html .= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
+						$html .= '</div>';
+					endforeach;
+				// Answers without sections
+				else:
+					$html .= '<p>' . esc_attr__( 'Answer/s:', 'af-locale' ) . '</p>';
+					$html .= $this->admin_widget_content_answers();
+				endif;
+
 			endif;
 
-		endif;
-
-		$html .= '<div class="clear"></div>';
+			$html .= '<div class="clear"></div>';
+		}
+		else
+		{
+			$html = $content_html;
+		}
 
 		return $html;
+	}
+
+	/**
+	 * Overwriting Admin Content HTML for totally free editing Element
+	 */
+	public function admin_content_html()
+	{
+		return FALSE;
 	}
 
 	/**
@@ -662,7 +669,7 @@ abstract class AF_FormElement
 	 * @return string $html The answers HTML
 	 * @since 1.0.0
 	 */
-	private function admin_widget_label_answers( $section = NULL )
+	private function admin_widget_content_answers( $section = NULL )
 	{
 
 		$widget_id = $this->admin_get_widget_id();

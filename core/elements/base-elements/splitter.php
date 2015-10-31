@@ -40,7 +40,7 @@ class AF_FormElement_Splitter extends AF_FormElement
 		$this->description = esc_attr__( 'Splits a form into several steps', 'af-locale' );
 		$this->icon_url = AF_URLPATH . '/assets/images/icon-split-form.png';
 
-		$this->is_input = FALSE;
+		$this->has_content = FALSE;
 		$this->splits_form = TRUE;
 
 		parent::__construct( $id );
