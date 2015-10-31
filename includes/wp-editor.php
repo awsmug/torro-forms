@@ -44,11 +44,16 @@ class AF_WPEditorBox
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function editor( $content, $editor_id, $field_name )
+	public static function editor( $content, $editor_id, $field_name = NULL )
 	{
-		$settings = array(
-			'textarea_name' => $field_name
-		);
+		$settings = array();
+
+		if( NULL != $field_name )
+		{
+			$settings = array(
+				'textarea_name' => $field_name
+			);
+		}
 
 		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 
@@ -260,7 +265,7 @@ AF_WPEditorBox::init();
  * @return string
  * @since 1.0.0
  */
-function af_wp_editor( $content, $editor_id, $field_name )
+function af_wp_editor( $content, $editor_id, $field_name = NULL )
 {
 	return AF_WPEditorBox::editor( $content, $editor_id, $field_name );
 }

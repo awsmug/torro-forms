@@ -243,11 +243,9 @@ class AF_EmailNotifications extends AF_ResponseHandler
 	 */
 	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' )
 	{
-		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
-		ob_start();
-		wp_editor( $message, 'email_notification_message-' . $id  );
-		$editor = ob_get_clean();
-		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
+		$editor_id = 'email_notification_message-' . $id;
+
+		$editor = af_wp_editor( $message, $editor_id );
 
 		$html = '<h4 class="widget-top notification-' . $id . '">' . $notification_name . '</h4>';
 		$html.= '<div class="notification widget-inside notification-' . $id . '-content">';
@@ -295,21 +293,6 @@ class AF_EmailNotifications extends AF_ResponseHandler
 		$editor_id = 'email_notification_message-' . $id;
 
 		$html = self::get_notification_settings_html( $id, esc_attr( 'New Email Notification' ) );
-
-		// Get settings for Editor
-		$mce_init = AF_WPEditorBox::get_mce_init( $editor_id );
-		$qt_init = AF_WPEditorBox::get_qt_init( $editor_id );
-
-		// Extending editor gobals
-		$html.= '<script type="text/javascript">
-			tinyMCEPreInit.mceInit = jQuery.extend( tinyMCEPreInit.mceInit, ' . $mce_init . ' );
-            tinyMCEPreInit.qtInit = jQuery.extend( tinyMCEPreInit.qtInit, ' . $qt_init . ' );
-
-            tinyMCE.init( tinyMCEPreInit.mceInit[ "' . $editor_id . '" ] );
-            try { quicktags( tinyMCEPreInit.qtInit[ "' . $editor_id . '" ] ); } catch(e){ console.log( "error" ); }
-
-            QTags.instances["0"] =""; // Dirty Hack, but needed to start second instance of quicktags in editor
-        </script>';
 
 		$data = array(
 			'id' => $id,
