@@ -35,6 +35,35 @@ class AF_WPEditorBox
 	protected static $_instance = null;
 
 	/**
+	 * Singleton init
+	 *
+	 * @return AF_WPEditorBox|object
+	 * @since 1.0.0
+	 */
+	public function init()
+	{
+		if (null === self::$_instance)
+		{
+			self::$_instance = new self;
+		}
+
+		return self::$_instance;
+	}
+
+	/**
+	 * Adding Scripts
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct()
+	{
+		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'tiny_mce_before_init' ), 10, 2 );
+		add_filter( 'quicktags_settings', array( __CLASS__, 'quicktags_settings' ), 10, 2 );
+
+		add_action( 'wp_ajax_af_get_editor_html', array( __CLASS__, 'ajax_af_get_editor_html' ) );
+	}
+
+	/**
 	 * Getting Editor HTML
 	 *
 	 * @param $content
@@ -89,16 +118,24 @@ class AF_WPEditorBox
 		// Extending editor gobals
 		$html = '<script type="text/javascript">
 			jQuery(document).ready(function($) {
-				tinyMCEPreInit.mceInit = jQuery.extend( tinyMCEPreInit.mceInit, ' . $mce_init . ' );
-	            tinyMCEPreInit.qtInit = jQuery.extend( tinyMCEPreInit.qtInit, ' . $qt_init . ' );
+				var editor_id = "' . $editor_id . '";
 
-	            tinyMCE.init( tinyMCEPreInit.mceInit[ "' . $editor_id . '" ] );
-	            try { quicktags( tinyMCEPreInit.qtInit[ "' . $editor_id . '" ] ); } catch(e){ console.log( "error" ); }
+				window.tinyMCEPreInit.mceInit = jQuery.extend( window.tinyMCEPreInit.mceInit, ' . $mce_init . ' );
+	            window.tinyMCEPreInit.qtInit = jQuery.extend( window.tinyMCEPreInit.qtInit, ' . $qt_init . ' );
 
-	            QTags.instances["0"] =""; // Dirty Hack, but needed to start second instance of quicktags in editor
+                tinymce.init( window.tinyMCEPreInit.mceInit[ editor_id ] );
 
-	            console.log( tinyMCEPreInit );
-	            console.log( QTags.instances );
+	            try {
+	                quicktags( tinyMCEPreInit.qtInit[ editor_id ] );
+	            }
+	            catch(e)
+	            {
+	                console.log( e );
+	            }
+
+	            QTags.instances["0"] = ""; // Dirty Hack, but needed to start second instance of quicktags in editor
+
+	            console.log( window.tinyMCEPreInit.mceInit[ editor_id ]  );
             });
         </script>';
 
@@ -134,33 +171,6 @@ class AF_WPEditorBox
 		self::$mce_settings[ $editor_id ] = $mceInit;
 
 		return $mceInit;
-	}
-
-	/**
-	 * Singleton init
-	 *
-	 * @return AF_WPEditorBox|object
-	 * @since 1.0.0
-	 */
-	public function init()
-	{
-		if (null === self::$_instance)
-		{
-			self::$_instance = new self;
-		}
-
-		return self::$_instance;
-	}
-
-	/**
-	 * Adding Scripts
-	 *
-	 * @since 1.0.0
-	 */
-	private function __construct()
-	{
-		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'tiny_mce_before_init' ), 10, 2 );
-		add_filter( 'quicktags_settings', array( __CLASS__, 'quicktags_settings' ), 10, 2 );
 	}
 
 	/**
@@ -251,6 +261,28 @@ class AF_WPEditorBox
 	 */
 	public static function std_editor_tinymce(){
 		return 'tinymce';
+	}
+
+	/**
+	 * Getting Editor HTML by AJAX
+	 */
+	public static function ajax_af_get_editor_html()
+	{
+		$widget_id = $_POST[ 'widget_id' ];
+		$editor_id = $_POST[ 'editor_id' ];
+		$field_name = $_POST[ 'field_name' ];
+		$message = $_POST[ 'message' ];
+
+		$html = self::editor( $message, $editor_id, $field_name );
+
+		$data = array(
+			'widget_id' => $widget_id,
+			'editor_id' => $editor_id,
+			'html'      => $html
+		);
+
+		echo json_encode( $data );
+		die();
 	}
 }
 AF_WPEditorBox::init();
