@@ -183,9 +183,9 @@ class AF_EmailNotifications extends AF_ResponseHandler
 	 */
 	public static function add_media_button( $editor_id )
 	{
-		global $post;
+		$editor_id_arr = explode( '-', $editor_id );
 
-		if( !af_is_formbuilder() )
+		if( 'email_notification_message' != $editor_id_arr[ 0 ] )
 		{
 			return;
 		}
@@ -245,7 +245,7 @@ class AF_EmailNotifications extends AF_ResponseHandler
 	{
 		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 		ob_start();
-		wp_editor( $message, 'email_notification_message_' . $id  );
+		wp_editor( $message, 'email_notification_message-' . $id  );
 		$editor = ob_get_clean();
 		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 
@@ -274,7 +274,7 @@ class AF_EmailNotifications extends AF_ResponseHandler
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . af_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_message_' . $id . '">' . esc_attr( 'Message', 'af-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notification_message-' . $id . '">' . esc_attr( 'Message', 'af-locale' ) . '</label></th>';
 					$html.= '<td>' . $editor . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
@@ -292,7 +292,7 @@ class AF_EmailNotifications extends AF_ResponseHandler
 	public static function ajax_get_email_notification_html()
 	{
 		$id = time();
-		$editor_id = 'email_notification_message_' . $id;
+		$editor_id = 'email_notification_message-' . $id;
 
 		$html = self::get_notification_settings_html( $id, esc_attr( 'New Email Notification' ) );
 
@@ -334,8 +334,6 @@ class AF_EmailNotifications extends AF_ResponseHandler
 	 */
 	public static function enqueue_admin_scripts()
 	{
-		global $post;
-
 		if( !af_is_formbuilder() )
 			return;
 
