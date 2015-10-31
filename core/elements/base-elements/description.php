@@ -35,31 +35,29 @@ class AF_FormElement_Description extends AF_FormElement
 
 	public function __construct( $id = NULL )
 	{
-
-		$this->name = 'Description';
+		$this->name = 'description';
 		$this->title = esc_attr__( 'Description', 'af-locale' );
 		$this->description = esc_attr__( 'Adds a text to the form.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . '/assets/images/icon-text.png';
-
-		$this->is_input = FALSE;
 
 		parent::__construct( $id );
 	}
 
 	public function input_html()
 	{
+		return $this->label;
 	}
 
-	public function settings_fields()
+	public function admin_content_html()
 	{
-		$this->settings_fields = array(
-			'description' => array(
-				'title'       => esc_attr__( 'Text to show', 'af-locale' ),
-				'type'        => 'wp_editor',
-				'description' => esc_attr__( 'The text which will be shown in the form.', 'af-locale' ),
-				'default'     => ''
-			)
-		);
+		$widget_id = $this->admin_get_widget_id();
+
+		$editor_id = 'description_content-' . $widget_id;
+		$field_name = 'elements[' . $widget_id . '][label]';
+
+		$html = af_wp_editor( $this->label, $editor_id, $field_name );
+
+		return $html;
 	}
 }
 
