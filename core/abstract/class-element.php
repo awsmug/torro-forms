@@ -503,6 +503,12 @@ abstract class AF_FormElement
 		 * Widget head
 		 */
 		$title = empty( $this->label ) ? $this->title : $this->label;
+		$title = strip_tags( $title );
+
+		if( strlen( $title ) > 120 )
+		{
+			$title = substr( $title, 0, 120 ) . '...';
+		}
 
 		$html .= '<div class="widget-top">';
 		$html .= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
