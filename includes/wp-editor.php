@@ -10,41 +10,167 @@
  */
 class AF_WPEditorBox
 {
-	static $mce_init;
-	static $qt_init;
-	private static $mce_settings = NULL;
-	private static $qt_settings = NULL;
+	/**
+	 * MCE Settings
+	 *
+	 * @var array
+	 * @since 1.0.0
+	 */
+	private static $mce_settings = array();
 
+	/**
+	 * Quicktags editor settings
+	 *
+	 * @var array
+	 * @since 1.0.0
+	 */
+	private static $qt_settings = array();
+
+	/**
+	 * Instance
+	 *
+	 * @var object
+	 * @since 1.0.0
+	 */
+	protected static $_instance = null;
+
+	/**
+	 * Getting Editor HTML
+	 *
+	 * @param $content
+	 * @param $editor_id
+	 * @param $field_name
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public static function editor( $content, $editor_id, $field_name )
+	{
+		$settings = array(
+			'textarea_name' => $field_name
+		);
+
+		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
+
+		ob_start();
+		wp_editor( $content, $editor_id, $settings );
+		$html = ob_get_clean();
+
+		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
+
+		$html.= self::editor_js( $editor_id );
+
+		return $html;
+	}
+
+	/**
+	 * Creating Editor JS
+	 *
+	 * @param $editor_id
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	public static function editor_js( $editor_id )
+	{
+		if( '' == $editor_id )
+		{
+			return FALSE;
+		}
+
+		$mce_init = self::get_mce_init( $editor_id );
+		$qt_init = self::get_qt_init( $editor_id );
+
+		// Extending editor gobals
+		$html = '<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				tinyMCEPreInit.mceInit = jQuery.extend( tinyMCEPreInit.mceInit, ' . $mce_init . ' );
+	            tinyMCEPreInit.qtInit = jQuery.extend( tinyMCEPreInit.qtInit, ' . $qt_init . ' );
+
+	            tinyMCE.init( tinyMCEPreInit.mceInit[ "' . $editor_id . '" ] );
+	            try { quicktags( tinyMCEPreInit.qtInit[ "' . $editor_id . '" ] ); } catch(e){ console.log( "error" ); }
+
+	            QTags.instances["0"] =""; // Dirty Hack, but needed to start second instance of quicktags in editor
+
+	            console.log( tinyMCEPreInit );
+	            console.log( QTags.instances );
+            });
+        </script>';
+
+		return $html;
+	}
+
+	/**
+	 * Getting Quicktags settings
+	 *
+	 * @param $qtInit
+	 * @param $editor_id
+	 *
+	 * @return mixed
+	 * @since 1.0.0
+	 */
 	public static function quicktags_settings( $qtInit, $editor_id )
 	{
-		self::$qt_settings = $qtInit;
+		self::$qt_settings[ $editor_id ] = $qtInit;
 
 		return $qtInit;
 	}
 
+	/**
+	 * Getting MCE Editor Settings
+	 * @param $mceInit
+	 * @param $editor_id
+	 *
+	 * @return mixed
+	 * @since 1.0.0
+	 */
 	public static function tiny_mce_before_init( $mceInit, $editor_id )
 	{
-		self::$mce_settings = $mceInit;
+		self::$mce_settings[ $editor_id ] = $mceInit;
 
 		return $mceInit;
 	}
 
+	/**
+	 * Singleton init
+	 *
+	 * @return AF_WPEditorBox|object
+	 * @since 1.0.0
+	 */
 	public function init()
 	{
-		$mce_init = self::get_mce_init( $_POST[ 'id' ] );
-		$qt_init = self::get_qt_init( $_POST[ 'id' ] );
+		if (null === self::$_instance)
+		{
+			self::$_instance = new self;
+		}
+
+		return self::$_instance;
 	}
 
-	/*
-	* Code coppied from _WP_Editors class (modified a little)
-	*/
+	/**
+	 * Adding Scripts
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct()
+	{
+		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'tiny_mce_before_init' ), 10, 2 );
+		add_filter( 'quicktags_settings', array( __CLASS__, 'quicktags_settings' ), 10, 2 );
+	}
 
+	/**
+	 * Getting MCE Settings
+	 * @param $editor_id
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	public static function get_mce_init( $editor_id )
 	{
 		$mceInit = '';
-		if( !empty( self::$mce_settings ) )
+		if( !empty( self::$mce_settings[ $editor_id ] ) )
 		{
-			$options = self::_parse_init( self::$mce_settings );
+			$options = self::_parse_init( self::$mce_settings[ $editor_id ] );
 			$mceInit .= "'$editor_id':{$options},";
 			$mceInit = '{' . trim( $mceInit, ',' ) . '}';
 		}
@@ -56,6 +182,39 @@ class AF_WPEditorBox
 		return $mceInit;
 	}
 
+	/**
+	 * Get Quicktag editor settings
+	 *
+	 * @param $editor_id
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public static function get_qt_init( $editor_id )
+	{
+		$qtInit = '';
+		if( !empty( self::$qt_settings[ $editor_id ] ) )
+		{
+			$options = self::_parse_init( self::$qt_settings[ $editor_id ] );
+			$qtInit .= "'$editor_id':{$options},";
+			$qtInit = '{' . trim( $qtInit, ',' ) . '}';
+		}
+		else
+		{
+			$qtInit = '{}';
+		}
+
+		return $qtInit;
+	}
+
+	/**
+	 * Parsing Data
+	 *
+	 * @param $init
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	private static function _parse_init( $init )
 	{
 		$options = '';
@@ -79,20 +238,29 @@ class AF_WPEditorBox
 		return '{' . trim( $options, ' ,' ) . '}';
 	}
 
-	public static function get_qt_init( $editor_id )
-	{
-		$qtInit = '';
-		if( !empty( self::$qt_settings ) )
-		{
-			$options = self::_parse_init( self::$qt_settings );
-			$qtInit .= "'$editor_id':{$options},";
-			$qtInit = '{' . trim( $qtInit, ',' ) . '}';
-		}
-		else
-		{
-			$qtInit = '{}';
-		}
-
-		return $qtInit;
+	/**
+	 * Function to set standard editor to tinymce prevent tab issues on editor
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public static function std_editor_tinymce(){
+		return 'tinymce';
 	}
+}
+AF_WPEditorBox::init();
+
+/**
+ * Getting WP Editor
+ *
+ * @param $content
+ * @param $editor_id
+ * @param $field_name
+ *
+ * @return string
+ * @since 1.0.0
+ */
+function af_wp_editor( $content, $editor_id, $field_name )
+{
+	return AF_WPEditorBox::editor( $content, $editor_id, $field_name );
 }
