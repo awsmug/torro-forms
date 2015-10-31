@@ -52,10 +52,16 @@ class AF_FormElement_Description extends AF_FormElement
 	{
 		$widget_id = $this->admin_get_widget_id();
 
-		$editor_id = 'description_content-' . $widget_id;
+		$editor_id = 'editor_' . substr( md5( rand() * time() ), 0, 5 );
 		$field_name = 'elements[' . $widget_id . '][label]';
 
-		$html = af_wp_editor( $this->label, $editor_id, $field_name );
+		$settings = array(
+			'textarea_name' => $field_name
+		);
+
+		ob_start();
+		wp_editor( $this->label, $editor_id, $settings );
+		$html = ob_get_clean();
 
 		return $html;
 	}

@@ -46,22 +46,80 @@
             }
         }
         check_max_input_vars();
-	    
-	    /**
-	     * Making elements draggable
-	     */
+
+		/**
+		 * Making elements draggable
+		 */
 		$( "#form-elements .formelement" ).draggable( {
 			helper: 'clone',
 			cursor: "move",
 			connectToSortable: "#drag-drop-inside",
 			addClasses: false,
 			start: function( event, ui ) {
-		        ui.helper.css( 'height', 'auto' ).css( 'width', '100px' );
-		    },
-		    stop: function( event, ui ) {
-		        ui.helper.css( 'width', '100%' ).css( 'height', 'auto' );
+				ui.helper.css( 'height', 'auto' ).css( 'width', '100px' );
+			},
+			stop: function( event, ui ) {
+				ui.helper.css( 'width', '100%' ).css( 'height', 'auto' );
 				ui.helper.addClass( 'widget' );
-		    }
+
+				var nr = af_rand();
+
+				var i = 0;
+				$( '#drag-drop-inside .formelement' ).each( function( e ) { i++; });
+
+				var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
+				$( input_name ).val( i ) ;
+
+				var id = 'widget_formelement_' + nr;
+				ui.helper.attr( 'id', id );
+				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
+			}
+		});
+
+		/**
+		 * Making elements draggable
+		 * @todo Move to elements
+		 */
+		$( "#form-elements .formelement-description" ).draggable( {
+			helper: 'clone',
+			cursor: "move",
+			connectToSortable: "#drag-drop-inside",
+			addClasses: false,
+			start: function( event, ui ) {
+				ui.helper.css( 'height', 'auto' ).css( 'width', '100px' );
+			},
+			stop: function( event, ui ) {
+				ui.helper.css( 'width', '100%' ).css( 'height', 'auto' );
+				ui.helper.addClass( 'widget' );
+
+				var nr = af_rand();
+
+				var i = 0;
+				$( '#drag-drop-inside .formelement' ).each( function( e ) { i++; });
+
+				var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
+				$( input_name ).val( i ) ;
+
+				var id = 'widget_formelement_' + nr;
+				ui.helper.attr( 'id', id );
+				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
+
+				var widget_id = ui.helper.attr( 'id' );
+				var editor_id = 'description_content-' +  widget_id;
+
+				var data = {
+					action: 'af_get_editor_html',
+					widget_id: widget_id,
+					editor_id: editor_id,
+					field_name: 'elements[widget_formelement_' + nr + '][label]',
+				};
+
+				$.post( ajaxurl, data, function( response ) {
+					response = jQuery.parseJSON( response );
+
+					$( '#tab_' + response.widget_id + '_content' ).html( response.html );
+				});
+			}
 		});
 		
 		/**
@@ -70,21 +128,12 @@
 		$( "#drag-drop-inside" ).droppable({
 			accept: "#form-elements .formelement",
 			drop: function( event, ui ) {
+
 			}
 		}).sortable({
 			placeholder: 'form-element-placeholder',
 			items:'.formelement',
 			receive: function( event, ui ){
-				var nr = af_rand();
-				
-				ui.helper.attr( 'id', 'widget_formelement_' + nr );
-				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
-				
-				var i = 0;
-				$( '#drag-drop-inside .formelement' ).each( function( e ) { i++; });
-				
-				var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
-              	$( input_name ).val( i ) ;
 				
 				af_answersortable();
               	af_delete_formelement();

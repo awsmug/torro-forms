@@ -492,11 +492,11 @@ abstract class AF_FormElement
 		 */
 		if( NULL == $this->id )
 		{
-			$html = '<div class="formelement"' . $id_name . '>';
+			$html = '<div class="formelement formelement-' . $this->name . '"' . $id_name . '>';
 		}
 		else
 		{
-			$html = '<div class="widget formelement"' . $id_name . '>';
+			$html = '<div class="widget formelement formelement-' . $this->name . '"' . $id_name . '>';
 		}
 
 		/**

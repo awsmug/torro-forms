@@ -51,10 +51,6 @@ class AF_EmailNotifications extends AF_ResponseHandler
 
 		add_action( 'wp_ajax_get_email_notification_html', array( __CLASS__, 'ajax_get_email_notification_html' ) );
 
-		add_filter( 'tiny_mce_before_init', 'AF_WPEditorBox::tiny_mce_before_init', 10, 2 );
-		add_filter( 'quicktags_settings', 'AF_WPEditorBox::quicktags_settings', 10, 2 );
-
-
 		add_action( 'media_buttons', array( __CLASS__, 'add_media_button' ), 20 );
 	}
 
