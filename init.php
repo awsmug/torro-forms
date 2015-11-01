@@ -141,7 +141,7 @@ class AF_Init
 			$wpdb->prefix . 'af_results',
 			$wpdb->prefix . 'af_result_values',
 			$wpdb->prefix . 'af_settings',
-			$wpdb->prefix . 'af_participiants'
+			$wpdb->prefix . 'af_participiants',
 			$wpdb->prefix . 'af_email_notifications'
 		);
 
