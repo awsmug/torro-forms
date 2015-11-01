@@ -99,12 +99,6 @@ class AF_FormBuilder
 
 		$html .= '</div>';
 
-		$html .= '<div id="af-drag-drop-bottom" class="section general-settings">';
-		ob_start();
-		do_action( 'af_drag_drop_bottom' );
-		$html .= ob_get_clean();
-		$html .= '</div>';
-
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -172,6 +166,10 @@ class AF_FormBuilder
 		$html .= '<label for="form-results-hide"><input id="form-results-hide" class="hide-postbox-tog" type="checkbox" value="form-results" name="form-results-hide">Results</label><br />';
 		$html .= '<label for="form-restrictions-hide"><input id="form-restrictions-hide" class="hide-postbox-tog" type="checkbox" value="form-restrictions" name="form-restrictions-hide">Restrictions</label><br />';
 
+		ob_start();
+		do_action( 'af_form_options' );
+		$html .= ob_get_clean();
+
 		echo $html;
 	}
 
@@ -188,7 +186,7 @@ class AF_FormBuilder
 		$html .= '<input id="form-delete-results-button" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
 
 		ob_start();
-		do_action( 'form_functions' );
+		do_action( 'af_form_functions' );
 		$html .= ob_get_clean();
 		$html .= '</div>';
 
