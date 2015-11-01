@@ -69,8 +69,6 @@ endif;
  */
 function af_is_formbuilder()
 {
-	global $post;
-
 	if( is_admin() && af_is_form() )
 	{
 		return TRUE;
@@ -103,7 +101,7 @@ function af_is_form()
 {
 	global $post;
 
-	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'questions' == $post->post_type )
+	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'af-forms' == $post->post_type )
 	{
 		return TRUE;
 	}

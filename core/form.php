@@ -488,7 +488,7 @@ function af_form_exists( $form_id )
 
 	global $wpdb;
 
-	$sql = $wpdb->prepare( "SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d and post_type = 'questions'", $form_id );
+	$sql = $wpdb->prepare( "SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d and post_type = 'af-forms'", $form_id );
 	$var = $wpdb->get_var( $sql );
 
 	if( $var > 0 )
