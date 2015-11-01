@@ -52,11 +52,11 @@ class AF_FormElement_Description extends AF_FormElement
 	{
 		$widget_id = $this->admin_get_widget_id();
 
-		$editor_id = 'editor_' . substr( md5( rand() * time() ), 0, 5 );
+		$editor_id = 'wp_editor_' . substr( md5( rand() * time() ), 0, 5 );
 		$field_name = 'elements[' . $widget_id . '][label]';
 
 		$settings = array(
-			'textarea_name' => $field_name
+			'textarea_name' => $field_name,
 		);
 
 		ob_start();
