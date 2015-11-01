@@ -72,10 +72,11 @@ class AF_ResultCharts extends AF_ResultHandler
 		$results = $form_results->results();
 		$html = '';
 
+		$count_charts = 0;
+
 		if( $form_results->count() > 0 )
 		{
 			$element_results = $this->format_results_by_element( $results );
-			$count_charts = 0;
 
 			foreach( $element_results AS $headline => $element_result )
 			{
