@@ -320,8 +320,8 @@ class AF_Form extends AF_Post
 				$old_element_id = $element->id;
 
 				$wpdb->insert( $af_global->tables->elements, array(
-					'questions_id' => $new_form_id,
-					'question'     => $element->question,
+					'element_id' => $new_form_id,
+					'label'        => $element->label,
 					'sort'         => $element->sort,
 					'type'         => $element->name
 				), array(

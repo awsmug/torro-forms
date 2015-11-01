@@ -60,14 +60,14 @@ class AF_FormBuilder_ResponseHandlerExtension
 	 */
 	public static function meta_boxes( $post_type )
 	{
-		$post_types = array( 'questions' );
+		$post_types = array( 'af-forms' );
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-response-handlers',
 				esc_attr__( 'Response Handling', 'af-locale' ),
 				array( __CLASS__, 'meta_box_response_handlers' ),
-				'questions',
+				'af-forms',
 				'normal',
 				'high' );
 		endif;

@@ -59,8 +59,8 @@ class AF_AdminMenu
 	public static function admin_menu()
 	{
 		add_menu_page( esc_attr__( 'Forms', 'af-locale' ), esc_attr__( 'Forms', 'af-locale' ), 'edit_posts', 'AF_Admin', array( 'AF_SettingsPage', 'show' ), '', 50 );
-		add_submenu_page( 'AF_Admin', esc_attr__( 'Create', 'af-locale' ), esc_attr__( 'Create', 'af-locale' ), 'edit_posts', 'post-new.php?post_type=questions' );
-		add_submenu_page( 'AF_Admin', esc_attr__( 'Categories', 'af-locale' ), esc_attr__( 'Categories', 'af-locale' ), 'edit_posts', 'edit-tags.php?taxonomy=questions-categories' );
+		add_submenu_page( 'AF_Admin', esc_attr__( 'Create', 'af-locale' ), esc_attr__( 'Create', 'af-locale' ), 'edit_posts', 'post-new.php?post_type=af-forms' );
+		add_submenu_page( 'AF_Admin', esc_attr__( 'Categories', 'af-locale' ), esc_attr__( 'Categories', 'af-locale' ), 'edit_posts', 'edit-tags.php?taxonomy=af-forms' );
 		add_submenu_page( 'AF_Admin', esc_attr__( 'Settings', 'af-locale' ), esc_attr__( 'Settings', 'af-locale' ), 'edit_posts', 'AF_Admin', array( 'AF_SettingsPage', 'show' ) );
 	}
 
@@ -74,7 +74,7 @@ class AF_AdminMenu
 		global $current_screen;
 		$taxonomy = $current_screen->taxonomy;
 
-		if( $taxonomy == 'questions-categories' )
+		if( $taxonomy == 'af-forms-categories' )
 		{
 			$parent_file = 'AF_Admin';
 		}

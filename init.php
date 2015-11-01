@@ -136,12 +136,13 @@ class AF_Init
 		global $wpdb;
 
 		$tables = array(
-			$wpdb->prefix . 'questions_questions',
-			$wpdb->prefix . 'questions_answers',
-			$wpdb->prefix . 'questions_responds',
-			$wpdb->prefix . 'questions_respond_answers',
-			$wpdb->prefix . 'questions_settings',
-			$wpdb->prefix . 'form_participiants'
+			$wpdb->prefix . 'af_elements',
+			$wpdb->prefix . 'af_element_answers',
+			$wpdb->prefix . 'af_results',
+			$wpdb->prefix . 'af_result_values',
+			$wpdb->prefix . 'af_settings',
+			$wpdb->prefix . 'af_participiants'
+			$wpdb->prefix . 'af_email_notifications'
 		);
 
 		// Checking if all tables are existing
@@ -182,8 +183,6 @@ class AF_Init
 	 */
 	public static function activate( $network_wide )
 	{
-		global $wpdb;
-
 		self::install_tables();
 	}
 
@@ -203,6 +202,12 @@ class AF_Init
 		$table_settings = $wpdb->prefix . 'af_settings';
 		$table_participiants = $wpdb->prefix . 'af_participiants';
 		$table_email_notifications = $wpdb->prefix . 'af_email_notifications';
+
+		$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
+		$wpdb->query( $sql );
 
 		if( '1.1.1' == get_option( 'questions_db_version' ) )
 		{
@@ -357,6 +362,12 @@ class AF_Init
 		$wpdb->query( $sql );
 
 		$sql = "ALTER TABLE {$table_participiants_new} CHANGE survey_id form_id int(11)";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
 		$wpdb->query( $sql );
 
 		update_option( 'af_db_version', '1.0.0' );

@@ -119,7 +119,7 @@ class AF_FormLoader
 		$post = get_post( $ar_form_id );
 		$ar_form_id = $post->ID;
 
-		if( 'questions' != $post->post_type )
+		if( 'af-forms' != $post->post_type )
 		{
 			return $content;
 		}

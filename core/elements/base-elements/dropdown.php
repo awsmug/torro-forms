@@ -50,7 +50,6 @@ class AF_FormElement_Dropdown extends AF_FormElement
 
 	public function input_html()
 	{
-
 		$html = '<select name="' . $this->get_input_name() . '">';
 		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'af-locale' ) . ' -</option>';
 

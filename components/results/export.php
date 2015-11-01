@@ -57,7 +57,7 @@ class AF_Export
 	 */
 	public function add_export_link( $actions, $post )
 	{
-		if( 'questions' != $post->post_type )
+		if( 'af-forms' != $post->post_type )
 		{
 			return $actions;
 		}
@@ -71,7 +71,7 @@ class AF_Export
 		}
 		else
 		{
-			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=questions&export=xls&form_id=' . $post->ID, '?post_type=questions&export=csv&form_id=' . $post->ID );
+			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=af-forms&export=xls&form_id=' . $post->ID, '?post_type=af-forms&export=csv&form_id=' . $post->ID );
 		}
 
 		return $actions;

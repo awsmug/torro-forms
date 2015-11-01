@@ -137,7 +137,7 @@ class AF_Core
 			'rewrite'           => TRUE,
 		);
 
-		register_taxonomy( 'questions-categories', array( 'questions' ), $args_taxonomy );
+		register_taxonomy( 'af-forms-categories', array( 'af-forms' ), $args_taxonomy );
 
 		/**
 		 * Post Types
@@ -163,7 +163,7 @@ class AF_Core
 			'rewrite'           => array( 'slug' => $slug, 'with_front' => TRUE )
 		);
 
-		register_post_type( 'questions', $args_post_type );
+		register_post_type( 'af-forms', $args_post_type );
 	}
 
 	/**
@@ -179,7 +179,7 @@ class AF_Core
 		global $post;
 
 		// Check if we are on the right place
-		if( !is_object( $post ) || !property_exists( $post, 'post_type' ) || 'questions' != $post->post_type )
+		if( !is_object( $post ) || !property_exists( $post, 'post_type' ) || 'af-forms' != $post->post_type )
 		{
 			return $classes;
 		}

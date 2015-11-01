@@ -58,14 +58,14 @@ class AF_FormBuilder_ChartsExtension
 	 */
 	public static function meta_boxes( $post_type )
 	{
-		$post_types = array( 'questions' );
+		$post_types = array( 'af-forms' );
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-results',
 				esc_attr__( 'Results', 'af-locale' ),
 				array( __CLASS__, 'meta_box_results' ),
-				'questions',
+				'af-forms',
 				'normal',
 				'high' );
 		endif;

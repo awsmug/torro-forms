@@ -62,7 +62,7 @@ class AF_Global
 		$this->tables->participiants = $wpdb->prefix . 'af_participiants';
 		$this->tables->email_notifications = $wpdb->prefix . 'af_email_notifications';
 
-		$this->tables = apply_filters( 'questions_tables', $this->tables );
+		$this->tables = apply_filters( 'af_forms_tables', $this->tables );
 	}
 
 	public function add_component( $name, $object )

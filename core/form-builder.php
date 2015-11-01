@@ -127,19 +127,19 @@ class AF_FormBuilder
 	 */
 	public static function meta_boxes( $post_type )
 	{
-		$post_types = array( 'questions' );
+		$post_types = array( 'af-forms' );
 
 		if( in_array( $post_type, $post_types ) )
 		{
 			add_meta_box( 'form-elements',
 			              esc_attr__( 'Elements', 'af-locale' ),
 			              array( __CLASS__, 'meta_box_form_elements' ),
-			              'questions', 'side', 'high' );
+			              'af-forms', 'side', 'high' );
 
 			add_meta_box( 'form-options',
 			              esc_attr__( 'Options', 'af-locale' ),
 			              array( __CLASS__, 'meta_box_options' ),
-			              'questions', 'side', 'high' );
+			              'af-forms', 'side', 'high' );
 
 		}
 	}
@@ -226,7 +226,7 @@ class AF_FormBuilder
 			return;
 		}
 
-		if( 'questions' != $_POST[ 'post_type' ] )
+		if( 'af-forms' != $_POST[ 'post_type' ] )
 		{
 			return;
 		}
@@ -410,7 +410,7 @@ class AF_FormBuilder
 		$form_id = $_REQUEST[ 'form_id' ];
 		$form = get_post( $form_id );
 
-		if( 'questions' != $form->post_type )
+		if( 'af-forms' != $form->post_type )
 		{
 			return;
 		}
@@ -442,7 +442,7 @@ class AF_FormBuilder
 		$form_id = $_REQUEST[ 'form_id' ];
 		$form = get_post( $form_id );
 
-		if( 'questions' != $form->post_type )
+		if( 'af-forms' != $form->post_type )
 		{
 			return;
 		}

@@ -183,36 +183,36 @@
 /**
  * Postbox 2
  */
-.post-type-questions #postbox-container-2 .inside{
+.post-type-af-forms #postbox-container-2 .inside{
     padding:0;
     margin: 0;
 }
-.post-type-questions #postbox-container-2 .inside > div{
+.post-type-af-forms #postbox-container-2 .inside > div{
 }
 
 
-.post-type-questions .general-settings {
+.post-type-af-forms .general-settings {
     background: #f8f8f8 none repeat scroll 0 0;
 }
-.post-type-questions .general-settings table{
+.post-type-af-forms .general-settings table{
     width:100%;
 }
-.post-type-questions .general-settings tr td:first-child{
+.post-type-af-forms .general-settings tr td:first-child{
     min-width: 15%;
 }
-.post-type-questions .general-settings tr td
+.post-type-af-forms .general-settings tr td
 {
     padding: 0.5% 0;
 }
-.post-type-questions .general-settings input
+.post-type-af-forms .general-settings input
 {
     margin-left: 10px;
 }
-.post-type-questions .general-settings .shortcode{
+.post-type-af-forms .general-settings .shortcode{
     width:80%;
 }
 
-.post-type-questions div.section {
+.post-type-af-forms div.section {
     border-top: 1px solid #dfdfdf;
     padding: 1.5%;
     width: 97%;
