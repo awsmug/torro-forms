@@ -40,7 +40,7 @@ class AF_WPEditorBox
 	 * @return AF_WPEditorBox|object
 	 * @since 1.0.0
 	 */
-	public function init()
+	public static function init()
 	{
 		if (null === self::$_instance)
 		{
