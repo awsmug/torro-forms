@@ -898,6 +898,19 @@ abstract class AF_FormElement
 	}
 
 	/**
+	 * Returns the name of an input element
+	 *
+	 * @return string $input_name The name of the input
+	 * @since 1.0.0
+	 */
+	public function get_selector_input_name()
+	{
+		$input_name = 'af_response\\\[' . $this->id . '\\\]';
+
+		return $input_name;
+	}
+
+	/**
 	 * Get all saved results of an element
 	 *
 	 * @return mixed $responses The results as array or FALSE if failed to get responses
