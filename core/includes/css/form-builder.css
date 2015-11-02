@@ -190,9 +190,15 @@
 .post-type-af-forms #postbox-container-2 .inside > div{
 }
 
+.post-type-af-forms .button-loading {
+    background-image: url('../../../../assets/images/loading.gif');
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    padding-left: 28px;
+}
 
 .post-type-af-forms .general-settings {
-    background: #f8f8f8 none repeat scroll 0 0;
+    background: #f5f5f5 none repeat scroll 0 0;
 }
 .post-type-af-forms .general-settings table{
     width:100%;
@@ -213,9 +219,8 @@
 }
 
 .post-type-af-forms div.section {
-    border-top: 1px solid #dfdfdf;
-    padding: 1.5%;
-    width: 97%;
+    border-top: 1px solid #ddd;
+    padding: 15px;
     margin:0;
 }
 
@@ -277,16 +282,16 @@
 }
 
 /**
+ * Form Options
+ */
+#form-options .inside{
+    padding: 6px 0 0;
+}
+/**
  * Form functions
  */
 #form-functions{
     text-align: left;
-}
-#form-functions .button-loading {
-    background-image: url('../../../../assets/images/loading.gif');
-    background-repeat: no-repeat;
-    background-position: 5px 5px;
-    padding-left: 28px;
 }
 
 #form-functions input {

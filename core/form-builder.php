@@ -57,8 +57,6 @@ class AF_FormBuilder
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
-
-		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'form_functions' ) );
 	}
 
 	/**
@@ -162,32 +160,19 @@ class AF_FormBuilder
 	 */
 	public static function meta_box_options()
 	{
-		$html  = '<label for="form-response-handlers-hide"><input id="form-response-handlers-hide" class="hide-postbox-tog" type="checkbox" checked="checked" value="form-response-handlers" name="form-response-handlers-hide">Response Handling</label><br />';
+		$html = '<div class="misc-pub-section">';
+		$html .= '<label for="form-response-handlers-hide"><input id="form-response-handlers-hide" class="hide-postbox-tog" type="checkbox" checked="checked" value="form-response-handlers" name="form-response-handlers-hide">Response Handling</label><br />';
 		$html .= '<label for="form-results-hide"><input id="form-results-hide" class="hide-postbox-tog" type="checkbox" value="form-results" name="form-results-hide">Results</label><br />';
 		$html .= '<label for="form-restrictions-hide"><input id="form-restrictions-hide" class="hide-postbox-tog" type="checkbox" value="form-restrictions" name="form-restrictions-hide">Restrictions</label><br />';
+		$html .= '</div>';
 
 		ob_start();
 		do_action( 'af_form_options' );
 		$html .= ob_get_clean();
 
-		echo $html;
-	}
-
-	/**
-	 * Invitations box
-	 *
-	 * @since 1.0.0
-	 */
-	public static function form_functions()
-	{
-		$html = '<div id="form-functions" class="misc-pub-section">';
-		$html .= '<div id="form-functions-notices"></div>';
+		$html .= '<div class="section general-settings">';
 		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
 		$html .= '<input id="form-delete-results-button" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
-
-		ob_start();
-		do_action( 'af_form_functions' );
-		$html .= ob_get_clean();
 		$html .= '</div>';
 
 		echo $html;

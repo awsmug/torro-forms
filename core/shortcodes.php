@@ -74,7 +74,7 @@ class AF_ShortCodes
 			return;
 		}
 
-		$html = '<div class="form-options shortcode">';
+		$html  = '<div class="misc-pub-section form-options shortcode">';
 		$html .= '<label for="form_shortcode">' . __( 'Form Shortcode:', 'af-locale' ) . '</label> ';
 		$html .= '<input type="text" id="form_shortcode" value="[form id=' . $post->ID . ']" />';
 		$html .= '</div>';

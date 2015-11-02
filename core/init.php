@@ -57,6 +57,7 @@ class AF_Core
 		// Base classes
 		include( $core_folder . 'global.php' ); // Global Awesome Forms object $af_global
 		include( $core_folder . 'class-post.php' );
+		include( $core_folder . 'class-form.php' );
 
 		// Abstract
 		include( $core_folder . 'abstract/class-component.php' );
@@ -74,7 +75,6 @@ class AF_Core
 		include( $core_folder . 'settings/base-settings/general.php' );
 
 		// Form functions
-		include( $core_folder . 'form.php' );
 		include( $core_folder . 'form-loader.php' );
 		include( $core_folder . 'form-process.php' );
 
