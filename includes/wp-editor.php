@@ -271,7 +271,7 @@ class AF_WPEditorBox
 		$widget_id = $_POST[ 'widget_id' ];
 		$editor_id = $_POST[ 'editor_id' ];
 		$field_name = $_POST[ 'field_name' ];
-		$message = $_POST[ 'message' ];
+		$message = isset( $_POST[ 'message' ] ) ? $_POST[ 'message' ] : '';
 
 		$html = self::editor( $message, $editor_id, $field_name );
 
