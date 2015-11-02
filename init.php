@@ -296,20 +296,20 @@ class AF_Init
 	}
 
 	private static function get_charset_collate() {
-    global $wpdb;
+		global $wpdb;
 
-    $charset_collate = '';
-    if ( $wpdb->has_cap( 'collation' ) ) {
-      if ( ! empty( $wpdb->charset ) ) {
-        $charset_collate = "DEFAULT CHARACTER SET " . $wpdb->charset;
-      }
-      if ( ! empty( $wpdb->collate ) ) {
-        $charset_collate .= " COLLATE " . $wpdb->collate;
-      }
-    }
+		$charset_collate = '';
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			if ( ! empty( $wpdb->charset ) ) {
+				$charset_collate = "DEFAULT CHARACTER SET " . $wpdb->charset;
+			}
+			if ( ! empty( $wpdb->collate ) ) {
+				$charset_collate .= " COLLATE " . $wpdb->collate;
+			}
+		}
 
-    return $charset_collate;
-  }
+		return $charset_collate;
+	}
 
 	public static function update_from_questions_to_af()
 	{
