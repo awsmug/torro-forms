@@ -213,8 +213,9 @@ class AF_Init
 		{
 			self::update_from_questions_to_af();
 		}
-		elseif( '' == get_option( 'af_db_version' ) )
+		elseif( ! get_option( 'af_db_version' ) )
 		{
+			$charset_collate = self::get_charset_collate();
 
 			$sql = "CREATE TABLE $table_elements (
 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -223,7 +224,7 @@ class AF_Init
 			sort int(11) NOT NULL,
 			type char(50) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
+			) ENGINE = INNODB " . $charset_collate . ";";
 
 			dbDelta( $sql );
 
@@ -234,7 +235,7 @@ class AF_Init
 			answer text NOT NULL,
 			sort int(11) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
+			) ENGINE = INNODB " . $charset_collate . ";";
 
 			dbDelta( $sql );
 
@@ -246,7 +247,7 @@ class AF_Init
 			remote_addr char(15) NOT NULL,
 			cookie_key char(50) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
+			) ENGINE = INNODB " . $charset_collate . ";";
 
 			dbDelta( $sql );
 
@@ -256,7 +257,7 @@ class AF_Init
 			element_id int(11) NOT NULL,
 			value text NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
+			) ENGINE = INNODB " . $charset_collate . ";";
 
 			dbDelta( $sql );
 
@@ -266,7 +267,7 @@ class AF_Init
 			name text NOT NULL,
 			value text NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
+			) ENGINE = INNODB " . $charset_collate . ";";
 
 			dbDelta( $sql );
 
@@ -275,7 +276,7 @@ class AF_Init
 			form_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
+			) ENGINE = INNODB " . $charset_collate . ";";
 
 			dbDelta( $sql );
 
@@ -290,13 +291,29 @@ class AF_Init
 			subject text NOT NULL,
 			message text NOT NULL,
 			UNIQUE KEY id (id)
-			) ENGINE = INNODB DEFAULT CHARSET = utf8_general_ci;";
+			) ENGINE = INNODB " . $charset_collate . ";";
 
 			dbDelta( $sql );
 
 			update_option( 'af_db_version', '1.0.0' );
 		}
 	}
+
+	private static function get_charset_collate() {
+    global $wpdb;
+
+    $charset_collate = '';
+    if ( $wpdb->has_cap( 'collation' ) ) {
+      if ( ! empty( $wpdb->charset ) ) {
+        $charset_collate = "DEFAULT CHARACTER SET " . $wpdb->charset;
+      }
+      if ( ! empty( $wpdb->collate ) ) {
+        $charset_collate .= " COLLATE " . $wpdb->collate;
+      }
+    }
+
+    return $charset_collate;
+  }
 
 	public static function update_from_questions_to_af()
 	{
