@@ -320,7 +320,7 @@ class AF_Form extends AF_Post
 				$old_element_id = $element->id;
 
 				$wpdb->insert( $af_global->tables->elements, array(
-					'element_id' => $new_form_id,
+					'form_id' => $new_form_id,
 					'label'        => $element->label,
 					'sort'         => $element->sort,
 					'type'         => $element->name
@@ -339,8 +339,8 @@ class AF_Form extends AF_Post
 					foreach( $element->answers AS $answer ):
 						$old_answer_id = $answer[ 'id' ];
 
-						$wpdb->insert( $af_global->tables->answers, array(
-							'question_id' => $new_element_id,
+						$wpdb->insert( $af_global->tables->element_answers, array(
+							'element_id' => $new_element_id,
 							'answer'      => $answer[ 'text' ],
 							'section'     => $answer[ 'section' ],
 							'sort'        => $answer[ 'sort' ]
@@ -362,7 +362,7 @@ class AF_Form extends AF_Post
 					foreach( $element->settings AS $name => $value ):
 
 						$wpdb->insert( $af_global->tables->settings, array(
-							'question_id' => $new_element_id,
+							'element_id' => $new_element_id,
 							'name'        => $name,
 							'value'       => $value
 						), array(
@@ -400,7 +400,7 @@ class AF_Form extends AF_Post
 			foreach( $this->participiants AS $participiant_id ):
 
 				$wpdb->insert( $af_global->tables->participiants, array(
-					'survey_id' => $new_form_id,
+					'form_id' => $new_form_id,
 					'user_id'   => $participiant_id
 				), array(
 					               '%d',
