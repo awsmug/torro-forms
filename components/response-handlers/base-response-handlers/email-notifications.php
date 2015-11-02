@@ -209,7 +209,7 @@ class AF_EmailNotifications extends AF_ResponseHandler
 						'from_email'        => $notification[ 'from_email' ],
 						'to_email'          => $notification[ 'to_email' ],
 						'subject'           => $notification[ 'subject' ],
-						'message'           => $_POST[ 'email_notification_message_' . $id ]
+						'message'           => $_POST[ 'email_notification_message-' . $id ]
 					),
 					array(
 						'%d',
