@@ -568,11 +568,11 @@ abstract class AF_FormElement
 		do_action( 'af_element_admin_tabs_bottom', $this );
 		$html .= ob_get_clean();
 
-		$html .= $this->admin_widget_hidden_fields();
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
 
-		$html .= '</div>';
-		$html .= '</div>';
-		$html .= '</div>';
+		$html .= $this->admin_widget_hidden_fields();
 
 		$html .= '</div>';
 
