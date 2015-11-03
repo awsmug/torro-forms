@@ -3,24 +3,27 @@
 /**
  * 	Form Element
  */
-.af-form .form-element {
+.af-form .af-element {
     margin-bottom: 20px;
 }
-
-.af-form .form-element p {
-    margin: 5px;
+.af-form .af-element label{
+    margin-bottom: 5px;
+    display: block;
+    font-size: 1.2em;
 }
-
-.af-form .form-element > h3,
-.af-form .form-element > h5,
-.af-form .form-element > div {
-    margin-bottom: 10px;
+.af-form .af-element-description
+{
+    margin-bottom: 5px;
 }
-
-.af-form .form-element hr {
-    margin: 0;
-    height: 5px;
-    border-radius: 3px;
+.af-form .af-element table
+{
+    margin-bottom: 0;
+}
+.af-form input[ type="text" ],
+.af-form textarea,
+.af-form select
+{
+    width:100%;
 }
 
 /**

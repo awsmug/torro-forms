@@ -44,7 +44,18 @@ class AF_FormElement_Text extends AF_FormElement
 
 	public function input_html()
 	{
-		return '<p><input type="text" name="' . $this->get_input_name() . '" value="' . $this->response . '" /></p>';
+		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
+
+		$html .= '<input type="text" name="' . $this->get_input_name() . '" value="' . $this->response . '" />';
+
+		if( !empty( $this->settings[ 'description' ] ) )
+		{
+			$html .= '<small>';
+			$html .= $this->settings[ 'description' ];
+			$html .= '</small>';
+		}
+
+		return $html;
 	}
 
 	public function settings_fields()

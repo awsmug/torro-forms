@@ -48,30 +48,9 @@ class AF_FormElement_Separator extends AF_FormElement
 
 	public function input_html()
 	{
-
-		$html = '<div class="form-element form-element-' . $this->id . '">';
-
-		if( !empty( $this->settings[ 'header' ] ) )
-		{
-			$html .= '<h3>' . $this->settings[ 'header' ] . '</h3>';
-		}
-
-		$html .= '<hr /></div>';
+		$html = '<hr />';
 
 		return $html;
-	}
-
-	public function settings_fields()
-	{
-
-		$this->settings_fields = array(
-			'header' => array(
-				'title'       => esc_attr__( 'Headline', 'af-locale' ),
-				'type'        => 'textarea',
-				'description' => esc_attr__( 'Text which will be shown above the separator', 'af-locale' ),
-				'default'     => ''
-			)
-		);
 	}
 }
 

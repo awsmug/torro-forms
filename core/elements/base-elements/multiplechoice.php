@@ -49,8 +49,10 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 
 	public function input_html()
 	{
-		$html = '';
-		foreach( $this->answers AS $answer ):
+		$html = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
+
+		foreach( $this->answers AS $answer )
+		{
 			$checked = '';
 
 			if( is_array( $this->response ) && in_array( $answer[ 'text' ], $this->response ) )
@@ -58,8 +60,15 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<p><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . ' /> ' . $answer[ 'text' ] . '</p>';
-		endforeach;
+			$html .= '<div class="af_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . ' /> ' . $answer[ 'text' ] . '</div>';
+		}
+
+		if( !empty( $this->settings[ 'description' ] ) )
+		{
+			$html .= '<small>';
+			$html .= $this->settings[ 'description' ];
+			$html .= '</small>';
+		}
 
 		return $html;
 	}

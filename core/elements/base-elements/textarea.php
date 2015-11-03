@@ -45,8 +45,18 @@ class AF_FormElement_Textarea extends AF_FormElement
 
 	public function input_html()
 	{
+		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
 
-		return '<p><textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ] . '" rows="' . $this->settings[ 'rows' ] . '" cols="' . $this->settings[ 'cols' ] . '">' . $this->response . '</textarea></p>';
+		$html .= '<textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ] . '" rows="' . $this->settings[ 'rows' ] . '" cols="' . $this->settings[ 'cols' ] . '">' . $this->response . '</textarea>';
+
+		if( !empty( $this->settings[ 'description' ] ) )
+		{
+			$html .= '<small>';
+			$html .= $this->settings[ 'description' ];
+			$html .= '</small>';
+		}
+
+		return $html;
 	}
 
 	public function settings_fields()

@@ -50,7 +50,9 @@ class AF_FormElement_Dropdown extends AF_FormElement
 
 	public function input_html()
 	{
-		$html = '<select name="' . $this->get_input_name() . '">';
+		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
+
+		$html .= '<select name="' . $this->get_input_name() . '">';
 		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'af-locale' ) . ' -</option>';
 
 		foreach( $this->answers AS $answer ):
@@ -65,6 +67,13 @@ class AF_FormElement_Dropdown extends AF_FormElement
 		endforeach;
 
 		$html .= '</select>';
+
+		if( !empty( $this->settings[ 'description' ] ) )
+		{
+			$html .= '<small>';
+			$html .= $this->settings[ 'description' ];
+			$html .= '</small>';
+		}
 
 		return $html;
 	}

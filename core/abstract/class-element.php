@@ -379,7 +379,7 @@ abstract class AF_FormElement
 
 		$html = '';
 
-		$element_classes = array( 'form-element', 'form-element-' . $this->id );
+		$element_classes = array( 'af-element', 'af-element-' . $this->id );
 		$element_classes = apply_filters( 'af_element_classes', $element_classes, $this );
 
 		$html .= '<div class="' . implode( ' ', $element_classes ) . '">';
@@ -396,21 +396,8 @@ abstract class AF_FormElement
 			$html .= '</ul></div>';
 		endif;
 
-		if( !empty( $this->label ) ):
-			$html .= '<h5>' . $this->label . '</h5>';
-		endif;
-
-		// Adding description
-		if( !empty( $this->settings[ 'description' ] ) ):
-			$html .= '<div class="form-element-description">';
-			$html .= $this->settings[ 'description' ];
-			$html .= '</div>';
-		endif;
-
 		// Fetching user response data
 		$this->get_response();
-
-		$html .= '<div class="answer">';
 
 		if( 0 == count( $this->answers ) && $this->has_answers == TRUE )
 		{
@@ -420,8 +407,6 @@ abstract class AF_FormElement
 		{
 			$html .= $this->input_html();
 		}
-
-		$html .= '</div>';
 
 		// End Echo Errors
 		if( is_array( $errors ) && count( $errors ) > 0 ):
@@ -849,7 +834,6 @@ abstract class AF_FormElement
 
 	private function admin_widget_action_buttons()
 	{
-
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'af_element_bottom_actions', array(
 			'delete_form_element' => array(
@@ -871,7 +855,6 @@ abstract class AF_FormElement
 
 	private function admin_widget_hidden_fields()
 	{
-
 		$widget_id = $this->admin_get_widget_id();
 
 		// Adding hidden Values for element

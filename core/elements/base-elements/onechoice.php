@@ -49,17 +49,25 @@ class AF_FormElement_OneChoice extends AF_FormElement
 
 	public function input_html()
 	{
-		$html = '';
+		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
 
-		foreach( $this->answers AS $answer ):
+		foreach( $this->answers AS $answer )
+		{
 			$checked = '';
 			if( $this->response == $answer[ 'text' ] )
 			{
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<p><input type="radio" name="' . $this->get_input_name() . '" value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] . '</p>';
-		endforeach;
+			$html .= '<div class="af_element_radio"><input type="radio" name="' . $this->get_input_name() . '" value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] . '</div>';
+		}
+
+		if( !empty( $this->settings[ 'description' ] ) )
+		{
+			$html .= '<small>';
+			$html .= $this->settings[ 'description' ];
+			$html .= '</small>';
+		}
 
 		return $html;
 	}
