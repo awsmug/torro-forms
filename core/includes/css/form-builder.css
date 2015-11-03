@@ -212,7 +212,11 @@
 }
 .post-type-af-forms .general-settings input
 {
-    margin-left: 10px;
+    margin-right:10px;
+}
+.post-type-af-forms .general-settings input:last-child
+{
+    margin:0;
 }
 .post-type-af-forms .general-settings .shortcode{
     width:80%;
@@ -285,8 +289,15 @@
  * Form Options
  */
 #form-options .inside{
-    padding: 6px 0 0;
+    padding: 0;
+    margin:0;
 }
+
+#form-options .notices {
+    display: none;
+    padding-top:20px;
+}
+
 /**
  * Form functions
  */
@@ -299,15 +310,6 @@
 }
 #form-functions input:last-child{
     margin-right: 0;
-}
-
-#form-functions-notices{
-    display: none;
-    border: 1px dashed #CCC;
-    padding: 5px;
-    font-size: 11px;
-    margin-bottom: 10px;
-    text-align: center;
 }
 
 /**

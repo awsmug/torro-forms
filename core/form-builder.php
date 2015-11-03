@@ -89,12 +89,6 @@ class AF_FormBuilder
 			af_add_element_templatetag( $element->id, $element->label );
 		endforeach;
 
-		$html .= '<div id="af-drag-drop-inside">';
-		ob_start();
-		do_action( 'af_drag_drop_inside' );
-		$html .= ob_get_clean();
-		$html .= '</div>';
-
 		$html .= '</div>';
 
 		$html .= '</div>';
@@ -160,7 +154,8 @@ class AF_FormBuilder
 	 */
 	public static function meta_box_options()
 	{
-		$html = '';
+		$html  = '<div class="notices misc-pub-section">';
+		$html .= '</div>';
 		/** Todo Adding this later!
 		$html .= '<div class="misc-pub-section">';
 		$html .= '<label for="form-response-handlers-hide"><input id="form-response-handlers-hide" class="hide-postbox-tog" type="checkbox" checked="checked" value="form-response-handlers" name="form-response-handlers-hide">Response Handling</label><br />';

@@ -67,6 +67,12 @@ class AF_Form extends AF_Post
 	public $splitter_count = 0;
 
 	/**
+	 * @var array Internal variable for transfering answers on dublicating
+	 * @since 1.0.0
+	 */
+	private $answer_transfers = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param int $id The id of the form
