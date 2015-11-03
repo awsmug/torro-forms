@@ -56,23 +56,23 @@
 			connectToSortable: "#drag-drop-inside",
 			addClasses: false,
 			start: function( event, ui ) {
-				ui.helper.css( 'height', 'auto' ).css( 'width', '100px' );
+				ui.helper.css( 'height', 'auto' ).css( 'width', '100%' );
 			},
 			stop: function( event, ui ) {
 				ui.helper.css( 'width', '100%' ).css( 'height', 'auto' );
 				ui.helper.addClass( 'widget' );
 
 				var nr = af_rand();
+				var id = 'widget_formelement_' + nr;
 
-				var i = 0;
-				$( '#drag-drop-inside .formelement' ).each( function( e ) { i++; });
+				// Replacing name
+				ui.helper.attr( 'id', id );
+				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
+
+				var i = $( '#drag-drop-inside .formelement' ).length -1;
 
 				var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
 				$( input_name ).val( i ) ;
-
-				var id = 'widget_formelement_' + nr;
-				ui.helper.attr( 'id', id );
-				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
 			}
 		});
 
@@ -93,23 +93,21 @@
 				ui.helper.addClass( 'widget' );
 
 				var nr = af_rand();
+				var id = 'widget_formelement_' + nr;
 
-				var i = 0;
-				$( '#drag-drop-inside .formelement' ).each( function( e ) { i++; });
+				ui.helper.attr( 'id', id );
+				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
+
+				var i = $( '#drag-drop-inside .formelement' ).length -1;
 
 				var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
 				$( input_name ).val( i ) ;
 
-				var id = 'widget_formelement_' + nr;
-				ui.helper.attr( 'id', id );
-				ui.helper.html( ui.helper.html().replace( /XXnrXX/g, nr ) );
-
-				var widget_id = ui.helper.attr( 'id' );
-				var editor_id = 'description_content-' +  widget_id;
+				var editor_id = 'description_content-' +  id;
 
 				var data = {
 					action: 'af_get_editor_html',
-					widget_id: widget_id,
+					widget_id: id,
 					editor_id: editor_id,
 					field_name: 'elements[widget_formelement_' + nr + '][label]',
 				};
@@ -367,12 +365,12 @@
 
 					var response_text = translation_fb.duplicated_form_successfully + ' <a href="' + response.admin_url + '">' + translation_fb.edit_form + '</a>';
 
-					$( '#form-functions-notices').html( response_text );
-					$( '#form-functions-notices').show();
+					$( '#form-options .notices').html( response_text );
+					$( '#form-options .notices').show();
 
 					button.removeClass( 'button-loading' );
 					
-					$( '#form-functions-notices' ).fadeOut( 5000 );
+					$( '#form-options .notices' ).fadeOut( 5000 );
 				});
 				
 			}else{
