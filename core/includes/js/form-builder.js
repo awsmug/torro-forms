@@ -73,6 +73,13 @@
 
 				var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
 				$( input_name ).val( i ) ;
+
+				af_answersortable();
+				af_delete_formelement();
+				af_deleteanswer();
+				af_rewriteheadline();
+				af_element_tabs();
+				check_max_input_vars();
 			}
 		});
 
@@ -112,6 +119,13 @@
 					field_name: 'elements[widget_formelement_' + nr + '][label]',
 				};
 
+				af_answersortable();
+				af_delete_formelement();
+				af_deleteanswer();
+				af_rewriteheadline();
+				af_element_tabs();
+				check_max_input_vars();
+
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
 
@@ -132,13 +146,6 @@
 			placeholder: 'form-element-placeholder',
 			items:'.formelement',
 			receive: function( event, ui ){
-				
-				af_answersortable();
-              	af_delete_formelement();
-              	af_deleteanswer();
-              	af_rewriteheadline();
-              	af_element_tabs();
-              	check_max_input_vars();
 			},
 			update: function( event, ui ) {
 				var order = []; 
