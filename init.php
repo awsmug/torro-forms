@@ -209,7 +209,7 @@ class AF_Init
 		{
 			self::update_from_questions_to_af();
 		}
-		elseif( ! get_option( 'af_db_version' ) )
+		elseif( ! get_option( 'af_db_version' ) || !self::is_installed() )
 		{
 			$charset_collate = self::get_charset_collate();
 
