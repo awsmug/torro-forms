@@ -78,7 +78,12 @@ class AF_FormBuilder_ChartsExtension
 	 */
 	public static function meta_box_results()
 	{
-		global $af_global;
+		global $post, $af_global;
+
+		$form_id = $post->ID;
+
+		$form_results = new AF_Form_Results( $form_id );
+		$results = $form_results->results();
 
 		$result_handlers = $af_global->result_handlers;
 
@@ -108,9 +113,16 @@ class AF_FormBuilder_ChartsExtension
 
 		$html .= '</div>';
 
-		$html .= '<div class="form-options section general-settings">';
+		$html .= '<div class="section general-settings">';
 
-		$html .= '<input id="form-delete-results" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
+		$delete_results_disabled = ' disabled="disabled"';
+
+		if( $form_results->count() > 0 )
+		{
+			$delete_results_disabled = '';
+		}
+
+		$html .= '<input' . $delete_results_disabled . ' id="form-delete-results" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete Results', 'af-locale' ) . '" />';
 
 		ob_start();
 		do_action( 'af_results_general_settings' );
