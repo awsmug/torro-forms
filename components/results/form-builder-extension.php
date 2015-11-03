@@ -108,9 +108,15 @@ class AF_FormBuilder_ChartsExtension
 
 		$html .= '</div>';
 
+		$html .= '<div class="form-options section general-settings">';
+
+		$html .= '<input id="form-delete-results" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete results', 'af-locale' ) . '" />';
+
 		ob_start();
-		do_action( 'form_results_content_bottom' );
+		do_action( 'af_results_general_settings' );
 		$html .= ob_get_clean();
+
+		$html .= '</div>';
 
 		echo $html;
 	}

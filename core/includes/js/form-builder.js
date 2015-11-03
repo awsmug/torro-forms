@@ -381,12 +381,12 @@
         /**
          * Delete form results
          */
-        $( '#form-delete-results-button' ).click( function(){
+        $( '#form-delete-results' ).click( function(){
             var button = $( this );
 
             if( button.hasClass( 'button' ) ){
 
-                var form_deletresults_dialog = $( '#delete_responses_dialog' );
+                var form_deletresults_dialog = $( '#delete_results_dialog' );
 
                 form_deletresults_dialog.dialog({
                     'dialogClass'   : 'wp-dialog',

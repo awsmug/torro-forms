@@ -41,7 +41,7 @@ class AF_ResultCharts extends AF_ResultHandler
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-		add_action( 'form_results_content_bottom', array( $this, 'charts_general_settings' ), 10 );
+		add_action( 'af_result_charts_postbox_bottom', array( $this, 'charts_general_settings' ), 10 );
 	}
 
 	/**
@@ -226,8 +226,7 @@ class AF_ResultCharts extends AF_ResultHandler
 			$checked_yes = ' checked="checked"';
 		}
 
-		$html = '<div class="form-options section general-settings">';
-		$html .= '<table>';
+		$html = '<table>';
 		$html .= '<tr>';
 		$html .= '<td><label for="show_results">' . esc_attr__( 'After submitting:', 'af-locale' ) . '</label></td>';
 		$html .= '<td>';
@@ -241,9 +240,6 @@ class AF_ResultCharts extends AF_ResultHandler
 		$html .= ob_get_clean();
 
 		$html .= '</table>';
-
-
-		$html .= '</div>';
 
 		echo $html;
 	}
