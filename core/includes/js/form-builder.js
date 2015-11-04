@@ -318,30 +318,33 @@
             var nr = af_rand();
 
             var sections = 'input[name="elements\[' + element_id + '\]\[sections\]"]';
-            var sections = $( sections ).val();
-            
+            var sections = $( sections ).val()
+
             // Setting up new answer HTML
-            var answer_content = '';
-            answer_content = '<div class="answer" id="answer_XXnrXX">';
+            var answer_content = '<div class="answer" id="answer_XXnrXX">';
             answer_content = answer_content + '<p><input type="text" id="answer_XXnrXX_input" name="elements[' + element_id + '][answers][id_XXnrXX][answer]" /></p>';
             answer_content = answer_content + '<input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][id]" /><input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][sort]" />';
-            if( 'yes' == sections ){
+
+			if( 'yes' == sections ){
                 var section_key = $( clicked_container ).parent().find( 'input[name="section_key"]' ).val();
                 answer_content = answer_content + '<input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][section]" value="' + section_key + '" />';
             }
-            answer_content = answer_content + ' <input type="button" value="' + translation_fb.delete + '" class="delete_answer button answer_action"></div>';
+
+			answer_content = answer_content + ' <input type="button" value="' + translation_fb.delete + '" class="delete_answer button answer_action"></div>';
             answer_content = answer_content.replace( /XXnrXX/g, nr );
-            
+
             // Getting order number for new answer
             var order = 0;
             $( clicked_container ).parent().find( '.answer' ).each( function( e ) { order++; });
-            
+
             // Adding Content
             if( 'yes' == sections ){
-                $( answer_content ).appendTo( "#" + element_id + " #section_" + section_key + " .answers" );
-            }else{
-                $( answer_content ).appendTo( "#" + element_id + " .answers" );
-            }
+                var selector = "#" + element_id + " #section_" + section_key + " .answers";
+            }else {
+				var selector = "#" + element_id + " .answers";
+			}
+
+			$( selector ).append( answer_content );
             
             var answer_input = $( "#answer_" + nr + "_input" );
             answer_input.focus();
@@ -514,7 +517,6 @@
 			var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
 			random = random * now.getTime();
 			random = random.toString().substring( 0, 5 );
-			console.log( random ); 
 			return random;
 		}
 		

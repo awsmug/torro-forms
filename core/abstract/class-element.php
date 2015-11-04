@@ -140,11 +140,19 @@ abstract class AF_FormElement
 	var $response;
 
 	/**
+	 * Contains Admin tabs
+	 *
+	 * @var array
+	 * @since 1.0.0
+	 */
+	private $admin_tabs = array();
+
+	/**
 	 * The settings fields
 	 *
 	 * @since 1.0.0
 	 */
-	var $settings_fields = array();
+	protected $settings_fields = array();
 
 	/**
 	 * Contains all settings of the element
@@ -235,6 +243,7 @@ abstract class AF_FormElement
 	 * @param string $label
 	 *
 	 * @since 1.0.0
+	 * @return boolean
 	 */
 	private function set_label( $label, $order = NULL )
 	{
@@ -469,11 +478,11 @@ abstract class AF_FormElement
 		 */
 		if( NULL == $this->id )
 		{
-			$html = '<div class="formelement formelement-' . $this->name . ' ' . $id_name . '">';
+			$html = '<div id="' . $id_name . '" class="formelement formelement-' . $this->name . '">';
 		}
 		else
 		{
-			$html = '<div class="widget formelement formelement-' . $this->name . ' ' . $id_name . '">';
+			$html = '<div id="' . $id_name . '" class="widget formelement formelement-' . $this->name . '">';
 		}
 
 		/**
@@ -491,9 +500,10 @@ abstract class AF_FormElement
 		$html .= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 		$html .= '<div class="widget-title">';
 
-		if( '' != $this->icon_url ):
+		if( '' != $this->icon_url )
+		{
 			$html .= '<img class="form-elements-widget-icon" src ="' . $this->icon_url . '" />';
-		endif;
+		}
 		$html .= '<h4>' . $title . '</h4>';
 
 		$html .= '</div>';
@@ -507,46 +517,56 @@ abstract class AF_FormElement
 
 		$html .= '<div class="widget-inside">';
 		$html .= '<div class="widget-content">';
-		$html .= '<div class="form_element_tabs">';
 
 		/**
 		 * Tab Navi
 		 */
-		$html .= '<ul class="tabs">';
-		// If Element is form element> Show content tab
-		$html .= '<li><a href="#tab_' . $jquery_widget_id . '_content">' . esc_attr__( 'Content', 'af-locale' ) . '</a></li>';
+		$this->admin_add_tab( esc_attr__( 'Content', 'af-locale' ), $this->admin_widget_content_tab() );
 
-		// If Element has settings > Show settings tab
-		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 )
+		$settings = $this->admin_widget_settings_tab();
+		if( FALSE !== $settings )
 		{
-			$html .= '<li><a href="#tab_' . $jquery_widget_id . '_settings">' . esc_attr__( 'Settings', 'af-locale' ) . '</a></li>';
+			$this->admin_add_tab(  esc_attr__( 'Settings', 'af-locale' ), $settings );
 		}
 
-		// Adding further tabs
-		ob_start();
-		do_action( 'af_element_admin_tabs', $this );
-		$html .= ob_get_clean();
+		$admin_tabs = apply_filters( 'af_element_admin_tabs', $this->admin_tabs );
 
-		$html .= '</ul>';
+		if( count( $admin_tabs ) > 1 )
+		{
+			$html .= '<div class="form_element_tabs">';
+			$html .= '<ul class="tabs">';
+
+			foreach( $admin_tabs AS $key => $tab )
+			{
+				$html .= '<li><a href="#tab_' . $jquery_widget_id . '_' . $key .  '">' . $tab[ 'title' ] . '</a></li>';
+			}
+
+			$html .= '</ul>';
+		}
 
 		$html .= '<div class="clear"></div>'; // Underline of tabs
 
 		/**
 		 * Content of Tabs
 		 */
-		// Adding Content Tab
-		if( $this->has_content ):
-			$html .= '<div id="tab_' . $jquery_widget_id . '_content" class="tab_content_answers_content">';
-			$html .= $this->admin_widget_content_tab();
-			$html .= '</div>';
-		endif;
+		if( count( $admin_tabs ) > 1 )
+		{
+			foreach( $admin_tabs AS $key => $tab )
+			{
+				$html .= '<div id="tab_' . $jquery_widget_id . '_' . $key .   '">';
+				$html .= $tab[ 'content' ];
+				$html .= '</div>';
+			}
 
-		// Adding settings tab
-		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 ):
-			$html .= '<div id="tab_' . $jquery_widget_id . '_settings" class="tab_settings_content">';
-			$html .= $this->admin_widget_settings_tab();
 			$html .= '</div>';
-		endif;
+		}
+		else
+		{
+			foreach( $admin_tabs AS $key => $tab )
+			{
+				$html.= $tab[ 'content' ];
+			}
+		}
 
 		// Adding further content
 		ob_start();
@@ -562,13 +582,26 @@ abstract class AF_FormElement
 
 		$html .= '</div>';
 		$html .= '</div>';
-		$html .= '</div>';
 
 		$html .= $this->admin_widget_hidden_fields();
 
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Adds Tab for Element
+	 *
+	 * @param $title
+	 * @param $content
+	 */
+	public function admin_add_tab( $title, $content )
+	{
+		$this->admin_tabs[] = array(
+			'title' => $title,
+			'content' => $content
+		);
 	}
 
 	/**
@@ -607,7 +640,7 @@ abstract class AF_FormElement
 		if( FALSE === $content_html )
 		{
 			// Label
-			$html = '<p><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" /><p>';
+			$html = '<label for="elements[' . $widget_id . '][label]">' . __( 'Label ', 'af-locale' ) . '</label><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" />';
 
 			// Answers
 			if( $this->has_answers ):
@@ -732,11 +765,17 @@ abstract class AF_FormElement
 		$html = '';
 
 		// Running each setting field
-		foreach( $this->settings_fields AS $name => $field ):
-			$html .= $this->admin_widget_settings_field( $name, $field );
-		endforeach;
+		if( is_array( $this->settings_fields ) && count( $this->settings_fields ) > 0 )
+		{
+			foreach( $this->settings_fields AS $name => $field )
+			{
+				$html .= $this->admin_widget_settings_field( $name, $field );
+			}
 
-		return $html;
+			return $html;
+		}
+
+		return FALSE;
 	}
 
 	/**
