@@ -109,6 +109,24 @@ function af_is_form()
 	return FALSE;
 }
 
+function af_clipboard_field( $label, $content )
+{
+	$id = 'cb_' . af_id();
+
+	$html = '<div class="clipboardfield">';
+		$html .= '<label for="' . $id . '">' . $label . '</label> ';
+		$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
+
+		$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
+		$html .= '<img src="' . AF_URLPATH . 'assets/images/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'af-locale' ) . '" />';
+		$html .= '</button>';
+
+		$html .= '<div style="clear:both;"></div>';
+	$html .= '</div>';
+
+	return $html;
+}
+
 /**
  * Getting standard mailtext strings
  *

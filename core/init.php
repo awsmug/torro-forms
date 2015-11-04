@@ -175,7 +175,6 @@ class AF_Core
 	 */
 	public static function add_body_class( $classes )
 	{
-
 		global $post;
 
 		// Check if we are on the right place

@@ -1,6 +1,27 @@
 (function ($) {
 	"use strict";
 	$( function () {
+
+		var clipboard = new Clipboard( '.clipboard' );
+
+		clipboard.on( 'success', function( e ) {
+			e.clearSelection();
+			showTooltip( e.trigger, translation_fb.copied );
+		});
+
+		function showTooltip( elem, msg ) {
+			elem.setAttribute( 'class', 'clipboard tooltipped tooltipped-s button' );
+			elem.setAttribute( 'aria-label', msg );
+		}
+
+		var btns = document.querySelectorAll( '.clipboard' );
+
+		for ( var i = 0; i < btns.length; i++ ) {
+			btns[i].addEventListener( 'mouseleave', function(e) {
+				e.currentTarget.setAttribute( 'class', 'clipboard button' );
+				e.currentTarget.removeAttribute( 'aria-label' );
+			});
+		}
 	    
 	    /**
          * Counting all input fields of a selected container

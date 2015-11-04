@@ -492,7 +492,8 @@ class AF_FormBuilder
 			'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'af-locale' ),
 			'of'                           => esc_attr__( 'of', 'af-locale' ),
 			'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'af-locale' ),
-			'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'af-locale' )
+			'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'af-locale' ),
+			'copied'                       => esc_attr__( 'Copied!', 'af-locale' )
 		);
 
 		wp_enqueue_script( 'jquery-ui-draggable' );
@@ -503,7 +504,9 @@ class AF_FormBuilder
 		wp_enqueue_script( 'admin-widgets' );
 		wp_enqueue_script( 'wpdialogs-popup' );
 
-		wp_enqueue_script( 'af-admin-forms-post-type', AF_URLPATH . '/core/includes/js/form-builder.js' );
+		wp_enqueue_script( 'af-admin-forms-clipboard-js', AF_URLPATH . 'core/includes/js/clipboard.min.js' );
+
+		wp_enqueue_script( 'af-admin-forms-post-type', AF_URLPATH . 'core/includes/js/form-builder.js' );
 		wp_localize_script( 'af-admin-forms-post-type', 'translation_fb', $translation );
 
 		if( wp_is_mobile() )
