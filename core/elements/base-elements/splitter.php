@@ -33,7 +33,7 @@ if( !defined( 'ABSPATH' ) )
 class AF_FormElement_Splitter extends AF_FormElement
 {
 
-	public function __construct( $id = NULL )
+	public function init()
 	{
 		$this->name = 'Splitter';
 		$this->title = esc_attr__( 'Split Form', 'af-locale' );
@@ -42,8 +42,6 @@ class AF_FormElement_Splitter extends AF_FormElement
 
 		$this->has_content = FALSE;
 		$this->splits_form = TRUE;
-
-		parent::__construct( $id );
 	}
 }
 

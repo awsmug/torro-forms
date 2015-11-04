@@ -33,7 +33,7 @@ if( !defined( 'ABSPATH' ) )
 class AF_FormElement_OneChoice extends AF_FormElement
 {
 
-	public function __construct( $id = NULL )
+	public function init()
 	{
 		$this->name = 'OneChoice';
 		$this->title = esc_attr__( 'One Choice', 'af-locale' );
@@ -43,8 +43,6 @@ class AF_FormElement_OneChoice extends AF_FormElement
 		$this->has_answers = TRUE;
 		$this->answer_is_multiple = FALSE;
 		$this->is_analyzable = TRUE;
-
-		parent::__construct( $id );
 	}
 
 	public function input_html()

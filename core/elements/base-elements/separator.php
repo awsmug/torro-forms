@@ -33,17 +33,14 @@ if( !defined( 'ABSPATH' ) )
 class AF_FormElement_Separator extends AF_FormElement
 {
 
-	public function __construct( $id = NULL )
+	public function init()
 	{
-
 		$this->name = 'Separator';
 		$this->title = esc_attr__( 'Separator', 'af-locale' );
 		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between elements.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . '/assets/images/icon-separator.png';
 
 		$this->has_content = FALSE;
-
-		parent::__construct( $id );
 	}
 
 	public function input_html()

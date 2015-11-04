@@ -33,9 +33,8 @@ if( !defined( 'ABSPATH' ) )
 class AF_FormElement_Dropdown extends AF_FormElement
 {
 
-	public function __construct( $id = NULL )
+	public function init()
 	{
-
 		$this->name = 'Dropdown';
 		$this->title = esc_attr__( 'Dropdown', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered within a dropdown field.', 'af-locale' );
@@ -44,8 +43,6 @@ class AF_FormElement_Dropdown extends AF_FormElement
 		$this->has_answers = TRUE;
 		$this->answer_is_multiple = FALSE;
 		$this->is_analyzable = TRUE;
-
-		parent::__construct( $id );
 	}
 
 	public function input_html()

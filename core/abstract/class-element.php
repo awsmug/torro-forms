@@ -187,6 +187,8 @@ abstract class AF_FormElement
 	 */
 	public function __construct( $id = NULL )
 	{
+		$this->init();
+
 		if( NULL != $id && '' != $id )
 		{
 			$this->populate( $id );
@@ -194,6 +196,12 @@ abstract class AF_FormElement
 
 		$this->settings_fields();
 	}
+
+	/**
+	 * Base Element Function
+	 * @return mixed
+	 */
+	abstract function init();
 
 	/**
 	 * Populating element object with data

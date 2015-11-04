@@ -33,7 +33,7 @@ if( !defined( 'ABSPATH' ) )
 class AF_FormElement_MultipleChoice extends AF_FormElement
 {
 
-	public function __construct( $id = NULL )
+	public function init()
 	{
 		$this->name = 'MultipleChoice';
 		$this->title = esc_attr__( 'Multiple Choice', 'af-locale' );
@@ -43,8 +43,6 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 		$this->has_answers = TRUE;
 		$this->answer_is_multiple = TRUE;
 		$this->is_analyzable = TRUE;
-
-		parent::__construct( $id );
 	}
 
 	public function input_html()

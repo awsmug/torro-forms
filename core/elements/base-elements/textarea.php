@@ -33,14 +33,12 @@ if( !defined( 'ABSPATH' ) )
 class AF_FormElement_Textarea extends AF_FormElement
 {
 
-	public function __construct( $id = NULL )
+	public function init()
 	{
 		$this->name = 'Textarea';
 		$this->title = esc_attr__( 'Textarea', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered within a text area.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . '/assets/images/icon-textarea.png';
-
-		parent::__construct( $id );
 	}
 
 	public function input_html()
