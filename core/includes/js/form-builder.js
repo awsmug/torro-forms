@@ -77,6 +77,7 @@
 			connectToSortable: "#drag-drop-inside",
 			addClasses: false,
 			start: function( event, ui ) {
+				$( '#af-drop-elements-here' ).hide();
 				ui.helper.css( 'height', 'auto' ).css( 'width', '100%' );
 			},
 			stop: function( event, ui ) {
@@ -114,6 +115,7 @@
 			connectToSortable: "#drag-drop-inside",
 			addClasses: false,
 			start: function( event, ui ) {
+				$( '#af-drop-elements-here' ).hide();
 				ui.helper.css( 'height', 'auto' ).css( 'width', '100px' );
 			},
 			stop: function( event, ui ) {

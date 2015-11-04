@@ -84,10 +84,18 @@ class AF_FormBuilder
 		$form = new AF_Form( $post->ID );
 
 		// Running each Element
-		foreach( $form->elements AS $element ):
-			$html .= $element->draw_admin();
-			af_add_element_templatetag( $element->id, $element->label );
-		endforeach;
+		if( count( $form->elements ) > 0 )
+		{
+			foreach( $form->elements AS $element )
+			{
+				$html .= $element->draw_admin();
+				af_add_element_templatetag( $element->id, $element->label );
+			}
+		}
+		else
+		{
+			$html .= '<div id="af-drop-elements-here">' . __( 'Drop your Elements here!', 'af-locale' ) . '</div>';
+		}
 
 		$html .= '</div>';
 

@@ -53,6 +53,16 @@
     width: 100%;
 }
 
+#af-content #af-drop-elements-here{
+    border: 2px dashed #b4b9be;
+    color: #b4b9be;
+    font-size: 20px;
+    font-weight: bold;
+    height: 195px;
+    line-height: 190px;
+    text-align: center;
+}
+
 #af-content input[type=text] {
     width: 80%;
 }
