@@ -129,8 +129,6 @@
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
 
-					console.log( response.widget_id );
-
 					$( '#tab_' + response.widget_id + '_content' ).html( response.html );
 				});
 			}
