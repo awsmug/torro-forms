@@ -174,8 +174,8 @@ class AF_ChartsShortCodes
 		}
 
 		$html  = '<tr>';
-		$html .= '<td><label for="form_charts_shortcode">' . __( 'Charts Shortcode:', 'af-locale' ) . '</label></td>';
-		$html .= '<td><input type="text" id="form_charts_shortcode" class="shortcode" value="[form_results id=' . $post->ID . ']" /></td>';
+		$html .= '<td></td>';
+		$html .= '<td>' . af_clipboard_field( __( 'Charts Shortcode:', 'af-locale' ), '[form_results id=' . $post->ID . ']' ) . '</td>';
 		$html .= '</tr>';
 
 		echo $html;
@@ -192,7 +192,7 @@ class AF_ChartsShortCodes
 	{
 		if( $object->id != '' && $object->is_analyzable )
 		{
-			echo sprintf( '<div class="shortcode"><label for="element_result_shortcode_%d">' . __( 'Element Charts Shortcode:', 'af-locale' ) . '</label> <input class="shortcode_input" type="text" id="element_result_shortcode_%d" value="[element_results id=%d]" /> %s</div>', $object->id, $object->id, $object->id, $small );
+			echo af_clipboard_field( __( 'Element Charts Shortcode:', 'af-locale' ), '[element_results id=' .  $object->id . ']' );
 		}
 	}
 }
