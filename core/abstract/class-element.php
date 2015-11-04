@@ -462,26 +462,18 @@ abstract class AF_FormElement
 	 */
 	public function draw_admin()
 	{
-
-		// Getting id string
-		if( NULL == $this->id ):
-			// New Element
-			$id_name = ' id="widget_formelement_XXnrXX"';
-		else:
-			// Existing Element
-			$id_name = ' id="widget_formelement_' . $this->id . '"';
-		endif;
+		$id_name = $this->admin_get_widget_id();
 
 		/**
 		 * Widget
 		 */
 		if( NULL == $this->id )
 		{
-			$html = '<div class="formelement formelement-' . $this->name . '"' . $id_name . '>';
+			$html = '<div class="formelement formelement-' . $this->name . ' ' . $id_name . '">';
 		}
 		else
 		{
-			$html = '<div class="widget formelement formelement-' . $this->name . '"' . $id_name . '>';
+			$html = '<div class="widget formelement formelement-' . $this->name . ' ' . $id_name . '">';
 		}
 
 		/**
@@ -588,13 +580,16 @@ abstract class AF_FormElement
 	protected function admin_get_widget_id()
 	{
 		// Getting Widget ID
-		if( NULL == $this->id ):
+		if( NULL == $this->id )
+		{
 			// New Element
 			$widget_id = 'widget_formelement_XXnrXX';
-		else:
+		}
+		else
+		{
 			// Existing Element
 			$widget_id = 'widget_formelement_' . $this->id;
-		endif;
+		}
 
 		return $widget_id;
 	}
@@ -662,7 +657,6 @@ abstract class AF_FormElement
 	 */
 	private function admin_widget_content_answers( $section = NULL )
 	{
-
 		$widget_id = $this->admin_get_widget_id();
 
 		$html = '';
