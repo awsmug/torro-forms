@@ -3,7 +3,7 @@
     "use strict";
     $( function ()
     {
-        var af_response_handlers_init_email_notifications = function(){
+        var af_actions_init_email_notifications = function(){
             var notifications_list = $( "#form-email-notifications .notifications" );
             var notifications_list_count = $( '#form-email-notifications .notifications  > div' ).length;
 
@@ -63,7 +63,7 @@
                 form_deletemailnotification_dialog.dialog( 'open' );
             });
         }
-        af_response_handlers_init_email_notifications();
+        af_actions_init_email_notifications();
 
         $( '#form_add_email_notification').click( function(){
             var data = {
@@ -74,7 +74,7 @@
                 response = jQuery.parseJSON( response );
 
                 $( '#form-email-notifications .notifications' ).prepend( response.html );
-                af_response_handlers_init_email_notifications();
+                af_actions_init_email_notifications();
 
                 $( ".notification-" + response.id ).hide().fadeIn(2500);
             });

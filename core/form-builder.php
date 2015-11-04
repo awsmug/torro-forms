@@ -159,7 +159,7 @@ class AF_FormBuilder
 
 		/** Todo Adding this later!
 		$html .= '<div class="misc-pub-section">';
-		$html .= '<label for="form-response-handlers-hide"><input id="form-response-handlers-hide" class="hide-postbox-tog" type="checkbox" checked="checked" value="form-response-handlers" name="form-response-handlers-hide">Response Handling</label><br />';
+		$html .= '<label for="form-actions-hide"><input id="form-actions-hide" class="hide-postbox-tog" type="checkbox" checked="checked" value="form-actions" name="form-actions-hide">Response Handling</label><br />';
 		$html .= '<label for="form-results-hide"><input id="form-results-hide" class="hide-postbox-tog" type="checkbox" value="form-results" name="form-results-hide">Results</label><br />';
 		$html .= '<label for="form-restrictions-hide"><input id="form-restrictions-hide" class="hide-postbox-tog" type="checkbox" value="form-restrictions" name="form-restrictions-hide">Restrictions</label><br />';
 		$html .= '</div>';

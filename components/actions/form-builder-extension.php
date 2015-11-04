@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormBuilder_ResponseHandlerExtension
+class AF_Formbuilder_Actions_Extension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -64,9 +64,9 @@ class AF_FormBuilder_ResponseHandlerExtension
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
-				'form-response-handlers',
-				esc_attr__( 'Response Handling', 'af-locale' ),
-				array( __CLASS__, 'meta_box_response_handlers' ),
+				'form-actions',
+				esc_attr__( 'Actions', 'af-locale' ),
+				array( __CLASS__, 'meta_box_actions' ),
 				'af-forms',
 				'normal',
 				'high' );
@@ -78,35 +78,35 @@ class AF_FormBuilder_ResponseHandlerExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_response_handlers()
+	public static function meta_box_actions()
 	{
 		global $post, $af_global;
 
 		$form_id = $post->ID;
-		$response_handlers = $af_global->response_handlers;
+		$actions = $af_global->actions;
 
-		if( !is_array( $response_handlers ) || count( $response_handlers ) == 0 ){
+		if( !is_array( $actions ) || count( $actions ) == 0 ){
 			return;
 		}
 
-		$html = '<div id="form-response-handlers-tabs" class="section form_element_tabs">';
+		$html = '<div id="form-actions-tabs" class="section form_element_tabs">';
 
 			$html.= '<ul>';
-			foreach( $response_handlers AS $response_handler ){
-				if( !$response_handler->has_option() ){
+			foreach( $actions AS $action ){
+				if( !$action->has_option() ){
 					continue;
 				}
-				$html .= '<li><a href="#' . $response_handler->name . '">' . $response_handler->title . '</a></option>';
+				$html .= '<li><a href="#' . $action->name . '">' . $action->title . '</a></option>';
 			}
 			$html .= '</ul>';
 
 			$html .= '<div class="clear"></div>';
 
-			foreach( $response_handlers AS $response_handler ){
-				if( ! $response_handler->has_option() ){
+			foreach( $actions AS $action ){
+				if( ! $action->has_option() ){
 					continue;
 				}
-				$html .= '<div id="' . $response_handler->name . '">' . $response_handler->option_content . '</div>';
+				$html .= '<div id="' . $action->name . '">' . $action->option_content . '</div>';
 			}
 
 		$html .= '</div>';
@@ -123,11 +123,6 @@ class AF_FormBuilder_ResponseHandlerExtension
 	 */
 	public static function save( $form_id )
 	{
-		/**
-		 * Saving restriction options
-		 */
-		// $restrictions_option = $_POST[ 'form_restrictions_option' ];
-		// update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
 	}
 
 	/**
@@ -138,7 +133,7 @@ class AF_FormBuilder_ResponseHandlerExtension
 		if( !af_is_formbuilder() )
 			return;
 
-		wp_enqueue_script( 'af-response-handlers-form-builder-extension', AF_URLPATH . '/components/response-handlers/includes/js/form-builder-extension.js' );
+		wp_enqueue_script( 'af-actions-form-builder-extension', AF_URLPATH . '/components/actions/includes/js/form-builder-extension.js' );
 	}
 
 	/**
@@ -149,7 +144,7 @@ class AF_FormBuilder_ResponseHandlerExtension
 		if( !af_is_formbuilder() )
 			return;
 
-		wp_enqueue_style( 'af-response-handlers-form-builder-extension-styles', AF_URLPATH . '/components/response-handlers/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'af-actions-form-builder-extension-styles', AF_URLPATH . '/components/actions/includes/css/form-builder-extension.css' );
 	}
 }
-AF_FormBuilder_ResponseHandlerExtension::init();
+AF_Formbuilder_Actions_Extension::init();

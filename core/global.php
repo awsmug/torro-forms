@@ -37,7 +37,7 @@ class AF_Global
 	var $components = array();
 	var $settings = array();
 	var $element_types = array();
-	var $response_handlers = array();
+	var $actions = array();
 	var $restrictions = array();
 	var $result_handlers = array();
 	var $chart_creators = array();
@@ -131,19 +131,19 @@ class AF_Global
 		return TRUE;
 	}
 
-	public function add_response_handler( $name, $object )
+	public function add_action( $name, $object )
 	{
 		if( '' == $name )
 		{
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_ResponseHandler' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'AF_Action' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
 
-		$this->response_handlers[ $name ] = $object;
+		$this->actions[ $name ] = $object;
 
 		return TRUE;
 	}

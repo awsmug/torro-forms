@@ -119,7 +119,7 @@ class AF_Init
 		// Loading Core
 		include( AF_FOLDER . 'core/init.php' );
 
-		include( AF_COMPONENTFOLDER . 'response-handlers/component.php' );
+		include( AF_COMPONENTFOLDER . 'actions/component.php' );
 		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
 		include( AF_COMPONENTFOLDER . 'results/component.php' );
 	}

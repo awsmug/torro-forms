@@ -1,10 +1,10 @@
 <?php
 /**
- * General Settings Tab
+ * Awesome Forms Processing Restrictions Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
- * @version 1.0.0
+ * @package AwesomeForms/Actions
+ * @version 2015-08-16
  * @since   1.0.0
  * @license GPL 2
  *
@@ -29,29 +29,37 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResponseSettings extends AF_Settings
+class AF_Actions_FormProcessExtension
 {
 
 	/**
-	 * Constructor
+	 * Init in WordPress, run on constructor
+	 *
+	 * @return null
+	 * @since 1.0.0
 	 */
-	public function __construct()
+	public static function init()
 	{
-		$this->title = __( 'Response Handling', 'af-locale' );
-		$this->name = 'responsehandling';
+		add_filter( 'af_save_response', array( __CLASS__, 'action' ), 10, 1 );
 	}
 
 	/**
-	 * Adding Settings to Settings Page dynamical
-	 *
-	 * @param $settings_name
-	 * @param $settings_title
-	 * @param $settings_arr
+	 * Starting response handler
 	 */
-	public function add_settings_field( $settings_name, $settings_title, $settings_arr )
+	public static function action( $response_id )
 	{
-		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
+		global $af_global, $ar_form_id;
+
+		if( count( $af_global->actions ) == 0 )
+		{
+			return;
+		}
+
+		foreach( $af_global->actions AS $action )
+		{
+			$action->handle( $response_id, $_SESSION[ 'af_response' ][ $ar_form_id ] );
+		}
 	}
 }
 
-af_register_settings( 'AF_ResponseSettings' );
+AF_Actions_FormProcessExtension::init();

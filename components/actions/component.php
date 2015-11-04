@@ -1,12 +1,13 @@
 <?php
 /**
- * Awesome Forms Processing Restrictions Extension
+ * Awesome Forms Responses Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
- * @version 2015-08-16
+ * @package AwesomeForms/Restrictions
+ * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
+ *
  *
  * Copyright 2015 awesome.ug (support@awesome.ug)
  *
@@ -29,37 +30,37 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResponseHandler_FormProcessExtension
+class AF_Actions_Component extends AF_Component
 {
 
 	/**
-	 * Init in WordPress, run on constructor
+	 * Initializes the Component.
 	 *
-	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
+	public function __construct()
 	{
-		add_filter( 'af_save_response', array( __CLASS__, 'response_handler' ), 10, 1 );
+		$this->name = 'actions';
+		$this->title = esc_attr__( 'Actions', 'af-locale' );
+		$this->description = esc_attr__( 'Actions are fired in the moment Users submitting their Form Data.', 'af-locale' );
 	}
 
 	/**
-	 * Starting response handler
+	 * Including files of component
 	 */
-	public static function response_handler( $response_id )
+	public function start()
 	{
-		global $af_global, $ar_form_id;
+		$folder = AF_COMPONENTFOLDER . 'actions/';
 
-		if( count( $af_global->response_handlers ) == 0 )
-		{
-			return;
-		}
+		// Loading base functionalities
+		require_once( $folder . 'settings.php' );
+		require_once( $folder . 'form-builder-extension.php' );
+		require_once( $folder . 'form-process-extension.php' );
 
-		foreach( $af_global->response_handlers AS $response_handler )
-		{
-			$response_handler->handle( $response_id, $_SESSION[ 'af_response' ][ $ar_form_id ] );
-		}
+		// Response Handlers API
+		require_once( $folder . 'abstract/class-action.php' );
+		require_once( $folder . 'base-actions/email-notifications.php' );
 	}
 }
 
-AF_ResponseHandler_FormProcessExtension::init();
+af_register_component( 'AF_Actions_Component' );

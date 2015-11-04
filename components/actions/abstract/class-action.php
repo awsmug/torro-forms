@@ -5,7 +5,7 @@
  * Motherclass for all Response handlers
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package AwesomeForms/Actions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-abstract class AF_ResponseHandler
+abstract class AF_Action
 {
 	/**
 	 * name of restriction
@@ -121,14 +121,14 @@ abstract class AF_ResponseHandler
 		$headline = array(
 			'headline' => array(
 				'title'       => $this->title,
-				'description' => sprintf( esc_attr( 'Setup the "%s" Response Gateway.', 'af-locale' ), $this->title ),
+				'description' => sprintf( esc_attr( 'Setup the "%s" Action.', 'af-locale' ), $this->title ),
 				'type'        => 'title'
 			)
 		);
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$af_global->settings[ 'responsehandling' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+		$af_global->settings[ 'actions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
 	}
 
 	/**
@@ -165,24 +165,24 @@ abstract class AF_ResponseHandler
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is the Awesome Forms Responsehandler extension.', 'af-locale' );
+			$this->description = esc_attr__( 'This is the Awesome Forms Action  extension.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->response_handlers ) )
+		if( array_key_exists( $this->name, $af_global->actions ) )
 		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->response_handlers ) )
+		if( !is_array( $af_global->actions ) )
 		{
-			$af_global->response_handlers = array();
+			$af_global->actions = array();
 		}
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
 		$this->initialized = TRUE;
 
-		return $af_global->add_response_handler( $this->name, $this );
+		return $af_global->add_action( $this->name, $this );
 	}
 }
 
@@ -193,13 +193,13 @@ abstract class AF_ResponseHandler
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_response_handler( $response_handler_class )
+function af_register_action( $action_class )
 {
-	if( class_exists( $response_handler_class ) )
+	if( class_exists( $action_class ) )
 	{
-		$response_handler = new $response_handler_class();
+		$action = new $action_class();
 
-		return $response_handler->_register();
+		return $action->_register();
 	}
 
 	return FALSE;
