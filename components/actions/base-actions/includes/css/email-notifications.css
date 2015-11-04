@@ -2,7 +2,7 @@
     padding: 0 10px 10px;
 }
 #form-email-notifications .list{
-    width:95%;
+    width:80%;
     float:left;
 }
 
@@ -22,7 +22,7 @@
     width: 180px;
 }
 #form-email-notifications .actions{
-    width:5%;
+    width:20%;
     float:right;
     text-align: right;
 }

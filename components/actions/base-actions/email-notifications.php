@@ -153,11 +153,11 @@ class AF_EmailNotifications extends AF_Action
 							);
 						}
 					}
-					$html.= '<p class="no-entry-found">' . esc_attr( 'No notification found.', 'af-locale' ) . '</p>';
+					$html.= '<p class="no-entry-found">' . esc_attr( 'No Notification found.', 'af-locale' ) . '</p>';
 				$html.= '</div>';
 			$html.= '</div>';
 			$html.= '<div class="actions">';
-				$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" />';
+				$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr( 'Add Notification', 'af-locale' ) . '" class="button" />';
 			$html.= '</div>';
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
