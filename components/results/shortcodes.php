@@ -173,7 +173,7 @@ class AF_ChartsShortCodes
 			return;
 		}
 
-		$html  = '<div class="in-postbox-one-third">' . af_clipboard_field( __( 'Charts Shortcode:', 'af-locale' ), '[form_results id=' . $post->ID . ']' ) . '</div>';
+		$html  = '<div class="in-postbox-one-third">' . af_clipboard_field( __( 'Charts Shortcode', 'af-locale' ), '[form_results id=' . $post->ID . ']' ) . '</div>';
 
 		echo $html;
 	}
@@ -189,7 +189,7 @@ class AF_ChartsShortCodes
 	{
 		if( $object->id != '' && $object->is_analyzable )
 		{
-			echo af_clipboard_field( __( 'Element Charts Shortcode:', 'af-locale' ), '[element_results id=' .  $object->id . ']' );
+			echo af_clipboard_field( __( 'Element Charts Shortcode', 'af-locale' ), '[element_results id=' .  $object->id . ']' );
 		}
 	}
 }
