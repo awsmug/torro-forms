@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_RestrictionsComponent extends AF_Component
+class AF_Restrictions_Component extends AF_Component
 {
 
 	/**
@@ -38,7 +38,7 @@ class AF_RestrictionsComponent extends AF_Component
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->name = 'restrictions';
 		$this->title = esc_attr__( 'Restrictions', 'af-locale' );
@@ -48,35 +48,33 @@ class AF_RestrictionsComponent extends AF_Component
 	/**
 	 * Including files of component
 	 */
-	public function start()
+	public function includes()
 	{
 		$folder = AF_COMPONENTFOLDER . 'restrictions/';
 
 		// Loading base functionalities
-		include_once( $folder . 'settings.php' );
-		include_once( $folder . 'form-builder-extension.php' );
-		include_once( $folder . 'form-process-extension.php' );
+		require_once( $folder . 'settings.php' );
+		require_once( $folder . 'form-builder-extension.php' );
+		require_once( $folder . 'form-process-extension.php' );
 
 		// Restrictions API
-		include_once( $folder . 'abstract/class-restrictions.php' );
+		require_once( $folder . 'abstract/class-restrictions.php' );
 
 		// Base Restrictions
-		include_once( $folder . 'base-restrictions/all-visitors.php' );
-		include_once( $folder . 'base-restrictions/all-members.php' );
-		include_once( $folder . 'base-restrictions/selected-members.php' );
-		include_once( $folder . 'base-restrictions/timerange.php' );
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		require_once( $folder . 'base-restrictions/all-visitors.php' );
+		require_once( $folder . 'base-restrictions/all-members.php' );
+		require_once( $folder . 'base-restrictions/selected-members.php' );
+		require_once( $folder . 'base-restrictions/timerange.php' );
 	}
 
 	/**
 	 * Enqueue Scripts
 	 */
-	public function enqueue_scripts()
+	public function admin_scripts()
 	{
 		wp_enqueue_script( 'af-restrictions', AF_URLPATH . 'components/restrictions/includes/js/restrictions.js' );
 	}
 
 }
 
-af_register_component( 'AF_RestrictionsComponent' );
+af_register_component( 'AF_Restrictions_Component' );

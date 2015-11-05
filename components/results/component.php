@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResultsComponent extends AF_Component
+class AF_Results_Component extends AF_Component
 {
 
 	/**
@@ -37,14 +37,14 @@ class AF_ResultsComponent extends AF_Component
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->name = 'results';
 		$this->title = __( 'Results', 'af-locale' );
 		$this->description = __( 'Handling Results.', 'af-locale' );
 	}
 
-	public function start()
+	public function includes()
 	{
 		$folder = AF_COMPONENTFOLDER . 'results/';
 
@@ -72,4 +72,4 @@ class AF_ResultsComponent extends AF_Component
 	}
 }
 
-af_register_component( 'AF_ResultsComponent' );
+af_register_component( 'AF_Results_Component' );

@@ -105,7 +105,7 @@ class AF_Global
 		{
 			return FALSE;
 		}
-		if( !is_object( $object ) && 'AF_FormElement' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'AF_Form_Element' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -155,7 +155,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_ResultHandler' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'AF_Action' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}

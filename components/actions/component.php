@@ -38,7 +38,7 @@ class AF_Actions_Component extends AF_Component
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->name = 'actions';
 		$this->title = esc_attr__( 'Actions', 'af-locale' );
@@ -48,7 +48,7 @@ class AF_Actions_Component extends AF_Component
 	/**
 	 * Including files of component
 	 */
-	public function start()
+	public function includes()
 	{
 		$folder = AF_COMPONENTFOLDER . 'actions/';
 

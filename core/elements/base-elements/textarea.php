@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormElement_Textarea extends AF_FormElement
+class AF_Form_Element_Textarea extends AF_Form_Element
 {
 
 	public function init()
@@ -137,4 +137,4 @@ class AF_FormElement_Textarea extends AF_FormElement
 	}
 }
 
-af_register_form_element( 'AF_FormElement_Textarea' );
+af_register_form_element( 'AF_Form_Element_Textarea' );

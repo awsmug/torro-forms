@@ -33,6 +33,13 @@ if( !defined( 'ABSPATH' ) )
 
 abstract class AF_Component
 {
+	/**
+	 * The Single instances of the components
+	 *
+	 * @var $_instaces
+	 * @since 1.0.0
+	 */
+	protected static $_instances = NULL;
 
 	/**
 	 * Title
@@ -67,67 +74,164 @@ abstract class AF_Component
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
-	{
-		// Standard values
-		$this->name = get_class( $this );
-		$this->title = ucfirst( $this->name );
-		$this->description = esc_attr__( 'This is an Awesome Forms component.', 'af-locale' );
-	}
-
-	/**
-	 * Registering component
-	 *
-	 * @return bool
-	 */
-	public function _register()
+	private function __construct()
 	{
 		global $af_global;
 
+		$this->init();
+
+		if( empty( $this->name ) )
+		{
+			$this->name = get_class( $this );
+		}
+		if( empty( $this->title ) )
+		{
+			$this->title = ucfirst( $this->name );
+		}
+		if( empty( $this->name ) )
+		{
+			$this->description = esc_attr__( 'This is an Awesome Forms component.', 'af-locale' );
+		}
+
 		if( !is_object( $af_global ) )
 		{
+			self::admin_notice( esc_attr__( 'Missing Global', 'af-global' ), 'error' );
 			return FALSE;
 		}
 
 		$af_global->components[ $this->name ] = $this;
 
-		add_action( 'init', array( $this, 'start_component' ), 20 );
-
 		return TRUE;
 	}
 
 	/**
-	 * Starting Module
+	 * Function for setting initial Data
 	 */
-	public function start_component()
+	abstract function init();
+
+	/**
+	 * Main Instance
+	 *
+	 * @since 1.0.0
+	 */
+	public static function instance()
 	{
+		$class = get_called_class();
+		if( !isset( self::$_instances[ $class ] ) )
+		{
+			self::$_instances[ $class ] = new $class();
+			add_action( 'plugins_loaded', array( self::$_instances[ $class ], 'check_and_start' ), 20 );
+		}
+
+		return self::$_instances[ $class ];
+	}
+
+	/**
+	 * Checking and starting
+	 *
+	 * @since 1.0.0
+	 */
+	public function check_and_start()
+	{
+
 		$values = af_get_settings( 'general' );
 
-		if( is_array( $values[ 'modules' ] ) && in_array( $this->name, $values[ 'modules' ] ) )
+		if( is_array( $values[ 'modules' ] ) && !in_array( $this->name, $values[ 'modules' ] ) )
 		{
-			$this->start();
+			return;
+		}
+
+		$class = get_called_class();
+		if( TRUE == self::$_instances[ $class ]->check_requirements() )
+		{
+			self::$_instances[ $class ]->base_init();
 			$this->settings = af_get_settings( $this->name );
 		}
 	}
 
 	/**
-	 * Starting component
+	 * Function for Checks
+	 *
+	 * @return mixed
+	 * @since 1.0.0
 	 */
-	abstract function start();
+	protected function check_requirements()
+	{
+		return TRUE;
+	}
+
+	/**
+	 * Running Scripts if functions are existing in child Class
+	 *
+	 * @since 1.0.0
+	 */
+	private function base_init()
+	{
+		if( method_exists( $this, 'includes' ) )
+		{
+			$this->includes();
+		}
+
+		// Scriptloaders
+		if( is_admin() )
+		{
+			add_action( 'admin_print_styles', array( $this, 'admin_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		}
+		else
+		{
+			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
+		}
+	}
+
+	/**
+	 * Function for enqueuing Admin Scripts - Have to be overwritten by Child Class.
+	 */
+	public function admin_scripts(){}
+
+	/**
+	 * Function for enqueuing Admin Styles - Have to be overwritten by Child Class.
+	 */
+	public function admin_styles(){}
+
+	/**
+	 * Function for enqueuing Frontend Scripts - Have to be overwritten by Child Class.
+	 */
+	public function frontend_scripts(){}
+
+	/**
+	 * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
+	 */
+	public function frontend_styles(){}
+
+	/**
+	 * Adds a notice to
+	 *
+	 * @param        $message
+	 * @param string $type
+	 */
+	protected function admin_notice( $message, $type = 'updated' )
+	{
+		if( WP_DEBUG )
+		{
+			$message = $message . ' (in Module "' .  $this->name . '")';
+		}
+		AF_Init::admin_notice( $message , $type );
+	}
 }
 
 /**
  * Registering component
  *
  * @param $component_name
+ * @return mixed
  */
-function af_register_component( $component_name )
+function af_register_component( $component_class )
 {
-	if( class_exists( $component_name ) )
+	if( class_exists( $component_class ) )
 	{
-		$component = new $component_name();
-
-		return $component->_register();
+		return $component_class::instance();
 	}
 
 	return FALSE;

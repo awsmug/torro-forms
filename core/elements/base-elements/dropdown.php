@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormElement_Dropdown extends AF_FormElement
+class AF_Form_Element_Dropdown extends AF_Form_Element
 {
 
 	public function init()
@@ -107,7 +107,7 @@ class AF_FormElement_Dropdown extends AF_FormElement
 
 }
 
-af_register_form_element( 'AF_FormElement_Dropdown' );
+af_register_form_element( 'AF_Form_Element_Dropdown' );
 
 
 

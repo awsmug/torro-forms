@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormElement_Text extends AF_FormElement
+class AF_Form_Element_Text extends AF_Form_Element
 {
 
 	public function init()
@@ -149,4 +149,4 @@ class AF_FormElement_Text extends AF_FormElement
 	}
 }
 
-af_register_form_element( 'AF_FormElement_Text' );
+af_register_form_element( 'AF_Form_Element_Text' );

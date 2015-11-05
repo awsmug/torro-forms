@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormElement_MultipleChoice extends AF_FormElement
+class AF_Form_Element_MultipleChoice extends AF_Form_Element
 {
 
 	public function init()
@@ -128,4 +128,4 @@ class AF_FormElement_MultipleChoice extends AF_FormElement
 	}
 }
 
-af_register_form_element( 'AF_FormElement_MultipleChoice' );
+af_register_form_element( 'AF_Form_Element_MultipleChoice' );

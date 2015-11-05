@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-abstract class AF_FormElement
+abstract class AF_Form_Element
 {
 
 	/**
@@ -1032,9 +1032,9 @@ function af_get_element( $element_id, $type = '' )
 		$type = $wpdb->get_var( $sql );
 	}
 
-	if( class_exists( 'AF_FormElement_' . $type ) )
+	if( class_exists( 'AF_Form_Element_' . $type ) )
 	{
-		$class = 'AF_FormElement_' . $type;
+		$class = 'AF_Form_Element_' . $type;
 
 		return new $class( $element_id );
 	}

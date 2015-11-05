@@ -20,6 +20,10 @@ if( !defined( 'ABSPATH' ) )
 
 class AF_Init
 {
+	/**
+	 * @var Notices for screening in Admin
+	 */
+	static $notices = array();
 
 	/**
 	 * Initializes the plugin.
@@ -28,10 +32,6 @@ class AF_Init
 	 */
 	public static function init()
 	{
-		global $af_plugin_errors;
-
-		$af_plugin_errors = array();
-
 		// Loading variables
 		self::constants();
 		self::load_textdomain();
@@ -53,7 +53,7 @@ class AF_Init
 		if( is_admin() ):
 			// Register admin styles and scripts
 			add_action( 'plugins_loaded', array( __CLASS__, 'check_requirements' ) );
-			add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
 		else:
 			// Register plugin styles and scripts
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
@@ -439,29 +439,34 @@ class AF_Init
 	}
 
 	/**
-	 * Showing Errors
+	 * Adds a notice to
 	 *
-	 * @since 1.0.0
+	 * @param        $message
+	 * @param string $type
 	 */
-	public static function admin_notices()
+	public static function admin_notice( $message, $type = 'updated' )
 	{
-		global $af_plugin_errors, $af_plugin_errors;
-
-		if( count( $af_plugin_errors ) > 0 ):
-			foreach( $af_plugin_errors AS $error )
-			{
-				echo '<div class="error"><p>' . $error . '</p></div>';
-			}
-		endif;
-
-		if( count( $af_plugin_errors ) > 0 ):
-			foreach( $af_plugin_errors AS $notice )
-			{
-				echo '<div class="updated"><p>' . $notice . '</p></div>';
-			}
-		endif;
+		self::$notices[] = array(
+				'message' => '<b>Awesome Forms</b>: ' . $message,
+				'type'    => $type
+		);
 	}
-
+	/**
+	 * Show Notices in Admin
+	 */
+	public function show_admin_notices()
+	{
+		if( is_array( self::$notices ) && count( self::$notices ) > 0 )
+		{
+			$html = '';
+			foreach( self::$notices AS $notice )
+			{
+				$message = $notice[ 'message' ];
+				$html .= '<div class="' . $notice[ 'type' ] . '"><p>' .$message . '</p></div>';
+			}
+			echo $html;
+		}
+	}
 }
 
 AF_Init::init(); // Starting immediately!
