@@ -149,7 +149,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 		}
 		else
 		{
-			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
+			$html .= '<p class="not-found-area">' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
 		}
 
 		$html .= '</div>';

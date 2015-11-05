@@ -3,14 +3,26 @@
     "use strict";
     $( function ()
     {
+        var af_actions_refresh_notifications = function()
+        {
+            var notifications_list_count = $( '#form-email-notifications .notifications  > div' ).length;
+
+            if( notifications_list_count == 0 ){
+                $( '#form-email-notifications .notifications .no-entry-found' ).show();
+            }else{
+                $( '#form-email-notifications .notifications .no-entry-found' ).hide();
+            }
+        }
+
         var af_actions_init_email_notifications = function(){
             var notifications_list = $( "#form-email-notifications .notifications" );
-            var notifications_list_count = $( '#form-email-notifications .notifications  > div' ).length;
 
             if( notifications_list.hasClass( 'ui-accordion' ) )
             {
                 notifications_list.accordion( 'destroy' );
             }
+
+            af_actions_refresh_notifications();
 
             notifications_list.accordion({
                 collapsible: true,
@@ -18,12 +30,6 @@
                 header: "h4",
                 heightStyle: "content"
             });
-
-            if( notifications_list_count == 0 ){
-                $( '#form-email-notifications .notifications .no-entry-found' ).show();
-            }else{
-                $( '#form-email-notifications .notifications .no-entry-found' ).hide();
-            }
 
             $.af_templatetag_buttons();
 
@@ -41,6 +47,8 @@
                     click: function() {
                         $( '.notification-' + email_notification_id ).remove();
                         $( '.notification-' + email_notification_id + '-content' ).remove();
+
+                        af_actions_refresh_notifications();
 
                         $( this ).dialog('close');
                     }

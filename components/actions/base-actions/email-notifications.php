@@ -167,7 +167,7 @@ class AF_EmailNotifications extends AF_Action
 							);
 						}
 					}
-					$html.= '<p class="no-entry-found">' . esc_attr( 'No Notifications found.', 'af-locale' ) . '</p>';
+					$html.= '<p class="no-entry-found not-found-area">' . esc_attr( 'No Notifications found.', 'af-locale' ) . '</p>';
 				$html.= '</div>';
 			$html.= '</div>';
 
