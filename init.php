@@ -166,7 +166,6 @@ class AF_Init
 	 */
 	public static function check_requirements()
 	{
-		global $af_plugin_errors;
 	}
 
 	/**
