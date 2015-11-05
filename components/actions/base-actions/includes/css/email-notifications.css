@@ -1,15 +1,40 @@
 #form-email-notifications .notifications{
-    padding: 0 10px 10px;
 }
 #form-email-notifications .list{
-    width:80%;
-    float:left;
+}
+#form-email-notifications .list .no-entry-found{
+    text-align: center;
+    padding:10px;
+    border:dotted 1px #DDDDDD;
+    color: #DDDDDD;
+    font-weight:bold;
+}
+#form-email-notifications .list .widget-title h4{
+    font-weight: normal;
+    padding:10px;
+    line-height: 20px;
+}
+#form-email-notifications .list .widget-title h4 .widget-action {
+    float:right;
+}
+#form-email-notifications .list .widget-title h4 .widget-action:after
+{
+    padding:0;
+}
+#form-email-notifications .list .widget-title h4.ui-state-active .widget-action:after
+{
+    content: '\f142';
+    font: 400 20px/1 dashicons;
+}
+#form-email-notifications .list .widget-title img
+{
+    float: left;
+    margin-right: 10px;
+    height:20px;
+    width: auto;
+    fill: #FFF;
 }
 
-#form-email-notifications .list .widget-title h4{
-    padding: 10px;
-    font-weight: normal;
-}
 #form-email-notifications .list .widget-title .notice{
     margin-bottom: 10px;
 }
@@ -22,11 +47,18 @@
     width: 180px;
 }
 #form-email-notifications .actions{
-    width:20%;
+    margin-bottom: 15px;
+}
+#form-email-notifications .actions .intro-text
+{
+    line-height:30px;
+}
+#form-email-notifications .actions input[type="button"]{
     float:right;
-    text-align: right;
+    margin-left: 10px;
 }
 #form-email-notifications .notifications{
+
 }
 #form-email-notifications .no-entry-found{
     display: none;

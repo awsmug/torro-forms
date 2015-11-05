@@ -33,8 +33,16 @@ if( !defined( 'ABSPATH' ) )
 
 class AF_EmailNotifications extends AF_Action
 {
-
+	/**
+	 * From Email Name
+	 * @var
+	 */
 	private $from_name;
+
+	/**
+	 * From Email Address
+	 * @var
+	 */
 	private $from_email;
 
 	/**
@@ -135,6 +143,12 @@ class AF_EmailNotifications extends AF_Action
 		$notifications = $wpdb->get_results( $sql );
 
 		$html = '<div id="form-email-notifications">';
+
+			$html.= '<div class="actions">';
+			$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr( 'Add Notification', 'af-locale' ) . '" class="button" />';
+			$html.= '<p class="intro-text">' . esc_attr( 'Add Email Notifications to send out Emails after the form have been submitted by User.', 'af-locale' ) . '</p>';
+			$html.= '</div>';
+
 			$html.= '<div class="list">';
 
 					$html.= '<div class="notifications widget-title">';
@@ -153,12 +167,10 @@ class AF_EmailNotifications extends AF_Action
 							);
 						}
 					}
-					$html.= '<p class="no-entry-found">' . esc_attr( 'No Notification found.', 'af-locale' ) . '</p>';
+					$html.= '<p class="no-entry-found">' . esc_attr( 'No Notifications found.', 'af-locale' ) . '</p>';
 				$html.= '</div>';
 			$html.= '</div>';
-			$html.= '<div class="actions">';
-				$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr( 'Add Notification', 'af-locale' ) . '" class="button" />';
-			$html.= '</div>';
+
 		$html.= '</div>';
 		$html.= '<div class="clear"></div>';
 
@@ -243,7 +255,9 @@ class AF_EmailNotifications extends AF_Action
 
 		$editor = af_wp_editor( $message, $editor_id );
 
-		$html = '<h4 class="widget-top notification-' . $id . '">' . $notification_name . '</h4>';
+		$icon_url = AF_URLPATH . 'components/actions/base-actions/includes/images/mail.svg';
+
+		$html = '<h4 class="widget-top notification-' . $id . '"><a class="widget-action hide-if-no-js"></a><img src="' . $icon_url . '" class="icon" />' . $notification_name . '</h4>';
 		$html.= '<div class="notification widget-inside notification-' . $id . '-content">';
 
 			$html.= '<table class="form-table">';
