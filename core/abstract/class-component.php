@@ -136,7 +136,7 @@ abstract class AF_Component
 
 		$values = af_get_settings( 'general' );
 
-		if( is_array( $values[ 'modules' ] ) && !in_array( $this->name, $values[ 'modules' ] ) )
+		if( isset( $values['modules'] ) && is_array( $values[ 'modules' ] ) && !in_array( $this->name, $values[ 'modules' ] ) )
 		{
 			return;
 		}

@@ -453,7 +453,7 @@ class AF_Init
 	/**
 	 * Show Notices in Admin
 	 */
-	public function show_admin_notices()
+	public static function show_admin_notices()
 	{
 		if( is_array( self::$notices ) && count( self::$notices ) > 0 )
 		{
