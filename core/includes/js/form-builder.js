@@ -152,7 +152,7 @@
 				$.post( ajaxurl, data, function( response ) {
 					response = jQuery.parseJSON( response );
 
-					$( '#tab_' + response.widget_id + '_content' ).html( response.html );
+					$( '#' +id + ' .af-element-description' ).html( response.html );
 				});
 			}
 		});

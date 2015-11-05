@@ -57,9 +57,11 @@ class AF_FormElement_Description extends AF_FormElement
 			'textarea_name' => $field_name,
 		);
 
+		$html = '<div class="af-element-description">';
 		ob_start();
 		wp_editor( $this->label, $editor_id, $settings );
-		$html = ob_get_clean();
+		$html .= ob_get_clean();
+		$html .= '</div>';
 
 		return $html;
 	}
