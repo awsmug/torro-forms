@@ -5,9 +5,10 @@
 #form-email-notifications .list .no-entry-found{
     text-align: center;
     padding:10px;
-    border:dotted 1px #DDDDDD;
-    color: #DDDDDD;
+    border:dashed 2px #DDDDDD;
+    background-color: #f5f5f5 ;
     font-weight:bold;
+    color:#DDDDDD;
 }
 #form-email-notifications .list .widget-title h4{
     font-weight: normal;
