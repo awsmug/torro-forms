@@ -31,12 +31,6 @@
                 heightStyle: "content"
             });
 
-            if( notifications_list_count == 0 ){
-                $( '#form-email-notifications .notifications .no-entry-found' ).show();
-            }else{
-                $( '#form-email-notifications .notifications .no-entry-found' ).hide();
-            }
-
             window.form_builder.handle_templatetag_buttons();
 
             var form_deletemailnotification_dialog = $( '#delete_email_notification_dialog' );
