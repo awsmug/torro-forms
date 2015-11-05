@@ -67,13 +67,13 @@ class AF_Form extends AF_Post
 	public $splitter_count = 0;
 
 	/**
-	 * @var array Internal variable for transfering elements on dublicating
+	 * @var array Internal variable for transfering elements on duplicating
 	 * @since 1.0.0
 	 */
 	private $element_transfers = array();
 
 	/**
-	 * @var array Internal variable for transfering answers on dublicating
+	 * @var array Internal variable for transfering answers on duplicating
 	 * @since 1.0.0
 	 */
 	private $answer_transfers = array();
@@ -280,14 +280,14 @@ class AF_Form extends AF_Post
 	}
 
 	/**
-	 * Dublicating a form
+	 * Duplicating a form
 	 *
 	 * @param bool $copy_meta          True if meta have to be copied
 	 * @param bool $copy_comments      True if comments have to be copied
 	 * @param bool $copy_elements      True if elements have to be copied
 	 * @param bool $copy_answers       True if answers of elements have to be copied
 	 * @param bool $copy_participiants True if participiants have to be copied
-	 * @param bool $draft              True if dublicated form have to be a draft
+	 * @param bool $draft              True if duplicated form have to be a draft
 	 *
 	 * @return int
 	 */
@@ -309,7 +309,7 @@ class AF_Form extends AF_Post
 	}
 
 	/**
-	 * Dublicate Elements
+	 * Duplicate Elements
 	 *
 	 * @param int  $new_form_id   Id of the form where elements have to be copied
 	 * @param bool $copy_answers  True if answers have to be copied
@@ -326,7 +326,7 @@ class AF_Form extends AF_Post
 			return FALSE;
 		}
 
-		// Dublicate answers
+		// Duplicate answers
 		if( is_array( $this->elements ) && count( $this->elements ) ):
 			foreach( $this->elements AS $element ):
 				$old_element_id = $element->id;
@@ -346,7 +346,7 @@ class AF_Form extends AF_Post
 				$new_element_id = $wpdb->insert_id;
 				$this->element_transfers[ $old_element_id ] = $new_element_id;
 
-				// Dublicate answers
+				// Duplicate answers
 				if( is_array( $element->answers ) && count( $element->answers ) && $copy_answers ):
 					foreach( $element->answers AS $answer ):
 						$old_answer_id = $answer[ 'id' ];
@@ -369,7 +369,7 @@ class AF_Form extends AF_Post
 					endforeach;
 				endif;
 
-				// Dublicate Settings
+				// Duplicate Settings
 				if( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ):
 					foreach( $element->settings AS $name => $value ):
 
@@ -392,7 +392,7 @@ class AF_Form extends AF_Post
 	}
 
 	/**
-	 * Dublicating participiants
+	 * Duplicating participiants
 	 *
 	 * @param int $new_form_idint Id of the form where participiants have to be copied
 	 *
@@ -407,7 +407,7 @@ class AF_Form extends AF_Post
 			return FALSE;
 		}
 
-		// Dublicate answers
+		// Duplicate answers
 		if( is_array( $this->participiants ) && count( $this->participiants ) ):
 			foreach( $this->participiants AS $participiant_id ):
 

@@ -56,7 +56,7 @@ class AF_Post
 	}
 
 	/**
-	 * Dublicating posts
+	 * Duplicating posts
 	 *
 	 * @param bool $copy_meta
 	 * @param bool $copy_comments
@@ -87,7 +87,7 @@ class AF_Post
 		endif;
 
 		if( $copy_taxonomies ):
-			$this->dublicate_taxonomies( $post_id );
+			$this->duplicate_taxonomies( $post_id );
 		endif;
 
 		if( $copy_comments ):
@@ -98,7 +98,7 @@ class AF_Post
 	}
 
 	/**
-	 * Dublicates comments of a post
+	 * Duplicates comments of a post
 	 *
 	 * @param $post_id The ID of the post
 	 *
@@ -112,7 +112,7 @@ class AF_Post
 			return FALSE;
 		}
 
-		$forbidden_keys = apply_filters( 'af_dublicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
+		$forbidden_keys = apply_filters( 'af_duplicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
 
 		foreach( $this->meta AS $meta_key => $meta_value ):
 			if( !in_array( $meta_key, $forbidden_keys ) )
@@ -127,11 +127,11 @@ class AF_Post
 	}
 
 	/**
-	 * Dublicating taxonomies of a post
+	 * Duplicating taxonomies of a post
 	 *
 	 * @param $post_id
 	 */
-	public function dublicate_taxonomies( $post_id )
+	public function duplicate_taxonomies( $post_id )
 	{
 		global $wpdb;
 
@@ -163,7 +163,7 @@ class AF_Post
 	}
 
 	/**
-	 * Dublicates comments of a post
+	 * Duplicates comments of a post
 	 *
 	 * @param int $post_id The ID of the post
 	 *

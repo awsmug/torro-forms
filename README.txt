@@ -92,7 +92,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Added italian language files (Thanks to Giovanni Simiani)
 * No export if no results
 * Refactored code
-* Also dublicating terms for form
+* Also duplicating terms for form
 
 = 1.0.0 beta 18 =
 * Added timerange

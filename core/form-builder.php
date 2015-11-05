@@ -178,7 +178,7 @@ class AF_FormBuilder
 		$html .= ob_get_clean();
 
 		$html .= '<div class="section general-settings">';
-		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Dublicate Form', 'af-locale' ) . '" />';
+		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Duplicate Form', 'af-locale' ) . '" />';
 		$html .= '</div>';
 
 		echo $html;
@@ -389,7 +389,7 @@ class AF_FormBuilder
 	}
 
 	/**
-	 * Dublicating form AJAX
+	 * Duplicating form AJAX
 	 *
 	 * @since 1.0.0
 	 */
