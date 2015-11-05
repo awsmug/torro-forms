@@ -108,12 +108,13 @@ class AF_ResultCharts extends AF_ResultHandler
 
 		if( 0 == $count_charts || 0 == $form_results->count() )
 		{
-			$html .= '<p>' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
+			$html .= '<p class="not-found-area">' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
 		}
 
 		ob_start();
 		do_action( 'af_result_charts_postbox_bottom', $form_id );
 		$html .= ob_get_clean();
+		$html .= '<div style="clear:both"></div>';
 
 		return $html;
 	}
@@ -226,20 +227,11 @@ class AF_ResultCharts extends AF_ResultHandler
 			$checked_yes = ' checked="checked"';
 		}
 
-		$html = '<table>';
-		$html .= '<tr>';
-		$html .= '<td><label for="show_results">' . esc_attr__( 'After submitting:', 'af-locale' ) . '</label></td>';
-		$html .= '<td>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . ' ';
+		$html = '<div class="in-postbox-one-third">';
+		$html .= '<label for="show_results">' . esc_attr__( 'After Submit' ) . '</label>';
+		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'Show Charts' ) . ' <br />';
 		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'Do not Show Charts' ) . '';
-		$html .= '</td>';
-		$html .= '</tr>';
-
-		ob_start();
-		do_action( 'af_charts_general_settings_table' );
-		$html .= ob_get_clean();
-
-		$html .= '</table>';
+		$html .= '</div>';
 
 		echo $html;
 	}

@@ -43,7 +43,7 @@ class AF_ChartsShortCodes
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo Delete later, because it's deprecated
 		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
 
-		add_action( 'af_charts_general_settings_table', array( __CLASS__, 'show_form_result_shortcode' ) );
+		add_action( 'af_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
 		add_action( 'af_result_charts_postbox_element', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
@@ -173,10 +173,7 @@ class AF_ChartsShortCodes
 			return;
 		}
 
-		$html  = '<tr>';
-		$html .= '<td></td>';
-		$html .= '<td>' . af_clipboard_field( __( 'Charts Shortcode:', 'af-locale' ), '[form_results id=' . $post->ID . ']' ) . '</td>';
-		$html .= '</tr>';
+		$html  = '<div class="in-postbox-one-third">' . af_clipboard_field( __( 'Charts Shortcode:', 'af-locale' ), '[form_results id=' . $post->ID . ']' ) . '</div>';
 
 		echo $html;
 	}

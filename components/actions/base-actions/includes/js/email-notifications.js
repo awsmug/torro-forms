@@ -13,7 +13,7 @@
                 $( '#form-email-notifications .notifications .no-entry-found' ).hide();
             }
         }
-        
+
         var af_actions_init_email_notifications = function(){
             var notifications_list = $( "#form-email-notifications .notifications" );
 
