@@ -2,13 +2,6 @@
 }
 #form-email-notifications .list{
 }
-#form-email-notifications .list .no-entry-found{
-    text-align: center;
-    padding:10px;
-    border:dotted 1px #DDDDDD;
-    color: #DDDDDD;
-    font-weight:bold;
-}
 #form-email-notifications .list .widget-title h4{
     font-weight: normal;
     padding:10px;

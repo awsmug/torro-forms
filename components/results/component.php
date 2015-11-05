@@ -70,6 +70,11 @@ class AF_Results_Component extends AF_Component
 		// Charts API
 		require_once( $folder . 'base-result-handlers/charts-dimple.php' );
 	}
+
+	public function admin_styles()
+	{
+		wp_enqueue_style( 'af-formbuilder-charts', AF_URLPATH . 'components/results/includes/css/form-builder.css' );
+	}
 }
 
 af_register_component( 'AF_Results_Component' );
