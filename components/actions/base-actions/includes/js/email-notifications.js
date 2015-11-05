@@ -25,7 +25,7 @@
                 $( '#form-email-notifications .notifications .no-entry-found' ).hide();
             }
 
-            $.af_templatetag_buttons();
+            window.form_builder.handle_templatetag_buttons();
 
             var form_deletemailnotification_dialog = $( '#delete_email_notification_dialog' );
             var email_notification_id;
