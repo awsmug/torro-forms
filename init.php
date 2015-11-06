@@ -248,7 +248,7 @@ class AF_Init
 
 			$sql = "CREATE TABLE $table_results_values (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			result_ int(11) NOT NULL,
+			result_id int(11) NOT NULL,
 			element_id int(11) NOT NULL,
 			value text NOT NULL,
 			UNIQUE KEY id (id)
