@@ -252,15 +252,15 @@ class AF_Form extends AF_Post
 		$result_id = $wpdb->insert_id;
 		$this->response_id = $result_id;
 
-		foreach( $response AS $element_id => $answers ):
-
+		foreach( $response AS $element_id => $answers )
+		{
 			if( is_array( $answers ) ):
 
 				foreach( $answers AS $answer ):
 					$wpdb->insert( $af_global->tables->result_values, array(
-						'result_id'  => $result_id,
-						'element_id' => $element_id,
-						'value'       => $answer
+							'result_id'  => $result_id,
+							'element_id' => $element_id,
+							'value'      => $answer
 					) );
 				endforeach;
 
@@ -268,13 +268,13 @@ class AF_Form extends AF_Post
 				$answer = $answers;
 
 				$wpdb->insert( $af_global->tables->result_values, array(
-					'result_id'  => $result_id,
-					'element_id' => $element_id,
-					'value'       => $answer
+						'result_id'  => $result_id,
+						'element_id' => $element_id,
+						'value'      => $answer
 				) );
 
 			endif;
-		endforeach;
+		}
 
 		return $result_id;
 	}
