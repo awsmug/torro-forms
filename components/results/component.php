@@ -68,7 +68,9 @@ class AF_Results_Component extends AF_Component
 		require_once( $folder . 'base-result-handlers/charts.php' );
 
 		// Charts API
-		require_once( $folder . 'base-result-handlers/charts-dimple.php' );
+		require_once( $folder . 'base-result-handlers/charts/charts-c3.php' );
+		require_once( $folder . 'base-result-handlers/charts/charts-morrisjs.php' );
+		require_once( $folder . 'base-result-handlers/charts/charts-morrisjs.php' );
 	}
 
 	public function admin_styles()

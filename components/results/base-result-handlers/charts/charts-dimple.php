@@ -1,11 +1,11 @@
 <?php
 /**
- * Showing Charts with charts.js
+ * Showing Charts with Dimple.js
  *
- * This class shows charts by charts.js
+ * This class shows charts by Dimple which is based on D3
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package AwesomeForms/Results
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,24 +31,18 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ChartCreator_Dimple extends AF_ChartCreator
+class AF_Chart_Creator_Dimple extends AF_Chart_Creator
 {
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->name = 'dimple';
 		$this->title = __( 'Dimple', 'af-locale' );
 		$this->description = __( 'Chart creating with dimple.', 'af-locale' );
-
-		if( is_admin() ):
-			add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
-		else:
-			add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
-		endif;
 	}
 
 	/**
@@ -64,8 +58,8 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 	{
 		$defaults = array(
 			'id'        => 'dimple' . md5( rand() ),
-			'width'     => '100%',
-			'height'    => '100%',
+			'width'     => '500',
+			'height'    => '400',
 			'title_tag' => 'h3',
 		);
 
@@ -105,15 +99,6 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 
 		$js .= 'chart.draw();';
 
-		// Autosize charts
-		/** Commented out after getting Problems in jQuery Tabs
-		$js .= 'jQuery( function ($) { ';
-		$js .= 'var gcontainer = $( "#' . $id . ' g" );';
-		$js .= 'var grect = gcontainer[0].getBoundingClientRect();';
-		$js .= '$( "#' . $id . ' svg" ).height( grect.height + 15 );';
-		$js .= '});';
-		*/
-
 		// Drawing HTML Containers
 		$html = '<div id="' . $id . '" class="af-dimplechart">';
 		$html .= '<' . $params[ 'title_tag' ] . '>' . $title . '</' . $params[ 'title_tag' ] . '>';
@@ -138,9 +123,10 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 	{
 		$rows = array();
 
-		foreach( $answers AS $label => $value ):
+		foreach( $answers AS $label => $value )
+		{
 			$rows[] = '{"' . $answer_text . '" : "' . $label . '", "' . $value_text . '" : ' . $value . '}';
-		endforeach;
+		}
 
 		$data = implode( ',', $rows );
 
@@ -152,16 +138,24 @@ class AF_ChartCreator_Dimple extends AF_ChartCreator
 	}
 
 	/**
-	 * Loading Scripts
+	 * Loading Admin Scripts
 	 */
-	public function load_scripts()
+	public function admin_scripts()
 	{
-		$dimple_script_url = AF_URLPATH . 'components/results/base-result-handlers/includes/js/d3.min.js';
-		wp_enqueue_script( 'af-d3', $dimple_script_url );
+		$d3_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/d3.min.js';
+		wp_enqueue_script( 'af-d3', $d3_script_url );
 
-		$dimple_script_url = AF_URLPATH . 'components/results/base-result-handlers/includes/js/dimple.v2.1.2.min.js';
+		$dimple_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/dimple.min.js';
 		wp_enqueue_script( 'af-dimple-js', $dimple_script_url );
+	}
+
+	/**
+	 * Loading Frontend Scripts
+	 */
+	public function frontend_scripts()
+	{
+		$this->admin_scripts();
 	}
 }
 
-af_register_chartcreator( 'AF_ChartCreator_Dimple' );
+af_register_chartcreator( 'AF_Chart_Creator_Dimple' );

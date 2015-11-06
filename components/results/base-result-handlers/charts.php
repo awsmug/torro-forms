@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResultCharts extends AF_ResultHandler
+class AF_Result_Charts extends AF_ResultHandler
 {
 	/**
 	 * Constructor
@@ -91,7 +91,7 @@ class AF_ResultCharts extends AF_ResultHandler
 					continue;
 				}
 
-				$chart_creator = 'AF_ChartCreator_Dimple';
+				$chart_creator = 'AF_Chart_Creator_C3';
 
 				$chart_creator = new $chart_creator();
 				$chart_type = 'bars';
@@ -247,4 +247,4 @@ class AF_ResultCharts extends AF_ResultHandler
 	}
 }
 
-af_register_result_handler( 'AF_ResultCharts' );
+af_register_result_handler( 'AF_Result_Charts' );

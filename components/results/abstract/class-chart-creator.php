@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
     exit;
 }
 
-abstract class AF_ChartCreator
+abstract class AF_Chart_Creator
 {
 
     /**
@@ -76,20 +76,38 @@ abstract class AF_ChartCreator
      */
     public function __construct()
     {
-        // Standard values
-        $this->name = get_class( $this );
-        $this->title = ucfirst( $this->name );
-        $this->description = esc_attr__( 'This is an Awesome Forms Chart Creator.', 'af-locale' );
+        $this->init();
+
+        if( empty( $this->name ) )
+        {
+            $this->name = get_class( $this );
+        }
+        if( empty( $this->title ) )
+        {
+            $this->title = ucfirst( $this->name );
+        }
+        if( empty( $this->name ) )
+        {
+            $this->description = esc_attr__( 'This is an Awesome Forms Chart Creator.', 'af-locale' );
+        }
 
         $this->register_chart_type( 'bars', esc_attr( 'Bars', 'af-locale' ), array( $this, 'bars' ) );
         $this->register_chart_type( 'pies', esc_attr( 'Pies', 'af-locale' ), array( $this, 'pies' ) );
 
-        if( is_admin() ):
-            add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
-        else:
-            add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
-        endif;
+        // Scriptloaders
+        if( is_admin() )
+        {
+            add_action( 'admin_print_styles', array( $this, 'admin_styles' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+        }
+        else
+        {
+            add_action( 'wp_enqueue_scripts', array( $this, 'frontend_styles' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
+        }
     }
+
+    abstract function init();
 
     abstract function bars( $title, $results, $params = array() );
 
@@ -163,10 +181,38 @@ abstract class AF_ChartCreator
     }
 
     /**
-     * Function to register library files
+     * Function for enqueuing Admin Scripts - Have to be overwritten by Child Class.
      */
-    public function load_scripts()
+    public function admin_scripts(){}
+
+    /**
+     * Function for enqueuing Admin Styles - Have to be overwritten by Child Class.
+     */
+    public function admin_styles(){}
+
+    /**
+     * Function for enqueuing Frontend Scripts - Have to be overwritten by Child Class.
+     */
+    public function frontend_scripts(){}
+
+    /**
+     * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
+     */
+    public function frontend_styles(){}
+
+    /**
+     * Adds a notice to
+     *
+     * @param        $message
+     * @param string $type
+     */
+    protected function admin_notice( $message, $type = 'updated' )
     {
+        if( WP_DEBUG )
+        {
+            $message = $message . ' (in Chart Creator "' .  $this->name . '")';
+        }
+        AF_Init::admin_notice( $message , $type );
     }
 }
 
