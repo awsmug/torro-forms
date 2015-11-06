@@ -172,7 +172,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_ChartCreator' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'AF_Chart_Creator' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}

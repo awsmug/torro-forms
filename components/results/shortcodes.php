@@ -92,7 +92,7 @@ class AF_ChartsShortCodes
 				continue;
 			}
 
-			$html .= AF_ChartCreator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
+			$html .= AF_Chart_Creator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
 			$count_bars++;
 		endforeach;
 
@@ -151,7 +151,7 @@ class AF_ChartsShortCodes
 		/*
 		foreach( $ordered_data[ 'questions' ] as $element_id => $question )
 		{
-			$html .= AF_ChartCreator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
+			$html .= AF_Chart_Creator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
 		}*/
 
 		return $html;
