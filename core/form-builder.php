@@ -475,7 +475,7 @@ class AF_FormBuilder
 			return;
 		}
 
-		wp_enqueue_style( 'af-admin-styles', AF_URLPATH . '/core/includes/css/form-builder.css' );
+		wp_enqueue_style( 'af-admin-styles', AF_URLPATH . 'core/includes/css/form-builder.css' );
 	}
 
 	/**

@@ -133,7 +133,7 @@ class AF_Formbuilder_Actions_Extension
 		if( !af_is_formbuilder() )
 			return;
 
-		wp_enqueue_script( 'af-actions-form-builder-extension', AF_URLPATH . '/components/actions/includes/js/form-builder-extension.js' );
+		wp_enqueue_script( 'af-actions-form-builder-extension', AF_URLPATH . 'components/actions/includes/js/form-builder-extension.js' );
 	}
 
 	/**
@@ -144,7 +144,7 @@ class AF_Formbuilder_Actions_Extension
 		if( !af_is_formbuilder() )
 			return;
 
-		wp_enqueue_style( 'af-actions-form-builder-extension-styles', AF_URLPATH . '/components/actions/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'af-actions-form-builder-extension-styles', AF_URLPATH . 'components/actions/includes/css/form-builder-extension.css' );
 	}
 }
 AF_Formbuilder_Actions_Extension::init();

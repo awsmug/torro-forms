@@ -177,7 +177,7 @@ class AF_SettingsPage
 			return;
 		}
 
-		wp_enqueue_style( 'af-admin-styles', AF_URLPATH . '/core/includes/css/settings.css' );
+		wp_enqueue_style( 'af-admin-styles', AF_URLPATH . 'core/includes/css/settings.css' );
 	}
 }
 

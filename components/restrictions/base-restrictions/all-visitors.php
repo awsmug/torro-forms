@@ -165,7 +165,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public static function load_fingerprint_scripts()
 	{
-		wp_enqueue_script( 'admin-form-restrictions-fingerprint-script', AF_URLPATH . '/components/restrictions/base-restrictions/includes/js/detection.min.js' );
+		wp_enqueue_script( 'admin-form-restrictions-fingerprint-script', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/detection.min.js' );
 	}
 
 	/**

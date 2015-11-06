@@ -169,7 +169,7 @@ class AF_FormBuilder_RestrictionsExtension
 			return;
 		}
 
-		wp_enqueue_style( 'form-restrictions-form-builder-extension-styles', AF_URLPATH . '/components/restrictions/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'form-restrictions-form-builder-extension-styles', AF_URLPATH . 'components/restrictions/includes/css/form-builder-extension.css' );
 	}
 }
 

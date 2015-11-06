@@ -193,7 +193,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
-		wp_enqueue_script( 'af-datepicker', AF_URLPATH . '/components/restrictions/base-restrictions/includes/js/timerange.js' );
+		wp_enqueue_script( 'af-datepicker', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/timerange.js' );
 		wp_localize_script( 'af-datepicker', 'translation_admin', $translation_admin );
 	}
 
@@ -204,7 +204,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-timerange-styles', AF_URLPATH . '/components/restrictions/base-restrictions/includes/css/timerange.css' );
+		wp_enqueue_style( 'af-timerange-styles', AF_URLPATH . 'components/restrictions/base-restrictions/includes/css/timerange.css' );
 	}
 }
 
