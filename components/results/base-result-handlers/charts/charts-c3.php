@@ -100,7 +100,6 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 							var tab_width = $( '#form-result-handlers-tabs' ).width();
 							chart_width = Math.round( ( tab_width / 3 * 2 ) );
 						}
-			        	console.log( chart_width );
 
 						var chart_{$id} = c3.generate({
 						    bindto: '#{$id}-chart',
