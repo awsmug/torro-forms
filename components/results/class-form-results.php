@@ -234,8 +234,6 @@ class AF_Form_Results
 			$sql_filter = $wpdb->prepare( $sql_filter, $sql_filter_values );
 		}
 
-		p( $sql_filter );
-
 		$results = $wpdb->get_results( $sql_filter, ARRAY_A );
 
 		if( FALSE == $results )

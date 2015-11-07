@@ -88,7 +88,7 @@
 				self.check_max_input_vars();
 			});
 
-			//TODO: what is this?
+			//TODO: Adding new Answer after hitting Enter Button
 			$( '.element-answer' ).keypress( function( e ) {
 				if ( e.which == 13 ) {
 					e.preventDefault();

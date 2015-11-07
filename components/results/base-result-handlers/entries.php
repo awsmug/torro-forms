@@ -39,26 +39,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$this->title = __( 'Entries', 'af-locale' );
 		$this->name = 'entries';
 
-		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-	}
-
-	/**
-	 * Enqueue admin scripts
-	 */
-	public static function enqueue_admin_scripts()
-	{
-		if( !af_is_formbuilder() )
-		{
-			return;
-		}
-	}
-
-	/**
-	 * Enqueue admin styles
-	 */
-	public static function enqueue_admin_styles()
-	{
+		add_action( 'wp_ajax_af_show_entry', array( __CLASS__, 'ajax_show_entry' ) );
 	}
 
 	public function option_content()
@@ -81,7 +62,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 		{
 			$date_format = get_option( 'date_format' );
 
-			$html .= '<table class="widefat entries">';
+			$html .= '<table id="af-entries-table" class="widefat entries">';
 			$html .= '<thead>';
 			$html .= '<tr>';
 
@@ -138,14 +119,27 @@ class AF_ResultsEntries extends AF_ResultHandler
 				}
 
 				$html .= '<td class="entry-actions">';
-				$html .= '<input type="button" value="' . esc_attr( 'Show Details', 'af-locale' ) . '" class="button entry-show-details" />';
+				$html .= '<input type="button" value="' . esc_attr( 'Show Details', 'af-locale' ) . '" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" />';
 				$html .= '</td>';
 
 				$html .= '</tr>';
 			}
 			$html .= '</tbody>';
-
+			$html .= '<tfoot>';
+			$html .= '<tr>';
+				$html .= '<td>';
+				$html .= '</td>';
+				$html .= '<td>';
+				$html .= '</td>';
+				$html .= '<td>';
+				$html .= '</td>';
+				$html .= '<td>';
+				$html .= 'Navigation comes here';
+				$html .= '</td>';
+			$html .= '</tr>';
+			$html .= '</tfoot>';
 			$html .= '</table>';
+			$html .= '<div id="af-entry"></div>';
 		}
 		else
 		{
@@ -155,6 +149,94 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	public function ajax_show_entry()
+	{
+		global $wpdb, $af_global;
+
+		$form_id = $_POST[ 'form_id' ];
+		$result_id = $_POST[ 'result_id' ];
+
+		if( !af_form_exists( $form_id ) )
+		{
+			echo esc_attr__( 'Form not found.', 'af-locale' );
+			exit;
+		}
+
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE id = %d", $result_id );
+		$count_results = $wpdb->get_var( $sql );
+
+		if( 0 === $count_results )
+		{
+			echo esc_attr__( 'Entry not found.', 'af-locale' );
+			exit;
+		}
+
+		$filter = array(
+			'result_ids' => array( $result_id ),
+			'column_name' => 'label'
+		);
+
+		$form_results = new AF_Form_Results( $form_id );
+		$results = $form_results->results( $filter );
+
+		foreach( $results AS $result )
+		{
+			if( !array_key_exists( 'result_id', $result ) )
+			{
+				echo esc_attr__( 'Error on getting Result.', 'af-locale' );
+				exit;
+			}
+
+			$html = '';
+
+			foreach( $result AS $column_name => $value )
+			{
+				if( 'result_id' == $column_name ||  'user_id' == $column_name ||  'timestamp' == $column_name  )
+				{
+					continue;
+				}
+
+				if( 'yes' == $value )
+				{
+					$value = esc_attr__( 'Yes', 'af-locale' );
+				}
+				if( 'no' == $value )
+				{
+					$value = esc_attr__( 'No', 'af-locale' );
+				}
+
+				$html .= '<tr>';
+				$html .= '<th colspan="2">' . $column_name . '</th>';
+				$html .= '<td colspan="2">' . $value. '</td>';
+				$html .= '</tr>';
+			}
+
+			echo $html;
+		}
+
+		exit;
+	}
+
+	public function admin_styles()
+	{
+		if( !af_is_formbuilder() )
+		{
+			return;
+		}
+
+		wp_enqueue_style( 'af-results-entries-css', AF_URLPATH . 'components/results/base-result-handlers/includes/css/entries.css' );
+	}
+
+	public function admin_scripts()
+	{
+		if( !af_is_formbuilder() )
+		{
+			return;
+		}
+
+		wp_enqueue_script( 'af-results-entries', AF_URLPATH . 'components/results/base-result-handlers/includes/js/entries.js' );
 	}
 }
 
