@@ -76,7 +76,7 @@ class AF_Result_Charts extends AF_ResultHandler
 
 		if( $form_results->count() > 0 )
 		{
-			$element_results = $this->format_results_by_element( $results );
+			$element_results = self::format_results_by_element( $results );
 
 			foreach( $element_results AS $headline => $element_result )
 			{
@@ -91,14 +91,14 @@ class AF_Result_Charts extends AF_ResultHandler
 					continue;
 				}
 
-				$chart_creator = 'AF_Chart_Creator_C3';
-
-				$chart_creator = new $chart_creator();
-				$chart_type = 'bars';
-
 				$html .= '<div class="af-chart">';
 				$html .= '<div class="af-chart-diagram">';
+
+				$chart_creator = 'AF_Chart_Creator_C3';
+				$chart_creator = new $chart_creator();
+				$chart_type = 'bars';
 				$html .= $chart_creator->$chart_type( $element->label, $element_result );
+
 				$html .= '</div>';
 
 				$count_charts++;
@@ -137,7 +137,7 @@ class AF_Result_Charts extends AF_ResultHandler
 	 * @return array $results_formatted
 	 * @since 1.0.0
 	 */
-	public function format_results_by_element( $results )
+	public static function format_results_by_element( $results )
 	{
 		if( !is_array( $results ) )
 		{

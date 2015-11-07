@@ -64,6 +64,7 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 		$params = wp_parse_args( $defaults, $params );
 
 		$id = $params[ 'id' ];
+		$title_tag = $params[ 'title_tag' ];
 
 		$value_text = __( 'Count', 'af-locale' );
 
@@ -87,11 +88,25 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 		/**
 		 * C3 Chart Script
 		 */
-		$html  = '<div id="' . $id . '" class="c3-chart"></div>';
+		$html  = '<div id="' . $id . '" class="chart chart-c3">';
+		$html .= '<' . $title_tag . '>' . $title . '</' . $title_tag . '>';
+		$html .= '<div id="' . $id . '-chart"></div>';
 		$html .= "<script>
 			        jQuery(document).ready( function($){
+
+						var chart_width = '';
+
+						if ( $( '#form-result-handlers-tabs' ).length ) {
+							var tab_width = $( '#form-result-handlers-tabs' ).width();
+							chart_width = Math.round( ( tab_width / 3 * 2 ) );
+						}
+			        	console.log( chart_width );
+
 						var chart_{$id} = c3.generate({
-						    bindto: '#{$id}',
+						    bindto: '#{$id}-chart',
+						    size: {
+							  width: chart_width
+							},
 						    data: {
 						      columns: {$column_data},
 						      type: 'bar',
@@ -128,6 +143,8 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 					});
 			    </script>";
 
+		$html.= '</div>';
+
 		return $html;
 	}
 
@@ -157,6 +174,14 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 
 		$c3_helper_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/c3-helpers.js';
 		wp_enqueue_script( 'af-c3-helper-js', $c3_helper_script_url );
+	}
+
+	/**
+	 * Loading Frontend Scripts
+	 */
+	public function frontend_styles()
+	{
+		$this->admin_styles();
 	}
 
 	/**

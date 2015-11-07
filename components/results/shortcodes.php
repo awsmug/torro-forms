@@ -38,10 +38,10 @@ class AF_ChartsShortCodes
 	public static function init()
 	{
 		add_shortcode( 'survey_results', array( __CLASS__, 'survey_results' ) ); // @todo Delete later, because it's deprecated
-		add_shortcode( 'form_results', array( __CLASS__, 'form_results' ) );
+		add_shortcode( 'form_charts', array( __CLASS__, 'form_charts' ) );
 
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo Delete later, because it's deprecated
-		add_shortcode( 'element_results', array( __CLASS__, 'element_results' ) );
+		add_shortcode( 'element_chart', array( __CLASS__, 'element_chart' ) );
 
 		add_action( 'af_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
 		add_action( 'af_result_charts_postbox_element', array( __CLASS__, 'show_element_result_shortcode' ) );
@@ -58,7 +58,7 @@ class AF_ChartsShortCodes
 	{
 		_deprecated_function( 'Shortcode [survey_results]', '1.0.0 beta 20', '[form_results]' );
 
-		return self::form_results( $atts );
+		return self::form_charts( $atts );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class AF_ChartsShortCodes
 	 *
 	 * @return string|void
 	 */
-	public static function form_results( $atts )
+	public static function form_charts( $atts )
 	{
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$form_id = $atts[ 'id' ];
@@ -78,31 +78,34 @@ class AF_ChartsShortCodes
 			return esc_attr( 'Please enter a valid form id into the shortcode!', 'af-locale' );
 		}
 
-		$results = new AF_Form_Results( $form_id );
-
-		/*
-		$ordered_data = AF_AbstractData::order_for_charting( $results->get_results() );
+		$form_results = new AF_Form_Results( $form_id );
+		$results = $form_results->results();
+		$results = AF_Result_Charts::format_results_by_element( $results );
 
 		$html = '';
 
-		$count_bars = 0;
-		foreach( $ordered_data[ 'questions' ] as $element_id => $question ):
-			if( !array_key_exists( $element_id, $ordered_data[ 'data' ] ) )
+		foreach( $results AS $headline => $element_result )
+		{
+			$headline_arr = explode( '_', $headline );
+
+			$element_id = (int) $headline_arr[ 1 ];
+			$element = af_get_element( $element_id );
+
+			// Skip collecting Data if there is no analyzable Data
+			if( !$element->has_answers )
 			{
 				continue;
 			}
 
-			$html .= AF_Chart_Creator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
-			$count_bars++;
-		endforeach;
+			$chart_creator = 'AF_Chart_Creator_C3';
+			$chart_type = 'bars';
 
-		if( 0 == $count_bars )
-		{
-			$html .= esc_attr( 'There are no results to show.', 'af-locale' );
+			$chart_creator = new $chart_creator();
+
+			$html .= $chart_creator->$chart_type( $element->label, $element_result );
 		}
 
 		return $html;
-		*/
 	}
 
 	/**
@@ -116,7 +119,7 @@ class AF_ChartsShortCodes
 	{
 		_deprecated_function( 'Shortcode [question_results]', '1.0.0 beta 20', '[element_results]' );
 
-		return self::element_results( $atts );
+		return self::element_chart( $atts );
 	}
 
 	/**
@@ -126,33 +129,33 @@ class AF_ChartsShortCodes
 	 *
 	 * @return string $html HTML of results
 	 */
-	public static function element_results( $atts )
+	public static function element_chart( $atts )
 	{
 		global $wpdb, $af_global;
 
 		$atts = shortcode_atts( array( 'id' => '', ), $atts );
 		$element_id = $atts[ 'id' ];
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$af_global->tables->elements} WHERE id = %d", $element_id );
-		$element_id = $wpdb->get_var( $sql );
+		$sql = $wpdb->prepare( "SELECT id, form_id FROM {$af_global->tables->elements} WHERE id = %d", $element_id );
+		$element = $wpdb->get_row( $sql );
 
-		if( '' == $element_id )
+		if( NULL === $element )
 		{
 			return esc_attr( 'Please enter a valid element id into the shortcode!', 'af-locale' );
 		}
 
-		$sql = $wpdb->prepare( "SELECT form_id FROM {$af_global->tables->elements} WHERE id = %d", $element_id );
-		$form_id = $wpdb->get_var( $sql );
+		$form_results = new AF_Form_Results( $element->form_id );
+		$results = $form_results->element_results( $element->id );
+		$results = AF_Result_Charts::format_results_by_element( $results );
 
-		$results = new AF_Form_Results( $form_id );
+		$element = af_get_element( $element->id );
 
-		$html = '';
+		$chart_creator = 'AF_Chart_Creator_C3';
+		$chart_type = 'bars';
 
-		/*
-		foreach( $ordered_data[ 'questions' ] as $element_id => $question )
-		{
-			$html .= AF_Chart_Creator_Dimple::show_bars( $question, $ordered_data[ 'data' ][ $element_id ] );
-		}*/
+		$chart_creator = new $chart_creator();
+
+		$html = $chart_creator->$chart_type( $element->label, $results[ 'element_' . $element->id ] );
 
 		return $html;
 	}
@@ -173,7 +176,7 @@ class AF_ChartsShortCodes
 			return;
 		}
 
-		$html  = '<div class="in-postbox-one-third">' . af_clipboard_field( __( 'Charts Shortcode', 'af-locale' ), '[form_results id=' . $post->ID . ']' ) . '</div>';
+		$html  = '<div class="in-postbox-one-third">' . af_clipboard_field( __( 'Charts Shortcode', 'af-locale' ), '[form_charts id=' . $post->ID . ']' ) . '</div>';
 
 		echo $html;
 	}
@@ -189,7 +192,7 @@ class AF_ChartsShortCodes
 	{
 		if( $object->id != '' && $object->is_analyzable )
 		{
-			echo af_clipboard_field( __( 'Element Charts Shortcode', 'af-locale' ), '[element_results id=' .  $object->id . ']' );
+			echo af_clipboard_field( __( 'Element Charts Shortcode', 'af-locale' ), '[element_chart id=' .  $object->id . ']' );
 		}
 	}
 }

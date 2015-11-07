@@ -433,7 +433,7 @@ class AF_Form_Results
 	 * @return mixed $responses The results as array or NULL if there are no results
 	 * @since 1.0.0
 	 */
-	public function element( $element_id, $filter = array() )
+	public function element_results( $element_id, $filter = array() )
 	{
 		$filter = wp_parse_args( $filter, array(
 			'start_row'       => 0,
@@ -443,7 +443,6 @@ class AF_Form_Results
 			'filter'       => NULL,
 			'orderby'     => NULL,
 			'order'       => NULL,
-			'column_name' => 'label', // label, element_id
 		) );
 
 		$filter[ 'element_ids' ] = array( $element_id );
