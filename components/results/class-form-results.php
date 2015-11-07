@@ -146,17 +146,20 @@ class AF_Form_Results
 		$sql_filter = "SELECT * FROM {$view_name}";
 		$sql_filter_values = array();
 
+		$where_is_set = FALSE;
+
 		if( NULL !== $filter[ 'filter' ] )
 		{
 			if( is_array( $filter[ 'filter' ] ) )
 			{
-				$count_filter = 0;
+				$count = 0;
 				foreach( $filter[ 'filter' ] AS $column_name => $value )
 				{
 					$column_name = esc_sql( $column_name );
 
-					if( 0 === $count_filter )
+					if( 0 === $count && $where_is_set )
 					{
+						$where_is_set = TRUE;
 						$sql_filter .= " WHERE `{$column_name}` = %s";
 					}
 					else
@@ -164,7 +167,36 @@ class AF_Form_Results
 						$sql_filter .= " AND `{$column_name}` = %s";
 					}
 					$sql_filter_values[] = $value ;
-					$count_filter++;
+					$count++;
+				}
+			}
+		}
+
+		/**
+		 * Filtering Result IDs
+		 */
+		if( NULL !== $filter[ 'result_ids' ] )
+		{
+			if( is_array( $filter[ 'result_ids' ] ) )
+			{
+				$count = 0;
+				foreach( $filter[ 'result_ids' ] AS $result_id )
+				{
+					if( 0 === $count && FALSE == $where_is_set )
+					{
+						$where_is_set = TRUE;
+						$sql_filter .= " WHERE `result_id` = %d";
+					}
+					elseif( 0 === $count )
+					{
+						$sql_filter .= " AND `result_id` = %d";
+					}
+					else
+					{
+						$sql_filter .= " OR `result_id` = %d";
+					}
+					$sql_filter_values[] = $result_id;
+					$count++;
 				}
 			}
 		}
@@ -201,6 +233,8 @@ class AF_Form_Results
 		{
 			$sql_filter = $wpdb->prepare( $sql_filter, $sql_filter_values );
 		}
+
+		p( $sql_filter );
 
 		$results = $wpdb->get_results( $sql_filter, ARRAY_A );
 
