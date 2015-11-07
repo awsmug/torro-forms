@@ -58,19 +58,24 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 	{
 		$defaults = array(
 			'id'        => 'dimple' . md5( rand() ),
-			'width'     => '500',
-			'height'    => '400',
 			'title_tag' => 'h3',
 		);
 
 		$params = wp_parse_args( $defaults, $params );
 
 		$id = $params[ 'id' ];
-		$width = $params[ 'width' ];
-		$height = $params[ 'height' ];
 
-		$answer_text = __( 'Answers', 'af-locale' );
-		$value_text = __( 'Votes', 'af-locale' );
+		$value_text = __( 'Count', 'af-locale' );
+
+		/**
+		 * Preparing Data for JS
+		 */
+		$data = array( '\'values\'' );
+		foreach( $results AS $value )
+		{
+			$data[] = $value;
+		}
+		$column_data = '[ [' . implode( ',', $data ) . ' ] ]';
 
 		$categories = array_keys( $results );
 		foreach( $categories AS $key => $category )
@@ -79,38 +84,46 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 		}
 		$categories = implode( ',', $categories );
 
-		$data = array();
-		foreach( $results AS $label => $value )
-		{
-			$data[] = array(
-					'label' => $label,
-					'value' => $value
-			);
-		}
-
-		$json_data = json_encode( $data );
-
+		/**
+		 * C3 Chart Script
+		 */
 		$html  = '<div id="' . $id . '" class="c3-chart"></div>';
 		$html .= "<script>
 			        jQuery(document).ready( function($){
 						var chart_{$id} = c3.generate({
 						    bindto: '#{$id}',
 						    data: {
-						      json: {$json_data},
+						      columns: {$column_data},
 						      type: 'bar',
 						      keys: {
 					          	value: [ 'value' ],
 					          },
+					          colors: {
+					          	values: '#0073aa',
+					          }
 						    },
 						    axis: {
 								x: {
 							    	type: 'category',
 							    	categories: [{$categories}]
-							    }
+							    },
+							    y: {
+							    	tick: {
+									    format: function(x) {
+									        return ( x == Math.floor(x)) ? x : '';
+									    }
+								    }
+								}
 							},
 							legend: {
 						        show: false
-						    }
+						    },
+						    tooltip: {
+							  format: {
+							    name: function (name, ratio, id, index) { return '{$value_text}'; }
+							  }
+							}
+
 						});
 					});
 			    </script>";
@@ -141,6 +154,9 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 
 		$c3_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/c3.min.js';
 		wp_enqueue_script( 'af-c3-js', $c3_script_url );
+
+		$c3_helper_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/c3-helpers.js';
+		wp_enqueue_script( 'af-c3-helper-js', $c3_helper_script_url );
 	}
 
 	/**
