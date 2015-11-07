@@ -178,10 +178,42 @@ abstract class AF_ResultHandler
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
+		// Scriptloaders
+		if( is_admin() )
+		{
+			add_action( 'admin_print_styles', array( $this, 'admin_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		}
+		else
+		{
+			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
+		}
+
 		$this->initialized = TRUE;
 
 		return $af_global->add_result_handler( $this->name, $this );
 	}
+
+	/**
+	 * Function for enqueuing Admin Scripts - Have to be overwritten by Child Class.
+	 */
+	public function admin_scripts(){}
+
+	/**
+	 * Function for enqueuing Admin Styles - Have to be overwritten by Child Class.
+	 */
+	public function admin_styles(){}
+
+	/**
+	 * Function for enqueuing Frontend Scripts - Have to be overwritten by Child Class.
+	 */
+	public function frontend_scripts(){}
+
+	/**
+	 * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
+	 */
+	public function frontend_styles(){}
 }
 
 /**
