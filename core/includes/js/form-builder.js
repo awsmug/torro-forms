@@ -389,7 +389,7 @@
 				make_tabs( $element.find( self.selectors.element_tabs_sub ) );
 			});
 
-			make_tabs( $( this.selectors.droppable_area + ' ' + this.selectors.element_tabs_sub ) );
+			make_tabs( $( this.selectors.element_tabs_sub ) );
 		},
 
 		/**
