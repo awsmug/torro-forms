@@ -1,9 +1,19 @@
-#af-entry
+#af-entries
 {
-    display: none;
     width:100%;
+    overflow-x: hidden;
 }
-#TB_overlay
+#af-entries-slider
 {
-    overflow: scroll;
+    width:200%;
+}
+#af-entries-table
+{
+    width:50%;
+    float:left;
+}
+#af-entry-table
+{
+    width:50%;
+    float:left;
 }

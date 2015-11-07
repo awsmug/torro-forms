@@ -57,6 +57,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$results = $form_results->results( $params );
 
 		$html = '<div id="af-entries">';
+		$html .= '<div id="af-entries-slider">';
 
 		if( $form_results->count() > 0 )
 		{
@@ -139,7 +140,6 @@ class AF_ResultsEntries extends AF_ResultHandler
 			$html .= '</tr>';
 			$html .= '</tfoot>';
 			$html .= '</table>';
-			$html .= '<div id="af-entry"></div>';
 		}
 		else
 		{
@@ -147,11 +147,13 @@ class AF_ResultsEntries extends AF_ResultHandler
 		}
 
 		$html .= '</div>';
+		$html .= '</div>';
 
 		return $html;
 	}
 
-	public function ajax_show_entry()
+
+	public static function ajax_show_entry()
 	{
 		global $wpdb, $af_global;
 
@@ -189,7 +191,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				exit;
 			}
 
-			$html = '';
+			$html = '<table id="af-entry-table">';
 
 			foreach( $result AS $column_name => $value )
 			{
@@ -212,6 +214,8 @@ class AF_ResultsEntries extends AF_ResultHandler
 				$html .= '<td colspan="2">' . $value. '</td>';
 				$html .= '</tr>';
 			}
+
+			$html .= '</table>';
 
 			echo $html;
 		}

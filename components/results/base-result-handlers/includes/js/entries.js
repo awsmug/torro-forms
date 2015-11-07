@@ -8,6 +8,7 @@
             show_entry: '.af-show-entry',
             entries_table: '#af-entries-table',
             entry: '#af-entry',
+            entries_slider: '#af-entries-slider'
         };
     }
 
@@ -40,11 +41,10 @@
                     $button.addClass('button-loading');
 
                     $.post(ajaxurl, data, function (response) {
-                        var html = '<p>' + response + '</p>';
+                        var html = response;
 
-                        console.log( $(self.selectors.entries_table).html() );
-
-                        $( self.selectors.entries_table ).append( html );
+                        $( self.selectors.entries_table ).after( html );
+                        $( self.selectors.entries_slider ).animate({left: '250px'});
 
                         $button.removeClass('button-loading');
 
