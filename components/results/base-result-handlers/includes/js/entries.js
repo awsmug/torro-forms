@@ -6,9 +6,11 @@
     function AF_FB_Entry() {
         this.selectors = {
             show_entry: '.af-show-entry',
+            hide_entry: '.af-hide-entry',
             entries_table: '#af-entries-table',
             entry: '#af-entry',
-            entries_slider: '#af-entries-slider'
+            entries_slider: '.af-entries-slider',
+            entries_slider_right: '.af-slider-right'
         };
     }
 
@@ -18,6 +20,7 @@
     AF_FB_Entry.prototype = {
         init: function () {
             this.init_show_entry();
+            this.init_hide_entry();
         },
         /**
          * Shows clicked Entry
@@ -25,7 +28,7 @@
         init_show_entry: function () {
             var self = this;
 
-            $(this.selectors.show_entry).on('click', function () {
+            $(self.selectors.show_entry).on('click', function () {
                 var $button = $(this);
 
                 if ($button.hasClass('button')) {
@@ -43,16 +46,25 @@
                     $.post(ajaxurl, data, function (response) {
                         var html = response;
 
-                        $( self.selectors.entries_table ).after( html );
-                        $( self.selectors.entries_slider ).animate({left: '250px'});
+                        $( self.selectors.entries_slider_right ).html( html );
+                        $( self.selectors.entries_slider ).animate({marginLeft: "-100%"});
 
                         $button.removeClass('button-loading');
 
+                        self.init_hide_entry();
                     });
 
                 } else {
                     $button.addClass('button');
                 }
+            });
+        },
+        init_hide_entry: function () {
+            var self = this;
+
+            $(self.selectors.hide_entry).on('click', function () {
+                console.log( self.selectors.hide_entry );
+                $( self.selectors.entries_slider ).animate({marginLeft: "0"});
             });
         },
         /**

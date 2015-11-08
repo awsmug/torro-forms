@@ -3,17 +3,56 @@
     width:100%;
     overflow-x: hidden;
 }
-#af-entries-slider
+#af-entries .entry-actions
+{
+    text-align: right;
+}
+#af-entries .export-links
+{
+    text-align: right;
+}
+
+/**
+ * Entries Table
+ */
+#af-entries tbody > :nth-child(2n+1) {
+    background-color:#F9F9F9;
+}
+/**
+ * Entry
+ */
+#af-entry-table
+{
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+}
+#af-entry-table th
+{
+    width:50%;
+}
+#af-entry-table tr{
+    line-height: 25px;
+}
+#af-entry-buttons
+{
+    margin-top: 15px;
+}
+/**
+ * Slider
+ */
+.af-entries-slider
 {
     width:200%;
 }
-#af-entries-table
+.af-slider-start-content
 {
     width:50%;
     float:left;
 }
-#af-entry-table
+.af-slider-right
 {
     width:50%;
     float:left;
 }
+

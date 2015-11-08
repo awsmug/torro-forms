@@ -57,7 +57,8 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$results = $form_results->results( $params );
 
 		$html = '<div id="af-entries">';
-		$html .= '<div id="af-entries-slider">';
+		$html .= '<div class="af-entries-slider">';
+		$html .= '<div class="af-slider-start-content">';
 
 		if( $form_results->count() > 0 )
 		{
@@ -147,6 +148,8 @@ class AF_ResultsEntries extends AF_ResultHandler
 		}
 
 		$html .= '</div>';
+		$html .= '<div class="af-slider-right"></div>';
+		$html .= '</div>';
 		$html .= '</div>';
 
 		return $html;
@@ -191,31 +194,77 @@ class AF_ResultsEntries extends AF_ResultHandler
 				exit;
 			}
 
-			$html = '<table id="af-entry-table">';
+			$html = '<table id="af-entry-table" class="widefat">';
+
+			$html .= '<thead>';
+			$html .= '<tr>';
+			$html .= '<th>' . esc_attr__( 'Label', 'af-locale' ) . '</th>';
+			$html .= '<th>' . esc_attr__( 'Value', 'af-locale' ) . '</th>';
+			$html .= '</tr>';
+			$html .= '</thead>';
+
+			$html .= '<tbody>';
+
+			$result_id = '';
+			$user_id = '';
+			$timestamp = '';
+			$extra_info = '';
 
 			foreach( $result AS $column_name => $value )
 			{
-				if( 'result_id' == $column_name ||  'user_id' == $column_name ||  'timestamp' == $column_name  )
-				{
-					continue;
-				}
 
-				if( 'yes' == $value )
+				switch( $column_name )
 				{
-					$value = esc_attr__( 'Yes', 'af-locale' );
-				}
-				if( 'no' == $value )
-				{
-					$value = esc_attr__( 'No', 'af-locale' );
-				}
+					case 'result_id':
+						$result_id = $value;
+						break;
 
-				$html .= '<tr>';
-				$html .= '<th colspan="2">' . $column_name . '</th>';
-				$html .= '<td colspan="2">' . $value. '</td>';
-				$html .= '</tr>';
+					case 'user_id':
+						if( !empty( $value ))
+						{
+							$user_id = $value;
+							$user = get_user_by( 'id', $user_id );
+							$extra_info .= ' - ' . esc_attr__( 'User', 'af-locale' ) . ' ' . $user->user_nicename;
+						}
+						break;
+
+					case 'timestamp':
+						$timestamp = $value;
+
+						$date_string = date_i18n( get_option( 'date_format' ), $timestamp );
+						$time_string = date_i18n( get_option( 'time_format' ), $timestamp );
+						break;
+
+					default:
+
+						if( 'yes' == $value )
+						{
+							$value = esc_attr__( 'Yes', 'af-locale' );
+						}
+						if( 'no' == $value )
+						{
+							$value = esc_attr__( 'No', 'af-locale' );
+						}
+
+						$html .= '<tr>';
+						$html .= '<td>' . $column_name . '</td>';
+						$html .= '<td>' . $value. '</td>';
+						$html .= '</tr>';
+
+						break;
+				}
 			}
-
+			$html .= '</tbody>';
+			$html .= '<tfoot>';
+			$html .= '<tr>';
+			$html .= '<td colspan="2"><small>' . esc_attr__( 'Date', 'af-locale' ) . ' ' . $date_string . ' - ' . esc_attr__( 'Time', 'af-locale' ) . ' ' . $time_string . $extra_info . '</small></td>';
+			$html .= '</tr>';
+			$html .= '</tfoot>';
 			$html .= '</table>';
+
+			$html .= '<div id="af-entry-buttons">';
+			$html .= '<input type="button" class="button af-hide-entry" value="'. esc_attr__( 'Back to Results', 'af-locale' ) . '">';
+			$html .= '</div>';
 
 			echo $html;
 		}
