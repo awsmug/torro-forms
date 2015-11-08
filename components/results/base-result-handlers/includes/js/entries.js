@@ -74,6 +74,9 @@
             var self = this;
 
             $(self.selectors.entries_nav).on('click', function () {
+                var $button = $(this);
+                $button.addClass('button-loading');
+
                 var url = $( this ).attr( 'href' );
                 var start = self.get_url_param_value( url, 'af-entries-start' );
                 var length = self.get_url_param_value( url, 'af-entries-length' );
@@ -87,6 +90,7 @@
 
                 $.post(ajaxurl, data, function (response) {
                     var html = response;
+                    $button.removeClass('button-loading');
 
                     $(self.selectors.entries_slider_start_content).fadeOut( 500, function(){
                         $(self.selectors.entries_slider_start_content).html( html );
