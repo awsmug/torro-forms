@@ -193,7 +193,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				$html .= '</div>';
 			}
 
-			$html .= '<p>' . sprintf( esc_attr__( 'Entries %d - %d of %d', 'af-locale' ), $start + 1, $start + $length, $num_results ) . '</p>';
+			$html .= '<p>' . sprintf( esc_attr__( '%d - %d of %d', 'af-locale' ), $start + 1, $start + $length, $num_results ) . '</p>';
 			$html .= '</div>';
 		}
 		else
