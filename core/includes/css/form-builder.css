@@ -38,6 +38,11 @@
 {
     padding:15px;
 }
+.formelement div > label
+{
+    display:block;
+    line-height: 26px;
+}
 #form-elements .formelement {
     height: 45px;
     overflow: hidden;
@@ -121,7 +126,7 @@
 #af-content .answer {
     height: 40px;
     padding-left: 20px;
-    background-image: url('../../../../assets/images/icon-updown.png');
+    background-image: url('../../../assets/images/icon-updown.png');
     background-repeat: no-repeat;
     background-position: top 7px left 0;
     cursor: move;
