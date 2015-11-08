@@ -173,6 +173,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 
 			$prev = $start - $length;
 			$next = $start + $length;
+			$count = $num_results <= $length ? $num_results : $length;
 
 			$html .= '<div class="af-nav">';
 			if( $prev >= 0 )
@@ -193,7 +194,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				$html .= '</div>';
 			}
 
-			$html .= '<p>' . sprintf( esc_attr__( '%d - %d of %d', 'af-locale' ), $start + 1, $start + $length, $num_results ) . '</p>';
+			$html .= '<p>' . sprintf( esc_attr__( '%s - %s of %s', 'af-locale' ), $start + 1, $count, $num_results ) . '</p>';
 			$html .= '</div>';
 		}
 		else
