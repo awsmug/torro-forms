@@ -67,7 +67,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 			$html .= '<table>';
 			$html .= '<tr>';
 			$html .= '<td>';
-			$html .= '<label for="start_date">' . esc_attr__( 'Form input start:', 'af-locale' ) . '</label>';
+			$html .= '<label for="start_date">' . esc_attr__( 'Input start:', 'af-locale' ) . '</label>';
 			$html .= '</td>';
 			$html .= '<td>';
 				$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
@@ -75,7 +75,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 			$html .= '</tr>';
 			$html .= '<tr>';
 			$html .= '<td>';
-				$html .= '<label for="end_date">' . esc_attr__( 'Form input end:', 'af-locale' ) . '</label>';
+				$html .= '<label for="end_date">' . esc_attr__( 'Input end:', 'af-locale' ) . '</label>';
 			$html .= '</td>';
 			$html .= '<td>';
 				$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
