@@ -216,7 +216,6 @@ class AF_Form_Results
 			$sql_filter .= ' ' . $filter[ 'order' ];
 		}
 
-		p ( $filter );
 		// Limiting
 		if( NULL !== $filter[ 'start_row' ] && NULL !== $filter[ 'num_rows' ] )
 		{
@@ -234,7 +233,6 @@ class AF_Form_Results
 		{
 			$sql_filter = $wpdb->prepare( $sql_filter, $sql_filter_values );
 		}
-		p( $sql_filter );
 
 		$results = $wpdb->get_results( $sql_filter, ARRAY_A );
 

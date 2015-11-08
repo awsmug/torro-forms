@@ -39,6 +39,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$this->title = __( 'Entries', 'af-locale' );
 		$this->name = 'entries';
 
+		add_action( 'wp_ajax_af_show_entries', array( __CLASS__, 'ajax_show_entries' ) );
 		add_action( 'wp_ajax_af_show_entry', array( __CLASS__, 'ajax_show_entry' ) );
 	}
 
@@ -48,17 +49,47 @@ class AF_ResultsEntries extends AF_ResultHandler
 
 		$form_id = $post->ID;
 
-		$form_results = new AF_Form_Results( $form_id );
+		$start = 0;
+		if( array_key_exists( 'af-entries-start', $_POST ) )
+		{
+			$start = $_POST[ 'af-entries-start' ];
+		}
 
-		$params = array(
-			'num_rows' => 20
-		);
-
-		$results = $form_results->results( $params );
+		$length = 10;
+		if( array_key_exists( 'af-entries-start', $_POST ) )
+		{
+			$length = $_POST[ 'af-entries-length' ];
+		}
 
 		$html = '<div id="af-entries">';
 		$html .= '<div class="af-entries-slider">';
 		$html .= '<div class="af-slider-start-content">';
+
+		$form_results = new AF_Form_Results( $form_id );
+		$form_results->results();
+		$num_results = $form_results->count();
+
+		$html .= self::show_results( $form_id, $start, $length, $num_results );
+
+		$html .= '</div>';
+		$html .= '<div class="af-slider-right"></div>';
+		$html .= '</div>';
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	private static function show_results( $form_id, $start, $length, $num_results )
+	{
+		$form_results = new AF_Form_Results( $form_id );
+
+		$filter = array(
+			'start_row' => $start,
+			'num_rows' => $length
+		);
+
+		$html = '';
+		$results = $form_results->results( $filter );
 
 		if( $form_results->count() > 0 )
 		{
@@ -74,7 +105,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 			{
 				if( in_array( $headline, $entry_columns ) )
 				{
-					switch( $headline )
+					switch ( $headline )
 					{
 						case 'result_id':
 							$headline_title = esc_attr( 'ID', 'af_locale' );
@@ -92,7 +123,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				}
 			}
 
-			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'af-locale' ), admin_url( 'edit.php' ) . '?post_type=af-forms&export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=af-forms&export=csv&form_id=' . $form_id ). '</th>';
+			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'af-locale' ), admin_url( 'edit.php' ) . '?post_type=af-forms&export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=af-forms&export=csv&form_id=' . $form_id ) . '</th>';
 			$html .= '</tr>';
 			$html .= '</thead>';
 
@@ -105,7 +136,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				{
 					if( in_array( $headline, $entry_columns ) )
 					{
-						switch( $headline )
+						switch ( $headline )
 						{
 							case 'timestamp':
 								$content = date_i18n( $date_format, $result[ $headline ] );
@@ -129,30 +160,63 @@ class AF_ResultsEntries extends AF_ResultHandler
 			$html .= '</tbody>';
 			$html .= '<tfoot>';
 			$html .= '<tr>';
-				$html .= '<td>';
-				$html .= '</td>';
-				$html .= '<td>';
-				$html .= '</td>';
-				$html .= '<td>';
-				$html .= '</td>';
-				$html .= '<td>';
-				$html .= 'Navigation comes here';
-				$html .= '</td>';
+			$html .= '<td>';
+			$html .= '</td>';
+			$html .= '<td>';
+			$html .= '</td>';
+			$html .= '<td>';
+			$html .= '</td>';
+			$html .= '<td>&nbsp;</td>';
 			$html .= '</tr>';
 			$html .= '</tfoot>';
 			$html .= '</table>';
+
+			$prev = $start - $length;
+			$next = $start + $length;
+
+			$html .= '<div class="af-nav">';
+			if( $prev >= 0 )
+			{
+				$html .= '<div class="af-nav-prev-link">';
+				$prev_url = $_SERVER[ 'REQUEST_URI' ] . '&af-entries-start=' . $prev . '&af-entries-length=' . $length;
+				$prev_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Previous</a>', 'af-locale' ), $prev_url );
+				$html .= $prev_link;
+				$html .= '</div>';
+			}
+
+			if( $next < $num_results )
+			{
+				$html .= '<div class="af-nav-next-link">';
+				$next_url = $_SERVER[ 'REQUEST_URI' ] . '&af-entries-start=' . $next . '&af-entries-length=' . $length;
+				$next_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Next</a>', 'af-locale' ), $next_url );
+				$html .= $next_link;
+				$html .= '</div>';
+			}
+
+			$html .= '<p>' . sprintf( esc_attr__( 'Entries %d - %d of %d', 'af-locale' ), $start + 1, $start + $length, $num_results ) . '</p>';
+			$html .= '</div>';
 		}
 		else
 		{
 			$html .= '<p class="not-found-area">' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
 		}
 
-		$html .= '</div>';
-		$html .= '<div class="af-slider-right"></div>';
-		$html .= '</div>';
-		$html .= '</div>';
-
 		return $html;
+	}
+
+	public static function ajax_show_entries()
+	{
+		$form_id = $_POST[ 'form_id' ];
+		$start = $_POST[ 'start' ];
+		$length = $_POST[ 'length' ];
+
+		$form_results = new AF_Form_Results( $form_id );
+		$results = $form_results->results();
+		$num_results = $form_results->count();
+
+		echo  self::show_results( $form_id, $start, $length, $num_results );
+
+		exit;
 	}
 
 

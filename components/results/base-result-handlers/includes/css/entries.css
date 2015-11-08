@@ -55,4 +55,21 @@
     width:50%;
     float:left;
 }
-
+/**
+ * Nav
+ */
+.af-nav{
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+}
+.af-nav-prev-link
+{
+    float: left;
+    margin: 0 15px 15px 0;
+}
+.af-nav-next-link
+{
+    float: right;
+    margin: 0 0 15px 15px;
+}
