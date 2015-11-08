@@ -98,7 +98,7 @@ class AF_Form_Results
 
 		$filter = wp_parse_args( $filter, array(
 			'start_row'       => 0,
-			'number_rows' => NULL,
+			'num_rows' => NULL,
 			'element_ids' => NULL,
 			'user_ids'    => NULL,
 			'result_ids'  => NULL,
@@ -216,23 +216,25 @@ class AF_Form_Results
 			$sql_filter .= ' ' . $filter[ 'order' ];
 		}
 
+		p ( $filter );
 		// Limiting
-		if( NULL !== $filter[ 'start_row' ] && NULL !== $filter[ 'number_rows' ] )
+		if( NULL !== $filter[ 'start_row' ] && NULL !== $filter[ 'num_rows' ] )
 		{
 			$sql_filter .= ' LIMIT %d, %d';
 			$sql_filter_values[] = (int) $filter[ 'start_row' ];
-			$sql_filter_values[] = (int) $filter[ 'number_rows' ];
+			$sql_filter_values[] = (int) $filter[ 'num_rows' ];
 		}
-		elseif( NULL === $filter[ 'start_row' ] && NULL !== $filter[ 'number_rows' ] )
+		elseif( NULL !== $filter[ 'num_rows' ] )
 		{
 			$sql_filter .= ' LIMIT %d';
-			$sql_filter_values[] = (int) $filter[ 'number_rows' ];
+			$sql_filter_values[] = (int) $filter[ 'num_rows' ];
 		}
 
 		if( count( $sql_filter_values ) > 0 )
 		{
 			$sql_filter = $wpdb->prepare( $sql_filter, $sql_filter_values );
 		}
+		p( $sql_filter );
 
 		$results = $wpdb->get_results( $sql_filter, ARRAY_A );
 
