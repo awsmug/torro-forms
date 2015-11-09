@@ -193,7 +193,7 @@ class AF_FormLoader
 	public static function show_results( $form_id )
 	{
 		$html = '<p>' . __( 'This are the actual results:', 'af-locale' ) . '</p>';
-		$html .= do_shortcode( '[form_results id="' . $form_id . '"]' );
+		$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
 
 		return apply_filters( 'af_show_results', $html, $form_id );
 	}
