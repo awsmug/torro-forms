@@ -101,49 +101,46 @@ class AF_Form_Element_Text extends AF_Form_Element
 
 		$error = FALSE;
 
-		if( !empty( $min_length ) )
-		{
-			if( strlen( $input ) < $min_length ):
+		if ( !empty( $min_length ) ) {
+			if ( strlen( $input ) < $min_length ) {
 				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
-			endif;
+			}
 		}
 
-		if( !empty( $max_length ) )
-		{
-			if( strlen( $input ) > $max_length ):
+		if ( ! empty( $max_length ) ) {
+			if ( strlen( $input ) > $max_length ) {
 				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
 				$error = TRUE;
-			endif;
+			}
 		}
 
-		if( 'none' != $validation ):
-			switch ( $validation )
-			{
+		if ( 'none' != $validation ) {
+			switch ( $validation ) {
 				case 'numbers':
-					if( !preg_match( '/^[0-9]{1,}$/', $input ) ):
+					if ( ! preg_match( '/^[0-9]{1,}$/', $input ) ) {
 						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a number.', 'af-locale' ), $max_length );
 						$error = TRUE;
-					endif;
+					}
 					break;
 				case 'numbers_decimal':
-					if( !preg_match( '/^-?([0-9])+\.?([0-9])+$/', $input ) && !preg_match( '/^-?([0-9])+\,?([0-9])+$/', $input ) ):
+					if ( ! preg_match( '/^-?([0-9])+\.?([0-9])+$/', $input ) && ! preg_match( '/^-?([0-9])+\,?([0-9])+$/', $input ) ) {
 						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a decimal number.', 'af-locale' ), $max_length );
 						$error = TRUE;
-					endif;
+					}
 					break;
 				case 'email_address':
-					if( !preg_match( '/^[\w-.]+[@][a-zA-Z0-9-.äöüÄÖÜ]{3,}\.[a-z.]{2,4}$/', $input ) ):
+					if ( ! is_email( $input ) ) {
 						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a valid Email-Address.', 'af-locale' ), $max_length );
 						$error = TRUE;
-					endif;
+					}
 					break;
 			}
-		endif;
+		}
 
-		if( $error ):
+		if( $error ) {
 			return FALSE;
-		endif;
+		}
 
 		return TRUE;
 	}
