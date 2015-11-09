@@ -199,10 +199,14 @@ class AF_ResultsEntries extends AF_ResultHandler
 		}
 		else
 		{
-			$html .= '<p class="not-found-area">' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
+			$html .= self::show_not_found_notice();
 		}
 
 		return $html;
+	}
+
+	public static function show_not_found_notice() {
+		return '<p class="not-found-area">' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
 	}
 
 	public static function ajax_show_entries()

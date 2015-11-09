@@ -439,7 +439,11 @@ class AF_FormBuilder
 		$form = new AF_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
-		$response = array( 'form_id' => $form_id, 'deleted' => TRUE );
+		$response = array(
+			'form_id' => $form_id,
+			'deleted' => TRUE,
+			'html' => AF_ResultsEntries::show_not_found_notice(),
+		);
 
 		echo json_encode( $response );
 

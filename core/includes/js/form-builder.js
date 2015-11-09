@@ -473,6 +473,8 @@
 
 										var response_text = self.translations.deleted_results_successfully;
 
+										$( '#af-entries .af-slider-start-content' ).html( response.html );
+
 										$( '#form-functions-notices').html( response_text );
 										$( '#form-functions-notices').show();
 
