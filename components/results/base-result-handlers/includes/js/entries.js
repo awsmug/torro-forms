@@ -7,6 +7,7 @@
         this.selectors = {
             show_entry: '.af-show-entry',
             hide_entry: '.af-hide-entry',
+            entries: '#af-entries',
             entries_table: '#af-entries-table',
             entry: '#af-entry',
             entries_slider: '.af-entries-slider',
@@ -31,8 +32,10 @@
         init_show_entry: function () {
             var self = this;
 
-            $(self.selectors.show_entry).on('click', function () {
-                var $button = $(this);
+            $( this.selectors.entries ).on( 'click', this.selectors.show_entry, function ( e ) {
+                var $button = $( this );
+
+                e.preventDefault();
 
                 if ($button.hasClass('button')) {
 
@@ -62,20 +65,25 @@
                 }
             });
         },
+
         init_hide_entry: function () {
             var self = this;
 
-            $(self.selectors.hide_entry).on('click', function () {
-                console.log( self.selectors.hide_entry );
+            $( this.selectors.entries ).on( 'click', this.selectors.hide_entry, function ( e ) {
+                e.preventDefault();
+
                 $( self.selectors.entries_slider ).animate({marginLeft: "0"});
             });
         },
+
         init_nav_link: function () {
             var self = this;
 
-            $(self.selectors.entries_nav).on('click', function () {
+            $( this.selectors.entries ).on( 'click', this.selectors.entries_nav, function ( e ) {
                 var $button = $(this);
                 $button.addClass('button-loading');
+
+                e.preventDefault();
 
                 var url = $( this ).attr( 'href' );
                 var start = self.get_url_param_value( url, 'af-entries-start' );
@@ -97,8 +105,6 @@
                         $(self.selectors.entries_slider_start_content).fadeIn( 500 );
                     });
                 });
-
-                return false;
             });
         },
         /**

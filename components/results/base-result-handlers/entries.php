@@ -179,7 +179,10 @@ class AF_ResultsEntries extends AF_ResultHandler
 			if( $prev >= 0 )
 			{
 				$html .= '<div class="af-nav-prev-link">';
-				$prev_url = $_SERVER[ 'REQUEST_URI' ] . '&af-entries-start=' . $prev . '&af-entries-length=' . $length;
+				$prev_url = self::get_admin_url( $form_id, array(
+					'af-entries-start'	=> $prev,
+					'af-entries-length'	=> $length,
+				) );
 				$prev_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Previous</a>', 'af-locale' ), $prev_url );
 				$html .= $prev_link;
 				$html .= '</div>';
@@ -188,7 +191,10 @@ class AF_ResultsEntries extends AF_ResultHandler
 			if( $next < $num_results )
 			{
 				$html .= '<div class="af-nav-next-link">';
-				$next_url = $_SERVER[ 'REQUEST_URI' ] . '&af-entries-start=' . $next . '&af-entries-length=' . $length;
+				$next_url = self::get_admin_url( $form_id, array(
+					'af-entries-start'	=> $next,
+					'af-entries-length'	=> $length,
+				) );
 				$next_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Next</a>', 'af-locale' ), $next_url );
 				$html .= $next_link;
 				$html .= '</div>';
@@ -203,6 +209,18 @@ class AF_ResultsEntries extends AF_ResultHandler
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Returns the edit URL for a form, with optional query arguments
+	 */
+	private static function get_admin_url( $form_id, $args = array() ) {
+		$admin_url = admin_url( 'post.php?post=' . $form_id . '&action=edit' );
+		if ( count( $args ) > 0 ) {
+			$admin_url = add_query_arg( $args, $admin_url );
+		}
+
+		return $admin_url;
 	}
 
 	public static function show_not_found_notice() {
