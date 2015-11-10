@@ -47,22 +47,43 @@ class AF_ShortCodes
 
 	public static function form( $atts )
 	{
-		global $ar_form_id;
+		$defaults = array(
+				'id' => '',
+				'title' => __( 'Form', 'af-locale' ),
+				'show' => 'embed', // embed, iframe
+		        'iframe_width' => '100%',
+		        'iframe_height' => '100%'
+		);
 
-		$atts = shortcode_atts( array( 'id' => '', 'title' => __( 'Form', 'af-locale' ) ), $atts );
-		$ar_form_id = $atts[ 'id' ];
+		$atts = shortcode_atts( $defaults, $atts );
 
-		if( '' == $ar_form_id )
+		$af_form_id = $atts[ 'id' ];
+
+		if( '' == $af_form_id )
 		{
 			return esc_attr( 'Please enter an id in the form shortcode!', 'af-locale' );
 		}
 
-		if( !af_form_exists( $ar_form_id ) )
+		if( !af_form_exists( $af_form_id ) )
 		{
 			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
 		}
 
-		return AF_FormLoader::get_form( $ar_form_id );
+		switch(  $atts[ 'show' ] )
+		{
+			case 'iframe':
+				$url = get_permalink( $af_form_id );
+				$width = $atts[ 'iframe_width' ];
+				$height = $atts[ 'iframe_height' ];
+
+				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
+				break;
+			default:
+				$html = AF_FormLoader::get_form( $af_form_id );
+				break;
+		}
+
+		return $html;
 	}
 
 	public static function show_form_shortcode()
