@@ -114,14 +114,16 @@ class AF_Post
 
 		$forbidden_keys = apply_filters( 'af_duplicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
 
-		foreach( $this->meta AS $meta_key => $meta_value ):
+		foreach( $this->meta AS $meta_key => $meta_value )
+		{
 			if( !in_array( $meta_key, $forbidden_keys ) )
 			{
 				foreach( $meta_value AS $value )
+				{
 					add_post_meta( $post_id, $meta_key, $value );
+				}
 			}
-
-		endforeach;
+		}
 
 		return TRUE;
 	}
