@@ -218,6 +218,9 @@ class AF_FormProcess
 		if( $actual_step == $next_step )
 		{
 			// If actual step is next step, show finish form button
+			ob_start();
+			do_action( 'af_submit_button_before', $this->form_id, $actual_step );
+			$html .= ob_get_clean();
 			$html .= '<input type="submit" name="af_submission" value="' . __( 'Send', 'af-locale' ) . '">';
 		}
 		else
