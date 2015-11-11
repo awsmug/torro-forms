@@ -104,7 +104,7 @@ abstract class AF_Settings
 	{
 		if( count( $this->sub_settings ) == 0 )
 		{
-			$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
+			$settings_handler = new AF_Settings_Handler( $this->name, $this->settings );
 			$html = $settings_handler->get();
 		}
 		else
@@ -157,7 +157,7 @@ abstract class AF_Settings
 
 			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
 
-			$settings_handler = new AF_SettingsHandler( $settings_name, $settings[ 'settings' ] );
+			$settings_handler = new AF_Settings_Handler( $settings_name, $settings[ 'settings' ] );
 			$html .= $settings_handler->get();
 
 			ob_start();
@@ -179,7 +179,7 @@ abstract class AF_Settings
 	{
 		if( count( $this->sub_settings ) == 0 )
 		{
-			$settings_handler = new AF_SettingsHandler( $this->name, $this->settings );
+			$settings_handler = new AF_Settings_Handler( $this->name, $this->settings );
 			$settings_handler->save();
 
 			do_action( 'af_save_settings_' . $this->name );
@@ -204,7 +204,7 @@ abstract class AF_Settings
 
 			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
 
-			$settings_handler = new AF_SettingsHandler( $settings_name, $settings[ 'settings' ] );
+			$settings_handler = new AF_Settings_Handler( $settings_name, $settings[ 'settings' ] );
 			$settings_handler->save();
 		}
 	}
@@ -295,7 +295,7 @@ function af_get_settings( $settings_name )
 		return FALSE;
 	}
 
-	$settings_handler = new AF_SettingsHandler( $settings_name, $af_global->settings[ $settings_name ]->settings );
+	$settings_handler = new AF_Settings_Handler( $settings_name, $af_global->settings[ $settings_name ]->settings );
 	$values = $settings_handler->get_field_values();
 
 	return $values;
