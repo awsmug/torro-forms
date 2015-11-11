@@ -79,9 +79,7 @@ class AF_FormProcess
 	 */
 	public function show_form()
 	{
-		global $ar_form_id;
-
-		$show_form = apply_filters( 'af_show_form', TRUE ); // Hook for adding restrictions and so on ...
+		$show_form = apply_filters( 'af_form_show', TRUE ); // Hook for adding restrictions and so on ...
 
 		if( FALSE == $show_form )
 		{
@@ -110,10 +108,6 @@ class AF_FormProcess
 		$html .= '<form class="af-form" action="' . $this->action_url . '" method="POST">';
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'af-form-' . $this->form_id ) . '" />';
 
-		ob_start();
-		do_action( 'af_form_start' );
-		$html .= ob_get_clean();
-
 		$step_count = $this->form->get_step_count();
 
 		// Switch on navigation if there is more than one page
@@ -126,23 +120,34 @@ class AF_FormProcess
 		$elements = $this->form->get_step_elements( $actual_step );
 		$next_step = $actual_step;
 
-		if( is_array( $elements ) && count( $elements ) > 0 ):
-			foreach( $elements AS $element ):
-				if( !$element->splits_form ):
+		ob_start();
+		do_action( 'af_form_start', $this->form_id, $actual_step );
+		$html .= ob_get_clean();
+
+		if( is_array( $elements ) && count( $elements ) > 0 )
+		{
+			foreach( $elements AS $element )
+			{
+				if( !$element->splits_form )
+				{
 					$html .= $element->draw();
-				else:
+				}
+				else
+				{
 					$next_step += 1; // If there is a next step, setting up next step var
 					break;
-				endif;
-			endforeach;
-		else:
+				}
+			}
+		}
+		else
+		{
 			return FALSE;
-		endif;
+		}
 
 		$html .= $this->get_navigation( $actual_step, $next_step );
 
 		ob_start();
-		do_action( 'af_form_end' );
+		do_action( 'af_form_end', $this->form_id, $actual_step );
 		$html .= ob_get_clean();
 
 		$html .= '<input type="hidden" name="af_next_step" value="' . $next_step . '" />';
@@ -278,11 +283,11 @@ class AF_FormProcess
 		{
 
 			$form = new AF_Form( $ar_form_id );
-			$response_id = $form->save_response( $_SESSION[ 'af_response' ][ $ar_form_id ] );
+			$result_id = $form->save_response( $_SESSION[ 'af_response' ][ $ar_form_id ] );
 
-			if( FALSE != $response_id )
+			if( FALSE != $result_id )
 			{
-				do_action( 'af_save_response', $response_id );
+				do_action( 'af_response_save', $result_id );
 
 				unset( $_SESSION[ 'af_response' ][ $ar_form_id ] );
 				$_SESSION[ 'af_response' ][ $ar_form_id ][ 'finished' ] = TRUE;

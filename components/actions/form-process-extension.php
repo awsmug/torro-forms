@@ -40,7 +40,7 @@ class AF_Actions_FormProcessExtension
 	 */
 	public static function init()
 	{
-		add_filter( 'af_save_response', array( __CLASS__, 'action' ), 10, 1 );
+		add_action( 'af_response_save', array( __CLASS__, 'action' ), 10, 1 );
 	}
 
 	/**

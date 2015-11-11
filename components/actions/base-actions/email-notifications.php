@@ -55,7 +55,7 @@ class AF_EmailNotifications extends AF_Action
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-		add_action( 'af_save_form', array( __CLASS__, 'save_option_content' ) );
+		add_action( 'af_formbuilder_save', array( __CLASS__, 'save_option_content' ) );
 
 		add_action( 'wp_ajax_get_email_notification_html', array( __CLASS__, 'ajax_get_email_notification_html' ) );
 

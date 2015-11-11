@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormBuilder_RestrictionsExtension
+class AF_Formbuilder_RestrictionsExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -45,7 +45,7 @@ class AF_FormBuilder_RestrictionsExtension
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
-		add_action( 'af_save_form', array( __CLASS__, 'save' ), 10, 1 );
+		add_action( 'af_formbuilder_save', array( __CLASS__, 'save' ), 10, 1 );
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
 	}
@@ -173,4 +173,4 @@ class AF_FormBuilder_RestrictionsExtension
 	}
 }
 
-AF_FormBuilder_RestrictionsExtension::init();
+AF_Formbuilder_RestrictionsExtension::init();

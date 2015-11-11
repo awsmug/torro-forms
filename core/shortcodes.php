@@ -42,7 +42,7 @@ class AF_ShortCodes
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
-		add_action( 'af_form_options', array( __CLASS__, 'show_form_shortcode' ), 15 );
+		add_action( 'af_formbuilder_options', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
 	public static function form( $atts )

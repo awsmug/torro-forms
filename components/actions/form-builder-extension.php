@@ -45,7 +45,7 @@ class AF_Formbuilder_Actions_Extension
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ) );
-		add_action( 'af_save_form', array( __CLASS__, 'save' ) );
+		add_action( 'af_formbuilder_save', array( __CLASS__, 'save' ) );
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );

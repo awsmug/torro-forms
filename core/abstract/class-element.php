@@ -401,6 +401,10 @@ abstract class AF_Form_Element
 
 		$html .= '<div class="' . implode( ' ', $element_classes ) . '">';
 
+		ob_start();
+		do_action( 'af_form_element_start', $this->id );
+		$html .= ob_get_clean();
+
 		// Echo Errors
 		if( is_array( $errors ) && count( $errors ) > 0 ):
 			$html .= '<div class="af-element-error">';
@@ -429,6 +433,10 @@ abstract class AF_Form_Element
 		if( is_array( $errors ) && count( $errors ) > 0 ):
 			$html .= '</div>';
 		endif;
+
+		ob_start();
+		do_action( 'af_form_element_end', $this->id );
+		$html .= ob_get_clean();
 
 		$html .= '</div>';
 
@@ -537,7 +545,7 @@ abstract class AF_Form_Element
 			$this->admin_add_tab(  esc_attr__( 'Settings', 'af-locale' ), $settings );
 		}
 
-		$admin_tabs = apply_filters( 'af_element_admin_tabs', $this->admin_tabs );
+		$admin_tabs = apply_filters( 'af_formbuilder_element_tabs', $this->admin_tabs );
 
 		if( count( $admin_tabs ) > 1 )
 		{

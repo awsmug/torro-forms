@@ -43,7 +43,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$this->name = 'timerange';
 
 		add_action( 'form_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
-		add_action( 'af_save_form', array( $this, 'save' ), 10, 1 );
+		add_action( 'af_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );

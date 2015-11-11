@@ -44,13 +44,13 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$this->option_name = __( 'All Visitors of site', 'af-locale' );
 
 		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ), 20 );
-		add_action( 'af_save_form', array( $this, 'save_settings' ), 10, 1 );
+		add_action( 'af_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
 
 		add_action( 'af_form_end', array( $this, 'add_fingerprint_input' ) );
 
-		add_action( 'af_save_response', array( $this, 'set_cookie' ), 10 );
-		add_action( 'af_save_response', array( $this, 'save_ip' ), 10 );
-		add_action( 'af_save_response', array( $this, 'save_fingerprint' ), 10 );
+		add_action( 'af_response_save', array( $this, 'set_cookie' ), 10 );
+		add_action( 'af_response_save', array( $this, 'save_ip' ), 10 );
+		add_action( 'af_response_save', array( $this, 'save_fingerprint' ), 10 );
 
 		add_action( 'wp_ajax_af_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
 		add_action( 'wp_ajax_nopriv_af_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );

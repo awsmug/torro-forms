@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormBuilder
+class AF_Formbuilder
 {
 
 	/**
@@ -73,15 +73,17 @@ class AF_FormBuilder
 			return;
 		}
 
+		$form_id = $post->ID;
+
 		$html = '<div id="af-content" class="drag-drop">';
 		$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 
 		ob_start();
-		do_action( 'form_drag_drop_top' );
+		do_action( 'af_formbuilder_dragdrop_start', $form_id );
 		$html .= ob_get_clean();
 
 		$html .= '<div id="drag-drop-inside">';
-		$form = new AF_Form( $post->ID );
+		$form = new AF_Form( $form_id );
 
 		// Running each Element
 		if( count( $form->elements ) > 0 )
@@ -101,6 +103,10 @@ class AF_FormBuilder
 
 		$html .= '</div>';
 		$html .= '</div>';
+
+		ob_start();
+		do_action( 'af_formbuilder_dragdrop_end', $form_id );
+		$html .= ob_get_clean();
 
 		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'af-locale' ) . '</div>';
 		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'af-locale' ) . '</div>';
@@ -174,7 +180,7 @@ class AF_FormBuilder
 		*/
 
 		ob_start();
-		do_action( 'af_form_options' );
+		do_action( 'af_formbuilder_options' );
 		$html .= ob_get_clean();
 
 		$html .= '<div class="section general-settings">';
@@ -235,28 +241,33 @@ class AF_FormBuilder
 		/**
 		 * Deleting deleted answers
 		 */
-		if( is_array( $form_deleted_formelements ) && count( $form_deleted_formelements ) > 0 ):
-			foreach( $form_deleted_formelements AS $deleted_element ):
+		if( is_array( $form_deleted_formelements ) && count( $form_deleted_formelements ) > 0 )
+		{
+			foreach( $form_deleted_formelements AS $deleted_element )
+			{
 				$wpdb->delete( $af_global->tables->elements, array( 'id' => $deleted_element ) );
 				$wpdb->delete( $af_global->tables->element_answers, array( 'element_id' => $deleted_element ) );
-			endforeach;
-		endif;
+			}
+		}
 
 		$form_deleted_answers = explode( ',', $form_deleted_answers );
 
 		/*
 		 * Deleting deleted answers
 		 */
-		if( is_array( $form_deleted_answers ) && count( $form_deleted_answers ) > 0 ):
-			foreach( $form_deleted_answers AS $deleted_answer ):
+		if( is_array( $form_deleted_answers ) && count( $form_deleted_answers ) > 0 )
+		{
+			foreach( $form_deleted_answers AS $deleted_answer )
+			{
 				$wpdb->delete( $af_global->tables->element_answers, array( 'id' => $deleted_answer ) );
-			endforeach;
-		endif;
+			}
+		}
 
 		/*
 		 * Saving elements
 		 */
-		foreach( $form_elements AS $key => $element ):
+		foreach( $form_elements AS $key => $element )
+		{
 			if( 'widget_formelement_XXnrXX' == $key )
 			{
 				continue;
@@ -286,33 +297,38 @@ class AF_FormBuilder
 			}
 
 			// Saving Elements
-			if( '' != $element_id ):
+			if( '' != $element_id )
+			{
 				// Updating if Element already exists
 				$wpdb->update( $af_global->tables->elements, array(
-					'label' => $label,
-					'sort'  => $sort,
-					'type'  => $type
+						'label' => $label,
+						'sort'  => $sort,
+						'type'  => $type
 				), array( 'id' => $element_id ) );
-			else:
+			}
+			else
+			{
 
 				// Adding new Element
 				$wpdb->insert( $af_global->tables->elements, array(
-					'form_id' => $form_id,
-					'label'   => $label,
-					'sort'    => $sort,
-					'type'    => $type
+						'form_id' => $form_id,
+						'label'   => $label,
+						'sort'    => $sort,
+						'type'    => $type
 				) );
 
 				$element_id = $wpdb->insert_id;
-			endif;
+			}
 
-			do_action( 'af_save_form_after_saving_question', $element, $element_id );
+			do_action( 'af_formbuilder_element_save', $form_id, $element, $element_id );
 
 			/*
 			 * Saving answers
 			 */
-			if( is_array( $answers ) && count( $answers ) > 0 ):
-				foreach( $answers AS $answer ):
+			if( is_array( $answers ) && count( $answers ) > 0 )
+			{
+				foreach( $answers AS $answer )
+				{
 					$answer_id = (int) $answer[ 'id' ];
 					$answer_text = af_prepare_post_data( $answer[ 'answer' ] );
 					$answer_sort = (int) $answer[ 'sort' ];
@@ -323,53 +339,59 @@ class AF_FormBuilder
 						$answer_section = $answer[ 'section' ];
 					}
 
-					if( '' != $answer_id ):
+					if( '' != $answer_id )
+					{
 						$wpdb->update( $af_global->tables->element_answers, array(
-							'answer'  => $answer_text,
-							'section' => $answer_section,
-							'sort'    => $answer_sort
+								'answer'  => $answer_text,
+								'section' => $answer_section,
+								'sort'    => $answer_sort
 						), array( 'id' => $answer_id ) );
-					else:
+					}
+					else
+					{
 						$wpdb->insert( $af_global->tables->element_answers, array(
-							'element_id' => $element_id,
-							'answer'     => $answer_text,
-							'section'    => $answer_section,
-							'sort'       => $answer_sort
+								'element_id' => $element_id,
+								'answer'     => $answer_text,
+								'section'    => $answer_section,
+								'sort'       => $answer_sort
 						) );
 						$answer_id = $wpdb->insert_id;
-					endif;
+					}
 
-					do_action( 'af_save_form_after_saving_answer', $element, $answer_id );
-				endforeach;
-			endif;
+					do_action( 'af_formbuilder_element_answer_save', $form_id, $element, $element_id, $answer, $answer_id );
+				}
+			}
 
 			/*
 			 * Saving Element Settings
 			 */
-			if( is_array( $settings ) && count( $settings ) > 0 ):
-				foreach( $settings AS $name => $setting ):
+			if( is_array( $settings ) && count( $settings ) > 0 )
+			{
+				foreach( $settings AS $name => $setting )
+				{
 					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->settings} WHERE element_id = %d AND name = %s", $element_id, $name );
 					$count = $wpdb->get_var( $sql );
 
-					if( $count > 0 ):
+					if( $count > 0 )
+					{
 						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array(
-							'element_id' => $element_id,
-							'name'       => $name
+								'element_id' => $element_id,
+								'name'       => $name
 						) );
-					else:
+					}
+					else
+					{
 						$wpdb->insert( $af_global->tables->settings, array(
-							'name'       => $name,
-							'element_id' => $element_id,
-							'value'      => af_prepare_post_data( $settings[ $name ] )
+								'name'       => $name,
+								'element_id' => $element_id,
+								'value'      => af_prepare_post_data( $settings[ $name ] )
 						) );
+					}
+				}
+			}
+		}
 
-					endif;
-				endforeach;
-			endif;
-
-		endforeach;
-
-		do_action( 'af_save_form', $form_id );
+		do_action( 'af_formbuilder_save', $form_id );
 
 		// Preventing duplicate saving
 		remove_action( 'save_post', array( __CLASS__, 'save_form' ), 50 );
@@ -528,4 +550,4 @@ class AF_FormBuilder
 	}
 }
 
-AF_FormBuilder::init();
+AF_Formbuilder::init();

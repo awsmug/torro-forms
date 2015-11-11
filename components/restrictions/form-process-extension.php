@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormBuilder_FormProcesExtension
+class AF_Formbuilder_FormProcesExtension
 {
 
 	/**
@@ -42,7 +42,7 @@ class AF_FormBuilder_FormProcesExtension
 	 */
 	public static function init()
 	{
-		add_filter( 'af_show_form', array( __CLASS__, 'check' ), 1 );
+		add_filter( 'af_form_show', array( __CLASS__, 'check' ), 1 );
 	}
 
 	/**
@@ -81,4 +81,4 @@ class AF_FormBuilder_FormProcesExtension
 	}
 }
 
-AF_FormBuilder_FormProcesExtension::init();
+AF_Formbuilder_FormProcesExtension::init();
