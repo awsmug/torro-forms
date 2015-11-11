@@ -37,7 +37,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->title = __( 'All Visitors', 'af-locale' );
 		$this->name = 'allvisitors';

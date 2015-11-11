@@ -37,7 +37,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->title = __( 'Timerange', 'af-locale' );
 		$this->name = 'timerange';

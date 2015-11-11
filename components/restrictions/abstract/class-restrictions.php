@@ -34,6 +34,14 @@ if( !defined( 'ABSPATH' ) )
 abstract class AF_Restriction
 {
 	/**
+	 * The Single instances of the components
+	 *
+	 * @var $_instaces
+	 * @since 1.0.0
+	 */
+	protected static $_instances = NULL;
+
+	/**
 	 * Name of restriction
 	 *
 	 * @since 1.0.0
@@ -88,9 +96,33 @@ abstract class AF_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
+	private function __construct()
 	{
+		$this->init();
 	}
+
+	/**
+	 * Main Instance
+	 *
+	 * @since 1.0.0
+	 */
+	public static function instance()
+	{
+		$class = get_called_class();
+
+		if( !isset( self::$_instances[ $class ] ) )
+		{
+			self::$_instances[ $class ] = new $class();
+			self::$_instances[ $class ]->_register();
+		}
+
+		return self::$_instances[ $class ];
+	}
+
+	/**
+	 * Function for setting initial Data
+	 */
+	abstract function init();
 
 	/**
 	 * Checks if the user can pass
@@ -186,7 +218,7 @@ abstract class AF_Restriction
 	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
 	 * @since 1.0.0
 	 */
-	public function _register()
+	private function _register()
 	{
 		global $af_global;
 
@@ -244,9 +276,7 @@ function af_register_restriction( $restriction_class )
 {
 	if( class_exists( $restriction_class ) )
 	{
-		$restriction = new $restriction_class();
-
-		return $restriction->_register();
+		return $restriction_class::instance();
 	}
 
 	return FALSE;

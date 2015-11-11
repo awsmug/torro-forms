@@ -37,7 +37,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->title = __( 'Selected Members', 'af-locale' );
 		$this->name = 'selectedmembers';

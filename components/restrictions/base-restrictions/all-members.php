@@ -37,7 +37,7 @@ class AF_Restriction_AllMembers extends AF_Restriction
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->title = __( 'All Members', 'af-locale' );
 		$this->name = 'allmembers';
