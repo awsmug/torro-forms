@@ -79,11 +79,13 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 		$column_data = '[ [' . implode( ',', $data ) . ' ] ]';
 
 		$categories = array_keys( $results );
+		$c3_categories = array();
 		foreach( $categories AS $key => $category )
 		{
-			$categories[ $key ] = '\'' . $category . '\'';
+			$c3_categories[ $key ] = '\'' . $category . '\'';
 		}
-		$categories = implode( ',', $categories );
+		$categories = implode( '###', $categories );
+		$c3_categories = implode( ',', $c3_categories );
 
 		/**
 		 * C3 Chart Script
@@ -95,11 +97,28 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 			        jQuery(document).ready( function($){
 
 						var chart_width = '';
+						var label_height = '';
 
 						if ( $( '#form-result-handlers-tabs' ).length ) {
 							var tab_width = $( '#form-result-handlers-tabs' ).width();
 							chart_width = Math.round( ( tab_width / 3 * 2 ) );
 						}
+
+						var categories = '{$categories}';
+						categories = categories.split( '###' );
+						var category_width = Math.round( ( chart_width / categories.length ) );
+
+
+						var highest = 0;
+						for( i = 0; i < categories.length; i++ ){
+							var height = $.af_text_height( categories[ i ], '13px Clear Sans', category_width  );
+
+							if( highest < height )
+							{
+								highest = height;
+							}
+						}
+						var category_height = highest;
 
 						var chart_{$id} = c3.generate({
 						    bindto: '#{$id}-chart',
@@ -119,7 +138,7 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 						    axis: {
 								x: {
 							    	type: 'category',
-							    	categories: [{$categories}]
+							    	categories: [{$c3_categories}]
 							    },
 							    y: {
 							    	tick: {
@@ -136,6 +155,9 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 							  format: {
 							    name: function (name, ratio, id, index) { return '{$value_text}'; }
 							  }
+							},
+							padding: {
+								bottom: category_height
 							}
 
 						});
