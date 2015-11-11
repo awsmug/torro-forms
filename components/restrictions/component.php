@@ -65,6 +65,7 @@ class AF_Restrictions_Component extends AF_Component
 		require_once( $folder . 'base-restrictions/all-members.php' );
 		require_once( $folder . 'base-restrictions/selected-members.php' );
 		require_once( $folder . 'base-restrictions/timerange.php' );
+		require_once( $folder . 'base-restrictions/recaptcha.php' );
 	}
 
 	/**
