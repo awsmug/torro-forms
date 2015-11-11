@@ -1,0 +1,96 @@
+/**
+ * Participiants
+ */
+#af-add-participiants-options{
+    margin: 0 0 10px 0;
+}
+.form-participiant-new{
+    background-color: #7AD03A;
+}
+.af-participiants-options-content{
+    border: 1px #DFDFDF solid;
+    background-color: #FDFDFD;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+/**
+ * User Filter
+ */
+#form-selectedmembers-userfilter{
+    margin-bottom: 20px;
+}
+/**
+ * Adding participiants bar
+ */
+.form-add-participiants-content{
+    background-color: #f7f7f7;
+    border: 1px solid #e5e5e5;
+    margin: 0 -11px;
+    padding: 10px;
+}
+/**
+ * Participiants List
+ */
+.participiant.finished td:first-child{
+    border-left: 4px solid #7AD03A;
+}
+.participiant.new td{
+    background-color: #FEFAF7;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
+}
+.participiant.new td:first-child{
+    border-left: 4px solid #DD3D36;
+}
+.participiant.just-added td{
+    background-color: #F7FCFE;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
+}
+.participiant.just-added td:first-child{
+    border-left: 4px solid #2EA2CC;
+}
+.form-remove-all-participiants{
+    display: block;
+    float: right;
+    padding: 5px 10px;
+}
+
+/*
+ * Inviting Buttons & Boxes
+ */
+#form-invite-button-cancel,
+#form-reinvite-button-cancel{
+    display:none;
+}
+#form-invite-subject{
+    width:100%;
+    display:none;
+    font-size:12px;
+}
+#form-invite-text{
+    width:100%;
+    min-height:200px;
+    margin-bottom:10px;
+    display:none;
+    font-size:12px;
+}
+#form-reinvite-subject{
+    width:100%;
+    display:none;
+    font-size:12px;
+}
+#form-reinvite-text{
+    width:100%;
+    min-height:200px;
+    margin-bottom:10px;
+    display:none;
+    font-size:12px;
+}
+.settings-template-subject{
+    width:80%;
+}
+#form-restrictions .button-loading{
+    background-image: url( '../../../../../assets/images/loading.gif' );
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    padding-left:28px;
+}

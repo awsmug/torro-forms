@@ -1,0 +1,882 @@
+#
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Questions\n"
+"POT-Creation-Date: 2015-07-15 10:05+0100\n"
+"PO-Revision-Date: 2015-08-13 15:50+0200\n"
+"Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
+"Language-Team: Italian (Italy) (http://www.transifex.com/mahype/questions/language/it_IT/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it_IT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-WPHeader: init.php\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: components/admin/component.php:46
+msgid "Admin"
+msgstr "Admin"
+
+#: components/admin/component.php:47
+msgid "Setting up Questions in WordPress Admin."
+msgstr "Impostazione domande in WordPress Admin."
+
+#: components/admin/form-builder.php:91
+msgid "Attention!"
+msgstr "Attenzione!"
+
+#: components/admin/form-builder.php:92
+msgid "This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?"
+msgstr "Questo cancella tutte le risposte date dalle persone a questa indagine. Sei sicuro di voler procedere?"
+
+#: components/admin/form-builder.php:95
+msgid "Do you really want to delete this element?"
+msgstr "Vuoi davvero eliminare questo elemento?"
+
+#: components/admin/form-builder.php:98
+msgid "Do you really want to delete this answer?"
+msgstr "Vuoi davvero eliminare questa risposta?"
+
+#: components/admin/form-builder.php:119
+msgid "Options"
+msgstr "Opzioni"
+
+#: components/admin/form-builder.php:126
+msgid "Survey Functions"
+msgstr "Funzioni sondaggio"
+
+#: components/admin/form-builder.php:133 components/elements/component.php:44
+msgid "Elements"
+msgstr "Elementi"
+
+#: components/admin/form-builder.php:141
+msgid "Timerange"
+msgstr "Intervallo di tempo"
+
+#: components/admin/form-builder.php:149
+msgid "Participiants list"
+msgstr "Lista partecipanti"
+
+#: components/admin/form-builder.php:157
+msgid "Results"
+msgstr "Risultati"
+
+#: components/admin/form-builder.php:194
+msgid "When does the survey start?"
+msgstr "Quando inizia il sondaggio?"
+
+#: components/admin/form-builder.php:196
+msgid "When does the survey end?"
+msgstr "Quando finisce il sondaggio?"
+
+#: components/admin/form-builder.php:235
+msgid "All visitors of the site can participate"
+msgstr "Tutti i visitatori del sito possono partecipare"
+
+#: components/admin/form-builder.php:239
+msgid "All members of the site can participate"
+msgstr "Tutti gli iscritti al sito possono partecipare"
+
+#: components/admin/form-builder.php:243
+msgid "Only selected members can participate"
+msgstr "Solo iscritti selezionati possono partecipare"
+
+#: components/admin/form-builder.php:247
+msgid "No restrictions"
+msgstr "Nessuna restrizione"
+
+#: components/admin/form-builder.php:275
+msgid "Add all actual Members"
+msgstr "Aggiungi tutti i membri attuali"
+
+#: components/admin/form-builder.php:299
+msgid "Add Participiants"
+msgstr "Aggiungi partecipanti"
+
+#: components/admin/form-builder.php:302
+msgid "Remove all Participiants"
+msgstr "Rimuovi tutti i partecipanti"
+
+#: components/admin/form-builder.php:311 components/admin/form-builder.php:973
+msgid "participiant/s"
+msgstr "Partecipante/i"
+
+#: components/admin/form-builder.php:318
+msgid "ID"
+msgstr "ID"
+
+#: components/admin/form-builder.php:319
+msgid "User nicename"
+msgstr "Nickname"
+
+#: components/admin/form-builder.php:320
+msgid "Display name"
+msgstr "Mostra il nome"
+
+#: components/admin/form-builder.php:321
+msgid "Email"
+msgstr "Email"
+
+#: components/admin/form-builder.php:322
+msgid "Status"
+msgstr "Status"
+
+#: components/admin/form-builder.php:336
+msgid "finished"
+msgstr "chiuso"
+
+#: components/admin/form-builder.php:338
+msgid "new"
+msgstr "nuovo"
+
+#: components/admin/form-builder.php:349 components/admin/form-builder.php:954 components/elements/class-element.php:628 components/elements/class-element.php:670
+msgid "Delete"
+msgstr "Cancella"
+
+#: components/admin/form-builder.php:414
+msgid "Show results after finishing survey"
+msgstr "Mostra i risultati alla fine del sondaggio"
+
+#: components/admin/form-builder.php:416 components/admin/form-builder.php:955 components/core/data-abstraction.php:88 components/elements/class-element.php:887
+msgid "Yes"
+msgstr "Si"
+
+#: components/admin/form-builder.php:417 components/admin/form-builder.php:956 components/elements/class-element.php:891
+msgid "No"
+msgstr "No"
+
+#: components/admin/form-builder.php:445
+msgid "Dublicate Survey"
+msgstr "Duplica Sondaggio"
+
+#: components/admin/form-builder.php:452
+msgid "Delete survey results"
+msgstr "Cancella i risultati del Sondaggio"
+
+#: components/admin/form-builder.php:461
+msgid "Invite Participiants"
+msgstr "Invita i partecipanti"
+
+#: components/admin/form-builder.php:464 components/admin/form-builder.php:475
+msgid "Cancel"
+msgstr "Cancella"
+
+#: components/admin/form-builder.php:472
+msgid "Reinvite Participiants"
+msgstr "Reinvita Partecipanti"
+
+#: components/admin/form-builder.php:481
+msgid "You can invite Participiants to this survey after the survey is published."
+msgstr "Puoi invitare partecipanti a questa indagine dopo la pubblicazione."
+
+#: components/admin/form-builder.php:957
+msgid "just added"
+msgstr "appena aggiunto"
+
+#: components/admin/form-builder.php:958
+msgid "Invitations sent successfully!"
+msgstr "Inviti inviati con successo!"
+
+#: components/admin/form-builder.php:959
+msgid "Invitations could not be sent!"
+msgstr "Gli inviti non possono essere inviati!"
+
+#: components/admin/form-builder.php:961
+msgid "Renvitations sent successfully!"
+msgstr "Reinviti inviati con successo!"
+
+#: components/admin/form-builder.php:964
+msgid "Renvitations could not be sent!"
+msgstr "I reinviti non possono essere inviati!"
+
+#: components/admin/form-builder.php:967
+msgid "Survey results deleted successfully!"
+msgstr "Risultati indagine cancellati con successo!"
+
+#: components/admin/form-builder.php:970
+msgid "Survey duplicated successfully!"
+msgstr "Indagine duplicata con successo!"
+
+#: components/admin/form-builder.php:972 components/core/component.php:92
+msgid "Edit Survey"
+msgstr "Modifica Sondaggio"
+
+#: components/admin/form-builder.php:974
+msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
+msgstr "Hai meno di 50 campi dal raggiungere PHP max_num_fields rimosso!"
+
+#: components/admin/form-builder.php:975
+msgid "You are over the limit of PHP max_num_fields!"
+msgstr "Sei oltre il limite PHP max_num_fields!"
+
+#: components/admin/form-builder.php:976
+msgid "Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct."
+msgstr "Aumentare il valore aggiungendo <code>php_value max_input_vars [NUMERO DI VARIABILI IMPUTABILI]</code> nel tuo htaccess o contatta il tuo hosting.Altrimenti il form non potra essere salvato correttamente.memorizzata."
+
+#: components/admin/form-builder.php:977
+msgid "of"
+msgstr "di"
+
+#: components/admin/form-builder.php:979
+msgid "yy/mm/dd"
+msgstr "gg.mm.aa"
+
+#: components/admin/form-builder.php:980
+msgid "Su"
+msgstr "Do"
+
+#: components/admin/form-builder.php:981
+msgid "Mo"
+msgstr "Lu"
+
+#: components/admin/form-builder.php:982
+msgid "Tu"
+msgstr "Ma"
+
+#: components/admin/form-builder.php:983
+msgid "We"
+msgstr "Me"
+
+#: components/admin/form-builder.php:984
+msgid "Th"
+msgstr "Gi"
+
+#: components/admin/form-builder.php:985
+msgid "Fr"
+msgstr "Ve"
+
+#: components/admin/form-builder.php:986
+msgid "Sa"
+msgstr "Sa"
+
+#: components/admin/form-builder.php:987
+msgid "January"
+msgstr "Gennaio"
+
+#: components/admin/form-builder.php:988
+msgid "February"
+msgstr "Febbraio"
+
+#: components/admin/form-builder.php:989
+msgid "March"
+msgstr "Marzo"
+
+#: components/admin/form-builder.php:990
+msgid "April"
+msgstr "Aprile"
+
+#: components/admin/form-builder.php:991
+msgid "May"
+msgstr "Maggio"
+
+#: components/admin/form-builder.php:992
+msgid "June"
+msgstr "Giugno"
+
+#: components/admin/form-builder.php:993
+msgid "July"
+msgstr "Luglio"
+
+#: components/admin/form-builder.php:994
+msgid "August"
+msgstr "Agosto"
+
+#: components/admin/form-builder.php:995
+msgid "September"
+msgstr "Settembre"
+
+#: components/admin/form-builder.php:996
+msgid "October"
+msgstr "Ottobre"
+
+#: components/admin/form-builder.php:997
+msgid "November"
+msgstr "Novembre"
+
+#: components/admin/form-builder.php:998
+msgid "December"
+msgstr "Dicembre"
+
+#: components/admin/menu.php:60 components/admin/menu.php:61 components/core/component.php:88
+msgid "Surveys"
+msgstr "Sondaggi"
+
+#: components/admin/menu.php:70 components/admin/menu.php:71
+msgid "Create"
+msgstr "Crea"
+
+#: components/admin/menu.php:77 components/admin/menu.php:78 components/core/component.php:74
+msgid "Categories"
+msgstr "Categorie"
+
+#: components/admin/menu.php:84 components/admin/menu.php:85 components/elements/class-element.php:492
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: components/admin/pages/settings.php:51
+msgid "General"
+msgstr ""
+
+#: components/admin/pages/settings.php:68
+msgid "Text templates"
+msgstr ""
+
+#: components/admin/pages/settings.php:72
+msgid "Thanks for participating"
+msgstr ""
+
+#: components/admin/pages/settings.php:75
+msgid "This text will be used on thanking members after participating survey."
+msgstr ""
+
+#: components/admin/pages/settings.php:78 components/admin/pages/settings.php:89 components/admin/pages/settings.php:98
+msgid "Usable template tags:"
+msgstr ""
+
+#: components/admin/pages/settings.php:83
+msgid "Invitation text Template"
+msgstr ""
+
+#: components/admin/pages/settings.php:86
+msgid "This text will be used as template if you want to send invitations to Participiants."
+msgstr ""
+
+#: components/admin/pages/settings.php:93
+msgid "Reinvitation text Template"
+msgstr ""
+
+#: components/admin/pages/settings.php:95
+msgid "This text will be used as template if you want to send reinvitations to Participiants."
+msgstr ""
+
+#: components/admin/pages/settings.php:102
+msgid "From Name"
+msgstr ""
+
+#: components/admin/pages/settings.php:104
+msgid "The Name which will be shown on Emails which are send out by Questions."
+msgstr ""
+
+#: components/admin/pages/settings.php:106
+msgid "e.g. Michael Jackson"
+msgstr ""
+
+#: components/admin/pages/settings.php:110
+msgid "From Email"
+msgstr ""
+
+#: components/admin/pages/settings.php:112
+msgid "The Email will be used for the reply of the emails, send out by questions."
+msgstr ""
+
+#: components/admin/pages/settings.php:114
+msgid "e.g. myname@mydomain.com"
+msgstr ""
+
+#: components/charts/class-chart-creator.php:101 components/elements/class-element.php:197
+msgid "This is a Questions Survey Element."
+msgstr "Si tratta di un elemento delle domande del sondaggio."
+
+#: components/charts/component.php:43
+msgid "Charts"
+msgstr "Grafici"
+
+#: components/charts/component.php:44
+msgid "Showing Charts in Questions."
+msgstr "Mostra i grafici nelle domande."
+
+#: components/charts/dimple/chart-creator.php:67
+msgid "Answers"
+msgstr "Risposte"
+
+#: components/charts/dimple/chart-creator.php:68
+msgid "Votes"
+msgstr "Voti"
+
+#: components/charts/shortcodes.php:56
+msgid "Please enter a survey id in the survey shortcode!"
+msgstr "Si prega di inserire un ID sondaggio nel shortcode sondaggio!"
+
+#: components/charts/shortcodes.php:75
+msgid "There are no results to show."
+msgstr "Non ci sono risultati da mostrare."
+
+#: components/charts/shortcodes.php:93
+msgid "Please enter a question id in the survey shortcode!"
+msgstr "Si prega di inserire un ID domanda nel shortcode sondaggio!"
+
+#: components/charts/shortcodes.php:118
+msgid "Results Shortcode:"
+msgstr "Risultati Shortcode:"
+
+#: components/charts/shortcodes.php:132
+msgid "(CTRL+C and paste into post to embed question results in post)"
+msgstr "(CTRL+C e incolla nel post per incorporare i risultatianzuzeigen)"
+
+#: components/charts/shortcodes.php:133
+msgid "Shortcode:"
+msgstr "Shortcode:"
+
+#: components/class-component.php:68
+msgid "This is a Questions component."
+msgstr "Una parte delle domande."
+
+#: components/core/component.php:39
+msgid "Core"
+msgstr "Core"
+
+#: components/core/component.php:40
+msgid "Core functions of the Questions Plugin"
+msgstr "Funzioni principali del Questions Plugin"
+
+#: components/core/component.php:64
+msgctxt "taxonomy general name"
+msgid "Categories"
+msgstr "Categorie"
+
+#: components/core/component.php:65
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr "Categoria"
+
+#: components/core/component.php:66
+msgid "Search Categories"
+msgstr "Cerca Categorie"
+
+#: components/core/component.php:67
+msgid "All Categories"
+msgstr "Tutte le Categorie"
+
+#: components/core/component.php:68
+msgid "Parent Category"
+msgstr "Categoria Genitore"
+
+#: components/core/component.php:69
+msgid "Parent Category:"
+msgstr "Categoria Genitore:"
+
+#: components/core/component.php:70
+msgid "Edit Category"
+msgstr "Modifica Categioria"
+
+#: components/core/component.php:71
+msgid "Update Category"
+msgstr "Aggiorna Categoria"
+
+#: components/core/component.php:72
+msgid "Add New Category"
+msgstr "Aggiungi Nuova Categoria"
+
+#: components/core/component.php:73
+msgid "New Category"
+msgstr "Nuova Categoria"
+
+#: components/core/component.php:89 components/core/shortcodes.php:47
+msgid "Survey"
+msgstr "Sondaggio"
+
+#: components/core/component.php:90
+msgid "All Surveys"
+msgstr "Tutti i Sondaggi"
+
+#: components/core/component.php:91 components/core/component.php:93
+msgid "Add new Survey"
+msgstr "Aggiungi nuovo Sondaggio"
+
+#: components/core/component.php:94
+msgid "View Survey"
+msgstr "Visualizza Sondaggio"
+
+#: components/core/component.php:95
+msgid "Search Survey"
+msgstr "Cerca Sondaggio"
+
+#: components/core/component.php:96 components/core/component.php:97
+msgid "No Survey available"
+msgstr "Nessun Sondaggio disponibile"
+
+#: components/core/export.php:57
+msgid "No answers, no exports!"
+msgstr ""
+
+#: components/core/export.php:59
+#, php-format
+msgid "<a href=\"%s\">Export Results</a>"
+msgstr "<a href=\"%s\">Esporta Risultati</a>"
+
+#: components/core/form-process.php:95
+msgid "There are open answers"
+msgstr "Ci sono risposte aperte"
+
+#: components/core/form-process.php:179
+#, php-format
+msgid "Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-highlight-number\">%s</span>"
+msgstr "Step <span class=\"surveyval-highlight-number\">%d</span> di <span class=\"surveyval-highlight-number\">%s</span>"
+
+#: components/core/form-process.php:202
+msgid "Previous Step"
+msgstr "Step precedente"
+
+#: components/core/form-process.php:208
+msgid "Finish Survey"
+msgstr "Fine Sondaggio"
+
+#: components/core/form-process.php:212
+msgid "Next Step"
+msgstr "Prossimo Step"
+
+#: components/core/form-process.php:782
+msgid "Thank you for participating this survey!"
+msgstr "Grazie per aver partecipato!"
+
+#: components/core/form-process.php:808
+msgid "You already have participated in this poll."
+msgstr ""
+
+#: components/core/form-process.php:827
+msgid "You have to be logged in to participate this survey."
+msgstr "Devi essere loggato per partecipare al Sondaggio."
+
+#: components/core/form-process.php:842
+msgid "You can't participate this survey."
+msgstr "Non puoi partecipare al Sondaggio."
+
+#: components/core/form-process.php:857
+msgid "This are the actual results:"
+msgstr "Questi sono i risultati:"
+
+#: components/core/responses.php:116
+msgid "User ID"
+msgstr "User ID"
+
+#: components/core/responses.php:147
+msgid "Username"
+msgstr "Username"
+
+#: components/core/responses.php:180
+msgid "Date/Time"
+msgstr "Data/Ora"
+
+#: components/core/shortcodes.php:52
+msgid "Please enter an id in the survey shortcode!"
+msgstr "Inserisci un id nel shortcode sondaggio!"
+
+#: components/core/shortcodes.php:57
+msgid "Survey not found. Please enter another ID in your shortcode."
+msgstr "Sondaggio non trovato. Inserisci un altro ID nel tuo shortcode."
+
+#: components/core/shortcodes.php:66
+msgid "Survey Shortcode:"
+msgstr "Shortcode Sondaggio:"
+
+#: components/elements/base-elements/description.php:21 components/elements/base-elements/dropdown.php:63 components/elements/base-elements/multiplechoice.php:58 components/elements/base-elements/onechoice.php:56
+#: components/elements/base-elements/text.php:39 components/elements/base-elements/textarea.php:40
+msgid "Description"
+msgstr "Descrizione"
+
+#: components/elements/base-elements/description.php:22
+msgid "Adds a text to the form."
+msgstr "Aggiungi un testo al form."
+
+#: components/elements/base-elements/description.php:37
+msgid "Text to show"
+msgstr "Testo visualizzato"
+
+#: components/elements/base-elements/description.php:39
+msgid "The text which will be shown in the form."
+msgstr "Testo visualizzato nel form."
+
+#: components/elements/base-elements/dropdown.php:21
+msgid "Dropdown"
+msgstr "Menu a discesa"
+
+#: components/elements/base-elements/dropdown.php:22
+msgid "Add a question which can be answered within a dropdown field."
+msgstr "Aggiungi una domanda a cui rispondere con un campo a discesa. "
+
+#: components/elements/base-elements/dropdown.php:42
+msgid "Please select"
+msgstr "Prego selezionare"
+
+#: components/elements/base-elements/dropdown.php:65 components/elements/base-elements/multiplechoice.php:60 components/elements/base-elements/onechoice.php:58 components/elements/base-elements/text.php:41
+#: components/elements/base-elements/textarea.php:42
+msgid "The description will be shown after the question."
+msgstr "La descrizione si visualizza sotto la domanda."
+
+#: components/elements/base-elements/dropdown.php:76 components/elements/base-elements/onechoice.php:69
+msgid "Please select a value."
+msgstr "Prego selezionare un valore."
+
+#: components/elements/base-elements/multiplechoice.php:21
+msgid "Multiple Choice"
+msgstr "Scelta Multipla"
+
+#: components/elements/base-elements/multiplechoice.php:23
+msgid "Add a question which can be answered by selecting one ore more given answers."
+msgstr "Aggiungi una domanda a cui rispondere selezionando risposte multiple.possibile."
+
+#: components/elements/base-elements/multiplechoice.php:64
+msgid "Minimum Answers"
+msgstr "Minimo di Risposte"
+
+#: components/elements/base-elements/multiplechoice.php:67
+msgid "The minimum number of answers which have to be choosed."
+msgstr "Il numero minimo di risposte che devono essere date."
+
+#: components/elements/base-elements/multiplechoice.php:72
+msgid "Maximum Answers"
+msgstr "Massimo di Risposte"
+
+#: components/elements/base-elements/multiplechoice.php:75
+msgid "The maximum number of answers which can be choosed."
+msgstr "Il numero massimo di risposte che devono essere date."
+
+#: components/elements/base-elements/multiplechoice.php:91
+msgid "Too less choices."
+msgstr "Troppo poche scelte."
+
+#: components/elements/base-elements/multiplechoice.php:92 components/elements/base-elements/multiplechoice.php:102
+#, php-format
+msgid "You have to choose between %d and %d answers."
+msgstr "Devi scegliere tra %d e %d risposte."
+
+#: components/elements/base-elements/multiplechoice.php:101
+msgid "Too many choices."
+msgstr "Troppe scelte."
+
+#: components/elements/base-elements/onechoice.php:21
+msgid "One Choice"
+msgstr "Una Scelta"
+
+#: components/elements/base-elements/onechoice.php:23
+msgid "Add a question which can be answered by selecting one of the given answers."
+msgstr "Aggiungere una domanda a cui rispondere selezionando una o multiple risposte."
+
+#: components/elements/base-elements/separator.php:21
+msgid "Separator"
+msgstr "Separatore"
+
+#: components/elements/base-elements/separator.php:22
+msgid "Adds a optical separator (<hr>) between questions."
+msgstr "Aggiungi un Separatore visivo (<hr>) tra le domande."
+
+#: components/elements/base-elements/separator.php:47
+msgid "Headline"
+msgstr "Titolo"
+
+#: components/elements/base-elements/separator.php:49
+msgid "Text which will be shown above the separator"
+msgstr "Testo visualizzato sopra il separatore"
+
+#: components/elements/base-elements/splitter.php:21
+msgid "Split Form"
+msgstr "Split Form"
+
+#: components/elements/base-elements/splitter.php:22
+msgid "Splits a form into several steps"
+msgstr "Dividi il form in diversi passaggi"
+
+#: components/elements/base-elements/text.php:21
+msgid "Text"
+msgstr "Testo"
+
+#: components/elements/base-elements/text.php:23
+msgid "Add a question which can be answered within a text field."
+msgstr "Aggiungi una domanda a cui rispondere in un campo di testo."
+
+#: components/elements/base-elements/text.php:45 components/elements/base-elements/textarea.php:46
+msgid "Minimum length"
+msgstr "Lunghezza minima"
+
+#: components/elements/base-elements/text.php:47 components/elements/base-elements/textarea.php:48
+msgid "The minimum number of chars which can be typed in."
+msgstr "Numero minimo di caratteri che possono essere scritti."
+
+#: components/elements/base-elements/text.php:51 components/elements/base-elements/textarea.php:52
+msgid "Maximum length"
+msgstr "Lunghezza massima"
+
+#: components/elements/base-elements/text.php:53 components/elements/base-elements/textarea.php:54
+msgid "The maximum number of chars which can be typed in."
+msgstr "Numero massimo di caratteri che possono essere scritti."
+
+#: components/elements/base-elements/text.php:57
+msgid "String Validation"
+msgstr "String Validation"
+
+#: components/elements/base-elements/text.php:60
+msgid "No validation"
+msgstr "Nessuna convalida"
+
+#: components/elements/base-elements/text.php:61
+msgid "Numbers"
+msgstr "Numeri"
+
+#: components/elements/base-elements/text.php:62
+msgid "Decimal Numbers"
+msgstr "Numeri Decimali"
+
+#: components/elements/base-elements/text.php:63
+msgid "Email-Address"
+msgstr "Indirizzo Email"
+
+#: components/elements/base-elements/text.php:65
+msgid "The will do a validation for the input."
+msgstr "Tipo di validazione dei campi."
+
+#: components/elements/base-elements/text.php:82 components/elements/base-elements/textarea.php:86
+msgid "The input ist too short."
+msgstr "Testo troppo breve."
+
+#: components/elements/base-elements/text.php:84 components/elements/base-elements/text.php:95 components/elements/base-elements/textarea.php:88 components/elements/base-elements/textarea.php:99
+#, php-format
+msgid "It have to be at minimum %d and maximum %d chars."
+msgstr "Ci devono essere minimo %d e massimo %d caratteri."
+
+#: components/elements/base-elements/text.php:94 components/elements/base-elements/textarea.php:98
+msgid "The input is too long."
+msgstr "Testo troppo lungo."
+
+#: components/elements/base-elements/text.php:108
+msgid "Please input a number."
+msgstr "Inserisci un numero."
+
+#: components/elements/base-elements/text.php:120
+msgid "Please input a decimal number."
+msgstr "Inserisci un numero decimale."
+
+#: components/elements/base-elements/text.php:128
+msgid "Please input a valid Email-Address."
+msgstr "Inserisci un indirizzo Email valido."
+
+#: components/elements/base-elements/textarea.php:21
+msgid "Textarea"
+msgstr "Textarea"
+
+#: components/elements/base-elements/textarea.php:23
+msgid "Add a question which can be answered within a text area."
+msgstr "Aggiungi una domanda a cui rispondere in una area di testowird."
+
+#: components/elements/base-elements/textarea.php:58
+msgid "Rows"
+msgstr "Righe"
+
+#: components/elements/base-elements/textarea.php:61
+msgid "Number of rows for typing in  (can be overwritten by CSS)."
+msgstr "Numero di righe per digitare (possono essere sovrascritti da CSS)."
+
+#: components/elements/base-elements/textarea.php:66
+msgid "Columns"
+msgstr "Colonne"
+
+#: components/elements/base-elements/textarea.php:69
+msgid "Number of columns for typing in (can be overwritten by CSS)."
+msgstr "Numero di colonne per digitare (possono essere sovrascritti da CSS)."
+
+#: components/elements/class-element.php:380
+msgid "You don´t entered any answers. Please add some to display answers here."
+msgstr "Non hai dato nessuna risposta. Aggiungi almeno una risposta da mostrare qui."
+
+#: components/elements/class-element.php:408
+msgid "No HTML for Element given. Please check element sourcecode."
+msgstr "Nessun HTML per elemento dato. Verificare il codice sorgente."
+
+#: components/elements/class-element.php:485
+msgid "Question"
+msgstr "Domanda"
+
+#: components/elements/class-element.php:566
+msgid "Answer/s:"
+msgstr "Risposta/e:"
+
+#: components/elements/class-element.php:686
+msgid "Add Answer"
+msgstr "Aggiungi Risposta"
+
+#: components/elements/class-element.php:795
+msgid "Delete element"
+msgstr "Cancella elemento"
+
+#: components/elements/component.php:45
+msgid "Base Elements to put into surveys"
+msgstr "Elementi base da inserire nel sondaggio"
+
+#: functions.php:73
+msgid ""
+"Dear %username%,\n"
+"\n"
+"thank you for participating on the survey \"%survey_title%\". Your survey data was saved successfully.\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+"Ciao %username%,\n"
+"\t\n"
+"grazie per aver partecipato al sondaggio \"%survey_title%\".Le tue risposte sono state registrate con successo.\n"
+"\n"
+"Cordiali saluti,\n"
+"\n"
+"%site_name%"
+
+#: functions.php:89
+msgid ""
+"Dear %username%,\n"
+"\n"
+"you have been invited to participate to the survey \"%survey_title%\". Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+
+#: functions.php:107
+msgid ""
+"Dear %username%,\n"
+"\n"
+"the survey \"%survey_title%\" is not finished yet. Please fill out and finish the survey. Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+
+#: functions.php:138
+msgid "Thank you for participating!"
+msgstr "Grazie per aver partecipato!"
+
+#: functions.php:146
+msgid "You are invited to answer a survey"
+msgstr "Sei stato invitato a rispondere al Sondaggio"
+
+#: functions.php:154
+msgid "Don´t forget to answer the Survey"
+msgstr "Non dimenticare di rispondere al Sondaggio"
+
+#. Plugin Name of the plugin/theme
+msgid "Questions"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://www.awesome.ug"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Drag & drop your survey/poll with the WordPress Questions plugin."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "awesome.ug"
+msgstr ""

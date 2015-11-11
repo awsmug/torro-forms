@@ -1,71 +1,74 @@
 /* This stylesheet is used to style the public view of the plugin. */
+
 /**
- * 	Survey Element
+ * 	Form Element
  */
-#questions .survey-element{
-	margin-bottom:20px;
+.af-form .af-element {
+    margin-bottom: 20px;
 }
-#questions .survey-element p{
-	margin:5px;
+.af-form .af-element label{
+    margin-bottom: 5px;
+    display: block;
+    font-size: 1.2em;
 }
-#questions .survey-element > h3,
-#questions .survey-element > h5,
-#questions .survey-element > div
+.af-form .af-element-description
 {
-	margin-bottom:10px;
+    margin-bottom: 5px;
 }
-#questions .survey-element hr{
-	margin: 0;
-	height: 5px;
-	border-radius: 3px;
+.af-form .af-element table
+{
+    margin-bottom: 0;
 }
+.af-form input[ type="text" ],
+.af-form textarea,
+.af-form select
+{
+    width:100%;
+}
+
 /**
  * 	Pagination
  */
-#questions .questions-pagination{
-	margin-bottom: 20px;
+.af-form .af-pagination {
+    margin-bottom: 20px;
 }
-#questions .questions-pagination span.questions-highlight-number{
-	border-radius: 3px;
-	background-color: #CCC;
-	padding:2px 6px;
-	color:#FFF;
+
+.af-form .af-pagination span.af-highlight-number {
+    border-radius: 3px;
+    background-color: #CCC;
+    padding: 2px 6px;
+    color: #FFF;
 }
+
 /**
  * 	Errors
  */
-#questions .questions-element-error{
-	border: 1px dashed #F00;
-	padding:10px;
-	margin-bottom:20px;
+.af-form .af-element-error {
+    border: 1px dashed #F00;
+    padding: 10px;
+    margin-bottom: 20px;
 }
-.questions-element-error-message{
-	color:#FFF;
-	border: 1px dashed #F00;
-	background-color:#F00;
-	display:block;
+
+.af-element-error-message {
+    color: #FFF;
+    border: 1px dashed #F00;
+    background-color: #F00;
+    display: block;
     margin: 0 0 10px 0;
     padding: 5px;
 }
-#questions ul.questions-error-messages{
-	margin: 0 0 0 20px;
+
+.af-form ul.af-error-messages {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
-/**
- * 	?
- */
-#questions table.questions-range-table{
-	width:auto;
-	border:none;
-}
-#questions table.questions-range-table td{
-	text-align:center;
-	border:none;
-}
+
 /**
  * Dimple chart CSS
  */
-.questions-dimplechart{
+.af-dimplechart {
     margin-bottom: 20px;
-    width:100%;
+    width: 100%;
     display: block;
 }

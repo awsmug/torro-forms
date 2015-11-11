@@ -1,0 +1,233 @@
+<?php
+/**
+ * Responses abstraction class
+ *
+ * Motherclass for all Response handlers
+ *
+ * @author  awesome.ug, Author <support@awesome.ug>
+ * @package AwesomeForms/Actions
+ * @version 1.0.0
+ * @since   1.0.0
+ * @license GPL 2
+ *
+ * Copyright 2015 awesome.ug (support@awesome.ug)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+if( !defined( 'ABSPATH' ) )
+{
+	exit;
+}
+
+abstract class AF_Action
+{
+	/**
+	 * The Single instances of the components
+	 *
+	 * @var $_instaces
+	 * @since 1.0.0
+	 */
+	protected static $_instances = NULL;
+
+	/**
+	 * name of restriction
+	 *
+	 * @since 1.0.0
+	 */
+	public $name;
+
+	/**
+	 * Title of restriction
+	 *
+	 * @since 1.0.0
+	 */
+	public $title;
+
+	/**
+	 * Description of restriction
+	 *
+	 * @since 1.0.0
+	 */
+	public $description;
+
+	/**
+	 * Settings fields
+	 *
+	 * @since 1.0.0
+	 */
+	var $settings_fields = array();
+
+	/**
+	 * Contains the option_content
+	 */
+	public $option_content = '';
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct()
+	{
+		$this->init();
+	}
+
+	/**
+	 * Main Instance
+	 *
+	 * @since 1.0.0
+	 */
+	public static function instance()
+	{
+		$class = get_called_class();
+
+		if( !isset( self::$_instances[ $class ] ) )
+		{
+			self::$_instances[ $class ] = new $class();
+			self::$_instances[ $class ]->_register();
+		}
+
+		return self::$_instances[ $class ];
+	}
+
+	/**
+	 * Function for setting initial Data
+	 */
+	abstract function init();
+
+	/**
+	 * Handles the data after user submitted the form
+	 *
+	 * @param $response_id
+	 * @param $response
+	 */
+	abstract function handle( $response_id, $response );
+
+	/**
+	 * Checks if there is an option content
+	 */
+	public function has_option()
+	{
+		if( '' != $this->option_content )
+		{
+			return $this->option_content;
+		}
+
+		$this->option_content = $this->option_content();
+
+		if( FALSE == $this->option_content )
+		{
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * Content of option in Form builder
+	 */
+	public function option_content(){}
+
+	/**
+	 * Add Settings to Settings Page
+	 */
+	public function init_settings()
+	{
+		global $af_global;
+
+		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
+		{
+			return FALSE;
+		}
+
+		$headline = array(
+			'headline' => array(
+				'title'       => $this->title,
+				'description' => sprintf( esc_attr( 'Setup the "%s" Action.', 'af-locale' ), $this->title ),
+				'type'        => 'title'
+			)
+		);
+
+		$settings_fields = array_merge( $headline, $this->settings_fields );
+
+		$af_global->settings[ 'actions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+	}
+
+	/**
+	 * Function to register element in Awesome Forms
+	 *
+	 * After registerung was successfull the new element will be shown in the elements list.
+	 *
+	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+	 * @since 1.0.0
+	 */
+	private function _register()
+	{
+		global $af_global;
+
+		if( !is_object( $af_global ) )
+		{
+			return FALSE;
+		}
+
+		if( '' == $this->name )
+		{
+			$this->name = get_class( $this );
+		}
+
+		if( '' == $this->title )
+		{
+			$this->title = ucwords( get_class( $this ) );
+		}
+
+		if( '' == $this->description )
+		{
+			$this->description = esc_attr__( 'This is the Awesome Forms Action  extension.', 'af-locale' );
+		}
+
+		if( array_key_exists( $this->name, $af_global->actions ) )
+		{
+			return FALSE;
+		}
+
+		if( !is_array( $af_global->actions ) )
+		{
+			$af_global->actions = array();
+		}
+
+		add_action( 'init', array( $this, 'init_settings' ), 15 );
+
+		$this->initialized = TRUE;
+
+		return $af_global->add_action( $this->name, $this );
+	}
+}
+
+/**
+ * Register a new Response handler
+ *
+ * @param $element_type_class name of the element type class.
+ *
+ * @return bool|null Returns false on failure, otherwise null.
+ */
+function af_register_action( $action_class )
+{
+	if( class_exists( $action_class ) )
+	{
+		return $action_class::instance();
+	}
+
+	return FALSE;
+}

@@ -1,0 +1,884 @@
+#
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Questions\n"
+"POT-Creation-Date: 2015-07-15 10:05+0100\n"
+"PO-Revision-Date: 2015-08-13 16:26+0200\n"
+"Last-Translator: Sven Wagener <sven.wagener@rheinschmiede.de>\n"
+"Language-Team: Persian (Iran) (http://www.transifex.com/mahype/questions/language/fa_IR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fa_IR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.8.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-WPHeader: init.php\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: components/admin/component.php:46
+msgid "Admin"
+msgstr "مدیر"
+
+#: components/admin/component.php:47
+msgid "Setting up Questions in WordPress Admin."
+msgstr "راه اندازی پلاگین در بخش مدیریت وردپرس"
+
+#: components/admin/form-builder.php:91
+msgid "Attention!"
+msgstr ""
+
+#: components/admin/form-builder.php:92
+msgid ""
+"This will erase all Answers who people given to this survey. Do you really want to delete all results of this survey?"
+msgstr ""
+
+#: components/admin/form-builder.php:95
+msgid "Do you really want to delete this element?"
+msgstr "آیا مطمن هستید که میخواهید این المان حذف شود ؟"
+
+#: components/admin/form-builder.php:98
+msgid "Do you really want to delete this answer?"
+msgstr "آیا مطمن هستید که میخواهید این \"پاسخ\" حذف شود ؟"
+
+#: components/admin/form-builder.php:119
+msgid "Options"
+msgstr "گزینه ها"
+
+#: components/admin/form-builder.php:126
+msgid "Survey Functions"
+msgstr "امکانات نظرسنجی"
+
+#: components/admin/form-builder.php:133 components/elements/component.php:44
+msgid "Elements"
+msgstr "المان ها"
+
+#: components/admin/form-builder.php:141
+msgid "Timerange"
+msgstr ""
+
+#: components/admin/form-builder.php:149
+msgid "Participiants list"
+msgstr "لیست شرکت کنندگان"
+
+#: components/admin/form-builder.php:157
+msgid "Results"
+msgstr ""
+
+#: components/admin/form-builder.php:194
+msgid "When does the survey start?"
+msgstr ""
+
+#: components/admin/form-builder.php:196
+msgid "When does the survey end?"
+msgstr ""
+
+#: components/admin/form-builder.php:235
+msgid "All visitors of the site can participate"
+msgstr ""
+
+#: components/admin/form-builder.php:239
+msgid "All members of the site can participate"
+msgstr ""
+
+#: components/admin/form-builder.php:243
+msgid "Only selected members can participate"
+msgstr ""
+
+#: components/admin/form-builder.php:247
+msgid "No restrictions"
+msgstr ""
+
+#: components/admin/form-builder.php:275
+msgid "Add all actual Members"
+msgstr "اضافه کردن همه کاربران حقیقی."
+
+#: components/admin/form-builder.php:299
+msgid "Add Participiants"
+msgstr "اضافه کردن رای دهندگان"
+
+#: components/admin/form-builder.php:302
+msgid "Remove all Participiants"
+msgstr "حذف همه رای دهندگان"
+
+#: components/admin/form-builder.php:311 components/admin/form-builder.php:973
+msgid "participiant/s"
+msgstr "رای دهندگان"
+
+#: components/admin/form-builder.php:318
+msgid "ID"
+msgstr "شناسه"
+
+#: components/admin/form-builder.php:319
+msgid "User nicename"
+msgstr "نام کاربر"
+
+#: components/admin/form-builder.php:320
+msgid "Display name"
+msgstr "نمایش نام"
+
+#: components/admin/form-builder.php:321
+msgid "Email"
+msgstr "آدرس ایمیل"
+
+#: components/admin/form-builder.php:322
+msgid "Status"
+msgstr "وضعیت"
+
+#: components/admin/form-builder.php:336
+msgid "finished"
+msgstr "پایان یافت."
+
+#: components/admin/form-builder.php:338
+msgid "new"
+msgstr "جدید"
+
+#: components/admin/form-builder.php:349 components/admin/form-builder.php:954 components/elements/class-element.php:628
+#: components/elements/class-element.php:670
+msgid "Delete"
+msgstr "حذف"
+
+#: components/admin/form-builder.php:414
+msgid "Show results after finishing survey"
+msgstr "نمایش نتیجه نظرسنجی پس از پایان یافتن نظرسنجی"
+
+#: components/admin/form-builder.php:416 components/admin/form-builder.php:955 components/core/data-abstraction.php:88
+#: components/elements/class-element.php:887
+msgid "Yes"
+msgstr "بله"
+
+#: components/admin/form-builder.php:417 components/admin/form-builder.php:956 components/elements/class-element.php:891
+msgid "No"
+msgstr "خیر"
+
+#: components/admin/form-builder.php:445
+msgid "Dublicate Survey"
+msgstr "تکثیر(ایجاد کپی) از نظرسنجی "
+
+#: components/admin/form-builder.php:452
+msgid "Delete survey results"
+msgstr ""
+
+#: components/admin/form-builder.php:461
+msgid "Invite Participiants"
+msgstr "دعوت به نظرسنجی"
+
+#: components/admin/form-builder.php:464 components/admin/form-builder.php:475
+msgid "Cancel"
+msgstr "انصراف"
+
+#: components/admin/form-builder.php:472
+msgid "Reinvite Participiants"
+msgstr "دعوت مجدد به نظرسنجی"
+
+#: components/admin/form-builder.php:481
+msgid "You can invite Participiants to this survey after the survey is published."
+msgstr "شما می توانید دیگران را پس از منتشر شدن نظرسنجی به این نظرسنجی دعوت کنید."
+
+#: components/admin/form-builder.php:957
+msgid "just added"
+msgstr "اضافه شد"
+
+#: components/admin/form-builder.php:958
+msgid "Invitations sent successfully!"
+msgstr "دعوت به نظرسنجی با موفقیت ارسال شد"
+
+#: components/admin/form-builder.php:959
+msgid "Invitations could not be sent!"
+msgstr "ارسال دعوتنامه با مشکل روبرو شد"
+
+#: components/admin/form-builder.php:961
+msgid "Renvitations sent successfully!"
+msgstr "ارسال مجدد دعوتنامه با موفقیت انجام شد"
+
+#: components/admin/form-builder.php:964
+msgid "Renvitations could not be sent!"
+msgstr "ارسال مجدد دعوتنامه با مشکل روبرو شد"
+
+#: components/admin/form-builder.php:967
+msgid "Survey results deleted successfully!"
+msgstr ""
+
+#: components/admin/form-builder.php:970
+msgid "Survey duplicated successfully!"
+msgstr ""
+
+#: components/admin/form-builder.php:972 components/core/component.php:92
+msgid "Edit Survey"
+msgstr "ویرایش نظرسنجی "
+
+#: components/admin/form-builder.php:974
+msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
+msgstr ""
+
+#: components/admin/form-builder.php:975
+msgid "You are over the limit of PHP max_num_fields!"
+msgstr ""
+
+#: components/admin/form-builder.php:976
+msgid ""
+"Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or "
+"contact your hoster. Otherwise your form can not be saved correct."
+msgstr ""
+
+#: components/admin/form-builder.php:977
+msgid "of"
+msgstr ""
+
+#: components/admin/form-builder.php:979
+msgid "yy/mm/dd"
+msgstr ""
+
+#: components/admin/form-builder.php:980
+msgid "Su"
+msgstr ""
+
+#: components/admin/form-builder.php:981
+msgid "Mo"
+msgstr ""
+
+#: components/admin/form-builder.php:982
+msgid "Tu"
+msgstr ""
+
+#: components/admin/form-builder.php:983
+msgid "We"
+msgstr ""
+
+#: components/admin/form-builder.php:984
+msgid "Th"
+msgstr ""
+
+#: components/admin/form-builder.php:985
+msgid "Fr"
+msgstr ""
+
+#: components/admin/form-builder.php:986
+msgid "Sa"
+msgstr ""
+
+#: components/admin/form-builder.php:987
+msgid "January"
+msgstr ""
+
+#: components/admin/form-builder.php:988
+msgid "February"
+msgstr ""
+
+#: components/admin/form-builder.php:989
+msgid "March"
+msgstr ""
+
+#: components/admin/form-builder.php:990
+msgid "April"
+msgstr ""
+
+#: components/admin/form-builder.php:991
+msgid "May"
+msgstr ""
+
+#: components/admin/form-builder.php:992
+msgid "June"
+msgstr ""
+
+#: components/admin/form-builder.php:993
+msgid "July"
+msgstr ""
+
+#: components/admin/form-builder.php:994
+msgid "August"
+msgstr ""
+
+#: components/admin/form-builder.php:995
+msgid "September"
+msgstr ""
+
+#: components/admin/form-builder.php:996
+msgid "October"
+msgstr ""
+
+#: components/admin/form-builder.php:997
+msgid "November"
+msgstr ""
+
+#: components/admin/form-builder.php:998
+msgid "December"
+msgstr ""
+
+#: components/admin/menu.php:60 components/admin/menu.php:61 components/core/component.php:88
+msgid "Surveys"
+msgstr "نظرسنجی"
+
+#: components/admin/menu.php:70 components/admin/menu.php:71
+msgid "Create"
+msgstr "ایجاد"
+
+#: components/admin/menu.php:77 components/admin/menu.php:78 components/core/component.php:74
+msgid "Categories"
+msgstr "دسته ها"
+
+#: components/admin/menu.php:84 components/admin/menu.php:85 components/elements/class-element.php:492
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: components/admin/pages/settings.php:51
+msgid "General"
+msgstr "عمومی"
+
+#: components/admin/pages/settings.php:68
+msgid "Text templates"
+msgstr "قالب متن "
+
+#: components/admin/pages/settings.php:72
+msgid "Thanks for participating"
+msgstr "با تشکر از شما جهت مشارکت. "
+
+#: components/admin/pages/settings.php:75
+msgid "This text will be used on thanking members after participating survey."
+msgstr "این متن برای تشکر از اعضا بعد از شرکت در نظرسنجی استفاده خواهد شد."
+
+#: components/admin/pages/settings.php:78 components/admin/pages/settings.php:89 components/admin/pages/settings.php:98
+msgid "Usable template tags:"
+msgstr "تگ های قالب قابل استفاده:"
+
+#: components/admin/pages/settings.php:83
+msgid "Invitation text Template"
+msgstr "متن قالب دعوت نامه"
+
+#: components/admin/pages/settings.php:86
+msgid "This text will be used as template if you want to send invitations to Participiants."
+msgstr "این متن به عنوان قالب استفاده خواهد شد اگر شما بخواهید یک دعوتنامه برای مشترکین ارسال کنید."
+
+#: components/admin/pages/settings.php:93
+msgid "Reinvitation text Template"
+msgstr "متن دعوت مجدد "
+
+#: components/admin/pages/settings.php:95
+msgid "This text will be used as template if you want to send reinvitations to Participiants."
+msgstr "این متن به عنوان قالب استفاده خواهد شد اگر شما بخواهید یک دعوتنامه مجدد برای مشترکین ارسال کنید."
+
+#: components/admin/pages/settings.php:102
+msgid "From Name"
+msgstr "از نام"
+
+#: components/admin/pages/settings.php:104
+msgid "The Name which will be shown on Emails which are send out by Questions."
+msgstr "نامی که همراه ایمیلی که توسط پلاگین ارسال می گردد."
+
+#: components/admin/pages/settings.php:106
+msgid "e.g. Michael Jackson"
+msgstr "به عنوان مثال حسین مسعودی"
+
+#: components/admin/pages/settings.php:110
+msgid "From Email"
+msgstr "از آدرس ایمیل"
+
+#: components/admin/pages/settings.php:112
+msgid "The Email will be used for the reply of the emails, send out by questions."
+msgstr "این ایمیل برای پاسخ به ایمیل های که توسط پلاگین ارسال می شود استفاده می گردد."
+
+#: components/admin/pages/settings.php:114
+msgid "e.g. myname@mydomain.com"
+msgstr "myname@mydomain.comبه عنوان مثال "
+
+#: components/charts/class-chart-creator.php:101 components/elements/class-element.php:197
+msgid "This is a Questions Survey Element."
+msgstr "این یک المان سوال نظرسنجی است."
+
+#: components/charts/component.php:43
+msgid "Charts"
+msgstr "نمودار"
+
+#: components/charts/component.php:44
+msgid "Showing Charts in Questions."
+msgstr "نمایش نمودار در سوالات"
+
+#: components/charts/dimple/chart-creator.php:67
+msgid "Answers"
+msgstr ""
+
+#: components/charts/dimple/chart-creator.php:68
+msgid "Votes"
+msgstr "رای ها"
+
+#: components/charts/shortcodes.php:56
+msgid "Please enter a survey id in the survey shortcode!"
+msgstr "لطفا شناسه عددی نظرسنجی را در کد زیر وارد نمایید"
+
+#: components/charts/shortcodes.php:75
+msgid "There are no results to show."
+msgstr ""
+
+#: components/charts/shortcodes.php:93
+msgid "Please enter a question id in the survey shortcode!"
+msgstr "لطفا شناسه عددی سوال را در کد زیر وارد نمایید"
+
+#: components/charts/shortcodes.php:118
+msgid "Results Shortcode:"
+msgstr "کد میانبر نمایش نتیجه نظرسنجی"
+
+#: components/charts/shortcodes.php:132
+msgid "(CTRL+C and paste into post to embed question results in post)"
+msgstr "با استفاده از Ctrl+c و کپی کردن آن در پست می توانید نتایج نظرسنجی را در پست مورد نظر نمایش دهید."
+
+#: components/charts/shortcodes.php:133
+msgid "Shortcode:"
+msgstr "کد میانبر:"
+
+#: components/class-component.php:68
+msgid "This is a Questions component."
+msgstr "این یک کامپوننت این پلاگین است."
+
+#: components/core/component.php:39
+msgid "Core"
+msgstr "هسته"
+
+#: components/core/component.php:40
+msgid "Core functions of the Questions Plugin"
+msgstr "هسته توابع اصلی پلاگین"
+
+#: components/core/component.php:64
+msgctxt "taxonomy general name"
+msgid "Categories"
+msgstr "دسته ها"
+
+#: components/core/component.php:65
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr "دسته "
+
+#: components/core/component.php:66
+msgid "Search Categories"
+msgstr "جست و جوی دسته ها"
+
+#: components/core/component.php:67
+msgid "All Categories"
+msgstr "همه دسته ها"
+
+#: components/core/component.php:68
+msgid "Parent Category"
+msgstr "دسته والد"
+
+#: components/core/component.php:69
+msgid "Parent Category:"
+msgstr "دسته والد:"
+
+#: components/core/component.php:70
+msgid "Edit Category"
+msgstr "ویرایش دسته"
+
+#: components/core/component.php:71
+msgid "Update Category"
+msgstr "بروزرسانی دسته"
+
+#: components/core/component.php:72
+msgid "Add New Category"
+msgstr "اضافه کردن دسته جدید"
+
+#: components/core/component.php:73
+msgid "New Category"
+msgstr "دسته جدید"
+
+#: components/core/component.php:89 components/core/shortcodes.php:47
+msgid "Survey"
+msgstr "نظرسنجی"
+
+#: components/core/component.php:90
+msgid "All Surveys"
+msgstr "همه نظرسنجی ها"
+
+#: components/core/component.php:91 components/core/component.php:93
+msgid "Add new Survey"
+msgstr "اضافه کردن یک نظرسنجی"
+
+#: components/core/component.php:94
+msgid "View Survey"
+msgstr "نمایش نظرسنجی"
+
+#: components/core/component.php:95
+msgid "Search Survey"
+msgstr "جست و جوی نظرسنجی"
+
+#: components/core/component.php:96 components/core/component.php:97
+msgid "No Survey available"
+msgstr "نظرسنجی ای موجود نیست"
+
+#: components/core/export.php:57
+msgid "No answers, no exports!"
+msgstr ""
+
+#: components/core/export.php:59
+#, php-format
+msgid "<a href=\"%s\">Export Results</a>"
+msgstr "<a href=\"%s\">گرفتن خروجی از نتایج</a>"
+
+#: components/core/form-process.php:95
+msgid "There are open answers"
+msgstr ""
+
+#: components/core/form-process.php:179
+#, php-format
+msgid "Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-highlight-number\">%s</span>"
+msgstr "مرحله<span class=\"surveyval-highlight-number\">%d</span> از <span class=\"surveyval-highlight-number\">%s</span>"
+
+#: components/core/form-process.php:202
+msgid "Previous Step"
+msgstr "مرحله قبلی"
+
+#: components/core/form-process.php:208
+msgid "Finish Survey"
+msgstr "ثبت رای"
+
+#: components/core/form-process.php:212
+msgid "Next Step"
+msgstr "مرحله بعدی"
+
+#: components/core/form-process.php:782
+msgid "Thank you for participating this survey!"
+msgstr "با تشکر از شما جهت شرکت در نظرسنجی"
+
+#: components/core/form-process.php:808
+msgid "You already have participated in this poll."
+msgstr ""
+
+#: components/core/form-process.php:827
+msgid "You have to be logged in to participate this survey."
+msgstr "شما باید برای شرکت در نظرسنجی وارد شوید."
+
+#: components/core/form-process.php:842
+msgid "You can't participate this survey."
+msgstr "شما نمی توانید در این نظرسنجی شرکت کنید."
+
+#: components/core/form-process.php:857
+msgid "This are the actual results:"
+msgstr "نتایج نظر سنجی تا این لحظه:"
+
+#: components/core/responses.php:116
+msgid "User ID"
+msgstr "کاربر ID"
+
+#: components/core/responses.php:147
+msgid "Username"
+msgstr ""
+
+#: components/core/responses.php:180
+msgid "Date/Time"
+msgstr "روز /  زمان"
+
+#: components/core/shortcodes.php:52
+msgid "Please enter an id in the survey shortcode!"
+msgstr "لطفا کد میانبر نظرسنجی را وارد نمایید."
+
+#: components/core/shortcodes.php:57
+msgid "Survey not found. Please enter another ID in your shortcode."
+msgstr "نظرسنجی مورد نظر وجود ندارد. لطفا ID کد میانبر یک نظر سنجی دیگر را وارد نمایید."
+
+#: components/core/shortcodes.php:66
+msgid "Survey Shortcode:"
+msgstr "کد میانبر نظرسنجی"
+
+#: components/elements/base-elements/description.php:21 components/elements/base-elements/dropdown.php:63
+#: components/elements/base-elements/multiplechoice.php:58 components/elements/base-elements/onechoice.php:56
+#: components/elements/base-elements/text.php:39 components/elements/base-elements/textarea.php:40
+msgid "Description"
+msgstr "توضیحات"
+
+#: components/elements/base-elements/description.php:22
+msgid "Adds a text to the form."
+msgstr "اضافه کردن متن به فرم"
+
+#: components/elements/base-elements/description.php:37
+msgid "Text to show"
+msgstr "متن برای نمایش"
+
+#: components/elements/base-elements/description.php:39
+msgid "The text which will be shown in the form."
+msgstr "متنی که در در فرم نمایش داده خواهد شد."
+
+#: components/elements/base-elements/dropdown.php:21
+msgid "Dropdown"
+msgstr "ایجاد نظرسنجی کشویی"
+
+#: components/elements/base-elements/dropdown.php:22
+msgid "Add a question which can be answered within a dropdown field."
+msgstr "اضافه کردن سوالی که میتوان با استفاده از یک فیلد کشویی به آن پاسخ داد."
+
+#: components/elements/base-elements/dropdown.php:42
+msgid "Please select"
+msgstr "لطفا انتخاب کنید"
+
+#: components/elements/base-elements/dropdown.php:65 components/elements/base-elements/multiplechoice.php:60
+#: components/elements/base-elements/onechoice.php:58 components/elements/base-elements/text.php:41
+#: components/elements/base-elements/textarea.php:42
+msgid "The description will be shown after the question."
+msgstr "توضیحات بعد از سوال نمایش داده خواهد شد."
+
+#: components/elements/base-elements/dropdown.php:76 components/elements/base-elements/onechoice.php:69
+msgid "Please select a value."
+msgstr "لطفا یک مقدار انتخاب کنید."
+
+#: components/elements/base-elements/multiplechoice.php:21
+msgid "Multiple Choice"
+msgstr "ایجاد نظرسنجی چند انتخابی"
+
+#: components/elements/base-elements/multiplechoice.php:23
+msgid "Add a question which can be answered by selecting one ore more given answers."
+msgstr "اضافه کردن یک سوالی که می توان جواب آن را با انتخاب یک گزینه یا بیشتر انتخاب نمود."
+
+#: components/elements/base-elements/multiplechoice.php:64
+msgid "Minimum Answers"
+msgstr "حداقل پاسخ ها"
+
+#: components/elements/base-elements/multiplechoice.php:67
+msgid "The minimum number of answers which have to be choosed."
+msgstr "کمترین تعاد پاسخی که می توان انتخاب کرد."
+
+#: components/elements/base-elements/multiplechoice.php:72
+msgid "Maximum Answers"
+msgstr "بیشترین پاسخ ها"
+
+#: components/elements/base-elements/multiplechoice.php:75
+msgid "The maximum number of answers which can be choosed."
+msgstr "بیشترین تعاد پاسخی که می توان انتخاب کرد."
+
+#: components/elements/base-elements/multiplechoice.php:91
+msgid "Too less choices."
+msgstr "انتخاب کمتر از"
+
+#: components/elements/base-elements/multiplechoice.php:92 components/elements/base-elements/multiplechoice.php:102
+#, php-format
+msgid "You have to choose between %d and %d answers."
+msgstr "شما می توانید بین %d و %d تعداد پاسخ انتخاب نمایید."
+
+#: components/elements/base-elements/multiplechoice.php:101
+msgid "Too many choices."
+msgstr "انتخاب بیش از حد"
+
+#: components/elements/base-elements/onechoice.php:21
+msgid "One Choice"
+msgstr "ایجاد نظرسنجی تک انتخابی"
+
+#: components/elements/base-elements/onechoice.php:23
+msgid "Add a question which can be answered by selecting one of the given answers."
+msgstr "یک سوال اضافه کنید که میتوانید با انتخاب یک گزینه به آن پاسخ داده شود."
+
+#: components/elements/base-elements/separator.php:21
+msgid "Separator"
+msgstr "جداکننده"
+
+#: components/elements/base-elements/separator.php:22
+msgid "Adds a optical separator (<hr>) between questions."
+msgstr "اضافه کردن یک گزینه جداکننده (<hr>) بین سوالات."
+
+#: components/elements/base-elements/separator.php:47
+msgid "Headline"
+msgstr "عنوان"
+
+#: components/elements/base-elements/separator.php:49
+msgid "Text which will be shown above the separator"
+msgstr "متنی که بالای جداکننده نشان داده خواهد شد."
+
+#: components/elements/base-elements/splitter.php:21
+msgid "Split Form"
+msgstr "تقسیم بندی فرم"
+
+#: components/elements/base-elements/splitter.php:22
+msgid "Splits a form into several steps"
+msgstr "تقسیم بندی به چندین مرحله"
+
+#: components/elements/base-elements/text.php:21
+msgid "Text"
+msgstr "متن"
+
+#: components/elements/base-elements/text.php:23
+msgid "Add a question which can be answered within a text field."
+msgstr "اضافه کردن یک سوال که می توان به آن پاسخ داد با استفاده از یک فیلد متنی."
+
+#: components/elements/base-elements/text.php:45 components/elements/base-elements/textarea.php:46
+msgid "Minimum length"
+msgstr "حداقل طول متن"
+
+#: components/elements/base-elements/text.php:47 components/elements/base-elements/textarea.php:48
+msgid "The minimum number of chars which can be typed in."
+msgstr "حداقل تعداد کاراکتر هایی که کاربر می تواند تایپ کند."
+
+#: components/elements/base-elements/text.php:51 components/elements/base-elements/textarea.php:52
+msgid "Maximum length"
+msgstr "حداکثر طول متن"
+
+#: components/elements/base-elements/text.php:53 components/elements/base-elements/textarea.php:54
+msgid "The maximum number of chars which can be typed in."
+msgstr "بیشترین تعداد کاراکتر هایی که کاربر می تواند تایپ کند."
+
+#: components/elements/base-elements/text.php:57
+msgid "String Validation"
+msgstr "رشته معتبر"
+
+#: components/elements/base-elements/text.php:60
+msgid "No validation"
+msgstr "بدون اعتبارسنجی مقدار ورودی"
+
+#: components/elements/base-elements/text.php:61
+msgid "Numbers"
+msgstr "اعداد"
+
+#: components/elements/base-elements/text.php:62
+msgid "Decimal Numbers"
+msgstr "اعداد دسیمال"
+
+#: components/elements/base-elements/text.php:63
+msgid "Email-Address"
+msgstr "آدرس ایمیل"
+
+#: components/elements/base-elements/text.php:65
+msgid "The will do a validation for the input."
+msgstr "این اعتبارسنجی برای ورودی کاربر اعمال خواهد شد."
+
+#: components/elements/base-elements/text.php:82 components/elements/base-elements/textarea.php:86
+msgid "The input ist too short."
+msgstr "ورودی کوتاه است"
+
+#: components/elements/base-elements/text.php:84 components/elements/base-elements/text.php:95
+#: components/elements/base-elements/textarea.php:88 components/elements/base-elements/textarea.php:99
+#, php-format
+msgid "It have to be at minimum %d and maximum %d chars."
+msgstr "متن شما باید حداقل  %d و حداکثر %d کاراکتر باشد "
+
+#: components/elements/base-elements/text.php:94 components/elements/base-elements/textarea.php:98
+msgid "The input is too long."
+msgstr "عبارت وارد شده بزرگتر از حد مجاز است."
+
+#: components/elements/base-elements/text.php:108
+msgid "Please input a number."
+msgstr "لطفا یک مقدار عددی وارد کنید"
+
+#: components/elements/base-elements/text.php:120
+msgid "Please input a decimal number."
+msgstr "لطفا یک مقدار عددی غیر اعشاری وارد کنید"
+
+#: components/elements/base-elements/text.php:128
+msgid "Please input a valid Email-Address."
+msgstr "لطفا یک آدرس ایمیل معتبر وارد نمایید"
+
+#: components/elements/base-elements/textarea.php:21
+msgid "Textarea"
+msgstr "متن چند خطی"
+
+#: components/elements/base-elements/textarea.php:23
+msgid "Add a question which can be answered within a text area."
+msgstr "سوال مورد نظر خود را که میخواهید به آن پاسخ داده شود اضافه کنید."
+
+#: components/elements/base-elements/textarea.php:58
+msgid "Rows"
+msgstr "سطرها"
+
+#: components/elements/base-elements/textarea.php:61
+msgid "Number of rows for typing in  (can be overwritten by CSS)."
+msgstr "تعداد سطرها برای نوشتن (میتوانید آن را با کدهای css نیز جایگذین نمایید.("
+
+#: components/elements/base-elements/textarea.php:66
+msgid "Columns"
+msgstr "ستون ها"
+
+#: components/elements/base-elements/textarea.php:69
+msgid "Number of columns for typing in (can be overwritten by CSS)."
+msgstr "تعداد ستون ها برای نوشتن (میتوانید آن را با کدهای css نیز جایگذین نمایید.("
+
+#: components/elements/class-element.php:380
+msgid "You don´t entered any answers. Please add some to display answers here."
+msgstr "شما نمی توانید پاسخی وارد نمایید. لطفا برای نمایش پاسخ یک مورد اضافه کنید."
+
+#: components/elements/class-element.php:408
+msgid "No HTML for Element given. Please check element sourcecode."
+msgstr "هیچ کد HTML ای برای این المان وجود ندارد . لطفا سورس کد المان را بررسی نمایید."
+
+#: components/elements/class-element.php:485
+msgid "Question"
+msgstr "سوال"
+
+#: components/elements/class-element.php:566
+msgid "Answer/s:"
+msgstr "پاسخ ها:"
+
+#: components/elements/class-element.php:686
+msgid "Add Answer"
+msgstr "اضافه کردن پاسخ"
+
+#: components/elements/class-element.php:795
+msgid "Delete element"
+msgstr "حذف کردن المان"
+
+#: components/elements/component.php:45
+msgid "Base Elements to put into surveys"
+msgstr "المان های اساسی برای قرار دادن در نظرسنجی"
+
+#: functions.php:73
+msgid ""
+"Dear %username%,\n"
+"\n"
+"thank you for participating on the survey \"%survey_title%\". Your survey data was saved successfully.\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+
+#: functions.php:89
+msgid ""
+"Dear %username%,\n"
+"\n"
+"you have been invited to participate to the survey \"%survey_title%\". Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+
+#: functions.php:107
+msgid ""
+"Dear %username%,\n"
+"\n"
+"the survey \"%survey_title%\" is not finished yet. Please fill out and finish the survey. Participate here:\n"
+"\n"
+"%survey_url%\n"
+"\n"
+"Best regards,\n"
+"\n"
+"%site_name%"
+msgstr ""
+
+#: functions.php:138
+msgid "Thank you for participating!"
+msgstr "از اینکه در رای گیری شرکت نمودید متشکریم."
+
+#: functions.php:146
+msgid "You are invited to answer a survey"
+msgstr "شما جهت پاسخ به یک نظرسنجی دعوت شده اید."
+
+#: functions.php:154
+msgid "Don´t forget to answer the Survey"
+msgstr "فراموش نکنید به نظرسنجی پاسخ دهید."
+
+#. Plugin Name of the plugin/theme
+msgid "Questions"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://www.awesome.ug"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Drag & drop your survey/poll with the WordPress Questions plugin."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "awesome.ug"
+msgstr ""

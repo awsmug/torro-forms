@@ -1,0 +1,106 @@
+@font-face { 
+  font-family: "aficons"; 
+  src: url("fonts/af.eot"); 
+  src: url("fonts/af.eot?#iefix") format("embedded-opentype"), 
+  	url("fonts/af.woff") format("woff"), 
+  	url("fonts/af.ttf") format("truetype"), 
+  	url("fonts/af.svg#icons") format("svg"); 
+  font-weight: normal;
+  font-style: normal;
+}
+[class*="icon-af-"] { 
+  background-image: none; 
+  display: inline; 
+  font-size: 14px; 
+  font-style: normal !important; 
+  font-weight: normal !important; 
+  height: 14px;
+  overflow: visible; 
+  width: 14px;
+}
+[class*="icon-af-"]::before {
+	font-family: aficons; 
+}
+/*
+.hide {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 0;
+  opacity: 0;
+  position: absolute;
+  visibility: hidden;
+  width: 0;
+}
+*/
+/* Icons */
+.icon-af-checkbox-01::before {
+	content: "\E801"; 
+}
+.icon-af-checkbox-01-off::before {
+	content: "\E800"; 
+}
+.icon-af-check-01::before {
+	content: "\E803"; 
+}
+.icon-af-check-02::before {
+	content: "\E813"; 
+}
+.icon-af-pie-01::before {
+	content: "\E804"; 
+}
+.icon-af-pie-02::before {
+	content: "\E802"; 
+}
+.icon-af-chart-01::before {
+	content: "\E805"; 
+}
+.icon-af-chart-02::before {
+	content: "\E806"; 
+}
+.icon-af-chart-03::before {
+	content: "\E807"; 
+}
+.icon-af-code-01::before {
+	content: "\E809"; 
+}
+.icon-af-code-02::before {
+	content: "\E809"; 
+}
+.icon-af-refresh::before {
+	content: "\E80B"; 
+}
+.icon-af-download::before {
+	content: "\E80C"; 
+}
+.icon-af-skype::before {
+	content: "\E80D"; 
+}
+.icon-af-youtube::before {
+	content: "\E80F"; 
+}
+.icon-af-wordpress::before {
+	content: "\E80D"; 
+}
+.icon-af-facebook::before {
+	content: "\E811"; 
+}
+.icon-af-twitter::before {
+	content: "\E812"; 
+}
+.icon-af-googleplus::before {
+	content: "\E810"; 
+}
+.icon-af-xing::before {
+	content: "\E814"; 
+}
+.icon-af-linkedin::before {
+	content: "\E815"; 
+}
+
+#adminmenu #toplevel_page_AF_Admin .dashicons-admin-generic:before{
+	font-family: aficons;
+    content: "\E801";
+    font-size: 14px;
+    height: 20px;
+    width: 20px;
+	line-height: 20px;
+}
