@@ -1,3 +1,16 @@
+jQuery( function($) {
+    $.af_text_height = function (text, font, width) {
+
+        if (!$.af_text_height.fakeEl)
+            $.af_text_height.fakeEl = $('<div>').hide().appendTo(document.body);
+
+        $.af_text_height.fakeEl.width(width);
+
+        $.af_text_height.fakeEl.text(text || this.val() || this.text()).css('font', font || this.css('font'));
+        return $.af_text_height.fakeEl.height();
+    };
+});
+
 var af_random_color = (function(){
     var golden_ratio_conjugate = 0.618033988749895;
     var h = Math.random();

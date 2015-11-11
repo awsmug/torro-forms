@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_SettingsHandler
+class AF_Settings_Handler
 {
 	/**
 	 * @var string

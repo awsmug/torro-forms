@@ -70,6 +70,13 @@ abstract class AF_Action
 	var $settings_fields = array();
 
 	/**
+	 * Settings
+	 *
+	 * @since 1.0.0
+	 */
+	var $settings = array();
+
+	/**
 	 * Contains the option_content
 	 */
 	public $option_content = '';
@@ -163,6 +170,11 @@ abstract class AF_Action
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
 		$af_global->settings[ 'actions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+
+		$settings_name = 'actions_' . $this->name;
+
+		$settings_handler = new AF_Settings_Handler( $settings_name, $this->settings_fields );
+		$this->settings = $settings_handler->get_field_values();
 	}
 
 	/**
