@@ -3,7 +3,7 @@
  * Plugin Name:  Awesome Forms
  * Plugin URI:   http://www.awesome.ug
  * Description:  Drag & drop your Form with the Awesome Forms Plugin.
- * Version:      1.0.0 beta 20
+ * Version:      1.0.0 alpha
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
  * Author Email: contact@awesome.ug

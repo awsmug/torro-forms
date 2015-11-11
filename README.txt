@@ -3,7 +3,7 @@ Contributors: mahype, awesome-ug
 Tags: forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 Requires at least: 4.1.1
 Tested up to: 4.3.0
-Stable tag: 1.0.0
+Stable tag: 1.0.0 alpha
 
 Drag&drop your form in the WordPress way!
 
@@ -80,6 +80,10 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 7. **Setup templates for inviting and remembering mails**
 
 == Changelog ==
+
+= 1.0.0 alpha =
+* Reworked nearly the complete code
+* Resetted version to 'alpha'
 
 = 1.0.0 beta 20 =
 * Questions becomes a form builder with chartable results
