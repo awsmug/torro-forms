@@ -2,8 +2,6 @@
 /**
  * Restrict form to a timerange
  *
- * Motherclass for all Restrictions
- *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Restrictions
  * @version 1.0.0
@@ -54,7 +52,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 	/**
 	 * Timerange meta box
 	 */
-	public static function timerange_fields()
+	public function timerange_fields()
 	{
 		global $post;
 
@@ -67,7 +65,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 			$html .= '<table>';
 			$html .= '<tr>';
 			$html .= '<td>';
-			$html .= '<label for="start_date">' . esc_attr__( 'Input start:', 'af-locale' ) . '</label>';
+			$html .= '<label for="start_date">' . esc_html__( 'Input start:', 'af-locale' ) . '</label>';
 			$html .= '</td>';
 			$html .= '<td>';
 				$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
@@ -75,7 +73,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 			$html .= '</tr>';
 			$html .= '<tr>';
 			$html .= '<td>';
-				$html .= '<label for="end_date">' . esc_attr__( 'Input end:', 'af-locale' ) . '</label>';
+				$html .= '<label for="end_date">' . esc_html__( 'Input end:', 'af-locale' ) . '</label>';
 			$html .= '</td>';
 			$html .= '<td>';
 				$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
@@ -100,7 +98,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 
 		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date )
 		{
-			$this->add_message( 'error', esc_attr( 'The Form is not accessible at this time.', 'af-locale' ) );
+			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'af-locale' ) );
 			echo $this->messages();
 
 			return FALSE;
@@ -108,34 +106,9 @@ class AF_Restriction_Timerange extends AF_Restriction
 
 		if( '' != $end_date && 0 != (int) $end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date )
 		{
-			$this->add_message( 'error', esc_attr( 'The Form is not accessible at this time.', 'af-locale' ) );
+			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'af-locale' ) );
 			echo $this->messages();
 
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	/**
-	 * Has IP already participated
-	 *
-	 * @return bool $has_participated
-	 * @since 1.0.0
-	 *
-	 */
-	public function ip_has_participated()
-	{
-
-		global $wpdb, $af_global, $quesions_form_id;
-
-		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
-
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id_id=%d AND remote_addr=%s", $quesions_form_id, $remote_ip );
-		$count = $wpdb->get_var( $sql );
-
-		if( 0 == $count )
-		{
 			return FALSE;
 		}
 
@@ -149,10 +122,8 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id )
+	public function save( $form_id )
 	{
-		global $wpdb, $af_global;
-
 		$start_date = $_POST[ 'start_date' ];
 		$end_date = $_POST[ 'end_date' ];
 
@@ -191,9 +162,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 		                            'november'   => esc_attr__( 'November', 'af-locale' ),
 		                            'december'   => esc_attr__( 'December', 'af-locale' ), );
 
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-
-		wp_enqueue_script( 'af-datepicker', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/timerange.js' );
+		wp_enqueue_script( 'af-datepicker', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/timerange.js', array( 'jquery-ui-datepicker' ) );
 		wp_localize_script( 'af-datepicker', 'translation_admin', $translation_admin );
 	}
 
