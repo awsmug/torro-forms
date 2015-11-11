@@ -123,13 +123,11 @@ abstract class AF_Settings
 			}
 			else
 			{
-				// Setting up first Tab, if there is no General Tab
 				$sub_settings = $this->sub_settings;
 
-				foreach( $this->sub_settings AS $key => $setting )
-				{
-					$sub_setting_name = $key;
-					break;
+				if ( empty( $sub_setting_name ) ) {
+					reset( $this->sub_settings );
+					$sub_setting_name = key( $this->sub_settings );
 				}
 			}
 
