@@ -222,11 +222,6 @@ abstract class AF_Restriction
 	{
 		global $af_global;
 
-		if( TRUE == $this->initialized )
-		{
-			return FALSE;
-		}
-
 		if( !is_object( $af_global ) )
 		{
 			return FALSE;

@@ -48,7 +48,7 @@ class AF_EmailNotifications extends AF_Action
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function init()
 	{
 		$this->title = __( 'Email Notifications', 'af-locale' );
 		$this->name = 'emailnotifications';

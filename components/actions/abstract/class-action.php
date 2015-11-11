@@ -34,6 +34,14 @@ if( !defined( 'ABSPATH' ) )
 abstract class AF_Action
 {
 	/**
+	 * The Single instances of the components
+	 *
+	 * @var $_instaces
+	 * @since 1.0.0
+	 */
+	protected static $_instances = NULL;
+
+	/**
 	 * name of restriction
 	 *
 	 * @since 1.0.0
@@ -67,11 +75,37 @@ abstract class AF_Action
 	public $option_content = '';
 
 	/**
-	 * Already initialized?
+	 * Constructor
 	 *
 	 * @since 1.0.0
 	 */
-	private $initialized = FALSE;
+	private function __construct()
+	{
+		$this->init();
+	}
+
+	/**
+	 * Main Instance
+	 *
+	 * @since 1.0.0
+	 */
+	public static function instance()
+	{
+		$class = get_called_class();
+
+		if( !isset( self::$_instances[ $class ] ) )
+		{
+			self::$_instances[ $class ] = new $class();
+			self::$_instances[ $class ]->_register();
+		}
+
+		return self::$_instances[ $class ];
+	}
+
+	/**
+	 * Function for setting initial Data
+	 */
+	abstract function init();
 
 	/**
 	 * Handles the data after user submitted the form
@@ -104,7 +138,7 @@ abstract class AF_Action
 	/**
 	 * Content of option in Form builder
 	 */
-	abstract function option_content();
+	public function option_content(){}
 
 	/**
 	 * Add Settings to Settings Page
@@ -139,14 +173,9 @@ abstract class AF_Action
 	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
 	 * @since 1.0.0
 	 */
-	public function _register()
+	private function _register()
 	{
 		global $af_global;
-
-		if( TRUE == $this->initialized )
-		{
-			return FALSE;
-		}
 
 		if( !is_object( $af_global ) )
 		{
@@ -197,9 +226,7 @@ function af_register_action( $action_class )
 {
 	if( class_exists( $action_class ) )
 	{
-		$action = new $action_class();
-
-		return $action->_register();
+		return $action_class::instance();
 	}
 
 	return FALSE;
