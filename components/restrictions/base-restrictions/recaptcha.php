@@ -54,13 +54,35 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		add_action( 'form_restrictions_content_bottom', array( $this, 'recaptcha_fields' ), 10 );
 		add_action( 'af_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
+		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
+
 		add_action( 'af_submit_button_before', array( $this, 'draw_placeholder_element' ), 10, 2 );
 
 		add_filter( 'af_response_validation_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
 
 		// compatibility with Contact Form 7
 		remove_action( 'wpcf7_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts' );
+	}
+
+	/**
+	 * Checking if reCAPTCHA has been configured
+	 */
+	public function check_settings()
+	{
+		global $post;
+
+		if( !af_is_formbuilder() )
+		{
+			return;
+		}
+
+		$form_id = $post->ID;
+
+		if( $this->is_enabled( $form_id ) && !$this->is_configured() )
+		{
+			AF_Init::admin_notice( sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'af-locale' ), admin_url( 'admin.php?page=AF_Admin&tab=restrictions&section=recaptcha' ) ), 'error' );
+		}
 	}
 
 
@@ -74,6 +96,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		$form_id = $post->ID;
 
 		$recaptcha_enabled = get_post_meta( $form_id, 'recaptcha_enabled', true );
+
 		if ( $recaptcha_enabled ) {
 			$recaptcha_enabled = true;
 		} else {
@@ -127,7 +150,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 	/**
 	 * Detects whether reCAPTCHA is enabled for a specific form
 	 */
-	public function is_enabled( $form_id ) {
+	public function is_configured() {
 		if ( empty( $this->settings['recaptcha_sitekey'] ) ) {
 			return false;
 		}
@@ -136,11 +159,19 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 			return false;
 		}
 
+		return true;
+	}
+
+	/**
+	 * Detects if reCAPTCHA is enabled for form
+	 * @return bool
+	 */
+	public function is_enabled( $form_id )
+	{
 		if ( ! get_post_meta( $form_id, 'recaptcha_enabled', true ) ) {
 			return false;
 		}
-
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -158,7 +189,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 	 * This check is only performed on submitting the form (i.e. last page of the form)
 	 */
 	public function check_recaptcha_submission( $status, $form_id, $errors, $step, $is_submit = false ) {
-		if ( $this->is_enabled( $form_id ) && $is_submit ) {
+		if ( $this->is_enabled( $form_id ) && $this->is_configured()  && $is_submit ) {
 			if ( isset( $_POST['g-recaptcha-response'] ) && ! empty( $_POST['g-recaptcha-response'] ) ) {
 				$verification = $this->verify_response( $_POST['g-recaptcha-response'] );
 				try {
@@ -261,7 +292,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 			$ar_form_id = $post->ID;
 		}
 
-		if ( ! $this->is_enabled( $ar_form_id ) ) {
+		if ( ! $this->is_enabled( $ar_form_id ) || !$this->is_configured() ) {
 			return;
 		}
 
