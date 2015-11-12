@@ -29,6 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AF_Restriction_Recaptcha extends AF_Restriction {
+	private $recaptcha_errors = array();
 
 	/**
 	 * Constructor
@@ -56,14 +57,14 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 		add_action( 'af_submit_button_before', array( $this, 'draw_placeholder_element' ), 10, 2 );
 
-		add_action( 'af_additional_restrictions_check_start', array( $this, 'check' ) );
+		add_filter( 'af_response_validation_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
 
 		// compatibility with Contact Form 7
 		remove_action( 'wpcf7_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts' );
 	}
 
 	/**
-	 * Timerange meta box
+	 * reCAPTCHA meta box
 	 */
 	public static function recaptcha_fields()
 	{
@@ -131,6 +132,9 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		echo $html;
 	}
 
+	/**
+	 * Detects whether reCAPTCHA is enabled for a specific form
+	 */
 	public function is_enabled( $form_id ) {
 		if ( empty( $this->settings['recaptcha_sitekey'] ) ) {
 			return false;
@@ -149,13 +153,82 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 
 	/**
 	 * Checks if the user can pass
+	 *
+	 * Not used here, but needed since parent method is abstract
 	 */
 	public function check() {
-		global $ar_form_id;
-
-		// check must happen after submitting the form, so just return true here
-
 		return true;
+	}
+
+	/**
+	 * Actually checks whether the user submitted a valid captcha
+	 *
+	 * This check is only performed on submitting the form (i.e. last page of the form)
+	 */
+	public function check_recaptcha_submission( $status, $form_id, $errors, $step, $is_submit = false ) {
+		if ( $this->is_enabled( $form_id ) && $is_submit ) {
+			if ( isset( $_POST['g-recaptcha-response'] ) && ! empty( $_POST['g-recaptcha-response'] ) ) {
+				$verification = $this->verify_response( $_POST['g-recaptcha-response'] );
+				try {
+					$verification = json_decode( $verification, true );
+				} catch ( Exception $e ) {
+					$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'af-locale' );
+					$status = false;
+				}
+
+				if ( is_array( $verification ) && ! $verification['success'] ) {
+					if ( isset( $verification['error-codes'] ) && count( $verification['error-codes'] ) > 0 ) {
+						switch ( $verification['error-codes'][0] ) {
+							case 'missing-input-secret':
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is missing.', 'af-locale' );
+								break;
+							case 'invalid-input-secret':
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is invalid or malformed.', 'af-locale' );
+								break;
+							case 'missing-input-response':
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is missing.', 'af-locale' );
+								break;
+							case 'invalid-input-response':
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is invalid or malformed.', 'af-locale' );
+								break;
+							default:
+						}
+					} else {
+						$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'af-locale' );
+					}
+					$status = false;
+				}
+			} else {
+				$this->recaptcha_errors[ $form_id ] = __( 'Missing reCAPTCHA response.', 'af-locale' );
+				$status = false;
+			}
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Verifies a reCAPTCHA response.
+	 */
+	public function verify_response( $captcha_response ) {
+		$peer_key = version_compare( phpversion(), '5.6.0', '<' ) ? 'CN_name' : 'peer_name';
+
+		$options = array(
+			'http'			=> array(
+				'header'		=> "Content-type: application/x-www-form-urlencoded\r\n",
+				'method'		=> 'POST',
+				'content'		=> http_build_query( array(
+					'secret'		=> $this->settings['recaptcha_secret'],
+					'response'		=> $captcha_response,
+				), '', '&' ),
+				'verify_peer'	=> true,
+				$peer_key		=> 'www.google.com',
+			),
+		);
+
+		$context = stream_context_create( $options );
+
+		return file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
 	}
 
 	/**
@@ -237,6 +310,9 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		add_filter( 'script_loader_tag', array( $this, 'handle_google_recaptcha_script_tag' ), 10, 3 );
 	}
 
+	/**
+	 * Adds 'async' and 'defer' attributes to the reCAPTCHA script tag
+	 */
 	public function handle_google_recaptcha_script_tag( $tag, $handle, $src ) {
 		if ( 'google-recaptcha' == $handle ) {
 			$tag = str_replace( '></script>', ' async defer></script>', $tag );
@@ -245,9 +321,17 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		return $tag;
 	}
 
+	/**
+	 * Creates the reCAPTCHA placeholder element and optionally prints errors
+	 */
 	public function draw_placeholder_element( $form_id, $actual_step ) {
 		if ( ! $this->is_enabled( $form_id ) ) {
 			return;
+		}
+
+		$error = '';
+		if ( isset( $this->recaptcha_errors[ $form_id ] ) ) {
+			$error = $this->recaptcha_errors[ $form_id ];
 		}
 
 		$type = get_post_meta( $form_id, 'recaptcha_type', true );
@@ -266,7 +350,21 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		}
 
 		?>
-		<div id="recaptcha-placeholder-<?php echo $form_id; ?>" class="recaptcha-placeholder" data-form-id="<?php echo $form_id; ?>" data-type="<?php echo $type; ?>" data-size="<?php echo $size; ?>" data-theme="<?php echo $theme; ?>" style="margin-bottom:20px;"></div>
+		<div class="af-element">
+			<?php if ( ! empty( $error ) ) : ?>
+			<div class="af-element-error">
+				<div class="af-element-error-message">
+					<ul class="af-error-messages">
+						<li><?php echo $error; ?></li>
+					</ul>
+				</div>
+			<?php endif; ?>
+
+			<div id="recaptcha-placeholder-<?php echo $form_id; ?>" class="recaptcha-placeholder" data-form-id="<?php echo $form_id; ?>" data-type="<?php echo $type; ?>" data-size="<?php echo $size; ?>" data-theme="<?php echo $theme; ?>" style="margin-bottom:20px;"></div>
+			<?php if ( ! empty( $error ) ) : ?>
+			</div>
+			<?php endif; ?>
+		</div>
 		<?php
 	}
 }

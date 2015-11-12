@@ -8,20 +8,20 @@ function AF_reCAPTCHA_Widget( tag_id, params ) {
 		this.widget_id = widget_id;
 	} else {
 		console.error( 'reCAPTCHA widget for tag ' + this.tag_id + ' could not be rendered' );
-		this.widget_id = 0;
+		this.widget_id = false;
 	}
 }
 
 AF_reCAPTCHA_Widget.prototype = {
 	get_response: function() {
-		if ( ! this.widget_id ) {
+		if ( typeof this.widget_id !== 'number' ) {
 			return null;
 		}
 		return grecaptcha.getResponse( this.widget_id );
 	},
 
 	reset: function() {
-		if ( ! this.widget_id ) {
+		if ( typeof this.widget_id !== 'number' ) {
 			return;
 		}
 		grecaptcha.reset( this.widget_id );
