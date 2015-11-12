@@ -99,14 +99,20 @@ function af_is_settingspage()
  */
 function af_is_form()
 {
-	global $post;
-
-	if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'af-forms' == $post->post_type )
+	if( empty( $_GET[ 'post' ] ) || empty( $_GET[ 'action' ] )  )
 	{
-		return TRUE;
+		return FALSE;
+	}
+	
+	$post_id = $_GET[ 'post' ];
+	$post = get_post( $post_id );
+
+	if( !is_object( $post ) || get_class( $post ) != 'WP_Post' || 'af-forms' != $post->post_type )
+	{
+		return FALSE;
 	}
 
-	return FALSE;
+	return TRUE;
 }
 
 function af_clipboard_field( $label, $content )
