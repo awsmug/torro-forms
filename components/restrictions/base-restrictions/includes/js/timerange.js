@@ -30,7 +30,11 @@
                     translation_admin.min_thu,
                     translation_admin.min_fri,
                     translation_admin.min_sat
-                ]
+                ],
+                showOn: "both",
+                buttonImage: translation_admin.calendar_icon_url,
+                buttonImageOnly: true,
+                buttonText: translation_admin.select_date
             });
             jQuery('#end_date').datepicker({
                 dateFormat : translation_admin.dateformat,
@@ -56,7 +60,11 @@
                     translation_admin.min_thu,
                     translation_admin.min_fri,
                     translation_admin.min_sat
-                ]
+                ],
+                showOn: "both",
+                buttonImage: translation_admin.calendar_icon_url,
+                buttonImageOnly: true,
+                buttonText: translation_admin.select_date
             });
         });
     });

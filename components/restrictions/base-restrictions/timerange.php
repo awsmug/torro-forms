@@ -157,7 +157,10 @@ class AF_Restriction_Timerange extends AF_Restriction
 		                            'september'  => esc_attr__( 'September', 'af-locale' ),
 		                            'october'    => esc_attr__( 'October', 'af-locale' ),
 		                            'november'   => esc_attr__( 'November', 'af-locale' ),
-		                            'december'   => esc_attr__( 'December', 'af-locale' ), );
+		                            'december'   => esc_attr__( 'December', 'af-locale' ),
+		                            'select_date'   => esc_attr__( 'Select Date', 'af-locale' ),
+		                            'calendar_icon_url'   => AF_URLPATH . 'components/restrictions/base-restrictions/includes/img/calendar-icon.png',
+		);
 
 		wp_enqueue_script( 'af-datepicker', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/timerange.js', array( 'jquery-ui-datepicker' ) );
 		wp_localize_script( 'af-datepicker', 'translation_admin', $translation_admin );
