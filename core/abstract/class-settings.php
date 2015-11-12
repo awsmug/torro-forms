@@ -184,7 +184,6 @@ abstract class AF_Settings
 		}
 		else
 		{
-
 			$sub_settings = array(
 				'general' => array(
 					'title'    => esc_attr( 'General', 'af-locale' ),

@@ -382,15 +382,17 @@ class AF_Settings_Handler
 			return FALSE;
 		}
 
+		// Running all settings fields
 		foreach( $this->fields AS $name => $settings )
 		{
-			$option_name = 'af_settings_' . $this->name . '_' . $name;
-
-			$value = '';
-			if( array_key_exists( $name, $_POST ) )
+			// Only Saving submitted fields
+			if( !array_key_exists( $name, $_POST ) )
 			{
-				$value = $_POST[ $name ];
+				continue;
 			}
+
+			$option_name = 'af_settings_' . $this->name . '_' . $name;
+			$value = $_POST[ $name ];
 
 			if( 'options' == $this->type )
 			{
