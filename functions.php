@@ -103,7 +103,7 @@ function af_is_form()
 	{
 		return FALSE;
 	}
-	
+
 	$post_id = $_GET[ 'post' ];
 	$post = get_post( $post_id );
 

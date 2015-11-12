@@ -40,13 +40,13 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 
 		$this->settings_fields = array(
 			'recaptcha_sitekey'		=> array(
-				'title'					=> __( 'Google reCAPTCHA Site Key', 'af-locale' ),
-				'description'			=> __( 'The public site key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin">here</a>.', 'af-locale' ),
+				'title'					=> __( 'Site Key', 'af-locale' ),
+				'description'			=> __( 'The public site key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin" target="_blank">here</a>.', 'af-locale' ),
 				'type'					=> 'text',
 			),
 			'recaptcha_secret'		=> array(
-				'title'					=> __( 'Google reCAPTCHA Secret', 'af-locale' ),
-				'description'			=> __( 'The secret key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin">here</a>.', 'af-locale' ),
+				'title'					=> __( 'Secret', 'af-locale' ),
+				'description'			=> __( 'The secret key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin" target="_blank">here</a>.', 'af-locale' ),
 				'type'					=> 'text',
 			),
 		);
