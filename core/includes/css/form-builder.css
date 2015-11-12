@@ -188,7 +188,13 @@
 }
 
 .post-type-af-forms .button-loading {
-    background-image: url('../../../assets/images/loading.gif');
+    background-image: url( '../../../assets/images/loading.gif' );
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    padding-left: 28px;
+}
+.post-type-af-forms .button-loading:hover {
+    background-image: url( '../../../assets/images/loading.gif' );
     background-repeat: no-repeat;
     background-position: 5px 5px;
     padding-left: 28px;

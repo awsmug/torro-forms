@@ -152,7 +152,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				}
 
 				$html .= '<td class="entry-actions">';
-				$html .= '<input type="button" value="' . esc_attr( 'Show Details', 'af-locale' ) . '" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" />';
+				$html .= '<a type="button" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr( 'Show Details', 'af-locale' ) . '</a>';
 				$html .= '</td>';
 
 				$html .= '</tr>';
