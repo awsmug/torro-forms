@@ -406,16 +406,17 @@ abstract class AF_Form_Element
 		$html .= ob_get_clean();
 
 		// Echo Errors
-		if( is_array( $errors ) && count( $errors ) > 0 ):
+		if ( is_array( $errors ) && count( $errors ) > 0 ) {
 			$html .= '<div class="af-element-error">';
 			$html .= '<div class="af-element-error-message">';
 			$html .= '<ul class="af-error-messages">';
-			foreach( $errors AS $error ):
+			foreach ( $errors AS $error ) {
 				$html .= '<li>' . $error . '</li>';
-			endforeach;
-			$html = apply_filters( 'draw_element_errors', $html, $this );
+			}
 			$html .= '</ul></div>';
-		endif;
+
+			$html = apply_filters( 'draw_element_errors', $html, $this );
+		}
 
 		// Fetching user response data
 		$this->get_response();
@@ -430,9 +431,9 @@ abstract class AF_Form_Element
 		}
 
 		// End Echo Errors
-		if( is_array( $errors ) && count( $errors ) > 0 ):
+		if ( is_array( $errors ) && count( $errors ) > 0 ) {
 			$html .= '</div>';
-		endif;
+		}
 
 		ob_start();
 		do_action( 'af_form_element_end', $this->id );
