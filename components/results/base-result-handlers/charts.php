@@ -176,9 +176,11 @@ class AF_Result_Charts extends AF_ResultHandler
 						$answer_id = (int) $column_name_arr[ 2 ];
 						$value = $element->answers[ $answer_id ][ 'text' ];
 
-						if( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) && 'yes' == $result[ $column_name ] )
+						if( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) )
 						{
-							$results_formatted[ $result_key ][ $value ]++;
+							if ( 'yes' == $result[ $column_name ] ) {
+								$results_formatted[ $result_key ][ $value ]++;
+							}
 						}
 						elseif( 'yes' == $result[ $column_name ] )
 						{
