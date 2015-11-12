@@ -69,7 +69,12 @@
  * Settings Disclaimer
  */
 #af-settings .settings-disclaimer{
-    border: 1px solid #CCC;
-    background-color: #FFF;
-    padding: 20px;
+    background-color: #fff;
+    background-image: url("../../../assets/images/logo.png");
+    background-position: 20px 20px;
+    background-repeat: no-repeat;
+    border: 1px solid #ccc;
+    min-height: 80px;
+    padding: 20px 20px 20px 298px;
+    margin-bottom: 15px;
 }
