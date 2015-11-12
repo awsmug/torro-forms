@@ -63,6 +63,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		remove_action( 'wpcf7_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts' );
 	}
 
+
 	/**
 	 * reCAPTCHA meta box
 	 */
@@ -83,50 +84,41 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		$recaptcha_size = get_post_meta( $form_id, 'recaptcha_size', true );
 		$recaptcha_theme = get_post_meta( $form_id, 'recaptcha_theme', true );
 
-		$html = '<div id="form-restrictions-content-recaptcha" class="section general-settings">';
-		$html .= '<table>';
-		$html .= '<tr>';
-		$html .= '<td>';
-		$html .= '<label for="recaptcha_enabled">' . esc_html__( 'Enable Google reCAPTCHA?', 'af-locale' ) . '</label>';
-		$html .= '</td>';
-		$html .= '<td>';
+		$html = '<div id="form-restrictions-content-recaptcha" class="section general-settings recaptcha">';
+
+		$html .= '<h3>' . esc_html__( 'Google reCAPTCHA', 'af-locale' ) . '</h3>';
+
+		$html .= '<div class="option">';
+		$html .= '<label for="recaptcha_enabled">' . esc_html__( 'Enable', 'af-locale' ) . '</label>';
 		$html .= '<input type="checkbox" id="recaptcha_enabled" name="recaptcha_enabled" value="1" ' . checked( $recaptcha_enabled, true, false ) . '/>';
-		$html .= '</td>';
-		$html .= '</tr>';
-		$html .= '<tr>';
-		$html .= '<td>';
-		$html .= '<label for="recaptcha_type">' . esc_html__( 'reCAPTCHA Type', 'af-locale' ) . '</label>';
-		$html .= '</td>';
-		$html .= '<td>';
+		$html .= '</div>';
+
+		$html .= '<div class="option">';
+		$html .= '<label for="recaptcha_type">' . esc_html__( 'Type', 'af-locale' ) . '</label>';
 		$html .= '<select id="recaptcha_type" name="recaptcha_type">';
 		$html .= '<option value="image" ' . selected( $recaptcha_type, 'image', false ) . '>' . esc_html__( 'Image', 'af-locale' ) . '</option>';
 		$html .= '<option value="audio" ' . selected( $recaptcha_type, 'audio', false ) . '>' . esc_html__( 'Audio', 'af-locale' ) . '</option>';
 		$html .= '</select>';
-		$html .= '</td>';
-		$html .= '</tr>';
-		$html .= '<tr>';
-		$html .= '<td>';
-		$html .= '<label for="recaptcha_size">' . esc_html__( 'reCAPTCHA Size', 'af-locale' ) . '</label>';
-		$html .= '</td>';
-		$html .= '<td>';
+		$html .= '</div>';
+
+		$html .= '<div class="option">';
+		$html .= '<label for="recaptcha_size">' . esc_html__( 'Size', 'af-locale' ) . '</label>';
 		$html .= '<select id="recaptcha_size" name="recaptcha_size">';
 		$html .= '<option value="normal" ' . selected( $recaptcha_size, 'normal', false ) . '>' . esc_html__( 'Normal', 'af-locale' ) . '</option>';
 		$html .= '<option value="compact" ' . selected( $recaptcha_size, 'compact', false ) . '>' . esc_html__( 'Compact', 'af-locale' ) . '</option>';
 		$html .= '</select>';
-		$html .= '</td>';
-		$html .= '</tr>';
-		$html .= '<tr>';
-		$html .= '<td>';
-		$html .= '<label for="recaptcha_theme">' . esc_html__( 'reCAPTCHA Theme', 'af-locale' ) . '</label>';
-		$html .= '</td>';
-		$html .= '<td>';
+		$html .= '</div>';
+
+		$html .= '<div class="option">';
+		$html .= '<label for="recaptcha_theme">' . esc_html__( 'Theme', 'af-locale' ) . '</label>';
 		$html .= '<select id="recaptcha_theme" name="recaptcha_theme">';
 		$html .= '<option value="light" ' . selected( $recaptcha_theme, 'light', false ) . '>' . esc_html__( 'Light', 'af-locale' ) . '</option>';
 		$html .= '<option value="dark" ' . selected( $recaptcha_theme, 'dark', false ) . '>' . esc_html__( 'Dark', 'af-locale' ) . '</option>';
 		$html .= '</select>';
-		$html .= '</td>';
-		$html .= '</tr>';
-		$html .= '</table>';
+		$html .= '</div>';
+
+		$html .= '<div style="clear:both"></div>';
+
 		$html .= '</div>';
 
 		echo $html;
