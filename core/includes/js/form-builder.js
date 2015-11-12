@@ -37,6 +37,7 @@
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '#drag-drop-inside',
 			dropped_item_sub: '.formelement',
+			drop_elements_here: '#af-drop-elements-here',
 			delete_element_button: '.delete_form_element',
 			delete_element_dialog: '#delete_formelement_dialog',
 			deleted_elements: '#deleted_formelements',
@@ -112,7 +113,7 @@
 				start: function( event, ui ) {
 					var $element = ui.helper;
 
-					$( '#af-drop-elements-here' ).hide();
+					$( self.selectors.drop_elements_here ).hide();
 					$element.css( 'height', 'auto' ).css( 'width', '100px' );
 				},
 				stop: function( event, ui ) {
@@ -212,6 +213,10 @@
 								$( '#widget_formelement_' + self.current_element_id ).remove();
 
 								self.current_element_id = '';
+
+								if ( $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length < 1 ) {
+									$( self.selectors.drop_elements_here ).show();
+								}
 							}
 
 							$( this ).dialog('close');
