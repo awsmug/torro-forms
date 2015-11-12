@@ -61,25 +61,22 @@ class AF_Restriction_Timerange extends AF_Restriction
 		$start_date = get_post_meta( $form_id, 'start_date', TRUE );
 		$end_date = get_post_meta( $form_id, 'end_date', TRUE );
 
-		$html = '<div id="form-restrictions-content-timerange" class="section general-settings">';
-			$html .= '<table>';
-			$html .= '<tr>';
-			$html .= '<td>';
-			$html .= '<label for="start_date">' . esc_html__( 'Input start:', 'af-locale' ) . '</label>';
-			$html .= '</td>';
-			$html .= '<td>';
-				$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
-			$html .= '</td>';
-			$html .= '</tr>';
-			$html .= '<tr>';
-			$html .= '<td>';
-				$html .= '<label for="end_date">' . esc_html__( 'Input end:', 'af-locale' ) . '</label>';
-			$html .= '</td>';
-			$html .= '<td>';
-				$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
-			$html .= '</td>';
-			$html .= '</tr>';
-			$html .= '</table>';
+		$html = '<div id="form-restrictions-content-timerange" class="section general-settings timerange">';
+
+			$html .= '<h3>' . esc_html__( 'Timerange', 'af-locale' ) . '</h3>';
+
+			$html .= '<div class="option">';
+			$html .= '<label for="start_date">' . esc_html__( 'Date Start:', 'af-locale' ) . '</label>';
+			$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
+			$html .= '</div>';
+
+			$html .= '<div class="option">';
+			$html .= '<label for="end_date">' . esc_html__( 'Date End:', 'af-locale' ) . '</label>';
+			$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
+			$html .= '</div>';
+
+			$html .= '<div style="clear:both"></div>';
+
 		$html .= '</div>';
 
 		echo $html;
