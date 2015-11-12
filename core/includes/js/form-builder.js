@@ -480,6 +480,9 @@
 
 										$( '#af-entries .af-slider-start-content' ).html( response.html );
 
+										$( '#charts .af-chart' ).remove();
+										$( '#charts' ).prepend( response.html );
+
 										$( '#form-functions-notices').html( response_text );
 										$( '#form-functions-notices').show();
 
