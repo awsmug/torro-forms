@@ -121,7 +121,7 @@ class AF_FormProcess
 		$next_step = $actual_step;
 
 		ob_start();
-		do_action( 'af_form_start', $this->form_id, $actual_step );
+		do_action( 'af_form_start', $this->form_id, $actual_step, $step_count );
 		$html .= ob_get_clean();
 
 		if( is_array( $elements ) && count( $elements ) > 0 )
@@ -147,7 +147,7 @@ class AF_FormProcess
 		$html .= $this->get_navigation( $actual_step, $next_step );
 
 		ob_start();
-		do_action( 'af_form_end', $this->form_id, $actual_step );
+		do_action( 'af_form_end', $this->form_id, $actual_step, $step_count );
 		$html .= ob_get_clean();
 
 		$html .= '<input type="hidden" name="af_next_step" value="' . $next_step . '" />';
@@ -219,9 +219,14 @@ class AF_FormProcess
 		{
 			// If actual step is next step, show finish form button
 			ob_start();
-			do_action( 'af_submit_button_before', $this->form_id, $actual_step );
+			do_action( 'af_form_send_button_before', $this->form_id );
 			$html .= ob_get_clean();
+
 			$html .= '<input type="submit" name="af_submission" value="' . __( 'Send', 'af-locale' ) . '">';
+
+			ob_start();
+			do_action( 'af_form_send_button_after', $this->form_id );
+			$html .= ob_get_clean();
 		}
 		else
 		{

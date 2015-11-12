@@ -57,7 +57,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 
-		add_action( 'af_submit_button_before', array( $this, 'draw_placeholder_element' ), 10, 2 );
+		add_action( 'af_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
 
 		add_filter( 'af_response_validation_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
 
@@ -347,7 +347,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 	/**
 	 * Creates the reCAPTCHA placeholder element and optionally prints errors
 	 */
-	public function draw_placeholder_element( $form_id, $actual_step ) {
+	public function draw_placeholder_element( $form_id ) {
 		if ( ! $this->is_enabled( $form_id ) ) {
 			return;
 		}
