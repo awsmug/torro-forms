@@ -275,14 +275,19 @@ class AF_FormProcess
 
 		$_SESSION[ 'af_response' ][ $ar_form_id ] = $merged_response;
 
+		$is_submit = false;
+		if ( (int) $_POST[ 'af_actual_step' ] == (int) $_POST[ 'af_next_step' ] && ! isset( $_POST[ 'af_submission_back' ] ) ) {
+			$is_submit = true;
+		}
+
 		// Validate submitted data if user not has gone backwards
-		if( !array_key_exists( 'af_submission_back', $_POST ) )
-		{
-			$this->validate( $ar_form_id, $_SESSION[ 'af_response' ][ $ar_form_id ], $actual_step );
+		$validation_status = true;
+		if ( ! isset( $_POST[ 'af_submission_back' ] ) ) {
+			$validation_status = $this->validate( $ar_form_id, $_SESSION[ 'af_response' ][ $ar_form_id ], $actual_step, $is_submit );
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
-		if( (int) $_POST[ 'af_actual_step' ] == (int) $_POST[ 'af_next_step' ] && 0 == count( $af_response_errors ) && !isset( $_POST[ 'af_submission_back' ] ) )
+		if( $is_submit && $validation_status && 0 == count( $af_response_errors ) )
 		{
 
 			$form = new AF_Form( $ar_form_id );
@@ -309,60 +314,52 @@ class AF_FormProcess
 	 * @param int   $form_id
 	 * @param array $response
 	 * @param int   $step
+	 * @param bool  $is_submit
 	 *
 	 * @return boolean $validated
 	 * @since 1.0.0
 	 */
-	public function validate( $form_id, $response, $step )
+	public function validate( $form_id, $response, $step, $is_submit )
 	{
 		global $af_response_errors;
 
 		$elements = $this->form->get_step_elements( $step );
-		if( !is_array( $elements ) && count( $elements ) == 0 )
-		{
+		if ( ! is_array( $elements ) || count( $elements ) == 0 ) {
 			return;
 		}
 
 		$af_response_errors = array();
 
-		// Running true all elements
-		foreach( $elements AS $element ):
-			if( $element->splits_form )
-			{
+		// Running through all elements
+		foreach ( $elements AS $element ) {
+			if ( $element->splits_form ) {
 				continue;
 			}
 
 			$answer = '';
-			if( array_key_exists( $element->id, $response ) )
-			{
+			if ( array_key_exists( $element->id, $response ) ) {
 				$answer = $response[ $element->id ];
 			}
 
-			if( !$element->validate( $answer ) ):
+			if ( ! $element->validate( $answer ) ) {
 
-				if( empty( $af_response_errors[ $element->id ] ) )
-				{
-					$af_response_errors[ $element->id ] = array();
+				if ( count( $element->validate_errors ) > 0 ) {
+					if ( empty( $af_response_errors[ $element->id ] ) ) {
+						$af_response_errors[ $element->id ] = array();
+					}
+
+					// Getting every error of element back
+					foreach ( $element->validate_errors AS $error ) {
+						$af_response_errors[ $element->id ][] = $error;
+					}
 				}
 
-				// Getting every error of element back
-				foreach( $element->validate_errors AS $error ):
-					$af_response_errors[ $element->id ][] = $error;
-				endforeach;
+			}
+		}
 
-			endif;
-		endforeach;
+		$validation_status = count( $af_response_errors ) > 0 ? false : true;
 
-		if( is_array( $af_response_errors ) && array_key_exists( $element->id, $af_response_errors ) ):
-			// @todo One Element at the end ???
-			if( is_array( $af_response_errors[ $element->id ] ) && count( $af_response_errors[ $element->id ] ) == 0 ):
-				return TRUE;
-			else:
-				return FALSE;
-			endif;
-		else:
-			return TRUE;
-		endif;
+		return apply_filters( 'af_response_validation_status', $validation_status, $form_id, $af_response_errors, $step, $is_submit );
 	}
 }
 
