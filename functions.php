@@ -69,7 +69,8 @@ endif;
  */
 function af_is_formbuilder()
 {
-	if( is_admin() && af_is_form() )
+	// if( is_admin() && af_is_form() )
+	if( is_admin() )
 	{
 		return TRUE;
 	}
