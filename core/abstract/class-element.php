@@ -495,7 +495,7 @@ abstract class AF_Form_Element
 		 */
 		if( NULL == $this->id )
 		{
-			$html = '<div id="' . $id_name . '" data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
+			$html = '<div data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
 		}
 		else
 		{
