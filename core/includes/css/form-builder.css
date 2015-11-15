@@ -29,6 +29,10 @@
     padding: 15px;
 }
 
+#form-elements .widget-title-action {
+	display: none;
+}
+
 /**
  * Element
  */
