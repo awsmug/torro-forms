@@ -130,7 +130,6 @@ class AF_Form_Results
 		$params = array(
 			'view_name' => $view_name,
 			'element_ids' => $filter[ 'element_ids' ],
-			'column_name' => $filter[ 'column_name' ]
 		);
 
 		if( TRUE == $filter[ 'refresh_view' ])
@@ -241,6 +240,32 @@ class AF_Form_Results
 			return FALSE;
 		}
 
+		switch ( $filter[ 'column_name' ] )
+		{
+			case 'label':
+				foreach( $results AS $result_key => $result )
+				{
+					foreach( $result AS $column_name => $column )
+					{
+						$column_arr = explode( '_', $column_name );
+
+						if( array_key_exists( 0, $column_arr ) && 'element' == $column_arr[ 0 ] )
+						{
+							$element_id = $column_arr[ 1 ];
+							$element = af_get_element( $element_id );
+
+							$column_name_new = $element->label;
+
+							$value = $results[ $result_key ][ $column_name ];
+							unset( $results[ $result_key ][ $column_name ] );
+							$results[ $result_key ][ $column_name_new ] = $value;
+						}
+					}
+				}
+
+				break;
+		}
+
 		$this->num_rows = $wpdb->num_rows;
 
 		return $results;
@@ -274,7 +299,6 @@ class AF_Form_Results
 		$params = wp_parse_args( $params, array(
 			'view_name'   => "{$wpdb->prefix}af_results_{$this->form_id}_view",
 			'element_ids' => NULL,
-			'column_name' => 'element_id', // label, element_id
 		) );
 
 		/**
@@ -316,15 +340,7 @@ class AF_Form_Results
 				continue;
 			}
 
-			switch ( $params[ 'column_name' ] )
-			{
-				case 'element_id':
-					$column_name = 'element_' . $element->id;
-					break;
-				default:
-					$column_name = $element->label;
-					break;
-			}
+			$column_name = 'element_' . $element->id;
 
 			if( !$element_obj->answer_is_multiple )
 			{
@@ -353,34 +369,22 @@ class AF_Form_Results
 				foreach( $element_obj->answers AS $answer )
 				{
 					$answer = (object) $answer;
+					$column_name = 'element_' . $element->id . '_' . $answer->id;
 
-					switch ( $params[ 'column_name' ] )
+					// Preventing double assigned Column title
+					if( array_key_exists( $column_name, $column_titles_assigned ) )
 					{
-						case 'element_id':
-							$column_name = 'element_' . $element->id . '_' . $answer->id;
-							break;
-						default:
-							$column_name = $element->label . ' - ' . $answer->text;
-							break;
+						$column_titles_assigned[ $column_name ]++;
+						$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
+					}
+					else
+					{
+						$column_titles_assigned[ $column_name ] = 1;
+						$column_name = $column_name;
 					}
 
-					if( '' != $column_name )
-					{
-						// Preventing double assigned Column title
-						if( array_key_exists( $column_name, $column_titles_assigned ) )
-						{
-							$column_titles_assigned[ $column_name ]++;
-							$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
-						}
-						else
-						{
-							$column_titles_assigned[ $column_name ] = 1;
-							$column_name = $column_name;
-						}
-
-						$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
-						$column_titles[ $column_index++ ] = $column_name;
-					}
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
+					$column_titles[ $column_index++ ] = $column_name;
 				}
 			}
 		}
