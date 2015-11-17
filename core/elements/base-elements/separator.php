@@ -41,6 +41,7 @@ class AF_Form_Element_Separator extends AF_Form_Element
 		$this->icon_url = AF_URLPATH . 'assets/images/icon-separator.png';
 
 		$this->has_content = FALSE;
+		$this->is_answerable = FALSE;
 	}
 
 	public function input_html()

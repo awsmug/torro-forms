@@ -109,6 +109,14 @@ abstract class AF_Form_Element
 	 * @todo  has_answers: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
+	var $is_answerable = TRUE;
+
+	/**
+	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
+	 *
+	 * @todo  has_answers: Is this a self spelling name?
+	 * @since 1.0.0
+	 */
 	var $has_answers = FALSE;
 
 	/**

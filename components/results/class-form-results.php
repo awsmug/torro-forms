@@ -311,6 +311,11 @@ class AF_Form_Results
 				continue;
 			}
 
+			if( !$element_obj->is_answerable )
+			{
+				continue;
+			}
+
 			switch ( $params[ 'column_name' ] )
 			{
 				case 'element_id':

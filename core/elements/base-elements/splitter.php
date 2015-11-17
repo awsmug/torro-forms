@@ -42,6 +42,7 @@ class AF_Form_Element_Splitter extends AF_Form_Element
 
 		$this->has_content = FALSE;
 		$this->splits_form = TRUE;
+		$this->is_answerable = FALSE;
 	}
 }
 
