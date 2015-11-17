@@ -267,12 +267,10 @@ class AF_ResultsEntries extends AF_ResultHandler
 
 		$filter = array(
 			'result_ids' => array( $result_id ),
-			'column_name' => 'label'
 		);
 
 		$form_results = new AF_Form_Results( $form_id );
 		$results = $form_results->results( $filter );
-
 
 		if( $form_results->count() > 0 )
 		{
@@ -327,19 +325,30 @@ class AF_ResultsEntries extends AF_ResultHandler
 
 						default:
 
-							if( 'yes' == $value )
-							{
-								$value = esc_attr__( 'Yes', 'af-locale' );
-							}
-							if( 'no' == $value )
-							{
-								$value = esc_attr__( 'No', 'af-locale' );
-							}
+							$column_arr = explode( '_', $column_name );
 
-							$html .= '<tr>';
-							$html .= '<td>' . $column_name . '</td>';
-							$html .= '<td>' . $value . '</td>';
-							$html .= '</tr>';
+							// On Elements
+							if( array_key_exists( 0, $column_arr ) && 'element' == $column_arr[ 0 ] )
+							{
+								$element_id = $column_arr[ 1 ];
+								$element = af_get_element( $element_id );
+
+								$column_name = $element->label;
+
+								if( 'yes' == $value )
+								{
+									$value = esc_attr__( 'Yes', 'af-locale' );
+								}
+								if( 'no' == $value )
+								{
+									$value = esc_attr__( 'No', 'af-locale' );
+								}
+
+								$html .= '<tr>';
+								$html .= '<td>' . $column_name . '</td>';
+								$html .= '<td>' . $value . '</td>';
+								$html .= '</tr>';
+							}
 
 							break;
 					}
@@ -351,18 +360,18 @@ class AF_ResultsEntries extends AF_ResultHandler
 				$html .= '</tr>';
 				$html .= '</tfoot>';
 				$html .= '</table>';
-
-				$html .= '<div id="af-entry-buttons">';
-				$html .= '<input type="button" class="button af-hide-entry" value="' . esc_attr__( 'Back to Results', 'af-locale' ) . '">';
-				$html .= '</div>';
-
-				echo $html;
 			}
 		}
 		else
 		{
-			echo esc_attr__( 'Entry not found.', 'af-locale' );
+			$html =  esc_attr__( 'Entry not found.', 'af-locale' );
 		}
+
+		$html .= '<div id="af-entry-buttons">';
+		$html .= '<input type="button" class="button af-hide-entry" value="' . esc_attr__( 'Back to Results', 'af-locale' ) . '">';
+		$html .= '</div>';
+
+		echo $html;
 
 		exit;
 	}
