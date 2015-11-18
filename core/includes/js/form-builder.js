@@ -127,6 +127,7 @@
 
 					// Replacing name
 					$element.attr( 'id', id );
+					$element.attr( 'data-element-id', id );
 					$element.html( $element.html().replace( /XXnrXX/g, nr ) );
 
 					var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
@@ -134,6 +135,15 @@
 
 					$( self.selectors.droppable_area ).trigger( 'elementDropped', {
 						element: $element
+					});
+
+					$( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
+						var element_id = $( this ).attr('data-element-id') ;
+						var index = $( this ).index();
+
+						console.log( 'Element: ' + element_id + ' Index: ' + index );
+
+						$( 'input[name="elements\[' + element_id +'\]\[sort\]"]' ).val( index ) ;
 					});
 
 					if ( $element.data( 'element-type' ) ) {
@@ -158,20 +168,13 @@
 
 			// init droppable
 			$( this.selectors.droppable_area ).droppable({
-				accept: this.selectors.draggable_item,
-				drop: function( event, ui ) {
-
-				}
+				accept: this.selectors.draggable_item
 			}).sortable({
 				placeholder: 'form-element-placeholder',
 				items: this.selectors.dropped_item_sub,
-				receive: function( event, ui ) {
-
-				},
 				update: function( event, ui ) {
-					var order = [];
 					$( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
-						var element_id = $( this ).attr('id') ;
+						var element_id = $( this ).attr('data-element-id') ;
 						var index = $( this ).index();
 
 						$( 'input[name="elements\[' + element_id +'\]\[sort\]"]' ).val( index ) ;

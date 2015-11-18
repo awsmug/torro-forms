@@ -503,11 +503,11 @@ abstract class AF_Form_Element
 		 */
 		if( NULL == $this->id )
 		{
-			$html = '<div data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
+			$html = '<div data-element-id="' . $id_name . '" data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
 		}
 		else
 		{
-			$html = '<div id="' . $id_name . '" data-element-type="' . $this->name . '" class="widget formelement formelement-' . $this->name . '">';
+			$html = '<div data-element-id="' . $id_name . '" id="' . $id_name . '" data-element-type="' . $this->name . '" class="widget formelement formelement-' . $this->name . '">';
 		}
 
 		/**
