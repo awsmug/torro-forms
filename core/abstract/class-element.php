@@ -513,7 +513,6 @@ abstract class AF_Form_Element
 		/**
 		 * Widget head
 		 */
-
 		$title = '' == $this->label ? $this->title : $this->label;
 		$title = strip_tags( $title );
 
@@ -950,6 +949,16 @@ abstract class AF_Form_Element
 		$input_name = 'af_response\\\[' . $this->id . '\\\]';
 
 		return $input_name;
+	}
+
+	/**
+	 * Function for adding own columns to result
+	 *
+	 * @param obj Result object
+	 */
+	public function add_result_columns( &$result_object )
+	{
+		return FALSE;
 	}
 
 	/**

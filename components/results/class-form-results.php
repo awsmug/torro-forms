@@ -340,9 +340,14 @@ class AF_Form_Results
 				continue;
 			}
 
+			if( FALSE !== $element_obj->add_result_columns( $this ) )
+			{
+				continue;
+			}
+
 			$column_name = 'element_' . $element->id;
 
-			if( !$element_obj->answer_is_multiple )
+			if( !$element_obj->answer_is_multiple && 0 == count( $element_obj->sections ) )
 			{
 				if( '' != $column_name )
 				{
@@ -364,8 +369,6 @@ class AF_Form_Results
 			}
 			else
 			{
-				$i = 0;
-
 				foreach( $element_obj->answers AS $answer )
 				{
 					$answer = (object) $answer;
