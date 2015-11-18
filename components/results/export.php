@@ -71,7 +71,7 @@ class AF_Export
 		}
 		else
 		{
-			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=af-forms&export=xls&form_id=' . $post->ID, '?post_type=af-forms&export=csv&form_id=' . $post->ID );
+			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=af-forms&af_export=xls&form_id=' . $post->ID, '?post_type=af-forms&export=csv&form_id=' . $post->ID );
 		}
 
 		return $actions;
@@ -84,9 +84,9 @@ class AF_Export
 	 */
 	function export()
 	{
-		if( array_key_exists( 'export', $_GET ) && is_array( $_GET ) )
+		if( array_key_exists( 'af_export', $_GET ) && is_array( $_GET ) )
 		{
-			$export_type = $_GET[ 'export' ];
+			$export_type = $_GET[ 'af_export' ];
 			$form_id = $_GET[ 'form_id' ];
 
 			$form = new AF_Form( $form_id );

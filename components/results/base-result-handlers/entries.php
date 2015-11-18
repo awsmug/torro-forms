@@ -123,7 +123,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				}
 			}
 
-			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'af-locale' ), admin_url( 'edit.php' ) . '?post_type=af-forms&export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=af-forms&export=csv&form_id=' . $form_id ) . '</th>';
+			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'af-locale' ), admin_url( 'edit.php' ) . '?post_type=af-forms&af_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=af-forms&export=csv&form_id=' . $form_id ) . '</th>';
 			$html .= '</tr>';
 			$html .= '</thead>';
 
