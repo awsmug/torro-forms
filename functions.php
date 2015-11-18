@@ -69,8 +69,7 @@ endif;
  */
 function af_is_formbuilder()
 {
-	// if( is_admin() && af_is_form() )
-	if( is_admin() )
+	if( is_admin() && af_is_form() )
 	{
 		return TRUE;
 	}
@@ -100,20 +99,22 @@ function af_is_settingspage()
  */
 function af_is_form()
 {
-	if( empty( $_GET[ 'post' ] ) || empty( $_GET[ 'action' ] )  )
+	if( !empty( $_GET[ 'post' ] )  )
 	{
-		return FALSE;
+		$post = get_post( $_GET[ 'post' ] );
+
+		if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'af-forms' == $post->post_type )
+		{
+			return TRUE;
+		}
 	}
 
-	$post_id = $_GET[ 'post' ];
-	$post = get_post( $post_id );
-
-	if( !is_object( $post ) || get_class( $post ) != 'WP_Post' || 'af-forms' != $post->post_type )
+	if( !empty( $_GET[ 'post_type' ] ) && 'af-forms' == $_GET[ 'post_type' ] )
 	{
-		return FALSE;
+		return TRUE;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 function af_clipboard_field( $label, $content )
