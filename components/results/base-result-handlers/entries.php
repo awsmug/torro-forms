@@ -333,7 +333,12 @@ class AF_ResultsEntries extends AF_ResultHandler
 								$element_id = $column_arr[ 1 ];
 								$element = af_get_element( $element_id );
 
-								$column_name = $element->label;
+								$column_name = $element->replace_column_name( $column_name );
+
+								if( FALSE == $column_name )
+								{
+									$column_name = $element->label;
+								}
 
 								if( 'yes' == $value )
 								{
