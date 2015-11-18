@@ -513,7 +513,8 @@ abstract class AF_Form_Element
 		/**
 		 * Widget head
 		 */
-		$title = '' === $this->label ? $this->title : $this->label;
+
+		$title = '' == $this->label ? $this->title : $this->label;
 		$title = strip_tags( $title );
 
 		if( strlen( $title ) > 120 )
