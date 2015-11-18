@@ -116,7 +116,12 @@ abstract class AF_Component
 	 */
 	public static function instance()
 	{
-		$class = get_called_class();
+		if ( function_exists( 'get_called_class' ) ) {
+			$class = get_called_class();
+		} else {
+			$class = self::php52_get_called_class();
+		}
+
 		if( !isset( self::$_instances[ $class ] ) )
 		{
 			self::$_instances[ $class ] = new $class();
@@ -124,6 +129,36 @@ abstract class AF_Component
 		}
 
 		return self::$_instances[ $class ];
+	}
+
+	/**
+	 * PHP 5.2 variant of `get_called_class()`
+	 *
+	 * Really ugly, but PHP 5.2 does not support late static binding.
+	 * Using `debug_backtrace()` is the only way.
+	 *
+	 * This function must exist in every class that should use `get_called_class()`.
+	 *
+	 * @since 1.0.0
+	 */
+	private static function php52_get_called_class() {
+		$arr = array();
+		$arr_traces = debug_backtrace();
+		foreach ( $arr_traces as $arr_trace ) {
+			$class_name = '';
+			if ( isset( $arr_trace['class'] ) ) {
+				$class_name = $arr_trace['class'];
+			} elseif ( isset( $arr_trace['function'] ) && isset( $arr_trace['args'] ) && isset( $arr_trace['args'][0] ) && is_array( $arr_trace['args'][0] ) ) {
+				if ( 'call_user_func' == $arr_trace['function'] && 'instance' == $arr_trace['args'][0][1] && is_string( $arr_trace['args'][0][0] ) ) {
+					$class_name = $arr_trace['args'][0][0];
+				}
+			}
+
+			if ( $class_name && 0 == count( $arr ) || get_parent_class( $class_name ) == end( $arr ) ) {
+				$arr[] = $class_name;
+			}
+		}
+		return end( $arr );
 	}
 
 	/**
@@ -141,10 +176,8 @@ abstract class AF_Component
 			return;
 		}
 
-		$class = get_called_class();
-		if( TRUE == self::$_instances[ $class ]->check_requirements() )
-		{
-			self::$_instances[ $class ]->base_init();
+		if ( true == $this->check_requirements() ) {
+			$this->base_init();
 			$this->settings = af_get_settings( $this->name );
 		}
 	}
@@ -231,7 +264,7 @@ function af_register_component( $component_class )
 {
 	if( class_exists( $component_class ) )
 	{
-		return $component_class::instance();
+		return call_user_func( array( $component_class, 'instance' ) );
 	}
 
 	return FALSE;
