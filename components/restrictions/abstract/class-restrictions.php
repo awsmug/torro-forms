@@ -115,7 +115,11 @@ abstract class AF_Restriction
 	 */
 	public static function instance()
 	{
-		$class = get_called_class();
+		if ( function_exists( 'get_called_class' ) ) {
+			$class = get_called_class();
+		} else {
+			$class = self::php52_get_called_class();
+		}
 
 		if( !isset( self::$_instances[ $class ] ) )
 		{
@@ -124,6 +128,36 @@ abstract class AF_Restriction
 		}
 
 		return self::$_instances[ $class ];
+	}
+
+	/**
+	 * PHP 5.2 variant of `get_called_class()`
+	 *
+	 * Really ugly, but PHP 5.2 does not support late static binding.
+	 * Using `debug_backtrace()` is the only way.
+	 *
+	 * This function must exist in every class that should use `get_called_class()`.
+	 *
+	 * @since 1.0.0
+	 */
+	private static function php52_get_called_class() {
+		$arr = array();
+		$arr_traces = debug_backtrace();
+		foreach ( $arr_traces as $arr_trace ) {
+			$class_name = '';
+			if ( isset( $arr_trace['class'] ) ) {
+				$class_name = $arr_trace['class'];
+			} elseif ( isset( $arr_trace['function'] ) && isset( $arr_trace['args'] ) && isset( $arr_trace['args'][0] ) && is_array( $arr_trace['args'][0] ) ) {
+				if ( 'call_user_func' == $arr_trace['function'] && 'instance' == $arr_trace['args'][0][1] && is_string( $arr_trace['args'][0][0] ) ) {
+					$class_name = $arr_trace['args'][0][0];
+				}
+			}
+
+			if ( $class_name && 0 == count( $arr ) || get_parent_class( $class_name ) == end( $arr ) ) {
+				$arr[] = $class_name;
+			}
+		}
+		return end( $arr );
 	}
 
 	/**
@@ -283,7 +317,7 @@ function af_register_restriction( $restriction_class )
 {
 	if( class_exists( $restriction_class ) )
 	{
-		return $restriction_class::instance();
+		return call_user_func( array( $restriction_class, 'instance' ) );
 	}
 
 	return FALSE;
