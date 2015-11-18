@@ -954,9 +954,19 @@ abstract class AF_Form_Element
 	/**
 	 * Function for adding own columns to result
 	 *
-	 * @param obj Result object
+	 * @param obj $result_object
 	 */
 	public function add_result_columns( &$result_object )
+	{
+		return FALSE;
+	}
+
+	/**
+	 * Replacing column name by element
+	 *
+	 * @param str $column_name
+	 */
+	public function replace_column_name( $column_name )
 	{
 		return FALSE;
 	}

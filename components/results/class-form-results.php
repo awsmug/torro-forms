@@ -254,7 +254,16 @@ class AF_Form_Results
 							$element_id = $column_arr[ 1 ];
 							$element = af_get_element( $element_id );
 
-							$column_name_new = $element->label;
+							$column_name_new = $element->replace_column_name( $column_name );
+
+							if( FALSE == $column_name_new )
+							{
+								$column_name_new = $element->label;
+							}
+							else
+							{
+								$column_name_new = $element->label . ' - ' . $column_name_new;
+							}
 
 							$value = $results[ $result_key ][ $column_name ];
 							unset( $results[ $result_key ][ $column_name ] );

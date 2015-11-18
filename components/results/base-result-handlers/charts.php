@@ -91,13 +91,29 @@ class AF_Result_Charts extends AF_ResultHandler
 					continue;
 				}
 
+				if( count( $element->sections ) > 0 )
+				{
+					$label = $element->label;
+
+					$column_name = $element->replace_column_name( $headline );
+
+					if( FALSE != $column_name )
+					{
+						$label .= ' - ' . $element->replace_column_name( $headline );
+					}
+				}
+				else
+				{
+					$label = $element->label;
+				}
+
 				$html .= '<div class="af-chart">';
 				$html .= '<div class="af-chart-diagram">';
 
 				$chart_creator = 'AF_Chart_Creator_C3';
 				$chart_creator = new $chart_creator();
 				$chart_type = 'bars';
-				$html .= $chart_creator->$chart_type( $element->label, $element_result );
+				$html .= $chart_creator->$chart_type( $label, $element_result );
 
 				$html .= '</div>';
 
@@ -153,58 +169,73 @@ class AF_Result_Charts extends AF_ResultHandler
 			$column_name_arr = explode( '_', $column_name );
 			$element_type = $column_name_arr[ 0 ];
 
-			// Running all Elements
-			if( 'element' == $element_type )
+			// Missing columns without element data
+			if( 'element' != $element_type )
 			{
-				$element_id = (int) $column_name_arr[ 1 ];
-				$element = af_get_element( $element_id );
+				continue;
+			}
 
+			$element_id = (int) $column_name_arr[ 1 ];
+			$element = af_get_element( $element_id );
+
+			if( count( $element->sections ) > 0 )
+			{
+				$result_key = 'element_' . $element_id . '_' . $column_name_arr[ 2 ];
+			}
+			else
+			{
 				$result_key = 'element_' . $element_id;
+			}
 
-				// Collecting Data from all Resultsets
-				foreach( $results AS $result )
+			// Collecting Data from all Resultsets
+			foreach( $results AS $result )
+			{
+				// Skip collecting Data if there is no analyzable Data
+				if( !$element->is_analyzable )
 				{
-					// Skip collecting Data if there is no analyzable Data
-					if( !$element->has_answers )
+					continue;
+				}
+
+				// Counting different kind of Elements
+				if( $element->answer_is_multiple )
+				{
+					$answer_id = (int) $column_name_arr[ 2 ];
+
+					$value = $element->replace_column_name( $column_name );
+
+					if( FALSE == $value )
 					{
-						continue;
+						$value = $element->answers[ $answer_id ][ 'text' ];
 					}
 
-					// Counting different kind of Elements
-					if( $element->answer_is_multiple )
+					if( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) )
 					{
-						$answer_id = (int) $column_name_arr[ 2 ];
-						$value = $element->answers[ $answer_id ][ 'text' ];
-
-						if( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) )
-						{
-							if ( 'yes' == $result[ $column_name ] ) {
-								$results_formatted[ $result_key ][ $value ]++;
-							}
+						if ( 'yes' == $result[ $column_name ] ) {
+							$results_formatted[ $result_key ][ $value ]++;
 						}
-						elseif( 'yes' == $result[ $column_name ] )
-						{
-							$results_formatted[ $result_key ][ $value ] = 1;
-						}
-						else
-						{
-							$results_formatted[ $result_key ][ $value ] = 0;
-						}
+					}
+					elseif( 'yes' == $result[ $column_name ] )
+					{
+						$results_formatted[ $result_key ][ $value ] = 1;
 					}
 					else
 					{
-						// Setting up all answers to 0 to have also Zero values
-						foreach( $element->answers AS $element_answers )
-						{
-							if( !isset( $results_formatted[ $result_key ][ $element_answers[ 'text' ] ] ) )
-							{
-								$results_formatted[ $result_key ][ $element_answers[ 'text' ] ] = 0;
-							}
-						}
-
-						$value = $result[ $column_name ];
-						$results_formatted[ $result_key ][ $value ]++;
+						$results_formatted[ $result_key ][ $value ] = 0;
 					}
+				}
+				else
+				{
+					// Setting up all answers to 0 to have also Zero values
+					foreach( $element->answers AS $element_answers )
+					{
+						if( !isset( $results_formatted[ $result_key ][ $element_answers[ 'text' ] ] ) )
+						{
+							$results_formatted[ $result_key ][ $element_answers[ 'text' ] ] = 0;
+						}
+					}
+
+					$value = $result[ $column_name ];
+					$results_formatted[ $result_key ][ $value ]++;
 				}
 			}
 		}
