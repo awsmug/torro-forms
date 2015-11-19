@@ -111,7 +111,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 							$headline_title = esc_attr( 'ID', 'af_locale' );
 							break;
 						case 'user_id':
-							$headline_title = esc_attr( 'User ID', 'af_locale' );
+							$headline_title = esc_attr( 'User', 'af_locale' );
 							break;
 						case 'timestamp':
 							$headline_title = esc_attr( 'Date', 'af_locale' );
@@ -141,6 +141,12 @@ class AF_ResultsEntries extends AF_ResultHandler
 							case 'timestamp':
 								$content = date_i18n( $date_format, $result[ $headline ] );
 								break;
+
+							case 'user_id':
+								$user = get_user_by( 'id', $result[ $headline ] );
+								$content = $user->display_name;
+								break;
+
 							default:
 								$content = $result[ $headline ];
 						}
