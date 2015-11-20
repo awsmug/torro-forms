@@ -102,7 +102,25 @@ class AF_Init
 	 */
 	public static function load_textdomain()
 	{
-		load_plugin_textdomain( 'af-locale', FALSE, AF_RELATIVE_FOLDER . '/languages' );
+		$domain = 'af-locale';
+
+		$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'af_locale', get_locale() ) );
+
+		$locations = apply_filters( 'af_locale_locations', array(
+				trailingslashit( WP_LANG_DIR . '/' . $domain  ),
+				trailingslashit( WP_LANG_DIR ),
+				trailingslashit( AF_FOLDER ) . 'languages/',
+
+		) );
+
+		// Try custom locations in WP_LANG_DIR.
+		foreach ( $locations as $location )
+		{
+			if ( load_textdomain( $domain, $location . $mofile_custom ) )
+			{
+				return true;
+			}
+		}
 	}
 
 	/**
