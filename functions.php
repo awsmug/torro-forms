@@ -34,7 +34,8 @@ if( !defined( 'ABSPATH' ) )
  *
  * @since 1.0.0
  */
-if( defined( 'AF_FOLDER' ) ):
+if( defined( 'AF_FOLDER' ) )
+{
 	function af_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
 	{
 
@@ -60,7 +61,7 @@ if( defined( 'AF_FOLDER' ) ):
 
 		return $located;
 	}
-endif;
+}
 
 /**
  * Checks if we are a Awesome Forms post type in admin
@@ -340,9 +341,10 @@ function af_create_log_entry( $values )
 
 	$line = date( 'Y-m-d;H:i:s;' );
 
-	foreach( $values AS $value ):
+	foreach( $values AS $value )
+	{
 		$line .= $value . ';';
-	endforeach;
+	}
 
 	$line = str_replace( array(
 		                     "\r\n",
