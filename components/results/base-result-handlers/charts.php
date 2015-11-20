@@ -132,7 +132,7 @@ class AF_Result_Charts extends AF_ResultHandler
 
 		if( 0 == $count_charts || 0 == $form_results->count() )
 		{
-			$html .= '<p class="not-found-area">' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
+			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'af-locale' ) . '</p>';
 		}
 
 		$html .= '<div id="af-result-charts-bottom">';

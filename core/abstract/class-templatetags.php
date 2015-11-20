@@ -228,7 +228,7 @@ function af_template_tag_button( $input_name )
 	$collections = af_get_templatetag_collections();
 
 	$html = '<div class="af-templatetag-button">';
-	$html .= '<input type="button" value="' . esc_attr( '+', 'af-locale' ) . '" class="button" rel="' . $input_name . '" />';
+	$html .= '<input type="button" value="' . esc_attr__( '+', 'af-locale' ) . '" class="button" rel="' . $input_name . '" />';
 	$html .= '<div class="af-templatetag-list">';
 
 	foreach( $collections AS $collection_name => $collection )

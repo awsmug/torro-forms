@@ -75,7 +75,7 @@ class AF_ChartsShortCodes
 
 		if( '' == $form_id || !af_form_exists( $form_id ) )
 		{
-			return esc_attr( 'Please enter a valid form id into the shortcode!', 'af-locale' );
+			return esc_attr__( 'Please enter a valid form id into the shortcode!', 'af-locale' );
 		}
 
 		$form_results = new AF_Form_Results( $form_id );
@@ -141,7 +141,7 @@ class AF_ChartsShortCodes
 
 		if( NULL === $element )
 		{
-			return esc_attr( 'Please enter a valid element id into the shortcode!', 'af-locale' );
+			return esc_attr__( 'Please enter a valid element id into the shortcode!', 'af-locale' );
 		}
 
 		$form_results = new AF_Form_Results( $element->form_id );

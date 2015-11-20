@@ -233,7 +233,7 @@ abstract class AF_Restriction
 		$headline = array(
 			'headline' => array(
 				'title'       => $this->title,
-				'description' => sprintf( esc_attr( 'Setup the "%s" Restriction.', 'af-locale' ), $this->title ),
+				'description' => sprintf( esc_attr__( 'Setup the "%s" Restriction.', 'af-locale' ), $this->title ),
 				'type'        => 'disclaimer'
 			)
 		);

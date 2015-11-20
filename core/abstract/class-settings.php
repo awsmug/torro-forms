@@ -114,7 +114,7 @@ abstract class AF_Settings
 				// Adding General settings Page
 				$sub_settings = array(
 					'general' => array(
-						'title'    => esc_attr( 'General', 'af-locale' ),
+						'title'    => esc_attr__( 'General', 'af-locale' ),
 						'settings' => $this->settings
 					)
 				);
@@ -186,7 +186,7 @@ abstract class AF_Settings
 		{
 			$sub_settings = array(
 				'general' => array(
-					'title'    => esc_attr( 'General', 'af-locale' ),
+					'title'    => esc_attr__( 'General', 'af-locale' ),
 					'settings' => $this->settings
 				)
 			);

@@ -56,47 +56,47 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$this->settings_fields = array(
 			'invitations'        => array(
-				'title'       => esc_attr( 'Invitation Mail Template', 'af-locale' ),
-				'description' => esc_attr( 'Setup Mail Templates for the Invitation Mail for selected Members.', 'af-locale' ),
+				'title'       => esc_attr__( 'Invitation Mail Template', 'af-locale' ),
+				'description' => esc_attr__( 'Setup Mail Templates for the Invitation Mail for selected Members.', 'af-locale' ),
 				'type'        => 'title'
 			),
 			'invite_from_name'   => array(
-				'title'       => esc_attr( 'From Name', 'af-locale' ),
-				'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Name', 'af-locale' ),
+				'description' => esc_attr__( 'The Mail Sender Name.', 'af-locale' ),
 				'type'        => 'text',
 				'default'     => get_bloginfo( 'name' )
 			),
 			'invite_from'        => array(
-				'title'       => esc_attr( 'From Email', 'af-locale' ),
-				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Email', 'af-locale' ),
+				'description' => esc_attr__( 'The Mail Sender Email.', 'af-locale' ),
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),
 			'invite_text'        => array(
-				'title'       => esc_attr( 'Email Text', 'af-locale' ),
-				'description' => esc_attr( 'The Text of the Mail.', 'af-locale' ),
+				'title'       => esc_attr__( 'Email Text', 'af-locale' ),
+				'description' => esc_attr__( 'The Text of the Mail.', 'af-locale' ),
 				'type'        => 'textarea'
 			),
 			'reinvitations'      => array(
-				'title'       => esc_attr( 'Reinvitation Mail Template', 'af-locale' ),
-				'description' => esc_attr( 'Setup Mail Templates for the Reinvitation Mail for selected Members.', 'af-locale' ),
+				'title'       => esc_attr__( 'Reinvitation Mail Template', 'af-locale' ),
+				'description' => esc_attr__( 'Setup Mail Templates for the Reinvitation Mail for selected Members.', 'af-locale' ),
 				'type'        => 'title'
 			),
 			'reinvite_from_name' => array(
-				'title'       => esc_attr( 'From Name', 'af-locale' ),
-				'description' => esc_attr( 'The Mail Sender Name.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Name', 'af-locale' ),
+				'description' => esc_attr__( 'The Mail Sender Name.', 'af-locale' ),
 				'type'        => 'text',
 				'default'     => get_bloginfo( 'name' )
 			),
 			'reinvite_from'      => array(
-				'title'       => esc_attr( 'From Email', 'af-locale' ),
-				'description' => esc_attr( 'The Mail Sender Email.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Email', 'af-locale' ),
+				'description' => esc_attr__( 'The Mail Sender Email.', 'af-locale' ),
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),
 			'reinvite_text'      => array(
-				'title'       => esc_attr( 'Email Text', 'af-locale' ),
-				'description' => esc_attr( 'The Text of the Mail.', 'af-locale' ),
+				'title'       => esc_attr__( 'Email Text', 'af-locale' ),
+				'description' => esc_attr__( 'The Text of the Mail.', 'af-locale' ),
 				'type'        => 'textarea'
 			)
 		);
@@ -313,7 +313,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$form_id = $post->ID;
 
 		$html = '<div id="form-selectedmembers-userfilter">';
-		$html .= '<h3>' . esc_attr( 'Restrict Members', 'af-locale' ) . '</h3>';
+		$html .= '<h3>' . esc_attr__( 'Restrict Members', 'af-locale' ) . '</h3>';
 
 		/**
 		 * Check User
@@ -323,7 +323,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		$html .= '<div class="form-restrictions-same-users-userfilter">';
 		$html .= '<input type="checkbox" name="form_restrictions_selectedmembers_same_users" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_restrictions_selectedmembers_same_users">' . esc_attr( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
+		$html .= '<label for="form_restrictions_selectedmembers_same_users">' . esc_attr__( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -337,7 +337,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', TRUE );
 
 		$html .= '<div id="af-add-participiants-options">';
-		$html .= '<label for"form_add_participiants_option">' . esc_attr( 'Add Members', 'af-locale' ) . '';
+		$html .= '<label for"form_add_participiants_option">' . esc_attr__( 'Add Members', 'af-locale' ) . '';
 		$html .= '<select id="form-add-participiants-option" name="form_add_participiants_option">';
 		foreach( $options AS $name => $value ):
 			$selected = '';
@@ -433,7 +433,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			$form_participiants_value = implode( ',', $user_ids );
 		}
 		$html .= '<tr class="no-users-found">';
-		$html .= '<td colspan="6">' . esc_attr( 'No Users found.', 'af-locale' ) . '</td>';
+		$html .= '<td colspan="6">' . esc_attr__( 'No Users found.', 'af-locale' ) . '</td>';
 		$html .= '</tr>';
 
 		$html .= '</tbody>';
@@ -457,14 +457,14 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		if( !is_user_logged_in() )
 		{
-			$this->add_message( 'error', esc_attr( 'You have to be logged in to participate.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have to be logged in to participate.', 'af-locale' ) );
 
 			return FALSE;
 		}
 
 		if( !$this->is_participiant() )
 		{
-			$this->add_message( 'error', esc_attr( 'You can\'t participate.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You can\'t participate.', 'af-locale' ) );
 
 			return FALSE;
 		}
@@ -473,7 +473,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 
 		if( 'yes' == $restrictions_same_users && af_user_has_participated( $ar_form_id ) )
 		{
-			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;
 		}

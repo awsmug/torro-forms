@@ -61,12 +61,12 @@ class AF_ShortCodes
 
 		if( '' == $af_form_id )
 		{
-			return esc_attr( 'Please enter an id in the form shortcode!', 'af-locale' );
+			return esc_attr__( 'Please enter an id in the form shortcode!', 'af-locale' );
 		}
 
 		if( !af_form_exists( $af_form_id ) )
 		{
-			return esc_attr( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
+			return esc_attr__( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
 		}
 
 		switch(  $atts[ 'show' ] )

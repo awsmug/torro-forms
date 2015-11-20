@@ -196,7 +196,7 @@ abstract class AF_Action
 		$headline = array(
 			'headline' => array(
 				'title'       => $this->title,
-				'description' => sprintf( esc_attr( 'Setup the "%s" Action.', 'af-locale' ), $this->title ),
+				'description' => sprintf( esc_attr__( 'Setup the "%s" Action.', 'af-locale' ), $this->title ),
 				'type'        => 'title'
 			)
 		);

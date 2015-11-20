@@ -108,13 +108,13 @@ class AF_ResultsEntries extends AF_ResultHandler
 					switch ( $headline )
 					{
 						case 'result_id':
-							$headline_title = esc_attr( 'ID', 'af_locale' );
+							$headline_title = esc_attr__( 'ID', 'af_locale' );
 							break;
 						case 'user_id':
-							$headline_title = esc_attr( 'User', 'af_locale' );
+							$headline_title = esc_attr__( 'User', 'af_locale' );
 							break;
 						case 'timestamp':
-							$headline_title = esc_attr( 'Date', 'af_locale' );
+							$headline_title = esc_attr__( 'Date', 'af_locale' );
 							break;
 						default:
 							$headline_title = $headline;
@@ -158,7 +158,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 				}
 
 				$html .= '<td class="entry-actions">';
-				$html .= '<a type="button" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr( 'Show Details', 'af-locale' ) . '</a>';
+				$html .= '<a type="button" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr__( 'Show Details', 'af-locale' ) . '</a>';
 				$html .= '</td>';
 
 				$html .= '</tr>';
@@ -230,7 +230,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 	}
 
 	public static function show_not_found_notice() {
-		return '<p class="not-found-area">' . esc_attr( 'There are no Results to show.', 'af-locale' ) . '</p>';
+		return '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'af-locale' ) . '</p>';
 	}
 
 	public static function ajax_show_entries()

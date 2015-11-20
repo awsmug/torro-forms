@@ -68,13 +68,13 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		if( !isset( $_POST[ 'af_form_id' ] ) )
 		{
-			$content .= esc_attr( 'Form ID is missing.' . 'af-locale' );
+			$content .= esc_attr__( 'Form ID is missing.' . 'af-locale' );
 			$restrict = TRUE;
 		}
 
 		if( !isset( $_POST[ 'fngrprnt' ] ) )
 		{
-			$content .= esc_attr( 'Error on processing form' . 'af-locale' );
+			$content .= esc_attr__( 'Error on processing form' . 'af-locale' );
 			$restrict = TRUE;
 		}
 
@@ -95,7 +95,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			}
 			else
 			{
-				$content .= '<div class="form-message error">' . esc_attr( 'You have already entered your data.', 'af-locale' ) . '</div>';
+				$content .= '<div class="form-message error">' . esc_attr__( 'You have already entered your data.', 'af-locale' ) . '</div>';
 			}
 		}
 
@@ -177,7 +177,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_attr( 'Restrict Visitors', 'af-locale' ) . '</h3>';
+		$html = '<h3>' . esc_attr__( 'Restrict Visitors', 'af-locale' ) . '</h3>';
 
 		/**
 		 * Check IP
@@ -187,7 +187,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_check_ip" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_check_ip">' . esc_attr( 'Prevent multiple entries from same IP', 'af-locale' ) . '</label>';
+			$html .= '<label for="form_restrictions_check_ip">' . esc_attr__( 'Prevent multiple entries from same IP', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		/**
@@ -198,7 +198,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_check_cookie" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_check_cookie">' . esc_attr( 'Prevent multiple entries by checking cookie', 'af-locale' ) . '</label>';
+			$html .= '<label for="form_restrictions_check_cookie">' . esc_attr__( 'Prevent multiple entries by checking cookie', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		/**
@@ -209,7 +209,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_check_fingerprint" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_check_fingerprint">' . esc_attr( 'Prevent multiple entries by checking browser fingerprint', 'af-locale' ) . '</label>';
+			$html .= '<label for="form_restrictions_check_fingerprint">' . esc_attr__( 'Prevent multiple entries by checking browser fingerprint', 'af-locale' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
@@ -230,7 +230,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 		if( 'yes' == $restrictions_check_ip && $this->ip_has_participated() )
 		{
-			$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
 
 			return FALSE;
 		}
@@ -242,7 +242,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 			if( $_COOKIE[ 'af_has_participated_form_' . $ar_form_id ] == 'yes' )
 			{
-				$this->add_message( 'error', esc_attr( 'You have already entered your data.', 'af-locale' ) );
+				$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
 			}
 
 			return FALSE;

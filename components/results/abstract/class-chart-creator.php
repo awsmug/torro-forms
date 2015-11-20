@@ -91,8 +91,8 @@ abstract class AF_Chart_Creator
             $this->description = esc_attr__( 'This is an Awesome Forms Chart Creator.', 'af-locale' );
         }
 
-        $this->register_chart_type( 'bars', esc_attr( 'Bars', 'af-locale' ), array( $this, 'bars' ) );
-        $this->register_chart_type( 'pies', esc_attr( 'Pies', 'af-locale' ), array( $this, 'pies' ) );
+        $this->register_chart_type( 'bars', esc_attr__( 'Bars', 'af-locale' ), array( $this, 'bars' ) );
+        $this->register_chart_type( 'pies', esc_attr__( 'Pies', 'af-locale' ), array( $this, 'pies' ) );
 
         // Scriptloaders
         if( is_admin() )

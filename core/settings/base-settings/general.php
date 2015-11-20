@@ -41,13 +41,13 @@ class AF_GeneralSettings extends AF_Settings
 
 		$this->settings = array(
 			'disclaimer'    => array(
-				'title'       => esc_attr( 'Welcome to Awesome Forms!', 'af-locale' ),
-				'description' => esc_attr( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'af-locale' ),
+				'title'       => esc_attr__( 'Welcome to Awesome Forms!', 'af-locale' ),
+				'description' => esc_attr__( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'af-locale' ),
 				'type'        => 'disclaimer'
 			),
 			'modules_title' => array(
-				'title'       => esc_attr( 'Form Modules', 'af-locale' ),
-				'description' => esc_attr( 'Check the modules of Awesome Forms which have to be activated.', 'af-locale' ),
+				'title'       => esc_attr__( 'Form Modules', 'af-locale' ),
+				'description' => esc_attr__( 'Check the modules of Awesome Forms which have to be activated.', 'af-locale' ),
 				'type'        => 'title'
 			)
 		);
@@ -70,14 +70,14 @@ class AF_GeneralSettings extends AF_Settings
 
 		$settings_arr = array(
 			'modules' => array(
-				'title'       => esc_attr( 'Modules', 'af-locale' ),
-				'description' => esc_attr( 'You don´t need some of these components? Switch it off!', 'af-locale' ),
+				'title'       => esc_attr__( 'Modules', 'af-locale' ),
+				'description' => esc_attr__( 'You don´t need some of these components? Switch it off!', 'af-locale' ),
 				'type'        => 'checkbox',
 				'values'      => $components,
 				'default'     => $defaults
 			),
 		    'slug'  => array(
-			    'title'      => esc_attr( 'Slug', 'af-locale' ),
+			    'title'      => esc_attr__( 'Slug', 'af-locale' ),
 			    'description'=> __( 'The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/<b>forms</b>/mycontactform)'),
 			    'type'       => 'text',
 			    'default'    => '' == get_option( 'questions_db_version' )? 'forms' : 'survey'

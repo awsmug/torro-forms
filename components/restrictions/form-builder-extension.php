@@ -101,7 +101,7 @@ class AF_Formbuilder_RestrictionsExtension
 
 		$html .= '<div class="section">';
 		$html .= '<div id="form-restrictions-options">';
-		$html .= '<label for"form_restrictions_option">' . esc_attr( 'Who has access to this form?', 'af-locale' ) . '';
+		$html .= '<label for"form_restrictions_option">' . esc_attr__( 'Who has access to this form?', 'af-locale' ) . '';
 		$html .= '<select name="form_restrictions_option" id="form-restrictions-option">';
 		foreach( $restrictions AS $name => $restriction )
 		{

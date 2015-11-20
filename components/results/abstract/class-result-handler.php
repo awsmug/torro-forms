@@ -126,7 +126,7 @@ abstract class AF_ResultHandler
 		$headline = array(
 			'headline' => array(
 				'title'       => $this->title,
-				'description' => sprintf( esc_attr( 'Setup the "%s" Result Handler.', 'af-locale' ), $this->title ),
+				'description' => sprintf( esc_attr__( 'Setup the "%s" Result Handler.', 'af-locale' ), $this->title ),
 				'type'        => 'title'
 			)
 		);

@@ -36,7 +36,7 @@ class AF_Form_Element_Text extends AF_Form_Element
 	public function init()
 	{
 		$this->name = 'text';
-		$this->title = esc_attr__( 'Description', 'af-locale' );
+		$this->title = esc_attr__( 'Text', 'af-locale' );
 		$this->description = esc_attr__( 'Adds a text to the form.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . 'assets/images/icon-text.png';
 
@@ -69,4 +69,4 @@ class AF_Form_Element_Text extends AF_Form_Element
 	}
 }
 
-af_register_form_element( 'AF_Form_Element_Description' );
+af_register_form_element( 'AF_Form_Element_Text' );
