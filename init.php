@@ -208,6 +208,9 @@ class AF_Init
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
+		$script_db_version = '1.0.1';
+		$current_db_version  = get_option( 'af_db_version' );
+
 		$table_elements = $wpdb->prefix . 'af_elements';
 		$table_element_answers = $wpdb->prefix . 'af_element_answers';
 		$table_results = $wpdb->prefix . 'af_results';
@@ -216,18 +219,15 @@ class AF_Init
 		$table_participiants = $wpdb->prefix . 'af_participiants';
 		$table_email_notifications = $wpdb->prefix . 'af_email_notifications';
 
-		$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
-		$wpdb->query( $sql );
-
 		if( '1.1.1' == get_option( 'questions_db_version' ) )
 		{
 			self::update_from_questions_to_af();
 		}
-		elseif( ! get_option( 'af_db_version' ) || !self::is_installed() )
+
+		if( ! get_option( 'af_db_version' ) || !self::is_installed() || version_compare( $current_db_version, $script_db_version, '<' )  )
 		{
+			echo 'Updating!';
+
 			$charset_collate = self::get_charset_collate();
 
 			$sql = "CREATE TABLE $table_elements (
@@ -306,9 +306,36 @@ class AF_Init
 			UNIQUE KEY id (id)
 			) ENGINE = INNODB " . $charset_collate . ";";
 
+			$sql = "UPDATE {$table_elements} SET type='textfield' WHERE type='Text'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$table_elements} SET type='textarea' WHERE type='Textarea'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$table_elements} SET type='dropdown' WHERE type='Dropdown'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$table_elements} SET type='onechoice' WHERE type='OneChoice'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$table_elements} SET type='multiplechoice' WHERE type='MultipleChoice'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$table_elements} SET type='text' WHERE type='Description'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$table_elements} SET type='splitter' WHERE type='Splitter'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$table_elements} SET type='separator' WHERE type='Separator'";
+			$wpdb->query( $sql );
+
+			$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET type='af-forms-categories' WHERE taxonomy='questions-categories'";
+			$wpdb->query( $sql );
+
 			dbDelta( $sql );
 
-			update_option( 'af_db_version', '1.0.0' );
+			update_option( 'af_db_version', $script_db_version );
 		}
 	}
 
@@ -395,6 +422,36 @@ class AF_Init
 		$wpdb->query( $sql );
 
 		$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='textfield' WHERE taxonomy='Text'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='textarea' WHERE taxonomy='Textarea'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='dropdown' WHERE taxonomy='Dropdown'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='onechoice' WHERE taxonomy='OneChoice'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='multiplechoice' WHERE taxonomy='MultipleChoice'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='text' WHERE taxonomy='Description'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='splitter' WHERE taxonomy='Splitter'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements_new} SET type='separator' WHERE taxonomy='Separator'";
 		$wpdb->query( $sql );
 
 		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";

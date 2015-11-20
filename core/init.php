@@ -79,14 +79,14 @@ class AF_Core
 		include( $core_folder . 'form-process.php' );
 
 		// Base elements
-		include( $core_folder . 'elements/base-elements/text.php' );
+		include( $core_folder . 'elements/base-elements/textfield.php' );
 		include( $core_folder . 'elements/base-elements/textarea.php' );
 		include( $core_folder . 'elements/base-elements/onechoice.php' );
 		include( $core_folder . 'elements/base-elements/multiplechoice.php' );
 		include( $core_folder . 'elements/base-elements/dropdown.php' );
 		include( $core_folder . 'elements/base-elements/separator.php' );
 		include( $core_folder . 'elements/base-elements/splitter.php' );
-		include( $core_folder . 'elements/base-elements/description.php' );
+		include( $core_folder . 'elements/base-elements/text.php' );
 
 		// Template tags
 

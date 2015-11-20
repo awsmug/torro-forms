@@ -35,7 +35,7 @@ class AF_Form_Element_Dropdown extends AF_Form_Element
 
 	public function init()
 	{
-		$this->name = 'Dropdown';
+		$this->name = 'dropdown';
 		$this->title = esc_attr__( 'Dropdown', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered within a dropdown field.', 'af-locale' );
 		$this->icon_url = AF_URLPATH . 'assets/images/icon-dropdown.png';
