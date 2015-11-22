@@ -209,11 +209,11 @@
 }
 .post-type-af-forms .general-settings .option {
     float:left;
-    margin-right: 15px;
+    margin-right: 25px;
 }
 .post-type-af-forms .general-settings .option label{
     line-height: 30px;
-    margin-right: 15px;
+    margin-right: 5px;
 }
 .post-type-af-forms .general-settings .option input,
 .post-type-af-forms .general-settings .option select{
@@ -221,7 +221,6 @@
 .post-type-af-forms .general-settings .option input[type="checkbox"],
 .post-type-af-forms .general-settings .option input[type="radio"]
 {
-    margin-top: 5px;
 }
 .post-type-af-forms .general-settings table{
     width:100%;
