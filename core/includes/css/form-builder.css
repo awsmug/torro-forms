@@ -215,31 +215,6 @@
     line-height: 30px;
     margin-right: 5px;
 }
-.post-type-af-forms .general-settings .option input,
-.post-type-af-forms .general-settings .option select{
-}
-.post-type-af-forms .general-settings .option input[type="checkbox"],
-.post-type-af-forms .general-settings .option input[type="radio"]
-{
-}
-.post-type-af-forms .general-settings table{
-    width:100%;
-}
-.post-type-af-forms .general-settings tr td:first-child{
-    min-width: 15%;
-}
-.post-type-af-forms .general-settings tr td
-{
-    padding: 0.5% 0;
-}
-.post-type-af-forms .general-settings input
-{
-    margin-right:10px;
-}
-.post-type-af-forms .general-settings input:last-child
-{
-    margin:0;
-}
 
 .post-type-af-forms .in-postbox-one-third
 {
