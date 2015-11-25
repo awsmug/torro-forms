@@ -2,21 +2,15 @@
 
 Stable tag: 1.0.0
 
-Drag & drop WordPress formbuilder for beginners and experts.
+Drag & drop WordPress formbuilder for beginners and experts. This easy to use WordPress formbuilder serves a chart module and an API for extending the form functionalities.
 
-## Description
-This easy to use WordPress formbuilder serves a chart module and an API for extending the form functionalities.
-
-
-## Functionalities
-
-### Drag & Drop forms
+## Drag & Drop forms
 Easy Drag&Drop your forms with this formbuilder.
 
-### Charts
+## Charts
 Anylyzable results of a form were shown in embedable charts.
 
-### API
+## API
 
 Extend Awesome Forms with the built-in API. At the moment there are supported three ways to extend the formbuilder. To get detailed docs about the API, read the [documentation pages](http://docs.awesome-forms.io/api).
 
@@ -38,8 +32,7 @@ With Restrictions you can control if a Visitor has Access to the form. Add your 
 1. Download the plugin
 2. Upload to wp-content/plugins/
 3. Activate in the backend
-4. Set the options in WooCommerce -> Payment Gateways -> Barzahlen.de
-5. Done!!
+4. Done!
 
 ## Languages
 - English
