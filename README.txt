@@ -2,8 +2,8 @@
 Contributors: mahype, awesome-ug
 Tags: forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 Requires at least: 4.1.1
-Tested up to: 4.3.0
-Stable tag: 1.0.0 alpha
+Tested up to: 4.3.1
+Stable tag: 1.0.0
 
 Drag&drop your form in the WordPress way!
 
@@ -11,11 +11,9 @@ Drag&drop your form in the WordPress way!
 
 >**Drag & drop your form in the WordPress way!**
 >
->It never felt better to create your form like with this plugin! Drag&Drop your your form and view also in chartable results.
+>This easy to use WordPress formbuilder serves a chart module and an API for extending the form functionalities.
 
-This is not software as a service, Awesome Forms is a totally independent and free plugin!
-
-**Elements to drop**
+**Elements**
 
 * **Text** - Simple text input.
 * **Textarea** - Multiple line text input.
@@ -25,19 +23,20 @@ This is not software as a service, Awesome Forms is a totally independent and fr
 
 **Features**
 
-* **Drag&Drop** - Drag&drop questions to your form, also sort answers by drag&drop.
-* **Timerange** - Give forms a start and an end date.
+* **Drag&Drop** - Drag&drop elements to your form
 * **Split forms** - Split your form into several steps.
 * **Bar Chart Results** - Showing results after participating or with shortcodes.
 * **Validation** - Validate the entered data in question settings.
 * **Participiants** - Add registered users to forms or let everybody participate.
 * **Invite participiants** - Send a remembering Email to participiants.
 * **Lightweight CSS** - Easy to overwrite CSS in frontend.
-* **CVS Export** - Get your results as CVS file.
+* **Excel&CVS Export** - Get your results as CVS file.
+* **Timerange** - Give forms a start and an end date.
+* **reCaptcha** - Integrated reCaptcha module.
 
 **API**
-* **Element API** - Easy add your own elements by extending the core element class.
-* **Restriction API** - Easy add your own restriction who can see the form or not by extendiong the core restriction class.
+* **Element API** - Easy add your own elements.
+* **Restriction API** - Who has access to the form?
 
 >Extend the form builder with our easy to use API! You're missing something? Just let us know at https://github.com/awsmug/Questions/issues!
 
@@ -81,9 +80,9 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
-= 1.0.0 alpha =
+= 1.0.0 alpha 1 =
 * Reworked nearly the complete code
-* Resetted version to 'alpha'
+* Resetted version to 'alpha 1' because of renaming the software
 
 = 1.0.0 beta 20 =
 * Questions becomes a form builder with chartable results
