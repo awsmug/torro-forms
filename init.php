@@ -203,7 +203,7 @@ class AF_Init
 		$script_db_version = '1.0.1';
 		$current_db_version  = get_option( 'af_db_version' );
 
-		if( '1.1.1' == get_option( 'questions_db_version' ) )
+		if( FALSE !== get_option( 'questions_db_version' ) )
 		{
 			require_once( 'updates/to-awesome-forms.php' );
 			af_questions_to_awesome_forms();
@@ -334,6 +334,9 @@ class AF_Init
 		$wpdb->query( $sql );
 
 		$sql = "UPDATE {$table_elements} SET type='separator' WHERE type='Separator'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET type='af-forms-categories' WHERE taxonomy='questions-categories'";
 		$wpdb->query( $sql );
 
 		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET type='af-forms-categories' WHERE taxonomy='questions-categories'";

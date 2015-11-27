@@ -98,18 +98,30 @@ function af_questions_to_awesome_forms()
 	$sql = "UPDATE {$table_elements_new} SET type='separator' WHERE taxonomy='Separator'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
+	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_key='restrictions_option' WHERE meta_key='participiant_restrictions'";
 	$wpdb->query( $sql );
 
-	update_option( 'af_settings_restrictions_invite_from_name', get_option( 'questions_mail_from_name' ) );
-	update_option( 'af_settings_restrictions_invite_from', get_option( 'questions_mail_from_email' ) );
-	update_option( 'af_settings_restrictions_invite_subject', get_option( 'questions_invitation_subject_template' ) );
-	update_option( 'af_settings_restrictions_invite_text', get_option( 'questions_invitation_text_template' ) );
+	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='allvisitors' WHERE meta_key='restrictions_option' AND meta_value='all_visitors'";
+	$wpdb->query( $sql );
 
-	update_option( 'af_settings_restrictions_reinvite_from_name', get_option( 'questions_mail_from_name' ) );
-	update_option( 'af_settings_restrictions_reinvite_from', get_option( 'questions_mail_from_email' ) );
-	update_option( 'af_settings_restrictions_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
-	update_option( 'af_settings_restrictions_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
+	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='allmembers' WHERE meta_key='restrictions_option' AND meta_value='all_members'";
+	$wpdb->query( $sql );
+
+	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='allvisitors' WHERE meta_key='restrictions_option' AND meta_value='no_restrictions'";
+	$wpdb->query( $sql );
+
+	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='selectedmembers' WHERE meta_key='restrictions_option' AND meta_value='selected_members'";
+	$wpdb->query( $sql );
+
+	update_option( 'af_settings_restrictions_selectedmembers_invite_from_name', get_option( 'questions_mail_from_name' ) );
+	update_option( 'af_settings_restrictions_selectedmembers_invite_from', get_option( 'questions_mail_from_email' ) );
+	update_option( 'af_settings_restrictions_selectedmembers_invite_subject', get_option( 'questions_invitation_subject_template' ) );
+	update_option( 'af_settings_restrictions_selectedmembers_invite_text', get_option( 'questions_invitation_text_template' ) );
+
+	update_option( 'af_settings_restrictions_selectedmembers_reinvite_from_name', get_option( 'questions_mail_from_name' ) );
+	update_option( 'af_settings_restrictions_selectedmembers_reinvite_from', get_option( 'questions_mail_from_email' ) );
+	update_option( 'af_settings_restrictions_selectedmembers_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
+	update_option( 'af_settings_restrictions_selectedmembers_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
 
 	delete_option( 'questions_mail_from_name' );
 	delete_option( 'questions_mail_from_email' );
