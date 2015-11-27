@@ -101,6 +101,7 @@ class AF_Init
 	{
 		// Loading Functions
 		require_once( AF_FOLDER . 'functions.php' );
+		require_once( AF_FOLDER . 'conflicts.php' );
 		require_once( AF_FOLDER . 'includes/wp-editor.php' );
 
 		// Loading Core
