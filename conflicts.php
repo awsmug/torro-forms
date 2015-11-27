@@ -61,8 +61,6 @@ class AF_Conflicts
 			return;
 		}
 
-		AF_Init::admin_notice( 'Solving Conflicts' );
-
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'trash_acf_datetimepicker_css' ), 15 );
 	}
 
