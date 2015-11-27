@@ -41,6 +41,11 @@ class AF_Init
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 
+		if( !self::is_installed() )
+		{
+			self::setup();
+		}
+
 		if( is_admin() )
 		{
 			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
@@ -126,6 +131,8 @@ class AF_Init
 	public static function activate( $network_wide )
 	{
 		self::setup();
+
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -171,20 +178,12 @@ class AF_Init
 		);
 
 		// Checking if all tables are existing
-		$not_found = FALSE;
 		foreach( $tables AS $table )
 		{
 			if( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table )
 			{
-				$not_found = TRUE;
+				return FALSE;
 			}
-		}
-
-		$is_installed_option = (boolean) get_option( 'questions_is_installed', FALSE );
-
-		if( $not_found || FALSE == $is_installed_option )
-		{
-			return FALSE;
 		}
 
 		return TRUE;
@@ -211,8 +210,6 @@ class AF_Init
 		}
 
 		require_once( AF_FOLDER . 'core/init.php' );
-
-		flush_rewrite_rules();
 	}
 
 	/**
@@ -309,6 +306,8 @@ class AF_Init
 		message text NOT NULL,
 		UNIQUE KEY id (id)
 		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
 
 		$sql = "UPDATE {$table_elements} SET type='textfield' WHERE type='Text'";
 		$wpdb->query( $sql );
