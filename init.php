@@ -21,10 +21,10 @@ if( !defined( 'ABSPATH' ) )
 class AF_Init
 {
 	/**
-	 * @var $notices
+	 * @var $admin_notices
 	 * @since 1.0.0
 	 */
-	static $notices = array();
+	static $admin_notices = array();
 
 	/**
 	 * Initializes the plugin.
@@ -352,7 +352,7 @@ class AF_Init
 	 */
 	public static function admin_notice( $message, $type = 'updated' )
 	{
-		self::$notices[] = array(
+		self::$admin_notices[] = array(
 				'message' => '<b>Awesome Forms</b>: ' . $message,
 				'type'    => $type
 		);
@@ -362,10 +362,10 @@ class AF_Init
 	 */
 	public static function show_admin_notices()
 	{
-		if( is_array( self::$notices ) && count( self::$notices ) > 0 )
+		if( is_array( self::$admin_notices ) && count( self::$admin_notices ) > 0 )
 		{
 			$html = '';
-			foreach( self::$notices AS $notice )
+			foreach( self::$admin_notices AS $notice )
 			{
 				$message = $notice[ 'message' ];
 				$html .= '<div class="' . $notice[ 'type' ] . '"><p>' .$message . '</p></div>';
