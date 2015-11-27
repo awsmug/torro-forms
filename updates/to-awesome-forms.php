@@ -101,5 +101,22 @@ function af_questions_to_awesome_forms()
 	$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
 	$wpdb->query( $sql );
 
-	update_option( 'af_db_version', '1.0.0' );
+	update_option( 'af_settings_restrictions_invite_from_name', get_option( 'questions_mail_from_name' ) );
+	update_option( 'af_settings_restrictions_invite_from', get_option( 'questions_mail_from_email' ) );
+	update_option( 'af_settings_restrictions_invite_subject', get_option( 'questions_invitation_subject_template' ) );
+	update_option( 'af_settings_restrictions_invite_text', get_option( 'questions_invitation_text_template' ) );
+
+	update_option( 'af_settings_restrictions_reinvite_from_name', get_option( 'questions_mail_from_name' ) );
+	update_option( 'af_settings_restrictions_reinvite_from', get_option( 'questions_mail_from_email' ) );
+	update_option( 'af_settings_restrictions_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
+	update_option( 'af_settings_restrictions_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
+
+	delete_option( 'questions_mail_from_name' );
+	delete_option( 'questions_mail_from_email' );
+	delete_option( 'questions_invitation_subject_template' );
+	delete_option( 'questions_invitation_text_template' );
+	delete_option( 'questions_reinvitation_subject_template' );
+	delete_option( 'questions_reinvitation_text_template' );
+
+	update_option( 'af_db_version', '1.0.1' );
 }

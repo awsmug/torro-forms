@@ -72,6 +72,11 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),
+			'invite_subject'        => array(
+				'title'       => esc_attr__( 'Subject', 'af-locale' ),
+				'description' => esc_attr__( 'The Subject of the Mail.', 'af-locale' ),
+				'type'        => 'text'
+			),
 			'invite_text'        => array(
 				'title'       => esc_attr__( 'Email Text', 'af-locale' ),
 				'description' => esc_attr__( 'The Text of the Mail.', 'af-locale' ),
@@ -91,6 +96,12 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			'reinvite_from'      => array(
 				'title'       => esc_attr__( 'From Email', 'af-locale' ),
 				'description' => esc_attr__( 'The Mail Sender Email.', 'af-locale' ),
+				'type'        => 'text',
+				'default'     => get_option( 'admin_email' )
+			),
+			'reinvite_subject'      => array(
+				'title'       => esc_attr__( 'Subject', 'af-locale' ),
+				'description' => esc_attr__( 'The Subject of the Email.', 'af-locale' ),
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),

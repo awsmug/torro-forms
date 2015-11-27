@@ -375,4 +375,4 @@ class AF_Init
 	}
 }
 
-AF_Init::init(); // Starting immediately!
+AF_Init::init();
