@@ -45,6 +45,7 @@ class AF_Core
 		add_action( 'init', array( __CLASS__, 'custom_post_types' ), 11 );
 		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
 	}
 
 	/**
@@ -197,6 +198,16 @@ class AF_Core
 	public static function register_admin_styles()
 	{
 		wp_enqueue_style( 'af-admin-fonts', AF_URLPATH . 'core/includes/css/fonts.css' );
+	}
+
+	/**
+	 * Registers and enqueues plugin-specific styles.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function register_plugin_styles()
+	{
+		wp_enqueue_style( 'af-plugin-styles', AF_URLPATH . 'includes/css/display.css' );
 	}
 
 }

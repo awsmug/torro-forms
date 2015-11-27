@@ -3,7 +3,7 @@
  * Plugin Name:  Awesome Forms
  * Plugin URI:   http://www.awesome.ug
  * Description:  Drag & drop your Form with the Awesome Forms Plugin.
- * Version:      1.0.0 alpha
+ * Version:      1.0.0 alpha 1
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
  * Author Email: contact@awesome.ug
@@ -21,7 +21,8 @@ if( !defined( 'ABSPATH' ) )
 class AF_Init
 {
 	/**
-	 * @var Notices for screening in Admin
+	 * @var $notices
+	 * @since 1.0.0
 	 */
 	static $notices = array();
 
@@ -32,33 +33,22 @@ class AF_Init
 	 */
 	public static function init()
 	{
-		// Loading variables
 		self::constants();
 		self::load_textdomain();
+		self::load_files();
 
-		// Loading other stuff
-		self::includes();
-
-		// Install & Uninstall Scripts
 		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 
-		if( !self::is_installed() )
+		if( is_admin() )
 		{
-			add_action( 'init', array( __CLASS__, 'install_plugin' ) );
-		}
-
-		// Functions on Frontend
-		if( is_admin() ):
-			// Register admin styles and scripts
-			add_action( 'plugins_loaded', array( __CLASS__, 'check_requirements' ) );
 			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
-		else:
-			// Register plugin styles and scripts
+		}
+		else
+		{
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_scripts' ) );
-		endif;
+		}
 	}
 
 	/**
@@ -66,33 +56,12 @@ class AF_Init
 	 *
 	 * @since 1.0.0
 	 */
-	public static function constants()
+	private static function constants()
 	{
-		define( 'AF_FOLDER', self::get_folder() );
+		define( 'AF_FOLDER', plugin_dir_path( __FILE__ ) );
 		define( 'AF_RELATIVE_FOLDER', substr( AF_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( AF_FOLDER ) ) );
-		define( 'AF_URLPATH', self::get_url_path() );
-
+		define( 'AF_URLPATH', plugin_dir_url( __FILE__ ) );
 		define( 'AF_COMPONENTFOLDER', AF_FOLDER . 'components/' );
-	}
-
-	/**
-	 * Getting Folder
-	 *
-	 * @since 1.0.0
-	 */
-	private static function get_folder()
-	{
-		return plugin_dir_path( __FILE__ );
-	}
-
-	/**
-	 * Getting URL
-	 *
-	 * @since 1.0.0
-	 */
-	private static function get_url_path()
-	{
-		return plugin_dir_url( __FILE__ );
 	}
 
 	/**
@@ -100,7 +69,7 @@ class AF_Init
 	 *
 	 * @since 1.0.0
 	 */
-	public static function load_textdomain()
+	private static function load_textdomain()
 	{
 		$domain = 'af-locale';
 
@@ -128,53 +97,19 @@ class AF_Init
 	 *
 	 * @since 1.0.0
 	 */
-	public static function includes()
+	private static function load_files()
 	{
 		// Loading Functions
-		include( AF_FOLDER . 'functions.php' );
-		include( AF_FOLDER . 'includes/wp-editor.php' );
+		require_once( AF_FOLDER . 'functions.php' );
+		require_once( AF_FOLDER . 'includes/wp-editor.php' );
 
 		// Loading Core
-		include( AF_FOLDER . 'core/init.php' );
+		require_once( AF_FOLDER . 'core/init.php' );
 
-		include( AF_COMPONENTFOLDER . 'actions/component.php' );
-		include( AF_COMPONENTFOLDER . 'restrictions/component.php' );
-		include( AF_COMPONENTFOLDER . 'results/component.php' );
-	}
-
-	/**
-	 * Is plugin already installed?
-	 */
-	public static function is_installed()
-	{
-		global $wpdb;
-
-		$tables = array(
-			$wpdb->prefix . 'af_elements',
-			$wpdb->prefix . 'af_element_answers',
-			$wpdb->prefix . 'af_results',
-			$wpdb->prefix . 'af_result_values',
-			$wpdb->prefix . 'af_settings',
-			$wpdb->prefix . 'af_participiants',
-			$wpdb->prefix . 'af_email_notifications'
-		);
-
-		// Checking if all tables are existing
-		$not_found = FALSE;
-		foreach( $tables AS $table ):
-			if( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table ):
-				$not_found = TRUE;
-			endif;
-		endforeach;
-
-		$is_installed_option = (boolean) get_option( 'questions_is_installed', FALSE );
-
-		if( $not_found || FALSE == $is_installed_option )
-		{
-			return FALSE;
-		}
-
-		return TRUE;
+		// Loading Components
+		require_once( AF_COMPONENTFOLDER . 'actions/component.php' );
+		require_once( AF_COMPONENTFOLDER . 'restrictions/component.php' );
+		require_once( AF_COMPONENTFOLDER . 'results/component.php' );
 	}
 
 	/**
@@ -189,292 +124,19 @@ class AF_Init
 	/**
 	 * Fired when the plugin is activated.
 	 *
-	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is
-	 *                                 disabled or plugin is activated on an individual blog
-	 *
+	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
 	public static function activate( $network_wide )
 	{
-		self::install_tables();
-	}
-
-	/**
-	 * Creating / Updating tables
-	 */
-	public static function install_tables()
-	{
-		global $wpdb;
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-		$script_db_version = '1.0.1';
-		$current_db_version  = get_option( 'af_db_version' );
-
-		$table_elements = $wpdb->prefix . 'af_elements';
-		$table_element_answers = $wpdb->prefix . 'af_element_answers';
-		$table_results = $wpdb->prefix . 'af_results';
-		$table_results_values = $wpdb->prefix . 'af_result_values';
-		$table_settings = $wpdb->prefix . 'af_settings';
-		$table_participiants = $wpdb->prefix . 'af_participiants';
-		$table_email_notifications = $wpdb->prefix . 'af_email_notifications';
-
-		if( '1.1.1' == get_option( 'questions_db_version' ) )
-		{
-			self::update_from_questions_to_af();
-		}
-
-		if( ! get_option( 'af_db_version' ) || !self::is_installed() || version_compare( $current_db_version, $script_db_version, '<' )  )
-		{
-			echo 'Updating!';
-
-			$charset_collate = self::get_charset_collate();
-
-			$sql = "CREATE TABLE $table_elements (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			form_id int(11) NOT NULL,
-			label text NOT NULL,
-			sort int(11) NOT NULL,
-			type char(50) NOT NULL,
-			UNIQUE KEY id (id)
-			) ENGINE = INNODB " . $charset_collate . ";";
-
-			dbDelta( $sql );
-
-			$sql = "CREATE TABLE $table_element_answers (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			element_id int(11) NOT NULL,
-			section char(100) NOT NULL,
-			answer text NOT NULL,
-			sort int(11) NOT NULL,
-			UNIQUE KEY id (id)
-			) ENGINE = INNODB " . $charset_collate . ";";
-
-			dbDelta( $sql );
-
-			$sql = "CREATE TABLE $table_results (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			form_id int(11) NOT NULL,
-			user_id int(11) NOT NULL,
-			timestamp int(11) NOT NULL,
-			remote_addr char(15) NOT NULL,
-			cookie_key char(50) NOT NULL,
-			UNIQUE KEY id (id)
-			) ENGINE = INNODB " . $charset_collate . ";";
-
-			dbDelta( $sql );
-
-			$sql = "CREATE TABLE $table_results_values (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			result_id int(11) NOT NULL,
-			element_id int(11) NOT NULL,
-			value text NOT NULL,
-			UNIQUE KEY id (id)
-			) ENGINE = INNODB " . $charset_collate . ";";
-
-			dbDelta( $sql );
-
-			$sql = "CREATE TABLE $table_settings (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			element_id int(11) NOT NULL,
-			name text NOT NULL,
-			value text NOT NULL,
-			UNIQUE KEY id (id)
-			) ENGINE = INNODB " . $charset_collate . ";";
-
-			dbDelta( $sql );
-
-			$sql = "CREATE TABLE $table_participiants (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			form_id int(11) NOT NULL,
-			user_id int(11) NOT NULL,
-			UNIQUE KEY id (id)
-			) ENGINE = INNODB " . $charset_collate . ";";
-
-			dbDelta( $sql );
-
-			$sql = "CREATE TABLE $table_email_notifications (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			form_id int(11) NOT NULL,
-			notification_name text NOT NULL,
-			from_name text NOT NULL,
-			from_email text NOT NULL,
-			to_name text NOT NULL,
-			to_email text NOT NULL,
-			subject text NOT NULL,
-			message text NOT NULL,
-			UNIQUE KEY id (id)
-			) ENGINE = INNODB " . $charset_collate . ";";
-
-			$sql = "UPDATE {$table_elements} SET type='textfield' WHERE type='Text'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$table_elements} SET type='textarea' WHERE type='Textarea'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$table_elements} SET type='dropdown' WHERE type='Dropdown'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$table_elements} SET type='onechoice' WHERE type='OneChoice'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$table_elements} SET type='multiplechoice' WHERE type='MultipleChoice'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$table_elements} SET type='text' WHERE type='Description'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$table_elements} SET type='splitter' WHERE type='Splitter'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$table_elements} SET type='separator' WHERE type='Separator'";
-			$wpdb->query( $sql );
-
-			$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET type='af-forms-categories' WHERE taxonomy='questions-categories'";
-			$wpdb->query( $sql );
-
-			dbDelta( $sql );
-
-			update_option( 'af_db_version', $script_db_version );
-		}
-	}
-
-	private static function get_charset_collate() {
-		global $wpdb;
-
-		$charset_collate = '';
-		if ( $wpdb->has_cap( 'collation' ) ) {
-			if ( ! empty( $wpdb->charset ) ) {
-				$charset_collate = "DEFAULT CHARACTER SET " . $wpdb->charset;
-			}
-			if ( ! empty( $wpdb->collate ) ) {
-				$charset_collate .= " COLLATE " . $wpdb->collate;
-			}
-		}
-
-		return $charset_collate;
-	}
-
-	public static function update_from_questions_to_af()
-	{
-		global $wpdb;
-
-		$table_elements_old = $wpdb->prefix . 'questions_questions';
-		$table_answers_old = $wpdb->prefix . 'questions_answers';
-		$table_settings_old = $wpdb->prefix . 'questions_settings';
-		$table_responds_old = $wpdb->prefix . 'questions_responds';
-		$table_respond_answers_old = $wpdb->prefix . 'questions_respond_answers';
-		$table_participiants_old = $wpdb->prefix . 'questions_participiants';
-		$table_email_notifications_old = $wpdb->prefix . 'questions_email_notifications';
-
-		$table_elements_new = $wpdb->prefix . 'af_elements';
-		$table_answers_new = $wpdb->prefix . 'af_element_answers';
-		$table_settings_new = $wpdb->prefix . 'af_settings';
-		$table_responds_new = $wpdb->prefix . 'af_results';
-		$table_respond_answers_new = $wpdb->prefix . 'af_result_values';
-		$table_participiants_new = $wpdb->prefix . 'af_participiants';
-		$table_email_notifications_new = $wpdb->prefix . 'af_email_notifications';
-
-
-		$sql = "RENAME TABLE {$table_elements_old} TO {$table_elements_new}";
-		$wpdb->query( $sql );
-
-		$sql = "RENAME TABLE {$table_answers_old} TO {$table_answers_new}";
-		$wpdb->query( $sql );
-
-		$sql = "RENAME TABLE {$table_settings_old} TO {$table_settings_new}";
-		$wpdb->query( $sql );
-
-		$sql = "RENAME TABLE {$table_responds_old} TO {$table_responds_new}";
-		$wpdb->query( $sql );
-
-		$sql = "RENAME TABLE {$table_respond_answers_old} TO {$table_respond_answers_new}";
-		$wpdb->query( $sql );
-
-		$sql = "RENAME TABLE {$table_participiants_old} TO {$table_participiants_new}";
-		$wpdb->query( $sql );
-
-		$sql = "RENAME TABLE {$table_email_notifications_old} TO {$table_email_notifications_new}";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_elements_new} CHANGE questions_id form_id int(11)";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_elements_new} CHANGE question label text";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_answers_new} CHANGE question_id element_id int(11)";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_responds_new} CHANGE questions_id form_id int(11)";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_respond_answers_new} CHANGE respond_id result_id int(11)";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_respond_answers_new} CHANGE question_id element_id int(11)";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_settings_new} CHANGE question_id element_id int(11)";
-		$wpdb->query( $sql );
-
-		$sql = "ALTER TABLE {$table_participiants_new} CHANGE survey_id form_id int(11)";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='textfield' WHERE taxonomy='Text'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='textarea' WHERE taxonomy='Textarea'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='dropdown' WHERE taxonomy='Dropdown'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='onechoice' WHERE taxonomy='OneChoice'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='multiplechoice' WHERE taxonomy='MultipleChoice'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='text' WHERE taxonomy='Description'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='splitter' WHERE taxonomy='Splitter'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements_new} SET type='separator' WHERE taxonomy='Separator'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
-		$wpdb->query( $sql );
-
-		update_option( 'af_db_version', '1.0.0' );
-	}
-
-	/**
-	 * Installing plugin
-	 */
-	public static function install_plugin()
-	{
-		self::install_tables();
-		flush_rewrite_rules();
-		update_option( 'questions_is_installed', TRUE );
+		self::setup();
 	}
 
 	/**
 	 * Fired when the plugin is deactivated.
 	 *
-	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is
-	 *                                 disabled or plugin is activated on an individual blog
+	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
+	 * @since 1.0.0
 	 */
 	public static function deactivate( $network_wide )
 	{
@@ -484,32 +146,202 @@ class AF_Init
 	/**
 	 * Fired when the plugin is uninstalled.
 	 *
-	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is
-	 *                                 disabled or plugin is activated on an individual blog
-	 *
+	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
 	public static function uninstall( $network_wide )
 	{
 	}
 
+
 	/**
-	 * Registers and enqueues plugin-specific styles.
+	 * Checking if the plugin already installed
 	 *
+	 * @return boolean $is_installed
 	 * @since 1.0.0
 	 */
-	public static function register_plugin_styles()
+	private static function is_installed()
 	{
-		wp_enqueue_style( 'af-plugin-styles', AF_URLPATH . 'includes/css/display.css' );
+		global $wpdb;
+
+		$tables = array(
+				$wpdb->prefix . 'af_elements',
+				$wpdb->prefix . 'af_element_answers',
+				$wpdb->prefix . 'af_results',
+				$wpdb->prefix . 'af_result_values',
+				$wpdb->prefix . 'af_settings',
+				$wpdb->prefix . 'af_participiants',
+				$wpdb->prefix . 'af_email_notifications'
+		);
+
+		// Checking if all tables are existing
+		$not_found = FALSE;
+		foreach( $tables AS $table )
+		{
+			if( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table )
+			{
+				$not_found = TRUE;
+			}
+		}
+
+		$is_installed_option = (boolean) get_option( 'questions_is_installed', FALSE );
+
+		if( $not_found || FALSE == $is_installed_option )
+		{
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	/**
-	 * Registers and enqueues plugin-specific scripts.
-	 *
+	 * Setting up base plugin data
 	 * @since 1.0.0
 	 */
-	public static function register_plugin_scripts()
+	private static function setup()
 	{
+		$script_db_version = '1.0.1';
+		$current_db_version  = get_option( 'af_db_version' );
+
+		if( '1.1.1' == get_option( 'questions_db_version' ) )
+		{
+			require_once( 'updates/to-awesome-forms.php' );
+			af_questions_to_awesome_forms();
+		}
+
+		if( ! get_option( 'af_db_version' ) || !self::is_installed() || version_compare( $current_db_version, $script_db_version, '<' )  )
+		{
+			self::install_tables();
+		}
+
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Installing tables
+	 */
+	private static function install_tables()
+	{
+		global $wpdb;
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+		$table_elements = $wpdb->prefix . 'af_elements';
+		$table_element_answers = $wpdb->prefix . 'af_element_answers';
+		$table_results = $wpdb->prefix . 'af_results';
+		$table_results_values = $wpdb->prefix . 'af_result_values';
+		$table_settings = $wpdb->prefix . 'af_settings';
+		$table_participiants = $wpdb->prefix . 'af_participiants';
+		$table_email_notifications = $wpdb->prefix . 'af_email_notifications';
+
+		$charset_collate = af_get_charset_collate();
+
+		$sql = "CREATE TABLE $table_elements (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		form_id int(11) NOT NULL,
+		label text NOT NULL,
+		sort int(11) NOT NULL,
+		type char(50) NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_element_answers (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		element_id int(11) NOT NULL,
+		section char(100) NOT NULL,
+		answer text NOT NULL,
+		sort int(11) NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_results (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		form_id int(11) NOT NULL,
+		user_id int(11) NOT NULL,
+		timestamp int(11) NOT NULL,
+		remote_addr char(15) NOT NULL,
+		cookie_key char(50) NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_results_values (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		result_id int(11) NOT NULL,
+		element_id int(11) NOT NULL,
+		value text NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_settings (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		element_id int(11) NOT NULL,
+		name text NOT NULL,
+		value text NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_participiants (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		form_id int(11) NOT NULL,
+		user_id int(11) NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_email_notifications (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		form_id int(11) NOT NULL,
+		notification_name text NOT NULL,
+		from_name text NOT NULL,
+		from_email text NOT NULL,
+		to_name text NOT NULL,
+		to_email text NOT NULL,
+		subject text NOT NULL,
+		message text NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		$sql = "UPDATE {$table_elements} SET type='textfield' WHERE type='Text'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements} SET type='textarea' WHERE type='Textarea'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements} SET type='dropdown' WHERE type='Dropdown'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements} SET type='onechoice' WHERE type='OneChoice'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements} SET type='multiplechoice' WHERE type='MultipleChoice'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements} SET type='text' WHERE type='Description'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements} SET type='splitter' WHERE type='Splitter'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$table_elements} SET type='separator' WHERE type='Separator'";
+		$wpdb->query( $sql );
+
+		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET type='af-forms-categories' WHERE taxonomy='questions-categories'";
+		$wpdb->query( $sql );
+
+		dbDelta( $sql );
+
+		update_option( 'af_db_version', $script_db_version );
 	}
 
 	/**
