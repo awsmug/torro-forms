@@ -45,10 +45,6 @@ class AF_Init
 		{
 			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
 		}
-		else
-		{
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_plugin_styles' ) );
-		}
 	}
 
 	/**
@@ -79,7 +75,6 @@ class AF_Init
 				trailingslashit( WP_LANG_DIR . '/' . $domain  ),
 				trailingslashit( WP_LANG_DIR ),
 				trailingslashit( AF_FOLDER ) . 'languages/',
-
 		) );
 
 		// Try custom locations in WP_LANG_DIR.
@@ -214,6 +209,8 @@ class AF_Init
 		{
 			self::install_tables();
 		}
+
+		require_once( AF_FOLDER . 'core/init.php' );
 
 		flush_rewrite_rules();
 	}
@@ -363,6 +360,7 @@ class AF_Init
 	}
 	/**
 	 * Show Notices in Admin
+	 * @since 1.0.0
 	 */
 	public static function show_admin_notices()
 	{
@@ -377,6 +375,26 @@ class AF_Init
 			echo $html;
 		}
 	}
-}
 
+	/**
+	 * Logging function
+	 *
+	 * @param $message
+	 * @since 1.0.0
+	 */
+	public static function log( $message )
+	{
+		$wp_upload_dir = wp_upload_dir();
+		$log_dir = trailingslashit( $wp_upload_dir[ 'path' ]  ) . '/af-logs';
+
+		if( !file_exists( $log_dir ) || !is_dir( $log_dir ) )
+		{
+			mkdir( $log_dir );
+		}
+
+		$file = fopen(  $log_dir . '/main.log', 'a' );
+		fputs( $file, $message . chr(13) );
+		fclose( $file );
+	}
+}
 AF_Init::init();
