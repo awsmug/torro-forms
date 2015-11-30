@@ -41,7 +41,10 @@ class AF_Export
 	 */
 	public function __construct()
 	{
-		require_once( dirname( __FILE__ ) . '/includes/php/PHPExcel.php' );
+		if( !class_exists( 'PHPExcel' ) )
+		{
+			require_once( dirname( __FILE__ ) . '/includes/php/PHPExcel.php' );
+		}
 
 		add_action( 'admin_init', array( $this, 'export' ), 10 );
 		add_filter( 'post_row_actions', array( $this, 'add_export_link' ), 10, 2 );
