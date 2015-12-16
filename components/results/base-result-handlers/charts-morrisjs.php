@@ -5,7 +5,7 @@
  * This class shows charts by morris.js
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Results
+ * @package TorroForms/Results
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Chart_Creator_Morrisjs extends AF_Chart_Creator
+class Torro_Chart_Creator_Morrisjs extends Torro_Chart_Creator
 {
 	/**
 	 * Initializes the Component.
@@ -112,7 +112,7 @@ class AF_Chart_Creator_Morrisjs extends AF_Chart_Creator
 	 */
 	public function admin_styles()
 	{
-		$morris_css = AF_URLPATH . 'assets/vendor/morris.css';
+		$morris_css = TORRO_URLPATH . 'assets/vendor/morris.css';
 		wp_enqueue_style( 'morrisjs', $morris_css );
 	}
 
@@ -133,10 +133,10 @@ class AF_Chart_Creator_Morrisjs extends AF_Chart_Creator
 	{
 		wp_enqueue_script( 'jquery' );
 
-		$raphael_js_url = AF_URLPATH . 'assets/vendor/raphael.min.js';
+		$raphael_js_url = TORRO_URLPATH . 'assets/vendor/raphael.min.js';
 		wp_enqueue_script( 'raphaeljs', $raphael_js_url );
 
-		$morris_js_url = AF_URLPATH . 'assets/vendor/morris.min.js';
+		$morris_js_url = TORRO_URLPATH . 'assets/vendor/morris.min.js';
 		wp_enqueue_script( 'morrisjs', $morris_js_url );
 	}
 
@@ -149,4 +149,4 @@ class AF_Chart_Creator_Morrisjs extends AF_Chart_Creator
 	}
 }
 
-af_register_chartcreator( 'AF_Chart_Creator_Morrisjs' );
+af_register_chartcreator( 'Torro_Chart_Creator_Morrisjs' );

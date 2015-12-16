@@ -5,7 +5,7 @@
  * This class will load the form
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormLoader
+class Torro_FormLoader
 {
 
 	/**
@@ -90,7 +90,7 @@ class AF_FormLoader
 
 		do_action( 'af_form_process' );
 
-		$af_form_process = new AF_FormProcess( $ar_form_id );
+		$af_form_process = new Torro_FormProcess( $ar_form_id );
 		$af_form_process->process_response();
 	}
 
@@ -147,7 +147,7 @@ class AF_FormLoader
 		}
 		else
 		{
-			$af_form_process = new AF_FormProcess( $form_id );
+			$af_form_process = new Torro_FormProcess( $form_id );
 			$html = $af_form_process->show_form();
 		}
 
@@ -199,4 +199,4 @@ class AF_FormLoader
 	}
 }
 
-AF_FormLoader::init( TRUE );
+Torro_FormLoader::init( TRUE );

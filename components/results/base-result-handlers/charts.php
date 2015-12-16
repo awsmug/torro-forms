@@ -3,7 +3,7 @@
  * Charts Result Handler
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Results
+ * @package TorroForms/Results
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Result_Charts extends AF_ResultHandler
+class Torro_Result_Charts extends Torro_ResultHandler
 {
 	/**
 	 * Constructor
@@ -68,7 +68,7 @@ class AF_Result_Charts extends AF_ResultHandler
 
 		$form_id = $post->ID;
 
-		$form_results = new AF_Form_Results( $form_id );
+		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results();
 		$html = '';
 
@@ -110,7 +110,7 @@ class AF_Result_Charts extends AF_ResultHandler
 				$html .= '<div class="af-chart">';
 				$html .= '<div class="af-chart-diagram">';
 
-				$chart_creator = new AF_Chart_Creator_C3();
+				$chart_creator = new Torro_Chart_Creator_C3();
 				$chart_type = 'bars';
 				$html .= $chart_creator->$chart_type( $label, $element_result );
 
@@ -279,4 +279,4 @@ class AF_Result_Charts extends AF_ResultHandler
 	}
 }
 
-af_register_result_handler( 'AF_Result_Charts' );
+af_register_result_handler( 'Torro_Result_Charts' );

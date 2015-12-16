@@ -3,7 +3,7 @@
  * Elements abstraction class
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-abstract class AF_Form_Element
+abstract class Torro_Form_Element
 {
 
 	/**
@@ -1069,9 +1069,9 @@ function af_get_element( $element_id, $type = '' )
 		$type = $wpdb->get_var( $sql );
 	}
 
-	if( class_exists( 'AF_Form_Element_' . $type ) )
+	if( class_exists( 'Torro_Form_Element_' . $type ) )
 	{
-		$class = 'AF_Form_Element_' . $type;
+		$class = 'Torro_Form_Element_' . $type;
 
 		return new $class( $element_id );
 	}

@@ -3,7 +3,7 @@
  * Dropdown Form Element
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core/Elements
+ * @package TorroForms/Core/Elements
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Form_Element_Dropdown extends AF_Form_Element
+class Torro_Form_Element_Dropdown extends Torro_Form_Element
 {
 
 	public function init()
@@ -38,7 +38,7 @@ class AF_Form_Element_Dropdown extends AF_Form_Element
 		$this->name = 'dropdown';
 		$this->title = esc_attr__( 'Dropdown', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered within a dropdown field.', 'af-locale' );
-		$this->icon_url = AF_URLPATH . 'assets/img/icon-dropdown.png';
+		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-dropdown.png';
 
 		$this->has_answers = TRUE;
 		$this->answer_is_multiple = FALSE;
@@ -107,7 +107,7 @@ class AF_Form_Element_Dropdown extends AF_Form_Element
 
 }
 
-af_register_form_element( 'AF_Form_Element_Dropdown' );
+af_register_form_element( 'Torro_Form_Element_Dropdown' );
 
 
 

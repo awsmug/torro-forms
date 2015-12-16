@@ -3,7 +3,7 @@
  * Multiple Choice Form Element
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core/Elements
+ * @package TorroForms/Core/Elements
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Form_Element_MultipleChoice extends AF_Form_Element
+class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
 {
 
 	public function init()
@@ -38,7 +38,7 @@ class AF_Form_Element_MultipleChoice extends AF_Form_Element
 		$this->name = 'MultipleChoice';
 		$this->title = esc_attr__( 'Multiple Choice', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one ore more given answers.', 'af-locale' );
-		$this->icon_url = AF_URLPATH . 'assets/img/icon-multiplechoice.png';
+		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-multiplechoice.png';
 
 		$this->has_answers = TRUE;
 		$this->answer_is_multiple = TRUE;
@@ -128,4 +128,4 @@ class AF_Form_Element_MultipleChoice extends AF_Form_Element
 	}
 }
 
-af_register_form_element( 'AF_Form_Element_MultipleChoice' );
+af_register_form_element( 'Torro_Form_Element_MultipleChoice' );

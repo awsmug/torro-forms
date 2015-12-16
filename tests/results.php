@@ -2,13 +2,13 @@
 
 require_once( '../../../../wp-load.php' );
 
-class AF_ResultsTests extends PHPUnit_Framework_TestCase
+class Torro_ResultsTests extends PHPUnit_Framework_TestCase
 {
 	function testElementResults()
 	{
 		global $wpdb;
 
-		$af_results = new AF_Form_Results( 5944 );
+		$af_results = new Torro_Form_Results( 5944 );
 
 		// Number of Elements
 		$filter = array(

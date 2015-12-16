@@ -3,7 +3,7 @@
  * General Settings Tab
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core/Settings
+ * @package TorroForms/Core/Settings
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_GeneralSettings extends AF_Settings
+class Torro_GeneralSettings extends Torro_Settings
 {
 	/**
 	 * Constructor
@@ -88,4 +88,4 @@ class AF_GeneralSettings extends AF_Settings
 	}
 }
 
-af_register_settings( 'AF_GeneralSettings' );
+af_register_settings( 'Torro_GeneralSettings' );

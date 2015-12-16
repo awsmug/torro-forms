@@ -3,7 +3,7 @@
     /**
      * Form_Builder constructor
      */
-    function AF_FB_Entry() {
+    function Torro_FB_Entry() {
         this.selectors = {
             show_entry: '.af-show-entry',
             hide_entry: '.af-hide-entry',
@@ -18,9 +18,9 @@
     }
 
     /**
-     * AF_Entry class
+     * Torro_Entry class
      */
-    AF_FB_Entry.prototype = {
+    Torro_FB_Entry.prototype = {
         init: function () {
             this.init_show_entry();
             this.init_hide_entry();
@@ -134,7 +134,7 @@
         }
     };
 
-    var af_fb_entry = new AF_FB_Entry();
+    var af_fb_entry = new Torro_FB_Entry();
 
     $( document ).ready( function() {
         af_fb_entry.init();

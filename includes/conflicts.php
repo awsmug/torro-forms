@@ -4,7 +4,7 @@
  * Solving conflicts with other plugins
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -25,7 +25,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-class AF_Conflicts
+class Torro_Conflicts
 {
 	/**
 	 * @var The Single instance of the class
@@ -75,4 +75,4 @@ class AF_Conflicts
 	}
 
 }
-AF_Conflicts::instance();
+Torro_Conflicts::instance();

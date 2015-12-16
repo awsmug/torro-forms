@@ -3,7 +3,7 @@
  * Torro Forms Post Class
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Post
+class Torro_Post
 {
 	var $id;
 	var $post;

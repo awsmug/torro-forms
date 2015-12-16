@@ -5,7 +5,7 @@
  * Motherclass for all Restrictions
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Restriction_SelectedMembers extends AF_Restriction
+class Torro_Restriction_SelectedMembers extends Torro_Restriction
 {
 
 	/**
@@ -311,7 +311,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-restrictions-selected-members', AF_URLPATH . 'assets/css/restrictions-selected-members.css' );
+		wp_enqueue_style( 'af-restrictions-selected-members', TORRO_URLPATH . 'assets/css/restrictions-selected-members.css' );
 	}
 
 	/**
@@ -541,9 +541,9 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			'added_participiants'                 => esc_attr__( 'participiant/s', 'af-locale' ),
 		);
 
-		wp_enqueue_script( 'af-restrictions-selected-members', AF_URLPATH . 'assets/js/restrictions-selected-members.js' );
+		wp_enqueue_script( 'af-restrictions-selected-members', TORRO_URLPATH . 'assets/js/restrictions-selected-members.js' );
 		wp_localize_script( 'af-restrictions-selected-members', 'translation_sm', $translation );
 	}
 }
 
-af_register_restriction( 'AF_Restriction_SelectedMembers' );
+af_register_restriction( 'Torro_Restriction_SelectedMembers' );

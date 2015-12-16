@@ -5,7 +5,7 @@
  * Motherclass for all Response handlers
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Actions
+ * @package TorroForms/Actions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-abstract class AF_Action
+abstract class Torro_Action
 {
 	/**
 	 * The Single instances of the components
@@ -207,7 +207,7 @@ abstract class AF_Action
 
 		$settings_name = 'actions_' . $this->name;
 
-		$settings_handler = new AF_Settings_Handler( $settings_name, $this->settings_fields );
+		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
 		$this->settings = $settings_handler->get_field_values();
 	}
 

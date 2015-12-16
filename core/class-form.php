@@ -6,7 +6,7 @@
  * Init Forms with this class to get information about it
  *
  * @author  awesome.ug <contact@awesome.ug>
- * @package AwesomeForms
+ * @package TorroForms
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -32,7 +32,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Form extends AF_Post
+class Torro_Form extends Torro_Post
 {
 
 	/**

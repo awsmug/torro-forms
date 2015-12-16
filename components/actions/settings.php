@@ -3,7 +3,7 @@
  * General Settings Tab
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Actions
+ * @package TorroForms/Actions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Actions_Settings extends AF_Settings
+class Torro_Actions_Settings extends Torro_Settings
 {
 
 	/**
@@ -54,4 +54,4 @@ class AF_Actions_Settings extends AF_Settings
 	}
 }
 
-af_register_settings( 'AF_Actions_Settings' );
+af_register_settings( 'Torro_Actions_Settings' );

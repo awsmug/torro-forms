@@ -5,7 +5,7 @@
  * This class shows charts by Dimple which is based on D3
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Results
+ * @package TorroForms/Results
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Chart_Creator_Dimple extends AF_Chart_Creator
+class Torro_Chart_Creator_Dimple extends Torro_Chart_Creator
 {
 	/**
 	 * Initializes the Component.
@@ -142,10 +142,10 @@ class AF_Chart_Creator_Dimple extends AF_Chart_Creator
 	 */
 	public function admin_scripts()
 	{
-		$d3_script_url = AF_URLPATH . 'assets/vendor/d3.min.js';
+		$d3_script_url = TORRO_URLPATH . 'assets/vendor/d3.min.js';
 		wp_enqueue_script( 'd3', $d3_script_url );
 
-		$dimple_script_url = AF_URLPATH . 'assets/vendor/dimple.min.js';
+		$dimple_script_url = TORRO_URLPATH . 'assets/vendor/dimple.min.js';
 		wp_enqueue_script( 'dimplejs', $dimple_script_url );
 	}
 
@@ -158,4 +158,4 @@ class AF_Chart_Creator_Dimple extends AF_Chart_Creator
 	}
 }
 
-af_register_chartcreator( 'AF_Chart_Creator_Dimple' );
+af_register_chartcreator( 'Torro_Chart_Creator_Dimple' );

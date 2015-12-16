@@ -5,7 +5,7 @@
  * Retriction functions for visitors
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Restriction_AllVisitors extends AF_Restriction
+class Torro_Restriction_AllVisitors extends Torro_Restriction
 {
 
 	/**
@@ -90,7 +90,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 			{
 				$af_skip_fingerrint_check = TRUE;
 
-				$af_form_process = new AF_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
+				$af_form_process = new Torro_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
 				$content .= $af_form_process->show_form();
 			}
 			else
@@ -157,7 +157,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	 */
 	public static function enqueue_fingerprint_scripts()
 	{
-		wp_enqueue_script( 'detection', AF_URLPATH . 'assets/vendor/detection.min.js' );
+		wp_enqueue_script( 'detection', TORRO_URLPATH . 'assets/vendor/detection.min.js' );
 	}
 
 	/**
@@ -390,4 +390,4 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 
 }
 
-af_register_restriction( 'AF_Restriction_AllVisitors' );
+af_register_restriction( 'Torro_Restriction_AllVisitors' );

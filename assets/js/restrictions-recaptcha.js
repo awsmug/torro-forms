@@ -1,4 +1,4 @@
-function AF_reCAPTCHA_Widget( tag_id, params ) {
+function Torro_reCAPTCHA_Widget( tag_id, params ) {
 	this.tag_id = tag_id;
 	this.params = params;
 
@@ -12,7 +12,7 @@ function AF_reCAPTCHA_Widget( tag_id, params ) {
 	}
 }
 
-AF_reCAPTCHA_Widget.prototype = {
+Torro_reCAPTCHA_Widget.prototype = {
 	get_response: function() {
 		if ( typeof this.widget_id !== 'number' ) {
 			return null;
@@ -40,7 +40,7 @@ var af_reCAPTCHA_widgets_init = function() {
 	for ( var i = 0; i < captcha_tags.length; i++ ) {
 		var captcha_tag_id = captcha_tags[ i ].getAttribute( 'id' );
 
-		af_reCAPTCHA_widget_instances[ captcha_tag_id ] = new AF_reCAPTCHA_Widget( captcha_tag_id, {
+		af_reCAPTCHA_widget_instances[ captcha_tag_id ] = new Torro_reCAPTCHA_Widget( captcha_tag_id, {
 			'sitekey': _af_recaptcha_settings.sitekey,
 			'type': captcha_tags[ i ].getAttribute( 'data-type' ),
 			'size': captcha_tags[ i ].getAttribute( 'data-size' ),

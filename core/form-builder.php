@@ -3,7 +3,7 @@
  * Torro Forms Form Builder
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Formbuilder
+class Torro_Formbuilder
 {
 
 	/**
@@ -83,7 +83,7 @@ class AF_Formbuilder
 		$html .= ob_get_clean();
 
 		$html .= '<div id="drag-drop-inside">';
-		$form = new AF_Form( $form_id );
+		$form = new Torro_Form( $form_id );
 
 		// Running each Element
 		if( count( $form->elements ) > 0 )
@@ -406,7 +406,7 @@ class AF_Formbuilder
 	 */
 	public static function delete_form( $form_id )
 	{
-		$form = new AF_Form( $form_id );
+		$form = new Torro_Form( $form_id );
 		$form->delete();
 	}
 
@@ -426,7 +426,7 @@ class AF_Formbuilder
 			return;
 		}
 
-		$form = new AF_Form( $form_id );
+		$form = new Torro_Form( $form_id );
 		$new_form_id = $form->duplicate( TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
 
 		$post = get_post( $new_form_id );
@@ -458,13 +458,13 @@ class AF_Formbuilder
 			return;
 		}
 
-		$form = new AF_form( $form_id );
+		$form = new Torro_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
 		$response = array(
 			'form_id' => $form_id,
 			'deleted' => TRUE,
-			'html' => AF_ResultsEntries::show_not_found_notice(),
+			'html' => Torro_ResultsEntries::show_not_found_notice(),
 		);
 
 		echo json_encode( $response );
@@ -501,7 +501,7 @@ class AF_Formbuilder
 			return;
 		}
 
-		wp_enqueue_style( 'af-form-edit', AF_URLPATH . 'assets/css/form-edit.css' );
+		wp_enqueue_style( 'af-form-edit', TORRO_URLPATH . 'assets/css/form-edit.css' );
 	}
 
 	/**
@@ -538,9 +538,9 @@ class AF_Formbuilder
 		wp_enqueue_script( 'admin-widgets' );
 		wp_enqueue_script( 'wpdialogs-popup' );
 
-		wp_enqueue_script( 'clipboard', AF_URLPATH . 'assets/vendor/clipboard.min.js' );
+		wp_enqueue_script( 'clipboard', TORRO_URLPATH . 'assets/vendor/clipboard.min.js' );
 
-		wp_enqueue_script( 'af-form-edit', AF_URLPATH . 'assets/js/form-edit.js' );
+		wp_enqueue_script( 'af-form-edit', TORRO_URLPATH . 'assets/js/form-edit.js' );
 		wp_localize_script( 'af-form-edit', 'translation_fb', $translation );
 
 		if( wp_is_mobile() )
@@ -550,4 +550,4 @@ class AF_Formbuilder
 	}
 }
 
-AF_Formbuilder::init();
+Torro_Formbuilder::init();

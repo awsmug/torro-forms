@@ -3,7 +3,7 @@
  * Torro Forms Processing Restrictions Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Actions
+ * @package TorroForms/Actions
  * @version 2015-08-16
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Actions_FormProcessExtension
+class Torro_Actions_FormProcessExtension
 {
 
 	/**
@@ -62,4 +62,4 @@ class AF_Actions_FormProcessExtension
 	}
 }
 
-AF_Actions_FormProcessExtension::init();
+Torro_Actions_FormProcessExtension::init();

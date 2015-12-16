@@ -5,7 +5,7 @@
  * This class creates the export
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Export
+class Torro_Export
 {
 
 	/**
@@ -43,7 +43,7 @@ class AF_Export
 	{
 		if( !class_exists( 'PHPExcel' ) )
 		{
-			require_once( AF_FOLDER . 'vendor/PHPExcel.php' );
+			require_once( TORRO_FOLDER . 'vendor/PHPExcel.php' );
 		}
 
 		add_action( 'admin_init', array( $this, 'export' ), 10 );
@@ -65,7 +65,7 @@ class AF_Export
 			return $actions;
 		}
 
-		$results = new AF_Form_Results( $post->ID );
+		$results = new Torro_Form_Results( $post->ID );
 		$results->results();
 
 		if( 0 == $results->count() )
@@ -92,8 +92,8 @@ class AF_Export
 			$export_type = $_GET[ 'af_export' ];
 			$form_id = $_GET[ 'form_id' ];
 
-			$form = new AF_Form( $form_id );
-			$form_results = new AF_Form_Results( $form_id );
+			$form = new Torro_Form( $form_id );
+			$form_results = new Torro_Form_Results( $form_id );
 
 			$filename = sanitize_title( $form->title );
 			$results = $form_results->results( array( 'column_name' => 'label' ) );
@@ -190,4 +190,4 @@ class AF_Export
 		exit;
 	}
 }
-$AF_Export = new AF_Export();
+$Torro_Export = new Torro_Export();

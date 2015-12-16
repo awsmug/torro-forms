@@ -5,7 +5,7 @@
  * This class is the base for every Torro Forms Component.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-abstract class AF_Component
+abstract class Torro_Component
 {
 	/**
 	 * The Single instances of the components
@@ -250,7 +250,7 @@ abstract class AF_Component
 		{
 			$message = $message . ' (in Module "' .  $this->name . '")';
 		}
-		AF_Init::admin_notice( $message , $type );
+		Torro_Init::admin_notice( $message , $type );
 	}
 }
 

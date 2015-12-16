@@ -3,7 +3,7 @@
  * Restrict form to a timerange
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Restriction_Timerange extends AF_Restriction
+class Torro_Restriction_Timerange extends Torro_Restriction
 {
 
 	/**
@@ -160,10 +160,10 @@ class AF_Restriction_Timerange extends AF_Restriction
 			'november'			=> esc_attr__( 'November', 'af-locale' ),
 			'december'			=> esc_attr__( 'December', 'af-locale' ),
 			'select_date'		=> esc_attr__( 'Select Date', 'af-locale' ),
-			'calendar_icon_url'	=> AF_URLPATH . 'assets/img/calendar-icon.png',
+			'calendar_icon_url'	=> TORRO_URLPATH . 'assets/img/calendar-icon.png',
 		);
 
-		wp_enqueue_script( 'af-restrictions-timerange', AF_URLPATH . 'assets/js/restrictions-timerange.js', array( 'jquery-ui-datepicker' ) );
+		wp_enqueue_script( 'af-restrictions-timerange', TORRO_URLPATH . 'assets/js/restrictions-timerange.js', array( 'jquery-ui-datepicker' ) );
 		wp_localize_script( 'af-restrictions-timerange', 'translation_admin', $translation_admin );
 	}
 
@@ -174,8 +174,8 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-restrictions-timerange', AF_URLPATH . 'assets/css/restrictions-timerange.css' );
+		wp_enqueue_style( 'af-restrictions-timerange', TORRO_URLPATH . 'assets/css/restrictions-timerange.css' );
 	}
 }
 
-af_register_restriction( 'AF_Restriction_Timerange' );
+af_register_restriction( 'Torro_Restriction_Timerange' );

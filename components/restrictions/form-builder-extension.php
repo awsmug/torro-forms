@@ -3,7 +3,7 @@
  * Torro Forms Restrictions Extension for the Formbuilder
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Formbuilder_RestrictionsExtension
+class Torro_Formbuilder_RestrictionsExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -169,8 +169,8 @@ class AF_Formbuilder_RestrictionsExtension
 			return;
 		}
 
-		wp_enqueue_style( 'af-restrictions', AF_URLPATH . 'assets/css/restrictions.css' );
+		wp_enqueue_style( 'af-restrictions', TORRO_URLPATH . 'assets/css/restrictions.css' );
 	}
 }
 
-AF_Formbuilder_RestrictionsExtension::init();
+Torro_Formbuilder_RestrictionsExtension::init();

@@ -3,7 +3,7 @@
  * Processing submitted form
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_FormProcess
+class Torro_FormProcess
 {
 
 	/**
@@ -55,7 +55,7 @@ class AF_FormProcess
 	public function __construct( $form_id, $action_url = NULL )
 	{
 		$this->form_id = $form_id;
-		$this->form = new AF_Form( $this->form_id );
+		$this->form = new Torro_Form( $this->form_id );
 
 		if( NULL == $action_url )
 		{
@@ -295,7 +295,7 @@ class AF_FormProcess
 		if( $is_submit && $validation_status && 0 == count( $af_response_errors ) )
 		{
 
-			$form = new AF_Form( $ar_form_id );
+			$form = new Torro_Form( $ar_form_id );
 			$result_id = $form->save_response( $_SESSION[ 'af_response' ][ $ar_form_id ] );
 
 			if( FALSE != $result_id )

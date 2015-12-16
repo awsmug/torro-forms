@@ -4,7 +4,7 @@
  * Adds form Templatetags
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -24,7 +24,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-class AF_FormTemplateTags extends AF_TemplateTags
+class Torro_FormTemplateTags extends Torro_TemplateTags
 {
 
 	/**
@@ -59,7 +59,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	{
 		global $ar_form_id;
 
-		$form = new AF_Form( $ar_form_id );
+		$form = new Torro_Form( $ar_form_id );
 
 		return $form->title;
 	}
@@ -137,7 +137,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	{
 		global $ar_form_id, $af_response;
 
-		$form = new AF_Form( $ar_form_id );
+		$form = new Torro_Form( $ar_form_id );
 
 		$html = '<table style="width:100%;">';
 		foreach( $form->get_elements() AS $element )
@@ -153,7 +153,7 @@ class AF_FormTemplateTags extends AF_TemplateTags
 	}
 }
 
-af_register_templatetags( 'AF_FormTemplateTags' );
+af_register_templatetags( 'Torro_FormTemplateTags' );
 
 /**
  * Live registering element templatetags

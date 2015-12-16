@@ -5,7 +5,7 @@
  * This class initializes the core component.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Core
+class Torro_Core
 {
 	/**
 	 * Initializes the Component.
@@ -53,7 +53,7 @@ class AF_Core
 	 */
 	public static function includes()
 	{
-		$core_folder = AF_FOLDER . 'core/';
+		$core_folder = TORRO_FOLDER . 'core/';
 
 		// Base classes
 		include( $core_folder . 'global.php' ); // Global Torro Forms object $af_global
@@ -159,7 +159,7 @@ class AF_Core
 			'public'            => TRUE,
 			'has_archive'       => TRUE,
 			'supports'          => array( 'title' ),
-			'show_in_menu'      => 'AF_Admin',
+			'show_in_menu'      => 'Torro_Admin',
 			'show_in_nav_menus' => FALSE,
 			'rewrite'           => array( 'slug' => $slug, 'with_front' => TRUE )
 		);
@@ -197,7 +197,7 @@ class AF_Core
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-icons', AF_URLPATH . 'assets/css/icons.css' );
+		wp_enqueue_style( 'af-icons', TORRO_URLPATH . 'assets/css/icons.css' );
 	}
 
 	/**
@@ -207,9 +207,9 @@ class AF_Core
 	 */
 	public static function register_plugin_styles()
 	{
-		wp_enqueue_style( 'af-frontend', AF_URLPATH . 'assets/css/frontend.css' );
+		wp_enqueue_style( 'af-frontend', TORRO_URLPATH . 'assets/css/frontend.css' );
 	}
 
 }
 
-AF_Core::init();
+Torro_Core::init();

@@ -3,7 +3,7 @@
  * Separator Form Element
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core/Elements
+ * @package TorroForms/Core/Elements
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Form_Element_Separator extends AF_Form_Element
+class Torro_Form_Element_Separator extends Torro_Form_Element
 {
 
 	public function init()
@@ -38,7 +38,7 @@ class AF_Form_Element_Separator extends AF_Form_Element
 		$this->name = 'separator';
 		$this->title = esc_attr__( 'Separator', 'af-locale' );
 		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between elements.', 'af-locale' );
-		$this->icon_url = AF_URLPATH . 'assets/img/icon-separator.png';
+		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-separator.png';
 
 		$this->has_content = FALSE;
 		$this->is_answerable = FALSE;
@@ -52,4 +52,4 @@ class AF_Form_Element_Separator extends AF_Form_Element
 	}
 }
 
-af_register_form_element( 'AF_Form_Element_Separator' );
+af_register_form_element( 'Torro_Form_Element_Separator' );

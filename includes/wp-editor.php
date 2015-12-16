@@ -8,7 +8,7 @@
  *
  * http://wordpress.stackexchange.com/questions/70548/load-tinymce-wp-editor-via-ajax
  */
-class AF_WPEditorBox
+class Torro_WPEditorBox
 {
 	/**
 	 * MCE Settings
@@ -37,7 +37,7 @@ class AF_WPEditorBox
 	/**
 	 * Singleton init
 	 *
-	 * @return AF_WPEditorBox|object
+	 * @return Torro_WPEditorBox|object
 	 * @since 1.0.0
 	 */
 	public static function init()
@@ -285,7 +285,7 @@ class AF_WPEditorBox
 		die();
 	}
 }
-AF_WPEditorBox::init();
+Torro_WPEditorBox::init();
 
 /**
  * Getting WP Editor
@@ -299,5 +299,5 @@ AF_WPEditorBox::init();
  */
 function af_wp_editor( $content, $editor_id, $field_name = NULL )
 {
-	return AF_WPEditorBox::editor( $content, $editor_id, $field_name );
+	return Torro_WPEditorBox::editor( $content, $editor_id, $field_name );
 }

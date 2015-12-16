@@ -5,7 +5,7 @@
  * Adds Email notifications for forms
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_EmailNotifications extends AF_Action
+class Torro_EmailNotifications extends Torro_Action
 {
 	/**
 	 * From Email Name
@@ -81,7 +81,7 @@ class AF_EmailNotifications extends AF_Action
 		if( count( $notifications ) > 0 )
 		{
 			// Adding elements templatetags
-			$form = new AF_Form( $ar_form_id );
+			$form = new Torro_Form( $ar_form_id );
 			foreach( $form->elements AS $element )
 			{
 				af_add_element_templatetag( $element->id, $element->label );
@@ -255,7 +255,7 @@ class AF_EmailNotifications extends AF_Action
 
 		$editor = af_wp_editor( $message, $editor_id );
 
-		$icon_url = AF_URLPATH . 'assets/img/mail.svg';
+		$icon_url = TORRO_URLPATH . 'assets/img/mail.svg';
 
 		$html = '<h4 class="widget-top notification-' . $id . '"><a class="widget-action hide-if-no-js"></a><img src="' . $icon_url . '" class="icon" />' . $notification_name . '</h4>';
 		$html.= '<div class="notification widget-inside notification-' . $id . '-content">';
@@ -336,7 +336,7 @@ class AF_EmailNotifications extends AF_Action
 			'no'			=> esc_attr__( 'No', 'af-locale' )
 		);
 
-		wp_enqueue_script( 'af-actions-email-notifications', AF_URLPATH . 'assets/js/actions-email-notifications.js', array( 'jquery-ui-accordion' ) );
+		wp_enqueue_script( 'af-actions-email-notifications', TORRO_URLPATH . 'assets/js/actions-email-notifications.js', array( 'jquery-ui-accordion' ) );
 		wp_localize_script( 'af-actions-email-notifications', 'translation_email_notifications', $translation );
 	}
 
@@ -345,7 +345,7 @@ class AF_EmailNotifications extends AF_Action
 	 */
 	public static function enqueue_admin_styles()
 	{
-		wp_enqueue_style( 'af-actions-email-notifications', AF_URLPATH . 'assets/css/actions-email-notifications.css' );
+		wp_enqueue_style( 'af-actions-email-notifications', TORRO_URLPATH . 'assets/css/actions-email-notifications.css' );
 	}
 }
-af_register_action( 'AF_EmailNotifications' );
+af_register_action( 'Torro_EmailNotifications' );

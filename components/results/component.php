@@ -3,7 +3,7 @@
  * Torro Forms Results Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Results_Component extends AF_Component
+class Torro_Results_Component extends Torro_Component
 {
 
 	/**
@@ -46,7 +46,7 @@ class AF_Results_Component extends AF_Component
 
 	public function includes()
 	{
-		$folder = AF_COMPONENTFOLDER . 'results/';
+		$folder = TORRO_COMPONENTFOLDER . 'results/';
 
 		// Loading abstract Classes
 		require_once( $folder . 'abstract/class-result-handler.php' );
@@ -75,8 +75,8 @@ class AF_Results_Component extends AF_Component
 
 	public function admin_styles()
 	{
-		wp_enqueue_style( 'af-results', AF_URLPATH . 'assets/css/results.css' );
+		wp_enqueue_style( 'af-results', TORRO_URLPATH . 'assets/css/results.css' );
 	}
 }
 
-af_register_component( 'AF_Results_Component' );
+af_register_component( 'Torro_Results_Component' );

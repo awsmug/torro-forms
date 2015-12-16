@@ -6,7 +6,7 @@
  * This class shows and saves the settings page
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core/Settings
+ * @package TorroForms/Core/Settings
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -26,7 +26,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-class AF_SettingsPage
+class Torro_SettingsPage
 {
 
 	/**
@@ -93,7 +93,7 @@ class AF_SettingsPage
 					$css_classes = ' nav-tab-active';
 				}
 
-				$html .= '<a href="' . admin_url( 'admin.php?page=AF_Admin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
+				$html .= '<a href="' . admin_url( 'admin.php?page=Torro_Admin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
 			}
 			$html .= '</h2>';
 
@@ -177,8 +177,8 @@ class AF_SettingsPage
 			return;
 		}
 
-		wp_enqueue_style( 'af-settings-page', AF_URLPATH . 'assets/css/settings-page.css' );
+		wp_enqueue_style( 'af-settings-page', TORRO_URLPATH . 'assets/css/settings-page.css' );
 	}
 }
 
-AF_SettingsPage::init();
+Torro_SettingsPage::init();

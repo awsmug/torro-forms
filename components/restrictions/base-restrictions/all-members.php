@@ -5,7 +5,7 @@
  * Motherclass for all Restrictions
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Restriction_AllMembers extends AF_Restriction
+class Torro_Restriction_AllMembers extends Torro_Restriction
 {
 
 	/**
@@ -126,4 +126,4 @@ class AF_Restriction_AllMembers extends AF_Restriction
 	}
 }
 
-af_register_restriction( 'AF_Restriction_AllMembers' );
+af_register_restriction( 'Torro_Restriction_AllMembers' );

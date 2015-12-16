@@ -3,7 +3,7 @@
  * Settings handler for showing settings forms
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core/Settings
+ * @package TorroForms/Core/Settings
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Settings_Handler
+class Torro_Settings_Handler
 {
 	/**
 	 * @var string

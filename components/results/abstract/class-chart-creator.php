@@ -5,7 +5,7 @@
  * Motherclass for chart creation
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
     exit;
 }
 
-abstract class AF_Chart_Creator
+abstract class Torro_Chart_Creator
 {
 
     /**
@@ -212,7 +212,7 @@ abstract class AF_Chart_Creator
         {
             $message = $message . ' (in Chart Creator "' .  $this->name . '")';
         }
-        AF_Init::admin_notice( $message , $type );
+        Torro_Init::admin_notice( $message , $type );
     }
 }
 

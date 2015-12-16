@@ -18,7 +18,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Init
+class Torro_Init
 {
 	/**
 	 * @var $admin_notices
@@ -59,10 +59,10 @@ class AF_Init
 	 */
 	private static function constants()
 	{
-		define( 'AF_FOLDER', plugin_dir_path( __FILE__ ) );
-		define( 'AF_RELATIVE_FOLDER', substr( AF_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( AF_FOLDER ) ) );
-		define( 'AF_URLPATH', plugin_dir_url( __FILE__ ) );
-		define( 'AF_COMPONENTFOLDER', AF_FOLDER . 'components/' );
+		define( 'TORRO_FOLDER', plugin_dir_path( __FILE__ ) );
+		define( 'TORRO_RELATIVE_FOLDER', substr( TORRO_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( TORRO_FOLDER ) ) );
+		define( 'TORRO_URLPATH', plugin_dir_url( __FILE__ ) );
+		define( 'TORRO_COMPONENTFOLDER', TORRO_FOLDER . 'components/' );
 	}
 
 	/**
@@ -79,7 +79,7 @@ class AF_Init
 		$locations = apply_filters( 'af_locale_locations', array(
 				trailingslashit( WP_LANG_DIR . '/' . $domain  ),
 				trailingslashit( WP_LANG_DIR ),
-				trailingslashit( AF_FOLDER ) . 'languages/',
+				trailingslashit( TORRO_FOLDER ) . 'languages/',
 		) );
 
 		// Try custom locations in WP_LANG_DIR.
@@ -100,17 +100,17 @@ class AF_Init
 	private static function load_files()
 	{
 		// Loading Functions
-		require_once( AF_FOLDER . 'includes/functions.php' );
-		require_once( AF_FOLDER . 'includes/conflicts.php' );
-		require_once( AF_FOLDER . 'includes/wp-editor.php' );
+		require_once( TORRO_FOLDER . 'includes/functions.php' );
+		require_once( TORRO_FOLDER . 'includes/conflicts.php' );
+		require_once( TORRO_FOLDER . 'includes/wp-editor.php' );
 
 		// Loading Core
-		require_once( AF_FOLDER . 'core/init.php' );
+		require_once( TORRO_FOLDER . 'core/init.php' );
 
 		// Loading Components
-		require_once( AF_COMPONENTFOLDER . 'actions/component.php' );
-		require_once( AF_COMPONENTFOLDER . 'restrictions/component.php' );
-		require_once( AF_COMPONENTFOLDER . 'results/component.php' );
+		require_once( TORRO_COMPONENTFOLDER . 'actions/component.php' );
+		require_once( TORRO_COMPONENTFOLDER . 'restrictions/component.php' );
+		require_once( TORRO_COMPONENTFOLDER . 'results/component.php' );
 	}
 
 	/**
@@ -209,7 +209,7 @@ class AF_Init
 			self::install_tables();
 		}
 
-		require_once( AF_FOLDER . 'core/init.php' );
+		require_once( TORRO_FOLDER . 'core/init.php' );
 	}
 
 	/**
@@ -398,6 +398,6 @@ class AF_Init
 }
 
 function af_init() {
-	AF_Init::init();
+	Torro_Init::init();
 }
 add_action( 'plugins_loaded', 'af_init' );

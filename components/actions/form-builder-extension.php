@@ -3,7 +3,7 @@
  * Torro Forms Restrictions Component Form Builder Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Formbuilder_Actions_Extension
+class Torro_Formbuilder_Actions_Extension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -133,7 +133,7 @@ class AF_Formbuilder_Actions_Extension
 		if( !af_is_formbuilder() )
 			return;
 
-		wp_enqueue_script( 'af-actions', AF_URLPATH . 'assets/js/actions.js' );
+		wp_enqueue_script( 'af-actions', TORRO_URLPATH . 'assets/js/actions.js' );
 	}
 
 	/**
@@ -144,7 +144,7 @@ class AF_Formbuilder_Actions_Extension
 		if( !af_is_formbuilder() )
 			return;
 
-		wp_enqueue_style( 'af-actions', AF_URLPATH . 'assets/css/actions.css' );
+		wp_enqueue_style( 'af-actions', TORRO_URLPATH . 'assets/css/actions.css' );
 	}
 }
-AF_Formbuilder_Actions_Extension::init();
+Torro_Formbuilder_Actions_Extension::init();

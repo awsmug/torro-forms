@@ -5,7 +5,7 @@
  * Class for handling results from database
  *
  * @author  awesome.ug <contact@awesome.ug>
- * @package AwesomeForms
+ * @package TorroForms
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Form_Results
+class Torro_Form_Results
 {
 	/**
 	 * Form Id
@@ -109,7 +109,7 @@ class AF_Form_Results
 		    'refresh_view' => TRUE
 		) );
 
-		$form = new AF_Form( $this->form_id );
+		$form = new Torro_Form( $this->form_id );
 		$form_elements = $form->get_elements();
 
 		if( count( $form_elements ) == 0 )
@@ -465,7 +465,7 @@ class AF_Form_Results
 	 *
 	 * Example for adding a User Name column:
 	 *
-	 *  $results = new AF_Form_Results( 5944 );
+	 *  $results = new Torro_Form_Results( 5944 );
 	 *  $af_results->add_column( 'username', "SELECT user_login FROM {$wpdb->prefix}users WHERE ID=row.user_id" );
 	 *  $results = $af_results->results();
 	 *

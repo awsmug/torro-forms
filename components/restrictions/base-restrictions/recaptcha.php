@@ -3,7 +3,7 @@
  * Restrict form to solving a reCAPTCHA
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class AF_Restriction_Recaptcha extends AF_Restriction {
+class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	private $recaptcha_errors = array();
 
 	/**
@@ -81,7 +81,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 
 		if( $this->is_enabled( $form_id ) && !$this->is_configured() )
 		{
-			AF_Init::admin_notice( sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'af-locale' ), admin_url( 'admin.php?page=AF_Admin&tab=restrictions&section=recaptcha' ) ), 'error' );
+			Torro_Init::admin_notice( sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'af-locale' ), admin_url( 'admin.php?page=Torro_Admin&tab=restrictions&section=recaptcha' ) ), 'error' );
 		}
 	}
 
@@ -296,7 +296,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 			return;
 		}
 
-		wp_enqueue_script( 'af-restrictions-recaptcha', AF_URLPATH . 'assets/js/restrictions-recaptcha.js', array(), false, true );
+		wp_enqueue_script( 'af-restrictions-recaptcha', TORRO_URLPATH . 'assets/js/restrictions-recaptcha.js', array(), false, true );
 		wp_localize_script( 'af-restrictions-recaptcha', '_af_recaptcha_settings', array(
 			'sitekey'		=> $this->settings['recaptcha_sitekey'],
 		) );
@@ -392,4 +392,4 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 	}
 }
 
-af_register_restriction( 'AF_Restriction_Recaptcha' );
+af_register_restriction( 'Torro_Restriction_Recaptcha' );

@@ -5,7 +5,7 @@
  * This class shows charts by C3 which is based on D3
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Results
+ * @package TorroForms/Results
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Chart_Creator_C3 extends AF_Chart_Creator
+class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
 {
 	/**
 	 * Initializes the Component.
@@ -178,7 +178,7 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 	 */
 	public function admin_styles()
 	{
-		$morris_css = AF_URLPATH . 'assets/vendor/c3.css';
+		$morris_css = TORRO_URLPATH . 'assets/vendor/c3.css';
 		wp_enqueue_style( 'c3', $morris_css );
 	}
 
@@ -187,9 +187,9 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 	 */
 	public function admin_scripts()
 	{
-		wp_enqueue_script( 'd3', AF_URLPATH . 'assets/vendor/d3.min.js' );
-		wp_enqueue_script( 'c3', AF_URLPATH . 'assets/vendor/c3.min.js' );
-		wp_enqueue_script( 'af-results-charts', AF_URLPATH . 'assets/js/results-charts.js' );
+		wp_enqueue_script( 'd3', TORRO_URLPATH . 'assets/vendor/d3.min.js' );
+		wp_enqueue_script( 'c3', TORRO_URLPATH . 'assets/vendor/c3.min.js' );
+		wp_enqueue_script( 'af-results-charts', TORRO_URLPATH . 'assets/js/results-charts.js' );
 	}
 
 	/**
@@ -209,4 +209,4 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 	}
 }
 
-af_register_chartcreator( 'AF_Chart_Creator_C3' );
+af_register_chartcreator( 'Torro_Chart_Creator_C3' );

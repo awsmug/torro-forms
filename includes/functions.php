@@ -3,7 +3,7 @@
  * Helper functions for plugin
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -34,7 +34,7 @@ if( !defined( 'ABSPATH' ) )
  *
  * @since 1.0.0
  */
-if( defined( 'AF_FOLDER' ) )
+if( defined( 'TORRO_FOLDER' ) )
 {
 	function af_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
 	{
@@ -47,8 +47,8 @@ if( defined( 'AF_FOLDER' ) )
 				{
 					continue;
 				}
-				if( file_exists( AF_FOLDER . '/templates/' . $template_name ) ):
-					$located = AF_FOLDER . '/templates/' . $template_name;
+				if( file_exists( TORRO_FOLDER . '/templates/' . $template_name ) ):
+					$located = TORRO_FOLDER . '/templates/' . $template_name;
 					break;
 				endif;
 			endforeach;
@@ -85,7 +85,7 @@ function af_is_formbuilder()
  */
 function af_is_settingspage()
 {
-	if( is_admin() && isset( $_GET[ 'page' ] ) && 'AF_Admin' == $_GET[ 'page' ] )
+	if( is_admin() && isset( $_GET[ 'page' ] ) && 'Torro_Admin' == $_GET[ 'page' ] )
 	{
 		return TRUE;
 	}
@@ -127,7 +127,7 @@ function af_clipboard_field( $label, $content )
 		$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
 
 		$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
-		$html .= '<img src="' . AF_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'af-locale' ) . '" />';
+		$html .= '<img src="' . TORRO_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'af-locale' ) . '" />';
 		$html .= '</button>';
 
 		$html .= '<div style="clear:both;"></div>';

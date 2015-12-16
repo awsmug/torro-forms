@@ -3,7 +3,7 @@
  * Torro Forms Class for main global $af_global
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 
 global $af_global;
 
-class AF_Global
+class Torro_Global
 {
 	var $tables;
 	var $components = array();
@@ -72,7 +72,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Component' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_Component' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -89,7 +89,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Settings' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_Settings' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -105,7 +105,7 @@ class AF_Global
 		{
 			return FALSE;
 		}
-		if( !is_object( $object ) && 'AF_Form_Element' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_Form_Element' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -121,7 +121,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Restriction' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_Restriction' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -138,7 +138,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Action' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_Action' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -155,7 +155,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Action' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_Action' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -172,7 +172,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_Chart_Creator' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_Chart_Creator' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -189,7 +189,7 @@ class AF_Global
 			return FALSE;
 		}
 
-		if( !is_object( $object ) && 'AF_TemplateTags' != get_parent_class( $object ) )
+		if( !is_object( $object ) && 'Torro_TemplateTags' != get_parent_class( $object ) )
 		{
 			return FALSE;
 		}
@@ -200,4 +200,4 @@ class AF_Global
 	}
 }
 
-$af_global = new AF_Global();
+$af_global = new Torro_Global();

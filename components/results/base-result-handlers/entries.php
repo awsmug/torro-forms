@@ -3,7 +3,7 @@
  * List Result Handler
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Results
+ * @package TorroForms/Results
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ResultsEntries extends AF_ResultHandler
+class Torro_ResultsEntries extends Torro_ResultHandler
 {
 	/**
 	 * Constructor
@@ -65,7 +65,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$html .= '<div class="af-entries-slider">';
 		$html .= '<div class="af-slider-start-content">';
 
-		$form_results = new AF_Form_Results( $form_id );
+		$form_results = new Torro_Form_Results( $form_id );
 		$form_results->results();
 		$num_results = $form_results->count();
 
@@ -81,7 +81,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 
 	private static function show_results( $form_id, $start, $length, $num_results )
 	{
-		$form_results = new AF_Form_Results( $form_id );
+		$form_results = new Torro_Form_Results( $form_id );
 
 		$filter = array(
 			'start_row' => $start,
@@ -239,7 +239,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 		$start = $_POST[ 'start' ];
 		$length = $_POST[ 'length' ];
 
-		$form_results = new AF_Form_Results( $form_id );
+		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results();
 		$num_results = $form_results->count();
 
@@ -275,7 +275,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 			'result_ids' => array( $result_id ),
 		);
 
-		$form_results = new AF_Form_Results( $form_id );
+		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results( $filter );
 
 		if( $form_results->count() > 0 )
@@ -394,7 +394,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 			return;
 		}
 
-		wp_enqueue_style( 'af-results-entries', AF_URLPATH . 'assets/css/results-entries.css' );
+		wp_enqueue_style( 'af-results-entries', TORRO_URLPATH . 'assets/css/results-entries.css' );
 	}
 
 	public function admin_scripts()
@@ -404,8 +404,8 @@ class AF_ResultsEntries extends AF_ResultHandler
 			return;
 		}
 
-		wp_enqueue_script( 'af-results-entries', AF_URLPATH . 'assets/js/results-entries.js' );
+		wp_enqueue_script( 'af-results-entries', TORRO_URLPATH . 'assets/js/results-entries.js' );
 	}
 }
 
-af_register_result_handler( 'AF_ResultsEntries' );
+af_register_result_handler( 'Torro_ResultsEntries' );

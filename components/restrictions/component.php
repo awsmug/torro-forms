@@ -3,7 +3,7 @@
  * Torro Forms Restrictions Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Restrictions_Component extends AF_Component
+class Torro_Restrictions_Component extends Torro_Component
 {
 
 	/**
@@ -50,7 +50,7 @@ class AF_Restrictions_Component extends AF_Component
 	 */
 	public function includes()
 	{
-		$folder = AF_COMPONENTFOLDER . 'restrictions/';
+		$folder = TORRO_COMPONENTFOLDER . 'restrictions/';
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -73,9 +73,9 @@ class AF_Restrictions_Component extends AF_Component
 	 */
 	public function admin_scripts()
 	{
-		wp_enqueue_script( 'af-restrictions', AF_URLPATH . 'assets/js/restrictions.js' );
+		wp_enqueue_script( 'af-restrictions', TORRO_URLPATH . 'assets/js/restrictions.js' );
 	}
 
 }
 
-af_register_component( 'AF_Restrictions_Component' );
+af_register_component( 'Torro_Restrictions_Component' );

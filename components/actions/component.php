@@ -3,7 +3,7 @@
  * Torro Forms Responses Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Actions_Component extends AF_Component
+class Torro_Actions_Component extends Torro_Component
 {
 
 	/**
@@ -50,7 +50,7 @@ class AF_Actions_Component extends AF_Component
 	 */
 	public function includes()
 	{
-		$folder = AF_COMPONENTFOLDER . 'actions/';
+		$folder = TORRO_COMPONENTFOLDER . 'actions/';
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -63,4 +63,4 @@ class AF_Actions_Component extends AF_Component
 	}
 }
 
-af_register_component( 'AF_Actions_Component' );
+af_register_component( 'Torro_Actions_Component' );

@@ -3,7 +3,7 @@
  * Splitter Form Element
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core/Elements
+ * @package TorroForms/Core/Elements
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -30,7 +30,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Form_Element_Splitter extends AF_Form_Element
+class Torro_Form_Element_Splitter extends Torro_Form_Element
 {
 
 	public function init()
@@ -38,7 +38,7 @@ class AF_Form_Element_Splitter extends AF_Form_Element
 		$this->name = 'splitter';
 		$this->title = esc_attr__( 'Split Form', 'af-locale' );
 		$this->description = esc_attr__( 'Splits a form into several steps', 'af-locale' );
-		$this->icon_url = AF_URLPATH . 'assets/img/icon-split-form.png';
+		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-split-form.png';
 
 		$this->has_content = FALSE;
 		$this->splits_form = TRUE;
@@ -46,7 +46,7 @@ class AF_Form_Element_Splitter extends AF_Form_Element
 	}
 }
 
-af_register_form_element( 'AF_Form_Element_Splitter' );
+af_register_form_element( 'Torro_Form_Element_Splitter' );
 
 
 

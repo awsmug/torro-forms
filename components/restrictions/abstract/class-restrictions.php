@@ -5,7 +5,7 @@
  * Motherclass for all Restrictions
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Restrictions
+ * @package TorroForms/Restrictions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-abstract class AF_Restriction
+abstract class Torro_Restriction
 {
 	/**
 	 * The Single instances of the components
@@ -244,7 +244,7 @@ abstract class AF_Restriction
 
 		$settings_name = 'restrictions_' . $this->name;
 
-		$settings_handler = new AF_Settings_Handler( $settings_name, $this->settings_fields );
+		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
 		$this->settings = $settings_handler->get_field_values();
 	}
 

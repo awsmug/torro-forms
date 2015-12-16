@@ -3,7 +3,7 @@
  * Torro Forms Core Shortcodes
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ShortCodes
+class Torro_ShortCodes
 {
 	var $tables;
 	var $components = array();
@@ -79,7 +79,7 @@ class AF_ShortCodes
 				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
 				break;
 			default:
-				$html = AF_FormLoader::get_form( $af_form_id );
+				$html = Torro_FormLoader::get_form( $af_form_id );
 				break;
 		}
 
@@ -103,4 +103,4 @@ class AF_ShortCodes
 	}
 }
 
-AF_ShortCodes::init();
+Torro_ShortCodes::init();

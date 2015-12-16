@@ -3,7 +3,7 @@
  * Torro Forms Chart Shortcodes
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Charts
+ * @package TorroForms/Charts
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_ChartsShortCodes
+class Torro_ChartsShortCodes
 {
 
 	/**
@@ -78,9 +78,9 @@ class AF_ChartsShortCodes
 			return esc_attr__( 'Please enter a valid form id into the shortcode!', 'af-locale' );
 		}
 
-		$form_results = new AF_Form_Results( $form_id );
+		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results();
-		$results = AF_Result_Charts::format_results_by_element( $results );
+		$results = Torro_Result_Charts::format_results_by_element( $results );
 
 		$html = '';
 
@@ -97,7 +97,7 @@ class AF_ChartsShortCodes
 				continue;
 			}
 
-			$chart_creator = 'AF_Chart_Creator_C3';
+			$chart_creator = 'Torro_Chart_Creator_C3';
 			$chart_type = 'bars';
 
 			$chart_creator = new $chart_creator();
@@ -144,13 +144,13 @@ class AF_ChartsShortCodes
 			return esc_attr__( 'Please enter a valid element id into the shortcode!', 'af-locale' );
 		}
 
-		$form_results = new AF_Form_Results( $element->form_id );
+		$form_results = new Torro_Form_Results( $element->form_id );
 		$results = $form_results->element_results( $element->id );
-		$results = AF_Result_Charts::format_results_by_element( $results );
+		$results = Torro_Result_Charts::format_results_by_element( $results );
 
 		$element = af_get_element( $element->id );
 
-		$chart_creator = 'AF_Chart_Creator_C3';
+		$chart_creator = 'Torro_Chart_Creator_C3';
 		$chart_type = 'bars';
 
 		$chart_creator = new $chart_creator();
@@ -197,4 +197,4 @@ class AF_ChartsShortCodes
 	}
 }
 
-AF_ChartsShortCodes::init();
+Torro_ChartsShortCodes::init();

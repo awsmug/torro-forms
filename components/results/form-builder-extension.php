@@ -3,7 +3,7 @@
  * Torro Forms Charts Form Builder Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package AwesomeForms/Core
+ * @package TorroForms/Core
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class AF_Formbuilder_ChartsExtension
+class Torro_Formbuilder_ChartsExtension
 {
 	/**
 	 * Init in WordPress, run on constructor
@@ -82,7 +82,7 @@ class AF_Formbuilder_ChartsExtension
 
 		$form_id = $post->ID;
 
-		$form_results = new AF_Form_Results( $form_id );
+		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results();
 
 		$result_handlers = $af_global->result_handlers;
@@ -161,8 +161,8 @@ class AF_Formbuilder_ChartsExtension
 			return;
 		}
 
-		wp_enqueue_style( 'af-results', AF_URLPATH . 'assets/css/results.css' );
+		wp_enqueue_style( 'af-results', TORRO_URLPATH . 'assets/css/results.css' );
 	}
 }
 
-AF_Formbuilder_ChartsExtension::init();
+Torro_Formbuilder_ChartsExtension::init();
