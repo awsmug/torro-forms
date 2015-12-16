@@ -1,13 +1,13 @@
-#af-entries
+#torro-entries
 {
     width:100%;
     overflow-x: hidden;
 }
-#af-entries .entry-actions
+#torro-entries .entry-actions
 {
     text-align: right;
 }
-#af-entries .export-links
+#torro-entries .export-links
 {
     text-align: right;
 }
@@ -15,42 +15,42 @@
 /**
  * Entries Table
  */
-#af-entries tbody > :nth-child(2n+1) {
+#torro-entries tbody > :nth-child(2n+1) {
     background-color:#F9F9F9;
 }
 /**
  * Entry
  */
-#af-entry-table
+#torro-entry-table
 {
     width: 100%;
     text-align: left;
     font-size: 14px;
 }
-#af-entry-table th
+#torro-entry-table th
 {
     width:50%;
 }
-#af-entry-table tr{
+#torro-entry-table tr{
     line-height: 25px;
 }
-#af-entry-buttons
+#torro-entry-buttons
 {
     margin-top: 15px;
 }
 /**
  * Slider
  */
-.af-entries-slider
+.torro-entries-slider
 {
     width:200%;
 }
-.af-slider-start-content
+.torro-slider-start-content
 {
     width:50%;
     float:left;
 }
-.af-slider-right
+.torro-slider-right
 {
     width:50%;
     float:left;
@@ -58,17 +58,17 @@
 /**
  * Nav
  */
-.af-nav{
+.torro-nav{
     width: 100%;
     margin-top: 15px;
     text-align: center;
 }
-.af-nav-prev-link
+.torro-nav-prev-link
 {
     float: left;
     margin: 0 15px 15px 0;
 }
-.af-nav-next-link
+.torro-nav-next-link
 {
     float: right;
     margin: 0 0 15px 15px;

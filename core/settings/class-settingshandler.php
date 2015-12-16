@@ -215,7 +215,7 @@ class Torro_Settings_Handler
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="af-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
+			$html .= '<div class="torro-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
 		}
 		if( isset( $settings[ 'description' ] ) )
 		{
@@ -249,7 +249,7 @@ class Torro_Settings_Handler
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="af-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
+			$html .= '<div class="torro-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
 		endforeach;
 		if( isset( $settings[ 'description' ] ) )
 		{

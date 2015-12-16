@@ -59,7 +59,7 @@ class Torro_Form_Element_Text extends Torro_Form_Element
 			'textarea_name' => $field_name,
 		);
 
-		$html = '<div class="af-element-description">';
+		$html = '<div class="torro-element-description">';
 		ob_start();
 		wp_editor( $this->label, $editor_id, $settings );
 		$html .= ob_get_clean();

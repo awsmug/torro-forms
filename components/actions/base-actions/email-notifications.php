@@ -336,8 +336,8 @@ class Torro_EmailNotifications extends Torro_Action
 			'no'			=> esc_attr__( 'No', 'torro-forms' )
 		);
 
-		wp_enqueue_script( 'af-actions-email-notifications', TORRO_URLPATH . 'assets/js/actions-email-notifications.js', array( 'jquery-ui-accordion' ) );
-		wp_localize_script( 'af-actions-email-notifications', 'translation_email_notifications', $translation );
+		wp_enqueue_script( 'torro-actions-email-notifications', TORRO_URLPATH . 'assets/js/actions-email-notifications.js', array( 'jquery-ui-accordion' ) );
+		wp_localize_script( 'torro-actions-email-notifications', 'translation_email_notifications', $translation );
 	}
 
 	/**
@@ -345,7 +345,7 @@ class Torro_EmailNotifications extends Torro_Action
 	 */
 	public static function enqueue_admin_styles()
 	{
-		wp_enqueue_style( 'af-actions-email-notifications', TORRO_URLPATH . 'assets/css/actions-email-notifications.css' );
+		wp_enqueue_style( 'torro-actions-email-notifications', TORRO_URLPATH . 'assets/css/actions-email-notifications.css' );
 	}
 }
 torro_register_action( 'Torro_EmailNotifications' );

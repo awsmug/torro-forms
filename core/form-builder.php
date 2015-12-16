@@ -75,7 +75,7 @@ class Torro_Formbuilder
 
 		$form_id = $post->ID;
 
-		$html = '<div id="af-content" class="drag-drop">';
+		$html = '<div id="torro-content" class="drag-drop">';
 		$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 
 		ob_start();
@@ -96,7 +96,7 @@ class Torro_Formbuilder
 		}
 		else
 		{
-			$html .= '<div id="af-drop-elements-here">' . __( 'Drop your Elements here!', 'torro-forms' ) . '</div>';
+			$html .= '<div id="torro-drop-elements-here">' . __( 'Drop your Elements here!', 'torro-forms' ) . '</div>';
 		}
 
 		$html .= '</div>';
@@ -501,7 +501,7 @@ class Torro_Formbuilder
 			return;
 		}
 
-		wp_enqueue_style( 'af-form-edit', TORRO_URLPATH . 'assets/css/form-edit.css' );
+		wp_enqueue_style( 'torro-form-edit', TORRO_URLPATH . 'assets/css/form-edit.css' );
 	}
 
 	/**
@@ -540,8 +540,8 @@ class Torro_Formbuilder
 
 		wp_enqueue_script( 'clipboard', TORRO_URLPATH . 'assets/vendor/clipboard.min.js' );
 
-		wp_enqueue_script( 'af-form-edit', TORRO_URLPATH . 'assets/js/form-edit.js' );
-		wp_localize_script( 'af-form-edit', 'translation_fb', $translation );
+		wp_enqueue_script( 'torro-form-edit', TORRO_URLPATH . 'assets/js/form-edit.js' );
+		wp_localize_script( 'torro-form-edit', 'translation_fb', $translation );
 
 		if( wp_is_mobile() )
 		{

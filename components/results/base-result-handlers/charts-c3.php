@@ -189,7 +189,7 @@ class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
 	{
 		wp_enqueue_script( 'd3', TORRO_URLPATH . 'assets/vendor/d3.min.js' );
 		wp_enqueue_script( 'c3', TORRO_URLPATH . 'assets/vendor/c3.min.js' );
-		wp_enqueue_script( 'af-results-charts', TORRO_URLPATH . 'assets/js/results-charts.js' );
+		wp_enqueue_script( 'torro-results-charts', TORRO_URLPATH . 'assets/js/results-charts.js' );
 	}
 
 	/**

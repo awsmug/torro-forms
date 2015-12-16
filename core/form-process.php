@@ -96,8 +96,8 @@ class Torro_FormProcess
 		// Set global message on top of page
 		if( !empty( $torro_response_errors ) )
 		{
-			$html .= '<div class="af-element-error">';
-			$html .= '<div class="af-element-error-message"><p>';
+			$html .= '<div class="torro-element-error">';
+			$html .= '<div class="torro-element-error-message"><p>';
 			$html .= esc_attr__( 'There are open answers', 'torro-forms' );
 			$html .= '</p></div></div>';
 		}
@@ -105,15 +105,15 @@ class Torro_FormProcess
 		// Getting actual step for form
 		$actual_step = $this->get_actual_step();
 
-		$html .= '<form class="af-form" action="' . $this->action_url . '" method="POST" novalidate>';
-		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'af-form-' . $this->form_id ) . '" />';
+		$html .= '<form class="torro-form" action="' . $this->action_url . '" method="POST" novalidate>';
+		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->form_id ) . '" />';
 
 		$step_count = $this->form->get_step_count();
 
 		// Switch on navigation if there is more than one page
 		if( 0 != $step_count )
 		{
-			$html .= '<div class="af-pagination">' . sprintf( __( 'Step <span class="af-highlight-number">%d</span> of <span class="af-highlight-number">%s</span>', 'torro-forms' ), $actual_step + 1, $step_count + 1 ) . '</div>';
+			$html .= '<div class="torro-pagination">' . sprintf( __( 'Step <span class="torro-highlight-number">%d</span> of <span class="torro-highlight-number">%s</span>', 'torro-forms' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		}
 
 		// Getting all elements of step and running them
@@ -246,7 +246,7 @@ class Torro_FormProcess
 	{
 		global $ar_form_id, $torro_response_errors;
 
-		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'af-form-' . $ar_form_id ) )
+		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $ar_form_id ) )
 		{
 			return;
 		}

@@ -296,8 +296,8 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			return;
 		}
 
-		wp_enqueue_script( 'af-restrictions-recaptcha', TORRO_URLPATH . 'assets/js/restrictions-recaptcha.js', array(), false, true );
-		wp_localize_script( 'af-restrictions-recaptcha', '_torro_recaptcha_settings', array(
+		wp_enqueue_script( 'torro-restrictions-recaptcha', TORRO_URLPATH . 'assets/js/restrictions-recaptcha.js', array(), false, true );
+		wp_localize_script( 'torro-restrictions-recaptcha', '_torro_recaptcha_settings', array(
 			'sitekey'		=> $this->settings['recaptcha_sitekey'],
 		) );
 
@@ -328,7 +328,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			'hl'		=> $locale,
 		), $recaptcha_script_url );
 
-		wp_enqueue_script( 'google-recaptcha', $recaptcha_script_url, array( 'af-restrictions-recaptcha' ), false, true );
+		wp_enqueue_script( 'google-recaptcha', $recaptcha_script_url, array( 'torro-restrictions-recaptcha' ), false, true );
 
 		add_filter( 'script_loader_tag', array( $this, 'handle_google_recaptcha_script_tag' ), 10, 3 );
 	}
@@ -373,11 +373,11 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		}
 
 		?>
-		<div class="af-element">
+		<div class="torro-element">
 			<?php if ( ! empty( $error ) ) : ?>
-			<div class="af-element-error">
-				<div class="af-element-error-message">
-					<ul class="af-error-messages">
+			<div class="torro-element-error">
+				<div class="torro-element-error-message">
+					<ul class="torro-error-messages">
 						<li><?php echo $error; ?></li>
 					</ul>
 				</div>

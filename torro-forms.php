@@ -358,7 +358,7 @@ class Torro_Init
 	public static function log( $message )
 	{
 		$wp_upload_dir = wp_upload_dir();
-		$log_dir = trailingslashit( $wp_upload_dir[ 'path' ]  ) . '/af-logs';
+		$log_dir = trailingslashit( $wp_upload_dir[ 'path' ]  ) . '/torro-logs';
 
 		if( !file_exists( $log_dir ) || !is_dir( $log_dir ) )
 		{

@@ -654,13 +654,13 @@ msgstr "Details anzeigen"
 
 #: components/results/base-result-handlers/entries.php:192
 #, php-format
-msgid "<a href=\"%s\" class=\"af-entries-nav button\">Previous</a>"
-msgstr "<a href=\"%s\" class=\"af-entries-nav button\">Zurück</a>"
+msgid "<a href=\"%s\" class=\"torro-entries-nav button\">Previous</a>"
+msgstr "<a href=\"%s\" class=\"torro-entries-nav button\">Zurück</a>"
 
 #: components/results/base-result-handlers/entries.php:204
 #, php-format
-msgid "<a href=\"%s\" class=\"af-entries-nav button\">Next</a>"
-msgstr "<a href=\"%s\" class=\"af-entries-nav button\">Weiter</a>"
+msgid "<a href=\"%s\" class=\"torro-entries-nav button\">Next</a>"
+msgstr "<a href=\"%s\" class=\"torro-entries-nav button\">Weiter</a>"
 
 #: components/results/base-result-handlers/entries.php:209
 #, php-format
@@ -1112,7 +1112,7 @@ msgstr "Es gibt offene Antworten"
 #: core/form-process.php:116
 #, php-format
 msgid ""
-"Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-"
+"Step <span class=\"torro-highlight-number\">%d</span> of <span class=\"torro-"
 "highlight-number\">%s</span>"
 msgstr ""
 "Schritt <span class=\"surveyval-highlight-number\">%d</span> von <span class="

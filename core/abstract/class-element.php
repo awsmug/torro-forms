@@ -404,7 +404,7 @@ abstract class Torro_Form_Element
 
 		$html = '';
 
-		$element_classes = array( 'af-element', 'af-element-' . $this->id );
+		$element_classes = array( 'torro-element', 'torro-element-' . $this->id );
 		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $this );
 
 		$html .= '<div class="' . implode( ' ', $element_classes ) . '">';
@@ -415,9 +415,9 @@ abstract class Torro_Form_Element
 
 		// Echo Errors
 		if ( is_array( $errors ) && count( $errors ) > 0 ) {
-			$html .= '<div class="af-element-error">';
-			$html .= '<div class="af-element-error-message">';
-			$html .= '<ul class="af-error-messages">';
+			$html .= '<div class="torro-element-error">';
+			$html .= '<div class="torro-element-error-message">';
+			$html .= '<ul class="torro-error-messages">';
 			foreach ( $errors AS $error ) {
 				$html .= '<li>' . $error . '</li>';
 			}
@@ -866,19 +866,19 @@ abstract class Torro_Form_Element
 						$checked = ' checked="checked"';
 					}
 
-					$input .= '<span class="af-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
+					$input .= '<span class="torro-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</span>';
 				endforeach;
 
 				break;
 		}
 
-		$html = '<div class="af-form-fieldset">';
+		$html = '<div class="torro-form-fieldset">';
 
-		$html .= '<div class="af-form-fieldset-title">';
+		$html .= '<div class="torro-form-fieldset-title">';
 		$html .= '<label for="' . $name . '">' . $field[ 'title' ] . '</label>';
 		$html .= '</div>';
 
-		$html .= '<div class="af-form-fieldset-input">';
+		$html .= '<div class="torro-form-fieldset-input">';
 		$html .= $input . '<br />';
 		$html .= '<small>' . $field[ 'description' ] . '</small>';
 		$html .= '</div>';

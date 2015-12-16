@@ -169,7 +169,7 @@ class Torro_Formbuilder_RestrictionsExtension
 			return;
 		}
 
-		wp_enqueue_style( 'af-restrictions', TORRO_URLPATH . 'assets/css/restrictions.css' );
+		wp_enqueue_style( 'torro-restrictions', TORRO_URLPATH . 'assets/css/restrictions.css' );
 	}
 }
 

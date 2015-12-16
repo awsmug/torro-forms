@@ -518,8 +518,8 @@ msgstr "Niet alle verplichte velden zijn ingevuld"
 
 #: components/core/form-process.php:179
 #, php-format
-msgid "Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-highlight-number\">%s</span>"
-msgstr "Stap <span class=\"af-highlight-number\">%d</span> van <span class=\"af-highlight-number\">%s</span>"
+msgid "Step <span class=\"torro-highlight-number\">%d</span> of <span class=\"torro-highlight-number\">%s</span>"
+msgstr "Stap <span class=\"torro-highlight-number\">%d</span> van <span class=\"torro-highlight-number\">%s</span>"
 
 #: components/core/form-process.php:202
 msgid "Previous Step"

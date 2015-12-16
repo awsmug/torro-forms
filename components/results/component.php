@@ -75,7 +75,7 @@ class Torro_Results_Component extends Torro_Component
 
 	public function admin_styles()
 	{
-		wp_enqueue_style( 'af-results', TORRO_URLPATH . 'assets/css/results.css' );
+		wp_enqueue_style( 'torro-results', TORRO_URLPATH . 'assets/css/results.css' );
 	}
 }
 

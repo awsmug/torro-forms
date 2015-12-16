@@ -50,20 +50,20 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		$form_id = $post->ID;
 
 		$start = 0;
-		if( array_key_exists( 'af-entries-start', $_POST ) )
+		if( array_key_exists( 'torro-entries-start', $_POST ) )
 		{
-			$start = $_POST[ 'af-entries-start' ];
+			$start = $_POST[ 'torro-entries-start' ];
 		}
 
 		$length = 10;
-		if( array_key_exists( 'af-entries-start', $_POST ) )
+		if( array_key_exists( 'torro-entries-start', $_POST ) )
 		{
-			$length = $_POST[ 'af-entries-length' ];
+			$length = $_POST[ 'torro-entries-length' ];
 		}
 
-		$html = '<div id="af-entries">';
-		$html .= '<div class="af-entries-slider">';
-		$html .= '<div class="af-slider-start-content">';
+		$html = '<div id="torro-entries">';
+		$html .= '<div class="torro-entries-slider">';
+		$html .= '<div class="torro-slider-start-content">';
 
 		$form_results = new Torro_Form_Results( $form_id );
 		$form_results->results();
@@ -72,7 +72,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		$html .= self::show_results( $form_id, $start, $length, $num_results );
 
 		$html .= '</div>';
-		$html .= '<div class="af-slider-right"></div>';
+		$html .= '<div class="torro-slider-right"></div>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -95,7 +95,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		{
 			$date_format = get_option( 'date_format' );
 
-			$html .= '<table id="af-entries-table" class="widefat entries">';
+			$html .= '<table id="torro-entries-table" class="widefat entries">';
 			$html .= '<thead>';
 			$html .= '<tr>';
 
@@ -158,7 +158,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				}
 
 				$html .= '<td class="entry-actions">';
-				$html .= '<a type="button" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr__( 'Show Details', 'torro-forms' ) . '</a>';
+				$html .= '<a type="button" class="button torro-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr__( 'Show Details', 'torro-forms' ) . '</a>';
 				$html .= '</td>';
 
 				$html .= '</tr>';
@@ -181,27 +181,27 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 			$next = $start + $length;
 			$count = $num_results <= $length ? $num_results : $length;
 
-			$html .= '<div class="af-nav">';
+			$html .= '<div class="torro-nav">';
 			if( $prev >= 0 )
 			{
-				$html .= '<div class="af-nav-prev-link">';
+				$html .= '<div class="torro-nav-prev-link">';
 				$prev_url = self::get_admin_url( $form_id, array(
-					'af-entries-start'	=> $prev,
-					'af-entries-length'	=> $length,
+					'torro-entries-start'	=> $prev,
+					'torro-entries-length'	=> $length,
 				) );
-				$prev_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Previous</a>', 'torro-forms' ), $prev_url );
+				$prev_link = sprintf( __( '<a href="%s" class="torro-entries-nav button">Previous</a>', 'torro-forms' ), $prev_url );
 				$html .= $prev_link;
 				$html .= '</div>';
 			}
 
 			if( $next < $num_results )
 			{
-				$html .= '<div class="af-nav-next-link">';
+				$html .= '<div class="torro-nav-next-link">';
 				$next_url = self::get_admin_url( $form_id, array(
-					'af-entries-start'	=> $next,
-					'af-entries-length'	=> $length,
+					'torro-entries-start'	=> $next,
+					'torro-entries-length'	=> $length,
 				) );
-				$next_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Next</a>', 'torro-forms' ), $next_url );
+				$next_link = sprintf( __( '<a href="%s" class="torro-entries-nav button">Next</a>', 'torro-forms' ), $next_url );
 				$html .= $next_link;
 				$html .= '</div>';
 			}
@@ -288,7 +288,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 					exit;
 				}
 
-				$html = '<table id="af-entry-table" class="widefat">';
+				$html = '<table id="torro-entry-table" class="widefat">';
 
 				$html .= '<thead>';
 				$html .= '<tr>';
@@ -378,8 +378,8 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 			$html =  esc_attr__( 'Entry not found.', 'torro-forms' );
 		}
 
-		$html .= '<div id="af-entry-buttons">';
-		$html .= '<input type="button" class="button af-hide-entry" value="' . esc_attr__( 'Back to Results', 'torro-forms' ) . '">';
+		$html .= '<div id="torro-entry-buttons">';
+		$html .= '<input type="button" class="button torro-hide-entry" value="' . esc_attr__( 'Back to Results', 'torro-forms' ) . '">';
 		$html .= '</div>';
 
 		echo $html;
@@ -394,7 +394,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 			return;
 		}
 
-		wp_enqueue_style( 'af-results-entries', TORRO_URLPATH . 'assets/css/results-entries.css' );
+		wp_enqueue_style( 'torro-results-entries', TORRO_URLPATH . 'assets/css/results-entries.css' );
 	}
 
 	public function admin_scripts()
@@ -404,7 +404,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 			return;
 		}
 
-		wp_enqueue_script( 'af-results-entries', TORRO_URLPATH . 'assets/js/results-entries.js' );
+		wp_enqueue_script( 'torro-results-entries', TORRO_URLPATH . 'assets/js/results-entries.js' );
 	}
 }
 

@@ -171,7 +171,7 @@ class Torro_FormLoader
 			$show_results = 'no';
 		}
 
-		$html = '<div id="af-thank-participation">';
+		$html = '<div id="torro-thank-participation">';
 		$html .= '<p>' . __( 'Thank you for participating!', 'torro-forms' ) . '</p>';
 		if( 'yes' == $show_results )
 		{

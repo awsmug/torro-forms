@@ -95,7 +95,7 @@ abstract class Torro_Component
 
 		if( !is_object( $torro_global ) )
 		{
-			self::admin_notice( esc_attr__( 'Missing Global', 'af-global' ), 'error' );
+			self::admin_notice( esc_attr__( 'Missing Global', 'torro-global' ), 'error' );
 			return FALSE;
 		}
 

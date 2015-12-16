@@ -132,7 +132,7 @@ abstract class Torro_Settings
 			}
 
 			// Submenu
-			$html = '<ul id="af-settings-submenu">';
+			$html = '<ul id="torro-settings-submenu">';
 			foreach( $sub_settings AS $name => $settings )
 			{
 				$css_classes = '';
@@ -145,7 +145,7 @@ abstract class Torro_Settings
 			$html .= '</ul>';
 
 			// Content of Submenu Tab
-			$html .= '<div id="af-settings-subcontent">';
+			$html .= '<div id="torro-settings-subcontent">';
 
 			$settings_name = $this->name;
 			if( '' != $sub_settings )

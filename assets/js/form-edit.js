@@ -37,7 +37,7 @@
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '#drag-drop-inside',
 			dropped_item_sub: '.formelement',
-			drop_elements_here: '#af-drop-elements-here',
+			drop_elements_here: '#torro-drop-elements-here',
 			delete_element_button: '.delete_form_element',
 			delete_element_dialog: '#delete_formelement_dialog',
 			deleted_elements: '#deleted_formelements',
@@ -157,7 +157,7 @@
 								}, function( response ) {
 									response = jQuery.parseJSON( response );
 
-									$( '#' + id + ' .af-element-description' ).html( response.html );
+									$( '#' + id + ' .torro-element-description' ).html( response.html );
 								});
 								break;
 							default:
@@ -481,9 +481,9 @@
 
 										var response_text = self.translations.deleted_results_successfully;
 
-										$( '#af-entries .af-slider-start-content' ).html( response.html );
+										$( '#torro-entries .torro-slider-start-content' ).html( response.html );
 
-										$( '#charts .af-chart' ).remove();
+										$( '#charts .torro-chart' ).remove();
 										$( '#charts' ).prepend( response.html );
 
 										$( '#form-functions-notices').html( response_text );
@@ -543,11 +543,11 @@
 		 */
 		handle_templatetag_buttons: function() {
 			$( 'html' ).on( 'click', function() {
-				$( '.af-templatetag-list' ).hide();
+				$( '.torro-templatetag-list' ).hide();
 			});
 
-			$( '.af-templatetag-button' ).on( 'click', function( e ) {
-				var $list = $( this ).find( '.af-templatetag-list' );
+			$( '.torro-templatetag-button' ).on( 'click', function( e ) {
+				var $list = $( this ).find( '.torro-templatetag-list' );
 
 				if ( 'none' == $list.css( 'display' ) ) {
 					$list.show();
@@ -558,7 +558,7 @@
 				e.stopPropagation();
 			});
 
-			var $template_tag = $( '.af-templatetag-list .af-templatetag' );
+			var $template_tag = $( '.torro-templatetag-list .torro-templatetag' );
 
 			$template_tag.unbind();
 

@@ -520,8 +520,8 @@ msgstr "Det finns öppna svar"
 
 #: components/core/form-process.php:179
 #, php-format
-msgid "Step <span class=\"af-highlight-number\">%d</span> of <span class=\"af-highlight-number\">%s</span>"
-msgstr "Steg <span class=\"af-highlight-number\">%d</span> av <span class=\"af-highlight-number\">%s</span>"
+msgid "Step <span class=\"torro-highlight-number\">%d</span> of <span class=\"torro-highlight-number\">%s</span>"
+msgstr "Steg <span class=\"torro-highlight-number\">%d</span> av <span class=\"torro-highlight-number\">%s</span>"
 
 #: components/core/form-process.php:202
 msgid "Previous Step"

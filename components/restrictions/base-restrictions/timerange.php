@@ -163,8 +163,8 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 			'calendar_icon_url'	=> TORRO_URLPATH . 'assets/img/calendar-icon.png',
 		);
 
-		wp_enqueue_script( 'af-restrictions-timerange', TORRO_URLPATH . 'assets/js/restrictions-timerange.js', array( 'jquery-ui-datepicker' ) );
-		wp_localize_script( 'af-restrictions-timerange', 'translation_admin', $translation_admin );
+		wp_enqueue_script( 'torro-restrictions-timerange', TORRO_URLPATH . 'assets/js/restrictions-timerange.js', array( 'jquery-ui-datepicker' ) );
+		wp_localize_script( 'torro-restrictions-timerange', 'translation_admin', $translation_admin );
 	}
 
 	/**
@@ -174,7 +174,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-restrictions-timerange', TORRO_URLPATH . 'assets/css/restrictions-timerange.css' );
+		wp_enqueue_style( 'torro-restrictions-timerange', TORRO_URLPATH . 'assets/css/restrictions-timerange.css' );
 	}
 }
 

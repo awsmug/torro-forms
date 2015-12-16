@@ -5,15 +5,15 @@
      */
     function Torro_FB_Entry() {
         this.selectors = {
-            show_entry: '.af-show-entry',
-            hide_entry: '.af-hide-entry',
-            entries: '#af-entries',
-            entries_table: '#af-entries-table',
-            entry: '#af-entry',
-            entries_slider: '.af-entries-slider',
-            entries_slider_start_content: '.af-slider-start-content',
-            entries_slider_right: '.af-slider-right',
-            entries_nav: '.af-entries-nav',
+            show_entry: '.torro-show-entry',
+            hide_entry: '.torro-hide-entry',
+            entries: '#torro-entries',
+            entries_table: '#torro-entries-table',
+            entry: '#torro-entry',
+            entries_slider: '.torro-entries-slider',
+            entries_slider_start_content: '.torro-slider-start-content',
+            entries_slider_right: '.torro-slider-right',
+            entries_nav: '.torro-entries-nav',
         };
     }
 
@@ -86,8 +86,8 @@
                 e.preventDefault();
 
                 var url = $( this ).attr( 'href' );
-                var start = self.get_url_param_value( url, 'af-entries-start' );
-                var length = self.get_url_param_value( url, 'af-entries-length' );
+                var start = self.get_url_param_value( url, 'torro-entries-start' );
+                var length = self.get_url_param_value( url, 'torro-entries-length' );
 
                 var data = {
                     action: 'torro_show_entries',

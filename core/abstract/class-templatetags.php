@@ -227,20 +227,20 @@ function torro_template_tag_button( $input_name )
 {
 	$collections = torro_get_templatetag_collections();
 
-	$html = '<div class="af-templatetag-button">';
+	$html = '<div class="torro-templatetag-button">';
 	$html .= '<input type="button" value="' . esc_attr__( '+', 'torro-forms' ) . '" class="button" rel="' . $input_name . '" />';
-	$html .= '<div class="af-templatetag-list">';
+	$html .= '<div class="torro-templatetag-list">';
 
 	foreach( $collections AS $collection_name => $collection )
 	{
-		$html .= '<div class="af-templatetag-collection">';
-		$html .= '<div class="af-templatetag-collection-headline">' . $collection->title . '</div>';
+		$html .= '<div class="torro-templatetag-collection">';
+		$html .= '<div class="torro-templatetag-collection-headline">' . $collection->title . '</div>';
 
 		$template_tags = torro_get_templatetags( $collection_name );
 
 		foreach( $template_tags AS $tag_name => $template_tag )
 		{
-			$html .= '<div class="af-templatetag" rel="' . $input_name . '" data-tagname="' . $tag_name . '">' . $template_tag[ 'display_name' ] . '</div>';
+			$html .= '<div class="torro-templatetag" rel="' . $input_name . '" data-tagname="' . $tag_name . '">' . $template_tag[ 'display_name' ] . '</div>';
 		}
 		$html .= '</div>';
 	}

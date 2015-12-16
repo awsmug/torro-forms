@@ -282,13 +282,13 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 								    var ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '";
 
 								    $.post( ajaxurl, data, function( response ) {
-								        $( \'#af-ajax-form\' ).html( response );
-								        $( \'#af-fngrprnt\' ).val( fngrprnt );
+								        $( \'#torro-ajax-form\' ).html( response );
+								        $( \'#torro-fngrprnt\' ).val( fngrprnt );
 								    });
 						        });
 							});
 						}(jQuery))
-					  </script><div id="af-ajax-form"></div>';
+					  </script><div id="torro-ajax-form"></div>';
 
 			$this->add_message( 'check', $html );
 
@@ -385,7 +385,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 			return;
 		}
 
-		echo '<input type="hidden" id="af-fngrprnt" name="torro_fngrprnt" />';
+		echo '<input type="hidden" id="torro-fngrprnt" name="torro_fngrprnt" />';
 	}
 
 }

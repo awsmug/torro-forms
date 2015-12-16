@@ -73,7 +73,7 @@ class Torro_Restrictions_Component extends Torro_Component
 	 */
 	public function admin_scripts()
 	{
-		wp_enqueue_script( 'af-restrictions', TORRO_URLPATH . 'assets/js/restrictions.js' );
+		wp_enqueue_script( 'torro-restrictions', TORRO_URLPATH . 'assets/js/restrictions.js' );
 	}
 
 }

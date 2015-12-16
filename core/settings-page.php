@@ -70,7 +70,7 @@ class Torro_SettingsPage
 		self::init_tabs();
 
 		$html = '<div class="wrap af">';
-		$html .= '<form name="torro_settings" id="af-settings" method="POST">';
+		$html .= '<form name="torro_settings" id="torro-settings" method="POST">';
 		$html .= '<input type="hidden" id="torro_save_settings" name="torro_save_settings" value="' . wp_create_nonce( '_torro_save_settings_nonce' ) . '" />';
 
 		if( property_exists( $torro_global, 'settings' ) && count( $torro_global->settings ) > 0 )
@@ -100,7 +100,7 @@ class Torro_SettingsPage
 			/**
 			 * Content
 			 */
-			$html .= '<div id="af-settings-content" class="' . self::$current_tab . '">';
+			$html .= '<div id="torro-settings-content" class="' . self::$current_tab . '">';
 
 			$settings = $torro_global->settings[ self::$current_tab ];
 			$html .= $settings->show( self::$current_section );
@@ -177,7 +177,7 @@ class Torro_SettingsPage
 			return;
 		}
 
-		wp_enqueue_style( 'af-settings-page', TORRO_URLPATH . 'assets/css/settings-page.css' );
+		wp_enqueue_style( 'torro-settings-page', TORRO_URLPATH . 'assets/css/settings-page.css' );
 	}
 }
 

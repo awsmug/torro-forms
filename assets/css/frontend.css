@@ -3,25 +3,25 @@
 /**
  * 	Form Element
  */
-.af-form .af-element {
+.torro-form .torro-element {
     margin-bottom: 20px;
 }
-.af-form .af-element label{
+.torro-form .torro-element label{
     margin-bottom: 5px;
     display: block;
     font-size: 1.2em;
 }
-.af-form .af-element-description
+.torro-form .torro-element-description
 {
     margin-bottom: 5px;
 }
-.af-form .af-element table
+.torro-form .torro-element table
 {
     margin-bottom: 0;
 }
-.af-form input[ type="text" ],
-.af-form textarea,
-.af-form select
+.torro-form input[ type="text" ],
+.torro-form textarea,
+.torro-form select
 {
     width:100%;
 }
@@ -29,11 +29,11 @@
 /**
  * 	Pagination
  */
-.af-form .af-pagination {
+.torro-form .torro-pagination {
     margin-bottom: 20px;
 }
 
-.af-form .af-pagination span.af-highlight-number {
+.torro-form .torro-pagination span.torro-highlight-number {
     border-radius: 3px;
     background-color: #CCC;
     padding: 2px 6px;
@@ -43,13 +43,13 @@
 /**
  * 	Errors
  */
-.af-form .af-element-error {
+.torro-form .torro-element-error {
     border: 1px dashed #F00;
     padding: 10px;
     margin-bottom: 20px;
 }
 
-.af-element-error-message {
+.torro-element-error-message {
     color: #FFF;
     border: 1px dashed #F00;
     background-color: #F00;
@@ -58,7 +58,7 @@
     padding: 5px;
 }
 
-.af-form ul.af-error-messages {
+.torro-form ul.torro-error-messages {
     margin: 0;
     padding: 0;
     list-style-type: none;
@@ -67,7 +67,7 @@
 /**
  * Dimple chart CSS
  */
-.af-dimplechart {
+.torro-dimplechart {
     margin-bottom: 20px;
     width: 100%;
     display: block;

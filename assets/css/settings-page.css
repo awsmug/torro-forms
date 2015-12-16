@@ -1,65 +1,65 @@
-#af-settings-content{
+#torro-settings-content{
     padding: 10px 0;
 }
-#af-settings h1:last-child,
-#af-settings h2:last-child,
-#af-settings h3:last-child,
-#af-settings h4:last-child,
-#af-settings h5:last-child,
-#af-settings h6:last-child,
-#af-settings p:last-child,
-#af-settings ul:last-child{
+#torro-settings h1:last-child,
+#torro-settings h2:last-child,
+#torro-settings h3:last-child,
+#torro-settings h4:last-child,
+#torro-settings h5:last-child,
+#torro-settings h6:last-child,
+#torro-settings p:last-child,
+#torro-settings ul:last-child{
     margin: 0;
 }
-#af-settings h1,
-#af-settings h2,
-#af-settings h3,
-#af-settings h4,
-#af-settings h5,
-#af-settings h6,
-#af-settings p,
-#af-settings ul{
+#torro-settings h1,
+#torro-settings h2,
+#torro-settings h3,
+#torro-settings h4,
+#torro-settings h5,
+#torro-settings h6,
+#torro-settings p,
+#torro-settings ul{
     margin: 0 0 5px 0;
 }
-#af-settings .settings-title,
-#af-settings .settings-table{
+#torro-settings .settings-title,
+#torro-settings .settings-table{
     margin-top: 0;
     margin-bottom: 5px;
 }
-#af-settings .nav-tab-wrapper,
-#af-settings .form-table{
+#torro-settings .nav-tab-wrapper,
+#torro-settings .form-table{
     margin: 0;
 }
-#af-settings input[type="text"],
-#af-settings textarea{
+#torro-settings input[type="text"],
+#torro-settings textarea{
     width: 25em;
 }
 
-#af-settings #af-settings-submenu{
+#torro-settings #torro-settings-submenu{
     margin-bottom: 0px;
 }
 
 /**
  * Sub menu settings
  */
-#af-settings #af-settings-submenu li{
+#torro-settings #torro-settings-submenu li{
     float: left;
 }
-#af-settings #af-settings-submenu li:after{
+#torro-settings #torro-settings-submenu li:after{
     content: "|";
     margin: 0 5px;
 }
-#af-settings #af-settings-submenu li:last-child{
+#torro-settings #torro-settings-submenu li:last-child{
     margin-right: 0;
 }
-#af-settings #af-settings-submenu li:last-child{
+#torro-settings #torro-settings-submenu li:last-child{
     float: none;
 }
-#af-settings #af-settings-submenu li:last-child:after{
+#torro-settings #torro-settings-submenu li:last-child:after{
     margin: 0;
     content: "";
 }
-#af-settings .submenu-tab.active a{
+#torro-settings .submenu-tab.active a{
     color:#555;
     text-decoration: none;
     font-weight: bold;
@@ -68,13 +68,13 @@
 /**
  * Settings Disclaimer
  */
-#af-settings .settings-disclaimer{
+#torro-settings .settings-disclaimer{
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 20px;
     margin-bottom: 15px;
 }
-#af-settings-content.general .settings-disclaimer{
+#torro-settings-content.general .settings-disclaimer{
     background-image: url("../img/logo.png");
     background-position: 20px 20px;
     background-repeat: no-repeat;

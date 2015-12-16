@@ -100,7 +100,7 @@ class Torro_Chart_Creator_Dimple extends Torro_Chart_Creator
 		$js .= 'chart.draw();';
 
 		// Drawing HTML Containers
-		$html = '<div id="' . $id . '" class="af-dimplechart">';
+		$html = '<div id="' . $id . '" class="torro-dimplechart">';
 		$html .= '<' . $params[ 'title_tag' ] . '>' . $title . '</' . $params[ 'title_tag' ] . '>';
 		$html .= '<script type="text/javascript">';
 		$html .= $js;

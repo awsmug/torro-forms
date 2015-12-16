@@ -184,8 +184,8 @@ class Torro_Core
 			return $classes;
 		}
 
-		$classes[] = 'af-form';
-		$classes[] = 'af-form-' . $post->ID;
+		$classes[] = 'torro-form';
+		$classes[] = 'torro-form-' . $post->ID;
 
 		return $classes;
 	}
@@ -197,7 +197,7 @@ class Torro_Core
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-icons', TORRO_URLPATH . 'assets/css/icons.css' );
+		wp_enqueue_style( 'torro-icons', TORRO_URLPATH . 'assets/css/icons.css' );
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Torro_Core
 	 */
 	public static function register_plugin_styles()
 	{
-		wp_enqueue_style( 'af-frontend', TORRO_URLPATH . 'assets/css/frontend.css' );
+		wp_enqueue_style( 'torro-frontend', TORRO_URLPATH . 'assets/css/frontend.css' );
 	}
 
 }

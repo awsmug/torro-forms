@@ -1,7 +1,7 @@
 /**
  * 	General
  */
-#af-content {
+#torro-content {
     margin: -10px 0 0;
 }
 
@@ -13,7 +13,7 @@
 /**
  * 	Drag & Drop Area
  */
-#af-content #drag-drop-area {
+#torro-content #drag-drop-area {
     height: auto;
     -webkit-box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
     border: 1px solid #E5E5E5;
@@ -24,7 +24,7 @@
 /**
  * 	Sortable area
  */
-#af-content #drag-drop-inside {
+#torro-content #drag-drop-inside {
     min-height: 200px;
     padding: 15px;
 }
@@ -58,11 +58,11 @@
     margin-top: 15px;
 }
 
-#af-content input[type=text].form-label {
+#torro-content input[type=text].form-label {
     width: 100%;
 }
 
-#af-content #af-drop-elements-here{
+#torro-content #torro-drop-elements-here{
     border: 2px dashed #b4b9be;
     color: #b4b9be;
     font-size: 20px;
@@ -72,11 +72,11 @@
     text-align: center;
 }
 
-#af-content input[type=text] {
+#torro-content input[type=text] {
     width: 80%;
 }
 
-#af-content textarea {
+#torro-content textarea {
     width: 80%;
 }
 
@@ -123,11 +123,11 @@
 /**
  * 	Element Answers
  */
-#af-content .answers {
+#torro-content .answers {
     margin-bottom: 15px;
 }
 
-#af-content .answer {
+#torro-content .answer {
     height: 40px;
     padding-left: 20px;
     background-image: url('../img/icon-updown.png');
@@ -136,11 +136,11 @@
     cursor: move;
 }
 
-#af-content .answer p {
+#torro-content .answer p {
     display: inline;
 }
 
-#af-content .add-answer {
+#torro-content .add-answer {
     font-weight: bold;
     text-decoration: underline;
     cursor: hand;
@@ -153,22 +153,22 @@
 /**
  * Form styles
  */
-.af-form-fieldset {
+.torro-form-fieldset {
     margin-bottom: 20px;
     clear: both;
 }
 
-.af-form-fieldset-title {
+.torro-form-fieldset-title {
     width: 20%;
     float: left;
 }
 
-.af-form-fieldset-input {
+.torro-form-fieldset-input {
     width: 80%;
     float: right;
 }
 
-.af-form-fieldset-input-radio {
+.torro-form-fieldset-input-radio {
     display: block;
     margin-bottom: 5px;
 }
@@ -409,13 +409,13 @@
 /**
  * Templatetag Button
  */
-.af-templatetag-button{
+.torro-templatetag-button{
     float: right;
     height: 28px;
     width: 30px;
     z-index: 1000;
 }
-.af-templatetag-list{
+.torro-templatetag-list{
     background-color: #fff;
     border: 1px solid #e3e3e3;
     display: none;
@@ -428,16 +428,16 @@
     font-size: 11px;
     cursor:hand;
 }
-.af-templatetag-list .af-templatetag-collection-headline{
+.torro-templatetag-list .torro-templatetag-collection-headline{
     background-color: #E3E3E3;
     padding: 8px 12px;
 
 }
-.af-templatetag-list .af-templatetag{
+.torro-templatetag-list .torro-templatetag{
     border-bottom: 1px solid #CCC;
     padding: 8px 12px;
 }
-.af-templatetag-list .af-templatetag:hover{
+.torro-templatetag-list .torro-templatetag:hover{
     cursor:hand;
     background-color: #0073aa;
     color:#FFF;

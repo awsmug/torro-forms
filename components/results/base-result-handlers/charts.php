@@ -107,8 +107,8 @@ class Torro_Result_Charts extends Torro_ResultHandler
 					$label = $element->label;
 				}
 
-				$html .= '<div class="af-chart">';
-				$html .= '<div class="af-chart-diagram">';
+				$html .= '<div class="torro-chart">';
+				$html .= '<div class="torro-chart-diagram">';
 
 				$chart_creator = new Torro_Chart_Creator_C3();
 				$chart_type = 'bars';
@@ -118,7 +118,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 
 				$count_charts++;
 
-				$html .= '<div class="af-chart-actions">';
+				$html .= '<div class="torro-chart-actions">';
 				ob_start();
 				do_action( 'torro_result_charts_postbox_element', $element );
 				$html .= ob_get_clean();
@@ -134,7 +134,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 		}
 
-		$html .= '<div id="af-result-charts-bottom">';
+		$html .= '<div id="torro-result-charts-bottom">';
 		ob_start();
 		do_action( 'torro_result_charts_postbox_bottom', $form_id );
 		$html .= ob_get_clean();

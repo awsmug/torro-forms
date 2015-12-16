@@ -311,7 +311,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-restrictions-selected-members', TORRO_URLPATH . 'assets/css/restrictions-selected-members.css' );
+		wp_enqueue_style( 'torro-restrictions-selected-members', TORRO_URLPATH . 'assets/css/restrictions-selected-members.css' );
 	}
 
 	/**
@@ -347,7 +347,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', TRUE );
 
-		$html .= '<div id="af-add-participiants-options">';
+		$html .= '<div id="torro-add-participiants-options">';
 		$html .= '<label for"form_add_participiants_option">' . esc_attr__( 'Add Members', 'torro-forms' ) . '';
 		$html .= '<select id="form-add-participiants-option" name="form_add_participiants_option">';
 		foreach( $options AS $name => $value ):
@@ -541,8 +541,8 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 			'added_participiants'                 => esc_attr__( 'participiant/s', 'torro-forms' ),
 		);
 
-		wp_enqueue_script( 'af-restrictions-selected-members', TORRO_URLPATH . 'assets/js/restrictions-selected-members.js' );
-		wp_localize_script( 'af-restrictions-selected-members', 'translation_sm', $translation );
+		wp_enqueue_script( 'torro-restrictions-selected-members', TORRO_URLPATH . 'assets/js/restrictions-selected-members.js' );
+		wp_localize_script( 'torro-restrictions-selected-members', 'translation_sm', $translation );
 	}
 }
 
