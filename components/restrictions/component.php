@@ -73,7 +73,7 @@ class AF_Restrictions_Component extends AF_Component
 	 */
 	public function admin_scripts()
 	{
-		wp_enqueue_script( 'af-restrictions', AF_URLPATH . 'components/restrictions/includes/js/restrictions.js' );
+		wp_enqueue_script( 'af-restrictions', AF_URLPATH . 'assets/js/restrictions.js' );
 	}
 
 }

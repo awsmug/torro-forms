@@ -100,8 +100,8 @@ class AF_Init
 	private static function load_files()
 	{
 		// Loading Functions
-		require_once( AF_FOLDER . 'functions.php' );
-		require_once( AF_FOLDER . 'conflicts.php' );
+		require_once( AF_FOLDER . 'includes/functions.php' );
+		require_once( AF_FOLDER . 'includes/conflicts.php' );
 		require_once( AF_FOLDER . 'includes/wp-editor.php' );
 
 		// Loading Core
@@ -396,4 +396,8 @@ class AF_Init
 		fclose( $file );
 	}
 }
-AF_Init::init();
+
+function af_init() {
+	AF_Init::init();
+}
+add_action( 'plugins_loaded', 'af_init' );

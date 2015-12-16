@@ -138,32 +138,33 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public function enqueue_scripts()
 	{
-		$translation_admin = array( 'dateformat' => esc_attr__( 'yy/mm/dd', 'af-locale' ),
-		                            'min_sun'    => esc_attr__( 'Su', 'af-locale' ),
-		                            'min_mon'    => esc_attr__( 'Mo', 'af-locale' ),
-		                            'min_tue'    => esc_attr__( 'Tu', 'af-locale' ),
-		                            'min_wed'    => esc_attr__( 'We', 'af-locale' ),
-		                            'min_thu'    => esc_attr__( 'Th', 'af-locale' ),
-		                            'min_fri'    => esc_attr__( 'Fr', 'af-locale' ),
-		                            'min_sat'    => esc_attr__( 'Sa', 'af-locale' ),
-		                            'january'    => esc_attr__( 'January', 'af-locale' ),
-		                            'february'   => esc_attr__( 'February', 'af-locale' ),
-		                            'march'      => esc_attr__( 'March', 'af-locale' ),
-		                            'april'      => esc_attr__( 'April', 'af-locale' ),
-		                            'may'        => esc_attr__( 'May', 'af-locale' ),
-		                            'june'       => esc_attr__( 'June', 'af-locale' ),
-		                            'july'       => esc_attr__( 'July', 'af-locale' ),
-		                            'august'     => esc_attr__( 'August', 'af-locale' ),
-		                            'september'  => esc_attr__( 'September', 'af-locale' ),
-		                            'october'    => esc_attr__( 'October', 'af-locale' ),
-		                            'november'   => esc_attr__( 'November', 'af-locale' ),
-		                            'december'   => esc_attr__( 'December', 'af-locale' ),
-		                            'select_date'   => esc_attr__( 'Select Date', 'af-locale' ),
-		                            'calendar_icon_url'   => AF_URLPATH . 'components/restrictions/base-restrictions/includes/img/calendar-icon.png',
+		$translation_admin = array(
+			'dateformat'		=> esc_attr__( 'yy/mm/dd', 'af-locale' ),
+			'min_sun'			=> esc_attr__( 'Su', 'af-locale' ),
+			'min_mon'			=> esc_attr__( 'Mo', 'af-locale' ),
+			'min_tue'			=> esc_attr__( 'Tu', 'af-locale' ),
+			'min_wed'			=> esc_attr__( 'We', 'af-locale' ),
+			'min_thu'			=> esc_attr__( 'Th', 'af-locale' ),
+			'min_fri'			=> esc_attr__( 'Fr', 'af-locale' ),
+			'min_sat'			=> esc_attr__( 'Sa', 'af-locale' ),
+			'january'			=> esc_attr__( 'January', 'af-locale' ),
+			'february'			=> esc_attr__( 'February', 'af-locale' ),
+			'march'				=> esc_attr__( 'March', 'af-locale' ),
+			'april'				=> esc_attr__( 'April', 'af-locale' ),
+			'may'				=> esc_attr__( 'May', 'af-locale' ),
+			'june'				=> esc_attr__( 'June', 'af-locale' ),
+			'july'				=> esc_attr__( 'July', 'af-locale' ),
+			'august'			=> esc_attr__( 'August', 'af-locale' ),
+			'september'			=> esc_attr__( 'September', 'af-locale' ),
+			'october'			=> esc_attr__( 'October', 'af-locale' ),
+			'november'			=> esc_attr__( 'November', 'af-locale' ),
+			'december'			=> esc_attr__( 'December', 'af-locale' ),
+			'select_date'		=> esc_attr__( 'Select Date', 'af-locale' ),
+			'calendar_icon_url'	=> AF_URLPATH . 'assets/img/calendar-icon.png',
 		);
 
-		wp_enqueue_script( 'af-datepicker', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/timerange.js', array( 'jquery-ui-datepicker' ) );
-		wp_localize_script( 'af-datepicker', 'translation_admin', $translation_admin );
+		wp_enqueue_script( 'af-restrictions-timerange', AF_URLPATH . 'assets/js/restrictions-timerange.js', array( 'jquery-ui-datepicker' ) );
+		wp_localize_script( 'af-restrictions-timerange', 'translation_admin', $translation_admin );
 	}
 
 	/**
@@ -173,7 +174,7 @@ class AF_Restriction_Timerange extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-timerange-styles', AF_URLPATH . 'components/restrictions/base-restrictions/includes/css/timerange.css' );
+		wp_enqueue_style( 'af-restrictions-timerange', AF_URLPATH . 'assets/css/restrictions-timerange.css' );
 	}
 }
 

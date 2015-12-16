@@ -311,7 +311,7 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 	 */
 	public static function register_admin_styles()
 	{
-		wp_enqueue_style( 'af-selected-member-styles', AF_URLPATH . 'components/restrictions/base-restrictions/includes/css/selected-members.css' );
+		wp_enqueue_style( 'af-restrictions-selected-members', AF_URLPATH . 'assets/css/restrictions-selected-members.css' );
 	}
 
 	/**
@@ -541,8 +541,8 @@ class AF_Restriction_SelectedMembers extends AF_Restriction
 			'added_participiants'                 => esc_attr__( 'participiant/s', 'af-locale' ),
 		);
 
-		wp_enqueue_script( 'af-selected-members', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/selected-members.js' );
-		wp_localize_script( 'af-selected-members', 'translation_sm', $translation );
+		wp_enqueue_script( 'af-restrictions-selected-members', AF_URLPATH . 'assets/js/restrictions-selected-members.js' );
+		wp_localize_script( 'af-restrictions-selected-members', 'translation_sm', $translation );
 	}
 }
 

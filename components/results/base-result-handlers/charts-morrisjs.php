@@ -112,8 +112,8 @@ class AF_Chart_Creator_Morrisjs extends AF_Chart_Creator
 	 */
 	public function admin_styles()
 	{
-		$morris_css = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/css/morris.css';
-		wp_enqueue_style( 'af-morrisjs-css', $morris_css );
+		$morris_css = AF_URLPATH . 'assets/vendor/morris.css';
+		wp_enqueue_style( 'morrisjs', $morris_css );
 	}
 
 	/**
@@ -133,11 +133,11 @@ class AF_Chart_Creator_Morrisjs extends AF_Chart_Creator
 	{
 		wp_enqueue_script( 'jquery' );
 
-		$raphael_js_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/raphael.min.js';
-		wp_enqueue_script( 'af-raphaeljs', $raphael_js_url );
+		$raphael_js_url = AF_URLPATH . 'assets/vendor/raphael.min.js';
+		wp_enqueue_script( 'raphaeljs', $raphael_js_url );
 
-		$morris_js_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/morris.min.js';
-		wp_enqueue_script( 'af-morrisjs', $morris_js_url );
+		$morris_js_url = AF_URLPATH . 'assets/vendor/morris.min.js';
+		wp_enqueue_script( 'morrisjs', $morris_js_url );
 	}
 
 	/**

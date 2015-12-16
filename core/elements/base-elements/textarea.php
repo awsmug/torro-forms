@@ -38,7 +38,7 @@ class AF_Form_Element_Textarea extends AF_Form_Element
 		$this->name = 'textarea';
 		$this->title = esc_attr__( 'Textarea', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered within a text area.', 'af-locale' );
-		$this->icon_url = AF_URLPATH . 'assets/images/icon-textarea.png';
+		$this->icon_url = AF_URLPATH . 'assets/img/icon-textarea.png';
 	}
 
 	public function input_html()

@@ -37,7 +37,7 @@ class AF_Form_Element_Textfield extends AF_Form_Element
 		$this->name = 'textfield';
 		$this->title = esc_attr__( 'Textfield', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered within a text field.', 'af-locale' );
-		$this->icon_url = AF_URLPATH . 'assets/images/icon-textfield.png';
+		$this->icon_url = AF_URLPATH . 'assets/img/icon-textfield.png';
 	}
 
 	public function input_html()

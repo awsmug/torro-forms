@@ -142,11 +142,11 @@ class AF_Chart_Creator_Dimple extends AF_Chart_Creator
 	 */
 	public function admin_scripts()
 	{
-		$d3_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/d3.min.js';
-		wp_enqueue_script( 'af-d3', $d3_script_url );
+		$d3_script_url = AF_URLPATH . 'assets/vendor/d3.min.js';
+		wp_enqueue_script( 'd3', $d3_script_url );
 
-		$dimple_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/dimple.min.js';
-		wp_enqueue_script( 'af-dimple-js', $dimple_script_url );
+		$dimple_script_url = AF_URLPATH . 'assets/vendor/dimple.min.js';
+		wp_enqueue_script( 'dimplejs', $dimple_script_url );
 	}
 
 	/**

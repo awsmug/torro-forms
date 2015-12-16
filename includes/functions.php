@@ -127,7 +127,7 @@ function af_clipboard_field( $label, $content )
 		$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
 
 		$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
-		$html .= '<img src="' . AF_URLPATH . 'assets/images/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'af-locale' ) . '" />';
+		$html .= '<img src="' . AF_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'af-locale' ) . '" />';
 		$html .= '</button>';
 
 		$html .= '<div style="clear:both;"></div>';
@@ -378,7 +378,7 @@ function af_create_log_entry( $values )
  */
 function af_prepare_post_data( $data )
 {
-	// Do not preparing objects or arrays	
+	// Do not preparing objects or arrays
 	if( is_object( $data ) || is_array( $data ) )
 	{
 		return $data;

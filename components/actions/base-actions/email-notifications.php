@@ -255,7 +255,7 @@ class AF_EmailNotifications extends AF_Action
 
 		$editor = af_wp_editor( $message, $editor_id );
 
-		$icon_url = AF_URLPATH . 'components/actions/base-actions/includes/images/mail.svg';
+		$icon_url = AF_URLPATH . 'assets/img/mail.svg';
 
 		$html = '<h4 class="widget-top notification-' . $id . '"><a class="widget-action hide-if-no-js"></a><img src="' . $icon_url . '" class="icon" />' . $notification_name . '</h4>';
 		$html.= '<div class="notification widget-inside notification-' . $id . '-content">';
@@ -330,13 +330,14 @@ class AF_EmailNotifications extends AF_Action
 		if( !af_is_formbuilder() )
 			return;
 
-		$translation = array( 'delete'                       => esc_attr__( 'Delete', 'af-locale' ),
-		                      'yes'                          => esc_attr__( 'Yes', 'af-locale' ),
-		                      'no'                           => esc_attr__( 'No', 'af-locale' ) );
+		$translation = array(
+			'delete'		=> esc_attr__( 'Delete', 'af-locale' ),
+			'yes'			=> esc_attr__( 'Yes', 'af-locale' ),
+			'no'			=> esc_attr__( 'No', 'af-locale' )
+		);
 
-		wp_enqueue_script( 'jquery-ui-accordion' );
-		wp_enqueue_script( 'af-actions-email-notification', AF_URLPATH . 'components/actions/base-actions/includes/js/email-notifications.js' );
-		wp_localize_script( 'af-actions-email-notification', 'translation_email_notifications', $translation );
+		wp_enqueue_script( 'af-actions-email-notifications', AF_URLPATH . 'assets/js/actions-email-notifications.js', array( 'jquery-ui-accordion' ) );
+		wp_localize_script( 'af-actions-email-notifications', 'translation_email_notifications', $translation );
 	}
 
 	/**
@@ -344,7 +345,7 @@ class AF_EmailNotifications extends AF_Action
 	 */
 	public static function enqueue_admin_styles()
 	{
-		wp_enqueue_style( 'af-actions-email-notification', AF_URLPATH . 'components/actions/base-actions/includes/css/email-notifications.css' );
+		wp_enqueue_style( 'af-actions-email-notifications', AF_URLPATH . 'assets/css/actions-email-notifications.css' );
 	}
 }
 af_register_action( 'AF_EmailNotifications' );

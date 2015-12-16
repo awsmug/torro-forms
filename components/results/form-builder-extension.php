@@ -161,7 +161,7 @@ class AF_Formbuilder_ChartsExtension
 			return;
 		}
 
-		wp_enqueue_style( 'form-restrictions-form-builder-extension-styles', AF_URLPATH . 'components/restrictions/includes/css/form-builder-extension.css' );
+		wp_enqueue_style( 'af-results', AF_URLPATH . 'assets/css/results.css' );
 	}
 }
 

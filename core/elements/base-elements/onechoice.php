@@ -38,7 +38,7 @@ class AF_Form_Element_OneChoice extends AF_Form_Element
 		$this->name = 'OneChoice';
 		$this->title = esc_attr__( 'One Choice', 'af-locale' );
 		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one of the given answers.', 'af-locale' );
-		$this->icon_url = AF_URLPATH . 'assets/images/icon-onechoice.png';
+		$this->icon_url = AF_URLPATH . 'assets/img/icon-onechoice.png';
 
 		$this->has_answers = TRUE;
 		$this->answer_is_multiple = FALSE;

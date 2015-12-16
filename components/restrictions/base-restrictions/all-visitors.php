@@ -43,7 +43,7 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 		$this->name = 'allvisitors';
 		$this->option_name = __( 'All Visitors of site', 'af-locale' );
 
-		add_action( 'init', array( $this, 'enqueue_fingerprint_scipts' ), 20 );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_fingerprint_scripts' ) );
 		add_action( 'af_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
 
 		add_action( 'af_form_end', array( $this, 'add_fingerprint_input' ) );
@@ -153,19 +153,11 @@ class AF_Restriction_AllVisitors extends AF_Restriction
 	}
 
 	/**
-	 * Enqueueing fingerprint scripts
-	 */
-	public static function enqueue_fingerprint_scipts()
-	{
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'load_fingerprint_scripts' ) );
-	}
-
-	/**
 	 * Loading fingerprint scripts
 	 */
-	public static function load_fingerprint_scripts()
+	public static function enqueue_fingerprint_scripts()
 	{
-		wp_enqueue_script( 'admin-form-restrictions-fingerprint-script', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/detection.min.js' );
+		wp_enqueue_script( 'detection', AF_URLPATH . 'assets/vendor/detection.min.js' );
 	}
 
 	/**

@@ -296,8 +296,8 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 			return;
 		}
 
-		wp_enqueue_script( 'af-recaptcha', AF_URLPATH . 'components/restrictions/base-restrictions/includes/js/recaptcha.js', array(), false, true );
-		wp_localize_script( 'af-recaptcha', '_af_recaptcha_settings', array(
+		wp_enqueue_script( 'af-restrictions-recaptcha', AF_URLPATH . 'assets/js/restrictions-recaptcha.js', array(), false, true );
+		wp_localize_script( 'af-restrictions-recaptcha', '_af_recaptcha_settings', array(
 			'sitekey'		=> $this->settings['recaptcha_sitekey'],
 		) );
 
@@ -328,7 +328,7 @@ class AF_Restriction_Recaptcha extends AF_Restriction {
 			'hl'		=> $locale,
 		), $recaptcha_script_url );
 
-		wp_enqueue_script( 'google-recaptcha', $recaptcha_script_url, array( 'af-recaptcha' ), false, true );
+		wp_enqueue_script( 'google-recaptcha', $recaptcha_script_url, array( 'af-restrictions-recaptcha' ), false, true );
 
 		add_filter( 'script_loader_tag', array( $this, 'handle_google_recaptcha_script_tag' ), 10, 3 );
 	}

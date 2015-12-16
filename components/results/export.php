@@ -43,7 +43,7 @@ class AF_Export
 	{
 		if( !class_exists( 'PHPExcel' ) )
 		{
-			require_once( dirname( __FILE__ ) . '/includes/php/PHPExcel.php' );
+			require_once( AF_FOLDER . 'vendor/PHPExcel.php' );
 		}
 
 		add_action( 'admin_init', array( $this, 'export' ), 10 );

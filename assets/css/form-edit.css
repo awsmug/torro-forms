@@ -130,7 +130,7 @@
 #af-content .answer {
     height: 40px;
     padding-left: 20px;
-    background-image: url('../../../assets/images/icon-updown.png');
+    background-image: url('../img/icon-updown.png');
     background-repeat: no-repeat;
     background-position: top 7px left 0;
     cursor: move;
@@ -192,13 +192,13 @@
 }
 
 .post-type-af-forms .button-loading {
-    background-image: url( '../../../assets/images/loading.gif' );
+    background-image: url( '../img/loading.gif' );
     background-repeat: no-repeat;
     background-position: 5px 5px;
     padding-left: 28px;
 }
 .post-type-af-forms .button-loading:hover {
-    background-image: url( '../../../assets/images/loading.gif' );
+    background-image: url( '../img/loading.gif' );
     background-repeat: no-repeat;
     background-position: 5px 5px;
     padding-left: 28px;

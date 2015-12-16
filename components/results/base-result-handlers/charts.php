@@ -110,8 +110,7 @@ class AF_Result_Charts extends AF_ResultHandler
 				$html .= '<div class="af-chart">';
 				$html .= '<div class="af-chart-diagram">';
 
-				$chart_creator = 'AF_Chart_Creator_C3';
-				$chart_creator = new $chart_creator();
+				$chart_creator = new AF_Chart_Creator_C3();
 				$chart_type = 'bars';
 				$html .= $chart_creator->$chart_type( $label, $element_result );
 

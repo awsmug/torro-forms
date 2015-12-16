@@ -178,8 +178,8 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 	 */
 	public function admin_styles()
 	{
-		$morris_css = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/css/c3.css';
-		wp_enqueue_style( 'af-c3-css', $morris_css );
+		$morris_css = AF_URLPATH . 'assets/vendor/c3.css';
+		wp_enqueue_style( 'c3', $morris_css );
 	}
 
 	/**
@@ -187,14 +187,9 @@ class AF_Chart_Creator_C3 extends AF_Chart_Creator
 	 */
 	public function admin_scripts()
 	{
-		$d3_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/d3.min.js';
-		wp_enqueue_script( 'af-d3', $d3_script_url );
-
-		$c3_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/c3.min.js';
-		wp_enqueue_script( 'af-c3-js', $c3_script_url );
-
-		$c3_helper_script_url = AF_URLPATH . 'components/results/base-result-handlers/charts/includes/js/c3-helpers.js';
-		wp_enqueue_script( 'af-c3-helper-js', $c3_helper_script_url );
+		wp_enqueue_script( 'd3', AF_URLPATH . 'assets/vendor/d3.min.js' );
+		wp_enqueue_script( 'c3', AF_URLPATH . 'assets/vendor/c3.min.js' );
+		wp_enqueue_script( 'af-results-charts', AF_URLPATH . 'assets/js/results-charts.js' );
 	}
 
 	/**

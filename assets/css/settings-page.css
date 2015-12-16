@@ -75,7 +75,7 @@
     margin-bottom: 15px;
 }
 #af-settings-content.general .settings-disclaimer{
-    background-image: url("../../../assets/images/logo.png");
+    background-image: url("../img/logo.png");
     background-position: 20px 20px;
     background-repeat: no-repeat;
     min-height: 80px;

@@ -68,14 +68,14 @@ class AF_Results_Component extends AF_Component
 		require_once( $folder . 'base-result-handlers/charts.php' );
 
 		// Charts API
-		require_once( $folder . 'base-result-handlers/charts/charts-c3.php' );
-		require_once( $folder . 'base-result-handlers/charts/charts-morrisjs.php' );
-		require_once( $folder . 'base-result-handlers/charts/charts-morrisjs.php' );
+		require_once( $folder . 'base-result-handlers/charts-c3.php' );
+		require_once( $folder . 'base-result-handlers/charts-morrisjs.php' );
+		require_once( $folder . 'base-result-handlers/charts-morrisjs.php' );
 	}
 
 	public function admin_styles()
 	{
-		wp_enqueue_style( 'af-formbuilder-charts', AF_URLPATH . 'components/results/includes/css/form-builder.css' );
+		wp_enqueue_style( 'af-results', AF_URLPATH . 'assets/css/results.css' );
 	}
 }
 

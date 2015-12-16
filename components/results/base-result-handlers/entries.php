@@ -394,7 +394,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 			return;
 		}
 
-		wp_enqueue_style( 'af-results-entries-css', AF_URLPATH . 'components/results/base-result-handlers/includes/css/entries.css' );
+		wp_enqueue_style( 'af-results-entries', AF_URLPATH . 'assets/css/results-entries.css' );
 	}
 
 	public function admin_scripts()
@@ -404,7 +404,7 @@ class AF_ResultsEntries extends AF_ResultHandler
 			return;
 		}
 
-		wp_enqueue_script( 'af-results-entries', AF_URLPATH . 'components/results/base-result-handlers/includes/js/entries.js' );
+		wp_enqueue_script( 'af-results-entries', AF_URLPATH . 'assets/js/results-entries.js' );
 	}
 }
 
