@@ -36,8 +36,8 @@ class Torro_Form_Element_OneChoice extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'OneChoice';
-		$this->title = esc_attr__( 'One Choice', 'af-locale' );
-		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one of the given answers.', 'af-locale' );
+		$this->title = esc_attr__( 'One Choice', 'torro-forms' );
+		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one of the given answers.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-onechoice.png';
 
 		$this->has_answers = TRUE;
@@ -74,9 +74,9 @@ class Torro_Form_Element_OneChoice extends Torro_Form_Element
 	{
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'af-locale' ),
+				'title'       => esc_attr__( 'Description', 'torro-forms' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the field.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the field.', 'torro-forms' ),
 				'default'     => ''
 			)
 		);
@@ -87,7 +87,7 @@ class Torro_Form_Element_OneChoice extends Torro_Form_Element
 		$error = FALSE;
 
 		if( empty( $input ) ):
-			$this->validate_errors[] = sprintf( esc_attr__( 'Please select a value.', 'af-locale' ) );
+			$this->validate_errors[] = sprintf( esc_attr__( 'Please select a value.', 'torro-forms' ) );
 			$error = TRUE;
 		endif;
 

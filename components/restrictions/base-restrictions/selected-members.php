@@ -39,10 +39,10 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	 */
 	public function init()
 	{
-		$this->title = __( 'Selected Members', 'af-locale' );
+		$this->title = __( 'Selected Members', 'torro-forms' );
 		$this->name = 'selectedmembers';
 
-		$this->option_name = __( 'Selected Members of site', 'af-locale' );
+		$this->option_name = __( 'Selected Members of site', 'torro-forms' );
 
 		// add_action( 'form_functions', array( $this, 'invite_buttons' ) );
 
@@ -56,58 +56,58 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 		$this->settings_fields = array(
 			'invitations'        => array(
-				'title'       => esc_attr__( 'Invitation Mail Template', 'af-locale' ),
-				'description' => esc_attr__( 'Setup Mail Templates for the Invitation Mail for selected Members.', 'af-locale' ),
+				'title'       => esc_attr__( 'Invitation Mail Template', 'torro-forms' ),
+				'description' => esc_attr__( 'Setup Mail Templates for the Invitation Mail for selected Members.', 'torro-forms' ),
 				'type'        => 'title'
 			),
 			'invite_from_name'   => array(
-				'title'       => esc_attr__( 'From Name', 'af-locale' ),
-				'description' => esc_attr__( 'The Mail Sender Name.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Name', 'torro-forms' ),
+				'description' => esc_attr__( 'The Mail Sender Name.', 'torro-forms' ),
 				'type'        => 'text',
 				'default'     => get_bloginfo( 'name' )
 			),
 			'invite_from'        => array(
-				'title'       => esc_attr__( 'From Email', 'af-locale' ),
-				'description' => esc_attr__( 'The Mail Sender Email.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Email', 'torro-forms' ),
+				'description' => esc_attr__( 'The Mail Sender Email.', 'torro-forms' ),
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),
 			'invite_subject'        => array(
-				'title'       => esc_attr__( 'Subject', 'af-locale' ),
-				'description' => esc_attr__( 'The Subject of the Mail.', 'af-locale' ),
+				'title'       => esc_attr__( 'Subject', 'torro-forms' ),
+				'description' => esc_attr__( 'The Subject of the Mail.', 'torro-forms' ),
 				'type'        => 'text'
 			),
 			'invite_text'        => array(
-				'title'       => esc_attr__( 'Email Text', 'af-locale' ),
-				'description' => esc_attr__( 'The Text of the Mail.', 'af-locale' ),
+				'title'       => esc_attr__( 'Email Text', 'torro-forms' ),
+				'description' => esc_attr__( 'The Text of the Mail.', 'torro-forms' ),
 				'type'        => 'textarea'
 			),
 			'reinvitations'      => array(
-				'title'       => esc_attr__( 'Reinvitation Mail Template', 'af-locale' ),
-				'description' => esc_attr__( 'Setup Mail Templates for the Reinvitation Mail for selected Members.', 'af-locale' ),
+				'title'       => esc_attr__( 'Reinvitation Mail Template', 'torro-forms' ),
+				'description' => esc_attr__( 'Setup Mail Templates for the Reinvitation Mail for selected Members.', 'torro-forms' ),
 				'type'        => 'title'
 			),
 			'reinvite_from_name' => array(
-				'title'       => esc_attr__( 'From Name', 'af-locale' ),
-				'description' => esc_attr__( 'The Mail Sender Name.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Name', 'torro-forms' ),
+				'description' => esc_attr__( 'The Mail Sender Name.', 'torro-forms' ),
 				'type'        => 'text',
 				'default'     => get_bloginfo( 'name' )
 			),
 			'reinvite_from'      => array(
-				'title'       => esc_attr__( 'From Email', 'af-locale' ),
-				'description' => esc_attr__( 'The Mail Sender Email.', 'af-locale' ),
+				'title'       => esc_attr__( 'From Email', 'torro-forms' ),
+				'description' => esc_attr__( 'The Mail Sender Email.', 'torro-forms' ),
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),
 			'reinvite_subject'      => array(
-				'title'       => esc_attr__( 'Subject', 'af-locale' ),
-				'description' => esc_attr__( 'The Subject of the Email.', 'af-locale' ),
+				'title'       => esc_attr__( 'Subject', 'torro-forms' ),
+				'description' => esc_attr__( 'The Subject of the Email.', 'torro-forms' ),
 				'type'        => 'text',
 				'default'     => get_option( 'admin_email' )
 			),
 			'reinvite_text'      => array(
-				'title'       => esc_attr__( 'Email Text', 'af-locale' ),
-				'description' => esc_attr__( 'The Text of the Mail.', 'af-locale' ),
+				'title'       => esc_attr__( 'Email Text', 'torro-forms' ),
+				'description' => esc_attr__( 'The Text of the Mail.', 'torro-forms' ),
 				'type'        => 'textarea'
 			)
 		);
@@ -134,19 +134,19 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 			$html .= '<div class="form-function-element">';
 			$html .= '<input id="form-invite-subject" type="text" name="form_invite_subject" value="' . $torro_invitation_subject_template . '" />';
 			$html .= '<textarea id="form-invite-text" name="form_invite_text">' . $torro_invitation_text_template . '</textarea>';
-			$html .= '<input id="form-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'af-locale' ) . '" /> ';
-			$html .= '<input id="form-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
+			$html .= '<input id="form-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'torro-forms' ) . '" /> ';
+			$html .= '<input id="form-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'torro-forms' ) . '" />';
 			$html .= '</div>';
 
 			$html .= '<div class="form-function-element">';
 			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $torro_reinvitation_subject_template . '" />';
 			$html .= '<textarea id="form-reinvite-text" name="form_reinvite_text">' . $torro_reinvitation_text_template . '</textarea>';
-			$html .= '<input id="form-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'af-locale' ) . '" /> ';
-			$html .= '<input id="form-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
+			$html .= '<input id="form-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'torro-forms' ) . '" /> ';
+			$html .= '<input id="form-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'torro-forms' ) . '" />';
 
 			$html .= '</div>';
 		else:
-			$html .= '<p>' . esc_attr__( 'You can invite Participiants to this form after it is published.', 'af-locale' ) . '</p>';
+			$html .= '<p>' . esc_attr__( 'You can invite Participiants to this form after it is published.', 'torro-forms' ) . '</p>';
 		endif;
 
 		echo $html;
@@ -324,7 +324,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		$form_id = $post->ID;
 
 		$html = '<div id="form-selectedmembers-userfilter">';
-		$html .= '<h3>' . esc_attr__( 'Restrict Members', 'af-locale' ) . '</h3>';
+		$html .= '<h3>' . esc_attr__( 'Restrict Members', 'torro-forms' ) . '</h3>';
 
 		/**
 		 * Check User
@@ -334,7 +334,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 		$html .= '<div class="form-restrictions-same-users-userfilter">';
 		$html .= '<input type="checkbox" name="form_restrictions_selectedmembers_same_users" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_restrictions_selectedmembers_same_users">' . esc_attr__( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
+		$html .= '<label for="form_restrictions_selectedmembers_same_users">' . esc_attr__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -343,12 +343,12 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		 */
 		$html .= '<div id="form-add-participiants">';
 
-		$options = apply_filters( 'form_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'af-locale' ), ) );
+		$options = apply_filters( 'form_add_participiants_options', array( 'allmembers' => esc_attr__( 'Add all actual Members', 'torro-forms' ), ) );
 
 		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', TRUE );
 
 		$html .= '<div id="af-add-participiants-options">';
-		$html .= '<label for"form_add_participiants_option">' . esc_attr__( 'Add Members', 'af-locale' ) . '';
+		$html .= '<label for"form_add_participiants_option">' . esc_attr__( 'Add Members', 'torro-forms' ) . '';
 		$html .= '<select id="form-add-participiants-option" name="form_add_participiants_option">';
 		foreach( $options AS $name => $value ):
 			$selected = '';
@@ -363,8 +363,8 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		$html .= '</div>';
 
 		$html .= '<div id="form-add-participiants-content-allmembers" class="form-add-participiants-content-allmembers form-add-participiants-content">';
-		$html .= '<input type="button" class="form-add-participiants-allmembers-button button" id="form-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'af-locale' ) . '" />';
-		$html .= '<a class="form-remove-all-participiants">' . esc_attr__( 'Remove all Participiants', 'af-locale' ) . '</a>';
+		$html .= '<input type="button" class="form-add-participiants-allmembers-button button" id="form-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'torro-forms' ) . '" />';
+		$html .= '<a class="form-remove-all-participiants">' . esc_attr__( 'Remove all Participiants', 'torro-forms' ) . '</a>';
 		$html .= '</div>';
 
 		// Hooking in
@@ -393,7 +393,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		 * Participiants Statistics
 		 */
 		$html .= '<div id="form-participiants-status" class="form-participiants-status">';
-		$html .= '<p>' . count( $users ) . ' ' . esc_attr__( 'participiant/s', 'af-locale' ) . '</p>';
+		$html .= '<p>' . count( $users ) . ' ' . esc_attr__( 'participiant/s', 'torro-forms' ) . '</p>';
 		$html .= '</div>';
 
 		/**
@@ -405,11 +405,11 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		$html .= '<table class="wp-list-table widefat">';
 		$html .= '<thead>';
 		$html .= '<tr>';
-		$html .= '<th>' . esc_attr__( 'ID', 'af-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'User nicename', 'af-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'Display name', 'af-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'Email', 'af-locale' ) . '</th>';
-		$html .= '<th>' . esc_attr__( 'Status', 'af-locale' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'ID', 'torro-forms' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'User nicename', 'torro-forms' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Display name', 'torro-forms' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Email', 'torro-forms' ) . '</th>';
+		$html .= '<th>' . esc_attr__( 'Status', 'torro-forms' ) . '</th>';
 		$html .= '<th>&nbsp</th>';
 		$html .= '</tr>';
 		$html .= '</thead>';
@@ -425,9 +425,9 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 			foreach( $users AS $user ):
 				if( torro_user_has_participated( $form_id, $user->ID ) ):
 					$user_css = ' finished';
-					$user_text = esc_attr__( 'finished', 'af-locale' );
+					$user_text = esc_attr__( 'finished', 'torro-forms' );
 				else:
-					$user_text = esc_attr__( 'new', 'af-locale' );
+					$user_text = esc_attr__( 'new', 'torro-forms' );
 					$user_css = ' new';
 				endif;
 
@@ -437,14 +437,14 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 				$html .= '<td>' . $user->display_name . '</td>';
 				$html .= '<td>' . $user->user_email . '</td>';
 				$html .= '<td>' . $user_text . '</td>';
-				$html .= '<td><a class="button form-delete-participiant" rel="' . $user->ID . '">' . esc_attr__( 'Delete', 'af-locale' ) . '</a></td>';
+				$html .= '<td><a class="button form-delete-participiant" rel="' . $user->ID . '">' . esc_attr__( 'Delete', 'torro-forms' ) . '</a></td>';
 				$html .= '</tr>';
 			endforeach;
 
 			$form_participiants_value = implode( ',', $user_ids );
 		}
 		$html .= '<tr class="no-users-found">';
-		$html .= '<td colspan="6">' . esc_attr__( 'No Users found.', 'af-locale' ) . '</td>';
+		$html .= '<td colspan="6">' . esc_attr__( 'No Users found.', 'torro-forms' ) . '</td>';
 		$html .= '</tr>';
 
 		$html .= '</tbody>';
@@ -468,14 +468,14 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 		if( !is_user_logged_in() )
 		{
-			$this->add_message( 'error', esc_attr__( 'You have to be logged in to participate.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have to be logged in to participate.', 'torro-forms' ) );
 
 			return FALSE;
 		}
 
 		if( !$this->is_participiant() )
 		{
-			$this->add_message( 'error', esc_attr__( 'You can\'t participate.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You can\'t participate.', 'torro-forms' ) );
 
 			return FALSE;
 		}
@@ -484,7 +484,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 		if( 'yes' == $restrictions_same_users && torro_user_has_participated( $ar_form_id ) )
 		{
-			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'torro-forms' ) );
 
 			return FALSE;
 		}
@@ -530,15 +530,15 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	public function enqueue_scripts()
 	{
 		$translation = array(
-			'delete'                              => esc_attr__( 'Delete', 'af-locale' ),
-			'yes'                                 => esc_attr__( 'Yes', 'af-locale' ),
-			'no'                                  => esc_attr__( 'No', 'af-locale' ),
-			'just_added'                          => esc_attr__( 'just added', 'af-locale' ),
-			'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'af-locale' ),
-			'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'af-locale' ),
-			'reinvitations_sent_succes  sfully'   => esc_attr__( 'Renvitations sent successfully!', 'af-locale' ),
-			'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'af-locale' ),
-			'added_participiants'                 => esc_attr__( 'participiant/s', 'af-locale' ),
+			'delete'                              => esc_attr__( 'Delete', 'torro-forms' ),
+			'yes'                                 => esc_attr__( 'Yes', 'torro-forms' ),
+			'no'                                  => esc_attr__( 'No', 'torro-forms' ),
+			'just_added'                          => esc_attr__( 'just added', 'torro-forms' ),
+			'invitations_sent_successfully'       => esc_attr__( 'Invitations sent successfully!', 'torro-forms' ),
+			'invitations_not_sent_successfully'   => esc_attr__( 'Invitations could not be sent!', 'torro-forms' ),
+			'reinvitations_sent_succes  sfully'   => esc_attr__( 'Renvitations sent successfully!', 'torro-forms' ),
+			'reinvitations_not_sent_successfully' => esc_attr__( 'Renvitations could not be sent!', 'torro-forms' ),
+			'added_participiants'                 => esc_attr__( 'participiant/s', 'torro-forms' ),
 		);
 
 		wp_enqueue_script( 'af-restrictions-selected-members', TORRO_URLPATH . 'assets/js/restrictions-selected-members.js' );

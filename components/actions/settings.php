@@ -37,7 +37,7 @@ class Torro_Actions_Settings extends Torro_Settings
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Actions', 'af-locale' );
+		$this->title = __( 'Actions', 'torro-forms' );
 		$this->name = 'actions';
 	}
 

@@ -114,7 +114,7 @@ abstract class Torro_Settings
 				// Adding General settings Page
 				$sub_settings = array(
 					'general' => array(
-						'title'    => esc_attr__( 'General', 'af-locale' ),
+						'title'    => esc_attr__( 'General', 'torro-forms' ),
 						'settings' => $this->settings
 					)
 				);
@@ -186,7 +186,7 @@ abstract class Torro_Settings
 		{
 			$sub_settings = array(
 				'general' => array(
-					'title'    => esc_attr__( 'General', 'af-locale' ),
+					'title'    => esc_attr__( 'General', 'torro-forms' ),
 					'settings' => $this->settings
 				)
 			);
@@ -240,7 +240,7 @@ abstract class Torro_Settings
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is the Torro Forms Responsehandler extension.', 'af-locale' );
+			$this->description = esc_attr__( 'This is the Torro Forms Responsehandler extension.', 'torro-forms' );
 		}
 
 		if( array_key_exists( $this->name, $torro_global->settings ) )

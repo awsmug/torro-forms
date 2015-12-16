@@ -196,7 +196,7 @@ abstract class Torro_Action
 		$headline = array(
 			'headline' => array(
 				'title'       => $this->title,
-				'description' => sprintf( esc_attr__( 'Setup the "%s" Action.', 'af-locale' ), $this->title ),
+				'description' => sprintf( esc_attr__( 'Setup the "%s" Action.', 'torro-forms' ), $this->title ),
 				'type'        => 'title'
 			)
 		);
@@ -240,7 +240,7 @@ abstract class Torro_Action
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is the Torro Forms Action  extension.', 'af-locale' );
+			$this->description = esc_attr__( 'This is the Torro Forms Action  extension.', 'torro-forms' );
 		}
 
 		if( array_key_exists( $this->name, $torro_global->actions ) )

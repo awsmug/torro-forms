@@ -39,9 +39,9 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 	 */
 	public function init()
 	{
-		$this->title = __( 'All Visitors', 'af-locale' );
+		$this->title = __( 'All Visitors', 'torro-forms' );
 		$this->name = 'allvisitors';
-		$this->option_name = __( 'All Visitors of site', 'af-locale' );
+		$this->option_name = __( 'All Visitors of site', 'torro-forms' );
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_fingerprint_scripts' ) );
 		add_action( 'torro_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
@@ -68,13 +68,13 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		if( !isset( $_POST[ 'torro_form_id' ] ) )
 		{
-			$content .= esc_attr__( 'Form ID is missing.' . 'af-locale' );
+			$content .= esc_attr__( 'Form ID is missing.' . 'torro-forms' );
 			$restrict = TRUE;
 		}
 
 		if( !isset( $_POST[ 'fngrprnt' ] ) )
 		{
-			$content .= esc_attr__( 'Error on processing form' . 'af-locale' );
+			$content .= esc_attr__( 'Error on processing form' . 'torro-forms' );
 			$restrict = TRUE;
 		}
 
@@ -95,7 +95,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 			}
 			else
 			{
-				$content .= '<div class="form-message error">' . esc_attr__( 'You have already entered your data.', 'af-locale' ) . '</div>';
+				$content .= '<div class="form-message error">' . esc_attr__( 'You have already entered your data.', 'torro-forms' ) . '</div>';
 			}
 		}
 
@@ -169,7 +169,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_attr__( 'Restrict Visitors', 'af-locale' ) . '</h3>';
+		$html = '<h3>' . esc_attr__( 'Restrict Visitors', 'torro-forms' ) . '</h3>';
 
 		/**
 		 * Check IP
@@ -179,7 +179,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_check_ip" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_check_ip">' . esc_attr__( 'Prevent multiple entries from same IP', 'af-locale' ) . '</label>';
+			$html .= '<label for="form_restrictions_check_ip">' . esc_attr__( 'Prevent multiple entries from same IP', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		/**
@@ -190,7 +190,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_check_cookie" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_check_cookie">' . esc_attr__( 'Prevent multiple entries by checking cookie', 'af-locale' ) . '</label>';
+			$html .= '<label for="form_restrictions_check_cookie">' . esc_attr__( 'Prevent multiple entries by checking cookie', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		/**
@@ -201,7 +201,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_check_fingerprint" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_check_fingerprint">' . esc_attr__( 'Prevent multiple entries by checking browser fingerprint', 'af-locale' ) . '</label>';
+			$html .= '<label for="form_restrictions_check_fingerprint">' . esc_attr__( 'Prevent multiple entries by checking browser fingerprint', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
@@ -222,7 +222,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		if( 'yes' == $restrictions_check_ip && $this->ip_has_participated() )
 		{
-			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'torro-forms' ) );
 
 			return FALSE;
 		}
@@ -234,7 +234,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 			if( $_COOKIE[ 'torro_has_participated_form_' . $ar_form_id ] == 'yes' )
 			{
-				$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
+				$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'torro-forms' ) );
 			}
 
 			return FALSE;

@@ -36,8 +36,8 @@ class Torro_Form_Element_Text extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'text';
-		$this->title = esc_attr__( 'Text', 'af-locale' );
-		$this->description = esc_attr__( 'Adds a text to the form.', 'af-locale' );
+		$this->title = esc_attr__( 'Text', 'torro-forms' );
+		$this->description = esc_attr__( 'Adds a text to the form.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-text.png';
 
 		$this->is_answerable = FALSE;

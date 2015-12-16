@@ -35,8 +35,8 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'textfield';
-		$this->title = esc_attr__( 'Textfield', 'af-locale' );
-		$this->description = esc_attr__( 'Add an Element which can be answered within a text field.', 'af-locale' );
+		$this->title = esc_attr__( 'Textfield', 'torro-forms' );
+		$this->description = esc_attr__( 'Add an Element which can be answered within a text field.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-textfield.png';
 	}
 
@@ -78,28 +78,28 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'af-locale' ),
+				'title'       => esc_attr__( 'Description', 'torro-forms' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the Element.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the Element.', 'torro-forms' ),
 				'default'     => ''
 			),
 			'min_length'  => array(
-				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),
+				'title'       => esc_attr__( 'Minimum length', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'af-locale' ),
+				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
 				'default'     => '0'
 			),
 			'max_length'  => array(
-				'title'       => esc_attr__( 'Maximum length', 'af-locale' ),
+				'title'       => esc_attr__( 'Maximum length', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'af-locale' ),
+				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
 				'default'     => '100'
 			),
 			'validation'  => array(
-				'title'       => esc_attr__( 'String Validation', 'af-locale' ),
+				'title'       => esc_attr__( 'String Validation', 'torro-forms' ),
 				'type'        => 'radio',
 				'values'      => $validations,
-				'description' => esc_attr__( 'The will do a validation for the input.', 'af-locale' ),
+				'description' => esc_attr__( 'The will do a validation for the input.', 'torro-forms' ),
 				'default'     => 'none'
 			),
 		);
@@ -108,25 +108,25 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 	protected function get_validations( $value = false ) {
 		$validations = array(
 			'none'				=> array(
-				'title'				=> esc_attr__( 'No validation', 'af-locale' ),
+				'title'				=> esc_attr__( 'No validation', 'torro-forms' ),
 			),
 			'number'			=> array(
-				'title'				=> esc_attr__( 'Number', 'af-locale' ),
+				'title'				=> esc_attr__( 'Number', 'torro-forms' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^[0-9]{1,}$',
-				'error_message'		=> esc_attr__( 'Please input a number.', 'af-locale' ),
+				'error_message'		=> esc_attr__( 'Please input a number.', 'torro-forms' ),
 			),
 			'number_decimal'	=> array(
-				'title'				=> esc_attr__( 'Decimal Number', 'af-locale' ),
+				'title'				=> esc_attr__( 'Decimal Number', 'torro-forms' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^-?([0-9])+\.?([0-9])+$',
-				'error_message'		=> esc_attr__( 'Please input a decimal number.', 'af-locale' ),
+				'error_message'		=> esc_attr__( 'Please input a decimal number.', 'torro-forms' ),
 			),
 			'email_address'		=> array(
-				'title'				=> esc_attr__( 'Email-Address', 'af-locale' ),
+				'title'				=> esc_attr__( 'Email-Address', 'torro-forms' ),
 				'html_field_type'	=> 'email',
 				'callback'			=> 'is_email',
-				'error_message'		=> esc_attr__( 'Please input a valid Email-Address.', 'af-locale' ),
+				'error_message'		=> esc_attr__( 'Please input a valid Email-Address.', 'torro-forms' ),
 			),
 		);
 
@@ -153,14 +153,14 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 
 		if ( !empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ) {
-				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = TRUE;
 			}
 		}
 
 		if ( ! empty( $max_length ) ) {
 			if ( strlen( $input ) > $max_length ) {
-				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = TRUE;
 			}
 		}

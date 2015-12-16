@@ -111,11 +111,11 @@ class Torro_SettingsPage
 
 			$html .= '</div>';
 
-			$html .= '<input name="torro_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr__( 'Save Settings', 'af-locale' ) . '" />';
+			$html .= '<input name="torro_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr__( 'Save Settings', 'torro-forms' ) . '" />';
 		}
 		else
 		{
-			$html .= '<p>' . esc_attr__( 'There are no settings available.', 'af-locale' ) . '</p>';
+			$html .= '<p>' . esc_attr__( 'There are no settings available.', 'torro-forms' ) . '</p>';
 		}
 
 		$html .= '</form>';

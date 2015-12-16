@@ -32,9 +32,9 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Form', 'af-locale' );
+		$this->title = __( 'Form', 'torro-forms' );
 		$this->name = 'formtags';
-		$this->description = __( 'Form Templatetags', 'af-locale' );
+		$this->description = __( 'Form Templatetags', 'torro-forms' );
 	}
 
 	/**
@@ -42,11 +42,11 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	 */
 	public function tags()
 	{
-		$this->add_tag( 'formtitle', esc_attr__( 'Form Title', 'af-locale' ), esc_attr__( 'Shows the Form Title', 'af-locale' ), array(
+		$this->add_tag( 'formtitle', esc_attr__( 'Form Title', 'torro-forms' ), esc_attr__( 'Shows the Form Title', 'torro-forms' ), array(
 			__CLASS__,
 			'formtitle'
 		) );
-		$this->add_tag( 'allelements', esc_attr__( 'All Elements', 'af-locale' ), esc_attr__( 'Shows all Answers', 'af-locale' ), array(
+		$this->add_tag( 'allelements', esc_attr__( 'All Elements', 'torro-forms' ), esc_attr__( 'Shows all Answers', 'torro-forms' ), array(
 			__CLASS__,
 			'allelements'
 		) );
@@ -73,7 +73,7 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	{
 		$this->add_tag( $element_name . ':' . $element_id,
 		                $element_name,
-		                esc_attr__( 'Adds the Element Content', 'af-locale' ),
+		                esc_attr__( 'Adds the Element Content', 'torro-forms' ),
 		                array( __CLASS__ , 'element_content' ),
 		                array( 'element_id' => $element_id )
 		);

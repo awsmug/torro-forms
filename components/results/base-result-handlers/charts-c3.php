@@ -41,8 +41,8 @@ class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
 	public function init()
 	{
 		$this->name = 'c3';
-		$this->title = __( 'C3', 'af-locale' );
-		$this->description = __( 'Chart creating with C3.', 'af-locale' );
+		$this->title = __( 'C3', 'torro-forms' );
+		$this->description = __( 'Chart creating with C3.', 'torro-forms' );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
 		$id = $params[ 'id' ];
 		$title_tag = $params[ 'title_tag' ];
 
-		$value_text = __( 'Count', 'af-locale' );
+		$value_text = __( 'Count', 'torro-forms' );
 
 		/**
 		 * Preparing Data for JS

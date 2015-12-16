@@ -9,7 +9,7 @@
  * Author Email: contact@awesome.ug
  * License:      GPLv3.0
  * License URI: ./assets/license.txt
- * Text Domain: af-locale
+ * Text Domain: torro-forms
  * Domain Path: /languages
  */
 
@@ -72,7 +72,7 @@ class Torro_Init
 	 */
 	private static function load_textdomain()
 	{
-		$domain = 'af-locale';
+		$domain = 'torro-forms';
 
 		$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'torro_locale', get_locale() ) );
 

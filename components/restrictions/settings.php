@@ -36,7 +36,7 @@ class Torro_RestrictionsSettings extends Torro_Settings
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Restrictions', 'af-locale' );
+		$this->title = __( 'Restrictions', 'torro-forms' );
 		$this->name = 'restrictions';
 	}
 

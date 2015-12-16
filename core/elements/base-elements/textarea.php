@@ -36,8 +36,8 @@ class Torro_Form_Element_Textarea extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'textarea';
-		$this->title = esc_attr__( 'Textarea', 'af-locale' );
-		$this->description = esc_attr__( 'Add an Element which can be answered within a text area.', 'af-locale' );
+		$this->title = esc_attr__( 'Textarea', 'torro-forms' );
+		$this->description = esc_attr__( 'Add an Element which can be answered within a text area.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-textarea.png';
 	}
 
@@ -61,33 +61,33 @@ class Torro_Form_Element_Textarea extends Torro_Form_Element
 	{
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'af-locale' ),
+				'title'       => esc_attr__( 'Description', 'torro-forms' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the field.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the field.', 'torro-forms' ),
 				'default'     => ''
 			),
 			'min_length'  => array(
-				'title'       => esc_attr__( 'Minimum length', 'af-locale' ),
+				'title'       => esc_attr__( 'Minimum length', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'af-locale' ),
+				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
 				'default'     => '0'
 			),
 			'max_length'  => array(
-				'title'       => esc_attr__( 'Maximum length', 'af-locale' ),
+				'title'       => esc_attr__( 'Maximum length', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'af-locale' ),
+				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
 				'default'     => '1000'
 			),
 			'rows'        => array(
-				'title'       => esc_attr__( 'Rows', 'af-locale' ),
+				'title'       => esc_attr__( 'Rows', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'Number of rows for typing in  (can be overwritten by CSS).', 'af-locale' ),
+				'description' => esc_attr__( 'Number of rows for typing in  (can be overwritten by CSS).', 'torro-forms' ),
 				'default'     => '10'
 			),
 			'cols'        => array(
-				'title'       => esc_attr__( 'Columns', 'af-locale' ),
+				'title'       => esc_attr__( 'Columns', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'Number of columns for typing in (can be overwritten by CSS).', 'af-locale' ),
+				'description' => esc_attr__( 'Number of columns for typing in (can be overwritten by CSS).', 'torro-forms' ),
 				'default'     => '75'
 			),
 		);
@@ -103,7 +103,7 @@ class Torro_Form_Element_Textarea extends Torro_Form_Element
 		if( !empty( $min_length ) )
 		{
 			if( strlen( $input ) < $min_length ):
-				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}
@@ -111,7 +111,7 @@ class Torro_Form_Element_Textarea extends Torro_Form_Element
 		if( !empty( $max_length ) )
 		{
 			if( strlen( $input ) > $max_length ):
-				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'af-locale' ), $min_length, $max_length );
+				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = TRUE;
 			endif;
 		}

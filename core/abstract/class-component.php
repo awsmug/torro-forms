@@ -90,7 +90,7 @@ abstract class Torro_Component
 		}
 		if( empty( $this->name ) )
 		{
-			$this->description = esc_attr__( 'This is an Torro Forms component.', 'af-locale' );
+			$this->description = esc_attr__( 'This is an Torro Forms component.', 'torro-forms' );
 		}
 
 		if( !is_object( $torro_global ) )

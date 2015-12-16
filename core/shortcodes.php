@@ -49,7 +49,7 @@ class Torro_ShortCodes
 	{
 		$defaults = array(
 				'id' => '',
-				'title' => __( 'Form', 'af-locale' ),
+				'title' => __( 'Form', 'torro-forms' ),
 				'show' => 'embed', // embed, iframe
 		        'iframe_width' => '100%',
 		        'iframe_height' => '100%'
@@ -61,12 +61,12 @@ class Torro_ShortCodes
 
 		if( '' == $torro_form_id )
 		{
-			return esc_attr__( 'Please enter an id in the form shortcode!', 'af-locale' );
+			return esc_attr__( 'Please enter an id in the form shortcode!', 'torro-forms' );
 		}
 
 		if( !torro_form_exists( $torro_form_id ) )
 		{
-			return esc_attr__( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
+			return esc_attr__( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
 		}
 
 		switch(  $atts[ 'show' ] )
@@ -96,7 +96,7 @@ class Torro_ShortCodes
 		}
 
 		$html  = '<div class="misc-pub-section form-options">';
-		$html .= torro_clipboard_field( __( 'Form Shortcode:', 'af-locale' ), '[form id=' . $post->ID . ']' );
+		$html .= torro_clipboard_field( __( 'Form Shortcode:', 'torro-forms' ), '[form id=' . $post->ID . ']' );
 		$html .= '</div>';
 
 		echo $html;

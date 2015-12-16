@@ -172,11 +172,11 @@ msgid "All Visitors of site"
 msgstr "Alle Besucher der Website"
 
 #: components/restrictions/base-restrictions/all-visitors.php:71
-msgid "Form ID is missing.af-locale"
+msgid "Form ID is missing.torro-forms"
 msgstr ""
 
 #: components/restrictions/base-restrictions/all-visitors.php:77
-msgid "Error on processing formaf-locale"
+msgid "Error on processing formtorro-forms"
 msgstr ""
 
 #: components/restrictions/base-restrictions/all-visitors.php:180

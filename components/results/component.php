@@ -40,8 +40,8 @@ class Torro_Results_Component extends Torro_Component
 	public function init()
 	{
 		$this->name = 'results';
-		$this->title = __( 'Results', 'af-locale' );
-		$this->description = __( 'Handling Results.', 'af-locale' );
+		$this->title = __( 'Results', 'torro-forms' );
+		$this->description = __( 'Handling Results.', 'torro-forms' );
 	}
 
 	public function includes()

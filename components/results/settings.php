@@ -37,7 +37,7 @@ class Torro_ResultSettings extends Torro_Settings
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Result Handling', 'af-locale' );
+		$this->title = __( 'Result Handling', 'torro-forms' );
 		$this->name = 'resulthandling';
 	}
 

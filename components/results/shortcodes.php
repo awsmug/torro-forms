@@ -75,7 +75,7 @@ class Torro_ChartsShortCodes
 
 		if( '' == $form_id || !torro_form_exists( $form_id ) )
 		{
-			return esc_attr__( 'Please enter a valid form id into the shortcode!', 'af-locale' );
+			return esc_attr__( 'Please enter a valid form id into the shortcode!', 'torro-forms' );
 		}
 
 		$form_results = new Torro_Form_Results( $form_id );
@@ -141,7 +141,7 @@ class Torro_ChartsShortCodes
 
 		if( NULL === $element )
 		{
-			return esc_attr__( 'Please enter a valid element id into the shortcode!', 'af-locale' );
+			return esc_attr__( 'Please enter a valid element id into the shortcode!', 'torro-forms' );
 		}
 
 		$form_results = new Torro_Form_Results( $element->form_id );
@@ -176,7 +176,7 @@ class Torro_ChartsShortCodes
 			return;
 		}
 
-		$html  = '<div class="in-postbox-one-third">' . torro_clipboard_field( __( 'Charts Shortcode', 'af-locale' ), '[form_charts id=' . $post->ID . ']' ) . '</div>';
+		$html  = '<div class="in-postbox-one-third">' . torro_clipboard_field( __( 'Charts Shortcode', 'torro-forms' ), '[form_charts id=' . $post->ID . ']' ) . '</div>';
 
 		echo $html;
 	}
@@ -192,7 +192,7 @@ class Torro_ChartsShortCodes
 	{
 		if( $object->id != '' && $object->is_analyzable )
 		{
-			echo torro_clipboard_field( __( 'Element Charts Shortcode', 'af-locale' ), '[element_chart id=' .  $object->id . ']' );
+			echo torro_clipboard_field( __( 'Element Charts Shortcode', 'torro-forms' ), '[element_chart id=' .  $object->id . ']' );
 		}
 	}
 }

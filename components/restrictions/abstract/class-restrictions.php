@@ -233,7 +233,7 @@ abstract class Torro_Restriction
 		$headline = array(
 			'headline' => array(
 				'title'       => $this->title,
-				'description' => sprintf( esc_attr__( 'Setup the "%s" Restriction.', 'af-locale' ), $this->title ),
+				'description' => sprintf( esc_attr__( 'Setup the "%s" Restriction.', 'torro-forms' ), $this->title ),
 				'type'        => 'disclaimer'
 			)
 		);
@@ -285,7 +285,7 @@ abstract class Torro_Restriction
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is a Torro Forms Restriction.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Torro Forms Restriction.', 'torro-forms' );
 		}
 
 		if( array_key_exists( $this->name, $torro_global->restrictions ) )

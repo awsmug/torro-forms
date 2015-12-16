@@ -36,8 +36,8 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'MultipleChoice';
-		$this->title = esc_attr__( 'Multiple Choice', 'af-locale' );
-		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one ore more given answers.', 'af-locale' );
+		$this->title = esc_attr__( 'Multiple Choice', 'torro-forms' );
+		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-multiplechoice.png';
 
 		$this->has_answers = TRUE;
@@ -76,21 +76,21 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'af-locale' ),
+				'title'       => esc_attr__( 'Description', 'torro-forms' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the question.', 'torro-forms' ),
 				'default'     => ''
 			),
 			'min_answers' => array(
-				'title'       => esc_attr__( 'Minimum Answers', 'af-locale' ),
+				'title'       => esc_attr__( 'Minimum Answers', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of answers which have to be choosed.', 'af-locale' ),
+				'description' => esc_attr__( 'The minimum number of answers which have to be choosed.', 'torro-forms' ),
 				'default'     => '1'
 			),
 			'max_answers' => array(
-				'title'       => esc_attr__( 'Maximum Answers', 'af-locale' ),
+				'title'       => esc_attr__( 'Maximum Answers', 'torro-forms' ),
 				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of answers which can be choosed.', 'af-locale' ),
+				'description' => esc_attr__( 'The maximum number of answers which can be choosed.', 'torro-forms' ),
 				'default'     => '3'
 			),
 		);
@@ -107,7 +107,7 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
 		if( !empty( $min_answers ) )
 		{
 			if( !is_array( $input ) || count( $input ) < $min_answers ):
-				$this->validate_errors[] = esc_attr__( 'Too less choices.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'af-locale' ), $min_answers, $max_answers );
+				$this->validate_errors[] = esc_attr__( 'Too less choices.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
 				$error = TRUE;
 			endif;
 		}
@@ -115,7 +115,7 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
 		if( !empty( $max_answers ) )
 		{
 			if( is_array( $input ) && count( $input ) > $max_answers ):
-				$this->validate_errors[] = esc_attr__( 'Too many choices.', 'af-locale' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'af-locale' ), $min_answers, $max_answers );
+				$this->validate_errors[] = esc_attr__( 'Too many choices.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
 				$error = TRUE;
 			endif;
 		}

@@ -37,7 +37,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	 */
 	public function init()
 	{
-		$this->title = __( 'Timerange', 'af-locale' );
+		$this->title = __( 'Timerange', 'torro-forms' );
 		$this->name = 'timerange';
 
 		add_action( 'form_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
@@ -63,15 +63,15 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 
 		$html = '<div id="form-restrictions-content-timerange" class="section general-settings timerange">';
 
-			$html .= '<h3>' . esc_html__( 'Timerange', 'af-locale' ) . '</h3>';
+			$html .= '<h3>' . esc_html__( 'Timerange', 'torro-forms' ) . '</h3>';
 
 			$html .= '<div class="option">';
-			$html .= '<label for="start_date">' . esc_html__( 'Date Start:', 'af-locale' ) . '</label>';
+			$html .= '<label for="start_date">' . esc_html__( 'Date Start:', 'torro-forms' ) . '</label>';
 			$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
 			$html .= '</div>';
 
 			$html .= '<div class="option">';
-			$html .= '<label for="end_date">' . esc_html__( 'Date End:', 'af-locale' ) . '</label>';
+			$html .= '<label for="end_date">' . esc_html__( 'Date End:', 'torro-forms' ) . '</label>';
 			$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
 			$html .= '</div>';
 
@@ -95,7 +95,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 
 		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date )
 		{
-			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'af-locale' ) );
+			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
 			return FALSE;
@@ -103,7 +103,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 
 		if( '' != $end_date && 0 != (int) $end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date )
 		{
-			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'af-locale' ) );
+			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
 			return FALSE;
@@ -139,27 +139,27 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	public function enqueue_scripts()
 	{
 		$translation_admin = array(
-			'dateformat'		=> esc_attr__( 'yy/mm/dd', 'af-locale' ),
-			'min_sun'			=> esc_attr__( 'Su', 'af-locale' ),
-			'min_mon'			=> esc_attr__( 'Mo', 'af-locale' ),
-			'min_tue'			=> esc_attr__( 'Tu', 'af-locale' ),
-			'min_wed'			=> esc_attr__( 'We', 'af-locale' ),
-			'min_thu'			=> esc_attr__( 'Th', 'af-locale' ),
-			'min_fri'			=> esc_attr__( 'Fr', 'af-locale' ),
-			'min_sat'			=> esc_attr__( 'Sa', 'af-locale' ),
-			'january'			=> esc_attr__( 'January', 'af-locale' ),
-			'february'			=> esc_attr__( 'February', 'af-locale' ),
-			'march'				=> esc_attr__( 'March', 'af-locale' ),
-			'april'				=> esc_attr__( 'April', 'af-locale' ),
-			'may'				=> esc_attr__( 'May', 'af-locale' ),
-			'june'				=> esc_attr__( 'June', 'af-locale' ),
-			'july'				=> esc_attr__( 'July', 'af-locale' ),
-			'august'			=> esc_attr__( 'August', 'af-locale' ),
-			'september'			=> esc_attr__( 'September', 'af-locale' ),
-			'october'			=> esc_attr__( 'October', 'af-locale' ),
-			'november'			=> esc_attr__( 'November', 'af-locale' ),
-			'december'			=> esc_attr__( 'December', 'af-locale' ),
-			'select_date'		=> esc_attr__( 'Select Date', 'af-locale' ),
+			'dateformat'		=> esc_attr__( 'yy/mm/dd', 'torro-forms' ),
+			'min_sun'			=> esc_attr__( 'Su', 'torro-forms' ),
+			'min_mon'			=> esc_attr__( 'Mo', 'torro-forms' ),
+			'min_tue'			=> esc_attr__( 'Tu', 'torro-forms' ),
+			'min_wed'			=> esc_attr__( 'We', 'torro-forms' ),
+			'min_thu'			=> esc_attr__( 'Th', 'torro-forms' ),
+			'min_fri'			=> esc_attr__( 'Fr', 'torro-forms' ),
+			'min_sat'			=> esc_attr__( 'Sa', 'torro-forms' ),
+			'january'			=> esc_attr__( 'January', 'torro-forms' ),
+			'february'			=> esc_attr__( 'February', 'torro-forms' ),
+			'march'				=> esc_attr__( 'March', 'torro-forms' ),
+			'april'				=> esc_attr__( 'April', 'torro-forms' ),
+			'may'				=> esc_attr__( 'May', 'torro-forms' ),
+			'june'				=> esc_attr__( 'June', 'torro-forms' ),
+			'july'				=> esc_attr__( 'July', 'torro-forms' ),
+			'august'			=> esc_attr__( 'August', 'torro-forms' ),
+			'september'			=> esc_attr__( 'September', 'torro-forms' ),
+			'october'			=> esc_attr__( 'October', 'torro-forms' ),
+			'november'			=> esc_attr__( 'November', 'torro-forms' ),
+			'december'			=> esc_attr__( 'December', 'torro-forms' ),
+			'select_date'		=> esc_attr__( 'Select Date', 'torro-forms' ),
 			'calendar_icon_url'	=> TORRO_URLPATH . 'assets/img/calendar-icon.png',
 		);
 

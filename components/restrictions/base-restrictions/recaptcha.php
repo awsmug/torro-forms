@@ -35,18 +35,18 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	 * Constructor
 	 */
 	public function init() {
-		$this->title = __( 'Google reCAPTCHA', 'af-locale' );
+		$this->title = __( 'Google reCAPTCHA', 'torro-forms' );
 		$this->name = 'recaptcha';
 
 		$this->settings_fields = array(
 			'recaptcha_sitekey'		=> array(
-				'title'					=> __( 'Site Key', 'af-locale' ),
-				'description'			=> __( 'The public site key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin" target="_blank">here</a>.', 'af-locale' ),
+				'title'					=> __( 'Site Key', 'torro-forms' ),
+				'description'			=> __( 'The public site key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin" target="_blank">here</a>.', 'torro-forms' ),
 				'type'					=> 'text',
 			),
 			'recaptcha_secret'		=> array(
-				'title'					=> __( 'Secret', 'af-locale' ),
-				'description'			=> __( 'The secret key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin" target="_blank">here</a>.', 'af-locale' ),
+				'title'					=> __( 'Secret', 'torro-forms' ),
+				'description'			=> __( 'The secret key of your website for Google reCAPTCHA. You can get one <a href="http://www.google.com/recaptcha/admin" target="_blank">here</a>.', 'torro-forms' ),
 				'type'					=> 'text',
 			),
 		);
@@ -81,7 +81,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 
 		if( $this->is_enabled( $form_id ) && !$this->is_configured() )
 		{
-			Torro_Init::admin_notice( sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'af-locale' ), admin_url( 'admin.php?page=Torro_Admin&tab=restrictions&section=recaptcha' ) ), 'error' );
+			Torro_Init::admin_notice( sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'torro-forms' ), admin_url( 'admin.php?page=Torro_Admin&tab=restrictions&section=recaptcha' ) ), 'error' );
 		}
 	}
 
@@ -109,34 +109,34 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 
 		$html = '<div id="form-restrictions-content-recaptcha" class="section general-settings recaptcha">';
 
-		$html .= '<h3>' . esc_html__( 'Google reCAPTCHA', 'af-locale' ) . '</h3>';
+		$html .= '<h3>' . esc_html__( 'Google reCAPTCHA', 'torro-forms' ) . '</h3>';
 
 		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_enabled">' . esc_html__( 'Enable', 'af-locale' ) . '</label>';
+		$html .= '<label for="recaptcha_enabled">' . esc_html__( 'Enable', 'torro-forms' ) . '</label>';
 		$html .= '<input type="checkbox" id="recaptcha_enabled" name="recaptcha_enabled" value="1" ' . checked( $recaptcha_enabled, true, false ) . '/>';
 		$html .= '</div>';
 
 		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_type">' . esc_html__( 'Type', 'af-locale' ) . '</label>';
+		$html .= '<label for="recaptcha_type">' . esc_html__( 'Type', 'torro-forms' ) . '</label>';
 		$html .= '<select id="recaptcha_type" name="recaptcha_type">';
-		$html .= '<option value="image" ' . selected( $recaptcha_type, 'image', false ) . '>' . esc_html__( 'Image', 'af-locale' ) . '</option>';
-		$html .= '<option value="audio" ' . selected( $recaptcha_type, 'audio', false ) . '>' . esc_html__( 'Audio', 'af-locale' ) . '</option>';
+		$html .= '<option value="image" ' . selected( $recaptcha_type, 'image', false ) . '>' . esc_html__( 'Image', 'torro-forms' ) . '</option>';
+		$html .= '<option value="audio" ' . selected( $recaptcha_type, 'audio', false ) . '>' . esc_html__( 'Audio', 'torro-forms' ) . '</option>';
 		$html .= '</select>';
 		$html .= '</div>';
 
 		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_size">' . esc_html__( 'Size', 'af-locale' ) . '</label>';
+		$html .= '<label for="recaptcha_size">' . esc_html__( 'Size', 'torro-forms' ) . '</label>';
 		$html .= '<select id="recaptcha_size" name="recaptcha_size">';
-		$html .= '<option value="normal" ' . selected( $recaptcha_size, 'normal', false ) . '>' . esc_html__( 'Normal', 'af-locale' ) . '</option>';
-		$html .= '<option value="compact" ' . selected( $recaptcha_size, 'compact', false ) . '>' . esc_html__( 'Compact', 'af-locale' ) . '</option>';
+		$html .= '<option value="normal" ' . selected( $recaptcha_size, 'normal', false ) . '>' . esc_html__( 'Normal', 'torro-forms' ) . '</option>';
+		$html .= '<option value="compact" ' . selected( $recaptcha_size, 'compact', false ) . '>' . esc_html__( 'Compact', 'torro-forms' ) . '</option>';
 		$html .= '</select>';
 		$html .= '</div>';
 
 		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_theme">' . esc_html__( 'Theme', 'af-locale' ) . '</label>';
+		$html .= '<label for="recaptcha_theme">' . esc_html__( 'Theme', 'torro-forms' ) . '</label>';
 		$html .= '<select id="recaptcha_theme" name="recaptcha_theme">';
-		$html .= '<option value="light" ' . selected( $recaptcha_theme, 'light', false ) . '>' . esc_html__( 'Light', 'af-locale' ) . '</option>';
-		$html .= '<option value="dark" ' . selected( $recaptcha_theme, 'dark', false ) . '>' . esc_html__( 'Dark', 'af-locale' ) . '</option>';
+		$html .= '<option value="light" ' . selected( $recaptcha_theme, 'light', false ) . '>' . esc_html__( 'Light', 'torro-forms' ) . '</option>';
+		$html .= '<option value="dark" ' . selected( $recaptcha_theme, 'dark', false ) . '>' . esc_html__( 'Dark', 'torro-forms' ) . '</option>';
 		$html .= '</select>';
 		$html .= '</div>';
 
@@ -195,7 +195,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 				try {
 					$verification = json_decode( $verification, true );
 				} catch ( Exception $e ) {
-					$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'af-locale' );
+					$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'torro-forms' );
 					$status = false;
 				}
 
@@ -203,26 +203,26 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 					if ( isset( $verification['error-codes'] ) && count( $verification['error-codes'] ) > 0 ) {
 						switch ( $verification['error-codes'][0] ) {
 							case 'missing-input-secret':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is missing.', 'af-locale' );
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is missing.', 'torro-forms' );
 								break;
 							case 'invalid-input-secret':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is invalid or malformed.', 'af-locale' );
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is invalid or malformed.', 'torro-forms' );
 								break;
 							case 'missing-input-response':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is missing.', 'af-locale' );
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is missing.', 'torro-forms' );
 								break;
 							case 'invalid-input-response':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is invalid or malformed.', 'af-locale' );
+								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is invalid or malformed.', 'torro-forms' );
 								break;
 							default:
 						}
 					} else {
-						$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'af-locale' );
+						$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'torro-forms' );
 					}
 					$status = false;
 				}
 			} else {
-				$this->recaptcha_errors[ $form_id ] = __( 'Missing reCAPTCHA response.', 'af-locale' );
+				$this->recaptcha_errors[ $form_id ] = __( 'Missing reCAPTCHA response.', 'torro-forms' );
 				$status = false;
 			}
 		}

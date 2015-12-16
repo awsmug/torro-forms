@@ -62,7 +62,7 @@ class Torro_Formbuilder_RestrictionsExtension
 		$post_types = array( 'torro-forms' );
 
 		if( in_array( $post_type, $post_types ) ):
-			add_meta_box( 'form-restrictions', esc_attr__( 'Restrictions', 'af-locale' ), array(
+			add_meta_box( 'form-restrictions', esc_attr__( 'Restrictions', 'torro-forms' ), array(
 				                                 __CLASS__,
 				                                 'meta_box_restrictions'
 			                                 ), 'torro-forms', 'normal', 'low' );
@@ -101,7 +101,7 @@ class Torro_Formbuilder_RestrictionsExtension
 
 		$html .= '<div class="section">';
 		$html .= '<div id="form-restrictions-options">';
-		$html .= '<label for"form_restrictions_option">' . esc_attr__( 'Who has access to this form?', 'af-locale' ) . '';
+		$html .= '<label for"form_restrictions_option">' . esc_attr__( 'Who has access to this form?', 'torro-forms' ) . '';
 		$html .= '<select name="form_restrictions_option" id="form-restrictions-option">';
 		foreach( $restrictions AS $name => $restriction )
 		{

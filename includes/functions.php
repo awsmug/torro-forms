@@ -127,7 +127,7 @@ function torro_clipboard_field( $label, $content )
 		$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
 
 		$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
-		$html .= '<img src="' . TORRO_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'af-locale' ) . '" />';
+		$html .= '<img src="' . TORRO_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
 		$html .= '</button>';
 
 		$html .= '<div style="clear:both;"></div>';
@@ -159,7 +159,7 @@ thank you for participating on the survey "%survey_title%". Your survey data was
 
 Best regards,
 
-%site_name%', 'af-locale' );
+%site_name%', 'torro-forms' );
 			endif;
 
 			break;
@@ -175,7 +175,7 @@ you have been invited to participate to the survey "%survey_title%". Participate
 
 Best regards,
 
-%site_name%', 'af-locale' );
+%site_name%', 'torro-forms' );
 			endif;
 
 			break;
@@ -191,7 +191,7 @@ the survey "%survey_title%" is not finished yet. Please fill out and finish the 
 
 Best regards,
 
-%site_name%', 'af-locale' );
+%site_name%', 'torro-forms' );
 			endif;
 
 			break;
@@ -216,7 +216,7 @@ function torro_get_mail_template_subject( $mailsubject_title )
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_subject_template' ) );
 			if( empty( $text ) ):
-				$text = esc_attr__( 'Thank you for participating!', 'af-locale' );
+				$text = esc_attr__( 'Thank you for participating!', 'torro-forms' );
 			endif;
 
 			break;
@@ -224,7 +224,7 @@ function torro_get_mail_template_subject( $mailsubject_title )
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_subject_template' ) );
 			if( empty( $text ) ):
-				$text = esc_attr__( 'You are invited to answer a survey', 'af-locale' );
+				$text = esc_attr__( 'You are invited to answer a survey', 'torro-forms' );
 			endif;
 
 			break;
@@ -232,7 +232,7 @@ function torro_get_mail_template_subject( $mailsubject_title )
 		case 'reinvitation':
 			$text = stripslashes( get_option( 'questions_reinvitation_subject_template' ) );
 			if( empty( $text ) ):
-				$text = esc_attr__( 'Don´t forget to answer the Survey', 'af-locale' );
+				$text = esc_attr__( 'Don´t forget to answer the Survey', 'torro-forms' );
 			endif;
 
 			break;

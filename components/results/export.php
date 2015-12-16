@@ -70,11 +70,11 @@ class Torro_Export
 
 		if( 0 == $results->count() )
 		{
-			$actions[ 'no_export' ] = sprintf( __( 'There are no results to export', 'af-locale' ) );
+			$actions[ 'no_export' ] = sprintf( __( 'There are no results to export', 'torro-forms' ) );
 		}
 		else
 		{
-			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=torro-forms&torro_export=xls&form_id=' . $post->ID, '?post_type=torro-forms&export=csv&form_id=' . $post->ID );
+			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'torro-forms' ), '?post_type=torro-forms&torro_export=xls&form_id=' . $post->ID, '?post_type=torro-forms&export=csv&form_id=' . $post->ID );
 		}
 
 		return $actions;

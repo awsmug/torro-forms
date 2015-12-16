@@ -41,8 +41,8 @@ class Torro_Restrictions_Component extends Torro_Component
 	public function init()
 	{
 		$this->name = 'restrictions';
-		$this->title = esc_attr__( 'Restrictions', 'af-locale' );
-		$this->description = esc_attr__( 'Restrictions if a user can fillout a form or not', 'af-locale' );
+		$this->title = esc_attr__( 'Restrictions', 'torro-forms' );
+		$this->description = esc_attr__( 'Restrictions if a user can fillout a form or not', 'torro-forms' );
 	}
 
 	/**

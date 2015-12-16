@@ -36,8 +36,8 @@ class Torro_Form_Element_Dropdown extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'dropdown';
-		$this->title = esc_attr__( 'Dropdown', 'af-locale' );
-		$this->description = esc_attr__( 'Add an Element which can be answered within a dropdown field.', 'af-locale' );
+		$this->title = esc_attr__( 'Dropdown', 'torro-forms' );
+		$this->description = esc_attr__( 'Add an Element which can be answered within a dropdown field.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-dropdown.png';
 
 		$this->has_answers = TRUE;
@@ -50,7 +50,7 @@ class Torro_Form_Element_Dropdown extends Torro_Form_Element
 		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
 
 		$html .= '<select name="' . $this->get_input_name() . '">';
-		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'af-locale' ) . ' -</option>';
+		$html .= '<option value="please-select"> - ' . esc_attr__( 'Please select', 'torro-forms' ) . ' -</option>';
 
 		foreach( $this->answers AS $answer ):
 			$checked = '';
@@ -80,9 +80,9 @@ class Torro_Form_Element_Dropdown extends Torro_Form_Element
 
 		$this->settings_fields = array(
 			'description' => array(
-				'title'       => esc_attr__( 'Description', 'af-locale' ),
+				'title'       => esc_attr__( 'Description', 'torro-forms' ),
 				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the field.', 'af-locale' ),
+				'description' => esc_attr__( 'The description will be shown after the field.', 'torro-forms' ),
 				'default'     => ''
 			),
 		);
@@ -94,7 +94,7 @@ class Torro_Form_Element_Dropdown extends Torro_Form_Element
 		$error = FALSE;
 
 		if( 'please-select' == $input ):
-			$this->validate_errors[] = sprintf( esc_attr__( 'Please select a value.', 'af-locale' ) );
+			$this->validate_errors[] = sprintf( esc_attr__( 'Please select a value.', 'torro-forms' ) );
 			$error = TRUE;
 		endif;
 

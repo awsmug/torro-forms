@@ -98,7 +98,7 @@ class Torro_FormProcess
 		{
 			$html .= '<div class="af-element-error">';
 			$html .= '<div class="af-element-error-message"><p>';
-			$html .= esc_attr__( 'There are open answers', 'af-locale' );
+			$html .= esc_attr__( 'There are open answers', 'torro-forms' );
 			$html .= '</p></div></div>';
 		}
 
@@ -113,7 +113,7 @@ class Torro_FormProcess
 		// Switch on navigation if there is more than one page
 		if( 0 != $step_count )
 		{
-			$html .= '<div class="af-pagination">' . sprintf( __( 'Step <span class="af-highlight-number">%d</span> of <span class="af-highlight-number">%s</span>', 'af-locale' ), $actual_step + 1, $step_count + 1 ) . '</div>';
+			$html .= '<div class="af-pagination">' . sprintf( __( 'Step <span class="af-highlight-number">%d</span> of <span class="af-highlight-number">%s</span>', 'torro-forms' ), $actual_step + 1, $step_count + 1 ) . '</div>';
 		}
 
 		// Getting all elements of step and running them
@@ -212,7 +212,7 @@ class Torro_FormProcess
 		// If there was a step before, show previous button
 		if( $actual_step > 0 )
 		{
-			$html .= '<input type="submit" name="torro_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
+			$html .= '<input type="submit" name="torro_submission_back" value="' . __( 'Previous Step', 'torro-forms' ) . '"> ';
 		}
 
 		if( $actual_step == $next_step )
@@ -222,7 +222,7 @@ class Torro_FormProcess
 			do_action( 'torro_form_send_button_before', $this->form_id );
 			$html .= ob_get_clean();
 
-			$html .= '<input type="submit" name="torro_submission" value="' . __( 'Send', 'af-locale' ) . '">';
+			$html .= '<input type="submit" name="torro_submission" value="' . __( 'Send', 'torro-forms' ) . '">';
 
 			ob_start();
 			do_action( 'torro_form_send_button_after', $this->form_id );
@@ -231,7 +231,7 @@ class Torro_FormProcess
 		else
 		{
 			// Show next button
-			$html .= '<input type="submit" name="torro_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
+			$html .= '<input type="submit" name="torro_submission" value="' . __( 'Next Step', 'torro-forms' ) . '">';
 		}
 
 		return $html;

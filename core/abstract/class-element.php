@@ -356,7 +356,7 @@ abstract class Torro_Form_Element
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is a Torro Forms Element.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Torro Forms Element.', 'torro-forms' );
 		}
 
 		if( array_key_exists( $this->name, $torro_global->element_types ) )
@@ -431,7 +431,7 @@ abstract class Torro_Form_Element
 
 		if( 0 == count( $this->answers ) && $this->has_answers == TRUE )
 		{
-			$html .= '<p>' . esc_attr__( 'You don´t entered any answers. Please add some to display answers here.', 'af-locale' ) . '</p>';
+			$html .= '<p>' . esc_attr__( 'You don´t entered any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
 		}
 		else
 		{
@@ -485,7 +485,7 @@ abstract class Torro_Form_Element
 	 */
 	public function input_html()
 	{
-		return '<p>' . esc_attr__( 'No HTML for Element given. Please check element sourcecode.', 'af-locale' ) . '</p>';
+		return '<p>' . esc_attr__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
 	}
 
 	/**
@@ -546,12 +546,12 @@ abstract class Torro_Form_Element
 		/**
 		 * Tab Navi
 		 */
-		$this->admin_add_tab( esc_attr__( 'Content', 'af-locale' ), $this->admin_widget_content_tab() );
+		$this->admin_add_tab( esc_attr__( 'Content', 'torro-forms' ), $this->admin_widget_content_tab() );
 
 		$settings = $this->admin_widget_settings_tab();
 		if( FALSE !== $settings )
 		{
-			$this->admin_add_tab(  esc_attr__( 'Settings', 'af-locale' ), $settings );
+			$this->admin_add_tab(  esc_attr__( 'Settings', 'torro-forms' ), $settings );
 		}
 
 		$admin_tabs = apply_filters( 'torro_formbuilder_element_tabs', $this->admin_tabs );
@@ -665,7 +665,7 @@ abstract class Torro_Form_Element
 		if( FALSE === $content_html )
 		{
 			// Label
-			$html = '<label for="elements[' . $widget_id . '][label]">' . __( 'Label ', 'af-locale' ) . '</label><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" />';
+			$html = '<label for="elements[' . $widget_id . '][label]">' . __( 'Label ', 'torro-forms' ) . '</label><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" />';
 
 			// Answers
 			if( $this->has_answers ):
@@ -681,7 +681,7 @@ abstract class Torro_Form_Element
 					endforeach;
 				// Answers without sections
 				else:
-					$html .= '<p>' . esc_attr__( 'Answer/s:', 'af-locale' ) . '</p>';
+					$html .= '<p>' . esc_attr__( 'Answer/s:', 'torro-forms' ) . '</p>';
 					$html .= $this->admin_widget_content_answers();
 				endif;
 
@@ -736,7 +736,7 @@ abstract class Torro_Form_Element
 
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
 				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . $answer[ 'text' ] . '" class="element-answer" /></p>';
-				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
+				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . $answer[ 'id' ] . '" />';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . $answer[ 'sort' ] . '" />';
 
@@ -759,7 +759,7 @@ abstract class Torro_Form_Element
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
 				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
-				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'af-locale' ) . '" class="delete_answer button answer_action">';
+				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
 				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
 				if( NULL != $section )
@@ -774,7 +774,7 @@ abstract class Torro_Form_Element
 
 		endif;
 
-		$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_attr__( 'Add Answer', 'af-locale' ) . ' </a>';
+		$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_attr__( 'Add Answer', 'torro-forms' ) . ' </a>';
 
 		return $html;
 	}
@@ -895,7 +895,7 @@ abstract class Torro_Form_Element
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'torro_element_bottom_actions', array(
 			'delete_form_element' => array(
-				'text'    => esc_attr__( 'Delete element', 'af-locale' ),
+				'text'    => esc_attr__( 'Delete element', 'torro-forms' ),
 				'classes' => 'delete_form_element'
 			)
 		) );

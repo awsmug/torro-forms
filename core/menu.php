@@ -58,10 +58,10 @@ class Torro_AdminMenu
 	 */
 	public static function admin_menu()
 	{
-		add_menu_page( esc_attr__( 'Forms', 'af-locale' ), esc_attr__( 'Forms', 'af-locale' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ), '', 50 );
-		add_submenu_page( 'Torro_Admin', esc_attr__( 'Create', 'af-locale' ), esc_attr__( 'Create', 'af-locale' ), 'edit_posts', 'post-new.php?post_type=torro-forms' );
-		add_submenu_page( 'Torro_Admin', esc_attr__( 'Categories', 'af-locale' ), esc_attr__( 'Categories', 'af-locale' ), 'edit_posts', 'edit-tags.php?taxonomy=torro-forms' );
-		add_submenu_page( 'Torro_Admin', esc_attr__( 'Settings', 'af-locale' ), esc_attr__( 'Settings', 'af-locale' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ) );
+		add_menu_page( esc_attr__( 'Forms', 'torro-forms' ), esc_attr__( 'Forms', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ), '', 50 );
+		add_submenu_page( 'Torro_Admin', esc_attr__( 'Create', 'torro-forms' ), esc_attr__( 'Create', 'torro-forms' ), 'edit_posts', 'post-new.php?post_type=torro-forms' );
+		add_submenu_page( 'Torro_Admin', esc_attr__( 'Categories', 'torro-forms' ), esc_attr__( 'Categories', 'torro-forms' ), 'edit_posts', 'edit-tags.php?taxonomy=torro-forms' );
+		add_submenu_page( 'Torro_Admin', esc_attr__( 'Settings', 'torro-forms' ), esc_attr__( 'Settings', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ) );
 	}
 
 	/**

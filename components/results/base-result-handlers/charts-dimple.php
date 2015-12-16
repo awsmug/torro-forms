@@ -41,8 +41,8 @@ class Torro_Chart_Creator_Dimple extends Torro_Chart_Creator
 	public function init()
 	{
 		$this->name = 'dimple';
-		$this->title = __( 'Dimple', 'af-locale' );
-		$this->description = __( 'Chart creating with dimple.', 'af-locale' );
+		$this->title = __( 'Dimple', 'torro-forms' );
+		$this->description = __( 'Chart creating with dimple.', 'torro-forms' );
 	}
 
 	/**
@@ -69,8 +69,8 @@ class Torro_Chart_Creator_Dimple extends Torro_Chart_Creator
 		$width = $params[ 'width' ];
 		$height = $params[ 'height' ];
 
-		$answer_text = __( 'Answers', 'af-locale' );
-		$value_text = __( 'Votes', 'af-locale' );
+		$answer_text = __( 'Answers', 'torro-forms' );
+		$value_text = __( 'Votes', 'torro-forms' );
 
 		$data = self::prepare_data( $results, $answer_text, $value_text );
 

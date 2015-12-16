@@ -39,10 +39,10 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 	 */
 	public function init()
 	{
-		$this->title = __( 'All Members', 'af-locale' );
+		$this->title = __( 'All Members', 'torro-forms' );
 		$this->name = 'allmembers';
 
-		$this->option_name = __( 'All Members of site', 'af-locale' );
+		$this->option_name = __( 'All Members of site', 'torro-forms' );
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 	}
@@ -79,7 +79,7 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_attr__( 'Restrict Members', 'af-locale' ) . '</h3>';
+		$html = '<h3>' . esc_attr__( 'Restrict Members', 'torro-forms' ) . '</h3>';
 
 		/**
 		 * Check User
@@ -89,7 +89,7 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 
 		$html .= '<div class="form-restrictions-same-users-userfilter">';
 			$html .= '<input type="checkbox" name="form_restrictions_allmembers_same_users" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_allmembers_same_users">' . esc_attr__( 'Prevent multiple entries from same User', 'af-locale' ) . '</label>';
+			$html .= '<label for="form_restrictions_allmembers_same_users">' . esc_attr__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
@@ -108,7 +108,7 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 
 		if( !is_user_logged_in() )
 		{
-			$this->add_message( 'error', esc_attr__( 'You have to be logged in to participate.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have to be logged in to participate.', 'torro-forms' ) );
 
 			return FALSE;
 		}
@@ -117,7 +117,7 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 
 		if( 'yes' == $restrictions_same_users && torro_user_has_participated( $ar_form_id ) )
 		{
-			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
+			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'torro-forms' ) );
 
 			return FALSE;
 		}

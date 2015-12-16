@@ -36,8 +36,8 @@ class Torro_Form_Element_Splitter extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'splitter';
-		$this->title = esc_attr__( 'Split Form', 'af-locale' );
-		$this->description = esc_attr__( 'Splits a form into several steps', 'af-locale' );
+		$this->title = esc_attr__( 'Split Form', 'torro-forms' );
+		$this->description = esc_attr__( 'Splits a form into several steps', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-split-form.png';
 
 		$this->has_content = FALSE;

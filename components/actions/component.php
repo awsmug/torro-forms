@@ -41,8 +41,8 @@ class Torro_Actions_Component extends Torro_Component
 	public function init()
 	{
 		$this->name = 'actions';
-		$this->title = esc_attr__( 'Actions', 'af-locale' );
-		$this->description = esc_attr__( 'Actions are fired in the moment Users submitting their Form Data.', 'af-locale' );
+		$this->title = esc_attr__( 'Actions', 'torro-forms' );
+		$this->description = esc_attr__( 'Actions are fired in the moment Users submitting their Form Data.', 'torro-forms' );
 	}
 
 	/**

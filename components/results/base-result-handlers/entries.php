@@ -36,7 +36,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Entries', 'af-locale' );
+		$this->title = __( 'Entries', 'torro-forms' );
 		$this->name = 'entries';
 
 		add_action( 'wp_ajax_torro_show_entries', array( __CLASS__, 'ajax_show_entries' ) );
@@ -123,7 +123,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				}
 			}
 
-			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'af-locale' ), admin_url( 'edit.php' ) . '?post_type=torro-forms&torro_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=torro-forms&export=csv&form_id=' . $form_id ) . '</th>';
+			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'torro-forms' ), admin_url( 'edit.php' ) . '?post_type=torro-forms&torro_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=torro-forms&export=csv&form_id=' . $form_id ) . '</th>';
 			$html .= '</tr>';
 			$html .= '</thead>';
 
@@ -158,7 +158,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				}
 
 				$html .= '<td class="entry-actions">';
-				$html .= '<a type="button" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr__( 'Show Details', 'af-locale' ) . '</a>';
+				$html .= '<a type="button" class="button af-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr__( 'Show Details', 'torro-forms' ) . '</a>';
 				$html .= '</td>';
 
 				$html .= '</tr>';
@@ -189,7 +189,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 					'af-entries-start'	=> $prev,
 					'af-entries-length'	=> $length,
 				) );
-				$prev_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Previous</a>', 'af-locale' ), $prev_url );
+				$prev_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Previous</a>', 'torro-forms' ), $prev_url );
 				$html .= $prev_link;
 				$html .= '</div>';
 			}
@@ -201,12 +201,12 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 					'af-entries-start'	=> $next,
 					'af-entries-length'	=> $length,
 				) );
-				$next_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Next</a>', 'af-locale' ), $next_url );
+				$next_link = sprintf( __( '<a href="%s" class="af-entries-nav button">Next</a>', 'torro-forms' ), $next_url );
 				$html .= $next_link;
 				$html .= '</div>';
 			}
 
-			$html .= '<p>' . sprintf( esc_attr__( '%s - %s of %s', 'af-locale' ), $start + 1, $count, $num_results ) . '</p>';
+			$html .= '<p>' . sprintf( esc_attr__( '%s - %s of %s', 'torro-forms' ), $start + 1, $count, $num_results ) . '</p>';
 			$html .= '</div>';
 		}
 		else
@@ -230,7 +230,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 	}
 
 	public static function show_not_found_notice() {
-		return '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'af-locale' ) . '</p>';
+		return '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 	}
 
 	public static function ajax_show_entries()
@@ -258,7 +258,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 		if( !torro_form_exists( $form_id ) )
 		{
-			echo esc_attr__( 'Form not found.', 'af-locale' );
+			echo esc_attr__( 'Form not found.', 'torro-forms' );
 			exit;
 		}
 
@@ -267,7 +267,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 		if( 0 === $count_results )
 		{
-			echo esc_attr__( 'Entry not found.', 'af-locale' );
+			echo esc_attr__( 'Entry not found.', 'torro-forms' );
 			exit;
 		}
 
@@ -284,7 +284,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 			{
 				if( !array_key_exists( 'result_id', $result ) )
 				{
-					echo esc_attr__( 'Error on getting Result.', 'af-locale' );
+					echo esc_attr__( 'Error on getting Result.', 'torro-forms' );
 					exit;
 				}
 
@@ -292,8 +292,8 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 				$html .= '<thead>';
 				$html .= '<tr>';
-				$html .= '<th>' . esc_attr__( 'Label', 'af-locale' ) . '</th>';
-				$html .= '<th>' . esc_attr__( 'Value', 'af-locale' ) . '</th>';
+				$html .= '<th>' . esc_attr__( 'Label', 'torro-forms' ) . '</th>';
+				$html .= '<th>' . esc_attr__( 'Value', 'torro-forms' ) . '</th>';
 				$html .= '</tr>';
 				$html .= '</thead>';
 
@@ -318,7 +318,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 							{
 								$user_id = $value;
 								$user = get_user_by( 'id', $user_id );
-								$extra_info .= ' - ' . esc_attr__( 'User', 'af-locale' ) . ' ' . $user->user_nicename;
+								$extra_info .= ' - ' . esc_attr__( 'User', 'torro-forms' ) . ' ' . $user->user_nicename;
 							}
 							break;
 
@@ -348,11 +348,11 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 								if( 'yes' == $value )
 								{
-									$value = esc_attr__( 'Yes', 'af-locale' );
+									$value = esc_attr__( 'Yes', 'torro-forms' );
 								}
 								if( 'no' == $value )
 								{
-									$value = esc_attr__( 'No', 'af-locale' );
+									$value = esc_attr__( 'No', 'torro-forms' );
 								}
 
 								$html .= '<tr>';
@@ -367,7 +367,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				$html .= '</tbody>';
 				$html .= '<tfoot>';
 				$html .= '<tr>';
-				$html .= '<td colspan="2"><small>' . esc_attr__( 'Date', 'af-locale' ) . ' ' . $date_string . ' - ' . esc_attr__( 'Time', 'af-locale' ) . ' ' . $time_string . $extra_info . '</small></td>';
+				$html .= '<td colspan="2"><small>' . esc_attr__( 'Date', 'torro-forms' ) . ' ' . $date_string . ' - ' . esc_attr__( 'Time', 'torro-forms' ) . ' ' . $time_string . $extra_info . '</small></td>';
 				$html .= '</tr>';
 				$html .= '</tfoot>';
 				$html .= '</table>';
@@ -375,11 +375,11 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		}
 		else
 		{
-			$html =  esc_attr__( 'Entry not found.', 'af-locale' );
+			$html =  esc_attr__( 'Entry not found.', 'torro-forms' );
 		}
 
 		$html .= '<div id="af-entry-buttons">';
-		$html .= '<input type="button" class="button af-hide-entry" value="' . esc_attr__( 'Back to Results', 'af-locale' ) . '">';
+		$html .= '<input type="button" class="button af-hide-entry" value="' . esc_attr__( 'Back to Results', 'torro-forms' ) . '">';
 		$html .= '</div>';
 
 		echo $html;

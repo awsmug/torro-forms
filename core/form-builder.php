@@ -96,7 +96,7 @@ class Torro_Formbuilder
 		}
 		else
 		{
-			$html .= '<div id="af-drop-elements-here">' . __( 'Drop your Elements here!', 'af-locale' ) . '</div>';
+			$html .= '<div id="af-drop-elements-here">' . __( 'Drop your Elements here!', 'torro-forms' ) . '</div>';
 		}
 
 		$html .= '</div>';
@@ -108,9 +108,9 @@ class Torro_Formbuilder
 		do_action( 'torro_formbuilder_dragdrop_end', $form_id );
 		$html .= ob_get_clean();
 
-		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'af-locale' ) . '</div>';
-		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'af-locale' ) . '</div>';
-		$html .= '<div id="delete_results_dialog"><h3>' . esc_attr__( 'Attention!', 'af-locale' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'af-locale' ) . '</p></div>';
+		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'torro-forms' ) . '</div>';
+		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'torro-forms' ) . '</div>';
+		$html .= '<div id="delete_results_dialog"><h3>' . esc_attr__( 'Attention!', 'torro-forms' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'torro-forms' ) . '</p></div>';
 
 		$html .= '<input type="hidden" id="deleted_formelements" name="form_deleted_formelements" value="">';
 		$html .= '<input type="hidden" id="deleted_answers" name="form_deleted_answers" value="">';
@@ -132,12 +132,12 @@ class Torro_Formbuilder
 		if( in_array( $post_type, $post_types ) )
 		{
 			add_meta_box( 'form-elements',
-			              esc_attr__( 'Elements', 'af-locale' ),
+			              esc_attr__( 'Elements', 'torro-forms' ),
 			              array( __CLASS__, 'meta_box_form_elements' ),
 			              'torro-forms', 'side', 'high' );
 
 			add_meta_box( 'form-options',
-			              esc_attr__( 'Options', 'af-locale' ),
+			              esc_attr__( 'Options', 'torro-forms' ),
 			              array( __CLASS__, 'meta_box_options' ),
 			              'torro-forms', 'side', 'high' );
 
@@ -184,7 +184,7 @@ class Torro_Formbuilder
 		$html .= ob_get_clean();
 
 		$html .= '<div class="section general-settings">';
-		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Duplicate Form', 'af-locale' ) . '" />';
+		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Duplicate Form', 'torro-forms' ) . '" />';
 		$html .= '</div>';
 
 		echo $html;
@@ -517,17 +517,17 @@ class Torro_Formbuilder
 		}
 
 		$translation = array(
-			'delete'                       => esc_attr__( 'Delete', 'af-locale' ),
-			'yes'                          => esc_attr__( 'Yes', 'af-locale' ),
-			'no'                           => esc_attr__( 'No', 'af-locale' ),
-			'edit_form'                    => esc_attr__( 'Edit Form', 'af-locale' ),
-			'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'af-locale' ),
-			'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'af-locale' ),
-			'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'af-locale' ),
-			'of'                           => esc_attr__( 'of', 'af-locale' ),
-			'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'af-locale' ),
-			'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'af-locale' ),
-			'copied'                       => esc_attr__( 'Copied!', 'af-locale' )
+			'delete'                       => esc_attr__( 'Delete', 'torro-forms' ),
+			'yes'                          => esc_attr__( 'Yes', 'torro-forms' ),
+			'no'                           => esc_attr__( 'No', 'torro-forms' ),
+			'edit_form'                    => esc_attr__( 'Edit Form', 'torro-forms' ),
+			'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'torro-forms' ),
+			'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'torro-forms' ),
+			'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'torro-forms' ),
+			'of'                           => esc_attr__( 'of', 'torro-forms' ),
+			'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'torro-forms' ),
+			'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'torro-forms' ),
+			'copied'                       => esc_attr__( 'Copied!', 'torro-forms' )
 		);
 
 		wp_enqueue_script( 'jquery-ui-draggable' );

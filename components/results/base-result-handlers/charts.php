@@ -36,7 +36,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Charts', 'af-locale' );
+		$this->title = __( 'Charts', 'torro-forms' );
 		$this->name = 'charts';
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
@@ -131,7 +131,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 
 		if( 0 == $count_charts || 0 == $form_results->count() )
 		{
-			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'af-locale' ) . '</p>';
+			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 		}
 
 		$html .= '<div id="af-result-charts-bottom">';

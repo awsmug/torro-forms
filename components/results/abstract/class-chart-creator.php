@@ -88,11 +88,11 @@ abstract class Torro_Chart_Creator
         }
         if( empty( $this->name ) )
         {
-            $this->description = esc_attr__( 'This is an Torro Forms Chart Creator.', 'af-locale' );
+            $this->description = esc_attr__( 'This is an Torro Forms Chart Creator.', 'torro-forms' );
         }
 
-        $this->register_chart_type( 'bars', esc_attr__( 'Bars', 'af-locale' ), array( $this, 'bars' ) );
-        $this->register_chart_type( 'pies', esc_attr__( 'Pies', 'af-locale' ), array( $this, 'pies' ) );
+        $this->register_chart_type( 'bars', esc_attr__( 'Bars', 'torro-forms' ), array( $this, 'bars' ) );
+        $this->register_chart_type( 'pies', esc_attr__( 'Pies', 'torro-forms' ), array( $this, 'pies' ) );
 
         // Scriptloaders
         if( is_admin() )
@@ -162,7 +162,7 @@ abstract class Torro_Chart_Creator
 
         if( '' == $this->description )
         {
-            $this->description = esc_attr__( 'This is a Torro Forms Form Element.', 'af-locale' );
+            $this->description = esc_attr__( 'This is a Torro Forms Form Element.', 'torro-forms' );
         }
 
         if( array_key_exists( $this->name, $torro_global->chart_creators ) )

@@ -36,8 +36,8 @@ class Torro_Form_Element_Separator extends Torro_Form_Element
 	public function init()
 	{
 		$this->name = 'separator';
-		$this->title = esc_attr__( 'Separator', 'af-locale' );
-		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between elements.', 'af-locale' );
+		$this->title = esc_attr__( 'Separator', 'torro-forms' );
+		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between elements.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-separator.png';
 
 		$this->has_content = FALSE;

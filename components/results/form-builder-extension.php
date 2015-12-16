@@ -63,7 +63,7 @@ class Torro_Formbuilder_ChartsExtension
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-results',
-				esc_attr__( 'Results', 'af-locale' ),
+				esc_attr__( 'Results', 'torro-forms' ),
 				array( __CLASS__, 'meta_box_results' ),
 				'torro-forms',
 				'normal',
@@ -122,7 +122,7 @@ class Torro_Formbuilder_ChartsExtension
 			$delete_results_disabled = '';
 		}
 
-		$html .= '<input' . $delete_results_disabled . ' id="form-delete-results" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete Results', 'af-locale' ) . '" />';
+		$html .= '<input' . $delete_results_disabled . ' id="form-delete-results" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete Results', 'torro-forms' ) . '" />';
 
 		ob_start();
 		do_action( 'torro_results_general_settings' );

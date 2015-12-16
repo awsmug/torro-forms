@@ -126,7 +126,7 @@ abstract class Torro_ResultHandler
 		$headline = array(
 			'headline' => array(
 				'title'       => $this->title,
-				'description' => sprintf( esc_attr__( 'Setup the "%s" Result Handler.', 'af-locale' ), $this->title ),
+				'description' => sprintf( esc_attr__( 'Setup the "%s" Result Handler.', 'torro-forms' ), $this->title ),
 				'type'        => 'title'
 			)
 		);
@@ -175,7 +175,7 @@ abstract class Torro_ResultHandler
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is a Torro Forms Result Handler.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Torro Forms Result Handler.', 'torro-forms' );
 		}
 
 		if( array_key_exists( $this->name, $torro_global->restrictions ) )

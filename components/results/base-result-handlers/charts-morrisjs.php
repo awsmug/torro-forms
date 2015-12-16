@@ -41,8 +41,8 @@ class Torro_Chart_Creator_Morrisjs extends Torro_Chart_Creator
 	public function init()
 	{
 		$this->name = 'morrisjs';
-		$this->title = __( 'morris.js', 'af-locale' );
-		$this->description = __( 'Chart creating with morris.js.', 'af-locale' );
+		$this->title = __( 'morris.js', 'torro-forms' );
+		$this->description = __( 'Chart creating with morris.js.', 'torro-forms' );
 	}
 
 	/**

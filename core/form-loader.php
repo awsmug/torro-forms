@@ -172,7 +172,7 @@ class Torro_FormLoader
 		}
 
 		$html = '<div id="af-thank-participation">';
-		$html .= '<p>' . __( 'Thank you for participating!', 'af-locale' ) . '</p>';
+		$html .= '<p>' . __( 'Thank you for participating!', 'torro-forms' ) . '</p>';
 		if( 'yes' == $show_results )
 		{
 			$html .= self::show_results( $form_id );
@@ -192,7 +192,7 @@ class Torro_FormLoader
 	 */
 	public static function show_results( $form_id )
 	{
-		$html = '<p>' . __( 'This are the actual results:', 'af-locale' ) . '</p>';
+		$html = '<p>' . __( 'This are the actual results:', 'torro-forms' ) . '</p>';
 		$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
 
 		return apply_filters( 'torro_show_results', $html, $form_id );

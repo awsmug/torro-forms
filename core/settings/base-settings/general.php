@@ -36,18 +36,18 @@ class Torro_GeneralSettings extends Torro_Settings
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'General', 'af-locale' );
+		$this->title = __( 'General', 'torro-forms' );
 		$this->name = 'general';
 
 		$this->settings = array(
 			'disclaimer'    => array(
-				'title'       => esc_attr__( 'Welcome to Torro Forms!', 'af-locale' ),
-				'description' => esc_attr__( 'You want to build any forms in a easy way? Torro Forms will help you to do it in the very easy way with ton of options.', 'af-locale' ),
+				'title'       => esc_attr__( 'Welcome to Torro Forms!', 'torro-forms' ),
+				'description' => esc_attr__( 'You want to build any forms in a easy way? Torro Forms will help you to do it in the very easy way with ton of options.', 'torro-forms' ),
 				'type'        => 'disclaimer'
 			),
 			'modules_title' => array(
-				'title'       => esc_attr__( 'Form Modules', 'af-locale' ),
-				'description' => esc_attr__( 'Check the modules of Torro Forms which have to be activated.', 'af-locale' ),
+				'title'       => esc_attr__( 'Form Modules', 'torro-forms' ),
+				'description' => esc_attr__( 'Check the modules of Torro Forms which have to be activated.', 'torro-forms' ),
 				'type'        => 'title'
 			)
 		);
@@ -70,14 +70,14 @@ class Torro_GeneralSettings extends Torro_Settings
 
 		$settings_arr = array(
 			'modules' => array(
-				'title'       => esc_attr__( 'Modules', 'af-locale' ),
-				'description' => esc_attr__( 'You don´t need some of these components? Switch it off!', 'af-locale' ),
+				'title'       => esc_attr__( 'Modules', 'torro-forms' ),
+				'description' => esc_attr__( 'You don´t need some of these components? Switch it off!', 'torro-forms' ),
 				'type'        => 'checkbox',
 				'values'      => $components,
 				'default'     => $defaults
 			),
 		    'slug'  => array(
-			    'title'      => esc_attr__( 'Slug', 'af-locale' ),
+			    'title'      => esc_attr__( 'Slug', 'torro-forms' ),
 			    'description'=> __( 'The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/<b>forms</b>/mycontactform)'),
 			    'type'       => 'text',
 			    'default'    => '' == get_option( 'questions_db_version' )? 'forms' : 'survey'

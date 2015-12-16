@@ -116,7 +116,7 @@ abstract class Torro_TemplateTags
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is a Torro Forms Templatetag collection.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Torro Forms Templatetag collection.', 'torro-forms' );
 		}
 
 		if( array_key_exists( $this->name, $torro_global->restrictions ) )
@@ -228,7 +228,7 @@ function torro_template_tag_button( $input_name )
 	$collections = torro_get_templatetag_collections();
 
 	$html = '<div class="af-templatetag-button">';
-	$html .= '<input type="button" value="' . esc_attr__( '+', 'af-locale' ) . '" class="button" rel="' . $input_name . '" />';
+	$html .= '<input type="button" value="' . esc_attr__( '+', 'torro-forms' ) . '" class="button" rel="' . $input_name . '" />';
 	$html .= '<div class="af-templatetag-list">';
 
 	foreach( $collections AS $collection_name => $collection )

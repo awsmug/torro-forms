@@ -32,9 +32,9 @@ class Torro_GlobalTemplateTags extends Torro_TemplateTags
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Global', 'af-locale' );
+		$this->title = __( 'Global', 'torro-forms' );
 		$this->name = 'basetags';
-		$this->description = __( 'Global Templatetags', 'af-locale' );
+		$this->description = __( 'Global Templatetags', 'torro-forms' );
 	}
 
 	/**
@@ -42,10 +42,10 @@ class Torro_GlobalTemplateTags extends Torro_TemplateTags
 	 */
 	public function tags()
 	{
-		$this->add_tag( 'sitetitle', esc_attr__( 'Site Title', 'af-locale' ), esc_attr__( 'Adds the Site Title', 'af-locale' ), array( __CLASS__ , 'sitetitle' ) );
-		$this->add_tag( 'sitetagline', esc_attr__( 'Site Tagline', 'af-locale' ), esc_attr__( 'Adds the Sites Tagline', 'af-locale' ), array( __CLASS__, 'sitetagline') );
-		$this->add_tag( 'adminemail', esc_attr__( 'Admin Email', 'af-locale' ), esc_attr__( 'Adds the Admin Email-Address', 'af-locale' ), array( __CLASS__, 'adminemail') );
-		$this->add_tag( 'userip', esc_attr__( 'User IP', 'af-locale' ), esc_attr__( 'Adds the Sites User IP', 'af-locale' ), array( __CLASS__, 'userip' ) );
+		$this->add_tag( 'sitetitle', esc_attr__( 'Site Title', 'torro-forms' ), esc_attr__( 'Adds the Site Title', 'torro-forms' ), array( __CLASS__ , 'sitetitle' ) );
+		$this->add_tag( 'sitetagline', esc_attr__( 'Site Tagline', 'torro-forms' ), esc_attr__( 'Adds the Sites Tagline', 'torro-forms' ), array( __CLASS__, 'sitetagline') );
+		$this->add_tag( 'adminemail', esc_attr__( 'Admin Email', 'torro-forms' ), esc_attr__( 'Adds the Admin Email-Address', 'torro-forms' ), array( __CLASS__, 'adminemail') );
+		$this->add_tag( 'userip', esc_attr__( 'User IP', 'torro-forms' ), esc_attr__( 'Adds the Sites User IP', 'torro-forms' ), array( __CLASS__, 'userip' ) );
 	}
 
 	/**

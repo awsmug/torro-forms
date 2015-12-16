@@ -65,7 +65,7 @@ class Torro_Formbuilder_Actions_Extension
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-actions',
-				esc_attr__( 'Actions', 'af-locale' ),
+				esc_attr__( 'Actions', 'torro-forms' ),
 				array( __CLASS__, 'meta_box_actions' ),
 				'torro-forms',
 				'normal',

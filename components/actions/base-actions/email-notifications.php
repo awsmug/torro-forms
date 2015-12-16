@@ -50,7 +50,7 @@ class Torro_EmailNotifications extends Torro_Action
 	 */
 	public function init()
 	{
-		$this->title = __( 'Email Notifications', 'af-locale' );
+		$this->title = __( 'Email Notifications', 'torro-forms' );
 		$this->name = 'emailnotifications';
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
@@ -145,8 +145,8 @@ class Torro_EmailNotifications extends Torro_Action
 		$html = '<div id="form-email-notifications">';
 
 			$html.= '<div class="actions">';
-			$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr__( 'Add Notification', 'af-locale' ) . '" class="button" />';
-			$html.= '<p class="intro-text">' . esc_attr__( 'Add Email Notifications to send out Emails after the form have been submitted by User.', 'af-locale' ) . '</p>';
+			$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
+			$html.= '<p class="intro-text">' . esc_attr__( 'Add Email Notifications to send out Emails after the form have been submitted by User.', 'torro-forms' ) . '</p>';
 			$html.= '</div>';
 
 			$html.= '<div class="list">';
@@ -167,7 +167,7 @@ class Torro_EmailNotifications extends Torro_Action
 							);
 						}
 					}
-					$html.= '<p class="no-entry-found not-found-area">' . esc_attr__( 'No Notifications found.', 'af-locale' ) . '</p>';
+					$html.= '<p class="no-entry-found not-found-area">' . esc_attr__( 'No Notifications found.', 'torro-forms' ) . '</p>';
 				$html.= '</div>';
 			$html.= '</div>';
 
@@ -176,7 +176,7 @@ class Torro_EmailNotifications extends Torro_Action
 
 		$html.= '<script language="javascript">jQuery( document ).ready(function ($) {window.form_builder.handle_templatetag_buttons();});</script>';
 
-		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this Email-Notification?', 'af-locale' ) . '</div>';
+		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();
@@ -262,31 +262,31 @@ class Torro_EmailNotifications extends Torro_Action
 
 			$html.= '<table class="form-table">';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_attr__( 'Notification Name', 'af-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_attr__( 'Notification Name', 'torro-forms' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][notification_name]" value="' . $notification_name . '"></td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr__( 'From Name', 'af-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr__( 'From Name', 'torro-forms' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr__( 'From Email', 'af-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr__( 'From Email', 'torro-forms' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr__( 'To Email', 'af-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr__( 'To Email', 'torro-forms' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr__( 'Subject', 'af-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr__( 'Subject', 'torro-forms' ) . '</label></th>';
 					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_message-' . $id . '">' . esc_attr__( 'Message', 'af-locale' ) . '</label></th>';
+					$html.= '<th><label for="email_notification_message-' . $id . '">' . esc_attr__( 'Message', 'torro-forms' ) . '</label></th>';
 					$html.= '<td>' . $editor . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
-					$html.= '<td colspan="2"><input type="button" class="button form-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr__( 'Delete Notification', 'af-locale' ) . '" /></td>';
+					$html.= '<td colspan="2"><input type="button" class="button form-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr__( 'Delete Notification', 'torro-forms' ) . '" /></td>';
 				$html.= '</tr>';
 			$html.= '</table>';
 		$html.= '</div>';
@@ -331,9 +331,9 @@ class Torro_EmailNotifications extends Torro_Action
 			return;
 
 		$translation = array(
-			'delete'		=> esc_attr__( 'Delete', 'af-locale' ),
-			'yes'			=> esc_attr__( 'Yes', 'af-locale' ),
-			'no'			=> esc_attr__( 'No', 'af-locale' )
+			'delete'		=> esc_attr__( 'Delete', 'torro-forms' ),
+			'yes'			=> esc_attr__( 'Yes', 'torro-forms' ),
+			'no'			=> esc_attr__( 'No', 'torro-forms' )
 		);
 
 		wp_enqueue_script( 'af-actions-email-notifications', TORRO_URLPATH . 'assets/js/actions-email-notifications.js', array( 'jquery-ui-accordion' ) );
