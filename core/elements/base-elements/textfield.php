@@ -110,14 +110,14 @@ class AF_Form_Element_Textfield extends AF_Form_Element
 			'none'				=> array(
 				'title'				=> esc_attr__( 'No validation', 'af-locale' ),
 			),
-			'numbers'			=> array(
-				'title'				=> esc_attr__( 'Numbers', 'af-locale' ),
+			'number'			=> array(
+				'title'				=> esc_attr__( 'Number', 'af-locale' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^[0-9]{1,}$',
 				'error_message'		=> esc_attr__( 'Please input a number.', 'af-locale' ),
 			),
-			'numbers_decimal'	=> array(
-				'title'				=> esc_attr__( 'Decimal Numbers', 'af-locale' ),
+			'number_decimal'	=> array(
+				'title'				=> esc_attr__( 'Decimal Number', 'af-locale' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^-?([0-9])+\.?([0-9])+$',
 				'error_message'		=> esc_attr__( 'Please input a decimal number.', 'af-locale' ),
