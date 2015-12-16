@@ -220,12 +220,12 @@ abstract class Torro_Form_Element
 	 */
 	private function populate( $id )
 	{
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
 		$this->label = '';
 		$this->answers = array();
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->elements} WHERE id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->elements} WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 
 		$this->id = $id;
@@ -234,7 +234,7 @@ abstract class Torro_Form_Element
 
 		$this->sort = $row->sort;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if( is_array( $results ) ):
@@ -243,7 +243,7 @@ abstract class Torro_Form_Element
 			endforeach;
 		endif;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->settings} WHERE element_id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->settings} WHERE element_id = %s", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if( is_array( $results ) ):
@@ -332,14 +332,14 @@ abstract class Torro_Form_Element
 	 */
 	public function _register()
 	{
-		global $af_global;
+		global $torro_global;
 
 		if( TRUE == $this->initialized )
 		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) )
+		if( !is_object( $torro_global ) )
 		{
 			return FALSE;
 		}
@@ -359,19 +359,19 @@ abstract class Torro_Form_Element
 			$this->description = esc_attr__( 'This is a Torro Forms Element.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->element_types ) )
+		if( array_key_exists( $this->name, $torro_global->element_types ) )
 		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->element_types ) )
+		if( !is_array( $torro_global->element_types ) )
 		{
-			$af_global->element_types = array();
+			$torro_global->element_types = array();
 		}
 
 		$this->initialized = TRUE;
 
-		return $af_global->add_form_element( $this->name, $this );
+		return $torro_global->add_form_element( $this->name, $this );
 	}
 
 	/**
@@ -394,23 +394,23 @@ abstract class Torro_Form_Element
 	 */
 	public function draw()
 	{
-		global $af_response_errors;
+		global $torro_response_errors;
 
 		$errors = '';
-		if( is_array( $af_response_errors ) && array_key_exists( $this->id, $af_response_errors ) )
+		if( is_array( $torro_response_errors ) && array_key_exists( $this->id, $torro_response_errors ) )
 		{
-			$errors = $af_response_errors[ $this->id ];
+			$errors = $torro_response_errors[ $this->id ];
 		}
 
 		$html = '';
 
 		$element_classes = array( 'af-element', 'af-element-' . $this->id );
-		$element_classes = apply_filters( 'af_element_classes', $element_classes, $this );
+		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $this );
 
 		$html .= '<div class="' . implode( ' ', $element_classes ) . '">';
 
 		ob_start();
-		do_action( 'af_form_element_start', $this->id );
+		do_action( 'torro_form_element_start', $this->id );
 		$html .= ob_get_clean();
 
 		// Echo Errors
@@ -444,7 +444,7 @@ abstract class Torro_Form_Element
 		}
 
 		ob_start();
-		do_action( 'af_form_element_end', $this->id );
+		do_action( 'torro_form_element_end', $this->id );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
@@ -466,10 +466,10 @@ abstract class Torro_Form_Element
 
 		// Getting value/s
 		if( !empty( $ar_form_id ) ):
-			if( isset( $_SESSION[ 'af_response' ] ) ):
-				if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) ):
-					if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ] ) ):
-						$this->response = $_SESSION[ 'af_response' ][ $ar_form_id ][ $this->id ];
+			if( isset( $_SESSION[ 'torro_response' ] ) ):
+				if( isset( $_SESSION[ 'torro_response' ][ $ar_form_id ] ) ):
+					if( isset( $_SESSION[ 'torro_response' ][ $ar_form_id ][ $this->id ] ) ):
+						$this->response = $_SESSION[ 'torro_response' ][ $ar_form_id ][ $this->id ];
 					endif;
 				endif;
 			endif;
@@ -554,7 +554,7 @@ abstract class Torro_Form_Element
 			$this->admin_add_tab(  esc_attr__( 'Settings', 'af-locale' ), $settings );
 		}
 
-		$admin_tabs = apply_filters( 'af_formbuilder_element_tabs', $this->admin_tabs );
+		$admin_tabs = apply_filters( 'torro_formbuilder_element_tabs', $this->admin_tabs );
 
 		if( count( $admin_tabs ) > 1 )
 		{
@@ -595,14 +595,14 @@ abstract class Torro_Form_Element
 
 		// Adding further content
 		ob_start();
-		do_action( 'af_element_admin_tabs_content', $this );
+		do_action( 'torro_element_admin_tabs_content', $this );
 		$html .= ob_get_clean();
 
 		$html .= $this->admin_widget_action_buttons();
 
 		// Adding content at the bottom
 		ob_start();
-		do_action( 'af_element_admin_tabs_bottom', $this );
+		do_action( 'torro_element_admin_tabs_bottom', $this );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
@@ -849,7 +849,7 @@ abstract class Torro_Form_Element
 			        'textarea_name' => $name
 			    );
 			    ob_start();
-			    wp_editor( $value, 'af_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
+			    wp_editor( $value, 'torro_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
 			    $input = ob_get_clean();
 
 			    break;
@@ -893,7 +893,7 @@ abstract class Torro_Form_Element
 	private function admin_widget_action_buttons()
 	{
 		// Adding action Buttons
-		$bottom_buttons = apply_filters( 'af_element_bottom_actions', array(
+		$bottom_buttons = apply_filters( 'torro_element_bottom_actions', array(
 			'delete_form_element' => array(
 				'text'    => esc_attr__( 'Delete element', 'af-locale' ),
 				'classes' => 'delete_form_element'
@@ -933,7 +933,7 @@ abstract class Torro_Form_Element
 	 */
 	public function get_input_name()
 	{
-		$input_name = 'af_response[' . $this->id . ']';
+		$input_name = 'torro_response[' . $this->id . ']';
 
 		return $input_name;
 	}
@@ -946,7 +946,7 @@ abstract class Torro_Form_Element
 	 */
 	public function get_selector_input_name()
 	{
-		$input_name = 'af_response\\\[' . $this->id . '\\\]';
+		$input_name = 'torro_response\\\[' . $this->id . '\\\]';
 
 		return $input_name;
 	}
@@ -980,9 +980,9 @@ abstract class Torro_Form_Element
 	public function get_results()
 	{
 
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->results} AS r, {$af_global->tables->result_answers} AS a WHERE r.id=a.result_id AND a.element_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->results} AS r, {$torro_global->tables->result_answers} AS a WHERE r.id=a.result_id AND a.element_id=%d", $this->id );
 		$responses = $wpdb->get_results( $sql );
 
 		$result_answers = array();
@@ -1038,7 +1038,7 @@ abstract class Torro_Form_Element
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_form_element( $element_type_class )
+function torro_register_form_element( $element_type_class )
 {
 	if( class_exists( $element_type_class ) )
 	{
@@ -1059,13 +1059,13 @@ function af_register_form_element( $element_type_class )
  * @return object|bool
  * @since 1.0.0
  */
-function af_get_element( $element_id, $type = '' )
+function torro_get_element( $element_id, $type = '' )
 {
-	global $wpdb, $af_global;
+	global $wpdb, $torro_global;
 
 	if( '' == $type )
 	{
-		$sql = $wpdb->prepare( "SELECT type FROM {$af_global->tables->elements} WHERE id = %d ORDER BY sort ASC", $element_id );
+		$sql = $wpdb->prepare( "SELECT type FROM {$torro_global->tables->elements} WHERE id = %d ORDER BY sort ASC", $element_id );
 		$type = $wpdb->get_var( $sql );
 	}
 

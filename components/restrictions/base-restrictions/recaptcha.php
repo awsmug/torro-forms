@@ -52,14 +52,14 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		);
 
 		add_action( 'form_restrictions_content_bottom', array( $this, 'recaptcha_fields' ), 10 );
-		add_action( 'af_formbuilder_save', array( $this, 'save' ), 10, 1 );
+		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 
-		add_action( 'af_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
+		add_action( 'torro_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
 
-		add_filter( 'af_response_validation_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
+		add_filter( 'torro_response_validation_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
 
 		// compatibility with Contact Form 7
 		remove_action( 'wpcf7_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts' );
@@ -72,7 +72,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	{
 		global $post;
 
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
@@ -285,7 +285,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		global $ar_form_id, $post;
 
 		if ( ! $ar_form_id ) {
-			if ( ! $post || 'af-forms' != $post->post_type ) {
+			if ( ! $post || 'torro-forms' != $post->post_type ) {
 				// no form detected
 				return;
 			}
@@ -297,7 +297,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		}
 
 		wp_enqueue_script( 'af-restrictions-recaptcha', TORRO_URLPATH . 'assets/js/restrictions-recaptcha.js', array(), false, true );
-		wp_localize_script( 'af-restrictions-recaptcha', '_af_recaptcha_settings', array(
+		wp_localize_script( 'af-restrictions-recaptcha', '_torro_recaptcha_settings', array(
 			'sitekey'		=> $this->settings['recaptcha_sitekey'],
 		) );
 
@@ -323,7 +323,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 
 		$recaptcha_script_url = 'https://www.google.com/recaptcha/api.js';
 		$recaptcha_script_url = add_query_arg( array(
-			'onload'	=> 'af_reCAPTCHA_widgets_init',
+			'onload'	=> 'torro_reCAPTCHA_widgets_init',
 			'render'	=> 'explicit',
 			'hl'		=> $locale,
 		), $recaptcha_script_url );
@@ -392,4 +392,4 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	}
 }
 
-af_register_restriction( 'Torro_Restriction_Recaptcha' );
+torro_register_restriction( 'Torro_Restriction_Recaptcha' );

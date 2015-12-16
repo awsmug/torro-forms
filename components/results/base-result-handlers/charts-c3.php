@@ -111,7 +111,7 @@ class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
 
 						var highest = 0;
 						for( i = 0; i < categories.length; i++ ){
-							var height = $.af_text_height( categories[ i ], '13px Clear Sans', category_width  );
+							var height = $.torro_text_height( categories[ i ], '13px Clear Sans', category_width  );
 
 							if( highest < height )
 							{
@@ -209,4 +209,4 @@ class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
 	}
 }
 
-af_register_chartcreator( 'Torro_Chart_Creator_C3' );
+torro_register_chartcreator( 'Torro_Chart_Creator_C3' );

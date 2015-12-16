@@ -41,7 +41,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-		add_action( 'af_result_charts_postbox_bottom', array( $this, 'charts_general_settings' ), 10 );
+		add_action( 'torro_result_charts_postbox_bottom', array( $this, 'charts_general_settings' ), 10 );
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 	 */
 	public static function enqueue_admin_scripts()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
@@ -83,7 +83,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 				$headline_arr = explode( '_', $headline );
 
 				$element_id = (int) $headline_arr[ 1 ];
-				$element = af_get_element( $element_id );
+				$element = torro_get_element( $element_id );
 
 				// Skip collecting Data if there is no analyzable Data
 				if( !$element->has_answers )
@@ -120,7 +120,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 
 				$html .= '<div class="af-chart-actions">';
 				ob_start();
-				do_action( 'af_result_charts_postbox_element', $element );
+				do_action( 'torro_result_charts_postbox_element', $element );
 				$html .= ob_get_clean();
 				$html .= '</div>';
 
@@ -136,7 +136,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 
 		$html .= '<div id="af-result-charts-bottom">';
 		ob_start();
-		do_action( 'af_result_charts_postbox_bottom', $form_id );
+		do_action( 'torro_result_charts_postbox_bottom', $form_id );
 		$html .= ob_get_clean();
 		$html .= '<div style="clear:both"></div>';
 		$html .= '</div>';
@@ -175,7 +175,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 			}
 
 			$element_id = (int) $column_name_arr[ 1 ];
-			$element = af_get_element( $element_id );
+			$element = torro_get_element( $element_id );
 
 			if( count( $element->sections ) > 0 )
 			{
@@ -279,4 +279,4 @@ class Torro_Result_Charts extends Torro_ResultHandler
 	}
 }
 
-af_register_result_handler( 'Torro_Result_Charts' );
+torro_register_result_handler( 'Torro_Result_Charts' );

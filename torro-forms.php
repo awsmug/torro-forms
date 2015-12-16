@@ -74,9 +74,9 @@ class Torro_Init
 	{
 		$domain = 'af-locale';
 
-		$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'af_locale', get_locale() ) );
+		$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'torro_locale', get_locale() ) );
 
-		$locations = apply_filters( 'af_locale_locations', array(
+		$locations = apply_filters( 'torro_locale_locations', array(
 				trailingslashit( WP_LANG_DIR . '/' . $domain  ),
 				trailingslashit( WP_LANG_DIR ),
 				trailingslashit( TORRO_FOLDER ) . 'languages/',
@@ -168,13 +168,13 @@ class Torro_Init
 		global $wpdb;
 
 		$tables = array(
-				$wpdb->prefix . 'af_elements',
-				$wpdb->prefix . 'af_element_answers',
-				$wpdb->prefix . 'af_results',
-				$wpdb->prefix . 'af_result_values',
-				$wpdb->prefix . 'af_settings',
-				$wpdb->prefix . 'af_participiants',
-				$wpdb->prefix . 'af_email_notifications'
+				$wpdb->prefix . 'torro_elements',
+				$wpdb->prefix . 'torro_element_answers',
+				$wpdb->prefix . 'torro_results',
+				$wpdb->prefix . 'torro_result_values',
+				$wpdb->prefix . 'torro_settings',
+				$wpdb->prefix . 'torro_participiants',
+				$wpdb->prefix . 'torro_email_notifications'
 		);
 
 		// Checking if all tables are existing
@@ -195,16 +195,22 @@ class Torro_Init
 	 */
 	private static function setup()
 	{
-		$script_db_version = '1.0.1';
-		$current_db_version  = get_option( 'af_db_version' );
+		$script_db_version = '1.0.2';
+		$current_db_version  = get_option( 'torro_db_version' );
 
 		if( FALSE !== get_option( 'questions_db_version' ) )
 		{
 			require_once( 'includes/updates/to-awesome-forms.php' );
-			af_questions_to_awesome_forms();
+			torro_questions_to_awesome_forms();
 		}
 
-		if( ! get_option( 'af_db_version' ) || !self::is_installed() || version_compare( $current_db_version, $script_db_version, '<' )  )
+		if( FALSE !== get_option( 'af_db_version' ) )
+		{
+			require_once( 'includes/updates/to-torro-forms.php' );
+			awesome_forms_to_torro_forms();
+		}
+
+		if( ! get_option( 'torro_db_version' ) || !self::is_installed() || version_compare( $current_db_version, $script_db_version, '<' )  )
 		{
 			self::install_tables();
 		}
@@ -221,15 +227,15 @@ class Torro_Init
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$table_elements = $wpdb->prefix . 'af_elements';
-		$table_element_answers = $wpdb->prefix . 'af_element_answers';
-		$table_results = $wpdb->prefix . 'af_results';
-		$table_results_values = $wpdb->prefix . 'af_result_values';
-		$table_settings = $wpdb->prefix . 'af_settings';
-		$table_participiants = $wpdb->prefix . 'af_participiants';
-		$table_email_notifications = $wpdb->prefix . 'af_email_notifications';
+		$table_elements = $wpdb->prefix . 'torro_elements';
+		$table_element_answers = $wpdb->prefix . 'torro_element_answers';
+		$table_results = $wpdb->prefix . 'torro_results';
+		$table_results_values = $wpdb->prefix . 'torro_result_values';
+		$table_settings = $wpdb->prefix . 'torro_settings';
+		$table_participiants = $wpdb->prefix . 'torro_participiants';
+		$table_email_notifications = $wpdb->prefix . 'torro_email_notifications';
 
-		$charset_collate = af_get_charset_collate();
+		$charset_collate = torro_get_charset_collate();
 
 		$sql = "CREATE TABLE $table_elements (
 		id int(11) NOT NULL AUTO_INCREMENT,
@@ -309,39 +315,7 @@ class Torro_Init
 
 		dbDelta( $sql );
 
-		$sql = "UPDATE {$table_elements} SET type='textfield' WHERE type='Text'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements} SET type='textarea' WHERE type='Textarea'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements} SET type='dropdown' WHERE type='Dropdown'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements} SET type='onechoice' WHERE type='OneChoice'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements} SET type='multiplechoice' WHERE type='MultipleChoice'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements} SET type='text' WHERE type='Description'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements} SET type='splitter' WHERE type='Splitter'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$table_elements} SET type='separator' WHERE type='Separator'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET type='af-forms-categories' WHERE taxonomy='questions-categories'";
-		$wpdb->query( $sql );
-
-		$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET type='af-forms-categories' WHERE taxonomy='questions-categories'";
-		$wpdb->query( $sql );
-
-		dbDelta( $sql );
-
-		update_option( 'af_db_version', $script_db_version );
+		update_option( 'torro_db_version', $script_db_version );
 	}
 
 	/**
@@ -397,7 +371,7 @@ class Torro_Init
 	}
 }
 
-function af_init() {
+function torro_init() {
 	Torro_Init::init();
 }
-add_action( 'plugins_loaded', 'af_init' );
+add_action( 'plugins_loaded', 'torro_init' );

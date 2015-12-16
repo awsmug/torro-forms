@@ -54,4 +54,4 @@ class Torro_Actions_Settings extends Torro_Settings
 	}
 }
 
-af_register_settings( 'Torro_Actions_Settings' );
+torro_register_settings( 'Torro_Actions_Settings' );

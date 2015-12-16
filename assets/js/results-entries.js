@@ -42,7 +42,7 @@
                     var result_id = $button.attr( 'rel' );
 
                     var data = {
-                        action: 'af_show_entry',
+                        action: 'torro_show_entry',
                         form_id: self.get_form_id(),
                         result_id: result_id
                     };
@@ -90,7 +90,7 @@
                 var length = self.get_url_param_value( url, 'af-entries-length' );
 
                 var data = {
-                    action: 'af_show_entries',
+                    action: 'torro_show_entries',
                     form_id: self.get_form_id(),
                     start: start,
                     length: length
@@ -134,10 +134,10 @@
         }
     };
 
-    var af_fb_entry = new Torro_FB_Entry();
+    var torro_fb_entry = new Torro_FB_Entry();
 
     $( document ).ready( function() {
-        af_fb_entry.init();
+        torro_fb_entry.init();
     });
 
 }( window, jQuery) );

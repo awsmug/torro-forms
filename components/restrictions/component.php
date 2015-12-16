@@ -78,4 +78,4 @@ class Torro_Restrictions_Component extends Torro_Component
 
 }
 
-af_register_component( 'Torro_Restrictions_Component' );
+torro_register_component( 'Torro_Restrictions_Component' );

@@ -186,7 +186,7 @@ abstract class Torro_Action
 	 */
 	public function init_settings()
 	{
-		global $af_global;
+		global $torro_global;
 
 		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
 		{
@@ -203,7 +203,7 @@ abstract class Torro_Action
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$af_global->settings[ 'actions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+		$torro_global->settings[ 'actions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'actions_' . $this->name;
 
@@ -221,9 +221,9 @@ abstract class Torro_Action
 	 */
 	private function _register()
 	{
-		global $af_global;
+		global $torro_global;
 
-		if( !is_object( $af_global ) )
+		if( !is_object( $torro_global ) )
 		{
 			return FALSE;
 		}
@@ -243,21 +243,21 @@ abstract class Torro_Action
 			$this->description = esc_attr__( 'This is the Torro Forms Action  extension.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->actions ) )
+		if( array_key_exists( $this->name, $torro_global->actions ) )
 		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->actions ) )
+		if( !is_array( $torro_global->actions ) )
 		{
-			$af_global->actions = array();
+			$torro_global->actions = array();
 		}
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
 		$this->initialized = TRUE;
 
-		return $af_global->add_action( $this->name, $this );
+		return $torro_global->add_action( $this->name, $this );
 	}
 }
 
@@ -268,7 +268,7 @@ abstract class Torro_Action
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_action( $action_class )
+function torro_register_action( $action_class )
 {
 	if( class_exists( $action_class ) )
 	{

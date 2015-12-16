@@ -138,14 +138,14 @@ abstract class Torro_Chart_Creator
     public function _register()
     {
 
-        global $af_global;
+        global $torro_global;
 
         if( TRUE == $this->initialized )
         {
             return FALSE;
         }
 
-        if( !is_object( $af_global ) )
+        if( !is_object( $torro_global ) )
         {
             return FALSE;
         }
@@ -165,19 +165,19 @@ abstract class Torro_Chart_Creator
             $this->description = esc_attr__( 'This is a Torro Forms Form Element.', 'af-locale' );
         }
 
-        if( array_key_exists( $this->name, $af_global->chart_creators ) )
+        if( array_key_exists( $this->name, $torro_global->chart_creators ) )
         {
             return FALSE;
         }
 
-        if( !is_array( $af_global->element_types ) )
+        if( !is_array( $torro_global->element_types ) )
         {
-            $af_global->element_types = array();
+            $torro_global->element_types = array();
         }
 
         $this->initialized = TRUE;
 
-        return $af_global->add_chartscreator( $this->name, $this );
+        return $torro_global->add_chartscreator( $this->name, $this );
     }
 
     /**
@@ -223,7 +223,7 @@ abstract class Torro_Chart_Creator
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_chartcreator( $chart_creator_class )
+function torro_register_chartcreator( $chart_creator_class )
 {
     if( class_exists( $chart_creator_class ) )
     {

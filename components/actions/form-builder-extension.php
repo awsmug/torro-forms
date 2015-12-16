@@ -45,7 +45,7 @@ class Torro_Formbuilder_Actions_Extension
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ) );
-		add_action( 'af_formbuilder_save', array( __CLASS__, 'save' ) );
+		add_action( 'torro_formbuilder_save', array( __CLASS__, 'save' ) );
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
@@ -60,14 +60,14 @@ class Torro_Formbuilder_Actions_Extension
 	 */
 	public static function meta_boxes( $post_type )
 	{
-		$post_types = array( 'af-forms' );
+		$post_types = array( 'torro-forms' );
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box(
 				'form-actions',
 				esc_attr__( 'Actions', 'af-locale' ),
 				array( __CLASS__, 'meta_box_actions' ),
-				'af-forms',
+				'torro-forms',
 				'normal',
 				'high' );
 		endif;
@@ -80,10 +80,10 @@ class Torro_Formbuilder_Actions_Extension
 	 */
 	public static function meta_box_actions()
 	{
-		global $post, $af_global;
+		global $post, $torro_global;
 
 		$form_id = $post->ID;
-		$actions = $af_global->actions;
+		$actions = $torro_global->actions;
 
 		if( !is_array( $actions ) || count( $actions ) == 0 ){
 			return;
@@ -130,7 +130,7 @@ class Torro_Formbuilder_Actions_Extension
 	 */
 	public static function enqueue_admin_scripts()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 			return;
 
 		wp_enqueue_script( 'af-actions', TORRO_URLPATH . 'assets/js/actions.js' );
@@ -141,7 +141,7 @@ class Torro_Formbuilder_Actions_Extension
 	 */
 	public static function enqueue_admin_styles()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 			return;
 
 		wp_enqueue_style( 'af-actions', TORRO_URLPATH . 'assets/css/actions.css' );

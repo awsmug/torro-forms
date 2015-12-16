@@ -51,8 +51,8 @@ class Torro_Formbuilder
 		add_action( 'save_post', array( __CLASS__, 'save_form' ) );
 		add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
 
-		add_action( 'wp_ajax_af_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
-		add_action( 'wp_ajax_af_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
+		add_action( 'wp_ajax_torro_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
+		add_action( 'wp_ajax_torro_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
@@ -66,9 +66,9 @@ class Torro_Formbuilder
 	 */
 	public static function droppable_area()
 	{
-		global $post, $af_global;
+		global $post, $torro_global;
 
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
@@ -79,7 +79,7 @@ class Torro_Formbuilder
 		$html .= '<div id="drag-drop-area" class="widgets-holder-wrap">';
 
 		ob_start();
-		do_action( 'af_formbuilder_dragdrop_start', $form_id );
+		do_action( 'torro_formbuilder_dragdrop_start', $form_id );
 		$html .= ob_get_clean();
 
 		$html .= '<div id="drag-drop-inside">';
@@ -91,7 +91,7 @@ class Torro_Formbuilder
 			foreach( $form->elements AS $element )
 			{
 				$html .= $element->draw_admin();
-				af_add_element_templatetag( $element->id, $element->label );
+				torro_add_element_templatetag( $element->id, $element->label );
 			}
 		}
 		else
@@ -105,7 +105,7 @@ class Torro_Formbuilder
 		$html .= '</div>';
 
 		ob_start();
-		do_action( 'af_formbuilder_dragdrop_end', $form_id );
+		do_action( 'torro_formbuilder_dragdrop_end', $form_id );
 		$html .= ob_get_clean();
 
 		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'af-locale' ) . '</div>';
@@ -127,19 +127,19 @@ class Torro_Formbuilder
 	 */
 	public static function meta_boxes( $post_type )
 	{
-		$post_types = array( 'af-forms' );
+		$post_types = array( 'torro-forms' );
 
 		if( in_array( $post_type, $post_types ) )
 		{
 			add_meta_box( 'form-elements',
 			              esc_attr__( 'Elements', 'af-locale' ),
 			              array( __CLASS__, 'meta_box_form_elements' ),
-			              'af-forms', 'side', 'high' );
+			              'torro-forms', 'side', 'high' );
 
 			add_meta_box( 'form-options',
 			              esc_attr__( 'Options', 'af-locale' ),
 			              array( __CLASS__, 'meta_box_options' ),
-			              'af-forms', 'side', 'high' );
+			              'torro-forms', 'side', 'high' );
 
 		}
 	}
@@ -151,11 +151,11 @@ class Torro_Formbuilder
 	 */
 	public static function meta_box_form_elements()
 	{
-		global $af_global;
+		global $torro_global;
 
 		$html = '';
 
-		foreach( $af_global->element_types AS $element )
+		foreach( $torro_global->element_types AS $element )
 		{
 			$html .= $element->draw_admin();
 		}
@@ -180,7 +180,7 @@ class Torro_Formbuilder
 		*/
 
 		ob_start();
-		do_action( 'af_formbuilder_options' );
+		do_action( 'torro_formbuilder_options' );
 		$html .= ob_get_clean();
 
 		$html .= '<div class="section general-settings">';
@@ -199,7 +199,7 @@ class Torro_Formbuilder
 	 */
 	public static function save_form( $form_id )
 	{
-		global $af_global, $wpdb;
+		global $torro_global, $wpdb;
 
 		if( !array_key_exists( 'elements', $_REQUEST ) )
 		{
@@ -221,7 +221,7 @@ class Torro_Formbuilder
 			return;
 		}
 
-		if( 'af-forms' != $_POST[ 'post_type' ] )
+		if( 'torro-forms' != $_POST[ 'post_type' ] )
 		{
 			return;
 		}
@@ -245,8 +245,8 @@ class Torro_Formbuilder
 		{
 			foreach( $form_deleted_formelements AS $deleted_element )
 			{
-				$wpdb->delete( $af_global->tables->elements, array( 'id' => $deleted_element ) );
-				$wpdb->delete( $af_global->tables->element_answers, array( 'element_id' => $deleted_element ) );
+				$wpdb->delete( $torro_global->tables->elements, array( 'id' => $deleted_element ) );
+				$wpdb->delete( $torro_global->tables->element_answers, array( 'element_id' => $deleted_element ) );
 			}
 		}
 
@@ -259,7 +259,7 @@ class Torro_Formbuilder
 		{
 			foreach( $form_deleted_answers AS $deleted_answer )
 			{
-				$wpdb->delete( $af_global->tables->element_answers, array( 'id' => $deleted_answer ) );
+				$wpdb->delete( $torro_global->tables->element_answers, array( 'id' => $deleted_answer ) );
 			}
 		}
 
@@ -280,7 +280,7 @@ class Torro_Formbuilder
 
 			if( array_key_exists( 'label', $element ) )
 			{
-				$label = af_prepare_post_data( $element[ 'label' ] );
+				$label = torro_prepare_post_data( $element[ 'label' ] );
 			}
 
 			$answers = array();
@@ -300,7 +300,7 @@ class Torro_Formbuilder
 			if( '' != $element_id )
 			{
 				// Updating if Element already exists
-				$wpdb->update( $af_global->tables->elements, array(
+				$wpdb->update( $torro_global->tables->elements, array(
 						'label' => $label,
 						'sort'  => $sort,
 						'type'  => $type
@@ -310,7 +310,7 @@ class Torro_Formbuilder
 			{
 
 				// Adding new Element
-				$wpdb->insert( $af_global->tables->elements, array(
+				$wpdb->insert( $torro_global->tables->elements, array(
 						'form_id' => $form_id,
 						'label'   => $label,
 						'sort'    => $sort,
@@ -320,7 +320,7 @@ class Torro_Formbuilder
 				$element_id = $wpdb->insert_id;
 			}
 
-			do_action( 'af_formbuilder_element_save', $form_id, $element, $element_id );
+			do_action( 'torro_formbuilder_element_save', $form_id, $element, $element_id );
 
 			/*
 			 * Saving answers
@@ -330,7 +330,7 @@ class Torro_Formbuilder
 				foreach( $answers AS $answer )
 				{
 					$answer_id = (int) $answer[ 'id' ];
-					$answer_text = af_prepare_post_data( $answer[ 'answer' ] );
+					$answer_text = torro_prepare_post_data( $answer[ 'answer' ] );
 					$answer_sort = (int) $answer[ 'sort' ];
 
 					$answer_section = '';
@@ -341,7 +341,7 @@ class Torro_Formbuilder
 
 					if( '' != $answer_id )
 					{
-						$wpdb->update( $af_global->tables->element_answers, array(
+						$wpdb->update( $torro_global->tables->element_answers, array(
 								'answer'  => $answer_text,
 								'section' => $answer_section,
 								'sort'    => $answer_sort
@@ -349,7 +349,7 @@ class Torro_Formbuilder
 					}
 					else
 					{
-						$wpdb->insert( $af_global->tables->element_answers, array(
+						$wpdb->insert( $torro_global->tables->element_answers, array(
 								'element_id' => $element_id,
 								'answer'     => $answer_text,
 								'section'    => $answer_section,
@@ -358,7 +358,7 @@ class Torro_Formbuilder
 						$answer_id = $wpdb->insert_id;
 					}
 
-					do_action( 'af_formbuilder_element_answer_save', $form_id, $element, $element_id, $answer, $answer_id );
+					do_action( 'torro_formbuilder_element_answer_save', $form_id, $element, $element_id, $answer, $answer_id );
 				}
 			}
 
@@ -369,29 +369,29 @@ class Torro_Formbuilder
 			{
 				foreach( $settings AS $name => $setting )
 				{
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->settings} WHERE element_id = %d AND name = %s", $element_id, $name );
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->settings} WHERE element_id = %d AND name = %s", $element_id, $name );
 					$count = $wpdb->get_var( $sql );
 
 					if( $count > 0 )
 					{
-						$wpdb->update( $af_global->tables->settings, array( 'value' => af_prepare_post_data( $settings[ $name ] ) ), array(
+						$wpdb->update( $torro_global->tables->settings, array( 'value' => torro_prepare_post_data( $settings[ $name ] ) ), array(
 								'element_id' => $element_id,
 								'name'       => $name
 						) );
 					}
 					else
 					{
-						$wpdb->insert( $af_global->tables->settings, array(
+						$wpdb->insert( $torro_global->tables->settings, array(
 								'name'       => $name,
 								'element_id' => $element_id,
-								'value'      => af_prepare_post_data( $settings[ $name ] )
+								'value'      => torro_prepare_post_data( $settings[ $name ] )
 						) );
 					}
 				}
 			}
 		}
 
-		do_action( 'af_formbuilder_save', $form_id );
+		do_action( 'torro_formbuilder_save', $form_id );
 
 		// Preventing duplicate saving
 		remove_action( 'save_post', array( __CLASS__, 'save_form' ), 50 );
@@ -421,7 +421,7 @@ class Torro_Formbuilder
 		$form_id = $_REQUEST[ 'form_id' ];
 		$form = get_post( $form_id );
 
-		if( 'af-forms' != $form->post_type )
+		if( 'torro-forms' != $form->post_type )
 		{
 			return;
 		}
@@ -453,7 +453,7 @@ class Torro_Formbuilder
 		$form_id = $_REQUEST[ 'form_id' ];
 		$form = get_post( $form_id );
 
-		if( 'af-forms' != $form->post_type )
+		if( 'torro-forms' != $form->post_type )
 		{
 			return;
 		}
@@ -479,7 +479,7 @@ class Torro_Formbuilder
 	 */
 	public static function jquery_messages_area()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
@@ -496,7 +496,7 @@ class Torro_Formbuilder
 	 */
 	public static function register_styles()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
@@ -511,7 +511,7 @@ class Torro_Formbuilder
 	 */
 	public static function enqueue_scripts()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}

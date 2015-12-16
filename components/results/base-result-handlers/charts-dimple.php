@@ -158,4 +158,4 @@ class Torro_Chart_Creator_Dimple extends Torro_Chart_Creator
 	}
 }
 
-af_register_chartcreator( 'Torro_Chart_Creator_Dimple' );
+torro_register_chartcreator( 'Torro_Chart_Creator_Dimple' );

@@ -223,7 +223,7 @@ abstract class Torro_Restriction
 	 */
 	public function init_settings()
 	{
-		global $af_global;
+		global $torro_global;
 
 		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
 		{
@@ -240,7 +240,7 @@ abstract class Torro_Restriction
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$af_global->settings[ 'restrictions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+		$torro_global->settings[ 'restrictions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'restrictions_' . $this->name;
 
@@ -266,9 +266,9 @@ abstract class Torro_Restriction
 	 */
 	private function _register()
 	{
-		global $af_global;
+		global $torro_global;
 
-		if( !is_object( $af_global ) )
+		if( !is_object( $torro_global ) )
 		{
 			return FALSE;
 		}
@@ -288,21 +288,21 @@ abstract class Torro_Restriction
 			$this->description = esc_attr__( 'This is a Torro Forms Restriction.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->restrictions ) )
+		if( array_key_exists( $this->name, $torro_global->restrictions ) )
 		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->restrictions ) )
+		if( !is_array( $torro_global->restrictions ) )
 		{
-			$af_global->restrictions = array();
+			$torro_global->restrictions = array();
 		}
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
 		$this->initialized = TRUE;
 
-		return $af_global->add_restriction( $this->name, $this );
+		return $torro_global->add_restriction( $this->name, $this );
 	}
 }
 
@@ -313,7 +313,7 @@ abstract class Torro_Restriction
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_restriction( $restriction_class )
+function torro_register_restriction( $restriction_class )
 {
 	if( class_exists( $restriction_class ) )
 	{

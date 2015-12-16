@@ -79,4 +79,4 @@ class Torro_Results_Component extends Torro_Component
 	}
 }
 
-af_register_component( 'Torro_Results_Component' );
+torro_register_component( 'Torro_Results_Component' );

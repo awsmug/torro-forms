@@ -43,8 +43,8 @@ class Torro_ChartsShortCodes
 		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo Delete later, because it's deprecated
 		add_shortcode( 'element_chart', array( __CLASS__, 'element_chart' ) );
 
-		add_action( 'af_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
-		add_action( 'af_result_charts_postbox_element', array( __CLASS__, 'show_element_result_shortcode' ) );
+		add_action( 'torro_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
+		add_action( 'torro_result_charts_postbox_element', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Torro_ChartsShortCodes
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$form_id = $atts[ 'id' ];
 
-		if( '' == $form_id || !af_form_exists( $form_id ) )
+		if( '' == $form_id || !torro_form_exists( $form_id ) )
 		{
 			return esc_attr__( 'Please enter a valid form id into the shortcode!', 'af-locale' );
 		}
@@ -89,7 +89,7 @@ class Torro_ChartsShortCodes
 			$headline_arr = explode( '_', $headline );
 
 			$element_id = (int) $headline_arr[ 1 ];
-			$element = af_get_element( $element_id );
+			$element = torro_get_element( $element_id );
 
 			// Skip collecting Data if there is no analyzable Data
 			if( !$element->has_answers )
@@ -131,12 +131,12 @@ class Torro_ChartsShortCodes
 	 */
 	public static function element_chart( $atts )
 	{
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
 		$atts = shortcode_atts( array( 'id' => '', ), $atts );
 		$element_id = $atts[ 'id' ];
 
-		$sql = $wpdb->prepare( "SELECT id, form_id FROM {$af_global->tables->elements} WHERE id = %d", $element_id );
+		$sql = $wpdb->prepare( "SELECT id, form_id FROM {$torro_global->tables->elements} WHERE id = %d", $element_id );
 		$element = $wpdb->get_row( $sql );
 
 		if( NULL === $element )
@@ -148,7 +148,7 @@ class Torro_ChartsShortCodes
 		$results = $form_results->element_results( $element->id );
 		$results = Torro_Result_Charts::format_results_by_element( $results );
 
-		$element = af_get_element( $element->id );
+		$element = torro_get_element( $element->id );
 
 		$chart_creator = 'Torro_Chart_Creator_C3';
 		$chart_type = 'bars';
@@ -171,12 +171,12 @@ class Torro_ChartsShortCodes
 	{
 		global $post;
 
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
 
-		$html  = '<div class="in-postbox-one-third">' . af_clipboard_field( __( 'Charts Shortcode', 'af-locale' ), '[form_charts id=' . $post->ID . ']' ) . '</div>';
+		$html  = '<div class="in-postbox-one-third">' . torro_clipboard_field( __( 'Charts Shortcode', 'af-locale' ), '[form_charts id=' . $post->ID . ']' ) . '</div>';
 
 		echo $html;
 	}
@@ -192,7 +192,7 @@ class Torro_ChartsShortCodes
 	{
 		if( $object->id != '' && $object->is_analyzable )
 		{
-			echo af_clipboard_field( __( 'Element Charts Shortcode', 'af-locale' ), '[element_chart id=' .  $object->id . ']' );
+			echo torro_clipboard_field( __( 'Element Charts Shortcode', 'af-locale' ), '[element_chart id=' .  $object->id . ']' );
 		}
 	}
 }

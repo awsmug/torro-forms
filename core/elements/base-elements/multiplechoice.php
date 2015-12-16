@@ -58,7 +58,7 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="af_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . ' /> ' . $answer[ 'text' ] . '</div>';
+			$html .= '<div class="torro_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . ' /> ' . $answer[ 'text' ] . '</div>';
 		}
 
 		if( !empty( $this->settings[ 'description' ] ) )
@@ -128,4 +128,4 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
 	}
 }
 
-af_register_form_element( 'Torro_Form_Element_MultipleChoice' );
+torro_register_form_element( 'Torro_Form_Element_MultipleChoice' );

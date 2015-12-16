@@ -56,7 +56,7 @@ class Torro_Conflicts
 	 */
 	private function solve()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}

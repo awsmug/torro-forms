@@ -4,7 +4,7 @@
 	/**
 	 * Helper function - Getting a random number
 	 */
-	function af_rand(){
+	function torro_rand(){
 		var now = new Date();
 		var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 
@@ -118,7 +118,7 @@
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
-					var nr = af_rand();
+					var nr = torro_rand();
 					var id = 'widget_formelement_' + nr;
 					var i = $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length - 1;
 
@@ -150,7 +150,7 @@
 						switch ( $element.data( 'element-type' ) ) {
 							case 'description':
 								$.post( ajaxurl, {
-									action: 'af_get_editor_html',
+									action: 'torro_get_editor_html',
 									widget_id: id,
 									editor_id: 'description_content-' +  id,
 									field_name: 'elements[widget_formelement_' + nr + '][label]',
@@ -287,7 +287,7 @@
 				var $button = $( this );
 				var element_id = $button.attr( 'rel' );
 
-				var nr = af_rand();
+				var nr = torro_rand();
 				var section_val = $( 'input[name="elements\[' + element_id + '\]\[sections\]"]' ).val()
 
 				// Setting up new answer HTML
@@ -420,7 +420,7 @@
 
 				if ( $button.hasClass( 'button' ) ) {
 					var data = {
-						action: 'af_duplicate_form',
+						action: 'torro_duplicate_form',
 						form_id: self.get_form_id()
 					};
 
@@ -472,7 +472,7 @@
 									$button.addClass( 'button-loading' );
 
 									var data = {
-										action: 'af_delete_responses',
+										action: 'torro_delete_responses',
 										form_id: self.get_form_id()
 									};
 

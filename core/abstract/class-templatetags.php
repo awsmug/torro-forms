@@ -92,14 +92,14 @@ abstract class Torro_TemplateTags
 	 */
 	public function _register()
 	{
-		global $af_global;
+		global $torro_global;
 
 		if( TRUE == $this->initialized )
 		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) )
+		if( !is_object( $torro_global ) )
 		{
 			return FALSE;
 		}
@@ -119,21 +119,21 @@ abstract class Torro_TemplateTags
 			$this->description = esc_attr__( 'This is a Torro Forms Templatetag collection.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->restrictions ) )
+		if( array_key_exists( $this->name, $torro_global->restrictions ) )
 		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->templatetags ) )
+		if( !is_array( $torro_global->templatetags ) )
 		{
-			$af_global->templatetags = array();
+			$torro_global->templatetags = array();
 		}
 
 		$this->tags(); // Getting Tags
 
 		$this->initialized = TRUE;
 
-		return $af_global->add_templatetags( $this->name, $this );
+		return $torro_global->add_templatetags( $this->name, $this );
 	}
 
 	/**
@@ -149,7 +149,7 @@ abstract class Torro_TemplateTags
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_templatetags( $templatetags_class )
+function torro_register_templatetags( $templatetags_class )
 {
 	if( class_exists( $templatetags_class ) )
 	{
@@ -166,22 +166,22 @@ function af_register_templatetags( $templatetags_class )
  *
  * @return array|bool
  */
-function af_get_templatetag_collections()
+function torro_get_templatetag_collections()
 {
-	global $af_global;
+	global $torro_global;
 
-	if( !property_exists( $af_global, 'templatetags' ) )
+	if( !property_exists( $torro_global, 'templatetags' ) )
 	{
 		return FALSE;
 	}
 
-	if( count( $af_global->templatetags ) == 0 )
+	if( count( $torro_global->templatetags ) == 0 )
 	{
 		return FALSE;
 	}
 
 	$templatetag_collections = array();
-	foreach( $af_global->templatetags AS $templatetag_collection_name => $templatetag_collection )
+	foreach( $torro_global->templatetags AS $templatetag_collection_name => $templatetag_collection )
 	{
 		$templatetag_collections[ $templatetag_collection_name ] = new stdClass();
 		$templatetag_collections[ $templatetag_collection_name ]->title = $templatetag_collection->title;
@@ -196,26 +196,26 @@ function af_get_templatetag_collections()
  *
  * @param $templatetag_collection
  */
-function af_get_templatetags( $templatetag_collection )
+function torro_get_templatetags( $templatetag_collection )
 {
-	global $af_global;
+	global $torro_global;
 
-	if( !property_exists( $af_global, 'templatetags' ) )
+	if( !property_exists( $torro_global, 'templatetags' ) )
 	{
 		return FALSE;
 	}
 
-	if( count( $af_global->templatetags ) == 0 )
+	if( count( $torro_global->templatetags ) == 0 )
 	{
 		return FALSE;
 	}
 
-	if( !array_key_exists( $templatetag_collection, $af_global->templatetags ) )
+	if( !array_key_exists( $templatetag_collection, $torro_global->templatetags ) )
 	{
 		return FALSE;
 	}
 
-	return $af_global->templatetags[ $templatetag_collection ]->tags;
+	return $torro_global->templatetags[ $templatetag_collection ]->tags;
 }
 
 /**
@@ -223,9 +223,9 @@ function af_get_templatetags( $templatetag_collection )
  *
  * @return string
  */
-function af_template_tag_button( $input_name )
+function torro_template_tag_button( $input_name )
 {
-	$collections = af_get_templatetag_collections();
+	$collections = torro_get_templatetag_collections();
 
 	$html = '<div class="af-templatetag-button">';
 	$html .= '<input type="button" value="' . esc_attr__( '+', 'af-locale' ) . '" class="button" rel="' . $input_name . '" />';
@@ -236,7 +236,7 @@ function af_template_tag_button( $input_name )
 		$html .= '<div class="af-templatetag-collection">';
 		$html .= '<div class="af-templatetag-collection-headline">' . $collection->title . '</div>';
 
-		$template_tags = af_get_templatetags( $collection_name );
+		$template_tags = torro_get_templatetags( $collection_name );
 
 		foreach( $template_tags AS $tag_name => $template_tag )
 		{
@@ -257,15 +257,15 @@ function af_template_tag_button( $input_name )
  *
  * @return mixed
  */
-function af_filter_templatetags( $content )
+function torro_filter_templatetags( $content )
 {
-	global $af_global;
+	global $torro_global;
 
-	$collections = af_get_templatetag_collections();
+	$collections = torro_get_templatetag_collections();
 
 	foreach( $collections AS $collection_name => $collection )
 	{
-		$template_tags = af_get_templatetags( $collection_name );
+		$template_tags = torro_get_templatetags( $collection_name );
 
 		foreach( $template_tags AS $tag_name => $template_tag )
 		{

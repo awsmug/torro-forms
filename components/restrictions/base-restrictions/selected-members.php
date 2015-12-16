@@ -46,7 +46,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 		// add_action( 'form_functions', array( $this, 'invite_buttons' ) );
 
-		add_action( 'af_formbuilder_save', array( $this, 'save' ), 10, 1 );
+		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'wp_ajax_form_add_participiants_allmembers', array( $this, 'ajax_add_participiants_allmembers' ) );
 		add_action( 'wp_ajax_form_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
@@ -122,25 +122,25 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	{
 		global $post;
 
-		$af_invitation_text_template = af_get_mail_template_text( 'invitation' );
-		$af_reinvitation_text_template = af_get_mail_template_text( 'reinvitation' );
+		$torro_invitation_text_template = torro_get_mail_template_text( 'invitation' );
+		$torro_reinvitation_text_template = torro_get_mail_template_text( 'reinvitation' );
 
-		$af_invitation_subject_template = af_get_mail_template_subject( 'invitation' );
-		$af_reinvitation_subject_template = af_get_mail_template_subject( 'reinvitation' );
+		$torro_invitation_subject_template = torro_get_mail_template_subject( 'invitation' );
+		$torro_reinvitation_subject_template = torro_get_mail_template_subject( 'reinvitation' );
 
 		$html = '';
 
 		if( 'publish' == $post->post_status ):
 			$html .= '<div class="form-function-element">';
-			$html .= '<input id="form-invite-subject" type="text" name="form_invite_subject" value="' . $af_invitation_subject_template . '" />';
-			$html .= '<textarea id="form-invite-text" name="form_invite_text">' . $af_invitation_text_template . '</textarea>';
+			$html .= '<input id="form-invite-subject" type="text" name="form_invite_subject" value="' . $torro_invitation_subject_template . '" />';
+			$html .= '<textarea id="form-invite-text" name="form_invite_text">' . $torro_invitation_text_template . '</textarea>';
 			$html .= '<input id="form-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'af-locale' ) . '" /> ';
 			$html .= '<input id="form-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 			$html .= '</div>';
 
 			$html .= '<div class="form-function-element">';
-			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $af_reinvitation_subject_template . '" />';
-			$html .= '<textarea id="form-reinvite-text" name="form_reinvite_text">' . $af_reinvitation_text_template . '</textarea>';
+			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $torro_reinvitation_subject_template . '" />';
+			$html .= '<textarea id="form-reinvite-text" name="form_reinvite_text">' . $torro_reinvitation_text_template . '</textarea>';
 			$html .= '<input id="form-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'af-locale' ) . '" /> ';
 			$html .= '<input id="form-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'af-locale' ) . '" />';
 
@@ -161,7 +161,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	 */
 	public static function save( $form_id )
 	{
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
 		/**
 		 * Saving restriction options
@@ -186,15 +186,15 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		 * Saving participiants
 		 */
 		$form_participiants = $_POST[ 'form_participiants' ];
-		$af_participiant_ids = explode( ',', $form_participiants );
+		$torro_participiant_ids = explode( ',', $form_participiants );
 
-		$sql = "DELETE FROM {$af_global->tables->participiants} WHERE form_id = %d";
+		$sql = "DELETE FROM {$torro_global->tables->participiants} WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$wpdb->query( $sql );
 
-		if( is_array( $af_participiant_ids ) && count( $af_participiant_ids ) > 0 ):
-			foreach( $af_participiant_ids AS $user_id ):
-				$wpdb->insert( $af_global->tables->participiants, array(
+		if( is_array( $torro_participiant_ids ) && count( $torro_participiant_ids ) > 0 ):
+			foreach( $torro_participiant_ids AS $user_id ):
+				$wpdb->insert( $torro_global->tables->participiants, array(
 					'form_id' => $form_id,
 					'user_id'   => $user_id
 				) );
@@ -234,7 +234,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	 */
 	public static function ajax_invite_participiants()
 	{
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
 		$return_array = array( 'sent' => FALSE );
 
@@ -242,7 +242,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		$subject_template = $_POST[ 'subject_template' ];
 		$text_template = $_POST[ 'text_template' ];
 
-		$sql = "SELECT user_id FROM {$af_global->tables->participiants} WHERE form_id = %d";
+		$sql = "SELECT user_id FROM {$torro_global->tables->participiants} WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
@@ -250,7 +250,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 			$user_ids_new = '';
 			if( is_array( $user_ids ) && count( $user_ids ) > 0 ):
 				foreach( $user_ids AS $user_id ):
-					if( !af_user_has_participated( $form_id, $user_id ) ):
+					if( !torro_user_has_participated( $form_id, $user_id ) ):
 						$user_ids_new[] = $user_id;
 					endif;
 				endforeach;
@@ -293,7 +293,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 				$content_user = str_replace( '%displayname%', $display_name, $content );
 				$content_user = str_replace( '%username%', $user_nicename, $content_user );
 
-				af_mail( $user_email, $subject_user, stripslashes( $content_user ) );
+				torro_mail( $user_email, $subject_user, stripslashes( $content_user ) );
 			endforeach;
 
 			$return_array = array( 'sent' => TRUE );
@@ -319,7 +319,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	 */
 	public function option_content()
 	{
-		global $wpdb, $post, $af_global;
+		global $wpdb, $post, $torro_global;
 
 		$form_id = $post->ID;
 
@@ -377,7 +377,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 		/**
 		 * Getting all users which have been added to participiants list
 		 */
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE form_id = %s", $form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$torro_global->tables->participiants} WHERE form_id = %s", $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		$users = array();
@@ -423,7 +423,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 			// Content
 			foreach( $users AS $user ):
-				if( af_user_has_participated( $form_id, $user->ID ) ):
+				if( torro_user_has_participated( $form_id, $user->ID ) ):
 					$user_css = ' finished';
 					$user_text = esc_attr__( 'finished', 'af-locale' );
 				else:
@@ -482,7 +482,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 
 		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_selectedmembers_same_users', TRUE );
 
-		if( 'yes' == $restrictions_same_users && af_user_has_participated( $ar_form_id ) )
+		if( 'yes' == $restrictions_same_users && torro_user_has_participated( $ar_form_id ) )
 		{
 			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
 
@@ -503,7 +503,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	 */
 	public function is_participiant( $user_id = NULL )
 	{
-		global $wpdb, $current_user, $af_global, $ar_form_id;
+		global $wpdb, $current_user, $torro_global, $ar_form_id;
 
 		$is_participiant = FALSE;
 
@@ -513,7 +513,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 			$user_id = $user_id = $current_user->ID;
 		endif;
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$af_global->tables->participiants} WHERE form_id = %d", $ar_form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$torro_global->tables->participiants} WHERE form_id = %d", $ar_form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		if( !in_array( $user_id, $user_ids ) )
@@ -546,4 +546,4 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction
 	}
 }
 
-af_register_restriction( 'Torro_Restriction_SelectedMembers' );
+torro_register_restriction( 'Torro_Restriction_SelectedMembers' );

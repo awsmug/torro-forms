@@ -42,7 +42,7 @@ class Torro_Formbuilder_FormProcesExtension
 	 */
 	public static function init()
 	{
-		add_filter( 'af_form_show', array( __CLASS__, 'check' ), 1 );
+		add_filter( 'torro_form_show', array( __CLASS__, 'check' ), 1 );
 	}
 
 	/**
@@ -50,16 +50,16 @@ class Torro_Formbuilder_FormProcesExtension
 	 */
 	public static function check( $show_form )
 	{
-		global $af_global, $ar_form_id;
+		global $torro_global, $ar_form_id;
 
-		$restrictions = $af_global->restrictions;
+		$restrictions = $torro_global->restrictions;
 
 		if( !is_array( $restrictions ) || count( $restrictions ) == 0 )
 		{
 			return;
 		}
 
-		if( FALSE == apply_filters( 'af_additional_restrictions_check_start', TRUE ) )
+		if( FALSE == apply_filters( 'torro_additional_restrictions_check_start', TRUE ) )
 		{
 			return FALSE;
 		}
@@ -77,7 +77,7 @@ class Torro_Formbuilder_FormProcesExtension
 			return FALSE;
 		}
 
-		return apply_filters( 'af_additional_restrictions_check_end', TRUE );
+		return apply_filters( 'torro_additional_restrictions_check_end', TRUE );
 	}
 }
 

@@ -41,12 +41,12 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 		$this->name = 'timerange';
 
 		add_action( 'form_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
-		add_action( 'af_formbuilder_save', array( $this, 'save' ), 10, 1 );
+		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 
-		add_action( 'af_additional_restrictions_check_start', array( $this, 'check' ) );
+		add_action( 'torro_additional_restrictions_check_start', array( $this, 'check' ) );
 	}
 
 	/**
@@ -178,4 +178,4 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	}
 }
 
-af_register_restriction( 'Torro_Restriction_Timerange' );
+torro_register_restriction( 'Torro_Restriction_Timerange' );

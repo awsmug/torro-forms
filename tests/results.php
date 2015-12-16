@@ -8,7 +8,7 @@ class Torro_ResultsTests extends PHPUnit_Framework_TestCase
 	{
 		global $wpdb;
 
-		$af_results = new Torro_Form_Results( 5944 );
+		$torro_results = new Torro_Form_Results( 5944 );
 
 		// Number of Elements
 		$filter = array(
@@ -16,7 +16,7 @@ class Torro_ResultsTests extends PHPUnit_Framework_TestCase
 			'number_rows' => 5,
 		);
 
-		$results = $af_results->results( $filter );
+		$results = $torro_results->results( $filter );
 
 		$this->assertEquals( 291, $results[ 0 ][ 'result_id' ] );
 		$this->assertEquals( 1, $results[ 0 ][ 'user_id' ] );
@@ -34,7 +34,7 @@ class Torro_ResultsTests extends PHPUnit_Framework_TestCase
 			'element_ids'      => array( 528 )
 		);
 
-		$results = $af_results->results( $filter );
+		$results = $torro_results->results( $filter );
 		$this->assertCount( 8, $results[ 0 ] );
 
 		// Filter
@@ -44,7 +44,7 @@ class Torro_ResultsTests extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$results = $af_results->results( $filter );
+		$results = $torro_results->results( $filter );
 		$this->assertCount( 10, $results );
 
 		// Order
@@ -52,7 +52,7 @@ class Torro_ResultsTests extends PHPUnit_Framework_TestCase
 			'orderby'      => 'Name'
 		);
 
-		$results = $af_results->results( $filter );
+		$results = $torro_results->results( $filter );
 		$this->assertEquals( 'Andrea', $results[ 0 ][ 'Name' ] );
 
 		$filter = array(
@@ -60,16 +60,16 @@ class Torro_ResultsTests extends PHPUnit_Framework_TestCase
 			'order'      => 'DESC'
 		);
 
-		$results = $af_results->results( $filter );
+		$results = $torro_results->results( $filter );
 		$this->assertEquals( 'Uli', $results[ 0 ][ 'Name' ] );
 
 		// Get element results
-		$results = $af_results->element( 528 );
+		$results = $torro_results->element( 528 );
 		$this->assertCount( 8, $results[ 0 ] );
 
 		// Adding an individual column
-		$af_results->add_column( 'username', "SELECT user_login FROM {$wpdb->prefix}users WHERE ID=row.user_id" );
-		$results = $af_results->results();
+		$torro_results->add_column( 'username', "SELECT user_login FROM {$wpdb->prefix}users WHERE ID=row.user_id" );
+		$results = $torro_results->results();
 
 		$this->assertArrayHasKey( 'username', $results[ 0 ] );
 	}

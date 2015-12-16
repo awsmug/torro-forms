@@ -65,21 +65,21 @@ class Torro_SettingsPage
 	 */
 	public static function show()
 	{
-		global $af_global;
+		global $torro_global;
 
 		self::init_tabs();
 
 		$html = '<div class="wrap af">';
-		$html .= '<form name="af_settings" id="af-settings" method="POST">';
-		$html .= '<input type="hidden" id="af_save_settings" name="af_save_settings" value="' . wp_create_nonce( '_af_save_settings_nonce' ) . '" />';
+		$html .= '<form name="torro_settings" id="af-settings" method="POST">';
+		$html .= '<input type="hidden" id="torro_save_settings" name="torro_save_settings" value="' . wp_create_nonce( '_torro_save_settings_nonce' ) . '" />';
 
-		if( property_exists( $af_global, 'settings' ) && count( $af_global->settings ) > 0 )
+		if( property_exists( $torro_global, 'settings' ) && count( $torro_global->settings ) > 0 )
 		{
 			/**
 			 * Tabs
 			 */
 			$html .= '<h2 class="nav-tab-wrapper">';
-			foreach( $af_global->settings AS $setting )
+			foreach( $torro_global->settings AS $setting )
 			{
 				// Discard Settings if there are no settings
 				if( count( $setting->settings ) == 0 && count( $setting->sub_settings ) == 0 )
@@ -102,16 +102,16 @@ class Torro_SettingsPage
 			 */
 			$html .= '<div id="af-settings-content" class="' . self::$current_tab . '">';
 
-			$settings = $af_global->settings[ self::$current_tab ];
+			$settings = $torro_global->settings[ self::$current_tab ];
 			$html .= $settings->show( self::$current_section );
 
 			ob_start();
-			do_action( 'af_settings_' . self::$current_tab );
+			do_action( 'torro_settings_' . self::$current_tab );
 			$html .= ob_get_clean();
 
 			$html .= '</div>';
 
-			$html .= '<input name="af_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr__( 'Save Settings', 'af-locale' ) . '" />';
+			$html .= '<input name="torro_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr__( 'Save Settings', 'af-locale' ) . '" />';
 		}
 		else
 		{
@@ -151,7 +151,7 @@ class Torro_SettingsPage
 	 */
 	public static function save()
 	{
-		if( !isset( $_POST[ 'af_save_settings' ] ) )
+		if( !isset( $_POST[ 'torro_save_settings' ] ) )
 		{
 			return;
 		}
@@ -162,7 +162,7 @@ class Torro_SettingsPage
 			$section = $_GET[ 'section' ];
 		}
 
-		do_action( 'af_save_settings', $section );
+		do_action( 'torro_save_settings', $section );
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Torro_SettingsPage
 	 */
 	public static function register_styles()
 	{
-		if( !af_is_settingspage() )
+		if( !torro_is_settingspage() )
 		{
 			return;
 		}

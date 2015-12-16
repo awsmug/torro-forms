@@ -63,4 +63,4 @@ class Torro_Actions_Component extends Torro_Component
 	}
 }
 
-af_register_component( 'Torro_Actions_Component' );
+torro_register_component( 'Torro_Actions_Component' );

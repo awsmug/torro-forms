@@ -60,7 +60,7 @@ class Torro_Export
 	 */
 	public function add_export_link( $actions, $post )
 	{
-		if( 'af-forms' != $post->post_type )
+		if( 'torro-forms' != $post->post_type )
 		{
 			return $actions;
 		}
@@ -74,7 +74,7 @@ class Torro_Export
 		}
 		else
 		{
-			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=af-forms&af_export=xls&form_id=' . $post->ID, '?post_type=af-forms&export=csv&form_id=' . $post->ID );
+			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'af-locale' ), '?post_type=torro-forms&torro_export=xls&form_id=' . $post->ID, '?post_type=torro-forms&export=csv&form_id=' . $post->ID );
 		}
 
 		return $actions;
@@ -87,9 +87,9 @@ class Torro_Export
 	 */
 	function export()
 	{
-		if( array_key_exists( 'af_export', $_GET ) && is_array( $_GET ) )
+		if( array_key_exists( 'torro_export', $_GET ) && is_array( $_GET ) )
 		{
-			$export_type = $_GET[ 'af_export' ];
+			$export_type = $_GET[ 'torro_export' ];
 			$form_id = $_GET[ 'form_id' ];
 
 			$form = new Torro_Form( $form_id );
@@ -98,7 +98,7 @@ class Torro_Export
 			$filename = sanitize_title( $form->title );
 			$results = $form_results->results( array( 'column_name' => 'label' ) );
 
-			do_action( 'af_export', $form_id, $filename );
+			do_action( 'torro_export', $form_id, $filename );
 
 			switch ( $export_type )
 			{

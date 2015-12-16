@@ -1,6 +1,6 @@
 <?php
 
-function af_questions_to_awesome_forms()
+function torro_questions_to_awesome_forms()
 {
 	global $wpdb;
 
@@ -12,13 +12,13 @@ function af_questions_to_awesome_forms()
 	$table_participiants_old = $wpdb->prefix . 'questions_participiants';
 	$table_email_notifications_old = $wpdb->prefix . 'questions_email_notifications';
 
-	$table_elements_new = $wpdb->prefix . 'af_elements';
-	$table_answers_new = $wpdb->prefix . 'af_element_answers';
-	$table_settings_new = $wpdb->prefix . 'af_settings';
-	$table_responds_new = $wpdb->prefix . 'af_results';
-	$table_respond_answers_new = $wpdb->prefix . 'af_result_values';
-	$table_participiants_new = $wpdb->prefix . 'af_participiants';
-	$table_email_notifications_new = $wpdb->prefix . 'af_email_notifications';
+	$table_elements_new = $wpdb->prefix . 'torro_elements';
+	$table_answers_new = $wpdb->prefix . 'torro_element_answers';
+	$table_settings_new = $wpdb->prefix . 'torro_settings';
+	$table_responds_new = $wpdb->prefix . 'torro_results';
+	$table_respond_answers_new = $wpdb->prefix . 'torro_result_values';
+	$table_participiants_new = $wpdb->prefix . 'torro_participiants';
+	$table_email_notifications_new = $wpdb->prefix . 'torro_email_notifications';
 
 	$sql = "RENAME TABLE {$table_elements_old} TO {$table_elements_new}";
 	$wpdb->query( $sql );
@@ -65,13 +65,13 @@ function af_questions_to_awesome_forms()
 	$sql = "ALTER TABLE {$table_participiants_new} CHANGE survey_id form_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
+	$sql = "UPDATE {$wpdb->prefix}posts SET post_type='torro-forms' WHERE post_type='questions'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='af-forms-categories' WHERE taxonomy='questions-categories'";
+	$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='torro-forms-categories' WHERE taxonomy='questions-categories'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}posts SET post_type='af-forms' WHERE post_type='questions'";
+	$sql = "UPDATE {$wpdb->prefix}posts SET post_type='torro-forms' WHERE post_type='questions'";
 	$wpdb->query( $sql );
 
 	$sql = "UPDATE {$table_elements_new} SET type='textfield' WHERE taxonomy='Text'";
@@ -113,15 +113,15 @@ function af_questions_to_awesome_forms()
 	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='selectedmembers' WHERE meta_key='restrictions_option' AND meta_value='selected_members'";
 	$wpdb->query( $sql );
 
-	update_option( 'af_settings_restrictions_selectedmembers_invite_from_name', get_option( 'questions_mail_from_name' ) );
-	update_option( 'af_settings_restrictions_selectedmembers_invite_from', get_option( 'questions_mail_from_email' ) );
-	update_option( 'af_settings_restrictions_selectedmembers_invite_subject', get_option( 'questions_invitation_subject_template' ) );
-	update_option( 'af_settings_restrictions_selectedmembers_invite_text', get_option( 'questions_invitation_text_template' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_invite_from_name', get_option( 'questions_mail_from_name' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_invite_from', get_option( 'questions_mail_from_email' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_invite_subject', get_option( 'questions_invitation_subject_template' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_invite_text', get_option( 'questions_invitation_text_template' ) );
 
-	update_option( 'af_settings_restrictions_selectedmembers_reinvite_from_name', get_option( 'questions_mail_from_name' ) );
-	update_option( 'af_settings_restrictions_selectedmembers_reinvite_from', get_option( 'questions_mail_from_email' ) );
-	update_option( 'af_settings_restrictions_selectedmembers_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
-	update_option( 'af_settings_restrictions_selectedmembers_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_from_name', get_option( 'questions_mail_from_name' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_from', get_option( 'questions_mail_from_email' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
+	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
 
 	delete_option( 'questions_mail_from_name' );
 	delete_option( 'questions_mail_from_email' );
@@ -130,5 +130,5 @@ function af_questions_to_awesome_forms()
 	delete_option( 'questions_reinvitation_subject_template' );
 	delete_option( 'questions_reinvitation_text_template' );
 
-	update_option( 'af_db_version', '1.0.1' );
+	update_option( 'torro_db_version', '1.0.1' );
 }

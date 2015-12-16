@@ -53,4 +53,4 @@ class Torro_RestrictionsSettings extends Torro_Settings
 	}
 }
 
-af_register_settings( 'Torro_RestrictionsSettings' );
+torro_register_settings( 'Torro_RestrictionsSettings' );

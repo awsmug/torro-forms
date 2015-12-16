@@ -45,7 +45,7 @@ class Torro_Formbuilder_RestrictionsExtension
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
-		add_action( 'af_formbuilder_save', array( __CLASS__, 'save' ), 10, 1 );
+		add_action( 'torro_formbuilder_save', array( __CLASS__, 'save' ), 10, 1 );
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
 	}
@@ -59,13 +59,13 @@ class Torro_Formbuilder_RestrictionsExtension
 	 */
 	public static function meta_boxes( $post_type )
 	{
-		$post_types = array( 'af-forms' );
+		$post_types = array( 'torro-forms' );
 
 		if( in_array( $post_type, $post_types ) ):
 			add_meta_box( 'form-restrictions', esc_attr__( 'Restrictions', 'af-locale' ), array(
 				                                 __CLASS__,
 				                                 'meta_box_restrictions'
-			                                 ), 'af-forms', 'normal', 'low' );
+			                                 ), 'torro-forms', 'normal', 'low' );
 		endif;
 	}
 
@@ -76,10 +76,10 @@ class Torro_Formbuilder_RestrictionsExtension
 	 */
 	public static function meta_box_restrictions()
 	{
-		global $wpdb, $post, $af_global;
+		global $wpdb, $post, $torro_global;
 
 		$form_id = $post->ID;
-		$restrictions = $af_global->restrictions;
+		$restrictions = $torro_global->restrictions;
 
 		if( !is_array( $restrictions ) || count( $restrictions ) == 0 )
 		{
@@ -164,7 +164,7 @@ class Torro_Formbuilder_RestrictionsExtension
 	 */
 	public static function register_admin_styles()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}

@@ -55,7 +55,7 @@ class Torro_EmailNotifications extends Torro_Action
 
 		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-		add_action( 'af_formbuilder_save', array( __CLASS__, 'save_option_content' ) );
+		add_action( 'torro_formbuilder_save', array( __CLASS__, 'save_option_content' ) );
 
 		add_action( 'wp_ajax_get_email_notification_html', array( __CLASS__, 'ajax_get_email_notification_html' ) );
 
@@ -70,12 +70,12 @@ class Torro_EmailNotifications extends Torro_Action
 	 */
 	public function handle( $response_id, $response )
 	{
-		global $wpdb, $ar_form_id, $af_global, $af_response_id, $af_response;
+		global $wpdb, $ar_form_id, $torro_global, $torro_response_id, $torro_response;
 
-		$af_response_id = $response_id;
-		$af_response = $response;
+		$torro_response_id = $response_id;
+		$torro_response = $response;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $ar_form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->email_notifications} WHERE form_id = %d", $ar_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
 		if( count( $notifications ) > 0 )
@@ -84,16 +84,16 @@ class Torro_EmailNotifications extends Torro_Action
 			$form = new Torro_Form( $ar_form_id );
 			foreach( $form->elements AS $element )
 			{
-				af_add_element_templatetag( $element->id, $element->label );
+				torro_add_element_templatetag( $element->id, $element->label );
 			}
 
 			foreach( $notifications AS $notification )
 			{
-				$from_name = af_filter_templatetags( $notification->from_name );
-				$from_email = af_filter_templatetags( $notification->from_email );
-				$to_email = af_filter_templatetags( $notification->to_email );
-				$subject = af_filter_templatetags( $notification->subject );
-				$message = apply_filters( 'the_content', af_filter_templatetags( $notification->message ) );
+				$from_name = torro_filter_templatetags( $notification->from_name );
+				$from_email = torro_filter_templatetags( $notification->from_email );
+				$to_email = torro_filter_templatetags( $notification->to_email );
+				$subject = torro_filter_templatetags( $notification->subject );
+				$message = apply_filters( 'the_content', torro_filter_templatetags( $notification->message ) );
 
 				$this->from_name = $from_name;
 				$this->from_email = $from_email;
@@ -137,9 +137,9 @@ class Torro_EmailNotifications extends Torro_Action
 
 	public function option_content()
 	{
-		global $wpdb, $post, $af_global;
+		global $wpdb, $post, $torro_global;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$af_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
+		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
 		$notifications = $wpdb->get_results( $sql );
 
 		$html = '<div id="form-email-notifications">';
@@ -198,7 +198,7 @@ class Torro_EmailNotifications extends Torro_Action
 			return;
 		}
 
-		echo af_template_tag_button( $editor_id );
+		echo torro_template_tag_button( $editor_id );
 	}
 
 	/**
@@ -206,14 +206,14 @@ class Torro_EmailNotifications extends Torro_Action
 	 */
 	public static function save_option_content()
 	{
-		global $wpdb, $post, $af_global;
+		global $wpdb, $post, $torro_global;
 
 		if( isset( $_POST[ 'email_notifications' ] ) && count( $_POST[ 'email_notifications' ] ) > 0 ){
-			$wpdb->delete( $af_global->tables->email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
+			$wpdb->delete( $torro_global->tables->email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
 
 			foreach(  $_POST[ 'email_notifications' ] AS $id => $notification  ){
 				$wpdb->insert(
-					$af_global->tables->email_notifications,
+					$torro_global->tables->email_notifications,
 					array(
 						'form_id'           => $post->ID,
 						'notification_name' => $notification[ 'notification_name' ],
@@ -253,7 +253,7 @@ class Torro_EmailNotifications extends Torro_Action
 	{
 		$editor_id = 'email_notification_message-' . $id;
 
-		$editor = af_wp_editor( $message, $editor_id );
+		$editor = torro_wp_editor( $message, $editor_id );
 
 		$icon_url = TORRO_URLPATH . 'assets/img/mail.svg';
 
@@ -267,19 +267,19 @@ class Torro_EmailNotifications extends Torro_Action
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr__( 'From Name', 'af-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . af_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr__( 'From Email', 'af-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . af_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr__( 'To Email', 'af-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . af_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr__( 'Subject', 'af-locale' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . af_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
+					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
 				$html.= '</tr>';
 				$html.= '<tr>';
 					$html.= '<th><label for="email_notification_message-' . $id . '">' . esc_attr__( 'Message', 'af-locale' ) . '</label></th>';
@@ -327,7 +327,7 @@ class Torro_EmailNotifications extends Torro_Action
 	 */
 	public static function enqueue_admin_scripts()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 			return;
 
 		$translation = array(
@@ -348,4 +348,4 @@ class Torro_EmailNotifications extends Torro_Action
 		wp_enqueue_style( 'af-actions-email-notifications', TORRO_URLPATH . 'assets/css/actions-email-notifications.css' );
 	}
 }
-af_register_action( 'Torro_EmailNotifications' );
+torro_register_action( 'Torro_EmailNotifications' );

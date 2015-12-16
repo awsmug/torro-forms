@@ -44,16 +44,16 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 		$this->option_name = __( 'All Visitors of site', 'af-locale' );
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_fingerprint_scripts' ) );
-		add_action( 'af_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
+		add_action( 'torro_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
 
-		add_action( 'af_form_end', array( $this, 'add_fingerprint_input' ) );
+		add_action( 'torro_form_end', array( $this, 'add_fingerprint_input' ) );
 
-		add_action( 'af_response_save', array( $this, 'set_cookie' ), 10 );
-		add_action( 'af_response_save', array( $this, 'save_ip' ), 10 );
-		add_action( 'af_response_save', array( $this, 'save_fingerprint' ), 10 );
+		add_action( 'torro_response_save', array( $this, 'set_cookie' ), 10 );
+		add_action( 'torro_response_save', array( $this, 'save_ip' ), 10 );
+		add_action( 'torro_response_save', array( $this, 'save_fingerprint' ), 10 );
 
-		add_action( 'wp_ajax_af_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
-		add_action( 'wp_ajax_nopriv_af_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
+		add_action( 'wp_ajax_torro_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
+		add_action( 'wp_ajax_nopriv_torro_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
 	}
 
 	/**
@@ -61,12 +61,12 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 	 */
 	public static function ajax_check_fingerprint()
 	{
-		global $wpdb, $af_global, $ar_form_id, $af_skip_fingerrint_check;
+		global $wpdb, $torro_global, $ar_form_id, $torro_skip_fingerrint_check;
 
 		$content = '';
 		$restrict = FALSE;
 
-		if( !isset( $_POST[ 'af_form_id' ] ) )
+		if( !isset( $_POST[ 'torro_form_id' ] ) )
 		{
 			$content .= esc_attr__( 'Form ID is missing.' . 'af-locale' );
 			$restrict = TRUE;
@@ -80,18 +80,18 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		if( FALSE == $restrict )
 		{
-			$ar_form_id = $_POST[ 'af_form_id' ];
+			$ar_form_id = $_POST[ 'torro_form_id' ];
 			$fingerprint = $_POST[ 'fngrprnt' ];
 
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
+			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
 			$count = $wpdb->get_var( $sql );
 
 			if( 0 == $count )
 			{
-				$af_skip_fingerrint_check = TRUE;
+				$torro_skip_fingerrint_check = TRUE;
 
-				$af_form_process = new Torro_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
-				$content .= $af_form_process->show_form();
+				$torro_form_process = new Torro_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
+				$content .= $torro_form_process->show_form();
 			}
 			else
 			{
@@ -216,7 +216,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 	 */
 	public function check()
 	{
-		global $ar_form_id, $af_skip_fingerrint_check;
+		global $ar_form_id, $torro_skip_fingerrint_check;
 
 		$restrictions_check_ip = get_post_meta( $ar_form_id, 'form_restrictions_check_ip', TRUE );
 
@@ -229,10 +229,10 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		$restrictions_check_cookie = get_post_meta( $ar_form_id, 'form_restrictions_check_cookie', TRUE );
 
-		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'af_has_participated_form_' . $ar_form_id ] ) )
+		if( 'yes' == $restrictions_check_cookie && isset( $_COOKIE[ 'torro_has_participated_form_' . $ar_form_id ] ) )
 		{
 
-			if( $_COOKIE[ 'af_has_participated_form_' . $ar_form_id ] == 'yes' )
+			if( $_COOKIE[ 'torro_has_participated_form_' . $ar_form_id ] == 'yes' )
 			{
 				$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
 			}
@@ -242,25 +242,25 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 
 		$restrictions_check_fingerprint = get_post_meta( $ar_form_id, 'form_restrictions_check_fingerprint', TRUE );
 
-		if( 'yes' == $restrictions_check_fingerprint && $af_skip_fingerrint_check != TRUE )
+		if( 'yes' == $restrictions_check_fingerprint && $torro_skip_fingerrint_check != TRUE )
 		{
 			$actual_step = 0;
-			if( isset( $_POST[ 'af_actual_step' ] ) )
+			if( isset( $_POST[ 'torro_actual_step' ] ) )
 			{
-				$actual_step = $_POST[ 'af_actual_step' ];
+				$actual_step = $_POST[ 'torro_actual_step' ];
 			}
 
 			$next_step = 0;
-			if( isset( $_POST[ 'af_next_step' ] ) )
+			if( isset( $_POST[ 'torro_next_step' ] ) )
 			{
-				$next_step = $_POST[ 'af_next_step' ];
+				$next_step = $_POST[ 'torro_next_step' ];
 			}
 
 			$maybe_vars = '';
 
-			if( isset( $_POST[ 'af_submission_back' ] ) )
+			if( isset( $_POST[ 'torro_submission_back' ] ) )
 			{
-				$maybe_vars = 'af_submission_back: \'yes\',';
+				$maybe_vars = 'torro_submission_back: \'yes\',';
 			}
 
 			$html = '<script language="JavaScript">
@@ -270,10 +270,10 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 					            new Fingerprint2().get(function(fngrprnt){
 
 								    var data = {
-										action: \'af_check_fngrprnt\',
-										af_form_id: ' . $ar_form_id . ',
-										af_actual_step: ' . $actual_step . ',
-										af_next_step: ' . $next_step . ',
+										action: \'torro_check_fngrprnt\',
+										torro_form_id: ' . $ar_form_id . ',
+										torro_actual_step: ' . $actual_step . ',
+										torro_next_step: ' . $next_step . ',
 										' . $maybe_vars . '
 										action_url: \'' . $_SERVER[ 'REQUEST_URI' ] . '\',
 										fngrprnt: fngrprnt
@@ -307,11 +307,11 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 	 */
 	public function ip_has_participated()
 	{
-		global $wpdb, $af_global, $ar_form_id;
+		global $wpdb, $torro_global, $ar_form_id;
 
 		$remote_ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id=%d AND remote_addr=%s", $ar_form_id, $remote_ip );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id=%d AND remote_addr=%s", $ar_form_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 
 		if( 0 == $count )
@@ -328,7 +328,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 	public function set_cookie()
 	{
 		global $ar_form_id;
-		setcookie( 'af_has_participated_form_' . $ar_form_id, 'yes', time() + 60 * 60 * 24 * 365 );
+		setcookie( 'torro_has_participated_form_' . $ar_form_id, 'yes', time() + 60 * 60 * 24 * 365 );
 	}
 
 	/**
@@ -336,7 +336,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 	 */
 	public function save_ip( $response_id )
 	{
-		global $wpdb, $af_global, $ar_form_id;
+		global $wpdb, $torro_global, $ar_form_id;
 
 		$restrictions_check_ip = get_post_meta( $ar_form_id, 'form_restrictions_check_ip', TRUE );
 		if( '' == $restrictions_check_ip )
@@ -345,7 +345,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 		}
 
 		// Adding IP to response
-		$wpdb->update( $af_global->tables->responds, array(
+		$wpdb->update( $torro_global->tables->responds, array(
 			                                           'remote_addr' => $_SERVER[ 'REMOTE_ADDR' ],    // string
 		                                           ), array(
 			               'id' => $response_id,
@@ -357,7 +357,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 	 */
 	public function save_fingerprint( $response_id )
 	{
-		global $wpdb, $af_global, $ar_form_id;
+		global $wpdb, $torro_global, $ar_form_id;
 
 		$restrictions_check_fingerprint = get_post_meta( $ar_form_id, 'form_restrictions_check_fingerprint', TRUE );
 		if( '' == $restrictions_check_fingerprint )
@@ -365,8 +365,8 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 			return;
 		}
 
-		$wpdb->update( $af_global->tables->responds, array(
-			                                           'cookie_key' => $_POST[ 'af_fngrprnt' ],    // string
+		$wpdb->update( $torro_global->tables->responds, array(
+			                                           'cookie_key' => $_POST[ 'torro_fngrprnt' ],    // string
 		                                           ), array(
 			               'id' => $response_id,
 		               ) );
@@ -385,9 +385,9 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction
 			return;
 		}
 
-		echo '<input type="hidden" id="af-fngrprnt" name="af_fngrprnt" />';
+		echo '<input type="hidden" id="af-fngrprnt" name="torro_fngrprnt" />';
 	}
 
 }
 
-af_register_restriction( 'Torro_Restriction_AllVisitors' );
+torro_register_restriction( 'Torro_Restriction_AllVisitors' );

@@ -60,7 +60,7 @@ class Torro_WPEditorBox
 		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'tiny_mce_before_init' ), 10, 2 );
 		add_filter( 'quicktags_settings', array( __CLASS__, 'quicktags_settings' ), 10, 2 );
 
-		add_action( 'wp_ajax_af_get_editor_html', array( __CLASS__, 'ajax_af_get_editor_html' ) );
+		add_action( 'wp_ajax_torro_get_editor_html', array( __CLASS__, 'ajax_torro_get_editor_html' ) );
 	}
 
 	/**
@@ -266,7 +266,7 @@ class Torro_WPEditorBox
 	/**
 	 * Getting Editor HTML by AJAX
 	 */
-	public static function ajax_af_get_editor_html()
+	public static function ajax_torro_get_editor_html()
 	{
 		$widget_id = $_POST[ 'widget_id' ];
 		$editor_id = $_POST[ 'editor_id' ];
@@ -297,7 +297,7 @@ Torro_WPEditorBox::init();
  * @return string
  * @since 1.0.0
  */
-function af_wp_editor( $content, $editor_id, $field_name = NULL )
+function torro_wp_editor( $content, $editor_id, $field_name = NULL )
 {
 	return Torro_WPEditorBox::editor( $content, $editor_id, $field_name );
 }

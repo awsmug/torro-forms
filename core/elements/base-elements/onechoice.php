@@ -57,7 +57,7 @@ class Torro_Form_Element_OneChoice extends Torro_Form_Element
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="af_element_radio"><input type="radio" name="' . $this->get_input_name() . '" value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] . '</div>';
+			$html .= '<div class="torro_element_radio"><input type="radio" name="' . $this->get_input_name() . '" value="' . $answer[ 'text' ] . '" ' . $checked . '/> ' . $answer[ 'text' ] . '</div>';
 		}
 
 		if( !empty( $this->settings[ 'description' ] ) )
@@ -99,4 +99,4 @@ class Torro_Form_Element_OneChoice extends Torro_Form_Element
 	}
 }
 
-af_register_form_element( 'Torro_Form_Element_OneChoice' );
+torro_register_form_element( 'Torro_Form_Element_OneChoice' );

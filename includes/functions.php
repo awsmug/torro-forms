@@ -36,7 +36,7 @@ if( !defined( 'ABSPATH' ) )
  */
 if( defined( 'TORRO_FOLDER' ) )
 {
-	function af_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
+	function torro_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
 	{
 
 		$located = locate_template( $template_names, $load, $require_once );
@@ -68,9 +68,9 @@ if( defined( 'TORRO_FOLDER' ) )
  *
  * @return bool
  */
-function af_is_formbuilder()
+function torro_is_formbuilder()
 {
-	if( is_admin() && af_is_form() )
+	if( is_admin() && torro_is_form() )
 	{
 		return TRUE;
 	}
@@ -83,7 +83,7 @@ function af_is_formbuilder()
  *
  * @return bool
  */
-function af_is_settingspage()
+function torro_is_settingspage()
 {
 	if( is_admin() && isset( $_GET[ 'page' ] ) && 'Torro_Admin' == $_GET[ 'page' ] )
 	{
@@ -98,19 +98,19 @@ function af_is_settingspage()
  *
  * @return bool
  */
-function af_is_form()
+function torro_is_form()
 {
 	if( !empty( $_GET[ 'post' ] )  )
 	{
 		$post = get_post( $_GET[ 'post' ] );
 
-		if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'af-forms' == $post->post_type )
+		if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'torro-forms' == $post->post_type )
 		{
 			return TRUE;
 		}
 	}
 
-	if( !empty( $_GET[ 'post_type' ] ) && 'af-forms' == $_GET[ 'post_type' ] )
+	if( !empty( $_GET[ 'post_type' ] ) && 'torro-forms' == $_GET[ 'post_type' ] )
 	{
 		return TRUE;
 	}
@@ -118,9 +118,9 @@ function af_is_form()
 	return FALSE;
 }
 
-function af_clipboard_field( $label, $content )
+function torro_clipboard_field( $label, $content )
 {
-	$id = 'cb_' . af_id();
+	$id = 'cb_' . torro_id();
 
 	$html = '<div class="clipboardfield">';
 		$html .= '<label for="' . $id . '">' . $label . '</label> ';
@@ -144,7 +144,7 @@ function af_clipboard_field( $label, $content )
  * @return string $mailtext Mailtext as String
  */
 // @todo Getting to Mail class or API
-function af_get_mail_template_text( $mailtext_title )
+function torro_get_mail_template_text( $mailtext_title )
 {
 
 	$text = '';
@@ -207,7 +207,7 @@ Best regards,
  *
  * @return string $mailtext Mail subject as String
  */
-function af_get_mail_template_subject( $mailsubject_title )
+function torro_get_mail_template_subject( $mailsubject_title )
 {
 
 	$text = '';
@@ -248,7 +248,7 @@ function af_get_mail_template_subject( $mailsubject_title )
  *
  * @return mixed $setting Setting
  */
-function af_get_mail_settings( $option )
+function torro_get_mail_settings( $option )
 {
 
 	$setting = '';
@@ -281,9 +281,9 @@ function af_get_mail_settings( $option )
  *
  * @return string $from_name "From" name
  */
-function af_change_email_return_name()
+function torro_change_email_return_name()
 {
-	return af_get_mail_settings( 'from_name' );
+	return torro_get_mail_settings( 'from_name' );
 }
 
 /**
@@ -291,9 +291,9 @@ function af_change_email_return_name()
  *
  * @return string $from_email "From" email address
  */
-function af_change_email_return_address()
+function torro_change_email_return_address()
 {
-	return af_get_mail_settings( 'from_email' );
+	return torro_get_mail_settings( 'from_email' );
 }
 
 /**
@@ -305,23 +305,23 @@ function af_change_email_return_address()
  *
  * @return bool
  */
-function af_mail( $to_email, $subject, $content )
+function torro_mail( $to_email, $subject, $content )
 {
-	add_filter( 'wp_mail_from_name', 'af_change_email_return_name' );
-	add_filter( 'wp_mail_from', 'af_change_email_return_address' );
+	add_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
+	add_filter( 'wp_mail_from', 'torro_change_email_return_address' );
 
 	$result = wp_mail( $to_email, $subject, $content );
 
 	// Logging
 	$content = str_replace( chr( 13 ), '', strip_tags( $content ) );
-	af_create_log_entry( array(
+	torro_create_log_entry( array(
 		                     $to_email,
 		                     $subject,
 		                     $content
 	                     ) );
 
-	remove_filter( 'wp_mail_from_name', 'af_change_email_return_name' );
-	remove_filter( 'wp_mail_from', 'af_change_email_return_address' );
+	remove_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
+	remove_filter( 'wp_mail_from', 'torro_change_email_return_address' );
 
 	return $result;
 }
@@ -331,7 +331,7 @@ function af_mail( $to_email, $subject, $content )
  *
  * @param array $values The values which have to be saved
  */
-function af_create_log_entry( $values )
+function torro_create_log_entry( $values )
 {
 
 	if( !is_array( $values ) )
@@ -376,7 +376,7 @@ function af_create_log_entry( $values )
  *
  * @return string $data
  */
-function af_prepare_post_data( $data )
+function torro_prepare_post_data( $data )
 {
 	// Do not preparing objects or arrays
 	if( is_object( $data ) || is_array( $data ) )
@@ -394,7 +394,7 @@ function af_prepare_post_data( $data )
  * Getting charset from DB
  * @return string
  */
-function af_get_charset_collate()
+function torro_get_charset_collate()
 {
 	global $wpdb;
 
@@ -416,7 +416,7 @@ function af_get_charset_collate()
  *
  * @return string $id ID string
  */
-function af_id()
+function torro_id()
 {
 	$id = md5( rand() );
 

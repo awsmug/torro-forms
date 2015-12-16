@@ -116,7 +116,7 @@ abstract class Torro_ResultHandler
 	 */
 	public function init_settings()
 	{
-		global $af_global;
+		global $torro_global;
 
 		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
 		{
@@ -133,7 +133,7 @@ abstract class Torro_ResultHandler
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$af_global->settings[ 'resulthandling' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+		$torro_global->settings[ 'resulthandling' ]->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'resulthandling_' . $this->name;
 
@@ -151,14 +151,14 @@ abstract class Torro_ResultHandler
 	 */
 	public function _register()
 	{
-		global $af_global;
+		global $torro_global;
 
 		if( TRUE == $this->initialized )
 		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) )
+		if( !is_object( $torro_global ) )
 		{
 			return FALSE;
 		}
@@ -178,14 +178,14 @@ abstract class Torro_ResultHandler
 			$this->description = esc_attr__( 'This is a Torro Forms Result Handler.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->restrictions ) )
+		if( array_key_exists( $this->name, $torro_global->restrictions ) )
 		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->result_handlers ) )
+		if( !is_array( $torro_global->result_handlers ) )
 		{
-			$af_global->result_handlers = array();
+			$torro_global->result_handlers = array();
 		}
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
@@ -204,7 +204,7 @@ abstract class Torro_ResultHandler
 
 		$this->initialized = TRUE;
 
-		return $af_global->add_result_handler( $this->name, $this );
+		return $torro_global->add_result_handler( $this->name, $this );
 	}
 
 	/**
@@ -235,7 +235,7 @@ abstract class Torro_ResultHandler
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_result_handler( $result_handler__class )
+function torro_register_result_handler( $result_handler__class )
 {
 	if( class_exists( $result_handler__class ) )
 	{

@@ -81,4 +81,4 @@ class Torro_GlobalTemplateTags extends Torro_TemplateTags
 	}
 }
 
-af_register_templatetags( 'Torro_GlobalTemplateTags' );
+torro_register_templatetags( 'Torro_GlobalTemplateTags' );

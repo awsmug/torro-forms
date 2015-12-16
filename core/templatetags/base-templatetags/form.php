@@ -86,14 +86,14 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	 */
 	public static function element_content( $element_id )
 	{
-		global $af_response;
+		global $torro_response;
 
-		if( !isset( $af_response[ $element_id ] ) )
+		if( !isset( $torro_response[ $element_id ] ) )
 		{
 			return;
 		}
 
-		$element = af_get_element( $element_id );
+		$element = torro_get_element( $element_id );
 
 		/**
 		 * Displaying elements
@@ -106,13 +106,13 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 			// @todo Checking if element had sections and giving them HTML > Try with Matrix
 
 		}
-		elseif( is_array( $af_response[ $element_id ] ) )
+		elseif( is_array( $torro_response[ $element_id ] ) )
 		{
 			/**
 			 * Elements with multiple answers
 			 */
 			$html = '<ul>';
-			foreach( $af_response[ $element_id ] AS $response )
+			foreach( $torro_response[ $element_id ] AS $response )
 			{
 				$html .= '<li>' . $response . '</li>';
 			}
@@ -125,7 +125,7 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 			/**
 			 * Elements with string response value
 			 */
-			return $af_response[ $element_id ];
+			return $torro_response[ $element_id ];
 		}
 	}
 
@@ -135,7 +135,7 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	 */
 	public static function allelements()
 	{
-		global $ar_form_id, $af_response;
+		global $ar_form_id, $torro_response;
 
 		$form = new Torro_Form( $ar_form_id );
 
@@ -153,7 +153,7 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	}
 }
 
-af_register_templatetags( 'Torro_FormTemplateTags' );
+torro_register_templatetags( 'Torro_FormTemplateTags' );
 
 /**
  * Live registering element templatetags
@@ -163,24 +163,24 @@ af_register_templatetags( 'Torro_FormTemplateTags' );
  *
  * @return bool
  */
-function af_add_element_templatetag( $element_id, $element_name )
+function torro_add_element_templatetag( $element_id, $element_name )
 {
-	global $af_global;
+	global $torro_global;
 
-	if( !property_exists( $af_global, 'templatetags' ) )
+	if( !property_exists( $torro_global, 'templatetags' ) )
 	{
 		return FALSE;
 	}
 
-	if( count( $af_global->templatetags ) == 0 )
+	if( count( $torro_global->templatetags ) == 0 )
 	{
 		return FALSE;
 	}
 
-	if( !array_key_exists( 'formtags', $af_global->templatetags ) )
+	if( !array_key_exists( 'formtags', $torro_global->templatetags ) )
 	{
 		return FALSE;
 	}
 
-	$af_global->templatetags[ 'formtags' ]->add_element( $element_id, $element_name );
+	$torro_global->templatetags[ 'formtags' ]->add_element( $element_id, $element_name );
 }

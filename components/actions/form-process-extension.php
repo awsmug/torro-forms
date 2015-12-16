@@ -40,7 +40,7 @@ class Torro_Actions_FormProcessExtension
 	 */
 	public static function init()
 	{
-		add_action( 'af_response_save', array( __CLASS__, 'action' ), 10, 1 );
+		add_action( 'torro_response_save', array( __CLASS__, 'action' ), 10, 1 );
 	}
 
 	/**
@@ -48,16 +48,16 @@ class Torro_Actions_FormProcessExtension
 	 */
 	public static function action( $response_id )
 	{
-		global $af_global, $ar_form_id;
+		global $torro_global, $ar_form_id;
 
-		if( count( $af_global->actions ) == 0 )
+		if( count( $torro_global->actions ) == 0 )
 		{
 			return;
 		}
 
-		foreach( $af_global->actions AS $action )
+		foreach( $torro_global->actions AS $action )
 		{
-			$action->handle( $response_id, $_SESSION[ 'af_response' ][ $ar_form_id ] );
+			$action->handle( $response_id, $_SESSION[ 'torro_response' ][ $ar_form_id ] );
 		}
 	}
 }

@@ -42,7 +42,7 @@ class Torro_ShortCodes
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
-		add_action( 'af_formbuilder_options', array( __CLASS__, 'show_form_shortcode' ), 15 );
+		add_action( 'torro_formbuilder_options', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
 	public static function form( $atts )
@@ -57,14 +57,14 @@ class Torro_ShortCodes
 
 		$atts = shortcode_atts( $defaults, $atts );
 
-		$af_form_id = $atts[ 'id' ];
+		$torro_form_id = $atts[ 'id' ];
 
-		if( '' == $af_form_id )
+		if( '' == $torro_form_id )
 		{
 			return esc_attr__( 'Please enter an id in the form shortcode!', 'af-locale' );
 		}
 
-		if( !af_form_exists( $af_form_id ) )
+		if( !torro_form_exists( $torro_form_id ) )
 		{
 			return esc_attr__( 'Form not found. Please enter another ID in your shortcode.', 'af-locale' );
 		}
@@ -72,14 +72,14 @@ class Torro_ShortCodes
 		switch(  $atts[ 'show' ] )
 		{
 			case 'iframe':
-				$url = get_permalink( $af_form_id );
+				$url = get_permalink( $torro_form_id );
 				$width = $atts[ 'iframe_width' ];
 				$height = $atts[ 'iframe_height' ];
 
 				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
 				break;
 			default:
-				$html = Torro_FormLoader::get_form( $af_form_id );
+				$html = Torro_FormLoader::get_form( $torro_form_id );
 				break;
 		}
 
@@ -90,13 +90,13 @@ class Torro_ShortCodes
 	{
 		global $post;
 
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
 
 		$html  = '<div class="misc-pub-section form-options">';
-		$html .= af_clipboard_field( __( 'Form Shortcode:', 'af-locale' ), '[form id=' . $post->ID . ']' );
+		$html .= torro_clipboard_field( __( 'Form Shortcode:', 'af-locale' ), '[form id=' . $post->ID . ']' );
 		$html .= '</div>';
 
 		echo $html;

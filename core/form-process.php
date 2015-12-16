@@ -79,7 +79,7 @@ class Torro_FormProcess
 	 */
 	public function show_form()
 	{
-		$show_form = apply_filters( 'af_form_show', TRUE ); // Hook for adding restrictions and so on ...
+		$show_form = apply_filters( 'torro_form_show', TRUE ); // Hook for adding restrictions and so on ...
 
 		if( FALSE == $show_form )
 		{
@@ -94,7 +94,7 @@ class Torro_FormProcess
 		$html = '';
 
 		// Set global message on top of page
-		if( !empty( $af_response_errors ) )
+		if( !empty( $torro_response_errors ) )
 		{
 			$html .= '<div class="af-element-error">';
 			$html .= '<div class="af-element-error-message"><p>';
@@ -121,7 +121,7 @@ class Torro_FormProcess
 		$next_step = $actual_step;
 
 		ob_start();
-		do_action( 'af_form_start', $this->form_id, $actual_step, $step_count );
+		do_action( 'torro_form_start', $this->form_id, $actual_step, $step_count );
 		$html .= ob_get_clean();
 
 		if( is_array( $elements ) && count( $elements ) > 0 )
@@ -147,12 +147,12 @@ class Torro_FormProcess
 		$html .= $this->get_navigation( $actual_step, $next_step );
 
 		ob_start();
-		do_action( 'af_form_end', $this->form_id, $actual_step, $step_count );
+		do_action( 'torro_form_end', $this->form_id, $actual_step, $step_count );
 		$html .= ob_get_clean();
 
-		$html .= '<input type="hidden" name="af_next_step" value="' . $next_step . '" />';
-		$html .= '<input type="hidden" name="af_actual_step" value="' . $actual_step . '" />';
-		$html .= '<input type="hidden" name="af_form_id" value="' . $this->form_id . '" />';
+		$html .= '<input type="hidden" name="torro_next_step" value="' . $next_step . '" />';
+		$html .= '<input type="hidden" name="torro_actual_step" value="' . $actual_step . '" />';
+		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->form_id . '" />';
 
 		$html .= '</form>';
 
@@ -166,20 +166,20 @@ class Torro_FormProcess
 	 */
 	public function get_actual_step()
 	{
-		global $af_response_errors;
+		global $torro_response_errors;
 
-		// If there was posted af_next_step and there was no error
-		if( isset( $_POST[ 'af_next_step' ] ) && 0 == count( $af_response_errors ) )
+		// If there was posted torro_next_step and there was no error
+		if( isset( $_POST[ 'torro_next_step' ] ) && 0 == count( $torro_response_errors ) )
 		{
-			$actual_step = (int) $_POST[ 'af_next_step' ];
+			$actual_step = (int) $_POST[ 'torro_next_step' ];
 		}
 		else
 		{
 
-			// If there was posted af_next_step and there was an error
-			if( isset( $_POST[ 'af_actual_step' ] ) )
+			// If there was posted torro_next_step and there was an error
+			if( isset( $_POST[ 'torro_actual_step' ] ) )
 			{
-				$actual_step = (int) $_POST[ 'af_actual_step' ];
+				$actual_step = (int) $_POST[ 'torro_actual_step' ];
 				// If there was nothing posted, start at the beginning
 			}
 			else
@@ -189,9 +189,9 @@ class Torro_FormProcess
 		}
 
 		// If user wanted to go backwards, set one step back
-		if( array_key_exists( 'af_submission_back', $_POST ) )
+		if( array_key_exists( 'torro_submission_back', $_POST ) )
 		{
-			$actual_step = (int) $_POST[ 'af_actual_step' ] - 1;
+			$actual_step = (int) $_POST[ 'torro_actual_step' ] - 1;
 		}
 
 		return $actual_step;
@@ -212,26 +212,26 @@ class Torro_FormProcess
 		// If there was a step before, show previous button
 		if( $actual_step > 0 )
 		{
-			$html .= '<input type="submit" name="af_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
+			$html .= '<input type="submit" name="torro_submission_back" value="' . __( 'Previous Step', 'af-locale' ) . '"> ';
 		}
 
 		if( $actual_step == $next_step )
 		{
 			// If actual step is next step, show finish form button
 			ob_start();
-			do_action( 'af_form_send_button_before', $this->form_id );
+			do_action( 'torro_form_send_button_before', $this->form_id );
 			$html .= ob_get_clean();
 
-			$html .= '<input type="submit" name="af_submission" value="' . __( 'Send', 'af-locale' ) . '">';
+			$html .= '<input type="submit" name="torro_submission" value="' . __( 'Send', 'af-locale' ) . '">';
 
 			ob_start();
-			do_action( 'af_form_send_button_after', $this->form_id );
+			do_action( 'torro_form_send_button_after', $this->form_id );
 			$html .= ob_get_clean();
 		}
 		else
 		{
 			// Show next button
-			$html .= '<input type="submit" name="af_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
+			$html .= '<input type="submit" name="torro_submission" value="' . __( 'Next Step', 'af-locale' ) . '">';
 		}
 
 		return $html;
@@ -244,7 +244,7 @@ class Torro_FormProcess
 	 */
 	public function process_response()
 	{
-		global $ar_form_id, $af_response_errors;
+		global $ar_form_id, $torro_response_errors;
 
 		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'af-form-' . $ar_form_id ) )
 		{
@@ -252,65 +252,65 @@ class Torro_FormProcess
 		}
 
 		$response = array();
-		if( isset( $_POST[ 'af_response' ] ) )
+		if( isset( $_POST[ 'torro_response' ] ) )
 		{
-			$response = $_POST[ 'af_response' ];
+			$response = $_POST[ 'torro_response' ];
 		}
 
-		$actual_step = (int) $_POST[ 'af_actual_step' ];
+		$actual_step = (int) $_POST[ 'torro_actual_step' ];
 
 		// If there was a saved response
-		if( isset( $_SESSION[ 'af_response' ][ $ar_form_id ] ) )
+		if( isset( $_SESSION[ 'torro_response' ][ $ar_form_id ] ) )
 		{
 
 			// Merging data
-			$merged_response = $_SESSION[ 'af_response' ][ $ar_form_id ];
+			$merged_response = $_SESSION[ 'torro_response' ][ $ar_form_id ];
 			if( is_array( $response ) && count( $response ) > 0 )
 			{
 				foreach( $response AS $key => $answer )
-					$merged_response[ $key ] = af_prepare_post_data( $answer );
+					$merged_response[ $key ] = torro_prepare_post_data( $answer );
 			}
 
-			$_SESSION[ 'af_response' ][ $ar_form_id ] = $merged_response;
+			$_SESSION[ 'torro_response' ][ $ar_form_id ] = $merged_response;
 		}
 		else
 		{
 			$merged_response = $response;
 		}
 
-		$_SESSION[ 'af_response' ][ $ar_form_id ] = $merged_response;
+		$_SESSION[ 'torro_response' ][ $ar_form_id ] = $merged_response;
 
 		$is_submit = false;
-		if ( (int) $_POST[ 'af_actual_step' ] == (int) $_POST[ 'af_next_step' ] && ! isset( $_POST[ 'af_submission_back' ] ) ) {
+		if ( (int) $_POST[ 'torro_actual_step' ] == (int) $_POST[ 'torro_next_step' ] && ! isset( $_POST[ 'torro_submission_back' ] ) ) {
 			$is_submit = true;
 		}
 
 		// Validate submitted data if user not has gone backwards
 		$validation_status = true;
-		if ( ! isset( $_POST[ 'af_submission_back' ] ) ) {
-			$validation_status = $this->validate( $ar_form_id, $_SESSION[ 'af_response' ][ $ar_form_id ], $actual_step, $is_submit );
+		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
+			$validation_status = $this->validate( $ar_form_id, $_SESSION[ 'torro_response' ][ $ar_form_id ], $actual_step, $is_submit );
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
-		if( $is_submit && $validation_status && 0 == count( $af_response_errors ) )
+		if( $is_submit && $validation_status && 0 == count( $torro_response_errors ) )
 		{
 
 			$form = new Torro_Form( $ar_form_id );
-			$result_id = $form->save_response( $_SESSION[ 'af_response' ][ $ar_form_id ] );
+			$result_id = $form->save_response( $_SESSION[ 'torro_response' ][ $ar_form_id ] );
 
 			if( FALSE != $result_id )
 			{
-				do_action( 'af_response_save', $result_id );
+				do_action( 'torro_response_save', $result_id );
 
-				unset( $_SESSION[ 'af_response' ][ $ar_form_id ] );
-				$_SESSION[ 'af_response' ][ $ar_form_id ][ 'finished' ] = TRUE;
+				unset( $_SESSION[ 'torro_response' ][ $ar_form_id ] );
+				$_SESSION[ 'torro_response' ][ $ar_form_id ][ 'finished' ] = TRUE;
 
 				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
 				die();
 			}
 		}
 
-		do_action( 'af_process_response_end' );
+		do_action( 'torro_process_response_end' );
 	}
 
 	/**
@@ -326,14 +326,14 @@ class Torro_FormProcess
 	 */
 	public function validate( $form_id, $response, $step, $is_submit )
 	{
-		global $af_response_errors;
+		global $torro_response_errors;
 
 		$elements = $this->form->get_step_elements( $step );
 		if ( ! is_array( $elements ) || count( $elements ) == 0 ) {
 			return;
 		}
 
-		$af_response_errors = array();
+		$torro_response_errors = array();
 
 		// Running through all elements
 		foreach ( $elements AS $element ) {
@@ -349,22 +349,22 @@ class Torro_FormProcess
 			if ( ! $element->validate( $answer ) ) {
 
 				if ( count( $element->validate_errors ) > 0 ) {
-					if ( empty( $af_response_errors[ $element->id ] ) ) {
-						$af_response_errors[ $element->id ] = array();
+					if ( empty( $torro_response_errors[ $element->id ] ) ) {
+						$torro_response_errors[ $element->id ] = array();
 					}
 
 					// Getting every error of element back
 					foreach ( $element->validate_errors AS $error ) {
-						$af_response_errors[ $element->id ][] = $error;
+						$torro_response_errors[ $element->id ][] = $error;
 					}
 				}
 
 			}
 		}
 
-		$validation_status = count( $af_response_errors ) > 0 ? false : true;
+		$validation_status = count( $torro_response_errors ) > 0 ? false : true;
 
-		return apply_filters( 'af_response_validation_status', $validation_status, $form_id, $af_response_errors, $step, $is_submit );
+		return apply_filters( 'torro_response_validation_status', $validation_status, $form_id, $torro_response_errors, $step, $is_submit );
 	}
 }
 
@@ -376,9 +376,9 @@ class Torro_FormProcess
  *
  * @return boolean $has_participated
  */
-function af_user_has_participated( $form_id, $user_id = NULL )
+function torro_user_has_participated( $form_id, $user_id = NULL )
 {
-	global $wpdb, $current_user, $af_global;
+	global $wpdb, $current_user, $torro_global;
 
 	// Setting up user ID
 	if( NULL == $user_id )
@@ -393,7 +393,7 @@ function af_user_has_participated( $form_id, $user_id = NULL )
 		return FALSE;
 	}
 
-	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id=%d AND user_id=%s", $form_id, $user_id );
+	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id=%d AND user_id=%s", $form_id, $user_id );
 
 	$count = $wpdb->get_var( $sql );
 

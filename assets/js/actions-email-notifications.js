@@ -3,7 +3,7 @@
     "use strict";
     $( function ()
     {
-        var af_actions_refresh_notifications = function()
+        var torro_actions_refresh_notifications = function()
         {
             var notifications_list_count = $( '#form-email-notifications .notifications  > div' ).length;
 
@@ -14,7 +14,7 @@
             }
         }
 
-        var af_actions_init_email_notifications = function(){
+        var torro_actions_init_email_notifications = function(){
             var notifications_list = $( "#form-email-notifications .notifications" );
 
             if( notifications_list.hasClass( 'ui-accordion' ) )
@@ -22,7 +22,7 @@
                 notifications_list.accordion( 'destroy' );
             }
 
-            af_actions_refresh_notifications();
+            torro_actions_refresh_notifications();
 
             notifications_list.accordion({
                 collapsible: true,
@@ -48,7 +48,7 @@
                         $( '.notification-' + email_notification_id ).remove();
                         $( '.notification-' + email_notification_id + '-content' ).remove();
 
-                        af_actions_refresh_notifications();
+                        torro_actions_refresh_notifications();
 
                         $( this ).dialog('close');
                     }
@@ -71,7 +71,7 @@
                 form_deletemailnotification_dialog.dialog( 'open' );
             });
         }
-        af_actions_init_email_notifications();
+        torro_actions_init_email_notifications();
 
         $( '#form_add_email_notification').click( function(){
             var data = {
@@ -82,7 +82,7 @@
                 response = jQuery.parseJSON( response );
 
                 $( '#form-email-notifications .notifications' ).prepend( response.html );
-                af_actions_init_email_notifications();
+                torro_actions_init_email_notifications();
 
                 $( ".notification-" + response.id ).hide().fadeIn(2500);
             });

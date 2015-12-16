@@ -75,23 +75,23 @@ class Torro_FormLoader
 		}
 
 		// If there is no nothing submitted and there is no session data > exit
-		if( !isset( $_POST[ 'af_form_id' ] ) )
+		if( !isset( $_POST[ 'torro_form_id' ] ) )
 		{
 			return;
 		}
 
-		$ar_form_id = $_POST[ 'af_form_id' ];
+		$ar_form_id = $_POST[ 'torro_form_id' ];
 
 		// If form doesn't exists > exit
-		if( !af_form_exists( $ar_form_id ) )
+		if( !torro_form_exists( $ar_form_id ) )
 		{
 			return;
 		}
 
-		do_action( 'af_form_process' );
+		do_action( 'torro_form_process' );
 
-		$af_form_process = new Torro_FormProcess( $ar_form_id );
-		$af_form_process->process_response();
+		$torro_form_process = new Torro_FormProcess( $ar_form_id );
+		$torro_form_process->process_response();
 	}
 
 	/**
@@ -114,12 +114,12 @@ class Torro_FormLoader
 	 */
 	public static function the_content( $content )
 	{
-		global $af_form_process, $ar_form_id, $af_response_errors;
+		global $torro_form_process, $ar_form_id, $torro_response_errors;
 
 		$post = get_post( $ar_form_id );
 		$ar_form_id = $post->ID;
 
-		if( 'af-forms' != $post->post_type )
+		if( 'torro-forms' != $post->post_type )
 		{
 			return $content;
 		}
@@ -140,15 +140,15 @@ class Torro_FormLoader
 	 */
 	public static function get_form( $form_id )
 	{
-		if( isset( $_SESSION[ 'af_response' ][ $form_id ][ 'finished' ] ) )
+		if( isset( $_SESSION[ 'torro_response' ][ $form_id ][ 'finished' ] ) )
 		{
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
 		}
 		else
 		{
-			$af_form_process = new Torro_FormProcess( $form_id );
-			$html = $af_form_process->show_form();
+			$torro_form_process = new Torro_FormProcess( $form_id );
+			$html = $torro_form_process->show_form();
 		}
 
 		return $html;
@@ -179,7 +179,7 @@ class Torro_FormLoader
 		}
 		$html .= '</div>';
 
-		return apply_filters( 'af_text_thankyou_for_participation', $html, $form_id );
+		return apply_filters( 'torro_text_thankyou_for_participation', $html, $form_id );
 	}
 
 	/**
@@ -195,7 +195,7 @@ class Torro_FormLoader
 		$html = '<p>' . __( 'This are the actual results:', 'af-locale' ) . '</p>';
 		$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
 
-		return apply_filters( 'af_show_results', $html, $form_id );
+		return apply_filters( 'torro_show_results', $html, $form_id );
 	}
 }
 

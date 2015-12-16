@@ -94,7 +94,7 @@ class Torro_Form_Results
 	 */
 	public function results( $filter = array() )
 	{
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
 		$filter = wp_parse_args( $filter, array(
 			'start_row'       => 0,
@@ -117,7 +117,7 @@ class Torro_Form_Results
 			return FALSE;
 		}
 
-		$sql_count = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE form_id = %s", $this->form_id );
+		$sql_count = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id = %s", $this->form_id );
 
 		if( 0 == $wpdb->get_var( $sql_count) )
 		{
@@ -125,7 +125,7 @@ class Torro_Form_Results
 			return FALSE;
 		}
 
-		$view_name = "{$wpdb->prefix}af_results_{$this->form_id}_view";
+		$view_name = "{$wpdb->prefix}torro_results_{$this->form_id}_view";
 
 		$params = array(
 			'view_name' => $view_name,
@@ -252,7 +252,7 @@ class Torro_Form_Results
 						if( array_key_exists( 0, $column_arr ) && 'element' == $column_arr[ 0 ] )
 						{
 							$element_id = $column_arr[ 1 ];
-							$element = af_get_element( $element_id );
+							$element = torro_get_element( $element_id );
 
 							$column_name_new = $element->replace_column_name( $column_name );
 
@@ -303,17 +303,17 @@ class Torro_Form_Results
 	 */
 	public function create_view( $params = array() )
 	{
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
 		$params = wp_parse_args( $params, array(
-			'view_name'   => "{$wpdb->prefix}af_results_{$this->form_id}_view",
+			'view_name'   => "{$wpdb->prefix}torro_results_{$this->form_id}_view",
 			'element_ids' => NULL,
 		) );
 
 		/**
 		 * Getting elements
 		 */
-		$sql_elements = "SELECT id, label FROM {$af_global->tables->elements} WHERE form_id=%d";
+		$sql_elements = "SELECT id, label FROM {$torro_global->tables->elements} WHERE form_id=%d";
 		$sql_elements_values = array( $this->form_id );
 
 		$sql = $wpdb->prepare( $sql_elements, $sql_elements_values );
@@ -337,7 +337,7 @@ class Torro_Form_Results
 				}
 			}
 
-			$element_obj = af_get_element( $element->id );
+			$element_obj = torro_get_element( $element->id );
 
 			if( FALSE == $element_obj )
 			{
@@ -372,7 +372,7 @@ class Torro_Form_Results
 						$column_name = $column_name;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
+					$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$torro_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			}
@@ -395,7 +395,7 @@ class Torro_Form_Results
 						$column_name = $column_name;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$af_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$torro_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			}
@@ -430,13 +430,13 @@ class Torro_Form_Results
 		{
 			$sql_columns_string = ', ' . implode( ', ', $sql_columns );
 		}
-		$sql_result = "SELECT id AS result_id, user_id, timestamp{$sql_columns_string} FROM {$af_global->tables->results} AS row WHERE form_id=%d";
+		$sql_result = "SELECT id AS result_id, user_id, timestamp{$sql_columns_string} FROM {$torro_global->tables->results} AS row WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
 
 		/**
 		 * Creating View
 		 */
-		$view_name = "{$wpdb->prefix}af_results_{$this->form_id}_view";
+		$view_name = "{$wpdb->prefix}torro_results_{$this->form_id}_view";
 
 		$wpdb->query( "DROP VIEW IF EXISTS {$view_name}" );
 
@@ -466,8 +466,8 @@ class Torro_Form_Results
 	 * Example for adding a User Name column:
 	 *
 	 *  $results = new Torro_Form_Results( 5944 );
-	 *  $af_results->add_column( 'username', "SELECT user_login FROM {$wpdb->prefix}users WHERE ID=row.user_id" );
-	 *  $results = $af_results->results();
+	 *  $torro_results->add_column( 'username', "SELECT user_login FROM {$wpdb->prefix}users WHERE ID=row.user_id" );
+	 *  $results = $torro_results->results();
 	 *
 	 * @param string $column_name The Column name will be created in the Result View
 	 * @param string $sql         The SQL statement for getting new field in row

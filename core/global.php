@@ -1,6 +1,6 @@
 <?php
 /**
- * Torro Forms Class for main global $af_global
+ * Torro Forms Class for main global $torro_global
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -29,7 +29,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-global $af_global;
+global $torro_global;
 
 class Torro_Global
 {
@@ -54,15 +54,15 @@ class Torro_Global
 
 		$this->tables = new stdClass;
 
-		$this->tables->elements = $wpdb->prefix . 'af_elements';
-		$this->tables->element_answers = $wpdb->prefix . 'af_element_answers';
-		$this->tables->results = $wpdb->prefix . 'af_results';
-		$this->tables->result_values = $wpdb->prefix . 'af_result_values';
-		$this->tables->settings = $wpdb->prefix . 'af_settings';
-		$this->tables->participiants = $wpdb->prefix . 'af_participiants';
-		$this->tables->email_notifications = $wpdb->prefix . 'af_email_notifications';
+		$this->tables->elements = $wpdb->prefix . 'torro_elements';
+		$this->tables->element_answers = $wpdb->prefix . 'torro_element_answers';
+		$this->tables->results = $wpdb->prefix . 'torro_results';
+		$this->tables->result_values = $wpdb->prefix . 'torro_result_values';
+		$this->tables->settings = $wpdb->prefix . 'torro_settings';
+		$this->tables->participiants = $wpdb->prefix . 'torro_participiants';
+		$this->tables->email_notifications = $wpdb->prefix . 'torro_email_notifications';
 
-		$this->tables = apply_filters( 'af_forms_tables', $this->tables );
+		$this->tables = apply_filters( 'torro_forms_tables', $this->tables );
 	}
 
 	public function add_component( $name, $object )
@@ -200,4 +200,4 @@ class Torro_Global
 	}
 }
 
-$af_global = new Torro_Global();
+$torro_global = new Torro_Global();

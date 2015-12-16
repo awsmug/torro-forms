@@ -149,4 +149,4 @@ class Torro_Chart_Creator_Morrisjs extends Torro_Chart_Creator
 	}
 }
 
-af_register_chartcreator( 'Torro_Chart_Creator_Morrisjs' );
+torro_register_chartcreator( 'Torro_Chart_Creator_Morrisjs' );

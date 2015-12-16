@@ -56,7 +56,7 @@ class Torro_Core
 		$core_folder = TORRO_FOLDER . 'core/';
 
 		// Base classes
-		include( $core_folder . 'global.php' ); // Global Torro Forms object $af_global
+		include( $core_folder . 'global.php' ); // Global Torro Forms object $torro_global
 		include( $core_folder . 'class-post.php' );
 		include( $core_folder . 'class-form.php' );
 
@@ -106,7 +106,7 @@ class Torro_Core
 	public static function custom_post_types()
 	{
 
-		$settings = af_get_settings( 'general' );
+		$settings = torro_get_settings( 'general' );
 
 		$slug = 'forms';
 		if( array_key_exists( 'slug', $settings  ) )
@@ -138,7 +138,7 @@ class Torro_Core
 			'rewrite'           => TRUE,
 		);
 
-		register_taxonomy( 'af-forms-categories', array( 'af-forms' ), $args_taxonomy );
+		register_taxonomy( 'torro-forms-categories', array( 'torro-forms' ), $args_taxonomy );
 
 		/**
 		 * Post Types
@@ -164,7 +164,7 @@ class Torro_Core
 			'rewrite'           => array( 'slug' => $slug, 'with_front' => TRUE )
 		);
 
-		register_post_type( 'af-forms', $args_post_type );
+		register_post_type( 'torro-forms', $args_post_type );
 	}
 
 	/**
@@ -179,7 +179,7 @@ class Torro_Core
 		global $post;
 
 		// Check if we are on the right place
-		if( !is_object( $post ) || !property_exists( $post, 'post_type' ) || 'af-forms' != $post->post_type )
+		if( !is_object( $post ) || !property_exists( $post, 'post_type' ) || 'torro-forms' != $post->post_type )
 		{
 			return $classes;
 		}

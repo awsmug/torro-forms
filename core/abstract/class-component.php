@@ -76,7 +76,7 @@ abstract class Torro_Component
 	 */
 	private function __construct()
 	{
-		global $af_global;
+		global $torro_global;
 
 		$this->init();
 
@@ -93,13 +93,13 @@ abstract class Torro_Component
 			$this->description = esc_attr__( 'This is an Torro Forms component.', 'af-locale' );
 		}
 
-		if( !is_object( $af_global ) )
+		if( !is_object( $torro_global ) )
 		{
 			self::admin_notice( esc_attr__( 'Missing Global', 'af-global' ), 'error' );
 			return FALSE;
 		}
 
-		$af_global->components[ $this->name ] = $this;
+		$torro_global->components[ $this->name ] = $this;
 
 		return TRUE;
 	}
@@ -169,7 +169,7 @@ abstract class Torro_Component
 	public function check_and_start()
 	{
 
-		$values = af_get_settings( 'general' );
+		$values = torro_get_settings( 'general' );
 
 		if( isset( $values['modules'] ) && is_array( $values[ 'modules' ] ) && !in_array( $this->name, $values[ 'modules' ] ) )
 		{
@@ -178,7 +178,7 @@ abstract class Torro_Component
 
 		if ( true == $this->check_requirements() ) {
 			$this->base_init();
-			$this->settings = af_get_settings( $this->name );
+			$this->settings = torro_get_settings( $this->name );
 		}
 	}
 
@@ -260,7 +260,7 @@ abstract class Torro_Component
  * @param $component_name
  * @return mixed
  */
-function af_register_component( $component_class )
+function torro_register_component( $component_class )
 {
 	if( class_exists( $component_class ) )
 	{

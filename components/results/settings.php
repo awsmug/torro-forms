@@ -54,4 +54,4 @@ class Torro_ResultSettings extends Torro_Settings
 	}
 }
 
-af_register_settings( 'Torro_ResultSettings' );
+torro_register_settings( 'Torro_ResultSettings' );

@@ -28,10 +28,10 @@ Torro_reCAPTCHA_Widget.prototype = {
 	}
 };
 
-var af_reCAPTCHA_widget_instances = {};
+var torro_reCAPTCHA_widget_instances = {};
 
-var af_reCAPTCHA_widgets_init = function() {
-	if ( ! _af_recaptcha_settings.sitekey ) {
+var torro_reCAPTCHA_widgets_init = function() {
+	if ( ! _torro_recaptcha_settings.sitekey ) {
 		return;
 	}
 
@@ -40,8 +40,8 @@ var af_reCAPTCHA_widgets_init = function() {
 	for ( var i = 0; i < captcha_tags.length; i++ ) {
 		var captcha_tag_id = captcha_tags[ i ].getAttribute( 'id' );
 
-		af_reCAPTCHA_widget_instances[ captcha_tag_id ] = new Torro_reCAPTCHA_Widget( captcha_tag_id, {
-			'sitekey': _af_recaptcha_settings.sitekey,
+		torro_reCAPTCHA_widget_instances[ captcha_tag_id ] = new Torro_reCAPTCHA_Widget( captcha_tag_id, {
+			'sitekey': _torro_recaptcha_settings.sitekey,
 			'type': captcha_tags[ i ].getAttribute( 'data-type' ),
 			'size': captcha_tags[ i ].getAttribute( 'data-size' ),
 			'theme': captcha_tags[ i ].getAttribute( 'data-theme' )

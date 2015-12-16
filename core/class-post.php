@@ -112,7 +112,7 @@ class Torro_Post
 			return FALSE;
 		}
 
-		$forbidden_keys = apply_filters( 'af_duplicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
+		$forbidden_keys = apply_filters( 'torro_duplicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
 
 		foreach( $this->meta AS $meta_key => $meta_value )
 		{

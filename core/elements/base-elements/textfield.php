@@ -130,7 +130,7 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 			),
 		);
 
-		$validations = apply_filters( 'af_text_field_validations', $validations );
+		$validations = apply_filters( 'torro_text_field_validations', $validations );
 
 		if ( $value ) {
 			if ( isset( $validations[ $value ] ) ) {
@@ -191,4 +191,4 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 	}
 }
 
-af_register_form_element( 'Torro_Form_Element_Textfield' );
+torro_register_form_element( 'Torro_Form_Element_Textfield' );

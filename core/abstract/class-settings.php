@@ -180,7 +180,7 @@ abstract class Torro_Settings
 			$settings_handler = new Torro_Settings_Handler( $this->name, $this->settings );
 			$settings_handler->save();
 
-			do_action( 'af_save_settings_' . $this->name );
+			do_action( 'torro_save_settings_' . $this->name );
 		}
 		else
 		{
@@ -216,14 +216,14 @@ abstract class Torro_Settings
 	 */
 	public function _register()
 	{
-		global $af_global;
+		global $torro_global;
 
 		if( TRUE == $this->initialized )
 		{
 			return FALSE;
 		}
 
-		if( !is_object( $af_global ) )
+		if( !is_object( $torro_global ) )
 		{
 			return FALSE;
 		}
@@ -243,21 +243,21 @@ abstract class Torro_Settings
 			$this->description = esc_attr__( 'This is the Torro Forms Responsehandler extension.', 'af-locale' );
 		}
 
-		if( array_key_exists( $this->name, $af_global->settings ) )
+		if( array_key_exists( $this->name, $torro_global->settings ) )
 		{
 			return FALSE;
 		}
 
-		if( !is_array( $af_global->settings ) )
+		if( !is_array( $torro_global->settings ) )
 		{
-			$af_global->settings = array();
+			$torro_global->settings = array();
 		}
 
 		$this->initialized = TRUE;
 
-		add_action( 'af_save_settings', array( $this, 'save_settings' ), 10, 1 );
+		add_action( 'torro_save_settings', array( $this, 'save_settings' ), 10, 1 );
 
-		return $af_global->add_settings( $this->name, $this );
+		return $torro_global->add_settings( $this->name, $this );
 	}
 }
 
@@ -268,7 +268,7 @@ abstract class Torro_Settings
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function af_register_settings( $settings_handler_class )
+function torro_register_settings( $settings_handler_class )
 {
 	if( class_exists( $settings_handler_class ) )
 	{
@@ -283,16 +283,16 @@ function af_register_settings( $settings_handler_class )
 /**
  * @param $settings_name
  */
-function af_get_settings( $settings_name )
+function torro_get_settings( $settings_name )
 {
-	global $af_global;
+	global $torro_global;
 
-	if( !array_key_exists( $settings_name, $af_global->settings ) )
+	if( !array_key_exists( $settings_name, $torro_global->settings ) )
 	{
 		return FALSE;
 	}
 
-	$settings_handler = new Torro_Settings_Handler( $settings_name, $af_global->settings[ $settings_name ]->settings );
+	$settings_handler = new Torro_Settings_Handler( $settings_name, $torro_global->settings[ $settings_name ]->settings );
 	$values = $settings_handler->get_field_values();
 
 	return $values;

@@ -52,4 +52,4 @@ class Torro_Form_Element_Separator extends Torro_Form_Element
 	}
 }
 
-af_register_form_element( 'Torro_Form_Element_Separator' );
+torro_register_form_element( 'Torro_Form_Element_Separator' );

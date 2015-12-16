@@ -39,8 +39,8 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		$this->title = __( 'Entries', 'af-locale' );
 		$this->name = 'entries';
 
-		add_action( 'wp_ajax_af_show_entries', array( __CLASS__, 'ajax_show_entries' ) );
-		add_action( 'wp_ajax_af_show_entry', array( __CLASS__, 'ajax_show_entry' ) );
+		add_action( 'wp_ajax_torro_show_entries', array( __CLASS__, 'ajax_show_entries' ) );
+		add_action( 'wp_ajax_torro_show_entry', array( __CLASS__, 'ajax_show_entry' ) );
 	}
 
 	public function option_content()
@@ -99,7 +99,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 			$html .= '<thead>';
 			$html .= '<tr>';
 
-			$entry_columns = apply_filters( 'af_entry_columns', array( 'result_id', 'user_id', 'timestamp' ) );
+			$entry_columns = apply_filters( 'torro_entry_columns', array( 'result_id', 'user_id', 'timestamp' ) );
 
 			foreach( array_keys( $results[ 0 ] ) AS $headline )
 			{
@@ -108,13 +108,13 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 					switch ( $headline )
 					{
 						case 'result_id':
-							$headline_title = esc_attr__( 'ID', 'af_locale' );
+							$headline_title = esc_attr__( 'ID', 'torro_locale' );
 							break;
 						case 'user_id':
-							$headline_title = esc_attr__( 'User', 'af_locale' );
+							$headline_title = esc_attr__( 'User', 'torro_locale' );
 							break;
 						case 'timestamp':
-							$headline_title = esc_attr__( 'Date', 'af_locale' );
+							$headline_title = esc_attr__( 'Date', 'torro_locale' );
 							break;
 						default:
 							$headline_title = $headline;
@@ -123,7 +123,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				}
 			}
 
-			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'af-locale' ), admin_url( 'edit.php' ) . '?post_type=af-forms&af_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=af-forms&export=csv&form_id=' . $form_id ) . '</th>';
+			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'af-locale' ), admin_url( 'edit.php' ) . '?post_type=torro-forms&torro_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=torro-forms&export=csv&form_id=' . $form_id ) . '</th>';
 			$html .= '</tr>';
 			$html .= '</thead>';
 
@@ -251,18 +251,18 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 	public static function ajax_show_entry()
 	{
-		global $wpdb, $af_global;
+		global $wpdb, $torro_global;
 
 		$form_id = $_POST[ 'form_id' ];
 		$result_id = $_POST[ 'result_id' ];
 
-		if( !af_form_exists( $form_id ) )
+		if( !torro_form_exists( $form_id ) )
 		{
 			echo esc_attr__( 'Form not found.', 'af-locale' );
 			exit;
 		}
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$af_global->tables->results} WHERE id = %d", $result_id );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE id = %d", $result_id );
 		$count_results = $wpdb->get_var( $sql );
 
 		if( 0 === $count_results )
@@ -337,7 +337,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 							if( array_key_exists( 0, $column_arr ) && 'element' == $column_arr[ 0 ] )
 							{
 								$element_id = $column_arr[ 1 ];
-								$element = af_get_element( $element_id );
+								$element = torro_get_element( $element_id );
 
 								$column_name = $element->replace_column_name( $column_name );
 
@@ -389,7 +389,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 	public function admin_styles()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
@@ -399,7 +399,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 	public function admin_scripts()
 	{
-		if( !af_is_formbuilder() )
+		if( !torro_is_formbuilder() )
 		{
 			return;
 		}
@@ -408,4 +408,4 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 	}
 }
 
-af_register_result_handler( 'Torro_ResultsEntries' );
+torro_register_result_handler( 'Torro_ResultsEntries' );

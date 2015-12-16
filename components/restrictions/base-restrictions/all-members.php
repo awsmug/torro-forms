@@ -44,7 +44,7 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 
 		$this->option_name = __( 'All Members of site', 'af-locale' );
 
-		add_action( 'af_formbuilder_save', array( $this, 'save' ), 10, 1 );
+		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 
 		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_allmembers_same_users', TRUE );
 
-		if( 'yes' == $restrictions_same_users && af_user_has_participated( $ar_form_id ) )
+		if( 'yes' == $restrictions_same_users && torro_user_has_participated( $ar_form_id ) )
 		{
 			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'af-locale' ) );
 
@@ -126,4 +126,4 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 	}
 }
 
-af_register_restriction( 'Torro_Restriction_AllMembers' );
+torro_register_restriction( 'Torro_Restriction_AllMembers' );

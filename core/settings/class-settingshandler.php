@@ -94,7 +94,7 @@ class Torro_Settings_Handler
 				$default = $this->fields[ $name ][ 'default' ];
 			}
 
-			$option_name = 'af_settings_' . $this->name . '_' . $name;
+			$option_name = 'torro_settings_' . $this->name . '_' . $name;
 
 			$value = get_option( $option_name, $default );
 			// delete_option( $option_name );
@@ -344,7 +344,7 @@ class Torro_Settings_Handler
 				continue;
 			}
 
-			$option_name = 'af_settings_' . $this->name . '_' . $name;
+			$option_name = 'torro_settings_' . $this->name . '_' . $name;
 
 			if( 'options' == $this->type )
 			{
@@ -391,7 +391,7 @@ class Torro_Settings_Handler
 				continue;
 			}
 
-			$option_name = 'af_settings_' . $this->name . '_' . $name;
+			$option_name = 'torro_settings_' . $this->name . '_' . $name;
 			$value = $_POST[ $name ];
 
 			if( 'options' == $this->type )
