@@ -67,4 +67,5 @@ function awesome_forms_to_torro_forms()
 	delete_option( 'af_settings_restrictions_selectedmembers_reinvite_text' );
 
 	update_option( 'torro_db_version', '1.0.2' );
+	delete_option( 'af_db_version' );
 }

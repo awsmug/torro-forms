@@ -80,7 +80,7 @@ class Torro_GeneralSettings extends Torro_Settings
 			    'title'      => esc_attr__( 'Slug', 'torro-forms' ),
 			    'description'=> __( 'The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/<b>forms</b>/mycontactform)'),
 			    'type'       => 'text',
-			    'default'    => '' == get_option( 'questions_db_version' )? 'forms' : 'survey'
+			    'default'    => ! get_option( 'questions_db_version' )? 'forms' : 'survey'
 			)
 		);
 
