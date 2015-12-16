@@ -212,7 +212,7 @@ abstract class AF_Action
 	}
 
 	/**
-	 * Function to register element in Awesome Forms
+	 * Function to register element in Torro Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -240,7 +240,7 @@ abstract class AF_Action
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is the Awesome Forms Action  extension.', 'af-locale' );
+			$this->description = esc_attr__( 'This is the Torro Forms Action  extension.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->actions ) )

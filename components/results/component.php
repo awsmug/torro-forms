@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Results Component
+ * Torro Forms Results Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

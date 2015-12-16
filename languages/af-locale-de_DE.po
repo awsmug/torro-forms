@@ -30,8 +30,8 @@ msgid "Setup the \"%s\" Action."
 msgstr ""
 
 #: components/actions/abstract/class-action.php:243
-msgid "This is the Awesome Forms Action  extension."
-msgstr "Dies ist das Awesome Forms Action-Erweiterung."
+msgid "This is the Torro Forms Action  extension."
+msgstr "Dies ist das Torro Forms Action-Erweiterung."
 
 #: components/actions/base-actions/email-notifications.php:53
 msgid "Email Notifications"
@@ -129,8 +129,8 @@ msgid "Setup the \"%s\" Restriction."
 msgstr ""
 
 #: components/restrictions/abstract/class-restrictions.php:288
-msgid "This is a Awesome Forms Restriction."
-msgstr "Dies ist das Awesome Forms Action-Restriktion."
+msgid "This is a Torro Forms Restriction."
+msgstr "Dies ist das Torro Forms Action-Restriktion."
 
 #: components/restrictions/base-restrictions/all-members.php:42
 msgid "All Members"
@@ -548,7 +548,7 @@ msgid "Who has access to this form?"
 msgstr ""
 
 #: components/results/abstract/class-chart-creator.php:91
-msgid "This is an Awesome Forms Chart Creator."
+msgid "This is an Torro Forms Chart Creator."
 msgstr ""
 
 #: components/results/abstract/class-chart-creator.php:94
@@ -560,7 +560,7 @@ msgid "Pies"
 msgstr "Kuchen"
 
 #: components/results/abstract/class-chart-creator.php:165
-msgid "This is a Awesome Forms Form Element."
+msgid "This is a Torro Forms Form Element."
 msgstr ""
 
 #: components/results/abstract/class-result-handler.php:129
@@ -569,7 +569,7 @@ msgid "Setup the \"%s\" Result Handler."
 msgstr ""
 
 #: components/results/abstract/class-result-handler.php:178
-msgid "This is a Awesome Forms Result Handler."
+msgid "This is a Torro Forms Result Handler."
 msgstr ""
 
 #: components/results/base-result-handlers/charts.php:39
@@ -739,16 +739,16 @@ msgid "Element Charts Shortcode"
 msgstr "Element Diagramm Shortcode"
 
 #: core/abstract/class-component.php:93
-msgid "This is an Awesome Forms component."
-msgstr "Dies ist das Awesome Forms Komponente."
+msgid "This is an Torro Forms component."
+msgstr "Dies ist das Torro Forms Komponente."
 
 #: core/abstract/class-component.php:98
 msgid "Missing Global"
 msgstr "Globale fehlt"
 
 #: core/abstract/class-element.php:359
-msgid "This is a Awesome Forms Element."
-msgstr "Das ist ein Awesome Forms Element."
+msgid "This is a Torro Forms Element."
+msgstr "Das ist ein Torro Forms Element."
 
 #: core/abstract/class-element.php:434
 msgid "You don´t entered any answers. Please add some to display answers here."
@@ -792,11 +792,11 @@ msgid "General"
 msgstr "Allgemein"
 
 #: core/abstract/class-settings.php:243
-msgid "This is the Awesome Forms Responsehandler extension."
+msgid "This is the Torro Forms Responsehandler extension."
 msgstr ""
 
 #: core/abstract/class-templatetags.php:119
-msgid "This is a Awesome Forms Templatetag collection."
+msgid "This is a Torro Forms Templatetag collection."
 msgstr ""
 
 #: core/abstract/class-templatetags.php:231
@@ -1222,12 +1222,12 @@ msgid "There are no settings available."
 msgstr ""
 
 #: core/settings/base-settings/general.php:44
-msgid "Welcome to Awesome Forms!"
+msgid "Welcome to Torro Forms!"
 msgstr ""
 
 #: core/settings/base-settings/general.php:45
 msgid ""
-"You want to build any forms in a easy way? Awesome Forms will help you to do "
+"You want to build any forms in a easy way? Torro Forms will help you to do "
 "it in the very easy way with ton of options."
 msgstr ""
 
@@ -1236,7 +1236,7 @@ msgid "Form Modules"
 msgstr ""
 
 #: core/settings/base-settings/general.php:50
-msgid "Check the modules of Awesome Forms which have to be activated."
+msgid "Check the modules of Torro Forms which have to be activated."
 msgstr ""
 
 #: core/settings/base-settings/general.php:73
@@ -1414,8 +1414,8 @@ msgid "Don´t forget to answer the Survey"
 msgstr "Vergessen Sie nicht, die Umfrage zu beantworten"
 
 #. Plugin Name of the plugin/theme
-msgid "Awesome Forms"
-msgstr "Awesome Forms"
+msgid "Torro Forms"
+msgstr "Torro Forms"
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
@@ -1423,7 +1423,7 @@ msgid "http://www.awesome.ug"
 msgstr "http://www.awesome.ug"
 
 #. Description of the plugin/theme
-msgid "Drag & drop your Form with the Awesome Forms Plugin."
+msgid "Drag & drop your Form with the Torro Forms Plugin."
 msgstr ""
 
 #. Author of the plugin/theme

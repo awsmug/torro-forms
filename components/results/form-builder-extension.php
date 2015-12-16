@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Charts Form Builder Extension
+ * Torro Forms Charts Form Builder Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

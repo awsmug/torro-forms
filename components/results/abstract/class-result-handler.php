@@ -142,7 +142,7 @@ abstract class AF_ResultHandler
 	}
 
 	/**
-	 * Function to register element in Awesome Forms
+	 * Function to register element in Torro Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -175,7 +175,7 @@ abstract class AF_ResultHandler
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is a Awesome Forms Result Handler.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Torro Forms Result Handler.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->restrictions ) )

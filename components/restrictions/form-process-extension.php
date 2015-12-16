@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Processing Restrictions Extension
+ * Torro Forms Processing Restrictions Extension
  *
  * This class adds restriction functions to form processing
  *

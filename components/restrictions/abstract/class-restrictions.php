@@ -257,7 +257,7 @@ abstract class AF_Restriction
 	}
 
 	/**
-	 * Function to register element in Awesome Forms
+	 * Function to register element in Torro Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -285,7 +285,7 @@ abstract class AF_Restriction
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is a Awesome Forms Restriction.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Torro Forms Restriction.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->restrictions ) )

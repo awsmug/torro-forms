@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:  Awesome Forms
+ * Plugin Name:  Torro Forms
  * Plugin URI:   http://www.awesome.ug
- * Description:  Drag & drop your Form with the Awesome Forms Plugin.
+ * Description:  Drag & drop your Form with the Torro Forms Plugin.
  * Version:      1.0.0 alpha 1
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
@@ -353,7 +353,7 @@ class AF_Init
 	public static function admin_notice( $message, $type = 'updated' )
 	{
 		self::$admin_notices[] = array(
-				'message' => '<b>Awesome Forms</b>: ' . $message,
+				'message' => '<b>Torro Forms</b>: ' . $message,
 				'type'    => $type
 		);
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Class for main global $af_global
+ * Torro Forms Class for main global $af_global
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

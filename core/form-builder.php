@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Form Builder
+ * Torro Forms Form Builder
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

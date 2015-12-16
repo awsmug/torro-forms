@@ -1,4 +1,4 @@
-# Awesome Forms
+# Torro Forms
 
 Stable tag: 1.0.0
 
@@ -12,7 +12,7 @@ Anylyzable results of a form were shown in embedable charts.
 
 ## API
 
-Extend Awesome Forms with the built-in API. At the moment there are supported three ways to extend the formbuilder. To get detailed docs about the API, read the [documentation pages](http://docs.awesome-forms.io/api).
+Extend Torro Forms with the built-in API. At the moment there are supported three ways to extend the formbuilder. To get detailed docs about the API, read the [documentation pages](http://docs.awesome-forms.io/api).
 
 #### Elements
 Elements you can drag and drop into the formbuilder (e.g. textfield, textarea, multiple choice etc). With the elements API you can add your own elements if you are missing some.

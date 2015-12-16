@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Core Shortcodes
+ * Torro Forms Core Shortcodes
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

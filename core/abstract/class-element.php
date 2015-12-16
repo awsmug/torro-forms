@@ -96,7 +96,7 @@ abstract class AF_Form_Element
 	var $has_content = TRUE;
 
 	/**
-	 * If value is true, Awesome Forms will try to create charts from results
+	 * If value is true, Torro Forms will try to create charts from results
 	 *
 	 * @todo  is_analyzable: Is this a self spelling name?
 	 * @since 1.0.0
@@ -323,7 +323,7 @@ abstract class AF_Form_Element
 	}
 
 	/**
-	 * Function to register element in Awesome Forms
+	 * Function to register element in Torro Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -356,7 +356,7 @@ abstract class AF_Form_Element
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is a Awesome Forms Element.', 'af-locale' );
+			$this->description = esc_attr__( 'This is a Torro Forms Element.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->element_types ) )

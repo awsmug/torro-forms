@@ -64,7 +64,7 @@ if( defined( 'AF_FOLDER' ) )
 }
 
 /**
- * Checks if we are a Awesome Forms post type in admin
+ * Checks if we are a Torro Forms post type in admin
  *
  * @return bool
  */
@@ -79,7 +79,7 @@ function af_is_formbuilder()
 }
 
 /**
- * Checks if we are on Awesome Forms settings page
+ * Checks if we are on Torro Forms settings page
  *
  * @return bool
  */
@@ -94,7 +94,7 @@ function af_is_settingspage()
 }
 
 /**
- * Checks if we are in a Awesome Forms post type
+ * Checks if we are in a Torro Forms post type
  *
  * @return bool
  */

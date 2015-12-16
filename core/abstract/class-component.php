@@ -1,8 +1,8 @@
 <?php
 /**
- * Awesome Forms Main Component Class
+ * Torro Forms Main Component Class
  *
- * This class is the base for every Awesome Forms Component.
+ * This class is the base for every Torro Forms Component.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core
@@ -90,7 +90,7 @@ abstract class AF_Component
 		}
 		if( empty( $this->name ) )
 		{
-			$this->description = esc_attr__( 'This is an Awesome Forms component.', 'af-locale' );
+			$this->description = esc_attr__( 'This is an Torro Forms component.', 'af-locale' );
 		}
 
 		if( !is_object( $af_global ) )

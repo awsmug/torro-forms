@@ -88,7 +88,7 @@ abstract class AF_Chart_Creator
         }
         if( empty( $this->name ) )
         {
-            $this->description = esc_attr__( 'This is an Awesome Forms Chart Creator.', 'af-locale' );
+            $this->description = esc_attr__( 'This is an Torro Forms Chart Creator.', 'af-locale' );
         }
 
         $this->register_chart_type( 'bars', esc_attr__( 'Bars', 'af-locale' ), array( $this, 'bars' ) );
@@ -162,7 +162,7 @@ abstract class AF_Chart_Creator
 
         if( '' == $this->description )
         {
-            $this->description = esc_attr__( 'This is a Awesome Forms Form Element.', 'af-locale' );
+            $this->description = esc_attr__( 'This is a Torro Forms Form Element.', 'af-locale' );
         }
 
         if( array_key_exists( $this->name, $af_global->chart_creators ) )

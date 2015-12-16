@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Responses Component
+ * Torro Forms Responses Component
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Restrictions

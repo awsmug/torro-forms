@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Restrictions Component Form Builder Extension
+ * Torro Forms Restrictions Component Form Builder Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core

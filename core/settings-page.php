@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Awesome Forms settings page
+ * Torro Forms settings page
  *
  * This class shows and saves the settings page
  *

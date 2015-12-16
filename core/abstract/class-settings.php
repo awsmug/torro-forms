@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Settings Class
+ * Torro Forms Settings Class
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Core/Settings
@@ -207,7 +207,7 @@ abstract class AF_Settings
 	}
 
 	/**
-	 * Function to register element in Awesome Forms
+	 * Function to register element in Torro Forms
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
@@ -240,7 +240,7 @@ abstract class AF_Settings
 
 		if( '' == $this->description )
 		{
-			$this->description = esc_attr__( 'This is the Awesome Forms Responsehandler extension.', 'af-locale' );
+			$this->description = esc_attr__( 'This is the Torro Forms Responsehandler extension.', 'af-locale' );
 		}
 
 		if( array_key_exists( $this->name, $af_global->settings ) )

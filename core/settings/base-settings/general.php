@@ -41,13 +41,13 @@ class AF_GeneralSettings extends AF_Settings
 
 		$this->settings = array(
 			'disclaimer'    => array(
-				'title'       => esc_attr__( 'Welcome to Awesome Forms!', 'af-locale' ),
-				'description' => esc_attr__( 'You want to build any forms in a easy way? Awesome Forms will help you to do it in the very easy way with ton of options.', 'af-locale' ),
+				'title'       => esc_attr__( 'Welcome to Torro Forms!', 'af-locale' ),
+				'description' => esc_attr__( 'You want to build any forms in a easy way? Torro Forms will help you to do it in the very easy way with ton of options.', 'af-locale' ),
 				'type'        => 'disclaimer'
 			),
 			'modules_title' => array(
 				'title'       => esc_attr__( 'Form Modules', 'af-locale' ),
-				'description' => esc_attr__( 'Check the modules of Awesome Forms which have to be activated.', 'af-locale' ),
+				'description' => esc_attr__( 'Check the modules of Torro Forms which have to be activated.', 'af-locale' ),
 				'type'        => 'title'
 			)
 		);

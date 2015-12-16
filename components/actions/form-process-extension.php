@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Processing Restrictions Extension
+ * Torro Forms Processing Restrictions Extension
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Actions

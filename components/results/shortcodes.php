@@ -1,6 +1,6 @@
 <?php
 /**
- * Awesome Forms Chart Shortcodes
+ * Torro Forms Chart Shortcodes
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package AwesomeForms/Charts

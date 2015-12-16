@@ -56,7 +56,7 @@ class AF_Core
 		$core_folder = AF_FOLDER . 'core/';
 
 		// Base classes
-		include( $core_folder . 'global.php' ); // Global Awesome Forms object $af_global
+		include( $core_folder . 'global.php' ); // Global Torro Forms object $af_global
 		include( $core_folder . 'class-post.php' );
 		include( $core_folder . 'class-form.php' );
 
@@ -99,7 +99,7 @@ class AF_Core
 	}
 
 	/**
-	 * Creates Custom Post Types for Awesome Forms
+	 * Creates Custom Post Types for Torro Forms
 	 *
 	 * @since 1.0.0
 	 */
