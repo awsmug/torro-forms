@@ -200,7 +200,7 @@ class AF_Init
 
 		if( FALSE !== get_option( 'questions_db_version' ) )
 		{
-			require_once( 'updates/to-awesome-forms.php' );
+			require_once( 'includes/updates/to-awesome-forms.php' );
 			af_questions_to_awesome_forms();
 		}
 
