@@ -105,7 +105,7 @@ class AF_FormProcess
 		// Getting actual step for form
 		$actual_step = $this->get_actual_step();
 
-		$html .= '<form class="af-form" action="' . $this->action_url . '" method="POST">';
+		$html .= '<form class="af-form" action="' . $this->action_url . '" method="POST" novalidate>';
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'af-form-' . $this->form_id ) . '" />';
 
 		$step_count = $this->form->get_step_count();

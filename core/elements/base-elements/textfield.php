@@ -42,9 +42,18 @@ class AF_Form_Element_Textfield extends AF_Form_Element
 
 	public function input_html()
 	{
+		$input_type = 'text';
+
+		$validation = $this->settings[ 'validation' ];
+		$validation_data = $this->get_validations( $validation );
+
+		if ( $validation_data && isset( $validation_data['html_field_type'] ) && $validation_data['html_field_type'] ) {
+			$input_type = $validation_data['html_field_type'];
+		}
+
 		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
 
-		$html .= '<input type="text" name="' . $this->get_input_name() . '" value="' . $this->response . '" />';
+		$html .= '<input type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . $this->response . '" />';
 
 		if( !empty( $this->settings[ 'description' ] ) )
 		{
@@ -58,6 +67,15 @@ class AF_Form_Element_Textfield extends AF_Form_Element
 
 	public function settings_fields()
 	{
+		$_validations = $this->get_validations();
+		$validations = array();
+		foreach ( $_validations as $value => $data ) {
+			if ( ! isset( $data['title'] ) || ! $data['title'] ) {
+				continue;
+			}
+			$validations[ $value ] = $data['title'];
+		}
+
 		$this->settings_fields = array(
 			'description' => array(
 				'title'       => esc_attr__( 'Description', 'af-locale' ),
@@ -80,16 +98,48 @@ class AF_Form_Element_Textfield extends AF_Form_Element
 			'validation'  => array(
 				'title'       => esc_attr__( 'String Validation', 'af-locale' ),
 				'type'        => 'radio',
-				'values'      => array(
-					'none'            => esc_attr__( 'No validation', 'af-locale' ),
-					'numbers'         => esc_attr__( 'Numbers', 'af-locale' ),
-					'numbers_decimal' => esc_attr__( 'Decimal Numbers', 'af-locale' ),
-					'email_address'   => esc_attr__( 'Email-Address', 'af-locale' ),
-				),
+				'values'      => $validations,
 				'description' => esc_attr__( 'The will do a validation for the input.', 'af-locale' ),
 				'default'     => 'none'
 			),
 		);
+	}
+
+	protected function get_validations( $value = false ) {
+		$validations = array(
+			'none'				=> array(
+				'title'				=> esc_attr__( 'No validation', 'af-locale' ),
+			),
+			'numbers'			=> array(
+				'title'				=> esc_attr__( 'Numbers', 'af-locale' ),
+				'html_field_type'	=> 'number',
+				'pattern'			=> '^[0-9]{1,}$',
+				'error_message'		=> esc_attr__( 'Please input a number.', 'af-locale' ),
+			),
+			'numbers_decimal'	=> array(
+				'title'				=> esc_attr__( 'Decimal Numbers', 'af-locale' ),
+				'html_field_type'	=> 'number',
+				'pattern'			=> '^-?([0-9])+\.?([0-9])+$',
+				'error_message'		=> esc_attr__( 'Please input a decimal number.', 'af-locale' ),
+			),
+			'email_address'		=> array(
+				'title'				=> esc_attr__( 'Email-Address', 'af-locale' ),
+				'html_field_type'	=> 'email',
+				'callback'			=> 'is_email',
+				'error_message'		=> esc_attr__( 'Please input a valid Email-Address.', 'af-locale' ),
+			),
+		);
+
+		$validations = apply_filters( 'af_text_field_validations', $validations );
+
+		if ( $value ) {
+			if ( isset( $validations[ $value ] ) ) {
+				return $validations[ $value ];
+			}
+			return false;
+		}
+
+		return $validations;
 	}
 
 	public function validate( $input )
@@ -115,26 +165,21 @@ class AF_Form_Element_Textfield extends AF_Form_Element
 			}
 		}
 
-		if ( 'none' != $validation ) {
-			switch ( $validation ) {
-				case 'numbers':
-					if ( ! preg_match( '/^[0-9]{1,}$/', $input ) ) {
-						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a number.', 'af-locale' ), $max_length );
-						$error = TRUE;
-					}
-					break;
-				case 'numbers_decimal':
-					if ( ! preg_match( '/^-?([0-9])+\.?([0-9])+$/', $input ) && ! preg_match( '/^-?([0-9])+\,?([0-9])+$/', $input ) ) {
-						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a decimal number.', 'af-locale' ), $max_length );
-						$error = TRUE;
-					}
-					break;
-				case 'email_address':
-					if ( ! is_email( $input ) ) {
-						$this->validate_errors[] = sprintf( esc_attr__( 'Please input a valid Email-Address.', 'af-locale' ), $max_length );
-						$error = TRUE;
-					}
-					break;
+		$validation_data = $this->get_validations( $validation );
+
+		if ( $validation_data ) {
+			$status = true;
+			if ( isset( $validation_data['callback'] ) && $validation_data['callback'] && is_callable( $validation_data['callback'] ) ) {
+				$status = call_user_func( $validation_data['callback'], $input );
+			} elseif ( isset( $validation_data['pattern'] ) && $validation_data['pattern'] ) {
+				$status = preg_match( '/' . $validation_data['pattern'] . '/', $input );
+			}
+
+			if ( ! $status ) {
+				$error = true;
+				if ( isset( $validation_data['error_message'] ) && $validation_data['error_message'] ) {
+					$this->validate_errors[] = $validation_data['error_message'];
+				}
 			}
 		}
 
