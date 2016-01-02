@@ -213,6 +213,7 @@ class Torro_Init
 		if( ! get_option( 'torro_db_version' ) || !self::is_installed() || version_compare( $current_db_version, $script_db_version, '<' )  )
 		{
 			self::install_tables();
+			update_option( 'torro_db_version', $script_db_version );
 		}
 
 		require_once( TORRO_FOLDER . 'core/init.php' );
@@ -314,8 +315,6 @@ class Torro_Init
 		) ENGINE = INNODB " . $charset_collate . ";";
 
 		dbDelta( $sql );
-
-		update_option( 'torro_db_version', $script_db_version );
 	}
 
 	/**

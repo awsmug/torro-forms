@@ -77,6 +77,10 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			return;
 		}
 
+		if ( ! isset( $post->ID ) ) {
+			return;
+		}
+
 		$form_id = $post->ID;
 
 		if( $this->is_enabled( $form_id ) && !$this->is_configured() )
