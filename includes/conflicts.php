@@ -25,27 +25,27 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-class Torro_Conflicts
-{
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Torro_Conflicts {
 	/**
 	 * @var The Single instance of the class
 	 */
-	protected static $_instance = NULL;
+	protected static $_instance = null;
 
 	/**
 	 * Construct
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 		$this->solve();
 	}
 	/**
 	 * Main Instance
 	 */
-	public static function instance()
-	{
-		if( is_null( self::$_instance ) )
-		{
+	public static function instance() {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self();
 		}
 		return self::$_instance;
@@ -54,10 +54,8 @@ class Torro_Conflicts
 	/**
 	 * Solving Conflicts!
 	 */
-	private function solve()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	private function solve() {
+		if( ! torro_is_formbuilder() ) {
 			return;
 		}
 
@@ -67,12 +65,12 @@ class Torro_Conflicts
 	/**
 	 * ACF Datetimepicker scripts from AF sites
 	 */
-	public static function trash_acf_datetimepicker_css()
-	{
+	public static function trash_acf_datetimepicker_css() {
 		// ACF Date and Time Picker Field
 		wp_dequeue_style( 'jquery-style' );
 		wp_dequeue_style( 'timepicker' );
 	}
 
 }
+
 Torro_Conflicts::instance();

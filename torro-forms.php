@@ -13,13 +13,11 @@
  * Domain Path: /languages
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Init
-{
+class Torro_Init {
 	/**
 	 * @var $admin_notices
 	 * @since 1.0.0
@@ -31,8 +29,7 @@ class Torro_Init
 	 *
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
+	public static function init() {
 		self::constants();
 		self::load_textdomain();
 		self::load_files();
@@ -41,13 +38,11 @@ class Torro_Init
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 
-		if( !self::is_installed() )
-		{
+		if ( ! self::is_installed() ) {
 			self::setup();
 		}
 
-		if( is_admin() )
-		{
+		if ( is_admin() ) {
 			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
 		}
 	}
@@ -57,8 +52,7 @@ class Torro_Init
 	 *
 	 * @since 1.0.0
 	 */
-	private static function constants()
-	{
+	private static function constants() {
 		define( 'TORRO_FOLDER', plugin_dir_path( __FILE__ ) );
 		define( 'TORRO_RELATIVE_FOLDER', substr( TORRO_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( TORRO_FOLDER ) ) );
 		define( 'TORRO_URLPATH', plugin_dir_url( __FILE__ ) );
@@ -70,23 +64,20 @@ class Torro_Init
 	 *
 	 * @since 1.0.0
 	 */
-	private static function load_textdomain()
-	{
+	private static function load_textdomain() {
 		$domain = 'torro-forms';
 
 		$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'torro_locale', get_locale() ) );
 
 		$locations = apply_filters( 'torro_locale_locations', array(
-				trailingslashit( WP_LANG_DIR . '/' . $domain  ),
-				trailingslashit( WP_LANG_DIR ),
-				trailingslashit( TORRO_FOLDER ) . 'languages/',
+			trailingslashit( WP_LANG_DIR . '/' . $domain  ),
+			trailingslashit( WP_LANG_DIR ),
+			trailingslashit( TORRO_FOLDER ) . 'languages/',
 		) );
 
 		// Try custom locations in WP_LANG_DIR.
-		foreach ( $locations as $location )
-		{
-			if ( load_textdomain( $domain, $location . $mofile_custom ) )
-			{
+		foreach ( $locations as $location ) {
+			if ( load_textdomain( $domain, $location . $mofile_custom ) ) {
 				return true;
 			}
 		}
@@ -97,8 +88,7 @@ class Torro_Init
 	 *
 	 * @since 1.0.0
 	 */
-	private static function load_files()
-	{
+	private static function load_files() {
 		// Loading Functions
 		require_once( TORRO_FOLDER . 'includes/functions.php' );
 		require_once( TORRO_FOLDER . 'includes/conflicts.php' );
@@ -118,9 +108,7 @@ class Torro_Init
 	 *
 	 * @since 1.0.0
 	 */
-	public static function check_requirements()
-	{
-	}
+	public static function check_requirements() {}
 
 	/**
 	 * Fired when the plugin is activated.
@@ -128,8 +116,7 @@ class Torro_Init
 	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
-	public static function activate( $network_wide )
-	{
+	public static function activate( $network_wide ) {
 		self::setup();
 
 		flush_rewrite_rules();
@@ -141,8 +128,7 @@ class Torro_Init
 	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
-	public static function deactivate( $network_wide )
-	{
+	public static function deactivate( $network_wide ) {
 		delete_option( 'questions_is_installed' );
 	}
 
@@ -152,9 +138,7 @@ class Torro_Init
 	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
-	public static function uninstall( $network_wide )
-	{
-	}
+	public static function uninstall( $network_wide ) {}
 
 
 	/**
@@ -163,55 +147,48 @@ class Torro_Init
 	 * @return boolean $is_installed
 	 * @since 1.0.0
 	 */
-	private static function is_installed()
-	{
+	private static function is_installed() {
 		global $wpdb;
 
 		$tables = array(
-				$wpdb->prefix . 'torro_elements',
-				$wpdb->prefix . 'torro_element_answers',
-				$wpdb->prefix . 'torro_results',
-				$wpdb->prefix . 'torro_result_values',
-				$wpdb->prefix . 'torro_settings',
-				$wpdb->prefix . 'torro_participiants',
-				$wpdb->prefix . 'torro_email_notifications'
+			$wpdb->prefix . 'torro_elements',
+			$wpdb->prefix . 'torro_element_answers',
+			$wpdb->prefix . 'torro_results',
+			$wpdb->prefix . 'torro_result_values',
+			$wpdb->prefix . 'torro_settings',
+			$wpdb->prefix . 'torro_participiants',
+			$wpdb->prefix . 'torro_email_notifications',
 		);
 
 		// Checking if all tables are existing
-		foreach( $tables AS $table )
-		{
-			if( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table )
-			{
-				return FALSE;
+		foreach ( $tables AS $table ) {
+			if ( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table ) {
+				return false;
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
 	 * Setting up base plugin data
 	 * @since 1.0.0
 	 */
-	private static function setup()
-	{
+	private static function setup() {
 		$script_db_version = '1.0.2';
 		$current_db_version  = get_option( 'torro_db_version' );
 
-		if( FALSE !== get_option( 'questions_db_version' ) )
-		{
+		if ( false !== get_option( 'questions_db_version' ) ) {
 			require_once( 'includes/updates/to-awesome-forms.php' );
 			torro_questions_to_awesome_forms();
 		}
 
-		if( FALSE !== get_option( 'af_db_version' ) )
-		{
+		if ( false !== get_option( 'af_db_version' ) ) {
 			require_once( 'includes/updates/to-torro-forms.php' );
 			awesome_forms_to_torro_forms();
 		}
 
-		if( ! get_option( 'torro_db_version' ) || !self::is_installed() || version_compare( $current_db_version, $script_db_version, '<' )  )
-		{
+		if ( false === get_option( 'torro_db_version' ) || false === self::is_installed() || true === version_compare( $current_db_version, $script_db_version, '<' )  ) {
 			self::install_tables();
 			update_option( 'torro_db_version', $script_db_version );
 		}
@@ -222,8 +199,7 @@ class Torro_Init
 	/**
 	 * Installing tables
 	 */
-	private static function install_tables()
-	{
+	private static function install_tables() {
 		global $wpdb;
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -323,26 +299,22 @@ class Torro_Init
 	 * @param        $message
 	 * @param string $type
 	 */
-	public static function admin_notice( $message, $type = 'updated' )
-	{
+	public static function admin_notice( $message, $type = 'updated' ) {
 		self::$admin_notices[] = array(
-				'message' => '<b>Torro Forms</b>: ' . $message,
-				'type'    => $type
+			'message' => '<b>Torro Forms</b>: ' . $message,
+			'type'    => $type,
 		);
 	}
+
 	/**
 	 * Show Notices in Admin
 	 * @since 1.0.0
 	 */
-	public static function show_admin_notices()
-	{
-		if( is_array( self::$admin_notices ) && count( self::$admin_notices ) > 0 )
-		{
+	public static function show_admin_notices() {
+		if ( is_array( self::$admin_notices ) && count( self::$admin_notices ) > 0 ) {
 			$html = '';
-			foreach( self::$admin_notices AS $notice )
-			{
-				$message = $notice[ 'message' ];
-				$html .= '<div class="' . $notice[ 'type' ] . '"><p>' .$message . '</p></div>';
+			foreach ( self::$admin_notices as $notice ) {
+				$html .= '<div class="' . $notice['type'] . '"><p>' . $notice['message'] . '</p></div>';
 			}
 			echo $html;
 		}
@@ -354,18 +326,16 @@ class Torro_Init
 	 * @param $message
 	 * @since 1.0.0
 	 */
-	public static function log( $message )
-	{
+	public static function log( $message ) {
 		$wp_upload_dir = wp_upload_dir();
 		$log_dir = trailingslashit( $wp_upload_dir[ 'path' ]  ) . '/torro-logs';
 
-		if( !file_exists( $log_dir ) || !is_dir( $log_dir ) )
-		{
+		if ( ! file_exists( $log_dir ) || ! is_dir( $log_dir ) ) {
 			mkdir( $log_dir );
 		}
 
-		$file = fopen(  $log_dir . '/main.log', 'a' );
-		fputs( $file, $message . chr(13) );
+		$file = fopen( $log_dir . '/main.log', 'a' );
+		fputs( $file, $message . chr( 13 ) );
 		fclose( $file );
 	}
 }

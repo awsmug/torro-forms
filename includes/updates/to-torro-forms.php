@@ -1,7 +1,6 @@
 <?php
 
-function awesome_forms_to_torro_forms()
-{
+function awesome_forms_to_torro_forms() {
 	global $wpdb;
 
 	$table_elements_old = $wpdb->prefix . 'af_elements';

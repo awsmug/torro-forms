@@ -8,8 +8,7 @@
  *
  * http://wordpress.stackexchange.com/questions/70548/load-tinymce-wp-editor-via-ajax
  */
-class Torro_WPEditorBox
-{
+class Torro_WPEditorBox {
 	/**
 	 * MCE Settings
 	 *
@@ -40,13 +39,10 @@ class Torro_WPEditorBox
 	 * @return Torro_WPEditorBox|object
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
-		if (null === self::$_instance)
-		{
+	public static function init() {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self;
 		}
-
 		return self::$_instance;
 	}
 
@@ -55,8 +51,7 @@ class Torro_WPEditorBox
 	 *
 	 * @since 1.0.0
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'tiny_mce_before_init' ), 10, 2 );
 		add_filter( 'quicktags_settings', array( __CLASS__, 'quicktags_settings' ), 10, 2 );
 
@@ -73,12 +68,10 @@ class Torro_WPEditorBox
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function editor( $content, $editor_id, $field_name = NULL )
-	{
+	public static function editor( $content, $editor_id, $field_name = null ) {
 		$settings = array();
 
-		if( NULL != $field_name )
-		{
+		if ( null != $field_name ) {
 			$settings = array(
 				'textarea_name' => $field_name
 			);
@@ -92,7 +85,7 @@ class Torro_WPEditorBox
 
 		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
 
-		$html.= self::editor_js( $editor_id );
+		$html .= self::editor_js( $editor_id );
 
 		return $html;
 	}
@@ -105,10 +98,8 @@ class Torro_WPEditorBox
 	 * @return bool
 	 * @since 1.0.0
 	 */
-	public static function editor_js( $editor_id )
-	{
-		if( '' == $editor_id )
-		{
+	public static function editor_js( $editor_id ) {
+		if( '' == $editor_id ) {
 			return FALSE;
 		}
 
@@ -117,27 +108,25 @@ class Torro_WPEditorBox
 
 		// Extending editor gobals
 		$html = '<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				var editor_id = "' . $editor_id . '";
+	jQuery( document ).ready( function( $ ) {
+		var editor_id = "' . $editor_id . '";
 
-				window.tinyMCEPreInit.mceInit = jQuery.extend( window.tinyMCEPreInit.mceInit, ' . $mce_init . ' );
-	            window.tinyMCEPreInit.qtInit = jQuery.extend( window.tinyMCEPreInit.qtInit, ' . $qt_init . ' );
+		window.tinyMCEPreInit.mceInit = jQuery.extend( window.tinyMCEPreInit.mceInit, ' . $mce_init . ' );
+		window.tinyMCEPreInit.qtInit = jQuery.extend( window.tinyMCEPreInit.qtInit, ' . $qt_init . ' );
 
-                tinymce.init( window.tinyMCEPreInit.mceInit[ editor_id ] );
+		tinymce.init( window.tinyMCEPreInit.mceInit[ editor_id ] );
 
-	            try {
-	                quicktags( tinyMCEPreInit.qtInit[ editor_id ] );
-	            }
-	            catch(e)
-	            {
-	                console.log( e );
-	            }
+		try {
+			quicktags( tinyMCEPreInit.qtInit[ editor_id ] );
+		} catch( e ) {
+			console.log( e );
+		}
 
-	            QTags.instances["0"] = ""; // Dirty Hack, but needed to start second instance of quicktags in editor
+		QTags.instances["0"] = ""; // Dirty Hack, but needed to start second instance of quicktags in editor
 
-	            console.log( window.tinyMCEPreInit.mceInit[ editor_id ]  );
-            });
-        </script>';
+		console.log( window.tinyMCEPreInit.mceInit[ editor_id ]  );
+	});
+</script>';
 
 		return $html;
 	}
@@ -151,8 +140,7 @@ class Torro_WPEditorBox
 	 * @return mixed
 	 * @since 1.0.0
 	 */
-	public static function quicktags_settings( $qtInit, $editor_id )
-	{
+	public static function quicktags_settings( $qtInit, $editor_id ) {
 		self::$qt_settings[ $editor_id ] = $qtInit;
 
 		return $qtInit;
@@ -166,8 +154,7 @@ class Torro_WPEditorBox
 	 * @return mixed
 	 * @since 1.0.0
 	 */
-	public static function tiny_mce_before_init( $mceInit, $editor_id )
-	{
+	public static function tiny_mce_before_init( $mceInit, $editor_id ) {
 		self::$mce_settings[ $editor_id ] = $mceInit;
 
 		return $mceInit;
@@ -180,17 +167,13 @@ class Torro_WPEditorBox
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function get_mce_init( $editor_id )
-	{
+	public static function get_mce_init( $editor_id ) {
 		$mceInit = '';
-		if( !empty( self::$mce_settings[ $editor_id ] ) )
-		{
+		if ( ! empty( self::$mce_settings[ $editor_id ] ) ) {
 			$options = self::_parse_init( self::$mce_settings[ $editor_id ] );
 			$mceInit .= "'$editor_id':{$options},";
 			$mceInit = '{' . trim( $mceInit, ',' ) . '}';
-		}
-		else
-		{
+		} else {
 			$mceInit = '{}';
 		}
 
@@ -205,17 +188,13 @@ class Torro_WPEditorBox
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function get_qt_init( $editor_id )
-	{
+	public static function get_qt_init( $editor_id ) {
 		$qtInit = '';
-		if( !empty( self::$qt_settings[ $editor_id ] ) )
-		{
+		if ( ! empty( self::$qt_settings[ $editor_id ] ) ) {
 			$options = self::_parse_init( self::$qt_settings[ $editor_id ] );
 			$qtInit .= "'$editor_id':{$options},";
 			$qtInit = '{' . trim( $qtInit, ',' ) . '}';
-		}
-		else
-		{
+		} else {
 			$qtInit = '{}';
 		}
 
@@ -230,20 +209,15 @@ class Torro_WPEditorBox
 	 * @return string
 	 * @since 1.0.0
 	 */
-	private static function _parse_init( $init )
-	{
+	private static function _parse_init( $init ) {
 		$options = '';
 
-		foreach( $init as $k => $v )
-		{
-			if( is_bool( $v ) )
-			{
+		foreach ( $init as $k => $v ) {
+			if ( is_bool( $v ) ) {
 				$val = $v ? 'true' : 'false';
 				$options .= $k . ':' . $val . ',';
 				continue;
-			}
-			elseif( !empty( $v ) && is_string( $v ) && ( ( '{' == $v{0} && '}' == $v{strlen( $v ) - 1} ) || ( '[' == $v{0} && ']' == $v{strlen( $v ) - 1} ) || preg_match( '/^\(?function ?\(/', $v ) ) )
-			{
+			} elseif ( ! empty( $v ) && is_string( $v ) && ( ( '{' === $v{0} && '}' === $v{strlen( $v ) - 1} ) || ( '[' === $v{0} && ']' === $v{strlen( $v ) - 1} ) || preg_match( '/^\(?function ?\(/', $v ) ) ) {
 				$options .= $k . ':' . $v . ',';
 				continue;
 			}
@@ -259,15 +233,14 @@ class Torro_WPEditorBox
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function std_editor_tinymce(){
+	public static function std_editor_tinymce() {
 		return 'tinymce';
 	}
 
 	/**
 	 * Getting Editor HTML by AJAX
 	 */
-	public static function ajax_torro_get_editor_html()
-	{
+	public static function ajax_torro_get_editor_html() {
 		$widget_id = $_POST[ 'widget_id' ];
 		$editor_id = $_POST[ 'editor_id' ];
 		$field_name = $_POST[ 'field_name' ];
@@ -297,7 +270,6 @@ Torro_WPEditorBox::init();
  * @return string
  * @since 1.0.0
  */
-function torro_wp_editor( $content, $editor_id, $field_name = NULL )
-{
+function torro_wp_editor( $content, $editor_id, $field_name = null ) {
 	return Torro_WPEditorBox::editor( $content, $editor_id, $field_name );
 }

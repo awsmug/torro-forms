@@ -24,8 +24,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -34,28 +33,24 @@ if( !defined( 'ABSPATH' ) )
  *
  * @since 1.0.0
  */
-if( defined( 'TORRO_FOLDER' ) )
-{
-	function torro_locate_template( $template_names, $load = FALSE, $require_once = TRUE )
-	{
+if ( defined( 'TORRO_FOLDER' ) ) {
+	function torro_locate_template( $template_names, $load = false, $require_once = true ) {
 
 		$located = locate_template( $template_names, $load, $require_once );
 
-		if( '' == $located ):
-			foreach( ( array ) $template_names as $template_name ):
-				if( !$template_name )
-				{
+		if ( '' === $located ) {
+			foreach ( ( array ) $template_names as $template_name ) {
+				if ( ! $template_name ) {
 					continue;
 				}
-				if( file_exists( TORRO_FOLDER . '/templates/' . $template_name ) ):
+				if ( file_exists( TORRO_FOLDER . '/templates/' . $template_name ) ) {
 					$located = TORRO_FOLDER . '/templates/' . $template_name;
 					break;
-				endif;
-			endforeach;
-		endif;
+				}
+			}
+		}
 
-		if( $load && '' != $located )
-		{
+		if ( $load && '' !== $located ) {
 			load_template( $located, $require_once );
 		}
 
@@ -68,14 +63,12 @@ if( defined( 'TORRO_FOLDER' ) )
  *
  * @return bool
  */
-function torro_is_formbuilder()
-{
-	if( is_admin() && torro_is_form() )
-	{
-		return TRUE;
+function torro_is_formbuilder() {
+	if ( is_admin() && torro_is_form() ) {
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 /**
@@ -83,14 +76,12 @@ function torro_is_formbuilder()
  *
  * @return bool
  */
-function torro_is_settingspage()
-{
-	if( is_admin() && isset( $_GET[ 'page' ] ) && 'Torro_Admin' == $_GET[ 'page' ] )
-	{
-		return TRUE;
+function torro_is_settingspage() {
+	if ( is_admin() && isset( $_GET['page'] ) && 'Torro_Admin' === $_GET[ 'page' ] ) {
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 /**
@@ -98,39 +89,34 @@ function torro_is_settingspage()
  *
  * @return bool
  */
-function torro_is_form()
-{
-	if( !empty( $_GET[ 'post' ] )  )
-	{
-		$post = get_post( $_GET[ 'post' ] );
+function torro_is_form() {
+	if ( ! empty( $_GET['post'] )  ) {
+		$post = get_post( $_GET['post'] );
 
-		if( is_object( $post ) && get_class( $post ) == 'WP_Post' && 'torro-forms' == $post->post_type )
-		{
-			return TRUE;
+		if ( is_a( $post, 'WP_Post' ) && 'torro-forms' === $post->post_type ) {
+			return true;
 		}
 	}
 
-	if( !empty( $_GET[ 'post_type' ] ) && 'torro-forms' == $_GET[ 'post_type' ] )
-	{
-		return TRUE;
+	if ( ! empty( $_GET['post_type'] ) && 'torro-forms' === $_GET[ 'post_type' ] ) {
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-function torro_clipboard_field( $label, $content )
-{
+function torro_clipboard_field( $label, $content ) {
 	$id = 'cb_' . torro_id();
 
 	$html = '<div class="clipboardfield">';
-		$html .= '<label for="' . $id . '">' . $label . '</label> ';
-		$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
+	$html .= '<label for="' . $id . '">' . $label . '</label> ';
+	$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
 
-		$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
-		$html .= '<img src="' . TORRO_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
-		$html .= '</button>';
+	$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
+	$html .= '<img src="' . TORRO_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
+	$html .= '</button>';
 
-		$html .= '<div style="clear:both;"></div>';
+	$html .= '<div style="clear:both;"></div>';
 	$html .= '</div>';
 
 	return $html;
@@ -144,30 +130,26 @@ function torro_clipboard_field( $label, $content )
  * @return string $mailtext Mailtext as String
  */
 // @todo Getting to Mail class or API
-function torro_get_mail_template_text( $mailtext_title )
-{
-
+function torro_get_mail_template_text( $mailtext_title ) {
 	$text = '';
-	switch ( $mailtext_title )
-	{
+
+	switch ( $mailtext_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_text_template' ) );
-			if( empty( $text ) ):
-				$text = esc_attr__( 'Dear %username%,
+			if ( empty( $text ) ) {
+				$text = __( 'Dear %username%,
 
 thank you for participating on the survey "%survey_title%". Your survey data was saved successfully.
 
 Best regards,
 
 %site_name%', 'torro-forms' );
-			endif;
-
+			}
 			break;
-
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_text_template' ) );
-			if( empty( $text ) ):
-				$text = esc_attr__( 'Dear %username%,
+			if( empty( $text ) ) {
+				$text = __( 'Dear %username%,
 
 you have been invited to participate to the survey "%survey_title%". Participate here:
 
@@ -176,14 +158,12 @@ you have been invited to participate to the survey "%survey_title%". Participate
 Best regards,
 
 %site_name%', 'torro-forms' );
-			endif;
-
+			}
 			break;
-
 		case 'reinvitation':
 			$text = stripslashes( get_option( 'questions_reinvitation_text_template' ) );
-			if( empty( $text ) ):
-				$text = esc_attr__( 'Dear %username%,
+			if ( empty( $text ) ) {
+				$text = __( 'Dear %username%,
 
 the survey "%survey_title%" is not finished yet. Please fill out and finish the survey. Participate here:
 
@@ -192,8 +172,7 @@ the survey "%survey_title%" is not finished yet. Please fill out and finish the 
 Best regards,
 
 %site_name%', 'torro-forms' );
-			endif;
-
+			}
 			break;
 	}
 
@@ -207,34 +186,27 @@ Best regards,
  *
  * @return string $mailtext Mail subject as String
  */
-function torro_get_mail_template_subject( $mailsubject_title )
-{
-
+function torro_get_mail_template_subject( $mailsubject_title ) {
 	$text = '';
-	switch ( $mailsubject_title )
-	{
+
+	switch ( $mailsubject_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_subject_template' ) );
-			if( empty( $text ) ):
+			if( empty( $text ) ) {
 				$text = esc_attr__( 'Thank you for participating!', 'torro-forms' );
-			endif;
-
+			}
 			break;
-
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_subject_template' ) );
-			if( empty( $text ) ):
+			if( empty( $text ) ) {
 				$text = esc_attr__( 'You are invited to answer a survey', 'torro-forms' );
-			endif;
-
+			}
 			break;
-
 		case 'reinvitation':
 			$text = stripslashes( get_option( 'questions_reinvitation_subject_template' ) );
-			if( empty( $text ) ):
+			if( empty( $text ) ) {
 				$text = esc_attr__( 'Don´t forget to answer the Survey', 'torro-forms' );
-			endif;
-
+			}
 			break;
 	}
 
@@ -248,28 +220,21 @@ function torro_get_mail_template_subject( $mailsubject_title )
  *
  * @return mixed $setting Setting
  */
-function torro_get_mail_settings( $option )
-{
-
+function torro_get_mail_settings( $option ) {
 	$setting = '';
-	switch ( $option )
-	{
+
+	switch ( $option ) {
 		case 'from_name':
 			$setting = stripslashes( get_option( 'questions_mail_from_name' ) );
-
-			if( empty( $setting ) ):
+			if ( empty( $setting ) ) {
 				$setting = get_option( 'blogname' );
-			endif;
-
+			}
 			break;
-
 		case 'from_email':
 			$setting = stripslashes( get_option( 'questions_mail_from_email' ) );
-
-			if( empty( $setting ) ):
+			if( empty( $setting ) ) {
 				$setting = get_option( 'admin_email' );
-			endif;
-
+			}
 			break;
 	}
 
@@ -281,8 +246,7 @@ function torro_get_mail_settings( $option )
  *
  * @return string $from_name "From" name
  */
-function torro_change_email_return_name()
-{
+function torro_change_email_return_name() {
 	return torro_get_mail_settings( 'from_name' );
 }
 
@@ -291,8 +255,7 @@ function torro_change_email_return_name()
  *
  * @return string $from_email "From" email address
  */
-function torro_change_email_return_address()
-{
+function torro_change_email_return_address() {
 	return torro_get_mail_settings( 'from_email' );
 }
 
@@ -305,8 +268,7 @@ function torro_change_email_return_address()
  *
  * @return bool
  */
-function torro_mail( $to_email, $subject, $content )
-{
+function torro_mail( $to_email, $subject, $content ) {
 	add_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
 	add_filter( 'wp_mail_from', 'torro_change_email_return_address' );
 
@@ -315,10 +277,10 @@ function torro_mail( $to_email, $subject, $content )
 	// Logging
 	$content = str_replace( chr( 13 ), '', strip_tags( $content ) );
 	torro_create_log_entry( array(
-		                     $to_email,
-		                     $subject,
-		                     $content
-	                     ) );
+		$to_email,
+		$subject,
+		$content,
+	) );
 
 	remove_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
 	remove_filter( 'wp_mail_from', 'torro_change_email_return_address' );
@@ -331,34 +293,29 @@ function torro_mail( $to_email, $subject, $content )
  *
  * @param array $values The values which have to be saved
  */
-function torro_create_log_entry( $values )
-{
-
-	if( !is_array( $values ) )
-	{
+function torro_create_log_entry( $values ) {
+	if ( ! is_array( $values ) ) {
 		return;
 	}
 
 	$line = date( 'Y-m-d;H:i:s;' );
 
-	foreach( $values AS $value )
-	{
+	foreach ( $values as $value ) {
 		$line .= $value . ';';
 	}
 
 	$line = str_replace( array(
-		                     "\r\n",
-		                     "\n\r",
-		                     "\n",
-		                     "\r"
-	                     ), ' ', $line );
+		"\r\n",
+		"\n\r",
+		"\n",
+		"\r",
+	), ' ', $line );
 
 	$line .= chr( 13 );
 
 	$logdir = WP_CONTENT_DIR . '/logs/';
 
-	if( !file_exists( $logdir ) )
-	{
+	if ( ! file_exists( $logdir ) ) {
 		mkdir( $logdir );
 	}
 
@@ -376,11 +333,9 @@ function torro_create_log_entry( $values )
  *
  * @return string $data
  */
-function torro_prepare_post_data( $data )
-{
+function torro_prepare_post_data( $data ) {
 	// Do not preparing objects or arrays
-	if( is_object( $data ) || is_array( $data ) )
-	{
+	if ( is_object( $data ) || is_array( $data ) ) {
 		return $data;
 	}
 
@@ -394,8 +349,7 @@ function torro_prepare_post_data( $data )
  * Getting charset from DB
  * @return string
  */
-function torro_get_charset_collate()
-{
+function torro_get_charset_collate() {
 	global $wpdb;
 
 	$charset_collate = '';
@@ -416,8 +370,7 @@ function torro_get_charset_collate()
  *
  * @return string $id ID string
  */
-function torro_id()
-{
+function torro_id() {
 	$id = md5( rand() );
 
 	return $id;
@@ -426,16 +379,13 @@ function torro_id()
 /**
  * Debugging helper function
  */
-if( !function_exists( 'p' ) )
-{
-	function p( $var, $return = FALSE )
-	{
+if ( ! function_exists( 'p' ) ) {
+	function p( $var, $return = false ) {
 		$content = '<pre>';
-		$content .= print_r( $var, TRUE );
+		$content .= print_r( $var, true );
 		$content .= '</pre>';
 
-		if( !$return )
-		{
+		if ( ! $return ) {
 			echo $content;
 		}
 

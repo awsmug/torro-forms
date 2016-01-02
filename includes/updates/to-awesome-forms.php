@@ -1,7 +1,6 @@
 <?php
 
-function torro_questions_to_awesome_forms()
-{
+function torro_questions_to_awesome_forms() {
 	global $wpdb;
 
 	$table_elements_old = $wpdb->prefix . 'questions_questions';
