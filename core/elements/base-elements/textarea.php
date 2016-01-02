@@ -24,114 +24,98 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// No direct access is allowed
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_Textarea extends Torro_Form_Element
-{
-
-	public function init()
-	{
+class Torro_Form_Element_Textarea extends Torro_Form_Element {
+	public function init() {
 		$this->name = 'textarea';
-		$this->title = esc_attr__( 'Textarea', 'torro-forms' );
-		$this->description = esc_attr__( 'Add an Element which can be answered within a text area.', 'torro-forms' );
+		$this->title = __( 'Textarea', 'torro-forms' );
+		$this->description = __( 'Add an Element which can be answered within a text area.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-textarea.png';
 	}
 
-	public function input_html()
-	{
-		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
+	public function input_html() {
+		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
 
-		$html .= '<textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ] . '" rows="' . $this->settings[ 'rows' ] . '" cols="' . $this->settings[ 'cols' ] . '">' . $this->response . '</textarea>';
+		$html .= '<textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ] . '" rows="' . $this->settings[ 'rows' ] . '" cols="' . $this->settings[ 'cols' ] . '">' . esc_html( $this->response ) . '</textarea>';
 
-		if( !empty( $this->settings[ 'description' ] ) )
-		{
+		if ( ! empty( $this->settings['description'] ) ) {
 			$html .= '<small>';
-			$html .= $this->settings[ 'description' ];
+			$html .= esc_html( $this->settings['description'] );
 			$html .= '</small>';
 		}
 
 		return $html;
 	}
 
-	public function settings_fields()
-	{
+	public function settings_fields() {
 		$this->settings_fields = array(
-			'description' => array(
-				'title'       => esc_attr__( 'Description', 'torro-forms' ),
-				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the field.', 'torro-forms' ),
-				'default'     => ''
+			'description'	=> array(
+				'title'			=> __( 'Description', 'torro-forms' ),
+				'type'			=> 'textarea',
+				'description'	=> __( 'The description will be shown after the field.', 'torro-forms' ),
+				'default'		=> ''
 			),
-			'min_length'  => array(
-				'title'       => esc_attr__( 'Minimum length', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
-				'default'     => '0'
+			'min_length'	=> array(
+				'title'			=> __( 'Minimum length', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
+				'default'		=> '0'
 			),
-			'max_length'  => array(
-				'title'       => esc_attr__( 'Maximum length', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
-				'default'     => '1000'
+			'max_length'	=> array(
+				'title'			=> __( 'Maximum length', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
+				'default'		=> '1000'
 			),
-			'rows'        => array(
-				'title'       => esc_attr__( 'Rows', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'Number of rows for typing in  (can be overwritten by CSS).', 'torro-forms' ),
-				'default'     => '10'
+			'rows'			=> array(
+				'title'			=> __( 'Rows', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Number of rows for typing in  (can be overwritten by CSS).', 'torro-forms' ),
+				'default'		=> '10'
 			),
-			'cols'        => array(
-				'title'       => esc_attr__( 'Columns', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'Number of columns for typing in (can be overwritten by CSS).', 'torro-forms' ),
-				'default'     => '75'
+			'cols'			=> array(
+				'title'			=> __( 'Columns', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Number of columns for typing in (can be overwritten by CSS).', 'torro-forms' ),
+				'default'		=> '75'
 			),
 		);
 	}
 
-	public function validate( $input )
-	{
+	public function validate( $input ) {
 		$min_length = $this->settings[ 'min_length' ];
 		$max_length = $this->settings[ 'max_length' ];
 
-		$error = FALSE;
+		$error = false;
 
-		if( !empty( $min_length ) )
-		{
-			if( strlen( $input ) < $min_length ):
-				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
-				$error = TRUE;
-			endif;
+		if ( ! empty( $min_length ) ) {
+			if ( strlen( $input ) < $min_length ) {
+				$this->validate_errors[] = __( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$error = true;
+			}
 		}
 
-		if( !empty( $max_length ) )
-		{
-			if( strlen( $input ) > $max_length ):
-				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
-				$error = TRUE;
-			endif;
+		if ( ! empty( $max_length ) ) {
+			if ( strlen( $input ) > $max_length ) {
+				$this->validate_errors[] = __( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$error = true;
+			}
 		}
 
-		if( $error ):
-			return FALSE;
-		endif;
-
-		return TRUE;
+		return ! $error;
 	}
 
-	public function after_element()
-	{
+	public function after_element() {
 		$html = '';
 
-		if( !empty( $this->settings[ 'description' ] ) ):
+		if ( ! empty( $this->settings[ 'description' ] ) ) {
 			$html = '<p class="form-element-description">';
-			$html .= $this->settings[ 'description' ];
+			$html .= esc_html( $this->settings['description'] );
 			$html .= '</p>';
-		endif;
+		}
 
 		return $html;
 	}

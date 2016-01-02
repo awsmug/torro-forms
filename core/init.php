@@ -26,20 +26,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Core
-{
+class Torro_Core {
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
+	public static function init() {
 		self::includes();
 
 		add_action( 'init', array( __CLASS__, 'custom_post_types' ), 11 );
@@ -51,8 +48,7 @@ class Torro_Core
 	/**
 	 * Including files of component
 	 */
-	public static function includes()
-	{
+	public static function includes() {
 		$core_folder = TORRO_FOLDER . 'core/';
 
 		// Base classes
@@ -103,14 +99,12 @@ class Torro_Core
 	 *
 	 * @since 1.0.0
 	 */
-	public static function custom_post_types()
-	{
+	public static function custom_post_types() {
 
 		$settings = torro_get_settings( 'general' );
 
 		$slug = 'forms';
-		if( array_key_exists( 'slug', $settings  ) )
-		{
+		if ( array_key_exists( 'slug', $settings  ) ) {
 			$slug = $settings[ 'slug' ];
 		}
 
@@ -118,24 +112,24 @@ class Torro_Core
 		 * Categories
 		 */
 		$args_taxonomy = array(
-			'show_in_nav_menus' => TRUE,
-			'hierarchical'      => TRUE,
-			'labels'            => array(
-				'name'              => _x( 'Categories', 'taxonomy general name', 'torro-forms' ),
-				'singular_name'     => _x( 'Category', 'taxonomy singular name', 'torro-forms' ),
-				'search_items'      => __( 'Search Categories', 'torro-forms' ),
-				'all_items'         => __( 'All Categories', 'torro-forms' ),
-				'parent_item'       => __( 'Parent Category', 'torro-forms' ),
-				'parent_item_colon' => __( 'Parent Category:', 'torro-forms' ),
-				'edit_item'         => __( 'Edit Category', 'torro-forms' ),
-				'update_item'       => __( 'Update Category', 'torro-forms' ),
-				'add_new_item'      => __( 'Add New Category', 'torro-forms' ),
-				'new_item_name'     => __( 'New Category', 'torro-forms' ),
-				'menu_name'         => __( 'Categories', 'torro-forms' ),
+			'show_in_nav_menus'	=> true,
+			'hierarchical'		=> true,
+			'labels'			=> array(
+				'name'				=> _x( 'Categories', 'taxonomy general name', 'torro-forms' ),
+				'singular_name'		=> _x( 'Category', 'taxonomy singular name', 'torro-forms' ),
+				'search_items'		=> __( 'Search Categories', 'torro-forms' ),
+				'all_items'			=> __( 'All Categories', 'torro-forms' ),
+				'parent_item'		=> __( 'Parent Category', 'torro-forms' ),
+				'parent_item_colon'	=> __( 'Parent Category:', 'torro-forms' ),
+				'edit_item'			=> __( 'Edit Category', 'torro-forms' ),
+				'update_item'		=> __( 'Update Category', 'torro-forms' ),
+				'add_new_item'		=> __( 'Add New Category', 'torro-forms' ),
+				'new_item_name'		=> __( 'New Category', 'torro-forms' ),
+				'menu_name'			=> __( 'Categories', 'torro-forms' ),
 			),
-			'show_ui'           => TRUE,
-			'query_var'         => TRUE,
-			'rewrite'           => TRUE,
+			'show_ui'			=> true,
+			'query_var'			=> true,
+			'rewrite'			=> true,
 		);
 
 		register_taxonomy( 'torro-forms-categories', array( 'torro-forms' ), $args_taxonomy );
@@ -156,12 +150,12 @@ class Torro_Core
 				'not_found'          => __( 'No Form found', 'torro-forms' ),
 				'not_found_in_trash' => __( 'No Form found in trash', 'torro-forms' )
 			),
-			'public'            => TRUE,
-			'has_archive'       => TRUE,
+			'public'            => true,
+			'has_archive'       => true,
 			'supports'          => array( 'title' ),
 			'show_in_menu'      => 'Torro_Admin',
-			'show_in_nav_menus' => FALSE,
-			'rewrite'           => array( 'slug' => $slug, 'with_front' => TRUE )
+			'show_in_nav_menus' => false,
+			'rewrite'           => array( 'slug' => $slug, 'with_front' => true )
 		);
 
 		register_post_type( 'torro-forms', $args_post_type );
@@ -174,13 +168,11 @@ class Torro_Core
 	 *
 	 * @return array $classes Classes for body
 	 */
-	public static function add_body_class( $classes )
-	{
+	public static function add_body_class( $classes ) {
 		global $post;
 
 		// Check if we are on the right place
-		if( !is_object( $post ) || !property_exists( $post, 'post_type' ) || 'torro-forms' != $post->post_type )
-		{
+		if ( ! is_a( $post, 'WP_Post' ) || 'torro-forms' !== $post->post_type ) {
 			return $classes;
 		}
 
@@ -195,8 +187,7 @@ class Torro_Core
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_admin_styles()
-	{
+	public static function register_admin_styles() {
 		wp_enqueue_style( 'torro-icons', TORRO_URLPATH . 'assets/css/icons.css' );
 	}
 
@@ -205,8 +196,7 @@ class Torro_Core
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_plugin_styles()
-	{
+	public static function register_plugin_styles() {
 		wp_enqueue_style( 'torro-frontend', TORRO_URLPATH . 'assets/css/frontend.css' );
 	}
 

@@ -24,13 +24,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Post
-{
+class Torro_Post {
 	var $id;
 	var $post;
 	var $meta;
@@ -42,11 +40,9 @@ class Torro_Post
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $post_id )
-	{
-		if( empty( $post_id ) )
-		{
-			return FALSE;
+	public function __construct( $post_id ) {
+		if ( empty( $post_id ) ) {
+			return false;
 		}
 
 		$this->id = $post_id;
@@ -65,13 +61,11 @@ class Torro_Post
 	 *
 	 * @return int $post_id The id of the new post
 	 */
-	public function duplicate( $copy_meta = TRUE, $copy_taxonomies = TRUE, $copy_comments = TRUE, $draft = FALSE )
-	{
+	public function duplicate( $copy_meta = true, $copy_taxonomies = true, $copy_comments = true, $draft = false ) {
 		$copy = clone $this->post;
 		$copy->ID = '';
 
-		if( $draft )
-		{
+		if ( $draft ) {
 			$copy->post_status = 'draft';
 		}
 
@@ -82,17 +76,17 @@ class Torro_Post
 
 		$post_id = wp_insert_post( $copy );
 
-		if( $copy_meta ):
+		if ( $copy_meta ) {
 			$this->duplicate_meta( $post_id );
-		endif;
+		}
 
-		if( $copy_taxonomies ):
+		if ( $copy_taxonomies ) {
 			$this->duplicate_taxonomies( $post_id );
-		endif;
+		}
 
-		if( $copy_comments ):
+		if ( $copy_comments ) {
 			$this->duplicate_comments( $post_id );
-		endif;
+		}
 
 		return $post_id;
 	}
@@ -104,28 +98,22 @@ class Torro_Post
 	 *
 	 * @return bool
 	 */
-	public function duplicate_meta( $post_id )
-	{
-
-		if( empty( $post_id ) )
-		{
-			return FALSE;
+	public function duplicate_meta( $post_id ) {
+		if ( empty( $post_id ) ) {
+			return false;
 		}
 
 		$forbidden_keys = apply_filters( 'torro_duplicate_forbidden_terms', array( '_edit_lock', '_edit_last' ) );
 
-		foreach( $this->meta AS $meta_key => $meta_value )
-		{
-			if( !in_array( $meta_key, $forbidden_keys ) )
-			{
-				foreach( $meta_value AS $value )
-				{
+		foreach ( $this->meta as $meta_key => $meta_value ) {
+			if ( ! in_array( $meta_key, $forbidden_keys, true ) ) {
+				foreach ( $meta_value as $value ) {
 					add_post_meta( $post_id, $meta_key, $value );
 				}
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -133,35 +121,31 @@ class Torro_Post
 	 *
 	 * @param $post_id
 	 */
-	public function duplicate_taxonomies( $post_id )
-	{
+	public function duplicate_taxonomies( $post_id ) {
 		global $wpdb;
 
-		if( empty( $post_id ) )
-		{
-			return FALSE;
+		if ( empty( $post_id ) ) {
+			return false;
 		}
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->term_relationships} WHERE object_id=%d", $this->id );
 		$results = $wpdb->get_results( $sql );
 
-		if( count( $results ) > 0 )
-		{
-			foreach( $results AS $result )
-			{
+		if ( count( $results ) > 0 ) {
+			foreach ( $results as $result ) {
 				$wpdb->insert( $wpdb->term_relationships, array(
-					'object_id'        => $post_id,
-					'term_taxonomy_id' => $result->term_taxonomy_id,
-					'term_order'       => $result->term_order
+					'object_id'			=> $post_id,
+					'term_taxonomy_id'	=> $result->term_taxonomy_id,
+					'term_order'		=> $result->term_order
 				), array(
-					               '%d',
-					               '%d',
-					               '%d'
-				               ) );
+					'%d',
+					'%d',
+					'%d',
+				) );
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -171,34 +155,32 @@ class Torro_Post
 	 *
 	 * @return bool
 	 */
-	public function duplicate_comments( $post_id )
-	{
+	public function duplicate_comments( $post_id ) {
 		$comment_transfer = array();
 
-		if( empty( $post_id ) )
-		{
-			return FALSE;
+		if ( empty( $post_id ) ) {
+			return false;
 		}
 
-		foreach( $this->comments AS $comment ):
+		foreach ( $this->comments as $comment ) {
 			$comment = (array) $comment;
-			$comment[ 'comment_post_ID' ] = $post_id;
-			$old_comment_id = $comment[ 'comment_ID' ];
+			$comment['comment_post_ID'] = $post_id;
+			$old_comment_id = $comment['comment_ID'];
 			$new_comment_id = wp_insert_comment( $comment );
 			$comment_transfer[ $old_comment_id ] = $new_comment_id;
-		endforeach;
+		}
 
 		// Running all new comments and updating parents
-		foreach( $comment_transfer AS $old_comment_id => $new_comment_id ):
+		foreach ( $comment_transfer as $old_comment_id => $new_comment_id ) {
 			$comment = get_comment( $new_comment_id, ARRAY_A );
 
-			// If comment has parrent comment
-			if( 0 != $comment[ 'comment_parent' ] ):
-				$comment[ 'comment_parent' ] = $comment_transfer[ $comment[ 'comment_parent' ] ];
+			// If comment has parent comment
+			if( 0 !== absint( $comment['comment_parent'] ) ) {
+				$comment['comment_parent'] = $comment_transfer[ $comment['comment_parent'] ];
 				wp_update_comment( $comment );
-			endif;
-		endforeach;
+			}
+		}
 
-		return TRUE;
+		return true;
 	}
 }

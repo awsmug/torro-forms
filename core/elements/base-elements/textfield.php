@@ -23,25 +23,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-// No direct access is allowed
-if( !defined( 'ABSPATH' ) )
-{
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_Textfield extends Torro_Form_Element
-{
-
-	public function init()
-	{
+class Torro_Form_Element_Textfield extends Torro_Form_Element {
+	public function init() {
 		$this->name = 'textfield';
-		$this->title = esc_attr__( 'Textfield', 'torro-forms' );
-		$this->description = esc_attr__( 'Add an Element which can be answered within a text field.', 'torro-forms' );
+		$this->title = __( 'Textfield', 'torro-forms' );
+		$this->description = __( 'Add an Element which can be answered within a text field.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-textfield.png';
 	}
 
-	public function input_html()
-	{
+	public function input_html() {
 		$input_type = 'text';
 
 		$validation = $this->settings[ 'validation' ];
@@ -51,22 +46,20 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 			$input_type = $validation_data['html_field_type'];
 		}
 
-		$html  = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
+		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
 
-		$html .= '<input type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . $this->response . '" />';
+		$html .= '<input type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '" />';
 
-		if( !empty( $this->settings[ 'description' ] ) )
-		{
+		if ( ! empty( $this->settings['description'] ) ) {
 			$html .= '<small>';
-			$html .= $this->settings[ 'description' ];
+			$html .= esc_html( $this->settings['description'] );
 			$html .= '</small>';
 		}
 
 		return $html;
 	}
 
-	public function settings_fields()
-	{
+	public function settings_fields() {
 		$_validations = $this->get_validations();
 		$validations = array();
 		foreach ( $_validations as $value => $data ) {
@@ -77,30 +70,30 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 		}
 
 		$this->settings_fields = array(
-			'description' => array(
-				'title'       => esc_attr__( 'Description', 'torro-forms' ),
-				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the Element.', 'torro-forms' ),
-				'default'     => ''
+			'description'	=> array(
+				'title'			=> __( 'Description', 'torro-forms' ),
+				'type'			=> 'textarea',
+				'description'	=> __( 'The description will be shown after the Element.', 'torro-forms' ),
+				'default'		=> ''
 			),
-			'min_length'  => array(
-				'title'       => esc_attr__( 'Minimum length', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
-				'default'     => '0'
+			'min_length'	=> array(
+				'title'			=> __( 'Minimum length', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
+				'default'		=> '0'
 			),
-			'max_length'  => array(
-				'title'       => esc_attr__( 'Maximum length', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
-				'default'     => '100'
+			'max_length'	=> array(
+				'title'			=> __( 'Maximum length', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
+				'default'		=> '100'
 			),
-			'validation'  => array(
-				'title'       => esc_attr__( 'String Validation', 'torro-forms' ),
-				'type'        => 'radio',
-				'values'      => $validations,
-				'description' => esc_attr__( 'The will do a validation for the input.', 'torro-forms' ),
-				'default'     => 'none'
+			'validation'	=> array(
+				'title'			=> __( 'String Validation', 'torro-forms' ),
+				'type'			=> 'radio',
+				'values'		=> $validations,
+				'description'	=> __( 'The will do a validation for the input.', 'torro-forms' ),
+				'default'		=> 'none'
 			),
 		);
 	}
@@ -108,25 +101,25 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 	protected function get_validations( $value = false ) {
 		$validations = array(
 			'none'				=> array(
-				'title'				=> esc_attr__( 'No validation', 'torro-forms' ),
+				'title'				=> __( 'No validation', 'torro-forms' ),
 			),
 			'number'			=> array(
-				'title'				=> esc_attr__( 'Number', 'torro-forms' ),
+				'title'				=> __( 'Number', 'torro-forms' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^[0-9]{1,}$',
-				'error_message'		=> esc_attr__( 'Please input a number.', 'torro-forms' ),
+				'error_message'		=> __( 'Please input a number.', 'torro-forms' ),
 			),
 			'number_decimal'	=> array(
-				'title'				=> esc_attr__( 'Decimal Number', 'torro-forms' ),
+				'title'				=> __( 'Decimal Number', 'torro-forms' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^-?([0-9])+\.?([0-9])+$',
-				'error_message'		=> esc_attr__( 'Please input a decimal number.', 'torro-forms' ),
+				'error_message'		=> __( 'Please input a decimal number.', 'torro-forms' ),
 			),
 			'email_address'		=> array(
-				'title'				=> esc_attr__( 'Email-Address', 'torro-forms' ),
+				'title'				=> __( 'Email-Address', 'torro-forms' ),
 				'html_field_type'	=> 'email',
 				'callback'			=> 'is_email',
-				'error_message'		=> esc_attr__( 'Please input a valid Email-Address.', 'torro-forms' ),
+				'error_message'		=> __( 'Please input a valid Email-Address.', 'torro-forms' ),
 			),
 		);
 
@@ -142,26 +135,24 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 		return $validations;
 	}
 
-	public function validate( $input )
-	{
-
+	public function validate( $input ) {
 		$min_length = $this->settings[ 'min_length' ];
 		$max_length = $this->settings[ 'max_length' ];
 		$validation = $this->settings[ 'validation' ];
 
-		$error = FALSE;
+		$error = false;
 
-		if ( !empty( $min_length ) ) {
+		if ( ! empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ) {
-				$this->validate_errors[] = esc_attr__( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
-				$error = TRUE;
+				$this->validate_errors[] = __( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$error = true;
 			}
 		}
 
 		if ( ! empty( $max_length ) ) {
 			if ( strlen( $input ) > $max_length ) {
-				$this->validate_errors[] = esc_attr__( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
-				$error = TRUE;
+				$this->validate_errors[] = __( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$error = true;
 			}
 		}
 
@@ -183,11 +174,7 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element
 			}
 		}
 
-		if( $error ) {
-			return FALSE;
-		}
-
-		return TRUE;
+		return ! $error;
 	}
 }
 

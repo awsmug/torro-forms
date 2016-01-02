@@ -26,20 +26,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Component
-{
+abstract class Torro_Component {
 	/**
 	 * The Single instances of the components
 	 *
 	 * @var $_instaces
 	 * @since 1.0.0
 	 */
-	protected static $_instances = NULL;
+	protected static $_instances = null;
 
 	/**
 	 * Title
@@ -74,34 +72,29 @@ abstract class Torro_Component
 	 *
 	 * @since 1.0.0
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 		global $torro_global;
 
 		$this->init();
 
-		if( empty( $this->name ) )
-		{
+		if ( empty( $this->name ) ) {
 			$this->name = get_class( $this );
 		}
-		if( empty( $this->title ) )
-		{
+		if ( empty( $this->title ) ) {
 			$this->title = ucfirst( $this->name );
 		}
-		if( empty( $this->name ) )
-		{
-			$this->description = esc_attr__( 'This is an Torro Forms component.', 'torro-forms' );
+		if ( empty( $this->name ) ) {
+			$this->description = __( 'This is an Torro Forms component.', 'torro-forms' );
 		}
 
-		if( !is_object( $torro_global ) )
-		{
-			self::admin_notice( esc_attr__( 'Missing Global', 'torro-global' ), 'error' );
-			return FALSE;
+		if ( ! is_object( $torro_global ) ) {
+			self::admin_notice( __( 'Missing Global', 'torro-global' ), 'error' );
+			return false;
 		}
 
 		$torro_global->components[ $this->name ] = $this;
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -114,16 +107,14 @@ abstract class Torro_Component
 	 *
 	 * @since 1.0.0
 	 */
-	public static function instance()
-	{
+	public static function instance() {
 		if ( function_exists( 'get_called_class' ) ) {
 			$class = get_called_class();
 		} else {
 			$class = self::php52_get_called_class();
 		}
 
-		if( !isset( self::$_instances[ $class ] ) )
-		{
+		if ( ! isset( self::$_instances[ $class ] ) ) {
 			self::$_instances[ $class ] = new $class();
 			add_action( 'plugins_loaded', array( self::$_instances[ $class ], 'check_and_start' ), 20 );
 		}
@@ -149,12 +140,12 @@ abstract class Torro_Component
 			if ( isset( $arr_trace['class'] ) ) {
 				$class_name = $arr_trace['class'];
 			} elseif ( isset( $arr_trace['function'] ) && isset( $arr_trace['args'] ) && isset( $arr_trace['args'][0] ) && is_array( $arr_trace['args'][0] ) ) {
-				if ( 'call_user_func' == $arr_trace['function'] && 'instance' == $arr_trace['args'][0][1] && is_string( $arr_trace['args'][0][0] ) ) {
+				if ( 'call_user_func' === $arr_trace['function'] && 'instance' === $arr_trace['args'][0][1] && is_string( $arr_trace['args'][0][0] ) ) {
 					$class_name = $arr_trace['args'][0][0];
 				}
 			}
 
-			if ( $class_name && 0 == count( $arr ) || get_parent_class( $class_name ) == end( $arr ) ) {
+			if ( $class_name && 0 === count( $arr ) || get_parent_class( $class_name ) == end( $arr ) ) {
 				$arr[] = $class_name;
 			}
 		}
@@ -166,17 +157,14 @@ abstract class Torro_Component
 	 *
 	 * @since 1.0.0
 	 */
-	public function check_and_start()
-	{
-
+	public function check_and_start() {
 		$values = torro_get_settings( 'general' );
 
-		if( isset( $values['modules'] ) && is_array( $values[ 'modules' ] ) && !in_array( $this->name, $values[ 'modules' ] ) )
-		{
+		if ( isset( $values['modules'] ) && is_array( $values['modules'] ) && ! in_array( $this->name, $values['modules'] ) ) {
 			return;
 		}
 
-		if ( true == $this->check_requirements() ) {
+		if ( true === $this->check_requirements() ) {
 			$this->base_init();
 			$this->settings = torro_get_settings( $this->name );
 		}
@@ -188,9 +176,8 @@ abstract class Torro_Component
 	 * @return mixed
 	 * @since 1.0.0
 	 */
-	protected function check_requirements()
-	{
-		return TRUE;
+	protected function check_requirements() {
+		return true;
 	}
 
 	/**
@@ -198,21 +185,16 @@ abstract class Torro_Component
 	 *
 	 * @since 1.0.0
 	 */
-	private function base_init()
-	{
-		if( method_exists( $this, 'includes' ) )
-		{
+	private function base_init() {
+		if ( method_exists( $this, 'includes' ) ) {
 			$this->includes();
 		}
 
 		// Scriptloaders
-		if( is_admin() )
-		{
+		if ( is_admin() ) {
 			add_action( 'admin_print_styles', array( $this, 'admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-		}
-		else
-		{
+		} else {
 			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		}
@@ -221,22 +203,22 @@ abstract class Torro_Component
 	/**
 	 * Function for enqueuing Admin Scripts - Have to be overwritten by Child Class.
 	 */
-	public function admin_scripts(){}
+	public function admin_scripts() {}
 
 	/**
 	 * Function for enqueuing Admin Styles - Have to be overwritten by Child Class.
 	 */
-	public function admin_styles(){}
+	public function admin_styles() {}
 
 	/**
 	 * Function for enqueuing Frontend Scripts - Have to be overwritten by Child Class.
 	 */
-	public function frontend_scripts(){}
+	public function frontend_scripts() {}
 
 	/**
 	 * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
 	 */
-	public function frontend_styles(){}
+	public function frontend_styles() {}
 
 	/**
 	 * Adds a notice to
@@ -244,13 +226,11 @@ abstract class Torro_Component
 	 * @param        $message
 	 * @param string $type
 	 */
-	protected function admin_notice( $message, $type = 'updated' )
-	{
-		if( WP_DEBUG )
-		{
+	protected function admin_notice( $message, $type = 'updated' ) {
+		if ( WP_DEBUG ) {
 			$message = $message . ' (in Module "' .  $this->name . '")';
 		}
-		Torro_Init::admin_notice( $message , $type );
+		Torro_Init::admin_notice( $message, $type );
 	}
 }
 
@@ -260,12 +240,10 @@ abstract class Torro_Component
  * @param $component_name
  * @return mixed
  */
-function torro_register_component( $component_class )
-{
-	if( class_exists( $component_class ) )
-	{
+function torro_register_component( $component_class ) {
+	if ( class_exists( $component_class ) ) {
 		return call_user_func( array( $component_class, 'instance' ) );
 	}
 
-	return FALSE;
+	return false;
 }

@@ -26,8 +26,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-class Torro_SettingsPage
-{
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Torro_SettingsPage {
 
 	/**
 	 * The current tab
@@ -49,10 +53,8 @@ class Torro_SettingsPage
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
-		if( !is_admin() )
-		{
+	public static function init() {
+		if ( ! is_admin() ) {
 			return;
 		}
 
@@ -63,8 +65,7 @@ class Torro_SettingsPage
 	/**
 	 * Show admin Settings
 	 */
-	public static function show()
-	{
+	public static function show() {
 		global $torro_global;
 
 		self::init_tabs();
@@ -73,23 +74,19 @@ class Torro_SettingsPage
 		$html .= '<form name="torro_settings" id="torro-settings" method="POST">';
 		$html .= '<input type="hidden" id="torro_save_settings" name="torro_save_settings" value="' . wp_create_nonce( '_torro_save_settings_nonce' ) . '" />';
 
-		if( property_exists( $torro_global, 'settings' ) && count( $torro_global->settings ) > 0 )
-		{
+		if ( property_exists( $torro_global, 'settings' ) && 0 < count( $torro_global->settings ) ) {
 			/**
 			 * Tabs
 			 */
 			$html .= '<h2 class="nav-tab-wrapper">';
-			foreach( $torro_global->settings AS $setting )
-			{
+			foreach ( $torro_global->settings AS $setting ) {
 				// Discard Settings if there are no settings
-				if( count( $setting->settings ) == 0 && count( $setting->sub_settings ) == 0 )
-				{
+				if ( 0 === count( $setting->settings ) && 0 === count( $setting->sub_settings ) ) {
 					continue;
 				}
 
 				$css_classes = '';
-				if( $setting->name == self::$current_tab )
-				{
+				if ( $setting->name === self::$current_tab ) {
 					$css_classes = ' nav-tab-active';
 				}
 
@@ -112,9 +109,7 @@ class Torro_SettingsPage
 			$html .= '</div>';
 
 			$html .= '<input name="torro_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr__( 'Save Settings', 'torro-forms' ) . '" />';
-		}
-		else
-		{
+		} else {
 			$html .= '<p>' . esc_attr__( 'There are no settings available.', 'torro-forms' ) . '</p>';
 		}
 
@@ -129,37 +124,29 @@ class Torro_SettingsPage
 	/**
 	 * Initializing Tabs
 	 */
-	public static function init_tabs()
-	{
-		if( isset( $_GET[ 'tab' ] ) )
-		{
-			self::$current_tab = $_GET[ 'tab' ];
-		}
-		else
-		{
+	public static function init_tabs() {
+		if ( isset( $_GET['tab'] ) ) {
+			self::$current_tab = $_GET['tab'];
+		} else {
 			self::$current_tab = 'general';
 		}
 
-		if( isset( $_GET[ 'section' ] ) )
-		{
-			self::$current_section = $_GET[ 'section' ];
+		if ( isset( $_GET['section'] ) ) {
+			self::$current_section = $_GET['section'];
 		}
 	}
 
 	/**
 	 * Saving settings
 	 */
-	public static function save()
-	{
-		if( !isset( $_POST[ 'torro_save_settings' ] ) )
-		{
+	public static function save() {
+		if ( ! isset( $_POST['torro_save_settings'] ) ) {
 			return;
 		}
 
 		$section = '';
-		if( isset( $_GET[ 'section' ] ) )
-		{
-			$section = $_GET[ 'section' ];
+		if ( isset( $_GET['section'] ) ) {
+			$section = $_GET['section'];
 		}
 
 		do_action( 'torro_save_settings', $section );
@@ -170,10 +157,8 @@ class Torro_SettingsPage
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_styles()
-	{
-		if( !torro_is_settingspage() )
-		{
+	public static function register_styles() {
+		if ( ! torro_is_settingspage() ) {
 			return;
 		}
 

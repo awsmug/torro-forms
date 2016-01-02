@@ -24,63 +24,58 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_GeneralSettings extends Torro_Settings
-{
+class Torro_GeneralSettings extends Torro_Settings {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->title = __( 'General', 'torro-forms' );
 		$this->name = 'general';
 
 		$this->settings = array(
-			'disclaimer'    => array(
-				'title'       => esc_attr__( 'Welcome to Torro Forms!', 'torro-forms' ),
-				'description' => esc_attr__( 'You want to build any forms in a easy way? Torro Forms will help you to do it in the very easy way with ton of options.', 'torro-forms' ),
-				'type'        => 'disclaimer'
+			'disclaimer'	=> array(
+				'title'			=> __( 'Welcome to Torro Forms!', 'torro-forms' ),
+				'description'	=> __( 'You want to build any forms in a easy way? Torro Forms will help you to do it in the very easy way with ton of options.', 'torro-forms' ),
+				'type'			=> 'disclaimer'
 			),
-			'modules_title' => array(
-				'title'       => esc_attr__( 'Form Modules', 'torro-forms' ),
-				'description' => esc_attr__( 'Check the modules of Torro Forms which have to be activated.', 'torro-forms' ),
-				'type'        => 'title'
+			'modules_title'	=> array(
+				'title'			=> __( 'Form Modules', 'torro-forms' ),
+				'description'	=> __( 'Check the modules of Torro Forms which have to be activated.', 'torro-forms' ),
+				'type'			=> 'title'
 			)
 		);
 
 		add_action( 'init', array( $this, 'add_modules' ), 5 ); // Loading Modules dynamical
 	}
 
-	public function add_modules()
-	{
+	public function add_modules() {
 		global $torro_global;
 
 		$components = array();
 		$defaults = array();
 
-		foreach( $torro_global->components AS $component_name => $component )
-		{
+		foreach ( $torro_global->components as $component_name => $component ) {
 			$components[ $component_name ] = $component->title;
 			$defaults[] = $component_name;
 		}
 
 		$settings_arr = array(
-			'modules' => array(
-				'title'       => esc_attr__( 'Modules', 'torro-forms' ),
-				'description' => esc_attr__( 'You don´t need some of these components? Switch it off!', 'torro-forms' ),
-				'type'        => 'checkbox',
-				'values'      => $components,
-				'default'     => $defaults
+			'modules'		=> array(
+				'title'			=> __( 'Modules', 'torro-forms' ),
+				'description'	=> __( 'You don´t need some of these components? Switch it off!', 'torro-forms' ),
+				'type'			=> 'checkbox',
+				'values'		=> $components,
+				'default'		=> $defaults
 			),
-		    'slug'  => array(
-			    'title'      => esc_attr__( 'Slug', 'torro-forms' ),
-			    'description'=> __( 'The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/<b>forms</b>/mycontactform)'),
-			    'type'       => 'text',
-			    'default'    => ! get_option( 'questions_db_version' )? 'forms' : 'survey'
+		    'slug'			=> array(
+			    'title'			=> __( 'Slug', 'torro-forms' ),
+			    'description'	=> __( 'The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/<strong>forms</strong>/mycontactform)'),
+			    'type'			=> 'text',
+			    'default'		=> ! get_option( 'questions_db_version' ) ? 'forms' : 'survey'
 			)
 		);
 

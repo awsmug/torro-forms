@@ -24,107 +24,88 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// No direct access is allowed
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_MultipleChoice extends Torro_Form_Element
-{
-
-	public function init()
-	{
+class Torro_Form_Element_MultipleChoice extends Torro_Form_Element {
+	public function init() {
 		$this->name = 'MultipleChoice';
-		$this->title = esc_attr__( 'Multiple Choice', 'torro-forms' );
-		$this->description = esc_attr__( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );
+		$this->title = __( 'Multiple Choice', 'torro-forms' );
+		$this->description = __( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-multiplechoice.png';
 
-		$this->has_answers = TRUE;
-		$this->answer_is_multiple = TRUE;
-		$this->is_analyzable = TRUE;
+		$this->has_answers = true;
+		$this->answer_is_multiple = true;
+		$this->is_analyzable = true;
 	}
 
-	public function input_html()
-	{
-		$html = '<label for="' . $this->get_input_name() . '">' . $this->label . '</label>';
+	public function input_html() {
+		$html = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
 
-		foreach( $this->answers AS $answer )
-		{
+		foreach ( $this->answers as $answer ) {
 			$checked = '';
 
-			if( is_array( $this->response ) && in_array( $answer[ 'text' ], $this->response ) )
-			{
+			if ( is_array( $this->response ) && in_array( $answer['text'], $this->response, true ) ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . $answer[ 'text' ] . '" ' . $checked . ' /> ' . $answer[ 'text' ] . '</div>';
+			$html .= '<div class="torro_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer['text'] ) . '" ' . $checked . ' /> ' . esc_html( $answer['text'] ) . '</div>';
 		}
 
-		if( !empty( $this->settings[ 'description' ] ) )
-		{
+		if ( ! empty( $this->settings['description'] ) ) {
 			$html .= '<small>';
-			$html .= $this->settings[ 'description' ];
+			$html .= esc_html( $this->settings['description'] );
 			$html .= '</small>';
 		}
 
 		return $html;
 	}
 
-	public function settings_fields()
-	{
-
+	public function settings_fields() {
 		$this->settings_fields = array(
-			'description' => array(
-				'title'       => esc_attr__( 'Description', 'torro-forms' ),
-				'type'        => 'textarea',
-				'description' => esc_attr__( 'The description will be shown after the question.', 'torro-forms' ),
-				'default'     => ''
+			'description'	=> array(
+				'title'			=> __( 'Description', 'torro-forms' ),
+				'type'			=> 'textarea',
+				'description'	=> __( 'The description will be shown after the question.', 'torro-forms' ),
+				'default'		=> ''
 			),
-			'min_answers' => array(
-				'title'       => esc_attr__( 'Minimum Answers', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'The minimum number of answers which have to be choosed.', 'torro-forms' ),
-				'default'     => '1'
+			'min_answers'	=> array(
+				'title'			=> __( 'Minimum Answers', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'The minimum number of answers which have to be choosed.', 'torro-forms' ),
+				'default'		=> '1'
 			),
-			'max_answers' => array(
-				'title'       => esc_attr__( 'Maximum Answers', 'torro-forms' ),
-				'type'        => 'text',
-				'description' => esc_attr__( 'The maximum number of answers which can be choosed.', 'torro-forms' ),
-				'default'     => '3'
+			'max_answers'	=> array(
+				'title'			=> __( 'Maximum Answers', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'The maximum number of answers which can be choosed.', 'torro-forms' ),
+				'default'		=> '3'
 			),
 		);
 	}
 
-	public function validate( $input )
-	{
+	public function validate( $input ) {
+		$min_answers = $this->settings['min_answers'];
+		$max_answers = $this->settings['max_answers'];
 
-		$min_answers = $this->settings[ 'min_answers' ];
-		$max_answers = $this->settings[ 'max_answers' ];
+		$error = false;
 
-		$error = FALSE;
-
-		if( !empty( $min_answers ) )
-		{
-			if( !is_array( $input ) || count( $input ) < $min_answers ):
-				$this->validate_errors[] = esc_attr__( 'Too less choices.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
-				$error = TRUE;
-			endif;
+		if ( ! empty( $min_answers ) ) {
+			if ( ! is_array( $input ) || count( $input ) < $min_answers ) {
+				$this->validate_errors[] = __( 'Too less choices.', 'torro-forms' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
+				$error = true;
+			}
 		}
 
-		if( !empty( $max_answers ) )
-		{
-			if( is_array( $input ) && count( $input ) > $max_answers ):
-				$this->validate_errors[] = esc_attr__( 'Too many choices.', 'torro-forms' ) . ' ' . sprintf( esc_attr__( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
-				$error = TRUE;
-			endif;
+		if ( ! empty( $max_answers ) ) {
+			if ( is_array( $input ) && count( $input ) > $max_answers ) {
+				$this->validate_errors[] = __( 'Too many choices.', 'torro-forms' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
+				$error = true;
+			}
 		}
 
-		if( $error ):
-			return FALSE;
-		endif;
-
-		return TRUE;
+		return ! $error;
 	}
 }
 

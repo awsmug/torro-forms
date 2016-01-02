@@ -24,13 +24,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Settings_Handler
-{
+class Torro_Settings_Handler {
 	/**
 	 * @var string
 	 */
@@ -53,25 +51,21 @@ class Torro_Settings_Handler
 	 */
 	var $values = array();
 
-	public function __construct( $settings_name, $settings_fields, $settings_type = 'options' )
-	{
+	public function __construct( $settings_name, $settings_fields, $settings_type = 'options' ) {
 		$this->name = $settings_name;
 		$this->fields = $settings_fields;
 		$this->type = $settings_type;
 	}
 
-	public function get()
-	{
-		if( count( $this->fields ) == 0 )
-		{
-			return FALSE;
+	public function get() {
+		if ( count( $this->fields ) == 0 ) {
+			return false;
 		}
 
 		$html = '<div class="settings-table">';
 		$html .= '<table class="form-table">';
 		$html .= '<tbody>';
-		foreach( $this->fields AS $name => $settings )
-		{
+		foreach ( $this->fields as $name => $settings ) {
 			$html .= $this->get_field( $name, $settings );
 		}
 		$html .= '</tbody>';
@@ -82,15 +76,12 @@ class Torro_Settings_Handler
 		return $html;
 	}
 
-	private function get_field( $name, $settings )
-	{
+	private function get_field( $name, $settings ) {
 		global $post;
 
-		if( 'options' == $this->type )
-		{
+		if ( 'options' === $this->type ) {
 			$default = '';
-			if( array_key_exists( 'default', $this->fields[ $name ] ) )
-			{
+			if ( array_key_exists( 'default', $this->fields[ $name ] ) ) {
 				$default = $this->fields[ $name ][ 'default' ];
 			}
 
@@ -98,45 +89,29 @@ class Torro_Settings_Handler
 
 			$value = get_option( $option_name, $default );
 			// delete_option( $option_name );
-		}
-		elseif( 'post' == $this->type )
-		{
-			if( property_exists( $post, 'ID' ) )
-			{
-				$value = get_post_meta( $post->ID, $name, TRUE );
+		} elseif ( 'post' === $this->type ) {
+			if ( property_exists( $post, 'ID' ) ) {
+				$value = get_post_meta( $post->ID, $name, true );
 			}
 		}
 
-		switch ( $settings[ 'type' ] )
-		{
-
+		switch ( $settings[ 'type' ] ) {
 			case 'text':
-
 				$html = $this->get_textfield( $name, $settings, $value );
 				break;
-
 			case 'textarea':
-
 				$html = $this->get_textarea( $name, $settings, $value );
 				break;
-
 			case 'radio':
-
 				$html = $this->get_radios( $name, $settings, $value );
 				break;
-
 			case 'checkbox':
-
 				$html = $this->get_checkboxes( $name, $settings, $value );
 				break;
-
 			case 'title':
-
 				$html = $this->get_title( $name, $settings );
 				break;
-
 			case 'disclaimer':
-
 				$html = $this->get_disclaimer( $name, $settings );
 				break;
 		}
@@ -152,15 +127,13 @@ class Torro_Settings_Handler
 	 *
 	 * @return string
 	 */
-	private function get_textfield( $name, $settings, $value )
-	{
+	private function get_textfield( $name, $settings, $value ) {
 		$html = '<tr>';
-		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
 		$html .= '<td>';
-		$html .= '<input type="text" name="' . $name . '" value="' . $value . '" />';
-		if( isset( $settings[ 'description' ] ) )
-		{
-			$html .= '<br /><small>' . $settings[ 'description' ] . '</small>';
+		$html .= '<input type="text" name="' . $name . '" value="' . esc_attr( $value ) . '" />';
+		if ( isset( $settings['description'] ) ) {
+			$html .= '<br /><small>' . $settings['description'] . '</small>';
 		}
 		$html .= '</td>';
 		$html .= '</tr>';
@@ -176,15 +149,13 @@ class Torro_Settings_Handler
 	 *
 	 * @return string
 	 */
-	private function get_textarea( $name, $settings, $value )
-	{
+	private function get_textarea( $name, $settings, $value ) {
 		$html = '<tr>';
-		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
 		$html .= '<td>';
-		$html .= '<textarea name="' . $name . '" rows="8">' . $value . '</textarea>';
-		if( isset( $settings[ 'description' ] ) )
-		{
-			$html .= '<br /><small>' . $settings[ 'description' ] . '</small>';
+		$html .= '<textarea name="' . $name . '" rows="8">' . esc_html( $value ) . '</textarea>';
+		if ( isset( $settings['description'] ) ) {
+			$html .= '<br /><small>' . $settings['description'] . '</small>';
 		}
 		$html .= '</td>';
 		$html .= '</tr>';
@@ -201,25 +172,21 @@ class Torro_Settings_Handler
 	 *
 	 * @return string
 	 */
-	private function get_radios( $name, $settings, $value )
-	{
+	private function get_radios( $name, $settings, $value ) {
 		$html = '<tr>';
-		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
 		$html .= '<td>';
-		foreach( $values AS $field_key => $field_value )
-		{
+		foreach ( $values as $field_key => $field_value ) {
 			$checked = '';
 
-			if( $value == $field_key )
-			{
+			if ( $value == $field_key ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
+			$html .= '<div class="torro-radio"><input type="radio" name="' . $name . '" value="' . esc_attr( $field_key ) . '"' . $checked . ' /> ' . esc_html( $field_value ) . '</div>';
 		}
-		if( isset( $settings[ 'description' ] ) )
-		{
-			$html .= '<small>' . $settings[ 'description' ] . '</small>';
+		if ( isset( $settings['description'] ) ) {
+			$html .= '<small>' . $settings['description'] . '</small>';
 		}
 		$html .= '</td>';
 		$html .= '</tr>';
@@ -236,24 +203,21 @@ class Torro_Settings_Handler
 	 *
 	 * @return string
 	 */
-	private function get_checkboxes( $name, $settings, $value )
-	{
+	private function get_checkboxes( $name, $settings, $value ) {
 		$html = '<tr>';
-		$html .= '<th>' . $settings[ 'title' ] . '</th>';
+		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
 		$html .= '<td>';
-		foreach( $settings[ 'values' ] AS $field_key => $field_value ):
+		foreach ( $settings['values'] as $field_key => $field_value ) {
 			$checked = '';
 
-			if( is_array( $value ) && in_array( $field_key, $value ) )
-			{
+			if ( is_array( $value ) && in_array( $field_key, $value ) ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . $field_key . '"' . $checked . ' /> ' . $field_value . '</div>';
-		endforeach;
-		if( isset( $settings[ 'description' ] ) )
-		{
-			$html .= '<small>' . $settings[ 'description' ] . '</small>';
+			$html .= '<div class="torro-checkbox"><input type="checkbox" name="' . $name . '[]" value="' . esc_attr( $field_key ) . '"' . $checked . ' /> ' . esc_html( $field_value ) . '</div>';
+		}
+		if ( isset( $settings['description'] ) ) {
+			$html .= '<small>' . $settings['description'] . '</small>';
 		}
 		$html .= '</td>';
 		$html .= '</tr>';
@@ -269,18 +233,16 @@ class Torro_Settings_Handler
 	 *
 	 * @return string
 	 */
-	private function get_title( $name, $settings )
-	{
+	private function get_title( $name, $settings ) {
 		$html = '</tbody>';
 		$html .= '</table>';
 		$html .= '</div>';
 
 		$html .= '<div class="settings-title">';
-		$html .= '<h3>' . $settings[ 'title' ] . '</h3>';
+		$html .= '<h3>' . esc_html( $settings['title'] ) . '</h3>';
 
-		if( isset( $settings[ 'description' ] ) )
-		{
-			$html .= '<p>' . $settings[ 'description' ] . '</p>';
+		if ( isset( $settings['description'] ) ) {
+			$html .= '<p>' . $settings['description'] . '</p>';
 		}
 		$html .= '</div>';
 
@@ -299,18 +261,16 @@ class Torro_Settings_Handler
 	 *
 	 * @return string
 	 */
-	private function get_disclaimer( $name, $settings )
-	{
+	private function get_disclaimer( $name, $settings ) {
 		$html = '</tbody>';
 		$html .= '</table>';
 		$html .= '</div>';
 
 		$html .= '<div class="settings-disclaimer">';
-		$html .= '<h3>' . $settings[ 'title' ] . '</h3>';
+		$html .= '<h3>' . esc_html( $settings['title'] ) . '</h3>';
 
-		if( isset( $settings[ 'description' ] ) )
-		{
-			$html .= '<p>' . $settings[ 'description' ] . '</p>';
+		if ( isset( $settings['description'] ) ) {
+			$html .= '<p>' . $settings['description'] . '</p>';
 		}
 		$html .= '</div>';
 
@@ -324,47 +284,36 @@ class Torro_Settings_Handler
 	/**
 	 * Getting field values
 	 */
-	public function get_field_values()
-	{
+	public function get_field_values() {
 		global $post;
 
-		if( count( $this->fields ) == 0 )
-		{
-			return FALSE;
+		if ( 0 === count( $this->fields ) ) {
+			return false;
 		}
 
 		$values = array();
 
-		foreach( $this->fields AS $name => $settings )
-		{
+		foreach ( $this->fields as $name => $settings ) {
 			$non_value_types = array( 'title', 'disclaimer' );
 
-			if( in_array( $settings[ 'type' ], $non_value_types ) )
-			{
+			if ( in_array( $settings[ 'type' ], $non_value_types, true ) ) {
 				continue;
 			}
 
 			$option_name = 'torro_settings_' . $this->name . '_' . $name;
 
-			if( 'options' == $this->type )
-			{
+			if ( 'options' === $this->type ) {
 				$default = '';
-				if( array_key_exists( 'default', $settings ) )
-				{
+				if ( array_key_exists( 'default', $settings ) ) {
 					$default = $settings[ 'default' ];
 				}
 
 				$this->values[ $name ] = get_option( $option_name, $default );
-			}
-			/*
-			elseif( 'post' == $this->type )
-			{
-				if( property_exists( $post, 'ID' ) )
-				{
+			}/* elseif( 'post' === $this->type ) {
+				if ( property_exists( $post, 'ID' ) ) {
 					get_post_meta( $post->ID, $option_name );
 				}
-			}
-			*/
+			}*/
 		}
 
 		return $this->values;
@@ -373,35 +322,27 @@ class Torro_Settings_Handler
 	/**
 	 * Saving settings fields
 	 */
-	public function save()
-	{
+	public function save() {
 		global $post;
 
-		if( count( $this->fields ) == 0 )
-		{
-			return FALSE;
+		if ( 0 === count( $this->fields ) ) {
+			return false;
 		}
 
 		// Running all settings fields
-		foreach( $this->fields AS $name => $settings )
-		{
+		foreach ( $this->fields as $name => $settings ) {
 			// Only Saving submitted fields
-			if( !array_key_exists( $name, $_POST ) )
-			{
+			if ( ! array_key_exists( $name, $_POST ) ) {
 				continue;
 			}
 
 			$option_name = 'torro_settings_' . $this->name . '_' . $name;
 			$value = $_POST[ $name ];
 
-			if( 'options' == $this->type )
-			{
+			if ( 'options' === $this->type ) {
 				update_option( $option_name, $value );
-			}
-			elseif( 'post' == $this->type )
-			{
-				if( property_exists( $post, 'ID' ) )
-				{
+			} elseif( 'post' === $this->type ) {
+				if ( property_exists( $post, 'ID' ) ) {
 					update_post_meta( $post->ID, $option_name, $value );
 				}
 			}

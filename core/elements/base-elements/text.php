@@ -24,32 +24,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// No direct access is allowed
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_Text extends Torro_Form_Element
-{
-
-	public function init()
-	{
+class Torro_Form_Element_Text extends Torro_Form_Element {
+	public function init() {
 		$this->name = 'text';
-		$this->title = esc_attr__( 'Text', 'torro-forms' );
-		$this->description = esc_attr__( 'Adds a text to the form.', 'torro-forms' );
+		$this->title = __( 'Text', 'torro-forms' );
+		$this->description = __( 'Adds a text to the form.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-text.png';
 
-		$this->is_answerable = FALSE;
+		$this->is_answerable = false;
 	}
 
-	public function input_html()
-	{
+	public function input_html() {
 		return wpautop( $this->label );
 	}
 
-	public function admin_content_html()
-	{
+	public function admin_content_html() {
 		$widget_id = $this->admin_get_widget_id();
 
 		$editor_id = 'wp_editor_' . substr( md5( rand() * time() ), 0, 5 );

@@ -24,25 +24,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// No direct access is allowed
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_Splitter extends Torro_Form_Element
-{
-
-	public function init()
-	{
+class Torro_Form_Element_Splitter extends Torro_Form_Element {
+	public function init() {
 		$this->name = 'splitter';
-		$this->title = esc_attr__( 'Split Form', 'torro-forms' );
-		$this->description = esc_attr__( 'Splits a form into several steps', 'torro-forms' );
+		$this->title = __( 'Split Form', 'torro-forms' );
+		$this->description = __( 'Splits a form into several steps', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-split-form.png';
 
-		$this->has_content = FALSE;
-		$this->splits_form = TRUE;
-		$this->is_answerable = FALSE;
+		$this->has_content = false;
+		$this->splits_form = true;
+		$this->is_answerable = false;
 	}
 }
 

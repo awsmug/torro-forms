@@ -1,5 +1,5 @@
-(function ($) {
-    "use strict";
-    $( function () {
-    });
-}(jQuery));
+( function( $ ) {
+	'use strict';
+	$( function() {
+	});
+}( jQuery ) );

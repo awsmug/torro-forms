@@ -24,28 +24,22 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// No direct access is allowed
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_Separator extends Torro_Form_Element
-{
-
-	public function init()
-	{
+class Torro_Form_Element_Separator extends Torro_Form_Element {
+	public function init() {
 		$this->name = 'separator';
-		$this->title = esc_attr__( 'Separator', 'torro-forms' );
-		$this->description = esc_attr__( 'Adds a optical separator (<hr>) between elements.', 'torro-forms' );
+		$this->title = __( 'Separator', 'torro-forms' );
+		$this->description = __( 'Adds a optical separator (<hr>) between elements.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-separator.png';
 
-		$this->has_content = FALSE;
-		$this->is_answerable = FALSE;
+		$this->has_content = false;
+		$this->is_answerable = false;
 	}
 
-	public function input_html()
-	{
+	public function input_html() {
 		$html = '<hr />';
 
 		return $html;

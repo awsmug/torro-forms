@@ -24,14 +24,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-class Torro_FormTemplateTags extends Torro_TemplateTags
-{
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Torro_FormTemplateTags extends Torro_TemplateTags {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->title = __( 'Form', 'torro-forms' );
 		$this->name = 'formtags';
 		$this->description = __( 'Form Templatetags', 'torro-forms' );
@@ -40,23 +42,15 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	/**
 	 * Adding all tags of class
 	 */
-	public function tags()
-	{
-		$this->add_tag( 'formtitle', esc_attr__( 'Form Title', 'torro-forms' ), esc_attr__( 'Shows the Form Title', 'torro-forms' ), array(
-			__CLASS__,
-			'formtitle'
-		) );
-		$this->add_tag( 'allelements', esc_attr__( 'All Elements', 'torro-forms' ), esc_attr__( 'Shows all Answers', 'torro-forms' ), array(
-			__CLASS__,
-			'allelements'
-		) );
+	public function tags() {
+		$this->add_tag( 'formtitle', __( 'Form Title', 'torro-forms' ), __( 'Shows the Form Title', 'torro-forms' ), array( __CLASS__, 'formtitle' ) );
+		$this->add_tag( 'allelements', __( 'All Elements', 'torro-forms' ), __( 'Shows all Answers', 'torro-forms' ), array( __CLASS__, 'allelements' ) );
 	}
 
 	/**
 	 * %sitename%
 	 */
-	public static function formtitle()
-	{
+	public static function formtitle() {
 		global $ar_form_id;
 
 		$form = new Torro_Form( $ar_form_id );
@@ -69,14 +63,8 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	 * @param $element_id
 	 * @param $element_name
 	 */
-	public function add_element( $element_id, $element_name )
-	{
-		$this->add_tag( $element_name . ':' . $element_id,
-		                $element_name,
-		                esc_attr__( 'Adds the Element Content', 'torro-forms' ),
-		                array( __CLASS__ , 'element_content' ),
-		                array( 'element_id' => $element_id )
-		);
+	public function add_element( $element_id, $element_name ) {
+		$this->add_tag( $element_name . ':' . $element_id, $element_name, __( 'Adds the Element Content', 'torro-forms' ), array( __CLASS__ , 'element_content' ), array( 'element_id' => $element_id ) );
 	}
 
 	/**
@@ -84,12 +72,10 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	 *
 	 * @param $element_id
 	 */
-	public static function element_content( $element_id )
-	{
+	public static function element_content( $element_id ) {
 		global $torro_response;
 
-		if( !isset( $torro_response[ $element_id ] ) )
-		{
+		if ( ! isset( $torro_response[ $element_id ] ) ) {
 			return;
 		}
 
@@ -98,30 +84,24 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 		/**
 		 * Displaying elements
 		 */
-		if( count( $element->sections ) > 0 )
-		{
+		if ( 0 < count( $element->sections ) ) {
 			/**
 			 * Elements with sections
 			 */
 			// @todo Checking if element had sections and giving them HTML > Try with Matrix
 
-		}
-		elseif( is_array( $torro_response[ $element_id ] ) )
-		{
+		} elseif ( is_array( $torro_response[ $element_id ] ) ) {
 			/**
 			 * Elements with multiple answers
 			 */
 			$html = '<ul>';
-			foreach( $torro_response[ $element_id ] AS $response )
-			{
+			foreach ( $torro_response[ $element_id ] as $response ) {
 				$html .= '<li>' . $response . '</li>';
 			}
 			$html .= '</ul>';
 
 			return $html;
-		}
-		else
-		{
+		} else {
 			/**
 			 * Elements with string response value
 			 */
@@ -133,21 +113,19 @@ class Torro_FormTemplateTags extends Torro_TemplateTags
 	 * Shows the Element content
 	 * @param $element_id
 	 */
-	public static function allelements()
-	{
+	public static function allelements() {
 		global $ar_form_id, $torro_response;
 
 		$form = new Torro_Form( $ar_form_id );
 
 		$html = '<table style="width:100%;">';
-		foreach( $form->get_elements() AS $element )
-		{
-			$html.= '<tr>';
-				$html.= '<td>' . $element->label . '</td>';
-				$html.= '<td>' . self::element_content( $element->id ) . '</td>';
-			$html.= '</tr>';
+		foreach ( $form->get_elements() as $element ) {
+			$html .= '<tr>';
+			$html .= '<td>' . $element->label . '</td>';
+			$html .= '<td>' . self::element_content( $element->id ) . '</td>';
+			$html .= '</tr>';
 		}
-		$html.= '</table>';
+		$html .= '</table>';
 
 		return $html;
 	}
@@ -163,24 +141,20 @@ torro_register_templatetags( 'Torro_FormTemplateTags' );
  *
  * @return bool
  */
-function torro_add_element_templatetag( $element_id, $element_name )
-{
+function torro_add_element_templatetag( $element_id, $element_name ) {
 	global $torro_global;
 
-	if( !property_exists( $torro_global, 'templatetags' ) )
-	{
-		return FALSE;
+	if ( ! property_exists( $torro_global, 'templatetags' ) ) {
+		return false;
 	}
 
-	if( count( $torro_global->templatetags ) == 0 )
-	{
-		return FALSE;
+	if ( 0 === count( $torro_global->templatetags ) ) {
+		return false;
 	}
 
-	if( !array_key_exists( 'formtags', $torro_global->templatetags ) )
-	{
-		return FALSE;
+	if ( ! array_key_exists( 'formtags', $torro_global->templatetags ) ) {
+		return false;
 	}
 
-	$torro_global->templatetags[ 'formtags' ]->add_element( $element_id, $element_name );
+	return $torro_global->templatetags[ 'formtags' ]->add_element( $element_id, $element_name );
 }

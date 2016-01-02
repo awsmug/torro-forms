@@ -27,14 +27,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form extends Torro_Post
-{
-
+class Torro_Form extends Torro_Post {
 	/**
 	 * @var int $id Form Id
 	 * @since 1.0.0
@@ -85,8 +82,7 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $id )
-	{
+	public function __construct( $id ) {
 		parent::__construct( $id );
 
 		$this->populate( $id );
@@ -99,9 +95,7 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @since 1.0.0
 	 */
-	private function populate( $id )
-	{
-
+	private function populate( $id ) {
 		$this->elements = array();
 
 		$form = get_post( $id );
@@ -121,40 +115,31 @@ class Torro_Form extends Torro_Post
 	 * @return array $elements All element objects of the form
 	 * @since 1.0.0
 	 */
-	public function get_elements( $id = NULL )
-	{
-
+	public function get_elements( $id = null ) {
 		global $torro_global, $wpdb;
 
-		if( NULL == $id )
-		{
+		if ( null === $id ) {
 			$id = $this->id;
 		}
 
-		if( '' == $id )
-		{
-			return FALSE;
+		$id = absint( $id );
+
+		if ( 0 === $id ) {
+			return false;
 		}
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->elements} WHERE form_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->elements} WHERE form_id = %d ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		$elements = array();
 
 		// Running all elements which have been found
-		if( is_array( $results ) )
-		{
-
-			foreach( $results AS $result )
-			{
-
-				if( $element = torro_get_element( $result->id, $result->type ) )
-				{
-
+		if ( is_array( $results ) ) {
+			foreach( $results as $result ) {
+				if ( ( $element = torro_get_element( $result->id, $result->type ) ) ) {
 					$elements[] = $element; // Adding element
 
-					if( $element->splits_form )
-					{
+					if ( $element->splits_form ) {
 						$this->splitter_count++;
 					}
 				}
@@ -169,8 +154,7 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @return array All participator ID's
 	 */
-	public function get_participiants()
-	{
+	public function get_participiants() {
 		global $wpdb, $torro_global;
 
 		$sql = $wpdb->prepare( "SELECT user_id FROM {$torro_global->tables->participiants} WHERE form_id = %d", $this->id );
@@ -188,21 +172,19 @@ class Torro_Form extends Torro_Post
 	 * @return array $elements
 	 * @since 1.0.0
 	 */
-	public function get_step_elements( $step = 0 )
-	{
+	public function get_step_elements( $step = 0 ) {
 		$actual_step = 0;
 
 		$elements = array();
-		foreach( $this->elements AS $element ):
+		foreach ( $this->elements as $element ) {
 			$elements[ $actual_step ][] = $element;
-			if( $element->splits_form ):
+			if ( $element->splits_form ) {
 				$actual_step++;
-			endif;
-		endforeach;
+			}
+		}
 
-		if( $actual_step < $step )
-		{
-			return FALSE;
+		if ( $actual_step < $step ) {
+			return false;
 		}
 
 		return $elements[ $step ];
@@ -216,9 +198,8 @@ class Torro_Form extends Torro_Post
 	 * @return int $splitter_count
 	 * @since 1.0.0
 	 */
-	public function get_step_count()
-	{
-		return (int) $this->splitter_count;
+	public function get_step_count() {
+		return absint( $this->splitter_count );
 	}
 
 	/**
@@ -230,50 +211,38 @@ class Torro_Form extends Torro_Post
 	 * @return boolean $saved
 	 * @since 1.0.0
 	 */
-	public function save_response( $response )
-	{
+	public function save_response( $response ) {
 		global $wpdb, $torro_global, $current_user;
 
 		get_currentuserinfo();
-		$user_id = $user_id = $current_user->ID;
+		$user_id = $current_user->ID;
 
-		if( '' == $user_id )
-		{
+		if ( ! $user_id ) {
 			$user_id = -1;
 		}
 
 		// Adding new element
 		$wpdb->insert( $torro_global->tables->results, array(
-			'form_id' => $this->id,
-			'user_id'      => $user_id,
-			'timestamp'    => time()
+			'form_id'	=> $this->id,
+			'user_id'	=> $user_id,
+			'timestamp'	=> time()
 		) );
 
 		$result_id = $wpdb->insert_id;
 		$this->response_id = $result_id;
 
-		foreach( $response AS $element_id => $answers )
-		{
-			if( is_array( $answers ) ):
+		foreach ( $response as $element_id => $answers ) {
+			if ( ! is_array( $answers ) ) {
+				$answers = array( $answers );
+			}
 
-				foreach( $answers AS $answer ):
-					$wpdb->insert( $torro_global->tables->result_values, array(
-							'result_id'  => $result_id,
-							'element_id' => $element_id,
-							'value'      => $answer
-					) );
-				endforeach;
-
-			else:
-				$answer = $answers;
-
+			foreach( $answers as $answer ) {
 				$wpdb->insert( $torro_global->tables->result_values, array(
 						'result_id'  => $result_id,
 						'element_id' => $element_id,
 						'value'      => $answer
 				) );
-
-			endif;
+			}
 		}
 
 		return $result_id;
@@ -291,17 +260,16 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @return int
 	 */
-	public function duplicate( $copy_meta = TRUE, $copy_taxonomies = TRUE, $copy_comments = TRUE, $copy_elements = TRUE, $copy_answers = TRUE, $copy_participiants = TRUE, $draft = FALSE )
-	{
+	public function duplicate( $copy_meta = true, $copy_taxonomies = true, $copy_comments = true, $copy_elements = true, $copy_answers = true, $copy_participiants = true, $draft = false ) {
 		$new_form_id = parent::duplicate( $copy_meta, $copy_taxonomies, $copy_comments, $draft );
 
-		if( $copy_elements ):
+		if ( $copy_elements ) {
 			$this->duplicate_elements( $new_form_id, $copy_answers );
-		endif;
+		}
 
-		if( $copy_participiants ):
+		if ( $copy_participiants ) {
 			$this->duplicate_participiants( $new_form_id );
-		endif;
+		}
 
 		do_action( 'form_duplicate', $this->post, $new_form_id, $this->element_transfers, $this->answer_transfers );
 
@@ -317,78 +285,73 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @return bool
 	 */
-	public function duplicate_elements( $new_form_id, $copy_answers = TRUE, $copy_settings = TRUE )
-	{
+	public function duplicate_elements( $new_form_id, $copy_answers = true, $copy_settings = true ) {
 		global $wpdb, $torro_global;
 
-		if( empty( $new_form_id ) )
-		{
-			return FALSE;
+		if ( empty( $new_form_id ) ) {
+			return false;
 		}
 
 		// Duplicate answers
-		if( is_array( $this->elements ) && count( $this->elements ) ):
-			foreach( $this->elements AS $element ):
+		if ( is_array( $this->elements ) && count( $this->elements ) ) {
+			foreach ( $this->elements as $element ) {
 				$old_element_id = $element->id;
 
 				$wpdb->insert( $torro_global->tables->elements, array(
-					'form_id' => $new_form_id,
-					'label'        => $element->label,
-					'sort'         => $element->sort,
-					'type'         => $element->name
+					'form_id'	=> $new_form_id,
+					'label'		=> $element->label,
+					'sort'		=> $element->sort,
+					'type'		=> $element->name
 				), array(
-					               '%d',
-					               '%s',
-					               '%d',
-					               '%s'
-				               ) );
+					'%d',
+					'%s',
+					'%d',
+					'%s',
+				) );
 
 				$new_element_id = $wpdb->insert_id;
 				$this->element_transfers[ $old_element_id ] = $new_element_id;
 
 				// Duplicate answers
-				if( is_array( $element->answers ) && count( $element->answers ) && $copy_answers ):
-					foreach( $element->answers AS $answer ):
+				if ( is_array( $element->answers ) && count( $element->answers ) && $copy_answers ) {
+					foreach ( $element->answers as $answer ) {
 						$old_answer_id = $answer[ 'id' ];
 
 						$wpdb->insert( $torro_global->tables->element_answers, array(
-							'element_id' => $new_element_id,
-							'answer'      => $answer[ 'text' ],
-							'section'     => $answer[ 'section' ],
-							'sort'        => $answer[ 'sort' ]
+							'element_id'	=> $new_element_id,
+							'answer'		=> $answer[ 'text' ],
+							'section'		=> $answer[ 'section' ],
+							'sort'			=> $answer[ 'sort' ]
 						), array(
-							               '%d',
-							               '%s',
-							               '%s',
-							               '%d'
-						               ) );
+							'%d',
+							'%s',
+							'%s',
+							'%d',
+						) );
 
 						$new_answer_id = $wpdb->insert_id;
 						$this->answer_transfers[ $old_answer_id ] = $new_answer_id;
-
-					endforeach;
-				endif;
+					}
+				}
 
 				// Duplicate Settings
-				if( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ):
-					foreach( $element->settings AS $name => $value ):
-
+				if ( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ) {
+					foreach ( $element->settings as $name => $value ) {
 						$wpdb->insert( $torro_global->tables->settings, array(
-							'element_id' => $new_element_id,
-							'name'        => $name,
-							'value'       => $value
+							'element_id'	=> $new_element_id,
+							'name'			=> $name,
+							'value'			=> $value
 						), array(
-							               '%d',
-							               '%s',
-							               '%s'
-						               ) );
-					endforeach;
-				endif;
+							'%d',
+							'%s',
+							'%s',
+						) );
+					}
+				}
 
 				do_action( 'torro_duplicate_form_element', $element, $new_element_id );
-
-			endforeach;
-		endif;
+			}
+		}
 	}
 
 	/**
@@ -398,28 +361,25 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @return bool
 	 */
-	public function duplicate_participiants( $new_form_id )
-	{
+	public function duplicate_participiants( $new_form_id ) {
 		global $wpdb, $torro_global;
 
-		if( empty( $new_form_id ) )
-		{
-			return FALSE;
+		if ( empty( $new_form_id ) ) {
+			return false;
 		}
 
 		// Duplicate answers
-		if( is_array( $this->participiants ) && count( $this->participiants ) ):
-			foreach( $this->participiants AS $participiant_id ):
-
+		if ( is_array( $this->participiants ) && count( $this->participiants ) ) {
+			foreach ( $this->participiants as $participiant_id ) {
 				$wpdb->insert( $torro_global->tables->participiants, array(
-					'form_id' => $new_form_id,
-					'user_id'   => $participiant_id
+					'form_id'	=> $new_form_id,
+					'user_id'	=> $participiant_id
 				), array(
-					               '%d',
-					               '%d',
-				               ) );
-			endforeach;
-		endif;
+					'%d',
+					'%d',
+				) );
+			}
+		}
 	}
 
 	/**
@@ -427,8 +387,7 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @since 1.0.0
 	 */
-	public function delete()
-	{
+	public function delete() {
 		global $wpdb, $torro_global;
 
 		/**
@@ -442,15 +401,14 @@ class Torro_Form extends Torro_Post
 		/**
 		 * Answers & Settings
 		 */
-		if( is_array( $elements ) && count( $elements ) > 0 ):
-			foreach( $elements AS $element_id ):
+		if( is_array( $elements ) && count( $elements ) > 0 ) {
+			foreach ( $elements as $element_id ) {
 				$wpdb->delete( $torro_global->tables->answers, array( 'element_id' => $element_id ) );
-
 				$wpdb->delete( $torro_global->tables->settings, array( 'element_id' => $element_id ) );
 
 				do_action( 'form_delete_element', $element_id, $this->id );
-			endforeach;
-		endif;
+			}
+		}
 
 		/**
 		 * Elements
@@ -470,19 +428,18 @@ class Torro_Form extends Torro_Post
 	 *
 	 * @return mixed
 	 */
-	public function delete_responses()
-	{
+	public function delete_responses() {
 		global $wpdb, $torro_global;
 
 		$sql = $wpdb->prepare( "SELECT id FROM {$torro_global->tables->results} WHERE form_id = %s", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		// Putting results in array
-		if( is_array( $results ) ):
-			foreach( $results AS $result ):
+		if ( is_array( $results ) ) {
+			foreach ( $results as $result ) {
 				$wpdb->delete( $torro_global->tables->result_values, array( 'result_id' => $result->id ) );
-			endforeach;
-		endif;
+			}
+		}
 
 		return $wpdb->delete( $torro_global->tables->results, array( 'form_id' => $this->id ) );
 	}
@@ -493,20 +450,17 @@ class Torro_Form extends Torro_Post
  *
  * @param int $form_id Form ID
  *
- * @return boolean $exists TRUE if Form exists, FALSE if not
+ * @return boolean $exists true if Form exists, false if not
  */
-function torro_form_exists( $form_id )
-{
-
+function torro_form_exists( $form_id ) {
 	global $wpdb;
 
 	$sql = $wpdb->prepare( "SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d and post_type = 'torro-forms'", $form_id );
 	$var = $wpdb->get_var( $sql );
 
-	if( $var > 0 )
-	{
-		return TRUE;
+	if ( $var > 0 ) {
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }

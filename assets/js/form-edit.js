@@ -1,10 +1,10 @@
 (function ( exports, $, translations ) {
-	"use strict";
+	'use strict';
 
 	/**
 	 * Helper function - Getting a random number
 	 */
-	function torro_rand(){
+	function torro_rand() {
 		var now = new Date();
 		var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 

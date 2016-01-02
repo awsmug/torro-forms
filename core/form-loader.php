@@ -26,14 +26,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_FormLoader
-{
-
+class Torro_FormLoader {
 	/**
 	 * ID of processed form
 	 */
@@ -49,12 +46,10 @@ class Torro_FormLoader
 	 *
 	 * @since 1.0.0
 	 */
-	public static function init( $filter_the_content = FALSE )
-	{
+	public static function init( $filter_the_content = false ) {
 		add_action( 'parse_request', array( __CLASS__, 'process_response' ), 100, 1 );
 
-		if( TRUE == $filter_the_content )
-		{
+		if ( true === $filter_the_content ) {
 			add_action( 'the_post', array(
 				__CLASS__,
 				'add_post_filter'
@@ -65,26 +60,22 @@ class Torro_FormLoader
 	/**
 	 * Porcessing Response
 	 */
-	public static function process_response( $response )
-	{
+	public static function process_response( $response ) {
 		global $ar_form_id;
 
-		if( !isset( $_SESSION ) )
-		{
+		if ( ! isset( $_SESSION ) ) {
 			session_start();
 		}
 
 		// If there is no nothing submitted and there is no session data > exit
-		if( !isset( $_POST[ 'torro_form_id' ] ) )
-		{
+		if ( ! isset( $_POST[ 'torro_form_id' ] ) ) {
 			return;
 		}
 
 		$ar_form_id = $_POST[ 'torro_form_id' ];
 
 		// If form doesn't exists > exit
-		if( !torro_form_exists( $ar_form_id ) )
-		{
+		if ( ! torro_form_exists( $ar_form_id ) ) {
 			return;
 		}
 
@@ -99,8 +90,7 @@ class Torro_FormLoader
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_post_filter()
-	{
+	public static function add_post_filter() {
 		add_filter( 'the_content', array( __CLASS__, 'the_content' ) );
 	}
 
@@ -112,15 +102,13 @@ class Torro_FormLoader
 	 * @return string $content
 	 * @since 1.0.0
 	 */
-	public static function the_content( $content )
-	{
+	public static function the_content( $content ) {
 		global $torro_form_process, $ar_form_id, $torro_response_errors;
 
 		$post = get_post( $ar_form_id );
 		$ar_form_id = $post->ID;
 
-		if( 'torro-forms' != $post->post_type )
-		{
+		if ( 'torro-forms' !== $post->post_type ) {
 			return $content;
 		}
 
@@ -138,15 +126,11 @@ class Torro_FormLoader
 	 *
 	 * @return string
 	 */
-	public static function get_form( $form_id )
-	{
-		if( isset( $_SESSION[ 'torro_response' ][ $form_id ][ 'finished' ] ) )
-		{
+	public static function get_form( $form_id ) {
+		if ( isset( $_SESSION[ 'torro_response' ][ $form_id ][ 'finished' ] ) ) {
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
-		}
-		else
-		{
+		} else {
 			$torro_form_process = new Torro_FormProcess( $form_id );
 			$html = $torro_form_process->show_form();
 		}
@@ -162,19 +146,16 @@ class Torro_FormLoader
 	 * @return string $html
 	 * @since 1.0.0
 	 */
-	public static function text_thankyou_for_participation( $form_id )
-	{
+	public static function text_thankyou_for_participation( $form_id ) {
 		// @todo Should move to response handling
-		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
-		if( '' == $show_results )
-		{
+		$show_results = get_post_meta( $form_id, 'show_results', true );
+		if ( 'yes' !== $show_results ) {
 			$show_results = 'no';
 		}
 
 		$html = '<div id="torro-thank-participation">';
-		$html .= '<p>' . __( 'Thank you for participating!', 'torro-forms' ) . '</p>';
-		if( 'yes' == $show_results )
-		{
+		$html .= '<p>' . esc_html__( 'Thank you for participating!', 'torro-forms' ) . '</p>';
+		if ( 'yes' === $show_results ) {
 			$html .= self::show_results( $form_id );
 		}
 		$html .= '</div>';
@@ -190,8 +171,7 @@ class Torro_FormLoader
 	 * @return string $html
 	 * @since 1.0.0
 	 */
-	public static function show_results( $form_id )
-	{
+	public static function show_results( $form_id ) {
 		$html = '<p>' . __( 'This are the actual results:', 'torro-forms' ) . '</p>';
 		$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
 
@@ -199,4 +179,4 @@ class Torro_FormLoader
 	}
 }
 
-Torro_FormLoader::init( TRUE );
+Torro_FormLoader::init( true );

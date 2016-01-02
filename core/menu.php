@@ -24,14 +24,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_AdminMenu
-{
-
+class Torro_AdminMenu {
 	var $notices = array();
 
 	/**
@@ -40,10 +37,8 @@ class Torro_AdminMenu
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
-		if( !is_admin() )
-		{
+	public static function init() {
+		if ( ! is_admin() ) {
 			return;
 		}
 
@@ -56,12 +51,11 @@ class Torro_AdminMenu
 	 *
 	 * @since 1.0.0
 	 */
-	public static function admin_menu()
-	{
-		add_menu_page( esc_attr__( 'Forms', 'torro-forms' ), esc_attr__( 'Forms', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ), '', 50 );
-		add_submenu_page( 'Torro_Admin', esc_attr__( 'Create', 'torro-forms' ), esc_attr__( 'Create', 'torro-forms' ), 'edit_posts', 'post-new.php?post_type=torro-forms' );
-		add_submenu_page( 'Torro_Admin', esc_attr__( 'Categories', 'torro-forms' ), esc_attr__( 'Categories', 'torro-forms' ), 'edit_posts', 'edit-tags.php?taxonomy=torro-forms' );
-		add_submenu_page( 'Torro_Admin', esc_attr__( 'Settings', 'torro-forms' ), esc_attr__( 'Settings', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ) );
+	public static function admin_menu() {
+		add_menu_page( __( 'Forms', 'torro-forms' ), __( 'Forms', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ), '', 50 );
+		add_submenu_page( 'Torro_Admin', __( 'Create', 'torro-forms' ), __( 'Create', 'torro-forms' ), 'edit_posts', 'post-new.php?post_type=torro-forms' );
+		add_submenu_page( 'Torro_Admin', __( 'Categories', 'torro-forms' ), __( 'Categories', 'torro-forms' ), 'edit_posts', 'edit-tags.php?taxonomy=torro-forms' );
+		add_submenu_page( 'Torro_Admin', __( 'Settings', 'torro-forms' ), __( 'Settings', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ) );
 	}
 
 	/**
@@ -69,13 +63,11 @@ class Torro_AdminMenu
 	 *
 	 * @since 1.0.0
 	 */
-	public static function tax_menu_correction( $parent_file )
-	{
+	public static function tax_menu_correction( $parent_file ) {
 		global $current_screen;
 		$taxonomy = $current_screen->taxonomy;
 
-		if( $taxonomy == 'torro-forms-categories' )
-		{
+		if ( $taxonomy === 'torro-forms-categories' ) {
 			$parent_file = 'Torro_Admin';
 		}
 

@@ -24,13 +24,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Settings
-{
+abstract class Torro_Settings {
 	/**
 	 * Name
 	 *
@@ -68,15 +66,14 @@ abstract class Torro_Settings
 	 *
 	 * @since 1.0.0
 	 */
-	private $initialized = FALSE;
+	private $initialized = false;
 
 	/**
 	 * Adding settings field by array
 	 *
 	 * @param array $settings_fields
 	 */
-	public function add_settings_field_arr( $settings_field_array )
-	{
+	public function add_settings_field_arr( $settings_field_array ) {
 		$this->settings = array_merge( $this->settings, $settings_field_array );
 	}
 
@@ -85,11 +82,10 @@ abstract class Torro_Settings
 	 *
 	 * @param array $settings_fields
 	 */
-	public function add_subsettings_field_arr( $setting_name, $setting_title, $settings_fields )
-	{
+	public function add_subsettings_field_arr( $setting_name, $setting_title, $settings_fields ) {
 		$this->sub_settings[ $setting_name ] = array(
-			'title'    => $setting_title,
-			'settings' => $settings_fields
+			'title'		=> $setting_title,
+			'settings'	=> $settings_fields,
 		);
 	}
 
@@ -100,29 +96,22 @@ abstract class Torro_Settings
 	 *
 	 * @return string
 	 */
-	public function show( $sub_setting_name = '' )
-	{
-		if( count( $this->sub_settings ) == 0 )
-		{
+	public function show( $sub_setting_name = '' ) {
+		if ( 0 === count( $this->sub_settings ) ) {
 			$settings_handler = new Torro_Settings_Handler( $this->name, $this->settings );
 			$html = $settings_handler->get();
-		}
-		else
-		{
-			if( is_array( $this->settings ) && count( $this->settings ) > 0 )
-			{
+		} else {
+			if ( is_array( $this->settings ) && 0 < count( $this->settings ) ) {
 				// Adding General settings Page
 				$sub_settings = array(
 					'general' => array(
-						'title'    => esc_attr__( 'General', 'torro-forms' ),
-						'settings' => $this->settings
+						'title'		=> __( 'General', 'torro-forms' ),
+						'settings'	=> $this->settings,
 					)
 				);
 
 				$sub_settings = array_merge( $sub_settings, $this->sub_settings );
-			}
-			else
-			{
+			} else {
 				$sub_settings = $this->sub_settings;
 
 				if ( empty( $sub_setting_name ) ) {
@@ -133,11 +122,9 @@ abstract class Torro_Settings
 
 			// Submenu
 			$html = '<ul id="torro-settings-submenu">';
-			foreach( $sub_settings AS $name => $settings )
-			{
+			foreach ( $sub_settings as $name => $settings ) {
 				$css_classes = '';
-				if( $name == $sub_setting_name || ( '' == $sub_setting_name && 'general' == $name ) )
-				{
+				if ( $name === $sub_setting_name || ( '' === $sub_setting_name && 'general' === $name ) ) {
 					$css_classes = ' active';
 				}
 				$html .= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'admin.php?page=Torro_Admin&tab=' . $this->name . '&section=' . $name ) . '">' . $settings[ 'title' ] . '</a></li>';
@@ -148,12 +135,11 @@ abstract class Torro_Settings
 			$html .= '<div id="torro-settings-subcontent">';
 
 			$settings_name = $this->name;
-			if( '' != $sub_settings )
-			{
+			if ( '' !== $sub_settings ) {
 				$settings_name .= '_' . $sub_setting_name;
 			}
 
-			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
+			$settings = $sub_settings[ '' === $sub_setting_name ? 'general' : $sub_setting_name ];
 
 			$settings_handler = new Torro_Settings_Handler( $settings_name, $settings[ 'settings' ] );
 			$html .= $settings_handler->get();
@@ -173,33 +159,28 @@ abstract class Torro_Settings
 	 *
 	 * @param string $sub_setting_name
 	 */
-	public function save_settings( $sub_setting_name = '' )
-	{
-		if( count( $this->sub_settings ) == 0 )
-		{
+	public function save_settings( $sub_setting_name = '' ) {
+		if ( count( $this->sub_settings ) == 0 ) {
 			$settings_handler = new Torro_Settings_Handler( $this->name, $this->settings );
 			$settings_handler->save();
 
 			do_action( 'torro_save_settings_' . $this->name );
-		}
-		else
-		{
+		} else {
 			$sub_settings = array(
 				'general' => array(
-					'title'    => esc_attr__( 'General', 'torro-forms' ),
-					'settings' => $this->settings
+					'title'		=> __( 'General', 'torro-forms' ),
+					'settings'	=> $this->settings,
 				)
 			);
 
 			$sub_settings = array_merge( $sub_settings, $this->sub_settings );
 
 			$settings_name = $this->name;
-			if( '' != $sub_setting_name )
-			{
+			if ( '' !== $sub_setting_name ) {
 				$settings_name .= '_' . $sub_setting_name;
 			}
 
-			$settings = $sub_settings[ '' == $sub_setting_name ? 'general' : $sub_setting_name ];
+			$settings = $sub_settings[ '' === $sub_setting_name ? 'general' : $sub_setting_name ];
 
 			$settings_handler = new Torro_Settings_Handler( $settings_name, $settings[ 'settings' ] );
 			$settings_handler->save();
@@ -211,49 +192,41 @@ abstract class Torro_Settings
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
-	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
 	 * @since 1.0.0
 	 */
-	public function _register()
-	{
+	public function _register() {
 		global $torro_global;
 
-		if( TRUE == $this->initialized )
-		{
-			return FALSE;
+		if ( true === $this->initialized ) {
+			return false;
 		}
 
-		if( !is_object( $torro_global ) )
-		{
-			return FALSE;
+		if ( ! is_object( $torro_global ) ) {
+			return false;
 		}
 
-		if( '' == $this->name )
-		{
+		if ( '' === $this->name ) {
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title )
-		{
+		if ( '' === $this->title ) {
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description )
-		{
-			$this->description = esc_attr__( 'This is the Torro Forms Responsehandler extension.', 'torro-forms' );
+		if ( '' === $this->description ) {
+			$this->description = __( 'This is the Torro Forms Responsehandler extension.', 'torro-forms' );
 		}
 
-		if( array_key_exists( $this->name, $torro_global->settings ) )
-		{
-			return FALSE;
+		if ( array_key_exists( $this->name, $torro_global->settings ) ) {
+			return false;
 		}
 
-		if( !is_array( $torro_global->settings ) )
-		{
+		if ( ! is_array( $torro_global->settings ) ) {
 			$torro_global->settings = array();
 		}
 
-		$this->initialized = TRUE;
+		$this->initialized = true;
 
 		add_action( 'torro_save_settings', array( $this, 'save_settings' ), 10, 1 );
 
@@ -268,28 +241,24 @@ abstract class Torro_Settings
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function torro_register_settings( $settings_handler_class )
-{
-	if( class_exists( $settings_handler_class ) )
-	{
+function torro_register_settings( $settings_handler_class ) {
+	if ( class_exists( $settings_handler_class ) ) {
 		$settings_handler = new $settings_handler_class();
 
 		return $settings_handler->_register();
 	}
 
-	return FALSE;
+	return false;
 }
 
 /**
  * @param $settings_name
  */
-function torro_get_settings( $settings_name )
-{
+function torro_get_settings( $settings_name ) {
 	global $torro_global;
 
-	if( !array_key_exists( $settings_name, $torro_global->settings ) )
-	{
-		return FALSE;
+	if ( ! array_key_exists( $settings_name, $torro_global->settings ) ) {
+		return false;
 	}
 
 	$settings_handler = new Torro_Settings_Handler( $settings_name, $torro_global->settings[ $settings_name ]->settings );

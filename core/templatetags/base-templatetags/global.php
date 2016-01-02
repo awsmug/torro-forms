@@ -24,14 +24,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-class Torro_GlobalTemplateTags extends Torro_TemplateTags
-{
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Torro_GlobalTemplateTags extends Torro_TemplateTags {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->title = __( 'Global', 'torro-forms' );
 		$this->name = 'basetags';
 		$this->description = __( 'Global Templatetags', 'torro-forms' );
@@ -40,43 +42,38 @@ class Torro_GlobalTemplateTags extends Torro_TemplateTags
 	/**
 	 * Adding all tags of class
 	 */
-	public function tags()
-	{
-		$this->add_tag( 'sitetitle', esc_attr__( 'Site Title', 'torro-forms' ), esc_attr__( 'Adds the Site Title', 'torro-forms' ), array( __CLASS__ , 'sitetitle' ) );
-		$this->add_tag( 'sitetagline', esc_attr__( 'Site Tagline', 'torro-forms' ), esc_attr__( 'Adds the Sites Tagline', 'torro-forms' ), array( __CLASS__, 'sitetagline') );
-		$this->add_tag( 'adminemail', esc_attr__( 'Admin Email', 'torro-forms' ), esc_attr__( 'Adds the Admin Email-Address', 'torro-forms' ), array( __CLASS__, 'adminemail') );
-		$this->add_tag( 'userip', esc_attr__( 'User IP', 'torro-forms' ), esc_attr__( 'Adds the Sites User IP', 'torro-forms' ), array( __CLASS__, 'userip' ) );
+	public function tags() {
+		$this->add_tag( 'sitetitle', __( 'Site Title', 'torro-forms' ), __( 'Adds the Site Title', 'torro-forms' ), array( __CLASS__ , 'sitetitle' ) );
+		$this->add_tag( 'sitetagline', __( 'Site Tagline', 'torro-forms' ), __( 'Adds the Sites Tagline', 'torro-forms' ), array( __CLASS__, 'sitetagline') );
+		$this->add_tag( 'adminemail', __( 'Admin Email', 'torro-forms' ), __( 'Adds the Admin Email-Address', 'torro-forms' ), array( __CLASS__, 'adminemail') );
+		$this->add_tag( 'userip', __( 'User IP', 'torro-forms' ), __( 'Adds the Sites User IP', 'torro-forms' ), array( __CLASS__, 'userip' ) );
 	}
 
 	/**
 	 * %sitename%
 	 */
-	public static function sitetitle()
-	{
+	public static function sitetitle() {
 		return get_bloginfo( 'name' );
 	}
 
 	/**
 	 * %sitename%
 	 */
-	public static function sitetagline()
-	{
+	public static function sitetagline() {
 		return get_bloginfo( 'description' );
 	}
 
 	/**
 	 * %sitename%
 	 */
-	public static function adminemail()
-	{
+	public static function adminemail() {
 		return get_option( 'admin_email' );
 	}
 
 	/**
 	 * %sitename%
 	 */
-	public static function userip()
-	{
+	public static function userip() {
 		return $_SERVER[ 'REMOTE_ADDR' ];
 	}
 }

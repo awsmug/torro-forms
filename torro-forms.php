@@ -148,17 +148,9 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function is_installed() {
-		global $wpdb;
+		global $wpdb, $torro_global;
 
-		$tables = array(
-			$wpdb->prefix . 'torro_elements',
-			$wpdb->prefix . 'torro_element_answers',
-			$wpdb->prefix . 'torro_results',
-			$wpdb->prefix . 'torro_result_values',
-			$wpdb->prefix . 'torro_settings',
-			$wpdb->prefix . 'torro_participiants',
-			$wpdb->prefix . 'torro_email_notifications',
-		);
+		$tables = get_object_vars( $torro_global->tables );
 
 		// Checking if all tables are existing
 		foreach ( $tables AS $table ) {
@@ -314,7 +306,7 @@ class Torro_Init {
 		if ( is_array( self::$admin_notices ) && count( self::$admin_notices ) > 0 ) {
 			$html = '';
 			foreach ( self::$admin_notices as $notice ) {
-				$html .= '<div class="' . $notice['type'] . '"><p>' . $notice['message'] . '</p></div>';
+				$html .= '<div class="' . esc_attr( $notice['type'] ) . '"><p>' . esc_html( $notice['message'] ) . '</p></div>';
 			}
 			echo $html;
 		}

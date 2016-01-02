@@ -24,13 +24,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Formbuilder
-{
+class Torro_Formbuilder {
 
 	/**
 	 * Init in WordPress, run on constructor
@@ -38,11 +36,9 @@ class Torro_Formbuilder
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
-		if( !is_admin() )
-		{
-			return NULL;
+	public static function init() {
+		if ( ! is_admin() ) {
+			return null;
 		}
 
 		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ), 20 );
@@ -64,12 +60,10 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function droppable_area()
-	{
+	public static function droppable_area() {
 		global $post, $torro_global;
 
-		if( !torro_is_formbuilder() )
-		{
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
@@ -86,16 +80,12 @@ class Torro_Formbuilder
 		$form = new Torro_Form( $form_id );
 
 		// Running each Element
-		if( count( $form->elements ) > 0 )
-		{
-			foreach( $form->elements AS $element )
-			{
+		if ( count( $form->elements ) > 0 ) {
+			foreach ( $form->elements as $element ) {
 				$html .= $element->draw_admin();
 				torro_add_element_templatetag( $element->id, $element->label );
 			}
-		}
-		else
-		{
+		} else {
 			$html .= '<div id="torro-drop-elements-here">' . __( 'Drop your Elements here!', 'torro-forms' ) . '</div>';
 		}
 
@@ -125,22 +115,12 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_boxes( $post_type )
-	{
+	public static function meta_boxes( $post_type ) {
 		$post_types = array( 'torro-forms' );
 
-		if( in_array( $post_type, $post_types ) )
-		{
-			add_meta_box( 'form-elements',
-			              esc_attr__( 'Elements', 'torro-forms' ),
-			              array( __CLASS__, 'meta_box_form_elements' ),
-			              'torro-forms', 'side', 'high' );
-
-			add_meta_box( 'form-options',
-			              esc_attr__( 'Options', 'torro-forms' ),
-			              array( __CLASS__, 'meta_box_options' ),
-			              'torro-forms', 'side', 'high' );
-
+		if ( in_array( $post_type, $post_types, true ) ) {
+			add_meta_box( 'form-elements', __( 'Elements', 'torro-forms' ), array( __CLASS__, 'meta_box_form_elements' ), 'torro-forms', 'side', 'high' );
+			add_meta_box( 'form-options', __( 'Options', 'torro-forms' ), array( __CLASS__, 'meta_box_options' ), 'torro-forms', 'side', 'high' );
 		}
 	}
 
@@ -149,14 +129,12 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_form_elements()
-	{
+	public static function meta_box_form_elements() {
 		global $torro_global;
 
 		$html = '';
 
-		foreach( $torro_global->element_types AS $element )
-		{
+		foreach ( $torro_global->element_types as $element ) {
 			$html .= $element->draw_admin();
 		}
 
@@ -166,8 +144,7 @@ class Torro_Formbuilder
 	/**
 	 * General Form options
 	 */
-	public static function meta_box_options()
-	{
+	public static function meta_box_options() {
 		$html  = '<div class="notices misc-pub-section">';
 		$html .= '</div>';
 
@@ -197,39 +174,33 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save_form( $form_id )
-	{
+	public static function save_form( $form_id ) {
 		global $torro_global, $wpdb;
 
-		if( !array_key_exists( 'elements', $_REQUEST ) )
-		{
+		if ( ! array_key_exists( 'elements', $_REQUEST ) ) {
 			return;
 		}
 
-		if( array_key_exists( 'form-duplicate', $_REQUEST ) )
-		{
+		if ( array_key_exists( 'form-duplicate', $_REQUEST ) ) {
 			return;
 		}
 
-		if( wp_is_post_revision( $form_id ) )
-		{
+		if ( wp_is_post_revision( $form_id ) ) {
 			return;
 		}
 
-		if( !array_key_exists( 'post_type', $_POST ) )
-		{
+		if( !array_key_exists( 'post_type', $_POST ) ) {
 			return;
 		}
 
-		if( 'torro-forms' != $_POST[ 'post_type' ] )
-		{
+		if ( 'torro-forms' !== $_POST[ 'post_type' ] ) {
 			return;
 		}
 
-		$form_elements = $_POST[ 'elements' ];
-		$form_deleted_formelements = $_POST[ 'form_deleted_formelements' ];
-		$form_deleted_answers = $_POST[ 'form_deleted_answers' ];
-		$form_show_results = $_POST[ 'show_results' ];
+		$form_elements = $_POST['elements'];
+		$form_deleted_formelements = $_POST['form_deleted_formelements'];
+		$form_deleted_answers = $_POST['form_deleted_answers'];
+		$form_show_results = isset( $_POST['show_results'] ) ? $_POST['show_results'] : false;
 
 		/**
 		 * Saving if results have to be shown after participating
@@ -241,10 +212,8 @@ class Torro_Formbuilder
 		/**
 		 * Deleting deleted answers
 		 */
-		if( is_array( $form_deleted_formelements ) && count( $form_deleted_formelements ) > 0 )
-		{
-			foreach( $form_deleted_formelements AS $deleted_element )
-			{
+		if ( 0 < count( $form_deleted_formelements ) ) {
+			foreach ( $form_deleted_formelements as $deleted_element ) {
 				$wpdb->delete( $torro_global->tables->elements, array( 'id' => $deleted_element ) );
 				$wpdb->delete( $torro_global->tables->element_answers, array( 'element_id' => $deleted_element ) );
 			}
@@ -255,10 +224,8 @@ class Torro_Formbuilder
 		/*
 		 * Deleting deleted answers
 		 */
-		if( is_array( $form_deleted_answers ) && count( $form_deleted_answers ) > 0 )
-		{
-			foreach( $form_deleted_answers AS $deleted_answer )
-			{
+		if ( 0 < count( $form_deleted_answers ) ) {
+			foreach ( $form_deleted_answers AS $deleted_answer ) {
 				$wpdb->delete( $torro_global->tables->element_answers, array( 'id' => $deleted_answer ) );
 			}
 		}
@@ -266,10 +233,8 @@ class Torro_Formbuilder
 		/*
 		 * Saving elements
 		 */
-		foreach( $form_elements AS $key => $element )
-		{
-			if( 'widget_formelement_XXnrXX' == $key )
-			{
+		foreach ( $form_elements AS $key => $element ) {
+			if ( 'widget_formelement_XXnrXX' === $key ) {
 				continue;
 			}
 
@@ -278,43 +243,37 @@ class Torro_Formbuilder
 			$sort = (int) $element[ 'sort' ];
 			$type = $element[ 'type' ];
 
-			if( array_key_exists( 'label', $element ) )
-			{
+			if ( array_key_exists( 'label', $element ) ) {
 				$label = torro_prepare_post_data( $element[ 'label' ] );
 			}
 
 			$answers = array();
 			$settings = array();
 
-			if( array_key_exists( 'answers', $element ) )
-			{
+			if ( array_key_exists( 'answers', $element ) ) {
 				$answers = $element[ 'answers' ];
 			}
 
-			if( array_key_exists( 'settings', $element ) )
-			{
+			if ( array_key_exists( 'settings', $element ) ) {
 				$settings = $element[ 'settings' ];
 			}
 
 			// Saving Elements
-			if( '' != $element_id )
+			if ( 0 < $element_id )
 			{
 				// Updating if Element already exists
 				$wpdb->update( $torro_global->tables->elements, array(
-						'label' => $label,
-						'sort'  => $sort,
-						'type'  => $type
+						'label'	=> $label,
+						'sort'	=> $sort,
+						'type'	=> $type
 				), array( 'id' => $element_id ) );
-			}
-			else
-			{
-
+			} else {
 				// Adding new Element
 				$wpdb->insert( $torro_global->tables->elements, array(
-						'form_id' => $form_id,
-						'label'   => $label,
-						'sort'    => $sort,
-						'type'    => $type
+						'form_id'	=> $form_id,
+						'label'		=> $label,
+						'sort'		=> $sort,
+						'type'		=> $type
 				) );
 
 				$element_id = $wpdb->insert_id;
@@ -325,35 +284,29 @@ class Torro_Formbuilder
 			/*
 			 * Saving answers
 			 */
-			if( is_array( $answers ) && count( $answers ) > 0 )
-			{
-				foreach( $answers AS $answer )
-				{
+			if ( is_array( $answers ) && 0 < count( $answers ) ) {
+				foreach ( $answers as $answer ) {
 					$answer_id = (int) $answer[ 'id' ];
 					$answer_text = torro_prepare_post_data( $answer[ 'answer' ] );
 					$answer_sort = (int) $answer[ 'sort' ];
 
 					$answer_section = '';
-					if( array_key_exists( 'section', $answer ) )
-					{
+					if ( array_key_exists( 'section', $answer ) ) {
 						$answer_section = $answer[ 'section' ];
 					}
 
-					if( '' != $answer_id )
-					{
+					if ( 0 < $answer_id ) {
 						$wpdb->update( $torro_global->tables->element_answers, array(
-								'answer'  => $answer_text,
-								'section' => $answer_section,
-								'sort'    => $answer_sort
+							'answer'  => $answer_text,
+							'section' => $answer_section,
+							'sort'    => $answer_sort,
 						), array( 'id' => $answer_id ) );
-					}
-					else
-					{
+					} else {
 						$wpdb->insert( $torro_global->tables->element_answers, array(
-								'element_id' => $element_id,
-								'answer'     => $answer_text,
-								'section'    => $answer_section,
-								'sort'       => $answer_sort
+							'element_id' => $element_id,
+							'answer'     => $answer_text,
+							'section'    => $answer_section,
+							'sort'       => $answer_sort,
 						) );
 						$answer_id = $wpdb->insert_id;
 					}
@@ -365,26 +318,21 @@ class Torro_Formbuilder
 			/*
 			 * Saving Element Settings
 			 */
-			if( is_array( $settings ) && count( $settings ) > 0 )
-			{
-				foreach( $settings AS $name => $setting )
-				{
+			if ( is_array( $settings ) && 0 < count( $settings )) {
+				foreach ( $settings as $name => $setting ) {
 					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->settings} WHERE element_id = %d AND name = %s", $element_id, $name );
-					$count = $wpdb->get_var( $sql );
+					$count = absint( $wpdb->get_var( $sql ) );
 
-					if( $count > 0 )
-					{
+					if( 0 < $count ) {
 						$wpdb->update( $torro_global->tables->settings, array( 'value' => torro_prepare_post_data( $settings[ $name ] ) ), array(
-								'element_id' => $element_id,
-								'name'       => $name
+							'element_id'	=> $element_id,
+							'name'			=> $name,
 						) );
-					}
-					else
-					{
+					} else {
 						$wpdb->insert( $torro_global->tables->settings, array(
-								'name'       => $name,
-								'element_id' => $element_id,
-								'value'      => torro_prepare_post_data( $settings[ $name ] )
+							'name'			=> $name,
+							'element_id'	=> $element_id,
+							'value'			=> torro_prepare_post_data( $settings[ $name ] ),
 						) );
 					}
 				}
@@ -404,8 +352,7 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function delete_form( $form_id )
-	{
+	public static function delete_form( $form_id ) {
 		$form = new Torro_Form( $form_id );
 		$form->delete();
 	}
@@ -415,26 +362,24 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function ajax_duplicate_form()
-	{
+	public static function ajax_duplicate_form() {
 
 		$form_id = $_REQUEST[ 'form_id' ];
 		$form = get_post( $form_id );
 
-		if( 'torro-forms' != $form->post_type )
-		{
+		if ( 'torro-forms' !== $form->post_type ) {
 			return;
 		}
 
 		$form = new Torro_Form( $form_id );
-		$new_form_id = $form->duplicate( TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE );
+		$new_form_id = $form->duplicate( true, true, false, true, true, true, true );
 
 		$post = get_post( $new_form_id );
 
 		$response = array(
 			'form_id'    => $new_form_id,
 			'post_title' => $post->post_title,
-			'admin_url'  => site_url( '/wp-admin/post.php?post=' . $new_form_id . '&action=edit' )
+			'admin_url'  => admin_url( 'post.php?post=' . $new_form_id . '&action=edit' )
 		);
 
 		echo json_encode( $response );
@@ -447,14 +392,11 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function ajax_delete_responses()
-	{
-
-		$form_id = $_REQUEST[ 'form_id' ];
+	public static function ajax_delete_responses() {
+		$form_id = absint( $_REQUEST[ 'form_id' ] );
 		$form = get_post( $form_id );
 
-		if( 'torro-forms' != $form->post_type )
-		{
+		if ( 'torro-forms' !== $form->post_type ) {
 			return;
 		}
 
@@ -463,7 +405,7 @@ class Torro_Formbuilder
 
 		$response = array(
 			'form_id' => $form_id,
-			'deleted' => TRUE,
+			'deleted' => true,
 			'html' => Torro_ResultsEntries::show_not_found_notice(),
 		);
 
@@ -477,10 +419,8 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function jquery_messages_area()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	public static function jquery_messages_area() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
@@ -494,10 +434,8 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_styles()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	public static function register_styles() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
@@ -509,25 +447,23 @@ class Torro_Formbuilder
 	 *
 	 * @since 1.0.0
 	 */
-	public static function enqueue_scripts()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	public static function enqueue_scripts() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
 		$translation = array(
-			'delete'                       => esc_attr__( 'Delete', 'torro-forms' ),
-			'yes'                          => esc_attr__( 'Yes', 'torro-forms' ),
-			'no'                           => esc_attr__( 'No', 'torro-forms' ),
-			'edit_form'                    => esc_attr__( 'Edit Form', 'torro-forms' ),
-			'max_fields_near_limit'        => esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'torro-forms' ),
-			'max_fields_over_limit'        => esc_attr__( 'You are over the limit of PHP max_num_fields!', 'torro-forms' ),
-			'max_fields_todo'              => esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'torro-forms' ),
-			'of'                           => esc_attr__( 'of', 'torro-forms' ),
-			'duplicated_form_successfully' => esc_attr__( 'Form duplicated successfully!', 'torro-forms' ),
-			'deleted_results_successfully' => esc_attr__( 'Form results deleted successfully!', 'torro-forms' ),
-			'copied'                       => esc_attr__( 'Copied!', 'torro-forms' )
+			'delete'						=> esc_attr__( 'Delete', 'torro-forms' ),
+			'yes'							=> esc_attr__( 'Yes', 'torro-forms' ),
+			'no'							=> esc_attr__( 'No', 'torro-forms' ),
+			'edit_form'						=> esc_attr__( 'Edit Form', 'torro-forms' ),
+			'max_fields_near_limit'			=> esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'torro-forms' ),
+			'max_fields_over_limit'			=> esc_attr__( 'You are over the limit of PHP max_num_fields!', 'torro-forms' ),
+			'max_fields_todo'				=> esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'torro-forms' ),
+			'of'							=> esc_attr__( 'of', 'torro-forms' ),
+			'duplicated_form_successfully'	=> esc_attr__( 'Form duplicated successfully!', 'torro-forms' ),
+			'deleted_results_successfully'	=> esc_attr__( 'Form results deleted successfully!', 'torro-forms' ),
+			'copied'						=> esc_attr__( 'Copied!', 'torro-forms' )
 		);
 
 		wp_enqueue_script( 'jquery-ui-draggable' );
@@ -543,8 +479,7 @@ class Torro_Formbuilder
 		wp_enqueue_script( 'torro-form-edit', TORRO_URLPATH . 'assets/js/form-edit.js' );
 		wp_localize_script( 'torro-form-edit', 'translation_fb', $translation );
 
-		if( wp_is_mobile() )
-		{
+		if ( wp_is_mobile() ) {
 			wp_enqueue_script( 'jquery-touch-punch' );
 		}
 	}

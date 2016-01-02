@@ -24,15 +24,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 global $torro_global;
 
-class Torro_Global
-{
+class Torro_Global {
 	var $tables;
 	var $components = array();
 	var $settings = array();
@@ -43,13 +41,11 @@ class Torro_Global
 	var $chart_creators = array();
 	var $templatetags = array();
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->tables();
 	}
 
-	public function tables()
-	{
+	public function tables() {
 		global $wpdb;
 
 		$this->tables = new stdClass;
@@ -65,138 +61,116 @@ class Torro_Global
 		$this->tables = apply_filters( 'torro_forms_tables', $this->tables );
 	}
 
-	public function add_component( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_component( $name, $object ) {
+		if ( empty( $name ) ) {
+			return false;
 		}
 
-		if( !is_object( $object ) && 'Torro_Component' != get_parent_class( $object ) )
-		{
-			return FALSE;
+		if ( ! is_a( $object, 'Torro_Component' ) ) {
+			return false;
 		}
 
 		$this->components[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 
-	public function add_settings( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_settings( $name, $object ) {
+		if( empty( $name ) ) {
+			return false;
 		}
 
-		if( !is_object( $object ) && 'Torro_Settings' != get_parent_class( $object ) )
-		{
-			return FALSE;
+		if ( ! is_a( $object, 'Torro_Settings' ) ) {
+			return false;
 		}
 
 		$this->settings[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 
-	public function add_form_element( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_form_element( $name, $object ) {
+		if( empty( $name ) ) {
+			return false;
 		}
-		if( !is_object( $object ) && 'Torro_Form_Element' != get_parent_class( $object ) )
-		{
-			return FALSE;
+
+		if ( ! is_a( $object, 'Torro_Form_Element' ) ) {
+			return false;
 		}
+
 		$this->element_types[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 
-	public function add_restriction( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_restriction( $name, $object ) {
+		if( empty( $name ) ) {
+			return false;
 		}
 
-		if( !is_object( $object ) && 'Torro_Restriction' != get_parent_class( $object ) )
-		{
-			return FALSE;
+		if ( ! is_a( $object, 'Torro_Restriction' ) ) {
+			return false;
 		}
 
 		$this->restrictions[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 
-	public function add_action( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_action( $name, $object ) {
+		if( empty( $name ) ) {
+			return false;
 		}
 
-		if( !is_object( $object ) && 'Torro_Action' != get_parent_class( $object ) )
-		{
-			return FALSE;
+		if ( ! is_a( $object, 'Torro_Action' ) ) {
+			return false;
 		}
 
 		$this->actions[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 
-	public function add_result_handler( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_result_handler( $name, $object ) {
+		if( empty( $name ) ) {
+			return false;
 		}
 
-		if( !is_object( $object ) && 'Torro_Action' != get_parent_class( $object ) )
-		{
-			return FALSE;
+		if ( ! is_a( $object, 'Torro_Action' ) ) {
+			return false;
 		}
 
 		$this->result_handlers[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 
-	public function add_chartscreator( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_chartscreator( $name, $object ) {
+		if( empty( $name ) ) {
+			return false;
 		}
 
-		if( !is_object( $object ) && 'Torro_Chart_Creator' != get_parent_class( $object ) )
-		{
-			return FALSE;
+		if ( ! is_a( $object, 'Torro_Chart_Creator' ) ) {
+			return false;
 		}
 
 		$this->chart_creators[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 
-	public function add_templatetags( $name, $object )
-	{
-		if( '' == $name )
-		{
-			return FALSE;
+	public function add_templatetags( $name, $object ) {
+		if( empty( $name ) ) {
+			return false;
 		}
 
-		if( !is_object( $object ) && 'Torro_TemplateTags' != get_parent_class( $object ) )
-		{
-			return FALSE;
+		if ( ! is_a( $object, 'Torro_TemplateTags' ) ) {
+			return false;
 		}
 
 		$this->templatetags[ $name ] = $object;
 
-		return TRUE;
+		return true;
 	}
 }
 

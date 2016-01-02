@@ -24,53 +24,46 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_ShortCodes
-{
+class Torro_ShortCodes {
 	var $tables;
 	var $components = array();
 
 	/**
 	 * Loading all Shortcodes
 	 */
-	public static function init()
-	{
+	public static function init() {
 		add_shortcode( 'survey', array( __CLASS__, 'form' ) ); // @todo: Delete later, because it's deprecated
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
 
 		add_action( 'torro_formbuilder_options', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
-	public static function form( $atts )
-	{
+	public static function form( $atts ) {
 		$defaults = array(
-				'id' => '',
-				'title' => __( 'Form', 'torro-forms' ),
-				'show' => 'embed', // embed, iframe
-		        'iframe_width' => '100%',
-		        'iframe_height' => '100%'
+			'id'			=> '',
+			'title'			=> __( 'Form', 'torro-forms' ),
+			'show'			=> 'embed', // embed, iframe
+			'iframe_width'	=> '100%',
+			'iframe_height'	=> '100%',
 		);
 
 		$atts = shortcode_atts( $defaults, $atts );
 
-		$torro_form_id = $atts[ 'id' ];
+		$torro_form_id = absint( $atts[ 'id' ] );
 
-		if( '' == $torro_form_id )
-		{
+		if ( 0 === $torro_form_id ) {
 			return esc_attr__( 'Please enter an id in the form shortcode!', 'torro-forms' );
 		}
 
-		if( !torro_form_exists( $torro_form_id ) )
-		{
+		if ( ! torro_form_exists( $torro_form_id ) ) {
 			return esc_attr__( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
 		}
 
-		switch(  $atts[ 'show' ] )
-		{
+		switch ( $atts[ 'show' ] ) {
 			case 'iframe':
 				$url = get_permalink( $torro_form_id );
 				$width = $atts[ 'iframe_width' ];
@@ -86,16 +79,14 @@ class Torro_ShortCodes
 		return $html;
 	}
 
-	public static function show_form_shortcode()
-	{
+	public static function show_form_shortcode() {
 		global $post;
 
-		if( !torro_is_formbuilder() )
-		{
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
-		$html  = '<div class="misc-pub-section form-options">';
+		$html = '<div class="misc-pub-section form-options">';
 		$html .= torro_clipboard_field( __( 'Form Shortcode:', 'torro-forms' ), '[form id=' . $post->ID . ']' );
 		$html .= '</div>';
 

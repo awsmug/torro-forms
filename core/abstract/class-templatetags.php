@@ -24,13 +24,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_TemplateTags
-{
+abstract class Torro_TemplateTags {
 	/**
 	 * Name of templatetags collection
 	 *
@@ -64,7 +62,7 @@ abstract class Torro_TemplateTags
 	 *
 	 * @since 1.0.0
 	 */
-	var $initialized = FALSE;
+	var $initialized = false;
 
 	/**
 	 * Add a tag to taglist
@@ -73,12 +71,12 @@ abstract class Torro_TemplateTags
 	 * @param       $callback
 	 * @param array $args
 	 */
-	final function add_tag( $name, $display_name, $description, $callback, $args = array() )
-	{
-		$this->tags[ $name ] = array( 'description'  => $description,
-		                              'display_name' => $display_name,
-		                              'callback'     => $callback,
-		                              'args'         => $args
+	final function add_tag( $name, $display_name, $description, $callback, $args = array() ) {
+		$this->tags[ $name ] = array(
+			'description'	=> $description,
+			'display_name'	=> $display_name,
+			'callback'		=> $callback,
+			'args'			=> $args,
 		);
 	}
 
@@ -87,51 +85,43 @@ abstract class Torro_TemplateTags
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
-	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
 	 * @since 1.0.0
 	 */
-	public function _register()
-	{
+	public function _register() {
 		global $torro_global;
 
-		if( TRUE == $this->initialized )
-		{
-			return FALSE;
+		if ( true == $this->initialized ) {
+			return false;
 		}
 
-		if( !is_object( $torro_global ) )
-		{
-			return FALSE;
+		if ( ! is_object( $torro_global ) ) {
+			return false;
 		}
 
-		if( '' == $this->name )
-		{
+		if ( '' === $this->name ) {
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title )
-		{
+		if ( '' === $this->title ) {
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description )
-		{
-			$this->description = esc_attr__( 'This is a Torro Forms Templatetag collection.', 'torro-forms' );
+		if ( '' === $this->description ) {
+			$this->description = __( 'This is a Torro Forms Templatetag collection.', 'torro-forms' );
 		}
 
-		if( array_key_exists( $this->name, $torro_global->restrictions ) )
-		{
-			return FALSE;
+		if ( array_key_exists( $this->name, $torro_global->restrictions ) ) {
+			return false;
 		}
 
-		if( !is_array( $torro_global->templatetags ) )
-		{
+		if ( ! is_array( $torro_global->templatetags ) ) {
 			$torro_global->templatetags = array();
 		}
 
 		$this->tags(); // Getting Tags
 
-		$this->initialized = TRUE;
+		$this->initialized = true;
 
 		return $torro_global->add_templatetags( $this->name, $this );
 	}
@@ -149,16 +139,14 @@ abstract class Torro_TemplateTags
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function torro_register_templatetags( $templatetags_class )
-{
-	if( class_exists( $templatetags_class ) )
-	{
+function torro_register_templatetags( $templatetags_class ) {
+	if ( class_exists( $templatetags_class ) ) {
 		$templatetags = new $templatetags_class();
 
 		return $templatetags->_register();
 	}
 
-	return FALSE;
+	return false;
 }
 
 /**
@@ -166,23 +154,19 @@ function torro_register_templatetags( $templatetags_class )
  *
  * @return array|bool
  */
-function torro_get_templatetag_collections()
-{
+function torro_get_templatetag_collections() {
 	global $torro_global;
 
-	if( !property_exists( $torro_global, 'templatetags' ) )
-	{
-		return FALSE;
+	if ( ! property_exists( $torro_global, 'templatetags' ) ) {
+		return false;
 	}
 
-	if( count( $torro_global->templatetags ) == 0 )
-	{
-		return FALSE;
+	if ( 0 === count( $torro_global->templatetags ) ) {
+		return false;
 	}
 
 	$templatetag_collections = array();
-	foreach( $torro_global->templatetags AS $templatetag_collection_name => $templatetag_collection )
-	{
+	foreach ( $torro_global->templatetags as $templatetag_collection_name => $templatetag_collection ) {
 		$templatetag_collections[ $templatetag_collection_name ] = new stdClass();
 		$templatetag_collections[ $templatetag_collection_name ]->title = $templatetag_collection->title;
 		$templatetag_collections[ $templatetag_collection_name ]->description = $templatetag_collection->description;
@@ -196,23 +180,19 @@ function torro_get_templatetag_collections()
  *
  * @param $templatetag_collection
  */
-function torro_get_templatetags( $templatetag_collection )
-{
+function torro_get_templatetags( $templatetag_collection ) {
 	global $torro_global;
 
-	if( !property_exists( $torro_global, 'templatetags' ) )
-	{
-		return FALSE;
+	if ( ! property_exists( $torro_global, 'templatetags' ) ) {
+		return false;
 	}
 
-	if( count( $torro_global->templatetags ) == 0 )
-	{
-		return FALSE;
+	if ( 0 === count( $torro_global->templatetags ) ) {
+		return false;
 	}
 
-	if( !array_key_exists( $templatetag_collection, $torro_global->templatetags ) )
-	{
-		return FALSE;
+	if ( ! array_key_exists( $templatetag_collection, $torro_global->templatetags ) ) {
+		return false;
 	}
 
 	return $torro_global->templatetags[ $templatetag_collection ]->tags;
@@ -223,24 +203,21 @@ function torro_get_templatetags( $templatetag_collection )
  *
  * @return string
  */
-function torro_template_tag_button( $input_name )
-{
+function torro_template_tag_button( $input_name ) {
 	$collections = torro_get_templatetag_collections();
 
 	$html = '<div class="torro-templatetag-button">';
 	$html .= '<input type="button" value="' . esc_attr__( '+', 'torro-forms' ) . '" class="button" rel="' . $input_name . '" />';
 	$html .= '<div class="torro-templatetag-list">';
 
-	foreach( $collections AS $collection_name => $collection )
-	{
+	foreach ( $collections as $collection_name => $collection ) {
 		$html .= '<div class="torro-templatetag-collection">';
-		$html .= '<div class="torro-templatetag-collection-headline">' . $collection->title . '</div>';
+		$html .= '<div class="torro-templatetag-collection-headline">' . esc_html( $collection->title ) . '</div>';
 
 		$template_tags = torro_get_templatetags( $collection_name );
 
-		foreach( $template_tags AS $tag_name => $template_tag )
-		{
-			$html .= '<div class="torro-templatetag" rel="' . $input_name . '" data-tagname="' . $tag_name . '">' . $template_tag[ 'display_name' ] . '</div>';
+		foreach ( $template_tags as $tag_name => $template_tag ) {
+			$html .= '<div class="torro-templatetag" rel="' . $input_name . '" data-tagname="' . $tag_name . '">' . esc_html( $template_tag[ 'display_name' ] ) . '</div>';
 		}
 		$html .= '</div>';
 	}
@@ -257,18 +234,15 @@ function torro_template_tag_button( $input_name )
  *
  * @return mixed
  */
-function torro_filter_templatetags( $content )
-{
+function torro_filter_templatetags( $content ) {
 	global $torro_global;
 
 	$collections = torro_get_templatetag_collections();
 
-	foreach( $collections AS $collection_name => $collection )
-	{
+	foreach ( $collections as $collection_name => $collection ) {
 		$template_tags = torro_get_templatetags( $collection_name );
 
-		foreach( $template_tags AS $tag_name => $template_tag )
-		{
+		foreach ( $template_tags as $tag_name => $template_tag ) {
 			$template_content = call_user_func_array( $template_tag[ 'callback' ], $template_tag[ 'args' ] );
 			$content = str_replace( '{' . $tag_name . '}', $template_content, $content );
 		}
