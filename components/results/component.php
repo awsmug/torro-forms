@@ -24,28 +24,24 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Results_Component extends Torro_Component
-{
+class Torro_Results_Component extends Torro_Component {
 
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function init()
-	{
+	public function init() {
 		$this->name = 'results';
 		$this->title = __( 'Results', 'torro-forms' );
 		$this->description = __( 'Handling Results.', 'torro-forms' );
 	}
 
-	public function includes()
-	{
+	public function includes() {
 		$folder = TORRO_COMPONENTFOLDER . 'results/';
 
 		// Result Handler API
@@ -68,8 +64,7 @@ class Torro_Results_Component extends Torro_Component
 		require_once( $folder . 'base-result-handlers/charts-c3.php' );
 	}
 
-	public function admin_styles()
-	{
+	public function admin_styles() {
 		wp_enqueue_style( 'torro-results', TORRO_URLPATH . 'assets/css/results.css' );
 	}
 }

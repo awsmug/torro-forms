@@ -24,24 +24,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Formbuilder_ChartsExtension
-{
+class Torro_Formbuilder_ChartsExtension {
 	/**
 	 * Init in WordPress, run on constructor
 	 *
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
-		if( !is_admin() )
-		{
-			return NULL;
+	public static function init() {
+		if ( ! is_admin() ) {
+			return null;
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
@@ -56,19 +52,12 @@ class Torro_Formbuilder_ChartsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_boxes( $post_type )
-	{
+	public static function meta_boxes( $post_type ) {
 		$post_types = array( 'torro-forms' );
 
-		if( in_array( $post_type, $post_types, true ) ):
-			add_meta_box(
-				'form-results',
-				esc_attr__( 'Results', 'torro-forms' ),
-				array( __CLASS__, 'meta_box_results' ),
-				'torro-forms',
-				'normal',
-				'high' );
-		endif;
+		if ( in_array( $post_type, $post_types, true ) ) {
+			add_meta_box( 'form-results', __( 'Results', 'torro-forms' ), array( __CLASS__, 'meta_box_results' ), 'torro-forms', 'normal', 'high' );
+		}
 	}
 
 	/**
@@ -76,8 +65,7 @@ class Torro_Formbuilder_ChartsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_results()
-	{
+	public static function meta_box_results() {
 		global $post, $torro_global;
 
 		$form_id = $post->ID;
@@ -87,15 +75,15 @@ class Torro_Formbuilder_ChartsExtension
 
 		$result_handlers = $torro_global->result_handlers;
 
-		if( !is_array( $result_handlers ) || count( $result_handlers ) == 0 ){
+		if ( ! is_array( $result_handlers ) || 0 === count( $result_handlers ) ){
 			return;
 		}
 
 		$html = '<div id="form-result-handlers-tabs" class="section form_element_tabs">';
 
-		$html.= '<ul>';
-		foreach( $result_handlers AS $result_handler ){
-			if( ! $result_handler->has_option() ){
+		$html .= '<ul>';
+		foreach ( $result_handlers as $result_handler ){
+			if ( ! $result_handler->has_option() ) {
 				continue;
 			}
 			$html .= '<li><a href="#' . $result_handler->name . '">' . $result_handler->title . '</a></option>';
@@ -104,8 +92,8 @@ class Torro_Formbuilder_ChartsExtension
 
 		$html .= '<div class="clear"></div>';
 
-		foreach( $result_handlers AS $result_handler ){
-			if( ! $result_handler->has_option() ){
+		foreach ( $result_handlers as $result_handler ) {
+			if ( ! $result_handler->has_option() ){
 				continue;
 			}
 			$html .= '<div id="' . $result_handler->name . '">' . $result_handler->option_content . '</div>';
@@ -117,8 +105,7 @@ class Torro_Formbuilder_ChartsExtension
 
 		$delete_results_disabled = ' disabled="disabled"';
 
-		if( $form_results->count() > 0 )
-		{
+		if ( 0 < $form_results->count() ) {
 			$delete_results_disabled = '';
 		}
 
@@ -134,18 +121,14 @@ class Torro_Formbuilder_ChartsExtension
 	}
 
 	/**
-	 * Saving data
+	 * Saving restriction options
 	 *
 	 * @param int $form_id
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id )
-	{
-		/**
-		 * Saving restriction options
-		 */
-		$restrictions_option = $_POST[ 'form_restrictions_option' ];
+	public static function save( $form_id ) {
+		$restrictions_option = $_POST['form_restrictions_option'];
 		update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
 	}
 
@@ -154,10 +137,8 @@ class Torro_Formbuilder_ChartsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_admin_styles()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	public static function register_admin_styles() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 

@@ -24,19 +24,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_ChartsShortCodes
-{
+class Torro_ChartsShortCodes {
 
 	/**
 	 * Adding Shortcodes and Actionhooks
 	 */
-	public static function init()
-	{
+	public static function init() {
 		add_shortcode( 'survey_results', array( __CLASS__, 'survey_results' ) ); // @todo Delete later, because it's deprecated
 		add_shortcode( 'form_charts', array( __CLASS__, 'form_charts' ) );
 
@@ -54,9 +51,8 @@ class Torro_ChartsShortCodes
 	 *
 	 * @return string|void
 	 */
-	public static function survey_results( $atts )
-	{
-		_deprecated_function( 'Shortcode [survey_results]', '1.0.0 beta 20', '[form_results]' );
+	public static function survey_results( $atts ) {
+		_deprecated_function( 'Shortcode [survey_results]', '1.0.0beta20', '[form_results]' );
 
 		return self::form_charts( $atts );
 	}
@@ -68,14 +64,12 @@ class Torro_ChartsShortCodes
 	 *
 	 * @return string|void
 	 */
-	public static function form_charts( $atts )
-	{
+	public static function form_charts( $atts ) {
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$form_id = $atts[ 'id' ];
 
-		if( '' == $form_id || !torro_form_exists( $form_id ) )
-		{
-			return esc_attr__( 'Please enter a valid form id into the shortcode!', 'torro-forms' );
+		if ( empty( $form_id ) || ! torro_form_exists( $form_id ) ) {
+			return __( 'Please enter a valid form id into the shortcode!', 'torro-forms' );
 		}
 
 		$form_results = new Torro_Form_Results( $form_id );
@@ -84,25 +78,20 @@ class Torro_ChartsShortCodes
 
 		$html = '';
 
-		foreach( $results AS $headline => $element_result )
-		{
+		foreach ( $results as $headline => $element_result ) {
 			$headline_arr = explode( '_', $headline );
 
 			$element_id = (int) $headline_arr[ 1 ];
 			$element = torro_get_element( $element_id );
 
 			// Skip collecting Data if there is no analyzable Data
-			if( !$element->has_answers )
-			{
+			if ( ! $element->has_answers ) {
 				continue;
 			}
 
-			$chart_creator = 'Torro_Chart_Creator_C3';
-			$chart_type = 'bars';
+			$chart_creator = new Torro_Result_Charts_C3();
 
-			$chart_creator = new $chart_creator();
-
-			$html .= $chart_creator->$chart_type( $element->label, $element_result );
+			$html .= $chart_creator->bars( $element->label, $element_result );
 		}
 
 		return $html;
@@ -115,9 +104,8 @@ class Torro_ChartsShortCodes
 	 *
 	 * @return string|void
 	 */
-	public static function question_results( $atts )
-	{
-		_deprecated_function( 'Shortcode [question_results]', '1.0.0 beta 20', '[element_results]' );
+	public static function question_results( $atts ) {
+		_deprecated_function( 'Shortcode [question_results]', '1.0.0beta20', '[element_results]' );
 
 		return self::element_chart( $atts );
 	}
@@ -129,19 +117,17 @@ class Torro_ChartsShortCodes
 	 *
 	 * @return string $html HTML of results
 	 */
-	public static function element_chart( $atts )
-	{
+	public static function element_chart( $atts ) {
 		global $wpdb, $torro_global;
 
-		$atts = shortcode_atts( array( 'id' => '', ), $atts );
+		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$element_id = $atts[ 'id' ];
 
 		$sql = $wpdb->prepare( "SELECT id, form_id FROM {$torro_global->tables->elements} WHERE id = %d", $element_id );
 		$element = $wpdb->get_row( $sql );
 
-		if( NULL === $element )
-		{
-			return esc_attr__( 'Please enter a valid element id into the shortcode!', 'torro-forms' );
+		if ( null === $element ) {
+			return __( 'Please enter a valid element id into the shortcode!', 'torro-forms' );
 		}
 
 		$form_results = new Torro_Form_Results( $element->form_id );
@@ -150,12 +136,9 @@ class Torro_ChartsShortCodes
 
 		$element = torro_get_element( $element->id );
 
-		$chart_creator = 'Torro_Chart_Creator_C3';
-		$chart_type = 'bars';
+		$chart_creator = new Torro_Result_Charts_C3();
 
-		$chart_creator = new $chart_creator();
-
-		$html = $chart_creator->$chart_type( $element->label, $results[ 'element_' . $element->id ] );
+		$html = $chart_creator->bars( $element->label, $results[ 'element_' . $element->id ] );
 
 		return $html;
 	}
@@ -167,12 +150,10 @@ class Torro_ChartsShortCodes
 	 *
 	 * @return string $html HTML for shortcode summary in admon
 	 */
-	public static function show_form_result_shortcode()
-	{
+	public static function show_form_result_shortcode() {
 		global $post;
 
-		if( !torro_is_formbuilder() )
-		{
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
@@ -188,10 +169,8 @@ class Torro_ChartsShortCodes
 	 *
 	 * @return string $html HTML for shortcode summary in admin
 	 */
-	public static function show_element_result_shortcode( $object )
-	{
-		if( $object->id != '' && $object->is_analyzable )
-		{
+	public static function show_element_result_shortcode( $object ) {
+		if ( ! empty( $object->id ) && $object->is_analyzable ) {
 			echo torro_clipboard_field( __( 'Element Charts Shortcode', 'torro-forms' ), '[element_chart id=' .  $object->id . ']' );
 		}
 	}

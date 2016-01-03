@@ -26,13 +26,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Results
-{
+class Torro_Form_Results {
 	/**
 	 * Form Id
 	 *
@@ -71,17 +69,15 @@ class Torro_Form_Results
 	 * @param int $form_id
 	 * @since 1.0.0
 	 */
-	public function __construct( $form_id )
-	{
+	public function __construct( $form_id ) {
 		// Checking if form exists
-		if( FALSE === get_post_status( $form_id ) )
-		{
-			return FALSE;
+		if( false === get_post_status( $form_id ) ) {
+			return false;
 		}
 
 		$this->form_id = $form_id;
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -92,77 +88,67 @@ class Torro_Form_Results
 	 * @return array $responses
 	 * @since 1.0.0
 	 */
-	public function results( $filter = array() )
-	{
+	public function results( $filter = array() ) {
 		global $wpdb, $torro_global;
 
 		$filter = wp_parse_args( $filter, array(
-			'start_row'       => 0,
-			'num_rows' => NULL,
-			'element_ids' => NULL,
-			'user_ids'    => NULL,
-			'result_ids'  => NULL,
-			'filter'      => NULL,
-			'orderby'     => NULL,
-			'order'       => NULL,
-			'column_name' => 'element_id', // label, element_id
-		    'refresh_view' => TRUE
+			'start_row'		=> 0,
+			'num_rows'		=> null,
+			'element_ids'	=> null,
+			'user_ids'		=> null,
+			'result_ids'	=> null,
+			'filter'		=> null,
+			'orderby'		=> null,
+			'order'			=> null,
+			'column_name'	=> 'element_id', // label, element_id
+		    'refresh_view'	=> true,
 		) );
 
 		$form = new Torro_Form( $this->form_id );
 		$form_elements = $form->get_elements();
 
-		if( count( $form_elements ) == 0 )
-		{
-			return FALSE;
+		if ( 0 === count( $form_elements ) ) {
+			return false;
 		}
 
 		$sql_count = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id = %s", $this->form_id );
 
-		if( 0 == $wpdb->get_var( $sql_count) )
-		{
+		if ( 0 === absint( $wpdb->get_var( $sql_count ) ) ) {
 			$this->num_rows = 0;
-			return FALSE;
+			return false;
 		}
 
 		$view_name = "{$wpdb->prefix}torro_results_{$this->form_id}_view";
 
 		$params = array(
-			'view_name' => $view_name,
-			'element_ids' => $filter[ 'element_ids' ],
+			'view_name'		=> $view_name,
+			'element_ids'	=> $filter['element_ids'],
 		);
 
-		if( TRUE == $filter[ 'refresh_view' ])
-		{
+		$column_titles = false;
+		if ( true === $filter['refresh_view'] ) {
 			$column_titles = $this->create_view( $params );
 		}
 
-		if( FALSE == $column_titles )
-		{
-			return FALSE;
+		if ( false === $column_titles ) {
+			return false;
 		}
 
 		$sql_filter = "SELECT * FROM {$view_name}";
 		$sql_filter_values = array();
 
-		$where_is_set = FALSE;
+		$where_is_set = false;
 
-		if( NULL !== $filter[ 'filter' ] )
-		{
-			if( is_array( $filter[ 'filter' ] ) )
-			{
+		if ( null !== $filter['filter'] ) {
+			if ( is_array( $filter['filter'] ) ) {
 				$count = 0;
-				foreach( $filter[ 'filter' ] AS $column_name => $value )
-				{
+				foreach ( $filter['filter'] as $column_name => $value ) {
 					$column_name = esc_sql( $column_name );
 
-					if( 0 === $count && $where_is_set )
-					{
-						$where_is_set = TRUE;
+					if ( 0 === $count && $where_is_set ) {
+						$where_is_set = true;
 						$sql_filter .= " WHERE `{$column_name}` = %s";
-					}
-					else
-					{
+					} else {
 						$sql_filter .= " AND `{$column_name}` = %s";
 					}
 					$sql_filter_values[] = $value ;
@@ -174,24 +160,16 @@ class Torro_Form_Results
 		/**
 		 * Filtering Result IDs
 		 */
-		if( NULL !== $filter[ 'result_ids' ] )
-		{
-			if( is_array( $filter[ 'result_ids' ] ) )
-			{
+		if ( null !== $filter['result_ids'] ) {
+			if ( is_array( $filter['result_ids'] ) ) {
 				$count = 0;
-				foreach( $filter[ 'result_ids' ] AS $result_id )
-				{
-					if( 0 === $count && FALSE == $where_is_set )
-					{
-						$where_is_set = TRUE;
+				foreach( $filter['result_ids'] as $result_id ) {
+					if ( 0 === $count && false === $where_is_set ) {
+						$where_is_set = true;
 						$sql_filter .= " WHERE `result_id` = %d";
-					}
-					elseif( 0 === $count )
-					{
+					} elseif ( 0 === $count ) {
 						$sql_filter .= " AND `result_id` = %d";
-					}
-					else
-					{
+					} else {
 						$sql_filter .= " OR `result_id` = %d";
 					}
 					$sql_filter_values[] = $result_id;
@@ -201,67 +179,52 @@ class Torro_Form_Results
 		}
 
 		// Order
-		if( NULL !== $filter[ 'orderby' ] )
-		{
-			if( in_array( $filter[ 'orderby' ], $column_titles  ) )
-			{
+		if ( null !== $filter['orderby'] ) {
+			if ( in_array( $filter['orderby'], $column_titles  ) ) {
 				$filter[ 'orderby' ] = esc_sql( $filter[ 'orderby' ] );
 				$sql_filter .= " ORDER BY {$filter[ 'orderby' ]}";
 			}
 		}
 
-		if( 'ASC' == $filter[ 'order' ] || 'DESC' == $filter[ 'order' ] )
-		{
-			$sql_filter .= ' ' . $filter[ 'order' ];
+		if ( 'ASC' === $filter['order'] || 'DESC' === $filter['order'] ) {
+			$sql_filter .= ' ' . $filter['order'];
 		}
 
 		// Limiting
-		if( NULL !== $filter[ 'start_row' ] && NULL !== $filter[ 'num_rows' ] )
-		{
+		if ( null !== $filter['start_row'] && null !== $filter['num_rows'] ) {
 			$sql_filter .= ' LIMIT %d, %d';
-			$sql_filter_values[] = (int) $filter[ 'start_row' ];
-			$sql_filter_values[] = (int) $filter[ 'num_rows' ];
-		}
-		elseif( NULL !== $filter[ 'num_rows' ] )
-		{
+			$sql_filter_values[] = (int) $filter['start_row'];
+			$sql_filter_values[] = (int) $filter['num_rows'];
+		} elseif ( null !== $filter['num_rows'] ) {
 			$sql_filter .= ' LIMIT %d';
-			$sql_filter_values[] = (int) $filter[ 'num_rows' ];
+			$sql_filter_values[] = (int) $filter['num_rows'];
 		}
 
-		if( count( $sql_filter_values ) > 0 )
-		{
+		if( 0 < count( $sql_filter_values ) ) {
 			$sql_filter = $wpdb->prepare( $sql_filter, $sql_filter_values );
 		}
 
 		$results = $wpdb->get_results( $sql_filter, ARRAY_A );
 
-		if( FALSE == $results )
-		{
-			return FALSE;
+		if ( ! $results ) {
+			return false;
 		}
 
-		switch ( $filter[ 'column_name' ] )
-		{
+		switch ( $filter['column_name'] ) {
 			case 'label':
-				foreach( $results AS $result_key => $result )
-				{
-					foreach( $result AS $column_name => $column )
-					{
+				foreach ( $results as $result_key => $result ) {
+					foreach( $result as $column_name => $column ) {
 						$column_arr = explode( '_', $column_name );
 
-						if( array_key_exists( 0, $column_arr ) && 'element' == $column_arr[ 0 ] )
-						{
+						if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 							$element_id = $column_arr[ 1 ];
 							$element = torro_get_element( $element_id );
 
 							$column_name_new = $element->replace_column_name( $column_name );
 
-							if( FALSE == $column_name_new )
-							{
+							if ( empty( $column_name_new ) ) {
 								$column_name_new = $element->label;
-							}
-							else
-							{
+							} else {
 								$column_name_new = $element->label . ' - ' . $column_name_new;
 							}
 
@@ -288,8 +251,7 @@ class Torro_Form_Results
 	 * @return int $num_rows
 	 * @since 1.0.0
 	 */
-	public function count()
-	{
+	public function count() {
 		return $this->num_rows;
 	}
 
@@ -301,13 +263,12 @@ class Torro_Form_Results
 	 * @return array $column_titles
 	 * @since 1.0.0
 	 */
-	public function create_view( $params = array() )
-	{
+	public function create_view( $params = array() ) {
 		global $wpdb, $torro_global;
 
 		$params = wp_parse_args( $params, array(
-			'view_name'   => "{$wpdb->prefix}torro_results_{$this->form_id}_view",
-			'element_ids' => NULL,
+			'view_name'		=> "{$wpdb->prefix}torro_results_{$this->form_id}_view",
+			'element_ids'	=> null,
 		) );
 
 		/**
@@ -327,47 +288,36 @@ class Torro_Form_Results
 		$column_titles_assigned = array();
 
 		$column_index = 3;
-		foreach( $elements AS $element )
-		{
-			if( NULL != $params[ 'element_ids' ] && is_array( $params[ 'element_ids' ] ) )
-			{
-				if( !in_array( $element->id, $params[ 'element_ids' ] ) )
-				{
+		foreach ( $elements as $element ) {
+			if ( is_array( $params['element_ids'] ) ) {
+				if ( ! in_array( $element->id, $params['element_ids'], true ) ) {
 					continue;
 				}
 			}
 
 			$element_obj = torro_get_element( $element->id );
 
-			if( FALSE == $element_obj )
-			{
+			if ( ! $element_obj ) {
 				continue;
 			}
 
-			if( !$element_obj->is_answerable )
-			{
+			if ( ! $element_obj->is_answerable ) {
 				continue;
 			}
 
-			if( FALSE !== $element_obj->add_result_columns( $this ) )
-			{
+			if ( false !== $element_obj->add_result_columns( $this ) ) {
 				continue;
 			}
 
 			$column_name = 'element_' . $element->id;
 
-			if( !$element_obj->answer_is_multiple && 0 == count( $element_obj->sections ) )
-			{
-				if( '' != $column_name )
-				{
+			if ( ! $element_obj->answer_is_multiple && 0 === count( $element_obj->sections ) ) {
+				if ( ! empty( $column_name ) ) {
 					// Preventing double assigned Column title
-					if( array_key_exists( $column_name, $column_titles_assigned ) )
-					{
+					if ( array_key_exists( $column_name, $column_titles_assigned ) ) {
 						$column_titles_assigned[ $column_name ]++;
 						$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
-					}
-					else
-					{
+					} else {
 						$column_titles_assigned[ $column_name ] = 1;
 						$column_name = $column_name;
 					}
@@ -375,44 +325,35 @@ class Torro_Form_Results
 					$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$torro_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
-			}
-			else
-			{
-				foreach( $element_obj->answers AS $answer )
-				{
+			} else {
+				foreach ( $element_obj->answers as $answer ) {
 					$answer = (object) $answer;
 					$column_name = 'element_' . $element->id . '_' . $answer->id;
 
 					// Preventing double assigned Column title
-					if( array_key_exists( $column_name, $column_titles_assigned ) )
-					{
+					if ( array_key_exists( $column_name, $column_titles_assigned ) ) {
 						$column_titles_assigned[ $column_name ]++;
 						$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
-					}
-					else
-					{
+					} else {
 						$column_titles_assigned[ $column_name ] = 1;
 						$column_name = $column_name;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$torro_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is NULL, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$torro_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is null, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			}
 		}
+
 		// Adding columns aded by 'add_column' function
-		foreach( $this->added_columns AS $column )
-		{
+		foreach ( $this->added_columns as $column ) {
 			$column_name = $column[ 'name' ];
 
 			// Preventing double assigned Column title
-			if( array_key_exists( $column_name, $column_titles_assigned ) )
-			{
+			if ( array_key_exists( $column_name, $column_titles_assigned ) ) {
 				$column_titles_assigned[ $column_name ]++;
 				$column_name = $column_name . ' (' . $column_titles_assigned[ $column_name ] . ')';
-			}
-			else
-			{
+			} else {
 				$column_titles_assigned[ $column_name ] = 1;
 				$column_name = $column_name;
 			}
@@ -426,8 +367,7 @@ class Torro_Form_Results
 		 * Creating Result SQL
 		 */
 		$sql_columns_string = '';
-		if( count( $sql_columns ) > 0 )
-		{
+		if ( 0 < count( $sql_columns ) ) {
 			$sql_columns_string = ', ' . implode( ', ', $sql_columns );
 		}
 		$sql_result = "SELECT id AS result_id, user_id, timestamp{$sql_columns_string} FROM {$torro_global->tables->results} AS row WHERE form_id=%d";
@@ -445,9 +385,8 @@ class Torro_Form_Results
 
 		$result = $wpdb->query( $sql_view );
 
-		if( FALSE == $result )
-		{
-			return FALSE;
+		if ( ! $result ) {
+			return false;
 		}
 
 		return $column_titles;
@@ -472,33 +411,31 @@ class Torro_Form_Results
 	 * @param string $column_name The Column name will be created in the Result View
 	 * @param string $sql         The SQL statement for getting new field in row
 	 */
-	public function add_column( $column_name, $sql )
-	{
+	public function add_column( $column_name, $sql ) {
 		$this->added_columns[] = array(
-			'name' => esc_sql( $column_name ),
-			'sql'  => $sql
+			'name'	=> esc_sql( $column_name ),
+			'sql'	=> $sql
 		);
 	}
 
 	/**
 	 * Get all saved results of an element
 	 *
-	 * @return mixed $responses The results as array or NULL if there are no results
+	 * @return mixed $responses The results as array or null if there are no results
 	 * @since 1.0.0
 	 */
-	public function element_results( $element_id, $filter = array() )
-	{
+	public function element_results( $element_id, $filter = array() ) {
 		$filter = wp_parse_args( $filter, array(
-			'start_row'       => 0,
-			'number_rows' => NULL,
-			'user_ids'    => NULL,
-			'result_ids'  => NULL,
-			'filter'       => NULL,
-			'orderby'     => NULL,
-			'order'       => NULL,
+			'start_row'		=> 0,
+			'number_rows'	=> null,
+			'user_ids'		=> null,
+			'result_ids'	=> null,
+			'filter'		=> null,
+			'orderby'		=> null,
+			'order'			=> null,
 		) );
 
-		$filter[ 'element_ids' ] = array( $element_id );
+		$filter['element_ids'] = array( $element_id );
 
 		$results = $this->results( $filter );
 

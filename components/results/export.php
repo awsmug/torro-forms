@@ -26,23 +26,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Export
-{
-
+class Torro_Export {
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct()
-	{
-		if( !class_exists( 'PHPExcel' ) )
-		{
+	public function __construct() {
+		if ( ! class_exists( 'PHPExcel' ) ) {
 			require_once( TORRO_FOLDER . 'vendor/PHPExcel.php' );
 		}
 
@@ -58,23 +53,18 @@ class Torro_Export
 	 * @return array $actions
 	 * @since 1.0.0
 	 */
-	public function add_export_link( $actions, $post )
-	{
-		if( 'torro-forms' != $post->post_type )
-		{
+	public function add_export_link( $actions, $post ) {
+		if ( 'torro-forms' !== $post->post_type ) {
 			return $actions;
 		}
 
 		$results = new Torro_Form_Results( $post->ID );
 		$results->results();
 
-		if( 0 == $results->count() )
-		{
-			$actions[ 'no_export' ] = sprintf( __( 'There are no results to export', 'torro-forms' ) );
-		}
-		else
-		{
-			$actions[ 'export' ] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'torro-forms' ), '?post_type=torro-forms&torro_export=xls&form_id=' . $post->ID, '?post_type=torro-forms&export=csv&form_id=' . $post->ID );
+		if ( 0 === $results->count() ) {
+			$actions['no_export'] = sprintf( __( 'There are no results to export', 'torro-forms' ) );
+		} else {
+			$actions['export'] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'torro-forms' ), '?post_type=torro-forms&torro_export=xls&form_id=' . $post->ID, '?post_type=torro-forms&export=csv&form_id=' . $post->ID );
 		}
 
 		return $actions;
@@ -85,12 +75,10 @@ class Torro_Export
 	 *
 	 * @since 1.0.0
 	 */
-	function export()
-	{
-		if( array_key_exists( 'torro_export', $_GET ) && is_array( $_GET ) )
-		{
-			$export_type = $_GET[ 'torro_export' ];
-			$form_id = $_GET[ 'form_id' ];
+	function export() {
+		if ( array_key_exists( 'torro_export', $_GET ) && is_array( $_GET ) ) {
+			$export_type = $_GET['torro_export'];
+			$form_id = $_GET['form_id'];
 
 			$form = new Torro_Form( $form_id );
 			$form_results = new Torro_Form_Results( $form_id );
@@ -100,18 +88,12 @@ class Torro_Export
 
 			do_action( 'torro_export', $form_id, $filename );
 
-			switch ( $export_type )
-			{
+			switch ( $export_type ) {
 				case 'csv':
 					$this->csv( $results, $filename );
 					break;
-
 				case 'xls':
-					$this->excel( $results, $filename );
-					break;
-
 				default:
-
 					$this->excel( $results, $filename );
 					break;
 			}
@@ -126,8 +108,7 @@ class Torro_Export
 	 * @param $filename
 	 * @since 1.0.0
 	 */
-	public function excel( $results, $filename )
-	{
+	public function excel( $results, $filename ) {
 		// Redirect output to a client’s web browser (Excel5)
 		header( 'Content-Type: application/vnd.ms-excel' );
 		header( 'Content-Disposition: attachment;filename="' . $filename . '.xls"' );
@@ -145,15 +126,14 @@ class Torro_Export
 
 		// Setting up Healines
 		$i = 0;
-		foreach( array_keys( $results[ 0 ] ) AS $headline )
-		{
+		foreach ( array_keys( $results[0] ) as $headline ) {
 			$php_excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow( $i++, 1, $headline );
 		}
 
 		// Setting up Content
-		$php_excel->getActiveSheet()->fromArray( $results, NULL, 'A2' );
+		$php_excel->getActiveSheet()->fromArray( $results, null, 'A2' );
 		$writer = PHPExcel_IOFactory::createWriter( $php_excel, 'Excel5' );
-		$writer->save('php://output');
+		$writer->save( 'php://output' );
 		exit;
 	}
 
@@ -164,8 +144,7 @@ class Torro_Export
 	 * @param $filename
 	 * @since 1.0.0
 	 */
-	public function csv( $results, $filename )
-	{
+	public function csv( $results, $filename ) {
 		header( 'Content-type: text/csv' );
 		header( 'Content-Disposition: attachment; filename=' . $filename . '.csv');
 		header( 'Pragma: no-cache' );
@@ -175,19 +154,19 @@ class Torro_Export
 
 		// Setting up Healines
 		$i = 0;
-		foreach( array_keys( $results[ 0 ] ) AS $headline )
-		{
+		foreach ( array_keys( $results[0] ) as $headline ) {
 			$php_excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow( $i++, 1, $headline );
 		}
 
-		$php_excel->getActiveSheet()->fromArray( $results, NULL, 'A2' );
+		$php_excel->getActiveSheet()->fromArray( $results, null, 'A2' );
 		$writer = PHPExcel_IOFactory::createWriter( $php_excel, 'CSV' )->setDelimiter( ';' )
 			->setEnclosure( '"' )
 			->setLineEnding( "\r\n" )
 			->setSheetIndex( 0 );
 
-		$writer->save('php://output');
+		$writer->save( 'php://output' );
 		exit;
 	}
 }
+
 $Torro_Export = new Torro_Export();
