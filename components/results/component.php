@@ -69,8 +69,6 @@ class Torro_Results_Component extends Torro_Component
 
 		// Charts API
 		require_once( $folder . 'base-result-handlers/charts-c3.php' );
-		require_once( $folder . 'base-result-handlers/charts-morrisjs.php' );
-		require_once( $folder . 'base-result-handlers/charts-morrisjs.php' );
 	}
 
 	public function admin_styles()
