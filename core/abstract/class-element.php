@@ -408,7 +408,7 @@ abstract class Torro_Form_Element {
 		$this->get_response();
 
 		if ( 0 === count( $this->answers ) && true === $this->has_answers ) {
-			$html .= '<p>' . esc_html__( 'You don´t entered any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
+			$html .= '<p>' . esc_html__( 'You did not enter any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
 		} else {
 			$html .= $this->input_html();
 		}
@@ -475,10 +475,10 @@ abstract class Torro_Form_Element {
 		/**
 		 * Widget head
 		 */
-		$title = '' === $this->label ? $this->title : $this->label;
+		$title = empty( $this->label ) ? $this->title : $this->label;
 		$title = strip_tags( $title );
 
-		if ( strlen( $title ) > 120 ) {
+		if ( 120 < strlen( $title ) ) {
 			$title = substr( $title, 0, 120 ) . '...';
 		}
 
@@ -486,7 +486,7 @@ abstract class Torro_Form_Element {
 		$html .= '<div class="widget-title-action"><a class="widget-action hide-if-no-js"></a></div>';
 		$html .= '<div class="widget-title">';
 
-		if ( '' !== $this->icon_url ) {
+		if ( ! empty( $this->icon_url ) ) {
 			$html .= '<img class="form-elements-widget-icon" src="' . $this->icon_url . '" />';
 		}
 		$html .= '<h4>' . $title . '</h4>';

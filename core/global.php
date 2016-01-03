@@ -136,7 +136,7 @@ class Torro_Global {
 			return false;
 		}
 
-		if ( ! is_a( $object, 'Torro_Action' ) ) {
+		if ( ! is_a( $object, 'Torro_ResultHandler' ) ) {
 			return false;
 		}
 

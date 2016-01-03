@@ -60,7 +60,7 @@ class Torro_Formbuilder_ChartsExtension
 	{
 		$post_types = array( 'torro-forms' );
 
-		if( in_array( $post_type, $post_types ) ):
+		if( in_array( $post_type, $post_types, true ) ):
 			add_meta_box(
 				'form-results',
 				esc_attr__( 'Results', 'torro-forms' ),
