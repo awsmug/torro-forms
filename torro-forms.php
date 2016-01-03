@@ -3,7 +3,7 @@
  * Plugin Name:  Torro Forms
  * Plugin URI:   http://www.awesome.ug
  * Description:  Drag & drop your Form with the Torro Forms Plugin.
- * Version:      1.0.0 alpha 1
+ * Version:      1.0.0alpha1
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
  * Author Email: contact@awesome.ug
