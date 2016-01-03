@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Conflicts {
+class Torro_Compatibility {
 	/**
 	 * @var The Single instance of the class
 	 */
@@ -73,4 +73,4 @@ class Torro_Conflicts {
 
 }
 
-Torro_Conflicts::instance();
+Torro_Compatibility::instance();

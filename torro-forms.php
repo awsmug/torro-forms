@@ -91,7 +91,7 @@ class Torro_Init {
 	private static function load_files() {
 		// Loading Functions
 		require_once( TORRO_FOLDER . 'includes/functions.php' );
-		require_once( TORRO_FOLDER . 'includes/conflicts.php' );
+		require_once( TORRO_FOLDER . 'includes/compat.php' );
 		require_once( TORRO_FOLDER . 'includes/wp-editor.php' );
 
 		// Loading Core
