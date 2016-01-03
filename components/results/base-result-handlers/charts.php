@@ -24,63 +24,55 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Result_Charts extends Torro_ResultHandler
-{
+abstract class Torro_Result_Charts extends Torro_ResultHandler {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->init();
 
-        if( empty( $this->name ) )
-        {
-            $this->name = 'charts';
-        }
-        if( empty( $this->title ) )
-        {
-            $this->title = __( 'Charts', 'torro-forms' );
-        }
-        if( empty( $this->description ) )
-        {
-            $this->description = esc_attr__( 'This is an Torro Forms Chart Creator.', 'torro-forms' );
-        }
+		if ( empty( $this->name ) ) {
+			$this->name = 'charts';
+		}
+		if ( empty( $this->title ) ) {
+			$this->title = __( 'Charts', 'torro-forms' );
+		}
+		if ( empty( $this->description ) ) {
+			$this->description = __( 'This is an Torro Forms Chart Creator.', 'torro-forms' );
+		}
 
-        $this->register_chart_type( 'bars', esc_attr__( 'Bars', 'torro-forms' ), array( $this, 'bars' ) );
-        $this->register_chart_type( 'pies', esc_attr__( 'Pies', 'torro-forms' ), array( $this, 'pies' ) );
+		$this->register_chart_type( 'bars', esc_attr__( 'Bars', 'torro-forms' ), array( $this, 'bars' ) );
+		$this->register_chart_type( 'pies', esc_attr__( 'Pies', 'torro-forms' ), array( $this, 'pies' ) );
 
 		add_action( 'torro_result_charts_postbox_bottom', array( $this, 'charts_general_settings' ), 10 );
 	}
 
 	abstract function init();
 
-    abstract function bars( $title, $results, $params = array() );
+	abstract function bars( $title, $results, $params = array() );
 
-    abstract function pies( $title, $results, $params = array() );
+	abstract function pies( $title, $results, $params = array() );
 
-    /**
-     * Register Chart types
-     *
-     * @param $name
-     * @param $display_name
-     * @param $callback
-     */
-    protected function register_chart_type( $name, $display_name, $callback )
-    {
-        $this->chart_types[] = array(
-            'name' => $name,
-            'display_name' => $display_name,
-            'callback' =>$callback
-        );
-    }
+	/**
+	 * Register Chart types
+	 *
+	 * @param $name
+	 * @param $display_name
+	 * @param $callback
+	 */
+	protected function register_chart_type( $name, $display_name, $callback ) {
+		$this->chart_types[] = array(
+			'name'			=> $name,
+			'display_name'	=> $display_name,
+			'callback'		=> $callback,
+		);
+	}
 
-	public function option_content()
-	{
+	public function option_content() {
 		global $post;
 
 		$form_id = $post->ID;
@@ -91,36 +83,29 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler
 
 		$count_charts = 0;
 
-		if( $form_results->count() > 0 )
-		{
+		if ( 0 < $form_results->count() ) {
 			$element_results = self::format_results_by_element( $results );
 
-			foreach( $element_results AS $headline => $element_result )
-			{
+			foreach ( $element_results as $headline => $element_result ) {
 				$headline_arr = explode( '_', $headline );
 
 				$element_id = (int) $headline_arr[ 1 ];
 				$element = torro_get_element( $element_id );
 
 				// Skip collecting Data if there is no analyzable Data
-				if( !$element->has_answers )
-				{
+				if ( ! $element->has_answers ) {
 					continue;
 				}
 
-				if( count( $element->sections ) > 0 )
-				{
+				if ( 0 < count( $element->sections ) ) {
 					$label = $element->label;
 
 					$column_name = $element->replace_column_name( $headline );
 
-					if( FALSE != $column_name )
-					{
-						$label .= ' - ' . $element->replace_column_name( $headline );
+					if ( ! empty( $column_name ) ) {
+						$label .= ' - ' . $column_name;
 					}
-				}
-				else
-				{
+				} else {
 					$label = $element->label;
 				}
 
@@ -144,8 +129,7 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler
 			}
 		}
 
-		if( 0 == $count_charts || 0 == $form_results->count() )
-		{
+		if ( 0 === $count_charts || 0 === $form_results->count() ) {
 			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 		}
 
@@ -167,84 +151,64 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler
 	 * @return array $results_formatted
 	 * @since 1.0.0
 	 */
-	public static function format_results_by_element( $results )
-	{
-		if( !is_array( $results ) )
-		{
+	public static function format_results_by_element( $results ) {
+		if ( ! is_array( $results ) ) {
 			return FALSE;
 		}
 
-		$column_names = array_keys( $results[ 0 ] );
+		$column_names = array_keys( $results[0] );
 		$results_formatted = array();
 
 		// Running thru all available Result Values
-		foreach( $column_names AS $column_name )
-		{
+		foreach ( $column_names as $column_name ) {
 			$column_name_arr = explode( '_', $column_name );
-			$element_type = $column_name_arr[ 0 ];
+			$element_type = $column_name_arr[0];
 
 			// Missing columns without element data
-			if( 'element' != $element_type )
-			{
+			if ( 'element' !== $element_type ) {
 				continue;
 			}
 
-			$element_id = (int) $column_name_arr[ 1 ];
+			$element_id = (int) $column_name_arr[1];
 			$element = torro_get_element( $element_id );
 
-			if( count( $element->sections ) > 0 )
-			{
-				$result_key = 'element_' . $element_id . '_' . $column_name_arr[ 2 ];
-			}
-			else
-			{
+			if ( 0 < count( $element->sections ) ) {
+				$result_key = 'element_' . $element_id . '_' . $column_name_arr[2];
+			} else {
 				$result_key = 'element_' . $element_id;
 			}
 
 			// Collecting Data from all Resultsets
-			foreach( $results AS $result )
-			{
+			foreach ( $results as $result ) {
 				// Skip collecting Data if there is no analyzable Data
-				if( !$element->is_analyzable )
-				{
+				if ( ! $element->is_analyzable ) {
 					continue;
 				}
 
 				// Counting different kind of Elements
-				if( $element->answer_is_multiple )
-				{
+				if ( $element->answer_is_multiple ) {
 					$answer_id = (int) $column_name_arr[ 2 ];
 
 					$value = $element->replace_column_name( $column_name );
 
-					if( FALSE == $value )
-					{
-						$value = $element->answers[ $answer_id ][ 'text' ];
+					if ( empty( $value ) ) {
+						$value = $element->answers[ $answer_id ]['text'];
 					}
 
-					if( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) )
-					{
-						if ( 'yes' == $result[ $column_name ] ) {
+					if ( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) ) {
+						if ( 'yes' === $result[ $column_name ] ) {
 							$results_formatted[ $result_key ][ $value ]++;
 						}
-					}
-					elseif( 'yes' == $result[ $column_name ] )
-					{
+					} elseif( 'yes' === $result[ $column_name ] ) {
 						$results_formatted[ $result_key ][ $value ] = 1;
-					}
-					else
-					{
+					} else {
 						$results_formatted[ $result_key ][ $value ] = 0;
 					}
-				}
-				else
-				{
+				} else {
 					// Setting up all answers to 0 to have also Zero values
-					foreach( $element->answers AS $element_answers )
-					{
-						if( !isset( $results_formatted[ $result_key ][ $element_answers[ 'text' ] ] ) )
-						{
-							$results_formatted[ $result_key ][ $element_answers[ 'text' ] ] = 0;
+					foreach ( $element->answers AS $element_answers ) {
+						if ( ! isset( $results_formatted[ $result_key ][ $element_answers['text'] ] ) ) {
+							$results_formatted[ $result_key ][ $element_answers['text'] ] = 0;
 						}
 					}
 
@@ -260,34 +224,29 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler
 	/**
 	 * Adding option for showing Charts after submitting Form
 	 */
-	public function charts_general_settings()
-	{
+	public function charts_general_settings() {
 		global $post;
 
 		$form_id = $post->ID;
 		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
 
-		if( '' == $show_results )
-		{
+		if ( ! $show_results ) {
 			$show_results = 'no';
 		}
 
 		$checked_no = '';
 		$checked_yes = '';
 
-		if( 'no' == $show_results )
-		{
+		if ( 'no' === $show_results ) {
 			$checked_no = ' checked="checked"';
-		}
-		else
-		{
+		} else {
 			$checked_yes = ' checked="checked"';
 		}
 
 		$html = '<div class="in-postbox-one-third">';
-		$html .= '<label for="show_results">' . esc_attr__( 'After Submit' ) . '</label>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_attr__( 'show Charts' ) . ' <br />';
-		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_attr__( 'do not Show Charts' ) . '';
+		$html .= '<label for="show_results">' . esc_html__( 'After Submit' ) . '</label>';
+		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_html__( 'show Charts' ) . ' <br />';
+		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_html__( 'do not Show Charts' ) . '';
 		$html .= '</div>';
 
 		echo $html;
@@ -299,10 +258,8 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler
      * @param        $message
      * @param string $type
      */
-    protected function admin_notice( $message, $type = 'updated' )
-    {
-        if( WP_DEBUG )
-        {
+    protected function admin_notice( $message, $type = 'updated' ) {
+        if ( WP_DEBUG ) {
             $message = $message . ' (in Chart Creator "' .  $this->name . '")';
         }
         Torro_Init::admin_notice( $message , $type );

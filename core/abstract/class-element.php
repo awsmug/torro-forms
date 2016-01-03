@@ -347,10 +347,6 @@ abstract class Torro_Form_Element {
 			return false;
 		}
 
-		if ( ! is_array( $torro_global->element_types ) ) {
-			$torro_global->element_types = array();
-		}
-
 		$this->initialized = true;
 
 		return $torro_global->add_form_element( $this->name, $this );

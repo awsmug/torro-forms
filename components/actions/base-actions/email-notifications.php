@@ -26,13 +26,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_EmailNotifications extends Torro_Action
-{
+class Torro_EmailNotifications extends Torro_Action {
 	/**
 	 * From Email Name
 	 * @var
@@ -48,8 +46,7 @@ class Torro_EmailNotifications extends Torro_Action
 	/**
 	 * Constructor
 	 */
-	public function init()
-	{
+	public function init() {
 		$this->title = __( 'Email Notifications', 'torro-forms' );
 		$this->name = 'emailnotifications';
 
@@ -68,8 +65,7 @@ class Torro_EmailNotifications extends Torro_Action
 	 * @param $response_id
 	 * @param $response
 	 */
-	public function handle( $response_id, $response )
-	{
+	public function handle( $response_id, $response ) {
 		global $wpdb, $ar_form_id, $torro_global, $torro_response_id, $torro_response;
 
 		$torro_response_id = $response_id;
@@ -78,17 +74,14 @@ class Torro_EmailNotifications extends Torro_Action
 		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->email_notifications} WHERE form_id = %d", $ar_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
-		if( count( $notifications ) > 0 )
-		{
+		if ( 0 < count( $notifications ) ) {
 			// Adding elements templatetags
 			$form = new Torro_Form( $ar_form_id );
-			foreach( $form->elements AS $element )
-			{
+			foreach ( $form->elements as $element ) {
 				torro_add_element_templatetag( $element->id, $element->label );
 			}
 
-			foreach( $notifications AS $notification )
-			{
+			foreach ( $notifications as $notification ) {
 				$from_name = torro_filter_templatetags( $notification->from_name );
 				$from_email = torro_filter_templatetags( $notification->from_email );
 				$to_email = torro_filter_templatetags( $notification->to_email );
@@ -114,29 +107,25 @@ class Torro_EmailNotifications extends Torro_Action
 	/**
 	 * Setting HTML Content-Type
 	 */
-	function set_email_html_content_type()
-	{
+	function set_email_html_content_type() {
 		return 'text/html';
 	}
 
 	/**
 	 * Setting From Email
 	 */
-	public function set_email_from()
-	{
+	public function set_email_from() {
 		return $this->from_email;
 	}
 
 	/**
 	 * Setting From Email Name
 	 */
-	public function set_email_from_name()
-	{
+	public function set_email_from_name() {
 		return $this->from_name;
 	}
 
-	public function option_content()
-	{
+	public function option_content() {
 		global $wpdb, $post, $torro_global;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
@@ -144,39 +133,30 @@ class Torro_EmailNotifications extends Torro_Action
 
 		$html = '<div id="form-email-notifications">';
 
-			$html.= '<div class="actions">';
-			$html.= '<input id="form_add_email_notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
-			$html.= '<p class="intro-text">' . esc_attr__( 'Add Email Notifications to send out Emails after the form have been submitted by User.', 'torro-forms' ) . '</p>';
-			$html.= '</div>';
+		$html .= '<div class="actions">';
+		$html .= '<input id="form_add_email_notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
+		$html .= '<p class="intro-text">' . esc_attr__( 'Add Email Notifications to send out Emails after the form have been submitted by User.', 'torro-forms' ) . '</p>';
+		$html .= '</div>';
 
-			$html.= '<div class="list">';
+		$html .= '<div class="list">';
 
-					$html.= '<div class="notifications widget-title">';
+		$html .= '<div class="notifications widget-title">';
+		if ( 0 < count( $notifications ) ) {
+			foreach ( $notifications as $notification ) {
+				$html .= self::get_notification_settings_html( $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->to_email, $notification->subject, $notification->message );
+			}
+		}
+		$html .= '<p class="no-entry-found not-found-area">' . esc_html__( 'No Notifications found.', 'torro-forms' ) . '</p>';
+		$html .= '</div>';
 
-					if( count( $notifications ) > 0 ){
+		$html .= '</div>';
 
-						foreach( $notifications AS $notification ){
-							$html.= self::get_notification_settings_html(
-								$notification->id,
-								$notification->notification_name,
-								$notification->from_name,
-								$notification->from_email,
-								$notification->to_email,
-								$notification->subject,
-								$notification->message
-							);
-						}
-					}
-					$html.= '<p class="no-entry-found not-found-area">' . esc_attr__( 'No Notifications found.', 'torro-forms' ) . '</p>';
-				$html.= '</div>';
-			$html.= '</div>';
+		$html .= '</div>';
+		$html .= '<div class="clear"></div>';
 
-		$html.= '</div>';
-		$html.= '<div class="clear"></div>';
+		$html .= '<script language="javascript">jQuery( document ).ready(function ($) {window.form_builder.handle_templatetag_buttons();});</script>';
 
-		$html.= '<script language="javascript">jQuery( document ).ready(function ($) {window.form_builder.handle_templatetag_buttons();});</script>';
-
-		$html.= '<div id="delete_email_notification_dialog">' . esc_attr__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
+		$html .= '<div id="delete_email_notification_dialog">' . esc_html__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();
@@ -189,12 +169,10 @@ class Torro_EmailNotifications extends Torro_Action
 	/**
 	 * Adding media button
 	 */
-	public static function add_media_button( $editor_id )
-	{
+	public static function add_media_button( $editor_id ) {
 		$editor_id_arr = explode( '-', $editor_id );
 
-		if( 'email_notification_message' != $editor_id_arr[ 0 ] )
-		{
+		if ( 'email_notification_message' !== $editor_id_arr[0] ) {
 			return;
 		}
 
@@ -204,24 +182,23 @@ class Torro_EmailNotifications extends Torro_Action
 	/**
 	 * Saving option content
 	 */
-	public static function save_option_content()
-	{
+	public static function save_option_content() {
 		global $wpdb, $post, $torro_global;
 
-		if( isset( $_POST[ 'email_notifications' ] ) && count( $_POST[ 'email_notifications' ] ) > 0 ){
+		if ( isset( $_POST['email_notifications'] ) && 0 < count( $_POST['email_notifications'] ) ){
 			$wpdb->delete( $torro_global->tables->email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
 
-			foreach(  $_POST[ 'email_notifications' ] AS $id => $notification  ){
+			foreach ( $_POST['email_notifications'] as $id => $notification ) {
 				$wpdb->insert(
 					$torro_global->tables->email_notifications,
 					array(
-						'form_id'           => $post->ID,
-						'notification_name' => $notification[ 'notification_name' ],
-						'from_name'         => $notification[ 'from_name' ],
-						'from_email'        => $notification[ 'from_email' ],
-						'to_email'          => $notification[ 'to_email' ],
-						'subject'           => $notification[ 'subject' ],
-						'message'           => $_POST[ 'email_notification_message-' . $id ]
+						'form_id'			=> $post->ID,
+						'notification_name'	=> $notification[ 'notification_name' ],
+						'from_name'			=> $notification[ 'from_name' ],
+						'from_email'		=> $notification[ 'from_email' ],
+						'to_email'			=> $notification[ 'to_email' ],
+						'subject'			=> $notification[ 'subject' ],
+						'message'			=> $_POST[ 'email_notification_message-' . $id ]
 					),
 					array(
 						'%d',
@@ -249,8 +226,7 @@ class Torro_EmailNotifications extends Torro_Action
 	 *
 	 * @return string $html
 	 */
-	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' )
-	{
+	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ) {
 		$editor_id = 'email_notification_message-' . $id;
 
 		$editor = torro_wp_editor( $message, $editor_id );
@@ -258,38 +234,39 @@ class Torro_EmailNotifications extends Torro_Action
 		$icon_url = TORRO_URLPATH . 'assets/img/mail.svg';
 
 		$html = '<h4 class="widget-top notification-' . $id . '"><a class="widget-action hide-if-no-js"></a><img src="' . $icon_url . '" class="icon" />' . $notification_name . '</h4>';
-		$html.= '<div class="notification widget-inside notification-' . $id . '-content">';
+		$html .= '<div class="notification widget-inside notification-' . $id . '-content">';
 
-			$html.= '<table class="form-table">';
-				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_attr__( 'Notification Name', 'torro-forms' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][notification_name]" value="' . $notification_name . '"></td>';
-				$html.= '</tr>';
-				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_attr__( 'From Name', 'torro-forms' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
-				$html.= '</tr>';
-				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_attr__( 'From Email', 'torro-forms' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
-				$html.= '</tr>';
-				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_attr__( 'To Email', 'torro-forms' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
-				$html.= '</tr>';
-				$html.= '<tr>';
-					$html.= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_attr__( 'Subject', 'torro-forms' ) . '</label></th>';
-					$html.= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
-				$html.= '</tr>';
-				$html.= '<tr>';
-					$html.= '<th><label for="email_notification_message-' . $id . '">' . esc_attr__( 'Message', 'torro-forms' ) . '</label></th>';
-					$html.= '<td>' . $editor . '</td>';
-				$html.= '</tr>';
-				$html.= '<tr>';
-					$html.= '<td colspan="2"><input type="button" class="button form-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr__( 'Delete Notification', 'torro-forms' ) . '" /></td>';
-				$html.= '</tr>';
-			$html.= '</table>';
-		$html.= '</div>';
+		$html .= '<table class="form-table">';
+		$html .= '<tr>';
+		$html .= '<th><label for="email_notifications[' . $id . '][notification_name]">' . esc_html__( 'Notification Name', 'torro-forms' ) . '</label></th>';
+		$html .= '<td><input type="text" name="email_notifications[' . $id . '][notification_name]" value="' . $notification_name . '"></td>';
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<th><label for="email_notifications[' . $id . '][from_name]">' . esc_html__( 'From Name', 'torro-forms' ) . '</label></th>';
+		$html .= '<td><input type="text" name="email_notifications[' . $id . '][from_name]" value="' . $from_name . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_name]' ) . '</td>';
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_html__( 'From Email', 'torro-forms' ) . '</label></th>';
+		$html .= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_html__( 'To Email', 'torro-forms' ) . '</label></th>';
+		$html .= '<td><input type="text" name="email_notifications[' . $id . '][to_email]" value="' . $to_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][to_email]' ) . '</td>';
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<th><label for="email_notifications[' . $id . '][subject]">' . esc_html__( 'Subject', 'torro-forms' ) . '</label></th>';
+		$html .= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<th><label for="email_notification_message-' . $id . '">' . esc_html__( 'Message', 'torro-forms' ) . '</label></th>';
+		$html .= '<td>' . $editor . '</td>';
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<td colspan="2"><input type="button" class="button form-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr__( 'Delete Notification', 'torro-forms' ) . '" /></td>';
+		$html .= '</tr>';
+		$html .= '</table>';
+
+		$html .= '</div>';
 
 		return $html;
 	}
@@ -297,17 +274,16 @@ class Torro_EmailNotifications extends Torro_Action
 	/**
 	 * Get Email notification HTML
 	 */
-	public static function ajax_get_email_notification_html()
-	{
+	public static function ajax_get_email_notification_html() {
 		$id = time();
 		$editor_id = 'email_notification_message-' . $id;
 
-		$html = self::get_notification_settings_html( $id, esc_attr__( 'New Email Notification' ) );
+		$html = self::get_notification_settings_html( $id, __( 'New Email Notification' ) );
 
 		$data = array(
-			'id' => $id,
-			'editor_id' => $editor_id,
-			'html'      => $html
+			'id'		=> $id,
+			'editor_id'	=> $editor_id,
+			'html'		=> $html
 		);
 
 		echo json_encode( $data );
@@ -318,17 +294,17 @@ class Torro_EmailNotifications extends Torro_Action
 	 * Function to set standard editor to tinymce prevent tab issues on editor
 	 * @return string
 	 */
-	public static function std_editor_tinymce(){
+	public static function std_editor_tinymce() {
 		return 'tinymce';
 	}
 
 	/**
 	 * Enqueue admin scripts
 	 */
-	public static function enqueue_admin_scripts()
-	{
-		if( !torro_is_formbuilder() )
+	public static function enqueue_admin_scripts() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
+		}
 
 		$translation = array(
 			'delete'		=> esc_attr__( 'Delete', 'torro-forms' ),
@@ -343,9 +319,9 @@ class Torro_EmailNotifications extends Torro_Action
 	/**
 	 * Enqueue admin styles
 	 */
-	public static function enqueue_admin_styles()
-	{
+	public static function enqueue_admin_styles() {
 		wp_enqueue_style( 'torro-actions-email-notifications', TORRO_URLPATH . 'assets/css/actions-email-notifications.css' );
 	}
 }
+
 torro_register_action( 'Torro_EmailNotifications' );

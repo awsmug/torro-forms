@@ -26,20 +26,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Chart_Creator_C3 extends Torro_Result_Charts
-{
+class Torro_Chart_Creator_C3 extends Torro_Result_Charts {
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function init()
-	{
+	public function init() {
 		$this->name = 'c3';
 		$this->title = __( 'C3', 'torro-forms' );
 		$this->description = __( 'Chart creating with C3.', 'torro-forms' );
@@ -54,34 +51,31 @@ class Torro_Chart_Creator_C3 extends Torro_Result_Charts
 	 *
 	 * @return mixed
 	 */
-	public function bars( $title, $results, $params = array() )
-	{
+	public function bars( $title, $results, $params = array() ) {
 		$defaults = array(
-			'id'        => 'dimple' . md5( rand() ),
+			'id'		=> 'c3' . md5( rand() ),
 			'title_tag' => 'h3',
 		);
 
 		$params = wp_parse_args( $defaults, $params );
 
-		$id = $params[ 'id' ];
-		$title_tag = $params[ 'title_tag' ];
+		$id = $params['id'];
+		$title_tag = $params['title_tag'];
 
 		$value_text = __( 'Count', 'torro-forms' );
 
 		/**
 		 * Preparing Data for JS
 		 */
-		$data = array( '\'values\'' );
-		foreach( $results AS $value )
-		{
+		$data = array( "'values'" );
+		foreach ( $results as $value ) {
 			$data[] = $value;
 		}
 		$column_data = '[ [' . implode( ',', $data ) . ' ] ]';
 
 		$categories = array_keys( $results );
 		$c3_categories = array();
-		foreach( $categories AS $key => $category )
-		{
+		foreach ( $categories AS $key => $category ) {
 			$c3_categories[ $key ] = '\'' . $category . '\'';
 		}
 		$categories = implode( '###', $categories );
@@ -94,90 +88,87 @@ class Torro_Chart_Creator_C3 extends Torro_Result_Charts
 		$html .= '<' . $title_tag . '>' . $title . '</' . $title_tag . '>';
 		$html .= '<div id="' . $id . '-chart"></div>';
 		$html .= "<script>
-			        jQuery(document).ready( function($){
+	jQuery(document).ready( function($){
 
-						var chart_width = '';
-						var label_height = '';
+		var chart_width = '';
+		var label_height = '';
 
-						if ( $( '#form-result-handlers-tabs' ).length ) {
-							var tab_width = $( '#form-result-handlers-tabs' ).width();
-							chart_width = Math.round( ( tab_width / 3 * 2 ) );
+		if ( $( '#form-result-handlers-tabs' ).length ) {
+			var tab_width = $( '#form-result-handlers-tabs' ).width();
+			chart_width = Math.round( ( tab_width / 3 * 2 ) );
+		}
+
+		var categories = '{$categories}';
+		categories = categories.split( '###' );
+		var category_width = Math.round( ( chart_width / categories.length ) );
+
+
+		var highest = 0;
+		for( i = 0; i < categories.length; i++ ){
+			var height = $.torro_text_height( categories[ i ], '13px Clear Sans', category_width  );
+
+			if( highest < height )
+			{
+				highest = height;
+			}
+		}
+		var category_height = highest;
+
+		var chart_{$id} = c3.generate({
+			bindto: '#{$id}-chart',
+			size: {
+				width: chart_width
+			},
+			data: {
+				columns: {$column_data},
+				type: 'bar',
+				keys: {
+					value: [ 'value' ],
+				},
+				colors: {
+					values: '#0073aa',
+				}
+			},
+			axis: {
+				x: {
+					type: 'category',
+					categories: [{$c3_categories}]
+				},
+				y: {
+					tick: {
+						format: function(x) {
+							return ( x == Math.floor(x)) ? x : '';
 						}
+					}
+				}
+			},
+			legend: {
+				show: false
+			},
+			tooltip: {
+				format: {
+					name: function (name, ratio, id, index) { return '{$value_text}'; }
+				}
+			},
+			padding: {
+				bottom: category_height
+			}
 
-						var categories = '{$categories}';
-						categories = categories.split( '###' );
-						var category_width = Math.round( ( chart_width / categories.length ) );
+		});
+	});
+</script>";
 
-
-						var highest = 0;
-						for( i = 0; i < categories.length; i++ ){
-							var height = $.torro_text_height( categories[ i ], '13px Clear Sans', category_width  );
-
-							if( highest < height )
-							{
-								highest = height;
-							}
-						}
-						var category_height = highest;
-
-						var chart_{$id} = c3.generate({
-						    bindto: '#{$id}-chart',
-						    size: {
-							  width: chart_width
-							},
-						    data: {
-						      columns: {$column_data},
-						      type: 'bar',
-						      keys: {
-					          	value: [ 'value' ],
-					          },
-					          colors: {
-					          	values: '#0073aa',
-					          }
-						    },
-						    axis: {
-								x: {
-							    	type: 'category',
-							    	categories: [{$c3_categories}]
-							    },
-							    y: {
-							    	tick: {
-									    format: function(x) {
-									        return ( x == Math.floor(x)) ? x : '';
-									    }
-								    }
-								}
-							},
-							legend: {
-						        show: false
-						    },
-						    tooltip: {
-							  format: {
-							    name: function (name, ratio, id, index) { return '{$value_text}'; }
-							  }
-							},
-							padding: {
-								bottom: category_height
-							}
-
-						});
-					});
-			    </script>";
-
-		$html.= '</div>';
+		$html .= '</div>';
 
 		return $html;
 	}
 
-	public function pies( $title, $results, $params = array() )
-	{
-	}
+	public function pies( $title, $results, $params = array() ) {}
 
 	/**
 	 * Loading Admin Styles
 	 */
-	public function admin_styles()
-	{
+	public function admin_styles() {
 		$morris_css = TORRO_URLPATH . 'assets/vendor/c3.css';
 		wp_enqueue_style( 'c3', $morris_css );
 	}
@@ -185,8 +176,7 @@ class Torro_Chart_Creator_C3 extends Torro_Result_Charts
 	/**
 	 * Loading Admin Scripts
 	 */
-	public function admin_scripts()
-	{
+	public function admin_scripts() {
 		wp_enqueue_script( 'd3', TORRO_URLPATH . 'assets/vendor/d3.min.js' );
 		wp_enqueue_script( 'c3', TORRO_URLPATH . 'assets/vendor/c3.min.js' );
 		wp_enqueue_script( 'torro-results-charts', TORRO_URLPATH . 'assets/js/results-charts.js' );
@@ -195,17 +185,15 @@ class Torro_Chart_Creator_C3 extends Torro_Result_Charts
 	/**
 	 * Loading Frontend Scripts
 	 */
-	public function frontend_styles()
-	{
-		$this->admin_styles();
+	public function frontend_styles() {
+		//$this->admin_styles();
 	}
 
 	/**
 	 * Loading Frontend Scripts
 	 */
-	public function frontend_scripts()
-	{
-		$this->admin_scripts();
+	public function frontend_scripts() {
+		//$this->admin_scripts();
 	}
 }
 

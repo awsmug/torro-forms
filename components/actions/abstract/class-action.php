@@ -26,20 +26,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Action
-{
+abstract class Torro_Action {
 	/**
 	 * The Single instances of the components
 	 *
 	 * @var $_instaces
 	 * @since 1.0.0
 	 */
-	protected static $_instances = NULL;
+	protected static $_instances = array();
 
 	/**
 	 * name of restriction
@@ -86,8 +84,7 @@ abstract class Torro_Action
 	 *
 	 * @since 1.0.0
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 		$this->init();
 	}
 
@@ -96,16 +93,14 @@ abstract class Torro_Action
 	 *
 	 * @since 1.0.0
 	 */
-	public static function instance()
-	{
+	public static function instance() {
 		if ( function_exists( 'get_called_class' ) ) {
 			$class = get_called_class();
 		} else {
 			$class = self::php52_get_called_class();
 		}
 
-		if( !isset( self::$_instances[ $class ] ) )
-		{
+		if ( ! isset( self::$_instances[ $class ] ) ) {
 			self::$_instances[ $class ] = new $class();
 			self::$_instances[ $class ]->_register();
 		}
@@ -159,51 +154,48 @@ abstract class Torro_Action
 	/**
 	 * Checks if there is an option content
 	 */
-	public function has_option()
-	{
-		if( '' != $this->option_content )
-		{
+	public function has_option() {
+		if ( ! empty( $this->option_content ) ) {
 			return $this->option_content;
 		}
 
 		$this->option_content = $this->option_content();
 
-		if( FALSE == $this->option_content )
-		{
-			return FALSE;
+		if ( false === $this->option_content ) {
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
 	 * Content of option in Form builder
 	 */
-	public function option_content(){}
+	public function option_content() {
+		return false;
+	}
 
 	/**
 	 * Add Settings to Settings Page
 	 */
-	public function init_settings()
-	{
+	public function init_settings() {
 		global $torro_global;
 
-		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
-		{
-			return FALSE;
+		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
+			return false;
 		}
 
 		$headline = array(
-			'headline' => array(
-				'title'       => $this->title,
-				'description' => sprintf( esc_attr__( 'Setup the "%s" Action.', 'torro-forms' ), $this->title ),
-				'type'        => 'title'
+			'headline'		=> array(
+				'title'			=> $this->title,
+				'description'	=> sprintf( __( 'Setup the "%s" Action.', 'torro-forms' ), $this->title ),
+				'type'			=> 'title'
 			)
 		);
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$torro_global->settings[ 'actions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+		$torro_global->settings['actions']->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'actions_' . $this->name;
 
@@ -216,46 +208,35 @@ abstract class Torro_Action
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
-	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
 	 * @since 1.0.0
 	 */
-	private function _register()
-	{
+	private function _register() {
 		global $torro_global;
 
-		if( !is_object( $torro_global ) )
-		{
-			return FALSE;
+		if ( ! is_object( $torro_global ) ) {
+			return false;
 		}
 
-		if( '' == $this->name )
-		{
+		if ( '' === $this->name ) {
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title )
-		{
+		if ( '' === $this->title ) {
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description )
-		{
-			$this->description = esc_attr__( 'This is the Torro Forms Action  extension.', 'torro-forms' );
+		if ( '' === $this->description ) {
+			$this->description = __( 'This is the Torro Forms Action  extension.', 'torro-forms' );
 		}
 
-		if( array_key_exists( $this->name, $torro_global->actions ) )
-		{
-			return FALSE;
-		}
-
-		if( !is_array( $torro_global->actions ) )
-		{
-			$torro_global->actions = array();
+		if ( array_key_exists( $this->name, $torro_global->actions ) ) {
+			return false;
 		}
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
-		$this->initialized = TRUE;
+		$this->initialized = true;
 
 		return $torro_global->add_action( $this->name, $this );
 	}
@@ -268,12 +249,10 @@ abstract class Torro_Action
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function torro_register_action( $action_class )
-{
-	if( class_exists( $action_class ) )
-	{
+function torro_register_action( $action_class ) {
+	if ( class_exists( $action_class ) ) {
 		return call_user_func( array( $action_class, 'instance' ) );
 	}
 
-	return FALSE;
+	return false;
 }

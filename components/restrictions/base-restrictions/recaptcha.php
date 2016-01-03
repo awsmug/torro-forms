@@ -68,12 +68,10 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	/**
 	 * Checking if reCAPTCHA has been configured
 	 */
-	public function check_settings()
-	{
+	public function check_settings() {
 		global $post;
 
-		if( !torro_is_formbuilder() )
-		{
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
@@ -83,8 +81,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 
 		$form_id = $post->ID;
 
-		if( $this->is_enabled( $form_id ) && !$this->is_configured() )
-		{
+		if ( $this->is_enabled( $form_id ) && ! $this->is_configured() ) {
 			Torro_Init::admin_notice( sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'torro-forms' ), admin_url( 'admin.php?page=Torro_Admin&tab=restrictions&section=recaptcha' ) ), 'error' );
 		}
 	}
@@ -93,8 +90,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	/**
 	 * reCAPTCHA meta box
 	 */
-	public static function recaptcha_fields()
-	{
+	public static function recaptcha_fields() {
 		global $post;
 
 		$form_id = $post->ID;
@@ -170,12 +166,11 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	 * Detects if reCAPTCHA is enabled for form
 	 * @return bool
 	 */
-	public function is_enabled( $form_id )
-	{
+	public function is_enabled( $form_id ) {
 		if ( ! get_post_meta( $form_id, 'recaptcha_enabled', true ) ) {
 			return false;
 		}
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -289,7 +284,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		global $ar_form_id, $post;
 
 		if ( ! $ar_form_id ) {
-			if ( ! $post || 'torro-forms' != $post->post_type ) {
+			if ( ! $post || 'torro-forms' !== $post->post_type ) {
 				// no form detected
 				return;
 			}

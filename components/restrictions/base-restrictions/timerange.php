@@ -24,19 +24,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Restriction_Timerange extends Torro_Restriction
-{
-
+class Torro_Restriction_Timerange extends Torro_Restriction {
 	/**
 	 * Constructor
 	 */
-	public function init()
-	{
+	public function init() {
 		$this->title = __( 'Timerange', 'torro-forms' );
 		$this->name = 'timerange';
 
@@ -52,30 +48,29 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	/**
 	 * Timerange meta box
 	 */
-	public function timerange_fields()
-	{
+	public function timerange_fields() {
 		global $post;
 
 		$form_id = $post->ID;
 
-		$start_date = get_post_meta( $form_id, 'start_date', TRUE );
-		$end_date = get_post_meta( $form_id, 'end_date', TRUE );
+		$start_date = get_post_meta( $form_id, 'start_date', true );
+		$end_date = get_post_meta( $form_id, 'end_date', true );
 
 		$html = '<div id="form-restrictions-content-timerange" class="section general-settings timerange">';
 
-			$html .= '<h3>' . esc_html__( 'Timerange', 'torro-forms' ) . '</h3>';
+		$html .= '<h3>' . esc_html__( 'Timerange', 'torro-forms' ) . '</h3>';
 
-			$html .= '<div class="option">';
-			$html .= '<label for="start_date">' . esc_html__( 'Date Start:', 'torro-forms' ) . '</label>';
-			$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
-			$html .= '</div>';
+		$html .= '<div class="option">';
+		$html .= '<label for="start_date">' . esc_html__( 'Date Start:', 'torro-forms' ) . '</label>';
+		$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
+		$html .= '</div>';
 
-			$html .= '<div class="option">';
-			$html .= '<label for="end_date">' . esc_html__( 'Date End:', 'torro-forms' ) . '</label>';
-			$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
-			$html .= '</div>';
+		$html .= '<div class="option">';
+		$html .= '<label for="end_date">' . esc_html__( 'Date End:', 'torro-forms' ) . '</label>';
+		$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
+		$html .= '</div>';
 
-			$html .= '<div style="clear:both"></div>';
+		$html .= '<div style="clear:both"></div>';
 
 		$html .= '</div>';
 
@@ -85,31 +80,28 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	/**
 	 * Checks if the user can pass
 	 */
-	public function check()
-	{
+	public function check() {
 		global $ar_form_id;
 
 		$actual_date = time();
-		$start_date = strtotime( get_post_meta( $ar_form_id, 'start_date', TRUE ) );
-		$end_date = strtotime( get_post_meta( $ar_form_id, 'end_date', TRUE ) );
+		$start_date = strtotime( get_post_meta( $ar_form_id, 'start_date', true ) );
+		$end_date = strtotime( get_post_meta( $ar_form_id, 'end_date', true ) );
 
-		if( '' != $start_date && 0 != (int) $start_date && FALSE != $start_date && $actual_date < $start_date )
-		{
-			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'torro-forms' ) );
+		if ( 0 !== $start_date && $actual_date < $start_date ) {
+			$this->add_message( 'error', __( 'The Form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
-			return FALSE;
+			return false;
 		}
 
-		if( '' != $end_date && 0 != (int) $end_date && FALSE != $end_date && '' != $end_date && $actual_date > $end_date )
-		{
-			$this->add_message( 'error', esc_html__( 'The Form is not accessible at this time.', 'torro-forms' ) );
+		if ( 0 !== $end_date && $actual_date > $end_date ) {
+			$this->add_message( 'error', __( 'The Form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -119,8 +111,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	public function save( $form_id )
-	{
+	public function save( $form_id ) {
 		$start_date = $_POST[ 'start_date' ];
 		$end_date = $_POST[ 'end_date' ];
 
@@ -136,8 +127,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_scripts()
-	{
+	public function enqueue_scripts() {
 		$translation_admin = array(
 			'dateformat'		=> esc_attr__( 'yy/mm/dd', 'torro-forms' ),
 			'min_sun'			=> esc_attr__( 'Su', 'torro-forms' ),
@@ -172,8 +162,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_admin_styles()
-	{
+	public static function register_admin_styles() {
 		wp_enqueue_style( 'torro-restrictions-timerange', TORRO_URLPATH . 'assets/css/restrictions-timerange.css' );
 	}
 }

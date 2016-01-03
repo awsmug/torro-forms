@@ -24,40 +24,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Actions_FormProcessExtension
-{
-
+class Torro_Actions_FormProcessExtension {
 	/**
 	 * Init in WordPress, run on constructor
 	 *
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
+	public static function init() {
 		add_action( 'torro_response_save', array( __CLASS__, 'action' ), 10, 1 );
 	}
 
 	/**
 	 * Starting response handler
 	 */
-	public static function action( $response_id )
-	{
+	public static function action( $response_id ) {
 		global $torro_global, $ar_form_id;
 
-		if( count( $torro_global->actions ) == 0 )
-		{
+		if ( 0 === count( $torro_global->actions ) ) {
 			return;
 		}
 
-		foreach( $torro_global->actions AS $action )
-		{
-			$action->handle( $response_id, $_SESSION[ 'torro_response' ][ $ar_form_id ] );
+		foreach ( $torro_global->actions as $action ) {
+			$action->handle( $response_id, $_SESSION['torro_response'][ $ar_form_id ] );
 		}
 	}
 }

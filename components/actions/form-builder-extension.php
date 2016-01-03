@@ -24,24 +24,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Formbuilder_Actions_Extension
-{
+class Torro_Formbuilder_Actions_Extension {
 	/**
 	 * Init in WordPress, run on constructor
 	 *
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
-		if( !is_admin() )
-		{
-			return NULL;
+	public static function init() {
+		if ( ! is_admin() ) {
+			return null;
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ) );
@@ -58,19 +54,12 @@ class Torro_Formbuilder_Actions_Extension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_boxes( $post_type )
-	{
+	public static function meta_boxes( $post_type ) {
 		$post_types = array( 'torro-forms' );
 
-		if( in_array( $post_type, $post_types ) ):
-			add_meta_box(
-				'form-actions',
-				esc_attr__( 'Actions', 'torro-forms' ),
-				array( __CLASS__, 'meta_box_actions' ),
-				'torro-forms',
-				'normal',
-				'high' );
-		endif;
+		if ( in_array( $post_type, $post_types ) ) {
+			add_meta_box( 'form-actions', __( 'Actions', 'torro-forms' ), array( __CLASS__, 'meta_box_actions' ), 'torro-forms', 'normal', 'high' );
+		}
 	}
 
 	/**
@@ -78,36 +67,35 @@ class Torro_Formbuilder_Actions_Extension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_actions()
-	{
+	public static function meta_box_actions() {
 		global $post, $torro_global;
 
 		$form_id = $post->ID;
 		$actions = $torro_global->actions;
 
-		if( !is_array( $actions ) || count( $actions ) == 0 ){
+		if ( ! is_array( $actions ) || 0 === count( $actions ) ){
 			return;
 		}
 
 		$html = '<div id="form-actions-tabs" class="section form_element_tabs">';
 
-			$html.= '<ul>';
-			foreach( $actions AS $action ){
-				if( !$action->has_option() ){
-					continue;
-				}
-				$html .= '<li><a href="#' . $action->name . '">' . $action->title . '</a></option>';
+		$html .= '<ul>';
+		foreach ( $actions as $action ) {
+			if ( !$action->has_option() ) {
+				continue;
 			}
-			$html .= '</ul>';
+			$html .= '<li><a href="#' . $action->name . '">' . $action->title . '</a></option>';
+		}
+		$html .= '</ul>';
 
-			$html .= '<div class="clear"></div>';
+		$html .= '<div class="clear"></div>';
 
-			foreach( $actions AS $action ){
-				if( ! $action->has_option() ){
-					continue;
-				}
-				$html .= '<div id="' . $action->name . '">' . $action->option_content . '</div>';
+		foreach( $actions as $action ) {
+			if ( ! $action->has_option() ) {
+				continue;
 			}
+			$html .= '<div id="' . $action->name . '">' . $action->option_content . '</div>';
+		}
 
 		$html .= '</div>';
 
@@ -121,17 +109,15 @@ class Torro_Formbuilder_Actions_Extension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id )
-	{
-	}
+	public static function save( $form_id ) {}
 
 	/**
 	 * Enqueue admin scripts
 	 */
-	public static function enqueue_admin_scripts()
-	{
-		if( !torro_is_formbuilder() )
+	public static function enqueue_admin_scripts() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
+		}
 
 		wp_enqueue_script( 'torro-actions', TORRO_URLPATH . 'assets/js/actions.js' );
 	}
@@ -139,12 +125,13 @@ class Torro_Formbuilder_Actions_Extension
 	/**
 	 * Enqueue admin styles
 	 */
-	public static function enqueue_admin_styles()
-	{
-		if( !torro_is_formbuilder() )
+	public static function enqueue_admin_styles() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
+		}
 
 		wp_enqueue_style( 'torro-actions', TORRO_URLPATH . 'assets/css/actions.css' );
 	}
 }
+
 Torro_Formbuilder_Actions_Extension::init();

@@ -24,18 +24,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_RestrictionsSettings extends Torro_Settings
-{
+class Torro_RestrictionsSettings extends Torro_Settings {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->title = __( 'Restrictions', 'torro-forms' );
 		$this->name = 'restrictions';
 	}
@@ -47,8 +44,7 @@ class Torro_RestrictionsSettings extends Torro_Settings
 	 * @param $settings_title
 	 * @param $settings_arr
 	 */
-	public function add_settings_field( $settings_name, $settings_title, $settings_arr )
-	{
+	public function add_settings_field( $settings_name, $settings_title, $settings_arr ) {
 		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
 	}
 }

@@ -222,10 +222,6 @@ abstract class Torro_Settings {
 			return false;
 		}
 
-		if ( ! is_array( $torro_global->settings ) ) {
-			$torro_global->settings = array();
-		}
-
 		$this->initialized = true;
 
 		add_action( 'torro_save_settings', array( $this, 'save_settings' ), 10, 1 );

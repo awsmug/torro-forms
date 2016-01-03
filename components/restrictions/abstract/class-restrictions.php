@@ -26,20 +26,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Restriction
-{
+abstract class Torro_Restriction {
 	/**
 	 * The Single instances of the components
 	 *
 	 * @var $_instaces
 	 * @since 1.0.0
 	 */
-	protected static $_instances = NULL;
+	protected static $_instances = array();
 
 	/**
 	 * Name of restriction
@@ -67,14 +65,14 @@ abstract class Torro_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	var $option_name = FALSE;
+	var $option_name = false;
 
 	/**
 	 * Already initialized?
 	 *
 	 * @since 1.0.0
 	 */
-	var $initialized = FALSE;
+	var $initialized = false;
 
 	/**
 	 * Settings fields array
@@ -103,8 +101,7 @@ abstract class Torro_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 		$this->init();
 	}
 
@@ -113,16 +110,14 @@ abstract class Torro_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	public static function instance()
-	{
+	public static function instance() {
 		if ( function_exists( 'get_called_class' ) ) {
 			$class = get_called_class();
 		} else {
 			$class = self::php52_get_called_class();
 		}
 
-		if( !isset( self::$_instances[ $class ] ) )
-		{
+		if ( ! isset( self::$_instances[ $class ] ) ) {
 			self::$_instances[ $class ] = new $class();
 			self::$_instances[ $class ]->_register();
 		}
@@ -173,20 +168,17 @@ abstract class Torro_Restriction
 	/**
 	 * Printing out messages
 	 */
-	public function messages()
-	{
-		if( count( $this->messages ) > 0 )
-		{
+	public function messages() {
+		if ( 0 < count( $this->messages ) ) {
 			$html = '';
-			foreach( $this->messages AS $message )
-			{
-				$html .= '<div class="form-message ' . $message[ 'type' ] . '">' . $message[ 'text' ] . '</div>';
+			foreach ( $this->messages as $message ) {
+				$html .= '<div class="form-message ' . $message['type'] . '">' . esc_html( $message['text'] ) . '</div>';
 			}
 
 			return $html;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -195,11 +187,10 @@ abstract class Torro_Restriction
 	 * @param $type
 	 * @param $text
 	 */
-	public function add_message( $type, $text )
-	{
+	public function add_message( $type, $text ) {
 		$this->messages[] = array(
-			'type' => $type,
-			'text' => $text
+			'type'	=> $type,
+			'text'	=> $text
 		);
 	}
 
@@ -208,39 +199,35 @@ abstract class Torro_Restriction
 	 *
 	 * @return bool
 	 */
-	public function has_option()
-	{
-		if( FALSE != $this->option_name )
-		{
-			return TRUE;
+	public function has_option() {
+		if ( false !== $this->option_name ) {
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
 	 * Add Settings to Settings Page
 	 */
-	public function init_settings()
-	{
+	public function init_settings() {
 		global $torro_global;
 
-		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
-		{
-			return FALSE;
+		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
+			return false;
 		}
 
 		$headline = array(
-			'headline' => array(
-				'title'       => $this->title,
-				'description' => sprintf( esc_attr__( 'Setup the "%s" Restriction.', 'torro-forms' ), $this->title ),
-				'type'        => 'disclaimer'
+			'headline'		=> array(
+				'title'			=> $this->title,
+				'description'	=> sprintf( __( 'Setup the "%s" Restriction.', 'torro-forms' ), $this->title ),
+				'type'			=> 'disclaimer'
 			)
 		);
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$torro_global->settings[ 'restrictions' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+		$torro_global->settings['restrictions']->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'restrictions_' . $this->name;
 
@@ -251,9 +238,8 @@ abstract class Torro_Restriction
 	/**
 	 * Adds content to the option
 	 */
-	public function option_content()
-	{
-		return FALSE;
+	public function option_content() {
+		return false;
 	}
 
 	/**
@@ -261,46 +247,35 @@ abstract class Torro_Restriction
 	 *
 	 * After registerung was successfull the new element will be shown in the elements list.
 	 *
-	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
+	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
 	 * @since 1.0.0
 	 */
-	private function _register()
-	{
+	private function _register() {
 		global $torro_global;
 
-		if( !is_object( $torro_global ) )
-		{
-			return FALSE;
+		if ( ! is_object( $torro_global ) ) {
+			return false;
 		}
 
-		if( '' == $this->name )
-		{
+		if ( '' === $this->name ) {
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title )
-		{
+		if ( '' === $this->title ) {
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description )
-		{
+		if ( '' === $this->description ) {
 			$this->description = esc_attr__( 'This is a Torro Forms Restriction.', 'torro-forms' );
 		}
 
-		if( array_key_exists( $this->name, $torro_global->restrictions ) )
-		{
-			return FALSE;
-		}
-
-		if( !is_array( $torro_global->restrictions ) )
-		{
-			$torro_global->restrictions = array();
+		if ( array_key_exists( $this->name, $torro_global->restrictions ) ) {
+			return false;
 		}
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
-		$this->initialized = TRUE;
+		$this->initialized = true;
 
 		return $torro_global->add_restriction( $this->name, $this );
 	}
@@ -313,12 +288,10 @@ abstract class Torro_Restriction
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function torro_register_restriction( $restriction_class )
-{
-	if( class_exists( $restriction_class ) )
-	{
+function torro_register_restriction( $restriction_class ) {
+	if ( class_exists( $restriction_class ) ) {
 		return call_user_func( array( $restriction_class, 'instance' ) );
 	}
 
-	return FALSE;
+	return false;
 }

@@ -26,13 +26,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Formbuilder_FormProcesExtension
-{
+class Torro_Formbuilder_FormProcesExtension {
 
 	/**
 	 * Init in WordPress, run on constructor
@@ -40,44 +38,39 @@ class Torro_Formbuilder_FormProcesExtension
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
+	public static function init() {
 		add_filter( 'torro_form_show', array( __CLASS__, 'check' ), 1 );
 	}
 
 	/**
 	 * Checking restrictions
 	 */
-	public static function check( $show_form )
-	{
+	public static function check( $show_form ) {
 		global $torro_global, $ar_form_id;
 
 		$restrictions = $torro_global->restrictions;
 
-		if( !is_array( $restrictions ) || count( $restrictions ) == 0 )
-		{
-			return;
+		if ( ! is_array( $restrictions ) || 0 === count( $restrictions ) ) {
+			return $show_form;
 		}
 
-		if( FALSE == apply_filters( 'torro_additional_restrictions_check_start', TRUE ) )
-		{
-			return FALSE;
+		if ( false === apply_filters( 'torro_additional_restrictions_check_start', true ) ) {
+			return false;
 		}
 
 		/**
 		 * Select field for Restriction
 		 */
-		$restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', TRUE );
+		$restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', true );
 		$restriction = $restrictions[ $restrictions_option ];
 
-		if( FALSE == $restriction->check() )
-		{
+		if ( false === $restriction->check() ) {
 			echo $restriction->messages();
 
-			return FALSE;
+			return false;
 		}
 
-		return apply_filters( 'torro_additional_restrictions_check_end', TRUE );
+		return apply_filters( 'torro_additional_restrictions_check_end', true );
 	}
 }
 

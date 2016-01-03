@@ -25,31 +25,26 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Restrictions_Component extends Torro_Component
-{
-
+class Torro_Restrictions_Component extends Torro_Component {
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function init()
-	{
+	public function init() {
 		$this->name = 'restrictions';
-		$this->title = esc_attr__( 'Restrictions', 'torro-forms' );
-		$this->description = esc_attr__( 'Restrictions if a user can fillout a form or not', 'torro-forms' );
+		$this->title = __( 'Restrictions', 'torro-forms' );
+		$this->description = __( 'Restrictions if a user can fillout a form or not', 'torro-forms' );
 	}
 
 	/**
 	 * Including files of component
 	 */
-	public function includes()
-	{
+	public function includes() {
 		$folder = TORRO_COMPONENTFOLDER . 'restrictions/';
 
 		// Loading base functionalities
@@ -71,8 +66,7 @@ class Torro_Restrictions_Component extends Torro_Component
 	/**
 	 * Enqueue Scripts
 	 */
-	public function admin_scripts()
-	{
+	public function admin_scripts() {
 		wp_enqueue_script( 'torro-restrictions', TORRO_URLPATH . 'assets/js/restrictions.js' );
 	}
 

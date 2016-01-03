@@ -25,31 +25,27 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Actions_Component extends Torro_Component
-{
+class Torro_Actions_Component extends Torro_Component {
 
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function init()
-	{
+	public function init() {
 		$this->name = 'actions';
-		$this->title = esc_attr__( 'Actions', 'torro-forms' );
-		$this->description = esc_attr__( 'Actions are fired in the moment Users submitting their Form Data.', 'torro-forms' );
+		$this->title = __( 'Actions', 'torro-forms' );
+		$this->description = __( 'Actions are fired in the moment Users submitting their Form Data.', 'torro-forms' );
 	}
 
 	/**
 	 * Including files of component
 	 */
-	public function includes()
-	{
+	public function includes() {
 		$folder = TORRO_COMPONENTFOLDER . 'actions/';
 
 		// Loading base functionalities

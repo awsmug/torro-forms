@@ -24,18 +24,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_ResultsEntries extends Torro_ResultHandler
-{
+class Torro_ResultsEntries extends Torro_ResultHandler {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->title = __( 'Entries', 'torro-forms' );
 		$this->name = 'entries';
 
@@ -43,22 +40,19 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		add_action( 'wp_ajax_torro_show_entry', array( __CLASS__, 'ajax_show_entry' ) );
 	}
 
-	public function option_content()
-	{
+	public function option_content() {
 		global $post;
 
 		$form_id = $post->ID;
 
 		$start = 0;
-		if( array_key_exists( 'torro-entries-start', $_POST ) )
-		{
-			$start = $_POST[ 'torro-entries-start' ];
+		if ( array_key_exists( 'torro-entries-start', $_POST ) ) {
+			$start = $_POST['torro-entries-start'];
 		}
 
 		$length = 10;
-		if( array_key_exists( 'torro-entries-start', $_POST ) )
-		{
-			$length = $_POST[ 'torro-entries-length' ];
+		if ( array_key_exists( 'torro-entries-start', $_POST ) ) {
+			$length = $_POST['torro-entries-length'];
 		}
 
 		$html = '<div id="torro-entries">';
@@ -79,20 +73,18 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		return $html;
 	}
 
-	private static function show_results( $form_id, $start, $length, $num_results )
-	{
+	private static function show_results( $form_id, $start, $length, $num_results ) {
 		$form_results = new Torro_Form_Results( $form_id );
 
 		$filter = array(
-			'start_row' => $start,
-			'num_rows' => $length
+			'start_row'	=> $start,
+			'num_rows'	=> $length
 		);
 
 		$html = '';
 		$results = $form_results->results( $filter );
 
-		if( $form_results->count() > 0 )
-		{
+		if ( 0 < $form_results->count() ) {
 			$date_format = get_option( 'date_format' );
 
 			$html .= '<table id="torro-entries-table" class="widefat entries">';
@@ -101,12 +93,9 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 			$entry_columns = apply_filters( 'torro_entry_columns', array( 'result_id', 'user_id', 'timestamp' ) );
 
-			foreach( array_keys( $results[ 0 ] ) AS $headline )
-			{
-				if( in_array( $headline, $entry_columns ) )
-				{
-					switch ( $headline )
-					{
+			foreach( array_keys( $results[0] ) as $headline ) {
+				if ( in_array( $headline, $entry_columns, true ) ) {
+					switch ( $headline ) {
 						case 'result_id':
 							$headline_title = esc_attr__( 'ID', 'torro_locale' );
 							break;
@@ -129,24 +118,18 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 			$html .= '<tbody>';
 
-			foreach( $results AS $result )
-			{
+			foreach ( $results as $result ) {
 				$html .= '<tr>';
-				foreach( array_keys( $results[ 0 ] ) AS $headline )
-				{
-					if( in_array( $headline, $entry_columns ) )
-					{
-						switch ( $headline )
-						{
+				foreach ( array_keys( $results[0] ) as $headline ) {
+					if ( in_array( $headline, $entry_columns, true ) ) {
+						switch ( $headline ) {
 							case 'timestamp':
 								$content = date_i18n( $date_format, $result[ $headline ] );
 								break;
-
 							case 'user_id':
 								$user = get_user_by( 'id', $result[ $headline ] );
 								$content = $user->display_name;
 								break;
-
 							default:
 								$content = $result[ $headline ];
 						}
@@ -158,7 +141,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				}
 
 				$html .= '<td class="entry-actions">';
-				$html .= '<a type="button" class="button torro-show-entry" rel="' . $result[ 'result_id' ] . '" >' . esc_attr__( 'Show Details', 'torro-forms' ) . '</a>';
+				$html .= '<a type="button" class="button torro-show-entry" rel="' . $result['result_id'] . '" >' . esc_html__( 'Show Details', 'torro-forms' ) . '</a>';
 				$html .= '</td>';
 
 				$html .= '</tr>';
@@ -182,8 +165,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 			$count = $num_results <= $length ? $num_results : $length;
 
 			$html .= '<div class="torro-nav">';
-			if( $prev >= 0 )
-			{
+			if ( 0 <= $prev ) {
 				$html .= '<div class="torro-nav-prev-link">';
 				$prev_url = self::get_admin_url( $form_id, array(
 					'torro-entries-start'	=> $prev,
@@ -194,8 +176,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				$html .= '</div>';
 			}
 
-			if( $next < $num_results )
-			{
+			if ( $num_results > $next ) {
 				$html .= '<div class="torro-nav-next-link">';
 				$next_url = self::get_admin_url( $form_id, array(
 					'torro-entries-start'	=> $next,
@@ -208,9 +189,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 			$html .= '<p>' . sprintf( esc_attr__( '%s - %s of %s', 'torro-forms' ), $start + 1, $count, $num_results ) . '</p>';
 			$html .= '</div>';
-		}
-		else
-		{
+		} else {
 			$html .= self::show_not_found_notice();
 		}
 
@@ -222,7 +201,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 	 */
 	private static function get_admin_url( $form_id, $args = array() ) {
 		$admin_url = admin_url( 'post.php?post=' . $form_id . '&action=edit' );
-		if ( count( $args ) > 0 ) {
+		if ( 0 < count( $args ) ) {
 			$admin_url = add_query_arg( $args, $admin_url );
 		}
 
@@ -230,11 +209,10 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 	}
 
 	public static function show_not_found_notice() {
-		return '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
+		return '<p class="not-found-area">' . esc_html__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 	}
 
-	public static function ajax_show_entries()
-	{
+	public static function ajax_show_entries() {
 		$form_id = $_POST[ 'form_id' ];
 		$start = $_POST[ 'start' ];
 		$length = $_POST[ 'length' ];
@@ -249,25 +227,22 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 	}
 
 
-	public static function ajax_show_entry()
-	{
+	public static function ajax_show_entry() {
 		global $wpdb, $torro_global;
 
 		$form_id = $_POST[ 'form_id' ];
 		$result_id = $_POST[ 'result_id' ];
 
-		if( !torro_form_exists( $form_id ) )
-		{
-			echo esc_attr__( 'Form not found.', 'torro-forms' );
+		if ( ! torro_form_exists( $form_id ) ) {
+			echo esc_html__( 'Form not found.', 'torro-forms' );
 			exit;
 		}
 
 		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE id = %d", $result_id );
 		$count_results = $wpdb->get_var( $sql );
 
-		if( 0 === $count_results )
-		{
-			echo esc_attr__( 'Entry not found.', 'torro-forms' );
+		if ( 0 === $count_results ) {
+			echo esc_html__( 'Entry not found.', 'torro-forms' );
 			exit;
 		}
 
@@ -278,13 +253,10 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results( $filter );
 
-		if( $form_results->count() > 0 )
-		{
-			foreach( $results AS $result )
-			{
-				if( !array_key_exists( 'result_id', $result ) )
-				{
-					echo esc_attr__( 'Error on getting Result.', 'torro-forms' );
+		if ( 0 < $form_results->count() ) {
+			foreach ( $results as $result ) {
+				if ( ! array_key_exists( 'result_id', $result ) ) {
+					echo esc_html__( 'Error on getting Result.', 'torro-forms' );
 					exit;
 				}
 
@@ -292,8 +264,8 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 				$html .= '<thead>';
 				$html .= '<tr>';
-				$html .= '<th>' . esc_attr__( 'Label', 'torro-forms' ) . '</th>';
-				$html .= '<th>' . esc_attr__( 'Value', 'torro-forms' ) . '</th>';
+				$html .= '<th>' . esc_html__( 'Label', 'torro-forms' ) . '</th>';
+				$html .= '<th>' . esc_html__( 'Value', 'torro-forms' ) . '</th>';
 				$html .= '</tr>';
 				$html .= '</thead>';
 
@@ -304,54 +276,39 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 				$timestamp = '';
 				$extra_info = '';
 
-				foreach( $result AS $column_name => $value )
-				{
-
-					switch ( $column_name )
-					{
+				foreach ( $result as $column_name => $value ) {
+					switch ( $column_name ) {
 						case 'result_id':
 							$result_id = $value;
 							break;
-
 						case 'user_id':
-							if( !empty( $value ) )
-							{
+							if ( ! empty( $value ) ) {
 								$user_id = $value;
 								$user = get_user_by( 'id', $user_id );
 								$extra_info .= ' - ' . esc_attr__( 'User', 'torro-forms' ) . ' ' . $user->user_nicename;
 							}
 							break;
-
 						case 'timestamp':
 							$timestamp = $value;
-
 							$date_string = date_i18n( get_option( 'date_format' ), $timestamp );
 							$time_string = date_i18n( get_option( 'time_format' ), $timestamp );
 							break;
-
 						default:
-
 							$column_arr = explode( '_', $column_name );
-
 							// On Elements
-							if( array_key_exists( 0, $column_arr ) && 'element' == $column_arr[ 0 ] )
-							{
+							if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 								$element_id = $column_arr[ 1 ];
 								$element = torro_get_element( $element_id );
 
 								$column_name = $element->replace_column_name( $column_name );
 
-								if( FALSE == $column_name )
-								{
+								if ( empty( $column_name ) ) {
 									$column_name = $element->label;
 								}
 
-								if( 'yes' == $value )
-								{
+								if ( 'yes' === $value ) {
 									$value = esc_attr__( 'Yes', 'torro-forms' );
-								}
-								if( 'no' == $value )
-								{
+								} elseif( 'no' == $value ) {
 									$value = esc_attr__( 'No', 'torro-forms' );
 								}
 
@@ -360,21 +317,18 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 								$html .= '<td>' . $value . '</td>';
 								$html .= '</tr>';
 							}
-
 							break;
 					}
 				}
 				$html .= '</tbody>';
 				$html .= '<tfoot>';
 				$html .= '<tr>';
-				$html .= '<td colspan="2"><small>' . esc_attr__( 'Date', 'torro-forms' ) . ' ' . $date_string . ' - ' . esc_attr__( 'Time', 'torro-forms' ) . ' ' . $time_string . $extra_info . '</small></td>';
+				$html .= '<td colspan="2"><small>' . esc_html__( 'Date', 'torro-forms' ) . ' ' . $date_string . ' - ' . esc_html__( 'Time', 'torro-forms' ) . ' ' . $time_string . $extra_info . '</small></td>';
 				$html .= '</tr>';
 				$html .= '</tfoot>';
 				$html .= '</table>';
 			}
-		}
-		else
-		{
+		} else {
 			$html =  esc_attr__( 'Entry not found.', 'torro-forms' );
 		}
 
@@ -387,20 +341,16 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 		exit;
 	}
 
-	public function admin_styles()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	public function admin_styles() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
 		wp_enqueue_style( 'torro-results-entries', TORRO_URLPATH . 'assets/css/results-entries.css' );
 	}
 
-	public function admin_scripts()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	public function admin_scripts() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 

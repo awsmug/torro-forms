@@ -115,10 +115,6 @@ abstract class Torro_TemplateTags {
 			return false;
 		}
 
-		if ( ! is_array( $torro_global->templatetags ) ) {
-			$torro_global->templatetags = array();
-		}
-
 		$this->tags(); // Getting Tags
 
 		$this->initialized = true;

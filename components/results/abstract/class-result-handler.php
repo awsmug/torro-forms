@@ -26,13 +26,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_ResultHandler
-{
+abstract class Torro_ResultHandler {
 	/**
 	 * Name of Result Component
 	 *
@@ -94,17 +92,14 @@ abstract class Torro_ResultHandler
 	 *
 	 * @since 1.0.0
 	 */
-	public function has_option()
-	{
-		if( '' != $this->option_content )
-		{
+	public function has_option() {
+		if ( ! empty( $this->option_content ) ) {
 			return $this->option_content;
 		}
 
 		$this->option_content = $this->option_content();
 
-		if( FALSE === $this->option_content )
-		{
+		if ( FALSE === $this->option_content ) {
 			return FALSE;
 		}
 
@@ -114,26 +109,24 @@ abstract class Torro_ResultHandler
 	/**
 	 * Add Settings to Settings Page
 	 */
-	public function init_settings()
-	{
+	public function init_settings() {
 		global $torro_global;
 
-		if( count( $this->settings_fields ) == 0 || '' == $this->settings_fields )
-		{
+		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
 			return FALSE;
 		}
 
 		$headline = array(
-			'headline' => array(
-				'title'       => $this->title,
-				'description' => sprintf( esc_attr__( 'Setup the "%s" Result Handler.', 'torro-forms' ), $this->title ),
-				'type'        => 'title'
+			'headline'		=> array(
+				'title'			=> $this->title,
+				'description'	=> sprintf( __( 'Setup the "%s" Result Handler.', 'torro-forms' ), $this->title ),
+				'type'			=> 'title'
 			)
 		);
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$torro_global->settings[ 'resulthandling' ]->add_settings_field( $this->name, $this->title, $settings_fields );
+		$torro_global->settings['resulthandling']->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'resulthandling_' . $this->name;
 
@@ -149,55 +142,40 @@ abstract class Torro_ResultHandler
 	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
 	 * @since 1.0.0
 	 */
-	public function _register()
-	{
+	public function _register() {
 		global $torro_global;
 
-		if( TRUE == $this->initialized )
-		{
+		if ( TRUE === $this->initialized ) {
 			return FALSE;
 		}
 
-		if( !is_object( $torro_global ) )
-		{
+		if ( ! is_object( $torro_global ) ) {
 			return FALSE;
 		}
 
-		if( '' == $this->name )
-		{
+		if ( '' === $this->name ) {
 			$this->name = get_class( $this );
 		}
 
-		if( '' == $this->title )
-		{
+		if ( '' === $this->title ) {
 			$this->title = ucwords( get_class( $this ) );
 		}
 
-		if( '' == $this->description )
-		{
-			$this->description = esc_attr__( 'This is a Torro Forms Result Handler.', 'torro-forms' );
+		if ( '' === $this->description ) {
+			$this->description = __( 'This is a Torro Forms Result Handler.', 'torro-forms' );
 		}
 
-		if( array_key_exists( $this->name, $torro_global->restrictions ) )
-		{
+		if ( array_key_exists( $this->name, $torro_global->restrictions ) ) {
 			return FALSE;
-		}
-
-		if( !is_array( $torro_global->result_handlers ) )
-		{
-			$torro_global->result_handlers = array();
 		}
 
 		add_action( 'init', array( $this, 'init_settings' ), 15 );
 
 		// Scriptloaders
-		if( is_admin() )
-		{
+		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-		}
-		else
-		{
+		} else {
 			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		}
@@ -231,15 +209,13 @@ abstract class Torro_ResultHandler
 /**
  * Register a new Result Handler
  *
- * @param $restriction_class
+ * @param $result_handler_class
  *
  * @return bool|null Returns false on failure, otherwise null.
  */
-function torro_register_result_handler( $result_handler__class )
-{
-	if( class_exists( $result_handler__class ) )
-	{
-		$result_handler = new $result_handler__class();
+function torro_register_result_handler( $result_handler_class ) {
+	if ( class_exists( $result_handler_class ) ) {
+		$result_handler = new $result_handler_class();
 
 		return $result_handler->_register();
 	}

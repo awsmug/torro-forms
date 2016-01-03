@@ -26,19 +26,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Restriction_AllMembers extends Torro_Restriction
-{
-
+class Torro_Restriction_AllMembers extends Torro_Restriction {
 	/**
 	 * Constructor
 	 */
-	public function init()
-	{
+	public function init() {
 		$this->title = __( 'All Members', 'torro-forms' );
 		$this->name = 'allmembers';
 
@@ -54,18 +50,14 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id )
-	{
+	public static function save( $form_id ) {
 		/**
 		 * Saving restriction options
 		 */
-		if( array_key_exists( 'form_restrictions_allmembers_same_users', $_POST ) )
-		{
-			$restrictions_same_users = $_POST[ 'form_restrictions_allmembers_same_users' ];
+		if ( array_key_exists( 'form_restrictions_allmembers_same_users', $_POST ) ) {
+			$restrictions_same_users = $_POST['form_restrictions_allmembers_same_users'];
 			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', $restrictions_same_users );
-		}
-		else
-		{
+		} else {
 			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', '' );
 		}
 	}
@@ -73,23 +65,22 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 	/**
 	 * Adds content to the option
 	 */
-	public function option_content()
-	{
+	public function option_content() {
 		global $post;
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_attr__( 'Restrict Members', 'torro-forms' ) . '</h3>';
+		$html = '<h3>' . esc_html__( 'Restrict Members', 'torro-forms' ) . '</h3>';
 
 		/**
 		 * Check User
 		 */
-		$restrictions_same_users = get_post_meta( $form_id, 'form_restrictions_allmembers_same_users', TRUE );
-		$checked = 'yes' == $restrictions_same_users ? ' checked' : '';
+		$restrictions_same_users = get_post_meta( $form_id, 'form_restrictions_allmembers_same_users', true );
+		$checked = 'yes' === $restrictions_same_users ? ' checked' : '';
 
 		$html .= '<div class="form-restrictions-same-users-userfilter">';
-			$html .= '<input type="checkbox" name="form_restrictions_allmembers_same_users" value="yes" ' . $checked . '/>';
-			$html .= '<label for="form_restrictions_allmembers_same_users">' . esc_attr__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
+		$html .= '<input type="checkbox" name="form_restrictions_allmembers_same_users" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_restrictions_allmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
@@ -102,27 +93,22 @@ class Torro_Restriction_AllMembers extends Torro_Restriction
 	/**
 	 * Checks if the user can pass
 	 */
-	public function check()
-	{
+	public function check() {
 		global $ar_form_id;
 
-		if( !is_user_logged_in() )
-		{
-			$this->add_message( 'error', esc_attr__( 'You have to be logged in to participate.', 'torro-forms' ) );
-
-			return FALSE;
+		if ( ! is_user_logged_in() ) {
+			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
+			return false;
 		}
 
-		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_allmembers_same_users', TRUE );
+		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_allmembers_same_users', true );
 
-		if( 'yes' == $restrictions_same_users && torro_user_has_participated( $ar_form_id ) )
-		{
-			$this->add_message( 'error', esc_attr__( 'You have already entered your data.', 'torro-forms' ) );
-
-			return FALSE;
+		if ( 'yes' === $restrictions_same_users && torro_user_has_participated( $ar_form_id ) ) {
+			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 }
 

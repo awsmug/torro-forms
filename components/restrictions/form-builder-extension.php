@@ -24,24 +24,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if( !defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Formbuilder_RestrictionsExtension
-{
+class Torro_Formbuilder_RestrictionsExtension {
 	/**
 	 * Init in WordPress, run on constructor
 	 *
 	 * @return null
 	 * @since 1.0.0
 	 */
-	public static function init()
-	{
-		if( !is_admin() )
-		{
-			return NULL;
+	public static function init() {
+		if ( ! is_admin() ) {
+			return null;
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
@@ -57,16 +53,12 @@ class Torro_Formbuilder_RestrictionsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_boxes( $post_type )
-	{
+	public static function meta_boxes( $post_type ) {
 		$post_types = array( 'torro-forms' );
 
-		if( in_array( $post_type, $post_types ) ):
-			add_meta_box( 'form-restrictions', esc_attr__( 'Restrictions', 'torro-forms' ), array(
-				                                 __CLASS__,
-				                                 'meta_box_restrictions'
-			                                 ), 'torro-forms', 'normal', 'low' );
-		endif;
+		if ( in_array( $post_type, $post_types ) ) {
+			add_meta_box( 'form-restrictions', __( 'Restrictions', 'torro-forms' ), array( __CLASS__, 'meta_box_restrictions' ), 'torro-forms', 'normal', 'low' );
+		}
 	}
 
 	/**
@@ -74,26 +66,24 @@ class Torro_Formbuilder_RestrictionsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_box_restrictions()
-	{
+	public static function meta_box_restrictions() {
 		global $wpdb, $post, $torro_global;
 
 		$form_id = $post->ID;
 		$restrictions = $torro_global->restrictions;
 
-		if( !is_array( $restrictions ) || count( $restrictions ) == 0 )
-		{
+		if ( ! is_array( $restrictions ) || 0 === count( $restrictions ) ) {
 			return;
 		}
 
 		/**
 		 * Select field for Restriction
 		 */
-		$restrictions_option = get_post_meta( $form_id, 'restrictions_option', TRUE );
+		$restrictions_option = get_post_meta( $form_id, 'restrictions_option', true );
 
-		if( '' == $restrictions_option ): // If there was selected nothing before
+		if ( empty( $restrictions_option ) ) {
 			$restrictions_option = 'allvisitors';
-		endif;
+		}
 
 		ob_start();
 		do_action( 'form_restrictions_content_top' );
@@ -101,17 +91,14 @@ class Torro_Formbuilder_RestrictionsExtension
 
 		$html .= '<div class="section">';
 		$html .= '<div id="form-restrictions-options">';
-		$html .= '<label for"form_restrictions_option">' . esc_attr__( 'Who has access to this form?', 'torro-forms' ) . '';
+		$html .= '<label for"form_restrictions_option">' . esc_html__( 'Who has access to this form?', 'torro-forms' ) . '';
 		$html .= '<select name="form_restrictions_option" id="form-restrictions-option">';
-		foreach( $restrictions AS $name => $restriction )
-		{
-			if( !$restriction->has_option() )
-			{
+		foreach ( $restrictions as $name => $restriction ) {
+			if ( ! $restriction->has_option() ) {
 				continue;
 			}
 			$selected = '';
-			if( $name == $restrictions_option )
-			{
+			if ( $name === $restrictions_option ) {
 				$selected = ' selected="selected"';
 			}
 			$html .= '<option value="' . $name . '"' . $selected . '>' . $restriction->option_name . '</option>';
@@ -122,11 +109,9 @@ class Torro_Formbuilder_RestrictionsExtension
 		/**
 		 * Option content
 		 */
-		foreach( $restrictions AS $name => $restriction )
-		{
+		foreach ( $restrictions as $name => $restriction ) {
 			$option_content = $restriction->option_content();
-			if( !$restriction->has_option() || !$option_content )
-			{
+			if ( ! $restriction->has_option() || ! $option_content ) {
 				continue;
 			}
 			$html .= '<div id="form-restrictions-content-' . $restriction->name . '" class="form-restrictions-content form-restrictions-content-' . $restriction->name . '">' . $option_content . '</div>';
@@ -148,8 +133,7 @@ class Torro_Formbuilder_RestrictionsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id )
-	{
+	public static function save( $form_id ) {
 		/**
 		 * Saving restriction options
 		 */
@@ -162,10 +146,8 @@ class Torro_Formbuilder_RestrictionsExtension
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_admin_styles()
-	{
-		if( !torro_is_formbuilder() )
-		{
+	public static function register_admin_styles() {
+		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
 
