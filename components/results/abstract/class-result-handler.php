@@ -193,7 +193,7 @@ abstract class Torro_ResultHandler
 		// Scriptloaders
 		if( is_admin() )
 		{
-			add_action( 'admin_print_styles', array( $this, 'admin_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		}
 		else
@@ -210,22 +210,22 @@ abstract class Torro_ResultHandler
 	/**
 	 * Function for enqueuing Admin Scripts - Have to be overwritten by Child Class.
 	 */
-	public function admin_scripts(){}
+	public abstract function admin_scripts();
 
 	/**
 	 * Function for enqueuing Admin Styles - Have to be overwritten by Child Class.
 	 */
-	public function admin_styles(){}
+	public abstract function admin_styles();
 
 	/**
 	 * Function for enqueuing Frontend Scripts - Have to be overwritten by Child Class.
 	 */
-	public function frontend_scripts(){}
+	public abstract function frontend_scripts();
 
 	/**
 	 * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
 	 */
-	public function frontend_styles(){}
+	public abstract function frontend_styles();
 }
 
 /**

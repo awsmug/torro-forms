@@ -406,6 +406,10 @@ class Torro_ResultsEntries extends Torro_ResultHandler
 
 		wp_enqueue_script( 'torro-results-entries', TORRO_URLPATH . 'assets/js/results-entries.js' );
 	}
+
+	public function frontend_styles() {}
+
+	public function frontend_scripts() {}
 }
 
 torro_register_result_handler( 'Torro_ResultsEntries' );

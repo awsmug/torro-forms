@@ -31,7 +31,7 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
+class Torro_Chart_Creator_C3 extends Torro_Result_Charts
 {
 	/**
 	 * Initializes the Component.
@@ -209,4 +209,4 @@ class Torro_Chart_Creator_C3 extends Torro_Chart_Creator
 	}
 }
 
-torro_register_chartcreator( 'Torro_Chart_Creator_C3' );
+torro_register_result_handler( 'Torro_Chart_Creator_C3' );

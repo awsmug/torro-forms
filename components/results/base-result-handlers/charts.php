@@ -29,38 +29,55 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 }
 
-class Torro_Result_Charts extends Torro_ResultHandler
+abstract class Torro_Result_Charts extends Torro_ResultHandler
 {
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		$this->title = __( 'Charts', 'torro-forms' );
-		$this->name = 'charts';
+		$this->init();
 
-		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
+        if( empty( $this->name ) )
+        {
+            $this->name = 'charts';
+        }
+        if( empty( $this->title ) )
+        {
+            $this->title = __( 'Charts', 'torro-forms' );
+        }
+        if( empty( $this->description ) )
+        {
+            $this->description = esc_attr__( 'This is an Torro Forms Chart Creator.', 'torro-forms' );
+        }
+
+        $this->register_chart_type( 'bars', esc_attr__( 'Bars', 'torro-forms' ), array( $this, 'bars' ) );
+        $this->register_chart_type( 'pies', esc_attr__( 'Pies', 'torro-forms' ), array( $this, 'pies' ) );
+
 		add_action( 'torro_result_charts_postbox_bottom', array( $this, 'charts_general_settings' ), 10 );
 	}
 
-	/**
-	 * Enqueue admin scripts
-	 */
-	public static function enqueue_admin_scripts()
-	{
-		if( !torro_is_formbuilder() )
-		{
-			return;
-		}
-	}
+	abstract function init();
 
-	/**
-	 * Enqueue admin styles
-	 */
-	public static function enqueue_admin_styles()
-	{
-	}
+    abstract function bars( $title, $results, $params = array() );
+
+    abstract function pies( $title, $results, $params = array() );
+
+    /**
+     * Register Chart types
+     *
+     * @param $name
+     * @param $display_name
+     * @param $callback
+     */
+    protected function register_chart_type( $name, $display_name, $callback )
+    {
+        $this->chart_types[] = array(
+            'name' => $name,
+            'display_name' => $display_name,
+            'callback' =>$callback
+        );
+    }
 
 	public function option_content()
 	{
@@ -110,9 +127,7 @@ class Torro_Result_Charts extends Torro_ResultHandler
 				$html .= '<div class="torro-chart">';
 				$html .= '<div class="torro-chart-diagram">';
 
-				$chart_creator = new Torro_Chart_Creator_C3();
-				$chart_type = 'bars';
-				$html .= $chart_creator->$chart_type( $label, $element_result );
+				$html .= $this->bars( $label, $element_result );
 
 				$html .= '</div>';
 
@@ -277,6 +292,19 @@ class Torro_Result_Charts extends Torro_ResultHandler
 
 		echo $html;
 	}
-}
 
-torro_register_result_handler( 'Torro_Result_Charts' );
+	/**
+     * Adds a notice to
+     *
+     * @param        $message
+     * @param string $type
+     */
+    protected function admin_notice( $message, $type = 'updated' )
+    {
+        if( WP_DEBUG )
+        {
+            $message = $message . ' (in Chart Creator "' .  $this->name . '")';
+        }
+        Torro_Init::admin_notice( $message , $type );
+    }
+}
