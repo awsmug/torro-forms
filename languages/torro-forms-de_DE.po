@@ -1,1076 +1,1056 @@
-#
-# Translators:
-# Sven Wagener <sven.wagener@rheinschmiede.de>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Questions\n"
-"POT-Creation-Date: 2015-11-20 18:32+0100\n"
-"PO-Revision-Date: 2015-11-20 18:37+0100\n"
-"Last-Translator: Awesome UG <support@awesome.ug>\n"
-"Language-Team: German (Germany) (http://www.transifex.com/mahype/questions/"
-"language/de_DE/)\n"
-"Language: de_DE\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-07 15:28+0100\n"
+"PO-Revision-Date: Thu Jan 07 2016 15:40:05 GMT+0100 (CET)\n"
+"Last-Translator: wagesve <sven.wagener@rheinschmiede.de>\n"
+"Language-Team: awesome.ug <very@awesome.ug>\n"
+"Language: German\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.6\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Poedit-WPHeader: init.php\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Loco-Target-Locale: de_DE"
 
-#: components/actions/abstract/class-action.php:199
+#. Name of the plugin
+msgid "Torro Forms"
+msgstr "Torro Forms"
+
+#. Description of the plugin
+msgid "Drag & drop your Form with the Torro Forms Plugin."
+msgstr ""
+
+#: ../components/actions/component.php:41 ../components/actions/form-builder-
+#: extension.php:61 ../components/actions/settings.php:37
+msgid "Actions"
+msgstr "Aktionen"
+
+#: ../components/actions/component.php:42
+msgid "Actions are fired in the moment Users submitting their Form Data."
+msgstr ""
+
+#: ../components/actions/abstract/class-action.php:191
 #, php-format
 msgid "Setup the \"%s\" Action."
 msgstr ""
 
-#: components/actions/abstract/class-action.php:243
+#: ../components/actions/abstract/class-action.php:230
 msgid "This is the Torro Forms Action  extension."
-msgstr "Dies ist das Torro Forms Action-Erweiterung."
+msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:53
+#: ../components/actions/base-actions/email-notifications.php:50
 msgid "Email Notifications"
-msgstr "E-Mail-Benachrichtigungen"
+msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:148
+#: ../components/actions/base-actions/email-notifications.php:137
 msgid "Add Notification"
-msgstr "Benachrichtigung hinzufügen"
+msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:149
+#: ../components/actions/base-actions/email-notifications.php:138
 msgid ""
 "Add Email Notifications to send out Emails after the form have been "
 "submitted by User."
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:170
+#: ../components/actions/base-actions/email-notifications.php:149
 msgid "No Notifications found."
-msgstr "Keine Benachrichtigung gefunden"
-
-#: components/actions/base-actions/email-notifications.php:179
-msgid "Do you really want to delete this Email-Notification?"
-msgstr "Wollen Sie wirklich, um diese E-Mail-Benachrichtigung löschen?"
-
-#: components/actions/base-actions/email-notifications.php:265
-msgid "Notification Name"
-msgstr "Benachrichtigungs-Name"
-
-#: components/actions/base-actions/email-notifications.php:269
-#: components/restrictions/base-restrictions/selected-members.php:64
-#: components/restrictions/base-restrictions/selected-members.php:86
-msgid "From Name"
-msgstr "Absendername"
-
-#: components/actions/base-actions/email-notifications.php:273
-#: components/restrictions/base-restrictions/selected-members.php:70
-#: components/restrictions/base-restrictions/selected-members.php:92
-msgid "From Email"
-msgstr "Absender-Email"
-
-#: components/actions/base-actions/email-notifications.php:277
-msgid "To Email"
-msgstr "Email Empfänger"
-
-#: components/actions/base-actions/email-notifications.php:281
-msgid "Subject"
-msgstr "Betreff"
-
-#: components/actions/base-actions/email-notifications.php:285
-msgid "Message"
-msgstr "Nachricht"
-
-#: components/actions/base-actions/email-notifications.php:289
-msgid "Delete Notification"
-msgstr "Benachrichtigung löschen"
-
-#: components/actions/base-actions/email-notifications.php:305
-msgid "New Email Notification"
-msgstr "Neue Benachrichtigung"
-
-#: components/actions/base-actions/email-notifications.php:333
-#: components/restrictions/base-restrictions/selected-members.php:429
-#: components/restrictions/base-restrictions/selected-members.php:522
-#: core/abstract/class-element.php:739 core/abstract/class-element.php:762
-#: core/form-builder.php:520
-msgid "Delete"
-msgstr "L&ouml;schen"
-
-#: components/actions/base-actions/email-notifications.php:334
-#: components/restrictions/base-restrictions/selected-members.php:523
-#: components/results/base-result-handlers/entries.php:351
-#: core/abstract/class-element.php:1000 core/form-builder.php:521
-msgid "Yes"
-msgstr "Ja"
-
-#: components/actions/base-actions/email-notifications.php:335
-#: components/restrictions/base-restrictions/selected-members.php:524
-#: components/results/base-result-handlers/entries.php:355
-#: core/abstract/class-element.php:1002 core/form-builder.php:522
-msgid "No"
-msgstr "Nein"
-
-#: components/actions/component.php:44
-#: components/actions/form-builder-extension.php:68
-#: components/actions/settings.php:40
-msgid "Actions"
-msgstr "Aktionen"
-
-#: components/actions/component.php:45
-msgid "Actions are fired in the moment Users submitting their Form Data."
 msgstr ""
 
-#: components/restrictions/abstract/class-restrictions.php:236
+#: ../components/actions/base-actions/email-notifications.php:159
+msgid "Do you really want to delete this Email-Notification?"
+msgstr ""
+
+#: ../components/actions/base-actions/email-notifications.php:241
+msgid "Notification Name"
+msgstr ""
+
+#: ../components/actions/base-actions/email-notifications.php:253
+msgid "To Email"
+msgstr ""
+
+#: ../components/actions/base-actions/email-notifications.php:257 ..
+#: components/restrictions/base-restrictions/selected-members.php:72 ..
+#: components/restrictions/base-restrictions/selected-members.php:99
+msgid "Subject"
+msgstr ""
+
+#: ../components/actions/base-actions/email-notifications.php:261
+msgid "Message"
+msgstr ""
+
+#: ../components/actions/base-actions/email-notifications.php:265
+msgid "Delete Notification"
+msgstr ""
+
+#: ../components/actions/base-actions/email-notifications.php:281
+msgid "New Email Notification"
+msgstr ""
+
+#: ../components/restrictions/component.php:40 ../components/restrictions/form-
+#: builder-extension.php:60 ../components/restrictions/settings.php:36
+msgid "Restrictions"
+msgstr ""
+
+#: ../components/restrictions/component.php:41
+msgid "Restrictions if a user can fillout a form or not"
+msgstr ""
+
+#: ../components/restrictions/form-builder-extension.php:94
+msgid "Who has access to this form?"
+msgstr ""
+
+#: ../components/restrictions/abstract/class-restrictions.php:223
 #, php-format
 msgid "Setup the \"%s\" Restriction."
 msgstr ""
 
-#: components/restrictions/abstract/class-restrictions.php:288
+#: ../components/restrictions/abstract/class-restrictions.php:269
 msgid "This is a Torro Forms Restriction."
-msgstr "Dies ist das Torro Forms Action-Restriktion."
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-members.php:42
+#: ../components/restrictions/base-restrictions/all-members.php:38
 msgid "All Members"
-msgstr "Alle Mitglieder"
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-members.php:45
+#: ../components/restrictions/base-restrictions/all-members.php:41
 msgid "All Members of site"
-msgstr "Alle Mitglieder der Website"
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-members.php:82
-#: components/restrictions/base-restrictions/selected-members.php:316
+#: ../components/restrictions/base-restrictions/all-members.php:73 ..
+#: components/restrictions/base-restrictions/selected-members.php:309
 msgid "Restrict Members"
-msgstr "Benutzer einschränken"
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-members.php:92
-#: components/restrictions/base-restrictions/selected-members.php:326
+#: ../components/restrictions/base-restrictions/all-members.php:83 ..
+#: components/restrictions/base-restrictions/selected-members.php:319
 msgid "Prevent multiple entries from same User"
-msgstr "Mehrere Einträge vom demselben Benutzer verhindern"
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-members.php:111
-#: components/restrictions/base-restrictions/selected-members.php:460
+#: ../components/restrictions/base-restrictions/all-members.php:100 ..
+#: components/restrictions/base-restrictions/selected-members.php:450
 msgid "You have to be logged in to participate."
-msgstr "Sie müssen angemeldet sein, um teilzunehmen."
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-members.php:120
-#: components/restrictions/base-restrictions/all-visitors.php:98
-#: components/restrictions/base-restrictions/all-visitors.php:233
-#: components/restrictions/base-restrictions/all-visitors.php:245
-#: components/restrictions/base-restrictions/selected-members.php:476
+#: ../components/restrictions/base-restrictions/all-members.php:107 ..
+#: components/restrictions/base-restrictions/all-visitors.php:87 ..
+#: components/restrictions/base-restrictions/all-visitors.php:200 ..
+#: components/restrictions/base-restrictions/all-visitors.php:209 ..
+#: components/restrictions/base-restrictions/selected-members.php:464
 msgid "You have already entered your data."
-msgstr "Sie haben Ihre Daten bereits eingegeben."
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-visitors.php:42
+#: ../components/restrictions/base-restrictions/all-visitors.php:38
 msgid "All Visitors"
-msgstr "Alle Besucher"
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-visitors.php:44
+#: ../components/restrictions/base-restrictions/all-visitors.php:40
 msgid "All Visitors of site"
-msgstr "Alle Besucher der Website"
-
-#: components/restrictions/base-restrictions/all-visitors.php:71
-msgid "Form ID is missing.torro-forms"
 msgstr ""
 
-#: components/restrictions/base-restrictions/all-visitors.php:77
-msgid "Error on processing formtorro-forms"
+#: ../components/restrictions/base-restrictions/all-visitors.php:65
+msgid "Form ID is missing."
 msgstr ""
 
-#: components/restrictions/base-restrictions/all-visitors.php:180
+#: ../components/restrictions/base-restrictions/all-visitors.php:70
+msgid "Error on processing form"
+msgstr ""
+
+#: ../components/restrictions/base-restrictions/all-visitors.php:149
 msgid "Restrict Visitors"
-msgstr "Besucher einschränken"
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-visitors.php:190
+#: ../components/restrictions/base-restrictions/all-visitors.php:159
 msgid "Prevent multiple entries from same IP"
-msgstr "Mehrere Einträge mit derselben IP verhindern"
+msgstr ""
 
-#: components/restrictions/base-restrictions/all-visitors.php:201
+#: ../components/restrictions/base-restrictions/all-visitors.php:170
 msgid "Prevent multiple entries by checking cookie"
 msgstr ""
 
-#: components/restrictions/base-restrictions/all-visitors.php:212
+#: ../components/restrictions/base-restrictions/all-visitors.php:181
 msgid "Prevent multiple entries by checking browser fingerprint"
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:38
+#: ../components/restrictions/base-restrictions/recaptcha.php:38 ..
 #: components/restrictions/base-restrictions/recaptcha.php:112
 msgid "Google reCAPTCHA"
-msgstr "Google reCAPTCHA"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:43
+#: ../components/restrictions/base-restrictions/recaptcha.php:43
 msgid "Site Key"
-msgstr "Site Key"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:44
+#: ../components/restrictions/base-restrictions/recaptcha.php:44
 msgid ""
 "The public site key of your website for Google reCAPTCHA. You can get one <a "
 "href=\"http://www.google.com/recaptcha/admin\" target=\"_blank\">here</a>."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:48
+#: ../components/restrictions/base-restrictions/recaptcha.php:48
 msgid "Secret"
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:49
+#: ../components/restrictions/base-restrictions/recaptcha.php:49
 msgid ""
-"The secret key of your website for Google reCAPTCHA. You can get one <a href="
-"\"http://www.google.com/recaptcha/admin\" target=\"_blank\">here</a>."
+"The secret key of your website for Google reCAPTCHA. You can get one <a "
+"href=\"http://www.google.com/recaptcha/admin\" target=\"_blank\">here</a>."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:84
+#: ../components/restrictions/base-restrictions/recaptcha.php:85
 #, php-format
 msgid ""
-"To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href=\"%s"
-"\">reCAPTCHA settings</a>."
+"To use reCAPTCHA you have to enter a Sitekey and Secret in your <a "
+"href=\"%s\">reCAPTCHA settings</a>."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:115
+#: ../components/restrictions/base-restrictions/recaptcha.php:115
 msgid "Enable"
-msgstr "Aktivieren"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:120
+#: ../components/restrictions/base-restrictions/recaptcha.php:120
 msgid "Type"
-msgstr "Typ"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:122
+#: ../components/restrictions/base-restrictions/recaptcha.php:122
 msgid "Image"
-msgstr "Bild"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:123
+#: ../components/restrictions/base-restrictions/recaptcha.php:123
 msgid "Audio"
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:128
+#: ../components/restrictions/base-restrictions/recaptcha.php:128
 msgid "Size"
-msgstr "Größe"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:130
+#: ../components/restrictions/base-restrictions/recaptcha.php:130
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:131
+#: ../components/restrictions/base-restrictions/recaptcha.php:131
 msgid "Compact"
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:136
+#: ../components/restrictions/base-restrictions/recaptcha.php:136
 msgid "Theme"
-msgstr "Theme"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:138
+#: ../components/restrictions/base-restrictions/recaptcha.php:138
 msgid "Light"
-msgstr "Hell"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:139
+#: ../components/restrictions/base-restrictions/recaptcha.php:139
 msgid "Dark"
-msgstr "Dunkel"
+msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:198
-#: components/restrictions/base-restrictions/recaptcha.php:220
+#: ../components/restrictions/base-restrictions/recaptcha.php:197 ..
+#: components/restrictions/base-restrictions/recaptcha.php:219
 msgid "An unknown error occurred processing the reCAPTCHA response."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:206
+#: ../components/restrictions/base-restrictions/recaptcha.php:205
 msgid "The reCAPTCHA secret is missing."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:209
+#: ../components/restrictions/base-restrictions/recaptcha.php:208
 msgid "The reCAPTCHA secret is invalid or malformed."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:212
+#: ../components/restrictions/base-restrictions/recaptcha.php:211
 msgid "The reCAPTCHA response is missing."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:215
+#: ../components/restrictions/base-restrictions/recaptcha.php:214
 msgid "The reCAPTCHA response is invalid or malformed."
 msgstr ""
 
-#: components/restrictions/base-restrictions/recaptcha.php:225
+#: ../components/restrictions/base-restrictions/recaptcha.php:224
 msgid "Missing reCAPTCHA response."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:42
+#: ../components/restrictions/base-restrictions/selected-members.php:38
 msgid "Selected Members"
-msgstr "Ausgewählte Mitglieder"
+msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:45
+#: ../components/restrictions/base-restrictions/selected-members.php:41
 msgid "Selected Members of site"
-msgstr "Ausgewählte Mitglieder der Website"
+msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:59
+#: ../components/restrictions/base-restrictions/selected-members.php:55
 msgid "Invitation Mail Template"
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:60
+#: ../components/restrictions/base-restrictions/selected-members.php:56
 msgid "Setup Mail Templates for the Invitation Mail for selected Members."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:65
-#: components/restrictions/base-restrictions/selected-members.php:87
+#: ../components/restrictions/base-restrictions/selected-members.php:61 ..
+#: components/restrictions/base-restrictions/selected-members.php:88
 msgid "The Mail Sender Name."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:71
-#: components/restrictions/base-restrictions/selected-members.php:93
+#: ../components/restrictions/base-restrictions/selected-members.php:67 ..
+#: components/restrictions/base-restrictions/selected-members.php:94
 msgid "The Mail Sender Email."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:76
-#: components/restrictions/base-restrictions/selected-members.php:98
+#: ../components/restrictions/base-restrictions/selected-members.php:73
+msgid "The Subject of the Mail."
+msgstr ""
+
+#: ../components/restrictions/base-restrictions/selected-members.php:77 ..
+#: components/restrictions/base-restrictions/selected-members.php:105
 msgid "Email Text"
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:77
-#: components/restrictions/base-restrictions/selected-members.php:99
+#: ../components/restrictions/base-restrictions/selected-members.php:78 ..
+#: components/restrictions/base-restrictions/selected-members.php:106
 msgid "The Text of the Mail."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:81
+#: ../components/restrictions/base-restrictions/selected-members.php:82
 msgid "Reinvitation Mail Template"
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:82
+#: ../components/restrictions/base-restrictions/selected-members.php:83
 msgid "Setup Mail Templates for the Reinvitation Mail for selected Members."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:126
-msgid "Invite Participiants"
-msgstr "Teilnehmer einladen"
+#: ../components/restrictions/base-restrictions/selected-members.php:100
+msgid "The Subject of the Email."
+msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:127
-#: components/restrictions/base-restrictions/selected-members.php:134
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: components/restrictions/base-restrictions/selected-members.php:133
-msgid "Reinvite Participiants"
-msgstr "Erneut einladen"
-
-#: components/restrictions/base-restrictions/selected-members.php:138
+#: ../components/restrictions/base-restrictions/selected-members.php:144
 msgid "You can invite Participiants to this form after it is published."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:335
-msgid "Add all actual Members"
-msgstr "Alle aktuellen Mitglieder hinzufügen"
-
-#: components/restrictions/base-restrictions/selected-members.php:340
+#: ../components/restrictions/base-restrictions/selected-members.php:333
 msgid "Add Members"
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:355
+#: ../components/restrictions/base-restrictions/selected-members.php:347
 msgid "Add all members as Participiants"
-msgstr "Alle aktuellen Mitglieder hinzufügen"
+msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:356
-msgid "Remove all Participiants"
-msgstr "Alle Teilnehmer entfernen"
+#: ../components/restrictions/base-restrictions/selected-members.php:378
+#, php-format
+msgid "%s participant"
+msgid_plural "%s participants"
+msgstr[0] ""
+msgstr[1] ""
 
-#: components/restrictions/base-restrictions/selected-members.php:385
-#: components/restrictions/base-restrictions/selected-members.php:530
-msgid "participiant/s"
-msgstr "Teilnehmer"
-
-#: components/restrictions/base-restrictions/selected-members.php:397
-#: components/results/base-result-handlers/entries.php:111
-msgid "ID"
-msgstr "ID"
-
-#: components/restrictions/base-restrictions/selected-members.php:398
-msgid "User nicename"
-msgstr "Spitzname"
-
-#: components/restrictions/base-restrictions/selected-members.php:399
-msgid "Display name"
-msgstr "Angezeigter Name"
-
-#: components/restrictions/base-restrictions/selected-members.php:400
-msgid "Email"
-msgstr "Email"
-
-#: components/restrictions/base-restrictions/selected-members.php:401
-msgid "Status"
-msgstr "Status"
-
-#: components/restrictions/base-restrictions/selected-members.php:417
-msgid "finished"
-msgstr "abgeschlossen"
-
-#: components/restrictions/base-restrictions/selected-members.php:419
-msgid "new"
-msgstr "neu"
-
-#: components/restrictions/base-restrictions/selected-members.php:436
+#: ../components/restrictions/base-restrictions/selected-members.php:428
 msgid "No Users found."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:467
-msgid "You can't participate."
+#: ../components/restrictions/base-restrictions/selected-members.php:456
+msgid "You are not allowed to participate."
 msgstr ""
 
-#: components/restrictions/base-restrictions/selected-members.php:525
-msgid "just added"
-msgstr "gerade hinzugef&uuml;gt"
-
-#: components/restrictions/base-restrictions/selected-members.php:526
-msgid "Invitations sent successfully!"
-msgstr "Einladungen erfolgreich versendet!"
-
-#: components/restrictions/base-restrictions/selected-members.php:527
-msgid "Invitations could not be sent!"
-msgstr "Einladungen konnten nicht versendet werden!"
-
-#: components/restrictions/base-restrictions/selected-members.php:528
-msgid "Renvitations sent successfully!"
-msgstr "Erneute Einladungen erfolgreich versendet!"
-
-#: components/restrictions/base-restrictions/selected-members.php:529
-msgid "Renvitations could not be sent!"
-msgstr "Erneute Einladungen konnten nicht versendet werden!"
-
-#: components/restrictions/base-restrictions/timerange.php:40
-#: components/restrictions/base-restrictions/timerange.php:66
-msgid "Timerange"
-msgstr "Zeitspanne"
-
-#: components/restrictions/base-restrictions/timerange.php:69
+#: ../components/restrictions/base-restrictions/timerange.php:64
 msgid "Date Start:"
-msgstr "Startdatum:"
+msgstr ""
 
-#: components/restrictions/base-restrictions/timerange.php:74
+#: ../components/restrictions/base-restrictions/timerange.php:69
 msgid "Date End:"
-msgstr "Endatum:"
+msgstr ""
 
+#: ../components/restrictions/base-restrictions/timerange.php:91 ..
 #: components/restrictions/base-restrictions/timerange.php:98
-#: components/restrictions/base-restrictions/timerange.php:106
 msgid "The Form is not accessible at this time."
 msgstr ""
 
-#: components/restrictions/base-restrictions/timerange.php:141
-msgid "yy/mm/dd"
-msgstr "dd.mm.yy"
-
-#: components/restrictions/base-restrictions/timerange.php:142
-msgid "Su"
-msgstr "So"
-
-#: components/restrictions/base-restrictions/timerange.php:143
-msgid "Mo"
-msgstr "Mo"
-
-#: components/restrictions/base-restrictions/timerange.php:144
-msgid "Tu"
-msgstr "Di"
-
-#: components/restrictions/base-restrictions/timerange.php:145
-msgid "We"
-msgstr "Mi"
-
-#: components/restrictions/base-restrictions/timerange.php:146
-msgid "Th"
-msgstr "Do"
-
-#: components/restrictions/base-restrictions/timerange.php:147
-msgid "Fr"
-msgstr "Fr"
-
-#: components/restrictions/base-restrictions/timerange.php:148
-msgid "Sa"
-msgstr "Sa"
-
-#: components/restrictions/base-restrictions/timerange.php:149
-msgid "January"
-msgstr "January"
-
-#: components/restrictions/base-restrictions/timerange.php:150
-msgid "February"
-msgstr "Februar"
-
-#: components/restrictions/base-restrictions/timerange.php:151
-msgid "March"
-msgstr "März"
-
-#: components/restrictions/base-restrictions/timerange.php:152
-msgid "April"
-msgstr "April"
-
-#: components/restrictions/base-restrictions/timerange.php:153
-msgid "May"
-msgstr "Mai"
-
-#: components/restrictions/base-restrictions/timerange.php:154
-msgid "June"
-msgstr "Juni"
-
-#: components/restrictions/base-restrictions/timerange.php:155
-msgid "July"
-msgstr "Juli"
-
-#: components/restrictions/base-restrictions/timerange.php:156
-msgid "August"
-msgstr "August"
-
-#: components/restrictions/base-restrictions/timerange.php:157
-msgid "September"
-msgstr "September"
-
-#: components/restrictions/base-restrictions/timerange.php:158
-msgid "October"
-msgstr "Oktober"
-
-#: components/restrictions/base-restrictions/timerange.php:159
-msgid "November"
-msgstr "November"
-
-#: components/restrictions/base-restrictions/timerange.php:160
-msgid "December"
-msgstr "Dezember"
-
-#: components/restrictions/base-restrictions/timerange.php:161
+#: ../components/restrictions/base-restrictions/timerange.php:152
 msgid "Select Date"
-msgstr "Datum wählen"
-
-#: components/restrictions/component.php:44
-#: components/restrictions/form-builder-extension.php:65
-#: components/restrictions/settings.php:39
-msgid "Restrictions"
-msgstr "Restriktionen"
-
-#: components/restrictions/component.php:45
-msgid "Restrictions if a user can fillout a form or not"
 msgstr ""
 
-#: components/restrictions/form-builder-extension.php:104
-msgid "Who has access to this form?"
+#: ../components/results/component.php:41
+msgid "Handling Results."
 msgstr ""
 
-#: components/results/abstract/class-chart-creator.php:91
-msgid "This is an Torro Forms Chart Creator."
+#: ../components/results/export.php:65
+msgid "There are no results to export"
 msgstr ""
 
-#: components/results/abstract/class-chart-creator.php:94
-msgid "Bars"
-msgstr "Balken"
-
-#: components/results/abstract/class-chart-creator.php:95
-msgid "Pies"
-msgstr "Kuchen"
-
-#: components/results/abstract/class-chart-creator.php:165
-msgid "This is a Torro Forms Form Element."
+#: ../components/results/export.php:67
+#, php-format
+msgid "Export as <a href=\"%s\">XLS</a> | <a href=\"%s\">CSV</a>"
 msgstr ""
 
-#: components/results/abstract/class-result-handler.php:129
+#: ../components/results/form-builder-extension.php:112
+msgid "Delete Results"
+msgstr ""
+
+#: ../components/results/settings.php:37
+msgid "Result Handling"
+msgstr ""
+
+#: ../components/results/shortcodes.php:72
+msgid "Please enter a valid form id into the shortcode!"
+msgstr ""
+
+#: ../components/results/shortcodes.php:130
+msgid "Please enter a valid element id into the shortcode!"
+msgstr ""
+
+#: ../components/results/shortcodes.php:160
+msgid "Charts Shortcode"
+msgstr ""
+
+#: ../components/results/shortcodes.php:174
+msgid "Element Charts Shortcode"
+msgstr ""
+
+#: ../components/results/abstract/class-result-handler.php:122
 #, php-format
 msgid "Setup the \"%s\" Result Handler."
 msgstr ""
 
-#: components/results/abstract/class-result-handler.php:178
+#: ../components/results/abstract/class-result-handler.php:165
 msgid "This is a Torro Forms Result Handler."
 msgstr ""
 
-#: components/results/base-result-handlers/charts.php:39
-msgid "Charts"
-msgstr "Diagramme"
+#: ../components/results/base-result-handlers/charts-c3.php:41
+msgid "C3"
+msgstr ""
 
-#: components/results/base-result-handlers/charts.php:135
-#: components/results/base-result-handlers/entries.php:233
+#: ../components/results/base-result-handlers/charts-c3.php:42
+msgid "Chart creating with C3."
+msgstr ""
+
+#: ../components/results/base-result-handlers/charts-c3.php:65
+msgid "Count"
+msgstr ""
+
+#: ../components/results/base-result-handlers/charts.php:45
+msgid "This is an Torro Forms Chart Creator."
+msgstr ""
+
+#: ../components/results/base-result-handlers/charts.php:48
+msgid "Bars"
+msgstr ""
+
+#: ../components/results/base-result-handlers/charts.php:49
+msgid "Pies"
+msgstr ""
+
+#: ../components/results/base-result-handlers/charts.php:133 ..
+#: components/results/base-result-handlers/entries.php:212
 msgid "There are no Results to show."
 msgstr ""
 
-#: components/results/base-result-handlers/charts.php:274
+#: ../components/results/base-result-handlers/charts.php:247
 msgid "After Submit"
-msgstr "Nach dem Abschicken"
+msgstr ""
 
-#: components/results/base-result-handlers/charts.php:275
+#: ../components/results/base-result-handlers/charts.php:248
 msgid "show Charts"
-msgstr "Diagramme anzeigen"
+msgstr ""
 
-#: components/results/base-result-handlers/charts.php:276
+#: ../components/results/base-result-handlers/charts.php:249
 msgid "do not Show Charts"
-msgstr "Diagramme nicht anzeigen"
+msgstr ""
 
-#: components/results/base-result-handlers/charts/charts-c3.php:44
-msgid "C3"
-msgstr "C3"
-
-#: components/results/base-result-handlers/charts/charts-c3.php:45
-msgid "Chart creating with C3."
-msgstr "Diagramm Erstellung mit C3."
-
-#: components/results/base-result-handlers/charts/charts-c3.php:69
-msgid "Count"
-msgstr "Anzahl"
-
-#: components/results/base-result-handlers/charts/charts-dimple.php:44
-msgid "Dimple"
-msgstr "Dimple"
-
-#: components/results/base-result-handlers/charts/charts-dimple.php:45
-msgid "Chart creating with dimple."
-msgstr "Diagramm Erstellung mit C3."
-
-#: components/results/base-result-handlers/charts/charts-dimple.php:72
-msgid "Answers"
-msgstr "Antworten"
-
-#: components/results/base-result-handlers/charts/charts-dimple.php:73
-msgid "Votes"
-msgstr "Bewertungen"
-
-#: components/results/base-result-handlers/charts/charts-morrisjs.php:44
-msgid "morris.js"
-msgstr "morris.js"
-
-#: components/results/base-result-handlers/charts/charts-morrisjs.php:45
-msgid "Chart creating with morris.js."
-msgstr "Diagramm-Erstellung mit morris.js"
-
-#: components/results/base-result-handlers/entries.php:39
+#: ../components/results/base-result-handlers/entries.php:36
 msgid "Entries"
-msgstr "Einträge"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:114
-#: components/results/base-result-handlers/entries.php:321
+#: ../components/results/base-result-handlers/entries.php:103 ..
+#: components/results/base-result-handlers/entries.php:288
 msgid "User"
-msgstr "Benutzer"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:117
-#: components/results/base-result-handlers/entries.php:370
+#: ../components/results/base-result-handlers/entries.php:106 ..
+#: components/results/base-result-handlers/entries.php:326
 msgid "Date"
-msgstr "Datum"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:126
+#: ../components/results/base-result-handlers/entries.php:115
 #, php-format
 msgid "Export as <a href=\"%s\">XLS</a> or <a href=\"%s\">CSV</a>"
-msgstr "Exportieren als <a href=\"%s\">XLS</a> or <a href=\"%s\">CSV</a>"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:161
+#: ../components/results/base-result-handlers/entries.php:144
 msgid "Show Details"
-msgstr "Details anzeigen"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:192
+#: ../components/results/base-result-handlers/entries.php:174
 #, php-format
 msgid "<a href=\"%s\" class=\"torro-entries-nav button\">Previous</a>"
-msgstr "<a href=\"%s\" class=\"torro-entries-nav button\">Zurück</a>"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:204
+#: ../components/results/base-result-handlers/entries.php:185
 #, php-format
 msgid "<a href=\"%s\" class=\"torro-entries-nav button\">Next</a>"
-msgstr "<a href=\"%s\" class=\"torro-entries-nav button\">Weiter</a>"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:209
+#: ../components/results/base-result-handlers/entries.php:190
 #, php-format
 msgid "%s - %s of %s"
 msgstr ""
 
-#: components/results/base-result-handlers/entries.php:261
+#: ../components/results/base-result-handlers/entries.php:237
 msgid "Form not found."
-msgstr "Formular nicht gefunden."
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:270
-#: components/results/base-result-handlers/entries.php:378
+#: ../components/results/base-result-handlers/entries.php:245 ..
+#: components/results/base-result-handlers/entries.php:332
 msgid "Entry not found."
-msgstr "Eintrag nicht gefunden."
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:287
+#: ../components/results/base-result-handlers/entries.php:259
 msgid "Error on getting Result."
-msgstr "Fehler beim Abrufen der EInträge."
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:295
+#: ../components/results/base-result-handlers/entries.php:267
 msgid "Label"
-msgstr "Beschriftung"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:296
+#: ../components/results/base-result-handlers/entries.php:268
 msgid "Value"
-msgstr "Wert"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:370
+#: ../components/results/base-result-handlers/entries.php:326
 msgid "Time"
-msgstr "Zeit"
+msgstr ""
 
-#: components/results/base-result-handlers/entries.php:382
+#: ../components/results/base-result-handlers/entries.php:336
 msgid "Back to Results"
-msgstr "Zurück zu den Ergebnissen"
-
-#: components/results/component.php:43
-#: components/results/form-builder-extension.php:66
-msgid "Results"
-msgstr "Ergebnisse"
-
-#: components/results/component.php:44
-msgid "Handling Results."
 msgstr ""
 
-#: components/results/export.php:70
-msgid "There are no results to export"
-msgstr "Es gibt keine Ergebnisse für den Export"
-
-#: components/results/export.php:74
-#, php-format
-msgid "Export as <a href=\"%s\">XLS</a> | <a href=\"%s\">CSV</a>"
-msgstr "Exportieren als <a href=„%s“>XLS</a> or <a href=„%s“>CSV</a>"
-
-#: components/results/form-builder-extension.php:125
-msgid "Delete Results"
-msgstr "Ergebnisse löschen"
-
-#: components/results/settings.php:40
-msgid "Result Handling"
-msgstr ""
-
-#: components/results/shortcodes.php:78
-msgid "Please enter a valid form id into the shortcode!"
-msgstr ""
-
-#: components/results/shortcodes.php:144
-msgid "Please enter a valid element id into the shortcode!"
-msgstr ""
-
-#: components/results/shortcodes.php:179
-msgid "Charts Shortcode"
-msgstr "Diagramm Shortcode"
-
-#: components/results/shortcodes.php:195
-msgid "Element Charts Shortcode"
-msgstr "Element Diagramm Shortcode"
-
-#: core/abstract/class-component.php:93
-msgid "This is an Torro Forms component."
-msgstr "Dies ist das Torro Forms Komponente."
-
-#: core/abstract/class-component.php:98
-msgid "Missing Global"
-msgstr "Globale fehlt"
-
-#: core/abstract/class-element.php:359
-msgid "This is a Torro Forms Element."
-msgstr "Das ist ein Torro Forms Element."
-
-#: core/abstract/class-element.php:434
-msgid "You don´t entered any answers. Please add some to display answers here."
-msgstr ""
-"Es wurden keine Antwort vorgegeben. Bitte geben Sie Antworten an, welche "
-"hier ausgegeben werden."
-
-#: core/abstract/class-element.php:488
-msgid "No HTML for Element given. Please check element sourcecode."
-msgstr ""
-"Kein HTML f&uuml;r das Element angegeben. Bitte &uuml;berpr&uuml;fen Sie den "
-"Quellcode."
-
-#: core/abstract/class-element.php:549
-msgid "Content"
-msgstr "Inhalt"
-
-#: core/abstract/class-element.php:554 core/menu.php:64
-msgid "Settings"
-msgstr "Einstellungen"
-
-#: core/abstract/class-element.php:668
-msgid "Label "
-msgstr "Beschriftung"
-
-#: core/abstract/class-element.php:684
-msgid "Answer/s:"
-msgstr "Antwort/en:"
-
-#: core/abstract/class-element.php:777
-msgid "Add Answer"
-msgstr "Antwort hinzuf&uuml;gen"
-
-#: core/abstract/class-element.php:898
-msgid "Delete element"
-msgstr "Element l&ouml;schen"
-
-#: core/abstract/class-settings.php:117 core/abstract/class-settings.php:189
-#: core/settings/base-settings/general.php:39
-msgid "General"
-msgstr "Allgemein"
-
-#: core/abstract/class-settings.php:243
-msgid "This is the Torro Forms Responsehandler extension."
-msgstr ""
-
-#: core/abstract/class-templatetags.php:119
-msgid "This is a Torro Forms Templatetag collection."
-msgstr ""
-
-#: core/abstract/class-templatetags.php:231
-msgid "+"
-msgstr "+"
-
-#: core/elements/base-elements/dropdown.php:39
-msgid "Dropdown"
-msgstr "Dropdown"
-
-#: core/elements/base-elements/dropdown.php:40
-msgid "Add an Element which can be answered within a dropdown field."
-msgstr ""
-
-#: core/elements/base-elements/dropdown.php:53
-msgid "Please select"
-msgstr "Bitte w&auml;hlen"
-
-#: core/elements/base-elements/dropdown.php:83
-#: core/elements/base-elements/multiplechoice.php:79
-#: core/elements/base-elements/onechoice.php:77
-#: core/elements/base-elements/textarea.php:64
-#: core/elements/base-elements/textfield.php:63
-msgid "Description"
-msgstr "Beschreibung"
-
-#: core/elements/base-elements/dropdown.php:85
-#: core/elements/base-elements/onechoice.php:79
-#: core/elements/base-elements/textarea.php:66
-msgid "The description will be shown after the field."
-msgstr "Die Beschreibung wird nach dem Feld angezeigt."
-
-#: core/elements/base-elements/dropdown.php:97
-#: core/elements/base-elements/onechoice.php:90
-msgid "Please select a value."
-msgstr "Bitte w&auml;hlen Sie einen Wert"
-
-#: core/elements/base-elements/multiplechoice.php:39
-msgid "Multiple Choice"
-msgstr "Mehrfach-Auswahl"
-
-#: core/elements/base-elements/multiplechoice.php:40
-msgid ""
-"Add an Element which can be answered by selecting one ore more given answers."
-msgstr ""
-
-#: core/elements/base-elements/multiplechoice.php:81
-msgid "The description will be shown after the question."
-msgstr "Die Beschreibung wird unter der Frage angezeigt."
-
-#: core/elements/base-elements/multiplechoice.php:85
-msgid "Minimum Answers"
-msgstr "Minimale Anzahl an Antworten"
-
-#: core/elements/base-elements/multiplechoice.php:87
-msgid "The minimum number of answers which have to be choosed."
-msgstr "Die minimale Anzahl an Antworten, welche gew&auml;hlt werden kann."
-
-#: core/elements/base-elements/multiplechoice.php:91
-msgid "Maximum Answers"
-msgstr "Maximale Anzahl an Antworten"
-
-#: core/elements/base-elements/multiplechoice.php:93
-msgid "The maximum number of answers which can be choosed."
-msgstr "Die maximale Anzahl an Antworten, welche eingegeben werden kann."
-
-#: core/elements/base-elements/multiplechoice.php:110
-msgid "Too less choices."
-msgstr "Zu wenig Angaben."
-
-#: core/elements/base-elements/multiplechoice.php:110
-#: core/elements/base-elements/multiplechoice.php:118
-#, php-format
-msgid "You have to choose between %d and %d answers."
-msgstr "Sie m&uuml;ssen zwischen %d und %d Antworten ausw&auml;hlen."
-
-#: core/elements/base-elements/multiplechoice.php:118
-msgid "Too many choices."
-msgstr "Zu viele Angaben."
-
-#: core/elements/base-elements/onechoice.php:39
-msgid "One Choice"
-msgstr "Einfach-Anwort"
-
-#: core/elements/base-elements/onechoice.php:40
-msgid ""
-"Add an Element which can be answered by selecting one of the given answers."
-msgstr ""
-
-#: core/elements/base-elements/separator.php:39
-msgid "Separator"
-msgstr "Separator"
-
-#: core/elements/base-elements/separator.php:40
-msgid "Adds a optical separator (<hr>) between elements."
-msgstr ""
-
-#: core/elements/base-elements/splitter.php:39
-msgid "Split Form"
-msgstr "Formular teilen"
-
-#: core/elements/base-elements/splitter.php:40
-msgid "Splits a form into several steps"
-msgstr "Teilt eine Umfrage in mehrere Schritte"
-
-#: core/elements/base-elements/text.php:39
-msgid "Text"
-msgstr "Text"
-
-#: core/elements/base-elements/text.php:40
-msgid "Adds a text to the form."
-msgstr "F&uuml;gt einen Text hinzu."
-
-#: core/elements/base-elements/textarea.php:39
-msgid "Textarea"
-msgstr "Textbereich"
-
-#: core/elements/base-elements/textarea.php:40
-msgid "Add an Element which can be answered within a text area."
-msgstr ""
-
-#: core/elements/base-elements/textarea.php:70
-#: core/elements/base-elements/textfield.php:69
-msgid "Minimum length"
-msgstr "Minimale l&auml;nge"
-
-#: core/elements/base-elements/textarea.php:72
-#: core/elements/base-elements/textfield.php:71
-msgid "The minimum number of chars which can be typed in."
-msgstr "Die minimale Anzahl an Zeichen, welche eingegeben werden kann."
-
-#: core/elements/base-elements/textarea.php:76
-#: core/elements/base-elements/textfield.php:75
-msgid "Maximum length"
-msgstr "Maximale L&auml;nge"
-
-#: core/elements/base-elements/textarea.php:78
-#: core/elements/base-elements/textfield.php:77
-msgid "The maximum number of chars which can be typed in."
-msgstr "Die maximale Anzahl an Zeichen, welche eingegeben werden kann."
-
-#: core/elements/base-elements/textarea.php:82
-msgid "Rows"
-msgstr "Reihen"
-
-#: core/elements/base-elements/textarea.php:84
-msgid "Number of rows for typing in  (can be overwritten by CSS)."
-msgstr ""
-"Anzahl der Zeilen zur Eingabe (kann von CSS &uuml;berschrieben werden)."
-
-#: core/elements/base-elements/textarea.php:88
-msgid "Columns"
-msgstr "Spalten"
-
-#: core/elements/base-elements/textarea.php:90
-msgid "Number of columns for typing in (can be overwritten by CSS)."
-msgstr ""
-"Anzahl der Spalten zur Eingabe (kann von CSS &uuml;berschrieben werden)."
-
-#: core/elements/base-elements/textarea.php:106
-#: core/elements/base-elements/textfield.php:106
-msgid "The input ist too short."
-msgstr "Der eingegebene Wert ist zu kurz."
-
-#: core/elements/base-elements/textarea.php:106
-#: core/elements/base-elements/textarea.php:114
-#: core/elements/base-elements/textfield.php:106
-#: core/elements/base-elements/textfield.php:113
-#, php-format
-msgid "It have to be at minimum %d and maximum %d chars."
-msgstr "Bitte geben Sie zwischen %d und %d Zeichen ein."
-
-#: core/elements/base-elements/textarea.php:114
-#: core/elements/base-elements/textfield.php:113
-msgid "The input is too long."
-msgstr "Der eingegebene Wert ist zu lang."
-
-#: core/elements/base-elements/textfield.php:38
-msgid "Textfield"
-msgstr "Textfeld"
-
-#: core/elements/base-elements/textfield.php:39
-msgid "Add an Element which can be answered within a text field."
-msgstr ""
-
-#: core/elements/base-elements/textfield.php:65
-msgid "The description will be shown after the Element."
-msgstr "Die Beschreibung wird nach dem Element angezeigt."
-
-#: core/elements/base-elements/textfield.php:81
-msgid "String Validation"
-msgstr "Zeichen Validierung"
-
-#: core/elements/base-elements/textfield.php:84
-msgid "No validation"
-msgstr "Keine Validierung"
-
-#: core/elements/base-elements/textfield.php:85
-msgid "Numbers"
-msgstr "Ganze Zahlen"
-
-#: core/elements/base-elements/textfield.php:86
-msgid "Decimal Numbers"
-msgstr "Dezimalzahlen"
-
-#: core/elements/base-elements/textfield.php:87
-msgid "Email-Address"
-msgstr "Email-Adresse"
-
-#: core/elements/base-elements/textfield.php:89
-msgid "The will do a validation for the input."
-msgstr "F&uuml;rt eine Validierung f&uuml;r die Eingabe durch."
-
-#: core/elements/base-elements/textfield.php:122
-msgid "Please input a number."
-msgstr "Bitte geben Sie eine ganze Zahl ein."
-
-#: core/elements/base-elements/textfield.php:128
-msgid "Please input a decimal number."
-msgstr "Bitte geben Sie eine Dezimalzahl ein."
-
-#: core/elements/base-elements/textfield.php:134
-msgid "Please input a valid Email-Address."
-msgstr "Bitte geben Sie eine g&uuml;ltige Email-Adresse an."
-
-#: core/form-builder.php:99
+#: ../core/form-builder.php:89
 msgid "Drop your Elements here!"
-msgstr "Elemente hierher ziehen!"
+msgstr ""
 
-#: core/form-builder.php:111
-msgid "Do you really want to delete this element?"
-msgstr "Soll dieses Element wirklich gel&ouml;scht werden?"
-
-#: core/form-builder.php:112
-msgid "Do you really want to delete this answer?"
-msgstr "Soll diese Antwort wirklich gel&ouml;scht werden?"
-
-#: core/form-builder.php:113
-msgid "Attention!"
-msgstr "Achtung!"
-
-#: core/form-builder.php:113
+#: ../core/form-builder.php:103
 msgid ""
 "This will erase all Answers who people given to this Form. Do you really "
 "want to delete all results of this Form?"
 msgstr ""
 
-#: core/form-builder.php:135
+#: ../core/form-builder.php:164
+msgid "Duplicate Form"
+msgstr ""
+
+#: ../core/form-builder.php:459 ../core/init.php:146
+msgid "Edit Form"
+msgstr ""
+
+#: ../core/form-builder.php:464
+msgid "Form duplicated successfully!"
+msgstr ""
+
+#: ../core/form-builder.php:465
+msgid "Form results deleted successfully!"
+msgstr ""
+
+#: ../core/form-builder.php:466
+msgid "Copied!"
+msgstr ""
+
+#: ../core/form-loader.php:157 ../includes/functions.php:196
+msgid "Thank you for submitting!"
+msgstr "Vielen Dank für Ihre Mitteilung."
+
+#: ../core/form-process.php:192
+msgid "Send"
+msgstr ""
+
+#: ../core/init.php:142 ../core/menu.php:55 ../core/menu.php:55
+msgid "Forms"
+msgstr ""
+
+#: ../core/init.php:143 ../core/shortcodes.php:48 ../core/templatetags/base-
+#: templatetags/form.php:37
+msgid "Form"
+msgstr ""
+
+#: ../core/init.php:144
+msgid "All Forms"
+msgstr ""
+
+#: ../core/init.php:145 ../core/init.php:147
+msgid "Add new Form"
+msgstr ""
+
+#: ../core/init.php:148
+msgid "View Form"
+msgstr ""
+
+#: ../core/init.php:149
+msgid "Search Forms"
+msgstr ""
+
+#: ../core/init.php:150
+msgid "No Form found"
+msgstr ""
+
+#: ../core/init.php:151
+msgid "No Form found in trash"
+msgstr ""
+
+#: ../core/settings-page.php:111
+msgid "Save Settings"
+msgstr ""
+
+#: ../core/settings-page.php:113
+msgid "There are no settings available."
+msgstr ""
+
+#: ../core/shortcodes.php:59
+msgid "Please enter an id in the form shortcode!"
+msgstr ""
+
+#: ../core/shortcodes.php:63
+msgid "Form not found. Please enter another ID in your shortcode."
+msgstr ""
+
+#: ../core/shortcodes.php:90
+msgid "Form Shortcode:"
+msgstr ""
+
+#: ../core/abstract/class-component.php:87
+msgid "This is an Torro Forms component."
+msgstr ""
+
+#: ../core/abstract/class-component.php:91
+msgid "Missing Global"
+msgstr ""
+
+#: ../core/abstract/class-element.php:343
+msgid "This is a Torro Forms Element."
+msgstr ""
+
+#: ../core/abstract/class-element.php:407
+msgid "You did not enter any answers. Please add some to display answers here."
+msgstr ""
+
+#: ../core/abstract/class-element.php:505
+msgid "Content"
+msgstr ""
+
+#: ../core/abstract/class-element.php:609
+msgid "Label "
+msgstr ""
+
+#: ../core/abstract/class-settings.php:218
+msgid "This is the Torro Forms Responsehandler extension."
+msgstr ""
+
+#: ../core/abstract/class-templatetags.php:111
+msgid "This is a Torro Forms Templatetag collection."
+msgstr ""
+
+#: ../core/abstract/class-templatetags.php:206
+msgid "+"
+msgstr ""
+
+#: ../core/elements/base-elements/dropdown.php:35
+msgid "Add an Element which can be answered within a dropdown field."
+msgstr ""
+
+#: ../core/elements/base-elements/dropdown.php:75 ../core/elements/base-
+#: elements/onechoice.php:70 ../core/elements/base-elements/textarea.php:58
+msgid "The description will be shown after the field."
+msgstr ""
+
+#: ../core/elements/base-elements/multiplechoice.php:35
+msgid "Add an Element which can be answered by selecting one ore more given answers."
+msgstr ""
+
+#: ../core/elements/base-elements/onechoice.php:35
+msgid "Add an Element which can be answered by selecting one of the given answers."
+msgstr ""
+
+#: ../core/elements/base-elements/separator.php:35
+msgid "Adds a optical separator (<hr>) between elements."
+msgstr ""
+
+#: ../core/elements/base-elements/textarea.php:35
+msgid "Add an Element which can be answered within a text area."
+msgstr ""
+
+#: ../core/elements/base-elements/textfield.php:34
+msgid "Textfield"
+msgstr ""
+
+#: ../core/elements/base-elements/textfield.php:35
+msgid "Add an Element which can be answered within a text field."
+msgstr ""
+
+#: ../core/elements/base-elements/textfield.php:76
+msgid "The description will be shown after the Element."
+msgstr ""
+
+#: ../core/elements/base-elements/textfield.php:107
+msgid "Number"
+msgstr ""
+
+#: ../core/elements/base-elements/textfield.php:113
+msgid "Decimal Number"
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:41
+msgid "Welcome to Torro Forms!"
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:42
+msgid ""
+"You want to build any forms in a easy way? Torro Forms will help you to do "
+"it in the very easy way with ton of options."
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:46
+msgid "Form Modules"
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:47
+msgid "Check the modules of Torro Forms which have to be activated."
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:68
+msgid "Modules"
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:69
+msgid "You don´t need some of these components? Switch it off!"
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:75
+msgid "Slug"
+msgstr ""
+
+#: ../core/settings/base-settings/general.php:76
+msgid ""
+"The Slug name fot URL building. (e.g. for an URL like http://mydomain."
+"com/<strong>forms</strong>/mycontactform)"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/form.php:39
+msgid "Form Templatetags"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/form.php:46
+msgid "Form Title"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/form.php:46
+msgid "Shows the Form Title"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/form.php:47
+msgid "All Elements"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/form.php:47
+msgid "Shows all Answers"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/form.php:67
+msgid "Adds the Element Content"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:37
+msgid "Global"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:39
+msgid "Global Templatetags"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:46
+msgid "Site Title"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:46
+msgid "Adds the Site Title"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:47
+msgid "Site Tagline"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:47
+msgid "Adds the Sites Tagline"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:48
+msgid "Admin Email"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:48
+msgid "Adds the Admin Email-Address"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:49
+msgid "User IP"
+msgstr ""
+
+#: ../core/templatetags/base-templatetags/global.php:49
+msgid "Adds the Sites User IP"
+msgstr ""
+
+#: ../includes/functions.php:116
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "Error, duplicate 1: Thank you for submitting!"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://www.awesome.ug"
+msgstr "http://www.awesome.ug"
+
+#. Author of the plugin/theme
+msgid "awesome.ug"
+msgstr "awesome.ug"
+
+#: ../components/actions/base-actions/email-notifications.php:245 ..
+#: components/restrictions/base-restrictions/selected-members.php:60 ..
+#: components/restrictions/base-restrictions/selected-members.php:87
+msgid "From Name"
+msgstr "Absendername"
+
+#: ../components/actions/base-actions/email-notifications.php:249 ..
+#: components/restrictions/base-restrictions/selected-members.php:66 ..
+#: components/restrictions/base-restrictions/selected-members.php:93
+msgid "From Email"
+msgstr "Absender-Email"
+
+#: ../components/actions/base-actions/email-notifications.php:310 ..
+#: components/restrictions/base-restrictions/selected-members.php:420 ..
+#: components/restrictions/base-restrictions/selected-members.php:507 ..
+#: core/form-builder.php:456 ../core/abstract/class-element.php:671 ..
+#: core/abstract/class-element.php:690
+msgid "Delete"
+msgstr "L&ouml;schen"
+
+#: ../components/actions/base-actions/email-notifications.php:311 ..
+#: components/restrictions/base-restrictions/selected-members.php:508 ..
+#: components/results/base-result-handlers/entries.php:310 ../core/form-builder.
+#: php:457 ../core/abstract/class-element.php:894
+msgid "Yes"
+msgstr "Ja"
+
+#: ../components/actions/base-actions/email-notifications.php:312 ..
+#: components/restrictions/base-restrictions/selected-members.php:509 ..
+#: components/results/base-result-handlers/entries.php:312 ../core/form-builder.
+#: php:458 ../core/abstract/class-element.php:896
+msgid "No"
+msgstr "Nein"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:132
+msgid "Invite Participiants"
+msgstr "Teilnehmer einladen"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:133 ..
+#: components/restrictions/base-restrictions/selected-members.php:140
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:139
+msgid "Reinvite Participiants"
+msgstr "Erneut einladen"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:328
+msgid "Add all actual Members"
+msgstr "Alle aktuellen Mitglieder hinzufügen"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:348
+msgid "Remove all Participiants"
+msgstr "Alle Teilnehmer entfernen"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:390 ..
+#: components/results/base-result-handlers/entries.php:100
+msgid "ID"
+msgstr "ID"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:391
+msgid "User nicename"
+msgstr "Spitzname"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:392
+msgid "Display name"
+msgstr "Angezeigter Name"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:393
+msgid "Email"
+msgstr "Email"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:394
+msgid "Status"
+msgstr "Status"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:408
+msgid "finished"
+msgstr "abgeschlossen"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:410
+msgid "new"
+msgstr "neu"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:510
+msgid "just added"
+msgstr "gerade hinzugef&uuml;gt"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:511
+msgid "Invitations sent successfully!"
+msgstr "Einladungen erfolgreich versendet!"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:512
+msgid "Invitations could not be sent!"
+msgstr "Einladungen konnten nicht versendet werden!"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:513
+msgid "Renvitations sent successfully!"
+msgstr "Erneute Einladungen erfolgreich versendet!"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:514
+msgid "Renvitations could not be sent!"
+msgstr "Erneute Einladungen konnten nicht versendet werden!"
+
+#: ../components/restrictions/base-restrictions/selected-members.php:515
+msgid "participiant/s"
+msgstr "Teilnehmer"
+
+#: ../components/restrictions/base-restrictions/timerange.php:36 ..
+#: components/restrictions/base-restrictions/timerange.php:61
+msgid "Timerange"
+msgstr "Zeitspanne"
+
+#: ../components/restrictions/base-restrictions/timerange.php:132
+msgid "yy/mm/dd"
+msgstr "dd.mm.yy"
+
+#: ../components/restrictions/base-restrictions/timerange.php:133
+msgid "Su"
+msgstr "So"
+
+#: ../components/restrictions/base-restrictions/timerange.php:134
+msgid "Mo"
+msgstr "Mo"
+
+#: ../components/restrictions/base-restrictions/timerange.php:135
+msgid "Tu"
+msgstr "Di"
+
+#: ../components/restrictions/base-restrictions/timerange.php:136
+msgid "We"
+msgstr "Mi"
+
+#: ../components/restrictions/base-restrictions/timerange.php:137
+msgid "Th"
+msgstr "Do"
+
+#: ../components/restrictions/base-restrictions/timerange.php:138
+msgid "Fr"
+msgstr "Fr"
+
+#: ../components/restrictions/base-restrictions/timerange.php:139
+msgid "Sa"
+msgstr "Sa"
+
+#: ../components/restrictions/base-restrictions/timerange.php:140
+msgid "January"
+msgstr "January"
+
+#: ../components/restrictions/base-restrictions/timerange.php:141
+msgid "February"
+msgstr "Februar"
+
+#: ../components/restrictions/base-restrictions/timerange.php:142
+msgid "March"
+msgstr "März"
+
+#: ../components/restrictions/base-restrictions/timerange.php:143
+msgid "April"
+msgstr "April"
+
+#: ../components/restrictions/base-restrictions/timerange.php:144
+msgid "May"
+msgstr "Mai"
+
+#: ../components/restrictions/base-restrictions/timerange.php:145
+msgid "June"
+msgstr "Juni"
+
+#: ../components/restrictions/base-restrictions/timerange.php:146
+msgid "July"
+msgstr "Juli"
+
+#: ../components/restrictions/base-restrictions/timerange.php:147
+msgid "August"
+msgstr "August"
+
+#: ../components/restrictions/base-restrictions/timerange.php:148
+msgid "September"
+msgstr "September"
+
+#: ../components/restrictions/base-restrictions/timerange.php:149
+msgid "October"
+msgstr "Oktober"
+
+#: ../components/restrictions/base-restrictions/timerange.php:150
+msgid "November"
+msgstr "November"
+
+#: ../components/restrictions/base-restrictions/timerange.php:151
+msgid "December"
+msgstr "Dezember"
+
+#: ../components/results/component.php:40 ../components/results/form-builder-
+#: extension.php:59
+msgid "Results"
+msgstr "Ergebnisse"
+
+#: ../components/results/base-result-handlers/charts.php:42
+msgid "Charts"
+msgstr "Diagramme"
+
+#: ../core/form-builder.php:101
+msgid "Do you really want to delete this element?"
+msgstr "Soll dieses Element wirklich gel&ouml;scht werden?"
+
+#: ../core/form-builder.php:102
+msgid "Do you really want to delete this answer?"
+msgstr "Soll diese Antwort wirklich gel&ouml;scht werden?"
+
+#: ../core/form-builder.php:103
+msgid "Attention!"
+msgstr "Achtung!"
+
+#: ../core/form-builder.php:122
 msgid "Elements"
 msgstr "Elemente"
 
-#: core/form-builder.php:140
+#: ../core/form-builder.php:123
 msgid "Options"
 msgstr "Optionen"
 
-#: core/form-builder.php:187
-msgid "Duplicate Form"
-msgstr "Formular duplizieren"
-
-#: core/form-builder.php:523 core/init.php:151
-msgid "Edit Form"
-msgstr "Formular bearbeiten"
-
-#: core/form-builder.php:524
+#: ../core/form-builder.php:460
 msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
 msgstr ""
 "Sie sind nur noch 50 Formularfelder vom Erreichen von PHP max_num_fields "
 "entfernt!"
 
-#: core/form-builder.php:525
+#: ../core/form-builder.php:461
 msgid "You are over the limit of PHP max_num_fields!"
 msgstr "Sie sind über der Grenze von PHP max_num_fields!"
 
-#: core/form-builder.php:526
+#: ../core/form-builder.php:462
 msgid ""
 "Please increase the value by adding <code>php_value max_input_vars [NUMBER "
 "OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise "
@@ -1081,275 +1061,293 @@ msgstr ""
 "kontaktieren Sie Ihren Hoster. Andernfalls wird Ihr Formular nicht richtig "
 "gespeichert."
 
-#: core/form-builder.php:527
+#: ../core/form-builder.php:463
 msgid "of"
 msgstr "von"
 
-#: core/form-builder.php:528
-msgid "Form duplicated successfully!"
-msgstr "Formular erfolgreich dupliziert!"
-
-#: core/form-builder.php:529
-msgid "Form results deleted successfully!"
-msgstr "Einträge erfolgreich gelöscht!"
-
-#: core/form-builder.php:530
-msgid "Copied!"
-msgstr "Kopiert!"
-
-#: core/form-loader.php:175 functions.php:219
-msgid "Thank you for participating!"
-msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
-
-#: core/form-loader.php:195
+#: ../core/form-loader.php:175
 msgid "This are the actual results:"
 msgstr "Das sind die aktuellen Ergebnisse:"
 
-#: core/form-process.php:101
+#: ../core/form-process.php:90
 msgid "There are open answers"
 msgstr "Es gibt offene Antworten"
 
-#: core/form-process.php:116
+#: ../core/form-process.php:104
 #, php-format
 msgid ""
 "Step <span class=\"torro-highlight-number\">%d</span> of <span class=\"torro-"
 "highlight-number\">%s</span>"
 msgstr ""
-"Schritt <span class=\"surveyval-highlight-number\">%d</span> von <span class="
-"\"surveyval-highlight-number\">%s</span>"
+"Schritt <span class=\"surveyval-highlight-number\">%d</span> von <span "
+"class=\"surveyval-highlight-number\">%s</span>"
 
-#: core/form-process.php:215
+#: ../core/form-process.php:183
 msgid "Previous Step"
 msgstr "Zur&uuml;ck"
 
-#: core/form-process.php:225
-msgid "Send"
-msgstr "Senden"
-
-#: core/form-process.php:234
+#: ../core/form-process.php:199
 msgid "Next Step"
 msgstr "Nächster Schritt"
 
-#: core/init.php:123
+#: ../core/init.php:118
 msgctxt "taxonomy general name"
 msgid "Categories"
 msgstr "Kategorien"
 
-#: core/init.php:124
+#: ../core/init.php:119
 msgctxt "taxonomy singular name"
 msgid "Category"
 msgstr "Kategorie"
 
-#: core/init.php:125
+#: ../core/init.php:120
 msgid "Search Categories"
 msgstr "Kategorien durchsuchen"
 
-#: core/init.php:126
+#: ../core/init.php:121
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
-#: core/init.php:127
+#: ../core/init.php:122
 msgid "Parent Category"
 msgstr "Eltern-Kategorie"
 
-#: core/init.php:128
+#: ../core/init.php:123
 msgid "Parent Category:"
 msgstr "Eltern-Kategorie:"
 
-#: core/init.php:129
+#: ../core/init.php:124
 msgid "Edit Category"
 msgstr "Kategorie bearbeiten"
 
-#: core/init.php:130
+#: ../core/init.php:125
 msgid "Update Category"
 msgstr "Kategorie speichern"
 
-#: core/init.php:131
+#: ../core/init.php:126
 msgid "Add New Category"
 msgstr "Neue Kategorie hinzuf&uuml;gen"
 
-#: core/init.php:132
+#: ../core/init.php:127
 msgid "New Category"
 msgstr "Neue Kategorie"
 
-#: core/init.php:133 core/menu.php:63
+#: ../core/init.php:128 ../core/menu.php:57 ../core/menu.php:57
 msgid "Categories"
 msgstr "Kategorien"
 
-#: core/init.php:147 core/menu.php:61
-msgid "Forms"
-msgstr "Formulare"
-
-#: core/init.php:148 core/shortcodes.php:52
-#: core/templatetags/base-templatetags/form.php:35
-msgid "Form"
-msgstr "Formular"
-
-#: core/init.php:149
-msgid "All Forms"
-msgstr "Alle Formulare"
-
-#: core/init.php:150 core/init.php:152
-msgid "Add new Form"
-msgstr "Neues Formular hinzufügen"
-
-#: core/init.php:153
-msgid "View Form"
-msgstr "Formular Anzeigen"
-
-#: core/init.php:154
-msgid "Search Forms"
-msgstr "Formular suchen"
-
-#: core/init.php:155
-msgid "No Form found"
-msgstr "Kein Formular gefunden"
-
-#: core/init.php:156
-msgid "No Form found in trash"
-msgstr "Kein Formular in Papierkorb gefunden"
-
-#: core/menu.php:62
+#: ../core/menu.php:56 ../core/menu.php:56
 msgid "Create"
 msgstr "Erstellen"
 
-#: core/settings-page.php:114
-msgid "Save Settings"
-msgstr "Einstellungen speichern"
+#: ../core/menu.php:58 ../core/menu.php:58 ../core/abstract/class-element.php:509
+msgid "Settings"
+msgstr "Einstellungen"
 
-#: core/settings-page.php:118
-msgid "There are no settings available."
+#: ../core/abstract/class-element.php:450
+msgid "No HTML for Element given. Please check element sourcecode."
 msgstr ""
+"Kein HTML f&uuml;r das Element angegeben. Bitte &uuml;berpr&uuml;fen Sie den "
+"Quellcode."
 
-#: core/settings/base-settings/general.php:44
-msgid "Welcome to Torro Forms!"
-msgstr ""
+#: ../core/abstract/class-element.php:624
+msgid "Answer/s:"
+msgstr "Antwort/en:"
 
-#: core/settings/base-settings/general.php:45
-msgid ""
-"You want to build any forms in a easy way? Torro Forms will help you to do "
-"it in the very easy way with ton of options."
-msgstr ""
+#: ../core/abstract/class-element.php:702
+msgid "Add Answer"
+msgstr "Antwort hinzuf&uuml;gen"
 
-#: core/settings/base-settings/general.php:49
-msgid "Form Modules"
-msgstr ""
+#: ../core/abstract/class-element.php:803
+msgid "Delete element"
+msgstr "Element l&ouml;schen"
 
-#: core/settings/base-settings/general.php:50
-msgid "Check the modules of Torro Forms which have to be activated."
-msgstr ""
+#: ../core/abstract/class-settings.php:108 ../core/abstract/class-settings.php:
+#: 171 ../core/settings/base-settings/general.php:36
+msgid "General"
+msgstr "Allgemein"
 
-#: core/settings/base-settings/general.php:73
-msgid "Modules"
-msgstr "Module"
+#: ../core/elements/base-elements/dropdown.php:34
+msgid "Dropdown"
+msgstr "Dropdown"
 
-#: core/settings/base-settings/general.php:74
-msgid "You don´t need some of these components? Switch it off!"
-msgstr ""
+#: ../core/elements/base-elements/dropdown.php:47
+msgid "Please select"
+msgstr "Bitte w&auml;hlen"
 
-#: core/settings/base-settings/general.php:80
-msgid "Slug"
-msgstr ""
+#: ../core/elements/base-elements/dropdown.php:73 ../core/elements/base-
+#: elements/multiplechoice.php:68 ../core/elements/base-elements/onechoice.php:68
+#: ../core/elements/base-elements/textarea.php:56 ../core/elements/base-
+#: elements/textfield.php:74
+msgid "Description"
+msgstr "Beschreibung"
 
-#: core/settings/base-settings/general.php:81
-msgid ""
-"The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/"
-"<b>forms</b>/mycontactform)"
-msgstr ""
+#: ../core/elements/base-elements/dropdown.php:85 ../core/elements/base-
+#: elements/onechoice.php:80
+msgid "Please select a value."
+msgstr "Bitte w&auml;hlen Sie einen Wert"
 
-#: core/shortcodes.php:64
-msgid "Please enter an id in the form shortcode!"
-msgstr ""
+#: ../core/elements/base-elements/multiplechoice.php:34
+msgid "Multiple Choice"
+msgstr "Mehrfach-Auswahl"
 
-#: core/shortcodes.php:69
-msgid "Form not found. Please enter another ID in your shortcode."
-msgstr ""
+#: ../core/elements/base-elements/multiplechoice.php:70
+msgid "The description will be shown after the question."
+msgstr "Die Beschreibung wird unter der Frage angezeigt."
 
-#: core/shortcodes.php:99
-msgid "Form Shortcode:"
-msgstr "Formular-Shortcode"
+#: ../core/elements/base-elements/multiplechoice.php:74
+msgid "Minimum Answers"
+msgstr "Minimale Anzahl an Antworten"
 
-#: core/templatetags/base-templatetags/form.php:37
-msgid "Form Templatetags"
-msgstr "Formular Templatetags"
+#: ../core/elements/base-elements/multiplechoice.php:76
+msgid "The minimum number of answers which have to be choosed."
+msgstr "Die minimale Anzahl an Antworten, welche gew&auml;hlt werden kann."
 
-#: core/templatetags/base-templatetags/form.php:45
-msgid "Form Title"
-msgstr ""
+#: ../core/elements/base-elements/multiplechoice.php:80
+msgid "Maximum Answers"
+msgstr "Maximale Anzahl an Antworten"
 
-#: core/templatetags/base-templatetags/form.php:45
-msgid "Shows the Form Title"
-msgstr ""
+#: ../core/elements/base-elements/multiplechoice.php:82
+msgid "The maximum number of answers which can be choosed."
+msgstr "Die maximale Anzahl an Antworten, welche eingegeben werden kann."
 
-#: core/templatetags/base-templatetags/form.php:49
-msgid "All Elements"
-msgstr "Alle Elemente"
+#: ../core/elements/base-elements/multiplechoice.php:96
+msgid "Too less choices."
+msgstr "Zu wenig Angaben."
 
-#: core/templatetags/base-templatetags/form.php:49
-msgid "Shows all Answers"
-msgstr ""
+#: ../core/elements/base-elements/multiplechoice.php:96 ../core/elements/base-
+#: elements/multiplechoice.php:103
+#, php-format
+msgid "You have to choose between %d and %d answers."
+msgstr "Sie m&uuml;ssen zwischen %d und %d Antworten ausw&auml;hlen."
 
-#: core/templatetags/base-templatetags/form.php:76
-msgid "Adds the Element Content"
-msgstr ""
+#: ../core/elements/base-elements/multiplechoice.php:103
+msgid "Too many choices."
+msgstr "Zu viele Angaben."
 
-#: core/templatetags/base-templatetags/global.php:35
-msgid "Global"
-msgstr "Global"
+#: ../core/elements/base-elements/onechoice.php:34
+msgid "One Choice"
+msgstr "Einfach-Anwort"
 
-#: core/templatetags/base-templatetags/global.php:37
-msgid "Global Templatetags"
-msgstr "Globale Templatetags"
+#: ../core/elements/base-elements/separator.php:34
+msgid "Separator"
+msgstr "Separator"
 
-#: core/templatetags/base-templatetags/global.php:45
-msgid "Site Title"
-msgstr ""
+#: ../core/elements/base-elements/splitter.php:34
+msgid "Split Form"
+msgstr "Formular teilen"
 
-#: core/templatetags/base-templatetags/global.php:45
-msgid "Adds the Site Title"
-msgstr ""
+#: ../core/elements/base-elements/splitter.php:35
+msgid "Splits a form into several steps"
+msgstr "Teilt eine Umfrage in mehrere Schritte"
 
-#: core/templatetags/base-templatetags/global.php:46
-msgid "Site Tagline"
-msgstr ""
+#: ../core/elements/base-elements/text.php:34
+msgid "Text"
+msgstr "Text"
 
-#: core/templatetags/base-templatetags/global.php:46
-msgid "Adds the Sites Tagline"
-msgstr ""
+#: ../core/elements/base-elements/text.php:35
+msgid "Adds a text to the form."
+msgstr "F&uuml;gt einen Text hinzu."
 
-#: core/templatetags/base-templatetags/global.php:47
-msgid "Admin Email"
-msgstr "E-Mail des Administrators"
+#: ../core/elements/base-elements/textarea.php:34
+msgid "Textarea"
+msgstr "Textbereich"
 
-#: core/templatetags/base-templatetags/global.php:47
-msgid "Adds the Admin Email-Address"
-msgstr ""
+#: ../core/elements/base-elements/textarea.php:62 ../core/elements/base-
+#: elements/textfield.php:80
+msgid "Minimum length"
+msgstr "Minimale l&auml;nge"
 
-#: core/templatetags/base-templatetags/global.php:48
-msgid "User IP"
-msgstr "Nutzer-IP"
+#: ../core/elements/base-elements/textarea.php:64 ../core/elements/base-
+#: elements/textfield.php:82
+msgid "The minimum number of chars which can be typed in."
+msgstr "Die minimale Anzahl an Zeichen, welche eingegeben werden kann."
 
-#: core/templatetags/base-templatetags/global.php:48
-msgid "Adds the Sites User IP"
-msgstr ""
+#: ../core/elements/base-elements/textarea.php:68 ../core/elements/base-
+#: elements/textfield.php:86
+msgid "Maximum length"
+msgstr "Maximale L&auml;nge"
 
-#: functions.php:130
-msgid "Copy to clipboard"
-msgstr "In Zwischenablage kopieren"
+#: ../core/elements/base-elements/textarea.php:70 ../core/elements/base-
+#: elements/textfield.php:88
+msgid "The maximum number of chars which can be typed in."
+msgstr "Die maximale Anzahl an Zeichen, welche eingegeben werden kann."
 
-#: functions.php:156
+#: ../core/elements/base-elements/textarea.php:74
+msgid "Rows"
+msgstr "Reihen"
+
+#: ../core/elements/base-elements/textarea.php:76
+msgid "Number of rows for typing in  (can be overwritten by CSS)."
+msgstr "Anzahl der Zeilen zur Eingabe (kann von CSS &uuml;berschrieben werden)."
+
+#: ../core/elements/base-elements/textarea.php:80
+msgid "Columns"
+msgstr "Spalten"
+
+#: ../core/elements/base-elements/textarea.php:82
+msgid "Number of columns for typing in (can be overwritten by CSS)."
+msgstr "Anzahl der Spalten zur Eingabe (kann von CSS &uuml;berschrieben werden)."
+
+#: ../core/elements/base-elements/textarea.php:96 ../core/elements/base-
+#: elements/textfield.php:147
+msgid "The input ist too short."
+msgstr "Der eingegebene Wert ist zu kurz."
+
+#: ../core/elements/base-elements/textarea.php:96 ../core/elements/base-
+#: elements/textarea.php:103 ../core/elements/base-elements/textfield.php:147 ..
+#: core/elements/base-elements/textfield.php:154
+#, php-format
+msgid "It have to be at minimum %d and maximum %d chars."
+msgstr "Bitte geben Sie zwischen %d und %d Zeichen ein."
+
+#: ../core/elements/base-elements/textarea.php:103 ../core/elements/base-
+#: elements/textfield.php:154
+msgid "The input is too long."
+msgstr "Der eingegebene Wert ist zu lang."
+
+#: ../core/elements/base-elements/textfield.php:92
+msgid "String Validation"
+msgstr "Zeichen Validierung"
+
+#: ../core/elements/base-elements/textfield.php:95
+msgid "The will do a validation for the input."
+msgstr "F&uuml;rt eine Validierung f&uuml;r die Eingabe durch."
+
+#: ../core/elements/base-elements/textfield.php:104
+msgid "No validation"
+msgstr "Keine Validierung"
+
+#: ../core/elements/base-elements/textfield.php:110
+msgid "Please input a number."
+msgstr "Bitte geben Sie eine ganze Zahl ein."
+
+#: ../core/elements/base-elements/textfield.php:116
+msgid "Please input a decimal number."
+msgstr "Bitte geben Sie eine Dezimalzahl ein."
+
+#: ../core/elements/base-elements/textfield.php:119
+msgid "Email-Address"
+msgstr "Email-Adresse"
+
+#: ../core/elements/base-elements/textfield.php:122
+msgid "Please input a valid Email-Address."
+msgstr "Bitte geben Sie eine g&uuml;ltige Email-Adresse an."
+
+#: ../includes/functions.php:140
+#, php-format
 msgid ""
 "Dear %username%,\n"
 "\n"
-"thank you for participating on the survey \"%survey_title%\". Your survey "
-"data was saved successfully.\n"
+"thank you for participating on the survey \"%survey_title%\". Your survey data "
+"was saved successfully.\n"
 "\n"
 "Best regards,\n"
 "\n"
 "%site_name%"
 msgstr ""
 "Hallo %username%,\n"
-"\t\n"
+"	\n"
 "danke für die Teilnahme an der Umfrage \"%survey_title%\". Ihre eingegebenen "
 "Daten wurden erfolgreich gespeichert.\n"
 "\n"
@@ -1357,7 +1355,8 @@ msgstr ""
 "\n"
 "%site_name%"
 
-#: functions.php:170
+#: ../includes/functions.php:152
+#, php-format
 msgid ""
 "Dear %username%,\n"
 "\n"
@@ -1371,7 +1370,7 @@ msgid ""
 "%site_name%"
 msgstr ""
 "Hallo %username%,\n"
-"\t\n"
+"	\n"
 "Sie wurden eingeladen, an der Umfrage \"%survey_title%\" teilzunehmen. "
 "Teilnehmen:\n"
 "\n"
@@ -1381,12 +1380,13 @@ msgstr ""
 "\n"
 "%site_name%"
 
-#: functions.php:186
+#: ../includes/functions.php:166
+#, php-format
 msgid ""
 "Dear %username%,\n"
 "\n"
-"the survey \"%survey_title%\" is not finished yet. Please fill out and "
-"finish the survey. Participate here:\n"
+"the survey \"%survey_title%\" is not finished yet. Please fill out and finish "
+"the survey. Participate here:\n"
 "\n"
 "%survey_url%\n"
 "\n"
@@ -1395,7 +1395,7 @@ msgid ""
 "%site_name%"
 msgstr ""
 "Hallo  %username%,\n"
-"\t\n"
+"	\n"
 "die Umfrage \"%survey_title%\" ist noch offen. Bitte füllen Sie die Umfrage "
 "aus. Teilnehmen:\n"
 "\n"
@@ -1405,295 +1405,10 @@ msgstr ""
 "\n"
 "%site_name%"
 
-#: functions.php:227
+#: ../includes/functions.php:202
 msgid "You are invited to answer a survey"
 msgstr "Sie sind eingeladen an der Umbrage teilzunehmen"
 
-#: functions.php:235
+#: ../includes/functions.php:208
 msgid "Don´t forget to answer the Survey"
 msgstr "Vergessen Sie nicht, die Umfrage zu beantworten"
-
-#. Plugin Name of the plugin/theme
-msgid "Torro Forms"
-msgstr "Torro Forms"
-
-#. Plugin URI of the plugin/theme
-#. Author URI of the plugin/theme
-msgid "http://www.awesome.ug"
-msgstr "http://www.awesome.ug"
-
-#. Description of the plugin/theme
-msgid "Drag & drop your Form with the Torro Forms Plugin."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "awesome.ug"
-msgstr "awesome.ug"
-
-#~ msgid "%d - %d of %d"
-#~ msgstr "% d -% d von% d"
-
-#~ msgid "Admin"
-#~ msgstr "Admin"
-
-#~ msgid "Setting up Questions in WordPress Admin."
-#~ msgstr "Questions im WordPress Admin einstellen."
-
-#~ msgid ""
-#~ "This will erase all Answers who people given to this survey. Do you "
-#~ "really want to delete all results of this survey?"
-#~ msgstr ""
-#~ "Dies löscht alle Antworten, die auf diese Umfrage gemacht wurden. Wollen "
-#~ "Sie wirklich alle Ergebnisse dieser Umfrage löschen?"
-
-#~ msgid "Survey Functions"
-#~ msgstr "Umfrage-Funktionen"
-
-#~ msgid "Participiants list"
-#~ msgstr "Teilnehmerliste"
-
-#~ msgid "When does the survey start?"
-#~ msgstr "Wann startet die Umfrage?"
-
-#~ msgid "When does the survey end?"
-#~ msgstr "Wann endet die Umfrage?"
-
-#~ msgid "All visitors of the site can participate"
-#~ msgstr "Alle Besucher der Seite können teilnehmen"
-
-#~ msgid "All members of the site can participate"
-#~ msgstr "Alle Mitglieder der Seite k&ouml;nnen an der Umfrage teilnehmen"
-
-#~ msgid "Only selected members can participate"
-#~ msgstr ""
-#~ "Nur ausgew&auml;hlte Mitglieder k&ouml;nenn an der Umfrage teilnehmen"
-
-#~ msgid "No restrictions"
-#~ msgstr "Keine Einschränkungen"
-
-#~ msgid "Add Participiants"
-#~ msgstr "Teilnehmer hinzuf&uuml;gen"
-
-#~ msgid "Show results after finishing survey"
-#~ msgstr "Ergebnisse nach Teilnahme anzeigen"
-
-#~ msgid "Dublicate Survey"
-#~ msgstr "Umfrage dublizieren"
-
-#~ msgid "Delete survey results"
-#~ msgstr "Umfrageergebnisse löschen"
-
-#~ msgid ""
-#~ "You can invite Participiants to this survey after the survey is published."
-#~ msgstr ""
-#~ "Sie k&ouml;nenn Teilnehmer einladen, sobald die Umfrage gespeichert ist."
-
-#~ msgid "Survey results deleted successfully!"
-#~ msgstr "Umfrageergebnisse erfolgreich gelöscht!"
-
-#~ msgid "Survey duplicated successfully!"
-#~ msgstr "Umfrage erfolgreich dupliziert!"
-
-#~ msgid "Edit Survey"
-#~ msgstr "Umfrage bearbeiten"
-
-#~ msgid "Surveys"
-#~ msgstr "Umfragen"
-
-#~ msgid "Text templates"
-#~ msgstr "Textvorlagen"
-
-#~ msgid "Thanks for participating"
-#~ msgstr "Danke für die Teilnahme"
-
-#~ msgid ""
-#~ "This text will be used on thanking members after participating survey."
-#~ msgstr ""
-#~ "Dieser Text wird als Dankestext genutzt, nachdem Benutzer an einer "
-#~ "Umfrage teilgenommen haben."
-
-#~ msgid "Usable template tags:"
-#~ msgstr "Nutzbare Template-Tags:"
-
-#~ msgid "Invitation text Template"
-#~ msgstr "Einladungstext Template"
-
-#~ msgid ""
-#~ "This text will be used as template if you want to send invitations to "
-#~ "Participiants."
-#~ msgstr ""
-#~ "Dieser Text wird als Vorlage benutzt, wenn die Teilnehmer eingeladen "
-#~ "werden."
-
-#~ msgid "Reinvitation text Template"
-#~ msgstr "Textvorlage für die wiederholte Einladung"
-
-#~ msgid ""
-#~ "This text will be used as template if you want to send reinvitations to "
-#~ "Participiants."
-#~ msgstr ""
-#~ "Dieser Text wird als Vorlage benutzt, wenn die Teilnehmer wieder "
-#~ "eingeladen werden."
-
-#~ msgid ""
-#~ "The Name which will be shown on Emails which are send out by Questions."
-#~ msgstr "Dieser Name wird als Absendername für ausgehende Emails genuzt."
-
-#~ msgid "e.g. Michael Jackson"
-#~ msgstr "z.B. Michael Jackson"
-
-#~ msgid ""
-#~ "The Email will be used for the reply of the emails, send out by questions."
-#~ msgstr ""
-#~ "Diese Email-Adresse wird als Absender-Adresse für ausgehende Emails "
-#~ "genuzt."
-
-#~ msgid "e.g. myname@mydomain.com"
-#~ msgstr "z.B. meinname@meinedomain.de"
-
-#~ msgid "This is a Questions Survey Element."
-#~ msgstr "Dies ist ein Questions Umfrage-Element."
-
-#~ msgid "Showing Charts in Questions."
-#~ msgstr "Anzeigen von Diagrammen in Questions"
-
-#~ msgid "Please enter a survey id in the survey shortcode!"
-#~ msgstr "Bitte geben Sie die ID der Umfrage im Sportcode an."
-
-#~ msgid "There are no results to show."
-#~ msgstr "Es gibt keine Ergebnisse zu zeigen."
-
-#~ msgid "Please enter a question id in the survey shortcode!"
-#~ msgstr "Bitte geben Sie die ID der Frage im Sportcode an."
-
-#~ msgid "Results Shortcode:"
-#~ msgstr "Ergebnis-Shortcode:"
-
-#~ msgid "(CTRL+C and paste into post to embed question results in post)"
-#~ msgstr ""
-#~ "(STRG +C  und anschließend in Post einfügen um die Ergebnisse der Frage "
-#~ "anzuzeigen)"
-
-#~ msgid "Shortcode:"
-#~ msgstr "Shortcode:"
-
-#~ msgid "This is a Questions component."
-#~ msgstr "Das ist eine Questions Komponente."
-
-#~ msgid "Core"
-#~ msgstr "Kern"
-
-#~ msgid "Core functions of the Questions Plugin"
-#~ msgstr "Kernfunktionen des Question Plugins"
-
-#~ msgid "Survey"
-#~ msgstr "Umfrage"
-
-#~ msgid "All Surveys"
-#~ msgstr "Alle Umfragen"
-
-#~ msgid "Add new Survey"
-#~ msgstr "Umfrage hinzuf&uuml;gen"
-
-#~ msgid "View Survey"
-#~ msgstr "Umfrage ansehen"
-
-#~ msgid "Search Survey"
-#~ msgstr "Umfrage suchen"
-
-#~ msgid "No Survey available"
-#~ msgstr "Keine Umfrage vorhanden"
-
-#~ msgid "No answers, no exports!"
-#~ msgstr "Keine Antworten, keine Exporte!"
-
-#~ msgid "<a href=\"%s\">Export Results</a>"
-#~ msgstr "<a href=\"%s\">Ergebnisse Exportieren</a>"
-
-#~ msgid "Finish Survey"
-#~ msgstr "Umfrage abschlie&szlig;en"
-
-#~ msgid "Thank you for participating this survey!"
-#~ msgstr "Danke f&uuml;r die Teilnahme an der Umfrage!"
-
-#~ msgid "You already have participated in this poll."
-#~ msgstr "Sie haben bereits an der Umfrage teilgenommen."
-
-#~ msgid "You have to be logged in to participate this survey."
-#~ msgstr "Sie m&uuml;ssen eigeloggt sein um an der Umfrage teilzunehmen."
-
-#~ msgid "You can't participate this survey."
-#~ msgstr "Du kannst an dieser Umfrage nicht teilnehmen."
-
-#~ msgid "User ID"
-#~ msgstr "Nutzer ID"
-
-#~ msgid "Username"
-#~ msgstr "Benutzername"
-
-#~ msgid "Date/Time"
-#~ msgstr "Datum / Uhrzeit"
-
-#~ msgid "Please enter an id in the survey shortcode!"
-#~ msgstr "Bitte geb eine id im Umfragen-Shortcode an!"
-
-#~ msgid "Survey not found. Please enter another ID in your shortcode."
-#~ msgstr ""
-#~ "Umfrage nicht gefunden. Bitte geben Sie eine andere ID im Sportcode an."
-
-#~ msgid "Survey Shortcode:"
-#~ msgstr "Umfrage-Shortcode:"
-
-#~ msgid "Text to show"
-#~ msgstr "Angezeigter Text"
-
-#~ msgid "The text which will be shown in the form."
-#~ msgstr "Dieser Text wird im Formular angezeigt."
-
-#~ msgid "Add a question which can be answered within a dropdown field."
-#~ msgstr ""
-#~ "Eine Frage hinzufügen, die mittels eines Dropdown Feldes beantwortet wird."
-
-#~ msgid ""
-#~ "Add a question which can be answered by selecting one ore more given "
-#~ "answers."
-#~ msgstr ""
-#~ "Eine Frage hinzuf&uuml;gen, die mit einer oder mehreren Werten "
-#~ "beantwortet werden kann."
-
-#~ msgid ""
-#~ "Add a question which can be answered by selecting one of the given "
-#~ "answers."
-#~ msgstr ""
-#~ "Eine Frage hinzuf&uuml;gen, die mit einer oder mehreren Antworten "
-#~ "beantwortet werden kann."
-
-#~ msgid "Adds a optical separator (<hr>) between questions."
-#~ msgstr "F&uuml;gt einen optischen Trennet (<hr>) zwischen die Fragen ein."
-
-#~ msgid "Headline"
-#~ msgstr "&Uuml;berschrift"
-
-#~ msgid "Text which will be shown above the separator"
-#~ msgstr "Text der &uuml;her dem Separator angezeigt werden soll"
-
-#~ msgid "Add a question which can be answered within a text field."
-#~ msgstr ""
-#~ "Eine Frage hinzufügen, die mittels eines Textfeldes beantwortet wird."
-
-#~ msgid "Add a question which can be answered within a text area."
-#~ msgstr ""
-#~ "Eine Frage hinzufügen, die mittels eines mehrzeiligen Textfeldes "
-#~ "beantwortet wird."
-
-#~ msgid "Question"
-#~ msgstr "Frage"
-
-#~ msgid "Base Elements to put into surveys"
-#~ msgstr "Basis Elemente, welche in einer Umfrage verwendet werden können"
-
-#~ msgid "Questions"
-#~ msgstr "Questions"
-
-#~ msgid "Drag & drop your survey/poll with the WordPress Questions plugin."
-#~ msgstr "Umfragen einfach per Drag&Drop mit dem Questions Plguin erstellen."

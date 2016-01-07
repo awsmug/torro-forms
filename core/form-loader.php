@@ -153,8 +153,8 @@ class Torro_FormLoader {
 			$show_results = 'no';
 		}
 
-		$html = '<div id="torro-thank-participation">';
-		$html .= '<p>' . esc_html__( 'Thank you for participating!', 'torro-forms' ) . '</p>';
+		$html = '<div id="torro-thank-submitting">';
+		$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
 		if ( 'yes' === $show_results ) {
 			$html .= self::show_results( $form_id );
 		}

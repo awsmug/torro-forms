@@ -193,7 +193,7 @@ function torro_get_mail_template_subject( $mailsubject_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_subject_template' ) );
 			if( empty( $text ) ) {
-				$text = esc_attr__( 'Thank you for participating!', 'torro-forms' );
+				$text = esc_attr__( 'Thank you for submitting!', 'torro-forms' );
 			}
 			break;
 		case 'invitation':
