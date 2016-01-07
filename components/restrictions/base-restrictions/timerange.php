@@ -84,17 +84,17 @@ class Torro_Restriction_Timerange extends Torro_Restriction {
 		global $ar_form_id;
 
 		$actual_date = time();
-		$start_date = strtotime( get_post_meta( $ar_form_id, 'start_date', true ) );
-		$end_date = strtotime( get_post_meta( $ar_form_id, 'end_date', true ) );
+		$start_date = get_post_meta( $ar_form_id, 'start_date', true );
+		$end_date = get_post_meta( $ar_form_id, 'end_date', true );
 
-		if ( 0 !== $start_date && $actual_date < $start_date ) {
+		if ( !empty( $start_date ) && $actual_date < strtotime( $start_date ) ) {
 			$this->add_message( 'error', __( 'The Form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
 			return false;
 		}
 
-		if ( 0 !== $end_date && $actual_date > $end_date ) {
+		if ( !empty( $end_date )  && $actual_date > strtotime( $end_date ) ) {
 			$this->add_message( 'error', __( 'The Form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
