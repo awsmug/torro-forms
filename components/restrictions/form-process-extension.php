@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Formbuilder_FormProcesExtension {
+class Torro_Formbuilder_FormProcessExtension {
 
 	/**
 	 * Init in WordPress, run on constructor
@@ -54,24 +54,27 @@ class Torro_Formbuilder_FormProcesExtension {
 			return $show_form;
 		}
 
-		if ( false === apply_filters( 'torro_additional_restrictions_check_start', true ) ) {
-			return false;
+		if ( FALSE === apply_filters( 'torro_additional_restrictions_check_start', TRUE ) ) {
+			return FALSE;
 		}
 
 		/**
 		 * Select field for Restriction
 		 */
-		$restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', true );
-		$restriction = $restrictions[ $restrictions_option ];
+		$restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', TRUE );
 
-		if ( false === $restriction->check() ) {
-			echo $restriction->messages();
+		if ( !empty( $restrictions_option ) && array_key_exists( $restrictions_option, $restrictions ) ) {
+			$restriction = $restrictions[ $restrictions_option ];
 
-			return false;
+			if ( FALSE === $restriction->check() ) {
+				echo $restriction->messages();
+
+				return FALSE;
+			}
 		}
 
-		return apply_filters( 'torro_additional_restrictions_check_end', true );
+		return apply_filters( 'torro_additional_restrictions_check_end', TRUE );
 	}
 }
 
-Torro_Formbuilder_FormProcesExtension::init();
+Torro_Formbuilder_FormProcessExtension::init();
