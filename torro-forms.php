@@ -34,6 +34,8 @@ class Torro_Init {
 		self::load_textdomain();
 		self::load_files();
 
+		self::register_tables();
+
 		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
@@ -95,12 +97,36 @@ class Torro_Init {
 		require_once( TORRO_COMPONENTFOLDER . 'results/component.php' );
 	}
 
-	/**
-	 * Checking Requirements and adding Error Messages.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function check_requirements() {}
+	private static function register_tables() {
+		global $wpdb;
+
+		$tables = self::get_tables();
+
+		foreach ( $tables as $table ) {
+			$table_name = 'torro_' . $table;
+
+			$wpdb->tables[] = $table_name;
+			$wpdb->$table_name = $wpdb->prefix . $table_name;
+		}
+	}
+
+	private static function get_tables() {
+		$tables = $orig_tables = array(
+			'elements',
+			'element_answers',
+			'results',
+			'result_values',
+			'settings',
+			'participants',
+			'email_notifications',
+		);
+
+		// this filter can only be used to add additional tables
+		$tables = apply_filters( 'torro_forms_tables', $tables );
+
+		// this ensures that no tables are removed
+		return array_merge( $orig_tables, $tables );
+	}
 
 	/**
 	 * Fired when the plugin is activated.
@@ -140,13 +166,14 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function is_installed() {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
-		$tables = get_object_vars( $torro_global->tables );
+		$tables = self::get_tables();
 
 		// Checking if all tables are existing
 		foreach ( $tables AS $table ) {
-			if ( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) != $table ) {
+			$table_name = 'torro_' . $table;
+			if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name ) ) != $table_name ) {
 				return false;
 			}
 		}
@@ -188,17 +215,9 @@ class Torro_Init {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$table_elements = $wpdb->prefix . 'torro_elements';
-		$table_element_answers = $wpdb->prefix . 'torro_element_answers';
-		$table_results = $wpdb->prefix . 'torro_results';
-		$table_results_values = $wpdb->prefix . 'torro_result_values';
-		$table_settings = $wpdb->prefix . 'torro_settings';
-		$table_participiants = $wpdb->prefix . 'torro_participiants';
-		$table_email_notifications = $wpdb->prefix . 'torro_email_notifications';
-
 		$charset_collate = torro_get_charset_collate();
 
-		$sql = "CREATE TABLE $table_elements (
+		$sql = "CREATE TABLE $wpdb->torro_elements (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		form_id int(11) NOT NULL,
 		label text NOT NULL,
@@ -209,7 +228,7 @@ class Torro_Init {
 
 		dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_element_answers (
+		$sql = "CREATE TABLE $wpdb->torro_element_answers (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		element_id int(11) NOT NULL,
 		section char(100) NOT NULL,
@@ -220,7 +239,7 @@ class Torro_Init {
 
 		dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_results (
+		$sql = "CREATE TABLE $wpdb->torro_results (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		form_id int(11) NOT NULL,
 		user_id int(11) NOT NULL,
@@ -232,7 +251,7 @@ class Torro_Init {
 
 		dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_results_values (
+		$sql = "CREATE TABLE $wpdb->torro_result_values (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		result_id int(11) NOT NULL,
 		element_id int(11) NOT NULL,
@@ -242,7 +261,7 @@ class Torro_Init {
 
 		dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_settings (
+		$sql = "CREATE TABLE $wpdb->torro_settings (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		element_id int(11) NOT NULL,
 		name text NOT NULL,
@@ -252,7 +271,7 @@ class Torro_Init {
 
 		dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_participiants (
+		$sql = "CREATE TABLE $wpdb->torro_participants (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		form_id int(11) NOT NULL,
 		user_id int(11) NOT NULL,
@@ -261,7 +280,7 @@ class Torro_Init {
 
 		dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_email_notifications (
+		$sql = "CREATE TABLE $wpdb->torro_email_notifications (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		form_id int(11) NOT NULL,
 		notification_name text NOT NULL,

@@ -11,105 +11,97 @@ function torro_questions_to_awesome_forms() {
 	$table_participiants_old = $wpdb->prefix . 'questions_participiants';
 	$table_email_notifications_old = $wpdb->prefix . 'questions_email_notifications';
 
-	$table_elements_new = $wpdb->prefix . 'torro_elements';
-	$table_answers_new = $wpdb->prefix . 'torro_element_answers';
-	$table_settings_new = $wpdb->prefix . 'torro_settings';
-	$table_responds_new = $wpdb->prefix . 'torro_results';
-	$table_respond_answers_new = $wpdb->prefix . 'torro_result_values';
-	$table_participiants_new = $wpdb->prefix . 'torro_participiants';
-	$table_email_notifications_new = $wpdb->prefix . 'torro_email_notifications';
-
-	$sql = "RENAME TABLE {$table_elements_old} TO {$table_elements_new}";
+	$sql = "RENAME TABLE {$table_elements_old} TO {$wpdb->torro_elements}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_answers_old} TO {$table_answers_new}";
+	$sql = "RENAME TABLE {$table_answers_old} TO {$wpdb->torro_element_answers}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_settings_old} TO {$table_settings_new}";
+	$sql = "RENAME TABLE {$table_settings_old} TO {$wpdb->torro_settings}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_responds_old} TO {$table_responds_new}";
+	$sql = "RENAME TABLE {$table_responds_old} TO {$wpdb->torro_results}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_respond_answers_old} TO {$table_respond_answers_new}";
+	$sql = "RENAME TABLE {$table_respond_answers_old} TO {$wpdb->torro_result_values}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_participiants_old} TO {$table_participiants_new}";
+	$sql = "RENAME TABLE {$table_participiants_old} TO {$wpdb->torro_participants}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_email_notifications_old} TO {$table_email_notifications_new}";
+	$sql = "RENAME TABLE {$table_email_notifications_old} TO {$wpdb->torro_email_notifications}";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_elements_new} CHANGE questions_id form_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_elements} CHANGE questions_id form_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_elements_new} CHANGE question label text";
+	$sql = "ALTER TABLE {$wpdb->torro_elements} CHANGE question label text";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_answers_new} CHANGE question_id element_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_element_answers} CHANGE question_id element_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_responds_new} CHANGE questions_id form_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_results} CHANGE questions_id form_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_respond_answers_new} CHANGE respond_id result_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_result_values} CHANGE respond_id result_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_respond_answers_new} CHANGE question_id element_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_result_values} CHANGE question_id element_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_settings_new} CHANGE question_id element_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_settings} CHANGE question_id element_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$table_participiants_new} CHANGE survey_id form_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_participants} CHANGE survey_id form_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}posts SET post_type='torro-forms' WHERE post_type='questions'";
+	$sql = "UPDATE $wpdb->posts SET post_type = 'torro-forms' WHERE post_type = 'questions'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}term_taxonomy SET taxonomy='torro-forms-categories' WHERE taxonomy='questions-categories'";
+	$sql = "UPDATE $wpdb->term_taxonomy SET taxonomy = 'torro-forms-categories' WHERE taxonomy = 'questions-categories'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}posts SET post_type='torro-forms' WHERE post_type='questions'";
+	$sql = "UPDATE $wpdb->posts SET post_type = 'torro-forms' WHERE post_type = 'questions'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='textfield' WHERE taxonomy='Text'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'textfield' WHERE taxonomy = 'Text'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='textarea' WHERE taxonomy='Textarea'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'textarea' WHERE taxonomy = 'Textarea'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='dropdown' WHERE taxonomy='Dropdown'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'dropdown' WHERE taxonomy = 'Dropdown'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='onechoice' WHERE taxonomy='OneChoice'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'onechoice' WHERE taxonomy = 'OneChoice'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='multiplechoice' WHERE taxonomy='MultipleChoice'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'multiplechoice' WHERE taxonomy = 'MultipleChoice'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='text' WHERE taxonomy='Description'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'text' WHERE taxonomy = 'Description'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='splitter' WHERE taxonomy='Splitter'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'splitter' WHERE taxonomy = 'Splitter'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$table_elements_new} SET type='separator' WHERE taxonomy='Separator'";
+	$sql = "UPDATE $wpdb->torro_elements SET type = 'separator' WHERE taxonomy = 'Separator'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_key='restrictions_option' WHERE meta_key='participiant_restrictions'";
+	$sql = "UPDATE $wpdb->postmeta SET meta_key = 'restrictions_option' WHERE meta_key = 'participiant_restrictions'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='allvisitors' WHERE meta_key='restrictions_option' AND meta_value='all_visitors'";
+	$sql = "UPDATE $wpdb->postmeta SET meta_value = 'allvisitors' WHERE meta_key = 'restrictions_option' AND meta_value = 'all_visitors'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='allmembers' WHERE meta_key='restrictions_option' AND meta_value='all_members'";
+	$sql = "UPDATE $wpdb->postmeta SET meta_value = 'allmembers' WHERE meta_key = 'restrictions_option' AND meta_value = 'all_members'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='allvisitors' WHERE meta_key='restrictions_option' AND meta_value='no_restrictions'";
+	$sql = "UPDATE $wpdb->postmeta SET meta_value = 'allvisitors' WHERE meta_key = 'restrictions_option' AND meta_value = 'no_restrictions'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE {$wpdb->prefix}postmeta SET meta_value='selectedmembers' WHERE meta_key='restrictions_option' AND meta_value='selected_members'";
+	$sql = "UPDATE $wpdb->postmeta SET meta_value = 'selectedmembers' WHERE meta_key = 'restrictions_option' AND meta_value = 'selected_members'";
 	$wpdb->query( $sql );
 
 	update_option( 'torro_settings_restrictions_selectedmembers_invite_from_name', get_option( 'questions_mail_from_name' ) );
