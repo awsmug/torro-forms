@@ -231,7 +231,7 @@ class Torro_EmailNotifications extends Torro_Action {
 
 		$editor = torro_wp_editor( $message, $editor_id );
 
-		$icon_url = TORRO_URLPATH . 'assets/img/mail.svg';
+		$icon_url = torro()->asset_url( 'mail', 'svg' );
 
 		$html = '<h4 class="widget-top notification-' . $id . '"><a class="widget-action hide-if-no-js"></a><img src="' . $icon_url . '" class="icon" />' . $notification_name . '</h4>';
 		$html .= '<div class="notification widget-inside notification-' . $id . '-content">';
@@ -312,7 +312,7 @@ class Torro_EmailNotifications extends Torro_Action {
 			'no'			=> esc_attr__( 'No', 'torro-forms' )
 		);
 
-		wp_enqueue_script( 'torro-actions-email-notifications', TORRO_URLPATH . 'assets/js/actions-email-notifications.js', array( 'jquery-ui-accordion' ) );
+		wp_enqueue_script( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'js' ), array( 'jquery-ui-accordion' ) );
 		wp_localize_script( 'torro-actions-email-notifications', 'translation_email_notifications', $translation );
 	}
 
@@ -320,7 +320,7 @@ class Torro_EmailNotifications extends Torro_Action {
 	 * Enqueue admin styles
 	 */
 	public static function enqueue_admin_styles() {
-		wp_enqueue_style( 'torro-actions-email-notifications', TORRO_URLPATH . 'assets/css/actions-email-notifications.css' );
+		wp_enqueue_style( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'css' ) );
 	}
 }
 

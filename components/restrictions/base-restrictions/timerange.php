@@ -150,10 +150,10 @@ class Torro_Restriction_Timerange extends Torro_Restriction {
 			'november'			=> esc_attr__( 'November', 'torro-forms' ),
 			'december'			=> esc_attr__( 'December', 'torro-forms' ),
 			'select_date'		=> esc_attr__( 'Select Date', 'torro-forms' ),
-			'calendar_icon_url'	=> TORRO_URLPATH . 'assets/img/calendar-icon.png',
+			'calendar_icon_url'	=> torro()->asset_url( 'calendar-icon', 'png' ),
 		);
 
-		wp_enqueue_script( 'torro-restrictions-timerange', TORRO_URLPATH . 'assets/js/restrictions-timerange.js', array( 'jquery-ui-datepicker' ) );
+		wp_enqueue_script( 'torro-restrictions-timerange', torro()->asset_url( 'restrictions-timerange', 'js' ), array( 'jquery-ui-datepicker' ) );
 		wp_localize_script( 'torro-restrictions-timerange', 'translation_admin', $translation_admin );
 	}
 
@@ -163,7 +163,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public static function register_admin_styles() {
-		wp_enqueue_style( 'torro-restrictions-timerange', TORRO_URLPATH . 'assets/css/restrictions-timerange.css' );
+		wp_enqueue_style( 'torro-restrictions-timerange', torro()->asset_url( 'restrictions-timerange', 'css' ) );
 	}
 }
 

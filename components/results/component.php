@@ -42,7 +42,7 @@ class Torro_Results_Component extends Torro_Component {
 	}
 
 	public function includes() {
-		$folder = TORRO_COMPONENTFOLDER . 'results/';
+		$folder = torro()->path( 'components/results/' );
 
 		// Result Handler API
 		require_once( $folder . 'abstract/class-result-handler.php' );
@@ -65,7 +65,7 @@ class Torro_Results_Component extends Torro_Component {
 	}
 
 	public function admin_styles() {
-		wp_enqueue_style( 'torro-results', TORRO_URLPATH . 'assets/css/results.css' );
+		wp_enqueue_style( 'torro-results', torro()->asset_url( 'results', 'css' ) );
 	}
 }
 

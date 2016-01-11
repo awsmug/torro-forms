@@ -439,7 +439,7 @@ class Torro_Formbuilder {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-form-edit', TORRO_URLPATH . 'assets/css/form-edit.css' );
+		wp_enqueue_style( 'torro-form-edit', torro()->asset_url( 'form-edit', 'css' ) );
 	}
 
 	/**
@@ -474,9 +474,9 @@ class Torro_Formbuilder {
 		wp_enqueue_script( 'admin-widgets' );
 		wp_enqueue_script( 'wpdialogs-popup' );
 
-		wp_enqueue_script( 'clipboard', TORRO_URLPATH . 'assets/vendor/clipboard.min.js' );
+		wp_enqueue_script( 'clipboard', torro()->asset_url( 'clipboard', 'vendor-js' ) );
 
-		wp_enqueue_script( 'torro-form-edit', TORRO_URLPATH . 'assets/js/form-edit.js' );
+		wp_enqueue_script( 'torro-form-edit', torro()->asset_url( 'form-edit', 'js' ), array( 'clipboard' ) );
 		wp_localize_script( 'torro-form-edit', 'translation_fb', $translation );
 
 		if ( wp_is_mobile() ) {

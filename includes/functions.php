@@ -33,29 +33,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-if ( defined( 'TORRO_FOLDER' ) ) {
-	function torro_locate_template( $template_names, $load = false, $require_once = true ) {
+function torro_locate_template( $template_names, $load = false, $require_once = true ) {
 
-		$located = locate_template( $template_names, $load, $require_once );
+	$located = locate_template( $template_names, $load, $require_once );
 
-		if ( '' === $located ) {
-			foreach ( ( array ) $template_names as $template_name ) {
-				if ( ! $template_name ) {
-					continue;
-				}
-				if ( file_exists( TORRO_FOLDER . '/templates/' . $template_name ) ) {
-					$located = TORRO_FOLDER . '/templates/' . $template_name;
-					break;
-				}
+	if ( '' === $located ) {
+		foreach ( ( array ) $template_names as $template_name ) {
+			if ( ! $template_name ) {
+				continue;
+			}
+			$file = torro()->path( 'templates/' . $template_name );
+			if ( file_exists( $file ) ) {
+				$located = $file;
+				break;
 			}
 		}
-
-		if ( $load && '' !== $located ) {
-			load_template( $located, $require_once );
-		}
-
-		return $located;
 	}
+
+	if ( $load && '' !== $located ) {
+		load_template( $located, $require_once );
+	}
+
+	return $located;
 }
 
 /**
@@ -113,7 +112,7 @@ function torro_clipboard_field( $label, $content ) {
 	$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
 
 	$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
-	$html .= '<img src="' . TORRO_URLPATH . 'assets/img/clippy.svg" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
+	$html .= '<img src="' . torro()->asset_url( 'clippy', 'svg' ) . '" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
 	$html .= '</button>';
 
 	$html .= '<div style="clear:both;"></div>';

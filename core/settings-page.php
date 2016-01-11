@@ -161,7 +161,7 @@ class Torro_SettingsPage {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-settings-page', TORRO_URLPATH . 'assets/css/settings-page.css' );
+		wp_enqueue_style( 'torro-settings-page', torro()->asset_url( 'settings-page', 'css' ) );
 	}
 }
 

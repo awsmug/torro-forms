@@ -135,7 +135,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 * Loading fingerprint scripts
 	 */
 	public static function enqueue_fingerprint_scripts() {
-		wp_enqueue_script( 'detection', TORRO_URLPATH . 'assets/vendor/detection.min.js' );
+		wp_enqueue_script( 'detection', torro()->asset_url( 'detection', 'vendor-js' ) );
 	}
 
 	/**

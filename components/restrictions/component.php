@@ -45,7 +45,7 @@ class Torro_Restrictions_Component extends Torro_Component {
 	 * Including files of component
 	 */
 	public function includes() {
-		$folder = TORRO_COMPONENTFOLDER . 'restrictions/';
+		$folder = torro()->path( 'components/restrictions/' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -67,7 +67,7 @@ class Torro_Restrictions_Component extends Torro_Component {
 	 * Enqueue Scripts
 	 */
 	public function admin_scripts() {
-		wp_enqueue_script( 'torro-restrictions', TORRO_URLPATH . 'assets/js/restrictions.js' );
+		wp_enqueue_script( 'torro-restrictions', torro()->asset_url( 'restrictions', 'js' ) );
 	}
 
 }

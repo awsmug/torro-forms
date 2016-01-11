@@ -33,7 +33,7 @@ class Torro_Form_Element_Splitter extends Torro_Form_Element {
 		$this->name = 'splitter';
 		$this->title = __( 'Split Form', 'torro-forms' );
 		$this->description = __( 'Splits a form into several steps', 'torro-forms' );
-		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-split-form.png';
+		$this->icon_url = torro()->asset_url( 'icon-split-form', 'png' );
 
 		$this->has_content = false;
 		$this->splits_form = true;

@@ -49,48 +49,61 @@ class Torro_Core {
 	 * Including files of component
 	 */
 	public static function includes() {
-		$core_folder = TORRO_FOLDER . 'core/';
+		require_once( dirname( __FILE__ ) . '/torro.php' );
+
+		$includes_folder = torro()->path( 'includes/' );
+		$core_folder = torro()->path( 'core/' );
+		$components_folder = torro()->path( 'components/' );
+
+		// Functions
+		require_once( $includes_folder . 'functions.php' );
+		require_once( $includes_folder . 'compat.php' );
+		require_once( $includes_folder . 'wp-editor.php' );
 
 		// Base classes
-		include( $core_folder . 'torro.php' );
-		include( $core_folder . 'class-post.php' );
-		include( $core_folder . 'class-form.php' );
+		require_once( $core_folder . 'class-post.php' );
+		require_once( $core_folder . 'class-form.php' );
 
 		// Abstract
-		include( $core_folder . 'abstract/class-component.php' );
-		include( $core_folder . 'abstract/class-element.php' );
-		include( $core_folder . 'abstract/class-settings.php' );
-		include( $core_folder . 'abstract/class-templatetags.php' );
+		require_once( $core_folder . 'abstract/class-component.php' );
+		require_once( $core_folder . 'abstract/class-element.php' );
+		require_once( $core_folder . 'abstract/class-settings.php' );
+		require_once( $core_folder . 'abstract/class-templatetags.php' );
 
 		// Admin
-		include( $core_folder . 'menu.php' );
-		include( $core_folder . 'form-builder.php' );
-		include( $core_folder . 'settings-page.php' );
+		require_once( $core_folder . 'menu.php' );
+		require_once( $core_folder . 'form-builder.php' );
+		require_once( $core_folder . 'settings-page.php' );
 
 		// Settings
-		include( $core_folder . 'settings/class-settingshandler.php' );
-		include( $core_folder . 'settings/base-settings/general.php' );
+		require_once( $core_folder . 'settings/class-settingshandler.php' );
+		require_once( $core_folder . 'settings/base-settings/general.php' );
 
 		// Form functions
-		include( $core_folder . 'form-loader.php' );
-		include( $core_folder . 'form-process.php' );
+		require_once( $core_folder . 'form-loader.php' );
+		require_once( $core_folder . 'form-process.php' );
 
 		// Base elements
-		include( $core_folder . 'elements/base-elements/content.php' );
-		include( $core_folder . 'elements/base-elements/textfield.php' );
-		include( $core_folder . 'elements/base-elements/textarea.php' );
-		include( $core_folder . 'elements/base-elements/onechoice.php' );
-		include( $core_folder . 'elements/base-elements/multiplechoice.php' );
-		include( $core_folder . 'elements/base-elements/dropdown.php' );
-		include( $core_folder . 'elements/base-elements/separator.php' );
-		include( $core_folder . 'elements/base-elements/splitter.php' );
+		require_once( $core_folder . 'elements/base-elements/content.php' );
+		require_once( $core_folder . 'elements/base-elements/textfield.php' );
+		require_once( $core_folder . 'elements/base-elements/textarea.php' );
+		require_once( $core_folder . 'elements/base-elements/onechoice.php' );
+		require_once( $core_folder . 'elements/base-elements/multiplechoice.php' );
+		require_once( $core_folder . 'elements/base-elements/dropdown.php' );
+		require_once( $core_folder . 'elements/base-elements/separator.php' );
+		require_once( $core_folder . 'elements/base-elements/splitter.php' );
 
 		// Template tags
-		include( $core_folder . 'templatetags/base-templatetags/global.php' );
-		include( $core_folder . 'templatetags/base-templatetags/form.php' );
+		require_once( $core_folder . 'templatetags/base-templatetags/global.php' );
+		require_once( $core_folder . 'templatetags/base-templatetags/form.php' );
 
 		// Shortcodes
-		include( $core_folder . 'shortcodes.php' );
+		require_once( $core_folder . 'shortcodes.php' );
+
+		// Components
+		require_once( $components_folder . 'actions/component.php' );
+		require_once( $components_folder . 'restrictions/component.php' );
+		require_once( $components_folder . 'results/component.php' );
 	}
 
 	/**
@@ -187,7 +200,7 @@ class Torro_Core {
 	 * @since 1.0.0
 	 */
 	public static function register_admin_styles() {
-		wp_enqueue_style( 'torro-icons', TORRO_URLPATH . 'assets/css/icons.css' );
+		wp_enqueue_style( 'torro-icons', torro()->asset_url( 'icons', 'css' ) );
 	}
 
 	/**
@@ -196,7 +209,7 @@ class Torro_Core {
 	 * @since 1.0.0
 	 */
 	public static function register_plugin_styles() {
-		wp_enqueue_style( 'torro-frontend', TORRO_URLPATH . 'assets/css/frontend.css' );
+		wp_enqueue_style( 'torro-frontend', torro()->asset_url( 'frontend', 'css' ) );
 	}
 
 }

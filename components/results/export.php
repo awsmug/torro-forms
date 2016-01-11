@@ -38,7 +38,7 @@ class Torro_Export {
 	 */
 	public function __construct() {
 		if ( ! class_exists( 'PHPExcel' ) ) {
-			require_once( TORRO_FOLDER . 'vendor/PHPExcel.php' );
+			require_once( torro()->path( 'vendor/PHPExcel.php' ) );
 		}
 
 		add_action( 'admin_init', array( $this, 'export' ), 10 );

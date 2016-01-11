@@ -169,17 +169,16 @@ class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 * Loading Admin Styles
 	 */
 	public function admin_styles() {
-		$morris_css = TORRO_URLPATH . 'assets/vendor/c3.css';
-		wp_enqueue_style( 'c3', $morris_css );
+		wp_enqueue_style( 'c3', torro()->asset_url( 'c3', 'vendor-css' ) );
 	}
 
 	/**
 	 * Loading Admin Scripts
 	 */
 	public function admin_scripts() {
-		wp_enqueue_script( 'd3', TORRO_URLPATH . 'assets/vendor/d3.min.js' );
-		wp_enqueue_script( 'c3', TORRO_URLPATH . 'assets/vendor/c3.min.js' );
-		wp_enqueue_script( 'torro-results-charts', TORRO_URLPATH . 'assets/js/results-charts.js' );
+		wp_enqueue_script( 'd3', torro()->asset_url( 'd3', 'vendor-js' ) );
+		wp_enqueue_script( 'c3', torro()->asset_url( 'c3', 'vendor-js' ) );
+		wp_enqueue_script( 'torro-results-charts', torro()->asset_url( 'results-charts', 'js' ), array( 'd3', 'c3' ) );
 	}
 
 	/**

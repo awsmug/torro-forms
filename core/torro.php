@@ -41,12 +41,15 @@ class Torro {
 	}
 
 	private $managers = array();
+	private $plugin_file = '';
 
 	public function __construct() {
+		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/torro-forms.php';
+
 		// load manager classes
-		require_once( TORRO_FOLDER . 'core/managers/class-manager.php' );
-		require_once( TORRO_FOLDER . 'core/managers/class-form-elements-manager.php' );
-		require_once( TORRO_FOLDER . 'core/managers/class-invalid-manager.php' );
+		require_once( $this->path( 'core/managers/class-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-form-elements-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-invalid-manager.php' ) );
 
 		// initialize managers
 		$this->managers['components'] = new Torro_Manager( 'Torro_Component', true );
@@ -70,6 +73,66 @@ class Torro {
 		// return an invalid dummy object to prevent fatal errors from chaining functions
 		$this->managers['invalid']->set_invalid_function( $function );
 		return $this->managers['invalid'];
+	}
+
+	public function path( $path = '' ) {
+		return plugin_dir_path( $this->plugin_file ) . ltrim( $path, '/' );
+	}
+
+	public function url( $path = '' ) {
+		return plugin_dir_url( $this->plugin_file ) . ltrim( $path, '/' );
+	}
+
+	public function asset_url( $name, $mode = '' ) {
+		$urlpath = 'assets/';
+
+		$can_min = true;
+
+		switch ( $mode ) {
+			case 'css':
+				$urlpath .= 'css/' . $name . '.css';
+				break;
+			case 'js':
+				$urlpath .= 'js/' . $name . '.js';
+				break;
+			case 'png':
+			case 'gif':
+			case 'svg':
+				$urlpath .= 'img/' . $name . '.' . $mode;
+				$can_min = false;
+				break;
+			case 'vendor-css':
+				$urlpath .= 'vendor/' . $name . '.css';
+				break;
+			case 'vendor-js':
+				$urlpath .= 'vendor/' . $name . '.js';
+				break;
+			default:
+				return false;
+		}
+
+		//TODO: some kind of notice if file can not be found
+		if ( ! file_exists( $this->path( $urlpath ) ) ) {
+			if ( ! $can_min ) {
+				return false;
+			} elseif ( false !== strpos( $urlpath, '.min' ) ) {
+				$urlpath = str_replace( '.min', '', $urlpath );
+			} else {
+				$urlpath = explode( '.', $urlpath );
+				array_splice( $urlpath, count( $urlpath ) - 1, 0, 'min' );
+				$urlpath = implode( '.', $urlpath );
+			}
+
+			if ( ! file_exists( $this->path( $urlpath ) ) ) {
+				return false;
+			}
+		}
+
+		return $this->url( $urlpath );
+	}
+
+	public function css_url( $name = '' ) {
+		return $this->url( 'assets/css/' . $name . '.css' );
 	}
 
 	// callback function after having added settings

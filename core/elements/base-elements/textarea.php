@@ -33,7 +33,7 @@ class Torro_Form_Element_Textarea extends Torro_Form_Element {
 		$this->name = 'textarea';
 		$this->title = __( 'Textarea', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a text area.', 'torro-forms' );
-		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-textarea.png';
+		$this->icon_url = torro()->asset_url( 'icon-textarea', 'png' );
 	}
 
 	public function input_html() {

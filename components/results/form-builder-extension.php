@@ -142,7 +142,7 @@ class Torro_Formbuilder_ChartsExtension {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-results', TORRO_URLPATH . 'assets/css/results.css' );
+		wp_enqueue_style( 'torro-results', torro()->asset_url( 'results', 'css' ) );
 	}
 }
 

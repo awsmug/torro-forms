@@ -32,26 +32,15 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		self::constants();
 		self::load_textdomain();
 		self::register_tables();
-		self::load_files();
+
+		// Loading Core
+		require_once( plugin_dir_path( __FILE__ ) . 'core/init.php' );
 
 		if ( is_admin() ) {
 			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
 		}
-	}
-
-	/**
-	 * Defining Constants for Use in Plugin
-	 *
-	 * @since 1.0.0
-	 */
-	private static function constants() {
-		define( 'TORRO_FOLDER', plugin_dir_path( __FILE__ ) );
-		define( 'TORRO_RELATIVE_FOLDER', substr( TORRO_FOLDER, strlen( WP_PLUGIN_DIR ), strlen( TORRO_FOLDER ) ) );
-		define( 'TORRO_URLPATH', plugin_dir_url( __FILE__ ) );
-		define( 'TORRO_COMPONENTFOLDER', TORRO_FOLDER . 'components/' );
 	}
 
 	/**
@@ -68,26 +57,6 @@ class Torro_Init {
 		}
 
 		return load_plugin_textdomain( 'torro-forms', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
-	}
-
-	/**
-	 * Getting include files
-	 *
-	 * @since 1.0.0
-	 */
-	private static function load_files() {
-		// Loading Functions
-		require_once( TORRO_FOLDER . 'includes/functions.php' );
-		require_once( TORRO_FOLDER . 'includes/compat.php' );
-		require_once( TORRO_FOLDER . 'includes/wp-editor.php' );
-
-		// Loading Core
-		require_once( TORRO_FOLDER . 'core/init.php' );
-
-		// Loading Components
-		require_once( TORRO_COMPONENTFOLDER . 'actions/component.php' );
-		require_once( TORRO_COMPONENTFOLDER . 'restrictions/component.php' );
-		require_once( TORRO_COMPONENTFOLDER . 'results/component.php' );
 	}
 
 	private static function register_tables() {

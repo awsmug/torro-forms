@@ -295,7 +295,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			return;
 		}
 
-		wp_enqueue_script( 'torro-restrictions-recaptcha', TORRO_URLPATH . 'assets/js/restrictions-recaptcha.js', array(), false, true );
+		wp_enqueue_script( 'torro-restrictions-recaptcha', torro()->asset_url( 'restrictions-recaptcha', 'js' ), array(), false, true );
 		wp_localize_script( 'torro-restrictions-recaptcha', '_torro_recaptcha_settings', array(
 			'sitekey'		=> $this->settings['recaptcha_sitekey'],
 		) );

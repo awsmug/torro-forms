@@ -46,7 +46,7 @@ class Torro_Actions_Component extends Torro_Component {
 	 * Including files of component
 	 */
 	public function includes() {
-		$folder = TORRO_COMPONENTFOLDER . 'actions/';
+		$folder = torro()->path( 'components/actions/' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );

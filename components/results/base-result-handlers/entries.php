@@ -346,7 +346,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-results-entries', TORRO_URLPATH . 'assets/css/results-entries.css' );
+		wp_enqueue_style( 'torro-results-entries', torro()->asset_url( 'results-entries', 'css' ) );
 	}
 
 	public function admin_scripts() {
@@ -354,7 +354,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 			return;
 		}
 
-		wp_enqueue_script( 'torro-results-entries', TORRO_URLPATH . 'assets/js/results-entries.js' );
+		wp_enqueue_script( 'torro-results-entries', torro()->asset_url( 'results-entries', 'js' ) );
 	}
 
 	public function frontend_styles() {}

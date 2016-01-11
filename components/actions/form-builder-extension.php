@@ -119,7 +119,7 @@ class Torro_Formbuilder_Actions_Extension {
 			return;
 		}
 
-		wp_enqueue_script( 'torro-actions', TORRO_URLPATH . 'assets/js/actions.js' );
+		wp_enqueue_script( 'torro-actions', torro()->asset_url( 'actions', 'js' ) );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Torro_Formbuilder_Actions_Extension {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-actions', TORRO_URLPATH . 'assets/css/actions.css' );
+		wp_enqueue_style( 'torro-actions', torro()->asset_url( 'actions', 'css' ) );
 	}
 }
 
