@@ -109,6 +109,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function activate( $network_wide ) {
+		self::log( 'Activated Plugin' );
 		self::setup();
 
 		flush_rewrite_rules();
@@ -121,7 +122,8 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function deactivate( $network_wide ) {
-		delete_option( 'questions_is_installed' );
+		delete_option( 'torro_is_installed' );
+		self::log( 'Deactivated plugin' );
 	}
 
 	/**
@@ -159,22 +161,41 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function setup() {
-		$script_db_version = '1.0.2';
+		$script_db_version = '1.0.3';
 		$current_db_version  = get_option( 'torro_db_version' );
+
+		self::admin_notice( 'Current DB version: ' . $current_db_version );
 
 		if ( false !== get_option( 'questions_db_version' ) ) {
 			require_once( 'includes/updates/to-awesome-forms.php' );
 			torro_questions_to_awesome_forms();
+
+			self::log( 'Updated to DB version  1.0.1' );
 		}
 
 		if ( false !== get_option( 'af_db_version' ) ) {
 			require_once( 'includes/updates/to-torro-forms.php' );
 			awesome_forms_to_torro_forms();
+
+			self::admin_notice( 'Updated to Torro forms 1.0.2' );
+			self::log( 'Updated to DB version  1.0.2' );
 		}
 
 		if ( false === get_option( 'torro_db_version' ) || false === self::is_installed() || true === version_compare( $current_db_version, $script_db_version, '<' )  ) {
 			self::install_tables();
 			update_option( 'torro_db_version', $script_db_version );
+
+			self::admin_notice( 'Updated to DB version  1.0.3' );
+			self::log( 'Updated to DB version  1.0.3' );
+		}
+
+		if( true === version_compare( $current_db_version, '1.0.3', '<' ) ){
+			require_once( 'includes/updates/to_1.0.3.php' );
+			awesome_forms_to_1_0_3();
+			update_option( 'torro_db_version', $script_db_version );
+
+			self::admin_notice( 'Updated to DB version  1.0.3' );
+			self::log( 'Updated to DB version  1.0.3' );
 		}
 
 		require_once( TORRO_FOLDER . 'core/init.php' );
@@ -311,8 +332,8 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function log( $message ) {
-		$wp_upload_dir = wp_upload_dir();
-		$log_dir = trailingslashit( $wp_upload_dir[ 'path' ]  ) . '/torro-logs';
+		$wp_upload_dir = WP_CONTENT_DIR . '/uploads';
+		$log_dir = trailingslashit( $wp_upload_dir  ) . '/torro-logs';
 
 		if ( ! file_exists( $log_dir ) || ! is_dir( $log_dir ) ) {
 			mkdir( $log_dir );
