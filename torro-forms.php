@@ -22,7 +22,9 @@ class Torro_Init {
 	 * @var $admin_notices
 	 * @since 1.0.0
 	 */
-	static $admin_notices = array();
+	private static $admin_notices = array();
+
+	private static $tables_registered = false;
 
 	/**
 	 * Initializes the plugin.
@@ -32,17 +34,8 @@ class Torro_Init {
 	public static function init() {
 		self::constants();
 		self::load_textdomain();
-		self::load_files();
-
 		self::register_tables();
-
-		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
-		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
-
-		if ( ! self::is_installed() ) {
-			self::setup();
-		}
+		self::load_files();
 
 		if ( is_admin() ) {
 			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
@@ -100,6 +93,12 @@ class Torro_Init {
 	private static function register_tables() {
 		global $wpdb;
 
+		if ( self::$tables_registered ) {
+			return;
+		}
+
+		self::$tables_registered = true;
+
 		$tables = self::get_tables();
 
 		foreach ( $tables as $table ) {
@@ -136,6 +135,8 @@ class Torro_Init {
 	 */
 	public static function activate( $network_wide ) {
 		self::log( 'Activated Plugin' );
+
+		self::register_tables();
 		self::setup();
 
 		flush_rewrite_rules();
@@ -175,7 +176,7 @@ class Torro_Init {
 		// Checking if all tables are existing
 		foreach ( $tables AS $table ) {
 			$table_name = 'torro_' . $table;
-			if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name ) ) != $table_name ) {
+			if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name ) ) !== $table_name ) {
 				return false;
 			}
 		}
@@ -224,8 +225,6 @@ class Torro_Init {
 			self::admin_notice( 'Updated to DB version  1.0.3' );
 			self::log( 'Updated to DB version  1.0.3' );
 		}
-
-		require_once( TORRO_FOLDER . 'core/init.php' );
 	}
 
 	/**
@@ -236,7 +235,7 @@ class Torro_Init {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$charset_collate = torro_get_charset_collate();
+		$charset_collate = self::get_charset_collate();
 
 		$sql = "CREATE TABLE $wpdb->torro_elements (
 		id int(11) NOT NULL AUTO_INCREMENT,
@@ -318,6 +317,26 @@ class Torro_Init {
 	}
 
 	/**
+	 * Getting charset from DB
+	 * @return string
+	 */
+	private static function get_charset_collate() {
+		global $wpdb;
+
+		$charset_collate = '';
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			if ( ! empty( $wpdb->charset ) ) {
+				$charset_collate = "DEFAULT CHARACTER SET " . $wpdb->charset;
+			}
+			if ( ! empty( $wpdb->collate ) ) {
+				$charset_collate .= " COLLATE " . $wpdb->collate;
+			}
+		}
+
+		return $charset_collate;
+	}
+
+	/**
 	 * Adds a notice to
 	 *
 	 * @param        $message
@@ -363,6 +382,10 @@ class Torro_Init {
 		fclose( $file );
 	}
 }
+
+register_activation_hook( __FILE__, array( 'Torro_Init', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'Torro_Init', 'deactivate' ) );
+register_uninstall_hook( __FILE__, array( 'Torro_Init', 'uninstall' ) );
 
 function torro_init() {
 	Torro_Init::init();

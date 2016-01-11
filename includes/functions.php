@@ -346,26 +346,6 @@ function torro_prepare_post_data( $data ) {
 }
 
 /**
- * Getting charset from DB
- * @return string
- */
-function torro_get_charset_collate() {
-	global $wpdb;
-
-	$charset_collate = '';
-	if ( $wpdb->has_cap( 'collation' ) ) {
-		if ( ! empty( $wpdb->charset ) ) {
-			$charset_collate = "DEFAULT CHARACTER SET " . $wpdb->charset;
-		}
-		if ( ! empty( $wpdb->collate ) ) {
-			$charset_collate .= " COLLATE " . $wpdb->collate;
-		}
-	}
-
-	return $charset_collate;
-}
-
-/**
  * Creates a random id
  *
  * @return string $id ID string
