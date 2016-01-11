@@ -26,6 +26,8 @@ class Torro_Init {
 
 	private static $tables_registered = false;
 
+	private static $post_types_registered = false;
+
 	/**
 	 * Initializes the plugin.
 	 *
@@ -34,9 +36,12 @@ class Torro_Init {
 	public static function init() {
 		self::load_textdomain();
 		self::register_tables();
+		self::includes();
 
-		// Loading Core
-		require_once( plugin_dir_path( __FILE__ ) . 'core/init.php' );
+		add_action( 'init', array( __CLASS__, 'custom_post_types' ), 11 );
+		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_frontend_styles' ) );
 
 		if ( is_admin() ) {
 			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
@@ -97,6 +102,178 @@ class Torro_Init {
 	}
 
 	/**
+	 * Including files of component
+	 */
+	private static function includes() {
+		require_once( plugin_dir_path( __FILE__ ) . 'core/torro.php' );
+
+		$includes_folder = torro()->path( 'includes/' );
+		$core_folder = torro()->path( 'core/' );
+		$components_folder = torro()->path( 'components/' );
+
+		// Functions
+		require_once( $includes_folder . 'functions.php' );
+		require_once( $includes_folder . 'compat.php' );
+		require_once( $includes_folder . 'wp-editor.php' );
+
+		// Base classes
+		require_once( $core_folder . 'class-post.php' );
+		require_once( $core_folder . 'class-form.php' );
+
+		// Abstract
+		require_once( $core_folder . 'abstract/class-component.php' );
+		require_once( $core_folder . 'abstract/class-element.php' );
+		require_once( $core_folder . 'abstract/class-settings.php' );
+		require_once( $core_folder . 'abstract/class-templatetags.php' );
+
+		// Admin
+		require_once( $core_folder . 'menu.php' );
+		require_once( $core_folder . 'form-builder.php' );
+		require_once( $core_folder . 'settings-page.php' );
+
+		// Settings
+		require_once( $core_folder . 'settings/class-settingshandler.php' );
+		require_once( $core_folder . 'settings/base-settings/general.php' );
+
+		// Form functions
+		require_once( $core_folder . 'form-loader.php' );
+		require_once( $core_folder . 'form-process.php' );
+
+		// Base elements
+		require_once( $core_folder . 'elements/base-elements/content.php' );
+		require_once( $core_folder . 'elements/base-elements/textfield.php' );
+		require_once( $core_folder . 'elements/base-elements/textarea.php' );
+		require_once( $core_folder . 'elements/base-elements/onechoice.php' );
+		require_once( $core_folder . 'elements/base-elements/multiplechoice.php' );
+		require_once( $core_folder . 'elements/base-elements/dropdown.php' );
+		require_once( $core_folder . 'elements/base-elements/separator.php' );
+		require_once( $core_folder . 'elements/base-elements/splitter.php' );
+
+		// Template tags
+		require_once( $core_folder . 'templatetags/base-templatetags/global.php' );
+		require_once( $core_folder . 'templatetags/base-templatetags/form.php' );
+
+		// Shortcodes
+		require_once( $core_folder . 'shortcodes.php' );
+
+		// Components
+		require_once( $components_folder . 'actions/component.php' );
+		require_once( $components_folder . 'restrictions/component.php' );
+		require_once( $components_folder . 'results/component.php' );
+	}
+
+	/**
+	 * Creates Custom Post Types for Torro Forms
+	 *
+	 * @since 1.0.0
+	 */
+	public static function custom_post_types() {
+		if ( self::$post_types_registered ) {
+			return;
+		}
+
+		$settings = torro_get_settings( 'general' );
+
+		$slug = 'forms';
+		if ( array_key_exists( 'slug', $settings  ) ) {
+			$slug = $settings[ 'slug' ];
+		}
+
+		/**
+		 * Categories
+		 */
+		$args_taxonomy = array(
+			'show_in_nav_menus'	=> true,
+			'hierarchical'		=> true,
+			'labels'			=> array(
+				'name'				=> _x( 'Categories', 'taxonomy general name', 'torro-forms' ),
+				'singular_name'		=> _x( 'Category', 'taxonomy singular name', 'torro-forms' ),
+				'search_items'		=> __( 'Search Categories', 'torro-forms' ),
+				'all_items'			=> __( 'All Categories', 'torro-forms' ),
+				'parent_item'		=> __( 'Parent Category', 'torro-forms' ),
+				'parent_item_colon'	=> __( 'Parent Category:', 'torro-forms' ),
+				'edit_item'			=> __( 'Edit Category', 'torro-forms' ),
+				'update_item'		=> __( 'Update Category', 'torro-forms' ),
+				'add_new_item'		=> __( 'Add New Category', 'torro-forms' ),
+				'new_item_name'		=> __( 'New Category', 'torro-forms' ),
+				'menu_name'			=> __( 'Categories', 'torro-forms' ),
+			),
+			'show_ui'			=> true,
+			'query_var'			=> true,
+			'rewrite'			=> true,
+		);
+
+		register_taxonomy( 'torro-forms-categories', array( 'torro-forms' ), $args_taxonomy );
+
+		/**
+		 * Post Types
+		 */
+		$args_post_type = array(
+			'labels'            => array(
+				'name'               => __( 'Forms', 'torro-forms' ),
+				'singular_name'      => __( 'Form', 'torro-forms' ),
+				'all_items'          => __( 'All Forms', 'torro-forms' ),
+				'add_new_item'       => __( 'Add new Form', 'torro-forms' ),
+				'edit_item'          => __( 'Edit Form', 'torro-forms' ),
+				'new_item'           => __( 'Add new Form', 'torro-forms' ),
+				'view_item'          => __( 'View Form', 'torro-forms' ),
+				'search_items'       => __( 'Search Forms', 'torro-forms' ),
+				'not_found'          => __( 'No Form found', 'torro-forms' ),
+				'not_found_in_trash' => __( 'No Form found in trash', 'torro-forms' )
+			),
+			'public'            => true,
+			'has_archive'       => true,
+			'supports'          => array( 'title' ),
+			'show_in_menu'      => 'Torro_Admin',
+			'show_in_nav_menus' => false,
+			'rewrite'           => array( 'slug' => $slug, 'with_front' => true )
+		);
+
+		register_post_type( 'torro-forms', $args_post_type );
+
+		self::$post_types_registered = true;
+	}
+
+	/**
+	 * Adding CSS Classes to body
+	 *
+	 * @param array $classes Classes for body
+	 *
+	 * @return array $classes Classes for body
+	 */
+	public static function add_body_class( $classes ) {
+		global $post;
+
+		// Check if we are on the right place
+		if ( ! is_a( $post, 'WP_Post' ) || 'torro-forms' !== $post->post_type ) {
+			return $classes;
+		}
+
+		$classes[] = 'torro-form';
+		$classes[] = 'torro-form-' . $post->ID;
+
+		return $classes;
+	}
+
+	/**
+	 * Registers and enqueues admin-specific styles.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function enqueue_admin_styles() {
+		wp_enqueue_style( 'torro-icons', torro()->asset_url( 'icons', 'css' ) );
+	}
+
+	/**
+	 * Registers and enqueues plugin-specific styles.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function enqueue_frontend_styles() {
+		wp_enqueue_style( 'torro-frontend', torro()->asset_url( 'frontend', 'css' ) );
+	}
+
+	/**
 	 * Fired when the plugin is activated.
 	 *
 	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
@@ -108,7 +285,9 @@ class Torro_Init {
 		self::register_tables();
 		self::setup();
 
-		flush_rewrite_rules();
+		self::custom_post_types();
+
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	/**
@@ -119,6 +298,9 @@ class Torro_Init {
 	 */
 	public static function deactivate( $network_wide ) {
 		delete_option( 'torro_is_installed' );
+
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+
 		self::log( 'Deactivated plugin' );
 	}
 
