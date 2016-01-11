@@ -3,7 +3,7 @@
 
 	$( document ).ready( function() {
 		/**
-		 * Initializing participiants restrictions option
+		 * Initializing participants restrictions option
 		 */
 		$( '#form-restrictions-option' ).change( function() {
 			form_restrictions_show_hide_boxes();

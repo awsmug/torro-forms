@@ -2,28 +2,28 @@
 	'use strict';
 	$( function() {
 		/**
-		 * Initializing adding participiants option
+		 * Initializing adding participants option
 		 */
-		$( '#form-add-participiants-option' ).change( function() {
-			form_add_participiants_show_hide_boxes();
+		$( '#form-add-participants-option' ).change( function() {
+			form_add_participants_show_hide_boxes();
 		});
 
-		var form_add_participiants_show_hide_boxes = function() {
-			var form_add_participiants_option = $( '#form-add-participiants-option' ).val(); // Getting selected box
+		var form_add_participants_show_hide_boxes = function() {
+			var form_add_participants_option = $( '#form-add-participants-option' ).val(); // Getting selected box
 
-			$( '.form-add-participiants-content' ).hide(); // Hiding all boxes
-			$( '#form-add-participiants-content-' +  form_add_participiants_option ).show(); // Showing selected box
+			$( '.form-add-participants-content' ).hide(); // Hiding all boxes
+			$( '#form-add-participants-content-' +  form_add_participants_option ).show(); // Showing selected box
 		}
 
-		form_add_participiants_show_hide_boxes();
+		form_add_participants_show_hide_boxes();
 
 		/**
 		 * Setup 'Not found'
 		 */
 		var form_setup_not_found_message = function() {
-			var count_participiants = parseInt( $( '#form-participiants-count' ).val());
+			var count_participants = parseInt( $( '#form-participants-count' ).val());
 
-			if ( 0 < count_participiants ) {
+			if ( 0 < count_participants ) {
 				$( '.no-users-found' ).hide();
 			} else {
 				$( '.no-users-found' ).show();
@@ -35,47 +35,47 @@
 		/**
 		 * Members - Adding Participiants
 		 */
-		$.form_add_participiants = function( response ) {
-			var form_participiants = $( '#form-participiants' ).val();
-			form_participiants = form_participiants.split( ',' );
+		$.form_add_participants = function( response ) {
+			var form_participants = $( '#form-participants' ).val();
+			form_participants = form_participants.split( ',' );
 
-			var count_added_participiants = 0;
+			var count_added_participants = 0;
 
 			$.each( response, function( i, object ) {
 				var found = false;
 
-				if ( in_array( object.id, form_participiants ) ) {
+				if ( in_array( object.id, form_participants ) ) {
 					found = true;
 				}
 
-				// If there where found participiants
+				// If there where found participants
 				if ( false == found ){
-					// Adding participiants
-					if ( '' === form_participiants ) {
-						form_participiants = object.id;
+					// Adding participants
+					if ( '' === form_participants ) {
+						form_participants = object.id;
 					} else {
-						form_participiants = form_participiants + ',' + object.id;
+						form_participants = form_participants + ',' + object.id;
 					}
 
-					$( '#form-participiants-list tbody' ).append( '<tr class="participiant participiant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button form-delete-participiant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
-					count_added_participiants++;
+					$( '#form-participants-list tbody' ).append( '<tr class="participant participant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + translation_sm.just_added + '</td><td><a class="button form-delete-participant" rel="' + object.id +  '">' + translation_sm.delete + '</a></td></tr>' );
+					count_added_participants++;
 				}
 			});
 
-			var count_participiants = parseInt( $( '#form-participiants-count' ).val() ) + count_added_participiants;
+			var count_participants = parseInt( $( '#form-participants-count' ).val() ) + count_added_participants;
 
-			$( '#form-participiants' ).val( form_participiants );
-			$.form_participiants_counter( count_participiants );
+			$( '#form-participants' ).val( form_participants );
+			$.form_participants_counter( count_participants );
 
-			$( '#form-participiants-list' ).show();
-			$.form_delete_participiant();
+			$( '#form-participants-list' ).show();
+			$.form_delete_participant();
 
 			form_setup_not_found_message();
 		}
 
-		$( '#form-add-participiants-allmembers-button' ).click( function(){
+		$( '#form-add-participants-allmembers-button' ).click( function(){
 			var data = {
-				action: 'form_add_participiants_allmembers'
+				action: 'form_add_participants_allmembers'
 			};
 
 			var button = $( this );
@@ -83,73 +83,73 @@
 
 			$.post( ajaxurl, data, function( response ) {
 				response = jQuery.parseJSON( response );
-				$.form_add_participiants( response );
+				$.form_add_participants( response );
 				button.removeClass( 'button-loading' );
 			});
 		});
 
 		/**
-		 * Counting participiants
+		 * Counting participants
 		 */
-		$.form_participiants_counter = function( number ) {
-			var text = number + ' ' + translation_sm.added_participiants;
-			$( '#form-participiants-status p').html( text );
-			$( '#form-participiants-count' ).val( number );
+		$.form_participants_counter = function( number ) {
+			var text = number + ' ' + translation_sm.added_participants;
+			$( '#form-participants-status p').html( text );
+			$( '#form-participants-count' ).val( number );
 		};
 
 		/**
-		 * Removing participiant from list
+		 * Removing participant from list
 		 */
-		$.form_delete_participiant = function() {
-			$( '.form-delete-participiant' ).click( function() {
+		$.form_delete_participant = function() {
+			$( '.form-delete-participant' ).click( function() {
 				var delete_user_id = $( this ).attr( 'rel' );
 
-				var form_participiants_new = '';
+				var form_participants_new = '';
 
-				var form_participiants = $( '#form-participiants' ).val();
-				form_participiants = form_participiants.split( ',' );
+				var form_participants = $( '#form-participants' ).val();
+				form_participants = form_participants.split( ',' );
 
-				$.each( form_participiants, function( key, value ) {
+				$.each( form_participants, function( key, value ) {
 					if ( value != delete_user_id ){
-						if ( '' === form_participiants_new ){
-							form_participiants_new = value;
+						if ( '' === form_participants_new ){
+							form_participants_new = value;
 						} else {
-							form_participiants_new = form_participiants_new + ',' + value;
+							form_participants_new = form_participants_new + ',' + value;
 						}
 					}
 				});
 
-				$( '#form-participiants' ).val( form_participiants_new );
-				$.form_participiants_counter( $( '#form-participiants-count' ).val() - 1 );
-				$( '.participiant-user-' + delete_user_id ).remove();
+				$( '#form-participants' ).val( form_participants_new );
+				$.form_participants_counter( $( '#form-participants-count' ).val() - 1 );
+				$( '.participant-user-' + delete_user_id ).remove();
 
 				form_setup_not_found_message();
 			});
 		}
-		$.form_delete_participiant();
+		$.form_delete_participant();
 
 		/**
 		 * Removing all Participiants from list
 		 */
-		$( '.form-remove-all-participiants' ).click( function() {
-			$( '#form-participiants' ).val( '' );
-			$( '#form-participiants-count' ).val( 0 );
-			$.form_participiants_counter( 0 );
+		$( '.form-remove-all-participants' ).click( function() {
+			$( '#form-participants' ).val( '' );
+			$( '#form-participants-count' ).val( 0 );
+			$.form_participants_counter( 0 );
 
-			$( '#form-participiants-list tbody .participiant' ).remove();
+			$( '#form-participants-list tbody .participant' ).remove();
 
 			form_setup_not_found_message();
 		});
 
 		/**
-		 * Invite participiants
+		 * Invite participants
 		 */
 		$( '#form-invite-button' ).click( function() {
 			var button = $( this )
 
 			if ( button.hasClass( 'button-primary' ) ) {
 				var data = {
-					action: 'form_invite_participiants',
+					action: 'form_invite_participants',
 					invitation_type: 'invite',
 					form_id: $( '#post_ID' ).val(),
 					subject_template: $( '#form-invite-subject' ).val(),
@@ -196,7 +196,7 @@
 
 			if ( button.hasClass( 'button-primary' ) ) {
 				var data = {
-					action: 'form_invite_participiants',
+					action: 'form_invite_participants',
 					invitation_type: 'reinvite',
 					form_id: $( '#post_ID' ).val(),
 					subject_template: $( '#form-reinvite-subject' ).val(),

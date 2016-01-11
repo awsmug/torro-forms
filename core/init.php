@@ -52,7 +52,7 @@ class Torro_Core {
 		$core_folder = TORRO_FOLDER . 'core/';
 
 		// Base classes
-		include( $core_folder . 'global.php' ); // Global Torro Forms object $torro_global
+		include( $core_folder . 'torro.php' );
 		include( $core_folder . 'class-post.php' );
 		include( $core_folder . 'class-form.php' );
 

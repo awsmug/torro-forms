@@ -68,10 +68,10 @@ class Torro_Formbuilder_Actions_Extension {
 	 * @since 1.0.0
 	 */
 	public static function meta_box_actions() {
-		global $post, $torro_global;
+		global $post;
 
 		$form_id = $post->ID;
-		$actions = $torro_global->actions;
+		$actions = torro()->actions()->get_all();
 
 		if ( ! is_array( $actions ) || 0 === count( $actions ) ){
 			return;

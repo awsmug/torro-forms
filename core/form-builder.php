@@ -61,7 +61,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function droppable_area() {
-		global $post, $torro_global;
+		global $post;
 
 		if ( ! torro_is_formbuilder() ) {
 			return;
@@ -98,9 +98,9 @@ class Torro_Formbuilder {
 		do_action( 'torro_formbuilder_dragdrop_end', $form_id );
 		$html .= ob_get_clean();
 
-		$html .= '<div id="delete_formelement_dialog">' . esc_attr__( 'Do you really want to delete this element?', 'torro-forms' ) . '</div>';
-		$html .= '<div id="delete_answer_dialog">' . esc_attr__( 'Do you really want to delete this answer?', 'torro-forms' ) . '</div>';
-		$html .= '<div id="delete_results_dialog"><h3>' . esc_attr__( 'Attention!', 'torro-forms' ) . '</h3><p>' . esc_attr__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'torro-forms' ) . '</p></div>';
+		$html .= '<div id="delete_formelement_dialog">' . esc_html__( 'Do you really want to delete this element?', 'torro-forms' ) . '</div>';
+		$html .= '<div id="delete_answer_dialog">' . esc_html__( 'Do you really want to delete this answer?', 'torro-forms' ) . '</div>';
+		$html .= '<div id="delete_results_dialog"><h3>' . esc_html__( 'Attention!', 'torro-forms' ) . '</h3><p>' . esc_html__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'torro-forms' ) . '</p></div>';
 
 		$html .= '<input type="hidden" id="deleted_formelements" name="form_deleted_formelements" value="">';
 		$html .= '<input type="hidden" id="deleted_answers" name="form_deleted_answers" value="">';
@@ -130,11 +130,11 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function meta_box_form_elements() {
-		global $torro_global;
-
 		$html = '';
 
-		foreach ( $torro_global->element_types as $element ) {
+		$element_types = torro()->form_elements()->get_all();
+
+		foreach ( $element_types as $element ) {
 			$html .= $element->draw_admin();
 		}
 
@@ -175,7 +175,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function save_form( $form_id ) {
-		global $torro_global, $wpdb;
+		global $wpdb;
 
 		if ( ! array_key_exists( 'elements', $_REQUEST ) ) {
 			return;
@@ -214,8 +214,8 @@ class Torro_Formbuilder {
 		 */
 		if ( 0 < count( $form_deleted_formelements ) ) {
 			foreach ( $form_deleted_formelements as $deleted_element ) {
-				$wpdb->delete( $torro_global->tables->elements, array( 'id' => $deleted_element ) );
-				$wpdb->delete( $torro_global->tables->element_answers, array( 'element_id' => $deleted_element ) );
+				$wpdb->delete( $wpdb->torro_elements, array( 'id' => $deleted_element ) );
+				$wpdb->delete( $wpdb->torro_element_answers, array( 'element_id' => $deleted_element ) );
 			}
 		}
 
@@ -226,7 +226,7 @@ class Torro_Formbuilder {
 		 */
 		if ( 0 < count( $form_deleted_answers ) ) {
 			foreach ( $form_deleted_answers AS $deleted_answer ) {
-				$wpdb->delete( $torro_global->tables->element_answers, array( 'id' => $deleted_answer ) );
+				$wpdb->delete( $wpdb->torro_element_answers, array( 'id' => $deleted_answer ) );
 			}
 		}
 
@@ -238,10 +238,10 @@ class Torro_Formbuilder {
 				continue;
 			}
 
-			$element_id = (int) $element[ 'id' ];
+			$element_id = (int) $element['id'];
 			$label = '';
-			$sort = (int) $element[ 'sort' ];
-			$type = $element[ 'type' ];
+			$sort = (int) $element['sort'];
+			$type = $element['type'];
 
 			if ( array_key_exists( 'label', $element ) ) {
 				$label = torro_prepare_post_data( $element[ 'label' ] );
@@ -262,14 +262,14 @@ class Torro_Formbuilder {
 			if ( 0 < $element_id )
 			{
 				// Updating if Element already exists
-				$wpdb->update( $torro_global->tables->elements, array(
+				$wpdb->update( $wpdb->torro_elements, array(
 						'label'	=> $label,
 						'sort'	=> $sort,
 						'type'	=> $type
 				), array( 'id' => $element_id ) );
 			} else {
 				// Adding new Element
-				$wpdb->insert( $torro_global->tables->elements, array(
+				$wpdb->insert( $wpdb->torro_elements, array(
 						'form_id'	=> $form_id,
 						'label'		=> $label,
 						'sort'		=> $sort,
@@ -296,13 +296,13 @@ class Torro_Formbuilder {
 					}
 
 					if ( 0 < $answer_id ) {
-						$wpdb->update( $torro_global->tables->element_answers, array(
+						$wpdb->update( $wpdb->torro_element_answers, array(
 							'answer'  => $answer_text,
 							'section' => $answer_section,
 							'sort'    => $answer_sort,
 						), array( 'id' => $answer_id ) );
 					} else {
-						$wpdb->insert( $torro_global->tables->element_answers, array(
+						$wpdb->insert( $wpdb->torro_element_answers, array(
 							'element_id' => $element_id,
 							'answer'     => $answer_text,
 							'section'    => $answer_section,
@@ -320,16 +320,16 @@ class Torro_Formbuilder {
 			 */
 			if ( is_array( $settings ) && 0 < count( $settings )) {
 				foreach ( $settings as $name => $setting ) {
-					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->settings} WHERE element_id = %d AND name = %s", $element_id, $name );
+					$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_settings WHERE element_id = %d AND name = %s", $element_id, $name );
 					$count = absint( $wpdb->get_var( $sql ) );
 
 					if( 0 < $count ) {
-						$wpdb->update( $torro_global->tables->settings, array( 'value' => torro_prepare_post_data( $settings[ $name ] ) ), array(
+						$wpdb->update( $wpdb->torro_settings, array( 'value' => torro_prepare_post_data( $settings[ $name ] ) ), array(
 							'element_id'	=> $element_id,
 							'name'			=> $name,
 						) );
 					} else {
-						$wpdb->insert( $torro_global->tables->settings, array(
+						$wpdb->insert( $wpdb->torro_settings, array(
 							'name'			=> $name,
 							'element_id'	=> $element_id,
 							'value'			=> torro_prepare_post_data( $settings[ $name ] ),

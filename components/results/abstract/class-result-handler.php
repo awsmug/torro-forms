@@ -57,7 +57,7 @@ abstract class Torro_ResultHandler {
 	 *
 	 * @since 1.0.0
 	 */
-	private $initialized = FALSE;
+	public $initialized = FALSE;
 
 	/**
 	 * Settings fields
@@ -110,8 +110,6 @@ abstract class Torro_ResultHandler {
 	 * Add Settings to Settings Page
 	 */
 	public function init_settings() {
-		global $torro_global;
-
 		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
 			return FALSE;
 		}
@@ -126,63 +124,12 @@ abstract class Torro_ResultHandler {
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$torro_global->settings['resulthandling']->add_settings_field( $this->name, $this->title, $settings_fields );
+		torro()->settings()->get( 'resulthandling' )->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'resulthandling_' . $this->name;
 
 		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
 		$this->settings = $settings_handler->get_field_values();
-	}
-
-	/**
-	 * Function to register element in Torro Forms
-	 *
-	 * After registerung was successfull the new element will be shown in the elements list.
-	 *
-	 * @return boolean $is_registered Returns TRUE if registering was succesfull, FALSE if not
-	 * @since 1.0.0
-	 */
-	public function _register() {
-		global $torro_global;
-
-		if ( TRUE === $this->initialized ) {
-			return FALSE;
-		}
-
-		if ( ! is_object( $torro_global ) ) {
-			return FALSE;
-		}
-
-		if ( '' === $this->name ) {
-			$this->name = get_class( $this );
-		}
-
-		if ( '' === $this->title ) {
-			$this->title = ucwords( get_class( $this ) );
-		}
-
-		if ( '' === $this->description ) {
-			$this->description = __( 'This is a Torro Forms Result Handler.', 'torro-forms' );
-		}
-
-		if ( array_key_exists( $this->name, $torro_global->restrictions ) ) {
-			return FALSE;
-		}
-
-		add_action( 'init', array( $this, 'init_settings' ), 15 );
-
-		// Scriptloaders
-		if ( is_admin() ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-		} else {
-			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_styles' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
-		}
-
-		$this->initialized = TRUE;
-
-		return $torro_global->add_result_handler( $this->name, $this );
 	}
 
 	/**
@@ -204,21 +151,4 @@ abstract class Torro_ResultHandler {
 	 * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
 	 */
 	public abstract function frontend_styles();
-}
-
-/**
- * Register a new Result Handler
- *
- * @param $result_handler_class
- *
- * @return bool|null Returns false on failure, otherwise null.
- */
-function torro_register_result_handler( $result_handler_class ) {
-	if ( class_exists( $result_handler_class ) ) {
-		$result_handler = new $result_handler_class();
-
-		return $result_handler->_register();
-	}
-
-	return FALSE;
 }

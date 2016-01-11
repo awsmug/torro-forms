@@ -89,7 +89,7 @@ class Torro_Form_Results {
 	 * @since 1.0.0
 	 */
 	public function results( $filter = array() ) {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
 		$filter = wp_parse_args( $filter, array(
 			'start_row'		=> 0,
@@ -111,7 +111,7 @@ class Torro_Form_Results {
 			return false;
 		}
 
-		$sql_count = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id = %s", $this->form_id );
+		$sql_count = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id = %s", $this->form_id );
 
 		if ( 0 === absint( $wpdb->get_var( $sql_count ) ) ) {
 			$this->num_rows = 0;
@@ -218,7 +218,7 @@ class Torro_Form_Results {
 
 						if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 							$element_id = $column_arr[ 1 ];
-							$element = torro_get_element( $element_id );
+							$element = torro()->form_elements()->get( $element_id );
 
 							$column_name_new = $element->replace_column_name( $column_name );
 
@@ -264,7 +264,7 @@ class Torro_Form_Results {
 	 * @since 1.0.0
 	 */
 	public function create_view( $params = array() ) {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
 		$params = wp_parse_args( $params, array(
 			'view_name'		=> "{$wpdb->prefix}torro_results_{$this->form_id}_view",
@@ -274,7 +274,7 @@ class Torro_Form_Results {
 		/**
 		 * Getting elements
 		 */
-		$sql_elements = "SELECT id, label FROM {$torro_global->tables->elements} WHERE form_id=%d";
+		$sql_elements = "SELECT id, label FROM $wpdb->torro_elements WHERE form_id=%d";
 		$sql_elements_values = array( $this->form_id );
 
 		$sql = $wpdb->prepare( $sql_elements, $sql_elements_values );
@@ -295,7 +295,7 @@ class Torro_Form_Results {
 				}
 			}
 
-			$element_obj = torro_get_element( $element->id );
+			$element_obj = torro()->form_elements()->get( $element->id );
 
 			if ( ! $element_obj ) {
 				continue;
@@ -322,7 +322,7 @@ class Torro_Form_Results {
 						$column_name = $column_name;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "(SELECT value FROM {$torro_global->tables->result_values} WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
+					$sql_columns[] = $wpdb->prepare( "(SELECT value FROM $wpdb->torro_result_values WHERE result_id=row.id AND element_id = %d) AS '%s'", $element->id, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			} else {
@@ -339,7 +339,7 @@ class Torro_Form_Results {
 						$column_name = $column_name;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM {$torro_global->tables->result_values} WHERE result_id=row.id AND element_id = %d AND value='%s') is null, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM $wpdb->torro_result_values WHERE result_id=row.id AND element_id = %d AND value='%s') is null, 'no', 'yes' ) AS %s", $element->id, $answer->text, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			}
@@ -370,7 +370,7 @@ class Torro_Form_Results {
 		if ( 0 < count( $sql_columns ) ) {
 			$sql_columns_string = ', ' . implode( ', ', $sql_columns );
 		}
-		$sql_result = "SELECT id AS result_id, user_id, timestamp{$sql_columns_string} FROM {$torro_global->tables->results} AS row WHERE form_id=%d";
+		$sql_result = "SELECT id AS result_id, user_id, timestamp{$sql_columns_string} FROM $wpdb->torro_results AS row WHERE form_id=%d";
 		$sql_result_values = array( $this->form_id );
 
 		/**

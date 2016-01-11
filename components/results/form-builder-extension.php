@@ -66,14 +66,14 @@ class Torro_Formbuilder_ChartsExtension {
 	 * @since 1.0.0
 	 */
 	public static function meta_box_results() {
-		global $post, $torro_global;
+		global $post;
 
 		$form_id = $post->ID;
 
 		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results();
 
-		$result_handlers = $torro_global->result_handlers;
+		$result_handlers = torro()->result_handlers()->get_all();
 
 		if ( ! is_array( $result_handlers ) || 0 === count( $result_handlers ) ){
 			return;

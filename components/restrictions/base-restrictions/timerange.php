@@ -167,4 +167,4 @@ class Torro_Restriction_Timerange extends Torro_Restriction {
 	}
 }
 
-torro_register_restriction( 'Torro_Restriction_Timerange' );
+torro()->restrictions()->add( 'Torro_Restriction_Timerange' );

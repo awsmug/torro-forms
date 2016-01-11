@@ -214,12 +214,12 @@ abstract class Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	private function populate( $id ) {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
 		$this->label = '';
 		$this->answers = array();
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->elements} WHERE id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_elements WHERE id = %s", $id );
 		$row = $wpdb->get_row( $sql );
 
 		$this->id = $id;
@@ -228,7 +228,7 @@ abstract class Torro_Form_Element {
 
 		$this->sort = $row->sort;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_element_answers WHERE element_id = %s ORDER BY sort ASC", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if ( is_array( $results ) ) {
@@ -237,7 +237,7 @@ abstract class Torro_Form_Element {
 			}
 		}
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->settings} WHERE element_id = %s", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_settings WHERE element_id = %s", $id );
 		$results = $wpdb->get_results( $sql );
 
 		if ( is_array( $results ) ) {
@@ -311,46 +311,6 @@ abstract class Torro_Form_Element {
 	 * Settings fields
 	 */
 	public function settings_fields() {}
-
-	/**
-	 * Function to register element in Torro Forms
-	 *
-	 * After registerung was successfull the new element will be shown in the elements list.
-	 *
-	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
-	 * @since 1.0.0
-	 */
-	public function _register() {
-		global $torro_global;
-
-		if ( true === $this->initialized ) {
-			return false;
-		}
-
-		if ( ! is_object( $torro_global ) ) {
-			return false;
-		}
-
-		if ( '' === $this->name ) {
-			$this->name = get_class( $this );
-		}
-
-		if ( '' === $this->title ) {
-			$this->title = ucwords( get_class( $this ) );
-		}
-
-		if ( '' === $this->description ) {
-			$this->description = __( 'This is a Torro Forms Element.', 'torro-forms' );
-		}
-
-		if ( array_key_exists( $this->name, $torro_global->element_types ) ) {
-			return false;
-		}
-
-		$this->initialized = true;
-
-		return $torro_global->add_form_element( $this->name, $this );
-	}
 
 	/**
 	 * Validate user input - Have to be overwritten by child classes if element needs validation
@@ -874,9 +834,9 @@ abstract class Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	public function get_results() {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->results} AS r, {$torro_global->tables->result_answers} AS a WHERE r.id=a.result_id AND a.element_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_results AS r, $wpdb->torro_result_answers AS a WHERE r.id=a.result_id AND a.element_id=%d", $this->id );
 		$responses = $wpdb->get_results( $sql );
 
 		$result_answers = array();
@@ -915,47 +875,4 @@ abstract class Torro_Form_Element {
 
 		return $result_answers;
 	}
-}
-
-/**
- * Register a new Group Extension.
- *
- * @param $element_type_class name of the element type class.
- *
- * @return bool|null Returns false on failure, otherwise null.
- */
-function torro_register_form_element( $element_type_class ) {
-	if ( class_exists( $element_type_class ) ) {
-		$element_type = new $element_type_class();
-
-		return $element_type->_register();
-	}
-
-	return false;
-}
-
-/**
- * Gets an element object
- *
- * @param int    $element_id
- * @param string $type
- *
- * @return object|bool
- * @since 1.0.0
- */
-function torro_get_element( $element_id, $type = '' ) {
-	global $wpdb, $torro_global;
-
-	if ( '' === $type ) {
-		$sql = $wpdb->prepare( "SELECT type FROM {$torro_global->tables->elements} WHERE id = %d ORDER BY sort ASC", $element_id );
-		$type = $wpdb->get_var( $sql );
-	}
-
-	if ( class_exists( 'Torro_Form_Element_' . $type ) ) {
-		$class = 'Torro_Form_Element_' . $type;
-
-		return new $class( $element_id );
-	}
-
-	return false;
 }

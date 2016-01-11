@@ -50,4 +50,4 @@ class Torro_Actions_Settings extends Torro_Settings {
 	}
 }
 
-torro_register_settings( 'Torro_Actions_Settings' );
+torro()->settings()->add( 'Torro_Actions_Settings' );

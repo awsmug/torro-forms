@@ -44,8 +44,8 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
-		add_action( 'wp_ajax_form_add_participiants_allmembers', array( $this, 'ajax_add_participiants_allmembers' ) );
-		add_action( 'wp_ajax_form_invite_participiants', array( $this, 'ajax_invite_participiants' ) );
+		add_action( 'wp_ajax_form_add_participants_allmembers', array( $this, 'ajax_add_participants_allmembers' ) );
+		add_action( 'wp_ajax_form_invite_participants', array( $this, 'ajax_invite_participants' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
@@ -155,7 +155,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public static function save( $form_id ) {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
 		/**
 		 * Saving restriction options
@@ -170,22 +170,22 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		/**
 		 * Saving restriction options
 		 */
-		$add_participiants_option = $_POST['form_add_participiants_option'];
-		update_post_meta( $form_id, 'add_participiants_option', $add_participiants_option );
+		$add_participants_option = $_POST['form_add_participants_option'];
+		update_post_meta( $form_id, 'add_participants_option', $add_participants_option );
 
 		/**
-		 * Saving participiants
+		 * Saving participants
 		 */
-		$form_participiants = $_POST['form_participiants'];
-		$torro_participiant_ids = explode( ',', $form_participiants );
+		$form_participants = $_POST['form_participants'];
+		$torro_participant_ids = explode( ',', $form_participants );
 
-		$sql = "DELETE FROM {$torro_global->tables->participiants} WHERE form_id = %d";
+		$sql = "DELETE FROM $wpdb->torro_participants WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$wpdb->query( $sql );
 
-		if ( 0 < count( $torro_participiant_ids ) ) {
-			foreach ( $torro_participiant_ids as $user_id ) {
-				$wpdb->insert( $torro_global->tables->participiants, array(
+		if ( 0 < count( $torro_participant_ids ) ) {
+			foreach ( $torro_participant_ids as $user_id ) {
+				$wpdb->insert( $wpdb->torro_participants, array(
 					'form_id'	=> $form_id,
 					'user_id'	=> $user_id,
 				) );
@@ -198,7 +198,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function ajax_add_participiants_allmembers() {
+	public static function ajax_add_participants_allmembers() {
 		$users = get_users( array( 'orderby' => 'ID' ) );
 
 		$return_array = array();
@@ -217,12 +217,12 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	}
 
 	/**
-	 * Invite participiants AJAX
+	 * Invite participants AJAX
 	 *
 	 * @since 1.0.0
 	 */
-	public static function ajax_invite_participiants() {
-		global $wpdb, $torro_global;
+	public static function ajax_invite_participants() {
+		global $wpdb;
 
 		$return_array = array( 'sent' => false );
 
@@ -230,7 +230,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		$subject_template = $_POST[ 'subject_template' ];
 		$text_template = $_POST[ 'text_template' ];
 
-		$sql = "SELECT user_id FROM {$torro_global->tables->participiants} WHERE form_id = %d";
+		$sql = "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
@@ -301,7 +301,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * Adds content to the option
 	 */
 	public function option_content() {
-		global $wpdb, $post, $torro_global;
+		global $wpdb, $post;
 
 		$form_id = $post->ID;
 
@@ -321,20 +321,20 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		$html .= '</div>';
 
 		/**
-		 * Add participiants functions
+		 * Add participants functions
 		 */
-		$html .= '<div id="form-add-participiants">';
+		$html .= '<div id="form-add-participants">';
 
-		$options = apply_filters( 'form_add_participiants_options', array( 'allmembers' => __( 'Add all actual Members', 'torro-forms' ) ) );
+		$options = apply_filters( 'form_add_participants_options', array( 'allmembers' => __( 'Add all actual Members', 'torro-forms' ) ) );
 
-		$add_participiants_option = get_post_meta( $form_id, 'add_participiants_option', true );
+		$add_participants_option = get_post_meta( $form_id, 'add_participants_option', true );
 
-		$html .= '<div id="torro-add-participiants-options">';
-		$html .= '<label for"form_add_participiants_option">' . esc_html__( 'Add Members', 'torro-forms' ) . '';
-		$html .= '<select id="form-add-participiants-option" name="form_add_participiants_option">';
+		$html .= '<div id="torro-add-participants-options">';
+		$html .= '<label for"form_add_participants_option">' . esc_html__( 'Add Members', 'torro-forms' ) . '';
+		$html .= '<select id="form-add-participants-option" name="form_add_participants_option">';
 		foreach ( $options as $name => $value ) {
 			$selected = '';
-			if ( $name === $add_participiants_option ) {
+			if ( $name === $add_participants_option ) {
 				$selected = ' selected="selected"';
 			}
 			$html .= '<option value="' . $name . '"' . $selected . '>' . $value . '</option>';
@@ -343,22 +343,22 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		$html .= '</label>';
 		$html .= '</div>';
 
-		$html .= '<div id="form-add-participiants-content-allmembers" class="form-add-participiants-content-allmembers form-add-participiants-content">';
-		$html .= '<input type="button" class="form-add-participiants-allmembers-button button" id="form-add-participiants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'torro-forms' ) . '" />';
-		$html .= '<a class="form-remove-all-participiants">' . esc_html__( 'Remove all Participiants', 'torro-forms' ) . '</a>';
+		$html .= '<div id="form-add-participants-content-allmembers" class="form-add-participants-content-allmembers form-add-participants-content">';
+		$html .= '<input type="button" class="form-add-participants-allmembers-button button" id="form-add-participants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'torro-forms' ) . '" />';
+		$html .= '<a class="form-remove-all-participants">' . esc_html__( 'Remove all Participiants', 'torro-forms' ) . '</a>';
 		$html .= '</div>';
 
 		// Hooking in
 		ob_start();
-		do_action( 'form_add_participiants_content' );
+		do_action( 'form_add_participants_content' );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
 
 		/**
-		 * Getting all users which have been added to participiants list
+		 * Getting all users which have been added to participants list
 		 */
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$torro_global->tables->participiants} WHERE form_id = %s", $form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %s", $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		$users = array();
@@ -374,7 +374,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		 * Participiants Statistics
 		 */
 		$user_count = count( $users );
-		$html .= '<div id="form-participiants-status" class="form-participiants-status">';
+		$html .= '<div id="form-participants-status" class="form-participants-status">';
 		$html .= '<p>' . sprintf( _n( '%s participant', '%s participants', $user_count, 'torro-forms' ), number_format_i18n( $user_count ) ) . '</p>';
 		$html .= '</div>';
 
@@ -383,7 +383,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		 */
 
 		// Head
-		$html .= '<div id="form-participiants-list">';
+		$html .= '<div id="form-participants-list">';
 		$html .= '<table class="wp-list-table widefat">';
 		$html .= '<thead>';
 		$html .= '<tr>';
@@ -398,7 +398,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 
 		$html .= '<tbody>';
 
-		$form_participiants_value = '';
+		$form_participants_value = '';
 
 		if ( is_array( $users ) && 0 < count( $users ) ) {
 			// Content
@@ -411,17 +411,17 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 					$user_css = ' new';
 				}
 
-				$html .= '<tr class="participiant participiant-user-' . $user->ID . $user_css . '">';
+				$html .= '<tr class="participant participant-user-' . $user->ID . $user_css . '">';
 				$html .= '<td>' . esc_html( $user->ID ) . '</td>';
 				$html .= '<td>' . esc_html( $user->user_nicename ) . '</td>';
 				$html .= '<td>' . esc_html( $user->display_name ) . '</td>';
 				$html .= '<td>' . esc_html( $user->user_email ) . '</td>';
 				$html .= '<td>' . esc_html( $user_text ) . '</td>';
-				$html .= '<td><a class="button form-delete-participiant" rel="' . $user->ID . '">' . esc_html__( 'Delete', 'torro-forms' ) . '</a></td>';
+				$html .= '<td><a class="button form-delete-participant" rel="' . $user->ID . '">' . esc_html__( 'Delete', 'torro-forms' ) . '</a></td>';
 				$html .= '</tr>';
 			}
 
-			$form_participiants_value = implode( ',', $user_ids );
+			$form_participants_value = implode( ',', $user_ids );
 		}
 
 		$html .= '<tr class="no-users-found">';
@@ -432,8 +432,8 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 
 		$html .= '</table>';
 
-		$html .= '<input type="hidden" id="form-participiants" name="form_participiants" value="' . $form_participiants_value . '" />';
-		$html .= '<input type="hidden" id="form-participiants-count" name="form-participiants-count" value="' . count( $users ) . '" />';
+		$html .= '<input type="hidden" id="form-participants" name="form_participants" value="' . $form_participants_value . '" />';
+		$html .= '<input type="hidden" id="form-participants-count" name="form-participants-count" value="' . count( $users ) . '" />';
 
 		$html .= '</div>';
 
@@ -452,7 +452,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			return false;
 		}
 
-		if ( ! $this->is_participiant() ) {
+		if ( ! $this->is_participant() ) {
 			$this->add_message( 'error', __( 'You are not allowed to participate.', 'torro-forms' ) );
 
 			return false;
@@ -478,10 +478,10 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * @return boolean $can_participate
 	 * @since 1.0.0
 	 */
-	public function is_participiant( $user_id = null ) {
-		global $wpdb, $current_user, $torro_global, $ar_form_id;
+	public function is_participant( $user_id = null ) {
+		global $wpdb, $current_user, $ar_form_id;
 
-		$is_participiant = false;
+		$is_participant = false;
 
 		// Setting up user ID
 		if ( null === $user_id ) {
@@ -489,7 +489,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			$user_id = $user_id = $current_user->ID;
 		}
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$torro_global->tables->participiants} WHERE form_id = %d", $ar_form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d", $ar_form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		if ( ! in_array( $user_id, $user_ids ) ) {
@@ -512,7 +512,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			'invitations_not_sent_successfully'		=> __( 'Invitations could not be sent!', 'torro-forms' ),
 			'reinvitations_sent_successfully'		=> __( 'Renvitations sent successfully!', 'torro-forms' ),
 			'reinvitations_not_sent_successfully'	=> __( 'Renvitations could not be sent!', 'torro-forms' ),
-			'added_participiants'					=> __( 'participiant/s', 'torro-forms' ),
+			'added_participants'					=> __( 'participant/s', 'torro-forms' ),
 		);
 
 		wp_enqueue_script( 'torro-restrictions-selected-members', TORRO_URLPATH . 'assets/js/restrictions-selected-members.js' );
@@ -520,4 +520,4 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	}
 }
 
-torro_register_restriction( 'Torro_Restriction_SelectedMembers' );
+torro()->restrictions()->add( 'Torro_Restriction_SelectedMembers' );

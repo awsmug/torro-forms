@@ -59,4 +59,4 @@ class Torro_Actions_Component extends Torro_Component {
 	}
 }
 
-torro_register_component( 'Torro_Actions_Component' );
+torro()->components()->add( 'Torro_Actions_Component' );

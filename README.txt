@@ -28,7 +28,7 @@ Drag&drop your form in the WordPress way!
 * **Bar Chart Results** - Showing results after participating or with shortcodes.
 * **Validation** - Validate the entered data in question settings.
 * **Participiants** - Add registered users to forms or let everybody participate.
-* **Invite participiants** - Send a remembering Email to participiants.
+* **Invite participants** - Send a remembering Email to participants.
 * **Lightweight CSS** - Easy to overwrite CSS in frontend.
 * **Excel&CVS Export** - Get your results as CVS file.
 * **Timerange** - Give forms a start and an end date.
@@ -158,7 +158,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 = 1.0.0beta8 =
 * Added pariticipiants option "No restrictions"
-* Added filters for default on $participiants_restrictions
+* Added filters for default on $participants_restrictions
 * Added filters for texts
 * Added swedish language files (Thanks to [@elle_])
 * Added persian language files (Thanks to Hos3in)
@@ -187,7 +187,7 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 * Added bar charts and shortcodes for showing results
 
 = 1.0.0beta2 =
-* Fixed bug after sending form as participiant
+* Fixed bug after sending form as participant
 
 = 1.0.0beta=
 * Fist official 1.0.0 beta

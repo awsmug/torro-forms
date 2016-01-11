@@ -109,4 +109,4 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element {
 	}
 }
 
-torro_register_form_element( 'Torro_Form_Element_MultipleChoice' );
+torro()->form_elements()->add( 'Torro_Form_Element_MultipleChoice' );

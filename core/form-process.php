@@ -330,7 +330,7 @@ class Torro_FormProcess {
  * @return boolean $has_participated
  */
 function torro_user_has_participated( $form_id, $user_id = null ) {
-	global $wpdb, $current_user, $torro_global;
+	global $wpdb, $current_user;
 
 	// Setting up user ID
 	if ( null === $user_id ) {
@@ -343,7 +343,7 @@ function torro_user_has_participated( $form_id, $user_id = null ) {
 		return false;
 	}
 
-	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id=%d AND user_id=%s", $form_id, $user_id );
+	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND user_id=%s", $form_id, $user_id );
 
 	$count = absint( $wpdb->get_var( $sql ) );
 

@@ -67,10 +67,10 @@ class Torro_Formbuilder_RestrictionsExtension {
 	 * @since 1.0.0
 	 */
 	public static function meta_box_restrictions() {
-		global $wpdb, $post, $torro_global;
+		global $wpdb, $post;
 
 		$form_id = $post->ID;
-		$restrictions = $torro_global->restrictions;
+		$restrictions = torro()->restrictions()->get_all();
 
 		if ( ! is_array( $restrictions ) || 0 === count( $restrictions ) ) {
 			return;

@@ -119,7 +119,6 @@ abstract class Torro_Restriction {
 
 		if ( ! isset( self::$_instances[ $class ] ) ) {
 			self::$_instances[ $class ] = new $class();
-			self::$_instances[ $class ]->_register();
 		}
 
 		return self::$_instances[ $class ];
@@ -211,8 +210,6 @@ abstract class Torro_Restriction {
 	 * Add Settings to Settings Page
 	 */
 	public function init_settings() {
-		global $torro_global;
-
 		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
 			return false;
 		}
@@ -227,7 +224,7 @@ abstract class Torro_Restriction {
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		$torro_global->settings['restrictions']->add_settings_field( $this->name, $this->title, $settings_fields );
+		torro()->settings()->get( 'restrictions' )->add_settings_field( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'restrictions_' . $this->name;
 
@@ -241,57 +238,4 @@ abstract class Torro_Restriction {
 	public function option_content() {
 		return false;
 	}
-
-	/**
-	 * Function to register element in Torro Forms
-	 *
-	 * After registerung was successfull the new element will be shown in the elements list.
-	 *
-	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
-	 * @since 1.0.0
-	 */
-	private function _register() {
-		global $torro_global;
-
-		if ( ! is_object( $torro_global ) ) {
-			return false;
-		}
-
-		if ( '' === $this->name ) {
-			$this->name = get_class( $this );
-		}
-
-		if ( '' === $this->title ) {
-			$this->title = ucwords( get_class( $this ) );
-		}
-
-		if ( '' === $this->description ) {
-			$this->description = esc_attr__( 'This is a Torro Forms Restriction.', 'torro-forms' );
-		}
-
-		if ( array_key_exists( $this->name, $torro_global->restrictions ) ) {
-			return false;
-		}
-
-		add_action( 'init', array( $this, 'init_settings' ), 15 );
-
-		$this->initialized = true;
-
-		return $torro_global->add_restriction( $this->name, $this );
-	}
-}
-
-/**
- * Register a new Restriction
- *
- * @param $element_type_class name of the element type class.
- *
- * @return bool|null Returns false on failure, otherwise null.
- */
-function torro_register_restriction( $restriction_class ) {
-	if ( class_exists( $restriction_class ) ) {
-		return call_user_func( array( $restriction_class, 'instance' ) );
-	}
-
-	return false;
 }

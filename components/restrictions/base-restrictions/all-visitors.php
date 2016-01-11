@@ -56,7 +56,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 * Checking browser fingerprint by ajax
 	 */
 	public static function ajax_check_fingerprint() {
-		global $wpdb, $torro_global, $ar_form_id, $torro_skip_fingerrint_check;
+		global $wpdb, $ar_form_id, $torro_skip_fingerrint_check;
 
 		$content = '';
 		$restrict = false;
@@ -75,7 +75,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 			$ar_form_id = $_POST['torro_form_id'];
 			$fingerprint = $_POST['fngrprnt'];
 
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
+			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
 			$count = absint( $wpdb->get_var( $sql ) );
 
 			if ( 0 === $count ) {
@@ -274,11 +274,11 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 *
 	 */
 	public function ip_has_participated() {
-		global $wpdb, $torro_global, $ar_form_id;
+		global $wpdb, $ar_form_id;
 
 		$remote_ip = $_SERVER['REMOTE_ADDR'];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE form_id=%d AND remote_addr=%s", $ar_form_id, $remote_ip );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND remote_addr=%s", $ar_form_id, $remote_ip );
 		$count = $wpdb->get_var( $sql );
 
 		if ( 0 === $count ) {
@@ -301,7 +301,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 * Setting Cookie for one year
 	 */
 	public function save_ip( $response_id ) {
-		global $wpdb, $torro_global, $ar_form_id;
+		global $wpdb, $ar_form_id;
 
 		$restrictions_check_ip = get_post_meta( $ar_form_id, 'form_restrictions_check_ip', true );
 		if ( empty( $restrictions_check_ip ) ) {
@@ -309,7 +309,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 		}
 
 		// Adding IP to response
-		$wpdb->update( $torro_global->tables->responds, array(
+		$wpdb->update( $wpdb->torro_results, array(
 			'remote_addr' => $_SERVER['REMOTE_ADDR'], // string
 		), array(
 			'id' => $response_id,
@@ -320,14 +320,14 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 * Setting Cookie for one year
 	 */
 	public function save_fingerprint( $response_id ) {
-		global $wpdb, $torro_global, $ar_form_id;
+		global $wpdb, $ar_form_id;
 
 		$restrictions_check_fingerprint = get_post_meta( $ar_form_id, 'form_restrictions_check_fingerprint', true );
 		if ( empty( $restrictions_check_fingerprint ) ) {
 			return;
 		}
 
-		$wpdb->update( $torro_global->tables->responds, array(
+		$wpdb->update( $wpdb->torro_results, array(
 			'cookie_key' => $_POST[ 'torro_fngrprnt' ],    // string
 		), array(
 			'id' => $response_id,
@@ -350,4 +350,4 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 
 }
 
-torro_register_restriction( 'Torro_Restriction_AllVisitors' );
+torro()->restrictions()->add( 'Torro_Restriction_AllVisitors' );

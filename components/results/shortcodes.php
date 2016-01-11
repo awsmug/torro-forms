@@ -82,7 +82,7 @@ class Torro_ChartsShortCodes {
 			$headline_arr = explode( '_', $headline );
 
 			$element_id = (int) $headline_arr[ 1 ];
-			$element = torro_get_element( $element_id );
+			$element = torro()->form_elements()->get( $element_id );
 
 			// Skip collecting Data if there is no analyzable Data
 			if ( ! $element->has_answers ) {
@@ -118,12 +118,12 @@ class Torro_ChartsShortCodes {
 	 * @return string $html HTML of results
 	 */
 	public static function element_chart( $atts ) {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$element_id = $atts[ 'id' ];
 
-		$sql = $wpdb->prepare( "SELECT id, form_id FROM {$torro_global->tables->elements} WHERE id = %d", $element_id );
+		$sql = $wpdb->prepare( "SELECT id, form_id FROM $wpdb->torro_elements WHERE id = %d", $element_id );
 		$element = $wpdb->get_row( $sql );
 
 		if ( null === $element ) {
@@ -134,7 +134,7 @@ class Torro_ChartsShortCodes {
 		$results = $form_results->element_results( $element->id );
 		$results = Torro_Result_Charts::format_results_by_element( $results );
 
-		$element = torro_get_element( $element->id );
+		$element = torro()->form_elements()->get( $element->id );
 
 		$chart_creator = new Torro_Result_Charts_C3();
 

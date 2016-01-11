@@ -66,12 +66,12 @@ class Torro_EmailNotifications extends Torro_Action {
 	 * @param $response
 	 */
 	public function handle( $response_id, $response ) {
-		global $wpdb, $ar_form_id, $torro_global, $torro_response_id, $torro_response;
+		global $wpdb, $ar_form_id, $torro_response_id, $torro_response;
 
 		$torro_response_id = $response_id;
 		$torro_response = $response;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->email_notifications} WHERE form_id = %d", $ar_form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_email_notifications WHERE form_id = %d", $ar_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
 		if ( 0 < count( $notifications ) ) {
@@ -126,9 +126,9 @@ class Torro_EmailNotifications extends Torro_Action {
 	}
 
 	public function option_content() {
-		global $wpdb, $post, $torro_global;
+		global $wpdb, $post;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$torro_global->tables->email_notifications} WHERE form_id = %d", $post->ID );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_email_notifications WHERE form_id = %d", $post->ID );
 		$notifications = $wpdb->get_results( $sql );
 
 		$html = '<div id="form-email-notifications">';
@@ -183,14 +183,14 @@ class Torro_EmailNotifications extends Torro_Action {
 	 * Saving option content
 	 */
 	public static function save_option_content() {
-		global $wpdb, $post, $torro_global;
+		global $wpdb, $post;
 
 		if ( isset( $_POST['email_notifications'] ) && 0 < count( $_POST['email_notifications'] ) ){
-			$wpdb->delete( $torro_global->tables->email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
+			$wpdb->delete( $wpdb->torro_email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
 
 			foreach ( $_POST['email_notifications'] as $id => $notification ) {
 				$wpdb->insert(
-					$torro_global->tables->email_notifications,
+					$wpdb->torro_email_notifications,
 					array(
 						'form_id'			=> $post->ID,
 						'notification_name'	=> $notification[ 'notification_name' ],
@@ -324,4 +324,4 @@ class Torro_EmailNotifications extends Torro_Action {
 	}
 }
 
-torro_register_action( 'Torro_EmailNotifications' );
+torro()->actions()->add( 'Torro_EmailNotifications' );

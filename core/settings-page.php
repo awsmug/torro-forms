@@ -66,20 +66,19 @@ class Torro_SettingsPage {
 	 * Show admin Settings
 	 */
 	public static function show() {
-		global $torro_global;
-
 		self::init_tabs();
 
 		$html = '<div class="wrap af">';
 		$html .= '<form name="torro_settings" id="torro-settings" method="POST">';
 		$html .= '<input type="hidden" id="torro_save_settings" name="torro_save_settings" value="' . wp_create_nonce( '_torro_save_settings_nonce' ) . '" />';
 
-		if ( property_exists( $torro_global, 'settings' ) && 0 < count( $torro_global->settings ) ) {
+		$all_settings = torro()->settings()->get_all();
+		if ( 0 < count( $all_settings ) ) {
 			/**
 			 * Tabs
 			 */
 			$html .= '<h2 class="nav-tab-wrapper">';
-			foreach ( $torro_global->settings AS $setting ) {
+			foreach ( $all_settings AS $setting ) {
 				// Discard Settings if there are no settings
 				if ( 0 === count( $setting->settings ) && 0 === count( $setting->sub_settings ) ) {
 					continue;
@@ -99,7 +98,7 @@ class Torro_SettingsPage {
 			 */
 			$html .= '<div id="torro-settings-content" class="' . self::$current_tab . '">';
 
-			$settings = $torro_global->settings[ self::$current_tab ];
+			$settings = $all_settings[ self::$current_tab ];
 			$html .= $settings->show( self::$current_section );
 
 			ob_start();
@@ -110,7 +109,7 @@ class Torro_SettingsPage {
 
 			$html .= '<input name="torro_save_settings" type="submit" class="button-primary button-save-settings" value="' . esc_attr__( 'Save Settings', 'torro-forms' ) . '" />';
 		} else {
-			$html .= '<p>' . esc_attr__( 'There are no settings available.', 'torro-forms' ) . '</p>';
+			$html .= '<p>' . esc_html__( 'There are no settings available.', 'torro-forms' ) . '</p>';
 		}
 
 		$html .= '</form>';

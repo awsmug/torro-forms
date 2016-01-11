@@ -49,4 +49,4 @@ class Torro_RestrictionsSettings extends Torro_Settings {
 	}
 }
 
-torro_register_settings( 'Torro_RestrictionsSettings' );
+torro()->settings()->add( 'Torro_RestrictionsSettings' );

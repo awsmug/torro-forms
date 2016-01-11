@@ -67,40 +67,16 @@ abstract class Torro_Component {
 	 */
 	var $settings;
 
+	var $initialized = false;
+
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	private function __construct() {
-		global $torro_global;
-
+	protected function __construct() {
 		$this->init();
-
-		if ( empty( $this->name ) ) {
-			$this->name = get_class( $this );
-		}
-		if ( empty( $this->title ) ) {
-			$this->title = ucfirst( $this->name );
-		}
-		if ( empty( $this->name ) ) {
-			$this->description = __( 'This is an Torro Forms component.', 'torro-forms' );
-		}
-
-		if ( ! is_object( $torro_global ) ) {
-			self::admin_notice( __( 'Missing Global', 'torro-global' ), 'error' );
-			return false;
-		}
-
-		$torro_global->components[ $this->name ] = $this;
-
-		return true;
 	}
-
-	/**
-	 * Function for setting initial Data
-	 */
-	abstract function init();
 
 	/**
 	 * Main Instance
@@ -232,18 +208,4 @@ abstract class Torro_Component {
 		}
 		Torro_Init::admin_notice( $message, $type );
 	}
-}
-
-/**
- * Registering component
- *
- * @param $component_name
- * @return mixed
- */
-function torro_register_component( $component_class ) {
-	if ( class_exists( $component_class ) ) {
-		return call_user_func( array( $component_class, 'instance' ) );
-	}
-
-	return false;
 }

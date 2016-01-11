@@ -1,13 +1,13 @@
 /**
  * Participiants
  */
-#torro-add-participiants-options{
+#torro-add-participants-options{
     margin: 0 0 10px 0;
 }
-.form-participiant-new{
+.form-participant-new{
     background-color: #7AD03A;
 }
-.torro-participiants-options-content{
+.torro-participants-options-content{
     border: 1px #DFDFDF solid;
     background-color: #FDFDFD;
     padding: 10px;
@@ -20,9 +20,9 @@
     margin-bottom: 20px;
 }
 /**
- * Adding participiants bar
+ * Adding participants bar
  */
-.form-add-participiants-content{
+.form-add-participants-content{
     background-color: #f7f7f7;
     border: 1px solid #e5e5e5;
     margin: 0 -11px;
@@ -31,24 +31,24 @@
 /**
  * Participiants List
  */
-.participiant.finished td:first-child{
+.participant.finished td:first-child{
     border-left: 4px solid #7AD03A;
 }
-.participiant.new td{
+.participant.new td{
     background-color: #FEFAF7;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
 }
-.participiant.new td:first-child{
+.participant.new td:first-child{
     border-left: 4px solid #DD3D36;
 }
-.participiant.just-added td{
+.participant.just-added td{
     background-color: #F7FCFE;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
 }
-.participiant.just-added td:first-child{
+.participant.just-added td:first-child{
     border-left: 4px solid #2EA2CC;
 }
-.form-remove-all-participiants{
+.form-remove-all-participants{
     display: block;
     float: right;
     padding: 5px 10px;

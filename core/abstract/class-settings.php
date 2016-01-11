@@ -66,7 +66,7 @@ abstract class Torro_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	private $initialized = false;
+	public $initialized = false;
 
 	/**
 	 * Adding settings field by array
@@ -186,78 +186,18 @@ abstract class Torro_Settings {
 			$settings_handler->save();
 		}
 	}
-
-	/**
-	 * Function to register element in Torro Forms
-	 *
-	 * After registerung was successfull the new element will be shown in the elements list.
-	 *
-	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
-	 * @since 1.0.0
-	 */
-	public function _register() {
-		global $torro_global;
-
-		if ( true === $this->initialized ) {
-			return false;
-		}
-
-		if ( ! is_object( $torro_global ) ) {
-			return false;
-		}
-
-		if ( '' === $this->name ) {
-			$this->name = get_class( $this );
-		}
-
-		if ( '' === $this->title ) {
-			$this->title = ucwords( get_class( $this ) );
-		}
-
-		if ( '' === $this->description ) {
-			$this->description = __( 'This is the Torro Forms Responsehandler extension.', 'torro-forms' );
-		}
-
-		if ( array_key_exists( $this->name, $torro_global->settings ) ) {
-			return false;
-		}
-
-		$this->initialized = true;
-
-		add_action( 'torro_save_settings', array( $this, 'save_settings' ), 10, 1 );
-
-		return $torro_global->add_settings( $this->name, $this );
-	}
-}
-
-/**
- * Register a new Response handler
- *
- * @param $element_type_class name of the element type class.
- *
- * @return bool|null Returns false on failure, otherwise null.
- */
-function torro_register_settings( $settings_handler_class ) {
-	if ( class_exists( $settings_handler_class ) ) {
-		$settings_handler = new $settings_handler_class();
-
-		return $settings_handler->_register();
-	}
-
-	return false;
 }
 
 /**
  * @param $settings_name
  */
 function torro_get_settings( $settings_name ) {
-	global $torro_global;
-
-	if ( ! array_key_exists( $settings_name, $torro_global->settings ) ) {
+	$settings = torro()->settings()->get( $settings_name );
+	if ( ! $settings ) {
 		return false;
 	}
 
-	$settings_handler = new Torro_Settings_Handler( $settings_name, $torro_global->settings[ $settings_name ]->settings );
+	$settings_handler = new Torro_Settings_Handler( $settings_name, $settings->settings );
 	$values = $settings_handler->get_field_values();
 
 	return $values;

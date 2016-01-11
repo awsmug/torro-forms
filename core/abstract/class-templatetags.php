@@ -81,68 +81,9 @@ abstract class Torro_TemplateTags {
 	}
 
 	/**
-	 * Function to register element in Torro Forms
-	 *
-	 * After registerung was successfull the new element will be shown in the elements list.
-	 *
-	 * @return boolean $is_registered Returns true if registering was succesfull, false if not
-	 * @since 1.0.0
-	 */
-	public function _register() {
-		global $torro_global;
-
-		if ( true == $this->initialized ) {
-			return false;
-		}
-
-		if ( ! is_object( $torro_global ) ) {
-			return false;
-		}
-
-		if ( '' === $this->name ) {
-			$this->name = get_class( $this );
-		}
-
-		if ( '' === $this->title ) {
-			$this->title = ucwords( get_class( $this ) );
-		}
-
-		if ( '' === $this->description ) {
-			$this->description = __( 'This is a Torro Forms Templatetag collection.', 'torro-forms' );
-		}
-
-		if ( array_key_exists( $this->name, $torro_global->restrictions ) ) {
-			return false;
-		}
-
-		$this->tags(); // Getting Tags
-
-		$this->initialized = true;
-
-		return $torro_global->add_templatetags( $this->name, $this );
-	}
-
-	/**
 	 * @return mixed
 	 */
 	abstract function tags();
-}
-
-/**
- * Register a new Templatetags collection
- *
- * @param $templatetags_class name of the templatetags collection
- *
- * @return bool|null Returns false on failure, otherwise null.
- */
-function torro_register_templatetags( $templatetags_class ) {
-	if ( class_exists( $templatetags_class ) ) {
-		$templatetags = new $templatetags_class();
-
-		return $templatetags->_register();
-	}
-
-	return false;
 }
 
 /**
@@ -151,18 +92,13 @@ function torro_register_templatetags( $templatetags_class ) {
  * @return array|bool
  */
 function torro_get_templatetag_collections() {
-	global $torro_global;
-
-	if ( ! property_exists( $torro_global, 'templatetags' ) ) {
-		return false;
-	}
-
-	if ( 0 === count( $torro_global->templatetags ) ) {
+	$templatetags = torro()->templatetags()->get_all();
+	if ( 0 === count( $templatetags ) ) {
 		return false;
 	}
 
 	$templatetag_collections = array();
-	foreach ( $torro_global->templatetags as $templatetag_collection_name => $templatetag_collection ) {
+	foreach ( $templatetags as $templatetag_collection_name => $templatetag_collection ) {
 		$templatetag_collections[ $templatetag_collection_name ] = new stdClass();
 		$templatetag_collections[ $templatetag_collection_name ]->title = $templatetag_collection->title;
 		$templatetag_collections[ $templatetag_collection_name ]->description = $templatetag_collection->description;
@@ -177,21 +113,12 @@ function torro_get_templatetag_collections() {
  * @param $templatetag_collection
  */
 function torro_get_templatetags( $templatetag_collection ) {
-	global $torro_global;
-
-	if ( ! property_exists( $torro_global, 'templatetags' ) ) {
+	$templatetags = torro()->templatetags()->get( $templatetag_collection );
+	if ( ! $templatetags ) {
 		return false;
 	}
 
-	if ( 0 === count( $torro_global->templatetags ) ) {
-		return false;
-	}
-
-	if ( ! array_key_exists( $templatetag_collection, $torro_global->templatetags ) ) {
-		return false;
-	}
-
-	return $torro_global->templatetags[ $templatetag_collection ]->tags;
+	return $templatetags->tags;
 }
 
 /**
@@ -231,8 +158,6 @@ function torro_template_tag_button( $input_name ) {
  * @return mixed
  */
 function torro_filter_templatetags( $content ) {
-	global $torro_global;
-
 	$collections = torro_get_templatetag_collections();
 
 	foreach ( $collections as $collection_name => $collection ) {

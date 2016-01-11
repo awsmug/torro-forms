@@ -53,12 +53,11 @@ class Torro_GeneralSettings extends Torro_Settings {
 	}
 
 	public function add_modules() {
-		global $torro_global;
-
 		$components = array();
 		$defaults = array();
 
-		foreach ( $torro_global->components as $component_name => $component ) {
+		$all_components = torro()->components()->get_all();
+		foreach ( $all_components as $component_name => $component ) {
 			$components[ $component_name ] = $component->title;
 			$defaults[] = $component_name;
 		}
@@ -79,8 +78,8 @@ class Torro_GeneralSettings extends Torro_Settings {
 			)
 		);
 
-		$torro_global->settings[ 'general' ]->add_settings_field_arr( $settings_arr );
+		torro()->settings()->get( 'general' )->add_settings_field_arr( $settings_arr );
 	}
 }
 
-torro_register_settings( 'Torro_GeneralSettings' );
+torro()->settings()->add( 'Torro_GeneralSettings' );

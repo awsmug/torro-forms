@@ -228,7 +228,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 
 
 	public static function ajax_show_entry() {
-		global $wpdb, $torro_global;
+		global $wpdb;
 
 		$form_id = $_POST[ 'form_id' ];
 		$result_id = $_POST[ 'result_id' ];
@@ -238,7 +238,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 			exit;
 		}
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$torro_global->tables->results} WHERE id = %d", $result_id );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE id = %d", $result_id );
 		$count_results = $wpdb->get_var( $sql );
 
 		if ( 0 === $count_results ) {
@@ -298,7 +298,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 							// On Elements
 							if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 								$element_id = $column_arr[ 1 ];
-								$element = torro_get_element( $element_id );
+								$element = torro()->form_elements()->get( $element_id );
 
 								$column_name = $element->replace_column_name( $column_name );
 
@@ -362,4 +362,4 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 	public function frontend_scripts() {}
 }
 
-torro_register_result_handler( 'Torro_ResultsEntries' );
+torro()->result_handlers()->add( 'Torro_ResultsEntries' );

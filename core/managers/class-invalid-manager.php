@@ -1,10 +1,12 @@
 <?php
 /**
- * General Settings Tab
+ * Torro Forms dummy manager class for invalid instances.
+ *
+ * Prevents fatal errors from using chained functions.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
- * @version 1.0.0
+ * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
  *
@@ -28,26 +30,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_ResultSettings extends Torro_Settings {
+class Torro_Invalid_Manager extends Torro_Manager {
+	protected $function_name = '';
 
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		$this->title = __( 'Result Handling', 'torro-forms' );
-		$this->name = 'resulthandling';
+	public function __construct( $base_class = 'invalid', $singleton = false, $added_callback = null ) {
+		$this->base_class = 'invalid';
+		$this->singleton = false;
+		$this->added_callback = null;
 	}
 
-	/**
-	 * Adding Settings to Settings Page dynamical
-	 *
-	 * @param $settings_name
-	 * @param $settings_title
-	 * @param $settings_arr
-	 */
-	public function add_settings_field( $settings_name, $settings_title, $settings_arr ) {
-		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
+	public function set_invalid_function( $function_name ) {
+		$this->function_name = $function_name;
+	}
+
+	public function add( $class_name ) {
+		return new WP_Error( 'torro_instance_invalid', sprintf( __( 'The function name %s does not correspond to a valid instance manager.', 'torro-forms' ), $this->function_name ) );
+	}
+
+	public function get( $name ) {
+		return false;
+	}
+
+	public function get_all() {
+		return array();
 	}
 }
-
-torro()->settings()->add( 'Torro_ResultSettings' );

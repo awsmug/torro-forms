@@ -78,4 +78,4 @@ class Torro_GlobalTemplateTags extends Torro_TemplateTags {
 	}
 }
 
-torro_register_templatetags( 'Torro_GlobalTemplateTags' );
+torro()->templatetags()->add( 'Torro_GlobalTemplateTags' );
