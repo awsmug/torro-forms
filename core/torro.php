@@ -55,8 +55,8 @@ class Torro {
 		$this->managers['templatetags'] = new Torro_Manager( 'Torro_TemplateTags', false, array( $this, 'after_templatetags_added' ) );
 
 		$this->managers['actions'] = new Torro_Manager( 'Torro_Action', true, array( $this, 'after_actions_added' ) );
-		$this->managers['restrictions'] = new Torro_Manager( 'Torro_Restriction', true );
-		$this->managers['result_handlers'] = new Torro_Manager( 'Torro_ResultHandler', false );
+		$this->managers['restrictions'] = new Torro_Manager( 'Torro_Restriction', true, array( $this, 'after_restrictions_added' ) );
+		$this->managers['result_handlers'] = new Torro_Manager( 'Torro_ResultHandler', false, array( $this, 'after_result_handlers_added' ) );
 
 		// dummy object for invalid functions
 		$this->managers['invalid'] = new Torro_Invalid_Manager();
