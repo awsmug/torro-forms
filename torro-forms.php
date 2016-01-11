@@ -65,22 +65,14 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function load_textdomain() {
-		$domain = 'torro-forms';
-
-		$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'torro_locale', get_locale() ) );
-
-		$locations = apply_filters( 'torro_locale_locations', array(
-			trailingslashit( WP_LANG_DIR . '/' . $domain  ),
-			trailingslashit( WP_LANG_DIR ),
-			trailingslashit( TORRO_FOLDER ) . 'languages/',
-		) );
-
-		// Try custom locations in WP_LANG_DIR.
-		foreach ( $locations as $location ) {
-			if ( load_textdomain( $domain, $location . $mofile_custom ) ) {
-				return true;
-			}
+		// check custom languages directory to allow overriding language files
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'torro-forms' );
+		$mofile = WP_LANG_DIR . '/plugins/torro-forms/torro-forms-' . $locale . '.mo';
+		if ( file_exists( $mofile ) ) {
+			return load_textdomain( 'torro-forms', $mofile );
 		}
+
+		return load_plugin_textdomain( 'torro-forms', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 
 	/**

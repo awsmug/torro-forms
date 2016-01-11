@@ -193,19 +193,19 @@ function torro_get_mail_template_subject( $mailsubject_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_subject_template' ) );
 			if( empty( $text ) ) {
-				$text = esc_attr__( 'Thank you for submitting!', 'torro-forms' );
+				$text = __( 'Thank you for submitting!', 'torro-forms' );
 			}
 			break;
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_subject_template' ) );
 			if( empty( $text ) ) {
-				$text = esc_attr__( 'You are invited to answer a survey', 'torro-forms' );
+				$text = __( 'You are invited to answer a survey', 'torro-forms' );
 			}
 			break;
 		case 'reinvitation':
 			$text = stripslashes( get_option( 'questions_reinvitation_subject_template' ) );
 			if( empty( $text ) ) {
-				$text = esc_attr__( 'Don´t forget to answer the Survey', 'torro-forms' );
+				$text = __( 'Don´t forget to answer the Survey', 'torro-forms' );
 			}
 			break;
 	}
