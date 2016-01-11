@@ -1,6 +1,6 @@
 <?php
 /**
- * Description Form Element
+ * Content Form Element
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core/Elements
@@ -28,11 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_Text extends Torro_Form_Element {
+class Torro_Form_Element_Content extends Torro_Form_Element {
 	public function init() {
-		$this->name = 'text';
-		$this->title = __( 'Text', 'torro-forms' );
-		$this->description = __( 'Adds a text to the form.', 'torro-forms' );
+		$this->name = 'content';
+		$this->title = __( 'Content', 'torro-forms' );
+		$this->description = __( 'Adds own content to the form.', 'torro-forms' );
 		$this->icon_url = TORRO_URLPATH . 'assets/img/icon-text.png';
 
 		$this->is_answerable = false;
@@ -52,7 +52,7 @@ class Torro_Form_Element_Text extends Torro_Form_Element {
 			'textarea_name' => $field_name,
 		);
 
-		$html = '<div class="torro-element-description">';
+		$html = '<div class="torro-element-content">';
 		ob_start();
 		wp_editor( $this->label, $editor_id, $settings );
 		$html .= ob_get_clean();
@@ -62,4 +62,4 @@ class Torro_Form_Element_Text extends Torro_Form_Element {
 	}
 }
 
-torro()->form_elements()->add( 'Torro_Form_Element_Text' );
+torro()->form_elements()->add( 'Torro_Form_Element_Content' );

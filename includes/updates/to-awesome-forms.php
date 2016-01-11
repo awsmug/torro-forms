@@ -65,28 +65,28 @@ function torro_questions_to_awesome_forms() {
 	$sql = "UPDATE $wpdb->posts SET post_type = 'torro-forms' WHERE post_type = 'questions'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'textfield' WHERE taxonomy = 'Text'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='textfield' WHERE type='Text'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'textarea' WHERE taxonomy = 'Textarea'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='textarea' WHERE type='Textarea'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'dropdown' WHERE taxonomy = 'Dropdown'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='dropdown' WHERE type='Dropdown'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'onechoice' WHERE taxonomy = 'OneChoice'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='onechoice' WHERE type='OneChoice'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'multiplechoice' WHERE taxonomy = 'MultipleChoice'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='multiplechoice' WHERE type='MultipleChoice'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'text' WHERE taxonomy = 'Description'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='content' WHERE type='Description'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'splitter' WHERE taxonomy = 'Splitter'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='splitter' WHERE type='Splitter'";
 	$wpdb->query( $sql );
 
-	$sql = "UPDATE $wpdb->torro_elements SET type = 'separator' WHERE taxonomy = 'Separator'";
+	$sql = "UPDATE $wpdb->torro_elements SET type='separator' WHERE type='Separator'";
 	$wpdb->query( $sql );
 
 	$sql = "UPDATE $wpdb->postmeta SET meta_key = 'restrictions_option' WHERE meta_key = 'participiant_restrictions'";

@@ -54,26 +54,26 @@ class Torro_Formbuilder_FormProcessExtension {
 			return $show_form;
 		}
 
-		if ( FALSE === apply_filters( 'torro_additional_restrictions_check_start', TRUE ) ) {
-			return FALSE;
+		if ( false === apply_filters( 'torro_additional_restrictions_check_start', true ) ) {
+			return false;
 		}
 
 		/**
 		 * Select field for Restriction
 		 */
-		$restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', TRUE );
+		$restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', true );
 
-		if ( !empty( $restrictions_option ) && array_key_exists( $restrictions_option, $restrictions ) ) {
+		if ( ! empty( $restrictions_option ) && array_key_exists( $restrictions_option, $restrictions ) ) {
 			$restriction = $restrictions[ $restrictions_option ];
 
-			if ( FALSE === $restriction->check() ) {
+			if ( false === $restriction->check() ) {
 				echo $restriction->messages();
 
-				return FALSE;
+				return false;
 			}
 		}
 
-		return apply_filters( 'torro_additional_restrictions_check_end', TRUE );
+		return apply_filters( 'torro_additional_restrictions_check_end', true );
 	}
 }
 
