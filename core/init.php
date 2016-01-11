@@ -76,6 +76,7 @@ class Torro_Core {
 		include( $core_folder . 'form-process.php' );
 
 		// Base elements
+		include( $core_folder . 'elements/base-elements/content.php' );
 		include( $core_folder . 'elements/base-elements/textfield.php' );
 		include( $core_folder . 'elements/base-elements/textarea.php' );
 		include( $core_folder . 'elements/base-elements/onechoice.php' );
@@ -83,10 +84,8 @@ class Torro_Core {
 		include( $core_folder . 'elements/base-elements/dropdown.php' );
 		include( $core_folder . 'elements/base-elements/separator.php' );
 		include( $core_folder . 'elements/base-elements/splitter.php' );
-		include( $core_folder . 'elements/base-elements/text.php' );
 
 		// Template tags
-
 		include( $core_folder . 'templatetags/base-templatetags/global.php' );
 		include( $core_folder . 'templatetags/base-templatetags/form.php' );
 
