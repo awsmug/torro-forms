@@ -43,7 +43,6 @@ class Torro_AdminMenu {
 		}
 
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
-		add_action( 'parent_file', array( __CLASS__, 'tax_menu_correction' ) );
 	}
 
 	/**
@@ -52,26 +51,7 @@ class Torro_AdminMenu {
 	 * @since 1.0.0
 	 */
 	public static function admin_menu() {
-		add_menu_page( __( 'Forms', 'torro-forms' ), __( 'Forms', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ), '', 50 );
-		add_submenu_page( 'Torro_Admin', __( 'Create', 'torro-forms' ), __( 'Create', 'torro-forms' ), 'edit_posts', 'post-new.php?post_type=torro-forms' );
-		add_submenu_page( 'Torro_Admin', __( 'Categories', 'torro-forms' ), __( 'Categories', 'torro-forms' ), 'edit_posts', 'edit-tags.php?taxonomy=torro-forms' );
-		add_submenu_page( 'Torro_Admin', __( 'Settings', 'torro-forms' ), __( 'Settings', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ) );
-	}
-
-	/**
-	 * Fix for getting correct menu and display
-	 *
-	 * @since 1.0.0
-	 */
-	public static function tax_menu_correction( $parent_file ) {
-		global $current_screen;
-		$taxonomy = $current_screen->taxonomy;
-
-		if ( $taxonomy === 'torro-forms-categories' ) {
-			$parent_file = 'Torro_Admin';
-		}
-
-		return $parent_file;
+		add_submenu_page( 'edit.php?post_type=torro-forms', __( 'Settings', 'torro-forms' ), __( 'Settings', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ) );
 	}
 }
 

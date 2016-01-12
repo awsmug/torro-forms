@@ -183,56 +183,71 @@ class Torro_Init {
 		}
 
 		/**
-		 * Categories
-		 */
-		$args_taxonomy = array(
-			'show_in_nav_menus'	=> true,
-			'hierarchical'		=> true,
-			'labels'			=> array(
-				'name'				=> _x( 'Categories', 'taxonomy general name', 'torro-forms' ),
-				'singular_name'		=> _x( 'Category', 'taxonomy singular name', 'torro-forms' ),
-				'search_items'		=> __( 'Search Categories', 'torro-forms' ),
-				'all_items'			=> __( 'All Categories', 'torro-forms' ),
-				'parent_item'		=> __( 'Parent Category', 'torro-forms' ),
-				'parent_item_colon'	=> __( 'Parent Category:', 'torro-forms' ),
-				'edit_item'			=> __( 'Edit Category', 'torro-forms' ),
-				'update_item'		=> __( 'Update Category', 'torro-forms' ),
-				'add_new_item'		=> __( 'Add New Category', 'torro-forms' ),
-				'new_item_name'		=> __( 'New Category', 'torro-forms' ),
-				'menu_name'			=> __( 'Categories', 'torro-forms' ),
-			),
-			'show_ui'			=> true,
-			'query_var'			=> true,
-			'rewrite'			=> true,
-		);
-
-		register_taxonomy( 'torro-forms-categories', array( 'torro-forms' ), $args_taxonomy );
-
-		/**
 		 * Post Types
 		 */
 		$args_post_type = array(
-			'labels'            => array(
-				'name'               => __( 'Forms', 'torro-forms' ),
-				'singular_name'      => __( 'Form', 'torro-forms' ),
-				'all_items'          => __( 'All Forms', 'torro-forms' ),
-				'add_new_item'       => __( 'Add new Form', 'torro-forms' ),
-				'edit_item'          => __( 'Edit Form', 'torro-forms' ),
-				'new_item'           => __( 'Add new Form', 'torro-forms' ),
-				'view_item'          => __( 'View Form', 'torro-forms' ),
-				'search_items'       => __( 'Search Forms', 'torro-forms' ),
-				'not_found'          => __( 'No Form found', 'torro-forms' ),
-				'not_found_in_trash' => __( 'No Form found in trash', 'torro-forms' )
+			'labels'				=> array(
+				'name'					=> __( 'Forms', 'torro-forms' ),
+				'singular_name'			=> __( 'Form', 'torro-forms' ),
+				'add_new'				=> __( 'Add New', 'torro-forms' ),
+				'add_new_item'			=> __( 'Add New Form', 'torro-forms' ),
+				'edit_item'				=> __( 'Edit Form', 'torro-forms' ),
+				'new_item'				=> __( 'New Form', 'torro-forms' ),
+				'view_item'				=> __( 'View Form', 'torro-forms' ),
+				'search_items'			=> __( 'Search Forms', 'torro-forms' ),
+				'not_found'				=> __( 'No forms found.', 'torro-forms' ),
+				'not_found_in_trash'	=> __( 'No forms found in Trash.', 'torro-forms' ),
+				'all_items'				=> __( 'All Forms', 'torro-forms' ),
+				'archives'				=> __( 'Form Archives', 'torro-forms' ),
+				'insert_into_item'		=> __( 'Insert into form', 'torro-forms' ),
+				'uploaded_to_this_item'	=> __( 'Uploaded to this form', 'torro-forms' ),
+				'filter_items_list'		=> __( 'Filter forms list', 'torro-forms' ),
+				'items_list_navigation'	=> __( 'Forms list navigation', 'torro-forms' ),
+				'items_list'			=> __( 'Forms list', 'torro-forms' ),
+				'menu_name'				=> __( 'Forms', 'torro-forms' ),
 			),
-			'public'            => true,
-			'has_archive'       => true,
-			'supports'          => array( 'title' ),
-			'show_in_menu'      => 'Torro_Admin',
-			'show_in_nav_menus' => false,
-			'rewrite'           => array( 'slug' => $slug, 'with_front' => true )
+			'public'				=> true,
+			'has_archive'			=> true,
+			'supports'				=> array( 'title' ),
+			'show_in_menu'			=> true,
+			'show_in_nav_menus'		=> false,
+			'rewrite'				=> array( 'slug' => $slug, 'with_front' => true ),
+			'menu_position'			=> 50,
 		);
 
 		register_post_type( 'torro-forms', $args_post_type );
+
+		/**
+		 * Categories
+		 */
+		$args_taxonomy = array(
+			'show_in_nav_menus'		=> true,
+			'hierarchical'			=> true,
+			'labels'				=> array(
+				'name'					=> __( 'Categories', 'torro-forms' ),
+				'singular_name'			=> __( 'Category', 'torro-forms' ),
+				'search_items'			=> __( 'Search Categories', 'torro-forms' ),
+				'popular_items'			=> __( 'Popular Categories', 'torro-forms' ),
+				'all_items'				=> __( 'All Categories', 'torro-forms' ),
+				'parent_item'			=> __( 'Parent Category', 'torro-forms' ),
+				'parent_item_colon'		=> __( 'Parent Category:', 'torro-forms' ),
+				'edit_item'				=> __( 'Edit Category', 'torro-forms' ),
+				'view_item'				=> __( 'View Category', 'torro-forms' ),
+				'update_item'			=> __( 'Update Category', 'torro-forms' ),
+				'add_new_item'			=> __( 'Add New Category', 'torro-forms' ),
+				'new_item_name'			=> __( 'New Category', 'torro-forms' ),
+				'not_found'				=> __( 'No categories found.', 'torro-forms' ),
+				'no_terms'				=> __( 'No categories', 'torro-forms' ),
+				'items_list_navigation'	=> __( 'Categories list navigation', 'torro-forms' ),
+				'items_list'			=> __( 'Categories list', 'torro-forms' ),
+				'menu_name'				=> __( 'Categories', 'torro-forms' ),
+			),
+			'show_ui'				=> true,
+			'query_var'				=> true,
+			'rewrite'				=> true,
+		);
+
+		register_taxonomy( 'torro-forms-categories', array( 'torro-forms' ), $args_taxonomy );
 
 		self::$post_types_registered = true;
 	}
