@@ -34,7 +34,6 @@ abstract class Torro_Instance {
 	/**
 	 * The Single instances of the components
 	 *
-	 * @var $_instaces
 	 * @since 1.0.0
 	 */
 	protected static $_instances = array();
@@ -148,7 +147,7 @@ abstract class Torro_Instance {
 	}
 
 	public function __get( $key ) {
-		if ( property_exists( $this, $key ) ) {
+		if ( property_exists( $this, $key ) ) {
 			return $this->$key;
 		}
 		return null;

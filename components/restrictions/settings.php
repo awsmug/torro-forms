@@ -30,9 +30,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_RestrictionsSettings extends Torro_Settings {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function __construct() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'Restrictions', 'torro-forms' );
 		$this->name = 'restrictions';
 	}

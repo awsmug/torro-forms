@@ -120,6 +120,9 @@ class Torro_Init {
 		require_once( $core_folder . 'class-post.php' );
 		require_once( $core_folder . 'class-form.php' );
 
+		// Abstract instance
+		require_once( $core_folder . 'abstract/class-instance.php' );
+
 		// Abstract
 		require_once( $core_folder . 'abstract/class-component.php' );
 		require_once( $core_folder . 'abstract/class-element.php' );

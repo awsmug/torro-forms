@@ -29,7 +29,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Form_Element_Textfield extends Torro_Form_Element {
-	public function init() {
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct( $id = null ) {
+		parent::__construct( $id );
+	}
+
+	protected function init() {
 		$this->name = 'textfield';
 		$this->title = __( 'Textfield', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a text field.', 'torro-forms' );

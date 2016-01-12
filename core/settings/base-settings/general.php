@@ -30,9 +30,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_GeneralSettings extends Torro_Settings {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function __construct() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'General', 'torro-forms' );
 		$this->name = 'general';
 

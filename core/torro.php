@@ -52,14 +52,14 @@ class Torro {
 		require_once( $this->path( 'core/managers/class-invalid-manager.php' ) );
 
 		// initialize managers
-		$this->managers['components'] = new Torro_Manager( 'Torro_Component', true, array( $this, 'after_components_added' ) );
-		$this->managers['form_elements'] = new Torro_Form_Elements_Manager( 'Torro_Form_Element', false );
-		$this->managers['settings'] = new Torro_Manager( 'Torro_Settings', true, array( $this, 'after_settings_added' ) );
-		$this->managers['templatetags'] = new Torro_Manager( 'Torro_TemplateTags', true, array( $this, 'after_templatetags_added' ) );
+		$this->managers['components'] = new Torro_Manager( 'Torro_Component', array( $this, 'after_components_added' ) );
+		$this->managers['form_elements'] = new Torro_Form_Elements_Manager( 'Torro_Form_Element' );
+		$this->managers['settings'] = new Torro_Manager( 'Torro_Settings', array( $this, 'after_settings_added' ) );
+		$this->managers['templatetags'] = new Torro_Manager( 'Torro_TemplateTags', array( $this, 'after_templatetags_added' ) );
 
-		$this->managers['actions'] = new Torro_Manager( 'Torro_Action', true, array( $this, 'after_actions_added' ) );
-		$this->managers['restrictions'] = new Torro_Manager( 'Torro_Restriction', true, array( $this, 'after_restrictions_added' ) );
-		$this->managers['result_handlers'] = new Torro_Manager( 'Torro_ResultHandler', true, array( $this, 'after_result_handlers_added' ) );
+		$this->managers['actions'] = new Torro_Manager( 'Torro_Action', array( $this, 'after_actions_added' ) );
+		$this->managers['restrictions'] = new Torro_Manager( 'Torro_Restriction', array( $this, 'after_restrictions_added' ) );
+		$this->managers['result_handlers'] = new Torro_Manager( 'Torro_ResultHandler', array( $this, 'after_result_handlers_added' ) );
 
 		// dummy object for invalid functions
 		$this->managers['invalid'] = new Torro_Invalid_Manager();
@@ -137,13 +137,7 @@ class Torro {
 
 	// callback function after having added result handlers
 	public function after_components_added( $instance ) {
-		if ( is_admin() ) {
-			add_action( 'admin_enqueue_scripts', array( $instance, 'admin_styles' ) );
-			add_action( 'admin_enqueue_scripts', array( $instance, 'admin_scripts' ) );
-		} else {
-			add_action( 'wp_enqueue_scripts', array( $instance, 'frontend_styles' ) );
-			add_action( 'wp_enqueue_scripts', array( $instance, 'frontend_scripts' ) );
-		}
+		$instance->check_and_start();
 
 		return $instance;
 	}
@@ -179,14 +173,6 @@ class Torro {
 	// callback function after having added result handlers
 	public function after_result_handlers_added( $instance ) {
 		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-
-		if ( is_admin() ) {
-			add_action( 'admin_enqueue_scripts', array( $instance, 'admin_styles' ) );
-			add_action( 'admin_enqueue_scripts', array( $instance, 'admin_scripts' ) );
-		} else {
-			add_action( 'wp_enqueue_scripts', array( $instance, 'frontend_styles' ) );
-			add_action( 'wp_enqueue_scripts', array( $instance, 'frontend_scripts' ) );
-		}
 
 		return $instance;
 	}

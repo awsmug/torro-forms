@@ -33,9 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Torro_Invalid_Manager extends Torro_Manager {
 	protected $function_name = '';
 
-	public function __construct( $base_class = 'invalid', $singleton = false, $added_callback = null ) {
+	public function __construct( $base_class = 'invalid', $added_callback = null ) {
 		$this->base_class = 'invalid';
-		$this->singleton = false;
 		$this->added_callback = null;
 	}
 

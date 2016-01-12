@@ -52,9 +52,6 @@ class Torro_EmailNotifications extends Torro_Action {
 		parent::__construct();
 	}
 
-	/**
-	 * Constructor
-	 */
 	protected function init() {
 		$this->title = __( 'Email Notifications', 'torro-forms' );
 		$this->name = 'emailnotifications';

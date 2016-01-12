@@ -28,69 +28,81 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Form_Element {
+abstract class Torro_Form_Element extends Torro_Instance {
+	/**
+	 * The Single instances of the components
+	 *
+	 * @since 1.0.0
+	 */
+	protected static $id_instances = array();
+
+	/**
+	 * Main Instance
+	 *
+	 * @since 1.0.0
+	 */
+	public static function instance( $id = null ) {
+		if ( function_exists( 'get_called_class' ) ) {
+			$class = get_called_class();
+		} else {
+			$class = self::php52_get_called_class();
+		}
+
+		if ( null !== $id ) {
+			if ( ! isset( self::$id_instances[ $id ] ) ) {
+				self::$id_instances[ $id ] = new $class( $id );
+			}
+			return self::$id_instances[ $id ];
+		}
+
+		if ( ! isset( self::$_instances[ $class ] ) ) {
+			self::$_instances[ $class ] = new $class();
+		}
+
+		return self::$_instances[ $class ];
+	}
+
 	/**
 	 * ID of instanced Element
 	 *
 	 * @since 1.0.0
 	 */
-	var $id = null;
+	protected $id = null;
 
 	/**
 	 * Contains the Form ID of the Element
 	 *
 	 * @since 1.0.0
 	 */
-	var $form_id;
-
-	/**
-	 * Name of the Element
-	 *
-	 * @since 1.0.0
-	 */
-	var $name;
-
-	/**
-	 * Title of Element which will be shown in admin
-	 *
-	 * @since 1.0.0
-	 */
-	var $title;
-
-	/**
-	 * Description of the Element
-	 *
-	 * @since 1.0.0
-	 */
-	var $description;
+	protected $form_id;
 
 	/**
 	 * Icon URl of the Element
 	 *
 	 * @since 1.0.0
 	 */
-	var $icon_url;
+	protected $icon_url;
 
 	/**
 	 * Element Label
 	 *
 	 * @since 1.0.0
 	 */
-	var $label;
+	protected $label;
 
 	/**
 	 * Sort number where to display the Element
 	 *
 	 * @since 1.0.0
 	 */
-	var $sort = 0;
+	protected $sort = 0;
 
 	/**
 	 * Does this element have a content tab
 	 *
 	 * @since 1.0.0
 	 */
-	var $has_content = true;
+	protected $has_content = true;
 
 	/**
 	 * If value is true, Torro Forms will try to create charts from results
@@ -98,7 +110,7 @@ abstract class Torro_Form_Element {
 	 * @todo  is_analyzable: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
-	var $is_analyzable = false;
+	protected $is_analyzable = false;
 
 	/**
 	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
@@ -106,7 +118,7 @@ abstract class Torro_Form_Element {
 	 * @todo  has_answers: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
-	var $is_answerable = true;
+	protected $is_answerable = true;
 
 	/**
 	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
@@ -114,43 +126,42 @@ abstract class Torro_Form_Element {
 	 * @todo  has_answers: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
-	var $has_answers = false;
+	protected $has_answers = false;
 
 	/**
 	 * Only for Form splitter Element!
 	 *
-	 * @var bool
+	 * @protected bool
 	 */
-	var $splits_form = false;
+	protected $splits_form = false;
 
 	/**
 	 * Sections for answers
 	 *
 	 * @since 1.0.0
 	 */
-	var $sections = array();
+	protected $sections = array();
 
 	/**
 	 * Element answers
 	 *
 	 * @since 1.0.0
 	 */
-	var $answers = array();
+	protected $answers = array();
 
 	/**
 	 * Contains users response of an Element
 	 *
 	 * @since 1.0.0
 	 */
-	var $response;
+	protected $response;
 
 	/**
 	 * Contains Admin tabs
 	 *
-	 * @var array
 	 * @since 1.0.0
 	 */
-	private $admin_tabs = array();
+	protected $admin_tabs = array();
 
 	/**
 	 * The settings fields
@@ -162,36 +173,24 @@ abstract class Torro_Form_Element {
 	/**
 	 * Contains all settings of the element
 	 *
-	 * @var array
 	 * @since 1.0.0
 	 */
-	var $settings = array();
+	protected $settings = array();
 
 	/**
 	 * Has element moltiple Answers?
 	 *
-	 * @var bool
 	 * @since 1.0.0
 	 */
-	var $answer_is_multiple = false;
+	protected $answer_is_multiple = false;
 
 	/**
-	 * Is Element initialized
-	 *
-	 * @var bool
-	 * @since 1.0.0
-	 */
-	var $initialized = false;
-
-	/**
-	 * Constructor
-	 *
-	 * @param int $id ID of the element
+	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $id = null ) {
-		$this->init();
+	protected function __construct( $id = null ) {
+		parent::__construct();
 
 		if ( null !== $id && '' !== $id ) {
 			$this->populate( $id );
@@ -201,19 +200,13 @@ abstract class Torro_Form_Element {
 	}
 
 	/**
-	 * Base Element Function
-	 * @return mixed
-	 */
-	abstract function init();
-
-	/**
 	 * Populating element object with data
 	 *
 	 * @param int $id Element id
 	 *
 	 * @since 1.0.0
 	 */
-	private function populate( $id ) {
+	protected function populate( $id ) {
 		global $wpdb;
 
 		$this->label = '';
@@ -255,7 +248,7 @@ abstract class Torro_Form_Element {
 	 * @since 1.0.0
 	 * @return boolean
 	 */
-	private function set_label( $label, $order = null ) {
+	protected function set_label( $label, $order = null ) {
 		if( '' === $label ) {
 			return false;
 		}
@@ -280,7 +273,7 @@ abstract class Torro_Form_Element {
 	 * @return boolean $is_added true if answer was added, False if not
 	 * @since 1.0.0
 	 */
-	private function add_answer( $text, $sort = false, $id = null, $section = null ) {
+	protected function add_answer( $text, $sort = false, $id = null, $section = null ) {
 		if ( '' === $text ) {
 			return false;
 		}
@@ -303,7 +296,7 @@ abstract class Torro_Form_Element {
 	 *
 	 * @since 1.0.0
 	 */
-	private function add_setting( $name, $value ) {
+	protected function add_setting( $name, $value ) {
 		$this->settings[ $name ] = $value;
 	}
 
@@ -389,7 +382,7 @@ abstract class Torro_Form_Element {
 	 * @return array $response The post response
 	 * @since 1.0.0
 	 */
-	private function get_response() {
+	protected function get_response() {
 		global $ar_form_id;
 
 		$this->response = false;
@@ -560,7 +553,7 @@ abstract class Torro_Form_Element {
 	 *
 	 * @since 1.0.0
 	 */
-	private function admin_widget_content_tab() {
+	protected function admin_widget_content_tab() {
 		$widget_id = $this->admin_get_widget_id();
 		$content_html = $this->admin_content_html();
 
@@ -609,7 +602,7 @@ abstract class Torro_Form_Element {
 	 * @return string $html The answers HTML
 	 * @since 1.0.0
 	 */
-	private function admin_widget_content_answers( $section = null ) {
+	protected function admin_widget_content_answers( $section = null ) {
 		$widget_id = $this->admin_get_widget_id();
 
 		$html = '';
@@ -670,7 +663,7 @@ abstract class Torro_Form_Element {
 	 * @return string $html The settings tab HTML
 	 * @since 1.0.0
 	 */
-	private function admin_widget_settings_tab() {
+	protected function admin_widget_settings_tab() {
 		$html = '';
 
 		// Running each setting field
@@ -694,7 +687,7 @@ abstract class Torro_Form_Element {
 	 * @return string $html The field HTML
 	 * @since 1.0.0
 	 */
-	private function admin_widget_settings_field( $name, $field ) {
+	protected function admin_widget_settings_field( $name, $field ) {
 		// @todo Handle with class-settingsform.php
 		$widget_id = $this->admin_get_widget_id();
 		$value = '';
@@ -756,7 +749,7 @@ abstract class Torro_Form_Element {
 		return $html;
 	}
 
-	private function admin_widget_action_buttons() {
+	protected function admin_widget_action_buttons() {
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'torro_element_bottom_actions', array(
 			'delete_form_element' => array(
@@ -776,7 +769,7 @@ abstract class Torro_Form_Element {
 		return $html;
 	}
 
-	private function admin_widget_hidden_fields() {
+	protected function admin_widget_hidden_fields() {
 		$widget_id = $this->admin_get_widget_id();
 
 		// Adding hidden Values for element

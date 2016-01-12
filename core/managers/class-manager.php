@@ -32,13 +32,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Manager {
 	protected $base_class = ''; //TODO: replace this with base component class name when we have it
-	protected $singleton = false;
 	protected $added_callback = null;
 	protected $instances = array();
 
-	public function __construct( $base_class, $singleton = false, $added_callback = null ) {
+	public function __construct( $base_class, $added_callback = null ) {
 		$this->base_class = $base_class;
-		$this->singleton = $singleton;
 		$this->added_callback = $added_callback;
 	}
 
@@ -51,11 +49,7 @@ class Torro_Manager {
 			return new WP_Error( 'torro_class_not_exist', sprintf( __( 'The class %s does not exists.', 'torro-forms' ), $class_name ) );
 		}
 
-		if ( $this->singleton ) {
-			$class = call_user_func( array( $class_name, 'instance' ) );
-		} else {
-			$class = new $class_name();
-		}
+		$class = call_user_func( array( $class_name, 'instance' ) );
 
 		if ( ! is_a( $class, $this->base_class ) ) {
 			return new WP_Error( 'torro_class_not_child', sprintf( __( 'The class %1$s is not a child of class %2$s.', 'torro-forms' ), $class_name, $this->base_class ) );
@@ -71,6 +65,14 @@ class Torro_Manager {
 
 		if ( empty( $class->description ) ) {
 			$class->description = sprintf( __( 'This is a %s.', 'torro-forms' ), ucwords( $class_name, '_' ) );
+		}
+
+		if ( is_admin() ) {
+			add_action( 'admin_enqueue_scripts', array( $class, 'admin_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( $class, 'admin_scripts' ) );
+		} else {
+			add_action( 'wp_enqueue_scripts', array( $class, 'frontend_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( $class, 'frontend_scripts' ) );
 		}
 
 		if ( null !== $this->added_callback && is_callable( $this->added_callback ) ) {

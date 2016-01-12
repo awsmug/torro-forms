@@ -29,7 +29,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Form_Element_Separator extends Torro_Form_Element {
-	public function init() {
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct( $id = null ) {
+		parent::__construct( $id );
+	}
+
+	protected function init() {
 		$this->name = 'separator';
 		$this->title = __( 'Separator', 'torro-forms' );
 		$this->description = __( 'Adds a optical separator (<hr>) between elements.', 'torro-forms' );

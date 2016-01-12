@@ -58,7 +58,7 @@ class Torro_Form_Elements_Manager extends Torro_Manager {
 
 			$class = get_class( $this->instances[ $type ] );
 
-			$this->element_instances[ $element_id ] = new $class( $element_id );
+			$this->element_instances[ $element_id ] = call_user_func( array( $class, 'instance' ), $element_id );
 		}
 
 		return $this->element_instances[ $element_id ];

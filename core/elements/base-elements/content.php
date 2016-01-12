@@ -29,7 +29,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Form_Element_Content extends Torro_Form_Element {
-	public function init() {
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct( $id = null ) {
+		parent::__construct( $id );
+	}
+
+	protected function init() {
 		$this->name = 'content';
 		$this->title = __( 'Content', 'torro-forms' );
 		$this->description = __( 'Adds own content to the form.', 'torro-forms' );
