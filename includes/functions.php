@@ -97,7 +97,7 @@ function torro_is_form() {
 		}
 	}
 
-	if ( ! empty( $_GET['post_type'] ) && 'torro-forms' === $_GET[ 'post_type' ] ) {
+	if ( ! empty( $_GET['post_type'] ) && 'torro-forms' === $_GET['post_type'] && ! isset( $_GET['page'] ) ) {
 		return true;
 	}
 

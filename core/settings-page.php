@@ -89,7 +89,7 @@ class Torro_SettingsPage {
 					$css_classes = ' nav-tab-active';
 				}
 
-				$html .= '<a href="' . admin_url( 'admin.php?page=Torro_Admin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
+				$html .= '<a href="' . admin_url( 'edit.php?post_type=torro-forms&page=Torro_Admin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
 			}
 			$html .= '</h2>';
 

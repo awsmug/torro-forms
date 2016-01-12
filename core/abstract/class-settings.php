@@ -111,7 +111,7 @@ abstract class Torro_Settings extends Torro_Instance {
 				if ( $name === $sub_setting_name || ( '' === $sub_setting_name && 'general' === $name ) ) {
 					$css_classes = ' active';
 				}
-				$html .= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'admin.php?page=Torro_Admin&tab=' . $this->name . '&section=' . $name ) . '">' . $settings[ 'title' ] . '</a></li>';
+				$html .= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'edit.php?post_type=torro-forms&page=Torro_Admin&tab=' . $this->name . '&section=' . $name ) . '">' . $settings[ 'title' ] . '</a></li>';
 			}
 			$html .= '</ul>';
 
