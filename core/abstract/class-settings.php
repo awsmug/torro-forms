@@ -28,45 +28,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Settings {
-	/**
-	 * Name
-	 *
-	 * @since 1.0.0
-	 */
-	public $name;
-
-	/**
-	 * Title
-	 *
-	 * @since 1.0.0
-	 */
-	public $title;
-
-	/**
-	 * Description
-	 *
-	 * @since 1.0.0
-	 */
-	public $description;
+abstract class Torro_Settings extends Torro_Instance {
 	/**
 	 * Settings
 	 *
 	 * @since 1.0.0
 	 */
-	public $settings = array();
+	protected $settings = array();
+
 	/**
 	 * Sub Settings
 	 *
 	 * @since 1.0.0
 	 */
-	public $sub_settings = array();
+	protected $sub_settings = array();
+
 	/**
-	 * Already initialized?
+	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	public $initialized = false;
+	protected function __construct() {
+		parent::__construct();
+	}
 
 	/**
 	 * Adding settings field by array

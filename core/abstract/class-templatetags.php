@@ -28,41 +28,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_TemplateTags {
-	/**
-	 * Name of templatetags collection
-	 *
-	 * @since 1.0.0
-	 */
-	var $name;
-
-	/**
-	 * Title of templatetags collection
-	 *
-	 * @since 1.0.0
-	 */
-	var $title;
-
-	/**
-	 * Description of templatetags collection
-	 *
-	 * @since 1.0.0
-	 */
-	var $description;
-
+abstract class Torro_TemplateTags extends Torro_Instance {
 	/**
 	 * Tags
 	 *
 	 * @since 1.0.0
 	 */
-	var $tags = array();
+	protected $tags = array();
 
 	/**
-	 * Already initialized?
+	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	var $initialized = false;
+	protected function __construct() {
+		parent::__construct();
+	}
 
 	/**
 	 * Add a tag to taglist
@@ -71,7 +52,7 @@ abstract class Torro_TemplateTags {
 	 * @param       $callback
 	 * @param array $args
 	 */
-	final function add_tag( $name, $display_name, $description, $callback, $args = array() ) {
+	final public function add_tag( $name, $display_name, $description, $callback, $args = array() ) {
 		$this->tags[ $name ] = array(
 			'description'	=> $description,
 			'display_name'	=> $display_name,
@@ -83,7 +64,7 @@ abstract class Torro_TemplateTags {
 	/**
 	 * @return mixed
 	 */
-	abstract function tags();
+	public abstract function tags();
 }
 
 /**

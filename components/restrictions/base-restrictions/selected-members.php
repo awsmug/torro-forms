@@ -32,9 +32,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'Selected Members', 'torro-forms' );
 		$this->name = 'selectedmembers';
 
@@ -46,9 +52,6 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 
 		add_action( 'wp_ajax_form_add_participants_allmembers', array( $this, 'ajax_add_participants_allmembers' ) );
 		add_action( 'wp_ajax_form_invite_participants', array( $this, 'ajax_invite_participants' ) );
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
-		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 
 		$this->settings_fields = array(
 			'invitations'			=> array(
@@ -114,7 +117,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function invite_buttons() {
+	public function invite_buttons() {
 		global $post;
 
 		$torro_invitation_text_template = torro_get_mail_template_text( 'invitation' );
@@ -154,7 +157,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id ) {
+	public function save( $form_id ) {
 		global $wpdb;
 
 		/**
@@ -198,7 +201,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function ajax_add_participants_allmembers() {
+	public function ajax_add_participants_allmembers() {
 		$users = get_users( array( 'orderby' => 'ID' ) );
 
 		$return_array = array();
@@ -221,7 +224,7 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function ajax_invite_participants() {
+	public function ajax_invite_participants() {
 		global $wpdb;
 
 		$return_array = array( 'sent' => false );
@@ -289,11 +292,31 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	}
 
 	/**
+	 * Enqueue Scripts
+	 */
+	public function admin_scripts() {
+		$translation = array(
+			'delete'								=> __( 'Delete', 'torro-forms' ),
+			'yes'									=> __( 'Yes', 'torro-forms' ),
+			'no'									=> __( 'No', 'torro-forms' ),
+			'just_added'							=> __( 'just added', 'torro-forms' ),
+			'invitations_sent_successfully'			=> __( 'Invitations sent successfully!', 'torro-forms' ),
+			'invitations_not_sent_successfully'		=> __( 'Invitations could not be sent!', 'torro-forms' ),
+			'reinvitations_sent_successfully'		=> __( 'Renvitations sent successfully!', 'torro-forms' ),
+			'reinvitations_not_sent_successfully'	=> __( 'Renvitations could not be sent!', 'torro-forms' ),
+			'added_participants'					=> __( 'participant/s', 'torro-forms' ),
+		);
+
+		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'js' ) );
+		wp_localize_script( 'torro-restrictions-selected-members', 'translation_sm', $translation );
+	}
+
+	/**
 	 * Registers and enqueues admin-specific styles.
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_admin_styles() {
+	public function admin_styles() {
 		wp_enqueue_style( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'css' ) );
 	}
 
@@ -497,26 +520,6 @@ class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Enqueue Scripts
-	 */
-	public function enqueue_scripts() {
-		$translation = array(
-			'delete'								=> __( 'Delete', 'torro-forms' ),
-			'yes'									=> __( 'Yes', 'torro-forms' ),
-			'no'									=> __( 'No', 'torro-forms' ),
-			'just_added'							=> __( 'just added', 'torro-forms' ),
-			'invitations_sent_successfully'			=> __( 'Invitations sent successfully!', 'torro-forms' ),
-			'invitations_not_sent_successfully'		=> __( 'Invitations could not be sent!', 'torro-forms' ),
-			'reinvitations_sent_successfully'		=> __( 'Renvitations sent successfully!', 'torro-forms' ),
-			'reinvitations_not_sent_successfully'	=> __( 'Renvitations could not be sent!', 'torro-forms' ),
-			'added_participants'					=> __( 'participant/s', 'torro-forms' ),
-		);
-
-		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'js' ) );
-		wp_localize_script( 'torro-restrictions-selected-members', 'translation_sm', $translation );
 	}
 }
 

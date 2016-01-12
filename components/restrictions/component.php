@@ -31,11 +31,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Restrictions_Component extends Torro_Component {
 	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function init() {
 		$this->name = 'restrictions';
 		$this->title = __( 'Restrictions', 'torro-forms' );
 		$this->description = __( 'Restrictions if a user can fillout a form or not', 'torro-forms' );
@@ -44,7 +53,7 @@ class Torro_Restrictions_Component extends Torro_Component {
 	/**
 	 * Including files of component
 	 */
-	public function includes() {
+	protected function includes() {
 		$folder = torro()->path( 'components/restrictions/' );
 
 		// Loading base functionalities

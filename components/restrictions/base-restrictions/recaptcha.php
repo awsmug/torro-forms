@@ -29,12 +29,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Restriction_Recaptcha extends Torro_Restriction {
-	private $recaptcha_errors = array();
+	protected $recaptcha_errors = array();
 
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'Google reCAPTCHA', 'torro-forms' );
 		$this->name = 'recaptcha';
 
@@ -55,7 +61,6 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 
 		add_action( 'torro_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
 
@@ -280,7 +285,7 @@ class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function frontend_scripts() {
 		global $ar_form_id, $post;
 
 		if ( ! $ar_form_id ) {

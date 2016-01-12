@@ -30,17 +30,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Restriction_Timerange extends Torro_Restriction {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'Timerange', 'torro-forms' );
 		$this->name = 'timerange';
 
 		add_action( 'form_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
-		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 
 		add_action( 'torro_additional_restrictions_check_start', array( $this, 'check' ) );
 	}
@@ -127,7 +130,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function admin_scripts() {
 		$translation_admin = array(
 			'dateformat'		=> esc_attr__( 'yy/mm/dd', 'torro-forms' ),
 			'min_sun'			=> esc_attr__( 'Su', 'torro-forms' ),
@@ -162,7 +165,7 @@ class Torro_Restriction_Timerange extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_admin_styles() {
+	public function admin_styles() {
 		wp_enqueue_style( 'torro-restrictions-timerange', torro()->asset_url( 'restrictions-timerange', 'css' ) );
 	}
 }

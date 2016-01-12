@@ -35,28 +35,35 @@ class Torro_EmailNotifications extends Torro_Action {
 	 * From Email Name
 	 * @var
 	 */
-	private $from_name;
+	protected $from_name;
 
 	/**
 	 * From Email Address
 	 * @var
 	 */
-	private $from_email;
+	protected $from_email;
+
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		parent::__construct();
+	}
 
 	/**
 	 * Constructor
 	 */
-	public function init() {
+	protected function init() {
 		$this->title = __( 'Email Notifications', 'torro-forms' );
 		$this->name = 'emailnotifications';
 
-		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-		add_action( 'torro_formbuilder_save', array( __CLASS__, 'save_option_content' ) );
+		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
 
-		add_action( 'wp_ajax_get_email_notification_html', array( __CLASS__, 'ajax_get_email_notification_html' ) );
+		add_action( 'wp_ajax_get_email_notification_html', array( $this, 'ajax_get_email_notification_html' ) );
 
-		add_action( 'media_buttons', array( __CLASS__, 'add_media_button' ), 20 );
+		add_action( 'media_buttons', array( $this, 'add_media_button' ), 20 );
 	}
 
 	/**
@@ -107,7 +114,7 @@ class Torro_EmailNotifications extends Torro_Action {
 	/**
 	 * Setting HTML Content-Type
 	 */
-	function set_email_html_content_type() {
+	public function set_email_html_content_type() {
 		return 'text/html';
 	}
 
@@ -143,7 +150,7 @@ class Torro_EmailNotifications extends Torro_Action {
 		$html .= '<div class="notifications widget-title">';
 		if ( 0 < count( $notifications ) ) {
 			foreach ( $notifications as $notification ) {
-				$html .= self::get_notification_settings_html( $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->to_email, $notification->subject, $notification->message );
+				$html .= $this->get_notification_settings_html( $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->to_email, $notification->subject, $notification->message );
 			}
 		}
 		$html .= '<p class="no-entry-found not-found-area">' . esc_html__( 'No Notifications found.', 'torro-forms' ) . '</p>';
@@ -169,7 +176,7 @@ class Torro_EmailNotifications extends Torro_Action {
 	/**
 	 * Adding media button
 	 */
-	public static function add_media_button( $editor_id ) {
+	public function add_media_button( $editor_id ) {
 		$editor_id_arr = explode( '-', $editor_id );
 
 		if ( 'email_notification_message' !== $editor_id_arr[0] ) {
@@ -182,7 +189,7 @@ class Torro_EmailNotifications extends Torro_Action {
 	/**
 	 * Saving option content
 	 */
-	public static function save_option_content() {
+	public function save_option_content() {
 		global $wpdb, $post;
 
 		if ( isset( $_POST['email_notifications'] ) && 0 < count( $_POST['email_notifications'] ) ){
@@ -226,7 +233,7 @@ class Torro_EmailNotifications extends Torro_Action {
 	 *
 	 * @return string $html
 	 */
-	public static function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ) {
+	public function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ) {
 		$editor_id = 'email_notification_message-' . $id;
 
 		$editor = torro_wp_editor( $message, $editor_id );
@@ -274,11 +281,11 @@ class Torro_EmailNotifications extends Torro_Action {
 	/**
 	 * Get Email notification HTML
 	 */
-	public static function ajax_get_email_notification_html() {
+	public function ajax_get_email_notification_html() {
 		$id = time();
 		$editor_id = 'email_notification_message-' . $id;
 
-		$html = self::get_notification_settings_html( $id, __( 'New Email Notification' ) );
+		$html = $this->get_notification_settings_html( $id, __( 'New Email Notification' ) );
 
 		$data = array(
 			'id'		=> $id,
@@ -291,17 +298,9 @@ class Torro_EmailNotifications extends Torro_Action {
 	}
 
 	/**
-	 * Function to set standard editor to tinymce prevent tab issues on editor
-	 * @return string
-	 */
-	public static function std_editor_tinymce() {
-		return 'tinymce';
-	}
-
-	/**
 	 * Enqueue admin scripts
 	 */
-	public static function enqueue_admin_scripts() {
+	public function admin_scripts() {
 		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
@@ -319,8 +318,16 @@ class Torro_EmailNotifications extends Torro_Action {
 	/**
 	 * Enqueue admin styles
 	 */
-	public static function enqueue_admin_styles() {
+	public function admin_styles() {
 		wp_enqueue_style( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'css' ) );
+	}
+
+	/**
+	 * Function to set standard editor to tinymce prevent tab issues on editor
+	 * @return string
+	 */
+	public static function std_editor_tinymce() {
+		return 'tinymce';
 	}
 }
 

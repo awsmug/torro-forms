@@ -32,9 +32,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Restriction_AllMembers extends Torro_Restriction {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'All Members', 'torro-forms' );
 		$this->name = 'allmembers';
 
@@ -50,7 +56,7 @@ class Torro_Restriction_AllMembers extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id ) {
+	public function save( $form_id ) {
 		/**
 		 * Saving restriction options
 		 */

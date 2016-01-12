@@ -32,14 +32,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'All Visitors', 'torro-forms' );
 		$this->name = 'allvisitors';
 		$this->option_name = __( 'All Visitors of site', 'torro-forms' );
 
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_fingerprint_scripts' ) );
 		add_action( 'torro_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
 
 		add_action( 'torro_form_end', array( $this, 'add_fingerprint_input' ) );
@@ -48,14 +53,14 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 		add_action( 'torro_response_save', array( $this, 'save_ip' ), 10 );
 		add_action( 'torro_response_save', array( $this, 'save_fingerprint' ), 10 );
 
-		add_action( 'wp_ajax_torro_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
-		add_action( 'wp_ajax_nopriv_torro_check_fngrprnt', array( __CLASS__, 'ajax_check_fingerprint' ) );
+		add_action( 'wp_ajax_torro_check_fngrprnt', array( $this, 'ajax_check_fingerprint' ) );
+		add_action( 'wp_ajax_nopriv_torro_check_fngrprnt', array( $this, 'ajax_check_fingerprint' ) );
 	}
 
 	/**
 	 * Checking browser fingerprint by ajax
 	 */
-	public static function ajax_check_fingerprint() {
+	public function ajax_check_fingerprint() {
 		global $wpdb, $ar_form_id, $torro_skip_fingerrint_check;
 
 		$content = '';
@@ -99,7 +104,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save_settings( $form_id ) {
+	public function save_settings( $form_id ) {
 		/**
 		 * Check IP
 		 */
@@ -134,7 +139,7 @@ class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	/**
 	 * Loading fingerprint scripts
 	 */
-	public static function enqueue_fingerprint_scripts() {
+	public function frontend_scripts() {
 		wp_enqueue_script( 'detection', torro()->asset_url( 'detection', 'vendor-js' ) );
 	}
 

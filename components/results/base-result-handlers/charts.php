@@ -30,9 +30,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Torro_Result_Charts extends Torro_ResultHandler {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function __construct() {
+	protected function __construct() {
+		parent::__construct();
+
 		$this->init();
 
 		if ( empty( $this->name ) ) {
@@ -50,8 +54,6 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler {
 
 		add_action( 'torro_result_charts_postbox_bottom', array( $this, 'charts_general_settings' ), 10 );
 	}
-
-	abstract function init();
 
 	abstract function bars( $title, $results, $params = array() );
 

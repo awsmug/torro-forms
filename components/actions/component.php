@@ -30,13 +30,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Actions_Component extends Torro_Component {
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		parent::__construct();
+	}
 
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function init() {
 		$this->name = 'actions';
 		$this->title = __( 'Actions', 'torro-forms' );
 		$this->description = __( 'Actions are fired in the moment Users submitting their Form Data.', 'torro-forms' );
@@ -45,7 +53,7 @@ class Torro_Actions_Component extends Torro_Component {
 	/**
 	 * Including files of component
 	 */
-	public function includes() {
+	protected function includes() {
 		$folder = torro()->path( 'components/actions/' );
 
 		// Loading base functionalities

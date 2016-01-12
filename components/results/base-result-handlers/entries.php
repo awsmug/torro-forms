@@ -30,14 +30,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_ResultsEntries extends Torro_ResultHandler {
 	/**
-	 * Constructor
+	 * Initializing.
+	 *
+	 * @since 1.0.0
 	 */
-	public function __construct() {
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function init() {
 		$this->title = __( 'Entries', 'torro-forms' );
 		$this->name = 'entries';
 
-		add_action( 'wp_ajax_torro_show_entries', array( __CLASS__, 'ajax_show_entries' ) );
-		add_action( 'wp_ajax_torro_show_entry', array( __CLASS__, 'ajax_show_entry' ) );
+		add_action( 'wp_ajax_torro_show_entries', array( $this, 'ajax_show_entries' ) );
+		add_action( 'wp_ajax_torro_show_entry', array( $this, 'ajax_show_entry' ) );
 	}
 
 	public function option_content() {
@@ -63,7 +69,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 		$form_results->results();
 		$num_results = $form_results->count();
 
-		$html .= self::show_results( $form_id, $start, $length, $num_results );
+		$html .= $this->show_results( $form_id, $start, $length, $num_results );
 
 		$html .= '</div>';
 		$html .= '<div class="torro-slider-right"></div>';
@@ -73,7 +79,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 		return $html;
 	}
 
-	private static function show_results( $form_id, $start, $length, $num_results ) {
+	private function show_results( $form_id, $start, $length, $num_results ) {
 		$form_results = new Torro_Form_Results( $form_id );
 
 		$filter = array(
@@ -167,7 +173,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 			$html .= '<div class="torro-nav">';
 			if ( 0 <= $prev ) {
 				$html .= '<div class="torro-nav-prev-link">';
-				$prev_url = self::get_admin_url( $form_id, array(
+				$prev_url = $this->get_admin_url( $form_id, array(
 					'torro-entries-start'	=> $prev,
 					'torro-entries-length'	=> $length,
 				) );
@@ -178,7 +184,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 
 			if ( $num_results > $next ) {
 				$html .= '<div class="torro-nav-next-link">';
-				$next_url = self::get_admin_url( $form_id, array(
+				$next_url = $this->get_admin_url( $form_id, array(
 					'torro-entries-start'	=> $next,
 					'torro-entries-length'	=> $length,
 				) );
@@ -190,7 +196,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 			$html .= '<p>' . sprintf( esc_attr__( '%s - %s of %s', 'torro-forms' ), $start + 1, $count, $num_results ) . '</p>';
 			$html .= '</div>';
 		} else {
-			$html .= self::show_not_found_notice();
+			$html .= $this->show_not_found_notice();
 		}
 
 		return $html;
@@ -199,7 +205,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 	/**
 	 * Returns the edit URL for a form, with optional query arguments
 	 */
-	private static function get_admin_url( $form_id, $args = array() ) {
+	private function get_admin_url( $form_id, $args = array() ) {
 		$admin_url = admin_url( 'post.php?post=' . $form_id . '&action=edit' );
 		if ( 0 < count( $args ) ) {
 			$admin_url = add_query_arg( $args, $admin_url );
@@ -208,11 +214,11 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 		return $admin_url;
 	}
 
-	public static function show_not_found_notice() {
+	public function show_not_found_notice() {
 		return '<p class="not-found-area">' . esc_html__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 	}
 
-	public static function ajax_show_entries() {
+	public function ajax_show_entries() {
 		$form_id = $_POST[ 'form_id' ];
 		$start = $_POST[ 'start' ];
 		$length = $_POST[ 'length' ];
@@ -221,13 +227,13 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 		$results = $form_results->results();
 		$num_results = $form_results->count();
 
-		echo  self::show_results( $form_id, $start, $length, $num_results );
+		echo  $this->show_results( $form_id, $start, $length, $num_results );
 
 		exit;
 	}
 
 
-	public static function ajax_show_entry() {
+	public function ajax_show_entry() {
 		global $wpdb;
 
 		$form_id = $_POST[ 'form_id' ];
@@ -356,10 +362,6 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 
 		wp_enqueue_script( 'torro-results-entries', torro()->asset_url( 'results-entries', 'js' ) );
 	}
-
-	public function frontend_styles() {}
-
-	public function frontend_scripts() {}
 }
 
 torro()->result_handlers()->add( 'Torro_ResultsEntries' );

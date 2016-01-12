@@ -30,134 +30,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Restriction {
-	/**
-	 * The Single instances of the components
-	 *
-	 * @var $_instaces
-	 * @since 1.0.0
-	 */
-	protected static $_instances = array();
-
-	/**
-	 * Name of restriction
-	 *
-	 * @since 1.0.0
-	 */
-	var $name;
-
-	/**
-	 * Title of restriction
-	 *
-	 * @since 1.0.0
-	 */
-	var $title;
-
-	/**
-	 * Description of restriction
-	 *
-	 * @since 1.0.0
-	 */
-	var $description;
-
+abstract class Torro_Restriction extends Torro_Instance {
 	/**
 	 * Option name
 	 *
 	 * @since 1.0.0
 	 */
-	var $option_name = false;
-
-	/**
-	 * Already initialized?
-	 *
-	 * @since 1.0.0
-	 */
-	var $initialized = false;
+	protected $option_name = false;
 
 	/**
 	 * Settings fields array
 	 *
 	 * @since 1.0.0
 	 */
-	var $settings_fields = array();
+	protected $settings_fields = array();
 
 	/**
 	 * Settings
 	 *
 	 * @since 1.0.0
 	 */
-	var $settings = array();
+	protected $settings = array();
 
 	/**
 	 * Message
 	 *
-	 * @var array
 	 * @since 1.0.0
 	 */
-	var $messages = array();
+	protected $messages = array();
 
 	/**
-	 * Constructor
+	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	private function __construct() {
-		$this->init();
+	protected function __construct() {
+		parent::__construct();
 	}
-
-	/**
-	 * Main Instance
-	 *
-	 * @since 1.0.0
-	 */
-	public static function instance() {
-		if ( function_exists( 'get_called_class' ) ) {
-			$class = get_called_class();
-		} else {
-			$class = self::php52_get_called_class();
-		}
-
-		if ( ! isset( self::$_instances[ $class ] ) ) {
-			self::$_instances[ $class ] = new $class();
-		}
-
-		return self::$_instances[ $class ];
-	}
-
-	/**
-	 * PHP 5.2 variant of `get_called_class()`
-	 *
-	 * Really ugly, but PHP 5.2 does not support late static binding.
-	 * Using `debug_backtrace()` is the only way.
-	 *
-	 * This function must exist in every class that should use `get_called_class()`.
-	 *
-	 * @since 1.0.0
-	 */
-	private static function php52_get_called_class() {
-		$arr = array();
-		$arr_traces = debug_backtrace();
-		foreach ( $arr_traces as $arr_trace ) {
-			$class_name = '';
-			if ( isset( $arr_trace['class'] ) ) {
-				$class_name = $arr_trace['class'];
-			} elseif ( isset( $arr_trace['function'] ) && isset( $arr_trace['args'] ) && isset( $arr_trace['args'][0] ) && is_array( $arr_trace['args'][0] ) ) {
-				if ( 'call_user_func' == $arr_trace['function'] && 'instance' == $arr_trace['args'][0][1] && is_string( $arr_trace['args'][0][0] ) ) {
-					$class_name = $arr_trace['args'][0][0];
-				}
-			}
-
-			if ( $class_name && 0 == count( $arr ) || get_parent_class( $class_name ) == end( $arr ) ) {
-				$arr[] = $class_name;
-			}
-		}
-		return end( $arr );
-	}
-
-	/**
-	 * Function for setting initial Data
-	 */
-	abstract function init();
 
 	/**
 	 * Checks if the user can pass

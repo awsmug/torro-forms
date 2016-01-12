@@ -29,19 +29,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Results_Component extends Torro_Component {
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		parent::__construct();
+	}
 
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	protected function init() {
 		$this->name = 'results';
 		$this->title = __( 'Results', 'torro-forms' );
 		$this->description = __( 'Handling Results.', 'torro-forms' );
 	}
 
-	public function includes() {
+	protected function includes() {
 		$folder = torro()->path( 'components/results/' );
 
 		// Result Handler API

@@ -30,55 +30,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_ResultHandler {
-	/**
-	 * Name of Result Component
-	 *
-	 * @since 1.0.0
-	 */
-	var $name;
-
-	/**
-	 * Title of Result Component
-	 *
-	 * @since 1.0.0
-	 */
-	var $title;
-
-	/**
-	 * Description of Result Component
-	 *
-	 * @since 1.0.0
-	 */
-	var $description;
-
-	/**
-	 * Already initialized?
-	 *
-	 * @since 1.0.0
-	 */
-	public $initialized = FALSE;
-
+abstract class Torro_ResultHandler extends Torro_Instance {
 	/**
 	 * Settings fields
 	 *
 	 * @since 1.0.0
 	 */
-	var $settings_fields = array();
+	protected $settings_fields = array();
 
 	/**
 	 * Settings
 	 *
 	 * @since 1.0.0
 	 */
-	var $settings = array();
+	protected $settings = array();
 
 	/**
 	 * Contains the option_content
 	 *
 	 * @since 1.0.0
 	 */
-	public $option_content = '';
+	protected $option_content = '';
+
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		parent::__construct();
+	}
 
 	/**
 	 * Content of option in Form builder
@@ -131,24 +112,4 @@ abstract class Torro_ResultHandler {
 		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
 		$this->settings = $settings_handler->get_field_values();
 	}
-
-	/**
-	 * Function for enqueuing Admin Scripts - Have to be overwritten by Child Class.
-	 */
-	public abstract function admin_scripts();
-
-	/**
-	 * Function for enqueuing Admin Styles - Have to be overwritten by Child Class.
-	 */
-	public abstract function admin_styles();
-
-	/**
-	 * Function for enqueuing Frontend Scripts - Have to be overwritten by Child Class.
-	 */
-	public abstract function frontend_scripts();
-
-	/**
-	 * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
-	 */
-	public abstract function frontend_styles();
 }
