@@ -48,31 +48,51 @@ class Torro {
 
 		// load manager classes
 		require_once( $this->path( 'core/managers/class-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-components-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-form-elements-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-invalid-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-settings-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-templatetags-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-actions-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-restrictions-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-result-handlers-manager.php' ) );
 
 		// initialize managers
-		$this->managers['components'] = new Torro_Manager( 'Torro_Component', array( $this, 'after_components_added' ) );
-		$this->managers['form_elements'] = new Torro_Form_Elements_Manager( 'Torro_Form_Element' );
-		$this->managers['settings'] = new Torro_Manager( 'Torro_Settings', array( $this, 'after_settings_added' ) );
-		$this->managers['templatetags'] = new Torro_Manager( 'Torro_TemplateTags', array( $this, 'after_templatetags_added' ) );
+		$this->managers['components'] = Torro_Components_Manager::instance();
+		$this->managers['form_elements'] = Torro_Form_Elements_Manager::instance();
+		$this->managers['settings'] = Torro_Settings_Manager::instance();
+		$this->managers['templatetags'] = Torro_TemplateTags_Manager::instance();
 
-		$this->managers['actions'] = new Torro_Manager( 'Torro_Action', array( $this, 'after_actions_added' ) );
-		$this->managers['restrictions'] = new Torro_Manager( 'Torro_Restriction', array( $this, 'after_restrictions_added' ) );
-		$this->managers['result_handlers'] = new Torro_Manager( 'Torro_ResultHandler', array( $this, 'after_result_handlers_added' ) );
-
-		// dummy object for invalid functions
-		$this->managers['invalid'] = new Torro_Invalid_Manager();
+		$this->managers['actions'] = Torro_Actions_Manager::instance();
+		$this->managers['restrictions'] = Torro_Restrictions_Manager::instance();
+		$this->managers['result_handlers'] = Torro_ResultHandlers_Manager::instance();
 	}
 
-	public function __call( $function, $args = array() ) {
-		if ( 'invalid' !== $function && isset( $this->managers[ $function ] ) ) {
-			return $this->managers[ $function ];
-		}
+	public function components() {
+		return $this->managers['components'];
+	}
 
-		// return an invalid dummy object to prevent fatal errors from chaining functions
-		$this->managers['invalid']->set_invalid_function( $function );
-		return $this->managers['invalid'];
+	public function form_elements() {
+		return $this->managers['form_elements'];
+	}
+
+	public function settings() {
+		return $this->managers['settings'];
+	}
+
+	public function templatetags() {
+		return $this->managers['templatetags'];
+	}
+
+	public function actions() {
+		return $this->managers['actions'];
+	}
+
+	public function restrictions() {
+		return $this->managers['restrictions'];
+	}
+
+	public function result_handlers() {
+		return $this->managers['result_handlers'];
 	}
 
 	public function path( $path = '' ) {
@@ -133,48 +153,6 @@ class Torro {
 
 	public function css_url( $name = '' ) {
 		return $this->url( 'assets/css/' . $name . '.css' );
-	}
-
-	// callback function after having added result handlers
-	public function after_components_added( $instance ) {
-		$instance->check_and_start();
-
-		return $instance;
-	}
-
-	// callback function after having added settings
-	public function after_settings_added( $instance ) {
-		add_action( 'torro_save_settings', array( $instance, 'save_settings' ), 10, 1 );
-
-		return $instance;
-	}
-
-	// callback function after having added templatetags
-	public function after_templatetags_added( $instance ) {
-		$instance->tags();
-
-		return $instance;
-	}
-
-	// callback function after having added actions
-	public function after_actions_added( $instance ) {
-		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-
-		return $instance;
-	}
-
-	// callback function after having added restrictions
-	public function after_restrictions_added( $instance ) {
-		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-
-		return $instance;
-	}
-
-	// callback function after having added result handlers
-	public function after_result_handlers_added( $instance ) {
-		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-
-		return $instance;
 	}
 }
 

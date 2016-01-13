@@ -1,8 +1,8 @@
 <?php
 /**
- * Torro Forms form element classes manager class
+ * Torro Forms element classes manager class
  *
- * This class holds and manages all form element class instances.
+ * This class holds and manages all element class instances.
  * It can return both general instances for a type and instances for a specific element.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
@@ -32,8 +32,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Form_Elements_Manager extends Torro_Manager {
-
 	protected $element_instances = array();
+
+	protected function init() {
+		$this->base_class = 'Torro_Form_Element';
+	}
+
+	protected function after_instance_added( $instance ) {
+		return $instance;
+	}
 
 	public function get( $element_id, $type = '' ) {
 		global $wpdb;

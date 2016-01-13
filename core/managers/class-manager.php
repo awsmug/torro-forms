@@ -2,7 +2,7 @@
 /**
  * Torro Forms classes manager class
  *
- * This class holds and manages all class instances.
+ * This abstract class holds and manages all class instances.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -30,15 +30,78 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Manager {
-	protected $base_class = ''; //TODO: replace this with base component class name when we have it
-	protected $added_callback = null;
+abstract class Torro_Manager {
+	/**
+	 * The Single instances of the components
+	 *
+	 * @since 1.0.0
+	 */
+	protected static $_instances = array();
+
+	/**
+	 * Main Instance
+	 *
+	 * @since 1.0.0
+	 */
+	public static function instance() {
+		if ( function_exists( 'get_called_class' ) ) {
+			$class = get_called_class();
+		} else {
+			$class = self::php52_get_called_class();
+		}
+
+		if ( ! isset( self::$_instances[ $class ] ) ) {
+			self::$_instances[ $class ] = new $class();
+		}
+
+		return self::$_instances[ $class ];
+	}
+
+	/**
+	 * PHP 5.2 variant of `get_called_class()`
+	 *
+	 * Really ugly, but PHP 5.2 does not support late static binding.
+	 * Using `debug_backtrace()` is the only way.
+	 *
+	 * This function must exist in every class that should use `get_called_class()`.
+	 *
+	 * @since 1.0.0
+	 */
+	protected static function php52_get_called_class() {
+		$arr = array();
+		$arr_traces = debug_backtrace();
+		foreach ( $arr_traces as $arr_trace ) {
+			$class_name = '';
+			if ( isset( $arr_trace['class'] ) ) {
+				$class_name = $arr_trace['class'];
+			} elseif ( isset( $arr_trace['function'] ) && isset( $arr_trace['args'] ) && isset( $arr_trace['args'][0] ) && is_array( $arr_trace['args'][0] ) ) {
+				if ( 'call_user_func' == $arr_trace['function'] && 'instance' == $arr_trace['args'][0][1] && is_string( $arr_trace['args'][0][0] ) ) {
+					$class_name = $arr_trace['args'][0][0];
+				}
+			}
+
+			if ( $class_name && 0 == count( $arr ) || get_parent_class( $class_name ) == end( $arr ) ) {
+				$arr[] = $class_name;
+			}
+		}
+		return end( $arr );
+	}
+
+	protected $base_class = '';
+
 	protected $instances = array();
 
-	public function __construct( $base_class, $added_callback = null ) {
-		$this->base_class = $base_class;
-		$this->added_callback = $added_callback;
+	public function __construct() {
+		$this->init();
+
+		if ( empty( $this->base_class ) ) {
+			$this->base_class = 'Torro_Instance';
+		}
 	}
+
+	protected abstract function init();
+
+	protected abstract function after_instance_added( $instance );
 
 	public function add( $class_name ) {
 		if ( isset( $this->instances[ $class_name ] ) ) {
@@ -75,9 +138,7 @@ class Torro_Manager {
 			add_action( 'wp_enqueue_scripts', array( $class, 'frontend_scripts' ) );
 		}
 
-		if ( null !== $this->added_callback && is_callable( $this->added_callback ) ) {
-			$class = call_user_func( $this->added_callback, $class );
-		}
+		$this->after_instance_added( $class );
 
 		if ( ! $class->initialized ) {
 			$class->initialized = true;

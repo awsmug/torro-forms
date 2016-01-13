@@ -1,8 +1,8 @@
 <?php
 /**
- * Torro Forms dummy manager class for invalid instances.
+ * Torro Forms component classes manager class
  *
- * Prevents fatal errors from using chained functions.
+ * This class holds and manages all component class instances.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -30,27 +30,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Invalid_Manager extends Torro_Manager {
-	protected $function_name = '';
-
-	public function __construct( $base_class = 'invalid', $added_callback = null ) {
-		$this->base_class = 'invalid';
-		$this->added_callback = null;
+class Torro_Components_Manager extends Torro_Manager {
+	protected function init() {
+		$this->base_class = 'Torro_Component';
 	}
 
-	public function set_invalid_function( $function_name ) {
-		$this->function_name = $function_name;
-	}
+	protected function after_instance_added( $instance ) {
+		$instance->check_and_start();
 
-	public function add( $class_name ) {
-		return new WP_Error( 'torro_instance_invalid', sprintf( __( 'The function name %s does not correspond to a valid instance manager.', 'torro-forms' ), $this->function_name ) );
-	}
-
-	public function get( $name ) {
-		return false;
-	}
-
-	public function get_all() {
-		return array();
+		return $instance;
 	}
 }
