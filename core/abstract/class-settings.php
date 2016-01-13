@@ -177,7 +177,7 @@ abstract class Torro_Settings extends Torro_Instance {
  */
 function torro_get_settings( $settings_name ) {
 	$settings = torro()->settings()->get( $settings_name );
-	if ( ! $settings ) {
+	if ( is_wp_error( $settings ) ) {
 		return false;
 	}
 

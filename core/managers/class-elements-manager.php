@@ -45,7 +45,7 @@ class Torro_Form_Elements_Manager extends Torro_Manager {
 	public function get( $element_id, $type = '' ) {
 		global $wpdb;
 
-		// maybe $element_id is actually a form element name
+		// maybe $element_id is actually an element type name
 		if ( isset( $this->instances[ $element_id ] ) ) {
 			return $this->instances[ $element_id ];
 		}
@@ -55,12 +55,12 @@ class Torro_Form_Elements_Manager extends Torro_Manager {
 			if ( empty( $type ) ) {
 				$type = $wpdb->get_var( $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", $element_id ) );
 				if ( ! $type ) {
-					return false;
+					return new Torro_Error( 'torro_element_id_invalid', sprintf( __( 'The element ID %s is invalid. The type could not be detected.', 'torro-forms' ), $element_id ), __METHOD__ );
 				}
 			}
 
 			if ( ! isset( $this->instances[ $type ] ) ) {
-				return false;
+				return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %s does not exist.', 'torro-forms' ), $type ), __METHOD__ );
 			}
 
 			$class = get_class( $this->instances[ $type ] );

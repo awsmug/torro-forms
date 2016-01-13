@@ -105,6 +105,7 @@ class Torro_Init {
 	 * Including files of component
 	 */
 	private static function includes() {
+		require_once( plugin_dir_path( __FILE__ ) . 'core/error.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/torro.php' );
 
 		$includes_folder = torro()->path( 'includes/' );

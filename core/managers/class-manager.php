@@ -105,17 +105,17 @@ abstract class Torro_Manager {
 
 	public function add( $class_name ) {
 		if ( isset( $this->instances[ $class_name ] ) ) {
-			return new WP_Error( 'torro_instance_already_exist', sprintf( __( 'The instance of class %s already exists.', 'torro-forms' ), $class_name ) );
+			return new Torro_Error( 'torro_instance_already_exist', sprintf( __( 'The instance of class %s already exists.', 'torro-forms' ), $class_name ), __METHOD__ );
 		}
 
 		if ( ! class_exists( $class_name ) ) {
-			return new WP_Error( 'torro_class_not_exist', sprintf( __( 'The class %s does not exists.', 'torro-forms' ), $class_name ) );
+			return new Torro_Error( 'torro_class_not_exist', sprintf( __( 'The class %s does not exist.', 'torro-forms' ), $class_name ), __METHOD__ );
 		}
 
 		$class = call_user_func( array( $class_name, 'instance' ) );
 
 		if ( ! is_a( $class, $this->base_class ) ) {
-			return new WP_Error( 'torro_class_not_child', sprintf( __( 'The class %1$s is not a child of class %2$s.', 'torro-forms' ), $class_name, $this->base_class ) );
+			return new Torro_Error( 'torro_class_not_child', sprintf( __( 'The class %1$s is not a child of class %2$s.', 'torro-forms' ), $class_name, $this->base_class ), __METHOD__ );
 		}
 
 		if ( empty( $class->name ) ) {
@@ -149,7 +149,7 @@ abstract class Torro_Manager {
 
 	public function get( $name ) {
 		if ( ! isset( $this->instances[ $name ] ) ) {
-			return false;
+			return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %s does not exist.', 'torro-forms' ), $name ), __METHOD__ );
 		}
 
 		return $this->instances[ $name ];
