@@ -64,7 +64,7 @@ class Torro {
 
 		$this->managers['actions'] = Torro_Actions_Manager::instance();
 		$this->managers['restrictions'] = Torro_Restrictions_Manager::instance();
-		$this->managers['result_handlers'] = Torro_ResultHandlers_Manager::instance();
+		$this->managers['resulthandlers'] = Torro_ResultHandlers_Manager::instance();
 	}
 
 	public function components() {
@@ -91,8 +91,8 @@ class Torro {
 		return $this->managers['restrictions'];
 	}
 
-	public function result_handlers() {
-		return $this->managers['result_handlers'];
+	public function resulthandlers() {
+		return $this->managers['resulthandlers'];
 	}
 
 	public function path( $path = '' ) {
