@@ -176,7 +176,10 @@ class Torro_Init {
 			return;
 		}
 
-		$settings = torro_get_settings( 'general' );
+		$settings = array();
+		if( function_exists( 'torro_get_settings' ) ) {
+			$settings = torro_get_settings( 'general' );
+		}
 
 		$slug = 'forms';
 		if ( array_key_exists( 'slug', $settings  ) ) {
