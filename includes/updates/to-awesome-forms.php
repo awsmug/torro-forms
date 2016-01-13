@@ -120,6 +120,4 @@ function torro_questions_to_awesome_forms() {
 	delete_option( 'questions_invitation_text_template' );
 	delete_option( 'questions_reinvitation_subject_template' );
 	delete_option( 'questions_reinvitation_text_template' );
-
-	update_option( 'torro_db_version', '1.0.1' );
 }

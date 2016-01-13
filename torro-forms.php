@@ -364,36 +364,46 @@ class Torro_Init {
 
 		self::admin_notice( 'Current DB version: ' . $current_db_version );
 
+		// Upgrading from Questions to Awesome Forms
 		if ( false !== get_option( 'questions_db_version' ) ) {
 			require_once( 'includes/updates/to-awesome-forms.php' );
 			torro_questions_to_awesome_forms();
 
+			update_option( 'af_db_version', '1.0.1' );
+			delete_option( 'questions_db_version' );
+
 			self::log( 'Updated to DB version  1.0.1' );
 		}
 
+		// Upgrading form Awesome Forms to Torro Forms
 		if ( false !== get_option( 'af_db_version' ) ) {
 			require_once( 'includes/updates/to-torro-forms.php' );
 			awesome_forms_to_torro_forms();
 
-			self::admin_notice( 'Updated to Torro forms 1.0.2' );
+			update_option( 'torro_db_version', '1.0.2' );
+			delete_option( 'af_db_version' );
+
+			self::admin_notice( 'Updated to Torro forms DB 1.0.2' );
 			self::log( 'Updated to DB version  1.0.2' );
 		}
 
-		if ( false === get_option( 'torro_db_version' ) || false === self::is_installed() || true === version_compare( $current_db_version, $script_db_version, '<' )  ) {
-			self::install_tables();
-			update_option( 'torro_db_version', $script_db_version );
-
-			self::admin_notice( 'Updated to DB version  1.0.3' );
-			self::log( 'Updated to DB version  1.0.3' );
-		}
-
+		// Upgrading from Torro DB version 1.0.2 to 1.0.3
 		if( true === version_compare( $current_db_version, '1.0.3', '<' ) ){
 			require_once( 'includes/updates/to_1.0.3.php' );
 			awesome_forms_to_1_0_3();
 			update_option( 'torro_db_version', $script_db_version );
 
-			self::admin_notice( 'Updated to DB version  1.0.3' );
-			self::log( 'Updated to DB version  1.0.3' );
+			self::admin_notice( 'Updated to Torro forms DB  version  1.0.3' );
+			self::log( 'Updated to DB version 1.0.3' );
+		}
+
+		// Fresh Torro DB install
+		if ( false === $current_db_version || false === self::is_installed() ) {
+			self::install_tables();
+			update_option( 'torro_db_version', $script_db_version );
+
+			self::admin_notice( 'Installed Torro Torro forms DB version 1.0.3' );
+			self::log( 'Installed Torro DB version 1.0.3' );
 		}
 	}
 
