@@ -71,4 +71,4 @@ class Torro_Form_Element_Content extends Torro_Form_Element {
 	}
 }
 
-torro()->form_elements()->add( 'Torro_Form_Element_Content' );
+torro()->elements()->add( 'Torro_Form_Element_Content' );

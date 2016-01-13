@@ -55,4 +55,4 @@ class Torro_Form_Element_Separator extends Torro_Form_Element {
 	}
 }
 
-torro()->form_elements()->add( 'Torro_Form_Element_Separator' );
+torro()->elements()->add( 'Torro_Form_Element_Separator' );

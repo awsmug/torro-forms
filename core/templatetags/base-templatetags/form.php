@@ -85,7 +85,7 @@ class Torro_FormTemplateTags extends Torro_TemplateTags {
 			return;
 		}
 
-		$element = torro()->form_elements()->get( $element_id );
+		$element = torro()->elements()->get( $element_id );
 
 		/**
 		 * Displaying elements

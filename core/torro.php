@@ -49,7 +49,7 @@ class Torro {
 		// load manager classes
 		require_once( $this->path( 'core/managers/class-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-components-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-form-elements-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-elements-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-settings-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-templatetags-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-actions-manager.php' ) );
@@ -58,7 +58,7 @@ class Torro {
 
 		// initialize managers
 		$this->managers['components'] = Torro_Components_Manager::instance();
-		$this->managers['form_elements'] = Torro_Form_Elements_Manager::instance();
+		$this->managers['elements'] = Torro_Form_Elements_Manager::instance();
 		$this->managers['settings'] = Torro_Settings_Manager::instance();
 		$this->managers['templatetags'] = Torro_TemplateTags_Manager::instance();
 
@@ -71,8 +71,8 @@ class Torro {
 		return $this->managers['components'];
 	}
 
-	public function form_elements() {
-		return $this->managers['form_elements'];
+	public function elements() {
+		return $this->managers['elements'];
 	}
 
 	public function settings() {

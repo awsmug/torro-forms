@@ -187,4 +187,4 @@ class Torro_Form_Element_Textfield extends Torro_Form_Element {
 	}
 }
 
-torro()->form_elements()->add( 'Torro_Form_Element_Textfield' );
+torro()->elements()->add( 'Torro_Form_Element_Textfield' );

@@ -82,7 +82,7 @@ class Torro_ChartsShortCodes {
 			$headline_arr = explode( '_', $headline );
 
 			$element_id = (int) $headline_arr[ 1 ];
-			$element = torro()->form_elements()->get( $element_id );
+			$element = torro()->elements()->get( $element_id );
 
 			// Skip collecting Data if there is no analyzable Data
 			if ( ! $element->has_answers ) {
@@ -134,7 +134,7 @@ class Torro_ChartsShortCodes {
 		$results = $form_results->element_results( $element->id );
 		$results = Torro_Result_Charts::format_results_by_element( $results );
 
-		$element = torro()->form_elements()->get( $element->id );
+		$element = torro()->elements()->get( $element->id );
 
 		$chart_creator = new Torro_Result_Charts_C3();
 

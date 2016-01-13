@@ -94,7 +94,7 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler {
 				$headline_arr = explode( '_', $headline );
 
 				$element_id = (int) $headline_arr[ 1 ];
-				$element = torro()->form_elements()->get( $element_id );
+				$element = torro()->elements()->get( $element_id );
 
 				// Skip collecting Data if there is no analyzable Data
 				if ( ! $element->has_answers ) {
@@ -174,7 +174,7 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler {
 			}
 
 			$element_id = (int) $column_name_arr[1];
-			$element = torro()->form_elements()->get( $element_id );
+			$element = torro()->elements()->get( $element_id );
 
 			if ( 0 < count( $element->sections ) ) {
 				$result_key = 'element_' . $element_id . '_' . $column_name_arr[2];

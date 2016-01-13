@@ -130,4 +130,4 @@ class Torro_Form_Element_Textarea extends Torro_Form_Element {
 	}
 }
 
-torro()->form_elements()->add( 'Torro_Form_Element_Textarea' );
+torro()->elements()->add( 'Torro_Form_Element_Textarea' );

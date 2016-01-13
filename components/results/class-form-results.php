@@ -218,7 +218,7 @@ class Torro_Form_Results {
 
 						if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 							$element_id = $column_arr[ 1 ];
-							$element = torro()->form_elements()->get( $element_id );
+							$element = torro()->elements()->get( $element_id );
 
 							$column_name_new = $element->replace_column_name( $column_name );
 
@@ -295,7 +295,7 @@ class Torro_Form_Results {
 				}
 			}
 
-			$element_obj = torro()->form_elements()->get( $element->id );
+			$element_obj = torro()->elements()->get( $element->id );
 
 			if ( ! $element_obj ) {
 				continue;

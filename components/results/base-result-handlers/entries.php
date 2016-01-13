@@ -304,7 +304,7 @@ class Torro_ResultsEntries extends Torro_ResultHandler {
 							// On Elements
 							if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 								$element_id = $column_arr[ 1 ];
-								$element = torro()->form_elements()->get( $element_id );
+								$element = torro()->elements()->get( $element_id );
 
 								$column_name = $element->replace_column_name( $column_name );
 

@@ -135,7 +135,7 @@ class Torro_Form extends Torro_Post {
 		// Running all elements which have been found
 		if ( is_array( $results ) ) {
 			foreach( $results as $result ) {
-				if ( ( $element = torro()->form_elements()->get( $result->id, $result->type ) ) ) {
+				if ( ( $element = torro()->elements()->get( $result->id, $result->type ) ) ) {
 					$elements[] = $element; // Adding element
 
 					if ( $element->splits_form ) {
