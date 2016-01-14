@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro {
+final class Torro {
 	private static $instance = null;
 
 	public static function instance() {
@@ -43,7 +43,7 @@ class Torro {
 	private $managers = array();
 	private $plugin_file = '';
 
-	public function __construct() {
+	private function __construct() {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/torro-forms.php';
 
 		// load manager classes
