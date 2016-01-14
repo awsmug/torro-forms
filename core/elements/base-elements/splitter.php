@@ -28,7 +28,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Element_Splitter extends Torro_Form_Element {
+final class Torro_Form_Element_Splitter extends Torro_Form_Element {
+	private static $instances = array();
+
+	public static function instance( $id = null ) {
+		$slug = $id;
+		if ( null === $slug ) {
+			$slug = 'CLASS';
+		}
+		if ( ! isset( self::$instances[ $slug ] ) ) {
+			self::$instances[ $slug ] = new self( $id );
+		}
+		return self::$instances[ $slug ];
+	}
+
 	/**
 	 * Initializing.
 	 *

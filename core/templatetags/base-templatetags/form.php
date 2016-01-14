@@ -29,7 +29,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_FormTemplateTags extends Torro_TemplateTags {
+final class Torro_FormTemplateTags extends Torro_TemplateTags {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	/**
 	 * Initializing.
 	 *

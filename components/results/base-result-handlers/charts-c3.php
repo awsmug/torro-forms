@@ -30,7 +30,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Result_Charts_C3 extends Torro_Result_Charts {
+final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	/**
 	 * Initializing.
 	 *

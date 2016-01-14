@@ -28,7 +28,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_GeneralSettings extends Torro_Settings {
+final class Torro_GeneralSettings extends Torro_Settings {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	/**
 	 * Initializing.
 	 *

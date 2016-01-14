@@ -31,7 +31,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form_Elements_Manager extends Torro_Manager {
+final class Torro_Form_Elements_Manager extends Torro_Manager {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	protected $element_instances = array();
 
 	protected function init() {

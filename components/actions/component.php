@@ -29,7 +29,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Actions_Component extends Torro_Component {
+final class Torro_Actions_Component extends Torro_Component {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	/**
 	 * Initializing.
 	 *

@@ -28,7 +28,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_ResultsEntries extends Torro_ResultHandler {
+final class Torro_ResultsEntries extends Torro_ResultHandler {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	/**
 	 * Initializing.
 	 *

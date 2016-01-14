@@ -30,7 +30,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_EmailNotifications extends Torro_Action {
+final class Torro_EmailNotifications extends Torro_Action {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	/**
 	 * From Email Name
 	 * @var

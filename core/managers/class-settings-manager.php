@@ -30,7 +30,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Settings_Manager extends Torro_Manager {
+final class Torro_Settings_Manager extends Torro_Manager {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 	protected function init() {
 		$this->base_class = 'Torro_Settings';
 	}

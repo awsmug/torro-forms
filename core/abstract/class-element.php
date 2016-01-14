@@ -30,39 +30,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Torro_Form_Element extends Torro_Instance {
 	/**
-	 * The Single instances of the components
-	 *
-	 * @since 1.0.0
-	 */
-	protected static $id_instances = array();
-
-	/**
-	 * Main Instance
-	 *
-	 * @since 1.0.0
-	 */
-	public static function instance( $id = null ) {
-		if ( function_exists( 'get_called_class' ) ) {
-			$class = get_called_class();
-		} else {
-			$class = self::php52_get_called_class();
-		}
-
-		if ( null !== $id ) {
-			if ( ! isset( self::$id_instances[ $id ] ) ) {
-				self::$id_instances[ $id ] = new $class( $id );
-			}
-			return self::$id_instances[ $id ];
-		}
-
-		if ( ! isset( self::$_instances[ $class ] ) ) {
-			self::$_instances[ $class ] = new $class();
-		}
-
-		return self::$_instances[ $class ];
-	}
-
-	/**
 	 * ID of instanced Element
 	 *
 	 * @since 1.0.0
