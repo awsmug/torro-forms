@@ -60,7 +60,7 @@ class Torro_Form_Elements_Manager extends Torro_Manager {
 			}
 
 			if ( ! isset( $this->instances[ $type ] ) ) {
-				return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %s does not exist.', 'torro-forms' ), $type ), __METHOD__ );
+				return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %1$s (for element ID %2$s) does not exist.', 'torro-forms' ), $type, $element_id ), __METHOD__ );
 			}
 
 			$class = get_class( $this->instances[ $type ] );

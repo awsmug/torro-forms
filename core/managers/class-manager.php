@@ -91,7 +91,7 @@ abstract class Torro_Manager {
 
 	protected $instances = array();
 
-	public function __construct() {
+	protected function __construct() {
 		$this->init();
 
 		if ( empty( $this->base_class ) ) {
