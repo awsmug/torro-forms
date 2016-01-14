@@ -1,24 +1,88 @@
-(function( $ ) {
+(function( exports, $, translations ) {
 	'use strict';
-	$( function() {
-		var torro_actions_refresh_notifications = function() {
-			var notifications_list_count = $( '#form-email-notifications .notifications  > div' ).length;
 
-			if ( 0 === notifications_list_count ) {
-				$( '#form-email-notifications .notifications .no-entry-found' ).show();
-			} else{
-				$( '#form-email-notifications .notifications .no-entry-found' ).hide();
-			}
-		}
+	function Email_Notifications( translations ) {
+		this.translations = translations;
 
-		var torro_actions_init_email_notifications = function() {
-			var notifications_list = $( '#form-email-notifications .notifications' );
+		this.selectors = {
+			notifications: '#form-email-notifications .notifications',
+			notifications_counter: '#form-email-notifications .notifications  > div',
+			add_notification_button: '#form_add_email_notification',
+			delete_notification_button: '.form-delete-email-notification',
+			delete_notification_dialog: '#delete_email_notification_dialog',
+			nothing_found_sub: '.no-entry-found'
+		};
+	}
+
+	Email_Notifications.prototype = {
+		init: function() {
+			this.init_notifications();
+
+			var self = this;
+
+			var email_notification_id;
+			var delete_notification_dialog = $( this.selectors.delete_notification_dialog );
+
+			delete_notification_dialog.dialog({
+				'dialogClass'	: 'wp-dialog',
+				'modal'			: true,
+				'autoOpen'		: false,
+				'closeOnEscape'	: true,
+				'minHeight'		: 80,
+				'buttons'		: [
+					{
+						text: this.translations.yes,
+						click: function() {
+							$( '.notification-' + email_notification_id ).remove();
+							$( '.notification-' + email_notification_id + '-content' ).remove();
+
+							self.refresh_nothing_found();
+
+							$( this ).dialog('close');
+						}
+					},
+					{
+						text: this.translations.no,
+						click: function() {
+							$( this ).dialog( 'close' );
+						}
+					},
+				],
+			});
+
+			$( document ).on( 'click', this.selectors.add_notification_button, function( e ) {
+				var data = {
+					action: 'get_email_notification_html',
+				};
+
+				$.post( ajaxurl, data, function( response ) {
+					response = jQuery.parseJSON( response );
+
+					$( self.selectors.notifications ).prepend( response.html );
+
+					self.init_notifications();
+
+					$( '.notification-' + response.id ).hide().fadeIn( 2500 );
+				});
+			});
+
+			$( document ).on( 'click', this.selectors.delete_notification_button, function( e ){
+				email_notification_id = $( this ).attr( 'data-emailnotificationid' );
+
+				e.preventDefault();
+
+				delete_notification_dialog.dialog( 'open' );
+			});
+		},
+
+		init_notifications: function() {
+			var notifications_list = $( this.selectors.notifications );
 
 			if ( notifications_list.hasClass( 'ui-accordion' ) ) {
 				notifications_list.accordion( 'destroy' );
 			}
 
-			torro_actions_refresh_notifications();
+			this.refresh_nothing_found();
 
 			notifications_list.accordion({
 				collapsible: true,
@@ -27,62 +91,23 @@
 				heightStyle: 'content'
             });
 
-			window.form_builder.handle_templatetag_buttons();
+			exports.handle_templatetag_buttons();
+		},
 
-			var form_deletemailnotification_dialog = $( '#delete_email_notification_dialog' );
-			var email_notification_id;
-
-			form_deletemailnotification_dialog.dialog({
-				'dialogClass'	: 'wp-dialog',
-				'modal'			: true,
-				'autoOpen'		: false,
-				'closeOnEscape'	: true,
-				'minHeight'		: 80,
-				'buttons'		: [
-					{
-						text: translation_email_notifications.yes,
-						click: function() {
-							$( '.notification-' + email_notification_id ).remove();
-							$( '.notification-' + email_notification_id + '-content' ).remove();
-
-							torro_actions_refresh_notifications();
-
-							$( this ).dialog('close');
-						}
-					},
-					{
-						text: translation_email_notifications.no,
-						click: function() {
-							$( this ).dialog( 'close' );
-						}
-					},
-				],
-			});
-
-			$( '.form-delete-email-notification' ).click( function( event ){
-				email_notification_id = $( this ).attr( 'data-emailnotificationid' );
-
-				event.preventDefault();
-
-				form_deletemailnotification_dialog.dialog( 'open' );
-			});
+		refresh_nothing_found: function() {
+			if ( 0 === $( this.selectors.notifications_counter ).length ) {
+				$( this.selectors.notifications ).find( this.selectors.nothing_found_sub ).show();
+			} else {
+				$( this.selectors.notifications ).find( this.selectors.nothing_found_sub ).hide();
+			}
 		}
+	};
 
-		torro_actions_init_email_notifications();
+	var email_notifications = new Email_Notifications( translations );
 
-		$( '#form_add_email_notification').click( function() {
-			var data = {
-				action: 'get_email_notification_html',
-			};
-
-			$.post( ajaxurl, data, function( response ) {
-				response = jQuery.parseJSON( response );
-
-				$( '#form-email-notifications .notifications' ).prepend( response.html );
-				torro_actions_init_email_notifications();
-
-				$( '.notification-' + response.id ).hide().fadeIn( 2500 );
-			});
-		})
+	$( document ).ready( function() {
+		email_notifications.init();
 	});
-}( jQuery ) );
+
+	exports.add_extension( 'email_notifications', email_notifications );
+}( form_builder, jQuery, translation_email_notifications ) );

@@ -33,6 +33,8 @@
 	function Form_Builder( translations ) {
 		this.translations = translations;
 
+		this.extensions = {};
+
 		this.selectors = {
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '#drag-drop-inside',
@@ -621,6 +623,18 @@
          */
 		get_form_id: function() {
 			return $( '#post_ID' ).val();
+		},
+
+		add_extension: function( name, obj ) {
+			this.extensions[ name ] = obj;
+		},
+
+		get_extension: function( name ) {
+			return this.extensions[ name ];
+		},
+
+		get_extensions: function() {
+			return this.extensions;
 		}
 	};
 
