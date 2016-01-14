@@ -74,11 +74,16 @@ abstract class Torro_Manager {
 			$class->description = sprintf( __( 'This is a %s.', 'torro-forms' ), ucwords( $class_name, '_' ) );
 		}
 
-		if ( is_admin() ) {
+		if ( method_exists( $class, 'admin_styles' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $class, 'admin_styles' ) );
+		}
+		if ( method_exists( $class, 'admin_scripts' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $class, 'admin_scripts' ) );
-		} else {
+		}
+		if ( method_exists( $class, 'frontend_styles' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $class, 'frontend_styles' ) );
+		}
+		if ( method_exists( $class, 'frontend_scripts' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $class, 'frontend_scripts' ) );
 		}
 

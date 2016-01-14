@@ -109,24 +109,4 @@ abstract class Torro_Instance {
 	 * @return mixed
 	 */
 	protected abstract function init();
-
-	/**
-	 * Function for enqueuing Admin Scripts - Have to be overwritten by Child Class.
-	 */
-	public function admin_scripts() {}
-
-	/**
-	 * Function for enqueuing Admin Styles - Have to be overwritten by Child Class.
-	 */
-	public function admin_styles() {}
-
-	/**
-	 * Function for enqueuing Frontend Scripts - Have to be overwritten by Child Class.
-	 */
-	public function frontend_scripts() {}
-
-	/**
-	 * Function for enqueuing Frontend Styles - Have to be overwritten by Child Class.
-	 */
-	public function frontend_styles() {}
 }
