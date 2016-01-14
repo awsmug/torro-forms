@@ -176,15 +176,8 @@ class Torro_Init {
 			return;
 		}
 
-		$settings = array();
-		if( function_exists( 'torro_get_settings' ) ) {
-			$settings = torro_get_settings( 'general' );
-		}
-
-		$slug = 'forms';
-		if ( array_key_exists( 'slug', $settings  ) ) {
-			$slug = $settings[ 'slug' ];
-		}
+		// torro_get_settings() might not be available here, so do it plain WordPress
+		$slug = get_option( 'torro_settings_general_slug', 'forms' );
 
 		/**
 		 * Post Types

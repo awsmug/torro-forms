@@ -71,14 +71,14 @@ class Torro_GeneralSettings extends Torro_Settings {
 		$settings_arr = array(
 			'modules'		=> array(
 				'title'			=> __( 'Modules', 'torro-forms' ),
-				'description'	=> __( 'You don´t need some of these components? Switch it off!', 'torro-forms' ),
+				'description'	=> __( 'You don´t need some of these components? Switch them off!', 'torro-forms' ),
 				'type'			=> 'checkbox',
 				'values'		=> $components,
 				'default'		=> $defaults
 			),
 		    'slug'			=> array(
 			    'title'			=> __( 'Slug', 'torro-forms' ),
-			    'description'	=> __( 'The Slug name fot URL building. (e.g. for an URL like http://mydomain.com/<strong>forms</strong>/mycontactform)'),
+			    'description'	=> __( 'The Slug name for URL building. (e.g. for an URL like http://mydomain.com/<strong>forms</strong>/mycontactform)'),
 			    'type'			=> 'text',
 			    'default'		=> ! get_option( 'questions_db_version' ) ? 'forms' : 'survey'
 			)
