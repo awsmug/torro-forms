@@ -82,9 +82,6 @@ class Torro_Formbuilder {
 		// Running each Element
 		if ( count( $form->elements ) > 0 ) {
 			foreach ( $form->elements as $element ) {
-				if ( is_wp_error( $element ) ) {
-					continue;
-				}
 				$html .= $element->draw_admin();
 				torro_add_element_templatetag( $element->id, $element->label );
 			}
