@@ -40,7 +40,6 @@ final class Torro {
 		return self::$instance;
 	}
 
-	private $managers = array();
 	private $plugin_file = '';
 
 	private function __construct() {
@@ -58,50 +57,38 @@ final class Torro {
 
 		// load additional manager classes
 		require_once( $this->path( 'core/managers/class-admin-notices-manager.php' ) );
-
-		// initialize managers
-		$this->managers['components'] = Torro_Components_Manager::instance();
-		$this->managers['elements'] = Torro_Form_Elements_Manager::instance();
-		$this->managers['settings'] = Torro_Settings_Manager::instance();
-		$this->managers['templatetags'] = Torro_TemplateTags_Manager::instance();
-
-		$this->managers['actions'] = Torro_Actions_Manager::instance();
-		$this->managers['restrictions'] = Torro_Restrictions_Manager::instance();
-		$this->managers['resulthandlers'] = Torro_ResultHandlers_Manager::instance();
-
-		$this->managers['admin_notices'] = Torro_Admin_Notices_Manager::instance();
 	}
 
 	public function components() {
-		return $this->managers['components'];
+		return Torro_Components_Manager::instance();
 	}
 
 	public function elements() {
-		return $this->managers['elements'];
+		return Torro_Form_Elements_Manager::instance();
 	}
 
 	public function settings() {
-		return $this->managers['settings'];
+		return Torro_Settings_Manager::instance();
 	}
 
 	public function templatetags() {
-		return $this->managers['templatetags'];
+		return Torro_TemplateTags_Manager::instance();
 	}
 
 	public function actions() {
-		return $this->managers['actions'];
+		return Torro_Actions_Manager::instance();
 	}
 
 	public function restrictions() {
-		return $this->managers['restrictions'];
+		return Torro_Restrictions_Manager::instance();
 	}
 
 	public function resulthandlers() {
-		return $this->managers['resulthandlers'];
+		return Torro_ResultHandlers_Manager::instance();
 	}
 
 	public function admin_notices() {
-		return $this->managers['admin_notices'];
+		return Torro_Admin_Notices_Manager::instance();
 	}
 
 	public function path( $path = '' ) {
