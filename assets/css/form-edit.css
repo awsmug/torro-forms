@@ -471,6 +471,30 @@
 }
 
 /**
+ * Form actions
+ */
+#form-actions-tabs ul{
+    margin-bottom: 20px;
+}
+
+/**
+ * Form restrictions
+ */
+#form-restrictions .inside h3{
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+#form-restrictions label select{
+    margin-left: 10px;
+}
+
+#form-restrictions .form-restrictions-content{
+    margin-top: 10px;
+    border: 1px #e5e5e5 solid;
+    padding:10px;
+}
+
+/**
  * Dialogs
  */
 #delete_formelement_dialog,

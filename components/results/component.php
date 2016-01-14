@@ -80,10 +80,6 @@ final class Torro_Results_Component extends Torro_Component {
 		require_once( $folder . 'base-result-handlers/charts.php' );
 		require_once( $folder . 'base-result-handlers/charts-c3.php' );
 	}
-
-	public function admin_styles() {
-		wp_enqueue_style( 'torro-results', torro()->asset_url( 'results', 'css' ) );
-	}
 }
 
 torro()->components()->add( 'Torro_Results_Component' );

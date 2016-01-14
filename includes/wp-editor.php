@@ -123,8 +123,6 @@ class Torro_WPEditorBox {
 		}
 
 		QTags.instances["0"] = ""; // Dirty Hack, but needed to start second instance of quicktags in editor
-
-		console.log( window.tinyMCEPreInit.mceInit[ editor_id ]  );
 	});
 </script>';
 

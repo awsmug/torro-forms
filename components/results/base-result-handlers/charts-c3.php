@@ -188,6 +188,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 */
 	public function admin_styles() {
 		wp_enqueue_style( 'c3', torro()->asset_url( 'c3', 'vendor-css' ) );
+		wp_enqueue_style( 'torro-results-charts-c3', torro()->asset_url( 'results-charts-c3', 'css' ) );
 	}
 
 	/**
@@ -196,21 +197,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	public function admin_scripts() {
 		wp_enqueue_script( 'd3', torro()->asset_url( 'd3', 'vendor-js' ) );
 		wp_enqueue_script( 'c3', torro()->asset_url( 'c3', 'vendor-js' ) );
-		wp_enqueue_script( 'torro-results-charts', torro()->asset_url( 'results-charts', 'js' ), array( 'd3', 'c3' ) );
-	}
-
-	/**
-	 * Loading Frontend Scripts
-	 */
-	public function frontend_styles() {
-		//$this->admin_styles();
-	}
-
-	/**
-	 * Loading Frontend Scripts
-	 */
-	public function frontend_scripts() {
-		//$this->admin_scripts();
+		wp_enqueue_script( 'torro-results-charts-c3', torro()->asset_url( 'results-charts-c3', 'js' ), array( 'd3', 'c3' ) );
 	}
 }
 

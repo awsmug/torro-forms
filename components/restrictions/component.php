@@ -80,14 +80,6 @@ final class Torro_Restrictions_Component extends Torro_Component {
 		require_once( $folder . 'base-restrictions/timerange.php' );
 		require_once( $folder . 'base-restrictions/recaptcha.php' );
 	}
-
-	/**
-	 * Enqueue Scripts
-	 */
-	public function admin_scripts() {
-		wp_enqueue_script( 'torro-restrictions', torro()->asset_url( 'restrictions', 'js' ) );
-	}
-
 }
 
 torro()->components()->add( 'Torro_Restrictions_Component' );

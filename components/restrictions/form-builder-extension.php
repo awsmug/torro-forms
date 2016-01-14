@@ -42,8 +42,6 @@ class Torro_Formbuilder_RestrictionsExtension {
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 15 );
 		add_action( 'torro_formbuilder_save', array( __CLASS__, 'save' ), 10, 1 );
-
-		add_action( 'admin_print_styles', array( __CLASS__, 'register_admin_styles' ) );
 	}
 
 	/**
@@ -137,21 +135,8 @@ class Torro_Formbuilder_RestrictionsExtension {
 		/**
 		 * Saving restriction options
 		 */
-		$restrictions_option = $_POST[ 'form_restrictions_option' ];
+		$restrictions_option = $_POST['form_restrictions_option'];
 		update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
-	}
-
-	/**
-	 * Registers and enqueues admin-specific styles.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function register_admin_styles() {
-		if ( ! torro_is_formbuilder() ) {
-			return;
-		}
-
-		wp_enqueue_style( 'torro-restrictions', torro()->asset_url( 'restrictions', 'css' ) );
 	}
 }
 

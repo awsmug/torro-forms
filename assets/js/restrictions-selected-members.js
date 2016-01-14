@@ -247,7 +247,7 @@
 			var random = Math.floor(Math.random() * ( 10000 - 10 + 1)) + 10;
 			random = random * now.getTime();
 			random = random.toString().substring( 0, 5 );
-			console.log( random );
+
 			return random;
 		}
 

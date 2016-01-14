@@ -41,10 +41,6 @@ class Torro_Formbuilder_Actions_Extension {
 		}
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ) );
-		add_action( 'torro_formbuilder_save', array( __CLASS__, 'save' ) );
-
-		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_admin_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
 	}
 
 	/**
@@ -100,37 +96,6 @@ class Torro_Formbuilder_Actions_Extension {
 		$html .= '</div>';
 
 		echo $html;
-	}
-
-	/**
-	 * Saving data
-	 *
-	 * @param int $form_id
-	 *
-	 * @since 1.0.0
-	 */
-	public static function save( $form_id ) {}
-
-	/**
-	 * Enqueue admin scripts
-	 */
-	public static function enqueue_admin_scripts() {
-		if ( ! torro_is_formbuilder() ) {
-			return;
-		}
-
-		wp_enqueue_script( 'torro-actions', torro()->asset_url( 'actions', 'js' ) );
-	}
-
-	/**
-	 * Enqueue admin styles
-	 */
-	public static function enqueue_admin_styles() {
-		if ( ! torro_is_formbuilder() ) {
-			return;
-		}
-
-		wp_enqueue_style( 'torro-actions', torro()->asset_url( 'actions', 'css' ) );
 	}
 }
 

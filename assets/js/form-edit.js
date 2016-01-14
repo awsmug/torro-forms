@@ -82,6 +82,8 @@
 
 			this.init_clipboard();
 
+			this.init_restrictions();
+
 			this.handle_templatetag_buttons();
 
 			this.check_max_input_vars();
@@ -142,8 +144,6 @@
 					$( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
 						var element_id = $( this ).attr('data-element-id') ;
 						var index = $( this ).index();
-
-						console.log( 'Element: ' + element_id + ' Index: ' + index );
 
 						$( 'input[name="elements\[' + element_id +'\]\[sort\]"]' ).val( index ) ;
 					});
@@ -540,6 +540,19 @@
 			}
 		},
 
+		init_restrictions: function() {
+			var toggle_boxes = function() {
+				$( '.form-restrictions-content' ).hide(); // Hiding all boxes
+				$( '#form-restrictions-content-' +  $( '#form-restrictions-option' ).val() ).show(); // Showing selected box
+			}
+
+			toggle_boxes();
+
+			$( document ).on( 'change', '#form-restrictions-option', function() {
+				toggle_boxes();
+			});
+		},
+
 		/**
 		 * Handling the Templatetag Button
 		 */
@@ -584,9 +597,6 @@
 
 			var msg_near_limit = '<strong>' + this.translations.max_fields_near_limit + '</strong> (' + input_vars + ' ' + this.translations.of + ' ' + max_input_vars + ')<br /> ' + this.translations.max_fields_todo;
 			var msg_over_limit = '<strong>' + this.translations.max_fields_over_limit + '</strong> (' + input_vars + ' ' + this.translations.of + ' ' + max_input_vars + ')<br /> ' + this.translations.max_fields_todo;
-
-			// console.log( 'Max input vars: ' + max_input_vars );
-			// console.log( 'Input vars: ' + input_vars );
 
 			if( input_vars + alert_zone >= max_input_vars ){
 				$( "#form-messages" )
