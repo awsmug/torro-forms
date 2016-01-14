@@ -51,7 +51,7 @@ class Torro_Formbuilder {
 		add_action( 'wp_ajax_torro_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
 
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
-		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
+		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
@@ -403,10 +403,15 @@ class Torro_Formbuilder {
 		$form = new Torro_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
+		$entries = torro()->resulthandlers()->get( 'entries' );
+		if ( is_wp_error( $entries ) ) {
+			return;
+		}
+
 		$response = array(
-			'form_id' => $form_id,
-			'deleted' => true,
-			'html' => Torro_ResultsEntries::show_not_found_notice(),
+			'form_id'	=> $form_id,
+			'deleted'	=> true,
+			'html'		=> $entries->show_not_found_notice(),
 		);
 
 		echo json_encode( $response );
@@ -434,7 +439,7 @@ class Torro_Formbuilder {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_styles() {
+	public static function enqueue_styles() {
 		if ( ! torro_is_formbuilder() ) {
 			return;
 		}
