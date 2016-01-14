@@ -39,7 +39,7 @@ class Torro_Form_Element_MultipleChoice extends Torro_Form_Element {
 	}
 
 	protected function init() {
-		$this->name = 'MultipleChoice';
+		$this->name = 'multiplechoice';
 		$this->title = __( 'Multiple Choice', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );
 		$this->icon_url = torro()->asset_url( 'icon-multiplechoice', 'png' );

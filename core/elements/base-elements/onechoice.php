@@ -39,7 +39,7 @@ class Torro_Form_Element_OneChoice extends Torro_Form_Element {
 	}
 
 	protected function init() {
-		$this->name = 'OneChoice';
+		$this->name = 'onechoice';
 		$this->title = __( 'One Choice', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered by selecting one of the given answers.', 'torro-forms' );
 		$this->icon_url = torro()->asset_url( 'icon-onechoice', 'png' );
