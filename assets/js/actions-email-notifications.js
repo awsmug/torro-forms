@@ -1,7 +1,7 @@
 (function( exports, $, translations ) {
 	'use strict';
 
-	function Email_Notifications( translations ) {
+	function Action_Email_Notifications( translations ) {
 		this.translations = translations;
 
 		this.selectors = {
@@ -14,7 +14,7 @@
 		};
 	}
 
-	Email_Notifications.prototype = {
+	Action_Email_Notifications.prototype = {
 		init: function() {
 			this.init_notifications();
 
@@ -103,11 +103,5 @@
 		}
 	};
 
-	var email_notifications = new Email_Notifications( translations );
-
-	$( document ).ready( function() {
-		email_notifications.init();
-	});
-
-	exports.add_extension( 'email_notifications', email_notifications );
+	exports.add_extension( 'action_email_notifications', new Action_Email_Notifications( translations ) );
 }( form_builder, jQuery, translation_email_notifications ) );

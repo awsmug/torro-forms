@@ -2,7 +2,7 @@
 	/**
 	 * Form_Builder constructor
 	 */
-	function Torro_FB_Entry() {
+	function Result_Entries() {
 		this.selectors = {
 			show_entry: '.torro-show-entry',
 			hide_entry: '.torro-hide-entry',
@@ -19,7 +19,7 @@
 	/**
 	 * Torro_Entry class
 	 */
-	Torro_FB_Entry.prototype = {
+	Result_Entries.prototype = {
 		init: function() {
 			this.init_show_entry();
 			this.init_hide_entry();
@@ -132,9 +132,5 @@
 		}
 	};
 
-	var torro_fb_entry = new Torro_FB_Entry();
-
-	$( document ).ready( function() {
-		torro_fb_entry.init();
-	});
-}( window, jQuery ) );
+	exports.add_extension( 'result_entries', new Result_Entries() );
+}( form_builder, jQuery ) );

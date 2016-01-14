@@ -140,33 +140,33 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
-		$translation_admin = array(
-			'dateformat'		=> esc_attr__( 'yy/mm/dd', 'torro-forms' ),
-			'min_sun'			=> esc_attr__( 'Su', 'torro-forms' ),
-			'min_mon'			=> esc_attr__( 'Mo', 'torro-forms' ),
-			'min_tue'			=> esc_attr__( 'Tu', 'torro-forms' ),
-			'min_wed'			=> esc_attr__( 'We', 'torro-forms' ),
-			'min_thu'			=> esc_attr__( 'Th', 'torro-forms' ),
-			'min_fri'			=> esc_attr__( 'Fr', 'torro-forms' ),
-			'min_sat'			=> esc_attr__( 'Sa', 'torro-forms' ),
-			'january'			=> esc_attr__( 'January', 'torro-forms' ),
-			'february'			=> esc_attr__( 'February', 'torro-forms' ),
-			'march'				=> esc_attr__( 'March', 'torro-forms' ),
-			'april'				=> esc_attr__( 'April', 'torro-forms' ),
-			'may'				=> esc_attr__( 'May', 'torro-forms' ),
-			'june'				=> esc_attr__( 'June', 'torro-forms' ),
-			'july'				=> esc_attr__( 'July', 'torro-forms' ),
-			'august'			=> esc_attr__( 'August', 'torro-forms' ),
-			'september'			=> esc_attr__( 'September', 'torro-forms' ),
-			'october'			=> esc_attr__( 'October', 'torro-forms' ),
-			'november'			=> esc_attr__( 'November', 'torro-forms' ),
-			'december'			=> esc_attr__( 'December', 'torro-forms' ),
-			'select_date'		=> esc_attr__( 'Select Date', 'torro-forms' ),
+		$translations = array(
+			'dateformat'		=> __( 'yy/mm/dd', 'torro-forms' ),
+			'min_sun'			=> __( 'Su', 'torro-forms' ),
+			'min_mon'			=> __( 'Mo', 'torro-forms' ),
+			'min_tue'			=> __( 'Tu', 'torro-forms' ),
+			'min_wed'			=> __( 'We', 'torro-forms' ),
+			'min_thu'			=> __( 'Th', 'torro-forms' ),
+			'min_fri'			=> __( 'Fr', 'torro-forms' ),
+			'min_sat'			=> __( 'Sa', 'torro-forms' ),
+			'january'			=> __( 'January', 'torro-forms' ),
+			'february'			=> __( 'February', 'torro-forms' ),
+			'march'				=> __( 'March', 'torro-forms' ),
+			'april'				=> __( 'April', 'torro-forms' ),
+			'may'				=> __( 'May', 'torro-forms' ),
+			'june'				=> __( 'June', 'torro-forms' ),
+			'july'				=> __( 'July', 'torro-forms' ),
+			'august'			=> __( 'August', 'torro-forms' ),
+			'september'			=> __( 'September', 'torro-forms' ),
+			'october'			=> __( 'October', 'torro-forms' ),
+			'november'			=> __( 'November', 'torro-forms' ),
+			'december'			=> __( 'December', 'torro-forms' ),
+			'select_date'		=> __( 'Select Date', 'torro-forms' ),
 			'calendar_icon_url'	=> torro()->asset_url( 'calendar-icon', 'png' ),
 		);
 
-		wp_enqueue_script( 'torro-restrictions-timerange', torro()->asset_url( 'restrictions-timerange', 'js' ), array( 'jquery-ui-datepicker' ) );
-		wp_localize_script( 'torro-restrictions-timerange', 'translation_admin', $translation_admin );
+		wp_enqueue_script( 'torro-restrictions-timerange', torro()->asset_url( 'restrictions-timerange', 'js' ), array( 'torro-form-edit', 'jquery-ui-datepicker' ) );
+		wp_localize_script( 'torro-restrictions-timerange', 'translation_tr', $translations );
 	}
 
 	/**
@@ -175,7 +175,7 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function admin_styles() {
-		wp_enqueue_style( 'torro-restrictions-timerange', torro()->asset_url( 'restrictions-timerange', 'css' ) );
+		wp_enqueue_style( 'torro-restrictions-timerange', torro()->asset_url( 'restrictions-timerange', 'css' ), array( 'torro-form-edit' ) );
 	}
 }
 

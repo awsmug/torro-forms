@@ -309,8 +309,8 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			return;
 		}
 
-		wp_enqueue_script( 'torro-restrictions-recaptcha', torro()->asset_url( 'frontend-recaptcha', 'js' ), array(), false, true );
-		wp_localize_script( 'torro-restrictions-recaptcha', '_torro_recaptcha_settings', array(
+		wp_enqueue_script( 'torro-forms-recaptcha', torro()->asset_url( 'frontend-recaptcha', 'js' ), array(), false, true );
+		wp_localize_script( 'torro-forms-recaptcha', '_torro_recaptcha_settings', array(
 			'sitekey'		=> $this->settings['recaptcha_sitekey'],
 		) );
 
@@ -341,7 +341,7 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			'hl'		=> $locale,
 		), $recaptcha_script_url );
 
-		wp_enqueue_script( 'google-recaptcha', $recaptcha_script_url, array( 'torro-restrictions-recaptcha' ), false, true );
+		wp_enqueue_script( 'google-recaptcha', $recaptcha_script_url, array( 'torro-forms-recaptcha' ), false, true );
 
 		add_filter( 'script_loader_tag', array( $this, 'handle_google_recaptcha_script_tag' ), 10, 3 );
 	}

@@ -317,7 +317,7 @@ final class Torro_EmailNotifications extends Torro_Action {
 			'no'			=> esc_attr__( 'No', 'torro-forms' )
 		);
 
-		wp_enqueue_script( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'js' ), array( 'jquery-ui-accordion' ) );
+		wp_enqueue_script( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'js' ), array( 'torro-form-edit', 'jquery-ui-accordion' ) );
 		wp_localize_script( 'torro-actions-email-notifications', 'translation_email_notifications', $translation );
 	}
 
@@ -325,7 +325,7 @@ final class Torro_EmailNotifications extends Torro_Action {
 	 * Enqueue admin styles
 	 */
 	public function admin_styles() {
-		wp_enqueue_style( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'css' ) );
+		wp_enqueue_style( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'css' ), array( 'torro-form-edit' ) );
 	}
 
 	/**

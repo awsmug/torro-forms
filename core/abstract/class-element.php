@@ -145,6 +145,13 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	protected $settings = array();
 
 	/**
+	 * Contains element validation errors
+	 *
+	 * @since 1.0.0
+	 */
+	protected $validate_errors = array();
+
+	/**
 	 * Has element moltiple Answers?
 	 *
 	 * @since 1.0.0

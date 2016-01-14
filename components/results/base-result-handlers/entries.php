@@ -361,7 +361,7 @@ final class Torro_ResultsEntries extends Torro_ResultHandler {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-results-entries', torro()->asset_url( 'results-entries', 'css' ) );
+		wp_enqueue_style( 'torro-results-entries', torro()->asset_url( 'results-entries', 'css' ), array( 'torro-form-edit' ) );
 	}
 
 	public function admin_scripts() {
@@ -369,7 +369,7 @@ final class Torro_ResultsEntries extends Torro_ResultHandler {
 			return;
 		}
 
-		wp_enqueue_script( 'torro-results-entries', torro()->asset_url( 'results-entries', 'js' ) );
+		wp_enqueue_script( 'torro-results-entries', torro()->asset_url( 'results-entries', 'js' ), array( 'torro-form-edit' ) );
 	}
 }
 

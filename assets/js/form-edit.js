@@ -2,32 +2,6 @@
 	'use strict';
 
 	/**
-	 * Helper function - Getting a random number
-	 */
-	function torro_rand() {
-		var now = new Date();
-		var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
-
-		random = random * now.getTime();
-		random = random.toString().substring( 0, 5 );
-
-		return random;
-	}
-
-	/**
-     * Helper function - JS recreating of PHP in_array function
-     */
-	function in_array( needle, haystack ) {
-		var length = haystack.length;
-
-		for ( var i = 0; i < length; i++ ) {
-			if ( haystack[i] == needle ) return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Form_Builder constructor
 	 */
 	function Form_Builder( translations ) {
@@ -122,7 +96,7 @@
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
-					var nr = torro_rand();
+					var nr = self.rand();
 					var id = 'widget_formelement_' + nr;
 					var i = $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length - 1;
 
@@ -289,7 +263,7 @@
 				var $button = $( this );
 				var element_id = $button.attr( 'rel' );
 
-				var nr = torro_rand();
+				var nr = self.rand();
 				var section_val = $( 'input[name="elements\[' + element_id + '\]\[sections\]"]' ).val()
 
 				// Setting up new answer HTML
@@ -635,6 +609,13 @@
 			return $( '#post_ID' ).val();
 		},
 
+		init_extensions: function() {
+			var keys = Object.keys( this.extensions );
+			for ( var i in keys ) {
+				this.extensions[ keys[ i ] ].init();
+			}
+		},
+
 		add_extension: function( name, obj ) {
 			this.extensions[ name ] = obj;
 		},
@@ -645,15 +626,26 @@
 
 		get_extensions: function() {
 			return this.extensions;
+		},
+
+		rand: function() {
+			var now = new Date();
+			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
+
+			random = random * now.getTime();
+			random = random.toString().substring( 0, 5 );
+
+			return random;
 		}
 	};
 
-	var fb_main = new Form_Builder( translations );
+	var form_builder = new Form_Builder( translations );
 
 	$( document ).ready( function() {
-		fb_main.init();
+		form_builder.init();
+		form_builder.init_extensions();
 	});
 
-	exports.form_builder = fb_main;
+	exports.form_builder = form_builder;
 
 }( window, jQuery, translation_fb ) );

@@ -1,42 +1,52 @@
-( function( $ ) {
+( function( exports, $, translations ) {
 	'use strict';
 
-	/**
-	 * Datepicker
-	 */
-	$( document ).ready( function() {
-		var datepicker_settings = {
-			dateFormat : translation_admin.dateformat,
-			monthNames: [
-				translation_admin.january,
-				translation_admin.february,
-				translation_admin.march,
-				translation_admin.april,
-				translation_admin.may,
-				translation_admin.june,
-				translation_admin.july,
-				translation_admin.august,
-				translation_admin.september,
-				translation_admin.october,
-				translation_admin.november,
-				translation_admin.december
-			],
-			dayNamesMin: [
-				translation_admin.min_sun,
-				translation_admin.min_mon,
-				translation_admin.min_tue,
-				translation_admin.min_wed,
-				translation_admin.min_thu,
-				translation_admin.min_fri,
-				translation_admin.min_sat
-			],
-			showOn: "both",
-			buttonImage: translation_admin.calendar_icon_url,
-			buttonImageOnly: true,
-			buttonText: translation_admin.select_date
-		};
+	function Restriction_Timerange( translations ) {
+		this.translations = translations;
 
-		$( '#start_date' ).datepicker( datepicker_settings );
-		$( '#end_date' ).datepicker( datepicker_settings );
-	});
-}( jQuery ) );
+		this.selectors = {
+			start_date: '#start_date',
+			end_date: '#end_date'
+		};
+	}
+
+	Restriction_Timerange.prototype = {
+		init: function() {
+			var datepicker_settings = {
+				dateFormat : this.translations.dateformat,
+				monthNames: [
+					this.translations.january,
+					this.translations.february,
+					this.translations.march,
+					this.translations.april,
+					this.translations.may,
+					this.translations.june,
+					this.translations.july,
+					this.translations.august,
+					this.translations.september,
+					this.translations.october,
+					this.translations.november,
+					this.translations.december
+				],
+				dayNamesMin: [
+					this.translations.min_sun,
+					this.translations.min_mon,
+					this.translations.min_tue,
+					this.translations.min_wed,
+					this.translations.min_thu,
+					this.translations.min_fri,
+					this.translations.min_sat
+				],
+				showOn: "both",
+				buttonImage: this.translations.calendar_icon_url,
+				buttonImageOnly: true,
+				buttonText: this.translations.select_date
+			};
+
+			$( this.selectors.start_date ).datepicker( datepicker_settings );
+			$( this.selectors.end_date ).datepicker( datepicker_settings );
+		}
+	};
+
+	exports.add_extension( 'restriction_timerange', new Restriction_Timerange( translations ) );
+}( form_builder, jQuery, translation_tr ) );

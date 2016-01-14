@@ -316,7 +316,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			'added_participants'					=> __( 'participant/s', 'torro-forms' ),
 		);
 
-		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'js' ) );
+		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'js' ), array( 'torro-form-edit' ) );
 		wp_localize_script( 'torro-restrictions-selected-members', 'translation_sm', $translation );
 	}
 
@@ -326,7 +326,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function admin_styles() {
-		wp_enqueue_style( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'css' ) );
+		wp_enqueue_style( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'css' ), array( 'torro-form-edit' ) );
 	}
 
 	/**
