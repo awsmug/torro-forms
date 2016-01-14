@@ -46,7 +46,7 @@ final class Torro {
 	private function __construct() {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/torro-forms.php';
 
-		// load manager classes
+		// load instance manager classes
 		require_once( $this->path( 'core/managers/class-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-components-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-elements-manager.php' ) );
@@ -55,6 +55,9 @@ final class Torro {
 		require_once( $this->path( 'core/managers/class-actions-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-restrictions-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-result-handlers-manager.php' ) );
+
+		// load additional manager classes
+		require_once( $this->path( 'core/managers/class-admin-notices-manager.php' ) );
 
 		// initialize managers
 		$this->managers['components'] = Torro_Components_Manager::instance();
@@ -65,6 +68,8 @@ final class Torro {
 		$this->managers['actions'] = Torro_Actions_Manager::instance();
 		$this->managers['restrictions'] = Torro_Restrictions_Manager::instance();
 		$this->managers['resulthandlers'] = Torro_ResultHandlers_Manager::instance();
+
+		$this->managers['admin_notices'] = Torro_Admin_Notices_Manager::instance();
 	}
 
 	public function components() {
@@ -93,6 +98,10 @@ final class Torro {
 
 	public function resulthandlers() {
 		return $this->managers['resulthandlers'];
+	}
+
+	public function admin_notices() {
+		return $this->managers['admin_notices'];
 	}
 
 	public function path( $path = '' ) {
@@ -153,6 +162,25 @@ final class Torro {
 
 	public function css_url( $name = '' ) {
 		return $this->url( 'assets/css/' . $name . '.css' );
+	}
+
+	/**
+	 * Logging function
+	 *
+	 * @param $message
+	 * @since 1.0.0
+	 */
+	public function log( $message ) {
+		$wp_upload_dir = wp_upload_dir();
+		$log_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'torro-logs';
+
+		if ( ! file_exists( $log_dir ) || ! is_dir( $log_dir ) ) {
+			mkdir( $log_dir );
+		}
+
+		$file = fopen( $log_dir . '/main.log', 'a' );
+		fputs( $file, $message . chr( 13 ) );
+		fclose( $file );
 	}
 }
 

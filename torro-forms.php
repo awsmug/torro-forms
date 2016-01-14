@@ -18,12 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Init {
-	/**
-	 * @var $admin_notices
-	 * @since 1.0.0
-	 */
-	private static $admin_notices = array();
-
 	private static $tables_registered = false;
 
 	private static $post_types_registered = false;
@@ -42,10 +36,6 @@ class Torro_Init {
 		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_frontend_styles' ) );
-
-		if ( is_admin() ) {
-			add_action( 'admin_notices', array( __CLASS__, 'show_admin_notices' ) );
-		}
 	}
 
 	/**
@@ -291,7 +281,7 @@ class Torro_Init {
 	/**
 	 * Fired when the plugin is activated.
 	 *
-	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
+	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
 	public static function activate( $network_wide ) {
@@ -306,7 +296,7 @@ class Torro_Init {
 	/**
 	 * Fired when the plugin is deactivated.
 	 *
-	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
+	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
 	public static function deactivate( $network_wide ) {
@@ -318,7 +308,7 @@ class Torro_Init {
 	/**
 	 * Fired when the plugin is uninstalled.
 	 *
-	 * @param    boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
+	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog
 	 * @since 1.0.0
 	 */
 	public static function uninstall( $network_wide ) {}
@@ -493,52 +483,6 @@ class Torro_Init {
 		}
 
 		return $charset_collate;
-	}
-
-	/**
-	 * Adds a notice to
-	 *
-	 * @param        $message
-	 * @param string $type
-	 */
-	public static function admin_notice( $message, $type = 'updated' ) {
-		self::$admin_notices[] = array(
-			'message' => '<b>Torro Forms</b>: ' . $message,
-			'type'    => $type,
-		);
-	}
-
-	/**
-	 * Show Notices in Admin
-	 * @since 1.0.0
-	 */
-	public static function show_admin_notices() {
-		if ( is_array( self::$admin_notices ) && count( self::$admin_notices ) > 0 ) {
-			$html = '';
-			foreach ( self::$admin_notices as $notice ) {
-				$html .= '<div class="' . esc_attr( $notice['type'] ) . '"><p>' . esc_html( $notice['message'] ) . '</p></div>';
-			}
-			echo $html;
-		}
-	}
-
-	/**
-	 * Logging function
-	 *
-	 * @param $message
-	 * @since 1.0.0
-	 */
-	public static function log( $message ) {
-		$wp_upload_dir = wp_upload_dir();
-		$log_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'torro-logs';
-
-		if ( ! file_exists( $log_dir ) || ! is_dir( $log_dir ) ) {
-			mkdir( $log_dir );
-		}
-
-		$file = fopen( $log_dir . '/main.log', 'a' );
-		fputs( $file, $message . chr( 13 ) );
-		fclose( $file );
 	}
 }
 

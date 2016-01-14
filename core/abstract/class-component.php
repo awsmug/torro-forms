@@ -85,17 +85,4 @@ abstract class Torro_Component extends Torro_Instance {
 			$this->includes();
 		}
 	}
-
-	/**
-	 * Adds a notice to
-	 *
-	 * @param        $message
-	 * @param string $type
-	 */
-	protected function admin_notice( $message, $type = 'updated' ) {
-		if ( WP_DEBUG ) {
-			$message = $message . ' (in Module "' .  $this->name . '")';
-		}
-		Torro_Init::admin_notice( $message, $type );
-	}
 }

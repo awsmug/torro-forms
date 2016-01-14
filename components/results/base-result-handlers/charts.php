@@ -255,17 +255,4 @@ abstract class Torro_Result_Charts extends Torro_ResultHandler {
 
 		echo $html;
 	}
-
-	/**
-     * Adds a notice to
-     *
-     * @param        $message
-     * @param string $type
-     */
-    protected function admin_notice( $message, $type = 'updated' ) {
-        if ( WP_DEBUG ) {
-            $message = $message . ' (in Chart Creator "' .  $this->name . '")';
-        }
-        Torro_Init::admin_notice( $message , $type );
-    }
 }
