@@ -46,6 +46,8 @@
 
 			this.init_answer_deletion();
 
+			this.init_answer_enter();
+
 			this.init_tab_handling();
 
 			this.init_element_title_rewrite();
@@ -61,19 +63,6 @@
 			this.handle_templatetag_buttons();
 
 			this.check_max_input_vars();
-
-			var self = this;
-			$( this.selectors.droppable_area ).on( 'elementDropped', function( event, data ) {
-				self.check_max_input_vars();
-			});
-
-			//TODO: Adding new Answer after hitting Enter Button
-			$( '.element-answer' ).keypress( function( e ) {
-				if ( e.which == 13 ) {
-					e.preventDefault();
-					var $add_answer = $( this ).parent().find( '.add_answer ');
-				}
-			});
 		},
 
 		/**
@@ -123,21 +112,11 @@
 					});
 
 					if ( $element.data( 'element-type' ) ) {
-						switch ( $element.data( 'element-type' ) ) {
-							case 'description':
-								$.post( ajaxurl, {
-									action: 'torro_get_editor_html',
-									widget_id: id,
-									editor_id: 'description_content-' +  id,
-									field_name: 'elements[widget_formelement_' + nr + '][label]',
-								}, function( response ) {
-									response = jQuery.parseJSON( response );
-
-									$( '#' + id + ' .torro-element-description' ).html( response.html );
-								});
-								break;
-							default:
-						}
+						var data = {
+							id: id,
+							selector: '#' + id
+						};
+						$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ]);
 					}
 				}
 			});
@@ -156,6 +135,10 @@
 						$( 'input[name="elements\[' + element_id +'\]\[sort\]"]' ).val( index ) ;
 					});
 				}
+			});
+
+			$( this.selectors.droppable_area ).on( 'elementDropped', function( event, data ) {
+				self.check_max_input_vars();
 			});
 		},
 
@@ -188,6 +171,8 @@
 									deleted_formelements += ',' + self.current_element_id;
 								}
 
+								var element_type = $( '#widget_formelement_' + self.current_element_id ).data( 'element-type' );
+
 								$( self.selectors.deleted_elements ).val( deleted_formelements );
 								$( '#widget_formelement_' + self.current_element_id ).remove();
 
@@ -195,6 +180,14 @@
 
 								if ( $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length < 1 ) {
 									$( self.selectors.drop_elements_here ).show();
+								}
+
+								if ( element_type ) {
+									var data = {
+										id: 'widget_formelement_' + self.current_element_id,
+										selector: '#widget_formelement_' + self.current_element_id
+									};
+									$( document ).trigger( 'torro.delete_element_' + element_type, [ data ]);
 								}
 							}
 
@@ -268,7 +261,7 @@
 
 				// Setting up new answer HTML
 				var answer_content = '<div class="answer" id="answer_XXnrXX">';
-				answer_content = answer_content + '<p><input type="text" id="answer_XXnrXX_input" name="elements[' + element_id + '][answers][id_XXnrXX][answer]" /></p>';
+				answer_content = answer_content + '<p><input type="text" id="answer_XXnrXX_input" name="elements[' + element_id + '][answers][id_XXnrXX][answer]" class="element-answer" /></p>';
 				answer_content = answer_content + '<input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][id]" /><input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][sort]" />';
 
 				if ( 'yes' == section_val ) {
@@ -352,6 +345,19 @@
 
 				self.current_answer_id = $( this ).closest( '.answer' ).attr('id');
 				$form_deleteanswer_dialog.dialog( 'open' );
+			});
+		},
+
+		init_answer_enter: function() {
+			var self = this;
+
+			$( document ).on( 'keydown', '.element-answer', function( e ) {
+				console.log( e );
+				if ( 13 === e.keyCode ) {
+					e.preventDefault();
+					var $add_answer_button = $( this ).parents( self.selectors.element_tabs_sub ).find( self.selectors.add_answer_button );
+					$add_answer_button.trigger( 'click' );
+				}
 			});
 		},
 
@@ -455,14 +461,9 @@
 									$.post( ajaxurl, data, function( response ) {
 										response = jQuery.parseJSON( response );
 
-										var response_text = self.translations.deleted_results_successfully;
+										$( document ).trigger( 'torro.delete_results', [ response ]);
 
-										$( '#torro-entries .torro-slider-start-content' ).html( response.html );
-
-										$( '#charts .torro-chart' ).remove();
-										$( '#charts' ).prepend( response.html );
-
-										$( '#form-functions-notices').html( response_text );
+										$( '#form-functions-notices').html( self.translations.deleted_results_successfully );
 										$( '#form-functions-notices').show();
 
 										$button.removeClass( 'button-loading' );

@@ -24,6 +24,7 @@
 			this.init_show_entry();
 			this.init_hide_entry();
 			this.init_nav_link();
+			this.init_results_deletion();
 		},
 
 		/**
@@ -104,6 +105,14 @@
 						$( self.selectors.entries_slider_start_content ).fadeIn( 500 );
 					});
 				});
+			});
+		},
+
+		init_results_deletion: function() {
+			var self = this;
+
+			$( document ).on( 'torro.delete_results', function( e, data ) {
+				$( self.selectors.entries ).find( self.selectors.entries_slider_start_content ).html( data.html );
 			});
 		},
 
