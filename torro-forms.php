@@ -119,6 +119,7 @@ class Torro_Init {
 		require_once( plugin_dir_path( __FILE__ ) . 'core/ajax.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/torro.php' );
 
+		$main_folder   = torro()->path();
 		$includes_folder   = torro()->path( 'includes/' );
 		$core_folder       = torro()->path( 'core/' );
 		$components_folder = torro()->path( 'components/' );
@@ -172,6 +173,11 @@ class Torro_Init {
 
 		// Shortcodes
 		require_once( $core_folder . 'shortcodes.php' );
+
+		// Vendor
+		if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+			require_once( $main_folder . 'vendor/EDD_SL_Plugin_Updater.php' );
+		}
 
 		// Components
 		require_once( $components_folder . 'actions/component.php' );

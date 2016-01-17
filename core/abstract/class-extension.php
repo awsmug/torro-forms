@@ -46,6 +46,28 @@ abstract class Torro_Extension extends Torro_Instance {
 	 */
 	protected $settings;
 
+
+	/**
+	 * Item name for EDD
+	 *
+	 * @since 1.0.0
+	 */
+	protected $item_name;
+
+	/**
+	 * Plugin file path for EDD
+	 *
+	 * @since 1.0.0
+	 */
+	protected $plugin_file;
+
+	/**
+	 * Plugin version
+	 *
+	 * @since 1.0.0
+	 */
+	protected $version;
+
 	/**
 	 * Initializing.
 	 *
@@ -61,18 +83,10 @@ abstract class Torro_Extension extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	public function check_and_start() {
-		$values = torro_get_settings( 'extensions' );
-
-		/*
-		if ( isset( $values['modules'] ) && is_array( $values['modules'] ) && ! in_array( $this->name, $values['modules'] ) ) {
-			return;
-		}
-		*/
-
 		//TODO: check requirements in manager
 		if ( true === $this->check_requirements() ) {
-			$this->base_init();
 			$this->settings = torro_get_settings( $this->name );
+			$this->base_init();
 		}
 	}
 
@@ -95,6 +109,29 @@ abstract class Torro_Extension extends Torro_Instance {
 		if ( method_exists( $this, 'includes' ) ) {
 			$this->includes();
 		}
+
+		add_action( 'admin_init', array( $this, 'plugin_updater' ), 0 );
+	}
+
+	public function plugin_updater() {
+		// retrieve our license key from the DB
+
+		$license_key = $this->settings[ 'serial' ];
+
+		if( !empty( $license_key ) ){
+			$license_key = trim( $license_key );
+		}
+
+		$edd_updater = new EDD_SL_Plugin_Updater( 'http://torro-forms.com', $this->plugin_file, array(
+			'version'   => $this->version,
+			// current version number
+			'license'   => $license_key,
+			// license key (used get_option above to retrieve from DB)
+			'item_name' => $this->item_name,
+			// name of this plugin
+			'author'    => 'Awesome UG'
+			// author of this plugin
+		) );
 	}
 
 	/**
