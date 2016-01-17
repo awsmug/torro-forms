@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_ResultSettings extends Torro_Settings {
+final class Torro_Results_Settings extends Torro_Settings {
 	private static $instance = null;
 
 	public static function instance() {
@@ -64,4 +64,4 @@ final class Torro_ResultSettings extends Torro_Settings {
 	}
 }
 
-torro()->settings()->add( 'Torro_ResultSettings' );
+torro()->settings()->add( 'Torro_Results_Settings' );
