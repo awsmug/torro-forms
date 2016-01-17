@@ -133,7 +133,7 @@ abstract class Torro_Restriction extends Torro_Instance {
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		torro()->settings()->get( 'restrictions' )->add_settings_field( $this->name, $this->title, $settings_fields );
+		torro()->settings()->get( 'restrictions' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'restrictions_' . $this->name;
 

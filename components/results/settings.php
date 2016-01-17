@@ -51,17 +51,6 @@ final class Torro_Results_Settings extends Torro_Settings {
 		$this->title = __( 'Result Handling', 'torro-forms' );
 		$this->name = 'resulthandling';
 	}
-
-	/**
-	 * Adding Settings to Settings Page dynamical
-	 *
-	 * @param $settings_name
-	 * @param $settings_title
-	 * @param $settings_arr
-	 */
-	public function add_settings_field( $settings_name, $settings_title, $settings_arr ) {
-		$this->add_subsettings_field_arr( $settings_name, $settings_title, $settings_arr );
-	}
 }
 
 torro()->settings()->add( 'Torro_Results_Settings' );
