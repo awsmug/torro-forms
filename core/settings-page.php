@@ -34,23 +34,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Torro_Settings_Page {
 
 	/**
-	 * Instance
-	 */
-	private static $instance = null;
-
-	/**
 	 * The current tab
 	 *
 	 * @var
 	 */
 	static $current_tab;
-
 	/**
 	 * The current section
 	 *
 	 * @var
 	 */
 	static $current_section;
+	/**
+	 * Instance
+	 */
+	private static $instance = null;
 
 	/**
 	 * Initializing.
@@ -116,8 +114,7 @@ class Torro_Settings_Page {
 			 */
 			$html .= '<div id="torro-settings-content" class="' . self::$current_tab . '">';
 
-			$settings = $all_settings[ self::$current_tab ];
-			$html .= $settings->show( self::$current_section );
+			$html .= self::show_settings( torro()->settings()->get( self::$current_tab ), self::$current_section );
 
 			ob_start();
 			do_action( 'torro_settings_' . self::$current_tab );
@@ -142,30 +139,137 @@ class Torro_Settings_Page {
 	 * Initializing Tabs
 	 */
 	public static function init_tabs() {
-		if ( isset( $_GET['tab'] ) ) {
-			self::$current_tab = $_GET['tab'];
+		if ( isset( $_GET[ 'tab' ] ) ) {
+			self::$current_tab = $_GET[ 'tab' ];
 		} else {
 			self::$current_tab = 'general';
 		}
 
-		if ( isset( $_GET['section'] ) ) {
-			self::$current_section = $_GET['section'];
+		if ( isset( $_GET[ 'section' ] ) ) {
+			self::$current_section = $_GET[ 'section' ];
 		}
+	}
+
+	/**
+	 * Shows the Settings
+	 *
+	 * @param string $sub_setting_name
+	 *
+	 * @return string
+	 */
+	private static function show_settings( $settings, $section = '' ) {
+		if ( 0 === count( $settings->sub_settings ) ) {
+			$settings_handler = new Torro_Settings_Handler( $settings->name, $settings->settings );
+			$html             = $settings_handler->get();
+		} else {
+			if ( is_array( $settings->settings ) && 0 < count( $settings->settings ) ) {
+				// Adding General settings Page
+				$sub_settings = array(
+					'general' => array(
+						'title'    => __( 'General', 'torro-forms' ),
+						'settings' => $settings->settings,
+					)
+				);
+
+				$sub_settings = array_merge( $sub_settings, $settings->sub_settings );
+			} else {
+				$sub_settings = $settings->sub_settings;
+
+				if ( empty( $section ) ) {
+					$section = key( $sub_settings );
+				}
+			}
+
+			// Submenu
+			$html = '<ul id="torro-settings-submenu">';
+			foreach ( $sub_settings as $name => $setting ) {
+				$css_classes = '';
+				if ( $name === $section || ( '' === $section && 'general' === $name ) ) {
+					$css_classes = ' active';
+				}
+				$html .= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'edit.php?post_type=torro-forms&page=Torro_Admin&tab=' . $settings->name . '&section=' . $name ) . '">' . $setting[ 'title' ] . '</a></li>';
+			}
+			$html .= '</ul>';
+
+			// Content of Submenu Tab
+			$html .= '<div id="torro-settings-subcontent">';
+
+			$settings_name = $settings->name;
+			if ( '' !== $sub_settings ) {
+				$settings_name .= '_' . $section;
+			}
+
+			$settings = $sub_settings[ '' === $section ? 'general' : $section ];
+
+			$settings_handler = new Torro_Settings_Handler( $settings_name, $settings[ 'settings' ] );
+			$html .= $settings_handler->get();
+
+			ob_start();
+			do_action( $settings_name . '_content' );
+			$html .= ob_get_clean();
+
+			$html .= '</div>';
+		}
+
+		return $html;
 	}
 
 	/**
 	 * Saving settings
 	 */
 	public static function save() {
-		if ( ! isset( $_POST['torro_save_settings'] ) ) {
+		if ( ! isset( $_POST[ 'torro_save_settings' ] ) ) {
 			return;
 		}
 
-		$section = '';
-		if ( isset( $_GET['section'] ) ) {
-			$section = $_GET['section'];
+		$tab = '';
+		if ( isset( $_GET[ 'tab' ] ) ) {
+			$tab = $_GET[ 'tab' ];
 		}
 
+		$section = '';
+		if ( isset( $_GET[ 'section' ] ) ) {
+			$section = $_GET[ 'section' ];
+		}
+
+		$all_settings = torro()->settings()->get_all();
+		if ( 0 < count( $all_settings ) ) {
+			/**
+			 * Tabs
+			 */
+			foreach ( $all_settings AS $setting ) {
+
+				if( $setting->name !== $tab ){
+					continue;
+				}
+
+				if ( count( $setting->sub_settings ) == 0 ) {
+					$settings_handler = new Torro_Settings_Handler( $setting->name, $setting->settings );
+					$settings_handler->save();
+
+					do_action( 'torro_save_settings_' . $setting->name );
+				} else {
+					$sub_settings = array(
+						'general' => array(
+							'title'    => __( 'General', 'torro-forms' ),
+							'settings' => $setting->settings,
+						)
+					);
+
+					$sub_settings = array_merge( $sub_settings, $setting->sub_settings );
+
+					$settings_name = $setting->name;
+					if ( '' !== $section ) {
+						$settings_name .= '_' . $section;
+					}
+
+					$settings = $sub_settings[ '' === $section ? 'general' : $section ];
+
+					$settings_handler = new Torro_Settings_Handler( $settings_name, $settings[ 'settings' ] );
+					$settings_handler->save();
+				}
+			}
+		}
 		do_action( 'torro_save_settings', $section );
 	}
 
