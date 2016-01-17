@@ -31,7 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_SettingsPage {
+class Torro_Settings_Page {
+
+	/**
+	 * Instance
+	 */
+	private static $instance = null;
 
 	/**
 	 * The current tab
@@ -48,6 +53,16 @@ class Torro_SettingsPage {
 	static $current_section;
 
 	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		add_action( 'init', array( __CLASS__, 'save' ), 20 );
+		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
+	}
+
+	/**
 	 * Init in WordPress, run on constructor
 	 *
 	 * @return null
@@ -58,8 +73,11 @@ class Torro_SettingsPage {
 			return;
 		}
 
-		add_action( 'init', array( __CLASS__, 'save' ), 20 );
-		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -165,4 +183,4 @@ class Torro_SettingsPage {
 	}
 }
 
-Torro_SettingsPage::init();
+Torro_Settings_Page::init();

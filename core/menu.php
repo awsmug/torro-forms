@@ -51,7 +51,7 @@ class Torro_AdminMenu {
 	 * @since 1.0.0
 	 */
 	public static function admin_menu() {
-		add_submenu_page( 'edit.php?post_type=torro-forms', __( 'Settings', 'torro-forms' ), __( 'Settings', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_SettingsPage', 'show' ) );
+		add_submenu_page( 'edit.php?post_type=torro-forms', __( 'Settings', 'torro-forms' ), __( 'Settings', 'torro-forms' ), 'edit_posts', 'Torro_Admin', array( 'Torro_Settings_Page', 'show' ) );
 	}
 }
 
