@@ -139,6 +139,7 @@ class Torro_Init {
 		require_once( $core_folder . 'abstract/class-component.php' );
 		require_once( $core_folder . 'abstract/class-element.php' );
 		require_once( $core_folder . 'abstract/class-settings.php' );
+		require_once( $core_folder . 'abstract/class-extension.php' );
 		require_once( $core_folder . 'abstract/class-templatetags.php' );
 
 		// Admin
@@ -149,6 +150,7 @@ class Torro_Init {
 		// Settings
 		require_once( $core_folder . 'settings/class-settingshandler.php' );
 		require_once( $core_folder . 'settings/base-settings/general.php' );
+		require_once( $core_folder . 'settings/base-settings/extensions.php' );
 
 		// Form functions
 		require_once( $core_folder . 'form-loader.php' );

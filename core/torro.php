@@ -54,6 +54,7 @@ final class Torro {
 		require_once( $this->path( 'core/managers/class-actions-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-restrictions-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-result-handlers-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-extensions-manager.php' ) );
 
 		// load additional manager classes
 		require_once( $this->path( 'core/managers/class-admin-notices-manager.php' ) );
@@ -85,6 +86,10 @@ final class Torro {
 
 	public function resulthandlers() {
 		return Torro_ResultHandlers_Manager::instance();
+	}
+
+	public function extensions() {
+		return Torro_Extensions_Manager::instance();
 	}
 
 	public function admin_notices() {
