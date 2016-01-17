@@ -47,10 +47,6 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 		$this->base_class = 'Torro_Form_Element';
 	}
 
-	protected function after_instance_added( $instance ) {
-		return $instance;
-	}
-
 	public function get( $element_id, $type = '' ) {
 		global $wpdb;
 
