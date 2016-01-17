@@ -47,7 +47,7 @@ final class Torro_Results_Settings extends Torro_Settings {
 		parent::__construct();
 	}
 
-	protected function init() {
+	public function init() {
 		$this->title = __( 'Result Handling', 'torro-forms' );
 		$this->name = 'resulthandling';
 	}

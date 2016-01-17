@@ -47,7 +47,7 @@ final class Torro_Restrictions_Settings extends Torro_Settings {
 		parent::__construct();
 	}
 
-	protected function init() {
+	public function init() {
 		$this->title = __( 'Restrictions', 'torro-forms' );
 		$this->name = 'restrictions';
 	}

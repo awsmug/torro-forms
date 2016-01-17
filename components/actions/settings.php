@@ -47,7 +47,7 @@ final class Torro_Actions_Settings extends Torro_Settings {
 		parent::__construct();
 	}
 
-	protected function init() {
+	public function init() {
 		$this->title = __( 'Actions', 'torro-forms' );
 		$this->name = 'actions';
 	}
