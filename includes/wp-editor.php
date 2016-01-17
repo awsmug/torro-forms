@@ -54,8 +54,6 @@ class Torro_WPEditorBox {
 	private function __construct() {
 		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'tiny_mce_before_init' ), 10, 2 );
 		add_filter( 'quicktags_settings', array( __CLASS__, 'quicktags_settings' ), 10, 2 );
-
-		add_action( 'wp_ajax_torro_get_editor_html', array( __CLASS__, 'ajax_torro_get_editor_html' ) );
 	}
 
 	/**
@@ -233,27 +231,6 @@ class Torro_WPEditorBox {
 	 */
 	public static function std_editor_tinymce() {
 		return 'tinymce';
-	}
-
-	/**
-	 * Getting Editor HTML by AJAX
-	 */
-	public static function ajax_torro_get_editor_html() {
-		$widget_id = $_POST[ 'widget_id' ];
-		$editor_id = $_POST[ 'editor_id' ];
-		$field_name = $_POST[ 'field_name' ];
-		$message = isset( $_POST[ 'message' ] ) ? $_POST[ 'message' ] : '';
-
-		$html = self::editor( $message, $editor_id, $field_name );
-
-		$data = array(
-			'widget_id' => $widget_id,
-			'editor_id' => $editor_id,
-			'html'      => $html
-		);
-
-		echo json_encode( $data );
-		die();
 	}
 }
 Torro_WPEditorBox::init();

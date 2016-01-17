@@ -61,49 +61,6 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 		add_action( 'torro_response_save', array( $this, 'set_cookie' ), 10 );
 		add_action( 'torro_response_save', array( $this, 'save_ip' ), 10 );
 		add_action( 'torro_response_save', array( $this, 'save_fingerprint' ), 10 );
-
-		add_action( 'wp_ajax_torro_check_fngrprnt', array( $this, 'ajax_check_fingerprint' ) );
-		add_action( 'wp_ajax_nopriv_torro_check_fngrprnt', array( $this, 'ajax_check_fingerprint' ) );
-	}
-
-	/**
-	 * Checking browser fingerprint by ajax
-	 */
-	public function ajax_check_fingerprint() {
-		global $wpdb, $ar_form_id, $torro_skip_fingerrint_check;
-
-		$content = '';
-		$restrict = false;
-
-		if ( ! isset( $_POST['torro_form_id'] ) ) {
-			$content .= __( 'Form ID is missing.', 'torro-forms' );
-			$restrict = true;
-		}
-
-		if ( ! isset( $_POST['fngrprnt'] ) ) {
-			$content .= __( 'Error on processing form', 'torro-forms' );
-			$restrict = true;
-		}
-
-		if ( false === $restrict ) {
-			$ar_form_id = $_POST['torro_form_id'];
-			$fingerprint = $_POST['fngrprnt'];
-
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
-			$count = absint( $wpdb->get_var( $sql ) );
-
-			if ( 0 === $count ) {
-				$torro_skip_fingerrint_check = true;
-
-				$torro_form_process = new Torro_FormProcess( $ar_form_id, $_POST[ 'action_url' ] );
-				$content .= $torro_form_process->show_form();
-			} else {
-				$content .= '<div class="form-message error">' . esc_html__( 'You have already entered your data.', 'torro-forms' ) . '</div>';
-			}
-		}
-
-		echo esc_html( $content );
-		die();
 	}
 
 	/**
@@ -245,6 +202,8 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 				$maybe_vars = 'torro_submission_back: \'yes\',';
 			}
 
+			$nonce = torro()->ajax()->get_nonce( 'check_fngrprnt' );
+
 			$html = '<script language="JavaScript">
 	(function ($) {
 		"use strict";
@@ -253,6 +212,7 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 
 				var data = {
 					action: \'torro_check_fngrprnt\',
+					nonce: \'' . $nonce . '\',
 					torro_form_id: ' . $ar_form_id . ',
 					torro_actual_step: ' . $actual_step . ',
 					torro_next_step: ' . $next_step . ',
@@ -264,8 +224,10 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 				var ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '";
 
 				$.post( ajaxurl, data, function( response ) {
-					$( \'#torro-ajax-form\' ).html( response );
-					$( \'#torro-fngrprnt\' ).val( fngrprnt );
+					if ( response.success ) {
+						$( \'#torro-ajax-form\' ).html( response.data.html );
+						$( \'#torro-fngrprnt\' ).val( fngrprnt );
+					}
 				});
 			});
 		});

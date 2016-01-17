@@ -1,4 +1,4 @@
-(function( exports, $, translations ) {
+(function( exports, wp, $, translations ) {
 	'use strict';
 
 	function Action_Email_Notifications( translations ) {
@@ -51,18 +51,16 @@
 			});
 
 			$( document ).on( 'click', this.selectors.add_notification_button, function( e ) {
-				var data = {
-					action: 'get_email_notification_html',
-				};
-
-				$.post( ajaxurl, data, function( response ) {
-					response = jQuery.parseJSON( response );
-
+				wp.ajax.post( 'torro_get_email_notification_html', {
+					nonce: self.translations.nonce_get_email_notification_html
+				}).done( function( response ) {
 					$( self.selectors.notifications ).prepend( response.html );
 
 					self.init_notifications();
 
 					$( '.notification-' + response.id ).hide().fadeIn( 2500 );
+				}).fail( function( message ) {
+					console.log( message );
 				});
 			});
 
@@ -104,4 +102,4 @@
 	};
 
 	exports.add_extension( 'action_email_notifications', new Action_Email_Notifications( translations ) );
-}( form_builder, jQuery, translation_email_notifications ) );
+}( form_builder, wp, jQuery, translation_email_notifications ) );

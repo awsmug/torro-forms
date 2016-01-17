@@ -1,4 +1,4 @@
-(function ( exports, $, translations ) {
+(function ( exports, wp, $, translations ) {
 	'use strict';
 
 	/**
@@ -401,16 +401,12 @@
 				var $button = $( this );
 
 				if ( $button.hasClass( 'button' ) ) {
-					var data = {
-						action: 'torro_duplicate_form',
-						form_id: self.get_form_id()
-					};
-
 					$button.addClass( 'button-loading' );
 
-					$.post( ajaxurl, data, function( response ) {
-						response = jQuery.parseJSON( response );
-
+					wp.ajax.post( 'torro_duplicate_form', {
+						nonce: self.translations.nonce_duplicate_form,
+						form_id: self.get_form_id(),
+					}).done( function( response ) {
 						var response_text = self.translations.duplicated_form_successfully + ' <a href="' + response.admin_url + '">' + self.translations.edit_form + '</a>';
 						var $notices = $( '#form-options .notices' );
 
@@ -420,8 +416,9 @@
 						$button.removeClass( 'button-loading' );
 
 						$notices.fadeOut( 5000 );
+					}).fail( function( message ) {
+						console.log( message );
 					});
-
 				} else {
 					$button.addClass( 'button' );
 				}
@@ -453,14 +450,10 @@
 									$( this ).dialog('close');
 									$button.addClass( 'button-loading' );
 
-									var data = {
-										action: 'torro_delete_responses',
+									wp.ajax.post( 'torro_delete_responses', {
+										nonce: self.translations.nonce_delete_responses,
 										form_id: self.get_form_id()
-									};
-
-									$.post( ajaxurl, data, function( response ) {
-										response = jQuery.parseJSON( response );
-
+									}).done( function( response ) {
 										$( document ).trigger( 'torro.delete_results', [ response ]);
 
 										$( '#form-functions-notices').html( self.translations.deleted_results_successfully );
@@ -469,6 +462,8 @@
 										$button.removeClass( 'button-loading' );
 
 										$( '#form-functions-notices' ).fadeOut( 5000 );
+									}).fail( function( message ) {
+										console.log( message );
 									});
 								}
 							},
@@ -649,4 +644,4 @@
 
 	exports.form_builder = form_builder;
 
-}( window, jQuery, translation_fb ) );
+}( window, wp, jQuery, translation_fb ) );

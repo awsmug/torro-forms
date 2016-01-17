@@ -67,8 +67,6 @@ final class Torro_EmailNotifications extends Torro_Action {
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
 
-		add_action( 'wp_ajax_get_email_notification_html', array( $this, 'ajax_get_email_notification_html' ) );
-
 		add_action( 'media_buttons', array( $this, 'add_media_button' ), 20 );
 	}
 
@@ -285,25 +283,6 @@ final class Torro_EmailNotifications extends Torro_Action {
 	}
 
 	/**
-	 * Get Email notification HTML
-	 */
-	public function ajax_get_email_notification_html() {
-		$id = time();
-		$editor_id = 'email_notification_message-' . $id;
-
-		$html = $this->get_notification_settings_html( $id, __( 'New Email Notification' ) );
-
-		$data = array(
-			'id'		=> $id,
-			'editor_id'	=> $editor_id,
-			'html'		=> $html
-		);
-
-		echo json_encode( $data );
-		die();
-	}
-
-	/**
 	 * Enqueue admin scripts
 	 */
 	public function admin_scripts() {
@@ -314,7 +293,8 @@ final class Torro_EmailNotifications extends Torro_Action {
 		$translation = array(
 			'delete'		=> esc_attr__( 'Delete', 'torro-forms' ),
 			'yes'			=> esc_attr__( 'Yes', 'torro-forms' ),
-			'no'			=> esc_attr__( 'No', 'torro-forms' )
+			'no'			=> esc_attr__( 'No', 'torro-forms' ),
+			'nonce_get_email_notification_html' => torro()->ajax()->get_nonce( 'get_email_notification_html' ),
 		);
 
 		wp_enqueue_script( 'torro-actions-email-notifications', torro()->asset_url( 'actions-email-notifications', 'js' ), array( 'torro-form-edit', 'jquery-ui-accordion' ) );

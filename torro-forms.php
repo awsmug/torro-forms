@@ -96,6 +96,7 @@ class Torro_Init {
 	 */
 	private static function includes() {
 		require_once( plugin_dir_path( __FILE__ ) . 'core/error.php' );
+		require_once( plugin_dir_path( __FILE__ ) . 'core/ajax.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/torro.php' );
 
 		$includes_folder = torro()->path( 'includes/' );

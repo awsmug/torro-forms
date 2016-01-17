@@ -1,8 +1,10 @@
-( function( exports, $ ) {
+( function( exports, wp, $, translations ) {
 	/**
 	 * Form_Builder constructor
 	 */
-	function Result_Entries() {
+	function Result_Entries( translations ) {
+		this.translations = translations;
+
 		this.selectors = {
 			show_entry: '.torro-show-entry',
 			hide_entry: '.torro-hide-entry',
@@ -39,26 +41,21 @@
 				e.preventDefault();
 
 				if ( $button.hasClass( 'button' ) ) {
-
-					var result_id = $button.attr( 'rel' );
-
-					var data = {
-						action: 'torro_show_entry',
-						form_id: self.get_form_id(),
-						result_id: result_id
-                    };
-
 					$button.addClass('button-loading');
 
-					$.post(ajaxurl, data, function( response ) {
-						var html = response;
-
-						$( self.selectors.entries_slider_right ).html( html );
+					wp.ajax.post( 'torro_show_entry', {
+						nonce: self.translations.nonce_show_entry,
+						form_id: self.get_form_id(),
+						result_id: $button.attr( 'rel' )
+					}).done( function( response ) {
+						$( self.selectors.entries_slider_right ).html( response.html );
 						$( self.selectors.entries_slider ).animate({marginLeft: "-100%"});
 
 						$button.removeClass('button-loading');
 
 						self.init_hide_entry();
+					}).fail( function( message ) {
+						console.log( message );
 					});
 				} else {
 					$button.addClass('button');
@@ -86,24 +83,21 @@
 				e.preventDefault();
 
 				var url = $( this ).attr( 'href' );
-				var start = self.get_url_param_value( url, 'torro-entries-start' );
-				var length = self.get_url_param_value( url, 'torro-entries-length' );
 
-				var data = {
-					action: 'torro_show_entries',
+				wp.ajax.post( 'torro_show_entries', {
+					nonce: self.translations.nonce_show_entries,
 					form_id: self.get_form_id(),
-					start: start,
-					length: length
-				};
-
-				$.post(ajaxurl, data, function( response ) {
-					var html = response;
+					start: self.get_url_param_value( url, 'torro-entries-start' ),
+					length: self.get_url_param_value( url, 'torro-entries-length' )
+				}).done( function( response ) {
 					$button.removeClass('button-loading');
 
 					$( self.selectors.entries_slider_start_content ).fadeOut( 500, function() {
-						$( self.selectors.entries_slider_start_content ).html( html );
+						$( self.selectors.entries_slider_start_content ).html( response.html );
 						$( self.selectors.entries_slider_start_content ).fadeIn( 500 );
 					});
+				}).fail( function( message ) {
+					console.log( message );
 				});
 			});
 		},
@@ -141,5 +135,5 @@
 		}
 	};
 
-	exports.add_extension( 'result_entries', new Result_Entries() );
-}( form_builder, jQuery ) );
+	exports.add_extension( 'result_entries', new Result_Entries( translations ) );
+}( form_builder, wp, jQuery, translation_entries ) );

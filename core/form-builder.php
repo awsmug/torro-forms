@@ -47,11 +47,8 @@ class Torro_Formbuilder {
 		add_action( 'save_post', array( __CLASS__, 'save_form' ) );
 		add_action( 'delete_post', array( __CLASS__, 'delete_form' ) );
 
-		add_action( 'wp_ajax_torro_duplicate_form', array( __CLASS__, 'ajax_duplicate_form' ) );
-		add_action( 'wp_ajax_torro_delete_responses', array( __CLASS__, 'ajax_delete_responses' ) );
-
 		add_action( 'admin_notices', array( __CLASS__, 'jquery_messages_area' ) );
-		add_action( 'admin_print_styles', array( __CLASS__, 'enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
@@ -358,68 +355,6 @@ class Torro_Formbuilder {
 	}
 
 	/**
-	 * Duplicating form AJAX
-	 *
-	 * @since 1.0.0
-	 */
-	public static function ajax_duplicate_form() {
-
-		$form_id = $_REQUEST[ 'form_id' ];
-		$form = get_post( $form_id );
-
-		if ( 'torro-forms' !== $form->post_type ) {
-			return;
-		}
-
-		$form = new Torro_Form( $form_id );
-		$new_form_id = $form->duplicate( true, true, false, true, true, true, true );
-
-		$post = get_post( $new_form_id );
-
-		$response = array(
-			'form_id'    => $new_form_id,
-			'post_title' => $post->post_title,
-			'admin_url'  => admin_url( 'post.php?post=' . $new_form_id . '&action=edit' )
-		);
-
-		echo json_encode( $response );
-
-		die();
-	}
-
-	/**
-	 * Deleting form responses
-	 *
-	 * @since 1.0.0
-	 */
-	public static function ajax_delete_responses() {
-		$form_id = absint( $_REQUEST[ 'form_id' ] );
-		$form = get_post( $form_id );
-
-		if ( 'torro-forms' !== $form->post_type ) {
-			return;
-		}
-
-		$form = new Torro_form( $form_id );
-		$new_form_id = $form->delete_responses();
-
-		$entries = torro()->resulthandlers()->get( 'entries' );
-		if ( is_wp_error( $entries ) ) {
-			return;
-		}
-
-		$response = array(
-			'form_id'	=> $form_id,
-			'deleted'	=> true,
-			'html'		=> $entries->show_not_found_notice(),
-		);
-
-		echo json_encode( $response );
-
-		die();
-	}
-
-	/**
 	 * Adds the message area to the edit post site
 	 *
 	 * @since 1.0.0
@@ -458,17 +393,19 @@ class Torro_Formbuilder {
 		}
 
 		$translation = array(
-			'delete'						=> esc_attr__( 'Delete', 'torro-forms' ),
-			'yes'							=> esc_attr__( 'Yes', 'torro-forms' ),
-			'no'							=> esc_attr__( 'No', 'torro-forms' ),
-			'edit_form'						=> esc_attr__( 'Edit Form', 'torro-forms' ),
-			'max_fields_near_limit'			=> esc_attr__( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'torro-forms' ),
-			'max_fields_over_limit'			=> esc_attr__( 'You are over the limit of PHP max_num_fields!', 'torro-forms' ),
-			'max_fields_todo'				=> esc_attr__( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'torro-forms' ),
-			'of'							=> esc_attr__( 'of', 'torro-forms' ),
-			'duplicated_form_successfully'	=> esc_attr__( 'Form duplicated successfully!', 'torro-forms' ),
-			'deleted_results_successfully'	=> esc_attr__( 'Form results deleted successfully!', 'torro-forms' ),
-			'copied'						=> esc_attr__( 'Copied!', 'torro-forms' )
+			'delete'						=> __( 'Delete', 'torro-forms' ),
+			'yes'							=> __( 'Yes', 'torro-forms' ),
+			'no'							=> __( 'No', 'torro-forms' ),
+			'edit_form'						=> __( 'Edit Form', 'torro-forms' ),
+			'max_fields_near_limit'			=> __( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'torro-forms' ),
+			'max_fields_over_limit'			=> __( 'You are over the limit of PHP max_num_fields!', 'torro-forms' ),
+			'max_fields_todo'				=> __( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'torro-forms' ),
+			'of'							=> __( 'of', 'torro-forms' ),
+			'duplicated_form_successfully'	=> __( 'Form duplicated successfully!', 'torro-forms' ),
+			'deleted_results_successfully'	=> __( 'Form results deleted successfully!', 'torro-forms' ),
+			'copied'						=> __( 'Copied!', 'torro-forms' ),
+			'nonce_duplicate_form'			=> torro()->ajax()->get_nonce( 'duplicate_form' ),
+			'nonce_delete_responses'		=> torro()->ajax()->get_nonce( 'delete_responses' ),
 		);
 
 		wp_enqueue_script( 'jquery-ui-draggable' );
@@ -481,7 +418,7 @@ class Torro_Formbuilder {
 
 		wp_enqueue_script( 'clipboard', torro()->asset_url( 'clipboard', 'vendor-js' ) );
 
-		wp_enqueue_script( 'torro-form-edit', torro()->asset_url( 'form-edit', 'js' ), array( 'clipboard' ) );
+		wp_enqueue_script( 'torro-form-edit', torro()->asset_url( 'form-edit', 'js' ), array( 'wp-util', 'clipboard' ) );
 		wp_localize_script( 'torro-form-edit', 'translation_fb', $translation );
 
 		if ( wp_is_mobile() ) {

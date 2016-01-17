@@ -1,4 +1,4 @@
-( function( exports, $, translations ) {
+( function( exports, wp, $, translations ) {
 	'use strict';
 
 	function Restriction_Selected_Members( translations ) {
@@ -24,16 +24,12 @@
 			var self = this;
 
 			$( document ).on( 'click', this.selectors.add_all_members_button, function(){
-				var data = {
-					action: 'form_add_participants_allmembers'
-				};
-
 				var $button = $( this );
 				$button.addClass( 'button-loading' );
 
-				$.post( ajaxurl, data, function( response ) {
-					response = jQuery.parseJSON( response );
-
+				wp.ajax.post( 'torro_add_participants_allmembers', {
+					nonce: self.translations.nonce_add_participants_allmembers
+				}).done( function( response ) {
 					var form_participants = $( self.selectors.participants ).val();
 					form_participants = form_participants.split( ',' );
 
@@ -71,6 +67,8 @@
 					self.refresh_nothing_found();
 
 					$button.removeClass( 'button-loading' );
+				}).fail( function( message ) {
+					console.log( message );
 				});
 			});
 
@@ -116,18 +114,15 @@
 				var $button = $( this )
 
 				if ( $button.hasClass( 'button-primary' ) ) {
-					var data = {
-						action: 'form_invite_participants',
+					$button.addClass( 'button-loading' );
+
+					wp.ajax.post( 'torro_invite_participants', {
+						nonce: self.translations.nonce_invite_participants,
 						invitation_type: 'invite',
 						form_id: $( '#post_ID' ).val(),
 						subject_template: $( '#form-invite-subject' ).val(),
 						text_template: $( '#form-invite-text' ).val()
-					};
-
-					$button.addClass( 'button-loading' );
-
-					$.post( ajaxurl, data, function( response ) {
-						response = jQuery.parseJSON( response );
+					}).done( function( response ) {
 						if( response.sent ) {
 							$( '#form-invite-subject' ).fadeOut( 200 );
 							$( '#form-invite-text' ).fadeOut( 200 );
@@ -143,6 +138,8 @@
 						$( '#form-invite-button' ).removeClass( 'button-primary' );
 						$( '#form-invite-text' ).fadeOut( 200 );
 						$( '#form-invite-button-cancel' ).fadeOut( 200 );
+					}).fail( function( message ) {
+						console.log( message );
 					});
 				} else {
 					$button.addClass( 'button-primary' );
@@ -163,18 +160,15 @@
 				var $button = $( this )
 
 				if ( $button.hasClass( 'button-primary' ) ) {
-					var data = {
-						action: 'form_invite_participants',
+					$button.addClass( 'button-loading' );
+
+					wp.ajax.post( 'torro_invite_participants', {
+						nonce: self.translations.nonce_invite_participants,
 						invitation_type: 'reinvite',
 						form_id: $( '#post_ID' ).val(),
 						subject_template: $( '#form-reinvite-subject' ).val(),
 						text_template: $( '#form-reinvite-text' ).val()
-					};
-
-					$button.addClass( 'button-loading' );
-
-					$.post( ajaxurl, data, function( response ) {
-						response = jQuery.parseJSON( response );
+					}).done( function( response ) {
 						if ( response.sent ) {
 							$( '#form-reinvite-subject' ).fadeOut( 200 );
 							$( '#form-reinvite-text' ).fadeOut( 200 );
@@ -191,6 +185,8 @@
 						$( '#form-reinvite-button' ).removeClass( 'button-primary' );
 						$( '#form-reinvite-text' ).fadeOut( 200 );
 						$( '#form-reinvite-button-cancel' ).fadeOut( 200 );
+					}).fail( function( message ) {
+						console.log( message );
 					});
 				} else {
 					$button.addClass( 'button-primary' );
@@ -224,4 +220,4 @@
 	};
 
 	exports.add_extension( 'restriction_selected_members', new Restriction_Selected_Members( translations ) );
-}( form_builder, jQuery, translation_sm ) );
+}( form_builder, wp, jQuery, translation_sm ) );

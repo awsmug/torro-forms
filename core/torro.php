@@ -91,6 +91,10 @@ final class Torro {
 		return Torro_Admin_Notices_Manager::instance();
 	}
 
+	public function ajax() {
+		return Torro_AJAX::instance();
+	}
+
 	public function path( $path = '' ) {
 		return plugin_dir_path( $this->plugin_file ) . ltrim( $path, '/' );
 	}

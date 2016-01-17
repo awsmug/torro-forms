@@ -1,4 +1,4 @@
-( function( exports, $ ) {
+( function( exports, wp, $ ) {
 	'use strict';
 
 	$.torro_text_height = function( text, font, width ) {
@@ -35,4 +35,4 @@
 	};
 
 	exports.add_extension( 'result_charts_c3', new Result_Charts_C3() );
-}( form_builder, jQuery ) );
+}( form_builder, wp, jQuery ) );

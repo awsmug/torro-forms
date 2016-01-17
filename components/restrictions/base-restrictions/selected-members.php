@@ -59,9 +59,6 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
-		add_action( 'wp_ajax_form_add_participants_allmembers', array( $this, 'ajax_add_participants_allmembers' ) );
-		add_action( 'wp_ajax_form_invite_participants', array( $this, 'ajax_invite_participants' ) );
-
 		$this->settings_fields = array(
 			'invitations'			=> array(
 				'title'					=> __( 'Invitation Mail Template', 'torro-forms' ),
@@ -206,101 +203,6 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	}
 
 	/**
-	 * Adding user by AJAX
-	 *
-	 * @since 1.0.0
-	 */
-	public function ajax_add_participants_allmembers() {
-		$users = get_users( array( 'orderby' => 'ID' ) );
-
-		$return_array = array();
-
-		foreach ( $users as $user ) {
-			$return_array[] = array(
-				'id'			=> $user->ID,
-				'user_nicename'	=> $user->user_nicename,
-				'display_name'	=> $user->display_name,
-				'user_email'	=> $user->user_email,
-			);
-		}
-
-		echo json_encode( $return_array );
-		die();
-	}
-
-	/**
-	 * Invite participants AJAX
-	 *
-	 * @since 1.0.0
-	 */
-	public function ajax_invite_participants() {
-		global $wpdb;
-
-		$return_array = array( 'sent' => false );
-
-		$form_id = $_POST[ 'form_id' ];
-		$subject_template = $_POST[ 'subject_template' ];
-		$text_template = $_POST[ 'text_template' ];
-
-		$sql = "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d";
-		$sql = $wpdb->prepare( $sql, $form_id );
-		$user_ids = $wpdb->get_col( $sql );
-
-		if ( 'reinvite' === $_POST[ 'invitation_type' ] ) {
-			$user_ids_new = '';
-			if ( is_array( $user_ids ) && 0 < count( $user_ids ) ) {
-				foreach ( $user_ids as $user_id ) {
-					if ( ! torro_user_has_participated( $form_id, $user_id ) ) {
-						$user_ids_new[] = $user_id;
-					}
-				}
-			}
-			$user_ids = $user_ids_new;
-		}
-
-		$post = get_post( $form_id );
-
-		if ( is_array( $user_ids ) && count( $user_ids ) > 0 ) {
-			$users = get_users( array(
-				'include'	=> $user_ids,
-				'orderby'	=> 'ID',
-			) );
-
-			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $text_template );
-			$content = str_replace( '%survey_title%', $post->post_title, $content );
-			$content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
-
-			$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject_template );
-			$subject = str_replace( '%survey_title%', $post->post_title, $subject );
-			$subject = str_replace( '%survey_url%', get_permalink( $post->ID ), $subject );
-
-			foreach ( $users as $user ) {
-				if ( ! empty( $user->data->display_name ) ) {
-					$display_name = $user->data->display_name;
-				} else {
-					$display_name = $user->data->user_nicename;
-				}
-
-				$user_nicename = $user->data->user_nicename;
-				$user_email = $user->data->user_email;
-
-				$subject_user = str_replace( '%displayname%', $display_name, $subject );
-				$subject_user = str_replace( '%username%', $user_nicename, $subject_user );
-
-				$content_user = str_replace( '%displayname%', $display_name, $content );
-				$content_user = str_replace( '%username%', $user_nicename, $content_user );
-
-				torro_mail( $user_email, $subject_user, stripslashes( $content_user ) );
-			}
-
-			$return_array = array( 'sent' => true );
-		}
-
-		echo json_encode( $return_array );
-		die();
-	}
-
-	/**
 	 * Enqueue Scripts
 	 */
 	public function admin_scripts() {
@@ -314,6 +216,8 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			'reinvitations_sent_successfully'		=> __( 'Renvitations sent successfully!', 'torro-forms' ),
 			'reinvitations_not_sent_successfully'	=> __( 'Renvitations could not be sent!', 'torro-forms' ),
 			'added_participants'					=> __( 'participant/s', 'torro-forms' ),
+			'nonce_add_participants_allmembers'		=> torro()->ajax()->get_nonce( 'add_participants_allmembers' ),
+			'nonce_invite_participants'				=> torro()->ajax()->get_nonce( 'invite_participants' ),
 		);
 
 		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'js' ), array( 'torro-form-edit' ) );

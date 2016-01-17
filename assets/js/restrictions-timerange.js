@@ -1,4 +1,4 @@
-( function( exports, $, translations ) {
+( function( exports, wp, $, translations ) {
 	'use strict';
 
 	function Restriction_Timerange( translations ) {
@@ -49,4 +49,4 @@
 	};
 
 	exports.add_extension( 'restriction_timerange', new Restriction_Timerange( translations ) );
-}( form_builder, jQuery, translation_tr ) );
+}( form_builder, wp, jQuery, translation_tr ) );
