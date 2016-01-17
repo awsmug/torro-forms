@@ -45,7 +45,7 @@ abstract class Torro_Manager {
 
 	protected abstract function init();
 
-	protected abstract function after_instance_added( $instance );
+	protected function after_instance_added( $instance ){}
 
 	public function add( $class_name ) {
 		if ( isset( $this->instances[ $class_name ] ) ) {
@@ -86,8 +86,9 @@ abstract class Torro_Manager {
 		if ( method_exists( $class, 'frontend_scripts' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $class, 'frontend_scripts' ) );
 		}
-
-		$this->after_instance_added( $class );
+		if ( method_exists( $this, 'after_instance_added' ) ) {
+			$this->after_instance_added( $class );
+		}
 
 		if ( ! $class->initialized ) {
 			$class->initialized = true;

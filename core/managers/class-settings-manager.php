@@ -43,10 +43,4 @@ final class Torro_Settings_Manager extends Torro_Manager {
 	protected function init() {
 		$this->base_class = 'Torro_Settings';
 	}
-
-	protected function after_instance_added( $instance ) {
-		add_action( 'torro_save_settings', array( $instance, 'save_settings' ), 10, 1 );
-
-		return $instance;
-	}
 }
