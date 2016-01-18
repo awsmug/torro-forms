@@ -114,7 +114,7 @@ class Torro_Settings_Page {
 			 */
 			$html .= '<div id="torro-settings-content" class="' . self::$current_tab . '">';
 
-			$html .= self::show_settings( torro()->settings()->get( self::$current_tab ), self::$current_section );
+			$html .= self::show_tab( torro()->settings()->get( self::$current_tab ), self::$current_section );
 
 			ob_start();
 			do_action( 'torro_settings_' . self::$current_tab );
@@ -157,7 +157,7 @@ class Torro_Settings_Page {
 	 *
 	 * @return string
 	 */
-	private static function show_settings( $settings, $section = '' ) {
+	private static function show_tab( $settings, $section = '' ) {
 		if ( 0 === count( $settings->sub_settings ) ) {
 			$settings_handler = new Torro_Settings_Handler( $settings->name, $settings->settings );
 			$html             = $settings_handler->get();

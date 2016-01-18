@@ -121,7 +121,6 @@ abstract class Torro_Extension extends Torro_Instance {
 		if( !empty( $license_key ) ){
 			$license_key = trim( $license_key );
 
-
 			$edd_updater = new EDD_SL_Plugin_Updater( 'http://torro-forms.com', $this->plugin_file, array(
 				'version'   => $this->version,
 				// current version number
