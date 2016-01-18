@@ -72,7 +72,7 @@ class Torro_ShortCodes {
 				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
 				break;
 			default:
-				$html = Torro_FormLoader::get_form( $torro_form_id );
+				$html = Torro_Form_Loader::get_form( $torro_form_id );
 				break;
 		}
 

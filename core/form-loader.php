@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_FormLoader {
+class Torro_Form_Loader {
 	/**
 	 * ID of processed form
 	 */
@@ -179,4 +179,4 @@ class Torro_FormLoader {
 	}
 }
 
-Torro_FormLoader::init( true );
+Torro_Form_Loader::init( true );
