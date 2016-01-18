@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_EmailNotifications extends Torro_Action {
+final class Torro_Email_Notifications extends Torro_Action {
 	private static $instance = null;
 
 	public static function instance() {
@@ -317,4 +317,4 @@ final class Torro_EmailNotifications extends Torro_Action {
 	}
 }
 
-torro()->actions()->add( 'Torro_EmailNotifications' );
+torro()->actions()->add( 'Torro_Email_Notifications' );
