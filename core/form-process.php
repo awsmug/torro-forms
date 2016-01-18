@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_FormProcess {
+class Torro_Form_Process {
 	/**
 	 * ID of processed form
 	 */
