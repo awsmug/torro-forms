@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Result_Charts extends Torro_ResultHandler {
+abstract class Torro_Result_Charts extends Torro_Result_Handler {
 	protected $chart_types = array();
 
 	/**

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_ResultsEntries extends Torro_ResultHandler {
+final class Torro_ResultsEntries extends Torro_Result_Handler {
 	private static $instance = null;
 
 	public static function instance() {

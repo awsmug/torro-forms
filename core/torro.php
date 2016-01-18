@@ -85,7 +85,7 @@ final class Torro {
 	}
 
 	public function resulthandlers() {
-		return Torro_ResultHandlers_Manager::instance();
+		return Torro_Result_Handlers_Manager::instance();
 	}
 
 	public function extensions() {
