@@ -109,7 +109,7 @@ abstract class Torro_Action extends Torro_Instance {
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		torro()->settings()->get( 'actions' )->add_settings_field( $this->name, $this->title, $settings_fields );
+		torro()->settings()->get( 'actions' )->add_settings_field_arr( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'actions_' . $this->name;
 
