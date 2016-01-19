@@ -81,7 +81,7 @@ class Torro_Form_Loader {
 
 		do_action( 'torro_form_process' );
 
-		$torro_form_process = new Torro_Form_Process( $ar_form_id );
+		$torro_form_process = new Torro_Form_Controller( $ar_form_id );
 		$torro_form_process->process_response();
 	}
 
@@ -131,7 +131,7 @@ class Torro_Form_Loader {
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
 		} else {
-			$torro_form_process = new Torro_Form_Process( $form_id );
+			$torro_form_process = new Torro_Form_Controller( $form_id );
 			$html = $torro_form_process->show_form();
 		}
 
