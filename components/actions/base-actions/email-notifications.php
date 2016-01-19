@@ -1,6 +1,6 @@
 <?php
 /**
- * Email notifications Response handler
+ * Email notifications Action
  *
  * Adds Email notifications for forms
  *
@@ -76,10 +76,10 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 * @param $response_id
 	 * @param $response
 	 */
-	public function handle( $response_id, $response ) {
+	public function handle( $form_id, $response_id, $response ) {
 		global $wpdb, $torro_response_id, $torro_response;
 
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$torro_form_id = $form_id;
 		$torro_response_id = $response_id;
 		$torro_response = $response;
 

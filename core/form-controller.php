@@ -84,6 +84,10 @@ class Torro_Form_Controller {
 			add_action( 'the_post', array( $this, 'add_filter_the_content' ) ); // Only on a loop
 		}
 
+		if ( ! isset( $_SESSION ) ) {
+			session_start();
+		}
+
 		$this->parse_posted_vars();
 		$this->set_form_action_url( $_SERVER[ 'REQUEST_URI' ] );
 	}
@@ -134,10 +138,6 @@ class Torro_Form_Controller {
 			return;
 		}
 
-		if ( ! isset( $_SESSION ) ) {
-			session_start();
-		}
-
 		if ( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
 			return;
 		}
@@ -180,9 +180,10 @@ class Torro_Form_Controller {
 			$result_id = torro()->forms( $this->form_id )->save_response( $_SESSION[ 'torro_response' ][ $this->form_id ] );
 
 			if ( $result_id ) {
-				do_action( 'torro_response_save', $result_id );
+				do_action( 'torro_response_save', $this->form_id, $result_id, $_SESSION[ 'torro_response' ][ $this->form_id ] );
 
 				unset( $_SESSION[ 'torro_response' ][ $this->form_id ] );
+				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] = $result_id;
 				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ] = true;
 
 				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
@@ -303,35 +304,15 @@ class Torro_Form_Controller {
 	 * @return string $html
 	 * @since 1.0.0
 	 */
-	public static function text_thankyou_for_participation( $form_id ) {
-		// Todo: Moving to Response handler
+	public static function show_results( $form_id ) {
 		$show_results = get_post_meta( $form_id, 'show_results', true );
-		if ( 'yes' !== $show_results ) {
-			$show_results = 'no';
-		}
 
-		$html = '<div id="torro-thank-submitting">';
-		$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
+		$html = '<div class="torro-results">';
 		if ( 'yes' === $show_results ) {
-			$html .= self::show_results( $form_id );
+			$html = '<p>' . __( 'This are the actual results:', 'torro-forms' ) . '</p>';
+			$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
 		}
 		$html .= '</div>';
-
-		return apply_filters( 'torro_text_thankyou_for_participation', $html, $form_id );
-	}
-
-	/**
-	 * Showing results
-	 *
-	 * @param int $form_id
-	 *
-	 * @return string $html
-	 * @since 1.0.0
-	 */
-	public static function show_results( $form_id ) {
-		// Todo: Move to Controller
-		$html = '<p>' . __( 'This are the actual results:', 'torro-forms' ) . '</p>';
-		$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
 
 		return apply_filters( 'torro_show_results', $html, $form_id );
 	}
@@ -386,64 +367,75 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	public function html() {
-		$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding restrictions and so on ...
-
-		if ( false === $show_form ) {
-			return;
-		}
-
 		$html = '';
 
-		// Set global message on top of page
-		if ( ! empty( $this->response_errors ) ) {
-			$html .= '<div class="torro-element-error">';
-			$html .= '<div class="torro-element-error-message"><p>';
-			$html .= esc_attr__( 'There are open answers', 'torro-forms' );
-			$html .= '</p></div></div>';
-		}
+		if ( isset( $_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ] ) ) {
+			ob_start();
+			do_action( 'torro_form_finished', $this->form_id, $_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] );
+			$html.= ob_get_clean();
 
-		$html .= '<form class="torro-form" action="' . $this->form_action_url . '" method="POST" novalidate>';
-		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->form_id ) . '" />';
+			$html.= $this->show_results( $this->form_id );
 
-		$step_count = torro()->forms( $this->form_id )->get_step_count();
+			session_destroy();
 
-		// Switch on navigation if there is more than one page
-		if ( 0 !== $step_count ) {
-			$html .= '<div class="torro-pagination">' . sprintf( __( 'Step <span class="torro-highlight-number">%d</span> of <span class="torro-highlight-number">%s</span>', 'torro-forms' ), $this->actual_step + 1, $step_count + 1 ) . '</div>';
-		}
-
-		// Getting all elements of step and running them
-		$elements  = torro()->forms( $this->form_id )->get_step_elements( $this->actual_step );
-		$next_step = $this->actual_step;
-
-		ob_start();
-		do_action( 'torro_form_start', $this->form_id, $this->actual_step, $step_count );
-		$html .= ob_get_clean();
-
-		if ( is_array( $elements ) && count( $elements ) > 0 ) {
-			foreach ( $elements as $element ) {
-				if ( ! $element->splits_form ) {
-					$html .= $element->draw();
-				} else {
-					$next_step += 1; // If there is a next step, setting up next step var
-					break;
-				}
-			}
 		} else {
-			return false;
+			$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding restrictions and so on ...
+
+			if ( false === $show_form ) {
+				return;
+			}
+
+			// Set global message on top of page
+			if ( ! empty( $this->response_errors ) ) {
+				$html .= '<div class="torro-element-error">';
+				$html .= '<div class="torro-element-error-message"><p>';
+				$html .= esc_attr__( 'There are open answers', 'torro-forms' );
+				$html .= '</p></div></div>';
+			}
+
+			$html .= '<form class="torro-form" action="' . $this->form_action_url . '" method="POST" novalidate>';
+			$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->form_id ) . '" />';
+
+			$step_count = torro()->forms( $this->form_id )->get_step_count();
+
+			// Switch on navigation if there is more than one page
+			if ( 0 !== $step_count ) {
+				$html .= '<div class="torro-pagination">' . sprintf( __( 'Step <span class="torro-highlight-number">%d</span> of <span class="torro-highlight-number">%s</span>', 'torro-forms' ), $this->actual_step + 1, $step_count + 1 ) . '</div>';
+			}
+
+			// Getting all elements of step and running them
+			$elements  = torro()->forms( $this->form_id )->get_step_elements( $this->actual_step );
+			$next_step = $this->actual_step;
+
+			ob_start();
+			do_action( 'torro_form_start', $this->form_id, $this->actual_step, $step_count );
+			$html .= ob_get_clean();
+
+			if ( is_array( $elements ) && count( $elements ) > 0 ) {
+				foreach ( $elements as $element ) {
+					if ( ! $element->splits_form ) {
+						$html .= $element->draw();
+					} else {
+						$next_step += 1; // If there is a next step, setting up next step var
+						break;
+					}
+				}
+			} else {
+				return false;
+			}
+
+			$html .= $this->get_navigation( $this->actual_step, $next_step );
+
+			ob_start();
+			do_action( 'torro_form_end', $this->form_id, $this->actual_step, $step_count );
+			$html .= ob_get_clean();
+
+			$html .= '<input type="hidden" name="torro_next_step" value="' . $next_step . '" />';
+			$html .= '<input type="hidden" name="torro_actual_step" value="' . $this->actual_step . '" />';
+			$html .= '<input type="hidden" name="torro_form_id" value="' . $this->form_id . '" />';
+
+			$html .= '</form>';
 		}
-
-		$html .= $this->get_navigation( $this->actual_step, $next_step );
-
-		ob_start();
-		do_action( 'torro_form_end', $this->form_id, $this->actual_step, $step_count );
-		$html .= ob_get_clean();
-
-		$html .= '<input type="hidden" name="torro_next_step" value="' . $next_step . '" />';
-		$html .= '<input type="hidden" name="torro_actual_step" value="' . $this->actual_step . '" />';
-		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->form_id . '" />';
-
-		$html .= '</form>';
 
 		return $html;
 	}
