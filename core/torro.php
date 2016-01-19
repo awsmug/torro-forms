@@ -69,17 +69,18 @@ final class Torro {
 		require_once( $this->path( 'core/managers/class-restrictions-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-result-handlers-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-extensions-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-forms-manager.php' ) );
 
 		// load additional manager classes
 		require_once( $this->path( 'core/managers/class-admin-notices-manager.php' ) );
 	}
 
 	/**
-	 * Controller keychain function
-	 * @return object
+	 * Forms keychain function
+	 * @return null|Torro_Forms_Manager
 	 */
-	public function controller() {
-		return Torro_Form_Controller::instance();
+	public function forms( $form_id = null ) {
+		return Torro_Forms_Manager::instance( $form_id );
 	}
 
 	/**

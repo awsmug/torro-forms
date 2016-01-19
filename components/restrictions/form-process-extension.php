@@ -46,8 +46,7 @@ class Torro_Formbuilder_FormProcessExtension {
 	 * Checking restrictions
 	 */
 	public static function check( $show_form ) {
-		global $torro_form_id;
-
+		$torro_form_id = torro()->forms()->get_current_form_id();
 		$restrictions = torro()->restrictions()->get_all();
 
 		if ( 0 === count( $restrictions ) ) {

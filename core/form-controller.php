@@ -1,6 +1,8 @@
 <?php
 /**
- * Processing submitted form
+ * Form Controller
+ *
+ * This class will controll the form
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -29,51 +31,106 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Form_Controller {
+
+	private static $instance = null;
 	/**
 	 * ID of processed form
+	 *
+	 * @var int
 	 */
-	var $form_id;
-
+	private $form_id = null;
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	private $form_container_id = null;
 	/**
 	 * Form object
+	 *
+	 * @var object
+	 *
+	 * @since 1.0.0
 	 */
-	var $form;
-
+	private $form = null;
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	private $actual_step = 0;
 	/**
 	 * Action URL
+	 *
+	 * @var string
+	 * @since 1.0.0
 	 */
-	var $form_action_url;
+	private $form_action_url = null;
+	/**
+	 * Response Errors
+	 *
+	 * @var array
+	 * @since 1.0.0
+	 */
+	private $response_errors = array();
 
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $form_id, $form_action_url = null ) {
-		$this->form_id = $form_id;
-		$this->form = new Torro_Form( $this->form_id );
+	private function __construct( $filter_the_content = false ) {
+		add_action( 'parse_request', array( $this, 'parse_request' ), 100, 1 );
 
-		if ( null === $form_action_url ) {
-			$this->form_action_url = $_SERVER[ 'REQUEST_URI' ];
+		if ( true === $filter_the_content ) {
+			add_action( 'the_post', array( $this, 'add_filter_the_content' ) ); // Only on a loop
+		}
+
+		$this->parse_posted_vars();
+		$this->set_form_action_url( $_SERVER[ 'REQUEST_URI' ] );
+	}
+
+	public static function instance( $filter_the_content = false ) {
+		if ( null === self::$instance ) {
+			self::$instance = new self( $filter_the_content );
+		}
+
+		return self::$instance;
+	}
+
+	private function parse_posted_vars(){
+		if ( ! isset( $_POST[ 'torro_form_id' ] ) ) {
+			return;
+		}
+
+		// If form doesn't exists > exit
+		if ( ! $this->set_form_id( $_POST[ 'torro_form_id' ] ) ) {
+			return;
+		}
+
+		$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
+
+		// If there was posted torro_next_step and there was no error
+		if ( isset( $_POST[ 'torro_next_step' ] ) && 0 == count( $this->response_errors ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_next_step' ] );
+		} elseif ( isset( $_POST[ 'torro_actual_step' ] ) ) {
+			// If there was posted torro_next_step and there was an error
+			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
 		} else {
-			$this->form_action_url = $form_action_url;
+			// If there was nothing posted, start at the beginning
+			$this->actual_step = 0;
+		}
+
+		// If user wanted to go backwards, set one step back
+		if ( array_key_exists( 'torro_submission_back', $_POST ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] ) - 1;
 		}
 	}
 
 	/**
-	 * Show Form
-	 *
-	 * Creating form HTML
-	 *
-	 * @param int $form_id
-	 *
-	 * @return string $html
-	 * @since 1.0.0
+	 * Porcessing Response
 	 */
-	public function show_form() {
-		$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding restrictions and so on ...
-
-		if ( false === $show_form ) {
+	public function parse_request( $response ) {
+		// If there is no nothing submitted and there is no session data > exit
+		if ( ! isset( $_POST[ 'torro_form_id' ] ) ) {
 			return;
 		}
 
@@ -81,39 +138,290 @@ class Torro_Form_Controller {
 			session_start();
 		}
 
+		if ( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
+			return;
+		}
+
+		$response = array();
+		if ( isset( $_POST[ 'torro_response' ] ) ) {
+			$response = $_POST[ 'torro_response' ];
+		}
+
+		// If there was a saved response
+		if ( isset( $_SESSION[ 'torro_response' ][ $this->form_id ] ) ) {
+			// Merging data
+			$merged_response = $_SESSION[ 'torro_response' ][ $this->form_id ];
+			if ( is_array( $response ) && 0 < count( $response ) ) {
+				foreach ( $response as $key => $answer ) {
+					$merged_response[ $key ] = torro_prepare_post_data( $answer );
+				}
+			}
+
+			$_SESSION[ 'torro_response' ][ $this->form_id ] = $merged_response;
+		} else {
+			$merged_response = $response;
+		}
+
+		$_SESSION[ 'torro_response' ][ $this->form_id ] = $merged_response;
+
+		$is_submit = false;
+		if ( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) && ! isset( $_POST[ 'torro_submission_back' ] ) ) {
+			$is_submit = true;
+		}
+
+		// Validate submitted data if user not has gone backwards
+		$validation_status = true;
+		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
+			$validation_status = $this->validate( $_SESSION[ 'torro_response' ][ $this->form_id ], $this->actual_step, $is_submit );
+		} // Validating response values and setting up error variables
+
+		// If form is finished and user don't have been gone backwards, save data
+		if ( $is_submit && $validation_status && 0 === count( $this->response_errors ) ) {
+			$result_id = torro()->forms( $this->form_id )->save_response( $_SESSION[ 'torro_response' ][ $this->form_id ] );
+
+			if ( $result_id ) {
+				do_action( 'torro_response_save', $result_id );
+
+				unset( $_SESSION[ 'torro_response' ][ $this->form_id ] );
+				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ] = true;
+
+				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
+				die();
+			}
+		}
+
+		do_action( 'torro_form_parse_request', $this->form_id );
+	}
+
+	/**
+	 * Set Form ID
+	 *
+	 * @param $form_id
+	 * @return boolean
+	 */
+	public function set_form_id( $form_id ) {
+		if ( torro()->forms( $form_id )->exists() ) {
+			$this->form_id = $form_id;
+			$this->form    = torro()->forms( $this->form_id );
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Return the current form id
+	 * @return int
+	 */
+	public function get_form_id(){
+		return $this->form_id;
+	}
+
+	/**
+	 * Set Form ID
+	 *
+	 * @param $form_id
+	 * @return boolean
+	 */
+	public function set_form_action_url( $url ){
+		$this->form_action_url = $url;
+	}
+
+	/**
+	 * Validating response
+	 *
+	 * @param int   $form_id
+	 * @param array $response
+	 * @param int   $step
+	 * @param bool  $is_submit
+	 *
+	 * @return boolean $validated
+	 * @since 1.0.0
+	 */
+	private function validate( $response, $step, $is_submit ) {
+		$elements = torro()->forms( $this->form_id )->get_step_elements( $step );
+
+		if ( ! is_array( $elements ) || 0 === count( $elements ) ) {
+			return;
+		}
+
+		// Running through all elements
+		foreach ( $elements as $element ) {
+			if ( $element->splits_form ) {
+				continue;
+			}
+
+			$answer = '';
+			if ( array_key_exists( $element->id, $response ) ) {
+				$answer = $response[ $element->id ];
+			}
+
+			if ( ! $element->validate( $answer ) ) {
+				if ( 0 < count( $element->validate_errors ) ) {
+
+					// Getting every error of element back
+					foreach ( $element->validate_errors AS $message ) {
+						$this->add_response_error( $element->id, $message );
+					}
+				}
+			}
+		}
+
+		$validation_status = count( $this->response_errors ) > 0 ? false : true;
+
+		return apply_filters( 'torro_response_validation_status', $validation_status, $this->form_id, $this->response_errors, $step, $is_submit );
+	}
+
+	/**
+	 * Adding response errors
+	 * @param $element_id
+	 * @param $message
+	 */
+	private function add_response_error( $element_id, $message ){
+		if ( ! isset( $this->response_errors[ $element_id ] ) || empty( $this->response_errors[ $element_id ] ) ) {
+			$this->response_errors[ $element_id ] = array();
+		}
+
+		$this->response_errors[ $element_id ][] = $message;
+	}
+
+	/**
+	 * Get response errors
+	 * @return array
+	 */
+	public function get_response_errors()
+	{
+		return $this->response_errors;
+	}
+
+	/**
+	 * Text which will be shown after a user has participated successful
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
+	public static function text_thankyou_for_participation( $form_id ) {
+		// Todo: Moving to Response handler
+		$show_results = get_post_meta( $form_id, 'show_results', true );
+		if ( 'yes' !== $show_results ) {
+			$show_results = 'no';
+		}
+
+		$html = '<div id="torro-thank-submitting">';
+		$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
+		if ( 'yes' === $show_results ) {
+			$html .= self::show_results( $form_id );
+		}
+		$html .= '</div>';
+
+		return apply_filters( 'torro_text_thankyou_for_participation', $html, $form_id );
+	}
+
+	/**
+	 * Showing results
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
+	public static function show_results( $form_id ) {
+		// Todo: Move to Controller
+		$html = '<p>' . __( 'This are the actual results:', 'torro-forms' ) . '</p>';
+		$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
+
+		return apply_filters( 'torro_show_results', $html, $form_id );
+	}
+
+	/**
+	 * Adding filter for the content to show Form
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_filter_the_content() {
+		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+	}
+
+	/**
+	 * The filtered content gets a Form
+	 *
+	 * @param string $content
+	 *
+	 * @return string $content
+	 * @since 1.0.0
+	 */
+	public function filter_the_content( $content ) {
+		global $post;
+
+		if ( null === $this->form_id ) {
+			$this->form_id = $post->ID;
+		}
+
+		$post = get_post( $this->form_id );
+
+		if ( 'torro-forms' !== $post->post_type ) {
+			return $content;
+		}
+
+		if ( null === $this->form ) {
+			$this->form = torro()->forms( $this->form_id );
+		}
+
+		$html = $this->html();
+
+		remove_filter( 'the_content', array( $this, 'filter_the_content' ) ); // only show once
+
+		return $html;
+	}
+
+	/**
+	 * Show Form
+	 *
+	 * Creating form HTML
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
+	public function html() {
+		$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding restrictions and so on ...
+
+		if ( false === $show_form ) {
+			return;
+		}
+
 		$html = '';
 
 		// Set global message on top of page
-		if ( ! empty( $torro_response_errors ) ) {
+		if ( ! empty( $this->response_errors ) ) {
 			$html .= '<div class="torro-element-error">';
 			$html .= '<div class="torro-element-error-message"><p>';
 			$html .= esc_attr__( 'There are open answers', 'torro-forms' );
 			$html .= '</p></div></div>';
 		}
 
-		// Getting actual step for form
-		$actual_step = $this->get_actual_step();
-
 		$html .= '<form class="torro-form" action="' . $this->form_action_url . '" method="POST" novalidate>';
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->form_id ) . '" />';
 
-		$step_count = $this->form->get_step_count();
+		$step_count = torro()->forms( $this->form_id )->get_step_count();
 
 		// Switch on navigation if there is more than one page
 		if ( 0 !== $step_count ) {
-			$html .= '<div class="torro-pagination">' . sprintf( __( 'Step <span class="torro-highlight-number">%d</span> of <span class="torro-highlight-number">%s</span>', 'torro-forms' ), $actual_step + 1, $step_count + 1 ) . '</div>';
+			$html .= '<div class="torro-pagination">' . sprintf( __( 'Step <span class="torro-highlight-number">%d</span> of <span class="torro-highlight-number">%s</span>', 'torro-forms' ), $this->actual_step + 1, $step_count + 1 ) . '</div>';
 		}
 
 		// Getting all elements of step and running them
-		$elements = $this->form->get_step_elements( $actual_step );
-		$next_step = $actual_step;
+		$elements  = torro()->forms( $this->form_id )->get_step_elements( $this->actual_step );
+		$next_step = $this->actual_step;
 
 		ob_start();
-		do_action( 'torro_form_start', $this->form_id, $actual_step, $step_count );
+		do_action( 'torro_form_start', $this->form_id, $this->actual_step, $step_count );
 		$html .= ob_get_clean();
 
 		if ( is_array( $elements ) && count( $elements ) > 0 ) {
-			foreach( $elements as $element ) {
+			foreach ( $elements as $element ) {
 				if ( ! $element->splits_form ) {
 					$html .= $element->draw();
 				} else {
@@ -125,46 +433,19 @@ class Torro_Form_Controller {
 			return false;
 		}
 
-		$html .= $this->get_navigation( $actual_step, $next_step );
+		$html .= $this->get_navigation( $this->actual_step, $next_step );
 
 		ob_start();
-		do_action( 'torro_form_end', $this->form_id, $actual_step, $step_count );
+		do_action( 'torro_form_end', $this->form_id, $this->actual_step, $step_count );
 		$html .= ob_get_clean();
 
 		$html .= '<input type="hidden" name="torro_next_step" value="' . $next_step . '" />';
-		$html .= '<input type="hidden" name="torro_actual_step" value="' . $actual_step . '" />';
+		$html .= '<input type="hidden" name="torro_actual_step" value="' . $this->actual_step . '" />';
 		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->form_id . '" />';
 
 		$html .= '</form>';
 
 		return $html;
-	}
-
-	/**
-	 * Getting actual step by POST data and error response
-	 *
-	 * @return int
-	 */
-	public function get_actual_step() {
-		global $torro_response_errors;
-
-		// If there was posted torro_next_step and there was no error
-		if ( isset( $_POST['torro_next_step'] ) && 0 == count( $torro_response_errors ) ) {
-			$actual_step = absint( $_POST['torro_next_step'] );
-		} elseif ( isset( $_POST['torro_actual_step'] ) ) {
-			// If there was posted torro_next_step and there was an error
-			$actual_step = absint( $_POST['torro_actual_step'] );
-		} else {
-			// If there was nothing posted, start at the beginning
-			$actual_step = 0;
-		}
-
-		// If user wanted to go backwards, set one step back
-		if ( array_key_exists( 'torro_submission_back', $_POST ) ) {
-			$actual_step = absint( $_POST['torro_actual_step'] ) - 1;
-		}
-
-		return $actual_step;
 	}
 
 	/**
@@ -174,8 +455,9 @@ class Torro_Form_Controller {
 	 * @param $next_step
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
-	public function get_navigation( $actual_step, $next_step ) {
+	private function get_navigation( $actual_step, $next_step ) {
 		$html = '';
 
 		// If there was a step before, show previous button
@@ -201,155 +483,6 @@ class Torro_Form_Controller {
 
 		return $html;
 	}
-
-	/**
-	 * Processing entered data
-	 *
-	 * @since 1.0.0
-	 */
-	public function process_response() {
-		global $torro_form_id, $torro_response_errors;
-
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'torro-form-' . $torro_form_id ) ) {
-			return;
-		}
-
-		$response = array();
-		if ( isset( $_POST['torro_response'] ) ) {
-			$response = $_POST['torro_response'];
-		}
-
-		$actual_step = absint( $_POST[ 'torro_actual_step' ] );
-
-		// If there was a saved response
-		if ( isset( $_SESSION['torro_response'][ $torro_form_id ] ) ) {
-			// Merging data
-			$merged_response = $_SESSION['torro_response'][ $torro_form_id ];
-			if ( is_array( $response ) && 0 < count( $response ) ) {
-				foreach ( $response as $key => $answer ) {
-					$merged_response[ $key ] = torro_prepare_post_data( $answer );
-				}
-			}
-
-			$_SESSION['torro_response'][ $torro_form_id ] = $merged_response;
-		} else {
-			$merged_response = $response;
-		}
-
-		$_SESSION['torro_response'][ $torro_form_id ] = $merged_response;
-
-		$is_submit = false;
-		if ( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) && ! isset( $_POST['torro_submission_back'] ) ) {
-			$is_submit = true;
-		}
-
-		// Validate submitted data if user not has gone backwards
-		$validation_status = true;
-		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
-			$validation_status = $this->validate( $torro_form_id, $_SESSION[ 'torro_response' ][ $torro_form_id ], $actual_step, $is_submit );
-		} // Validating response values and setting up error variables
-
-		// If form is finished and user don't have been gone backwards, save data
-		if ( $is_submit && $validation_status && 0 === count( $torro_response_errors ) ) {
-			$form = new Torro_Form( $torro_form_id );
-			$result_id = $form->save_response( $_SESSION[ 'torro_response' ][ $torro_form_id ] );
-
-			if ( $result_id ) {
-				do_action( 'torro_response_save', $result_id );
-
-				unset( $_SESSION['torro_response'][ $torro_form_id ] );
-				$_SESSION['torro_response'][ $torro_form_id ]['finished'] = true;
-
-				header( 'Location: ' . $_SERVER['REQUEST_URI'] );
-				die();
-			}
-		}
-
-		do_action( 'torro_process_response_end' );
-	}
-
-	/**
-	 * Validating response
-	 *
-	 * @param int   $form_id
-	 * @param array $response
-	 * @param int   $step
-	 * @param bool  $is_submit
-	 *
-	 * @return boolean $validated
-	 * @since 1.0.0
-	 */
-	public function validate( $form_id, $response, $step, $is_submit ) {
-		global $torro_response_errors;
-
-		$elements = $this->form->get_step_elements( $step );
-		if ( ! is_array( $elements ) || 0 === count( $elements ) ) {
-			return;
-		}
-
-		$torro_response_errors = array();
-
-		// Running through all elements
-		foreach ( $elements as $element ) {
-			if ( $element->splits_form ) {
-				continue;
-			}
-
-			$answer = '';
-			if ( array_key_exists( $element->id, $response ) ) {
-				$answer = $response[ $element->id ];
-			}
-
-			if ( ! $element->validate( $answer ) ) {
-				if ( 0 < count( $element->validate_errors ) ) {
-					if ( ! isset( $torro_response_errors[ $element->id ] ) || empty( $torro_response_errors[ $element->id ] ) ) {
-						$torro_response_errors[ $element->id ] = array();
-					}
-
-					// Getting every error of element back
-					foreach ( $element->validate_errors AS $error ) {
-						$torro_response_errors[ $element->id ][] = $error;
-					}
-				}
-
-			}
-		}
-
-		$validation_status = count( $torro_response_errors ) > 0 ? false : true;
-
-		return apply_filters( 'torro_response_validation_status', $validation_status, $form_id, $torro_response_errors, $step, $is_submit );
-	}
 }
 
-/**
- * Checks if a user has participated on a Form
- *
- * @param int  $form_id
- * @param null $user_id
- *
- * @return boolean $has_participated
- */
-function torro_user_has_participated( $form_id, $user_id = null ) {
-	global $wpdb, $current_user;
-
-	// Setting up user ID
-	if ( null === $user_id ) {
-		get_currentuserinfo();
-		$user_id = $user_id = $current_user->ID;
-	}
-
-	// Setting up Form ID
-	if ( null === $form_id ) {
-		return false;
-	}
-
-	$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND user_id=%s", $form_id, $user_id );
-
-	$count = absint( $wpdb->get_var( $sql ) );
-
-	if ( 0 === $count ) {
-		return false;
-	}
-
-	return true;
-}
+Torro_Form_Controller::instance( true );

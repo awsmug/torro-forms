@@ -295,7 +295,9 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts() {
-		global $torro_form_id, $post;
+		global  $post;
+
+		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		if ( ! $torro_form_id ) {
 			if ( ! $post || 'torro-forms' !== $post->post_type ) {

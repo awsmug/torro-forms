@@ -68,7 +68,7 @@ class Torro_ChartsShortCodes {
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$form_id = $atts[ 'id' ];
 
-		if ( empty( $form_id ) || ! torro_form_exists( $form_id ) ) {
+		if ( empty( $form_id ) || ! torro()->form( $form_id )->exists() ) {
 			return __( 'Please enter a valid form id into the shortcode!', 'torro-forms' );
 		}
 

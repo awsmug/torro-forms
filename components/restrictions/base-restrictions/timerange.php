@@ -93,7 +93,7 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 	 * Checks if the user can pass
 	 */
 	public function check() {
-		global $torro_form_id;
+		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		$actual_date = time();
 		$start_date = get_post_meta( $torro_form_id, 'start_date', true );

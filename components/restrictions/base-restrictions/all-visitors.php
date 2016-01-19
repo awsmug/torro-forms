@@ -163,7 +163,9 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 * Checks if the user can pass
 	 */
 	public function check() {
-		global $torro_form_id, $torro_skip_fingerrint_check;
+		global $torro_skip_fingerrint_check;
+
+		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		$restrictions_check_ip = get_post_meta( $torro_form_id, 'form_restrictions_check_ip', true );
 

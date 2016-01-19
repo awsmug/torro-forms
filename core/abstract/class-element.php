@@ -296,7 +296,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	public function draw() {
-		global $torro_response_errors;
+		$torro_response_errors = torro()->forms()->get_response_errors();
 
 		$errors = '';
 		if ( is_array( $torro_response_errors ) && array_key_exists( $this->id, $torro_response_errors ) ) {
@@ -357,7 +357,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	protected function get_response() {
-		global $torro_form_id;
+		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		$this->response = false;
 

@@ -339,7 +339,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		if ( is_array( $users ) && 0 < count( $users ) ) {
 			// Content
 			foreach ( $users as $user ) {
-				if ( torro_user_has_participated( $form_id, $user->ID ) ) {
+				if ( torro()->forms( $form_id )->has_participated( $user->ID ) ) {
 					$user_css = ' finished';
 					$user_text = __( 'finished', 'torro-forms' );
 				} else {
@@ -380,7 +380,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * Checks if the user can pass
 	 */
 	public function check() {
-		global $torro_form_id;
+		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
@@ -396,7 +396,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 
 		$restrictions_same_users = get_post_meta( $torro_form_id, 'form_restrictions_selectedmembers_same_users', true );
 
-		if ( 'yes' === $restrictions_same_users && torro_user_has_participated( $torro_form_id ) ) {
+		if ( 'yes' === $restrictions_same_users && torro()->forms( $torro_form_id )->has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 
 			return false;

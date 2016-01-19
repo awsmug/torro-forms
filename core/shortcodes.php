@@ -59,7 +59,7 @@ class Torro_ShortCodes {
 			return esc_attr__( 'Please enter an id in the form shortcode!', 'torro-forms' );
 		}
 
-		if ( ! torro_form_exists( $torro_form_id ) ) {
+		if ( ! torro()->form( $torro_form_id )->exists() ) {
 			return esc_attr__( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
 		}
 
@@ -72,7 +72,7 @@ class Torro_ShortCodes {
 				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
 				break;
 			default:
-				$html = Torro_Form_Loader::get_form( $torro_form_id );
+				$html = torro()->forms( $torro_form_id )->html();
 				break;
 		}
 

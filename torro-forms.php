@@ -153,10 +153,6 @@ class Torro_Init {
 		require_once( $core_folder . 'settings/base-settings/general.php' );
 		require_once( $core_folder . 'settings/base-settings/extensions.php' );
 
-		// Form functions
-		require_once( $core_folder . 'form-loader.php' );
-		require_once( $core_folder . 'form-controller.php' );
-
 		// Base elements
 		require_once( $core_folder . 'elements/base-elements/content.php' );
 		require_once( $core_folder . 'elements/base-elements/textfield.php' );
@@ -183,6 +179,9 @@ class Torro_Init {
 		require_once( $components_folder . 'actions/component.php' );
 		require_once( $components_folder . 'restrictions/component.php' );
 		require_once( $components_folder . 'results/component.php' );
+
+		// Form functions
+		require_once( $core_folder . 'form-controller.php' );
 	}
 
 	/**

@@ -218,7 +218,7 @@ final class Torro_AJAX {
 	}
 
 	public function ajax_check_fngrprnt( $data ) {
-		global $wpdb, $torro_form_id, $torro_skip_fingerrint_check;
+		global $wpdb, $torro_skip_fingerrint_check;
 
 		if ( ! isset( $data['torro_form_id'] ) ) {
 			return new Torro_Error( 'ajax_check_fngrprnt_torro_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'torro_form_id' ) );
@@ -243,8 +243,8 @@ final class Torro_AJAX {
 		if ( 0 === $count ) {
 			$torro_skip_fingerrint_check = true;
 
-			$torro_form_controller = new Torro_Form_Controller( $torro_form_id, $data['form_action_url'] );
-			$content .= $torro_form_controller->show_form();
+			$content .= torro()->forms( $torro_form_id )->html( $data['form_action_url'] );
+
 		} else {
 			$content .= '<div class="form-message error">' . esc_html__( 'You have already entered your data.', 'torro-forms' ) . '</div>';
 		}
@@ -309,7 +309,7 @@ final class Torro_AJAX {
 			$user_ids_new = '';
 			if ( is_array( $user_ids ) && 0 < count( $user_ids ) ) {
 				foreach ( $user_ids as $user_id ) {
-					if ( ! torro_user_has_participated( $form_id, $user_id ) ) {
+					if ( ! torro()->forms( $form_id )->has_participated( $user_id ) ) {
 						$user_ids_new[] = $user_id;
 					}
 				}
@@ -401,7 +401,7 @@ final class Torro_AJAX {
 		$form_id = $data['form_id'];
 		$result_id = $data['result_id'];
 
-		if ( ! torro_form_exists( $form_id ) ) {
+		if ( ! torro()->form( $form_id )->exists() ) {
 			return array(
 				'html'	=> __( 'Form not found.', 'torro-forms' ),
 			);

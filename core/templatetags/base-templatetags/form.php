@@ -66,7 +66,7 @@ final class Torro_FormTemplateTags extends Torro_TemplateTags {
 	 * %sitename%
 	 */
 	public function formtitle() {
-		global $torro_form_id;
+		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		$form = new Torro_Form( $torro_form_id );
 
