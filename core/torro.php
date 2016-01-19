@@ -76,6 +76,14 @@ final class Torro {
 	}
 
 	/**
+	 * Controller keychain function
+	 * @return object
+	 */
+	public function controller() {
+		return Torro_Form_Controller::instance();
+	}
+
+	/**
 	 * Components keychain function
 	 * @return null|Torro_Components_Manager
 	 */
