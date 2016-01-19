@@ -39,7 +39,6 @@ final class Torro {
 
 	/**
 	 * Singleton init function
-	 * @return object $instance
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -269,7 +268,6 @@ final class Torro {
 
 /**
  * Torro Super Function
- * @return object
  */
 function torro() {
 	return Torro::instance();
