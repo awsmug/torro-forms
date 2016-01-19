@@ -57,7 +57,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 	 * @param $response
 	 */
 	public function notification( $form_id, $response_id ) {
-		$notification = get_post_meta( $form_id, 'notification_content', true );
+		$notification = get_post_meta( $form_id, 'redirection_text', true );
 
 		return $notification;
 	}
@@ -66,10 +66,10 @@ final class Torro_Redirection_Action extends Torro_Action {
 		global $post;
 
 		$redirection_type = get_post_meta( $post->ID, 'redirection_type', true );
-		$notification     = get_post_meta( $post->ID, 'notification_content', true );
+		$redirection_text     = get_post_meta( $post->ID, 'redirection_text', true );
 
-		if ( '' == $notification ) {
-			$notification = esc_html__( 'Thank you for submitting!', 'torro-forms' );
+		if ( '' == $redirection_text ) {
+			$redirection_text = esc_html__( 'Thank you for submitting!', 'torro-forms' );
 		}
 
 		$html = '<div id="form-redirections">';
@@ -99,17 +99,17 @@ final class Torro_Redirection_Action extends Torro_Action {
 
 		$display = $redirection_type == 'page' ? ' style="display:block;"' : ' style="display:none;"';
 
-		$html .= '<div class="redirect-content notification-content"' . $display . '>';
+		$html .= '<div class="redirect-content redirection-text"' . $display . '>';
 		$html .= 'Page';
 		$html .= '</div>';
 
 		$display = $redirection_type == 'text_message' ? ' style="display:block;"' : ' style="display:none;"';
-		$html .= '<div class="redirect-content notification-content"' . $display . '>';
+		$html .= '<div class="redirect-content redirection-text"' . $display . '>';
 
 		$settings = array( 'textarea_rows', 25 );
 
 		ob_start();
-		wp_editor( $notification, 'notification_content', $settings );
+		wp_editor( $redirection_text, 'redirection_text', $settings );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
@@ -126,11 +126,11 @@ final class Torro_Redirection_Action extends Torro_Action {
 	public function save_option_content() {
 		global $post;
 
-		$notification_content = $_POST[ 'redirection_type' ];
-		update_post_meta( $post->ID, 'redirection_type', $notification_content );
+		$redirection_type = $_POST[ 'redirection_type' ];
+		update_post_meta( $post->ID, 'redirection_type', $redirection_type );
 
-		$notification_content = $_POST[ 'notification_content' ];
-		update_post_meta( $post->ID, 'notification_content', $notification_content );
+		$redirection_text = $_POST[ 'redirection_text' ];
+		update_post_meta( $post->ID, 'redirection_text', $redirection_text );
 	}
 
 	protected function init() {

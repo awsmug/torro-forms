@@ -309,7 +309,7 @@ class Torro_Form_Controller {
 
 		$html = '<div class="torro-results">';
 		if ( 'yes' === $show_results ) {
-			$html = '<p>' . __( 'This are the actual results:', 'torro-forms' ) . '</p>';
+			$html = '<p>' . __( 'This are the current results:', 'torro-forms' ) . '</p>';
 			$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
 		}
 		$html .= '</div>';
