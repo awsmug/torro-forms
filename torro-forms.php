@@ -155,7 +155,7 @@ class Torro_Init {
 
 		// Form functions
 		require_once( $core_folder . 'form-loader.php' );
-		require_once( $core_folder . 'form-process.php' );
+		require_once( $core_folder . 'form-controller.php' );
 
 		// Base elements
 		require_once( $core_folder . 'elements/base-elements/content.php' );
