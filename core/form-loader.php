@@ -81,8 +81,8 @@ class Torro_Form_Loader {
 
 		do_action( 'torro_form_process' );
 
-		$torro_form_process = new Torro_Form_Controller( $torro_form_id );
-		$torro_form_process->process_response();
+		$torro_form_controller = new Torro_Form_Controller( $torro_form_id );
+		$torro_form_controller->process_response();
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Torro_Form_Loader {
 	 * @since 1.0.0
 	 */
 	public static function the_content( $content ) {
-		global $torro_form_process, $torro_form_id, $torro_response_errors;
+		global $torro_form_controller, $torro_form_id, $torro_response_errors;
 
 		$post = get_post( $torro_form_id );
 		$torro_form_id = $post->ID;
@@ -131,8 +131,8 @@ class Torro_Form_Loader {
 			$html = self::text_thankyou_for_participation( $form_id );
 			session_destroy();
 		} else {
-			$torro_form_process = new Torro_Form_Controller( $form_id );
-			$html = $torro_form_process->show_form();
+			$torro_form_controller = new Torro_Form_Controller( $form_id );
+			$html = $torro_form_controller->show_form();
 		}
 
 		return $html;
