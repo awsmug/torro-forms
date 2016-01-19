@@ -31,8 +31,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro {
+	/**
+	 * Instance
+	 * @var object
+	 */
 	private static $instance = null;
 
+	/**
+	 * Singleton init function
+	 * @return object $instance
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -40,8 +48,15 @@ final class Torro {
 		return self::$instance;
 	}
 
+	/**
+	 * Plugin Filename
+	 * @var string
+	 */
 	private $plugin_file = '';
 
+	/**
+	 * Torro constructor
+	 */
 	private function __construct() {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/torro-forms.php';
 
@@ -60,54 +75,112 @@ final class Torro {
 		require_once( $this->path( 'core/managers/class-admin-notices-manager.php' ) );
 	}
 
+	/**
+	 * Components keychain function
+	 * @return null|Torro_Components_Manager
+	 */
 	public function components() {
 		return Torro_Components_Manager::instance();
 	}
 
+	/**
+	 * Elements keychain function
+	 * @return null|Torro_Form_Elements_Manager
+	 */
 	public function elements() {
 		return Torro_Form_Elements_Manager::instance();
 	}
 
+	/**
+	 * Settings keychain function
+	 * @return null|Torro_Settings_Manager
+	 */
 	public function settings() {
 		return Torro_Settings_Manager::instance();
 	}
 
+	/**
+	 * Template Tags keychain function
+	 * @return null|Torro_TemplateTags_Manager
+	 */
 	public function templatetags() {
 		return Torro_TemplateTags_Manager::instance();
 	}
 
+	/**
+	 * Actions keychain function
+	 * @return null|Torro_Actions_Manager
+	 */
 	public function actions() {
 		return Torro_Actions_Manager::instance();
 	}
 
+	/**
+	 * Restrictions keychain function
+	 * @return null|Torro_Restrictions_Manager
+	 */
 	public function restrictions() {
 		return Torro_Restrictions_Manager::instance();
 	}
 
+	/**
+	 * Result handler keychain function
+	 * @return null|Torro_Result_Handlers_Manager
+	 */
 	public function resulthandlers() {
 		return Torro_Result_Handlers_Manager::instance();
 	}
 
+	/**
+	 * Extensions keychain function
+	 * @return null|Torro_Extensions_Manager
+	 */
 	public function extensions() {
 		return Torro_Extensions_Manager::instance();
 	}
 
+	/**
+	 * Admin notices keychain function
+	 * @return null|Torro_Admin_Notices_Manager
+	 */
 	public function admin_notices() {
 		return Torro_Admin_Notices_Manager::instance();
 	}
 
+	/**
+	 * @return null|Torro_AJAX
+	 */
 	public function ajax() {
 		return Torro_AJAX::instance();
 	}
 
+	/**
+	 * Returns path to plugin
+	 *
+	 * @param string $path adds sub path
+	 * @return string
+	 */
 	public function path( $path = '' ) {
 		return plugin_dir_path( $this->plugin_file ) . ltrim( $path, '/' );
 	}
 
+	/**
+	 * Returns url to plugin
+	 *
+	 * @param string $path adds sub path
+	 * @return string
+	 */
 	public function url( $path = '' ) {
 		return plugin_dir_url( $this->plugin_file ) . ltrim( $path, '/' );
 	}
 
+	/**
+	 * Returns asset url path
+	 *
+	 * @param string $name Name of asset
+	 * @param string $mode css/js/png/gif/svg/vendor-css/vendor-js
+	 * @return string
+	 */
 	public function asset_url( $name, $mode = '' ) {
 		$urlpath = 'assets/';
 
@@ -156,6 +229,12 @@ final class Torro {
 		return $this->url( $urlpath );
 	}
 
+	/**
+	 * Returns CSS Url
+	 *
+	 * @param string $name
+	 * @return string
+	 */
 	public function css_url( $name = '' ) {
 		return $this->url( 'assets/css/' . $name . '.css' );
 	}
@@ -180,6 +259,12 @@ final class Torro {
 	}
 }
 
+/**
+ * Torro Super Function
+ * @return object
+ */
 function torro() {
 	return Torro::instance();
 }
+
+torro
