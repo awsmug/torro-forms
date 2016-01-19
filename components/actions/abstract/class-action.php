@@ -65,7 +65,9 @@ abstract class Torro_Action extends Torro_Instance {
 	 * @param $response_id
 	 * @param $response
 	 */
-	abstract function handle( $form_id, $response_id, $response );
+	public function handle( $form_id, $response_id, $response ){
+		return false;
+	}
 
 	/**
 	 * Will be shown oon page after submitting data

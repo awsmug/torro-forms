@@ -56,7 +56,7 @@ final class Torro_Actions_Component extends Torro_Component {
 	protected function init() {
 		$this->name = 'actions';
 		$this->title = __( 'Actions', 'torro-forms' );
-		$this->description = __( 'Actions are fired in the moment Users submitting their Form Data.', 'torro-forms' );
+		$this->description = __( 'Actions are executed in the moment users submitting their form data.', 'torro-forms' );
 	}
 
 	/**
@@ -72,6 +72,7 @@ final class Torro_Actions_Component extends Torro_Component {
 
 		// Response Handlers API
 		require_once( $folder . 'abstract/class-action.php' );
+		require_once( $folder . 'base-actions/screen-notification.php' );
 		require_once( $folder . 'base-actions/email-notifications.php' );
 	}
 }
