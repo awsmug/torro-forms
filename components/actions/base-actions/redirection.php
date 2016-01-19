@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Screen_Notifications extends Torro_Action {
+final class Torro_Redirection_Action extends Torro_Action {
 	private static $instance = null;
 
 	/**
@@ -58,36 +58,63 @@ final class Torro_Screen_Notifications extends Torro_Action {
 	 */
 	public function notification( $form_id, $response_id ) {
 		$notification = get_post_meta( $form_id, 'notification_content', true );
+
 		return $notification;
 	}
 
 	public function option_content() {
 		global $post;
 
-		$notification = get_post_meta( $post->ID, 'notification_content', true );
+		$redirection_type = get_post_meta( $post->ID, 'redirection_type', true );
+		$notification     = get_post_meta( $post->ID, 'notification_content', true );
 
-		if( '' == $notification )
-		{
+		if ( '' == $notification ) {
 			$notification = esc_html__( 'Thank you for submitting!', 'torro-forms' );
 		}
 
-		$html = '<div id="form-screen-notifications">';
+		$html = '<div id="form-redirections">';
 
 		$html .= '<div class="actions">';
 		$html .= '<p class="intro-text">' . esc_attr__( 'This notification will be shown after successfull submitting', 'torro-forms' ) . '</p>';
+		$html .= '<select name="redirection_type">';
+
+		$selected = $redirection_type == 'url_redirect' ? ' selected="selected"' : '';
+		$html .= '<option value="url_redirect"' . $selected . '>' . esc_attr__( 'URL Redirection', 'torro-forms' ) . '</option>';
+
+		$selected = $redirection_type == 'page' ? ' selected="selected"' : '';
+		$html .= '<option value="page"' . $selected . '>' . esc_attr__( 'Page Redirection', 'torro-forms' ) . '</option>';
+
+		$selected = $redirection_type == 'text_message' ? ' selected="selected"' : '';
+		$html .= '<option value="text_message"' . $selected . '>' . esc_attr__( 'Text Message', 'torro-forms' ) . '</option>';
+
+		$html .= '</select>';
+
 		$html .= '</div>';
 
-		$html .= '<div class="notification-content">';
+		$display = $redirection_type == 'url_redirect' ? ' style="display:block;"' : ' style="display:none;"';
 
-		$settings = array( 'textarea_rows', 50 );
+		$html .= '<div class="redirect-content url-redirect"' . $display . '>';
+		$html .= 'URL';
+		$html .= '</div>';
+
+		$display = $redirection_type == 'page' ? ' style="display:block;"' : ' style="display:none;"';
+
+		$html .= '<div class="redirect-content notification-content"' . $display . '>';
+		$html .= 'Page';
+		$html .= '</div>';
+
+		$display = $redirection_type == 'text_message' ? ' style="display:block;"' : ' style="display:none;"';
+		$html .= '<div class="redirect-content notification-content"' . $display . '>';
+
+		$settings = array( 'textarea_rows', 25 );
 
 		ob_start();
 		wp_editor( $notification, 'notification_content', $settings );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
-
 		$html .= '</div>';
+
 		$html .= '<div class="clear"></div>';
 
 		return $html;
@@ -99,16 +126,19 @@ final class Torro_Screen_Notifications extends Torro_Action {
 	public function save_option_content() {
 		global $post;
 
+		$notification_content = $_POST[ 'redirection_type' ];
+		update_post_meta( $post->ID, 'redirection_type', $notification_content );
+
 		$notification_content = $_POST[ 'notification_content' ];
 		update_post_meta( $post->ID, 'notification_content', $notification_content );
 	}
 
 	protected function init() {
-		$this->title = __( 'Screen Notification', 'torro-forms' );
-		$this->name  = 'screennotifications';
+		$this->title = __( 'Redirections', 'torro-forms' );
+		$this->name  = 'redirections';
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
 	}
 }
 
-torro()->actions()->add( 'Torro_Screen_Notifications' );
+torro()->actions()->add( 'Torro_Redirection_Action' );

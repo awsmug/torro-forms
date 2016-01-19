@@ -72,7 +72,7 @@ final class Torro_Actions_Component extends Torro_Component {
 
 		// Response Handlers API
 		require_once( $folder . 'abstract/class-action.php' );
-		require_once( $folder . 'base-actions/screen-notification.php' );
+		require_once( $folder . 'base-actions/redirection.php' );
 		require_once( $folder . 'base-actions/email-notifications.php' );
 	}
 }
