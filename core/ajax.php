@@ -228,8 +228,8 @@ final class Torro_AJAX {
 			return new Torro_Error( 'ajax_check_fngrprnt_form_process_error', __( 'Error on processing form.', 'torro-forms' ) );
 		}
 
-		if ( ! isset( $data['action_url'] ) ) {
-			return new Torro_Error( 'ajax_check_fngrprnt_action_url_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'action_url' ) );
+		if ( ! isset( $data['form_action_url'] ) ) {
+			return new Torro_Error( 'ajax_check_fngrprnt_form_action_url_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_action_url' ) );
 		}
 
 		$content = '';
@@ -243,7 +243,7 @@ final class Torro_AJAX {
 		if ( 0 === $count ) {
 			$torro_skip_fingerrint_check = true;
 
-			$torro_form_controller = new Torro_Form_Controller( $torro_form_id, $data['action_url'] );
+			$torro_form_controller = new Torro_Form_Controller( $torro_form_id, $data['form_action_url'] );
 			$content .= $torro_form_controller->show_form();
 		} else {
 			$content .= '<div class="form-message error">' . esc_html__( 'You have already entered your data.', 'torro-forms' ) . '</div>';

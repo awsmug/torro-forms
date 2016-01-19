@@ -217,7 +217,7 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 					torro_actual_step: ' . $actual_step . ',
 					torro_next_step: ' . $next_step . ',
 					' . $maybe_vars . '
-					action_url: \'' . $_SERVER[ 'REQUEST_URI' ] . '\',
+					form_action_url: \'' . $_SERVER[ 'REQUEST_URI' ] . '\',
 					fngrprnt: fngrprnt
 				};
 

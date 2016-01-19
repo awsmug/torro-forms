@@ -32,7 +32,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Form_Loader {
 	/**
+	 * Instance
+	 * @var object
+	 */
+	private static $instance = null;
+
+	/**
+	 * Singleton init function
+	 * @return object $instance
+	 */
+	public static function instance( $filter_the_content = false ) {
+		if ( null === self::$instance ) {
+			self::$instance = new self( $filter_the_content );
+		}
+		return self::$instance;
+	}
+
+	/**
 	 * ID of processed form
+	 * @var int
 	 */
 	var $form_id;
 
@@ -46,12 +64,12 @@ class Torro_Form_Loader {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function init( $filter_the_content = false ) {
-		add_action( 'parse_request', array( __CLASS__, 'process_response' ), 100, 1 );
+	private function __construct( $filter_the_content = false ) {
+		add_action( 'parse_request', array( $this, 'process_response' ), 100, 1 );
 
 		if ( true === $filter_the_content ) {
 			add_action( 'the_post', array(
-				__CLASS__,
+				$this,
 				'add_post_filter'
 			) ); // Just hooking in at the beginning of a loop
 		}
@@ -179,4 +197,4 @@ class Torro_Form_Loader {
 	}
 }
 
-Torro_Form_Loader::init( true );
+Torro_Form_Loader::instance( true );

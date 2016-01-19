@@ -266,5 +266,3 @@ final class Torro {
 function torro() {
 	return Torro::instance();
 }
-
-torro

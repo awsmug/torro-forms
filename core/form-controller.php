@@ -42,21 +42,21 @@ class Torro_Form_Controller {
 	/**
 	 * Action URL
 	 */
-	var $action_url;
+	var $form_action_url;
 
 	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $form_id, $action_url = null ) {
+	public function __construct( $form_id, $form_action_url = null ) {
 		$this->form_id = $form_id;
 		$this->form = new Torro_Form( $this->form_id );
 
-		if ( null === $action_url ) {
-			$this->action_url = $_SERVER[ 'REQUEST_URI' ];
+		if ( null === $form_action_url ) {
+			$this->form_action_url = $_SERVER[ 'REQUEST_URI' ];
 		} else {
-			$this->action_url = $action_url;
+			$this->form_action_url = $form_action_url;
 		}
 	}
 
@@ -94,7 +94,7 @@ class Torro_Form_Controller {
 		// Getting actual step for form
 		$actual_step = $this->get_actual_step();
 
-		$html .= '<form class="torro-form" action="' . $this->action_url . '" method="POST" novalidate>';
+		$html .= '<form class="torro-form" action="' . $this->form_action_url . '" method="POST" novalidate>';
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->form_id ) . '" />';
 
 		$step_count = $this->form->get_step_count();
