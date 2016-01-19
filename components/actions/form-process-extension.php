@@ -43,7 +43,7 @@ class Torro_Actions_FormProcessExtension {
 	 * Starting response handler
 	 */
 	public static function action( $response_id ) {
-		global $ar_form_id;
+		global $torro_form_id;
 
 		$actions = torro()->actions()->get_all();
 
@@ -52,7 +52,7 @@ class Torro_Actions_FormProcessExtension {
 		}
 
 		foreach ( $actions as $action ) {
-			$action->handle( $response_id, $_SESSION['torro_response'][ $ar_form_id ] );
+			$action->handle( $response_id, $_SESSION['torro_response'][ $torro_form_id ] );
 		}
 	}
 }

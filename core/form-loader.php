@@ -61,7 +61,7 @@ class Torro_Form_Loader {
 	 * Porcessing Response
 	 */
 	public static function process_response( $response ) {
-		global $ar_form_id;
+		global $torro_form_id;
 
 		if ( ! isset( $_SESSION ) ) {
 			session_start();
@@ -72,16 +72,16 @@ class Torro_Form_Loader {
 			return;
 		}
 
-		$ar_form_id = $_POST[ 'torro_form_id' ];
+		$torro_form_id = $_POST[ 'torro_form_id' ];
 
 		// If form doesn't exists > exit
-		if ( ! torro_form_exists( $ar_form_id ) ) {
+		if ( ! torro_form_exists( $torro_form_id ) ) {
 			return;
 		}
 
 		do_action( 'torro_form_process' );
 
-		$torro_form_process = new Torro_Form_Controller( $ar_form_id );
+		$torro_form_process = new Torro_Form_Controller( $torro_form_id );
 		$torro_form_process->process_response();
 	}
 
@@ -103,16 +103,16 @@ class Torro_Form_Loader {
 	 * @since 1.0.0
 	 */
 	public static function the_content( $content ) {
-		global $torro_form_process, $ar_form_id, $torro_response_errors;
+		global $torro_form_process, $torro_form_id, $torro_response_errors;
 
-		$post = get_post( $ar_form_id );
-		$ar_form_id = $post->ID;
+		$post = get_post( $torro_form_id );
+		$torro_form_id = $post->ID;
 
 		if ( 'torro-forms' !== $post->post_type ) {
 			return $content;
 		}
 
-		$html = self::get_form( $ar_form_id );
+		$html = self::get_form( $torro_form_id );
 
 		remove_filter( 'the_content', array( __CLASS__, 'the_content' ) ); // only show once
 

@@ -218,7 +218,7 @@ final class Torro_AJAX {
 	}
 
 	public function ajax_check_fngrprnt( $data ) {
-		global $wpdb, $ar_form_id, $torro_skip_fingerrint_check;
+		global $wpdb, $torro_form_id, $torro_skip_fingerrint_check;
 
 		if ( ! isset( $data['torro_form_id'] ) ) {
 			return new Torro_Error( 'ajax_check_fngrprnt_torro_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'torro_form_id' ) );
@@ -234,16 +234,16 @@ final class Torro_AJAX {
 
 		$content = '';
 
-		$ar_form_id = $data['torro_form_id'];
+		$torro_form_id = $data['torro_form_id'];
 		$fingerprint = $data['fngrprnt'];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND cookie_key=%s", $ar_form_id, $fingerprint );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND cookie_key=%s", $torro_form_id, $fingerprint );
 		$count = absint( $wpdb->get_var( $sql ) );
 
 		if ( 0 === $count ) {
 			$torro_skip_fingerrint_check = true;
 
-			$torro_form_process = new Torro_Form_Controller( $ar_form_id, $data['action_url'] );
+			$torro_form_process = new Torro_Form_Controller( $torro_form_id, $data['action_url'] );
 			$content .= $torro_form_process->show_form();
 		} else {
 			$content .= '<div class="form-message error">' . esc_html__( 'You have already entered your data.', 'torro-forms' ) . '</div>';

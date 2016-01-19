@@ -208,9 +208,9 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	public function process_response() {
-		global $ar_form_id, $torro_response_errors;
+		global $torro_form_id, $torro_response_errors;
 
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'torro-form-' . $ar_form_id ) ) {
+		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'torro-form-' . $torro_form_id ) ) {
 			return;
 		}
 
@@ -222,21 +222,21 @@ class Torro_Form_Controller {
 		$actual_step = absint( $_POST[ 'torro_actual_step' ] );
 
 		// If there was a saved response
-		if ( isset( $_SESSION['torro_response'][ $ar_form_id ] ) ) {
+		if ( isset( $_SESSION['torro_response'][ $torro_form_id ] ) ) {
 			// Merging data
-			$merged_response = $_SESSION['torro_response'][ $ar_form_id ];
+			$merged_response = $_SESSION['torro_response'][ $torro_form_id ];
 			if ( is_array( $response ) && 0 < count( $response ) ) {
 				foreach ( $response as $key => $answer ) {
 					$merged_response[ $key ] = torro_prepare_post_data( $answer );
 				}
 			}
 
-			$_SESSION['torro_response'][ $ar_form_id ] = $merged_response;
+			$_SESSION['torro_response'][ $torro_form_id ] = $merged_response;
 		} else {
 			$merged_response = $response;
 		}
 
-		$_SESSION['torro_response'][ $ar_form_id ] = $merged_response;
+		$_SESSION['torro_response'][ $torro_form_id ] = $merged_response;
 
 		$is_submit = false;
 		if ( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) && ! isset( $_POST['torro_submission_back'] ) ) {
@@ -246,19 +246,19 @@ class Torro_Form_Controller {
 		// Validate submitted data if user not has gone backwards
 		$validation_status = true;
 		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
-			$validation_status = $this->validate( $ar_form_id, $_SESSION[ 'torro_response' ][ $ar_form_id ], $actual_step, $is_submit );
+			$validation_status = $this->validate( $torro_form_id, $_SESSION[ 'torro_response' ][ $torro_form_id ], $actual_step, $is_submit );
 		} // Validating response values and setting up error variables
 
 		// If form is finished and user don't have been gone backwards, save data
 		if ( $is_submit && $validation_status && 0 === count( $torro_response_errors ) ) {
-			$form = new Torro_Form( $ar_form_id );
-			$result_id = $form->save_response( $_SESSION[ 'torro_response' ][ $ar_form_id ] );
+			$form = new Torro_Form( $torro_form_id );
+			$result_id = $form->save_response( $_SESSION[ 'torro_response' ][ $torro_form_id ] );
 
 			if ( $result_id ) {
 				do_action( 'torro_response_save', $result_id );
 
-				unset( $_SESSION['torro_response'][ $ar_form_id ] );
-				$_SESSION['torro_response'][ $ar_form_id ]['finished'] = true;
+				unset( $_SESSION['torro_response'][ $torro_form_id ] );
+				$_SESSION['torro_response'][ $torro_form_id ]['finished'] = true;
 
 				header( 'Location: ' . $_SERVER['REQUEST_URI'] );
 				die();

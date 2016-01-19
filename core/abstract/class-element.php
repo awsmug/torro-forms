@@ -357,12 +357,12 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	protected function get_response() {
-		global $ar_form_id;
+		global $torro_form_id;
 
 		$this->response = false;
 
-		if ( ! empty( $ar_form_id ) && isset( $_SESSION['torro_response'] ) && isset( $_SESSION['torro_response'][ $ar_form_id ] ) && isset( $_SESSION['torro_response'][ $ar_form_id ][ $this->id ] ) ) {
-			$this->response = $_SESSION['torro_response'][ $ar_form_id ][ $this->id ];
+		if ( ! empty( $torro_form_id ) && isset( $_SESSION['torro_response'] ) && isset( $_SESSION['torro_response'][ $torro_form_id ] ) && isset( $_SESSION['torro_response'][ $torro_form_id ][ $this->id ] ) ) {
+			$this->response = $_SESSION['torro_response'][ $torro_form_id ][ $this->id ];
 		}
 
 		return $this->response;

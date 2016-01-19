@@ -46,7 +46,7 @@ class Torro_Formbuilder_FormProcessExtension {
 	 * Checking restrictions
 	 */
 	public static function check( $show_form ) {
-		global $ar_form_id;
+		global $torro_form_id;
 
 		$restrictions = torro()->restrictions()->get_all();
 
@@ -61,7 +61,7 @@ class Torro_Formbuilder_FormProcessExtension {
 		/**
 		 * Select field for Restriction
 		 */
-		$restrictions_option = get_post_meta( $ar_form_id, 'restrictions_option', true );
+		$restrictions_option = get_post_meta( $torro_form_id, 'restrictions_option', true );
 
 		if ( ! empty( $restrictions_option ) && array_key_exists( $restrictions_option, $restrictions ) ) {
 			$restriction = $restrictions[ $restrictions_option ];

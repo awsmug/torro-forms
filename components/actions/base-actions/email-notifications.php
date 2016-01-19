@@ -77,17 +77,17 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 * @param $response
 	 */
 	public function handle( $response_id, $response ) {
-		global $wpdb, $ar_form_id, $torro_response_id, $torro_response;
+		global $wpdb, $torro_form_id, $torro_response_id, $torro_response;
 
 		$torro_response_id = $response_id;
 		$torro_response = $response;
 
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_email_notifications WHERE form_id = %d", $ar_form_id );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_email_notifications WHERE form_id = %d", $torro_form_id );
 		$notifications = $wpdb->get_results( $sql );
 
 		if ( 0 < count( $notifications ) ) {
 			// Adding elements templatetags
-			$form = new Torro_Form( $ar_form_id );
+			$form = new Torro_Form( $torro_form_id );
 			foreach ( $form->elements as $element ) {
 				torro_add_element_templatetag( $element->id, $element->label );
 			}

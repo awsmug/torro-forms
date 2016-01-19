@@ -109,16 +109,16 @@ final class Torro_Restriction_AllMembers extends Torro_Restriction {
 	 * Checks if the user can pass
 	 */
 	public function check() {
-		global $ar_form_id;
+		global $torro_form_id;
 
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
 			return false;
 		}
 
-		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_allmembers_same_users', true );
+		$restrictions_same_users = get_post_meta( $torro_form_id, 'form_restrictions_allmembers_same_users', true );
 
-		if ( 'yes' === $restrictions_same_users && torro_user_has_participated( $ar_form_id ) ) {
+		if ( 'yes' === $restrictions_same_users && torro_user_has_participated( $torro_form_id ) ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 			return false;
 		}

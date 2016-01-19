@@ -295,17 +295,17 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts() {
-		global $ar_form_id, $post;
+		global $torro_form_id, $post;
 
-		if ( ! $ar_form_id ) {
+		if ( ! $torro_form_id ) {
 			if ( ! $post || 'torro-forms' !== $post->post_type ) {
 				// no form detected
 				return;
 			}
-			$ar_form_id = $post->ID;
+			$torro_form_id = $post->ID;
 		}
 
-		if ( ! $this->is_enabled( $ar_form_id ) || !$this->is_configured() ) {
+		if ( ! $this->is_enabled( $torro_form_id ) || !$this->is_configured() ) {
 			return;
 		}
 

@@ -380,7 +380,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * Checks if the user can pass
 	 */
 	public function check() {
-		global $ar_form_id;
+		global $torro_form_id;
 
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
@@ -394,9 +394,9 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			return false;
 		}
 
-		$restrictions_same_users = get_post_meta( $ar_form_id, 'form_restrictions_selectedmembers_same_users', true );
+		$restrictions_same_users = get_post_meta( $torro_form_id, 'form_restrictions_selectedmembers_same_users', true );
 
-		if ( 'yes' === $restrictions_same_users && torro_user_has_participated( $ar_form_id ) ) {
+		if ( 'yes' === $restrictions_same_users && torro_user_has_participated( $torro_form_id ) ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 
 			return false;
@@ -415,7 +415,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function is_participant( $user_id = null ) {
-		global $wpdb, $current_user, $ar_form_id;
+		global $wpdb, $current_user, $torro_form_id;
 
 		$is_participant = false;
 
@@ -425,7 +425,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			$user_id = $user_id = $current_user->ID;
 		}
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d", $ar_form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d", $torro_form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		if ( ! in_array( $user_id, $user_ids ) ) {
