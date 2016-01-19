@@ -49,6 +49,18 @@ final class Torro_Forms_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
+	public function delete(){
+		return $this->form->delete();
+	}
+
+	public function delete_responses(){
+		return $this->form->delete_responses();
+	}
+
+	public function dublicate( $copy_meta = true, $copy_taxonomies = true, $copy_comments = true, $copy_elements = true, $copy_answers = true, $copy_participants = true, $draft = false ){
+		return $this->form->dublicate( $copy_meta, $copy_taxonomies, $copy_comments, $copy_elements, $copy_answers, $copy_participants, $draft);
+	}
+
 	public function exists() {
 		return $this->form->exists();
 	}
