@@ -272,14 +272,14 @@ class Torro_Init {
 		// Upgrading from Torro DB version 1.0.2 to 1.0.3
 		if ( true === version_compare( $current_db_version, '1.0.3', '<' ) ) {
 			require_once( 'includes/updates/to_1.0.3.php' );
-			awesome_forms_to_1_0_3();
+			torro_forms_to_1_0_3();
 			update_option( 'torro_db_version', '1.0.3' );
 		}
 
 		// Upgrading from Torro DB version 1.0.3 to 1.0.4
 		if ( true === version_compare( $current_db_version, '1.0.4', '<' ) ) {
 			require_once( 'includes/updates/to_1.0.4.php' );
-			awesome_forms_to_1_0_4();
+			torro_forms_to_1_0_4();
 			update_option( 'torro_db_version', '1.0.4' );
 		}
 
