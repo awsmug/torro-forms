@@ -35,18 +35,25 @@ function torro_forms_rewrite_form_splitters_to_containers() {
 
 		$container_num = 0;
 
+		$sql = $wpdb->prepare( "INSERT INTO {$wpdb->torro_containers} (form_id,label,sort) VALUES (%d,%s,%d)", $form->ID, $label, $container_num );
+		$wpdb->query( $sql );
+
+		$container_id = $wpdb->insert_id;
+
 		foreach ( $elements AS $element ) {
 			if( 'splitter' === $element->type ){
 				$container_num++;
+
+				$sql = $wpdb->prepare( "INSERT INTO {$wpdb->torro_containers} (form_id,label,sort) VALUES (%d,%s,%d)", $form->ID, $label, $container_num );
+				$wpdb->query( $sql );
+
+				$container_id = $wpdb->insert_id;
+
 				continue;
 			}
 
 			$label = __( 'Page', 'torro-forms' ) . ' ' . ( $container_num + 1 );
 
-			$sql = $wpdb->prepare( "INSERT INTO {$wpdb->torro_containers} (form_id,label,sort) VALUES (%d,%s,%d)", $form->ID, $label, $container_num );
-			$wpdb->query( $sql );
-
-			$container_id = $wpdb->insert_id;
 			$sql = $wpdb->prepare( "UPDATE {$wpdb->torro_elements} SET container_id=%d WHERE id=%d", $container_id, $element->id );
 
 			$wpdb->query( $sql );
