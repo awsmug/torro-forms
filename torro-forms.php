@@ -93,6 +93,7 @@ class Torro_Init {
 	 */
 	private static function get_tables() {
 		$tables = $orig_tables = array(
+			'containers',
 			'elements',
 			'element_answers',
 			'results',
@@ -247,7 +248,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function setup() {
-		$script_db_version  = '1.0.3';
+		$script_db_version  = '1.0.4';
 		$current_db_version = get_option( 'torro_db_version' );
 
 		// Upgrading from Questions to Awesome Forms
@@ -272,7 +273,14 @@ class Torro_Init {
 		if ( true === version_compare( $current_db_version, '1.0.3', '<' ) ) {
 			require_once( 'includes/updates/to_1.0.3.php' );
 			awesome_forms_to_1_0_3();
-			update_option( 'torro_db_version', $script_db_version );
+			update_option( 'torro_db_version', '1.0.3' );
+		}
+
+		// Upgrading from Torro DB version 1.0.3 to 1.0.4
+		if ( true === version_compare( $current_db_version, '1.0.4', '<' ) ) {
+			require_once( 'includes/updates/to_1.0.4.php' );
+			awesome_forms_to_1_0_4();
+			update_option( 'torro_db_version', '1.0.4' );
 		}
 
 		// Fresh Torro DB install
@@ -315,9 +323,18 @@ class Torro_Init {
 
 		$charset_collate = self::get_charset_collate();
 
+		$sql = "CREATE TABLE $wpdb->torro_containers (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		form_id int(11) NOT NULL,
+		label text NOT NULL,
+		sort int(11) NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
 		$sql = "CREATE TABLE $wpdb->torro_elements (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		form_id int(11) NOT NULL,
+		container_id int(11) NOT NULL,
 		label text NOT NULL,
 		sort int(11) NOT NULL,
 		type char(50) NOT NULL,
@@ -400,7 +417,7 @@ class Torro_Init {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	private static function get_charset_collate() {
+	public static function get_charset_collate() {
 		global $wpdb;
 
 		$charset_collate = '';
