@@ -76,7 +76,7 @@ function torro_is_formbuilder() {
  * @return bool
  */
 function torro_is_settingspage() {
-	if ( is_admin() && isset( $_GET['page'] ) && 'Torro_Admin' === $_GET[ 'page' ] ) {
+	if ( is_admin() && isset( $_GET[ 'page' ] ) && 'Torro_Admin' === $_GET[ 'page' ] ) {
 		return true;
 	}
 
@@ -89,15 +89,15 @@ function torro_is_settingspage() {
  * @return bool
  */
 function torro_is_form() {
-	if ( ! empty( $_GET['post'] )  ) {
-		$post = get_post( $_GET['post'] );
+	if ( ! empty( $_GET[ 'post' ] ) ) {
+		$post = get_post( $_GET[ 'post' ] );
 
 		if ( is_a( $post, 'WP_Post' ) && 'torro-forms' === $post->post_type ) {
 			return true;
 		}
 	}
 
-	if ( ! empty( $_GET['post_type'] ) && 'torro-forms' === $_GET['post_type'] && ! isset( $_GET['page'] ) ) {
+	if ( ! empty( $_GET[ 'post_type' ] ) && 'torro-forms' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
 		return true;
 	}
 
@@ -147,7 +147,7 @@ Best regards,
 			break;
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_text_template' ) );
-			if( empty( $text ) ) {
+			if ( empty( $text ) ) {
 				$text = __( 'Dear %username%,
 
 you have been invited to participate to the survey "%survey_title%". Participate here:
@@ -191,19 +191,19 @@ function torro_get_mail_template_subject( $mailsubject_title ) {
 	switch ( $mailsubject_title ) {
 		case 'thankyou_participating':
 			$text = stripslashes( get_option( 'questions_thankyou_participating_subject_template' ) );
-			if( empty( $text ) ) {
+			if ( empty( $text ) ) {
 				$text = __( 'Thank you for submitting!', 'torro-forms' );
 			}
 			break;
 		case 'invitation':
 			$text = stripslashes( get_option( 'questions_invitation_subject_template' ) );
-			if( empty( $text ) ) {
+			if ( empty( $text ) ) {
 				$text = __( 'You are invited to answer a survey', 'torro-forms' );
 			}
 			break;
 		case 'reinvitation':
 			$text = stripslashes( get_option( 'questions_reinvitation_subject_template' ) );
-			if( empty( $text ) ) {
+			if ( empty( $text ) ) {
 				$text = __( 'Don´t forget to answer the Survey', 'torro-forms' );
 			}
 			break;
@@ -231,7 +231,7 @@ function torro_get_mail_settings( $option ) {
 			break;
 		case 'from_email':
 			$setting = stripslashes( get_option( 'questions_mail_from_email' ) );
-			if( empty( $setting ) ) {
+			if ( empty( $setting ) ) {
 				$setting = get_option( 'admin_email' );
 			}
 			break;
@@ -276,10 +276,10 @@ function torro_mail( $to_email, $subject, $content ) {
 	// Logging
 	$content = str_replace( chr( 13 ), '', strip_tags( $content ) );
 	torro_create_log_entry( array(
-		$to_email,
-		$subject,
-		$content,
-	) );
+		                        $to_email,
+		                        $subject,
+		                        $content,
+	                        ) );
 
 	remove_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
 	remove_filter( 'wp_mail_from', 'torro_change_email_return_address' );
@@ -304,11 +304,11 @@ function torro_create_log_entry( $values ) {
 	}
 
 	$line = str_replace( array(
-		"\r\n",
-		"\n\r",
-		"\n",
-		"\r",
-	), ' ', $line );
+		                     "\r\n",
+		                     "\n\r",
+		                     "\n",
+		                     "\r",
+	                     ), ' ', $line );
 
 	$line .= chr( 13 );
 
