@@ -33,17 +33,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Torro_Form_Controller {
 
 	private static $instance = null;
+
 	/**
 	 * ID of processed form
 	 *
 	 * @var int
 	 */
 	private $form_id = null;
+
 	/**
 	 * @var int
 	 * @since 1.0.0
 	 */
 	private $form_container_id = null;
+
 	/**
 	 * Form object
 	 *
@@ -52,11 +55,39 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private $form = null;
+
 	/**
+	 * Actual step
 	 * @var int
 	 * @since 1.0.0
 	 */
 	private $actual_step = 0;
+
+	/**
+	 * Actual step
+	 * @var int
+	 * @since 1.0.0
+	 */
+	private $previous_step = 0;
+
+	/**
+	 * Determines if we are going forward
+	 * @var bool
+	 */
+	private $going_forward = false;
+
+	/**
+	 * Determines if a response will be saved or not
+	 * @var bool
+	 */
+	private $save_response = false;
+
+	/**
+	 * Is this a torro submit?
+	 * @var bool
+	 */
+	private $is_torro_submit = false;
+
 	/**
 	 * Action URL
 	 *
@@ -64,6 +95,7 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private $form_action_url = null;
+
 	/**
 	 * Response Errors
 	 *
@@ -88,212 +120,24 @@ class Torro_Form_Controller {
 			session_start();
 		}
 
-		$this->parse_posted_vars();
 		$this->set_form_action_url( $_SERVER[ 'REQUEST_URI' ] );
 	}
 
+	/**
+	 * Singleton
+	 *
+	 * @param bool $filter_the_content
+	 *
+	 * @return null|Torro_Form_Controller
+	 *
+	 * @since 1.0.0
+	 */
 	public static function instance( $filter_the_content = false ) {
 		if ( null === self::$instance ) {
 			self::$instance = new self( $filter_the_content );
 		}
 
 		return self::$instance;
-	}
-
-	private function parse_posted_vars(){
-		if ( ! isset( $_POST[ 'torro_form_id' ] ) ) {
-			return;
-		}
-
-		// If form doesn't exists > exit
-		if ( ! $this->set_form_id( $_POST[ 'torro_form_id' ] ) ) {
-			return;
-		}
-
-		$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
-
-		// If there was posted torro_next_step and there was no error
-		if ( isset( $_POST[ 'torro_next_step' ] ) && 0 == count( $this->response_errors ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_next_step' ] );
-		} elseif ( isset( $_POST[ 'torro_actual_step' ] ) ) {
-			// If there was posted torro_next_step and there was an error
-			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
-		} else {
-			// If there was nothing posted, start at the beginning
-			$this->actual_step = 0;
-		}
-
-		// If user wanted to go backwards, set one step back
-		if ( array_key_exists( 'torro_submission_back', $_POST ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] ) - 1;
-		}
-	}
-
-	/**
-	 * Porcessing Response
-	 */
-	public function parse_request( $response ) {
-		// If there is no nothing submitted and there is no session data > exit
-		if ( ! isset( $_POST[ 'torro_form_id' ] ) ) {
-			return;
-		}
-
-		if ( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
-			return;
-		}
-
-		$response = array();
-		if ( isset( $_POST[ 'torro_response' ] ) ) {
-			$response = $_POST[ 'torro_response' ];
-		}
-
-		// If there was a saved response
-		if ( isset( $_SESSION[ 'torro_response' ][ $this->form_id ] ) ) {
-			// Merging data
-			$merged_response = $_SESSION[ 'torro_response' ][ $this->form_id ];
-			if ( is_array( $response ) && 0 < count( $response ) ) {
-				foreach ( $response as $key => $answer ) {
-					$merged_response[ $key ] = torro_prepare_post_data( $answer );
-				}
-			}
-
-			$_SESSION[ 'torro_response' ][ $this->form_id ] = $merged_response;
-		} else {
-			$merged_response = $response;
-		}
-
-		$_SESSION[ 'torro_response' ][ $this->form_id ] = $merged_response;
-
-		$is_submit = false;
-		if ( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) && ! isset( $_POST[ 'torro_submission_back' ] ) ) {
-			$is_submit = true;
-		}
-
-		// Validate submitted data if user not has gone backwards
-		$validation_status = true;
-		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
-			$validation_status = $this->validate( $_SESSION[ 'torro_response' ][ $this->form_id ], $this->actual_step, $is_submit );
-		} // Validating response values and setting up error variables
-
-		// If form is finished and user don't have been gone backwards, save data
-		if ( $is_submit && $validation_status && 0 === count( $this->response_errors ) ) {
-			$result_id = torro()->forms( $this->form_id )->save_response( $_SESSION[ 'torro_response' ][ $this->form_id ] );
-
-			if ( $result_id ) {
-				do_action( 'torro_response_save', $this->form_id, $result_id, $_SESSION[ 'torro_response' ][ $this->form_id ] );
-
-				unset( $_SESSION[ 'torro_response' ][ $this->form_id ] );
-				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] = $result_id;
-				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ] = true;
-
-				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
-				die();
-			}
-		}
-
-		do_action( 'torro_form_parse_request', $this->form_id );
-	}
-
-	/**
-	 * Set Form ID
-	 *
-	 * @param $form_id
-	 * @return boolean
-	 */
-	public function set_form_id( $form_id ) {
-		if ( torro()->forms( $form_id )->exists() ) {
-			$this->form_id = $form_id;
-			$this->form    = torro()->forms( $this->form_id );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Return the current form id
-	 * @return int
-	 */
-	public function get_form_id(){
-		return $this->form_id;
-	}
-
-	/**
-	 * Set Form ID
-	 *
-	 * @param $form_id
-	 * @return boolean
-	 */
-	public function set_form_action_url( $url ){
-		$this->form_action_url = $url;
-	}
-
-	/**
-	 * Validating response
-	 *
-	 * @param int   $form_id
-	 * @param array $response
-	 * @param int   $step
-	 * @param bool  $is_submit
-	 *
-	 * @return boolean $validated
-	 * @since 1.0.0
-	 */
-	private function validate( $response, $step, $is_submit ) {
-		$elements = torro()->forms( $this->form_id )->get_step_elements( $step );
-
-		if ( ! is_array( $elements ) || 0 === count( $elements ) ) {
-			return;
-		}
-
-		// Running through all elements
-		foreach ( $elements as $element ) {
-			if ( $element->splits_form ) {
-				continue;
-			}
-
-			$answer = '';
-			if ( array_key_exists( $element->id, $response ) ) {
-				$answer = $response[ $element->id ];
-			}
-
-			if ( ! $element->validate( $answer ) ) {
-				if ( 0 < count( $element->validate_errors ) ) {
-
-					// Getting every error of element back
-					foreach ( $element->validate_errors AS $message ) {
-						$this->add_response_error( $element->id, $message );
-					}
-				}
-			}
-		}
-
-		$validation_status = count( $this->response_errors ) > 0 ? false : true;
-
-		return apply_filters( 'torro_response_validation_status', $validation_status, $this->form_id, $this->response_errors, $step, $is_submit );
-	}
-
-	/**
-	 * Adding response errors
-	 * @param $element_id
-	 * @param $message
-	 */
-	private function add_response_error( $element_id, $message ){
-		if ( ! isset( $this->response_errors[ $element_id ] ) || empty( $this->response_errors[ $element_id ] ) ) {
-			$this->response_errors[ $element_id ] = array();
-		}
-
-		$this->response_errors[ $element_id ][] = $message;
-	}
-
-	/**
-	 * Get response errors
-	 * @return array
-	 */
-	public function get_response_errors()
-	{
-		return $this->response_errors;
 	}
 
 	/**
@@ -315,6 +159,168 @@ class Torro_Form_Controller {
 		$html .= '</div>';
 
 		return apply_filters( 'torro_show_results', $html, $form_id );
+	}
+
+	/**
+	 * Porcessing Request and setting up class variables
+	 *
+	 * @param array $response
+	 *
+	 * @since 1.0.0
+	 */
+	public function parse_request( $request ) {
+		$this->parse_posted_vars();
+
+		if ( ! $this->is_torro_submit ){
+			return;
+		}
+
+		$response_new   = isset( $_POST[ 'torro_response' ] ) ? $_POST[ 'torro_response' ] : array();
+		$response_saved = isset( $_SESSION[ 'torro_response' ][ $this->form_id ] ) ? $_SESSION[ 'torro_response' ][ $this->form_id ] : array();
+		$merged_response = $response_new;
+
+		// If there was a saved response merge it with new
+		if ( ! empty( $response_saved ) ) {
+			$merged_response = $response_saved;
+
+			if ( is_array( $response_new ) && 0 < count( $response_new ) ) {
+				foreach ( $response_new as $key => $answer ) {
+					$merged_response[ $key ] = torro_prepare_post_data( $answer );
+				}
+			}
+		}
+
+		$_SESSION[ 'torro_response' ][ $this->form_id ] = $merged_response;  // Saving data to Session for further submits
+
+		// Only parse request if not going backwards
+		if( ! $this->going_forward ){
+			return;
+		}
+
+		$validated = $this->validate( $response_new, $this->previous_step );
+
+		if( ! $validated )
+		{
+			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
+			return;
+		}
+
+		// Saving
+		if ( $this->save_response ) {
+			$result_id = torro()->forms( $this->form_id )->save_response( $merged_response );
+
+			// After successfull saving
+			if ( $result_id ) {
+				do_action( 'torro_response_save', $this->form_id, $result_id, $merged_response );
+
+				unset( $_SESSION[ 'torro_response' ][ $this->form_id ] );
+
+				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] = $result_id;
+				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ]  = true;
+
+				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
+				die();
+			}
+		}
+
+		do_action( 'torro_form_parse_request', $this->form_id, $this->actual_step, $response_new, $merged_response );
+	}
+
+	/**
+	 * Parsing posted vars and setting up class variables
+	 *
+	 * @since 1.0.0
+	 */
+	private function parse_posted_vars() {
+		$this->is_torro_submit = false;
+
+		if ( isset( $_POST[ 'torro_form_id' ] ) ) {
+			$this->is_torro_submit = true;
+		}
+
+		if ( isset( $_POST[ '_wpnonce' ] ) && wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
+			$this->is_torro_submit = true;
+		}
+
+		if( ! $this->is_torro_submit ){
+			return;
+		}
+
+		if ( ! $this->set_form_id( $_POST[ 'torro_form_id' ] ) ) {
+			return;
+		}
+
+		if ( isset( $_POST[ 'torro_next_step' ] ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_next_step' ] );
+			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
+		} elseif ( isset( $_POST[ 'torro_actual_step' ] ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
+			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
+		} else {
+			$this->actual_step = 0;
+			$this->previous_step = 0;
+		}
+
+		if ( array_key_exists( 'torro_submission_back', $_POST ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] ) - 1;
+		}
+
+		$this->going_forward = false;
+		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
+			$this->going_forward = true;
+		}
+
+		$this->save_response = false;
+		if( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) ){
+			$this->save_response = true;
+		}
+	}
+
+	/**
+	 * Set Form ID
+	 *
+	 * @param $form_id
+	 *
+	 * @return boolean
+	 */
+	public function set_form_id( $form_id ) {
+		if ( torro()->forms( $form_id )->exists() ) {
+			$this->form_id = $form_id;
+			$this->form    = torro()->forms( $this->form_id );
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Return the current form id
+	 *
+	 * @return int
+	 */
+	public function get_form_id() {
+		return $this->form_id;
+	}
+
+	/**
+	 * Set Form ID
+	 *
+	 * @param $form_id
+	 *
+	 * @return boolean
+	 */
+	public function set_form_action_url( $url ) {
+		$this->form_action_url = $url;
+	}
+
+	/**
+	 * Get response errors
+	 *
+	 * @return array
+	 */
+	public function get_response_errors() {
+		return $this->response_errors;
 	}
 
 	/**
@@ -372,12 +378,11 @@ class Torro_Form_Controller {
 		if ( isset( $_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ] ) ) {
 			ob_start();
 			do_action( 'torro_form_finished', $this->form_id, $_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] );
-			$html.= ob_get_clean();
+			$html .= ob_get_clean();
 
-			$html.= $this->show_results( $this->form_id );
+			$html .= $this->show_results( $this->form_id );
 
 			session_destroy();
-
 		} else {
 			$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding restrictions and so on ...
 
@@ -438,6 +443,65 @@ class Torro_Form_Controller {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Validating response
+	 *
+	 * @param int   $form_id
+	 * @param array $response
+	 * @param int   $step
+	 * @param bool  $is_submit
+	 *
+	 * @return boolean $validated
+	 * @since 1.0.0
+	 */
+	private function validate( $response, $step ) {
+		$elements = torro()->forms( $this->form_id )->get_step_elements( $step );
+
+		if ( ! is_array( $elements ) || 0 === count( $elements ) ) {
+			return;
+		}
+
+		// Running through all elements
+		foreach ( $elements as $element ) {
+			if ( $element->splits_form ) {
+				continue;
+			}
+
+			$answer = '';
+			if ( array_key_exists( $element->id, $response ) ) {
+				$answer = $response[ $element->id ];
+			}
+
+			if ( ! $element->validate( $answer ) ) {
+				if ( 0 < count( $element->validate_errors ) ) {
+
+					// Getting every error of element back
+					foreach ( $element->validate_errors AS $message ) {
+						$this->add_response_error( $element->id, $message );
+					}
+				}
+			}
+		}
+
+		$validation_status = count( $this->response_errors ) > 0 ? false : true;
+
+		return apply_filters( 'torro_response_validation_status', $validation_status, $this->form_id, $this->response_errors, $step );
+	}
+
+	/**
+	 * Adding response errors
+	 *
+	 * @param $element_id
+	 * @param $message
+	 */
+	private function add_response_error( $element_id, $message ) {
+		if ( ! isset( $this->response_errors[ $element_id ] ) || empty( $this->response_errors[ $element_id ] ) ) {
+			$this->response_errors[ $element_id ] = array();
+		}
+
+		$this->response_errors[ $element_id ][] = $message;
 	}
 
 	/**
