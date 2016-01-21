@@ -45,6 +45,12 @@ class Torro_Form extends Torro_Post {
 	public $title;
 
 	/**
+	 * @var array $containers All containers of the form
+	 * @since 1.0.0
+	 */
+	public $containers = array();
+
+	/**
 	 * @var array $elements All elements of the form
 	 * @since 1.0.0
 	 */
@@ -89,29 +95,6 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
-	 * Populating class variables
-	 *
-	 * @param int $id The id of the form
-	 *
-	 * @since 1.0.0
-	 */
-	private function populate( $id ) {
-		$this->id = $id;
-
-		if ( ! $this->exists() ) {
-			return false;
-		}
-
-		$form        = get_post( $this->id );
-		$this->title = $form->post_title;
-
-		$this->elements     = $this->get_elements();
-		$this->participants = $this->get_participants();
-
-		return true;
-	}
-
-	/**
 	 * Checks if a Form exists
 	 *
 	 * @return boolean $exists true if Form exists, false if not
@@ -130,58 +113,19 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
-	 * Getting all element objects
-	 *
-	 * @param int $id The id of the form
-	 *
-	 * @return array $elements All element objects of the form
-	 * @since 1.0.0
+	 * Getting Containers
 	 */
-	public function get_elements( $id = null ) {
-		global $wpdb;
-
-		if ( null === $id ) {
-			$id = $this->id;
-		}
-
-		$id = absint( $id );
-
-		if ( 0 === $id ) {
-			return false;
-		}
-
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->torro_elements WHERE form_id = %d ORDER BY sort ASC", $id ) );
-
-		$elements = array();
-
-		// Running all elements which have been found
-		if ( is_array( $results ) ) {
-			foreach ( $results as $result ) {
-				if ( ( $element = torro()->elements()->get( $result->id, $result->type ) ) ) {
-					$elements[] = $element; // Adding element
-
-					if ( $element->splits_form ) {
-						$this->splitter_count ++;
-					}
-				}
-			}
-		}
-
-		return $elements;
+	public function get_containers() {
+		return $this->containers;
 	}
 
 	/**
-	 * Getting participants
+	 * Geting Participants
 	 *
-	 * @return array All participator ID's
+	 * @return array
 	 */
 	public function get_participants() {
-		global $wpdb;
-
-		$sql             = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d", $this->id );
-		$participant_ids = $wpdb->get_col( $sql );
-
-		return $participant_ids;
+		return $this->participants;
 	}
 
 	/**
@@ -220,7 +164,7 @@ class Torro_Form extends Torro_Post {
 	 * @since 1.0.0
 	 */
 	public function get_step_count() {
-		return absint( $this->splitter_count );
+		return count( $this->containers );
 	}
 
 	/**
@@ -497,5 +441,91 @@ class Torro_Form extends Torro_Post {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Populating class variables
+	 *
+	 * @param int $id The id of the form
+	 *
+	 * @since 1.0.0
+	 */
+	private function populate( $id ) {
+		$this->id = $id;
+
+		if ( ! $this->exists() ) {
+			return false;
+		}
+
+		$form        = get_post( $this->id );
+		$this->title = $form->post_title;
+
+		$this->containers   = $this->__get_containers();
+		$this->elements     = $this->__get_elements();
+		$this->participants = $this->__get_participants();
+
+		return true;
+	}
+
+	/**
+	 * Getting Containers
+	 */
+	private function __get_containers() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE form_id=%d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		$containers = array();
+		foreach ( $results AS $container ) {
+			$containers[] = new Torro_Container( $container->id );
+		}
+
+		return $containers;
+	}
+
+	private function __get_elements() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		$elements = array();
+		foreach ( $results AS $element ) {
+			$elements[] = torro()->elements()->get( $element->id, $element->type );
+		}
+
+		return $elements;
+	}
+
+	public function get_elements(){
+		return $this->elements;
+	}
+
+	/**
+	 * Initializing participants
+	 *
+	 * @return array All participator ID's
+	 */
+	private function __get_participants() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_participants} WHERE form_id = %d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		$participants = array();
+		foreach ( $results AS $participant_id ) {
+			$participants[] = new Torro_Participant( $participant_id );
+		}
+
+		return $participants;
 	}
 }

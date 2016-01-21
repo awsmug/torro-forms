@@ -81,12 +81,12 @@ final class Torro_Forms_Manager extends Torro_Manager {
 		return $form_loader->get_form_id();
 	}
 
-	public function get_elements() {
-		return $this->form->get_elements();
+	public function get_containers() {
+		return $this->form->get_containers();
 	}
 
 	public function get_participants() {
-		return $this->form->get_step_elements();
+		return $this->form->get_participants();
 	}
 
 	public function get_response_errors(){

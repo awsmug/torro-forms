@@ -58,7 +58,9 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 		// otherwise it is an element ID
 		if ( ! isset( $this->element_instances[ $element_id ] ) ) {
 			if ( empty( $type ) ) {
-				$type = $wpdb->get_var( $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", $element_id ) );
+				$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", $element_id );
+
+				$type = $wpdb->get_var( $sql );
 				if ( ! $type ) {
 					return new Torro_Error( 'torro_element_id_invalid', sprintf( __( 'The element ID %s is invalid. The type could not be detected.', 'torro-forms' ), $element_id ), __METHOD__ );
 				}

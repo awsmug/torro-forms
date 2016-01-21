@@ -419,7 +419,7 @@ class Torro_Form_Controller {
 			if ( is_array( $elements ) && count( $elements ) > 0 ) {
 				foreach ( $elements as $element ) {
 					if ( ! $element->splits_form ) {
-						$html .= $element->draw();
+						$html .= $element->get_html();
 					} else {
 						$next_step += 1; // If there is a next step, setting up next step var
 						break;

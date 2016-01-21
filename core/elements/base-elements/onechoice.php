@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Form_Element_OneChoice extends Torro_Form_Element {
+final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 	private static $instances = array();
 
 	public static function instance( $id = null ) {

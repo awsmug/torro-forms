@@ -65,10 +65,11 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 	}
 
 	public function admin_content_html() {
-		$widget_id = $this->admin_get_widget_id();
+		$element_id = $this->get_admin_element_id();
+		$container_id = $this->get_admin_cotainer_id();
 
 		$editor_id = 'wp_editor_' . substr( md5( rand() * time() ), 0, 5 );
-		$field_name = 'elements[' . $widget_id . '][label]';
+		$field_name = 'containers[' . $container_id . '][elements][' . $element_id . '][label]';
 
 		$settings = array(
 			'textarea_name' => $field_name,

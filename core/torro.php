@@ -62,6 +62,7 @@ final class Torro {
 		// load instance manager classes
 		require_once( $this->path( 'core/managers/class-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-components-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-containers-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-elements-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-settings-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-templatetags-manager.php' ) );
@@ -89,6 +90,14 @@ final class Torro {
 	 */
 	public function components() {
 		return Torro_Components_Manager::instance();
+	}
+
+	/**
+	 * Containers keychain function
+	 * @return null|Torro_Containers_Manager
+	 */
+	public function containers( $container_id = null ){
+		return Torro_Containers_Manager::instance( $container_id );
 	}
 
 	/**
