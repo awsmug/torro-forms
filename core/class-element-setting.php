@@ -31,13 +31,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Element_Setting {
 
-	private $id;
+	private $id = '';
 
-	private $element_id;
+	private $element_id = '';
 
-	private $name;
+	private $name = '';
 
-	private $value;
+	private $value = '';
 
 	public function __construct( $id ) {
 		$this->populate( $id );

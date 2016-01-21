@@ -837,7 +837,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 			return $this->id;
 		}else{
 			return $wpdb->insert(
-				$wpdb->torro_containers,
+				$wpdb->torro_elements,
 				array(
 					'form_id' => $this->form_id,
 					'container_id' => $this->container_id,

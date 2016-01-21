@@ -270,7 +270,8 @@
 				// Setting up new answer HTML
 				var answer_content = '<div class="answer" id="answer_' + nr + '">';
 				answer_content = answer_content + '<p><input type="text" id="answer_' + nr + '_input" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][answer]" class="element-answer" /></p>';
-				answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][id]" /><input type="hidden" name="elements[' + element_id + '][answers][' + nr + '][sort]" />';
+				answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][id]" />';
+				answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][sort]" />';
 
 				if ( 'yes' == section_val ) {
 					var section_key = $button.parent().find( 'input[name="section_key"]' ).val();
@@ -638,7 +639,7 @@
 			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 
 			random = random * now.getTime();
-			random = random.toString().substring( 0, 5 );
+			random = random.toString();
 
 			return random;
 		}

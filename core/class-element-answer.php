@@ -116,6 +116,11 @@ class Torro_Element_Answer {
 				$this->$key = $value;
 				break;
 
+			case 'value':
+				if( null === $value ) $value = '';
+				$this->$key = $value;
+				break;
+
 			default:
 				if ( property_exists( $this, $key ) ) {
 					$this->$key = $value;

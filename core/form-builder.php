@@ -105,19 +105,21 @@ class Torro_Formbuilder {
 
 			$html .= '</div>';
 		}else{
+			$label =  esc_attr( 'Page', 'torro-forms' ) . ' 1';
+
 			$temp_id = 'temp_id_' . time() * rand();
 
 			$html .= '<div id="form-container-tabs" class="form_element_tabs">';
 			$html .= '<ul>';
-			$html .= '<li><a href="#torro-container-new">' . esc_attr( 'Page', 'torro-forms' ) . ' 1</a></li>';
+			$html .= '<li><a href="#torro-container-new">' . $label . '</a></li>';
 			$html .= '</ul>';
 			$html .= '<div class="torro-drag-drop-inside">';
 			$html .= '</div>';
 			$html .= '</div>';
 			$html .= '<input type="hidden" name="container_id" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][id]" value="' . $temp_id . '" />';
-			$html .= '<input type="hidden" name="containers[' . $temp_id . '][label]" value="' . $temp_id . '" />';
-			$html .= '<input type="hidden" name="containers[' . $temp_id . '][sort]" value="' . $temp_id . '" />';
+			$html .= '<input type="hidden" name="containers[' . $temp_id . '][label]" value="' . $label . '" />';
+			$html .= '<input type="hidden" name="containers[' . $temp_id . '][sort]" value="0" />';
 		}
 
 		// torro()->forms( $form_id )->get_elements();
@@ -147,8 +149,8 @@ class Torro_Formbuilder {
 		$html .= '<div id="delete_answer_dialog">' . esc_html__( 'Do you really want to delete this answer?', 'torro-forms' ) . '</div>';
 		$html .= '<div id="delete_results_dialog"><h3>' . esc_html__( 'Attention!', 'torro-forms' ) . '</h3><p>' . esc_html__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'torro-forms' ) . '</p></div>';
 
-		$html .= '<input type="hidden" id="deleted_formelements" name="form_deleted_formelements" value="">';
-		$html .= '<input type="hidden" id="deleted_answers" name="form_deleted_answers" value="">';
+		$html .= '<input type="hidden" id="deleted_formelements" name="deleted_element_ids" value="">';
+		$html .= '<input type="hidden" id="deleted_answers" name="deleted_answer_ids" value="">';
 
 		echo $html;
 	}
@@ -249,8 +251,8 @@ class Torro_Formbuilder {
 		}
 
 		$containers              = $_POST[ 'containers' ];
-		$deleted_element_ids     = $_POST[ 'form_deleted_formelements' ];
-		$deleted_answer_ids = $_POST[ 'form_deleted_answers' ];
+		$deleted_element_ids     = $_POST[ 'deleted_element_ids' ];
+		$deleted_answer_ids      = $_POST[ 'deleted_answer_ids' ];
 		$show_results            = isset( $_POST[ 'show_results' ] ) ? $_POST[ 'show_results' ] : false;
 
 		foreach ( $containers AS $container ) {
@@ -258,13 +260,14 @@ class Torro_Formbuilder {
 				if( 'temp_id' === substr( $container[ 'id' ], 0, 7 )  ){
 					$container[ 'id' ] = '';
 				}
+
 				$torro_container          = new Torro_Container( $container[ 'id' ] );
 				$torro_container->form_id = $form_id;
 				$torro_container->label   = $container[ 'label' ];
 				$torro_container->sort    = $container[ 'sort' ];
 				$container_id = $torro_container->save();
 
-				do_action( 'torro_formbuilder_container_save', $form_id, $container );
+				do_action( 'torro_formbuilder_container_save', $form_id, $torro_container );
 
 				if ( isset( $container[ 'elements' ] ) ) {
 					$elements = $container[ 'elements' ];
@@ -282,7 +285,7 @@ class Torro_Formbuilder {
 							$torro_element->sort  = $element[ 'sort' ];
 							$element_id = $torro_element->save();
 
-							do_action( 'torro_formbuilder_element_save', $form_id, $element );
+							do_action( 'torro_formbuilder_element_save', $form_id, $torro_element );
 
 							if ( isset( $element[ 'answers' ] ) ){
 								$answers = $element[ 'answers' ];
@@ -297,9 +300,10 @@ class Torro_Formbuilder {
 										$torro_answer->element_id = $element_id;
 										$torro_answer->answer = $answer[ 'answer' ];
 										$torro_answer->sort = $answer[ 'sort' ];
+										$torro_answer->section = ''; // todo: Section have to be set!
 										$torro_answer->save();
 
-										do_action( 'torro_formbuilder_element_answer_save', $form_id, $answer );
+										do_action( 'torro_formbuilder_element_answer_save', $form_id, $torro_answer );
 									}
 								}
 							}
@@ -313,11 +317,11 @@ class Torro_Formbuilder {
 									}
 									$torro_setting = new Torro_Element_Setting( $setting[ 'id' ] );
 									$torro_setting->element_id =  $element_id;
-									$torro_setting->name =  $setting[ 'name' ];
-									$torro_setting->vaue =  $setting[ 'value' ];
+									$torro_setting->name = $setting[ 'name' ];
+									$torro_setting->vaue = $setting[ 'value' ];
 									$torro_setting->save();
 
-									do_action( 'torro_formbuilder_element_answer_save', $form_id, $setting );
+									do_action( 'torro_formbuilder_element_answer_save', $form_id, $torro_setting );
 								}
 							}
 						}
@@ -351,7 +355,6 @@ class Torro_Formbuilder {
 
 		do_action( 'torro_formbuilder_save', $form_id );
 
-		// Preventing duplicate saving
 		remove_action( 'save_post', array( __CLASS__, 'save' ), 50 );
 	}
 
