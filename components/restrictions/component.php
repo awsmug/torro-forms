@@ -71,7 +71,7 @@ final class Torro_Restrictions_Component extends Torro_Component {
 		require_once( $folder . 'form-process-extension.php' );
 
 		// Restrictions API
-		require_once( $folder . 'abstract/class-restriction.php' );
+		require_once( $folder . 'models/class-restriction.php' );
 
 		// Base Restrictions
 		require_once( $folder . 'base-restrictions/all-visitors.php' );

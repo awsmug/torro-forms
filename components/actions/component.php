@@ -71,7 +71,7 @@ final class Torro_Actions_Component extends Torro_Component {
 		require_once( $folder . 'form-process-extension.php' );
 
 		// Response Handlers API
-		require_once( $folder . 'abstract/class-action.php' );
+		require_once( $folder . 'models/class-action.php' );
 		require_once( $folder . 'base-actions/redirection.php' );
 		require_once( $folder . 'base-actions/email-notifications.php' );
 	}

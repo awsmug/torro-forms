@@ -61,8 +61,9 @@ final class Torro_Results_Component extends Torro_Component {
 	protected function includes() {
 		$folder = torro()->path( 'components/results/' );
 
-		// Result Handler API
-		require_once( $folder . 'abstract/class-result-handler.php' );
+		// Models
+		require_once( $folder . 'models/class-result-handler.php' );
+		require_once( $folder . 'models/class-form-results.php' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -73,7 +74,6 @@ final class Torro_Results_Component extends Torro_Component {
 		require_once( $folder . 'export.php' );
 
 		// Results base Class
-		require_once( $folder . 'class-form-results.php' );
 
 		// Base Result Handlers
 		require_once( $folder . 'base-result-handlers/entries.php' );
