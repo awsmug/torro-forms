@@ -35,7 +35,7 @@ class Torro_Element_Answer {
 
 	private $element_id;
 
-	private $answer;
+	private $label;
 
 	private $sort;
 
@@ -56,7 +56,7 @@ class Torro_Element_Answer {
 			if ( 0 !== $wpdb->num_rows ) {
 				$this->id         = $answer->id;
 				$this->element_id = $answer->element_id;
-				$this->answer     = $answer->answer;
+				$this->label      = $answer->answer;
 				$this->sort       = $answer->sort;
 				$this->section    = $answer->section;
 			}
@@ -69,7 +69,7 @@ class Torro_Element_Answer {
 		if ( ! empty( $this->id ) ) {
 			return $wpdb->update( $wpdb->torro_element_answers, array(
 				'element_id' => $this->element_id,
-				'answer'     => $this->answer,
+				'answer'     => $this->label,
 				'sort'       => $this->sort,
 				'section'    => $this->section
 			), array(
@@ -78,7 +78,7 @@ class Torro_Element_Answer {
 		} else {
 			$wpdb->insert( $wpdb->torro_element_answers, array(
 				'element_id' => $this->element_id,
-				'answer'  => $this->answer,
+				'answer'  => $this->label,
 				'sort'    => $this->sort,
 				'section' => $this->section
 			) );

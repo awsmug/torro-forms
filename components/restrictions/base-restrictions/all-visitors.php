@@ -328,4 +328,4 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 
 }
 
-torro()->restrictions()->add( 'Torro_Restriction_AllVisitors' );
+torro()->restrictions()->register( 'Torro_Restriction_AllVisitors' );

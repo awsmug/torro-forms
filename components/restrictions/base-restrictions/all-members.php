@@ -127,4 +127,4 @@ final class Torro_Restriction_AllMembers extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->add( 'Torro_Restriction_AllMembers' );
+torro()->restrictions()->register( 'Torro_Restriction_AllMembers' );

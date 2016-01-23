@@ -77,4 +77,4 @@ final class Torro_Actions_Component extends Torro_Component {
 	}
 }
 
-torro()->components()->add( 'Torro_Actions_Component' );
+torro()->components()->register( 'Torro_Actions_Component' );

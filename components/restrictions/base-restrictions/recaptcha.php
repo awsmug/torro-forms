@@ -407,4 +407,4 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->add( 'Torro_Restriction_Recaptcha' );
+torro()->restrictions()->register( 'Torro_Restriction_Recaptcha' );

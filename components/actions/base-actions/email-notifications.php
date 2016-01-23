@@ -318,4 +318,4 @@ final class Torro_Email_Notifications extends Torro_Action {
 	}
 }
 
-torro()->actions()->add( 'Torro_Email_Notifications' );
+torro()->actions()->register( 'Torro_Email_Notifications' );

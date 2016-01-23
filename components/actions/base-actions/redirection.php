@@ -195,4 +195,4 @@ final class Torro_Redirection_Action extends Torro_Action {
 	}
 }
 
-torro()->actions()->add( 'Torro_Redirection_Action' );
+torro()->actions()->register( 'Torro_Redirection_Action' );

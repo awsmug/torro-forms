@@ -1,8 +1,6 @@
 <?php
 /**
- * Torro Forms settings classes manager class
- *
- * This class holds and manages all settings class instances.
+ * Torro Forms continer manager class
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -30,29 +28,63 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Settings_Manager extends Torro_Manager {
+final class Torro_Element_Setting_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
-	public static function instance() {
+	private $id;
+
+	private $object;
+
+	public static function instance( $id = null ) {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
+
+		if ( self::$instance->id !== $id  && null !== $id ) {
+			self::$instance->id     = $id;
+			self::$instance->object = new Torro_Element_Setting( $id );
+		}
+
 		return self::$instance;
 	}
 
+	public function element( $id = null ) {
+		if ( null !== $id ) {
+			$this->object->element_id = $id;
+		} else {
+			return $this->object->element_id;
+		}
+	}
+
+	public function name( $name = null ) {
+		if ( null !== $name ) {
+			$this->object->name = $name;
+		} else {
+			return $this->object->name;
+		}
+	}
+
+	public function value( $value = null ) {
+		if ( null !== $value ) {
+			$this->object->value = $value;
+		} else {
+			return $this->object->value;
+		}
+	}
+
+	public function save() {
+		return $this->object->save();
+	}
+
+	public function delete() {
+		return $this->object->delete();
+	}
+
+	public function get_elements() {
+		return $this->object->elements;
+	}
+
 	protected function init() {
-		$this->base_class = 'Torro_Settings';
-	}
-
-	public function register( $class_name ){
-		return $this->register_module( 'settings', $class_name );
-	}
-
-	public function get_registered( $class_name ){
-		return $this->get_module( 'settings', $class_name );
-	}
-
-	public function get_all_registered(){
-		return $this->get_all_modules( 'settings' );
 	}
 }

@@ -88,7 +88,7 @@ class Torro_Settings_Page {
 		$html .= '<form name="torro_settings" id="torro-settings" method="POST">';
 		$html .= '<input type="hidden" id="torro_save_settings" name="torro_save_settings" value="' . wp_create_nonce( '_torro_save_settings_nonce' ) . '" />';
 
-		$all_settings = torro()->settings()->get_all();
+		$all_settings = torro()->settings()->get_all_registered();
 		if ( 0 < count( $all_settings ) ) {
 			/**
 			 * Tabs
@@ -114,7 +114,7 @@ class Torro_Settings_Page {
 			 */
 			$html .= '<div id="torro-settings-content" class="' . self::$current_tab . '">';
 
-			$html .= self::show_tab( torro()->settings()->get( self::$current_tab ), self::$current_section );
+			$html .= self::show_tab( torro()->settings()->get_registered( self::$current_tab ), self::$current_section );
 
 			ob_start();
 			do_action( 'torro_settings_' . self::$current_tab );
@@ -232,7 +232,7 @@ class Torro_Settings_Page {
 			$section = $_GET[ 'section' ];
 		}
 
-		$all_settings = torro()->settings()->get_all();
+		$all_settings = torro()->settings()->get_all_registered();
 		if ( 0 < count( $all_settings ) ) {
 			/**
 			 * Tabs

@@ -73,7 +73,7 @@ abstract class Torro_TemplateTags extends Torro_Instance {
  * @return array|bool
  */
 function torro_get_templatetag_collections() {
-	$templatetags = torro()->templatetags()->get_all();
+	$templatetags = torro()->templatetags()->get_all_registered();
 	if ( 0 === count( $templatetags ) ) {
 		return false;
 	}
@@ -94,7 +94,7 @@ function torro_get_templatetag_collections() {
  * @param $templatetag_collection
  */
 function torro_get_templatetags( $templatetag_collection ) {
-	$templatetags = torro()->templatetags()->get( $templatetag_collection );
+	$templatetags = torro()->templatetags()->get_registered( $templatetag_collection );
 	if ( ! $templatetags ) {
 		return false;
 	}

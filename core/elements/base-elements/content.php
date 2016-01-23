@@ -85,4 +85,4 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 	}
 }
 
-torro()->elements()->add( 'Torro_Form_Element_Content' );
+torro()->elements()->register( 'Torro_Form_Element_Content' );

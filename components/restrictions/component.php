@@ -82,4 +82,4 @@ final class Torro_Restrictions_Component extends Torro_Component {
 	}
 }
 
-torro()->components()->add( 'Torro_Restrictions_Component' );
+torro()->components()->register( 'Torro_Restrictions_Component' );

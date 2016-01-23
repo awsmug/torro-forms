@@ -47,7 +47,7 @@ class Torro_Formbuilder_FormProcessExtension {
 	 */
 	public static function check( $show_form ) {
 		$torro_form_id = torro()->forms()->get_current_form_id();
-		$restrictions = torro()->restrictions()->get_all();
+		$restrictions = torro()->restrictions()->get_all_registered();
 
 		if ( 0 === count( $restrictions ) ) {
 			return $show_form;

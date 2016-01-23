@@ -122,7 +122,7 @@ class Torro_Container {
 
 		$elements = array();
 		foreach( $results AS $element ){
-			$elements[] = torro()->elements()->get( $element->id, $element->type );
+			$elements[] = torro()->elements( $element->id )->get();
 		}
 
 		return $elements;

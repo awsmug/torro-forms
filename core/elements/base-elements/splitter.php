@@ -63,7 +63,7 @@ final class Torro_Form_Element_Splitter extends Torro_Form_Element {
 	}
 }
 
-torro()->elements()->add( 'Torro_Form_Element_Splitter' );
+torro()->elements()->register( 'Torro_Form_Element_Splitter' );
 
 
 

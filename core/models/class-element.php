@@ -205,7 +205,9 @@ abstract class Torro_Form_Element extends Torro_Instance {
 			$this->form_id      = $row->form_id;
 			$this->container_id = $row->container_id;
 			$this->sort         = $row->sort;
+			$this->type         = $row->type;
 
+			// Todo: Change to Element answer class
 			$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
 			$answers = $wpdb->get_results( $sql );
 			if ( is_array( $answers ) ) {
@@ -214,6 +216,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 				}
 			}
 
+			// Todo: Change to Element answer class
 			$sql      = $wpdb->prepare( "SELECT id FROM $wpdb->torro_settings WHERE element_id = %s", $id );
 			$settings_ids = $wpdb->get_col( $sql );
 			if ( is_array( $settings_ids ) ) {
@@ -800,7 +803,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @return string $input_name The name of the input
 	 * @since 1.0.0
 	 */
-	public function get_selector_input_name() {
+	public function get_input_name_selector() {
 		return 'torro_response\\\[' . $this->id . '\\\]';
 	}
 

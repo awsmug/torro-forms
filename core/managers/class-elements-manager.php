@@ -32,49 +32,144 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Elements_Manager extends Torro_Manager {
+	protected $element_instances = array();
 	private static $instance = null;
 
-	public static function instance() {
+	private $id;
+
+	private $object;
+
+	public static function instance( $id = null, $type = null ) {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
+
+		if ( self::$instance->id !== $id  && null !== $id ) {
+			self::$instance->id = $id;
+
+			if( empty( $id ) && $type !== null ) {
+				$class = self::$instance->get_class_name( $type );
+				self::$instance->object = $class::instance();
+				self::$instance->object->type = $type;
+
+			}elseif( !empty( $id ) ) {
+				self::$instance->object = self::$instance->get_element_instance( $id );
+			}
+		}
+
 		return self::$instance;
 	}
 
-	protected $element_instances = array();
+	public function container( $id = null ){
+		if( null !== $id ) {
+			$this->object->container_id = $id;
+		}else{
+			return $this->object->container_id;
+		}
+	}
+
+	public function form( $id = null ){
+		if( null !== $id ) {
+			$this->object->form_id = $id;
+		}else{
+			return $this->object->form_id;
+		}
+	}
+
+	public function label( $label = null ){
+		if( null !== $label ) {
+			$this->object->label = $label;
+		}else{
+			return $this->object->label;
+		}
+	}
+
+	public function sort( $number = null ){
+		if( null !== $number ) {
+			$this->object->sort = $number;
+		}else{
+			return $this->object->sort;
+		}
+	}
+
+	public function type( $type = '' ){
+		if( null !== $type ) {
+			$this->object->type = $type;
+		}else{
+			return $this->object->type;
+		}
+	}
+
+	public function save(){
+		return $this->object->save();
+	}
+
+	public function delete(){
+		return $this->object->delete();
+	}
+
+	public function get_input_name(){
+		return $this->object->get_input_name();
+	}
+
+	public function get_input_html(){
+		return $this->object->get_input_name();
+	}
+
+	public function get_input_name_selector(){
+		return $this->object->get_input_name_selector();
+	}
+
+	public function get_class_name( $type = null ) {
+		if( null === $type ){
+			$type = $this->object->type;
+		}
+		$class = 'Torro_Form_Element_' . ucfirst( $type );
+		return $class;
+	}
 
 	protected function init() {
 		$this->base_class = 'Torro_Form_Element';
 	}
 
-	public function get( $element_id, $type = '' ) {
+	public function validate( $input ){
+		return $this->object->validate( $input );
+	}
+
+	public function register( $class_name ){
+		return $this->register_module( 'elements', $class_name );
+	}
+
+	public function get(){
+		return $this->object;
+	}
+
+	public function get_registered( $class_name ){
+		return $this->get_module( 'elements', $class_name );
+	}
+
+	public function get_all_registered(){
+		return $this->get_all_modules( 'elements' );
+	}
+
+	public function get_element_instance( $id ){
 		global $wpdb;
 
-		// maybe $element_id is actually an element type name
-		if ( isset( $this->instances[ $element_id ] ) ) {
-			return $this->instances[ $element_id ];
-		}
-
-		// otherwise it is an element ID
-		if ( ! isset( $this->element_instances[ $element_id ] ) ) {
+		if ( ! isset( $this->element_instances[ $id ] ) ) {
 			if ( empty( $type ) ) {
-				$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", $element_id );
+				$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", $id );
 
 				$type = $wpdb->get_var( $sql );
 				if ( ! $type ) {
-					return new Torro_Error( 'torro_element_id_invalid', sprintf( __( 'The element ID %s is invalid. The type could not be detected.', 'torro-forms' ), $element_id ), __METHOD__ );
+					return new Torro_Error( 'torro_element_id_invalid', sprintf( __( 'The element ID %s is invalid. The type could not be detected.', 'torro-forms' ), $id ), __METHOD__ );
 				}
 			}
 
-			if ( ! isset( $this->instances[ $type ] ) ) {
-				return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %1$s (for element ID %2$s) does not exist.', 'torro-forms' ), $type, $element_id ), __METHOD__ );
-			}
+			$class = $this->modules[ 'elements' ][ $type ];
 
-			$class = get_class( $this->instances[ $type ] );
-
-			$this->element_instances[ $element_id ] = call_user_func( array( $class, 'instance' ), $element_id );
+			$this->element_instances[ $id ] = call_user_func( array( $class, 'instance' ), $id );
 		}
 
-		return $this->element_instances[ $element_id ];
+		return $this->element_instances[ $id ];
 	}
 }

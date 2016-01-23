@@ -68,7 +68,7 @@ class Torro_Formbuilder_RestrictionsExtension {
 		global $wpdb, $post;
 
 		$form_id = $post->ID;
-		$restrictions = torro()->restrictions()->get_all();
+		$restrictions = torro()->restrictions()->get_all_registered();
 
 		if ( ! is_array( $restrictions ) || 0 === count( $restrictions ) ) {
 			return;

@@ -436,4 +436,4 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->add( 'Torro_Restriction_SelectedMembers' );
+torro()->restrictions()->register( 'Torro_Restriction_SelectedMembers' );

@@ -49,4 +49,16 @@ final class Torro_Restrictions_Manager extends Torro_Manager {
 
 		return $instance;
 	}
+
+	public function register( $class_name ){
+		return $this->register_module( 'restrictions', $class_name );
+	}
+
+	public function get_registered( $class_name ){
+		return $this->get_module( 'restrictions', $class_name );
+	}
+
+	public function get_all_registered(){
+		return $this->get_all_modules( 'restrictions' );
+	}
 }

@@ -82,4 +82,4 @@ final class Torro_Results_Component extends Torro_Component {
 	}
 }
 
-torro()->components()->add( 'Torro_Results_Component' );
+torro()->components()->register( 'Torro_Results_Component' );

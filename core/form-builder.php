@@ -91,7 +91,7 @@ class Torro_Formbuilder {
 				$html .= '<div id="torro-container-' . $container->id . '" class="torro-container">';
 				$html .= '<div class="torro-drag-drop-inside">';
 				foreach ( $elements AS $element ) {
-					$html .= print_r( $element->get_admin_html(), true );
+					$html .= $element->get_admin_html();
 					torro_add_element_templatetag( $element->id, $element->label );
 				}
 				$html .= '</div>';
@@ -169,7 +169,7 @@ class Torro_Formbuilder {
 	public static function meta_box_form_elements() {
 		$html = '';
 
-		$element_types = torro()->elements()->get_all();
+		$element_types = torro()->elements()->get_all_registered();
 
 		foreach ( $element_types as $element ) {
 			$html .= $element->get_admin_html();
@@ -237,68 +237,62 @@ class Torro_Formbuilder {
 					$container[ 'id' ] = '';
 				}
 
-				$torro_container          = new Torro_Container( $container[ 'id' ] );
-				$torro_container->form_id = $form_id;
-				$torro_container->label   = $container[ 'label' ];
-				$torro_container->sort    = $container[ 'sort' ];
-				$container_id = $torro_container->save();
+				torro()->containers( $container[ 'id' ] )->form( $form_id );
+				torro()->containers( $container[ 'id' ] )->label( $container[ 'label' ] );
+				torro()->containers( $container[ 'id' ] )->sort( $container[ 'sort' ] );
+				$container_id = torro()->containers( $container[ 'id' ] )->save();
 
-				do_action( 'torro_formbuilder_container_save', $form_id, $torro_container );
+				do_action( 'torro_formbuilder_container_save', $form_id, $container_id );
 
 				if ( isset( $container[ 'elements' ] ) ) {
 					$elements = $container[ 'elements' ];
 
 					foreach ( $elements AS $element ) {
-						$element_class_name = 'Torro_Form_Element_' . ucfirst( $element[ 'type' ] );
+						if( 'temp_id' === substr( $element[ 'id' ], 0, 7 )  ){
+							$element[ 'id' ] = '';
+						}
 
-						if( class_exists( $element_class_name ) ) {
-							if( 'temp_id' === substr( $element[ 'id' ], 0, 7 )  ){
-								$element[ 'id' ] = '';
-							}
-							$torro_element        = $element_class_name::instance( $element[ 'id' ] );
-							$torro_element->container_id = $container_id;
-							$torro_element->label = $element[ 'label' ];
-							$torro_element->sort  = $element[ 'sort' ];
-							$element_id = $torro_element->save();
+						torro()->elements( $element[ 'id' ], $element[ 'type' ] )->container( $container_id );
+						torro()->elements( $element[ 'id' ] )->label( $element[ 'label' ] );
+						torro()->elements( $element[ 'id' ] )->sort( $element[ 'sort' ] );
+						torro()->elements( $element[ 'id' ] )->type( $element[ 'type' ] );
+						$element_id = torro()->elements()->save();
 
-							do_action( 'torro_formbuilder_element_save', $form_id, $torro_element );
+						do_action( 'torro_formbuilder_element_save', $form_id, $element_id );
 
-							if ( isset( $element[ 'answers' ] ) ){
-								$answers = $element[ 'answers' ];
+						if ( isset( $element[ 'answers' ] ) ){
+							$answers = $element[ 'answers' ];
 
-								foreach( $answers AS $answer ){
-									if( isset( $answer[ 'id' ] ) ){
-										if( 'temp_id' === substr( $answer[ 'id' ], 0, 7 )  ){
-											$answer[ 'id' ] = '';
-										}
-
-										$torro_answer = new Torro_Element_Answer( $answer[ 'id' ] );
-										$torro_answer->element_id = $element_id;
-										$torro_answer->answer = $answer[ 'answer' ];
-										$torro_answer->sort = $answer[ 'sort' ];
-										$torro_answer->section = ''; // todo: Section have to be set!
-										$torro_answer->save();
-
-										do_action( 'torro_formbuilder_element_answer_save', $form_id, $torro_answer );
+							foreach( $answers AS $answer ){
+								if( isset( $answer[ 'id' ] ) ){
+									if( 'temp_id' === substr( $answer[ 'id' ], 0, 7 )  ){
+										$answer[ 'id' ] = '';
 									}
+
+									torro()->element_answer( $answer[ 'id' ] )->element( $element_id );
+									torro()->element_answer()->label( $answer[ 'answer' ] );
+									torro()->element_answer()->sort( $answer[ 'answer' ] );
+									torro()->element_answer()->section( '' ); // todo: Section have to be set!
+									$element_answer_id = torro()->element_answer()->save();
+
+									do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_answer_id );
 								}
 							}
+						}
 
-							if( isset( $element[ 'settings' ] ) ){
-								$settings = $element[ 'settings' ];
+						if( isset( $element[ 'settings' ] ) ){
+							$settings = $element[ 'settings' ];
 
-								foreach( $settings AS $setting ){
-									if( 'temp_id' === substr( $setting[ 'id' ], 0, 7 )  ){
-										$setting[ 'id' ] = '';
-									}
-									$torro_setting = new Torro_Element_Setting( $setting[ 'id' ] );
-									$torro_setting->element_id =  $element_id;
-									$torro_setting->name = $setting[ 'name' ];
-									$torro_setting->vaue = $setting[ 'value' ];
-									$torro_setting->save();
-
-									do_action( 'torro_formbuilder_element_answer_save', $form_id, $torro_setting );
+							foreach( $settings AS $setting ){
+								if( 'temp_id' === substr( $setting[ 'id' ], 0, 7 )  ){
+									$setting[ 'id' ] = '';
 								}
+								torro()->element_setting( $setting[ 'id' ] )->element( $element_id );
+								torro()->element_setting()->name( $setting[ 'name' ] );
+								torro()->element_setting()->value( $setting[ 'value' ] );
+								$element_setting_id = torro()->element_setting()->save();
+
+								do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_setting_id );
 							}
 						}
 					}
@@ -312,15 +306,14 @@ class Torro_Formbuilder {
 		$deleted_element_ids = explode( ',', $deleted_element_ids );
 		if ( 0 < count( $deleted_element_ids ) ) {
 			foreach ( $deleted_element_ids as $deleted_element_id ) {
-				$wpdb->delete( $wpdb->torro_elements, array( 'id' => $deleted_element_id ) );
-				$wpdb->delete( $wpdb->torro_element_answers, array( 'element_id' => $deleted_element_id ) );
+				torro()->elements()->delete( $deleted_element_id );
 			}
 		}
 
 		$deleted_answer_ids = explode( ',', $deleted_answer_ids );
 		if ( 0 < count( $deleted_answer_ids ) ) {
 			foreach ( $deleted_answer_ids AS $deleted_answer_id ) {
-				$wpdb->delete( $wpdb->torro_element_answers, array( 'id' => $deleted_answer_id ) );
+				torro()->element_answer( $deleted_answer_id )->delete();
 			}
 		}
 

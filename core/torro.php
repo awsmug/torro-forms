@@ -63,6 +63,8 @@ final class Torro {
 		require_once( $this->path( 'core/managers/class-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-components-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-containers-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-element-answer-manager.php' ) );
+		require_once( $this->path( 'core/managers/class-element-setting-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-elements-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-settings-manager.php' ) );
 		require_once( $this->path( 'core/managers/class-templatetags-manager.php' ) );
@@ -104,8 +106,24 @@ final class Torro {
 	 * Elements keychain function
 	 * @return null|Torro_Form_Elements_Manager
 	 */
-	public function elements() {
-		return Torro_Form_Elements_Manager::instance();
+	public function elements( $element_id = null, $type = null ) {
+		return Torro_Form_Elements_Manager::instance( $element_id, $type );
+	}
+
+	/**
+	 * Element setting keychain function
+	 * @return null|Torro_Element_Answer_Manager
+	 */
+	public function element_answer( $answer_id = null ) {
+		return Torro_Element_Answer_Manager::instance( $answer_id );
+	}
+
+	/**
+	 * Element setting keychain function
+	 * @return null|Torro_Element_Setting_Manager
+	 */
+	public function element_setting( $setting_id = null ) {
+		return Torro_Element_Setting_Manager::instance( $setting_id );
 	}
 
 	/**

@@ -33,17 +33,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Torro_Forms_Manager extends Torro_Manager {
 	private static $instance = null;
 
-	private $form_id;
-	private $form;
+	private $id;
+	private $object;
 
-	public static function instance( $form_id = null) {
+	public static function instance( $id = null) {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
-		if ( self::$instance->form_id !== $form_id && null != $form_id ) {
-			self::$instance->form_id = $form_id;
-			self::$instance->form    = new Torro_Form( $form_id );
+		if ( self::$instance->id !== $id && null != $id ) {
+			self::$instance->id = $id;
+			self::$instance->object    = new Torro_Form( $id );
 		}
 
 		return self::$instance;
@@ -65,9 +65,9 @@ final class Torro_Forms_Manager extends Torro_Manager {
 		return $this->form->exists();
 	}
 
-	public function html( $form_action_url = null ) {
+	public function html( $object_action_url = null ) {
 		$form_loader = Torro_Form_Controller::instance();
-		$form_loader->set_form_id( $this->form_id );
+		$form_loader->set_id( $this->id );
 
 		if ( null != $form_action_url ) {
 			$form_loader->set_form_action_url( $form_action_url );
@@ -76,39 +76,39 @@ final class Torro_Forms_Manager extends Torro_Manager {
 		return $form_loader->html();
 	}
 
-	public function get_current_form_id(){
+	public function get_current_id(){
 		$form_loader = Torro_Form_Controller::instance();
-		return $form_loader->get_form_id();
+		return $form_loader->get_id();
 	}
 
 	public function get_containers() {
-		return $this->form->get_containers();
+		return $this->object->get_containers();
 	}
 
 	public function get_participants() {
-		return $this->form->get_participants();
+		return $this->object->get_participants();
 	}
 
 	public function get_response_errors(){
 		$form_loader = Torro_Form_Controller::instance();
-		$form_loader->set_form_id( $form_loader->get_form_id() );
+		$form_loader->set_id( $form_loader->get_id() );
 		return $form_loader->get_response_errors();
 	}
 
 	public function get_step_count() {
-		return $this->form->get_step_count();
+		return $this->object->get_step_count();
 	}
 
 	public function get_step_elements( $step = 0 ) {
-		return $this->form->get_step_elements( $step );
+		return $this->object->get_step_elements( $step );
 	}
 
 	public function has_participated( $user_id = null ) {
-		return $this->form->has_participated( $user_id );
+		return $this->object->has_participated( $user_id );
 	}
 
 	public function save_response( $response ) {
-		return $this->form->save_response( $response );
+		return $this->object->save_response( $response );
 	}
 
 	protected function init() {

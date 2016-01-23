@@ -201,4 +201,4 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	}
 }
 
-torro()->resulthandlers()->add( 'Torro_Result_Charts_C3' );
+torro()->resulthandlers()->register( 'Torro_Result_Charts_C3' );

@@ -44,7 +44,7 @@ class Torro_Actions_FormProcessExtension {
 	 * Starting response handler
 	 */
 	public static function action( $form_id, $response_id, $response ) {
-		$actions = torro()->actions()->get_all();
+		$actions = torro()->actions()->get_all_registered();
 
 		if ( 0 === count( $actions ) ) {
 			return;
@@ -60,7 +60,7 @@ class Torro_Actions_FormProcessExtension {
 	 * @param $form_id
 	 */
 	public static function notification( $form_id, $response_id ){
-		$actions = torro()->actions()->get_all();
+		$actions = torro()->actions()->get_all_registered();
 
 		if ( 0 === count( $actions ) ) {
 			return;

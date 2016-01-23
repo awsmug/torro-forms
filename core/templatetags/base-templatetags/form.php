@@ -94,7 +94,7 @@ final class Torro_FormTemplateTags extends Torro_TemplateTags {
 			return;
 		}
 
-		$element = torro()->elements()->get( $element_id );
+		$element = torro()->elements()->get_registered( $element_id );
 
 		/**
 		 * Displaying elements
@@ -146,7 +146,7 @@ final class Torro_FormTemplateTags extends Torro_TemplateTags {
 	}
 }
 
-torro()->templatetags()->add( 'Torro_FormTemplateTags' );
+torro()->templatetags()->register( 'Torro_FormTemplateTags' );
 
 /**
  * Live registering element templatetags
@@ -157,7 +157,7 @@ torro()->templatetags()->add( 'Torro_FormTemplateTags' );
  * @return bool
  */
 function torro_add_element_templatetag( $element_id, $element_name ) {
-	$formtags = torro()->templatetags()->get( 'formtags' );
+	$formtags = torro()->templatetags()->get_registered( 'formtags' );
 	if ( ! $formtags ) {
 		return false;
 	}

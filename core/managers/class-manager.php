@@ -33,6 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Torro_Manager {
 	protected $base_class = '';
 
+	protected $modules = array();
+
 	protected $instances = array();
 
 	protected function __construct() {
@@ -47,8 +49,8 @@ abstract class Torro_Manager {
 
 	protected function after_instance_added( $instance ){}
 
-	public function add( $class_name ) {
-		if ( isset( $this->instances[ $class_name ] ) ) {
+	protected function register_module( $module_name, $class_name ) {
+		if ( isset( $this->modules[ $module_name ][ $class_name ] ) ) {
 			return new Torro_Error( 'torro_instance_already_exist', sprintf( __( 'The instance of class %s already exists.', 'torro-forms' ), $class_name ), __METHOD__ );
 		}
 
@@ -94,18 +96,24 @@ abstract class Torro_Manager {
 			$class->initialized = true;
 		}
 
-		$this->instances[ $class->name ] = $class;
+		$this->modules[ $module_name ][ $class->name ] = $class;
+
+		return TRUE;
 	}
 
-	public function get( $name ) {
-		if ( ! isset( $this->instances[ $name ] ) ) {
-			return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %s does not exist.', 'torro-forms' ), $name ), __METHOD__ );
+	protected function add_instance( $id ){
+
+	}
+
+	protected function get_module( $module_name, $class_name ) {
+		if ( ! isset( $this->modules[ $module_name ][ $class_name ] ) ) {
+			return new Torro_Error( 'torro_module_not_exist', sprintf( __( 'The module %s does not exist.', 'torro-forms' ), $class_name ), __METHOD__ );
 		}
 
-		return $this->instances[ $name ];
+		return $this->modules[ $module_name ][ $class_name ];
 	}
 
-	public function get_all() {
-		return $this->instances;
+	protected function get_all_modules( $module_name ) {
+		return $this->modules[ $module_name ];
 	}
 }

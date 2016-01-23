@@ -113,4 +113,4 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 
 }
 
-torro()->elements()->add( 'Torro_Form_Element_Dropdown' );
+torro()->elements()->register( 'Torro_Form_Element_Dropdown' );

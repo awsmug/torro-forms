@@ -105,7 +105,7 @@ abstract class Torro_Result_Handler extends Torro_Instance {
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		torro()->settings()->get( 'resulthandling' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
+		torro()->settings()->get_registered( 'resulthandling' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'resulthandling_' . $this->name;
 

@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Participant{
+class Torro_Participant {
 
 	private $id;
 
@@ -51,7 +51,7 @@ class Torro_Participant{
 		$participant = $wpdb->get_row( $sql );
 
 		if ( 0 !== $wpdb->num_rows ) {
-			$this->id = $participant->id;
+			$this->id      = $participant->id;
 			$this->form_id = $participant->form_id;
 			$this->user_id = $participant->user_id;
 
@@ -59,10 +59,54 @@ class Torro_Participant{
 		}
 	}
 
+	public function save() {
+		global $wpdb;
+
+		if ( ! empty( $this->id ) ) {
+			return $wpdb->update( $wpdb->torro_participants, array(
+				'form_id' => $this->form_id,
+				'user_id' => $this->user_id,
+			), array(
+				                      'id' => $this->id
+			                      ) );
+		} else {
+			$wpdb->insert( $wpdb->torro_participants, array(
+				'form_id' => $this->form_id,
+				'user_id' => $this->user_id,
+			) );
+
+			return $wpdb->insert_id;
+		}
+	}
+
+	public function delete() {
+		global $wpdb;
+
+		if ( ! empty( $this->id ) ) {
+			return $wpdb->delete( $wpdb->torro_participants, array( 'id' => $this->id ) );
+		}
+
+		return false;
+	}
+
+	public function __set( $key, $value ) {
+		switch ( $key ) {
+			case 'id':
+				return false;
+				break;
+
+			default:
+				if ( property_exists( $this, $key ) ) {
+					$this->$key = $value;
+				}
+		}
+	}
+
 	public function __get( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return $this->$key;
 		}
+
 		return null;
 	}
 
@@ -70,6 +114,7 @@ class Torro_Participant{
 		if ( property_exists( $this, $key ) ) {
 			return true;
 		}
+
 		return false;
 	}
 }

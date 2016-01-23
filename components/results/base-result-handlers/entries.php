@@ -247,4 +247,4 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 	}
 }
 
-torro()->resulthandlers()->add( 'Torro_ResultsEntries' );
+torro()->resulthandlers()->register( 'Torro_ResultsEntries' );

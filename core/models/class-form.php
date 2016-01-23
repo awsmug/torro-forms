@@ -115,8 +115,6 @@ class Torro_Form extends Torro_Post {
 		$this->elements     = $this->__get_elements();
 		$this->participants = $this->__get_participants();
 
-		p( $this );
-
 		return true;
 	}
 
@@ -168,7 +166,7 @@ class Torro_Form extends Torro_Post {
 
 		$elements = array();
 		foreach ( $results AS $element ) {
-			$elements[] = torro()->elements()->get( $element->id, $element->type );
+			$elements[] = torro()->elements()->get_registered( $element->id, $element->type );
 		}
 
 		return $elements;

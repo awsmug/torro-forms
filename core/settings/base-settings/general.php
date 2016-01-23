@@ -71,7 +71,7 @@ final class Torro_General_Settings extends Torro_Settings {
 		$components = array();
 		$defaults = array();
 
-		$all_components = torro()->components()->get_all();
+		$all_components = torro()->components()->get_all_registered();
 		foreach ( $all_components as $component_name => $component ) {
 			$components[ $component_name ] = $component->title;
 			$defaults[] = $component_name;
@@ -93,8 +93,8 @@ final class Torro_General_Settings extends Torro_Settings {
 			)
 		);
 
-		torro()->settings()->get( 'general' )->add_settings_field_arr( $settings_arr );
+		torro()->settings()->get_registered( 'general' )->add_settings_field_arr( $settings_arr );
 	}
 }
 
-torro()->settings()->add( 'Torro_General_Settings' );
+torro()->settings()->register( 'Torro_General_Settings' );

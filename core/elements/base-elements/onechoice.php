@@ -107,4 +107,4 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 	}
 }
 
-torro()->elements()->add( 'Torro_Form_Element_OneChoice' );
+torro()->elements()->register( 'Torro_Form_Element_OneChoice' );

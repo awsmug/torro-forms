@@ -159,7 +159,7 @@ final class Torro_AJAX {
 		$form = new Torro_form( $form_id );
 		$new_form_id = $form->delete_responses();
 
-		$entries = torro()->resulthandlers()->get( 'entries' );
+		$entries = torro()->resulthandlers()->get_registered( 'entries' );
 		if ( is_wp_error( $entries ) ) {
 			return new Torro_Error( 'ajax_delete_responses_entries_error', __( 'Error retrieving the entries handler.', 'torro-forms' ) );
 		}
@@ -206,7 +206,7 @@ final class Torro_AJAX {
 		$id = time();
 		$editor_id = 'email_notification_message-' . $id;
 
-		$html = torro()->actions()->get( 'emailnotifications' )->get_notification_settings_html( $id, __( 'New Email Notification' ) );
+		$html = torro()->actions()->get_registered( 'emailnotifications' )->get_notification_settings_html( $id, __( 'New Email Notification' ) );
 
 		$response = array(
 			'id'		=> $id,
@@ -381,7 +381,7 @@ final class Torro_AJAX {
 		$num_results = $form_results->count();
 
 		$response = array(
-			'html'	=> torro()->resulthandlers()->get( 'entries' )->show_results( $form_id, $start, $length, $num_results ),
+			'html'	=> torro()->resulthandlers()->get_registered( 'entries' )->show_results( $form_id, $start, $length, $num_results ),
 		);
 
 		return $response;
@@ -469,7 +469,7 @@ final class Torro_AJAX {
 							// On Elements
 							if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 								$element_id = $column_arr[ 1 ];
-								$element = torro()->elements()->get( $element_id );
+								$element = torro()->elements()->get_registered( $element_id );
 
 								$column_name = $element->replace_column_name( $column_name );
 

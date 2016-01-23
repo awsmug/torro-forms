@@ -93,4 +93,4 @@ final class Torro_GlobalTemplateTags extends Torro_TemplateTags {
 	}
 }
 
-torro()->templatetags()->add( 'Torro_GlobalTemplateTags' );
+torro()->templatetags()->register( 'Torro_GlobalTemplateTags' );
