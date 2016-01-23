@@ -92,7 +92,7 @@ class Torro_Formbuilder {
 				$html .= '<div class="torro-drag-drop-inside">';
 				foreach ( $elements AS $element ) {
 					$html .= $element->get_admin_html();
-					torro_add_element_templatetag( $element->id, $element->label );
+					torro()->templatetags()->add_form_tag( $element->id, $element->label );
 				}
 				$html .= '</div>';
 				$html .= '</div>';

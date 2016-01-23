@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_GlobalTemplateTags extends Torro_TemplateTags {
+final class Torro_Templatetags_Global extends Torro_TemplateTags {
 	private static $instance = null;
 
 	public static function instance() {
@@ -93,4 +93,4 @@ final class Torro_GlobalTemplateTags extends Torro_TemplateTags {
 	}
 }
 
-torro()->templatetags()->register( 'Torro_GlobalTemplateTags' );
+torro()->templatetags()->register( 'Torro_Templatetags_Global' );

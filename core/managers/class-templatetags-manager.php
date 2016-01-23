@@ -41,13 +41,23 @@ final class Torro_TemplateTags_Manager extends Torro_Manager {
 	}
 
 	protected function init() {
-		$this->base_class = 'Torro_TemplateTags';
+		$this->base_class = 'Torro_Templatetags';
 	}
 
 	protected function after_instance_added( $instance ) {
 		$instance->tags();
 
 		return $instance;
+	}
+
+	public function add_form_tag( $element_id, $element_name ){
+		$formtags = $this->get_registered( 'formtags' );
+
+		if ( ! $formtags ) {
+			return false;
+		}
+
+		return $formtags->add_element( $element_id, $element_name );
 	}
 
 	public function register( $class_name ){
