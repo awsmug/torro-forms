@@ -95,9 +95,36 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
+	 * Populating class variables
+	 *
+	 * @param int $id The id of the form
+	 *
+	 * @since 1.0.0
+	 */
+	private function populate( $id ) {
+		$this->id = $id;
+
+		if ( ! $this->exists() ) {
+			return false;
+		}
+
+		$form        = get_post( $this->id );
+		$this->title = $form->post_title;
+
+		$this->containers   = $this->__get_containers();
+		$this->elements     = $this->__get_elements();
+		$this->participants = $this->__get_participants();
+
+		p( $this );
+
+		return true;
+	}
+
+	/**
 	 * Checks if a Form exists
 	 *
 	 * @return boolean $exists true if Form exists, false if not
+	 * @since 1.0.0
 	 */
 	public function exists() {
 		global $wpdb;
@@ -115,6 +142,66 @@ class Torro_Form extends Torro_Post {
 	/**
 	 * Getting Containers
 	 */
+	private function __get_containers() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE form_id=%d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		$containers = array();
+		foreach ( $results AS $container ) {
+			$containers[] = new Torro_Container( $container->id );
+		}
+
+		return $containers;
+	}
+
+	private function __get_elements() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		$elements = array();
+		foreach ( $results AS $element ) {
+			$elements[] = torro()->elements()->get( $element->id, $element->type );
+		}
+
+		return $elements;
+	}
+
+	/**
+	 * Initializing participants
+	 *
+	 * @return array All participator ID's
+	 */
+	private function __get_participants() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_participants} WHERE form_id = %d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		$participants = array();
+		foreach ( $results AS $participant_id ) {
+			$participants[] = new Torro_Participant( $participant_id );
+		}
+
+		return $participants;
+	}
+
+	/**
+	 * Getting Containers
+	 *
+	 * @since 1.0.0
+	 */
 	public function get_containers() {
 		return $this->containers;
 	}
@@ -123,6 +210,7 @@ class Torro_Form extends Torro_Post {
 	 * Geting Participants
 	 *
 	 * @return array
+	 * @since 1.0.0
 	 */
 	public function get_participants() {
 		return $this->participants;
@@ -136,6 +224,7 @@ class Torro_Form extends Torro_Post {
 	 *
 	 * @return array $elements
 	 * @since 1.0.0
+	 * @todo  Have to be removed
 	 */
 	public function get_step_elements( $step = 0 ) {
 		$actual_step = 0;
@@ -162,6 +251,7 @@ class Torro_Form extends Torro_Post {
 	 *
 	 * @return int $splitter_count
 	 * @since 1.0.0
+	 * @todo  Have to be removed
 	 */
 	public function get_step_count() {
 		return count( $this->containers );
@@ -262,6 +352,7 @@ class Torro_Form extends Torro_Post {
 			foreach ( $this->elements as $element ) {
 				$old_element_id = $element->id;
 
+				// Todo: Have to be replaced by element object
 				$wpdb->insert( $wpdb->torro_elements, array(
 					'form_id' => $new_form_id,
 					'label'   => $element->label,
@@ -282,6 +373,7 @@ class Torro_Form extends Torro_Post {
 					foreach ( $element->answers as $answer ) {
 						$old_answer_id = $answer[ 'id' ];
 
+						// Todo: Have to be replaced by answer object
 						$wpdb->insert( $wpdb->torro_element_answers, array(
 							'element_id' => $new_element_id,
 							'answer'     => $answer[ 'text' ],
@@ -301,6 +393,7 @@ class Torro_Form extends Torro_Post {
 
 				// Duplicate Settings
 				if ( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ) {
+					// Todo: Have to be replaced by detting object
 					foreach ( $element->settings as $name => $value ) {
 						$wpdb->insert( $wpdb->torro_settings, array(
 							'element_id' => $new_element_id,
@@ -443,89 +536,7 @@ class Torro_Form extends Torro_Post {
 		return true;
 	}
 
-	/**
-	 * Populating class variables
-	 *
-	 * @param int $id The id of the form
-	 *
-	 * @since 1.0.0
-	 */
-	private function populate( $id ) {
-		$this->id = $id;
-
-		if ( ! $this->exists() ) {
-			return false;
-		}
-
-		$form        = get_post( $this->id );
-		$this->title = $form->post_title;
-
-		$this->containers   = $this->__get_containers();
-		$this->elements     = $this->__get_elements();
-		$this->participants = $this->__get_participants();
-
-		return true;
-	}
-
-	/**
-	 * Getting Containers
-	 */
-	private function __get_containers() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE form_id=%d", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		$containers = array();
-		foreach ( $results AS $container ) {
-			$containers[] = new Torro_Container( $container->id );
-		}
-
-		return $containers;
-	}
-
-	private function __get_elements() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		$elements = array();
-		foreach ( $results AS $element ) {
-			$elements[] = torro()->elements()->get( $element->id, $element->type );
-		}
-
-		return $elements;
-	}
-
-	public function get_elements(){
+	public function get_elements() {
 		return $this->elements;
-	}
-
-	/**
-	 * Initializing participants
-	 *
-	 * @return array All participator ID's
-	 */
-	private function __get_participants() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_participants} WHERE form_id = %d", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		$participants = array();
-		foreach ( $results AS $participant_id ) {
-			$participants[] = new Torro_Participant( $participant_id );
-		}
-
-		return $participants;
 	}
 }
