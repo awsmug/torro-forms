@@ -122,22 +122,6 @@ class Torro_Formbuilder {
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][sort]" value="0" />';
 		}
 
-		// torro()->forms( $form_id )->get_elements();
-
-		// Running each Element
-		/*
-		 *
-		 *
-		if ( count( $form->elements ) > 0 ) {
-			foreach ( $form->elements as $element ) {
-				$html .= $element->draw_admin();
-				torro_add_element_templatetag( $element->id, $element->label );
-			}
-		} else {
-			$html .= '<div id="torro-drop-elements-here">' . __( 'Drop your Elements here!', 'torro-forms' ) . '</div>';
-		}
-		*/
-
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -200,14 +184,6 @@ class Torro_Formbuilder {
 	public static function meta_box_options() {
 		$html = '<div class="notices misc-pub-section">';
 		$html .= '</div>';
-
-		/** Todo Adding this later!
-		 * $html .= '<div class="misc-pub-section">';
-		 * $html .= '<label for="form-actions-hide"><input id="form-actions-hide" class="hide-postbox-tog" type="checkbox" checked="checked" value="form-actions" name="form-actions-hide">Response Handling</label><br />';
-		 * $html .= '<label for="form-results-hide"><input id="form-results-hide" class="hide-postbox-tog" type="checkbox" value="form-results" name="form-results-hide">Results</label><br />';
-		 * $html .= '<label for="form-restrictions-hide"><input id="form-restrictions-hide" class="hide-postbox-tog" type="checkbox" value="form-restrictions" name="form-restrictions-hide">Restrictions</label><br />';
-		 * $html .= '</div>';
-		 */
 
 		ob_start();
 		do_action( 'torro_formbuilder_options' );
