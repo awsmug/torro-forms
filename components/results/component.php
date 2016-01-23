@@ -64,6 +64,7 @@ final class Torro_Results_Component extends Torro_Component {
 		// Models
 		require_once( $folder . 'models/class-result-handler.php' );
 		require_once( $folder . 'models/class-form-results.php' );
+		require_once( $folder . 'models/class-charts.php' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -77,7 +78,6 @@ final class Torro_Results_Component extends Torro_Component {
 
 		// Base Result Handlers
 		require_once( $folder . 'base-result-handlers/entries.php' );
-		require_once( $folder . 'base-result-handlers/charts.php' );
 		require_once( $folder . 'base-result-handlers/charts-c3.php' );
 	}
 }
