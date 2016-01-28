@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Form_Element extends Torro_Instance {
+abstract class Torro_Form_Element extends Torro_Base {
 	/**
 	 * Icon URl of the Element
 	 *

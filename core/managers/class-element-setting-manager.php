@@ -32,18 +32,18 @@ final class Torro_Element_Setting_Manager extends Torro_Manager {
 
 	private static $instance = null;
 
-	private $id;
+	private $setting_id;
 
-	private $object;
+	private $setting;
 
 	public static function instance( $id = null ) {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
-		if ( self::$instance->id !== $id  && null !== $id ) {
-			self::$instance->id     = $id;
-			self::$instance->object = new Torro_Element_Setting( $id );
+		if ( self::$instance->setting_id !== $id  && null !== $id ) {
+			self::$instance->setting_id     = $id;
+			self::$instance->setting = new Torro_Element_Setting( $id );
 		}
 
 		return self::$instance;
@@ -51,38 +51,38 @@ final class Torro_Element_Setting_Manager extends Torro_Manager {
 
 	public function element( $id = null ) {
 		if ( null !== $id ) {
-			$this->object->element_id = $id;
+			$this->setting->element_id = $id;
 		} else {
-			return $this->object->element_id;
+			return $this->setting->element_id;
 		}
 	}
 
 	public function name( $name = null ) {
 		if ( null !== $name ) {
-			$this->object->name = $name;
+			$this->setting->name = $name;
 		} else {
-			return $this->object->name;
+			return $this->setting->name;
 		}
 	}
 
 	public function value( $value = null ) {
 		if ( null !== $value ) {
-			$this->object->value = $value;
+			$this->setting->value = $value;
 		} else {
-			return $this->object->value;
+			return $this->setting->value;
 		}
 	}
 
 	public function save() {
-		return $this->object->save();
+		return $this->setting->save();
 	}
 
 	public function delete() {
-		return $this->object->delete();
+		return $this->setting->delete();
 	}
 
 	public function get_elements() {
-		return $this->object->elements;
+		return $this->setting->elements;
 	}
 
 	protected function init() {

@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Components_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
 	public static function instance() {
@@ -40,14 +41,11 @@ final class Torro_Components_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function init() {
-		$this->base_class = 'Torro_Component';
-	}
-
-	protected function after_instance_added( $instance ) {
-		$instance->check_and_start();
-
-		return $instance;
+	protected function allowed_modules(){
+		$allowed = array(
+			'components' => 'Torro_Component'
+		);
+		return $allowed;
 	}
 
 	public function register( $class_name ){

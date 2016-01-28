@@ -63,7 +63,7 @@ final class Torro_Restrictions_Component extends Torro_Component {
 	 * Including files of component
 	 */
 	protected function includes() {
-		$folder = torro()->path( 'components/restrictions/' );
+		$folder = torro()->get_path( 'components/restrictions/' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );

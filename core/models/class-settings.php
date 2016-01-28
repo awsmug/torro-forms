@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Settings extends Torro_Instance {
+abstract class Torro_Settings extends Torro_Base {
 	/**
 	 * Settings
 	 *

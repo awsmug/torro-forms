@@ -59,7 +59,7 @@ final class Torro_Results_Component extends Torro_Component {
 	}
 
 	protected function includes() {
-		$folder = torro()->path( 'components/results/' );
+		$folder = torro()->get_path( 'components/results/' );
 
 		// Models
 		require_once( $folder . 'models/class-result-handler.php' );

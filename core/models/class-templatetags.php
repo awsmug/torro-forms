@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_TemplateTags extends Torro_Instance {
+abstract class Torro_TemplateTags extends Torro_Base {
 	/**
 	 * Tags
 	 *

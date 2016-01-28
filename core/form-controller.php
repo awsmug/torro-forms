@@ -344,17 +344,11 @@ class Torro_Form_Controller {
 		global $post;
 
 		if ( null === $this->form_id ) {
-			$this->form_id = $post->ID;
+			$this->set_form_id( $post->ID );
 		}
-
-		$post = get_post( $this->form_id );
 
 		if ( 'torro-forms' !== $post->post_type ) {
 			return $content;
-		}
-
-		if ( null === $this->form ) {
-			$this->form = torro()->forms( $this->form_id );
 		}
 
 		$html = $this->html();

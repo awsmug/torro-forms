@@ -29,6 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Admin_Notices_Manager {
+
 	private static $instance = null;
 
 	public static function instance() {

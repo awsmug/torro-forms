@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Restriction extends Torro_Instance {
+abstract class Torro_Restriction extends Torro_Base {
 	/**
 	 * Option name
 	 *

@@ -283,7 +283,7 @@ class Torro_Settings_Page {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-settings-page', torro()->asset_url( 'settings-page', 'css' ) );
+		wp_enqueue_style( 'torro-settings-page', torro()->get_asset_url( 'settings-page', 'css' ) );
 	}
 }
 

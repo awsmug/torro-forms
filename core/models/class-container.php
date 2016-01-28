@@ -31,24 +31,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Container {
 
-	private $id;
+	private $id = null;
 
-	private $label;
+	private $label = null;
 
-	private $sort;
+	private $sort = null;
 
-	private $form_id;
+	private $form_id = null;
 
 	private $elements = array();
 
-	public function __construct( $id ) {
+	public function __construct( $id = null ) {
 		$this->populate( $id );
 	}
 
 	private function populate( $id ) {
 		global $wpdb;
 
-		if ( ! empty( $id ) ) {
+		if ( null !== $id ) {
 
 			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE id =%d", $id );
 
@@ -68,7 +68,7 @@ class Torro_Container {
 	public function save(){
 		global $wpdb;
 
-		if( ! empty( $this->id ) ){
+		if ( null !== $this->id ) {
 			$wpdb->update(
 				$wpdb->torro_containers,
 				array(
@@ -98,7 +98,7 @@ class Torro_Container {
 	public function delete(){
 		global $wpdb;
 
-		if ( ! empty( $this->id ) ) {
+		if ( null !== $this->id ) {
 			if( 0 !== count( $this->elements ) ){
 				foreach( $this->elements AS $element ){
 					$element_class_name = 'Torro_Form_Element_' . ucfirst( $element[ 'type' ] );
@@ -111,7 +111,7 @@ class Torro_Container {
 			}
 			return $wpdb->delete( $wpdb->torro_element_answers, array( 'id' => $this->id ) );
 		}
-		return FALSE;
+		return false;
 	}
 
 	private function __get_elements(){

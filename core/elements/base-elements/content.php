@@ -55,7 +55,7 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 		$this->name = 'content';
 		$this->title = __( 'Content', 'torro-forms' );
 		$this->description = __( 'Adds own content to the form.', 'torro-forms' );
-		$this->icon_url = torro()->asset_url( 'icon-text', 'png' );
+		$this->icon_url = torro()->get_asset_url( 'icon-text', 'png' );
 
 		$this->is_answerable = false;
 	}

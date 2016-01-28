@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Result_Handlers_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
 	public static function instance() {
@@ -40,8 +41,11 @@ final class Torro_Result_Handlers_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function init() {
-		$this->base_class = 'Torro_Result_Handler';
+	protected function allowed_modules(){
+		$allowed = array(
+			'resulthandlers' => 'Torro_Result_Handler'
+		);
+		return $allowed;
 	}
 
 	protected function after_instance_added( $instance ) {

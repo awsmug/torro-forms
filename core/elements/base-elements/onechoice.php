@@ -55,7 +55,7 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 		$this->name = 'onechoice';
 		$this->title = __( 'One Choice', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered by selecting one of the given answers.', 'torro-forms' );
-		$this->icon_url = torro()->asset_url( 'icon-onechoice', 'png' );
+		$this->icon_url = torro()->get_asset_url( 'icon-onechoice', 'png' );
 
 		$this->has_answers = true;
 		$this->answer_is_multiple = false;

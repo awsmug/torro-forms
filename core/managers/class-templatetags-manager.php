@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_TemplateTags_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
 	public static function instance() {
@@ -40,13 +41,15 @@ final class Torro_TemplateTags_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function init() {
-		$this->base_class = 'Torro_Templatetags';
+	protected function allowed_modules(){
+		$allowed = array(
+			'templatetags' => 'Torro_Templatetags'
+		);
+		return $allowed;
 	}
 
 	protected function after_instance_added( $instance ) {
 		$instance->tags();
-
 		return $instance;
 	}
 

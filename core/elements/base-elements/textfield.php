@@ -55,7 +55,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 		$this->name = 'textfield';
 		$this->title = __( 'Textfield', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a text field.', 'torro-forms' );
-		$this->icon_url = torro()->asset_url( 'icon-textfield', 'png' );
+		$this->icon_url = torro()->get_asset_url( 'icon-textfield', 'png' );
 	}
 
 	public function input_html() {

@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Extension extends Torro_Instance {
+abstract class Torro_Extension extends Torro_Base {
 
 	/**
 	 * Settings fields

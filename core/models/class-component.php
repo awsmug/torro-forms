@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Component extends Torro_Instance {
+abstract class Torro_Component extends Torro_Base {
 	/**
 	 * Settings
 	 *
@@ -45,6 +45,8 @@ abstract class Torro_Component extends Torro_Instance {
 	 */
 	protected function __construct() {
 		parent::__construct();
+
+		$this->check_and_start();
 	}
 
 	/**
@@ -52,13 +54,13 @@ abstract class Torro_Component extends Torro_Instance {
 	 *
 	 * @since 1.0.0
 	 */
-	public function check_and_start() {
+	private function check_and_start() {
 		$values = torro_get_settings( 'general' );
 
 		if ( isset( $values['modules'] ) && is_array( $values['modules'] ) && ! in_array( $this->name, $values['modules'] ) ) {
 			return;
 		}
-		//TODO: check requirements in manager
+
 		if ( true === $this->check_requirements() ) {
 			$this->base_init();
 			$this->settings = torro_get_settings( $this->name );
@@ -80,7 +82,7 @@ abstract class Torro_Component extends Torro_Instance {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function base_init() {
+	private function base_init() {
 		if ( method_exists( $this, 'includes' ) ) {
 			$this->includes();
 		}

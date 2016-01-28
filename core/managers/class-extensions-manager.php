@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Extensions_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
 	public static function instance() {
@@ -38,6 +39,13 @@ final class Torro_Extensions_Manager extends Torro_Manager {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	protected function allowed_modules(){
+		$allowed = array(
+			'extensions' => 'Torro_Extension'
+		);
+		return $allowed;
 	}
 
 	protected function init() {
@@ -50,5 +58,17 @@ final class Torro_Extensions_Manager extends Torro_Manager {
 		add_action( 'init', array( $instance, 'init_settings' ), 15 );
 
 		return $instance;
+	}
+
+	public function register( $class_name ){
+		return $this->register_module( 'extensions', $class_name );
+	}
+
+	public function get_registered( $class_name ){
+		return $this->get_module( 'extensions', $class_name );
+	}
+
+	public function get_all_registered(){
+		return $this->get_all_modules( 'extensions' );
 	}
 }

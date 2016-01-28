@@ -72,6 +72,7 @@ final class Torro_General_Settings extends Torro_Settings {
 		$defaults = array();
 
 		$all_components = torro()->components()->get_all_registered();
+
 		foreach ( $all_components as $component_name => $component ) {
 			$components[ $component_name ] = $component->title;
 			$defaults[] = $component_name;

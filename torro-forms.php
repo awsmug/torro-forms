@@ -120,10 +120,10 @@ class Torro_Init {
 		require_once( plugin_dir_path( __FILE__ ) . 'core/ajax.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/torro.php' );
 
-		$main_folder   = torro()->path();
-		$includes_folder   = torro()->path( 'includes/' );
-		$core_folder       = torro()->path( 'core/' );
-		$components_folder = torro()->path( 'components/' );
+		$main_folder   = torro()->get_path();
+		$includes_folder   = torro()->get_path( 'includes/' );
+		$core_folder       = torro()->get_path( 'core/' );
+		$components_folder = torro()->get_path( 'components/' );
 
 		// Functions
 		require_once( $includes_folder . 'functions.php' );
@@ -131,7 +131,7 @@ class Torro_Init {
 		require_once( $includes_folder . 'wp-editor.php' );
 
 		// Models
-		require_once( $core_folder . 'models/class-instance.php' );
+		require_once( $core_folder . 'models/class-base.php' );
 		require_once( $core_folder . 'models/class-post.php' );
 		require_once( $core_folder . 'models/class-form.php' );
 		require_once( $core_folder . 'models/class-container.php' );
@@ -213,7 +213,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_admin_styles() {
-		wp_enqueue_style( 'torro-icons', torro()->asset_url( 'icons', 'css' ) );
+		wp_enqueue_style( 'torro-icons', torro()->get_asset_url( 'icons', 'css' ) );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_frontend_styles() {
-		wp_enqueue_style( 'torro-frontend', torro()->asset_url( 'frontend', 'css' ) );
+		wp_enqueue_style( 'torro-frontend', torro()->get_asset_url( 'frontend', 'css' ) );
 	}
 
 	/**

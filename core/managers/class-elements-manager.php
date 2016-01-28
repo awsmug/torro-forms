@@ -32,116 +32,126 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Elements_Manager extends Torro_Manager {
-	protected $element_instances = array();
+
 	private static $instance = null;
 
-	private $id;
+	private $element_id = null;
 
-	private $object;
+	private $element = null;
+
+	private $element_instances = array();
 
 	public static function instance( $id = null, $type = null ) {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
-		if ( self::$instance->id !== $id  && null !== $id ) {
-			self::$instance->id = $id;
-
-			if( empty( $id ) && $type !== null ) {
-				$class = self::$instance->get_class_name( $type );
-				self::$instance->object = $class::instance();
-				self::$instance->object->type = $type;
-
-			}elseif( !empty( $id ) ) {
-				self::$instance->object = self::$instance->get_element_instance( $id );
-			}
-		}
+		self::set_element( $id, $type );
 
 		return self::$instance;
 	}
 
+	private static function set_element( $id = null, $type = null ){
+		// If new $id was set
+		if ( self::$instance->element_id !== $id  && null !== $id ) {
+			self::$instance->element_id = $id;
+
+			// New Element
+			if( empty( $id ) && $type !== null ) {
+				$class = self::$instance->get_class_name( $type );
+
+				self::$instance->element = $class::instance();
+				self::$instance->element->type = $type;
+
+			// Existing Element
+			}elseif( ! empty( $id ) ) {
+				// Todo: More elegant to get instance
+				self::$instance->element = self::$instance->get_element_instance( $id );
+			}
+		}
+	}
+
+	protected function allowed_modules(){
+		$allowed = array(
+			'elements' => 'Torro_Form_Element'
+		);
+		return $allowed;
+	}
+
 	public function container( $id = null ){
 		if( null !== $id ) {
-			$this->object->container_id = $id;
+			$this->element->container_id = $id;
 		}else{
-			return $this->object->container_id;
+			return $this->element->container_id;
 		}
 	}
 
 	public function form( $id = null ){
 		if( null !== $id ) {
-			$this->object->form_id = $id;
+			$this->element->form_id = $id;
 		}else{
-			return $this->object->form_id;
+			return $this->element->form_id;
 		}
 	}
 
 	public function label( $label = null ){
 		if( null !== $label ) {
-			$this->object->label = $label;
+			$this->element->label = $label;
 		}else{
-			return $this->object->label;
+			return $this->element->label;
 		}
 	}
 
 	public function sort( $number = null ){
 		if( null !== $number ) {
-			$this->object->sort = $number;
+			$this->element->sort = $number;
 		}else{
-			return $this->object->sort;
+			return $this->element->sort;
 		}
 	}
 
 	public function type( $type = '' ){
 		if( null !== $type ) {
-			$this->object->type = $type;
+			$this->element->type = $type;
 		}else{
-			return $this->object->type;
+			return $this->element->type;
 		}
 	}
 
 	public function save(){
-		return $this->object->save();
+		return $this->element->save();
 	}
 
 	public function delete(){
-		return $this->object->delete();
+		return $this->element->delete();
 	}
 
 	public function get_input_name(){
-		return $this->object->get_input_name();
+		return $this->element->get_input_name();
 	}
 
 	public function get_input_html(){
-		return $this->object->get_input_name();
+		return $this->element->get_input_name();
 	}
 
 	public function get_input_name_selector(){
-		return $this->object->get_input_name_selector();
+		return $this->element->get_input_name_selector();
 	}
 
-	public function get_class_name( $type = null ) {
+	private function get_class_name( $type = null ) {
 		if( null === $type ){
-			$type = $this->object->type;
+			$type = $this->element->type;
 		}
 		$class = 'Torro_Form_Element_' . ucfirst( $type );
 		return $class;
 	}
 
-	protected function init() {
-		$this->base_class = 'Torro_Form_Element';
-	}
-
 	public function validate( $input ){
-		return $this->object->validate( $input );
+		return $this->element->validate( $input );
 	}
 
 	public function register( $class_name ){
 		return $this->register_module( 'elements', $class_name );
-	}
-
-	public function get(){
-		return $this->object;
 	}
 
 	public function get_registered( $class_name ){
@@ -152,7 +162,7 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 		return $this->get_all_modules( 'elements' );
 	}
 
-	public function get_element_instance( $id ){
+	private function get_element_instance( $id ){
 		global $wpdb;
 
 		if ( ! isset( $this->element_instances[ $id ] ) ) {

@@ -60,22 +60,22 @@ final class Torro {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/torro-forms.php';
 
 		// load instance manager classes
-		require_once( $this->path( 'core/managers/class-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-components-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-containers-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-element-answer-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-element-setting-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-elements-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-settings-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-templatetags-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-actions-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-restrictions-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-result-handlers-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-extensions-manager.php' ) );
-		require_once( $this->path( 'core/managers/class-forms-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-components-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-containers-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-element-answer-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-element-setting-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-elements-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-settings-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-templatetags-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-actions-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-restrictions-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-result-handlers-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-extensions-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-forms-manager.php' ) );
 
 		// load additional manager classes
-		require_once( $this->path( 'core/managers/class-admin-notices-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-admin-notices-manager.php' ) );
 	}
 
 	/**
@@ -195,7 +195,7 @@ final class Torro {
 	 * @param string $path adds sub path
 	 * @return string
 	 */
-	public function path( $path = '' ) {
+	public function get_path( $path = '' ) {
 		return plugin_dir_path( $this->plugin_file ) . ltrim( $path, '/' );
 	}
 
@@ -205,7 +205,7 @@ final class Torro {
 	 * @param string $path adds sub path
 	 * @return string
 	 */
-	public function url( $path = '' ) {
+	public function get_url( $path = '' ) {
 		return plugin_dir_url( $this->plugin_file ) . ltrim( $path, '/' );
 	}
 
@@ -216,7 +216,7 @@ final class Torro {
 	 * @param string $mode css/js/png/gif/svg/vendor-css/vendor-js
 	 * @return string
 	 */
-	public function asset_url( $name, $mode = '' ) {
+	public function get_asset_url( $name, $mode = '' ) {
 		$urlpath = 'assets/';
 
 		$can_min = true;
@@ -245,7 +245,7 @@ final class Torro {
 		}
 
 		//TODO: some kind of notice if file can not be found
-		if ( ! file_exists( $this->path( $urlpath ) ) ) {
+		if ( ! file_exists( $this->get_path( $urlpath ) ) ) {
 			if ( ! $can_min ) {
 				return false;
 			} elseif ( false !== strpos( $urlpath, '.min' ) ) {
@@ -256,12 +256,12 @@ final class Torro {
 				$urlpath = implode( '.', $urlpath );
 			}
 
-			if ( ! file_exists( $this->path( $urlpath ) ) ) {
+			if ( ! file_exists( $this->get_path( $urlpath ) ) ) {
 				return false;
 			}
 		}
 
-		return $this->url( $urlpath );
+		return $this->get_url( $urlpath );
 	}
 
 	/**
@@ -270,8 +270,8 @@ final class Torro {
 	 * @param string $name
 	 * @return string
 	 */
-	public function css_url( $name = '' ) {
-		return $this->url( 'assets/css/' . $name . '.css' );
+	public function get_css_url( $name = '' ) {
+		return $this->get_url( 'assets/css/' . $name . '.css' );
 	}
 
 	/**

@@ -31,86 +31,136 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Forms_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
-	private $id;
-	private $object;
+	private $form_id = null;
+
+	private $form = null;
+
+	private $form_controller = null;
+
+	private $is_form_set = false;
+
+	protected function __construct() {
+		parent::__construct();
+		$this->form_controller = Torro_Form_Controller::instance();
+	}
 
 	public static function instance( $id = null) {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
-		if ( self::$instance->id !== $id && null != $id ) {
-			self::$instance->id = $id;
-			self::$instance->object    = new Torro_Form( $id );
+		if( self::set_form( $id ) ){
+			self::$instance->is_form_set = true;
 		}
 
 		return self::$instance;
 	}
 
+	private static function set_form( $id = null ){
+		// If new $id was set
+		if ( self::$instance->form_id !== $id && null != $id ) {
+			self::$instance->form_id = $id;
+		}
+
+		// Try to get ID by form processor
+		if( null === self::$instance->form_id ){
+			self::$instance->form_id = self::$instance->form_controller->get_form_id();
+		}
+
+		if( null !== self::$instance->form_id ) {
+			self::$instance->form = new Torro_Form( $id );
+			return true;
+		}
+
+		return false;
+	}
+
 	public function delete(){
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set_automatically', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
 		return $this->form->delete();
 	}
 
 	public function delete_responses(){
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
 		return $this->form->delete_responses();
 	}
 
 	public function dublicate( $copy_meta = true, $copy_taxonomies = true, $copy_comments = true, $copy_elements = true, $copy_answers = true, $copy_participants = true, $draft = false ){
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
 		return $this->form->dublicate( $copy_meta, $copy_taxonomies, $copy_comments, $copy_elements, $copy_answers, $copy_participants, $draft);
 	}
 
 	public function exists() {
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
 		return $this->form->exists();
 	}
 
-	public function html( $object_action_url = null ) {
-		$form_loader = Torro_Form_Controller::instance();
-		$form_loader->set_id( $this->id );
-
+	public function html( $form_action_url = null ) {
 		if ( null != $form_action_url ) {
-			$form_loader->set_form_action_url( $form_action_url );
+			$this->form_controller->set_form_action_url( $form_action_url );
 		}
 
-		return $form_loader->html();
+		return $form_controller->html();
 	}
 
-	public function get_current_id(){
-		$form_loader = Torro_Form_Controller::instance();
-		return $form_loader->get_id();
+	public function get_id(){
+		return $this->form_id;
 	}
 
 	public function get_containers() {
-		return $this->object->get_containers();
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
+		return $this->form->get_containers();
 	}
 
 	public function get_participants() {
-		return $this->object->get_participants();
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
+		return $this->form->get_participants();
 	}
 
 	public function get_response_errors(){
-		$form_loader = Torro_Form_Controller::instance();
-		$form_loader->set_id( $form_loader->get_id() );
-		return $form_loader->get_response_errors();
+		return $form_controller->get_response_errors();
 	}
 
 	public function get_step_count() {
-		return $this->object->get_step_count();
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
+		return $this->form->get_step_count();
 	}
 
 	public function get_step_elements( $step = 0 ) {
-		return $this->object->get_step_elements( $step );
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
+		return $this->form->get_step_elements( $step );
 	}
 
 	public function has_participated( $user_id = null ) {
-		return $this->object->has_participated( $user_id );
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
+		return $this->form->has_participated( $user_id );
 	}
 
 	public function save_response( $response ) {
-		return $this->object->save_response( $response );
-	}
-
-	protected function init() {
+		if( ! $this->is_form_set ){
+			return new Torro_Error( 'torro_form_not_set', __( 'Form couldn\'t be set automatically. You have to set a form id.', 'torro-forms' ), __METHOD__ );
+		}
+		return $this->form->save_response( $response );
 	}
 }

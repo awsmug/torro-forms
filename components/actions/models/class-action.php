@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Action extends Torro_Instance {
+abstract class Torro_Action extends Torro_Base {
 	/**
 	 * Settings fields
 	 *
@@ -47,8 +47,10 @@ abstract class Torro_Action extends Torro_Instance {
 
 	/**
 	 * Contains the option_content
+	 *
+	 * @since 1.0.0
 	 */
-	protected $option_content = '';
+	protected $option_content = null;
 
 	/**
 	 * Initializing.
@@ -70,7 +72,7 @@ abstract class Torro_Action extends Torro_Instance {
 	}
 
 	/**
-	 * Will be shown oon page after submitting data
+	 * Will be shown on page after submitting data
 	 */
 	public function notification( $form_id, $response_id ){
 		return false;
@@ -80,13 +82,13 @@ abstract class Torro_Action extends Torro_Instance {
 	 * Checks if there is an option content
 	 */
 	public function has_option() {
-		if ( ! empty( $this->option_content ) ) {
-			return $this->option_content;
+		if ( null !==  $this->option_content ) {
+			return true;
 		}
 
 		$this->option_content = $this->option_content();
 
-		if ( false === $this->option_content ) {
+		if ( null === $this->option_content ) {
 			return false;
 		}
 
@@ -97,7 +99,7 @@ abstract class Torro_Action extends Torro_Instance {
 	 * Content of option in Form builder
 	 */
 	public function option_content() {
-		return false;
+		return null;
 	}
 
 	/**
