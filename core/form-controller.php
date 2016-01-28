@@ -35,13 +35,15 @@ class Torro_Form_Controller {
 	private static $instance = null;
 
 	/**
-	 * ID of processed form
+	 * Current form id
 	 *
 	 * @var int
+	 * @since 1.0.0
 	 */
 	private $form_id = null;
 
 	/**
+	 * Current form container id
 	 * @var int
 	 * @since 1.0.0
 	 */
@@ -51,20 +53,21 @@ class Torro_Form_Controller {
 	 * Form object
 	 *
 	 * @var object
-	 *
 	 * @since 1.0.0
 	 */
 	private $form = null;
 
 	/**
 	 * Actual step
+	 *
 	 * @var int
 	 * @since 1.0.0
 	 */
 	private $actual_step = 0;
 
 	/**
-	 * Actual step
+	 * Previous step
+	 *
 	 * @var int
 	 * @since 1.0.0
 	 */
@@ -72,24 +75,30 @@ class Torro_Form_Controller {
 
 	/**
 	 * Determines if we are going forward
+	 *
 	 * @var bool
+	 * @since 1.0.0
 	 */
 	private $going_forward = false;
 
 	/**
 	 * Determines if a response will be saved or not
+	 *
 	 * @var bool
+	 * @since 1.0.0
 	 */
 	private $save_response = false;
 
 	/**
 	 * Is this a torro submit?
+	 *
 	 * @var bool
+	 * @since 1.0.0
 	 */
 	private $is_torro_submit = false;
 
 	/**
-	 * Action URL
+	 * Form action URL
 	 *
 	 * @var string
 	 * @since 1.0.0
@@ -105,8 +114,9 @@ class Torro_Form_Controller {
 	private $response_errors = array();
 
 	/**
-	 * Initializes the Component.
+	 * Initializes the form controller.
 	 *
+	 * @param $filter_the_content
 	 * @since 1.0.0
 	 */
 	private function __construct( $filter_the_content = false ) {
@@ -127,9 +137,7 @@ class Torro_Form_Controller {
 	 * Singleton
 	 *
 	 * @param bool $filter_the_content
-	 *
 	 * @return null|Torro_Form_Controller
-	 *
 	 * @since 1.0.0
 	 */
 	public static function instance( $filter_the_content = false ) {
@@ -144,7 +152,6 @@ class Torro_Form_Controller {
 	 * Text which will be shown after a user has participated successful
 	 *
 	 * @param int $form_id
-	 *
 	 * @return string $html
 	 * @since 1.0.0
 	 */
@@ -164,8 +171,7 @@ class Torro_Form_Controller {
 	/**
 	 * Porcessing Request and setting up class variables
 	 *
-	 * @param array $response
-	 *
+	 * @param array $request
 	 * @since 1.0.0
 	 */
 	public function parse_request( $request ) {
@@ -277,11 +283,11 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Set Form ID
+	 * Setting form id
 	 *
 	 * @param $form_id
-	 *
 	 * @return boolean
+	 * @since 1.0.0
 	 */
 	public function set_form_id( $form_id ) {
 		if ( torro()->forms( $form_id )->exists() ) {
@@ -298,17 +304,18 @@ class Torro_Form_Controller {
 	 * Return the current form id
 	 *
 	 * @return int
+	 * @since 1.0.0
 	 */
 	public function get_form_id() {
 		return $this->form_id;
 	}
 
 	/**
-	 * Set Form ID
+	 * Setting form action url
 	 *
 	 * @param $form_id
-	 *
 	 * @return boolean
+	 * @since 1.0.0
 	 */
 	public function set_form_action_url( $url ) {
 		$this->form_action_url = $url;
@@ -318,13 +325,14 @@ class Torro_Form_Controller {
 	 * Get response errors
 	 *
 	 * @return array
+	 * @since 1.0.0
 	 */
 	public function get_response_errors() {
 		return $this->response_errors;
 	}
 
 	/**
-	 * Adding filter for the content to show Form
+	 * Adding filter for the content to show form
 	 *
 	 * @since 1.0.0
 	 */
@@ -336,7 +344,6 @@ class Torro_Form_Controller {
 	 * The filtered content gets a Form
 	 *
 	 * @param string $content
-	 *
 	 * @return string $content
 	 * @since 1.0.0
 	 */
@@ -359,8 +366,6 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Show Form
-	 *
 	 * Creating form HTML
 	 *
 	 * @return string $html
@@ -446,7 +451,6 @@ class Torro_Form_Controller {
 	 * @param array $response
 	 * @param int   $step
 	 * @param bool  $is_submit
-	 *
 	 * @return boolean $validated
 	 * @since 1.0.0
 	 */
@@ -489,6 +493,7 @@ class Torro_Form_Controller {
 	 *
 	 * @param $element_id
 	 * @param $message
+	 * @since 1.0.0
 	 */
 	private function add_response_error( $element_id, $message ) {
 		if ( ! isset( $this->response_errors[ $element_id ] ) || empty( $this->response_errors[ $element_id ] ) ) {
@@ -503,7 +508,6 @@ class Torro_Form_Controller {
 	 *
 	 * @param $actual_step
 	 * @param $next_step
-	 *
 	 * @return string
 	 * @since 1.0.0
 	 */
