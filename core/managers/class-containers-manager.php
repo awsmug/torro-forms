@@ -32,7 +32,7 @@ final class Torro_Containers_Manager extends Torro_Manager {
 
 	private static $instance = null;
 
-	public static $container_id = null;
+	private $container_id = null;
 
 	private $container = null;
 
