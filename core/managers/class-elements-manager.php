@@ -82,19 +82,19 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 		return $allowed;
 	}
 
-	public function container( $id = null ){
-		if( null !== $id ) {
-			$this->container_id = $id;
-		}else{
-			return $this->container_id;
-		}
-	}
-
 	public function form( $id = null ){
 		if( null !== $id ) {
 			$this->form_id = $id;
 		}else{
 			return $this->form_id;
+		}
+	}
+
+	public function container( $id = null ){
+		if( null !== $id ) {
+			$this->container_id = $id;
+		}else{
+			return $this->container_id;
 		}
 	}
 
