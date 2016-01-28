@@ -220,7 +220,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			'nonce_invite_participants'				=> torro()->ajax()->get_nonce( 'invite_participants' ),
 		);
 
-		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'js' ), array( 'torro-form-edit' ) );
+		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->get_asset_url( 'restrictions-selected-members', 'js' ), array( 'torro-form-edit' ) );
 		wp_localize_script( 'torro-restrictions-selected-members', 'translation_sm', $translation );
 	}
 
@@ -230,7 +230,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function admin_styles() {
-		wp_enqueue_style( 'torro-restrictions-selected-members', torro()->asset_url( 'restrictions-selected-members', 'css' ), array( 'torro-form-edit' ) );
+		wp_enqueue_style( 'torro-restrictions-selected-members', torro()->get_asset_url( 'restrictions-selected-members', 'css' ), array( 'torro-form-edit' ) );
 	}
 
 	/**
@@ -436,4 +436,4 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->add( 'Torro_Restriction_SelectedMembers' );
+torro()->restrictions()->register( 'Torro_Restriction_SelectedMembers' );

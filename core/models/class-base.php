@@ -1,6 +1,6 @@
 <?php
 /**
- * Torro Forms basic Instance class.
+ * Torro Forms base class.
  *
  * This class is the base for every component-like class in the plugin.
  *
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Instance {
+abstract class Torro_Base {
 	/**
 	 * name of restriction
 	 *
@@ -53,14 +53,6 @@ abstract class Torro_Instance {
 	protected $description;
 
 	/**
-	 * Is Element initialized
-	 *
-	 * @var bool
-	 * @since 1.0.0
-	 */
-	protected $initialized = false;
-
-	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
@@ -71,18 +63,9 @@ abstract class Torro_Instance {
 
 	public function __set( $key, $value ) {
 		switch ( $key ) {
-			case 'initialized':
-				if ( $value ) {
-					$this->initialized = true;
-				}
-				break;
 			case 'name':
 			case 'title':
 			case 'description':
-				if ( ! $this->initialized ) {
-					$this->$key = $value;
-				}
-				break;
 			default:
 				if ( property_exists( $this, $key ) ) {
 					$this->$key = $value;

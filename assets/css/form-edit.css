@@ -24,7 +24,7 @@
 /**
  * 	Sortable area
  */
-#torro-content #drag-drop-inside {
+#torro-content .torro-drag-drop-inside {
     min-height: 200px;
     padding: 15px;
 }
@@ -37,6 +37,7 @@
  * Element
  */
 .formelement.widget{
+    width: 100%;
 }
 .formelement .widget-inside
 {

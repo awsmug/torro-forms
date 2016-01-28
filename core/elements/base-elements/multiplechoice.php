@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Form_Element_MultipleChoice extends Torro_Form_Element {
+final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 	private static $instances = array();
 
 	public static function instance( $id = null ) {
@@ -55,7 +55,7 @@ final class Torro_Form_Element_MultipleChoice extends Torro_Form_Element {
 		$this->name = 'multiplechoice';
 		$this->title = __( 'Multiple Choice', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );
-		$this->icon_url = torro()->asset_url( 'icon-multiplechoice', 'png' );
+		$this->icon_url = torro()->get_asset_url( 'icon-multiplechoice', 'png' );
 
 		$this->has_answers = true;
 		$this->answer_is_multiple = true;
@@ -131,4 +131,4 @@ final class Torro_Form_Element_MultipleChoice extends Torro_Form_Element {
 	}
 }
 
-torro()->elements()->add( 'Torro_Form_Element_MultipleChoice' );
+torro()->elements()->register( 'Torro_Form_Element_MultipleChoice' );

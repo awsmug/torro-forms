@@ -73,7 +73,7 @@ class Torro_Formbuilder_ChartsExtension {
 		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results();
 
-		$result_handlers = torro()->resulthandlers()->get_all();
+		$result_handlers = torro()->resulthandlers()->get_all_registered();
 
 		if ( ! is_array( $result_handlers ) || 0 === count( $result_handlers ) ){
 			return;
@@ -142,7 +142,7 @@ class Torro_Formbuilder_ChartsExtension {
 			return;
 		}
 
-		wp_enqueue_style( 'torro-results', torro()->asset_url( 'results', 'css' ) );
+		wp_enqueue_style( 'torro-results', torro()->get_asset_url( 'results', 'css' ) );
 	}
 }
 

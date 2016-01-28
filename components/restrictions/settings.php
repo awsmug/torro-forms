@@ -53,4 +53,4 @@ final class Torro_Restrictions_Settings extends Torro_Settings {
 	}
 }
 
-torro()->settings()->add( 'Torro_Restrictions_Settings' );
+torro()->settings()->register( 'Torro_Restrictions_Settings' );

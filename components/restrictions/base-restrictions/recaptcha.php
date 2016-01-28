@@ -297,7 +297,7 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	public function frontend_scripts() {
 		global  $post;
 
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$torro_form_id = torro()->forms()->get_id();
 
 		if ( ! $torro_form_id ) {
 			if ( ! $post || 'torro-forms' !== $post->post_type ) {
@@ -311,7 +311,7 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			return;
 		}
 
-		wp_enqueue_script( 'torro-forms-recaptcha', torro()->asset_url( 'frontend-recaptcha', 'js' ), array(), false, true );
+		wp_enqueue_script( 'torro-forms-recaptcha', torro()->get_asset_url( 'frontend-recaptcha', 'js' ), array(), false, true );
 		wp_localize_script( 'torro-forms-recaptcha', '_torro_recaptcha_settings', array(
 			'sitekey'		=> $this->settings['recaptcha_sitekey'],
 		) );
@@ -407,4 +407,4 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->add( 'Torro_Restriction_Recaptcha' );
+torro()->restrictions()->register( 'Torro_Restriction_Recaptcha' );

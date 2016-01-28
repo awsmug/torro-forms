@@ -55,7 +55,7 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 		$this->name = 'dropdown';
 		$this->title = __( 'Dropdown', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a dropdown field.', 'torro-forms' );
-		$this->icon_url = torro()->asset_url( 'icon-dropdown', 'png' );
+		$this->icon_url = torro()->get_asset_url( 'icon-dropdown', 'png' );
 
 		$this->has_answers = true;
 		$this->answer_is_multiple = false;
@@ -113,4 +113,4 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 
 }
 
-torro()->elements()->add( 'Torro_Form_Element_Dropdown' );
+torro()->elements()->register( 'Torro_Form_Element_Dropdown' );

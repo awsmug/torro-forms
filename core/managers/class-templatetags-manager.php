@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_TemplateTags_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
 	public static function instance() {
@@ -40,13 +41,37 @@ final class Torro_TemplateTags_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function init() {
-		$this->base_class = 'Torro_TemplateTags';
+	protected function allowed_modules(){
+		$allowed = array(
+			'templatetags' => 'Torro_Templatetags'
+		);
+		return $allowed;
 	}
 
 	protected function after_instance_added( $instance ) {
 		$instance->tags();
-
 		return $instance;
+	}
+
+	public function add_form_tag( $element_id, $element_name ){
+		$formtags = $this->get_registered( 'formtags' );
+
+		if ( ! $formtags ) {
+			return false;
+		}
+
+		return $formtags->add_element( $element_id, $element_name );
+	}
+
+	public function register( $class_name ){
+		return $this->register_module( 'templatetags', $class_name );
+	}
+
+	public function get_registered( $class_name ){
+		return $this->get_module( 'templatetags', $class_name );
+	}
+
+	public function get_all_registered(){
+		return $this->get_all_modules( 'templatetags' );
 	}
 }

@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Settings_Manager extends Torro_Manager {
+
 	private static $instance = null;
 
 	public static function instance() {
@@ -40,7 +41,22 @@ final class Torro_Settings_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function init() {
-		$this->base_class = 'Torro_Settings';
+	protected function allowed_modules(){
+		$allowed = array(
+			'settings' => 'Torro_Settings'
+		);
+		return $allowed;
+	}
+
+	public function register( $class_name ){
+		return $this->register_module( 'settings', $class_name );
+	}
+
+	public function get_registered( $class_name ){
+		return $this->get_module( 'settings', $class_name );
+	}
+
+	public function get_all_registered(){
+		return $this->get_all_modules( 'settings' );
 	}
 }

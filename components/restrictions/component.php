@@ -63,7 +63,7 @@ final class Torro_Restrictions_Component extends Torro_Component {
 	 * Including files of component
 	 */
 	protected function includes() {
-		$folder = torro()->path( 'components/restrictions/' );
+		$folder = torro()->get_path( 'components/restrictions/' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -71,7 +71,7 @@ final class Torro_Restrictions_Component extends Torro_Component {
 		require_once( $folder . 'form-process-extension.php' );
 
 		// Restrictions API
-		require_once( $folder . 'abstract/class-restriction.php' );
+		require_once( $folder . 'models/class-restriction.php' );
 
 		// Base Restrictions
 		require_once( $folder . 'base-restrictions/all-visitors.php' );
@@ -82,4 +82,4 @@ final class Torro_Restrictions_Component extends Torro_Component {
 	}
 }
 
-torro()->components()->add( 'Torro_Restrictions_Component' );
+torro()->components()->register( 'Torro_Restrictions_Component' );

@@ -42,7 +42,7 @@ function torro_locate_template( $template_names, $load = false, $require_once = 
 			if ( ! $template_name ) {
 				continue;
 			}
-			$file = torro()->path( 'templates/' . $template_name );
+			$file = torro()->get_path( 'templates/' . $template_name );
 			if ( file_exists( $file ) ) {
 				$located = $file;
 				break;
@@ -112,7 +112,7 @@ function torro_clipboard_field( $label, $content ) {
 	$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
 
 	$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
-	$html .= '<img src="' . torro()->asset_url( 'clippy', 'svg' ) . '" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
+	$html .= '<img src="' . torro()->get_asset_url( 'clippy', 'svg' ) . '" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
 	$html .= '</button>';
 
 	$html .= '<div style="clear:both;"></div>';

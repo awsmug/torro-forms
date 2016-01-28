@@ -40,15 +40,6 @@ final class Torro_Actions_Component extends Torro_Component {
 	}
 
 	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0
@@ -63,7 +54,7 @@ final class Torro_Actions_Component extends Torro_Component {
 	 * Including files of component
 	 */
 	protected function includes() {
-		$folder = torro()->path( 'components/actions/' );
+		$folder = torro()->get_path( 'components/actions/' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
@@ -71,10 +62,10 @@ final class Torro_Actions_Component extends Torro_Component {
 		require_once( $folder . 'form-process-extension.php' );
 
 		// Response Handlers API
-		require_once( $folder . 'abstract/class-action.php' );
+		require_once( $folder . 'models/class-action.php' );
 		require_once( $folder . 'base-actions/redirection.php' );
 		require_once( $folder . 'base-actions/email-notifications.php' );
 	}
 }
 
-torro()->components()->add( 'Torro_Actions_Component' );
+torro()->components()->register( 'Torro_Actions_Component' );

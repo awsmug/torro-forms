@@ -55,9 +55,9 @@ final class Torro_Form_Element_Separator extends Torro_Form_Element {
 		$this->name = 'separator';
 		$this->title = __( 'Separator', 'torro-forms' );
 		$this->description = __( 'Adds a optical separator (<hr>) between elements.', 'torro-forms' );
-		$this->icon_url = torro()->asset_url( 'icon-separator', 'png' );
+		$this->icon_url = torro()->get_asset_url( 'icon-separator', 'png' );
 
-		$this->has_content = false;
+		$this->has_content_tab = false;
 		$this->is_answerable = false;
 	}
 
@@ -68,4 +68,4 @@ final class Torro_Form_Element_Separator extends Torro_Form_Element {
 	}
 }
 
-torro()->elements()->add( 'Torro_Form_Element_Separator' );
+torro()->elements()->register( 'Torro_Form_Element_Separator' );

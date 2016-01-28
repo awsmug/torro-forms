@@ -1,11 +1,11 @@
 <?php
 /**
- * Restriction abstraction class
+ * Responses abstraction class
  *
- * Motherclass for all Restrictions
+ * Motherclass for all Response handlers
  *
  * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Restrictions
+ * @package TorroForms/Actions
  * @version 1.0.0
  * @since   1.0.0
  * @license GPL 2
@@ -30,16 +30,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Restriction extends Torro_Instance {
+abstract class Torro_Action extends Torro_Base {
 	/**
-	 * Option name
-	 *
-	 * @since 1.0.0
-	 */
-	protected $option_name = false;
-
-	/**
-	 * Settings fields array
+	 * Settings fields
 	 *
 	 * @since 1.0.0
 	 */
@@ -53,11 +46,11 @@ abstract class Torro_Restriction extends Torro_Instance {
 	protected $settings = array();
 
 	/**
-	 * Message
+	 * Contains the option_content
 	 *
 	 * @since 1.0.0
 	 */
-	protected $messages = array();
+	protected $option_content = null;
 
 	/**
 	 * Initializing.
@@ -69,50 +62,44 @@ abstract class Torro_Restriction extends Torro_Instance {
 	}
 
 	/**
-	 * Checks if the user can pass
+	 * Handles the data after user submitted the form
+	 *
+	 * @param $response_id
+	 * @param $response
 	 */
-	abstract function check();
-
-	/**
-	 * Printing out messages
-	 */
-	public function messages() {
-		if ( 0 < count( $this->messages ) ) {
-			$html = '';
-			foreach ( $this->messages as $message ) {
-				$html .= '<div class="form-message ' . $message['type'] . '">' . esc_html( $message['text'] ) . '</div>';
-			}
-
-			return $html;
-		}
-
+	public function handle( $form_id, $response_id, $response ){
 		return false;
 	}
 
 	/**
-	 * Adding messages
-	 *
-	 * @param $type
-	 * @param $text
+	 * Will be shown on page after submitting data
 	 */
-	public function add_message( $type, $text ) {
-		$this->messages[] = array(
-			'type'	=> $type,
-			'text'	=> $text
-		);
+	public function notification( $form_id, $response_id ){
+		return false;
 	}
 
 	/**
-	 * Adds a Restriction option to the restrictions meta box
-	 *
-	 * @return bool
+	 * Checks if there is an option content
 	 */
 	public function has_option() {
-		if ( false !== $this->option_name ) {
+		if ( null !==  $this->option_content ) {
 			return true;
 		}
 
-		return false;
+		$this->option_content = $this->option_content();
+
+		if ( null === $this->option_content ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Content of option in Form builder
+	 */
+	public function option_content() {
+		return null;
 	}
 
 	/**
@@ -126,25 +113,18 @@ abstract class Torro_Restriction extends Torro_Instance {
 		$headline = array(
 			'headline'		=> array(
 				'title'			=> $this->title,
-				'description'	=> sprintf( __( 'Setup the "%s" Restriction.', 'torro-forms' ), $this->title ),
-				'type'			=> 'disclaimer'
+				'description'	=> sprintf( __( 'Setup the "%s" Action.', 'torro-forms' ), $this->title ),
+				'type'			=> 'title'
 			)
 		);
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		torro()->settings()->get( 'restrictions' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
+		torro()->settings()->get_registered( 'actions' )->add_settings_field_arr( $this->name, $this->title, $settings_fields );
 
-		$settings_name = 'restrictions_' . $this->name;
+		$settings_name = 'actions_' . $this->name;
 
 		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
 		$this->settings = $settings_handler->get_field_values();
-	}
-
-	/**
-	 * Adds content to the option
-	 */
-	public function option_content() {
-		return false;
 	}
 }

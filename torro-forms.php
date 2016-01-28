@@ -116,33 +116,33 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function includes() {
-		require_once( plugin_dir_path( __FILE__ ) . 'core/error.php' );
+		require_once( plugin_dir_path( __FILE__ ) . 'core/models/class-error.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/ajax.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/torro.php' );
 
-		$main_folder   = torro()->path();
-		$includes_folder   = torro()->path( 'includes/' );
-		$core_folder       = torro()->path( 'core/' );
-		$components_folder = torro()->path( 'components/' );
+		$main_folder   = torro()->get_path();
+		$includes_folder   = torro()->get_path( 'includes/' );
+		$core_folder       = torro()->get_path( 'core/' );
+		$components_folder = torro()->get_path( 'components/' );
 
 		// Functions
 		require_once( $includes_folder . 'functions.php' );
 		require_once( $includes_folder . 'compat.php' );
 		require_once( $includes_folder . 'wp-editor.php' );
 
-		// Base classes
-		require_once( $core_folder . 'class-post.php' );
-		require_once( $core_folder . 'class-form.php' );
-
-		// Abstract instance
-		require_once( $core_folder . 'abstract/class-instance.php' );
-
-		// Abstract
-		require_once( $core_folder . 'abstract/class-component.php' );
-		require_once( $core_folder . 'abstract/class-element.php' );
-		require_once( $core_folder . 'abstract/class-settings.php' );
-		require_once( $core_folder . 'abstract/class-extension.php' );
-		require_once( $core_folder . 'abstract/class-templatetags.php' );
+		// Models
+		require_once( $core_folder . 'models/class-base.php' );
+		require_once( $core_folder . 'models/class-post.php' );
+		require_once( $core_folder . 'models/class-form.php' );
+		require_once( $core_folder . 'models/class-container.php' );
+		require_once( $core_folder . 'models/class-element-answer.php' );
+		require_once( $core_folder . 'models/class-element-setting.php' );
+		require_once( $core_folder . 'models/class-participant.php' );
+		require_once( $core_folder . 'models/class-component.php' );
+		require_once( $core_folder . 'models/class-element.php' );
+		require_once( $core_folder . 'models/class-settings.php' );
+		require_once( $core_folder . 'models/class-extension.php' );
+		require_once( $core_folder . 'models/class-templatetags.php' );
 
 		// Admin
 		require_once( $core_folder . 'menu.php' );
@@ -213,7 +213,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_admin_styles() {
-		wp_enqueue_style( 'torro-icons', torro()->asset_url( 'icons', 'css' ) );
+		wp_enqueue_style( 'torro-icons', torro()->get_asset_url( 'icons', 'css' ) );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_frontend_styles() {
-		wp_enqueue_style( 'torro-frontend', torro()->asset_url( 'frontend', 'css' ) );
+		wp_enqueue_style( 'torro-frontend', torro()->get_asset_url( 'frontend', 'css' ) );
 	}
 
 	/**

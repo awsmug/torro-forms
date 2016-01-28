@@ -106,7 +106,7 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	 * Loading fingerprint scripts
 	 */
 	public function frontend_scripts() {
-		wp_enqueue_script( 'detection', torro()->asset_url( 'detection', 'vendor-js' ) );
+		wp_enqueue_script( 'detection', torro()->get_asset_url( 'detection', 'vendor-js' ) );
 	}
 
 	/**
@@ -328,4 +328,4 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 
 }
 
-torro()->restrictions()->add( 'Torro_Restriction_AllVisitors' );
+torro()->restrictions()->register( 'Torro_Restriction_AllVisitors' );

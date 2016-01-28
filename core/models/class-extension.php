@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Extension extends Torro_Instance {
+abstract class Torro_Extension extends Torro_Base {
 
 	/**
 	 * Settings fields
@@ -152,7 +152,7 @@ abstract class Torro_Extension extends Torro_Instance {
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		torro()->settings()->get( 'extensions' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
+		torro()->settings()->get_registered( 'extensions' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
 
 		$settings_name = 'extensions_' . $this->name;
 

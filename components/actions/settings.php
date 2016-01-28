@@ -53,4 +53,4 @@ final class Torro_Actions_Settings extends Torro_Settings {
 	}
 }
 
-torro()->settings()->add( 'Torro_Actions_Settings' );
+torro()->settings()->register( 'Torro_Actions_Settings' );

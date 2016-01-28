@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_FormTemplateTags extends Torro_TemplateTags {
+final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	private static $instance = null;
 
 	public static function instance() {
@@ -94,7 +94,7 @@ final class Torro_FormTemplateTags extends Torro_TemplateTags {
 			return;
 		}
 
-		$element = torro()->elements()->get( $element_id );
+		$element = torro()->elements()->get_registered( $element_id );
 
 		/**
 		 * Displaying elements
@@ -146,21 +146,4 @@ final class Torro_FormTemplateTags extends Torro_TemplateTags {
 	}
 }
 
-torro()->templatetags()->add( 'Torro_FormTemplateTags' );
-
-/**
- * Live registering element templatetags
- *
- * @param $element_id
- * @param $element_name
- *
- * @return bool
- */
-function torro_add_element_templatetag( $element_id, $element_name ) {
-	$formtags = torro()->templatetags()->get( 'formtags' );
-	if ( ! $formtags ) {
-		return false;
-	}
-
-	return $formtags->add_element( $element_id, $element_name );
-}
+torro()->templatetags()->register( 'Torro_Templatetags_Form' );

@@ -28,21 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Form_Element extends Torro_Instance {
-	/**
-	 * ID of instanced Element
-	 *
-	 * @since 1.0.0
-	 */
-	protected $id = null;
-
-	/**
-	 * Contains the Form ID of the Element
-	 *
-	 * @since 1.0.0
-	 */
-	protected $form_id;
-
+abstract class Torro_Form_Element extends Torro_Base {
 	/**
 	 * Icon URl of the Element
 	 *
@@ -51,25 +37,54 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	protected $icon_url;
 
 	/**
+	 * ID of instanced element
+	 *
+	 * @since 1.0.0
+	 */
+	private $id = null;
+
+	/**
+	 * Contains the form ID of the element
+	 *
+	 * @since 1.0.0
+	 */
+	private $form_id;
+
+	/**
+	 * Contains the Container ID of the Element
+	 *
+	 * @since 1.0.0
+	 */
+	private $container_id = null;
+
+	/**
 	 * Element Label
 	 *
 	 * @since 1.0.0
 	 */
-	protected $label;
+	private $label;
 
 	/**
 	 * Sort number where to display the Element
 	 *
 	 * @since 1.0.0
 	 */
-	protected $sort = 0;
+	private $sort = 0;
+
+
+	/**
+	 * Element type
+	 *
+	 * @since 1.0.0
+	 */
+	private $type;
 
 	/**
 	 * Does this element have a content tab
 	 *
 	 * @since 1.0.0
 	 */
-	protected $has_content = true;
+	private $has_content_tab = true;
 
 	/**
 	 * If value is true, Torro Forms will try to create charts from results
@@ -77,7 +92,15 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @todo  is_analyzable: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
-	protected $is_analyzable = false;
+	private $is_analyzable = false;
+
+	/**
+	 * Determines if an element can be answered
+	 *
+	 * @todo  is_answerable: Is this a self spelling name?
+	 * @since 1.0.0
+	 */
+	private $is_answerable = true;
 
 	/**
 	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
@@ -85,78 +108,69 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @todo  has_answers: Is this a self spelling name?
 	 * @since 1.0.0
 	 */
-	protected $is_answerable = true;
-
-	/**
-	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
-	 *
-	 * @todo  has_answers: Is this a self spelling name?
-	 * @since 1.0.0
-	 */
-	protected $has_answers = false;
-
-	/**
-	 * Only for Form splitter Element!
-	 *
-	 * @protected bool
-	 */
-	protected $splits_form = false;
+	private $has_answers = false;
 
 	/**
 	 * Sections for answers
 	 *
 	 * @since 1.0.0
 	 */
-	protected $sections = array();
+	private $sections = array();
 
 	/**
 	 * Element answers
 	 *
 	 * @since 1.0.0
 	 */
-	protected $answers = array();
+	private $answers = array();
 
 	/**
 	 * Contains users response of an Element
 	 *
 	 * @since 1.0.0
 	 */
-	protected $response;
+	private $response;
 
 	/**
 	 * Contains Admin tabs
 	 *
 	 * @since 1.0.0
 	 */
-	protected $admin_tabs = array();
+	private $admin_tabs = array();
 
 	/**
 	 * The settings fields
 	 *
 	 * @since 1.0.0
 	 */
-	protected $settings_fields = array();
+	private $settings_fields = array();
 
 	/**
 	 * Contains all settings of the element
 	 *
 	 * @since 1.0.0
 	 */
-	protected $settings = array();
+	private $settings = array();
 
 	/**
 	 * Contains element validation errors
 	 *
 	 * @since 1.0.0
 	 */
-	protected $validate_errors = array();
+	private $validate_errors = array();
 
 	/**
 	 * Has element moltiple Answers?
 	 *
 	 * @since 1.0.0
 	 */
-	protected $answer_is_multiple = false;
+	private $answer_is_multiple = false;
+
+	/**
+	 * Admin input field name
+	 * @var
+	 */
+	private $admin_input_name;
 
 	/**
 	 * Initializing.
@@ -166,9 +180,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	protected function __construct( $id = null ) {
 		parent::__construct();
 
-		if ( null !== $id && '' !== $id ) {
-			$this->populate( $id );
-		}
+		$this->populate( $id );
 
 		$this->settings_fields();
 	}
@@ -180,60 +192,42 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function populate( $id ) {
+	private function populate( $id ) {
 		global $wpdb;
 
-		$this->label = '';
-		$this->answers = array();
+		if ( ! empty( $id ) ) {
 
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_elements WHERE id = %s", $id );
-		$row = $wpdb->get_row( $sql );
+			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %s", $id );
+			$row = $wpdb->get_row( $sql );
 
-		$this->id = $id;
-		$this->set_label( $row->label );
-		$this->form_id = $row->form_id;
+			$this->id           = $id;
+			$this->label        = $row->label;
+			$this->form_id      = $row->form_id;
+			$this->container_id = $row->container_id;
+			$this->sort         = $row->sort;
+			$this->type         = $row->type;
 
-		$this->sort = $row->sort;
+			// Todo: Change to Element answer class
+			$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
+			$answers = $wpdb->get_results( $sql );
+			if ( is_array( $answers ) ) {
+				foreach ( $answers as $answer ) {
+					$this->add_answer( $answer->answer, $answer->sort, $answer->id, $answer->section );
+				}
+			}
 
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_element_answers WHERE element_id = %s ORDER BY sort ASC", $id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( is_array( $results ) ) {
-			foreach ( $results as $result ) {
-				$this->add_answer( $result->answer, $result->sort, $result->id, $result->section );
+			// Todo: Change to Element answer class
+			$sql      = $wpdb->prepare( "SELECT id FROM $wpdb->torro_settings WHERE element_id = %s", $id );
+			$settings_ids = $wpdb->get_col( $sql );
+			if ( is_array( $settings_ids ) ) {
+				foreach ( $settings_ids as $settings_id ) {
+					$torro_setting = new Torro_Element_Setting( $settings_id );
+					$this->add_setting( $torro_setting );
+				}
 			}
 		}
 
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_settings WHERE element_id = %s", $id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( is_array( $results ) ) {
-			foreach ( $results as $result ) {
-				$this->add_setting( $result->name, $result->value );
-			}
-		}
-	}
-
-	/**
-	 * Setting Label for Element
-	 *
-	 * @param string $label
-	 *
-	 * @since 1.0.0
-	 * @return boolean
-	 */
-	protected function set_label( $label, $order = null ) {
-		if( '' === $label ) {
-			return false;
-		}
-
-		if ( null !== $order ) {
-			$this->sort = $order;
-		}
-
-		$this->label = $label;
-
-		return true;
+		$this->admin_input_name = $this->get_admin_input_name();
 	}
 
 	/**
@@ -253,10 +247,10 @@ abstract class Torro_Form_Element extends Torro_Instance {
 		}
 
 		$this->answers[ $id ] = array(
-			'id'		=> $id,
-			'text'		=> $text,
-			'sort'		=> $sort,
-			'section'	=> $section,
+			'id'      => $id,
+			'text'    => $text,
+			'sort'    => $sort,
+			'section' => $section,
 		);
 
 		return true;
@@ -270,17 +264,70 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function add_setting( $name, $value ) {
-		$this->settings[ $name ] = $value;
+	protected function add_setting( $setting ) {
+		$this->settings[ $setting->name ] = $setting;
 	}
 
 	/**
-	 * Settings fields
+	 * Returns the admin name of an input element
+	 *
+	 * @return string $input_name The name of the input
+	 * @since 1.0.0
 	 */
-	public function settings_fields() {}
+	public function get_admin_input_name() {
+		$element_id    = $this->get_admin_element_id();
+		$container_id = $this->get_admin_cotainer_id();
+
+		$input_name = 'containers[' . $container_id . '][elements][' . $element_id . ']';
+
+		return $input_name;
+	}
 
 	/**
-	 * Validate user input - Have to be overwritten by child classes if element needs validation
+	 * Returns the widget id which will be used in HTML
+	 *
+	 * @return string $element_id The widget id
+	 * @since 1.0.0
+	 */
+	protected function get_admin_element_id() {
+		// Getting Widget ID
+		if ( null === $this->id ) {
+			// New Element
+			$element_id = 'element_id';
+		} else {
+			// Existing Element
+			$element_id = $this->id;
+		}
+
+		return $element_id;
+	}
+
+	/**
+	 * Gets container ID for containers in Admin
+	 *
+	 * @return null|string
+	 */
+	protected function get_admin_cotainer_id() {
+		// Getting Widget ID
+		if ( null === $this->container_id ) {
+			// New Element
+			$container_id = 'container_id';
+		} else {
+			// Existing Element
+			$container_id = $this->container_id;
+		}
+
+		return $container_id;
+	}
+
+	/**
+	 * Settings fields - dummy function
+	 */
+	public function settings_fields() {
+	}
+
+	/**
+	 * Validate response data - dummy function
 	 *
 	 * @return bool
 	 * @since 1.0.0
@@ -295,12 +342,12 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @return string $html Element HTML
 	 * @since 1.0.0
 	 */
-	public function draw() {
-		$torro_response_errors = torro()->forms()->get_response_errors();
+	public function get_html() {
+		$response_errors = torro()->forms()->get_response_errors();
 
 		$errors = '';
-		if ( is_array( $torro_response_errors ) && array_key_exists( $this->id, $torro_response_errors ) ) {
-			$errors = $torro_response_errors[ $this->id ];
+		if ( is_array( $response_errors ) && array_key_exists( $this->id, $response_errors ) ) {
+			$errors = $response_errors[ $this->id ];
 		}
 
 		$html = '';
@@ -314,7 +361,6 @@ abstract class Torro_Form_Element extends Torro_Instance {
 		do_action( 'torro_form_element_start', $this->id );
 		$html .= ob_get_clean();
 
-		// Echo Errors
 		if ( is_array( $errors ) && 0 < count( $errors ) ) {
 			$html .= '<div class="torro-element-error">';
 			$html .= '<div class="torro-element-error-message">';
@@ -327,7 +373,6 @@ abstract class Torro_Form_Element extends Torro_Instance {
 			$html = apply_filters( 'draw_element_errors', $html, $this );
 		}
 
-		// Fetching user response data
 		$this->get_response();
 
 		if ( 0 === count( $this->answers ) && true === $this->has_answers ) {
@@ -357,12 +402,14 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	protected function get_response() {
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 
 		$this->response = false;
 
-		if ( ! empty( $torro_form_id ) && isset( $_SESSION['torro_response'] ) && isset( $_SESSION['torro_response'][ $torro_form_id ] ) && isset( $_SESSION['torro_response'][ $torro_form_id ][ $this->id ] ) ) {
-			$this->response = $_SESSION['torro_response'][ $torro_form_id ][ $this->id ];
+		if ( ! empty( $form_id ) && isset( $_SESSION[ 'torro_response' ] ) && isset( $_SESSION[ 'torro_response' ][ $form_id ] ) && isset( $_SESSION[ 'torro_response' ][ $form_id ][ $this->id ] ) ) {
+			$this->response = $_SESSION[ 'torro_response' ][ $form_id ][ $this->id ];
+		} else {
+			return false;
 		}
 
 		return $this->response;
@@ -383,16 +430,16 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @return string $html The admin element HTML code
 	 * @since 1.0.0
 	 */
-	public function draw_admin() {
-		$id_name = $this->admin_get_widget_id();
+	public function get_admin_html() {
+		$element_id = $this->get_admin_element_id();
 
 		/**
 		 * Widget
 		 */
 		if ( null === $this->id ) {
-			$html = '<div data-element-id="' . $id_name . '" data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
+			$html = '<div data-element-id="' . $element_id . '" data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
 		} else {
-			$html = '<div data-element-id="' . $id_name . '" id="' . $id_name . '" data-element-type="' . $this->name . '" class="widget formelement formelement-' . $this->name . '">';
+			$html = '<div data-element-id="' . $element_id . '" id="' . $element_id . '" data-element-type="' . $this->name . '" class="widget formelement formelement-' . $this->name . '">';
 		}
 
 		/**
@@ -420,8 +467,8 @@ abstract class Torro_Form_Element extends Torro_Instance {
 		/**
 		 * Widget inside
 		 */
-		$widget_id = $this->admin_get_widget_id();
-		$jquery_widget_id = str_replace( '#', '', $widget_id );
+		$element_id        = $this->get_admin_element_id();
+		$jquery_element_id = str_replace( '#', '', $element_id );
 
 		$html .= '<div class="widget-inside">';
 		$html .= '<div class="widget-content">';
@@ -429,11 +476,11 @@ abstract class Torro_Form_Element extends Torro_Instance {
 		/**
 		 * Tab Navi
 		 */
-		$this->admin_add_tab( esc_attr__( 'Content', 'torro-forms' ), $this->admin_widget_content_tab() );
+		$this->add_admin_tab( esc_attr__( 'Content', 'torro-forms' ), $this->admin_widget_content_tab() );
 
 		$settings = $this->admin_widget_settings_tab();
 		if ( false !== $settings ) {
-			$this->admin_add_tab(  esc_attr__( 'Settings', 'torro-forms' ), $settings );
+			$this->add_admin_tab( esc_attr__( 'Settings', 'torro-forms' ), $settings );
 		}
 
 		$admin_tabs = apply_filters( 'torro_formbuilder_element_tabs', $this->admin_tabs );
@@ -443,7 +490,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 			$html .= '<ul class="tabs">';
 
 			foreach ( $admin_tabs as $key => $tab ) {
-				$html .= '<li><a href="#tab_' . $jquery_widget_id . '_' . $key .  '">' . $tab[ 'title' ] . '</a></li>';
+				$html .= '<li><a href="#tab_' . $jquery_element_id . '_' . $key . '">' . $tab[ 'title' ] . '</a></li>';
 			}
 
 			$html .= '</ul>';
@@ -456,7 +503,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 		 */
 		if ( 1 < count( $admin_tabs ) ) {
 			foreach ( $admin_tabs as $key => $tab ) {
-				$html .= '<div id="tab_' . $jquery_widget_id . '_' . $key .   '">';
+				$html .= '<div id="tab_' . $jquery_element_id . '_' . $key . '">';
 				$html .= $tab[ 'content' ];
 				$html .= '</div>';
 			}
@@ -496,30 +543,11 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @param $title
 	 * @param $content
 	 */
-	public function admin_add_tab( $title, $content ) {
+	public function add_admin_tab( $title, $content ) {
 		$this->admin_tabs[] = array(
-			'title'		=> $title,
-			'content'	=> $content
+			'title'   => $title,
+			'content' => $content
 		);
-	}
-
-	/**
-	 * Returns the widget id which will be used in HTML
-	 *
-	 * @return string $widget_id The widget id
-	 * @since 1.0.0
-	 */
-	protected function admin_get_widget_id() {
-		// Getting Widget ID
-		if ( null === $this->id ) {
-			// New Element
-			$widget_id = 'widget_formelement_XXnrXX';
-		} else {
-			// Existing Element
-			$widget_id = 'widget_formelement_' . $this->id;
-		}
-
-		return $widget_id;
 	}
 
 	/**
@@ -528,12 +556,11 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	protected function admin_widget_content_tab() {
-		$widget_id = $this->admin_get_widget_id();
-		$content_html = $this->admin_content_html();
+		$content_html     = $this->admin_content_html();
 
 		if ( false === $content_html ) {
 			// Label
-			$html = '<label for="elements[' . $widget_id . '][label]">' . __( 'Label ', 'torro-forms' ) . '</label><input type="text" name="elements[' . $widget_id . '][label]" value="' . $this->label . '" class="form-label" />';
+			$html = '<label for="' . $this->admin_input_name . '[label]">' . __( 'Label ', 'torro-forms' ) . '</label><input type="text" name="' . $this->admin_input_name . '[label]" value="' . $this->label . '" class="form-label" />';
 
 			// Answers
 			if ( $this->has_answers ) {
@@ -546,7 +573,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 						$html .= '<input type="hidden" name="section_key" value="' . $section_key . '" />';
 						$html .= '</div>';
 					}
-				// Answers without sections
+					// Answers without sections
 				} else {
 					$html .= '<p>' . esc_html__( 'Answer/s:', 'torro-forms' ) . '</p>';
 					$html .= $this->admin_widget_content_answers();
@@ -577,7 +604,8 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	protected function admin_widget_content_answers( $section = null ) {
-		$widget_id = $this->admin_get_widget_id();
+		$element_id        = $this->get_admin_element_id();
+		$this->admin_input_name = $this->get_admin_input_name();
 
 		$html = '';
 
@@ -585,40 +613,40 @@ abstract class Torro_Form_Element extends Torro_Instance {
 			$html .= '<div class="answers">';
 
 			foreach ( $this->answers as $answer ) {
-				// If there is a section
 				if ( null !== $section ) {
-					if ( $answer['section'] !== $section ) {
-						// Continue if answer is not of the section
+					if ( $answer[ 'section' ] !== $section ) {
 						continue;
 					}
 				}
 
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
-				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][answer]" value="' . esc_attr( $answer[ 'text' ] ) . '" class="element-answer" /></p>';
-				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
-				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][id]" value="' . esc_attr( $answer[ 'id' ] ) . '" />';
-				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][sort]" value="' . esc_attr( $answer[ 'sort' ] ) . '" />';
 
-				if ( null !== $section ) {
-					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][id_' . $answer[ 'id' ] . '][section]" value="' . esc_attr( $section ) . '" />';
-				}
+				$html .= '<p><input type="text" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][answer]" value="' . esc_attr( $answer[ 'text' ] ) . '" class="element-answer" /></p>';
+				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
+
+				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][id]" value="' . esc_attr( $answer[ 'id' ] ) . '" />';
+				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][sort]" value="' . esc_attr( $answer[ 'sort' ] ) . '" />';
+				$html .= null !== $section ? '<input type="hidden" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][section]" value="' . esc_attr( $section ) . '" />' : '';
+
 				$html .= '</div>';
 			}
 
-			$html .= '</div><div class="clear"></div>';
+			$html .= '</div>';
+			$html .= '<div class="clear"></div>';
 		} else {
 			if ( $this->has_answers ) {
-				$param_arr[] = $this->create_answer_syntax;
-				$temp_answer_id = 'id_' . time() * rand();
+				$param_arr[]    = $this->create_answer_syntax;
+				$temp_answer_id = 'temp_id_' . time() * rand();
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
-				$html .= '<p><input type="text" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
+				$html .= '<p><input type="text" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
 				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
-				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][id]" value="" />';
-				$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][sort]" value="0" />';
+				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][id]" value="" />';
+				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][sort]" value="0" />';
+
 				if ( null !== $section ) {
-					$html .= '<input type="hidden" name="elements[' . $widget_id . '][answers][' . $temp_answer_id . '][section]" value="' . esc_attr( $section ) . '" />';
+					$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][section]" value="' . esc_attr( $section ) . '" />';
 				}
 
 				$html .= '</div>';
@@ -626,7 +654,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 			}
 		}
 
-		$html .= '<a class="add-answer" rel="' . $widget_id . '">+ ' . esc_html__( 'Add Answer', 'torro-forms' ) . ' </a>';
+		$html .= '<a class="add-answer" data-container-id="' . $this->get_admin_cotainer_id() . '" data-element-id="' . $element_id . '">+ ' . esc_html__( 'Add Answer', 'torro-forms' ) . ' </a>';
 
 		return $html;
 	}
@@ -640,7 +668,6 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	protected function admin_widget_settings_tab() {
 		$html = '';
 
-		// Running each setting field
 		if ( is_array( $this->settings_fields ) && 0 < count( $this->settings_fields ) ) {
 			foreach ( $this->settings_fields as $name => $field ) {
 				$html .= $this->admin_widget_settings_field( $name, $field );
@@ -662,36 +689,39 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @since 1.0.0
 	 */
 	protected function admin_widget_settings_field( $name, $field ) {
-		// @todo Handle with class-settingsform.php
-		$widget_id = $this->admin_get_widget_id();
 		$value = '';
 
 		if ( array_key_exists( $name, $this->settings ) ) {
-			$value = $this->settings[ $name ];
+			$id = $this->settings[ $name ]->id;
+			$value = $this->settings[ $name ]->value;
+			$name = $this->settings[ $name ]->name;
+		}else{
+			$id = 'temp_id_' . time() * rand();
 		}
 
 		if ( '' == $value ) {
 			$value = $field[ 'default' ];
 		}
 
-		$name = 'elements[' . $widget_id . '][settings][' . $name . ']';
+		$base_name = $this->admin_input_name . '[settings][' . $id . ']';
+		$input_name = $base_name . '[value]';
 
 		$input = '';
 		switch ( $field[ 'type' ] ) {
 			case 'text':
-				$input = '<input type="text" name="' . $name . '" value="' . esc_attr( $value ) . '" />';
+				$input = '<input type="text" name="' . $input_name . '" value="' . esc_attr( $value ) . '" />';
 				break;
 			case 'textarea':
-				$input = '<textarea name="' . $name . '">' . esc_html( $value ) . '</textarea>';
+				$input = '<textarea name="' . $input_name . '">' . esc_html( $value ) . '</textarea>';
 				break;
 			case 'wp_editor':
 				$settings = array(
-			        'textarea_name' => $name
-			    );
-			    ob_start();
-			    wp_editor( $value, 'torro_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
-			    $input = ob_get_clean();
-			    break;
+					'textarea_name' => $name
+				);
+				ob_start();
+				wp_editor( $value, 'torro_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
+				$input = ob_get_clean();
+				break;
 			case 'radio':
 				$input = '';
 				foreach ( $field[ 'values' ] as $field_key => $field_value ) {
@@ -700,7 +730,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 						$checked = ' checked="checked"';
 					}
 
-					$input .= '<span class="torro-form-fieldset-input-radio"><input type="radio" name="' . $name . '" value="' . $field_key . '"' . $checked . ' /> ' . esc_html( $field_value ) . '</span>';
+					$input .= '<span class="torro-form-fieldset-input-radio"><input type="radio" name="' . $input_name . '" value="' . $field_key . '"' . $checked . ' /> ' . esc_html( $field_value ) . '</span>';
 				}
 				break;
 		}
@@ -708,11 +738,13 @@ abstract class Torro_Form_Element extends Torro_Instance {
 		$html = '<div class="torro-form-fieldset">';
 
 		$html .= '<div class="torro-form-fieldset-title">';
-		$html .= '<label for="' . $name . '">' . $field[ 'title' ] . '</label>';
+		$html .= '<label for="' . $input_name . '">' . $field[ 'title' ] . '</label>';
 		$html .= '</div>';
 
 		$html .= '<div class="torro-form-fieldset-input">';
 		$html .= $input . '<br />';
+		$html .= '<input type="hidden" name="' . $base_name . '[id]" value="' . $id . '">';
+		$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
 		$html .= '<small>' . $field[ 'description' ] . '</small>';
 		$html .= '</div>';
 
@@ -744,14 +776,13 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	}
 
 	protected function admin_widget_hidden_fields() {
-		$widget_id = $this->admin_get_widget_id();
-
 		// Adding hidden Values for element
-		$html = '<input type="hidden" name="elements[' . $widget_id . '][id]" value="' . $this->id . '" />';
-		$html .= '<input type="hidden" name="elements[' . $widget_id . '][sort]" value="' . $this->sort . '" />';
-		$html .= '<input type="hidden" name="elements[' . $widget_id . '][type]" value="' . $this->name . '" />';
-		$html .= '<input type="hidden" name="elements[' . $widget_id . '][has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
-		$html .= '<input type="hidden" name="elements[' . $widget_id . '][sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ? 'yes' : 'no' ) . '" />';
+		$html = '<input type="hidden" name="' . $this->admin_input_name . '[id]" value="' . $this->id . '" />';
+		$html .= '<input type="hidden" name=' . $this->admin_input_name . '[container_id]" value="' . $this->container_id . '" />';
+		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[sort]" value="' . $this->sort . '" />';
+		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[type]" value="' . $this->name . '" />';
+		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
+		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ? 'yes' : 'no' ) . '" />';
 
 		return $html;
 	}
@@ -772,7 +803,7 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	 * @return string $input_name The name of the input
 	 * @since 1.0.0
 	 */
-	public function get_selector_input_name() {
+	public function get_input_name_selector() {
 		return 'torro_response\\\[' . $this->id . '\\\]';
 	}
 
@@ -786,6 +817,61 @@ abstract class Torro_Form_Element extends Torro_Instance {
 	}
 
 	/**
+	 * Saving Element
+	 * @return false|int
+	 */
+	public function save(){
+		global $wpdb;
+
+		if( ! empty( $this->id ) ){
+			$wpdb->update(
+				$wpdb->torro_elements,
+				array(
+					'form_id' => $this->form_id,
+					'container_id' => $this->container_id,
+					'label' => $this->label,
+					'sort' => $this->sort,
+					'type' => $this->name
+				),
+				array(
+					'id' => $this->id
+				)
+			);
+			return $this->id;
+		}else{
+			return $wpdb->insert(
+				$wpdb->torro_elements,
+				array(
+					'form_id' => $this->form_id,
+					'container_id' => $this->container_id,
+					'label' => $this->label,
+					'sort' => $this->sort,
+					'type' => $this->name
+				)
+			);
+
+			return $wpdb->insert_id;
+		}
+	}
+
+	public function delete(){
+		global $wpdb;
+
+		if ( ! empty( $this->id ) ){
+			if( $this->has_answers && 0 !== count( $this->answers ) ) {
+				foreach( $this->answers AS $answer ) {
+					$answer = new Torro_Element_Answer( $answer[ 'id' ] );
+					$answer->delete();
+				}
+			}
+
+			return $wpdb->delete( $wpdb->torro_elements, array( 'id' => $this->id ) );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Replacing column name by element
 	 *
 	 * @param str $column_name
@@ -794,52 +880,37 @@ abstract class Torro_Form_Element extends Torro_Instance {
 		return false;
 	}
 
-	/**
-	 * Get all saved results of an element
-	 *
-	 * @return mixed $responses The results as array or false if failed to get responses
-	 * @since 1.0.0
-	 */
-	public function get_results() {
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_results AS r, $wpdb->torro_result_answers AS a WHERE r.id=a.result_id AND a.element_id=%d", $this->id );
-		$responses = $wpdb->get_results( $sql );
-
-		$result_answers = array();
-		$result_answers['label'] = $this->label;
-		$result_answers['sections'] = false;
-		$result_answers['array'] = $this->answer_is_multiple;
-
-		if ( is_array( $this->answers ) && 0 < count( $this->answers ) ) {
-			// If element has predefined answers
-			foreach ( $this->answers as $answer_id => $answer ) {
-				$value = false;
-				if ( $this->answer_is_multiple ) {
-					foreach ( $responses as $response ) {
-						if ( $answer['text'] === $response->value ) {
-							$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'Yes' );
-						} elseif ( ! isset( $result_answers['responses'][ $response->respond_id ][ $answer[ 'text' ] ] ) ) {
-							$result_answers['responses'][ $response->respond_id ][ $answer['text'] ] = __( 'No' );
-						}
-					}
-				} else {
-					foreach ( $responses as $response ) {
-						if ( $answer['text'] === $response->value ) {
-							$result_answers['responses'][ $response->respond_id ] = $response->value;
-						}
-					}
-				}
-			}
-		} else {
-			// If element has no predefined answers
-			if( is_array( $responses ) && 0 < count( $responses ) ) {
-				foreach ( $responses as $response ) {
-					$result_answers['responses'][ $response->respond_id ] = $response->value;
-				}
-			}
+	public function __get( $key ) {
+		if ( property_exists( $this, $key ) ) {
+			return $this->$key;
 		}
 
-		return $result_answers;
+		return null;
+	}
+
+	public function __set( $key, $value ) {
+		switch ( $key ) {
+			case 'id':
+				return false;
+				break;
+
+			case 'sort':
+				$value      = absint( $value );
+				$this->$key = $value;
+				break;
+
+			default:
+				if ( property_exists( $this, $key ) ) {
+					$this->$key = $value;
+				}
+		}
+	}
+
+	public function __isset( $key ) {
+		if ( property_exists( $this, $key ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }

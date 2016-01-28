@@ -10,8 +10,9 @@
 		this.extensions = {};
 
 		this.selectors = {
+			container_id: 'input[name="container_id"]',
 			draggable_item: '#form-elements .formelement',
-			droppable_area: '#drag-drop-inside',
+			droppable_area: '.torro-drag-drop-inside',
 			dropped_item_sub: '.formelement',
 			drop_elements_here: '#torro-drop-elements-here',
 			delete_element_button: '.delete_form_element',
@@ -85,8 +86,8 @@
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
-					var nr = self.rand();
-					var id = 'widget_formelement_' + nr;
+					var nr = 'temp_id_' + self.rand();
+					var id = nr;
 					var i = $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length - 1;
 
 					$element.css( 'width', '100%' ).css( 'height', 'auto' );
@@ -95,9 +96,9 @@
 					// Replacing name
 					$element.attr( 'id', id );
 					$element.attr( 'data-element-id', id );
-					$element.html( $element.html().replace( /XXnrXX/g, nr ) );
+					$element.html( $element.html().replace( /element_id/g, nr ) );
 
-					var input_name = 'input[name="elements\[widget_formelement_' + nr +'\]\[sort\]"]';
+					var input_name = 'input[name="elements\[' + nr +'\]\[sort\]"]';
 					$( input_name ).val( i );
 
 					$( self.selectors.droppable_area ).trigger( 'elementDropped', {
@@ -128,10 +129,16 @@
 				placeholder: 'form-element-placeholder',
 				items: this.selectors.dropped_item_sub,
 				update: function( event, ui ) {
-					$( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
+					var $element = ui.item;
+					var container_id = $( this ).parent().parent().find( self.selectors.container_id).val();
+
+					$element.html( $element.html().replace( /container_id/g, container_id ) );
+
+					$( self.selectors.droppable_area + ' ' +  + ' #torro-container-' +container_id + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
 						var element_id = $( this ).attr('data-element-id') ;
 						var index = $( this ).index();
 
+						$( 'input[name="elements\[' + element_id +'\]\[container_id\]"]' ).val( container_id ) ;
 						$( 'input[name="elements\[' + element_id +'\]\[sort\]"]' ).val( index ) ;
 					});
 				}
@@ -254,23 +261,24 @@
 			var self = this;
 			$( this.selectors.droppable_area ).on( 'click', this.selectors.add_answer_button, function() {
 				var $button = $( this );
-				var element_id = $button.attr( 'rel' );
+				var container_id = $button.attr( 'data-container-id' );
+				var element_id = $button.attr( 'data-element-id' );
 
-				var nr = self.rand();
-				var section_val = $( 'input[name="elements\[' + element_id + '\]\[sections\]"]' ).val()
+				var nr = 'temp_id_' + self.rand();
+				var section_val = $( 'input[name="elements\[' + element_id + '\]\[sections\]"]' ).val();
 
 				// Setting up new answer HTML
-				var answer_content = '<div class="answer" id="answer_XXnrXX">';
-				answer_content = answer_content + '<p><input type="text" id="answer_XXnrXX_input" name="elements[' + element_id + '][answers][id_XXnrXX][answer]" class="element-answer" /></p>';
-				answer_content = answer_content + '<input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][id]" /><input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][sort]" />';
+				var answer_content = '<div class="answer" id="answer_' + nr + '">';
+				answer_content = answer_content + '<p><input type="text" id="answer_' + nr + '_input" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][answer]" class="element-answer" /></p>';
+				answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][id]" />';
+				answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][sort]" />';
 
 				if ( 'yes' == section_val ) {
 					var section_key = $button.parent().find( 'input[name="section_key"]' ).val();
-					answer_content = answer_content + '<input type="hidden" name="elements[' + element_id + '][answers][id_XXnrXX][section]" value="' + section_key + '" />';
+					answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][section]" value="' + section_key + '" />';
 				}
 
 				answer_content = answer_content + ' <input type="button" value="' + self.translations.delete + '" class="delete_answer button answer_action"></div>';
-				answer_content = answer_content.replace( /XXnrXX/g, nr );
 
 				// Getting order number for new answer
 				var order = 0;
@@ -282,6 +290,8 @@
 				} else {
 					var selector = '#' + element_id + ' ' + self.selectors.answers_sub;
 				}
+
+				console.log( selector );
 
 				$( selector ).append( answer_content );
 
@@ -629,7 +639,7 @@
 			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 
 			random = random * now.getTime();
-			random = random.toString().substring( 0, 5 );
+			random = random.toString();
 
 			return random;
 		}

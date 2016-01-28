@@ -53,4 +53,4 @@ final class Torro_Results_Settings extends Torro_Settings {
 	}
 }
 
-torro()->settings()->add( 'Torro_Results_Settings' );
+torro()->settings()->register( 'Torro_Results_Settings' );

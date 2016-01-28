@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Settings extends Torro_Instance {
+abstract class Torro_Settings extends Torro_Base {
 	/**
 	 * Settings
 	 *
@@ -78,7 +78,7 @@ abstract class Torro_Settings extends Torro_Instance {
  * @param $settings_name
  */
 function torro_get_settings( $settings_name ) {
-	$settings = torro()->settings()->get( $settings_name );
+	$settings = torro()->settings()->get_registered( $settings_name );
 	if ( is_wp_error( $settings ) ) {
 		return false;
 	}
