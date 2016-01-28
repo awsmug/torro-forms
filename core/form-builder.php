@@ -252,7 +252,8 @@ class Torro_Formbuilder {
 							$element[ 'id' ] = '';
 						}
 
-						torro()->elements( $element[ 'id' ], $element[ 'type' ] )->container( $container_id );
+						torro()->elements( $element[ 'id' ] )->form( $form_id );
+						torro()->elements( $element[ 'id' ] )->container( $container_id );
 						torro()->elements( $element[ 'id' ] )->label( $element[ 'label' ] );
 						torro()->elements( $element[ 'id' ] )->sort( $element[ 'sort' ] );
 						torro()->elements( $element[ 'id' ] )->type( $element[ 'type' ] );
