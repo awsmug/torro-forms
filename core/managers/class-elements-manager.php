@@ -126,6 +126,10 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 		return $this->element->delete();
 	}
 
+	public function get(){
+		return $this->element;
+	}
+
 	public function get_input_name(){
 		return $this->element->get_input_name();
 	}
