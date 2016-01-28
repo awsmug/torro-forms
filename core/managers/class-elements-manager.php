@@ -39,35 +39,39 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 
 	private $element = null;
 
-	private $element_instances = array();
+	private $form_id = null;
 
-	public static function instance( $id = null, $type = null ) {
+	private $container_id = null;
+
+	private $type = null;
+
+	private $label = null;
+
+	private $sort = null;
+
+	public static function instance( $id = null ) {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
-		self::set_element( $id, $type );
+		self::set_element( $id );
 
 		return self::$instance;
 	}
 
-	private static function set_element( $id = null, $type = null ){
+	private static function set_element( $id = null ){
 		// If new $id was set
 		if ( self::$instance->element_id !== $id  && null !== $id ) {
+			$element_instance = self::$instance->get_element_instance( $id );
+
 			self::$instance->element_id = $id;
+			self::$instance->element = $element_instance;
 
-			// New Element
-			if( empty( $id ) && $type !== null ) {
-				$class = self::$instance->get_class_name( $type );
-
-				self::$instance->element = $class::instance();
-				self::$instance->element->type = $type;
-
-			// Existing Element
-			}elseif( ! empty( $id ) ) {
-				// Todo: More elegant to get instance
-				self::$instance->element = self::$instance->get_element_instance( $id );
-			}
+			self::$instance->form_id = $element_instance->form_id;
+			self::$instance->container_id = $element_instance->container_id;
+			self::$instance->type = $element_instance->type;
+			self::$instance->label = $element_instance->label;
+			self::$instance->sort = $element_instance->sort;
 		}
 	}
 
@@ -80,45 +84,64 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 
 	public function container( $id = null ){
 		if( null !== $id ) {
-			$this->element->container_id = $id;
+			$this->container_id = $id;
 		}else{
-			return $this->element->container_id;
+			return $this->container_id;
 		}
 	}
 
 	public function form( $id = null ){
 		if( null !== $id ) {
-			$this->element->form_id = $id;
+			$this->form_id = $id;
 		}else{
-			return $this->element->form_id;
+			return $this->form_id;
 		}
 	}
 
 	public function label( $label = null ){
 		if( null !== $label ) {
-			$this->element->label = $label;
+			$this->label = $label;
 		}else{
-			return $this->element->label;
+			return $this->label;
 		}
 	}
 
 	public function sort( $number = null ){
 		if( null !== $number ) {
-			$this->element->sort = $number;
+			$this->sort = $number;
 		}else{
-			return $this->element->sort;
+			return $this->sort;
 		}
 	}
 
 	public function type( $type = '' ){
 		if( null !== $type ) {
-			$this->element->type = $type;
+			$this->type = $type;
 		}else{
-			return $this->element->type;
+			return $this->type;
 		}
 	}
 
 	public function save(){
+		// New Element
+		if( empty( $this->element_id ) ) {
+			if( null === $this->type ){
+				return new Torro_Error( 'torro_element_missing_type_on_save', __( 'Missing element type to save element.', 'torro-forms' ), __METHOD__ );
+			}
+			if( null === $this->form_id ){
+				return new Torro_Error( 'torro_element_missing_form_id_on_save', __( 'Missing form id to save element.', 'torro-forms' ), __METHOD__ );
+			}
+			if( null === $this->container_id ){
+				return new Torro_Error( 'torro_element_missing_container_id_on_save', __( 'Missing container id to save element.', 'torro-forms' ), __METHOD__ );
+			}
+			$class = $this->get_class_name( $this->type );
+			$this->element = $class::instance();
+			$this->element->form_id = $this->form_id;
+			$this->element->container_id = $this->container_id;
+			$this->element->label = $this->label;
+			$this->element->sort = $this->sort;
+		}
+
 		return $this->element->save();
 	}
 
@@ -169,21 +192,16 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 	private function get_element_instance( $id ){
 		global $wpdb;
 
-		if ( ! isset( $this->element_instances[ $id ] ) ) {
-			if ( empty( $type ) ) {
-				$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", $id );
+		$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", $id );
+		$type = $wpdb->get_var( $sql );
 
-				$type = $wpdb->get_var( $sql );
-				if ( ! $type ) {
-					return new Torro_Error( 'torro_element_id_invalid', sprintf( __( 'The element ID %s is invalid. The type could not be detected.', 'torro-forms' ), $id ), __METHOD__ );
-				}
-			}
-
-			$class = $this->modules[ 'elements' ][ $type ];
-
-			$this->element_instances[ $id ] = call_user_func( array( $class, 'instance' ), $id );
+		if ( ! $type ) {
+			return false;
 		}
 
-		return $this->element_instances[ $id ];
+		$class_name = $this->get_class_name( $type );
+		$element_instance = $this->get_registered( $class_name );
+
+		return $element_instance::instance( $id );
 	}
 }
