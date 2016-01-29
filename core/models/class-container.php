@@ -48,7 +48,7 @@ class Torro_Container {
 	private function populate( $id ) {
 		global $wpdb;
 
-		if ( null !== $id ) {
+		if ( ! empty( $id ) ) {
 
 			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE id =%d", $id );
 

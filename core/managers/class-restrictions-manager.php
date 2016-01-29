@@ -43,7 +43,7 @@ final class Torro_Restrictions_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'restrictions' => 'Torro_Restiction'
+			'restrictions' => 'Torro_Restriction'
 		);
 		return $allowed;
 	}

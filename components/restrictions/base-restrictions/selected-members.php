@@ -186,18 +186,21 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		 * Saving participants
 		 */
 		$form_participants = $_POST['form_participants'];
-		$torro_participant_ids = explode( ',', $form_participants );
 
 		$sql = "DELETE FROM $wpdb->torro_participants WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$wpdb->query( $sql );
 
-		if ( 0 < count( $torro_participant_ids ) ) {
-			foreach ( $torro_participant_ids as $user_id ) {
-				$wpdb->insert( $wpdb->torro_participants, array(
-					'form_id'	=> $form_id,
-					'user_id'	=> $user_id,
-				) );
+		if( ! empty( $form_participants ) ) {
+			$torro_participant_ids = explode( ',', $form_participants );
+
+			if ( 0 < count( $torro_participant_ids ) ) {
+				foreach ( $torro_participant_ids as $user_id ) {
+					$wpdb->insert( $wpdb->torro_participants, array(
+						'form_id' => $form_id,
+						'user_id' => $user_id,
+					) );
+				}
 			}
 		}
 	}

@@ -50,9 +50,12 @@ final class Torro_Containers_Manager extends Torro_Manager {
 		// If new $id was set
 		if ( self::$instance->container_id !== $id && null != $id ) {
 			self::$instance->container_id = $id;
+			self::$instance->container = new Torro_Container( $id );
 		}
 
-		self::$instance->container = new Torro_Container( $id );
+		if( ! is_object( self::$instance->container ) ) {
+			self::$instance->container = new Torro_Container( $id );
+		}
 	}
 
 	public function form( $id = null ){

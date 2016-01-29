@@ -304,17 +304,20 @@ class Torro_Formbuilder {
 		/**
 		 * Deleting old things
 		 */
-		$deleted_element_ids = explode( ',', $deleted_element_ids );
-		if ( 0 < count( $deleted_element_ids ) ) {
-			foreach ( $deleted_element_ids as $deleted_element_id ) {
-				torro()->elements()->delete( $deleted_element_id );
+		if( ! empty( $deleted_element_ids ) ) {
+			$deleted_element_ids = explode( ',', $deleted_element_ids );
+			if ( 0 < count( $deleted_element_ids ) ) {
+				foreach ( $deleted_element_ids as $deleted_element_id ) {
+					torro()->elements( $deleted_element_id )->delete();
+				}
 			}
 		}
-
-		$deleted_answer_ids = explode( ',', $deleted_answer_ids );
-		if ( 0 < count( $deleted_answer_ids ) ) {
-			foreach ( $deleted_answer_ids AS $deleted_answer_id ) {
-				torro()->element_answer( $deleted_answer_id )->delete();
+		if( ! empty( $deleted_answer_ids ) ) {
+			$deleted_answer_ids = explode( ',', $deleted_answer_ids );
+			if ( 0 < count( $deleted_answer_ids ) ) {
+				foreach ( $deleted_answer_ids AS $deleted_answer_id ) {
+					torro()->element_answer( $deleted_answer_id )->delete();
+				}
 			}
 		}
 

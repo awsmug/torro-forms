@@ -61,7 +61,7 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 
 	private static function set_element( $id = null ){
 		// If new $id was set
-		if ( self::$instance->element_id !== $id  && null !== $id ) {
+		if ( self::$instance->element_id !== $id  && ! empty( $id ) ) {
 			$element_instance = self::$instance->get_element_instance( $id );
 
 			self::$instance->element_id = $id;
