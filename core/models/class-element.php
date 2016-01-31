@@ -34,14 +34,14 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	private $id = null;
+	protected $id = null;
 
 	/**
 	 * Contains the form ID of the element
 	 *
 	 * @since 1.0.0
 	 */
-	private $form_id = null;
+	protected $form_id = null;
 
 	/**
 	 * Contains the Container ID of the Element
@@ -182,7 +182,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$this->sort         = $row->sort;
 			$this->type         = $row->type;
 
-			// Todo: Move to Element answer class
+			// Todo: Move to own function
 			$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
 			$answers = $wpdb->get_results( $sql );
 			if ( is_array( $answers ) ) {
@@ -191,7 +191,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 				}
 			}
 
-			// Todo: Move to Element answer class
+			// Todo: Move to own function
 			$sql      = $wpdb->prepare( "SELECT id FROM $wpdb->torro_settings WHERE element_id = %s", $id );
 			$settings_ids = $wpdb->get_col( $sql );
 			if ( is_array( $settings_ids ) ) {
