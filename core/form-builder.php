@@ -269,9 +269,9 @@ class Torro_Formbuilder {
 									}
 
 									torro()->element_answer( $answer[ 'id' ] )->element( $element_id );
-									torro()->element_answer()->label( $answer[ 'answer' ] );
-									torro()->element_answer()->sort( $answer[ 'answer' ] );
-									torro()->element_answer()->section( '' ); // todo: Section have to be set!
+									torro()->element_answer( $answer[ 'id' ] )->label( $answer[ 'answer' ] );
+									torro()->element_answer( $answer[ 'id' ] )->sort( $answer[ 'sort' ] );
+									// torro()->element_answer( $answer[ 'id' ] )->section( '' ); // todo: Section have to be set if there is one
 									$element_answer_id = torro()->element_answer()->save();
 
 									do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_answer_id );
@@ -287,8 +287,8 @@ class Torro_Formbuilder {
 									$setting[ 'id' ] = '';
 								}
 								torro()->element_setting( $setting[ 'id' ] )->element( $element_id );
-								torro()->element_setting()->name( $setting[ 'name' ] );
-								torro()->element_setting()->value( $setting[ 'value' ] );
+								torro()->element_setting( $setting[ 'id' ] )->name( $setting[ 'name' ] );
+								torro()->element_setting( $setting[ 'id' ] )->value( $setting[ 'value' ] );
 								$element_setting_id = torro()->element_setting()->save();
 
 								do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_setting_id );

@@ -52,7 +52,9 @@ final class Torro_Element_Answer_Manager extends Torro_Manager {
 			self::$instance->answer_id = $id;
 		}
 
-		self::$instance->answer = new Torro_Element_Answer( $id );
+		if( ! is_object( self::$instance->answer ) ) {
+			self::$instance->answer = new Torro_Element_Answer( $id );
+		}
 	}
 
 	public function element( $id = null ){
@@ -76,6 +78,14 @@ final class Torro_Element_Answer_Manager extends Torro_Manager {
 			$this->answer->sort = $number;
 		}else{
 			return $this->answer->sort;
+		}
+	}
+
+	public function section( $section = null ){
+		if( null !== $section ) {
+			$this->answer->section = $section;
+		}else{
+			return $this->answer->section;
 		}
 	}
 

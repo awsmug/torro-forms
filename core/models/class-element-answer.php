@@ -31,21 +31,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Element_Answer {
 
-	private $id;
+	private $id = null;
 
-	private $element_id;
+	private $element_id = null;
 
-	private $label;
+	private $label = null;
 
-	private $sort;
+	private $sort = null;
 
-	private $section;
+	private $section = '';
 
-	public function __construct( $id ) {
+	public function __construct( $id = null ) {
 		$this->populate( $id );
 	}
 
-	private function populate( $id ) {
+	private function populate( $id = null ) {
 		global $wpdb;
 
 		if ( ! empty( $id ) ) {

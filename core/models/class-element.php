@@ -184,8 +184,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 			$this->answers = $this->__get_answers();
 			$this->settings = $this->__get_settings();
-
-			p( $this->settings );
 		}
 	}
 
@@ -655,7 +653,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			}
 		}
 
-		$html .= '<a class="add-answer" data-container-id="' . $admin_input_name . '" data-element-id="' . $element_id . '">+ ' . esc_html__( 'Add Answer', 'torro-forms' ) . ' </a>';
+		$html .= '<a class="add-answer" data-container-id="' . $this->container_id . '" data-element-id="' . $this->id . '">+ ' . esc_html__( 'Add Answer', 'torro-forms' ) . ' </a>';
 
 		return $html;
 	}
