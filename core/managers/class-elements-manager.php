@@ -153,6 +153,14 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 		return $this->element;
 	}
 
+	public function get_answers(){
+		return $this->element->get_answers();
+	}
+
+	public function get_settings(){
+		return $this->element->get_settings();
+	}
+
 	public function get_input_name(){
 		return $this->element->get_input_name();
 	}

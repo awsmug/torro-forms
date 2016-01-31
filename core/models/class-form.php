@@ -138,12 +138,15 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
-	 * Getting Containers
+	 * Getting containers
+	 *
+	 * @return array $containters
+	 * @since 1.0.0
 	 */
 	private function __get_containers() {
 		global $wpdb;
 
-		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE form_id=%d", $this->id );
+		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_containers} WHERE form_id=%d", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		if ( 0 === $wpdb->num_rows ) {
@@ -158,10 +161,16 @@ class Torro_Form extends Torro_Post {
 		return $containers;
 	}
 
+	/**
+	 * Getting elements
+	 *
+	 * @return array $elements
+	 * @since 1.0.0
+	 */
 	private function __get_elements() {
 		global $wpdb;
 
-		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
+		$sql     = $wpdb->prepare( "SELECT id,type FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		$elements = array();
@@ -176,6 +185,7 @@ class Torro_Form extends Torro_Post {
 	 * Initializing participants
 	 *
 	 * @return array All participator ID's
+	 * @since 1.0.0
 	 */
 	private function __get_participants() {
 		global $wpdb;
@@ -198,6 +208,7 @@ class Torro_Form extends Torro_Post {
 	/**
 	 * Getting Containers
 	 *
+	 * @return array $containers
 	 * @since 1.0.0
 	 */
 	public function get_containers() {

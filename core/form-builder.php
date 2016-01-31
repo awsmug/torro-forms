@@ -204,8 +204,6 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function save( $form_id ) {
-		global $wpdb;
-
 		if ( ! array_key_exists( 'containers', $_REQUEST ) ) {
 			return;
 		}

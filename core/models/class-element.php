@@ -182,63 +182,85 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$this->sort         = $row->sort;
 			$this->type         = $row->type;
 
-			// Todo: Move to own function
-			$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
-			$answers = $wpdb->get_results( $sql );
-			if ( is_array( $answers ) ) {
-				foreach ( $answers as $answer ) {
-					$this->add_answer( $answer->answer, $answer->sort, $answer->id, $answer->section );
-				}
-			}
+			$this->answers = $this->__get_answers();
+			$this->settings = $this->__get_settings();
 
-			// Todo: Move to own function
-			$sql      = $wpdb->prepare( "SELECT id FROM $wpdb->torro_settings WHERE element_id = %s", $id );
-			$settings_ids = $wpdb->get_col( $sql );
-			if ( is_array( $settings_ids ) ) {
-				foreach ( $settings_ids as $settings_id ) {
-					$torro_setting = new Torro_Element_Setting( $settings_id );
-					$this->add_setting( $torro_setting );
-				}
-			}
+			p( $this->settings );
 		}
 	}
 
 	/**
-	 * Adding answer to object data
+	 * Getting answers
 	 *
-	 * @param string $text    Answer text
-	 * @param int    $sort    Sort number
-	 * @param int    $id      Answer ID from DB
-	 * @param string $section Section of answer
-	 *
-	 * @return boolean $is_added true if answer was added, False if not
+	 * @return array $answers
 	 * @since 1.0.0
 	 */
-	protected function add_answer( $text, $sort = false, $id = null, $section = null ) {
-		if ( '' === $text ) {
-			return false;
+	private function __get_answers(){
+		global $wpdb;
+
+		$answers = array();
+
+		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
 		}
 
-		$this->answers[ $id ] = array(
-			'id'      => $id,
-			'text'    => $text,
-			'sort'    => $sort,
-			'section' => $section,
-		);
+		if ( is_array( $results ) ) {
+			foreach ( $results as $answer ) {
+				$answers[] = new Torro_Element_Answer( $answer->id );
+			}
+		}
 
-		return true;
+		return $answers;
 	}
 
 	/**
-	 * Add setting to object data
+	 * Getting settings
 	 *
-	 * @param string $name  Name of setting
-	 * @param string $value Value of setting
-	 *
+	 * @return array $settings
 	 * @since 1.0.0
 	 */
-	protected function add_setting( $setting ) {
-		$this->settings[ $setting->name ] = $setting;
+	private function __get_settings(){
+		global $wpdb;
+
+		$settings = array();
+
+		$sql      = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_settings} WHERE element_id = %s", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		if ( is_array( $results ) ) {
+			foreach ( $results as $setting ) {
+				$settings[] = new Torro_Element_Setting( $setting->id );
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Getting answers
+	 *
+	 * @return array $answers
+	 * @since 1.0.0
+	 */
+	public function get_answers(){
+		return $this->answers;
+	}
+
+	/**
+	 * Getting settings
+	 *
+	 * @return array $settings
+	 * @since 1.0.0
+	 */
+	public function get_settings(){
+		return $this->settings;
 	}
 
 	/**
@@ -593,19 +615,19 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 			foreach ( $this->answers as $answer ) {
 				if ( null !== $section ) {
-					if ( $answer[ 'section' ] !== $section ) {
+					if ( $answer->section !== $section ) {
 						continue;
 					}
 				}
 
-				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
+				$html .= '<div class="answer" id="answer_' . $answer->id . '">';
 
-				$html .= '<p><input type="text" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][answer]" value="' . esc_attr( $answer[ 'text' ] ) . '" class="element-answer" /></p>';
+				$html .= '<p><input type="text" name="' . $admin_input_name . '[answers][id_' . $answer->id . '][answer]" value="' . esc_attr( $answer->label ) . '" class="element-answer" /></p>';
 				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
 
-				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][id]" value="' . esc_attr( $answer[ 'id' ] ) . '" />';
-				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][sort]" value="' . esc_attr( $answer[ 'sort' ] ) . '" />';
-				$html .= null !== $section ? '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][section]" value="' . esc_attr( $section ) . '" />' : '';
+				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer->id . '][id]" value="' . esc_attr( $answer->id ) . '" />';
+				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer->id . '][sort]" value="' . esc_attr( $answer->sort ) . '" />';
+				$html .= null !== $section ? '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer->id . '][section]" value="' . esc_attr( $section ) . '" />' : '';
 
 				$html .= '</div>';
 			}
@@ -848,10 +870,15 @@ abstract class Torro_Form_Element extends Torro_Base {
 		global $wpdb;
 
 		if ( ! empty( $this->id ) ){
-			if( $this->input_answers && 0 !== count( $this->answers ) ) {
+			if( 0 !== count( $this->answers ) ) {
 				foreach( $this->answers AS $answer ) {
-					$answer = new Torro_Element_Answer( $answer[ 'id' ] );
 					$answer->delete();
+				}
+			}
+
+			if( 0 !== count( $this->settings ) ) {
+				foreach( $this->settings AS $setting ) {
+					$setting->delete();
 				}
 			}
 
