@@ -80,13 +80,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 	private $type;
 
 	/**
-	 * Does this element have a content tab
-	 *
-	 * @since 1.0.0
-	 */
-	private $has_content_tab = true;
-
-	/**
 	 * If value is true, Torro Forms will try to create charts from results
 	 *
 	 * @todo  is_analyzable: Is this a self spelling name?
