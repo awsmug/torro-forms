@@ -104,6 +104,13 @@ abstract class Torro_Form_Element extends Torro_Base {
 	private $has_answers = false;
 
 	/**
+	 * Has element moltiple Answers?
+	 *
+	 * @since 1.0.0
+	 */
+	private $answer_is_multiple = false;
+
+	/**
 	 * Sections for answers
 	 *
 	 * @since 1.0.0
@@ -122,7 +129,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	private $response;
+	private $response = array();
 
 	/**
 	 * Contains Admin tabs
@@ -151,19 +158,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	private $validate_errors = array();
-
-	/**
-	 * Has element moltiple Answers?
-	 *
-	 * @since 1.0.0
-	 */
-	private $answer_is_multiple = false;
-
-	/**
-	 * Admin input field name
-	 * @var
-	 */
-	private $admin_input_name;
 
 	/**
 	 * Initializing.
@@ -200,7 +194,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$this->sort         = $row->sort;
 			$this->type         = $row->type;
 
-			// Todo: Change to Element answer class
+			// Todo: Move to Element answer class
 			$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $id );
 			$answers = $wpdb->get_results( $sql );
 			if ( is_array( $answers ) ) {
@@ -209,7 +203,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 				}
 			}
 
-			// Todo: Change to Element answer class
+			// Todo: Move to Element answer class
 			$sql      = $wpdb->prepare( "SELECT id FROM $wpdb->torro_settings WHERE element_id = %s", $id );
 			$settings_ids = $wpdb->get_col( $sql );
 			if ( is_array( $settings_ids ) ) {
@@ -219,8 +213,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 				}
 			}
 		}
-
-		$this->admin_input_name = $this->get_admin_input_name();
 	}
 
 	/**
@@ -550,10 +542,11 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	protected function admin_widget_content_tab() {
 		$content_html     = $this->admin_content_html();
+		$admin_input_name     = $this->get_admin_input_name();
 
 		if ( false === $content_html ) {
 			// Label
-			$html = '<label for="' . $this->admin_input_name . '[label]">' . __( 'Label ', 'torro-forms' ) . '</label><input type="text" name="' . $this->admin_input_name . '[label]" value="' . $this->label . '" class="form-label" />';
+			$html = '<label for="' . $admin_input_name . '[label]">' . __( 'Label ', 'torro-forms' ) . '</label><input type="text" name="' . $admin_input_name . '[label]" value="' . $this->label . '" class="form-label" />';
 
 			// Answers
 			if ( $this->has_answers ) {
@@ -598,7 +591,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	protected function admin_widget_content_answers( $section = null ) {
 		$element_id        = $this->get_admin_element_id();
-		$this->admin_input_name = $this->get_admin_input_name();
+		$admin_input_name  = $this->get_admin_input_name();
 
 		$html = '';
 
@@ -614,12 +607,12 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 				$html .= '<div class="answer" id="answer_' . $answer[ 'id' ] . '">';
 
-				$html .= '<p><input type="text" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][answer]" value="' . esc_attr( $answer[ 'text' ] ) . '" class="element-answer" /></p>';
+				$html .= '<p><input type="text" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][answer]" value="' . esc_attr( $answer[ 'text' ] ) . '" class="element-answer" /></p>';
 				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
 
-				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][id]" value="' . esc_attr( $answer[ 'id' ] ) . '" />';
-				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][sort]" value="' . esc_attr( $answer[ 'sort' ] ) . '" />';
-				$html .= null !== $section ? '<input type="hidden" name="' . $this->admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][section]" value="' . esc_attr( $section ) . '" />' : '';
+				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][id]" value="' . esc_attr( $answer[ 'id' ] ) . '" />';
+				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][sort]" value="' . esc_attr( $answer[ 'sort' ] ) . '" />';
+				$html .= null !== $section ? '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer[ 'id' ] . '][section]" value="' . esc_attr( $section ) . '" />' : '';
 
 				$html .= '</div>';
 			}
@@ -633,13 +626,13 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
-				$html .= '<p><input type="text" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
+				$html .= '<p><input type="text" name="' . $admin_input_name . '[answers][' . $temp_answer_id . '][answer]" value="" class="element-answer" /></p>';
 				$html .= ' <input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
-				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][id]" value="" />';
-				$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][sort]" value="0" />';
+				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][' . $temp_answer_id . '][id]" value="" />';
+				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][' . $temp_answer_id . '][sort]" value="0" />';
 
 				if ( null !== $section ) {
-					$html .= '<input type="hidden" name="' . $this->admin_input_name . '[answers][' . $temp_answer_id . '][section]" value="' . esc_attr( $section ) . '" />';
+					$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][' . $temp_answer_id . '][section]" value="' . esc_attr( $section ) . '" />';
 				}
 
 				$html .= '</div>';
@@ -647,7 +640,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			}
 		}
 
-		$html .= '<a class="add-answer" data-container-id="' . $this->get_admin_cotainer_id() . '" data-element-id="' . $element_id . '">+ ' . esc_html__( 'Add Answer', 'torro-forms' ) . ' </a>';
+		$html .= '<a class="add-answer" data-container-id="' . $admin_input_name . '" data-element-id="' . $element_id . '">+ ' . esc_html__( 'Add Answer', 'torro-forms' ) . ' </a>';
 
 		return $html;
 	}
@@ -696,7 +689,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$value = $field[ 'default' ];
 		}
 
-		$base_name = $this->admin_input_name . '[settings][' . $id . ']';
+		$base_name = $this->get_admin_input_name() . '[settings][' . $id . ']';
 		$input_name = $base_name . '[value]';
 
 		$input = '';
@@ -769,13 +762,14 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	protected function admin_widget_hidden_fields() {
-		// Adding hidden Values for element
-		$html = '<input type="hidden" name="' . $this->admin_input_name . '[id]" value="' . $this->id . '" />';
-		$html .= '<input type="hidden" name=' . $this->admin_input_name . '[container_id]" value="' . $this->container_id . '" />';
-		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[sort]" value="' . $this->sort . '" />';
-		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[type]" value="' . $this->name . '" />';
-		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
-		$html .= '<input type="hidden" name="' . $this->admin_input_name . '[sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ? 'yes' : 'no' ) . '" />';
+		$admin_input_name = $this->get_admin_input_name();
+
+		$html = '<input type="hidden" name="' . $admin_input_name . '[id]" value="' . $this->id . '" />';
+		$html .= '<input type="hidden" name=' . $admin_input_name . '[container_id]" value="' . $this->container_id . '" />';
+		$html .= '<input type="hidden" name="' . $admin_input_name . '[sort]" value="' . $this->sort . '" />';
+		$html .= '<input type="hidden" name="' . $admin_input_name . '[type]" value="' . $this->name . '" />';
+		$html .= '<input type="hidden" name="' . $admin_input_name . '[has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
+		$html .= '<input type="hidden" name="' . $admin_input_name . '[sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ? 'yes' : 'no' ) . '" />';
 
 		return $html;
 	}
