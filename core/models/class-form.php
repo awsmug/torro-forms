@@ -355,7 +355,7 @@ class Torro_Form extends Torro_Post {
 					'form_id' => $new_form_id,
 					'label'   => $element->label,
 					'sort'    => $element->sort,
-					'type'    => $element->name
+					'type'    => $element->type
 				), array(
 					               '%d',
 					               '%s',

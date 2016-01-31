@@ -422,9 +422,9 @@ abstract class Torro_Form_Element extends Torro_Base {
 		 * Widget
 		 */
 		if ( null === $this->id ) {
-			$html = '<div data-element-id="' . $element_id . '" data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
+			$html = '<div data-element-id="' . $element_id . '" data-element-type="' . $this->type . '" class="formelement formelement-' . $this->type . '">';
 		} else {
-			$html = '<div data-element-id="' . $element_id . '" id="' . $element_id . '" data-element-type="' . $this->name . '" class="widget formelement formelement-' . $this->name . '">';
+			$html = '<div data-element-id="' . $element_id . '" id="' . $element_id . '" data-element-type="' . $this->type . '" class="widget formelement formelement-' . $this->type . '">';
 		}
 
 		/**
@@ -767,7 +767,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		$html = '<input type="hidden" name="' . $admin_input_name . '[id]" value="' . $this->id . '" />';
 		$html .= '<input type="hidden" name=' . $admin_input_name . '[container_id]" value="' . $this->container_id . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sort]" value="' . $this->sort . '" />';
-		$html .= '<input type="hidden" name="' . $admin_input_name . '[type]" value="' . $this->name . '" />';
+		$html .= '<input type="hidden" name="' . $admin_input_name . '[type]" value="' . $this->type . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ? 'yes' : 'no' ) . '" />';
 
@@ -818,7 +818,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 					'container_id' => $this->container_id,
 					'label' => $this->label,
 					'sort' => $this->sort,
-					'type' => $this->name
+					'type' => $this->type
 				),
 				array(
 					'id' => $this->id
@@ -833,7 +833,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 					'container_id' => $this->container_id,
 					'label' => $this->label,
 					'sort' => $this->sort,
-					'type' => $this->name
+					'type' => $this->type
 				)
 			);
 

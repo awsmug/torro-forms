@@ -52,7 +52,7 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 	}
 
 	protected function init() {
-		$this->name = 'content';
+		$this->type = 'content';
 		$this->title = __( 'Content', 'torro-forms' );
 		$this->description = __( 'Adds own content to the form.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-text', 'png' );
