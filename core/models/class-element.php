@@ -296,7 +296,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	/**
 	 * Settings fields - dummy function
 	 */
-	public function settings_fields() {
+	protected function settings_fields() {
 	}
 
 	/**
@@ -392,6 +392,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * Contains element HTML on frontend - Have to be overwritten by child classes
 	 *
 	 * @return string $html Element frontend HTML
+	 * @since 1.0.0
 	 */
 	public function input_html() {
 		return '<p>' . esc_html__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
@@ -513,8 +514,8 @@ abstract class Torro_Form_Element extends Torro_Base {
 	/**
 	 * Adds Tab for Element
 	 *
-	 * @param $title
-	 * @param $content
+	 * @param string $title
+	 * @param string $content
 	 */
 	public function add_admin_tab( $title, $content ) {
 		$this->admin_tabs[] = array(
@@ -526,6 +527,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	/**
 	 * Content of the content tab
 	 *
+	 * @return string $html
 	 * @since 1.0.0
 	 */
 	protected function admin_widget_content_tab() {
@@ -563,7 +565,10 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
-	 * Overwriting Admin Content HTML for totally free editing Element
+	 * Overwriting Admin Content HTML
+	 *
+	 * @return bool|string
+	 * @since 1.0.0
 	 */
 	public function admin_content_html() {
 		return false;
@@ -786,6 +791,8 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * Function for adding own columns to result
 	 *
 	 * @param obj $result_object
+	 * @return boolean|object
+	 * @since 1.0.0
 	 */
 	public function add_result_columns( &$result_object ) {
 		return false;
@@ -793,7 +800,9 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 	/**
 	 * Saving Element
+	 *
 	 * @return false|int
+	 * @since 1.0.0
 	 */
 	public function save(){
 		global $wpdb;
@@ -829,6 +838,12 @@ abstract class Torro_Form_Element extends Torro_Base {
 		}
 	}
 
+	/**
+	 * Delete element
+	 *
+	 * @return bool|false|int
+	 * @since 1.0.0
+	 */
 	public function delete(){
 		global $wpdb;
 
@@ -850,11 +865,19 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * Replacing column name by element
 	 *
 	 * @param str $column_name
+	 * @since 1.0.0
 	 */
 	public function replace_column_name( $column_name ) {
 		return false;
 	}
 
+	/**
+	 * Magic getter function
+	 *
+	 * @param $key
+	 * @return null
+	 * @since 1.0.0
+	 */
 	public function __get( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return $this->$key;
@@ -863,6 +886,14 @@ abstract class Torro_Form_Element extends Torro_Base {
 		return null;
 	}
 
+	/**
+	 * Magic getter function
+	 *
+	 * @param $key
+	 * @param $value
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'id':
@@ -881,6 +912,13 @@ abstract class Torro_Form_Element extends Torro_Base {
 		}
 	}
 
+	/**
+	 * Magic setter function
+	 *
+	 * @param $key
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function __isset( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return true;
