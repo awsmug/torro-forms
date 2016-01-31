@@ -97,7 +97,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 				$element = torro()->elements()->get_registered( $element_id );
 
 				// Skip collecting Data if there is no analyzable Data
-				if ( ! $element->has_answers ) {
+				if ( ! $element->input_answers ) {
 					continue;
 				}
 
@@ -185,12 +185,12 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 			// Collecting Data from all Resultsets
 			foreach ( $results as $result ) {
 				// Skip collecting Data if there is no analyzable Data
-				if ( ! $element->is_analyzable ) {
+				if ( ! $element->input_answers ) {
 					continue;
 				}
 
 				// Counting different kind of Elements
-				if ( $element->answer_is_multiple ) {
+				if ( $element->answer_array ) {
 					$answer_id = (int) $column_name_arr[ 2 ];
 
 					$value = $element->replace_column_name( $column_name );

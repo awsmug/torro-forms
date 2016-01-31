@@ -30,13 +30,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Torro_Form_Element extends Torro_Base {
 	/**
-	 * Icon URl of the Element
-	 *
-	 * @since 1.0.0
-	 */
-	protected $icon_url;
-
-	/**
 	 * ID of instanced element
 	 *
 	 * @since 1.0.0
@@ -48,116 +41,112 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	private $form_id;
+	private $form_id = null;
 
 	/**
 	 * Contains the Container ID of the Element
 	 *
 	 * @since 1.0.0
 	 */
-	private $container_id = null;
-
-	/**
-	 * Element Label
-	 *
-	 * @since 1.0.0
-	 */
-	private $label;
-
-	/**
-	 * Sort number where to display the Element
-	 *
-	 * @since 1.0.0
-	 */
-	private $sort = 0;
-
+	protected $container_id = null;
 
 	/**
 	 * Element type
 	 *
 	 * @since 1.0.0
 	 */
-	private $type;
+	protected $type = null;
 
 	/**
-	 * If value is true, Torro Forms will try to create charts from results
-	 *
-	 * @todo  is_analyzable: Is this a self spelling name?
-	 * @since 1.0.0
-	 */
-	private $is_analyzable = false;
-
-	/**
-	 * Determines if an element can be answered
-	 *
-	 * @todo  is_answerable: Is this a self spelling name?
-	 * @since 1.0.0
-	 */
-	private $is_answerable = true;
-
-	/**
-	 * Does this elements has own answers? For example on multiple choice or one choice has answers.
-	 *
-	 * @todo  has_answers: Is this a self spelling name?
-	 * @since 1.0.0
-	 */
-	private $has_answers = false;
-
-	/**
-	 * Has element moltiple Answers?
+	 * Determines if element has an HTML input tag
 	 *
 	 * @since 1.0.0
 	 */
-	private $answer_is_multiple = false;
+	protected $input = true;
+
+	/**
+	 * Determines if input has answers (e.g. radiobuttons or checkboxes)
+	 *
+	 * @since 1.0.0
+	 */
+	protected $input_answers = false;
+
+	/**
+	 * Determines if answer is an array
+	 *
+	 * @since 1.0.0
+	 */
+	protected $answer_array = false;
+
+	/**
+	 * Icon URl of the Element
+	 *
+	 * @since 1.0.0
+	 */
+	protected $icon_url = null;
+
+	/**
+	 * Element Label
+	 *
+	 * @since 1.0.0
+	 */
+	protected $label = null;
+
+	/**
+	 * Sort number where to display the Element
+	 *
+	 * @since 1.0.0
+	 */
+	protected $sort = 0;
 
 	/**
 	 * Sections for answers
 	 *
 	 * @since 1.0.0
 	 */
-	private $sections = array();
+	protected $sections = array();
 
 	/**
 	 * Element answers
 	 *
 	 * @since 1.0.0
 	 */
-	private $answers = array();
+	protected $answers = array();
 
 	/**
 	 * Contains users response of an Element
 	 *
 	 * @since 1.0.0
 	 */
-	private $response = array();
+	protected $response = array();
 
 	/**
 	 * Contains Admin tabs
 	 *
 	 * @since 1.0.0
 	 */
-	private $admin_tabs = array();
+	protected $admin_tabs = array();
 
 	/**
 	 * The settings fields
 	 *
 	 * @since 1.0.0
 	 */
-	private $settings_fields = array();
+	protected $settings_fields = array();
 
 	/**
 	 * Contains all settings of the element
 	 *
 	 * @since 1.0.0
 	 */
-	private $settings = array();
+	protected $settings = array();
 
 	/**
 	 * Contains element validation errors
 	 *
 	 * @since 1.0.0
 	 */
-	private $validate_errors = array();
+	protected $validate_errors = array();
 
 	/**
 	 * Initializing.
@@ -168,7 +157,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 		parent::__construct();
 
 		$this->populate( $id );
-
 		$this->settings_fields();
 	}
 
@@ -360,7 +348,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 		$this->get_response();
 
-		if ( 0 === count( $this->answers ) && true === $this->has_answers ) {
+		if ( 0 === count( $this->answers ) && true === $this->input_answers ) {
 			$html .= '<p>' . esc_html__( 'You did not enter any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
 		} else {
 			$html .= $this->input_html();
@@ -549,7 +537,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$html = '<label for="' . $admin_input_name . '[label]">' . __( 'Label ', 'torro-forms' ) . '</label><input type="text" name="' . $admin_input_name . '[label]" value="' . $this->label . '" class="form-label" />';
 
 			// Answers
-			if ( $this->has_answers ) {
+			if ( $this->input_answers ) {
 				// Answers have sections
 				if ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ) {
 					foreach ( $this->sections as $section_key => $section_name ) {
@@ -620,7 +608,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$html .= '</div>';
 			$html .= '<div class="clear"></div>';
 		} else {
-			if ( $this->has_answers ) {
+			if ( $this->input_answers ) {
 				$param_arr[]    = $this->create_answer_syntax;
 				$temp_answer_id = 'temp_id_' . time() * rand();
 
@@ -768,7 +756,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		$html .= '<input type="hidden" name=' . $admin_input_name . '[container_id]" value="' . $this->container_id . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sort]" value="' . $this->sort . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[type]" value="' . $this->type . '" />';
-		$html .= '<input type="hidden" name="' . $admin_input_name . '[has_answers]" value="' . ( $this->has_answers ? 'yes' : 'no' ) . '" />';
+		$html .= '<input type="hidden" name="' . $admin_input_name . '[has_answers]" value="' . ( $this->input_answers ? 'yes' : 'no' ) . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ? 'yes' : 'no' ) . '" />';
 
 		return $html;
@@ -845,7 +833,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		global $wpdb;
 
 		if ( ! empty( $this->id ) ){
-			if( $this->has_answers && 0 !== count( $this->answers ) ) {
+			if( $this->input_answers && 0 !== count( $this->answers ) ) {
 				foreach( $this->answers AS $answer ) {
 					$answer = new Torro_Element_Answer( $answer[ 'id' ] );
 					$answer->delete();

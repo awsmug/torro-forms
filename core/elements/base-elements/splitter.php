@@ -58,7 +58,7 @@ final class Torro_Form_Element_Splitter extends Torro_Form_Element {
 		$this->icon_url = torro()->get_asset_url( 'icon-split-form', 'png' );
 
 		$this->splits_form = true;
-		$this->is_answerable = false;
+		$this->input = false;
 	}
 }
 

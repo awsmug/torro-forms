@@ -85,7 +85,7 @@ class Torro_ChartsShortCodes {
 			$element = torro()->elements()->get_registered( $element_id );
 
 			// Skip collecting Data if there is no analyzable Data
-			if ( ! $element->has_answers ) {
+			if ( ! $element->input_answers ) {
 				continue;
 			}
 
@@ -170,7 +170,7 @@ class Torro_ChartsShortCodes {
 	 * @return string $html HTML for shortcode summary in admin
 	 */
 	public static function show_element_result_shortcode( $object ) {
-		if ( ! empty( $object->id ) && $object->is_analyzable ) {
+		if ( ! empty( $object->id ) && $object->input_answers ) {
 			echo torro_clipboard_field( __( 'Element Charts Shortcode', 'torro-forms' ), '[element_chart id=' .  $object->id . ']' );
 		}
 	}

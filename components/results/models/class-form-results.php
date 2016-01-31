@@ -301,7 +301,7 @@ class Torro_Form_Results {
 				continue;
 			}
 
-			if ( ! $element_obj->is_answerable ) {
+			if ( ! $element_obj->input ) {
 				continue;
 			}
 
@@ -311,7 +311,7 @@ class Torro_Form_Results {
 
 			$column_name = 'element_' . $element->id;
 
-			if ( ! $element_obj->answer_is_multiple && 0 === count( $element_obj->sections ) ) {
+			if ( ! $element_obj->answer_array && 0 === count( $element_obj->sections ) ) {
 				if ( ! empty( $column_name ) ) {
 					// Preventing double assigned Column title
 					if ( array_key_exists( $column_name, $column_titles_assigned ) ) {
