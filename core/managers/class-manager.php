@@ -97,6 +97,8 @@ abstract class Torro_Manager {
 			$this->after_instance_added( $class );
 		}
 
+		$class->initialized = true;
+
 		$this->modules[ $module_category ][ $class_name ] = $class;
 
 		return true;

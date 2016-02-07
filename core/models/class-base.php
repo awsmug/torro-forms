@@ -53,6 +53,13 @@ abstract class Torro_Base {
 	protected $description;
 
 	/**
+	 * Whether this base has been initialized
+	 *
+	 * @since 1.0.0
+	 */
+	protected $initialized = false;
+
+	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
@@ -66,6 +73,15 @@ abstract class Torro_Base {
 			case 'name':
 			case 'title':
 			case 'description':
+				if ( ! $this->initialized ) {
+					$this->$key = $value;
+				}
+				break;
+			case 'initialized':
+				if ( ! $this->initialized ) {
+					$this->initialized = $value;
+				}
+				break;
 			default:
 				if ( property_exists( $this, $key ) ) {
 					$this->$key = $value;
