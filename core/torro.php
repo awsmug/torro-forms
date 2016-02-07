@@ -266,16 +266,6 @@ final class Torro {
 	}
 
 	/**
-	 * Returns CSS Url
-	 *
-	 * @param string $name
-	 * @return string
-	 */
-	public function get_css_url( $name = '' ) {
-		return $this->get_url( 'assets/css/' . $name . '.css' );
-	}
-
-	/**
 	 * Logging function
 	 *
 	 * @param $message
