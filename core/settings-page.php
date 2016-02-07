@@ -89,6 +89,7 @@ class Torro_Settings_Page {
 		$html .= '<input type="hidden" id="torro_save_settings" name="torro_save_settings" value="' . wp_create_nonce( '_torro_save_settings_nonce' ) . '" />';
 
 		$all_settings = torro()->settings()->get_all_registered();
+
 		if ( 0 < count( $all_settings ) ) {
 			/**
 			 * Tabs
@@ -233,6 +234,7 @@ class Torro_Settings_Page {
 		}
 
 		$all_settings = torro()->settings()->get_all_registered();
+
 		if ( 0 < count( $all_settings ) ) {
 			/**
 			 * Tabs

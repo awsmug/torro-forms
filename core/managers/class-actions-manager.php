@@ -48,11 +48,6 @@ final class Torro_Actions_Manager extends Torro_Manager {
 		return $allowed;
 	}
 
-	protected function after_instance_added( $instance ) {
-		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-		return $instance;
-	}
-
 	public function register( $class_name ){
 		return $this->register_module( 'actions', $class_name );
 	}

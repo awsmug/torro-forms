@@ -33,19 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Torro_Extension extends Torro_Base {
 
 	/**
-	 * Settings fields
+	 * Settings name
 	 *
 	 * @since 1.0.0
 	 */
-	protected $settings_fields = array();
-
-	/**
-	 * Settings
-	 *
-	 * @since 1.0.0
-	 */
-	protected $settings;
-
+	protected $settings_name = 'extensions';
 
 	/**
 	 * Item name for EDD
@@ -132,31 +124,5 @@ abstract class Torro_Extension extends Torro_Base {
 				// author of this plugin
 			) );
 		}
-	}
-
-	/**
-	 * Add Settings to Settings Page
-	 */
-	public function init_settings() {
-		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
-			return false;
-		}
-
-		$headline = array(
-			'headline' => array(
-				'title'       => $this->title,
-				'description' => sprintf( __( 'Setup the "%s" Extension.', 'torro-forms' ), $this->title ),
-				'type'        => 'title'
-			)
-		);
-
-		$settings_fields = array_merge( $headline, $this->settings_fields );
-
-		torro()->settings()->get_registered( 'extensions' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
-
-		$settings_name = 'extensions_' . $this->name;
-
-		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
-		$this->settings   = $settings_handler->get_field_values();
 	}
 }

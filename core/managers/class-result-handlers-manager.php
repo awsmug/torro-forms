@@ -43,15 +43,10 @@ final class Torro_Result_Handlers_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'resulthandlers' => 'Torro_Result_Handler'
+			'resulthandlers' => 'Torro_Result_Handler',
+			'resultcharts' => 'Torro_Result_Charts'
 		);
 		return $allowed;
-	}
-
-	protected function after_instance_added( $instance ) {
-		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-
-		return $instance;
 	}
 
 	public function register( $class_name ){
