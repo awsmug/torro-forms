@@ -41,15 +41,15 @@ final class Torro_Extensions_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
+	protected function __construct() {
+		parent::__construct();
+	}
+
 	protected function allowed_modules(){
 		$allowed = array(
 			'extensions' => 'Torro_Extension'
 		);
 		return $allowed;
-	}
-
-	protected function init() {
-		$this->base_class = 'Torro_Extension';
 	}
 
 	protected function after_instance_added( $instance ) {
@@ -60,15 +60,7 @@ final class Torro_Extensions_Manager extends Torro_Manager {
 		return $instance;
 	}
 
-	public function register( $class_name ){
-		return $this->register_module( 'extensions', $class_name );
-	}
-
-	public function get_registered( $name ){
-		return $this->get_module( 'extensions', $name );
-	}
-
-	public function get_all_registered(){
-		return $this->get_all_modules( 'extensions' );
+	protected function get_category() {
+		return 'extensions';
 	}
 }

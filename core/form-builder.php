@@ -73,7 +73,7 @@ class Torro_Formbuilder {
 		do_action( 'torro_formbuilder_dragdrop_start', $form_id );
 		$html .= ob_get_clean();
 
-		$containers = torro()->forms( $form_id )->get_containers();
+		$containers = torro()->forms()->get( $form_id )->get_containers();
 
 		if ( 0 !== count( $containers ) ) {
 
@@ -86,13 +86,13 @@ class Torro_Formbuilder {
 			$html .= '</ul>';
 
 			foreach ( $containers AS $container ) {
-				$elements = torro()->containers( $container->id )->get_elements();
+				$elements = torro()->containers()->get( $container->id )->get_elements();
 
 				$html .= '<div id="torro-container-' . $container->id . '" class="torro-container">';
 				$html .= '<div class="torro-drag-drop-inside">';
 				foreach ( $elements AS $element ) {
 					$html .= $element->get_admin_html();
-					torro()->templatetags()->add_form_tag( $element->id, $element->label );
+					torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
 				}
 				$html .= '</div>';
 				$html .= '</div>';
@@ -235,10 +235,22 @@ class Torro_Formbuilder {
 					$container[ 'id' ] = '';
 				}
 
-				torro()->containers( $container[ 'id' ] )->form( $form_id );
-				torro()->containers( $container[ 'id' ] )->label( $container[ 'label' ] );
-				torro()->containers( $container[ 'id' ] )->sort( $container[ 'sort' ] );
-				$container_id = torro()->containers( $container[ 'id' ] )->save();
+				$container_obj = torro()->containers()->get( $container['id'] );
+				if ( is_wp_error( $container_obj ) ) {
+					$container_obj = torro()->containers()->create_raw();
+				}
+
+				$container_obj->form_id = $form_id;
+				$container_obj->label = $container['label'];
+				$container_obj->sort = $container['sort'];
+
+				$container_obj = torro()->containers()->update( $container_obj );
+				if ( is_wp_error( $container_obj ) ) {
+					//TODO: handle error here
+					continue;
+				}
+
+				$container_id = $container_obj->id;
 
 				do_action( 'torro_formbuilder_container_save', $form_id, $container_id );
 
@@ -250,12 +262,24 @@ class Torro_Formbuilder {
 							$element[ 'id' ] = '';
 						}
 
-						torro()->elements( $element[ 'id' ] )->form( $form_id );
-						torro()->elements( $element[ 'id' ] )->container( $container_id );
-						torro()->elements( $element[ 'id' ] )->label( $element[ 'label' ] );
-						torro()->elements( $element[ 'id' ] )->sort( $element[ 'sort' ] );
-						torro()->elements( $element[ 'id' ] )->type( $element[ 'type' ] );
-						$element_id = torro()->elements()->save();
+						$element_obj = torro()->elements()->get( $element['id'] );
+						if ( is_wp_error( $element_obj ) ) {
+							$element_obj = torro()->elements()->create_raw( $element['type'] );
+						}
+
+						$element_obj->form_id = $form_id;
+						$element_obj->container_id = $container_id;
+						$element_obj->label = $element['label'];
+						$element_obj->sort = $element['sort'];
+						$element_obj->type = $element['type'];
+
+						$element_obj = torro()->elements()->update( $element_obj );
+						if ( is_wp_error( $element_obj ) ) {
+							//TODO: handle error here
+							continue;
+						}
+
+						$element_id = $element_obj->id;
 
 						do_action( 'torro_formbuilder_element_save', $form_id, $element_id );
 
@@ -268,11 +292,23 @@ class Torro_Formbuilder {
 										$answer[ 'id' ] = '';
 									}
 
-									torro()->element_answer( $answer[ 'id' ] )->element( $element_id );
-									torro()->element_answer( $answer[ 'id' ] )->label( $answer[ 'answer' ] );
-									torro()->element_answer( $answer[ 'id' ] )->sort( $answer[ 'sort' ] );
-									// torro()->element_answer( $answer[ 'id' ] )->section( '' ); // todo: Section have to be set if there is one
-									$element_answer_id = torro()->element_answer()->save();
+									$element_answer = torro()->element_answers()->get( $answer['id'] );
+									if ( is_wp_error( $element_answer ) ) {
+										$element_answer = torro()->element_answers()->create_raw();
+									}
+
+									$element_answer->element_id = $element_id;
+									$element_answer->label = $answer['answer'];
+									$element_answer->sort = $answer['sort'];
+									// $element_answer->section = ''; // todo: Section have to be set if there is one
+
+									$element_answer = torro()->element_answers()->update( $element_answer );
+									if ( is_wp_error( $element_answer ) ) {
+										//TODO: handle error here
+										continue;
+									}
+
+									$element_answer_id = $element_answer->id;
 
 									do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_answer_id );
 								}
@@ -286,10 +322,23 @@ class Torro_Formbuilder {
 								if( 'temp_id' === substr( $setting[ 'id' ], 0, 7 )  ){
 									$setting[ 'id' ] = '';
 								}
-								torro()->element_setting( $setting[ 'id' ] )->element( $element_id );
-								torro()->element_setting( $setting[ 'id' ] )->name( $setting[ 'name' ] );
-								torro()->element_setting( $setting[ 'id' ] )->value( $setting[ 'value' ] );
-								$element_setting_id = torro()->element_setting()->save();
+
+								$element_setting = torro()->element_settings()->get( $setting['id'] );
+								if ( is_wp_error( $element_setting ) ) {
+									$element_setting = torro()->element_settings()->create_raw();
+								}
+
+								$element_setting->element_id = $element_id;
+								$element_setting->name = $setting['name'];
+								$element_setting->value = $setting['value'];
+
+								$element_setting = torro()->element_settings()->update( $element_setting );
+								if ( is_wp_error( $element_setting ) ) {
+									//TODO: handle error here
+									continue;
+								}
+
+								$element_setting_id = $element_setting->id;
 
 								do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_setting_id );
 							}

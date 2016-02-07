@@ -41,22 +41,18 @@ final class Torro_Components_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function allowed_modules(){
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	protected function allowed_modules() {
 		$allowed = array(
 			'components' => 'Torro_Component'
 		);
 		return $allowed;
 	}
 
-	public function register( $class_name ){
-		return $this->register_module( 'components', $class_name );
-	}
-
-	public function get_registered( $name ){
-		return $this->get_module( 'components', $name );
-	}
-
-	public function get_all_registered(){
-		return $this->get_all_modules( 'components' );
+	protected function get_category() {
+		return 'components';
 	}
 }

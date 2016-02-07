@@ -31,22 +31,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Torro_Manager {
-
-	protected $instances = array();
-
 	protected $modules = array();
-
-	protected $module_categories = array();
 
 	protected function __construct() {}
 
-	protected function after_instance_added( $instance ){}
-
-	protected function register_module( $module_category, $class_name ) {
-		if ( isset( $this->modules[ $module_category ][ $class_name ] ) ) {
-			return new Torro_Error( 'torro_instance_already_exist', sprintf( __( 'The instance of class %s already exists.', 'torro-forms' ), $class_name ), __METHOD__ );
-		}
-
+	public function register( $class_name ) {
 		if ( ! class_exists( $class_name ) ) {
 			return new Torro_Error( 'torro_class_not_exist', sprintf( __( 'The class %s does not exist.', 'torro-forms' ), $class_name ), __METHOD__ );
 		}
@@ -54,11 +43,13 @@ abstract class Torro_Manager {
 		if( method_exists( $this, 'allowed_modules' ) ){
 			$allowed_modules = $this->allowed_modules();
 
-			if( ! array_key_exists( $module_category, $allowed_modules ) ){
-				return new Torro_Error( 'torro_module_category_not_exist', sprintf( __( 'The module category %s does not exist.', 'torro-forms' ), $module_category ), __METHOD__ );
+			if( ! array_key_exists( $this->get_category(), $allowed_modules ) ){
+				return new Torro_Error( 'torro_module_category_not_exist', sprintf( __( 'The module category %s does not exist.', 'torro-forms' ), $this->get_category() ), __METHOD__ );
 			}
 
-			if( ! in_array( get_parent_class( $class_name ), $allowed_modules ) ){
+			$base_class_name = $allowed_modules[ $this->get_category() ];
+
+			if( ! is_subclass_of( $class_name, $base_class_name ) ){
 				return new Torro_Error( 'torro_module_class_not_allowed', sprintf( __( 'The module class %s is not allowed for this module category.', 'torro-forms' ), $class_name ), __METHOD__ );
 			}
 		}
@@ -75,6 +66,10 @@ abstract class Torro_Manager {
 
 		if ( empty( $class->description ) ) {
 			$class->description = sprintf( __( 'This is a %s module.', 'torro-forms' ), ucwords( $class_name, '_' ) );
+		}
+
+		if ( isset( $this->modules[ $this->get_category() ][ $class->name ] ) ) {
+			return new Torro_Error( 'torro_module_already_exist', sprintf( __( 'The module %s already exists.', 'torro-forms' ), $class_name ), __METHOD__ );
 		}
 
 		if ( method_exists( $class, 'admin_styles' ) ) {
@@ -99,23 +94,27 @@ abstract class Torro_Manager {
 
 		$class->initialized = true;
 
-		$this->modules[ $module_category ][ $class->name ] = $class;
+		$this->modules[ $this->get_category() ][ $class->name ] = $class;
 
 		return true;
 	}
 
-	protected function get_module( $module_category, $name ) {
-		if ( ! isset( $this->modules[ $module_category ][ $name ] ) ) {
+	public function get_registered( $name ) {
+		if ( ! isset( $this->modules[ $this->get_category() ][ $name ] ) ) {
 			return new Torro_Error( 'torro_module_not_exist', sprintf( __( 'The module %s does not exist.', 'torro-forms' ), $name ), __METHOD__ );
 		}
 
-		return $this->modules[ $module_category ][ $name ];
+		return $this->modules[ $this->get_category() ][ $name ];
 	}
 
-	protected function get_all_modules( $module_category ) {
-		if( ! isset( $this->modules[ $module_category ]  ) ){
-			return new Torro_Error( 'torro_module_category_not_exist', sprintf( __( 'The module category %s does not exist.', 'torro-forms' ), $module_category ), __METHOD__ );
+	public function get_all_registered() {
+		if( ! isset( $this->modules[ $this->get_category() ]  ) ){
+			return new Torro_Error( 'torro_module_category_not_exist', sprintf( __( 'The module category %s does not exist.', 'torro-forms' ), $this->get_category() ), __METHOD__ );
 		}
-		return $this->modules[ $module_category ];
+		return $this->modules[ $this->get_category() ];
 	}
+
+	protected function after_instance_added( $instance ){}
+
+	protected abstract function get_category();
 }

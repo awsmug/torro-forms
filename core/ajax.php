@@ -243,7 +243,7 @@ final class Torro_AJAX {
 		if ( 0 === $count ) {
 			$torro_skip_fingerrint_check = true;
 
-			$content .= torro()->forms( $torro_form_id )->html( $data['form_action_url'] );
+			$content .= torro()->forms()->get( $torro_form_id )->html( $data['form_action_url'] );
 
 		} else {
 			$content .= '<div class="form-message error">' . esc_html__( 'You have already entered your data.', 'torro-forms' ) . '</div>';
@@ -309,7 +309,7 @@ final class Torro_AJAX {
 			$user_ids_new = '';
 			if ( is_array( $user_ids ) && 0 < count( $user_ids ) ) {
 				foreach ( $user_ids as $user_id ) {
-					if ( ! torro()->forms( $form_id )->has_participated( $user_id ) ) {
+					if ( ! torro()->forms()->get( $form_id )->has_participated( $user_id ) ) {
 						$user_ids_new[] = $user_id;
 					}
 				}

@@ -336,7 +336,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	public function get_html() {
-		$response_errors = torro()->forms()->get_response_errors();
+		$response_errors = torro()->forms()->get_current()->get_response_errors();
 
 		$errors = '';
 		if ( is_array( $response_errors ) && array_key_exists( $this->id, $response_errors ) ) {

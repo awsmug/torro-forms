@@ -213,7 +213,7 @@ class Torro_Form_Controller {
 
 		// Saving
 		if ( $this->save_response ) {
-			$result_id = torro()->forms( $this->form_id )->save_response( $merged_response );
+			$result_id = torro()->forms()->get( $this->form_id )->save_response( $merged_response );
 
 			// After successfull saving
 			if ( $result_id ) {
@@ -290,9 +290,9 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	public function set_form_id( $form_id ) {
-		if ( torro()->forms( $form_id )->exists() ) {
+		if ( torro()->forms()->get( $form_id )->exists() ) {
 			$this->form_id = $form_id;
-			$this->form    = torro()->forms( $this->form_id );
+			$this->form    = torro()->forms()->get( $this->form_id );
 
 			return true;
 		}
@@ -400,7 +400,7 @@ class Torro_Form_Controller {
 			$html .= '<form class="torro-form" action="' . $this->form_action_url . '" method="POST" novalidate>';
 			$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->form_id ) . '" />';
 
-			$step_count = torro()->forms( $this->form_id )->get_step_count();
+			$step_count = torro()->forms()->get( $this->form_id )->get_step_count();
 
 			// Switch on navigation if there is more than one page
 			if ( 0 !== $step_count ) {
@@ -408,7 +408,7 @@ class Torro_Form_Controller {
 			}
 
 			// Getting all elements of step and running them
-			$elements  = torro()->forms( $this->form_id )->get_step_elements( $this->actual_step );
+			$elements  = torro()->forms()->get( $this->form_id )->get_step_elements( $this->actual_step );
 			$next_step = $this->actual_step;
 
 			ob_start();
@@ -455,7 +455,7 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function validate( $response, $step ) {
-		$elements = torro()->forms( $this->form_id )->get_step_elements( $step );
+		$elements = torro()->forms()->get( $this->form_id )->get_step_elements( $step );
 
 		if ( ! is_array( $elements ) || 0 === count( $elements ) ) {
 			return;

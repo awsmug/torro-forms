@@ -41,6 +41,10 @@ final class Torro_TemplateTags_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
+	protected function __construct() {
+		parent::__construct();
+	}
+
 	protected function allowed_modules(){
 		$allowed = array(
 			'templatetags' => 'Torro_Templatetags'
@@ -53,25 +57,7 @@ final class Torro_TemplateTags_Manager extends Torro_Manager {
 		return $instance;
 	}
 
-	public function add_form_tag( $element_id, $element_name ){
-		$formtags = $this->get_registered( 'formtags' );
-
-		if ( ! $formtags ) {
-			return false;
-		}
-
-		return $formtags->add_element( $element_id, $element_name );
-	}
-
-	public function register( $class_name ){
-		return $this->register_module( 'templatetags', $class_name );
-	}
-
-	public function get_registered( $name ){
-		return $this->get_module( 'templatetags', $name );
-	}
-
-	public function get_all_registered(){
-		return $this->get_all_modules( 'templatetags' );
+	protected function get_category() {
+		return 'templatetags';
 	}
 }

@@ -41,6 +41,10 @@ final class Torro_Result_Handlers_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
+	protected function __construct() {
+		parent::__construct();
+	}
+
 	protected function allowed_modules(){
 		$allowed = array(
 			'resulthandlers' => 'Torro_Result_Handler'
@@ -54,15 +58,7 @@ final class Torro_Result_Handlers_Manager extends Torro_Manager {
 		return $instance;
 	}
 
-	public function register( $class_name ){
-		return $this->register_module( 'resulthandlers', $class_name );
-	}
-
-	public function get_registered( $name ){
-		return $this->get_module( 'resulthandlers', $name );
-	}
-
-	public function get_all_registered(){
-		return $this->get_all_modules( 'resulthandlers' );
+	protected function get_category() {
+		return 'resulthandlers';
 	}
 }

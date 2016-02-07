@@ -331,6 +331,8 @@ class Torro_Init {
 		UNIQUE KEY id (id)
 		) ENGINE = INNODB " . $charset_collate . ";";
 
+		dbDelta( $sql );
+
 		$sql = "CREATE TABLE $wpdb->torro_elements (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		form_id int(11) NOT NULL,

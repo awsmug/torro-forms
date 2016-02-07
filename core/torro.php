@@ -61,6 +61,7 @@ final class Torro {
 
 		// load instance manager classes
 		require_once( $this->get_path( 'core/managers/class-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-instance-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-components-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-containers-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-element-answer-manager.php' ) );
@@ -82,8 +83,8 @@ final class Torro {
 	 * Forms keychain function
 	 * @return null|Torro_Forms_Manager
 	 */
-	public function forms( $form_id = null ) {
-		return Torro_Forms_Manager::instance( $form_id );
+	public function forms() {
+		return Torro_Forms_Manager::instance();
 	}
 
 	/**
@@ -98,32 +99,32 @@ final class Torro {
 	 * Containers keychain function
 	 * @return null|Torro_Containers_Manager
 	 */
-	public function containers( $container_id = null ){
-		return Torro_Containers_Manager::instance( $container_id );
+	public function containers(){
+		return Torro_Containers_Manager::instance();
 	}
 
 	/**
 	 * Elements keychain function
 	 * @return null|Torro_Form_Elements_Manager
 	 */
-	public function elements( $element_id = null, $type = null ) {
-		return Torro_Form_Elements_Manager::instance( $element_id, $type );
+	public function elements() {
+		return Torro_Form_Elements_Manager::instance();
 	}
 
 	/**
 	 * Element setting keychain function
 	 * @return null|Torro_Element_Answer_Manager
 	 */
-	public function element_answer( $answer_id = null ) {
-		return Torro_Element_Answer_Manager::instance( $answer_id );
+	public function element_answers() {
+		return Torro_Element_Answer_Manager::instance();
 	}
 
 	/**
 	 * Element setting keychain function
 	 * @return null|Torro_Element_Setting_Manager
 	 */
-	public function element_setting( $setting_id = null ) {
-		return Torro_Element_Setting_Manager::instance( $setting_id );
+	public function element_settings() {
+		return Torro_Element_Setting_Manager::instance();
 	}
 
 	/**

@@ -118,7 +118,7 @@ final class Torro_Restriction_AllMembers extends Torro_Restriction {
 
 		$restrictions_same_users = get_post_meta( $torro_form_id, 'form_restrictions_allmembers_same_users', true );
 
-		if ( 'yes' === $restrictions_same_users && torro()->forms( $torro_form_id )->has_participated() ) {
+		if ( 'yes' === $restrictions_same_users && torro()->forms()->get( $torro_form_id )->has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 			return false;
 		}

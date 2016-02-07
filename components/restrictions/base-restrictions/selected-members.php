@@ -342,7 +342,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		if ( is_array( $users ) && 0 < count( $users ) ) {
 			// Content
 			foreach ( $users as $user ) {
-				if ( torro()->forms( $form_id )->has_participated( $user->ID ) ) {
+				if ( torro()->forms()->get( $form_id )->has_participated( $user->ID ) ) {
 					$user_css = ' finished';
 					$user_text = __( 'finished', 'torro-forms' );
 				} else {

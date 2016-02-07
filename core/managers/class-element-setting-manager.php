@@ -28,63 +28,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Element_Setting_Manager extends Torro_Manager {
+final class Torro_Element_Setting_Manager extends Torro_Instance_Manager {
 
 	private static $instance = null;
 
-	private $setting_id;
-
-	private $setting;
-
-	public static function instance( $id = null ) {
+	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
-		}
-
-		if ( self::$instance->setting_id !== $id  && null !== $id ) {
-			self::$instance->setting_id     = $id;
-			self::$instance->setting = new Torro_Element_Setting( $id );
 		}
 
 		return self::$instance;
 	}
 
-	public function element( $id = null ) {
-		if ( null !== $id ) {
-			$this->setting->element_id = $id;
-		} else {
-			return $this->setting->element_id;
+	protected function __construct() {
+		parent::__construct();
+	}
+
+	public function create_raw() {
+		return new Torro_Element_Setting();
+	}
+
+	protected function get_from_db( $id ) {
+		$setting = new Torro_Element_Setting( $id );
+		if ( ! $setting->id ) {
+			return false;
 		}
+		return $setting;
 	}
 
-	public function name( $name = null ) {
-		if ( null !== $name ) {
-			$this->setting->name = $name;
-		} else {
-			return $this->setting->name;
-		}
-	}
-
-	public function value( $value = null ) {
-		if ( null !== $value ) {
-			$this->setting->value = $value;
-		} else {
-			return $this->setting->value;
-		}
-	}
-
-	public function save() {
-		return $this->setting->save();
-	}
-
-	public function delete() {
-		return $this->setting->delete();
-	}
-
-	public function get_elements() {
-		return $this->setting->elements;
-	}
-
-	protected function init() {
+	protected function get_category() {
+		return 'element_settings';
 	}
 }
