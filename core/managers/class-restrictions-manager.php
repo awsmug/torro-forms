@@ -52,11 +52,6 @@ final class Torro_Restrictions_Manager extends Torro_Manager {
 		return $allowed;
 	}
 
-	protected function after_instance_added( $instance ) {
-		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-		return $instance;
-	}
-
 	protected function get_category() {
 		return 'restrictions';
 	}

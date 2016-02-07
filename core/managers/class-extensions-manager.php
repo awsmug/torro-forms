@@ -54,9 +54,6 @@ final class Torro_Extensions_Manager extends Torro_Manager {
 
 	protected function after_instance_added( $instance ) {
 		$instance->check_and_start();
-
-		add_action( 'init', array( $instance, 'init_settings' ), 15 );
-
 		return $instance;
 	}
 

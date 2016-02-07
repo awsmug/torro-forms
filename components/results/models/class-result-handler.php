@@ -32,18 +32,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Torro_Result_Handler extends Torro_Base {
 	/**
-	 * Settings fields
+	 * Settings name
 	 *
 	 * @since 1.0.0
 	 */
-	protected $settings_fields = array();
-
-	/**
-	 * Settings
-	 *
-	 * @since 1.0.0
-	 */
-	protected $settings = array();
+	protected $settings_name = 'resulthandling';
 
 	/**
 	 * Contains the option_content
@@ -85,31 +78,5 @@ abstract class Torro_Result_Handler extends Torro_Base {
 		}
 
 		return TRUE;
-	}
-
-	/**
-	 * Add Settings to Settings Page
-	 */
-	public function init_settings() {
-		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
-			return FALSE;
-		}
-
-		$headline = array(
-			'headline'		=> array(
-				'title'			=> $this->title,
-				'description'	=> sprintf( __( 'Setup the "%s" Result Handler.', 'torro-forms' ), $this->title ),
-				'type'			=> 'title'
-			)
-		);
-
-		$settings_fields = array_merge( $headline, $this->settings_fields );
-
-		torro()->settings()->get_registered( 'resulthandling' )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
-
-		$settings_name = 'resulthandling_' . $this->name;
-
-		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
-		$this->settings = $settings_handler->get_field_values();
 	}
 }

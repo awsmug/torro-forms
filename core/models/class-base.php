@@ -53,6 +53,27 @@ abstract class Torro_Base {
 	protected $description;
 
 	/**
+	 * Settings name
+	 *
+	 * @since 1.0.0
+	 */
+	protected $settings_name = null;
+
+	/**
+	 * Settings fields
+	 *
+	 * @since 1.0.0
+	 */
+	protected $settings_fields = array();
+
+	/**
+	 * Settings
+	 *
+	 * @since 1.0.0
+	 */
+	protected $settings = array();
+
+	/**
 	 * Whether this base has been initialized
 	 *
 	 * @since 1.0.0
@@ -66,6 +87,7 @@ abstract class Torro_Base {
 	 */
 	protected function __construct() {
 		$this->init();
+		$this->init_settings();
 	}
 
 	public function __set( $key, $value ) {
@@ -108,4 +130,35 @@ abstract class Torro_Base {
 	 * @return mixed
 	 */
 	protected abstract function init();
+
+	/**
+	 * Add Settings to Settings Page
+	 */
+	private function init_settings() {
+		if( null === $this->settings_name ){
+			return false;
+		}
+
+		if ( 0 === count( $this->settings_fields ) || empty( $this->settings_fields ) ) {
+			return false;
+		}
+
+		$headline = array(
+			'headline' => array(
+				'title'       => $this->title,
+				'description' => sprintf( __( 'Setup "%s".', 'torro-forms' ), $this->title ),
+				'type'        => 'title'
+			)
+		);
+
+		$settings_fields = array_merge( $headline, $this->settings_fields );
+
+		// Todo: Should not use API
+		torro()->settings()->get_registered( $this->settings_name )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
+
+		$settings_name = 'extensions_' . $this->name;
+
+		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
+		$this->settings   = $settings_handler->get_field_values();
+	}
 }
