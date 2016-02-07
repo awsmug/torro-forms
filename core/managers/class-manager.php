@@ -99,17 +99,17 @@ abstract class Torro_Manager {
 
 		$class->initialized = true;
 
-		$this->modules[ $module_category ][ $class_name ] = $class;
+		$this->modules[ $module_category ][ $class->name ] = $class;
 
 		return true;
 	}
 
-	protected function get_module( $module_category, $class_name ) {
-		if ( ! isset( $this->modules[ $module_category ][ $class_name ] ) ) {
-			return new Torro_Error( 'torro_module_not_exist', sprintf( __( 'The module %s does not exist.', 'torro-forms' ), $class_name ), __METHOD__ );
+	protected function get_module( $module_category, $name ) {
+		if ( ! isset( $this->modules[ $module_category ][ $name ] ) ) {
+			return new Torro_Error( 'torro_module_not_exist', sprintf( __( 'The module %s does not exist.', 'torro-forms' ), $name ), __METHOD__ );
 		}
 
-		return $this->modules[ $module_category ][ $class_name ];
+		return $this->modules[ $module_category ][ $name ];
 	}
 
 	protected function get_all_modules( $module_category ) {

@@ -57,8 +57,8 @@ final class Torro_Actions_Manager extends Torro_Manager {
 		return $this->register_module( 'actions', $class_name );
 	}
 
-	public function get_registered( $class_name ){
-		return $this->get_module( 'actions', $class_name );
+	public function get_registered( $name ){
+		return $this->get_module( 'actions', $name );
 	}
 
 	public function get_all_registered(){

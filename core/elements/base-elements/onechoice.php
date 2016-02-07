@@ -52,7 +52,7 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 	}
 
 	protected function init() {
-		$this->type = 'onechoice';
+		$this->type = $this->name = 'onechoice';
 		$this->title = __( 'One Choice', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered by selecting one of the given answers.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-onechoice', 'png' );

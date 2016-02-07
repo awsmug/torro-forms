@@ -52,7 +52,7 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 	}
 
 	protected function init() {
-		$this->type = 'textarea';
+		$this->type = $this->name = 'textarea';
 		$this->title = __( 'Textarea', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a text area.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-textarea', 'png' );

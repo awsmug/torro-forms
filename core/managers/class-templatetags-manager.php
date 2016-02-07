@@ -67,8 +67,8 @@ final class Torro_TemplateTags_Manager extends Torro_Manager {
 		return $this->register_module( 'templatetags', $class_name );
 	}
 
-	public function get_registered( $class_name ){
-		return $this->get_module( 'templatetags', $class_name );
+	public function get_registered( $name ){
+		return $this->get_module( 'templatetags', $name );
 	}
 
 	public function get_all_registered(){

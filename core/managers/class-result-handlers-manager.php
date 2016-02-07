@@ -58,8 +58,8 @@ final class Torro_Result_Handlers_Manager extends Torro_Manager {
 		return $this->register_module( 'resulthandlers', $class_name );
 	}
 
-	public function get_registered( $class_name ){
-		return $this->get_module( 'resulthandlers', $class_name );
+	public function get_registered( $name ){
+		return $this->get_module( 'resulthandlers', $name );
 	}
 
 	public function get_all_registered(){

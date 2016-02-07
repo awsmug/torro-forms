@@ -52,8 +52,8 @@ final class Torro_Settings_Manager extends Torro_Manager {
 		return $this->register_module( 'settings', $class_name );
 	}
 
-	public function get_registered( $class_name ){
-		return $this->get_module( 'settings', $class_name );
+	public function get_registered( $name ){
+		return $this->get_module( 'settings', $name );
 	}
 
 	public function get_all_registered(){

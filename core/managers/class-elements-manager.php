@@ -189,8 +189,8 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 		return $this->register_module( 'elements', $class_name );
 	}
 
-	public function get_registered( $class_name ){
-		return $this->get_module( 'elements', $class_name );
+	public function get_registered( $name ){
+		return $this->get_module( 'elements', $name );
 	}
 
 	public function get_all_registered(){
@@ -207,8 +207,7 @@ final class Torro_Form_Elements_Manager extends Torro_Manager {
 			return false;
 		}
 
-		$class_name = $this->get_class_name( $type );
-		$element_instance = $this->get_registered( $class_name );
+		$element_instance = $this->get_registered( $type );
 
 		return $element_instance::instance( $id );
 	}
