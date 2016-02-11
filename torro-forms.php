@@ -222,6 +222,12 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_frontend_styles() {
+		$settings = torro_get_settings( 'general' );
+
+		if( isset( $settings[ 'frontend_css' ] ) && ! is_array( $settings[ 'frontend_css' ] ) ){
+			return;
+		}
+
 		wp_enqueue_style( 'torro-frontend', torro()->get_asset_url( 'frontend', 'css' ) );
 	}
 
