@@ -35,20 +35,6 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 
 	private static $instance = null;
 
-	private $element_id = null;
-
-	private $element = null;
-
-	private $form_id = null;
-
-	private $container_id = null;
-
-	private $type = null;
-
-	private $label = null;
-
-	private $sort = null;
-
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
