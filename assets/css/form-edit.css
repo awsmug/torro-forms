@@ -9,6 +9,12 @@
     float: left;
     margin: 6px 0px 6px 6px;
 }
+/**
+ * Form Container
+ */
+#form-container-tabs ul{
+    padding:10px 10px 0 10px;
+}
 
 /**
  * 	Drag & Drop Area
