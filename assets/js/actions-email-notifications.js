@@ -7,9 +7,9 @@
 		this.selectors = {
 			notifications: '#form-email-notifications .notifications',
 			notifications_counter: '#form-email-notifications .notifications  > div',
-			add_notification_button: '#form_add_email_notification',
+			add_notification_button: '#form-add-email-notification',
 			delete_notification_button: '.form-delete-email-notification',
-			delete_notification_dialog: '#delete_email_notification_dialog',
+			delete_notification_dialog: '#delete-email-notification-dialog',
 			nothing_found_sub: '.no-entry-found'
 		};
 	}

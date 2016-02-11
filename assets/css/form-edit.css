@@ -173,6 +173,18 @@
     display: block;
     margin-bottom: 5px;
 }
+/**
+ * Redirections
+ */
+.redirection-type{
+    margin-bottom: 20px;
+}
+/**
+ * Hide content which will be initialized by JS
+ */
+.redirect-content{
+    display:none;
+}
 
 /**
  * Form participants

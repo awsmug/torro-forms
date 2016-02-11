@@ -146,7 +146,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$html = '<div id="form-email-notifications">';
 
 		$html .= '<div class="actions">';
-		$html .= '<input id="form_add_email_notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
+		$html .= '<input id="form-add-email-notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
 		$html .= '<p class="intro-text">' . esc_attr__( 'Add Email Notifications to send out Emails after the form have been submitted by User.', 'torro-forms' ) . '</p>';
 		$html .= '</div>';
 
@@ -168,7 +168,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 		$html .= '<script language="javascript">jQuery( document ).ready(function ($) {window.form_builder.handle_templatetag_buttons();});</script>';
 
-		$html .= '<div id="delete_email_notification_dialog">' . esc_html__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
+		$html .= '<div id="delete-email-notification-dialog">' . esc_html__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();

@@ -50,6 +50,13 @@ final class Torro_Redirection_Action extends Torro_Action {
 		return self::$instance;
 	}
 
+	protected function init() {
+		$this->title = __( 'Redirections', 'torro-forms' );
+		$this->name  = 'redirections';
+
+		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
+	}
+
 	/**
 	 * Adds the text after submitting
 	 *
@@ -115,9 +122,9 @@ final class Torro_Redirection_Action extends Torro_Action {
 
 		$html = '<div id="form-redirections">';
 
-		$html .= '<div class="actions">';
-		$html .= '<p class="intro-text">' . esc_attr__( 'This notification will be shown after successfull submitting', 'torro-forms' ) . '</p>';
-		$html .= '<select name="redirect_type">';
+		$html .= '<div class="redirection-type">';
+		$html .= '<p class="intro-text">' . esc_attr__( 'After submitting redirect user to:', 'torro-forms' ) . '</p>';
+		$html .= '<select id="redirect_type" name="redirect_type">';
 
 		$selected = $redirect_type == 'redirect_text' ? ' selected="selected"' : '';
 		$html .= '<option value="redirect_text"' . $selected . '>' . esc_attr__( 'Text Message', 'torro-forms' ) . '</option>';
@@ -134,14 +141,14 @@ final class Torro_Redirection_Action extends Torro_Action {
 
 		$display = $redirect_type == 'redirect_url' ? ' style="display:block;"' : ' style="display:none;"';
 
-		$html .= '<div class="redirect-content redirect-url"' . $display . '>';
+		$html .= '<div id="redirect_url" class="redirect-content"' . $display . '>';
 		$html .= '<label for="redirect_url">' . esc_attr__( 'Url: ' ) . '</label><input name="redirect_url" type="text" value="' . $redirect_url . '" />';
 		$html .= '</div>';
 
 		$display = $redirect_type == 'redirect_page' ? ' style="display:block;"' : ' style="display:none;"';
 		$pages = get_pages();
 
-		$html .= '<div class="redirect-content redirect-page"' . $display . '>';
+		$html .= '<div id="redirect_page" class="redirect-content"' . $display . '>';
 		$html .= '<label for="redirect_page">' . esc_attr__( 'Page: ' ) . '</label>';
 		$html .= '<select name="redirect_page">';
 		foreach ( $pages as $page ) {
@@ -152,12 +159,12 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '</div>';
 
 		$display = $redirect_type == 'redirect_text' ? ' style="display:block;"' : ' style="display:none;"';
-		$html .= '<div class="redirect-content redirect-text"' . $display . '>';
+		$html .= '<div id="redirect_text" class="redirect-content"' . $display . '>';
 
 		$settings = array( 'textarea_rows', 25 );
 
 		ob_start();
-		wp_editor( $redirect_text, 'redirect_text', $settings );
+		wp_editor( $redirect_text, 'redirect_text_content', $settings );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
@@ -183,15 +190,8 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$redirect_page = $_POST[ 'redirect_page' ];
 		update_post_meta( $post->ID, 'redirect_page', $redirect_page );
 
-		$redirect_text = $_POST[ 'redirect_text' ];
-		update_post_meta( $post->ID, 'redirect_text', $redirect_text );
-	}
-
-	protected function init() {
-		$this->title = __( 'Redirections', 'torro-forms' );
-		$this->name  = 'redirections';
-
-		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
+		$redirect_text = $_POST[ 'redirect_text_content' ];
+		update_post_meta( $post->ID, 'redirect_text_content', $redirect_text );
 	}
 }
 

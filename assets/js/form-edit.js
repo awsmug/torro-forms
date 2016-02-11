@@ -59,6 +59,8 @@
 
 			this.init_clipboard();
 
+			this.init_form_redirections();
+
 			this.init_access_controls();
 
 			this.handle_templatetag_buttons();
@@ -518,6 +520,19 @@
 					e.currentTarget.removeAttribute( 'aria-label' );
 				});
 			}
+		},
+
+		init_form_redirections: function() {
+			var toggle_boxes = function() {
+				$( '.redirect-content' ).hide(); // Hiding all boxes
+				$( '#' +  $( '#redirect_type' ).val() ).show(); // Showing selected box
+			}
+
+			toggle_boxes();
+
+			$( document ).on( 'change', '#redirect_type', function() {
+				toggle_boxes();
+			});
 		},
 
 		init_access_controls: function() {
