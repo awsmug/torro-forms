@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restriction_Recaptcha extends Torro_Restriction {
+final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	private static $instance = null;
 
 	public static function instance() {
@@ -50,8 +50,8 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	}
 
 	protected function init() {
-		$this->title = __( 'Google reCAPTCHA', 'torro-forms' );
-		$this->name = 'recaptcha';
+		$this->option_name = $this->title = __( 'Spam Protection', 'torro-forms' );
+		$this->name = 'spam_protection';
 
 		$this->settings_fields = array(
 			'recaptcha_sitekey'		=> array(
@@ -66,13 +66,10 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 			),
 		);
 
-		add_action( 'form_restrictions_content_bottom', array( $this, 'recaptcha_fields' ), 10 );
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
-
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 
 		add_action( 'torro_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
-
 		add_filter( 'torro_response_validation_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
 
 		// compatibility with Contact Form 7
@@ -96,7 +93,7 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		$form_id = $post->ID;
 
 		if ( $this->is_enabled( $form_id ) && ! $this->is_configured() ) {
-			torro()->admin_notices()->add( 'recaptcha_not_configured', sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'torro-forms' ), admin_url( 'edit.php?post_type=torro-forms&page=Torro_Admin&tab=restrictions&section=recaptcha' ) ), 'warning' );
+			torro()->admin_notices()->add( 'recaptcha_not_configured', sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'torro-forms' ), admin_url( 'edit.php?post_type=torro-forms&page=Torro_Admin&tab=access_controls&section=recaptcha' ) ), 'warning' );
 		}
 	}
 
@@ -104,7 +101,7 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	/**
 	 * reCAPTCHA meta box
 	 */
-	public static function recaptcha_fields() {
+	public function option_content() {
 		global $post;
 
 		$form_id = $post->ID;
@@ -121,9 +118,9 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		$recaptcha_size = get_post_meta( $form_id, 'recaptcha_size', true );
 		$recaptcha_theme = get_post_meta( $form_id, 'recaptcha_theme', true );
 
-		$html = '<div id="form-restrictions-content-recaptcha" class="section general-settings recaptcha">';
+		$html = '<div id="form-access-controls-content-recaptcha" class="general-settings recaptcha">';
 
-		$html .= '<h3>' . esc_html__( 'Google reCAPTCHA', 'torro-forms' ) . '</h3>';
+		$html .= '<h4>' . esc_html__( 'Google reCAPTCHA', 'torro-forms' ) . '</h4>';
 
 		$html .= '<div class="option">';
 		$html .= '<label for="recaptcha_enabled">' . esc_html__( 'Enable', 'torro-forms' ) . '</label>';
@@ -158,7 +155,7 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 
 		$html .= '</div>';
 
-		echo $html;
+		return $html;
 	}
 
 	/**
@@ -184,15 +181,6 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 		if ( ! get_post_meta( $form_id, 'recaptcha_enabled', true ) ) {
 			return false;
 		}
-		return true;
-	}
-
-	/**
-	 * Checks if the user can pass
-	 *
-	 * Not used here, but needed since parent method is abstract
-	 */
-	public function check() {
 		return true;
 	}
 
@@ -407,4 +395,4 @@ final class Torro_Restriction_Recaptcha extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->register( 'Torro_Restriction_Recaptcha' );
+torro()->form_settings()->register( 'Torro_Form_Setting_Spam_Protection' );

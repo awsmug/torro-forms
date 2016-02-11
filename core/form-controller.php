@@ -383,7 +383,7 @@ class Torro_Form_Controller {
 
 			session_destroy();
 		} else {
-			$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding restrictions and so on ...
+			$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding access-controls and so on ...
 
 			if ( false === $show_form ) {
 				return;

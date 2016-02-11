@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Restriction extends Torro_Base {
+abstract class Torro_Form_Setting extends Torro_Base {
 	/**
 	 * Option name
 	 *
@@ -43,7 +43,7 @@ abstract class Torro_Restriction extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	protected $settings_name = 'restrictions';
+	protected $settings_name = 'settings';
 
 	/**
 	 * Message
@@ -62,41 +62,7 @@ abstract class Torro_Restriction extends Torro_Base {
 	}
 
 	/**
-	 * Checks if the user can pass
-	 */
-	abstract function check();
-
-	/**
-	 * Printing out messages
-	 */
-	public function messages() {
-		if ( 0 < count( $this->messages ) ) {
-			$html = '';
-			foreach ( $this->messages as $message ) {
-				$html .= '<div class="form-message ' . $message['type'] . '">' . esc_html( $message['text'] ) . '</div>';
-			}
-
-			return $html;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Adding messages
-	 *
-	 * @param $type
-	 * @param $text
-	 */
-	public function add_message( $type, $text ) {
-		$this->messages[] = array(
-			'type'	=> $type,
-			'text'	=> $text
-		);
-	}
-
-	/**
-	 * Adds a Restriction option to the restrictions meta box
+	 * Adds a Restriction option to the access-controls meta box
 	 *
 	 * @return bool
 	 */

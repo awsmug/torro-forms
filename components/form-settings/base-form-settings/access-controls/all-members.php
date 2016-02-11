@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restriction_AllMembers extends Torro_Restriction {
+final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 	private static $instance = null;
 
 	public static function instance() {
@@ -67,13 +67,13 @@ final class Torro_Restriction_AllMembers extends Torro_Restriction {
 	 */
 	public function save( $form_id ) {
 		/**
-		 * Saving restriction options
+		 * Saving access-control options
 		 */
-		if ( array_key_exists( 'form_restrictions_allmembers_same_users', $_POST ) ) {
-			$restrictions_same_users = $_POST['form_restrictions_allmembers_same_users'];
-			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', $restrictions_same_users );
+		if ( array_key_exists( 'form_access_controls_allmembers_same_users', $_POST ) ) {
+			$access_controls_same_users = $_POST['form_access_controls_allmembers_same_users'];
+			update_post_meta( $form_id, 'form_access_controls_allmembers_same_users', $access_controls_same_users );
 		} else {
-			update_post_meta( $form_id, 'form_restrictions_allmembers_same_users', '' );
+			update_post_meta( $form_id, 'form_access_controls_allmembers_same_users', '' );
 		}
 	}
 
@@ -85,21 +85,19 @@ final class Torro_Restriction_AllMembers extends Torro_Restriction {
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_html__( 'Restrict Members', 'torro-forms' ) . '</h3>';
-
 		/**
 		 * Check User
 		 */
-		$restrictions_same_users = get_post_meta( $form_id, 'form_restrictions_allmembers_same_users', true );
-		$checked = 'yes' === $restrictions_same_users ? ' checked' : '';
+		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_allmembers_same_users', true );
+		$checked = 'yes' === $access_controls_same_users ? ' checked' : '';
 
-		$html .= '<div class="form-restrictions-same-users-userfilter">';
-		$html .= '<input type="checkbox" name="form_restrictions_allmembers_same_users" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_restrictions_allmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
+		$html = '<div class="form-access-controls-same-users-userfilter">';
+		$html .= '<input type="checkbox" name="form_access_controls_allmembers_same_users" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_access_controls_allmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
-		do_action( 'form_restrictions_same_users_userfilters' );
+		do_action( 'form_access_controls_same_users_userfilters' );
 		$html .= ob_get_clean();
 
 		return $html;
@@ -116,9 +114,9 @@ final class Torro_Restriction_AllMembers extends Torro_Restriction {
 			return false;
 		}
 
-		$restrictions_same_users = get_post_meta( $torro_form_id, 'form_restrictions_allmembers_same_users', true );
+		$access_controls_same_users = get_post_meta( $torro_form_id, 'form_access_controls_allmembers_same_users', true );
 
-		if ( 'yes' === $restrictions_same_users && torro()->forms()->get( $torro_form_id )->has_participated() ) {
+		if ( 'yes' === $access_controls_same_users && torro()->forms()->get( $torro_form_id )->has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 			return false;
 		}
@@ -127,4 +125,4 @@ final class Torro_Restriction_AllMembers extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->register( 'Torro_Restriction_AllMembers' );
+torro()->access_controls()->register( 'Torro_Access_Control_AllMembers' );

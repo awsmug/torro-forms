@@ -71,7 +71,7 @@ class Torro_Formbuilder_ChartsExtension {
 		$form_id = $post->ID;
 
 		$form_results = new Torro_Form_Results( $form_id );
-		$results = $form_results->results();
+		$form_results->results();
 
 		$result_handlers = torro()->resulthandlers()->get_all_registered();
 
@@ -121,15 +121,15 @@ class Torro_Formbuilder_ChartsExtension {
 	}
 
 	/**
-	 * Saving restriction options
+	 * Saving access-control options
 	 *
 	 * @param int $form_id
 	 *
 	 * @since 1.0.0
 	 */
 	public static function save( $form_id ) {
-		$restrictions_option = $_POST['form_restrictions_option'];
-		update_post_meta( $form_id, 'restrictions_option', $restrictions_option );
+		$access_controls_option = $_POST['form_access_controls_option'];
+		update_post_meta( $form_id, 'access_controls_option', $access_controls_option );
 	}
 
 	/**

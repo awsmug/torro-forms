@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restriction_Timerange extends Torro_Restriction {
+final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	private static $instance = null;
 
 	public static function instance() {
@@ -48,19 +48,18 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 	}
 
 	protected function init() {
-		$this->title = __( 'Timerange', 'torro-forms' );
+		$this->option_name = $this->title = __( 'Timerange', 'torro-forms' );
 		$this->name = 'timerange';
 
-		add_action( 'form_restrictions_content_bottom', array( $this, 'timerange_fields' ), 10 );
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
-		add_action( 'torro_additional_restrictions_check_start', array( $this, 'check' ) );
+		add_action( 'torro_additional_access_controls_check_start', array( $this, 'check' ) );
 	}
 
 	/**
 	 * Timerange meta box
 	 */
-	public function timerange_fields() {
+	public function option_content() {
 		global $post;
 
 		$form_id = $post->ID;
@@ -68,9 +67,7 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 		$start_date = get_post_meta( $form_id, 'start_date', true );
 		$end_date = get_post_meta( $form_id, 'end_date', true );
 
-		$html = '<div id="form-restrictions-content-timerange" class="section general-settings timerange">';
-
-		$html .= '<h3>' . esc_html__( 'Timerange', 'torro-forms' ) . '</h3>';
+		$html = '<div id="form-access-controls-content-timerange" class="general-settings timerange">';
 
 		$html .= '<div class="option">';
 		$html .= '<label for="start_date">' . esc_html__( 'Date Start:', 'torro-forms' ) . '</label>';
@@ -86,7 +83,7 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 
 		$html .= '</div>';
 
-		echo $html;
+		return $html;
 	}
 
 	/**
@@ -165,8 +162,8 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 			'calendar_icon_url'	=> torro()->get_asset_url( 'calendar-icon', 'png' ),
 		);
 
-		wp_enqueue_script( 'torro-restrictions-timerange', torro()->get_asset_url( 'restrictions-timerange', 'js' ), array( 'torro-form-edit', 'jquery-ui-datepicker' ) );
-		wp_localize_script( 'torro-restrictions-timerange', 'translation_tr', $translations );
+		wp_enqueue_script( 'torro-access-controls-timerange', torro()->get_asset_url( 'access-controls-timerange', 'js' ), array( 'torro-form-edit', 'jquery-ui-datepicker' ) );
+		wp_localize_script( 'torro-access-controls-timerange', 'translation_tr', $translations );
 	}
 
 	/**
@@ -175,8 +172,8 @@ final class Torro_Restriction_Timerange extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function admin_styles() {
-		wp_enqueue_style( 'torro-restrictions-timerange', torro()->get_asset_url( 'restrictions-timerange', 'css' ), array( 'torro-form-edit' ) );
+		wp_enqueue_style( 'torro-access-controls-timerange', torro()->get_asset_url( 'access-controls-timerange', 'css' ), array( 'torro-form-edit' ) );
 	}
 }
 
-torro()->restrictions()->register( 'Torro_Restriction_Timerange' );
+torro()->form_settings()->register( 'Torro_Form_Setting_Timerange' );

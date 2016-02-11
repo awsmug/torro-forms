@@ -191,7 +191,7 @@ class Torro_Form extends Torro_Post {
 		global $wpdb;
 
 		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_participants} WHERE form_id = %d", $this->id );
-		$results = $wpdb->get_results( $sql );
+		$results = $wpdb->get_col( $sql );
 
 		if ( 0 === $wpdb->num_rows ) {
 			return array();
@@ -530,11 +530,11 @@ class Torro_Form extends Torro_Post {
 		}
 
 		// Setting up Form ID
-		if ( null === $this->form_id ) {
+		if ( null === $this->id ) {
 			return false;
 		}
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND user_id=%s", $this->form_id, $user_id );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND user_id=%s", $this->id, $user_id );
 
 		$count = absint( $wpdb->get_var( $sql ) );
 

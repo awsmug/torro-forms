@@ -1,8 +1,8 @@
 <?php
 /**
- * Torro Forms restriction classes manager class
+ * Torro Forms access-control classes manager class
  *
- * This class holds and manages all restriction class instances.
+ * This class holds and manages all access-control class instances.
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restrictions_Manager extends Torro_Manager {
+final class Torro_Access_Controls_Manager extends Torro_Manager {
 
 	private static $instance = null;
 
@@ -47,12 +47,12 @@ final class Torro_Restrictions_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'restrictions' => 'Torro_Restriction'
+			'access_controls' => 'Torro_Access_Control'
 		);
 		return $allowed;
 	}
 
 	protected function get_category() {
-		return 'restrictions';
+		return 'access_controls';
 	}
 }

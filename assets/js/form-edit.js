@@ -59,7 +59,7 @@
 
 			this.init_clipboard();
 
-			this.init_restrictions();
+			this.init_access_controls();
 
 			this.handle_templatetag_buttons();
 
@@ -520,15 +520,15 @@
 			}
 		},
 
-		init_restrictions: function() {
+		init_access_controls: function() {
 			var toggle_boxes = function() {
-				$( '.form-restrictions-content' ).hide(); // Hiding all boxes
-				$( '#form-restrictions-content-' +  $( '#form-restrictions-option' ).val() ).show(); // Showing selected box
+				$( '.form-access-controls-content' ).hide(); // Hiding all boxes
+				$( '#form-access-controls-content-' +  $( '#form-access-controls-option' ).val() ).show(); // Showing selected box
 			}
 
 			toggle_boxes();
 
-			$( document ).on( 'change', '#form-restrictions-option', function() {
+			$( document ).on( 'change', '#form-access-controls-option', function() {
 				toggle_boxes();
 			});
 		},

@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
+final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	private static $instance = null;
 
 	public static function instance() {
@@ -167,17 +167,17 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		global $wpdb;
 
 		/**
-		 * Saving restriction options
+		 * Saving access-control options
 		 */
-		if ( array_key_exists( 'form_restrictions_selectedmembers_same_users', $_POST ) ) {
-			$restrictions_same_users = $_POST['form_restrictions_selectedmembers_same_users'];
-			update_post_meta( $form_id, 'form_restrictions_selectedmembers_same_users', $restrictions_same_users );
+		if ( array_key_exists( 'form_access_controls_selectedmembers_same_users', $_POST ) ) {
+			$access_controls_same_users = $_POST['form_access_controls_selectedmembers_same_users'];
+			update_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', $access_controls_same_users );
 		} else {
-			update_post_meta( $form_id, 'form_restrictions_selectedmembers_same_users', '' );
+			update_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', '' );
 		}
 
 		/**
-		 * Saving restriction options
+		 * Saving access-control options
 		 */
 		$add_participants_option = $_POST['form_add_participants_option'];
 		update_post_meta( $form_id, 'add_participants_option', $add_participants_option );
@@ -223,8 +223,8 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			'nonce_invite_participants'				=> torro()->ajax()->get_nonce( 'invite_participants' ),
 		);
 
-		wp_enqueue_script( 'torro-restrictions-selected-members', torro()->get_asset_url( 'restrictions-selected-members', 'js' ), array( 'torro-form-edit' ) );
-		wp_localize_script( 'torro-restrictions-selected-members', 'translation_sm', $translation );
+		wp_enqueue_script( 'torro-access-controls-selected-members', torro()->get_asset_url( 'access-controls-selected-members', 'js' ), array( 'torro-form-edit' ) );
+		wp_localize_script( 'torro-access-controls-selected-members', 'translation_sm', $translation );
 	}
 
 	/**
@@ -233,7 +233,7 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function admin_styles() {
-		wp_enqueue_style( 'torro-restrictions-selected-members', torro()->get_asset_url( 'restrictions-selected-members', 'css' ), array( 'torro-form-edit' ) );
+		wp_enqueue_style( 'torro-access-controls-selected-members', torro()->get_asset_url( 'access-controls-selected-members', 'css' ), array( 'torro-form-edit' ) );
 	}
 
 	/**
@@ -245,17 +245,16 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 		$form_id = $post->ID;
 
 		$html = '<div id="form-selectedmembers-userfilter">';
-		$html .= '<h3>' . esc_html__( 'Restrict Members', 'torro-forms' ) . '</h3>';
 
 		/**
 		 * Check User
 		 */
-		$restrictions_same_users = get_post_meta( $form_id, 'form_restrictions_selectedmembers_same_users', true );
-		$checked = 'yes' === $restrictions_same_users ? ' checked' : '';
+		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
+		$checked = 'yes' === $access_controls_same_users ? ' checked' : '';
 
-		$html .= '<div class="form-restrictions-same-users-userfilter">';
-		$html .= '<input type="checkbox" name="form_restrictions_selectedmembers_same_users" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_restrictions_selectedmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
+		$html .= '<div class="form-access-controls-same-users-userfilter">';
+		$html .= '<input type="checkbox" name="form_access_controls_selectedmembers_same_users" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_access_controls_selectedmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -397,9 +396,9 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 			return false;
 		}
 
-		$restrictions_same_users = get_post_meta( $torro_form_id, 'form_restrictions_selectedmembers_same_users', true );
+		$access_controls_same_users = get_post_meta( $torro_form_id, 'form_access_controls_selectedmembers_same_users', true );
 
-		if ( 'yes' === $restrictions_same_users && torro()->forms( $torro_form_id )->has_participated() ) {
+		if ( 'yes' === $access_controls_same_users && torro()->forms( $torro_form_id )->has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 
 			return false;
@@ -418,9 +417,9 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	 * @since 1.0.0
 	 */
 	public function is_participant( $user_id = null ) {
-		global $wpdb, $current_user, $torro_form_id;
+		global $wpdb, $current_user;
 
-		$is_participant = false;
+		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		// Setting up user ID
 		if ( null === $user_id ) {
@@ -439,4 +438,4 @@ final class Torro_Restriction_SelectedMembers extends Torro_Restriction {
 	}
 }
 
-torro()->restrictions()->register( 'Torro_Restriction_SelectedMembers' );
+torro()->access_controls()->register( 'Torro_Access_Control_Selected_Members' );

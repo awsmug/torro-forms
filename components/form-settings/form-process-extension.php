@@ -2,7 +2,7 @@
 /**
  * Torro Forms Processing Restrictions Extension
  *
- * This class adds restriction functions to form processing
+ * This class adds access-control functions to form processing
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -43,36 +43,36 @@ class Torro_Formbuilder_FormProcessExtension {
 	}
 
 	/**
-	 * Checking restrictions
+	 * Checking access-controls
 	 */
 	public static function check( $show_form ) {
 		$torro_form_id = torro()->forms()->get_current_form_id();
-		$restrictions = torro()->restrictions()->get_all_registered();
+		$access_controls = torro()->access_controls()->get_all_registered();
 
-		if ( 0 === count( $restrictions ) ) {
+		if ( 0 === count( $access_controls ) ) {
 			return $show_form;
 		}
 
-		if ( false === apply_filters( 'torro_additional_restrictions_check_start', true ) ) {
+		if ( false === apply_filters( 'torro_additional_access_controls_check_start', true ) ) {
 			return false;
 		}
 
 		/**
 		 * Select field for Restriction
 		 */
-		$restrictions_option = get_post_meta( $torro_form_id, 'restrictions_option', true );
+		$access_controls_option = get_post_meta( $torro_form_id, 'access_controls_option', true );
 
-		if ( ! empty( $restrictions_option ) && array_key_exists( $restrictions_option, $restrictions ) ) {
-			$restriction = $restrictions[ $restrictions_option ];
+		if ( ! empty( $access_controls_option ) && array_key_exists( $access_controls_option, $access_controls ) ) {
+			$access_control = $access_controls[ $access_controls_option ];
 
-			if ( false === $restriction->check() ) {
-				echo $restriction->messages();
+			if ( false === $access_control->check() ) {
+				echo $access_control->messages();
 
 				return false;
 			}
 		}
 
-		return apply_filters( 'torro_additional_restrictions_check_end', true );
+		return apply_filters( 'torro_additional_access_controls_check_end', true );
 	}
 }
 

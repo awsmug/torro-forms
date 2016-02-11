@@ -48,5 +48,5 @@
 		}
 	};
 
-	exports.add_extension( 'restriction_timerange', new Restriction_Timerange( translations ) );
+	exports.add_extension( 'access_control_timerange', new Restriction_Timerange( translations ) );
 }( form_builder, wp, jQuery, translation_tr ) );

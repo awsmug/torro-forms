@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restrictions_Component extends Torro_Component {
+final class Torro_Form_Settings_Component extends Torro_Component {
 	private static $instance = null;
 
 	public static function instance() {
@@ -54,32 +54,38 @@ final class Torro_Restrictions_Component extends Torro_Component {
 	 * @since 1.0.0
 	 */
 	protected function init() {
-		$this->name = 'restrictions';
-		$this->title = __( 'Restrictions', 'torro-forms' );
-		$this->description = __( 'Restrictions if a user can fillout a form or not', 'torro-forms' );
+		$this->name = 'form-settings';
+		$this->title = __( 'Form Settings', 'torro-forms' );
+		$this->description = __( 'Form Settings Component', 'torro-forms' );
 	}
 
 	/**
 	 * Including files of component
 	 */
 	protected function includes() {
-		$folder = torro()->get_path( 'components/restrictions/' );
+		$folder = torro()->get_path( 'components/form-settings/' );
 
 		// Loading base functionalities
 		require_once( $folder . 'settings.php' );
 		require_once( $folder . 'form-builder-extension.php' );
 		require_once( $folder . 'form-process-extension.php' );
 
-		// Restrictions API
-		require_once( $folder . 'models/class-restriction.php' );
+		// Models
+		require_once( $folder . 'models/class-form-setting.php' );
+		require_once( $folder . 'models/class-access-control.php' );
 
-		// Base Restrictions
-		require_once( $folder . 'base-restrictions/all-visitors.php' );
-		require_once( $folder . 'base-restrictions/all-members.php' );
-		require_once( $folder . 'base-restrictions/selected-members.php' );
-		require_once( $folder . 'base-restrictions/timerange.php' );
-		require_once( $folder . 'base-restrictions/recaptcha.php' );
+		// Settings
+		require_once( $folder . 'base-form-settings/access-control.php' );
+		require_once( $folder . 'base-form-settings/timerange.php' );
+		require_once( $folder . 'base-form-settings/recaptcha.php' );
+
+		// Visitors
+		require_once( $folder . 'base-form-settings/access-controls/all-visitors.php' );
+		require_once( $folder . 'base-form-settings/access-controls/all-members.php' );
+		require_once( $folder . 'base-form-settings/access-controls/selected-members.php' );
+
+
 	}
 }
 
-torro()->components()->register( 'Torro_Restrictions_Component' );
+torro()->components()->register( 'Torro_Form_Settings_Component' );

@@ -219,5 +219,5 @@
 		}
 	};
 
-	exports.add_extension( 'restriction_selected_members', new Restriction_Selected_Members( translations ) );
+	exports.add_extension( 'access_control_selected_members', new Restriction_Selected_Members( translations ) );
 }( form_builder, wp, jQuery, translation_sm ) );

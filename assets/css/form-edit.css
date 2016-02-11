@@ -178,7 +178,7 @@
  * Form participants
  */
 #form_participants_select,
-#form-participants-restrictions-select {
+#form-participants-access-controls-select {
     margin-bottom: 10px;
 }
 
@@ -206,7 +206,6 @@
 }
 
 .post-type-torro-forms .general-settings {
-    background: #f5f5f5 none repeat scroll 0 0;
 }
 .post-type-torro-forms .general-settings .option {
     float:left;
@@ -479,17 +478,17 @@
 }
 
 /**
- * Form restrictions
+ * Form access-controls
  */
-#form-restrictions .inside h3{
+#form-access-controls .inside h3{
     margin: 0 0 10px 0;
     padding: 0;
 }
-#form-restrictions label select{
+#form-access-controls label select{
     margin-left: 10px;
 }
 
-#form-restrictions .form-restrictions-content{
+#form-access-controls .form-access-controls-content{
     margin-top: 10px;
     border: 1px #e5e5e5 solid;
     padding:10px;

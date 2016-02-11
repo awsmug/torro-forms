@@ -67,10 +67,11 @@ final class Torro {
 		require_once( $this->get_path( 'core/managers/class-element-answer-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-element-setting-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-elements-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-form-settings-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-settings-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-templatetags-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-actions-manager.php' ) );
-		require_once( $this->get_path( 'core/managers/class-restrictions-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-access-controls-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-result-handlers-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-extensions-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-forms-manager.php' ) );
@@ -85,6 +86,14 @@ final class Torro {
 	 */
 	public function forms() {
 		return Torro_Forms_Manager::instance();
+	}
+
+	/**
+	 * Form settings keychain function
+	 * @return null|Torro_Form_Settings_Manager
+	 */
+	public function form_settings(){
+		return Torro_Form_Settings_Manager::instance();
 	}
 
 	/**
@@ -153,10 +162,10 @@ final class Torro {
 
 	/**
 	 * Restrictions keychain function
-	 * @return null|Torro_Restrictions_Manager
+	 * @return null|Torro_Access_Controls_Manager
 	 */
-	public function restrictions() {
-		return Torro_Restrictions_Manager::instance();
+	public function access_controls() {
+		return Torro_Access_Controls_Manager::instance();
 	}
 
 	/**

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restrictions_Settings extends Torro_Settings {
+final class Torro_Access_Controls_Settings extends Torro_Settings {
 	private static $instance = null;
 
 	public static function instance() {
@@ -49,8 +49,8 @@ final class Torro_Restrictions_Settings extends Torro_Settings {
 
 	public function init() {
 		$this->title = __( 'Restrictions', 'torro-forms' );
-		$this->name = 'restrictions';
+		$this->name = 'access_controls';
 	}
 }
 
-torro()->settings()->register( 'Torro_Restrictions_Settings' );
+torro()->settings()->register( 'Torro_Access_Controls_Settings' );

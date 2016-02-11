@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Restriction_AllVisitors extends Torro_Restriction {
+final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	private static $instance = null;
 
 	public static function instance() {
@@ -50,9 +50,8 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	}
 
 	protected function init() {
-		$this->title = __( 'All Visitors', 'torro-forms' );
+		$this->option_name = $this->title = __( 'All Visitors', 'torro-forms' );
 		$this->name = 'allvisitors';
-		$this->option_name = __( 'All Visitors of site', 'torro-forms' );
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
 
@@ -74,31 +73,31 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 		/**
 		 * Check IP
 		 */
-		if ( array_key_exists( 'form_restrictions_check_ip', $_POST ) ) {
-			$restrictions_check_ip = $_POST['form_restrictions_check_ip'];
-			update_post_meta( $form_id, 'form_restrictions_check_ip', $restrictions_check_ip );
+		if ( array_key_exists( 'form_access_controls_check_ip', $_POST ) ) {
+			$access_controls_check_ip = $_POST['form_access_controls_check_ip'];
+			update_post_meta( $form_id, 'form_access_controls_check_ip', $access_controls_check_ip );
 		} else {
-			update_post_meta( $form_id, 'form_restrictions_check_ip', '' );
+			update_post_meta( $form_id, 'form_access_controls_check_ip', '' );
 		}
 
 		/**
 		 * Check Cookie
 		 */
-		if ( array_key_exists( 'form_restrictions_check_cookie', $_POST ) ) {
-			$restrictions_check_cookie = $_POST['form_restrictions_check_cookie'];
-			update_post_meta( $form_id, 'form_restrictions_check_cookie', $restrictions_check_cookie );
+		if ( array_key_exists( 'form_access_controls_check_cookie', $_POST ) ) {
+			$access_controls_check_cookie = $_POST['form_access_controls_check_cookie'];
+			update_post_meta( $form_id, 'form_access_controls_check_cookie', $access_controls_check_cookie );
 		} else {
-			update_post_meta( $form_id, 'form_restrictions_check_cookie', '' );
+			update_post_meta( $form_id, 'form_access_controls_check_cookie', '' );
 		}
 
 		/**
 		 * Check browser fingerprint
 		 */
-		if ( array_key_exists( 'form_restrictions_check_fingerprint', $_POST ) ) {
-			$restrictions_check_fingerprint = $_POST['form_restrictions_check_fingerprint'];
-			update_post_meta( $form_id, 'form_restrictions_check_fingerprint', $restrictions_check_fingerprint );
+		if ( array_key_exists( 'form_access_controls_check_fingerprint', $_POST ) ) {
+			$access_controls_check_fingerprint = $_POST['form_access_controls_check_fingerprint'];
+			update_post_meta( $form_id, 'form_access_controls_check_fingerprint', $access_controls_check_fingerprint );
 		} else {
-			update_post_meta( $form_id, 'form_restrictions_check_fingerprint', '' );
+			update_post_meta( $form_id, 'form_access_controls_check_fingerprint', '' );
 		}
 	}
 
@@ -117,43 +116,41 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 
 		$form_id = $post->ID;
 
-		$html = '<h3>' . esc_html__( 'Restrict Visitors', 'torro-forms' ) . '</h3>';
-
 		/**
 		 * Check IP
 		 */
-		$restrictions_check_ip = get_post_meta( $form_id, 'form_restrictions_check_ip', true );
-		$checked = 'yes' === $restrictions_check_ip ? ' checked' : '';
+		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
+		$checked = 'yes' === $access_controls_check_ip ? ' checked' : '';
 
-		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
-		$html .= '<input type="checkbox" name="form_restrictions_check_ip" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_restrictions_check_ip">' . esc_attr__( 'Prevent multiple entries from same IP', 'torro-forms' ) . '</label>';
+		$html = '<div class="form-access-controls-allvisitors-userfilter">';
+		$html .= '<input type="checkbox" name="form_access_controls_check_ip" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_access_controls_check_ip">' . esc_attr__( 'Prevent multiple entries from same IP', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		/**
 		 * Check Cookie
 		 */
-		$restrictions_check_cookie = get_post_meta( $form_id, 'form_restrictions_check_cookie', true );
-		$checked = 'yes' === $restrictions_check_cookie ? ' checked' : '';
+		$access_controls_check_cookie = get_post_meta( $form_id, 'form_access_controls_check_cookie', true );
+		$checked = 'yes' === $access_controls_check_cookie ? ' checked' : '';
 
-		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
-		$html .= '<input type="checkbox" name="form_restrictions_check_cookie" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_restrictions_check_cookie">' . esc_attr__( 'Prevent multiple entries by checking cookie', 'torro-forms' ) . '</label>';
+		$html .= '<div class="form-access-controls-allvisitors-userfilter">';
+		$html .= '<input type="checkbox" name="form_access_controls_check_cookie" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_access_controls_check_cookie">' . esc_attr__( 'Prevent multiple entries by checking cookie', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		/**
 		 * Check browser fingerprint
 		 */
-		$restrictions_check_fingerprint = get_post_meta( $form_id, 'form_restrictions_check_fingerprint', true );
-		$checked = 'yes' === $restrictions_check_fingerprint ? ' checked' : '';
+		$access_controls_check_fingerprint = get_post_meta( $form_id, 'form_access_controls_check_fingerprint', true );
+		$checked = 'yes' === $access_controls_check_fingerprint ? ' checked' : '';
 
-		$html .= '<div class="form-restrictions-allvisitors-userfilter">';
-		$html .= '<input type="checkbox" name="form_restrictions_check_fingerprint" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_restrictions_check_fingerprint">' . esc_attr__( 'Prevent multiple entries by checking browser fingerprint', 'torro-forms' ) . '</label>';
+		$html .= '<div class="form-access-controls-allvisitors-userfilter">';
+		$html .= '<input type="checkbox" name="form_access_controls_check_fingerprint" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_access_controls_check_fingerprint">' . esc_attr__( 'Prevent multiple entries by checking browser fingerprint', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
 
 		ob_start();
-		do_action( 'form_restrictions_allvisitors_userfilters' );
+		do_action( 'form_access_controls_allvisitors_userfilters' );
 		$html .= ob_get_clean();
 
 		return $html;
@@ -167,17 +164,17 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 
 		$torro_form_id = torro()->forms()->get_current_form_id();
 
-		$restrictions_check_ip = get_post_meta( $torro_form_id, 'form_restrictions_check_ip', true );
+		$access_controls_check_ip = get_post_meta( $torro_form_id, 'form_access_controls_check_ip', true );
 
-		if ( 'yes' === $restrictions_check_ip && $this->ip_has_participated() ) {
+		if ( 'yes' === $access_controls_check_ip && $this->ip_has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 
 			return false;
 		}
 
-		$restrictions_check_cookie = get_post_meta( $torro_form_id, 'form_restrictions_check_cookie', true );
+		$access_controls_check_cookie = get_post_meta( $torro_form_id, 'form_access_controls_check_cookie', true );
 
-		if ( 'yes' === $restrictions_check_cookie && isset( $_COOKIE[ 'torro_has_participated_form_' . $torro_form_id ] ) ) {
+		if ( 'yes' === $access_controls_check_cookie && isset( $_COOKIE[ 'torro_has_participated_form_' . $torro_form_id ] ) ) {
 			if( 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $torro_form_id ] ) {
 				$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 			}
@@ -185,9 +182,9 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 			return false;
 		}
 
-		$restrictions_check_fingerprint = get_post_meta( $torro_form_id, 'form_restrictions_check_fingerprint', true );
+		$access_controls_check_fingerprint = get_post_meta( $torro_form_id, 'form_access_controls_check_fingerprint', true );
 
-		if ( 'yes' === $restrictions_check_fingerprint && true !== $torro_skip_fingerrint_check ) {
+		if ( 'yes' === $access_controls_check_fingerprint && true !== $torro_skip_fingerrint_check ) {
 			$actual_step = 0;
 			if ( isset( $_POST['torro_actual_step'] ) ) {
 				$actual_step = $_POST['torro_actual_step'];
@@ -281,8 +278,8 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	public function save_ip( $response_id ) {
 		global $wpdb, $torro_form_id;
 
-		$restrictions_check_ip = get_post_meta( $torro_form_id, 'form_restrictions_check_ip', true );
-		if ( empty( $restrictions_check_ip ) ) {
+		$access_controls_check_ip = get_post_meta( $torro_form_id, 'form_access_controls_check_ip', true );
+		if ( empty( $access_controls_check_ip ) ) {
 			return;
 		}
 
@@ -300,8 +297,8 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	public function save_fingerprint( $response_id ) {
 		global $wpdb, $torro_form_id;
 
-		$restrictions_check_fingerprint = get_post_meta( $torro_form_id, 'form_restrictions_check_fingerprint', true );
-		if ( empty( $restrictions_check_fingerprint ) ) {
+		$access_controls_check_fingerprint = get_post_meta( $torro_form_id, 'form_access_controls_check_fingerprint', true );
+		if ( empty( $access_controls_check_fingerprint ) ) {
 			return;
 		}
 
@@ -318,8 +315,8 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 	public function add_fingerprint_input() {
 		global $torro_form_id;
 
-		$restrictions_check_fingerprint = get_post_meta( $torro_form_id, 'form_restrictions_check_fingerprint', true );
-		if( empty( $restrictions_check_fingerprint ) ) {
+		$access_controls_check_fingerprint = get_post_meta( $torro_form_id, 'form_access_controls_check_fingerprint', true );
+		if( empty( $access_controls_check_fingerprint ) ) {
 			return;
 		}
 
@@ -328,4 +325,4 @@ final class Torro_Restriction_AllVisitors extends Torro_Restriction {
 
 }
 
-torro()->restrictions()->register( 'Torro_Restriction_AllVisitors' );
+torro()->access_controls()->register( 'Torro_Access_Control_All_Visitors' );

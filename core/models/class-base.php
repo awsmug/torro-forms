@@ -32,21 +32,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Torro_Base {
 	/**
-	 * name of restriction
+	 * name of access-control
 	 *
 	 * @since 1.0.0
 	 */
 	protected $name;
 
 	/**
-	 * Title of restriction
+	 * Title of access-control
 	 *
 	 * @since 1.0.0
 	 */
 	protected $title;
 
 	/**
-	 * Description of restriction
+	 * Description of access-control
 	 *
 	 * @since 1.0.0
 	 */

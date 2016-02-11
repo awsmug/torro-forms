@@ -178,7 +178,7 @@ class Torro_Init {
 
 		// Components
 		require_once( $components_folder . 'actions/component.php' );
-		require_once( $components_folder . 'restrictions/component.php' );
+		require_once( $components_folder . 'form-settings/component.php' );
 		require_once( $components_folder . 'results/component.php' );
 
 		// Form functions
