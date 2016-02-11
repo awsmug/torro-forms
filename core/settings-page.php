@@ -228,6 +228,10 @@ class Torro_Settings_Page {
 			$tab = $_GET[ 'tab' ];
 		}
 
+		if( empty( $tab ) ){
+			$tab = 'general';
+		}
+
 		$section = '';
 		if ( isset( $_GET[ 'section' ] ) ) {
 			$section = $_GET[ 'section' ];

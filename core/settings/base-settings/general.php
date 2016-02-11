@@ -64,9 +64,14 @@ final class Torro_General_Settings extends Torro_Settings {
 			)
 		);
 
-		add_action( 'init', array( $this, 'add_modules' ), 5 ); // Loading Modules dynamical
+		add_action( 'init', array( $this, 'add_modules' ), 5 ); // Loading Modules dynamical after init because moules existing not yet
 	}
 
+	/**
+	 * Adding Modules
+	 *
+	 * @since 1.0.0
+	 */
 	public function add_modules() {
 		$components = array();
 		$defaults = array();
@@ -91,6 +96,14 @@ final class Torro_General_Settings extends Torro_Settings {
 			    'description'	=> __( 'The Slug name for URL building. (e.g. for an URL like http://mydomain.com/<strong>forms</strong>/mycontactform)'),
 			    'type'			=> 'text',
 			    'default'		=> ! get_option( 'questions_db_version' ) ? 'forms' : 'survey'
+			),
+		    'frontend_css'			=> array(
+			    'title'			=> __( 'CSS', 'torro-forms' ),
+			    'type'			=> 'checkbox',
+			    'values'        => array(
+				    'show_css'       => __( 'Include Torro Forms CSS on frontend.', 'torro-forms' )
+			    ),
+			    'default'       => array( 'show_css' )
 			)
 		);
 

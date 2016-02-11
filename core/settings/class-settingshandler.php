@@ -331,13 +331,12 @@ class Torro_Settings_Handler {
 
 		// Running all settings fields
 		foreach ( $this->fields as $name => $settings ) {
-			// Only Saving submitted fields
-			if ( ! array_key_exists( $name, $_POST ) ) {
-				continue;
-			}
-
 			$option_name = 'torro_settings_' . $this->name . '_' . $name;
-			$value = $_POST[ $name ];
+
+			$value = '';
+			if( isset( $_POST[ $name ] ) ) {
+				$value = $_POST[ $name ];
+			}
 
 			if ( 'options' === $this->type ) {
 				update_option( $option_name, $value );
