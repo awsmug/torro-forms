@@ -69,7 +69,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 			return false;
 		}
 
-		$element = new $class_name( $id );
+		$element = $class_name::instance( $id );
 		if ( ! $element->id ) {
 			return false;
 		}

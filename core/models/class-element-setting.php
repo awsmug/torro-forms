@@ -39,11 +39,11 @@ class Torro_Element_Setting {
 
 	private $value = '';
 
-	public function __construct( $id ) {
+	public function __construct( $id = null ) {
 		$this->populate( $id );
 	}
 
-	private function populate( $id ) {
+	private function populate( $id = null ) {
 		global $wpdb;
 
 		if ( ! empty( $id ) ) {
