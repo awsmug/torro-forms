@@ -32,51 +32,47 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Form_Controller {
 
+	/**
+	 * Instance object
+	 *
+	 * @var object $instance
+	 *
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
+
+	/**
+	 * Content of the form
+	 *
+	 * @var string
+	 *
+	 * @since 1.0.0
+	 */
+	private $content = null;
 
 	/**
 	 * Current form id
 	 *
-	 * @var int
+	 * @var int $form_id
+	 *
 	 * @since 1.0.0
 	 */
 	private $form_id = null;
 
 	/**
-	 * Current form container id
-	 * @var int
-	 * @since 1.0.0
-	 */
-	private $form_container_id = null;
-
-	/**
 	 * Form object
 	 *
-	 * @var object
+	 * @var Torro_Form
+	 *
 	 * @since 1.0.0
 	 */
 	private $form = null;
 
 	/**
-	 * Actual step
-	 *
-	 * @var int
-	 * @since 1.0.0
-	 */
-	private $actual_step = 0;
-
-	/**
-	 * Previous step
-	 *
-	 * @var int
-	 * @since 1.0.0
-	 */
-	private $previous_step = 0;
-
-	/**
 	 * Determines if we are going forward
 	 *
 	 * @var bool
+	 *
 	 * @since 1.0.0
 	 */
 	private $going_forward = false;
@@ -85,6 +81,7 @@ class Torro_Form_Controller {
 	 * Determines if a response will be saved or not
 	 *
 	 * @var bool
+	 *
 	 * @since 1.0.0
 	 */
 	private $save_response = false;
@@ -93,14 +90,16 @@ class Torro_Form_Controller {
 	 * Is this a torro submit?
 	 *
 	 * @var bool
+	 *
 	 * @since 1.0.0
 	 */
-	private $is_torro_submit = false;
+	private $is_submit = false;
 
 	/**
 	 * Form action URL
 	 *
 	 * @var string
+	 *
 	 * @since 1.0.0
 	 */
 	private $form_action_url = null;
@@ -109,6 +108,7 @@ class Torro_Form_Controller {
 	 * Response Errors
 	 *
 	 * @var array
+	 *
 	 * @since 1.0.0
 	 */
 	private $response_errors = array();
@@ -116,71 +116,141 @@ class Torro_Form_Controller {
 	/**
 	 * Initializes the form controller.
 	 *
-	 * @param $filter_the_content
 	 * @since 1.0.0
 	 */
-	private function __construct( $filter_the_content = false ) {
-		add_action( 'parse_request', array( $this, 'parse_request' ), 100, 1 );
-
-		if ( true === $filter_the_content ) {
-			add_action( 'the_post', array( $this, 'add_filter_the_content' ) ); // Only on a loop
-		}
+	private function __construct() {
+		add_action( 'parse_request', array( $this, 'wp_request_set_form' ), 100, 1 );
+		add_action( 'the_post', array( $this, 'add_filter_the_content' ) );
+		add_action( 'torro_wp_request_set_form', array( $this, 'control' ) );
 
 		if ( ! isset( $_SESSION ) ) {
 			session_start();
 		}
-
-		$this->set_form_action_url( $_SERVER[ 'REQUEST_URI' ] );
 	}
 
 	/**
 	 * Singleton
 	 *
-	 * @param bool $filter_the_content
 	 * @return null|Torro_Form_Controller
+	 *
 	 * @since 1.0.0
 	 */
-	public static function instance( $filter_the_content = false ) {
+	public static function instance() {
 		if ( null === self::$instance ) {
-			self::$instance = new self( $filter_the_content );
+			self::$instance = new self();
 		}
 
 		return self::$instance;
 	}
 
 	/**
-	 * Text which will be shown after a user has participated successful
-	 *
-	 * @param int $form_id
-	 * @return string $html
-	 * @since 1.0.0
-	 */
-	public static function show_results( $form_id ) {
-		$show_results = get_post_meta( $form_id, 'show_results', true );
-
-		$html = '<div class="torro-results">';
-		if ( 'yes' === $show_results ) {
-			$html = '<p>' . __( 'This are the current results:', 'torro-forms' ) . '</p>';
-			$html .= do_shortcode( '[form_charts id="' . $form_id . '"]' );
-		}
-		$html .= '</div>';
-
-		return apply_filters( 'torro_show_results', $html, $form_id );
-	}
-
-	/**
-	 * Porcessing Request and setting up class variables
+	 * Processing request and setting up form id
 	 *
 	 * @param array $request
+	 *
 	 * @since 1.0.0
+	 *
+	 * @return null;
 	 */
-	public function parse_request( $request ) {
-		$this->parse_posted_vars();
+	private function wp_request_set_form( $request )
+	{
+		$request = $request[ 0 ];
+
+		// We have to be in a post type or leave
+		if ( ! isset( $request->query_vars[ 'name' ] ) && ! isset( $request->query_vars[ 'pagename' ] ) ){
+			return;
+		}
+
+		// Setting up post variables
+		if ( isset( $request->query_vars[ 'post_type' ] ) ){
+			$post_type = $request->query_vars[ 'post_type' ];
+			$post_name = $request->query_vars[ 'name' ];
+		}else{
+			if( isset( $request->query_vars[ 'name' ] ) ){
+				$post_type = 'post';
+				$post_name = $request->query_vars[ 'name' ];
+			}elseif( isset( $request->query_vars[ 'pagename' ] ) ){
+				$post_type = 'page';
+				$post_name = $request->query_vars[ 'pagename' ] ;
+			}else{
+				// We don't know it, we leave!
+				return;
+			}
+		}
+
+		$args = array(
+			'name' => $post_name,
+			'post_type' => $post_type,
+			'numberposts' => 1
+		);
+
+		$posts = get_posts( $args );
+		$post = $posts[ 0 ];
+
+		if( ! has_shortcode( $post->post_content, 'form' ) && 'torro-forms' !== $post_type ){
+			return;
+		}
+
+		/**
+		 * Getting form ID
+		 */
+		if( 'torro-forms' === $post_type )
+		{
+			// Yes we are on e page which dispays a torro form post type!
+			if ( is_wp_error( $this->set_form( $post->ID ) ) )
+			{
+				return;
+			}
+
+		}else{
+			// We are working with shortcodes!
+			$pattern = get_shortcode_regex( array( 'form' ) );
+			preg_match_all( "/$pattern/", $post->post_content, $matches );
+			$short_code_params = $matches[ 3 ];
+			$shortcode_atts = shortcode_parse_atts( $short_code_params[ 0 ] );
+
+			if( ! isset( $shortcode_atts[ 'id' ] ) ){
+				return;
+			}
+
+			if( is_wp_error( $this->set_form( $shortcode_atts[ 'id' ] ) ) ){
+				return;
+		    }
+		}
+
+		do_action( 'torro_wp_request_set_form', $this->form_id );
+		/*
+
+		if ( isset( $_POST[ 'torro_next_step' ] ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_next_step' ] );
+			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
+		} elseif ( isset( $_POST[ 'torro_actual_step' ] ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
+			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
+		} else {
+			$this->actual_step = 0;
+			$this->previous_step = 0;
+		}
+
+		if ( array_key_exists( 'torro_submission_back', $_POST ) ) {
+			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] ) - 1;
+		}
+
+		$this->going_forward = false;
+		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
+			$this->going_forward = true;
+		}
+
+		$this->save_response = false;
+		if( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) ){
+			$this->save_response = true;
+		}
 
 		if ( ! $this->is_torro_submit ){
 			return;
 		}
 
+		$this->form_action_url = $_SERVER[ 'REQUEST_URI' ];
 		$response_new   = isset( $_POST[ 'torro_response' ] ) ? $_POST[ 'torro_response' ] : array();
 		$response_saved = isset( $_SESSION[ 'torro_response' ][ $this->form_id ] ) ? $_SESSION[ 'torro_response' ][ $this->form_id ] : array();
 		$merged_response = $response_new;
@@ -230,80 +300,87 @@ class Torro_Form_Controller {
 		}
 
 		do_action( 'torro_form_parse_request', $this->form_id, $this->actual_step, $response_new, $merged_response );
+
+		*/
 	}
 
 	/**
-	 * Parsing posted vars and setting up class variables
+	 * Setting up further vars by considering post variables
 	 *
 	 * @since 1.0.0
 	 */
-	private function parse_posted_vars() {
-		$this->is_torro_submit = false;
-
-		if ( isset( $_POST[ 'torro_form_id' ] ) ) {
-			$this->is_torro_submit = true;
+	private function control()
+	{
+		if( ! isset( $_POST[ 'torro_form_id' ]  ) )
+		{
+			$this->content = $this->form->get_html( $_SERVER[ 'REQUEST_URI' ] );
 		}
+		else
+		{
+			/**
+			 * Yes we have a submit!
+			 */
+			if ( ! isset( $_POST[ '_wpnonce' ] ) )
+			{
+				return false;
+			}
 
-		if ( isset( $_POST[ '_wpnonce' ] ) && wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
-			$this->is_torro_submit = true;
-		}
+			if( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id )  )
+			{
+				wp_die( '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' . 403 );
+			}
 
-		if( ! $this->is_torro_submit ){
-			return;
-		}
+			$container_id = $_POST[ 'torro_response' ][ 'container_id' ];
 
-		if ( ! $this->set_form_id( $_POST[ 'torro_form_id' ] ) ) {
-			return;
-		}
+			$this->form->set_container( $container_id );
+			$elements = $this->form->get_container()->get_elements();
+			$response =$_POST[ 'torro_response' ];
 
-		if ( isset( $_POST[ 'torro_next_step' ] ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_next_step' ] );
-			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
-		} elseif ( isset( $_POST[ 'torro_actual_step' ] ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
-			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
-		} else {
-			$this->actual_step = 0;
-			$this->previous_step = 0;
-		}
+			$errors = array();
+			foreach( $elements AS $element ){
+				$input = $response[ 'elements' ][ $element->id ];
+				if( ! $element->validate( $input ) ){
+					$errors[ $container_id ][ $element->id ] = $element->get_validation_errors();
+				}
+			}
 
-		if ( array_key_exists( 'torro_submission_back', $_POST ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] ) - 1;
-		}
+			if( count( $errors ) > 0 )
+			{
 
-		$this->going_forward = false;
-		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
-			$this->going_forward = true;
-		}
+			}
 
-		$this->save_response = false;
-		if( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) ){
-			$this->save_response = true;
+			$this->is_submit = true;
+
+			$this->content = $this->form->get_html( $_SERVER[ 'REQUEST_URI' ], $_POST[ 'torro_response' ][ 'container_id' ], $response, $errors );
 		}
 	}
 
 	/**
 	 * Setting form id
 	 *
-	 * @param $form_id
-	 * @return boolean
+	 * @param int $form_id
+	 *
+	 * @return Torro_Form|Torro_Error
+	 *
 	 * @since 1.0.0
 	 */
-	public function set_form_id( $form_id ) {
-		if ( torro()->forms()->get( $form_id )->exists() ) {
+	private function set_form( $form_id ) {
+		if ( torro()->forms()->get( $form_id )->exists() ){
 			$this->form_id = $form_id;
 			$this->form    = torro()->forms()->get( $this->form_id );
-
-			return true;
+			return $this->form;
 		}
 
-		return false;
+		return new Torro_Error( 'torro_form_controller_form_not_exist', sprintf( __( 'The form with the id %d does not exist.', 'torro-forms' ), $form_id ) );
 	}
+
+
 
 	/**
 	 * Return the current form id
 	 *
 	 * @return int
+	 *
 	 * @since 1.0.0
 	 */
 	public function get_form_id() {
@@ -311,20 +388,10 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Setting form action url
-	 *
-	 * @param $form_id
-	 * @return boolean
-	 * @since 1.0.0
-	 */
-	public function set_form_action_url( $url ) {
-		$this->form_action_url = $url;
-	}
-
-	/**
 	 * Get response errors
 	 *
 	 * @return array
+	 *
 	 * @since 1.0.0
 	 */
 	public function get_response_errors() {
@@ -336,7 +403,7 @@ class Torro_Form_Controller {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_filter_the_content() {
+	private function add_filter_the_content() {
 		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
 	}
 
@@ -344,25 +411,21 @@ class Torro_Form_Controller {
 	 * The filtered content gets a Form
 	 *
 	 * @param string $content
+	 *
 	 * @return string $content
+	 *
 	 * @since 1.0.0
 	 */
-	public function filter_the_content( $content ) {
-		global $post;
+	private function filter_the_content( $content ) {
+		$this->init_vars();
 
-		if ( null === $this->form_id ) {
-			$this->set_form_id( $post->ID );
-		}
-
-		if ( 'torro-forms' !== $post->post_type ) {
-			return $content;
-		}
-
-		$html = $this->html();
+		if( is_wp_error( $this->content ) ){
+			return $this->content->get_error_message();
+	    }
 
 		remove_filter( 'the_content', array( $this, 'filter_the_content' ) ); // only show once
 
-		return $html;
+		return $this->content;
 	}
 
 	/**
@@ -378,9 +441,6 @@ class Torro_Form_Controller {
 			ob_start();
 			do_action( 'torro_form_finished', $this->form_id, $_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] );
 			$html .= ob_get_clean();
-
-			$html .= $this->show_results( $this->form_id );
-
 			session_destroy();
 		} else {
 			$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding access-controls and so on ...
@@ -473,10 +533,10 @@ class Torro_Form_Controller {
 			}
 
 			if ( ! $element->validate( $answer ) ) {
-				if ( 0 < count( $element->validate_errors ) ) {
+				if ( 0 < count( $element->validation_errors ) ) {
 
 					// Getting every error of element back
-					foreach ( $element->validate_errors AS $message ) {
+					foreach ( $element->validation_errors AS $message ) {
 						$this->add_response_error( $element->id, $message );
 					}
 				}
@@ -504,39 +564,33 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Getting navigation for form
+	 * Magic function to hide functions for autocomplete
 	 *
-	 * @param $actual_step
-	 * @param $next_step
-	 * @return string
-	 * @since 1.0.0
+	 * @param $name
+	 * @param $arguments
+	 *
+	 * @return mixed|Torro_Error
 	 */
-	private function get_navigation( $actual_step, $next_step ) {
-		$html = '';
-
-		// If there was a step before, show previous button
-		if ( 0 < $actual_step ) {
-			$html .= '<input type="submit" name="torro_submission_back" value="' . esc_attr__( 'Previous Step', 'torro-forms' ) . '"> ';
+	public function __call( $name, $arguments )
+	{
+		switch( $name ){
+			case 'wp_request_set_form':
+				return $this->wp_request_set_form( $arguments );
+				break;
+			case 'control':
+				return $this->control();
+				break;
+			case 'add_filter_the_content':
+				return $this->add_filter_the_content();
+				break;
+			case 'filter_the_content':
+				return $this->filter_the_content( $arguments );
+				break;
+			default:
+				return new Torro_Error( 'torro_form_controller_method_not_exists', __( 'This Torro Forms Controller function does not exist.', 'torro-forms' )  );
+				break;
 		}
-
-		if ( $actual_step === $next_step ) {
-			// If actual step is next step, show finish form button
-			ob_start();
-			do_action( 'torro_form_send_button_before', $this->form_id );
-			$html .= ob_get_clean();
-
-			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Send', 'torro-forms' ) . '">';
-
-			ob_start();
-			do_action( 'torro_form_send_button_after', $this->form_id );
-			$html .= ob_get_clean();
-		} else {
-			// Show next button
-			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Next Step', 'torro-forms' ) . '">';
-		}
-
-		return $html;
 	}
 }
 
-Torro_Form_Controller::instance( true );
+Torro_Form_Controller::instance();

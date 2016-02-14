@@ -132,6 +132,46 @@ class Torro_Container {
 		return $this->elements;
 	}
 
+	public function get_html( $response = array(), $errors = array() )
+	{
+		$html = sprintf( '<input type="hidden" name="torro_response[container_id]" value="%d" />', $this->id );
+
+		foreach( $this->elements AS $element )
+		{
+			if( ! isset(  $response[ $element->id ] ) )
+			{
+				$response[ $element->id ] = null;
+			}
+			if( ! isset(  $errors[ $element->id ] ) )
+			{
+				$errors[ $element->id ] = null;
+			}
+			$html .= $element->get_html( $response[ $element->id ], $errors[ $element->id ] );
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Checks if the container exists
+	 *
+	 * @return boolean $exists true if Form exists, false if not
+	 *
+	 * @since 1.0.0
+	 */
+	public function exists() {
+		global $wpdb;
+
+		$sql = $wpdb->prepare( "SELECT COUNT( id ) FROM {$wpdb->torro_containers} WHERE id = %d", $this->id );
+		$var = $wpdb->get_var( $sql );
+
+		if ( $var > 0 ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'id':

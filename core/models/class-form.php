@@ -51,6 +51,42 @@ class Torro_Form extends Torro_Post {
 	public $containers = array();
 
 	/**
+	 * Container object
+	 *
+	 * @var Torro_Container
+	 *
+	 * @since 1.0.0
+	 */
+	private $container = null;
+
+	/**
+	 * Container id
+	 *
+	 * @var int $container_id
+	 *
+	 * @since 1.0.0
+	 */
+	private $container_id = null;
+
+	/**
+	 * Previous container id
+	 *
+	 * @var int $container_id
+	 *
+	 * @since 1.0.0
+	 */
+	private $prev_container_id = null;
+
+	/**
+	 * Next form container id
+	 *
+	 * @var int $container_id
+	 *
+	 * @since 1.0.0
+	 */
+	private $next_container_id = null;
+
+	/**
 	 * @var array $elements All elements of the form
 	 * @since 1.0.0
 	 */
@@ -146,7 +182,7 @@ class Torro_Form extends Torro_Post {
 	private function __get_containers() {
 		global $wpdb;
 
-		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_containers} WHERE form_id=%d", $this->id );
+		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_containers} WHERE form_id=%d ORDER BY sort ASC", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		if ( 0 === $wpdb->num_rows ) {
@@ -216,6 +252,63 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
+	 * Returning current container
+	 * @return Torro_Container
+	 */
+	public function get_container(){
+		return $this->container;
+	}
+
+	/**
+	 * Setting Container id
+	 *
+	 * @param int $container_id
+	 *
+	 * @return Torro_Container
+	 *
+	 * @since 1.0.0
+	 */
+	public function set_container( $container_id = null )
+	{
+		if( null !== $container_id )
+		{
+			$prev_container_id = null;
+			$next_container_id = null;
+
+			for( $i = 0; $i < count( $this->containers ); $i++ )
+			{
+				if( $i > 0 )
+				{
+					$prev_container_id = $this->containers[ $i - 1 ]->id;
+				}
+				if( $i < count( $this->containers ) - 1 )
+				{
+					$next_container_id = $this->containers[ $i + 1 ]->id;
+				}
+				if( $container_id === $this->containers[ $i ]->id )
+				{
+					$this->container_id = $container_id;
+					$this->container = $this->containers[ $i ];
+					$this->prev_container_id = $prev_container_id;
+					$this->next_container_id = $next_container_id;
+					return $this->container;
+				}
+			}
+		}
+		else
+		{
+			$this->container_id = $this->containers[ 0 ]->id;
+			$this->container = $this->containers[ 0 ];
+
+			if( isset( $this->containers[ 1 ] ) ){
+				$this->next_container_id = apply_filters( 'torro_forms_next_container_id', $this->containers[ 1 ]->id, $this );
+			}
+
+			return $this->container;
+		}
+	}
+
+	/**
 	 * Geting Participants
 	 *
 	 * @return array
@@ -225,45 +318,62 @@ class Torro_Form extends Torro_Post {
 		return $this->participants;
 	}
 
-	/**
-	 * Getting elements of a Form
-	 *
-	 * @param int $form_id
-	 * @param int $step
-	 *
-	 * @return array $elements
-	 * @since 1.0.0
-	 * @todo  Have to be removed
-	 */
-	public function get_step_elements( $step = 0 ) {
-		$actual_step = 0;
+	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() )
+	{
+		$this->set_container( $container_id );
 
-		$elements = array();
-		foreach ( $this->elements as $element ) {
-			$elements[ $actual_step ][] = $element;
-			if ( $element->splits_form ) {
-				$actual_step ++;
-			}
+		$html  = '<form class="torro-form" action="' . $form_action_url . '" method="POST" novalidate>';
+		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '" />';
+		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '" />';
+
+		if( ! isset( $response[ $this->id ] ) )
+		{
+			$response[ $this->id ] = null;
+		}
+		if( ! isset( $errors[ $this->id ] ) )
+		{
+			$errors[ $this->id ] = null;
 		}
 
-		if ( $actual_step < $step ) {
-			return false;
-		}
+		$html .= $this->container->get_html( $response[ $this->id ], $errors[ $this->id ] );
 
-		return $elements[ $step ];
+		$html .= $this->get_navigation();
+
+		$html .= '</form>';
+		return $html;
 	}
 
 	/**
-	 * Get number of splits in the Form
+	 * Getting navigation for form
 	 *
-	 * @param int $form_id
-	 *
-	 * @return int $splitter_count
+	 * @param $actual_step
+	 * @param $next_step
+	 * @return string
 	 * @since 1.0.0
-	 * @todo  Have to be removed
 	 */
-	public function get_step_count() {
-		return count( $this->containers );
+	private function get_navigation() {
+		$html = '';
+
+		// If there was a step before, show previous button
+		if ( null !== $this->prev_container_id ) {
+			$html .= '<input type="submit" name="torro_submission_back" value="' . esc_attr__( 'Previous Step', 'torro-forms' ) . '"> ';
+		}
+
+		if( null !== $this->next_container_id ){
+			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Next Step', 'torro-forms' ) . '">';
+		}else{
+			ob_start();
+			do_action( 'torro_form_send_button_before', $this->id );
+			$html .= ob_get_clean();
+
+			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Send', 'torro-forms' ) . '">';
+
+			ob_start();
+			do_action( 'torro_form_send_button_after', $this->id );
+			$html .= ob_get_clean();
+		}
+
+		return $html;
 	}
 
 	/**

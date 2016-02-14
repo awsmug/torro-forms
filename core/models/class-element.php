@@ -146,7 +146,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	protected $validate_errors = array();
+	protected $validation_errors = array();
 
 	/**
 	 * Initializing.
@@ -225,7 +225,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 		$settings = array();
 
-		$sql      = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_settings} WHERE element_id = %s", $this->id );
+		$sql      = $wpdb->prepare( "SELECT id, name FROM {$wpdb->torro_settings} WHERE element_id = %s", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		if ( 0 === $wpdb->num_rows ) {
@@ -234,7 +234,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 		if ( is_array( $results ) ) {
 			foreach ( $results as $setting ) {
-				$settings[] = new Torro_Element_Setting( $setting->id );
+				$settings[ $setting->name ] = new Torro_Element_Setting( $setting->id );
 			}
 		}
 
@@ -335,20 +335,12 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return string $html Element HTML
 	 * @since 1.0.0
 	 */
-	public function get_html() {
-		$response_errors = torro()->forms()->get_current()->get_response_errors();
-
-		$errors = '';
-		if ( is_array( $response_errors ) && array_key_exists( $this->id, $response_errors ) ) {
-			$errors = $response_errors[ $this->id ];
-		}
-
-		$html = '';
+	public function get_html( $response = array(), $errors = array() ) {
 
 		$element_classes = array( 'torro-element', 'torro-element-' . $this->id );
 		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $this );
 
-		$html .= '<div class="' . esc_attr( implode( ' ', $element_classes ) ) . '">';
+		$html = '<div class="' . esc_attr( implode( ' ', $element_classes ) ) . '">';
 
 		ob_start();
 		do_action( 'torro_form_element_start', $this->id );
@@ -794,7 +786,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	public function get_input_name() {
-		return 'torro_response[' . $this->id . ']';
+		return 'torro_response[elements][' . $this->id . ']';
 	}
 
 	/**
@@ -816,6 +808,17 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	public function add_result_columns( &$result_object ) {
 		return false;
+	}
+
+	/**
+	 * Returning validation errors
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_validation_errors(){
+		return $this->validation_errors;
 	}
 
 	/**

@@ -115,14 +115,14 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 
 		if ( ! empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ) {
-				$this->validate_errors[] = __( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$this->validation_errors[] = __( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = true;
 			}
 		}
 
 		if ( ! empty( $max_length ) ) {
 			if ( strlen( $input ) > $max_length ) {
-				$this->validate_errors[] = __( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$this->validation_errors[] = __( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = true;
 			}
 		}

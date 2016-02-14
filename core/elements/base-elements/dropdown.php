@@ -104,7 +104,7 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 		$error = false;
 
 		if ( 'please-select' === $input ) {
-			$this->validate_errors[] = __( 'Please select a value.', 'torro-forms' );
+			$this->validation_errors[] = __( 'Please select a value.', 'torro-forms' );
 			$error = true;
 		}
 

@@ -62,7 +62,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 		$input_type = 'text';
 
 		$validation = $this->settings[ 'validation' ];
-		$validation_data = $this->get_validations( $validation );
+		$validation_data = $this->get_validations( $validation->value );
 
 		if ( $validation_data && isset( $validation_data['html_field_type'] ) && $validation_data['html_field_type'] ) {
 			$input_type = $validation_data['html_field_type'];
@@ -74,7 +74,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 
 		if ( ! empty( $this->settings['description'] ) ) {
 			$html .= '<small>';
-			$html .= esc_html( $this->settings['description'] );
+			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}
 
@@ -147,7 +147,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 
 		$validations = apply_filters( 'torro_text_field_validations', $validations );
 
-		if ( $value ) {
+		if ( ! empty( $value ) ) {
 			if ( isset( $validations[ $value ] ) ) {
 				return $validations[ $value ];
 			}
@@ -158,22 +158,22 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 	}
 
 	public function validate( $input ) {
-		$min_length = $this->settings[ 'min_length' ];
-		$max_length = $this->settings[ 'max_length' ];
-		$validation = $this->settings[ 'validation' ];
+		$min_length = $this->settings[ 'min_length' ]->value;
+		$max_length = $this->settings[ 'max_length' ]->value;
+		$validation = $this->settings[ 'validation' ]->value;
 
 		$error = false;
 
 		if ( ! empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ) {
-				$this->validate_errors[] = __( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$this->validation_errors[] = __( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = true;
 			}
 		}
 
 		if ( ! empty( $max_length ) ) {
 			if ( strlen( $input ) > $max_length ) {
-				$this->validate_errors[] = __( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
+				$this->validation_errors[] = __( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
 				$error = true;
 			}
 		}
@@ -191,7 +191,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 			if ( ! $status ) {
 				$error = true;
 				if ( isset( $validation_data['error_message'] ) && $validation_data['error_message'] ) {
-					$this->validate_errors[] = $validation_data['error_message'];
+					$this->validation_errors[] = $validation_data['error_message'];
 				}
 			}
 		}
