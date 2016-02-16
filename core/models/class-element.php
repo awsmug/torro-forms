@@ -786,7 +786,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	public function get_input_name() {
-		return 'torro_response[elements][' . $this->id . ']';
+		return 'torro_response[containers][' . $this->container_id . '][elements][' . $this->id . ']';
 	}
 
 	/**

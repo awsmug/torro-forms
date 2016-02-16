@@ -2,7 +2,6 @@
 
 /**
  * Form base class
- *
  * Init Forms with this class to get information about it
  *
  * @author  awesome.ug <contact@awesome.ug>
@@ -10,21 +9,17 @@
  * @version 2015-04-16
  * @since   1.0.0
  * @license GPL 2
- *
- * Copyright 2015 rheinschmiede (contact@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *          Copyright 2015 rheinschmiede (contact@awesome.ug)
+ *          This program is free software; you can redistribute it and/or modify
+ *          it under the terms of the GNU General Public License, version 2, as
+ *          published by the Free Software Foundation.
+ *          This program is distributed in the hope that it will be useful,
+ *          but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *          MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *          GNU General Public License for more details.
+ *          You should have received a copy of the GNU General Public License
+ *          along with this program; if not, write to the Free Software
+ *          Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -49,62 +44,50 @@ class Torro_Form extends Torro_Post {
 	 * @since 1.0.0
 	 */
 	public $containers = array();
-
-	/**
-	 * Container object
-	 *
-	 * @var Torro_Container
-	 *
-	 * @since 1.0.0
-	 */
-	private $container = null;
-
-	/**
-	 * Container id
-	 *
-	 * @var int $container_id
-	 *
-	 * @since 1.0.0
-	 */
-	private $container_id = null;
-
-	/**
-	 * Previous container id
-	 *
-	 * @var int $container_id
-	 *
-	 * @since 1.0.0
-	 */
-	private $prev_container_id = null;
-
-	/**
-	 * Next form container id
-	 *
-	 * @var int $container_id
-	 *
-	 * @since 1.0.0
-	 */
-	private $next_container_id = null;
-
 	/**
 	 * @var array $elements All elements of the form
 	 * @since 1.0.0
 	 */
 	public $elements = array();
-
 	/**
 	 * @todo  Getting participants out of form and hooking in
 	 * @var array $participants All elements of the form
 	 * @since 1.0.0
 	 */
 	public $participants = array();
-
 	/**
 	 * @var int $splitter_count Counter for form splitters
 	 * @since 1.0.0
 	 */
 	public $splitter_count = 0;
-
+	/**
+	 * Container object
+	 *
+	 * @var Torro_Container
+	 * @since 1.0.0
+	 */
+	private $container = null;
+	/**
+	 * Container id
+	 *
+	 * @var int $container_id
+	 * @since 1.0.0
+	 */
+	private $container_id = null;
+	/**
+	 * Previous container id
+	 *
+	 * @var int $container_id
+	 * @since 1.0.0
+	 */
+	private $prev_container_id = null;
+	/**
+	 * Next form container id
+	 *
+	 * @var int $container_id
+	 * @since 1.0.0
+	 */
+	private $next_container_id = null;
 	/**
 	 * @var array Internal variable for transfering elements on duplicating
 	 * @since 1.0.0
@@ -253,59 +236,11 @@ class Torro_Form extends Torro_Post {
 
 	/**
 	 * Returning current container
+	 *
 	 * @return Torro_Container
 	 */
-	public function get_container(){
+	public function get_container() {
 		return $this->container;
-	}
-
-	/**
-	 * Setting Container id
-	 *
-	 * @param int $container_id
-	 *
-	 * @return Torro_Container
-	 *
-	 * @since 1.0.0
-	 */
-	public function set_container( $container_id = null )
-	{
-		if( null !== $container_id )
-		{
-			$prev_container_id = null;
-			$next_container_id = null;
-
-			for( $i = 0; $i < count( $this->containers ); $i++ )
-			{
-				if( $i > 0 )
-				{
-					$prev_container_id = $this->containers[ $i - 1 ]->id;
-				}
-				if( $i < count( $this->containers ) - 1 )
-				{
-					$next_container_id = $this->containers[ $i + 1 ]->id;
-				}
-				if( $container_id === $this->containers[ $i ]->id )
-				{
-					$this->container_id = $container_id;
-					$this->container = $this->containers[ $i ];
-					$this->prev_container_id = $prev_container_id;
-					$this->next_container_id = $next_container_id;
-					return $this->container;
-				}
-			}
-		}
-		else
-		{
-			$this->container_id = $this->containers[ 0 ]->id;
-			$this->container = $this->containers[ 0 ];
-
-			if( isset( $this->containers[ 1 ] ) ){
-				$this->next_container_id = apply_filters( 'torro_forms_next_container_id', $this->containers[ 1 ]->id, $this );
-			}
-
-			return $this->container;
-		}
 	}
 
 	/**
@@ -318,20 +253,17 @@ class Torro_Form extends Torro_Post {
 		return $this->participants;
 	}
 
-	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() )
-	{
+	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
 		$this->set_container( $container_id );
 
-		$html  = '<form class="torro-form" action="' . $form_action_url . '" method="POST" novalidate>';
+		$html = '<form class="torro-form" action="' . $form_action_url . '" method="POST" novalidate>';
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '" />';
 		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '" />';
 
-		if( ! isset( $response[ $this->id ] ) )
-		{
+		if ( ! isset( $response[ $this->id ] ) ) {
 			$response[ $this->id ] = null;
 		}
-		if( ! isset( $errors[ $this->id ] ) )
-		{
+		if ( ! isset( $errors[ $this->id ] ) ) {
 			$errors[ $this->id ] = null;
 		}
 
@@ -340,7 +272,49 @@ class Torro_Form extends Torro_Post {
 		$html .= $this->get_navigation();
 
 		$html .= '</form>';
+
 		return $html;
+	}
+
+	/**
+	 * Setting Container id
+	 *
+	 * @param int $container_id
+	 *
+	 * @return Torro_Container
+	 * @since 1.0.0
+	 */
+	public function set_container( $container_id = null ) {
+		if ( null !== $container_id ) {
+			$prev_container_id = null;
+			$next_container_id = null;
+
+			for ( $i = 0; $i < count( $this->containers ); $i ++ ) {
+				if ( $i > 0 ) {
+					$prev_container_id = $this->containers[ $i - 1 ]->id;
+				}
+				if ( $i < count( $this->containers ) - 1 ) {
+					$next_container_id = $this->containers[ $i + 1 ]->id;
+				}
+				if ( $container_id === $this->containers[ $i ]->id ) {
+					$this->container_id      = $container_id;
+					$this->container         = $this->containers[ $i ];
+					$this->prev_container_id = $prev_container_id;
+					$this->next_container_id = $next_container_id;
+
+					return $this->container;
+				}
+			}
+		} else {
+			$this->container_id = $this->containers[ 0 ]->id;
+			$this->container    = $this->containers[ 0 ];
+
+			if ( isset( $this->containers[ 1 ] ) ) {
+				$this->next_container_id = apply_filters( 'torro_forms_next_container_id', $this->containers[ 1 ]->id, $this );
+			}
+
+			return $this->container;
+		}
 	}
 
 	/**
@@ -348,6 +322,7 @@ class Torro_Form extends Torro_Post {
 	 *
 	 * @param $actual_step
 	 * @param $next_step
+	 *
 	 * @return string
 	 * @since 1.0.0
 	 */
@@ -359,9 +334,9 @@ class Torro_Form extends Torro_Post {
 			$html .= '<input type="submit" name="torro_submission_back" value="' . esc_attr__( 'Previous Step', 'torro-forms' ) . '"> ';
 		}
 
-		if( null !== $this->next_container_id ){
+		if ( null !== $this->next_container_id ) {
 			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Next Step', 'torro-forms' ) . '">';
-		}else{
+		} else {
 			ob_start();
 			do_action( 'torro_form_send_button_before', $this->id );
 			$html .= ob_get_clean();
@@ -657,5 +632,42 @@ class Torro_Form extends Torro_Post {
 
 	public function get_elements() {
 		return $this->elements;
+	}
+
+	public function __get( $key ) {
+		if ( property_exists( $this, $key ) ) {
+			return $this->$key;
+		}
+
+		return null;
+	}
+
+	public function __set( $key, $value ) {
+		switch ( $key ) {
+			case 'id':
+				return false;
+				break;
+
+			case 'prev_container_id':
+				return false;
+				break;
+
+			case 'next_container_id':
+				return false;
+				break;
+
+			default:
+				if ( property_exists( $this, $key ) ) {
+					$this->$key = $value;
+				}
+		}
+	}
+
+	public function __isset( $key ) {
+		if ( property_exists( $this, $key ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }
