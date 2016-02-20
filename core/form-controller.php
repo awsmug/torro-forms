@@ -532,7 +532,7 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Get response cache
+	 * Get response cache from session
 	 *
 	 * @param int $container_id
 	 *
