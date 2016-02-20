@@ -60,20 +60,12 @@ class Torro_Form_Controller {
 	private $form = null;
 
 	/**
-	 * Determines if we are going forward
+	 * Are we in a preview?
 	 *
 	 * @var bool
 	 * @since 1.0.0
 	 */
-	private $going_forward = false;
-
-	/**
-	 * Determines if a response will be saved or not
-	 *
-	 * @var bool
-	 * @since 1.0.0
-	 */
-	private $save_response = false;
+	private $is_preview = false;
 
 	/**
 	 * Is this a torro submit?
@@ -106,7 +98,7 @@ class Torro_Form_Controller {
 	 */
 	private function __construct() {
 		add_action( 'parse_request', array( $this, 'wp_request_set_form' ), 100 );
-		add_action( 'parse_request', array( $this, 'control' ), 101 );
+		add_action( 'parse_request', array( $this, 'control' ), 110 );
 
 		add_action( 'the_post', array( $this, 'add_filter_the_content' ) );
 	}
@@ -261,44 +253,50 @@ class Torro_Form_Controller {
 		$request = $request[ 0 ];
 
 		// We have to be in a post type or leave
-		if ( ! isset( $request->query_vars[ 'name' ] ) && ! isset( $request->query_vars[ 'pagename' ] ) ) {
+		if ( ! isset( $request->query_vars[ 'name' ] ) && ! isset( $request->query_vars[ 'pagename' ] )  && ! isset( $request->query_vars[ 'p' ] ) ) {
 			return;
 		}
 
-		// Setting up post variables
-		if ( isset( $request->query_vars[ 'post_type' ] ) ) {
-			$post_type = $request->query_vars[ 'post_type' ];
-			$post_name = $request->query_vars[ 'name' ];
-		} else {
-			if ( isset( $request->query_vars[ 'name' ] ) ) {
-				$post_type = 'post';
-				$post_name = $request->query_vars[ 'name' ];
-			} elseif ( isset( $request->query_vars[ 'pagename' ] ) ) {
-				$post_type = 'page';
-				$post_name = $request->query_vars[ 'pagename' ];
-			} else {
-				// We don't know it, we leave!
-				return;
-			}
+		if( isset( $_GET[ 'preview' ] ) ){
+			$this->is_preview = true;
 		}
 
-		$args = array(
-			'name'        => $post_name,
-			'post_type'   => $post_type,
-			'numberposts' => 1
-		);
+		if( isset( $request->query_vars[ 'post_type' ] ) ){
+			$args[ 'post_type' ] = $request->query_vars[ 'post_type' ];
+		}
+
+		if( isset( $request->query_vars[ 'name' ] ) ){
+			$args[ 'name' ] = $request->query_vars[ 'name' ];
+		}
+
+		if( isset( $request->query_vars[ 'p' ] ) ){
+			$args[ 'include' ] = array( $request->query_vars[ 'p' ] );
+		}
+
+		// Pages
+		if( isset( $request->query_vars[ 'pagename' ] ) ){
+			$args[ 'name' ] = $request->query_vars[ 'pagename' ];
+			$args[ 'post_type' ] = 'page';
+		}
+
+		$args[ 'post_status' ] = 'any';
 
 		$posts = get_posts( $args );
+
+		if( ! isset( $posts[ 0 ] ) ){
+			return;
+		}
+
 		$post  = $posts[ 0 ];
 
-		if ( ! has_shortcode( $post->post_content, 'form' ) && 'torro-forms' !== $post_type ) {
+		if ( ! has_shortcode( $post->post_content, 'form' ) && 'torro-forms' !== $post->post_type ) {
 			return;
 		}
 
 		/**
 		 * Getting form ID
 		 */
-		if ( 'torro-forms' === $post_type ) {
+		if ( 'torro-forms' === $post->post_type ) {
 			// Yes we are on e page which dispays a torro form post type!
 			if ( is_wp_error( $this->set_form( $post->ID ) ) ) {
 				return;
@@ -320,89 +318,6 @@ class Torro_Form_Controller {
 		}
 
 		do_action( 'torro_wp_request_set_form', $this->form_id );
-		/*
-
-		if ( isset( $_POST[ 'torro_next_step' ] ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_next_step' ] );
-			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
-		} elseif ( isset( $_POST[ 'torro_actual_step' ] ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
-			$this->previous_step = absint( $_POST[ 'torro_actual_step' ] );
-		} else {
-			$this->actual_step = 0;
-			$this->previous_step = 0;
-		}
-
-		if ( array_key_exists( 'torro_submission_back', $_POST ) ) {
-			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] ) - 1;
-		}
-
-		$this->going_forward = false;
-		if ( ! isset( $_POST[ 'torro_submission_back' ] ) ) {
-			$this->going_forward = true;
-		}
-
-		$this->save_response = false;
-		if( absint( $_POST[ 'torro_actual_step' ] ) === absint( $_POST[ 'torro_next_step' ] ) ){
-			$this->save_response = true;
-		}
-
-		if ( ! $this->is_torro_submit ){
-			return;
-		}
-
-		$this->form_action_url = $_SERVER[ 'REQUEST_URI' ];
-		$response_new   = isset( $_POST[ 'torro_response' ] ) ? $_POST[ 'torro_response' ] : array();
-		$response_saved = isset( $_SESSION[ 'torro_response' ][ $this->form_id ] ) ? $_SESSION[ 'torro_response' ][ $this->form_id ] : array();
-		$merged_response = $response_new;
-
-		// If there was a saved response merge it with new
-		if ( ! empty( $response_saved ) ) {
-			$merged_response = $response_saved;
-
-			if ( is_array( $response_new ) && 0 < count( $response_new ) ) {
-				foreach ( $response_new as $key => $answer ) {
-					$merged_response[ $key ] = torro_prepare_post_data( $answer );
-				}
-			}
-		}
-
-		$_SESSION[ 'torro_response' ][ $this->form_id ] = $merged_response;  // Saving data to Session for further submits
-
-		// Only parse request if not going backwards
-		if( ! $this->going_forward ){
-			return;
-		}
-
-		$validated = $this->validate( $response_new, $this->previous_step );
-
-		if( ! $validated )
-		{
-			$this->actual_step = absint( $_POST[ 'torro_actual_step' ] );
-			return;
-		}
-
-		// Saving
-		if ( $this->save_response ) {
-			$result_id = torro()->forms()->get( $this->form_id )->save_response( $merged_response );
-
-			// After successfull saving
-			if ( $result_id ) {
-				do_action( 'torro_response_save', $this->form_id, $result_id, $merged_response );
-
-				unset( $_SESSION[ 'torro_response' ][ $this->form_id ] );
-
-				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] = $result_id;
-				$_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ]  = true;
-
-				header( 'Location: ' . $_SERVER[ 'REQUEST_URI' ] );
-				die();
-			}
-		}
-
-		do_action( 'torro_form_parse_request', $this->form_id, $this->actual_step, $response_new, $merged_response );
-
-		*/
 	}
 
 	/**
@@ -445,7 +360,7 @@ class Torro_Form_Controller {
 			/**
 			 * Going back
 			 */
-			$current_container_id = $this->form->prev_container_id;
+			$this->content = $this->form->get_html( $action_url, $this->form->prev_container_id, $this->get_response_cache( $this->form->prev_container_id ) );
 		} else {
 			/**
 			 * Yes we have a submit!
@@ -497,16 +412,14 @@ class Torro_Form_Controller {
 			} else {
 				if ( ! empty( $this->form->next_container_id ) ) {
 					$current_container_id = $this->form->next_container_id;
-				} else {
-
+				}else{
+					$current_container_id = $response[ 'container_id' ];
 				}
 			}
 
-			$this->content = $this->form->get_html( $action_url, $current_container_id, $response, $errors );
+			$this->content = $this->form->get_html( $action_url, $current_container_id, $this->get_response_cache( $current_container_id ), $errors );
 			$this->is_submit = true;
 		}
-
-
 	}
 
 	/**
@@ -523,8 +436,13 @@ class Torro_Form_Controller {
 			}
 		}
 
-		$cache = $_SESSION[ 'torro_response' ][ $this->form_id ];
-		$cache = array_merge( $response, $cache );
+		$cache = $this->get_response_cache();
+
+		if( ! is_array( $cache ) ){
+			$cache = array();
+		}
+
+		$cache = array_merge( $cache, $response );
 
 		$_SESSION[ 'torro_response' ][ $this->form_id ] = $cache;
 
