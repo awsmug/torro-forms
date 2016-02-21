@@ -5,6 +5,10 @@
     margin: -10px 0 0;
 }
 
+#torro-content ul li a:focus {
+    box-shadow: none;
+}
+
 .form-elements-widget-icon {
     float: left;
     margin: 6px 0px 6px 6px;
@@ -21,14 +25,11 @@
     padding: 0 12px;
 }
 #form-container-tabs .torro-container{
-    display: none;
-}
-#form-container-tabs .torro-container:first-child{
-    display: block;
 }
 #form-container-tabs .container-buttons{
     padding:20px;
 }
+
 
 /**
  * 	Drag & Drop Area
