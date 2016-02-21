@@ -15,6 +15,11 @@
 #form-container-tabs ul{
     padding:10px 10px 0 10px;
 }
+#form-container-tabs #torro-container-add{
+    cursor: pointer;
+    line-height: 28px;
+    padding: 0 12px;
+}
 
 /**
  * 	Drag & Drop Area

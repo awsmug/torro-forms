@@ -83,6 +83,7 @@ class Torro_Formbuilder {
 			foreach ( $containers AS $container ) {
 				$html .= '<li><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
 			}
+			$html .= '<li id="torro-container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
 
 			foreach ( $containers AS $container ) {
