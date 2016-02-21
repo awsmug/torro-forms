@@ -5,7 +5,7 @@
     margin: -10px 0 0;
 }
 
-#torro-content ul li a:focus {
+.post-type-torro-forms ul li a:focus {
     box-shadow: none;
 }
 
