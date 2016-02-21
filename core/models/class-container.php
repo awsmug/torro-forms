@@ -138,6 +138,11 @@ class Torro_Container {
 
 		foreach( $this->elements AS $element )
 		{
+			if( is_wp_error( $element ) ){
+				$html .= $element->get_error_message();
+				continue;
+			}
+
 			if( ! isset( $response[ $element->id ] ) )
 			{
 				$response[ $element->id ] = null;

@@ -68,16 +68,16 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
-			if ( $this->response === $answer['text'] ) {
+			if ( $this->response === $answer->label ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro_element_radio"><input type="radio" name="' . $this->get_input_name() . '" value="' . esc_attr( $answer['text'] ) . '" ' . $checked . '/> ' . esc_html( $answer['text'] ) . '</div>';
+			$html .= '<div class="torro_element_radio"><input type="radio" name="' . $this->get_input_name() . '" value="' . esc_attr( $answer->label ) . '" ' . $checked . '/> ' . esc_html( $answer->label ) . '</div>';
 		}
 
-		if ( ! empty( $this->settings['description'] ) ) {
+		if ( ! empty( $this->settings['description']->value ) ) {
 			$html .= '<small>';
-			$html .= esc_html( $this->settings['description'] );
+			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}
 

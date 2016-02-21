@@ -68,16 +68,16 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
 
-			if ( is_array( $this->response ) && in_array( $answer['text'], $this->response, true ) ) {
+			if ( is_array( $this->response ) && in_array( $answer->label, $this->response, true ) ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer['text'] ) . '" ' . $checked . ' /> ' . esc_html( $answer['text'] ) . '</div>';
+			$html .= '<div class="torro_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer->label ) . '" ' . $checked . ' /> ' . esc_html( $answer->label ) . '</div>';
 		}
 
-		if ( ! empty( $this->settings['description'] ) ) {
+		if ( ! empty( $this->settings['description']->value ) ) {
 			$html .= '<small>';
-			$html .= esc_html( $this->settings['description'] );
+			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}
 
@@ -108,8 +108,8 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 	}
 
 	public function validate( $input ) {
-		$min_answers = $this->settings['min_answers'];
-		$max_answers = $this->settings['max_answers'];
+		$min_answers = $this->settings['min_answers']->value;
+		$max_answers = $this->settings['max_answers']->value;
 
 		$error = false;
 

@@ -134,7 +134,7 @@ class Torro_Form_Controller {
 				return $this->filter_the_content( $arguments );
 				break;
 			default:
-				return new Torro_Error( 'torro_form_controller_method_not_exists', __( 'This Torro Forms Controller function does not exist.', 'torro-forms' ) );
+				return new Torro_Error( 'torro_form_controller_method_not_exists', sprintf( __( 'This Torro Forms Controller function "%s" does not exist.', 'torro-forms' ), $name ) );
 				break;
 		}
 	}
@@ -260,7 +260,17 @@ class Torro_Form_Controller {
 			/**
 			 * Going back
 			 */
-			$this->content = $this->form->get_html( $action_url, $this->form->prev_container_id, $this->get_response_cache( $this->form->prev_container_id ) );
+			$response = $_POST[ 'torro_response' ];
+			$current_container_id = $response[ 'container_id' ];
+
+			$this->form->set_container( $current_container_id );
+
+			$form_response = array();
+			$cached_response = $this->cache->get_response();
+			if( isset( $cached_response[ 'containers' ][ $this->form->prev_container_id ][ 'elements' ] ) ) {
+				$form_response = $cached_response[ 'containers' ][ $this->form->prev_container_id ][ 'elements' ];
+			}
+			$this->content = $this->form->get_html( $action_url, $this->form->prev_container_id, $form_response );
 		} else {
 			/**
 			 * Yes we have a submit!
@@ -278,10 +288,17 @@ class Torro_Form_Controller {
 			}
 
 			$response = $_POST[ 'torro_response' ];
-			$errors   = array();
+			$current_container_id = $response[ 'container_id' ];
+
+			$errors = array();
 
 			$containers = $this->form->get_containers();
+
 			foreach ( $containers AS $container ) {
+				if( $container->id !== $current_container_id ){
+					continue;
+				}
+
 				$errors[ $container->id ] = array();
 
 				if ( ! isset( $response[ 'containers' ][ $container->id ] ) ) {
@@ -290,13 +307,18 @@ class Torro_Form_Controller {
 				}
 
 				$elements = $container->get_elements();
+
 				foreach ( $elements AS $element ) {
-					if ( ! isset( $response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ] ) ) {
-						$errors[ $container->id ][ 'container' ] = sprintf( __( 'Missing Element #%d of Container #%d with in form data.', 'torro-forms' ), $element->id, $container->id );
+					if( ! $element->input ){
 						continue;
 					}
 
-					$value = $response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ];
+					$value = '';
+					if ( isset( $response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ] ) ) {
+						$value = $response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ];
+					}else{
+						$response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ] = '';
+					}
 
 					if ( ! $element->validate( $value ) ) {
 						$errors[ $container->id ][ 'elements' ][ $element->id ] = $element->get_validation_errors();
@@ -304,13 +326,14 @@ class Torro_Form_Controller {
 				}
 			}
 
-			$this->cache->set_response( $response );
-			$current_container_id = $response[ 'container_id' ];
+			$this->cache->add_response( $response );
 
 			/**
 			 * There was no error!
 			 */
 			if ( count( $errors[ $current_container_id ] ) === 0 ) {
+				$this->form->set_container( $current_container_id );
+
 				if ( ! empty( $this->form->next_container_id ) ) {
 					// Getting next container id
 					$current_container_id = $this->form->next_container_id;
@@ -321,7 +344,6 @@ class Torro_Form_Controller {
 
 					if ( false === $result_id ) {
 						$this->content = new Torro_Error( 'torro_save_response_error', __( 'Your response couldn\'t be saved.', 'torro-forms' ) );
-
 						return;
 					}
 
@@ -339,11 +361,17 @@ class Torro_Form_Controller {
 				}
 			}
 
+			$form_response = array();
+			$response = $this->cache->get_response();
 
-			$form_response = $this->cache->get_response();
-			$form_response = $form_response[ 'containers' ][ $current_container_id ][ 'elements' ];
+			if( isset( $response[ 'containers' ][ $current_container_id ][ 'elements' ] ) ) {
+				$form_response = $response[ 'containers' ][ $current_container_id ][ 'elements' ];
+			}
 
-			$form_errors = $errors[ $current_container_id ][ 'elements' ];
+			$form_errors = array();
+			if( isset( $errors[ $current_container_id ][ 'elements' ] )) {
+				$form_errors = $errors[ $current_container_id ][ 'elements' ];
+			}
 
 			$this->content = $this->form->get_html( $action_url, $current_container_id, $form_response, $form_errors );
 		}

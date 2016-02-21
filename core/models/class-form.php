@@ -288,18 +288,24 @@ class Torro_Form extends Torro_Post {
 				if ( $i > 0 ) {
 					$prev_container_id = $this->containers[ $i - 1 ]->id;
 				}
-				if ( $i < count( $this->containers ) - 1 ) {
+				if ( $i < count( $this->containers ) -1 ) {
 					$next_container_id = $this->containers[ $i + 1 ]->id;
 				}
 				if ( $container_id === $this->containers[ $i ]->id ) {
 					$this->container_id      = $container_id;
 					$this->container         = $this->containers[ $i ];
+
 					$this->prev_container_id = $prev_container_id;
 					$this->next_container_id = $next_container_id;
+
+					if( $next_container_id === $container_id ){
+						$this->next_container_id = null;
+					}
 
 					return $this->container;
 				}
 			}
+
 		} else {
 			$this->container_id = $this->containers[ 0 ]->id;
 			$this->container    = $this->containers[ 0 ];

@@ -71,18 +71,18 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 		foreach ( $this->answers AS $answer ) {
 			$checked = '';
 
-			if ( $this->response === $answer['text'] ) {
+			if ( $this->response === $answer->label ) {
 				$checked = ' selected="selected"';
 			}
 
-			$html .= '<option value="' . esc_attr( $answer['text'] ) . '" ' . $checked . '/> ' . esc_html( $answer['text'] ) . '</option>';
+			$html .= '<option value="' . esc_attr( $answer->label ) . '" ' . $checked . '/> ' . esc_html( $answer->label ) . '</option>';
 		}
 
 		$html .= '</select>';
 
-		if ( ! empty( $this->settings['description'] ) ) {
+		if ( ! empty( $this->settings['description']->value ) ) {
 			$html .= '<small>';
-			$html .= esc_html( $this->settings['description'] );
+			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}
 

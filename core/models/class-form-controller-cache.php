@@ -37,11 +37,11 @@ class Torro_Form_Controller_Cache {
 	 * @since 1.0.0
 	 */
 	public function __construct( $controller_id ) {
-		if ( ! isset( $_SESSION ) ) {
-			return session_start();
-		}
+		$this->controller_id = $controller_id;
 
-		return true;
+		if ( ! isset( $_SESSION ) ) {
+			session_start();
+		}
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Torro_Form_Controller_Cache {
 	 * @since 1.0.0
 	 */
 	public function reset(){
-		unset( $_SESSION[ $this->controller_id ] );
+		unset( $_SESSION[ 'torro_forms' ][ $this->controller_id ] );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Torro_Form_Controller_Cache {
 	 * @since 1.0.0
 	 */
 	private function set( $key, $data ) {
-		$_SESSION[ $this->controller_id ][ $key ] = $data;
+		$_SESSION[ 'torro_forms' ][ $this->controller_id ][ $key ] = $data;
 	}
 
 	/**
@@ -87,19 +87,38 @@ class Torro_Form_Controller_Cache {
 	}
 
 	/**
+	 * Adding a Response
+	 * @param $response
+	 * @since 1.0.0
+	 */
+	public function add_response( $response ){
+		$cached_response = $this->get_response();
+		$response_merged = array_replace_recursive( $cached_response, $response );
+
+		// Replacing element values because of maybe empty values of checkboxes
+		foreach( $response[ 'containers' ] AS $container_id => $container ){
+			foreach( $container[ 'elements' ] AS $element_id => $element ){
+				$response_merged[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ] = $response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ];
+			}
+		}
+
+		return $this->set_response( $response_merged );
+	}
+
+	/**
 	 * Getting values by key
 	 *
 	 * @param $key
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 * @since 1.0.0
 	 */
 	private function get( $key ) {
-		if ( isset( $_SESSION[ $this->controller_id ][ $key ] ) ) {
-			return $_SESSION[ $this->controller_id ][ $key ];
+		if ( isset( $_SESSION[ 'torro_forms' ][ $this->controller_id ][ $key ] ) ) {
+			return $_SESSION[ 'torro_forms' ][ $this->controller_id ][ $key ];
 		}
 
-		return false;
+		return array();
 	}
 
 	/**
@@ -121,8 +140,8 @@ class Torro_Form_Controller_Cache {
 	 * @since 1.0.0
 	 */
 	public function delete( $key ) {
-		if ( isset( $_SESSION[ $this->controller_id ][ $key ] ) ) {
-			unset( $_SESSION[ $this->controller_id ][ $key ] );
+		if ( isset( $_SESSION[ 'torro_forms' ][ $this->controller_id ][ $key ] ) ) {
+			unset( $_SESSION[ 'torro_forms' ][ $this->controller_id ][ $key ] );
 
 			return true;
 		}

@@ -91,6 +91,10 @@ class Torro_Formbuilder {
 				$html .= '<div id="torro-container-' . $container->id . '" class="torro-container">';
 				$html .= '<div class="torro-drag-drop-inside">';
 				foreach ( $elements AS $element ) {
+					if( is_wp_error( $element ) ){
+						$html .= $element->get_error_message() . '<br />';
+						continue;
+					}
 					$html .= $element->get_admin_html();
 					torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
 				}

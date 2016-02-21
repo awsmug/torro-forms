@@ -61,11 +61,11 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 	public function input_html() {
 		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
 
-		$html .= '<textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ] . '" rows="' . $this->settings[ 'rows' ] . '" cols="' . $this->settings[ 'cols' ] . '">' . esc_html( $this->response ) . '</textarea>';
+		$html .= '<textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ]->value . '" rows="' . $this->settings[ 'rows' ]->value . '" cols="' . $this->settings[ 'cols' ]->value . '">' . esc_html( $this->response ) . '</textarea>';
 
-		if ( ! empty( $this->settings['description'] ) ) {
+		if ( ! empty( $this->settings['description']->value ) ) {
 			$html .= '<small>';
-			$html .= esc_html( $this->settings['description'] );
+			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}
 
@@ -108,8 +108,8 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 	}
 
 	public function validate( $input ) {
-		$min_length = $this->settings[ 'min_length' ];
-		$max_length = $this->settings[ 'max_length' ];
+		$min_length = $this->settings[ 'min_length' ]->value;
+		$max_length = $this->settings[ 'max_length' ]->value;
 
 		$error = false;
 
