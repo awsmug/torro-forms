@@ -101,15 +101,10 @@ class Torro_Container {
 		if ( null !== $this->id ) {
 			if( 0 !== count( $this->elements ) ){
 				foreach( $this->elements AS $element ){
-					$element_class_name = 'Torro_Form_Element_' . ucfirst( $element[ 'type' ] );
-
-					if( class_exists( $element_class_name ) ) {
-						$torro_element = $element_class_name::instance( $element[ 'id' ] );
-						$torro_element->delete();
-					}
+					$element->delete();
 				}
 			}
-			return $wpdb->delete( $wpdb->torro_element_answers, array( 'id' => $this->id ) );
+			return $wpdb->delete( $wpdb->torro_containers, array( 'id' => $this->id ) );
 		}
 		return false;
 	}

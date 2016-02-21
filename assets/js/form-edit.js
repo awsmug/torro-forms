@@ -17,8 +17,11 @@
 			droppable_area: '.torro-drag-drop-inside',
 			dropped_item_sub: '.formelement',
 			drop_elements_here: '#torro-drop-elements-here',
+			delete_container_button: '.delete-container-button',
+			delete_container_dialog: '#delete_container_dialog',
 			delete_element_button: '.delete_form_element',
 			delete_element_dialog: '#delete_formelement_dialog',
+			deleted_containers: '#deleted_containers',
 			deleted_elements: '#deleted_formelements',
 			answers_sub: '.answers',
 			answer_sub: '.answer',
@@ -40,6 +43,8 @@
 	Form_Builder.prototype = {
 		init: function() {
 			this.init_drag_and_drop();
+
+			this.init_container_deletion();
 
 			this.init_formelement_deletion();
 
@@ -139,6 +144,66 @@
 
 			$( this.selectors.droppable_area ).on( 'elementDropped', function( event, data ) {
 				self.check_max_input_vars();
+			});
+		},
+
+		/**
+		 * Initializing container deletion
+		 */
+		init_container_deletion: function() {
+			var self = this;
+			var $container_delete_dialog = $( this.selectors.delete_container_dialog );
+
+			$container_delete_dialog.dialog({
+				'dialogClass'   : 'wp-dialog',
+				'modal'         : true,
+				'autoOpen'      : false,
+				'closeOnEscape' : true,
+				'minHeight'     : 80,
+				'buttons'       : [
+					{
+						text: this.translations.yes,
+						click: function() {
+							if ( self.current_container_id ) {
+								var deleted_containers = $( self.selectors.deleted_containers ).val();
+
+								if ( '' == deleted_containers ) {
+									deleted_containers += self.current_container_id;
+								} else {
+									deleted_containers += ',' + self.current_container_id;
+								}
+
+								$( self.selectors.deleted_containers ).val( deleted_containers );
+
+								$( '.tab-container-' + self.current_container_id ).remove();
+								$( '#torro-container-' + self.current_container_id ).remove();
+
+
+								$( self.selectors.container_tabs ).tabs( "refresh" );
+								var index = $( self.selectors.container_tabs + ' li:first-child' ).parent().index();
+								$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
+
+								self.current_container_id = '';
+							}
+
+							$( this ).dialog('close');
+						}
+					},
+					{
+						text: this.translations.no,
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				]
+			});
+
+			$( this.selectors.container_tabs ).on( 'click', this.selectors.delete_container_button, function( e ){
+				e.preventDefault();
+
+				self.current_container_id = $( this ).parent().parent().find( self.selectors.container_id ).val();
+
+				$container_delete_dialog.dialog( 'open' );
 			});
 		},
 
@@ -257,10 +322,13 @@
 				var count_container = $( self.selectors.container_tabs).find( '.torro-container' ).length;
 
 				var id =  'temp_id_' + self.rand();
-				var tab = '<li><a href="#container_' + id + '">Page ' + ( count_container + 1 ) +  '</a></li>';
+				var tab = '<li class="tab-container-' + id + '"><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
 
-				var container = '<div id="container_' + id + '" class="torro-container">';
+				var container = '<div id="torro-container-' + id + '" class="torro-container">';
 				container += '<div class="torro-drag-drop-inside"></div>';
+				container += '<div class="container-buttons">';
+				container += '<input type="button" name="delete_container" value="' +  self.translations.delete_page + '" class="button delete-container-button" />';
+				container += '</div>';
 				container += '<input type="hidden" name="container_id" value="'+ id +'" />';
 				container += '<input type="hidden" name="containers[' + id + '][id]" value="'+ id +'" />';
 				container += '<input type="hidden" name="containers[' + id + '][label]" value="Page '+ ( count_container + 1 ) +'" />';
@@ -269,8 +337,9 @@
 
 				$( tab ).insertBefore( this );
 				$( self.selectors.container_tabs ).append( container );
-
-				$( self.selectors.element_tabs_sub ).tabs( "refresh" );
+				$( self.selectors.container_tabs ).tabs( "refresh" );
+				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index() - 1;
+				$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
 				self.init_drag_and_drop();
 			});
 		},

@@ -26,6 +26,9 @@
 #form-container-tabs .torro-container:first-child{
     display: block;
 }
+#form-container-tabs .container-buttons{
+    padding:20px;
+}
 
 /**
  * 	Drag & Drop Area
@@ -526,6 +529,7 @@
 /**
  * Dialogs
  */
+#delete_container_dialog,
 #delete_formelement_dialog,
 #delete_results_dialog,
 #delete_answer_dialog,

@@ -81,7 +81,7 @@ class Torro_Formbuilder {
 
 			$html .= '<ul>';
 			foreach ( $containers AS $container ) {
-				$html .= '<li><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
+				$html .= '<li class="tab-container-' . $container->id . '"><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
 			}
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
@@ -99,6 +99,9 @@ class Torro_Formbuilder {
 					$html .= $element->get_admin_html();
 					torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
 				}
+				$html .= '</div>';
+				$html .= '<div class="container-buttons">';
+				$html .= '<input type="button" name="delete_container" value="' . __( 'Delete Page', 'torro-forms' ) . '" class="button delete-container-button" />';
 				$html .= '</div>';
 				$html .= '<input type="hidden" name="container_id" value="' . $container->id . '" />';
 				$html .= '<input type="hidden" name="containers[' . $container->id . '][id]" value="' . $container->id . '" />';
@@ -135,10 +138,12 @@ class Torro_Formbuilder {
 		do_action( 'torro_formbuilder_dragdrop_end', $form_id );
 		$html .= ob_get_clean();
 
+		$html .= '<div id="delete_container_dialog">' . esc_html__( 'Do you really want to delete this page?', 'torro-forms' ) . '</div>';
 		$html .= '<div id="delete_formelement_dialog">' . esc_html__( 'Do you really want to delete this element?', 'torro-forms' ) . '</div>';
 		$html .= '<div id="delete_answer_dialog">' . esc_html__( 'Do you really want to delete this answer?', 'torro-forms' ) . '</div>';
 		$html .= '<div id="delete_results_dialog"><h3>' . esc_html__( 'Attention!', 'torro-forms' ) . '</h3><p>' . esc_html__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'torro-forms' ) . '</p></div>';
 
+		$html .= '<input type="hidden" id="deleted_containers" name="deleted_container_ids" value="">';
 		$html .= '<input type="hidden" id="deleted_formelements" name="deleted_element_ids" value="">';
 		$html .= '<input type="hidden" id="deleted_answers" name="deleted_answer_ids" value="">';
 
@@ -231,6 +236,7 @@ class Torro_Formbuilder {
 		}
 
 		$containers              = $_POST[ 'containers' ];
+		$deleted_container_ids   = $_POST[ 'deleted_container_ids' ];
 		$deleted_element_ids     = $_POST[ 'deleted_element_ids' ];
 		$deleted_answer_ids      = $_POST[ 'deleted_answer_ids' ];
 		$show_results            = isset( $_POST[ 'show_results' ] ) ? $_POST[ 'show_results' ] : false;
@@ -357,11 +363,19 @@ class Torro_Formbuilder {
 		/**
 		 * Deleting old things
 		 */
+		if( ! empty( $deleted_container_ids ) ) {
+			$deleted_container_ids = explode( ',', $deleted_container_ids );
+			if ( 0 < count( $deleted_container_ids ) ) {
+				foreach ( $deleted_container_ids as $deleted_container_id ) {
+					torro()->containers()->get( $deleted_container_id )->delete();
+				}
+			}
+		}
 		if( ! empty( $deleted_element_ids ) ) {
 			$deleted_element_ids = explode( ',', $deleted_element_ids );
 			if ( 0 < count( $deleted_element_ids ) ) {
 				foreach ( $deleted_element_ids as $deleted_element_id ) {
-					torro()->elements( $deleted_element_id )->delete();
+					torro()->elements()->get( $deleted_element_id )->delete();
 				}
 			}
 		}
@@ -369,7 +383,7 @@ class Torro_Formbuilder {
 			$deleted_answer_ids = explode( ',', $deleted_answer_ids );
 			if ( 0 < count( $deleted_answer_ids ) ) {
 				foreach ( $deleted_answer_ids AS $deleted_answer_id ) {
-					torro()->element_answer( $deleted_answer_id )->delete();
+					torro()->element_answers()->get( $deleted_answer_id )->delete();
 				}
 			}
 		}
@@ -435,6 +449,8 @@ class Torro_Formbuilder {
 		}
 
 		$translation = array(
+			'page'                         => __( 'Page', 'torro-forms' ),
+			'delete_page'                  => __( 'Delete Page', 'torro-forms' ),
 			'delete'                       => __( 'Delete', 'torro-forms' ),
 			'yes'                          => __( 'Yes', 'torro-forms' ),
 			'no'                           => __( 'No', 'torro-forms' ),
