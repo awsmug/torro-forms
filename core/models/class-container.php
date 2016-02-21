@@ -138,11 +138,11 @@ class Torro_Container {
 
 		foreach( $this->elements AS $element )
 		{
-			if( ! isset(  $response[ $element->id ] ) )
+			if( ! isset( $response[ $element->id ] ) )
 			{
 				$response[ $element->id ] = null;
 			}
-			if( ! isset(  $errors[ $element->id ] ) )
+			if( ! isset( $errors[ $element->id ] ) )
 			{
 				$errors[ $element->id ] = null;
 			}

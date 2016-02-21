@@ -387,6 +387,8 @@ class Torro_Form_Controller {
 					continue;
 				}
 
+				$errors[ $container->id ] = array();
+
 				$elements = $container->get_elements();
 				foreach ( $elements AS $element ) {
 					if ( ! isset( $response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ] ) ) {
@@ -417,7 +419,12 @@ class Torro_Form_Controller {
 				}
 			}
 
-			$this->content = $this->form->get_html( $action_url, $current_container_id, $this->get_response_cache( $current_container_id ), $errors );
+			$form_response = $this->get_response_cache( $current_container_id );
+			$form_response = $form_response[ 'elements' ];
+
+			$form_errors = $errors[ $current_container_id ];
+
+			$this->content = $this->form->get_html( $action_url, $current_container_id, $form_response, $form_errors );
 			$this->is_submit = true;
 		}
 	}
@@ -435,6 +442,8 @@ class Torro_Form_Controller {
 				return false;
 			}
 		}
+
+		unset( $response[ 'container_id' ] ); // Not needed in response data
 
 		$cache = $this->get_response_cache();
 
@@ -462,14 +471,18 @@ class Torro_Form_Controller {
 		}
 
 		if( ! empty( $container_id ) ) {
-			if( ! isset( $_SESSION[ 'torro_response' ][ $this->form_id ][ $container_id ] ) ){
-				return false;
+			if( isset( $_SESSION[ 'torro_response' ][ $this->form_id ][ 'containers' ][ $container_id ] ) ){
+				return $_SESSION[ 'torro_response' ][ $this->form_id ][ 'containers' ][ $container_id ];
 			}
 
-			return $_SESSION[ 'torro_response' ][ $this->form_id ][ $container_id ];
+			return false;
 		}
 
-		return $_SESSION[ 'torro_response' ][ $this->form_id ];
+		if( isset( $_SESSION[ 'torro_response' ][ $this->form_id ] ) ) {
+			return $_SESSION[ 'torro_response' ][ $this->form_id ];
+		}
+
+		return false;
 	}
 
 	/**

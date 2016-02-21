@@ -119,6 +119,8 @@ class Torro_Form extends Torro_Post {
 	 * @param int $id The id of the form
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return bool
 	 */
 	private function populate( $id ) {
 		$this->id = $id;
@@ -260,14 +262,7 @@ class Torro_Form extends Torro_Post {
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '" />';
 		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '" />';
 
-		if ( ! isset( $response[ $this->id ] ) ) {
-			$response[ $this->id ] = null;
-		}
-		if ( ! isset( $errors[ $this->id ] ) ) {
-			$errors[ $this->id ] = null;
-		}
-
-		$html .= $this->container->get_html( $response[ $this->id ], $errors[ $this->id ] );
+		$html .= $this->container->get_html( $response, $errors );
 
 		$html .= $this->get_navigation();
 

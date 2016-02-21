@@ -335,10 +335,11 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return string $html Element HTML
 	 * @since 1.0.0
 	 */
-	public function get_html( $response = array(), $errors = array() ) {
-
+	public function get_html( $response, $errors ) {
 		$element_classes = array( 'torro-element', 'torro-element-' . $this->id );
 		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $this );
+
+		$this->response = $response;
 
 		$html = '<div class="' . esc_attr( implode( ' ', $element_classes ) ) . '">';
 
@@ -358,8 +359,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$html = apply_filters( 'draw_element_errors', $html, $this );
 		}
 
-		$this->get_response();
-
 		if ( 0 === count( $this->answers ) && true === $this->input_answers ) {
 			$html .= '<p>' . esc_html__( 'You did not enter any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
 		} else {
@@ -378,26 +377,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 		$html .= '</div>';
 
 		return $html;
-	}
-
-	/**
-	 * Getting element data from Session
-	 *
-	 * @return array $response The post response
-	 * @since 1.0.0
-	 */
-	protected function get_response() {
-		$form_id = torro()->forms()->get_current_form_id();
-
-		$this->response = false;
-
-		if ( ! empty( $form_id ) && isset( $_SESSION[ 'torro_response' ] ) && isset( $_SESSION[ 'torro_response' ][ $form_id ] ) && isset( $_SESSION[ 'torro_response' ][ $form_id ][ $this->id ] ) ) {
-			$this->response = $_SESSION[ 'torro_response' ][ $form_id ][ $this->id ];
-		} else {
-			return false;
-		}
-
-		return $this->response;
 	}
 
 	/**
