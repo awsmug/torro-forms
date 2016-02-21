@@ -401,7 +401,7 @@ final class Torro_AJAX {
 		$form_id = $data['form_id'];
 		$result_id = $data['result_id'];
 
-		if ( ! torro()->form( $form_id )->exists() ) {
+		if ( ! torro()->forms()->get( $form_id)->exists() ) {
 			return array(
 				'html'	=> __( 'Form not found.', 'torro-forms' ),
 			);
