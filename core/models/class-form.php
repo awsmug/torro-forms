@@ -375,17 +375,19 @@ class Torro_Form extends Torro_Post {
 		$result_id         = $wpdb->insert_id;
 		$this->response_id = $result_id;
 
-		foreach ( $response as $element_id => $answers ) {
-			if ( ! is_array( $answers ) ) {
-				$answers = array( $answers );
-			}
+		foreach( $response[ 'containers' ] AS $container_id => $container ){
+			foreach( $container[ 'elements' ] AS $element_id => $values ){
+				if ( ! is_array( $values ) ) {
+					$values = array( $values );
+				}
 
-			foreach ( $answers as $answer ) {
-				$wpdb->insert( $wpdb->torro_result_values, array(
-					'result_id'  => $result_id,
-					'element_id' => $element_id,
-					'value'      => $answer
-				) );
+				foreach ( $values as $value ) {
+					$wpdb->insert( $wpdb->torro_result_values, array(
+						'result_id'  => $result_id,
+						'element_id' => $element_id,
+						'value'      => $value
+					) );
+				}
 			}
 		}
 

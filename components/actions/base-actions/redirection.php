@@ -50,6 +50,11 @@ final class Torro_Redirection_Action extends Torro_Action {
 		return self::$instance;
 	}
 
+	/**
+	 * Initializing action
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->title = __( 'Redirections', 'torro-forms' );
 		$this->name  = 'redirections';
@@ -62,6 +67,8 @@ final class Torro_Redirection_Action extends Torro_Action {
 	 *
 	 * @param $response_id
 	 * @param $response
+	 *
+	 * @since 1.0.0
 	 */
 	public function notification( $form_id, $response_id ) {
 		$notification = get_post_meta( $form_id, 'redirect_text', true );
@@ -75,6 +82,8 @@ final class Torro_Redirection_Action extends Torro_Action {
 	 * @param $form_id
 	 * @param $response_id
 	 * @param $response
+	 *
+	 * @since 1.0.0
 	 */
 	public function handle( $form_id, $response_id, $response ) {
 		$redirect_type = get_post_meta( $form_id, 'redirect_type', true );

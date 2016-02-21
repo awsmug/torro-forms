@@ -36,6 +36,14 @@ class Torro_Form_Controller {
 	private static $instance = null;
 
 	/**
+	 * Cache for form controller
+	 *
+	 * @var Torro_Form_Controller_Cache
+	 * @since 1.0.0
+	 */
+	private $cache = null;
+
+	/**
 	 * Content of the form
 	 *
 	 * @var string
@@ -66,30 +74,6 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private $is_preview = false;
-
-	/**
-	 * Is this a torro submit?
-	 *
-	 * @var bool
-	 * @since 1.0.0
-	 */
-	private $is_submit = false;
-
-	/**
-	 * Form action URL
-	 *
-	 * @var string
-	 * @since 1.0.0
-	 */
-	private $form_action_url = null;
-
-	/**
-	 * Response Errors
-	 *
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private $response_errors = array();
 
 	/**
 	 * Initializes the form controller.
@@ -125,92 +109,6 @@ class Torro_Form_Controller {
 	 */
 	public function get_form_id() {
 		return $this->form_id;
-	}
-
-	/**
-	 * Get response errors
-	 *
-	 * @return array
-	 * @since 1.0.0
-	 */
-	public function get_response_errors() {
-		return $this->response_errors;
-	}
-
-	/**
-	 * Creating form HTML
-	 *
-	 * @return string $html
-	 * @since 1.0.0
-	 */
-	public function html() {
-		$html = '';
-
-		if ( isset( $_SESSION[ 'torro_response' ][ $this->form_id ][ 'finished' ] ) ) {
-			ob_start();
-			do_action( 'torro_form_finished', $this->form_id, $_SESSION[ 'torro_response' ][ $this->form_id ][ 'result_id' ] );
-			$html .= ob_get_clean();
-			session_destroy();
-		} else {
-			$show_form = apply_filters( 'torro_form_show', true ); // Hook for adding access-controls and so on ...
-
-			if ( false === $show_form ) {
-				return;
-			}
-
-			// Set global message on top of page
-			if ( ! empty( $this->response_errors ) ) {
-				$html .= '<div class="torro-element-error">';
-				$html .= '<div class="torro-element-error-message"><p>';
-				$html .= esc_attr__( 'There are open answers', 'torro-forms' );
-				$html .= '</p></div></div>';
-			}
-
-			$html .= '<form class="torro-form" action="' . $this->form_action_url . '" method="POST" novalidate>';
-			$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->form_id ) . '" />';
-
-			$step_count = torro()->forms()->get( $this->form_id )->get_step_count();
-
-			// Switch on navigation if there is more than one page
-			if ( 0 !== $step_count ) {
-				$html .= '<div class="torro-pagination">' . sprintf( __( 'Step <span class="torro-highlight-number">%d</span> of <span class="torro-highlight-number">%s</span>', 'torro-forms' ), $this->actual_step + 1, $step_count + 1 ) . '</div>';
-			}
-
-			// Getting all elements of step and running them
-			$elements  = torro()->forms()->get( $this->form_id )->get_step_elements( $this->actual_step );
-			$next_step = $this->actual_step;
-
-			ob_start();
-			do_action( 'torro_form_start', $this->form_id, $this->actual_step, $step_count );
-			$html .= ob_get_clean();
-
-			if ( is_array( $elements ) && count( $elements ) > 0 ) {
-				foreach ( $elements as $element ) {
-					if ( ! $element->splits_form ) {
-						$html .= $element->get_html();
-					} else {
-						$next_step += 1; // If there is a next step, setting up next step var
-						break;
-					}
-				}
-			} else {
-				return false;
-			}
-
-			$html .= $this->get_navigation( $this->actual_step, $next_step );
-
-			ob_start();
-			do_action( 'torro_form_end', $this->form_id, $this->actual_step, $step_count );
-			$html .= ob_get_clean();
-
-			$html .= '<input type="hidden" name="torro_next_step" value="' . $next_step . '" />';
-			$html .= '<input type="hidden" name="torro_actual_step" value="' . $this->actual_step . '" />';
-			$html .= '<input type="hidden" name="torro_form_id" value="' . $this->form_id . '" />';
-
-			$html .= '</form>';
-		}
-
-		return $html;
 	}
 
 	/**
@@ -331,7 +229,8 @@ class Torro_Form_Controller {
 	private function set_form( $form_id ) {
 		if ( torro()->forms()->get( $form_id )->exists() ) {
 			$this->form_id = $form_id;
-			$this->form    = torro()->forms()->get( $this->form_id );
+			$this->form    = new Torro_Form( $this->form_id );
+			$this->cache = new Torro_Form_Controller_Cache( $this->form_id );
 
 			return $this->form;
 		}
@@ -348,13 +247,14 @@ class Torro_Form_Controller {
 		$action_url = $_SERVER[ 'REQUEST_URI' ];
 
 		if ( empty( $this->form_id ) ) {
-			return false;
+			return;
 		}
 
-		if ( ! isset( $_POST[ 'torro_form_id' ] ) ) {
+		if ( ! isset( $_POST[ 'torro_form_id' ] ) || $this->cache->is_finished() ) {
 			/**
 			 * Initializing a fresh form
 			 */
+			$this->cache->reset();
 			$this->content = $this->form->get_html( $action_url );
 		} elseif ( isset( $_POST[ 'torro_submission_back' ] ) ) {
 			/**
@@ -366,15 +266,15 @@ class Torro_Form_Controller {
 			 * Yes we have a submit!
 			 */
 			if ( ! isset( $_POST[ '_wpnonce' ] ) ) {
-				return false;
-			}
-
-			if ( ! isset( $_POST[ 'torro_response' ][ 'containers' ] ) ) {
-				return false;
+				return;
 			}
 
 			if ( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
 				wp_die( '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' . 403 );
+			}
+
+			if ( ! isset( $_POST[ 'torro_response' ][ 'containers' ] ) ) {
+				return;
 			}
 
 			$response = $_POST[ 'torro_response' ];
@@ -382,12 +282,12 @@ class Torro_Form_Controller {
 
 			$containers = $this->form->get_containers();
 			foreach ( $containers AS $container ) {
+				$errors[ $container->id ] = array();
+
 				if ( ! isset( $response[ 'containers' ][ $container->id ] ) ) {
 					$errors[ $container->id ][ 'container' ] = sprintf( __( 'Missing Container #%d in form data.', 'torro-forms' ), $container->id );
 					continue;
 				}
-
-				$errors[ $container->id ] = array();
 
 				$elements = $container->get_elements();
 				foreach ( $elements AS $element ) {
@@ -404,85 +304,59 @@ class Torro_Form_Controller {
 				}
 			}
 
-			$this->cache_response( $response );
+			$this->cache->set_response( $response );
+			$current_container_id = $response[ 'container_id' ];
 
 			/**
-			 * Setting up container id
+			 * There was no error!
 			 */
-			if ( count( $errors ) > 0 ) {
-				$current_container_id = $response[ 'container_id' ];
-			} else {
+			if ( count( $errors[ $current_container_id ] ) === 0 ) {
 				if ( ! empty( $this->form->next_container_id ) ) {
+					// Getting next container id
 					$current_container_id = $this->form->next_container_id;
-				}else{
-					$current_container_id = $response[ 'container_id' ];
+				} else {
+					// There is no next container > finish form!
+
+					$result_id = $this->save_response();
+
+					if ( false === $result_id ) {
+						$this->content = new Torro_Error( 'torro_save_response_error', __( 'Your response couldn\'t be saved.', 'torro-forms' ) );
+
+						return;
+					}
+
+					$html = '<div id="torro-thank-submitting">';
+					$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
+					$html .= '</div>';
+
+					do_action( 'torro_response_saved', $this->form_id, $result_id, $this->cache->get_response() );
+					$this->content = apply_filters( 'torro_response_saved_content', $html, $this->form_id, $result_id );
+
+					$this->cache->delete_response();
+					$this->cache->set_finished();
+
+					return;
 				}
 			}
 
-			$form_response = $this->get_response_cache( $current_container_id );
-			$form_response = $form_response[ 'elements' ];
 
-			$form_errors = $errors[ $current_container_id ];
+			$form_response = $this->cache->get_response();
+			$form_response = $form_response[ 'containers' ][ $current_container_id ][ 'elements' ];
+
+			$form_errors = $errors[ $current_container_id ][ 'elements' ];
 
 			$this->content = $this->form->get_html( $action_url, $current_container_id, $form_response, $form_errors );
-			$this->is_submit = true;
 		}
 	}
 
 	/**
-	 * Caching response into session
+	 * Saving Response (Inserting to DB)
 	 *
-	 * @param array $response
-	 *
-	 * @return bool
+	 * @return bool|int
+	 * @since 1.0.0
 	 */
-	private function cache_response( $response ){
-		if ( ! isset( $_SESSION ) ) {
-			if( ! session_start() ){
-				return false;
-			}
-		}
-
-		unset( $response[ 'container_id' ] ); // Not needed in response data
-
-		$cache = $this->get_response_cache();
-
-		if( ! is_array( $cache ) ){
-			$cache = array();
-		}
-
-		$cache = array_merge( $cache, $response );
-
-		$_SESSION[ 'torro_response' ][ $this->form_id ] = $cache;
-
-		return true;
-	}
-
-	/**
-	 * Get response cache from session
-	 *
-	 * @param int $container_id
-	 *
-	 * @return bool
-	 */
-	private function get_response_cache( $container_id = null ){
-		if ( ! isset( $_SESSION ) ) {
-			return false;
-		}
-
-		if( ! empty( $container_id ) ) {
-			if( isset( $_SESSION[ 'torro_response' ][ $this->form_id ][ 'containers' ][ $container_id ] ) ){
-				return $_SESSION[ 'torro_response' ][ $this->form_id ][ 'containers' ][ $container_id ];
-			}
-
-			return false;
-		}
-
-		if( isset( $_SESSION[ 'torro_response' ][ $this->form_id ] ) ) {
-			return $_SESSION[ 'torro_response' ][ $this->form_id ];
-		}
-
-		return false;
+	private function save_response(){
+		return $this->form->save_response( $this->cache->get_response() );
 	}
 
 	/**

@@ -36,12 +36,14 @@ class Torro_Actions_FormProcessExtension {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		add_action( 'torro_response_save', array( __CLASS__, 'action' ), 10, 3 );
-		add_action( 'torro_form_finished', array( __CLASS__, 'notification' ), 10, 2 );
+		add_action( 'torro_response_saved', array( __CLASS__, 'action' ), 10, 3 );
+		add_filter( 'torro_response_saved_content', array( __CLASS__, 'notification' ), 10, 3 );
 	}
 
 	/**
-	 * Starting response handler
+	 * Handling all Actions
+	 *
+	 * @since 1.0.0
 	 */
 	public static function action( $form_id, $response_id, $response ) {
 		$actions = torro()->actions()->get_all_registered();
@@ -57,9 +59,13 @@ class Torro_Actions_FormProcessExtension {
 
 	/**
 	 * Show notifcations for users
+	 *
 	 * @param $form_id
+	 * @param $response_id
+	 *
+	 * @since 1.0.0
 	 */
-	public static function notification( $form_id, $response_id ){
+	public static function notification( $notification, $form_id, $response_id ){
 		$actions = torro()->actions()->get_all_registered();
 
 		if ( 0 === count( $actions ) ) {
@@ -74,17 +80,11 @@ class Torro_Actions_FormProcessExtension {
 			}
 		}
 
-		if( empty( $html ) ) {
-			$show_spaceholder = apply_filters( 'torro_action_notification_spaceholder', true );
-
-			if ( $show_spaceholder ) {
-				$html .= '<div id="torro-thank-submitting">';
-				$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
-				$html .= '</div>';
-			}
+		if( ! empty( $html ) ) {
+			$notification = $html;
 		}
 
-		echo $html;
+		return $notification;
 	}
 }
 

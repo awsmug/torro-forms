@@ -59,6 +59,8 @@ abstract class Torro_Action extends Torro_Base {
 	 *
 	 * @param $response_id
 	 * @param $response
+	 *
+	 * @return mixed
 	 */
 	public function handle( $form_id, $response_id, $response ){
 		return false;

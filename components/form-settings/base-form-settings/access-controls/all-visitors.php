@@ -57,9 +57,9 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 		add_action( 'torro_form_end', array( $this, 'add_fingerprint_input' ) );
 
-		add_action( 'torro_response_save', array( $this, 'set_cookie' ), 10 );
-		add_action( 'torro_response_save', array( $this, 'save_ip' ), 10 );
-		add_action( 'torro_response_save', array( $this, 'save_fingerprint' ), 10 );
+		add_action( 'torro_response_saved', array( $this, 'set_cookie' ), 10 );
+		add_action( 'torro_response_saved', array( $this, 'save_ip' ), 10 );
+		add_action( 'torro_response_saved', array( $this, 'save_fingerprint' ), 10 );
 	}
 
 	/**

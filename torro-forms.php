@@ -142,6 +142,7 @@ class Torro_Init {
 		require_once( $core_folder . 'models/class-element.php' );
 		require_once( $core_folder . 'models/class-settings.php' );
 		require_once( $core_folder . 'models/class-extension.php' );
+		require_once( $core_folder . 'models/class-form-controller-cache.php' );
 		require_once( $core_folder . 'models/class-templatetags.php' );
 
 		// Admin
