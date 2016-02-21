@@ -163,7 +163,6 @@ class Torro_Init {
 		require_once( $core_folder . 'elements/base-elements/multiplechoice.php' );
 		require_once( $core_folder . 'elements/base-elements/dropdown.php' );
 		require_once( $core_folder . 'elements/base-elements/separator.php' );
-		require_once( $core_folder . 'elements/base-elements/splitter.php' );
 
 		// Template tags
 		require_once( $core_folder . 'templatetags/base-templatetags/global.php' );
