@@ -20,6 +20,9 @@
     line-height: 28px;
     padding: 0 12px;
 }
+#form-container-tabs .torro-container{
+    display: none;
+}
 
 /**
  * 	Drag & Drop Area
