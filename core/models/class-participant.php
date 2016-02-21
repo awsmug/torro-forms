@@ -91,10 +91,6 @@ class Torro_Participant {
 
 	public function __set( $key, $value ) {
 		switch ( $key ) {
-			case 'id':
-				return false;
-				break;
-
 			default:
 				if ( property_exists( $this, $key ) ) {
 					$this->$key = $value;

@@ -83,7 +83,7 @@ class Torro_Formbuilder {
 			foreach ( $containers AS $container ) {
 				$html .= '<li><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
 			}
-			$html .= '<li id="torro-container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
+			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
 
 			foreach ( $containers AS $container ) {
@@ -100,12 +100,12 @@ class Torro_Formbuilder {
 					torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
 				}
 				$html .= '</div>';
-				$html .= '</div>';
-
 				$html .= '<input type="hidden" name="container_id" value="' . $container->id . '" />';
 				$html .= '<input type="hidden" name="containers[' . $container->id . '][id]" value="' . $container->id . '" />';
 				$html .= '<input type="hidden" name="containers[' . $container->id . '][label]" value="' . $container->label . '" />';
 				$html .= '<input type="hidden" name="containers[' . $container->id . '][sort]" value="' . $container->sort . '" />';
+				$html .= '</div>';
+
 			}
 
 			$html .= '</div>';
@@ -117,14 +117,15 @@ class Torro_Formbuilder {
 			$html .= '<div id="form-container-tabs" class="form_element_tabs">';
 			$html .= '<ul>';
 			$html .= '<li><a href="#torro-container-new">' . $label . '</a></li>';
+			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
 			$html .= '<div class="torro-drag-drop-inside">';
-			$html .= '</div>';
 			$html .= '</div>';
 			$html .= '<input type="hidden" name="container_id" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][id]" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][label]" value="' . $label . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][sort]" value="0" />';
+			$html .= '</div>';
 		}
 
 		$html .= '</div>';

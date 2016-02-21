@@ -286,7 +286,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		// Getting Widget ID
 		if ( null === $this->id ) {
 			// New Element
-			$element_id = 'element_id';
+			$element_id = 'replace_element_id';
 		} else {
 			// Existing Element
 			$element_id = $this->id;
@@ -304,7 +304,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		// Getting Widget ID
 		if ( null === $this->container_id ) {
 			// New Element
-			$container_id = 'container_id';
+			$container_id = 'replace_container_id';
 		} else {
 			// Existing Element
 			$container_id = $this->container_id;
@@ -903,10 +903,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
-			case 'id':
-				return false;
-				break;
-
 			case 'sort':
 				$value      = absint( $value );
 				$this->$key = $value;

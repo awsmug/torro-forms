@@ -107,10 +107,6 @@ class Torro_Element_Answer {
 
 	public function __set( $key, $value ) {
 		switch ( $key ) {
-			case 'id':
-				return false;
-				break;
-
 			case 'sort':
 				$value      = absint( $value );
 				$this->$key = $value;

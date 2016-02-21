@@ -15,13 +15,16 @@
 #form-container-tabs ul{
     padding:10px 10px 0 10px;
 }
-#form-container-tabs #torro-container-add{
+#form-container-tabs #container-add{
     cursor: pointer;
     line-height: 28px;
     padding: 0 12px;
 }
 #form-container-tabs .torro-container{
     display: none;
+}
+#form-container-tabs .torro-container:first-child{
+    display: block;
 }
 
 /**

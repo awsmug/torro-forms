@@ -647,10 +647,6 @@ class Torro_Form extends Torro_Post {
 
 	public function __set( $key, $value ) {
 		switch ( $key ) {
-			case 'id':
-				return false;
-				break;
-
 			case 'prev_container_id':
 				return false;
 				break;

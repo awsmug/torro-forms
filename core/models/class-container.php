@@ -179,10 +179,6 @@ class Torro_Container {
 
 	public function __set( $key, $value ) {
 		switch ( $key ) {
-			case 'id':
-				return FALSE;
-				break;
-
 			case 'sort':
 				$value = absint( $value );
 				$this->$key = $value;

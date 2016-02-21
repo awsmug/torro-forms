@@ -11,6 +11,8 @@
 
 		this.selectors = {
 			container_id: 'input[name="container_id"]',
+			container_add: '#container-add',
+			container_tabs: '#form-container-tabs',
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '.torro-drag-drop-inside',
 			dropped_item_sub: '.formelement',
@@ -42,6 +44,8 @@
 			this.init_formelement_deletion();
 
 			this.init_sortable_answers();
+
+			this.init_container_addition();
 
 			this.init_answer_addition();
 
@@ -88,42 +92,11 @@
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
-					var nr = 'temp_id_' + self.rand();
-					var id = nr;
-					var i = $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length - 1;
 
 					$element.css( 'width', '100%' ).css( 'height', 'auto' );
 					$element.addClass( 'widget' );
-
-					// Replacing name
-					$element.attr( 'id', id );
-					$element.attr( 'data-element-id', id );
-					$element.html( $element.html().replace( /element_id/g, nr ) );
-
-					var input_name = 'input[name="elements\[' + nr +'\]\[sort\]"]';
-					$( input_name ).val( i );
-
-					$( self.selectors.droppable_area ).trigger( 'elementDropped', {
-						element: $element
-					});
-
-					$( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
-						var element_id = $( this ).attr('data-element-id') ;
-						var index = $( this ).index();
-
-						$( 'input[name="elements\[' + element_id +'\]\[sort\]"]' ).val( index ) ;
-					});
-
-					if ( $element.data( 'element-type' ) ) {
-						var data = {
-							id: id,
-							selector: '#' + id
-						};
-						$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ]);
-					}
 				}
 			});
-
 			// init droppable
 			$( this.selectors.droppable_area ).droppable({
 				accept: this.selectors.draggable_item
@@ -132,16 +105,34 @@
 				items: this.selectors.dropped_item_sub,
 				update: function( event, ui ) {
 					var $element = ui.item;
-					var container_id = $( this ).parent().parent().find( self.selectors.container_id).val();
+					var container_id = $( this ).parent().find( self.selectors.container_id ).val();
 
-					$element.html( $element.html().replace( /container_id/g, container_id ) );
+					var element_id = 'temp_id_' + self.rand();
 
-					$( self.selectors.droppable_area + ' ' +  + ' #torro-container-' +container_id + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
-						var element_id = $( this ).attr('data-element-id') ;
+					$element.attr( 'id', element_id );
+					$element.attr( 'data-element-id', element_id );
+					$element.html( $element.html().replace( /replace_element_id/g, element_id ) );
+					$element.html( $element.html().replace( /replace_container_id/g, container_id ) );
+
+					$( self.selectors.droppable_area ).trigger( 'elementDropped', {
+						element: $element
+					});
+
+					if ( $element.data( 'element-type' ) ) {
+						var data = {
+							id: element_id,
+							selector: '#' + element_id
+						};
+						$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ] );
+					}
+
+					$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
+						var element_id = $( this ).attr( 'data-element-id' );
 						var index = $( this ).index();
 
-						$( 'input[name="elements\[' + element_id +'\]\[container_id\]"]' ).val( container_id ) ;
-						$( 'input[name="elements\[' + element_id +'\]\[sort\]"]' ).val( index ) ;
+						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[container_id\]"]' ).val( container_id ) ;
+						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[sort\]"]' ).val( index ) ;
+						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[id\]"]' ).val( element_id ) ;
 					});
 				}
 			});
@@ -254,6 +245,34 @@
 			});
 
 			make_sortable( $( this.selectors.droppable_area + ' ' + self.selectors.answers_sub ) );
+		},
+
+		/**
+		 * Initializing container addition
+		 */
+		init_container_addition: function() {
+			var self = this;
+
+			$( this.selectors.container_add ).on( 'click', function() {
+				var count_container = $( self.selectors.container_tabs).find( '.torro-container' ).length;
+
+				var id =  'temp_id_' + self.rand();
+				var tab = '<li><a href="#container_' + id + '">Page ' + ( count_container + 1 ) +  '</a></li>';
+
+				var container = '<div id="container_' + id + '" class="torro-container">';
+				container += '<div class="torro-drag-drop-inside"></div>';
+				container += '<input type="hidden" name="container_id" value="'+ id +'" />';
+				container += '<input type="hidden" name="containers[' + id + '][id]" value="'+ id +'" />';
+				container += '<input type="hidden" name="containers[' + id + '][label]" value="Page '+ ( count_container + 1 ) +'" />';
+				container += '<input type="hidden" name="containers[' + id + '][sort]" value="'+ count_container +'" />';
+				container += '</div>';
+
+				$( tab ).insertBefore( this );
+				$( self.selectors.container_tabs ).append( container );
+
+				$( self.selectors.element_tabs_sub ).tabs( "refresh" );
+				self.init_drag_and_drop();
+			});
 		},
 
 		/**
