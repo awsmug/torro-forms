@@ -6,6 +6,7 @@
     font-weight: normal;
     padding:10px;
     line-height: 20px;
+    height:23px;
 }
 #form-email-notifications .list .widget-title h4 .widget-action {
     float:right;
@@ -13,6 +14,7 @@
 #form-email-notifications .list .widget-title h4 .widget-action:after
 {
     padding:0;
+    margin-top: 0;
 }
 #form-email-notifications .list .widget-title h4.ui-state-active .widget-action:after
 {
