@@ -5,7 +5,7 @@
     margin: -10px 0 0;
 }
 
-.post-type-torro-forms ul li a:focus {
+.post-type-torro-forms a:focus {
     box-shadow: none;
 }
 
@@ -28,6 +28,10 @@
 }
 #form-container-tabs .container-buttons{
     padding:20px;
+}
+#form-container-tabs li.tab-container input{
+    width: 99%;
+    display:none;
 }
 
 

@@ -12,6 +12,7 @@
 		this.selectors = {
 			container_id: 'input[name="container_id"]',
 			container_add: '#container-add',
+			container_tab: '.tab-container',
 			container_tabs: '#form-container-tabs',
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '.torro-drag-drop-inside',
@@ -75,6 +76,8 @@
 			this.handle_templatetag_buttons();
 
 			this.check_max_input_vars();
+
+			this.init_container_tabs();
 		},
 
 		/**
@@ -144,6 +147,69 @@
 
 			$( this.selectors.droppable_area ).on( 'elementDropped', function( event, data ) {
 				self.check_max_input_vars();
+			});
+		},
+
+		/**
+		 * Additional functionality for container tabs
+		 */
+		init_container_tabs: function() {
+			var self = this;
+
+			$( self.selectors.container_tabs + ' ul' ).sortable({
+				axis: "x",
+				stop: function(e,ui) {
+					ui.item.parent().find( 'li' ).each( function( index, item ){
+						var tab_container_id = $( item ).find( 'a' ).attr( 'href' );
+
+						if( tab_container_id != undefined ) {
+							var container_id = $(tab_container_id + ' input[name=container_id]').val();
+							$('input[name^="containers\[' + container_id + '\]\[sort\]"]').val(index);
+							console.log(container_id);
+						}
+					});
+
+					$( self.selectors.container_tabs ).tabs( "refresh" );
+				}
+			});
+
+			$( self.selectors.container_tab ).on('dblclick',function(){
+				$(this).find('input').toggle().val($(this).find('a').html()).focus();
+				$(this).find('a').toggle();
+			});
+
+			$( self.selectors.container_tab ).on('keydown blur dblclick','input',function(e){
+				if(e.type=="keydown")
+				{
+					if(e.which==13)
+					{
+						$(this).toggle();
+						$(this).siblings('a').toggle().html($(this).val());
+
+						var tab_value = $(this).val();
+						var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
+						var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
+						$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
+					}
+					if(e.which==38 || e.which==40 || e.which==37 || e.which==39 || e.keyCode == 32)
+					{
+						e.stopPropagation();
+					}
+				}
+				else if(e.type=="focusout")
+				{
+					$(this).toggle();
+					$(this).siblings('a').toggle().html($(this).val());
+
+					var tab_value = $(this).val();
+					var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
+					var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
+					$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
+				}
+				else
+				{
+					e.stopPropagation();
+				}
 			});
 		},
 
@@ -322,7 +388,7 @@
 				var count_container = $( self.selectors.container_tabs).find( '.torro-container' ).length;
 
 				var id =  'temp_id_' + self.rand();
-				var tab = '<li class="tab-container-' + id + '"><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
+				var tab = '<li class="tab-container tab-container-' + id + '"><input class="txt" type="text"/><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
 
 				var container = '<div id="torro-container-' + id + '" class="torro-container">';
 				container += '<div class="torro-drag-drop-inside"></div>';
@@ -341,6 +407,7 @@
 				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index() - 1;
 				$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
 				self.init_drag_and_drop();
+				self.init_container_tabs();
 			});
 		},
 
