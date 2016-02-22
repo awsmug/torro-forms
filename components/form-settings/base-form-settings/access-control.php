@@ -88,7 +88,7 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		$html = ob_get_clean();
 
 		$html .= '<div id="form-access-controls-options" class="form-fields">';
-		$html .= '<label for="form_access_controls_option">' . esc_html__( 'Give access to:', 'torro-forms' ) . '</label>';
+		$html .= '<label for="form_access_controls_option">' . esc_html__( 'Give access to', 'torro-forms' ) . '</label>';
 		$html .= '<select name="form_access_controls_option" id="form-access-controls-option">';
 		foreach ( $access_controls as $name => $access_control ) {
 			if ( ! $access_control->has_option() ) {

@@ -267,8 +267,8 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$add_participants_option = get_post_meta( $form_id, 'add_participants_option', true );
 
-		$html .= '<div id="torro-add-participants-options">';
-		$html .= '<label for"form_add_participants_option">' . esc_html__( 'Add Members', 'torro-forms' ) . '';
+		$html .= '<div id="torro-add-participants-options" class="form-fields">';
+		$html .= '<label for"form_add_participants_option">' . esc_html__( 'Add Members', 'torro-forms' ) . '</label>';
 		$html .= '<select id="form-add-participants-option" name="form_add_participants_option">';
 		foreach ( $options as $name => $value ) {
 			$selected = '';
@@ -278,7 +278,6 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			$html .= '<option value="' . $name . '"' . $selected . '>' . $value . '</option>';
 		}
 		$html .= '</select>';
-		$html .= '</label>';
 		$html .= '</div>';
 
 		$html .= '<div id="form-add-participants-content-allmembers" class="form-add-participants-content-allmembers form-add-participants-content">';
