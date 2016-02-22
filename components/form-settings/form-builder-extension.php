@@ -70,7 +70,7 @@ class Torro_Formbuilder_Form_Settings_Extension {
 			return;
 		}
 
-		$html = '<div id="form-form-settings-tabs" class="section form_element_tabs">';
+		$html = '<div id="form-form-settings-tabs" class="section tabs">';
 
 		$html .= '<ul>';
 		foreach ( $form_settings as $form_setting ){

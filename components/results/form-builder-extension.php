@@ -79,7 +79,7 @@ class Torro_Formbuilder_ChartsExtension {
 			return;
 		}
 
-		$html = '<div id="form-result-handlers-tabs" class="section form_element_tabs">';
+		$html = '<div id="form-result-handlers-tabs" class="section tabs">';
 
 		$html .= '<ul>';
 		foreach ( $result_handlers as $result_handler ){

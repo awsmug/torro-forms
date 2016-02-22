@@ -72,7 +72,7 @@ class Torro_Formbuilder_Actions_Extension {
 			return;
 		}
 
-		$html = '<div id="form-actions-tabs" class="section form_element_tabs">';
+		$html = '<div id="form-actions-tabs" class="section tabs">';
 
 		$html .= '<ul>';
 		foreach ( $actions as $action ) {

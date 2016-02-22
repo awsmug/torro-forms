@@ -10,10 +10,11 @@
 		this.extensions = {};
 
 		this.selectors = {
+			containers: '#containers',
 			container_id: 'input[name="container_id"]',
 			container_add: '#container-add',
 			container_tab: '.tab-container',
-			container_tabs: '#form-container-tabs',
+			container_tabs: '.container-tabs',
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '.torro-drag-drop-inside',
 			dropped_item_sub: '.formelement',
@@ -30,7 +31,7 @@
 			delete_answer_button: '.delete_answer',
 			delete_answer_dialog: '#delete_answer_dialog',
 			deleted_answers: '#deleted_answers',
-			element_tabs_sub: '.form_element_tabs',
+			element_tabs_sub: '.post-type-torro-forms .tabs',
 			element_form_label: '.form-label',
 			duplicate_form_button: '#form-duplicate-button',
 			delete_results_button: '#form-delete-results',
@@ -156,8 +157,8 @@
 		init_container_tabs: function() {
 			var self = this;
 
-			$( self.selectors.container_tabs + ' ul' ).sortable({
-				items: 'li.tab-container',
+			$( self.selectors.container_tabs ).sortable({
+				items: self.selectors.container_tab,
 				stop: function(e,ui) {
 					ui.item.parent().find( 'li' ).each( function( index, item ){
 						var tab_container_id = $( item ).find( 'a' ).attr( 'href' );
@@ -169,7 +170,7 @@
 						}
 					});
 
-					$( self.selectors.container_tabs ).tabs( "refresh" );
+					$( self.selectors.container_tabs ).parent().tabs( "refresh" );
 				}
 			});
 
@@ -245,7 +246,7 @@
 								$( '#torro-container-' + self.current_container_id ).remove();
 
 
-								$( self.selectors.container_tabs ).tabs( "refresh" );
+								$( self.selectors.container_tabs ).parent().tabs( "refresh" );
 								var index = $( self.selectors.container_tabs + ' li:first-child' ).parent().index();
 								$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
 
@@ -264,11 +265,10 @@
 				]
 			});
 
-			$( this.selectors.container_tabs ).on( 'click', this.selectors.delete_container_button, function( e ){
+			$( this.selectors.containers ).on( 'click', this.selectors.delete_container_button, function( e ){
 				e.preventDefault();
 
 				self.current_container_id = $( this ).parent().parent().find( self.selectors.container_id ).val();
-
 				$container_delete_dialog.dialog( 'open' );
 			});
 		},
@@ -385,7 +385,7 @@
 			var self = this;
 
 			$( this.selectors.container_add ).on( 'click', function() {
-				var count_container = $( self.selectors.container_tabs).find( '.torro-container' ).length;
+				var count_container = $( self.selectors.container_tabs ).parent().find( '.torro-container' ).length;
 
 				var id =  'temp_id_' + self.rand();
 				var tab = '<li class="tab-container tab-container-' + id + '"><input class="txt" type="text"/><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
@@ -402,12 +402,14 @@
 				container += '</div>';
 
 				$( tab ).insertBefore( this );
-				$( self.selectors.container_tabs ).append( container );
-				$( self.selectors.container_tabs ).tabs( "refresh" );
-				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index() - 1;
-				$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
+				$( self.selectors.container_tabs).parent().append( container );
+				$( self.selectors.container_tabs).parent().tabs( "refresh" );
+
 				self.init_drag_and_drop();
 				self.init_container_tabs();
+
+				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index();
+				$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
 			});
 		},
 
