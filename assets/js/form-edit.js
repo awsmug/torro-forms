@@ -10,9 +10,11 @@
 		this.extensions = {};
 
 		this.selectors = {
+			containers: '#containers',
 			container_id: 'input[name="container_id"]',
 			container_add: '#container-add',
-			container_tabs: '#form-container-tabs',
+			container_tab: '.tab-container',
+			container_tabs: '.container-tabs',
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '.torro-drag-drop-inside',
 			dropped_item_sub: '.formelement',
@@ -29,7 +31,7 @@
 			delete_answer_button: '.delete_answer',
 			delete_answer_dialog: '#delete_answer_dialog',
 			deleted_answers: '#deleted_answers',
-			element_tabs_sub: '.form_element_tabs',
+			element_tabs_sub: '.post-type-torro-forms .tabs',
 			element_form_label: '.form-label',
 			duplicate_form_button: '#form-duplicate-button',
 			delete_results_button: '#form-delete-results',
@@ -75,6 +77,8 @@
 			this.handle_templatetag_buttons();
 
 			this.check_max_input_vars();
+
+			this.init_container_tabs();
 		},
 
 		/**
@@ -148,6 +152,69 @@
 		},
 
 		/**
+		 * Additional functionality for container tabs
+		 */
+		init_container_tabs: function() {
+			var self = this;
+
+			$( self.selectors.container_tabs ).sortable({
+				items: self.selectors.container_tab,
+				stop: function(e,ui) {
+					ui.item.parent().find( 'li' ).each( function( index, item ){
+						var tab_container_id = $( item ).find( 'a' ).attr( 'href' );
+
+						if( tab_container_id != undefined ) {
+							var container_id = $(tab_container_id + ' input[name=container_id]').val();
+							$('input[name^="containers\[' + container_id + '\]\[sort\]"]').val(index);
+							console.log(container_id);
+						}
+					});
+
+					$( self.selectors.container_tabs ).parent().tabs( "refresh" );
+				}
+			});
+
+			$( self.selectors.container_tab ).on('dblclick',function(){
+				$(this).find('input').toggle().val($(this).find('a').html()).focus();
+				$(this).find('a').toggle();
+			});
+
+			$( self.selectors.container_tab ).on('keydown blur dblclick','input',function(e){
+				if(e.type=="keydown")
+				{
+					if(e.which==13)
+					{
+						$(this).toggle();
+						$(this).siblings('a').toggle().html($(this).val());
+
+						var tab_value = $(this).val();
+						var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
+						var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
+						$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
+					}
+					if(e.which==38 || e.which==40 || e.which==37 || e.which==39 || e.keyCode == 32)
+					{
+						e.stopPropagation();
+					}
+				}
+				else if(e.type=="focusout")
+				{
+					$(this).toggle();
+					$(this).siblings('a').toggle().html($(this).val());
+
+					var tab_value = $(this).val();
+					var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
+					var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
+					$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
+				}
+				else
+				{
+					e.stopPropagation();
+				}
+			});
+		},
+
+		/**
 		 * Initializing container deletion
 		 */
 		init_container_deletion: function() {
@@ -179,7 +246,7 @@
 								$( '#torro-container-' + self.current_container_id ).remove();
 
 
-								$( self.selectors.container_tabs ).tabs( "refresh" );
+								$( self.selectors.container_tabs ).parent().tabs( "refresh" );
 								var index = $( self.selectors.container_tabs + ' li:first-child' ).parent().index();
 								$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
 
@@ -198,11 +265,10 @@
 				]
 			});
 
-			$( this.selectors.container_tabs ).on( 'click', this.selectors.delete_container_button, function( e ){
+			$( this.selectors.containers ).on( 'click', this.selectors.delete_container_button, function( e ){
 				e.preventDefault();
 
 				self.current_container_id = $( this ).parent().parent().find( self.selectors.container_id ).val();
-
 				$container_delete_dialog.dialog( 'open' );
 			});
 		},
@@ -319,10 +385,10 @@
 			var self = this;
 
 			$( this.selectors.container_add ).on( 'click', function() {
-				var count_container = $( self.selectors.container_tabs).find( '.torro-container' ).length;
+				var count_container = $( self.selectors.container_tabs ).parent().find( '.torro-container' ).length;
 
 				var id =  'temp_id_' + self.rand();
-				var tab = '<li class="tab-container-' + id + '"><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
+				var tab = '<li class="tab-container tab-container-' + id + '"><input class="txt" type="text"/><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
 
 				var container = '<div id="torro-container-' + id + '" class="torro-container">';
 				container += '<div class="torro-drag-drop-inside"></div>';
@@ -336,11 +402,14 @@
 				container += '</div>';
 
 				$( tab ).insertBefore( this );
-				$( self.selectors.container_tabs ).append( container );
-				$( self.selectors.container_tabs ).tabs( "refresh" );
-				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index() - 1;
-				$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
+				$( self.selectors.container_tabs).parent().append( container );
+				$( self.selectors.container_tabs).parent().tabs( "refresh" );
+
 				self.init_drag_and_drop();
+				self.init_container_tabs();
+
+				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index();
+				$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
 			});
 		},
 

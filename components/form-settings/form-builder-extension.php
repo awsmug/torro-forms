@@ -70,9 +70,9 @@ class Torro_Formbuilder_Form_Settings_Extension {
 			return;
 		}
 
-		$html = '<div id="form-form-settings-tabs" class="section form_element_tabs">';
+		$html = '<div id="form-form-settings-tabs" class="section tabs">';
 
-		$html .= '<ul>';
+		$html .= '<ul class="settings-tabs">';
 		foreach ( $form_settings as $form_setting ){
 			if ( ! $form_setting->has_option() ) {
 				continue;
@@ -87,7 +87,7 @@ class Torro_Formbuilder_Form_Settings_Extension {
 			if ( ! $form_setting->has_option() ){
 				continue;
 			}
-			$html .= '<div id="' . $form_setting->name . '">' . $form_setting->option_content() . '</div>';
+			$html .= '<div id="' . $form_setting->name . '" class="tab-content">' . $form_setting->option_content() . '</div>';
 		}
 
 		$html .= '</div>';

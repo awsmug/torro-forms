@@ -451,8 +451,8 @@ abstract class Torro_Form_Element extends Torro_Base {
 		$admin_tabs = apply_filters( 'torro_formbuilder_element_tabs', $this->admin_tabs );
 
 		if ( 1 < count( $admin_tabs ) ) {
-			$html .= '<div class="form_element_tabs">';
-			$html .= '<ul class="tabs">';
+			$html .= '<div class="tabs element-tabs">';
+			$html .= '<ul>';
 
 			foreach ( $admin_tabs as $key => $tab ) {
 				$html .= '<li><a href="#tab_' . $jquery_element_id . '_' . $key . '">' . $tab[ 'title' ] . '</a></li>';
@@ -468,7 +468,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		 */
 		if ( 1 < count( $admin_tabs ) ) {
 			foreach ( $admin_tabs as $key => $tab ) {
-				$html .= '<div id="tab_' . $jquery_element_id . '_' . $key . '">';
+				$html .= '<div id="tab_' . $jquery_element_id . '_' . $key . '" class="element-tabs-content">';
 				$html .= $tab[ 'content' ];
 				$html .= '</div>';
 			}
@@ -734,7 +734,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			)
 		) );
 
-		$html = '<div class="form-element-buttom">';
+		$html = '<div class="form-element-buttons">';
 		$html .= '<ul>';
 		foreach ( $bottom_buttons as $button ) {
 			$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action button">' . esc_html( $button[ 'text' ] ) . '</a></li>';

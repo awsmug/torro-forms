@@ -77,11 +77,11 @@ class Torro_Formbuilder {
 
 		if ( 0 !== count( $containers ) ) {
 
-			$html .= '<div id="form-container-tabs" class="form_element_tabs">';
+			$html .= '<div id="containers" class="tabs">';
 
-			$html .= '<ul>';
+			$html .= '<ul class="container-tabs">';
 			foreach ( $containers AS $container ) {
-				$html .= '<li class="tab-container-' . $container->id . '"><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
+				$html .= '<li class="tab-container tab-container-' . $container->id . '"><input class="txt" type="text"/><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
 			}
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
@@ -89,7 +89,7 @@ class Torro_Formbuilder {
 			foreach ( $containers AS $container ) {
 				$elements = torro()->containers()->get( $container->id )->get_elements();
 
-				$html .= '<div id="torro-container-' . $container->id . '" class="torro-container">';
+				$html .= '<div id="torro-container-' . $container->id . '" class="tab-content torro-container">';
 				$html .= '<div class="torro-drag-drop-inside">';
 				foreach ( $elements AS $element ) {
 					if( is_wp_error( $element ) ){
@@ -117,7 +117,7 @@ class Torro_Formbuilder {
 
 			$temp_id = 'temp_id_' . time() * rand();
 
-			$html .= '<div id="form-container-tabs" class="form_element_tabs">';
+			$html .= '<div id="form-container-tabs" class="tabs">';
 			$html .= '<ul>';
 			$html .= '<li><a href="#torro-container-new">' . $label . '</a></li>';
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
