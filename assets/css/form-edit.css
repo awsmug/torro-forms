@@ -237,6 +237,20 @@
 /**
  * Form styles
  */
+.post-type-torro-forms .form-fields{
+}
+.post-type-torro-forms .form-fields label{
+    display: block;
+    float: left;
+    line-height: 30px;
+    width: 150px;
+}
+.post-type-torro-forms .form-fields small{
+    margin-left:15px;
+}
+.post-type-torro-forms .form-fields input[type=text]{
+    width:50%;
+}
 .torro-form-fieldset {
     margin-bottom: 20px;
     clear: both;

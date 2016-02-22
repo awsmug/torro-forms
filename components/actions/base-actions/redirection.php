@@ -131,8 +131,8 @@ final class Torro_Redirection_Action extends Torro_Action {
 
 		$html = '<div id="form-redirections">';
 
-		$html .= '<div class="redirection-type">';
-		$html .= '<label for="redirect_type">' . esc_attr__( 'After submitting redirect user to:', 'torro-forms' ) . '</label>';
+		$html .= '<div class="form-fields redirection-type">';
+		$html .= '<label for="redirect_type">' . esc_attr__( 'Redirect User:', 'torro-forms' ) . '</label>';
 		$html .= '<select id="redirect_type" name="redirect_type">';
 
 		$selected = $redirect_type == 'redirect_text' ? ' selected="selected"' : '';
@@ -145,19 +145,21 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '<option value="redirect_url"' . $selected . '>' . esc_attr__( 'URL Redirection', 'torro-forms' ) . '</option>';
 
 		$html .= '</select>';
+		$html .= '<small>' . __( 'Redirect the user to this content after successful submitted form data.', 'torro-forms' ) . '</small>';
+
 
 		$html .= '</div>';
 
 		$display = $redirect_type == 'redirect_url' ? ' style="display:block;"' : ' style="display:none;"';
 
-		$html .= '<div id="redirect_url" class="redirect-content"' . $display . '>';
-		$html .= '<label for="redirect_url">' . esc_attr__( 'Url: ' ) . '</label><input name="redirect_url" type="text" value="' . $redirect_url . '" />';
+		$html .= '<div id="redirect_url" class="form-fields redirect-content"' . $display . '>';
+		$html .= '<label for="redirect_url">' . esc_attr__( 'Url: ' ) . '</label><input name="redirect_url" type="text" value="' . $redirect_url . '" placeholder="http://" />';
 		$html .= '</div>';
 
 		$display = $redirect_type == 'redirect_page' ? ' style="display:block;"' : ' style="display:none;"';
 		$pages = get_pages();
 
-		$html .= '<div id="redirect_page" class="redirect-content"' . $display . '>';
+		$html .= '<div id="redirect_page" class="form-fields redirect-content"' . $display . '>';
 		$html .= '<label for="redirect_page">' . esc_attr__( 'Page: ' ) . '</label>';
 		$html .= '<select name="redirect_page">';
 		foreach ( $pages as $page ) {
