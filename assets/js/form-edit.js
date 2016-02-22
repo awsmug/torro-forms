@@ -242,13 +242,18 @@
 
 								$( self.selectors.deleted_containers ).val( deleted_containers );
 
+								var index = $( '.tab-container-' + self.current_container_id).index();
+								if( index == 0 ){
+									index = 0;
+								}else{
+									index = index - 1;
+								}
+
 								$( '.tab-container-' + self.current_container_id ).remove();
 								$( '#torro-container-' + self.current_container_id ).remove();
 
-
 								$( self.selectors.container_tabs ).parent().tabs( "refresh" );
-								var index = $( self.selectors.container_tabs + ' li:first-child' ).parent().index();
-								$( self.selectors.container_tabs ).tabs( 'option', 'active', index );
+								$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
 
 								self.current_container_id = '';
 							}
