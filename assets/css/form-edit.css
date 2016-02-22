@@ -2,7 +2,6 @@
  * 	General
  */
 #torro-content {
-    margin: -10px 0 0;
 }
 
 .post-type-torro-forms a:focus {
@@ -16,8 +15,13 @@
 /**
  * Form Container
  */
+#form-container-tabs {
+}
 #form-container-tabs ul{
-    padding:10px 10px 0 10px;
+    margin-bottom: 0;
+    padding: 15px 15px 12px;
+}
+#form-container-tabs ul li{
 }
 #form-container-tabs #container-add{
     cursor: pointer;
@@ -27,13 +31,30 @@
 #form-container-tabs .torro-container{
 }
 #form-container-tabs .container-buttons{
-    padding:20px;
+    padding:15px;
 }
 #form-container-tabs li.tab-container input{
     width: 99%;
     display:none;
 }
-
+#form-container-tabs ul.ui-tabs-nav{
+    height:auto;
+    border-bottom: 1px solid #CCC;
+    overflow: hidden;
+}
+#form-container-tabs ul.ui-tabs-nav li{
+    border: #CCC solid 1px;
+    margin-bottom: 3px;
+}
+#form-container-tabs ul.ui-tabs-nav li.ui-state-active {
+    background: #0085ba none repeat scroll 0 0;
+    border-color: #0073aa #006799 #006799;
+    box-shadow: 0 1px 0 #006799;
+    color: #fff;
+}
+#form-container-tabs ul.ui-tabs-nav li.ui-state-active a {
+    color:#FFF;
+}
 
 /**
  * 	Drag & Drop Area
@@ -43,7 +64,7 @@
     -webkit-box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
     border: 1px solid #E5E5E5;
     box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
-    margin-top:20px;
+    margin-top:10px;
 }
 
 /**
@@ -61,13 +82,17 @@
 /**
  * Element
  */
-.formelement.widget{
+}
+#torro-content .formelement.widget{
     width: 100%;
 }
-.formelement .widget-inside
-{
+#torro-content .formelement .widget-inside{
+    padding:0;
+}
+#torro-content .formelement .ui-tabs-panel{
     padding:15px;
 }
+
 .formelement div > label
 {
     display:block;
@@ -111,9 +136,10 @@
  */
 .form_element_tabs > ul {
     padding: 0 5px;
-    border-bottom: 1px solid #CCC;
-    height:29px;
     margin: 0 0 10px;
+    display:block;
+    border-bottom: 1px solid #CCC;
+    height: 29px;
 }
 .form_element_tabs > ul > li {
     float: left;

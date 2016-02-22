@@ -157,7 +157,7 @@
 			var self = this;
 
 			$( self.selectors.container_tabs + ' ul' ).sortable({
-				axis: "x",
+				items: 'li.tab-container',
 				stop: function(e,ui) {
 					ui.item.parent().find( 'li' ).each( function( index, item ){
 						var tab_container_id = $( item ).find( 'a' ).attr( 'href' );

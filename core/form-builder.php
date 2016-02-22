@@ -84,7 +84,10 @@ class Torro_Formbuilder {
 				$html .= '<li class="tab-container tab-container-' . $container->id . '"><input class="txt" type="text"/><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
 			}
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
+			$html .= '<span style="clear:both"></span>';
 			$html .= '</ul>';
+
+
 
 			foreach ( $containers AS $container ) {
 				$elements = torro()->containers()->get( $container->id )->get_elements();
