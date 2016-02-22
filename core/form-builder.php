@@ -114,20 +114,20 @@ class Torro_Formbuilder {
 			$html .= '</div>';
 		}else{
 			$label =  esc_attr( 'Page', 'torro-forms' ) . ' 1';
-
 			$temp_id = 'temp_id_' . time() * rand();
 
-			$html .= '<div id="form-container-tabs" class="tabs">';
-			$html .= '<ul>';
-			$html .= '<li><a href="#torro-container-new">' . $label . '</a></li>';
+			$html .= '<div id="containers" class="tabs">';
+			$html .= '<ul class="container-tabs">';
+			$html .= '<li><input class="txt" type="text"/><a href="#torro-container-new">' . $label . '</a></li>';
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
-			$html .= '<div class="torro-drag-drop-inside">';
-			$html .= '</div>';
+			$html .= '<div id="torro-container-new" class="tab-content torro-container">';
+			$html .= '<div class="torro-drag-drop-inside"></div>';
 			$html .= '<input type="hidden" name="container_id" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][id]" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][label]" value="' . $label . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][sort]" value="0" />';
+			$html .= '</div>';
 			$html .= '</div>';
 		}
 
