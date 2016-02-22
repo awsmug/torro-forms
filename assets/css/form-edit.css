@@ -21,10 +21,12 @@
  */
 .post-type-torro-forms .tabs > ul {
     padding: 0 5px;
-    margin: 0 0 10px;
+    margin: 0;
     display: block;
     border-bottom: 1px solid #CCC;
     height: 29px;
+    padding: 15px 15px 0;
+    background-color: #f5f5f5;
 }
 
 .post-type-torro-forms .tabs > ul > li {
@@ -56,6 +58,10 @@
     color: #000;
 }
 
+.post-type-torro-forms .tab-content {
+    padding:15px;
+}
+
 /**
  * Form Container
  */
@@ -74,6 +80,7 @@
     height: auto;
     border-bottom: 1px solid #CCC;
     overflow: hidden;
+    background-color: #FFF;
 }
 
 .post-type-torro-forms #containers .container-tabs li {
@@ -97,10 +104,14 @@
     color: #FFF;
 }
 
+.post-type-torro-forms .tab-content.torro-container {
+    padding:0;
+}
+
 .post-type-torro-forms #containers .container-buttons {
     padding: 15px;
     margin: 0;
-    background-color: #fafafa;
+    background-color: #f5f5f5;
     border-top: 1px solid #ddd;
 }
 
@@ -110,6 +121,7 @@
 .post-type-torro-forms #containers .torro-drag-drop-inside {
     min-height: 200px;
     padding: 15px;
+    background-color: #f5f5f5;
 }
 
 #form-elements .widget-title-action {
@@ -133,7 +145,8 @@
 }
 
 .post-type-torro-forms .formelement .element-tabs-content {
-    padding: 0 15px 15px 15px;
+    padding: 15px;
+    background-color: #FFF;
 }
 
 .post-type-torro-forms .formelement div > label {
@@ -244,7 +257,7 @@
  * Redirections
  */
 .redirection-type {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 /**
@@ -288,6 +301,7 @@
 }
 
 .post-type-torro-forms .general-settings {
+    padding:15px;
 }
 
 .post-type-torro-forms .general-settings .option {
@@ -321,7 +335,6 @@
 
 .post-type-torro-forms div.section {
     border-top: 1px solid #ddd;
-    padding: 15px;
     margin: 0;
 }
 
@@ -582,13 +595,6 @@
 
 #form-functions input:last-child {
     margin-right: 0;
-}
-
-/**
- * Form actions
- */
-#form-actions-tabs ul {
-    margin-bottom: 20px;
 }
 
 /**

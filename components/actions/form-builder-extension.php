@@ -64,32 +64,28 @@ class Torro_Formbuilder_Actions_Extension {
 	 * @since 1.0.0
 	 */
 	public static function meta_box_actions() {
-		global $post;
-
 		$actions = torro()->actions()->get_all_registered();
 
 		if ( ! is_array( $actions ) || 0 === count( $actions ) ){
 			return;
 		}
 
-		$html = '<div id="form-actions-tabs" class="section tabs">';
+		$html = '<div id="actions" class="tabs">';
 
-		$html .= '<ul>';
+		$html .= '<ul id="action-tabs">';
 		foreach ( $actions as $action ) {
 			if ( !$action->has_option() ) {
 				continue;
 			}
-			$html .= '<li><a href="#' . $action->name . '">' . $action->title . '</a></option>';
+			$html .= '<li class="tab"><a href="#' . $action->name . '">' . $action->title . '</a></option>';
 		}
 		$html .= '</ul>';
-
-		$html .= '<div class="clear"></div>';
 
 		foreach( $actions as $action ) {
 			if ( ! $action->has_option() ) {
 				continue;
 			}
-			$html .= '<div id="' . $action->name . '">' . $action->option_content . '</div>';
+			$html .= '<div id="' . $action->name . '" class="tab-content action">' . $action->option_content . '</div>';
 		}
 
 		$html .= '</div>';

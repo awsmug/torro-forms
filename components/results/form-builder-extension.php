@@ -81,7 +81,7 @@ class Torro_Formbuilder_ChartsExtension {
 
 		$html = '<div id="form-result-handlers-tabs" class="section tabs">';
 
-		$html .= '<ul>';
+		$html .= '<ul class="results-tabs">';
 		foreach ( $result_handlers as $result_handler ){
 			if ( ! $result_handler->has_option() ) {
 				continue;
@@ -96,7 +96,7 @@ class Torro_Formbuilder_ChartsExtension {
 			if ( ! $result_handler->has_option() ){
 				continue;
 			}
-			$html .= '<div id="' . $result_handler->name . '">' . $result_handler->option_content . '</div>';
+			$html .= '<div id="' . $result_handler->name . '" class="tab-content">' . $result_handler->option_content . '</div>';
 		}
 
 		$html .= '</div>';

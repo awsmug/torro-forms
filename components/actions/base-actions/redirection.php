@@ -132,7 +132,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html = '<div id="form-redirections">';
 
 		$html .= '<div class="redirection-type">';
-		$html .= '<p class="intro-text">' . esc_attr__( 'After submitting redirect user to:', 'torro-forms' ) . '</p>';
+		$html .= '<label for="redirect_type">' . esc_attr__( 'After submitting redirect user to:', 'torro-forms' ) . '</label>';
 		$html .= '<select id="redirect_type" name="redirect_type">';
 
 		$selected = $redirect_type == 'redirect_text' ? ' selected="selected"' : '';
