@@ -303,10 +303,10 @@ abstract class Torro_Form_Element extends Torro_Base {
 	protected function get_admin_cotainer_id() {
 		// Getting Widget ID
 		if ( null === $this->container_id ) {
-			// New Element
+			// New Container
 			$container_id = 'replace_container_id';
 		} else {
-			// Existing Element
+			// Existing Container
 			$container_id = $this->container_id;
 		}
 
@@ -404,7 +404,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		if ( null === $this->id ) {
 			$html = '<div data-element-id="' . $element_id . '" data-element-type="' . $this->type . '" class="formelement formelement-' . $this->type . '">';
 		} else {
-			$html = '<div data-element-id="' . $element_id . '" id="' . $element_id . '" data-element-type="' . $this->type . '" class="widget formelement formelement-' . $this->type . '">';
+			$html = '<div data-element-id="' . $element_id . '" id="element-' . $element_id . '" data-element-type="' . $this->type . '" class="widget formelement formelement-' . $this->type . '">';
 		}
 
 		/**

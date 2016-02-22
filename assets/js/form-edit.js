@@ -296,9 +296,6 @@
 						text: this.translations.yes,
 						click: function() {
 							if ( self.current_element_id ) {
-								self.current_element_id = self.current_element_id.split( '_' );
-								self.current_element_id = self.current_element_id[2];
-
 								var deleted_formelements = $( self.selectors.deleted_elements ).val();
 
 								if ( '' == deleted_formelements ) {
@@ -307,23 +304,19 @@
 									deleted_formelements += ',' + self.current_element_id;
 								}
 
-								var element_type = $( '#widget_formelement_' + self.current_element_id ).data( 'element-type' );
-
 								$( self.selectors.deleted_elements ).val( deleted_formelements );
-								$( '#widget_formelement_' + self.current_element_id ).remove();
-
-								self.current_element_id = '';
+								$( '#element-' + self.current_element_id ).remove();
 
 								if ( $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length < 1 ) {
 									$( self.selectors.drop_elements_here ).show();
 								}
 
-								if ( element_type ) {
+								if ( self.current_element_type ) {
 									var data = {
-										id: 'widget_formelement_' + self.current_element_id,
-										selector: '#widget_formelement_' + self.current_element_id
+										id: 'element-' + self.current_element_id,
+										selector: '#element-' + self.current_element_id
 									};
-									$( document ).trigger( 'torro.delete_element_' + element_type, [ data ]);
+									$( document ).trigger( 'torro.delete_element_' + self.current_element_type, [ data ]);
 								}
 							}
 
@@ -342,7 +335,8 @@
 			$( this.selectors.droppable_area ).on( 'click', this.selectors.delete_element_button, function( e ){
 				e.preventDefault();
 
-				self.current_element_id = $( this ).closest( self.selectors.dropped_item_sub ).attr('id');
+				self.current_element_id = $( this ).closest( self.selectors.dropped_item_sub ).attr( 'data-element-id' );
+				self.current_element_type = $( this ).closest( self.selectors.dropped_item_sub ).attr( 'data-element-type' );
 				$form_delete_element_dialog.dialog( 'open' );
 			});
 		},
