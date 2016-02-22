@@ -18,7 +18,7 @@
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '.torro-drag-drop-inside',
 			dropped_item_sub: '.formelement',
-			drop_elements_here: '#torro-drop-elements-here',
+			drop_elements_here: '.drop-elements-here',
 			delete_container_button: '.delete-container-button',
 			delete_container_dialog: '#delete_container_dialog',
 			delete_element_button: '.delete_form_element',
@@ -87,6 +87,12 @@
 		init_drag_and_drop: function() {
 			var self = this;
 
+			$( this.selectors.droppable_area ).each( function( index, item ) {
+				if( $( item ).find( self.selectors.dropped_item_sub ).length == 0 ){
+					$( item ).find( self.selectors.drop_elements_here ).show();
+				}
+			});
+
 			// init draggable
 			$( this.selectors.draggable_item ).draggable( {
 				helper: 'clone',
@@ -96,12 +102,12 @@
 				start: function( event, ui ) {
 					var $element = ui.helper;
 
-					$( self.selectors.drop_elements_here ).hide();
 					$element.css( 'height', 'auto' ).css( 'width', '100px' );
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
 
+					$( self.selectors.drop_elements_here ).hide();
 					$element.css( 'width', '100%' ).css( 'height', 'auto' );
 					$element.addClass( 'widget' );
 				}
@@ -390,7 +396,9 @@
 				var tab = '<li class="tab-container tab-container-' + id + '"><input class="txt" type="text"/><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
 
 				var container = '<div id="torro-container-' + id + '" class="torro-container">';
-				container += '<div class="torro-drag-drop-inside"></div>';
+				container += '<div class="torro-drag-drop-inside">';
+				container += '<div class="drop-elements-here">' + self.translations.drop_elements_here + '</div>';
+				container += '</div>';
 				container += '<div class="container-buttons">';
 				container += '<input type="button" name="delete_container" value="' +  self.translations.delete_page + '" class="button delete-container-button" />';
 				container += '</div>';
@@ -401,13 +409,13 @@
 				container += '</div>';
 
 				$( tab ).insertBefore( this );
-				$( self.selectors.container_tabs).parent().append( container );
-				$( self.selectors.container_tabs).parent().tabs( "refresh" );
+				$( self.selectors.container_tabs ).parent().append( container );
+				$( self.selectors.container_tabs ).parent().tabs( "refresh" );
 
 				self.init_drag_and_drop();
 				self.init_container_tabs();
 
-				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index();
+				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index() - 1;
 				$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
 			});
 		},

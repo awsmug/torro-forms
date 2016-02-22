@@ -91,6 +91,8 @@ class Torro_Formbuilder {
 
 				$html .= '<div id="torro-container-' . $container->id . '" class="tab-content torro-container">';
 				$html .= '<div class="torro-drag-drop-inside">';
+
+
 				foreach ( $elements AS $element ) {
 					if( is_wp_error( $element ) ){
 						$html .= $element->get_error_message() . '<br />';
@@ -99,6 +101,7 @@ class Torro_Formbuilder {
 					$html .= $element->get_admin_html();
 					torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
 				}
+				$html .= '<div class="drop-elements-here">' . __( 'Drop your elements here', 'torro-forms' ) . '</div>';
 				$html .= '</div>';
 				$html .= '<div class="container-buttons">';
 				$html .= '<input type="button" name="delete_container" value="' . __( 'Delete Page', 'torro-forms' ) . '" class="button delete-container-button" />';
@@ -122,7 +125,9 @@ class Torro_Formbuilder {
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
 			$html .= '<div id="torro-container-new" class="tab-content torro-container">';
-			$html .= '<div class="torro-drag-drop-inside"></div>';
+			$html .= '<div class="torro-drag-drop-inside">';
+			$html .= '<div class="drop-elements-here">' . __( 'Drop your elements here', 'torro-forms' ) . '</div>';
+			$html .= '</div>';
 			$html .= '<input type="hidden" name="container_id" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][id]" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][label]" value="' . $label . '" />';
@@ -455,6 +460,7 @@ class Torro_Formbuilder {
 			'yes'                          => __( 'Yes', 'torro-forms' ),
 			'no'                           => __( 'No', 'torro-forms' ),
 			'edit_form'                    => __( 'Edit Form', 'torro-forms' ),
+			'drop_elements_here'           => __( 'Drop your elements here', 'torro-forms' ),
 			'max_fields_near_limit'        => __( 'You are under 50 form fields away from reaching PHP max_num_fields!', 'torro-forms' ),
 			'max_fields_over_limit'        => __( 'You are over the limit of PHP max_num_fields!', 'torro-forms' ),
 			'max_fields_todo'              => __( 'Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct.', 'torro-forms' ),

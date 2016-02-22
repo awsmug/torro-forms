@@ -185,7 +185,7 @@
     width: 100%;
 }
 
-.post-type-torro-forms #torro-drop-elements-here {
+.post-type-torro-forms .drop-elements-here {
     border: 2px dashed #b4b9be;
     color: #b4b9be;
     font-size: 20px;
@@ -193,6 +193,7 @@
     height: 195px;
     line-height: 190px;
     text-align: center;
+    display:none;
 }
 
 .post-type-torro-forms input[type=text] {
