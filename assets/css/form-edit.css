@@ -136,6 +136,10 @@
     width: 100%;
 }
 
+.post-type-torro-forms .formelement .widget-title {
+    min-height: 43px;
+}
+
 .post-type-torro-forms .formelement .widget-inside {
     padding: 0;
 }
