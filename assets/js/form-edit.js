@@ -17,7 +17,7 @@
 			container_tabs: '.container-tabs',
 			draggable_item: '#form-elements .formelement',
 			droppable_area: '.torro-drag-drop-inside',
-			dropped_item_sub: '.formelement',
+			element: '.formelement',
 			drop_elements_here: '.drop-elements-here',
 			delete_container_button: '.delete-container-button',
 			delete_container_dialog: '#delete_container_dialog',
@@ -88,7 +88,7 @@
 			var self = this;
 
 			$( this.selectors.droppable_area ).each( function( index, item ) {
-				if( $( item ).find( self.selectors.dropped_item_sub ).length == 0 ){
+				if( $( item ).find( self.selectors.element ).length == 0 ){
 					$( item ).find( self.selectors.drop_elements_here ).show();
 				}
 			});
@@ -117,7 +117,7 @@
 				accept: this.selectors.draggable_item
 			}).sortable({
 				placeholder: 'form-element-placeholder',
-				items: this.selectors.dropped_item_sub,
+				items: this.selectors.element,
 				update: function( event, ui ) {
 					var $element = ui.item;
 					var container_id = $( this ).parent().find( self.selectors.container_id ).val();
@@ -141,7 +141,7 @@
 						$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ] );
 					}
 
-					$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).each( function( e ) {
+					$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.element ).each( function( e ) {
 						var element_id = $( this ).attr( 'data-element-id' );
 						var index = $( this ).index();
 
@@ -313,7 +313,7 @@
 								$( self.selectors.deleted_elements ).val( deleted_formelements );
 								$( '#element-' + self.current_element_id ).remove();
 
-								if ( $( self.selectors.droppable_area + ' ' + self.selectors.dropped_item_sub ).length < 1 ) {
+								if ( $( self.selectors.droppable_area + ' ' + self.selectors.element ).length < 1 ) {
 									$( self.selectors.drop_elements_here ).show();
 								}
 
@@ -341,8 +341,8 @@
 			$( this.selectors.droppable_area ).on( 'click', this.selectors.delete_element_button, function( e ){
 				e.preventDefault();
 
-				self.current_element_id = $( this ).closest( self.selectors.dropped_item_sub ).attr( 'data-element-id' );
-				self.current_element_type = $( this ).closest( self.selectors.dropped_item_sub ).attr( 'data-element-type' );
+				self.current_element_id = $( this ).closest( self.selectors.element ).attr( 'data-element-id' );
+				self.current_element_type = $( this ).closest( self.selectors.element ).attr( 'data-element-type' );
 				$form_delete_element_dialog.dialog( 'open' );
 			});
 		},
