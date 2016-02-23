@@ -44,6 +44,19 @@ final class Torro_Element_Answer_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Returns Element_Answer instance
+	 *
+	 * @param $id
+	 *
+	 * @return Torro_Element_Answer
+	 *
+	 * @since 1.0.0
+	 */
+	public function get( $id ){
+		return parent::get( $id );
+	}
+
 	public function create_raw() {
 		return new Torro_Element_Answer();
 	}

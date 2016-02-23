@@ -57,6 +57,19 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		return $this->get( $form_id );
 	}
 
+	/**
+	 * Returns Form instance
+	 *
+	 * @param $id
+	 *
+	 * @return Torro_Form
+	 *
+	 * @since 1.0.0
+	 */
+	public function get( $id ){
+		return parent::get( $id );
+	}
+
 	public function get_current_form_id() {
 		return $this->form_controller->get_form_id();
 	}

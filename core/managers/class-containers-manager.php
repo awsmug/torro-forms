@@ -44,6 +44,19 @@ final class Torro_Containers_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Returns Container instance
+	 *
+	 * @param $id
+	 *
+	 * @return Torro_Container
+	 *
+	 * @since 1.0.0
+	 */
+	public function get( $id ){
+		return parent::get( $id );
+	}
+
 	public function create_raw() {
 		return new Torro_Container();
 	}

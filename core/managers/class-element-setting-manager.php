@@ -44,6 +44,19 @@ final class Torro_Element_Setting_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Returns Settings instance
+	 *
+	 * @param $id
+	 *
+	 * @return Torro_Settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function get( $id ){
+		return parent::get( $id );
+	}
+
 	public function create_raw() {
 		return new Torro_Element_Setting();
 	}

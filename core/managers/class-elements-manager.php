@@ -47,6 +47,19 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Returns Form instance
+	 *
+	 * @param $id
+	 *
+	 * @return Torro_Form_Element
+	 *
+	 * @since 1.0.0
+	 */
+	public function get( $id ){
+		return parent::get( $id );
+	}
+
 	public function create_raw( $type ) {
 		$class_name = $this->get_class_name_by_type( $type );
 		if ( ! class_exists( $class_name ) ) {

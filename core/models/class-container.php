@@ -31,20 +31,64 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Container {
 
+	/**
+	 * ID of container
+	 *
+	 * @var int
+	 * @since 1.0.0
+	 */
 	private $id = null;
 
+	/**
+	 * Label of container
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
 	private $label = null;
 
+	/**
+	 * Sort number of container
+	 *
+	 * @var int
+	 * @since 1.0.0
+	 */
 	private $sort = null;
 
+	/**
+	 * Form ID of container
+	 *
+	 * @var int
+	 * @since 1.0.0
+	 */
 	private $form_id = null;
 
+	/**
+	 * ID of container
+	 *
+	 * @var Torro_Form_Element[]
+	 * @since 1.0.0
+	 */
 	private $elements = array();
 
+	/**
+	 * Torro_Container constructor.
+	 *
+	 * @param int $id
+	 *
+	 * @since 1.0.0
+	 */
 	public function __construct( $id = null ) {
 		$this->populate( $id );
 	}
 
+	/**
+	 * Populating object
+	 *
+	 * @param int $id
+	 *
+	 * @since 1.0.0
+	 */
 	private function populate( $id ) {
 		global $wpdb;
 
@@ -65,6 +109,12 @@ class Torro_Container {
 		}
 	}
 
+	/**
+	 * Saving container
+	 *
+	 * @return int Container ID
+	 * @since 1.0.0
+	 */
 	public function save(){
 		global $wpdb;
 
@@ -94,7 +144,12 @@ class Torro_Container {
 			return $wpdb->insert_id;
 		}
 	}
-
+	/**
+	 * Deleting container
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function delete(){
 		global $wpdb;
 
@@ -109,6 +164,12 @@ class Torro_Container {
 		return false;
 	}
 
+	/**
+	 * Internal function to get elements of container
+	 *
+	 * @return array Torro_Form_Element
+	 * @since 1.0.0
+	 */
 	private function __get_elements(){
 		global $wpdb;
 
@@ -123,10 +184,25 @@ class Torro_Container {
 		return $elements;
 	}
 
+	/**
+	 * Returns elements of container
+	 *
+	 * @return Torro_Form_Element[]|Torro_Error[]
+	 * @since 1.0.0
+	 */
 	public function get_elements(){
 		return $this->elements;
 	}
 
+	/**
+	 * Getting form html of container
+	 *
+	 * @param array $response
+	 * @param array $errors
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	public function get_html( $response = array(), $errors = array() )
 	{
 		$html = sprintf( '<input type="hidden" name="torro_response[container_id]" value="%d" />', $this->id );
@@ -156,7 +232,6 @@ class Torro_Container {
 	 * Checks if the container exists
 	 *
 	 * @return boolean $exists true if Form exists, false if not
-	 *
 	 * @since 1.0.0
 	 */
 	public function exists() {
@@ -172,6 +247,14 @@ class Torro_Container {
 		return false;
 	}
 
+	/**
+	 * Magic setter function
+	 *
+	 * @param $key
+	 * @param $value
+	 *
+	 * @since 1.0.0
+	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'sort':
@@ -186,6 +269,14 @@ class Torro_Container {
 		}
 	}
 
+	/**
+	 * Magic getter function
+	 *
+	 * @param $key
+	 *
+	 * @return null
+	 * @since 1.0.0
+	 */
 	public function __get( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return $this->$key;
@@ -193,6 +284,14 @@ class Torro_Container {
 		return null;
 	}
 
+	/**
+	 * Magic isset function
+	 *
+	 * @param $key
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function __isset( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return true;
