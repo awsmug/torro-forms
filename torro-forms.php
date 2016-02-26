@@ -172,8 +172,8 @@ class Torro_Init {
 		require_once( $core_folder . 'shortcodes.php' );
 
 		// Vendor
-		if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
-			require_once( $main_folder . 'vendor/EDD_SL_Plugin_Updater.php' );
+		if( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+			require_once( $main_folder . 'vendor/easydigitaldownloads/EDD-License-handler/EDD_SL_Plugin_Updater.php' );
 		}
 
 		// Components

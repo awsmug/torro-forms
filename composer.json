@@ -1,0 +1,62 @@
+{
+  "name": "awsmug/torro-forms",
+  "description": "This framework plugin makes adding customizer panels, sections and fields to WordPress very simple, yet flexible.",
+  "version": "0.5.0",
+  "license": "GPL-3.0",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "definitely",
+    "framework",
+    "library",
+    "developer",
+    "admin",
+    "backend",
+    "structured data",
+    "ui",
+    "api",
+    "cms",
+    "customizer"
+  ],
+  "homepage": "http://torro-forms.com",
+  "authors": [
+    {
+      "name": "Sven Wagener",
+      "email": "very@awesome.ug",
+      "homepage": "http://www.awesome.ug",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "http://leaves-and-love.net",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/awsmug/torro-forms/issues"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "easydigitaldownloads/EDD-License-handler",
+        "version": "1.6.3",
+        "source": {
+          "url": "git://github.com/easydigitaldownloads/EDD-License-handler.git",
+          "type": "git",
+          "reference": "master"
+        }
+      }
+    }
+  ],
+  "config": {
+    "preferred-install": "dist"
+  },
+  "require": {
+    "composer/installers": "~1.0",
+    "phpoffice/phpexcel": "1.8.1",
+    "easydigitaldownloads/EDD-License-handler": "1.6.3"
+  }
+}
