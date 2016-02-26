@@ -172,7 +172,6 @@
 						if( tab_container_id != undefined ) {
 							var container_id = $(tab_container_id + ' input[name=container_id]').val();
 							$('input[name^="containers\[' + container_id + '\]\[sort\]"]').val(index);
-							console.log(container_id);
 						}
 					});
 
@@ -490,8 +489,7 @@
 						text: this.translations.yes,
 						click: function() {
 							if ( self.current_answer_id ) {
-								self.current_answer_id = self.current_answer_id.split( '_' );
-								self.current_answer_id = self.current_answer_id[1];
+								self.current_answer_id = self.current_answer_id.substring( 7 );
 
 								var deleted_answers = $( self.selectors.deleted_answers ).val();
 
@@ -595,7 +593,7 @@
 
 						$notices.fadeOut( 5000 );
 					}).fail( function( message ) {
-						console.log( message );
+						console.error( message );
 					});
 				} else {
 					$button.addClass( 'button' );
@@ -641,7 +639,7 @@
 
 										$( '#form-functions-notices' ).fadeOut( 5000 );
 									}).fail( function( message ) {
-										console.log( message );
+										console.error( message );
 									});
 								}
 							},
