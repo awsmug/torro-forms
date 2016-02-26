@@ -199,26 +199,26 @@
 					$( this ).find( 'a' ).toggle();
 				});
 
-				$container_tab.on('keydown blur dblclick','input',function(e){
+				$container_tab.on( 'keydown blur dblclick', 'input', function( e ) {
 					if ( e.type == "keydown" ) {
 						if ( e.which == 13 ) {
-							$(this).toggle();
-							$(this).siblings('a').toggle().html($(this).val());
+							$( this ).toggle();
+							$( this ).siblings('a').toggle().html($( this ).val());
 
-							var tab_value = $(this).val();
-							var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
+							var tab_value = $( this ).val();
+							var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
 							var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
 							$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
 						}
 						if ( e.which == 38 || e.which == 40 || e.which == 37 || e.which == 39 || e.keyCode == 32 ) {
 							e.stopPropagation();
 						}
-					} else if( e.type == "focusout" ) {
-						$(this).toggle();
-						$(this).siblings('a').toggle().html($(this).val());
+					} else if ( e.type == "focusout" ) {
+						$( this ).toggle();
+						$( this ).siblings('a').toggle().html($( this ).val());
 
-						var tab_value = $(this).val();
-						var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
+						var tab_value = $( this ).val();
+						var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
 						var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
 						$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
 					} else {
