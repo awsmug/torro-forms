@@ -124,7 +124,7 @@
 
 					var element_id = 'temp_id_' + self.rand();
 
-					$element.attr( 'id', element_id );
+					$element.attr( 'id', 'element-' + element_id );
 					$element.attr( 'data-element-id', element_id );
 					$element.html( $element.html().replace( /replace_element_id/g, element_id ) );
 					$element.html( $element.html().replace( /replace_container_id/g, container_id ) );
