@@ -241,21 +241,25 @@
 					{
 						text: this.translations.yes,
 						click: function() {
+							console.log( self.current_container_id );
 							if ( self.current_container_id ) {
-								var deleted_containers = $( self.selectors.deleted_containers ).val();
+								// only update deleted_containers list if the container was stored in DB before
+								if ( 0 !== self.current_container_id.indexOf( 'temp_id' ) ) {
+									var deleted_containers = $( self.selectors.deleted_containers ).val();
 
-								if ( '' == deleted_containers ) {
-									deleted_containers += self.current_container_id;
-								} else {
-									deleted_containers += ',' + self.current_container_id;
+									if ( '' == deleted_containers ) {
+										deleted_containers += self.current_container_id;
+									} else {
+										deleted_containers += ',' + self.current_container_id;
+									}
+
+									$( self.selectors.deleted_containers ).val( deleted_containers );
 								}
 
-								$( self.selectors.deleted_containers ).val( deleted_containers );
-
-								var index = $( '.tab-container-' + self.current_container_id).index();
-								if( index == 0 ){
+								var index = $( '.tab-container-' + self.current_container_id ).index();
+								if ( index == 0 ) {
 									index = 0;
-								}else{
+								} else {
 									index = index - 1;
 								}
 
@@ -306,15 +310,19 @@
 						text: this.translations.yes,
 						click: function() {
 							if ( self.current_element_id ) {
-								var deleted_formelements = $( self.selectors.deleted_elements ).val();
+								// only update deleted_elements list if the element was stored in DB before
+								if ( 0 !== self.current_element_id.indexOf( 'temp_id' ) ) {
+									var deleted_elements = $( self.selectors.deleted_elements ).val();
 
-								if ( '' == deleted_formelements ) {
-									deleted_formelements += self.current_element_id;
-								} else {
-									deleted_formelements += ',' + self.current_element_id;
+									if ( '' == deleted_elements ) {
+										deleted_elements += self.current_element_id;
+									} else {
+										deleted_elements += ',' + self.current_element_id;
+									}
+
+									$( self.selectors.deleted_elements ).val( deleted_elements );
 								}
 
-								$( self.selectors.deleted_elements ).val( deleted_formelements );
 								$( '#element-' + self.current_element_id ).remove();
 
 								if ( $( self.selectors.droppable_area + ' ' + self.selectors.element ).length < 1 ) {
@@ -496,15 +504,19 @@
 							if ( self.current_answer_id ) {
 								self.current_answer_id = self.current_answer_id.substring( 7 );
 
-								var deleted_answers = $( self.selectors.deleted_answers ).val();
+								// only update deleted_answers list if the answer was stored in DB before
+								if ( 0 !== self.current_answer_id.indexOf( 'temp_id' ) ) {
+									var deleted_answers = $( self.selectors.deleted_answers ).val();
 
-								if ( '' == deleted_answers ) {
-									deleted_answers += self.current_answer_id;
-								} else {
-									deleted_answers += ',' + self.current_answer_id;
+									if ( '' == deleted_answers ) {
+										deleted_answers += self.current_answer_id;
+									} else {
+										deleted_answers += ',' + self.current_answer_id;
+									}
+
+									$( self.selectors.deleted_answers ).val( deleted_answers );
 								}
 
-								$( self.selectors.deleted_answers ).val( deleted_answers );
 								$( '#answer_' + self.current_answer_id ).remove();
 
 								self.current_answer_id = '';
