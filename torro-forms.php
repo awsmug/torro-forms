@@ -275,22 +275,22 @@ class Torro_Init {
 			delete_option( 'af_db_version' );
 		}
 
-		// Upgrading from Torro DB version 1.0.2 to 1.0.3
-		if ( true === version_compare( $current_db_version, '1.0.3', '<' ) ) {
-			require_once( 'includes/updates/to_1.0.3.php' );
-			torro_forms_to_1_0_3();
-			update_option( 'torro_db_version', '1.0.3' );
-		}
+		if ( false !== $current_db_version ) {
+			// Upgrading from Torro DB version 1.0.2 to 1.0.3
+			if ( true === version_compare( $current_db_version, '1.0.3', '<' ) ) {
+				require_once( 'includes/updates/to_1.0.3.php' );
+				torro_forms_to_1_0_3();
+				update_option( 'torro_db_version', '1.0.3' );
+			}
 
-		// Upgrading from Torro DB version 1.0.3 to 1.0.4
-		if ( true === version_compare( $current_db_version, '1.0.4', '<' ) ) {
-			require_once( 'includes/updates/to_1.0.4.php' );
-			torro_forms_to_1_0_4();
-			update_option( 'torro_db_version', '1.0.4' );
-		}
-
-		// Fresh Torro DB install
-		if ( false === $current_db_version || false === self::is_installed() ) {
+			// Upgrading from Torro DB version 1.0.3 to 1.0.4
+			if ( true === version_compare( $current_db_version, '1.0.4', '<' ) ) {
+				require_once( 'includes/updates/to_1.0.4.php' );
+				torro_forms_to_1_0_4();
+				update_option( 'torro_db_version', '1.0.4' );
+			}
+		} elseif ( false === self::is_installed() ) {
+			// Fresh Torro DB install
 			self::install_tables();
 			update_option( 'torro_db_version', $script_db_version );
 		}
