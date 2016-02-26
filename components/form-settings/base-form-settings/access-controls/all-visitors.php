@@ -105,7 +105,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 * Loading fingerprint scripts
 	 */
 	public function frontend_scripts() {
-		wp_enqueue_script( 'detection', torro()->get_asset_url( 'detection', 'vendor-js' ) );
+		wp_enqueue_script( 'fingerprintjs2', torro()->get_asset_url( 'fingerprintjs2/dist/fingerprintjs2.min', 'vendor-js', true ) );
 	}
 
 	/**

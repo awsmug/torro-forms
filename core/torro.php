@@ -224,9 +224,10 @@ final class Torro {
 	 *
 	 * @param string $name Name of asset
 	 * @param string $mode css/js/png/gif/svg/vendor-css/vendor-js
+	 * @param boolean $force whether to force to load the provided version of the file (not using .min conditionally)
 	 * @return string
 	 */
-	public function get_asset_url( $name, $mode = '' ) {
+	public function get_asset_url( $name, $mode = '', $force = false ) {
 		$urlpath = 'assets/';
 
 		$can_min = true;
@@ -234,9 +235,11 @@ final class Torro {
 		switch ( $mode ) {
 			case 'css':
 				$urlpath .= 'css/' . $name . '.css';
+				$can_min = false; //TODO: remove this when gulp is here
 				break;
 			case 'js':
 				$urlpath .= 'js/' . $name . '.js';
+				$can_min = false; //TODO: remove this when gulp is here
 				break;
 			case 'png':
 			case 'gif':
@@ -251,23 +254,14 @@ final class Torro {
 				$urlpath .= 'vendor/' . $name . '.js';
 				break;
 			default:
-				return false;
+				return '';
 		}
 
-		//TODO: some kind of notice if file can not be found
-		if ( ! file_exists( $this->get_path( $urlpath ) ) ) {
-			if ( ! $can_min ) {
-				return false;
-			} elseif ( false !== strpos( $urlpath, '.min' ) ) {
-				$urlpath = str_replace( '.min', '', $urlpath );
-			} else {
+		if ( $can_min && ! $force ) {
+			if ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) {
 				$urlpath = explode( '.', $urlpath );
 				array_splice( $urlpath, count( $urlpath ) - 1, 0, 'min' );
 				$urlpath = implode( '.', $urlpath );
-			}
-
-			if ( ! file_exists( $this->get_path( $urlpath ) ) ) {
-				return false;
 			}
 		}
 
