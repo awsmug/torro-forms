@@ -1,0 +1,26 @@
+{
+  "name": "torro-forms",
+  "version": "1.0.0",
+  "description": "Easy & Extendable WordPress Formbuilder",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "forms",
+    "form builder",
+    "custom post type"
+  ],
+  "homepage": "http://torro-forms.com",
+  "authors": [
+    {
+      "name": "Sven Wagener",
+      "email": "contact@awesome.ug",
+      "homepage": "http://www.awesome.ug"
+    }
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "http://leaves-and-love.net"
+    }
+  ],
+  "dependencies": {}
+}
