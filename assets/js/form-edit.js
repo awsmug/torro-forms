@@ -122,28 +122,31 @@
 					var $element = ui.item;
 					var container_id = $( this ).parent().find( self.selectors.container_id ).val();
 
-					var element_id = 'temp_id_' + self.rand();
+					// init new element
+					if ( ! $element.attr( 'id' ) ) {
+						var element_id = 'temp_id_' + self.rand();
 
-					$element.attr( 'id', 'element-' + element_id );
-					$element.attr( 'data-element-id', element_id );
-					$element.html( $element.html().replace( /replace_element_id/g, element_id ) );
-					$element.html( $element.html().replace( /replace_container_id/g, container_id ) );
+						$element.attr( 'id', 'element-' + element_id );
+						$element.attr( 'data-element-id', element_id );
+						$element.html( $element.html().replace( /replace_element_id/g, element_id ) );
+						$element.html( $element.html().replace( /replace_container_id/g, container_id ) );
 
-					$( self.selectors.droppable_area ).trigger( 'elementDropped', {
-						element: $element
-					});
+						$( self.selectors.droppable_area ).trigger( 'elementDropped', {
+							element: $element
+						});
 
-					if ( $element.data( 'element-type' ) ) {
-						var data = {
-							id: element_id,
-							selector: '#' + element_id
-						};
-						$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ] );
+						if ( $element.data( 'element-type' ) ) {
+							var data = {
+								id: element_id,
+								selector: '#' + element_id
+							};
+							$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ] );
+						}
 					}
 
-					$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.element ).each( function( e ) {
+					// refresh sorting
+					$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.element ).each( function( index ) {
 						var element_id = $( this ).attr( 'data-element-id' );
-						var index = $( this ).index();
 
 						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[container_id\]"]' ).val( container_id ) ;
 						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[sort\]"]' ).val( index ) ;

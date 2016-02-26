@@ -173,7 +173,7 @@ class Torro_Container {
 	private function __get_elements(){
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE container_id=%d", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE container_id = %d ORDER BY sort ASC", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		$elements = array();
