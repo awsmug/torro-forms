@@ -87,12 +87,6 @@
 		init_drag_and_drop: function() {
 			var self = this;
 
-			$( this.selectors.droppable_area ).each( function( index, item ) {
-				if( $( item ).find( self.selectors.element ).length == 0 ){
-					$( item ).find( self.selectors.drop_elements_here ).show();
-				}
-			});
-
 			// init draggable
 			$( this.selectors.draggable_item ).draggable( {
 				helper: 'clone',
@@ -106,57 +100,72 @@
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
+					var $container = $element.closest( '.torro-container' );
 
-					$( self.selectors.drop_elements_here ).hide();
+					$container.find( self.selectors.drop_elements_here ).hide();
 					$element.css( 'width', '100%' ).css( 'height', 'auto' );
 					$element.addClass( 'widget' );
 				}
 			});
+
 			// init droppable
-			$( this.selectors.droppable_area ).droppable({
-				accept: this.selectors.draggable_item
-			}).sortable({
-				placeholder: 'form-element-placeholder',
-				items: this.selectors.element,
-				update: function( event, ui ) {
-					var $element = ui.item;
-					var container_id = $( this ).parent().find( self.selectors.container_id ).val();
-
-					// init new element
-					if ( ! $element.attr( 'id' ) ) {
-						var element_id = 'temp_id_' + self.rand();
-
-						$element.attr( 'id', 'element-' + element_id );
-						$element.attr( 'data-element-id', element_id );
-						$element.html( $element.html().replace( /replace_element_id/g, element_id ) );
-						$element.html( $element.html().replace( /replace_container_id/g, container_id ) );
-
-						$( self.selectors.droppable_area ).trigger( 'elementDropped', {
-							element: $element
-						});
-
-						if ( $element.data( 'element-type' ) ) {
-							var data = {
-								id: element_id,
-								selector: '#' + element_id
-							};
-							$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ] );
-						}
+			function init_droppable( $droppable_area ) {
+				$droppable_area.each( function( index, item ) {
+					if( $( item ).find( self.selectors.element ).length == 0 ){
+						$( item ).find( self.selectors.drop_elements_here ).show();
 					}
+				});
 
-					// refresh sorting
-					$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.element ).each( function( index ) {
-						var element_id = $( this ).attr( 'data-element-id' );
+				$droppable_area.droppable({
+					accept: self.selectors.draggable_item
+				}).sortable({
+					placeholder: 'form-element-placeholder',
+					items: self.selectors.element,
+					update: function( event, ui ) {
+						var $element = ui.item;
+						var container_id = $( this ).parent().find( self.selectors.container_id ).val();
 
-						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[container_id\]"]' ).val( container_id ) ;
-						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[sort\]"]' ).val( index ) ;
-						$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[id\]"]' ).val( element_id ) ;
-					});
-				}
-			});
+						// init new element
+						if ( ! $element.attr( 'id' ) ) {
+							var element_id = 'temp_id_' + self.rand();
 
-			$( this.selectors.droppable_area ).on( 'elementDropped', function( event, data ) {
-				self.check_max_input_vars();
+							$element.attr( 'id', 'element-' + element_id );
+							$element.attr( 'data-element-id', element_id );
+							$element.html( $element.html().replace( /replace_element_id/g, element_id ) );
+							$element.html( $element.html().replace( /replace_container_id/g, container_id ) );
+
+							$droppable_area.trigger( 'torro.element_dropped', {
+								element: $element
+							});
+
+							if ( $element.data( 'element-type' ) ) {
+								var data = {
+									id: element_id,
+									selector: '#' + element_id
+								};
+								$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ] );
+							}
+						}
+
+						// refresh sorting
+						$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.element ).each( function( index ) {
+							var element_id = $( this ).attr( 'data-element-id' );
+
+							$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[container_id\]"]' ).val( container_id ) ;
+							$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[sort\]"]' ).val( index ) ;
+							$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[id\]"]' ).val( element_id ) ;
+						});
+					}
+				});
+
+				$droppable_area.on( 'torro.element_dropped', function( event, data ) {
+					self.check_max_input_vars();
+				});
+			}
+
+			init_droppable( $( self.selectors.droppable_area ) );
+			$( document ).on( 'torro.insert_container', function( event, data ) {
+				init_droppable( $( data.container_selector + ' ' + self.selectors.droppable_area ) );
 			});
 		},
 
@@ -184,16 +193,27 @@
 				}
 			});
 
-			$( self.selectors.container_tab ).on('dblclick',function(){
-				$(this).find('input').toggle().val($(this).find('a').html()).focus();
-				$(this).find('a').toggle();
-			});
+			function init_container_tab( $container_tab ) {
+				$container_tab.on( 'dblclick', function(){
+					$( this ).find( 'input' ).toggle().val( $( this ).find( 'a' ).html() ).focus();
+					$( this ).find( 'a' ).toggle();
+				});
 
-			$( self.selectors.container_tab ).on('keydown blur dblclick','input',function(e){
-				if(e.type=="keydown")
-				{
-					if(e.which==13)
-					{
+				$container_tab.on('keydown blur dblclick','input',function(e){
+					if ( e.type == "keydown" ) {
+						if ( e.which == 13 ) {
+							$(this).toggle();
+							$(this).siblings('a').toggle().html($(this).val());
+
+							var tab_value = $(this).val();
+							var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
+							var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
+							$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
+						}
+						if ( e.which == 38 || e.which == 40 || e.which == 37 || e.which == 39 || e.keyCode == 32 ) {
+							e.stopPropagation();
+						}
+					} else if( e.type == "focusout" ) {
 						$(this).toggle();
 						$(this).siblings('a').toggle().html($(this).val());
 
@@ -201,26 +221,15 @@
 						var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
 						var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
 						$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
-					}
-					if(e.which==38 || e.which==40 || e.which==37 || e.which==39 || e.keyCode == 32)
-					{
+					} else {
 						e.stopPropagation();
 					}
-				}
-				else if(e.type=="focusout")
-				{
-					$(this).toggle();
-					$(this).siblings('a').toggle().html($(this).val());
+				});
+			}
 
-					var tab_value = $(this).val();
-					var tab_container_id = $(this).parent().find( 'a' ).attr( 'href' );
-					var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
-					$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
-				}
-				else
-				{
-					e.stopPropagation();
-				}
+			init_container_tab( $( self.selectors.container_tab ) );
+			$( document ).on( 'torro.insert_container', function( event, data ) {
+				init_container_tab( $( data.tab_selector ) );
 			});
 		},
 
@@ -241,7 +250,6 @@
 					{
 						text: this.translations.yes,
 						click: function() {
-							console.log( self.current_container_id );
 							if ( self.current_container_id ) {
 								// only update deleted_containers list if the container was stored in DB before
 								if ( 0 !== self.current_container_id.indexOf( 'temp_id' ) ) {
@@ -256,20 +264,31 @@
 									$( self.selectors.deleted_containers ).val( deleted_containers );
 								}
 
-								var index = $( '.tab-container-' + self.current_container_id ).index();
+								var tab_id = 'tab-container-' + self.current_container_id;
+								var container_id = 'torro-container-' + self.current_container_id;
+
+								var index = $( '#' + tab_id ).index();
 								if ( index == 0 ) {
 									index = 0;
 								} else {
 									index = index - 1;
 								}
 
-								$( '.tab-container-' + self.current_container_id ).remove();
-								$( '#torro-container-' + self.current_container_id ).remove();
+								$( '#' + tab_id ).remove();
+								$( '#' + container_id ).remove();
 
 								$( self.selectors.container_tabs ).parent().tabs( "refresh" );
 								$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
 
 								self.current_container_id = '';
+
+								var data = {
+									tab_id: tab_id,
+									tab_selector: '#' + tab_id,
+									container_id: container_id,
+									container_selector: '#' + container_id
+								};
+								$( document ).trigger( 'torro.delete_container', [ data ] );
 							}
 
 							$( this ).dialog('close');
@@ -323,10 +342,12 @@
 									$( self.selectors.deleted_elements ).val( deleted_elements );
 								}
 
+								var $container = $( '#element-' + self.current_element_id ).parents( '.torro-container' );
+
 								$( '#element-' + self.current_element_id ).remove();
 
-								if ( $( self.selectors.droppable_area + ' ' + self.selectors.element ).length < 1 ) {
-									$( self.selectors.drop_elements_here ).show();
+								if ( $container.find( self.selectors.droppable_area + ' ' + self.selectors.element ).length < 1 ) {
+									$container.find( self.selectors.drop_elements_here ).show();
 								}
 
 								if ( self.current_element_type ) {
@@ -350,7 +371,7 @@
 				]
 			});
 
-			$( this.selectors.droppable_area ).on( 'click', this.selectors.delete_element_button, function( e ){
+			$( document ).on( 'click', this.selectors.delete_element_button, function( e ){
 				e.preventDefault();
 
 				self.current_element_id = $( this ).closest( self.selectors.element ).attr( 'data-element-id' );
@@ -365,34 +386,48 @@
 		init_sortable_answers: function() {
 			var self = this;
 
-			function make_sortable( $group ) {
-				$group.sortable({
-					update: function(  event, ui ){
+			function init_droppable( $droppable_area ) {
+				function make_sortable( $group ) {
+					$group.sortable({
+						update: function(  event, ui ){
+							var container_id = $( this ).closest( '.torro-container' ).attr( 'id' );
+							var element_id = $( this ).closest( '.widget' ).attr('id');
+							var order = [];
 
-						var element_id = $( this ).closest( '.widget' ).attr('id');
-						var order = [];
+							if ( ! container_id || ! element_id ) {
+								console.error( 'Error: Missing element or container ID!' );
+								return;
+							}
 
-						$( this ).find( self.selectors.answer_sub ).each( function( e ) {
-							var nr = $( this ).attr( 'id' );
-							nr = nr.split( '_' );
-							nr = nr[1];
+							container_id = container_id.replace( 'torro-container-', '' );
+							element_id = element_id.replace( 'element-', '' );
 
-							var input_name = 'input[name="elements\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
-							var index = $( this ).index();
-							$( input_name ).val( index ) ;
-						});
-					},
-					items: self.selectors.answer_sub
+							$( this ).find( self.selectors.answer_sub ).each( function( e ) {
+								var nr = $( this ).attr( 'id' );
+								nr = nr.split( '_' );
+								nr = nr[1];
+
+								var input_name = 'input[name="containers\[' + container_id + '\]\[elements\]\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
+								var index = $( this ).index();
+								$( input_name ).val( index ) ;
+							});
+						},
+						items: self.selectors.answer_sub
+					});
+				}
+
+				make_sortable( $droppable_area.find( self.selectors.answers_sub ) );
+				$droppable_area.on( 'torro.element_dropped', function( event, data ) {
+					var $element = data.element;
+
+					make_sortable( $element.find( self.selectors.answers_sub ) );
 				});
 			}
 
-			$( this.selectors.droppable_area ).on( 'elementDropped', function( event, data ) {
-				var $element = data.element;
-
-				make_sortable( $element.find( self.selectors.answers_sub ) );
+			init_droppable( $( this.selectors.droppable_area ) );
+			$( document ).on( 'torro.insert_container', function( event, data ) {
+				init_droppable( $( data.container_selector + ' ' + self.selectors.droppable_area ) );
 			});
-
-			make_sortable( $( this.selectors.droppable_area + ' ' + self.selectors.answers_sub ) );
 		},
 
 		/**
@@ -405,9 +440,12 @@
 				var count_container = $( self.selectors.container_tabs ).parent().find( '.torro-container' ).length;
 
 				var id =  'temp_id_' + self.rand();
-				var tab = '<li class="tab-container tab-container-' + id + '"><input class="txt" type="text"/><a href="#torro-container-' + id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
+				var container_id = 'torro-container-' + id;
+				var tab_id = 'tab-container-' + id;
 
-				var container = '<div id="torro-container-' + id + '" class="torro-container">';
+				var tab = '<li id="' + tab_id + '" class="tab-container"><input class="txt" type="text"/><a href="#' + container_id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
+
+				var container = '<div id="' + container_id + '" class="torro-container">';
 				container += '<div class="torro-drag-drop-inside">';
 				container += '<div class="drop-elements-here">' + self.translations.drop_elements_here + '</div>';
 				container += '</div>';
@@ -424,11 +462,16 @@
 				$( self.selectors.container_tabs ).parent().append( container );
 				$( self.selectors.container_tabs ).parent().tabs( "refresh" );
 
-				self.init_drag_and_drop();
-				self.init_container_tabs();
-
 				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index() - 1;
 				$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
+
+				var data = {
+					tab_id: tab_id,
+					tab_selector: '#' + tab_id,
+					container_id: container_id,
+					container_selector: '#' + container_id
+				};
+				$( document ).trigger( 'torro.insert_container', [ data ] );
 			});
 		},
 
@@ -437,7 +480,7 @@
 		 */
 		init_answer_addition: function() {
 			var self = this;
-			$( this.selectors.droppable_area ).on( 'click', this.selectors.add_answer_button, function() {
+			$( document ).on( 'click', this.selectors.add_answer_button, function() {
 				var $button = $( this );
 				var container_id = $button.attr( 'data-container-id' );
 				var element_id = $button.attr( 'data-element-id' );
@@ -448,7 +491,7 @@
 				}
 
 				var nr = 'temp_id_' + self.rand();
-				var section_val = $( 'input[name="elements\[' + element_id + '\]\[sections\]"]' ).val();
+				var section_val = $( 'input[name="containers\[' + container_id + '\]\[elements\]\[' + element_id + '\]\[sections\]"]' ).val();
 
 				// Setting up new answer HTML
 				var answer_content = '<div class="answer" id="answer_' + nr + '">';
@@ -469,9 +512,9 @@
 
 				// Adding Content
 				if ( 'yes' == section_val ) {
-					var selector = '#' + element_id + ' #section_' + section_key + ' ' + self.selectors.answers_sub;
+					var selector = '#element-' + element_id + ' #section_' + section_key + ' ' + self.selectors.answers_sub;
 				} else {
-					var selector = '#' + element_id + ' ' + self.selectors.answers_sub;
+					var selector = '#element-' + element_id + ' ' + self.selectors.answers_sub;
 				}
 
 				$( selector ).append( answer_content );
@@ -480,7 +523,7 @@
 				$answer_input.focus();
 
 				// Adding sorting number
-				$( 'input[name="elements\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]' ).val( order );
+				$( 'input[name="containers\[' + container_id + '\]\[elements\]\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]' ).val( order );
 			});
 		},
 
@@ -534,7 +577,7 @@
 				]
 			});
 
-			$( this.selectors.droppable_area ).on( 'click', this.selectors.delete_answer_button, function( e ){
+			$( document ).on( 'click', this.selectors.delete_answer_button, function( e ){
 				e.preventDefault();
 
 				self.current_answer_id = $( this ).closest( '.answer' ).attr('id');
@@ -560,19 +603,25 @@
 		init_tab_handling: function() {
 			var self = this;
 
-			function make_tabs( $element ) {
-				$element.tabs({
-					active: 0
+			function init_droppable( $droppable_area ) {
+				function make_tabs( $element ) {
+					$element.tabs({
+						active: 0
+					});
+				}
+
+				make_tabs( $droppable_area.find( self.selectors.element_tabs_sub ) );
+				$droppable_area.on( 'torro.element_dropped', function( event, data ) {
+					var $element = data.element;
+
+					make_tabs( $element.find( self.selectors.element_tabs_sub ) );
 				});
 			}
 
-			$( this.selectors.droppable_area ).on( 'elementDropped', function( event, data ) {
-				var $element = data.element;
-
-				make_tabs( $element.find( self.selectors.element_tabs_sub ) );
+			init_droppable( $( this.selectors.droppable_area ) );
+			$( document ).on( 'torro.insert_container', function( event, data ) {
+				init_droppable( $( data.container_selector + ' ' + self.selectors.droppable_area ) );
 			});
-
-			make_tabs( $( this.selectors.element_tabs_sub ) );
 		},
 
 		/**

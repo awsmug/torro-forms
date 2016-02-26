@@ -81,7 +81,7 @@ class Torro_Formbuilder {
 
 			$html .= '<ul class="container-tabs">';
 			foreach ( $containers AS $container ) {
-				$html .= '<li class="tab-container tab-container-' . $container->id . '"><input class="txt" type="text"/><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
+				$html .= '<li id="tab-container-' . $container->id . '" class="tab-container"><input class="txt" type="text"/><a href="#torro-container-' . $container->id . '">' . $container->label . '</a></li>';
 			}
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
