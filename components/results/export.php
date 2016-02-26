@@ -54,7 +54,7 @@ class Torro_Export {
 	 * @since 1.0.0
 	 */
 	public function add_export_link( $actions, $post ) {
-		if ( 'torro-forms' !== $post->post_type ) {
+		if ( 'torro-forms' !== $post->post_type || 'trash' === $post->post_status ) {
 			return $actions;
 		}
 
