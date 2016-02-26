@@ -1,29 +1,21 @@
 {
   "name": "awsmug/torro-forms",
-  "description": "This framework plugin makes adding customizer panels, sections and fields to WordPress very simple, yet flexible.",
-  "version": "0.5.0",
+  "description": "Easy & Extendable WordPress Formbuilder",
+  "version": "1.0.0",
   "license": "GPL-3.0",
   "type": "wordpress-plugin",
   "keywords": [
     "wordpress",
     "plugin",
-    "definitely",
-    "framework",
-    "library",
-    "developer",
-    "admin",
-    "backend",
-    "structured data",
-    "ui",
-    "api",
-    "cms",
-    "customizer"
+    "forms",
+    "form builder",
+    "custom post type"
   ],
   "homepage": "http://torro-forms.com",
   "authors": [
     {
       "name": "Sven Wagener",
-      "email": "very@awesome.ug",
+      "email": "contact@awesome.ug",
       "homepage": "http://www.awesome.ug",
       "role": "Lead Developer"
     },

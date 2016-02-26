@@ -7,10 +7,10 @@
  * Author:       awesome.ug
  * Author URI:   http://www.awesome.ug
  * Author Email: contact@awesome.ug
- * License:      GPLv3.0
- * License URI: ./assets/license.txt
- * Text Domain: torro-forms
- * Domain Path: /languages
+ * License:      GNU General Public License v3
+ * License URI:  http://www.gnu.org/licenses/gpl-3.0.html
+ * Text Domain:  torro-forms
+ * Domain Path:  /languages
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
