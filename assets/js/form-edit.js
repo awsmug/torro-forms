@@ -163,6 +163,8 @@
 		init_container_tabs: function() {
 			var self = this;
 
+			$( self.selectors.container_tabs ).parent().tabs();
+
 			$( self.selectors.container_tabs ).sortable({
 				items: self.selectors.container_tab,
 				stop: function(e,ui) {
