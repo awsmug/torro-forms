@@ -31,7 +31,7 @@
 			delete_answer_button: '.delete_answer',
 			delete_answer_dialog: '#delete_answer_dialog',
 			deleted_answers: '#deleted_answers',
-			element_tabs_sub: '.post-type-torro-forms .tabs',
+			element_tabs_sub: '.element-tabs',
 			element_form_label: '.form-label',
 			duplicate_form_button: '#form-duplicate-button',
 			delete_results_button: '#form-delete-results',
