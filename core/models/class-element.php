@@ -575,6 +575,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	protected function admin_widget_content_answers( $section = null ) {
 		$element_id        = $this->get_admin_element_id();
+		$container_id      = $this->get_admin_cotainer_id();
 		$admin_input_name  = $this->get_admin_input_name();
 
 		$html = '';
@@ -624,7 +625,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			}
 		}
 
-		$html .= '<a class="add-answer" data-container-id="' . $this->container_id . '" data-element-id="' . $this->id . '">+ ' . esc_html__( 'Add Answer', 'torro-forms' ) . ' </a>';
+		$html .= '<a class="add-answer" data-container-id="' . $container_id . '" data-element-id="' . $element_id . '">+ ' . __( 'Add Answer', 'torro-forms' ) . ' </a>';
 
 		return $html;
 	}

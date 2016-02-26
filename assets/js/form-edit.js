@@ -430,6 +430,11 @@
 				var container_id = $button.attr( 'data-container-id' );
 				var element_id = $button.attr( 'data-element-id' );
 
+				if ( ! container_id || ! element_id ) {
+					console.error( 'Error: Missing element or container ID!' );
+					return;
+				}
+
 				var nr = 'temp_id_' + self.rand();
 				var section_val = $( 'input[name="elements\[' + element_id + '\]\[sections\]"]' ).val();
 
@@ -456,8 +461,6 @@
 				} else {
 					var selector = '#' + element_id + ' ' + self.selectors.answers_sub;
 				}
-
-				console.log( selector );
 
 				$( selector ).append( answer_content );
 
@@ -528,7 +531,6 @@
 			var self = this;
 
 			$( document ).on( 'keydown', '.element-answer', function( e ) {
-				console.log( e );
 				if ( 13 === e.keyCode ) {
 					e.preventDefault();
 					var $add_answer_button = $( this ).parents( self.selectors.element_tabs_sub ).find( self.selectors.add_answer_button );
