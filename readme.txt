@@ -3,7 +3,7 @@
 Plugin Name:       Torro Forms
 Plugin URI:        http://torro-forms.com
 Author URI:        http://awesome.ug
-Author:            Sven Wagener
+Author:            Awesome UG
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.1.1
 Tested up to:      4.4.2
