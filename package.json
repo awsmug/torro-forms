@@ -1,6 +1,6 @@
 {
   "name": "torro-forms",
-  "version": "1.0.0alpha",
+  "version": "1.0.0alpha1",
   "description": "Easy & Extendable WordPress Formbuilder",
   "keywords": [
     "forms",
@@ -27,7 +27,7 @@
     "questions"
   ],
   "author": {
-    "name": "Sven Wagener",
+    "name": "Awesome UG",
     "email": "contact@awesome.ug",
     "url": "http://www.awesome.ug"
   },

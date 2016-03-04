@@ -1,7 +1,7 @@
 {
   "name": "awsmug/torro-forms",
   "description": "Easy & Extendable WordPress Formbuilder",
-  "version": "1.0.0alpha",
+  "version": "1.0.0alpha1",
   "license": "GPL-3.0",
   "type": "wordpress-plugin",
   "keywords": [

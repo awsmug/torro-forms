@@ -1,16 +1,16 @@
 <?php
 /*
-Plugin Name:	Torro Forms
-Plugin URI:		http://torro-forms.com
-Description:	Easy & Extendable WordPress Formbuilder
-Version:		1.0.0alpha1
-Author:			Awesome UG
-Author URI:		http://awesome.ug
-License:		GNU General Public License v3
-License URI:	http://www.gnu.org/licenses/gpl-3.0.html
-Text Domain:	torro-forms
-Domain Path:	/languages
-Tags:			forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
+Plugin Name: Torro Forms
+Plugin URI:  http://torro-forms.com
+Description: Easy & Extendable WordPress Formbuilder
+Version:     1.0.0alpha1
+Author:      Awesome UG
+Author URI:  http://www.awesome.ug
+License:     GNU General Public License v3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: torro-forms
+Domain Path: /languages/
+Tags:        forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 */
 
 if ( ! defined( 'ABSPATH' ) ) {

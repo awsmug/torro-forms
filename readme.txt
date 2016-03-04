@@ -2,14 +2,14 @@
 
 Plugin Name:       Torro Forms
 Plugin URI:        http://torro-forms.com
-Author URI:        http://awesome.ug
 Author:            Awesome UG
+Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.1.1
 Tested up to:      4.4.2
 Stable tag:        1.0.0alpha1
 Version:           1.0.0alpha1
-License:           GPL v3
+License:           GNU General Public License v3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Tags:              forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 
