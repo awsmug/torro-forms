@@ -1,0 +1,96 @@
+@import "variables";
+@import "mixins";
+
+/* --- Email Notifications --- */
+
+#form-email-notifications {
+	.list {
+		.widget-title {
+			h4 {
+				font-weight: normal;
+				padding: 10px;
+				line-height: 20px;
+				height: 23px;
+
+				.widget-action {
+					float: right;
+
+					&:after {
+						padding: 0;
+						margin-top: 0;
+					}
+				}
+
+				&.ui-state-active {
+					.widget-action {
+						&:after {
+							content: '\f142';
+    						font: 400 20px/1 dashicons;
+						}
+					}
+				}
+			}
+
+			img {
+				float: left;
+				margin-right: 10px;
+				height: 20px;
+				width: auto;
+				fill: #ffffff;
+			}
+
+			.notice {
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+	.form-table {
+		label,
+		input {
+			font-size: 13px;
+		}
+
+		th {
+			width: 180px;
+			font-weight: normal;
+		}
+	}
+
+	.actions {
+		margin-bottom: 15px;
+
+		.intro-text {
+			line-height:30px;
+		}
+
+		input[type="button"] {
+			float: right;
+			margin-left: 10px;
+		}
+	}
+
+	.notifications {
+		h4 {
+			cursor: pointer;
+		}
+	}
+
+	.notification {
+		padding: 20px;
+		@include box-shadow( 0 1px 1px rgba(0, 0, 0, 0.04) );
+
+		input[type="text"] {
+			width: 90%;
+		}
+	}
+
+	.no-entry-found {
+		display: none;
+		margin: 0;
+	}
+}
+
+#delete-email-notification-dialog{
+	display: none;
+}

@@ -1,0 +1,100 @@
+@import "variables";
+@import "mixins";
+
+/* --- Participants --- */
+
+#torro-add-participants-options {
+	margin: 0 0 10px 0;
+}
+
+.form-participant-new {
+	background-color: #7ad03a;
+}
+
+.torro-participants-options-content {
+	border: 1px #dfdfdf solid;
+	background-color: #fdfdfd;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+/* --- User Filter --- */
+
+#form-selectedmembers-userfilter {
+	margin-bottom: 20px;
+}
+
+/* --- Participants Bar --- */
+
+.form-add-participants-content {
+	background-color: #f7f7f7;
+	border: 1px solid #e5e5e5;
+	margin: 0 -11px;
+	padding: 10px;
+}
+
+/* --- Participants List --- */
+
+.participant {
+	&.new {
+		td {
+			background-color: #fefaf7;
+			@include box-shadow( 0 1px 0 rgba(0, 0, 0, 0.06) inset );
+
+			&:first-child {
+				border-left: 4px solid #dd3d36;
+			}
+		}
+	}
+
+	&.just-added {
+		td {
+			background-color: #f7fcfe;
+			@include box-shadow( 0 1px 0 rgba(0, 0, 0, 0.06) inset );
+
+			&:first-child {
+				border-left: 4px solid #2ea2cc;
+			}
+		}
+	}
+
+	&.finished {
+		td {
+			&:first-child {
+				border-left: 4px solid #7ad03a;
+			}
+		}
+	}
+}
+
+.form-remove-all-participants {
+	display: block;
+	float: right;
+	padding: 5px 10px;
+}
+
+/* --- Invite Buttons & Boxes --- */
+
+#form-invite-button-cancel,
+#form-reinvite-button-cancel {
+	display:none;
+}
+
+#form-invite-subject,
+#form-invite-text,
+#form-reinvite-subject,
+#form-reinvite-text {
+	display: none;
+	width: 100%;
+	font-size: 12px;
+}
+
+#form-invite-text,
+#form-reinvite-text {
+	min-height: 200px;
+	margin-bottom: 10px;
+}
+
+.settings-template-subject {
+	width:80%;
+}

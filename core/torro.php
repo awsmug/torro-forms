@@ -6,7 +6,7 @@
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
- * @version 1.0.0
+ * @version 1.0.0alpha1
  * @since   1.0.0
  * @license GPL 2
  *
@@ -234,12 +234,10 @@ final class Torro {
 
 		switch ( $mode ) {
 			case 'css':
-				$urlpath .= 'css/' . $name . '.css';
-				$can_min = false; //TODO: remove this when gulp is here
+				$urlpath .= 'dist/css/' . $name . '.css';
 				break;
 			case 'js':
-				$urlpath .= 'js/' . $name . '.js';
-				$can_min = false; //TODO: remove this when gulp is here
+				$urlpath .= 'dist/js/' . $name . '.js';
 				break;
 			case 'png':
 			case 'gif':

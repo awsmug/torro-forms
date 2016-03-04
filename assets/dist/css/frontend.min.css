@@ -1,0 +1,5 @@
+/*!
+ * Torro Forms Version 1.0.0alpha1 (http://torro-forms.com)
+ * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
+ */
+.torro-form .torro-element{margin-bottom:20px}.torro-form .torro-element label{display:block;margin-bottom:5px;font-size:1.2em}.torro-form .torro-element table{margin-bottom:0}.torro-form .torro-element-description{margin-bottom:5px}.torro-form input[type=text],.torro-form select,.torro-form textarea{width:100%}.torro-form .torro-pagination{margin-bottom:20px}.torro-form .torro-pagination span.torro-highlight-number{padding:2px 6px;color:#fff;background-color:#ccc;border-radius:3px}.torro-form .torro-element-error{padding:10px;margin-bottom:20px;border:1px dashed red}.torro-form ul.torro-error-messages{padding:0;margin:0;list-style-type:none}.torro-element-error-message{display:block;padding:5px;margin:0 0 10px;color:#fff;background-color:red;border:1px dashed red}

@@ -4,7 +4,7 @@
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Actions
- * @version 2015-08-16
+ * @version 1.0.0alpha1
  * @since   1.0.0
  * @license GPL 2
  *

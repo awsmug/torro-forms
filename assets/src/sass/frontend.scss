@@ -1,0 +1,62 @@
+@import "variables";
+@import "mixins";
+
+/* --- Frontend --- */
+
+.torro-form {
+	.torro-element {
+		margin-bottom: 20px;
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-size: 1.2em;
+		}
+
+		table {
+			margin-bottom: 0;
+		}
+	}
+
+	.torro-element-description {
+		margin-bottom: 5px;
+	}
+
+	input[type="text"],
+	textarea,
+	select {
+		width:100%;
+	}
+
+	.torro-pagination {
+		margin-bottom: 20px;
+
+		span.torro-highlight-number {
+			padding: 2px 6px;
+			border-radius: 3px;
+			background-color: #cccccc;
+			color: #ffffff;
+		}
+	}
+
+	.torro-element-error {
+		padding: 10px;
+		margin-bottom: 20px;
+		border: 1px dashed #F00;
+	}
+
+	ul.torro-error-messages {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+	}
+}
+
+.torro-element-error-message {
+	display: block;
+	margin: 0 0 10px 0;
+	padding: 5px;
+	color: #FFF;
+	border: 1px dashed #F00;
+	background-color: #F00;
+}

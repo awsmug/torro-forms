@@ -6,7 +6,7 @@
  *
  * @author  awesome.ug <contact@awesome.ug>
  * @package TorroForms
- * @version 2015-04-16
+ * @version 1.0.0alpha1
  * @since   1.0.0
  * @license GPL 2
  *

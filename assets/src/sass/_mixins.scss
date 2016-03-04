@@ -1,0 +1,65 @@
+@mixin gradient-vertical( $top_color, $bottom_color ) {
+	background: $top-color;
+	background: -moz-linear-gradient(top, $top_color 0%, $bottom_color 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top_color), color-stop(100%,$bottom_color)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, $top_color 0%,$bottom_color 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, $top_color 0%,$bottom_color 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, $top_color 0%,$bottom_color 100%); /* IE10+ */
+	background: linear-gradient(to bottom, $top_color 0%,$bottom_color 100%); /* W3C */
+}
+
+@mixin placeholder( $color, $text-indent: 0 ) {
+	&::-moz-placeholder {
+		color: $color;
+	}
+
+	&:-ms-input-placeholder {
+		color: $color;
+	}
+
+	&::-webkit-input-placeholder {
+		color: $color;
+		// Safari placeholder margin issue
+		text-indent: $text-indent;
+	}
+}
+
+@mixin box-shadow( $shadow ) {
+	-webkit-box-shadow: $shadow;
+	   -moz-box-shadow: $shadow;
+	        box-shadow: $shadow;
+}
+
+@mixin border-radius( $radius ) {
+	-webkit-border-radius: $radius;
+	   -moz-border-radius: $radius;
+	        border-radius: $radius;
+}
+
+@mixin border-top-left-radius( $radius ) {
+	-webkit-border-top-left-radius: $radius;
+	   -moz-border-top-left-radius: $radius;
+	        border-top-left-radius: $radius;
+	-moz-border-radius-topleft: $radius;
+}
+
+@mixin border-top-right-radius( $radius ) {
+	-webkit-border-top-right-radius: $radius;
+	   -moz-border-top-right-radius: $radius;
+	        border-top-right-radius: $radius;
+	-moz-border-radius-topright: $radius;
+}
+
+@mixin border-bottom-left-radius( $radius ) {
+	-webkit-border-bottom-left-radius: $radius;
+	   -moz-border-bottom-left-radius: $radius;
+	        border-bottom-left-radius: $radius;
+	-moz-border-radius-bottomleft: $radius;
+}
+
+@mixin border-bottom-right-radius( $radius ) {
+	-webkit-border-bottom-right-radius: $radius;
+	   -moz-border-bottom-right-radius: $radius;
+	        border-bottom-right-radius: $radius;
+	-moz-border-radius-bottomright: $radius;
+}

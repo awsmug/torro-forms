@@ -1,0 +1,64 @@
+@import "variables";
+@import "mixins";
+
+/* --- Entries --- */
+
+#torro-entries {
+	width:100%;
+	overflow-x: hidden;
+
+	.entry-actions,
+	.export-links {
+		text-align: right;
+	}
+
+	tbody > :nth-child(2n+1) {
+		background-color: #f9f9f9;
+	}
+}
+
+#torro-entry-table {
+	width: 100%;
+	text-align: left;
+	font-size: 14px;
+
+	th {
+		width: 50%;
+	}
+
+	tr {
+		line-height: 25px;
+	}
+}
+
+#torro-entry-buttons {
+	margin-top: 15px;
+}
+
+.torro-entries-slider {
+	width:200%;
+}
+
+.torro-slider-start-content,
+.torro-slider-right {
+    width: 50%;
+    float: left;
+}
+
+/* --- Nav --- */
+
+.torro-nav{
+	width: 100%;
+	margin-top: 15px;
+	text-align: center;
+}
+
+.torro-nav-prev-link {
+	float: left;
+	margin: 0 15px 15px 0;
+}
+
+.torro-nav-next-link {
+	float: right;
+	margin: 0 0 15px 15px;
+}
