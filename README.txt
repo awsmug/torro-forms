@@ -1,11 +1,19 @@
 === Torro Forms ===
-Contributors: mahype, awesome-ug
-Tags: forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
-Requires at least: 4.1.1
-Tested up to: 4.3.1
-Stable tag: 1.0.0
 
-Drag&drop your form in the WordPress way!
+Plugin Name:       Torro Forms
+Plugin URI:        http://torro-forms.com
+Author URI:        http://awesome.ug
+Author:            Sven Wagener
+Contributors:      mahype, flixos90, awesome-ug
+Requires at least: 4.1.1
+Tested up to:      4.4.2
+Stable tag:        1.0.0
+Version:           1.0.0
+License:           GPL v3
+License URI:       http://www.gnu.org/licenses/gpl-3.0.html
+Tags:              forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
+
+Drag & drop your form in the WordPress way!
 
 == Description ==
 
