@@ -8,7 +8,7 @@ Drag & drop WordPress formbuilder for beginners and experts. This easy to use Wo
 Easy Drag&Drop your forms with this formbuilder.
 
 ## Charts
-Anylyzable results of a form were shown in embedable charts.
+Analyzable results of a form were shown in embeddable charts.
 
 ## API
 
