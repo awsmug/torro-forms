@@ -13,7 +13,7 @@ License:           GPL v3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Tags:              forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
 
-Drag & drop your form in the WordPress way!
+Easy & Extendable WordPress Formbuilder
 
 == Description ==
 

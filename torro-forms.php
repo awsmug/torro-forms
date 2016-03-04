@@ -2,7 +2,7 @@
 /*
 Plugin Name:	Torro Forms
 Plugin URI:		http://torro-forms.com
-Description:	Drag & drop your form in the WordPress way!
+Description:	Easy & Extendable WordPress Formbuilder
 Version:		1.0.0alpha1
 Author:			Awesome UG
 Author URI:		http://awesome.ug
