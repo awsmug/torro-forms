@@ -8,8 +8,8 @@
 	font-style: normal; 
 	font-weight: normal;
 
-	src: url("../../fonts/af.eot");
-	src: url("../../fonts/af.eot?#iefix") format("embedded-opentype"), url("../../fonts/af.woff") format("woff"), url("../../fonts/af.ttf") format("truetype"), url("../../fonts/af.svg#icons") format("svg");
+	src: url("../fonts/af.eot");
+	src: url("../fonts/af.eot?#iefix") format("embedded-opentype"), url("../fonts/af.woff") format("woff"), url("../fonts/af.ttf") format("truetype"), url("../fonts/af.svg#icons") format("svg");
 }
 
 [class^="icon-torro-"] {

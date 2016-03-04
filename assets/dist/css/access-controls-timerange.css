@@ -80,7 +80,7 @@
 	line-height: 30px;
 	color: #e0e0e0;
 	text-shadow: 1px -1px 0 #000;
-	background: url("../../img/dark-leather.png") repeat 0 0 #000;
+	background: url("../img/dark-leather.png") repeat 0 0 #000;
 	filter: dropshadow(color=#000, offx=1, offy=-1);
 	border-color: #111; 
 	border-style: solid;
@@ -103,7 +103,7 @@
 	line-height: 600%;
 	text-align: center;
 	cursor: pointer;
-	background-image: url("../../img/arrow.png");
+	background-image: url("../img/arrow.png");
 	background-repeat: no-repeat;
 }
 

@@ -242,7 +242,7 @@ final class Torro {
 			case 'png':
 			case 'gif':
 			case 'svg':
-				$urlpath .= 'img/' . $name . '.' . $mode;
+				$urlpath .= 'dist/img/' . $name . '.' . $mode;
 				$can_min = false;
 				break;
 			case 'vendor-css':
