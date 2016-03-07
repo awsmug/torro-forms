@@ -453,7 +453,7 @@ final class Torro_AJAX {
 							$result_id = $value;
 							break;
 						case 'user_id':
-							if ( ! empty( $value ) ) {
+							if ( -1 !== (int) $value ) {
 								$user_id = $value;
 								$user = get_user_by( 'id', $user_id );
 								$extra_info .= ' - ' . esc_attr__( 'User', 'torro-forms' ) . ' ' . $user->user_nicename;
