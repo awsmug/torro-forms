@@ -339,6 +339,10 @@ abstract class Torro_Form_Element extends Torro_Base {
 		$element_classes = array( 'torro-element', 'torro-element-' . $this->id );
 		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $this );
 
+		if ( is_array( $errors ) && 0 < count( $errors ) ) {
+			$element_classes[] = 'error';
+		}
+
 		$this->response = $response;
 
 		$html = '<div class="' . esc_attr( implode( ' ', $element_classes ) ) . '">';
@@ -347,27 +351,18 @@ abstract class Torro_Form_Element extends Torro_Base {
 		do_action( 'torro_form_element_start', $this->id );
 		$html .= ob_get_clean();
 
-		if ( is_array( $errors ) && 0 < count( $errors ) ) {
-			$html .= '<div class="torro-element-error">';
-			$html .= '<div class="torro-element-error-message">';
-			$html .= '<ul class="torro-error-messages">';
-			foreach ( $errors as $error ) {
-				$html .= '<li>' . $error . '</li>';
-			}
-			$html .= '</ul></div>';
-
-			$html = apply_filters( 'draw_element_errors', $html, $this );
-		}
-
 		if ( 0 === count( $this->answers ) && true === $this->input_answers ) {
 			$html .= '<p>' . esc_html__( 'You did not enter any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
 		} else {
 			$html .= $this->input_html();
 		}
 
-		// End Echo Errors
 		if ( is_array( $errors ) && 0 < count( $errors ) ) {
-			$html .= '</div>';
+			$html .= '<ul class="error-messages">';
+			foreach ( $errors as $error ) {
+				$html .= '<li>' . $error . '</li>';
+			}
+			$html .= '</ul>';
 		}
 
 		ob_start();

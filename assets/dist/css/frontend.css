@@ -35,23 +35,13 @@
 	border-radius: 3px;
 }
 
-.torro-form .torro-element-error {
-	padding: 10px;
-	margin-bottom: 20px;
-	border: 1px dashed #f00;
-}
-
-.torro-form ul.torro-error-messages {
+.torro-form ul.error-messages {
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
 }
 
-.torro-element-error-message {
-	display: block;
-	padding: 5px;
-	margin: 0 0 10px 0;
-	color: #fff;
-	background-color: #f00; 
-	border: 1px dashed #f00;
+.torro-form ul.error-messages li {
+	margin: 5px 0 0;
+	color: #f00;
 }

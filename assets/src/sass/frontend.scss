@@ -39,24 +39,14 @@
 		}
 	}
 
-	.torro-element-error {
-		padding: 10px;
-		margin-bottom: 20px;
-		border: 1px dashed #F00;
-	}
-
-	ul.torro-error-messages {
+	ul.error-messages {
 		margin: 0;
 		padding: 0;
 		list-style-type: none;
 	}
-}
 
-.torro-element-error-message {
-	display: block;
-	margin: 0 0 10px 0;
-	padding: 5px;
-	color: #FFF;
-	border: 1px dashed #F00;
-	background-color: #F00;
+	ul.error-messages li {
+		margin: 5px 0 0;
+		color: #F00;
+	}
 }
