@@ -59,14 +59,9 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 	}
 
 	public function input_html() {
-		$input_type = 'text';
-
-		$validation = $this->settings[ 'validation' ];
-		$validation_data = $this->get_validations( $validation->value );
-
-		if ( $validation_data && isset( $validation_data['html_field_type'] ) && $validation_data['html_field_type'] ) {
-			$input_type = $validation_data['html_field_type'];
-		}
+		$input_type_value = $this->settings[ 'input_type' ]->value;
+		$input_type_data = $this->get_input_types( $input_type_value );
+		$input_type = $input_type_data[ 'html_field_type' ];
 
 		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
 
@@ -82,13 +77,13 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 	}
 
 	public function settings_fields() {
-		$_validations = $this->get_validations();
-		$validations = array();
-		foreach ( $_validations as $value => $data ) {
+		$_input_types = $this->get_input_types();
+		$input_types = array();
+		foreach ( $_input_types as $value => $data ) {
 			if ( ! isset( $data['title'] ) || ! $data['title'] ) {
 				continue;
 			}
-			$validations[ $value ] = $data['title'];
+			$input_types[ $value ] = $data['title'];
 		}
 
 		$this->settings_fields = array(
@@ -110,57 +105,88 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 				'description'	=> __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
 				'default'		=> '100'
 			),
-			'validation'	=> array(
-				'title'			=> __( 'String Validation', 'torro-forms' ),
+			'input_type'	=> array(
+				'title'			=> __( 'Input type', 'torro-forms' ),
 				'type'			=> 'radio',
-				'values'		=> $validations,
-				'description'	=> __( 'The will do a validation for the input.', 'torro-forms' ),
+				'values'		=> $input_types,
+				'description'	=> sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supportet by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
 				'default'		=> 'none'
 			),
 		);
 	}
 
-	protected function get_validations( $value = false ) {
-		$validations = array(
-			'none'				=> array(
-				'title'				=> __( 'No validation', 'torro-forms' ),
+	protected function get_input_types( $value = false ) {
+		$input_types = array(
+			'text'				=> array(
+				'title'				=> __( 'Standard Text', 'torro-forms' ),
+				'html_field_type'	=> 'text',
+			),
+			'date'	=> array(
+				'title'				=> __( 'Date', 'torro-forms' ),
+				'html_field_type'	=> 'date',
+			),
+			'email_address'		=> array(
+				'title'				=> __( 'Email-Address *', 'torro-forms' ),
+				'html_field_type'	=> 'email',
+				'callback'			=> 'is_email',
+				'error_message'		=> __( 'Please input a valid Email-Address.', 'torro-forms' ),
+			),
+			'color'	=> array(
+				'title'				=> __( 'Color', 'torro-forms' ),
+				'html_field_type'	=> 'color',
 			),
 			'number'			=> array(
-				'title'				=> __( 'Number', 'torro-forms' ),
+				'title'				=> __( 'Number *', 'torro-forms' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^[0-9]{1,}$',
 				'error_message'		=> __( 'Please input a number.', 'torro-forms' ),
 			),
 			'number_decimal'	=> array(
-				'title'				=> __( 'Decimal Number', 'torro-forms' ),
+				'title'				=> __( 'Decimal Number *', 'torro-forms' ),
 				'html_field_type'	=> 'number',
 				'pattern'			=> '^-?([0-9])+\.?([0-9])+$',
 				'error_message'		=> __( 'Please input a decimal number.', 'torro-forms' ),
 			),
-			'email_address'		=> array(
-				'title'				=> __( 'Email-Address', 'torro-forms' ),
-				'html_field_type'	=> 'email',
-				'callback'			=> 'is_email',
-				'error_message'		=> __( 'Please input a valid Email-Address.', 'torro-forms' ),
+			'search'	=> array(
+				'title'				=> __( 'Search', 'torro-forms' ),
+				'html_field_type'	=> 'search',
+			),
+			'tel'	=> array(
+				'title'				=> __( 'Telephone', 'torro-forms' ),
+				'html_field_type'	=> 'tel',
+			),
+			'time'	=> array(
+				'title'				=> __( 'Time', 'torro-forms' ),
+				'html_field_type'	=> 'time',
+			),
+			'url'	=> array(
+				'title'				=> __( 'URL *', 'torro-forms' ),
+				'pattern'	        => '\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]',
+				'html_field_type'	=> 'url',
+				'error_message'		=> __( 'Please input a valid URL.', 'torro-forms' ),
+			),
+			'week'	=> array(
+				'title'				=> __( 'Week', 'torro-forms' ),
+				'html_field_type'	=> 'week',
 			),
 		);
 
-		$validations = apply_filters( 'torro_text_field_validations', $validations );
+		$input_types = apply_filters( 'torro_text_field_input_types', $input_types );
 
 		if ( ! empty( $value ) ) {
-			if ( isset( $validations[ $value ] ) ) {
-				return $validations[ $value ];
+			if ( isset( $input_types[ $value ] ) ) {
+				return $input_types[ $value ];
 			}
 			return false;
 		}
 
-		return $validations;
+		return $input_types;
 	}
 
 	public function validate( $input ) {
 		$min_length = $this->settings[ 'min_length' ]->value;
 		$max_length = $this->settings[ 'max_length' ]->value;
-		$validation = $this->settings[ 'validation' ]->value;
+		$input_type = $this->settings[ 'input_type' ]->value;
 
 		$error = false;
 
@@ -178,20 +204,20 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 			}
 		}
 
-		$validation_data = $this->get_validations( $validation );
+		$input_types = $this->get_input_types( $input_type );
 
-		if ( $validation_data ) {
+		if ( $input_types ) {
 			$status = true;
-			if ( isset( $validation_data['callback'] ) && $validation_data['callback'] && is_callable( $validation_data['callback'] ) ) {
-				$status = call_user_func( $validation_data['callback'], $input );
-			} elseif ( isset( $validation_data['pattern'] ) && $validation_data['pattern'] ) {
-				$status = preg_match( '/' . $validation_data['pattern'] . '/', $input );
+			if ( isset( $input_types['callback'] ) && $input_types['callback'] && is_callable( $input_types['callback'] ) ) {
+				$status = call_user_func( $input_types['callback'], $input );
+			} elseif ( isset( $input_types['pattern'] ) && $input_types['pattern'] ) {
+				$status = preg_match( '/' . $input_types['pattern'] . '/i', $input );
 			}
 
 			if ( ! $status ) {
 				$error = true;
-				if ( isset( $validation_data['error_message'] ) && $validation_data['error_message'] ) {
-					$this->validation_errors[] = $validation_data['error_message'];
+				if ( isset( $input_types['error_message'] ) && $input_types['error_message'] ) {
+					$this->validation_errors[] = $input_types['error_message'];
 				}
 			}
 		}
