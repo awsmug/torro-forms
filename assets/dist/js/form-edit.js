@@ -35,7 +35,7 @@
 			delete_answer_button: '.delete_answer',
 			delete_answer_dialog: '#delete_answer_dialog',
 			deleted_answers: '#deleted_answers',
-			element_tabs_sub: '.element-tabs',
+			tabs: '.tabs',
 			element_form_label: '.form-label',
 			duplicate_form_button: '#form-duplicate-button',
 			delete_results_button: '#form-delete-results',
@@ -595,7 +595,7 @@
 			$( document ).on( 'keydown', '.element-answer', function( e ) {
 				if ( 13 === e.keyCode ) {
 					e.preventDefault();
-					var $add_answer_button = $( this ).parents( self.selectors.element_tabs_sub ).find( self.selectors.add_answer_button );
+					var $add_answer_button = $( this ).parents( self.selectors.tabs ).find( self.selectors.add_answer_button );
 					$add_answer_button.trigger( 'click' );
 				}
 			});
@@ -614,15 +614,20 @@
 					});
 				}
 
-				make_tabs( $droppable_area.find( self.selectors.element_tabs_sub ) );
+				make_tabs( $droppable_area.find( self.selectors.tabs ) );
 				$droppable_area.on( 'torro.element_dropped', function( event, data ) {
 					var $element = data.element;
 
-					make_tabs( $element.find( self.selectors.element_tabs_sub ) );
+					make_tabs( $element.find( self.selectors.tabs ) );
 				});
 			}
 
+			$( self.selectors.tabs ).tabs({
+				active: 0
+			});
+
 			init_droppable( $( this.selectors.droppable_area ) );
+
 			$( document ).on( 'torro.insert_container', function( event, data ) {
 				init_droppable( $( data.container_selector + ' ' + self.selectors.droppable_area ) );
 			});
