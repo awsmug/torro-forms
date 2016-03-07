@@ -94,7 +94,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 				$headline_arr = explode( '_', $headline );
 
 				$element_id = (int) $headline_arr[ 1 ];
-				$element = torro()->elements()->get_registered( $element_id );
+				$element = torro()->elements()->get( $element_id );
 
 				// Skip collecting Data if there is no analyzable Data
 				if ( ! $element->input_answers ) {
@@ -174,7 +174,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 			}
 
 			$element_id = (int) $column_name_arr[1];
-			$element = torro()->elements()->get_registered( $element_id );
+			$element = torro()->elements()->get( $element_id );
 
 			if ( 0 < count( $element->sections ) ) {
 				$result_key = 'element_' . $element_id . '_' . $column_name_arr[2];
@@ -196,7 +196,12 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 					$value = $element->replace_column_name( $column_name );
 
 					if ( empty( $value ) ) {
-						$value = $element->answers[ $answer_id ]['text'];
+						foreach( $element->answers AS $element_answer ){
+							if( $element_answer->id == $answer_id ){
+								$value = $element_answer->label;
+								break;
+							}
+						}
 					}
 
 					if ( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) ) {
@@ -211,8 +216,8 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 				} else {
 					// Setting up all answers to 0 to have also Zero values
 					foreach ( $element->answers AS $element_answers ) {
-						if ( ! isset( $results_formatted[ $result_key ][ $element_answers['text'] ] ) ) {
-							$results_formatted[ $result_key ][ $element_answers['text'] ] = 0;
+						if ( ! isset( $results_formatted[ $result_key ][ $element_answers->label ] ) ) {
+							$results_formatted[ $result_key ][ $element_answers->label ] = 0;
 						}
 					}
 

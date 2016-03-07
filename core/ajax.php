@@ -442,9 +442,6 @@ final class Torro_AJAX {
 
 				$html .= '<tbody>';
 
-				$result_id = '';
-				$user_id = '';
-				$timestamp = '';
 				$extra_info = '';
 
 				foreach ( $result as $column_name => $value ) {
@@ -469,7 +466,7 @@ final class Torro_AJAX {
 							// On Elements
 							if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
 								$element_id = $column_arr[ 1 ];
-								$element = torro()->elements()->get_registered( $element_id );
+								$element = torro()->elements()->get( $element_id );
 
 								$column_name = $element->replace_column_name( $column_name );
 
