@@ -139,8 +139,12 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 								$content = date_i18n( $date_format, $result[ $headline ] );
 								break;
 							case 'user_id':
-								$user = get_user_by( 'id', $result[ $headline ] );
-								$content = $user->display_name;
+								if( -1 !== (int) $result[ $headline ] ) {
+									$user    = get_user_by( 'id', $result[ $headline ] );
+									$content = $user->display_name;
+								}else{
+									$content = esc_html( 'not available', 'torro-forms' );
+								}
 								break;
 							default:
 								$content = $result[ $headline ];
