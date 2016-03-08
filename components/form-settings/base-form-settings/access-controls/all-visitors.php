@@ -122,7 +122,9 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
 		$checked = 'yes' === $access_controls_check_ip ? ' checked' : '';
 
-		$html = '<div class="form-access-controls-allvisitors-userfilter">';
+		$html = '<div class="actions">';
+
+		$html .= '<div class="form-access-controls-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_access_controls_check_ip" value="yes" ' . $checked . '/>';
 		$html .= '<label for="form_access_controls_check_ip">' . esc_attr__( 'Prevent multiple entries from same IP', 'torro-forms' ) . '</label>';
 		$html .= '</div>';
@@ -147,6 +149,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		$html .= '<div class="form-access-controls-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_access_controls_check_fingerprint" value="yes" ' . $checked . '/>';
 		$html .= '<label for="form_access_controls_check_fingerprint">' . esc_attr__( 'Prevent multiple entries by checking browser fingerprint', 'torro-forms' ) . '</label>';
+		$html .= '</div>';
+
 		$html .= '</div>';
 
 		ob_start();

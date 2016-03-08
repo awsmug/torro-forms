@@ -20,20 +20,25 @@
 
 /* --- User Filter --- */
 
-#form-selectedmembers-userfilter {
-	margin-bottom: 20px;
-}
-
 /* --- Participants Bar --- */
 
-.form-add-participants-content {
-	background-color: #f7f7f7;
-	border: 1px solid #e5e5e5;
-	margin: 0 -11px;
-	padding: 10px;
-}
-
 /* --- Participants List --- */
+
+#acl-member-list{
+	#torro-invite-actions{
+		#torro-send-invitations-button{
+			display:none;
+		}
+	}
+
+	#torro-invite-email{
+		display:none;
+	}
+
+	#torro-invite-text{
+		margin: 0 0 10px 150px;
+	}
+}
 
 .participant {
 	&.new {

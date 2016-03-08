@@ -173,19 +173,27 @@
 	cursor: hand;
 }
 
+.post-type-torro-forms .form-fields {
+	margin-bottom: 10px;
+}
 .post-type-torro-forms .form-fields label {
 	display: block;
 	float: left;
 	width: 150px; 
 	line-height: 30px;
 }
-
 .post-type-torro-forms .form-fields small {
 	margin-left: 15px;
 }
-
 .post-type-torro-forms .form-fields input[type=text] {
 	width: 50%;
+}
+
+.post-type-torro-forms .actions {
+	padding: 10px; 
+	margin: 0 0 10px 0;
+	background-color: #f7f7f7;
+	border: 1px solid #e5e5e5;
 }
 
 .post-type-torro-forms #postbox-container-2 .inside {

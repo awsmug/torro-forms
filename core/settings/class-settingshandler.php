@@ -291,8 +291,6 @@ class Torro_Settings_Handler {
 			return false;
 		}
 
-		$values = array();
-
 		foreach ( $this->fields as $name => $settings ) {
 			$non_value_types = array( 'title', 'disclaimer' );
 
@@ -309,11 +307,11 @@ class Torro_Settings_Handler {
 				}
 
 				$this->values[ $name ] = get_option( $option_name, $default );
-			}/* elseif( 'post' === $this->type ) {
+			}elseif( 'post' === $this->type ) {
 				if ( property_exists( $post, 'ID' ) ) {
-					get_post_meta( $post->ID, $option_name );
+					$this->values[ $name ] = get_post_meta( $post->ID, $option_name );
 				}
-			}*/
+			}
 		}
 
 		return $this->values;
@@ -332,6 +330,8 @@ class Torro_Settings_Handler {
 		// Running all settings fields
 		foreach ( $this->fields as $name => $settings ) {
 			$option_name = 'torro_settings_' . $this->name . '_' . $name;
+
+			FB::info( 'ON: ' . $option_name );
 
 			$value = '';
 			if( isset( $_POST[ $name ] ) ) {

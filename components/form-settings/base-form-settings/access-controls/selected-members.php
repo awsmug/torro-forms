@@ -55,8 +55,6 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$this->option_name = __( 'Selected Members of site', 'torro-forms' );
 
-		// add_action( 'form_functions', array( $this, 'invite_buttons' ) );
-
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
 		$this->settings_fields = array(
@@ -221,6 +219,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			'added_participants'					=> __( 'participant/s', 'torro-forms' ),
 			'nonce_add_participants_allmembers'		=> torro()->ajax()->get_nonce( 'add_participants_allmembers' ),
 			'nonce_invite_participants'				=> torro()->ajax()->get_nonce( 'invite_participants' ),
+			'nonce_get_invite_text'				=> torro()->ajax()->get_nonce( 'get_invite_text' ),
 		);
 
 		wp_enqueue_script( 'torro-access-controls-selected-members', torro()->get_asset_url( 'access-controls-selected-members', 'js' ), array( 'torro-form-edit' ) );
@@ -244,31 +243,17 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$form_id = $post->ID;
 
-		$html = '<div id="form-selectedmembers-userfilter">';
-
 		/**
-		 * Check User
+		 * Add participants
 		 */
-		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
-		$checked = 'yes' === $access_controls_same_users ? ' checked' : '';
+		$html  = '<div id="acl-member-list">';
 
-		$html .= '<div class="form-access-controls-same-users-userfilter">';
-		$html .= '<input type="checkbox" name="form_access_controls_selectedmembers_same_users" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_access_controls_selectedmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
-		$html .= '</div>';
-		$html .= '</div>';
-
-		/**
-		 * Add participants functions
-		 */
-		$html .= '<div id="form-add-participants">';
-
-		$options = apply_filters( 'form_add_participants_options', array( 'allmembers' => __( 'Add all actual Members', 'torro-forms' ) ) );
+		$options = apply_filters( 'form_add_participants_options', array( 'allmembers' => __( 'all members', 'torro-forms' ) ) );
 
 		$add_participants_option = get_post_meta( $form_id, 'add_participants_option', true );
 
 		$html .= '<div id="torro-add-participants-options" class="form-fields">';
-		$html .= '<label for"form_add_participants_option">' . esc_html__( 'Add Members', 'torro-forms' ) . '</label>';
+		$html .= '<label for"form_add_participants_option">' . esc_html__( 'Members', 'torro-forms' ) . '</label>';
 		$html .= '<select id="form-add-participants-option" name="form_add_participants_option">';
 		foreach ( $options as $name => $value ) {
 			$selected = '';
@@ -277,12 +262,34 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			}
 			$html .= '<option value="' . $name . '"' . $selected . '>' . $value . '</option>';
 		}
-		$html .= '</select>';
+		$html .= '</select> ';
+		$html .= '<input type="button" class="form-add-participants-allmembers-button button" id="form-add-participants-allmembers-button" value="' . esc_attr__( 'Add', 'torro-forms' ) . '" />';
 		$html .= '</div>';
 
-		$html .= '<div id="form-add-participants-content-allmembers" class="form-add-participants-content-allmembers form-add-participants-content">';
-		$html .= '<input type="button" class="form-add-participants-allmembers-button button" id="form-add-participants-allmembers-button" value="' . esc_attr__( 'Add all members as Participiants', 'torro-forms' ) . '" />';
-		$html .= '<a class="form-remove-all-participants">' . esc_html__( 'Remove all Participiants', 'torro-forms' ) . '</a>';
+		$html .= '<div id="torro-invite-actions" class="form-fields">';
+		$html .= '<label for"torro-invite-participants">' . esc_html__( 'Invitations', 'torro-forms' ) . '</label>';
+		$html .= '<input type="button" id="torro-invite-participants-button" name="invite_participants" value="' . esc_html__( 'Invite', 'torro-forms' ) . '" class="button" /> ';
+		$html .= '<input type="button" id="torro-reinvite-participants-button" name="reinvite_participants" value="' . esc_html__( 'Reinvite', 'torro-forms' ) . '" class="button" /> ';
+		$html .= '<input type="button" id="torro-send-invitations-button" name="send_invitations" value="' . esc_html__( 'Send Invitations', 'torro-forms' ) . '" class="button-primary" />';
+		$html .= '</div>';
+
+		// Hooking in
+		ob_start();
+		wp_editor( '', 'torro_invite_text' );
+		$editor = ob_get_clean();
+
+		$html .= '<div id="torro-invite-email">';
+		$html .= '<div class="form-fields">';
+		$html .= '<div><label for="torro_invite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="torro_invite_from_name" value="" /></div>';
+		$html .= '<div><label for="torro_invite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="torro_invite_from" value="" /></div>';
+		$html .= '<div><label for="torro_invite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="torro_invite_subject" value="" /></div>';
+		$html .= '</div>';
+		$html .= '<div id="torro-invite-text">';
+		$html .= $editor;
+		$html .= '</div>';
 		$html .= '</div>';
 
 		// Hooking in
@@ -290,38 +297,46 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		do_action( 'form_add_participants_content' );
 		$html .= ob_get_clean();
 
+		/**
+		 * Participiants List
+		 */
+		$html .= '<div id="form-participants-list">';
+		$html .= $this->get_participant_list( $form_id, 0, 10 );
 		$html .= '</div>';
 
 		/**
-		 * Getting all users which have been added to participants list
+		 * Userfilter
 		 */
-		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %s", $form_id );
+		$html  .= '<div id="acl-user-filter" class="actions">';
+		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
+		$checked = 'yes' === $access_controls_same_users ? ' checked' : '';
+
+		$html .= '<input type="checkbox" name="form_access_controls_selectedmembers_same_users" value="yes" ' . $checked . '/>';
+		$html .= '<label for="form_access_controls_selectedmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	public function get_participant_list( $form_id, $start, $limit ){
+		global $wpdb;
+
+		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %s LIMIT %d, %d", $form_id, $start, $limit );
 		$user_ids = $wpdb->get_col( $sql );
 
 		$users = array();
 
 		if ( is_array( $user_ids ) && 0 < count( $user_ids ) ) {
 			$users = get_users( array(
-				'include'	=> $user_ids,
-				'orderby'	=> 'ID',
-			) );
+				                    'include'	=> $user_ids,
+				                    'orderby'	=> 'ID',
+			                    ) );
 		}
-
-		/**
-		 * Participiants Statistics
-		 */
-		$user_count = count( $users );
-		$html .= '<div id="form-participants-status" class="form-participants-status">';
-		$html .= '<p>' . sprintf( _n( '%s participant', '%s participants', $user_count, 'torro-forms' ), number_format_i18n( $user_count ) ) . '</p>';
-		$html .= '</div>';
 
 		/**
 		 * Participiants list
 		 */
-
-		// Head
-		$html .= '<div id="form-participants-list">';
-		$html .= '<table class="wp-list-table widefat">';
+		$html  = '<table class="wp-list-table widefat">';
 		$html .= '<thead>';
 		$html .= '<tr>';
 		$html .= '<th>' . esc_html__( 'ID', 'torro-forms' ) . '</th>';
@@ -329,7 +344,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$html .= '<th>' . esc_html__( 'Display name', 'torro-forms' ) . '</th>';
 		$html .= '<th>' . esc_html__( 'Email', 'torro-forms' ) . '</th>';
 		$html .= '<th>' . esc_html__( 'Status', 'torro-forms' ) . '</th>';
-		$html .= '<th>&nbsp</th>';
+		$html .= '<th><a class="form-remove-all-participants">' . esc_html__( 'Delete all', 'torro-forms' ) . '</a></th>';
 		$html .= '</tr>';
 		$html .= '</thead>';
 
@@ -369,9 +384,16 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$html .= '</table>';
 
+		/**
+		 * Participiants Statistics
+		 */
+		$user_count = count( $users );
+		$html .= '<div id="form-participants-status" class="form-participants-status">';
+		$html .= '<p>' . sprintf( _n( '%s participant', '%s participants', $user_count, 'torro-forms' ), number_format_i18n( $user_count ) ) . '</p>';
+		$html .= '</div>';
+
 		$html .= '<input type="hidden" id="form-participants" name="form_participants" value="' . $form_participants_value . '" />';
 		$html .= '<input type="hidden" id="form-participants-count" name="form-participants-count" value="' . count( $users ) . '" />';
-
 		$html .= '</div>';
 
 		return $html;

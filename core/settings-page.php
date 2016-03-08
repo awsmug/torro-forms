@@ -244,7 +244,6 @@ class Torro_Settings_Page {
 			 * Tabs
 			 */
 			foreach ( $all_settings AS $setting ) {
-
 				if( $setting->name !== $tab ){
 					continue;
 				}

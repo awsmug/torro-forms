@@ -39,7 +39,7 @@ abstract class Torro_Access_Control extends Torro_Base {
 	protected $option_name = false;
 
 	/**
-	 * Settings fields array
+	 * Settings name
 	 *
 	 * @since 1.0.0
 	 */

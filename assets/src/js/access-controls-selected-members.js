@@ -1,7 +1,7 @@
 ( function( exports, wp, $, translations ) {
 	'use strict';
 
-	function Restriction_Selected_Members( translations ) {
+	function Access_Control_Selected_Members( translations ) {
 		this.translations = translations;
 
 		this.selectors = {
@@ -10,6 +10,14 @@
 			participants_status: '#form-participants-status p',
 			participants_list: '#form-participants-list',
 			participant_sub: '.participant',
+			invite_button: '#torro-invite-participants-button',
+			reinvite_button: '#torro-reinvite-participants-button',
+			invite_email: '#torro-invite-email',
+			invite_email_input_from_name: '#torro-invite-email input[name=torro_invite_from_name]',
+			invite_email_input_from: '#torro-invite-email input[name=torro_invite_from]',
+			invite_email_input_subject: '#torro-invite-email input[name=torro_invite_subject]',
+			invite_email_input_text: '#torro_invite_text',
+			invite_send: '#torro-send-invitations-button',
 			delete_participant_button: '.form-delete-participant',
 			add_all_members_button: '#form-add-participants-allmembers-button',
 			remove_all_members_button: '.form-remove-all-participants',
@@ -17,8 +25,10 @@
 		};
 	}
 
-	Restriction_Selected_Members.prototype = {
+	Access_Control_Selected_Members.prototype = {
 		init: function() {
+			this.init_invitations();
+
 			this.refresh_nothing_found();
 
 			var self = this;
@@ -60,7 +70,7 @@
 
 					$( self.selectors.participants ).val( form_participants );
 
-					self.refresh_participants_counter( count_participants );
+					self.set_participants_counter( count_participants );
 
 					$( self.selectors.participants_list ).show();
 
@@ -74,11 +84,9 @@
 
 			$( document ).on( 'click', this.selectors.remove_all_members_button, function() {
 				$( self.selectors.participants ).val( '' );
-
-				self.refresh_participants_counter( 0 );
+				self.set_participants_counter( 0 );
 
 				$( self.selectors.participants_list ).find( self.selectors.participant_sub ).remove();
-
 				self.refresh_nothing_found();
 			});
 
@@ -101,16 +109,15 @@
 				});
 
 				$( self.selectors.participants ).val( form_participants_new );
-
-				self.refresh_participants_counter( parseInt( $( self.selectors.participants_counter ).val(), 10 ) - 1 );
+				self.set_participants_counter( parseInt( $( self.selectors.participants_counter ).val(), 10 ) - 1 );
 
 				$( '.participant-user-' + delete_user_id ).remove();
-
 				self.refresh_nothing_found();
 			});
 
 			// Invitations - keep this here, but currently not used
-			/*$( '#form-invite-button' ).on( 'click', function() {
+			/*
+			$( '#torro-invite-participants-button' ).on( 'click', function() {
 				var $button = $( this )
 
 				if ( $button.hasClass( 'button-primary' ) ) {
@@ -204,7 +211,81 @@
 			});*/
 		},
 
-		refresh_participants_counter: function( number ) {
+		init_invitations: function(){
+			var self = this;
+			var selected = 'none';
+
+			$( self.selectors.invite_button ).on( 'click', function(){
+				if( selected == 'none' ) {
+					selected = 'invite';
+
+					wp.ajax.post( 'torro_get_invite_text', {
+						nonce: self.translations.nonce_get_invite_text,
+						invite_type: selected
+					}).done( function( invite_data ) {
+
+						if( $( self.selectors.invite_email_input_from_name ).val() == '' &&
+							$( self.selectors.invite_email_input_from ).val() == '' &&
+							$( self.selectors.invite_email_input_subject ).val() == '' )
+						{
+							$(self.selectors.invite_email_input_from_name).val(invite_data.invite_from_name);
+							$(self.selectors.invite_email_input_from).val(invite_data.invite_from);
+							$(self.selectors.invite_email_input_subject).val(invite_data.invite_subject);
+
+							var editor = tinymce.get('torro_invite_text');
+							if (editor && editor instanceof tinymce.Editor) {
+								editor.setContent(invite_data.invite_text, {format: 'text'});
+							}
+						}
+
+					}).fail( function( message ) {
+						console.error( message );
+					});
+
+					$(self.selectors.invite_email).show();
+					$(self.selectors.invite_send).show();
+				}else{
+					selected = 'none';
+					$(self.selectors.invite_email).hide();
+					$(self.selectors.invite_send).hide();
+				}
+			});
+
+			$( self.selectors.reinvite_button ).on( 'click', function(){
+				if( selected == 'none' ) {
+					selected = 'reinvite';
+
+					wp.ajax.post( 'torro_get_invite_text', {
+						nonce: self.translations.nonce_get_invite_text,
+						invite_type: selected
+					}).done( function( invite_data ) {
+
+						if( $( self.selectors.invite_email_input_from_name ).val() == '' &&  $( self.selectors.invite_email_input_from ).val() == '' && $( self.selectors.invite_email_input_subject ).val() == '' ) {
+							$(self.selectors.invite_email_input_from_name).val(invite_data.invite_from_name);
+							$(self.selectors.invite_email_input_from).val(invite_data.invite_from);
+							$(self.selectors.invite_email_input_subject).val(invite_data.invite_subject);
+
+							var editor = tinymce.get('torro_invite_text');
+							if (editor && editor instanceof tinymce.Editor) {
+								editor.setContent(invite_data.invite_text, {format: 'text'});
+							}
+						}
+
+					}).fail( function( message ) {
+						console.error( message );
+					});
+
+					$(self.selectors.invite_email).show();
+					$(self.selectors.invite_send).show();
+				}else{
+					selected = 'none';
+					$(self.selectors.invite_email).hide();
+					$(self.selectors.invite_send).hide();
+				}
+			});
+		},
+
+		set_participants_counter: function( number ) {
 			var text = number + ' ' + this.translations.added_participants;
 			$( this.selectors.participants_status ).html( text );
 			$( this.selectors.participants_counter ).val( number );
@@ -219,5 +300,5 @@
 		}
 	};
 
-	exports.add_extension( 'access_control_selected_members', new Restriction_Selected_Members( translations ) );
+	exports.add_extension( 'access_control_selected_members', new Access_Control_Selected_Members( translations ) );
 }( form_builder, wp, jQuery, translation_sm ) );

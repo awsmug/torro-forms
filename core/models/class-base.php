@@ -153,12 +153,9 @@ abstract class Torro_Base {
 
 		$settings_fields = array_merge( $headline, $this->settings_fields );
 
-		// Todo: Should not use API
 		torro()->settings()->get_registered( $this->settings_name )->add_subsettings_field_arr( $this->name, $this->title, $settings_fields );
 
-		$settings_name = 'extensions_' . $this->name;
-
-		$settings_handler = new Torro_Settings_Handler( $settings_name, $this->settings_fields );
+		$settings_handler = new Torro_Settings_Handler( $this->settings_name . '_' . $this->name, $this->settings_fields );
 		$this->settings   = $settings_handler->get_field_values();
 	}
 }

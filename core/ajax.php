@@ -48,6 +48,8 @@ final class Torro_AJAX {
 		'invite_participants'			=> array( 'nopriv' => false ),
 		'show_entries'					=> array( 'nopriv' => false ),
 		'show_entry'					=> array( 'nopriv' => false ),
+		'get_invite_text'				=> array( 'nopriv' => false ),
+		'get_participant_list'			=> array( 'nopriv' => false ),
 	);
 
 	private $nonces = array();
@@ -507,6 +509,59 @@ final class Torro_AJAX {
 		$response = array(
 			'html'	=> $html,
 		);
+
+		return $response;
+	}
+
+	public function ajax_get_invite_text(){
+		$invite_type = $_POST[ 'invite_type' ];
+		$invite_from_name = '';
+		$invite_from = '';
+		$invite_subject = '';
+		$invite_text = '';
+
+		switch( $invite_type ){
+			case 'invite':
+				$invite_from_name = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_from_name' ];
+				$invite_from = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_from' ];
+				$invite_subject = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_subject' ];
+				$invite_text = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_text' ];
+				break;
+
+			case 'reinvite':
+				$invite_from_name = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_from_name' ];
+				$invite_from = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_from' ];
+				$invite_subject = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_subject' ];
+				$invite_text = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_text' ];
+				break;
+		}
+
+		$response = array(
+			'invite_from_name' => $invite_from_name,
+			'invite_from' => $invite_from,
+			'invite_subject' => $invite_subject,
+			'invite_text' => $invite_text
+		);
+
+		return $response;
+	}
+
+	public function ajax_get_participant_list(){
+		$form_id = $_POST[ 'form_id' ];
+		$start = $_POST[ 'start' ];
+		$limit = $_POST[ 'limit' ];
+
+		if( empty( $start ) ){
+			$start = 0;
+		}
+
+		if( empty( $limit ) ){
+			$limit = 10;
+		}
+
+		$html = torro()->access_controls()->get_registered( 'selected_members' )->get_participant_list( $form_id, $start, $limit );
+
+		$response = array( 'html' => $html );
 
 		return $response;
 	}
