@@ -31,11 +31,13 @@
 		}
 	}
 
-	#torro-invite-email{
+	#torro-invite-email,
+	#torro-reinvite-email{
 		display:none;
 	}
 
-	#torro-invite-text{
+	#torro-invite-text,
+	#torro-reinvite-text{
 		margin: 0 0 10px 150px;
 	}
 }

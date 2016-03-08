@@ -125,6 +125,16 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	public function save( $form_id ) {
 		global $wpdb;
 
+		update_post_meta( $form_id, 'invite_from_name', $_POST[ 'invite_from_name' ] );
+		update_post_meta( $form_id, 'invite_from', $_POST[ 'invite_from' ] );
+		update_post_meta( $form_id, 'invite_subject', $_POST[ 'invite_subject' ] );
+		update_post_meta( $form_id, 'invite_text', $_POST[ 'invite_text' ] );
+
+		update_post_meta( $form_id, 'reinvite_from_name', $_POST[ 'reinvite_from_name' ] );
+		update_post_meta( $form_id, 'reinvite_from', $_POST[ 'reinvite_from' ] );
+		update_post_meta( $form_id, 'reinvite_subject', $_POST[ 'reinvite_subject' ] );
+		update_post_meta( $form_id, 'reinvite_text', $_POST[ 'reinvite_text' ] );
+
 		/**
 		 * Saving access-control options
 		 */
@@ -234,20 +244,48 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$html .= '<input type="button" id="torro-send-invitations-button" name="send_invitations" value="' . esc_html__( 'Send Invitations', 'torro-forms' ) . '" class="button-primary" />';
 		$html .= '</div>';
 
+		$invite_from_name = get_post_meta( $form_id, 'invite_from_name', true );
+		$invite_from = get_post_meta( $form_id, 'invite_from', true );
+		$invite_subject = get_post_meta( $form_id, 'invite_subject', true );
+		$invite_text = get_post_meta( $form_id, 'invite_text', true );
+
 		ob_start();
-		wp_editor( '', 'torro_invite_text' );
+		wp_editor( $invite_text, 'invite_text' );
 		$editor = ob_get_clean();
 
 		$html .= '<div id="torro-invite-email">';
 		$html .= '<div class="form-fields">';
-		$html .= '<div><label for="torro_invite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
-		$html .= '<input type="text" name="torro_invite_from_name" value="" /></div>';
-		$html .= '<div><label for="torro_invite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
-		$html .= '<input type="text" name="torro_invite_from" value="" /></div>';
-		$html .= '<div><label for="torro_invite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
-		$html .= '<input type="text" name="torro_invite_subject" value="" /></div>';
+		$html .= '<div><label for="invite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="invite_from_name" value="' . $invite_from_name . '" /></div>';
+		$html .= '<div><label for="invite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="invite_from" value="' . $invite_from . '" /></div>';
+		$html .= '<div><label for="invite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="invite_subject" value="' . $invite_subject . '" /></div>';
 		$html .= '</div>';
 		$html .= '<div id="torro-invite-text">';
+		$html .= $editor;
+		$html .= '</div>';
+		$html .= '</div>';
+
+		$reinvite_from_name = get_post_meta( $form_id, 'reinvite_from_name', true );
+		$reinvite_from = get_post_meta( $form_id, 'reinvite_from', true );
+		$reinvite_subject = get_post_meta( $form_id, 'reinvite_subject', true );
+		$reinvite_text = get_post_meta( $form_id, 'reinvite_text', true );
+
+		ob_start();
+		wp_editor( $reinvite_text, 'reinvite_text' );
+		$editor = ob_get_clean();
+
+		$html .= '<div id="torro-reinvite-email">';
+		$html .= '<div class="form-fields">';
+		$html .= '<div><label for="reinvite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="reinvite_from_name" value="' . $reinvite_from_name . '" /></div>';
+		$html .= '<div><label for="reinvite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="reinvite_from" value="' . $reinvite_from . '" /></div>';
+		$html .= '<div><label for="reinvite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
+		$html .= '<input type="text" name="reinvite_subject" value="' . $reinvite_subject . '" /></div>';
+		$html .= '</div>';
+		$html .= '<div id="torro-reinvite-text">';
 		$html .= $editor;
 		$html .= '</div>';
 		$html .= '</div>';

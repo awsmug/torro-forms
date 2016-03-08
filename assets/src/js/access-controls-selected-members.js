@@ -13,10 +13,15 @@
 			invite_button: '#torro-invite-participants-button',
 			reinvite_button: '#torro-reinvite-participants-button',
 			invite_email: '#torro-invite-email',
-			invite_email_input_from_name: '#torro-invite-email input[name=torro_invite_from_name]',
-			invite_email_input_from: '#torro-invite-email input[name=torro_invite_from]',
-			invite_email_input_subject: '#torro-invite-email input[name=torro_invite_subject]',
-			invite_email_input_text: '#torro_invite_text',
+			invite_email_input_from_name: '#torro-invite-email input[name=invite_from_name]',
+			invite_email_input_from: '#torro-invite-email input[name=invite_from]',
+			invite_email_input_subject: '#torro-invite-email input[name=invite_subject]',
+			invite_email_input_text: '#invite_text',
+			reinvite_email: '#torro-reinvite-email',
+			reinvite_email_input_from_name: '#torro-reinvite-email input[name=reinvite_from_name]',
+			reinvite_email_input_from: '#torro-reinvite-email input[name=reinvite_from]',
+			reinvite_email_input_subject: '#torro-reinvite-email input[name=reinvite_subject]',
+			reinvite_email_input_text: '#reinvite_text',
 			invite_send: '#torro-send-invitations-button',
 			delete_participant_button: '.form-delete-participant',
 			add_all_members_button: '#form-add-participants-allmembers-button',
@@ -216,8 +221,11 @@
 			var selected = 'none';
 
 			$( self.selectors.invite_button ).on( 'click', function(){
-				if( selected == 'none' ) {
+				if( selected == 'none'  || selected == 'reinvite' ) {
 					selected = 'invite';
+
+					$( self.selectors.reinvite_button ).removeClass( 'active' );
+					$( self.selectors.invite_button ).addClass( 'active' );
 
 					wp.ajax.post( 'torro_get_invite_text', {
 						nonce: self.translations.nonce_get_invite_text,
@@ -226,15 +234,16 @@
 
 						if( $( self.selectors.invite_email_input_from_name ).val() == '' &&
 							$( self.selectors.invite_email_input_from ).val() == '' &&
-							$( self.selectors.invite_email_input_subject ).val() == '' )
+							$( self.selectors.invite_email_input_subject ).val() == '' &&
+							$( self.selectors.invite_email_input_text ).val() == '' )
 						{
 							$(self.selectors.invite_email_input_from_name).val(invite_data.invite_from_name);
 							$(self.selectors.invite_email_input_from).val(invite_data.invite_from);
 							$(self.selectors.invite_email_input_subject).val(invite_data.invite_subject);
 
-							var editor = tinymce.get('torro_invite_text');
+							var editor = tinymce.get('invite_text');
 							if (editor && editor instanceof tinymce.Editor) {
-								editor.setContent(invite_data.invite_text, {format: 'text'});
+								editor.setContent(invite_data.invite_text.replace(/\r?\n/g, '<br />'));
 							}
 						}
 
@@ -242,32 +251,42 @@
 						console.error( message );
 					});
 
+					$(self.selectors.reinvite_email).hide();
 					$(self.selectors.invite_email).show();
 					$(self.selectors.invite_send).show();
 				}else{
 					selected = 'none';
+
+					$( self.selectors.invite_button ).removeClass( 'active' );
 					$(self.selectors.invite_email).hide();
 					$(self.selectors.invite_send).hide();
 				}
 			});
 
 			$( self.selectors.reinvite_button ).on( 'click', function(){
-				if( selected == 'none' ) {
+				if( selected == 'none' || selected == 'invite' ) {
 					selected = 'reinvite';
+
+					$( self.selectors.invite_button ).removeClass( 'active' );
+					$( self.selectors.reinvite_button ).addClass( 'active' );
 
 					wp.ajax.post( 'torro_get_invite_text', {
 						nonce: self.translations.nonce_get_invite_text,
 						invite_type: selected
 					}).done( function( invite_data ) {
 
-						if( $( self.selectors.invite_email_input_from_name ).val() == '' &&  $( self.selectors.invite_email_input_from ).val() == '' && $( self.selectors.invite_email_input_subject ).val() == '' ) {
-							$(self.selectors.invite_email_input_from_name).val(invite_data.invite_from_name);
-							$(self.selectors.invite_email_input_from).val(invite_data.invite_from);
-							$(self.selectors.invite_email_input_subject).val(invite_data.invite_subject);
+						if( $( self.selectors.reinvite_email_input_from_name ).val() == '' &&
+							$( self.selectors.reinvite_email_input_from ).val() == '' &&
+							$( self.selectors.reinvite_email_input_subject ).val() == '' &&
+							$( self.selectors.reinvite_email_input_text ).val() == '')
+						{
+							$(self.selectors.reinvite_email_input_from_name).val(invite_data.invite_from_name);
+							$(self.selectors.reinvite_email_input_from).val(invite_data.invite_from);
+							$(self.selectors.reinvite_email_input_subject).val(invite_data.invite_subject);
 
-							var editor = tinymce.get('torro_invite_text');
+							var editor = tinymce.get('reinvite_text');
 							if (editor && editor instanceof tinymce.Editor) {
-								editor.setContent(invite_data.invite_text, {format: 'text'});
+								editor.setContent(invite_data.invite_text.replace(/\r?\n/g, '<br />'));
 							}
 						}
 
@@ -275,11 +294,14 @@
 						console.error( message );
 					});
 
-					$(self.selectors.invite_email).show();
+					$(self.selectors.invite_email).hide();
+					$(self.selectors.reinvite_email).show();
 					$(self.selectors.invite_send).show();
 				}else{
 					selected = 'none';
-					$(self.selectors.invite_email).hide();
+
+					$( self.selectors.reinvite_button ).removeClass( 'active' );
+					$(self.selectors.reinvite_email).hide();
 					$(self.selectors.invite_send).hide();
 				}
 			});

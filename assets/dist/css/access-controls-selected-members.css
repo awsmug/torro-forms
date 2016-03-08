@@ -25,11 +25,13 @@
 	display: none;
 }
 
-#acl-member-list #torro-invite-email {
+#acl-member-list #torro-invite-email,
+#acl-member-list #torro-reinvite-email {
 	display: none;
 }
 
-#acl-member-list #torro-invite-text {
+#acl-member-list #torro-invite-text,
+#acl-member-list #torro-reinvite-text {
 	margin: 0 0 10px 150px;
 }
 
