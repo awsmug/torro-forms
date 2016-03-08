@@ -113,7 +113,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 
 		if ( $( '#form-result-handlers-tabs' ).length ) {
 			var tab_width = $( '#form-result-handlers-tabs' ).width();
-			chart_width = Math.round( ( tab_width / 3 * 2 ) );
+			chart_width = Math.round( ( tab_width / 100 * 95 ) );
 		}
 
 		var categories = '{$categories}';
