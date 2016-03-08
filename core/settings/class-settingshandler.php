@@ -102,6 +102,9 @@ class Torro_Settings_Handler {
 			case 'textarea':
 				$html = $this->get_textarea( $name, $settings, $value );
 				break;
+			case 'wp_editor':
+				$html = $this->get_wp_editor( $name, $settings, $value );
+				break;
 			case 'radio':
 				$html = $this->get_radios( $name, $settings, $value );
 				break;
@@ -154,6 +157,32 @@ class Torro_Settings_Handler {
 		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
 		$html .= '<td>';
 		$html .= '<textarea name="' . $name . '" rows="8">' . esc_html( $value ) . '</textarea>';
+		if ( isset( $settings['description'] ) ) {
+			$html .= '<br /><small>' . $settings['description'] . '</small>';
+		}
+		$html .= '</td>';
+		$html .= '</tr>';
+
+		return $html;
+	}
+
+	/**
+	 * Returns WP Editor
+	 *
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	private function get_wp_editor( $name, $settings, $value ) {
+		ob_start();
+		wp_editor( $value, $name );
+		$editor = ob_get_clean();
+
+		$html = '<tr>';
+		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
+		$html .= '<td>';
+		$html .= $editor;
 		if ( isset( $settings['description'] ) ) {
 			$html .= '<br /><small>' . $settings['description'] . '</small>';
 		}

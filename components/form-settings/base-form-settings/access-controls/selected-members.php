@@ -83,7 +83,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			'invite_text'			=> array(
 				'title'					=> __( 'Email Text', 'torro-forms' ),
 				'description'			=> __( 'The Text of the Mail.', 'torro-forms' ),
-				'type'					=> 'textarea',
+				'type'					=> 'wp_editor',
 			),
 			'reinvitations'			=> array(
 				'title'					=> __( 'Reinvitation Mail Template', 'torro-forms' ),
@@ -111,49 +111,10 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			'reinvite_text'			=> array(
 				'title'					=> __( 'Email Text', 'torro-forms' ),
 				'description'			=> __( 'The Text of the Mail.', 'torro-forms' ),
-				'type'					=> 'textarea',
+				'type'					=> 'wp_editor',
 			)
 		);
 	}
-
-	/**
-	 * Invitations box
-	 *
-	 * @since 1.0.0
-	 */
-	public function invite_buttons() {
-		global $post;
-
-		$torro_invitation_text_template = torro_get_mail_template_text( 'invitation' );
-		$torro_reinvitation_text_template = torro_get_mail_template_text( 'reinvitation' );
-
-		$torro_invitation_subject_template = torro_get_mail_template_subject( 'invitation' );
-		$torro_reinvitation_subject_template = torro_get_mail_template_subject( 'reinvitation' );
-
-		$html = '';
-
-		if ( 'publish' === $post->post_status ) {
-			$html .= '<div class="form-function-element">';
-			$html .= '<input id="form-invite-subject" type="text" name="form_invite_subject" value="' . $torro_invitation_subject_template . '" />';
-			$html .= '<textarea id="form-invite-text" name="form_invite_text">' . $torro_invitation_text_template . '</textarea>';
-			$html .= '<input id="form-invite-button" type="button" class="button" value="' . esc_attr__( 'Invite Participiants', 'torro-forms' ) . '" /> ';
-			$html .= '<input id="form-invite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'torro-forms' ) . '" />';
-			$html .= '</div>';
-
-			$html .= '<div class="form-function-element">';
-			$html .= '<input id="form-reinvite-subject" type="text" name="form_invite_subject" value="' . $torro_reinvitation_subject_template . '" />';
-			$html .= '<textarea id="form-reinvite-text" name="form_reinvite_text">' . $torro_reinvitation_text_template . '</textarea>';
-			$html .= '<input id="form-reinvite-button" type="button" class="button" value="' . esc_attr__( 'Reinvite Participiants', 'torro-forms' ) . '" /> ';
-			$html .= '<input id="form-reinvite-button-cancel" type="button" class="button" value="' . esc_attr__( 'Cancel', 'torro-forms' ) . '" />';
-
-			$html .= '</div>';
-		} else {
-			$html .= '<p>' . esc_html__( 'You can invite Participiants to this form after it is published.', 'torro-forms' ) . '</p>';
-		}
-
-		echo $html;
-	}
-
 	/**
 	 * Saving data
 	 *
@@ -273,7 +234,6 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$html .= '<input type="button" id="torro-send-invitations-button" name="send_invitations" value="' . esc_html__( 'Send Invitations', 'torro-forms' ) . '" class="button-primary" />';
 		$html .= '</div>';
 
-		// Hooking in
 		ob_start();
 		wp_editor( '', 'torro_invite_text' );
 		$editor = ob_get_clean();
