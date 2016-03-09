@@ -214,6 +214,10 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$form_id = $post->ID;
 
+		$editor_settings = array(
+			'editor_height' => 400
+		);
+
 		/**
 		 * Add participants
 		 */
@@ -241,7 +245,9 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$html .= '<label for"torro-invite-participants">' . esc_html__( 'Invitations', 'torro-forms' ) . '</label>';
 		$html .= '<input type="button" id="torro-invite-participants-button" name="invite_participants" value="' . esc_html__( 'Invite', 'torro-forms' ) . '" class="button" /> ';
 		$html .= '<input type="button" id="torro-reinvite-participants-button" name="reinvite_participants" value="' . esc_html__( 'Reinvite', 'torro-forms' ) . '" class="button" /> ';
-		$html .= '<input type="button" id="torro-send-invitations-button" name="send_invitations" value="' . esc_html__( 'Send Invitations', 'torro-forms' ) . '" class="button-primary" />';
+		$html .= '<input type="button" id="torro-send-invitations-button" name="send_invitations" value="' . esc_html__( 'Send Invitations', 'torro-forms' ) . '" class="button-primary" /> ';
+		$html .= '<input type="button" id="invite-close" class="button" value="' . esc_html__( 'Close', 'torro-forms' ) . '" />';
+		$html .= '<div id="invites-send-request-text">' . esc_html__( 'Do you really want to send invitation emails to all members of this list?', 'torro-forms' ) . '</div>';
 		$html .= '</div>';
 
 		$invite_from_name = get_post_meta( $form_id, 'invite_from_name', true );
@@ -250,16 +256,16 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$invite_text = get_post_meta( $form_id, 'invite_text', true );
 
 		ob_start();
-		wp_editor( $invite_text, 'invite_text' );
+		wp_editor( $invite_text, 'invite_text', $editor_settings );
 		$editor = ob_get_clean();
 
 		$html .= '<div id="torro-invite-email">';
-		$html .= '<div class="form-fields">';
-		$html .= '<div><label for="invite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
+		$html .= '<div>';
+		$html .= '<div class="form-fields"><label for="invite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
 		$html .= '<input type="text" name="invite_from_name" value="' . $invite_from_name . '" /></div>';
-		$html .= '<div><label for="invite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
+		$html .= '<div class="form-fields"><label for="invite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
 		$html .= '<input type="text" name="invite_from" value="' . $invite_from . '" /></div>';
-		$html .= '<div><label for="invite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
+		$html .= '<div class="form-fields"><label for="invite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
 		$html .= '<input type="text" name="invite_subject" value="' . $invite_subject . '" /></div>';
 		$html .= '</div>';
 		$html .= '<div id="torro-invite-text">';
@@ -273,16 +279,16 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$reinvite_text = get_post_meta( $form_id, 'reinvite_text', true );
 
 		ob_start();
-		wp_editor( $reinvite_text, 'reinvite_text' );
+		wp_editor( $reinvite_text, 'reinvite_text', $editor_settings );
 		$editor = ob_get_clean();
 
 		$html .= '<div id="torro-reinvite-email">';
-		$html .= '<div class="form-fields">';
-		$html .= '<div><label for="reinvite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
+		$html .= '<div>';
+		$html .= '<div class="form-fields"><label for="reinvite_from_name">' . esc_attr__( 'From', 'torro-forms' ) .'</label>';
 		$html .= '<input type="text" name="reinvite_from_name" value="' . $reinvite_from_name . '" /></div>';
-		$html .= '<div><label for="reinvite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
+		$html .= '<div class="form-fields"><label for="reinvite_from">' . esc_attr__( 'Email', 'torro-forms' ) .'</label>';
 		$html .= '<input type="text" name="reinvite_from" value="' . $reinvite_from . '" /></div>';
-		$html .= '<div><label for="reinvite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
+		$html .= '<div class="form-fields"><label for="reinvite_subject">' . esc_attr__( 'Subject', 'torro-forms' ) .'</label>';
 		$html .= '<input type="text" name="reinvite_subject" value="' . $reinvite_subject . '" /></div>';
 		$html .= '</div>';
 		$html .= '<div id="torro-reinvite-text">';

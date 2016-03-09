@@ -282,12 +282,20 @@ final class Torro_AJAX {
 			return new Torro_Error( 'ajax_invite_participants_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_id' ) );
 		}
 
-		if ( ! isset( $data['subject_template'] ) ) {
-			return new Torro_Error( 'ajax_invite_participants_subject_template_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'subject_template' ) );
+		if ( ! isset( $data['from_name'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_from_name_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'from_name' ) );
 		}
 
-		if ( ! isset( $data['text_template'] ) ) {
-			return new Torro_Error( 'ajax_invite_participants_text_template_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'text_template' ) );
+		if ( ! isset( $data['from'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_from_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'from' ) );
+		}
+
+		if ( ! isset( $data['subject'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_subject_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'subject' ) );
+		}
+
+		if ( ! isset( $data['text'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_text_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'text' ) );
 		}
 
 		if ( ! isset( $data['invitation_type'] ) ) {
@@ -300,14 +308,16 @@ final class Torro_AJAX {
 		);
 
 		$form_id = $data['form_id'];
-		$subject_template = $data['subject_template'];
-		$text_template = $data['text_template'];
+		$from_name = $data['from_name'];
+		$from = $data['from'];
+		$subject = $data['subject'];
+		$text = $data['text'];
 
 		$sql = "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d";
 		$sql = $wpdb->prepare( $sql, $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
-		if ( 'reinvite' === $data['invitation_type'] ) {
+		if ( 'reinvite' === $data[ 'invitation_type' ] ) {
 			$user_ids_new = '';
 			if ( is_array( $user_ids ) && 0 < count( $user_ids ) ) {
 				foreach ( $user_ids as $user_id ) {
@@ -327,16 +337,16 @@ final class Torro_AJAX {
 				'orderby'	=> 'ID',
 			) );
 
-			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $text_template );
+			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $text );
 			$content = str_replace( '%survey_title%', $post->post_title, $content );
 			$content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
 
-			$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject_template );
+			$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
 			$subject = str_replace( '%survey_title%', $post->post_title, $subject );
 			$subject = str_replace( '%survey_url%', get_permalink( $post->ID ), $subject );
 
 			foreach ( $users as $user ) {
-				$data['users'][] = $user->ID;
+				$response['users'][] = $user->ID;
 				if ( ! empty( $user->data->display_name ) ) {
 					$display_name = $user->data->display_name;
 				} else {
@@ -352,7 +362,7 @@ final class Torro_AJAX {
 				$content_user = str_replace( '%displayname%', $display_name, $content );
 				$content_user = str_replace( '%username%', $user_nicename, $content_user );
 
-				torro_mail( $user_email, $subject_user, stripslashes( $content_user ) );
+				torro_mail( $user_email, $subject_user, stripslashes( $content_user ), $from_name, $from );
 			}
 
 			$response['sent'] = true;
@@ -379,7 +389,7 @@ final class Torro_AJAX {
 		$length = $data['length'];
 
 		$form_results = new Torro_Form_Results( $form_id );
-		$results = $form_results->results();
+		$form_results->results();
 		$num_results = $form_results->count();
 
 		$response = array(

@@ -27,6 +27,8 @@
 			reinvite_email_input_subject: '#torro-reinvite-email input[name=reinvite_subject]',
 			reinvite_email_input_text: '#reinvite_text',
 			invite_send: '#torro-send-invitations-button',
+			invite_request_text: '#invites-send-request-text',
+			invite_close: '#invite-close',
 			delete_participant_button: '.form-delete-participant',
 			add_all_members_button: '#form-add-participants-allmembers-button',
 			remove_all_members_button: '.form-remove-all-participants',
@@ -258,12 +260,14 @@
 					$(self.selectors.reinvite_email).hide();
 					$(self.selectors.invite_email).show();
 					$(self.selectors.invite_send).show();
+					$(self.selectors.invite_close).show();
 				}else{
 					selected = 'none';
 
 					$( self.selectors.invite_button ).removeClass( 'active' );
 					$(self.selectors.invite_email).hide();
 					$(self.selectors.invite_send).hide();
+					$(self.selectors.invite_close).hide();
 				}
 			});
 
@@ -301,13 +305,87 @@
 					$(self.selectors.invite_email).hide();
 					$(self.selectors.reinvite_email).show();
 					$(self.selectors.invite_send).show();
+					$(self.selectors.invite_close).show();
 				}else{
 					selected = 'none';
 
 					$( self.selectors.reinvite_button ).removeClass( 'active' );
 					$(self.selectors.reinvite_email).hide();
 					$(self.selectors.invite_send).hide();
+					$(self.selectors.invite_close).hide();
 				}
+			});
+
+			$( self.selectors.invite_close ).on( 'click', function() {
+				$(self.selectors.invite_email).hide();
+				$(self.selectors.reinvite_email).hide();
+				$(self.selectors.invite_send).hide();
+				$(self.selectors.invite_close).hide();
+			});
+
+			$( self.selectors.invite_send ).on( 'click', function(){
+				var $button = $( this );
+				var $send_invites_dialog = $( self.selectors.invite_request_text );
+
+				$send_invites_dialog.dialog({
+					'dialogClass'	: 'wp-dialog',
+					'modal'			: true,
+					'autoOpen'		: false,
+					'closeOnEscape'	: true,
+					'minHeight'		: 80,
+					'buttons'		: [
+						{
+							text: self.translations.yes,
+							click: function() {
+								$( this ).dialog('close');
+								$button.addClass( 'button-loading' );
+
+								var invitation_type = 'invite';
+
+								if( $( self.selectors.invite_button).hasClass( 'active' ) ){
+									var from_name = $(self.selectors.invite_email_input_from_name).val();
+									var from = $(self.selectors.invite_email_input_from).val();
+									var subject = $(self.selectors.invite_email_input_subject).val();
+									var text = $(self.selectors.invite_email_input_text).val();
+								}else{
+									invitation_type = 'reinvite';
+									var from_name = $(self.selectors.reinvite_email_input_from_name).val();
+									var from = $(self.selectors.reinvite_email_input_from).val();
+									var subject = $(self.selectors.reinvite_email_input_subject).val();
+									var text = $(self.selectors.reinvite_email_input_text).val();
+								}
+
+								wp.ajax.post( 'torro_invite_participants', {
+									nonce: self.translations.nonce_invite_participants,
+									form_id: self.get_form_id(),
+									from_name: from_name,
+									from: from,
+									subject: subject,
+									text: text,
+									invitation_type: invitation_type
+								}).done( function( response ) {
+
+									$( '#form-functions-notices').html( self.translations.deleted_results_successfully );
+									$( '#form-functions-notices').show();
+
+									$button.removeClass( 'button-loading' );
+
+									$( '#form-functions-notices' ).fadeOut( 5000 );
+								}).fail( function( message ) {
+									console.error( message );
+									$button.removeClass( 'button-loading' );
+								});
+							}
+						},
+						{
+							text: self.translations.no,
+							click: function() {
+								$( this ).dialog( "close" );
+							}
+						},
+					],
+				});
+				$send_invites_dialog.dialog( 'open' );
 			});
 		},
 
@@ -323,7 +401,14 @@
 			} else {
 				$( this.selectors.nothing_found ).show();
 			}
-		}
+		},
+
+		/**
+		 * Returns the current form ID
+		 */
+		get_form_id: function() {
+			return $( '#post_ID' ).val();
+		},
 	};
 
 	exports.add_extension( 'access_control_selected_members', new Access_Control_Selected_Members( translations ) );

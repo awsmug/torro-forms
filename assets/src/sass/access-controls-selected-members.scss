@@ -26,7 +26,9 @@
 
 #acl-member-list{
 	#torro-invite-actions{
-		#torro-send-invitations-button{
+		#torro-send-invitations-button,
+		#invite-close,
+		#invites-send-request-text{
 			display:none;
 		}
 	}
@@ -34,11 +36,12 @@
 	#torro-invite-email,
 	#torro-reinvite-email{
 		display:none;
+		margin: 0 0 10px 150px;
 	}
 
 	#torro-invite-text,
 	#torro-reinvite-text{
-		margin: 0 0 10px 150px;
+
 	}
 }
 

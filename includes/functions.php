@@ -246,7 +246,15 @@ function torro_get_mail_settings( $option ) {
  * @return string $from_name "From" name
  */
 function torro_change_email_return_name() {
-	return torro_get_mail_settings( 'from_name' );
+	global $torro_tmp_email_settings;
+
+	if( ! empty( $torro_tmp_email_settings[ 'from_name' ] ) ){
+		$from_name = $torro_tmp_email_settings[ 'from_name' ];
+	}else{
+		$from_name = torro_get_mail_settings( 'from_name' );
+	}
+
+	return $from_name;
 }
 
 /**
@@ -255,7 +263,15 @@ function torro_change_email_return_name() {
  * @return string $from_email "From" email address
  */
 function torro_change_email_return_address() {
-	return torro_get_mail_settings( 'from_email' );
+	global $torro_tmp_email_settings;
+
+	if( ! empty( $torro_tmp_email_settings[ 'from_email' ] ) ){
+		$from_email = $torro_tmp_email_settings[ 'from_email' ];
+	}else{
+		$from_email = torro_get_mail_settings( 'from_email' );
+	}
+
+	return $from_email;
 }
 
 /**
@@ -267,7 +283,14 @@ function torro_change_email_return_address() {
  *
  * @return bool
  */
-function torro_mail( $to_email, $subject, $content ) {
+function torro_mail( $to_email, $subject, $content, $from_name = null, $from_email = null ) {
+	global $torro_tmp_email_settings;
+
+	$torro_tmp_email_settings = array(
+		'from_name' => $from_name,
+		'from_email' => $from_email
+	);
+
 	add_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
 	add_filter( 'wp_mail_from', 'torro_change_email_return_address' );
 
@@ -283,6 +306,7 @@ function torro_mail( $to_email, $subject, $content ) {
 
 	remove_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
 	remove_filter( 'wp_mail_from', 'torro_change_email_return_address' );
+	unset( $torro_tmp_email_settings );
 
 	return $result;
 }
