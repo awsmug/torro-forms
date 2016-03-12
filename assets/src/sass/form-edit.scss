@@ -225,11 +225,15 @@
     	margin: 0;
 	}
 
-	.button-loading {
-		background-image: url('#{$image-path}/loading.gif');
-		background-repeat: no-repeat;
-		background-position: 5px 5px;
-		padding-left: 28px;
+	#wpbody {
+		.wrap {
+			.button-loading {
+				background-image: url('#{$image-path}/loading.gif');
+				background-repeat: no-repeat;
+				background-position: 5px 5px;
+				padding-left: 28px;
+			}
+		}
 	}
 
 	.general-settings {
@@ -312,6 +316,10 @@
 
 			.torro-slider-left{
 				margin-left:-100%;
+			}
+
+			.torro-slider-right{
+				margin-left:100%;
 			}
 
 			.torro-slider-middle,

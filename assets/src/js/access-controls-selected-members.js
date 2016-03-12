@@ -67,21 +67,21 @@
 					length: self.get_url_param_value( url, 'torro-length' ),
 					num_results: self.get_url_param_value( url, 'torro-num-results' )
 				}).done( function( response ) {
+					$( self.selectors.participants_slider_navigation ).html( response.navi );
 					$( self.selectors.participants_slider_right ).html( response.table );
+					$( self.selectors.participants_slider_left ).remove();
 
-					$( self.selectors.participants_slider_middle ).animate({ marginLeft: "-100%" }, 500, function(){
-						$( self.selectors.participants_slider_right ).animate({ marginLeft: "0" }, 500, function(){
-							$( self.selectors.participants_slider_left ).remove();
-
+					$( self.selectors.participants_slider_middle ).animate({ marginLeft: '-100%' }, { start: function(){
+						$( self.selectors.participants_slider_right ).animate({ marginLeft: 0 }, function(){
 							$( self.selectors.participants_slider_middle ).empty().removeClass( 'torro-slider-middle' ).addClass( 'torro-slider-left' );
 							$( self.selectors.participants_slider_right ).removeClass( 'torro-slider-right' ).addClass( 'torro-slider-middle' );
+
 							$( self.selectors.participants_slider_middle ).parent().append( '<div class="torro-slider-right"></div>' );
-
-							$( self.selectors.participants_slider_navigation ).html( response.navi );
+							self.init_nav_link();
 						});
-					});
+					}});
 
-					self.init_nav_link();
+
 					$button.removeClass('button-loading');
 				}).fail( function( message ) {
 					$button.removeClass('button-loading');
@@ -105,20 +105,20 @@
 					length: self.get_url_param_value( url, 'torro-length' ),
 					num_results: self.get_url_param_value( url, 'torro-num-results' )
 				}).done( function( response ) {
-					$( self.selectors.participants_slider_right ).remove();
+					$( self.selectors.participants_slider_navigation ).html( response.navi );
 					$( self.selectors.participants_slider_left ).html( response.table );
-					$( self.selectors.participants_slider_middle ).animate({ marginLeft: "100%" }, 500, function(){
-						$( self.selectors.participants_slider_left ).animate({ marginLeft: "0" }, 500, function(){
+					$( self.selectors.participants_slider_right ).remove();
 
-							$( self.selectors.participants_slider_middle ).empty().removeClass( 'torro-slider-middle' ).addClass( 'torro-slider-right' );
-							$( self.selectors.participants_slider_left ).removeClass( 'torro-slider-left' ).addClass( 'torro-slider-middle' );
-							$( self.selectors.participants_slider_middle ).parent().prepend( '<div class="torro-slider-left"></div>' );
+					$( self.selectors.participants_slider_left ).animate({ marginLeft: "0" }, { start: function() {
+						$( self.selectors.participants_slider_middle ).animate({ marginLeft: "100%" }, 500, function(){
+							$(self.selectors.participants_slider_middle).empty().removeClass('torro-slider-middle').addClass('torro-slider-right');
+							$(self.selectors.participants_slider_left).removeClass('torro-slider-left').addClass('torro-slider-middle');
 
-							$( self.selectors.participants_slider_navigation ).html( response.navi );
+							$(self.selectors.participants_slider_middle).parent().prepend('<div class="torro-slider-left"></div>');
+							self.init_nav_link();
 						});
-					});
+					}});
 
-					self.init_nav_link();
 					$button.removeClass('button-loading');
 				}).fail( function( message ) {
 					$button.removeClass('button-loading');
