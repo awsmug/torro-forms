@@ -8,7 +8,7 @@
 			participants: '#form-participants',
 			participants_counter: '#form-participants-count',
 			participants_status: '#form-participants-status p',
-			participants_list: '#form-participants-list',
+			participants_list: '#torro-participants',
 			participant_sub: '.participant',
 			invite_button: '#torro-invite-participants-button',
 			reinvite_button: '#torro-reinvite-participants-button',
@@ -25,8 +25,16 @@
 			invite_send: '#torro-send-invitations-button',
 			invite_request_text: '#invites-send-request-text',
 			invite_close: '#invite-close',
+			participants_slider: '#torro-participants .torro-slider',
+			participants_slider_middle: '#torro-participants .torro-slider-middle',
+			participants_slider_left: '#torro-participants .torro-slider-left',
+			participants_slider_right: '#torro-participants .torro-slider-right',
+			participants_slider_navigation: '#torro-participants .torro-slider-navigation',
+			participants_slider_navigation_prev: '#torro-participants .torro-slider-navigation .torro-nav-prev-link .torro-nav-button',
+			participants_slider_navigation_next: '#torro-participants .torro-slider-navigation .torro-nav-next-link .torro-nav-button',
 			delete_participant_button: '.form-delete-participant',
-			add_all_members_button: '#form-add-participants-allmembers-button',
+			add_members_option: '#form-add-participants-option',
+			add_members_button: '#form-add-participants-button',
 			remove_all_members_button: '.form-remove-all-participants',
 			nothing_found: '.no-users-found'
 		};
@@ -35,59 +43,117 @@
 	Access_Control_Selected_Members.prototype = {
 		init: function() {
 			this.init_invitations();
-
+			this.init_add_members();
+			this.init_remove_members();
+			this.init_nav_link();
 			this.refresh_nothing_found();
+		},
 
+		init_nav_link: function(){
 			var self = this;
 
-			$( document ).on( 'click', this.selectors.add_all_members_button, function(){
+			$( self.selectors.participants_slider_navigation_next ).on( 'click', self.participants, function( e ){
+				e.preventDefault();
+
 				var $button = $( this );
 				$button.addClass( 'button-loading' );
 
-				wp.ajax.post( 'torro_add_participants_allmembers', {
-					nonce: self.translations.nonce_add_participants_allmembers
+				var url = $( this ).attr( 'href' );
+
+				wp.ajax.post( 'torro_get_participants_list', {
+					nonce: self.translations.nonce_get_participants_list,
+					form_id: self.get_form_id(),
+					start: self.get_url_param_value( url, 'torro-start' ),
+					length: self.get_url_param_value( url, 'torro-length' ),
+					num_results: self.get_url_param_value( url, 'torro-num-results' )
 				}).done( function( response ) {
-					var form_participants = $( self.selectors.participants ).val();
-					form_participants = form_participants.split( ',' );
+					$( self.selectors.participants_slider_right ).html( response.table );
 
-					var count_added_participants = 0;
+					$( self.selectors.participants_slider_middle ).animate({ marginLeft: "-100%" }, 500, function(){
+						$( self.selectors.participants_slider_right ).animate({ marginLeft: "0" }, 500, function(){
+							$( self.selectors.participants_slider_left ).remove();
 
-					$.each( response, function( i, object ) {
-						var found = false;
+							$( self.selectors.participants_slider_middle ).empty().removeClass( 'torro-slider-middle' ).addClass( 'torro-slider-left' );
+							$( self.selectors.participants_slider_right ).removeClass( 'torro-slider-right' ).addClass( 'torro-slider-middle' );
+							$( self.selectors.participants_slider_middle ).parent().append( '<div class="torro-slider-right"></div>' );
 
-						if ( -1 < form_participants.indexOf( object.id ) ) {
-							found = true;
-						}
-
-						// If there where found participants
-						if ( false == found ){
-							// Adding participants
-							if ( '' === form_participants ) {
-								form_participants = object.id;
-							} else {
-								form_participants = form_participants + ',' + object.id;
-							}
-
-							$( self.selectors.participants_list ).find( 'tbody' ).append( '<tr class="participant participant-user-' + object.id + ' just-added"><td>' + object.id + '</td><td>' + object.user_nicename + '</td><td>' + object.display_name + '</td><td>' + object.user_email + '</td><td>' + self.translations.just_added + '</td><td><a class="button form-delete-participant" rel="' + object.id +  '">' + self.translations.delete + '</a></td></tr>' );
-							count_added_participants++;
-						}
+							$( self.selectors.participants_slider_navigation ).html( response.navi );
+						});
 					});
 
-					var count_participants = parseInt( $( self.selectors.participants_counter ).val(), 10 ) + count_added_participants;
-
-					$( self.selectors.participants ).val( form_participants );
-
-					self.set_participants_counter( count_participants );
-
-					$( self.selectors.participants_list ).show();
-
-					self.refresh_nothing_found();
-
-					$button.removeClass( 'button-loading' );
+					self.init_nav_link();
+					$button.removeClass('button-loading');
 				}).fail( function( message ) {
+					$button.removeClass('button-loading');
 					console.log( message );
 				});
+
 			});
+
+			$( self.selectors.participants_slider_navigation_prev ).on( 'click', self.participants, function( e ){
+				e.preventDefault();
+
+				var $button = $( this );
+				$button.addClass( 'button-loading' );
+
+				var url = $( this ).attr( 'href' );
+
+				wp.ajax.post( 'torro_get_participants_list', {
+					nonce: self.translations.nonce_get_participants_list,
+					form_id: self.get_form_id(),
+					start: self.get_url_param_value( url, 'torro-start' ),
+					length: self.get_url_param_value( url, 'torro-length' ),
+					num_results: self.get_url_param_value( url, 'torro-num-results' )
+				}).done( function( response ) {
+					$( self.selectors.participants_slider_right ).remove();
+					$( self.selectors.participants_slider_left ).html( response.table );
+					$( self.selectors.participants_slider_middle ).animate({ marginLeft: "100%" }, 500, function(){
+						$( self.selectors.participants_slider_left ).animate({ marginLeft: "0" }, 500, function(){
+
+							$( self.selectors.participants_slider_middle ).empty().removeClass( 'torro-slider-middle' ).addClass( 'torro-slider-right' );
+							$( self.selectors.participants_slider_left ).removeClass( 'torro-slider-left' ).addClass( 'torro-slider-middle' );
+							$( self.selectors.participants_slider_middle ).parent().prepend( '<div class="torro-slider-left"></div>' );
+
+							$( self.selectors.participants_slider_navigation ).html( response.navi );
+						});
+					});
+
+					self.init_nav_link();
+					$button.removeClass('button-loading');
+				}).fail( function( message ) {
+					$button.removeClass('button-loading');
+					console.log( message );
+				});
+
+			});
+		},
+
+		init_add_members: function() {
+			var self = this;
+
+			$( document ).on( 'click', this.selectors.add_members_button, function(){
+				var $button = $( this );
+				$button.addClass( 'button-loading' );
+
+				var option = $( self.selectors.add_members_option ).val();
+
+				if( option == 'allmembers' ) {
+					wp.ajax.post('torro_add_participants_allmembers', {
+						nonce: self.translations.nonce_add_participants_allmembers,
+						form_id: self.get_form_id()
+					}).done(function (response) {
+						$( self.selectors.participants_list ).html( response.html );
+						console.log( response.html );
+						$button.removeClass('button-loading');
+					}).fail(function (message) {
+						console.log(message);
+					});
+				}
+			});
+		},
+
+		init_remove_members: function(){
+			var self = this;
 
 			$( document ).on( 'click', this.selectors.remove_all_members_button, function() {
 				$( self.selectors.participants ).val( '' );
@@ -99,10 +165,9 @@
 
 			$( document ).on( 'click', this.selectors.delete_participant_button, function() {
 				var delete_user_id = $( this ).attr( 'rel' );
-
 				var form_participants_new = '';
-
 				var form_participants = $( self.selectors.participants ).val();
+
 				form_participants = form_participants.split( ',' );
 
 				$.each( form_participants, function( key, value ) {
@@ -122,100 +187,6 @@
 				self.refresh_nothing_found();
 			});
 
-			// Invitations - keep this here, but currently not used
-			/*
-			$( '#torro-invite-participants-button' ).on( 'click', function() {
-				var $button = $( this )
-
-				if ( $button.hasClass( 'button-primary' ) ) {
-					$button.addClass( 'button-loading' );
-
-					wp.ajax.post( 'torro_invite_participants', {
-						nonce: self.translations.nonce_invite_participants,
-						invitation_type: 'invite',
-						form_id: $( '#post_ID' ).val(),
-						subject_template: $( '#form-invite-subject' ).val(),
-						text_template: $( '#form-invite-text' ).val()
-					}).done( function( response ) {
-						if( response.sent ) {
-							$( '#form-invite-subject' ).fadeOut( 200 );
-							$( '#form-invite-text' ).fadeOut( 200 );
-							$( '#form-invite-text' ).after( '<p class="form-reinvitations-sent">' + self.translations.invitations_sent_successfully + '</p>' );
-						} else {
-							$( '#form-invite-subject' ).fadeOut( 200 );
-							$( '#form-invite-text' ).fadeOut( 200 );
-							$( '#form-invite-text' ).after( '<p class="form-reinvitations-sent">' + self.translations.invitations_sent_not_successfully + '</p>' );
-						}
-						$button.removeClass( 'button-loading' );
-
-						$( '.form-reinvitations-sent' ).fadeOut( 4000 );
-						$( '#form-invite-button' ).removeClass( 'button-primary' );
-						$( '#form-invite-text' ).fadeOut( 200 );
-						$( '#form-invite-button-cancel' ).fadeOut( 200 );
-					}).fail( function( message ) {
-						console.log( message );
-					});
-				} else {
-					$button.addClass( 'button-primary' );
-					$( '#form-invite-subject' ).fadeIn( 200 );
-					$( '#form-invite-text' ).fadeIn( 200 );
-					$( '#form-invite-button-cancel' ).fadeIn( 200 );
-				}
-			});
-
-			$( '#form-invite-button-cancel' ).on( 'click', function(){
-				$( '#form-invite-button' ).removeClass( 'button-primary' );
-				$( '#form-invite-subject' ).fadeOut( 200 );
-				$( '#form-invite-text' ).fadeOut( 200 );
-				$( '#form-invite-button-cancel' ).fadeOut( 200 );
-			});
-
-			$( '#form-reinvite-button' ).on( 'click', function() {
-				var $button = $( this )
-
-				if ( $button.hasClass( 'button-primary' ) ) {
-					$button.addClass( 'button-loading' );
-
-					wp.ajax.post( 'torro_invite_participants', {
-						nonce: self.translations.nonce_invite_participants,
-						invitation_type: 'reinvite',
-						form_id: $( '#post_ID' ).val(),
-						subject_template: $( '#form-reinvite-subject' ).val(),
-						text_template: $( '#form-reinvite-text' ).val()
-					}).done( function( response ) {
-						if ( response.sent ) {
-							$( '#form-reinvite-subject' ).fadeOut( 200 );
-							$( '#form-reinvite-text' ).fadeOut( 200 );
-							$( '#form-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + self.translations.reinvitations_sent_successfully + '</p>' );
-							$button.removeClass( 'button-loading' );
-							$( '.form-reinvitations-sent' ).fadeOut( 4000 );
-						} else {
-							$( '#form-reinvite-subject' ).fadeOut( 200 );
-							$( '#form-reinvite-text' ).fadeOut( 200 );
-							$( '#form-reinvite-text' ).after( '<p class="form-reinvitations-sent">' + self.translations.reinvitations_sent_not_successfully + '</p>' );
-						}
-						$button.removeClass( 'button-loading' );
-						$( '.form-reinvitations-sent' ).fadeOut( 4000 );
-						$( '#form-reinvite-button' ).removeClass( 'button-primary' );
-						$( '#form-reinvite-text' ).fadeOut( 200 );
-						$( '#form-reinvite-button-cancel' ).fadeOut( 200 );
-					}).fail( function( message ) {
-						console.log( message );
-					});
-				} else {
-					$button.addClass( 'button-primary' );
-					$( '#form-reinvite-subject' ).fadeIn( 200 );
-					$( '#form-reinvite-text' ).fadeIn( 200 );
-					$( '#form-reinvite-button-cancel' ).fadeIn( 200 );
-				}
-			});
-
-			$( '#form-reinvite-button-cancel' ).on( 'click', function(){
-				$( '#form-reinvite-button' ).removeClass( 'button-primary' );
-				$( '#form-reinvite-subject' ).fadeOut( 200 );
-				$( '#form-reinvite-text' ).fadeOut( 200 );
-				$( '#form-reinvite-button-cancel' ).fadeOut( 200 );
-			});*/
 		},
 
 		init_invitations: function(){
@@ -396,6 +367,23 @@
 				$( this.selectors.nothing_found ).hide();
 			} else {
 				$( this.selectors.nothing_found ).show();
+			}
+		},
+
+		/**
+		 * Gets URL Param
+		 */
+		get_url_param_value: function( url, param ) {
+			var variables = url.split( '?' );
+			variables = variables[1];
+			variables = variables.split( '&' );
+
+			for ( var i = 0; i < variables.length; i++ ) {
+				var param_name = variables[ i ].split( '=' );
+
+				if ( param_name[0] == param ) {
+					return param_name[1];
+				}
 			}
 		},
 

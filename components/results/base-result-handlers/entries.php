@@ -67,9 +67,9 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 			$length = $_POST['torro-entries-length'];
 		}
 
-		$html = '<div id="torro-entries">';
-		$html .= '<div class="torro-entries-slider">';
-		$html .= '<div class="torro-slider-start-content">';
+		$html = '<div id="torro-entries" class="torro-table-nav">';
+		$html .= '<div class="torro-slider">';
+		$html .= '<div class="torro-slider-middle">';
 
 		$form_results = new Torro_Form_Results( $form_id );
 		$form_results->results();
@@ -187,7 +187,7 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 					'torro-entries-start'	=> $prev,
 					'torro-entries-length'	=> $length,
 				) );
-				$prev_link = sprintf( __( '<a href="%s" class="torro-entries-nav button">Previous</a>', 'torro-forms' ), $prev_url );
+				$prev_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Previous</a>', 'torro-forms' ), $prev_url );
 				$html .= $prev_link;
 				$html .= '</div>';
 			}
@@ -198,7 +198,7 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 					'torro-entries-start'	=> $next,
 					'torro-entries-length'	=> $length,
 				) );
-				$next_link = sprintf( __( '<a href="%s" class="torro-entries-nav button">Next</a>', 'torro-forms' ), $next_url );
+				$next_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Next</a>', 'torro-forms' ), $next_url );
 				$html .= $next_link;
 				$html .= '</div>';
 			}

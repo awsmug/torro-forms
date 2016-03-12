@@ -33,6 +33,10 @@
 	margin: 0 0 10px 150px;
 }
 
+#acl-member-list #torro-participants .torro-slider-navigation {
+	margin-top: 10px;
+}
+
 .participant.new td {
 	background-color: #fefaf7;
 	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;

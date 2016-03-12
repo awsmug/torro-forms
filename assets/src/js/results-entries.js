@@ -11,10 +11,10 @@
 			entries: '#torro-entries',
 			entries_table: '#torro-entries-table',
 			entry: '#torro-entry',
-			entries_slider: '.torro-entries-slider',
-			entries_slider_start_content: '.torro-slider-start-content',
-			entries_slider_right: '.torro-slider-right',
-			entries_nav: '.torro-entries-nav'
+			entries_slider: '#torro-entries .torro-slider',
+			entries_slider_start_content: '#torro-entries .torro-slider-middle',
+			entries_slider_right: '#torro-entries .torro-slider-right',
+			entries_nav: '.torro-nav-button'
 		};
 	}
 

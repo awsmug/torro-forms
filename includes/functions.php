@@ -31,6 +31,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Getting Plugin Template
  *
+ * @param mixed $template_names
+ * @param boolean $load
+ * @param boolean $require_once
+ *
+ * @return string $located
  * @since 1.0.0
  */
 function torro_locate_template( $template_names, $load = false, $require_once = true ) {
@@ -61,6 +66,7 @@ function torro_locate_template( $template_names, $load = false, $require_once = 
  * Checks if we are a Torro Forms post type in admin
  *
  * @return bool
+ * @since 1.0.0
  */
 function torro_is_formbuilder() {
 	if ( is_admin() && torro_is_form() ) {
@@ -74,6 +80,7 @@ function torro_is_formbuilder() {
  * Checks if we are on Torro Forms settings page
  *
  * @return bool
+ * @since 1.0.0
  */
 function torro_is_settingspage() {
 	if ( is_admin() && isset( $_GET[ 'page' ] ) && 'Torro_Admin' === $_GET[ 'page' ] ) {
@@ -87,6 +94,7 @@ function torro_is_settingspage() {
  * Checks if we are in a Torro Forms post type
  *
  * @return bool
+ * @since 1.0.0
  */
 function torro_is_form() {
 	if ( ! empty( $_GET[ 'post' ] ) ) {
@@ -104,6 +112,15 @@ function torro_is_form() {
 	return false;
 }
 
+/**
+ * Clipboard field for clipboard.js
+ *
+ * @param $label
+ * @param $content
+ *
+ * @return string
+ * @since 1.0.0
+ */
 function torro_clipboard_field( $label, $content ) {
 	$id = 'cb_' . torro_id();
 
@@ -127,6 +144,7 @@ function torro_clipboard_field( $label, $content ) {
  * @param string $mailtext_title Type of mailtext which have to be chosen
  *
  * @return string $mailtext Mailtext as String
+ * @since 1.0.0
  */
 // @todo Getting to Mail class or API
 function torro_get_mail_template_text( $mailtext_title ) {
@@ -184,6 +202,7 @@ Best regards,
  * @param string $mailtext_title Type of mail subject which have to be chosen
  *
  * @return string $mailtext Mail subject as String
+ * @since 1.0.0
  */
 function torro_get_mail_template_subject( $mailsubject_title ) {
 	$text = '';
@@ -218,6 +237,7 @@ function torro_get_mail_template_subject( $mailsubject_title ) {
  * @param $option string Mail sender option to get
  *
  * @return mixed $setting Setting
+ * @since 1.0.0
  */
 function torro_get_mail_settings( $option ) {
 	$setting = '';
@@ -244,6 +264,7 @@ function torro_get_mail_settings( $option ) {
  * Shortener to get email return name from options
  *
  * @return string $from_name "From" name
+ * @since 1.0.0
  */
 function torro_change_email_return_name() {
 	global $torro_tmp_email_settings;
@@ -261,6 +282,7 @@ function torro_change_email_return_name() {
  * Shortener to get email return address from options
  *
  * @return string $from_email "From" email address
+ * @since 1.0.0
  */
 function torro_change_email_return_address() {
 	global $torro_tmp_email_settings;
@@ -282,6 +304,7 @@ function torro_change_email_return_address() {
  * @param string $content
  *
  * @return bool
+ * @since 1.0.0
  */
 function torro_mail( $to_email, $subject, $content, $from_name = null, $from_email = null ) {
 	global $torro_tmp_email_settings;
@@ -315,6 +338,8 @@ function torro_mail( $to_email, $subject, $content, $from_name = null, $from_ema
  * Base logging function
  *
  * @param array $values The values which have to be saved
+ *
+ * @since 1.0.0
  */
 function torro_create_log_entry( $values ) {
 	if ( ! is_array( $values ) ) {
@@ -355,6 +380,7 @@ function torro_create_log_entry( $values ) {
  * @param string $data
  *
  * @return string $data
+ * @since 1.0.0
  */
 function torro_prepare_post_data( $data ) {
 	// Do not preparing objects or arrays
@@ -372,6 +398,7 @@ function torro_prepare_post_data( $data ) {
  * Creates a random id
  *
  * @return string $id ID string
+ * @since 1.0.0
  */
 function torro_id() {
 	$id = md5( rand() );
@@ -381,6 +408,12 @@ function torro_id() {
 
 /**
  * Debugging helper function
+ *
+ * @param mixed $var
+ * @param boolean $return
+ *
+ * @return $content
+ * @since 1.0.0
  */
 if ( ! function_exists( 'p' ) ) {
 	function p( $var, $return = false ) {

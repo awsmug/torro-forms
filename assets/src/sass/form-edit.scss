@@ -302,6 +302,66 @@
 		font-weight: bold;
 		color: #DDDDDD;
 	}
+
+	.torro-table-nav{
+		width:100%;
+		overflow: hidden;
+
+		.torro-slider{
+			width:300%;
+
+			.torro-slider-left{
+				margin-left:-100%;
+			}
+
+			.torro-slider-middle,
+			.torro-slider-left,
+			.torro-slider-right {
+				float: left;
+				width: 33.3%;
+			}
+		}
+
+		.torro-nav {
+			width: 100%;
+			margin-top: 15px;
+			text-align: center;
+
+			.torro-nav-prev-link {
+				float: left;
+				margin: 0 15px 15px 0;
+			}
+
+			.torro-nav-next-link {
+				float: right;
+				margin: 0 0 15px 15px;
+			}
+		}
+
+		tbody > :nth-child(2n+1) {
+			background-color: #f9f9f9;
+		}
+
+		#torro-entry-table {
+			width: 100%;
+			font-size: 14px;
+			text-align: left;
+		}
+		th {
+			width: 50%;
+		}
+		tr {
+			line-height: 25px;
+		}
+
+		#torro-entry-buttons {
+			margin-top: 15px;
+		}
+
+		.torro-entries-slider {
+			width: 200%;
+		}
+	}
 }
 
 #form-elements {

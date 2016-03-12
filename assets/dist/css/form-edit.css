@@ -279,6 +279,56 @@
 	background-color: #f5f5f5;
 }
 
+.post-type-torro-forms .torro-table-nav {
+	width: 100%;
+	overflow: hidden;
+}
+.post-type-torro-forms .torro-table-nav .torro-slider {
+	width: 300%;
+}
+.post-type-torro-forms .torro-table-nav .torro-slider .torro-slider-left {
+	margin-left: -100%;
+}
+.post-type-torro-forms .torro-table-nav .torro-slider .torro-slider-middle,
+.post-type-torro-forms .torro-table-nav .torro-slider .torro-slider-left,
+.post-type-torro-forms .torro-table-nav .torro-slider .torro-slider-right {
+	float: left;
+	width: 33.3%;
+}
+.post-type-torro-forms .torro-table-nav .torro-nav {
+	width: 100%;
+	margin-top: 15px;
+	text-align: center;
+}
+.post-type-torro-forms .torro-table-nav .torro-nav .torro-nav-prev-link {
+	float: left;
+	margin: 0 15px 15px 0;
+}
+.post-type-torro-forms .torro-table-nav .torro-nav .torro-nav-next-link {
+	float: right;
+	margin: 0 0 15px 15px;
+}
+.post-type-torro-forms .torro-table-nav tbody > :nth-child(2n+1) {
+	background-color: #f9f9f9;
+}
+.post-type-torro-forms .torro-table-nav #torro-entry-table {
+	width: 100%;
+	font-size: 14px;
+	text-align: left;
+}
+.post-type-torro-forms .torro-table-nav th {
+	width: 50%;
+}
+.post-type-torro-forms .torro-table-nav tr {
+	line-height: 25px;
+}
+.post-type-torro-forms .torro-table-nav #torro-entry-buttons {
+	margin-top: 15px;
+}
+.post-type-torro-forms .torro-table-nav .torro-entries-slider {
+	width: 200%;
+}
+
 #form-elements .widget-title-action {
 	display: none;
 }

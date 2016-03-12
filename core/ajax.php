@@ -49,7 +49,7 @@ final class Torro_AJAX {
 		'show_entries'					=> array( 'nopriv' => false ),
 		'show_entry'					=> array( 'nopriv' => false ),
 		'get_invite_text'				=> array( 'nopriv' => false ),
-		'get_participant_list'			=> array( 'nopriv' => false ),
+		'get_participants_list'			=> array( 'nopriv' => false ),
 	);
 
 	private $nonces = array();
@@ -258,19 +258,54 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Adding all members to participants list
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function ajax_add_participants_allmembers( $data ) {
-		$users = get_users( array( 'orderby' => 'ID' ) );
+		global $wpdb;
 
+		if( ! isset( $data[ 'form_id' ] ) ){
+			return new Torro_Error( 'torro_ajax_add_participants_allmembers_no_form_id', __( 'No form ID provided.', 'torro-forms') );
+		}
+
+		$form_id = $data[ 'form_id' ];
+		$users = get_users( array( 'orderby' => 'ID' ) );
 		$response = array();
 
 		foreach ( $users as $user ) {
-			$response[] = array(
+			$sql = $wpdb->prepare( "SELECT count(*) FROM {$wpdb->torro_participants} WHERE form_id = %d AND user_id = %d ", $form_id, $user->ID );
+
+			if( 0 !== (int) $wpdb->get_var( $sql ) ){
+				continue;
+			}
+
+			$wpdb->insert(
+				$wpdb->torro_participants,
+				array(
+					'form_id' => $form_id,
+					'user_id' => $user->ID,
+				),
+				array(
+					'%d',
+					'%d'
+				)
+			);
+
+			$response[ 'participants' ][] = array(
 				'id'			=> $user->ID,
 				'user_nicename'	=> $user->user_nicename,
 				'display_name'	=> $user->display_name,
 				'user_email'	=> $user->user_email,
 			);
 		}
+
+		$html  = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_html( $form_id );
+		$response[ 'html' ] = $html;
 
 		return $response;
 	}
@@ -556,22 +591,34 @@ final class Torro_AJAX {
 		return $response;
 	}
 
-	public function ajax_get_participant_list(){
-		$form_id = $_POST[ 'form_id' ];
-		$start = $_POST[ 'start' ];
-		$limit = $_POST[ 'limit' ];
+	public function ajax_get_participants_list( $data ){
+		$form_id = $data[ 'form_id' ];
+		$start = $data[ 'start' ];
+		$length = $data[ 'length' ];
+		$num_results = $data[ 'num_results' ];
 
 		if( empty( $start ) ){
 			$start = 0;
 		}
 
 		if( empty( $limit ) ){
-			$limit = 10;
+			$length = 10;
 		}
 
-		$html = torro()->access_controls()->get_registered( 'selected_members' )->get_participant_list( $form_id, $start, $limit );
+		$table = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_table_html( $form_id, $start, $length );
+		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
 
-		$response = array( 'html' => $html );
+		if( is_wp_error( $table ) ){
+			return $table;
+		}
+		if( is_wp_error( $navi ) ){
+			return $navi;
+		}
+
+		$response = array(
+			'table' => $table,
+			'navi' => $navi,
+		);
 
 		return $response;
 	}

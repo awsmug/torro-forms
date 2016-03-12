@@ -31,16 +31,6 @@
 	margin-top: 15px;
 }
 
-.torro-entries-slider {
-	width: 200%;
-}
-
-.torro-slider-start-content,
-.torro-slider-right {
-	float: left; 
-	width: 50%;
-}
-
 /* --- Nav --- */
 .torro-nav {
 	width: 100%;
