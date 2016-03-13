@@ -30,20 +30,3 @@
 #torro-entry-buttons {
 	margin-top: 15px;
 }
-
-/* --- Nav --- */
-.torro-nav {
-	width: 100%;
-	margin-top: 15px;
-	text-align: center;
-}
-
-.torro-nav-prev-link {
-	float: left;
-	margin: 0 15px 15px 0;
-}
-
-.torro-nav-next-link {
-	float: right;
-	margin: 0 0 15px 15px;
-}

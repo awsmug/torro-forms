@@ -25,6 +25,9 @@
 			invite_send: '#torro-send-invitations-button',
 			invite_request_text: '#invites-send-request-text',
 			invite_close: '#invite-close',
+			participants_start: '#participants-start',
+			participants_length: '#participants-length',
+			participants_num_results: '#participants-num-results',
 			participants_slider: '#torro-participants .torro-slider',
 			participants_slider_middle: '#torro-participants .torro-slider-middle',
 			participants_slider_left: '#torro-participants .torro-slider-left',
@@ -32,10 +35,12 @@
 			participants_slider_navigation: '#torro-participants .torro-slider-navigation',
 			participants_slider_navigation_prev: '#torro-participants .torro-slider-navigation .torro-nav-prev-link .torro-nav-button',
 			participants_slider_navigation_next: '#torro-participants .torro-slider-navigation .torro-nav-next-link .torro-nav-button',
-			delete_participant_button: '.form-delete-participant',
-			add_members_option: '#form-add-participants-option',
-			add_members_button: '#form-add-participants-button',
-			remove_all_members_button: '.form-remove-all-participants',
+			add_participant_option: '#form-add-participants-option',
+			add_participant_button: '#form-add-participants-button',
+			remove_participant_button: '.form-delete-participant',
+			remove_all_participants_button: '.form-remove-all-participants',
+			remove_participant_text: '#participant-delete-text',
+			remove_all_participants_text: '#participants-delete-all-text',
 			nothing_found: '.no-users-found'
 		};
 	}
@@ -67,21 +72,14 @@
 					length: self.get_url_param_value( url, 'torro-length' ),
 					num_results: self.get_url_param_value( url, 'torro-num-results' )
 				}).done( function( response ) {
-					$( self.selectors.participants_slider_navigation ).html( response.navi );
-					$( self.selectors.participants_slider_right ).html( response.table );
-					$( self.selectors.participants_slider_left ).remove();
+					$( self.selectors.participants_slider_middle + ', ' + self.selectors.participants_slider_navigation ).fadeOut( 500, function() {
+						$( self.selectors.participants_slider_middle ).html( response.table );
+						$( self.selectors.participants_slider_middle ).fadeIn( 500 );
 
-					$( self.selectors.participants_slider_middle ).animate({ marginLeft: '-100%' }, { start: function(){
-						$( self.selectors.participants_slider_right ).animate({ marginLeft: 0 }, function(){
-							$( self.selectors.participants_slider_middle ).empty().removeClass( 'torro-slider-middle' ).addClass( 'torro-slider-left' );
-							$( self.selectors.participants_slider_right ).removeClass( 'torro-slider-right' ).addClass( 'torro-slider-middle' );
-
-							$( self.selectors.participants_slider_middle ).parent().append( '<div class="torro-slider-right"></div>' );
-							self.init_nav_link();
-						});
-					}});
-
-
+						$( self.selectors.participants_slider_navigation ).html( response.navi );
+						$( self.selectors.participants_slider_navigation ).fadeIn( 500 );
+						self.init_nav_link();
+					});
 					$button.removeClass('button-loading');
 				}).fail( function( message ) {
 					$button.removeClass('button-loading');
@@ -105,20 +103,14 @@
 					length: self.get_url_param_value( url, 'torro-length' ),
 					num_results: self.get_url_param_value( url, 'torro-num-results' )
 				}).done( function( response ) {
-					$( self.selectors.participants_slider_navigation ).html( response.navi );
-					$( self.selectors.participants_slider_left ).html( response.table );
-					$( self.selectors.participants_slider_right ).remove();
+					$( self.selectors.participants_slider_middle + ', ' + self.selectors.participants_slider_navigation ).fadeOut( 500, function() {
+						$( self.selectors.participants_slider_middle ).html( response.table );
+						$( self.selectors.participants_slider_middle ).fadeIn( 500 );
 
-					$( self.selectors.participants_slider_left ).animate({ marginLeft: "0" }, { start: function() {
-						$( self.selectors.participants_slider_middle ).animate({ marginLeft: "100%" }, 500, function(){
-							$(self.selectors.participants_slider_middle).empty().removeClass('torro-slider-middle').addClass('torro-slider-right');
-							$(self.selectors.participants_slider_left).removeClass('torro-slider-left').addClass('torro-slider-middle');
-
-							$(self.selectors.participants_slider_middle).parent().prepend('<div class="torro-slider-left"></div>');
-							self.init_nav_link();
-						});
-					}});
-
+						$( self.selectors.participants_slider_navigation ).html( response.navi );
+						$( self.selectors.participants_slider_navigation ).fadeIn( 500 );
+						self.init_nav_link();
+					});
 					$button.removeClass('button-loading');
 				}).fail( function( message ) {
 					$button.removeClass('button-loading');
@@ -131,11 +123,11 @@
 		init_add_members: function() {
 			var self = this;
 
-			$( document ).on( 'click', this.selectors.add_members_button, function(){
+			$( document ).on( 'click', this.selectors.add_participant_button, function(){
 				var $button = $( this );
 				$button.addClass( 'button-loading' );
 
-				var option = $( self.selectors.add_members_option ).val();
+				var option = $( self.selectors.add_participant_option ).val();
 
 				if( option == 'allmembers' ) {
 					wp.ajax.post('torro_add_participants_allmembers', {
@@ -144,6 +136,7 @@
 					}).done(function (response) {
 						$( self.selectors.participants_list ).html( response.html );
 						console.log( response.html );
+						self.init_nav_link();
 						$button.removeClass('button-loading');
 					}).fail(function (message) {
 						console.log(message);
@@ -155,36 +148,67 @@
 		init_remove_members: function(){
 			var self = this;
 
-			$( document ).on( 'click', this.selectors.remove_all_members_button, function() {
-				$( self.selectors.participants ).val( '' );
-				self.set_participants_counter( 0 );
+			$( document ).on( 'click', self.selectors.remove_all_participants_button, function() {
+				var $remove_participants_dialog = $( self.selectors.remove_all_participants_text );
 
-				$( self.selectors.participants_list ).find( self.selectors.participant_sub ).remove();
-				self.refresh_nothing_found();
+				$remove_participants_dialog.dialog({
+					'dialogClass'	: 'wp-dialog',
+					'modal'			: true,
+					'autoOpen'		: false,
+					'closeOnEscape'	: true,
+					'minHeight'		: 80,
+					'buttons'		: [
+						{
+							text: self.translations.yes,
+							click: function() {
+								wp.ajax.post( 'torro_delete_all_participants', {
+									nonce: self.translations.nonce_delete_all_participants,
+									form_id: self.get_form_id(),
+								}).done(function (response) {
+									$( self.selectors.participants_slider_middle ).html( response.table );
+									$( self.selectors.participants_slider_navigation ).html( response.navi );
+								}).fail(function (message) {
+									console.log(message);
+								});
+								$( this ).dialog( "close" );
+							}
+						},
+						{
+							text: self.translations.no,
+							click: function() {
+								$( this ).dialog( "close" );
+							}
+						},
+					],
+				});
+				$remove_participants_dialog.dialog( 'open' );
 			});
 
-			$( document ).on( 'click', this.selectors.delete_participant_button, function() {
-				var delete_user_id = $( this ).attr( 'rel' );
-				var form_participants_new = '';
-				var form_participants = $( self.selectors.participants ).val();
+			$( document ).on( 'click', self.selectors.remove_participant_button, function() {
+				var user_id = $( this ).attr( 'data-user-id' );
+				var start = $( self.selectors.participants_start ).val();
+				var length = $( self.selectors.participants_length ).val();
+				var num_results = $( self.selectors.participants_num_results ).val();
 
-				form_participants = form_participants.split( ',' );
+				var $button = $( this );
+				$button.addClass( 'button-loading' );
 
-				$.each( form_participants, function( key, value ) {
-					if ( value != delete_user_id ){
-						if ( '' === form_participants_new ){
-							form_participants_new = value;
-						} else {
-							form_participants_new = form_participants_new + ',' + value;
-						}
-					}
+				wp.ajax.post( 'torro_delete_participant', {
+					nonce: self.translations.nonce_delete_participant,
+					form_id: self.get_form_id(),
+					user_id: user_id,
+					start: start,
+					length: length,
+					num_results: num_results
+				}).done(function (response) {
+					$( self.selectors.participants_num_results ).val( num_results - 1 );
+					$( self.selectors.participants_slider_middle ).html( response.table );
+					$( self.selectors.participants_slider_navigation ).html( response.navi );
+					$button.removeClass( 'button-loading' );
+				}).fail(function (message) {
+					console.log(message);
+					$button.removeClass( 'button-loading' );
 				});
-
-				$( self.selectors.participants ).val( form_participants_new );
-				self.set_participants_counter( parseInt( $( self.selectors.participants_counter ).val(), 10 ) - 1 );
-
-				$( '.participant-user-' + delete_user_id ).remove();
-				self.refresh_nothing_found();
 			});
 
 		},

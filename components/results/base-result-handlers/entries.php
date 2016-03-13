@@ -110,17 +110,21 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 					switch ( $headline ) {
 						case 'result_id':
 							$headline_title = esc_attr__( 'ID', 'torro_locale' );
+							$class = 'column-one';
 							break;
 						case 'user_id':
 							$headline_title = esc_attr__( 'User', 'torro_locale' );
+							$class = 'column-ten';
 							break;
 						case 'timestamp':
 							$headline_title = esc_attr__( 'Date', 'torro_locale' );
+							$class = 'column-ten';
 							break;
 						default:
 							$headline_title = $headline;
+							$class = 'column-ten';
 					}
-					$html .= '<th nowrap>' . $headline_title . '</th>';
+					$html .= '<th class="' . $class . '">' . $headline_title . '</th>';
 				}
 			}
 
@@ -181,29 +185,33 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 			$count = $num_results <= $length ? $num_results : $length;
 
 			$html .= '<div class="torro-nav">';
+
+			$html .= '<div class="torro-nav-prev-link">';
 			if ( 0 <= $prev ) {
-				$html .= '<div class="torro-nav-prev-link">';
 				$prev_url = $this->get_admin_url( $form_id, array(
 					'torro-entries-start'	=> $prev,
 					'torro-entries-length'	=> $length,
 				) );
 				$prev_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Previous</a>', 'torro-forms' ), $prev_url );
 				$html .= $prev_link;
-				$html .= '</div>';
+			}
+			$html .= '</div>';
+
+			if( $num_results > 0 ) {
+				$html .= '<div class="torro-nav-info">' . sprintf( esc_attr__( '%s - %s of %s', 'torro-forms' ), $start + 1, $count, $num_results ) . '</div>';
 			}
 
+			$html .= '<div class="torro-nav-next-link">';
 			if ( $num_results > $next ) {
-				$html .= '<div class="torro-nav-next-link">';
 				$next_url = $this->get_admin_url( $form_id, array(
 					'torro-entries-start'	=> $next,
 					'torro-entries-length'	=> $length,
 				) );
 				$next_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Next</a>', 'torro-forms' ), $next_url );
 				$html .= $next_link;
-				$html .= '</div>';
 			}
+			$html .= '</div>';
 
-			$html .= '<p>' . sprintf( esc_attr__( '%s - %s of %s', 'torro-forms' ), $start + 1, $count, $num_results ) . '</p>';
 			$html .= '</div>';
 		} else {
 			$html .= $this->show_not_found_notice();

@@ -21,19 +21,19 @@
 /* --- User Filter --- */
 /* --- Participants Bar --- */
 /* --- Participants List --- */
-#acl-member-list #torro-invite-actions #torro-send-invitations-button,
-#acl-member-list #torro-invite-actions #invite-close,
-#acl-member-list #torro-invite-actions #invites-send-request-text {
+#torro-acl-selectedmembers #torro-invite-actions #torro-send-invitations-button,
+#torro-acl-selectedmembers #torro-invite-actions #invite-close,
+#torro-acl-selectedmembers #torro-invite-actions #invites-send-request-text {
 	display: none;
 }
 
-#acl-member-list #torro-invite-email,
-#acl-member-list #torro-reinvite-email {
+#torro-acl-selectedmembers #torro-invite-email,
+#torro-acl-selectedmembers #torro-reinvite-email {
 	display: none;
 	margin: 0 0 10px 150px;
 }
 
-#acl-member-list #torro-participants .torro-slider-navigation {
+#torro-acl-selectedmembers #torro-participants .torro-slider-navigation {
 	margin-top: 10px;
 }
 

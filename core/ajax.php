@@ -29,8 +29,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_AJAX {
+	/**
+	 * Intance
+	 *
+	 * @var object $instance
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
+	/**
+	 * Singleton
+	 *
+	 * @return null|Torro_AJAX
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -38,6 +50,12 @@ final class Torro_AJAX {
 		return self::$instance;
 	}
 
+	/**
+	 * Actions
+	 *
+	 * @var array $actions
+	 * @since 1.0.0
+	 */
 	private $actions = array(
 		'duplicate_form'				=> array( 'nopriv' => false ),
 		'delete_responses'				=> array( 'nopriv' => false ),
@@ -50,14 +68,26 @@ final class Torro_AJAX {
 		'show_entry'					=> array( 'nopriv' => false ),
 		'get_invite_text'				=> array( 'nopriv' => false ),
 		'get_participants_list'			=> array( 'nopriv' => false ),
+		'delete_all_participants'		=> array( 'nopriv' => false ),
+		'delete_participant'		    => array( 'nopriv' => false ),
 	);
 
 	private $nonces = array();
 
+	/**
+	 * Torro_AJAX constructor
+	 *
+	 * @since 1.0.0
+	 */
 	private function __construct() {
 		add_action( 'admin_init', array( $this, 'add_actions' ) );
 	}
 
+	/**
+	 * Adding actions to WP AJAX engine
+	 *
+	 * @since 1.0.0
+	 */
 	public function add_actions() {
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 			return;
@@ -77,6 +107,11 @@ final class Torro_AJAX {
 		}
 	}
 
+	/**
+	 * Doing a request
+	 *
+	 * @since 1.0.0
+	 */
 	public function request() {
 		$action = str_replace( 'torro_', '', $_REQUEST['action'] );
 
@@ -107,6 +142,14 @@ final class Torro_AJAX {
 		wp_send_json_success( $response );
 	}
 
+	/**
+	 * Getting nonce
+	 *
+	 * @param $action
+	 *
+	 * @return mixed
+	 * @since 1.0.0
+	 */
 	public function get_nonce( $action ) {
 		if ( ! isset( $this->nonces[ $action ] ) ) {
 			$this->nonces[ $action ] = wp_create_nonce( $this->get_nonce_action( $action ) );
@@ -114,10 +157,26 @@ final class Torro_AJAX {
 		return $this->nonces[ $action ];
 	}
 
+	/**
+	 * Getting nonce action
+	 *
+	 * @param $action
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	private function get_nonce_action( $action ) {
 		return 'torro_ajax_' . $action;
 	}
 
+	/**
+	 * Dublicating form
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function ajax_duplicate_form( $data ) {
 		if ( ! isset( $data['form_id'] ) ) {
 			return new Torro_Error( 'ajax_duplicate_form_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_id' ) );
@@ -145,6 +204,14 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Deleting responses of a form
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function ajax_delete_responses( $data ) {
 		if ( ! isset( $data['form_id'] ) ) {
 			return new Torro_Error( 'ajax_delete_responses_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_id' ) );
@@ -159,7 +226,7 @@ final class Torro_AJAX {
 		}
 
 		$form = new Torro_form( $form_id );
-		$new_form_id = $form->delete_responses();
+		$form->delete_responses();
 
 		$entries = torro()->resulthandlers()->get_registered( 'entries' );
 		if ( is_wp_error( $entries ) ) {
@@ -175,6 +242,14 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Get editor HTML
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function get_editor_html( $data ) {
 		if ( ! isset( $data['element_id'] ) ) {
 			return new Torro_Error( 'ajax_get_editor_html_element_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'element_id' ) );
@@ -204,6 +279,14 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Get email notification html
+	 *
+	 * @param $data
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
 	public function ajax_get_email_notification_html( $data ) {
 		$id = time();
 		$editor_id = 'email_notification_message-' . $id;
@@ -219,6 +302,14 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Checking fingerprint of a user
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function ajax_check_fngrprnt( $data ) {
 		global $wpdb, $torro_skip_fingerrint_check;
 
@@ -310,6 +401,14 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Inivite participants by sending out emails
+	 *
+	 * @param $data
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
 	public function ajax_invite_participants( $data ) {
 		global $wpdb;
 
@@ -406,6 +505,14 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Showing entry list
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function ajax_show_entries( $data ) {
 		if ( ! isset( $data['form_id'] ) ) {
 			return new Torro_Error( 'ajax_show_entries_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_id' ) );
@@ -434,6 +541,15 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Showing single entry
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 * @todo Moving table HTML to entry class
+	 */
 	public function ajax_show_entry( $data ) {
 		global $wpdb;
 
@@ -558,6 +674,12 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Getting invitation texts from text templates
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
 	public function ajax_get_invite_text(){
 		$invite_type = $_POST[ 'invite_type' ];
 		$invite_from_name = '';
@@ -591,6 +713,14 @@ final class Torro_AJAX {
 		return $response;
 	}
 
+	/**
+	 * Getting larticipant list
+	 *
+	 * @param $data
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
 	public function ajax_get_participants_list( $data ){
 		$form_id = $data[ 'form_id' ];
 		$start = $data[ 'start' ];
@@ -601,7 +731,7 @@ final class Torro_AJAX {
 			$start = 0;
 		}
 
-		if( empty( $limit ) ){
+		if( empty( $length ) ){
 			$length = 10;
 		}
 
@@ -622,6 +752,97 @@ final class Torro_AJAX {
 
 		return $response;
 	}
-}
 
+	/**
+	 * Deleting all participants from survey
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function ajax_delete_all_participants( $data ){
+		global $wpdb;
+
+		$form_id = $data[ 'form_id' ];
+
+		if( empty( $form_id ) ){
+			return new Torro_Error( 'torro_participants_delete_all_missing_form_id', __( 'Missing form ID.', 'torro-forms') );
+		}
+
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$wpdb->torro_participants} WHERE form_id = %d", $form_id );
+		$results = $wpdb->get_col( $sql );
+
+		$deleted = $wpdb->delete( $wpdb->torro_participants, array( 'form_id' => $form_id ), array( '%d' ) );
+
+		if( false === $deleted ){
+			return new Torro_Error( 'torro_participants_delete_all_failed', __( 'Failed to delete participants.', 'torro-forms') );
+		}
+
+		$start = 0;
+		$length = 10;
+		$num_results = 0;
+
+		$table = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_table_html( $form_id, $start, $length );
+		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
+
+		return array(
+			'user_ids'  => $results,
+			'table'     => $table,
+			'navi'      => $navi,
+		);
+	}
+
+	/**
+	 * Deleting a participant
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function ajax_delete_participant( $data ){
+		global $wpdb;
+
+		$form_id = $data[ 'form_id' ];
+		$user_id = $data[ 'user_id' ];
+
+		if( empty( $form_id ) ){
+			return new Torro_Error( 'torro_participants_delete_missing_form_id', __( 'Missing form ID.', 'torro-forms') );
+		}
+		if( empty( $user_id ) ){
+			return new Torro_Error( 'torro_participants_delete_missing_user_id', __( 'Missing user ID.', 'torro-forms') );
+		}
+
+		$deleted = $wpdb->delete( $wpdb->torro_participants, array( 'form_id' => $form_id, 'user_id' => $user_id ), array( '%d', '%d' ) );
+
+		if( false ===  $deleted ){
+			return new Torro_Error( 'torro_participants_delete_all_failed', __( 'Failed to delete participants.', 'torro-forms') );
+		}
+
+		$start = 0;
+		if( isset( $data[ 'start' ] ) ){
+			$start = $data[ 'start' ];
+		}
+
+		$length = 10;
+		if( isset( $data[ 'length' ] ) ){
+			$length = $data[ 'length' ];
+		}
+
+		$num_results = 0;
+		if( isset( $data[ 'num_results' ] ) ){
+			$num_results = $data[ 'num_results' ] -1;
+		}
+
+		$table = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_table_html( $form_id, $start, $length );
+		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
+
+		return array(
+			'user_id' => $user_id,
+			'table'     => $table,
+			'navi'      => $navi,
+		);
+	}
+}
 Torro_AJAX::instance();

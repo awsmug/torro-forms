@@ -332,17 +332,29 @@
 
 		.torro-nav {
 			width: 100%;
+			margin: auto;
 			margin-top: 15px;
-			text-align: center;
+			display: flex;
+			flex-direction: row;
 
-			.torro-nav-prev-link {
-				float: left;
-				margin: 0 15px 15px 0;
+			.torro-nav-prev-link{
+				flex: 1;
+				text-align: left;
+
+			}
+			.torro-nav-next-link {
+				flex: 1;
+				text-align: right;
 			}
 
-			.torro-nav-next-link {
-				float: right;
-				margin: 0 0 15px 15px;
+			.torro-nav-prev-link a,
+			.torro-nav-next-link a{
+				min-width: 50px;
+			}
+
+			.torro-nav-info{
+				flex: 4;
+				text-align: center;
 			}
 		}
 
@@ -368,6 +380,27 @@
 
 		.torro-entries-slider {
 			width: 200%;
+		}
+		.column-one{
+			width:1%;
+		}
+		.column-ten{
+			width:10%;
+		}
+		.column-five{
+			width:5%;
+		}
+		.column-fifteen{
+			width:15%;
+		}
+		.column-twenty{
+			width:20%;
+		}
+		.column-twentyfive{
+			width:25%;
+		}
+		.column-button{
+			text-align: right;
 		}
 	}
 }
@@ -728,7 +761,9 @@
 #delete_container_dialog,
 #delete_formelement_dialog,
 #delete_results_dialog,
-#delete_answer_dialog {
+#delete_answer_dialog,
+#participants-delete-all-text,
+#participant-delete-text{
     display: none;
 }
 

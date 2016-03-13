@@ -90,12 +90,12 @@
 					start: self.get_url_param_value( url, 'torro-entries-start' ),
 					length: self.get_url_param_value( url, 'torro-entries-length' )
 				}).done( function( response ) {
-					$button.removeClass('button-loading');
-
 					$( self.selectors.entries_slider_start_content ).fadeOut( 500, function() {
 						$( self.selectors.entries_slider_start_content ).html( response.html );
 						$( self.selectors.entries_slider_start_content ).fadeIn( 500 );
 					});
+
+					$button.removeClass('button-loading');
 				}).fail( function( message ) {
 					console.log( message );
 				});

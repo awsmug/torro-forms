@@ -299,17 +299,30 @@
 	width: 33.3%;
 }
 .post-type-torro-forms .torro-table-nav .torro-nav {
+	display: flex;
 	width: 100%;
+	margin: auto;
 	margin-top: 15px;
-	text-align: center;
+	flex-direction: row;
 }
 .post-type-torro-forms .torro-table-nav .torro-nav .torro-nav-prev-link {
-	float: left;
-	margin: 0 15px 15px 0;
+	text-align: left; 
+
+	flex: 1;
 }
 .post-type-torro-forms .torro-table-nav .torro-nav .torro-nav-next-link {
-	float: right;
-	margin: 0 0 15px 15px;
+	text-align: right; 
+
+	flex: 1;
+}
+.post-type-torro-forms .torro-table-nav .torro-nav .torro-nav-prev-link a,
+.post-type-torro-forms .torro-table-nav .torro-nav .torro-nav-next-link a {
+	min-width: 50px;
+}
+.post-type-torro-forms .torro-table-nav .torro-nav .torro-nav-info {
+	text-align: center; 
+
+	flex: 4;
 }
 .post-type-torro-forms .torro-table-nav tbody > :nth-child(2n+1) {
 	background-color: #f9f9f9;
@@ -330,6 +343,27 @@
 }
 .post-type-torro-forms .torro-table-nav .torro-entries-slider {
 	width: 200%;
+}
+.post-type-torro-forms .torro-table-nav .column-one {
+	width: 1%;
+}
+.post-type-torro-forms .torro-table-nav .column-ten {
+	width: 10%;
+}
+.post-type-torro-forms .torro-table-nav .column-five {
+	width: 5%;
+}
+.post-type-torro-forms .torro-table-nav .column-fifteen {
+	width: 15%;
+}
+.post-type-torro-forms .torro-table-nav .column-twenty {
+	width: 20%;
+}
+.post-type-torro-forms .torro-table-nav .column-twentyfive {
+	width: 25%;
+}
+.post-type-torro-forms .torro-table-nav .column-button {
+	text-align: right;
 }
 
 #form-elements .widget-title-action {
@@ -646,7 +680,9 @@
 #delete_container_dialog,
 #delete_formelement_dialog,
 #delete_results_dialog,
-#delete_answer_dialog {
+#delete_answer_dialog,
+#participants-delete-all-text,
+#participant-delete-text {
 	display: none;
 }
 
