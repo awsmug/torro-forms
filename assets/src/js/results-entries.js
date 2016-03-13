@@ -13,6 +13,8 @@
 			entry: '#torro-entry',
 			entries_slider: '#torro-entries .torro-slider',
 			entries_slider_start_content: '#torro-entries .torro-slider-middle',
+			entries_slider_left: '#torro-entries .torro-slider-left',
+			entries_slider_middle: '#torro-entries .torro-slider-middle',
 			entries_slider_right: '#torro-entries .torro-slider-right',
 			entries_nav: '.torro-nav-button'
 		};
@@ -48,8 +50,9 @@
 						form_id: self.get_form_id(),
 						result_id: $button.attr( 'rel' )
 					}).done( function( response ) {
+						$( self.selectors.entries_slider_middle ).animate({marginLeft: "-100%"});
 						$( self.selectors.entries_slider_right ).html( response.html );
-						$( self.selectors.entries_slider ).animate({marginLeft: "-100%"});
+						$( self.selectors.entries_slider_right ).animate({marginLeft: "0"});
 
 						$button.removeClass('button-loading');
 
@@ -69,7 +72,8 @@
 			$( this.selectors.entries ).on( 'click', this.selectors.hide_entry, function( e ) {
 				e.preventDefault();
 
-				$( self.selectors.entries_slider ).animate({ marginLeft: "0" });
+				$( self.selectors.entries_slider_middle ).animate({ marginLeft: "0" });
+				$( self.selectors.entries_slider_right ).animate({ marginLeft: "100%" });
 			});
 		},
 
