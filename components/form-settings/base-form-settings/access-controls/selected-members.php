@@ -213,11 +213,13 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	public function option_content() {
 		$html  = '<div id="torro-acl-selectedmembers">';
 		$html .= $this->get_participants_options_html();
-		$html .= $this->get_invite_actions_html();
-		$html .= '</div>';
 
+		$html .= '<div id="torro-invite-actions" class="form-fields">';
+		$html .= $this->get_invite_actions_html();
 		$html .= $this->get_invitation_html();
+		$html .= '</div>';
 		$html .= $this->get_participants_list_html();
+		$html .= '</div>';
 
 		return $html;
 	}
@@ -270,7 +272,6 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 */
 	private function get_invite_actions_html(){
 		$html  = '<div style="clear: both;"></div>';
-		$html .= '<div id="torro-invite-actions" class="form-fields">';
 		$html .= '<label for"torro-invite-participants">' . esc_html__( 'Invitations', 'torro-forms' ) . '</label>';
 		$html .= '<input type="button" id="torro-invite-participants-button" name="invite_participants" value="' . esc_html__( 'Invite', 'torro-forms' ) . '" class="button" /> ';
 		$html .= '<input type="button" id="torro-reinvite-participants-button" name="reinvite_participants" value="' . esc_html__( 'Reinvite', 'torro-forms' ) . '" class="button" /> ';
