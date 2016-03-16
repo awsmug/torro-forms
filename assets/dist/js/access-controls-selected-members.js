@@ -304,7 +304,7 @@
 				}else{
 					selected = 'none';
 
-					$( self.selectors.reinvite_button ).removeClass( 'active' );
+					$(self.selectors.reinvite_button).removeClass( 'active' );
 					$(self.selectors.reinvite_email).hide();
 					$(self.selectors.invite_send).hide();
 					$(self.selectors.invite_close).hide();
@@ -312,8 +312,8 @@
 			});
 
 			$( self.selectors.invite_close ).on( 'click', function() {
-				$( self.selectors.invite_button ).removeClass( 'active' );
-				$( self.selectors.reinvite_button ).removeClass( 'active' );
+				$(self.selectors.invite_button).removeClass( 'active' );
+				$(self.selectors.reinvite_button).removeClass( 'active' );
 				$(self.selectors.invite_email).hide();
 				$(self.selectors.reinvite_email).hide();
 				$(self.selectors.invite_send).hide();

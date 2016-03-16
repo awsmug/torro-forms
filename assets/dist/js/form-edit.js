@@ -812,12 +812,13 @@
 			$template_tag.unbind();
 
 			$template_tag.on( 'click', function() {
-				var tag_name_value = '{' + $( this ).attr( 'data-tagname' ) + '}';
-				var $input = $( 'input[name="' + $( this ).attr( 'rel' ) + '"]' );
+				var tag_name = '{' + $( this ).attr( 'data-tagname' ) + '}';
+				var editor_id = $( this ).attr( 'data-editor-id' );
+				var editor = tinymce.get( editor_id );
 
-				$input.val( $input.val() + tag_name_value );
-
-				tinymce.editors[ $input.attr( 'name' ) ].execCommand( 'mceInsertContent', false, tag_name_value );
+				if (editor && editor instanceof tinymce.Editor) {
+					editor.insertContent( tag_name );
+				}
 			});
 		},
 

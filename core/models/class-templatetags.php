@@ -121,7 +121,7 @@ function torro_template_tag_button( $input_name ) {
 		$template_tags = torro_get_templatetags( $collection_name );
 
 		foreach ( $template_tags as $tag_name => $template_tag ) {
-			$html .= '<div class="torro-templatetag" rel="' . $input_name . '" data-tagname="' . $tag_name . '">' . esc_html( $template_tag[ 'display_name' ] ) . '</div>';
+			$html .= '<div class="torro-templatetag" data-editor-id="' . $input_name . '" data-tagname="' . $tag_name . '">' . esc_html( $template_tag[ 'display_name' ] ) . '</div>';
 		}
 		$html .= '</div>';
 	}
