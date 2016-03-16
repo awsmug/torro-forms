@@ -441,6 +441,7 @@ class Torro_Formbuilder {
 		}
 
 		wp_enqueue_style( 'torro-form-edit', torro()->get_asset_url( 'form-edit', 'css' ) );
+		wp_enqueue_style( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'css' ) );
 	}
 
 	/**
@@ -482,9 +483,11 @@ class Torro_Formbuilder {
 
 		wp_enqueue_script( 'clipboard', torro()->get_asset_url( 'clipboard/dist/clipboard', 'vendor-js' ) );
 
+		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ) );
 		wp_enqueue_script( 'torro-form-edit', torro()->get_asset_url( 'form-edit', 'js' ), array(
 			'wp-util',
-			'clipboard'
+			'clipboard',
+			'torro-templatetags',
 		) );
 		wp_localize_script( 'torro-form-edit', 'translation_fb', $translation );
 

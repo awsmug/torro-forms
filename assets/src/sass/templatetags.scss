@@ -1,0 +1,41 @@
+@import "variables";
+@import "mixins";
+
+/* --- Templatetag Button --- */
+.torro-templatetag-button {
+  z-index: 1000;
+  display:inline-block;
+  width: 30px;
+  height: 28px;
+  line-height: 30px;
+
+  .torro-templatetag-list {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    width: 140px;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: scroll;
+    font-size: 11px;
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    line-height: 20px;
+
+    .torro-templatetag-collection-headline {
+      padding: 8px 12px;
+      background-color: #e3e3e3;
+    }
+
+    .torro-templatetag {
+      padding: 4px 12px;
+      border-bottom: 1px solid #ccc;
+      cursor: hand;
+    }
+
+    .torro-templatetag:hover {
+      color: #fff;
+      background-color: #0073aa;
+    }
+  }
+}

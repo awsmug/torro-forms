@@ -111,7 +111,7 @@ function torro_template_tag_button( $input_name ) {
 	$collections = torro_get_templatetag_collections();
 
 	$html = '<div class="torro-templatetag-button">';
-	$html .= '<input type="button" value="' . esc_attr__( '+', 'torro-forms' ) . '" class="button" rel="' . $input_name . '" />';
+	$html .= '<input type="button" value="' . esc_attr__( '+', 'torro-forms' ) . '" class="button" data-input-id="' . $input_name . '" />';
 	$html .= '<div class="torro-templatetag-list">';
 
 	foreach ( $collections as $collection_name => $collection ) {

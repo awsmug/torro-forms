@@ -62,7 +62,9 @@ class Torro_Settings_Handler {
 			return false;
 		}
 
-		$html = '<div class="settings-table">';
+		do_action( 'torro_settings_page_init' );
+
+		$html  = '<div class="settings-table">';
 		$html .= '<table class="form-table">';
 		$html .= '<tbody>';
 		foreach ( $this->fields as $name => $settings ) {
@@ -135,6 +137,11 @@ class Torro_Settings_Handler {
 		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
 		$html .= '<td>';
 		$html .= '<input type="text" name="' . $name . '" value="' . esc_attr( $value ) . '" />';
+
+		ob_start();
+		do_action( 'torro_settings_field_input_after_' . $name, $settings, $value );
+		$html .= ob_get_clean();
+
 		if ( isset( $settings['description'] ) ) {
 			$html .= '<br /><small>' . $settings['description'] . '</small>';
 		}
@@ -157,6 +164,11 @@ class Torro_Settings_Handler {
 		$html .= '<th>' . esc_html( $settings['title'] ) . '</th>';
 		$html .= '<td>';
 		$html .= '<textarea name="' . $name . '" rows="8">' . esc_html( $value ) . '</textarea>';
+
+		ob_start();
+		do_action( 'torro_settings_field_input_after_' . $name, $settings, $value );
+		$html .= ob_get_clean();
+
 		if ( isset( $settings['description'] ) ) {
 			$html .= '<br /><small>' . $settings['description'] . '</small>';
 		}

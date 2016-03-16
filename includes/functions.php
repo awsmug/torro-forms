@@ -79,11 +79,27 @@ function torro_is_formbuilder() {
 /**
  * Checks if we are on Torro Forms settings page
  *
+ * @param string $tab
+ * @param string $section
+ *
  * @return bool
  * @since 1.0.0
  */
-function torro_is_settingspage() {
+function torro_is_settingspage( $tab = null, $section = null ) {
 	if ( is_admin() && isset( $_GET[ 'page' ] ) && 'Torro_Admin' === $_GET[ 'page' ] ) {
+
+		if( isset( $tab ) ){
+			if( ( isset( $_GET[ 'tab' ] ) && $tab !== $_GET[ 'tab' ] ) || ! isset( $_GET[ 'tab' ] ) ){
+				return false;
+			}
+		}
+
+		if( isset( $section ) ){
+			if( ( isset( $_GET[ 'section' ] ) && $section !== $_GET[ 'section' ] ) || ! isset( $_GET[ 'section' ] )  ){
+				return false;
+			}
+		}
+
 		return true;
 	}
 

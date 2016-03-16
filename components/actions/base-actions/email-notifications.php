@@ -180,6 +180,8 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Adding media button
+	 *
+	 * @since 1.0.0
 	 */
 	public function add_media_button( $editor_id ) {
 		$editor_id_arr = explode( '-', $editor_id );
@@ -193,6 +195,8 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Saving option content
+	 *
+	 * @since 1.0.0
 	 */
 	public function save_option_content() {
 		global $wpdb, $post;

@@ -71,7 +71,12 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$this->option_name = __( 'Selected Members of site', 'torro-forms' );
 
-		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
+		add_action( 'torro_formbuilder_save', array( $this, 'save' ) );
+		add_action( 'torro_settings_page_init', array( $this, 'add_settings_template_tag_buttons' ) );
+		add_action( 'media_buttons', array( $this, 'add_media_button' ), 20 );
+
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 
 		$this->settings_fields = array(
 			'invitations'			=> array(
@@ -130,6 +135,85 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 				'type'					=> 'wp_editor',
 			)
 		);
+	}
+
+	public function add_settings_template_tag_buttons(){
+		add_action( 'torro_settings_field_input_after_invite_from_name', array( $this, 'add_settings_template_tag_button_invite_from_name' ) );
+		add_action( 'torro_settings_field_input_after_invite_from', array( $this, 'add_settings_template_tag_button_invite_from' ) );
+		add_action( 'torro_settings_field_input_after_invite_subject', array( $this, 'add_settings_template_tag_button_invite_subject' ) );
+
+		add_action( 'torro_settings_field_input_after_reinvite_from_name', array( $this, 'add_settings_template_tag_button_reinvite_from_name' ) );
+		add_action( 'torro_settings_field_input_after_reinvite_from', array( $this, 'add_settings_template_tag_button_reinvite_from' ) );
+		add_action( 'torro_settings_field_input_after_reinvite_subject', array( $this, 'add_settings_template_tag_button_reinvite_subject' ) );
+	}
+
+	/**
+	 * Adds a template tag button to field invite_from_name in settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_settings_template_tag_button_invite_from_name(){
+		echo torro_template_tag_button( 'invite_from_name' );
+	}
+
+	/**
+	 * Adds a template tag button to field invite_from in settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_settings_template_tag_button_invite_from(){
+		echo torro_template_tag_button( 'invite_from' );
+	}
+
+	/**
+	 * Adds a template tag button to field invite_subject in settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_settings_template_tag_button_invite_subject(){
+		echo torro_template_tag_button( 'invite_subject' );
+	}
+
+	/**
+	 * Adds a template tag button to field reinvite_from_name in settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_settings_template_tag_button_reinvite_from_name(){
+		echo torro_template_tag_button( 'reinvite_from_name' );
+	}
+
+	/**
+	 * Adds a template tag button to field reinvite_from in settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_settings_template_tag_button_reinvite_from(){
+		echo torro_template_tag_button( 'reinvite_from' );
+	}
+
+	/**
+	 * Adds a template tag button to field reinvite_subject in settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_settings_template_tag_button_reinvite_subject(){
+		echo torro_template_tag_button( 'reinvite_subject' );
+	}
+
+	/**
+	 * Adding media button
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_media_button( $editor_id ) {
+		$editor_id_arr = explode( '-', $editor_id );
+
+		if ( 'invite_text' !== $editor_id_arr[0] && 'reinvite_text' !== $editor_id_arr[0]  ) {
+			return;
+		}
+
+		echo torro_template_tag_button( $editor_id );
 	}
 
 	/**
@@ -673,6 +757,35 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 				return new Torro_Error( 'torro_form_controller_method_not_exists', sprintf( __( 'This Torro Forms Controller function "%s" does not exist.', 'torro-forms' ), $name ) );
 				break;
 		}
+	}
+
+	/**
+	 * Registers and enqueues admin-specific styles.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function enqueue_styles() {
+		if( ! torro_is_settingspage( 'access_controls', 'selectedmembers' ) ){
+			return;
+		}
+
+		wp_enqueue_style( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'css' ) );
+	}
+
+	/**
+	 * Enqueue admin scripts
+	 *
+	 * @since 1.0.0
+	 */
+	public static function enqueue_scripts() {
+		if( ! torro_is_settingspage( 'access_controls', 'selectedmembers' ) ){
+			return;
+		}
+
+		$translation = array();
+
+		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ), array( 'wp-util' ) );
+		wp_localize_script( 'torro-templatetags', 'translation_fb', $translation );
 	}
 }
 torro()->access_controls()->register( 'Torro_Access_Control_Selected_Members' );
