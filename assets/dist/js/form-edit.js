@@ -813,11 +813,14 @@
 
 			$template_tag.on( 'click', function() {
 				var tag_name = '{' + $( this ).attr( 'data-tagname' ) + '}';
-				var editor_id = $( this ).attr( 'data-editor-id' );
-				var editor = tinymce.get( editor_id );
+				var input_id = $( this ).attr( 'data-input-id' );
+				var editor = tinymce.get( input_id );
 
 				if (editor && editor instanceof tinymce.Editor) {
 					editor.insertContent( tag_name );
+				}else{
+					var $input = $( 'input[name="' + input_id + '"]' );
+					$input.val( $input.val() + tag_name );
 				}
 			});
 		},
