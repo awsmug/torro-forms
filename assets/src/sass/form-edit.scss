@@ -670,45 +670,6 @@
 	}
 }
 
-/* --- Templatetag Button --- */
-
-.torro-templatetag-button {
-    float: right;
-    height: 28px;
-    width: 30px;
-    z-index: 1000;
-}
-
-.torro-templatetag-list {
-    background-color: #fff;
-    border: 1px solid #e3e3e3;
-    display: none;
-    min-height: 100px;
-    max-height: 200px;
-    overflow-y: scroll;
-    position: absolute;
-    width: 140px;
-    z-index: 1000;
-    font-size: 11px;
-    cursor: hand;
-
-    .torro-templatetag-collection-headline {
-		padding: 8px 12px;
-    	background-color: #e3e3e3;
-    }
-
-    .torro-templatetag {
-		padding: 8px 12px;
-    	border-bottom: 1px solid #cccccc;
-
-    	&:hover {
-    		cursor: hand;
-			background-color: #0073aa;
-			color: #ffffff;
-    	}
-    }
-}
-
 /* --- Form Options --- */
 
 #form-options {

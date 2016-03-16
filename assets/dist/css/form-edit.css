@@ -603,41 +603,6 @@
 	display: table-cell;
 }
 
-/* --- Templatetag Button --- */
-.torro-templatetag-button {
-	z-index: 1000; 
-	float: right;
-	width: 30px;
-	height: 28px;
-}
-
-.torro-templatetag-list {
-	position: absolute;
-	z-index: 1000;
-	display: none;
-	width: 140px;
-	min-height: 100px;
-	max-height: 200px;
-	overflow-y: scroll;
-	font-size: 11px;
-	cursor: hand; 
-	background-color: #fff;
-	border: 1px solid #e3e3e3;
-}
-.torro-templatetag-list .torro-templatetag-collection-headline {
-	padding: 8px 12px;
-	background-color: #e3e3e3;
-}
-.torro-templatetag-list .torro-templatetag {
-	padding: 8px 12px;
-	border-bottom: 1px solid #ccc;
-}
-.torro-templatetag-list .torro-templatetag:hover {
-	color: #fff; 
-	cursor: hand;
-	background-color: #0073aa;
-}
-
 /* --- Form Options --- */
 #form-options .inside {
 	padding: 0;
