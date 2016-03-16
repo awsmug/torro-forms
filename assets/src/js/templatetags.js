@@ -59,6 +59,25 @@
             });
         },
 
+        init_extensions: function() {
+            var keys = Object.keys( this.extensions );
+            for ( var i in keys ) {
+                this.extensions[ keys[ i ] ].init();
+            }
+        },
+
+        add_extension: function( name, obj ) {
+            this.extensions[ name ] = obj;
+        },
+
+        get_extension: function( name ) {
+            return this.extensions[ name ];
+        },
+
+        get_extensions: function() {
+            return this.extensions;
+        },
+
         rand: function() {
             var now = new Date();
             var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
@@ -74,8 +93,10 @@
 
     $( document ).ready( function() {
         templatetags.init();
+        templatetags.init_extensions();
     });
 
     exports.templatetags = templatetags;
+    // exports.handle_templatetag_buttons();
 
 }( window, wp, jQuery, translation_fb ) );

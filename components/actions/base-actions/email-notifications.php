@@ -166,7 +166,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$html .= '</div>';
 		$html .= '<div class="clear"></div>';
 
-		$html .= '<script language="javascript">jQuery( document ).ready(function ($) {window.form_builder.handle_templatetag_buttons();});</script>';
+		// $html .= '<script language="javascript">jQuery( document ).ready(function ($) {window.templatetags.handle_templatetag_buttons();});</script>';
 
 		$html .= '<div id="delete-email-notification-dialog">' . esc_html__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
 
@@ -302,7 +302,12 @@ final class Torro_Email_Notifications extends Torro_Action {
 			'nonce_get_email_notification_html' => torro()->ajax()->get_nonce( 'get_email_notification_html' ),
 		);
 
-		wp_enqueue_script( 'torro-actions-email-notifications', torro()->get_asset_url( 'actions-email-notifications', 'js' ), array( 'torro-form-edit', 'jquery-ui-accordion' ) );
+		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ), array(
+			'wp-util',
+		)  );
+		wp_localize_script( 'torro-templatetags', 'translation_fb', $translation );
+
+		wp_enqueue_script( 'torro-actions-email-notifications', torro()->get_asset_url( 'actions-email-notifications', 'js' ), array( 'torro-form-edit', 'torro-templatetags', 'jquery-ui-accordion' ) );
 		wp_localize_script( 'torro-actions-email-notifications', 'translation_email_notifications', $translation );
 	}
 
