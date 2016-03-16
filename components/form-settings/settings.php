@@ -48,7 +48,7 @@ final class Torro_Access_Controls_Settings extends Torro_Settings {
 	}
 
 	public function init() {
-		$this->title = __( 'Restrictions', 'torro-forms' );
+		$this->title = __( 'Access Control', 'torro-forms' );
 		$this->name = 'access_controls';
 	}
 }
