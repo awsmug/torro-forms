@@ -483,7 +483,11 @@ class Torro_Formbuilder {
 
 		wp_enqueue_script( 'clipboard', torro()->get_asset_url( 'clipboard/dist/clipboard', 'vendor-js' ) );
 
-		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ) );
+		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ), array(
+			'wp-util',
+		)  );
+		wp_localize_script( 'torro-templatetags', 'translation_fb', $translation );
+
 		wp_enqueue_script( 'torro-form-edit', torro()->get_asset_url( 'form-edit', 'js' ), array(
 			'wp-util',
 			'clipboard',
