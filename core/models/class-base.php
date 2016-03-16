@@ -147,7 +147,7 @@ abstract class Torro_Base {
 			'headline' => array(
 				'title'       => $this->title,
 				'description' => sprintf( __( 'Setup "%s".', 'torro-forms' ), $this->title ),
-				'type'        => 'title'
+				'type'        => 'disclaimer'
 			)
 		);
 
