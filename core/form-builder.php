@@ -491,7 +491,6 @@ class Torro_Formbuilder {
 
 		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ), array(
 			'torro-form-edit',
-			'tiny'
 		)  );
 
 		if ( wp_is_mobile() ) {

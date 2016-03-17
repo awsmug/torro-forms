@@ -2,15 +2,13 @@
  * Torro Forms Version 1.0.0alpha1 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
-(function( exports, tinymce, $ ) {
+(function( exports, $ ) {
 	'use strict';
 
 	/**
 	 * Form_Builder constructor
 	 */
-	function Torro_Templatetags( translations ) {
-		this.translations = translations;
-
+	function Torro_Templatetags() {
 		this.selectors = {};
 	}
 
@@ -49,17 +47,23 @@
 			$template_tag.on( 'click', function() {
 				var tag_name = '{' + $( this ).attr( 'data-tagname' ) + '}';
 				var input_id = $( this ).attr( 'data-input-id' );
-				var editor = tinymce.get( input_id );
 
-				if ( editor && editor instanceof tinymce.Editor ) {
-					editor.insertContent( tag_name );
-				} else {
+				if( ! tinymce ) {
 					var $input = $( 'input[name="' + input_id + '"]' );
 					$input.val( $input.val() + tag_name );
+				}else {
+					var editor = tinymce.get( input_id );
+
+					if ( editor && editor instanceof tinymce.Editor ) {
+						editor.insertContent( tag_name );
+					} else {
+						var $input = $( 'input[name="' + input_id + '"]' );
+						$input.val( $input.val() + tag_name );
+					}
 				}
 			} );
 		},
 	};
 
-	exports.add_extension( 'templatetags', new Torro_Templatetags( translations ) );
-}( form_builder, tinymce, jQuery ) );
+	exports.add_extension( 'templatetags', new Torro_Templatetags() );
+}( form_builder, jQuery ) );

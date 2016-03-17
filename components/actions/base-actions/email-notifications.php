@@ -166,8 +166,6 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$html .= '</div>';
 		$html .= '<div class="clear"></div>';
 
-		$html .= '<script language="javascript">jQuery( document ).ready(function ($) { var extension = form_builder.get_extension( "templatetags" ); if ( extension ) { extension.init_templatetag_buttons(); } else { console.error( "Templatetag extension not found" ); } });</script>';
-
 		$html .= '<div id="delete-email-notification-dialog">' . esc_html__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
@@ -303,9 +301,8 @@ final class Torro_Email_Notifications extends Torro_Action {
 		);
 
 		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ), array(
-			'wp-util',
+			'torro-form-edit',
 		)  );
-		wp_localize_script( 'torro-templatetags', 'translation_fb', $translation );
 
 		wp_enqueue_script( 'torro-actions-email-notifications', torro()->get_asset_url( 'actions-email-notifications', 'js' ), array( 'torro-form-edit', 'torro-templatetags', 'jquery-ui-accordion' ) );
 		wp_localize_script( 'torro-actions-email-notifications', 'translation_email_notifications', $translation );
