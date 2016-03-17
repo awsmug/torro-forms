@@ -18,13 +18,13 @@
      */
     Torro_Templatetags.prototype = {
         init: function() {
-            this.handle_templatetag_buttons();
+            this.init_templatetag_buttons();
         },
 
         /**
          * Handling the Templatetag Button
          */
-        handle_templatetag_buttons: function() {
+        init_templatetag_buttons: function() {
             $( 'html' ).on( 'click', function() {
                 $( '.torro-templatetag-list' ).hide();
             });
@@ -59,25 +59,6 @@
             });
         },
 
-        init_extensions: function() {
-            var keys = Object.keys( this.extensions );
-            for ( var i in keys ) {
-                this.extensions[ keys[ i ] ].init();
-            }
-        },
-
-        add_extension: function( name, obj ) {
-            this.extensions[ name ] = obj;
-        },
-
-        get_extension: function( name ) {
-            return this.extensions[ name ];
-        },
-
-        get_extensions: function() {
-            return this.extensions;
-        },
-
         rand: function() {
             var now = new Date();
             var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
@@ -89,14 +70,5 @@
         }
     };
 
-    var templatetags = new Torro_Templatetags( translations );
-
-    $( document ).ready( function() {
-        templatetags.init();
-        templatetags.init_extensions();
-    });
-
-    exports.templatetags = templatetags;
-    // exports.handle_templatetag_buttons();
-
-}( window, wp, jQuery, translation_fb ) );
+    exports.add_extension( 'templatetags', new Torro_Templatetags( translations ) );
+}( form_builder, wp, jQuery, translation_fb ) );
