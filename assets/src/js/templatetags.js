@@ -1,4 +1,4 @@
-(function( exports, $ ) {
+(function( $ ) {
 	'use strict';
 
 	/**
@@ -61,5 +61,13 @@
 		},
 	};
 
-	exports.add_extension( 'templatetags', new Torro_Templatetags() );
-}( form_builder, jQuery ) );
+	if( ! form_builder ){
+		$( document ).ready( function(){
+			var templatetags = new Torro_Templatetags();
+			templatetags.init();
+		});
+	} else {
+		form_builder.add_extension( 'templatetags', new Torro_Templatetags() );
+	}
+
+}( jQuery ) );
