@@ -1,4 +1,4 @@
-(function ( exports, wp, $, translations ) {
+(function( exports, wp, $, translations ) {
 	'use strict';
 
 	/**
@@ -14,19 +14,19 @@
 	 * Form_Builder class
 	 */
 	Torro_Templatetags.prototype = {
-		init: function () {
+		init: function() {
 			this.init_templatetag_buttons();
 		},
 
 		/**
 		 * Handling the Templatetag Button
 		 */
-		init_templatetag_buttons: function () {
-			$( 'html' ).on( 'click', function () {
+		init_templatetag_buttons: function() {
+			$( 'html' ).on( 'click', function() {
 				$( '.torro-templatetag-list' ).hide();
 			} );
 
-			$( '.torro-templatetag-button' ).on( 'click', function ( e ) {
+			$( '.torro-templatetag-button' ).on( 'click', function( e ) {
 				var $list = $( this ).find( '.torro-templatetag-list' );
 
 				if ( 'none' == $list.css( 'display' ) ) {
@@ -42,7 +42,7 @@
 
 			$template_tag.unbind();
 
-			$template_tag.on( 'click', function () {
+			$template_tag.on( 'click', function() {
 				var tag_name = '{' + $( this ).attr( 'data-tagname' ) + '}';
 				var input_id = $( this ).attr( 'data-input-id' );
 				var editor = tinymce.get( input_id );
@@ -56,7 +56,7 @@
 			} );
 		},
 
-		rand: function () {
+		rand: function() {
 			var now = new Date();
 			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 
