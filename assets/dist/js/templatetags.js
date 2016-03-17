@@ -14,8 +14,6 @@
 			button_list: '.torro-templatetag-list',
 			tag_sub: '.torro-templatetag',
 		};
-
-		this.initialized = false;
 	}
 
 	/**
@@ -23,11 +21,6 @@
 	 */
 	Torro_Templatetags.prototype = {
 		init: function() {
-			if ( this.initialized ) {
-				return;
-			}
-
-			this.initialized = true;
 			this.init_templatetag_buttons();
 		},
 
