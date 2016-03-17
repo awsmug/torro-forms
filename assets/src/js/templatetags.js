@@ -1,10 +1,10 @@
-(function( exports, wp, $, translations ){
+(function ( exports, wp, $, translations ) {
 	'use strict';
 
 	/**
 	 * Form_Builder constructor
 	 */
-	function Torro_Templatetags( translations ){
+	function Torro_Templatetags( translations ) {
 		this.translations = translations;
 
 		this.selectors = {};
@@ -14,24 +14,24 @@
 	 * Form_Builder class
 	 */
 	Torro_Templatetags.prototype = {
-		init: function(){
+		init: function () {
 			this.init_templatetag_buttons();
 		},
 
 		/**
 		 * Handling the Templatetag Button
 		 */
-		init_templatetag_buttons: function(){
-			$( 'html' ).on( 'click', function(){
+		init_templatetag_buttons: function () {
+			$( 'html' ).on( 'click', function () {
 				$( '.torro-templatetag-list' ).hide();
 			} );
 
-			$( '.torro-templatetag-button' ).on( 'click', function( e ){
+			$( '.torro-templatetag-button' ).on( 'click', function ( e ) {
 				var $list = $( this ).find( '.torro-templatetag-list' );
 
-				if( 'none' == $list.css( 'display' ) ){
+				if ( 'none' == $list.css( 'display' ) ) {
 					$list.show();
-				}else{
+				} else {
 					$list.hide();
 				}
 
@@ -42,21 +42,21 @@
 
 			$template_tag.unbind();
 
-			$template_tag.on( 'click', function(){
+			$template_tag.on( 'click', function () {
 				var tag_name = '{' + $( this ).attr( 'data-tagname' ) + '}';
 				var input_id = $( this ).attr( 'data-input-id' );
 				var editor = tinymce.get( input_id );
 
-				if( editor && editor instanceof tinymce.Editor ){
+				if ( editor && editor instanceof tinymce.Editor ) {
 					editor.insertContent( tag_name );
-				}else{
+				} else {
 					var $input = $( 'input[name="' + input_id + '"]' );
 					$input.val( $input.val() + tag_name );
 				}
 			} );
 		},
 
-		rand: function(){
+		rand: function () {
 			var now = new Date();
 			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 
