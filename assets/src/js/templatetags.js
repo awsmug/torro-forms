@@ -5,7 +5,13 @@
 	 * Form_Builder constructor
 	 */
 	function Torro_Templatetags() {
-		this.selectors = {};
+		this.selectors = {
+			button: '.torro-templatetag-button .button',
+			button_list: '.torro-templatetag-list',
+			tag_sub: '.torro-templatetag',
+		};
+
+		this.initialized = false;
 	}
 
 	/**
@@ -13,6 +19,11 @@
 	 */
 	Torro_Templatetags.prototype = {
 		init: function() {
+			if ( this.initialized ) {
+				return;
+			}
+
+			this.initialized = true;
 			this.init_templatetag_buttons();
 		},
 
@@ -20,27 +31,20 @@
 		 * Handling the Templatetag Button
 		 */
 		init_templatetag_buttons: function() {
+			var self = this;
+
 			$( 'html' ).on( 'click', function() {
-				$( '.torro-templatetag-list' ).hide();
+				$( self.selectors.button_list ).hide();
 			} );
 
-			$( '.torro-templatetag-button' ).on( 'click', function( e ) {
-				var $list = $( this ).find( '.torro-templatetag-list' );
-
-				if ( 'none' == $list.css( 'display' ) ) {
-					$list.show();
-				} else {
-					$list.hide();
-				}
+			$( document ).on( 'click', this.selectors.button, function( e ) {
+				$( this ).parent().find( self.selectors.button_list ).toggle();
 
 				e.stopPropagation();
+				e.preventDefault();
 			} );
 
-			var $template_tag = $( '.torro-templatetag-list .torro-templatetag' );
-
-			$template_tag.unbind();
-
-			$template_tag.on( 'click', function() {
+			$( document ).on( 'click', this.selectors.button_list + ' ' + this.selectors.tag_sub, function() {
 				var tag_name = '{' + $( this ).attr( 'data-tagname' ) + '}';
 				var input_id = $( this ).attr( 'data-input-id' );
 

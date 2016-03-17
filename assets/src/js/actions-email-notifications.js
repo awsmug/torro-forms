@@ -88,13 +88,6 @@
 				header: 'h4',
 				heightStyle: 'content'
             });
-
-			var extension = exports.get_extension( 'templatetags' );
-			if ( extension ) {
-				extension.init_templatetag_buttons();
-			} else {
-				console.error( 'Templatetags extension not exists!' );
-			}
 		},
 
 		refresh_nothing_found: function() {
