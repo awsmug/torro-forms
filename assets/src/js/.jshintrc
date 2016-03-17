@@ -13,6 +13,7 @@
     "console",
     "jQuery",
     "wp",
+    "tinymce",
     "grecaptcha",
     "form_builder",
     "translation_fb",

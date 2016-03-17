@@ -166,7 +166,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$html .= '</div>';
 		$html .= '<div class="clear"></div>';
 
-		// $html .= '<script language="javascript">jQuery( document ).ready(function ($) {window.templatetags.handle_templatetag_buttons();});</script>';
+		$html .= '<script language="javascript">jQuery( document ).ready(function ($) { var extension = form_builder.get_extension( "templatetags" ); if ( extension ) { extension.init_templatetag_buttons(); } else { console.error( "Templatetag extension not found" ); } });</script>';
 
 		$html .= '<div id="delete-email-notification-dialog">' . esc_html__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
 
