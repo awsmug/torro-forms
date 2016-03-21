@@ -65,6 +65,13 @@ abstract class Torro_Form_Element extends Torro_Base {
 	protected $input = true;
 
 	/**
+	 * Determines if element has an HTML input tag
+	 *
+	 * @since 1.0.0
+	 */
+	protected $upload = false;
+
+	/**
 	 * Determines if input has answers (e.g. radiobuttons or checkboxes)
 	 *
 	 * @since 1.0.0
@@ -761,6 +768,9 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	public function get_input_name() {
+		if ( $this->upload ) {
+			return 'torro_response_containers_' . $this->container_id . '_elements_' . $this->id;
+		}
 		return 'torro_response[containers][' . $this->container_id . '][elements][' . $this->id . ']';
 	}
 
