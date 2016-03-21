@@ -258,7 +258,7 @@ class Torro_Form extends Torro_Post {
 	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
 		$this->set_container( $container_id );
 
-		$html = '<form class="torro-form" action="' . $form_action_url . '" method="POST" novalidate>';
+		$html = '<form class="torro-form" action="' . $form_action_url . '" method="POST" method="post" enctype="multipart/form-data" novalidate>';
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '" />';
 		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '" />';
 
