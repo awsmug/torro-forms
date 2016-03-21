@@ -110,7 +110,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 				'type'			=> 'radio',
 				'values'		=> $input_types,
 				'description'	=> sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supportet by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
-				'default'		=> 'none'
+				'default'		=> 'text'
 			),
 		);
 	}
