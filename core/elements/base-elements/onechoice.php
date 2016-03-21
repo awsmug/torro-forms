@@ -96,14 +96,13 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 	}
 
 	public function validate( $input ) {
-		$error = false;
+		$input = stripslashes( $input );
 
 		if ( empty( $input ) ) {
-			$this->validation_errors[] = sprintf( __( 'Please select a value.', 'torro-forms' ) );
-			$error = true;
+			return new Torro_Error( 'missing_value', __( 'Please select a value.', 'torro-forms' ) );
 		}
 
-		return ! $error;
+		return $input;
 	}
 }
 

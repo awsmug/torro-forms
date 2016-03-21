@@ -149,13 +149,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 	protected $settings = array();
 
 	/**
-	 * Contains element validation errors
-	 *
-	 * @since 1.0.0
-	 */
-	protected $validation_errors = array();
-
-	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
@@ -329,11 +322,11 @@ abstract class Torro_Form_Element extends Torro_Base {
 	/**
 	 * Validate response data - dummy function
 	 *
-	 * @return bool
+	 * @return mixed|Torro_Error
 	 * @since 1.0.0
 	 */
 	public function validate( $input ) {
-		return true;
+		return stripslashes( $input );
 	}
 
 	/**
@@ -793,17 +786,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	public function add_result_columns( &$result_object ) {
 		return false;
-	}
-
-	/**
-	 * Returning validation errors
-	 *
-	 * @return array
-	 *
-	 * @since 1.0.0
-	 */
-	public function get_validation_errors(){
-		return $this->validation_errors;
 	}
 
 	/**

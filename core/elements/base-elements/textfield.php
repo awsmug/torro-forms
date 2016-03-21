@@ -188,19 +188,17 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 		$max_length = $this->settings[ 'max_length' ]->value;
 		$input_type = $this->settings[ 'input_type' ]->value;
 
-		$error = false;
+		$input = stripslashes( $input );
 
 		if ( ! empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ) {
-				$this->validation_errors[] = __( 'The input ist too short.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
-				$error = true;
+				return new Torro_Error( 'input_too_short', __( 'The input ist too short.', 'torro-forms' ) );
 			}
 		}
 
 		if ( ! empty( $max_length ) ) {
 			if ( strlen( $input ) > $max_length ) {
-				$this->validation_errors[] = __( 'The input is too long.', 'torro-forms' ) . ' ' . sprintf( __( 'It have to be at minimum %d and maximum %d chars.', 'torro-forms' ), $min_length, $max_length );
-				$error = true;
+				return new Torro_Error( 'input_too_long', __( 'The input ist too long.', 'torro-forms' ) );
 			}
 		}
 
@@ -215,14 +213,14 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 			}
 
 			if ( ! $status ) {
-				$error = true;
 				if ( isset( $input_types['error_message'] ) && $input_types['error_message'] ) {
-					$this->validation_errors[] = $input_types['error_message'];
+					return new Torro_Error( 'invalid_input', $input_types['error_message'] );
 				}
+				return new Torro_Error( 'invalid_input', __( 'Invalid input.', 'torro-forms' ) );
 			}
 		}
 
-		return ! $error;
+		return $input;
 	}
 }
 

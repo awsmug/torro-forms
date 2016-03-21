@@ -111,23 +111,23 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 		$min_answers = $this->settings['min_answers']->value;
 		$max_answers = $this->settings['max_answers']->value;
 
-		$error = false;
+		$input = (array) $input;
+
+		$input = array_map( 'stripslashes', $input );
 
 		if ( ! empty( $min_answers ) ) {
 			if ( ! is_array( $input ) || count( $input ) < $min_answers ) {
-				$this->validation_errors[] = __( 'Too less choices.', 'torro-forms' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
-				$error = true;
+				return new Torro_Error( 'not_enough_choices', __( 'Not enough choices.', 'torro-forms' ) );
 			}
 		}
 
 		if ( ! empty( $max_answers ) ) {
 			if ( is_array( $input ) && count( $input ) > $max_answers ) {
-				$this->validation_errors[] = __( 'Too many choices.', 'torro-forms' ) . ' ' . sprintf( __( 'You have to choose between %d and %d answers.', 'torro-forms' ), $min_answers, $max_answers );
-				$error = true;
+				return new Torro_Error( 'too_many_choices', __( 'Too many choices.', 'torro-forms' ) );
 			}
 		}
 
-		return ! $error;
+		return $input;
 	}
 }
 

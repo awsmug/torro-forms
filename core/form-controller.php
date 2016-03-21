@@ -283,12 +283,13 @@ class Torro_Form_Controller {
 				wp_die( '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' . 403 );
 			}
 
-			if ( ! isset( $_POST[ 'torro_response' ][ 'containers' ] ) ) {
+			if ( ! isset( $_POST['torro_response']['containers'] ) ) {
 				return;
 			}
 
-			$response = $_POST[ 'torro_response' ];
-			$current_container_id = $response[ 'container_id' ];
+			$response = $_POST['torro_response'];
+
+			$current_container_id = $response['container_id'];
 
 			$errors = array();
 
@@ -301,8 +302,8 @@ class Torro_Form_Controller {
 
 				$errors[ $container->id ] = array();
 
-				if ( ! isset( $response[ 'containers' ][ $container->id ] ) ) {
-					$errors[ $container->id ][ 'container' ] = sprintf( __( 'Missing Container #%d in form data.', 'torro-forms' ), $container->id );
+				if ( ! isset( $response['containers'][ $container->id ] ) ) {
+					$errors[ $container->id ]['container'] = sprintf( __( 'Missing Container #%d in form data.', 'torro-forms' ), $container->id );
 					continue;
 				}
 
@@ -314,14 +315,22 @@ class Torro_Form_Controller {
 					}
 
 					$value = '';
-					if ( isset( $response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ] ) ) {
-						$value = $response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ];
-					}else{
-						$response[ 'containers' ][ $container->id ][ 'elements' ][ $element->id ] = '';
+					if ( $element->upload ) {
+						$name = 'torro_response_containers_' . $container->id . '_elements_' . $element->id;
+						if ( isset( $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ] ) ) {
+							$value = $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ];
+						}
+					} else {
+						if ( isset( $response['containers'][ $container->id ]['elements'][ $element->id ] ) ) {
+							$value = $response['containers'][ $container->id ]['elements'][ $element->id ];
+						}
 					}
 
-					if ( ! $element->validate( $value ) ) {
-						$errors[ $container->id ][ 'elements' ][ $element->id ] = $element->get_validation_errors();
+					$value = $element->validate( $value );
+					if ( is_wp_error( $value ) ) {
+						$errors[ $container->id ]['elements'][ $element->id ] = $value->get_error_messages();
+					} else {
+						$response['containers'][ $container->id ]['elements'][ $element->id ] = $value;
 					}
 				}
 			}

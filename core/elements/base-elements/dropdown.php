@@ -68,7 +68,7 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 		$html .= '<select name="' . $this->get_input_name() . '">';
 		$html .= '<option value="please-select"> - ' . esc_html__( 'Please select', 'torro-forms' ) . ' -</option>';
 
-		foreach ( $this->answers AS $answer ) {
+		foreach ( $this->answers as $answer ) {
 			$checked = '';
 
 			if ( $this->response === $answer->label ) {
@@ -101,14 +101,19 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 	}
 
 	public function validate( $input ) {
-		$error = false;
+		$input = stripslashes( $input );
 
 		if ( 'please-select' === $input ) {
-			$this->validation_errors[] = __( 'Please select a value.', 'torro-forms' );
-			$error = true;
+			return new Torro_Error( 'missing_value', __( 'Please select a value.', 'torro-forms' ) );
 		}
 
-		return ! $error;
+		foreach ( $this->answers as $answer ) {
+			if ( $input == $answer->label ) {
+				return $input;
+			}
+		}
+
+		return new Torro_Error( 'invalid_value', __( 'Please select one of the provided values.', 'torro-forms' ) );
 	}
 
 }
