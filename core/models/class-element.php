@@ -789,6 +789,20 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
+	 * Is this element analyzable or not?
+	 *
+	 * @param obj $result_object
+	 * @return boolean
+	 * @since 1.0.0
+	 */
+	public function is_analyzable(){
+		if ( ! $this->input_answers ){
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Saving Element
 	 *
 	 * @return false|int

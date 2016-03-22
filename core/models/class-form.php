@@ -40,12 +40,12 @@ class Torro_Form extends Torro_Post {
 	public $title;
 
 	/**
-	 * @var array $containers All containers of the form
+	 * @var Torro_Container[] $containers All containers of the form
 	 * @since 1.0.0
 	 */
 	public $containers = array();
 	/**
-	 * @var array $elements All elements of the form
+	 * @var Torro_Form_Element[] $elements All elements of the form
 	 * @since 1.0.0
 	 */
 	public $elements = array();
@@ -119,7 +119,6 @@ class Torro_Form extends Torro_Post {
 	 * @param int $id The id of the form
 	 *
 	 * @since 1.0.0
-	 *
 	 * @return bool
 	 */
 	private function populate( $id ) {
@@ -288,24 +287,23 @@ class Torro_Form extends Torro_Post {
 				if ( $i > 0 ) {
 					$prev_container_id = $this->containers[ $i - 1 ]->id;
 				}
-				if ( $i < count( $this->containers ) -1 ) {
+				if ( $i < count( $this->containers ) - 1 ) {
 					$next_container_id = $this->containers[ $i + 1 ]->id;
 				}
 				if ( $container_id === $this->containers[ $i ]->id ) {
-					$this->container_id      = $container_id;
-					$this->container         = $this->containers[ $i ];
+					$this->container_id = $container_id;
+					$this->container    = $this->containers[ $i ];
 
 					$this->prev_container_id = $prev_container_id;
 					$this->next_container_id = $next_container_id;
 
-					if( $next_container_id === $container_id ){
+					if ( $next_container_id === $container_id ) {
 						$this->next_container_id = null;
 					}
 
 					return $this->container;
 				}
 			}
-
 		} else {
 			$this->container_id = $this->containers[ 0 ]->id;
 			$this->container    = $this->containers[ 0 ];
@@ -381,8 +379,8 @@ class Torro_Form extends Torro_Post {
 		$result_id         = $wpdb->insert_id;
 		$this->response_id = $result_id;
 
-		foreach( $response[ 'containers' ] AS $container_id => $container ){
-			foreach( $container[ 'elements' ] AS $element_id => $values ){
+		foreach ( $response[ 'containers' ] AS $container_id => $container ) {
+			foreach ( $container[ 'elements' ] AS $element_id => $values ) {
 				if ( ! is_array( $values ) ) {
 					$values = array( $values );
 				}
@@ -635,6 +633,18 @@ class Torro_Form extends Torro_Post {
 
 	public function get_elements() {
 		return $this->elements;
+	}
+
+	public function has_analyzable_elements() {
+		foreach ( $this->elements AS $element ) {
+			if ( ! $element->is_analyzable ) {
+				continue;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public function __get( $key ) {

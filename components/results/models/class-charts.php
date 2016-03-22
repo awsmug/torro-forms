@@ -76,14 +76,25 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 		);
 	}
 
+	/**
+	 * Returns option content for charts
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
 	public function option_content() {
 		global $post;
 
 		$form_id = $post->ID;
+		$html = '';
+
+		if( ! torro()->forms()->get( $form_id )->has_analyzable_elements() ){
+			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no analyzable Elements in your form.', 'torro-forms' ) . '</p>';
+			return $html;
+		}
 
 		$form_results = new Torro_Form_Results( $form_id );
 		$results = $form_results->results();
-		$html = '';
 
 		$count_charts = 0;
 
@@ -185,7 +196,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 			// Collecting Data from all Resultsets
 			foreach ( $results as $result ) {
 				// Skip collecting Data if there is no analyzable Data
-				if ( ! $element->input_answers ) {
+				if ( ! $element->is_analyzable() ) {
 					continue;
 				}
 
