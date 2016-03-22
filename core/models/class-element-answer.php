@@ -97,6 +97,14 @@ class Torro_Element_Answer {
 		return false;
 	}
 
+	/**
+	 * Magic getter function
+	 *
+	 * @param $key
+	 *
+	 * @return mixed|null
+	 * @since 1.0.0
+	 */
 	public function __get( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return $this->$key;
@@ -105,6 +113,14 @@ class Torro_Element_Answer {
 		return null;
 	}
 
+	/**
+	 * Magic setter function
+	 *
+	 * @param $key
+	 * @param $value
+	 *
+	 * @since 1.0.0
+	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'sort':
@@ -124,6 +140,14 @@ class Torro_Element_Answer {
 		}
 	}
 
+	/**
+	 * Magic isset function
+	 *
+	 * @param $key
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function __isset( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return true;

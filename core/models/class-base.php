@@ -90,6 +90,14 @@ abstract class Torro_Base {
 		$this->init_settings();
 	}
 
+	/**
+	 * Magic setter function
+	 *
+	 * @param $key
+	 * @param $value
+	 *
+	 * @since 1.0.0
+	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'name':
@@ -111,6 +119,14 @@ abstract class Torro_Base {
 		}
 	}
 
+	/**
+	 * Magic getter function
+	 *
+	 * @param $key
+	 *
+	 * @return mixed|null
+	 * @since 1.0.0
+	 */
 	public function __get( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return $this->$key;
@@ -118,6 +134,14 @@ abstract class Torro_Base {
 		return null;
 	}
 
+	/**
+	 * Magic isset function
+	 *
+	 * @param $key
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function __isset( $key ) {
 		if ( property_exists( $this, $key ) ) {
 			return true;
@@ -127,7 +151,9 @@ abstract class Torro_Base {
 
 	/**
 	 * Base Element Function
+	 *
 	 * @return mixed
+	 * @since 1.0.0
 	 */
 	protected abstract function init();
 
