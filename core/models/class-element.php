@@ -602,7 +602,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		} else {
 			if ( $this->input_answers ) {
 				$param_arr[]    = $this->create_answer_syntax;
-				$temp_answer_id = 'temp_id_' . time() * rand();
+				$temp_answer_id = torro()->generate_temp_id();
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
@@ -662,7 +662,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$value = $this->settings[ $name ]->value;
 			$name = $this->settings[ $name ]->name;
 		}else{
-			$id = 'temp_id_' . time() * rand();
+			$id = torro()->generate_temp_id();
 		}
 
 		if ( '' == $value ) {

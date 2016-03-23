@@ -125,7 +125,7 @@
 
 						// init new element
 						if ( ! $element.attr( 'id' ) ) {
-							var element_id = 'temp_id_' + self.rand();
+							var element_id = self.generate_temp_id();
 
 							$element.attr( 'id', 'element-' + element_id );
 							$element.attr( 'data-element-id', element_id );
@@ -250,7 +250,7 @@
 						click: function() {
 							if ( self.current_container_id ) {
 								// only update deleted_containers list if the container was stored in DB before
-								if ( 0 !== self.current_container_id.indexOf( 'temp_id' ) ) {
+								if ( ! self.is_temp_id( self.current_container_id ) ) {
 									var deleted_containers = $( self.selectors.deleted_containers ).val();
 
 									if ( '' == deleted_containers ) {
@@ -328,7 +328,7 @@
 						click: function() {
 							if ( self.current_element_id ) {
 								// only update deleted_elements list if the element was stored in DB before
-								if ( 0 !== self.current_element_id.indexOf( 'temp_id' ) ) {
+								if ( ! self.is_temp_id( self.current_element_id ) ) {
 									var deleted_elements = $( self.selectors.deleted_elements ).val();
 
 									if ( '' == deleted_elements ) {
@@ -437,7 +437,7 @@
 			$( this.selectors.container_add ).on( 'click', function() {
 				var count_container = $( self.selectors.container_tabs ).parent().find( '.torro-container' ).length;
 
-				var id =  'temp_id_' + self.rand();
+				var id = self.generate_temp_id();
 				var container_id = 'torro-container-' + id;
 				var tab_id = 'tab-container-' + id;
 
@@ -488,7 +488,7 @@
 					return;
 				}
 
-				var nr = 'temp_id_' + self.rand();
+				var nr = self.generate_temp_id();
 				var section_val = $( 'input[name="containers\[' + container_id + '\]\[elements\]\[' + element_id + '\]\[sections\]"]' ).val();
 
 				// Setting up new answer HTML
@@ -546,7 +546,7 @@
 								self.current_answer_id = self.current_answer_id.substring( 7 );
 
 								// only update deleted_answers list if the answer was stored in DB before
-								if ( 0 !== self.current_answer_id.indexOf( 'temp_id' ) ) {
+								if ( ! self.is_temp_id( self.current_answer_id ) ) {
 									var deleted_answers = $( self.selectors.deleted_answers ).val();
 
 									if ( '' == deleted_answers ) {
@@ -848,14 +848,18 @@
 			return this.extensions;
 		},
 
-		rand: function() {
+		generate_temp_id: function() {
 			var now = new Date();
 			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 
 			random = random * now.getTime();
 			random = random.toString();
 
-			return random;
+			return 'temp_id_' + random.substring( 0, 14 );
+		},
+
+		is_temp_id: function( id ) {
+			return 'temp_id' === id.substring( 0, 7 );
 		}
 	};
 
