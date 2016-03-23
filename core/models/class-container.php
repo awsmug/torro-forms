@@ -274,7 +274,7 @@ class Torro_Container {
 	 *
 	 * @param $key
 	 *
-	 * @return null
+	 * @return mixed|null
 	 * @since 1.0.0
 	 */
 	public function __get( $key ) {

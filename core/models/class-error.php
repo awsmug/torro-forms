@@ -44,6 +44,14 @@ class Torro_Error extends WP_Error {
 		return $this;
 	}
 
+	/**
+	 * Magic getter function
+	 *
+	 * @param $key
+	 *
+	 * @return mixed|null
+	 * @since 1.0.0
+	 */
 	public function __get( $property ) {
 		if ( property_exists( $this, $property ) ) {
 			return $this->$property;

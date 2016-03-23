@@ -882,7 +882,8 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * Magic getter function
 	 *
 	 * @param $key
-	 * @return null
+	 *
+	 * @return mixed|null
 	 * @since 1.0.0
 	 */
 	public function __get( $key ) {
@@ -894,11 +895,11 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
-	 * Magic getter function
+	 * Magic setter function
 	 *
 	 * @param $key
 	 * @param $value
-	 * @return bool
+	 *
 	 * @since 1.0.0
 	 */
 	public function __set( $key, $value ) {
@@ -916,9 +917,10 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
-	 * Magic setter function
+	 * Magic isset function
 	 *
 	 * @param $key
+	 *
 	 * @return bool
 	 * @since 1.0.0
 	 */
