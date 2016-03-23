@@ -859,7 +859,7 @@
 			random = random * now.getTime();
 			random = random.toString();
 
-			return 'temp_id_' + random.substring( 0, 14 );
+			return ( 'temp_id_' + random ).substring( 0, 14 );
 		},
 
 		is_temp_id: function( id ) {
