@@ -79,11 +79,52 @@
 			this.init_container_tabs();
 		},
 
+		load_ajax_editor: function( $wrapper, element_id, name, content ) {
+			if ( $wrapper.length < 1 ) {
+				return;
+			}
+
+			if ( ! window.tinymce || ! window.quicktags || ! window.tinyMCEPreInit ) {
+				return;
+			}
+
+			if ( ! content ) {
+				content = '';
+			}
+
+			wp.ajax.post( 'torro_get_editor_html', {
+				nonce: this.translations.nonce_get_editor_html,
+				element_id: element_id,
+				field_name: name,
+				message: content
+			}).done( function( response ) {
+				$wrapper.html( response.html );
+
+				var first_editor_id = Object.keys( window.tinyMCEPreInit.mceInit )[0];
+
+				window.tinyMCEPreInit.mceInit[ response.editor_id ] = $.extend( {}, window.tinyMCEPreInit.mceInit[ first_editor_id ], response.tinymce );
+				window.tinyMCEPreInit.qtInit[ response.editor_id ] = response.quicktags;
+
+				window.QTags.instances['0'] = false;
+
+				window.tinymce.init( window.tinyMCEPreInit.mceInit[ response.editor_id ] );
+				window.quicktags( window.tinyMCEPreInit.qtInit[ response.editor_id ] );
+			}).fail( function( message ) {
+				console.error( message );
+			});
+		},
+
 		/**
 		 * Initializing the overall drag and drop behavior
 		 */
 		init_drag_and_drop: function() {
 			var self = this;
+
+			$( document ).on( 'torro.insert_element_content', function( e, data ) {
+				var $element = $( data.selector );
+
+				self.load_ajax_editor( $( data.selector ).find( '.torro-element-content' ), data.id, self.generate_admin_input_name( data.container_id, data.id, undefined, 'label' ) );
+			});
 
 			// init draggable
 			$( this.selectors.draggable_item ).draggable( {

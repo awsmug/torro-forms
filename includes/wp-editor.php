@@ -1,14 +1,8 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: svenw
- * Date: 26.08.15
- * Time: 00:21
- *
- * http://wordpress.stackexchange.com/questions/70548/load-tinymce-wp-editor-via-ajax
- */
-class Torro_WPEditorBox {
+class Torro_AJAX_WP_Editor {
+	private static $editor_id = '';
+
 	/**
 	 * MCE Settings
 	 *
@@ -26,37 +20,6 @@ class Torro_WPEditorBox {
 	private static $qt_settings = array();
 
 	/**
-	 * Instance
-	 *
-	 * @var object
-	 * @since 1.0.0
-	 */
-	protected static $_instance = null;
-
-	/**
-	 * Singleton init
-	 *
-	 * @return Torro_WPEditorBox|object
-	 * @since 1.0.0
-	 */
-	public static function init() {
-		if ( null === self::$_instance ) {
-			self::$_instance = new self;
-		}
-		return self::$_instance;
-	}
-
-	/**
-	 * Adding Scripts
-	 *
-	 * @since 1.0.0
-	 */
-	private function __construct() {
-		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'tiny_mce_before_init' ), 10, 2 );
-		add_filter( 'quicktags_settings', array( __CLASS__, 'quicktags_settings' ), 10, 2 );
-	}
-
-	/**
 	 * Getting Editor HTML
 	 *
 	 * @param $content
@@ -66,26 +29,84 @@ class Torro_WPEditorBox {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function editor( $content, $editor_id, $field_name = null ) {
-		$settings = array();
-
-		if ( null != $field_name ) {
-			$settings = array(
-				'textarea_name' => $field_name
-			);
-		}
-
-		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
+	public static function get( $content, $editor_id, $settings = array() ) {
+		add_filter( 'tiny_mce_before_init', array( __CLASS__, 'set_tinymce_settings' ), 10, 2 );
+		add_filter( 'quicktags_settings', array( __CLASS__, 'set_quicktags_settings' ), 10, 1 );
+		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) );
 
 		ob_start();
 		wp_editor( $content, $editor_id, $settings );
 		$html = ob_get_clean();
 
-		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) ); // Dirty hack, but needed to prevent tab issues on editor
+		$data = array(
+			'html'		=> $html,
+			'editor_id'	=> self::get_editor_id(),
+			'tinymce'	=> self::get_tinymce_settings(),
+			'quicktags'	=> self::get_quicktags_settings(),
+		);
 
-		$html .= self::editor_js( $editor_id );
+		remove_filter( 'tiny_mce_before_init', array( __CLASS__, 'set_tinymce_settings' ), 10, 2 );
+		remove_filter( 'quicktags_settings', array( __CLASS__, 'set_quicktags_settings' ), 10, 1 );
+		remove_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) );
 
-		return $html;
+		self::reset();
+
+		return $data;
+	}
+
+	public static function set_tinymce_settings( $settings, $editor_id ) {
+		$editor_fields = array(
+			'selector',
+			'resize',
+			'menubar',
+			'wpautop',
+			'indent',
+			'toolbar1',
+			'toolbar2',
+			'toolbar3',
+			'toolbar4',
+			'tabfocus_elements',
+			'body_class',
+		);
+
+		self::$mce_settings = array_intersect_key( $settings, array_flip( $editor_fields ) );
+		self::$editor_id = $editor_id;
+
+		return $settings;
+	}
+
+	public static function set_quicktags_settings( $settings ) {
+		self::$qt_settings = $settings;
+
+		return $settings;
+	}
+
+	public static function get_editor_id() {
+		return self::$editor_id;
+	}
+
+	public static function get_tinymce_settings() {
+		return self::$mce_settings;
+	}
+
+	public static function get_quicktags_settings() {
+		return self::$qt_settings;
+	}
+
+	public static function reset() {
+		self::$editor_id = '';
+		self::$mce_settings = array();
+		self::$qt_settings = array();
+	}
+
+	/**
+	 * Function to set standard editor to tinymce prevent tab issues on editor
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public static function std_editor_tinymce() {
+		return 'tinymce';
 	}
 
 	/**
@@ -222,29 +243,4 @@ class Torro_WPEditorBox {
 
 		return '{' . trim( $options, ' ,' ) . '}';
 	}
-
-	/**
-	 * Function to set standard editor to tinymce prevent tab issues on editor
-	 *
-	 * @return string
-	 * @since 1.0.0
-	 */
-	public static function std_editor_tinymce() {
-		return 'tinymce';
-	}
-}
-Torro_WPEditorBox::init();
-
-/**
- * Getting WP Editor
- *
- * @param $content
- * @param $editor_id
- * @param $field_name
- *
- * @return string
- * @since 1.0.0
- */
-function torro_wp_editor( $content, $editor_id, $field_name = null ) {
-	return Torro_WPEditorBox::editor( $content, $editor_id, $field_name );
 }

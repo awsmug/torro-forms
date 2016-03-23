@@ -686,3 +686,8 @@
 .ui-draggable-dragging .widget-title h4 {
 	opacity: 0;
 }
+
+/* --- WP Editor Default --- */
+#wp-wp_editor_replace_element_id-wrap {
+	display: none;
+}

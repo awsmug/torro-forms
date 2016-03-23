@@ -471,6 +471,7 @@ class Torro_Formbuilder {
 			'copied'                       => __( 'Copied!', 'torro-forms' ),
 			'nonce_duplicate_form'         => torro()->ajax()->get_nonce( 'duplicate_form' ),
 			'nonce_delete_responses'       => torro()->ajax()->get_nonce( 'delete_responses' ),
+			'nonce_get_editor_html'        => torro()->ajax()->get_nonce( 'get_editor_html' ),
 		);
 
 		wp_enqueue_script( 'jquery-ui-draggable' );
