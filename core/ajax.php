@@ -250,33 +250,22 @@ final class Torro_AJAX {
 	 * @return array|Torro_Error
 	 * @since 1.0.0
 	 */
-	public function get_editor_html( $data ) {
+	public function ajax_get_editor_html( $data ) {
 		if ( ! isset( $data['element_id'] ) ) {
 			return new Torro_Error( 'ajax_get_editor_html_element_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'element_id' ) );
-		}
-
-		if ( ! isset( $data['editor_id'] ) ) {
-			return new Torro_Error( 'ajax_get_editor_html_editor_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'editor_id' ) );
 		}
 
 		if ( ! isset( $data['field_name'] ) ) {
 			return new Torro_Error( 'ajax_get_editor_html_field_name_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'field_name' ) );
 		}
 
-		$element_id = $data['element_id'];
-		$editor_id = $data['editor_id'];
+		$editor_id = 'wp_editor_' . $data['element_id'];
 		$field_name = $data['field_name'];
 		$message = isset( $data['message'] ) ? $data['message'] : '';
 
-		$html = Torro_WPEditorBox::editor( $message, $editor_id, $field_name );
-
-		$response = array(
-			'element_id' => $element_id,
-			'editor_id' => $editor_id,
-			'html'      => $html,
-		);
-
-		return $response;
+		return Torro_AJAX_WP_Editor::get( $message, $editor_id, array(
+			'textarea_name'		=> $field_name,
+		) );
 	}
 
 	/**

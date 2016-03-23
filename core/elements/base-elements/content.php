@@ -67,18 +67,19 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 	public function admin_content_html() {
 		$element_id = $this->get_admin_element_id();
 		$container_id = $this->get_admin_cotainer_id();
-
-		$editor_id = 'wp_editor_' . substr( md5( rand() * time() ), 0, 5 );
-		$field_name = 'containers[' . $container_id . '][elements][' . $element_id . '][label]';
-
-		$settings = array(
-			'textarea_name' => $field_name,
-		);
+		$name = $this->get_admin_input_name();
 
 		$html = '<div class="torro-element-content">';
+
+		$editor_id = 'wp_editor_' . $element_id;
+		$settings = array(
+			'textarea_name' => $name . '[label]',
+		);
+
 		ob_start();
 		wp_editor( $this->label, $editor_id, $settings );
 		$html .= ob_get_clean();
+
 		$html .= '</div>';
 
 		return $html;

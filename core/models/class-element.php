@@ -283,11 +283,11 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	protected function get_admin_element_id() {
-		if ( null === $this->element_id ) {
+		if ( null === $this->id ) {
 			return $this->get_empty_element_id();
 		}
 
-		return $this->element_id;
+		return $this->id;
 	}
 
 	/**

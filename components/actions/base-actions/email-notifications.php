@@ -243,7 +243,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 	public function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ) {
 		$editor_id = 'email_notification_message-' . $id;
 
-		$editor = torro_wp_editor( $message, $editor_id );
+		$editor = wp_editor( $message, $editor_id );
 
 		$icon_url = torro()->get_asset_url( 'mail', 'svg' );
 
