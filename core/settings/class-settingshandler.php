@@ -30,7 +30,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Settings_Handler {
 	/**
+	 * Handler name
+	 *
 	 * @var string
+	 * @since 1.0.0
 	 */
 	var $name;
 
@@ -38,25 +41,46 @@ class Torro_Settings_Handler {
 	 * Settings field array
 	 *
 	 * @var array
+	 * @since 1.0.0
 	 */
 	var $fields = array();
 
 	/**
+	 * Settings type (options/post)
+	 *
 	 * @var string
+	 * @since 1.0.0
 	 */
 	var $type = 'options';
 
 	/**
+	 * Values
+	 *
 	 * @var array
+	 * @since 1.0.0
 	 */
 	var $values = array();
 
+	/**
+	 * Torro_Settings_Handler constructor
+	 *
+	 * @param string $settings_name
+	 * @param array $settings_fields
+	 * @param string $settings_type
+	 * @since 1.0.0
+	 */
 	public function __construct( $settings_name, $settings_fields, $settings_type = 'options' ) {
 		$this->name = $settings_name;
 		$this->fields = $settings_fields;
 		$this->type = $settings_type;
 	}
 
+	/**
+	 * Getting a settings field with wrapper
+	 *
+	 * @return bool|string
+	 * @since 1.0.0
+	 */
 	public function get() {
 		if ( count( $this->fields ) == 0 ) {
 			return false;
@@ -78,6 +102,15 @@ class Torro_Settings_Handler {
 		return $html;
 	}
 
+	/**
+	 * Getting field html
+	 *
+	 * @param string $name
+	 * @param array $settings
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	private function get_field( $name, $settings ) {
 		global $post;
 
@@ -131,6 +164,7 @@ class Torro_Settings_Handler {
 	 * @param $value
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	private function get_textfield( $name, $settings, $value ) {
 		$html = '<tr>';
@@ -158,6 +192,7 @@ class Torro_Settings_Handler {
 	 * @param $value
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	private function get_textarea( $name, $settings, $value ) {
 		$html = '<tr>';
@@ -185,6 +220,7 @@ class Torro_Settings_Handler {
 	 * @param $value
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	private function get_wp_editor( $name, $settings, $value ) {
 		ob_start();
@@ -212,6 +248,7 @@ class Torro_Settings_Handler {
 	 * @param $values
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	private function get_radios( $name, $settings, $value ) {
 		$html = '<tr>';
@@ -243,6 +280,7 @@ class Torro_Settings_Handler {
 	 * @param $values
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	private function get_checkboxes( $name, $settings, $value ) {
 		$html = '<tr>';
@@ -273,6 +311,7 @@ class Torro_Settings_Handler {
 	 * @param $value
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	private function get_title( $name, $settings ) {
 		$html = '</tbody>';
@@ -301,6 +340,7 @@ class Torro_Settings_Handler {
 	 * @param $value
 	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	private function get_disclaimer( $name, $settings ) {
 		$html = '</tbody>';
@@ -324,6 +364,9 @@ class Torro_Settings_Handler {
 
 	/**
 	 * Getting field values
+	 *
+	 * @return array
+	 * @since 1.0.0
 	 */
 	public function get_field_values() {
 		global $post;
@@ -360,6 +403,8 @@ class Torro_Settings_Handler {
 
 	/**
 	 * Saving settings fields
+	 *
+	 * @since 1.0.0
 	 */
 	public function save() {
 		global $post;
@@ -371,8 +416,6 @@ class Torro_Settings_Handler {
 		// Running all settings fields
 		foreach ( $this->fields as $name => $settings ) {
 			$option_name = 'torro_settings_' . $this->name . '_' . $name;
-
-			FB::info( 'ON: ' . $option_name );
 
 			$value = '';
 			if( isset( $_POST[ $name ] ) ) {

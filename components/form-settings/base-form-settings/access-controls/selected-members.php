@@ -33,7 +33,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	/**
 	 * Instance
 	 *
-	 * @var null
+	 * @var null|Torro_Access_Control_Selected_Members
 	 * @since 1.0.0
 	 */
 	private static $instance = null;

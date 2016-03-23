@@ -33,6 +33,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	private static $instance = null;
 
+	/**
+	 * Singleton
+	 *
+	 * @return null|Torro_Access_Control_All_Visitors
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -41,7 +47,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	}
 
 	/**
-	 * Initializing.
+	 * Constructor
 	 *
 	 * @since 1.0.0
 	 */
@@ -49,6 +55,11 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		parent::__construct();
 	}
 
+	/**
+	 * Initializing
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->option_name = $this->title = __( 'All Visitors', 'torro-forms' );
 		$this->name = 'allvisitors';
@@ -103,6 +114,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 	/**
 	 * Loading fingerprint scripts
+	 *
+	 * @since 1.0.0
 	 */
 	public function frontend_scripts() {
 		wp_enqueue_script( 'fingerprintjs2', torro()->get_asset_url( 'fingerprintjs2/dist/fingerprint2.min', 'vendor-js', true ) );
@@ -110,6 +123,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 	/**
 	 * Adds content to the option
+	 *
+	 * @since 1.0.0
 	 */
 	public function option_content() {
 		global $post;
@@ -162,6 +177,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 	/**
 	 * Checks if the user can pass
+	 *
+	 * @since 1.0.0
 	 */
 	public function check() {
 		global $torro_skip_fingerrint_check;
@@ -250,7 +267,6 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 *
 	 * @return bool $has_participated
 	 * @since 1.0.0
-	 *
 	 */
 	public function ip_has_participated() {
 		global $wpdb, $torro_form_id;
@@ -269,6 +285,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 	/**
 	 * Setting Cookie for one year
+	 *
+	 * @since 1.0.0
 	 */
 	public function set_cookie() {
 		global $torro_form_id;
@@ -278,6 +296,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 	/**
 	 * Setting Cookie for one year
+	 *
+	 * @since 1.0.0
 	 */
 	public function save_ip( $response_id ) {
 		global $wpdb, $torro_form_id;
@@ -315,6 +335,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 	/**
 	 * Adding fingerprint post field
+	 *
+	 * @since 1.0.0
 	 */
 	public function add_fingerprint_input() {
 		global $torro_form_id;

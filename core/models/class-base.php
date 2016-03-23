@@ -159,6 +159,8 @@ abstract class Torro_Base {
 
 	/**
 	 * Add Settings to Settings Page
+	 *
+	 * @since 1.0.0
 	 */
 	private function init_settings() {
 		if( null === $this->settings_name ){
