@@ -17,7 +17,7 @@ function torro_questions_to_awesome_forms() {
 	$sql = "RENAME TABLE {$table_answers_old} TO {$wpdb->torro_element_answers}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_settings_old} TO {$wpdb->torro_settings}";
+	$sql = "RENAME TABLE {$table_settings_old} TO {$wpdb->torro_element_settings}";
 	$wpdb->query( $sql );
 
 	$sql = "RENAME TABLE {$table_responds_old} TO {$wpdb->torro_results}";
@@ -50,7 +50,7 @@ function torro_questions_to_awesome_forms() {
 	$sql = "ALTER TABLE {$wpdb->torro_result_values} CHANGE question_id element_id int(11)";
 	$wpdb->query( $sql );
 
-	$sql = "ALTER TABLE {$wpdb->torro_settings} CHANGE question_id element_id int(11)";
+	$sql = "ALTER TABLE {$wpdb->torro_element_settings} CHANGE question_id element_id int(11)";
 	$wpdb->query( $sql );
 
 	$sql = "ALTER TABLE {$wpdb->torro_participants} CHANGE survey_id form_id int(11)";

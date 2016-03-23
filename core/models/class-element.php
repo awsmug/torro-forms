@@ -225,7 +225,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 		$settings = array();
 
-		$sql      = $wpdb->prepare( "SELECT id, name FROM {$wpdb->torro_settings} WHERE element_id = %s", $this->id );
+		$sql      = $wpdb->prepare( "SELECT id, name FROM {$wpdb->torro_element_settings} WHERE element_id = %s", $this->id );
 		$results = $wpdb->get_results( $sql );
 
 		if ( 0 === $wpdb->num_rows ) {

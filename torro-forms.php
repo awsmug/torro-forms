@@ -96,9 +96,9 @@ class Torro_Init {
 			'containers',
 			'elements',
 			'element_answers',
+			'element_settings',
 			'results',
 			'result_values',
-			'settings',
 			'participants',
 			'email_notifications',
 		);
@@ -254,7 +254,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function setup() {
-		$script_db_version  = '1.0.4';
+		$script_db_version  = '1.0.5';
 		$current_db_version = get_option( 'torro_db_version' );
 
 		// Upgrading from Questions to Awesome Forms
@@ -288,6 +288,13 @@ class Torro_Init {
 				require_once( 'includes/updates/to_1.0.4.php' );
 				torro_forms_to_1_0_4();
 				update_option( 'torro_db_version', '1.0.4' );
+			}
+
+			// Upgrading from Torro DB version 1.0.4 to 1.0.5
+			if ( true === version_compare( $current_db_version, '1.0.5', '<' ) ) {
+				require_once( 'includes/updates/to_1.0.5.php' );
+				torro_forms_to_1_0_5();
+				update_option( 'torro_db_version', '1.0.5' );
 			}
 		} elseif ( false === self::is_installed() ) {
 			// Fresh Torro DB install
@@ -362,6 +369,16 @@ class Torro_Init {
 
 		dbDelta( $sql );
 
+		$sql = "CREATE TABLE $wpdb->torro_element_settings (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		element_id int(11) NOT NULL,
+		name text NOT NULL,
+		value text NOT NULL,
+		UNIQUE KEY id (id)
+		) ENGINE = INNODB " . $charset_collate . ";";
+
+		dbDelta( $sql );
+
 		$sql = "CREATE TABLE $wpdb->torro_results (
 		id int(11) NOT NULL AUTO_INCREMENT,
 		form_id int(11) NOT NULL,
@@ -378,16 +395,6 @@ class Torro_Init {
 		id int(11) NOT NULL AUTO_INCREMENT,
 		result_id int(11) NOT NULL,
 		element_id int(11) NOT NULL,
-		value text NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_settings (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		element_id int(11) NOT NULL,
-		name text NOT NULL,
 		value text NOT NULL,
 		UNIQUE KEY id (id)
 		) ENGINE = INNODB " . $charset_collate . ";";
