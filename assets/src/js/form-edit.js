@@ -125,7 +125,7 @@
 
 						// init new element
 						if ( ! $element.attr( 'id' ) ) {
-							var element_id = 'temp_id_' + self.rand();
+							var element_id = self.generate_temp_id();
 
 							$element.attr( 'id', 'element-' + element_id );
 							$element.attr( 'data-element-id', element_id );
@@ -139,7 +139,8 @@
 							if ( $element.data( 'element-type' ) ) {
 								var data = {
 									id: element_id,
-									selector: '#' + element_id
+									selector: '#element-' + element_id,
+									container_id: container_id
 								};
 								$( document ).trigger( 'torro.insert_element_' + $element.data( 'element-type' ), [ data ] );
 							}
@@ -149,9 +150,11 @@
 						$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.element ).each( function( index ) {
 							var element_id = $( this ).attr( 'data-element-id' );
 
-							$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[container_id\]"]' ).val( container_id ) ;
-							$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[sort\]"]' ).val( index ) ;
-							$( 'input[name^="containers\[' + container_id +'\]\[elements\]\[' + element_id + '\]\[id\]"]' ).val( element_id ) ;
+							self.generate_admin_input_name( container_id, element_id, undefined, 'container_id', true )
+
+							$( 'input[name^="' + self.generate_admin_input_name( container_id, element_id, undefined, 'container_id', true ) + '"]' ).val( container_id ) ;
+							$( 'input[name^="' + self.generate_admin_input_name( container_id, element_id, undefined, 'sort', true ) + '"]' ).val( index ) ;
+							$( 'input[name^="' + self.generate_admin_input_name( container_id, element_id, undefined, 'id', true ) + '"]' ).val( element_id ) ;
 						});
 					}
 				});
@@ -183,7 +186,8 @@
 
 						if( tab_container_id != undefined ) {
 							var container_id = $(tab_container_id + ' input[name=container_id]').val();
-							$('input[name^="containers\[' + container_id + '\]\[sort\]"]').val(index);
+							self.generate_admin_input_name( container_id, undefined, undefined, 'sort', true )
+							$('input[name^="' + self.generate_admin_input_name( container_id, undefined, undefined, 'sort', true ) + '"]').val(index);
 						}
 					});
 
@@ -206,7 +210,7 @@
 							var tab_value = $( this ).val();
 							var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
 							var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
-							$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
+							$( 'input[name^="' + self.generate_admin_input_name( container_id, undefined, undefined, 'label', true ) + '"]' ).val( tab_value ) ;
 						}
 						if ( e.which == 38 || e.which == 40 || e.which == 37 || e.which == 39 || e.keyCode == 32 ) {
 							e.stopPropagation();
@@ -218,7 +222,7 @@
 						var tab_value = $( this ).val();
 						var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
 						var container_id = $( tab_container_id + ' input[name=container_id]' ).val();
-						$( 'input[name^="containers\[' + container_id +'\]\[label\]"]' ).val( tab_value ) ;
+						$( 'input[name^="' + self.generate_admin_input_name( container_id, undefined, undefined, 'label', true ) + '"]' ).val( tab_value ) ;
 					} else {
 						e.stopPropagation();
 					}
@@ -250,7 +254,7 @@
 						click: function() {
 							if ( self.current_container_id ) {
 								// only update deleted_containers list if the container was stored in DB before
-								if ( 0 !== self.current_container_id.indexOf( 'temp_id' ) ) {
+								if ( ! self.is_temp_id( self.current_container_id ) ) {
 									var deleted_containers = $( self.selectors.deleted_containers ).val();
 
 									if ( '' == deleted_containers ) {
@@ -328,7 +332,7 @@
 						click: function() {
 							if ( self.current_element_id ) {
 								// only update deleted_elements list if the element was stored in DB before
-								if ( 0 !== self.current_element_id.indexOf( 'temp_id' ) ) {
+								if ( ! self.is_temp_id( self.current_element_id ) ) {
 									var deleted_elements = $( self.selectors.deleted_elements ).val();
 
 									if ( '' == deleted_elements ) {
@@ -405,7 +409,7 @@
 								nr = nr.split( '_' );
 								nr = nr[1];
 
-								var input_name = 'input[name="containers\[' + container_id + '\]\[elements\]\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]';
+								var input_name = 'input[name="' + self.generate_admin_input_name( container_id, element_id, 'id_' + nr, 'sort', true ) + '"]';
 								var index = $( this ).index();
 								$( input_name ).val( index ) ;
 							});
@@ -437,7 +441,7 @@
 			$( this.selectors.container_add ).on( 'click', function() {
 				var count_container = $( self.selectors.container_tabs ).parent().find( '.torro-container' ).length;
 
-				var id =  'temp_id_' + self.rand();
+				var id = self.generate_temp_id();
 				var container_id = 'torro-container-' + id;
 				var tab_id = 'tab-container-' + id;
 
@@ -451,9 +455,9 @@
 				container += '<input type="button" name="delete_container" value="' +  self.translations.delete_page + '" class="button delete-container-button" />';
 				container += '</div>';
 				container += '<input type="hidden" name="container_id" value="'+ id +'" />';
-				container += '<input type="hidden" name="containers[' + id + '][id]" value="'+ id +'" />';
-				container += '<input type="hidden" name="containers[' + id + '][label]" value="Page '+ ( count_container + 1 ) +'" />';
-				container += '<input type="hidden" name="containers[' + id + '][sort]" value="'+ count_container +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'id' ) + '" value="'+ id +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'label' ) + '" value="Page '+ ( count_container + 1 ) +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'sort' ) + '" value="'+ count_container +'" />';
 				container += '</div>';
 
 				$( tab ).insertBefore( this );
@@ -488,18 +492,18 @@
 					return;
 				}
 
-				var nr = 'temp_id_' + self.rand();
-				var section_val = $( 'input[name="containers\[' + container_id + '\]\[elements\]\[' + element_id + '\]\[sections\]"]' ).val();
+				var nr = self.generate_temp_id();
+				var section_val = $( 'input[name="' + self.generate_admin_input_name( container_id, element_id, undefined, 'sections', true ) + '"]' ).val();
 
 				// Setting up new answer HTML
 				var answer_content = '<div class="answer" id="answer_' + nr + '">';
-				answer_content = answer_content + '<p><input type="text" id="answer_' + nr + '_input" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][answer]" class="element-answer" /></p>';
-				answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][id]" />';
-				answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][sort]" />';
+				answer_content = answer_content + '<p><input type="text" id="answer_' + nr + '_input" name="' + self.generate_admin_input_name( container_id, element_id, nr, 'answer' ) + '" class="element-answer" /></p>';
+				answer_content = answer_content + '<input type="hidden" name="' + self.generate_admin_input_name( container_id, element_id, nr, 'id' ) + '" />';
+				answer_content = answer_content + '<input type="hidden" name="' + self.generate_admin_input_name( container_id, element_id, nr, 'sort' ) + '" />';
 
 				if ( 'yes' == section_val ) {
 					var section_key = $button.parent().find( 'input[name="section_key"]' ).val();
-					answer_content = answer_content + '<input type="hidden" name="containers[' + container_id + '][elements][' + element_id + '][answers][' + nr + '][section]" value="' + section_key + '" />';
+					answer_content = answer_content + '<input type="hidden" name="' + self.generate_admin_input_name( container_id, element_id, nr, 'section' ) + '" value="' + section_key + '" />';
 				}
 
 				answer_content = answer_content + ' <input type="button" value="' + self.translations.delete + '" class="delete_answer button answer_action"></div>';
@@ -521,7 +525,7 @@
 				$answer_input.focus();
 
 				// Adding sorting number
-				$( 'input[name="containers\[' + container_id + '\]\[elements\]\[' + element_id + '\]\[answers\]\[id_' + nr + '\]\[sort\]"]' ).val( order );
+				$( 'input[name="' + self.generate_admin_input_name( container_id, element_id, 'id_' + nr, 'sort', true ) + '"]' ).val( order );
 			});
 		},
 
@@ -546,7 +550,7 @@
 								self.current_answer_id = self.current_answer_id.substring( 7 );
 
 								// only update deleted_answers list if the answer was stored in DB before
-								if ( 0 !== self.current_answer_id.indexOf( 'temp_id' ) ) {
+								if ( ! self.is_temp_id( self.current_answer_id ) ) {
 									var deleted_answers = $( self.selectors.deleted_answers ).val();
 
 									if ( '' == deleted_answers ) {
@@ -848,14 +852,42 @@
 			return this.extensions;
 		},
 
-		rand: function() {
+		generate_admin_input_name: function( container_id, element_id, answer_id, field, escaped ) {
+			if ( ! container_id ) {
+				return '';
+			}
+
+			var name = 'containers[' + container_id + ']';
+			if ( element_id ) {
+				name += '[elements][' + element_id + ']';
+			}
+			if ( answer_id ) {
+				name += '[answers][' + answer_id + ']';
+			}
+
+			if ( field ) {
+				name += '[' + field + ']';
+			}
+
+			if ( escaped ) {
+				name = name.replace( '[', '\[' ).replace( ']', '\]' );
+			}
+
+			return name;
+		},
+
+		generate_temp_id: function() {
 			var now = new Date();
 			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
 
 			random = random * now.getTime();
 			random = random.toString();
 
-			return random;
+			return ( 'temp_id_' + random ).substring( 0, 14 );
+		},
+
+		is_temp_id: function( id ) {
+			return 'temp_id' === id.substring( 0, 7 );
 		}
 	};
 

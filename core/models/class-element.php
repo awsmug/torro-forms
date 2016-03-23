@@ -283,16 +283,11 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	protected function get_admin_element_id() {
-		// Getting Widget ID
-		if ( null === $this->id ) {
-			// New Element
-			$element_id = 'replace_element_id';
-		} else {
-			// Existing Element
-			$element_id = $this->id;
+		if ( null === $this->element_id ) {
+			return $this->get_empty_element_id();
 		}
 
-		return $element_id;
+		return $this->element_id;
 	}
 
 	/**
@@ -301,16 +296,19 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return null|string
 	 */
 	protected function get_admin_cotainer_id() {
-		// Getting Widget ID
 		if ( null === $this->container_id ) {
-			// New Container
-			$container_id = 'replace_container_id';
-		} else {
-			// Existing Container
-			$container_id = $this->container_id;
+			return $this->get_empty_container_id();
 		}
 
-		return $container_id;
+		return $this->container_id;
+	}
+
+	protected function get_empty_element_id() {
+		return 'replace_element_id';
+	}
+
+	protected function get_empty_container_id() {
+		return 'replace_container_id';
 	}
 
 	/**
@@ -602,7 +600,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		} else {
 			if ( $this->input_answers ) {
 				$param_arr[]    = $this->create_answer_syntax;
-				$temp_answer_id = 'temp_id_' . time() * rand();
+				$temp_answer_id = torro()->generate_temp_id();
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
@@ -662,7 +660,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 			$value = $this->settings[ $name ]->value;
 			$name = $this->settings[ $name ]->name;
 		}else{
-			$id = 'temp_id_' . time() * rand();
+			$id = torro()->generate_temp_id();
 		}
 
 		if ( '' == $value ) {

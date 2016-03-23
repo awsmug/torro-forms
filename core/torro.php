@@ -284,6 +284,14 @@ final class Torro {
 		fputs( $file, $message . chr( 13 ) );
 		fclose( $file );
 	}
+
+	public function generate_temp_id() {
+		return substr( 'temp_id_' . time() * rand(), 0, 14 );
+	}
+
+	public function is_temp_id( $id ) {
+		return 'temp_id' === substr( $id, 0, 7 );
+	}
 }
 
 /**
