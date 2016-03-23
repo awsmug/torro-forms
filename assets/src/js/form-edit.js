@@ -131,6 +131,7 @@
 				helper: 'clone',
 				cursor: 'move',
 				connectToSortable: this.selectors.droppable_area,
+				handle: '.widget-top',
 				addClasses: false,
 				start: function( event, ui ) {
 					var $element = ui.helper;
@@ -160,6 +161,7 @@
 				}).sortable({
 					placeholder: 'form-element-placeholder',
 					items: self.selectors.element,
+					handle: '.widget-top',
 					update: function( event, ui ) {
 						var $element = ui.item;
 						var container_id = $( this ).parent().find( self.selectors.container_id ).val();
