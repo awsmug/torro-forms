@@ -75,21 +75,22 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	}
 
 	public function settings_fields() {
-		$_input_types = $this->get_input_types();
-		$input_types = array();
-		foreach ( $_input_types as $value => $data ) {
-			if ( ! isset( $data['title'] ) || ! $data['title'] ) {
-				continue;
-			}
-			$input_types[ $value ] = $data['title'];
-		}
-
 		$this->settings_fields = array(
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',
 				'description'	=> __( 'The description will be shown after the Element.', 'torro-forms' ),
 				'default'		=> ''
+			),
+			'required'		=> array(
+				'title'			=> __( 'Required?', 'torro-forms' ),
+				'type'			=> 'radio',
+				'values'		=> array(
+					'yes'			=> __( 'Yes', 'torro-forms' ),
+					'no'			=> __( 'No', 'torro-forms' ),
+				),
+				'description'	=> __( 'Whether the user must upload a file.', 'torro-forms' ),
+				'default'		=> 'no',
 			),
 			'file_type'		=> array(
 				'title'			=> __( 'Valid file types', 'torro-forms' ),
@@ -152,18 +153,17 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	}
 
 	public function validate( $input ) {
-		if ( ! $input ) {
+		if ( ( ! isset( $this->settings['required'] ) || 'no' === $this->settings['required']->value ) && ( ! $input || ! $input['name'] ) ) {
 			// this denotes a non-existing attachment
 			return 0;
 		}
 
 		$name = $this->get_input_name();
 
-		if ( ! isset( $_FILES[ $name ] ) ) {
-			return new Torro_Error( 'missing_file', __( 'No file was provided to upload.', 'torro-forms' ) );
+		$file_type = 'any';
+		if ( isset( $this->settings['file_type'] ) ) {
+			$file_type = $this->settings['file_type']->value;
 		}
-
-		$file_type = $this->settings['file_type']->value;
 
 		$mimes = array();
 
@@ -185,37 +185,27 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 			}
 		}
 
-		if ( ! function_exists( 'wp_handle_upload' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-		}
-		if ( ! function_exists( 'wp_read_image_metadata' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-		}
-		if ( ! function_exists( 'media_handle_upload' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/media.php';
-		}
-
-		$post_data = array(
-			'post_title'	=> sprintf( __( 'Form Submission for %s', 'torro-forms' ), get_the_title() ),
-			'post_status'	=> 'torro-forms-upload'
-		);
-
-		$overrides = array(
-			'test_form'	=> false,
-			'test_size'	=> true,
-			'test_type'	=> true,
+		return Torro_Form_Media::upload( $name, array(
 			'mimes'		=> $mimes,
-		);
+		) );
+	}
 
-		$id = media_handle_upload( $name, 0, $post_data, $overrides );
-
-		if ( is_wp_error( $id ) ) {
-			return $id;
-		} elseif ( $id < 1 ) {
-			return new Torro_Error( 'unknown_error', __( 'An unknown error occurred while processing the file upload.', 'torro-forms' ) );
+	public function replace_column_value( $column_value ) {
+		if ( ! $column_value || ! ( $attachment = get_post( $column_value ) ) ) {
+			return __( 'No file uploaded.', 'torro-forms' );
 		}
 
-		return $id;
+		$output = wp_basename( get_attached_file( $attachment->ID ) );
+		if ( 'image' === substr( $attachment->post_mime_type, 0, 5 ) ) {
+			$src = wp_get_attachment_image_src( $attachment->ID, 'full' );
+			if ( is_array( $src ) && $src[0] ) {
+				$output = '<img src="' . $src[0] . '" style="max-width:300px;height:auto;" />';
+			}
+		}
+
+		$url = get_edit_post_link( $attachment->ID );
+
+		return '<a href="' . $url . '">' . $output . '</a>';
 	}
 
 	private function dotprefix( $extension ) {

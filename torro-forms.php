@@ -128,6 +128,7 @@ class Torro_Init {
 		// Functions
 		require_once( $includes_folder . 'functions.php' );
 		require_once( $includes_folder . 'compat.php' );
+		require_once( $includes_folder . 'form-media.php' );
 		require_once( $includes_folder . 'wp-editor.php' );
 
 		// Models
@@ -162,6 +163,7 @@ class Torro_Init {
 		require_once( $core_folder . 'elements/base-elements/onechoice.php' );
 		require_once( $core_folder . 'elements/base-elements/multiplechoice.php' );
 		require_once( $core_folder . 'elements/base-elements/dropdown.php' );
+		require_once( $core_folder . 'elements/base-elements/media.php' );
 		require_once( $core_folder . 'elements/base-elements/separator.php' );
 
 		// Template tags
