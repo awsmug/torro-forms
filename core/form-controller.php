@@ -380,6 +380,8 @@ class Torro_Form_Controller {
 			$form_errors = array();
 			if( isset( $errors[ $current_container_id ][ 'elements' ] )) {
 				$form_errors = $errors[ $current_container_id ][ 'elements' ];
+
+				do_action( 'torro_submission_has_errors', $form_errors );
 			}
 
 			$this->content = $this->form->get_html( $action_url, $current_container_id, $form_response, $form_errors );
