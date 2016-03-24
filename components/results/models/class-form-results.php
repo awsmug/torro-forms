@@ -210,37 +210,41 @@ class Torro_Form_Results {
 			return false;
 		}
 
-		switch ( $filter['column_name'] ) {
-			case 'label':
-				foreach ( $results as $result_key => $result ) {
-					foreach( $result as $column_name => $column ) {
-						$column_arr = explode( '_', $column_name );
+		$filtered_results = array();
 
-						if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
-							$element_id = $column_arr[ 1 ];
-							$element = torro()->elements()->get_registered( $element_id );
+		foreach ( $results as $result_key => $result ) {
+			$filtered_results[ $result_key ] = array();
 
-							$column_name_new = $element->replace_column_name( $column_name );
+			foreach ( $result as $column_name => $value ) {
+				if ( 0 === strpos( $column_name, 'element_' ) ) {
+					$element_id = substr( $column_name, 8 );
+					$element = torro()->elements()->get( $element_id );
 
-							if ( empty( $column_name_new ) ) {
-								$column_name_new = $element->label;
-							} else {
-								$column_name_new = $element->label . ' - ' . $column_name_new;
-							}
-
-							$value = $results[ $result_key ][ $column_name ];
-							unset( $results[ $result_key ][ $column_name ] );
-							$results[ $result_key ][ $column_name_new ] = $value;
+					$column_name_new = $element->replace_column_name( $column_name );
+					if ( 'label' === $filter['column_name'] ) {
+						if ( $column_name_new ) {
+							$column_name_new = $element->label . ' - ' . $column_name_new;
+						} else {
+							$column_name_new = $element->label;
 						}
 					}
-				}
 
-				break;
+					if ( $column_name_new ) {
+						$column_name = $column_name_new;
+					}
+
+					$value_new = $element->replace_column_value( $value );
+					if ( $value_new || is_string( $value_new ) ) {
+						$value = $value_new;
+					}
+				}
+				$filtered_results[ $result_key ][ $column_name ] = $value;
+			}
 		}
 
 		$this->num_rows = $wpdb->num_rows;
 
-		return $results;
+		return $filtered_results;
 	}
 
 	/**

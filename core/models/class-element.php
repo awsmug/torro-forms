@@ -664,7 +664,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		}
 
 		if ( '' == $value ) {
-			$value = $field[ 'default' ];
+			$value = $field['default'];
 		}
 
 		$base_name = $this->get_admin_input_name() . '[settings][' . $id . ']';
@@ -686,9 +686,20 @@ abstract class Torro_Form_Element extends Torro_Base {
 				wp_editor( $value, 'torro_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
 				$input = ob_get_clean();
 				break;
+			case 'select':
+				$input = '<select name="' . $input_name . '">';
+				foreach ( $field['values'] as $field_key => $field_value ) {
+					$selected = '';
+					if ( $value === $field_key ) {
+						$selected = ' selected="selected"';
+					}
+					$input .= '<option value="' . $field_key . '"' . $selected . '>' . esc_html( $field_value ) . '</option>';
+				}
+				$input .= '</select>';
+				break;
 			case 'radio':
 				$input = '';
-				foreach ( $field[ 'values' ] as $field_key => $field_value ) {
+				foreach ( $field['values'] as $field_key => $field_value ) {
 					$checked = '';
 					if ( $value === $field_key ) {
 						$checked = ' checked="checked"';
@@ -875,6 +886,10 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	public function replace_column_name( $column_name ) {
+		return false;
+	}
+
+	public function replace_column_value( $column_value ) {
 		return false;
 	}
 
