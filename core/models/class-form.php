@@ -490,7 +490,7 @@ class Torro_Form extends Torro_Post {
 				if ( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ) {
 					// Todo: Have to be replaced by detting object
 					foreach ( $element->settings as $name => $value ) {
-						$wpdb->insert( $wpdb->torro_settings, array(
+						$wpdb->insert( $wpdb->torro_element_settings, array(
 							'element_id' => $new_element_id,
 							'name'       => $name,
 							'value'      => $value
@@ -557,7 +557,7 @@ class Torro_Form extends Torro_Post {
 		if ( is_array( $elements ) && count( $elements ) > 0 ) {
 			foreach ( $elements as $element_id ) {
 				$wpdb->delete( $wpdb->torro_element_answers, array( 'element_id' => $element_id ) );
-				$wpdb->delete( $wpdb->torro_settings, array( 'element_id' => $element_id ) );
+				$wpdb->delete( $wpdb->torro_element_settings, array( 'element_id' => $element_id ) );
 
 				do_action( 'form_delete_element', $element_id, $this->id );
 			}

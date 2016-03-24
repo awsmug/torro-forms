@@ -17,7 +17,7 @@ function awesome_forms_to_torro_forms() {
 	$sql = "RENAME TABLE {$table_answers_old} TO {$wpdb->torro_element_answers}";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_settings_old} TO {$wpdb->torro_settings}";
+	$sql = "RENAME TABLE {$table_settings_old} TO {$wpdb->torro_element_settings}";
 	$wpdb->query( $sql );
 
 	$sql = "RENAME TABLE {$table_responds_old} TO {$wpdb->torro_results}";

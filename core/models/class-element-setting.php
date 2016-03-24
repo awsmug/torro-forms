@@ -47,7 +47,7 @@ class Torro_Element_Setting {
 		global $wpdb;
 
 		if ( ! empty( $id ) ) {
-			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_settings} WHERE id =%d", $id );
+			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_settings} WHERE id =%d", $id );
 
 			$answer = $wpdb->get_row( $sql );
 
@@ -64,7 +64,7 @@ class Torro_Element_Setting {
 		global $wpdb;
 
 		if ( ! empty( $this->id ) ) {
-			return $wpdb->update( $wpdb->torro_settings, array(
+			return $wpdb->update( $wpdb->torro_element_settings, array(
 				                                           'element_id' => $this->element_id,
 				                                           'name'       => $this->name,
 				                                           'value'      => $this->value,
@@ -72,7 +72,7 @@ class Torro_Element_Setting {
 				'id' => $this->id
 			) );
 		} else {
-			$wpdb->insert( $wpdb->torro_settings, array(
+			$wpdb->insert( $wpdb->torro_element_settings, array(
 				'element_id' => $this->element_id,
 				'name'       => $this->name,
 				'value'      => $this->value
@@ -86,7 +86,7 @@ class Torro_Element_Setting {
 		global $wpdb;
 
 		if ( ! empty( $this->id ) ) {
-			return $wpdb->delete( $wpdb->torro_settings, array( 'id' => $this->id ) );
+			return $wpdb->delete( $wpdb->torro_element_settings, array( 'id' => $this->id ) );
 		}
 
 		return false;
