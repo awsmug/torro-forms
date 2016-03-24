@@ -162,6 +162,34 @@
 					placeholder: 'form-element-placeholder',
 					items: self.selectors.element,
 					handle: '.widget-top',
+					start: function( event, ui ) {
+						var $element = ui.item;
+
+						// remove WP editors in element
+						$element.find( 'textarea.wp-editor-area' ).each( function( index, element ) {
+							var editor = tinymce.get( element.id );
+							if ( editor ) {
+								editor.save();
+								tinymce.execCommand( 'mceRemoveEditor', true, element.id );
+							}
+						});
+					},
+					stop: function( event, ui ) {
+						var $element = ui.item;
+
+						// readd WP Editors in element
+						$element.find( 'textarea.wp-editor-area' ).each( function( index, element ) {
+							var editor = tinymce.get( element.id );
+							if ( ! editor ) {
+								tinymce.execCommand( 'mceAddEditor', true, element.id );
+
+								// fix display issue when in HTML mode
+								if ( $( '#wp-' + element.id + '-wrap' ).hasClass( 'html-active' ) ) {
+									$( '#' + element.id + '-html' ).trigger( 'click' );
+								}
+							}
+						});
+					},
 					update: function( event, ui ) {
 						var $element = ui.item;
 						var container_id = $( this ).parent().find( self.selectors.container_id ).val();

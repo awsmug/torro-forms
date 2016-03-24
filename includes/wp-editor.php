@@ -19,6 +19,15 @@ class Torro_AJAX_WP_Editor {
 	 */
 	private static $qt_settings = array();
 
+	public static function init_defaults() {
+		$screen = get_current_screen();
+		if ( 'torro-forms' !== $screen->post_type ) {
+			return;
+		}
+
+		add_filter( 'wp_default_editor', array( __CLASS__, 'std_editor_tinymce' ) );
+	}
+
 	/**
 	 * Getting Editor HTML
 	 *
@@ -244,3 +253,5 @@ class Torro_AJAX_WP_Editor {
 		return '{' . trim( $options, ' ,' ) . '}';
 	}
 }
+
+add_action( 'load-post.php', array( 'Torro_AJAX_WP_Editor', 'init_defaults' ) );

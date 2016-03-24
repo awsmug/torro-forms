@@ -86,4 +86,21 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 	}
 }
 
+add_action( 'admin_footer', function() {
+	?>
+	<style type="text/css">
+		.torro-iframe-overlay {
+			width: 100%;
+			height: 100%;
+			background: rgba(34, 34, 34, 0.5);
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: none;
+		}
+	</style>
+	<div class="torro-iframe-overlay"></div>
+	<?php
+});
+
 torro()->elements()->register( 'Torro_Form_Element_Content' );
