@@ -20,6 +20,10 @@ class Torro_Form_Media {
 
 		add_action( 'wp_insert_attachment_data', array( __CLASS__, 'allow_post_status' ), 10, 2 );
 		add_action( 'wp_insert_post_data', array( __CLASS__, 'disallow_post_status' ), 10, 2 );
+
+		add_filter( 'ajax_query_attachments_args', array( __CLASS__, 'adjust_query_args' ), 10, 1 );
+
+		add_action( 'wp_enqueue_media', array( __CLASS__, 'expose_post_status_js' ) );
 	}
 
 	public static function allow_post_status( $data, $raw_data ) {
@@ -36,6 +40,24 @@ class Torro_Form_Media {
 		}
 
 		return $data;
+	}
+
+	public static function adjust_query_args( $query ) {
+		if ( isset( $_REQUEST['query']['post_status'] ) && self::STATUS === $_REQUEST['query']['post_status'] ) {
+			$query['post_status'] = self::STATUS;
+		}
+
+		return $query;
+	}
+
+	public static function expose_post_status_js() {
+		wp_enqueue_script( 'torro-form-media', torro()->get_asset_url( 'form-media', 'js' ), array( 'media-views' ), false, true );
+		wp_localize_script( 'torro-form-media', 'torro_media', array(
+			'status'	=> self::STATUS,
+			'l10n'		=> array(
+				'name'		=> __( 'Form Uploads', 'torro-forms' ),
+			),
+		) );
 	}
 
 	public static function upload( $field_name, $args = array() ) {
