@@ -9,6 +9,7 @@ class Torro_Form_Media {
 		register_post_status( self::STATUS, array(
 			'label'						=> __( 'Formular-Upload', 'torro-forms' ),
 			'public'					=> false,
+			'internal'					=> true,
 			'exclude_from_search'		=> true,
 			'show_in_admin_all_list'	=> false,
 			'show_in_admin_status_list'	=> false,
@@ -16,6 +17,25 @@ class Torro_Form_Media {
 		) );
 
 		add_action( 'torro_submission_has_errors', array( __CLASS__, 'delete_attachments_on_error' ), 10, 1 );
+
+		add_action( 'wp_insert_attachment_data', array( __CLASS__, 'allow_post_status' ), 10, 2 );
+		add_action( 'wp_insert_post_data', array( __CLASS__, 'disallow_post_status' ), 10, 2 );
+	}
+
+	public static function allow_post_status( $data, $raw_data ) {
+		if ( isset( $raw_data['post_status'] ) && self::STATUS === $raw_data['post_status'] ) {
+			$data['post_status'] = self::STATUS;
+		}
+
+		return $data;
+	}
+
+	public static function disallow_post_status( $data, $raw_data ) {
+		if ( isset( $raw_data['post_status'] ) && self::STATUS === $raw_data['post_status'] ) {
+			$data['post_status'] = 'private';
+		}
+
+		return $data;
 	}
 
 	public static function upload( $field_name, $args = array() ) {
