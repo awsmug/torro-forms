@@ -55,7 +55,7 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		$this->type = $this->name = 'media';
 		$this->title = __( 'Media', 'torro-forms' );
 		$this->description = __( 'Add an Element to allow file uploads.', 'torro-forms' );
-		$this->icon_url = torro()->get_asset_url( 'icon-media', 'png' );
+		$this->icon_url = torro()->get_asset_url( 'icon-upload', 'png' );
 
 		$this->upload = true;
 	}
