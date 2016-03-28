@@ -29,7 +29,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
-
 	/**
 	 * Instance
 	 *

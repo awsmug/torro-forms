@@ -33,13 +33,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Torro {
 	/**
 	 * Instance
-	 * 
-	 * @var object
+	 *
+	 * @var null|Torro
+	 * @since 1.0.0
 	 */
 	private static $instance = null;
 
 	/**
-	 * Singleton init function
+	 * Singleton
+	 *
+	 * @since 1.0.0
+	 * @return Torro
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -50,12 +54,16 @@ final class Torro {
 
 	/**
 	 * Plugin Filename
+	 *
 	 * @var string
+	 * @since 1.0.0
 	 */
 	private $plugin_file = '';
 
 	/**
-	 * Torro constructor
+	 * Constructor
+	 *
+	 * @since 1.0.0
 	 */
 	private function __construct() {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/torro-forms.php';
@@ -82,8 +90,20 @@ final class Torro {
 	}
 
 	/**
+	 * Components keychain function
+	 *
+	 * @return null|Torro_Components_Manager
+	 * @since 1.0.0
+	 */
+	public function components() {
+		return Torro_Components_Manager::instance();
+	}
+
+	/**
 	 * Forms keychain function
+	 *
 	 * @return null|Torro_Forms_Manager
+	 * @since 1.0.0
 	 */
 	public function forms() {
 		return Torro_Forms_Manager::instance();
@@ -91,23 +111,19 @@ final class Torro {
 
 	/**
 	 * Form settings keychain function
+	 *
 	 * @return null|Torro_Form_Settings_Manager
+	 * @since 1.0.0
 	 */
 	public function form_settings(){
 		return Torro_Form_Settings_Manager::instance();
 	}
 
 	/**
-	 * Components keychain function
-	 * @return null|Torro_Components_Manager
-	 */
-	public function components() {
-		return Torro_Components_Manager::instance();
-	}
-
-	/**
 	 * Containers keychain function
+	 *
 	 * @return null|Torro_Containers_Manager
+	 * @since 1.0.0
 	 */
 	public function containers(){
 		return Torro_Containers_Manager::instance();
@@ -115,7 +131,9 @@ final class Torro {
 
 	/**
 	 * Elements keychain function
+	 *
 	 * @return null|Torro_Form_Elements_Manager
+	 * @since 1.0.0
 	 */
 	public function elements() {
 		return Torro_Form_Elements_Manager::instance();
@@ -123,7 +141,9 @@ final class Torro {
 
 	/**
 	 * Element setting keychain function
+	 *
 	 * @return null|Torro_Element_Answer_Manager
+	 * @since 1.0.0
 	 */
 	public function element_answers() {
 		return Torro_Element_Answer_Manager::instance();
@@ -131,7 +151,9 @@ final class Torro {
 
 	/**
 	 * Element setting keychain function
+	 *
 	 * @return null|Torro_Element_Setting_Manager
+	 * @since 1.0.0
 	 */
 	public function element_settings() {
 		return Torro_Element_Setting_Manager::instance();
@@ -139,7 +161,9 @@ final class Torro {
 
 	/**
 	 * Settings keychain function
+	 *
 	 * @return null|Torro_Settings_Manager
+	 * @since 1.0.0
 	 */
 	public function settings() {
 		return Torro_Settings_Manager::instance();
@@ -147,7 +171,9 @@ final class Torro {
 
 	/**
 	 * Template Tags keychain function
+	 *
 	 * @return null|Torro_TemplateTags_Manager
+	 * @since 1.0.0
 	 */
 	public function templatetags() {
 		return Torro_TemplateTags_Manager::instance();
@@ -155,7 +181,9 @@ final class Torro {
 
 	/**
 	 * Actions keychain function
+	 *
 	 * @return null|Torro_Actions_Manager
+	 * @since 1.0.0
 	 */
 	public function actions() {
 		return Torro_Actions_Manager::instance();
@@ -163,7 +191,9 @@ final class Torro {
 
 	/**
 	 * Restrictions keychain function
+	 *
 	 * @return null|Torro_Access_Controls_Manager
+	 * @since 1.0.0
 	 */
 	public function access_controls() {
 		return Torro_Access_Controls_Manager::instance();
@@ -171,7 +201,9 @@ final class Torro {
 
 	/**
 	 * Result handler keychain function
+	 *
 	 * @return null|Torro_Result_Handlers_Manager
+	 * @since 1.0.0
 	 */
 	public function resulthandlers() {
 		return Torro_Result_Handlers_Manager::instance();
@@ -179,7 +211,9 @@ final class Torro {
 
 	/**
 	 * Extensions keychain function
+	 *
 	 * @return null|Torro_Extensions_Manager
+	 * @since 1.0.0
 	 */
 	public function extensions() {
 		return Torro_Extensions_Manager::instance();
@@ -187,14 +221,19 @@ final class Torro {
 
 	/**
 	 * Admin notices keychain function
+	 *
 	 * @return null|Torro_Admin_Notices_Manager
+	 * @since 1.0.0
 	 */
 	public function admin_notices() {
 		return Torro_Admin_Notices_Manager::instance();
 	}
 
 	/**
+	 * AJAX keychain function
+	 *
 	 * @return null|Torro_AJAX
+	 * @since 1.0.0
 	 */
 	public function ajax() {
 		return Torro_AJAX::instance();
@@ -204,7 +243,9 @@ final class Torro {
 	 * Returns path to plugin
 	 *
 	 * @param string $path adds sub path
+	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	public function get_path( $path = '' ) {
 		return plugin_dir_path( $this->plugin_file ) . ltrim( $path, '/' );
@@ -214,7 +255,9 @@ final class Torro {
 	 * Returns url to plugin
 	 *
 	 * @param string $path adds sub path
+	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	public function get_url( $path = '' ) {
 		return plugin_dir_url( $this->plugin_file ) . ltrim( $path, '/' );
@@ -226,7 +269,9 @@ final class Torro {
 	 * @param string $name Name of asset
 	 * @param string $mode css/js/png/gif/svg/vendor-css/vendor-js
 	 * @param boolean $force whether to force to load the provided version of the file (not using .min conditionally)
+	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	public function get_asset_url( $name, $mode = '', $force = false ) {
 		$urlpath = 'assets/';
@@ -286,17 +331,34 @@ final class Torro {
 		fclose( $file );
 	}
 
+	/**
+	 * Generating temporary id
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	public function generate_temp_id() {
 		return substr( 'temp_id_' . time() * rand(), 0, 14 );
 	}
 
+	/**
+	 * Returns if id is temp id
+	 *
+	 * @param $id
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function is_temp_id( $id ) {
 		return 'temp_id' === substr( $id, 0, 7 );
 	}
 }
 
 /**
- * Torro Super Function
+ * Torro super function
+ *
+ * @return Torro
+ * @since 1.0.0
  */
 function torro() {
 	return Torro::instance();

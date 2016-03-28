@@ -29,8 +29,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Results_Component extends Torro_Component {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Actions_Component
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
+	/**
+	 * Singleton
+	 *
+	 * @return null|Torro_Results_Component
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -58,6 +70,11 @@ final class Torro_Results_Component extends Torro_Component {
 		$this->description = __( 'Handling Results.', 'torro-forms' );
 	}
 
+	/**
+	 * Including files of component
+	 *
+	 * @since 1.0.0
+	 */
 	protected function includes() {
 		$folder = torro()->get_path( 'components/results/' );
 

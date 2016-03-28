@@ -31,8 +31,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
+	/**
+	 * Instance
+	 *
+	 * @var Torro_Result_Charts_C3
+	 */
 	private static $instance = null;
 
+	/**
+	 * Singleton
+	 *
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -41,7 +51,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	}
 
 	/**
-	 * Initializing.
+	 * Constructor
 	 *
 	 * @since 1.0.0
 	 */
@@ -68,6 +78,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 * @param array  $attr
 	 *
 	 * @return mixed
+	 * @since 1.0.0
 	 */
 	public function bars( $title, $results, $params = array() ) {
 		$defaults = array(
@@ -185,6 +196,8 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 
 	/**
 	 * Loading Admin Styles
+	 *
+	 * @since 1.0.0
 	 */
 	public function admin_styles() {
 		wp_enqueue_style( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-css' ) );
@@ -193,6 +206,8 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 
 	/**
 	 * Loading Admin Scripts
+	 *
+	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
 		wp_enqueue_script( 'd3', torro()->get_asset_url( 'd3/d3', 'vendor-js' ) );

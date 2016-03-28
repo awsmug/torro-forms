@@ -185,6 +185,8 @@ class Torro_Init {
 
 		// Form functions
 		require_once( $core_folder . 'form-controller.php' );
+
+		do_action( 'torro_loaded' );
 	}
 
 	/**
@@ -568,3 +570,39 @@ function torro_init() {
 }
 
 add_action( 'plugins_loaded', 'torro_init' );
+
+
+function torro_test_superfunctions(){
+	// torro()->forms()->add(); // Todo: Hide function
+	// torro()->forms()->create_raw(); // Todo: Rename to 'create'
+	// torro()->forns()->delete // Todo: Should be deleted, because function by torro()->forms()->get( 123 )->delete();
+	// torro()->forms()->get_all_registered(); // Fine
+	// torro()->forms()->get_current(); // Todo: Checking if we are in a form, if not throw correct error
+	// torro()->forms()->get_current_form_id(); // Todo: Checking if we are in a form, if not throw correct error
+	// torro()->forms()->get( 7232 ); // Fine
+	// torro()->forms()->get( 7323 )->delete(); // Fine
+	// torro()->forms()->get( 7323 )->delete_responses(); // Fine
+	// torro()->forms()->get( 7323 )->duplicate(); // Fine
+	// torro()->forms()->get( 7323 )->duplicate_elements( 7325 ); // Todo: Rename to 'copy_elements'
+	// torro()->forms()->get( 7323 )->duplicate_participants( 7325 ); // Todo: Rename to 'copy_participants'
+	// torro()->forms()->get( 7323 )->duplicate_comments( 7325 ); // Todo: Rename to 'copy_comments' and adding functions in form class with param $form_id instead of $post_id
+	// torro()->forms()->get( 7323 )->duplicate_meta( 7325 ); // Todo: Rename to 'copy_meta' and adding functions in form class with param $form_id instead of $post_id
+	// torro()->forms()->get( 7323 )->duplicate_taxonomies( 7325 ); // Todo: Rename to 'copy_taxonomies' and adding functions in form class with param $form_id instead of $post_id
+	// torro()->forms()->get( 7323 )->delete(); // Fine
+	// torro()->forms()->get( 7323 )->exists(); // Fine
+	// torro()->forms()->get( 7323 )->get_containers(); // Fine
+	// torro()->forms()->get( 7323 )->get_current_container(); // Todo: Checking if we are in a container, if not throw correct error
+	// torro()->forms()->get( 7323 )->get_elements(); // Fine
+	// torro()->forms()->get( 7323 )->get_html(); // Fine
+	// torro()->forms()->get( 7323 )->get_participants(); // Fine
+	// torro()->forms()->get( 7323 )->has_analyzable_elements(); // Fine
+	// torro()->forms()->get( 7323 )->save_response( $response ); // Fine
+
+	// torro()->containers()->add(); // Todo: Hide function
+	// torro()->containers()->create_raw(); // Todo: Rename to 'create'
+
+
+
+	// torro()->elements()->get_registered( 'textfield' )->add_admin_tab( 'test', 'sdfsdfdsf' ); // Todo: Adding priorities
+}
+// add_action( 'torro_loaded', 'torro_test_superfunctions' );

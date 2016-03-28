@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Torro_Result_Handlers_Manager extends Torro_Manager {
 
-	private static $instance = null;
+	/** 	 * Instance 	 * 	 * @var Torro 	 * @since 1.0.0 	 */ 	private static $instance = null;
 
 	public static function instance() {
 		if ( null === self::$instance ) {

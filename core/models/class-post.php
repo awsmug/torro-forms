@@ -29,11 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Torro_Post {
-	var $id;
-	var $post;
-	var $meta;
-	var $terms;
-	var $comments;
+	private $id;
+	private $post;
+	private $meta;
+	private $terms;
+	private $comments;
 
 	/**
 	 * Initializes the class.

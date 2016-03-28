@@ -31,10 +31,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Torro_Manager {
+	/**
+	 * Modules
+	 *
+	 * @var array Torro_Base[]
+	 * @since 1.0.0
+	 */
 	protected $modules = array();
 
+	/**
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 */
 	protected function __construct() {}
 
+	/**
+	 * Registering a module
+	 *
+	 * @param $class_name
+	 *
+	 * @return bool|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function register( $class_name ) {
 		if ( ! class_exists( $class_name ) ) {
 			return new Torro_Error( 'torro_class_not_exist', sprintf( __( 'The class %s does not exist.', 'torro-forms' ), $class_name ), __METHOD__ );
@@ -99,6 +118,14 @@ abstract class Torro_Manager {
 		return true;
 	}
 
+	/**
+	 * Get registered module
+	 *
+	 * @param $name
+	 *
+	 * @return Torro_Base
+	 * @since 1.0.0
+	 */
 	public function get_registered( $name ) {
 		if ( ! isset( $this->modules[ $this->get_category() ][ $name ] ) ) {
 			return new Torro_Error( 'torro_module_not_exist', sprintf( __( 'The module %s does not exist.', 'torro-forms' ), $name ), __METHOD__ );
@@ -107,6 +134,12 @@ abstract class Torro_Manager {
 		return $this->modules[ $this->get_category() ][ $name ];
 	}
 
+	/**
+	 * Returning all registered modules
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function get_all_registered() {
 		if( ! isset( $this->modules[ $this->get_category() ]  ) ){
 			return new Torro_Error( 'torro_module_category_not_exist', sprintf( __( 'The module category %s does not exist.', 'torro-forms' ), $this->get_category() ), __METHOD__ );
@@ -114,7 +147,20 @@ abstract class Torro_Manager {
 		return $this->modules[ $this->get_category() ];
 	}
 
+	/**
+	 * Will be executed after instance was added
+	 *
+	 * @param $instance
+	 *
+	 * @todo Do we really need that function?
+	 * @since 1.0.0
+	 */
 	protected function after_instance_added( $instance ){}
 
+	/**
+	 * Getting category
+	 *
+	 * @return mixed
+	 */
 	protected abstract function get_category();
 }

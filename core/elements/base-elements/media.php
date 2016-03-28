@@ -29,8 +29,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Element_Media extends Torro_Form_Element {
+	/**
+	 * Instances
+	 *
+	 * @var Torro_Form_Element_Media[]
+	 */
 	private static $instances = array();
 
+	/**
+	 * Singleton
+	 *
+	 * @param null $id
+	 *
+	 * @return Torro_Form_Element_Media
+	 */
 	public static function instance( $id = null ) {
 		$slug = $id;
 		if ( null === $slug ) {
@@ -43,7 +55,7 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	}
 
 	/**
-	 * Initializing.
+	 * Constructor
 	 *
 	 * @since 1.0.0
 	 */
@@ -51,6 +63,11 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		parent::__construct( $id );
 	}
 
+	/**
+	 * Initializing
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->type = $this->name = 'media';
 		$this->title = __( 'Media', 'torro-forms' );
@@ -60,6 +77,12 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		$this->upload = true;
 	}
 
+	/**
+	 * Input HTML
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	public function input_html() {
 		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
 
@@ -74,6 +97,11 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		return $html;
 	}
 
+	/**
+	 * Settings fields
+	 *
+	 * @since 1.0.0
+	 */
 	public function settings_fields() {
 		$this->settings_fields = array(
 			'description'	=> array(
@@ -102,6 +130,12 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		);
 	}
 
+	/**
+	 * Dropdown options
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
 	protected function get_type_dropdown_options() {
 		$media_types = array(
 			'type_image'		=> __( 'Images (.jpg, .png, ...)', 'torro-forms' ),
@@ -122,6 +156,12 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		return array_merge( array( 'any' => __( 'Any', 'torro-forms' ) ), $media_types, $media_sub_types );
 	}
 
+	/**
+	 * Getting mime types
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
 	protected function get_file_mime_types() {
 		$mime_types = wp_get_mime_types();
 		$file_types = array();
@@ -135,6 +175,12 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		return $file_types;
 	}
 
+	/**
+	 * Getting media types
+	 *
+	 * @return mixed|null|void
+	 * @since 1.0.0
+	 */
 	protected function get_media_types() {
 		// this filter is a WP Core filter reapplied here (see `wp_ext2type()`)
 		$ext2type = apply_filters( 'ext2type', array(
@@ -152,6 +198,14 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		return $ext2type;
 	}
 
+	/**
+	 * Validating input
+	 *
+	 * @param $input
+	 *
+	 * @return int|Torro_Error|WP_Error
+	 * @since 1.0.0
+	 */
 	public function validate( $input ) {
 		if ( ( ! isset( $this->settings['required'] ) || 'no' === $this->settings['required']->value ) && ( ! $input || ! $input['name'] ) ) {
 			// this denotes a non-existing attachment
@@ -190,6 +244,14 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		) );
 	}
 
+	/**
+	 * Replacing column value in result HTML
+	 *
+	 * @param $column_value
+	 *
+	 * @return mixed|string|void
+	 * @since 1.0.0
+	 */
 	public function replace_column_value( $column_value ) {
 		if ( ! $column_value || ! ( $attachment = get_post( $column_value ) ) ) {
 			return __( 'No file uploaded.', 'torro-forms' );
@@ -208,6 +270,14 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		return '<a href="' . $url . '">' . $output . '</a>';
 	}
 
+	/**
+	 * Returning dot prefix
+	 *
+	 * @param $extension
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	private function dotprefix( $extension ) {
 		return '.' . $extension;
 	}

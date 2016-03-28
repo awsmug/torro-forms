@@ -33,7 +33,7 @@ class Torro_Form extends Torro_Post {
 	 * @var int
 	 * @since 1.0.0
 	 */
-	public $id;
+	private $id;
 
 	/**
 	 * Title of form
@@ -41,7 +41,7 @@ class Torro_Form extends Torro_Post {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	public $title;
+	private $title;
 
 	/**
 	 * All containers of the form
@@ -49,7 +49,7 @@ class Torro_Form extends Torro_Post {
 	 * @var Torro_Container[]
 	 * @since 1.0.0
 	 */
-	public $containers = array();
+	private $containers = array();
 
 	/**
 	 * All elements of the form
@@ -57,24 +57,15 @@ class Torro_Form extends Torro_Post {
 	 * @var Torro_Form_Element[]
 	 * @since 1.0.0
 	 */
-	public $elements = array();
+	private $elements = array();
 
 	/**
 	 * All elements of the form
 	 *
-	 * @todo  Getting participants out of form and hooking in
-	 * @var array
+	 * @var Torro_Participant[]
 	 * @since 1.0.0
 	 */
-	public $participants = array();
-
-	/**
-	 * Counter for form splitters
-	 *
-	 * @var int
-	 * @since 1.0.0
-	 */
-	public $splitter_count = 0;
+	private $participants = array();
 
 	/**
 	 * Container object
@@ -253,7 +244,7 @@ class Torro_Form extends Torro_Post {
 	/**
 	 * Getting Containers
 	 *
-	 * @return array $containers
+	 * @return Torro_Container[]
 	 * @since 1.0.0
 	 */
 	public function get_containers() {
@@ -261,18 +252,19 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
-	 * Returning current container
+	 * Returning the current container
 	 *
 	 * @return Torro_Container
+	 * @since 1.0.0
 	 */
-	public function get_container() {
+	public function get_current_container() {
 		return $this->container;
 	}
 
 	/**
 	 * Geting Participants
 	 *
-	 * @return array
+	 * @return Torro_Participant[]
 	 * @since 1.0.0
 	 */
 	public function get_participants() {
@@ -303,7 +295,7 @@ class Torro_Form extends Torro_Post {
 	 * @return Torro_Container
 	 * @since 1.0.0
 	 */
-	public function set_container( $container_id = null ) {
+	private function set_container( $container_id = null ) {
 		if ( null !== $container_id ) {
 			$prev_container_id = null;
 			$next_container_id = null;

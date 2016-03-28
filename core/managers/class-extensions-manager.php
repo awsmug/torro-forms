@@ -32,6 +32,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Torro_Extensions_Manager extends Torro_Manager {
 
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Extensions_Manager
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	public static function instance() {

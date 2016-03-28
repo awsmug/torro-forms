@@ -29,10 +29,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Torro_Result_Charts extends Torro_Result_Handler {
+	/**
+	 * Fegistered chart types (e.g. bars, pies, ...)
+	 *
+	 * @var array
+	 * @since 1.0.0
+	 */
 	protected $chart_types = array();
 
 	/**
-	 * Initializing.
+	 * Constructor
 	 *
 	 * @since 1.0.0
 	 */
@@ -64,9 +70,11 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 	/**
 	 * Register Chart types
 	 *
-	 * @param $name
-	 * @param $display_name
-	 * @param $callback
+	 * @param string $name
+	 * @param string $display_name
+	 * @param string|array $callback
+	 *
+	 * @since 1.0.0
 	 */
 	protected function register_chart_type( $name, $display_name, $callback ) {
 		$this->chart_types[] = array(
@@ -159,7 +167,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 	}
 
 	/**
-	 * Formating Results for Charting
+	 * Formating results for charting
 	 *
 	 * @param array $results
 	 *
@@ -243,6 +251,8 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 
 	/**
 	 * Adding option for showing Charts after submitting Form
+	 *
+	 * @since 1.0.0
 	 */
 	public function charts_general_settings() {
 		global $post;

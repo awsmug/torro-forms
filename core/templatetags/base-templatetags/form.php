@@ -30,6 +30,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Templatetags_Form extends Torro_TemplateTags {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Templatetags_Form
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	public static function instance() {

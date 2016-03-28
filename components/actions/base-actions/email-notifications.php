@@ -31,6 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Email_Notifications extends Torro_Action {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Email_Notifications
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	/**

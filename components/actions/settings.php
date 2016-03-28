@@ -29,6 +29,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Actions_Settings extends Torro_Settings {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Actions_Settings
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	public static function instance() {

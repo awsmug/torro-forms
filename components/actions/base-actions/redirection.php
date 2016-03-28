@@ -31,6 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Redirection_Action extends Torro_Action {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Redirection_Action
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	/**

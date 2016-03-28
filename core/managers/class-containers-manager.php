@@ -30,6 +30,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Torro_Containers_Manager extends Torro_Instance_Manager {
 
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Containers_Manager
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	public static function instance() {

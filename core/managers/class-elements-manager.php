@@ -33,6 +33,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Form_Elements_Manager
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	public static function instance() {
@@ -58,6 +64,18 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 */
 	public function get( $id ){
 		return parent::get( $id );
+	}
+
+	/**
+	 * Get registered module
+	 *
+	 * @param $name
+	 *
+	 * @return Torro_Form_Element|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function get_registered( $name ) {
+		return parent::get_registered( $name );
 	}
 
 	public function create_raw( $type ) {

@@ -29,6 +29,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Form_Setting_Timerange
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	public static function instance() {

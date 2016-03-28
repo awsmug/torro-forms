@@ -31,7 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Forms_Manager extends Torro_Instance_Manager {
-
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Forms_Manager
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	private $form_controller = null;
@@ -63,7 +68,6 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	 * @param $id
 	 *
 	 * @return Torro_Form
-	 *
 	 * @since 1.0.0
 	 */
 	public function get( $id ){

@@ -81,6 +81,18 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		return $this->instances[ $this->get_category() ][ $id ];
 	}
 
+	/**
+	 * Get registered module
+	 *
+	 * @param $name
+	 *
+	 * @return Torro_Base
+	 * @since 1.0.0
+	 */
+	public function get_registered( $name ) {
+		return parent::get_registered( $name );
+	}
+
 	public function delete( $id ) {
 		$instance = $this->get( $id );
 		if ( is_wp_error( $instance ) ) {

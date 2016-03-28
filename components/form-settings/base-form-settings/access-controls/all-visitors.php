@@ -31,6 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Access_Control_All_Visitors
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
 	/**

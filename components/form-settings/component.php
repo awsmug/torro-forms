@@ -30,8 +30,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Settings_Component extends Torro_Component {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Form_Settings_Component
+	 * @since 1.0.0
+	 */
 	private static $instance = null;
 
+	/**
+	 * Singleton
+	 *
+	 * @return null|Torro_Form_Settings_Component
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -49,7 +61,7 @@ final class Torro_Form_Settings_Component extends Torro_Component {
 	}
 
 	/**
-	 * Initializes the Component.
+	 * Initializes the Component
 	 *
 	 * @since 1.0.0
 	 */
@@ -61,6 +73,8 @@ final class Torro_Form_Settings_Component extends Torro_Component {
 
 	/**
 	 * Including files of component
+	 *
+	 * @since 1.0.0
 	 */
 	protected function includes() {
 		$folder = torro()->get_path( 'components/form-settings/' );
