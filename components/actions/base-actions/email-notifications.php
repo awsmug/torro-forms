@@ -33,6 +33,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Torro_Email_Notifications extends Torro_Action {
 	private static $instance = null;
 
+	/**
+	 * From Email Name
+	 * @var string
+	 */
+	protected $from_name;
+
+	/**
+	 * From Email Address
+	 * @var string
+	 */
+	protected $from_email;
+
+	/**
+	 * Singleton
+	 *
+	 * @return Torro_Email_Notifications
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -41,19 +59,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 	}
 
 	/**
-	 * From Email Name
-	 * @var
-	 */
-	protected $from_name;
-
-	/**
-	 * From Email Address
-	 * @var
-	 */
-	protected $from_email;
-
-	/**
-	 * Initializing.
+	 * Constructor
 	 *
 	 * @since 1.0.0
 	 */
@@ -61,20 +67,28 @@ final class Torro_Email_Notifications extends Torro_Action {
 		parent::__construct();
 	}
 
+	/**
+	 * Initializing
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->title = __( 'Email Notifications', 'torro-forms' );
 		$this->name = 'emailnotifications';
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
-
 		add_action( 'media_buttons', array( $this, 'add_media_button' ), 20 );
 	}
 
 	/**
 	 * Handles the data after user submitted the form
 	 *
-	 * @param $response_id
-	 * @param $response
+	 * @param int $form_id_id
+	 * @param int $response_id
+	 * @param array $response
+	 *
+	 * @return null
+	 * @since 1.0.0
 	 */
 	public function handle( $form_id, $response_id, $response ) {
 		global $wpdb, $torro_response_id, $torro_response;
@@ -118,6 +132,9 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Setting HTML Content-Type
+	 *
+	 * @return string
+	 * @since 1.0.0
 	 */
 	public function set_email_html_content_type() {
 		return 'text/html';
@@ -125,6 +142,9 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Setting From Email
+	 *
+	 * @return string
+	 * @since 1.0.0
 	 */
 	public function set_email_from() {
 		return $this->from_email;
@@ -132,11 +152,20 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Setting From Email Name
+	 *
+	 * @return string
+	 * @since 1.0.0
 	 */
 	public function set_email_from_name() {
 		return $this->from_name;
 	}
 
+	/**
+	 * Option content HTML
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	public function option_content() {
 		global $wpdb, $post;
 
@@ -178,6 +207,8 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Adding media button
+	 *
+	 * @param int $editor_id
 	 *
 	 * @since 1.0.0
 	 */
@@ -231,14 +262,15 @@ final class Torro_Email_Notifications extends Torro_Action {
 	/**
 	 * Getting HTML for notification
 	 *
-	 * @param $notification_name
-	 * @param $notification_from_name
-	 * @param $notification_from_email
-	 * @param $notification_to_email
-	 * @param $notification_subject
-	 * @param $notification_message
+	 * @param string $notification_name
+	 * @param string $notification_from_name
+	 * @param string $from_email
+	 * @param string $to_email
+	 * @param string $subject
+	 * @param string $message
 	 *
-	 * @return string $html
+	 * @return string
+	 * @since 1.0.0
 	 */
 	public function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ) {
 		$editor_id = 'email_notification_message-' . $id;
@@ -287,6 +319,8 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Enqueue admin scripts
+	 *
+	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
 		if ( ! torro_is_formbuilder() ) {
@@ -310,6 +344,8 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Enqueue admin styles
+	 *
+	 * @since 1.0.0
 	 */
 	public function admin_styles() {
 		wp_enqueue_style( 'torro-actions-email-notifications', torro()->get_asset_url( 'actions-email-notifications', 'css' ), array( 'torro-form-edit' ) );
@@ -317,7 +353,9 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * Function to set standard editor to tinymce prevent tab issues on editor
+	 *
 	 * @return string
+	 * @since 1.0.0
 	 */
 	public static function std_editor_tinymce() {
 		return 'tinymce';
