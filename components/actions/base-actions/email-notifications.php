@@ -83,7 +83,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 	/**
 	 * Handles the data after user submitted the form
 	 *
-	 * @param int $form_id_id
+	 * @param int $form_id
 	 * @param int $response_id
 	 * @param array $response
 	 *
