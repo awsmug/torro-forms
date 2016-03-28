@@ -28,38 +28,54 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Form extends Torro_Post {
 	/**
-	 * @var int $id Form Id
+	 * Form Id
+	 *
+	 * @var int
 	 * @since 1.0.0
 	 */
 	public $id;
 
 	/**
-	 * @var string $title Title of form
+	 * Title of form
+	 *
+	 * @var string
 	 * @since 1.0.0
 	 */
 	public $title;
 
 	/**
-	 * @var Torro_Container[] $containers All containers of the form
+	 * All containers of the form
+	 *
+	 * @var Torro_Container[]
 	 * @since 1.0.0
 	 */
 	public $containers = array();
+
 	/**
-	 * @var Torro_Form_Element[] $elements All elements of the form
+	 * All elements of the form
+	 *
+	 * @var Torro_Form_Element[]
 	 * @since 1.0.0
 	 */
 	public $elements = array();
+
 	/**
+	 * All elements of the form
+	 *
 	 * @todo  Getting participants out of form and hooking in
-	 * @var array $participants All elements of the form
+	 * @var array
 	 * @since 1.0.0
 	 */
 	public $participants = array();
+
 	/**
-	 * @var int $splitter_count Counter for form splitters
+	 * Counter for form splitters
+	 *
+	 * @var int
 	 * @since 1.0.0
 	 */
 	public $splitter_count = 0;
+
 	/**
 	 * Container object
 	 *
@@ -67,6 +83,7 @@ class Torro_Form extends Torro_Post {
 	 * @since 1.0.0
 	 */
 	private $container = null;
+
 	/**
 	 * Container id
 	 *
@@ -74,6 +91,7 @@ class Torro_Form extends Torro_Post {
 	 * @since 1.0.0
 	 */
 	private $container_id = null;
+
 	/**
 	 * Previous container id
 	 *
@@ -81,6 +99,7 @@ class Torro_Form extends Torro_Post {
 	 * @since 1.0.0
 	 */
 	private $prev_container_id = null;
+
 	/**
 	 * Next form container id
 	 *
@@ -88,14 +107,19 @@ class Torro_Form extends Torro_Post {
 	 * @since 1.0.0
 	 */
 	private $next_container_id = null;
+
 	/**
-	 * @var array Internal variable for transfering elements on duplicating
+	 * Internal variable for transfering elements on duplicating
+	 *
+	 * @var array
 	 * @since 1.0.0
 	 */
 	private $element_transfers = array();
 
 	/**
-	 * @var array Internal variable for transfering answers on duplicating
+	 * Internal variable for transfering answers on duplicating
+	 *
+	 * @var array
 	 * @since 1.0.0
 	 */
 	private $answer_transfers = array();
@@ -194,8 +218,9 @@ class Torro_Form extends Torro_Post {
 		$results = $wpdb->get_results( $sql );
 
 		$elements = array();
+
 		foreach ( $results AS $element ) {
-			$elements[] = torro()->elements()->get_registered( $element->id, $element->type );
+			$elements[] = torro()->elements()->get( $element->id );
 		}
 
 		return $elements;
@@ -409,6 +434,7 @@ class Torro_Form extends Torro_Post {
 	 * @param bool $draft             True if duplicated form have to be a draft
 	 *
 	 * @return int
+	 * @since 1.0.0
 	 */
 	public function duplicate( $copy_meta = true, $copy_taxonomies = true, $copy_comments = true, $copy_elements = true, $copy_answers = true, $copy_participants = true, $draft = false ) {
 		$new_form_id = parent::duplicate( $copy_meta, $copy_taxonomies, $copy_comments, $draft );
@@ -434,6 +460,7 @@ class Torro_Form extends Torro_Post {
 	 * @param bool $copy_settings True if settings have to be copied
 	 *
 	 * @return bool
+	 * @since 1.0.0
 	 */
 	public function duplicate_elements( $new_form_id, $copy_answers = true, $copy_settings = true ) {
 		global $wpdb;
@@ -513,6 +540,7 @@ class Torro_Form extends Torro_Post {
 	 * @param int $new_form_idint Id of the form where participants have to be copied
 	 *
 	 * @return bool
+	 * @since 1.0.0
 	 */
 	public function duplicate_participants( $new_form_id ) {
 		global $wpdb;
@@ -580,6 +608,7 @@ class Torro_Form extends Torro_Post {
 	 * Deleting all results of the Form
 	 *
 	 * @return mixed
+	 * @since 1.0.0
 	 */
 	public function delete_responses() {
 		global $wpdb;
@@ -600,7 +629,6 @@ class Torro_Form extends Torro_Post {
 	/**
 	 * Checks if a user has participated on a Form
 	 *
-	 * @param int  $form_id
 	 * @param null $user_id
 	 *
 	 * @return boolean $has_participated
@@ -631,17 +659,29 @@ class Torro_Form extends Torro_Post {
 		return true;
 	}
 
+	/**
+	 * Getting elements of form
+	 *
+	 * @return Torro_Form_Element[]
+	 * @since 1.0.0
+	 */
 	public function get_elements() {
 		return $this->elements;
 	}
 
+	/**
+	 * Checks if form has analyzable elements
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	public function has_analyzable_elements() {
 		foreach ( $this->elements AS $element ) {
-			if ( ! $element->is_analyzable ) {
+			if ( ! $element->is_analyzable() ) {
 				continue;
+			} else {
+				return true;
 			}
-
-			return true;
 		}
 
 		return false;
@@ -669,6 +709,7 @@ class Torro_Form extends Torro_Post {
 	 * @param $key
 	 * @param $value
 	 *
+	 * @return mixed
 	 * @since 1.0.0
 	 */
 	public function __set( $key, $value ) {
@@ -684,6 +725,9 @@ class Torro_Form extends Torro_Post {
 			default:
 				if ( property_exists( $this, $key ) ) {
 					$this->$key = $value;
+					return $value;
+				} else {
+					return false;
 				}
 		}
 	}

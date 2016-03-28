@@ -33,6 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Torro {
 	/**
 	 * Instance
+	 * 
 	 * @var object
 	 */
 	private static $instance = null;
