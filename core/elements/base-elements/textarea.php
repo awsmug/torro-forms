@@ -29,28 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Element_Textarea extends Torro_Form_Element {
-	private static $instances = array();
-
-	public static function instance( $id = null ) {
-		$slug = $id;
-		if ( null === $slug ) {
-			$slug = 'CLASS';
-		}
-		if ( ! isset( self::$instances[ $slug ] ) ) {
-			self::$instances[ $slug ] = new self( $id );
-		}
-		return self::$instances[ $slug ];
-	}
-
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	protected function init() {
 		$this->type = $this->name = 'textarea';
 		$this->title = __( 'Textarea', 'torro-forms' );
@@ -59,7 +42,12 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 	}
 
 	public function input_html() {
-		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
+		$maybe_required = '';
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+			$maybe_required = ' <span class="required">*</span>';
+		}
+
+		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
 
 		$html .= '<textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ]->value . '" rows="' . $this->settings[ 'rows' ]->value . '" cols="' . $this->settings[ 'cols' ]->value . '">' . esc_html( $this->response ) . '</textarea>';
 
@@ -79,6 +67,16 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 				'type'			=> 'textarea',
 				'description'	=> __( 'The description will be shown after the field.', 'torro-forms' ),
 				'default'		=> ''
+			),
+			'required'		=> array(
+				'title'			=> __( 'Required?', 'torro-forms' ),
+				'type'			=> 'radio',
+				'values'		=> array(
+					'yes'			=> __( 'Yes', 'torro-forms' ),
+					'no'			=> __( 'No', 'torro-forms' ),
+				),
+				'description'	=> __( 'Whether the user must input something.', 'torro-forms' ),
+				'default'		=> 'no',
 			),
 			'min_length'	=> array(
 				'title'			=> __( 'Minimum length', 'torro-forms' ),
@@ -111,7 +109,11 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 		$min_length = $this->settings[ 'min_length' ]->value;
 		$max_length = $this->settings[ 'max_length' ]->value;
 
-		$input = stripslashes( $input );
+		$input = trim( stripslashes( $input ) );
+
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && empty( $input ) ) {
+			return new Torro_Error( 'missing_input', __( 'You must input something.', 'torro-forms' ) );
+		}
 
 		if ( ! empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ) {

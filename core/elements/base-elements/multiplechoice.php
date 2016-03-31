@@ -29,28 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
-	private static $instances = array();
-
-	public static function instance( $id = null ) {
-		$slug = $id;
-		if ( null === $slug ) {
-			$slug = 'CLASS';
-		}
-		if ( ! isset( self::$instances[ $slug ] ) ) {
-			self::$instances[ $slug ] = new self( $id );
-		}
-		return self::$instances[ $slug ];
-	}
-
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	protected function init() {
 		$this->type = $this->name = 'multiplechoice';
 		$this->title = __( 'Multiple Choice', 'torro-forms' );
@@ -63,7 +46,12 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 	}
 
 	public function input_html() {
-		$html = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
+		$maybe_required = '';
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+			$maybe_required = ' <span class="required">*</span>';
+		}
+
+		$html = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
 
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
@@ -92,6 +80,16 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 				'description'	=> __( 'The description will be shown after the question.', 'torro-forms' ),
 				'default'		=> ''
 			),
+			'required'		=> array(
+				'title'			=> __( 'Required?', 'torro-forms' ),
+				'type'			=> 'radio',
+				'values'		=> array(
+					'yes'			=> __( 'Yes', 'torro-forms' ),
+					'no'			=> __( 'No', 'torro-forms' ),
+				),
+				'description'	=> __( 'Whether the user must select a value.', 'torro-forms' ),
+				'default'		=> 'yes',
+			),
 			'min_answers'	=> array(
 				'title'			=> __( 'Minimum Answers', 'torro-forms' ),
 				'type'			=> 'text',
@@ -114,6 +112,10 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 		$input = (array) $input;
 
 		$input = array_map( 'stripslashes', $input );
+
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && 0 === count( $input ) ) {
+			return new Torro_Error( 'missing_choices', __( 'You did not select any value.', 'torro-forms' ) );
+		}
 
 		if ( ! empty( $min_answers ) ) {
 			if ( ! is_array( $input ) || count( $input ) < $min_answers ) {

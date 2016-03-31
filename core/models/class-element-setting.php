@@ -47,15 +47,15 @@ class Torro_Element_Setting {
 		global $wpdb;
 
 		if ( ! empty( $id ) ) {
-			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_settings} WHERE id =%d", $id );
+			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_settings} WHERE id = %d", absint( $id ) );
 
-			$answer = $wpdb->get_row( $sql );
+			$setting = $wpdb->get_row( $sql );
 
 			if ( 0 !== $wpdb->num_rows ) {
-				$this->id         = $answer->id;
-				$this->element_id = $answer->element_id;
-				$this->name       = $answer->name;
-				$this->value      = $answer->value;
+				$this->id         = $setting->id;
+				$this->element_id = $setting->element_id;
+				$this->name       = $setting->name;
+				$this->value      = $setting->value;
 			}
 		}
 	}

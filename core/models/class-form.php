@@ -137,7 +137,7 @@ class Torro_Form extends Torro_Post {
 	 * @return bool
 	 */
 	private function populate( $id ) {
-		$this->id = $id;
+		$this->id = absint( $id );
 
 		if ( ! $this->exists() ) {
 			return false;
@@ -295,7 +295,7 @@ class Torro_Form extends Torro_Post {
 	 * @return Torro_Container
 	 * @since 1.0.0
 	 */
-	private function set_container( $container_id = null ) {
+	public function set_container( $container_id = null ) {
 		if ( null !== $container_id ) {
 			$prev_container_id = null;
 			$next_container_id = null;

@@ -46,7 +46,7 @@ class Torro_Participant {
 	private function populate( $id ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_participants} WHERE id =%d", $id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_participants} WHERE id = %d", absint( $id ) );
 
 		$participant = $wpdb->get_row( $sql );
 

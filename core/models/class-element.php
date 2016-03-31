@@ -153,7 +153,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct( $id = null ) {
+	public function __construct( $id = null ) {
 		parent::__construct();
 
 		$this->populate( $id );
@@ -172,10 +172,10 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 		if ( ! empty( $id ) ) {
 
-			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %s", $id );
+			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %d", absint( $id ) );
 			$row = $wpdb->get_row( $sql );
 
-			$this->id           = $id;
+			$this->id           = $row->id;
 			$this->label        = $row->label;
 			$this->form_id      = $row->form_id;
 			$this->container_id = $row->container_id;
@@ -919,11 +919,13 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
+			case 'id':
+			case 'container_id':
+			case 'form_id':
 			case 'sort':
 				$value      = absint( $value );
 				$this->$key = $value;
 				break;
-
 			default:
 				if ( property_exists( $this, $key ) ) {
 					$this->$key = $value;
