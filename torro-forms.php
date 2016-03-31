@@ -341,91 +341,70 @@ class Torro_Init {
 		$charset_collate = self::get_charset_collate();
 
 		$sql = "CREATE TABLE $wpdb->torro_containers (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		form_id int(11) NOT NULL,
-		label text NOT NULL,
-		sort int(11) NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_elements (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		form_id int(11) NOT NULL,
-		container_id int(11) NOT NULL,
-		label text NOT NULL,
-		sort int(11) NOT NULL,
-		type char(50) NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_element_answers (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		element_id int(11) NOT NULL,
-		section char(100) NOT NULL,
-		answer text NOT NULL,
-		sort int(11) NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_element_settings (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		element_id int(11) NOT NULL,
-		name text NOT NULL,
-		value text NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_results (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		form_id int(11) NOT NULL,
-		user_id int(11) NOT NULL,
-		timestamp int(11) NOT NULL,
-		remote_addr char(15) NOT NULL,
-		cookie_key char(50) NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_result_values (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		result_id int(11) NOT NULL,
-		element_id int(11) NOT NULL,
-		value text NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_participants (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		form_id int(11) NOT NULL,
-		user_id int(11) NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
-
-		dbDelta( $sql );
-
-		$sql = "CREATE TABLE $wpdb->torro_email_notifications (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		form_id int(11) NOT NULL,
-		notification_name text NOT NULL,
-		from_name text NOT NULL,
-		from_email text NOT NULL,
-		to_name text NOT NULL,
-		to_email text NOT NULL,
-		subject text NOT NULL,
-		message text NOT NULL,
-		UNIQUE KEY id (id)
-		) ENGINE = INNODB " . $charset_collate . ";";
+	id int(11) unsigned NOT NULL auto_increment,
+	form_id bigint(20) unsigned NOT NULL,
+	label text NOT NULL,
+	sort int(11) NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;
+CREATE TABLE $wpdb->torro_elements (
+	id int(11) unsigned NOT NULL auto_increment,
+	form_id bigint(20) unsigned NOT NULL,
+	container_id int(11) unsigned NOT NULL,
+	label text NOT NULL,
+	sort int(11) NOT NULL,
+	type char(50) NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;
+CREATE TABLE $wpdb->torro_element_answers (
+	id int(11) unsigned NOT NULL auto_increment,
+	element_id int(11) unsigned NOT NULL,
+	section char(100) NOT NULL,
+	answer text NOT NULL,
+	sort int(11) NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;
+CREATE TABLE $wpdb->torro_element_settings (
+	id int(11) unsigned NOT NULL auto_increment,
+	element_id int(11) unsigned NOT NULL,
+	name text NOT NULL,
+	value text NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;
+CREATE TABLE $wpdb->torro_results (
+	id int(11) unsigned NOT NULL auto_increment,
+	form_id bigint(20) unsigned NOT NULL,
+	user_id bigint(20) unsigned NOT NULL,
+	timestamp int(11) unsigned NOT NULL,
+	remote_addr char(15) NOT NULL,
+	cookie_key char(50) NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;
+CREATE TABLE $wpdb->torro_result_values (
+	id int(11) unsigned NOT NULL auto_increment,
+	result_id int(11) unsigned NOT NULL,
+	element_id int(11) unsigned NOT NULL,
+	value text NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;
+CREATE TABLE $wpdb->torro_participants (
+	id int(11) unsigned NOT NULL auto_increment,
+	form_id bigint(20) unsigned NOT NULL,
+	user_id bigint(20) unsigned NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;
+CREATE TABLE $wpdb->torro_email_notifications (
+	id int(11) unsigned NOT NULL auto_increment,
+	form_id bigint(20) unsigned NOT NULL,
+	notification_name text NOT NULL,
+	from_name text NOT NULL,
+	from_email text NOT NULL,
+	to_name text NOT NULL,
+	to_email text NOT NULL,
+	subject text NOT NULL,
+	message text NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;";
 
 		dbDelta( $sql );
 	}
