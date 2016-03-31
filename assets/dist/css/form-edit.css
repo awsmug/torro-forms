@@ -57,6 +57,10 @@
 	padding: 0;
 }
 
+.post-type-torro-forms #poststuff .general-settings {
+	padding: 15px;
+}
+
 .post-type-torro-forms #poststuff #containers .container-tabs {
 	height: auto;
 	padding: 15px 15px 12px;

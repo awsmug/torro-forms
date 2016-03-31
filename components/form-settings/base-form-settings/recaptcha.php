@@ -124,7 +124,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		$recaptcha_size = get_post_meta( $form_id, 'recaptcha_size', true );
 		$recaptcha_theme = get_post_meta( $form_id, 'recaptcha_theme', true );
 
-		$html  = '<div id="form-access-controls-content-recaptcha" class="general-settings recaptcha">';
+		$html  = '<div id="form-access-controls-content-recaptcha" class="recaptcha">';
 
 		$html .= '<h4>' . esc_html__( 'Google reCAPTCHA', 'torro-forms' ) . '</h4>';
 		$html .= '<table class="form-table">';
