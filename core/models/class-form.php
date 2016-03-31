@@ -137,7 +137,7 @@ class Torro_Form extends Torro_Post {
 	 * @return bool
 	 */
 	private function populate( $id ) {
-		$this->id = $id;
+		$this->id = absint( $id );
 
 		if ( ! $this->exists() ) {
 			return false;

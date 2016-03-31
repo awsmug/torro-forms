@@ -94,7 +94,7 @@ class Torro_Container {
 
 		if ( ! empty( $id ) ) {
 
-			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE id =%d", $id );
+			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE id = %d", absint( $id ) );
 
 			$container = $wpdb->get_row( $sql );
 

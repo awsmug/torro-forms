@@ -172,10 +172,10 @@ abstract class Torro_Form_Element extends Torro_Base {
 
 		if ( ! empty( $id ) ) {
 
-			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %s", $id );
+			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %d", absint( $id ) );
 			$row = $wpdb->get_row( $sql );
 
-			$this->id           = $id;
+			$this->id           = $row->id;
 			$this->label        = $row->label;
 			$this->form_id      = $row->form_id;
 			$this->container_id = $row->container_id;
