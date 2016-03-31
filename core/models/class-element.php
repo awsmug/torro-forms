@@ -919,11 +919,13 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
+			case 'id':
+			case 'container_id':
+			case 'form_id':
 			case 'sort':
 				$value      = absint( $value );
 				$this->$key = $value;
 				break;
-
 			default:
 				if ( property_exists( $this, $key ) ) {
 					$this->$key = $value;
