@@ -41,13 +41,17 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 	/**
 	 * From Email Name
+	 *
 	 * @var string
+	 * @since 1.0.0
 	 */
 	protected $from_name;
 
 	/**
 	 * From Email Address
+	 *
 	 * @var string
+	 * @since 1.0.0
 	 */
 	protected $from_email;
 
@@ -179,6 +183,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$notifications = $wpdb->get_results( $sql );
 
 		$html = '<div id="form-email-notifications">';
+
 
 		$html .= '<div class="actions">';
 		$html .= '<input id="form-add-email-notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';

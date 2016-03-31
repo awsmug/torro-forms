@@ -50,6 +50,14 @@
 				],
 			});
 
+			$( document ).on( 'click', this.selectors.delete_notification_button, function( e ){
+				email_notification_id = $( this ).attr( 'data-emailnotificationid' );
+
+				e.preventDefault();
+
+				delete_notification_dialog.dialog( 'open' );
+			});
+
 			$( document ).on( 'click', this.selectors.add_notification_button, function( e ) {
 				wp.ajax.post( 'torro_get_email_notification_html', {
 					nonce: self.translations.nonce_get_email_notification_html
@@ -60,16 +68,9 @@
 
 					$( '.notification-' + response.id ).hide().fadeIn( 2500 );
 				}).fail( function( message ) {
+					console.log( 'failed' );
 					console.log( message );
 				});
-			});
-
-			$( document ).on( 'click', this.selectors.delete_notification_button, function( e ){
-				email_notification_id = $( this ).attr( 'data-emailnotificationid' );
-
-				e.preventDefault();
-
-				delete_notification_dialog.dialog( 'open' );
 			});
 		},
 
