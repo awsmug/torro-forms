@@ -150,8 +150,12 @@ final class Torro_Redirection_Action extends Torro_Action {
 
 		$html = '<div id="form-redirections">';
 
-		$html .= '<div class="form-fields redirection-type">';
+		$html .= '<table class="form-table">';
+		$html .= '<tr>';
+		$html .= '<td>';
 		$html .= '<label for="redirect_type">' . esc_attr__( 'Redirect User:', 'torro-forms' ) . '</label>';
+		$html .= '</td>';
+		$html .= '<td>';
 		$html .= '<select id="redirect_type" name="redirect_type">';
 
 		$selected = $redirect_type == 'redirect_text' ? ' selected="selected"' : '';
@@ -163,33 +167,61 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$selected = $redirect_type == 'redirect_url' ? ' selected="selected"' : '';
 		$html .= '<option value="redirect_url"' . $selected . '>' . esc_attr__( 'URL Redirection', 'torro-forms' ) . '</option>';
 
-		$html .= '</select>';
+		$html .= '</select> ';
 		$html .= '<small>' . __( 'Redirect the user to this content after successful submitted form data.', 'torro-forms' ) . '</small>';
+		$html .= '</td>';
+		$html .= '</tr>';
 
-
-		$html .= '</div>';
+		$html .= '</table>';
 
 		$display = $redirect_type == 'redirect_url' ? ' style="display:block;"' : ' style="display:none;"';
 
 		$html .= '<div id="redirect_url" class="form-fields redirect-content"' . $display . '>';
-		$html .= '<label for="redirect_url">' . esc_attr__( 'Url: ' ) . '</label><input name="redirect_url" type="text" value="' . $redirect_url . '" placeholder="http://" />';
+
+		$html .= '<table class="form-table">';
+		$html .= '<tr>';
+		$html .= '<td>';
+		$html .= '<label for="redirect_url">' . esc_attr__( 'Url: ' ) . '</label>';
+		$html .= '</td>';
+		$html .= '<td>';
+		$html .= '<input name="redirect_url" type="text" value="' . $redirect_url . '" placeholder="http://" />';
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
+
 		$html .= '</div>';
+
 
 		$display = $redirect_type == 'redirect_page' ? ' style="display:block;"' : ' style="display:none;"';
 		$pages = get_pages();
 
 		$html .= '<div id="redirect_page" class="form-fields redirect-content"' . $display . '>';
-		$html .= '<label for="redirect_page">' . esc_attr__( 'Page: ' ) . '</label>';
+		$html .= '<table class="form-table">';
+		$html .= '<tr>';
+		$html .= '<td>';
+		$html .= '<label for="redirect_page">' . esc_attr__( 'Content ' ) . '</label>';
+		$html .= '</td>';
+		$html .= '<td>';
 		$html .= '<select name="redirect_page">';
 		foreach ( $pages as $page ) {
 			$selected = $page->ID == $redirect_page ? ' selected="selected"' : '';
 			$html .= '<option value="' . $page->ID . '"' . $selected . '>' . $page->post_title . '</option>';
 		}
 		$html .= '</select>';
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
 		$html .= '</div>';
 
 		$display = $redirect_type == 'redirect_text' ? ' style="display:block;"' : ' style="display:none;"';
 		$html .= '<div id="redirect_text" class="redirect-content"' . $display . '>';
+
+		$html .= '<table class="form-table">';
+		$html .= '<tr>';
+		$html .= '<td>';
+		$html .= '<label for="rediredt_text_content">' . esc_attr__( 'Page: ' ) . '</label>';
+		$html .= '</td>';
+		$html .= '<td>';
 
 		$settings = array( 'textarea_rows', 25 );
 
@@ -197,10 +229,10 @@ final class Torro_Redirection_Action extends Torro_Action {
 		wp_editor( $redirect_text, 'redirect_text_content', $settings );
 		$html .= ob_get_clean();
 
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
 		$html .= '</div>';
-		$html .= '</div>';
-
-		$html .= '<div class="clear"></div>';
 
 		return $html;
 	}
