@@ -93,9 +93,10 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		do_action( 'torro_form_setting_visitors_content_top' );
 		$html = ob_get_clean();
 
-		$html .= '<div id="form-access-controls-options" class="form-fields">';
-		$html .= '<label for="form_access_controls_option">' . esc_html__( 'Give access to', 'torro-forms' ) . '</label>';
-		$html .= '<select name="form_access_controls_option" id="form-access-controls-option">';
+		$html .= '<table id="form-access-controls-options" class="form-table">';
+		$html .= '<tr>';
+		$html .= '<td><label for="form_access_controls_option">' . esc_html__( 'Give access to', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><select name="form_access_controls_option" id="form-access-controls-option">';
 		foreach ( $access_controls as $name => $access_control ) {
 			if ( ! $access_control->has_option() ) {
 				continue;
@@ -108,9 +109,9 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		}
 		$html .= '</select>';
 
-		$html .= '<small>' . __( 'Users which are not listet will be forbidden to access the form.', 'torro-forms' ) . '</small>';
+		$html .= '<small>' . __( 'Users which are not listet will be forbidden to access the form.', 'torro-forms' ) . '</small></td>';
 
-		$html.= '</div>';
+		$html.= '</tr></table>';
 
 		/**
 		 * Option content

@@ -3,13 +3,18 @@
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 /* --- Date Fields --- */
+.post-type-torro-forms {
+	/* --- DatePicker Container --- */
+}
 .post-type-torro-forms #start_date,
 .post-type-torro-forms #end_date {
-	margin-right: 5px;
+	margin: 0 5px 0 0;
 }
-
-/* --- DatePicker Container --- */
-.ui-datepicker {
+.post-type-torro-forms .ui-datepicker-unselectable .ui-state-default {
+	color: #b4b3b3; 
+	background: #f4f4f4;
+}
+.post-type-torro-forms .ui-datepicker {
 	position: relative;
 	width: 216px;
 	height: auto;
@@ -20,13 +25,13 @@
 	   -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 	        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
-.ui-datepicker a {
+.post-type-torro-forms .ui-datepicker a {
 	text-decoration: none;
 }
-.ui-datepicker table {
+.post-type-torro-forms .ui-datepicker table {
 	width: 100%;
 }
-.ui-datepicker thead {
+.post-type-torro-forms .ui-datepicker thead {
 	background: #f7f7f7;
 	background:    -moz-linear-gradient(top, #f7f7f7 0%, #f1f1f1 100%);
 	/* FF3.6+ */
@@ -42,7 +47,7 @@
 	border-bottom: 1px solid #bbb;
 	/* W3C */
 }
-.ui-datepicker th {
+.post-type-torro-forms .ui-datepicker th {
 	padding: 5px 0;
 	font-size: 6pt;
 	color: #666;
@@ -50,21 +55,21 @@
 	text-transform: uppercase;
 	filter: dropshadow(color=#fff, offx=1, offy=0);
 }
-.ui-datepicker tbody tr {
+.post-type-torro-forms .ui-datepicker tbody tr {
 	border-bottom: 1px solid #bbb;
 }
-.ui-datepicker tbody tr:last-child {
+.post-type-torro-forms .ui-datepicker tbody tr:last-child {
 	border-bottom: 0;
 }
-.ui-datepicker tbody td {
+.post-type-torro-forms .ui-datepicker tbody td {
 	padding: 0;
 	border-right: 1px solid #bbb;
 }
-.ui-datepicker tbody td:last-child {
+.post-type-torro-forms .ui-datepicker tbody td:last-child {
 	border-right: 0;
 }
-.ui-datepicker tbody td span,
-.ui-datepicker tbody td a {
+.post-type-torro-forms .ui-datepicker tbody td span,
+.post-type-torro-forms .ui-datepicker tbody td a {
 	display: inline-block;
 	width: 27px; 
 	height: 27px;
@@ -74,8 +79,7 @@
 	text-align: center;
 	text-shadow: 1px 1px 0 #fff;
 }
-
-.ui-datepicker-header {
+.post-type-torro-forms .ui-datepicker-header {
 	font-weight: bold;
 	line-height: 30px;
 	color: #e0e0e0;
@@ -89,13 +93,11 @@
 	   -moz-box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, 0.2);
 	        box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, 0.2);
 }
-
-.ui-datepicker-title {
+.post-type-torro-forms .ui-datepicker-title {
 	text-align: center;
 }
-
-.ui-datepicker-prev,
-.ui-datepicker-next {
+.post-type-torro-forms .ui-datepicker-prev,
+.post-type-torro-forms .ui-datepicker-next {
 	display: inline-block;
 	width: 30px;
 	height: 30px;
@@ -106,18 +108,15 @@
 	background-image: url("../img/arrow.png");
 	background-repeat: no-repeat;
 }
-
-.ui-datepicker-prev {
+.post-type-torro-forms .ui-datepicker-prev {
 	float: left;
 	background-position: center -30px;
 }
-
-.ui-datepicker-next {
+.post-type-torro-forms .ui-datepicker-next {
 	float: right;
 	background-position: center 0;
 }
-
-.ui-datepicker-calendar .ui-state-default {
+.post-type-torro-forms .ui-datepicker-calendar .ui-state-default {
 	background: #ededed;
 	background:    -moz-linear-gradient(top, #ededed 0%, #dedede 100%);
 	/* FF3.6+ */
@@ -135,12 +134,10 @@
 	   -moz-box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, 0.5);
 	        box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, 0.5);
 }
-
-.ui-datepicker-calendar .ui-state-hover {
+.post-type-torro-forms .ui-datepicker-calendar .ui-state-hover {
 	background: #f7f7f7;
 }
-
-.ui-datepicker-calendar .ui-state-active {
+.post-type-torro-forms .ui-datepicker-calendar .ui-state-active {
 	position: relative;
 	margin: -1px; 
 	color: #e0e0e0;
@@ -152,28 +149,15 @@
 	   -moz-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.1);
 	        box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
-
-.ui-datepicker-calendar tr:last-child .ui-state-active {
+.post-type-torro-forms .ui-datepicker-calendar tr:last-child .ui-state-active {
 	height: 29px;
 	margin-bottom: 0;
 }
-
-.ui-datepicker-calendar td:first-child .ui-state-active {
+.post-type-torro-forms .ui-datepicker-calendar td:first-child .ui-state-active {
 	width: 29px;
 	margin-left: 0;
 }
-
-.ui-datepicker-calendar td:last-child .ui-state-active {
+.post-type-torro-forms .ui-datepicker-calendar td:last-child .ui-state-active {
 	width: 29px;
 	margin-right: 0;
-}
-
-.ui-datepicker-unselectable .ui-state-default {
-	color: #b4b3b3; 
-	background: #f4f4f4;
-}
-
-.ui-datepicker-trigger {
-	float: right;
-	margin-top: 1px;
 }

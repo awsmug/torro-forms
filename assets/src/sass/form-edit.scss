@@ -152,12 +152,14 @@
 			}
 		}
 
-		input[type="text"],
-		textarea {
-			width: 80%;
+		#containers {
+			input[type="text"],
+			textarea {
+				width: 80%;
 
-			&.form-label {
-				width: 100%;
+				&.form-label {
+					width: 100%;
+				}
 			}
 		}
 
@@ -230,20 +232,6 @@
 			}
 		}
 
-		.general-settings {
-			padding: 15px;
-
-			.option {
-				float: left;
-				margin-right: 25px;
-
-				label {
-					margin-right: 5px;
-					line-height: 30px;
-				}
-			}
-		}
-
 		.in-postbox-one-third {
 			width: 30%;
 			float: left;
@@ -299,6 +287,18 @@
 			background-color: #f5f5f5;
 			font-weight: bold;
 			color: #DDDDDD;
+		}
+
+		.form-table th {
+			padding: 5px 10px 5px 0;
+		}
+
+		.form-table td {
+			padding: 5px 0;
+		}
+		.form-table td:first-child{
+			width:200px;
+			vertical-align: top;
 		}
 
 		.torro-table-nav {
@@ -395,6 +395,16 @@
 			}
 			.column-button {
 				text-align: right;
+			}
+		}
+
+		#form-settings {
+			h3, h4 {
+				margin: 0;
+			}
+
+			h4 {
+				font-size: 14px;
 			}
 		}
 	}

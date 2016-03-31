@@ -124,40 +124,40 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		$recaptcha_size = get_post_meta( $form_id, 'recaptcha_size', true );
 		$recaptcha_theme = get_post_meta( $form_id, 'recaptcha_theme', true );
 
-		$html = '<div id="form-access-controls-content-recaptcha" class="general-settings recaptcha">';
+		$html  = '<div id="form-access-controls-content-recaptcha" class="general-settings recaptcha">';
 
 		$html .= '<h4>' . esc_html__( 'Google reCAPTCHA', 'torro-forms' ) . '</h4>';
+		$html .= '<table class="form-table">';
 
-		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_enabled">' . esc_html__( 'Enable', 'torro-forms' ) . '</label>';
-		$html .= '<input type="checkbox" id="recaptcha_enabled" name="recaptcha_enabled" value="1" ' . checked( $recaptcha_enabled, true, false ) . '/>';
-		$html .= '</div>';
+		$html .= '<tr>';
+		$html .= '<td><label for="recaptcha_enabled">' . esc_html__( 'Enable', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="checkbox" id="recaptcha_enabled" name="recaptcha_enabled" value="1" ' . checked( $recaptcha_enabled, true, false ) . '/></td>';
+		$html .= '</tr>';
 
-		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_type">' . esc_html__( 'Type', 'torro-forms' ) . '</label>';
-		$html .= '<select id="recaptcha_type" name="recaptcha_type">';
+		$html .= '<tr>';
+		$html .= '<td><label for="recaptcha_type">' . esc_html__( 'Type', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><select id="recaptcha_type" name="recaptcha_type">';
 		$html .= '<option value="image" ' . selected( $recaptcha_type, 'image', false ) . '>' . esc_html__( 'Image', 'torro-forms' ) . '</option>';
 		$html .= '<option value="audio" ' . selected( $recaptcha_type, 'audio', false ) . '>' . esc_html__( 'Audio', 'torro-forms' ) . '</option>';
-		$html .= '</select>';
-		$html .= '</div>';
+		$html .= '</select></td>';
+		$html .= '</tr>';
 
-		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_size">' . esc_html__( 'Size', 'torro-forms' ) . '</label>';
-		$html .= '<select id="recaptcha_size" name="recaptcha_size">';
+		$html .= '<tr>';
+		$html .= '<td><label for="recaptcha_size">' . esc_html__( 'Size', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><select id="recaptcha_size" name="recaptcha_size">';
 		$html .= '<option value="normal" ' . selected( $recaptcha_size, 'normal', false ) . '>' . esc_html__( 'Normal', 'torro-forms' ) . '</option>';
 		$html .= '<option value="compact" ' . selected( $recaptcha_size, 'compact', false ) . '>' . esc_html__( 'Compact', 'torro-forms' ) . '</option>';
-		$html .= '</select>';
-		$html .= '</div>';
+		$html .= '</select></td>';
+		$html .= '</tr>';
 
-		$html .= '<div class="option">';
-		$html .= '<label for="recaptcha_theme">' . esc_html__( 'Theme', 'torro-forms' ) . '</label>';
-		$html .= '<select id="recaptcha_theme" name="recaptcha_theme">';
+		$html .= '<tr>';
+		$html .= '<td><label for="recaptcha_theme">' . esc_html__( 'Theme', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><select id="recaptcha_theme" name="recaptcha_theme">';
 		$html .= '<option value="light" ' . selected( $recaptcha_theme, 'light', false ) . '>' . esc_html__( 'Light', 'torro-forms' ) . '</option>';
 		$html .= '<option value="dark" ' . selected( $recaptcha_theme, 'dark', false ) . '>' . esc_html__( 'Dark', 'torro-forms' ) . '</option>';
-		$html .= '</select>';
-		$html .= '</div>';
-
-		$html .= '<div style="clear:both"></div>';
+		$html .= '</select></td>';
+		$html .= '</tr>';
+		$html .= '</table>';
 
 		$html .= '</div>';
 

@@ -97,12 +97,12 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_allmembers_same_users', true );
 		$checked = 'yes' === $access_controls_same_users ? ' checked' : '';
 
-		$html  = '<div class="actions">';
-		$html .= '<div class="form-access-controls-same-users-userfilter">';
-		$html .= '<input type="checkbox" name="form_access_controls_allmembers_same_users" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_access_controls_allmembers_same_users">' . esc_html__( 'Prevent multiple entries from same User', 'torro-forms' ) . '</label>';
-		$html .= '</div>';
-		$html .= '</div>';
+		$html  = '<table class="form-table">';
+		$html .= '<tr>';
+		$html .= '<td><label for="form_access_controls_allmembers_same_users">' . esc_attr__( 'Forbid multiple entries', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="checkbox" name="form_access_controls_allmembers_same_users" value="yes" ' . $checked . '/></td>';
+		$html .= '</tr>';
+		$html .= '</table>';
 
 		ob_start();
 		do_action( 'form_access_controls_same_users_userfilters' );

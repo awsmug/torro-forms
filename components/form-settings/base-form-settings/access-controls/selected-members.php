@@ -321,9 +321,20 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$options = apply_filters( 'form_add_participants_options', array( 'allmembers' => __( 'all members', 'torro-forms' ) ) );
 		$add_participants_option = get_post_meta( $form_id, 'add_participants_option', true );
 
-		$html  = '<div id="torro-add-participants-options" class="form-fields">';
-		$html .= '<label for"form_add_participants_option">' . esc_html__( 'Members', 'torro-forms' ) . '</label>';
-		$html .= '<select id="form-add-participants-option" name="form_add_participants_option">';
+		$html  = '<table class="form-table">';
+
+		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
+		$checked = 'yes' === $access_controls_same_users ? ' checked' : '';
+
+		$html .= '<tr>';
+		$html .= '<td><label for="form_access_controls_selectedmembers_same_users">' . esc_html__( 'Forbid multiple entries', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="checkbox" name="form_access_controls_selectedmembers_same_users" value="yes" ' . $checked . '/> ';
+		$html .= '</td>';
+		$html .= '</tr>';
+
+		$html .= '<tr>';
+		$html .= '<td><label for"form_add_participants_option">' . esc_html__( 'Members', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><select id="form-add-participants-option" name="form_add_participants_option">';
 		foreach ( $options as $name => $value ) {
 			$selected = '';
 			if ( $name === $add_participants_option ) {
@@ -331,18 +342,11 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			}
 			$html .= '<option value="' . $name . '"' . $selected . '>' . $value . '</option>';
 		}
-		$html .= '</select> ';
-		$html .= '<input type="button" class="form-add-participants-button button" id="form-add-participants-button" value="' . esc_attr__( 'Add', 'torro-forms' ) . '" />';
-		$html .= '</div>';
+		$html .= '</select> <input type="button" class="form-add-participants-button button" id="form-add-participants-button" value="' . esc_attr__( 'Add', 'torro-forms' ) . '" />';
+		$html .= '</td>';
+		$html .= '</tr>';
 
-		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
-		$checked = 'yes' === $access_controls_same_users ? ' checked' : '';
-
-		$html .= '<div id="torro-user-filter" class="form-fields">';
-		$html .= '<label for="form_access_controls_selectedmembers_same_users">' . esc_html__( 'Filter', 'torro-forms' ) . '</label>';
-		$html .= '<input type="checkbox" name="form_access_controls_selectedmembers_same_users" value="yes" ' . $checked . '/>';
-		$html .= esc_html__( 'Prevent multiple entries from same User', 'torro-forms' );
-		$html .= '</div>';
+		$html .= '</table>';
 
 		return $html;
 	}
@@ -354,13 +358,18 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	private function get_invite_actions_html(){
-		$html  = '<div style="clear: both;"></div>';
-		$html .= '<label for"torro-invite-participants">' . esc_html__( 'Invitations', 'torro-forms' ) . '</label>';
+		$html  = '<table class="form-table">';
+		$html .= '<tr>';
+		$html .= '<td><legend>' . esc_html__( 'Invitations', 'torro-forms' ) . '</legend></td>';
+		$html .= '<td>';
 		$html .= '<input type="button" id="torro-invite-participants-button" name="invite_participants" value="' . esc_html__( 'Invite', 'torro-forms' ) . '" class="button" /> ';
 		$html .= '<input type="button" id="torro-reinvite-participants-button" name="reinvite_participants" value="' . esc_html__( 'Reinvite', 'torro-forms' ) . '" class="button" /> ';
 		$html .= '<input type="button" id="torro-send-invitations-button" name="send_invitations" value="' . esc_html__( 'Send Invitations', 'torro-forms' ) . '" class="button-primary" /> ';
 		$html .= '<input type="button" id="invite-close" class="button" value="' . esc_html__( 'Close', 'torro-forms' ) . '" />';
 		$html .= '<div id="invites-send-request-text">' . esc_html__( 'Do you really want to send invitation emails to all members of this list?', 'torro-forms' ) . '</div>';
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
 
 		return $html;
 	}

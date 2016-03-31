@@ -73,21 +73,19 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 		$start_date = get_post_meta( $form_id, 'start_date', true );
 		$end_date = get_post_meta( $form_id, 'end_date', true );
 
-		$html = '<div id="form-access-controls-content-timerange" class="general-settings timerange">';
+		$html = '<table id="form-access-controls-content-timerange" class="form-table">';
 
-		$html .= '<div class="option">';
-		$html .= '<label for="start_date">' . esc_html__( 'Date Start:', 'torro-forms' ) . '</label>';
-		$html .= '<input type="text" id="start_date" name="start_date" value="' . $start_date . '"/>';
-		$html .= '</div>';
+		$html .= '<tr>';
+		$html .= '<td><label for="start_date">' . esc_html__( 'Input Start Date', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="text" id="start_date" name="start_date" value="' . $start_date . '"/></td>';
+		$html .= '</tr>';
 
-		$html .= '<div class="option">';
-		$html .= '<label for="end_date">' . esc_html__( 'Date End:', 'torro-forms' ) . '</label>';
-		$html .= '<input type="text" id="end_date" name="end_date" value="' . $end_date . '"/>';
-		$html .= '</div>';
+		$html .= '<tr>';
+		$html .= '<td><label for="end_date">' . esc_html__( 'Input End Date', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="text" id="end_date" name="end_date" value="' . $end_date . '"/></td>';
+		$html .= '</tr>';
 
-		$html .= '<div style="clear:both"></div>';
-
-		$html .= '</div>';
+		$html .= '</table>';
 
 		return $html;
 	}

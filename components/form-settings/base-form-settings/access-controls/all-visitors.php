@@ -137,29 +137,28 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 		$form_id = $post->ID;
 
+		$html  = '<table class="form-table">';
+		$html .= '<tr><td><legend>' . esc_attr__( 'Forbid multiple entries', 'torro-forms' ) . '</legend></td>';
+
+		$html .= '<td><fieldset>';
+
 		/**
 		 * Check IP
 		 */
 		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
 		$checked = 'yes' === $access_controls_check_ip ? ' checked' : '';
 
-		$html = '<div class="actions">';
-
-		$html .= '<div class="form-access-controls-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_access_controls_check_ip" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_access_controls_check_ip">' . esc_attr__( 'Prevent multiple entries from same IP', 'torro-forms' ) . '</label>';
-		$html .= '</div>';
+		$html .= '<label for="form_access_controls_check_ip">' . esc_attr__( 'by IP', 'torro-forms' ) . '</label><br />';
 
 		/**
-		 * Check Cookie
+		 * Check cookie
 		 */
 		$access_controls_check_cookie = get_post_meta( $form_id, 'form_access_controls_check_cookie', true );
 		$checked = 'yes' === $access_controls_check_cookie ? ' checked' : '';
 
-		$html .= '<div class="form-access-controls-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_access_controls_check_cookie" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_access_controls_check_cookie">' . esc_attr__( 'Prevent multiple entries by checking cookie', 'torro-forms' ) . '</label>';
-		$html .= '</div>';
+		$html .= '<label for="form_access_controls_check_cookie">' . esc_attr__( 'by Cookie', 'torro-forms' ) . '</label><br />';
 
 		/**
 		 * Check browser fingerprint
@@ -167,12 +166,13 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		$access_controls_check_fingerprint = get_post_meta( $form_id, 'form_access_controls_check_fingerprint', true );
 		$checked = 'yes' === $access_controls_check_fingerprint ? ' checked' : '';
 
-		$html .= '<div class="form-access-controls-allvisitors-userfilter">';
 		$html .= '<input type="checkbox" name="form_access_controls_check_fingerprint" value="yes" ' . $checked . '/>';
-		$html .= '<label for="form_access_controls_check_fingerprint">' . esc_attr__( 'Prevent multiple entries by checking browser fingerprint', 'torro-forms' ) . '</label>';
-		$html .= '</div>';
+		$html .= '<label for="form_access_controls_check_fingerprint">' . esc_attr__( 'by Browser Fingerprint', 'torro-forms' ) . '</label>';
 
-		$html .= '</div>';
+		$html .= '</fieldset></td>';
+
+		$html .= '</tr>';
+		$html .= '</table>';
 
 		ob_start();
 		do_action( 'form_access_controls_allvisitors_userfilters' );
@@ -229,6 +229,8 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 			}
 
 			$nonce = torro()->ajax()->get_nonce( 'check_fngrprnt' );
+
+			// Todo: Have to move to JS file
 
 			$html = '<script language="JavaScript">
 	(function ($) {
