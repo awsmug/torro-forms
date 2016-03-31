@@ -48,6 +48,12 @@ final class Torro_Redirection_Action extends Torro_Action {
 		parent::__construct();
 	}
 
+	/**
+	 * Singleton
+	 *
+	 * @return Torro_Redirection_Action
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -74,6 +80,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 	 * @param $response_id
 	 * @param $response
 	 *
+	 * @return string
 	 * @since 1.0.0
 	 */
 	public function notification( $form_id, $response_id ) {
@@ -121,6 +128,12 @@ final class Torro_Redirection_Action extends Torro_Action {
 		}
 	}
 
+	/**
+	 * Option content
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	public function option_content() {
 		global $post;
 
@@ -194,6 +207,8 @@ final class Torro_Redirection_Action extends Torro_Action {
 
 	/**
 	 * Saving option content
+	 *
+	 * @since 1.0.0
 	 */
 	public function save_option_content() {
 		global $post;
