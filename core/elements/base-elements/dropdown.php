@@ -46,7 +46,12 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 	}
 
 	public function input_html() {
-		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
+		$maybe_required = '';
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+			$maybe_required = ' <span class="required">*</span>';
+		}
+
+		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
 
 		$html .= '<select name="' . $this->get_input_name() . '">';
 		$html .= '<option value="please-select"> - ' . esc_html__( 'Please select', 'torro-forms' ) . ' -</option>';
@@ -80,13 +85,23 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 				'description'	=> __( 'The description will be shown after the field.', 'torro-forms' ),
 				'default'		=> ''
 			),
+			'required'		=> array(
+				'title'			=> __( 'Required?', 'torro-forms' ),
+				'type'			=> 'radio',
+				'values'		=> array(
+					'yes'			=> __( 'Yes', 'torro-forms' ),
+					'no'			=> __( 'No', 'torro-forms' ),
+				),
+				'description'	=> __( 'Whether the user must select a value.', 'torro-forms' ),
+				'default'		=> 'yes',
+			),
 		);
 	}
 
 	public function validate( $input ) {
 		$input = stripslashes( $input );
 
-		if ( 'please-select' === $input ) {
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && 'please-select' === $input ) {
 			return new Torro_Error( 'missing_value', __( 'Please select a value.', 'torro-forms' ) );
 		}
 

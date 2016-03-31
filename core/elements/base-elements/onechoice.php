@@ -45,9 +45,13 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 		$this->input_answers = true;
 	}
 
-	public function input_html()
-	{
-		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
+	public function input_html() {
+		$maybe_required = '';
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+			$maybe_required = ' <span class="required">*</span>';
+		}
+
+		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
 
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
@@ -74,14 +78,24 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 				'type'			=> 'textarea',
 				'description'	=> __( 'The description will be shown after the field.', 'torro-forms' ),
 				'default'		=> ''
-			)
+			),
+			'required'		=> array(
+				'title'			=> __( 'Required?', 'torro-forms' ),
+				'type'			=> 'radio',
+				'values'		=> array(
+					'yes'			=> __( 'Yes', 'torro-forms' ),
+					'no'			=> __( 'No', 'torro-forms' ),
+				),
+				'description'	=> __( 'Whether the user must select a value.', 'torro-forms' ),
+				'default'		=> 'yes',
+			),
 		);
 	}
 
 	public function validate( $input ) {
 		$input = stripslashes( $input );
 
-		if ( empty( $input ) ) {
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && empty( $input ) ) {
 			return new Torro_Error( 'missing_value', __( 'Please select a value.', 'torro-forms' ) );
 		}
 
