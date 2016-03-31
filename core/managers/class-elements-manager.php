@@ -83,7 +83,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		if ( ! class_exists( $class_name ) ) {
 			$class_name = 'Torro_Form_Element_Textfield';
 		}
-		return $class_name::instance();
+		return new $class_name();
 	}
 
 	protected function get_from_db( $id ) {
@@ -100,7 +100,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 			return false;
 		}
 
-		$element = $class_name::instance( $id );
+		$element = new $class_name( $id );
 		if ( ! $element->id ) {
 			return false;
 		}

@@ -29,28 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Torro_Form_Element_Textarea extends Torro_Form_Element {
-	private static $instances = array();
-
-	public static function instance( $id = null ) {
-		$slug = $id;
-		if ( null === $slug ) {
-			$slug = 'CLASS';
-		}
-		if ( ! isset( self::$instances[ $slug ] ) ) {
-			self::$instances[ $slug ] = new self( $id );
-		}
-		return self::$instances[ $slug ];
-	}
-
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	protected function init() {
 		$this->type = $this->name = 'textarea';
 		$this->title = __( 'Textarea', 'torro-forms' );

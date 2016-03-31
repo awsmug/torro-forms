@@ -30,40 +30,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Torro_Form_Element_Media extends Torro_Form_Element {
 	/**
-	 * Instances
-	 *
-	 * @var Torro_Form_Element_Media[]
-	 */
-	private static $instances = array();
-
-	/**
-	 * Singleton
-	 *
-	 * @param null $id
-	 *
-	 * @return Torro_Form_Element_Media
-	 */
-	public static function instance( $id = null ) {
-		$slug = $id;
-		if ( null === $slug ) {
-			$slug = 'CLASS';
-		}
-		if ( ! isset( self::$instances[ $slug ] ) ) {
-			self::$instances[ $slug ] = new self( $id );
-		}
-		return self::$instances[ $slug ];
-	}
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
-	/**
 	 * Initializing
 	 *
 	 * @since 1.0.0

@@ -153,7 +153,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct( $id = null ) {
+	public function __construct( $id = null ) {
 		parent::__construct();
 
 		$this->populate( $id );

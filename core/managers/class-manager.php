@@ -73,7 +73,11 @@ abstract class Torro_Manager {
 			}
 		}
 
-		$class = call_user_func( array( $class_name, 'instance' ) );
+		if ( is_callable( array( $class_name, 'instance' ) ) ) {
+			$class = call_user_func( array( $class_name, 'instance' ) );
+		} else {
+			$class = new $class_name();
+		}
 
 		if ( empty( $class->name ) ) {
 			$class->name = $class_name;
