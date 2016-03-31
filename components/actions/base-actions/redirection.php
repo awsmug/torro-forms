@@ -196,6 +196,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$pages = get_pages();
 
 		$html .= '<div id="redirect_page" class="form-fields redirect-content"' . $display . '>';
+
 		$html .= '<table class="form-table">';
 		$html .= '<tr>';
 		$html .= '<td>';
@@ -211,6 +212,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '</td>';
 		$html .= '</tr>';
 		$html .= '</table>';
+
 		$html .= '</div>';
 
 		$display = $redirect_type == 'redirect_text' ? ' style="display:block;"' : ' style="display:none;"';
@@ -232,6 +234,8 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '</td>';
 		$html .= '</tr>';
 		$html .= '</table>';
+		$html .= '</div>';
+		
 		$html .= '</div>';
 
 		return $html;
