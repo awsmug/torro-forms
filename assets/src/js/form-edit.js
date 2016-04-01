@@ -167,6 +167,10 @@
 
 						// remove WP editors in element
 						$element.find( 'textarea.wp-editor-area' ).each( function( index, element ) {
+							if ( 'undefined' === typeof window.tinyMCEPreInit.mceInit[ element.id ] ) {
+								return;
+							}
+
 							var editor = tinymce.get( element.id );
 							if ( editor ) {
 								editor.save();
@@ -179,6 +183,10 @@
 
 						// readd WP Editors in element
 						$element.find( 'textarea.wp-editor-area' ).each( function( index, element ) {
+							if ( 'undefined' === typeof window.tinyMCEPreInit.mceInit[ element.id ] ) {
+								return;
+							}
+
 							var editor = tinymce.get( element.id );
 							if ( ! editor ) {
 								tinymce.execCommand( 'mceAddEditor', true, element.id );
