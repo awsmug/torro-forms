@@ -339,6 +339,7 @@ class Torro_Settings_Page {
 		}
 
 		wp_enqueue_style( 'torro-settings-page', torro()->get_asset_url( 'settings-page', 'css' ) );
+		wp_enqueue_style( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'css' ) ); // Todo: This is a workaround! Why isn't it working anymore in other scripts?
 	}
 }
 Torro_Settings_Page::init();

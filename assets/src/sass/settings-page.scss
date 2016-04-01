@@ -64,6 +64,7 @@
 		font-weight: bold;
 	}
 
+
 	.settings-disclaimer {
 		padding: 20px;
 		margin-bottom: 15px;
@@ -78,11 +79,19 @@
 	&.general {
 		.settings-disclaimer {
 			background-image: url("#{$image-path}/logo.png");
-			background-position: 20px 20px;
+			background-position: 10px -9px;
 			background-repeat: no-repeat;
+			background-color: #d50c0c;
 			min-height: 80px;
 			padding: 20px 20px 20px 298px;
 			margin-bottom: 15px;
+			color:#FFF;
+
+			h3 {
+				margin-top: 20px;
+				font-size: 20px;
+				color:#FFF;
+			}
 		}
 	}
 }
