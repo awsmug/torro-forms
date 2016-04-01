@@ -184,6 +184,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 		$html = '<div id="form-email-notifications">';
 
+		$html .= '<input type="hidden" name="email_notifications_nonce" value="' . wp_create_nonce( 'torro_email_notifications' ) . '" />';
 
 		$html .= '<div class="actions">';
 		$html .= '<input id="form-add-email-notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
@@ -241,9 +242,13 @@ final class Torro_Email_Notifications extends Torro_Action {
 	public function save_option_content() {
 		global $wpdb, $post;
 
-		if ( isset( $_POST['email_notifications'] ) && 0 < count( $_POST['email_notifications'] ) ){
-			$wpdb->delete( $wpdb->torro_email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
+		if ( ! isset( $_POST['email_notifications_nonce'] ) || ! wp_verify_nonce( $_POST['email_notifications_nonce'], 'torro_email_notifications' ) ) {
+			return;
+		}
 
+		$wpdb->delete( $wpdb->torro_email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
+
+		if ( isset( $_POST['email_notifications'] ) ) {
 			foreach ( $_POST['email_notifications'] as $id => $notification ) {
 				$wpdb->insert(
 					$wpdb->torro_email_notifications,
