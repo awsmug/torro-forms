@@ -280,13 +280,12 @@ final class Torro_AJAX {
 		$id = time();
 		$editor_id = 'email_notification_message-' . $id;
 
-		$html = torro()->actions()->get_registered( 'emailnotifications' )->get_notification_settings_html( $id, __( 'New Email Notification' ) );
+		$html = torro()->actions()->get_registered( 'emailnotifications' )->get_notification_settings_html( '_AJAX_' . $id, __( 'New Email Notification' ) );
 
-		$response = array(
-			'id'		=> $id,
-			'editor_id'	=> $editor_id,
-			'html'		=> $html,
-		);
+		$response = Torro_AJAX_WP_Editor::get( '', $editor_id );
+
+		$response['id'] = $id;
+		$response['html'] = str_replace( '<% wp_editor %>', $response['html'], $html );
 
 		return $response;
 	}

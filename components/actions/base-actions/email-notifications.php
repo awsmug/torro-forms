@@ -284,11 +284,21 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 * @since 1.0.0
 	 */
 	public function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ) {
+		$ajax = false;
+		if ( '_AJAX_' === substr( $id, 0, 6 ) ) {
+			$ajax = true;
+			$id = substr( $id, 6 );
+		}
+
 		$editor_id = 'email_notification_message-' . $id;
 
-		ob_start();
-		wp_editor( $message, $editor_id );
-		$editor = ob_get_clean();
+		if ( $ajax ) {
+			$editor = '<% wp_editor %>';
+		} else {
+			ob_start();
+			wp_editor( $message, $editor_id );
+			$editor = ob_get_clean();
+		}
 
 		$icon_url = torro()->get_asset_url( 'mail', 'svg' );
 

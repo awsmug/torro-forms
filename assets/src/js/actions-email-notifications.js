@@ -21,9 +21,9 @@
 			var self = this;
 
 			var email_notification_id;
-			var delete_notification_dialog = $( this.selectors.delete_notification_dialog );
+			var $delete_notification_dialog = $( this.selectors.delete_notification_dialog );
 
-			delete_notification_dialog.dialog({
+			$delete_notification_dialog.dialog({
 				'dialogClass'	: 'wp-dialog',
 				'modal'			: true,
 				'autoOpen'		: false,
@@ -55,7 +55,7 @@
 
 				e.preventDefault();
 
-				delete_notification_dialog.dialog( 'open' );
+				$delete_notification_dialog.dialog( 'open' );
 			});
 
 			$( document ).on( 'click', this.selectors.add_notification_button, function( e ) {
@@ -63,6 +63,8 @@
 					nonce: self.translations.nonce_get_email_notification_html
 				}).done( function( response ) {
 					$( self.selectors.notifications ).prepend( response.html );
+
+					form_builder.init_ajax_editor( response );
 
 					self.init_notifications();
 

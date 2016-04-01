@@ -84,13 +84,11 @@
 				return;
 			}
 
-			if ( ! window.tinymce || ! window.quicktags || ! window.tinyMCEPreInit ) {
-				return;
-			}
-
 			if ( ! content ) {
 				content = '';
 			}
+
+			var self = this;
 
 			wp.ajax.post( 'torro_get_editor_html', {
 				nonce: this.translations.nonce_get_editor_html,
@@ -100,18 +98,26 @@
 			}).done( function( response ) {
 				$wrapper.html( response.html );
 
-				var first_editor_id = Object.keys( window.tinyMCEPreInit.mceInit )[0];
-
-				window.tinyMCEPreInit.mceInit[ response.editor_id ] = $.extend( {}, window.tinyMCEPreInit.mceInit[ first_editor_id ], response.tinymce );
-				window.tinyMCEPreInit.qtInit[ response.editor_id ] = response.quicktags;
-
-				window.QTags.instances['0'] = false;
-
-				window.tinymce.init( window.tinyMCEPreInit.mceInit[ response.editor_id ] );
-				window.quicktags( window.tinyMCEPreInit.qtInit[ response.editor_id ] );
+				self.init_ajax_editor( response );
 			}).fail( function( message ) {
 				console.error( message );
 			});
+		},
+
+		init_ajax_editor: function( data ) {
+			if ( ! window.tinymce || ! window.quicktags || ! window.tinyMCEPreInit ) {
+				return;
+			}
+
+			var first_editor_id = Object.keys( window.tinyMCEPreInit.mceInit )[0];
+
+			window.tinyMCEPreInit.mceInit[ data.editor_id ] = $.extend( {}, window.tinyMCEPreInit.mceInit[ first_editor_id ], data.tinymce );
+			window.tinyMCEPreInit.qtInit[ data.editor_id ] = data.quicktags;
+
+			window.QTags.instances['0'] = false;
+
+			window.tinymce.init( window.tinyMCEPreInit.mceInit[ data.editor_id ] );
+			window.quicktags( window.tinyMCEPreInit.qtInit[ data.editor_id ] );
 		},
 
 		/**
