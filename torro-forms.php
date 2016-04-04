@@ -552,8 +552,15 @@ add_action( 'plugins_loaded', 'torro_init' );
 
 
 function torro_test_superfunctions(){
+
 	// torro()->forms()->add(); // Todo: Hide function
-	// torro()->forms()->create_raw(); // Todo: Rename to 'create'
+	// torro()->forms()->create_raw(); // Fine
+
+	/* Todo: New function
+	// Create is wp_insert_post wrapper and accepts same arguments as this function
+	torro()->forms()->create( $params ); // Should return new form ID, otherwise WP_Error
+	*/
+
 	// torro()->forns()->delete // Todo: Should be deleted, because function by torro()->forms()->get( 123 )->delete();
 	// torro()->forms()->get_all_registered(); // Fine
 	// torro()->forms()->get_current(); // Todo: Checking if we are in a form, if not throw correct error
@@ -580,7 +587,17 @@ function torro_test_superfunctions(){
 	// torro()->containers()->add(); // Todo: Hide function
 	// torro()->containers()->create_raw(); // Todo: Rename to 'create'
 
+	/* Todo: New function
+    $params = array(
+		'type' => 'textfield',
+		'label' => 'Your Name'
+		)
+	);
+    torro()->elements()->create( $form_id, $params ); // Should return new form ID, otherwise WP_Error
+    */
 
+	// torro()->elements()->get( $element_id ); // Fine
+	// torro()->elements()->get( $element_id )->
 
 	// torro()->elements()->get_registered( 'textfield' )->add_admin_tab( 'test', 'sdfsdfdsf' ); // Todo: Adding priorities
 }

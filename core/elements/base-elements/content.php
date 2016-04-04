@@ -43,7 +43,7 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 		$this->input = false;
 	}
 
-	public function input_html() {
+	public function get_input_html() {
 		return wpautop( $this->label );
 	}
 

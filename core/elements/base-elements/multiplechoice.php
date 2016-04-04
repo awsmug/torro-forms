@@ -45,7 +45,7 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 		$this->input_answers = true;
 	}
 
-	public function input_html() {
+	public function get_input_html() {
 		$maybe_required = '';
 		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
 			$maybe_required = ' <span class="required">*</span>';

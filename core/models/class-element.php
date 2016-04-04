@@ -267,7 +267,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return string $input_name The name of the input
 	 * @since 1.0.0
 	 */
-	public function get_admin_input_name() {
+	private function get_admin_input_name() {
 		$element_id    = $this->get_admin_element_id();
 		$container_id = $this->get_admin_cotainer_id();
 
@@ -312,6 +312,66 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
+	 * Set form ID
+	 *
+	 * @param int $form_id
+	 * @since 1.0.0
+	 */
+	public function set_form_id( $form_id ){
+		$this->form_id = $form_id;
+	}
+
+	/**
+	 * Set container ID
+	 *
+	 * @param int $container_id
+	 * @since 1.0.0
+	 */
+	public function set_container_id( $container_id ){
+		$this->container_id = $container_id;
+	}
+
+	/**
+	 * Set label
+	 *
+	 * @param int $container_id
+	 * @since 1.0.0
+	 */
+	public function set_label( $label ){
+		$this->label = $label;
+	}
+
+	/**
+	 * Get form ID
+	 *
+	 * @return int $form_id
+	 * @since 1.0.0
+	 */
+	public function get_form_id(){
+		return $this->form_id;
+	}
+
+	/**
+	 * Get container ID
+	 *
+	 * @return int $container_id
+	 * @since 1.0.0
+	 */
+	public function get_contaienr_id(){
+		return $this->container_id;
+	}
+
+	/**
+	 * Get label text
+	 *
+	 * @return string label
+	 * @since 1.0.0
+	 */
+	public function get_label(){
+		return $this->label;
+	}
+
+	/**
 	 * Settings fields - dummy function
 	 */
 	protected function settings_fields() {
@@ -352,7 +412,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		if ( 0 === count( $this->answers ) && true === $this->input_answers ) {
 			$html .= '<p>' . esc_html__( 'You did not enter any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
 		} else {
-			$html .= $this->input_html();
+			$html .= $this->get_input_html();
 		}
 
 		if ( is_array( $errors ) && 0 < count( $errors ) ) {
@@ -378,7 +438,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return string $html Element frontend HTML
 	 * @since 1.0.0
 	 */
-	public function input_html() {
+	public function get_input_html() {
 		return '<p>' . esc_html__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
 	}
 
@@ -388,7 +448,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return string $html The admin element HTML code
 	 * @since 1.0.0
 	 */
-	public function get_admin_html() {
+	private function get_admin_html() {
 		$element_id = $this->get_admin_element_id();
 
 		/**
@@ -947,5 +1007,28 @@ abstract class Torro_Form_Element extends Torro_Base {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Magic function to hide functions for autocomplete
+	 *
+	 * @param string $name
+	 * @param $arguments
+	 *
+	 * @return mixed|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function __call( $name, $arguments ) {
+		switch ( $name ) {
+			case 'get_admin_input_name':
+				return $this->get_admin_input_name();
+				break;
+			case 'get_admin_html':
+				return $this->get_admin_html();
+				break;
+			default:
+				return new Torro_Error( 'torro_form_controller_method_not_exists', sprintf( __( 'This Torro Forms Controller function "%s" does not exist.', 'torro-forms' ), $name ) );
+				break;
+		}
 	}
 }

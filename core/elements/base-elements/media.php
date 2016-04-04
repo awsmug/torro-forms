@@ -49,7 +49,7 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function input_html() {
+	public function get_input_html() {
 		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
 
 		$html .= '<input type="file" name="' . $this->get_input_name() . '" />';
