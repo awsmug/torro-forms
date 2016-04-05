@@ -113,6 +113,14 @@
 				padding: 15px;
 				min-height: 200px;
 				background-color: #f5f5f5;
+
+				.formelement{
+					margin: 15px 0 0 0;
+
+					&:first-child{
+						margin-top: 0;
+					}
+				}
 			}
 		}
 

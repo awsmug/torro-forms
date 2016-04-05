@@ -188,7 +188,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 
 		$html .= '<div class="actions">';
 		$html .= '<input id="form-add-email-notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
-		$html .= '<p class="intro-text">' . esc_attr__( 'Add Email Notifications to send out Emails after the form have been submitted by User.', 'torro-forms' ) . '</p>';
+		$html .= '<p class="intro-text">' . esc_attr__( 'Send out Email-Notifications form was submitted successful.', 'torro-forms' ) . '</p>';
 		$html .= '</div>';
 
 		$html .= '<div class="list">';

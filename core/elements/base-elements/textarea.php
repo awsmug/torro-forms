@@ -41,7 +41,7 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 		$this->icon_url = torro()->get_asset_url( 'icon-textarea', 'png' );
 	}
 
-	public function input_html() {
+	public function get_input_html() {
 		$maybe_required = '';
 		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
 			$maybe_required = ' <span class="required">*</span>';

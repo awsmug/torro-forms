@@ -153,7 +153,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '<table class="form-table">';
 		$html .= '<tr>';
 		$html .= '<td>';
-		$html .= '<label for="redirect_type">' . esc_attr__( 'Redirect User:', 'torro-forms' ) . '</label>';
+		$html .= '<label for="redirect_type">' . esc_attr__( 'Redirect User', 'torro-forms' ) . '</label>';
 		$html .= '</td>';
 		$html .= '<td>';
 		$html .= '<select id="redirect_type" name="redirect_type">';
@@ -181,7 +181,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '<table class="form-table">';
 		$html .= '<tr>';
 		$html .= '<td>';
-		$html .= '<label for="redirect_url">' . esc_attr__( 'Url: ' ) . '</label>';
+		$html .= '<label for="redirect_url">' . esc_attr__( 'Url' ) . '</label>';
 		$html .= '</td>';
 		$html .= '<td>';
 		$html .= '<input name="redirect_url" type="text" value="' . $redirect_url . '" placeholder="http://" />';
@@ -221,7 +221,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '<table class="form-table">';
 		$html .= '<tr>';
 		$html .= '<td>';
-		$html .= '<label for="rediredt_text_content">' . esc_attr__( 'Page: ' ) . '</label>';
+		$html .= '<label for="rediredt_text_content">' . esc_attr__( 'Page' ) . '</label>';
 		$html .= '</td>';
 		$html .= '<td>';
 
@@ -235,7 +235,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$html .= '</tr>';
 		$html .= '</table>';
 		$html .= '</div>';
-		
+
 		$html .= '</div>';
 
 		return $html;
