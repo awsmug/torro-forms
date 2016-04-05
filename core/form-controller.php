@@ -250,27 +250,38 @@ class Torro_Form_Controller {
 			return;
 		}
 
-		if ( ! isset( $_POST[ 'torro_form_id' ] ) || $this->cache->is_finished() ) {
+		if ( ! isset( $_POST['torro_form_id'] ) || $this->cache->is_finished() ) {
 			/**
 			 * Initializing a fresh form
 			 */
 			$this->cache->reset();
 			$this->content = $this->form->get_html( $action_url );
-		} elseif ( isset( $_POST[ 'torro_submission_back' ] ) ) {
+		} elseif ( isset( $_POST['torro_submission_back'] ) ) {
 			/**
 			 * Going back
 			 */
-			$response = $_POST[ 'torro_response' ];
-			$current_container_id = $response[ 'container_id' ];
+			$response = $_POST['torro_response'];
+			$current_container_id = $response['container_id'];
 
-			$this->form->set_container( $current_container_id );
+			$this->form->set_current_container( $current_container_id );
+
+			$prev_container_id = $this->form->get_previous_container_id();
+
+			if ( is_wp_error( $prev_container_id ) ) {
+				$prev_container_id = $this->form->get_current_container_id();
+				if ( is_wp_error( $prev_container_id ) ) {
+					$this->content = __( 'Internal Error. No previous page exists.', 'torro-forms' );
+					return;
+				}
+			}
 
 			$form_response = array();
 			$cached_response = $this->cache->get_response();
-			if( isset( $cached_response[ 'containers' ][ $this->form->prev_container_id ][ 'elements' ] ) ) {
-				$form_response = $cached_response[ 'containers' ][ $this->form->prev_container_id ][ 'elements' ];
+
+			if( isset( $cached_response['containers'][ $prev_container_id ]['elements'] ) ) {
+				$form_response = $cached_response['containers'][ $prev_container_id ]['elements'];
 			}
-			$this->content = $this->form->get_html( $action_url, $this->form->prev_container_id, $form_response );
+			$this->content = $this->form->get_html( $action_url, $prev_container_id, $form_response );
 		} else {
 			/**
 			 * Yes we have a submit!
@@ -293,7 +304,7 @@ class Torro_Form_Controller {
 
 			$errors = array();
 
-			$containers = $this->form->get_containers();
+			$containers = $this->form->containers;
 
 			foreach ( $containers AS $container ) {
 				if( $container->id !== $current_container_id ){
@@ -307,9 +318,9 @@ class Torro_Form_Controller {
 					continue;
 				}
 
-				$elements = $container->get_elements();
+				$elements = $container->elements;
 
-				foreach ( $elements AS $element ) {
+				foreach ( $elements as $element ) {
 					if( ! $element->input ){
 						continue;
 					}
@@ -343,12 +354,10 @@ class Torro_Form_Controller {
 			if ( count( $errors[ $current_container_id ] ) === 0 ) {
 				$this->form->set_container( $current_container_id );
 
-				if ( ! empty( $this->form->next_container_id ) ) {
-					// Getting next container id
-					$current_container_id = $this->form->next_container_id;
+				$next_container_id = $this->form->get_next_container_id();
+				if ( ! is_wp_error( $next_container_id ) ) {
+					$current_container_id = $next_container_id;
 				} else {
-					// There is no next container > finish form!
-
 					$result_id = $this->save_response();
 
 					if ( false === $result_id ) {

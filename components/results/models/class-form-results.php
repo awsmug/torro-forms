@@ -105,7 +105,7 @@ class Torro_Form_Results {
 		) );
 
 		$form = new Torro_Form( $this->form_id );
-		$form_elements = $form->get_elements();
+		$form_elements = $form->elements;
 
 		if ( 0 === count( $form_elements ) ) {
 			return false;

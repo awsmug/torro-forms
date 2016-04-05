@@ -186,12 +186,27 @@ final class Torro_AJAX {
 
 		$form = get_post( $form_id );
 
-		if ( 'torro-forms' !== $form->post_type ) {
+		if ( ! $form || 'torro-forms' !== $form->post_type ) {
 			return new Torro_Error( 'ajax_duplicate_form_invalid_form', __( 'The post is not a form.', 'torro-forms' ) );
 		}
 
-		$form = new Torro_Form( $form_id );
-		$new_form_id = $form->duplicate( true, true, false, true, true, true, true );
+		$form = torro()->forms()->get( $form_id );
+		$new_form = $form->copy( array(
+			'terms'				=> true,
+			'meta'				=> true,
+			'comments'			=> false,
+			'containers'		=> true,
+			'elements'			=> true,
+			'element_answers'	=> true,
+			'element_settings'	=> true,
+			'participants'		=> true,
+			'as_draft'			=> true,
+		) );
+		if ( is_wp_error( $new_form ) ) {
+			return $new_form;
+		}
+
+		$new_form_id = $new_form->id;
 
 		$post = get_post( $new_form_id );
 

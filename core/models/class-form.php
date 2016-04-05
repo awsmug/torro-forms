@@ -26,14 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Form extends Torro_Post {
-	/**
-	 * Form Id
-	 *
-	 * @var int
-	 * @since 1.0.0
-	 */
-	private $id;
+class Torro_Form extends Torro_Instance_Base {
 
 	/**
 	 * Title of form
@@ -41,7 +34,7 @@ class Torro_Form extends Torro_Post {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private $title;
+	protected $title;
 
 	/**
 	 * All containers of the form
@@ -49,7 +42,7 @@ class Torro_Form extends Torro_Post {
 	 * @var Torro_Container[]
 	 * @since 1.0.0
 	 */
-	private $containers = array();
+	protected $containers = array();
 
 	/**
 	 * All elements of the form
@@ -57,7 +50,7 @@ class Torro_Form extends Torro_Post {
 	 * @var Torro_Form_Element[]
 	 * @since 1.0.0
 	 */
-	private $elements = array();
+	protected $elements = array();
 
 	/**
 	 * All elements of the form
@@ -65,55 +58,7 @@ class Torro_Form extends Torro_Post {
 	 * @var Torro_Participant[]
 	 * @since 1.0.0
 	 */
-	private $participants = array();
-
-	/**
-	 * Container object
-	 *
-	 * @var Torro_Container
-	 * @since 1.0.0
-	 */
-	private $container = null;
-
-	/**
-	 * Container id
-	 *
-	 * @var int $container_id
-	 * @since 1.0.0
-	 */
-	private $container_id = null;
-
-	/**
-	 * Previous container id
-	 *
-	 * @var int $container_id
-	 * @since 1.0.0
-	 */
-	private $prev_container_id = null;
-
-	/**
-	 * Next form container id
-	 *
-	 * @var int $container_id
-	 * @since 1.0.0
-	 */
-	private $next_container_id = null;
-
-	/**
-	 * Internal variable for transfering elements on duplicating
-	 *
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private $element_transfers = array();
-
-	/**
-	 * Internal variable for transfering answers on duplicating
-	 *
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private $answer_transfers = array();
+	protected $participants = array();
 
 	/**
 	 * Constructor
@@ -122,133 +67,34 @@ class Torro_Form extends Torro_Post {
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $id ) {
+	public function __construct( $id = null ) {
+		$this->manager_method = 'forms';
+		$this->valid_args = array( 'title' );
+
 		parent::__construct( $id );
-
-		$this->populate( $id );
 	}
 
 	/**
-	 * Populating class variables
+	 * Setting Container id
 	 *
-	 * @param int $id The id of the form
+	 * @param int $container_id
 	 *
-	 * @since 1.0.0
-	 * @return bool
-	 */
-	private function populate( $id ) {
-		$this->id = absint( $id );
-
-		if ( ! $this->exists() ) {
-			return false;
-		}
-
-		$form        = get_post( $this->id );
-		$this->title = $form->post_title;
-
-		$this->containers   = $this->__get_containers();
-		$this->elements     = $this->__get_elements();
-		$this->participants = $this->__get_participants();
-
-		return true;
-	}
-
-	/**
-	 * Checks if a Form exists
-	 *
-	 * @return boolean $exists true if Form exists, false if not
+	 * @return Torro_Container
 	 * @since 1.0.0
 	 */
-	public function exists() {
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "SELECT COUNT( ID ) FROM {$wpdb->prefix}posts WHERE ID = %d AND post_type = 'torro-forms'", $this->id );
-		$var = $wpdb->get_var( $sql );
-
-		if ( $var > 0 ) {
-			return true;
+	public function set_current_container( $container_id = null ) {
+		if ( $container_id ) {
+			for ( $i = 0; $i < count( $this->containers ); $i ++ ) {
+				if ( $container_id === $this->containers[ $i ]->id ) {
+					$this->container_index = $i;
+					break;
+				}
+			}
+		} else {
+			$this->container_index = 0;
 		}
 
-		return false;
-	}
-
-	/**
-	 * Getting containers
-	 *
-	 * @return array $containters
-	 * @since 1.0.0
-	 */
-	private function __get_containers() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_containers} WHERE form_id=%d ORDER BY sort ASC", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		$containers = array();
-		foreach ( $results AS $container ) {
-			$containers[] = new Torro_Container( $container->id );
-		}
-
-		return $containers;
-	}
-
-	/**
-	 * Getting elements
-	 *
-	 * @return array $elements
-	 * @since 1.0.0
-	 */
-	private function __get_elements() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id,type FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		$elements = array();
-
-		foreach ( $results AS $element ) {
-			$elements[] = torro()->elements()->get( $element->id );
-		}
-
-		return $elements;
-	}
-
-	/**
-	 * Initializing participants
-	 *
-	 * @return array All participator ID's
-	 * @since 1.0.0
-	 */
-	private function __get_participants() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_participants} WHERE form_id = %d", $this->id );
-		$results = $wpdb->get_col( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		$participants = array();
-		foreach ( $results AS $participant_id ) {
-			$participants[] = new Torro_Participant( $participant_id );
-		}
-
-		return $participants;
-	}
-
-	/**
-	 * Getting Containers
-	 *
-	 * @return Torro_Container[]
-	 * @since 1.0.0
-	 */
-	public function get_containers() {
-		return $this->containers;
+		return $this->get_current_container();
 	}
 
 	/**
@@ -258,21 +104,41 @@ class Torro_Form extends Torro_Post {
 	 * @since 1.0.0
 	 */
 	public function get_current_container() {
-		return $this->container;
+		if ( 0 > $this->container_index || ! isset( $this->containers[ $this->container_index ] ) ) {
+			return new Torro_Error( 'no_current_container', __( 'No current container is set.', 'torro-forms' ), __METHOD__ );
+		}
+
+		return $this->containers[ $this->container_index ];
 	}
 
-	/**
-	 * Geting Participants
-	 *
-	 * @return Torro_Participant[]
-	 * @since 1.0.0
-	 */
-	public function get_participants() {
-		return $this->participants;
+	public function get_current_container_id() {
+		$container = $this->get_current_container();
+		if ( is_wp_error( $container ) ) {
+			return $container;
+		}
+		return $container->id;
+	}
+
+	public function get_previous_container_id() {
+		$previous_index = $this->container_index - 1;
+		if ( 0 > $previous_index || ! isset( $this->containers[ $previous_index ] ) ) {
+			return new Torro_Error( 'no_previous_container', __( 'No previous container is set.', 'torro-forms' ), __METHOD__ );
+		}
+
+		return $this->containers[ $previous_index ]->id;
+	}
+
+	public function get_next_container_id() {
+		$next_index = $this->container_index - 1;
+		if ( 0 > $next_index || ! isset( $this->containers[ $next_index ] ) ) {
+			return new Torro_Error( 'no_next_container', __( 'No next container is set.', 'torro-forms' ), __METHOD__ );
+		}
+
+		return $this->containers[ $next_index ]->id;
 	}
 
 	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
-		$this->set_container( $container_id );
+		$this->set_current_container( $container_id );
 
 		$html = '<form class="torro-form" action="' . $form_action_url . '" method="POST" method="post" enctype="multipart/form-data" novalidate>';
 		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '" />';
@@ -285,337 +151,6 @@ class Torro_Form extends Torro_Post {
 		$html .= '</form>';
 
 		return $html;
-	}
-
-	/**
-	 * Setting Container id
-	 *
-	 * @param int $container_id
-	 *
-	 * @return Torro_Container
-	 * @since 1.0.0
-	 */
-	public function set_container( $container_id = null ) {
-		if ( null !== $container_id ) {
-			$prev_container_id = null;
-			$next_container_id = null;
-
-			for ( $i = 0; $i < count( $this->containers ); $i ++ ) {
-				if ( $i > 0 ) {
-					$prev_container_id = $this->containers[ $i - 1 ]->id;
-				}
-				if ( $i < count( $this->containers ) - 1 ) {
-					$next_container_id = $this->containers[ $i + 1 ]->id;
-				}
-				if ( $container_id === $this->containers[ $i ]->id ) {
-					$this->container_id = $container_id;
-					$this->container    = $this->containers[ $i ];
-
-					$this->prev_container_id = $prev_container_id;
-					$this->next_container_id = $next_container_id;
-
-					if ( $next_container_id === $container_id ) {
-						$this->next_container_id = null;
-					}
-
-					return $this->container;
-				}
-			}
-		} else {
-			$this->container_id = $this->containers[ 0 ]->id;
-			$this->container    = $this->containers[ 0 ];
-
-			if ( isset( $this->containers[ 1 ] ) ) {
-				$this->next_container_id = apply_filters( 'torro_forms_next_container_id', $this->containers[ 1 ]->id, $this );
-			}
-
-			return $this->container;
-		}
-	}
-
-	/**
-	 * Getting navigation for form
-	 *
-	 * @param $actual_step
-	 * @param $next_step
-	 *
-	 * @return string
-	 * @since 1.0.0
-	 */
-	private function get_navigation() {
-		$html = '';
-
-		// If there was a step before, show previous button
-		if ( null !== $this->prev_container_id ) {
-			$html .= '<input type="submit" name="torro_submission_back" value="' . esc_attr__( 'Previous Step', 'torro-forms' ) . '"> ';
-		}
-
-		if ( null !== $this->next_container_id ) {
-			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Next Step', 'torro-forms' ) . '">';
-		} else {
-			ob_start();
-			do_action( 'torro_form_send_button_before', $this->id );
-			$html .= ob_get_clean();
-
-			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Send', 'torro-forms' ) . '">';
-
-			ob_start();
-			do_action( 'torro_form_send_button_after', $this->id );
-			$html .= ob_get_clean();
-		}
-
-		return $html;
-	}
-
-	/**
-	 * Saving response
-	 *
-	 * @param int   $form_id
-	 * @param array $response
-	 *
-	 * @return boolean $saved
-	 * @since 1.0.0
-	 */
-	public function save_response( $response ) {
-		global $wpdb, $current_user;
-
-		get_currentuserinfo();
-		$user_id = $current_user->ID;
-
-		if ( ! $user_id ) {
-			$user_id = - 1;
-		}
-
-		// Adding new element
-		$wpdb->insert( $wpdb->torro_results, array(
-			'form_id'   => $this->id,
-			'user_id'   => $user_id,
-			'timestamp' => time()
-		) );
-
-		$result_id         = $wpdb->insert_id;
-		$this->response_id = $result_id;
-
-		foreach ( $response[ 'containers' ] AS $container_id => $container ) {
-			foreach ( $container[ 'elements' ] AS $element_id => $values ) {
-				if ( ! is_array( $values ) ) {
-					$values = array( $values );
-				}
-
-				foreach ( $values as $value ) {
-					$wpdb->insert( $wpdb->torro_result_values, array(
-						'result_id'  => $result_id,
-						'element_id' => $element_id,
-						'value'      => $value
-					) );
-				}
-			}
-		}
-
-		return $result_id;
-	}
-
-	/**
-	 * Duplicating a form
-	 *
-	 * @param bool $copy_meta         True if meta have to be copied
-	 * @param bool $copy_comments     True if comments have to be copied
-	 * @param bool $copy_elements     True if elements have to be copied
-	 * @param bool $copy_answers      True if answers of elements have to be copied
-	 * @param bool $copy_participants True if participants have to be copied
-	 * @param bool $draft             True if duplicated form have to be a draft
-	 *
-	 * @return int
-	 * @since 1.0.0
-	 */
-	public function duplicate( $copy_meta = true, $copy_taxonomies = true, $copy_comments = true, $copy_elements = true, $copy_answers = true, $copy_participants = true, $draft = false ) {
-		$new_form_id = parent::duplicate( $copy_meta, $copy_taxonomies, $copy_comments, $draft );
-
-		if ( $copy_elements ) {
-			$this->duplicate_elements( $new_form_id, $copy_answers );
-		}
-
-		if ( $copy_participants ) {
-			$this->duplicate_participants( $new_form_id );
-		}
-
-		do_action( 'form_duplicate', $this->post, $new_form_id, $this->element_transfers, $this->answer_transfers );
-
-		return $new_form_id;
-	}
-
-	/**
-	 * Duplicate Elements
-	 *
-	 * @param int  $new_form_id   Id of the form where elements have to be copied
-	 * @param bool $copy_answers  True if answers have to be copied
-	 * @param bool $copy_settings True if settings have to be copied
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	public function duplicate_elements( $new_form_id, $copy_answers = true, $copy_settings = true ) {
-		global $wpdb;
-
-		if ( empty( $new_form_id ) ) {
-			return false;
-		}
-
-		// Duplicate answers
-		if ( is_array( $this->elements ) && count( $this->elements ) ) {
-			foreach ( $this->elements as $element ) {
-				$old_element_id = $element->id;
-
-				// Todo: Have to be replaced by element object
-				$wpdb->insert( $wpdb->torro_elements, array(
-					'form_id' => $new_form_id,
-					'label'   => $element->label,
-					'sort'    => $element->sort,
-					'type'    => $element->type
-				), array(
-					               '%d',
-					               '%s',
-					               '%d',
-					               '%s',
-				               ) );
-
-				$new_element_id                             = $wpdb->insert_id;
-				$this->element_transfers[ $old_element_id ] = $new_element_id;
-
-				// Duplicate answers
-				if ( is_array( $element->answers ) && count( $element->answers ) && $copy_answers ) {
-					foreach ( $element->answers as $answer ) {
-						$old_answer_id = $answer[ 'id' ];
-
-						// Todo: Have to be replaced by answer object
-						$wpdb->insert( $wpdb->torro_element_answers, array(
-							'element_id' => $new_element_id,
-							'answer'     => $answer[ 'text' ],
-							'section'    => $answer[ 'section' ],
-							'sort'       => $answer[ 'sort' ]
-						), array(
-							               '%d',
-							               '%s',
-							               '%s',
-							               '%d',
-						               ) );
-
-						$new_answer_id                            = $wpdb->insert_id;
-						$this->answer_transfers[ $old_answer_id ] = $new_answer_id;
-					}
-				}
-
-				// Duplicate Settings
-				if ( is_array( $element->settings ) && count( $element->settings ) && $copy_settings ) {
-					// Todo: Have to be replaced by detting object
-					foreach ( $element->settings as $name => $value ) {
-						$wpdb->insert( $wpdb->torro_element_settings, array(
-							'element_id' => $new_element_id,
-							'name'       => $name,
-							'value'      => $value
-						), array(
-							               '%d',
-							               '%s',
-							               '%s',
-						               ) );
-					}
-				}
-
-				do_action( 'torro_duplicate_form_element', $element, $new_element_id );
-			}
-		}
-	}
-
-	/**
-	 * Duplicating participants
-	 *
-	 * @param int $new_form_idint Id of the form where participants have to be copied
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	public function duplicate_participants( $new_form_id ) {
-		global $wpdb;
-
-		if ( empty( $new_form_id ) ) {
-			return false;
-		}
-
-		// Duplicate answers
-		if ( is_array( $this->participants ) && count( $this->participants ) ) {
-			foreach ( $this->participants as $participant_id ) {
-				$wpdb->insert( $wpdb->torro_participants, array(
-					'form_id' => $new_form_id,
-					'user_id' => $participant_id
-				), array(
-					               '%d',
-					               '%d',
-				               ) );
-			}
-		}
-	}
-
-	/**
-	 * Delete form
-	 *
-	 * @since 1.0.0
-	 */
-	public function delete() {
-		global $wpdb;
-
-		/**
-		 * Responses
-		 */
-		$this->delete_responses();
-
-		$sql      = $wpdb->prepare( "SELECT id FROM $wpdb->torro_elements WHERE form_id=%d", $this->id );
-		$elements = $wpdb->get_col( $sql );
-
-		/**
-		 * Answers & Settings
-		 */
-		if ( is_array( $elements ) && count( $elements ) > 0 ) {
-			foreach ( $elements as $element_id ) {
-				$wpdb->delete( $wpdb->torro_element_answers, array( 'element_id' => $element_id ) );
-				$wpdb->delete( $wpdb->torro_element_settings, array( 'element_id' => $element_id ) );
-
-				do_action( 'form_delete_element', $element_id, $this->id );
-			}
-		}
-
-		/**
-		 * Elements
-		 */
-		$wpdb->delete( $wpdb->torro_elements, array( 'form_id' => $this->id ) );
-
-		do_action( 'form_delete', $this->id );
-
-		/**
-		 * Participiants
-		 */
-		$wpdb->delete( $wpdb->torro_participants, array( 'form_id' => $this->id ) );
-	}
-
-	/**
-	 * Deleting all results of the Form
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function delete_responses() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id FROM $wpdb->torro_results WHERE form_id = %s", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		// Putting results in array
-		if ( is_array( $results ) ) {
-			foreach ( $results as $result ) {
-				$wpdb->delete( $wpdb->torro_result_values, array( 'result_id' => $result->id ) );
-			}
-		}
-
-		return $wpdb->delete( $wpdb->torro_results, array( 'form_id' => $this->id ) );
 	}
 
 	/**
@@ -652,23 +187,13 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
-	 * Getting elements of form
-	 *
-	 * @return Torro_Form_Element[]
-	 * @since 1.0.0
-	 */
-	public function get_elements() {
-		return $this->elements;
-	}
-
-	/**
 	 * Checks if form has analyzable elements
 	 *
 	 * @return bool
 	 * @since 1.0.0
 	 */
 	public function has_analyzable_elements() {
-		foreach ( $this->elements AS $element ) {
+		foreach ( $this->elements as $element ) {
 			if ( ! $element->is_analyzable() ) {
 				continue;
 			} else {
@@ -680,63 +205,418 @@ class Torro_Form extends Torro_Post {
 	}
 
 	/**
-	 * Magic getter function
+	 * Saving response
 	 *
-	 * @param $key
+	 * @param int   $form_id
+	 * @param array $response
 	 *
-	 * @return mixed|null
+	 * @return boolean $saved
 	 * @since 1.0.0
 	 */
-	public function __get( $key ) {
-		if ( property_exists( $this, $key ) ) {
-			return $this->$key;
+	public function save_response( $response ) {
+		global $wpdb, $current_user;
+
+		get_currentuserinfo();
+		$user_id = $current_user->ID;
+
+		if ( ! $user_id ) {
+			$user_id = - 1;
 		}
 
-		return null;
+		// Adding new element
+		$wpdb->insert( $wpdb->torro_results, array(
+			'form_id'   => $this->id,
+			'user_id'   => $user_id,
+			'timestamp' => time()
+		) );
+
+		$result_id         = $wpdb->insert_id;
+		$this->response_id = $result_id;
+
+		foreach ( $response[ 'containers' ] as $container_id => $container ) {
+			foreach ( $container[ 'elements' ] as $element_id => $values ) {
+				if ( ! is_array( $values ) ) {
+					$values = array( $values );
+				}
+
+				foreach ( $values as $value ) {
+					$wpdb->insert( $wpdb->torro_result_values, array(
+						'result_id'  => $result_id,
+						'element_id' => $element_id,
+						'value'      => $value
+					) );
+				}
+			}
+		}
+
+		return $result_id;
+	}
+
+	public function move( $invalid ) {
+		return new Torro_Error( 'cannot_move_form', __( 'A form cannot be moved.', 'torro-forms' ) );
+	}
+
+	public function copy( $args = array() ) {
+		$defaults = array(
+			'terms'					=> true,
+			'meta'					=> true,
+			'comments'				=> true,
+			'containers'			=> true,
+			'elements'				=> true,
+			'element_answers'		=> true,
+			'element_settings'		=> true,
+			'participants'			=> true,
+			'as_draft'				=> false,
+		);
+		foreach ( $defaults as $key => $default ) {
+			if ( ! isset( $args[ $key ] ) ) {
+				$args[ $key ] = $default;
+			}
+		}
+
+		$post_data = get_post( $this->id, ARRAY_A );
+		if ( ! $post_data ) {
+			return new Torro_Error( 'form_post_not_exist', __( 'Could not copy form post data.', 'torro-forms' ), __METHOD__ );
+		}
+
+		$post_data['ID'] = '';
+		if ( $args['as_draft'] ) {
+			$post_data['post_status'] = 'draft';
+		}
+		$post_data['post_date'] = $post_data['post_modified'] = $post_data['post_date_gmt'] = $post_data['post_modified_gmt'] = '';
+
+		$post_id = wp_insert_post( $post_data );
+		if ( is_wp_error( $post_id ) ) {
+			return $post_id;
+		} elseif ( ! $post_id ) {
+			return new Torro_Error( 'cannot_copy_form', __( 'Could not copy form post data.', 'torro-forms' ), __METHOD__ );
+		}
+
+		if ( $args['terms'] ) {
+			$taxonomies = get_object_taxonomies( get_post( $this->id ), 'names' );
+			foreach ( $taxonomies as $taxonomy ) {
+				$terms = wp_get_object_terms( $this->id, $taxonomy, array( 'fields' => 'ids' ) );
+				wp_set_object_terms( $post_id, $terms, $taxonomy );
+			}
+		}
+
+		if ( $args['meta'] ) {
+			$forbidden = array( '_edit_lock', '_edit_last' );
+			$meta = get_post_meta( $this->id );
+			foreach ( $meta as $meta_key => $meta_values ) {
+				if ( in_array( $meta_key, $forbidden, true ) ) {
+					continue;
+				}
+				foreach ( $meta_values as $meta_value ) {
+					add_post_meta( $post_id, $meta_key, $meta_value );
+				}
+			}
+		}
+
+		if ( $args['comments'] ) {
+			$new_ids = array();
+
+			$comments = get_comments( array( 'post_id' => $this->id ) );
+			foreach ( $comments as $comment ) {
+				$comment = get_object_vars( $comment );
+				$comment['comment_post_ID'] = $post_id;
+				$old_id = $comment['comment_ID'];
+				unset( $comment['comment_ID'] );
+				$new_id = wp_insert_comment( $comment );
+				$new_ids[ $old_id ] = $new_id;
+			}
+
+			foreach ( $new_ids as $old_id => $new_id ) {
+				$comment = get_comment( $new_id, ARRAY_A );
+				if ( 0 === absint( $comment['comment_parent'] ) ) {
+					continue;
+				}
+				$comment['comment_parent'] = $new_ids[ $comment['comment_parent'] ];
+				wp_update_comment( $comment );
+			}
+		}
+
+		if ( $args['containers'] ) {
+			$new_container_ids = array();
+			foreach ( $this->containers as $container ) {
+				if ( ! $container->id ) {
+					continue;
+				}
+
+				$old_id = $container->id;
+				$new_container = $container->copy( $post_id );
+				if ( ! is_wp_error( $new_container ) ) {
+					$new_container_ids[ $old_id ] = $new_container->id;
+				}
+			}
+
+			if ( $args['elements'] ) {
+				$new_element_ids = array();
+				$element_answers = array();
+				$element_settings = array();
+				foreach ( $this->elements as $element ) {
+					if ( ! $element->id ) {
+						continue;
+					}
+					if ( ! $element->container_id || ! isset( $new_container_ids[ $element->container_id ] ) ) {
+						continue;
+					}
+
+					$element_answers = array_merge( $element_answers, $element->answers );
+					$element_settings = array_merge( $element_settings, $element->settings );
+
+					$old_id = $element->id;
+					$new_element = $element->copy( $new_container_ids[ $element->container_id ] );
+					if ( ! is_wp_error( $new_element ) ) {
+						$new_element_ids[ $old_id ] = $new_element->id;
+					}
+				}
+
+				if ( $args['element_answers'] ) {
+					$new_element_answer_ids = array();
+					foreach ( $element_answers as $element_answer ) {
+						if ( ! $element_answer->id ) {
+							continue;
+						}
+						if ( ! $element_answer->element_id || ! isset( $new_element_ids[ $element_answer->element_id ] ) ) {
+							continue;
+						}
+
+						$old_id = $element_answer->id;
+						$new_element_answer = $element_answer->copy( $new_element_ids[ $element_answer->element_id ] );
+						if ( ! is_wp_error( $new_element_answer ) ) {
+							$new_element_answer_ids[ $old_id ] = $new_element_answer->id;
+						}
+					}
+				}
+
+				if ( $args['element_settings'] ) {
+					$new_element_setting_ids = array();
+					foreach ( $element_settings as $element_setting ) {
+						if ( ! $element_setting->id ) {
+							continue;
+						}
+						if ( ! $element_setting->element_id || ! isset( $new_element_ids[ $element_setting->element_id ] ) ) {
+							continue;
+						}
+
+						$old_id = $element_setting->id;
+						$new_element_setting = $element_setting->copy( $new_element_ids[ $element_setting->element_id ] );
+						if ( ! is_wp_error( $new_element_setting ) ) {
+							$new_element_setting_ids[ $old_id ] = $new_element_setting->id;
+						}
+					}
+				}
+			}
+		}
+
+		if ( $args['participants'] ) {
+			foreach ( $this->participants as $participant ) {
+				if ( ! $participant->id ) {
+					continue;
+				}
+
+				$old_id = $participant->id;
+				$new_participant = $participant->copy( $post_id );
+			}
+		}
+
+		do_action( 'form_copy', $this->id, $post_id, $this );
+
+		return torro()->forms()->get( $post_id );
 	}
 
 	/**
-	 * Magic setter function
+	 * Getting navigation for form
 	 *
-	 * @param $key
-	 * @param $value
+	 * @param $actual_step
+	 * @param $next_step
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	protected function get_navigation() {
+		$html = '';
+
+		// If there was a step before, show previous button
+		if ( ! is_wp_error( $this->get_previous_container_id() ) ) {
+			$html .= '<input type="submit" name="torro_submission_back" value="' . esc_attr__( 'Previous Step', 'torro-forms' ) . '"> ';
+		}
+
+		if ( ! is_wp_error( $this->get_next_container_id() ) ) {
+			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Next Step', 'torro-forms' ) . '">';
+		} else {
+			ob_start();
+			do_action( 'torro_form_send_button_before', $this->id );
+			$html .= ob_get_clean();
+
+			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Send', 'torro-forms' ) . '">';
+
+			ob_start();
+			do_action( 'torro_form_send_button_after', $this->id );
+			$html .= ob_get_clean();
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Populating class variables
+	 *
+	 * @param int $id The id of the form
+	 *
+	 * @since 1.0.0
+	 * @return bool
+	 */
+	protected function populate( $id ) {
+		$this->id = absint( $id );
+
+		if ( ! $this->exists() ) {
+			return false;
+		}
+
+		$form        = get_post( $this->id );
+		$this->title = $form->post_title;
+
+		$this->containers   = $this->populate_containers();
+		$this->elements     = $this->populate_elements();
+		$this->participants = $this->populate_participants();
+
+		return true;
+	}
+
+	protected function exists_in_db() {
+		if ( get_post( $this->id ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	protected function save_to_db() {
+		$post_data = array();
+		$func = 'wp_insert_post';
+		if ( ! empty( $this->id ) ) {
+			$post_data = get_post( $this->id, ARRAY_A );
+			$func = 'wp_update_post';
+		}
+
+		$post['post_type'] = 'torro-forms';
+		$post['post_title'] = $this->title;
+
+		return call_user_func( $func, $post_data );
+	}
+
+	/**
+	 * Delete form
+	 *
+	 * @since 1.0.0
+	 */
+	protected function delete_from_db() {
+		if ( empty( $this->id ) ) {
+			return new Torro_Error( 'cannot_delete_empty', __( 'Cannot delete container without ID.', 'torro-forms' ), __METHOD__ );
+		}
+
+		foreach ( $this->containers as $container ) {
+			$container->delete();
+		}
+
+		foreach ( $this->participants as $participant ) {
+			$participant->delete();
+		}
+
+		$this->delete_responses_from_db();
+
+		return wp_delete_post( $this->id, true );
+	}
+
+	/**
+	 * Getting containers
+	 *
+	 * @return array $containters
+	 * @since 1.0.0
+	 */
+	private function populate_containers() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_containers} WHERE form_id=%d ORDER BY sort ASC", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		$containers = array();
+		foreach ( $results as $container ) {
+			$containers[] = new Torro_Container( $container->id );
+		}
+
+		return $containers;
+	}
+
+	/**
+	 * Getting elements
+	 *
+	 * @return array $elements
+	 * @since 1.0.0
+	 */
+	private function populate_elements() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT id,type FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		$elements = array();
+
+		foreach ( $results as $element ) {
+			$elements[] = torro()->elements()->get( $element->id );
+		}
+
+		return $elements;
+	}
+
+	/**
+	 * Initializing participants
+	 *
+	 * @return array All participator ID's
+	 * @since 1.0.0
+	 */
+	private function populate_participants() {
+		global $wpdb;
+
+		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_participants} WHERE form_id = %d", $this->id );
+		$results = $wpdb->get_col( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		$participants = array();
+		foreach ( $results as $participant_id ) {
+			$participants[] = new Torro_Participant( $participant_id );
+		}
+
+		return $participants;
+	}
+
+	/**
+	 * Deleting all results of the Form
 	 *
 	 * @return mixed
 	 * @since 1.0.0
 	 */
-	public function __set( $key, $value ) {
-		switch ( $key ) {
-			case 'prev_container_id':
-				return false;
-				break;
+	private function delete_responses_from_db() {
+		global $wpdb;
 
-			case 'next_container_id':
-				return false;
-				break;
+		$sql     = $wpdb->prepare( "SELECT id FROM $wpdb->torro_results WHERE form_id = %s", $this->id );
+		$results = $wpdb->get_results( $sql );
 
-			default:
-				if ( property_exists( $this, $key ) ) {
-					$this->$key = $value;
-					return $value;
-				} else {
-					return false;
-				}
-		}
-	}
-
-	/**
-	 * Magic isset function
-	 *
-	 * @param $key
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	public function __isset( $key ) {
-		if ( property_exists( $this, $key ) ) {
-			return true;
+		// Putting results in array
+		if ( is_array( $results ) ) {
+			foreach ( $results as $result ) {
+				$wpdb->delete( $wpdb->torro_result_values, array( 'result_id' => $result->id ) );
+			}
 		}
 
-		return false;
+		return $wpdb->delete( $wpdb->torro_results, array( 'form_id' => $this->id ) );
 	}
 }

@@ -28,13 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Form_Element extends Torro_Base {
-	/**
-	 * ID of instanced element
-	 *
-	 * @since 1.0.0
-	 */
-	protected $id = null;
+abstract class Torro_Form_Element extends Torro_Instance_Base {
 
 	/**
 	 * Contains the form ID of the element
@@ -42,13 +36,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	protected $form_id = null;
-
-	/**
-	 * Contains the Container ID of the Element
-	 *
-	 * @since 1.0.0
-	 */
-	protected $container_id = null;
 
 	/**
 	 * Element type
@@ -154,227 +141,13 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	public function __construct( $id = null ) {
-		parent::__construct();
+		$this->superior_id_name = 'container_id';
+		$this->manager_method = 'elements';
+		$this->valid_args = array( 'type', 'label', 'sort' );
 
-		$this->populate( $id );
+		parent::__construct( $id );
+
 		$this->settings_fields();
-	}
-
-	/**
-	 * Populating element object with data
-	 *
-	 * @param int $id Element id
-	 *
-	 * @since 1.0.0
-	 */
-	private function populate( $id ) {
-		global $wpdb;
-
-		if ( ! empty( $id ) ) {
-
-			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %d", absint( $id ) );
-			$row = $wpdb->get_row( $sql );
-
-			$this->id           = $row->id;
-			$this->label        = $row->label;
-			$this->form_id      = $row->form_id;
-			$this->container_id = $row->container_id;
-			$this->sort         = $row->sort;
-			$this->type         = $row->type;
-
-			$this->answers = $this->__get_answers();
-			$this->settings = $this->__get_settings();
-		}
-	}
-
-	/**
-	 * Getting answers
-	 *
-	 * @return array $answers
-	 * @since 1.0.0
-	 */
-	private function __get_answers(){
-		global $wpdb;
-
-		$answers = array();
-
-		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		if ( is_array( $results ) ) {
-			foreach ( $results as $answer ) {
-				$answers[] = new Torro_Element_Answer( $answer->id );
-			}
-		}
-
-		return $answers;
-	}
-
-	/**
-	 * Getting settings
-	 *
-	 * @return array $settings
-	 * @since 1.0.0
-	 */
-	private function __get_settings(){
-		global $wpdb;
-
-		$settings = array();
-
-		$sql      = $wpdb->prepare( "SELECT id, name FROM {$wpdb->torro_element_settings} WHERE element_id = %s", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		if ( is_array( $results ) ) {
-			foreach ( $results as $setting ) {
-				$settings[ $setting->name ] = new Torro_Element_Setting( $setting->id );
-			}
-		}
-
-		return $settings;
-	}
-
-	/**
-	 * Getting answers
-	 *
-	 * @return array $answers
-	 * @since 1.0.0
-	 */
-	public function get_answers(){
-		return $this->answers;
-	}
-
-	/**
-	 * Getting settings
-	 *
-	 * @return array $settings
-	 * @since 1.0.0
-	 */
-	public function get_settings(){
-		return $this->settings;
-	}
-
-	/**
-	 * Returns the admin name of an input element
-	 *
-	 * @return string $input_name The name of the input
-	 * @since 1.0.0
-	 */
-	private function get_admin_input_name() {
-		$element_id    = $this->get_admin_element_id();
-		$container_id = $this->get_admin_cotainer_id();
-
-		$input_name = 'containers[' . $container_id . '][elements][' . $element_id . ']';
-
-		return $input_name;
-	}
-
-	/**
-	 * Returns the widget id which will be used in HTML
-	 *
-	 * @return string $element_id The widget id
-	 * @since 1.0.0
-	 */
-	protected function get_admin_element_id() {
-		if ( null === $this->id ) {
-			return $this->get_empty_element_id();
-		}
-
-		return $this->id;
-	}
-
-	/**
-	 * Gets container ID for containers in Admin
-	 *
-	 * @return null|string
-	 */
-	protected function get_admin_cotainer_id() {
-		if ( null === $this->container_id ) {
-			return $this->get_empty_container_id();
-		}
-
-		return $this->container_id;
-	}
-
-	protected function get_empty_element_id() {
-		return 'replace_element_id';
-	}
-
-	protected function get_empty_container_id() {
-		return 'replace_container_id';
-	}
-
-	/**
-	 * Set form ID
-	 *
-	 * @param int $form_id
-	 * @since 1.0.0
-	 */
-	public function set_form_id( $form_id ){
-		$this->form_id = $form_id;
-	}
-
-	/**
-	 * Set container ID
-	 *
-	 * @param int $container_id
-	 * @since 1.0.0
-	 */
-	public function set_container_id( $container_id ){
-		$this->container_id = $container_id;
-	}
-
-	/**
-	 * Set label
-	 *
-	 * @param int $container_id
-	 * @since 1.0.0
-	 */
-	public function set_label( $label ){
-		$this->label = $label;
-	}
-
-	/**
-	 * Get form ID
-	 *
-	 * @return int $form_id
-	 * @since 1.0.0
-	 */
-	public function get_form_id(){
-		return $this->form_id;
-	}
-
-	/**
-	 * Get container ID
-	 *
-	 * @return int $container_id
-	 * @since 1.0.0
-	 */
-	public function get_contaienr_id(){
-		return $this->container_id;
-	}
-
-	/**
-	 * Get label text
-	 *
-	 * @return string label
-	 * @since 1.0.0
-	 */
-	public function get_label(){
-		return $this->label;
-	}
-
-	/**
-	 * Settings fields - dummy function
-	 */
-	protected function settings_fields() {
 	}
 
 	/**
@@ -443,12 +216,97 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
+	 * Adds Tab for Element
+	 *
+	 * @param string $title
+	 * @param string $content
+	 */
+	public function add_admin_tab( $title, $content ) {
+		$this->admin_tabs[] = array(
+			'title'   => $title,
+			'content' => $content
+		);
+	}
+
+	/**
+	 * Overwriting Admin Content HTML
+	 *
+	 * @return bool|string
+	 * @since 1.0.0
+	 */
+	public function admin_content_html() {
+		return false;
+	}
+
+	/**
+	 * Returns the name of an input element
+	 *
+	 * @return string $input_name The name of the input
+	 * @since 1.0.0
+	 */
+	public function get_input_name() {
+		if ( $this->upload ) {
+			return 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id;
+		}
+		return 'torro_response[containers][' . $this->superior_id . '][elements][' . $this->id . ']';
+	}
+
+	/**
+	 * Returns the name of an input element
+	 *
+	 * @return string $input_name The name of the input
+	 * @since 1.0.0
+	 */
+	public function get_input_name_selector() {
+		return 'torro_response\\\[' . $this->id . '\\\]';
+	}
+
+	/**
+	 * Function for adding own columns to result
+	 *
+	 * @param obj $result_object
+	 * @return boolean|object
+	 * @since 1.0.0
+	 */
+	public function add_result_columns( &$result_object ) {
+		return false;
+	}
+
+	/**
+	 * Is this element analyzable or not?
+	 *
+	 * @param obj $result_object
+	 * @return boolean
+	 * @since 1.0.0
+	 */
+	public function is_analyzable(){
+		if ( ! $this->input_answers ){
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Replacing column name by element
+	 *
+	 * @param str $column_name
+	 * @since 1.0.0
+	 */
+	public function replace_column_name( $column_name ) {
+		return false;
+	}
+
+	public function replace_column_value( $column_value ) {
+		return false;
+	}
+
+	/**
 	 * Draws element box in Admin
 	 *
 	 * @return string $html The admin element HTML code
 	 * @since 1.0.0
 	 */
-	private function get_admin_html() {
+	public function get_admin_html() {
 		$element_id = $this->get_admin_element_id();
 
 		/**
@@ -556,17 +414,59 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
-	 * Adds Tab for Element
+	 * Returns the admin name of an input element
 	 *
-	 * @param string $title
-	 * @param string $content
+	 * @return string $input_name The name of the input
+	 * @since 1.0.0
 	 */
-	public function add_admin_tab( $title, $content ) {
-		$this->admin_tabs[] = array(
-			'title'   => $title,
-			'content' => $content
-		);
+	public function get_admin_input_name() {
+		$element_id    = $this->get_admin_element_id();
+		$container_id = $this->get_admin_cotainer_id();
+
+		$input_name = 'containers[' . $container_id . '][elements][' . $element_id . ']';
+
+		return $input_name;
 	}
+
+	/**
+	 * Returns the widget id which will be used in HTML
+	 *
+	 * @return string $element_id The widget id
+	 * @since 1.0.0
+	 */
+	protected function get_admin_element_id() {
+		if ( null === $this->id ) {
+			return $this->get_empty_element_id();
+		}
+
+		return $this->id;
+	}
+
+	/**
+	 * Gets container ID for containers in Admin
+	 *
+	 * @return null|string
+	 */
+	protected function get_admin_cotainer_id() {
+		if ( null === $this->superior_id ) {
+			return $this->get_empty_container_id();
+		}
+
+		return $this->superior_id;
+	}
+
+	protected function get_empty_element_id() {
+		return 'replace_element_id';
+	}
+
+	protected function get_empty_container_id() {
+		return 'replace_container_id';
+	}
+
+	/**
+	 * Settings fields - dummy function
+	 */
+	protected function settings_fields() {}
 
 	/**
 	 * Content of the content tab
@@ -606,16 +506,6 @@ abstract class Torro_Form_Element extends Torro_Base {
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Overwriting Admin Content HTML
-	 *
-	 * @return bool|string
-	 * @since 1.0.0
-	 */
-	public function admin_content_html() {
-		return false;
 	}
 
 	/**
@@ -814,7 +704,7 @@ abstract class Torro_Form_Element extends Torro_Base {
 		$admin_input_name = $this->get_admin_input_name();
 
 		$html = '<input type="hidden" name="' . $admin_input_name . '[id]" value="' . $this->id . '" />';
-		$html .= '<input type="hidden" name=' . $admin_input_name . '[container_id]" value="' . $this->container_id . '" />';
+		$html .= '<input type="hidden" name=' . $admin_input_name . '[container_id]" value="' . $this->superior_id . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sort]" value="' . $this->sort . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[type]" value="' . $this->type . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[has_answers]" value="' . ( $this->input_answers ? 'yes' : 'no' ) . '" />';
@@ -824,51 +714,40 @@ abstract class Torro_Form_Element extends Torro_Base {
 	}
 
 	/**
-	 * Returns the name of an input element
+	 * Populating element object with data
 	 *
-	 * @return string $input_name The name of the input
+	 * @param int $id Element id
+	 *
 	 * @since 1.0.0
 	 */
-	public function get_input_name() {
-		if ( $this->upload ) {
-			return 'torro_response_containers_' . $this->container_id . '_elements_' . $this->id;
+	protected function populate( $id ) {
+		global $wpdb;
+
+		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %d", absint( $id ) );
+		$row = $wpdb->get_row( $sql );
+
+		$this->id          = $row->id;
+		$this->superior_id = $row->container_id;
+		$this->label       = $row->label;
+		$this->sort        = $row->sort;
+		$this->type        = $row->type;
+
+		$this->form_id = $this->populate_form_id();
+		$this->answers = $this->populate_answers();
+		$this->settings = $this->populate_settings();
+	}
+
+	protected function exists_in_db() {
+		global $wpdb;
+
+		$sql = $wpdb->prepare( "SELECT COUNT( id ) FROM {$wpdb->torro_elements} WHERE id = %d", $this->id );
+		$var = $wpdb->get_var( $sql );
+
+		if ( $var > 0 ) {
+			return true;
 		}
-		return 'torro_response[containers][' . $this->container_id . '][elements][' . $this->id . ']';
-	}
 
-	/**
-	 * Returns the name of an input element
-	 *
-	 * @return string $input_name The name of the input
-	 * @since 1.0.0
-	 */
-	public function get_input_name_selector() {
-		return 'torro_response\\\[' . $this->id . '\\\]';
-	}
-
-	/**
-	 * Function for adding own columns to result
-	 *
-	 * @param obj $result_object
-	 * @return boolean|object
-	 * @since 1.0.0
-	 */
-	public function add_result_columns( &$result_object ) {
 		return false;
-	}
-
-	/**
-	 * Is this element analyzable or not?
-	 *
-	 * @param obj $result_object
-	 * @return boolean
-	 * @since 1.0.0
-	 */
-	public function is_analyzable(){
-		if ( ! $this->input_answers ){
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -877,38 +756,45 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return false|int
 	 * @since 1.0.0
 	 */
-	public function save(){
+	protected function save_to_db() {
 		global $wpdb;
 
-		if( ! empty( $this->id ) ){
-			$wpdb->update(
+		if ( ! empty( $this->id ) ) {
+			$status = $wpdb->update(
 				$wpdb->torro_elements,
 				array(
-					'form_id' => $this->form_id,
-					'container_id' => $this->container_id,
-					'label' => $this->label,
-					'sort' => $this->sort,
-					'type' => $this->type
+					'container_id' => $this->superior_id,
+					'form_id'      => $this->form_id,
+					'label'        => $this->label,
+					'sort'         => $this->sort,
+					'type'         => $this->type
 				),
 				array(
 					'id' => $this->id
 				)
 			);
-			return $this->id;
-		}else{
-			$wpdb->insert(
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_update_db', __( 'Could not update element in the database.', 'torro-forms' ), __METHOD__ );
+			}
+		} else {
+			$status = $wpdb->insert(
 				$wpdb->torro_elements,
 				array(
-					'form_id' => $this->form_id,
-					'container_id' => $this->container_id,
-					'label' => $this->label,
-					'sort' => $this->sort,
-					'type' => $this->type
+					'container_id' => $this->superior_id,
+					'form_id'      => $this->form_id,
+					'label'        => $this->label,
+					'sort'         => $this->sort,
+					'type'         => $this->type
 				)
 			);
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_insert_db', __( 'Could not insert element into the database.', 'torro-forms' ), __METHOD__ );
+			}
 
-			return $wpdb->insert_id;
+			$this->id = $wpdb->insert_id;
 		}
+
+		return $this->id;
 	}
 
 	/**
@@ -917,118 +803,79 @@ abstract class Torro_Form_Element extends Torro_Base {
 	 * @return bool|false|int
 	 * @since 1.0.0
 	 */
-	public function delete(){
+	protected function delete_from_db(){
 		global $wpdb;
 
-		if ( ! empty( $this->id ) ){
-			if( 0 !== count( $this->answers ) ) {
-				foreach( $this->answers AS $answer ) {
-					$answer->delete();
-				}
+		if ( empty( $this->id ) ) {
+			return new Torro_Error( 'cannot_delete_empty', __( 'Cannot delete element without ID.', 'torro-forms' ), __METHOD__ );
+		}
+
+		foreach ( $this->answers as $answer ) {
+			$answer->delete();
+		}
+
+		foreach ( $this->settings as $setting ) {
+			$setting->delete();
+		}
+
+		return $wpdb->delete( $wpdb->torro_elements, array( 'id' => $this->id ) );
+	}
+
+	private function populate_form_id() {
+		return torro()->containers()->get( $row->container_id )->form_id;
+	}
+
+	/**
+	 * Getting answers
+	 *
+	 * @return array $answers
+	 * @since 1.0.0
+	 */
+	private function populate_answers(){
+		global $wpdb;
+
+		$answers = array();
+
+		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		if ( is_array( $results ) ) {
+			foreach ( $results as $answer ) {
+				$answers[] = torro()->element_answers()->get( $answer->id );
 			}
+		}
 
-			if( 0 !== count( $this->settings ) ) {
-				foreach( $this->settings AS $setting ) {
-					$setting->delete();
-				}
+		return $answers;
+	}
+
+	/**
+	 * Getting settings
+	 *
+	 * @return array $settings
+	 * @since 1.0.0
+	 */
+	private function populate_settings(){
+		global $wpdb;
+
+		$settings = array();
+
+		$sql      = $wpdb->prepare( "SELECT id, name FROM {$wpdb->torro_element_settings} WHERE element_id = %s", $this->id );
+		$results = $wpdb->get_results( $sql );
+
+		if ( 0 === $wpdb->num_rows ) {
+			return array();
+		}
+
+		if ( is_array( $results ) ) {
+			foreach ( $results as $setting ) {
+				$settings[ $setting->name ] = torro()->element_settings()->get( $setting->id );
 			}
-
-			return $wpdb->delete( $wpdb->torro_elements, array( 'id' => $this->id ) );
 		}
 
-		return false;
-	}
-
-	/**
-	 * Replacing column name by element
-	 *
-	 * @param str $column_name
-	 * @since 1.0.0
-	 */
-	public function replace_column_name( $column_name ) {
-		return false;
-	}
-
-	public function replace_column_value( $column_value ) {
-		return false;
-	}
-
-	/**
-	 * Magic getter function
-	 *
-	 * @param $key
-	 *
-	 * @return mixed|null
-	 * @since 1.0.0
-	 */
-	public function __get( $key ) {
-		if ( property_exists( $this, $key ) ) {
-			return $this->$key;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Magic setter function
-	 *
-	 * @param $key
-	 * @param $value
-	 *
-	 * @since 1.0.0
-	 */
-	public function __set( $key, $value ) {
-		switch ( $key ) {
-			case 'id':
-			case 'container_id':
-			case 'form_id':
-			case 'sort':
-				$value      = absint( $value );
-				$this->$key = $value;
-				break;
-			default:
-				if ( property_exists( $this, $key ) ) {
-					$this->$key = $value;
-				}
-		}
-	}
-
-	/**
-	 * Magic isset function
-	 *
-	 * @param $key
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	public function __isset( $key ) {
-		if ( property_exists( $this, $key ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Magic function to hide functions for autocomplete
-	 *
-	 * @param string $name
-	 * @param $arguments
-	 *
-	 * @return mixed|Torro_Error
-	 * @since 1.0.0
-	 */
-	public function __call( $name, $arguments ) {
-		switch ( $name ) {
-			case 'get_admin_input_name':
-				return $this->get_admin_input_name();
-				break;
-			case 'get_admin_html':
-				return $this->get_admin_html();
-				break;
-			default:
-				return new Torro_Error( 'torro_form_controller_method_not_exists', sprintf( __( 'This Torro Forms Controller function "%s" does not exist.', 'torro-forms' ), $name ) );
-				break;
-		}
+		return $settings;
 	}
 }

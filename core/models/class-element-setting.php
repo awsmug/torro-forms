@@ -29,115 +29,85 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Element_Setting {
+class Torro_Element_Setting extends Torro_Instance_Base {
 
-	private $id = '';
+	protected $name = '';
 
-	private $element_id = '';
-
-	private $name = '';
-
-	private $value = '';
+	protected $value = '';
 
 	public function __construct( $id = null ) {
-		$this->populate( $id );
+		$this->superior_id_name = 'element_id';
+		$this->manager_method = 'element_settings';
+		$this->valid_args = array( 'name', 'value' );
+
+		parent::__construct( $id );
 	}
 
-	private function populate( $id = null ) {
+	protected function populate( $id ) {
 		global $wpdb;
 
-		if ( ! empty( $id ) ) {
-			$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_settings} WHERE id = %d", absint( $id ) );
+		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_settings} WHERE id = %d", absint( $id ) );
 
-			$setting = $wpdb->get_row( $sql );
+		$setting = $wpdb->get_row( $sql );
 
-			if ( 0 !== $wpdb->num_rows ) {
-				$this->id         = $setting->id;
-				$this->element_id = $setting->element_id;
-				$this->name       = $setting->name;
-				$this->value      = $setting->value;
-			}
+		if ( 0 !== $wpdb->num_rows ) {
+			$this->id          = $setting->id;
+			$this->superior_id = $setting->element_id;
+			$this->name        = $setting->name;
+			$this->value       = $setting->value;
 		}
 	}
 
-	public function save() {
+	protected function exists_in_db() {
 		global $wpdb;
 
-		if ( ! empty( $this->id ) ) {
-			return $wpdb->update( $wpdb->torro_element_settings, array(
-				                                           'element_id' => $this->element_id,
-				                                           'name'       => $this->name,
-				                                           'value'      => $this->value,
-			                                           ), array(
-				'id' => $this->id
-			) );
-		} else {
-			$wpdb->insert( $wpdb->torro_element_settings, array(
-				'element_id' => $this->element_id,
-				'name'       => $this->name,
-				'value'      => $this->value
-			) );
+		$sql = $wpdb->prepare( "SELECT COUNT( id ) FROM {$wpdb->torro_element_settings} WHERE id = %d", $this->id );
+		$var = $wpdb->get_var( $sql );
 
-			return $wpdb->insert_id;
-		}
-	}
-
-	public function delete() {
-		global $wpdb;
-
-		if ( ! empty( $this->id ) ) {
-			return $wpdb->delete( $wpdb->torro_element_settings, array( 'id' => $this->id ) );
-		}
-
-		return false;
-	}
-
-	/**
-	 * Magic getter function
-	 *
-	 * @param $key
-	 *
-	 * @return mixed|null
-	 * @since 1.0.0
-	 */
-	public function __get( $key ) {
-		if ( property_exists( $this, $key ) ) {
-			return $this->$key;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Magic setter function
-	 *
-	 * @param $key
-	 * @param $value
-	 *
-	 * @since 1.0.0
-	 */
-	public function __set( $key, $value ) {
-		switch ( $key ) {
-			default:
-				if ( property_exists( $this, $key ) ) {
-					$this->$key = $value;
-				}
-		}
-	}
-
-	/**
-	 * Magic isset function
-	 *
-	 * @param $key
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	public function __isset( $key ) {
-		if ( property_exists( $this, $key ) ) {
+		if ( $var > 0 ) {
 			return true;
 		}
 
 		return false;
+	}
+
+	protected function save_to_db() {
+		global $wpdb;
+
+		if ( ! empty( $this->id ) ) {
+			$status = $wpdb->update( $wpdb->torro_element_settings, array(
+				'element_id' => $this->superior_id,
+				'name'       => $this->name,
+				'value'      => $this->value,
+			), array(
+				'id' => $this->id
+			) );
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_update_db', __( 'Could not update element setting in the database.', 'torro-forms' ), __METHOD__ );
+			}
+		} else {
+			$status = $wpdb->insert( $wpdb->torro_element_settings, array(
+				'element_id' => $this->superior_id,
+				'name'       => $this->name,
+				'value'      => $this->value
+			) );
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_insert_db', __( 'Could not insert element setting into the database.', 'torro-forms' ), __METHOD__ );
+			}
+
+			$this->id = $wpdb->insert_id;
+		}
+
+		return $this->id;
+	}
+
+	protected function delete_from_db() {
+		global $wpdb;
+
+		if ( empty( $this->id ) ) {
+			return new Torro_Error( 'cannot_delete_empty', __( 'Cannot delete element setting without ID.', 'torro-forms' ), __METHOD__ );
+		}
+
+		return $wpdb->delete( $wpdb->torro_element_settings, array( 'id' => $this->id ) );
 	}
 }

@@ -29,21 +29,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Participant {
+class Torro_Participant extends Torro_Instance_Base {
 
-	private $id;
+	protected $user_id;
 
-	private $form_id;
+	protected $user;
 
-	private $user_id;
+	public function __construct( $id = null ) {
+		$this->superior_id_name = 'form_id';
+		$this->valid_args = array( 'user_id' );
 
-	private $user;
-
-	public function __construct( $id ) {
-		$this->populate( $id );
+		parent::__construct( $id );
 	}
 
-	private function populate( $id ) {
+	public function copy( $superior_id ) {
+		//TODO: create participants manager to better handle this
+
+		$participant = new Torro_Participant();
+		$participant->form_id = $superior_id;
+		$participant->user_id = $this->user_id;
+		$status = $participant->update();
+		if ( is_wp_error( $status ) ) {
+			return $status;
+		}
+		return $participant;
+	}
+
+	protected function populate( $id ) {
 		global $wpdb;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_participants} WHERE id = %d", absint( $id ) );
@@ -51,90 +63,66 @@ class Torro_Participant {
 		$participant = $wpdb->get_row( $sql );
 
 		if ( 0 !== $wpdb->num_rows ) {
-			$this->id      = $participant->id;
-			$this->form_id = $participant->form_id;
-			$this->user_id = $participant->user_id;
+			$this->id          = $participant->id;
+			$this->superior_id = $participant->form_id;
+			$this->user_id     = $participant->user_id;
 
-			$this->user = get_user_by( 'ID', $this->user_id );
+			$this->user = $this->populate_user();
 		}
 	}
 
-	public function save() {
+	protected function exists_in_db() {
 		global $wpdb;
 
-		if ( ! empty( $this->id ) ) {
-			return $wpdb->update( $wpdb->torro_participants, array(
-				'form_id' => $this->form_id,
-				'user_id' => $this->user_id,
-			), array(
-				                      'id' => $this->id
-			                      ) );
-		} else {
-			$wpdb->insert( $wpdb->torro_participants, array(
-				'form_id' => $this->form_id,
-				'user_id' => $this->user_id,
-			) );
+		$sql = $wpdb->prepare( "SELECT COUNT( id ) FROM {$wpdb->torro_participants} WHERE id = %d", $this->id );
+		$var = $wpdb->get_var( $sql );
 
-			return $wpdb->insert_id;
-		}
-	}
-
-	public function delete() {
-		global $wpdb;
-
-		if ( ! empty( $this->id ) ) {
-			return $wpdb->delete( $wpdb->torro_participants, array( 'id' => $this->id ) );
-		}
-
-		return false;
-	}
-
-	/**
-	 * Magic setter function
-	 *
-	 * @param $key
-	 * @param $value
-	 *
-	 * @since 1.0.0
-	 */
-	public function __set( $key, $value ) {
-		switch ( $key ) {
-			default:
-				if ( property_exists( $this, $key ) ) {
-					$this->$key = $value;
-				}
-		}
-	}
-
-	/**
-	 * Magic getter function
-	 *
-	 * @param $key
-	 *
-	 * @return mixed|null
-	 * @since 1.0.0
-	 */
-	public function __get( $key ) {
-		if ( property_exists( $this, $key ) ) {
-			return $this->$key;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Magic isset function
-	 *
-	 * @param $key
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	public function __isset( $key ) {
-		if ( property_exists( $this, $key ) ) {
+		if ( $var > 0 ) {
 			return true;
 		}
 
 		return false;
+	}
+
+	protected function save_to_db() {
+		global $wpdb;
+
+		if ( ! empty( $this->id ) ) {
+			$status = $wpdb->update( $wpdb->torro_participants, array(
+				'form_id' => $this->superior_id,
+				'user_id' => $this->user_id,
+			), array(
+				'id' => $this->id
+			) );
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_update_db', __( 'Could not update participant in the database.', 'torro-forms' ), __METHOD__ );
+			}
+		} else {
+			$status = $wpdb->insert( $wpdb->torro_participants, array(
+				'form_id' => $this->superior_id,
+				'user_id' => $this->user_id,
+			) );
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_insert_db', __( 'Could not insert participant into the database.', 'torro-forms' ), __METHOD__ );
+			}
+
+			$this->id = $wpdb->insert_id;
+		}
+
+		return $this->id;
+	}
+
+	protected function delete_from_db() {
+		global $wpdb;
+
+		if ( empty( $this->id ) ) {
+			return new Torro_Error( 'cannot_delete_empty', __( 'Cannot delete participant without ID.', 'torro-forms' ), __METHOD__ );
+		}
+
+		return $wpdb->delete( $wpdb->torro_participants, array( 'id' => $this->id ) );
+	}
+
+	private function populate_user() {
+		return get_user_by( 'id', $this->user_id );
 	}
 }

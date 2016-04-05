@@ -140,7 +140,7 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 		$form = new Torro_Form( $torro_form_id );
 
 		$html = '<table style="width:100%;">';
-		foreach ( $form->get_elements() as $element ) {
+		foreach ( $form->elements as $element ) {
 			$html .= '<tr>';
 			$html .= '<td>' . $element->label . '</td>';
 			$html .= '<td>' . self::element_content( $element->id ) . '</td>';

@@ -133,7 +133,6 @@ class Torro_Init {
 
 		// Models
 		require_once( $core_folder . 'models/class-base.php' );
-		require_once( $core_folder . 'models/class-post.php' );
 		require_once( $core_folder . 'models/class-form.php' );
 		require_once( $core_folder . 'models/class-container.php' );
 		require_once( $core_folder . 'models/class-element-answer.php' );
@@ -568,19 +567,10 @@ function torro_test_superfunctions(){
 	// torro()->forms()->get( 7232 ); // Fine
 	// torro()->forms()->get( 7323 )->delete(); // Fine
 	// torro()->forms()->get( 7323 )->delete_responses(); // Fine
-	// torro()->forms()->get( 7323 )->duplicate(); // Fine
-	// torro()->forms()->get( 7323 )->duplicate_elements( 7325 ); // Todo: Rename to 'copy_elements'
-	// torro()->forms()->get( 7323 )->duplicate_participants( 7325 ); // Todo: Rename to 'copy_participants'
-	// torro()->forms()->get( 7323 )->duplicate_comments( 7325 ); // Todo: Rename to 'copy_comments' and adding functions in form class with param $form_id instead of $post_id
-	// torro()->forms()->get( 7323 )->duplicate_meta( 7325 ); // Todo: Rename to 'copy_meta' and adding functions in form class with param $form_id instead of $post_id
-	// torro()->forms()->get( 7323 )->duplicate_taxonomies( 7325 ); // Todo: Rename to 'copy_taxonomies' and adding functions in form class with param $form_id instead of $post_id
 	// torro()->forms()->get( 7323 )->delete(); // Fine
 	// torro()->forms()->get( 7323 )->exists(); // Fine
-	// torro()->forms()->get( 7323 )->get_containers(); // Fine
 	// torro()->forms()->get( 7323 )->get_current_container(); // Todo: Checking if we are in a container, if not throw correct error
-	// torro()->forms()->get( 7323 )->get_elements(); // Fine
 	// torro()->forms()->get( 7323 )->get_html(); // Fine
-	// torro()->forms()->get( 7323 )->get_participants(); // Fine
 	// torro()->forms()->get( 7323 )->has_analyzable_elements(); // Fine
 	// torro()->forms()->get( 7323 )->save_response( $response ); // Fine
 

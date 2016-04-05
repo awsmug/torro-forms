@@ -73,7 +73,7 @@ class Torro_Formbuilder {
 		do_action( 'torro_formbuilder_dragdrop_start', $form_id );
 		$html .= ob_get_clean();
 
-		$containers = torro()->forms()->get( $form_id )->get_containers();
+		$containers = torro()->forms()->get( $form_id )->containers;
 
 		if ( 0 !== count( $containers ) ) {
 
@@ -87,7 +87,7 @@ class Torro_Formbuilder {
 			$html .= '</ul>';
 
 			foreach ( $containers AS $container ) {
-				$elements = torro()->containers()->get( $container->id )->get_elements();
+				$elements = torro()->containers()->get( $container->id )->elements;
 
 				$html .= '<div id="torro-container-' . $container->id . '" class="tab-content torro-container">';
 				$html .= '<div class="torro-drag-drop-inside">';
