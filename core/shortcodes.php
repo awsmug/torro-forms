@@ -53,26 +53,31 @@ class Torro_ShortCodes {
 
 		$atts = shortcode_atts( $defaults, $atts );
 
-		$torro_form_id = absint( $atts[ 'id' ] );
+		$id = absint( $atts[ 'id' ] );
 
-		if ( 0 === $torro_form_id ) {
-			return esc_attr__( 'Please enter an id in the form shortcode!', 'torro-forms' );
+		if ( 0 === $id ) {
+			return __( 'Please enter an id in the form shortcode!', 'torro-forms' );
 		}
 
-		if ( ! torro()->form( $torro_form_id )->exists() ) {
-			return esc_attr__( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
+		$form = torro()->forms()->get( $id );
+		if ( is_wp_error( $form ) ) {
+			return __( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
 		}
+
+		$action_url = $_SERVER['REQUEST_URI'];
+
+		$html = '';
 
 		switch ( $atts[ 'show' ] ) {
 			case 'iframe':
-				$url = get_permalink( $torro_form_id );
-				$width = $atts[ 'iframe_width' ];
-				$height = $atts[ 'iframe_height' ];
+				$url = get_permalink( $id );
+				$width = $atts['iframe_width'];
+				$height = $atts['iframe_height'];
 
 				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
 				break;
 			default:
-				$html = torro()->forms()->get( $torro_form_id )->html();
+				$html = $form->get_html( $action_url );
 				break;
 		}
 

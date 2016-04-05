@@ -85,7 +85,7 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	protected function get_from_db( $id ) {
 		$form = new Torro_Form( $id );
 		if ( ! $form->id ) {
-			return false;
+			return new Torro_Error( 'torro_form_not_exist', sprintf( __( 'The form %s does not exist.', 'torro-forms' ), $id ), __METHOD__ );
 		}
 		return $form;
 	}

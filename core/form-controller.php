@@ -244,7 +244,7 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function control() {
-		$action_url = $_SERVER[ 'REQUEST_URI' ];
+		$action_url = $_SERVER['REQUEST_URI'];
 
 		if ( empty( $this->form_id ) ) {
 			return;
