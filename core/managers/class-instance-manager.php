@@ -54,6 +54,14 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		return $instance;
 	}
 
+	public function exists( $id ) {
+		$instance = $this->get( $id );
+		if ( is_wp_error( $instance ) ) {
+			return false;
+		}
+		return true;
+	}
+
 	public function update( $id, $args = array() ) {
 		$instance = $this->get( $id );
 		if ( is_wp_error( $instance ) ) {

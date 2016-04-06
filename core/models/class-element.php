@@ -734,7 +734,8 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		$this->sort        = $row->sort;
 		$this->type        = $row->type;
 
-		$this->form_id = $this->populate_form_id();
+		//$this->form_id = $this->populate_form_id( $row );
+		$this->form_id = $row->form_id;
 		$this->answers = $this->populate_answers();
 		$this->settings = $this->populate_settings();
 	}
@@ -823,7 +824,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		return $wpdb->delete( $wpdb->torro_elements, array( 'id' => $this->id ) );
 	}
 
-	private function populate_form_id() {
+	private function populate_form_id( $row ) {
 		return torro()->containers()->get( $row->container_id )->form_id;
 	}
 
