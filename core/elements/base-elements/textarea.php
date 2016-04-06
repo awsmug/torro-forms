@@ -35,6 +35,8 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function init() {
+		parent::init();
+
 		$this->type = $this->name = 'textarea';
 		$this->title = __( 'Textarea', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a text area.', 'torro-forms' );

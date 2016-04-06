@@ -141,10 +141,6 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function __construct( $id = null ) {
-		$this->superior_id_name = 'container_id';
-		$this->manager_method = 'elements';
-		$this->valid_args = array( 'type', 'label', 'sort' );
-
 		parent::__construct( $id );
 
 		$this->settings_fields();
@@ -711,6 +707,12 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sections]" value="' . ( property_exists( $this, 'sections' ) && is_array( $this->sections ) && 0 < count( $this->sections ) ? 'yes' : 'no' ) . '" />';
 
 		return $html;
+	}
+
+	protected function init() {
+		$this->superior_id_name = 'container_id';
+		$this->manager_method = 'elements';
+		$this->valid_args = array( 'type', 'label', 'sort' );
 	}
 
 	/**

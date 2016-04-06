@@ -36,11 +36,13 @@ class Torro_Participant extends Torro_Instance_Base {
 	protected $user;
 
 	public function __construct( $id = null ) {
+		parent::__construct( $id );
+	}
+
+	protected function init() {
 		$this->superior_id_name = 'form_id';
 		$this->manager_method = 'participants';
 		$this->valid_args = array( 'user_id' );
-
-		parent::__construct( $id );
 	}
 
 	protected function populate( $id ) {

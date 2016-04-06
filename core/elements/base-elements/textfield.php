@@ -35,6 +35,8 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function init() {
+		parent::init();
+
 		$this->type = $this->name = 'textfield';
 		$this->title = __( 'Textfield', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a text field.', 'torro-forms' );

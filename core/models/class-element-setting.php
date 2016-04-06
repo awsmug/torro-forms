@@ -36,11 +36,13 @@ class Torro_Element_Setting extends Torro_Instance_Base {
 	protected $value = '';
 
 	public function __construct( $id = null ) {
+		parent::__construct( $id );
+	}
+
+	protected function init() {
 		$this->superior_id_name = 'element_id';
 		$this->manager_method = 'element_settings';
 		$this->valid_args = array( 'name', 'value' );
-
-		parent::__construct( $id );
 	}
 
 	protected function populate( $id ) {

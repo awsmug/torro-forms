@@ -63,10 +63,6 @@ class Torro_Container extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function __construct( $id = null ) {
-		$this->superior_id_name = 'form_id';
-		$this->manager_method = 'containers';
-		$this->valid_args = array( 'label', 'sort' );
-
 		parent::__construct( $id );
 	}
 
@@ -98,6 +94,12 @@ class Torro_Container extends Torro_Instance_Base {
 		}
 
 		return $html;
+	}
+
+	protected function init() {
+		$this->superior_id_name = 'form_id';
+		$this->manager_method = 'containers';
+		$this->valid_args = array( 'label', 'sort' );
 	}
 
 	/**

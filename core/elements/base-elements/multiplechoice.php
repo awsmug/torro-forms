@@ -35,6 +35,8 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function init() {
+		parent::init();
+
 		$this->type = $this->name = 'multiplechoice';
 		$this->title = __( 'Multiple Choice', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );

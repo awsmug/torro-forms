@@ -35,6 +35,8 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function init() {
+		parent::init();
+
 		$this->type = $this->name = 'dropdown';
 		$this->title = __( 'Dropdown', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered within a dropdown field.', 'torro-forms' );

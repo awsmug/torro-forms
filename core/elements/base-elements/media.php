@@ -35,6 +35,8 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function init() {
+		parent::init();
+
 		$this->type = $this->name = 'media';
 		$this->title = __( 'Media', 'torro-forms' );
 		$this->description = __( 'Add an Element to allow file uploads.', 'torro-forms' );

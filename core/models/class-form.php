@@ -68,9 +68,6 @@ class Torro_Form extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function __construct( $id = null ) {
-		$this->manager_method = 'forms';
-		$this->valid_args = array( 'title' );
-
 		parent::__construct( $id );
 	}
 
@@ -458,6 +455,11 @@ class Torro_Form extends Torro_Instance_Base {
 		}
 
 		return $html;
+	}
+
+	protected function init() {
+		$this->manager_method = 'forms';
+		$this->valid_args = array( 'title' );
 	}
 
 	/**

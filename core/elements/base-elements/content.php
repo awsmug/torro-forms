@@ -35,6 +35,8 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function init() {
+		parent::init();
+
 		$this->type = $this->name = 'content';
 		$this->title = __( 'Content', 'torro-forms' );
 		$this->description = __( 'Adds own content to the form.', 'torro-forms' );

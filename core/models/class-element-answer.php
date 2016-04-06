@@ -38,11 +38,13 @@ class Torro_Element_Answer extends Torro_Instance_Base {
 	protected $section = '';
 
 	public function __construct( $id = null ) {
+		parent::__construct( $id );
+	}
+
+	protected function init() {
 		$this->superior_id_name = 'element_id';
 		$this->manager_method = 'element_answers';
 		$this->valid_args = array( 'label', 'sort', 'section' );
-
-		parent::__construct( $id );
 	}
 
 	protected function populate( $id ) {

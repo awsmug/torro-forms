@@ -35,6 +35,8 @@ final class Torro_Form_Element_Separator extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function init() {
+		parent::init();
+
 		$this->type = $this->name = 'separator';
 		$this->title = __( 'Separator', 'torro-forms' );
 		$this->description = __( 'Adds a optical separator (<hr>) between elements.', 'torro-forms' );
