@@ -227,15 +227,16 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function set_form( $form_id ) {
-		if ( torro()->forms()->get( $form_id )->exists() ) {
-			$this->form_id = $form_id;
-			$this->form    = new Torro_Form( $this->form_id );
-			$this->cache = new Torro_Form_Controller_Cache( $this->form_id );
-
-			return $this->form;
+		$form = torro()->forms()->get( $form_id );
+		if ( is_wp_error( $form ) ) {
+			return new Torro_Error( 'torro_form_controller_form_not_exist', sprintf( __( 'The form with the id %d does not exist.', 'torro-forms' ), $form_id ) );
 		}
 
-		return new Torro_Error( 'torro_form_controller_form_not_exist', sprintf( __( 'The form with the id %d does not exist.', 'torro-forms' ), $form_id ) );
+		$this->form_id = $form_id;
+		$this->form    = $form;
+		$this->cache = new Torro_Form_Controller_Cache( $this->form_id );
+
+		return $this->form;
 	}
 
 	/**
@@ -306,7 +307,7 @@ class Torro_Form_Controller {
 
 			$containers = $this->form->containers;
 
-			foreach ( $containers AS $container ) {
+			foreach ( $containers as $container ) {
 				if( $container->id !== $current_container_id ){
 					continue;
 				}

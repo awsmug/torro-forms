@@ -712,7 +712,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	protected function init() {
 		$this->superior_id_name = 'container_id';
 		$this->manager_method = 'elements';
-		$this->valid_args = array( 'type', 'label', 'sort' );
+		$this->valid_args = array( 'form_id', 'type', 'label', 'sort' );
 	}
 
 	/**
@@ -730,12 +730,11 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 
 		$this->id          = $row->id;
 		$this->superior_id = $row->container_id;
+		$this->form_id     = $row->form_id;
 		$this->label       = $row->label;
 		$this->sort        = $row->sort;
 		$this->type        = $row->type;
 
-		//$this->form_id = $this->populate_form_id( $row );
-		$this->form_id = $row->form_id;
 		$this->answers = $this->populate_answers();
 		$this->settings = $this->populate_settings();
 	}
@@ -822,10 +821,6 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		}
 
 		return $wpdb->delete( $wpdb->torro_elements, array( 'id' => $this->id ) );
-	}
-
-	private function populate_form_id( $row ) {
-		return torro()->containers()->get( $row->container_id )->form_id;
 	}
 
 	/**

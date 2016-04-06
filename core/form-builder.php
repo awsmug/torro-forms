@@ -236,32 +236,34 @@ class Torro_Formbuilder {
 			return;
 		}
 
-		if ( 'torro-forms' !== $_POST[ 'post_type' ] ) {
+		if ( 'torro-forms' !== $_POST['post_type'] ) {
 			return;
 		}
 
-		$containers              = $_POST[ 'containers' ];
-		$deleted_container_ids   = $_POST[ 'deleted_container_ids' ];
-		$deleted_element_ids     = $_POST[ 'deleted_element_ids' ];
-		$deleted_answer_ids      = $_POST[ 'deleted_answer_ids' ];
-		$show_results            = isset( $_POST[ 'show_results' ] ) ? $_POST[ 'show_results' ] : false;
+		$containers              = $_POST['containers'];
+		$deleted_container_ids   = $_POST['deleted_container_ids'];
+		$deleted_element_ids     = $_POST['deleted_element_ids'];
+		$deleted_answer_ids      = $_POST['deleted_answer_ids'];
+		$show_results            = isset( $_POST['show_results'] ) ? $_POST['show_results'] : false;
 
-		foreach ( $containers AS $container ) {
-			if( isset( $container[ 'id' ] ) && 'container_id' !== $container[ 'id' ] ) {
+		foreach ( $containers as $container ) {
+			if( isset( $container[ 'id' ] ) && 'container_id' !== $container['id'] ) {
 				if( torro()->is_temp_id( $container['id'] )  ){
 					$container['id'] = '';
 				}
 
-				$container_obj = torro()->containers()->get( $container['id'] );
-				if ( is_wp_error( $container_obj ) ) {
-					$container_obj = torro()->containers()->create_raw();
+				$container_args = array(
+					'label'		=> $container['label'],
+					'sort'		=> $container['sort'],
+				);
+
+				$container_obj = null;
+				if ( $container['id'] && torro()->containers()->exists( $container['id'] ) ) {
+					$container_obj = torro()->containers()->update( $container['id'], $container_args );
+				} else {
+					$container_obj = torro()->containers()->create( $form_id, $container_args );
 				}
 
-				$container_obj->form_id = $form_id;
-				$container_obj->label = $container['label'];
-				$container_obj->sort = $container['sort'];
-
-				$container_obj = torro()->containers()->update( $container_obj );
 				if ( is_wp_error( $container_obj ) ) {
 					//TODO: handle error here
 					continue;
@@ -271,26 +273,27 @@ class Torro_Formbuilder {
 
 				do_action( 'torro_formbuilder_container_save', $form_id, $container_id );
 
-				if ( isset( $container[ 'elements' ] ) ) {
-					$elements = $container[ 'elements' ];
+				if ( isset( $container['elements'] ) ) {
+					$elements = $container['elements'];
 
-					foreach ( $elements AS $element ) {
+					foreach ( $elements as $element ) {
 						if( torro()->is_temp_id( $element['id'] )  ){
 							$element['id'] = '';
 						}
 
-						$element_obj = torro()->elements()->get( $element['id'] );
-						if ( is_wp_error( $element_obj ) ) {
-							$element_obj = torro()->elements()->create_raw( $element['type'] );
+						$element_args = array(
+							'form_id'	=> $form_id,
+							'type'		=> $element['type'],
+							'label'		=> $element['label'],
+							'sort'		=> $element['sort'],
+						);
+
+						$element_obj = null;
+						if ( $element['id'] && torro()->elements()->exists( $element['id'] ) ) {
+							$element_obj = torro()->elements()->update( $element['id'], $element_args );
+						} else {
+							$element_obj = torro()->elements()->create( $container_id, $element_args );
 						}
-
-						$element_obj->form_id = $form_id;
-						$element_obj->container_id = $container_id;
-						$element_obj->label = $element['label'];
-						$element_obj->sort = $element['sort'];
-						$element_obj->type = $element['type'];
-
-						$element_obj = torro()->elements()->update( $element_obj );
 						if ( is_wp_error( $element_obj ) ) {
 							//TODO: handle error here
 							continue;
@@ -300,64 +303,66 @@ class Torro_Formbuilder {
 
 						do_action( 'torro_formbuilder_element_save', $form_id, $element_id );
 
-						if ( isset( $element[ 'answers' ] ) ){
-							$answers = $element[ 'answers' ];
+						if ( isset( $element['answers'] ) ){
+							$answers = $element['answers'];
 
-							foreach( $answers AS $answer ){
-								if( isset( $answer[ 'id' ] ) ){
-									if( torro()->is_temp_id( $answer['id'] )  ){
+							foreach ( $answers as $answer ){
+								if ( isset( $answer['id'] ) ) {
+									if ( torro()->is_temp_id( $answer['id'] ) ) {
 										$answer['id'] = '';
 									}
 
-									$element_answer = torro()->element_answers()->get( $answer['id'] );
-									if ( is_wp_error( $element_answer ) ) {
-										$element_answer = torro()->element_answers()->create_raw();
+									$answer_args = array(
+										'label'		=> $answer['answer'],
+										'sort'		=> $answer['sort'],
+										//'section'	=> '', //TODO: section has to be set if there is one
+									);
+
+									$answer_obj = null;
+									if ( $answer['id'] && torro()->element_answers()->exists( $answer['id'] ) ) {
+										$answer_obj = torro()->element_answers()->update( $answer['id'], $answer_args );
+									} else {
+										$answer_obj = torro()->element_answers()->create( $element_id, $answer_args );
 									}
-
-									$element_answer->element_id = $element_id;
-									$element_answer->label = $answer['answer'];
-									$element_answer->sort = $answer['sort'];
-									// $element_answer->section = ''; // todo: Section have to be set if there is one
-
-									$element_answer = torro()->element_answers()->update( $element_answer );
-									if ( is_wp_error( $element_answer ) ) {
+									if ( is_wp_error( $answer_obj ) ) {
 										//TODO: handle error here
 										continue;
 									}
 
-									$element_answer_id = $element_answer->id;
+									$answer_id = $answer_obj->id;
 
-									do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_answer_id );
+									do_action( 'torro_formbuilder_element_answer_save', $form_id, $answer_id );
 								}
 							}
 						}
 
-						if( isset( $element[ 'settings' ] ) ){
-							$settings = $element[ 'settings' ];
+						if ( isset( $element['settings'] ) ) {
+							$settings = $element['settings'];
 
-							foreach( $settings AS $setting ){
-								if( torro()->is_temp_id( $setting['id'] )  ){
+							foreach ( $settings as $setting ){
+								if ( torro()->is_temp_id( $setting['id'] ) ) {
 									$setting['id'] = '';
 								}
 
-								$element_setting = torro()->element_settings()->get( $setting['id'] );
-								if ( is_wp_error( $element_setting ) ) {
-									$element_setting = torro()->element_settings()->create_raw();
+								$setting_args = array(
+									'name'		=> $setting['name'],
+									'value'		=> $setting['value'],
+								);
+
+								$setting_obj = null;
+								if ( $setting['id'] && torro()->element_settings()->exists( $setting['id'] ) ) {
+									$setting_obj = torro()->element_settings()->update( $setting['id'], $setting_args );
+								} else {
+									$setting_obj = torro()->element_settings()->create( $element_id, $setting_args );
 								}
-
-								$element_setting->element_id = $element_id;
-								$element_setting->name = $setting['name'];
-								$element_setting->value = $setting['value'];
-
-								$element_setting = torro()->element_settings()->update( $element_setting );
-								if ( is_wp_error( $element_setting ) ) {
+								if ( is_wp_error( $setting_obj ) ) {
 									//TODO: handle error here
 									continue;
 								}
 
-								$element_setting_id = $element_setting->id;
+								$setting_id = $setting_obj->id;
 
-								do_action( 'torro_formbuilder_element_answer_save', $form_id, $element_setting_id );
+								do_action( 'torro_formbuilder_element_answer_save', $form_id, $setting_id );
 							}
 						}
 					}
@@ -372,7 +377,10 @@ class Torro_Formbuilder {
 			$deleted_container_ids = explode( ',', $deleted_container_ids );
 			if ( 0 < count( $deleted_container_ids ) ) {
 				foreach ( $deleted_container_ids as $deleted_container_id ) {
-					torro()->containers()->get( $deleted_container_id )->delete();
+					$result = torro()->containers()->delete( $deleted_container_id );
+					if ( is_wp_error( $result ) ) {
+						//TODO: handle error here
+					}
 				}
 			}
 		}
@@ -380,15 +388,21 @@ class Torro_Formbuilder {
 			$deleted_element_ids = explode( ',', $deleted_element_ids );
 			if ( 0 < count( $deleted_element_ids ) ) {
 				foreach ( $deleted_element_ids as $deleted_element_id ) {
-					torro()->elements()->get( $deleted_element_id )->delete();
+					$result = torro()->elements()->delete( $deleted_element_id );
+					if ( is_wp_error( $result ) ) {
+						//TODO: handle error here
+					}
 				}
 			}
 		}
 		if( ! empty( $deleted_answer_ids ) ) {
 			$deleted_answer_ids = explode( ',', $deleted_answer_ids );
 			if ( 0 < count( $deleted_answer_ids ) ) {
-				foreach ( $deleted_answer_ids AS $deleted_answer_id ) {
-					torro()->element_answers()->get( $deleted_answer_id )->delete();
+				foreach ( $deleted_answer_ids as $deleted_answer_id ) {
+					$result = torro()->element_answers()->delete( $deleted_answer_id );
+					if ( is_wp_error( $result ) ) {
+						//TODO: handle error here
+					}
 				}
 			}
 		}
