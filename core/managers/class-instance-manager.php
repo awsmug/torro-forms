@@ -38,30 +38,31 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		parent::__construct();
 	}
 
-	public function add( $instance ) {
-		if ( ! empty( $instance->id ) ) {
-			return new Torro_Error( 'torro_instance_already_exist', sprintf( __( 'The instance %1$s of class %2$s already exists.', 'torro-forms' ), $instance->id, get_class( $instance ) ), __METHOD__ );
+	public function create( $superior_id, $args = array() ) {
+		$instance = $this->create_raw( $args );
+		if ( $superior_id ) {
+			$instance->superior_id = absint( $superior_id );
+		} else {
+			$superior_id = 0;
 		}
-
-		// insert into database
-		$id = $instance->save();
-		$instance->id = $id;
-
+		$id = $instance->update( $args );
+		if ( is_wp_error( $id ) ) {
+			return $id;
+		}
 		$this->instances[ $this->get_category() ][ $instance->id ] = $instance;
 
 		return $instance;
 	}
 
-	public function update( $instance ) {
-		if ( empty( $instance->id ) ) {
-			return $this->add( $instance );
+	public function update( $id, $args = array() ) {
+		$instance = $this->get( $id );
+		if ( is_wp_error( $instance ) ) {
+			return $instance;
 		}
-
-		// update in database
-		$id = $instance->save();
-		$instance->id = $id;
-
-		$this->instances[ $this->get_category() ][ $instance->id ] = $instance;
+		$id = $instance->update( $args );
+		if ( is_wp_error( $id ) ) {
+			return $id;
+		}
 
 		return $instance;
 	}
@@ -81,16 +82,25 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		return $this->instances[ $this->get_category() ][ $id ];
 	}
 
-	/**
-	 * Get registered module
-	 *
-	 * @param $name
-	 *
-	 * @return Torro_Base
-	 * @since 1.0.0
-	 */
-	public function get_registered( $name ) {
-		return parent::get_registered( $name );
+	public function move( $id, $superior_id ) {
+		$instance = $this->get( $id );
+		if ( is_wp_error( $instance ) ) {
+			return $instance;
+		}
+		$id = $instance->move( $superior_id );
+		if ( is_wp_error( $id ) ) {
+			return $id;
+		}
+
+		return $instance;
+	}
+
+	public function copy( $id, $superior_id ) {
+		$instance = $this->get( $id );
+		if ( is_wp_error( $instance ) ) {
+			return $instance;
+		}
+		return $instance->copy( $superior_id );
 	}
 
 	public function delete( $id ) {
@@ -100,12 +110,17 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		}
 
 		// delete instance from database
-		$instance->delete();
+		$status = $instance->delete();
+		if ( is_wp_error( $status ) ) {
+			return $status;
+		}
 
 		unset( $this->instances[ $this->get_category() ][ $id ] );
 
 		return $instance;
 	}
+
+	protected abstract function create_raw( $args = array() );
 
 	protected abstract function get_from_db( $id );
 }

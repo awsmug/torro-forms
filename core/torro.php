@@ -68,14 +68,9 @@ final class Torro {
 	private function __construct() {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/torro-forms.php';
 
-		// load instance manager classes
+		// load manager classes
 		require_once( $this->get_path( 'core/managers/class-manager.php' ) );
-		require_once( $this->get_path( 'core/managers/class-instance-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-components-manager.php' ) );
-		require_once( $this->get_path( 'core/managers/class-containers-manager.php' ) );
-		require_once( $this->get_path( 'core/managers/class-element-answer-manager.php' ) );
-		require_once( $this->get_path( 'core/managers/class-element-setting-manager.php' ) );
-		require_once( $this->get_path( 'core/managers/class-elements-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-form-settings-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-settings-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-templatetags-manager.php' ) );
@@ -83,20 +78,18 @@ final class Torro {
 		require_once( $this->get_path( 'core/managers/class-access-controls-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-result-handlers-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-extensions-manager.php' ) );
+
+		// load instance manager classes
+		require_once( $this->get_path( 'core/managers/class-instance-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-forms-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-containers-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-elements-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-element-answer-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-element-setting-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-participants-manager.php' ) );
 
 		// load additional manager classes
 		require_once( $this->get_path( 'core/managers/class-admin-notices-manager.php' ) );
-	}
-
-	/**
-	 * Components keychain function
-	 *
-	 * @return null|Torro_Components_Manager
-	 * @since 1.0.0
-	 */
-	public function components() {
-		return Torro_Components_Manager::instance();
 	}
 
 	/**
@@ -107,16 +100,6 @@ final class Torro {
 	 */
 	public function forms() {
 		return Torro_Forms_Manager::instance();
-	}
-
-	/**
-	 * Form settings keychain function
-	 *
-	 * @return null|Torro_Form_Settings_Manager
-	 * @since 1.0.0
-	 */
-	public function form_settings(){
-		return Torro_Form_Settings_Manager::instance();
 	}
 
 	/**
@@ -157,6 +140,36 @@ final class Torro {
 	 */
 	public function element_settings() {
 		return Torro_Element_Setting_Manager::instance();
+	}
+
+	/**
+	 * Participants keychain function
+	 *
+	 * @return null|Torro_Participants_Manager
+	 * @since 1.0.0
+	 */
+	public function participants(){
+		return Torro_Participants_Manager::instance();
+	}
+
+	/**
+	 * Components keychain function
+	 *
+	 * @return null|Torro_Components_Manager
+	 * @since 1.0.0
+	 */
+	public function components() {
+		return Torro_Components_Manager::instance();
+	}
+
+	/**
+	 * Form settings keychain function
+	 *
+	 * @return null|Torro_Form_Settings_Manager
+	 * @since 1.0.0
+	 */
+	public function form_settings(){
+		return Torro_Form_Settings_Manager::instance();
 	}
 
 	/**

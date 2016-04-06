@@ -133,8 +133,11 @@ abstract class Torro_Instance_Base extends Torro_Base {
 
 	public function delete() {
 		$status = $this->delete_from_db();
-		if ( ! is_wp_error( $status ) ) {
-			$this->id = 0;
+		if ( is_wp_error( $status ) ) {
+			return $status;
+		}
+		if ( ! $status ) {
+			return new Torro_Error( 'cannot_delete_instance', __( 'Unknown error while trying to delete instance.', 'torro-forms' ), __METHOD__ );
 		}
 		return $status;
 	}

@@ -131,19 +131,22 @@ class Torro_Init {
 		require_once( $includes_folder . 'form-media.php' );
 		require_once( $includes_folder . 'wp-editor.php' );
 
-		// Models
+		// General Models
 		require_once( $core_folder . 'models/class-base.php' );
-		require_once( $core_folder . 'models/class-form.php' );
-		require_once( $core_folder . 'models/class-container.php' );
-		require_once( $core_folder . 'models/class-element-answer.php' );
-		require_once( $core_folder . 'models/class-element-setting.php' );
-		require_once( $core_folder . 'models/class-participant.php' );
 		require_once( $core_folder . 'models/class-component.php' );
-		require_once( $core_folder . 'models/class-element.php' );
 		require_once( $core_folder . 'models/class-settings.php' );
 		require_once( $core_folder . 'models/class-extension.php' );
 		require_once( $core_folder . 'models/class-form-controller-cache.php' );
 		require_once( $core_folder . 'models/class-templatetags.php' );
+
+		// Instance Models
+		require_once( $core_folder . 'models/class-instance-base.php' );
+		require_once( $core_folder . 'models/class-form.php' );
+		require_once( $core_folder . 'models/class-container.php' );
+		require_once( $core_folder . 'models/class-element.php' );
+		require_once( $core_folder . 'models/class-element-answer.php' );
+		require_once( $core_folder . 'models/class-element-setting.php' );
+		require_once( $core_folder . 'models/class-participant.php' );
 
 		// Admin
 		require_once( $core_folder . 'menu.php' );

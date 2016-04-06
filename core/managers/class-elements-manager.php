@@ -53,32 +53,8 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
-	/**
-	 * Returns Form instance
-	 *
-	 * @param $id
-	 *
-	 * @return Torro_Form_Element
-	 *
-	 * @since 1.0.0
-	 */
-	public function get( $id ){
-		return parent::get( $id );
-	}
-
-	/**
-	 * Get registered module
-	 *
-	 * @param $name
-	 *
-	 * @return Torro_Form_Element|Torro_Error
-	 * @since 1.0.0
-	 */
-	public function get_registered( $name ) {
-		return parent::get_registered( $name );
-	}
-
-	public function create_raw( $type ) {
+	protected function create_raw( $args = array() ) {
+		$type = isset( $args['type'] ) ? $args['type'] : 'textfield';
 		$class_name = $this->get_class_name_by_type( $type );
 		if ( ! class_exists( $class_name ) ) {
 			$class_name = 'Torro_Form_Element_Textfield';
@@ -107,11 +83,11 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		return $element;
 	}
 
-	private function get_class_name_by_type( $type ) {
-		return apply_filters( 'torro_element_type_class_name', 'Torro_Form_Element_' . ucfirst( $type ), $type );
-	}
-
 	protected function get_category() {
 		return 'elements';
+	}
+
+	private function get_class_name_by_type( $type ) {
+		return apply_filters( 'torro_element_type_class_name', 'Torro_Form_Element_' . ucfirst( $type ), $type );
 	}
 }

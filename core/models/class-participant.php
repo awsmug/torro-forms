@@ -37,22 +37,10 @@ class Torro_Participant extends Torro_Instance_Base {
 
 	public function __construct( $id = null ) {
 		$this->superior_id_name = 'form_id';
+		$this->manager_method = 'participants';
 		$this->valid_args = array( 'user_id' );
 
 		parent::__construct( $id );
-	}
-
-	public function copy( $superior_id ) {
-		//TODO: create participants manager to better handle this
-
-		$participant = new Torro_Participant();
-		$participant->form_id = $superior_id;
-		$participant->user_id = $this->user_id;
-		$status = $participant->update();
-		if ( is_wp_error( $status ) ) {
-			return $status;
-		}
-		return $participant;
 	}
 
 	protected function populate( $id ) {

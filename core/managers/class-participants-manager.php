@@ -1,6 +1,6 @@
 <?php
 /**
- * Torro Forms container manager class
+ * Torro Forms participant manager class
  *
  * @author  awesome.ug, Author <support@awesome.ug>
  * @package TorroForms/Core
@@ -28,12 +28,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Containers_Manager extends Torro_Instance_Manager {
+final class Torro_Participants_Manager extends Torro_Instance_Manager {
 
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Containers_Manager
+	 * @var null|Torro_Participants_Manager
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -51,18 +51,18 @@ final class Torro_Containers_Manager extends Torro_Instance_Manager {
 	}
 
 	protected function create_raw( $args = array() ) {
-		return new Torro_Container();
+		return new Torro_Participant();
 	}
 
 	protected function get_from_db( $id ) {
-		$container = new Torro_Container( $id );
-		if ( ! $container->id ) {
+		$participant = new Torro_Participant( $id );
+		if ( ! $participant->id ) {
 			return false;
 		}
-		return $container;
+		return $participant;
 	}
 
 	protected function get_category() {
-		return 'containers';
+		return 'participants';
 	}
 }

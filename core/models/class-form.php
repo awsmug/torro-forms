@@ -503,7 +503,7 @@ class Torro_Form extends Torro_Instance_Base {
 		$post['post_type'] = 'torro-forms';
 		$post['post_title'] = $this->title;
 
-		return call_user_func( $func, $post_data );
+		return call_user_func( $func, $post_data, true );
 	}
 
 	/**
