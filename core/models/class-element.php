@@ -752,11 +752,11 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 
 		if ( $status && ! is_wp_error( $status ) ) {
 			foreach ( $this->answers as $answer ) {
-				$answer->delete();
+				torro()->element_answers()->delete( $answer->id );
 			}
 
 			foreach ( $this->settings as $setting ) {
-				$setting->delete();
+				torro()->element_settings()->delete( $setting->id );
 			}
 		}
 

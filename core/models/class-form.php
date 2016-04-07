@@ -530,37 +530,18 @@ class Torro_Form extends Torro_Instance_Base {
 		}
 
 		foreach ( $this->containers as $container ) {
-			$container->delete();
+			torro()->containers()->delete( $container->id );
 		}
 
 		foreach ( $this->participants as $participant ) {
-			$participant->delete();
+			torro()->participants()->delete( $participant->id );
 		}
 
-		$this->delete_responses_from_db();
+		torro()->results()->delete_by_query( array(
+			'form_id'	=> $this->id,
+			'number'	=> -1,
+		) );
 
 		return wp_delete_post( $this->id, true );
-	}
-
-	/**
-	 * Deleting all results of the Form
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	private function delete_responses_from_db() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id FROM $wpdb->torro_results WHERE form_id = %s", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		// Putting results in array
-		if ( is_array( $results ) ) {
-			foreach ( $results as $result ) {
-				$wpdb->delete( $wpdb->torro_result_values, array( 'result_id' => $result->id ) );
-			}
-		}
-
-		return $wpdb->delete( $wpdb->torro_results, array( 'form_id' => $this->id ) );
 	}
 }

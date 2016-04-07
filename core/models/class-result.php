@@ -86,7 +86,7 @@ class Torro_Result extends Torro_Instance_Base {
 
 		if ( $status && ! is_wp_error( $status ) ) {
 			foreach ( $this->values as $value ) {
-				$value->delete();
+				torro()->result_values()->delete( $value->id );
 			}
 		}
 

@@ -129,7 +129,7 @@ class Torro_Container extends Torro_Instance_Base {
 
 		if ( $status && ! is_wp_error( $status ) ) {
 			foreach ( $this->elements as $element ) {
-				$element->delete();
+				torro()->elements()->delete( $element->id );
 			}
 		}
 
