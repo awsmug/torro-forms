@@ -194,6 +194,19 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		return $instance;
 	}
 
+	public function delete_by_query( $args = array() ) {
+		$instances = $this->query( $args );
+		foreach ( $instances as $instance ) {
+			$id = $instance->id;
+			$status = $instance->delete();
+			if ( ! is_wp_error( $status ) ) {
+				unset( $this->instances[ $this->get_category() ][ $id ] );
+			}
+		}
+
+		return $instances;
+	}
+
 	protected abstract function init();
 
 	protected function create_raw( $args = array() ) {
