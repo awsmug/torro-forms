@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Torro_Element_Answer extends Torro_Instance_Base {
 
-	protected $label = null;
+	protected $answer = null;
 
 	protected $sort = null;
 
@@ -44,7 +44,7 @@ class Torro_Element_Answer extends Torro_Instance_Base {
 	protected function init() {
 		$this->superior_id_name = 'element_id';
 		$this->manager_method = 'element_answers';
-		$this->valid_args = array( 'label', 'sort', 'section' );
+		$this->valid_args = array( 'answer', 'sort', 'section' );
 	}
 
 	protected function populate( $id ) {
@@ -57,7 +57,7 @@ class Torro_Element_Answer extends Torro_Instance_Base {
 		if ( 0 !== $wpdb->num_rows ) {
 			$this->id          = $answer->id;
 			$this->superior_id = $answer->element_id;
-			$this->label       = $answer->answer;
+			$this->answer      = $answer->answer;
 			$this->sort        = $answer->sort;
 			$this->section     = $answer->section;
 		}
@@ -82,7 +82,7 @@ class Torro_Element_Answer extends Torro_Instance_Base {
 		if ( ! empty( $this->id ) ) {
 			$status = $wpdb->update( $wpdb->torro_element_answers, array(
 				'element_id' => $this->superior_id,
-				'answer'     => $this->label,
+				'answer'     => $this->answer,
 				'sort'       => $this->sort,
 				'section'    => $this->section
 			), array(
@@ -94,9 +94,9 @@ class Torro_Element_Answer extends Torro_Instance_Base {
 		} else {
 			$status = $wpdb->insert( $wpdb->torro_element_answers, array(
 				'element_id' => $this->superior_id,
-				'answer'  	=> $this->label,
-				'sort'    	=> $this->sort,
-				'section' 	=> $this->section
+				'answer'  	 => $this->answer,
+				'sort'    	 => $this->sort,
+				'section' 	 => $this->section
 			) );
 			if ( ! $status ) {
 				return new Torro_Error( 'cannot_insert_db', __( 'Could not insert element answer into the database.', 'torro-forms' ), __METHOD__ );

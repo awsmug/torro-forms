@@ -217,7 +217,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 					if ( empty( $value ) ) {
 						foreach( $element->answers AS $element_answer ){
 							if( $element_answer->id == $answer_id ){
-								$value = $element_answer->label;
+								$value = $element_answer->answer;
 								break;
 							}
 						}
@@ -235,8 +235,8 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 				} else {
 					// Setting up all answers to 0 to have also Zero values
 					foreach ( $element->answers AS $element_answers ) {
-						if ( ! isset( $results_formatted[ $result_key ][ $element_answers->label ] ) ) {
-							$results_formatted[ $result_key ][ $element_answers->label ] = 0;
+						if ( ! isset( $results_formatted[ $result_key ][ $element_answers->answer ] ) ) {
+							$results_formatted[ $result_key ][ $element_answers->answer ] = 0;
 						}
 					}
 

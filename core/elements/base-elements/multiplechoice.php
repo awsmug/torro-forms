@@ -58,11 +58,11 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
 
-			if ( is_array( $this->response ) && in_array( $answer->label, $this->response, true ) ) {
+			if ( is_array( $this->response ) && in_array( $answer->answer, $this->response, true ) ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer->label ) . '" ' . $checked . ' /> ' . esc_html( $answer->label ) . '</div>';
+			$html .= '<div class="torro_element_checkbox"><input type="checkbox" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer->answer ) . '" ' . $checked . ' /> ' . esc_html( $answer->answer ) . '</div>';
 		}
 
 		if ( ! empty( $this->settings['description']->value ) ) {

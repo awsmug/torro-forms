@@ -61,11 +61,11 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
 
-			if ( $this->response === $answer->label ) {
+			if ( $this->response === $answer->answer ) {
 				$checked = ' selected="selected"';
 			}
 
-			$html .= '<option value="' . esc_attr( $answer->label ) . '" ' . $checked . '/> ' . esc_html( $answer->label ) . '</option>';
+			$html .= '<option value="' . esc_attr( $answer->answer ) . '" ' . $checked . '/> ' . esc_html( $answer->answer ) . '</option>';
 		}
 
 		$html .= '</select>';
@@ -108,7 +108,7 @@ final class Torro_Form_Element_Dropdown extends Torro_Form_Element {
 		}
 
 		foreach ( $this->answers as $answer ) {
-			if ( $input == $answer->label ) {
+			if ( $input == $answer->answer ) {
 				return $input;
 			}
 		}

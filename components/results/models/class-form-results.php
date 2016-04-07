@@ -343,7 +343,7 @@ class Torro_Form_Results {
 						$column_name = $column_name;
 					}
 
-					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM $wpdb->torro_result_values WHERE result_id=row.id AND element_id = %d AND value='%s') is null, 'no', 'yes' ) AS %s", $element->id, $answer->label, $column_name );
+					$sql_columns[] = $wpdb->prepare( "IF( (SELECT value FROM $wpdb->torro_result_values WHERE result_id=row.id AND element_id = %d AND value='%s') is null, 'no', 'yes' ) AS %s", $element->id, $answer->answer, $column_name );
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			}
