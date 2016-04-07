@@ -264,7 +264,7 @@ abstract class Torro_Instance_Base extends Torro_Base {
 
 		if ( $this->id ) {
 			$status = $wpdb->update( $table_name, $args, array( 'id' => $this->id ), $args_format, array( '%d' ) );
-			if ( ! $status ) {
+			if ( false === $status ) {
 				return new Torro_Error( 'cannot_update_db', __( 'Could not update item in the database.', 'torro-forms' ), __METHOD__ );
 			}
 		} else {
