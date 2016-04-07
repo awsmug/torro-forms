@@ -531,7 +531,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 
 				$html .= '<div class="answer" id="answer_' . $answer->id . '">';
 
-				$html .= '<p><input type="text" name="' . $admin_input_name . '[answers][id_' . $answer->id . '][answer]" value="' . esc_attr( $answer->label ) . '" class="element-answer" /></p>';
+				$html .= '<p><input type="text" name="' . $admin_input_name . '[answers][id_' . $answer->id . '][answer]" value="' . esc_attr( $answer->answer ) . '" class="element-answer" /></p>';
 				$html .= '<input type="button" value="' . esc_attr__( 'Delete', 'torro-forms' ) . '" class="delete_answer button answer_action">';
 
 				$html .= '<input type="hidden" name="' . $admin_input_name . '[answers][id_' . $answer->id . '][id]" value="' . esc_attr( $answer->id ) . '" />';

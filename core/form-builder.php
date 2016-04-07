@@ -313,7 +313,7 @@ class Torro_Formbuilder {
 									}
 
 									$answer_args = array(
-										'label'		=> $answer['answer'],
+										'answer'	=> $answer['answer'],
 										'sort'		=> $answer['sort'],
 										//'section'	=> '', //TODO: section has to be set if there is one
 									);
