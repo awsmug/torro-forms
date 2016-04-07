@@ -146,6 +146,8 @@ class Torro_Init {
 		require_once( $core_folder . 'models/class-element.php' );
 		require_once( $core_folder . 'models/class-element-answer.php' );
 		require_once( $core_folder . 'models/class-element-setting.php' );
+		require_once( $core_folder . 'models/class-result.php' );
+		require_once( $core_folder . 'models/class-result-value.php' );
 		require_once( $core_folder . 'models/class-participant.php' );
 
 		// Admin

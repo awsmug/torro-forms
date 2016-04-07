@@ -86,6 +86,8 @@ final class Torro {
 		require_once( $this->get_path( 'core/managers/class-elements-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-element-answer-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-element-setting-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-results-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-result-values-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-participants-manager.php' ) );
 
 		// load additional manager classes
@@ -140,6 +142,14 @@ final class Torro {
 	 */
 	public function element_settings() {
 		return Torro_Element_Setting_Manager::instance();
+	}
+
+	public function results() {
+		return Torro_Results_Manager::instance();
+	}
+
+	public function result_values() {
+		return Torro_Result_Values_Manager::instance();
 	}
 
 	/**
