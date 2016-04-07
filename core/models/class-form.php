@@ -459,7 +459,9 @@ class Torro_Form extends Torro_Instance_Base {
 
 	protected function init() {
 		$this->manager_method = 'forms';
-		$this->valid_args = array( 'title' );
+		$this->valid_args = array(
+			'title'		=> 'string',
+		);
 	}
 
 	/**

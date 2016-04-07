@@ -35,6 +35,8 @@ abstract class Torro_Instance_Base extends Torro_Base {
 
 	protected $superior_id = 0;
 
+	protected $table_name = false;
+
 	protected $superior_id_name = false;
 
 	protected $manager_method = false;
@@ -45,7 +47,7 @@ abstract class Torro_Instance_Base extends Torro_Base {
 		parent::__construct();
 
 		if ( $id ) {
-			$this->populate( $id );
+			$this->populate( absint( $id ) );
 		}
 	}
 
@@ -59,6 +61,8 @@ abstract class Torro_Instance_Base extends Torro_Base {
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
+			case 'table_name':
+			case 'superior_id_name':
 			case 'manager_method':
 			case 'valid_args':
 				break;
@@ -81,6 +85,8 @@ abstract class Torro_Instance_Base extends Torro_Base {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
+			case 'table_name':
+			case 'superior_id_name':
 			case 'manager_method':
 			case 'valid_args':
 				return null;
@@ -102,6 +108,8 @@ abstract class Torro_Instance_Base extends Torro_Base {
 	 */
 	public function __isset( $key ) {
 		switch ( $key ) {
+			case 'table_name':
+			case 'superior_id_name':
 			case 'manager_method':
 			case 'valid_args':
 				return false;
@@ -123,8 +131,22 @@ abstract class Torro_Instance_Base extends Torro_Base {
 
 	public function update( $args = array() ) {
 		foreach ( $args as $key => $value ) {
-			if ( in_array( $key, $this->valid_args, true ) && property_exists( $this, $key ) ) {
-				$this->$key = $value;
+			if ( ! isset( $this->valid_args[ $key ] ) ) {
+				continue;
+			}
+
+			$type = $this->valid_args[ $key ];
+			switch ( $type ) {
+				case 'int':
+					$this->$key = intval( $value );
+					break;
+				case 'double':
+				case 'float':
+					$this->$key = floatval( $value );
+					break;
+				case 'string':
+				default:
+					$this->$key = strval( $value );
 			}
 		}
 
@@ -154,7 +176,7 @@ abstract class Torro_Instance_Base extends Torro_Base {
 		}
 
 		$args = array();
-		foreach ( $this->valid_args as $arg ) {
+		foreach ( $this->valid_args as $arg => $type ) {
 			if ( property_exists( $this, $arg ) ) {
 				$args[ $arg ] = $this->$arg;
 			}
@@ -163,11 +185,112 @@ abstract class Torro_Instance_Base extends Torro_Base {
 		return call_user_func( array( torro(), $this->manager_method ) )->create( $superior_id, $args );
 	}
 
-	protected abstract function populate( $id );
+	protected function populate( $id ) {
+		global $wpdb;
 
-	protected abstract function exists_in_db();
+		if ( ! $this->table_name ) {
+			return;
+		}
 
-	protected abstract function save_to_db();
+		$table_name = $wpdb->{$this->table_name};
 
-	protected abstract function delete_from_db();
+		$data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE id = %d", $id ) );
+		if ( 0 < $wpdb->num_rows ) {
+			$this->id = absint( $data->id );
+			if ( $this->superior_id_name ) {
+				$this->superior_id = absint( $data->{$this->superior_id_name} );
+			}
+			foreach ( $this->valid_args as $arg => $type ) {
+				switch ( $type ) {
+					case 'int':
+						$this->$arg = intval( $data->$arg );
+						break;
+					case 'double':
+					case 'float':
+						$this->$arg = floatval( $data->$arg );
+						break;
+					case 'string':
+					default:
+						$this->$arg = strval( $data->$arg );
+				}
+			}
+		}
+	}
+
+	protected function exists_in_db() {
+		global $wpdb;
+
+		if ( ! $this->table_name ) {
+			return false;
+		}
+
+		$table_name = $wpdb->{$this->table_name};
+
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$table_name} WHERE id = %d", $this->id ) );
+
+		return 0 < $count;
+	}
+
+	protected function save_to_db() {
+		global $wpdb;
+
+		if ( ! $this->table_name ) {
+			return new Torro_Error( 'no_db_table', __( 'Cannot save to database since no table name is provided.', 'torro-forms' ), __METHOD__ );
+		}
+
+		$table_name = $wpdb->{$this->table_name};
+
+		$args = array();
+		$args_format = array();
+		if ( $this->superior_id_name ) {
+			$args[ $this->superior_id_name ] = $this->superior_id;
+			$args_format[] = '%d';
+		}
+		foreach ( $this->valid_args as $arg => $type ) {
+			$args[ $arg ] = $this->$arg;
+			switch ( $type ) {
+				case 'int':
+					$args_format[] = '%d';
+					break;
+				case 'double':
+				case 'float':
+					$args_format[] = '%f';
+					break;
+				case 'string':
+				default:
+					$args_format[] = '%s';
+			}
+		}
+
+		if ( $this->id ) {
+			$status = $wpdb->update( $table_name, $args, array( 'id' => $this->id ), $args_format, array( '%d' ) );
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_update_db', __( 'Could not update item in the database.', 'torro-forms' ), __METHOD__ );
+			}
+		} else {
+			$status = $wpdb->insert( $table_name, $args, $args_format );
+			if ( ! $status ) {
+				return new Torro_Error( 'cannot_insert_db', __( 'Could not insert item into the database.', 'torro-forms' ), __METHOD__ );
+			}
+			$this->id = absint( $wpdb->insert_id );
+		}
+
+		return $this->id;
+	}
+
+	protected function delete_from_db() {
+		global $wpdb;
+
+		if ( ! $this->table_name ) {
+			return new Torro_Error( 'no_db_table', __( 'Cannot delete from database since no table name is provided.', 'torro-forms' ), __METHOD__ );
+		}
+
+		$table_name = $wpdb->{$this->table_name};
+
+		if ( ! $this->id ) {
+			return new Torro_Error( 'cannot_delete_empty', __( 'Cannot delete item without ID from the database.', 'torro-forms' ), __METHOD__ );
+		}
+
+		return $wpdb->delete( $table_name, array( 'id' => $this->id ), array( '%d' ) );
+	}
 }

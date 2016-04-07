@@ -710,9 +710,15 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	}
 
 	protected function init() {
+		$this->table_name = 'torro_elements';
 		$this->superior_id_name = 'container_id';
 		$this->manager_method = 'elements';
-		$this->valid_args = array( 'form_id', 'type', 'label', 'sort' );
+		$this->valid_args = array(
+			'form_id'	=> 'int',
+			'type'		=> 'string',
+			'label'		=> 'string',
+			'sort'		=> 'int',
+		);
 	}
 
 	/**
@@ -723,80 +729,12 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	protected function populate( $id ) {
-		global $wpdb;
+		parent::populate( $id );
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE id = %d", absint( $id ) );
-		$row = $wpdb->get_row( $sql );
-
-		$this->id          = $row->id;
-		$this->superior_id = $row->container_id;
-		$this->form_id     = $row->form_id;
-		$this->label       = $row->label;
-		$this->sort        = $row->sort;
-		$this->type        = $row->type;
-
-		$this->answers = $this->populate_answers();
-		$this->settings = $this->populate_settings();
-	}
-
-	protected function exists_in_db() {
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "SELECT COUNT( id ) FROM {$wpdb->torro_elements} WHERE id = %d", $this->id );
-		$var = $wpdb->get_var( $sql );
-
-		if ( $var > 0 ) {
-			return true;
+		if ( $this->id ) {
+			$this->answers = $this->populate_answers();
+			$this->settings = $this->populate_settings();
 		}
-
-		return false;
-	}
-
-	/**
-	 * Saving Element
-	 *
-	 * @return false|int
-	 * @since 1.0.0
-	 */
-	protected function save_to_db() {
-		global $wpdb;
-
-		if ( ! empty( $this->id ) ) {
-			$status = $wpdb->update(
-				$wpdb->torro_elements,
-				array(
-					'container_id' => $this->superior_id,
-					'form_id'      => $this->form_id,
-					'label'        => $this->label,
-					'sort'         => $this->sort,
-					'type'         => $this->type
-				),
-				array(
-					'id' => $this->id
-				)
-			);
-			if ( ! $status ) {
-				return new Torro_Error( 'cannot_update_db', __( 'Could not update element in the database.', 'torro-forms' ), __METHOD__ );
-			}
-		} else {
-			$status = $wpdb->insert(
-				$wpdb->torro_elements,
-				array(
-					'container_id' => $this->superior_id,
-					'form_id'      => $this->form_id,
-					'label'        => $this->label,
-					'sort'         => $this->sort,
-					'type'         => $this->type
-				)
-			);
-			if ( ! $status ) {
-				return new Torro_Error( 'cannot_insert_db', __( 'Could not insert element into the database.', 'torro-forms' ), __METHOD__ );
-			}
-
-			$this->id = $wpdb->insert_id;
-		}
-
-		return $this->id;
 	}
 
 	/**
@@ -806,21 +744,19 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	protected function delete_from_db(){
-		global $wpdb;
+		$status = parent::delete_from_db();
 
-		if ( empty( $this->id ) ) {
-			return new Torro_Error( 'cannot_delete_empty', __( 'Cannot delete element without ID.', 'torro-forms' ), __METHOD__ );
+		if ( $status && ! is_wp_error( $status ) ) {
+			foreach ( $this->answers as $answer ) {
+				$answer->delete();
+			}
+
+			foreach ( $this->settings as $setting ) {
+				$setting->delete();
+			}
 		}
 
-		foreach ( $this->answers as $answer ) {
-			$answer->delete();
-		}
-
-		foreach ( $this->settings as $setting ) {
-			$setting->delete();
-		}
-
-		return $wpdb->delete( $wpdb->torro_elements, array( 'id' => $this->id ) );
+		return $status;
 	}
 
 	/**

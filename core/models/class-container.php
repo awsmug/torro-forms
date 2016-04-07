@@ -97,9 +97,13 @@ class Torro_Container extends Torro_Instance_Base {
 	}
 
 	protected function init() {
+		$this->table_name = 'torro_containers';
 		$this->superior_id_name = 'form_id';
 		$this->manager_method = 'containers';
-		$this->valid_args = array( 'label', 'sort' );
+		$this->valid_args = array(
+			'label' 	=> 'string',
+			'sort' 		=> 'int',
+		);
 	}
 
 	/**
@@ -110,84 +114,23 @@ class Torro_Container extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	protected function populate( $id ) {
-		global $wpdb;
+		parent::populate( $id );
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_containers} WHERE id = %d", absint( $id ) );
-
-		$container = $wpdb->get_row( $sql );
-
-		if ( 0 !== $wpdb->num_rows ) {
-			$this->id          = $container->id;
-			$this->superior_id = $container->form_id;
-			$this->label       = $container->label;
-			$this->sort        = $container->sort;
-
+		if ( $this->id ) {
 			$this->elements = $this->populate_elements();
 		}
 	}
 
-	protected function exists_in_db() {
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "SELECT COUNT( id ) FROM {$wpdb->torro_containers} WHERE id = %d", $this->id );
-		$var = $wpdb->get_var( $sql );
-
-		if ( $var > 0 ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	protected function save_to_db(){
-		global $wpdb;
-
-		if ( ! empty( $this->id ) ) {
-			$status = $wpdb->update(
-				$wpdb->torro_containers,
-				array(
-					'form_id' => $this->superior_id,
-					'label'   => $this->label,
-					'sort'    => $this->sort
-				),
-				array(
-					'id' => $this->id
-				)
-			);
-			if ( ! $status ) {
-				return new Torro_Error( 'cannot_update_db', __( 'Could not update container in the database.', 'torro-forms' ), __METHOD__ );
-			}
-		} else {
-			$status = $wpdb->insert(
-				$wpdb->torro_containers,
-				array(
-					'form_id' => $this->superior_id,
-					'label'   => $this->label,
-					'sort'    => $this->sort
-				)
-			);
-			if ( ! $status ) {
-				return new Torro_Error( 'cannot_insert_db', __( 'Could not insert container into the database.', 'torro-forms' ), __METHOD__ );
-			}
-
-			$this->id = $wpdb->insert_id;
-		}
-
-		return $this->id;
-	}
-
 	protected function delete_from_db(){
-		global $wpdb;
+		$status = parent::delete_from_db();
 
-		if ( empty( $this->id ) ) {
-			return new Torro_Error( 'cannot_delete_empty', __( 'Cannot delete container without ID.', 'torro-forms' ), __METHOD__ );
+		if ( $status && ! is_wp_error( $status ) ) {
+			foreach ( $this->elements as $element ) {
+				$element->delete();
+			}
 		}
 
-		foreach ( $this->elements as $element ) {
-			$element->delete();
-		}
-
-		return $wpdb->delete( $wpdb->torro_containers, array( 'id' => $this->id ) );
+		return $status;
 	}
 
 	/**
