@@ -488,11 +488,14 @@ class Torro_Form extends Torro_Instance_Base {
 		$form        = get_post( $this->id );
 		$this->title = $form->post_title;
 
-		$this->containers   = $this->populate_containers();
-		$this->elements     = $this->populate_elements();
-		$this->participants = $this->populate_participants();
+		$query_args = array(
+			'form_id'	=> $this->id,
+			'number'	=> -1,
+		);
 
-		return true;
+		$this->containers = torro()->containers()->query( $query_args );
+		$this->elements = torro()->elements()->query( $query_args );
+		$this->participants = torro()->participants()->query( $query_args );
 	}
 
 	protected function exists_in_db() {
@@ -537,75 +540,6 @@ class Torro_Form extends Torro_Instance_Base {
 		$this->delete_responses_from_db();
 
 		return wp_delete_post( $this->id, true );
-	}
-
-	/**
-	 * Getting containers
-	 *
-	 * @return array $containters
-	 * @since 1.0.0
-	 */
-	private function populate_containers() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_containers} WHERE form_id=%d ORDER BY sort ASC", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		$containers = array();
-		foreach ( $results as $container ) {
-			$containers[] = new Torro_Container( $container->id );
-		}
-
-		return $containers;
-	}
-
-	/**
-	 * Getting elements
-	 *
-	 * @return array $elements
-	 * @since 1.0.0
-	 */
-	private function populate_elements() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id,type FROM {$wpdb->torro_elements} WHERE form_id=%d", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		$elements = array();
-
-		foreach ( $results as $element ) {
-			$elements[] = torro()->elements()->get( $element->id );
-		}
-
-		return $elements;
-	}
-
-	/**
-	 * Initializing participants
-	 *
-	 * @return array All participator ID's
-	 * @since 1.0.0
-	 */
-	private function populate_participants() {
-		global $wpdb;
-
-		$sql     = $wpdb->prepare( "SELECT id FROM {$wpdb->torro_participants} WHERE form_id = %d", $this->id );
-		$results = $wpdb->get_col( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		$participants = array();
-		foreach ( $results as $participant_id ) {
-			$participants[] = new Torro_Participant( $participant_id );
-		}
-
-		return $participants;
 	}
 
 	/**

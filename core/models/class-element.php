@@ -732,8 +732,12 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		parent::populate( $id );
 
 		if ( $this->id ) {
-			$this->answers = $this->populate_answers();
-			$this->settings = $this->populate_settings();
+			$query_args = array(
+				'element_id'	=> $this->id,
+				'number'		=> -1,
+			);
+			$this->answers = torro()->element_answers()->query( $query_args );
+			$this->settings = torro()->element_settings()->query( $query_args );
 		}
 	}
 
@@ -757,59 +761,5 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		}
 
 		return $status;
-	}
-
-	/**
-	 * Getting answers
-	 *
-	 * @return array $answers
-	 * @since 1.0.0
-	 */
-	private function populate_answers(){
-		global $wpdb;
-
-		$answers = array();
-
-		$sql     = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_element_answers} WHERE element_id = %s ORDER BY sort ASC", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		if ( is_array( $results ) ) {
-			foreach ( $results as $answer ) {
-				$answers[] = torro()->element_answers()->get( $answer->id );
-			}
-		}
-
-		return $answers;
-	}
-
-	/**
-	 * Getting settings
-	 *
-	 * @return array $settings
-	 * @since 1.0.0
-	 */
-	private function populate_settings(){
-		global $wpdb;
-
-		$settings = array();
-
-		$sql      = $wpdb->prepare( "SELECT id, name FROM {$wpdb->torro_element_settings} WHERE element_id = %s", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		if ( 0 === $wpdb->num_rows ) {
-			return array();
-		}
-
-		if ( is_array( $results ) ) {
-			foreach ( $results as $setting ) {
-				$settings[ $setting->name ] = torro()->element_settings()->get( $setting->id );
-			}
-		}
-
-		return $settings;
 	}
 }

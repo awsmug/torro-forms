@@ -117,7 +117,10 @@ class Torro_Container extends Torro_Instance_Base {
 		parent::populate( $id );
 
 		if ( $this->id ) {
-			$this->elements = $this->populate_elements();
+			$this->elements = torro()->elements()->query( array(
+				'container_id'	=> $this->id,
+				'number'		=> -1,
+			) );
 		}
 	}
 
@@ -131,25 +134,5 @@ class Torro_Container extends Torro_Instance_Base {
 		}
 
 		return $status;
-	}
-
-	/**
-	 * Internal function to get elements of container
-	 *
-	 * @return array Torro_Form_Element
-	 * @since 1.0.0
-	 */
-	private function populate_elements(){
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->torro_elements} WHERE container_id = %d ORDER BY sort ASC", $this->id );
-		$results = $wpdb->get_results( $sql );
-
-		$elements = array();
-		foreach( $results as $element ){
-			$elements[] = torro()->elements()->get( $element->id );
-		}
-
-		return $elements;
 	}
 }

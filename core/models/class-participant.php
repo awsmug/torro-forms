@@ -52,11 +52,7 @@ class Torro_Participant extends Torro_Instance_Base {
 		parent::populate( $id );
 
 		if ( $this->id ) {
-			$this->user = $this->populate_user();
+			$this->user = get_user_by( 'id', $this->user_id );
 		}
-	}
-
-	private function populate_user() {
-		return get_user_by( 'id', $this->user_id );
 	}
 }
