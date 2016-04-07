@@ -32,10 +32,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Torro_Instance_Manager extends Torro_Manager {
 
-	protected $instances = array();
+	protected $table_name = false;
 
 	protected function __construct() {
 		parent::__construct();
+		$this->init();
 	}
 
 	public function create( $superior_id, $args = array() ) {
@@ -90,6 +91,60 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		return $this->instances[ $this->get_category() ][ $id ];
 	}
 
+	public function query( $args = array() ) {
+		global $wpdb;
+
+		if ( ! $this->table_name ) {
+			return array();
+		}
+
+		$args = wp_parse_args( $args, array(
+			'number'	=> 10,
+			'offset'	=> 0,
+		) );
+
+		$args['number'] = intval( $args['number'] );
+		$args['offset'] = intval( $args['offset'] );
+
+		if ( 0 === $args['number'] ) {
+			return 0;
+		}
+
+		$table_name = $wpdb->{$this->table_name};
+
+		$query = "SELECT * FROM {$table_name}";
+
+		$keys = array();
+		$values = array();
+		foreach ( $args as $key => $value ) {
+			if ( is_int( $value ) ) {
+				$keys[] = $key . ' = %d';
+			} elseif ( is_float( $value ) ) {
+				$keys[] = $key . ' = %f';
+			} else {
+				$keys[] = $key . ' = %s';
+			}
+			$values[] = $value;
+		}
+
+		if ( 0 < count( $keys ) ) {
+			$query .= " WHERE " . implode( " AND ", $keys );
+		}
+
+		if ( 0 < $args['number'] ) {
+			$query .= " LIMIT " . $args['offset'] . ", " . $args['number'];
+		}
+
+		if ( 0 < count( $values ) ) {
+			array_unshift( $values, $query );
+			$query = call_user_func_array( array( $wpdb, 'prepare' ), $values );
+		}
+
+		$results = $wpdb->get_results( $query );
+
+		return array_map( array( $this, 'get' ), $results );
+	}
+
 	public function move( $id, $superior_id ) {
 		$instance = $this->get( $id );
 		if ( is_wp_error( $instance ) ) {
@@ -127,6 +182,8 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 
 		return $instance;
 	}
+
+	protected abstract function init();
 
 	protected abstract function create_raw( $args = array() );
 
