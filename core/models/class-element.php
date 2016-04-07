@@ -431,7 +431,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	protected function get_admin_element_id() {
-		if ( null === $this->id ) {
+		if ( ! $this->id ) {
 			return $this->get_empty_element_id();
 		}
 
@@ -444,7 +444,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * @return null|string
 	 */
 	protected function get_admin_cotainer_id() {
-		if ( null === $this->superior_id ) {
+		if ( ! $this->superior_id ) {
 			return $this->get_empty_container_id();
 		}
 
