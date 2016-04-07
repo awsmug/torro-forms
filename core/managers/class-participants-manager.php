@@ -50,16 +50,9 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
-	protected function create_raw( $args = array() ) {
-		return new Torro_Participant();
-	}
-
-	protected function get_from_db( $id ) {
-		$participant = new Torro_Participant( $id );
-		if ( ! $participant->id ) {
-			return false;
-		}
-		return $participant;
+	protected function init() {
+		$this->table_name = 'torro_participants';
+		$this->class_name = 'Torro_Participant';
 	}
 
 	protected function get_category() {

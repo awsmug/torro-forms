@@ -70,6 +70,25 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		return parent::create( 0, $args );
 	}
 
+	public function query( $args = array() ) {
+		$args['post_type'] = 'torro-forms';
+		$args['post_status'] = 'publish';
+
+		if ( isset( $args['number'] ) ) {
+			$args['posts_per_page'] = $args['number'];
+			unset( $args['number'] );
+		}
+
+		$posts = get_posts( $args );
+
+		$results = array();
+		foreach ( $posts as $post ) {
+			$results[] = $this->get( $post->ID );
+		}
+
+		return $results;
+	}
+
 	public function move( $id, $invalid ) {
 		return parent::move( $id, $invalid );
 	}
@@ -78,16 +97,8 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		return parent::copy( $id, $args );
 	}
 
-	protected function create_raw( $args = array() ) {
-		return new Torro_Form();
-	}
-
-	protected function get_from_db( $id ) {
-		$form = new Torro_Form( $id );
-		if ( ! $form->id ) {
-			return new Torro_Error( 'torro_form_not_exist', sprintf( __( 'The form %s does not exist.', 'torro-forms' ), $id ), __METHOD__ );
-		}
-		return $form;
+	protected function init() {
+		$this->class_name = 'Torro_Form';
 	}
 
 	protected function get_category() {

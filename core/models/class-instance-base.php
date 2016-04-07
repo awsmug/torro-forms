@@ -47,7 +47,7 @@ abstract class Torro_Instance_Base extends Torro_Base {
 		parent::__construct();
 
 		if ( $id ) {
-			$this->populate( absint( $id ) );
+			$this->populate( $id );
 		}
 	}
 
@@ -192,27 +192,53 @@ abstract class Torro_Instance_Base extends Torro_Base {
 			return;
 		}
 
-		$table_name = $wpdb->{$this->table_name};
-
-		$data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE id = %d", $id ) );
-		if ( 0 < $wpdb->num_rows ) {
-			$this->id = absint( $data->id );
-			if ( $this->superior_id_name ) {
-				$this->superior_id = absint( $data->{$this->superior_id_name} );
+		$data = false;
+		if ( is_object( $id ) ) {
+			if ( ! isset( $id->id ) ) {
+				return;
 			}
-			foreach ( $this->valid_args as $arg => $type ) {
-				switch ( $type ) {
-					case 'int':
-						$this->$arg = intval( $data->$arg );
+
+			$okay = false;
+			if ( isset( $id->{$this->superior_id_name} ) ) {
+				$okay = true;
+				foreach ( $this->valid_args as $arg => $type ) {
+					if ( ! isset( $id->$arg ) ) {
+						$okay = false;
 						break;
-					case 'double':
-					case 'float':
-						$this->$arg = floatval( $data->$arg );
-						break;
-					case 'string':
-					default:
-						$this->$arg = strval( $data->$arg );
+					}
 				}
+			}
+			if ( $okay ) {
+				$data = $id;
+			} else {
+				$id = $id->id;
+			}
+		}
+
+		if ( ! $data ) {
+			$table_name = $wpdb->{$this->table_name};
+			$data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE id = %d", absint( $id ) ) );
+			if ( 0 === $wpdb->num_rows ) {
+				return;
+			}
+		}
+
+		$this->id = absint( $data->id );
+		if ( $this->superior_id_name ) {
+			$this->superior_id = absint( $data->{$this->superior_id_name} );
+		}
+		foreach ( $this->valid_args as $arg => $type ) {
+			switch ( $type ) {
+				case 'int':
+					$this->$arg = intval( $data->$arg );
+					break;
+				case 'double':
+				case 'float':
+					$this->$arg = floatval( $data->$arg );
+					break;
+				case 'string':
+				default:
+					$this->$arg = strval( $data->$arg );
 			}
 		}
 	}

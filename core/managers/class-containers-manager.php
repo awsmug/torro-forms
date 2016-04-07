@@ -50,16 +50,9 @@ final class Torro_Containers_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
-	protected function create_raw( $args = array() ) {
-		return new Torro_Container();
-	}
-
-	protected function get_from_db( $id ) {
-		$container = new Torro_Container( $id );
-		if ( ! $container->id ) {
-			return false;
-		}
-		return $container;
+	protected function init() {
+		$this->table_name = 'torro_containers';
+		$this->class_name = 'Torro_Container';
 	}
 
 	protected function get_category() {

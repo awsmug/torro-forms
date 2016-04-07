@@ -34,6 +34,8 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 
 	protected $table_name = false;
 
+	protected $class_name = false;
+
 	protected function __construct() {
 		parent::__construct();
 		$this->init();
@@ -77,18 +79,25 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 	}
 
 	public function get( $id ) {
-		if ( ! isset( $this->instances[ $this->get_category() ][ $id ] ) ) {
+		$_id = $id;
+		if ( is_object( $id ) && isset( $id->id ) ) {
+			$_id = $id->id;
+		}
+
+		$_id = absint( $_id );
+
+		if ( ! isset( $this->instances[ $this->get_category() ][ $_id ] ) ) {
 			// get from database
 			$instance = $this->get_from_db( $id );
 			if ( is_wp_error( $instance ) ) {
 				return $instance;
 			}
 			if ( ! $instance ) {
-				return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %s does not exist.', 'torro-forms' ), $id ), __METHOD__ );
+				return new Torro_Error( 'torro_instance_not_exist', sprintf( __( 'The instance %s does not exist.', 'torro-forms' ), $_id ), __METHOD__ );
 			}
-			$this->instances[ $this->get_category() ][ $id ] = $instance;
+			$this->instances[ $this->get_category() ][ $_id ] = $instance;
 		}
-		return $this->instances[ $this->get_category() ][ $id ];
+		return $this->instances[ $this->get_category() ][ $_id ];
 	}
 
 	public function query( $args = array() ) {
@@ -185,7 +194,28 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 
 	protected abstract function init();
 
-	protected abstract function create_raw( $args = array() );
+	protected function create_raw( $args = array() ) {
+		if ( ! $this->class_name ) {
+			return new Torro_Error( 'no_class_name', __( 'No class name provided. Cannot create raw instance.', 'torro-forms' ), __METHOD__ );
+		}
 
-	protected abstract function get_from_db( $id );
+		$class_name = $this->class_name;
+
+		return new $class_name();
+	}
+
+	protected function get_from_db( $id ) {
+		if ( ! $this->class_name ) {
+			return new Torro_Error( 'no_class_name', __( 'No class name provided. Cannot create raw instance.', 'torro-forms' ), __METHOD__ );
+		}
+
+		$class_name = $this->class_name;
+
+		$instance = new $class_name( $id );
+		if ( ! $instance->id ) {
+			return false;
+		}
+
+		return $instance;
+	}
 }

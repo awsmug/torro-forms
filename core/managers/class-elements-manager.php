@@ -53,6 +53,10 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	protected function init() {
+		$this->table_name = 'torro_elements';
+	}
+
 	protected function create_raw( $args = array() ) {
 		$type = isset( $args['type'] ) ? $args['type'] : 'textfield';
 		$class_name = $this->get_class_name_by_type( $type );
@@ -65,10 +69,15 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	protected function get_from_db( $id ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", absint( $id ) );
-		$type = $wpdb->get_var( $sql );
-		if ( ! $type ) {
-			return false;
+		$type = 'textfield';
+		if ( is_object( $id ) && isset( $id->type ) ) {
+			$type = $id->type;
+		} else {
+			$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", absint( $id ) );
+			$type = $wpdb->get_var( $sql );
+			if ( ! $type ) {
+				$type = 'textfield';
+			}
 		}
 
 		$class_name = $this->get_class_name_by_type( $type );

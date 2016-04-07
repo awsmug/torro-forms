@@ -50,16 +50,9 @@ final class Torro_Element_Setting_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
-	protected function create_raw( $args = array() ) {
-		return new Torro_Element_Setting();
-	}
-
-	protected function get_from_db( $id ) {
-		$setting = new Torro_Element_Setting( $id );
-		if ( ! $setting->id ) {
-			return false;
-		}
-		return $setting;
+	protected function init() {
+		$this->table_name = 'torro_element_settings';
+		$this->class_name = 'Torro_Element_Setting';
 	}
 
 	protected function get_category() {

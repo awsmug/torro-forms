@@ -50,16 +50,9 @@ final class Torro_Element_Answer_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
-	protected function create_raw( $args = array() ) {
-		return new Torro_Element_Answer();
-	}
-
-	protected function get_from_db( $id ) {
-		$answer = new Torro_Element_Answer( $id );
-		if ( ! $answer->id ) {
-			return false;
-		}
-		return $answer;
+	protected function init() {
+		$this->table_name = 'torro_element_answers';
+		$this->class_name = 'Torro_Element_Answer';
 	}
 
 	protected function get_category() {
