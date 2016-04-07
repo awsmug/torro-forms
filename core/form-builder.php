@@ -265,7 +265,7 @@ class Torro_Formbuilder {
 				}
 
 				if ( is_wp_error( $container_obj ) ) {
-					//TODO: handle error here
+					torro()->admin_notices()->add( $container_obj );
 					continue;
 				}
 
@@ -295,7 +295,7 @@ class Torro_Formbuilder {
 							$element_obj = torro()->elements()->create( $container_id, $element_args );
 						}
 						if ( is_wp_error( $element_obj ) ) {
-							//TODO: handle error here
+							torro()->admin_notices()->add( $element_obj );
 							continue;
 						}
 
@@ -325,7 +325,7 @@ class Torro_Formbuilder {
 										$answer_obj = torro()->element_answers()->create( $element_id, $answer_args );
 									}
 									if ( is_wp_error( $answer_obj ) ) {
-										//TODO: handle error here
+										torro()->admin_notices()->add( $answer_obj );
 										continue;
 									}
 
@@ -356,7 +356,7 @@ class Torro_Formbuilder {
 									$setting_obj = torro()->element_settings()->create( $element_id, $setting_args );
 								}
 								if ( is_wp_error( $setting_obj ) ) {
-									//TODO: handle error here
+									torro()->admin_notices()->add( $setting_obj );
 									continue;
 								}
 
@@ -379,7 +379,7 @@ class Torro_Formbuilder {
 				foreach ( $deleted_container_ids as $deleted_container_id ) {
 					$result = torro()->containers()->delete( $deleted_container_id );
 					if ( is_wp_error( $result ) ) {
-						//TODO: handle error here
+						torro()->admin_notices()->add( $result );
 					}
 				}
 			}
@@ -390,7 +390,7 @@ class Torro_Formbuilder {
 				foreach ( $deleted_element_ids as $deleted_element_id ) {
 					$result = torro()->elements()->delete( $deleted_element_id );
 					if ( is_wp_error( $result ) ) {
-						//TODO: handle error here
+						torro()->admin_notices()->add( $result );
 					}
 				}
 			}
@@ -401,7 +401,7 @@ class Torro_Formbuilder {
 				foreach ( $deleted_answer_ids as $deleted_answer_id ) {
 					$result = torro()->element_answers()->delete( $deleted_answer_id );
 					if ( is_wp_error( $result ) ) {
-						//TODO: handle error here
+						torro()->admin_notices()->add( $result );
 					}
 				}
 			}
@@ -413,6 +413,8 @@ class Torro_Formbuilder {
 		update_post_meta( $form_id, 'show_results', $show_results );
 
 		do_action( 'torro_formbuilder_save', $form_id );
+
+		torro()->admin_notices()->store();
 
 		remove_action( 'save_post', array( __CLASS__, 'save' ), 50 );
 	}

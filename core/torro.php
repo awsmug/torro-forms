@@ -92,6 +92,8 @@ final class Torro {
 
 		// load additional manager classes
 		require_once( $this->get_path( 'core/managers/class-admin-notices-manager.php' ) );
+
+		add_action( 'admin_init', array( $this, 'admin_notices' ) );
 	}
 
 	/**

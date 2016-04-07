@@ -47,6 +47,8 @@ final class Torro_Admin_Notices_Manager {
 	private $notices = array();
 
 	private function __construct() {
+		$this->get_stored();
+
 		add_action( 'admin_notices', array( $this, 'show_all' ) );
 	}
 
@@ -99,10 +101,15 @@ final class Torro_Admin_Notices_Manager {
 
 		$notice = $this->notices[ $id ];
 
+		$prefix = '<strong>Torro Forms:</strong> ';
+		if ( torro_is_formbuilder() ) {
+			$prefix = '';
+		}
+
 		$class = $this->get_css_class( $notice['type'] );
 		$style = $this->get_css_style( $notice['type'] );
 
-		echo '<div class="' . esc_attr( $class ) . '"' . $style . '><p><strong>Torro Forms:</strong> ' . $notice['message'] . '</p></div>';
+		echo '<div class="' . esc_attr( $class ) . '"' . $style . '><p>' . $prefix . $notice['message'] . '</p></div>';
 	}
 
 	public function show_all() {
@@ -119,16 +126,37 @@ final class Torro_Admin_Notices_Manager {
 			if ( 1 === count( $notices ) ) {
 				$this->show( $notices[0]['id'] );
 			} else {
+				$prefix = '<p><strong>Torro Forms:</strong></p>';
+				if ( torro_is_formbuilder() ) {
+					$prefix = '';
+				}
+
 				$class = $this->get_css_class( $type );
 				$style = $this->get_css_style( $type );
 
-				echo '<div class="' . esc_attr( $class ) . '"' . $style . '><p><strong>Torro Forms:</strong></p>';
+				echo '<div class="' . esc_attr( $class ) . '"' . $style . '>' . $prefix;
 				foreach ( $notices as $notice ) {
 					echo '<p>' . $notice['message'] . '</p>';
 				}
 				echo '</div>';
 			}
 		}
+	}
+
+	public function store() {
+		set_transient( 'torro_admin_notices_storage', json_encode( $this->notices ), 180 );
+	}
+
+	public function get_stored() {
+		$stored_notices = get_transient( 'torro_admin_notices_storage' );
+		if ( false === $stored_notices ) {
+			return;
+		}
+
+		delete_transient( 'torro_admin_notices_storage' );
+
+		$stored_notices = json_decode( $stored_notices, true );
+		$this->notices = array_merge( $this->notices, $stored_notices );
 	}
 
 	private function get_css_class( $type ) {
