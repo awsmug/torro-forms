@@ -239,8 +239,6 @@
 						$( '#torro-container-' + container_id + ' ' + self.selectors.droppable_area + ' ' + self.selectors.element ).each( function( index ) {
 							var element_id = $( this ).attr( 'data-element-id' );
 
-							self.generate_admin_input_name( container_id, element_id, undefined, 'container_id', true )
-
 							$( 'input[name^="' + self.generate_admin_input_name( container_id, element_id, undefined, 'container_id', true ) + '"]' ).val( container_id ) ;
 							$( 'input[name^="' + self.generate_admin_input_name( container_id, element_id, undefined, 'sort', true ) + '"]' ).val( index ) ;
 							$( 'input[name^="' + self.generate_admin_input_name( container_id, element_id, undefined, 'id', true ) + '"]' ).val( element_id ) ;
