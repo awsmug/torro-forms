@@ -79,6 +79,9 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 	}
 
 	public function get( $id ) {
+		if ( ! $id ) {
+			return new Torro_Error( 'missing_id', __( 'An ID must be provided when calling a get() method.', 'torro-forms' ), __METHOD__ );
+		}
 		$_id = $id;
 		if ( is_object( $id ) && isset( $id->id ) ) {
 			$_id = $id->id;
