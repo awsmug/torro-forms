@@ -301,14 +301,14 @@ class Torro_Form_Controller {
 
 			$response = $_POST['torro_response'];
 
-			$current_container_id = $response['container_id'];
+			$current_container_id = absint( $response['container_id'] );
 
 			$errors = array();
 
 			$containers = $this->form->containers;
 
 			foreach ( $containers as $container ) {
-				if( $container->id !== $current_container_id ){
+				if ( $container->id !== $current_container_id ){
 					continue;
 				}
 
@@ -353,7 +353,7 @@ class Torro_Form_Controller {
 			 * There was no error!
 			 */
 			if ( count( $errors[ $current_container_id ] ) === 0 ) {
-				$this->form->set_container( $current_container_id );
+				$this->form->set_current_container( $current_container_id );
 
 				$next_container_id = $this->form->get_next_container_id();
 				if ( ! is_wp_error( $next_container_id ) ) {
