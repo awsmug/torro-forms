@@ -112,10 +112,12 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 			'offset'	=> 0,
 		) );
 
-		$args['number'] = intval( $args['number'] );
-		$args['offset'] = intval( $args['offset'] );
+		$number = intval( $args['number'] );
+		$offset = intval( $args['offset'] );
+		unset( $args['number'] );
+		unset( $args['offset'] );
 
-		if ( 0 === $args['number'] ) {
+		if ( 0 === $number ) {
 			return 0;
 		}
 
@@ -140,8 +142,8 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 			$query .= " WHERE " . implode( " AND ", $keys );
 		}
 
-		if ( 0 < $args['number'] ) {
-			$query .= " LIMIT " . $args['offset'] . ", " . $args['number'];
+		if ( 0 < $number ) {
+			$query .= " LIMIT " . $offset . ", " . $number;
 		}
 
 		if ( 0 < count( $values ) ) {
