@@ -560,32 +560,34 @@ function torro_test_superfunctions() {
 	/*
 	Form Manager examples
 	 */
-	torro()->forms()->create( $args ); // Returns new form object, otherwise WP_Error
-	torro()->forms()->exists( $id ); // Returns true or false
-	torro()->forms()->update( $id, $args ); // Returns updated form object, otherwise WP_Error
-	torro()->forms()->get( $id ); // Returns form object, otherwise WP_Error
-	torro()->forms()->copy( $id, $args ); // Returns new copied form object, otherwise WP_Error
-	torro()->forms()->delete( $id ); // Returns deleted form object, otherwise WP_Error
+	//torro()->forms()->create( $args ); // Returns new form object, otherwise WP_Error
+	//torro()->forms()->exists( $id ); // Returns true or false
+	//torro()->forms()->update( $id, $args ); // Returns updated form object, otherwise WP_Error
+	//torro()->forms()->get( $id ); // Returns form object, otherwise WP_Error
+	//torro()->forms()->copy( $id, $args ); // Returns new copied form object, otherwise WP_Error
+	//torro()->forms()->delete( $id ); // Returns deleted form object, otherwise WP_Error
 
 	/*
 	Element Manager examples (containers, element answers, element settings and participants work exactly the same)
 	 */
-	torro()->elements()->create( $container_id, $args ); // Returns new element object, otherwise WP_Error
-	torro()->elements()->exists( $id ); // Returns true or false
-	torro()->elements()->update( $id, $args ); // Returns updated element object, otherwise WP_Error
-	torro()->elements()->get( $id ); // Returns element object, otherwise WP_Error
-	torro()->elements()->move( $id, $container_id ); // Returns moved element object, otherwise WP_Error
-	torro()->elements()->copy( $id, $container_id ); // Returns new copied element object, otherwise WP_Error
-	torro()->elements()->delete( $id ); // Returns deleted form object, otherwise WP_Error
+	//torro()->elements()->create( $container_id, $args ); // Returns new element object, otherwise WP_Error
+	//torro()->elements()->exists( $id ); // Returns true or false
+	//torro()->elements()->update( $id, $args ); // Returns updated element object, otherwise WP_Error
+	//torro()->elements()->get( $id ); // Returns element object, otherwise WP_Error
+	//torro()->elements()->query( $args ); // Returns an array of element objects
+	//torro()->elements()->move( $id, $container_id ); // Returns moved element object, otherwise WP_Error
+	//torro()->elements()->copy( $id, $container_id ); // Returns new copied element object, otherwise WP_Error
+	//torro()->elements()->delete( $id ); // Returns deleted form object, otherwise WP_Error
+	//torro()->elements()->delete_by_query( $args ); // Returns deleted form objects
 
 	/*
 	Element examples (containers, element answers, element settings and participants work exactly the same)
 	 */
-	torro()->elements()->get( $id )->exists(); // Returns true or false
-	torro()->elements()->get( $id )->update( $args ); // Returns updated element ID, otherwise WP_Error
-	torro()->elements()->get( $id )->move( $container_id ); // Returns moved element ID, otherwise WP_Error
-	torro()->elements()->get( $id )->copy( $container_id ); // Returns new copied element ID, otherwise WP_Error
-	torro()->elements()->get( $id )->delete(); // Returns true, otherwise WP_Error
+	//torro()->elements()->get( $id )->exists(); // Returns true or false
+	//torro()->elements()->get( $id )->update( $args ); // Returns updated element ID, otherwise WP_Error
+	//torro()->elements()->get( $id )->move( $container_id ); // Returns moved element ID, otherwise WP_Error
+	//torro()->elements()->get( $id )->copy( $container_id ); // Returns new copied element ID, otherwise WP_Error
+	//torro()->elements()->get( $id )->delete(); // Returns true, otherwise WP_Error
 
 	// torro()->forms()->get_all_registered(); // Fine
 	// torro()->forms()->get_current(); // Todo: Checking if we are in a form, if not throw correct error
