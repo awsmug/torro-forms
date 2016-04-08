@@ -45,6 +45,8 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 
 	public function get_input_html() {
 		$input_type_value = $this->settings[ 'input_type' ]->value;
+		$input_type_value = empty( $input_type_value ) ? 'text' : $input_type_value;
+
 		$input_type_data = $this->get_input_types( $input_type_value );
 		$input_type = $input_type_data[ 'html_field_type' ];
 
@@ -53,9 +55,8 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 			$maybe_required = ' <span class="required">*</span>';
 		}
 
-		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
-
-		$html .= '<input type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '" />';
+		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
+		$html .= '<input id="' . $this->get_input_id() . '" type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '" />';
 
 		if ( ! empty( $this->settings['description'] ) ) {
 			$html .= '<small>';

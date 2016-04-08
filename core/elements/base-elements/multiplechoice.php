@@ -53,11 +53,11 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 			$maybe_required = ' <span class="required">*</span>';
 		}
 
-		$html = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
+		$html  = '<fieldset>';
+		$html .= '<label>' . esc_html( $this->label ) . $maybe_required . '</label>';
 
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
-
 			if ( is_array( $this->response ) && in_array( $answer->answer, $this->response, true ) ) {
 				$checked = ' checked="checked"';
 			}
@@ -70,6 +70,8 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}
+
+		$html .= '</fieldset>';
 
 		return $html;
 	}

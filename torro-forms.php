@@ -560,12 +560,33 @@ function torro_test_superfunctions() {
 	/*
 	Form Manager examples
 	 */
-	//torro()->forms()->create( $args ); // Returns new form object, otherwise WP_Error
+
+	$args = array(
+		'title' => 'Testing superfunctions'
+	);
+
+	$form = torro()->forms()->create( $args );
+	if( is_wp_error( $form ) ) { // Returns new form object, otherwise WP_Error
+		torro()->admin_notices()->add( 'form_creation_failed', 'There was an error' );
+	}
 	//torro()->forms()->exists( $id ); // Returns true or false
 	//torro()->forms()->update( $id, $args ); // Returns updated form object, otherwise WP_Error
 	//torro()->forms()->get( $id ); // Returns form object, otherwise WP_Error
 	//torro()->forms()->copy( $id, $args ); // Returns new copied form object, otherwise WP_Error
 	//torro()->forms()->delete( $id ); // Returns deleted form object, otherwise WP_Error
+
+	/*
+	torro()->containers()->create( $form_id, $args );
+	torro()->containers()->exists( $form_id );
+	// torro()->containers()->update( $instance ); // Todo: Missing similar function to forms and elements
+	torro()->containers()->get( $container_id );
+	torro()->containers()->move( $container_id, $form_id );
+	torro()->containers()->query( $args );
+	torro()->containers()->copy( $container_id, $form_id );
+	torro()->containers()->delete( $container_id );
+	torro()->containers()->delete_by_query( $args );
+	*/
+
 
 	/*
 	Element Manager examples (containers, element answers, element settings and participants work exactly the same)

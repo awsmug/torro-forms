@@ -52,9 +52,9 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	public function get_input_html() {
-		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . '</label>';
+		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . '</label>';
 
-		$html .= '<input type="file" name="' . $this->get_input_name() . '" />';
+		$html .= '<input id="' . $this->get_input_id() . '" type="file" name="' . $this->get_input_name() . '" />';
 
 		if ( ! empty( $this->settings['description'] ) ) {
 			$html .= '<small>';

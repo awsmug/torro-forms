@@ -235,6 +235,16 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	}
 
 	/**
+	 * Returns the ID of an input element
+	 *
+	 * @return string $input_id The ID of the input
+	 * @since 1.0.0
+	 */
+	public function get_input_id() {
+		return 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id;
+	}
+
+	/**
 	 * Returns the name of an input element
 	 *
 	 * @return string $input_name The name of the input
