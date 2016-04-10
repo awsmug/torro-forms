@@ -120,6 +120,8 @@ class Torro_Container extends Torro_Instance_Base {
 			$this->elements = torro()->elements()->query( array(
 				'container_id'	=> $this->id,
 				'number'		=> -1,
+				'orderby'		=> 'sort',
+				'order'			=> 'ASC',
 			) );
 		}
 	}

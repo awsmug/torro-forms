@@ -746,7 +746,10 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 				'element_id'	=> $this->id,
 				'number'		=> -1,
 			);
-			$this->answers = torro()->element_answers()->query( $query_args );
+			$this->answers = torro()->element_answers()->query( array_merge( $query_args, array(
+				'orderby'		=> 'sort',
+				'order'			=> 'ASC',
+			) ) );
 
 			$settings = torro()->element_settings()->query( $query_args );
 			$this->settings = array();
