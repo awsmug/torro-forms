@@ -32,6 +32,7 @@
 			delete_answer_dialog: '#delete_answer_dialog',
 			deleted_answers: '#deleted_answers',
 			tabs: '.tabs',
+			element_tabs: '.element-tabs',
 			element_form_label: '.form-label',
 			duplicate_form_button: '#form-duplicate-button',
 			delete_results_button: '#form-delete-results',
@@ -676,7 +677,7 @@
 			$( document ).on( 'keydown', '.element-answer', function( e ) {
 				if ( 13 === e.keyCode ) {
 					e.preventDefault();
-					var $add_answer_button = $( this ).parents( self.selectors.tabs ).find( self.selectors.add_answer_button );
+					var $add_answer_button = $( this ).parents( self.selectors.element_tabs ).find( self.selectors.add_answer_button );
 					$add_answer_button.trigger( 'click' );
 				}
 			});
