@@ -113,12 +113,18 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		$args = wp_parse_args( $args, array(
 			'number'	=> 10,
 			'offset'	=> 0,
+			'orderby'	=> 'none',
+			'order'		=> 'ASC',
 		) );
 
 		$number = intval( $args['number'] );
 		$offset = intval( $args['offset'] );
+		$orderby = 'none' !== $args['orderby'] ? $args['orderby'] : '';
+		$order = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
 		unset( $args['number'] );
 		unset( $args['offset'] );
+		unset( $args['orderby'] );
+		unset( $args['order'] );
 
 		if ( 0 === $number ) {
 			return 0;
@@ -143,6 +149,10 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 
 		if ( 0 < count( $keys ) ) {
 			$query .= " WHERE " . implode( " AND ", $keys );
+		}
+
+		if ( $orderby ) {
+			$query .= " ORDER BY " . $orderby . " " . $order;
 		}
 
 		if ( 0 < $number ) {
