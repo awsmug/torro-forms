@@ -54,10 +54,10 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	public function get_input_html() {
 		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . '</label>';
 
-		$html .= '<input id="' . $this->get_input_id() . '" type="file" name="' . $this->get_input_name() . '" />';
+		$html .= '<input id="' . $this->get_input_id() . '" type="file" name="' . $this->get_input_name() . '" aria-describedby="' . $this->get_input_id() . '_description" />';
 
 		if ( ! empty( $this->settings['description'] ) ) {
-			$html .= '<small>';
+			$html .= '<small id="' . $this->get_input_id() . '_description">';
 			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}

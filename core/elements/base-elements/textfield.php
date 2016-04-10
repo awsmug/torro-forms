@@ -56,11 +56,11 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 		}
 
 		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
-		$html .= '<input id="' . $this->get_input_id() . '" type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '" />';
+		$html .= '<input id="' . $this->get_input_id() . '" aria-describedby="' . $this->get_input_id() . '_description" type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '" />';
 
 		if ( ! empty( $this->settings['description'] ) ) {
-			$html .= '<small>';
-			$html .= esc_html( $this->settings['description']->value );
+			$html .= '<small id="' . $this->get_input_id() . '_description">';
+			$html .= esc_html( $this->settings[ 'description' ]->value );
 			$html .= '</small>';
 		}
 
