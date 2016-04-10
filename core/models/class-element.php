@@ -747,7 +747,12 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 				'number'		=> -1,
 			);
 			$this->answers = torro()->element_answers()->query( $query_args );
-			$this->settings = torro()->element_settings()->query( $query_args );
+
+			$settings = torro()->element_settings()->query( $query_args );
+			$this->settings = array();
+			foreach ( $settings as $setting ) {
+				$this->settings[ $setting->name ] = $setting;
+			}
 		}
 	}
 
