@@ -49,12 +49,11 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 			$maybe_required = ' <span class="required">*</span>';
 		}
 
-		$html  = '<label for="' . $this->get_input_name() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
-
-		$html .= '<textarea name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ]->value . '" rows="' . $this->settings[ 'rows' ]->value . '" cols="' . $this->settings[ 'cols' ]->value . '">' . esc_html( $this->response ) . '</textarea>';
+		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
+		$html .= '<textarea id="' . $this->get_input_id() . '" aria-describedby="' . $this->get_input_id() . '_description" name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ]->value . '" rows="' . $this->settings[ 'rows' ]->value . '" cols="' . $this->settings[ 'cols' ]->value . '">' . esc_html( $this->response ) . '</textarea>';
 
 		if ( ! empty( $this->settings['description']->value ) ) {
-			$html .= '<small>';
+			$html .= '<small id="' . $this->get_input_id() . '_description">';
 			$html .= esc_html( $this->settings['description']->value );
 			$html .= '</small>';
 		}
