@@ -169,11 +169,11 @@ class Torro_Formbuilder {
 			add_meta_box( 'form-elements', __( 'Elements', 'torro-forms' ), array(
 				__CLASS__,
 				'meta_box_form_elements'
-			), 'torro-forms', 'side', 'high' );
+			), 'torro_form', 'side', 'high' );
 			add_meta_box( 'form-options', __( 'Options', 'torro-forms' ), array(
 				__CLASS__,
 				'meta_box_options'
-			), 'torro-forms', 'side', 'high' );
+			), 'torro_form', 'side', 'high' );
 		}
 	}
 
