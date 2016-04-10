@@ -187,14 +187,14 @@ class Torro_Form_Controller {
 
 		$post  = $posts[ 0 ];
 
-		if ( ! has_shortcode( $post->post_content, 'form' ) && 'torro-forms' !== $post->post_type ) {
+		if ( ! has_shortcode( $post->post_content, 'form' ) && 'torro_form' !== $post->post_type ) {
 			return;
 		}
 
 		/**
 		 * Getting form ID
 		 */
-		if ( 'torro-forms' === $post->post_type ) {
+		if ( 'torro_form' === $post->post_type ) {
 			// Yes we are on e page which dispays a torro form post type!
 			if ( is_wp_error( $this->set_form( $post->ID ) ) ) {
 				return;

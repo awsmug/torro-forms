@@ -163,7 +163,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function meta_boxes( $post_type ) {
-		$post_types = array( 'torro-forms' );
+		$post_types = array( 'torro_form' );
 
 		if ( in_array( $post_type, $post_types, true ) ) {
 			add_meta_box( 'form-elements', __( 'Elements', 'torro-forms' ), array(
@@ -236,7 +236,7 @@ class Torro_Formbuilder {
 			return;
 		}
 
-		if ( 'torro-forms' !== $_POST['post_type'] ) {
+		if ( 'torro_form' !== $_POST['post_type'] ) {
 			return;
 		}
 

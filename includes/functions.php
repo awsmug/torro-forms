@@ -116,12 +116,12 @@ function torro_is_form() {
 	if ( ! empty( $_GET[ 'post' ] ) ) {
 		$post = get_post( $_GET[ 'post' ] );
 
-		if ( is_a( $post, 'WP_Post' ) && 'torro-forms' === $post->post_type ) {
+		if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
 			return true;
 		}
 	}
 
-	if ( ! empty( $_GET[ 'post_type' ] ) && 'torro-forms' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
+	if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
 		return true;
 	}
 

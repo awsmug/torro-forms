@@ -115,7 +115,7 @@ class Torro_Settings_Page {
 					$css_classes = ' nav-tab-active';
 				}
 
-				$html .= '<a href="' . admin_url( 'edit.php?post_type=torro-forms&page=Torro_Admin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
+				$html .= '<a href="' . admin_url( 'edit.php?post_type=torro_form&page=Torro_Admin&tab=' . $setting->name ) . '" class="nav-tab' . $css_classes . '">' . $setting->title . '</a>';
 			}
 			$html .= '</h2>';
 
@@ -224,7 +224,7 @@ class Torro_Settings_Page {
 				if ( $name === $active_settings ) {
 					$css_classes = ' active';
 				}
-				$html .= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'edit.php?post_type=torro-forms&page=Torro_Admin&tab=' . $settings->name . '&section=' . $name ) . '">' . $setting[ 'title' ] . '</a></li>';
+				$html .= '<li class="submenu-tab' . $css_classes . '"><a href="' . admin_url( 'edit.php?post_type=torro_form&page=Torro_Admin&tab=' . $settings->name . '&section=' . $name ) . '">' . $setting[ 'title' ] . '</a></li>';
 			}
 			$html .= '</ul>';
 

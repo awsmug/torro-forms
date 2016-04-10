@@ -21,7 +21,7 @@ class Torro_AJAX_WP_Editor {
 
 	public static function init_defaults() {
 		$screen = get_current_screen();
-		if ( 'torro-forms' !== $screen->post_type ) {
+		if ( 'torro_form' !== $screen->post_type ) {
 			return;
 		}
 

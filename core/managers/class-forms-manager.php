@@ -71,7 +71,7 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	}
 
 	public function query( $args = array() ) {
-		$args['post_type'] = 'torro-forms';
+		$args['post_type'] = 'torro_form';
 		$args['post_status'] = 'publish';
 
 		if ( isset( $args['number'] ) ) {

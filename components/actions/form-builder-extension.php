@@ -51,7 +51,7 @@ class Torro_Formbuilder_Actions_Extension {
 	 * @since 1.0.0
 	 */
 	public static function meta_boxes( $post_type ) {
-		$post_types = array( 'torro-forms' );
+		$post_types = array( 'torro_form' );
 
 		if ( in_array( $post_type, $post_types ) ) {
 			add_meta_box( 'form-actions', __( 'Actions', 'torro-forms' ), array( __CLASS__, 'meta_box_actions' ), 'torro-forms', 'normal', 'high' );

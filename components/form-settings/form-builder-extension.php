@@ -51,7 +51,7 @@ class Torro_Formbuilder_Form_Settings_Extension {
 	 * @since 1.0.0
 	 */
 	public static function meta_boxes( $post_type ) {
-		$post_types = array( 'torro-forms' );
+		$post_types = array( 'torro_form' );
 
 		if ( in_array( $post_type, $post_types ) ) {
 			add_meta_box( 'form-settings', __( 'Settings', 'torro-forms' ), array( __CLASS__, 'meta_box_form_settings' ), 'torro-forms', 'normal', 'low' );

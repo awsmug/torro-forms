@@ -112,7 +112,7 @@
 }
 
 /* --- Admin Menu --- */
-#adminmenu #menu-posts-torro-forms .dashicons-before.dashicons-admin-post:before {
+#adminmenu #menu-posts-torro_form .dashicons-before.dashicons-admin-post:before {
 	width: 20px;
 	height: 20px;
 	font-family: aficons;

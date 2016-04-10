@@ -205,7 +205,7 @@ class Torro_Init {
 		global $post;
 
 		// Check if we are on the right place
-		if ( ! is_a( $post, 'WP_Post' ) || 'torro-forms' !== $post->post_type ) {
+		if ( ! is_a( $post, 'WP_Post' ) || 'torro_form' !== $post->post_type ) {
 			return $classes;
 		}
 
@@ -262,7 +262,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function setup() {
-		$script_db_version  = '1.0.5';
+		$script_db_version  = '1.0.6';
 		$current_db_version = get_option( 'torro_db_version' );
 
 		// Upgrading from Questions to Awesome Forms
@@ -303,6 +303,13 @@ class Torro_Init {
 				require_once( 'includes/updates/to_1.0.5.php' );
 				torro_forms_to_1_0_5();
 				update_option( 'torro_db_version', '1.0.5' );
+			}
+
+			// Upgrading from Torro DB version 1.0.5 to 1.0.6
+			if ( true === version_compare( $current_db_version, '1.0.6', '<' ) ) {
+				require_once( 'includes/updates/to_1.0.6.php' );
+				torro_forms_to_1_0_6();
+				update_option( 'torro_db_version', '1.0.6' );
 			}
 		} elseif ( false === self::is_installed() ) {
 			// Fresh Torro DB install
@@ -481,7 +488,7 @@ CREATE TABLE $wpdb->torro_email_notifications (
 			'menu_position'     => 50,
 		);
 
-		register_post_type( 'torro-forms', $args_post_type );
+		register_post_type( 'torro_form', $args_post_type );
 
 		/**
 		 * Categories
@@ -513,7 +520,7 @@ CREATE TABLE $wpdb->torro_email_notifications (
 			'rewrite'           => true,
 		);
 
-		register_taxonomy( 'torro-forms-categories', array( 'torro-forms' ), $args_taxonomy );
+		register_taxonomy( 'torro_form_category', array( 'torro_form' ), $args_taxonomy );
 
 		self::$post_types_registered = true;
 	}

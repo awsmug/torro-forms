@@ -186,7 +186,7 @@ final class Torro_AJAX {
 
 		$form = get_post( $form_id );
 
-		if ( ! $form || 'torro-forms' !== $form->post_type ) {
+		if ( ! $form || 'torro_form' !== $form->post_type ) {
 			return new Torro_Error( 'ajax_duplicate_form_invalid_form', __( 'The post is not a form.', 'torro-forms' ) );
 		}
 
@@ -236,7 +236,7 @@ final class Torro_AJAX {
 
 		$form = get_post( $form_id );
 
-		if ( 'torro-forms' !== $form->post_type ) {
+		if ( 'torro_form' !== $form->post_type ) {
 			return new Torro_Error( 'ajax_delete_responses_invalid_form', __( 'The post is not a form.', 'torro-forms' ) );
 		}
 
