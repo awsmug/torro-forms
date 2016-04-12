@@ -517,8 +517,8 @@ class Torro_Form extends Torro_Instance_Base {
 			$func = 'wp_update_post';
 		}
 
-		$post['post_type'] = 'torro_form';
-		$post['post_title'] = $this->title;
+		$post_data['post_type'] = 'torro_form';
+		$post_data['post_title'] = $this->title;
 
 		return call_user_func( $func, $post_data, true );
 	}
