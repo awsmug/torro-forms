@@ -551,17 +551,76 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	/**
 	 * Fired when the plugin is uninstalled.
 	 *
-	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled
-	 *                              or plugin is activated on an individual blog
+	 * Since the uninstallation process is unaware whether the plugin was active network-wide,
+	 * we simply check if we're on a multisite.
+	 *
+	 * If so, we (maybe) uninstall the plugin from all sites in the entire multisite (not only the current network). The `uninstall_single_site()` function will do the necessary checks whether the plugin
+	 * actually needs to be uninstalled on that site.
 	 *
 	 * @since 1.0.0
 	 */
-	public static function uninstall( $network_wide ) {
+	public static function uninstall() {
+		$globally = is_multisite();
+
+		self::register_tables();
+
+		if ( $globally ) {
+			foreach ( wp_get_sites( array( 'network_id' => false ) ) as $site ) {
+				switch_to_blog( $site['blog_id'] );
+				self::uninstall_single_site();
+				restore_current_blog();
+			}
+		} else {
+			self::uninstall_single_site();
+		}
 	}
 
-	public static function setup_single_site() {
+	private static function setup_single_site() {
 		self::setup();
 		self::custom_post_types();
+	}
+
+	private static function uninstall_single_site() {
+		global $wpdb;
+
+		// do not uninstall if version option is not set (meaning plugin was not active here)
+		$current_db_version = get_option( 'torro_db_version' );
+		if ( false === $current_db_version ) {
+			return;
+		}
+
+		// do not uninstall if hard uninstall option is not enabled
+		$do_hard_uninstall = get_option( 'torro_settings_general_hard_uninstall' );
+		if ( '1' !== $do_hard_uninstall && ( ! is_array( $do_hard_uninstall ) || '1' !== $do_hard_uninstall[0] ) ) {
+			return;
+		}
+
+		// delete custom tables
+		$tables = self::get_tables();
+		foreach ( $tables as $table ) {
+			$table_name = 'torro_' . $table;
+			$wpdb->query( "DROP TABLE {$wpdb->$table_name}" );
+		}
+
+		// delete form posts
+		$form_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type = 'torro_form'" );
+		foreach ( $form_ids as $form_id ) {
+			wp_delete_post( $form_id, true );
+		}
+
+		// delete form category terms
+		$form_category_ids = $wpdb->get_col( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = 'torro_form_category'" );
+		foreach ( $form_category_ids as $form_category_id ) {
+			wp_delete_term( $form_category_id, 'torro_form_category' );
+		}
+
+		// delete options
+		$option_names = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'torro_settings_%'" );
+		foreach ( $option_names as $option_name ) {
+			delete_option( $option_name );
+		}
+
+		delete_option( 'torro_db_version' );
 	}
 
 	public static function flush_network_rewrite_rules() {
