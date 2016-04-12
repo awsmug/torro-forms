@@ -46,7 +46,7 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		if ( $superior_id ) {
 			$instance->superior_id = absint( $superior_id );
 		} else {
-			$superior_id = 0;
+			$instance->superior_id = 0;
 		}
 		$id = $instance->update( $args );
 		if ( is_wp_error( $id ) ) {
