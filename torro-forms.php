@@ -240,23 +240,6 @@ class Torro_Init {
 	}
 
 	/**
-	 * Fired when the plugin is activated.
-	 *
-	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled
-	 *                              or plugin is activated on an individual blog
-	 *
-	 * @since 1.0.0
-	 */
-	public static function activate( $network_wide ) {
-		self::register_tables();
-		self::setup();
-
-		self::custom_post_types();
-
-		add_action( 'shutdown', 'flush_rewrite_rules' );
-	}
-
-	/**
 	 * Setting up base plugin data
 	 *
 	 * @since 1.0.0
@@ -526,6 +509,30 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	}
 
 	/**
+	 * Fired when the plugin is activated.
+	 *
+	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled
+	 *                              or plugin is activated on an individual blog
+	 *
+	 * @since 1.0.0
+	 */
+	public static function activate( $network_wide ) {
+		self::register_tables();
+
+		if ( $network_wide ) {
+			foreach ( wp_get_sites() as $site ) {
+				switch_to_blog( $site['blog_id'] );
+				self::setup_single_site();
+				restore_current_blog();
+			}
+			add_action( 'shutdown', array( __CLASS__, 'flush_network_rewrite_rules' ) );
+		} else {
+			self::setup_single_site();
+			add_action( 'shutdown', 'flush_rewrite_rules' );
+		}
+	}
+
+	/**
 	 * Fired when the plugin is deactivated.
 	 *
 	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled
@@ -534,7 +541,11 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	 * @since 1.0.0
 	 */
 	public static function deactivate( $network_wide ) {
-		add_action( 'shutdown', 'flush_rewrite_rules' );
+		if ( $network_wide ) {
+			add_action( 'shutdown', array( __CLASS__, 'flush_network_rewrite_rules' ) );
+		} else {
+			add_action( 'shutdown', 'flush_rewrite_rules' );
+		}
 	}
 
 	/**
@@ -546,6 +557,19 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	 * @since 1.0.0
 	 */
 	public static function uninstall( $network_wide ) {
+	}
+
+	public static function setup_single_site() {
+		self::setup();
+		self::custom_post_types();
+	}
+
+	public static function flush_network_rewrite_rules() {
+		foreach ( wp_get_sites() as $site ) {
+			switch_to_blog( $site['blog_id'] );
+			flush_rewrite_rules();
+			restore_current_blog();
+		}
 	}
 }
 
