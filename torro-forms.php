@@ -534,8 +534,6 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	 * @since 1.0.0
 	 */
 	public static function deactivate( $network_wide ) {
-		delete_option( 'torro_is_installed' );
-
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
