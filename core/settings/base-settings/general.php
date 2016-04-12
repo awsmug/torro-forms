@@ -65,7 +65,7 @@ final class Torro_General_Settings extends Torro_Settings {
 		$this->settings = array(
 			'disclaimer'	=> array(
 				'title'			=> __( 'Welcome to Torro Forms!', 'torro-forms' ),
-				'description'	=> __( 'You want to build any forms in a easy way? Torro Forms will help you to do it in the very easy way with ton of options.', 'torro-forms' ),
+				'description'	=> __( 'You want to build forms in an easy way? Torro Forms will help you do it quickly, yet with tons of options.', 'torro-forms' ),
 				'type'			=> 'disclaimer'
 			),
 			'modules_title'	=> array(
