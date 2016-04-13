@@ -86,7 +86,6 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$this->title = __( 'Email Notifications', 'torro-forms' );
 		$this->name = 'emailnotifications';
 
-		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
 		add_action( 'media_buttons', array( $this, 'add_media_button' ), 20 );
 	}
 

@@ -70,8 +70,6 @@ final class Torro_Redirection_Action extends Torro_Action {
 	protected function init() {
 		$this->title = __( 'Redirections', 'torro-forms' );
 		$this->name  = 'redirections';
-
-		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
 	}
 
 	/**

@@ -52,6 +52,8 @@ abstract class Torro_Action extends Torro_Base {
 	 */
 	protected function __construct() {
 		parent::__construct();
+
+		add_action( 'torro_formbuilder_save', array( $this, 'save_option_content' ) );
 	}
 
 	/**
@@ -94,6 +96,10 @@ abstract class Torro_Action extends Torro_Base {
 	 * Content of option in Form builder
 	 */
 	public function option_content() {
+		return null;
+	}
+
+	public function save_option_content() {
 		return null;
 	}
 }
