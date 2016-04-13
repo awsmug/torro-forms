@@ -150,6 +150,13 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 	 * @since 1.0.0
 	 */
 	protected function get_media_types() {
+		// WordPress >= 4.6 has this function
+		if ( function_exists( 'wp_get_ext_types' ) ) {
+			return wp_get_ext_types();
+		}
+
+		// for older versions, manually implement the function
+
 		// this filter is a WP Core filter reapplied here (see `wp_ext2type()`)
 		$ext2type = apply_filters( 'ext2type', array(
 			'image'       => array( 'jpg', 'jpeg', 'jpe',  'gif',  'png',  'bmp',   'tif',  'tiff', 'ico' ),
