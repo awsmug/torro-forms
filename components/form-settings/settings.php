@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Access_Controls_Settings extends Torro_Settings {
+final class Torro_Form_Settings_Settings extends Torro_Settings {
 	/**
 	 * Instance
 	 *
@@ -59,9 +59,9 @@ final class Torro_Access_Controls_Settings extends Torro_Settings {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		$this->title = __( 'Access Control', 'torro-forms' );
-		$this->name = 'access_controls';
+		$this->title = __( 'Form Settings', 'torro-forms' );
+		$this->name = 'form_settings';
 	}
 }
 
-torro()->settings()->register( 'Torro_Access_Controls_Settings' );
+torro()->settings()->register( 'Torro_Form_Settings_Settings' );
