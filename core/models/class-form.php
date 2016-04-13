@@ -520,7 +520,15 @@ class Torro_Form extends Torro_Instance_Base {
 		$post_data['post_type'] = 'torro_form';
 		$post_data['post_title'] = $this->title;
 
-		return call_user_func( $func, $post_data, true );
+		$id = call_user_func( $func, $post_data, true );
+
+		if( is_wp_error( $id ) || is_empty( $id ) ) {
+			return new Torro_Error( 'cannot_insert_post', __( 'Could not insert post.', 'torro-forms' ), __METHOD__ );
+		}
+
+		$this->id = absint( $id );
+
+		return $this->id;
 	}
 
 	/**
