@@ -106,7 +106,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		$form_id = $post->ID;
 
 		if ( $this->is_enabled( $form_id ) && ! $this->is_configured() ) {
-			torro()->admin_notices()->add( 'recaptcha_not_configured', sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'torro-forms' ), admin_url( 'edit.php?post_type=torro_form&page=Torro_Admin&tab=access_controls&section=recaptcha' ) ), 'warning' );
+			torro()->admin_notices()->add( 'recaptcha_not_configured', sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'torro-forms' ), admin_url( 'edit.php?post_type=torro_form&page=Torro_Admin&tab=form_settings&section=spam_protection' ) ), 'warning' );
 		}
 	}
 
