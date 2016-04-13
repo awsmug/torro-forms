@@ -43,7 +43,7 @@ abstract class Torro_Access_Control extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	protected $settings_name = 'access_controls';
+	protected $settings_name = 'form_settings';
 
 	/**
 	 * Message

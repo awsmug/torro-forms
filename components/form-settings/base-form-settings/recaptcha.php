@@ -37,6 +37,13 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 */
 	private static $instance = null;
 
+	/**
+	 * Settings name
+	 *
+	 * @since 1.0.0
+	 */
+	protected $settings_name = 'form_settings';
+
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
