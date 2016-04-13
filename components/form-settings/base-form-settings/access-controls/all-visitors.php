@@ -77,6 +77,11 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		add_action( 'torro_response_saved', array( $this, 'set_cookie' ), 10 );
 		add_action( 'torro_response_saved', array( $this, 'save_ip' ), 10 );
 		// add_action( 'torro_response_saved', array( $this, 'save_fingerprint' ), 10 ); // Todo: Adding later after AJAXING forms
+
+		torro()->ajax()->register_action( 'check_fngrprnt', array(
+			'callback'		=> array( $this, 'ajax_check_fngrprnt' ),
+			'nopriv'		=> true,
+		) );
 	}
 
 	/**
@@ -366,6 +371,52 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	}
 	*/
 
+	/**
+	 * Checking fingerprint of a user
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function ajax_check_fngrprnt( $data ) {
+		global $wpdb, $torro_skip_fingerrint_check;
+
+		if ( ! isset( $data['torro_form_id'] ) ) {
+			return new Torro_Error( 'ajax_check_fngrprnt_torro_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'torro_form_id' ) );
+		}
+
+		if ( ! isset( $data['fngrprnt'] ) ) {
+			return new Torro_Error( 'ajax_check_fngrprnt_form_process_error', __( 'Error on processing form.', 'torro-forms' ) );
+		}
+
+		if ( ! isset( $data['form_action_url'] ) ) {
+			return new Torro_Error( 'ajax_check_fngrprnt_form_action_url_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_action_url' ) );
+		}
+
+		$content = '';
+
+		$torro_form_id = $data['torro_form_id'];
+		$fingerprint = $data['fngrprnt'];
+
+		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND cookie_key=%s", $torro_form_id, $fingerprint );
+		$count = absint( $wpdb->get_var( $sql ) );
+
+		if ( 0 === $count ) {
+			$torro_skip_fingerrint_check = true;
+
+			$content .= torro()->forms()->get( $torro_form_id )->html( $data['form_action_url'] );
+
+		} else {
+			$content .= '<div class="form-message error">' . esc_html__( 'You have already entered your data.', 'torro-forms' ) . '</div>';
+		}
+
+		$response = array(
+			'html'	=> $content,
+		);
+
+		return $response;
+	}
 }
 
 torro()->access_controls()->register( 'Torro_Access_Control_All_Visitors' );

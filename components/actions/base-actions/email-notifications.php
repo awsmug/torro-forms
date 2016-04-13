@@ -87,6 +87,10 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$this->name = 'emailnotifications';
 
 		add_action( 'media_buttons', array( $this, 'add_media_button' ), 20 );
+
+		torro()->ajax()->register_action( 'get_email_notification_html', array(
+			'callback'		=> array( $this, 'ajax_get_email_notification_html' ),
+		) );
 	}
 
 	/**
@@ -379,13 +383,25 @@ final class Torro_Email_Notifications extends Torro_Action {
 	}
 
 	/**
-	 * Function to set standard editor to tinymce prevent tab issues on editor
+	 * Get email notification html
 	 *
-	 * @return string
+	 * @param $data
+	 *
+	 * @return array
 	 * @since 1.0.0
 	 */
-	public static function std_editor_tinymce() {
-		return 'tinymce';
+	public function ajax_get_email_notification_html( $data ) {
+		$id = time();
+		$editor_id = 'email_notification_message-' . $id;
+
+		$html = torro()->actions()->get_registered( 'emailnotifications' )->get_notification_settings_html( '_AJAX_' . $id, __( 'New Email Notification' ) );
+
+		$response = Torro_AJAX_WP_Editor::get( '', $editor_id );
+
+		$response['id'] = $id;
+		$response['html'] = str_replace( '<% wp_editor %>', $response['html'], $html );
+
+		return $response;
 	}
 }
 

@@ -77,6 +77,25 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 
+		torro()->ajax()->register_action( 'add_participants_allmembers', array(
+			'callback'		=> array( $this, 'ajax_add_participants_allmembers' ),
+		) );
+		torro()->ajax()->register_action( 'invite_participants', array(
+			'callback'		=> array( $this, 'ajax_invite_participants' ),
+		) );
+		torro()->ajax()->register_action( 'get_invite_text', array(
+			'callback'		=> array( $this, 'ajax_get_invite_text' ),
+		) );
+		torro()->ajax()->register_action( 'get_participants_list', array(
+			'callback'		=> array( $this, 'ajax_get_participants_list' ),
+		) );
+		torro()->ajax()->register_action( 'delete_all_participants', array(
+			'callback'		=> array( $this, 'ajax_delete_all_participants' ),
+		) );
+		torro()->ajax()->register_action( 'delete_participant', array(
+			'callback'		=> array( $this, 'ajax_delete_participant' ),
+		) );
+
 		$this->settings_fields = array(
 			'invitations'			=> array(
 				'title'					=> __( 'Invitation Mail Template', 'torro-forms' ),
@@ -794,6 +813,333 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		wp_enqueue_script( 'torro-templatetags', torro()->get_asset_url( 'templatetags', 'js' ), array( 'wp-util' ) );
 		wp_localize_script( 'torro-templatetags', 'translation_fb', $translation );
+	}
+
+	/**
+	 * Adding all members to participants list
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function ajax_add_participants_allmembers( $data ) {
+		global $wpdb;
+
+		if( ! isset( $data[ 'form_id' ] ) ){
+			return new Torro_Error( 'torro_ajax_add_participants_allmembers_no_form_id', __( 'No form ID provided.', 'torro-forms') );
+		}
+
+		$form_id = $data[ 'form_id' ];
+		$users = get_users( array( 'orderby' => 'ID' ) );
+		$response = array();
+
+		foreach ( $users as $user ) {
+			$sql = $wpdb->prepare( "SELECT count(*) FROM {$wpdb->torro_participants} WHERE form_id = %d AND user_id = %d ", $form_id, $user->ID );
+
+			if( 0 !== (int) $wpdb->get_var( $sql ) ){
+				continue;
+			}
+
+			$wpdb->insert(
+				$wpdb->torro_participants,
+				array(
+					'form_id' => $form_id,
+					'user_id' => $user->ID,
+				),
+				array(
+					'%d',
+					'%d'
+				)
+			);
+
+			$response[ 'participants' ][] = array(
+				'id'			=> $user->ID,
+				'user_nicename'	=> $user->user_nicename,
+				'display_name'	=> $user->display_name,
+				'user_email'	=> $user->user_email,
+			);
+		}
+
+		$html  = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_html( $form_id );
+		$response[ 'html' ] = $html;
+
+		return $response;
+	}
+
+	/**
+	 * Inivite participants by sending out emails
+	 *
+	 * @param $data
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
+	public function ajax_invite_participants( $data ) {
+		global $wpdb;
+
+		if ( ! isset( $data['form_id'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_id' ) );
+		}
+
+		if ( ! isset( $data['from_name'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_from_name_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'from_name' ) );
+		}
+
+		if ( ! isset( $data['from'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_from_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'from' ) );
+		}
+
+		if ( ! isset( $data['subject'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_subject_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'subject' ) );
+		}
+
+		if ( ! isset( $data['text'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_text_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'text' ) );
+		}
+
+		if ( ! isset( $data['invitation_type'] ) ) {
+			return new Torro_Error( 'ajax_invite_participants_invitation_type_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'invitation_type' ) );
+		}
+
+		$response = array(
+			'sent'	=> false,
+			'users'	=> array(),
+		);
+
+		$form_id = $data['form_id'];
+		$from_name = $data['from_name'];
+		$from = $data['from'];
+		$subject = $data['subject'];
+		$text = $data['text'];
+
+		$sql = "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d";
+		$sql = $wpdb->prepare( $sql, $form_id );
+		$user_ids = $wpdb->get_col( $sql );
+
+		if ( 'reinvite' === $data[ 'invitation_type' ] ) {
+			$user_ids_new = '';
+			if ( is_array( $user_ids ) && 0 < count( $user_ids ) ) {
+				foreach ( $user_ids as $user_id ) {
+					if ( ! torro()->forms()->get( $form_id )->has_participated( $user_id ) ) {
+						$user_ids_new[] = $user_id;
+					}
+				}
+			}
+			$user_ids = $user_ids_new;
+		}
+
+		$post = get_post( $form_id );
+
+		if ( is_array( $user_ids ) && count( $user_ids ) > 0 ) {
+			$users = get_users( array(
+				'include'	=> $user_ids,
+				'orderby'	=> 'ID',
+			) );
+
+			$content = str_replace( '%site_name%', get_bloginfo( 'name' ), $text );
+			$content = str_replace( '%survey_title%', $post->post_title, $content );
+			$content = str_replace( '%survey_url%', get_permalink( $post->ID ), $content );
+
+			$subject = str_replace( '%site_name%', get_bloginfo( 'name' ), $subject );
+			$subject = str_replace( '%survey_title%', $post->post_title, $subject );
+			$subject = str_replace( '%survey_url%', get_permalink( $post->ID ), $subject );
+
+			foreach ( $users as $user ) {
+				$response['users'][] = $user->ID;
+				if ( ! empty( $user->data->display_name ) ) {
+					$display_name = $user->data->display_name;
+				} else {
+					$display_name = $user->data->user_nicename;
+				}
+
+				$user_nicename = $user->data->user_nicename;
+				$user_email = $user->data->user_email;
+
+				$subject_user = str_replace( '%displayname%', $display_name, $subject );
+				$subject_user = str_replace( '%username%', $user_nicename, $subject_user );
+
+				$content_user = str_replace( '%displayname%', $display_name, $content );
+				$content_user = str_replace( '%username%', $user_nicename, $content_user );
+
+				torro_mail( $user_email, $subject_user, stripslashes( $content_user ), $from_name, $from );
+			}
+
+			$response['sent'] = true;
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Getting invitation texts from text templates
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
+	public function ajax_get_invite_text(){
+		$invite_type = $_POST[ 'invite_type' ];
+		$invite_from_name = '';
+		$invite_from = '';
+		$invite_subject = '';
+		$invite_text = '';
+
+		switch( $invite_type ){
+			case 'invite':
+				$invite_from_name = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_from_name' ];
+				$invite_from = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_from' ];
+				$invite_subject = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_subject' ];
+				$invite_text = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'invite_text' ];
+				break;
+
+			case 'reinvite':
+				$invite_from_name = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_from_name' ];
+				$invite_from = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_from' ];
+				$invite_subject = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_subject' ];
+				$invite_text = torro()->access_controls()->get_registered( 'selectedmembers' )->settings[ 'reinvite_text' ];
+				break;
+		}
+
+		$response = array(
+			'invite_from_name' => $invite_from_name,
+			'invite_from' => $invite_from,
+			'invite_subject' => $invite_subject,
+			'invite_text' => $invite_text
+		);
+
+		return $response;
+	}
+
+	/**
+	 * Getting larticipant list
+	 *
+	 * @param $data
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
+	public function ajax_get_participants_list( $data ){
+		$form_id = $data[ 'form_id' ];
+		$start = $data[ 'start' ];
+		$length = $data[ 'length' ];
+		$num_results = $data[ 'num_results' ];
+
+		if( empty( $start ) ){
+			$start = 0;
+		}
+
+		if( empty( $length ) ){
+			$length = 10;
+		}
+
+		$table = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_table_html( $form_id, $start, $length );
+		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
+
+		if( is_wp_error( $table ) ){
+			return $table;
+		}
+		if( is_wp_error( $navi ) ){
+			return $navi;
+		}
+
+		$response = array(
+			'table' => $table,
+			'navi' => $navi,
+		);
+
+		return $response;
+	}
+
+	/**
+	 * Deleting all participants from survey
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function ajax_delete_all_participants( $data ){
+		global $wpdb;
+
+		$form_id = $data[ 'form_id' ];
+
+		if( empty( $form_id ) ){
+			return new Torro_Error( 'torro_participants_delete_all_missing_form_id', __( 'Missing form ID.', 'torro-forms') );
+		}
+
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$wpdb->torro_participants} WHERE form_id = %d", $form_id );
+		$results = $wpdb->get_col( $sql );
+
+		$deleted = $wpdb->delete( $wpdb->torro_participants, array( 'form_id' => $form_id ), array( '%d' ) );
+
+		if( false === $deleted ){
+			return new Torro_Error( 'torro_participants_delete_all_failed', __( 'Failed to delete participants.', 'torro-forms') );
+		}
+
+		$start = 0;
+		$length = 10;
+		$num_results = 0;
+
+		$table = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_table_html( $form_id, $start, $length );
+		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
+
+		return array(
+			'user_ids'  => $results,
+			'table'     => $table,
+			'navi'      => $navi,
+		);
+	}
+
+	/**
+	 * Deleting a participant
+	 *
+	 * @param $data
+	 *
+	 * @return array|Torro_Error
+	 * @since 1.0.0
+	 */
+	public function ajax_delete_participant( $data ){
+		global $wpdb;
+
+		$form_id = $data[ 'form_id' ];
+		$user_id = $data[ 'user_id' ];
+
+		if( empty( $form_id ) ){
+			return new Torro_Error( 'torro_participants_delete_missing_form_id', __( 'Missing form ID.', 'torro-forms') );
+		}
+		if( empty( $user_id ) ){
+			return new Torro_Error( 'torro_participants_delete_missing_user_id', __( 'Missing user ID.', 'torro-forms') );
+		}
+
+		$deleted = $wpdb->delete( $wpdb->torro_participants, array( 'form_id' => $form_id, 'user_id' => $user_id ), array( '%d', '%d' ) );
+
+		if( false ===  $deleted ){
+			return new Torro_Error( 'torro_participants_delete_all_failed', __( 'Failed to delete participants.', 'torro-forms') );
+		}
+
+		$start = 0;
+		if( isset( $data[ 'start' ] ) ){
+			$start = $data[ 'start' ];
+		}
+
+		$length = 10;
+		if( isset( $data[ 'length' ] ) ){
+			$length = $data[ 'length' ];
+		}
+
+		$num_results = 0;
+		if( isset( $data[ 'num_results' ] ) ){
+			$num_results = $data[ 'num_results' ] -1;
+		}
+
+		$table = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_table_html( $form_id, $start, $length );
+		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
+
+		return array(
+			'user_id' => $user_id,
+			'table'     => $table,
+			'navi'      => $navi,
+		);
 	}
 }
 torro()->access_controls()->register( 'Torro_Access_Control_Selected_Members' );
