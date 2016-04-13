@@ -97,6 +97,13 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	}
 
 	private function get_class_name_by_type( $type ) {
-		return apply_filters( 'torro_element_type_class_name', 'Torro_Form_Element_' . ucfirst( $type ), $type );
+		$element_types = $this->get_all_registered();
+
+		$class_name = 'Torro_Form_Element_' . ucfirst( $type );
+		if ( isset( $element_types[ $type ] ) ) {
+			$class_name = get_class( $element_types[ $type ] );
+		}
+
+		return apply_filters( 'torro_element_type_class_name', $class_name, $type );
 	}
 }
