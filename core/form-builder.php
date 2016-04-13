@@ -427,8 +427,24 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function delete( $form_id ) {
-		$form = new Torro_Form( $form_id );
-		$form->delete();
+		if ( 'torro_form' !== get_post_type( $form_id ) ) {
+			return;
+		}
+
+		torro()->containers()->delete_by_query( array(
+			'form_id'	=> $form_id,
+			'number'	=> -1,
+		) );
+
+		torro()->participants()->delete_by_query( array(
+			'form_id'	=> $form_id,
+			'number'	=> -1,
+		) );
+
+		torro()->results()->delete_by_query( array(
+			'form_id'	=> $form_id,
+			'number'	=> -1,
+		) );
 	}
 
 	/**
