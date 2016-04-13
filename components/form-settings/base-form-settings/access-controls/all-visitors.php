@@ -76,7 +76,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 		add_action( 'torro_response_saved', array( $this, 'set_cookie' ), 10 );
 		add_action( 'torro_response_saved', array( $this, 'save_ip' ), 10 );
-		add_action( 'torro_response_saved', array( $this, 'save_fingerprint' ), 10 );
+		// add_action( 'torro_response_saved', array( $this, 'save_fingerprint' ), 10 ); // Todo: Adding later after AJAXING forms
 	}
 
 	/**
@@ -110,12 +110,14 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		/**
 		 * Check browser fingerprint
 		 */
+		/*
 		if ( array_key_exists( 'form_access_controls_check_fingerprint', $_POST ) ) {
 			$access_controls_check_fingerprint = $_POST['form_access_controls_check_fingerprint'];
 			update_post_meta( $form_id, 'form_access_controls_check_fingerprint', $access_controls_check_fingerprint );
 		} else {
 			update_post_meta( $form_id, 'form_access_controls_check_fingerprint', '' );
 		}
+		*/
 	}
 
 	/**
@@ -124,7 +126,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts() {
-		wp_enqueue_script( 'fingerprintjs2', torro()->get_asset_url( 'fingerprintjs2/dist/fingerprint2.min', 'vendor-js', true ) );
+		// wp_enqueue_script( 'fingerprintjs2', torro()->get_asset_url( 'fingerprintjs2/dist/fingerprint2.min', 'vendor-js', true ) );
 	}
 
 	/**
@@ -163,6 +165,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		/**
 		 * Check browser fingerprint
 		 */
+		/*
 		$access_controls_check_fingerprint = get_post_meta( $form_id, 'form_access_controls_check_fingerprint', true );
 		$checked = 'yes' === $access_controls_check_fingerprint ? ' checked' : '';
 
@@ -170,7 +173,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		$html .= '<label for="form_access_controls_check_fingerprint">' . esc_attr__( 'by Browser Fingerprint', 'torro-forms' ) . '</label>';
 
 		$html .= '</fieldset></td>';
-
+		*/
 		$html .= '</tr>';
 		$html .= '</table>';
 
@@ -211,6 +214,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 		$access_controls_check_fingerprint = get_post_meta( $torro_form_id, 'form_access_controls_check_fingerprint', true );
 
+		/*
 		if ( 'yes' === $access_controls_check_fingerprint && true !== $torro_skip_fingerrint_check ) {
 			$actual_step = 0;
 			if ( isset( $_POST['torro_actual_step'] ) ) {
@@ -266,6 +270,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 			return false;
 		}
+		*/
 
 		return true;
 	}
@@ -326,6 +331,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	/**
 	 * Setting Cookie for one year
 	 */
+	/*
 	public function save_fingerprint( $response_id ) {
 		global $wpdb, $torro_form_id;
 
@@ -340,12 +346,14 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 			'id' => $response_id,
 		) );
 	}
+	*/
 
 	/**
 	 * Adding fingerprint post field
 	 *
 	 * @since 1.0.0
 	 */
+	/*
 	public function add_fingerprint_input() {
 		global $torro_form_id;
 
@@ -356,6 +364,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 		echo '<input type="hidden" id="torro-fngrprnt" name="torro_fngrprnt" />';
 	}
+	*/
 
 }
 
