@@ -144,6 +144,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		parent::__construct( $id );
 
 		$this->settings_fields();
+		$this->prepopulate_settings();
 	}
 
 	/**
@@ -611,7 +612,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	protected function admin_widget_settings_field( $name, $field ) {
 		$value = '';
 
-		if ( array_key_exists( $name, $this->settings ) ) {
+		if ( isset( $this->settings[ $name ] ) && isset( $this->settings[ $name ]->id ) ) {
 			$id = $this->settings[ $name ]->id;
 			$value = $this->settings[ $name ]->value;
 			$name = $this->settings[ $name ]->name;
@@ -755,6 +756,19 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 			$this->settings = array();
 			foreach ( $settings as $setting ) {
 				$this->settings[ $setting->name ] = $setting;
+			}
+		}
+	}
+
+	protected function prepopulate_settings() {
+		foreach ( $this->settings_fields as $setting_name => $data ) {
+			if ( ! isset( $this->settings[ $setting_name ] ) ) {
+				$this->settings[ $setting_name ] = new stdClass();
+				if ( isset( $data['default'] ) ) {
+					$this->settings[ $setting_name ]->value = $data['default'];
+				} else {
+					$this->settings[ $setting_name ]->value = '';
+				}
 			}
 		}
 	}
