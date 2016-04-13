@@ -556,7 +556,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		} else {
 			if ( $this->input_answers ) {
 				$param_arr[]    = $this->create_answer_syntax;
-				$temp_answer_id = torro()->generate_temp_id();
+				$temp_answer_id = torro_generate_temp_id();
 
 				$html .= '<div class="answers">';
 				$html .= '<div class="answer" id="answer_' . $temp_answer_id . '">';
@@ -616,7 +616,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 			$value = $this->settings[ $name ]->value;
 			$name = $this->settings[ $name ]->name;
 		}else{
-			$id = torro()->generate_temp_id();
+			$id = torro_generate_temp_id();
 		}
 
 		if ( '' == $value ) {

@@ -355,28 +355,6 @@ final class Torro {
 		fputs( $file, $message . chr( 13 ) );
 		fclose( $file );
 	}
-
-	/**
-	 * Generating temporary id
-	 *
-	 * @return string
-	 * @since 1.0.0
-	 */
-	public function generate_temp_id() {
-		return substr( 'temp_id_' . time() * rand(), 0, 14 );
-	}
-
-	/**
-	 * Returns if id is temp id
-	 *
-	 * @param $id
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	public function is_temp_id( $id ) {
-		return 'temp_id' === substr( $id, 0, 7 );
-	}
 }
 
 /**

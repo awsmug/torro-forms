@@ -138,7 +138,7 @@ function torro_is_form() {
  * @since 1.0.0
  */
 function torro_clipboard_field( $label, $content ) {
-	$id = 'cb_' . torro_id();
+	$id = torro_generate_temp_id();
 
 	$html = '<div class="clipboardfield">';
 	$html .= '<label for="' . $id . '">' . $label . '</label> ';
@@ -335,14 +335,6 @@ function torro_mail( $to_email, $subject, $content, $from_name = null, $from_ema
 
 	$result = wp_mail( $to_email, $subject, $content );
 
-	// Logging
-	$content = str_replace( chr( 13 ), '', strip_tags( $content ) );
-	torro_create_log_entry( array(
-		                        $to_email,
-		                        $subject,
-		                        $content,
-	                        ) );
-
 	remove_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
 	remove_filter( 'wp_mail_from', 'torro_change_email_return_address' );
 	unset( $torro_tmp_email_settings );
@@ -351,75 +343,25 @@ function torro_mail( $to_email, $subject, $content, $from_name = null, $from_ema
 }
 
 /**
- * Base logging function
+ * Generating temporary id
  *
- * @param array $values The values which have to be saved
- *
+ * @return string
  * @since 1.0.0
  */
-function torro_create_log_entry( $values ) {
-	if ( ! is_array( $values ) ) {
-		return;
-	}
-
-	$line = date( 'Y-m-d;H:i:s;' );
-
-	foreach ( $values as $value ) {
-		$line .= $value . ';';
-	}
-
-	$line = str_replace( array(
-		                     "\r\n",
-		                     "\n\r",
-		                     "\n",
-		                     "\r",
-	                     ), ' ', $line );
-
-	$line .= chr( 13 );
-
-	$logdir = WP_CONTENT_DIR . '/logs/';
-
-	if ( ! file_exists( $logdir ) ) {
-		mkdir( $logdir );
-	}
-
-	$logfile = $logdir . 'awesome-forms.log';
-
-	$file = fopen( $logfile, 'a' );
-	fwrite( $file, $line );
-	fclose( $file );
+function torro_generate_temp_id() {
+	return substr( 'temp_id_' . time() * rand(), 0, 14 );
 }
 
 /**
- * Preparing input data
+ * Returns if id is temp id
  *
- * @param string $data
+ * @param $id
  *
- * @return string $data
+ * @return bool
  * @since 1.0.0
  */
-function torro_prepare_post_data( $data ) {
-	// Do not preparing objects or arrays
-	if ( is_object( $data ) || is_array( $data ) ) {
-		return $data;
-	}
-
-	$data = trim( $data );
-	$data = stripslashes( $data );
-
-	return $data;
-}
-
-/**
- * Creates a random id
- *
- * @return string $id ID string
- * @since 1.0.0
- */
-function torro_id() {
-	$id = md5( rand() );
-
-	return $id;
+function torro_is_temp_id( $id ) {
+	return 'temp_id' === substr( $id, 0, 7 );
 }
 
 /**

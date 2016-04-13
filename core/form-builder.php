@@ -117,7 +117,7 @@ class Torro_Formbuilder {
 			$html .= '</div>';
 		}else{
 			$label =  esc_attr( 'Page', 'torro-forms' ) . ' 1';
-			$temp_id = torro()->generate_temp_id();
+			$temp_id = torro_generate_temp_id();
 
 			$html .= '<div id="containers" class="tabs">';
 			$html .= '<ul class="container-tabs">';
@@ -248,7 +248,7 @@ class Torro_Formbuilder {
 
 		foreach ( $containers as $container ) {
 			if( isset( $container[ 'id' ] ) && 'container_id' !== $container['id'] ) {
-				if( torro()->is_temp_id( $container['id'] )  ){
+				if( torro_is_temp_id( $container['id'] )  ){
 					$container['id'] = '';
 				}
 
@@ -277,7 +277,7 @@ class Torro_Formbuilder {
 					$elements = $container['elements'];
 
 					foreach ( $elements as $element ) {
-						if( torro()->is_temp_id( $element['id'] )  ){
+						if( torro_is_temp_id( $element['id'] )  ){
 							$element['id'] = '';
 						}
 
@@ -308,7 +308,7 @@ class Torro_Formbuilder {
 
 							foreach ( $answers as $answer ){
 								if ( isset( $answer['id'] ) ) {
-									if ( torro()->is_temp_id( $answer['id'] ) ) {
+									if ( torro_is_temp_id( $answer['id'] ) ) {
 										$answer['id'] = '';
 									}
 
@@ -340,7 +340,7 @@ class Torro_Formbuilder {
 							$settings = $element['settings'];
 
 							foreach ( $settings as $setting ){
-								if ( torro()->is_temp_id( $setting['id'] ) ) {
+								if ( torro_is_temp_id( $setting['id'] ) ) {
 									$setting['id'] = '';
 								}
 
