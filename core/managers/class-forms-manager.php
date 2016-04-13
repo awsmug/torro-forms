@@ -79,6 +79,13 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 			unset( $args['number'] );
 		}
 
+		if ( ! isset( $args['orderby'] ) ) {
+			$args['orderby'] = 'none';
+		}
+		if ( ! isset( $args['order'] ) ) {
+			$args['order'] = 'ASC';
+		}
+
 		$posts = get_posts( $args );
 
 		$results = array();
