@@ -695,13 +695,13 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function is_participant( $user_id = null ) {
-		global $wpdb, $current_user;
+		global $wpdb;
 
 		$torro_form_id = torro()->forms()->get_current_form_id();
 
 		// Setting up user ID
 		if ( null === $user_id ) {
-			get_currentuserinfo();
+			$current_user = wp_get_current_user();
 			$user_id = $user_id = $current_user->ID;
 		}
 
