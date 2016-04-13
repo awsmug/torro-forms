@@ -102,7 +102,9 @@ abstract class Torro_Extension extends Torro_Base {
 			$this->includes();
 		}
 
-		add_action( 'admin_init', array( $this, 'plugin_updater' ), 0 );
+		if ( isset( $this->settings_fields['serial'] ) ) {
+			add_action( 'admin_init', array( $this, 'plugin_updater' ), 0 );
+		}
 	}
 
 	public function plugin_updater() {
@@ -124,5 +126,78 @@ abstract class Torro_Extension extends Torro_Base {
 				// author of this plugin
 			) );
 		}
+	}
+
+	/**
+	 * Returns path to plugin
+	 *
+	 * @param string $path adds sub path
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public function get_path( $path = '' ) {
+		return plugin_dir_path( $this->plugin_file ) . ltrim( $path, '/' );
+	}
+
+	/**
+	 * Returns url to plugin
+	 *
+	 * @param string $path adds sub path
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public function get_url( $path = '' ) {
+		return plugin_dir_url( $this->plugin_file ) . ltrim( $path, '/' );
+	}
+
+	/**
+	 * Returns asset url path
+	 *
+	 * @param string $name Name of asset
+	 * @param string $mode css/js/png/gif/svg/vendor-css/vendor-js
+	 * @param boolean $force whether to force to load the provided version of the file (not using .min conditionally)
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public function get_asset_url( $name, $mode = '', $force = false ) {
+		$urlpath = 'assets/';
+
+		$can_min = true;
+
+		switch ( $mode ) {
+			case 'css':
+				$urlpath .= 'dist/css/' . $name . '.css';
+				break;
+			case 'js':
+				$urlpath .= 'dist/js/' . $name . '.js';
+				break;
+			case 'png':
+			case 'gif':
+			case 'svg':
+				$urlpath .= 'dist/img/' . $name . '.' . $mode;
+				$can_min = false;
+				break;
+			case 'vendor-css':
+				$urlpath .= 'vendor/' . $name . '.css';
+				break;
+			case 'vendor-js':
+				$urlpath .= 'vendor/' . $name . '.js';
+				break;
+			default:
+				return '';
+		}
+
+		if ( $can_min && ! $force ) {
+			if ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) {
+				$urlpath = explode( '.', $urlpath );
+				array_splice( $urlpath, count( $urlpath ) - 1, 0, 'min' );
+				$urlpath = implode( '.', $urlpath );
+			}
+		}
+
+		return $this->get_url( $urlpath );
 	}
 }
