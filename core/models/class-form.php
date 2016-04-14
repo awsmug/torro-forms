@@ -472,16 +472,18 @@ class Torro_Form extends Torro_Instance_Base {
 	 */
 	protected function populate( $id ) {
 		if ( is_object( $id ) && isset( $id->ID ) ) {
-			$this->id = absint( $id->ID );
+			$id = absint( $id->ID );
 		} else {
-			$this->id = absint( $id );
+			$id = absint( $id );
 		}
 
-		if ( ! $this->exists() ) {
-			return false;
+		$form = get_post( $id );
+		if ( ! $form ) {
+			return;
 		}
 
-		$form        = get_post( $this->id );
+		$this->id = $form->ID;
+
 		$this->title = $form->post_title;
 
 		$this->containers = torro()->containers()->query( array(
