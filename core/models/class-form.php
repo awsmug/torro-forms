@@ -488,18 +488,28 @@ class Torro_Form extends Torro_Instance_Base {
 		$form        = get_post( $this->id );
 		$this->title = $form->post_title;
 
-		$query_args = array(
+		$this->containers = torro()->containers()->query( array(
 			'form_id'	=> $this->id,
 			'number'	=> -1,
-		);
-		$sorted_query_args = array_merge( $query_args, array(
 			'orderby'		=> 'sort',
 			'order'			=> 'ASC',
 		) );
 
-		$this->containers = torro()->containers()->query( $sorted_query_args );
-		$this->elements = torro()->elements()->query( $sorted_query_args );
-		$this->participants = torro()->participants()->query( $query_args );
+		$container_ids = array();
+		foreach ( $this->containers as $container ) {
+			$container_ids[] = $container->id;
+		}
+		$this->elements = torro()->elements()->query( array(
+			'container_id'	=> $container_ids,
+			'number'		=> -1,
+			'orderby'		=> 'sort',
+			'order'			=> 'ASC',
+		) );
+
+		$this->participants = torro()->participants()->query( array(
+			'form_id'	=> $this->id,
+			'number'	=> -1,
+		) );
 	}
 
 	protected function exists_in_db() {

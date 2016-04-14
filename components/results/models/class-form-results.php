@@ -104,7 +104,7 @@ class Torro_Form_Results {
 		    'refresh_view'	=> true,
 		) );
 
-		$form = new Torro_Form( $this->form_id );
+		$form = torro()->forms()->get( $this->form_id );
 		$form_elements = $form->elements;
 
 		if ( 0 === count( $form_elements ) ) {
@@ -275,14 +275,7 @@ class Torro_Form_Results {
 			'element_ids'	=> null,
 		) );
 
-		/**
-		 * Getting elements
-		 */
-		$sql_elements = "SELECT id, label FROM $wpdb->torro_elements WHERE form_id=%d";
-		$sql_elements_values = array( $this->form_id );
-
-		$sql = $wpdb->prepare( $sql_elements, $sql_elements_values );
-		$elements = $wpdb->get_results( $sql );
+		$form = torro()->forms()->get( $this->form_id );
 
 		/**
 		 * Preparing columns for form values
@@ -292,30 +285,24 @@ class Torro_Form_Results {
 		$column_titles_assigned = array();
 
 		$column_index = 3;
-		foreach ( $elements as $element ) {
+		foreach ( $form->elements as $element ) {
 			if ( is_array( $params['element_ids'] ) ) {
 				if ( ! in_array( $element->id, $params['element_ids'], true ) ) {
 					continue;
 				}
 			}
 
-			$element_obj = torro()->elements()->get( $element->id );
-
-			if ( ! $element_obj ) {
+			if ( ! $element->input ) {
 				continue;
 			}
 
-			if ( ! $element_obj->input ) {
-				continue;
-			}
-
-			if ( false !== $element_obj->add_result_columns( $this ) ) {
+			if ( false !== $element->add_result_columns( $this ) ) {
 				continue;
 			}
 
 			$column_name = 'element_' . $element->id;
 
-			if ( ! $element_obj->answer_array && 0 === count( $element_obj->sections ) ) {
+			if ( ! $element->answer_array && 0 === count( $element->sections ) ) {
 				if ( ! empty( $column_name ) ) {
 					// Preventing double assigned Column title
 					if ( array_key_exists( $column_name, $column_titles_assigned ) ) {
@@ -330,7 +317,7 @@ class Torro_Form_Results {
 					$column_titles[ $column_index++ ] = $column_name;
 				}
 			} else {
-				foreach ( $element_obj->answers as $answer ) {
+				foreach ( $element->answers as $answer ) {
 					$answer = (object) $answer;
 					$column_name = 'element_' . $element->id . '_' . $answer->id;
 

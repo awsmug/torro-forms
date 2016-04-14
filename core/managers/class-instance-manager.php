@@ -127,7 +127,7 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		unset( $args['order'] );
 
 		if ( 0 === $number ) {
-			return 0;
+			return array();
 		}
 
 		$table_name = $wpdb->{$this->table_name};
@@ -137,6 +137,31 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		$keys = array();
 		$values = array();
 		foreach ( $args as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$value = array_values( $value );
+				if ( 0 === count( $value ) ) {
+					return array();
+				}
+
+				if ( 1 === count( $value ) ) {
+					$value = $value[0];
+				} else {
+					$args = array();
+					foreach ( $value as $v ) {
+						if ( is_int( $v ) ) {
+							$args[] = '%d';
+						} elseif ( is_float( $v ) ) {
+							$args[] = '%f';
+						} else {
+							$args[] = '%s';
+						}
+						$values[] = $v;
+					}
+					$keys[] = $key . ' IN (' . implode( ', ', $args ) . ')';
+					continue;
+				}
+			}
+
 			if ( is_int( $value ) ) {
 				$keys[] = $key . ' = %d';
 			} elseif ( is_float( $value ) ) {
