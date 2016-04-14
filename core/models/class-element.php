@@ -31,13 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Torro_Form_Element extends Torro_Instance_Base {
 
 	/**
-	 * Contains the form ID of the element
-	 *
-	 * @since 1.0.0
-	 */
-	protected $form_id = null;
-
-	/**
 	 * Element type
 	 *
 	 * @since 1.0.0
@@ -725,7 +718,6 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		$this->superior_id_name = 'container_id';
 		$this->manager_method = 'elements';
 		$this->valid_args = array(
-			'form_id'	=> 'int',
 			'type'		=> 'string',
 			'label'		=> 'string',
 			'sort'		=> 'int',

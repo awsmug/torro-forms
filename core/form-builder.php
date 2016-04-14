@@ -282,7 +282,6 @@ class Torro_Formbuilder {
 						}
 
 						$element_args = array(
-							'form_id'	=> $form_id,
 							'type'		=> $element['type'],
 							'label'		=> $element['label'],
 							'sort'		=> $element['sort'],

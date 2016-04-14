@@ -121,20 +121,20 @@ class Torro_ChartsShortCodes {
 		global $wpdb;
 
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
-		$element_id = $atts[ 'id' ];
 
-		$sql = $wpdb->prepare( "SELECT id, form_id FROM $wpdb->torro_elements WHERE id = %d", $element_id );
-		$element = $wpdb->get_row( $sql );
-
-		if ( null === $element ) {
-			return __( 'Please enter a valid element id into the shortcode!', 'torro-forms' );
+		$element = torro()->elements()->get( $atts['id'] );
+		if ( is_wp_error( $element ) ) {
+			return __( 'Please enter a valid element id into the shortcode.', 'torro-forms' );
 		}
 
-		$form_results = new Torro_Form_Results( $element->form_id );
+		$container = torro()->containers()->get( $element->container_id );
+		if ( is_wp_error( $container ) ) {
+			return __( 'It looks like the container for this element has been removed. Please enter a different element id into the shortcode.', 'torro-forms' );
+		}
+
+		$form_results = new Torro_Form_Results( $container->form_id );
 		$results = $form_results->element_results( $element->id );
 		$results = Torro_Result_Charts::format_results_by_element( $results );
-
-		$element = torro()->elements()->get_registered( $element->id );
 
 		$chart_creator = new Torro_Result_Charts_C3();
 

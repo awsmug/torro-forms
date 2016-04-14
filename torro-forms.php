@@ -294,6 +294,13 @@ class Torro_Init {
 				torro_forms_to_1_0_6();
 				update_option( 'torro_db_version', '1.0.6' );
 			}
+
+			// Upgrading from Torro DB version 1.0.6 to 1.0.7
+			if ( true === version_compare( $current_db_version, '1.0.7', '<' ) ) {
+				require_once( 'includes/updates/to_1.0.7.php' );
+				torro_forms_to_1_0_7();
+				update_option( 'torro_db_version', '1.0.7' );
+			}
 		} elseif ( false === self::is_installed() ) {
 			// Fresh Torro DB install
 			self::install_tables();
@@ -343,7 +350,6 @@ class Torro_Init {
 ) $charset_collate;
 CREATE TABLE $wpdb->torro_elements (
 	id int(11) unsigned NOT NULL auto_increment,
-	form_id bigint(20) unsigned NOT NULL,
 	container_id int(11) unsigned NOT NULL,
 	label text NOT NULL,
 	sort int(11) NOT NULL,
