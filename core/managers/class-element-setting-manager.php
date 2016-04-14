@@ -50,6 +50,18 @@ final class Torro_Element_Setting_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	public function create( $element_id, $args = array() ) {
+		return parent::create( $element_id, $args );
+	}
+
+	public function move( $id, $element_id ) {
+		return parent::move( $id, $element_id );
+	}
+
+	public function copy( $id, $element_id ) {
+		return parent::copy( $id, $element_id );
+	}
+
 	protected function init() {
 		$this->table_name = 'torro_element_settings';
 		$this->class_name = 'Torro_Element_Setting';

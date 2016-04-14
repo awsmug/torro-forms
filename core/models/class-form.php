@@ -251,10 +251,6 @@ class Torro_Form extends Torro_Instance_Base {
 		return $result_id;
 	}
 
-	public function move( $invalid ) {
-		return new Torro_Error( 'cannot_move_form', __( 'A form cannot be moved.', 'torro-forms' ) );
-	}
-
 	public function copy( $args = array() ) {
 		$defaults = array(
 			'terms'					=> true,

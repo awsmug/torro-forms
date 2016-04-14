@@ -53,6 +53,18 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	public function create( $container_id, $args = array() ) {
+		return parent::create( $container_id, $args );
+	}
+
+	public function move( $id, $container_id ) {
+		return parent::move( $id, $container_id );
+	}
+
+	public function copy( $id, $container_id ) {
+		return parent::copy( $id, $container_id );
+	}
+
 	protected function init() {
 		$this->table_name = 'torro_elements';
 	}

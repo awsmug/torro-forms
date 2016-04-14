@@ -39,6 +39,14 @@ class Torro_Element_Setting extends Torro_Instance_Base {
 		parent::__construct( $id );
 	}
 
+	public function move( $element_id ) {
+		return parent::move( $element_id );
+	}
+
+	public function copy( $element_id ) {
+		return parent::copy( $element_id );
+	}
+
 	protected function init() {
 		$this->table_name = 'torro_element_settings';
 		$this->superior_id_name = 'element_id';

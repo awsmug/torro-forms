@@ -413,6 +413,14 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		return $html;
 	}
 
+	public function move( $container_id ) {
+		return parent::move( $container_id );
+	}
+
+	public function copy( $container_id ) {
+		return parent::copy( $container_id );
+	}
+
 	/**
 	 * Returns the admin name of an input element
 	 *

@@ -194,7 +194,8 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		return array_map( array( $this, 'get' ), $results );
 	}
 
-	public function move( $id, $superior_id ) {
+	protected function move( $id, $superior_id ) {
+		// this is protected as it's not needed for forms
 		$instance = $this->get( $id );
 		if ( is_wp_error( $instance ) ) {
 			return $instance;

@@ -47,6 +47,14 @@ class Torro_Result_Value extends Torro_Instance_Base {
 		parent::__construct( $id );
 	}
 
+	public function move( $result_id ) {
+		return parent::move( $result_id );
+	}
+
+	public function copy( $result_id ) {
+		return parent::copy( $result_id );
+	}
+
 	protected function init() {
 		$this->table_name = 'torro_result_values';
 		$this->superior_id_name = 'result_id';

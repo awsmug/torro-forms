@@ -41,6 +41,14 @@ class Torro_Element_Answer extends Torro_Instance_Base {
 		parent::__construct( $id );
 	}
 
+	public function move( $element_id ) {
+		return parent::move( $element_id );
+	}
+
+	public function copy( $element_id ) {
+		return parent::copy( $element_id );
+	}
+
 	protected function init() {
 		$this->table_name = 'torro_element_answers';
 		$this->superior_id_name = 'element_id';

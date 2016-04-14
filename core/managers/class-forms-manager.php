@@ -96,10 +96,6 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		return $results;
 	}
 
-	public function move( $id, $invalid ) {
-		return parent::move( $id, $invalid );
-	}
-
 	public function copy( $id, $args = array() ) {
 		return parent::copy( $id, $args );
 	}

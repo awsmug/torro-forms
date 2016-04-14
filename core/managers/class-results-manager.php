@@ -50,6 +50,18 @@ final class Torro_Results_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	public function create( $form_id, $args = array() ) {
+		return parent::create( $form_id, $args );
+	}
+
+	public function move( $id, $form_id ) {
+		return parent::move( $id, $form_id );
+	}
+
+	public function copy( $id, $form_id ) {
+		return parent::copy( $id, $form_id );
+	}
+
 	protected function init() {
 		$this->table_name = 'torro_results';
 		$this->class_name = 'Torro_Result';

@@ -39,6 +39,14 @@ class Torro_Participant extends Torro_Instance_Base {
 		parent::__construct( $id );
 	}
 
+	public function move( $form_id ) {
+		return parent::move( $form_id );
+	}
+
+	public function copy( $form_id ) {
+		return parent::copy( $form_id );
+	}
+
 	protected function init() {
 		$this->table_name = 'torro_participants';
 		$this->superior_id_name = 'form_id';

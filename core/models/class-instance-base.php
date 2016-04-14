@@ -164,7 +164,8 @@ abstract class Torro_Instance_Base extends Torro_Base {
 		return $status;
 	}
 
-	public function move( $superior_id ) {
+	protected function move( $superior_id ) {
+		// this is protected as it's not needed for forms
 		$this->superior_id = $superior_id;
 
 		return $this->save_to_db();
