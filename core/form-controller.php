@@ -349,10 +349,14 @@ class Torro_Form_Controller {
 
 			$this->cache->add_response( $response );
 
+			$is_submit = is_wp_error( $this->form->get_next_container_id() ); // we're in the last step
+
+			$status = apply_filters( 'torro_response_status', true, $this->form_id, $current_container_id, $is_submit );
+
 			/**
 			 * There was no error!
 			 */
-			if ( count( $errors[ $current_container_id ] ) === 0 ) {
+			if ( $status && count( $errors[ $current_container_id ] ) === 0 ) {
 				$this->form->set_current_container( $current_container_id );
 
 				$next_container_id = $this->form->get_next_container_id();

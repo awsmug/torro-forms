@@ -83,7 +83,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 
 		add_action( 'torro_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
-		add_filter( 'torro_response_validation_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
+		add_filter( 'torro_response_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
 
 		// compatibility with Contact Form 7
 		remove_action( 'wpcf7_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts' );
@@ -202,7 +202,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 *
 	 * This check is only performed on submitting the form (i.e. last page of the form)
 	 */
-	public function check_recaptcha_submission( $status, $form_id, $errors, $step, $is_submit = false ) {
+	public function check_recaptcha_submission( $status, $form_id, $container_id, $is_submit = false ) {
 		if ( $this->is_enabled( $form_id ) && $this->is_configured()  && $is_submit ) {
 			if ( isset( $_POST['g-recaptcha-response'] ) && ! empty( $_POST['g-recaptcha-response'] ) ) {
 				$verification = $this->verify_response( $_POST['g-recaptcha-response'] );
@@ -390,18 +390,11 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 		?>
 		<div class="torro-element">
-			<?php if ( ! empty( $error ) ) : ?>
-			<div class="torro-element-error">
-				<div class="torro-element-error-message">
-					<ul class="torro-error-messages">
-						<li><?php echo $error; ?></li>
-					</ul>
-				</div>
-			<?php endif; ?>
-
 			<div id="recaptcha-placeholder-<?php echo $form_id; ?>" class="recaptcha-placeholder" data-form-id="<?php echo $form_id; ?>" data-type="<?php echo $type; ?>" data-size="<?php echo $size; ?>" data-theme="<?php echo $theme; ?>" style="margin-bottom:20px;"></div>
 			<?php if ( ! empty( $error ) ) : ?>
-			</div>
+				<ul class="error-messages">
+					<li><?php echo $error; ?></li>
+				</ul>
 			<?php endif; ?>
 		</div>
 		<?php
