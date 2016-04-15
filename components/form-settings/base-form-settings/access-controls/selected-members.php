@@ -805,7 +805,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_scripts() {
-		if( ! torro_is_settingspage( 'access_controls', 'selectedmembers' ) ){
+		if( ! torro_is_settingspage( 'form_settings', 'selectedmembers' ) ){
 			return;
 		}
 

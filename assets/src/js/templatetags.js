@@ -58,7 +58,7 @@
 		},
 	};
 
-	if( ! form_builder ){
+	if( typeof form_builder == 'undefined' ){
 		$( document ).ready( function(){
 			var templatetags = new Torro_Templatetags();
 			templatetags.init();
