@@ -11,25 +11,54 @@ function torro_questions_to_awesome_forms() {
 	$table_participiants_old = $wpdb->prefix . 'questions_participiants';
 	$table_email_notifications_old = $wpdb->prefix . 'questions_email_notifications';
 
-	$sql = "RENAME TABLE {$table_elements_old} TO {$wpdb->torro_elements}";
+	$table_tmp_elements_old = $wpdb->prefix . 'tmp_questions_questions';
+	$table_tmp_answers_old = $wpdb->prefix . 'tmp_questions_answers';
+	$table_tmp_settings_old = $wpdb->prefix . 'tmp_questions_settings';
+	$table_tmp_responds_old = $wpdb->prefix . 'tmp_questions_responds';
+	$table_tmp_respond_answers_old = $wpdb->prefix . 'tmp_questions_respond_answers';
+	$table_tmp_participiants_old = $wpdb->prefix . 'tmp_questions_participiants';
+	$table_tmp_email_notifications_old = $wpdb->prefix . 'tmp_questions_email_notifications';
+
+	$sql = "CREATE TABLE {$table_tmp_elements_old} LIKE {$table_elements_old}; INSERT {$table_tmp_elements_old} SELECT * FROM {$table_elements_old};";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_answers_old} TO {$wpdb->torro_element_answers}";
+	$sql = "CREATE TABLE {$table_tmp_answers_old} LIKE {$table_answers_old}; INSERT {$table_tmp_answers_old} SELECT * FROM {$table_answers_old};";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_settings_old} TO {$wpdb->torro_element_settings}";
+	$sql = "CREATE TABLE {$table_tmp_settings_old} LIKE {$table_settings_old}; INSERT {$table_tmp_settings_old} SELECT * FROM {$table_settings_old};";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_responds_old} TO {$wpdb->torro_results}";
+	$sql = "CREATE TABLE {$table_tmp_responds_old} LIKE {$table_responds_old}; INSERT {$table_tmp_responds_old} SELECT * FROM {$table_responds_old};";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_respond_answers_old} TO {$wpdb->torro_result_values}";
+	$sql = "CREATE TABLE {$table_tmp_respond_answers_old} LIKE {$table_respond_answers_old}; INSERT {$table_tmp_respond_answers_old} SELECT * FROM {$table_respond_answers_old};";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_participiants_old} TO {$wpdb->torro_participants}";
+	$sql = "CREATE TABLE {$table_tmp_participiants_old} LIKE {$table_participiants_old}; INSERT {$table_tmp_participiants_old} SELECT * FROM {$table_participiants_old};";
 	$wpdb->query( $sql );
 
-	$sql = "RENAME TABLE {$table_email_notifications_old} TO {$wpdb->torro_email_notifications}";
+	$sql = "CREATE TABLE {$table_tmp_email_notifications_old} LIKE {$table_email_notifications_old}; INSERT {$table_tmp_email_notifications_old} SELECT * FROM {$table_email_notifications_old};";
+	$wpdb->query( $sql );
+
+	$sql = "RENAME TABLE {$table_tmp_elements_old} TO {$wpdb->torro_elements}";
+	$wpdb->query( $sql );
+
+	$sql = "RENAME TABLE {$table_tmp_answers_old} TO {$wpdb->torro_element_answers}";
+	$wpdb->query( $sql );
+
+	$sql = "RENAME TABLE {$table_tmp_settings_old} TO {$wpdb->torro_element_settings}";
+	$wpdb->query( $sql );
+
+	$sql = "RENAME TABLE {$table_tmp_responds_old} TO {$wpdb->torro_results}";
+	$wpdb->query( $sql );
+
+	$sql = "RENAME TABLE {$table_tmp_respond_answers_old} TO {$wpdb->torro_result_values}";
+	$wpdb->query( $sql );
+
+	$sql = "RENAME TABLE {$table_tmp_participiants_old} TO {$wpdb->torro_participants}";
+	$wpdb->query( $sql );
+
+	$sql = "RENAME TABLE {$table_tmp_email_notifications_old} TO {$wpdb->torro_email_notifications}";
 	$wpdb->query( $sql );
 
 	$sql = "ALTER TABLE {$wpdb->torro_elements} CHANGE questions_id form_id int(11)";
@@ -114,10 +143,5 @@ function torro_questions_to_awesome_forms() {
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
 
-	delete_option( 'questions_mail_from_name' );
-	delete_option( 'questions_mail_from_email' );
-	delete_option( 'questions_invitation_subject_template' );
-	delete_option( 'questions_invitation_text_template' );
-	delete_option( 'questions_reinvitation_subject_template' );
-	delete_option( 'questions_reinvitation_text_template' );
+	torro()->admin_notices()->add( __( 'Updated from Questions to Awesome Forms data structure.', 'torro-forms' ) );
 }

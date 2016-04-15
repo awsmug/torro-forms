@@ -249,21 +249,21 @@ class Torro_Init {
 		$current_db_version = get_option( 'torro_db_version' );
 
 		// Upgrading from Questions to Awesome Forms
-		if ( false !== get_option( 'questions_db_version' ) ) {
+		if ( false !== get_option( 'questions_db_version' ) && false === get_option( 'copied_from_questions' ) ) {
 			require_once( 'includes/updates/to-awesome-forms.php' );
 			torro_questions_to_awesome_forms();
 
 			update_option( 'af_db_version', '1.0.1' );
-			delete_option( 'questions_db_version' );
+			update_option( 'copied_from_questions', true );
 		}
 
 		// Upgrading form Awesome Forms to Torro Forms
-		if ( false !== get_option( 'af_db_version' ) ) {
+		if ( false !== get_option( 'af_db_version' ) && false === get_option( 'copied_from_af' ) ) {
 			require_once( 'includes/updates/to-torro-forms.php' );
 			awesome_forms_to_torro_forms();
 
 			update_option( 'torro_db_version', '1.0.2' );
-			delete_option( 'af_db_version' );
+			update_option( 'copied_from_af', true );
 		}
 
 		if ( false !== $current_db_version ) {
