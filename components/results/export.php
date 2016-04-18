@@ -64,7 +64,7 @@ class Torro_Export {
 		if ( 0 === $results->count() ) {
 			$actions['no_export'] = sprintf( __( 'There are no results to export', 'torro-forms' ) );
 		} else {
-			$actions['export'] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'torro-forms' ), '?post_type=torro_form&torro_export=xls&form_id=' . $post->ID, '?post_type=torro_form&export=csv&form_id=' . $post->ID );
+			$actions['export'] = sprintf( __( 'Export as <a href="%s">XLS</a> | <a href="%s">CSV</a>', 'torro-forms' ), '?post_type=torro_form&torro_export=xls&form_id=' . $post->ID, '?post_type=torro_form&torro_export=csv&form_id=' . $post->ID );
 		}
 
 		return $actions;
