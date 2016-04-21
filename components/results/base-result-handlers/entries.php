@@ -141,7 +141,7 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 				}
 			}
 
-			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'torro-forms' ), admin_url( 'edit.php' ) . '?post_type=torro_form&torro_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=torro_form&export=csv&form_id=' . $form_id ) . '</th>';
+			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'torro-forms' ), admin_url( 'edit.php' ) . '?post_type=torro_form&torro_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=torro_form&torro_export=csv&form_id=' . $form_id ) . '</th>';
 			$html .= '</tr>';
 			$html .= '</thead>';
 
