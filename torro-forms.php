@@ -566,10 +566,6 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	 * @since 1.0.0
 	 */
 	public static function uninstall() {
-		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-			return;
-		}
-
 		$globally = is_multisite();
 
 		self::register_tables();
