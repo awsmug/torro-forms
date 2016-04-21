@@ -142,6 +142,4 @@ function torro_questions_to_awesome_forms() {
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_from', get_option( 'questions_mail_from_email' ) );
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
-
-	torro()->admin_notices()->add( __( 'Updated from Questions to Awesome Forms data structure.', 'torro-forms' ) );
 }

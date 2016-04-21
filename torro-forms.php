@@ -245,7 +245,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function setup() {
-		$script_db_version  = '1.0.6';
+		$script_db_version  = '1.0.7';
 		$current_db_version = get_option( 'torro_db_version' );
 
 		// Upgrading from Questions to Awesome Forms
@@ -627,6 +627,8 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		}
 
 		delete_option( 'torro_db_version' );
+		delete_option( 'copied_from_questions' );
+		delete_option( 'copied_from_af' );
 	}
 
 	public static function flush_network_rewrite_rules() {
