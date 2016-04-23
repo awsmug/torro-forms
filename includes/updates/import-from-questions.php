@@ -114,7 +114,7 @@ function torro_import_from_questions() {
 		$element_relations = array();
 		foreach ( $questions AS $question ) {
 			switch( $question->type ){
-				case 'splitter':
+				case 'Splitter':
 					$container_num++;
 					$label = __( 'Page', 'torro-forms' ) . ' ' . ( $container_num + 1 );
 					$container = torro()->containers()->create( $form->id, array( 'label' => $label, 'sort' => $container_num ) );
