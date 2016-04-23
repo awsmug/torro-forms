@@ -197,9 +197,9 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	public function check() {
 		global $torro_skip_fingerrint_check;
 
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 
-		$access_controls_check_ip = get_post_meta( $torro_form_id, 'form_access_controls_check_ip', true );
+		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
 
 		if ( 'yes' === $access_controls_check_ip && $this->ip_has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
@@ -207,17 +207,17 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 			return false;
 		}
 
-		$access_controls_check_cookie = get_post_meta( $torro_form_id, 'form_access_controls_check_cookie', true );
+		$access_controls_check_cookie = get_post_meta( $form_id, 'form_access_controls_check_cookie', true );
 
-		if ( 'yes' === $access_controls_check_cookie && isset( $_COOKIE[ 'torro_has_participated_form_' . $torro_form_id ] ) ) {
-			if( 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $torro_form_id ] ) {
+		if ( 'yes' === $access_controls_check_cookie && isset( $_COOKIE[ 'torro_has_participated_form_' . $form_id ] ) ) {
+			if( 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $form_id ] ) {
 				$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 			}
 
 			return false;
 		}
 
-		$access_controls_check_fingerprint = get_post_meta( $torro_form_id, 'form_access_controls_check_fingerprint', true );
+		$access_controls_check_fingerprint = get_post_meta( $form_id, 'form_access_controls_check_fingerprint', true );
 
 		/*
 		if ( 'yes' === $access_controls_check_fingerprint && true !== $torro_skip_fingerrint_check ) {
@@ -250,7 +250,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 				var data = {
 					action: \'torro_check_fngrprnt\',
 					nonce: \'' . $nonce . '\',
-					torro_form_id: ' . $torro_form_id . ',
+					torro_form_id: ' . $form_id . ',
 					torro_actual_step: ' . $actual_step . ',
 					torro_next_step: ' . $next_step . ',
 					' . $maybe_vars . '
@@ -287,18 +287,17 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function ip_has_participated() {
-		global $wpdb, $torro_form_id;
+		$form_id = torro()->forms()->get_current_form_id();
 
 		$remote_ip = $_SERVER['REMOTE_ADDR'];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND remote_addr=%s", $torro_form_id, $remote_ip );
-		$count = $wpdb->get_var( $sql );
+		$results = torro()->results()->query( array(
+			'number'		=> 1,
+			'form_id'		=> $form_id,
+			'remote_addr'	=> $remote_ip,
+		) );
 
-		if ( 0 === $count ) {
-			return false;
-		}
-
-		return true;
+		return 0 < count( $results );
 	}
 
 	/**
@@ -307,9 +306,9 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function set_cookie() {
-		global $torro_form_id;
+		$form_id = torro()->forms()->get_current_form_id();
 
-		setcookie( 'torro_has_participated_form_' . $torro_form_id, 'yes', time() + YEAR_IN_SECONDS );
+		setcookie( 'torro_has_participated_form_' . $form_id, 'yes', time() + YEAR_IN_SECONDS );
 	}
 
 	/**
@@ -318,18 +317,15 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function save_ip( $response_id ) {
-		global $wpdb, $torro_form_id;
+		$form_id = torro()->forms()->get_current_form_id();
 
-		$access_controls_check_ip = get_post_meta( $torro_form_id, 'form_access_controls_check_ip', true );
+		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
 		if ( empty( $access_controls_check_ip ) ) {
 			return;
 		}
 
-		// Adding IP to response
-		$wpdb->update( $wpdb->torro_results, array(
-			'remote_addr' => $_SERVER['REMOTE_ADDR'], // string
-		), array(
-			'id' => $response_id,
+		torro()->results()->update( $response_id, array(
+			'remote_addr'	=> $_SERVER['REMOTE_ADDR'],
 		) );
 	}
 
@@ -338,17 +334,15 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 */
 	/*
 	public function save_fingerprint( $response_id ) {
-		global $wpdb, $torro_form_id;
+		$form_id = torro()->forms()->get_current_form_id();
 
-		$access_controls_check_fingerprint = get_post_meta( $torro_form_id, 'form_access_controls_check_fingerprint', true );
+		$access_controls_check_fingerprint = get_post_meta( $form_id, 'form_access_controls_check_fingerprint', true );
 		if ( empty( $access_controls_check_fingerprint ) ) {
 			return;
 		}
 
-		$wpdb->update( $wpdb->torro_results, array(
-			'cookie_key' => $_POST[ 'torro_fngrprnt' ],    // string
-		), array(
-			'id' => $response_id,
+		torro()->results()->update( $response_id, array(
+			'cookie_key'	=> $_POST['torro_fngrprnt'],
 		) );
 	}
 	*/
@@ -360,9 +354,9 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 */
 	/*
 	public function add_fingerprint_input() {
-		global $torro_form_id;
+		$form_id = torro()->forms()->get_current_form_id();
 
-		$access_controls_check_fingerprint = get_post_meta( $torro_form_id, 'form_access_controls_check_fingerprint', true );
+		$access_controls_check_fingerprint = get_post_meta( $form_id, 'form_access_controls_check_fingerprint', true );
 		if( empty( $access_controls_check_fingerprint ) ) {
 			return;
 		}
@@ -380,7 +374,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function ajax_check_fngrprnt( $data ) {
-		global $wpdb, $torro_skip_fingerrint_check;
+		global $torro_skip_fingerrint_check;
 
 		if ( ! isset( $data['torro_form_id'] ) ) {
 			return new Torro_Error( 'ajax_check_fngrprnt_torro_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'torro_form_id' ) );
@@ -396,16 +390,19 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 
 		$content = '';
 
-		$torro_form_id = $data['torro_form_id'];
+		$form_id = $data['torro_form_id'];
 		$fingerprint = $data['fngrprnt'];
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND cookie_key=%s", $torro_form_id, $fingerprint );
-		$count = absint( $wpdb->get_var( $sql ) );
+		$results = torro()->results()->query( array(
+			'number'		=> 1,
+			'form_id'		=> $form_id,
+			'cookie_key'	=> $fingerprint,
+		) );
 
-		if ( 0 === $count ) {
+		if ( 0 === count( $results ) ) {
 			$torro_skip_fingerrint_check = true;
 
-			$content .= torro()->forms()->get( $torro_form_id )->html( $data['form_action_url'] );
+			$content .= torro()->forms()->get( $form_id )->html( $data['form_action_url'] );
 
 		} else {
 			$content .= '<div class="form-message error">' . esc_html__( 'You have already entered your data.', 'torro-forms' ) . '</div>';
