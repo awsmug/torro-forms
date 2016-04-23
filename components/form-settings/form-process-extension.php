@@ -46,7 +46,7 @@ class Torro_Formbuilder_FormProcessExtension {
 	 * Checking access-controls
 	 */
 	public static function check( $show_form ) {
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 		$access_controls = torro()->access_controls()->get_all_registered();
 
 		if ( 0 === count( $access_controls ) ) {
@@ -60,7 +60,7 @@ class Torro_Formbuilder_FormProcessExtension {
 		/**
 		 * Select field for Restriction
 		 */
-		$access_controls_option = get_post_meta( $torro_form_id, 'access_controls_option', true );
+		$access_controls_option = get_post_meta( $form_id, 'access_controls_option', true );
 
 		if ( ! empty( $access_controls_option ) && array_key_exists( $access_controls_option, $access_controls ) ) {
 			$access_control = $access_controls[ $access_controls_option ];

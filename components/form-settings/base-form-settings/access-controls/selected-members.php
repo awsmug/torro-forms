@@ -679,7 +679,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function check() {
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
@@ -693,9 +693,9 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			return false;
 		}
 
-		$access_controls_same_users = get_post_meta( $torro_form_id, 'form_access_controls_selectedmembers_same_users', true );
+		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
 
-		if ( 'yes' === $access_controls_same_users && torro()->forms( $torro_form_id )->has_participated() ) {
+		if ( 'yes' === $access_controls_same_users && torro()->forms()->get( $form_id )->has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 
 			return false;
@@ -716,7 +716,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	public function is_participant( $user_id = null ) {
 		global $wpdb;
 
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 
 		// Setting up user ID
 		if ( null === $user_id ) {
@@ -724,7 +724,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			$user_id = $user_id = $current_user->ID;
 		}
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d", $torro_form_id );
+		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d", $form_id );
 		$user_ids = $wpdb->get_col( $sql );
 
 		if ( ! in_array( $user_id, $user_ids ) ) {
