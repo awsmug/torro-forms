@@ -63,7 +63,14 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	}
 
 	public function get_current_form_id() {
-		return $this->form_controller->get_form_id();
+		$form_id = $this->form_controller->get_form_id();
+		if ( ! $form_id ) {
+			$post = get_post();
+			if ( $post && 'torro_form' === $post->post_type ) {
+				$form_id = $post->ID;
+			}
+		}
+		return $form_id;
 	}
 
 	public function create( $args = array(), $invalid = false ) {
