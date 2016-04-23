@@ -364,6 +364,10 @@ function torro_is_temp_id( $id ) {
 	return 'temp_id' === substr( $id, 0, 7 );
 }
 
+function torro_is_real_id( $id ) {
+	return ! torro_is_temp_id( $id );
+}
+
 /**
  * Debugging helper function
  *
