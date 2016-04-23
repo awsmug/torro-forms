@@ -59,16 +59,28 @@ class Torro_Compatibility {
 			return;
 		}
 
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'trash_acf_datetimepicker_css' ), 15 );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'trash_acf_datetimepicker_css' ), 999 );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'trash_jquery_ui_css' ), 999 );
 	}
 
 	/**
 	 * ACF Datetimepicker scripts from AF sites
 	 */
 	public static function trash_acf_datetimepicker_css() {
-		// ACF Date and Time Picker Field
-		wp_dequeue_style( 'jquery-style' );
-		wp_dequeue_style( 'timepicker' );
+		if( torro_is_formbuilder() || torro_is_settingspage() ) {
+			// ACF Date and Time Picker Field
+			wp_dequeue_style( 'jquery-style' );
+			wp_dequeue_style( 'timepicker' );
+		}
+	}
+
+	/**
+	 * Trashing all jQuery UI CSS from other plugins
+	 */
+	public static function trash_jquery_ui_css(){
+		if( torro_is_formbuilder() || torro_is_settingspage() ) {
+			wp_dequeue_style( 'jquery-ui-css' );
+		}
 	}
 
 }
