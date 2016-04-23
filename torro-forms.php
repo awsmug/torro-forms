@@ -248,24 +248,8 @@ class Torro_Init {
 		$script_db_version  = '1.0.7';
 		$current_db_version = get_option( 'torro_db_version' );
 
-		// Upgrading from Questions to Awesome Forms
-		if ( false !== get_option( 'questions_db_version' ) && false === get_option( 'copied_from_questions' ) ) {
-			require_once( 'includes/updates/to-awesome-forms.php' );
-			torro_questions_to_awesome_forms();
 
-			update_option( 'af_db_version', '1.0.1' );
-			update_option( 'copied_from_questions', true );
-		}
-
-		// Upgrading form Awesome Forms to Torro Forms
-		if ( false !== get_option( 'af_db_version' ) && false === get_option( 'copied_from_af' ) ) {
-			require_once( 'includes/updates/to-torro-forms.php' );
-			awesome_forms_to_torro_forms();
-
-			update_option( 'torro_db_version', '1.0.2' );
-			update_option( 'copied_from_af', true );
-		}
-
+		// Oh no, somebody has used the beta... ;)
 		if ( false !== $current_db_version ) {
 			// Upgrading from Torro DB version 1.0.2 to 1.0.3
 			if ( true === version_compare( $current_db_version, '1.0.3', '<' ) ) {
@@ -305,6 +289,20 @@ class Torro_Init {
 			// Fresh Torro DB install
 			self::install_tables();
 			update_option( 'torro_db_version', $script_db_version );
+		}
+
+		// Importing from Questions to Awesome Forms
+		if ( false !== get_option( 'questions_db_version' ) && false === get_option( 'copied_from_questions' ) ) {
+			require_once( 'includes/updates/import-from-questions.php' );
+			// torro_import_from_questions();
+			// update_option( 'copied_from_questions', true );
+		}
+
+		// Importing from Awesome Forms to Torro Forms
+		if ( false !== get_option( 'af_db_version' ) && false === get_option( 'copied_from_af' ) ) {
+			require_once( 'includes/updates/import-from-awesome-forms.php' );
+			// torro_import_from_awesome_forms();
+			// update_option( 'copied_from_af', true );
 		}
 	}
 
@@ -592,13 +590,13 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		// do not uninstall if version option is not set (meaning plugin was not active here)
 		$current_db_version = get_option( 'torro_db_version' );
 		if ( false === $current_db_version ) {
-			return;
+			// return;
 		}
 
 		// do not uninstall if hard uninstall option is not enabled
 		$do_hard_uninstall = get_option( 'torro_settings_general_hard_uninstall' );
 		if ( '1' !== $do_hard_uninstall && ( ! is_array( $do_hard_uninstall ) || '1' !== $do_hard_uninstall[0] ) ) {
-			return;
+			// return;
 		}
 
 		// delete custom tables
@@ -614,6 +612,24 @@ CREATE TABLE $wpdb->torro_email_notifications (
 			wp_delete_post( $form_id, true );
 		}
 
+		// delete form posts
+		$form_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type = 'af-forms'" );
+		foreach ( $form_ids as $form_id ) {
+			wp_delete_post( $form_id, true );
+		}
+
+		// delete form posts
+		$form_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type = 'awesome-forms'" );
+		foreach ( $form_ids as $form_id ) {
+			wp_delete_post( $form_id, true );
+		}
+
+		// delete form posts
+		$form_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type = 'torro-forms'" );
+		foreach ( $form_ids as $form_id ) {
+			wp_delete_post( $form_id, true );
+		}
+
 		// delete form category terms
 		$form_category_ids = $wpdb->get_col( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = 'torro_form_category'" );
 		foreach ( $form_category_ids as $form_category_id ) {
@@ -623,7 +639,7 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		// delete options
 		$option_names = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'torro_settings_%'" );
 		foreach ( $option_names as $option_name ) {
-			delete_option( $option_name );
+			// delete_option( $option_name );
 		}
 
 		delete_option( 'torro_db_version' );
@@ -645,3 +661,12 @@ add_action( 'plugins_loaded', array( 'Torro_Init', 'init' ) );
 register_activation_hook( __FILE__, array( 'Torro_Init', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'Torro_Init', 'deactivate' ) );
 register_uninstall_hook( __FILE__, array( 'Torro_Init', 'uninstall' ) );
+
+
+function torro_testit(){
+	require_once( 'includes/updates/import-from-questions.php' );
+	torro_import_from_questions();
+}
+if( isset( $_REQUEST[ 'import_from_questions' ] ) ) {
+	add_action( 'admin_notices', 'torro_testit', 1000 );
+}
