@@ -104,18 +104,19 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 * @since 1.0.0
 	 */
 	public function handle( $form_id, $response_id, $response ) {
-		global $wpdb, $torro_response_id, $torro_response;
+		global $torro_response_id, $torro_response;
 
-		$torro_form_id = $form_id;
 		$torro_response_id = $response_id;
 		$torro_response = $response;
 
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_email_notifications WHERE form_id = %d", $torro_form_id );
-		$notifications = $wpdb->get_results( $sql );
+		$notifications = torro()->email_notifications()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+		) );
 
 		if ( 0 < count( $notifications ) ) {
 			// Adding elements templatetags
-			$form = new Torro_Form( $torro_form_id );
+			$form = torro()->forms()->get( $form_id );
 			foreach ( $form->elements as $element ) {
 				torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
 			}
@@ -180,10 +181,12 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 * @since 1.0.0
 	 */
 	public function option_content() {
-		global $wpdb, $post;
+		global $post;
 
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->torro_email_notifications WHERE form_id = %d", $post->ID );
-		$notifications = $wpdb->get_results( $sql );
+		$notifications = torro()->email_notifications()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $post->ID,
+		) );
 
 		$html = '<div id="form-email-notifications">';
 
@@ -243,38 +246,51 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 * @since 1.0.0
 	 */
 	public function save_option_content() {
-		global $wpdb, $post;
+		global $post;
 
 		if ( ! isset( $_POST['email_notifications_nonce'] ) || ! wp_verify_nonce( $_POST['email_notifications_nonce'], 'torro_email_notifications' ) ) {
 			return;
 		}
 
-		$wpdb->delete( $wpdb->torro_email_notifications, array( 'form_id' => $post->ID ), array( '%d' ) );
-
 		if ( isset( $_POST['email_notifications'] ) ) {
-			foreach ( $_POST['email_notifications'] as $id => $notification ) {
-				$wpdb->insert(
-					$wpdb->torro_email_notifications,
-					array(
-						'form_id'			=> $post->ID,
-						'notification_name'	=> $notification[ 'notification_name' ],
-						'from_name'			=> $notification[ 'from_name' ],
-						'from_email'		=> $notification[ 'from_email' ],
-						'to_email'			=> $notification[ 'to_email' ],
-						'subject'			=> $notification[ 'subject' ],
-						'message'			=> $_POST[ 'email_notification_message-' . $id ]
-					),
-					array(
-						'%d',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-					)
-				);
+			$new_ids = array_map( 'absint', array_filter( array_keys( $_POST['email_notifications'] ), 'torro_is_real_id' ) );
+			$old_notifications = torro()->email_notifications()->query( array(
+				'number'	=> -1,
+				'form_id'	=> $post->ID,
+			) );
+			foreach ( $old_notifications as $old_notification ) {
+				if ( in_array( $old_notification->id, $new_ids, true ) ) {
+					continue;
+				}
+				$old_notification->delete();
 			}
+
+			foreach ( $_POST['email_notifications'] as $id => $notification ) {
+				if ( torro_is_temp_id( $id ) ) {
+					$id = '';
+				}
+
+				$email_notification_args = array(
+					'notification_name'	=> $notification['notification_name'],
+					'from_name'			=> $notification['from_name'],
+					'from_email'		=> $notification['from_email'],
+					'to_email'			=> $notification['to_email'],
+					'subject'			=> $notification['subject'],
+					'message'			=> $notification['message'],
+				);
+
+				$email_notification_obj = null;
+				if ( $id && torro()->email_notifications()->exists( $id ) ) {
+					$email_notification_obj = torro()->email_notifications()->update( $id, $email_notification_args );
+				} else {
+					$email_notification_obj = torro()->email_notifications()->create( $post->ID, $email_notification_args );
+				}
+			}
+		} else {
+			torro()->email_notifications()->delete_by_query( array(
+				'number'	=> -1,
+				'form_id'	=> $post->ID,
+			) );
 		}
 	}
 
@@ -304,7 +320,9 @@ final class Torro_Email_Notifications extends Torro_Action {
 			$editor = '<% wp_editor %>';
 		} else {
 			ob_start();
-			wp_editor( $message, $editor_id );
+			wp_editor( $message, $editor_id, array(
+				'textarea_name'	=> 'email_notifications[' . $id . '][message]',
+			) );
 			$editor = ob_get_clean();
 		}
 
@@ -335,7 +353,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 		$html .= '<td><input type="text" name="email_notifications[' . $id . '][subject]" value="' . $subject . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][subject]' ) . '</td>';
 		$html .= '</tr>';
 		$html .= '<tr>';
-		$html .= '<th><label for="email_notification_message-' . $id . '">' . esc_html__( 'Message', 'torro-forms' ) . '</label></th>';
+		$html .= '<th><label for="email_notifications[' . $id . '][message]">' . esc_html__( 'Message', 'torro-forms' ) . '</label></th>';
 		$html .= '<td>' . $editor . '</td>';
 		$html .= '</tr>';
 		$html .= '<tr>';
@@ -391,12 +409,14 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 * @since 1.0.0
 	 */
 	public function ajax_get_email_notification_html( $data ) {
-		$id = time();
+		$id = torro_generate_temp_id();
 		$editor_id = 'email_notification_message-' . $id;
 
 		$html = torro()->actions()->get_registered( 'emailnotifications' )->get_notification_settings_html( '_AJAX_' . $id, __( 'New Email Notification' ) );
 
-		$response = Torro_AJAX_WP_Editor::get( '', $editor_id );
+		$response = Torro_AJAX_WP_Editor::get( '', $editor_id, array(
+			'textarea_name'	=> 'email_notifications[' . $id . '][message]',
+		) );
 
 		$response['id'] = $id;
 		$response['html'] = str_replace( '<% wp_editor %>', $response['html'], $html );

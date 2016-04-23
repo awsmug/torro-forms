@@ -72,9 +72,10 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	 * %sitename%
 	 */
 	public function formtitle() {
-		$torro_form_id = torro()->forms()->get_current_form_id();
-
-		$form = new Torro_Form( $torro_form_id );
+		$form = torro()->forms()->get_current();
+		if ( is_wp_error( $form ) ) {
+			return '';
+		}
 
 		return $form->title;
 	}
@@ -135,9 +136,12 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	 * @param $element_id
 	 */
 	public function allelements() {
-		global $torro_form_id, $torro_response;
+		global $torro_response;
 
-		$form = new Torro_Form( $torro_form_id );
+		$form = torro()->forms()->get_current();
+		if ( is_wp_error( $form ) ) {
+			return '';
+		}
 
 		$html = '<table style="width:100%;">';
 		foreach ( $form->elements as $element ) {

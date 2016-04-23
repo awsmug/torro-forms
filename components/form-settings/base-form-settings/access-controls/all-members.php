@@ -115,16 +115,16 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 	 * Checks if the user can pass
 	 */
 	public function check() {
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
 			return false;
 		}
 
-		$access_controls_same_users = get_post_meta( $torro_form_id, 'form_access_controls_allmembers_same_users', true );
+		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_allmembers_same_users', true );
 
-		if ( 'yes' === $access_controls_same_users && torro()->forms()->get( $torro_form_id )->has_participated() ) {
+		if ( 'yes' === $access_controls_same_users && torro()->forms()->get( $form_id )->has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 			return false;
 		}

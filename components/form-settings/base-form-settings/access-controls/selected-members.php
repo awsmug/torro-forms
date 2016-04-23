@@ -468,9 +468,9 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	private function get_participants_list_html( $form_id = null, $start = null, $length = null ){
-		global $wpdb, $post;
+		global $post;
 
-		if( empty( $form_id ) ) {
+		if ( empty( $form_id ) ) {
 			$form_id = $post->ID;
 		}
 
@@ -478,7 +478,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			$start = $_POST['torro-entries-start'];
 		}
 
-		if( empty( $start ) ){
+		if ( empty( $start ) ){
 			$start = 0;
 		}
 
@@ -486,12 +486,14 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			$length = $_POST['torro-entries-length'];
 		}
 
-		if( empty( $length ) ){
+		if ( empty( $length ) ){
 			$length = 10;
 		}
 
-		$sql = $wpdb->prepare( "SELECT count(*) FROM $wpdb->torro_participants WHERE form_id = %d", $form_id  );
-		$num_results = $wpdb->get_var( $sql );
+		$participants = torro()->participants()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+		) );
 
 		$html  = '<div id="torro-participants" class="torro-table-nav">';
 
@@ -506,7 +508,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$html .= '<div style="clear:both;"></div>';
 
 		$html .= '<div class="torro-slider-navigation">';
-		$html .= $this->get_navigation_html( $form_id, $start, $length, $num_results );
+		$html .= $this->get_navigation_html( $form_id, $start, $length, count( $participants ) );
 		$html .= '</div>';
 
 		$html .= '</div>';
@@ -591,13 +593,12 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	private function get_participants_list_table_html( $form_id, $start, $limit ){
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "SELECT count(*) FROM $wpdb->torro_participants WHERE form_id = %d", $form_id );
-		$num_users = $wpdb->get_var( $sql );
-
-		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %s LIMIT %d, %d", $form_id, $start, $limit );
-		$user_ids = $wpdb->get_col( $sql );
+		$participants = torro()->participants()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+		) );
+		$num_users = count( $participants );
+		$user_ids = wp_list_pluck( $participants, 'user_id' );
 
 		/**
 		 * Participiants list
@@ -679,7 +680,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function check() {
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
@@ -693,9 +694,9 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			return false;
 		}
 
-		$access_controls_same_users = get_post_meta( $torro_form_id, 'form_access_controls_selectedmembers_same_users', true );
+		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
 
-		if ( 'yes' === $access_controls_same_users && torro()->forms( $torro_form_id )->has_participated() ) {
+		if ( 'yes' === $access_controls_same_users && torro()->forms()->get( $form_id )->has_participated() ) {
 			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
 
 			return false;
@@ -714,9 +715,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function is_participant( $user_id = null ) {
-		global $wpdb;
-
-		$torro_form_id = torro()->forms()->get_current_form_id();
+		$form_id = torro()->forms()->get_current_form_id();
 
 		// Setting up user ID
 		if ( null === $user_id ) {
@@ -724,8 +723,11 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 			$user_id = $user_id = $current_user->ID;
 		}
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d", $torro_form_id );
-		$user_ids = $wpdb->get_col( $sql );
+		$participants = torro()->participants()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+		) );
+		$user_ids = wp_list_pluck( $participants, 'user_id' );
 
 		if ( ! in_array( $user_id, $user_ids ) ) {
 			return false;
@@ -824,36 +826,30 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function ajax_add_participants_allmembers( $data ) {
-		global $wpdb;
-
-		if( ! isset( $data[ 'form_id' ] ) ){
+		if( ! isset( $data['form_id'] ) ){
 			return new Torro_Error( 'torro_ajax_add_participants_allmembers_no_form_id', __( 'No form ID provided.', 'torro-forms') );
 		}
 
-		$form_id = $data[ 'form_id' ];
+		$form_id = $data['form_id'];
 		$users = get_users( array( 'orderby' => 'ID' ) );
 		$response = array();
 
-		foreach ( $users as $user ) {
-			$sql = $wpdb->prepare( "SELECT count(*) FROM {$wpdb->torro_participants} WHERE form_id = %d AND user_id = %d ", $form_id, $user->ID );
+		$participants = torro()->participants()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+		) );
 
-			if( 0 !== (int) $wpdb->get_var( $sql ) ){
+		foreach ( $users as $user ) {
+			$filtered = wp_list_filter( $participants, array( 'user_id' => $user->ID ) );
+			if ( 0 < count( $filtered ) ) {
 				continue;
 			}
 
-			$wpdb->insert(
-				$wpdb->torro_participants,
-				array(
-					'form_id' => $form_id,
-					'user_id' => $user->ID,
-				),
-				array(
-					'%d',
-					'%d'
-				)
-			);
+			$participant = torro()->participants()->create( $form_id, array(
+				'user_id'	=> $user->ID,
+			) );
 
-			$response[ 'participants' ][] = array(
+			$response['participants'][] = array(
 				'id'			=> $user->ID,
 				'user_nicename'	=> $user->user_nicename,
 				'display_name'	=> $user->display_name,
@@ -876,8 +872,6 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @since 1.0.0
 	 */
 	public function ajax_invite_participants( $data ) {
-		global $wpdb;
-
 		if ( ! isset( $data['form_id'] ) ) {
 			return new Torro_Error( 'ajax_invite_participants_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_id' ) );
 		}
@@ -913,9 +907,11 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$subject = $data['subject'];
 		$text = $data['text'];
 
-		$sql = "SELECT user_id FROM $wpdb->torro_participants WHERE form_id = %d";
-		$sql = $wpdb->prepare( $sql, $form_id );
-		$user_ids = $wpdb->get_col( $sql );
+		$participants = torro()->participants()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+		) );
+		$user_ids = wp_list_pluck( $participants, 'user_id' );
 
 		if ( 'reinvite' === $data[ 'invitation_type' ] ) {
 			$user_ids_new = '';
@@ -1058,22 +1054,21 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @return array|Torro_Error
 	 * @since 1.0.0
 	 */
-	public function ajax_delete_all_participants( $data ){
-		global $wpdb;
-
-		$form_id = $data[ 'form_id' ];
+	public function ajax_delete_all_participants( $data ) {
+		$form_id = $data['form_id'];
 
 		if( empty( $form_id ) ){
 			return new Torro_Error( 'torro_participants_delete_all_missing_form_id', __( 'Missing form ID.', 'torro-forms') );
 		}
 
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$wpdb->torro_participants} WHERE form_id = %d", $form_id );
-		$results = $wpdb->get_col( $sql );
+		$participants = torro()->participants()->query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+		) );
+		$user_ids = wp_list_pluck( $participants, 'user_id' );
 
-		$deleted = $wpdb->delete( $wpdb->torro_participants, array( 'form_id' => $form_id ), array( '%d' ) );
-
-		if( false === $deleted ){
-			return new Torro_Error( 'torro_participants_delete_all_failed', __( 'Failed to delete participants.', 'torro-forms') );
+		foreach ( $participants as $participant ) {
+			$participant->delete();
 		}
 
 		$start = 0;
@@ -1084,7 +1079,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
 
 		return array(
-			'user_ids'  => $results,
+			'user_ids'  => $user_ids,
 			'table'     => $table,
 			'navi'      => $navi,
 		);
@@ -1098,47 +1093,45 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	 * @return array|Torro_Error
 	 * @since 1.0.0
 	 */
-	public function ajax_delete_participant( $data ){
-		global $wpdb;
+	public function ajax_delete_participant( $data ) {
+		$form_id = $data['form_id'];
+		$user_id = $data['user_id'];
 
-		$form_id = $data[ 'form_id' ];
-		$user_id = $data[ 'user_id' ];
-
-		if( empty( $form_id ) ){
+		if ( empty( $form_id ) ) {
 			return new Torro_Error( 'torro_participants_delete_missing_form_id', __( 'Missing form ID.', 'torro-forms') );
 		}
-		if( empty( $user_id ) ){
+		if ( empty( $user_id ) ) {
 			return new Torro_Error( 'torro_participants_delete_missing_user_id', __( 'Missing user ID.', 'torro-forms') );
 		}
 
-		$deleted = $wpdb->delete( $wpdb->torro_participants, array( 'form_id' => $form_id, 'user_id' => $user_id ), array( '%d', '%d' ) );
-
-		if( false ===  $deleted ){
-			return new Torro_Error( 'torro_participants_delete_all_failed', __( 'Failed to delete participants.', 'torro-forms') );
-		}
+		torro()->participants()->delete_by_query( array(
+			'number'	=> -1,
+			'form_id'	=> $form_id,
+			'user_id'	=> $user_id,
+		) );
 
 		$start = 0;
-		if( isset( $data[ 'start' ] ) ){
-			$start = $data[ 'start' ];
+		if ( isset( $data['start'] ) ) {
+			$start = $data['start'];
 		}
 
 		$length = 10;
-		if( isset( $data[ 'length' ] ) ){
-			$length = $data[ 'length' ];
+		if ( isset( $data['length'] ) ) {
+			$length = $data['length'];
 		}
 
 		$num_results = 0;
-		if( isset( $data[ 'num_results' ] ) ){
-			$num_results = $data[ 'num_results' ] -1;
+		if ( isset( $data['num_results'] ) ) {
+			$num_results = $data['num_results'] -1;
 		}
 
 		$table = torro()->access_controls()->get_registered( 'selectedmembers' )->get_participants_list_table_html( $form_id, $start, $length );
 		$navi = torro()->access_controls()->get_registered( 'selectedmembers' )->get_navigation_html( $form_id, $start, $length, $num_results );
 
 		return array(
-			'user_id' => $user_id,
-			'table'     => $table,
-			'navi'      => $navi,
+			'user_id'	=> $user_id,
+			'table'		=> $table,
+			'navi'		=> $navi,
 		);
 	}
 }

@@ -429,7 +429,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 */
 	public function get_admin_input_name() {
 		$element_id    = $this->get_admin_element_id();
-		$container_id = $this->get_admin_cotainer_id();
+		$container_id = $this->get_admin_container_id();
 
 		$input_name = 'containers[' . $container_id . '][elements][' . $element_id . ']';
 
@@ -455,7 +455,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 *
 	 * @return null|string
 	 */
-	protected function get_admin_cotainer_id() {
+	protected function get_admin_container_id() {
 		if ( ! $this->superior_id ) {
 			return $this->get_empty_container_id();
 		}
@@ -526,7 +526,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 */
 	protected function admin_widget_content_answers( $section = null ) {
 		$element_id        = $this->get_admin_element_id();
-		$container_id      = $this->get_admin_cotainer_id();
+		$container_id      = $this->get_admin_container_id();
 		$admin_input_name  = $this->get_admin_input_name();
 
 		$html = '';
