@@ -106,7 +106,7 @@ final class Torro_General_Settings extends Torro_Settings {
 			    'title'			=> __( 'Slug', 'torro-forms' ),
 			    'description'	=> __( 'The Slug name for URL building. (e.g. for an URL like http://mydomain.com/<strong>forms</strong>/mycontactform)'),
 			    'type'			=> 'text',
-			    'default'		=> ! get_option( 'questions_db_version' ) ? 'forms' : 'survey'
+			    'default'		=> 'forms'
 			),
 		    'frontend_css'			=> array(
 			    'title'			=> __( 'CSS', 'torro-forms' ),
