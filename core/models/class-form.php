@@ -204,6 +204,28 @@ class Torro_Form extends Torro_Instance_Base {
 	}
 
 	/**
+	 * Setting categories
+	 *
+	 * @param array|int|string $terms
+	 *
+	 * @return array|WP_Error Term category IDs of the affected terms.
+	 * @since 1.0.0
+	 */
+	public function set_categories( $terms ) {
+		return wp_set_object_terms( $this->id, $terms, 'torro_form_category' );
+	}
+
+	/**
+	 * Getting categories
+	 *
+	 * @return array|WP_Error
+	 * @since 1.0.0
+	 */
+	public function get_categories() {
+		return wp_get_object_terms( $this->id, 'torro_form_category', array( 'fields' => 'all', 'orderby' => 'none' ) );
+	}
+
+	/**
 	 * Saving response
 	 *
 	 * @param int   $form_id

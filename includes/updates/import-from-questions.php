@@ -60,9 +60,9 @@ function torro_import_from_questions() {
 		}
 
 		if( count( $term_ids ) > 0 ) {
-			wp_set_object_terms( $form->id, $term_ids, 'torro_form_category' );
+			$form->set_categories( $term_ids );
 		}
-
+		
 		/**
 		 * Copy postmeta
 		 */
