@@ -50,18 +50,20 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 		$input_type_data = $this->get_input_types( $input_type_value );
 		$input_type = $input_type_data[ 'html_field_type' ];
 
-		$maybe_required = '';
+		$star_required = '';
+		$aria_required = '';
 		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
-			$maybe_required = ' <span class="required">*</span>';
+			$star_required = ' <span class="required">*</span>';
+			$aria_required = ' aria-required="true"';
 		}
 
-		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $maybe_required . '</label>';
-		$html .= '<input id="' . $this->get_input_id() . '" aria-describedby="' . $this->get_input_id() . '_description" type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '" />';
+		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $star_required . '</label>';
+		$html .= '<input id="' . $this->get_input_id() . '" aria-describedby="' . $this->get_input_id() . '_description ' . $this->get_input_id() . '_errors" type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '"' . $aria_required . ' />';
 
 		if ( ! empty( $this->settings['description'] ) ) {
-			$html .= '<small id="' . $this->get_input_id() . '_description">';
+			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
 			$html .= esc_html( $this->settings[ 'description' ]->value );
-			$html .= '</small>';
+			$html .= '</div>';
 		}
 
 		return $html;

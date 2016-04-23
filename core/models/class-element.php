@@ -179,7 +179,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		}
 
 		if ( is_array( $errors ) && 0 < count( $errors ) ) {
-			$html .= '<ul class="error-messages">';
+			$html .= '<ul id="' . $this->get_input_id() . '_errors" class="error-messages">';
 			foreach ( $errors as $error ) {
 				$html .= '<li>' . $error . '</li>';
 			}

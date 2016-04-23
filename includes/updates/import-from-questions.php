@@ -62,7 +62,7 @@ function torro_import_from_questions() {
 		if( count( $term_ids ) > 0 ) {
 			$form->set_categories( $term_ids );
 		}
-		
+
 		/**
 		 * Copy postmeta
 		 */

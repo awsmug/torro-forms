@@ -48,27 +48,31 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 	}
 
 	public function get_input_html() {
-		$maybe_required = '';
+		$star_required = '';
+		$aria_required = '';
 		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
-			$maybe_required = ' <span class="required">*</span>';
+			$star_required = ' <span class="required">*</span>';
+			$aria_required = ' aria-required="true"';
 		}
 
-		$html  = '<fieldset>';
-		$html .= '<label>' . esc_html( $this->label ) . $maybe_required . '</label>';
+		$html  = '<fieldset' . $aria_required . ' role="group">';
+		$html .= '<legend>' . esc_html( $this->label ) . $star_required . '</legend>';
 
+		$i = 0;
 		foreach ( $this->answers as $answer ) {
 			$checked = '';
 			if ( is_array( $this->response ) && in_array( $answer->answer, $this->response, true ) ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro_element_checkbox"><input type="checkbox" aria-describedby="' . $this->get_input_id() . '_description" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer->answer ) . '" ' . $checked . ' /> ' . esc_html( $answer->answer ) . '</div>';
+			$html .= '<div class="torro_element_checkbox"><input id="' . $this->get_input_id() .'_' . $i . '" type="checkbox" aria-describedby="' . $this->get_input_id() . '_description ' . $this->get_input_id() . '_errors" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer->answer ) . '" ' . $checked . ' /> <label for="' . $this->get_input_id() .'_' . $i . '">' . esc_html( $answer->answer ) . '</label></div>';
+			$i++;
 		}
 
 		if ( ! empty( $this->settings['description']->value ) ) {
-			$html .= '<small id="' . $this->get_input_id() . '_description" >';
+			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
 			$html .= esc_html( $this->settings['description']->value );
-			$html .= '</small>';
+			$html .= '</div>';
 		}
 
 		$html .= '</fieldset>';
