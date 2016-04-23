@@ -149,6 +149,7 @@ class Torro_Init {
 		require_once( $core_folder . 'models/class-result.php' );
 		require_once( $core_folder . 'models/class-result-value.php' );
 		require_once( $core_folder . 'models/class-participant.php' );
+		require_once( $core_folder . 'models/class-email-notification.php' );
 
 		// Admin
 		require_once( $core_folder . 'menu.php' );

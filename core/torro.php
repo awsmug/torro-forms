@@ -89,6 +89,7 @@ final class Torro {
 		require_once( $this->get_path( 'core/managers/class-results-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-result-values-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-participants-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-email-notifications-manager.php' ) );
 
 		// load additional manager classes
 		require_once( $this->get_path( 'core/managers/class-admin-notices-manager.php' ) );
@@ -162,6 +163,10 @@ final class Torro {
 	 */
 	public function participants(){
 		return Torro_Participants_Manager::instance();
+	}
+
+	public function email_notifications() {
+		return Torro_Email_Notifications_Manager::instance();
 	}
 
 	/**
