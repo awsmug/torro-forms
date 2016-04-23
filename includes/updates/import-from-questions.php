@@ -11,7 +11,8 @@ function torro_import_from_questions() {
 	$table_respond_answers_questions = $wpdb->prefix . 'questions_respond_answers';
 	$table_participiants_questions = $wpdb->prefix . 'questions_participiants';
 
-	$terms = get_terms( array( 'taxonomy' => 'questions-categories', 'hide_empty' => false ) );
+	$sql = $wpdb->prepare( "SELECT tt.term_id, t.name, t.slug, tt.parent FROM $wpdb->term_taxonomy AS tt, $wpdb->terms AS t WHERE tt.term_id = t.term_id  AND tt.taxonomy = %s", 'questions-categories' );
+	$terms = $wpdb->get_results( $sql );
 
 	// Adding terms
 	$term_relations = array();
@@ -41,7 +42,10 @@ function torro_import_from_questions() {
 		 * Copy form
 		 */
 		$post_metas = get_post_meta ( $post->ID );
-		$post_terms = wp_get_post_terms( $post->ID, 'questions-categories', array( 'fields' => 'all' ) );
+
+		$sql = $wpdb->prepare( "SELECT tt.term_id FROM {$wpdb->term_relationships} AS tr, {$wpdb->term_taxonomy} AS tt WHERE tr.term_taxonomy_id = tt.term_taxonomy_id AND tr.object_id = %d", $post->ID );
+		$post_terms = $wpdb->get_results( $sql );
+
 		$post_id_questions = $post->ID;
 
 		$form = torro()->forms()->create( array( 'title' => $post->post_title ) );
@@ -223,7 +227,7 @@ function torro_import_from_questions() {
 		$participants_questions = $wpdb->get_results( $sql );
 
 		foreach ( $participants_questions AS $participants_question ){
-			$p = torro()->participants()->create( $form->id, array( 'user_id' => $participants_question->user_id ) );
+			torro()->participants()->create( $form->id, array( 'user_id' => $participants_question->user_id ) );
 		}
 	}
 
@@ -239,6 +243,8 @@ function torro_import_from_questions() {
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_from', get_option( 'questions_mail_from_email' ) );
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_subject', get_option( 'questions_reinvitation_subject_template' ) );
 	update_option( 'torro_settings_restrictions_selectedmembers_reinvite_text', get_option( 'questions_reinvitation_text_template' ) );
+
+	torro()->admin_notices()->add( 'questions_imported', __( 'Questions survey data have been successfully imported to Torro Forms', 'torro-forms' ) );
 }
 
 function torro_import_questions_answers ( $question_id, $element_id ) {

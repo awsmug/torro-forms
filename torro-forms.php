@@ -44,6 +44,7 @@ class Torro_Init {
 		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_frontend_styles' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'import_forms' ) );
 	}
 
 	/**
@@ -291,19 +292,33 @@ class Torro_Init {
 			self::install_tables();
 			update_option( 'torro_db_version', $script_db_version );
 		}
+	}
 
-		// Importing from Questions to Awesome Forms
-		if ( false !== get_option( 'questions_db_version' ) && false === get_option( 'copied_from_questions' ) ) {
-			require_once( 'includes/updates/import-from-questions.php' );
-			// torro_import_from_questions();
-			// update_option( 'copied_from_questions', true );
+	/**
+	 * Importing other forms
+	 *
+	 * @since 1.0.0
+	 */
+	public function import_forms(){
+		if( ! is_admin() ) {
+			return;
 		}
 
-		// Importing from Awesome Forms to Torro Forms
-		if ( false !== get_option( 'af_db_version' ) && false === get_option( 'copied_from_af' ) ) {
-			require_once( 'includes/updates/import-from-awesome-forms.php' );
-			// torro_import_from_awesome_forms();
-			// update_option( 'copied_from_af', true );
+		// Importing from Questions to Torro Forms
+		if ( false !== get_option( 'questions_db_version' ) && false === get_option( 'torro_copied_from_questions' ) && false === get_option( 'torro_denied_copy_from_questions' ) && ! isset( $_REQUEST[ 'import_from_questions' ] ) ) {
+			$allow_copy_url = add_query_arg( 'import_from_questions', 'yes', admin_url() );
+			$deny_copy_url = add_query_arg( 'import_from_questions', 'no', admin_url() );
+			torro()->admin_notices()->add( 'questions_detected', sprintf( __( 'Questions survey data have been detected, do you want to import surveys to Torro Forms? <a href="%s">Yes</a> | <a href="%s">No</a>', 'torro-forms' ), $allow_copy_url, $deny_copy_url ) );
+		}
+
+		if( isset( $_REQUEST[ 'import_from_questions' ] ) ) {
+			if ( 'yes' === $_REQUEST[ 'import_from_questions' ] ) {
+				require_once( 'includes/updates/import-from-questions.php' );
+				torro_import_from_questions();
+				update_option( 'torro_copied_from_questions', true );
+			} elseif( 'no' === $_REQUEST[ 'import_from_questions' ] ) {
+				update_option( 'torro_denied_copy_from_questions', true );
+			}
 		}
 	}
 
@@ -640,12 +655,12 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		// delete options
 		$option_names = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'torro_settings_%'" );
 		foreach ( $option_names as $option_name ) {
-			// delete_option( $option_name );
+			delete_option( $option_name );
 		}
 
 		delete_option( 'torro_db_version' );
-		delete_option( 'copied_from_questions' );
-		delete_option( 'copied_from_af' );
+		delete_option( 'torro_copied_from_questions' );
+		delete_option( 'torro_denied_copy_from_questions' );
 	}
 
 	public static function flush_network_rewrite_rules() {
@@ -662,12 +677,3 @@ add_action( 'plugins_loaded', array( 'Torro_Init', 'init' ) );
 register_activation_hook( __FILE__, array( 'Torro_Init', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'Torro_Init', 'deactivate' ) );
 register_uninstall_hook( __FILE__, array( 'Torro_Init', 'uninstall' ) );
-
-
-function torro_testit(){
-	require_once( 'includes/updates/import-from-questions.php' );
-	torro_import_from_questions();
-}
-if( isset( $_REQUEST[ 'import_from_questions' ] ) ) {
-	add_action( 'admin_notices', 'torro_testit', 1000 );
-}
