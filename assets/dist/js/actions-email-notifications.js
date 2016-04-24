@@ -63,6 +63,9 @@
 			});
 
 			$( document ).on( 'click', this.selectors.add_notification_button, function( e ) {
+				var $button = $(this);
+				$button.addClass('button-loading');
+
 				wp.ajax.post( 'torro_get_email_notification_html', {
 					nonce: self.translations.nonce_get_email_notification_html
 				}).done( function( response ) {
@@ -72,7 +75,9 @@
 
 					self.init_notifications();
 
-					$( '.notification-' + response.id ).hide().fadeIn( 2500 );
+					$( '.notification-' + response.id ).hide().fadeIn( 500 );
+
+					$button.removeClass('button-loading');
 				}).fail( function( message ) {
 					console.log( 'failed' );
 					console.log( message );
