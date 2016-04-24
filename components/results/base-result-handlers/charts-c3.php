@@ -66,7 +66,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 */
 	protected function init() {
 		$this->name = 'c3';
-		$this->title = __( 'C3', 'torro-forms' );
+		$this->title = __( 'Charts', 'torro-forms' );
 		$this->description = __( 'Chart creating with C3.', 'torro-forms' );
 	}
 
