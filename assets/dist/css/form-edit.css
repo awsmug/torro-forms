@@ -343,6 +343,7 @@
 	line-height: 25px;
 }
 .post-type-torro_form #poststuff .torro-table-nav #torro-entry-buttons {
+	min-height: 30px; 
 	margin-top: 15px;
 }
 .post-type-torro_form #poststuff .torro-table-nav .torro-entries-slider {
