@@ -233,29 +233,24 @@
 	border-top: 1px solid #ddd;
 }
 
+.post-type-torro_form #poststuff .clipboardfield label {
+	display: block; 
+	width: 100%;
+}
+
 .post-type-torro_form #poststuff .clipboardfield input {
-	float: left;
-	width: 95%;
+	width: 200px; 
 	height: 28px;
-	margin-right: -7%; 
 	font-size: 12px;
 	background-color: #f7f7f7;
 }
 
 .post-type-torro_form #poststuff .clipboardfield .clipboard {
-	float: left;
-	width: 11%;
-	padding: 4px;
+	width: 29px; 
+	height: 27px;
+	padding: 3px;
 	margin-top: 1px;
-	        border-top-left-radius: 0;
-	        border-bottom-left-radius: 0;
-
-	-webkit-border-top-left-radius: 0;
-	   -moz-border-top-left-radius: 0;
-	-moz-border-radius-topleft: 0;
-	-webkit-border-bottom-left-radius: 0;
-	   -moz-border-bottom-left-radius: 0;
-	-moz-border-radius-bottomleft: 0;
+	margin-left: 5px;
 }
 .post-type-torro_form #poststuff .clipboardfield .clipboard img {
 	width: 14px;

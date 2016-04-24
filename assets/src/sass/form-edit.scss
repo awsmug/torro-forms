@@ -265,22 +265,23 @@
 		}
 
 		.clipboardfield {
+			label {
+				width:100%;
+				display:block;
+			}
 			input {
 				background-color: #f7f7f7;
-				float: left;
 				font-size: 12px;
 				height: 28px;
-				width: 95%;
-				margin-right: -7%;
+				width: 200px;
 			}
 
 			.clipboard {
-				width: 11%;
-				float: left;
-				padding: 4px;
+				height: 27px;
+				margin-left: 5px;
 				margin-top: 1px;
-				@include border-top-left-radius(0);
-				@include border-bottom-left-radius(0);
+				padding: 3px;
+				width: 29px;
 
 				img {
 					width: 14px;
