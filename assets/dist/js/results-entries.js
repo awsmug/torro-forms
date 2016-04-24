@@ -47,7 +47,7 @@
 				e.preventDefault();
 
 				if ( $button.hasClass( 'button' ) ) {
-					$button.addClass('button-loading');
+					$button.addClass( 'button-loading' );
 
 					wp.ajax.post( 'torro_show_entry', {
 						nonce: self.translations.nonce_show_entry,

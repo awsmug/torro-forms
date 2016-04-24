@@ -233,15 +233,11 @@
 			margin: 0;
 		}
 
-		#wpbody {
-			.wrap {
-				.button-loading {
-					background-image: url('#{$image-path}/loading.gif');
-					background-repeat: no-repeat;
-					background-position: 5px 5px;
-					padding-left: 28px;
-				}
-			}
+		.button-loading {
+			background-image: url('#{$image-path}/loading.gif');
+			background-repeat: no-repeat;
+			background-position: 5px 5px;
+			padding-left: 28px;
 		}
 
 		.in-postbox-one-third {

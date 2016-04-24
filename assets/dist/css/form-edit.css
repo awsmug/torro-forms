@@ -204,7 +204,7 @@
 	margin: 0;
 }
 
-.post-type-torro_form #poststuff #wpbody .wrap .button-loading {
+.post-type-torro_form #poststuff .button-loading {
 	padding-left: 28px; 
 	background-image: url("../img/loading.gif");
 	background-repeat: no-repeat;
