@@ -140,10 +140,10 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$redirect_type = get_post_meta( $form_id, 'redirect_type', true );
 		$redirect_url = get_post_meta( $form_id, 'redirect_url', true );
 		$redirect_page = get_post_meta( $form_id, 'redirect_page', true );
-		$redirect_text = get_post_meta( $form_id, 'redirect_text', true );
+		$redirect_text_content = get_post_meta( $form_id, 'redirect_text_content', true );
 
-		if ( '' == $redirect_text ) {
-			$redirect_text = esc_html__( 'Thank you for submitting!', 'torro-forms' );
+		if ( '' == $redirect_text_content ) {
+			$redirect_text_content = esc_html__( 'Thank you for submitting!', 'torro-forms' );
 		}
 
 		$html = '<div id="form-redirections">';
@@ -226,7 +226,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$settings = array( 'textarea_rows', 25 );
 
 		ob_start();
-		wp_editor( $redirect_text, 'redirect_text_content', $settings );
+		wp_editor( $redirect_text_content, 'redirect_text_content', $settings );
 		$html .= ob_get_clean();
 
 		$html .= '</td>';
@@ -256,8 +256,8 @@ final class Torro_Redirection_Action extends Torro_Action {
 		$redirect_page = $_POST[ 'redirect_page' ];
 		update_post_meta( $post->ID, 'redirect_page', $redirect_page );
 
-		$redirect_text = $_POST[ 'redirect_text_content' ];
-		update_post_meta( $post->ID, 'redirect_text_content', $redirect_text );
+		$redirect_text_content = $_POST[ 'redirect_text_content' ];
+		update_post_meta( $post->ID, 'redirect_text_content', $redirect_text_content );
 	}
 }
 
