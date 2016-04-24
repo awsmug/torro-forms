@@ -52,6 +52,7 @@
 					}).done( function( response ) {
 						$( self.selectors.entries_slider_middle ).animate({marginLeft: "-100%"});
 						$( self.selectors.entries_slider_right ).html( response.html );
+						$( self.selectors.entries_slider_right ).show();
 						$( self.selectors.entries_slider_right ).animate({marginLeft: "0"});
 
 						$button.removeClass('button-loading');
@@ -74,6 +75,7 @@
 
 				$( self.selectors.entries_slider_middle ).animate({ marginLeft: "0" });
 				$( self.selectors.entries_slider_right ).animate({ marginLeft: "100%" });
+				$( self.selectors.entries_slider_right ).hide();
 			});
 		},
 
