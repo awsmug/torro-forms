@@ -97,27 +97,34 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	public function element_content( $element_id ) {
 		global $torro_response;
 
-		if ( ! isset( $torro_response[ $element_id ] ) ) {
+		if ( ! isset( $torro_response[ 'container_id' ] ) ) {
 			return;
 		}
 
-		$element = torro()->elements()->get_registered( $element_id );
+		$container_id = $torro_response[ 'container_id' ];
+
+		if ( ! isset( $torro_response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ] ) ) {
+			return;
+		}
+
+		$value = $torro_response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ];
+		$element = torro()->elements()->get( $element_id );
 
 		/**
 		 * Displaying elements
 		 */
-		if ( 0 < count( $element->sections ) ) {
+		if ( count( $element->sections ) > 0 ) {
 			/**
 			 * Elements with sections
 			 */
 			// @todo Checking if element had sections and giving them HTML > Try with Matrix
 
-		} elseif ( is_array( $torro_response[ $element_id ] ) ) {
+		} elseif ( is_array( $value ) ) {
 			/**
 			 * Elements with multiple answers
 			 */
 			$html = '<ul>';
-			foreach ( $torro_response[ $element_id ] as $response ) {
+			foreach ( $value as $response ) {
 				$html .= '<li>' . $response . '</li>';
 			}
 			$html .= '</ul>';
@@ -127,7 +134,13 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 			/**
 			 * Elements with string response value
 			 */
-			return $torro_response[ $element_id ];
+
+			$value_new = $element->replace_column_value( $value );
+			if ( $value_new || is_string( $value_new ) ) {
+				$value = $value_new;
+			}
+			
+			return $value;
 		}
 	}
 
