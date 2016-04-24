@@ -411,7 +411,7 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 
 								$html .= '<tr>';
 								$html .= '<td>' . $column_name . '</td>';
-								$html .= '<td>' . $value . '</td>';
+								$html .= '<td>' . nl2br( $value ) . '</td>';
 								$html .= '</tr>';
 							}
 							break;
