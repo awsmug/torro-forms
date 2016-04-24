@@ -139,6 +139,21 @@ final class Torro_Form_Element_Multiplechoice extends Torro_Form_Element {
 
 		return $input;
 	}
+
+	public function replace_column_name( $column_name ) {
+		$column_name_arr = explode( '_', $column_name );
+
+		if( 'element' !== $column_name_arr[0] || empty( $column_name_arr[1] ) || empty( $column_name_arr[0] ) ) {
+			return false;
+		}
+
+		$answer_id = $column_name_arr[2];
+		$answer = torro()->element_answers()->get( $answer_id )->answer;
+
+		$column_name_new = $this->label . ' - ' . $answer;
+
+		return $column_name_new;
+	}
 }
 
 torro()->elements()->register( 'Torro_Form_Element_Multiplechoice' );
