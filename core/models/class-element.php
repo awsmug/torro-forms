@@ -287,6 +287,24 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	}
 
 	/**
+	 * Renders a value for display.
+	 *
+	 * @param mixed $value the unmodified value
+	 * @return string the value ready to display as HTML
+	 */
+	public function parse_value( $value ) {
+		if ( 'yes' === $value ) {
+			return __( 'Yes', 'torro-forms' );
+		}
+
+		if( 'no' == $value ) {
+			return __( 'No', 'torro-forms' );
+		}
+
+		return nl2br( $value );
+	}
+
+	/**
 	 * Replacing column name by element
 	 *
 	 * @param str $column_name

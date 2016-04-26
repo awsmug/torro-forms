@@ -84,11 +84,7 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 		$html .= '<div class="torro-slider">';
 		$html .= '<div class="torro-slider-middle">';
 
-		$form_results = new Torro_Form_Results( $form_id );
-		$form_results->results();
-		$num_results = $form_results->count();
-
-		$html .= $this->show_results( $form_id, $start, $length, $num_results );
+		$html .= $this->show_results( $form_id, $start, $length );
 
 		$html .= '</div>';
 		$html .= '<div class="torro-slider-right"></div>';
@@ -98,139 +94,118 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 		return $html;
 	}
 
-	public function show_results( $form_id, $start, $length, $num_results ) {
-		$form_results = new Torro_Form_Results( $form_id );
+	public function show_results( $form_id, $start, $length ) {
+		$results = torro()->results()->query( array(
+			'number'	=> $length,
+			'offset'	=> $start,
+			'form_id'	=> $form_id,
+		) );
 
-		$filter = array(
-			'start_row'	=> $start,
-			'num_rows'	=> $length
-		);
+		$total_count = torro()->results()->query( array(
+			'number'	=> -1,
+			'count'		=> true,
+			'form_id'	=> $form_id,
+		) );
 
-		$html = '';
-		$results = $form_results->results( $filter );
-
-		if ( 0 < $form_results->count() ) {
-			$date_format = get_option( 'date_format' );
-
-			$html .= '<table id="torro-entries-table" class="widefat entries">';
-			$html .= '<thead>';
-			$html .= '<tr>';
-
-			$entry_columns = apply_filters( 'torro_entry_columns', array( 'result_id', 'user_id', 'timestamp' ) );
-
-			foreach( array_keys( $results[0] ) as $headline ) {
-				if ( in_array( $headline, $entry_columns, true ) ) {
-					switch ( $headline ) {
-						case 'result_id':
-							$headline_title = esc_attr__( 'ID', 'torro_locale' );
-							$class = 'column-one';
-							break;
-						case 'user_id':
-							$headline_title = esc_attr__( 'User', 'torro_locale' );
-							$class = 'column-ten';
-							break;
-						case 'timestamp':
-							$headline_title = esc_attr__( 'Date', 'torro_locale' );
-							$class = 'column-ten';
-							break;
-						default:
-							$headline_title = $headline;
-							$class = 'column-ten';
-					}
-					$html .= '<th class="' . $class . '">' . $headline_title . '</th>';
-				}
-			}
-
-			$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'torro-forms' ), admin_url( 'edit.php' ) . '?post_type=torro_form&torro_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=torro_form&torro_export=csv&form_id=' . $form_id ) . '</th>';
-			$html .= '</tr>';
-			$html .= '</thead>';
-
-			$html .= '<tbody>';
-
-			foreach ( $results as $result ) {
-				$html .= '<tr>';
-				foreach ( array_keys( $results[0] ) as $headline ) {
-					if ( in_array( $headline, $entry_columns, true ) ) {
-						switch ( $headline ) {
-							case 'timestamp':
-								$content = date_i18n( $date_format, $result[ $headline ] );
-								break;
-							case 'user_id':
-								if( -1 !== (int) $result[ $headline ] ) {
-									$user    = get_user_by( 'id', $result[ $headline ] );
-									$content = $user->display_name;
-								}else{
-									$content = esc_html( 'not available', 'torro-forms' );
-								}
-								break;
-							default:
-								$content = $result[ $headline ];
-						}
-
-						$html .= '<td>';
-						$html .= $content;
-						$html .= '</td>';
-					}
-				}
-
-				$html .= '<td class="entry-actions">';
-				$html .= '<a type="button" class="button torro-show-entry" rel="' . $result['result_id'] . '" >' . esc_html__( 'Show Details', 'torro-forms' ) . '</a>';
-				$html .= '</td>';
-
-				$html .= '</tr>';
-			}
-			$html .= '</tbody>';
-			$html .= '<tfoot>';
-			$html .= '<tr>';
-			$html .= '<td>';
-			$html .= '</td>';
-			$html .= '<td>';
-			$html .= '</td>';
-			$html .= '<td>';
-			$html .= '</td>';
-			$html .= '<td>&nbsp;</td>';
-			$html .= '</tr>';
-			$html .= '</tfoot>';
-			$html .= '</table>';
-
-			$prev = $start - $length;
-			$next = $start + $length;
-			$count = $num_results <= $length ? $num_results : $length;
-
-			$html .= '<div class="torro-nav">';
-
-			$html .= '<div class="torro-nav-prev-link">';
-			if ( 0 <= $prev ) {
-				$prev_url = $this->get_admin_url( $form_id, array(
-					'torro-entries-start'	=> $prev,
-					'torro-entries-length'	=> $length,
-				) );
-				$prev_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Previous</a>', 'torro-forms' ), $prev_url );
-				$html .= $prev_link;
-			}
-			$html .= '</div>';
-
-			if( $num_results > 0 ) {
-				$html .= '<div class="torro-nav-info">' . sprintf( esc_attr__( '%s - %s of %s', 'torro-forms' ), $start + 1, $count, $num_results ) . '</div>';
-			}
-
-			$html .= '<div class="torro-nav-next-link">';
-			if ( $num_results > $next ) {
-				$next_url = $this->get_admin_url( $form_id, array(
-					'torro-entries-start'	=> $next,
-					'torro-entries-length'	=> $length,
-				) );
-				$next_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Next</a>', 'torro-forms' ), $next_url );
-				$html .= $next_link;
-			}
-			$html .= '</div>';
-
-			$html .= '</div>';
-		} else {
-			$html .= $this->show_not_found_notice();
+		if ( 0 === count( $results ) ) {
+			return $this->show_not_found_notice();
 		}
 
+		$columns = $this->get_columns();
+
+		$html = '<table id="torro-entries-table" class="widefat entries">';
+		$html .= '<thead>';
+		$html .= '<tr>';
+
+		foreach ( $columns as $key => $data ) {
+			$class = isset( $data['class'] ) ? $data['class'] : 'column-ten';
+			if ( ! empty( $class ) ) {
+				$class .= ' ';
+			}
+			$class .= 'column-' . $key;
+
+			$html .= '<th class="' . $class . '">' . esc_html( $data['title'] ) . '</th>';
+		}
+
+		$html .= '<th class="export-links">' . sprintf( __( 'Export as <a href="%s">XLS</a> or <a href="%s">CSV</a>', 'torro-forms' ), admin_url( 'edit.php' ) . '?post_type=torro_form&torro_export=xls&form_id=' . $form_id, admin_url( 'edit.php' ) . '?post_type=torro_form&torro_export=csv&form_id=' . $form_id ) . '</th>';
+		$html .= '</tr>';
+		$html .= '</thead>';
+
+		$html .= '<tbody>';
+
+		foreach ( $results as $result ) {
+			$html .= '<tr>';
+
+			foreach ( $columns as $key => $data ) {
+				$val = '';
+				if ( isset( $data['callback'] ) && is_callable( $data['callback'] ) ) {
+					$val = call_user_func( $data['callback'], $result );
+				} elseif ( isset( $data['raw_callback'] ) && is_callable( $data['raw_callback'] ) ) {
+					$val = call_user_func( $data['raw_callback'], $result );
+				}
+				$html .= '<td class="column-' . $key . '">' . $val . '</td>';
+			}
+
+			$html .= '<td class="entry-actions">';
+			$html .= '<a type="button" class="button torro-show-entry" rel="' . $result->id . '" >' . esc_html__( 'Show Details', 'torro-forms' ) . '</a>';
+			$html .= '</td>';
+
+			$html .= '</tr>';
+		}
+
+		$html .= '</tbody>';
+		$html .= '<tfoot>';
+		$html .= '<tr>';
+		$html .= '<td>';
+		$html .= '</td>';
+		$html .= '<td>';
+		$html .= '</td>';
+		$html .= '<td>';
+		$html .= '</td>';
+		$html .= '<td>&nbsp;</td>';
+		$html .= '</tr>';
+		$html .= '</tfoot>';
+		$html .= '</table>';
+
+		$prev = $start - $length;
+		$next = $start + $length;
+		$count = $total_count <= $length ? $total_count : $length;
+
+		$html .= '<div class="torro-nav">';
+
+		$html .= '<div class="torro-nav-prev-link">';
+		if ( 0 <= $prev ) {
+			$prev_url = $this->get_admin_url( $form_id, array(
+				'torro-entries-start'	=> $prev,
+				'torro-entries-length'	=> $length,
+			) );
+			$prev_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Previous</a>', 'torro-forms' ), $prev_url );
+			$html .= $prev_link;
+		}
+		$html .= '</div>';
+
+		if( $total_count > 0 ) {
+			$html .= '<div class="torro-nav-info">' . sprintf( esc_attr__( '%s - %s of %s', 'torro-forms' ), $start + 1, $count, $total_count ) . '</div>';
+		}
+
+		$html .= '<div class="torro-nav-next-link">';
+		if ( $total_count > $next ) {
+			$next_url = $this->get_admin_url( $form_id, array(
+				'torro-entries-start'	=> $next,
+				'torro-entries-length'	=> $length,
+			) );
+			$next_link = sprintf( __( '<a href="%s" class="torro-nav-button button">Next</a>', 'torro-forms' ), $next_url );
+			$html .= $next_link;
+		}
+		$html .= '</div>';
+
+		$html .= '</div>';
+
 		return $html;
+	}
+
+	public function show_not_found_notice() {
+		return '<p class="not-found-area">' . esc_html__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 	}
 
 	/**
@@ -243,10 +218,6 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 		}
 
 		return $admin_url;
-	}
-
-	public function show_not_found_notice() {
-		return '<p class="not-found-area">' . esc_html__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 	}
 
 	public function admin_styles() {
@@ -292,16 +263,12 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 			return new Torro_Error( 'ajax_show_entries_length_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'length' ) );
 		}
 
-		$form_id = $data['form_id'];
-		$start = $data['start'];
-		$length = $data['length'];
-
-		$form_results = new Torro_Form_Results( $form_id );
-		$form_results->results();
-		$num_results = $form_results->count();
+		$form_id = absint( $data['form_id'] );
+		$start = absint( $data['start'] );
+		$length = absint( $data['length'] );
 
 		$response = array(
-			'html'	=> torro()->resulthandlers()->get_registered( 'entries' )->show_results( $form_id, $start, $length, $num_results ),
+			'html'	=> $this->show_results( $form_id, $start, $length ),
 		);
 
 		return $response;
@@ -327,107 +294,62 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 			return new Torro_Error( 'ajax_show_entry_result_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'result_id' ) );
 		}
 
-		$form_id = $data['form_id'];
-		$result_id = $data['result_id'];
+		$form_id = absint( $data['form_id'] );
+		$result_id = absint( $data['result_id'] );
 
-		if ( ! torro()->forms()->get( $form_id)->exists() ) {
+		if ( ! torro()->forms()->exists( $form_id ) ) {
 			return array(
 				'html'	=> __( 'Form not found.', 'torro-forms' ),
 			);
 		}
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE id = %d", $result_id );
-		$count_results = $wpdb->get_var( $sql );
-
-		if ( 0 === $count_results ) {
+		$result = torro()->results()->get( $result_id );
+		if ( is_wp_error( $result ) ) {
 			return array(
 				'html'	=> __( 'Entry not found.', 'torro-forms' ),
 			);
 		}
 
-		$filter = array(
-			'result_ids' => array( $result_id ),
-		);
+		$user = get_user_by( 'id', $result->user_id );
 
-		$form_results = new Torro_Form_Results( $form_id );
-		$results = $form_results->results( $filter );
-
-		if ( 0 < $form_results->count() ) {
-			foreach ( $results as $result ) {
-				if ( ! array_key_exists( 'result_id', $result ) ) {
-					return array(
-						'html'	=> __( 'Error on getting Result.', 'torro-forms' ),
-					);
-				}
-
-				$html = '<table id="torro-entry-table" class="widefat">';
-
-				$html .= '<thead>';
-				$html .= '<tr>';
-				$html .= '<th>' . esc_html__( 'Label', 'torro-forms' ) . '</th>';
-				$html .= '<th>' . esc_html__( 'Value', 'torro-forms' ) . '</th>';
-				$html .= '</tr>';
-				$html .= '</thead>';
-
-				$html .= '<tbody>';
-
-				$extra_info = '';
-
-				foreach ( $result as $column_name => $value ) {
-					switch ( $column_name ) {
-						case 'result_id':
-							$result_id = $value;
-							break;
-						case 'user_id':
-							if ( -1 !== (int) $value ) {
-								$user_id = $value;
-								$user = get_user_by( 'id', $user_id );
-								$extra_info .= ' - ' . esc_attr__( 'User', 'torro-forms' ) . ' ' . $user->user_nicename;
-							}
-							break;
-						case 'timestamp':
-							$timestamp = $value;
-							$date_string = date_i18n( get_option( 'date_format' ), $timestamp );
-							$time_string = date_i18n( get_option( 'time_format' ), $timestamp );
-							break;
-						default:
-							$column_arr = explode( '_', $column_name );
-							// On Elements
-							if ( array_key_exists( 0, $column_arr ) && 'element' === $column_arr[0] ) {
-								$element_id = $column_arr[ 1 ];
-								$element = torro()->elements()->get( $element_id );
-
-								$column_name = $element->replace_column_name( $column_name );
-
-								if ( empty( $column_name ) ) {
-									$column_name = $element->label;
-								}
-
-								if ( 'yes' === $value ) {
-									$value = esc_attr__( 'Yes', 'torro-forms' );
-								} elseif( 'no' == $value ) {
-									$value = esc_attr__( 'No', 'torro-forms' );
-								}
-
-								$html .= '<tr>';
-								$html .= '<td>' . $column_name . '</td>';
-								$html .= '<td>' . nl2br( $value ) . '</td>';
-								$html .= '</tr>';
-							}
-							break;
-					}
-				}
-				$html .= '</tbody>';
-				$html .= '<tfoot>';
-				$html .= '<tr>';
-				$html .= '<td colspan="2"><small>' . esc_html__( 'Date', 'torro-forms' ) . ' ' . $date_string . ' - ' . esc_html__( 'Time', 'torro-forms' ) . ' ' . $time_string . $extra_info . '</small></td>';
-				$html .= '</tr>';
-				$html .= '</tfoot>';
-				$html .= '</table>';
-			}
-		} else {
-			$html = __( 'Entry not found.', 'torro-forms' );
+		$date_string = date_i18n( get_option( 'date_format' ), $result->timestamp );
+		$time_string = date_i18n( get_option( 'time_format' ), $result->timestamp );
+		$extra_info = '';
+		if ( $user ) {
+			$extra_info .= ' - ' . sprintf( __( 'User %s', 'torro-forms' ), $user->user_nicename );
 		}
+
+
+		$html = '<table id="torro-entry-table" class="widefat">';
+
+		$html .= '<thead>';
+		$html .= '<tr>';
+		$html .= '<th>' . esc_html__( 'Label', 'torro-forms' ) . '</th>';
+		$html .= '<th>' . esc_html__( 'Value', 'torro-forms' ) . '</th>';
+		$html .= '</tr>';
+		$html .= '</thead>';
+
+		$html .= '<tbody>';
+
+		foreach ( $result->values as $result_value ) {
+			$value = $result_value->value;
+			if ( is_callable( array( $result_value->element, 'render_value' ) ) ) {
+				$value = call_user_func( array( $result_value->element, 'render_value' ), $value );
+			}
+
+			$html .= '<tr>';
+			$html .= '<td>' . $result_value->element->label . '</td>';
+			$html .= '<td>' . $value . '</td>';
+			$html .= '</tr>';
+		}
+
+		$html .= '</tbody>';
+		$html .= '<tfoot>';
+		$html .= '<tr>';
+		$html .= '<td colspan="2"><small>' . esc_html__( 'Date', 'torro-forms' ) . ' ' . $date_string . ' - ' . esc_html__( 'Time', 'torro-forms' ) . ' ' . $time_string . $extra_info . '</small></td>';
+		$html .= '</tr>';
+		$html .= '</tfoot>';
+		$html .= '</table>';
 
 		$html .= '<div id="torro-entry-buttons">';
 		$html .= '<input type="button" class="button torro-hide-entry" value="' . esc_attr__( 'Back to Results', 'torro-forms' ) . '">';

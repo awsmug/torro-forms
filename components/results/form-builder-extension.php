@@ -70,9 +70,6 @@ class Torro_Formbuilder_ChartsExtension {
 
 		$form_id = $post->ID;
 
-		$form_results = new Torro_Form_Results( $form_id );
-		$form_results->results();
-
 		$result_handlers = torro()->resulthandlers()->get_all_registered();
 
 		if ( ! is_array( $result_handlers ) || 0 === count( $result_handlers ) ){
@@ -105,7 +102,13 @@ class Torro_Formbuilder_ChartsExtension {
 
 		$delete_results_disabled = ' disabled="disabled"';
 
-		if ( 0 < $form_results->count() ) {
+		$results_count = torro()->results()->query( array(
+			'number'	=> -1,
+			'count'		=> true,
+			'form_id'	=> $form_id,
+		) );
+
+		if ( 0 < $results_count ) {
 			$delete_results_disabled = '';
 		}
 

@@ -66,15 +66,15 @@ class Torro_ChartsShortCodes {
 	 */
 	public static function form_charts( $atts ) {
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
-		$form_id = $atts[ 'id' ];
+		$form_id = absint( $atts['id'] );
 
 		if ( empty( $form_id ) || ! torro()->forms()->get( $form_id )->exists() ) {
 			return __( 'Please enter a valid form id into the shortcode!', 'torro-forms' );
 		}
 
-		$form_results = new Torro_Form_Results( $form_id );
-		$results = $form_results->results();
-		$results = Torro_Result_Charts::format_results_by_element( $results );
+		$charts = torro()->resulthandlers()->get_registered( 'c3' );
+		$results = $charts->parse_results_for_export( $form_id, 0, -1, 'raw', false );
+		$results = $charts->format_results_by_element( $results );
 
 		$html = '';
 
@@ -82,16 +82,14 @@ class Torro_ChartsShortCodes {
 			$headline_arr = explode( '_', $headline );
 
 			$element_id = (int) $headline_arr[ 1 ];
-			$element = torro()->elements()->get_registered( $element_id );
+			$element = torro()->elements()->get( $element_id );
 
 			// Skip collecting Data if there is no analyzable Data
 			if ( ! $element->input_answers ) {
 				continue;
 			}
 
-			$chart_creator = Torro_Result_Charts_C3::instance();
-
-			$html .= $chart_creator->bars( $element->label, $element_result );
+			$html .= $charts->bars( $element->label, $element_result );
 		}
 
 		return $html;
@@ -132,13 +130,11 @@ class Torro_ChartsShortCodes {
 			return __( 'It looks like the container for this element has been removed. Please enter a different element id into the shortcode.', 'torro-forms' );
 		}
 
-		$form_results = new Torro_Form_Results( $container->form_id );
-		$results = $form_results->element_results( $element->id );
-		$results = Torro_Result_Charts::format_results_by_element( $results );
+		$charts = torro()->resulthandlers()->get_registered( 'c3' );
+		$results = $charts->parse_results_for_export( $container->form_id, 0, -1, 'raw', false );
+		$results = $charts->format_results_by_element( $results );
 
-		$chart_creator = new Torro_Result_Charts_C3();
-
-		$html = $chart_creator->bars( $element->label, $results[ 'element_' . $element->id ] );
+		$html = $charts->bars( $element->label, $results[ 'element_' . $element->id ] );
 
 		return $html;
 	}

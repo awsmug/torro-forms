@@ -101,13 +101,12 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 			return $html;
 		}
 
-		$form_results = new Torro_Form_Results( $form_id );
-		$results = $form_results->results();
+		$results = $this->parse_results_for_export( $form_id, 0, -1, 'raw', false );
 
 		$count_charts = 0;
 
-		if ( 0 < $form_results->count() ) {
-			$element_results = self::format_results_by_element( $results );
+		if ( 0 < count( $results ) ) {
+			$element_results = $this->format_results_by_element( $results );
 
 			foreach ( $element_results as $headline => $element_result ) {
 				$headline_arr = explode( '_', $headline );
@@ -152,7 +151,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 			}
 		}
 
-		if ( 0 === $count_charts || 0 === $form_results->count() ) {
+		if ( 0 === $count_charts || 0 === count( $results ) ) {
 			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 		}
 
@@ -174,7 +173,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 	 * @return array $results_formatted
 	 * @since 1.0.0
 	 */
-	public static function format_results_by_element( $results ) {
+	public function format_results_by_element( $results ) {
 		if ( ! is_array( $results ) ) {
 			return FALSE;
 		}
@@ -212,14 +211,11 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 				if ( $element->answer_array ) {
 					$answer_id = (int) $column_name_arr[ 2 ];
 
-					$value = $element->replace_column_name( $column_name );
-
-					if ( empty( $value ) ) {
-						foreach( $element->answers AS $element_answer ){
-							if( $element_answer->id == $answer_id ){
-								$value = $element_answer->answer;
-								break;
-							}
+					$value = '';
+					foreach( $element->answers as $element_answer ){
+						if( $element_answer->id === $answer_id ){
+							$value = $element_answer->answer;
+							break;
 						}
 					}
 
@@ -234,7 +230,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 					}
 				} else {
 					// Setting up all answers to 0 to have also Zero values
-					foreach ( $element->answers AS $element_answers ) {
+					foreach ( $element->answers as $element_answers ) {
 						if ( ! isset( $results_formatted[ $result_key ][ $element_answers->answer ] ) ) {
 							$results_formatted[ $result_key ][ $element_answers->answer ] = 0;
 						}
