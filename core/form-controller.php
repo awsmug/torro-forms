@@ -430,7 +430,11 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function filter_the_content( $content ) {
-		$this->init_vars();
+		$post = get_post();
+
+		if ( 'torro_form' !== $post->post_type ) {
+			return $content;
+		}
 
 		if ( is_wp_error( $this->content ) ) {
 			return $this->content->get_error_message();
