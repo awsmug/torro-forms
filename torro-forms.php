@@ -299,7 +299,7 @@ class Torro_Init {
 	 *
 	 * @since 1.0.0
 	 */
-	public function import_forms(){
+	public static function import_forms(){
 		if( ! is_admin() ) {
 			return;
 		}
