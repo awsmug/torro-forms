@@ -134,12 +134,10 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 			/**
 			 * Elements with string response value
 			 */
-
-			$value_new = $element->replace_column_value( $value );
-			if ( $value_new || is_string( $value_new ) ) {
-				$value = $value_new;
+			if ( is_callable( array( $element, 'render_value' ) ) ) {
+				return $element->render_value( $value );
 			}
-			
+
 			return $value;
 		}
 	}

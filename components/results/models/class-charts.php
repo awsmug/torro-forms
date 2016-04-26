@@ -111,7 +111,7 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 			foreach ( $element_results as $headline => $element_result ) {
 				$headline_arr = explode( '_', $headline );
 
-				$element_id = (int) $headline_arr[ 1 ];
+				$element_id = (int) $headline_arr[1];
 				$element = torro()->elements()->get( $element_id );
 
 				// Skip collecting Data if there is no analyzable Data
@@ -122,10 +122,18 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 				if ( 0 < count( $element->sections ) ) {
 					$label = $element->label;
 
-					$column_name = $element->replace_column_name( $headline );
+					$answer_id = (int) $headline_arr[2];
 
-					if ( ! empty( $column_name ) ) {
-						$label .= ' - ' . $column_name;
+					$value = '';
+					foreach( $element->answers as $element_answer ){
+						if( $element_answer->id === $answer_id ){
+							$value = $element_answer->answer;
+							break;
+						}
+					}
+
+					if ( ! empty( $value ) ) {
+						$label .= ' - ' . $value;
 					}
 				} else {
 					$label = $element->label;

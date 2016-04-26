@@ -219,21 +219,11 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		) );
 	}
 
-	/**
-	 * Replacing column value in result HTML
-	 *
-	 * @param $column_value
-	 *
-	 * @return mixed|string|void
-	 * @since 1.0.0
-	 */
-	public function replace_column_value( $column_value ) {
-		if ( ! $column_value || ! ( $attachment = get_post( $column_value ) ) ) {
+	public function render_value( $value ) {
+		if ( ! $value || ! ( $attachment = get_post( $value ) ) ) {
 			return __( 'No file uploaded.', 'torro-forms' );
 		}
 
-		return wp_get_attachment_url( $attachment->ID );
-		/*
 		$output = wp_basename( get_attached_file( $attachment->ID ) );
 		if ( 'image' === substr( $attachment->post_mime_type, 0, 5 ) ) {
 			$src = wp_get_attachment_image_src( $attachment->ID, 'full' );
@@ -245,7 +235,14 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		$url = get_edit_post_link( $attachment->ID );
 
 		return '<a href="' . $url . '">' . $output . '</a>';
-		*/
+	}
+
+	public function render_value_for_export( $value ) {
+		if ( ! $value || ! ( $attachment = get_post( $value ) ) ) {
+			return __( 'No file uploaded.', 'torro-forms' );
+		}
+
+		return wp_get_attachment_url( $attachment->ID );
 	}
 
 	/**

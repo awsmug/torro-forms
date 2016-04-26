@@ -292,7 +292,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * @param mixed $value the unmodified value
 	 * @return string the value ready to display as HTML
 	 */
-	public function parse_value( $value ) {
+	public function render_value( $value ) {
 		if ( 'yes' === $value ) {
 			return __( 'Yes', 'torro-forms' );
 		}
@@ -302,20 +302,6 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		}
 
 		return nl2br( $value );
-	}
-
-	/**
-	 * Replacing column name by element
-	 *
-	 * @param str $column_name
-	 * @since 1.0.0
-	 */
-	public function replace_column_name( $column_name ) {
-		return false;
-	}
-
-	public function replace_column_value( $column_value ) {
-		return false;
 	}
 
 	/**
