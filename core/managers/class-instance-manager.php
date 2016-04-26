@@ -115,24 +115,33 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 			'offset'	=> 0,
 			'orderby'	=> 'none',
 			'order'		=> 'ASC',
+			'count'		=> false,
 		) );
 
 		$number = intval( $args['number'] );
 		$offset = intval( $args['offset'] );
 		$orderby = 'none' !== $args['orderby'] ? $args['orderby'] : '';
 		$order = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
+		$count = $args['count'] ? true : false;
 		unset( $args['number'] );
 		unset( $args['offset'] );
 		unset( $args['orderby'] );
 		unset( $args['order'] );
+		unset( $args['count'] );
 
 		if ( 0 === $number ) {
+			if ( $count ) {
+				return 0;
+			}
+
 			return array();
 		}
 
 		$table_name = $wpdb->{$this->table_name};
 
-		$query = "SELECT * FROM {$table_name}";
+		$fields = $count ? 'COUNT(*)' : '*';
+
+		$query = "SELECT {$fields} FROM {$table_name}";
 
 		$keys = array();
 		$values = array();
@@ -187,6 +196,10 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 		if ( 0 < count( $values ) ) {
 			array_unshift( $values, $query );
 			$query = call_user_func_array( array( $wpdb, 'prepare' ), $values );
+		}
+
+		if ( $count ) {
+			return (int) $wpdb->get_var( $query );
 		}
 
 		$results = $wpdb->get_results( $query );
