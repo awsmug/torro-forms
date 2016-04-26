@@ -122,17 +122,10 @@ class Torro_Form_Controller {
 	public function __call( $name, $arguments ) {
 		switch ( $name ) {
 			case 'wp_request_set_form':
-				return $this->wp_request_set_form( $arguments );
-				break;
 			case 'control':
-				return $this->control();
-				break;
 			case 'add_filter_the_content':
-				return $this->add_filter_the_content();
-				break;
 			case 'filter_the_content':
-				return $this->filter_the_content( $arguments );
-				break;
+				return call_user_func_array( array( $this, $name ), $arguments );
 			default:
 				return new Torro_Error( 'torro_form_controller_method_not_exists', sprintf( __( 'This Torro Forms Controller function "%s" does not exist.', 'torro-forms' ), $name ) );
 				break;
@@ -148,7 +141,7 @@ class Torro_Form_Controller {
 	 * @return null;
 	 */
 	private function wp_request_set_form( $request ) {
-		$request = $request[ 0 ];
+		$request = $request;
 
 		// We have to be in a post type or leave
 		if ( ! isset( $request->query_vars[ 'name' ] ) && ! isset( $request->query_vars[ 'pagename' ] )  && ! isset( $request->query_vars[ 'p' ] ) ) {
@@ -185,7 +178,7 @@ class Torro_Form_Controller {
 			return;
 		}
 
-		$post  = $posts[ 0 ];
+		$post = $posts[ 0 ];
 
 		if ( ! has_shortcode( $post->post_content, 'form' ) && 'torro_form' !== $post->post_type ) {
 			return;
