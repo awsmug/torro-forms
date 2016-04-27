@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreManagers
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * This class holds and manages all result class instances.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 final class Torro_Results_Manager extends Torro_Instance_Manager {
 
@@ -44,7 +44,7 @@ final class Torro_Results_Manager extends Torro_Instance_Manager {
 	/**
 	 * Creates a new result.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $form_id
 	 * @param array $args
@@ -58,7 +58,7 @@ final class Torro_Results_Manager extends Torro_Instance_Manager {
 	/**
 	 * Updates an existing result.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $id
 	 * @param array $args
@@ -72,7 +72,7 @@ final class Torro_Results_Manager extends Torro_Instance_Manager {
 	/**
 	 * Gets a result.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *
@@ -85,7 +85,7 @@ final class Torro_Results_Manager extends Torro_Instance_Manager {
 	/**
 	 * Moves a result to another form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 * @param int $form_id
@@ -99,7 +99,7 @@ final class Torro_Results_Manager extends Torro_Instance_Manager {
 	/**
 	 * Copies a result to another form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 * @param int $form_id
@@ -113,7 +113,7 @@ final class Torro_Results_Manager extends Torro_Instance_Manager {
 	/**
 	 * Deletes a result.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *

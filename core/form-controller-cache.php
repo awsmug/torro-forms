@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class for temporary response cache
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 class Torro_Form_Controller_Cache {
 

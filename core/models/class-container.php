@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Container class
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  *
  * @property int    $form_id
  * @property string $label

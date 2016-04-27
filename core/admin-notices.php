@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Used to add and show admin notices. Can also store notices persistently.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 final class Torro_Admin_Notices {
 	/**

@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Init Forms with this class to get information about it.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  *
  * @property string $title
  *

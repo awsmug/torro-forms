@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreManagers
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * This base class holds and manages all class instances.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 abstract class Torro_Instance_Manager extends Torro_Manager {
 

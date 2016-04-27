@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreManagers
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 /**
@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * This class holds and manages all element class instances.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 
@@ -72,7 +72,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	/**
 	 * Creates a new element.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $container_id
 	 * @param array $args
@@ -86,7 +86,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	/**
 	 * Updates an existing element.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $id
 	 * @param array $args
@@ -100,7 +100,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	/**
 	 * Gets an element.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *
@@ -113,7 +113,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	/**
 	 * Moves an element to another container.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 * @param int $container_id
@@ -127,7 +127,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	/**
 	 * Copies an element to another container.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 * @param int $container_id
@@ -141,7 +141,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	/**
 	 * Deletes an element.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *

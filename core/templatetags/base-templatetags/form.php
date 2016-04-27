@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreTemplateTags
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Handles template tags for a specific form.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	/**

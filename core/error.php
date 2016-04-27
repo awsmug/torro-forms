@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Instances of this class represent an error.
  * They are at the same time used as dummy objects to prevent fatal errors when chaining functions.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 class Torro_Error extends WP_Error {
 	public function __construct( $code = '', $message = '', $data = '' ) {

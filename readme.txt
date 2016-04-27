@@ -6,7 +6,7 @@ Author:            Awesome UG
 Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.1.1
-Tested up to:      4.4.2
+Tested up to:      4.5.1
 Stable tag:        1.0.0alpha1
 Version:           1.0.0alpha1
 License:           GNU General Public License v3
@@ -46,7 +46,7 @@ Easy & Extendable WordPress Formbuilder
 * **Element API** - Easy add your own elements.
 * **Restriction API** - Who has access to the form?
 
->Extend the form builder with our easy to use API! You're missing something? Just let us know at https://github.com/awsmug/Questions/issues!
+>Extend the form builder with our easy to use API! You're missing something? Just let us know at https://github.com/awsmug/torro-forms/issues!
 
 **Languages**
 
@@ -64,7 +64,7 @@ Easy & Extendable WordPress Formbuilder
 
 Please report issues at Github:
 
-* https://github.com/awsmug/Questions/issues
+* https://github.com/awsmug/torro-forms/issues
 
 This is an Awesome Plugin.
 
@@ -88,114 +88,6 @@ twitter: http://twitter.com/awsmug - GitHub: https://github.com/awsmug
 
 == Changelog ==
 
-= 1.0.0alpha1 =
-* Reworked nearly the complete code
-* Resetted version to 'alpha 1' because of renaming the software
+= 1.0.0-beta.1 =
 
-= 1.0.0beta20 =
-* Questions becomes a form builder with chartable results
-* Refactoring Core
-* Added restrictions API
-* Restriction checks on "All Visitors" can be switched off now
-
-= 1.0.0beta19 =
-* Added russian language files (Thanks to [@kosm])
-* Added italian language files (Thanks to Giovanni Simiani)
-* No export if no results
-* Refactored code
-* Also duplicating terms for form
-
-= 1.0.0beta18 =
-* Added timerange
-* Added usernames to export
-* Reworked admin component
-* Fixed settings page
-* Fixed UTF8 bug on exporting surveys
-* Removed save function from bulk editing
-* Fixed bug on participating with selected members
-
-= 1.0.0beta17 =
-* Bettered up Chart view (Switched back to Dimple)
-* Added result charts to admin
-* Ordering charts like ordered in admin
-* Added body class on Questions pages
-* Added WP Nonce check to forms
-
-= 1.0.0beta16 =
-* Changed URL to Chartjs because name of file was not uppercase.
-
-= 1.0.0beta15 =
-* Only showing steps if there is more then one step
-* Results can be deleted
-* Stripping slashes on exporting CSV
-* Showing error messages if there is no answer given
-* Switched to Charts.js
-* Refactored file structure
-
-= 1.0.0beta14 =
-* Added missing columns on export if an answer was not given
-* Removed WP Editor from Settings API and descriptions because of massive problems with WP Editor and jQuery droppables.
-
-= 1.0.0beta13 =
-* Making Questions Multisite-Ready
-* Flushing rewrite rules correct
-* Added WP Editor to settings API
-* Changed description editor to WP Editor
-* Moved description text under question, before fields
-* Fixed bug on double description output
-* Bettered up Plugin CSS
-* Enhanced code structure
-
-= 1.0.0beta12 =
-* Fixed exporting bug on exporting multiple choice fields results
-* Enhanced code structure
-
-= 1.0.0beta11 =
-* Added message on reaching PHP max_num_fields
-* Enhanced code structure
-
-= 1.0.0beta10 =
-* Enhanced code structure
-* Added Dutch language files (Thanks to [@remcow])
-* Also showing questions if question text not have been filled in
-* Reworked Drag&Drop area to be sortable from the first drop
-* Preparing data after submitting
-
-= 1.0.0beta9 =
-* Fixed restrictions bug
-
-= 1.0.0beta8 =
-* Added pariticipiants option "No restrictions"
-* Added filters for default on $participants_restrictions
-* Added filters for texts
-* Added swedish language files (Thanks to [@elle_])
-* Added persian language files (Thanks to Hos3in)
-* Code enhancements (Thanks to [@bueltge])
-
-= 1.0.0beta7 =
-* Fixed problems with errors on further steps
-* Made (int) for steps
-* Returning shortcode content and not echo it
-* Changed collation of tables to utf8_general_ci
-* Changed to more secure getting path function
-* Fixed text mistake on separator
-
-= 1.0.0beta6 =
-* Fixed result charts bug
-* Fixed some translation fails
-
-= 1.0.0beta5 =
-* Added Questions Shortcode for embedding surveys
-* Fixed some translation fails
-
-= 1.0.0beta4 =
-* Min length of 0 is possible too now
-
-= 1.0.0beta3 =
-* Added bar charts and shortcodes for showing results
-
-= 1.0.0beta2 =
-* Fixed bug after sending form as participant
-
-= 1.0.0beta=
-* Fist official 1.0.0 beta
+* Fist official beta release

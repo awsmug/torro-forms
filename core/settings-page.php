@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Renders the settings page for the plugin and its extensions.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 class Torro_Settings_Page {
 

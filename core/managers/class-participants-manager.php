@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreManagers
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * This class holds and manages all participant class instances.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 final class Torro_Participants_Manager extends Torro_Instance_Manager {
 
@@ -44,7 +44,7 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 	/**
 	 * Creates a new participant.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $form_id
 	 * @param array $args
@@ -58,7 +58,7 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 	/**
 	 * Updates an existing participant.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $id
 	 * @param array $args
@@ -72,7 +72,7 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 	/**
 	 * Gets a participant.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *
@@ -85,7 +85,7 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 	/**
 	 * Moves a participant to another form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 * @param int $form_id
@@ -99,7 +99,7 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 	/**
 	 * Copies a participant to another form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 * @param int $form_id
@@ -113,7 +113,7 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 	/**
 	 * Deletes a participant.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *

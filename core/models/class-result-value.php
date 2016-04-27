@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Result value class
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  *
  * @property int    $result_id
  * @property int    $element_id

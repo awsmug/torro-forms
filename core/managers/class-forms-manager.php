@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreManagers
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * This class holds and manages all form class instances.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	/**
@@ -65,7 +65,7 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	/**
 	 * Creates a new form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param array $args
 	 *
@@ -78,7 +78,7 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	/**
 	 * Updates an existing form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $id
 	 * @param array $args
@@ -92,7 +92,7 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	/**
 	 * Gets a form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *
@@ -131,7 +131,7 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	/**
 	 * Copies a form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int   $id
 	 * @param array $args
@@ -145,7 +145,7 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	/**
 	 * Deletes a form.
 	 *
-	 * @since 1.0.0beta1
+	 * @since 1.0.0-beta.1
 	 *
 	 * @param int $id
 	 *

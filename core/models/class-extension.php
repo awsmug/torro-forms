@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * This class is the base for every Torro Forms Extension.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 abstract class Torro_Extension extends Torro_Base {
 

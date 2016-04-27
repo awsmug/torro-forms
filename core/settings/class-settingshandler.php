@@ -4,8 +4,8 @@
  *
  * @package TorroForms
  * @subpackage CoreSettings
- * @version 1.0.0beta1
- * @since 1.0.0beta1
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Handles tabs and sub tabs on the settings page.
  *
- * @since 1.0.0beta1
+ * @since 1.0.0-beta.1
  */
 class Torro_Settings_Handler {
 	/**
