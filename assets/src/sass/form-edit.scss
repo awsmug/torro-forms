@@ -16,6 +16,24 @@
 			margin-top: 10px;
 			border: 1px solid #e5e5e5;
 			@include box-shadow(rgba(0, 0, 0, 0.0392157) 0 1px 1px);
+
+			.formelement {
+				.widget-title-action {
+					display: inline;
+				}
+			}
+		}
+
+		#form-elements{
+			.inside{
+				.formelement{
+					height:45px;
+
+					&:first-child{
+						margin-top: 15px;
+					}
+				}
+			}
 		}
 
 		.tabs > ul {
