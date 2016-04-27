@@ -4,18 +4,9 @@
 /* --- Frontend --- */
 
 .torro-form {
+	/* For accessibility */
 	.torro-element {
-		margin-bottom: 20px;
-
-		label {
-			display: block;
-			margin-bottom: 5px;
-			font-size: 1.2em;
-		}
-
-		table {
-			margin-bottom: 0;
-		}
+		margin-bottom:20px;
 
 		input[type="text"]:focus,
 		input[type="password"]:focus,
@@ -40,16 +31,18 @@
 			border-color: #5b9dd9;
 			box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 		}
-	}
 
-	.torro-element-description {
-		margin-bottom: 5px;
+		input,
+		select,
+		textarea{
+			display:block;
+		}
 	}
 
 	.torro-pagination {
 		margin-bottom: 20px;
 
-		span.torro-highlight-number {
+		.torro-highlight-number {
 			padding: 2px 6px;
 			border-radius: 3px;
 			background-color: #cccccc;
@@ -57,20 +50,14 @@
 		}
 	}
 
-	ul.error-messages {
+	.error-messages {
 		margin: 0;
 		padding: 0;
 		list-style-type: none;
-	}
 
-	ul.error-messages li {
-		margin: 5px 0 0;
-		color: #F00;
-	}
-
-	input[type="text"],
-	textarea,
-	select {
-		width:100%;
+		li {
+			margin-top: 5px;
+			color: #F00;
+		}
 	}
 }

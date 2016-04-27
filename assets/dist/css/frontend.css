@@ -3,16 +3,11 @@
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 /* --- Frontend --- */
+.torro-form {
+	/* For accessibility */
+}
 .torro-form .torro-element {
 	margin-bottom: 20px;
-}
-.torro-form .torro-element label {
-	display: block;
-	margin-bottom: 5px;
-	font-size: 1.2em;
-}
-.torro-form .torro-element table {
-	margin-bottom: 0;
 }
 .torro-form .torro-element input[type="text"]:focus,
 .torro-form .torro-element input[type="password"]:focus,
@@ -37,34 +32,24 @@
 	border-color: #5b9dd9;
 	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 }
-
-.torro-form .torro-element-description {
-	margin-bottom: 5px;
+.torro-form .torro-element select {
+	display: block;
 }
-
 .torro-form .torro-pagination {
 	margin-bottom: 20px;
 }
-.torro-form .torro-pagination span.torro-highlight-number {
+.torro-form .torro-pagination .torro-highlight-number {
 	padding: 2px 6px;
 	color: #fff; 
 	background-color: #ccc;
 	border-radius: 3px;
 }
-
-.torro-form ul.error-messages {
+.torro-form .error-messages {
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
 }
-
-.torro-form ul.error-messages li {
-	margin: 5px 0 0;
+.torro-form .error-messages li {
+	margin-top: 5px;
 	color: #f00;
-}
-
-.torro-form input[type="text"],
-.torro-form textarea,
-.torro-form select {
-	width: 100%;
 }
