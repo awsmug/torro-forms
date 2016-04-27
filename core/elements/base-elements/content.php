@@ -45,11 +45,11 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 		$this->input = false;
 	}
 
-	public function get_input_html() {
+	protected function get_input_html() {
 		return wpautop( $this->label );
 	}
 
-	public function admin_content_html() {
+	protected function admin_content_html() {
 		$element_id = $this->get_admin_element_id();
 		$name = $this->get_admin_input_name();
 

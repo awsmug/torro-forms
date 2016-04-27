@@ -47,7 +47,7 @@ final class Torro_Form_Element_Onechoice extends Torro_Form_Element {
 		$this->input_answers = true;
 	}
 
-	public function get_input_html() {
+	protected function get_input_html() {
 		$star_required = '';
 		$aria_required = '';
 		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {

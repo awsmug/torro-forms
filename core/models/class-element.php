@@ -196,91 +196,14 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	}
 
 	/**
-	 * Contains element HTML on frontend - Have to be overwritten by child classes
-	 *
-	 * @return string $html Element frontend HTML
-	 * @since 1.0.0
-	 */
-	public function get_input_html() {
-		return '<p>' . esc_html__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
-	}
-
-	/**
-	 * Adds Tab for Element
-	 *
-	 * @param string $title
-	 * @param string $content
-	 */
-	public function add_admin_tab( $title, $content ) {
-		$this->admin_tabs[] = array(
-			'title'   => $title,
-			'content' => $content
-		);
-	}
-
-	/**
-	 * Overwriting Admin Content HTML
-	 *
-	 * @return bool|string
-	 * @since 1.0.0
-	 */
-	public function admin_content_html() {
-		return false;
-	}
-
-	/**
-	 * Returns the ID of an input element
-	 *
-	 * @return string $input_id The ID of the input
-	 * @since 1.0.0
-	 */
-	public function get_input_id() {
-		return 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id;
-	}
-
-	/**
-	 * Returns the name of an input element
-	 *
-	 * @return string $input_name The name of the input
-	 * @since 1.0.0
-	 */
-	public function get_input_name() {
-		if ( $this->upload ) {
-			return 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id;
-		}
-		return 'torro_response[containers][' . $this->superior_id . '][elements][' . $this->id . ']';
-	}
-
-	/**
-	 * Returns the name of an input element
-	 *
-	 * @return string $input_name The name of the input
-	 * @since 1.0.0
-	 */
-	public function get_input_name_selector() {
-		return 'torro_response\\\[' . $this->id . '\\\]';
-	}
-
-	/**
-	 * Function for adding own columns to result
-	 *
-	 * @param obj $result_object
-	 * @return boolean|object
-	 * @since 1.0.0
-	 */
-	public function add_result_columns( &$result_object ) {
-		return false;
-	}
-
-	/**
 	 * Is this element analyzable or not?
 	 *
 	 * @param obj $result_object
 	 * @return boolean
 	 * @since 1.0.0
 	 */
-	public function is_analyzable(){
-		if ( ! $this->input_answers ){
+	public function is_analyzable() {
+		if ( ! $this->input_answers ) {
 			return false;
 		}
 		return true;
@@ -302,6 +225,24 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		}
 
 		return nl2br( $value );
+	}
+
+	/**
+	 * Renders a value for export as XLS or CSV.
+	 *
+	 * @param mixed $value the unmodified value
+	 * @return string the value ready for export
+	 */
+	public function render_value_for_export( $value ) {
+		if ( 'yes' === $value ) {
+			return __( 'Yes', 'torro-forms' );
+		}
+
+		if( 'no' == $value ) {
+			return __( 'No', 'torro-forms' );
+		}
+
+		return $value;
 	}
 
 	/**
@@ -426,12 +367,68 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	}
 
 	/**
+	 * Contains element HTML on frontend - Have to be overwritten by child classes
+	 *
+	 * @return string $html Element frontend HTML
+	 * @since 1.0.0
+	 */
+	protected function get_input_html() {
+		return '<p>' . esc_html__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
+	}
+
+	/**
+	 * Adds Tab for Element
+	 *
+	 * @param string $title
+	 * @param string $content
+	 */
+	protected function add_admin_tab( $title, $content ) {
+		$this->admin_tabs[] = array(
+			'title'   => $title,
+			'content' => $content
+		);
+	}
+
+	/**
+	 * Overwriting Admin Content HTML
+	 *
+	 * @return bool|string
+	 * @since 1.0.0
+	 */
+	protected function admin_content_html() {
+		return false;
+	}
+
+	/**
+	 * Returns the ID of an input element
+	 *
+	 * @return string $input_id The ID of the input
+	 * @since 1.0.0
+	 */
+	protected function get_input_id() {
+		return 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id;
+	}
+
+	/**
+	 * Returns the name of an input element
+	 *
+	 * @return string $input_name The name of the input
+	 * @since 1.0.0
+	 */
+	protected function get_input_name() {
+		if ( $this->upload ) {
+			return 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id;
+		}
+		return 'torro_response[containers][' . $this->superior_id . '][elements][' . $this->id . ']';
+	}
+
+	/**
 	 * Returns the admin name of an input element
 	 *
 	 * @return string $input_name The name of the input
 	 * @since 1.0.0
 	 */
-	public function get_admin_input_name() {
+	protected function get_admin_input_name() {
 		$element_id    = $this->get_admin_element_id();
 		$container_id = $this->get_admin_container_id();
 

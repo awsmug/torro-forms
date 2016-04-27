@@ -45,7 +45,7 @@ final class Torro_Form_Element_Separator extends Torro_Form_Element {
 		$this->input = false;
 	}
 
-	public function get_input_html() {
+	protected function get_input_html() {
 		$html = '<hr />';
 
 		return $html;

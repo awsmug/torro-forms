@@ -43,7 +43,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 		$this->icon_url = torro()->get_asset_url( 'icon-textfield', 'png' );
 	}
 
-	public function get_input_html() {
+	protected function get_input_html() {
 		$input_type_value = $this->settings[ 'input_type' ]->value;
 		$input_type_value = empty( $input_type_value ) ? 'text' : $input_type_value;
 
