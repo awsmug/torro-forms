@@ -117,7 +117,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function includes() {
-		require_once( plugin_dir_path( __FILE__ ) . 'core/models/class-error.php' );
+		require_once( plugin_dir_path( __FILE__ ) . 'core/error.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/ajax.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'core/torro.php' );
 
@@ -137,7 +137,6 @@ class Torro_Init {
 		require_once( $core_folder . 'models/class-component.php' );
 		require_once( $core_folder . 'models/class-settings.php' );
 		require_once( $core_folder . 'models/class-extension.php' );
-		require_once( $core_folder . 'models/class-form-controller-cache.php' );
 		require_once( $core_folder . 'models/class-templatetags.php' );
 
 		// Instance Models
@@ -191,6 +190,7 @@ class Torro_Init {
 
 		// Form functions
 		require_once( $core_folder . 'form-controller.php' );
+		require_once( $core_folder . 'form-controller-cache.php' );
 
 		do_action( 'torro_loaded' );
 	}

@@ -1,34 +1,30 @@
 <?php
-
 /**
- * Element answer class
+ * Core: Torro_Email_Notification class
  *
- * @author  awesome.ug <contact@awesome.ug>
  * @package TorroForms
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 rheinschmiede (contact@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @subpackage CoreModels
+ * @version 1.0.0beta1
+ * @since 1.0.0beta1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Email notification class
+ *
+ * @since 1.0.0beta1
+ *
+ * @property string $notification_name
+ * @property string $from_name
+ * @property string $from_email
+ * @property string $to_name
+ * @property string $to_email
+ * @property string $subject
+ * @property string $message
+ */
 class Torro_Email_Notification extends Torro_Instance_Base {
 
 	protected $notification_name = '';

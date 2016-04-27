@@ -1,33 +1,28 @@
 <?php
 /**
- * Result value base class
+ * Core: Torro_Result_Value class
  *
- * @author  awesome.ug <contact@awesome.ug>
  * @package TorroForms
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 rheinschmiede (contact@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @subpackage CoreModels
+ * @version 1.0.0beta1
+ * @since 1.0.0beta1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Result value class
+ *
+ * @since 1.0.0beta1
+ *
+ * @property int    $result_id
+ * @property int    $element_id
+ * @property string $value
+ *
+ * @property-read Torro_Form_Element $element
+ */
 class Torro_Result_Value extends Torro_Instance_Base {
 
 	protected $element_id;

@@ -1,35 +1,26 @@
 <?php
 /**
- * Torro Forms instance base class.
+ * Core: Torro_Instance_Base class
  *
- * This class is the base for every component-like class in the plugin that is represented in the database.
- *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Core
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage CoreModels
+ * @version 1.0.0beta1
+ * @since 1.0.0beta1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Torro Forms instance base class.
+ *
+ * This class is the base for every component-like class in the plugin that is represented in the database.
+ *
+ * @since 1.0.0beta1
+ *
+ * @property int $id
+ */
 abstract class Torro_Instance_Base extends Torro_Base {
 	protected $id = 0;
 
