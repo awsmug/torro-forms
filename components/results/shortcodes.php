@@ -116,8 +116,6 @@ class Torro_ChartsShortCodes {
 	 * @return string $html HTML of results
 	 */
 	public static function element_chart( $atts ) {
-		global $wpdb;
-
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 
 		$element = torro()->elements()->get( $atts['id'] );

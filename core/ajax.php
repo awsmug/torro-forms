@@ -250,7 +250,7 @@ final class Torro_AJAX {
 			return new Torro_Error( 'ajax_delete_responses_invalid_form', __( 'The post is not a form.', 'torro-forms' ) );
 		}
 
-		$form = new Torro_form( $form_id );
+		$form = torro()->forms()->get( $form_id );
 		$form->delete_responses();
 
 		$entries = torro()->resulthandlers()->get_registered( 'entries' );

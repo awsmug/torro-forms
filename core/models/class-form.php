@@ -161,8 +161,6 @@ class Torro_Form extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function has_participated( $user_id = null ) {
-		global $wpdb;
-
 		// Setting up user ID
 		if ( null === $user_id ) {
 			$current_user = wp_get_current_user();
@@ -174,15 +172,14 @@ class Torro_Form extends Torro_Instance_Base {
 			return false;
 		}
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->torro_results WHERE form_id=%d AND user_id=%s", $this->id, $user_id );
+		$count = torro()->results()->query( array(
+			'number'	=> 1,
+			'count'		=> true,
+			'form_id'	=> $this->id,
+			'user_id'	=> $user_id,
+		) );
 
-		$count = absint( $wpdb->get_var( $sql ) );
-
-		if ( 0 === $count ) {
-			return false;
-		}
-
-		return true;
+		return 0 < $count;
 	}
 
 	/**
@@ -235,36 +232,30 @@ class Torro_Form extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function save_response( $response ) {
-		global $wpdb;
-
 		$current_user = wp_get_current_user();
-		$user_id = $current_user->ID;
+		$user_id = $current_user && $current_user->exists() ? $current_user->ID : 0;
 
-		if ( ! $user_id ) {
-			$user_id = - 1;
+		$result_obj = torro()->results()->create( $this->id, array(
+			'user_id'	=> $user_id,
+			'timestamp'	=> current_time( 'timestamp' ),
+		) );
+		if ( is_wp_error( $result_obj ) ) {
+			return $result_obj;
 		}
 
-		// Adding new element
-		$wpdb->insert( $wpdb->torro_results, array(
-			'form_id'   => $this->id,
-			'user_id'   => $user_id,
-			'timestamp' => time()
-		) );
-
-		$result_id         = $wpdb->insert_id;
+		$result_id = $result_obj->id;
 		$this->response_id = $result_id;
 
-		foreach ( $response[ 'containers' ] as $container_id => $container ) {
-			foreach ( $container[ 'elements' ] as $element_id => $values ) {
+		foreach ( $response['containers'] as $container_id => $container ) {
+			foreach ( $container['elements'] as $element_id => $values ) {
 				if ( ! is_array( $values ) ) {
 					$values = array( $values );
 				}
 
 				foreach ( $values as $value ) {
-					$wpdb->insert( $wpdb->torro_result_values, array(
-						'result_id'  => $result_id,
-						'element_id' => $element_id,
-						'value'      => $value
+					torro()->result_values()->create( $result_id, array(
+						'element_id'	=> $element_id,
+						'value'			=> $value,
 					) );
 				}
 			}

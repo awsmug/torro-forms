@@ -284,8 +284,6 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 	 * @todo Moving table HTML to entry class
 	 */
 	public function ajax_show_entry( $data ) {
-		global $wpdb;
-
 		if ( ! isset( $data['form_id'] ) ) {
 			return new Torro_Error( 'ajax_show_entry_form_id_missing', sprintf( __( 'Field %s is missing.', 'torro-forms' ), 'form_id' ) );
 		}
