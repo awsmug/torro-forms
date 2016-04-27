@@ -69,16 +69,86 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Creates a new element.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $container_id
+	 * @param array $args
+	 *
+	 * @return Torro_Element|WP_Error
+	 */
 	public function create( $container_id, $args = array() ) {
 		return parent::create( $container_id, $args );
 	}
 
+	/**
+	 * Updates an existing element.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $id
+	 * @param array $args
+	 *
+	 * @return Torro_Element|WP_Error
+	 */
+	public function update( $id, $args = array() ) {
+		return parent::update( $id, $args );
+	}
+
+	/**
+	 * Gets an element.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Element|WP_Error
+	 */
+	public function get( $id ) {
+		return parent::get( $id );
+	}
+
+	/**
+	 * Moves an element to another container.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $container_id
+	 *
+	 * @return Torro_Element|WP_Error
+	 */
 	public function move( $id, $container_id ) {
 		return parent::move( $id, $container_id );
 	}
 
+	/**
+	 * Copies an element to another container.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $container_id
+	 *
+	 * @return Torro_Element|WP_Error
+	 */
 	public function copy( $id, $container_id ) {
 		return parent::copy( $id, $container_id );
+	}
+
+	/**
+	 * Deletes an element.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Element|WP_Error
+	 */
+	public function delete( $id ) {
+		return parent::delete( $id );
 	}
 
 	protected function init() {

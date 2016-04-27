@@ -24,8 +24,8 @@ final class Torro_Containers_Manager extends Torro_Instance_Manager {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Containers_Manager
-	 * @since 1.0.0
+	 * @var Torro_Containers_Manager
+	 * @since 1.0.0beta1
 	 */
 	private static $instance = null;
 
@@ -41,16 +41,86 @@ final class Torro_Containers_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Creates a new container.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $form_id
+	 * @param array $args
+	 *
+	 * @return Torro_Container|WP_Error
+	 */
 	public function create( $form_id, $args = array() ) {
 		return parent::create( $form_id, $args );
 	}
 
+	/**
+	 * Updates an existing container.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $id
+	 * @param array $args
+	 *
+	 * @return Torro_Container|WP_Error
+	 */
+	public function update( $id, $args = array() ) {
+		return parent::update( $id, $args );
+	}
+
+	/**
+	 * Gets a container.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Container|WP_Error
+	 */
+	public function get( $id ) {
+		return parent::get( $id );
+	}
+
+	/**
+	 * Moves a container to another form.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $form_id
+	 *
+	 * @return Torro_Container|WP_Error
+	 */
 	public function move( $id, $form_id ) {
 		return parent::move( $id, $form_id );
 	}
 
+	/**
+	 * Copies a container to another form.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $form_id
+	 *
+	 * @return Torro_Container|WP_Error
+	 */
 	public function copy( $id, $form_id ) {
 		return parent::copy( $id, $form_id );
+	}
+
+	/**
+	 * Deletes a container.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Container|WP_Error
+	 */
+	public function delete( $id ) {
+		return parent::delete( $id );
 	}
 
 	protected function init() {

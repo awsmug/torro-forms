@@ -24,8 +24,8 @@ final class Torro_Result_Values_Manager extends Torro_Instance_Manager {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Containers_Manager
-	 * @since 1.0.0
+	 * @var null|Torro_Result_Values_Manager
+	 * @since 1.0.0beta1
 	 */
 	private static $instance = null;
 
@@ -41,16 +41,86 @@ final class Torro_Result_Values_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Creates a new result value.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $result_id
+	 * @param array $args
+	 *
+	 * @return Torro_Result_Value|WP_Error
+	 */
 	public function create( $result_id, $args = array() ) {
 		return parent::create( $result_id, $args );
 	}
 
+	/**
+	 * Updates an existing result value.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $id
+	 * @param array $args
+	 *
+	 * @return Torro_Result_Value|WP_Error
+	 */
+	public function update( $id, $args = array() ) {
+		return parent::update( $id, $args );
+	}
+
+	/**
+	 * Gets a result value.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Result_Value|WP_Error
+	 */
+	public function get( $id ) {
+		return parent::get( $id );
+	}
+
+	/**
+	 * Moves a result value to another result.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $result_id
+	 *
+	 * @return Torro_Result_Value|WP_Error
+	 */
 	public function move( $id, $result_id ) {
 		return parent::move( $id, $result_id );
 	}
 
+	/**
+	 * Copies a result value to another result.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $result_id
+	 *
+	 * @return Torro_Result_Value|WP_Error
+	 */
 	public function copy( $id, $result_id ) {
 		return parent::copy( $id, $result_id );
+	}
+
+	/**
+	 * Deletes a result value.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Result_Value|WP_Error
+	 */
+	public function delete( $id ) {
+		return parent::delete( $id );
 	}
 
 	protected function init() {

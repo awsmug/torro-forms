@@ -41,16 +41,86 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Creates a new participant.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $form_id
+	 * @param array $args
+	 *
+	 * @return Torro_Participant|WP_Error
+	 */
 	public function create( $form_id, $args = array() ) {
 		return parent::create( $form_id, $args );
 	}
 
+	/**
+	 * Updates an existing participant.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $id
+	 * @param array $args
+	 *
+	 * @return Torro_Participant|WP_Error
+	 */
+	public function update( $id, $args = array() ) {
+		return parent::update( $id, $args );
+	}
+
+	/**
+	 * Gets a participant.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Participant|WP_Error
+	 */
+	public function get( $id ) {
+		return parent::get( $id );
+	}
+
+	/**
+	 * Moves a participant to another form.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $form_id
+	 *
+	 * @return Torro_Participant|WP_Error
+	 */
 	public function move( $id, $form_id ) {
 		return parent::move( $id, $form_id );
 	}
 
+	/**
+	 * Copies a participant to another form.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $form_id
+	 *
+	 * @return Torro_Participant|WP_Error
+	 */
 	public function copy( $id, $form_id ) {
 		return parent::copy( $id, $form_id );
+	}
+
+	/**
+	 * Deletes a participant.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Participant|WP_Error
+	 */
+	public function delete( $id ) {
+		return parent::delete( $id );
 	}
 
 	protected function init() {

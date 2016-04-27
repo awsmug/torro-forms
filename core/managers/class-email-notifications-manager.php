@@ -41,16 +41,86 @@ final class Torro_Email_Notifications_Manager extends Torro_Instance_Manager {
 		parent::__construct();
 	}
 
+	/**
+	 * Creates a new email notification.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $form_id
+	 * @param array $args
+	 *
+	 * @return Torro_Email_Notification|WP_Error
+	 */
 	public function create( $form_id, $args = array() ) {
 		return parent::create( $form_id, $args );
 	}
 
+	/**
+	 * Updates an existing email notification.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int   $id
+	 * @param array $args
+	 *
+	 * @return Torro_Email_Notification|WP_Error
+	 */
+	public function update( $id, $args = array() ) {
+		return parent::update( $id, $args );
+	}
+
+	/**
+	 * Gets an email notification.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Email_Notification|WP_Error
+	 */
+	public function get( $id ) {
+		return parent::get( $id );
+	}
+
+	/**
+	 * Moves an email notification to another form.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $form_id
+	 *
+	 * @return Torro_Email_Notification|WP_Error
+	 */
 	public function move( $id, $form_id ) {
 		return parent::move( $id, $form_id );
 	}
 
+	/**
+	 * Copies an email notification to another form.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 * @param int $form_id
+	 *
+	 * @return Torro_Email_Notification|WP_Error
+	 */
 	public function copy( $id, $form_id ) {
 		return parent::copy( $id, $form_id );
+	}
+
+	/**
+	 * Deletes an email notification.
+	 *
+	 * @since 1.0.0beta1
+	 *
+	 * @param int $id
+	 *
+	 * @return Torro_Email_Notification|WP_Error
+	 */
+	public function delete( $id ) {
+		return parent::delete( $id );
 	}
 
 	protected function init() {
