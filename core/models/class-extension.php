@@ -107,27 +107,6 @@ abstract class Torro_Extension extends Torro_Base {
 		}
 	}
 
-	public function plugin_updater() {
-		// retrieve our license key from the DB
-
-		$license_key = $this->settings[ 'serial' ];
-
-		if( !empty( $license_key ) ){
-			$license_key = trim( $license_key );
-
-			$edd_updater = new EDD_SL_Plugin_Updater( 'http://torro-forms.com', $this->plugin_file, array(
-				'version'   => $this->version,
-				// current version number
-				'license'   => $license_key,
-				// license key (used get_option above to retrieve from DB)
-				'item_name' => $this->item_name,
-				// name of this plugin
-				'author'    => 'Awesome UG'
-				// author of this plugin
-			) );
-		}
-	}
-
 	/**
 	 * Returns path to plugin
 	 *
@@ -199,5 +178,32 @@ abstract class Torro_Extension extends Torro_Base {
 		}
 
 		return $this->get_url( $urlpath );
+	}
+
+	public function __call( $method, $args ) {
+		if ( 'plugin_updater' === $method ) {
+			$this->plugin_updater();
+		}
+	}
+
+	protected function plugin_updater() {
+		// retrieve our license key from the DB
+
+		$license_key = $this->settings[ 'serial' ];
+
+		if( !empty( $license_key ) ){
+			$license_key = trim( $license_key );
+
+			$edd_updater = new EDD_SL_Plugin_Updater( 'http://torro-forms.com', $this->plugin_file, array(
+				'version'   => $this->version,
+				// current version number
+				'license'   => $license_key,
+				// license key (used get_option above to retrieve from DB)
+				'item_name' => $this->item_name,
+				// name of this plugin
+				'author'    => 'Awesome UG'
+				// author of this plugin
+			) );
+		}
 	}
 }
