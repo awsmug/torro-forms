@@ -77,7 +77,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int   $container_id
 	 * @param array $args
 	 *
-	 * @return Torro_Form_Element|WP_Error
+	 * @return Torro_Form_Element|Torro_Error
 	 */
 	public function create( $container_id, $args = array() ) {
 		return parent::create( $container_id, $args );
@@ -91,7 +91,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int   $id
 	 * @param array $args
 	 *
-	 * @return Torro_Form_Element|WP_Error
+	 * @return Torro_Form_Element|Torro_Error
 	 */
 	public function update( $id, $args = array() ) {
 		return parent::update( $id, $args );
@@ -104,7 +104,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 *
 	 * @param int $id
 	 *
-	 * @return Torro_Form_Element|WP_Error
+	 * @return Torro_Form_Element|Torro_Error
 	 */
 	public function get( $id ) {
 		return parent::get( $id );
@@ -118,7 +118,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int $id
 	 * @param int $container_id
 	 *
-	 * @return Torro_Form_Element|WP_Error
+	 * @return Torro_Form_Element|Torro_Error
 	 */
 	public function move( $id, $container_id ) {
 		return parent::move( $id, $container_id );
@@ -132,7 +132,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int $id
 	 * @param int $container_id
 	 *
-	 * @return Torro_Form_Element|WP_Error
+	 * @return Torro_Form_Element|Torro_Error
 	 */
 	public function copy( $id, $container_id ) {
 		return parent::copy( $id, $container_id );
@@ -145,7 +145,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 *
 	 * @param int $id
 	 *
-	 * @return Torro_Form_Element|WP_Error
+	 * @return Torro_Form_Element|Torro_Error
 	 */
 	public function delete( $id ) {
 		return parent::delete( $id );
