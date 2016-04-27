@@ -1,5 +1,14 @@
 <?php
 /**
+ * Core: Torro_Form_Elements_Manager class
+ *
+ * @package TorroForms
+ * @subpackage CoreManagers
+ * @version 1.0.0beta1
+ * @since 1.0.0beta1
+ */
+
+/**
  * Torro Forms element classes manager class
  *
  * This class holds and manages all element class instances.
@@ -31,6 +40,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Torro Forms element manager class
+ *
+ * This class holds and manages all element class instances.
+ *
+ * @since 1.0.0beta1
+ */
 final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 
 	/**

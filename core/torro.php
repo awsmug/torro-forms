@@ -91,9 +91,6 @@ final class Torro {
 		require_once( $this->get_path( 'core/managers/class-participants-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-email-notifications-manager.php' ) );
 
-		// load additional manager classes
-		require_once( $this->get_path( 'core/managers/class-admin-notices-manager.php' ) );
-
 		add_action( 'admin_init', array( $this, 'admin_notices' ) );
 	}
 
@@ -252,11 +249,11 @@ final class Torro {
 	/**
 	 * Admin notices keychain function
 	 *
-	 * @return null|Torro_Admin_Notices_Manager
+	 * @return null|Torro_Admin_Notices
 	 * @since 1.0.0
 	 */
 	public function admin_notices() {
-		return Torro_Admin_Notices_Manager::instance();
+		return Torro_Admin_Notices::instance();
 	}
 
 	/**

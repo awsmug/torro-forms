@@ -155,6 +155,7 @@ class Torro_Init {
 		require_once( $core_folder . 'menu.php' );
 		require_once( $core_folder . 'form-builder.php' );
 		require_once( $core_folder . 'settings-page.php' );
+		require_once( $core_folder . 'admin-notices.php' );
 
 		// Settings
 		require_once( $core_folder . 'settings/class-settingshandler.php' );

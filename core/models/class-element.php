@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element class
+ * Core: Torro_Form_Element class
  *
  * @package TorroForms
  * @subpackage CoreModels
