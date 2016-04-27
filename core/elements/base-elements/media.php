@@ -59,7 +59,7 @@ final class Torro_Form_Element_Media extends Torro_Form_Element {
 		if ( ! empty( $this->settings['description'] ) ) {
 			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
 			$html .= esc_html( $this->settings['description']->value );
-			$html .= '</deiv>';
+			$html .= '</div>';
 		}
 
 		return $html;
