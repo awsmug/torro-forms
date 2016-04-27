@@ -352,7 +352,7 @@ class Torro_Formbuilder {
 
 								$setting_id = $setting_obj->id;
 
-								do_action( 'torro_formbuilder_element_answer_save', $form_id, $setting_id );
+								do_action( 'torro_formbuilder_element_setting_save', $form_id, $setting_id );
 							}
 						}
 					}

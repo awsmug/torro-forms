@@ -163,7 +163,7 @@ final class Torro_Form_Element_Textfield extends Torro_Form_Element {
 			),
 		);
 
-		$input_types = apply_filters( 'torro_text_field_input_types', $input_types );
+		$input_types = apply_filters( 'torro_element_textfield_input_types', $input_types );
 
 		if ( ! empty( $value ) ) {
 			if ( isset( $input_types[ $value ] ) ) {

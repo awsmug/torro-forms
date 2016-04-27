@@ -167,7 +167,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		$html = '<div class="' . esc_attr( implode( ' ', $element_classes ) ) . '">';
 
 		ob_start();
-		do_action( 'torro_form_element_start', $this->id );
+		do_action( 'torro_element_start', $this->id );
 		$html .= ob_get_clean();
 
 		if ( 0 === count( $this->answers ) && true === $this->input_answers ) {
@@ -185,7 +185,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		}
 
 		ob_start();
-		do_action( 'torro_form_element_end', $this->id );
+		do_action( 'torro_element_end', $this->id );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';

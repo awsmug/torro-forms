@@ -226,7 +226,7 @@ class Torro_Settings_Page {
 			$html .= $settings_handler->get();
 
 			ob_start();
-			do_action( $settings_name . '_content' );
+			do_action( 'torro_setting_' . $settings_name . '_content' );
 			$html .= ob_get_clean();
 
 			$html .= '</div>';
@@ -283,7 +283,7 @@ class Torro_Settings_Page {
 					$settings_handler = new Torro_Settings_Handler( $setting->name, $setting->settings );
 					$settings_handler->save();
 
-					do_action( 'torro_save_settings_' . $setting->name );
+					do_action( 'torro_settings_save_' . $setting->name );
 				} else {
 					/**
 					 * Page with subsettings
@@ -313,7 +313,7 @@ class Torro_Settings_Page {
 				}
 			}
 		}
-		do_action( 'torro_save_settings', $section );
+		do_action( 'torro_settings_save', $section );
 	}
 
 	/**

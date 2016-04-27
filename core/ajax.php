@@ -94,7 +94,6 @@ final class Torro_AJAX {
 			return;
 		}
 
-		$this->actions = apply_filters( 'torro_ajax_actions', $this->actions );
 		foreach ( $this->actions as $action => $data ) {
 			if ( ! is_array( $data ) ) {
 				$data = array();

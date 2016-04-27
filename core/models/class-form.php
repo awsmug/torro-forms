@@ -428,7 +428,7 @@ class Torro_Form extends Torro_Instance_Base {
 			}
 		}
 
-		do_action( 'form_copy', $this->id, $post_id, $this );
+		do_action( 'torro_form_copy', $this->id, $post_id, $this );
 
 		return torro()->forms()->get( $post_id );
 	}

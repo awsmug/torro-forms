@@ -337,7 +337,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$form_id = $post->ID;
 
-		$options = apply_filters( 'form_add_participants_options', array( 'allmembers' => __( 'all members', 'torro-forms' ) ) );
+		$options = apply_filters( 'torro_participants_options', array( 'allmembers' => __( 'all members', 'torro-forms' ) ) );
 		$add_participants_option = get_post_meta( $form_id, 'add_participants_option', true );
 
 		$html  = '<table class="form-table">';

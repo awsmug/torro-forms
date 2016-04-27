@@ -202,7 +202,7 @@ class Torro_Form_Controller {
 			}
 		}
 
-		do_action( 'torro_wp_request_set_form', $this->form_id );
+		do_action( 'torro_formcontroller_set_form', $this->form_id );
 	}
 
 	/**
