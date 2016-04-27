@@ -34,27 +34,12 @@ class Torro_ChartsShortCodes {
 	 * Adding Shortcodes and Actionhooks
 	 */
 	public static function init() {
-		add_shortcode( 'survey_results', array( __CLASS__, 'survey_results' ) ); // @todo Delete later, because it's deprecated
 		add_shortcode( 'form_charts', array( __CLASS__, 'form_charts' ) );
 
-		add_shortcode( 'question_results', array( __CLASS__, 'element_results' ) ); // @todo Delete later, because it's deprecated
 		add_shortcode( 'element_chart', array( __CLASS__, 'element_chart' ) );
 
 		add_action( 'torro_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
 		add_action( 'torro_result_charts_postbox_element', array( __CLASS__, 'show_element_result_shortcode' ) );
-	}
-
-	/**
-	 * Showing all results of a form
-	 *
-	 * @param $atts
-	 *
-	 * @return string|void
-	 */
-	public static function survey_results( $atts ) {
-		_deprecated_function( 'Shortcode [survey_results]', '1.0.0beta20', '[form_results]' );
-
-		return self::form_charts( $atts );
 	}
 
 	/**
@@ -93,19 +78,6 @@ class Torro_ChartsShortCodes {
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Showing all results of a form
-	 *
-	 * @param $atts
-	 *
-	 * @return string|void
-	 */
-	public static function question_results( $atts ) {
-		_deprecated_function( 'Shortcode [question_results]', '1.0.0beta20', '[element_results]' );
-
-		return self::element_chart( $atts );
 	}
 
 	/**
