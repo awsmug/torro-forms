@@ -57,28 +57,10 @@ abstract class Torro_Result_Handler extends Torro_Base {
 	/**
 	 * Content of option in Form builder
 	 *
+	 * @param int $form_id
 	 * @since 1.0.0
 	 */
-	abstract function option_content();
-
-	/**
-	 * Checks if there is an option content
-	 *
-	 * @since 1.0.0
-	 */
-	public function has_option() {
-		if ( ! empty( $this->option_content ) ) {
-			return $this->option_content;
-		}
-
-		$this->option_content = $this->option_content();
-
-		if ( FALSE === $this->option_content ) {
-			return FALSE;
-		}
-
-		return TRUE;
-	}
+	abstract function option_content( $form_id );
 
 	public function get_columns() {
 		return apply_filters( 'torro_result_columns', array(

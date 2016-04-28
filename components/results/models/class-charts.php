@@ -87,13 +87,12 @@ abstract class Torro_Result_Charts extends Torro_Result_Handler {
 	/**
 	 * Returns option content for charts
 	 *
+	 * @param int $form_id
+	 * 
 	 * @return string $html
 	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
+	public function option_content( $form_id ) {
 		$html = '';
 
 		if( ! torro()->forms()->get( $form_id )->has_analyzable_elements() ){

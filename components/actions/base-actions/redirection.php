@@ -132,11 +132,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
-
+	public function option_content( $form_id ) {
 		$redirect_type = get_post_meta( $form_id, 'redirect_type', true );
 		$redirect_url = get_post_meta( $form_id, 'redirect_url', true );
 		$redirect_page = get_post_meta( $form_id, 'redirect_page', true );
@@ -244,7 +240,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 	 *
 	 * @since 1.0.0
 	 */
-	public function save_option_content() {
+	public function save() {
 		global $post;
 
 		$redirect_type = $_POST[ 'redirect_type' ];

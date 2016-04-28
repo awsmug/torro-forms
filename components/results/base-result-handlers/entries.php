@@ -65,11 +65,15 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 		) );
 	}
 
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
-
+	/**
+	 * Option content
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public function option_content( $form_id ) {
 		$start = 0;
 		if ( array_key_exists( 'torro-entries-start', $_POST ) ) {
 			$start = $_POST['torro-entries-start'];

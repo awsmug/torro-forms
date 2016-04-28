@@ -64,6 +64,9 @@ class Torro_Formbuilder_Actions_Extension {
 	 * @since 1.0.0
 	 */
 	public static function meta_box_actions() {
+		global $post;
+		$form_id = $post->ID;
+
 		$actions = torro()->actions()->get_all_registered();
 
 		if ( ! is_array( $actions ) || 0 === count( $actions ) ){
@@ -85,7 +88,7 @@ class Torro_Formbuilder_Actions_Extension {
 			if ( ! $action->has_option() ) {
 				continue;
 			}
-			$html .= '<div id="' . $action->name . '" class="tab-content action">' . $action->option_content . '</div>';
+			$html .= '<div id="' . $action->name . '" class="tab-content action">' . $action->option_content( $form_id ) . '</div>';
 		}
 
 		$html .= '</div>';

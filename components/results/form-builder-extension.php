@@ -67,7 +67,6 @@ class Torro_Formbuilder_ChartsExtension {
 	 */
 	public static function meta_box_results() {
 		global $post;
-
 		$form_id = $post->ID;
 
 		$result_handlers = torro()->resulthandlers()->get_all_registered();
@@ -80,9 +79,6 @@ class Torro_Formbuilder_ChartsExtension {
 
 		$html .= '<ul class="results-tabs">';
 		foreach ( $result_handlers as $result_handler ){
-			if ( ! $result_handler->has_option() ) {
-				continue;
-			}
 			$html .= '<li><a href="#' . $result_handler->name . '">' . $result_handler->title . '</a></option>';
 		}
 		$html .= '</ul>';
@@ -90,10 +86,7 @@ class Torro_Formbuilder_ChartsExtension {
 		$html .= '<div class="clear"></div>';
 
 		foreach ( $result_handlers as $result_handler ) {
-			if ( ! $result_handler->has_option() ){
-				continue;
-			}
-			$html .= '<div id="' . $result_handler->name . '" class="tab-content">' . $result_handler->option_content . '</div>';
+			$html .= '<div id="' . $result_handler->name . '" class="tab-content">' . $result_handler->option_content( $form_id ) . '</div>';
 		}
 
 		$html .= '</div>';

@@ -63,13 +63,20 @@ abstract class Torro_Action extends Torro_Base {
 	 * @param $response
 	 *
 	 * @return mixed
+	 * since 1.0.0
 	 */
 	public function handle( $form_id, $response_id, $response ){
 		return false;
 	}
 
 	/**
-	 * Will be shown on page after submitting data
+	 * Will be displayed on page after submitting data
+	 *
+	 * @param $form_id
+	 * @param $response_id
+	 *
+	 * @return string $html
+	 * since 1.0.0
 	 */
 	public function notification( $form_id, $response_id ){
 		return false;
@@ -79,27 +86,23 @@ abstract class Torro_Action extends Torro_Base {
 	 * Checks if there is an option content
 	 */
 	public function has_option() {
-		if ( null !==  $this->option_content ) {
-			return true;
-		}
-
-		$this->option_content = $this->option_content();
-
-		if ( null === $this->option_content ) {
-			return false;
-		}
-
-		return true;
+		$reflector = new ReflectionMethod( $this, 'option_content' ) ;
+		return ( $reflector->getDeclaringClass()->getName() !== __CLASS__ );
 	}
 
 	/**
 	 * Content of option in Form builder
+	 *
+	 * @param int $form_id
+	 * @return string $html
+	 *
+	 * @since 1.0.0
 	 */
-	public function option_content() {
+	public function option_content( $form_id ) {
 		return null;
 	}
 
-	public function save_option_content() {
+	public function save() {
 		return null;
 	}
 }

@@ -67,11 +67,8 @@ abstract class Torro_Form_Setting extends Torro_Base {
 	 * @return bool
 	 */
 	public function has_option() {
-		if ( false !== $this->option_name ) {
-			return true;
-		}
-
-		return false;
+		$reflector = new ReflectionMethod( $this, 'option_content' ) ;
+		return ( $reflector->getDeclaringClass()->getName() !== __CLASS__ );
 	}
 
 	/**

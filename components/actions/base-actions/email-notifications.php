@@ -177,15 +177,15 @@ final class Torro_Email_Notifications extends Torro_Action {
 	/**
 	 * Option content HTML
 	 *
+	 * @param int $form_id
+	 *
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
+	public function option_content( $form_id ) {
 		$notifications = torro()->email_notifications()->query( array(
 			'number'	=> -1,
-			'form_id'	=> $post->ID,
+			'form_id'	=> $form_id,
 		) );
 
 		$html = '<div id="form-email-notifications">';
@@ -245,7 +245,7 @@ final class Torro_Email_Notifications extends Torro_Action {
 	 *
 	 * @since 1.0.0
 	 */
-	public function save_option_content() {
+	public function save() {
 		global $post;
 
 		if ( ! isset( $_POST['email_notifications_nonce'] ) || ! wp_verify_nonce( $_POST['email_notifications_nonce'], 'torro_email_notifications' ) ) {
