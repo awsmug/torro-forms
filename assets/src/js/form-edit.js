@@ -142,15 +142,14 @@
 				addClasses: false,
 				start: function( event, ui ) {
 					var $element = ui.helper;
-
-					$element.css( 'height', 'auto' ).css( 'width', '100px' );
+					$element.css( 'height', 'auto' );
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
 					var $container = $element.closest( '.torro-container' );
 
 					$container.find( self.selectors.drop_elements_here ).hide();
-					$element.css( 'width', '100%' ).css( 'height', 'auto' );
+					$element.css( 'width', '100%' );
 					$element.addClass( 'widget' );
 				}
 			});
@@ -171,6 +170,7 @@
 					handle: '.widget-top',
 					start: function( event, ui ) {
 						var $element = ui.item;
+						$element.css( 'width', $element.parent().width() );
 
 						// remove WP editors in element
 						$element.find( 'textarea.wp-editor-area' ).each( function( index, element ) {
