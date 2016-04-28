@@ -362,7 +362,7 @@ class Torro_Form_Controller {
 					$html .= '</div>';
 
 					do_action( 'torro_response_saved', $this->form_id, $result_id, $this->cache->get_response() );
-					$this->content = apply_filters( 'torro_response_saved_content', $html, $this->form_id, $result_id );
+					$this->content = apply_filters( 'torro_response_saved_content', $html, $this->form_id, $result_id, $this->cache->get_response() );
 
 					$this->cache->delete_response();
 					$this->cache->set_finished();

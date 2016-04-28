@@ -81,7 +81,7 @@ final class Torro_Redirection_Action extends Torro_Action {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function notification( $form_id, $response_id ) {
+	public function notification( $form_id, $response_id, $response ) {
 		$notification = get_post_meta( $form_id, 'redirect_text', true );
 
 		return $notification;

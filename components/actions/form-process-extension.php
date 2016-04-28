@@ -65,7 +65,7 @@ class Torro_Actions_FormProcessExtension {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function notification( $notification, $form_id, $response_id ){
+	public static function notification( $notification, $form_id, $response_id, $response ){
 		$actions = torro()->actions()->get_all_registered();
 
 		if ( 0 === count( $actions ) ) {
@@ -75,8 +75,8 @@ class Torro_Actions_FormProcessExtension {
 		$html = '';
 
 		foreach ( $actions as $action ) {
-			if( false !== $action->notification( $form_id, $response_id ) ) {
-				$html .= $action->notification( $form_id, $response_id );
+			if( false !== $action->notification( $form_id, $response_id, $response ) ) {
+				$html .= $action->notification( $form_id, $response_id, $response );
 			}
 		}
 

@@ -59,8 +59,9 @@ abstract class Torro_Action extends Torro_Base {
 	/**
 	 * Handles the data after user submitted the form
 	 *
-	 * @param $response_id
-	 * @param $response
+	 * @param int $form_id
+	 * @param int $response_id
+	 * @param array $response
 	 *
 	 * @return mixed
 	 * since 1.0.0
@@ -72,13 +73,14 @@ abstract class Torro_Action extends Torro_Base {
 	/**
 	 * Will be displayed on page after submitting data
 	 *
-	 * @param $form_id
-	 * @param $response_id
+	 * @param int $form_id
+	 * @param $int $response_id
+	 * @param array $response
 	 *
 	 * @return string $html
 	 * since 1.0.0
 	 */
-	public function notification( $form_id, $response_id ){
+	public function notification( $form_id, $response_id, $response ){
 		return false;
 	}
 
