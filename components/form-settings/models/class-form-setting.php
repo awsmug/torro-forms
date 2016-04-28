@@ -77,7 +77,7 @@ abstract class Torro_Form_Setting extends Torro_Base {
 	/**
 	 * Adds content to the option
 	 */
-	public function option_content() {
+	public function option_content( $form_id ) {
 		return false;
 	}
 }

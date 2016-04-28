@@ -64,12 +64,13 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 
 	/**
 	 * Timerange meta box
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
+	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
-
+	public function option_content(  $form_id ) {
 		$start_date = get_post_meta( $form_id, 'start_date', true );
 		$end_date = get_post_meta( $form_id, 'end_date', true );
 

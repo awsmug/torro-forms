@@ -309,10 +309,12 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	/**
 	 * Adds content to the option
 	 *
+	 * @param int $form_id
+	 *
 	 * @return string $html
 	 * @since 1.0.0
 	 */
-	public function option_content() {
+	public function option_content( $form_id ) {
 		$html  = '<div id="torro-acl-selectedmembers">';
 		$html .= $this->get_participants_options_html();
 
@@ -676,11 +678,12 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	/**
 	 * Checks if the user can pass
 	 *
-	 * @return boolean
+	 * @param int $form_id
+	 *
+	 * @return boolean $has_access
 	 * @since 1.0.0
 	 */
-	public function check() {
-		$form_id = torro()->forms()->get_current_form_id();
+	public function check( $form_id ) {
 
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );

@@ -68,8 +68,10 @@ abstract class Torro_Access_Control extends Torro_Base {
 
 	/**
 	 * Checks if the user can pass
+	 *
+	 * @param int $form_id
 	 */
-	abstract function check();
+	abstract function check( $form_id );
 
 	/**
 	 * Adds a Restriction option to the access-controls meta box
@@ -86,13 +88,12 @@ abstract class Torro_Access_Control extends Torro_Base {
 
 	/**
 	 * Adds content to the option
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
-		$access_controls = torro()->access_controls()->get_all_registered();
-
+	public function option_content( $form_id ) {
 		if ( ! is_array( $access_controls ) || 0 === count( $access_controls ) ) {
 			return;
 		}
@@ -131,7 +132,7 @@ abstract class Torro_Access_Control extends Torro_Base {
 		 * Option content
 		 */
 		foreach ( $access_controls as $name => $access_control ) {
-			$option_content = $access_control->option_content();
+			$option_content = $access_control->option_content( $form_id );
 			if ( ! $access_control->has_option() || ! $option_content ) {
 				continue;
 			}

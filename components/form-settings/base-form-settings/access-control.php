@@ -69,11 +69,13 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 
 	/**
 	 * Adds content to the option
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
+	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
+	public function option_content( $form_id ) {
 		$access_controls = torro()->access_controls()->get_all_registered();
 
 		if ( ! is_array( $access_controls ) || 0 === count( $access_controls ) ) {
@@ -117,7 +119,7 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		 * Option content
 		 */
 		foreach ( $access_controls as $name => $access_control ) {
-			$html .= '<div id="form-access-controls-content-' . $access_control->name . '" class="form-access-controls-content form-access-controls-content-' . $access_control->name . '">' . $access_control->option_content() . '</div>';
+			$html .= '<div id="form-access-controls-content-' . $access_control->name . '" class="form-access-controls-content form-access-controls-content-' . $access_control->name . '">' . $access_control->option_content( $form_id ) . '</div>';
 		}
 
 		ob_start();

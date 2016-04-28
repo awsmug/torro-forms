@@ -137,13 +137,12 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	/**
 	 * Adds content to the option
 	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
 	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
-
+	public function option_content( $form_id ) {
 		$html  = '<table class="form-table">';
 		$html .= '<tr><td><legend>' . esc_attr__( 'Forbid multiple entries', 'torro-forms' ) . '</legend></td>';
 
@@ -192,12 +191,13 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	/**
 	 * Checks if the user can pass
 	 *
+	 * @param int $form_id
+	 *
+	 * @returns boolean $has_access
 	 * @since 1.0.0
 	 */
-	public function check() {
+	public function check( $form_id ) {
 		global $torro_skip_fingerrint_check;
-
-		$form_id = torro()->forms()->get_current_form_id();
 
 		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
 

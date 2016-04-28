@@ -113,12 +113,13 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * reCAPTCHA meta box
+	 *
+	 * @param int $form_id
+	 * 
+	 * @return string $html
+	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
-
+	public function option_content( $form_id ) {
 		$recaptcha_enabled = get_post_meta( $form_id, 'recaptcha_enabled', true );
 
 		if ( $recaptcha_enabled ) {

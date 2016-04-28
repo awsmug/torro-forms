@@ -65,7 +65,7 @@ class Torro_Formbuilder_FormProcessExtension {
 		if ( ! empty( $access_controls_option ) && array_key_exists( $access_controls_option, $access_controls ) ) {
 			$access_control = $access_controls[ $access_controls_option ];
 
-			if ( false === $access_control->check() ) {
+			if ( false === $access_control->check( $form_id ) ) {
 				echo $access_control->messages();
 
 				return false;

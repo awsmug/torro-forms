@@ -64,6 +64,9 @@ class Torro_Formbuilder_Form_Settings_Extension {
 	 * @since 1.0.0
 	 */
 	public static function meta_box_form_settings() {
+		global $post;
+		$form_id = $post->ID;
+
 		$form_settings = torro()->form_settings()->get_all_registered();
 
 		if ( ! is_array( $form_settings ) || 0 === count( $form_settings ) ) {
@@ -87,7 +90,7 @@ class Torro_Formbuilder_Form_Settings_Extension {
 			if ( ! $form_setting->has_option() ){
 				continue;
 			}
-			$html .= '<div id="' . $form_setting->name . '" class="tab-content">' . $form_setting->option_content() . '</div>';
+			$html .= '<div id="' . $form_setting->name . '" class="tab-content">' . $form_setting->option_content( $form_id ) . '</div>';
 		}
 
 		$html .= '</div>';

@@ -85,12 +85,13 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 
 	/**
 	 * Adds content to the option
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
+	 * @since 1.0.0
 	 */
-	public function option_content() {
-		global $post;
-
-		$form_id = $post->ID;
-
+	public function option_content( $form_id ) {
 		/**
 		 * Check User
 		 */
@@ -113,10 +114,12 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 
 	/**
 	 * Checks if the user can pass
+	 *
+	 * @param int $form_id
+	 *
+	 * @return boolean $has_access
 	 */
-	public function check() {
-		$form_id = torro()->forms()->get_current_form_id();
-
+	public function check( $form_id ) {
 		if ( ! is_user_logged_in() ) {
 			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
 			return false;
