@@ -60,9 +60,11 @@ class Torro_Actions_FormProcessExtension {
 	/**
 	 * Show notifcations for users
 	 *
-	 * @param $form_id
-	 * @param $response_id
+	 * @param int $form_id
+	 * @param int $response_id
+	 * @param array $response
 	 *
+	 * @return string $html
 	 * @since 1.0.0
 	 */
 	public static function notification( $notification, $form_id, $response_id, $response ){
