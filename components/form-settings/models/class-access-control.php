@@ -59,6 +59,8 @@ abstract class Torro_Access_Control extends Torro_Base {
 	 */
 	protected function __construct() {
 		parent::__construct();
+
+		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 	}
 
 	protected function init() {
@@ -147,6 +149,15 @@ abstract class Torro_Access_Control extends Torro_Base {
 
 		return $html;
 	}
+
+	/**
+	 * Saving data
+	 *
+	 * @param int $form_id
+	 *
+	 * @since 1.0.0
+	 */
+	public function save( $form_id ) {}
 
 
 	/**

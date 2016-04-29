@@ -70,7 +70,6 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 
 		$this->option_name = __( 'Selected Members of site', 'torro-forms' );
 
-		add_action( 'torro_formbuilder_save', array( $this, 'save' ) );
 		add_action( 'torro_settings_page_init', array( $this, 'add_settings_template_tag_buttons' ) );
 		add_action( 'media_buttons', array( $this, 'add_media_button' ), 20 );
 

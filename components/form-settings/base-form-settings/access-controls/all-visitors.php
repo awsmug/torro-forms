@@ -70,8 +70,6 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 		$this->option_name = $this->title = __( 'All Visitors', 'torro-forms' );
 		$this->name = 'allvisitors';
 
-		add_action( 'torro_formbuilder_save', array( $this, 'save_settings' ), 10, 1 );
-
 		add_action( 'torro_form_end', array( $this, 'add_fingerprint_input' ) );
 
 		add_action( 'torro_response_saved', array( $this, 'set_cookie' ), 10 );
@@ -91,7 +89,7 @@ final class Torro_Access_Control_All_Visitors extends Torro_Access_Control {
 	 *
 	 * @since 1.0.0
 	 */
-	public function save_settings( $form_id ) {
+	public function save( $form_id ) {
 		/**
 		 * Check IP
 		 */

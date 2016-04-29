@@ -1,5 +1,5 @@
 <?php
-/**
+/**^
  * Restrict form to all members of site and does some checks
  *
  * Motherclass for all Restrictions
@@ -39,6 +39,11 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 	 */
 	private static $instance = null;
 
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -47,7 +52,7 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 	}
 
 	/**
-	 * Initializing.
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 */
@@ -55,13 +60,16 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 		parent::__construct();
 	}
 
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->title = __( 'All Members', 'torro-forms' );
 		$this->name = 'allmembers';
 
 		$this->option_name = __( 'All Members of site', 'torro-forms' );
-
-		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 	}
 
 	/**
