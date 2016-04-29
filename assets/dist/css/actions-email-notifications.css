@@ -4,9 +4,8 @@
  */
 /* --- Email Notifications --- */
 #form-email-notifications .list .widget-title h4 {
-	height: 20px;
+	height: 20px; 
 	padding: 10px;
-	margin-bottom: 15px; 
 	font-weight: normal;
 	line-height: 20px;
 }
@@ -23,6 +22,10 @@
 #form-email-notifications .list .widget-title h4.ui-state-active .widget-action:after {
 	font: 400 20px/1 dashicons; 
 	content: "\f142";
+}
+
+#form-email-notifications .list .widget-title .notification {
+	margin-bottom: 15px;
 }
 
 #form-email-notifications .list .widget-title img {
