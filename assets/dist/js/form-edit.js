@@ -146,15 +146,16 @@
 				addClasses: false,
 				start: function( event, ui ) {
 					var $element = ui.helper;
-					$element.css( 'height', 'auto' );
 				},
 				stop: function( event, ui ) {
 					var $element = ui.helper;
 					var $container = $element.closest( '.torro-container' );
 
 					$container.find( self.selectors.drop_elements_here ).hide();
-					$element.css( 'width', '100%' );
 					$element.addClass( 'widget' );
+
+					$element.css( 'width', '100%' );
+					$element.css( 'height', 'auto' );
 				}
 			});
 
