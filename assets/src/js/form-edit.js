@@ -171,6 +171,7 @@
 					start: function( event, ui ) {
 						var $element = ui.item;
 						$element.css( 'width', $element.parent().width() );
+						$( self.selectors.drop_elements_here ).hide();
 
 						// remove WP editors in element
 						$element.find( 'textarea.wp-editor-area' ).each( function( index, element ) {
