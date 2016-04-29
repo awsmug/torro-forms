@@ -28,3 +28,9 @@ if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 require $test_root . '/includes/bootstrap.php';
 
 require_once dirname( __FILE__ ) . '/framework/torro-unit-test-case.php';
+
+echo "Installing Torro Forms...\n";
+
+activate_plugin( 'torro-forms/torro-forms.php' );
+
+Torro_Init::activate( false );
