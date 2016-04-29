@@ -1,9 +1,7 @@
 <?php
 
-require_once( '../../../../wp-load.php' );
-
-class Torro_ResultsTests extends PHPUnit_Framework_TestCase {
-	function testElementResults() {
+class Torro_Tests_Results extends Torro_UnitTestCase {
+	function test_parse_results_for_export() {
 		$charts = Torro_Result_Charts_C3::instance();
 
 		$results = $charts->parse_results_for_export( 5944, 0, 5, 'raw', true );
