@@ -78,7 +78,7 @@ class Torro_UnitTestCase extends WP_UnitTestCase {
 				} else {
 					$value = 'Soccer';
 				}
-				$result_value = torro()->result_values()->create( $result_id, array(
+				$result_value = torro()->result_values()->create( $result->id, array(
 					'element_id'	=> $element->id,
 					'value'			=> $value,
 				) );
