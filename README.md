@@ -25,8 +25,7 @@ With Restrictions you can control if a Visitor has Access to the form. Add your 
 
 
 ## Requirements
-- WordPress 3.3+
-- WooCommerce 1.3+
+- WordPress 4.1+
 
 ## Installation
 1. Download the plugin
