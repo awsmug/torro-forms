@@ -32,6 +32,12 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 		$this->icon_url = torro()->get_asset_url( 'icon-textarea', 'png' );
 	}
 
+	/**
+	 * HTML of textara on front page
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
 	protected function get_input_html() {
 		$star_required = '';
 		$aria_required = '';
@@ -52,6 +58,11 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 		return $html;
 	}
 
+	/**
+	 * Setting fields
+	 *
+	 * @since 1.0.0
+	 */
 	public function settings_fields() {
 		$this->settings_fields = array(
 			'description'	=> array(
@@ -73,7 +84,7 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 			'min_length'	=> array(
 				'title'			=> __( 'Minimum length', 'torro-forms' ),
 				'type'			=> 'text',
-				'description'	=> __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
+				'description'	=> __( 'Minimum number of chars which have to be typed in.', 'torro-forms' ),
 				'default'		=> '0'
 			),
 			'max_length'	=> array(
@@ -97,6 +108,14 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 		);
 	}
 
+	/**
+	 * Validating input of user
+	 *
+	 * @param string $input
+	 *
+	 * @return string|Torro_Error $input
+	 * @since 1.0.0
+	 */
 	public function validate( $input ) {
 		$min_length = $this->settings[ 'min_length' ]->value;
 		$max_length = $this->settings[ 'max_length' ]->value;
@@ -120,18 +139,6 @@ final class Torro_Form_Element_Textarea extends Torro_Form_Element {
 		}
 
 		return $input;
-	}
-
-	public function after_element() {
-		$html = '';
-
-		if ( ! empty( $this->settings[ 'description' ] ) ) {
-			$html = '<p class="form-element-description">';
-			$html .= esc_html( $this->settings['description'] );
-			$html .= '</p>';
-		}
-
-		return $html;
 	}
 }
 
