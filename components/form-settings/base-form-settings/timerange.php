@@ -37,6 +37,11 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	 */
 	private static $instance = null;
 
+	/**
+	 * Singleton.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -45,7 +50,7 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	}
 
 	/**
-	 * Initializing.
+	 * Construct.
 	 *
 	 * @since 1.0.0
 	 */
@@ -53,11 +58,14 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 		parent::__construct();
 	}
 
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->option_name = $this->title = __( 'Timerange', 'torro-forms' );
 		$this->name = 'timerange';
-
-		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 
 		add_action( 'torro_additional_access_controls_check_start', array( $this, 'check' ) );
 	}
