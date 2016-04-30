@@ -50,15 +50,6 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	}
 
 	/**
-	 * Construct.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
@@ -101,6 +92,9 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 
 	/**
 	 * Checks if the user can pass
+	 *
+	 * @return boolean
+	 * @since 1.0.0
 	 */
 	public function check() {
 		$form_id = torro()->forms()->get_current_form_id();

@@ -67,6 +67,7 @@ abstract class Torro_Form_Setting extends Torro_Base {
 	 * Adds a Restriction option to the access-controls meta box
 	 *
 	 * @return bool
+	 * @since 1.0.0
 	 */
 	public function has_option() {
 		$reflector = new ReflectionMethod( $this, 'option_content' ) ;

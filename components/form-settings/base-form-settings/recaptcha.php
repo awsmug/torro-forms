@@ -44,13 +44,11 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 */
 	protected $settings_name = 'form_settings';
 
-	public static function instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
+	/**
+	 * Recaptcha errors
+	 *
+	 * @since 1.0.0
+	 */
 	protected $recaptcha_errors = array();
 
 	/**
@@ -58,10 +56,18 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
-		parent::__construct();
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
 	}
 
+	/**
+	 * Initializing
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->option_name = $this->title = __( 'Spam Protection', 'torro-forms' );
 		$this->name = 'spam_protection';
@@ -79,7 +85,6 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 			),
 		);
 
-		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 
 		add_action( 'torro_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
@@ -91,6 +96,8 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * Checking if reCAPTCHA has been configured
+	 *
+	 * @since 1.0.0
 	 */
 	public function check_settings() {
 		global $post;
@@ -115,7 +122,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 * reCAPTCHA meta box
 	 *
 	 * @param int $form_id
-	 * 
+	 *
 	 * @return string $html
 	 * @since 1.0.0
 	 */
@@ -174,6 +181,9 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * Detects whether reCAPTCHA is enabled for a specific form
+	 *
+	 * @return boolean
+	 * @since 1.0.0
 	 */
 	public function is_configured() {
 		if ( empty( $this->settings['recaptcha_sitekey'] ) ) {
@@ -189,7 +199,9 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * Detects if reCAPTCHA is enabled for form
-	 * @return bool
+	 *
+	 * @return boolean
+	 * @since 1.0.0
 	 */
 	public function is_enabled( $form_id ) {
 		if ( ! get_post_meta( $form_id, 'recaptcha_enabled', true ) ) {
@@ -202,6 +214,9 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 * Actually checks whether the user submitted a valid captcha
 	 *
 	 * This check is only performed on submitting the form (i.e. last page of the form)
+	 *
+	 * @return boolean
+	 * @since 1.0.0
 	 */
 	public function check_recaptcha_submission( $status, $form_id, $container_id, $is_submit = false ) {
 		if ( $this->is_enabled( $form_id ) && $this->is_configured()  && $is_submit ) {
@@ -247,6 +262,11 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * Verifies a reCAPTCHA response.
+	 *
+	 * @param string $captcha_response
+	 *
+	 * @return string
+	 * @since 1.0.0
 	 */
 	public function verify_response( $captcha_response ) {
 		$peer_key = version_compare( phpversion(), '5.6.0', '<' ) ? 'CN_name' : 'peer_name';
@@ -276,7 +296,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id ) {
+	public function save( $form_id ) {
 		$recaptcha_enabled = isset( $_POST['recaptcha_enabled'] ) ? (bool) $_POST['recaptcha_enabled'] : false;
 		$recaptcha_type = isset( $_POST['recaptcha_type'] ) ? esc_html( $_POST['recaptcha_type'] ) : 'image';
 		$recaptcha_size = isset( $_POST['recaptcha_size'] ) ? esc_html( $_POST['recaptcha_size'] ) : 'normal';
@@ -352,6 +372,8 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * Adds 'async' and 'defer' attributes to the reCAPTCHA script tag
+	 *
+	 * @since 1.0.0
 	 */
 	public function handle_google_recaptcha_script_tag( $tag, $handle, $src ) {
 		if ( 'google-recaptcha' == $handle ) {
@@ -363,6 +385,8 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * Creates the reCAPTCHA placeholder element and optionally prints errors
+	 *
+	 * @since 1.0.0
 	 */
 	public function draw_placeholder_element( $form_id ) {
 		if ( ! $this->is_enabled( $form_id ) ) {

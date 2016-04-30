@@ -63,8 +63,6 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 	protected function init() {
 		$this->option_name = $this->title = __( 'Access Control', 'torro-forms' );
 		$this->name = 'access_control';
-
-		add_action( 'torro_formbuilder_save', array( __CLASS__, 'save' ), 10, 1 );
 	}
 
 	/**
@@ -136,7 +134,7 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function save( $form_id ) {
+	public function save( $form_id ) {
 		/**
 		 * Saving access-control options
 		 */
