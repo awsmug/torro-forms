@@ -108,11 +108,11 @@ final class Torro {
 	/**
 	 * Elements keychain function
 	 *
-	 * @return null|Torro_Form_Elements_Manager
+	 * @return null|Torro_Elements_Manager
 	 * @since 1.0.0
 	 */
 	public function elements() {
-		return Torro_Form_Elements_Manager::instance();
+		return Torro_Elements_Manager::instance();
 	}
 
 	/**

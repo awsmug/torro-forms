@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Form_Element_Separator class
+ * Core: Torro_Element_Separator class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Form_Element_Separator extends Torro_Form_Element {
+final class Torro_Element_Separator extends Torro_Element {
 	/**
 	 * Initializing.
 	 *
@@ -41,4 +41,4 @@ final class Torro_Form_Element_Separator extends Torro_Form_Element {
 	}
 }
 
-torro()->elements()->register( 'Torro_Form_Element_Separator' );
+torro()->elements()->register( 'Torro_Element_Separator' );

@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Form_Element_Content class
+ * Core: Torro_Element_Content class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Form_Element_Content extends Torro_Form_Element {
+final class Torro_Element_Content extends Torro_Element {
 	/**
 	 * Initializing.
 	 *
@@ -59,4 +59,4 @@ final class Torro_Form_Element_Content extends Torro_Form_Element {
 	}
 }
 
-torro()->elements()->register( 'Torro_Form_Element_Content' );
+torro()->elements()->register( 'Torro_Element_Content' );

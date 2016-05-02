@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @property int    $element_id
  * @property string $value
  *
- * @property-read Torro_Form_Element $element
+ * @property-read Torro_Element $element
  */
 class Torro_Result_Value extends Torro_Instance_Base {
 

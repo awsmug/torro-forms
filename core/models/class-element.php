@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Form_Element class
+ * Core: Torro_Element class
  *
  * @package TorroForms
  * @subpackage CoreModels
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @property-read array $answers
  * @property-read array $settings
  */
-abstract class Torro_Form_Element extends Torro_Instance_Base {
+abstract class Torro_Element extends Torro_Instance_Base {
 
 	/**
 	 * Element type

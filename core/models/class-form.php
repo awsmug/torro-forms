@@ -46,7 +46,7 @@ class Torro_Form extends Torro_Instance_Base {
 	/**
 	 * All elements of the form
 	 *
-	 * @var Torro_Form_Element[]
+	 * @var Torro_Element[]
 	 * @since 1.0.0
 	 */
 	protected $elements = array();

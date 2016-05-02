@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Form_Elements_Manager class
+ * Core: Torro_Elements_Manager class
  *
  * @package TorroForms
  * @subpackage CoreManagers
@@ -47,12 +47,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
+final class Torro_Elements_Manager extends Torro_Instance_Manager {
 
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Form_Elements_Manager
+	 * @var null|Torro_Elements_Manager
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -77,7 +77,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int   $container_id
 	 * @param array $args
 	 *
-	 * @return Torro_Form_Element|Torro_Error
+	 * @return Torro_Element|Torro_Error
 	 */
 	public function create( $container_id, $args = array() ) {
 		return parent::create( $container_id, $args );
@@ -91,7 +91,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int   $id
 	 * @param array $args
 	 *
-	 * @return Torro_Form_Element|Torro_Error
+	 * @return Torro_Element|Torro_Error
 	 */
 	public function update( $id, $args = array() ) {
 		return parent::update( $id, $args );
@@ -104,7 +104,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 *
 	 * @param int $id
 	 *
-	 * @return Torro_Form_Element|Torro_Error
+	 * @return Torro_Element|Torro_Error
 	 */
 	public function get( $id ) {
 		return parent::get( $id );
@@ -118,7 +118,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int $id
 	 * @param int $container_id
 	 *
-	 * @return Torro_Form_Element|Torro_Error
+	 * @return Torro_Element|Torro_Error
 	 */
 	public function move( $id, $container_id ) {
 		return parent::move( $id, $container_id );
@@ -132,7 +132,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 * @param int $id
 	 * @param int $container_id
 	 *
-	 * @return Torro_Form_Element|Torro_Error
+	 * @return Torro_Element|Torro_Error
 	 */
 	public function copy( $id, $container_id ) {
 		return parent::copy( $id, $container_id );
@@ -145,7 +145,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	 *
 	 * @param int $id
 	 *
-	 * @return Torro_Form_Element|Torro_Error
+	 * @return Torro_Element|Torro_Error
 	 */
 	public function delete( $id ) {
 		return parent::delete( $id );
@@ -159,7 +159,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 		$type = isset( $args['type'] ) ? $args['type'] : 'textfield';
 		$class_name = $this->get_class_name_by_type( $type );
 		if ( ! class_exists( $class_name ) ) {
-			$class_name = 'Torro_Form_Element_Textfield';
+			$class_name = 'Torro_Element_Textfield';
 		}
 		return new $class_name();
 	}
@@ -197,7 +197,7 @@ final class Torro_Form_Elements_Manager extends Torro_Instance_Manager {
 	private function get_class_name_by_type( $type ) {
 		$element_types = $this->get_all_registered();
 
-		$class_name = 'Torro_Form_Element_' . ucfirst( $type );
+		$class_name = 'Torro_Element_' . ucfirst( $type );
 		if ( isset( $element_types[ $type ] ) ) {
 			$class_name = get_class( $element_types[ $type ] );
 		}

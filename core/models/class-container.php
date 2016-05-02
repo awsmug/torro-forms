@@ -44,7 +44,7 @@ class Torro_Container extends Torro_Instance_Base {
 	/**
 	 * ID of container
 	 *
-	 * @var Torro_Form_Element[]
+	 * @var Torro_Element[]
 	 * @since 1.0.0
 	 */
 	protected $elements = array();
