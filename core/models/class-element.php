@@ -197,6 +197,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * Is this element analyzable or not?
 	 *
 	 * @param obj $result_object
+	 *
 	 * @return boolean
 	 * @since 1.0.0
 	 */
@@ -211,7 +212,9 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * Renders a value for display.
 	 *
 	 * @param mixed $value the unmodified value
+	 *
 	 * @return string the value ready to display as HTML
+	 * @since 1.0.0
 	 */
 	public function render_value( $value ) {
 		if ( 'yes' === $value ) {
@@ -229,7 +232,9 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * Renders a value for export as XLS or CSV.
 	 *
 	 * @param mixed $value the unmodified value
+	 *
 	 * @return string the value ready for export
+	 * @since 1.0.0
 	 */
 	public function render_value_for_export( $value ) {
 		if ( 'yes' === $value ) {
@@ -395,6 +400,8 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 *
 	 * @param string $title
 	 * @param string $content
+	 *
+	 * @since 1.0.0
 	 */
 	protected function add_admin_tab( $title, $content ) {
 		$this->admin_tabs[] = array(
@@ -469,6 +476,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 	 * Gets container ID for containers in Admin
 	 *
 	 * @return null|string
+	 * @since 1.0.0
 	 */
 	protected function get_admin_container_id() {
 		if ( ! $this->superior_id ) {
@@ -488,6 +496,7 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 
 	/**
 	 * Settings fields - dummy function
+	 * @since 1.0.0
 	 */
 	protected function settings_fields() {}
 
@@ -703,6 +712,12 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		return $html;
 	}
 
+	/**
+	 * Adding form action buttons to elements
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
 	protected function admin_widget_action_buttons() {
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'torro_element_bottom_actions', array(
@@ -723,6 +738,12 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		return $html;
 	}
 
+	/**
+	 * Hidden fields
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
 	protected function admin_widget_hidden_fields() {
 		$admin_input_name = $this->get_admin_input_name();
 
@@ -736,6 +757,11 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		return $html;
 	}
 
+	/**
+	 * Initializing
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->table_name = 'torro_elements';
 		$this->superior_id_name = 'container_id';
@@ -775,6 +801,11 @@ abstract class Torro_Form_Element extends Torro_Instance_Base {
 		}
 	}
 
+	/**
+	 * Populating settings
+	 *
+	 * @since 1.0.0
+	 */
 	protected function prepopulate_settings() {
 		foreach ( $this->settings_fields as $setting_name => $data ) {
 			if ( ! isset( $this->settings[ $setting_name ] ) ) {

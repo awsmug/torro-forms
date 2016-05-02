@@ -37,6 +37,12 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 	 */
 	private static $instance = null;
 
+	/**
+	 * Singleton
+	 *
+	 * @return null|Torro_ResultsEntries
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -45,14 +51,10 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 	}
 
 	/**
-	 * Initializing.
+	 * Initializing
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function init() {
 		$this->title = __( 'Entries', 'torro-forms' );
 		$this->name = 'entries';
@@ -98,6 +100,16 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 		return $html;
 	}
 
+	/**
+	 * Showing results
+	 *
+	 * @param int $form_id
+	 * @param int $start
+	 * @param int $length
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
 	public function show_results( $form_id, $start, $length ) {
 		$results = torro()->results()->query( array(
 			'number'	=> $length,

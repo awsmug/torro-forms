@@ -51,15 +51,6 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		return self::$instance;
 	}
 
-	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function init() {
 		$this->option_name = $this->title = __( 'Access Control', 'torro-forms' );
 		$this->name = 'access_control';
