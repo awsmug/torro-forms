@@ -86,7 +86,7 @@ final class Torro_Form_Settings_Component extends Torro_Component {
 
 		// Models
 		require_once( $folder . 'models/class-form-setting.php' );
-		require_once( $folder . 'models/class-access-control.php' );
+		require_once( $folder . 'models/class-form-access-control.php' );
 
 		// Settings
 		require_once( $folder . 'base-form-settings/access-control.php' );

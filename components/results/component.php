@@ -79,7 +79,7 @@ final class Torro_Results_Component extends Torro_Component {
 		$folder = torro()->get_path( 'components/results/' );
 
 		// Models
-		require_once( $folder . 'models/class-result-handler.php' );
+		require_once( $folder . 'models/class-form-result.php' );
 		require_once( $folder . 'models/class-charts.php' );
 
 		// Loading base functionalities

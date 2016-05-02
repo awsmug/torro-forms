@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Result_Charts extends Torro_Form_Result_Handler {
+abstract class Torro_Result_Charts extends Torro_Form_Result {
 	/**
 	 * Fegistered chart types (e.g. bars, pies, ...)
 	 *

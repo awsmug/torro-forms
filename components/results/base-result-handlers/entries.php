@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Result_Entries extends Torro_Form_Result_Handler {
+final class Torro_Result_Entries extends Torro_Form_Result {
 	/**
 	 * Instance
 	 *

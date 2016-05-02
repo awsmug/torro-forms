@@ -40,15 +40,6 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	private static $instance = null;
 
 	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Singleton
 	 *
 	 * @return Torro_Redirection_Action
