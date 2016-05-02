@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Access_Controls_Manager class
+ * Core: Torro_Form_Access_Controls_Manager class
  *
  * @package TorroForms
  * @subpackage CoreManagers
@@ -17,11 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Access_Controls_Manager extends Torro_Manager {
+final class Torro_Form_Access_Controls_Manager extends Torro_Manager {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Access_Controls_Manager
+	 * @var null|Torro_Form_Access_Controls_Manager
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -39,7 +39,7 @@ final class Torro_Access_Controls_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'access_controls' => 'Torro_Access_Control'
+			'access_controls' => 'Torro_Form_Access_Control'
 		);
 		return $allowed;
 	}

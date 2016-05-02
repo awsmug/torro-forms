@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Actions_Manager class
+ * Core: Torro_Form_Actions_Manager class
  *
  * @package TorroForms
  * @subpackage CoreManagers
@@ -17,11 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Actions_Manager extends Torro_Manager {
+final class Torro_Form_Actions_Manager extends Torro_Manager {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Actions_Manager
+	 * @var null|Torro_Form_Actions_Manager
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -29,7 +29,7 @@ final class Torro_Actions_Manager extends Torro_Manager {
 	/**
 	 * Singleton
 	 *
-	 * @return Torro_Actions_Manager
+	 * @return Torro_Form_Actions_Manager
 	 * @since 1.0.0
 	 */
 	public static function instance() {
@@ -56,7 +56,7 @@ final class Torro_Actions_Manager extends Torro_Manager {
 	 */
 	protected function allowed_modules(){
 		$allowed = array(
-			'actions' => 'Torro_Action'
+			'actions' => 'Torro_Form_Action'
 		);
 		return $allowed;
 	}

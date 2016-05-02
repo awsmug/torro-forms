@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Actions_FormProcessExtension {
+class Torro_Form_Actions_FormProcessExtension {
 	/**
 	 * Init in WordPress, run on constructor
 	 *
@@ -90,4 +90,4 @@ class Torro_Actions_FormProcessExtension {
 	}
 }
 
-Torro_Actions_FormProcessExtension::init();
+Torro_Form_Actions_FormProcessExtension::init();

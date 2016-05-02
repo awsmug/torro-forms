@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Result_Handlers_Manager class
+ * Core: Torro_Form_Result_Handlers_Manager class
  *
  * @package TorroForms
  * @subpackage CoreManagers
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Result_Handlers_Manager extends Torro_Manager {
+final class Torro_Form_Result_Handlers_Manager extends Torro_Manager {
 
 	/**
 	 * Instance
@@ -40,7 +40,7 @@ final class Torro_Result_Handlers_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'resulthandlers' => 'Torro_Result_Handler',
+			'resulthandlers' => 'Torro_Form_Result_Handler',
 			'resultcharts' => 'Torro_Result_Charts'
 		);
 		return $allowed;

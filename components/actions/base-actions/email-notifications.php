@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Email_Notifications extends Torro_Action {
+final class Torro_Email_Notifications extends Torro_Form_Action {
 	/**
 	 * Instance
 	 *

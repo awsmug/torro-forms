@@ -32,7 +32,7 @@ final class Torro_Form_Settings_Settings extends Torro_Settings {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Access_Controls_Settings
+	 * @var null|Torro_Form_Access_Controls_Settings
 	 * @since 1.0.0
 	 */
 	private static $instance = null;

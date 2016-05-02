@@ -32,7 +32,7 @@ final class Torro_Results_Component extends Torro_Component {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Actions_Component
+	 * @var null|Torro_Form_Actions_Component
 	 * @since 1.0.0
 	 */
 	private static $instance = null;

@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Result_Handler extends Torro_Base {
+abstract class Torro_Form_Result_Handler extends Torro_Base {
 	/**
 	 * Settings name
 	 *

@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Redirection_Action extends Torro_Action {
+final class Torro_Redirection_Action extends Torro_Form_Action {
 	/**
 	 * Instance
 	 *

@@ -200,31 +200,31 @@ final class Torro {
 	/**
 	 * Actions keychain function
 	 *
-	 * @return null|Torro_Actions_Manager
+	 * @return null|Torro_Form_Actions_Manager
 	 * @since 1.0.0
 	 */
 	public function actions() {
-		return Torro_Actions_Manager::instance();
+		return Torro_Form_Actions_Manager::instance();
 	}
 
 	/**
 	 * Restrictions keychain function
 	 *
-	 * @return null|Torro_Access_Controls_Manager
+	 * @return null|Torro_Form_Access_Controls_Manager
 	 * @since 1.0.0
 	 */
 	public function access_controls() {
-		return Torro_Access_Controls_Manager::instance();
+		return Torro_Form_Access_Controls_Manager::instance();
 	}
 
 	/**
 	 * Result handler keychain function
 	 *
-	 * @return null|Torro_Result_Handlers_Manager
+	 * @return null|Torro_Form_Result_Handlers_Manager
 	 * @since 1.0.0
 	 */
 	public function resulthandlers() {
-		return Torro_Result_Handlers_Manager::instance();
+		return Torro_Form_Result_Handlers_Manager::instance();
 	}
 
 	/**

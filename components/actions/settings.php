@@ -28,11 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Actions_Settings extends Torro_Settings {
+final class Torro_Form_Actions_Settings extends Torro_Settings {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Actions_Settings
+	 * @var null|Torro_Form_Actions_Settings
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -59,4 +59,4 @@ final class Torro_Actions_Settings extends Torro_Settings {
 	}
 }
 
-torro()->settings()->register( 'Torro_Actions_Settings' );
+torro()->settings()->register( 'Torro_Form_Actions_Settings' );

@@ -30,11 +30,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
+final class Torro_Form_Access_Control_All_Members extends Torro_Form_Access_Control {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Access_Control_AllMembers
+	 * @var null|Torro_Form_Access_Control_All_Members
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -126,6 +126,7 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 	 * @param int $form_id
 	 *
 	 * @return boolean $has_access
+	 * @since 1.0.0
 	 */
 	public function check( $form_id ) {
 		if ( ! is_user_logged_in() ) {
@@ -144,4 +145,4 @@ final class Torro_Access_Control_AllMembers extends Torro_Access_Control {
 	}
 }
 
-torro()->access_controls()->register( 'Torro_Access_Control_AllMembers' );
+torro()->access_controls()->register( 'Torro_Form_Access_Control_All_Members' );

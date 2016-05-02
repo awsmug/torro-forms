@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Torro_Access_Control extends Torro_Base {
+abstract class Torro_Form_Access_Control extends Torro_Base {
 	/**
 	 * Option name
 	 *

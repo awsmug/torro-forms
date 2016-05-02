@@ -28,11 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_ResultsEntries extends Torro_Result_Handler {
+final class Torro_Result_Entries extends Torro_Form_Result_Handler {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_ResultsEntries
+	 * @var null|Torro_Result_Entries
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -40,7 +40,7 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 	/**
 	 * Singleton
 	 *
-	 * @return null|Torro_ResultsEntries
+	 * @return null|Torro_Result_Entries
 	 * @since 1.0.0
 	 */
 	public static function instance() {
@@ -377,4 +377,4 @@ final class Torro_ResultsEntries extends Torro_Result_Handler {
 	}
 }
 
-torro()->resulthandlers()->register( 'Torro_ResultsEntries' );
+torro()->resulthandlers()->register( 'Torro_Result_Entries' );

@@ -28,11 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
+final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access_Control {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Access_Control_Selected_Members
+	 * @var null|Torro_Form_Access_Control_Selected_Members
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -40,7 +40,7 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 	/**
 	 * Singleton
 	 *
-	 * @return null|Torro_Access_Control_Selected_Members
+	 * @return null|Torro_Form_Access_Control_Selected_Members
 	 * @since 1.0.0
 	 */
 	public static function instance() {
@@ -1137,4 +1137,4 @@ final class Torro_Access_Control_Selected_Members extends Torro_Access_Control {
 		);
 	}
 }
-torro()->access_controls()->register( 'Torro_Access_Control_Selected_Members' );
+torro()->access_controls()->register( 'Torro_Form_Access_Control_Selected_Members' );
