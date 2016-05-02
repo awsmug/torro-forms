@@ -231,20 +231,18 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	 *
 	 * @since 1.0.0
 	 */
-	public function save() {
-		global $post;
-
+	public function save( $form_id ) {
 		$redirect_type = $_POST[ 'redirect_type' ];
-		update_post_meta( $post->ID, 'redirect_type', $redirect_type );
+		update_post_meta( $form_id, 'redirect_type', $redirect_type );
 
 		$redirect_url = $_POST[ 'redirect_url' ];
-		update_post_meta( $post->ID, 'redirect_url', $redirect_url );
+		update_post_meta( $form_id, 'redirect_url', $redirect_url );
 
 		$redirect_page = $_POST[ 'redirect_page' ];
-		update_post_meta( $post->ID, 'redirect_page', $redirect_page );
+		update_post_meta( $form_id, 'redirect_page', $redirect_page );
 
 		$redirect_text_content = $_POST[ 'redirect_text_content' ];
-		update_post_meta( $post->ID, 'redirect_text_content', $redirect_text_content );
+		update_post_meta( $form_id, 'redirect_text_content', $redirect_text_content );
 	}
 }
 

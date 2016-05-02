@@ -53,7 +53,7 @@ abstract class Torro_Form_Action extends Torro_Base {
 	protected function __construct() {
 		parent::__construct();
 
-		add_action( 'torro_formbuilder_save', array( $this, 'save' ) );
+		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
 	}
 
 	/**

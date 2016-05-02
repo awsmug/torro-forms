@@ -245,9 +245,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 	 *
 	 * @since 1.0.0
 	 */
-	public function save() {
-		global $post;
-
+	public function save( $form_id ) {
 		if ( ! isset( $_POST['email_notifications_nonce'] ) || ! wp_verify_nonce( $_POST['email_notifications_nonce'], 'torro_email_notifications' ) ) {
 			return;
 		}
@@ -256,7 +254,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 			$new_ids = array_map( 'absint', array_filter( array_keys( $_POST['email_notifications'] ), 'torro_is_real_id' ) );
 			$old_notifications = torro()->email_notifications()->query( array(
 				'number'	=> -1,
-				'form_id'	=> $post->ID,
+				'form_id'	=> $form_id,
 			) );
 			foreach ( $old_notifications as $old_notification ) {
 				if ( in_array( $old_notification->id, $new_ids, true ) ) {
@@ -283,13 +281,13 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 				if ( $id && torro()->email_notifications()->exists( $id ) ) {
 					$email_notification_obj = torro()->email_notifications()->update( $id, $email_notification_args );
 				} else {
-					$email_notification_obj = torro()->email_notifications()->create( $post->ID, $email_notification_args );
+					$email_notification_obj = torro()->email_notifications()->create( $form_id, $email_notification_args );
 				}
 			}
 		} else {
 			torro()->email_notifications()->delete_by_query( array(
 				'number'	=> -1,
-				'form_id'	=> $post->ID,
+				'form_id'	=> $form_id,
 			) );
 		}
 	}
