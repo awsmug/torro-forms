@@ -252,7 +252,6 @@ class Torro_Form_Controller {
 			$current_container_id = $response['container_id'];
 
 			$this->form->set_current_container( $current_container_id );
-
 			$prev_container_id = $this->form->get_previous_container_id();
 
 			if ( is_wp_error( $prev_container_id ) ) {

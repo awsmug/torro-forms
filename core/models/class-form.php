@@ -81,9 +81,9 @@ class Torro_Form extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function set_current_container( $container_id = null ) {
-		if ( $container_id ) {
+		if ( isset( $container_id ) ) {
 			for ( $i = 0; $i < count( $this->containers ); $i ++ ) {
-				if ( $container_id === $this->containers[ $i ]->id ) {
+				if ( (int) $container_id === (int) $this->containers[ $i ]->id ) {
 					$this->container_index = $i;
 					break;
 				}
@@ -119,6 +119,7 @@ class Torro_Form extends Torro_Instance_Base {
 
 	public function get_previous_container_id() {
 		$previous_index = $this->container_index - 1;
+
 		if ( 0 > $previous_index || ! isset( $this->containers[ $previous_index ] ) ) {
 			return new Torro_Error( 'no_previous_container', __( 'No previous container is set.', 'torro-forms' ), __METHOD__ );
 		}
@@ -127,7 +128,8 @@ class Torro_Form extends Torro_Instance_Base {
 	}
 
 	public function get_next_container_id() {
-		$next_index = $this->container_index - 1;
+		$next_index = $this->container_index + 1;
+
 		if ( 0 > $next_index || ! isset( $this->containers[ $next_index ] ) ) {
 			return new Torro_Error( 'no_next_container', __( 'No next container is set.', 'torro-forms' ), __METHOD__ );
 		}
