@@ -37,7 +37,7 @@ class Torro_Form_Actions_FormProcessExtension {
 	 */
 	public static function init() {
 		add_action( 'torro_response_saved', array( __CLASS__, 'action' ), 10, 3 );
-		add_filter( 'torro_response_saved_content', array( __CLASS__, 'notification' ), 10, 3 );
+		add_filter( 'torro_response_saved_content', array( __CLASS__, 'notification' ), 10, 4 );
 	}
 
 	/**
