@@ -109,6 +109,12 @@ class Torro_Form extends Torro_Instance_Base {
 		return $this->containers[ $this->container_index ];
 	}
 
+	/**
+	 * Getting current container ID
+	 *
+	 * @return int|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function get_current_container_id() {
 		$container = $this->get_current_container();
 		if ( is_wp_error( $container ) ) {
@@ -117,6 +123,12 @@ class Torro_Form extends Torro_Instance_Base {
 		return $container->id;
 	}
 
+	/**
+	 * Getting previous container ID
+	 *
+	 * @return int|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function get_previous_container_id() {
 		$previous_index = $this->container_index - 1;
 
@@ -127,6 +139,12 @@ class Torro_Form extends Torro_Instance_Base {
 		return $this->containers[ $previous_index ]->id;
 	}
 
+	/**
+	 * Getting next container ID
+	 *
+	 * @return int|Torro_Error
+	 * @since 1.0.0
+	 */
 	public function get_next_container_id() {
 		$next_index = $this->container_index + 1;
 
@@ -137,6 +155,17 @@ class Torro_Form extends Torro_Instance_Base {
 		return $this->containers[ $next_index ]->id;
 	}
 
+	/**
+	 * Getting form HTML
+	 *
+	 * @param string $form_action_url
+	 * @param int|null  $container_id
+	 * @param array $response
+	 * @param array $errors
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
 	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
 		$container = $this->set_current_container( $container_id );
 
@@ -265,6 +294,14 @@ class Torro_Form extends Torro_Instance_Base {
 		return $result_id;
 	}
 
+	/**
+	 * Copy form to a new form
+	 *
+	 * @param array $args
+	 *
+	 * @return bool|Torro_Error|Torro_Form
+	 * @since 1.0.0
+	 */
 	public function copy( $args = array() ) {
 		$defaults = array(
 			'terms'					=> true,
@@ -481,8 +518,8 @@ class Torro_Form extends Torro_Instance_Base {
 	 *
 	 * @param int $id The id of the form
 	 *
-	 * @since 1.0.0
 	 * @return bool
+	 * @since 1.0.0
 	 */
 	protected function populate( $id ) {
 		if ( is_object( $id ) && isset( $id->ID ) ) {
@@ -524,6 +561,12 @@ class Torro_Form extends Torro_Instance_Base {
 		) );
 	}
 
+	/**
+	 * Checks if form object exists in DB
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
 	protected function exists_in_db() {
 		if ( get_post( $this->id ) ) {
 			return true;
@@ -531,6 +574,12 @@ class Torro_Form extends Torro_Instance_Base {
 		return false;
 	}
 
+	/**
+	 * Saving form object in DB
+	 *
+	 * @return int|Torro_Error
+	 * @since 1.0.0
+	 */
 	protected function save_to_db() {
 		$post_data = array();
 		$func = 'wp_insert_post';
@@ -554,8 +603,9 @@ class Torro_Form extends Torro_Instance_Base {
 	}
 
 	/**
-	 * Delete form
+	 * Delete form in DB
 	 *
+	 * @return bool|WP_Post
 	 * @since 1.0.0
 	 */
 	protected function delete_from_db() {
