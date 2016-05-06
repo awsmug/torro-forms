@@ -541,9 +541,9 @@
 				container += '<input type="button" name="delete_container" value="' +  self.translations.delete_page + '" class="button delete-container-button" />';
 				container += '</div>';
 				container += '<input type="hidden" name="container_id" value="'+ id +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'id' ) + '" value="'+ id +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'label' ) + '" value="Page '+ ( count_container + 1 ) +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'sort' ) + '" value="'+ count_container +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'id' ) + '" value="'+ id +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'label' ) + '" value="Page '+ ( count_container + 1 ) +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'sort' ) + '" value="'+ count_container +'" />';
 				container += '</div>';
 
 				$( tab ).insertBefore( this );
