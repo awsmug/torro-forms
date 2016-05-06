@@ -96,6 +96,10 @@
 .post-type-torro_form #poststuff #containers .container-tabs li.ui-state-active a {
 	color: #fff;
 }
+.post-type-torro_form #poststuff #containers .container-tabs li .txt {
+	width: 200px;
+	height: 28px;
+}
 .post-type-torro_form #poststuff #containers .container-tabs input {
 	display: none;
 	width: 99%;
