@@ -292,10 +292,13 @@
 				});
 
 				$container_tab.on( 'keydown blur dblclick', 'input', function( e ) {
+					if ( ! $( this ).is( ":visible") ) {
+						return;
+					}
 					if ( e.type == "keydown" ) {
 						if ( e.which == 13 ) {
 							$( this ).toggle();
-							$( this ).siblings('a').toggle().html($( this ).val());
+							$( this ).siblings( 'a' ).toggle().html( $( this ).val() );
 
 							var tab_value = $( this ).val();
 							var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
@@ -307,7 +310,7 @@
 						}
 					} else if ( e.type == "focusout" ) {
 						$( this ).toggle();
-						$( this ).siblings('a').toggle().html($( this ).val());
+						$( this ).siblings( 'a' ).toggle().html( $( this ).val() );
 
 						var tab_value = $( this ).val();
 						var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
