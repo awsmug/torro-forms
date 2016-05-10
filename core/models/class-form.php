@@ -266,8 +266,10 @@ class Torro_Form extends Torro_Instance_Base {
 		$user_id = $current_user && $current_user->exists() ? $current_user->ID : 0;
 
 		$result_obj = torro()->results()->create( $this->id, array(
-			'user_id'	=> $user_id,
-			'timestamp'	=> current_time( 'timestamp' ),
+			'user_id'		=> $user_id,
+			'timestamp'		=> current_time( 'timestamp' ),
+			'remote_addr'	=> '',
+			'cookie_key'	=> '',
 		) );
 		if ( is_wp_error( $result_obj ) ) {
 			return $result_obj;
