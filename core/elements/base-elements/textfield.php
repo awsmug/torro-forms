@@ -220,4 +220,4 @@ final class Torro_Element_Textfield extends Torro_Element {
 	}
 }
 
-torro()->elements()->register( 'Torro_Element_Textfield' );
+torro()->element_types()->register( 'Torro_Element_Textfield' );

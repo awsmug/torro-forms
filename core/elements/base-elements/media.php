@@ -247,4 +247,4 @@ final class Torro_Element_Media extends Torro_Element {
 	}
 }
 
-torro()->elements()->register( 'Torro_Element_Media' );
+torro()->element_types()->register( 'Torro_Element_Media' );

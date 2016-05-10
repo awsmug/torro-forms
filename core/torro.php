@@ -62,6 +62,7 @@ final class Torro {
 		// load manager classes
 		require_once( $this->get_path( 'core/managers/class-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-components-manager.php' ) );
+		require_once( $this->get_path( 'core/managers/class-element-types-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-form-settings-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-settings-manager.php' ) );
 		require_once( $this->get_path( 'core/managers/class-templatetags-manager.php' ) );
@@ -165,6 +166,16 @@ final class Torro {
 	 */
 	public function components() {
 		return Torro_Components_Manager::instance();
+	}
+
+	/**
+	 * Element types keychain function
+	 *
+	 * @return null|Torro_Elements_Manager
+	 * @since 1.0.0
+	 */
+	public function element_types() {
+		return Torro_Element_Types_Manager::instance();
 	}
 
 	/**

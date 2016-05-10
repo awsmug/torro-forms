@@ -176,7 +176,7 @@ class Torro_Formbuilder {
 	public static function meta_box_form_elements() {
 		$html = '';
 
-		$element_types = torro()->elements()->get_all_registered();
+		$element_types = torro()->element_types()->get_all_registered();
 
 		foreach ( $element_types as $element ) {
 			$html .= $element->get_admin_html();
