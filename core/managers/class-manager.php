@@ -71,7 +71,7 @@ abstract class Torro_Manager {
 		}
 
 		if ( empty( $class->title ) ) {
-			$class->title = ucwords( $class_name, '_' );
+			$class->title = ucwords( str_replace( '_', ' ', $class_name ) );
 		}
 
 		if ( empty( $class->description ) ) {
