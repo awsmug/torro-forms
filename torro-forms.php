@@ -193,7 +193,7 @@ class Torro_Init {
 		require_once( $core_folder . 'form-controller.php' );
 		require_once( $core_folder . 'form-controller-cache.php' );
 
-		do_action( 'torro_loaded' );
+		do_action( '_torro_loaded' );
 	}
 
 	/**
@@ -671,6 +671,15 @@ CREATE TABLE $wpdb->torro_email_notifications (
 			restore_current_blog();
 		}
 	}
+}
+
+function torro_loaded( $callback ) {
+	if ( did_action( '_torro_loaded' ) || doing_action( '_torro_loaded' ) ) {
+		call_user_func( $callback );
+		return;
+	}
+
+	add_action( '_torro_loaded', $callback, 10, 0 );
 }
 
 add_action( 'plugins_loaded', array( 'Torro_Init', 'init' ) );
