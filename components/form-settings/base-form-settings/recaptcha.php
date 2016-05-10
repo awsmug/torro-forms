@@ -203,7 +203,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 * @since 1.0.0
 	 */
 	public function check_recaptcha_submission( $status, $form_id, $container_id, $is_submit = false ) {
-		if ( $this->is_enabled( $form_id ) && $this->is_configured()  && $is_submit ) {
+		if ( $this->is_enabled( $form_id ) && $this->is_configured() && $is_submit ) {
 			if ( isset( $_POST['g-recaptcha-response'] ) && ! empty( $_POST['g-recaptcha-response'] ) ) {
 				$verification = $this->verify_response( $_POST['g-recaptcha-response'] );
 				try {
