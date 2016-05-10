@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element_Multiplechoice class
+ * Core: Torro_Element_Type_Multiplechoice class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -13,20 +13,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Element class for a multiple choice input
+ * Element type class for a multiple choice input
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Element_Multiplechoice extends Torro_Element {
+final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
 	protected function init() {
-		parent::init();
-
-		$this->type = $this->name = 'multiplechoice';
+		$this->name = 'multiplechoice';
 		$this->title = __( 'Multiple Choice', 'torro-forms' );
 		$this->description = __( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-multiplechoice', 'png' );
@@ -36,31 +34,31 @@ final class Torro_Element_Multiplechoice extends Torro_Element {
 		$this->input_answers = true;
 	}
 
-	protected function get_input_html() {
+	protected function get_input_html( $element ) {
 		$star_required = '';
 		$aria_required = '';
-		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
 			$star_required = ' <span class="required">*</span>';
 			$aria_required = ' aria-required="true"';
 		}
 
 		$html  = '<fieldset' . $aria_required . ' role="group">';
-		$html .= '<legend>' . esc_html( $this->label ) . $star_required . '</legend>';
+		$html .= '<legend>' . esc_html( $element->label ) . $star_required . '</legend>';
 
 		$i = 0;
-		foreach ( $this->answers as $answer ) {
+		foreach ( $element->answers as $answer ) {
 			$checked = '';
-			if ( is_array( $this->response ) && in_array( $answer->answer, $this->response, true ) ) {
+			if ( is_array( $element->response ) && in_array( $answer->answer, $element->response, true ) ) {
 				$checked = ' checked="checked"';
 			}
 
-			$html .= '<div class="torro_element_checkbox"><input id="' . $this->get_input_id() .'_' . $i . '" type="checkbox" aria-describedby="' . $this->get_input_id() . '_description ' . $this->get_input_id() . '_errors" name="' . $this->get_input_name() . '[]" value="' . esc_attr( $answer->answer ) . '" ' . $checked . ' /> <label for="' . $this->get_input_id() .'_' . $i . '">' . esc_html( $answer->answer ) . '</label></div>';
+			$html .= '<div class="torro_element_checkbox"><input id="' . $this->get_input_id( $element ) .'_' . $i . '" type="checkbox" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors" name="' . $this->get_input_name( $element ) . '[]" value="' . esc_attr( $answer->answer ) . '" ' . $checked . ' /> <label for="' . $this->get_input_id( $element ) .'_' . $i . '">' . esc_html( $answer->answer ) . '</label></div>';
 			$i++;
 		}
 
-		if ( ! empty( $this->settings['description']->value ) ) {
-			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
-			$html .= esc_html( $this->settings['description']->value );
+		if ( ! empty( $element->settings['description']->value ) ) {
+			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
+			$html .= esc_html( $element->settings['description']->value );
 			$html .= '</div>';
 		}
 
@@ -102,15 +100,15 @@ final class Torro_Element_Multiplechoice extends Torro_Element {
 		);
 	}
 
-	public function validate( $input ) {
-		$min_answers = $this->settings['min_answers']->value;
-		$max_answers = $this->settings['max_answers']->value;
+	public function validate( $input, $element ) {
+		$min_answers = $element->settings['min_answers']->value;
+		$max_answers = $element->settings['max_answers']->value;
 
 		$input = (array) $input;
 
 		$input = array_map( 'stripslashes', $input );
 
-		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && 0 === count( $input ) ) {
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value && 0 === count( $input ) ) {
 			return new Torro_Error( 'missing_choices', __( 'You did not select any value.', 'torro-forms' ) );
 		}
 
@@ -130,4 +128,4 @@ final class Torro_Element_Multiplechoice extends Torro_Element {
 	}
 }
 
-torro()->element_types()->register( 'Torro_Element_Multiplechoice' );
+torro()->element_types()->register( 'Torro_Element_Type_Multiplechoice' );

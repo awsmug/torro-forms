@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element_Media class
+ * Core: Torro_Element_Type_Media class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -13,20 +13,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Element class for a media upload field
+ * Element type class for a media upload field
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Element_Media extends Torro_Element {
+final class Torro_Element_Type_Media extends Torro_Element_Type {
 	/**
 	 * Initializing
 	 *
 	 * @since 1.0.0
 	 */
 	protected function init() {
-		parent::init();
-
-		$this->type = $this->name = 'media';
+		$this->name = 'media';
 		$this->title = __( 'Media', 'torro-forms' );
 		$this->description = __( 'Add an Element to allow file uploads.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-upload', 'png' );
@@ -40,14 +38,14 @@ final class Torro_Element_Media extends Torro_Element {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	protected function get_input_html() {
-		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . '</label>';
+	protected function get_input_html( $element ) {
+		$html  = '<label for="' . $this->get_input_id( $element ) . '">' . esc_html( $element->label ) . '</label>';
 
-		$html .= '<input id="' . $this->get_input_id() . '" type="file" name="' . $this->get_input_name() . '" aria-describedby="' . $this->get_input_id() . '_description ' . $this->get_input_id() . '_errors" />';
+		$html .= '<input id="' . $this->get_input_id( $element ) . '" type="file" name="' . $this->get_input_name($element ) . '" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors" />';
 
-		if ( ! empty( $this->settings['description'] ) ) {
-			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
-			$html .= esc_html( $this->settings['description']->value );
+		if ( ! empty( $element->settings['description'] ) ) {
+			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
+			$html .= esc_html( $element->settings['description']->value );
 			$html .= '</div>';
 		}
 
@@ -170,17 +168,17 @@ final class Torro_Element_Media extends Torro_Element {
 	 * @return int|Torro_Error|WP_Error
 	 * @since 1.0.0
 	 */
-	public function validate( $input ) {
-		if ( ( ! isset( $this->settings['required'] ) || 'no' === $this->settings['required']->value ) && ( ! $input || ! $input['name'] ) ) {
+	public function validate( $input, $element ) {
+		if ( ( ! isset( $element->settings['required'] ) || 'no' === $element->settings['required']->value ) && ( ! $input || ! $input['name'] ) ) {
 			// this denotes a non-existing attachment
 			return 0;
 		}
 
-		$name = $this->get_input_name();
+		$name = $this->get_input_name( $element );
 
 		$file_type = 'any';
-		if ( isset( $this->settings['file_type'] ) ) {
-			$file_type = $this->settings['file_type']->value;
+		if ( isset( $element->settings['file_type'] ) ) {
+			$file_type = $element->settings['file_type']->value;
 		}
 
 		$mimes = array();
@@ -247,4 +245,4 @@ final class Torro_Element_Media extends Torro_Element {
 	}
 }
 
-torro()->element_types()->register( 'Torro_Element_Media' );
+torro()->element_types()->register( 'Torro_Element_Type_Media' );

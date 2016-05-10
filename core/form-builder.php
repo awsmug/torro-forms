@@ -178,8 +178,10 @@ class Torro_Formbuilder {
 
 		$element_types = torro()->element_types()->get_all_registered();
 
-		foreach ( $element_types as $element ) {
-			$html .= $element->get_admin_html();
+		$dummy_element = new Torro_Element();
+
+		foreach ( $element_types as $element_type ) {
+			$html .= $element_type->get_admin_html( $dummy_element );
 		}
 
 		echo $html;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element_Content class
+ * Core: Torro_Element_Type_Content class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -13,20 +13,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Element class for WYSIWYG content
+ * Element type class for WYSIWYG content
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Element_Content extends Torro_Element {
+final class Torro_Element_Type_Content extends Torro_Element_Type {
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
 	protected function init() {
-		parent::init();
-
-		$this->type = $this->name = 'content';
+		$this->name = 'content';
 		$this->title = __( 'Content', 'torro-forms' );
 		$this->description = __( 'Adds own content to the form.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-text', 'png' );
@@ -34,13 +32,13 @@ final class Torro_Element_Content extends Torro_Element {
 		$this->input = false;
 	}
 
-	protected function get_input_html() {
-		return wpautop( $this->label );
+	protected function get_input_html( $element ) {
+		return wpautop( $element->label );
 	}
 
-	protected function admin_content_html() {
-		$element_id = $this->get_admin_element_id();
-		$name = $this->get_admin_input_name();
+	protected function admin_content_html( $element ) {
+		$element_id = $this->get_admin_element_id( $element );
+		$name = $this->get_admin_input_name( $element );
 
 		$html = '<div class="torro-element-content element-tabs-content">';
 
@@ -50,7 +48,7 @@ final class Torro_Element_Content extends Torro_Element {
 		);
 
 		ob_start();
-		wp_editor( $this->label, $editor_id, $settings );
+		wp_editor( $element->label, $editor_id, $settings );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
@@ -59,4 +57,4 @@ final class Torro_Element_Content extends Torro_Element {
 	}
 }
 
-torro()->element_types()->register( 'Torro_Element_Content' );
+torro()->element_types()->register( 'Torro_Element_Type_Content' );

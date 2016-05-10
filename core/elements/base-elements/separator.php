@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element_Separator class
+ * Core: Torro_Element_Type_Separator class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -13,20 +13,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Element class for a separator
+ * Element type class for a separator
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Element_Separator extends Torro_Element {
+final class Torro_Element_Type_Separator extends Torro_Element_Type {
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
 	protected function init() {
-		parent::init();
-
-		$this->type = $this->name = 'separator';
+		$this->name = 'separator';
 		$this->title = __( 'Separator', 'torro-forms' );
 		$this->description = __( 'Adds a optical separator (<hr>) between elements.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-separator', 'png' );
@@ -34,11 +32,11 @@ final class Torro_Element_Separator extends Torro_Element {
 		$this->input = false;
 	}
 
-	protected function get_input_html() {
+	protected function get_input_html( $element ) {
 		$html = '<hr />';
 
 		return $html;
 	}
 }
 
-torro()->element_types()->register( 'Torro_Element_Separator' );
+torro()->element_types()->register( 'Torro_Element_Type_Separator' );
