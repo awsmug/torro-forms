@@ -211,11 +211,11 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function save( $form_id ) {
-		if ( ! array_key_exists( 'containers', $_REQUEST ) ) {
+		if ( ! isset( $_POST['containers'] ) ) {
 			return;
 		}
 
-		if ( array_key_exists( 'form-duplicate', $_REQUEST ) ) {
+		if ( isset( $_POST['form-duplicate'] ) ) {
 			return;
 		}
 
@@ -223,22 +223,22 @@ class Torro_Formbuilder {
 			return;
 		}
 
-		if ( ! array_key_exists( 'post_type', $_POST ) ) {
+		if ( ! isset( $_POST['post_type'] ) ) {
 			return;
 		}
 
-		if ( 'torro_form' !== $_POST['post_type'] ) {
+		if ( 'torro_form' !== wp_unslash( $_POST['post_type'] ) ) {
 			return;
 		}
 
-		$containers              = $_POST['containers'];
-		$deleted_container_ids   = $_POST['deleted_container_ids'];
-		$deleted_element_ids     = $_POST['deleted_element_ids'];
-		$deleted_answer_ids      = $_POST['deleted_answer_ids'];
-		$show_results            = isset( $_POST['show_results'] ) ? $_POST['show_results'] : false;
+		$containers              = wp_unslash( $_POST['containers'] );
+		$deleted_container_ids   = wp_unslash( $_POST['deleted_container_ids'] );
+		$deleted_element_ids     = wp_unslash( $_POST['deleted_element_ids'] );
+		$deleted_answer_ids      = wp_unslash( $_POST['deleted_answer_ids'] );
+		$show_results            = isset( $_POST['show_results'] ) ? (bool) $_POST['show_results'] : false;
 
 		foreach ( $containers as $container ) {
-			if( isset( $container[ 'id' ] ) && 'container_id' !== $container['id'] ) {
+			if( isset( $container['id'] ) && 'container_id' !== $container['id'] ) {
 				if( torro_is_temp_id( $container['id'] )  ){
 					$container['id'] = '';
 				}

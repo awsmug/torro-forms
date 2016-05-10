@@ -241,23 +241,23 @@ class Torro_Settings_Page {
 	 * @since 1.0.0
 	 */
 	public static function save() {
-		if ( ! isset( $_POST[ 'torro_save_settings' ] ) ) {
+		if ( ! isset( $_POST['torro_save_settings'] ) ) {
 			return;
 		}
 
 		$all_settings = torro()->settings()->get_all_registered();
 
 		$tab = '';
-		if ( isset( $_GET[ 'tab' ] ) ) {
-			$tab = $_GET[ 'tab' ];
+		if ( isset( $_GET['tab'] ) ) {
+			$tab = $_GET['tab'];
 		}
 		if( empty( $tab ) ){
 			$tab = 'general';
 		}
 
 		$section = '';
-		if ( isset( $_GET[ 'section' ] ) ) {
-			$section = $_GET[ 'section' ];
+		if ( isset( $_GET['section'] ) ) {
+			$section = $_GET['section'];
 		}
 		if( empty( $section ) && 'general' !== $tab ){
 			if ( count( $all_settings[ $tab ]->settings ) == 0 ){

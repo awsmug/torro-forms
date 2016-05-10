@@ -298,9 +298,9 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 */
 	public function save( $form_id ) {
 		$recaptcha_enabled = isset( $_POST['recaptcha_enabled'] ) ? (bool) $_POST['recaptcha_enabled'] : false;
-		$recaptcha_type = isset( $_POST['recaptcha_type'] ) ? esc_html( $_POST['recaptcha_type'] ) : 'image';
-		$recaptcha_size = isset( $_POST['recaptcha_size'] ) ? esc_html( $_POST['recaptcha_size'] ) : 'normal';
-		$recaptcha_theme = isset( $_POST['recaptcha_theme'] ) ? esc_html( $_POST['recaptcha_theme'] ) : 'light';
+		$recaptcha_type = isset( $_POST['recaptcha_type'] ) ? wp_unslash( $_POST['recaptcha_type'] ) : 'image';
+		$recaptcha_size = isset( $_POST['recaptcha_size'] ) ? wp_unslash( $_POST['recaptcha_size'] ) : 'normal';
+		$recaptcha_theme = isset( $_POST['recaptcha_theme'] ) ? wp_unslash( $_POST['recaptcha_theme'] ) : 'light';
 
 		/**
 		 * Saving reCAPTCHA settings

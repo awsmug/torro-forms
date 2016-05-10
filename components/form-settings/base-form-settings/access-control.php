@@ -129,7 +129,7 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		/**
 		 * Saving access-control options
 		 */
-		$access_controls_option = $_POST[ 'form_access_controls_option' ];
+		$access_controls_option = wp_unslash( $_POST['form_access_controls_option'] );
 		update_post_meta( $form_id, 'access_controls_option', $access_controls_option );
 	}
 }

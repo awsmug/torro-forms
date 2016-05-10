@@ -124,7 +124,7 @@ class Torro_Formbuilder_ChartsExtension {
 	 * @since 1.0.0
 	 */
 	public static function save( $form_id ) {
-		$access_controls_option = $_POST['form_access_controls_option'];
+		$access_controls_option = wp_unslash( $_POST['form_access_controls_option'] );
 		update_post_meta( $form_id, 'access_controls_option', $access_controls_option );
 	}
 

@@ -248,7 +248,7 @@ class Torro_Form_Controller {
 			/**
 			 * Going back
 			 */
-			$response = $_POST['torro_response'];
+			$response = wp_unslash( $_POST['torro_response'] );
 			$current_container_id = $response['container_id'];
 
 			$this->form->set_current_container( $current_container_id );
@@ -273,11 +273,11 @@ class Torro_Form_Controller {
 			/**
 			 * Yes we have a submit!
 			 */
-			if ( ! isset( $_POST[ '_wpnonce' ] ) ) {
+			if ( ! isset( $_POST['_wpnonce'] ) ) {
 				return;
 			}
 
-			if ( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
+			if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'torro-form-' . $this->form_id ) ) {
 				wp_die( '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' . 403 );
 			}
 
@@ -285,7 +285,7 @@ class Torro_Form_Controller {
 				return;
 			}
 
-			$response = $_POST['torro_response'];
+			$response = wp_unslash( $_POST['torro_response'] );
 
 			$current_container_id = absint( $response['container_id'] );
 

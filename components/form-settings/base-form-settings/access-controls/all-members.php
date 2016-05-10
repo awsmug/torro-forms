@@ -83,8 +83,8 @@ final class Torro_Form_Access_Control_All_Members extends Torro_Form_Access_Cont
 		/**
 		 * Saving access-control options
 		 */
-		if ( array_key_exists( 'form_access_controls_allmembers_same_users', $_POST ) ) {
-			$access_controls_same_users = $_POST['form_access_controls_allmembers_same_users'];
+		if ( isset( $_POST['form_access_controls_allmembers_same_users'] ) ) {
+			$access_controls_same_users = wp_unslash( $_POST['form_access_controls_allmembers_same_users'] );
 			update_post_meta( $form_id, 'form_access_controls_allmembers_same_users', $access_controls_same_users );
 		} else {
 			update_post_meta( $form_id, 'form_access_controls_allmembers_same_users', '' );

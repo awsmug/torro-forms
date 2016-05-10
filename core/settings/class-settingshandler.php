@@ -410,7 +410,7 @@ class Torro_Settings_Handler {
 
 			$value = '';
 			if( isset( $_POST[ $name ] ) ) {
-				$value = $_POST[ $name ];
+				$value = wp_unslash( $_POST[ $name ] );
 			}
 
 			if ( 'options' === $this->type ) {

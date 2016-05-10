@@ -241,21 +241,21 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 	 * @since 1.0.0
 	 */
 	public function save( $form_id ) {
-		update_post_meta( $form_id, 'invite_from_name', $_POST[ 'invite_from_name' ] );
-		update_post_meta( $form_id, 'invite_from', $_POST[ 'invite_from' ] );
-		update_post_meta( $form_id, 'invite_subject', $_POST[ 'invite_subject' ] );
-		update_post_meta( $form_id, 'invite_text', $_POST[ 'invite_text' ] );
+		update_post_meta( $form_id, 'invite_from_name', wp_unslash( $_POST['invite_from_name'] ) );
+		update_post_meta( $form_id, 'invite_from', wp_unslash( $_POST['invite_from'] ) );
+		update_post_meta( $form_id, 'invite_subject', wp_unslash( $_POST['invite_subject'] ) );
+		update_post_meta( $form_id, 'invite_text', wp_unslash( $_POST['invite_text'] ) );
 
-		update_post_meta( $form_id, 'reinvite_from_name', $_POST[ 'reinvite_from_name' ] );
-		update_post_meta( $form_id, 'reinvite_from', $_POST[ 'reinvite_from' ] );
-		update_post_meta( $form_id, 'reinvite_subject', $_POST[ 'reinvite_subject' ] );
-		update_post_meta( $form_id, 'reinvite_text', $_POST[ 'reinvite_text' ] );
+		update_post_meta( $form_id, 'reinvite_from_name', wp_unslash( $_POST['reinvite_from_name'] ) );
+		update_post_meta( $form_id, 'reinvite_from', wp_unslash( $_POST['reinvite_from'] ) );
+		update_post_meta( $form_id, 'reinvite_subject', wp_unslash( $_POST['reinvite_subject'] ) );
+		update_post_meta( $form_id, 'reinvite_text', wp_unslash( $_POST['reinvite_text'] ) );
 
 		/**
 		 * Saving access-control options
 		 */
-		if ( array_key_exists( 'form_access_controls_selectedmembers_same_users', $_POST ) ) {
-			$access_controls_same_users = $_POST['form_access_controls_selectedmembers_same_users'];
+		if ( isset( $_POST['form_access_controls_selectedmembers_same_users'] ) ) {
+			$access_controls_same_users = wp_unslash( $_POST['form_access_controls_selectedmembers_same_users'] );
 			update_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', $access_controls_same_users );
 		} else {
 			update_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', '' );
@@ -264,7 +264,7 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 		/**
 		 * Saving access-control options
 		 */
-		$add_participants_option = $_POST['form_add_participants_option'];
+		$add_participants_option = wp_unslash( $_POST['form_add_participants_option'] );
 		update_post_meta( $form_id, 'add_participants_option', $add_participants_option );
 	}
 
@@ -475,16 +475,16 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 			$form_id = $post->ID;
 		}
 
-		if ( empty( $start ) && array_key_exists( 'torro-entries-start', $_POST ) ) {
-			$start = $_POST['torro-entries-start'];
+		if ( empty( $start ) && isset( $_POST['torro-entries-start'] ) ) {
+			$start = absint( $_POST['torro-entries-start'] );
 		}
 
 		if ( empty( $start ) ){
 			$start = 0;
 		}
 
-		if ( empty( $length ) && array_key_exists( 'torro-entries-start', $_POST ) ) {
-			$length = $_POST['torro-entries-length'];
+		if ( empty( $length ) && isset( $_POST['torro-entries-length'] ) ) {
+			$length = absint( $_POST['torro-entries-length'] );
 		}
 
 		if ( empty( $length ) ){
@@ -976,7 +976,7 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 	 * @since 1.0.0
 	 */
 	public function ajax_get_invite_text(){
-		$invite_type = $_POST[ 'invite_type' ];
+		$invite_type = wp_unslash( $_POST['invite_type'] );
 		$invite_from_name = '';
 		$invite_from = '';
 		$invite_subject = '';

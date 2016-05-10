@@ -77,13 +77,13 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	 */
 	public function option_content( $form_id ) {
 		$start = 0;
-		if ( array_key_exists( 'torro-entries-start', $_POST ) ) {
-			$start = $_POST['torro-entries-start'];
+		if ( isset( $_POST['torro-entries-start'] ) ) {
+			$start = absint( $_POST['torro-entries-start'] );
 		}
 
 		$length = 10;
-		if ( array_key_exists( 'torro-entries-start', $_POST ) ) {
-			$length = $_POST['torro-entries-length'];
+		if ( isset( $_POST['torro-entries-length'] ) ) {
+			$length = absint( $_POST['torro-entries-length'] );
 		}
 
 		$html = '<div id="torro-entries" class="torro-table-nav">';

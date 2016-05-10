@@ -128,8 +128,8 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	 * @since 1.0.0
 	 */
 	public function save( $form_id ) {
-		$start_date = $_POST[ 'start_date' ];
-		$end_date = $_POST[ 'end_date' ];
+		$start_date = wp_unslash( $_POST['start_date'] );
+		$end_date = wp_unslash( $_POST['end_date'] );
 
 		/**
 		 * Saving start and end date

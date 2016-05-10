@@ -251,7 +251,9 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		}
 
 		if ( isset( $_POST['email_notifications'] ) ) {
-			$new_ids = array_map( 'absint', array_filter( array_keys( $_POST['email_notifications'] ), 'torro_is_real_id' ) );
+			$email_notifications = wp_unslash( $_POST['email_notifications'] );
+
+			$new_ids = array_map( 'absint', array_filter( array_keys( $email_notifications ), 'torro_is_real_id' ) );
 			$old_notifications = torro()->email_notifications()->query( array(
 				'number'	=> -1,
 				'form_id'	=> $form_id,
@@ -263,7 +265,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 				$old_notification->delete();
 			}
 
-			foreach ( $_POST['email_notifications'] as $id => $notification ) {
+			foreach ( $email_notifications as $id => $notification ) {
 				if ( torro_is_temp_id( $id ) ) {
 					$id = '';
 				}

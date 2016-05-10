@@ -232,16 +232,16 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	 * @since 1.0.0
 	 */
 	public function save( $form_id ) {
-		$redirect_type = $_POST[ 'redirect_type' ];
+		$redirect_type = wp_unslash( $_POST['redirect_type'] );
 		update_post_meta( $form_id, 'redirect_type', $redirect_type );
 
-		$redirect_url = $_POST[ 'redirect_url' ];
+		$redirect_url = wp_unslash( $_POST['redirect_url'] );
 		update_post_meta( $form_id, 'redirect_url', $redirect_url );
 
-		$redirect_page = $_POST[ 'redirect_page' ];
+		$redirect_page = wp_unslash( $_POST['redirect_page'] );
 		update_post_meta( $form_id, 'redirect_page', $redirect_page );
 
-		$redirect_text_content = $_POST[ 'redirect_text_content' ];
+		$redirect_text_content = wp_unslash( $_POST['redirect_text_content'] );
 		update_post_meta( $form_id, 'redirect_text_content', $redirect_text_content );
 	}
 }
