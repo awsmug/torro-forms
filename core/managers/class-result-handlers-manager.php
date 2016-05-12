@@ -40,7 +40,7 @@ final class Torro_Form_Result_Handlers_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'resulthandlers' => 'Torro_Form_Result_Handler',
+			'resulthandlers' => 'Torro_Form_Result',
 			'resultcharts' => 'Torro_Result_Charts'
 		);
 		return $allowed;
