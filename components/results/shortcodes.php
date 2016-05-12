@@ -41,25 +41,7 @@ class Torro_ChartsShortCodes {
 			return __( 'Please enter a valid form id into the shortcode!', 'torro-forms' );
 		}
 
-		$charts = torro()->resulthandlers()->get_registered( 'c3' );
-		$results = $charts->parse_results_for_export( $form_id, 0, -1, 'raw', false );
-		$results = $charts->format_results_by_element( $results );
-
-		$html = '';
-
-		foreach ( $results as $headline => $element_result ) {
-			$headline_arr = explode( '_', $headline );
-
-			$element_id = (int) $headline_arr[ 1 ];
-			$element = torro()->elements()->get( $element_id );
-
-			// Skip collecting Data if there is no analyzable Data
-			if ( ! $element->input_answers ) {
-				continue;
-			}
-
-			$html .= $charts->bars( $element->label, $element_result );
-		}
+		$html = torro()->resulthandlers()->get_registered( 'c3' )->show_form_charts( $form_id );
 
 		return $html;
 	}
