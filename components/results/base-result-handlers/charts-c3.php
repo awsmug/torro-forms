@@ -196,6 +196,27 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 		wp_enqueue_script( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-js' ) );
 		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'torro-form-edit', 'd3', 'c3' ) );
 	}
+
+	/**
+	 * Loading Frontend Styles
+	 *
+	 * @since 1.0.0
+	 */
+	public function frontend_styles() {
+		wp_enqueue_style( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-css' ) );
+		wp_enqueue_style( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'css' ), array( 'torro-form-edit' ) );
+	}
+
+	/**
+	 * Loading Frontend Scripts
+	 *
+	 * @since 1.0.0
+	 */
+	public function frontend_scripts() {
+		wp_enqueue_script( 'd3', torro()->get_asset_url( 'd3/d3', 'vendor-js' ) );
+		wp_enqueue_script( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-js' ) );
+		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'torro-form-edit', 'd3', 'c3' ) );
+	}
 }
 
 torro()->resulthandlers()->register( 'Torro_Result_Charts_C3' );
