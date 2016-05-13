@@ -421,5 +421,11 @@ class Torro_Settings_Handler {
 				}
 			}
 		}
+
+		if ( 'post' === $this->type ) {
+			do_action( 'torro_post_meta_saved', $this->fields, $post );
+		} else {
+			do_action( 'torro_settings_saved', $this->fields );
+		}
 	}
 }

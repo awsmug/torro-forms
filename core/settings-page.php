@@ -51,6 +51,7 @@ class Torro_Settings_Page {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
+		add_action( 'init', array( __CLASS__, 'maybe_flush_rewrite_rules' ), 1 );
 		add_action( 'init', array( __CLASS__, 'save' ), 20 );
 		add_action( 'admin_print_styles', array( __CLASS__, 'register_styles' ) );
 	}
@@ -314,6 +315,35 @@ class Torro_Settings_Page {
 			}
 		}
 		do_action( 'torro_settings_save', $section );
+	}
+
+	/**
+	 * Save rewrite slug option early and flush rewrite rules.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function maybe_flush_rewrite_rules() {
+		if ( ! isset( $_POST['torro_save_settings'] ) ) {
+			return;
+		}
+
+		$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general';
+		if ( 'general' !== $tab ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['slug'] ) ) {
+			return;
+		}
+
+		$value = wp_unslash( $_POST['slug'] );
+		$old_value = get_option( 'torro_settings_general_slug' );
+		if ( $value === $old_value ) {
+			return;
+		}
+
+		update_option( 'torro_settings_general_slug', $value );
+		add_action( 'torro_settings_saved', 'flush_rewrite_rules' );
 	}
 
 	/**
