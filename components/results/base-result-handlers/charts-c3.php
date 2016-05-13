@@ -1,29 +1,11 @@
 <?php
 /**
- * Showing Charts with C3
+ * Components: Torro_Result_Charts_C3 class
  *
- * This class shows charts by C3 which is based on D3
- *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Results
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -210,6 +192,27 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
+		wp_enqueue_script( 'd3', torro()->get_asset_url( 'd3/d3', 'vendor-js' ) );
+		wp_enqueue_script( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-js' ) );
+		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'torro-form-edit', 'd3', 'c3' ) );
+	}
+
+	/**
+	 * Loading Frontend Styles
+	 *
+	 * @since 1.0.0
+	 */
+	public function frontend_styles() {
+		wp_enqueue_style( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-css' ) );
+		wp_enqueue_style( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'css' ), array( 'torro-form-edit' ) );
+	}
+
+	/**
+	 * Loading Frontend Scripts
+	 *
+	 * @since 1.0.0
+	 */
+	public function frontend_scripts() {
 		wp_enqueue_script( 'd3', torro()->get_asset_url( 'd3/d3', 'vendor-js' ) );
 		wp_enqueue_script( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-js' ) );
 		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'torro-form-edit', 'd3', 'c3' ) );

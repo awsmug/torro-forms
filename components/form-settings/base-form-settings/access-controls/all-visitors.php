@@ -1,29 +1,11 @@
 <?php
 /**
- * Restrict form to all Visitors of site and does some checks
+ * Components: Torro_Form_Access_Control_All_Visitors class
  *
- * Retriction functions for visitors
- *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Restrictions
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -93,8 +75,8 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		/**
 		 * Check IP
 		 */
-		if ( array_key_exists( 'form_access_controls_check_ip', $_POST ) ) {
-			$access_controls_check_ip = $_POST['form_access_controls_check_ip'];
+		if ( isset( $_POST['form_access_controls_check_ip'] ) ) {
+			$access_controls_check_ip = wp_unslash( $_POST['form_access_controls_check_ip'] );
 			update_post_meta( $form_id, 'form_access_controls_check_ip', $access_controls_check_ip );
 		} else {
 			update_post_meta( $form_id, 'form_access_controls_check_ip', '' );
@@ -103,8 +85,8 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		/**
 		 * Check Cookie
 		 */
-		if ( array_key_exists( 'form_access_controls_check_cookie', $_POST ) ) {
-			$access_controls_check_cookie = $_POST['form_access_controls_check_cookie'];
+		if ( isset( $_POST['form_access_controls_check_cookie'] ) ) {
+			$access_controls_check_cookie = wp_unslash( $_POST['form_access_controls_check_cookie'] );
 			update_post_meta( $form_id, 'form_access_controls_check_cookie', $access_controls_check_cookie );
 		} else {
 			update_post_meta( $form_id, 'form_access_controls_check_cookie', '' );
@@ -114,8 +96,8 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		 * Check browser fingerprint
 		 */
 		/*
-		if ( array_key_exists( 'form_access_controls_check_fingerprint', $_POST ) ) {
-			$access_controls_check_fingerprint = $_POST['form_access_controls_check_fingerprint'];
+		if ( isset( $_POST['form_access_controls_check_fingerprint'] ) ) {
+			$access_controls_check_fingerprint = wp_unslash( $_POST['form_access_controls_check_fingerprint'] );
 			update_post_meta( $form_id, 'form_access_controls_check_fingerprint', $access_controls_check_fingerprint );
 		} else {
 			update_post_meta( $form_id, 'form_access_controls_check_fingerprint', '' );
@@ -221,18 +203,18 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		if ( 'yes' === $access_controls_check_fingerprint && true !== $torro_skip_fingerrint_check ) {
 			$actual_step = 0;
 			if ( isset( $_POST['torro_actual_step'] ) ) {
-				$actual_step = $_POST['torro_actual_step'];
+				$actual_step = absint( $_POST['torro_actual_step'] );
 			}
 
 			$next_step = 0;
 			if ( isset( $_POST['torro_next_step'] ) ) {
-				$next_step = $_POST['torro_next_step'];
+				$next_step = absint( $_POST['torro_next_step'] );
 			}
 
 			$maybe_vars = '';
 
 			if ( isset( $_POST['torro_submission_back'] ) ) {
-				$maybe_vars = 'torro_submission_back: \'yes\',';
+				$maybe_vars = "torro_submission_back: 'yes',";
 			}
 
 			$nonce = torro()->ajax()->get_nonce( 'check_fngrprnt' );
@@ -340,7 +322,7 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		}
 
 		torro()->results()->update( $response_id, array(
-			'cookie_key'	=> $_POST['torro_fngrprnt'],
+			'cookie_key'	=> wp_unslash( $_POST['torro_fngrprnt'] ),
 		) );
 	}
 	*/

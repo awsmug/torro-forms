@@ -1,27 +1,11 @@
 <?php
 /**
- * Restrictioms form settings
+ * Components: Torro_Form_Setting_Access_Control class
  *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Restrictions
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -129,7 +113,7 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		/**
 		 * Saving access-control options
 		 */
-		$access_controls_option = $_POST[ 'form_access_controls_option' ];
+		$access_controls_option = wp_unslash( $_POST['form_access_controls_option'] );
 		update_post_meta( $form_id, 'access_controls_option', $access_controls_option );
 	}
 }

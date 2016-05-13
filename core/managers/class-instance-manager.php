@@ -19,14 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0-beta.1
  */
-abstract class Torro_Instance_Manager extends Torro_Manager {
+abstract class Torro_Instance_Manager {
+	protected $instances = array();
 
 	protected $table_name = false;
 
 	protected $class_name = false;
 
 	protected function __construct() {
-		parent::__construct();
 		$this->init();
 	}
 
@@ -274,4 +274,11 @@ abstract class Torro_Instance_Manager extends Torro_Manager {
 
 		return $instance;
 	}
+
+	/**
+	 * Getting category
+	 *
+	 * @return mixed
+	 */
+	protected abstract function get_category();
 }

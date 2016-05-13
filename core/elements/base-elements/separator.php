@@ -41,4 +41,4 @@ final class Torro_Element_Separator extends Torro_Element {
 	}
 }
 
-torro()->elements()->register( 'Torro_Element_Separator' );
+torro()->element_types()->register( 'Torro_Element_Separator' );

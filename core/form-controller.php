@@ -248,11 +248,10 @@ class Torro_Form_Controller {
 			/**
 			 * Going back
 			 */
-			$response = $_POST['torro_response'];
+			$response = wp_unslash( $_POST['torro_response'] );
 			$current_container_id = $response['container_id'];
 
 			$this->form->set_current_container( $current_container_id );
-
 			$prev_container_id = $this->form->get_previous_container_id();
 
 			if ( is_wp_error( $prev_container_id ) ) {
@@ -274,11 +273,11 @@ class Torro_Form_Controller {
 			/**
 			 * Yes we have a submit!
 			 */
-			if ( ! isset( $_POST[ '_wpnonce' ] ) ) {
+			if ( ! isset( $_POST['_wpnonce'] ) ) {
 				return;
 			}
 
-			if ( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'torro-form-' . $this->form_id ) ) {
+			if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'torro-form-' . $this->form_id ) ) {
 				wp_die( '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' . 403 );
 			}
 
@@ -286,9 +285,11 @@ class Torro_Form_Controller {
 				return;
 			}
 
-			$response = $_POST['torro_response'];
+			$response = wp_unslash( $_POST['torro_response'] );
 
 			$current_container_id = absint( $response['container_id'] );
+
+			$this->form->set_current_container( $current_container_id );
 
 			$errors = array();
 
@@ -336,6 +337,8 @@ class Torro_Form_Controller {
 
 			$this->cache->add_response( $response );
 
+			$d = $this->form->get_next_container_id();
+
 			$is_submit = is_wp_error( $this->form->get_next_container_id() ); // we're in the last step
 
 			$status = apply_filters( 'torro_response_status', true, $this->form_id, $current_container_id, $is_submit );
@@ -344,8 +347,6 @@ class Torro_Form_Controller {
 			 * There was no error!
 			 */
 			if ( $status && count( $errors[ $current_container_id ] ) === 0 ) {
-				$this->form->set_current_container( $current_container_id );
-
 				$next_container_id = $this->form->get_next_container_id();
 				if ( ! is_wp_error( $next_container_id ) ) {
 					$current_container_id = $next_container_id;

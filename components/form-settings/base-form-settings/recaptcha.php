@@ -1,27 +1,11 @@
 <?php
 /**
- * Restrict form to solving a reCAPTCHA
+ * Components: Torro_Form_Setting_Spam_Protection class
  *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Restrictions
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -219,7 +203,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 * @since 1.0.0
 	 */
 	public function check_recaptcha_submission( $status, $form_id, $container_id, $is_submit = false ) {
-		if ( $this->is_enabled( $form_id ) && $this->is_configured()  && $is_submit ) {
+		if ( $this->is_enabled( $form_id ) && $this->is_configured() && $is_submit ) {
 			if ( isset( $_POST['g-recaptcha-response'] ) && ! empty( $_POST['g-recaptcha-response'] ) ) {
 				$verification = $this->verify_response( $_POST['g-recaptcha-response'] );
 				try {
@@ -298,9 +282,9 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 */
 	public function save( $form_id ) {
 		$recaptcha_enabled = isset( $_POST['recaptcha_enabled'] ) ? (bool) $_POST['recaptcha_enabled'] : false;
-		$recaptcha_type = isset( $_POST['recaptcha_type'] ) ? esc_html( $_POST['recaptcha_type'] ) : 'image';
-		$recaptcha_size = isset( $_POST['recaptcha_size'] ) ? esc_html( $_POST['recaptcha_size'] ) : 'normal';
-		$recaptcha_theme = isset( $_POST['recaptcha_theme'] ) ? esc_html( $_POST['recaptcha_theme'] ) : 'light';
+		$recaptcha_type = isset( $_POST['recaptcha_type'] ) ? wp_unslash( $_POST['recaptcha_type'] ) : 'image';
+		$recaptcha_size = isset( $_POST['recaptcha_size'] ) ? wp_unslash( $_POST['recaptcha_size'] ) : 'normal';
+		$recaptcha_theme = isset( $_POST['recaptcha_theme'] ) ? wp_unslash( $_POST['recaptcha_theme'] ) : 'light';
 
 		/**
 		 * Saving reCAPTCHA settings

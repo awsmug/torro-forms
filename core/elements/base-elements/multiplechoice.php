@@ -130,4 +130,4 @@ final class Torro_Element_Multiplechoice extends Torro_Element {
 	}
 }
 
-torro()->elements()->register( 'Torro_Element_Multiplechoice' );
+torro()->element_types()->register( 'Torro_Element_Multiplechoice' );

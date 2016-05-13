@@ -157,7 +157,7 @@ final class Torro_Elements_Manager extends Torro_Instance_Manager {
 
 	protected function create_raw( $args = array() ) {
 		$type = isset( $args['type'] ) ? $args['type'] : 'textfield';
-		$class_name = $this->get_class_name_by_type( $type );
+		$class_name = torro()->element_types()->get_class_name_by_type( $type );
 		if ( ! class_exists( $class_name ) ) {
 			$class_name = 'Torro_Element_Textfield';
 		}
@@ -178,7 +178,7 @@ final class Torro_Elements_Manager extends Torro_Instance_Manager {
 			}
 		}
 
-		$class_name = $this->get_class_name_by_type( $type );
+		$class_name = torro()->element_types()->get_class_name_by_type( $type );
 		if ( ! class_exists( $class_name ) ) {
 			return false;
 		}
@@ -192,16 +192,5 @@ final class Torro_Elements_Manager extends Torro_Instance_Manager {
 
 	protected function get_category() {
 		return 'elements';
-	}
-
-	private function get_class_name_by_type( $type ) {
-		$element_types = $this->get_all_registered();
-
-		$class_name = 'Torro_Element_' . ucfirst( $type );
-		if ( isset( $element_types[ $type ] ) ) {
-			$class_name = get_class( $element_types[ $type ] );
-		}
-
-		return apply_filters( 'torro_element_type_class_name', $class_name, $type );
 	}
 }

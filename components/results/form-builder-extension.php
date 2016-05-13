@@ -1,34 +1,18 @@
 <?php
 /**
- * Torro Forms Charts Form Builder Extension
+ * Components: Torro_Formbuilder_Charts_Extension class
  *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Core
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_Formbuilder_ChartsExtension {
+class Torro_Formbuilder_Charts_Extension {
 	/**
 	 * Init in WordPress, run on constructor
 	 *
@@ -124,7 +108,7 @@ class Torro_Formbuilder_ChartsExtension {
 	 * @since 1.0.0
 	 */
 	public static function save( $form_id ) {
-		$access_controls_option = $_POST['form_access_controls_option'];
+		$access_controls_option = wp_unslash( $_POST['form_access_controls_option'] );
 		update_post_meta( $form_id, 'access_controls_option', $access_controls_option );
 	}
 
@@ -142,4 +126,4 @@ class Torro_Formbuilder_ChartsExtension {
 	}
 }
 
-Torro_Formbuilder_ChartsExtension::init();
+Torro_Formbuilder_Charts_Extension::init();

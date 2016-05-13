@@ -6,45 +6,30 @@
 .torro-form {
 	/* For accessibility */
 	.torro-element {
-		margin-bottom:20px;
+		margin-bottom: $base-padding-bottom;
 
-		input[type="text"]:focus,
-		input[type="password"]:focus,
-		input[type="color"]:focus,
-		input[type="date"]:focus,
-		input[type="datetime"]:focus,
-		input[type="datetime-local"]:focus,
-		input[type="email"]:focus,
-		input[type="month"]:focus,
-		input[type="number"]:focus,
-		input[type="password"]:focus,
-		input[type="search"]:focus,
-		input[type="tel"]:focus,
-		input[type="text"]:focus,
-		input[type="time"]:focus,
-		input[type="url"]:focus,
-		input[type="week"]:focus,
-		input[type="checkbox"]:focus,
-		input[type="radio"]:focus,
-		select:focus,
-		textarea:focus {
-			border-color: #5b9dd9;
-			box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-		}
-
+		label,
 		input,
 		select,
-		textarea{
+		textarea {
 			display:block;
 		}
 
-		.element-discription {
-			margin-top: 50px;
+		&.error {
+			input,
+			select,
+			textarea {
+				border-color: $color-error;
+			}
+		}
+
+		.element-description {
+			font-style: italic;
 		}
 	}
 
 	.torro-pagination {
-		margin-bottom: 20px;
+		margin-bottom: $base-padding-bottom;
 
 		.torro-highlight-number {
 			padding: 2px 6px;
@@ -55,13 +40,13 @@
 	}
 
 	.error-messages {
-		margin: 0;
+		margin: 5px 0 0;
 		padding: 0;
 		list-style-type: none;
 
 		li {
-			margin-top: 5px;
-			color: #F00;
+			display: block;
+			color: $color-error;
 		}
 	}
 }

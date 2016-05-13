@@ -1,4 +1,12 @@
 <?php
+/**
+ * Includes: Torro_AJAX_WP_Editor class
+ *
+ * @package TorroForms
+ * @subpackage Includes
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
+ */
 
 class Torro_AJAX_WP_Editor {
 	private static $editor_id = '';

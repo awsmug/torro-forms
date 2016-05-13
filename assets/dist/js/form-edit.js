@@ -292,10 +292,13 @@
 				});
 
 				$container_tab.on( 'keydown blur dblclick', 'input', function( e ) {
+					if ( ! $( this ).is( ":visible") ) {
+						return;
+					}
 					if ( e.type == "keydown" ) {
 						if ( e.which == 13 ) {
 							$( this ).toggle();
-							$( this ).siblings('a').toggle().html($( this ).val());
+							$( this ).siblings( 'a' ).toggle().html( $( this ).val() );
 
 							var tab_value = $( this ).val();
 							var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
@@ -307,7 +310,7 @@
 						}
 					} else if ( e.type == "focusout" ) {
 						$( this ).toggle();
-						$( this ).siblings('a').toggle().html($( this ).val());
+						$( this ).siblings( 'a' ).toggle().html( $( this ).val() );
 
 						var tab_value = $( this ).val();
 						var tab_container_id = $( this ).parent().find( 'a' ).attr( 'href' );
@@ -545,9 +548,9 @@
 				container += '<input type="button" name="delete_container" value="' +  self.translations.delete_page + '" class="button delete-container-button" />';
 				container += '</div>';
 				container += '<input type="hidden" name="container_id" value="'+ id +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'id' ) + '" value="'+ id +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'label' ) + '" value="Page '+ ( count_container + 1 ) +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( container_id, undefined, undefined, 'sort' ) + '" value="'+ count_container +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'id' ) + '" value="'+ id +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'label' ) + '" value="Page '+ ( count_container + 1 ) +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'sort' ) + '" value="'+ count_container +'" />';
 				container += '</div>';
 
 				$( tab ).insertBefore( this );

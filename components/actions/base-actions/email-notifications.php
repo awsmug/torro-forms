@@ -1,29 +1,11 @@
 <?php
 /**
- * Email notifications Action
+ * Components: Torro_Email_Notifications class
  *
- * Adds Email notifications for forms
- *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Restrictions
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -251,7 +233,9 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		}
 
 		if ( isset( $_POST['email_notifications'] ) ) {
-			$new_ids = array_map( 'absint', array_filter( array_keys( $_POST['email_notifications'] ), 'torro_is_real_id' ) );
+			$email_notifications = wp_unslash( $_POST['email_notifications'] );
+
+			$new_ids = array_map( 'absint', array_filter( array_keys( $email_notifications ), 'torro_is_real_id' ) );
 			$old_notifications = torro()->email_notifications()->query( array(
 				'number'	=> -1,
 				'form_id'	=> $form_id,
@@ -263,7 +247,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 				$old_notification->delete();
 			}
 
-			foreach ( $_POST['email_notifications'] as $id => $notification ) {
+			foreach ( $email_notifications as $id => $notification ) {
 				if ( torro_is_temp_id( $id ) ) {
 					$id = '';
 				}

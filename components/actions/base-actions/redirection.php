@@ -1,29 +1,11 @@
 <?php
 /**
- * Email notifications Action
+ * Components: Torro_Redirection_Action class
  *
- * Adds Email notifications for forms
- *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Restrictions
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -73,7 +55,7 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	 * @since 1.0.0
 	 */
 	public function notification( $form_id, $response_id, $response ) {
-		$notification = get_post_meta( $form_id, 'redirect_text', true );
+		$notification = get_post_meta( $form_id, 'redirect_text_content', true );
 
 		return $notification;
 	}
@@ -232,16 +214,16 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	 * @since 1.0.0
 	 */
 	public function save( $form_id ) {
-		$redirect_type = $_POST[ 'redirect_type' ];
+		$redirect_type = wp_unslash( $_POST['redirect_type'] );
 		update_post_meta( $form_id, 'redirect_type', $redirect_type );
 
-		$redirect_url = $_POST[ 'redirect_url' ];
+		$redirect_url = wp_unslash( $_POST['redirect_url'] );
 		update_post_meta( $form_id, 'redirect_url', $redirect_url );
 
-		$redirect_page = $_POST[ 'redirect_page' ];
+		$redirect_page = wp_unslash( $_POST['redirect_page'] );
 		update_post_meta( $form_id, 'redirect_page', $redirect_page );
 
-		$redirect_text_content = $_POST[ 'redirect_text_content' ];
+		$redirect_text_content = wp_unslash( $_POST['redirect_text_content'] );
 		update_post_meta( $form_id, 'redirect_text_content', $redirect_text_content );
 	}
 }

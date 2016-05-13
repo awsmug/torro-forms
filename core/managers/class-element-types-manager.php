@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Form_Result_Handlers_Manager class
+ * Core: Torro_Element_Types_Manager class
  *
  * @package TorroForms
  * @subpackage CoreManagers
@@ -13,16 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Torro Forms result handler manager class
+ * Torro Forms element types manager class
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Form_Result_Handlers_Manager extends Torro_Manager {
+final class Torro_Element_Types_Manager extends Torro_Manager {
 
 	/**
 	 * Instance
 	 *
-	 * @var Torro
+	 * @var null|Torro_Element_Types_Manager
 	 * @since 1.0.0
 	 */
 	private static $instance = null;
@@ -38,15 +38,25 @@ final class Torro_Form_Result_Handlers_Manager extends Torro_Manager {
 		parent::__construct();
 	}
 
+	public function get_class_name_by_type( $type ) {
+		$element_types = $this->get_all_registered();
+
+		$class_name = 'Torro_Element_' . ucfirst( $type );
+		if ( isset( $element_types[ $type ] ) ) {
+			$class_name = get_class( $element_types[ $type ] );
+		}
+
+		return apply_filters( 'torro_element_type_class_name', $class_name, $type );
+	}
+
 	protected function allowed_modules(){
 		$allowed = array(
-			'resulthandlers' => 'Torro_Form_Result',
-			'resultcharts' => 'Torro_Result_Charts'
+			'element_types' => 'Torro_Element'
 		);
 		return $allowed;
 	}
 
 	protected function get_category() {
-		return 'resulthandlers';
+		return 'element_types';
 	}
 }

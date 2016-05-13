@@ -1,27 +1,11 @@
 <?php
 /**
- * List Result Handler
+ * Components: Torro_Result_Entries class
  *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Results
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -77,13 +61,13 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	 */
 	public function option_content( $form_id ) {
 		$start = 0;
-		if ( array_key_exists( 'torro-entries-start', $_POST ) ) {
-			$start = $_POST['torro-entries-start'];
+		if ( isset( $_POST['torro-entries-start'] ) ) {
+			$start = absint( $_POST['torro-entries-start'] );
 		}
 
 		$length = 10;
-		if ( array_key_exists( 'torro-entries-start', $_POST ) ) {
-			$length = $_POST['torro-entries-length'];
+		if ( isset( $_POST['torro-entries-length'] ) ) {
+			$length = absint( $_POST['torro-entries-length'] );
 		}
 
 		$html = '<div id="torro-entries" class="torro-table-nav">';

@@ -1,27 +1,11 @@
 <?php
 /**
- * Torro Forms Chart Shortcodes
+ * Components: Torro_ChartsShortcodes class
  *
- * @author  awesome.ug, Author <support@awesome.ug>
- * @package TorroForms/Charts
- * @version 1.0.0alpha1
- * @since   1.0.0
- * @license GPL 2
- *
- * Copyright 2015 awesome.ug (support@awesome.ug)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -53,29 +37,11 @@ class Torro_ChartsShortCodes {
 		$atts = shortcode_atts( array( 'id' => '' ), $atts );
 		$form_id = absint( $atts['id'] );
 
-		if ( empty( $form_id ) || ! torro()->forms()->get( $form_id )->exists() ) {
+		if ( empty( $form_id ) || ! torro()->forms()->exists( $form_id ) ) {
 			return __( 'Please enter a valid form id into the shortcode!', 'torro-forms' );
 		}
 
-		$charts = torro()->resulthandlers()->get_registered( 'c3' );
-		$results = $charts->parse_results_for_export( $form_id, 0, -1, 'raw', false );
-		$results = $charts->format_results_by_element( $results );
-
-		$html = '';
-
-		foreach ( $results as $headline => $element_result ) {
-			$headline_arr = explode( '_', $headline );
-
-			$element_id = (int) $headline_arr[ 1 ];
-			$element = torro()->elements()->get( $element_id );
-
-			// Skip collecting Data if there is no analyzable Data
-			if ( ! $element->input_answers ) {
-				continue;
-			}
-
-			$html .= $charts->bars( $element->label, $element_result );
-		}
+		$html = torro()->resulthandlers()->get_registered( 'c3' )->show_form_charts( $form_id );
 
 		return $html;
 	}

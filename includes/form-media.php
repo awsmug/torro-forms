@@ -1,4 +1,12 @@
 <?php
+/**
+ * Includes: Torro_Form_Media class
+ *
+ * @package TorroForms
+ * @subpackage Includes
+ * @version 1.0.0-beta.1
+ * @since 1.0.0-beta.1
+ */
 
 class Torro_Form_Media {
 	const STATUS = 'torro-forms-upload';
