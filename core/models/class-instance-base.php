@@ -177,6 +177,16 @@ abstract class Torro_Instance_Base extends Torro_Base {
 		return call_user_func( array( torro(), $this->manager_method ) )->create( $superior_id, $args );
 	}
 
+	public function refresh() {
+		if ( ! $this->id ) {
+			return false;
+		}
+
+		$this->populate( $this->id );
+
+		return true;
+	}
+
 	protected function populate( $id ) {
 		global $wpdb;
 

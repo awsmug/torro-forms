@@ -293,6 +293,8 @@ class Torro_Form extends Torro_Instance_Base {
 			}
 		}
 
+		$result_obj->refresh();
+
 		return $result_id;
 	}
 
