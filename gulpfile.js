@@ -14,9 +14,9 @@ var config = {
 	licenseURI: pkg.license.url,
 	tags: pkg.keywords.join( ', ' ),
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
-	minRequired: '4.1.1',
-	testedUpTo: '4.4.2',
-	translateURI: pkg.homepage
+	minRequired: '4.4',
+	testedUpTo: '4.5.2',
+	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms'
 };
 
 /* ---- DO NOT EDIT BELOW THIS LINE ---- */

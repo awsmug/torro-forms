@@ -1,42 +1,19 @@
 # Torro Forms
 
-Stable tag: 1.0.0
+Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with native WordPress look and feel.
 
-Drag & drop WordPress formbuilder for beginners and experts. This easy to use WordPress formbuilder serves a chart module and an API for extending the form functionalities.
+## Download
 
-## Drag & Drop forms
-Easy Drag&Drop your forms with this formbuilder.
+It is recommended to use the stable version of the plugin which you can download at [wordpress.org](https://wordpress.org/plugins/torro-forms/).
 
-## Charts
-Analyzable results of a form were shown in embeddable charts.
+Of course you can also download the plugin from GitHub. Stable versions are available under [Releases](https://github.com/awsmug/torro-forms/releases). If you're interested in a developmental version, you can download it [here](https://github.com/awsmug/torro-forms/archive/develop.zip). Note that you should not use a development version in a production environment.
 
-## API
+## Contributing
 
-Extend Torro Forms with the built-in API. At the moment there are supported three ways to extend the formbuilder. To get detailed docs about the API, read the [documentation pages](http://docs.awesome-forms.io/api).
+If you're a developer and you have some ideas to improve the plugin or to solve a bug, feel free to raise an issue or submit a pull request [here on GitHub](https://github.com/awsmug/torro-forms).
 
-#### Elements
-Elements you can drag and drop into the formbuilder (e.g. textfield, textarea, multiple choice etc). With the elements API you can add your own elements if you are missing some.
-
-#### Actions
-Add your own actions in the moment the form has been successfully submitted and access the data with your own functionality.
-
-#### Restrictions
-With Restrictions you can control if a Visitor has Access to the form. Add your own restrictions by using the restrictions API.
-
-
-## Requirements
-- WordPress 4.1+
-
-## Installation
-1. Download the plugin
-2. Upload to wp-content/plugins/
-3. Activate in the backend
-4. Done!
-
-## Languages
-- English
-- German
+You can also contribute to the plugin by translating it. Simply visit [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/torro-forms) to get started.
 
 ## Disclaimer
 
-We are not responsible for any harm or wrong doing this Plugin may cause. Users are fully responsible for their own use. This Plugin is to be used WITHOUT warranty.
+We are not responsible for any harm this plugin may cause. This plugin is to be used WITHOUT warranty.

@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0alpha1 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.1 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 function Torro_reCAPTCHA_Widget( tag_id, params ) {

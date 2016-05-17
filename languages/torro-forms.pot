@@ -7,8 +7,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
-"Project-Id-Version: Torro Forms 1.0.0alpha1\n"
-"report-msgid-bugs-to: http://torro-forms.com\n"
+"Project-Id-Version: Torro Forms 1.0.0-beta.1\n"
+"report-msgid-bugs-to: https://translate.wordpress.org/projects/wp-plugins/torro-forms\n"
 "x-generator: gulp-wp-pot\n"
 "x-poedit-basepath: .\n"
 "x-poedit-language: English\n"
@@ -20,411 +20,411 @@ msgstr ""
 "x-textdomain-support: yes\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
 
-#: components/actions/base-actions/email-notifications.php:86
+#: components/actions/base-actions/email-notifications.php:68
 msgid "Email Notifications"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:196
+#: components/actions/base-actions/email-notifications.php:178
 msgid "Add Notification"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:197
+#: components/actions/base-actions/email-notifications.php:179
 msgid "Send out Email-Notifications form was submitted successful."
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:208
+#: components/actions/base-actions/email-notifications.php:190
 msgid "No Notifications found."
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:216
+#: components/actions/base-actions/email-notifications.php:198
 msgid "Do you really want to delete this Email-Notification?"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:336
+#: components/actions/base-actions/email-notifications.php:318
 msgid "Notification Name"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:340, components/form-settings/base-form-settings/access-controls/selected-members.php:106, components/form-settings/base-form-settings/access-controls/selected-members.php:133
+#: components/actions/base-actions/email-notifications.php:322, components/form-settings/base-form-settings/access-controls/selected-members.php:89, components/form-settings/base-form-settings/access-controls/selected-members.php:116
 msgid "From Name"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:344, components/form-settings/base-form-settings/access-controls/selected-members.php:112, components/form-settings/base-form-settings/access-controls/selected-members.php:139
+#: components/actions/base-actions/email-notifications.php:326, components/form-settings/base-form-settings/access-controls/selected-members.php:95, components/form-settings/base-form-settings/access-controls/selected-members.php:122
 msgid "From Email"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:348
+#: components/actions/base-actions/email-notifications.php:330
 msgid "To Email"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:352, components/form-settings/base-form-settings/access-controls/selected-members.php:118, components/form-settings/base-form-settings/access-controls/selected-members.php:145, components/form-settings/base-form-settings/access-controls/selected-members.php:426, components/form-settings/base-form-settings/access-controls/selected-members.php:449
+#: components/actions/base-actions/email-notifications.php:334, components/form-settings/base-form-settings/access-controls/selected-members.php:101, components/form-settings/base-form-settings/access-controls/selected-members.php:128, components/form-settings/base-form-settings/access-controls/selected-members.php:411, components/form-settings/base-form-settings/access-controls/selected-members.php:434
 msgid "Subject"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:356
+#: components/actions/base-actions/email-notifications.php:338
 msgid "Message"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:360
+#: components/actions/base-actions/email-notifications.php:342
 msgid "Delete Notification"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:380, components/form-settings/base-form-settings/access-controls/selected-members.php:279, components/form-settings/base-form-settings/access-controls/selected-members.php:641, core/form-builder.php:491, core/models/class-element.php:547, core/models/class-element.php:566
+#: components/actions/base-actions/email-notifications.php:362, components/form-settings/base-form-settings/access-controls/selected-members.php:262, components/form-settings/base-form-settings/access-controls/selected-members.php:626, core/form-builder.php:482, core/models/class-element.php:571, core/models/class-element.php:590
 msgid "Delete"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:381, components/form-settings/base-form-settings/access-controls/selected-members.php:280, components/results/base-result-handlers/entries.php:407, core/elements/base-elements/dropdown.php:95, core/elements/base-elements/media.php:85, core/elements/base-elements/multiplechoice.php:95, core/elements/base-elements/onechoice.php:95, core/elements/base-elements/textarea.php:78, core/elements/base-elements/textfield.php:93, core/form-builder.php:492
+#: components/actions/base-actions/email-notifications.php:363, components/form-settings/base-form-settings/access-controls/selected-members.php:263, components/results/models/class-form-result.php:148, core/elements/base-elements/dropdown.php:84, core/elements/base-elements/media.php:74, core/elements/base-elements/multiplechoice.php:84, core/elements/base-elements/onechoice.php:84, core/elements/base-elements/textarea.php:78, core/elements/base-elements/textfield.php:82, core/form-builder.php:483, core/models/class-element.php:221, core/models/class-element.php:241
 msgid "Yes"
 msgstr ""
 
-#: components/actions/base-actions/email-notifications.php:382, components/form-settings/base-form-settings/access-controls/selected-members.php:281, components/results/base-result-handlers/entries.php:409, core/elements/base-elements/dropdown.php:96, core/elements/base-elements/media.php:86, core/elements/base-elements/multiplechoice.php:96, core/elements/base-elements/onechoice.php:96, core/elements/base-elements/textarea.php:79, core/elements/base-elements/textfield.php:94, core/form-builder.php:493
+#: components/actions/base-actions/email-notifications.php:364, components/form-settings/base-form-settings/access-controls/selected-members.php:264, components/results/models/class-form-result.php:150, core/elements/base-elements/dropdown.php:85, core/elements/base-elements/media.php:75, core/elements/base-elements/multiplechoice.php:85, core/elements/base-elements/onechoice.php:85, core/elements/base-elements/textarea.php:79, core/elements/base-elements/textfield.php:83, core/form-builder.php:484, core/models/class-element.php:225, core/models/class-element.php:245
 msgid "No"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:71
+#: components/actions/base-actions/redirection.php:44
 msgid "Redirections"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:146, core/form-controller.php:374, includes/functions.php:230
+#: components/actions/base-actions/redirection.php:115, core/form-controller.php:362, includes/functions.php:148
 msgid "Thank you for submitting!"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:154
+#: components/actions/base-actions/redirection.php:123
 msgid "Redirect User"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:160
+#: components/actions/base-actions/redirection.php:129
 msgid "Text Message"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:163
+#: components/actions/base-actions/redirection.php:132
 msgid "Page Redirection"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:166
+#: components/actions/base-actions/redirection.php:135
 msgid "URL Redirection"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:169
+#: components/actions/base-actions/redirection.php:138
 msgid "Redirect the user to this content after successful submitted form data."
 msgstr ""
 
-#: components/actions/component.php:61, components/actions/form-builder-extension.php:57, components/actions/settings.php:57
+#: components/actions/component.php:44, components/actions/form-builder-extension.php:41, components/actions/settings.php:41
 msgid "Actions"
 msgstr ""
 
-#: components/actions/component.php:62
+#: components/actions/component.php:45
 msgid "Actions are executed in the moment users submitting their form data."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-control.php:64
+#: components/form-settings/base-form-settings/access-control.php:39
 msgid "Access Control"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-control.php:98
+#: components/form-settings/base-form-settings/access-control.php:73
 msgid "Give access to"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-control.php:112
+#: components/form-settings/base-form-settings/access-control.php:87
 msgid "Users which are not listet will be forbidden to access the form."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-members.php:59
+#: components/form-settings/base-form-settings/access-controls/all-members.php:51
 msgid "All Members"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-members.php:62
+#: components/form-settings/base-form-settings/access-controls/all-members.php:54
 msgid "All Members of site"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-members.php:102, components/form-settings/base-form-settings/access-controls/all-visitors.php:148, components/form-settings/base-form-settings/access-controls/selected-members.php:349
+#: components/form-settings/base-form-settings/access-controls/all-members.php:93, components/form-settings/base-form-settings/access-controls/all-visitors.php:127, components/form-settings/base-form-settings/access-controls/selected-members.php:334
 msgid "Forbid multiple entries"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-members.php:121, components/form-settings/base-form-settings/access-controls/selected-members.php:686
+#: components/form-settings/base-form-settings/access-controls/all-members.php:115, components/form-settings/base-form-settings/access-controls/selected-members.php:672
 msgid "You have to be logged in to participate."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-members.php:128, components/form-settings/base-form-settings/access-controls/all-visitors.php:205, components/form-settings/base-form-settings/access-controls/all-visitors.php:214, components/form-settings/base-form-settings/access-controls/all-visitors.php:408, components/form-settings/base-form-settings/access-controls/selected-members.php:700
+#: components/form-settings/base-form-settings/access-controls/all-members.php:122, components/form-settings/base-form-settings/access-controls/all-visitors.php:185, components/form-settings/base-form-settings/access-controls/all-visitors.php:194, components/form-settings/base-form-settings/access-controls/all-visitors.php:388, components/form-settings/base-form-settings/access-controls/selected-members.php:686
 msgid "You have already entered your data."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-visitors.php:70
+#: components/form-settings/base-form-settings/access-controls/all-visitors.php:52
 msgid "All Visitors"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-visitors.php:159
+#: components/form-settings/base-form-settings/access-controls/all-visitors.php:138
 msgid "by IP"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-visitors.php:168
+#: components/form-settings/base-form-settings/access-controls/all-visitors.php:147
 msgid "by Cookie"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-visitors.php:178
+#: components/form-settings/base-form-settings/access-controls/all-visitors.php:157
 msgid "by Browser Fingerprint"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-visitors.php:380, components/form-settings/base-form-settings/access-controls/all-visitors.php:388, components/form-settings/base-form-settings/access-controls/selected-members.php:876, components/form-settings/base-form-settings/access-controls/selected-members.php:880, components/form-settings/base-form-settings/access-controls/selected-members.php:884, components/form-settings/base-form-settings/access-controls/selected-members.php:888, components/form-settings/base-form-settings/access-controls/selected-members.php:892, components/form-settings/base-form-settings/access-controls/selected-members.php:896, components/results/base-result-handlers/entries.php:284, components/results/base-result-handlers/entries.php:288, components/results/base-result-handlers/entries.php:292, components/results/base-result-handlers/entries.php:323, components/results/base-result-handlers/entries.php:327, core/ajax.php:192, core/ajax.php:242, core/ajax.php:280, core/ajax.php:284
+#: components/form-settings/base-form-settings/access-controls/all-visitors.php:360, components/form-settings/base-form-settings/access-controls/all-visitors.php:368, components/form-settings/base-form-settings/access-controls/selected-members.php:862, components/form-settings/base-form-settings/access-controls/selected-members.php:866, components/form-settings/base-form-settings/access-controls/selected-members.php:870, components/form-settings/base-form-settings/access-controls/selected-members.php:874, components/form-settings/base-form-settings/access-controls/selected-members.php:878, components/form-settings/base-form-settings/access-controls/selected-members.php:882, components/results/base-result-handlers/entries.php:255, components/results/base-result-handlers/entries.php:259, components/results/base-result-handlers/entries.php:263, components/results/base-result-handlers/entries.php:288, components/results/base-result-handlers/entries.php:292, core/ajax.php:182, core/ajax.php:232, core/ajax.php:270, core/ajax.php:274
 msgid "Field %s is missing."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/all-visitors.php:384
+#: components/form-settings/base-form-settings/access-controls/all-visitors.php:364
 msgid "Error on processing form."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:68
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:52
 msgid "Selected Members"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:71
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:55
 msgid "Selected Members of site"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:101
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:84
 msgid "Invitation Mail Template"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:102
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:85
 msgid "Setup Mail Templates for the Invitation Mail for selected Members."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:107, components/form-settings/base-form-settings/access-controls/selected-members.php:134
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:90, components/form-settings/base-form-settings/access-controls/selected-members.php:117
 msgid "The Mail Sender Name."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:113, components/form-settings/base-form-settings/access-controls/selected-members.php:140
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:96, components/form-settings/base-form-settings/access-controls/selected-members.php:123
 msgid "The Mail Sender Email."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:119
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:102
 msgid "The Subject of the Mail."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:123, components/form-settings/base-form-settings/access-controls/selected-members.php:151
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:106, components/form-settings/base-form-settings/access-controls/selected-members.php:134
 msgid "Email Text"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:124, components/form-settings/base-form-settings/access-controls/selected-members.php:152
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:107, components/form-settings/base-form-settings/access-controls/selected-members.php:135
 msgid "The Text of the Mail."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:128
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:111
 msgid "Reinvitation Mail Template"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:129
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:112
 msgid "Setup Mail Templates for the Reinvitation Mail for selected Members."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:146
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:129
 msgid "The Subject of the Email."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:282
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:265
 msgid "just added"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:283
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:266
 msgid "Invitations sent successfully!"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:284
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:267
 msgid "Invitations could not be sent!"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:285
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:268
 msgid "Renvitations sent successfully!"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:286
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:269
 msgid "Renvitations could not be sent!"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:287
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:270
 msgid "participant/s"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:340
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:325
 msgid "all members"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:355
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:340
 msgid "Members"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:364
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:349
 msgid "Add"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:382
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:367
 msgid "Invitations"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:384
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:369
 msgid "Invite"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:385
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:370
 msgid "Reinvite"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:386
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:371
 msgid "Send Invitations"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:387
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:372
 msgid "Close"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:388
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:373
 msgid "Do you really want to send invitation emails to all members of this list?"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:422, components/form-settings/base-form-settings/access-controls/selected-members.php:445
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:407, components/form-settings/base-form-settings/access-controls/selected-members.php:430
 msgid "From"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:424, components/form-settings/base-form-settings/access-controls/selected-members.php:447, components/form-settings/base-form-settings/access-controls/selected-members.php:612
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:409, components/form-settings/base-form-settings/access-controls/selected-members.php:432, components/form-settings/base-form-settings/access-controls/selected-members.php:597
 msgid "Email"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:544, components/results/base-result-handlers/entries.php:208
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:529, components/results/base-result-handlers/entries.php:182
 msgid "<a href=\"%s\" class=\"torro-nav-button button\">Previous</a>"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:550, components/results/base-result-handlers/entries.php:214
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:535, components/results/base-result-handlers/entries.php:188
 msgid "%s - %s of %s"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:560, components/results/base-result-handlers/entries.php:223
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:545, components/results/base-result-handlers/entries.php:197
 msgid "<a href=\"%s\" class=\"torro-nav-button button\">Next</a>"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:609
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:594, components/results/models/class-form-result.php:50
 msgid "ID"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:610
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:595
 msgid "User nicename"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:611
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:596
 msgid "Display name"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:613
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:598
 msgid "Status"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:614
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:599
 msgid "Delete all"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:629
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:614
 msgid "finished"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:631
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:616
 msgid "new"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:648
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:633
 msgid "No Users found."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:667
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:652
 msgid "Do you really want to delete all participants from list?"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:668
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:653
 msgid "Do you really want to delete the participant from list?"
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:692
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:678
 msgid "You are not allowed to participate."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:786, core/form-controller.php:137
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:772, core/form-controller.php:124
 msgid "This Torro Forms Controller function \"%s\" does not exist."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:830
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:816
 msgid "No form ID provided."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:1061, components/form-settings/base-form-settings/access-controls/selected-members.php:1101
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:1047, components/form-settings/base-form-settings/access-controls/selected-members.php:1087
 msgid "Missing form ID."
 msgstr ""
 
-#: components/form-settings/base-form-settings/access-controls/selected-members.php:1104
+#: components/form-settings/base-form-settings/access-controls/selected-members.php:1090
 msgid "Missing user ID."
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:66
+#: components/form-settings/base-form-settings/recaptcha.php:56
 msgid "Spam Protection"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:71
+#: components/form-settings/base-form-settings/recaptcha.php:61
 msgid "Site Key"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:72
+#: components/form-settings/base-form-settings/recaptcha.php:62
 msgid "The public site key of your website for Google reCAPTCHA. You can get one <a href=\"http://www.google.com/recaptcha/admin\" target=\"_blank\">here</a>."
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:76
+#: components/form-settings/base-form-settings/recaptcha.php:66
 msgid "Secret"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:77
+#: components/form-settings/base-form-settings/recaptcha.php:67
 msgid "The secret key of your website for Google reCAPTCHA. You can get one <a href=\"http://www.google.com/recaptcha/admin\" target=\"_blank\">here</a>."
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:109
+#: components/form-settings/base-form-settings/recaptcha.php:100
 msgid "To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href=\"%s\">reCAPTCHA settings</a>."
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:136
+#: components/form-settings/base-form-settings/recaptcha.php:128
 msgid "Google reCAPTCHA"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:140
+#: components/form-settings/base-form-settings/recaptcha.php:132
 msgid "Enable"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:145
+#: components/form-settings/base-form-settings/recaptcha.php:137
 msgid "Type"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:147
+#: components/form-settings/base-form-settings/recaptcha.php:139
 msgid "Image"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:148
+#: components/form-settings/base-form-settings/recaptcha.php:140
 msgid "Audio"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:153
+#: components/form-settings/base-form-settings/recaptcha.php:145
 msgid "Size"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:155
+#: components/form-settings/base-form-settings/recaptcha.php:147
 msgid "Normal"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:156
+#: components/form-settings/base-form-settings/recaptcha.php:148
 msgid "Compact"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:161
+#: components/form-settings/base-form-settings/recaptcha.php:153
 msgid "Theme"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:163
+#: components/form-settings/base-form-settings/recaptcha.php:155
 msgid "Light"
 msgstr ""
 
-#: components/form-settings/base-form-settings/recaptcha.php:164
+#: components/form-settings/base-form-settings/recaptcha.php:156
 msgid "Dark"
 msgstr ""
 
@@ -452,483 +452,499 @@ msgstr ""
 msgid "Missing reCAPTCHA response."
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:57
+#: components/form-settings/base-form-settings/timerange.php:42
 msgid "Timerange"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:79
+#: components/form-settings/base-form-settings/timerange.php:63
 msgid "Input Start Date"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:84
+#: components/form-settings/base-form-settings/timerange.php:68
 msgid "Input End Date"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:104, components/form-settings/base-form-settings/timerange.php:111
+#: components/form-settings/base-form-settings/timerange.php:91, components/form-settings/base-form-settings/timerange.php:98
 msgid "The Form is not accessible at this time."
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:145
+#: components/form-settings/base-form-settings/timerange.php:132
 msgid "yy/mm/dd"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:146
+#: components/form-settings/base-form-settings/timerange.php:133
 msgid "Su"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:147
+#: components/form-settings/base-form-settings/timerange.php:134
 msgid "Mo"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:148
+#: components/form-settings/base-form-settings/timerange.php:135
 msgid "Tu"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:149
+#: components/form-settings/base-form-settings/timerange.php:136
 msgid "We"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:150
+#: components/form-settings/base-form-settings/timerange.php:137
 msgid "Th"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:151
+#: components/form-settings/base-form-settings/timerange.php:138
 msgid "Fr"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:152
+#: components/form-settings/base-form-settings/timerange.php:139
 msgid "Sa"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:153
+#: components/form-settings/base-form-settings/timerange.php:140
 msgid "January"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:154
+#: components/form-settings/base-form-settings/timerange.php:141
 msgid "February"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:155
+#: components/form-settings/base-form-settings/timerange.php:142
 msgid "March"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:156
+#: components/form-settings/base-form-settings/timerange.php:143
 msgid "April"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:157
+#: components/form-settings/base-form-settings/timerange.php:144
 msgid "May"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:158
+#: components/form-settings/base-form-settings/timerange.php:145
 msgid "June"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:159
+#: components/form-settings/base-form-settings/timerange.php:146
 msgid "July"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:160
+#: components/form-settings/base-form-settings/timerange.php:147
 msgid "August"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:161
+#: components/form-settings/base-form-settings/timerange.php:148
 msgid "September"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:162
+#: components/form-settings/base-form-settings/timerange.php:149
 msgid "October"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:163
+#: components/form-settings/base-form-settings/timerange.php:150
 msgid "November"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:164
+#: components/form-settings/base-form-settings/timerange.php:151
 msgid "December"
 msgstr ""
 
-#: components/form-settings/base-form-settings/timerange.php:165
+#: components/form-settings/base-form-settings/timerange.php:152
 msgid "Select Date"
 msgstr ""
 
-#: components/form-settings/component.php:70, components/form-settings/settings.php:62
+#: components/form-settings/component.php:53, components/form-settings/settings.php:46
 msgid "Form Settings"
 msgstr ""
 
-#: components/form-settings/component.php:71
+#: components/form-settings/component.php:54
 msgid "Form Settings Component"
 msgstr ""
 
-#: components/form-settings/form-builder-extension.php:57, core/menu.php:54, core/menu.php:54, core/models/class-element.php:359
+#: components/form-settings/form-builder-extension.php:41, core/menu.php:45, core/menu.php:45, core/models/class-element.php:307
 msgid "Settings"
 msgstr ""
 
-#: components/form-settings/models/class-access-control.php:65
+#: components/form-settings/models/class-form-access-control.php:49
 msgid "Form Restrictions"
 msgstr ""
 
-#: components/form-settings/models/class-access-control.php:115
+#: components/form-settings/models/class-form-access-control.php:100
 msgid "Who has access to this form?"
 msgstr ""
 
-#: components/results/base-result-handlers/charts-c3.php:69
-msgid "C3"
-msgstr ""
-
-#: components/results/base-result-handlers/charts-c3.php:70
-msgid "Chart creating with C3."
-msgstr ""
-
-#: components/results/base-result-handlers/charts-c3.php:94
-msgid "Count"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:57
-msgid "Entries"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:144
-msgid "Export as <a href=\"%s\">XLS</a> or <a href=\"%s\">CSV</a>"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:177
-msgid "Show Details"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:249, components/results/models/class-charts.php:156
-msgid "There are no Results to show."
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:335
-msgid "Form not found."
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:344, components/results/base-result-handlers/entries.php:429
-msgid "Entry not found."
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:359
-msgid "Error on getting Result."
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:367
-msgid "Label"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:368
-msgid "Value"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:385
-msgid "User"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:423, core/elements/base-elements/textfield.php:128
-msgid "Date"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:423, core/elements/base-elements/textfield.php:162
-msgid "Time"
-msgstr ""
-
-#: components/results/base-result-handlers/entries.php:433
-msgid "Back to Results"
-msgstr ""
-
-#: components/results/component.php:69, components/results/form-builder-extension.php:59
-msgid "Results"
-msgstr ""
-
-#: components/results/component.php:70
-msgid "Handling Results."
-msgstr ""
-
-#: components/results/export.php:65
-msgid "There are no results to export"
-msgstr ""
-
-#: components/results/export.php:67
-msgid "Export as <a href=\"%s\">XLS</a> | <a href=\"%s\">CSV</a>"
-msgstr ""
-
-#: components/results/form-builder-extension.php:112
-msgid "Delete Results"
-msgstr ""
-
-#: components/results/models/class-charts.php:54
+#: components/results/base-result-handlers/charts-c3.php:51, components/results/models/class-charts.php:38
 msgid "Charts"
 msgstr ""
 
-#: components/results/models/class-charts.php:57
+#: components/results/base-result-handlers/charts-c3.php:52
+msgid "Chart creating with C3."
+msgstr ""
+
+#: components/results/base-result-handlers/charts-c3.php:76
+msgid "Count"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:43
+msgid "Entries"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:130
+msgid "Export as <a href=\"%s\">XLS</a> or <a href=\"%s\">CSV</a>"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:150
+msgid "Show Details"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:208, components/results/models/class-charts.php:121
+msgid "There are no Results to show."
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:300
+msgid "Form not found."
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:307
+msgid "Entry not found."
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:317
+msgid "User %s"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:325
+msgid "Label"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:326
+msgid "Value"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:347, components/results/models/class-form-result.php:61, core/elements/base-elements/textfield.php:117
+msgid "Date"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:347, core/elements/base-elements/textfield.php:151
+msgid "Time"
+msgstr ""
+
+#: components/results/base-result-handlers/entries.php:353
+msgid "Back to Results"
+msgstr ""
+
+#: components/results/component.php:53, components/results/form-builder-extension.php:43
+msgid "Results"
+msgstr ""
+
+#: components/results/component.php:54
+msgid "Handling Results."
+msgstr ""
+
+#: components/results/export.php:50
+msgid "There are no results to export"
+msgstr ""
+
+#: components/results/export.php:52
+msgid "Export as <a href=\"%s\">XLS</a> | <a href=\"%s\">CSV</a>"
+msgstr ""
+
+#: components/results/form-builder-extension.php:92
+msgid "Delete Results"
+msgstr ""
+
+#: components/results/models/class-charts.php:41
 msgid "This is an Torro Forms Chart Creator."
 msgstr ""
 
-#: components/results/models/class-charts.php:60
+#: components/results/models/class-charts.php:44
 msgid "Bars"
 msgstr ""
 
-#: components/results/models/class-charts.php:61
+#: components/results/models/class-charts.php:45
 msgid "Pies"
 msgstr ""
 
-#: components/results/models/class-charts.php:100
+#: components/results/models/class-charts.php:81
 msgid "There are no analyzable Elements in your form."
 msgstr ""
 
-#: components/results/settings.php:62
+#: components/results/models/class-form-result.php:55
+msgid "User"
+msgstr ""
+
+#: components/results/models/class-form-result.php:183, components/results/models/class-form-result.php:188
+msgid "not available"
+msgstr ""
+
+#: components/results/settings.php:46
 msgid "Result Handling"
 msgstr ""
 
-#: components/results/shortcodes.php:72
+#: components/results/shortcodes.php:41
 msgid "Please enter a valid form id into the shortcode!"
 msgstr ""
 
-#: components/results/shortcodes.php:127
+#: components/results/shortcodes.php:61
 msgid "Please enter a valid element id into the shortcode."
 msgstr ""
 
-#: components/results/shortcodes.php:132
+#: components/results/shortcodes.php:66
 msgid "It looks like the container for this element has been removed. Please enter a different element id into the shortcode."
 msgstr ""
 
-#: components/results/shortcodes.php:160
+#: components/results/shortcodes.php:92
 msgid "Charts Shortcode"
 msgstr ""
 
-#: components/results/shortcodes.php:174
+#: components/results/shortcodes.php:106
 msgid "Element Charts Shortcode"
 msgstr ""
 
-#: core/ajax.php:78
+#: core/admin-notices.php:52
+msgid "The object to add an admin notice for must be of class %s."
+msgstr ""
+
+#: core/admin-notices.php:60
+msgid "[in %s]"
+msgstr ""
+
+#: core/admin-notices.php:66
+msgid "The message for admin notice %s is empty."
+msgstr ""
+
+#: core/admin-notices.php:78, core/admin-notices.php:90
+msgid "An admin notice with identifier %s does not exist."
+msgstr ""
+
+#: core/ajax.php:69
 msgid "AJAX actions must be registered before the %s hook."
 msgstr ""
 
-#: core/ajax.php:82
+#: core/ajax.php:73
 msgid "Invalid AJAX action name."
 msgstr ""
 
-#: core/ajax.php:86
+#: core/ajax.php:77
 msgid "Registered AJAX actions must have a callback function."
 msgstr ""
 
-#: core/ajax.php:129
+#: core/ajax.php:119
 msgid "Invalid action."
 msgstr ""
 
-#: core/ajax.php:135
+#: core/ajax.php:125
 msgid "Invalid action callback."
 msgstr ""
 
-#: core/ajax.php:139
+#: core/ajax.php:129
 msgid "Missing nonce."
 msgstr ""
 
-#: core/ajax.php:143
+#: core/ajax.php:133
 msgid "Invalid nonce."
 msgstr ""
 
-#: core/ajax.php:200, core/ajax.php:250
+#: core/ajax.php:190, core/ajax.php:240
 msgid "The post is not a form."
 msgstr ""
 
-#: core/ajax.php:258
+#: core/ajax.php:248
 msgid "Error retrieving the entries handler."
 msgstr ""
 
-#: core/elements/base-elements/content.php:41, core/models/class-element.php:355
+#: core/elements/base-elements/content.php:30, core/models/class-element.php:303
 msgid "Content"
 msgstr ""
 
-#: core/elements/base-elements/content.php:42
+#: core/elements/base-elements/content.php:31
 msgid "Adds own content to the form."
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:41
+#: core/elements/base-elements/dropdown.php:30
 msgid "Dropdown"
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:42
+#: core/elements/base-elements/dropdown.php:31
 msgid "Add an Element which can be answered within a dropdown field."
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:60
+#: core/elements/base-elements/dropdown.php:49
 msgid "Please select"
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:86, core/elements/base-elements/media.php:76, core/elements/base-elements/multiplechoice.php:86, core/elements/base-elements/onechoice.php:86, core/elements/base-elements/textarea.php:69, core/elements/base-elements/textfield.php:84
+#: core/elements/base-elements/dropdown.php:75, core/elements/base-elements/media.php:65, core/elements/base-elements/multiplechoice.php:75, core/elements/base-elements/onechoice.php:75, core/elements/base-elements/textarea.php:69, core/elements/base-elements/textfield.php:73
 msgid "Description"
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:88, core/elements/base-elements/onechoice.php:88, core/elements/base-elements/textarea.php:71
+#: core/elements/base-elements/dropdown.php:77, core/elements/base-elements/onechoice.php:77, core/elements/base-elements/textarea.php:71
 msgid "The description will be shown after the field."
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:92, core/elements/base-elements/media.php:82, core/elements/base-elements/multiplechoice.php:92, core/elements/base-elements/onechoice.php:92, core/elements/base-elements/textarea.php:75, core/elements/base-elements/textfield.php:90
+#: core/elements/base-elements/dropdown.php:81, core/elements/base-elements/media.php:71, core/elements/base-elements/multiplechoice.php:81, core/elements/base-elements/onechoice.php:81, core/elements/base-elements/textarea.php:75, core/elements/base-elements/textfield.php:79
 msgid "Required?"
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:98, core/elements/base-elements/multiplechoice.php:98, core/elements/base-elements/onechoice.php:98
+#: core/elements/base-elements/dropdown.php:87, core/elements/base-elements/multiplechoice.php:87, core/elements/base-elements/onechoice.php:87
 msgid "Whether the user must select a value."
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:108, core/elements/base-elements/onechoice.php:108
+#: core/elements/base-elements/dropdown.php:97, core/elements/base-elements/onechoice.php:97
 msgid "Please select a value."
 msgstr ""
 
-#: core/elements/base-elements/dropdown.php:117
+#: core/elements/base-elements/dropdown.php:106
 msgid "Please select one of the provided values."
 msgstr ""
 
-#: core/elements/base-elements/media.php:41
+#: core/elements/base-elements/media.php:30
 msgid "Media"
 msgstr ""
 
-#: core/elements/base-elements/media.php:42
+#: core/elements/base-elements/media.php:31
 msgid "Add an Element to allow file uploads."
 msgstr ""
 
-#: core/elements/base-elements/media.php:78, core/elements/base-elements/textfield.php:86
+#: core/elements/base-elements/media.php:67, core/elements/base-elements/textfield.php:75
 msgid "The description will be shown after the Element."
 msgstr ""
 
-#: core/elements/base-elements/media.php:88
+#: core/elements/base-elements/media.php:77
 msgid "Whether the user must upload a file."
 msgstr ""
 
-#: core/elements/base-elements/media.php:92
+#: core/elements/base-elements/media.php:81
 msgid "Valid file types"
 msgstr ""
 
-#: core/elements/base-elements/media.php:95
+#: core/elements/base-elements/media.php:84
 msgid "The file type that the user is allowed to upload."
 msgstr ""
 
-#: core/elements/base-elements/media.php:109
+#: core/elements/base-elements/media.php:98
 msgid "Images (.jpg, .png, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:110
+#: core/elements/base-elements/media.php:99
 msgid "Audio files (.wav, .mp3, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:111
+#: core/elements/base-elements/media.php:100
 msgid "Video files (.avi, .mpeg, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:112
+#: core/elements/base-elements/media.php:101
 msgid "Documents (.doc, .pdf, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:113
+#: core/elements/base-elements/media.php:102
 msgid "Spreadsheets (.xls, .numbers, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:114
+#: core/elements/base-elements/media.php:103
 msgid "Interactive (.ppt, .swf, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:115
+#: core/elements/base-elements/media.php:104
 msgid "Text files (.txt, .csv, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:116
+#: core/elements/base-elements/media.php:105
 msgid "File archives (.zip, .rar, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:117
+#: core/elements/base-elements/media.php:106
 msgid "Source code (.html, .js, ...)"
 msgstr ""
 
-#: core/elements/base-elements/media.php:124
+#: core/elements/base-elements/media.php:113
 msgid "Any"
 msgstr ""
 
-#: core/elements/base-elements/media.php:232
+#: core/elements/base-elements/media.php:213, core/elements/base-elements/media.php:231
 msgid "No file uploaded."
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:41
+#: core/elements/base-elements/multiplechoice.php:30
 msgid "Multiple Choice"
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:42
+#: core/elements/base-elements/multiplechoice.php:31
 msgid "Add an Element which can be answered by selecting one ore more given answers."
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:88
+#: core/elements/base-elements/multiplechoice.php:77
 msgid "The description will be shown after the question."
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:102
+#: core/elements/base-elements/multiplechoice.php:91
 msgid "Minimum Answers"
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:104
+#: core/elements/base-elements/multiplechoice.php:93
 msgid "The minimum number of answers which have to be choosed."
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:108
+#: core/elements/base-elements/multiplechoice.php:97
 msgid "Maximum Answers"
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:110
+#: core/elements/base-elements/multiplechoice.php:99
 msgid "The maximum number of answers which can be choosed."
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:125
+#: core/elements/base-elements/multiplechoice.php:114
 msgid "You did not select any value."
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:130
+#: core/elements/base-elements/multiplechoice.php:119
 msgid "Not enough choices."
 msgstr ""
 
-#: core/elements/base-elements/multiplechoice.php:136
+#: core/elements/base-elements/multiplechoice.php:125
 msgid "Too many choices."
 msgstr ""
 
-#: core/elements/base-elements/onechoice.php:41
+#: core/elements/base-elements/onechoice.php:30
 msgid "One Choice"
 msgstr ""
 
-#: core/elements/base-elements/onechoice.php:42
+#: core/elements/base-elements/onechoice.php:31
 msgid "Add an Element which can be answered by selecting one of the given answers."
 msgstr ""
 
-#: core/elements/base-elements/separator.php:41
+#: core/elements/base-elements/separator.php:30
 msgid "Separator"
 msgstr ""
 
-#: core/elements/base-elements/separator.php:42
+#: core/elements/base-elements/separator.php:31
 msgid "Adds a optical separator (<hr>) between elements."
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:41
+#: core/elements/base-elements/textarea.php:30
 msgid "Textarea"
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:42
+#: core/elements/base-elements/textarea.php:31
 msgid "Add an Element which can be answered within a text area."
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:81, core/elements/base-elements/textfield.php:96
+#: core/elements/base-elements/textarea.php:81, core/elements/base-elements/textfield.php:85
 msgid "Whether the user must input something."
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:85, core/elements/base-elements/textfield.php:100
+#: core/elements/base-elements/textarea.php:85, core/elements/base-elements/textfield.php:89
 msgid "Minimum length"
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:87, core/elements/base-elements/textfield.php:102
-msgid "The minimum number of chars which can be typed in."
+#: core/elements/base-elements/textarea.php:87
+msgid "Minimum number of chars which have to be typed in."
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:91, core/elements/base-elements/textfield.php:106
+#: core/elements/base-elements/textarea.php:91, core/elements/base-elements/textfield.php:95
 msgid "Maximum length"
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:93, core/elements/base-elements/textfield.php:108
+#: core/elements/base-elements/textarea.php:93, core/elements/base-elements/textfield.php:97
 msgid "The maximum number of chars which can be typed in."
 msgstr ""
 
@@ -948,513 +964,501 @@ msgstr ""
 msgid "Number of columns for typing in (can be overwritten by CSS)."
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:118, core/elements/base-elements/textfield.php:197
+#: core/elements/base-elements/textarea.php:126, core/elements/base-elements/textfield.php:186
 msgid "You must input something."
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:123, core/elements/base-elements/textfield.php:202
+#: core/elements/base-elements/textarea.php:131, core/elements/base-elements/textfield.php:191
 msgid "The input ist too short."
 msgstr ""
 
-#: core/elements/base-elements/textarea.php:129, core/elements/base-elements/textfield.php:208
+#: core/elements/base-elements/textarea.php:137, core/elements/base-elements/textfield.php:197
 msgid "The input ist too long."
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:41
+#: core/elements/base-elements/textfield.php:30
 msgid "Textfield"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:42
+#: core/elements/base-elements/textfield.php:31
 msgid "Add an Element which can be answered within a text field."
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:112
+#: core/elements/base-elements/textfield.php:91
+msgid "The minimum number of chars which can be typed in."
+msgstr ""
+
+#: core/elements/base-elements/textfield.php:101
 msgid "Input type"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:115
+#: core/elements/base-elements/textfield.php:104
 msgid "* Will be validated | Not all <a href=\"%s\" target=\"_blank\">HTML5 input types</a> are supportet by browsers!"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:124
+#: core/elements/base-elements/textfield.php:113
 msgid "Standard Text"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:132
+#: core/elements/base-elements/textfield.php:121
 msgid "Email-Address *"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:135
+#: core/elements/base-elements/textfield.php:124
 msgid "Please input a valid Email-Address."
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:138
+#: core/elements/base-elements/textfield.php:127
 msgid "Color"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:142
+#: core/elements/base-elements/textfield.php:131
 msgid "Number *"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:145
+#: core/elements/base-elements/textfield.php:134
 msgid "Please input a number."
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:148
+#: core/elements/base-elements/textfield.php:137
 msgid "Decimal Number *"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:151
+#: core/elements/base-elements/textfield.php:140
 msgid "Please input a decimal number."
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:154
+#: core/elements/base-elements/textfield.php:143
 msgid "Search"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:158
+#: core/elements/base-elements/textfield.php:147
 msgid "Telephone"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:166
+#: core/elements/base-elements/textfield.php:155
 msgid "URL *"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:169
+#: core/elements/base-elements/textfield.php:158
 msgid "Please input a valid URL."
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:172
+#: core/elements/base-elements/textfield.php:161
 msgid "Week"
 msgstr ""
 
-#: core/elements/base-elements/textfield.php:226
+#: core/elements/base-elements/textfield.php:215
 msgid "Invalid input."
 msgstr ""
 
-#: core/form-builder.php:86, core/form-builder.php:125, core/models/class-templatetags.php:114
+#: core/form-builder.php:77, core/form-builder.php:116, core/models/class-templatetags.php:105
 msgid "+"
 msgstr ""
 
-#: core/form-builder.php:104, core/form-builder.php:129, core/form-builder.php:495
+#: core/form-builder.php:95, core/form-builder.php:120, core/form-builder.php:486
 msgid "Drop your elements here"
 msgstr ""
 
-#: core/form-builder.php:107, core/form-builder.php:490
+#: core/form-builder.php:98, core/form-builder.php:481
 msgid "Delete Page"
 msgstr ""
 
-#: core/form-builder.php:146
+#: core/form-builder.php:137
 msgid "Do you really want to delete this page?"
 msgstr ""
 
-#: core/form-builder.php:147
+#: core/form-builder.php:138
 msgid "Do you really want to delete this element?"
 msgstr ""
 
-#: core/form-builder.php:148
+#: core/form-builder.php:139
 msgid "Do you really want to delete this answer?"
 msgstr ""
 
-#: core/form-builder.php:149
+#: core/form-builder.php:140
 msgid "Attention!"
 msgstr ""
 
-#: core/form-builder.php:149
+#: core/form-builder.php:140
 msgid "This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?"
 msgstr ""
 
-#: core/form-builder.php:169
+#: core/form-builder.php:160
 msgid "Elements"
 msgstr ""
 
-#: core/form-builder.php:173
+#: core/form-builder.php:164
 msgid "Options"
 msgstr ""
 
-#: core/form-builder.php:209
+#: core/form-builder.php:200
 msgid "Duplicate Form"
 msgstr ""
 
-#: core/form-builder.php:489, includes/updates/import-from-questions.php:115, includes/updates/import-from-questions.php:123, includes/updates/to_1.0.4.php:55
+#: core/form-builder.php:480, includes/updates/import-from-questions.php:115, includes/updates/import-from-questions.php:123, includes/updates/to_1.0.4.php:55
 msgid "Page"
 msgstr ""
 
-#: core/form-builder.php:494, torro-forms.php:470
+#: core/form-builder.php:485, torro-forms.php:479
 msgid "Edit Form"
 msgstr ""
 
-#: core/form-builder.php:496
+#: core/form-builder.php:487
 msgid "You are under 50 form fields away from reaching PHP max_num_fields!"
 msgstr ""
 
-#: core/form-builder.php:497
+#: core/form-builder.php:488
 msgid "You are over the limit of PHP max_num_fields!"
 msgstr ""
 
-#: core/form-builder.php:498
+#: core/form-builder.php:489
 msgid "Please increase the value by adding <code>php_value max_input_vars [NUMBER OF INPUT VARS]</code> in your htaccess or contact your hoster. Otherwise your form can not be saved correct."
 msgstr ""
 
-#: core/form-builder.php:499
+#: core/form-builder.php:490
 msgid "of"
 msgstr ""
 
-#: core/form-builder.php:500
+#: core/form-builder.php:491
 msgid "Form duplicated successfully!"
 msgstr ""
 
-#: core/form-builder.php:501
+#: core/form-builder.php:492
 msgid "Form results deleted successfully!"
 msgstr ""
 
-#: core/form-builder.php:502
+#: core/form-builder.php:493
 msgid "Copied!"
 msgstr ""
 
-#: core/form-controller.php:232
+#: core/form-controller.php:219
 msgid "The form with the id %d does not exist."
 msgstr ""
 
-#: core/form-controller.php:274
+#: core/form-controller.php:260
 msgid "Internal Error. No previous page exists."
 msgstr ""
 
-#: core/form-controller.php:318
+#: core/form-controller.php:306
 msgid "Missing Container #%d in form data."
 msgstr ""
 
-#: core/form-controller.php:369
+#: core/form-controller.php:357
 msgid "Your response couldn't be saved."
 msgstr ""
 
-#: core/managers/class-admin-notices-manager.php:61
-msgid "The object to add an admin notice for must be of class %s."
-msgstr ""
-
-#: core/managers/class-admin-notices-manager.php:69
-msgid "[in %s]"
-msgstr ""
-
-#: core/managers/class-admin-notices-manager.php:75
-msgid "The message for admin notice %s is empty."
-msgstr ""
-
-#: core/managers/class-admin-notices-manager.php:87, core/managers/class-admin-notices-manager.php:99
-msgid "An admin notice with identifier %s does not exist."
-msgstr ""
-
-#: core/managers/class-forms-manager.php:60
+#: core/managers/class-forms-manager.php:49
 msgid "No current form could be detected."
 msgstr ""
 
-#: core/managers/class-instance-manager.php:83
+#: core/managers/class-instance-manager.php:72
 msgid "An ID must be provided when calling a get() method."
 msgstr ""
 
-#: core/managers/class-instance-manager.php:99
+#: core/managers/class-instance-manager.php:88
 msgid "The instance %s does not exist."
 msgstr ""
 
-#: core/managers/class-instance-manager.php:253, core/managers/class-instance-manager.php:263
+#: core/managers/class-instance-manager.php:255, core/managers/class-instance-manager.php:265
 msgid "No class name provided. Cannot create raw instance."
 msgstr ""
 
-#: core/managers/class-manager.php:59
+#: core/managers/class-manager.php:46
 msgid "The class %s does not exist."
 msgstr ""
 
-#: core/managers/class-manager.php:66, core/managers/class-manager.php:149
+#: core/managers/class-manager.php:53, core/managers/class-manager.php:136
 msgid "The module category %s does not exist."
 msgstr ""
 
-#: core/managers/class-manager.php:72
+#: core/managers/class-manager.php:59
 msgid "The module class %s is not allowed for this module category."
 msgstr ""
 
-#: core/managers/class-manager.php:91
+#: core/managers/class-manager.php:78
 msgid "This is a %s module."
 msgstr ""
 
-#: core/managers/class-manager.php:95
+#: core/managers/class-manager.php:82
 msgid "The module %s already exists."
 msgstr ""
 
-#: core/managers/class-manager.php:135
+#: core/managers/class-manager.php:122
 msgid "The module %s does not exist."
 msgstr ""
 
-#: core/models/class-base.php:177
+#: core/models/class-base.php:166
 msgid "Setup \"%s\"."
 msgstr ""
 
-#: core/models/class-element.php:176
+#: core/models/class-element.php:174
 msgid "You did not enter any answers. Please add some to display answers here."
 msgstr ""
 
-#: core/models/class-element.php:205
+#: core/models/class-element.php:395
 msgid "No HTML for Element given. Please check element sourcecode."
 msgstr ""
 
-#: core/models/class-element.php:491
+#: core/models/class-element.php:515
 msgid "Label "
 msgstr ""
 
-#: core/models/class-element.php:506
+#: core/models/class-element.php:530
 msgid "Answer/s:"
 msgstr ""
 
-#: core/models/class-element.php:579
+#: core/models/class-element.php:603
 msgid "Add Answer"
 msgstr ""
 
-#: core/models/class-element.php:695
-msgid "Delete element"
+#: core/models/class-element.php:725
+msgid "Delete Element"
 msgstr ""
 
-#: core/models/class-form.php:107
+#: core/models/class-form.php:106
 msgid "No current container is set."
 msgstr ""
 
-#: core/models/class-form.php:124
+#: core/models/class-form.php:136
 msgid "No previous container is set."
 msgstr ""
 
-#: core/models/class-form.php:133
+#: core/models/class-form.php:152
 msgid "No next container is set."
 msgstr ""
 
-#: core/models/class-form.php:296, core/models/class-form.php:309
+#: core/models/class-form.php:329, core/models/class-form.php:342
 msgid "Could not copy form post data."
 msgstr ""
 
-#: core/models/class-form.php:460
+#: core/models/class-form.php:493
 msgid "Previous Step"
 msgstr ""
 
-#: core/models/class-form.php:464
+#: core/models/class-form.php:497
 msgid "Next Step"
 msgstr ""
 
-#: core/models/class-form.php:470
+#: core/models/class-form.php:503
 msgid "Send"
 msgstr ""
 
-#: core/models/class-form.php:556
+#: core/models/class-form.php:601
 msgid "Could not insert post."
 msgstr ""
 
-#: core/models/class-form.php:571
+#: core/models/class-form.php:617
 msgid "Cannot delete container without ID."
 msgstr ""
 
-#: core/models/class-instance-base.php:162
+#: core/models/class-instance-base.php:153
 msgid "Unknown error while trying to delete instance."
 msgstr ""
 
-#: core/models/class-instance-base.php:176
+#: core/models/class-instance-base.php:167
 msgid "Invalid manager retrieval method."
 msgstr ""
 
-#: core/models/class-instance-base.php:265
+#: core/models/class-instance-base.php:266
 msgid "Cannot save to database since no table name is provided."
 msgstr ""
 
-#: core/models/class-instance-base.php:295
+#: core/models/class-instance-base.php:296
 msgid "Could not update item in the database."
 msgstr ""
 
-#: core/models/class-instance-base.php:300
+#: core/models/class-instance-base.php:301
 msgid "Could not insert item into the database."
 msgstr ""
 
-#: core/models/class-instance-base.php:312
+#: core/models/class-instance-base.php:313
 msgid "Cannot delete from database since no table name is provided."
 msgstr ""
 
-#: core/models/class-instance-base.php:318
+#: core/models/class-instance-base.php:319
 msgid "Cannot delete item without ID from the database."
 msgstr ""
 
-#: core/settings-page.php:132
+#: core/settings-page.php:121
 msgid "Save Settings"
 msgstr ""
 
-#: core/settings-page.php:134
+#: core/settings-page.php:123
 msgid "There are no settings available."
 msgstr ""
 
-#: core/settings-page.php:185, core/settings-page.php:312, core/settings/base-settings/general.php:62
+#: core/settings-page.php:174, core/settings-page.php:301, core/settings/base-settings/general.php:53
 msgid "General"
 msgstr ""
 
-#: core/settings/base-settings/general.php:67
+#: core/settings/base-settings/general.php:58
 msgid "Welcome to Torro Forms!"
 msgstr ""
 
-#: core/settings/base-settings/general.php:68
+#: core/settings/base-settings/general.php:59
 msgid "You want to build forms in an easy way? Torro Forms will help you do it quickly, yet with tons of options."
 msgstr ""
 
-#: core/settings/base-settings/general.php:72
+#: core/settings/base-settings/general.php:63
 msgid "Form Modules"
 msgstr ""
 
-#: core/settings/base-settings/general.php:73
+#: core/settings/base-settings/general.php:64
 msgid "Check the modules of Torro Forms which have to be activated."
 msgstr ""
 
-#: core/settings/base-settings/general.php:99
+#: core/settings/base-settings/general.php:90
 msgid "Modules"
 msgstr ""
 
-#: core/settings/base-settings/general.php:100
+#: core/settings/base-settings/general.php:91
 msgid "You don´t need some of these components? Switch them off!"
 msgstr ""
 
-#: core/settings/base-settings/general.php:106
+#: core/settings/base-settings/general.php:97
 msgid "Slug"
 msgstr ""
 
-#: core/settings/base-settings/general.php:112
+#: core/settings/base-settings/general.php:103
 msgid "CSS"
 msgstr ""
 
-#: core/settings/base-settings/general.php:115
+#: core/settings/base-settings/general.php:106
 msgid "Include Torro Forms CSS on frontend?"
 msgstr ""
 
-#: core/settings/base-settings/general.php:120
+#: core/settings/base-settings/general.php:111
 msgid "Hard Uninstall"
 msgstr ""
 
-#: core/settings/base-settings/general.php:121
+#: core/settings/base-settings/general.php:112
 msgid "<strong>Use this setting with extreme caution</strong> as, when it is enabled, removing the plugin will remove all form content from your site forever."
 msgstr ""
 
-#: core/settings/base-settings/general.php:124
+#: core/settings/base-settings/general.php:115
 msgid "Perform a hard uninstall when the plugin is removed?"
 msgstr ""
 
-#: core/shortcodes.php:48, core/templatetags/base-templatetags/form.php:58, torro-forms.php:467
+#: core/shortcodes.php:38, core/templatetags/base-templatetags/form.php:48, torro-forms.php:476
 msgid "Form"
 msgstr ""
 
-#: core/shortcodes.php:59
+#: core/shortcodes.php:49
 msgid "Please enter an id in the form shortcode!"
 msgstr ""
 
-#: core/shortcodes.php:64
+#: core/shortcodes.php:54
 msgid "Form not found. Please enter another ID in your shortcode."
 msgstr ""
 
-#: core/shortcodes.php:95
+#: core/shortcodes.php:85
 msgid "Form Shortcode:"
 msgstr ""
 
-#: core/templatetags/base-templatetags/form.php:60
+#: core/templatetags/base-templatetags/form.php:50
 msgid "Form Templatetags"
 msgstr ""
 
-#: core/templatetags/base-templatetags/form.php:67
+#: core/templatetags/base-templatetags/form.php:57
 msgid "Form Title"
 msgstr ""
 
-#: core/templatetags/base-templatetags/form.php:67
+#: core/templatetags/base-templatetags/form.php:57
 msgid "Shows the Form Title"
 msgstr ""
 
-#: core/templatetags/base-templatetags/form.php:68
+#: core/templatetags/base-templatetags/form.php:58
 msgid "All Elements"
 msgstr ""
 
-#: core/templatetags/base-templatetags/form.php:68
+#: core/templatetags/base-templatetags/form.php:58
 msgid "Shows all Answers"
 msgstr ""
 
-#: core/templatetags/base-templatetags/form.php:89
+#: core/templatetags/base-templatetags/form.php:79
 msgid "Adds the Element Content"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:58
+#: core/templatetags/base-templatetags/global.php:48
 msgid "Global"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:60
+#: core/templatetags/base-templatetags/global.php:50
 msgid "Global Templatetags"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:67
+#: core/templatetags/base-templatetags/global.php:57
 msgid "Site Title"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:67
+#: core/templatetags/base-templatetags/global.php:57
 msgid "Adds the Site Title"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:68
+#: core/templatetags/base-templatetags/global.php:58
 msgid "Site Tagline"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:68
+#: core/templatetags/base-templatetags/global.php:58
 msgid "Adds the Sites Tagline"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:69
+#: core/templatetags/base-templatetags/global.php:59
 msgid "Admin Email"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:69
+#: core/templatetags/base-templatetags/global.php:59
 msgid "Adds the Admin Email-Address"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:70
+#: core/templatetags/base-templatetags/global.php:60
 msgid "User IP"
 msgstr ""
 
-#: core/templatetags/base-templatetags/global.php:70
+#: core/templatetags/base-templatetags/global.php:60
 msgid "Adds the Sites User IP"
 msgstr ""
 
-#: includes/form-media.php:10
+#: includes/form-media.php:18
 msgid "Formular-Upload"
 msgstr ""
 
-#: includes/form-media.php:16
+#: includes/form-media.php:24
 msgid "Formular-Upload (%s)"
 msgid_plural "Formular-Uploads (%s)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/form-media.php:58
+#: includes/form-media.php:66
 msgid "Form Uploads"
 msgstr ""
 
-#: includes/form-media.php:65
+#: includes/form-media.php:73
 msgid "No file was provided to upload."
 msgstr ""
 
-#: includes/form-media.php:74
+#: includes/form-media.php:82
 msgid "Form Submission"
 msgstr ""
 
-#: includes/form-media.php:76
+#: includes/form-media.php:84
 msgid "Form Submission for %s"
 msgstr ""
 
-#: includes/form-media.php:123
+#: includes/form-media.php:131
 msgid "This file type is not permitted."
 msgstr ""
 
-#: includes/form-media.php:127
+#: includes/form-media.php:135
 msgid "An unknown error occurred while processing the file upload."
 msgstr ""
 
-#: includes/functions.php:148
+#: includes/functions.php:66
 msgid "Copy to clipboard"
 msgstr ""
 
-#: includes/functions.php:173
+#: includes/functions.php:91
 msgid ""
 "Dear %username%,\n"
 "\n"
@@ -1465,7 +1469,7 @@ msgid ""
 "%site_name%"
 msgstr ""
 
-#: includes/functions.php:185
+#: includes/functions.php:103
 msgid ""
 "Dear %username%,\n"
 "\n"
@@ -1478,7 +1482,7 @@ msgid ""
 "%site_name%"
 msgstr ""
 
-#: includes/functions.php:199
+#: includes/functions.php:117
 msgid ""
 "Dear %username%,\n"
 "\n"
@@ -1491,11 +1495,11 @@ msgid ""
 "%site_name%"
 msgstr ""
 
-#: includes/functions.php:236
+#: includes/functions.php:154
 msgid "You are invited to answer a survey"
 msgstr ""
 
-#: includes/functions.php:242
+#: includes/functions.php:160
 msgid "Don´t forget to answer the Survey"
 msgstr ""
 
@@ -1503,130 +1507,130 @@ msgstr ""
 msgid "Questions survey data have been successfully imported to Torro Forms"
 msgstr ""
 
-#: torro-forms.php:311
+#: torro-forms.php:320
 msgid "Questions survey data have been detected, do you want to import surveys to Torro Forms? <a href=\"%s\">Yes</a> | <a href=\"%s\">No</a>"
 msgstr ""
 
-#: torro-forms.php:466, torro-forms.php:483
+#: torro-forms.php:475, torro-forms.php:492
 msgid "Forms"
 msgstr ""
 
-#: torro-forms.php:468
+#: torro-forms.php:477
 msgid "Add New"
 msgstr ""
 
-#: torro-forms.php:469
+#: torro-forms.php:478
 msgid "Add New Form"
 msgstr ""
 
-#: torro-forms.php:471
+#: torro-forms.php:480
 msgid "New Form"
 msgstr ""
 
-#: torro-forms.php:472
+#: torro-forms.php:481
 msgid "View Form"
 msgstr ""
 
-#: torro-forms.php:473
+#: torro-forms.php:482
 msgid "Search Forms"
 msgstr ""
 
-#: torro-forms.php:474
+#: torro-forms.php:483
 msgid "No forms found."
 msgstr ""
 
-#: torro-forms.php:475
+#: torro-forms.php:484
 msgid "No forms found in Trash."
 msgstr ""
 
-#: torro-forms.php:476
+#: torro-forms.php:485
 msgid "All Forms"
 msgstr ""
 
-#: torro-forms.php:477
+#: torro-forms.php:486
 msgid "Form Archives"
 msgstr ""
 
-#: torro-forms.php:478
+#: torro-forms.php:487
 msgid "Insert into form"
 msgstr ""
 
-#: torro-forms.php:479
+#: torro-forms.php:488
 msgid "Uploaded to this form"
 msgstr ""
 
-#: torro-forms.php:480
+#: torro-forms.php:489
 msgid "Filter forms list"
 msgstr ""
 
-#: torro-forms.php:481
+#: torro-forms.php:490
 msgid "Forms list navigation"
 msgstr ""
 
-#: torro-forms.php:482
+#: torro-forms.php:491
 msgid "Forms list"
 msgstr ""
 
-#: torro-forms.php:503, torro-forms.php:519
+#: torro-forms.php:517, torro-forms.php:533
 msgid "Categories"
 msgstr ""
 
-#: torro-forms.php:504
+#: torro-forms.php:518
 msgid "Category"
 msgstr ""
 
-#: torro-forms.php:505
+#: torro-forms.php:519
 msgid "Search Categories"
 msgstr ""
 
-#: torro-forms.php:506
+#: torro-forms.php:520
 msgid "Popular Categories"
 msgstr ""
 
-#: torro-forms.php:507
+#: torro-forms.php:521
 msgid "All Categories"
 msgstr ""
 
-#: torro-forms.php:508
+#: torro-forms.php:522
 msgid "Parent Category"
 msgstr ""
 
-#: torro-forms.php:509
+#: torro-forms.php:523
 msgid "Parent Category:"
 msgstr ""
 
-#: torro-forms.php:510
+#: torro-forms.php:524
 msgid "Edit Category"
 msgstr ""
 
-#: torro-forms.php:511
+#: torro-forms.php:525
 msgid "View Category"
 msgstr ""
 
-#: torro-forms.php:512
+#: torro-forms.php:526
 msgid "Update Category"
 msgstr ""
 
-#: torro-forms.php:513
+#: torro-forms.php:527
 msgid "Add New Category"
 msgstr ""
 
-#: torro-forms.php:514
+#: torro-forms.php:528
 msgid "New Category"
 msgstr ""
 
-#: torro-forms.php:515
+#: torro-forms.php:529
 msgid "No categories found."
 msgstr ""
 
-#: torro-forms.php:516
+#: torro-forms.php:530
 msgid "No categories"
 msgstr ""
 
-#: torro-forms.php:517
+#: torro-forms.php:531
 msgid "Categories list navigation"
 msgstr ""
 
-#: torro-forms.php:518
+#: torro-forms.php:532
 msgid "Categories list"
 msgstr ""

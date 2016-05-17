@@ -2,15 +2,15 @@
 /*
 Plugin Name: Torro Forms
 Plugin URI:  http://torro-forms.com
-Description: Easy & Extendable WordPress Formbuilder
-Version:     1.0.0alpha1
+Description: Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with native WordPress look and feel.
+Version:     1.0.0-beta.1
 Author:      Awesome UG
 Author URI:  http://www.awesome.ug
 License:     GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: torro-forms
 Domain Path: /languages/
-Tags:        forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
+Tags:        forms, form builder, surveys, polls, votes, charts, api
 */
 /**
  * Init: Torro_Init class
@@ -708,4 +708,6 @@ add_action( 'plugins_loaded', array( 'Torro_Init', 'init' ) );
 
 register_activation_hook( __FILE__, array( 'Torro_Init', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'Torro_Init', 'deactivate' ) );
+register_uninstall_hook( __FILE__, array( 'Torro_Init', 'uninstall' ) );
+e' ) );
 register_uninstall_hook( __FILE__, array( 'Torro_Init', 'uninstall' ) );
