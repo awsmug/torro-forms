@@ -2,7 +2,7 @@
 /*
 Plugin Name: Torro Forms
 Plugin URI:  http://torro-forms.com
-Description: Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with native WordPress look and feel.
+Description: Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.
 Version:     1.0.0-beta.1
 Author:      Awesome UG
 Author URI:  http://www.awesome.ug
@@ -709,3 +709,4 @@ add_action( 'plugins_loaded', array( 'Torro_Init', 'init' ) );
 register_activation_hook( __FILE__, array( 'Torro_Init', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'Torro_Init', 'deactivate' ) );
 register_uninstall_hook( __FILE__, array( 'Torro_Init', 'uninstall' ) );
+' ) );
