@@ -34,5 +34,12 @@
 		}
 	};
 
-	exports.add_extension( 'result_charts_c3', new Result_Charts_C3() );
-}( form_builder, wp, jQuery ) );
+	if ( 'function' === typeof exports.add_extension ) {
+		exports.add_extension( 'result_charts_c3', new Result_Charts_C3() );
+	} else {
+		exports.result_charts_c3 = new Result_Charts_C3();
+		$( document ).ready( function() {
+			exports.result_charts_c3.init();
+		});
+	}
+}( window.form_builder || window, wp, jQuery ) );

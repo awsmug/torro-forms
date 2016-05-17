@@ -158,7 +158,15 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 			},
 			tooltip: {
 				format: {
-					name: function (name, ratio, id, index) { return '{$value_text}'; }
+					name: function (name, ratio, id, index) {
+						return '{$value_text}';
+					}
+				},
+				position: function( data, width, height, element ) {
+					return {
+						top: 0,
+						left: 0
+					};
 				}
 			},
 			padding: {
@@ -204,7 +212,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 */
 	public function frontend_styles() {
 		wp_enqueue_style( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-css' ) );
-		wp_enqueue_style( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'css' ), array( 'torro-form-edit' ) );
+		wp_enqueue_style( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'css' ), array() );
 	}
 
 	/**
@@ -215,7 +223,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	public function frontend_scripts() {
 		wp_enqueue_script( 'd3', torro()->get_asset_url( 'd3/d3', 'vendor-js' ) );
 		wp_enqueue_script( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-js' ) );
-		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'torro-form-edit', 'd3', 'c3' ) );
+		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'd3', 'c3' ) );
 	}
 }
 
