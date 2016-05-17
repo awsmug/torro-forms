@@ -477,6 +477,18 @@ class Torro_Form extends Torro_Instance_Base {
 	}
 
 	/**
+	 * Deletes all results of the form.
+	 *
+	 * @since 1.0.0
+	 */
+	public function delete_responses() {
+		torro()->results()->delete_by_query( array(
+			'form_id'	=> $this->id,
+			'number'	=> -1,
+		) );
+	}
+
+	/**
 	 * Getting navigation for form
 	 *
 	 * @param $actual_step
