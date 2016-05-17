@@ -348,23 +348,34 @@ final class Torro {
 	}
 
 	/**
-	 * Getting Plugin Template
+	 * Locates and optionally loads a plugin template.
+	 *
+	 * Works in a similar way like the WordPress function, but also checks for the template in the plugin and, if specified, an extension.
+	 * It furthermore allows to pass data to the template.
 	 *
 	 * @param mixed $template_names
 	 * @param boolean $load
 	 * @param boolean $require_once
+	 * @param array|null $data Data to pass on to the template.
+	 * @param string|null $extension_path
 	 *
 	 * @return string $located
 	 * @since 1.0.0
 	 */
-	public function locate_template( $template_names, $load = false, $require_once = true ) {
-		$located = locate_template( $template_names, $load, $require_once );
+	public function locate_template( $template_names, $load = false, $require_once = true, $data = null, $extension_path = null ) {
+		$located = locate_template( $template_names, false );
 
 		if ( '' === $located ) {
 			foreach ( ( array ) $template_names as $template_name ) {
 				if ( ! $template_name ) {
 					continue;
 				}
+
+				if ( $extension_path && file_exists( trailingslashit( $extension_path ) . 'templates/' . $template_name ) ) {
+					$located = trailingslashit( $extension_path ) . $template_name;
+					break;
+				}
+
 				$file = $this->get_path( 'templates/' . $template_name );
 				if ( file_exists( $file ) ) {
 					$located = $file;
@@ -374,10 +385,33 @@ final class Torro {
 		}
 
 		if ( $load && '' !== $located ) {
-			load_template( $located, $require_once );
+			$this->load_template( $located, $require_once, $data );
 		}
 
 		return $located;
+	}
+
+	/**
+	 * Loads a plugin template.
+	 *
+	 * Works in a similar way like the WordPress function, but allows to pass data to the template.
+	 *
+	 * @param string $_template_file
+	 * @param boolean $require_once
+	 * @param array|null $data Data to pass on to the template.
+	 *
+	 * @since 1.0.0
+	 */
+	public function load_template( $_template_file, $require_once = true, $data = null ) {
+		if ( is_array( $data ) ) {
+			extract( $data, EXTR_SKIP );
+		}
+
+		if ( $require_once ) {
+			require_once $_template_file;
+		} else {
+			require $_template_file;
+		}
 	}
 
 	/**
