@@ -709,4 +709,3 @@ add_action( 'plugins_loaded', array( 'Torro_Init', 'init' ) );
 register_activation_hook( __FILE__, array( 'Torro_Init', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'Torro_Init', 'deactivate' ) );
 register_uninstall_hook( __FILE__, array( 'Torro_Init', 'uninstall' ) );
-' ) );
