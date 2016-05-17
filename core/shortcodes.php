@@ -77,7 +77,7 @@ class Torro_ShortCodes {
 	public static function show_form_shortcode() {
 		global $post;
 
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

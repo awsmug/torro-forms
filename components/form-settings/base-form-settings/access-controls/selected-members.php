@@ -780,7 +780,7 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 	 * @since 1.0.0
 	 */
 	public static function enqueue_styles() {
-		if( ! torro_is_settingspage( 'access_controls', 'selectedmembers' ) ){
+		if( ! torro()->is_settingspage( 'access_controls', 'selectedmembers' ) ){
 			return;
 		}
 
@@ -793,7 +793,7 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 	 * @since 1.0.0
 	 */
 	public static function enqueue_scripts() {
-		if( ! torro_is_settingspage( 'form_settings', 'selectedmembers' ) ){
+		if( ! torro()->is_settingspage( 'form_settings', 'selectedmembers' ) ){
 			return;
 		}
 
@@ -944,7 +944,7 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 				$content_user = str_replace( '%displayname%', $display_name, $content );
 				$content_user = str_replace( '%username%', $user_nicename, $content_user );
 
-				torro_mail( $user_email, $subject_user, stripslashes( $content_user ), $from_name, $from );
+				torro()->mail( $user_email, $subject_user, stripslashes( $content_user ), $from_name, $from );
 			}
 
 			$response['sent'] = true;

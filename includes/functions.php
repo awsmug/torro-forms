@@ -13,117 +13,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Getting Plugin Template
+ * Generates a temporary id.
  *
- * @param mixed $template_names
- * @param boolean $load
- * @param boolean $require_once
- *
- * @return string $located
+ * @return string
  * @since 1.0.0
  */
-function torro_locate_template( $template_names, $load = false, $require_once = true ) {
-
-	$located = locate_template( $template_names, $load, $require_once );
-
-	if ( '' === $located ) {
-		foreach ( ( array ) $template_names as $template_name ) {
-			if ( ! $template_name ) {
-				continue;
-			}
-			$file = torro()->get_path( 'templates/' . $template_name );
-			if ( file_exists( $file ) ) {
-				$located = $file;
-				break;
-			}
-		}
-	}
-
-	if ( $load && '' !== $located ) {
-		load_template( $located, $require_once );
-	}
-
-	return $located;
+function torro_generate_temp_id() {
+	return substr( 'temp_id_' . time() * rand(), 0, 14 );
 }
 
 /**
- * Checks if we are a Torro Forms post type in admin
+ * Checks whether id is a temporary id
+ *
+ * @param $id
  *
  * @return bool
  * @since 1.0.0
  */
-function torro_is_formbuilder() {
-	if ( is_admin() && torro_is_form() ) {
-		return true;
-	}
-
-	return false;
+function torro_is_temp_id( $id ) {
+	return 'temp_id' === substr( $id, 0, 7 );
 }
 
 /**
- * Checks if we are on Torro Forms settings page
+ * Checks whether id is a real id
  *
- * @param string $tab
- * @param string $section
+ * @param $id
  *
  * @return bool
  * @since 1.0.0
  */
-function torro_is_settingspage( $tab = null, $section = null ) {
-	if ( is_admin() && isset( $_GET[ 'page' ] ) && 'Torro_Admin' === $_GET[ 'page' ] ) {
-
-		if( isset( $tab ) ){
-			if( ( isset( $_GET[ 'tab' ] ) && $tab !== $_GET[ 'tab' ] ) || ! isset( $_GET[ 'tab' ] ) ){
-				return false;
-			}
-		}
-
-		if( isset( $section ) ){
-			if( ( isset( $_GET[ 'section' ] ) && $section !== $_GET[ 'section' ] ) || ! isset( $_GET[ 'section' ] )  ){
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
-/**
- * Checks if we are in a Torro Forms post type
- *
- * @return bool
- * @since 1.0.0
- */
-function torro_is_form() {
-	if ( is_admin() ) {
-		if ( ! empty( $_GET[ 'post' ] ) ) {
-			$post = get_post( $_GET[ 'post' ] );
-
-			if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
-				return true;
-			}
-		}
-
-		if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	if ( 'torro_form' === get_post_type() ) {
-		return true;
-	}
-
-	global $post;
-
-	if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'form' ) ) {
-		return true;
-	}
-
-	return false;
+function torro_is_real_id( $id ) {
+	return ! torro_is_temp_id( $id );
 }
 
 /**
@@ -301,69 +221,13 @@ function torro_change_email_return_name() {
 function torro_change_email_return_address() {
 	global $torro_tmp_email_settings;
 
-	if( ! empty( $torro_tmp_email_settings[ 'from_email' ] ) ){
+	if ( ! empty( $torro_tmp_email_settings[ 'from_email' ] ) ) {
 		$from_email = $torro_tmp_email_settings[ 'from_email' ];
-	}else{
+	} else {
 		$from_email = torro_get_mail_settings( 'from_email' );
 	}
 
 	return $from_email;
-}
-
-/**
- * Own Email function
- *
- * @param string $to_email Mail address for sending to
- * @param string $subject  Subject of mail
- * @param string $content
- *
- * @return bool
- * @since 1.0.0
- */
-function torro_mail( $to_email, $subject, $content, $from_name = null, $from_email = null ) {
-	global $torro_tmp_email_settings;
-
-	$torro_tmp_email_settings = array(
-		'from_name' => $from_name,
-		'from_email' => $from_email
-	);
-
-	add_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
-	add_filter( 'wp_mail_from', 'torro_change_email_return_address' );
-
-	$result = wp_mail( $to_email, $subject, $content );
-
-	remove_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
-	remove_filter( 'wp_mail_from', 'torro_change_email_return_address' );
-	unset( $torro_tmp_email_settings );
-
-	return $result;
-}
-
-/**
- * Generating temporary id
- *
- * @return string
- * @since 1.0.0
- */
-function torro_generate_temp_id() {
-	return substr( 'temp_id_' . time() * rand(), 0, 14 );
-}
-
-/**
- * Returns if id is temp id
- *
- * @param $id
- *
- * @return bool
- * @since 1.0.0
- */
-function torro_is_temp_id( $id ) {
-	return 'temp_id' === substr( $id, 0, 7 );
-}
-
-function torro_is_real_id( $id ) {
-	return ! torro_is_temp_id( $id );
 }
 
 /**

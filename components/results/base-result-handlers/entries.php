@@ -221,7 +221,7 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	}
 
 	public function admin_styles() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -229,7 +229,7 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	}
 
 	public function admin_scripts() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

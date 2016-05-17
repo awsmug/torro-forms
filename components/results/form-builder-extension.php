@@ -118,7 +118,7 @@ class Torro_Formbuilder_Charts_Extension {
 	 * @since 1.0.0
 	 */
 	public static function register_admin_styles() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

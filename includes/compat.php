@@ -38,7 +38,7 @@ class Torro_Compatibility {
 	 * Solving Conflicts!
 	 */
 	private function solve() {
-		if( ! torro_is_formbuilder() ) {
+		if( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -50,7 +50,7 @@ class Torro_Compatibility {
 	 * ACF Datetimepicker scripts from AF sites
 	 */
 	public static function trash_acf_datetimepicker_css() {
-		if( torro_is_formbuilder() || torro_is_settingspage() ) {
+		if( torro()->is_formbuilder() || torro()->is_settingspage() ) {
 			// ACF Date and Time Picker Field
 			wp_dequeue_style( 'jquery-style' );
 			wp_dequeue_style( 'timepicker' );
@@ -61,7 +61,7 @@ class Torro_Compatibility {
 	 * Trashing all jQuery UI CSS from other plugins
 	 */
 	public static function trash_jquery_ui_css(){
-		if( torro_is_formbuilder() || torro_is_settingspage() ) {
+		if( torro()->is_formbuilder() || torro()->is_settingspage() ) {
 			wp_dequeue_style( 'jquery-ui-css' );
 		}
 	}

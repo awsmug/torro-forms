@@ -354,7 +354,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

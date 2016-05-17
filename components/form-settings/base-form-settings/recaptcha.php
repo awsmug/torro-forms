@@ -86,7 +86,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	public function check_settings() {
 		global $post;
 
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
