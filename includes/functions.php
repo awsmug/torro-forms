@@ -97,15 +97,29 @@ function torro_is_settingspage( $tab = null, $section = null ) {
  * @since 1.0.0
  */
 function torro_is_form() {
-	if ( ! empty( $_GET[ 'post' ] ) ) {
-		$post = get_post( $_GET[ 'post' ] );
+	if ( is_admin() ) {
+		if ( ! empty( $_GET[ 'post' ] ) ) {
+			$post = get_post( $_GET[ 'post' ] );
 
-		if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
+			if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
+				return true;
+			}
+		}
+
+		if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
 			return true;
 		}
+
+		return false;
 	}
 
-	if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
+	if ( 'torro_form' === get_post_type() ) {
+		return true;
+	}
+
+	global $post;
+
+	if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'form' ) ) {
 		return true;
 	}
 
