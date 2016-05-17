@@ -211,6 +211,11 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 * @since 1.0.0
 	 */
 	public function frontend_styles() {
+		$load = apply_filters( 'torro_load_frontend_charts_css', true );
+		if ( ! $load ) {
+			return;
+		}
+
 		wp_enqueue_style( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-css' ) );
 		wp_enqueue_style( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'css' ), array() );
 	}
@@ -221,6 +226,11 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts() {
+		$load = apply_filters( 'torro_load_frontend_charts_js', true );
+		if ( ! $load ) {
+			return;
+		}
+
 		wp_enqueue_script( 'd3', torro()->get_asset_url( 'd3/d3', 'vendor-js' ) );
 		wp_enqueue_script( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-js' ) );
 		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'jquery', 'd3', 'c3' ) );
