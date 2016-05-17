@@ -77,7 +77,7 @@ class Torro_Formbuilder_Charts_Extension {
 
 		$html .= '<div class="section general-settings">';
 
-		$delete_results_disabled = ' disabled="disabled"';
+		$delete_results_disabled = ' disabled"';
 
 		$results_count = torro()->results()->query( array(
 			'number'	=> -1,
@@ -89,7 +89,7 @@ class Torro_Formbuilder_Charts_Extension {
 			$delete_results_disabled = '';
 		}
 
-		$html .= '<input' . $delete_results_disabled . ' id="form-delete-results" name="form-delete-results" type="button" class="button" value="' . esc_attr__( 'Delete Results', 'torro-forms' ) . '" />';
+		$html .= '<a id="form-delete-results" class="delete-button' . $delete_results_disabled . '">' . esc_html__( 'Delete Results', 'torro-forms' ) . '</a>';
 
 		ob_start();
 		do_action( 'torro_results_general_settings' );

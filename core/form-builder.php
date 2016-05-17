@@ -95,7 +95,7 @@ class Torro_Formbuilder {
 				$html .= '<div class="drop-elements-here">' . __( 'Drop your elements here', 'torro-forms' ) . '</div>';
 				$html .= '</div>';
 				$html .= '<div class="container-buttons">';
-				$html .= '<input type="button" name="delete_container" value="' . __( 'Delete Page', 'torro-forms' ) . '" class="button delete-container-button" />';
+				$html .= '<a class="delete-button delete-container-button">' . __( 'Delete Page', 'torro-forms' ) . '</a>';
 				$html .= '</div>';
 				$html .= '<input type="hidden" name="container_id" value="' . $container->id . '" />';
 				$html .= '<input type="hidden" name="containers[' . $container->id . '][id]" value="' . $container->id . '" />';

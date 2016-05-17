@@ -128,7 +128,7 @@
 			.container-buttons {
 				margin: 0;
 				padding: 15px;
-				background-color: #f5f5f5;
+				background-color: #ffffff;
 				border-top: 1px solid #ddd;
 			}
 
@@ -478,6 +478,28 @@
 .torro-form-fieldset-input-radio {
 	display: block;
 	margin-bottom: 5px;
+}
+
+/* --- Destructive --- */
+
+a.delete-button {
+	cursor: pointer;
+
+	&.disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+
+	&:hover,
+	&:focus {
+		color: #f00;
+		text-decoration: none;
+		border: none;
+
+		&.disabled {
+			color: #0073aa;
+		}
+	}
 }
 
 /* --- Redirections --- */

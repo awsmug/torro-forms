@@ -339,7 +339,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		$html .= '<td>' . $editor . '</td>';
 		$html .= '</tr>';
 		$html .= '<tr>';
-		$html .= '<td colspan="2"><input type="button" class="button form-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr__( 'Delete Notification', 'torro-forms' ) . '" /></td>';
+		$html .= '<td colspan="2"><a class="delete-button form-delete-email-notification" data-emailnotificationid="' . $id . '">' . esc_html__( 'Delete Notification', 'torro-forms' ) . '</a></td>';
 		$html .= '</tr>';
 		$html .= '</table>';
 

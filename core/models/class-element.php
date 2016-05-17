@@ -722,7 +722,7 @@ abstract class Torro_Element extends Torro_Instance_Base {
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'torro_element_bottom_actions', array(
 			'delete_form_element' => array(
-				'text'    => __( 'Delete element', 'torro-forms' ),
+				'text'    => __( 'Delete Element', 'torro-forms' ),
 				'classes' => 'delete_form_element'
 			)
 		) );
@@ -730,7 +730,7 @@ abstract class Torro_Element extends Torro_Instance_Base {
 		$html = '<div class="form-element-buttons">';
 		$html .= '<ul>';
 		foreach ( $bottom_buttons as $button ) {
-			$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action button">' . esc_html( $button[ 'text' ] ) . '</a></li>';
+			$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action delete-button">' . esc_html( $button[ 'text' ] ) . '</a></li>';
 		}
 		$html .= '</ul>';
 		$html .= '</div>';
