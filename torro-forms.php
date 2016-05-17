@@ -695,7 +695,7 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	}
 }
 
-function torro_loaded( $callback ) {
+function torro_load( $callback ) {
 	if ( did_action( '_torro_loaded' ) || doing_action( '_torro_loaded' ) ) {
 		call_user_func( $callback );
 		return;
