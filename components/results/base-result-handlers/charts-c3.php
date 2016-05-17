@@ -223,7 +223,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	public function frontend_scripts() {
 		wp_enqueue_script( 'd3', torro()->get_asset_url( 'd3/d3', 'vendor-js' ) );
 		wp_enqueue_script( 'c3', torro()->get_asset_url( 'c3/c3', 'vendor-js' ) );
-		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'd3', 'c3' ) );
+		wp_enqueue_script( 'torro-results-charts-c3', torro()->get_asset_url( 'results-charts-c3', 'js' ), array( 'jQuery', 'd3', 'c3' ) );
 	}
 }
 

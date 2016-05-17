@@ -1,4 +1,4 @@
-( function( exports, wp, $ ) {
+( function( exports, $ ) {
 	'use strict';
 
 	$.torro_text_height = function( text, font, width ) {
@@ -42,4 +42,4 @@
 			exports.result_charts_c3.init();
 		});
 	}
-}( window.form_builder || window, wp, jQuery ) );
+}( window.form_builder || window, jQuery ) );
