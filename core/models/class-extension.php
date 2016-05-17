@@ -97,6 +97,28 @@ abstract class Torro_Extension extends Torro_Base {
 	}
 
 	/**
+	 * Locates and optionally loads a plugin extension template.
+	 *
+	 * Works in a similar way like the WordPress function, but also checks for the template in the plugin and the extension.
+	 * It furthermore allows to pass data to the template.
+	 *
+	 * @param mixed $template_names
+	 * @param boolean $load
+	 * @param boolean $require_once
+	 * @param array|null $data Data to pass on to the template.
+	 *
+	 * @return string $located
+	 * @since 1.0.0
+	 */
+	public function locate_template( $template_names, $load = false, $require_once = true, $data = null ) {
+		if ( ! function_exists( 'torro' ) ) {
+			return '';
+		}
+
+		return torro()->locate_template( $template_names, $load, $require_once, $data, $this->get_path() );
+	}
+
+	/**
 	 * Returns path to plugin
 	 *
 	 * @param string $path adds sub path

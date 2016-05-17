@@ -352,7 +352,7 @@ class Torro_Settings_Page {
 	 * @since 1.0.0
 	 */
 	public static function register_styles() {
-		if ( ! torro_is_settingspage() ) {
+		if ( ! torro()->is_settingspage() ) {
 			return;
 		}
 

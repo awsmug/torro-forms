@@ -51,7 +51,7 @@ class Torro_Formbuilder {
 	public static function droppable_area() {
 		global $post;
 
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -443,7 +443,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function jquery_messages_area() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -458,7 +458,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_styles() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -472,7 +472,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_scripts() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

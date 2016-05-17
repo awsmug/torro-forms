@@ -85,7 +85,7 @@ class Torro_ChartsShortCodes {
 	public static function show_form_result_shortcode() {
 		global $post;
 
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

@@ -93,7 +93,7 @@ final class Torro_Admin_Notices {
 		$notice = $this->notices[ $id ];
 
 		$prefix = '<strong>Torro Forms:</strong> ';
-		if ( torro_is_formbuilder() ) {
+		if ( torro()->is_formbuilder() ) {
 			$prefix = '';
 		}
 
@@ -118,7 +118,7 @@ final class Torro_Admin_Notices {
 				$this->show( $notices[0]['id'] );
 			} else {
 				$prefix = '<p><strong>Torro Forms:</strong></p>';
-				if ( torro_is_formbuilder() ) {
+				if ( torro()->is_formbuilder() ) {
 					$prefix = '';
 				}
 
