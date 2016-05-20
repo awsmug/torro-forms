@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
-"Project-Id-Version: Torro Forms 1.0.0-beta.1\n"
+"Project-Id-Version: Torro Forms 1.0.0-beta.2\n"
 "report-msgid-bugs-to: https://translate.wordpress.org/projects/wp-plugins/torro-forms\n"
 "x-generator: gulp-wp-pot\n"
 "x-poedit-basepath: .\n"
@@ -84,7 +84,7 @@ msgstr ""
 msgid "Redirections"
 msgstr ""
 
-#: components/actions/base-actions/redirection.php:115, core/form-controller.php:362, includes/functions.php:148
+#: components/actions/base-actions/redirection.php:115, core/form-controller.php:357, includes/functions.php:148
 msgid "Thank you for submitting!"
 msgstr ""
 
@@ -358,6 +358,38 @@ msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:1090
 msgid "Missing user ID."
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:42, core/settings-page.php:174, core/settings-page.php:301, core/settings/base-settings/general.php:53
+msgid "General"
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:117
+msgid "Button labels"
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:121
+msgid "Previous"
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:122
+msgid "e.g. Previous Step"
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:126
+msgid "Next"
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:127
+msgid "e.g. Next Step"
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:131, core/models/class-form.php:513
+msgid "Send"
+msgstr ""
+
+#: components/form-settings/base-form-settings/general.php:132
+msgid "e.g. Send"
 msgstr ""
 
 #: components/form-settings/base-form-settings/recaptcha.php:56
@@ -1144,7 +1176,7 @@ msgstr ""
 msgid "Missing Container #%d in form data."
 msgstr ""
 
-#: core/form-controller.php:357
+#: core/form-controller.php:352
 msgid "Your response couldn't be saved."
 msgstr ""
 
@@ -1232,23 +1264,19 @@ msgstr ""
 msgid "Could not copy form post data."
 msgstr ""
 
-#: core/models/class-form.php:493
+#: core/models/class-form.php:505
 msgid "Previous Step"
 msgstr ""
 
-#: core/models/class-form.php:497
+#: core/models/class-form.php:510
 msgid "Next Step"
 msgstr ""
 
-#: core/models/class-form.php:503
-msgid "Send"
-msgstr ""
-
-#: core/models/class-form.php:601
+#: core/models/class-form.php:617
 msgid "Could not insert post."
 msgstr ""
 
-#: core/models/class-form.php:617
+#: core/models/class-form.php:633
 msgid "Cannot delete container without ID."
 msgstr ""
 
@@ -1286,10 +1314,6 @@ msgstr ""
 
 #: core/settings-page.php:123
 msgid "There are no settings available."
-msgstr ""
-
-#: core/settings-page.php:174, core/settings-page.php:301, core/settings/base-settings/general.php:53
-msgid "General"
 msgstr ""
 
 #: core/settings/base-settings/general.php:58

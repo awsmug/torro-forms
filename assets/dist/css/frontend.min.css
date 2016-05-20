@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.1 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.2 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 .torro-form .torro-element,.torro-form .torro-pagination{margin-bottom:20px}.torro-form .torro-element input,.torro-form .torro-element select,.torro-form .torro-element textarea{display:block}.torro-form .torro-element input[type=checkbox],.torro-form .torro-element input[type=radio]{display:inline;margin-right:5px}.torro-form .torro-element.error input,.torro-form .torro-element.error select,.torro-form .torro-element.error textarea{border-color:#d9534f}.torro-form .torro-element .element-description{font-style:italic}.torro-form .torro-pagination .torro-highlight-number{padding:2px 6px;color:#fff;background-color:#ccc;border-radius:3px}.torro-form .error-messages{padding:0;margin:5px 0 0;list-style-type:none}.torro-form .error-messages li{display:block;color:#d9534f}
