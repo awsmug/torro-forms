@@ -116,7 +116,9 @@
 			var self = this;
 
 			$( document ).on( 'torro.delete_results', function( e, data ) {
-				$( self.selectors.entries ).find( self.selectors.entries_slider_start_content ).html( data.html );
+				$( self.selectors.entries_slider_middle ).html( data.html );
+				$( self.selectors.entries_slider_middle ).animate({ marginLeft: "0" });
+				$( self.selectors.entries_slider_right ).animate({ marginLeft: "100%" }).hide();
 			});
 		},
 
