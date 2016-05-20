@@ -502,15 +502,15 @@ class Torro_Form extends Torro_Instance_Base {
 
 		// If there was a step before, show previous button
 		if ( ! is_wp_error( $this->get_previous_container_id() ) ) {
-			$button_text = apply_filters( 'torro_form_button_previous_step_text', esc_attr__( 'Previous Step', 'torro-forms' ) );
+			$button_text = apply_filters( 'torro_form_button_previous_step_text', esc_attr__( 'Previous Step', 'torro-forms' ), $this->id );
 			$html .= '<input type="submit" name="torro_submission_back" value="' . $button_text . '"> ';
 		}
 
 		if ( ! is_wp_error( $this->get_next_container_id() ) ) {
-			$button_text = apply_filters( 'torro_form_button_next_step_text', esc_attr__( 'Next Step', 'torro-forms' ) );
+			$button_text = apply_filters( 'torro_form_button_next_step_text', esc_attr__( 'Next Step', 'torro-forms' ), $this->id );
 			$html .= '<input type="submit" name="torro_submission" value="' . $button_text . '">';
 		} else {
-			$button_text = apply_filters( 'torro_form_button_send_text', esc_attr__( 'Send', 'torro-forms' ) );
+			$button_text = apply_filters( 'torro_form_button_send_text', esc_attr__( 'Send', 'torro-forms' ), $this->id );
 
 			ob_start();
 			do_action( 'torro_form_send_button_before', $this->id );
