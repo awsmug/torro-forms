@@ -9,11 +9,15 @@
 .torro-form .torro-element {
 	margin-bottom: 20px;
 }
-.torro-form .torro-element label,
 .torro-form .torro-element input,
 .torro-form .torro-element select,
 .torro-form .torro-element textarea {
 	display: block;
+}
+.torro-form .torro-element input[type="checkbox"],
+.torro-form .torro-element input[type="radio"] {
+	display: inline;
+	margin-right: 5px;
 }
 .torro-form .torro-element.error input,
 .torro-form .torro-element.error select,
