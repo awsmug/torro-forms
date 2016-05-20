@@ -29,15 +29,15 @@ msgid "Add Notification"
 msgstr ""
 
 #: components/actions/base-actions/email-notifications.php:179
-msgid "Send out Email-Notifications form was submitted successful."
+msgid "Send out email notifications after form was submitted."
 msgstr ""
 
 #: components/actions/base-actions/email-notifications.php:190
-msgid "No Notifications found."
+msgid "No notifications found."
 msgstr ""
 
 #: components/actions/base-actions/email-notifications.php:198
-msgid "Do you really want to delete this Email-Notification?"
+msgid "Do you really want to delete this email notification?"
 msgstr ""
 
 #: components/actions/base-actions/email-notifications.php:318
@@ -185,19 +185,19 @@ msgid "Invitation Mail Template"
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:85
-msgid "Setup Mail Templates for the Invitation Mail for selected Members."
+msgid "Setup mail templates for the invitation mail."
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:90, components/form-settings/base-form-settings/access-controls/selected-members.php:117
-msgid "The Mail Sender Name."
+msgid "The mail sender name."
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:96, components/form-settings/base-form-settings/access-controls/selected-members.php:123
-msgid "The Mail Sender Email."
+msgid "The mail sender email."
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:102
-msgid "The Subject of the Mail."
+msgid "The subject of the mail."
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:106, components/form-settings/base-form-settings/access-controls/selected-members.php:134
@@ -205,7 +205,7 @@ msgid "Email Text"
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:107, components/form-settings/base-form-settings/access-controls/selected-members.php:135
-msgid "The Text of the Mail."
+msgid "The text of the mail."
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:111
@@ -213,11 +213,11 @@ msgid "Reinvitation Mail Template"
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:112
-msgid "Setup Mail Templates for the Reinvitation Mail for selected Members."
+msgid "Setup mail templates for the reinvitation mail."
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:129
-msgid "The Subject of the Email."
+msgid "The subject of the email."
 msgstr ""
 
 #: components/form-settings/base-form-settings/access-controls/selected-members.php:265
@@ -497,7 +497,7 @@ msgid "Input End Date"
 msgstr ""
 
 #: components/form-settings/base-form-settings/timerange.php:91, components/form-settings/base-form-settings/timerange.php:98
-msgid "The Form is not accessible at this time."
+msgid "The form is not accessible at this time."
 msgstr ""
 
 #: components/form-settings/base-form-settings/timerange.php:132
@@ -628,8 +628,8 @@ msgstr ""
 msgid "Show Details"
 msgstr ""
 
-#: components/results/base-result-handlers/entries.php:208, components/results/models/class-charts.php:121
-msgid "There are no Results to show."
+#: components/results/base-result-handlers/entries.php:208
+msgid "There are no results to show."
 msgstr ""
 
 #: components/results/base-result-handlers/entries.php:300
@@ -669,7 +669,7 @@ msgid "Results"
 msgstr ""
 
 #: components/results/component.php:54
-msgid "Handling Results."
+msgid "Handling Results"
 msgstr ""
 
 #: components/results/export.php:50
@@ -685,7 +685,7 @@ msgid "Delete Results"
 msgstr ""
 
 #: components/results/models/class-charts.php:41
-msgid "This is an Torro Forms Chart Creator."
+msgid "This is a Torro Forms chart creator."
 msgstr ""
 
 #: components/results/models/class-charts.php:44
@@ -697,7 +697,11 @@ msgid "Pies"
 msgstr ""
 
 #: components/results/models/class-charts.php:81
-msgid "There are no analyzable Elements in your form."
+msgid "There are no analyzable elements in your form."
+msgstr ""
+
+#: components/results/models/class-charts.php:121
+msgid "There are no Results to show."
 msgstr ""
 
 #: components/results/models/class-form-result.php:55
@@ -797,7 +801,7 @@ msgid "Dropdown"
 msgstr ""
 
 #: core/elements/base-elements/dropdown.php:31
-msgid "Add an Element which can be answered within a dropdown field."
+msgid "Add an element which can be answered within a dropdown field."
 msgstr ""
 
 #: core/elements/base-elements/dropdown.php:49
@@ -809,7 +813,7 @@ msgid "Description"
 msgstr ""
 
 #: core/elements/base-elements/dropdown.php:77, core/elements/base-elements/onechoice.php:77, core/elements/base-elements/textarea.php:71
-msgid "The description will be shown after the field."
+msgid "The description will be shown after the input."
 msgstr ""
 
 #: core/elements/base-elements/dropdown.php:81, core/elements/base-elements/media.php:71, core/elements/base-elements/multiplechoice.php:81, core/elements/base-elements/onechoice.php:81, core/elements/base-elements/textarea.php:75, core/elements/base-elements/textfield.php:79
@@ -833,11 +837,11 @@ msgid "Media"
 msgstr ""
 
 #: core/elements/base-elements/media.php:31
-msgid "Add an Element to allow file uploads."
+msgid "Add an element to allow file uploads."
 msgstr ""
 
 #: core/elements/base-elements/media.php:67, core/elements/base-elements/textfield.php:75
-msgid "The description will be shown after the Element."
+msgid "The description will be shown after the element."
 msgstr ""
 
 #: core/elements/base-elements/media.php:77
@@ -885,7 +889,7 @@ msgid "File archives (.zip, .rar, ...)"
 msgstr ""
 
 #: core/elements/base-elements/media.php:106
-msgid "Source code (.html, .js, ...)"
+msgid "Sourcecode (.html, .js, ...)"
 msgstr ""
 
 #: core/elements/base-elements/media.php:113
@@ -901,7 +905,7 @@ msgid "Multiple Choice"
 msgstr ""
 
 #: core/elements/base-elements/multiplechoice.php:31
-msgid "Add an Element which can be answered by selecting one ore more given answers."
+msgid "Add an element which can be answered by selecting one ore more given answers."
 msgstr ""
 
 #: core/elements/base-elements/multiplechoice.php:77
@@ -941,7 +945,7 @@ msgid "One Choice"
 msgstr ""
 
 #: core/elements/base-elements/onechoice.php:31
-msgid "Add an Element which can be answered by selecting one of the given answers."
+msgid "Add an element which can be answered by selecting one of the given answers."
 msgstr ""
 
 #: core/elements/base-elements/separator.php:30
@@ -957,7 +961,7 @@ msgid "Textarea"
 msgstr ""
 
 #: core/elements/base-elements/textarea.php:31
-msgid "Add an Element which can be answered within a text area."
+msgid "Add an element which can be answered within a text area."
 msgstr ""
 
 #: core/elements/base-elements/textarea.php:81, core/elements/base-elements/textfield.php:85
@@ -1013,7 +1017,7 @@ msgid "Textfield"
 msgstr ""
 
 #: core/elements/base-elements/textfield.php:31
-msgid "Add an Element which can be answered within a text field."
+msgid "Add an element which can be answered within a text field."
 msgstr ""
 
 #: core/elements/base-elements/textfield.php:91
@@ -1037,7 +1041,7 @@ msgid "Email-Address *"
 msgstr ""
 
 #: core/elements/base-elements/textfield.php:124
-msgid "Please input a valid Email-Address."
+msgid "Please input a valid email-address."
 msgstr ""
 
 #: core/elements/base-elements/textfield.php:127
@@ -1113,7 +1117,7 @@ msgid "Attention!"
 msgstr ""
 
 #: core/form-builder.php:140
-msgid "This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?"
+msgid "This will erase all answers who people given to this form. Do you really want to delete all results of this form?"
 msgstr ""
 
 #: core/form-builder.php:160
@@ -1173,7 +1177,7 @@ msgid "Internal Error. No previous page exists."
 msgstr ""
 
 #: core/form-controller.php:306
-msgid "Missing Container #%d in form data."
+msgid "Missing container #%d in form data."
 msgstr ""
 
 #: core/form-controller.php:352
@@ -1229,7 +1233,7 @@ msgid "You did not enter any answers. Please add some to display answers here."
 msgstr ""
 
 #: core/models/class-element.php:395
-msgid "No HTML for Element given. Please check element sourcecode."
+msgid "No HTML for element given. Please check element sourcecode."
 msgstr ""
 
 #: core/models/class-element.php:515
@@ -1377,7 +1381,7 @@ msgid "Form not found. Please enter another ID in your shortcode."
 msgstr ""
 
 #: core/shortcodes.php:85
-msgid "Form Shortcode:"
+msgid "Form Shortcode"
 msgstr ""
 
 #: core/templatetags/base-templatetags/form.php:50
@@ -1389,7 +1393,7 @@ msgid "Form Title"
 msgstr ""
 
 #: core/templatetags/base-templatetags/form.php:57
-msgid "Shows the Form Title"
+msgid "Shows the form title."
 msgstr ""
 
 #: core/templatetags/base-templatetags/form.php:58
@@ -1397,11 +1401,11 @@ msgid "All Elements"
 msgstr ""
 
 #: core/templatetags/base-templatetags/form.php:58
-msgid "Shows all Answers"
+msgid "Shows all answers."
 msgstr ""
 
 #: core/templatetags/base-templatetags/form.php:79
-msgid "Adds the Element Content"
+msgid "Adds the element content."
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:48
@@ -1417,7 +1421,7 @@ msgid "Site Title"
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:57
-msgid "Adds the Site Title"
+msgid "Adds the site title."
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:58
@@ -1425,7 +1429,7 @@ msgid "Site Tagline"
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:58
-msgid "Adds the Sites Tagline"
+msgid "Adds the sites tagline."
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:59
@@ -1433,7 +1437,7 @@ msgid "Admin Email"
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:59
-msgid "Adds the Admin Email-Address"
+msgid "Adds the admin email-address."
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:60
@@ -1441,7 +1445,7 @@ msgid "User IP"
 msgstr ""
 
 #: core/templatetags/base-templatetags/global.php:60
-msgid "Adds the Sites User IP"
+msgid "Adds the sites user IP."
 msgstr ""
 
 #: includes/form-media.php:18

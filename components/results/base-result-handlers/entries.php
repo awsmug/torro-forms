@@ -205,7 +205,7 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	}
 
 	public function show_not_found_notice() {
-		return '<p class="not-found-area">' . esc_html__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
+		return '<p class="not-found-area">' . esc_html__( 'There are no results to show.', 'torro-forms' ) . '</p>';
 	}
 
 	/**

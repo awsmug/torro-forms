@@ -303,7 +303,7 @@ class Torro_Form_Controller {
 				$errors[ $container->id ] = array();
 
 				if ( ! isset( $response['containers'][ $container->id ] ) ) {
-					$errors[ $container->id ]['container'] = sprintf( __( 'Missing Container #%d in form data.', 'torro-forms' ), $container->id );
+					$errors[ $container->id ]['container'] = sprintf( __( 'Missing container #%d in form data.', 'torro-forms' ), $container->id );
 					continue;
 				}
 

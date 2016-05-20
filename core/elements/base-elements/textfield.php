@@ -28,7 +28,7 @@ final class Torro_Element_Textfield extends Torro_Element {
 
 		$this->type = $this->name = 'textfield';
 		$this->title = __( 'Textfield', 'torro-forms' );
-		$this->description = __( 'Add an Element which can be answered within a text field.', 'torro-forms' );
+		$this->description = __( 'Add an element which can be answered within a text field.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-textfield', 'png' );
 	}
 
@@ -72,7 +72,7 @@ final class Torro_Element_Textfield extends Torro_Element {
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',
-				'description'	=> __( 'The description will be shown after the Element.', 'torro-forms' ),
+				'description'	=> __( 'The description will be shown after the element.', 'torro-forms' ),
 				'default'		=> ''
 			),
 			'required'		=> array(
@@ -121,7 +121,7 @@ final class Torro_Element_Textfield extends Torro_Element {
 				'title'				=> __( 'Email-Address *', 'torro-forms' ),
 				'html_field_type'	=> 'email',
 				'callback'			=> 'is_email',
-				'error_message'		=> __( 'Please input a valid Email-Address.', 'torro-forms' ),
+				'error_message'		=> __( 'Please input a valid email-address.', 'torro-forms' ),
 			),
 			'color'	=> array(
 				'title'				=> __( 'Color', 'torro-forms' ),

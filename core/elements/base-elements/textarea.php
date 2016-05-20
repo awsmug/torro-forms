@@ -28,7 +28,7 @@ final class Torro_Element_Textarea extends Torro_Element {
 
 		$this->type = $this->name = 'textarea';
 		$this->title = __( 'Textarea', 'torro-forms' );
-		$this->description = __( 'Add an Element which can be answered within a text area.', 'torro-forms' );
+		$this->description = __( 'Add an element which can be answered within a text area.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-textarea', 'png' );
 	}
 
@@ -68,7 +68,7 @@ final class Torro_Element_Textarea extends Torro_Element {
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',
-				'description'	=> __( 'The description will be shown after the field.', 'torro-forms' ),
+				'description'	=> __( 'The description will be shown after the input.', 'torro-forms' ),
 				'default'		=> ''
 			),
 			'required'		=> array(

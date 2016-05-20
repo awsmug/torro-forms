@@ -38,7 +38,7 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 			$this->title = __( 'Charts', 'torro-forms' );
 		}
 		if ( empty( $this->description ) ) {
-			$this->description = __( 'This is an Torro Forms Chart Creator.', 'torro-forms' );
+			$this->description = __( 'This is a Torro Forms chart creator.', 'torro-forms' );
 		}
 
 		$this->register_chart_type( 'bars', esc_attr__( 'Bars', 'torro-forms' ), array( $this, 'bars' ) );
@@ -78,7 +78,7 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 	 */
 	public function option_content( $form_id ) {
 		if( ! torro()->forms()->get( $form_id )->has_analyzable_elements() ){
-			$html = '<p class="not-found-area">' . esc_attr__( 'There are no analyzable Elements in your form.', 'torro-forms' ) . '</p>';
+			$html = '<p class="not-found-area">' . esc_attr__( 'There are no analyzable elements in your form.', 'torro-forms' ) . '</p>';
 			return $html;
 		}
 

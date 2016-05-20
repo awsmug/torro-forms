@@ -28,7 +28,7 @@ final class Torro_Element_Onechoice extends Torro_Element {
 
 		$this->type = $this->name = 'onechoice';
 		$this->title = __( 'One Choice', 'torro-forms' );
-		$this->description = __( 'Add an Element which can be answered by selecting one of the given answers.', 'torro-forms' );
+		$this->description = __( 'Add an element which can be answered by selecting one of the given answers.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-onechoice', 'png' );
 
 		$this->input_answers = true;
@@ -74,7 +74,7 @@ final class Torro_Element_Onechoice extends Torro_Element {
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',
-				'description'	=> __( 'The description will be shown after the field.', 'torro-forms' ),
+				'description'	=> __( 'The description will be shown after the input.', 'torro-forms' ),
 				'default'		=> ''
 			),
 			'required'		=> array(

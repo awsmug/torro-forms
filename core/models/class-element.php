@@ -392,7 +392,7 @@ abstract class Torro_Element extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	protected function get_input_html() {
-		return '<p>' . esc_html__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
+		return '<p>' . esc_html__( 'No HTML for element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
 	}
 
 	/**

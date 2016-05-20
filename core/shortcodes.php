@@ -82,7 +82,7 @@ class Torro_ShortCodes {
 		}
 
 		$html = '<div class="misc-pub-section form-options">';
-		$html .= torro_clipboard_field( __( 'Form Shortcode:', 'torro-forms' ), '[form id=' . $post->ID . ']' );
+		$html .= torro_clipboard_field( __( 'Form Shortcode', 'torro-forms' ), '[form id=' . $post->ID . ']' );
 		$html .= '</div>';
 
 		echo $html;

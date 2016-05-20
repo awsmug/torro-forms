@@ -82,57 +82,57 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 		$this->settings_fields = array(
 			'invitations'			=> array(
 				'title'					=> __( 'Invitation Mail Template', 'torro-forms' ),
-				'description'			=> __( 'Setup Mail Templates for the Invitation Mail for selected Members.', 'torro-forms' ),
+				'description'			=> __( 'Setup mail templates for the invitation mail.', 'torro-forms' ),
 				'type'					=> 'title',
 			),
 			'invite_from_name'		=> array(
 				'title'					=> __( 'From Name', 'torro-forms' ),
-				'description'			=> __( 'The Mail Sender Name.', 'torro-forms' ),
+				'description'			=> __( 'The mail sender name.', 'torro-forms' ),
 				'type'					=> 'text',
 				'default'				=> get_bloginfo( 'name' ),
 			),
 			'invite_from'			=> array(
 				'title'					=> __( 'From Email', 'torro-forms' ),
-				'description'			=> __( 'The Mail Sender Email.', 'torro-forms' ),
+				'description'			=> __( 'The mail sender email.', 'torro-forms' ),
 				'type'					=> 'text',
 				'default'				=> get_option( 'admin_email' ),
 			),
 			'invite_subject'		=> array(
 				'title'					=> __( 'Subject', 'torro-forms' ),
-				'description'			=> __( 'The Subject of the Mail.', 'torro-forms' ),
+				'description'			=> __( 'The subject of the mail.', 'torro-forms' ),
 				'type'					=> 'text',
 			),
 			'invite_text'			=> array(
 				'title'					=> __( 'Email Text', 'torro-forms' ),
-				'description'			=> __( 'The Text of the Mail.', 'torro-forms' ),
+				'description'			=> __( 'The text of the mail.', 'torro-forms' ),
 				'type'					=> 'wp_editor',
 			),
 			'reinvitations'			=> array(
 				'title'					=> __( 'Reinvitation Mail Template', 'torro-forms' ),
-				'description'			=> __( 'Setup Mail Templates for the Reinvitation Mail for selected Members.', 'torro-forms' ),
+				'description'			=> __( 'Setup mail templates for the reinvitation mail.', 'torro-forms' ),
 				'type'					=> 'title',
 			),
 			'reinvite_from_name'	=> array(
 				'title'					=> __( 'From Name', 'torro-forms' ),
-				'description'			=> __( 'The Mail Sender Name.', 'torro-forms' ),
+				'description'			=> __( 'The mail sender name.', 'torro-forms' ),
 				'type'					=> 'text',
 				'default'				=> get_bloginfo( 'name' ),
 			),
 			'reinvite_from'			=> array(
 				'title'					=> __( 'From Email', 'torro-forms' ),
-				'description'			=> __( 'The Mail Sender Email.', 'torro-forms' ),
+				'description'			=> __( 'The mail sender email.', 'torro-forms' ),
 				'type'					=> 'text',
 				'default'				=> get_option( 'admin_email' ),
 			),
 			'reinvite_subject'		=> array(
 				'title'					=> __( 'Subject', 'torro-forms' ),
-				'description'			=> __( 'The Subject of the Email.', 'torro-forms' ),
+				'description'			=> __( 'The subject of the email.', 'torro-forms' ),
 				'type'					=> 'text',
 				'default'				=> get_option( 'admin_email' ),
 			),
 			'reinvite_text'			=> array(
 				'title'					=> __( 'Email Text', 'torro-forms' ),
-				'description'			=> __( 'The Text of the Mail.', 'torro-forms' ),
+				'description'			=> __( 'The text of the mail.', 'torro-forms' ),
 				'type'					=> 'wp_editor',
 			)
 		);

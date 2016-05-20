@@ -51,7 +51,7 @@ final class Torro_Results_Component extends Torro_Component {
 	protected function init() {
 		$this->name = 'results';
 		$this->title = __( 'Results', 'torro-forms' );
-		$this->description = __( 'Handling Results.', 'torro-forms' );
+		$this->description = __( 'Handling Results', 'torro-forms' );
 	}
 
 	/**
