@@ -316,7 +316,6 @@ class Torro_Form_Controller {
 
 					$value = '';
 					if ( $element->upload ) {
-						$name = 'torro_response_containers_' . $container->id . '_elements_' . $element->id;
 						if ( isset( $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ] ) ) {
 							$value = $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ];
 						}
@@ -336,7 +335,6 @@ class Torro_Form_Controller {
 			}
 
 			$this->cache->add_response( $response );
-			
 			$is_submit = is_wp_error( $this->form->get_next_container_id() ); // we're in the last step
 			$status = apply_filters( 'torro_response_status', true, $this->form_id, $current_container_id, $is_submit );
 
