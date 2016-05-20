@@ -79,6 +79,12 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.0-beta.2 =
+* Added general settings tab with possibility to change button texts
+* Added filters 'torro_form_container_title', 'torro_form_button_previous_step_text', 'torro_form_button_next_step_text' and 'torro_form_button_send_text'
+* Fixed not shown container title
+* Fixed not deleted results
+
 = 1.0.0-beta.1 =
 
 * First official beta release
