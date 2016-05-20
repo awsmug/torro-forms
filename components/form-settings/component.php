@@ -72,6 +72,7 @@ final class Torro_Form_Settings_Component extends Torro_Component {
 		require_once( $folder . 'models/class-form-access-control.php' );
 
 		// Settings
+		require_once( $folder . 'base-form-settings/general.php' );
 		require_once( $folder . 'base-form-settings/access-control.php' );
 		require_once( $folder . 'base-form-settings/timerange.php' );
 		require_once( $folder . 'base-form-settings/recaptcha.php' );

@@ -1,0 +1,161 @@
+<?php
+/**
+ * Components: Torro_Form_Setting_Timerange class
+ *
+ * @package TorroForms
+ * @subpackage Components
+ * @version 1.0.0-beta.2
+ * @since 1.0.0-beta.2
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+final class Torro_Form_Setting_General extends Torro_Form_Setting {
+	/**
+	 * Instance
+	 *
+	 * @var null|Torro_Form_Setting_Timerange
+	 * @since 1.0.0
+	 */
+	private static $instance = null;
+
+	/**
+	 * Singleton.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function init() {
+		$this->option_name = $this->title = __( 'General', 'torro-forms' );
+		$this->name = 'general';
+
+		add_filter( 'torro_form_button_previous_step_text', array( $this, 'previous_button_text' ), 10, 2 );
+		add_filter( 'torro_form_button_next_step_text', array( $this, 'next_button_text' ), 10, 2 );
+		add_filter( 'torro_form_button_send_text', array( $this, 'send_button_text' ), 10, 2 );
+	}
+
+	/**
+	 * Filtering 'previous' button text
+	 *
+	 * @param string $text
+	 * @param int $form_id
+	 *
+	 * @return string
+	 */
+	public function previous_button_text( $text, $form_id ) {
+		$previous_button_text = get_post_meta( $form_id, 'previous_button_text', true );
+
+		if( ! empty( $previous_button_text ) ) {
+			return $previous_button_text;
+		}
+
+		return $text;
+	}
+
+	/**
+	 * Filtering 'next' button text
+	 *
+	 * @param string $text
+	 * @param int $form_id
+	 *
+	 * @return string
+	 */
+	public function next_button_text( $text, $form_id ) {
+		$next_button_text = get_post_meta( $form_id, 'next_button_text', true );
+
+		if( ! empty( $next_button_text ) ) {
+			return $next_button_text;
+		}
+
+		return $text;
+	}
+
+	/**
+	 * Filtering 'send' button text
+	 *
+	 * @param string $text
+	 * @param int $form_id
+	 *
+	 * @return string
+	 */
+	public function send_button_text( $text, $form_id ) {
+		$send_button_text = get_post_meta( $form_id, 'send_button_text', true );
+
+		if( ! empty( $send_button_text ) ) {
+			return $send_button_text;
+		}
+
+		return $text;
+	}
+
+	/**
+	 * General options
+	 *
+	 * @param int $form_id
+	 *
+	 * @return string $html
+	 * @since 1.0.0
+	 */
+	public function option_content( $form_id ) {
+		$previous_button_text = get_post_meta( $form_id, 'previous_button_text', true );
+		$next_button_text = get_post_meta( $form_id, 'next_button_text', true );
+		$send_button_text = get_post_meta( $form_id, 'send_button_text', true );
+
+		$html  = '<h4>' . esc_html__( 'Button labels', 'torro-forms' ) . '</h4>';
+		$html .= '<table id="form-access-controls-content-general" class="form-table">';
+
+		$html .= '<tr>';
+		$html .= '<td><label for="previous_button_text">' . esc_html__( 'Previous', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="text" id="previous_button_text" name="previous_button_text" value="' . $previous_button_text . '" placeholder="' . esc_attr__( 'e.g. Previous Step', 'torro-forms' ) . '" /></td>';
+		$html .= '</tr>';
+
+		$html .= '<tr>';
+		$html .= '<td><label for="next_button_text">' . esc_html__( 'Next', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="text" id="next_button_text" name="next_button_text" value="' . $next_button_text . '" placeholder="' . esc_attr__( 'e.g. Next Step', 'torro-forms' ) . '" /></td>';
+		$html .= '</tr>';
+
+		$html .= '<tr>';
+		$html .= '<td><label for="send_button_text">' . esc_html__( 'Send', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
+		$html .= '</tr>';
+
+		$html .= '</table>';
+
+		return $html;
+	}
+
+	/**
+	 * Saving data
+	 *
+	 * @param int $form_id
+	 *
+	 * @since 1.0.0
+	 */
+	public function save( $form_id ) {
+		$next_button_text = wp_unslash( $_POST['next_button_text'] );
+		$previous_button_text = wp_unslash( $_POST['previous_button_text'] );
+		$send_button_text = wp_unslash( $_POST['send_button_text'] );
+
+		/**
+		 * Saving start and end date
+		 */
+		update_post_meta( $form_id, 'next_button_text', $next_button_text );
+		update_post_meta( $form_id, 'previous_button_text', $previous_button_text );
+		update_post_meta( $form_id, 'send_button_text', $send_button_text );
+	}
+}
+
+torro()->form_settings()->register( 'Torro_Form_Setting_General' );
