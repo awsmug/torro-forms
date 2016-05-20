@@ -70,7 +70,11 @@ class Torro_Container extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function get_html( $response = array(), $errors = array() ) {
-		$html = sprintf( '<input type="hidden" name="torro_response[container_id]" value="%d" />', $this->id );
+		$container_title = '<h2>' . $this->label . '</h2>';
+		$container_title = apply_filters( 'torro_container_title', $container_title, $this );
+
+		$html  = $container_title;
+		$html .= sprintf( '<input type="hidden" name="torro_response[container_id]" value="%d" />', $this->id );
 
 		foreach ( $this->elements as $element ) {
 			if ( is_wp_error( $element ) ) {
