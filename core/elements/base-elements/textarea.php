@@ -49,9 +49,20 @@ final class Torro_Element_Textarea extends Torro_Element {
 		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $star_required . '</label>';
 		$html .= '<textarea id="' . $this->get_input_id() . '" aria-describedby="' . $this->get_input_id() . '_description ' . $this->get_input_id() . '_errors" name="' . $this->get_input_name() . '" maxlength="' . $this->settings[ 'max_length' ]->value . '" rows="' . $this->settings[ 'rows' ]->value . '" cols="' . $this->settings[ 'cols' ]->value . '"' . $aria_required . '>' . esc_html( $this->response ) . '</textarea>';
 
-		if ( ! empty( $this->settings['description']->value ) ) {
+		if ( ! empty( $this->settings['description'] ) || ! empty( $this->settings['min_length'] ) && ! empty( $this->settings['min_length']->value ) || ! empty( $this->settings['max_length'] ) && ! empty( $this->settings['max_length']->value ) ) {
 			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
-			$html .= esc_html( $this->settings['description']->value );
+			$description = array();
+			if ( ! empty( $this->settings['description'] ) ) {
+				$description[] = esc_html( $this->settings[ 'description' ]->value );
+			}
+			if ( ! empty( $this->settings['min_length'] ) && ! empty( $this->settings['min_length']->value ) && ! empty( $this->settings['max_length'] ) && ! empty( $this->settings['max_length']->value ) ) {
+				$description[] = sprintf( __( 'Between %1$s and %2$s characters are required.', 'torro-forms' ), number_format_i18n( $this->settings['min_length']->value ), number_format_i18n( $this->settings['max_length']->value ) );
+			} elseif ( ! empty( $this->settings['min_length'] ) && ! empty( $this->settings['min_length']->value ) ) {
+				$description[] = sprintf( __( 'At least %s characters are required.', 'torro-forms' ), number_format_i18n( $this->settings['min_length']->value ) );
+			} elseif ( ! empty( $this->settings['max_length'] ) && ! empty( $this->settings['max_length']->value ) ) {
+				$description[] = sprintf( __( 'A maximum of %s characters are allowed.', 'torro-forms' ), number_format_i18n( $this->settings['max_length']->value ) );
+			}
+			$html .= implode( ' ', $description );
 			$html .= '</div>';
 		}
 
