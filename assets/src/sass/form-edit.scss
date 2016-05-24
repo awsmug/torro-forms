@@ -452,6 +452,14 @@
 			h4 {
 				font-size: 14px;
 			}
+
+			.form-table{
+				input[type="checkbox"]{
+					float:left;
+				}
+				.checkbox-desc{
+				}
+			}
 		}
 	}
 }
