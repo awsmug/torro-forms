@@ -106,11 +106,7 @@ final class Torro_Element_Multiplechoice extends Torro_Element {
 		$min_answers = $this->settings['min_answers']->value;
 		$max_answers = $this->settings['max_answers']->value;
 
-		$input = (array) $input;
-
-		$input = array_map( 'stripslashes', $input );
-
-		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && 0 === count( $input ) ) {
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && ! is_array( $input ) ) {
 			return new Torro_Error( 'missing_choices', __( 'You did not select any value.', 'torro-forms' ) );
 		}
 
@@ -124,6 +120,10 @@ final class Torro_Element_Multiplechoice extends Torro_Element {
 			if ( is_array( $input ) && count( $input ) > $max_answers ) {
 				return new Torro_Error( 'too_many_choices', __( 'Too many choices.', 'torro-forms' ) );
 			}
+		}
+
+		if( is_array( $input ) ) {
+			$input = array_map( 'stripslashes', $input );
 		}
 
 		return $input;
