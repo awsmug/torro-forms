@@ -9,7 +9,6 @@ Author URI:  http://www.awesome.ug
 License:     GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: torro-forms
-Domain Path: /languages/
 Tags:        forms, form builder, surveys, polls, votes, charts, api
 */
 /**
@@ -68,7 +67,7 @@ class Torro_Init {
 			return load_textdomain( 'torro-forms', $mofile );
 		}
 
-		return load_plugin_textdomain( 'torro-forms', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+		return load_plugin_textdomain( 'torro-forms' );
 	}
 
 	/**

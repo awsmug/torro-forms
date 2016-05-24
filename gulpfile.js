@@ -31,7 +31,6 @@ var pluginheader = 	'Plugin Name: ' + config.pluginName + '\n' +
 					'License:     ' + config.license + '\n' +
 					'License URI: ' + config.licenseURI + '\n' +
 					'Text Domain: ' + config.pluginSlug + '\n' +
-					'Domain Path: /languages/\n' +
 					'Tags:        ' + config.tags;
 
 // WP plugin header for readme.txt
@@ -70,7 +69,6 @@ var rename = require( 'gulp-rename' );
 var replace = require( 'gulp-replace' );
 var sort = require( 'gulp-sort' );
 var banner = require( 'gulp-banner' );
-var wpPot = require( 'gulp-wp-pot' );
 var composer = require( 'gulp-composer' );
 var bower = require( 'bower' );
 
@@ -93,7 +91,7 @@ var paths = {
 /* ---- MAIN TASKS ---- */
 
 // general task (compile Sass and JavaScript and refresh POT file)
-gulp.task( 'default', [ 'sass', 'js', 'pot' ]);
+gulp.task( 'default', [ 'sass', 'js' ]);
 
 // watch Sass and JavaScript files
 gulp.task( 'watch', function() {
@@ -102,7 +100,8 @@ gulp.task( 'watch', function() {
 });
 
 // build the plugin
-gulp.task( 'build', [ 'version-replace', 'header-replace', 'readme-replace' ], function() {
+gulp.task( 'build', [ 'version-replace', 'readme-replace' ], function() {
+	gulp.start( 'header-replace' );
 	gulp.start( 'default' );
 });
 
@@ -142,31 +141,6 @@ gulp.task( 'js', function( done ) {
 			extname: '.min.js'
 		}) )
 		.pipe( gulp.dest( paths.js.dst ) )
-		.on( 'end', done );
-});
-
-// generate POT file
-gulp.task( 'pot', function( done ) {
-	gulp.src( paths.php.files, { base: './' })
-		.pipe( sort() )
-		.pipe( wpPot({
-			domain: config.pluginSlug,
-			destFile: './languages/' + config.pluginSlug + '.pot',
-			headers: {
-				'Project-Id-Version': config.pluginName + ' ' + config.version,
-				'report-msgid-bugs-to': config.translateURI,
-				'x-generator': 'gulp-wp-pot',
-				'x-poedit-basepath': '.',
-				'x-poedit-language': 'English',
-				'x-poedit-country': 'UNITED STATES',
-				'x-poedit-sourcecharset': 'uft-8',
-				'x-poedit-keywordslist': '__;_e;_x:1,2c;_ex:1,2c;_n:1,2; _nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; esc_html_e;esc_attr_x:1,2c; esc_html_x:1,2c;',
-				'x-poedit-bookmars': '',
-				'x-poedit-searchpath-0': '.',
-				'x-textdomain-support': 'yes'
-			}
-		}) )
-		.pipe( gulp.dest( './' ) )
 		.on( 'end', done );
 });
 
