@@ -74,7 +74,7 @@ class Torro_Container extends Torro_Instance_Base {
 
 		if( true === apply_filters( 'torro_form_container_show_title', true, $this->superior_id, $this->id ) ) {
 			$container_title = '<h2 class="container-title">' . $this->label . '</h2>';
-			$container_title = apply_filters( 'torro_form_container_title', $container_title, $this->id );
+			$container_title = apply_filters( 'torro_form_container_title', $container_title, $this->superior_id, $this->id );
 
 			$html .= $container_title;
 			$html .= sprintf( '<input type="hidden" name="torro_response[container_id]" value="%d" />', $this->id );
