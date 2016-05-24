@@ -121,6 +121,18 @@ class Torro_Form_Controller {
 		return $this->container_id;
 	}
 
+
+
+	/**
+	 * Returns the content of the form
+	 *
+	 * @return int
+	 * @since 1.0.0
+	 */
+	public function get_content() {
+		return $this->content;
+	}
+
 	/**
 	 * Getting form response
 	 *
@@ -283,9 +295,9 @@ class Torro_Form_Controller {
 			 * Going back
 			 */
 			$response = wp_unslash( $_POST['torro_response'] );
-			$current_container_id = $response['container_id'];
+			$this->container_id = $response['container_id'];
 
-			$this->form->set_current_container( $current_container_id );
+			$this->form->set_current_container( $this->container_id );
 			$prev_container_id = $this->form->get_previous_container_id();
 
 			if ( is_wp_error( $prev_container_id ) ) {
@@ -315,18 +327,11 @@ class Torro_Form_Controller {
 				wp_die( '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' . 403 );
 			}
 
-			if ( ! isset( $_POST['torro_response']['containers'] ) ) {
-				return;
-			}
-
 			$response = wp_unslash( $_POST['torro_response'] );
-
 			$this->container_id = absint( $response['container_id'] );
-
 			$this->form->set_current_container( $this->container_id );
 
 			$errors = array();
-
 			$containers = $this->form->containers;
 
 			foreach ( $containers as $container ) {
@@ -335,11 +340,6 @@ class Torro_Form_Controller {
 				}
 
 				$errors[ $container->id ] = array();
-
-				if ( ! isset( $response['containers'][ $container->id ] ) ) {
-					$errors[ $container->id ]['container'] = sprintf( __( 'Missing container #%d in form data.', 'torro-forms' ), $container->id );
-					continue;
-				}
 
 				$elements = $container->elements;
 
@@ -387,7 +387,7 @@ class Torro_Form_Controller {
 						return;
 					}
 
-					$html = '<div id="torro-thank-submitting">';
+					$html  = '<div id="torro-thank-submitting">';
 					$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
 					$html .= '</div>';
 
