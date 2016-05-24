@@ -72,7 +72,7 @@ class Torro_Container extends Torro_Instance_Base {
 	public function get_html( $response = array(), $errors = array() ) {
 		$html = '';
 
-		if( true === apply_filters( 'torro_container_show_title', true, $this->superior_id, $this->id ) ) {
+		if( true === apply_filters( 'torro_form_container_show_title', true, $this->superior_id, $this->id ) ) {
 			$container_title = '<h2 class="container-title">' . $this->label . '</h2>';
 			$container_title = apply_filters( 'torro_form_container_title', $container_title, $this->id );
 

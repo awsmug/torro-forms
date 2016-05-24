@@ -42,7 +42,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$this->option_name = $this->title = __( 'General', 'torro-forms' );
 		$this->name = 'general';
 
-		add_filter( 'torro_container_show_title', array( $this, 'show_page_title' ), 10, 2 );
+		add_filter( 'torro_form_container_show_title', array( $this, 'show_page_title' ), 10, 2 );
 		add_filter( 'torro_form_button_previous_step_text', array( $this, 'previous_button_text' ), 10, 2 );
 		add_filter( 'torro_form_button_next_step_text', array( $this, 'next_button_text' ), 10, 2 );
 		add_filter( 'torro_form_button_send_text', array( $this, 'send_button_text' ), 10, 2 );
