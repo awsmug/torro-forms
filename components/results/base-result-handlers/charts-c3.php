@@ -75,108 +75,11 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 
 		$value_text = __( 'Count', 'torro-forms' );
 
-		/**
-		 * Preparing Data for JS
-		 */
-		$data = array( "'values'" );
-		foreach ( $results as $value ) {
-			$data[] = $value;
-		}
-		$column_data = '[ [' . implode( ',', $data ) . ' ] ]';
-
 		$categories = array_keys( $results );
-		$c3_categories = array();
-		foreach ( $categories AS $key => $category ) {
-			$c3_categories[ $key ] = '\'' . $category . '\'';
-		}
-		$categories = implode( '###', $categories );
-		$c3_categories = implode( ',', $c3_categories );
 
-		/**
-		 * C3 Chart Script
-		 */
-		$html  = '<div id="' . $id . '" class="chart chart-c3">';
+		$html  = '<div id="' . $id . '" class="chart chart-c3" data-categories="' . implode( '###', $categories ) . '" data-results="' . implode( '###', $results ) . '" data-value-text="' . $value_text . '">';
 		$html .= '<' . $title_tag . '>' . $title . '</' . $title_tag . '>';
 		$html .= '<div id="' . $id . '-chart"></div>';
-		$html .= "<script>
-	jQuery(document).ready( function($){
-
-		var chart_width = '';
-		var label_height = '';
-
-		if ( $( '#form-result-handlers-tabs' ).length ) {
-			var tab_width = $( '#form-result-handlers-tabs' ).width();
-			chart_width = Math.round( ( tab_width / 100 * 95 ) );
-		}
-
-		var categories = '{$categories}';
-		categories = categories.split( '###' );
-		var category_width = Math.round( ( chart_width / categories.length ) );
-
-
-		var highest = 0;
-		for( i = 0; i < categories.length; i++ ){
-			var height = $.torro_text_height( categories[ i ], '13px Clear Sans', category_width  );
-
-			if( highest < height )
-			{
-				highest = height;
-			}
-		}
-		var category_height = highest;
-
-		var chart_{$id} = c3.generate({
-			bindto: '#{$id}-chart',
-			size: {
-				width: chart_width
-			},
-			data: {
-				columns: {$column_data},
-				type: 'bar',
-				keys: {
-					value: [ 'value' ],
-				},
-				colors: {
-					values: '#0073aa',
-				}
-			},
-			axis: {
-				x: {
-					type: 'category',
-					categories: [{$c3_categories}]
-				},
-				y: {
-					tick: {
-						format: function(x) {
-							return ( x == Math.floor(x)) ? x : '';
-						}
-					}
-				}
-			},
-			legend: {
-				show: false
-			},
-			tooltip: {
-				format: {
-					name: function (name, ratio, id, index) {
-						return '{$value_text}';
-					}
-				},
-				position: function( data, width, height, element ) {
-					return {
-						top: 0,
-						left: 0
-					};
-				}
-			},
-			padding: {
-				bottom: category_height
-			}
-
-		});
-	});
-</script>";
-
 		$html .= '</div>';
 
 		return $html;
