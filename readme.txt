@@ -19,6 +19,8 @@ Torro Forms is an extendable WordPress form builder with Drag & Drop functionali
 
 Torro Forms is a Drag & Drop form builder plugin that is easy to use for administrators, yet flexible to extend for developers. The plugin was made with both user groups in mind to ensure that you can do exactly what you want without getting stuck in complicated setups. In addition, our plugin looks and behaves in the same way that the rest of WordPress does. If you're tired of seeing bloated, "all-fancy" user interfaces that distract you from what you actually want to achieve - be relieved, we are too.
 
+[youtube https://www.youtube.com/watch?v=k-F_6RpV21k]
+
 Torro Forms can serve several purposes. Its functionality goes beyond simple contact forms (although you could of course technically create one if you wanted to). Whether you're interested in a survey solution or whether you need internal forms that you can restrict to a specific group of users - Torro Forms is the way to go. And if you don't find what you've been looking for, be aware that our plugin is extendable via several APIs - we encourage you to do it yourself instead of locking you with what we already provide.
 
 Torro Forms was made with a specific attention to polls and surveys. Form submissions are permanently stored in the database so that they can be browsed, exported and evaluated through charts.
@@ -33,8 +35,6 @@ Torro Forms was made with a specific attention to polls and surveys. Form submis
 * **Create actions** - Create additional kinds of actions which will be executed whenever the form is submitted successfully by using our Actions API.
 * **Extend more...** - Like elements and actions, you can extend Torro Forms in many other ways too by extending specific PHP classes. It's just like creating widgets in WordPress.
 * **Code completion** - Our flexible API was made with developers in mind: The `torro()` function acts as a root for easy chaining and autocompletion.
-
-[youtube https://www.youtube.com/watch?v=k-F_6RpV21k]
 
 = Links =
 
