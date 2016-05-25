@@ -55,7 +55,8 @@
   "require": {
     "composer/installers": "~1.0",
     "phpoffice/phpexcel": "1.8.1",
-    "easydigitaldownloads/EDD-License-handler": "1.6.3"
+    "easydigitaldownloads/EDD-License-handler": "1.6.3",
+    "codeception/codeception": "^2.1"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master"
