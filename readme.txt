@@ -79,6 +79,13 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.0-beta.3 =
+* Added option to switch page title on/off
+* Showing limitations (min/max) of elements now in frontend
+* Moved inline Javascript into Charts JS File
+* Remove bundled translations (Getting translations now from WordPress.org)
+* Fixed problems on embedding forms for error handling and multiple choice or one choice fields
+
 = 1.0.0-beta.2 =
 * Added general settings tab with possibility to change button texts
 * Added filters 'torro_form_container_title', 'torro_form_button_previous_step_text', 'torro_form_button_next_step_text' and 'torro_form_button_send_text'

@@ -402,6 +402,10 @@
 	font-size: 14px;
 }
 
+.post-type-torro_form #poststuff #form-settings .form-table input[type="checkbox"] {
+	float: left;
+}
+
 .tab_settings_content {
 	margin-top: 20px;
 }
