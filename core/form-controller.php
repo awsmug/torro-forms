@@ -181,33 +181,30 @@ class Torro_Form_Controller {
 	 * @return null;
 	 */
 	private function wp_request_set_form( $request ) {
-		$request = $request;
-
-		// We have to be in a post type or leave
+		// No query vars > We are should be at start page
 		if ( ! isset( $request->query_vars[ 'name' ] ) && ! isset( $request->query_vars[ 'pagename' ] )  && ! isset( $request->query_vars[ 'p' ] ) ) {
-			return;
-		}
+			if( ! isset( $_POST['torro_form_id'] ) )
+				return;
 
-		if( isset( $_GET[ 'preview' ] ) ){
-			$this->is_preview = true;
-		}
+			$args['post_type'] = 'torro_form';
+			$args['include'] = $_POST['torro_form_id'];
+		} else {
+			if ( isset( $request->query_vars[ 'post_type' ] ) ) {
+				$args[ 'post_type' ] = $request->query_vars[ 'post_type' ];
+			}
 
-		if( isset( $request->query_vars[ 'post_type' ] ) ){
-			$args[ 'post_type' ] = $request->query_vars[ 'post_type' ];
-		}
+			if ( isset( $request->query_vars[ 'name' ] ) ) {
+				$args[ 'name' ] = $request->query_vars[ 'name' ];
+			}
 
-		if( isset( $request->query_vars[ 'name' ] ) ){
-			$args[ 'name' ] = $request->query_vars[ 'name' ];
-		}
+			if ( isset( $request->query_vars[ 'p' ] ) ) {
+				$args[ 'include' ] = array( $request->query_vars[ 'p' ] );
+			}
 
-		if( isset( $request->query_vars[ 'p' ] ) ){
-			$args[ 'include' ] = array( $request->query_vars[ 'p' ] );
-		}
-
-		// Pages
-		if( isset( $request->query_vars[ 'pagename' ] ) ){
-			$args[ 'name' ] = $request->query_vars[ 'pagename' ];
-			$args[ 'post_type' ] = 'page';
+			if ( isset( $request->query_vars[ 'pagename' ] ) ) {
+				$args[ 'name' ]      = $request->query_vars[ 'pagename' ];
+				$args[ 'post_type' ] = 'page';
+			}
 		}
 
 		$args[ 'post_status' ] = 'any';

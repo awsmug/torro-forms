@@ -54,7 +54,7 @@ class Torro_ShortCodes {
 			return __( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
 		}
 
-		$controler = Torro_Form_Controller::instance();
+
 
 		switch ( $atts[ 'show' ] ) {
 			case 'iframe':
@@ -65,7 +65,14 @@ class Torro_ShortCodes {
 				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
 				break;
 			default:
-				$html = $controler->get_content();
+				$controler = Torro_Form_Controller::instance();
+				$controler_form_id = $controler->get_form_id();
+				
+				if( ! empty( $controler_form_id ) ) {
+					$html = $controler->get_content();
+				} else {
+					$html = $form->get_html( $_SERVER['REQUEST_URI'] );
+				}
 				break;
 		}
 
