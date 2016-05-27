@@ -162,11 +162,6 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
 		$html .= '</tr>';
 
-		$html .= '<tr>';
-		$html .= '<td><label for="send_button_text">' . esc_html__( 'Show ', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
-		$html .= '</tr>';
-
 		$html .= '</table>';
 
 		return $html;
