@@ -11,6 +11,34 @@
 			}
 		}
 
+		.torro-form-options {
+			h4 {
+				margin: 0 0 15px 0;
+			}
+
+			fieldset {
+				display: flex;
+				margin-bottom: 15px;
+
+				label, legend {
+					min-width: 20%;
+				}
+
+				legend > label {
+					width: auto;
+				}
+
+				input[type="checkbox"] {
+					margin-top:0;
+				}
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+			}
+		}
+
 		#drag-drop-area {
 			height: auto;
 			margin-top: 10px;
@@ -24,12 +52,12 @@
 			}
 		}
 
-		#form-elements{
-			.inside{
-				.formelement{
-					height:45px;
+		#form-elements {
+			.inside {
+				.formelement {
+					height: 45px;
 
-					&:first-child{
+					&:first-child {
 						margin-top: 15px;
 					}
 				}
@@ -80,8 +108,8 @@
 			}
 		}
 
-		.general-settings{
-			padding:15px;
+		.general-settings {
+			padding: 15px;
 		}
 
 		#containers {
@@ -113,7 +141,7 @@
 						}
 					}
 
-					.txt{
+					.txt {
 						width: 200px;
 						height: 28px;
 					}
@@ -197,7 +225,7 @@
 			border: #CCC dashed 1px;
 			height: 43px;
 			margin-top: 0px;
-			margin-bottom:15px;
+			margin-bottom: 15px;
 		}
 
 		#containers {
@@ -302,8 +330,8 @@
 
 		.clipboardfield {
 			label {
-				width:100%;
-				display:block;
+				width: 100%;
+				display: block;
 			}
 			input {
 				background-color: #f7f7f7;
@@ -341,8 +369,8 @@
 		.form-table td {
 			padding: 5px 0;
 		}
-		.form-table td:first-child{
-			width:200px;
+		.form-table td:first-child {
+			width: 200px;
 			vertical-align: top;
 		}
 
@@ -441,24 +469,6 @@
 			}
 			.column-button {
 				text-align: right;
-			}
-		}
-
-		#form-settings {
-			h3, h4 {
-				margin: 0;
-			}
-
-			h4 {
-				font-size: 14px;
-			}
-
-			.form-table{
-				input[type="checkbox"]{
-					float:left;
-				}
-				.checkbox-desc{
-				}
 			}
 		}
 	}
@@ -740,15 +750,15 @@ a.delete-button {
 /* --- Form functions --- */
 
 #form-functions {
-    text-align: left;
+	text-align: left;
 
-    input {
-    	margin-right: 10px;
+	input {
+		margin-right: 10px;
 
-    	&:last-child {
-    		margin-right: 0;
-    	}
-    }
+		&:last-child {
+			margin-right: 0;
+		}
+	}
 }
 
 /* --- Form access-controls --- */
@@ -777,16 +787,16 @@ a.delete-button {
 #delete_results_dialog,
 #delete_answer_dialog,
 #participants-delete-all-text,
-#participant-delete-text{
-    display: none;
+#participant-delete-text {
+	display: none;
 }
 
 .ui-dialog {
-    width: 300px;
-    background-color: #FFF;
-    border: 1px solid #CCC;
-    text-align: center;
-    @include box-shadow( 5px 5px 5px rgba(0, 0, 0, 0.5) );
+	width: 300px;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	text-align: center;
+	@include box-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
 }
 
 .wp-dialog {

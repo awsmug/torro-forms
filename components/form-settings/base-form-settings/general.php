@@ -139,30 +139,31 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 			$show_page_title_checked = ' checked="checked"';
 		}
 
-		$html  = '<h4>' . esc_html__( 'Button labels', 'torro-forms' ) . '</h4>';
-		$html .= '<table id="form-access-controls-content-general" class="form-table">';
+		$html  = '<div class="torro-form-options">';
+		$html .= '<h4>' . esc_html__( 'Button labels', 'torro-forms' ) . '</h4>';
 
-		$html .= '<tr>';
-		$html .= '<td><label for="show_page_title">' . esc_html__( 'Show Page Title', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="checkbox" id="show_page_title" name="show_page_title" value="yes" aria-describedby="show_page_title_desc"' . $show_page_title_checked . ' /><div id="show_page_title_desc" class="checkbox-desc">' . esc_attr__( 'Show title of page (e.g. Page 1) on top of the form.', 'torro-forms' ) .'</div></td>';
-		$html .= '</tr>';
+		$html .= '<fieldset>';
+		$html .= '<label for="show_page_title">' . esc_html__( 'Show Page Title', 'torro-forms' ) . '</label>';
+		$html .= '<input type="checkbox" id="show_page_title" name="show_page_title" value="yes" aria-describedby="show_page_title_desc" ' . $show_page_title_checked . ' />';
+		$html .= '<div id="show_page_title_desc">' . esc_attr__( 'Show title of page (e.g. Page 1) on top of the form.', 'torro-forms' ) .'</div>';
+		$html .= '</fieldset>';
 
-		$html .= '<tr>';
-		$html .= '<td><label for="previous_button_text">' . esc_html__( 'Previous', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="previous_button_text" name="previous_button_text" value="' . $previous_button_text . '" placeholder="' . esc_attr__( 'e.g. Previous Step', 'torro-forms' ) . '" /></td>';
-		$html .= '</tr>';
+		$html .= '<fieldset>';
+		$html .= '<label for="previous_button_text">' . esc_html__( 'Previous', 'torro-forms' ) . '</label>';
+		$html .= '<input type="text" id="previous_button_text" name="previous_button_text" value="' . $previous_button_text . '" placeholder="' . esc_attr__( 'e.g. Previous Step', 'torro-forms' ) . '" />';
+		$html .= '</fieldset>';
 
-		$html .= '<tr>';
-		$html .= '<td><label for="next_button_text">' . esc_html__( 'Next', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="next_button_text" name="next_button_text" value="' . $next_button_text . '" placeholder="' . esc_attr__( 'e.g. Next Step', 'torro-forms' ) . '" /></td>';
-		$html .= '</tr>';
+		$html .= '<fieldset>';
+		$html .= '<label for="next_button_text">' . esc_html__( 'Next', 'torro-forms' ) . '</label>';
+		$html .= '<input type="text" id="next_button_text" name="next_button_text" value="' . $next_button_text . '" placeholder="' . esc_attr__( 'e.g. Next Step', 'torro-forms' ) . '" />';
+		$html .= '</fieldset>';
 
-		$html .= '<tr>';
-		$html .= '<td><label for="send_button_text">' . esc_html__( 'Send', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
-		$html .= '</tr>';
+		$html .= '<fieldset>';
+		$html .= '<label for="send_button_text">' . esc_html__( 'Send', 'torro-forms' ) . '</label>';
+		$html .= '<input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" />';
+		$html .= '</fieldset>';
 
-		$html .= '</table>';
+		$html .= '</div>';
 
 		return $html;
 	}
