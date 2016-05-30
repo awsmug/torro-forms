@@ -67,11 +67,11 @@ class Torro_ShortCodes {
 			default:
 				$controler = Torro_Form_Controller::instance();
 				$controler_form_id = $controler->get_form_id();
-				
+
 				if( ! empty( $controler_form_id ) ) {
-					$html = $controler->get_content();
+					$html = do_shortcode( $controler->get_content() );
 				} else {
-					$html = $form->get_html( $_SERVER['REQUEST_URI'] );
+					$html = do_shortcode( $form->get_html( $_SERVER['REQUEST_URI'] ) );
 				}
 				break;
 		}
