@@ -94,6 +94,7 @@ bower.json
 composer.json
 composer.lock
 deploy.sh
+gulpfile.js
 Gruntfile.js
 package.json
 phpunit.xml
