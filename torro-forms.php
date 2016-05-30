@@ -135,6 +135,7 @@ class Torro_Init {
 
 		// Functions
 		require_once( $includes_folder . 'functions.php' );
+		require_once( $includes_folder . 'php-bridges.php' );
 		require_once( $includes_folder . 'compat.php' );
 		require_once( $includes_folder . 'form-media.php' );
 		require_once( $includes_folder . 'wp-editor.php' );
