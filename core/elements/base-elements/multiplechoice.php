@@ -56,6 +56,27 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 			$i++;
 		}
 
+		if ( ! empty( $element->settings['description'] ) || ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) || ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
+			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
+			$description = array();
+			if ( ! empty( $element->settings['description'] ) ) {
+				$description[] = esc_html( $element->settings[ 'description' ]->value );
+			}
+			if ( ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) && ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
+				if ( $element->settings['min_answers']->value === $element->settings['max_answers']->value ) {
+					$description[] = sprintf( _n( 'You must select %s answer.', 'You must select %s answers.', $element->settings['max_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['max_answers']->value ) );
+				} else {
+					$description[] = sprintf( __( 'You must select between %1$s and %2$s answers.', 'torro-forms' ), number_format_i18n( $element->settings['min_answers']->value ), number_format_i18n( $element->settings['max_answers']->value ) );
+				}
+			} elseif ( ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) ) {
+				$description[] = sprintf( _n( 'You must select at least %s answer.', 'You must select at least %s answers.', $element->settings['min_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['min_answers']->value ) );
+			} elseif ( ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
+				$description[] = sprintf( _n( 'You must select not more than %s answer.', 'You must select not more than %s answers.', $element->settings['max_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['max_answers']->value ) );
+			}
+			$html .= implode( ' ', $description );
+			$html .= '</div>';
+		}
+
 		if ( ! empty( $element->settings['description']->value ) ) {
 			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
 			$html .= esc_html( $element->settings['description']->value );
