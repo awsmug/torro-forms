@@ -202,9 +202,9 @@ abstract class Torro_Element_Type extends Torro_Base {
 		 * Widget
 		 */
 		if ( null === $element->id ) {
-			$html = '<div data-element-id="' . $element_id . '" data-element-type="' . $element->type . '" class="formelement formelement-' . $element->type . '">';
+			$html = '<div data-element-id="' . $element_id . '" data-element-type="' . $this->name . '" class="formelement formelement-' . $this->name . '">';
 		} else {
-			$html = '<div data-element-id="' . $element_id . '" id="element-' . $element_id . '" data-element-type="' . $element->type . '" class="widget formelement formelement-' . $element->type . '">';
+			$html = '<div data-element-id="' . $element_id . '" id="element-' . $element_id . '" data-element-type="' . $this->name . '" class="widget formelement formelement-' . $this->name . '">';
 		}
 
 		/**
@@ -631,15 +631,17 @@ abstract class Torro_Element_Type extends Torro_Base {
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'torro_element_bottom_actions', array(
 			'delete_form_element' => array(
-				'text'    => __( 'Delete element', 'torro-forms' ),
-				'classes' => 'delete_form_element'
-			)
+				'text'			=> __( 'Delete Element', 'torro-forms' ),
+				'classes'		=> 'delete_form_element',
+				'destructive'	=> true,
+			),
 		), $element );
 
 		$html = '<div class="form-element-buttons">';
 		$html .= '<ul>';
 		foreach ( $bottom_buttons as $button ) {
-			$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action button">' . esc_html( $button[ 'text' ] ) . '</a></li>';
+			$base_class = ( isset( $button['destructive'] ) && $button['destructive'] ) ? 'delete-button' : 'button';
+			$html .= '<li><a class="' . $button[ 'classes' ] . ' form-element-bottom-action ' . $base_class . '">' . esc_html( $button[ 'text' ] ) . '</a></li>';
 		}
 		$html .= '</ul>';
 		$html .= '</div>';
