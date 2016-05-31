@@ -341,7 +341,8 @@ class Torro_Form_Controller {
 				$elements = $container->elements;
 
 				foreach ( $elements as $element ) {
-					if( ! $element->input ){
+					$type = $element->type_obj;
+					if( ! $type->input ){
 						continue;
 					}
 

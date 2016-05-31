@@ -97,11 +97,11 @@ abstract class Torro_Element_Type extends Torro_Base {
 	 * @return string $html Element HTML
 	 * @since 1.0.0
 	 */
-	public function get_html( $response, $errors, $element ) {
+	public function get_html( $element ) {
 		$element_classes = array( 'torro-element', 'torro-element-' . $element->id );
 		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $element );
 
-		if ( is_array( $errors ) && 0 < count( $errors ) ) {
+		if ( is_array( $element->errors ) && 0 < count( $element->errors ) ) {
 			$element_classes[] = 'error';
 		}
 
@@ -117,9 +117,9 @@ abstract class Torro_Element_Type extends Torro_Base {
 			$html .= $this->get_input_html( $element );
 		}
 
-		if ( is_array( $errors ) && 0 < count( $errors ) ) {
+		if ( is_array( $element->errors ) && 0 < count( $element->errors ) ) {
 			$html .= '<ul id="' . $this->get_input_id( $element ) . '_errors" class="error-messages">';
-			foreach ( $errors as $error ) {
+			foreach ( $element->errors as $error ) {
 				$html .= '<li>' . $error . '</li>';
 			}
 			$html .= '</ul>';

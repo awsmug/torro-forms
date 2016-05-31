@@ -64,20 +64,32 @@ class Torro_Element extends Torro_Instance_Base {
 	protected $answers = array();
 
 	/**
-	 * Contains users response of an Element
-	 *
-	 * @since 1.0.0
-	 */
-	protected $response = array();
-
-	/**
 	 * Contains all settings of the element
 	 *
 	 * @since 1.0.0
 	 */
 	protected $settings = array();
 
+	/**
+	 * Holds the element type object for this element.
+	 *
+	 * @since 1.0.0
+	 */
 	protected $type_obj = null;
+
+	/**
+	 * Contains users response for the element.
+	 *
+	 * @since 1.0.0
+	 */
+	protected $response = null;
+
+	/**
+	 * Contains response errors for the element.
+	 *
+	 * @since 1.0.0
+	 */
+	protected $errors = array();
 
 	/**
 	 * Initializing.
@@ -113,7 +125,10 @@ class Torro_Element extends Torro_Instance_Base {
 	 * @since 1.0.0
 	 */
 	public function get_html( $response, $errors ) {
-		return $this->type_obj->get_html( $response, $errors, $this );
+		$this->response = $response;
+		$this->errors = $errors;
+
+		return $this->type_obj->get_html( $this );
 	}
 
 	/**
