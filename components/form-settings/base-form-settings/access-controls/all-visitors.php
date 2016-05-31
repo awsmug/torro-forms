@@ -54,9 +54,9 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 
 		add_action( 'torro_form_end', array( $this, 'add_fingerprint_input' ) );
 
-		add_action( 'torro_response_saved', array( $this, 'set_cookie' ), 10 );
-		add_action( 'torro_response_saved', array( $this, 'save_ip' ), 10 );
-		// add_action( 'torro_response_saved', array( $this, 'save_fingerprint' ), 10 ); // Todo: Adding later after AJAXING forms
+		add_action( 'torro_response_saved', array( $this, 'set_cookie' ), 10, 3 );
+		add_action( 'torro_response_saved', array( $this, 'save_ip' ), 10, 3 );
+		// add_action( 'torro_response_saved', array( $this, 'save_fingerprint' ), 10, 3 ); // Todo: Adding later after AJAXING forms
 
 		torro()->ajax()->register_action( 'check_fngrprnt', array(
 			'callback'		=> array( $this, 'ajax_check_fngrprnt' ),
@@ -291,9 +291,7 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_cookie() {
-		$form_id = torro()->forms()->get_current_form_id();
-
+	public function set_cookie( $form_id, $response_id, $response ) {
 		setcookie( 'torro_has_participated_form_' . $form_id, 'yes', time() + YEAR_IN_SECONDS );
 	}
 
@@ -302,9 +300,7 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 	 *
 	 * @since 1.0.0
 	 */
-	public function save_ip( $response_id ) {
-		$form_id = torro()->forms()->get_current_form_id();
-
+	public function save_ip( $form_id, $response_id, $response ) {
 		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
 		if ( empty( $access_controls_check_ip ) ) {
 			return;
@@ -319,9 +315,7 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 	 * Setting Cookie for one year
 	 */
 	/*
-	public function save_fingerprint( $response_id ) {
-		$form_id = torro()->forms()->get_current_form_id();
-
+	public function save_fingerprint( $form_id, $response_id, $response ) {
 		$access_controls_check_fingerprint = get_post_meta( $form_id, 'form_access_controls_check_fingerprint', true );
 		if ( empty( $access_controls_check_fingerprint ) ) {
 			return;
