@@ -347,7 +347,7 @@ class Torro_Form_Controller {
 					}
 
 					$value = '';
-					if ( $element->upload ) {
+					if ( $type->upload ) {
 						if ( isset( $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ] ) ) {
 							$value = $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ];
 						}

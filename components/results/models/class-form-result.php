@@ -85,7 +85,8 @@ abstract class Torro_Form_Result extends Torro_Base {
 			$slug = 'element_' . $element_id;
 			$label = $result_value->element->label;
 
-			if ( $result_value->element->input_answers && $result_value->element->answer_array ) {
+			$type = $result_value->element->type_obj;
+			if ( $type->input_answers && $type->answer_array ) {
 				foreach ( $result_value->element->answers as $answer ) {
 					$value_columns[ $slug . '_' . $answer->id ] = array(
 						'title'			=> $label . ' - ' . $answer->answer,

@@ -23,7 +23,7 @@ class Torro_ChartsShortCodes {
 		add_shortcode( 'element_chart', array( __CLASS__, 'element_chart' ) );
 
 		add_action( 'torro_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
-		add_action( 'torro_result_charts_postbox_element', array( __CLASS__, 'show_element_result_shortcode' ) );
+		add_action( 'torro_result_charts_postbox_element_top', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Torro_ChartsShortCodes {
 	}
 
 	/**
-	 * Showing Form result Shortcodes in Admin for copy&paste
+	 * Showing Form result shortcodes in Admin for copy&paste
 	 *
 	 * @param int $form_id Id of the form
 	 *
@@ -95,16 +95,25 @@ class Torro_ChartsShortCodes {
 	}
 
 	/**
-	 * Showing Element result schortcodes in admin area for copy&paste
+	 * Showing Element result shortcodes in admin area for copy&paste
 	 *
-	 * @param object $object Object element
+	 * @param Torro_Element $element the form element to show the shortcode for
 	 *
 	 * @return string $html HTML for shortcode summary in admin
 	 */
-	public static function show_element_result_shortcode( $object ) {
-		if ( ! empty( $object->id ) && $object->input_answers ) {
-			echo torro_clipboard_field( __( 'Element Charts Shortcode', 'torro-forms' ), '[element_chart id=' .  $object->id . ']' );
+	public static function show_element_result_shortcode( $element ) {
+		if ( empty( $element->id ) ) {
+			return;
 		}
+
+		$type = $element->type_obj;
+		if ( ! $type->input_answers ) {
+			return;
+		}
+
+		echo '<div style="float:right;">';
+		echo torro_clipboard_field( __( 'Element Chart Shortcode', 'torro-forms' ), '[element_chart id=' .  $element->id . ']' );
+		echo '</div>';
 	}
 }
 

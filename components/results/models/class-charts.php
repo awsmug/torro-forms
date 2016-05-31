@@ -140,7 +140,8 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 		$element = torro()->elements()->get( $element_id );
 
 		// Skip collecting Data if there is no analyzable Data
-		if ( ! $element->input_answers ) {
+		$type = $element->type_obj;
+		if ( ! $type->input_answers ) {
 			return;
 		}
 
@@ -167,13 +168,17 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 		$html  = '<div class="torro-chart">';
 		$html .= '<div class="torro-chart-diagram">';
 
+		ob_start();
+		do_action( 'torro_result_charts_postbox_element_top', $element );
+		$html .= ob_get_clean();
+
 		$html .= $this->bars( $label, $element_result );
 
 		$html .= '</div>';
 
 		$html .= '<div class="torro-chart-actions">';
 		ob_start();
-		// do_action( 'torro_result_charts_postbox_element', $element );
+		do_action( 'torro_result_charts_postbox_element', $element );
 		$html .= ob_get_clean();
 		$html .= '</div>';
 
