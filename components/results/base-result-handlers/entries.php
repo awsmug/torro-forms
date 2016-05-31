@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -205,7 +205,7 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	}
 
 	public function show_not_found_notice() {
-		return '<p class="not-found-area">' . esc_html__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
+		return '<p class="not-found-area">' . esc_html__( 'There are no results to show.', 'torro-forms' ) . '</p>';
 	}
 
 	/**
@@ -221,7 +221,7 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	}
 
 	public function admin_styles() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -229,7 +229,7 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 	}
 
 	public function admin_scripts() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

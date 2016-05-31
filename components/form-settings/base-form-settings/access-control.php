@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -28,6 +28,11 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 	 */
 	protected $settings_name = 'visitors';
 
+	/**
+	 * Singleton
+	 *
+	 * @since 1.0.0
+	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
@@ -35,6 +40,11 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		return self::$instance;
 	}
 
+	/**
+	 * Initializing
+	 *
+	 * @since 1.0.0
+	 */
 	protected function init() {
 		$this->option_name = $this->title = __( 'Access Control', 'torro-forms' );
 		$this->name = 'access_control';
@@ -68,10 +78,10 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 		do_action( 'torro_form_setting_visitors_content_top' );
 		$html = ob_get_clean();
 
-		$html .= '<table id="form-access-controls-options" class="form-table">';
-		$html .= '<tr>';
-		$html .= '<td><label for="form_access_controls_option">' . esc_html__( 'Give access to', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><select name="form_access_controls_option" id="form-access-controls-option">';
+		$html .= '<div class="torro-form-options">';
+		$html .= '<div class="flex-options" role="group">';
+		$html .= '<label for="form_access_controls_option">' . esc_html__( 'Give access to', 'torro-forms' ) . '</label>';
+		$html .= '<div><select name="form_access_controls_option" id="form-access-controls-option" aria-describedby="form-access-controls-option-desc">';
 		foreach ( $access_controls as $name => $access_control ) {
 			if ( ! $access_control->has_option() ) {
 				continue;
@@ -83,10 +93,10 @@ final class Torro_Form_Setting_Access_Control extends Torro_Form_Setting {
 			$html .= '<option value="' . $name . '"' . $selected . '>' . $access_control->option_name . '</option>';
 		}
 		$html .= '</select>';
-
-		$html .= '<small>' . __( 'Users which are not listet will be forbidden to access the form.', 'torro-forms' ) . '</small></td>';
-
-		$html.= '</tr></table>';
+		$html .= '<div id="form-access-controls-option-desc">' . __( 'Users which are not listet will be forbidden to access the form.', 'torro-forms' ) . '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
 
 		/**
 		 * Option content

@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreTemplateTags
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -54,8 +54,8 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	 * Adding all tags of class
 	 */
 	public function tags() {
-		$this->add_tag( 'formtitle', __( 'Form Title', 'torro-forms' ), __( 'Shows the Form Title', 'torro-forms' ), array( $this, 'formtitle' ) );
-		$this->add_tag( 'allelements', __( 'All Elements', 'torro-forms' ), __( 'Shows all Answers', 'torro-forms' ), array( $this, 'allelements' ) );
+		$this->add_tag( 'formtitle', __( 'Form Title', 'torro-forms' ), __( 'Shows the form title.', 'torro-forms' ), array( $this, 'formtitle' ) );
+		$this->add_tag( 'allelements', __( 'All Elements', 'torro-forms' ), __( 'Shows all answers.', 'torro-forms' ), array( $this, 'allelements' ) );
 	}
 
 	/**
@@ -76,7 +76,7 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	 * @param $element_name
 	 */
 	public function add_element( $element_id, $element_name ) {
-		$this->add_tag( $element_name . ':' . $element_id, $element_name, __( 'Adds the Element Content', 'torro-forms' ), array( $this, 'element_content' ), array( 'element_id' => $element_id ) );
+		$this->add_tag( $element_name . ':' . $element_id, $element_name, __( 'Adds the element content.', 'torro-forms' ), array( $this, 'element_content' ), array( 'element_id' => $element_id ) );
 	}
 
 	/**

@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -77,9 +77,7 @@ abstract class Torro_Form_Result extends Torro_Base {
 		}
 
 		$parsed = array();
-
 		$columns = $this->get_columns();
-
 		$value_columns = array();
 
 		foreach ( $results[0]->values as $result_value ) {
@@ -114,9 +112,11 @@ abstract class Torro_Form_Result extends Torro_Base {
 				}
 			}
 		}
+		unset( $result_value );
 
 		foreach ( $results as $result ) {
 			$element_values = array();
+
 			foreach ( $result->values as $result_value ) {
 				if ( ! isset( $element_values[ $result_value->element_id ] ) ) {
 					$element_values[ $result_value->element_id ] = array();
@@ -137,6 +137,8 @@ abstract class Torro_Form_Result extends Torro_Base {
 					$current[ $current_key ] = '';
 				}
 			}
+			unset( $data );
+
 			foreach ( $value_columns as $key => $data ) {
 				$current_key = $headlines ? $data['title'] : $key;
 				if ( ! isset( $element_values[ $data['element_id'] ] ) ) {
@@ -157,9 +159,11 @@ abstract class Torro_Form_Result extends Torro_Base {
 					}
 				}
 			}
+			unset( $data );
 
 			$parsed[] = $current;
 		}
+		unset( $result );
 
 		return $parsed;
 	}

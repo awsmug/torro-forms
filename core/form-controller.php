@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -53,6 +53,8 @@ class Torro_Form_Controller {
 	 */
 	private $form_id = null;
 
+	private $container_id;
+
 	/**
 	 * Form object
 	 *
@@ -68,6 +70,10 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private $is_preview = false;
+
+	private $response = array();
+
+	private $errors = array();
 
 	/**
 	 * Initializes the form controller.
@@ -106,6 +112,46 @@ class Torro_Form_Controller {
 	}
 
 	/**
+	 * Return the current container id
+	 *
+	 * @return int
+	 * @since 1.0.0
+	 */
+	public function get_container_id() {
+		return $this->container_id;
+	}
+
+
+
+	/**
+	 * Returns the content of the form
+	 *
+	 * @return int
+	 * @since 1.0.0
+	 */
+	public function get_content() {
+		return $this->content;
+	}
+
+	/**
+	 * Getting form response
+	 *
+	 * @return array
+	 */
+	public function get_form_response(){
+		return $this->response;
+	}
+
+	/**
+	 * Getting form errors
+	 *
+	 * @return array
+	 */
+	public function get_form_errors(){
+		return $this->errors;
+	}
+
+	/**
 	 * Magic function to hide functions for autocomplete
 	 *
 	 * @param $name
@@ -135,33 +181,30 @@ class Torro_Form_Controller {
 	 * @return null;
 	 */
 	private function wp_request_set_form( $request ) {
-		$request = $request;
-
-		// We have to be in a post type or leave
+		// No query vars > We are should be at start page
 		if ( ! isset( $request->query_vars[ 'name' ] ) && ! isset( $request->query_vars[ 'pagename' ] )  && ! isset( $request->query_vars[ 'p' ] ) ) {
-			return;
-		}
+			if( ! isset( $_POST['torro_form_id'] ) )
+				return;
 
-		if( isset( $_GET[ 'preview' ] ) ){
-			$this->is_preview = true;
-		}
+			$args['post_type'] = 'torro_form';
+			$args['include'] = $_POST['torro_form_id'];
+		} else {
+			if ( isset( $request->query_vars[ 'post_type' ] ) ) {
+				$args[ 'post_type' ] = $request->query_vars[ 'post_type' ];
+			}
 
-		if( isset( $request->query_vars[ 'post_type' ] ) ){
-			$args[ 'post_type' ] = $request->query_vars[ 'post_type' ];
-		}
+			if ( isset( $request->query_vars[ 'name' ] ) ) {
+				$args[ 'name' ] = $request->query_vars[ 'name' ];
+			}
 
-		if( isset( $request->query_vars[ 'name' ] ) ){
-			$args[ 'name' ] = $request->query_vars[ 'name' ];
-		}
+			if ( isset( $request->query_vars[ 'p' ] ) ) {
+				$args[ 'include' ] = array( $request->query_vars[ 'p' ] );
+			}
 
-		if( isset( $request->query_vars[ 'p' ] ) ){
-			$args[ 'include' ] = array( $request->query_vars[ 'p' ] );
-		}
-
-		// Pages
-		if( isset( $request->query_vars[ 'pagename' ] ) ){
-			$args[ 'name' ] = $request->query_vars[ 'pagename' ];
-			$args[ 'post_type' ] = 'page';
+			if ( isset( $request->query_vars[ 'pagename' ] ) ) {
+				$args[ 'name' ]      = $request->query_vars[ 'pagename' ];
+				$args[ 'post_type' ] = 'page';
+			}
 		}
 
 		$args[ 'post_status' ] = 'any';
@@ -249,9 +292,9 @@ class Torro_Form_Controller {
 			 * Going back
 			 */
 			$response = wp_unslash( $_POST['torro_response'] );
-			$current_container_id = $response['container_id'];
+			$this->container_id = $response['container_id'];
 
-			$this->form->set_current_container( $current_container_id );
+			$this->form->set_current_container( $this->container_id );
 			$prev_container_id = $this->form->get_previous_container_id();
 
 			if ( is_wp_error( $prev_container_id ) ) {
@@ -281,31 +324,19 @@ class Torro_Form_Controller {
 				wp_die( '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' . 403 );
 			}
 
-			if ( ! isset( $_POST['torro_response']['containers'] ) ) {
-				return;
-			}
-
 			$response = wp_unslash( $_POST['torro_response'] );
-
-			$current_container_id = absint( $response['container_id'] );
-
-			$this->form->set_current_container( $current_container_id );
+			$this->container_id = absint( $response['container_id'] );
+			$this->form->set_current_container( $this->container_id );
 
 			$errors = array();
-
 			$containers = $this->form->containers;
 
 			foreach ( $containers as $container ) {
-				if ( $container->id !== $current_container_id ){
+				if ( $container->id !== $this->container_id ){
 					continue;
 				}
 
 				$errors[ $container->id ] = array();
-
-				if ( ! isset( $response['containers'][ $container->id ] ) ) {
-					$errors[ $container->id ]['container'] = sprintf( __( 'Missing Container #%d in form data.', 'torro-forms' ), $container->id );
-					continue;
-				}
 
 				$elements = $container->elements;
 
@@ -316,7 +347,6 @@ class Torro_Form_Controller {
 
 					$value = '';
 					if ( $element->upload ) {
-						$name = 'torro_response_containers_' . $container->id . '_elements_' . $element->id;
 						if ( isset( $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ] ) ) {
 							$value = $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ];
 						}
@@ -336,20 +366,16 @@ class Torro_Form_Controller {
 			}
 
 			$this->cache->add_response( $response );
-
-			$d = $this->form->get_next_container_id();
-
 			$is_submit = is_wp_error( $this->form->get_next_container_id() ); // we're in the last step
-
-			$status = apply_filters( 'torro_response_status', true, $this->form_id, $current_container_id, $is_submit );
+			$status = apply_filters( 'torro_response_status', true, $this->form_id, $this->container_id, $is_submit );
 
 			/**
 			 * There was no error!
 			 */
-			if ( $status && count( $errors[ $current_container_id ] ) === 0 ) {
+			if ( $status && count( $errors[ $this->container_id ] ) === 0 ) {
 				$next_container_id = $this->form->get_next_container_id();
 				if ( ! is_wp_error( $next_container_id ) ) {
-					$current_container_id = $next_container_id;
+					$this->container_id = $next_container_id;
 				} else {
 					$result_id = $this->save_response();
 
@@ -358,7 +384,7 @@ class Torro_Form_Controller {
 						return;
 					}
 
-					$html = '<div id="torro-thank-submitting">';
+					$html  = '<div id="torro-thank-submitting">';
 					$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
 					$html .= '</div>';
 
@@ -375,18 +401,20 @@ class Torro_Form_Controller {
 			$form_response = array();
 			$response = $this->cache->get_response();
 
-			if( isset( $response[ 'containers' ][ $current_container_id ][ 'elements' ] ) ) {
-				$form_response = $response[ 'containers' ][ $current_container_id ][ 'elements' ];
+			if( isset( $response[ 'containers' ][ $this->container_id ][ 'elements' ] ) ) {
+				$form_response = $response[ 'containers' ][ $this->container_id ][ 'elements' ];
 			}
+			$this->response = $form_response;
 
 			$form_errors = array();
-			if( isset( $errors[ $current_container_id ][ 'elements' ] )) {
-				$form_errors = $errors[ $current_container_id ][ 'elements' ];
+			if( isset( $errors[ $this->container_id ][ 'elements' ] )) {
+				$form_errors = $errors[ $this->container_id ][ 'elements' ];
+				$this->errors = $form_errors;
 
 				do_action( 'torro_submission_has_errors', $form_errors );
 			}
 
-			$this->content = $this->form->get_html( $action_url, $current_container_id, $form_response, $form_errors );
+			$this->content = $this->form->get_html( $action_url, $this->container_id, $form_response, $form_errors );
 		}
 	}
 

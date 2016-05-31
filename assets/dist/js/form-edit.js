@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0alpha1 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.3 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 (function ( exports, wp, $, translations ) {
@@ -742,28 +742,24 @@
 			$( this.selectors.duplicate_form_button ).on( 'click', function() {
 				var $button = $( this );
 
-				if ( $button.hasClass( 'button' ) ) {
-					$button.addClass( 'button-loading' );
+				$button.addClass( 'button-loading' );
 
-					wp.ajax.post( 'torro_duplicate_form', {
-						nonce: self.translations.nonce_duplicate_form,
-						form_id: self.get_form_id(),
-					}).done( function( response ) {
-						var response_text = self.translations.duplicated_form_successfully + ' <a href="' + response.admin_url + '">' + self.translations.edit_form + '</a>';
-						var $notices = $( '#form-options .notices' );
+				wp.ajax.post( 'torro_duplicate_form', {
+					nonce: self.translations.nonce_duplicate_form,
+					form_id: self.get_form_id(),
+				}).done( function( response ) {
+					var response_text = self.translations.duplicated_form_successfully + ' <a href="' + response.admin_url + '">' + self.translations.edit_form + '</a>';
+					var $notices = $( '#form-options .notices' );
 
-						$notices.html( response_text );
-						$notices.show();
+					$notices.html( response_text );
+					$notices.show();
 
-						$button.removeClass( 'button-loading' );
+					$button.removeClass( 'button-loading' );
 
-						$notices.fadeOut( 5000 );
-					}).fail( function( message ) {
-						console.error( message );
-					});
-				} else {
-					$button.addClass( 'button' );
-				}
+					$notices.fadeOut( 5000 );
+				}).fail( function( message ) {
+					console.error( message );
+				});
 			});
 		},
 
@@ -772,57 +768,57 @@
 		 */
 		init_results_deletion: function() {
 			var self = this;
-			$( this.selectors.delete_results_button ).on( 'click', function() {
+			$( this.selectors.delete_results_button ).on( 'click', function( e ) {
+				e.preventDefault();
+
 				var $button = $( this );
 
-				if ( $button.hasClass( 'button' ) ) {
-
-					var $form_deleteresults_dialog = $( self.selectors.delete_results_dialog );
-
-					$form_deleteresults_dialog.dialog({
-						'dialogClass'	: 'wp-dialog',
-						'modal'			: true,
-						'autoOpen'		: false,
-						'closeOnEscape'	: true,
-						'minHeight'		: 80,
-						'buttons'		: [
-							{
-								text: self.translations.yes,
-								click: function() {
-									$( this ).dialog('close');
-									$button.addClass( 'button-loading' );
-
-									wp.ajax.post( 'torro_delete_responses', {
-										nonce: self.translations.nonce_delete_responses,
-										form_id: self.get_form_id()
-									}).done( function( response ) {
-										$( document ).trigger( 'torro.delete_results', [ response ]);
-
-										$( '#form-functions-notices').html( self.translations.deleted_results_successfully );
-										$( '#form-functions-notices').show();
-
-										$button.removeClass( 'button-loading' );
-
-										$( '#form-functions-notices' ).fadeOut( 5000 );
-									}).fail( function( message ) {
-										console.error( message );
-									});
-								}
-							},
-							{
-								text: self.translations.no,
-								click: function() {
-									$( this ).dialog( "close" );
-								}
-							},
-						],
-					});
-
-					$form_deleteresults_dialog.dialog( 'open' );
-
-				} else {
-					$button.addClass( 'button' );
+				if ( $button.hasClass( 'disabled' ) ) {
+					return;
 				}
+
+				var $form_deleteresults_dialog = $( self.selectors.delete_results_dialog );
+
+				$form_deleteresults_dialog.dialog({
+					'dialogClass'	: 'wp-dialog',
+					'modal'			: true,
+					'autoOpen'		: false,
+					'closeOnEscape'	: true,
+					'minHeight'		: 80,
+					'buttons'		: [
+						{
+							text: self.translations.yes,
+							click: function() {
+								$( this ).dialog('close');
+								$button.addClass( 'button-loading' );
+
+								wp.ajax.post( 'torro_delete_responses', {
+									nonce: self.translations.nonce_delete_responses,
+									form_id: self.get_form_id()
+								}).done( function( response ) {
+									$( document ).trigger( 'torro.delete_results', [ response ]);
+
+									$( '#form-functions-notices').html( self.translations.deleted_results_successfully );
+									$( '#form-functions-notices').show();
+
+									$button.removeClass( 'button-loading' );
+
+									$( '#form-functions-notices' ).fadeOut( 5000 );
+								}).fail( function( message ) {
+									console.error( message );
+								});
+							}
+						},
+						{
+							text: self.translations.no,
+							click: function() {
+								$( this ).dialog( "close" );
+							}
+						},
+					],
+				});
+
+				$form_deleteresults_dialog.dialog( 'open' );
 			});
 		},
 

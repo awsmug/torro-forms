@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -92,10 +92,12 @@ class Torro_Form_Controller_Cache {
 		$cached_response = $this->get_response();
 		$response_merged = array_replace_recursive( $cached_response, $response );
 
-		// Replacing element values because of maybe empty values of checkboxes
-		foreach( $response[ 'containers' ] AS $container_id => $container ){
-			foreach( $container[ 'elements' ] AS $element_id => $element ){
-				$response_merged[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ] = $response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ];
+		if( isset( $response[ 'containers' ] ) ) {
+			// Replacing element values because of maybe empty values of checkboxes
+			foreach ( $response[ 'containers' ] AS $container_id => $container ) {
+				foreach ( $container[ 'elements' ] AS $element_id => $element ) {
+					$response_merged[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ] = $response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ];
+				}
 			}
 		}
 

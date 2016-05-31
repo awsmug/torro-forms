@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -54,9 +54,7 @@ class Torro_ShortCodes {
 			return __( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
 		}
 
-		$action_url = $_SERVER['REQUEST_URI'];
 
-		$html = '';
 
 		switch ( $atts[ 'show' ] ) {
 			case 'iframe':
@@ -67,7 +65,14 @@ class Torro_ShortCodes {
 				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
 				break;
 			default:
-				$html = $form->get_html( $action_url );
+				$controler = Torro_Form_Controller::instance();
+				$controler_form_id = $controler->get_form_id();
+
+				if( ! empty( $controler_form_id ) ) {
+					$html = do_shortcode( $controler->get_content() );
+				} else {
+					$html = do_shortcode( $form->get_html( $_SERVER['REQUEST_URI'] ) );
+				}
 				break;
 		}
 
@@ -77,12 +82,12 @@ class Torro_ShortCodes {
 	public static function show_form_shortcode() {
 		global $post;
 
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
 		$html = '<div class="misc-pub-section form-options">';
-		$html .= torro_clipboard_field( __( 'Form Shortcode:', 'torro-forms' ), '[form id=' . $post->ID . ']' );
+		$html .= torro_clipboard_field( __( 'Form Shortcode', 'torro-forms' ), '[form id=' . $post->ID . ']' );
 		$html .= '</div>';
 
 		echo $html;

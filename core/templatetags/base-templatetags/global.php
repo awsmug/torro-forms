@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreTemplateTags
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -54,10 +54,10 @@ final class Torro_Templatetags_Global extends Torro_TemplateTags {
 	 * Adding all tags of class
 	 */
 	public function tags() {
-		$this->add_tag( 'sitetitle', __( 'Site Title', 'torro-forms' ), __( 'Adds the Site Title', 'torro-forms' ), array( $this, 'sitetitle' ) );
-		$this->add_tag( 'sitetagline', __( 'Site Tagline', 'torro-forms' ), __( 'Adds the Sites Tagline', 'torro-forms' ), array( $this, 'sitetagline') );
-		$this->add_tag( 'adminemail', __( 'Admin Email', 'torro-forms' ), __( 'Adds the Admin Email-Address', 'torro-forms' ), array( $this, 'adminemail') );
-		$this->add_tag( 'userip', __( 'User IP', 'torro-forms' ), __( 'Adds the Sites User IP', 'torro-forms' ), array( $this, 'userip' ) );
+		$this->add_tag( 'sitetitle', __( 'Site Title', 'torro-forms' ), __( 'Adds the site title.', 'torro-forms' ), array( $this, 'sitetitle' ) );
+		$this->add_tag( 'sitetagline', __( 'Site Tagline', 'torro-forms' ), __( 'Adds the sites tagline.', 'torro-forms' ), array( $this, 'sitetagline') );
+		$this->add_tag( 'adminemail', __( 'Admin Email', 'torro-forms' ), __( 'Adds the admin email-address.', 'torro-forms' ), array( $this, 'adminemail') );
+		$this->add_tag( 'userip', __( 'User IP', 'torro-forms' ), __( 'Adds the sites user IP.', 'torro-forms' ), array( $this, 'userip' ) );
 	}
 
 	/**

@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -266,6 +266,182 @@ final class Torro {
 	 */
 	public function ajax() {
 		return Torro_AJAX::instance();
+	}
+
+	/**
+	 * Checks if we are in a Torro Forms post type
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	public function is_form() {
+		if ( is_admin() ) {
+			if ( ! empty( $_GET[ 'post' ] ) ) {
+				$post = get_post( $_GET[ 'post' ] );
+
+				if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
+					return true;
+				}
+			}
+
+			if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		if ( 'torro_form' === get_post_type() ) {
+			return true;
+		}
+
+		global $post;
+
+		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'form' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if we are a Torro Forms post type in admin
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	public function is_formbuilder() {
+		if ( is_admin() && $this->is_form() ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if we are on Torro Forms settings page
+	 *
+	 * @param string $tab
+	 * @param string $section
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	public function is_settingspage( $tab = null, $section = null ) {
+		if ( is_admin() && isset( $_GET['page'] ) && 'Torro_Admin' === $_GET['page'] ) {
+			if ( isset( $tab ) ) {
+				if( ( isset( $_GET['tab'] ) && $tab !== $_GET['tab'] ) || ! isset( $_GET['tab'] ) ) {
+					return false;
+				}
+			}
+
+			if ( isset( $section ) ) {
+				if ( ( isset( $_GET['section'] ) && $section !== $_GET['section'] ) || ! isset( $_GET['section'] ) ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Locates and optionally loads a plugin template.
+	 *
+	 * Works in a similar way like the WordPress function, but also checks for the template in the plugin and, if specified, an extension.
+	 * It furthermore allows to pass data to the template.
+	 *
+	 * @param mixed $template_names
+	 * @param boolean $load
+	 * @param boolean $require_once
+	 * @param array|null $data Data to pass on to the template.
+	 * @param string|null $extension_path
+	 *
+	 * @return string $located
+	 * @since 1.0.0
+	 */
+	public function locate_template( $template_names, $load = false, $require_once = true, $data = null, $extension_path = null ) {
+		$located = locate_template( $template_names, false );
+
+		if ( '' === $located ) {
+			foreach ( ( array ) $template_names as $template_name ) {
+				if ( ! $template_name ) {
+					continue;
+				}
+
+				if ( $extension_path && file_exists( trailingslashit( $extension_path ) . 'templates/' . $template_name ) ) {
+					$located = trailingslashit( $extension_path ) . $template_name;
+					break;
+				}
+
+				$file = $this->get_path( 'templates/' . $template_name );
+				if ( file_exists( $file ) ) {
+					$located = $file;
+					break;
+				}
+			}
+		}
+
+		if ( $load && '' !== $located ) {
+			$this->load_template( $located, $require_once, $data );
+		}
+
+		return $located;
+	}
+
+	/**
+	 * Loads a plugin template.
+	 *
+	 * Works in a similar way like the WordPress function, but allows to pass data to the template.
+	 *
+	 * @param string $_template_file
+	 * @param boolean $require_once
+	 * @param array|null $data Data to pass on to the template.
+	 *
+	 * @since 1.0.0
+	 */
+	public function load_template( $_template_file, $require_once = true, $data = null ) {
+		if ( is_array( $data ) ) {
+			extract( $data, EXTR_SKIP );
+		}
+
+		if ( $require_once ) {
+			require_once $_template_file;
+		} else {
+			require $_template_file;
+		}
+	}
+
+	/**
+	 * Torro Email function
+	 *
+	 * @param string $to_email Mail address for sending to
+	 * @param string $subject  Subject of mail
+	 * @param string $content
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	public function mail( $to_email, $subject, $content, $from_name = null, $from_email = null ) {
+		global $torro_tmp_email_settings;
+
+		$torro_tmp_email_settings = array(
+			'from_name' => $from_name,
+			'from_email' => $from_email
+		);
+
+		add_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
+		add_filter( 'wp_mail_from', 'torro_change_email_return_address' );
+
+		$result = wp_mail( $to_email, $subject, $content );
+
+		remove_filter( 'wp_mail_from_name', 'torro_change_email_return_name' );
+		remove_filter( 'wp_mail_from', 'torro_change_email_return_address' );
+		unset( $torro_tmp_email_settings );
+
+		return $result;
 	}
 
 	/**

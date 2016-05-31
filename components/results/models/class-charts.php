@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -38,7 +38,7 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 			$this->title = __( 'Charts', 'torro-forms' );
 		}
 		if ( empty( $this->description ) ) {
-			$this->description = __( 'This is an Torro Forms Chart Creator.', 'torro-forms' );
+			$this->description = __( 'This is a Torro Forms chart creator.', 'torro-forms' );
 		}
 
 		$this->register_chart_type( 'bars', esc_attr__( 'Bars', 'torro-forms' ), array( $this, 'bars' ) );
@@ -77,68 +77,43 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 	 * @since 1.0.0
 	 */
 	public function option_content( $form_id ) {
-		$html = '';
-
 		if( ! torro()->forms()->get( $form_id )->has_analyzable_elements() ){
-			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no analyzable Elements in your form.', 'torro-forms' ) . '</p>';
+			$html = '<p class="not-found-area">' . esc_attr__( 'There are no analyzable elements in your form.', 'torro-forms' ) . '</p>';
 			return $html;
 		}
 
+		$html = $this->show_form_charts( $form_id );
+
+		$html .= '<div id="torro-result-charts-bottom">';
+		ob_start();
+		do_action( 'torro_result_charts_postbox_bottom', $form_id );
+		$html .= ob_get_clean();
+		$html .= '<div style="clear:both"></div>';
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Showing all form charts
+	 *
+	 * @param $form_id
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 */
+	public function show_form_charts( $form_id ) {
 		$results = $this->parse_results_for_export( $form_id, 0, -1, 'raw', false );
 
 		$count_charts = 0;
 
+		$html = '';
 		if ( 0 < count( $results ) ) {
 			$element_results = $this->format_results_by_element( $results );
 
 			foreach ( $element_results as $headline => $element_result ) {
-				$headline_arr = explode( '_', $headline );
-
-				$element_id = (int) $headline_arr[1];
-				$element = torro()->elements()->get( $element_id );
-
-				// Skip collecting Data if there is no analyzable Data
-				if ( ! $element->input_answers ) {
-					continue;
-				}
-
-				if ( 0 < count( $element->sections ) ) {
-					$label = $element->label;
-
-					$answer_id = (int) $headline_arr[2];
-
-					$value = '';
-					foreach( $element->answers as $element_answer ){
-						if( $element_answer->id === $answer_id ){
-							$value = $element_answer->answer;
-							break;
-						}
-					}
-
-					if ( ! empty( $value ) ) {
-						$label .= ' - ' . $value;
-					}
-				} else {
-					$label = $element->label;
-				}
-
-				$html .= '<div class="torro-chart">';
-				$html .= '<div class="torro-chart-diagram">';
-
-				$html .= $this->bars( $label, $element_result );
-
-				$html .= '</div>';
-
+				$html .= $this->show_element_chart( $headline, $element_result );
 				$count_charts++;
-
-				$html .= '<div class="torro-chart-actions">';
-				ob_start();
-				do_action( 'torro_result_charts_postbox_element', $element );
-				$html .= ob_get_clean();
-				$html .= '</div>';
-
-				$html .= '<div style="clear:both"></div>';
-				$html .= '</div>';
 			}
 		}
 
@@ -146,10 +121,62 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 			$html .= '<p class="not-found-area">' . esc_attr__( 'There are no Results to show.', 'torro-forms' ) . '</p>';
 		}
 
-		$html .= '<div id="torro-result-charts-bottom">';
+		return $html;
+	}
+
+	/**
+	 * Showing element charts
+	 *
+	 * @param $headline
+	 * @param $element_result
+	 *
+	 * @return string|void
+	 * @since 1.0.0
+	 */
+	public function show_element_chart( $headline, $element_result ) {
+		$headline_arr = explode( '_', $headline );
+
+		$element_id = (int) $headline_arr[1];
+		$element = torro()->elements()->get( $element_id );
+
+		// Skip collecting Data if there is no analyzable Data
+		if ( ! $element->input_answers ) {
+			return;
+		}
+
+		if ( 0 < count( $element->sections ) ) {
+			$label = $element->label;
+
+			$answer_id = (int) $headline_arr[2];
+
+			$value = '';
+			foreach( $element->answers as $element_answer ){
+				if( $element_answer->id === $answer_id ){
+					$value = $element_answer->answer;
+					break;
+				}
+			}
+
+			if ( ! empty( $value ) ) {
+				$label .= ' - ' . $value;
+			}
+		} else {
+			$label = $element->label;
+		}
+
+		$html  = '<div class="torro-chart">';
+		$html .= '<div class="torro-chart-diagram">';
+
+		$html .= $this->bars( $label, $element_result );
+
+		$html .= '</div>';
+
+		$html .= '<div class="torro-chart-actions">';
 		ob_start();
-		do_action( 'torro_result_charts_postbox_bottom', $form_id );
+		// do_action( 'torro_result_charts_postbox_element', $element );
 		$html .= ob_get_clean();
+		$html .= '</div>';
+
 		$html .= '<div style="clear:both"></div>';
 		$html .= '</div>';
 

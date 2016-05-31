@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -266,8 +266,10 @@ class Torro_Form extends Torro_Instance_Base {
 		$user_id = $current_user && $current_user->exists() ? $current_user->ID : 0;
 
 		$result_obj = torro()->results()->create( $this->id, array(
-			'user_id'	=> $user_id,
-			'timestamp'	=> current_time( 'timestamp' ),
+			'user_id'		=> $user_id,
+			'timestamp'		=> current_time( 'timestamp' ),
+			'remote_addr'	=> '',
+			'cookie_key'	=> '',
 		) );
 		if ( is_wp_error( $result_obj ) ) {
 			return $result_obj;
@@ -290,6 +292,8 @@ class Torro_Form extends Torro_Instance_Base {
 				}
 			}
 		}
+
+		$result_obj->refresh();
 
 		return $result_id;
 	}
@@ -473,6 +477,18 @@ class Torro_Form extends Torro_Instance_Base {
 	}
 
 	/**
+	 * Deletes all results of the form.
+	 *
+	 * @since 1.0.0
+	 */
+	public function delete_responses() {
+		torro()->results()->delete_by_query( array(
+			'form_id'	=> $this->id,
+			'number'	=> -1,
+		) );
+	}
+
+	/**
 	 * Getting navigation for form
 	 *
 	 * @param $actual_step
@@ -486,17 +502,21 @@ class Torro_Form extends Torro_Instance_Base {
 
 		// If there was a step before, show previous button
 		if ( ! is_wp_error( $this->get_previous_container_id() ) ) {
-			$html .= '<input type="submit" name="torro_submission_back" value="' . esc_attr__( 'Previous Step', 'torro-forms' ) . '"> ';
+			$button_text = apply_filters( 'torro_form_button_previous_step_text', esc_attr__( 'Previous Step', 'torro-forms' ), $this->id );
+			$html .= '<input type="submit" name="torro_submission_back" value="' . $button_text . '"> ';
 		}
 
 		if ( ! is_wp_error( $this->get_next_container_id() ) ) {
-			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Next Step', 'torro-forms' ) . '">';
+			$button_text = apply_filters( 'torro_form_button_next_step_text', esc_attr__( 'Next Step', 'torro-forms' ), $this->id );
+			$html .= '<input type="submit" name="torro_submission" value="' . $button_text . '">';
 		} else {
+			$button_text = apply_filters( 'torro_form_button_send_text', esc_attr__( 'Send', 'torro-forms' ), $this->id );
+
 			ob_start();
 			do_action( 'torro_form_send_button_before', $this->id );
 			$html .= ob_get_clean();
 
-			$html .= '<input type="submit" name="torro_submission" value="' . esc_attr__( 'Send', 'torro-forms' ) . '">';
+			$html .= '<input type="submit" name="torro_submission" value="' . $button_text . '">';
 
 			ob_start();
 			do_action( 'torro_form_send_button_after', $this->id );

@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreElements
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 

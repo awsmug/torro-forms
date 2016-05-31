@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreElements
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -26,7 +26,7 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 	protected function init() {
 		$this->name = 'textfield';
 		$this->title = __( 'Textfield', 'torro-forms' );
-		$this->description = __( 'Add an Element which can be answered within a text field.', 'torro-forms' );
+		$this->description = __( 'Add an element which can be answered within a text field.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-textfield', 'png' );
 	}
 
@@ -47,9 +47,20 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 		$html  = '<label for="' . $this->get_input_id( $element ) . '">' . esc_html( $element->label ) . $star_required . '</label>';
 		$html .= '<input id="' . $this->get_input_id( $element ) . '" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors" type="' . $input_type . '" name="' . $this->get_input_name( $element ) . '" value="' . esc_attr( $element->response ) . '"' . $aria_required . ' />';
 
-		if ( ! empty( $element->settings['description'] ) ) {
+		if ( ! empty( $element->settings['description'] ) || ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) || ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
 			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
-			$html .= esc_html( $element->settings[ 'description' ]->value );
+			$description = array();
+			if ( ! empty( $element->settings['description'] ) ) {
+				$description[] = esc_html( $element->settings[ 'description' ]->value );
+			}
+			if ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) && ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
+				$description[] = sprintf( __( 'Between %1$s and %2$s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ), number_format_i18n( $element->settings['max_length']->value ) );
+			} elseif ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) ) {
+				$description[] = sprintf( __( 'At least %s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ) );
+			} elseif ( ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
+				$description[] = sprintf( __( 'A maximum of %s characters are allowed.', 'torro-forms' ), number_format_i18n( $element->settings['max_length']->value ) );
+			}
+			$html .= implode( ' ', $description );
 			$html .= '</div>';
 		}
 
@@ -70,7 +81,7 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',
-				'description'	=> __( 'The description will be shown after the Element.', 'torro-forms' ),
+				'description'	=> __( 'The description will be shown after the element.', 'torro-forms' ),
 				'default'		=> ''
 			),
 			'required'		=> array(
@@ -119,7 +130,7 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 				'title'				=> __( 'Email-Address *', 'torro-forms' ),
 				'html_field_type'	=> 'email',
 				'callback'			=> 'is_email',
-				'error_message'		=> __( 'Please input a valid Email-Address.', 'torro-forms' ),
+				'error_message'		=> __( 'Please input a valid email-address.', 'torro-forms' ),
 			),
 			'color'	=> array(
 				'title'				=> __( 'Color', 'torro-forms' ),

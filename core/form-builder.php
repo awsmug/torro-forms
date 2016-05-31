@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -51,7 +51,7 @@ class Torro_Formbuilder {
 	public static function droppable_area() {
 		global $post;
 
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -95,7 +95,7 @@ class Torro_Formbuilder {
 				$html .= '<div class="drop-elements-here">' . __( 'Drop your elements here', 'torro-forms' ) . '</div>';
 				$html .= '</div>';
 				$html .= '<div class="container-buttons">';
-				$html .= '<input type="button" name="delete_container" value="' . __( 'Delete Page', 'torro-forms' ) . '" class="button delete-container-button" />';
+				$html .= '<a class="delete-button delete-container-button">' . __( 'Delete Page', 'torro-forms' ) . '</a>';
 				$html .= '</div>';
 				$html .= '<input type="hidden" name="container_id" value="' . $container->id . '" />';
 				$html .= '<input type="hidden" name="containers[' . $container->id . '][id]" value="' . $container->id . '" />';
@@ -137,7 +137,7 @@ class Torro_Formbuilder {
 		$html .= '<div id="delete_container_dialog">' . esc_html__( 'Do you really want to delete this page?', 'torro-forms' ) . '</div>';
 		$html .= '<div id="delete_formelement_dialog">' . esc_html__( 'Do you really want to delete this element?', 'torro-forms' ) . '</div>';
 		$html .= '<div id="delete_answer_dialog">' . esc_html__( 'Do you really want to delete this answer?', 'torro-forms' ) . '</div>';
-		$html .= '<div id="delete_results_dialog"><h3>' . esc_html__( 'Attention!', 'torro-forms' ) . '</h3><p>' . esc_html__( 'This will erase all Answers who people given to this Form. Do you really want to delete all results of this Form?', 'torro-forms' ) . '</p></div>';
+		$html .= '<div id="delete_results_dialog"><h3>' . esc_html__( 'Attention!', 'torro-forms' ) . '</h3><p>' . esc_html__( 'This will erase all answers who people given to this form. Do you really want to delete all results of this form?', 'torro-forms' ) . '</p></div>';
 
 		$html .= '<input type="hidden" id="deleted_containers" name="deleted_container_ids" value="">';
 		$html .= '<input type="hidden" id="deleted_formelements" name="deleted_element_ids" value="">';
@@ -445,7 +445,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function jquery_messages_area() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -460,7 +460,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_styles() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
@@ -474,7 +474,7 @@ class Torro_Formbuilder {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_scripts() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

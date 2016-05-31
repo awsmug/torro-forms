@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreElements
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -26,7 +26,7 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 	protected function init() {
 		$this->name = 'multiplechoice';
 		$this->title = __( 'Multiple Choice', 'torro-forms' );
-		$this->description = __( 'Add an Element which can be answered by selecting one ore more given answers.', 'torro-forms' );
+		$this->description = __( 'Add an element which can be answered by selecting one ore more given answers.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-multiplechoice', 'png' );
 
 		$this->input_answers = true;
@@ -122,6 +122,10 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 			if ( is_array( $input ) && count( $input ) > $max_answers ) {
 				return new Torro_Error( 'too_many_choices', __( 'Too many choices.', 'torro-forms' ) );
 			}
+		}
+
+		if( is_array( $input ) ) {
+			$input = array_map( 'stripslashes', $input );
 		}
 
 		return $input;

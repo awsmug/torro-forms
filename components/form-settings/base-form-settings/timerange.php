@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -57,19 +57,19 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 		$start_date = get_post_meta( $form_id, 'start_date', true );
 		$end_date = get_post_meta( $form_id, 'end_date', true );
 
-		$html = '<table id="form-access-controls-content-timerange" class="form-table">';
+		$html  = '<div class="torro-form-options">';
 
-		$html .= '<tr>';
-		$html .= '<td><label for="start_date">' . esc_html__( 'Input Start Date', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="start_date" name="start_date" value="' . $start_date . '"/></td>';
-		$html .= '</tr>';
+		$html .= '<div class="flex-options" role="group">';
+		$html .= '<label for="start_date">' . esc_html__( 'Input Start Date', 'torro-forms' ) . '</label>';
+		$html .= '<div><input type="text" id="start_date" name="start_date" value="' . $start_date . '"/></div>';
+		$html .= '</div>';
 
-		$html .= '<tr>';
-		$html .= '<td><label for="end_date">' . esc_html__( 'Input End Date', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="end_date" name="end_date" value="' . $end_date . '"/></td>';
-		$html .= '</tr>';
+		$html .= '<div class="flex-options" role="group">';
+		$html .= '<label for="end_date">' . esc_html__( 'Input End Date', 'torro-forms' ) . '</label>';
+		$html .= '<div><input type="text" id="end_date" name="end_date" value="' . $end_date . '"/></div>';
+		$html .= '</div>';
 
-		$html .= '</table>';
+		$html .= '</div>';
 
 		return $html;
 	}
@@ -88,14 +88,14 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 		$end_date = get_post_meta( $form_id, 'end_date', true );
 
 		if ( ! empty( $start_date ) && strtotime( $start_date ) > $actual_date ) {
-			$this->add_message( 'error', __( 'The Form is not accessible at this time.', 'torro-forms' ) );
+			$this->add_message( 'error', __( 'The form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
 			return false;
 		}
 
 		if ( ! empty( $end_date )  && strtotime( $end_date ) < $actual_date ) {
-			$this->add_message( 'error', __( 'The Form is not accessible at this time.', 'torro-forms' ) );
+			$this->add_message( 'error', __( 'The form is not accessible at this time.', 'torro-forms' ) );
 			echo $this->messages();
 
 			return false;

@@ -1,32 +1,17 @@
 {
   "name": "awsmug/torro-forms",
-  "description": "Easy & Extendable WordPress Formbuilder",
-  "version": "1.0.0alpha1",
+  "description": "Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.",
+  "version": "1.0.0-beta.3",
   "license": "GPL-3.0",
   "type": "wordpress-plugin",
   "keywords": [
     "forms",
     "form builder",
-    "formbuilder",
-    "survey",
     "surveys",
     "polls",
-    "poll",
-    "create poll",
-    "custom poll",
-    "online poll",
-    "custom survey",
-    "online survey",
     "votes",
-    "voting",
-    "wp polls",
-    "wp survey",
-    "yop poll",
-    "online survey",
-    "online poll",
-    "survey form",
-    "data collection",
-    "questions"
+    "charts",
+    "api"
   ],
   "homepage": "http://torro-forms.com",
   "authors": [
@@ -70,7 +55,8 @@
   "require": {
     "composer/installers": "~1.0",
     "phpoffice/phpexcel": "1.8.1",
-    "easydigitaldownloads/EDD-License-handler": "1.6.3"
+    "easydigitaldownloads/EDD-License-handler": "1.6.3",
+    "codeception/codeception": "^2.1"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master"

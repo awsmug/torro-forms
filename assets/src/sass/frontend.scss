@@ -8,11 +8,16 @@
 	.torro-element {
 		margin-bottom: $base-padding-bottom;
 
-		label,
 		input,
 		select,
 		textarea {
 			display:block;
+		}
+
+		input[type="checkbox"],
+		input[type="radio"] {
+			display:inline;
+			margin-right:5px;
 		}
 
 		&.error {

@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreManagers
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -40,7 +40,7 @@ final class Torro_Form_Result_Handlers_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'resulthandlers' => 'Torro_Form_Result_Handler',
+			'resulthandlers' => 'Torro_Form_Result',
 			'resultcharts' => 'Torro_Result_Charts'
 		);
 		return $allowed;

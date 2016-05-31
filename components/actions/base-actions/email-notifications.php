@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -176,7 +176,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 
 		$html .= '<div class="actions">';
 		$html .= '<input id="form-add-email-notification" type="button" value="' . esc_attr__( 'Add Notification', 'torro-forms' ) . '" class="button" />';
-		$html .= '<p class="intro-text">' . esc_attr__( 'Send out Email-Notifications form was submitted successful.', 'torro-forms' ) . '</p>';
+		$html .= '<p class="intro-text">' . esc_attr__( 'Send out email notifications after form was submitted.', 'torro-forms' ) . '</p>';
 		$html .= '</div>';
 
 		$html .= '<div class="list">';
@@ -187,7 +187,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 				$html .= $this->get_notification_settings_html( $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->to_email, $notification->subject, $notification->message );
 			}
 		}
-		$html .= '<p class="no-entry-found not-found-area">' . esc_html__( 'No Notifications found.', 'torro-forms' ) . '</p>';
+		$html .= '<p class="no-entry-found not-found-area">' . esc_html__( 'No notifications found.', 'torro-forms' ) . '</p>';
 		$html .= '</div>';
 
 		$html .= '</div>';
@@ -195,7 +195,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		$html .= '</div>';
 		$html .= '<div class="clear"></div>';
 
-		$html .= '<div id="delete-email-notification-dialog">' . esc_html__( 'Do you really want to delete this Email-Notification?', 'torro-forms' ) . '</div>';
+		$html .= '<div id="delete-email-notification-dialog">' . esc_html__( 'Do you really want to delete this email notification?', 'torro-forms' ) . '</div>';
 
 		// Dirty hack: Running one time for fake, to get all variables
 		ob_start();
@@ -339,7 +339,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		$html .= '<td>' . $editor . '</td>';
 		$html .= '</tr>';
 		$html .= '<tr>';
-		$html .= '<td colspan="2"><input type="button" class="button form-delete-email-notification" data-emailnotificationid="' . $id . '" value="' . esc_attr__( 'Delete Notification', 'torro-forms' ) . '" /></td>';
+		$html .= '<td colspan="2"><a class="delete-button form-delete-email-notification" data-emailnotificationid="' . $id . '">' . esc_html__( 'Delete Notification', 'torro-forms' ) . '</a></td>';
 		$html .= '</tr>';
 		$html .= '</table>';
 
@@ -354,7 +354,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
-		if ( ! torro_is_formbuilder() ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 

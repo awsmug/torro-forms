@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -93,7 +93,7 @@ final class Torro_Admin_Notices {
 		$notice = $this->notices[ $id ];
 
 		$prefix = '<strong>Torro Forms:</strong> ';
-		if ( torro_is_formbuilder() ) {
+		if ( torro()->is_formbuilder() ) {
 			$prefix = '';
 		}
 
@@ -118,7 +118,7 @@ final class Torro_Admin_Notices {
 				$this->show( $notices[0]['id'] );
 			} else {
 				$prefix = '<p><strong>Torro Forms:</strong></p>';
-				if ( torro_is_formbuilder() ) {
+				if ( torro()->is_formbuilder() ) {
 					$prefix = '';
 				}
 

@@ -11,6 +11,52 @@
 			}
 		}
 
+		.torro-form-options {
+			margin-bottom: 15px;
+
+			h4 {
+				margin: 0 0 15px 0;
+			}
+
+			.flex-options {
+				display: flex;
+				margin-bottom: 15px;
+
+				label, legend {
+					flex: 1;
+					-webkit-flex: 1;
+				}
+
+				> div {
+					flex: 4;
+					-webkit-flex: 4;
+
+					div {
+						display: inline;
+					}
+
+					select {
+						margin-right: 5px;
+					}
+				}
+
+				.flex-radio-checkbox {
+					> div {
+						width: 100%;
+						display: block;
+					}
+				}
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
 		#drag-drop-area {
 			height: auto;
 			margin-top: 10px;
@@ -24,12 +70,12 @@
 			}
 		}
 
-		#form-elements{
-			.inside{
-				.formelement{
-					height:45px;
+		#form-elements {
+			.inside {
+				.formelement {
+					height: 45px;
 
-					&:first-child{
+					&:first-child {
 						margin-top: 15px;
 					}
 				}
@@ -80,8 +126,8 @@
 			}
 		}
 
-		.general-settings{
-			padding:15px;
+		.general-settings {
+			padding: 12px 10px;
 		}
 
 		#containers {
@@ -113,7 +159,7 @@
 						}
 					}
 
-					.txt{
+					.txt {
 						width: 200px;
 						height: 28px;
 					}
@@ -128,7 +174,7 @@
 			.container-buttons {
 				margin: 0;
 				padding: 15px;
-				background-color: #f5f5f5;
+				background-color: #ffffff;
 				border-top: 1px solid #ddd;
 			}
 
@@ -197,7 +243,7 @@
 			border: #CCC dashed 1px;
 			height: 43px;
 			margin-top: 0px;
-			margin-bottom:15px;
+			margin-bottom: 15px;
 		}
 
 		#containers {
@@ -302,8 +348,8 @@
 
 		.clipboardfield {
 			label {
-				width:100%;
-				display:block;
+				width: 100%;
+				display: block;
 			}
 			input {
 				background-color: #f7f7f7;
@@ -341,8 +387,8 @@
 		.form-table td {
 			padding: 5px 0;
 		}
-		.form-table td:first-child{
-			width:200px;
+		.form-table td:first-child {
+			width: 200px;
 			vertical-align: top;
 		}
 
@@ -443,16 +489,6 @@
 				text-align: right;
 			}
 		}
-
-		#form-settings {
-			h3, h4 {
-				margin: 0;
-			}
-
-			h4 {
-				font-size: 14px;
-			}
-		}
 	}
 }
 
@@ -478,6 +514,28 @@
 .torro-form-fieldset-input-radio {
 	display: block;
 	margin-bottom: 5px;
+}
+
+/* --- Destructive --- */
+
+a.delete-button {
+	cursor: pointer;
+
+	&.disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+
+	&:hover,
+	&:focus {
+		color: #f00;
+		text-decoration: none;
+		border: none;
+
+		&.disabled {
+			color: #0073aa;
+		}
+	}
 }
 
 /* --- Redirections --- */
@@ -710,15 +768,15 @@
 /* --- Form functions --- */
 
 #form-functions {
-    text-align: left;
+	text-align: left;
 
-    input {
-    	margin-right: 10px;
+	input {
+		margin-right: 10px;
 
-    	&:last-child {
-    		margin-right: 0;
-    	}
-    }
+		&:last-child {
+			margin-right: 0;
+		}
+	}
 }
 
 /* --- Form access-controls --- */
@@ -747,16 +805,16 @@
 #delete_results_dialog,
 #delete_answer_dialog,
 #participants-delete-all-text,
-#participant-delete-text{
-    display: none;
+#participant-delete-text {
+	display: none;
 }
 
 .ui-dialog {
-    width: 300px;
-    background-color: #FFF;
-    border: 1px solid #CCC;
-    text-align: center;
-    @include box-shadow( 5px 5px 5px rgba(0, 0, 0, 0.5) );
+	width: 300px;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	text-align: center;
+	@include box-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
 }
 
 .wp-dialog {

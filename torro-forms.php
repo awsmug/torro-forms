@@ -2,22 +2,21 @@
 /*
 Plugin Name: Torro Forms
 Plugin URI:  http://torro-forms.com
-Description: Easy & Extendable WordPress Formbuilder
-Version:     1.0.0alpha1
+Description: Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.
+Version:     1.0.0-beta.3
 Author:      Awesome UG
 Author URI:  http://www.awesome.ug
 License:     GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: torro-forms
-Domain Path: /languages/
-Tags:        forms, form builder, formbuilder, survey, surveys, polls, poll, create poll, custom poll, online poll, custom survey, online survey, votes, voting, wp polls, wp survey, yop poll, online survey, online poll, survey form, data collection, questions
+Tags:        forms, form builder, surveys, polls, votes, charts, api
 */
 /**
  * Init: Torro_Init class
  *
  * @package TorroForms
  * @subpackage Init
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -68,7 +67,7 @@ class Torro_Init {
 			return load_textdomain( 'torro-forms', $mofile );
 		}
 
-		return load_plugin_textdomain( 'torro-forms', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+		return load_plugin_textdomain( 'torro-forms' );
 	}
 
 	/**
@@ -136,6 +135,7 @@ class Torro_Init {
 
 		// Functions
 		require_once( $includes_folder . 'functions.php' );
+		require_once( $includes_folder . 'php-bridges.php' );
 		require_once( $includes_folder . 'compat.php' );
 		require_once( $includes_folder . 'form-media.php' );
 		require_once( $includes_folder . 'wp-editor.php' );
@@ -472,33 +472,40 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		 * Post Types
 		 */
 		$args_post_type = array(
-			'labels'            => array(
-				'name'                  => __( 'Forms', 'torro-forms' ),
-				'singular_name'         => __( 'Form', 'torro-forms' ),
-				'add_new'               => __( 'Add New', 'torro-forms' ),
-				'add_new_item'          => __( 'Add New Form', 'torro-forms' ),
-				'edit_item'             => __( 'Edit Form', 'torro-forms' ),
-				'new_item'              => __( 'New Form', 'torro-forms' ),
-				'view_item'             => __( 'View Form', 'torro-forms' ),
-				'search_items'          => __( 'Search Forms', 'torro-forms' ),
-				'not_found'             => __( 'No forms found.', 'torro-forms' ),
-				'not_found_in_trash'    => __( 'No forms found in Trash.', 'torro-forms' ),
-				'all_items'             => __( 'All Forms', 'torro-forms' ),
-				'archives'              => __( 'Form Archives', 'torro-forms' ),
-				'insert_into_item'      => __( 'Insert into form', 'torro-forms' ),
-				'uploaded_to_this_item' => __( 'Uploaded to this form', 'torro-forms' ),
-				'filter_items_list'     => __( 'Filter forms list', 'torro-forms' ),
-				'items_list_navigation' => __( 'Forms list navigation', 'torro-forms' ),
-				'items_list'            => __( 'Forms list', 'torro-forms' ),
-				'menu_name'             => __( 'Forms', 'torro-forms' ),
+			'labels'				=> array(
+				'name'					=> __( 'Forms', 'torro-forms' ),
+				'singular_name'			=> __( 'Form', 'torro-forms' ),
+				'add_new'				=> __( 'Add New', 'torro-forms' ),
+				'add_new_item'			=> __( 'Add New Form', 'torro-forms' ),
+				'edit_item'				=> __( 'Edit Form', 'torro-forms' ),
+				'new_item'				=> __( 'New Form', 'torro-forms' ),
+				'view_item'				=> __( 'View Form', 'torro-forms' ),
+				'search_items'			=> __( 'Search Forms', 'torro-forms' ),
+				'not_found'				=> __( 'No forms found.', 'torro-forms' ),
+				'not_found_in_trash'	=> __( 'No forms found in Trash.', 'torro-forms' ),
+				'all_items'				=> __( 'All Forms', 'torro-forms' ),
+				'archives'				=> __( 'Form Archives', 'torro-forms' ),
+				'insert_into_item'		=> __( 'Insert into form', 'torro-forms' ),
+				'uploaded_to_this_item'	=> __( 'Uploaded to this form', 'torro-forms' ),
+				'filter_items_list'		=> __( 'Filter forms list', 'torro-forms' ),
+				'items_list_navigation'	=> __( 'Forms list navigation', 'torro-forms' ),
+				'items_list'			=> __( 'Forms list', 'torro-forms' ),
+				'menu_name'				=> __( 'Forms', 'torro-forms' ),
 			),
-			'public'            => true,
-			'has_archive'       => true,
-			'supports'          => array( 'title' ),
-			'show_in_menu'      => true,
-			'show_in_nav_menus' => false,
-			'rewrite'           => array( 'slug' => $slug, 'with_front' => true ),
-			'menu_position'     => 50,
+			'public'				=> true,
+			'show_ui'				=> true,
+			'show_in_menu'			=> true,
+			'show_in_menu'			=> true,
+			'show_in_nav_menus'		=> false,
+			'hierarchical'			=> false,
+			'has_archive'			=> false,
+			'supports'				=> array( 'title' ),
+			'rewrite'				=> array(
+				'slug'					=> $slug,
+				'with_front'			=> false,
+				'ep_mask'				=> EP_PERMALINK,
+			),
+			'menu_position'			=> 50,
 		);
 
 		register_post_type( 'torro_form', $args_post_type );
@@ -507,30 +514,37 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		 * Categories
 		 */
 		$args_taxonomy = array(
-			'show_in_nav_menus' => true,
-			'hierarchical'      => true,
-			'labels'            => array(
-				'name'                  => __( 'Categories', 'torro-forms' ),
-				'singular_name'         => __( 'Category', 'torro-forms' ),
-				'search_items'          => __( 'Search Categories', 'torro-forms' ),
-				'popular_items'         => __( 'Popular Categories', 'torro-forms' ),
-				'all_items'             => __( 'All Categories', 'torro-forms' ),
-				'parent_item'           => __( 'Parent Category', 'torro-forms' ),
-				'parent_item_colon'     => __( 'Parent Category:', 'torro-forms' ),
-				'edit_item'             => __( 'Edit Category', 'torro-forms' ),
-				'view_item'             => __( 'View Category', 'torro-forms' ),
-				'update_item'           => __( 'Update Category', 'torro-forms' ),
-				'add_new_item'          => __( 'Add New Category', 'torro-forms' ),
-				'new_item_name'         => __( 'New Category', 'torro-forms' ),
-				'not_found'             => __( 'No categories found.', 'torro-forms' ),
-				'no_terms'              => __( 'No categories', 'torro-forms' ),
-				'items_list_navigation' => __( 'Categories list navigation', 'torro-forms' ),
-				'items_list'            => __( 'Categories list', 'torro-forms' ),
-				'menu_name'             => __( 'Categories', 'torro-forms' ),
+			'labels'				=> array(
+				'name'					=> __( 'Categories', 'torro-forms' ),
+				'singular_name'			=> __( 'Category', 'torro-forms' ),
+				'search_items'			=> __( 'Search Categories', 'torro-forms' ),
+				'popular_items'			=> __( 'Popular Categories', 'torro-forms' ),
+				'all_items'				=> __( 'All Categories', 'torro-forms' ),
+				'parent_item'			=> __( 'Parent Category', 'torro-forms' ),
+				'parent_item_colon'		=> __( 'Parent Category:', 'torro-forms' ),
+				'edit_item'				=> __( 'Edit Category', 'torro-forms' ),
+				'view_item'				=> __( 'View Category', 'torro-forms' ),
+				'update_item'			=> __( 'Update Category', 'torro-forms' ),
+				'add_new_item'			=> __( 'Add New Category', 'torro-forms' ),
+				'new_item_name'			=> __( 'New Category', 'torro-forms' ),
+				'not_found'				=> __( 'No categories found.', 'torro-forms' ),
+				'no_terms'				=> __( 'No categories', 'torro-forms' ),
+				'items_list_navigation'	=> __( 'Categories list navigation', 'torro-forms' ),
+				'items_list'			=> __( 'Categories list', 'torro-forms' ),
+				'menu_name'				=> __( 'Categories', 'torro-forms' ),
 			),
-			'show_ui'           => true,
-			'query_var'         => true,
-			'rewrite'           => true,
+			'public'				=> false,
+			'show_ui'				=> true,
+			'show_in_menu'			=> true,
+			'show_in_nav_menus'		=> false,
+			'show_tagcloud'			=> false,
+			'show_admin_column'		=> true,
+			'hierarchical'			=> true,
+			'rewrite'				=> array(
+				'slug'					=> 'form-categories',
+				'with_front'			=> false,
+				'ep_mask'				=> EP_NONE,
+			),
 		);
 
 		register_taxonomy( 'torro_form_category', array( 'torro_form' ), $args_taxonomy );
@@ -682,7 +696,7 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	}
 }
 
-function torro_loaded( $callback ) {
+function torro_load( $callback ) {
 	if ( did_action( '_torro_loaded' ) || doing_action( '_torro_loaded' ) ) {
 		call_user_func( $callback );
 		return;

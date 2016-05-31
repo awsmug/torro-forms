@@ -6,6 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
+    'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
+    'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
+    'CodeClimate\\Component' => array($vendorDir . '/codeclimate/php-test-reporter/src'),
+    'CodeClimate\\Bundle' => array($vendorDir . '/codeclimate/php-test-reporter/src'),
 );

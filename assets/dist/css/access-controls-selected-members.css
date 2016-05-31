@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0alpha1 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.3 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 /* --- Participants --- */
@@ -30,7 +30,7 @@
 #torro-acl-selectedmembers #torro-invite-email,
 #torro-acl-selectedmembers #torro-reinvite-email {
 	display: none;
-	margin: 10px 0 10px 200px;
+	margin: 10px 0 10px 20%;
 }
 
 #torro-acl-selectedmembers #torro-participants .torro-slider-navigation {

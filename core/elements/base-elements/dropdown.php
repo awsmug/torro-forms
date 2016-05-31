@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreElements
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -26,7 +26,7 @@ final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 	protected function init() {
 		$this->name = 'dropdown';
 		$this->title = __( 'Dropdown', 'torro-forms' );
-		$this->description = __( 'Add an Element which can be answered within a dropdown field.', 'torro-forms' );
+		$this->description = __( 'Add an element which can be answered within a dropdown field.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-dropdown', 'png' );
 
 		$this->input_answers = true;
@@ -72,7 +72,7 @@ final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',
-				'description'	=> __( 'The description will be shown after the field.', 'torro-forms' ),
+				'description'	=> __( 'The description will be shown after the input.', 'torro-forms' ),
 				'default'		=> ''
 			),
 			'required'		=> array(

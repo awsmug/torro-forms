@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreElements
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -26,7 +26,7 @@ final class Torro_Element_Type_Media extends Torro_Element_Type {
 	protected function init() {
 		$this->name = 'media';
 		$this->title = __( 'Media', 'torro-forms' );
-		$this->description = __( 'Add an Element to allow file uploads.', 'torro-forms' );
+		$this->description = __( 'Add an element to allow file uploads.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-upload', 'png' );
 
 		$this->upload = true;
@@ -62,7 +62,7 @@ final class Torro_Element_Type_Media extends Torro_Element_Type {
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',
-				'description'	=> __( 'The description will be shown after the Element.', 'torro-forms' ),
+				'description'	=> __( 'The description will be shown after the element.', 'torro-forms' ),
 				'default'		=> ''
 			),
 			'required'		=> array(
@@ -101,7 +101,7 @@ final class Torro_Element_Type_Media extends Torro_Element_Type {
 			'type_interactive'	=> __( 'Interactive (.ppt, .swf, ...)', 'torro-forms' ),
 			'type_text'			=> __( 'Text files (.txt, .csv, ...)', 'torro-forms' ),
 			'type_archive'		=> __( 'File archives (.zip, .rar, ...)', 'torro-forms' ),
-			'type_code'			=> __( 'Source code (.html, .js, ...)', 'torro-forms' ),
+			'type_code'			=> __( 'Sourcecode (.html, .js, ...)', 'torro-forms' ),
 		);
 
 		$file_extensions = array_keys( $this->get_file_mime_types() );

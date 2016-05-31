@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreManagers
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -71,11 +71,11 @@ abstract class Torro_Manager {
 		}
 
 		if ( empty( $class->title ) ) {
-			$class->title = ucwords( str_replace( '_', ' ', $class_name ) );
+			$class->title = torro_ucwords( str_replace( '_', ' ', $class_name ) );
 		}
 
 		if ( empty( $class->description ) ) {
-			$class->description = sprintf( __( 'This is a %s module.', 'torro-forms' ), ucwords( $class_name, '_' ) );
+			$class->description = sprintf( __( 'This is a %s module.', 'torro-forms' ), torro_ucwords( $class_name, '_' ) );
 		}
 
 		if ( isset( $this->modules[ $this->get_category() ][ $class->name ] ) ) {

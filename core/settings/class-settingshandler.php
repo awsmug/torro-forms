@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreSettings
- * @version 1.0.0-beta.1
+ * @version 1.0.0-beta.3
  * @since 1.0.0-beta.1
  */
 
@@ -420,6 +420,12 @@ class Torro_Settings_Handler {
 					update_post_meta( $post->ID, $option_name, $value );
 				}
 			}
+		}
+
+		if ( 'post' === $this->type ) {
+			do_action( 'torro_post_meta_saved', $this->fields, $post );
+		} else {
+			do_action( 'torro_settings_saved', $this->fields );
 		}
 	}
 }
