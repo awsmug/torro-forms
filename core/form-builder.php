@@ -83,7 +83,6 @@ class Torro_Formbuilder {
 				$html .= '<div id="torro-container-' . $container->id . '" class="tab-content torro-container">';
 				$html .= '<div class="torro-drag-drop-inside">';
 
-
 				foreach ( $elements AS $element ) {
 					if( is_wp_error( $element ) ){
 						$html .= $element->get_error_message() . '<br />';

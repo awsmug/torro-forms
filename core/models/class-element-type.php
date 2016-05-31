@@ -64,13 +64,6 @@ abstract class Torro_Element_Type extends Torro_Base {
 	protected $icon_url = null;
 
 	/**
-	 * Contains Admin tabs
-	 *
-	 * @since 1.0.0
-	 */
-	protected $admin_tabs = array();
-
-	/**
 	 * The settings fields
 	 *
 	 * @since 1.0.0
@@ -106,7 +99,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 	 */
 	public function get_html( $response, $errors, $element ) {
 		$element_classes = array( 'torro-element', 'torro-element-' . $element->id );
-		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $this );
+		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $element );
 
 		if ( is_array( $errors ) && 0 < count( $errors ) ) {
 			$element_classes[] = 'error';
@@ -208,7 +201,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 		/**
 		 * Widget
 		 */
-		if ( null === $this->id ) {
+		if ( null === $element->id ) {
 			$html = '<div data-element-id="' . $element_id . '" data-element-type="' . $element->type . '" class="formelement formelement-' . $element->type . '">';
 		} else {
 			$html = '<div data-element-id="' . $element_id . '" id="element-' . $element_id . '" data-element-type="' . $element->type . '" class="widget formelement formelement-' . $element->type . '">';
@@ -248,14 +241,21 @@ abstract class Torro_Element_Type extends Torro_Base {
 		/**
 		 * Tab Navi
 		 */
-		$this->add_admin_tab( esc_attr__( 'Content', 'torro-forms' ), $this->admin_widget_content_tab( $element ) );
-
+		$admin_tabs = array(
+			array(
+				'title'   => __( 'Content', 'torro-forms' ),
+				'content' => $this->admin_widget_content_tab( $element ),
+			),
+		);
 		$settings = $this->admin_widget_settings_tab( $element );
 		if ( false !== $settings ) {
-			$this->add_admin_tab( esc_attr__( 'Settings', 'torro-forms' ), $settings );
+			$admin_tabs[] = array(
+				'title'		=> __( 'Settings', 'torro-forms' ),
+				'content'	=> $settings,
+			);
 		}
 
-		$admin_tabs = apply_filters( 'torro_formbuilder_element_tabs', $this->admin_tabs );
+		$admin_tabs = apply_filters( 'torro_formbuilder_element_tabs', $admin_tabs, $element );
 
 		if ( 1 < count( $admin_tabs ) ) {
 			$html .= '<div class="tabs element-tabs">';
@@ -292,7 +292,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 		do_action( 'torro_element_admin_tabs_content', $this );
 		$html .= ob_get_clean();
 
-		$html .= $this->admin_widget_action_buttons();
+		$html .= $this->admin_widget_action_buttons( $element );
 
 		// Adding content at the bottom
 		ob_start();
@@ -317,21 +317,6 @@ abstract class Torro_Element_Type extends Torro_Base {
 	 */
 	protected function get_input_html( $element ) {
 		return '<p>' . esc_html__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
-	}
-
-	/**
-	 * Adds Tab for Element
-	 *
-	 * @param string $title
-	 * @param string $content
-	 *
-	 * @since 1.0.0
-	 */
-	protected function add_admin_tab( $title, $content ) {
-		$this->admin_tabs[] = array(
-			'title'   => $title,
-			'content' => $content
-		);
 	}
 
 	/**
@@ -642,14 +627,14 @@ abstract class Torro_Element_Type extends Torro_Base {
 	 * @return string $html
 	 * @since 1.0.0
 	 */
-	protected function admin_widget_action_buttons() {
+	protected function admin_widget_action_buttons( $element ) {
 		// Adding action Buttons
 		$bottom_buttons = apply_filters( 'torro_element_bottom_actions', array(
 			'delete_form_element' => array(
 				'text'    => __( 'Delete element', 'torro-forms' ),
 				'classes' => 'delete_form_element'
 			)
-		) );
+		), $element );
 
 		$html = '<div class="form-element-buttons">';
 		$html .= '<ul>';
@@ -674,7 +659,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 		$html = '<input type="hidden" name="' . $admin_input_name . '[id]" value="' . $element->id . '" />';
 		$html .= '<input type="hidden" name=' . $admin_input_name . '[container_id]" value="' . $element->superior_id . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sort]" value="' . $element->sort . '" />';
-		$html .= '<input type="hidden" name="' . $admin_input_name . '[type]" value="' . $element->type . '" />';
+		$html .= '<input type="hidden" name="' . $admin_input_name . '[type]" value="' . $this->name . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[has_answers]" value="' . ( $this->input_answers ? 'yes' : 'no' ) . '" />';
 		$html .= '<input type="hidden" name="' . $admin_input_name . '[sections]" value="' . ( property_exists( $element, 'sections' ) && is_array( $element->sections ) && 0 < count( $element->sections ) ? 'yes' : 'no' ) . '" />';
 
