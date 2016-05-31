@@ -80,9 +80,10 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.0-beta.4 =
+* Reworked Form Settings CSS
 * Fixed problems with functions not existing in PHP 5.2
 * Fixed problems with shortcodes on start pages
-* Ficed problems with shortcodes, embedded in forms which have been included by shortcodes
+* Fixed problems with shortcodes, embedded in forms which have been included by shortcodes
 
 = 1.0.0-beta.3 =
 * Added option to switch page title on/off
