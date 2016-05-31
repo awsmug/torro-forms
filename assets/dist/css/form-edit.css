@@ -9,25 +9,39 @@
 	        box-shadow: none;
 }
 
+.post-type-torro_form #poststuff .torro-form-options {
+	margin-bottom: 15px;
+}
 .post-type-torro_form #poststuff .torro-form-options h4 {
 	margin: 0 0 15px 0;
 }
-
-.post-type-torro_form #poststuff .torro-form-options fieldset {
+.post-type-torro_form #poststuff .torro-form-options .flex-options {
 	display: flex;
 	margin-bottom: 15px;
 }
-.post-type-torro_form #poststuff .torro-form-options fieldset label,
-.post-type-torro_form #poststuff .torro-form-options fieldset legend {
-	min-width: 20%;
+.post-type-torro_form #poststuff .torro-form-options .flex-options label,
+.post-type-torro_form #poststuff .torro-form-options .flex-options legend {
+	        flex: 1;
+	-webkit-flex: 1;
 }
-.post-type-torro_form #poststuff .torro-form-options fieldset legend > label {
-	width: auto;
+.post-type-torro_form #poststuff .torro-form-options .flex-options > div {
+	        flex: 4;
+	-webkit-flex: 4;
 }
-.post-type-torro_form #poststuff .torro-form-options fieldset input[type="checkbox"] {
-	margin-top: 0;
+.post-type-torro_form #poststuff .torro-form-options .flex-options > div div {
+	display: inline;
 }
-.post-type-torro_form #poststuff .torro-form-options fieldset:last-child {
+.post-type-torro_form #poststuff .torro-form-options .flex-options > div select {
+	margin-right: 5px;
+}
+.post-type-torro_form #poststuff .torro-form-options .flex-options .flex-radio-checkbox > div {
+	display: block; 
+	width: 100%;
+}
+.post-type-torro_form #poststuff .torro-form-options .flex-options:last-child {
+	margin-bottom: 0;
+}
+.post-type-torro_form #poststuff .torro-form-options:last-child {
 	margin-bottom: 0;
 }
 

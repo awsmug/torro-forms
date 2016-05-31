@@ -12,30 +12,48 @@
 		}
 
 		.torro-form-options {
+			margin-bottom: 15px;
+
 			h4 {
 				margin: 0 0 15px 0;
 			}
 
-			fieldset {
+			.flex-options {
 				display: flex;
 				margin-bottom: 15px;
 
 				label, legend {
-					min-width: 20%;
+					flex: 1;
+					-webkit-flex: 1;
 				}
 
-				legend > label {
-					width: auto;
+				> div {
+					flex: 4;
+					-webkit-flex: 4;
+
+					div {
+						display: inline;
+					}
+
+					select {
+						margin-right: 5px;
+					}
 				}
 
-				input[type="checkbox"] {
-					margin-top:0;
+				.flex-radio-checkbox {
+					> div {
+						width: 100%;
+						display: block;
+					}
 				}
 
 				&:last-child {
 					margin-bottom: 0;
 				}
+			}
 
+			&:last-child {
+				margin-bottom: 0;
 			}
 		}
 
