@@ -60,6 +60,7 @@ abstract class Torro_Form_Result extends Torro_Base {
 			'timestamp'			=> array(
 				'title'				=> __( 'Date', 'torro-forms' ),
 				'callback'			=> array( $this, 'render_date' ),
+				'export_callback'	=> array( $this, 'render_date' ),
 				'raw_callback'		=> array( $this, 'render_timestamp' ),
 			),
 		) );
@@ -197,7 +198,7 @@ abstract class Torro_Form_Result extends Torro_Base {
 	}
 
 	protected function render_date( $result ) {
-		return date_i18n( get_option( 'date_format' ), $result->timestamp );
+		return date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $result->timestamp );
 	}
 
 	protected function render_timestamp( $result ) {
