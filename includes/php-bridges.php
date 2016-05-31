@@ -51,18 +51,26 @@ if ( ! function_exists( 'array_replace_recursive' ) ) {
 }
 
 /**
- * ucwords function with delimiter exists at least in 5.3
+ * ucwords function with delimiter exists at least in 5.5.16
  *
  * @param $string
  * @param $delimiter
  *
  * @return mixed
  */
-function torro_ucwords( $string, $delimiter ) {
+function torro_ucwords( $string, $delimiter = '' ) {
+	if ( version_compare( phpversion(), '5.5.16' ) >= 0 ) {
+		return ucwords( $string, $delimiter );
+	}
+
+	if ( empty( $delimiter ) ) {
+		return ucwords( $string );
+	}
+
 	$str_arr = explode( $delimiter, $string );
 
 	$str_arr_new = array();
-	foreach ( $str_arr AS $string ) {
+	foreach ( $str_arr as $string ) {
 		$str_arr_new[] = ucwords( $string );
 	}
 
