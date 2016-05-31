@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element_Textfield class
+ * Core: Torro_Element_Type_Textfield class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -13,54 +13,52 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Element class for a text input
+ * Element type class for a text input
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Element_Textfield extends Torro_Element {
+final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
 	protected function init() {
-		parent::init();
-
-		$this->type = $this->name = 'textfield';
+		$this->name = 'textfield';
 		$this->title = __( 'Textfield', 'torro-forms' );
 		$this->description = __( 'Add an element which can be answered within a text field.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-textfield', 'png' );
 	}
 
-	protected function get_input_html() {
-		$input_type_value = $this->settings[ 'input_type' ]->value;
+	protected function get_input_html( $element ) {
+		$input_type_value = $element->settings[ 'input_type' ]->value;
 		$input_type_value = empty( $input_type_value ) ? 'text' : $input_type_value;
 
 		$input_type_data = $this->get_input_types( $input_type_value );
-		$input_type = $input_type_data[ 'html_field_type' ];
+		$input_type = $input_type_data['html_field_type'];
 
 		$star_required = '';
 		$aria_required = '';
-		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
 			$star_required = ' <span class="required">*</span>';
 			$aria_required = ' aria-required="true"';
 		}
 
-		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $star_required . '</label>';
-		$html .= '<input id="' . $this->get_input_id() . '" aria-describedby="' . $this->get_input_id() . '_description ' . $this->get_input_id() . '_errors" type="' . $input_type . '" name="' . $this->get_input_name() . '" value="' . esc_attr( $this->response ) . '"' . $aria_required . ' />';
+		$html  = '<label for="' . $this->get_input_id( $element ) . '">' . esc_html( $element->label ) . $star_required . '</label>';
+		$html .= '<input id="' . $this->get_input_id( $element ) . '" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors" type="' . $input_type . '" name="' . $this->get_input_name( $element ) . '" value="' . esc_attr( $element->response ) . '"' . $aria_required . ' />';
 
-		if ( ! empty( $this->settings['description'] ) || ! empty( $this->settings['min_length'] ) && ! empty( $this->settings['min_length']->value ) || ! empty( $this->settings['max_length'] ) && ! empty( $this->settings['max_length']->value ) ) {
-			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
+		if ( ! empty( $element->settings['description'] ) || ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) || ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
+			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
 			$description = array();
-			if ( ! empty( $this->settings['description'] ) ) {
-				$description[] = esc_html( $this->settings[ 'description' ]->value );
+			if ( ! empty( $element->settings['description'] ) ) {
+				$description[] = esc_html( $element->settings[ 'description' ]->value );
 			}
-			if ( ! empty( $this->settings['min_length'] ) && ! empty( $this->settings['min_length']->value ) && ! empty( $this->settings['max_length'] ) && ! empty( $this->settings['max_length']->value ) ) {
-				$description[] = sprintf( __( 'Between %1$s and %2$s characters are required.', 'torro-forms' ), number_format_i18n( $this->settings['min_length']->value ), number_format_i18n( $this->settings['max_length']->value ) );
-			} elseif ( ! empty( $this->settings['min_length'] ) && ! empty( $this->settings['min_length']->value ) ) {
-				$description[] = sprintf( __( 'At least %s characters are required.', 'torro-forms' ), number_format_i18n( $this->settings['min_length']->value ) );
-			} elseif ( ! empty( $this->settings['max_length'] ) && ! empty( $this->settings['max_length']->value ) ) {
-				$description[] = sprintf( __( 'A maximum of %s characters are allowed.', 'torro-forms' ), number_format_i18n( $this->settings['max_length']->value ) );
+			if ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) && ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
+				$description[] = sprintf( __( 'Between %1$s and %2$s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ), number_format_i18n( $element->settings['max_length']->value ) );
+			} elseif ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) ) {
+				$description[] = sprintf( __( 'At least %s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ) );
+			} elseif ( ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
+				$description[] = sprintf( __( 'A maximum of %s characters are allowed.', 'torro-forms' ), number_format_i18n( $element->settings['max_length']->value ) );
 			}
 			$html .= implode( ' ', $description );
 			$html .= '</div>';
@@ -186,14 +184,14 @@ final class Torro_Element_Textfield extends Torro_Element {
 		return $input_types;
 	}
 
-	public function validate( $input ) {
-		$min_length = $this->settings[ 'min_length' ]->value;
-		$max_length = $this->settings[ 'max_length' ]->value;
-		$input_type = $this->settings[ 'input_type' ]->value;
+	public function validate( $input, $element ) {
+		$min_length = $element->settings['min_length']->value;
+		$max_length = $element->settings['max_length']->value;
+		$input_type = $element->settings['input_type']->value;
 
 		$input = trim( stripslashes( $input ) );
 
-		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && empty( $input ) ) {
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value && empty( $input ) ) {
 			return new Torro_Error( 'missing_input', __( 'You must input something.', 'torro-forms' ) );
 		}
 
@@ -231,4 +229,4 @@ final class Torro_Element_Textfield extends Torro_Element {
 	}
 }
 
-torro()->element_types()->register( 'Torro_Element_Textfield' );
+torro()->element_types()->register( 'Torro_Element_Type_Textfield' );

@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element_Dropdown class
+ * Core: Torro_Element_Type_Dropdown class
  *
  * @package TorroForms
  * @subpackage CoreElements
@@ -13,20 +13,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Element class for a dropdown input
+ * Element type class for a dropdown input
  *
  * @since 1.0.0-beta.1
  */
-final class Torro_Element_Dropdown extends Torro_Element {
+final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
 	 */
 	protected function init() {
-		parent::init();
-
-		$this->type = $this->name = 'dropdown';
+		$this->name = 'dropdown';
 		$this->title = __( 'Dropdown', 'torro-forms' );
 		$this->description = __( 'Add an element which can be answered within a dropdown field.', 'torro-forms' );
 		$this->icon_url = torro()->get_asset_url( 'icon-dropdown', 'png' );
@@ -36,22 +34,22 @@ final class Torro_Element_Dropdown extends Torro_Element {
 		$this->input_answers = true;
 	}
 
-	protected function get_input_html() {
+	protected function get_input_html( $element ) {
 		$star_required = '';
-		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
 			$star_required = ' <span class="required">*</span>';
 			$aria_required = ' aria-required="true"';
 		}
 
-		$html  = '<label for="' . $this->get_input_id() . '">' . esc_html( $this->label ) . $star_required . '</label>';
+		$html  = '<label for="' . $this->get_input_id( $element ) . '">' . esc_html( $element->label ) . $star_required . '</label>';
 
-		$html .= '<select id="' . $this->get_input_id() . '" name="' . $this->get_input_name() . '" aria-describedby="' . $this->get_input_id() . '_description ' . $this->get_input_id() . '_errors"' . $aria_required . '>';
+		$html .= '<select id="' . $this->get_input_id( $element ) . '" name="' . $this->get_input_name() . '" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors"' . $aria_required . '>';
 		$html .= '<option value="please-select"> - ' . esc_html__( 'Please select', 'torro-forms' ) . ' -</option>';
 
-		foreach ( $this->answers as $answer ) {
+		foreach ( $element->answers as $answer ) {
 			$checked = '';
 
-			if ( $this->response === $answer->answer ) {
+			if ( $element->response === $answer->answer ) {
 				$checked = ' selected="selected"';
 			}
 
@@ -60,9 +58,9 @@ final class Torro_Element_Dropdown extends Torro_Element {
 
 		$html .= '</select>';
 
-		if ( ! empty( $this->settings['description']->value ) ) {
-			$html .= '<div id="' . $this->get_input_id() . '_description" class="element-description">';
-			$html .= esc_html( $this->settings['description']->value );
+		if ( ! empty( $element->settings['description']->value ) ) {
+			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
+			$html .= esc_html( $element->settings['description']->value );
 			$html .= '</div>';
 		}
 
@@ -90,14 +88,14 @@ final class Torro_Element_Dropdown extends Torro_Element {
 		);
 	}
 
-	public function validate( $input ) {
+	public function validate( $input, $element ) {
 		$input = stripslashes( $input );
 
-		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value && 'please-select' === $input ) {
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value && 'please-select' === $input ) {
 			return new Torro_Error( 'missing_value', __( 'Please select a value.', 'torro-forms' ) );
 		}
 
-		foreach ( $this->answers as $answer ) {
+		foreach ( $element->answers as $answer ) {
 			if ( $input == $answer->answer ) {
 				return $input;
 			}
@@ -108,4 +106,4 @@ final class Torro_Element_Dropdown extends Torro_Element {
 
 }
 
-torro()->element_types()->register( 'Torro_Element_Dropdown' );
+torro()->element_types()->register( 'Torro_Element_Type_Dropdown' );

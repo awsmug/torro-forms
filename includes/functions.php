@@ -55,10 +55,10 @@ function torro_is_real_id( $id ) {
  * @return string
  * @since 1.0.0
  */
-function torro_clipboard_field( $label, $content ) {
+function torro_clipboard_field( $label, $content, $classes = 'clipboardfield' ) {
 	$id = torro_generate_temp_id();
 
-	$html = '<div class="clipboardfield">';
+	$html = '<div class="' . esc_attr( $classes ) . '">';
 	$html .= '<label for="' . $id . '">' . $label . '</label> ';
 	$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
 

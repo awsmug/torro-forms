@@ -153,41 +153,7 @@ final class Torro_Elements_Manager extends Torro_Instance_Manager {
 
 	protected function init() {
 		$this->table_name = 'torro_elements';
-	}
-
-	protected function create_raw( $args = array() ) {
-		$type = isset( $args['type'] ) ? $args['type'] : 'textfield';
-		$class_name = torro()->element_types()->get_class_name_by_type( $type );
-		if ( ! class_exists( $class_name ) ) {
-			$class_name = 'Torro_Element_Textfield';
-		}
-		return new $class_name();
-	}
-
-	protected function get_from_db( $id ) {
-		global $wpdb;
-
-		$type = 'textfield';
-		if ( is_object( $id ) && isset( $id->type ) ) {
-			$type = $id->type;
-		} else {
-			$sql = $wpdb->prepare( "SELECT type FROM $wpdb->torro_elements WHERE id = %d ORDER BY sort ASC", absint( $id ) );
-			$type = $wpdb->get_var( $sql );
-			if ( ! $type ) {
-				$type = 'textfield';
-			}
-		}
-
-		$class_name = torro()->element_types()->get_class_name_by_type( $type );
-		if ( ! class_exists( $class_name ) ) {
-			return false;
-		}
-
-		$element = new $class_name( $id );
-		if ( ! $element->id ) {
-			return false;
-		}
-		return $element;
+		$this->class_name = 'Torro_Element';
 	}
 
 	protected function get_category() {

@@ -51,7 +51,7 @@ final class Torro_Element_Types_Manager extends Torro_Manager {
 
 	protected function allowed_modules(){
 		$allowed = array(
-			'element_types' => 'Torro_Element'
+			'element_types' => 'Torro_Element_Type'
 		);
 		return $allowed;
 	}

@@ -31,7 +31,7 @@ Torro Forms was made with a specific attention to polls and surveys. Form submis
 * **Actions** - Use our built-in actions like page redirections to show your message or send out emails to notify users, yourself or others.
 * **Charts** - Every element that can be evaluated, for example a multiple choice field, can be displayed as bar charts and will help you analyze your submissions.
 * **Excel & CSV Exports** - Export the results of form submissions into as Excel or CSV file. The export can be created from the form overview or in the form builder.
-* **Create elements** - Enhance your forms further by creating custom elements. Our easy-to-use Elements API makes it possible.
+* **Create element types** - Enhance your forms further by creating custom element types. Our easy-to-use Element Types API makes it possible.
 * **Create actions** - Create additional kinds of actions which will be executed whenever the form is submitted successfully by using our Actions API.
 * **Extend more...** - Like elements and actions, you can extend Torro Forms in many other ways too by extending specific PHP classes. It's just like creating widgets in WordPress.
 * **Code completion** - Our flexible API was made with developers in mind: The `torro()` function acts as a root for easy chaining and autocompletion.

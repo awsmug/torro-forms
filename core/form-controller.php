@@ -341,12 +341,13 @@ class Torro_Form_Controller {
 				$elements = $container->elements;
 
 				foreach ( $elements as $element ) {
-					if( ! $element->input ){
+					$type = $element->type_obj;
+					if( ! $type->input ){
 						continue;
 					}
 
 					$value = '';
-					if ( $element->upload ) {
+					if ( $type->upload ) {
 						if ( isset( $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ] ) ) {
 							$value = $_FILES[ 'torro_response_containers_' . $container->id . '_elements_' . $element->id ];
 						}
