@@ -33,7 +33,7 @@ Torro Forms was made with a specific attention to polls and surveys. Form submis
 * **Excel & CSV Exports** - Export the results of form submissions into as Excel or CSV file. The export can be created from the form overview or in the form builder.
 * **Create element types** - Enhance your forms further by creating custom element types. Our easy-to-use Element Types API makes it possible.
 * **Create actions** - Create additional kinds of actions which will be executed whenever the form is submitted successfully by using our Actions API.
-* **Extend more...** - Like elements and actions, you can extend Torro Forms in many other ways too by extending specific PHP classes. It's just like creating widgets in WordPress.
+* **Extend more...** - Like element types and actions, you can extend Torro Forms in many other ways too by extending specific PHP classes. It's just like creating widgets in WordPress.
 * **Code completion** - Our flexible API was made with developers in mind: The `torro()` function acts as a root for easy chaining and autocompletion.
 
 = Links =
@@ -81,9 +81,11 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 = 1.0.0-beta.4 =
 * Reworked Form Settings CSS
+* Elements and their types are now separate models
 * Fixed problems with functions not existing in PHP 5.2
 * Fixed problems with shortcodes on start pages
 * Fixed problems with shortcodes, embedded in forms which have been included by shortcodes
+* Fixed bug with date field on export
 
 = 1.0.0-beta.3 =
 * Added option to switch page title on/off
