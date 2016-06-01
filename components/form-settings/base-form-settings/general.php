@@ -130,9 +130,10 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 	 */
 	public function option_content( $form_id ) {
 		$show_page_title = get_post_meta( $form_id, 'show_page_title', true );
-		$previous_button_text = get_post_meta( $form_id, 'previous_button_text', true );
-		$next_button_text = get_post_meta( $form_id, 'next_button_text', true );
-		$send_button_text = get_post_meta( $form_id, 'send_button_text', true );
+		$previous_button_text = esc_attr( get_post_meta( $form_id, 'previous_button_text', true ) );
+		$next_button_text = esc_attr( get_post_meta( $form_id, 'next_button_text', true ) );
+		$send_button_text = esc_attr( get_post_meta( $form_id, 'send_button_text', true ) );
+		$show_button_text = esc_attr( get_post_meta( $form_id, 'show_button_text', true ) );
 
 		$show_page_title_checked = '';
 		if( 'yes' === $show_page_title || empty( $show_page_title )  ) {
@@ -163,8 +164,8 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$html .= '</tr>';
 
 		$html .= '<tr>';
-		$html .= '<td><label for="send_button_text">' . esc_html__( 'Show ', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
+		$html .= '<td><label for="show_button_text">' . esc_html__( 'Show ', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="text" id="show_button_text" name="show_button_text" value="' . $show_button_text . '" placeholder="' . esc_attr__( 'e.g. Show', 'torro-forms' ) . '" /></td>';
 		$html .= '</tr>';
 
 		$html .= '</table>';
@@ -187,6 +188,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$next_button_text = wp_unslash( $_POST['next_button_text'] );
 		$previous_button_text = wp_unslash( $_POST['previous_button_text'] );
 		$send_button_text = wp_unslash( $_POST['send_button_text'] );
+		$show_button_text = wp_unslash( $_POST['show_button_text'] );
 
 		/**
 		 * Saving start and end date
@@ -195,6 +197,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		update_post_meta( $form_id, 'next_button_text', $next_button_text );
 		update_post_meta( $form_id, 'previous_button_text', $previous_button_text );
 		update_post_meta( $form_id, 'send_button_text', $send_button_text );
+		update_post_meta( $form_id, 'show_button_text', $show_button_text );
 	}
 }
 
