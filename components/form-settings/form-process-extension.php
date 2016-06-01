@@ -27,12 +27,12 @@ class Torro_Form_Settings_FormProcessExtension {
 	/**
 	 * Checking access-controls
 	 */
-	public static function check( $show_form ) {
+	public static function check( $form_show ) {
 		$form_id = torro()->forms()->get_current_form_id();
 		$access_controls = torro()->access_controls()->get_all_registered();
 
 		if ( 0 === count( $access_controls ) ) {
-			return $show_form;
+			return $form_show;
 		}
 
 		if ( false === apply_filters( 'torro_additional_access_controls_check_start', true ) ) {
@@ -48,14 +48,11 @@ class Torro_Form_Settings_FormProcessExtension {
 			$access_control = $access_controls[ $access_controls_option ];
 
 			if ( false === $access_control->check( $form_id ) ) {
-				echo $access_control->messages();
-
-				return false;
+				return $access_control->messages();
 			}
 		}
 
 		return apply_filters( 'torro_additional_access_controls_check_end', true );
 	}
 }
-
 Torro_Form_Settings_FormProcessExtension::init();

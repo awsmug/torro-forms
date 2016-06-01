@@ -281,6 +281,13 @@ class Torro_Form_Controller {
 			return;
 		}
 
+		$torro_form_show = apply_filters( 'torro_form_show', true );
+
+		if( true !== $torro_form_show ) {
+			$this->content = $torro_form_show;
+			return;
+		}
+
 		if ( ! isset( $_POST['torro_form_id'] ) || $this->cache->is_finished() ) {
 			/**
 			 * Initializing a fresh form

@@ -194,7 +194,6 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		}
 
 		$access_controls_check_cookie = get_post_meta( $form_id, 'form_access_controls_check_cookie', true );
-
 		if ( 'yes' === $access_controls_check_cookie && isset( $_COOKIE[ 'torro_has_participated_form_' . $form_id ] ) ) {
 			if( 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $form_id ] ) {
 				$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
@@ -292,6 +291,10 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 	 * @since 1.0.0
 	 */
 	public function set_cookie( $form_id, $response_id, $response ) {
+		$access_controls_check_cookie = get_post_meta( $form_id, 'form_access_controls_check_cookie', true );
+		if ( empty( $access_controls_check_cookie ) ) {
+			return;
+		}
 		setcookie( 'torro_has_participated_form_' . $form_id, 'yes', time() + YEAR_IN_SECONDS );
 	}
 
