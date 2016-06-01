@@ -133,6 +133,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$previous_button_text = get_post_meta( $form_id, 'previous_button_text', true );
 		$next_button_text = get_post_meta( $form_id, 'next_button_text', true );
 		$send_button_text = get_post_meta( $form_id, 'send_button_text', true );
+		$show_button_text = get_post_meta( $form_id, 'show_button_text', true );
 
 		$show_page_title_checked = '';
 		if( 'yes' === $show_page_title || empty( $show_page_title )  ) {
@@ -149,22 +150,22 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 
 		$html .= '<tr>';
 		$html .= '<td><label for="previous_button_text">' . esc_html__( 'Previous', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="previous_button_text" name="previous_button_text" value="' . $previous_button_text . '" placeholder="' . esc_attr__( 'e.g. Previous Step', 'torro-forms' ) . '" /></td>';
+		$html .= '<td><input type="text" id="previous_button_text" name="previous_button_text" value="' . esc_attr( $previous_button_text ) . '" placeholder="' . esc_attr__( 'e.g. Previous Step', 'torro-forms' ) . '" /></td>';
 		$html .= '</tr>';
 
 		$html .= '<tr>';
 		$html .= '<td><label for="next_button_text">' . esc_html__( 'Next', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="next_button_text" name="next_button_text" value="' . $next_button_text . '" placeholder="' . esc_attr__( 'e.g. Next Step', 'torro-forms' ) . '" /></td>';
+		$html .= '<td><input type="text" id="next_button_text" name="next_button_text" value="' . esc_attr( $next_button_text ) . '" placeholder="' . esc_attr__( 'e.g. Next Step', 'torro-forms' ) . '" /></td>';
 		$html .= '</tr>';
 
 		$html .= '<tr>';
 		$html .= '<td><label for="send_button_text">' . esc_html__( 'Send', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
+		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . esc_attr( $send_button_text ) . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
 		$html .= '</tr>';
 
 		$html .= '<tr>';
-		$html .= '<td><label for="send_button_text">' . esc_html__( 'Show ', 'torro-forms' ) . '</label></td>';
-		$html .= '<td><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></td>';
+		$html .= '<td><label for="show_button_text">' . esc_html__( 'Show ', 'torro-forms' ) . '</label></td>';
+		$html .= '<td><input type="text" id="show_button_text" name="show_button_text" value="' . esc_attr( $show_button_text ) . '" placeholder="' . esc_attr__( 'e.g. Show', 'torro-forms' ) . '" /></td>';
 		$html .= '</tr>';
 
 		$html .= '</table>';
@@ -187,6 +188,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$next_button_text = wp_unslash( $_POST['next_button_text'] );
 		$previous_button_text = wp_unslash( $_POST['previous_button_text'] );
 		$send_button_text = wp_unslash( $_POST['send_button_text'] );
+		$show_button_text = wp_unslash( $_POST['show_button_text'] );
 
 		/**
 		 * Saving start and end date
@@ -195,6 +197,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		update_post_meta( $form_id, 'next_button_text', $next_button_text );
 		update_post_meta( $form_id, 'previous_button_text', $previous_button_text );
 		update_post_meta( $form_id, 'send_button_text', $send_button_text );
+		update_post_meta( $form_id, 'show_button_text', $show_button_text );
 	}
 }
 
