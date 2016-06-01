@@ -348,39 +348,71 @@ final class Torro {
 	}
 
 	/**
+	 * Renders a plugin template.
+	 *
+	 * Works in a similar way like the WordPress function `get_template_part()`, but also checks for the template in the plugin and, if specified, an extension.
+	 * It furthermore allows to pass data to the template.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $slug
+	 * @param array|null $data Data to pass on to the template.
+	 * @param string|null $_extension_path Private parameter used by extensions. Do not use.
+	 */
+	public function template( $slug, $data = null, $_extension_path = null ) {
+		$templates = array();
+		if ( $data && is_array( $data ) && isset( $data['template_suffix'] ) ) {
+			$templates[] = $slug . '-' . $data['template_suffix'] . '.php';
+			unset( $data['template_suffix'] );
+		}
+		$templates[] = $slug . '.php';
+
+		$this->locate_template( $templates, true, false, $data, $_extension_path );
+	}
+
+	/**
 	 * Locates and optionally loads a plugin template.
 	 *
 	 * Works in a similar way like the WordPress function, but also checks for the template in the plugin and, if specified, an extension.
 	 * It furthermore allows to pass data to the template.
 	 *
-	 * @param mixed $template_names
+	 * @since 1.0.0
+	 *
+	 * @param array $template_names
 	 * @param boolean $load
 	 * @param boolean $require_once
 	 * @param array|null $data Data to pass on to the template.
-	 * @param string|null $extension_path
+	 * @param string|null $_extension_path Private parameter used by extensions. Do not use.
 	 *
 	 * @return string $located
-	 * @since 1.0.0
 	 */
-	public function locate_template( $template_names, $load = false, $require_once = true, $data = null, $extension_path = null ) {
-		$located = locate_template( $template_names, false );
+	private function locate_template( $template_names, $load = false, $require_once = true, $data = null, $_extension_path = null ) {
+		$located = '';
 
-		if ( '' === $located ) {
-			foreach ( ( array ) $template_names as $template_name ) {
-				if ( ! $template_name ) {
-					continue;
-				}
+		foreach ( ( array ) $template_names as $template_name ) {
+			if ( ! $template_name ) {
+				continue;
+			}
 
-				if ( $extension_path && file_exists( trailingslashit( $extension_path ) . 'templates/' . $template_name ) ) {
-					$located = trailingslashit( $extension_path ) . $template_name;
-					break;
-				}
+			if ( file_exists( STYLESHEETPATH . '/torro_templates/' . $template_name ) ) {
+				$located = STYLESHEETPATH . '/torro_templates/' . $template_name;
+				break;
+			}
 
-				$file = $this->get_path( 'templates/' . $template_name );
-				if ( file_exists( $file ) ) {
-					$located = $file;
-					break;
-				}
+			if ( file_exists( TEMPLATEPATH . '/torro_templates/' . $template_name ) ) {
+				$located = TEMPLATEPATH . '/torro_templates/' . $template_name;
+				break;
+			}
+
+			if ( $_extension_path && file_exists( trailingslashit( $_extension_path ) . 'templates/' . $template_name ) ) {
+				$located = trailingslashit( $_extension_path ) . 'templates/' . $template_name;
+				break;
+			}
+
+			$file = $this->get_path( 'templates/' . $template_name );
+			if ( file_exists( $file ) ) {
+				$located = $file;
+				break;
 			}
 		}
 
@@ -396,13 +428,13 @@ final class Torro {
 	 *
 	 * Works in a similar way like the WordPress function, but allows to pass data to the template.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $_template_file
 	 * @param boolean $require_once
 	 * @param array|null $data Data to pass on to the template.
-	 *
-	 * @since 1.0.0
 	 */
-	public function load_template( $_template_file, $require_once = true, $data = null ) {
+	private function load_template( $_template_file, $require_once = true, $data = null ) {
 		if ( is_array( $data ) ) {
 			extract( $data, EXTR_SKIP );
 		}
