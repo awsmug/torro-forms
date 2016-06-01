@@ -10,7 +10,9 @@ Of course you can also download the plugin from GitHub. Stable versions are avai
 
 ## Contributing
 
-If you're a developer and you have some ideas to improve the plugin or to solve a bug, feel free to raise an issue or submit a pull request [here on GitHub](https://github.com/awsmug/torro-forms).
+Any kind of contributions to Torro Forms are welcome. Please [read the guidelines](https://github.com/awsmug/torro-forms/blob/master/CONTRIBUTING.md) for contributing to get started.
+
+If you're a developer and you have some ideas to improve the plugin or to solve a bug, feel free to [raise an issue](https://github.com/awsmug/torro-forms/issues) or [submit a pull request](https://github.com/awsmug/torro-forms/pulls) here on GitHub.
 
 You can also contribute to the plugin by translating it. Simply visit [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/torro-forms) to get started.
 
