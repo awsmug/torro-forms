@@ -21,7 +21,7 @@ class Torro_Form_Settings_FormProcessExtension {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		add_filter( 'torro_form_show', array( __CLASS__, 'check' ), 1 );
+		add_filter( 'torro_form_show', array( __CLASS__, 'check' ) );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Torro_Form_Settings_FormProcessExtension {
 			}
 		}
 
-		return apply_filters( 'torro_additional_access_controls_check_end', true );
+		return apply_filters( 'torro_additional_access_controls_check_end', $form_show );
 	}
 }
 Torro_Form_Settings_FormProcessExtension::init();

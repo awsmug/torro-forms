@@ -42,7 +42,7 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 		$this->option_name = $this->title = __( 'Timerange', 'torro-forms' );
 		$this->name = 'timerange';
 
-		add_action( 'torro_additional_access_controls_check_start', array( $this, 'check' ) );
+		add_action( 'torro_form_show', array( $this, 'check' ) );
 	}
 
 	/**
@@ -80,7 +80,7 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	 * @return boolean
 	 * @since 1.0.0
 	 */
-	public function check() {
+	public function check( $form_show ) {
 		$form_id = torro()->forms()->get_current_form_id();
 
 		$actual_date = time();
@@ -89,19 +89,15 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 
 		if ( ! empty( $start_date ) && strtotime( $start_date ) > $actual_date ) {
 			$this->add_message( 'error', __( 'The form is not accessible at this time.', 'torro-forms' ) );
-			echo $this->messages();
-
-			return false;
+			return $this->messages();
 		}
 
 		if ( ! empty( $end_date )  && strtotime( $end_date ) < $actual_date ) {
 			$this->add_message( 'error', __( 'The form is not accessible at this time.', 'torro-forms' ) );
-			echo $this->messages();
-
-			return false;
+			return $this->messages();
 		}
 
-		return true;
+		return $form_show;
 	}
 
 	/**
