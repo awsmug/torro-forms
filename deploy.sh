@@ -93,6 +93,7 @@ svn propset --quiet svn:ignore ".bowerrc
 bower.json
 composer.json
 composer.lock
+CONTRIBUTING.md
 deploy.sh
 gulpfile.js
 Gruntfile.js
