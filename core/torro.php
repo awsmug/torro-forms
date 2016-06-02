@@ -371,82 +371,6 @@ final class Torro {
 	}
 
 	/**
-	 * Locates and optionally loads a plugin template.
-	 *
-	 * Works in a similar way like the WordPress function, but also checks for the template in the plugin and, if specified, an extension.
-	 * It furthermore allows to pass data to the template.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $template_names
-	 * @param boolean $load
-	 * @param boolean $require_once
-	 * @param array|null $data Data to pass on to the template.
-	 * @param string|null $_extension_path Private parameter used by extensions. Do not use.
-	 *
-	 * @return string $located
-	 */
-	private function locate_template( $template_names, $load = false, $require_once = true, $data = null, $_extension_path = null ) {
-		$located = '';
-
-		foreach ( ( array ) $template_names as $template_name ) {
-			if ( ! $template_name ) {
-				continue;
-			}
-
-			if ( file_exists( STYLESHEETPATH . '/torro_templates/' . $template_name ) ) {
-				$located = STYLESHEETPATH . '/torro_templates/' . $template_name;
-				break;
-			}
-
-			if ( file_exists( TEMPLATEPATH . '/torro_templates/' . $template_name ) ) {
-				$located = TEMPLATEPATH . '/torro_templates/' . $template_name;
-				break;
-			}
-
-			if ( $_extension_path && file_exists( trailingslashit( $_extension_path ) . 'templates/' . $template_name ) ) {
-				$located = trailingslashit( $_extension_path ) . 'templates/' . $template_name;
-				break;
-			}
-
-			$file = $this->get_path( 'templates/' . $template_name );
-			if ( file_exists( $file ) ) {
-				$located = $file;
-				break;
-			}
-		}
-
-		if ( $load && '' !== $located ) {
-			$this->load_template( $located, $require_once, $data );
-		}
-
-		return $located;
-	}
-
-	/**
-	 * Loads a plugin template.
-	 *
-	 * Works in a similar way like the WordPress function, but allows to pass data to the template.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $_template_file
-	 * @param boolean $require_once
-	 * @param array|null $data Data to pass on to the template.
-	 */
-	private function load_template( $_template_file, $require_once = true, $data = null ) {
-		if ( is_array( $data ) ) {
-			extract( $data, EXTR_SKIP );
-		}
-
-		if ( $require_once ) {
-			require_once $_template_file;
-		} else {
-			require $_template_file;
-		}
-	}
-
-	/**
 	 * Torro Email function
 	 *
 	 * @param string $to_email Mail address for sending to
@@ -550,10 +474,11 @@ final class Torro {
 	}
 
 	/**
-	 * Logging function
+	 * Logs a message to the log file.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param $message
-	 * @since 1.0.0
 	 */
 	public function log( $message ) {
 		$wp_upload_dir = wp_upload_dir();
@@ -566,6 +491,164 @@ final class Torro {
 		$file = fopen( $log_dir . '/main.log', 'a' );
 		fputs( $file, $message . chr( 13 ) );
 		fclose( $file );
+	}
+
+	/**
+	 * Magic caller function.
+	 *
+	 * Makes specific private methods virtually public.
+	 *
+	 * @param string $method
+	 * @param array $arguments
+	 */
+	public function __call( $method, $arguments ) {
+		switch ( $method ) {
+			case '_doing_it_wrong':
+			case '_deprecated_function':
+			case '_deprecated_argument':
+				call_user_func_array( array( $this, $method ), $arguments );
+				break;
+		}
+	}
+
+	/**
+	 * Locates and optionally loads a plugin template.
+	 *
+	 * Works in a similar way like the WordPress function, but also checks for the template in the plugin and, if specified, an extension.
+	 * It furthermore allows to pass data to the template.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $template_names
+	 * @param boolean $load
+	 * @param boolean $require_once
+	 * @param array|null $data Data to pass on to the template.
+	 * @param string|null $_extension_path Private parameter used by extensions. Do not use.
+	 *
+	 * @return string $located
+	 */
+	private function locate_template( $template_names, $load = false, $require_once = true, $data = null, $_extension_path = null ) {
+		$located = '';
+
+		foreach ( ( array ) $template_names as $template_name ) {
+			if ( ! $template_name ) {
+				continue;
+			}
+
+			if ( file_exists( STYLESHEETPATH . '/torro_templates/' . $template_name ) ) {
+				$located = STYLESHEETPATH . '/torro_templates/' . $template_name;
+				break;
+			}
+
+			if ( file_exists( TEMPLATEPATH . '/torro_templates/' . $template_name ) ) {
+				$located = TEMPLATEPATH . '/torro_templates/' . $template_name;
+				break;
+			}
+
+			if ( $_extension_path && file_exists( trailingslashit( $_extension_path ) . 'templates/' . $template_name ) ) {
+				$located = trailingslashit( $_extension_path ) . 'templates/' . $template_name;
+				break;
+			}
+
+			$file = $this->get_path( 'templates/' . $template_name );
+			if ( file_exists( $file ) ) {
+				$located = $file;
+				break;
+			}
+		}
+
+		if ( $load && '' !== $located ) {
+			$this->load_template( $located, $require_once, $data );
+		}
+
+		return $located;
+	}
+
+	/**
+	 * Loads a plugin template.
+	 *
+	 * Works in a similar way like the WordPress function, but allows to pass data to the template.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $_template_file
+	 * @param boolean $require_once
+	 * @param array|null $data Data to pass on to the template.
+	 */
+	private function load_template( $_template_file, $require_once = true, $data = null ) {
+		if ( is_array( $data ) ) {
+			extract( $data, EXTR_SKIP );
+		}
+
+		if ( $require_once ) {
+			require_once $_template_file;
+		} else {
+			require $_template_file;
+		}
+	}
+
+	/**
+	 * Marks something as being incorrectly called.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $function
+	 * @param string $message
+	 * @param string $version
+	 */
+	private function _doing_it_wrong( $function, $message, $version = null ) {
+		if ( ! WP_DEBUG || ! apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
+			return;
+		}
+
+		$version = is_null( $version ) ? '' : sprintf( __( '(This message was added in Torro Forms version %s.', 'torro-forms' ), $version );
+
+		// use WordPress Core textdomain on purpose here since these are core strings
+		$message .= ' ' . sprintf( __( 'Please see <a href="%s">Debugging in WordPress</a> for more information.' ), __( 'https://codex.wordpress.org/Debugging_in_WordPress' ) );
+
+		trigger_error( sprintf( __( '%1$s was called <strong>incorrectly</strong>. %2$s %3$s' ), $function, $message, $version ) );
+	}
+
+	/**
+	 * Marks a function as deprecated and informs when it has been used.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $function
+	 * @param string $version
+	 * @param string $replacement
+	 */
+	private function _deprecated_function( $function, $version, $replacement = null ) {
+		if ( ! WP_DEBUG || ! apply_filters( 'deprecated_function_trigger_error', true ) ) {
+			return;
+		}
+
+		if ( ! is_null( $replacement ) ) {
+			trigger_error( sprintf( __( '%1$s is <strong>deprecated</strong> since Torro Forms version %2$s. Use %3$s instead!', 'torro-forms' ), $function, $version, $replacement ) );
+		} else {
+			trigger_error( sprintf( __( '%1$s is <strong>deprecated</strong> since Torro Forms version %2$s with no alternative available.', 'torro-forms' ), $function, $version ) );
+		}
+	}
+
+	/**
+	 * Marks a function argument as deprecated and informs when it has been used.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $function
+	 * @param string $version
+	 * @param string $message
+	 */
+	private function _deprecated_argument( $function, $version, $message = null ) {
+		if ( ! WP_DEBUG || ! apply_filters( 'deprecated_argument_trigger_error', true ) ) {
+			return;
+		}
+
+		if ( ! is_null( $message ) ) {
+			trigger_error( sprintf( __( '%1$s was called with an argument that is <strong>deprecated</strong> since Torro Forms version %2$s. %3$s', 'torro-forms' ), $function, $version, $message ) );
+		} else {
+			trigger_error( sprintf( __( '%1$s was called with an argument that is <strong>deprecated</strong> since Torro Forms version %2$s with no alternative available.', 'torro-forms' ), $function, $version ) );
+		}
 	}
 }
 
