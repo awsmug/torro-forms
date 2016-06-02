@@ -72,4 +72,33 @@ abstract class Torro_Form_Setting extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	public function save( $form_id ) {}
+
+	/**
+	 * Printing out messages
+	 */
+	public function messages() {
+		if ( 0 < count( $this->messages ) ) {
+			$html = '';
+			foreach ( $this->messages as $message ) {
+				$html .= '<div class="form-message ' . $message['type'] . '">' . esc_html( $message['text'] ) . '</div>';
+			}
+
+			return $html;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Adding messages
+	 *
+	 * @param $type
+	 * @param $text
+	 */
+	public function add_message( $type, $text ) {
+		$this->messages[] = array(
+			'type'	=> $type,
+			'text'	=> $text
+		);
+	}
 }
