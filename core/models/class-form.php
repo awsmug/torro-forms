@@ -156,30 +156,82 @@ class Torro_Form extends Torro_Instance_Base {
 	}
 
 	/**
-	 * Getting form HTML
+	 * Renders and returns the form HTML output.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $form_action_url
 	 * @param int|null  $container_id
 	 * @param array $response
 	 * @param array $errors
 	 *
-	 * @return string $html
-	 * @since 1.0.0
+	 * @return string
 	 */
 	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
+		ob_start();
+		torro()->template( 'form', $this->to_json( $form_action_url, $container_id, $response, $errors ) );
+		return ob_get_clean();
+	}
+
+	/**
+	 * Prepares data to render the form HTML output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $form_action_url
+	 * @param int|null  $container_id
+	 * @param array $response
+	 * @param array $errors
+	 *
+	 * @return array
+	 */
+	public function to_json( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
 		$container = $this->set_current_container( $container_id );
 
-		$html = '<form class="torro-form" action="' . $form_action_url . '" method="POST" method="post" enctype="multipart/form-data" novalidate>';
-		$html .= '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '" />';
-		$html .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '" />';
+		$hidden_fields = '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '">';
+		$hidden_fields .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '">';
 
-		$html .= $container->get_html( $response, $errors );
+		$navigation = array(
+			'prev_button'	=> null,
+			'next_button'	=> null,
+			'submit_button'	=> null,
+		);
 
-		$html .= $this->get_navigation();
+		if ( ! is_wp_error( $this->get_previous_container_id() ) ) {
+			$button_text = apply_filters( 'torro_form_button_previous_step_text', __( 'Previous Step', 'torro-forms' ), $this->id );
 
-		$html .= '</form>';
+			$navigation['prev_button'] = array(
+				'name'		=> 'torro_submission_back',
+				'label'		=> $button_text,
+			);
+		}
 
-		return $html;
+		if ( ! is_wp_error( $this->get_next_container_id() ) ) {
+			$button_text = apply_filters( 'torro_form_button_next_step_text', __( 'Next Step', 'torro-forms' ), $this->id );
+
+			$navigation['next_button'] = array(
+				'name'		=> 'torro_submission',
+				'label'		=> $button_text,
+			);
+		} else {
+			$button_text = apply_filters( 'torro_form_button_send_text', esc_attr__( 'Send', 'torro-forms' ), $this->id );
+
+			$navigation['submit_button'] = array(
+				'name'		=> 'torro_submission',
+				'label'		=> $button_text,
+			);
+		}
+
+		$data = array(
+			'form_id'			=> $this->id,
+			'title'				=> get_the_title( $this->id ),
+			'action_url'		=> $form_action_url,
+			'hidden_fields'		=> $hidden_fields,
+			'current_container'	=> $container->to_json( $response, $errors ),
+			'navigation'		=> $navigation,
+		);
+
+		return $data;
 	}
 
 	/**
@@ -486,44 +538,6 @@ class Torro_Form extends Torro_Instance_Base {
 			'form_id'	=> $this->id,
 			'number'	=> -1,
 		) );
-	}
-
-	/**
-	 * Getting navigation for form
-	 *
-	 * @param $actual_step
-	 * @param $next_step
-	 *
-	 * @return string
-	 * @since 1.0.0
-	 */
-	protected function get_navigation() {
-		$html = '';
-
-		// If there was a step before, show previous button
-		if ( ! is_wp_error( $this->get_previous_container_id() ) ) {
-			$button_text = apply_filters( 'torro_form_button_previous_step_text', esc_attr__( 'Previous Step', 'torro-forms' ), $this->id );
-			$html .= '<input type="submit" name="torro_submission_back" value="' . $button_text . '"> ';
-		}
-
-		if ( ! is_wp_error( $this->get_next_container_id() ) ) {
-			$button_text = apply_filters( 'torro_form_button_next_step_text', esc_attr__( 'Next Step', 'torro-forms' ), $this->id );
-			$html .= '<input type="submit" name="torro_submission" value="' . $button_text . '">';
-		} else {
-			$button_text = apply_filters( 'torro_form_button_send_text', esc_attr__( 'Send', 'torro-forms' ), $this->id );
-
-			ob_start();
-			do_action( 'torro_form_send_button_before', $this->id );
-			$html .= ob_get_clean();
-
-			$html .= '<input type="submit" name="torro_submission" value="' . $button_text . '">';
-
-			ob_start();
-			do_action( 'torro_form_send_button_after', $this->id );
-			$html .= ob_get_clean();
-		}
-
-		return $html;
 	}
 
 	protected function init() {

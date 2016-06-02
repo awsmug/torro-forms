@@ -119,16 +119,57 @@ class Torro_Element extends Torro_Instance_Base {
 	}
 
 	/**
-	 * Drawing Element on frontend
+	 * Renders and returns the element HTML output.
 	 *
-	 * @return string $html Element HTML
 	 * @since 1.0.0
+	 *
+	 * @param array $response
+	 * @param array $errors
+	 *
+	 * @return string
 	 */
 	public function get_html( $response, $errors ) {
+		ob_start();
+		torro()->template( 'element', $this->to_json( $response, $errors ) );
+		return ob_get_clean();
+	}
+
+	/**
+	 * Prepares data to render the element HTML output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $response
+	 * @param array $errors
+	 *
+	 * @return array
+	 */
+	public function to_json( $response, $errors ) {
 		$this->response = $response;
 		$this->errors = $errors;
 
-		return $this->type_obj->get_html( $this );
+		$element_classes = array( 'torro-element', 'torro-element-' . $this->type );
+		if ( is_array( $this->errors ) && 0 < count( $this->errors ) ) {
+			$element_classes[] = 'error';
+		}
+		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $this );
+
+		$data = array(
+			'template_suffix'	=> $this->type,
+			'element_id'		=> $this->id,
+			'label'				=> $this->label,
+			'id'				=> 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id,
+			'classes'			=> $element_classes,
+			'errors'			=> $this->errors,
+			'required'			=> false,
+			'type'				=> $this->type_obj->to_json( $this ),
+		);
+
+		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
+			$data['required'] = true;
+		}
+
+		return $data;
 	}
 
 	/**

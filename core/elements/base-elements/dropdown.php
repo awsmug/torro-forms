@@ -34,37 +34,25 @@ final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 		$this->input_answers = true;
 	}
 
-	protected function get_input_html( $element ) {
-		$star_required = '';
-		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
-			$star_required = ' <span class="required">*</span>';
-			$aria_required = ' aria-required="true"';
-		}
+	/**
+	 * Prepares data to render the element type HTML output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Torro_Element $element
+	 *
+	 * @return array
+	 */
+	public function to_json( $element ) {
+		$data = parent::to_json( $element );
 
-		$html  = '<label for="' . $this->get_input_id( $element ) . '">' . esc_html( $element->label ) . $star_required . '</label>';
+		array_unshift( $data['answers'], array(
+			'answer_id'		=> 0,
+			'label'			=> '- ' . __( 'Please select', 'torro-forms' ),
+			'value'			=> 'please-select',
+		) );
 
-		$html .= '<select id="' . $this->get_input_id( $element ) . '" name="' . $this->get_input_name() . '" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors"' . $aria_required . '>';
-		$html .= '<option value="please-select"> - ' . esc_html__( 'Please select', 'torro-forms' ) . ' -</option>';
-
-		foreach ( $element->answers as $answer ) {
-			$checked = '';
-
-			if ( $element->response === $answer->answer ) {
-				$checked = ' selected="selected"';
-			}
-
-			$html .= '<option value="' . esc_attr( $answer->answer ) . '" ' . $checked . '/> ' . esc_html( $answer->answer ) . '</option>';
-		}
-
-		$html .= '</select>';
-
-		if ( ! empty( $element->settings['description']->value ) ) {
-			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
-			$html .= esc_html( $element->settings['description']->value );
-			$html .= '</div>';
-		}
-
-		return $html;
+		return $data;
 	}
 
 	public function settings_fields() {

@@ -31,12 +31,6 @@ final class Torro_Element_Type_Separator extends Torro_Element_Type {
 
 		$this->input = false;
 	}
-
-	protected function get_input_html( $element ) {
-		$html = '<hr />';
-
-		return $html;
-	}
 }
 
 torro()->element_types()->register( 'Torro_Element_Type_Separator' );

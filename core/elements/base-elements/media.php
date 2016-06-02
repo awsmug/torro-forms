@@ -33,23 +33,19 @@ final class Torro_Element_Type_Media extends Torro_Element_Type {
 	}
 
 	/**
-	 * Input HTML
+	 * Prepares data to render the element type HTML output.
 	 *
-	 * @return string
 	 * @since 1.0.0
+	 *
+	 * @param Torro_Element $element
+	 *
+	 * @return array
 	 */
-	protected function get_input_html( $element ) {
-		$html  = '<label for="' . $this->get_input_id( $element ) . '">' . esc_html( $element->label ) . '</label>';
+	public function to_json( $element ) {
+		$data = parent::to_json( $element );
+		$data['type'] = 'file';
 
-		$html .= '<input id="' . $this->get_input_id( $element ) . '" type="file" name="' . $this->get_input_name($element ) . '" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors" />';
-
-		if ( ! empty( $element->settings['description'] ) ) {
-			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
-			$html .= esc_html( $element->settings['description']->value );
-			$html .= '</div>';
-		}
-
-		return $html;
+		return $data;
 	}
 
 	/**

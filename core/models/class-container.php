@@ -61,41 +61,58 @@ class Torro_Container extends Torro_Instance_Base {
 	}
 
 	/**
-	 * Getting form html of container
+	 * Renders and returns the container HTML output.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array $response
 	 * @param array $errors
 	 *
 	 * @return string
-	 * @since 1.0.0
 	 */
 	public function get_html( $response = array(), $errors = array() ) {
-		$html = '';
+		ob_start();
+		torro()->template( 'container', $this->to_json( $response, $errors ) );
+		return ob_get_clean();
+	}
 
-		if( true === apply_filters( 'torro_form_container_show_title', true, $this->superior_id, $this->id ) ) {
-			$container_title = '<h2 class="container-title">' . $this->label . '</h2>';
-			$container_title = apply_filters( 'torro_form_container_title', $container_title, $this->superior_id, $this->id );
+	/**
+	 * Prepares data to render the container HTML output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $response
+	 * @param array $errors
+	 *
+	 * @return array
+	 */
+	public function to_json( $response = array(), $errors = array() ) {
+		$hidden_fields = '<input type="hidden" name="torro_response[container_id]" value="' . $this->id . '">';
 
-			$html .= $container_title;
-			$html .= sprintf( '<input type="hidden" name="torro_response[container_id]" value="%d" />', $this->id );
+		$data = array(
+			'container_id'	=> $this->id,
+			'title'			=> false,
+			'hidden_fields'	=> $hidden_fields,
+			'elements'		=> array(),
+		);
+
+		if ( apply_filters( 'torro_form_container_show_title', true, $this->superior_id, $this->id ) ) {
+			$data['title'] = $this->label;
 		}
 
 		foreach ( $this->elements as $element ) {
 			if ( is_wp_error( $element ) ) {
-				$html .= $element->get_error_message();
+				// element is missing, skip
 				continue;
 			}
 
-			if ( ! isset( $response[ $element->id ] ) ) {
-				$response[ $element->id ] = null;
-			}
-			if ( ! isset( $errors[ $element->id ] ) ) {
-				$errors[ $element->id ] = null;
-			}
-			$html .= $element->get_html( $response[ $element->id ], $errors[ $element->id ] );
+			$element_response = isset( $response[ $element->id ] ) ? $response[ $element->id ] : null;
+			$element_errors = isset( $errors[ $element->id ] ) ? $errors[ $element->id ] : null;
+
+			$data['elements'][] = $element->to_json( $element_response, $element_errors );
 		}
 
-		return $html;
+		return $data;
 	}
 
 	public function move( $form_id ) {

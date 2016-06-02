@@ -34,58 +34,32 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 		$this->input_answers = true;
 	}
 
-	protected function get_input_html( $element ) {
-		$star_required = '';
-		$aria_required = '';
-		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
-			$star_required = ' <span class="required">*</span>';
-			$aria_required = ' aria-required="true"';
-		}
+	/**
+	 * Prepares data to render the element type HTML output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Torro_Element $element
+	 *
+	 * @return array
+	 */
+	public function to_json( $element ) {
+		$data = parent::to_json( $element );
 
-		$html  = '<fieldset' . $aria_required . ' role="group">';
-		$html .= '<legend>' . esc_html( $element->label ) . $star_required . '</legend>';
-
-		$i = 0;
-		foreach ( $element->answers as $answer ) {
-			$checked = '';
-			if ( is_array( $element->response ) && in_array( $answer->answer, $element->response, true ) ) {
-				$checked = ' checked="checked"';
+		$data['limits_text'] = '';
+		if ( ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) && ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
+			if ( $element->settings['min_answers']->value === $element->settings['max_answers']->value ) {
+				$data['limits_text'] = sprintf( _n( 'You must select %s answer.', 'You must select %s answers.', $element->settings['max_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['max_answers']->value ) );
+			} else {
+				$data['limits_text'] = sprintf( __( 'You must select between %1$s and %2$s answers.', 'torro-forms' ), number_format_i18n( $element->settings['min_answers']->value ), number_format_i18n( $element->settings['max_answers']->value ) );
 			}
-
-			$html .= '<div class="torro_element_checkbox"><input id="' . $this->get_input_id( $element ) .'_' . $i . '" type="checkbox" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors" name="' . $this->get_input_name( $element ) . '[]" value="' . esc_attr( $answer->answer ) . '" ' . $checked . ' /> <label for="' . $this->get_input_id( $element ) .'_' . $i . '">' . esc_html( $answer->answer ) . '</label></div>';
-			$i++;
+		} elseif ( ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) ) {
+			$data['limits_text'] = sprintf( _n( 'You must select at least %s answer.', 'You must select at least %s answers.', $element->settings['min_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['min_answers']->value ) );
+		} elseif ( ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
+			$data['limits_text'] = sprintf( _n( 'You must select not more than %s answer.', 'You must select not more than %s answers.', $element->settings['max_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['max_answers']->value ) );
 		}
 
-		if ( ! empty( $element->settings['description'] ) || ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) || ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
-			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
-			$description = array();
-			if ( ! empty( $element->settings['description'] ) ) {
-				$description[] = esc_html( $element->settings[ 'description' ]->value );
-			}
-			if ( ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) && ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
-				if ( $element->settings['min_answers']->value === $element->settings['max_answers']->value ) {
-					$description[] = sprintf( _n( 'You must select %s answer.', 'You must select %s answers.', $element->settings['max_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['max_answers']->value ) );
-				} else {
-					$description[] = sprintf( __( 'You must select between %1$s and %2$s answers.', 'torro-forms' ), number_format_i18n( $element->settings['min_answers']->value ), number_format_i18n( $element->settings['max_answers']->value ) );
-				}
-			} elseif ( ! empty( $element->settings['min_answers'] ) && ! empty( $element->settings['min_answers']->value ) ) {
-				$description[] = sprintf( _n( 'You must select at least %s answer.', 'You must select at least %s answers.', $element->settings['min_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['min_answers']->value ) );
-			} elseif ( ! empty( $element->settings['max_answers'] ) && ! empty( $element->settings['max_answers']->value ) ) {
-				$description[] = sprintf( _n( 'You must select not more than %s answer.', 'You must select not more than %s answers.', $element->settings['max_answers']->value, 'torro-forms' ), number_format_i18n( $element->settings['max_answers']->value ) );
-			}
-			$html .= implode( ' ', $description );
-			$html .= '</div>';
-		}
-
-		if ( ! empty( $element->settings['description']->value ) ) {
-			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
-			$html .= esc_html( $element->settings['description']->value );
-			$html .= '</div>';
-		}
-
-		$html .= '</fieldset>';
-
-		return $html;
+		return $data;
 	}
 
 	public function settings_fields() {

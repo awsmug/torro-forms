@@ -31,40 +31,29 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 	}
 
 	/**
-	 * HTML of textara on front page
+	 * Prepares data to render the element type HTML output.
 	 *
-	 * @return string $html
 	 * @since 1.0.0
+	 *
+	 * @param Torro_Element $element
+	 *
+	 * @return array
 	 */
-	protected function get_input_html( $element ) {
-		$star_required = '';
-		$aria_required = '';
-		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
-			$star_required = ' <span class="required">*</span>';
-			$aria_required = ' aria-required="true"';
+	public function to_json( $element ) {
+		$data = parent::to_json( $element );
+
+		$data['limits_text'] = '';
+		if ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) && ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
+			$data['limits_text'] = sprintf( __( 'Between %1$s and %2$s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ), number_format_i18n( $element->settings['max_length']->value ) );
+		} elseif ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) ) {
+			$data['limits_text'] = sprintf( __( 'At least %s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ) );
+		} elseif ( ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
+			$data['limits_text'] = sprintf( __( 'A maximum of %s characters are allowed.', 'torro-forms' ), number_format_i18n( $element->settings['max_length']->value ) );
 		}
 
-		$html  = '<label for="' . $this->get_input_id( $element ) . '">' . esc_html( $element->label ) . $star_required . '</label>';
-		$html .= '<textarea id="' . $this->get_input_id( $element ) . '" aria-describedby="' . $this->get_input_id( $element ) . '_description ' . $this->get_input_id( $element ) . '_errors" name="' . $this->get_input_name( $element ) . '" maxlength="' . $element->settings[ 'max_length' ]->value . '" rows="' . $element->settings[ 'rows' ]->value . '" cols="' . $element->settings[ 'cols' ]->value . '"' . $aria_required . '>' . esc_html( $element->response ) . '</textarea>';
+		$data['extra_attr'] = ' maxlength="' . $element->settings['max_length']->value . '" rows="' . $element->settings['rows']->value . '" cols="' . $element->settings['cols']->value . '"';
 
-		if ( ! empty( $element->settings['description'] ) || ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) || ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
-			$html .= '<div id="' . $this->get_input_id( $element ) . '_description" class="element-description">';
-			$description = array();
-			if ( ! empty( $element->settings['description'] ) ) {
-				$description[] = esc_html( $element->settings[ 'description' ]->value );
-			}
-			if ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) && ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
-				$description[] = sprintf( __( 'Between %1$s and %2$s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ), number_format_i18n( $element->settings['max_length']->value ) );
-			} elseif ( ! empty( $element->settings['min_length'] ) && ! empty( $element->settings['min_length']->value ) ) {
-				$description[] = sprintf( __( 'At least %s characters are required.', 'torro-forms' ), number_format_i18n( $element->settings['min_length']->value ) );
-			} elseif ( ! empty( $element->settings['max_length'] ) && ! empty( $element->settings['max_length']->value ) ) {
-				$description[] = sprintf( __( 'A maximum of %s characters are allowed.', 'torro-forms' ), number_format_i18n( $element->settings['max_length']->value ) );
-			}
-			$html .= implode( ' ', $description );
-			$html .= '</div>';
-		}
-
-		return $html;
+		return $data;
 	}
 
 	/**

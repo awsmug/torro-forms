@@ -92,46 +92,74 @@ abstract class Torro_Element_Type extends Torro_Base {
 	}
 
 	/**
-	 * Drawing Element on frontend
+	 * Renders and returns the element type HTML output.
 	 *
-	 * @return string $html Element HTML
 	 * @since 1.0.0
+	 *
+	 * @param Torro_Element $element
+	 *
+	 * @return string
 	 */
 	public function get_html( $element ) {
-		$element_classes = array( 'torro-element', 'torro-element-' . $element->id );
-		$element_classes = apply_filters( 'torro_element_classes', $element_classes, $element );
-
-		if ( is_array( $element->errors ) && 0 < count( $element->errors ) ) {
-			$element_classes[] = 'error';
+		if ( ! $this->input ) {
+			return '';
 		}
-
-		$html = '<div class="' . esc_attr( implode( ' ', $element_classes ) ) . '">';
 
 		ob_start();
-		do_action( 'torro_element_start', $element->id );
-		$html .= ob_get_clean();
+		torro()->template( 'element-type', $this->to_json( $element ) );
+		return ob_get_clean();
+	}
 
-		if ( 0 === count( $element->answers ) && true === $this->input_answers ) {
-			$html .= '<p>' . esc_html__( 'You did not enter any answers. Please add some to display answers here.', 'torro-forms' ) . '</p>';
-		} else {
-			$html .= $this->get_input_html( $element );
+	/**
+	 * Prepares data to render the element type HTML output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Torro_Element $element
+	 *
+	 * @return array
+	 */
+	public function to_json( $element ) {
+		$input_classes = array( 'torro-form-input' );
+		$input_classes = apply_filters( 'torro_input_classes', $input_classes, $this );
+
+		$data = array(
+			'template_suffix'	=> $this->name,
+			'type'				=> 'text',
+			'id'				=> $this->get_input_id( $element ),
+			'name'				=> $this->get_input_name( $element ),
+			'classes'			=> $input_classes,
+			'description'		=> '',
+			'required'			=> false,
+			'answers'			=> array(),
+			'response'			=> $element->response,
+			'extra_attr'		=> '',
+		);
+
+		if ( isset( $element->settings['description'] ) && ! empty( $element->settings['description']->value ) ) {
+			$data['description'] = $element->settings['description']->value;
 		}
 
-		if ( is_array( $element->errors ) && 0 < count( $element->errors ) ) {
-			$html .= '<ul id="' . $this->get_input_id( $element ) . '_errors" class="error-messages">';
-			foreach ( $element->errors as $error ) {
-				$html .= '<li>' . $error . '</li>';
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
+			$data['required'] = true;
+		}
+
+		if ( $this->input_answers && 0 < count( $element->answers ) ) {
+			foreach ( $element->answers as $answer ) {
+				if ( is_wp_error( $answer ) ) {
+					// element answer is missing, skip
+					continue;
+				}
+
+				$data['answers'][] = array(
+					'answer_id'		=> $answer->id,
+					'label'			=> $answer->answer,
+					'value'			=> $answer->answer,
+				);
 			}
-			$html .= '</ul>';
 		}
 
-		ob_start();
-		do_action( 'torro_element_end', $element->id );
-		$html .= ob_get_clean();
-
-		$html .= '</div>';
-
-		return $html;
+		return $data;
 	}
 
 	/**
