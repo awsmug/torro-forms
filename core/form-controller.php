@@ -293,7 +293,6 @@ class Torro_Form_Controller {
 			 * Initializing a fresh form
 			 */
 			$this->cache->reset();
-			$this->content = $this->form->get_html( $action_url );
 		} elseif ( isset( $_POST['torro_submission_back'] ) ) {
 			/**
 			 * Going back
@@ -318,7 +317,8 @@ class Torro_Form_Controller {
 			if( isset( $cached_response['containers'][ $prev_container_id ]['elements'] ) ) {
 				$form_response = $cached_response['containers'][ $prev_container_id ]['elements'];
 			}
-			$this->content = $this->form->get_html( $action_url, $prev_container_id, $form_response );
+
+			$this->response = $form_response;
 		} else {
 			/**
 			 * Yes we have a submit!
@@ -421,8 +421,6 @@ class Torro_Form_Controller {
 
 				do_action( 'torro_submission_has_errors', $form_errors );
 			}
-
-			$this->content = $this->form->get_html( $action_url, $this->container_id, $form_response, $form_errors );
 		}
 	}
 
@@ -462,6 +460,8 @@ class Torro_Form_Controller {
 
 		if ( is_wp_error( $this->content ) ) {
 			return $this->content->get_error_message();
+		} elseif ( ! $this->content ) {
+			$this->content = $this->form->get_html( $_SERVER['REQUEST_URI'], $this->container_id, $this->response, $this->errors );
 		}
 
 		remove_filter( 'the_content', array( $this, 'filter_the_content' ) ); // only show once
