@@ -298,9 +298,10 @@ class Torro_Form_Controller {
 			 * Going back
 			 */
 			$response = wp_unslash( $_POST['torro_response'] );
-			$this->container_id = $response['container_id'];
 
+			$this->container_id = $response['container_id'];
 			$this->form->set_current_container( $this->container_id );
+
 			$prev_container_id = $this->form->get_previous_container_id();
 
 			if ( is_wp_error( $prev_container_id ) ) {
@@ -310,6 +311,9 @@ class Torro_Form_Controller {
 					return;
 				}
 			}
+
+			$this->form->set_current_container( $prev_container_id );
+			$this->container_id = $prev_container_id;
 
 			$form_response = array();
 			$cached_response = $this->cache->get_response();
@@ -332,6 +336,7 @@ class Torro_Form_Controller {
 			}
 
 			$response = wp_unslash( $_POST['torro_response'] );
+
 			$this->container_id = absint( $response['container_id'] );
 			$this->form->set_current_container( $this->container_id );
 
@@ -414,12 +419,11 @@ class Torro_Form_Controller {
 			}
 			$this->response = $form_response;
 
-			$form_errors = array();
-			if( isset( $errors[ $this->container_id ][ 'elements' ] )) {
-				$form_errors = $errors[ $this->container_id ][ 'elements' ];
-				$this->errors = $form_errors;
+			$this->errors = array();
+			if( isset( $errors[ $this->container_id ]['elements'] )) {
+				$this->errors = $errors[ $this->container_id ]['elements'];
 
-				do_action( 'torro_submission_has_errors', $form_errors );
+				do_action( 'torro_submission_has_errors', $this->errors );
 			}
 		}
 	}
