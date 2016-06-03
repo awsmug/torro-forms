@@ -3,7 +3,7 @@
  * PHP bridges to older version of PHP which can be replaced if minimum requirements gettig higher
  *
  * @package TorroForms
- * @version 1.0.0-beta.3
+ * @version 1.0.0-beta.4
  * @since   1.0.0-beta.4
  */
 

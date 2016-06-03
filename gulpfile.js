@@ -74,7 +74,7 @@ var bower = require( 'bower' );
 
 var paths = {
 	php: {
-		files: [ './*.php', './components/**/*.php', './core/**/*.php', './includes/**/*.php' ]
+		files: [ './*.php', './components/**/*.php', './core/**/*.php', './includes/**/*.php', './templates/**/*.php' ]
 	},
 	sass: {
 		files: [ './assets/src/sass/**/*.scss' ],

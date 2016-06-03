@@ -6,7 +6,7 @@
  *
  * @package TorroForms
  * @subpackage Includes
- * @version 1.0.0-beta.3
+ * @version 1.0.0-beta.4
  * @since 1.0.0-beta.4
  */
 
