@@ -530,30 +530,33 @@ final class Torro {
 	private function locate_template( $template_names, $load = false, $require_once = true, $data = null, $_extension_path = null ) {
 		$located = '';
 
+		$template_locations = array(
+			1	=> STYLESHEETPATH . '/torro_templates/',
+			100	=> $this->get_path( 'templates/' ),
+		);
+
+		if ( STYLESHEETPATH !== TEMPLATEPATH ) {
+			$template_locations[2] = TEMPLATEPATH . '/torro_templates/';
+		}
+
+		if ( $_extension_path ) {
+			$template_locations[80] = trailingslashit( $_extension_path ) . 'templates/';
+		}
+
+		$template_locations = apply_filters( 'torro_template_locations', $template_locations );
+
+		ksort( $template_locations, SORT_NUMERIC );
+
 		foreach ( ( array ) $template_names as $template_name ) {
 			if ( ! $template_name ) {
 				continue;
 			}
 
-			if ( file_exists( STYLESHEETPATH . '/torro_templates/' . $template_name ) ) {
-				$located = STYLESHEETPATH . '/torro_templates/' . $template_name;
-				break;
-			}
-
-			if ( file_exists( TEMPLATEPATH . '/torro_templates/' . $template_name ) ) {
-				$located = TEMPLATEPATH . '/torro_templates/' . $template_name;
-				break;
-			}
-
-			if ( $_extension_path && file_exists( trailingslashit( $_extension_path ) . 'templates/' . $template_name ) ) {
-				$located = trailingslashit( $_extension_path ) . 'templates/' . $template_name;
-				break;
-			}
-
-			$file = $this->get_path( 'templates/' . $template_name );
-			if ( file_exists( $file ) ) {
-				$located = $file;
-				break;
+			foreach ( $template_locations as $template_location ) {
+				if ( file_exists( trailingslashit( $template_location ) . $template_name ) ) {
+					$located = trailingslashit( $template_location ) . $template_name;
+					break;
+				}
 			}
 		}
 
