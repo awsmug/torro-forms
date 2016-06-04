@@ -171,15 +171,15 @@ class Torro_Init {
 		require_once( $core_folder . 'settings/base-settings/general.php' );
 		require_once( $core_folder . 'settings/base-settings/extensions.php' );
 
-		// Base elements
-		require_once( $core_folder . 'elements/base-elements/content.php' );
-		require_once( $core_folder . 'elements/base-elements/textfield.php' );
-		require_once( $core_folder . 'elements/base-elements/textarea.php' );
-		require_once( $core_folder . 'elements/base-elements/onechoice.php' );
-		require_once( $core_folder . 'elements/base-elements/multiplechoice.php' );
-		require_once( $core_folder . 'elements/base-elements/dropdown.php' );
-		require_once( $core_folder . 'elements/base-elements/media.php' );
-		require_once( $core_folder . 'elements/base-elements/separator.php' );
+		// Base element types
+		require_once( $core_folder . 'element-types/base-element-types/content.php' );
+		require_once( $core_folder . 'element-types/base-element-types/textfield.php' );
+		require_once( $core_folder . 'element-types/base-element-types/textarea.php' );
+		require_once( $core_folder . 'element-types/base-element-types/onechoice.php' );
+		require_once( $core_folder . 'element-types/base-element-types/multiplechoice.php' );
+		require_once( $core_folder . 'element-types/base-element-types/dropdown.php' );
+		require_once( $core_folder . 'element-types/base-element-types/media.php' );
+		require_once( $core_folder . 'element-types/base-element-types/separator.php' );
 
 		// Template tags
 		require_once( $core_folder . 'templatetags/base-templatetags/global.php' );

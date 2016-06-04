@@ -83,13 +83,13 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 				'title'			=> __( 'Minimum length', 'torro-forms' ),
 				'type'			=> 'text',
 				'description'	=> __( 'Minimum number of chars which have to be typed in.', 'torro-forms' ),
-				'default'		=> '0'
+				'default'		=> ''
 			),
 			'max_length'	=> array(
 				'title'			=> __( 'Maximum length', 'torro-forms' ),
 				'type'			=> 'text',
 				'description'	=> __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
-				'default'		=> '1000'
+				'default'		=> ''
 			),
 			'rows'			=> array(
 				'title'			=> __( 'Rows', 'torro-forms' ),

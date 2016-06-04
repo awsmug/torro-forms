@@ -91,13 +91,13 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 				'title'			=> __( 'Minimum length', 'torro-forms' ),
 				'type'			=> 'text',
 				'description'	=> __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
-				'default'		=> '0'
+				'default'		=> ''
 			),
 			'max_length'	=> array(
 				'title'			=> __( 'Maximum length', 'torro-forms' ),
 				'type'			=> 'text',
 				'description'	=> __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
-				'default'		=> '100'
+				'default'		=> ''
 			),
 			'input_type'	=> array(
 				'title'			=> __( 'Input type', 'torro-forms' ),

@@ -84,13 +84,13 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 				'title'			=> __( 'Minimum Answers', 'torro-forms' ),
 				'type'			=> 'text',
 				'description'	=> __( 'The minimum number of answers which have to be choosed.', 'torro-forms' ),
-				'default'		=> '1'
+				'default'		=> ''
 			),
 			'max_answers'	=> array(
 				'title'			=> __( 'Maximum Answers', 'torro-forms' ),
 				'type'			=> 'text',
 				'description'	=> __( 'The maximum number of answers which can be choosed.', 'torro-forms' ),
-				'default'		=> '3'
+				'default'		=> ''
 			),
 		);
 	}
