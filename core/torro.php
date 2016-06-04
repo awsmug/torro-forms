@@ -555,7 +555,7 @@ final class Torro {
 			foreach ( $template_locations as $template_location ) {
 				if ( file_exists( trailingslashit( $template_location ) . $template_name ) ) {
 					$located = trailingslashit( $template_location ) . $template_name;
-					break;
+					break 2;
 				}
 			}
 		}
