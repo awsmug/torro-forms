@@ -222,10 +222,14 @@ class Torro_Form extends Torro_Instance_Base {
 			);
 		}
 
+		$form_classes = array( 'torro-form' );
+		$form_classes = apply_filters( 'torro_form_classes', $form_classes, $this );
+
 		$data = array(
 			'form_id'			=> $this->id,
 			'title'				=> get_the_title( $this->id ),
 			'action_url'		=> $form_action_url,
+			'classes'			=> $form_classes,
 			'hidden_fields'		=> $hidden_fields,
 			'current_container'	=> $container->to_json( $response, $errors ),
 			'navigation'		=> $navigation,

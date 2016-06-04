@@ -2,7 +2,7 @@
 /**
  * Template: form.php
  *
- * Available data: $form_id, $title, $action_url, $hidden_fields, $current_container, $navigation
+ * Available data: $form_id, $title, $action_url, $classes, $hidden_fields, $current_container, $navigation
  *
  * @package TorroForms
  * @subpackage Includes
@@ -10,7 +10,7 @@
  * @since 1.0.0-beta.4
  */
 ?>
-<form id="torro-form-<?php echo $form_id; ?>" class="torro-form" action="<?php echo esc_url( $action_url ); ?>" method="POST" method="post" enctype="multipart/form-data" novalidate>
+<form id="torro-form-<?php echo $form_id; ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" action="<?php echo esc_url( $action_url ); ?>" method="post" enctype="multipart/form-data" novalidate>
 	<?php echo $hidden_fields; ?>
 
 	<?php torro()->template( 'container', $current_container ); ?>

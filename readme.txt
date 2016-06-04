@@ -82,6 +82,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 = 1.0.0-beta.4 =
 * Added a template hierarchy for all frontend visuals
 * Added a new filter `torro_template_locations`
+* Added new filters `torro_form_classes`, `torro_element_classes`, `torro_input_classes`
 * Elements and their types are now separate models
 * Reworked Form Settings CSS
 * Fixed problems with functions not existing in PHP 5.2
