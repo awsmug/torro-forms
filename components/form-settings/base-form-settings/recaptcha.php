@@ -398,16 +398,14 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 			$theme = 'light';
 		}
 
-		?>
-		<div class="torro-element">
-			<div id="recaptcha-placeholder-<?php echo $form_id; ?>" class="recaptcha-placeholder" data-form-id="<?php echo $form_id; ?>" data-type="<?php echo $type; ?>" data-size="<?php echo $size; ?>" data-theme="<?php echo $theme; ?>" style="margin-bottom:20px;"></div>
-			<?php if ( ! empty( $error ) ) : ?>
-				<ul class="error-messages">
-					<li><?php echo $error; ?></li>
-				</ul>
-			<?php endif; ?>
-		</div>
-		<?php
+		torro()->template( 'recaptcha', array(
+			'id'		=> 'recaptcha-placeholder-' . $form_id,
+			'form_id'	=> $form_id,
+			'type'		=> $type,
+			'size'		=> $size,
+			'theme'		=> $theme,
+			'error'		=> $error,
+		) );
 	}
 }
 
