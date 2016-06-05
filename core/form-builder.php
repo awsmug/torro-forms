@@ -190,12 +190,11 @@ class Torro_Formbuilder {
 	 * General Form options
 	 */
 	public static function meta_box_options() {
-		$html = '<div class="notices misc-pub-section">';
-		$html .= '</div>';
+		global $post;
 
-		ob_start();
-		do_action( 'torro_formbuilder_options' );
-		$html .= ob_get_clean();
+		$html = '<div class="misc-pub-section form-shortcode">';
+		$html .= torro_clipboard_field( __( 'Form Shortcode', 'torro-forms' ), '[form id=' . $post->ID . ']' );
+		$html .= '</div>';
 
 		$html .= '<div class="section general-settings">';
 		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Duplicate Form', 'torro-forms' ) . '" />';

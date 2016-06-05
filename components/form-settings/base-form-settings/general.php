@@ -145,10 +145,10 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$html .= '<div class="flex-options" role="group">';
 		$html .= '<label for="show_page_title">' . esc_html__( 'Show Page Title', 'torro-forms' ) . '</label>';
 		$html .= '<div><input type="checkbox" id="show_page_title" name="show_page_title" value="yes" aria-describedby="show-page-title-desc" ' . $show_page_title_checked . ' />';
-		$html .= '<div id="show-page-title-desc">' . esc_attr__( 'Show title of page (e.g. Page 1) on top of the form.', 'torro-forms' ) .'</div></div>';
+		$html .= '<div id="show-page-title-desc">' . esc_html__( 'Show title of page (e.g. Page 1) on top of the form.', 'torro-forms' ) .'</div></div>';
 		$html .= '</div>';
 
-		$html .= '<h4>' . esc_html__( 'Button labels', 'torro-forms' ) . '</h4>';
+		$html .= '<h4>' . esc_html__( 'Button Labels', 'torro-forms' ) . '</h4>';
 
 		$html .= '<div class="flex-options" role="group">';
 		$html .= '<label for="previous_button_text">' . esc_html__( 'Previous', 'torro-forms' ) . '</label>';
@@ -164,6 +164,10 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$html .= '<label for="send_button_text">' . esc_html__( 'Send', 'torro-forms' ) . '</label>';
 		$html .= '<div><input type="text" id="send_button_text" name="send_button_text" value="' . $send_button_text . '" placeholder="' . esc_attr__( 'e.g. Send', 'torro-forms' ) . '" /></div>';
 		$html .= '</div>';
+
+		ob_start();
+		do_action( 'torro_formbuilder_options' );
+		$html .= ob_get_clean();
 
 		$html .= '</div>';
 

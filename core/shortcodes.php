@@ -28,8 +28,6 @@ class Torro_ShortCodes {
 	 */
 	public static function init() {
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
-
-		add_action( 'torro_formbuilder_options', array( __CLASS__, 'show_form_shortcode' ), 15 );
 	}
 
 	public static function form( $atts ) {
@@ -77,20 +75,6 @@ class Torro_ShortCodes {
 		}
 
 		return $html;
-	}
-
-	public static function show_form_shortcode() {
-		global $post;
-
-		if ( ! torro()->is_formbuilder() ) {
-			return;
-		}
-
-		$html = '<div class="misc-pub-section form-options">';
-		$html .= torro_clipboard_field( __( 'Form Shortcode', 'torro-forms' ), '[form id=' . $post->ID . ']' );
-		$html .= '</div>';
-
-		echo $html;
 	}
 }
 
