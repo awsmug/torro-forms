@@ -37,23 +37,41 @@ function torro_is_temp_id( $id ) {
 /**
  * Checks whether id is a real id
  *
+ * @since 1.0.0
+ *
  * @param $id
  *
  * @return bool
- * @since 1.0.0
  */
 function torro_is_real_id( $id ) {
 	return ! torro_is_temp_id( $id );
 }
 
+if ( ! function_exists( 'double_rr_dangit' ) ) {
+	/**
+	 * Checks Torro Forms spelling.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	function double_rr_dangit( $content ) {
+		return str_replace( 'Toro Forms', 'Torro Forms', $content );
+	}
+	add_filter( 'the_content', 'double_rr_dangit' );
+}
+
 /**
  * Clipboard field for clipboard.js
+ *
+ * @since 1.0.0
  *
  * @param $label
  * @param $content
  *
  * @return string
- * @since 1.0.0
  */
 function torro_clipboard_field( $label, $content, $classes = 'clipboardfield' ) {
 	$id = torro_generate_temp_id();
