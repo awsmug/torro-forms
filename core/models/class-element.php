@@ -161,9 +161,14 @@ class Torro_Element extends Torro_Instance_Base {
 			'id'				=> 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id,
 			'classes'			=> $element_classes,
 			'errors'			=> $this->errors,
+			'description'		=> '',
 			'required'			=> false,
 			'type'				=> $this->type_obj->to_json( $this ),
 		);
+
+		if ( isset( $element->settings['description'] ) && ! empty( $element->settings['description']->value ) ) {
+			$data['description'] = $element->settings['description']->value;
+		}
 
 		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
 			$data['required'] = true;

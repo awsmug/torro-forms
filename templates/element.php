@@ -2,7 +2,7 @@
 /**
  * Template: element.php
  *
- * Available data: $element_id, $label, $id, $classes, $errors, $required, $type
+ * Available data: $element_id, $label, $id, $classes, $errors, $description, $required, $type
  *
  * @package TorroForms
  * @subpackage Includes

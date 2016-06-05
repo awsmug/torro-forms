@@ -2,7 +2,7 @@
 /**
  * Template: element-onechoice.php
  *
- * Available data: $element_id, $label, $id, $classes, $errors, $required, $type
+ * Available data: $element_id, $label, $id, $classes, $errors, $description, $required, $type
  *
  * @package TorroForms
  * @subpackage Includes
@@ -25,6 +25,12 @@ $aria_required = $required ? ' aria-required="true"' : '';
 
 		<div>
 			<?php torro()->template( 'element-type', $type ); ?>
+
+			<?php if ( ! empty( $description ) ) : ?>
+				<div id="<?php echo esc_attr( $id ); ?>-description" class="element-description">
+					<?php echo $description; ?>
+				</div>
+			<?php endif; ?>
 
 			<?php if ( 0 < count( $errors ) ) : ?>
 				<ul id="<?php echo esc_attr( $id ); ?>-errors" class="error-messages">
