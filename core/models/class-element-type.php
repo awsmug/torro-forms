@@ -125,6 +125,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 
 		$data = array(
 			'template_suffix'	=> $this->name,
+			'element_id'		=> $element->id,
 			'type'				=> 'text',
 			'id'				=> $this->get_input_id( $element ),
 			'name'				=> $this->get_input_name( $element ),

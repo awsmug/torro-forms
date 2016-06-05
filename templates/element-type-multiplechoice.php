@@ -2,7 +2,7 @@
 /**
  * Template: element-type-multiplechoice.php
  *
- * Available data: $type, $id, $name, $classes, $description, $required, $answers, $response, $extra_attr, $limits_text
+ * Available data: $element_id, $type, $id, $name, $classes, $description, $required, $answers, $response, $extra_attr, $limits_text
  *
  * @package TorroForms
  * @subpackage Includes
