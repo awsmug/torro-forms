@@ -5,7 +5,7 @@
  * Available data: $container_id, $title, $hidden_fields, $elements
  *
  * @package TorroForms
- * @subpackage Includes
+ * @subpackage Templates
  * @version 1.0.0-beta.4
  * @since 1.0.0-beta.4
  */

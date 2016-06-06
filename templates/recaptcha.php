@@ -5,7 +5,7 @@
  * Available data: $id, $form_id, $type, $size, $theme, $error
  *
  * @package TorroForms
- * @subpackage Includes
+ * @subpackage Templates
  * @version 1.0.0-beta.4
  * @since 1.0.0-beta.5
  */
