@@ -35,7 +35,7 @@ class Torro_Formbuilder {
 		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ), 20 );
 		add_action( 'post_submitbox_minor_actions', array( __CLASS__, 'duplicate_button' ), 100, 1 );
 		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'form_shortcode' ), 100, 1 );
-		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 10 );
+		add_action( 'add_meta_boxes_torro_form', array( __CLASS__, 'meta_boxes' ), 10, 1 );
 
 		add_action( 'save_post', array( __CLASS__, 'save' ) );
 		add_action( 'delete_post', array( __CLASS__, 'delete' ) );
@@ -177,12 +177,8 @@ class Torro_Formbuilder {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function meta_boxes( $post_type ) {
-		$post_types = array( 'torro_form' );
-
-		if ( in_array( $post_type, $post_types, true ) ) {
-			add_meta_box( 'form-elements', __( 'Elements', 'torro-forms' ), array( __CLASS__, 'meta_box_form_elements' ), 'torro_form', 'side', 'high' );
-		}
+	public static function meta_boxes( $post ) {
+		add_meta_box( 'form-elements', __( 'Elements', 'torro-forms' ), array( __CLASS__, 'meta_box_form_elements' ), 'torro_form', 'side', 'high' );
 	}
 
 	/**
