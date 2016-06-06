@@ -33,6 +33,8 @@ class Torro_Formbuilder {
 		}
 
 		add_action( 'edit_form_after_title', array( __CLASS__, 'droppable_area' ), 20 );
+		add_action( 'post_submitbox_minor_actions', array( __CLASS__, 'duplicate_button' ), 100, 1 );
+		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'form_shortcode' ), 100, 1 );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'meta_boxes' ), 10 );
 
 		add_action( 'save_post', array( __CLASS__, 'save' ) );
@@ -145,6 +147,29 @@ class Torro_Formbuilder {
 		echo $html;
 	}
 
+	public static function duplicate_button( $post ) {
+		if ( 'torro_form' !== $post->post_type ) {
+			return;
+		}
+
+		?>
+		<input type="button" id="form-duplicate-button" name="form-duplicate" class="form-duplicate-button button" value="<?php _e( 'Duplicate Form', 'torro-forms' ); ?>" />
+		<div class="form-duplicate-notices" style="display:none;"></div>
+		<?php
+	}
+
+	public static function form_shortcode( $post ) {
+		if ( 'torro_form' !== $post->post_type ) {
+			return;
+		}
+
+		?>
+		<div class="misc-pub-section form-shortcode">
+			<?php echo torro_clipboard_field( __( 'Form Shortcode', 'torro-forms' ), '[form id="' . $post->ID . '"]' ); ?>
+		</div>
+		<?php
+	}
+
 	/**
 	 * Adding meta boxes
 	 *
@@ -156,14 +181,7 @@ class Torro_Formbuilder {
 		$post_types = array( 'torro_form' );
 
 		if ( in_array( $post_type, $post_types, true ) ) {
-			add_meta_box( 'form-elements', __( 'Elements', 'torro-forms' ), array(
-				__CLASS__,
-				'meta_box_form_elements'
-			), 'torro_form', 'side', 'high' );
-			add_meta_box( 'form-options', __( 'Options', 'torro-forms' ), array(
-				__CLASS__,
-				'meta_box_options'
-			), 'torro_form', 'side', 'high' );
+			add_meta_box( 'form-elements', __( 'Elements', 'torro-forms' ), array( __CLASS__, 'meta_box_form_elements' ), 'torro_form', 'side', 'high' );
 		}
 	}
 
@@ -182,23 +200,6 @@ class Torro_Formbuilder {
 		foreach ( $element_types as $element_type ) {
 			$html .= $element_type->get_admin_html( $dummy_element );
 		}
-
-		echo $html;
-	}
-
-	/**
-	 * General Form options
-	 */
-	public static function meta_box_options() {
-		global $post;
-
-		$html = '<div class="misc-pub-section form-shortcode">';
-		$html .= torro_clipboard_field( __( 'Form Shortcode', 'torro-forms' ), '[form id=' . $post->ID . ']' );
-		$html .= '</div>';
-
-		$html .= '<div class="section general-settings">';
-		$html .= '<input id="form-duplicate-button" name="form-duplicate" type="button" class="button" value="' . esc_attr__( 'Duplicate Form', 'torro-forms' ) . '" />';
-		$html .= '</div>';
 
 		echo $html;
 	}

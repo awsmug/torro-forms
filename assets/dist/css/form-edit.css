@@ -429,6 +429,16 @@
 	text-align: right;
 }
 
+#minor-publishing-actions .button.form-duplicate-button {
+	margin-right: 5px;
+}
+
+#minor-publishing-actions .form-duplicate-notices {
+	display: none;
+	margin: 8px 0;
+	text-align: center;
+}
+
 .tab_settings_content {
 	margin-top: 20px;
 }

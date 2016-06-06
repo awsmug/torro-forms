@@ -749,7 +749,7 @@
 					form_id: self.get_form_id(),
 				}).done( function( response ) {
 					var response_text = self.translations.duplicated_form_successfully + ' <a href="' + response.admin_url + '">' + self.translations.edit_form + '</a>';
-					var $notices = $( '#form-options .notices' );
+					var $notices = $( '.form-duplicate-notices' );
 
 					$notices.html( response_text );
 					$notices.show();

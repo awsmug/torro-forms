@@ -78,7 +78,7 @@ function torro_clipboard_field( $label, $content, $classes = 'clipboardfield' ) 
 
 	$html = '<div class="' . esc_attr( $classes ) . '">';
 	$html .= '<label for="' . $id . '">' . $label . '</label> ';
-	$html .= '<input type="text" id="' . $id . '" value="' . $content . '" />';
+	$html .= '<input type="text" id="' . $id . '" value="' . esc_attr( $content ) . '" />';
 
 	$html .= '<button class="clipboard button" type="button" data-clipboard-target="#' . $id . '">';
 	$html .= '<img src="' . torro()->get_asset_url( 'clippy', 'svg' ) . '" alt=' . esc_attr__( 'Copy to clipboard', 'torro-forms' ) . '" />';
