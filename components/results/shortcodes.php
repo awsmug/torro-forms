@@ -23,7 +23,7 @@ class Torro_ChartsShortCodes {
 		add_shortcode( 'element_chart', array( __CLASS__, 'element_chart' ) );
 
 		add_action( 'torro_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
-		add_action( 'torro_result_charts_postbox_element_top', array( __CLASS__, 'show_element_result_shortcode' ) );
+		// add_action( 'torro_result_charts_postbox_element_top', array( __CLASS__, 'show_element_result_shortcode' ) );
 	}
 
 	/**
