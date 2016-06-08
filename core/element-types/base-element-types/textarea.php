@@ -61,7 +61,7 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 	 *
 	 * @since 1.0.0
 	 */
-	public function settings_fields() {
+	protected function settings_fields() {
 		$this->settings_fields = array(
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
