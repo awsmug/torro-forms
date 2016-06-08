@@ -339,16 +339,6 @@ abstract class Torro_Element_Type extends Torro_Base {
 	}
 
 	/**
-	 * Contains element HTML on frontend - Have to be overwritten by child classes
-	 *
-	 * @return string $html Element frontend HTML
-	 * @since 1.0.0
-	 */
-	protected function get_input_html( $element ) {
-		return '<p>' . esc_html__( 'No HTML for Element given. Please check element sourcecode.', 'torro-forms' ) . '</p>';
-	}
-
-	/**
 	 * Overwriting Admin Content HTML
 	 *
 	 * @return bool|string
