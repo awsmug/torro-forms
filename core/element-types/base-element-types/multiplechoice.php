@@ -99,11 +99,7 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 		$min_answers = $element->settings['min_answers']->value;
 		$max_answers = $element->settings['max_answers']->value;
 
-		$input = (array) $input;
-
-		$input = array_map( 'stripslashes', $input );
-
-		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value && 0 === count( $input ) ) {
+		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value && ( 0 === count( $input ) ||  ! is_array( $input ) ) ) {
 			return new Torro_Error( 'missing_choices', __( 'You did not select any value.', 'torro-forms' ) );
 		}
 

@@ -121,8 +121,6 @@ class Torro_Form_Controller {
 		return $this->container_id;
 	}
 
-
-
 	/**
 	 * Returns the content of the form
 	 *
@@ -275,8 +273,6 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function control() {
-		$action_url = $_SERVER['REQUEST_URI'];
-
 		if ( empty( $this->form_id ) ) {
 			return;
 		}
@@ -458,7 +454,7 @@ class Torro_Form_Controller {
 	private function filter_the_content( $content ) {
 		$post = get_post();
 
-		if ( 'torro_form' !== $post->post_type ) {
+		if ( 'torro_form' !== $post->post_type && ! has_shortcode( $content, 'form' ) ) {
 			return $content;
 		}
 

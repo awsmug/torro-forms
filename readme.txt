@@ -79,6 +79,9 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.0-beta.5 =
+* Fixed if multiple choice is required, there have to be made at least one input.
+
 = 1.0.0-beta.4 =
 * Added a template hierarchy for all frontend visuals
 * Added a new filter `torro_template_locations`

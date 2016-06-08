@@ -52,8 +52,6 @@ class Torro_ShortCodes {
 			return __( 'Form not found. Please enter another ID in your shortcode.', 'torro-forms' );
 		}
 
-
-
 		switch ( $atts[ 'show' ] ) {
 			case 'iframe':
 				$url = get_permalink( $id );
