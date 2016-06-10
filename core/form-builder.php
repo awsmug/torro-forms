@@ -333,7 +333,7 @@ class Torro_Formbuilder {
 
 								$setting_args = array(
 									'name'		=> $setting['name'],
-									'value'		=> $setting['value'],
+									'value'		=> maybe_serialize( $setting['value'] ),
 								);
 
 								$setting_obj = null;
