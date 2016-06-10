@@ -604,11 +604,13 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= '</div>';
 
 				$html .= '<div class="torro-form-fieldset-input">';
-				$html .= '<textarea name="' . $input_name . '">' . esc_html( $value ) . '</textarea>';
+				$html .= '<textarea name="' . $input_name . '">' . esc_html( $value ) . '</textarea><br />';
 				$html .= '<input type="hidden" name="' . $base_name . '[id]" value="' . $id . '">';
 				$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
 				$html .= '<small>' . $field[ 'description' ] . '</small>';
 				$html .= '</div>';
+
+				$html .= '<div class="clear"></div>';
 				break;
 			case 'wp_editor':
 				$html .= '<div class="torro-form-fieldset-title">';
@@ -628,6 +630,8 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
 				$html .= '<small>' . $field[ 'description' ] . '</small>';
 				$html .= '</div>';
+
+				$html .= '<div class="clear"></div>';
 				break;
 			case 'select':
 				$html .= '<div class="torro-form-fieldset-title">';
@@ -651,6 +655,8 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= '<small>' . $field[ 'description' ] . '</small>';
 				$html .= '</div>';
 
+				$html .= '<div class="clear"></div>';
+
 				break;
 			case 'radio':
 				$html .= '<fieldset>';
@@ -658,18 +664,19 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= '<legend>' . $field[ 'title' ] . '</legend>';
 				$html .= '</div>';
 
-				$input = '';
 				foreach ( $field['values'] as $field_key => $field_value ) {
 					$checked = '';
 					if ( $value === $field_key ) {
 						$checked = ' checked="checked"';
 					}
 
-					$input .= '<span class="torro-form-fieldset-input-radio"><input type="radio" id="' . $field_key . '" name="' . $input_name . '" value="' . $field_key . '"' . $checked . ' /> <label for="' . $field_key . '">' . esc_html( $field_value ) . '</label></span>';
+					$html .= '<span class="torro-form-fieldset-input-radio"><input type="radio" id="' . $field_key . '" name="' . $input_name . '" value="' . $field_key . '"' . $checked . ' /> <label for="' . $field_key . '">' . esc_html( $field_value ) . '</label></span>';
 				}
 				$html .= '<input type="hidden" name="' . $base_name . '[id]" value="' . $id . '">';
 				$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
 				$html .= '</fieldset>';
+
+				$html .= '<div class="clear"></div>';
 				break;
 			case 'checkbox':
 				$html .= '<fieldset>';
@@ -694,6 +701,8 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
 
 				$html .= '</fieldset>';
+
+				$html .= '<div class="clear"></div>';
 				break;
 		}
 
