@@ -55,7 +55,7 @@ final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 		return $data;
 	}
 
-	public function settings_fields() {
+	protected function settings_fields() {
 		$this->settings_fields = array(
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),

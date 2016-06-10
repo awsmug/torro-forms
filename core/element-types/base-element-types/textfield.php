@@ -60,7 +60,7 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 		return $data;
 	}
 
-	public function settings_fields() {
+	protected function settings_fields() {
 		$_input_types = $this->get_input_types();
 		$input_types = array();
 		foreach ( $_input_types as $value => $data ) {
