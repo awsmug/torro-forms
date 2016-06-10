@@ -628,6 +628,16 @@ abstract class Torro_Element_Type extends Torro_Base {
 					$input .= '<span class="torro-form-fieldset-input-radio"><input type="radio" name="' . $input_name . '" value="' . $field_key . '"' . $checked . ' /> ' . esc_html( $field_value ) . '</span>';
 				}
 				break;
+			case 'checkbox':
+				$input = '';
+				$checked = '';
+
+				if( 'yes' === $value ){
+					$checked = ' checked="checked"';
+				}
+
+				$input .= '<span class="torro-form-fieldset-input-checkbox"><input type="checkbox" name="' . $input_name . '" value="yes"' . $checked . ' /> ' . esc_attr__( 'Yes', 'torro-forms'  ) . '</span>';
+				break;
 		}
 
 		$html = '<div class="torro-form-fieldset">';
