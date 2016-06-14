@@ -231,7 +231,8 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 				}
 
 				// Counting different kind of Elements
-				if ( $element->answer_array ) {
+				$type = $element->type_obj;
+				if ( $type->answer_array ) {
 					$answer_id = (int) $column_name_arr[ 2 ];
 
 					$value = '';
@@ -253,9 +254,9 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 					}
 				} else {
 					// Setting up all answers to 0 to have also Zero values
-					foreach ( $element->answers as $element_answers ) {
-						if ( ! isset( $results_formatted[ $result_key ][ $element_answers->answer ] ) ) {
-							$results_formatted[ $result_key ][ $element_answers->answer ] = 0;
+					foreach ( $element->answers as $element_answer ) {
+						if ( ! isset( $results_formatted[ $result_key ][ $element_answer->answer ] ) ) {
+							$results_formatted[ $result_key ][ $element_answer->answer ] = 0;
 						}
 					}
 
