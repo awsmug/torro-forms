@@ -188,6 +188,14 @@ class Torro_Form extends Torro_Instance_Base {
 	public function to_json( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
 		$container = $this->set_current_container( $container_id );
 
+		if ( ! $response ) {
+			$cache = new Torro_Form_Controller_Cache( $this->id );
+			$cached_response = $cache->get_response();
+			if ( $cached_response && isset( $cached_response['containers'][ $container->id ]['elements'] ) ) {
+				$response = $cached_response['containers'][ $container->id ]['elements'];
+			}
+		}
+
 		$hidden_fields = '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '">';
 		$hidden_fields .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '">';
 

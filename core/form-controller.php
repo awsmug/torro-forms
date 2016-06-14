@@ -81,10 +81,13 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		add_action( 'parse_request', array( $this, 'wp_request_set_form' ), 100 );
-		add_action( 'parse_request', array( $this, 'control' ), 110 );
+		// needs to happen before headers are sent
+		add_action( 'parse_request', array( 'Torro_Form_Controller_Cache', 'init' ) );
 
-		add_action( 'the_post', array( $this, 'add_filter_the_content' ) );
+		add_action( 'wp', array( $this, 'detect_current_form' ), 10, 1 );
+		add_action( 'wp', array( $this, 'control' ), 11, 0 );
+
+		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
 	}
 
 	/**
@@ -124,10 +127,16 @@ class Torro_Form_Controller {
 	/**
 	 * Returns the content of the form
 	 *
-	 * @return int
+	 * @return string
 	 * @since 1.0.0
 	 */
 	public function get_content() {
+		if ( is_wp_error( $this->content ) ) {
+			return $this->content->get_error_message();
+		} elseif ( ! $this->content ) {
+			$this->content = $this->form->get_html( $_SERVER['REQUEST_URI'], $this->container_id, $this->response, $this->errors );
+		}
+
 		return $this->content;
 	}
 
@@ -159,9 +168,8 @@ class Torro_Form_Controller {
 	 */
 	public function __call( $name, $arguments ) {
 		switch ( $name ) {
-			case 'wp_request_set_form':
+			case 'detect_current_form':
 			case 'control':
-			case 'add_filter_the_content':
 			case 'filter_the_content':
 				return call_user_func_array( array( $this, $name ), $arguments );
 			default:
@@ -170,80 +178,60 @@ class Torro_Form_Controller {
 		}
 	}
 
-	/**
-	 * Processing request and setting up form id
-	 *
-	 * @param array $request
-	 *
-	 * @since 1.0.0
-	 * @return null;
-	 */
-	private function wp_request_set_form( $request ) {
-		// No query vars > We are should be at start page
-		if ( ! isset( $request->query_vars[ 'name' ] ) && ! isset( $request->query_vars[ 'pagename' ] )  && ! isset( $request->query_vars[ 'p' ] ) ) {
-			if( ! isset( $_POST['torro_form_id'] ) )
-				return;
+	private function detect_current_form( &$wp ) {
+		global $wp_query;
 
-			$args['post_type'] = 'torro_form';
-			$args['include'] = $_POST['torro_form_id'];
-		} else {
-			if ( isset( $request->query_vars[ 'post_type' ] ) ) {
-				$args[ 'post_type' ] = $request->query_vars[ 'post_type' ];
-			}
-
-			if ( isset( $request->query_vars[ 'name' ] ) ) {
-				$args[ 'name' ] = $request->query_vars[ 'name' ];
-			}
-
-			if ( isset( $request->query_vars[ 'p' ] ) ) {
-				$args[ 'include' ] = array( $request->query_vars[ 'p' ] );
-			}
-
-			if ( isset( $request->query_vars[ 'pagename' ] ) ) {
-				$args[ 'name' ]      = $request->query_vars[ 'pagename' ];
-				$args[ 'post_type' ] = 'page';
-			}
-		}
-
-		$args[ 'post_status' ] = 'any';
-
-		$posts = get_posts( $args );
-
-		if( ! isset( $posts[ 0 ] ) ){
+		if ( $this->form_id ) {
 			return;
 		}
 
-		$post = $posts[ 0 ];
-
-		if ( ! has_shortcode( $post->post_content, 'form' ) && 'torro_form' !== $post->post_type ) {
+		if ( isset( $_POST['torro_form_id'] ) ) {
+			$this->set_form( $_POST['torro_form_id'] );
 			return;
 		}
 
-		/**
-		 * Getting form ID
-		 */
-		if ( 'torro_form' === $post->post_type ) {
-			// Yes we are on e page which dispays a torro form post type!
-			if ( is_wp_error( $this->set_form( $post->ID ) ) ) {
-				return;
-			}
-		} else {
-			// We are working with shortcodes!
-			$pattern = get_shortcode_regex( array( 'form' ) );
-			preg_match_all( "/$pattern/", $post->post_content, $matches );
-			$short_code_params = $matches[ 3 ];
-			$shortcode_atts    = shortcode_parse_atts( $short_code_params[ 0 ] );
+		if ( $wp_query->is_singular( 'torro_form' ) ) {
+			$this->set_form( $wp_query->get_queried_object_id() );
+			return;
+		}
 
-			if ( ! isset( $shortcode_atts[ 'id' ] ) ) {
-				return;
-			}
-
-			if ( is_wp_error( $this->set_form( $shortcode_atts[ 'id' ] ) ) ) {
+		if ( is_singular() && ( $post = $wp_query->get_queried_object() ) && has_shortcode( $post->post_content, 'form' ) ) {
+			$form_id = $this->detect_current_form_from_shortcode( $post->post_content );
+			if ( $form_id ) {
+				$this->set_form( $form_id );
 				return;
 			}
 		}
 
-		do_action( 'torro_formcontroller_set_form', $this->form_id );
+		if ( is_array( $wp_query->posts ) ) {
+			foreach ( $wp_query->posts as $post ) {
+				if ( 'torro_form' === $post->post_type ) {
+					$this->set_form( $post->ID );
+					return;
+				}
+
+				if ( has_shortcode( $post->post_content, 'form' ) ) {
+					$form_id = $this->detect_current_form_from_shortcode( $post->post_content );
+					if ( $form_id ) {
+						$this->set_form( $form_id );
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	private function detect_current_form_from_shortcode( $content ) {
+		$pattern = get_shortcode_regex( array( 'form' ) );
+		preg_match_all( "/$pattern/", $content, $matches );
+		$short_code_params = $matches[3];
+		$shortcode_atts = shortcode_parse_atts( $short_code_params[0] );
+
+		if ( ! isset( $shortcode_atts['id'] ) ) {
+			return false;
+		}
+
+		return absint( $shortcode_atts['id'] );
 	}
 
 	/**
@@ -255,14 +243,18 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function set_form( $form_id ) {
+		$form_id = absint( $form_id );
+
 		$form = torro()->forms()->get( $form_id );
 		if ( is_wp_error( $form ) ) {
 			return new Torro_Error( 'torro_form_controller_form_not_exist', sprintf( __( 'The form with the id %d does not exist.', 'torro-forms' ), $form_id ) );
 		}
 
 		$this->form_id = $form_id;
-		$this->form    = $form;
+		$this->form = $form;
 		$this->cache = new Torro_Form_Controller_Cache( $this->form_id );
+
+		do_action( 'torro_formcontroller_set_form', $this->form_id );
 
 		return $this->form;
 	}
@@ -277,7 +269,7 @@ class Torro_Form_Controller {
 			return;
 		}
 
-		$torro_form_show = apply_filters( 'torro_form_show', true );
+		$torro_form_show = apply_filters( 'torro_form_show', true, $this->form_id );
 
 		if( true !== $torro_form_show ) {
 			$this->content = $torro_form_show;
@@ -314,7 +306,7 @@ class Torro_Form_Controller {
 			$form_response = array();
 			$cached_response = $this->cache->get_response();
 
-			if( isset( $cached_response['containers'][ $prev_container_id ]['elements'] ) ) {
+			if ( isset( $cached_response['containers'][ $prev_container_id ]['elements'] ) ) {
 				$form_response = $cached_response['containers'][ $prev_container_id ]['elements'];
 			}
 
@@ -410,8 +402,8 @@ class Torro_Form_Controller {
 			$form_response = array();
 			$response = $this->cache->get_response();
 
-			if( isset( $response[ 'containers' ][ $this->container_id ][ 'elements' ] ) ) {
-				$form_response = $response[ 'containers' ][ $this->container_id ][ 'elements' ];
+			if( isset( $response['containers'][ $this->container_id ]['elements'] ) ) {
+				$form_response = $response['containers'][ $this->container_id ]['elements'];
 			}
 			$this->response = $form_response;
 
@@ -435,16 +427,7 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Adding filter for the content to show form
-	 *
-	 * @since 1.0.0
-	 */
-	private function add_filter_the_content() {
-		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
-	}
-
-	/**
-	 * The filtered content gets a Form
+	 * Adds form content to all form posts.
 	 *
 	 * @param string $content
 	 *
@@ -454,19 +437,19 @@ class Torro_Form_Controller {
 	private function filter_the_content( $content ) {
 		$post = get_post();
 
-		if ( 'torro_form' !== $post->post_type && ! has_shortcode( $content, 'form' ) ) {
+		if ( 'torro_form' !== $post->post_type ) {
 			return $content;
 		}
 
-		if ( is_wp_error( $this->content ) ) {
-			return $this->content->get_error_message();
-		} elseif ( ! $this->content ) {
-			$this->content = $this->form->get_html( $_SERVER['REQUEST_URI'], $this->container_id, $this->response, $this->errors );
+		if ( $this->form_id !== $post->ID ) {
+			$form = torro()->forms()->get( $post->ID );
+			if ( is_wp_error( $form ) ) {
+				return __( 'Form not found.', 'torro-forms' );
+			}
+			return $form->get_html( $_SERVER['REQUEST_URI'] );
 		}
 
-		remove_filter( 'the_content', array( $this, 'filter_the_content' ) ); // only show once
-
-		return $this->content;
+		return $this->get_content();
 	}
 }
 

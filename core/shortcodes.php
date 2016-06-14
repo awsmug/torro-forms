@@ -54,20 +54,20 @@ class Torro_ShortCodes {
 
 		switch ( $atts[ 'show' ] ) {
 			case 'iframe':
-				$url = get_permalink( $id );
+				$url = get_permalink( $form->id );
 				$width = $atts['iframe_width'];
 				$height = $atts['iframe_height'];
 
-				$html = '<iframe src="' . $url . '" style="width:' . $width . ';height:' . $height . ';"></iframe>';
+				$html = '<iframe src="' . $url . '" style="width:' . esc_attr( $width ) . ';height:' . esc_attr( $height ) . ';"></iframe>';
 				break;
 			default:
-				$controler = Torro_Form_Controller::instance();
-				$controler_form_id = $controler->get_form_id();
+				$controller = Torro_Form_Controller::instance();
+				$current_form_id = $controller->get_form_id();
 
-				if( ! empty( $controler_form_id ) ) {
-					$html = do_shortcode( $controler->get_content() );
+				if ( ! empty( $current_form_id ) && $form->id === $current_form_id ) {
+					$html = $controller->get_content();
 				} else {
-					$html = do_shortcode( $form->get_html( $_SERVER['REQUEST_URI'] ) );
+					$html = $form->get_html( $_SERVER['REQUEST_URI'] );
 				}
 				break;
 		}

@@ -80,7 +80,11 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.0-beta.5 =
-* Fixed if multiple choice is required, there have to be made at least one input.
+* Enhanced: Now possible to have multiple forms on one page
+* Enhanced: form detection now happens on `wp` hook to prevent an extra query
+* Fixed: Form shortcodes work properly now and do not override content
+* Fixed: if multiple choice is required, make sure at least one input is selected
+* Tweaked: removed unnecessary Options metabox in backend
 
 = 1.0.0-beta.4 =
 * Added a template hierarchy for all frontend visuals

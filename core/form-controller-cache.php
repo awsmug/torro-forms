@@ -27,6 +27,12 @@ class Torro_Form_Controller_Cache {
 	 */
 	private $controller_id = null;
 
+	public static function init() {
+		if ( ! isset( $_SESSION ) ) {
+			session_start();
+		}
+	}
+
 	/**
 	 * Torro_Controller_Cache constructor.
 	 *
@@ -35,10 +41,6 @@ class Torro_Form_Controller_Cache {
 	 */
 	public function __construct( $controller_id ) {
 		$this->controller_id = $controller_id;
-
-		if ( ! isset( $_SESSION ) ) {
-			session_start();
-		}
 	}
 
 	/**
@@ -94,8 +96,8 @@ class Torro_Form_Controller_Cache {
 
 		if( isset( $response[ 'containers' ] ) ) {
 			// Replacing element values because of maybe empty values of checkboxes
-			foreach ( $response[ 'containers' ] AS $container_id => $container ) {
-				foreach ( $container[ 'elements' ] AS $element_id => $element ) {
+			foreach ( $response[ 'containers' ] as $container_id => $container ) {
+				foreach ( $container[ 'elements' ] as $element_id => $element ) {
 					$response_merged[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ] = $response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ];
 				}
 			}
