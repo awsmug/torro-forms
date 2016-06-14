@@ -189,6 +189,7 @@ class Torro_Form extends Torro_Instance_Base {
 		$container = $this->set_current_container( $container_id );
 
 		if ( ! $response ) {
+			// If there's a cached response available, use it.
 			$cache = new Torro_Form_Controller_Cache( $this->id );
 			$cached_response = $cache->get_response();
 			if ( $cached_response && isset( $cached_response['containers'][ $container->id ]['elements'] ) ) {

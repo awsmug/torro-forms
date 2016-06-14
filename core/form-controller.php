@@ -53,6 +53,12 @@ class Torro_Form_Controller {
 	 */
 	private $form_id = null;
 
+	/**
+	 * Current container id
+	 *
+	 * @var int $form_id
+	 * @since 1.0.0
+	 */
 	private $container_id;
 
 	/**
@@ -71,8 +77,20 @@ class Torro_Form_Controller {
 	 */
 	private $is_preview = false;
 
+	/**
+	 * Current form response
+	 *
+	 * @var array $response
+	 * @since 1.0.0
+	 */
 	private $response = array();
 
+	/**
+	 * Current form errors
+	 *
+	 * @var array $errors
+	 * @since 1.0.0
+	 */
 	private $errors = array();
 
 	/**
@@ -81,7 +99,7 @@ class Torro_Form_Controller {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		// needs to happen before headers are sent
+		// This needs to happen before headers are sent.
 		add_action( 'parse_request', array( 'Torro_Form_Controller_Cache', 'init' ) );
 
 		add_action( 'wp', array( $this, 'detect_current_form' ), 10, 1 );
@@ -93,8 +111,9 @@ class Torro_Form_Controller {
 	/**
 	 * Singleton
 	 *
-	 * @return null|Torro_Form_Controller
 	 * @since 1.0.0
+	 *
+	 * @return null|Torro_Form_Controller
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -105,30 +124,33 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Return the current form id
+	 * Returns the current form id.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int
-	 * @since 1.0.0
 	 */
 	public function get_form_id() {
 		return $this->form_id;
 	}
 
 	/**
-	 * Return the current container id
+	 * Returns the current container id.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int
-	 * @since 1.0.0
 	 */
 	public function get_container_id() {
 		return $this->container_id;
 	}
 
 	/**
-	 * Returns the content of the form
+	 * Returns the content of the form.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string
-	 * @since 1.0.0
 	 */
 	public function get_content() {
 		if ( is_wp_error( $this->content ) ) {
@@ -141,29 +163,34 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Getting form response
+	 * Returns the current response for the form.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return array
 	 */
-	public function get_form_response(){
+	public function get_form_response() {
 		return $this->response;
 	}
 
 	/**
-	 * Getting form errors
+	 * Returns current errors for the form.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return array
 	 */
-	public function get_form_errors(){
+	public function get_form_errors() {
 		return $this->errors;
 	}
 
 	/**
-	 * Magic function to hide functions for autocomplete
+	 * Magic function to hide functions for autocomplete.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param $name
 	 * @param $arguments
-	 *
 	 * @return mixed|Torro_Error
 	 */
 	public function __call( $name, $arguments ) {
@@ -178,6 +205,22 @@ class Torro_Form_Controller {
 		}
 	}
 
+	/**
+	 * Detects the current form.
+	 *
+	 * The current form is the form that is currently dealt with.
+	 * Technically it is still possible to have multiple forms on one page.
+	 *
+	 * This method checks for the current form in the following manner:
+	 * 1. Is there an ongoing submission? If yes, use this submission's form id.
+	 * 2. Is this a form post? If yes, use the post id.
+	 * 3. Is this a post with a form shortcode? If yes, use the shortcode's form id.
+	 * 4. Are there multiple posts one of which is either a form or has a form shortcode? If yes, use the first occurrence of either.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP &$wp
+	 */
 	private function detect_current_form( &$wp ) {
 		global $wp_query;
 
@@ -221,6 +264,14 @@ class Torro_Form_Controller {
 		}
 	}
 
+	/**
+	 * Detects the first form id found in a form shortcode in the content.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $content
+	 * @return int
+	 */
 	private function detect_current_form_from_shortcode( $content ) {
 		$pattern = get_shortcode_regex( array( 'form' ) );
 		preg_match_all( "/$pattern/", $content, $matches );
@@ -235,12 +286,12 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Setting form id
+	 * Sets the current form.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int $form_id
-	 *
 	 * @return Torro_Form|Torro_Error
-	 * @since 1.0.0
 	 */
 	private function set_form( $form_id ) {
 		$form_id = absint( $form_id );
@@ -260,7 +311,9 @@ class Torro_Form_Controller {
 	}
 
 	/**
-	 * Setting up further vars by considering post variables
+	 * Handles the form content for the current form.
+	 *
+	 * Processes all kinds of submissions.
 	 *
 	 * @since 1.0.0
 	 */
