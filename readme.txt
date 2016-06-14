@@ -7,8 +7,8 @@ Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.4
 Tested up to:      4.5.2
-Stable tag:        1.0.0-beta.4
-Version:           1.0.0-beta.4
+Stable tag:        1.0.0-beta.5
+Version:           1.0.0-beta.5
 License:           GNU General Public License v3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -80,6 +80,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.0-beta.5 =
+
 * Enhanced: Now possible to have multiple forms on one page
 * Enhanced: form detection now happens on `wp` hook to prevent an extra query
 * Fixed: Form shortcodes work properly now and do not override content
@@ -89,6 +90,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Tweaked: removed unnecessary Options metabox in backend
 
 = 1.0.0-beta.4 =
+
 * Added a template hierarchy for all frontend visuals
 * Added a new filter `torro_template_locations`
 * Added new filters `torro_form_classes`, `torro_element_classes`, `torro_input_classes`
@@ -101,6 +103,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Fixed bug with date field on export
 
 = 1.0.0-beta.3 =
+
 * Added option to switch page title on/off
 * Showing limitations (min/max) of elements now in frontend
 * Moved inline Javascript into Charts JS File
@@ -108,6 +111,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Fixed problems on embedding forms for error handling and multiple choice or one choice fields
 
 = 1.0.0-beta.2 =
+
 * Added general settings tab with possibility to change button texts
 * Added filters 'torro_form_container_title', 'torro_form_button_previous_step_text', 'torro_form_button_next_step_text' and 'torro_form_button_send_text'
 * Fixed not shown container title
