@@ -196,6 +196,12 @@
 	float: left;
 	margin: 6px 0 6px 6px;
 }
+.post-type-torro_form #poststuff .formelement .torro-element-tab-additional-content {
+	margin-top: 15px;
+}
+.post-type-torro_form #poststuff .formelement .torro-element-chart-shortcode .clipboardfield {
+	width: 30%;
+}
 
 .post-type-torro_form #poststuff .form-element-placeholder {
 	height: 43px;
@@ -296,18 +302,19 @@
 	border-top: 1px solid #ddd;
 }
 
+.post-type-torro_form #poststuff .clipboardfield {
+	width: 100%;
+}
 .post-type-torro_form #poststuff .clipboardfield label {
 	display: block; 
 	width: 100%;
 }
-
 .post-type-torro_form #poststuff .clipboardfield input {
 	width: 200px; 
 	height: 28px;
 	font-size: 12px;
 	background-color: #f7f7f7;
 }
-
 .post-type-torro_form #poststuff .clipboardfield .clipboard {
 	width: 29px; 
 	height: 27px;
