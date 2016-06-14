@@ -20,9 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0-beta.1
  */
 class Torro_ShortCodes {
-	var $tables;
-	var $components = array();
-
 	/**
 	 * Loading all Shortcodes
 	 */
