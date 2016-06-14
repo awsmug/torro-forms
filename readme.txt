@@ -86,6 +86,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Fixed: Form shortcodes work properly now and do not override content
 * Fixed: reCAPTCHA now works in form shortcodes as well
 * Fixed: if multiple choice is required, make sure at least one input is selected
+* Fixed: description is now shown again after being broken in 1.0.0-beta.4
 * Fixed: element results warning in form builder backend
 * Tweaked: removed unnecessary Options metabox in backend
 
