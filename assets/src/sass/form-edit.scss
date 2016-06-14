@@ -237,6 +237,16 @@
 				float: left;
 				margin: 6px 0px 6px 6px;
 			}
+
+			.torro-element-tab-additional-content {
+				margin-top: 15px;
+			}
+
+			.torro-element-chart-shortcode {
+				.clipboardfield {
+					width: 30%;
+				}
+			}
 		}
 
 		.form-element-placeholder {
@@ -347,6 +357,8 @@
 		}
 
 		.clipboardfield {
+			width: 100%;
+
 			label {
 				width: 100%;
 				display: block;

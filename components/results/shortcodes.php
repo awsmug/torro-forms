@@ -23,7 +23,7 @@ class Torro_ChartsShortCodes {
 		add_shortcode( 'element_chart', array( __CLASS__, 'element_chart' ) );
 
 		add_action( 'torro_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
-		// add_action( 'torro_result_charts_postbox_element_top', array( __CLASS__, 'show_element_result_shortcode' ) );
+		add_action( 'torro_element_admin_tab_content', array( __CLASS__, 'show_element_result_shortcode' ), 10, 2 );
 	}
 
 	/**
@@ -101,18 +101,18 @@ class Torro_ChartsShortCodes {
 	 *
 	 * @return string $html HTML for shortcode summary in admin
 	 */
-	public static function show_element_result_shortcode( $element ) {
-		if ( empty( $element->id ) ) {
+	public static function show_element_result_shortcode( $element_id, $element ) {
+		if ( ! torro()->is_formbuilder() ) {
 			return;
 		}
 
-		$type = $element->type_obj;
-		if ( ! $type->input_answers ) {
+		if ( ! $element->input_answers ) {
 			return;
 		}
 
-		echo '<div style="float:right;">';
-		echo torro_clipboard_field( __( 'Element Chart Shortcode', 'torro-forms' ), '[element_chart id=' .  $element->id . ']' );
+		echo '<div class="torro-element-tab-additional-content torro-element-chart-shortcode">';
+		echo '<hr />';
+		echo torro_clipboard_field( __( 'Element Chart Shortcode', 'torro-forms' ), '[element_chart id=' .  $element_id . ']' );
 		echo '</div>';
 	}
 }

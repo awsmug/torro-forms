@@ -306,6 +306,11 @@ abstract class Torro_Element_Type extends Torro_Base {
 			foreach ( $admin_tabs as $key => $tab ) {
 				$html .= '<div id="tab_' . $jquery_element_id . '_' . $key . '" class="element-tabs-content">';
 				$html .= $tab['content'];
+
+				ob_start();
+				do_action( 'torro_element_admin_tab_content', $element_id, $this, $key );
+				$html .= ob_get_clean();
+
 				$html .= '</div>';
 			}
 
@@ -313,19 +318,18 @@ abstract class Torro_Element_Type extends Torro_Base {
 		} else {
 			foreach ( $admin_tabs as $key => $tab ) {
 				$html .= $tab['content'];
+				// Adding further content
+				ob_start();
+				do_action( 'torro_element_admin_tab_content', $element_id, $this, $key );
+				$html .= ob_get_clean();
 			}
 		}
-
-		// Adding further content
-		ob_start();
-		do_action( 'torro_element_admin_tabs_content', $this );
-		$html .= ob_get_clean();
 
 		$html .= $this->admin_widget_action_buttons( $element );
 
 		// Adding content at the bottom
 		ob_start();
-		do_action( 'torro_element_admin_tabs_bottom', $this );
+		do_action( 'torro_element_admin_tabs_bottom', $element_id, $this );
 		$html .= ob_get_clean();
 
 		$html .= '</div>';
