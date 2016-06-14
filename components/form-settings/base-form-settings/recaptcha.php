@@ -36,6 +36,14 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	protected $recaptcha_errors = array();
 
 	/**
+	 * Whether the script is already enqueued.
+	 *
+	 * @var bool
+	 * @since 1.0.0
+	 */
+	protected $enqueued = false;
+
+	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0
@@ -297,26 +305,58 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	}
 
 	/**
-	 * Enqueue admin scripts
+	 * Creates the reCAPTCHA placeholder element and optionally prints errors
 	 *
 	 * @since 1.0.0
 	 */
-	public function frontend_scripts() {
-		global $post;
-
-		$form_id = torro()->forms()->get_current_form_id();
-
-		if ( ! $form_id ) {
-			if ( ! $post || 'torro-forms' !== $post->post_type ) {
-				// no form detected
-				return;
-			}
-			$form_id = $post->ID;
-		}
-
-		if ( ! $this->is_enabled( $form_id ) || !$this->is_configured() ) {
+	public function draw_placeholder_element( $form_id ) {
+		if ( ! $this->is_enabled( $form_id ) || ! $this->is_configured() ) {
 			return;
 		}
+
+		$error = '';
+		if ( isset( $this->recaptcha_errors[ $form_id ] ) ) {
+			$error = $this->recaptcha_errors[ $form_id ];
+		}
+
+		$type = get_post_meta( $form_id, 'recaptcha_type', true );
+		if ( ! $type ) {
+			$type = 'image';
+		}
+
+		$size = get_post_meta( $form_id, 'recaptcha_size', true );
+		if ( ! $size ) {
+			$size = 'normal';
+		}
+
+		$theme = get_post_meta( $form_id, 'recaptcha_theme', true );
+		if ( ! $theme ) {
+			$theme = 'light';
+		}
+
+		torro()->template( 'recaptcha', array(
+			'id'		=> 'recaptcha-placeholder-' . $form_id,
+			'form_id'	=> $form_id,
+			'type'		=> $type,
+			'size'		=> $size,
+			'theme'		=> $theme,
+			'error'		=> $error,
+		) );
+
+		$this->enqueue_recaptcha_script( $form_id );
+	}
+
+	public function enqueue_recaptcha_script( $form_id ) {
+		if ( ! $this->is_enabled( $form_id ) || ! $this->is_configured() ) {
+			return;
+		}
+
+		// reCAPTCHA only works for a single form per page.
+		if ( $this->enqueued ) {
+			return;
+		}
+
+		$this->enqueued = true;
 
 		wp_enqueue_script( 'torro-forms-recaptcha', torro()->get_asset_url( 'frontend-recaptcha', 'js' ), array(), false, true );
 		wp_localize_script( 'torro-forms-recaptcha', '_torro_recaptcha_settings', array(
@@ -366,46 +406,6 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		}
 
 		return $tag;
-	}
-
-	/**
-	 * Creates the reCAPTCHA placeholder element and optionally prints errors
-	 *
-	 * @since 1.0.0
-	 */
-	public function draw_placeholder_element( $form_id ) {
-		if ( ! $this->is_enabled( $form_id ) ) {
-			return;
-		}
-
-		$error = '';
-		if ( isset( $this->recaptcha_errors[ $form_id ] ) ) {
-			$error = $this->recaptcha_errors[ $form_id ];
-		}
-
-		$type = get_post_meta( $form_id, 'recaptcha_type', true );
-		if ( ! $type ) {
-			$type = 'image';
-		}
-
-		$size = get_post_meta( $form_id, 'recaptcha_size', true );
-		if ( ! $size ) {
-			$size = 'normal';
-		}
-
-		$theme = get_post_meta( $form_id, 'recaptcha_theme', true );
-		if ( ! $theme ) {
-			$theme = 'light';
-		}
-
-		torro()->template( 'recaptcha', array(
-			'id'		=> 'recaptcha-placeholder-' . $form_id,
-			'form_id'	=> $form_id,
-			'type'		=> $type,
-			'size'		=> $size,
-			'theme'		=> $theme,
-			'error'		=> $error,
-		) );
 	}
 }
 

@@ -83,6 +83,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Now possible to have multiple forms on one page
 * Enhanced: form detection now happens on `wp` hook to prevent an extra query
 * Fixed: Form shortcodes work properly now and do not override content
+* Fixed: reCAPTCHA now works in form shortcodes as well
 * Fixed: if multiple choice is required, make sure at least one input is selected
 * Tweaked: removed unnecessary Options metabox in backend
 
