@@ -298,6 +298,17 @@ class Torro_UnitTestCase extends WP_UnitTestCase {
 		return $locations;
 	}
 
+	public function go_to( $url ) {
+		parent::go_to( $url );
+
+		// This ensures that is_admin() works properly.
+		if ( 0 === strpos( $url, admin_url() ) ) {
+			$GLOBALS['current_screen'] = new Torro_Screen_Mock();
+		} elseif ( isset( $GLOBALS['current_screen'] ) ) {
+			unset( $GLOBALS['current_screen'] );
+		}
+	}
+
 	public static function factory() {
 		static $factory = null;
 		if ( ! $factory || ! $factory instanceof Torro_UnitTest_Factory ) {

@@ -110,15 +110,11 @@ class Tests_Torro extends Torro_UnitTestCase {
 		$this->go_to( get_permalink( $form_id ) );
 		$this->assertFalse( torro()->is_formbuilder() );
 
-		defined( 'WP_ADMIN' ) || define( 'WP_ADMIN', true );
-
 		$this->go_to( admin_url( 'post.php?post=' . $form_id . '&action=edit' ) );
 		$this->assertTrue( torro()->is_formbuilder() );
 	}
 
 	public function test_is_settingspage() {
-		defined( 'WP_ADMIN' ) || define( 'WP_ADMIN', true );
-
 		$this->go_to( admin_url( 'options-general.php' ) );
 		$this->assertFalse( torro()->is_settingspage() );
 
@@ -184,6 +180,6 @@ class Tests_Torro extends Torro_UnitTestCase {
 
 		$this->assertEquals( $baseurl . 'dist/img/icon.svg', torro()->get_asset_url( 'icon', 'svg' ) );
 
-		$this->assertEquals( $baseurl . 'dist/vendor/library/script.js', torro()->get_asset_url( 'library/script', 'vendor-js', true ) );
+		$this->assertEquals( $baseurl . 'vendor/library/script.js', torro()->get_asset_url( 'library/script', 'vendor-js', true ) );
 	}
 }

@@ -233,7 +233,7 @@ class Torro_Form_Controller {
 			return;
 		}
 
-		if ( ! isset( $wp_query ) ) {
+		if ( ! isset( $wp_query ) || ! $wp_query instanceof WP_Query ) {
 			return;
 		}
 
