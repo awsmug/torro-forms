@@ -302,6 +302,25 @@ class Torro_UnitTestCase extends WP_UnitTestCase {
 		// This ensures that is_admin() works properly.
 		if ( 0 === strpos( $url, admin_url() ) ) {
 			$GLOBALS['current_screen'] = new Torro_Screen_Mock();
+
+			$_GET = $_POST = array();
+			foreach ( array( 'query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow') as $v ) {
+				if ( isset( $GLOBALS[ $v ] ) ) unset( $GLOBALS[ $v ] );
+			}
+			$parts = parse_url( $url );
+			if ( isset( $parts['scheme'] ) ) {
+				$req = isset( $parts['path'] ) ? $parts['path'] : '';
+				if ( isset( $parts['query'] ) ) {
+					$req .= '?' . $parts['query'];
+					// parse the url query vars into $_GET
+					parse_str( $parts['query'], $_GET );
+				}
+			} else {
+				$req = $url;
+			}
+
+			$_SERVER['REQUEST_URI'] = $req;
+			unset($_SERVER['PATH_INFO']);
 		} else {
 			if ( isset( $GLOBALS['current_screen'] ) ) {
 				unset( $GLOBALS['current_screen'] );
