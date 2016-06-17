@@ -101,6 +101,7 @@ class Tests_Torro extends Torro_UnitTestCase {
 		$this->assertFalse( torro()->is_form() );
 
 		$this->go_to( get_permalink( $form_id ) );
+		$this->assertEquals( 'aszd', get_permalink( $form_id ) );
 		$this->assertEquals( 'sometype', $GLOBALS['post']->post_type );
 		$this->assertEquals( '333', $GLOBALS['post']->ID );
 		$this->assertTrue( torro()->is_form() );
