@@ -18,11 +18,11 @@ class Tests_Torro extends Torro_UnitTestCase {
 	}
 
 	public function test_element_answers() {
-		$this->assertInstanceOf( 'Torro_Element_Answers_Manager', torro()->element_answers() );
+		$this->assertInstanceOf( 'Torro_Element_Answer_Manager', torro()->element_answers() );
 	}
 
 	public function test_element_settings() {
-		$this->assertInstanceOf( 'Torro_Element_Settings_Manager', torro()->element_settings() );
+		$this->assertInstanceOf( 'Torro_Element_Setting_Manager', torro()->element_settings() );
 	}
 
 	public function test_results() {
@@ -62,15 +62,15 @@ class Tests_Torro extends Torro_UnitTestCase {
 	}
 
 	public function test_actions() {
-		$this->assertInstanceOf( 'Torro_Actions_Manager', torro()->actions() );
+		$this->assertInstanceOf( 'Torro_Form_Actions_Manager', torro()->actions() );
 	}
 
 	public function test_access_controls() {
-		$this->assertInstanceOf( 'Torro_Access_Controls_Manager', torro()->access_controls() );
+		$this->assertInstanceOf( 'Torro_Form_Access_Controls_Manager', torro()->access_controls() );
 	}
 
 	public function test_resulthandlers() {
-		$this->assertInstanceOf( 'Torro_Result_Handlers_Manager', torro()->resulthandlers() );
+		$this->assertInstanceOf( 'Torro_Form_Result_Handlers_Manager', torro()->resulthandlers() );
 	}
 
 	public function test_extensions() {
@@ -78,11 +78,11 @@ class Tests_Torro extends Torro_UnitTestCase {
 	}
 
 	public function test_admin_notices() {
-		$this->assertInstanceOf( 'Torro_Admin_Notices_Manager', torro()->admin_notices() );
+		$this->assertInstanceOf( 'Torro_Admin_Notices', torro()->admin_notices() );
 	}
 
 	public function test_ajax() {
-		$this->assertInstanceOf( 'Torro_AJAX_Manager', torro()->ajax() );
+		$this->assertInstanceOf( 'Torro_AJAX', torro()->ajax() );
 	}
 
 	public function test_is_form() {
@@ -107,14 +107,18 @@ class Tests_Torro extends Torro_UnitTestCase {
 	public function test_is_formbuilder() {
 		$form_id = self::factory()->form->create();
 
-		$this->go_to( admin_url( 'post.php?post=' . $form_id . '&action=edit' ) );
-		$this->assertTrue( torro()->is_formbuilder() );
-
 		$this->go_to( get_permalink( $form_id ) );
 		$this->assertFalse( torro()->is_formbuilder() );
+
+		define( 'WP_ADMIN', true );
+
+		$this->go_to( admin_url( 'post.php?post=' . $form_id . '&action=edit' ) );
+		$this->assertTrue( torro()->is_formbuilder() );
 	}
 
 	public function test_is_settingspage() {
+		define( 'WP_ADMIN', true );
+
 		$this->go_to( admin_url( 'options-general.php' ) );
 		$this->assertFalse( torro()->is_settingspage() );
 
@@ -173,11 +177,11 @@ class Tests_Torro extends Torro_UnitTestCase {
 	public function test_get_asset_url() {
 		$baseurl = WP_PLUGIN_URL . '/torro-forms/assets/';
 
-		$this->assertEquals( $baseurl . '/dist/css/admin.css', torro()->get_asset_url( 'admin', 'css', true ) );
-		$this->assertEquals( $baseurl . '/dist/css/admin.min.css', torro()->get_asset_url( 'admin', 'css' ) );
+		$this->assertEquals( $baseurl . 'dist/css/admin.css', torro()->get_asset_url( 'admin', 'css', true ) );
+		$this->assertEquals( $baseurl . 'dist/css/admin.min.css', torro()->get_asset_url( 'admin', 'css' ) );
 
-		$this->assertEquals( $baseurl . '/dist/img/icon.svg', torro()->get_asset_url( 'icon', 'svg' ) );
+		$this->assertEquals( $baseurl . 'dist/img/icon.svg', torro()->get_asset_url( 'icon', 'svg' ) );
 
-		$this->assertEquals( $baseurl . '/dist/vendor/library/script.js', torro()->get_asset_url( 'library/script', 'vendor-js', true ) );
+		$this->assertEquals( $baseurl . 'dist/vendor/library/script.js', torro()->get_asset_url( 'library/script', 'vendor-js', true ) );
 	}
 }
