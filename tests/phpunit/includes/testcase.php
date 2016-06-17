@@ -304,7 +304,7 @@ class Torro_UnitTestCase extends WP_UnitTestCase {
 			$GLOBALS['current_screen'] = new Torro_Screen_Mock();
 
 			$_GET = $_POST = array();
-			foreach ( array( 'query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow') as $v ) {
+			foreach ( array( 'query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow' ) as $v ) {
 				if ( isset( $GLOBALS[ $v ] ) ) unset( $GLOBALS[ $v ] );
 			}
 			$parts = parse_url( $url );
@@ -322,10 +322,15 @@ class Torro_UnitTestCase extends WP_UnitTestCase {
 			$_SERVER['REQUEST_URI'] = $req;
 			unset($_SERVER['PATH_INFO']);
 		} else {
-			if ( isset( $GLOBALS['current_screen'] ) ) {
-				unset( $GLOBALS['current_screen'] );
+			foreach ( array( 'post', 'current_screen' ) as $v ) {
+				if ( isset( $GLOBALS[ $v ] ) ) unset( $GLOBALS[ $v ] );
 			}
+
 			parent::go_to( $url );
+
+			if ( ! isset( $GLOBALS['post'] ) && isset( $_GET['p'] ) ) {
+				$GLOBALS['post'] = get_post( $_GET['p'] );
+			}
 		}
 	}
 
