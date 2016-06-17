@@ -22,12 +22,13 @@ if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 } elseif ( file_exists( '/tmp/wordpress-tests-lib/includes/bootstrap.php' ) ) {
 	$test_root = '/tmp/wordpress-tests-lib';
 } else {
-	$test_root = '../../../../tests/phpunit';
+	$test_root = '../../../../../../tests/phpunit';
 }
 
 require $test_root . '/includes/bootstrap.php';
 
-require_once dirname( __FILE__ ) . '/framework/torro-unit-test-case.php';
+require_once dirname( __FILE__ ) . '/factory.php';
+require_once dirname( __FILE__ ) . '/testcase.php';
 
 echo "Installing Torro Forms...\n";
 
