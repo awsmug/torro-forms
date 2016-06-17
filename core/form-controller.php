@@ -233,6 +233,10 @@ class Torro_Form_Controller {
 			return;
 		}
 
+		if ( ! isset( $wp_query ) ) {
+			return;
+		}
+
 		if ( $wp_query->is_singular( 'torro_form' ) ) {
 			$this->set_form( $wp_query->get_queried_object_id() );
 			return;

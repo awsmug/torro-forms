@@ -110,14 +110,14 @@ class Tests_Torro extends Torro_UnitTestCase {
 		$this->go_to( get_permalink( $form_id ) );
 		$this->assertFalse( torro()->is_formbuilder() );
 
-		define( 'WP_ADMIN', true );
+		defined( 'WP_ADMIN' ) || define( 'WP_ADMIN', true );
 
 		$this->go_to( admin_url( 'post.php?post=' . $form_id . '&action=edit' ) );
 		$this->assertTrue( torro()->is_formbuilder() );
 	}
 
 	public function test_is_settingspage() {
-		define( 'WP_ADMIN', true );
+		defined( 'WP_ADMIN' ) || define( 'WP_ADMIN', true );
 
 		$this->go_to( admin_url( 'options-general.php' ) );
 		$this->assertFalse( torro()->is_settingspage() );
@@ -177,8 +177,10 @@ class Tests_Torro extends Torro_UnitTestCase {
 	public function test_get_asset_url() {
 		$baseurl = WP_PLUGIN_URL . '/torro-forms/assets/';
 
+		$min = ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? '.min' : '';
+
 		$this->assertEquals( $baseurl . 'dist/css/admin.css', torro()->get_asset_url( 'admin', 'css', true ) );
-		$this->assertEquals( $baseurl . 'dist/css/admin.min.css', torro()->get_asset_url( 'admin', 'css' ) );
+		$this->assertEquals( $baseurl . 'dist/css/admin' . $min . '.css', torro()->get_asset_url( 'admin', 'css' ) );
 
 		$this->assertEquals( $baseurl . 'dist/img/icon.svg', torro()->get_asset_url( 'icon', 'svg' ) );
 
