@@ -248,6 +248,10 @@ abstract class Torro_Instance_Manager {
 		return $instances;
 	}
 
+	public function empty_cache() {
+		$this->instances[ $this->get_category() ] = array();
+	}
+
 	protected abstract function init();
 
 	protected function create_raw( $args = array() ) {
