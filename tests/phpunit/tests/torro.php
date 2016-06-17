@@ -87,9 +87,6 @@ class Tests_Torro extends Torro_UnitTestCase {
 
 	public function test_is_form() {
 		$form_id = self::factory()->form->create();
-		if ( is_wp_error( $form_id ) ) {
-			$this->assertEquals( 'test', $form_id->get_error_message() );
-		}
 
 		$this->go_to( admin_url( 'edit.php?post_type=torro_form' ) );
 		$this->assertTrue( torro()->is_form() );
@@ -104,6 +101,8 @@ class Tests_Torro extends Torro_UnitTestCase {
 		$this->assertFalse( torro()->is_form() );
 
 		$this->go_to( get_permalink( $form_id ) );
+		$this->assertEquals( 'sometype', $GLOBALS['post']->post_type );
+		$this->assertEquals( '333', $GLOBALS['post']->ID );
 		$this->assertTrue( torro()->is_form() );
 	}
 
