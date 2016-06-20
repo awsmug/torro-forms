@@ -604,7 +604,7 @@ final class Torro {
 			return;
 		}
 
-		$version = is_null( $version ) ? '' : sprintf( __( '(This message was added in Torro Forms version %s.', 'torro-forms' ), $version );
+		$version = is_null( $version ) ? '' : sprintf( __( '(This message was added in Torro Forms version %s.)', 'torro-forms' ), $version );
 
 		// use WordPress Core textdomain on purpose here since these are core strings
 		$message .= ' ' . sprintf( __( 'Please see <a href="%s">Debugging in WordPress</a> for more information.' ), __( 'https://codex.wordpress.org/Debugging_in_WordPress' ) );
