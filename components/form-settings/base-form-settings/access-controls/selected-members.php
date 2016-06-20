@@ -668,13 +668,15 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 	public function check( $form_id ) {
 
 		if ( ! is_user_logged_in() ) {
-			$this->add_message( 'error', __( 'You have to be logged in to participate.', 'torro-forms' ) );
+			$text = apply_filters( 'torro_form_text_to_be_logged_in', esc_html__( 'You have to be logged in to participate.', 'torro-forms' )  );
+			$this->add_message( 'error', $text );
 
 			return false;
 		}
 
 		if ( ! $this->is_participant() ) {
-			$this->add_message( 'error', __( 'You are not allowed to participate.', 'torro-forms' ) );
+			$text = apply_filters( 'torro_form_text_not_allowed', esc_html__( 'You are not allowed to participate.', 'torro-forms' )  );
+			$this->add_message( 'error', $text );
 
 			return false;
 		}
@@ -682,7 +684,8 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
 
 		if ( 'yes' === $access_controls_same_users && torro()->forms()->get( $form_id )->has_participated() ) {
-			$this->add_message( 'error', __( 'You have already entered your data.', 'torro-forms' ) );
+			$text = apply_filters( 'torro_form_text_already_entered', esc_html__( 'You have already entered your data.', 'torro-forms' )  );
+			$this->add_message( 'error', $text );
 
 			return false;
 		}
