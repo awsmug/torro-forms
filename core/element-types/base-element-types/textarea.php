@@ -124,6 +124,10 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 			return new Torro_Error( 'missing_input', __( 'You must input something.', 'torro-forms' ) );
 		}
 
+		if( isset( $element->settings['required'] ) && 'no' === $element->settings['required']->value && empty( $input ) ) {
+			return $input;
+		}
+
 		if ( ! empty( $min_length ) ) {
 			if ( strlen( $input ) < $min_length ) {
 				return new Torro_Error( 'input_too_short', __( 'The input ist too short.', 'torro-forms' ) );
