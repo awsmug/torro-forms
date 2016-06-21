@@ -79,6 +79,10 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.0-beta.6 =
+* Enhanced: Added unit test framework
+* Fixed: Not required fields do not perform further checks on empty fields anymore
+
 = 1.0.0-beta.5 =
 
 * Enhanced: Now possible to have multiple forms on one page
