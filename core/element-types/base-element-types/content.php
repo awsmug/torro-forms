@@ -51,6 +51,23 @@ final class Torro_Element_Type_Content extends Torro_Element_Type {
 
 		return $html;
 	}
+
+	/**
+	 * Prepares data to render the element type HTML output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Torro_Element $element
+	 *
+	 * @return array
+	 */
+	public function to_json( $element ) {
+		$data = parent::to_json( $element );
+
+		$data[ 'label' ] = do_shortcode( $data[ 'label' ] );
+
+		return $data;
+	}
 }
 
 torro()->element_types()->register( 'Torro_Element_Type_Content' );
