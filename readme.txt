@@ -80,8 +80,11 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.0-beta.6 =
+
 * Enhanced: Added unit test framework
+* Enhanced: Added fields for changing texts on access control
 * Fixed: Not required fields do not perform further checks on empty fields anymore
+* Fixed: Removed "After Submit" section in charts because it's not needed anymore
 
 = 1.0.0-beta.5 =
 
