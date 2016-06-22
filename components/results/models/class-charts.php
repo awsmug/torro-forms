@@ -43,8 +43,6 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 
 		$this->register_chart_type( 'bars', esc_attr__( 'Bars', 'torro-forms' ), array( $this, 'bars' ) );
 		$this->register_chart_type( 'pies', esc_attr__( 'Pies', 'torro-forms' ), array( $this, 'pies' ) );
-
-		add_action( 'torro_result_charts_postbox_bottom', array( $this, 'charts_general_settings' ), 10 );
 	}
 
 	abstract function bars( $title, $results, $params = array() );
@@ -267,38 +265,5 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 		}
 
 		return $results_formatted;
-	}
-
-	/**
-	 * Adding option for showing Charts after submitting Form
-	 *
-	 * @since 1.0.0
-	 */
-	public function charts_general_settings() {
-		global $post;
-
-		$form_id = $post->ID;
-		$show_results = get_post_meta( $form_id, 'show_results', TRUE );
-
-		if ( ! $show_results ) {
-			$show_results = 'no';
-		}
-
-		$checked_no = '';
-		$checked_yes = '';
-
-		if ( 'no' === $show_results ) {
-			$checked_no = ' checked="checked"';
-		} else {
-			$checked_yes = ' checked="checked"';
-		}
-
-		$html = '<div class="in-postbox-one-third">';
-		$html .= '<label for="show_results">' . esc_html__( 'After Submit' ) . '</label>';
-		$html .= '<input type="radio" name="show_results" value="yes"' . $checked_yes . '>' . esc_html__( 'show Charts' ) . ' <br />';
-		$html .= '<input type="radio" name="show_results" value="no"' . $checked_no . '>' . esc_html__( 'do not Show Charts' ) . '';
-		$html .= '</div>';
-
-		echo $html;
 	}
 }
