@@ -188,7 +188,13 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		$access_controls_check_ip = get_post_meta( $form_id, 'form_access_controls_check_ip', true );
 
 		if ( 'yes' === $access_controls_check_ip && $this->ip_has_participated() ) {
-			$text = apply_filters( 'torro_form_text_already_entered', esc_html__( 'You have already entered your data.', 'torro-forms' )  );
+			$text = get_post_meta( $form_id, 'already_entered_text', true );
+
+			if( empty( $text ) ) {
+				$text = esc_html__( 'You have already entered your data.', 'torro-forms' );
+			}
+
+			$text = apply_filters( 'torro_form_text_already_entered', $text  );
 			$this->add_message( 'error', $text );
 
 			return false;
@@ -197,7 +203,13 @@ final class Torro_Form_Access_Control_All_Visitors extends Torro_Form_Access_Con
 		$access_controls_check_cookie = get_post_meta( $form_id, 'form_access_controls_check_cookie', true );
 		if ( 'yes' === $access_controls_check_cookie && isset( $_COOKIE[ 'torro_has_participated_form_' . $form_id ] ) ) {
 			if( 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $form_id ] ) {
-				$text = apply_filters( 'torro_form_text_already_entered', esc_html__( 'You have already entered your data.', 'torro-forms' )  );
+				$text = get_post_meta( $form_id, 'already_entered_text', true );
+
+				if( empty( $text ) ) {
+					$text = esc_html__( 'You have already entered your data.', 'torro-forms' );
+				}
+
+				$text = apply_filters( 'torro_form_text_already_entered', $text  );
 				$this->add_message( 'error', $text );
 			}
 

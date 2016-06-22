@@ -668,14 +668,26 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 	public function check( $form_id ) {
 
 		if ( ! is_user_logged_in() ) {
-			$text = apply_filters( 'torro_form_text_to_be_logged_in', esc_html__( 'You have to be logged in to participate.', 'torro-forms' )  );
+			$text = get_post_meta( $form_id, 'to_be_logged_in_text', true );
+
+			if( empty( $text ) ) {
+				$text = esc_html__( 'You have to be logged in to participate.', 'torro-forms' );
+			}
+
+			$text = apply_filters( 'torro_form_text_to_be_logged_in', $text );
 			$this->add_message( 'error', $text );
 
 			return false;
 		}
 
 		if ( ! $this->is_participant() ) {
-			$text = apply_filters( 'torro_form_text_not_allowed', esc_html__( 'You are not allowed to participate.', 'torro-forms' )  );
+			$text = get_post_meta( $form_id, 'not_allowed_text', true );
+
+			if( empty( $text ) ) {
+				$text = esc_html__( 'You are not allowed to participate.', 'torro-forms' );
+			}
+
+			$text = apply_filters( 'torro_form_text_not_allowed', $text  );
 			$this->add_message( 'error', $text );
 
 			return false;
@@ -684,7 +696,13 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 		$access_controls_same_users = get_post_meta( $form_id, 'form_access_controls_selectedmembers_same_users', true );
 
 		if ( 'yes' === $access_controls_same_users && torro()->forms()->get( $form_id )->has_participated() ) {
-			$text = apply_filters( 'torro_form_text_already_entered', esc_html__( 'You have already entered your data.', 'torro-forms' )  );
+			$text = get_post_meta( $form_id, 'already_entered_text', true );
+
+			if( empty( $text ) ) {
+				$text = esc_html__( 'You have already entered your data.', 'torro-forms' );
+			}
+
+			$text = apply_filters( 'torro_form_text_already_entered', $text );
 			$this->add_message( 'error', $text );
 
 			return false;
