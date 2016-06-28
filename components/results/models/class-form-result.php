@@ -77,28 +77,37 @@ abstract class Torro_Form_Result extends Torro_Base {
 			return array();
 		}
 
+		// Finding all elements which can be parsed within results
+		$elements = array();
+		foreach ( $results AS $result ) {
+			foreach ( $result->values AS $value ) {
+				if( ! array_key_exists( $value->element_id, $elements ) ) {
+					$elements[ $value->element_id ] = &$value->element;
+				}
+			}
+		}
+
 		$parsed = array();
 		$columns = $this->get_columns();
 		$value_columns = array();
 
-		foreach ( $results[0]->values as $result_value ) {
-			$element_id = $result_value->element_id;
+		foreach ( $elements as $element_id => $element ) {
 			$slug = 'element_' . $element_id;
-			$label = $result_value->element->label;
+			$label = $element->label;
 
-			$type = $result_value->element->type_obj;
+			$type = $element->type_obj;
 			if ( $type->input_answers && $type->answer_array ) {
-				foreach ( $result_value->element->answers as $answer ) {
+				foreach ( $element->answers as $answer ) {
 					$value_columns[ $slug . '_' . $answer->id ] = array(
 						'title'			=> $label . ' - ' . $answer->answer,
 						'element_id'	=> $element_id,
 						'answer'		=> $answer->answer,
 					);
-					if ( is_callable( array( $result_value->element, 'render_value' ) ) ) {
-						$value_columns[ $slug . '_' . $answer->id ]['callback'] = array( $result_value->element, 'render_value' );
+					if ( is_callable( array( $element, 'render_value' ) ) ) {
+						$value_columns[ $slug . '_' . $answer->id ]['callback'] = array( $element, 'render_value' );
 					}
-					if ( is_callable( array( $result_value->element, 'render_value_for_export' ) ) ) {
-						$value_columns[ $slug . '_' . $answer->id ]['export_callback'] = array( $result_value->element, 'render_value_for_export' );
+					if ( is_callable( array( $element, 'render_value_for_export' ) ) ) {
+						$value_columns[ $slug . '_' . $answer->id ]['export_callback'] = array( $element, 'render_value_for_export' );
 					}
 				}
 			} else {
@@ -106,15 +115,15 @@ abstract class Torro_Form_Result extends Torro_Base {
 					'title'			=> $label,
 					'element_id'	=> $element_id,
 				);
-				if ( is_callable( array( $result_value->element, 'render_value' ) ) ) {
-					$value_columns[ $slug ]['callback'] = array( $result_value->element, 'render_value' );
+				if ( is_callable( array( $element, 'render_value' ) ) ) {
+					$value_columns[ $slug ]['callback'] = array( $element, 'render_value' );
 				}
-				if ( is_callable( array( $result_value->element, 'render_value_for_export' ) ) ) {
-					$value_columns[ $slug ]['export_callback'] = array( $result_value->element, 'render_value_for_export' );
+				if ( is_callable( array( $element, 'render_value_for_export' ) ) ) {
+					$value_columns[ $slug ]['export_callback'] = array( $element, 'render_value_for_export' );
 				}
 			}
 		}
-		unset( $result_value );
+		unset( $element );
 
 		foreach ( $results as $result ) {
 			$element_values = array();

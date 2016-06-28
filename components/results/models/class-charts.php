@@ -102,7 +102,6 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 	 */
 	public function show_form_charts( $form_id ) {
 		$results = $this->parse_results_for_export( $form_id, 0, -1, 'raw', false );
-
 		$count_charts = 0;
 
 		$html = '';
@@ -234,11 +233,16 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 					$answer_id = (int) $column_name_arr[ 2 ];
 
 					$value = '';
-					foreach( $element->answers as $element_answer ){
+					foreach( $element->answers as $element_answer ) {
 						if( $element_answer->id === $answer_id ){
 							$value = $element_answer->answer;
 							break;
 						}
+					}
+
+					// If there is no value for this element, skip counting
+					if( empty( $value ) ) {
+						continue;
 					}
 
 					if ( array_key_exists( $result_key, $results_formatted ) && is_array( $results_formatted[ $result_key ] ) && array_key_exists( $value, $results_formatted[ $result_key ] ) ) {
@@ -259,6 +263,12 @@ abstract class Torro_Result_Charts extends Torro_Form_Result {
 					}
 
 					$value = $result[ $column_name ];
+
+					// If there is no value for this element, skip counting
+					if( empty( $value ) ) {
+						continue;
+					}
+
 					$results_formatted[ $result_key ][ $value ]++;
 				}
 			}
