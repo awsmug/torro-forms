@@ -330,6 +330,9 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 		$html .= '<tbody>';
 
 		foreach ( $result->values as $result_value ) {
+			if( is_wp_error( $result_value->element ) ) {
+				continue;
+			}
 			$value = $result_value->value;
 			if ( is_callable( array( $result_value->element, 'render_value' ) ) ) {
 				$value = call_user_func( array( $result_value->element, 'render_value' ), $value );

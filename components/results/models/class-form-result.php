@@ -82,6 +82,9 @@ abstract class Torro_Form_Result extends Torro_Base {
 		foreach ( $results AS $result ) {
 			foreach ( $result->values AS $value ) {
 				if( ! array_key_exists( $value->element_id, $elements ) ) {
+					if( is_wp_error( $value->element ) ) {
+						continue;
+					}
 					$elements[ $value->element_id ] = &$value->element;
 				}
 			}
