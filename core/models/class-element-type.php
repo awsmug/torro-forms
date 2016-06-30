@@ -134,6 +134,8 @@ abstract class Torro_Element_Type extends Torro_Base {
 			'required'			=> false,
 			'answers'			=> array(),
 			'response'			=> $element->response,
+			'has_error'			=> false,
+			'has_success'		=> false,
 			'extra_attr'		=> '',
 		);
 
@@ -143,6 +145,12 @@ abstract class Torro_Element_Type extends Torro_Base {
 
 		if ( isset( $element->settings['required'] ) && 'yes' === $element->settings['required']->value ) {
 			$data['required'] = true;
+		}
+
+		if ( 0 < count( $element->errors ) ) {
+			$data['has_error'] = true;
+		} elseif ( ! is_null( $element->response ) ) {
+			$data['has_success'] = true;
 		}
 
 		if ( $this->input_answers && 0 < count( $element->answers ) ) {

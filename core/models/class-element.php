@@ -145,6 +145,10 @@ class Torro_Element extends Torro_Instance_Base {
 	 * @return array
 	 */
 	public function to_json( $response, $errors ) {
+		if ( is_null( $errors ) ) {
+			$errors = array();
+		}
+
 		$this->response = $response;
 		$this->errors = $errors;
 
