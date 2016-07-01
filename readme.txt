@@ -7,8 +7,8 @@ Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.4
 Tested up to:      4.5.2
-Stable tag:        1.0.0-beta.5
-Version:           1.0.0-beta.5
+Stable tag:        1.0.0-beta.6
+Version:           1.0.0-beta.6
 License:           GNU General Public License v3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -83,8 +83,14 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 * Enhanced: Added unit test framework
 * Enhanced: Added fields for changing texts on access control
+* Enhanced: Added aria-invalid for elements with error
+* Enhanced: Using proper escaping for textareas
+* Fixed: Chart errors on removing and adding elements
+* Fixed: Not working shortcodes in content elements and on result text message
+* Fixed: Email notifications component had to be loaded before redirections
 * Fixed: Not required fields do not perform further checks on empty fields anymore
 * Fixed: Removed "After Submit" section in charts because it's not needed anymore
+* Fixed: Added wpautop in text content elements
 
 = 1.0.0-beta.5 =
 
