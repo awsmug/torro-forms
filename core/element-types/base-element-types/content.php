@@ -64,7 +64,9 @@ final class Torro_Element_Type_Content extends Torro_Element_Type {
 	public function to_json( $element ) {
 		$data = parent::to_json( $element );
 
-		$data[ 'label' ] = do_shortcode( $data[ 'label' ] );
+		if( array_key_exists( 'label', $data ) ) {
+			$data[ 'label' ] = do_shortcode( $data[ 'label' ] );
+		}
 
 		return $data;
 	}
