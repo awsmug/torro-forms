@@ -100,7 +100,9 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 			// Adding elements templatetags
 			$form = torro()->forms()->get( $form_id );
 			foreach ( $form->elements as $element ) {
-				torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
+				if( ! empty( $element->label ) && false !== $element->type_obj->input ) {
+					torro()->templatetags()->get_registered('formtags')->add_element($element->id, $element->label);
+				}
 			}
 
 			foreach ( $notifications as $notification ) {

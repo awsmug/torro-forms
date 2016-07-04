@@ -91,7 +91,10 @@ class Torro_Formbuilder {
 						continue;
 					}
 					$html .= $element->get_admin_html();
-					torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
+
+					if( ! empty( $element->label ) && false !== $element->type_obj->input ) {
+						torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
+					}
 				}
 				$html .= '<div class="drop-elements-here">' . __( 'Drop your elements here', 'torro-forms' ) . '</div>';
 				$html .= '</div>';
