@@ -275,32 +275,9 @@ final class Torro {
 	 * @since 1.0.0
 	 */
 	public function is_form() {
-		if ( is_admin() ) {
-			if ( ! empty( $_GET[ 'post' ] ) ) {
-				$post = get_post( $_GET[ 'post' ] );
-
-				if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
-					return true;
-				}
-			}
-
-			if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
-				return true;
-			}
-
-			return false;
-		}
-
-		if ( 'torro_form' === get_post_type() ) {
+		if( ! is_wp_error( $this->forms()->get_current() ) ) {
 			return true;
 		}
-
-		global $post;
-
-		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'form' ) ) {
-			return true;
-		}
-
 		return false;
 	}
 
@@ -311,8 +288,23 @@ final class Torro {
 	 * @since 1.0.0
 	 */
 	public function is_formbuilder() {
-		if ( is_admin() && $this->is_form() ) {
-			return true;
+		if ( is_admin() ) {
+
+			// Post Type overview
+			if ( ! empty( $_GET[ 'post' ] ) ) {
+				$post = get_post( $_GET[ 'post' ] );
+
+				if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
+					return true;
+				}
+			}
+
+			// Post Type
+			if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
+				return true;
+			}
+
+			return false;
 		}
 
 		return false;
