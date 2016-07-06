@@ -311,6 +311,16 @@ final class Torro {
 	}
 
 	/**
+	 * Checks if a chart is used
+	 *
+	 * @return bool
+	 * @since 1.0.0-beta.7
+	 */
+	public function is_chart(){
+		return Torro_ChartsShortCodes::is_shortcode();
+	}
+
+	/**
 	 * Checks if we are on Torro Forms settings page
 	 *
 	 * @param string $tab
