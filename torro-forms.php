@@ -700,6 +700,17 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	}
 }
 
+/**
+ * Executes a callback after Torro Forms has been initialized.
+ *
+ * This function should be used by all Torro Forms extensions to initialize themselves.
+ *
+ * This doc block was added in the 1500th commit :)
+ *
+ * @since 1.0.0
+ *
+ * @param callable $callback Callback to bootstrap the extension.
+ */
 function torro_load( $callback ) {
 	if ( did_action( '_torro_loaded' ) || doing_action( '_torro_loaded' ) ) {
 		call_user_func( $callback );
