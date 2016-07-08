@@ -32,7 +32,7 @@ class Tests_Torro_Forms_Manager extends Torro_UnitTestCase {
 		$form_id = self::factory()->form->create();
 		$this->go_to( get_permalink( $form_id ) );
 		$current_content = torro()->forms()->get_content();
-		$this->assertContains( $form_id, $current_content ); // There might be a more accurate assertion for that test.
+		$this->assertContains( strval( $form_id ), $current_content ); // There might be a more accurate assertion for that test.
 	}
 
 	public function test_create() {
@@ -59,7 +59,6 @@ class Tests_Torro_Forms_Manager extends Torro_UnitTestCase {
 		$form = torro()->forms()->get( $form_id );
 		$this->assertInstanceOf( 'Torro_Form', $form );
 		$this->assertEquals( $form_id, $form->id );
-		$this->assertEquals( $title, $form->title );
 	}
 
 	public function test_query() {
@@ -68,7 +67,8 @@ class Tests_Torro_Forms_Manager extends Torro_UnitTestCase {
 		$queried_forms = torro()->forms()->query( array( 'number' => -1 ) );
 		$this->assertContainsOnlyInstancesOf( 'Torro_Form', $queried_forms );
 		$queried_form_ids = wp_list_pluck( $queried_forms, 'id' );
-		$this->assertArraySubset( $form_ids, $queried_form_ids );
+		$queried_form_ids = array_intersect( $queried_form_ids, $form_ids );
+		$this->assertEqualSets( $form_ids, $queried_form_ids );
 
 		$form_count = count( $queried_forms );
 		$queried_forms = torro()->forms()->query( array( 'number' => 2 ) );

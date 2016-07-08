@@ -397,6 +397,8 @@ class Torro_Form extends Torro_Instance_Base {
 		$post_data['ID'] = '';
 		if ( $args['as_draft'] ) {
 			$post_data['post_status'] = 'draft';
+		} else {
+			$post_data['post_status'] = 'publish';
 		}
 		$post_data['post_date'] = $post_data['post_modified'] = $post_data['post_date_gmt'] = $post_data['post_modified_gmt'] = '';
 
