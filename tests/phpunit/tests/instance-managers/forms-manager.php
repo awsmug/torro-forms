@@ -24,17 +24,6 @@ class Tests_Torro_Forms_Manager extends Torro_UnitTestCase {
 		$this->assertEquals( $form_id, $current_id );
 	}
 
-	public function test_get_content() {
-		$this->go_to( home_url() );
-		$current_content = torro()->forms()->get_content();
-		$this->assertEmpty( $current_content );
-
-		$form_id = self::factory()->form->create();
-		$this->go_to( get_permalink( $form_id ) );
-		$current_content = torro()->forms()->get_content();
-		$this->assertContains( strval( $form_id ), $current_content ); // There might be a more accurate assertion for that test.
-	}
-
 	public function test_create() {
 		$title = 'Test Form';
 

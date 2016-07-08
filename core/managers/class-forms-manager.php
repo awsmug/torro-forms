@@ -63,16 +63,6 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 	}
 
 	/**
-	 * Gets content of the displayed form
-	 *
-	 * @return string
-	 * @since 1.0.0-beta.7
-	 */
-	public function get_content() {
-		return $this->form_controller->get_content();
-	}
-
-	/**
 	 * Creates a new form.
 	 *
 	 * @since 1.0.0-beta.1
