@@ -61,15 +61,12 @@ final class Torro_Element_Type_Content extends Torro_Element_Type {
 	 *
 	 * @return array
 	 */
-	public function to_json( $element ) {
-		$data = parent::to_json( $element );
-
-		if( array_key_exists( 'label', $data ) ) {
-			$data[ 'label' ] = do_shortcode( $data[ 'label' ] );
-		}
-
+	public static function filter_template_vars( $data ) {
+		$data[ 'label' ] = do_shortcode( $data[ 'label' ] );
 		return $data;
 	}
 }
 
 torro()->element_types()->register( 'Torro_Element_Type_Content' );
+
+add_action( 'torro_element_data_content', array( Torro_Element_Type_Content, 'filter_template_vars' ) );
