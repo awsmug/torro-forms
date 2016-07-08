@@ -635,6 +635,8 @@ class Torro_Form extends Torro_Instance_Base {
 		if ( ! empty( $this->id ) ) {
 			$post_data = get_post( $this->id, ARRAY_A );
 			$func = 'wp_update_post';
+		} else {
+			$post_data['post_status'] = 'publish';
 		}
 
 		$post_data['post_type'] = 'torro_form';
