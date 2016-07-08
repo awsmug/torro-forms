@@ -56,7 +56,7 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	 */
 	public function notification( $form_id, $response_id, $response ) {
 		$notification = get_post_meta( $form_id, 'redirect_text_content', true );
-		$notification = wpautop( $notification );
+		$notification = wpautop( do_shortcode( $notification ) );
 
 		return $notification;
 	}
