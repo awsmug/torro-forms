@@ -43,7 +43,7 @@ class Torro_Form_Controller {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private $content = null;
+	private $content = '';
 
 	/**
 	 * Current form id
@@ -155,7 +155,7 @@ class Torro_Form_Controller {
 	public function get_content() {
 		if ( is_wp_error( $this->content ) ) {
 			return $this->content->get_error_message();
-		} elseif ( ! $this->content ) {
+		} elseif ( ! $this->content && $this->form ) {
 			$this->content = $this->form->get_html( $_SERVER['REQUEST_URI'], $this->container_id, $this->response, $this->errors );
 		}
 
