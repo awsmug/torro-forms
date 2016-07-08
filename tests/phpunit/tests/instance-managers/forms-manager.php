@@ -65,7 +65,6 @@ class Tests_Torro_Forms_Manager extends Torro_UnitTestCase {
 		$form_ids = self::factory()->form->create_many( 5 );
 
 		$queried_forms = torro()->forms()->query( array( 'number' => -1 ) );
-		$this->assertContainsOnlyInstancesOf( 'Torro_Form', $queried_forms );
 		$queried_form_ids = wp_list_pluck( $queried_forms, 'id' );
 		$queried_form_ids = array_intersect( $queried_form_ids, $form_ids );
 		$this->assertEqualSets( $form_ids, $queried_form_ids );
