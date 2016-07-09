@@ -69,4 +69,4 @@ final class Torro_Element_Type_Content extends Torro_Element_Type {
 
 torro()->element_types()->register( 'Torro_Element_Type_Content' );
 
-add_action( 'torro_element_data_content', array( Torro_Element_Type_Content, 'filter_template_vars' ) );
+add_action( 'torro_element_data_content', array( 'Torro_Element_Type_Content', 'filter_template_vars' ) );
