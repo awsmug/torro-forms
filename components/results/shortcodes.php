@@ -63,7 +63,7 @@ class Torro_ChartsShortCodes {
 		// Checking forms
 		if( torro()->is_form() ) {
 			// Checking content of form
-			if ( has_shortcode( torro()->forms()->get_content(), 'form_charts' ) || has_shortcode( torro()->forms()->get_content(), 'element_chart' ) ) {
+			if ( has_shortcode( Torro_Form_Controller::instance()->get_content(), 'form_charts' ) || has_shortcode( Torro_Form_Controller::instance()->get_content(), 'element_chart' ) ) {
 				self::$is_shortcode = true;
 				return;
 			}
