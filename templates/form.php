@@ -13,7 +13,9 @@
 <form id="torro-form-<?php echo $form_id; ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" action="<?php echo esc_url( $action_url ); ?>" method="post" enctype="multipart/form-data" novalidate>
 	<?php echo $hidden_fields; ?>
 
-	<?php torro()->template( 'container', $current_container ); ?>
+	<?php if ( $current_container ) : ?>
+		<?php torro()->template( 'container', $current_container ); ?>
+	<?php endif; ?>
 
 	<?php if ( $navigation['prev_button'] ) : ?>
 		<input type="submit" name="<?php echo esc_attr( $navigation['prev_button']['name'] ); ?>" value="<?php echo esc_attr( $navigation['prev_button']['label'] ); ?>">
