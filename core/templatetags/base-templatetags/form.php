@@ -87,17 +87,14 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	public function element_content( $element_id ) {
 		global $torro_response;
 
-		if ( ! isset( $torro_response[ 'container_id' ] ) ) {
-			return;
+		foreach( $torro_response[ 'containers' ] AS $container ) {
+			$elements = $container[ 'elements' ];
+
+			if( array_key_exists( $element_id, $elements ) ) {
+				$value = $elements[ $element_id ];
+			}
 		}
 
-		$container_id = $torro_response[ 'container_id' ];
-
-		if ( ! isset( $torro_response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ] ) ) {
-			return;
-		}
-
-		$value = $torro_response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ];
 		$element = torro()->elements()->get( $element_id );
 
 		/**
