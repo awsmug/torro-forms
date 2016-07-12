@@ -198,6 +198,7 @@ class Torro_Form_Controller {
 			case 'detect_current_form':
 			case 'control':
 			case 'filter_the_content':
+			case 'reset':
 				return call_user_func_array( array( $this, $name ), $arguments );
 			default:
 				return new Torro_Error( 'torro_form_controller_method_not_exists', sprintf( __( 'This Torro Forms Controller function "%s" does not exist.', 'torro-forms' ), $name ) );
@@ -507,6 +508,24 @@ class Torro_Form_Controller {
 		}
 
 		return $this->get_content();
+	}
+
+	/**
+	 * Resets the form controller.
+	 *
+	 * Needed for unit testing.
+	 *
+	 * @since 1.0.0
+	 */
+	private function reset() {
+		$this->form_id = null;
+		$this->form = null;
+		$this->container_id = null;
+		$this->content = '';
+		$this->cache = null;
+		$this->is_preview = false;
+		$this->response = array();
+		$this->errors = array();
 	}
 }
 

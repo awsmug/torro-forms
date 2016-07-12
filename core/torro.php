@@ -269,16 +269,21 @@ final class Torro {
 	}
 
 	/**
-	 * Checks if we are in a Torro Forms post type
+	 * Checks if we are in a Torro Forms post type in the frontend
 	 *
 	 * @return bool
 	 * @since 1.0.0
 	 */
 	public function is_form() {
-		if( ! is_wp_error( $this->forms()->get_current() ) ) {
-			return true;
+		if ( is_admin() ) {
+			return false;
 		}
-		return false;
+
+		if ( is_wp_error( $this->forms()->get_current() ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

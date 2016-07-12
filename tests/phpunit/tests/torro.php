@@ -88,9 +88,8 @@ class Tests_Torro extends Torro_UnitTestCase {
 	public function test_is_form() {
 		$form_id = self::factory()->form->create();
 
-		//TODO: figure out whether this should return true or false
-		//$this->go_to( admin_url( 'post.php?post=' . $form_id . '&action=edit' ) );
-		//$this->assertFalse( torro()->is_form() );
+		$this->go_to( admin_url( 'post.php?post=' . $form_id . '&action=edit' ) );
+		$this->assertFalse( torro()->is_form() );
 
 		$this->go_to( home_url( '/' ) );
 		$this->assertFalse( torro()->is_form() );
