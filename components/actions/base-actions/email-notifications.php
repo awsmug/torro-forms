@@ -110,7 +110,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 				$from_email = torro_filter_templatetags( $notification->from_email );
 				$to_email = torro_filter_templatetags( $notification->to_email );
 				$subject = torro_filter_templatetags( $notification->subject );
-				$message = torro_filter_templatetags( $notification->message );
+				$message = torro_filter_templatetags( wpautop( $notification->message ) );
 
 				$this->from_name = $from_name;
 				$this->from_email = $from_email;
