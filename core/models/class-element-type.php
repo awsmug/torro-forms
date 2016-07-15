@@ -593,15 +593,16 @@ abstract class Torro_Element_Type extends Torro_Base {
 
 		$base_name = $this->get_admin_input_name( $element ) . '[settings][' . $id . ']';
 		$input_name = $base_name . '[value]';
+		$input_id = 'settings_' . $id;
 
 		switch ( $field['type'] ) {
 			case 'text':
 				$html .= '<div class="torro-form-fieldset-title">';
-				$html .= '<label for="' . $input_name . '">' . $field[ 'title' ] . '</label>';
+				$html .= '<label for="' . $input_id . '">' . $field[ 'title' ] . '</label>';
 				$html .= '</div>';
 
 				$html .= '<div class="torro-form-fieldset-input">';
-				$html .= '<input type="text" name="' . $input_name . '" value="' . esc_attr( $value ) . '" />';
+				$html .= '<input type="text" id="' . $input_id . '" name="' . $input_name . '" value="' . esc_attr( $value ) . '" />';
 				$html .= '<input type="hidden" name="' . $base_name . '[id]" value="' . $id . '">';
 				$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
 				$html .= '<small>' . $field[ 'description' ] . '</small>';
@@ -612,11 +613,11 @@ abstract class Torro_Element_Type extends Torro_Base {
 				break;
 			case 'textarea':
 				$html .= '<div class="torro-form-fieldset-title">';
-				$html .= '<label for="' . $input_name . '">' . $field[ 'title' ] . '</label>';
+				$html .= '<label for="' . $input_id . '">' . $field[ 'title' ] . '</label>';
 				$html .= '</div>';
 
 				$html .= '<div class="torro-form-fieldset-input">';
-				$html .= '<textarea name="' . $input_name . '">' . esc_html( $value ) . '</textarea><br />';
+				$html .= '<textarea id="' . $input_id . '" name="' . $input_name . '">' . esc_html( $value ) . '</textarea><br />';
 				$html .= '<input type="hidden" name="' . $base_name . '[id]" value="' . $id . '">';
 				$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
 				$html .= '<small>' . $field[ 'description' ] . '</small>';
@@ -626,14 +627,14 @@ abstract class Torro_Element_Type extends Torro_Base {
 				break;
 			case 'wp_editor':
 				$html .= '<div class="torro-form-fieldset-title">';
-				$html .= '<label for="' . $input_name . '">' . $field[ 'title' ] . '</label>';
+				$html .= '<label for="' . $input_id . '">' . $field[ 'title' ] . '</label>';
 				$html .= '</div>';
 
 				$settings = array(
 					'textarea_name' => $name
 				);
 				ob_start();
-				wp_editor( $value, 'torro_wp_editor_' . substr( md5( time() * rand() ), 0, 7 ) . '_tinymce', $settings );
+				wp_editor( $value, $input_id, $settings );
 				$input = ob_get_clean();
 
 				$html .= '<div class="torro-form-fieldset-input">';
@@ -647,10 +648,10 @@ abstract class Torro_Element_Type extends Torro_Base {
 				break;
 			case 'select':
 				$html .= '<div class="torro-form-fieldset-title">';
-				$html .= '<label for="' . $input_name . '">' . $field[ 'title' ] . '</label>';
+				$html .= '<label for="' . $input_id . '">' . $field[ 'title' ] . '</label>';
 				$html .= '</div>';
 
-				$input = '<select name="' . $input_name . '">';
+				$input = '<select id="' . $input_id . '" name="' . $input_name . '">';
 				foreach ( $field['values'] as $field_key => $field_value ) {
 					$selected = '';
 					if ( $value === $field_key ) {
@@ -676,13 +677,15 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= '<legend>' . $field[ 'title' ] . '</legend>';
 				$html .= '</div>';
 
+				$i = 0;
 				foreach ( $field['values'] as $field_key => $field_value ) {
 					$checked = '';
 					if ( $value === $field_key ) {
 						$checked = ' checked="checked"';
 					}
 
-					$html .= '<span class="torro-form-fieldset-input-radio"><input type="radio" id="' . $field_key . '" name="' . $input_name . '" value="' . $field_key . '"' . $checked . ' /> <label for="' . $field_key . '">' . esc_html( $field_value ) . '</label></span>';
+					$html .= '<span class="torro-form-fieldset-input-radio"><input type="radio" id="' . $input_id . '_' . $i . '" name="' . $input_name . '" value="' . $field_key . '"' . $checked . ' /> <label for="' . $input_id . '_' . $i . '">' . esc_html( $field_value ) . '</label></span>';
+					$i++;
 				}
 				$html .= '<input type="hidden" name="' . $base_name . '[id]" value="' . $id . '">';
 				$html .= '<input type="hidden" name="' . $base_name . '[name]" value="' . $name . '">';
@@ -695,8 +698,6 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= '<div class="torro-form-fieldset-title">';
 				$html .= '<legend>' . $field[ 'title' ] . '</legend>';
 				$html .= '</div>';
-
-				$input_id = str_replace( array( '[', ']' ), '_', $input_name );
 
 				$i = 0;
 				foreach ( $field['values'] as $field_value => $field_label ) {
