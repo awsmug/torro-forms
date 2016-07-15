@@ -108,6 +108,8 @@ class Torro_ChartsShortCodes {
 
 		$html = torro()->resulthandlers()->get_registered( 'c3' )->show_form_charts( $form_id );
 
+		self::$is_shortcode = true;
+
 		return $html;
 	}
 
@@ -136,6 +138,8 @@ class Torro_ChartsShortCodes {
 		$results = $charts->format_results_by_element( $results );
 
 		$html = $charts->bars( $element->label, $results[ 'element_' . $element->id ] );
+
+		self::$is_shortcode = true;
 
 		return $html;
 	}
