@@ -189,7 +189,7 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 		$html .= '<table class="form-table">';
 		$html .= '<tr>';
 		$html .= '<td>';
-		$html .= '<label for="rediredt_text_content">' . esc_attr__( 'Page' ) . '</label>';
+		$html .= '<label for="redirect_text_content">' . esc_attr__( 'Page' ) . '</label>';
 		$html .= '</td>';
 		$html .= '<td>';
 
