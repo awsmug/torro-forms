@@ -42,9 +42,9 @@
 				var $this = $( this );
 				var id = $this.attr( 'id' );
 
-				var categories = $this.data( 'categories' ).split( '###' );
+				var categories = $this.data( 'categories' ).toString().split( '###' );
 
-				var results = $this.data( 'results' ).split( '###' ).map( function( value ) {
+				var results = $this.data( 'results' ).toString().split( '###' ).map( function( value ) {
 					return parseInt( value, 10 );
 				});
 				results.unshift( 'values' );
