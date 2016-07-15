@@ -110,11 +110,8 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 			/**
 			 * Elements with multiple answers
 			 */
-			$html = '<ul>';
-			foreach ( $value as $response ) {
-				$html .= '<li>' . $response . '</li>';
-			}
-			$html .= '</ul>';
+
+			$html = apply_filters( 'torro_templatetags_element_content_array', implode( ', ', $value ), $value );
 
 			return $html;
 		} else {
@@ -122,7 +119,7 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 			 * Elements with string response value
 			 */
 			if ( is_callable( array( $element, 'render_value' ) ) ) {
-				return $element->render_value( $value );
+				return apply_filters( 'torro_templatetags_element_content_string', $element->render_value( $value ) );
 			}
 
 			return $value;
