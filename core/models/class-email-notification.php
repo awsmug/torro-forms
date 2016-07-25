@@ -33,6 +33,8 @@ class Torro_Email_Notification extends Torro_Instance_Base {
 
 	protected $from_email = '';
 
+	protected $reply_email = '';
+
 	protected $to_name = '';
 
 	protected $to_email = '';
@@ -61,6 +63,7 @@ class Torro_Email_Notification extends Torro_Instance_Base {
 			'notification_name'	=> 'string',
 			'from_name'			=> 'string',
 			'from_email'		=> 'string',
+			'reply_email'		=> 'string',
 			'to_name'			=> 'string',
 			'to_email'			=> 'string',
 			'subject'			=> 'string',

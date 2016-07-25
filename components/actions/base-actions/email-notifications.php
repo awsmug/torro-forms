@@ -38,6 +38,14 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 	protected $from_email;
 
 	/**
+	 * Reply Email Address
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $reply_email;
+
+	/**
 	 * Singleton
 	 *
 	 * @return Torro_Email_Notifications
@@ -108,9 +116,12 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 			foreach ( $notifications as $notification ) {
 				$from_name = torro_filter_templatetags( $notification->from_name );
 				$from_email = torro_filter_templatetags( $notification->from_email );
+				$reply_email = torro_filter_templatetags( $notification->reply_email );
 				$to_email = torro_filter_templatetags( $notification->to_email );
 				$subject = torro_filter_templatetags( $notification->subject );
 				$message = torro_filter_templatetags( wpautop( $notification->message ) );
+
+				$headers[]   = 'Reply-To: ' . $reply_email;
 
 				$this->from_name = $from_name;
 				$this->from_email = $from_email;
@@ -119,7 +130,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 				add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
 				add_filter( 'wp_mail_from_name', array( $this, 'set_email_from_name' ) );
 
-				wp_mail( $to_email, $subject, $message );
+				wp_mail( $to_email, $subject, $message, $headers );
 
 				remove_filter( 'wp_mail_content_type', array( $this, 'set_email_html_content_type' ) );
 				remove_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
@@ -186,7 +197,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		$html .= '<div class="notifications widget-title">';
 		if ( 0 < count( $notifications ) ) {
 			foreach ( $notifications as $notification ) {
-				$html .= $this->get_notification_settings_html( $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->to_email, $notification->subject, $notification->message );
+				$html .= $this->get_notification_settings_html( $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->reply_email, $notification->to_email, $notification->subject, $notification->message );
 			}
 		}
 		$html .= '<p class="no-entry-found not-found-area">' . esc_html__( 'No notifications found.', 'torro-forms' ) . '</p>';
@@ -258,6 +269,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 					'notification_name'	=> $notification['notification_name'],
 					'from_name'			=> $notification['from_name'],
 					'from_email'		=> $notification['from_email'],
+					'reply_email'		=> $notification['reply_email'],
 					'to_email'			=> $notification['to_email'],
 					'subject'			=> $notification['subject'],
 					'message'			=> $notification['message'],
@@ -291,7 +303,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $to_email = '', $subject = '', $message = '' ) {
+	public function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $reply_email = '', $to_email = '', $subject = '', $message = '' ) {
 		$ajax = false;
 		if ( '_AJAX_' === substr( $id, 0, 6 ) ) {
 			$ajax = true;
@@ -326,7 +338,11 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		$html .= '</tr>';
 		$html .= '<tr>';
 		$html .= '<th><label for="email_notifications[' . $id . '][from_email]">' . esc_html__( 'From Email', 'torro-forms' ) . '</label></th>';
-		$html .= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '</td>';
+		$html .= '<td><input type="text" name="email_notifications[' . $id . '][from_email]" value="' . $from_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][from_email]' ) . '<br><small>' . esc_html__( 'This email address should contain the same domain like your website domain (e.g. email@yourwebsite.com)', 'torro-forms' ) . '</small></td>';
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<th><label for="email_notifications[' . $id . '][reply_email]">' . esc_html__( 'Reply Email', 'torro-forms' ) . '</label></th>';
+		$html .= '<td><input type="text" name="email_notifications[' . $id . '][reply_email]" value="' . $reply_email . '">' . torro_template_tag_button( 'email_notifications[' . $id . '][reply_email]' ) . '</td>';
 		$html .= '</tr>';
 		$html .= '<tr>';
 		$html .= '<th><label for="email_notifications[' . $id . '][to_email]">' . esc_html__( 'To Email', 'torro-forms' ) . '</label></th>';
