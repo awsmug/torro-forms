@@ -47,7 +47,7 @@ final class Torro_Form_Actions_Component extends Torro_Component {
 
 	/**
 	 * Including files of component
-	 *
+	 * 
 	 * @since 1.0.0
 	 */
 	protected function includes() {
