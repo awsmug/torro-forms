@@ -99,6 +99,8 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 			'number'	=> $length,
 			'offset'	=> $start,
 			'form_id'	=> $form_id,
+			'orderby'   => 'timestamp',
+			'order'     => 'desc'
 		) );
 
 		$total_count = torro()->results()->query( array(
