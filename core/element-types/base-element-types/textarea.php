@@ -51,6 +51,12 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 			$data['limits_text'] = sprintf( __( 'A maximum of %s characters are allowed.', 'torro-forms' ), number_format_i18n( $element->settings['max_length']->value ) );
 		}
 
+		$data['placeholder'] = '';
+		if ( ! empty( $element->settings['placeholder'] ) && ! empty( $element->settings['placeholder']->value ) ) {
+			$data['placeholder'] = $element->settings['placeholder']->value;
+		}
+		$data['placeholder'] = apply_filters( 'torro_input_placeholder', $data['placeholder'], $element_id );
+
 		$data['extra_attr'] = ' maxlength="' . $element->settings['max_length']->value . '" rows="' . $element->settings['rows']->value . '" cols="' . $element->settings['cols']->value . '"';
 
 		return $data;
@@ -63,6 +69,12 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 	 */
 	protected function settings_fields() {
 		$this->settings_fields = array(
+			'placeholder'	=> array(
+				'title'			=> __( 'Placeholder', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Placeholder text will be shown until data have been putted in.', 'torro-forms' ),
+				'default'		=> ''
+			),
 			'description'	=> array(
 				'title'			=> __( 'Description', 'torro-forms' ),
 				'type'			=> 'textarea',

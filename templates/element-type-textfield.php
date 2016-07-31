@@ -14,7 +14,7 @@ $aria_describedby = ' aria-describedby="' . esc_attr( $id ) . '-description' . (
 $aria_invalid = $has_error ? ' aria-invalid="true"' : '';
 $aria_required = $required ? ' aria-required="true"' : '';
 ?>
-<input type="<?php echo esc_attr( $type ); ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" value="<?php echo esc_attr( $response ); ?>"<?php echo $extra_attr . $aria_describedby . $aria_required . $aria_invalid; ?>>
+<input type="<?php echo esc_attr( $type ); ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" value="<?php echo esc_attr( $response ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>"<?php echo $extra_attr . $aria_describedby . $aria_required . $aria_invalid; ?>>
 
 <?php if ( ! empty( $limits_text ) ) : ?>
 	<div class="limits-text">
