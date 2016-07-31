@@ -84,6 +84,8 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Introduce element tab slugs for more meaningful hook usage
 * Fixed: Forms are now created and copied as intended (with post status `publish`) by default
 * Tweaked: Removed the method `Torro_Forms_Manager::get_content()` which made no sense in that class
+* Tweaked: Added filter for form names and ids
+* Tweaked: Changed form element id names
 
 = 1.0.0-beta.6 =
 
