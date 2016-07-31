@@ -178,6 +178,11 @@ class Torro_Element extends Torro_Instance_Base {
 			$data['required'] = true;
 		}
 
+		if ( isset( $this->settings['css_classes'] ) && strlen( $this->settings['css_classes']->value ) > 0 ) {
+			$additional_classes = explode( ' ', esc_attr( $this->settings['css_classes']->value ) );
+			$data['classes'] = array_merge( $data['classes'], $additional_classes );
+		}
+
 		/**
 		 * Filters the data sent to the element template, based on the element type.
 		 *

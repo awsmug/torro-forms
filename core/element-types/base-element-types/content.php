@@ -32,6 +32,17 @@ final class Torro_Element_Type_Content extends Torro_Element_Type {
 		$this->input = false;
 	}
 
+	protected function settings_fields() {
+		$this->settings_fields = array(
+			'css_classes'	=> array(
+				'title'			=> __( 'CSS Classes', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+				'default'		=> ''
+			),
+		);
+	}
+
 	protected function admin_content_html( $element ) {
 		$element_id = $this->get_admin_element_id( $element );
 		$name = $this->get_admin_input_name( $element );

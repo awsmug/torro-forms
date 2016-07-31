@@ -78,6 +78,12 @@ final class Torro_Element_Type_Media extends Torro_Element_Type {
 				'description'	=> __( 'The file type that the user is allowed to upload.', 'torro-forms' ),
 				'default'		=> 'any',
 			),
+			'css_classes'	=> array(
+				'title'			=> __( 'CSS Classes', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+				'default'		=> ''
+			),
 		);
 	}
 

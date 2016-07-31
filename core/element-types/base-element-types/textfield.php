@@ -106,6 +106,12 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 				'description'	=> sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supportet by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
 				'default'		=> 'text'
 			),
+			'css_classes'	=> array(
+				'title'			=> __( 'CSS Classes', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+				'default'		=> ''
+			),
 		);
 	}
 

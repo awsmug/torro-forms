@@ -103,6 +103,12 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 				'description'	=> __( 'Number of columns for typing in (can be overwritten by CSS).', 'torro-forms' ),
 				'default'		=> '75'
 			),
+			'css_classes'	=> array(
+				'title'			=> __( 'CSS Classes', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+				'default'		=> ''
+			),
 		);
 	}
 

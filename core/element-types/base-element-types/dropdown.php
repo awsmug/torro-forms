@@ -73,6 +73,12 @@ final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 				'description'	=> __( 'Whether the user must select a value.', 'torro-forms' ),
 				'default'		=> 'yes',
 			),
+			'css_classes'	=> array(
+				'title'			=> __( 'CSS Classes', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+				'default'		=> ''
+			),
 		);
 	}
 
