@@ -162,7 +162,7 @@ class Torro_Element extends Torro_Instance_Base {
 			'template_suffix'	=> $this->type,
 			'element_id'		=> $this->id,
 			'label'				=> $this->label,
-			'id'				=> 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id,
+			'id'				=> 'torro_form_element_' . $this->id,
 			'classes'			=> $element_classes,
 			'errors'			=> $this->errors,
 			'description'		=> '',

@@ -368,7 +368,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	protected function get_input_id( $element ) {
-		return 'torro_response_containers_' . $element->superior_id . '_elements_' . $element->id;
+		return 'torro_form_element_' . $element->id;
 	}
 
 	/**
