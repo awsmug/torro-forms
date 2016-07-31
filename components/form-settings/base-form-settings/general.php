@@ -197,7 +197,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$html .= '<h4>' . esc_html__( 'Misc', 'torro-forms' ) . '</h4>';
 
 		$html .= '<div class="flex-options" role="group">';
-		$html .= '<label for="allow_get_param">' . esc_html__( 'Allow $_GET parmeters', 'torro-forms' ) . '</label>';
+		$html .= '<label for="allow_get_param">' . esc_html__( 'Allow $_GET parameters', 'torro-forms' ) . '</label>';
 		$html .= '<div><input type="checkbox" id="allow_get_param" name="allow_get_param" value="yes" aria-describedby="show-allow-get-param-desc" ' . $allow_get_param_checked . ' />';
 		$html .= '<div id="show-allow-get-param-desc">' . esc_html__( 'Allow setting of element values by $_GET parameter (by using ?torro_input_value_ELEMENT_ID=VALUE).', 'torro-forms' ) .'</div></div>';
 		$html .= '</div>';
