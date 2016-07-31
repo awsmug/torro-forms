@@ -120,9 +120,9 @@ abstract class Torro_Element_Type extends Torro_Base {
 	 * @return array
 	 */
 	public function to_json( $element ) {
-		$id             = apply_filters( 'torro_form_element_id', $this->get_input_id( $element ), $element->id );
-		$name           = apply_filters( 'torro_form_element_name',$this->get_input_name( $element ), $element->id );
-		$input_classes  = apply_filters( 'torro_form_element_classes', array( 'torro-form-input' ), $this );
+		$id             = apply_filters( 'torro_input_id', $this->get_input_id( $element ), $element->id );
+		$name           = apply_filters( 'torro_input_name',$this->get_input_name( $element ), $element->id );
+		$input_classes  = apply_filters( 'torro_input_classes', array( 'torro-form-input' ), $this );
 
 		$data = array(
 			'template_suffix'	=> $this->name,
