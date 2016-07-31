@@ -281,13 +281,15 @@ abstract class Torro_Element_Type extends Torro_Base {
 		 */
 		$admin_tabs = array(
 			array(
-				'title'   => __( 'Content', 'torro-forms' ),
-				'content' => $this->admin_widget_content_tab( $element ),
+				'slug'		=> 'content',
+				'title'		=> __( 'Content', 'torro-forms' ),
+				'content'	=> $this->admin_widget_content_tab( $element ),
 			),
 		);
 		$settings = $this->admin_widget_settings_tab( $element );
 		if ( false !== $settings ) {
 			$admin_tabs[] = array(
+				'slug'		=> 'settings',
 				'title'		=> __( 'Settings', 'torro-forms' ),
 				'content'	=> $settings,
 			);
@@ -317,6 +319,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= $tab['content'];
 
 				ob_start();
+				do_action( 'torro_element_admin_tab_content_' . $tab['slug'], $element_id, $this, $key );
 				do_action( 'torro_element_admin_tab_content', $element_id, $this, $key );
 				$html .= ob_get_clean();
 
@@ -329,6 +332,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 				$html .= $tab['content'];
 				// Adding further content
 				ob_start();
+				do_action( 'torro_element_admin_tab_content_' . $tab['slug'], $element_id, $this, $key );
 				do_action( 'torro_element_admin_tab_content', $element_id, $this, $key );
 				$html .= ob_get_clean();
 			}
