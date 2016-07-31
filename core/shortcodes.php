@@ -102,8 +102,6 @@ class Torro_ShortCodes {
 
 		$columns = array_slice( $columns, 0, 2, true) + $new_columns + array_slice( $columns, 2, count( $columns ) - 1, true) ;
 
-		// $columns = array_merge( $columns, $new_columns );
-
 		return $columns;
 	}
 
