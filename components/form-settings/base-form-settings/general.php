@@ -139,9 +139,16 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$not_allowed_text = get_post_meta( $form_id, 'not_allowed_text', true );
 		$to_be_logged_in_text = get_post_meta( $form_id, 'to_be_logged_in_text', true );
 
+		$allow_get_param = get_post_meta( $form_id, 'allow_get_param', true );
+
 		$show_page_title_checked = '';
 		if( 'yes' === $show_page_title || empty( $show_page_title )  ) {
 			$show_page_title_checked = ' checked="checked"';
+		}
+
+		$allow_get_param_checked = '';
+		if( 'yes' === $allow_get_param ) {
+			$allow_get_param_checked = ' checked="checked"';
 		}
 
 		$html  = '<div class="torro-form-options">';
@@ -187,6 +194,14 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$html .= '<div><input type="text" id="to_be_logged_in_text" name="to_be_logged_in_text" value="' . $to_be_logged_in_text . '" placeholder="' .  esc_attr( 'You have to be logged in to participate.', 'torro-forms' ) . '" /></div>';
 		$html .= '</div>';
 
+		$html .= '<h4>' . esc_html__( 'Misc', 'torro-forms' ) . '</h4>';
+
+		$html .= '<div class="flex-options" role="group">';
+		$html .= '<label for="allow_get_param">' . esc_html__( 'Allow $_GET parmeters', 'torro-forms' ) . '</label>';
+		$html .= '<div><input type="checkbox" id="allow_get_param" name="allow_get_param" value="yes" aria-describedby="show-allow-get-param-desc" ' . $allow_get_param_checked . ' />';
+		$html .= '<div id="show-allow-get-param-desc">' . esc_html__( 'Allow setting of element values by $_GET parameter (by using ?torro_input_value_ELEMENT_ID=VALUE).', 'torro-forms' ) .'</div></div>';
+		$html .= '</div>';
+
 		ob_start();
 		do_action( 'torro_formbuilder_options' );
 		$html .= ob_get_clean();
@@ -216,6 +231,11 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$not_allowed_text = wp_unslash( $_POST['not_allowed_text'] );
 		$to_be_logged_in_text = wp_unslash( $_POST['to_be_logged_in_text'] );
 
+		$allow_get_param= 'no';
+		if( isset( $_POST['show_page_title']  ) ) {
+			$allow_get_param = wp_unslash( $_POST[ 'allow_get_param' ] );
+		}
+
 		/**
 		 * Saving start and end date
 		 */
@@ -228,6 +248,8 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		update_post_meta( $form_id, 'already_entered_text', $already_entered_text );
 		update_post_meta( $form_id, 'not_allowed_text', $not_allowed_text );
 		update_post_meta( $form_id, 'to_be_logged_in_text', $to_be_logged_in_text );
+
+		update_post_meta( $form_id, 'allow_get_param', $allow_get_param );
 	}
 }
 

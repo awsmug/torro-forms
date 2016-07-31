@@ -124,6 +124,22 @@ abstract class Torro_Element_Type extends Torro_Base {
 		$name           = apply_filters( 'torro_input_name',$this->get_input_name( $element ), $element->id );
 		$input_classes  = apply_filters( 'torro_input_classes', array( 'torro-form-input' ), $this );
 
+		// $container = torro()->containers()->get( $element->superior_id );
+		$form_id = torro()->forms()->get_current_form_id();
+
+		$allow_get_param = get_post_meta( $form_id, 'allow_get_param', true );
+
+		$value = '';
+		if( empty( $element->response ) && 'yes' === $allow_get_param ) {
+			if( isset( $_GET['torro_input_value_' . $element->id ] ) ) {
+				$value = $_GET['torro_input_value_' . $element->id ];
+			}
+		} else {
+			$value = $element->response;
+		}
+
+		$value = apply_filters( 'torro_input_value', $value, $element->id );
+
 		$data = array(
 			'template_suffix'	=> $this->name,
 			'element_id'		=> $element->id,
@@ -134,7 +150,7 @@ abstract class Torro_Element_Type extends Torro_Base {
 			'description'		=> '',
 			'required'			=> false,
 			'answers'			=> array(),
-			'response'			=> $element->response,
+			'response'		    => $value,
 			'has_error'			=> false,
 			'has_success'		=> false,
 			'extra_attr'		=> '',
