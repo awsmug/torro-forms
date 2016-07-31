@@ -1,6 +1,6 @@
 <?php
 /**
- * Core: Torro_Element class
+ * Core: Torro_Element_Type class
  *
  * @package TorroForms
  * @subpackage CoreModels
@@ -13,15 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Element base class
- *
+ * Element Type base class
+
  * @since 1.0.0-beta.1
- *
+
  * @property int    $container_id
  * @property string $label
  * @property int    $sort
  * @property string $type
- *
+
  * @property-read array $sections
  * @property-read array $answers
  * @property-read array $settings
@@ -120,15 +120,16 @@ abstract class Torro_Element_Type extends Torro_Base {
 	 * @return array
 	 */
 	public function to_json( $element ) {
-		$input_classes = array( 'torro-form-input' );
-		$input_classes = apply_filters( 'torro_input_classes', $input_classes, $this );
+		$id             = apply_filters( 'torro_form_element_id', $this->get_input_id( $element ), $element->id );
+		$name           = apply_filters( 'torro_form_element_name',$this->get_input_name( $element ), $element->id );
+		$input_classes  = apply_filters( 'torro_form_element_classes', array( 'torro-form-input' ), $this );
 
 		$data = array(
 			'template_suffix'	=> $this->name,
 			'element_id'		=> $element->id,
 			'type'				=> 'text',
-			'id'				=> $this->get_input_id( $element ),
-			'name'				=> $this->get_input_name( $element ),
+			'id'				=> $id,
+			'name'				=> $name,
 			'classes'			=> $input_classes,
 			'description'		=> '',
 			'required'			=> false,
