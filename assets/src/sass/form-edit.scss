@@ -171,6 +171,48 @@
 				}
 			}
 
+			.tab-content {
+				small {
+					display:block;
+				}
+
+				input[type="text"],
+				textarea {
+					width: 100%;
+
+					&.form-label {
+						width: 100%;
+					}
+				}
+
+				.answers {
+					margin-bottom: 15px;
+
+					input[type="text"] {
+						width: 50%;
+					}
+				}
+
+				.answer {
+					height: 40px;
+					padding-left: 20px;
+					background-image: url('#{$image-path}/icon-updown.png');
+					background-repeat: no-repeat;
+					background-position: top 7px left 0;
+					cursor: move;
+
+					p {
+						display: inline;
+					}
+				}
+
+				.add-answer {
+					font-weight: bold;
+					text-decoration: underline;
+					cursor: hand;
+				}
+			}
+
 			.container-buttons {
 				margin: 0;
 				padding: 15px;
@@ -256,17 +298,6 @@
 			margin-bottom: 15px;
 		}
 
-		#containers {
-			input[type="text"],
-			textarea {
-				width: 80%;
-
-				&.form-label {
-					width: 100%;
-				}
-			}
-		}
-
 		.drop-elements-here {
 			border: 2px dashed #b4b9be;
 			color: #b4b9be;
@@ -276,29 +307,6 @@
 			line-height: 190px;
 			text-align: center;
 			display: none;
-		}
-
-		.answers {
-			margin-bottom: 15px;
-		}
-
-		.answer {
-			height: 40px;
-			padding-left: 20px;
-			background-image: url('#{$image-path}/icon-updown.png');
-			background-repeat: no-repeat;
-			background-position: top 7px left 0;
-			cursor: move;
-
-			p {
-				display: inline;
-			}
-		}
-
-		.add-answer {
-			font-weight: bold;
-			text-decoration: underline;
-			cursor: hand;
 		}
 
 		.form-fields {
