@@ -89,6 +89,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Added Reply-To field in email notifications
 * Enhanced: Changed appearance of multiple answers in Email notifications
 * Enhanced: Scripts will only be loaded if there is a torro form
+* Enhanced: Added column for form shortcode into form overview
 * Fixed: Forms are now created and copied as intended (with post status `publish`) by default
 * Fixed: Added line breaks between admin settings inputs and description
 * Fixed: Label semantic in settings of elements was wrong
