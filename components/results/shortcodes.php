@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_ChartsShortCodes {
+class Torro_Charts_ShortCodes {
 	private static $is_shortcode = false;
 
 
@@ -186,4 +186,4 @@ class Torro_ChartsShortCodes {
 	}
 }
 
-Torro_ChartsShortCodes::init();
+Torro_Charts_ShortCodes::init();

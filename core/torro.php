@@ -322,7 +322,7 @@ final class Torro {
 	 * @since 1.0.0-beta.7
 	 */
 	public function is_chart(){
-		return Torro_ChartsShortCodes::is_shortcode();
+		return Torro_Charts_ShortCodes::is_shortcode();
 	}
 
 	/**
