@@ -495,7 +495,7 @@ class Torro_Form_Controller {
 	private function filter_the_content( $content ) {
 		$post = get_post();
 
-		if ( 'torro_form' !== $post->post_type ) {
+		if ( 'torro_form' !== $post->post_type || post_password_required( $post ) ) {
 			return $content;
 		}
 
