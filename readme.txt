@@ -101,6 +101,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Fixed: Discription of elements don't have been shown
 * Fixed: PHP Error message on empty label key
 * Fixed: Recaptcha has not performed
+* Fixed: Password-protected form content is not displayed unconditionally
 * Tweaked: Removed the method `Torro_Forms_Manager::get_content()` which made no sense in that class
 * Tweaked: Added filter for form names and ids
 * Tweaked: Changed form element id names
