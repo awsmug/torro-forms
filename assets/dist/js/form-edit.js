@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.6 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.7 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 (function ( exports, wp, $, translations ) {
@@ -291,10 +291,13 @@
 					$( this ).find( 'a' ).toggle();
 				});
 
-				$container_tab.on( 'keydown blur dblclick', 'input', function( e ) {
+				$container_tab.on( 'keydown blur', 'input', function( e ) {
 					if ( ! $( this ).is( ":visible") ) {
 						return;
 					}
+
+					console.log( e );
+
 					if ( e.type == "keydown" ) {
 						if ( e.which == 13 ) {
 							$( this ).toggle();
