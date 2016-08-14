@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreElements
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -77,6 +77,12 @@ final class Torro_Element_Type_Media extends Torro_Element_Type {
 				'values'		=> $this->get_type_dropdown_options(),
 				'description'	=> __( 'The file type that the user is allowed to upload.', 'torro-forms' ),
 				'default'		=> 'any',
+			),
+			'css_classes'	=> array(
+				'title'			=> __( 'CSS Classes', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+				'default'		=> ''
 			),
 		);
 	}

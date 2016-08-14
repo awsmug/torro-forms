@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -56,7 +56,7 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	 */
 	public function notification( $form_id, $response_id, $response ) {
 		$notification = get_post_meta( $form_id, 'redirect_text_content', true );
-		$notification = wpautop( $notification );
+		$notification = wpautop( do_shortcode( $notification ) );
 
 		return $notification;
 	}
@@ -189,7 +189,7 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 		$html .= '<table class="form-table">';
 		$html .= '<tr>';
 		$html .= '<td>';
-		$html .= '<label for="rediredt_text_content">' . esc_attr__( 'Page' ) . '</label>';
+		$html .= '<label for="redirect_text_content">' . esc_attr__( 'Page' ) . '</label>';
 		$html .= '</td>';
 		$html .= '<td>';
 

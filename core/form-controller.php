@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -43,7 +43,7 @@ class Torro_Form_Controller {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private $content = null;
+	private $content = '';
 
 	/**
 	 * Current form id
@@ -155,7 +155,7 @@ class Torro_Form_Controller {
 	public function get_content() {
 		if ( is_wp_error( $this->content ) ) {
 			return $this->content->get_error_message();
-		} elseif ( ! $this->content ) {
+		} elseif ( ! $this->content && $this->form ) {
 			$this->content = $this->form->get_html( $_SERVER['REQUEST_URI'], $this->container_id, $this->response, $this->errors );
 		}
 
@@ -198,6 +198,7 @@ class Torro_Form_Controller {
 			case 'detect_current_form':
 			case 'control':
 			case 'filter_the_content':
+			case 'reset':
 				return call_user_func_array( array( $this, $name ), $arguments );
 			default:
 				return new Torro_Error( 'torro_form_controller_method_not_exists', sprintf( __( 'This Torro Forms Controller function "%s" does not exist.', 'torro-forms' ), $name ) );
@@ -494,7 +495,7 @@ class Torro_Form_Controller {
 	private function filter_the_content( $content ) {
 		$post = get_post();
 
-		if ( 'torro_form' !== $post->post_type ) {
+		if ( 'torro_form' !== $post->post_type || post_password_required( $post ) ) {
 			return $content;
 		}
 
@@ -507,6 +508,24 @@ class Torro_Form_Controller {
 		}
 
 		return $this->get_content();
+	}
+
+	/**
+	 * Resets the form controller.
+	 *
+	 * Needed for unit testing.
+	 *
+	 * @since 1.0.0
+	 */
+	private function reset() {
+		$this->form_id = null;
+		$this->form = null;
+		$this->container_id = null;
+		$this->content = '';
+		$this->cache = null;
+		$this->is_preview = false;
+		$this->response = array();
+		$this->errors = array();
 	}
 }
 

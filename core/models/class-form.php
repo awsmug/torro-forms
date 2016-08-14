@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -186,17 +186,6 @@ class Torro_Form extends Torro_Instance_Base {
 	 * @return array
 	 */
 	public function to_json( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
-		$container = $this->set_current_container( $container_id );
-
-		if ( ! $response ) {
-			// If there's a cached response available, use it.
-			$cache = new Torro_Form_Controller_Cache( $this->id );
-			$cached_response = $cache->get_response();
-			if ( $cached_response && isset( $cached_response['containers'][ $container->id ]['elements'] ) ) {
-				$response = $cached_response['containers'][ $container->id ]['elements'];
-			}
-		}
-
 		$hidden_fields = '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce( 'torro-form-' . $this->id ) . '">';
 		$hidden_fields .= '<input type="hidden" name="torro_form_id" value="' . $this->id . '">';
 
@@ -205,6 +194,8 @@ class Torro_Form extends Torro_Instance_Base {
 			'next_button'	=> null,
 			'submit_button'	=> null,
 		);
+
+		$container = $this->set_current_container( $container_id );
 
 		if ( ! is_wp_error( $this->get_previous_container_id() ) ) {
 			$button_text = apply_filters( 'torro_form_button_previous_step_text', __( 'Previous Step', 'torro-forms' ), $this->id );
@@ -240,9 +231,21 @@ class Torro_Form extends Torro_Instance_Base {
 			'action_url'		=> $form_action_url,
 			'classes'			=> $form_classes,
 			'hidden_fields'		=> $hidden_fields,
-			'current_container'	=> $container->to_json( $response, $errors ),
+			'current_container'	=> array(),
 			'navigation'		=> $navigation,
 		);
+
+		if ( ! is_wp_error( $container ) ) {
+			if ( ! $response ) {
+				// If there's a cached response available, use it.
+				$cache = new Torro_Form_Controller_Cache( $this->id );
+				$cached_response = $cache->get_response();
+				if ( $cached_response && isset( $cached_response['containers'][ $container->id ]['elements'] ) ) {
+					$response = $cached_response['containers'][ $container->id ]['elements'];
+				}
+			}
+			$data['current_container'] = $container->to_json( $response, $errors );
+		}
 
 		return $data;
 	}
@@ -397,6 +400,8 @@ class Torro_Form extends Torro_Instance_Base {
 		$post_data['ID'] = '';
 		if ( $args['as_draft'] ) {
 			$post_data['post_status'] = 'draft';
+		} else {
+			$post_data['post_status'] = 'publish';
 		}
 		$post_data['post_date'] = $post_data['post_modified'] = $post_data['post_date_gmt'] = $post_data['post_modified_gmt'] = '';
 
@@ -633,6 +638,8 @@ class Torro_Form extends Torro_Instance_Base {
 		if ( ! empty( $this->id ) ) {
 			$post_data = get_post( $this->id, ARRAY_A );
 			$func = 'wp_update_post';
+		} else {
+			$post_data['post_status'] = 'publish';
 		}
 
 		$post_data['post_type'] = 'torro_form';

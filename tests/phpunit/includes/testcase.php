@@ -299,6 +299,8 @@ class Torro_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	public function go_to( $url ) {
+		Torro_Form_Controller::instance()->reset();
+
 		// This ensures that is_admin() works properly.
 		if ( 0 === strpos( $url, admin_url() ) ) {
 			$GLOBALS['current_screen'] = new Torro_Screen_Mock();

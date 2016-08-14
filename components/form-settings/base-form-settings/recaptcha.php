@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -80,7 +80,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 
 		add_action( 'torro_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
-		add_filter( 'torro_response_status', array( $this, 'check_recaptcha_submission' ), 10, 5 );
+		add_filter( 'torro_response_status', array( $this, 'check_recaptcha_submission' ), 10, 4 );
 
 		// compatibility with Contact Form 7
 		remove_action( 'wpcf7_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts' );

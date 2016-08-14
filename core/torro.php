@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -269,39 +269,21 @@ final class Torro {
 	}
 
 	/**
-	 * Checks if we are in a Torro Forms post type
+	 * Checks if we are in a Torro Forms post type in the frontend
 	 *
 	 * @return bool
 	 * @since 1.0.0
 	 */
 	public function is_form() {
 		if ( is_admin() ) {
-			if ( ! empty( $_GET[ 'post' ] ) ) {
-				$post = get_post( $_GET[ 'post' ] );
-
-				if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
-					return true;
-				}
-			}
-
-			if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
-				return true;
-			}
-
 			return false;
 		}
 
-		if ( 'torro_form' === get_post_type() ) {
-			return true;
+		if ( is_wp_error( $this->forms()->get_current() ) ) {
+			return false;
 		}
 
-		global $post;
-
-		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'form' ) ) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -311,11 +293,36 @@ final class Torro {
 	 * @since 1.0.0
 	 */
 	public function is_formbuilder() {
-		if ( is_admin() && $this->is_form() ) {
-			return true;
+		if ( is_admin() ) {
+
+			// Post Type overview
+			if ( ! empty( $_GET[ 'post' ] ) ) {
+				$post = get_post( $_GET[ 'post' ] );
+
+				if ( is_a( $post, 'WP_Post' ) && 'torro_form' === $post->post_type ) {
+					return true;
+				}
+			}
+
+			// Post Type
+			if ( ! empty( $_GET[ 'post_type' ] ) && 'torro_form' === $_GET[ 'post_type' ] && ! isset( $_GET[ 'page' ] ) ) {
+				return true;
+			}
+
+			return false;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks if a chart is used
+	 *
+	 * @return bool
+	 * @since 1.0.0-beta.7
+	 */
+	public function is_chart(){
+		return Torro_Charts_ShortCodes::is_shortcode();
 	}
 
 	/**

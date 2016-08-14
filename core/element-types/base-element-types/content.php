@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreElements
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -30,6 +30,17 @@ final class Torro_Element_Type_Content extends Torro_Element_Type {
 		$this->icon_url = torro()->get_asset_url( 'icon-text', 'png' );
 
 		$this->input = false;
+	}
+
+	protected function settings_fields() {
+		$this->settings_fields = array(
+			'css_classes'	=> array(
+				'title'			=> __( 'CSS Classes', 'torro-forms' ),
+				'type'			=> 'text',
+				'description'	=> __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+				'default'		=> ''
+			),
+		);
 	}
 
 	protected function admin_content_html( $element ) {
@@ -61,13 +72,12 @@ final class Torro_Element_Type_Content extends Torro_Element_Type {
 	 *
 	 * @return array
 	 */
-	public function to_json( $element ) {
-		$data = parent::to_json( $element );
-
+	public static function filter_template_vars( $data ) {
 		$data[ 'label' ] = do_shortcode( $data[ 'label' ] );
-
 		return $data;
 	}
 }
 
 torro()->element_types()->register( 'Torro_Element_Type_Content' );
+
+add_action( 'torro_element_data_content', array( 'Torro_Element_Type_Content', 'filter_template_vars' ) );

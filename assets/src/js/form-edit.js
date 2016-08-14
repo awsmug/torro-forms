@@ -287,10 +287,13 @@
 					$( this ).find( 'a' ).toggle();
 				});
 
-				$container_tab.on( 'keydown blur dblclick', 'input', function( e ) {
+				$container_tab.on( 'keydown blur', 'input', function( e ) {
 					if ( ! $( this ).is( ":visible") ) {
 						return;
 					}
+
+					console.log( e );
+
 					if ( e.type == "keydown" ) {
 						if ( e.which == 13 ) {
 							$( this ).toggle();

@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.6 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.7 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 ( function( exports, $ ) {
@@ -42,9 +42,9 @@
 				var $this = $( this );
 				var id = $this.attr( 'id' );
 
-				var categories = $this.data( 'categories' ).split( '###' );
+				var categories = $this.data( 'categories' ).toString().split( '###' );
 
-				var results = $this.data( 'results' ).split( '###' ).map( function( value ) {
+				var results = $this.data( 'results' ).toString().split( '###' ).map( function( value ) {
 					return parseInt( value, 10 );
 				});
 				results.unshift( 'values' );

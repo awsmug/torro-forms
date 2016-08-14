@@ -7,8 +7,8 @@ Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.4
 Tested up to:      4.5.2
-Stable tag:        1.0.0-beta.6
-Version:           1.0.0-beta.6
+Stable tag:        1.0.0-beta.7
+Version:           1.0.0-beta.7
 License:           GNU General Public License v3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -78,6 +78,34 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 6. the plugin settings screen
 
 == Changelog ==
+
+= 1.0.0-beta.7 =
+* Enhanced: Added a new filter for the element data sent to the template
+* Enhanced: Introduce element tab slugs for more meaningful hook usage
+* Enhanced: Added CSS settings field to elements
+* Enhanced: Added placeholder field to text and textarea element
+* Enhanced: Removed separator element (can be done by content element)
+* Enhanced: Added Referer URL Templatetag
+* Enhanced: Added Reply-To field in email notifications
+* Enhanced: Changed appearance of multiple answers in Email notifications
+* Enhanced: Scripts will only be loaded if there is a torro form
+* Enhanced: Added column for form shortcode into form overview
+* Enhanced: Allowing setting form element values by $_GET param
+* Fixed: Forms are now created and copied as intended (with post status `publish`) by default
+* Fixed: Added line breaks between admin settings inputs and description
+* Fixed: Label semantic in settings of elements was wrong
+* Fixed: JS Error on multiple same answes or if there have been only one answer
+* Fixed: Shortcodes in redirection messages working now
+* Fixed: Shortcodes didn't worked in pages and posts
+* Fixed: Results have not been sent if multiple pages are used
+* Fixed: Discription of elements don't have been shown
+* Fixed: PHP Error message on empty label key
+* Fixed: Recaptcha has not performed
+* Fixed: Password-protected form content is not displayed unconditionally
+* Tweaked: Removed the method `Torro_Forms_Manager::get_content()` which made no sense in that class
+* Tweaked: Added filter for form names and ids
+* Tweaked: Changed form element id names
+* Tweaked: Excluded content field from element list in email notifications
 
 = 1.0.0-beta.6 =
 

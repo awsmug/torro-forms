@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -32,6 +32,8 @@ class Torro_Email_Notification extends Torro_Instance_Base {
 	protected $from_name = '';
 
 	protected $from_email = '';
+
+	protected $reply_email = '';
 
 	protected $to_name = '';
 
@@ -61,6 +63,7 @@ class Torro_Email_Notification extends Torro_Instance_Base {
 			'notification_name'	=> 'string',
 			'from_name'			=> 'string',
 			'from_email'		=> 'string',
+			'reply_email'		=> 'string',
 			'to_name'			=> 'string',
 			'to_email'			=> 'string',
 			'subject'			=> 'string',

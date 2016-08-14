@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreModels
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -162,7 +162,7 @@ class Torro_Element extends Torro_Instance_Base {
 			'template_suffix'	=> $this->type,
 			'element_id'		=> $this->id,
 			'label'				=> $this->label,
-			'id'				=> 'torro_response_containers_' . $this->superior_id . '_elements_' . $this->id,
+			'id'				=> 'torro_form_element_' . $this->id,
 			'classes'			=> $element_classes,
 			'errors'			=> $this->errors,
 			'description'		=> '',
@@ -170,13 +170,27 @@ class Torro_Element extends Torro_Instance_Base {
 			'type'				=> $this->type_obj->to_json( $this ),
 		);
 
-		if ( isset( $element->settings['description'] ) && ! empty( $element->settings['description']->value ) ) {
-			$data['description'] = $element->settings['description']->value;
+		if ( isset( $this->settings['description'] ) && ! empty( $this->settings['description']->value ) ) {
+			$data['description'] = $this->settings['description']->value;
 		}
 
 		if ( isset( $this->settings['required'] ) && 'yes' === $this->settings['required']->value ) {
 			$data['required'] = true;
 		}
+
+		if ( isset( $this->settings['css_classes'] ) && strlen( $this->settings['css_classes']->value ) > 0 ) {
+			$additional_classes = explode( ' ', esc_attr( $this->settings['css_classes']->value ) );
+			$data['classes'] = array_merge( $data['classes'], $additional_classes );
+		}
+
+		/**
+		 * Filters the data sent to the element template, based on the element type.
+		 *
+		 * This filter can be used by special element types if they need to adjust their wrapper template data.
+		 *
+		 * @since 1.0.0
+		 */
+		$data = apply_filters( 'torro_element_data_' . $this->type, $data, $this );
 
 		return $data;
 	}

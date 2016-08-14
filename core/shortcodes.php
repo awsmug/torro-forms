@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -22,11 +22,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Torro_ShortCodes {
 	/**
 	 * Loading all Shortcodes
+	 *
+	 * @since 1.0.0
 	 */
 	public static function init() {
 		add_shortcode( 'form', array( __CLASS__, 'form' ) );
+
+		add_filter( 'manage_edit-torro_form_columns', array( __CLASS__, 'torro_form_post_type_edit_column' ), 10, 1 );
+		add_filter( 'manage_torro_form_posts_custom_column', array( __CLASS__, 'torro_form_post_type_custom_column' ), 10, 2 );
 	}
 
+	/**
+	 * Form shortcode
+	 *
+	 * @param array $atts
+	 *
+	 * @return int|string|void
+	 *
+	 * @since 1.0.0
+	 */
 	public static function form( $atts ) {
 		$defaults = array(
 			'id'			=> '',
@@ -70,6 +84,42 @@ class Torro_ShortCodes {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Adding column to post type
+	 *
+	 * @param array $columns
+	 *
+	 * @return array $columns
+	 *
+	 * @since 1.0.0-beta.7
+	 */
+	public static function torro_form_post_type_edit_column( $columns ) {
+		$new_columns = array(
+			'form_shortcode' => __( 'Shortcode', 'torro-forms' )
+		);
+
+		$columns = array_slice( $columns, 0, 2, true) + $new_columns + array_slice( $columns, 2, count( $columns ) - 1, true) ;
+
+		return $columns;
+	}
+
+	/**
+	 * Adding column content to post type
+	 *
+	 * @param array $column
+	 * @param int $post_id
+	 *
+	 * @since 1.0.0-beta.7
+	 */
+	public static function torro_form_post_type_custom_column( $column, $post_id ) {
+		if( 'form_shortcode' !== $column ) {
+			return;
+		}
+
+		$shortcode = sprintf( '[form id=%d]', $post_id );
+		echo $shortcode;
 	}
 }
 

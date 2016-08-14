@@ -3,7 +3,7 @@
 Plugin Name: Torro Forms
 Plugin URI:  http://torro-forms.com
 Description: Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.
-Version:     1.0.0-beta.6
+Version:     1.0.0-beta.7
 Author:      Awesome UG
 Author URI:  http://www.awesome.ug
 License:     GNU General Public License v3
@@ -16,7 +16,7 @@ Tags:        forms, form builder, surveys, polls, votes, charts, api
  *
  * @package TorroForms
  * @subpackage Init
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -179,7 +179,6 @@ class Torro_Init {
 		require_once( $core_folder . 'element-types/base-element-types/multiplechoice.php' );
 		require_once( $core_folder . 'element-types/base-element-types/dropdown.php' );
 		require_once( $core_folder . 'element-types/base-element-types/media.php' );
-		require_once( $core_folder . 'element-types/base-element-types/separator.php' );
 
 		// Template tags
 		require_once( $core_folder . 'templatetags/base-templatetags/global.php' );
@@ -242,6 +241,10 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_frontend_styles() {
+		if( ! torro()->is_form() ) {
+			return;
+		}
+
 		$settings = torro_get_settings( 'general' );
 
 		if( isset( $settings[ 'frontend_css' ] ) && ! is_array( $settings[ 'frontend_css' ] ) ){
@@ -257,7 +260,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function setup() {
-		$script_db_version  = '1.0.7';
+		$script_db_version  = '1.0.8';
 		$current_db_version = get_option( 'torro_db_version' );
 
 
@@ -296,6 +299,13 @@ class Torro_Init {
 				require_once( 'includes/updates/to_1.0.7.php' );
 				torro_forms_to_1_0_7();
 				update_option( 'torro_db_version', '1.0.7' );
+			}
+
+			// Upgrading from Torro DB version 1.0.7 to 1.0.8
+			if ( true === version_compare( $current_db_version, '1.0.8', '<' ) ) {
+				require_once( 'includes/updates/to_1.0.8.php' );
+				torro_forms_to_1_0_8();
+				update_option( 'torro_db_version', '1.0.8' );
 			}
 		} elseif ( false === self::is_installed() ) {
 			// Fresh Torro DB install
@@ -423,6 +433,7 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	notification_name text NOT NULL,
 	from_name text NOT NULL,
 	from_email text NOT NULL,
+	reply_email text NOT NULL,
 	to_name text NOT NULL,
 	to_email text NOT NULL,
 	subject text NOT NULL,
@@ -696,6 +707,17 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	}
 }
 
+/**
+ * Executes a callback after Torro Forms has been initialized.
+ *
+ * This function should be used by all Torro Forms extensions to initialize themselves.
+ *
+ * This doc block was added in the 1500th commit :)
+ *
+ * @since 1.0.0
+ *
+ * @param callable $callback Callback to bootstrap the extension.
+ */
 function torro_load( $callback ) {
 	if ( did_action( '_torro_loaded' ) || doing_action( '_torro_loaded' ) ) {
 		call_user_func( $callback );

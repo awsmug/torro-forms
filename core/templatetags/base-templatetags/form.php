@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreTemplateTags
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -87,17 +87,14 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 	public function element_content( $element_id ) {
 		global $torro_response;
 
-		if ( ! isset( $torro_response[ 'container_id' ] ) ) {
-			return;
+		foreach( $torro_response[ 'containers' ] AS $container ) {
+			$elements = $container[ 'elements' ];
+
+			if( array_key_exists( $element_id, $elements ) ) {
+				$value = $elements[ $element_id ];
+			}
 		}
 
-		$container_id = $torro_response[ 'container_id' ];
-
-		if ( ! isset( $torro_response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ] ) ) {
-			return;
-		}
-
-		$value = $torro_response[ 'containers' ][ $container_id ][ 'elements' ][ $element_id ];
 		$element = torro()->elements()->get( $element_id );
 
 		/**
@@ -113,11 +110,8 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 			/**
 			 * Elements with multiple answers
 			 */
-			$html = '<ul>';
-			foreach ( $value as $response ) {
-				$html .= '<li>' . $response . '</li>';
-			}
-			$html .= '</ul>';
+
+			$html = apply_filters( 'torro_templatetags_element_content_array', implode( ', ', $value ), $value );
 
 			return $html;
 		} else {
@@ -125,7 +119,7 @@ final class Torro_Templatetags_Form extends Torro_TemplateTags {
 			 * Elements with string response value
 			 */
 			if ( is_callable( array( $element, 'render_value' ) ) ) {
-				return $element->render_value( $value );
+				return apply_filters( 'torro_templatetags_element_content_string', $element->render_value( $value ) );
 			}
 
 			return $value;

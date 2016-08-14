@@ -6,7 +6,7 @@
  *
  * @package TorroForms
  * @subpackage Templates
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.4
  */
 
@@ -14,7 +14,7 @@ $aria_describedby = ' aria-describedby="' . esc_attr( $id ) . '-description' . (
 $aria_invalid = $has_error ? ' aria-invalid="true"' : '';
 $aria_required = $required ? ' aria-required="true"' : '';
 ?>
-<textarea id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>"<?php echo $extra_attr . $aria_describedby . $aria_required . $aria_invalid; ?>><?php echo esc_textarea( $response ); ?></textarea>
+<textarea id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>"<?php echo $extra_attr . $aria_describedby . $aria_required . $aria_invalid; ?>><?php echo esc_textarea( $response ); ?></textarea>
 
 <?php if ( ! empty( $limits_text ) ) : ?>
 	<div class="limits-text">

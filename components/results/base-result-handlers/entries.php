@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -99,6 +99,8 @@ final class Torro_Result_Entries extends Torro_Form_Result {
 			'number'	=> $length,
 			'offset'	=> $start,
 			'form_id'	=> $form_id,
+			'orderby'   => 'timestamp',
+			'order'     => 'desc'
 		) );
 
 		$total_count = torro()->results()->query( array(

@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -12,7 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Torro_ChartsShortCodes {
+class Torro_Charts_ShortCodes {
+	private static $is_shortcode = false;
+
 
 	/**
 	 * Adding Shortcodes and Actionhooks
@@ -24,6 +26,69 @@ class Torro_ChartsShortCodes {
 
 		add_action( 'torro_result_charts_postbox_bottom', array( __CLASS__, 'show_form_result_shortcode' ) );
 		add_action( 'torro_element_admin_tab_content', array( __CLASS__, 'show_element_result_shortcode' ), 10, 2 );
+
+		add_action( 'wp', array( __CLASS__, 'detect_shortcode' ), 20 );
+	}
+
+	/**
+	 * Detects if there are used shortcodes in displayed content
+	 *
+	 * @param $wp
+	 *
+	 * @since 1.0.0-beta.7
+	 */
+	public static function detect_shortcode( &$wp ) {
+		global $wp_query;
+
+		if ( ! isset( $wp_query ) ) {
+			return;
+		}
+
+		// Checking singular posts (any post type)
+		if ( is_singular() && ( $post = $wp_query->get_queried_object() ) && ( has_shortcode( $post->post_content, 'form_charts' ) || has_shortcode( $post->post_content, 'element_chart' ) ) ) {
+			self::$is_shortcode = true;
+			return;
+		}
+
+		// Checking post overviews (any post type)
+		if ( is_array( $wp_query->posts ) ) {
+			foreach ( $wp_query->posts as $post ) {
+				if ( has_shortcode( $post->post_content, 'form_charts' ) || has_shortcode( $post->post_content, 'element_chart' ) ) {
+					self::$is_shortcode = true;
+					return;
+				}
+			}
+		}
+
+		// Checking forms
+		if( torro()->is_form() ) {
+			// Checking content of form
+			if ( has_shortcode( Torro_Form_Controller::instance()->get_content(), 'form_charts' ) || has_shortcode( Torro_Form_Controller::instance()->get_content(), 'element_chart' ) ) {
+				self::$is_shortcode = true;
+				return;
+			}
+
+			// Checking elements content
+			$form = torro()->forms()->get_current();
+			foreach( $form->elements AS $element ) {
+				if( 'content' === $element->type ) {
+					if ( has_shortcode( $element->label, 'form_charts' ) || has_shortcode( $element->label, 'element_chart' ) ) {
+						self::$is_shortcode = true;
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns if there was chart shortcode used
+	 *
+	 * @return bool
+	 * @since 1.0.0-beta.7
+	 */
+	public static function is_shortcode() {
+		return self::$is_shortcode;
 	}
 
 	/**
@@ -42,6 +107,8 @@ class Torro_ChartsShortCodes {
 		}
 
 		$html = torro()->resulthandlers()->get_registered( 'c3' )->show_form_charts( $form_id );
+
+		self::$is_shortcode = true;
 
 		return $html;
 	}
@@ -71,6 +138,8 @@ class Torro_ChartsShortCodes {
 		$results = $charts->format_results_by_element( $results );
 
 		$html = $charts->bars( $element->label, $results[ 'element_' . $element->id ] );
+
+		self::$is_shortcode = true;
 
 		return $html;
 	}
@@ -117,4 +186,4 @@ class Torro_ChartsShortCodes {
 	}
 }
 
-Torro_ChartsShortCodes::init();
+Torro_Charts_ShortCodes::init();

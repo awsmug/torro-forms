@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -47,7 +47,7 @@ final class Torro_Form_Actions_Component extends Torro_Component {
 
 	/**
 	 * Including files of component
-	 *
+	 * 
 	 * @since 1.0.0
 	 */
 	protected function includes() {

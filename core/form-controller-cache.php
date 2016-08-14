@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Core
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -49,6 +49,10 @@ class Torro_Form_Controller_Cache {
 	 * @since 1.0.0
 	 */
 	public function reset(){
+		if ( ! isset( $_SESSION ) ) {
+			return;
+		}
+
 		unset( $_SESSION[ 'torro_forms' ][ $this->controller_id ] );
 	}
 

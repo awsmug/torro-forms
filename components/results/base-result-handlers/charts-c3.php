@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -114,7 +114,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 * @since 1.0.0
 	 */
 	public function frontend_styles() {
-		$load = apply_filters( 'torro_load_frontend_charts_css', true );
+		$load = apply_filters( 'torro_load_frontend_charts_css', torro()->is_chart() );
 		if ( ! $load ) {
 			return;
 		}
@@ -129,7 +129,7 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts() {
-		$load = apply_filters( 'torro_load_frontend_charts_js', true );
+		$load = apply_filters( 'torro_load_frontend_charts_js', torro()->is_chart() );
 		if ( ! $load ) {
 			return;
 		}

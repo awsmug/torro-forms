@@ -4,7 +4,7 @@
  *
  * @package TorroForms
  * @subpackage CoreTemplateTags
- * @version 1.0.0-beta.6
+ * @version 1.0.0-beta.7
  * @since 1.0.0-beta.1
  */
 
@@ -58,6 +58,7 @@ final class Torro_Templatetags_Global extends Torro_TemplateTags {
 		$this->add_tag( 'sitetagline', __( 'Site Tagline', 'torro-forms' ), __( 'Adds the sites tagline.', 'torro-forms' ), array( $this, 'sitetagline') );
 		$this->add_tag( 'adminemail', __( 'Admin Email', 'torro-forms' ), __( 'Adds the admin email-address.', 'torro-forms' ), array( $this, 'adminemail') );
 		$this->add_tag( 'userip', __( 'User IP', 'torro-forms' ), __( 'Adds the sites user IP.', 'torro-forms' ), array( $this, 'userip' ) );
+		$this->add_tag( 'refererurl', __( 'Referer URL', 'torro-forms' ), __( 'Adds the referer URL.', 'torro-forms' ), array( $this, 'refererurl' ) );
 	}
 
 	/**
@@ -86,6 +87,13 @@ final class Torro_Templatetags_Global extends Torro_TemplateTags {
 	 */
 	public function userip() {
 		return $_SERVER['REMOTE_ADDR'];
+	}
+
+	/**
+	 * %refererurl%
+	 */
+	public function refererurl() {
+		return $_SERVER['HTTP_REFERER'];
 	}
 }
 

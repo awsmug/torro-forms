@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.6 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.7 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
 /* --- General --- */
@@ -141,6 +141,44 @@
 	width: 99%;
 }
 
+.post-type-torro_form #poststuff #containers .tab-content small {
+	display: block;
+}
+
+.post-type-torro_form #poststuff #containers .tab-content input[type="text"],
+.post-type-torro_form #poststuff #containers .tab-content textarea {
+	width: 100%;
+}
+.post-type-torro_form #poststuff #containers .tab-content input[type="text"].form-label,
+.post-type-torro_form #poststuff #containers .tab-content textarea.form-label {
+	width: 100%;
+}
+
+.post-type-torro_form #poststuff #containers .tab-content .answers {
+	margin-bottom: 15px;
+}
+.post-type-torro_form #poststuff #containers .tab-content .answers input[type="text"] {
+	width: 50%;
+}
+
+.post-type-torro_form #poststuff #containers .tab-content .answer {
+	height: 40px;
+	padding-left: 20px;
+	cursor: move; 
+	background-image: url("../img/icon-updown.png");
+	background-repeat: no-repeat;
+	background-position: top 7px left 0;
+}
+.post-type-torro_form #poststuff #containers .tab-content .answer p {
+	display: inline;
+}
+
+.post-type-torro_form #poststuff #containers .tab-content .add-answer {
+	font-weight: bold;
+	text-decoration: underline;
+	cursor: hand;
+}
+
 .post-type-torro_form #poststuff #containers .container-buttons {
 	padding: 15px;
 	margin: 0;
@@ -210,15 +248,6 @@
 	border: #ccc dashed 1px;
 }
 
-.post-type-torro_form #poststuff #containers input[type="text"],
-.post-type-torro_form #poststuff #containers textarea {
-	width: 80%;
-}
-.post-type-torro_form #poststuff #containers input[type="text"].form-label,
-.post-type-torro_form #poststuff #containers textarea.form-label {
-	width: 100%;
-}
-
 .post-type-torro_form #poststuff .drop-elements-here {
 	display: none; 
 	height: 195px;
@@ -228,28 +257,6 @@
 	color: #b4b9be;
 	text-align: center;
 	border: 2px dashed #b4b9be;
-}
-
-.post-type-torro_form #poststuff .answers {
-	margin-bottom: 15px;
-}
-
-.post-type-torro_form #poststuff .answer {
-	height: 40px;
-	padding-left: 20px;
-	cursor: move; 
-	background-image: url("../img/icon-updown.png");
-	background-repeat: no-repeat;
-	background-position: top 7px left 0;
-}
-.post-type-torro_form #poststuff .answer p {
-	display: inline;
-}
-
-.post-type-torro_form #poststuff .add-answer {
-	font-weight: bold;
-	text-decoration: underline;
-	cursor: hand;
 }
 
 .post-type-torro_form #poststuff .form-fields {
