@@ -575,8 +575,14 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		self::register_tables();
 
 		if ( $network_wide ) {
-			foreach ( wp_get_sites() as $site ) {
-				switch_to_blog( $site['blog_id'] );
+			if ( version_compare( get_bloginfo( 'version' ), '4.6', '<' ) ) {
+				$site_ids = wp_list_pluck( wp_get_sites(), 'blog_id' );
+			} else {
+				$network = get_network();
+				$site_ids = get_sites( array( 'fields' => 'ids', 'network_id' => $network->id ) );
+			}
+			foreach ( $site_ids as $site_id ) {
+				switch_to_blog( $site_id );
 				self::setup_single_site();
 				restore_current_blog();
 			}
@@ -620,8 +626,13 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		self::register_tables();
 
 		if ( $globally ) {
-			foreach ( wp_get_sites( array( 'network_id' => false ) ) as $site ) {
-				switch_to_blog( $site['blog_id'] );
+			if ( version_compare( get_bloginfo( 'version' ), '4.6', '<' ) ) {
+				$site_ids = wp_list_pluck( wp_get_sites( array( 'network_id' => false ), 'blog_id' );
+			} else {
+				$site_ids = get_sites( array( 'fields' => 'ids' ) );
+			}
+			foreach ( $site_ids as $site_id ) {
+				switch_to_blog( $site_id );
 				self::uninstall_single_site();
 				restore_current_blog();
 			}
@@ -699,8 +710,14 @@ CREATE TABLE $wpdb->torro_email_notifications (
 	}
 
 	public static function flush_network_rewrite_rules() {
-		foreach ( wp_get_sites() as $site ) {
-			switch_to_blog( $site['blog_id'] );
+		if ( version_compare( get_bloginfo( 'version' ), '4.6', '<' ) ) {
+			$site_ids = wp_list_pluck( wp_get_sites(), 'blog_id' );
+		} else {
+			$network = get_network();
+			$site_ids = get_sites( array( 'fields' => 'ids', 'network_id' => $network->id ) );
+		}
+		foreach ( $site_ids as $site_id ) {
+			switch_to_blog( $site_id );
 			flush_rewrite_rules();
 			restore_current_blog();
 		}
