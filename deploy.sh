@@ -1,4 +1,4 @@
-bash#!/bin/bash
+#!/bin/bash
 
 # main config
 PLUGINSLUG="torro-forms"
@@ -12,6 +12,13 @@ GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
 # svn config
 SVNPATH="/tmp/$PLUGINSLUG" # Path to a temp SVN repo. No trailing slash required.
 SVNURL="https://plugins.svn.wordpress.org/$PLUGINSLUG/" # Remote SVN repo on wordpress.org
+SVNUSER=$1
+SVNPASS=$2
+
+if [ "$SVNUSER" == "" ] || [ "$SVNPASS" == "" ]
+	then echo "Please enter a SVN username and password (e.g. deploy USERNAME PASSWORD)"
+	exit 1
+fi
 
 # Let's begin...
 echo
@@ -126,7 +133,7 @@ rm /tmp/wppdcommitmsg.tmp
 echo "Done."
 
 printf "Committing new SVN version..."
-svn commit --quiet -m "$COMMITMSG"
+svn commit --username "$SVNUSER" --password "$SVNPASS" --quiet -m "$COMMITMSG"
 echo "Done."
 
 printf "Tagging and committing new SVN tag..."
