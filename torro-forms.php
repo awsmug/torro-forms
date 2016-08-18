@@ -627,7 +627,7 @@ CREATE TABLE $wpdb->torro_email_notifications (
 
 		if ( $globally ) {
 			if ( version_compare( get_bloginfo( 'version' ), '4.6', '<' ) ) {
-				$site_ids = wp_list_pluck( wp_get_sites( array( 'network_id' => false ), 'blog_id' );
+				$site_ids = wp_list_pluck( wp_get_sites( array( 'network_id' => false ) ), 'blog_id' );
 			} else {
 				$site_ids = get_sites( array( 'fields' => 'ids' ) );
 			}
