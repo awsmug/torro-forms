@@ -43,9 +43,9 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		self::setup(); // Checking DB adding eventually updates
 		self::load_textdomain();
 		self::register_tables();
+		self::setup(); // Checking DB adding eventually updates
 		self::includes();
 
 
@@ -262,7 +262,7 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	private static function setup() {
-		$script_db_version  = '1.0.8';
+		$script_db_version  = '1.0.9';
 		$current_db_version = get_option( 'torro_db_version' );
 
 		if( $script_db_version === $current_db_version ) {
@@ -311,6 +311,13 @@ class Torro_Init {
 				require_once( 'includes/updates/to_1.0.8.php' );
 				torro_forms_to_1_0_8();
 				update_option( 'torro_db_version', '1.0.8' );
+			}
+
+			// Upgrading from Torro DB version 1.0.8 to 1.0.9
+			if ( true === version_compare( $current_db_version, '1.0.9', '<' ) ) {
+				require_once( 'includes/updates/to_1.0.9.php' );
+				torro_forms_to_1_0_9();
+				update_option( 'torro_db_version', '1.0.9' );
 			}
 		} elseif ( false === self::is_installed() ) {
 			// Fresh Torro DB install
