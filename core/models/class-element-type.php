@@ -134,6 +134,28 @@ abstract class Torro_Element_Type extends Torro_Base {
 			if( isset( $_GET['torro_input_value_' . $element->id ] ) ) {
 				$value = $_GET['torro_input_value_' . $element->id ];
 			}
+
+			// Elements which have answers
+			$value_from_id = array();
+			if( count( $element->answers ) > 0 ) {
+				foreach( $element->answers AS $answer ) {
+					// Multiple answers
+					if( $element->type_obj->answer_array ) {
+						if( in_array( $answer->id, $value ) ) {
+							$value_from_id[] = $answer->answer;
+						}
+					// One answer
+					} else {
+						if( (int) $answer->id === (int) $value ) {
+							$value_from_id = $answer->answer;
+						}
+					}
+				}
+
+				if( ! empty( $value_from_id ) ) {
+					$value = $value_from_id;
+				}
+			}
 		} else {
 			$value = $element->response;
 		}
