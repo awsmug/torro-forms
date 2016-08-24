@@ -43,9 +43,11 @@ class Torro_Init {
 	 * @since 1.0.0
 	 */
 	public static function init() {
+		self::setup(); // Checking DB adding eventually updates
 		self::load_textdomain();
 		self::register_tables();
 		self::includes();
+
 
 		add_action( 'init', array( __CLASS__, 'custom_post_types' ), 11 );
 		add_filter( 'body_class', array( __CLASS__, 'add_body_class' ) );
@@ -263,6 +265,9 @@ class Torro_Init {
 		$script_db_version  = '1.0.8';
 		$current_db_version = get_option( 'torro_db_version' );
 
+		if( $script_db_version === $current_db_version ) {
+			return;
+		}
 
 		// Oh no, somebody has used the beta... ;)
 		if ( false !== $current_db_version ) {
