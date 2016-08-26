@@ -232,7 +232,7 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 		$to_be_logged_in_text = wp_unslash( $_POST['to_be_logged_in_text'] );
 
 		$allow_get_param= 'no';
-		if( isset( $_POST['show_page_title']  ) ) {
+		if( isset( $_POST['allow_get_param'] ) ) {
 			$allow_get_param = wp_unslash( $_POST[ 'allow_get_param' ] );
 		}
 
