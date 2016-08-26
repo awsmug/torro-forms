@@ -197,7 +197,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		$html .= '<div class="notifications widget-title">';
 		if ( 0 < count( $notifications ) ) {
 			foreach ( $notifications as $notification ) {
-				$html .= $this->get_notification_settings_html( $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->reply_email, $notification->to_email, $notification->subject, $notification->message );
+				$html .= $this->get_notification_settings_html( $form_id, $notification->id, $notification->notification_name, $notification->from_name, $notification->from_email, $notification->reply_email, $notification->to_email, $notification->subject, $notification->message );
 			}
 		}
 		$html .= '<p class="no-entry-found not-found-area">' . esc_html__( 'No notifications found.', 'torro-forms' ) . '</p>';
@@ -303,7 +303,7 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public function get_notification_settings_html( $id, $notification_name = '', $from_name = '', $from_email = '', $reply_email = '', $to_email = '', $subject = '', $message = '' ) {
+	public function get_notification_settings_html( $form_id, $id, $notification_name = '', $from_name = '', $from_email = '', $reply_email = '', $to_email = '', $subject = '', $message = '' ) {
 		$ajax = false;
 		if ( '_AJAX_' === substr( $id, 0, 6 ) ) {
 			$ajax = true;
@@ -322,6 +322,16 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 			$editor = ob_get_clean();
 		}
 
+		// Adding templatetads of existing elements
+		$containers = torro()->forms()->get( $form_id )->containers;
+		foreach ( $containers AS $container ) {
+			$elements = torro()->containers()->get( $container->id )->elements;
+			foreach ( $elements AS $element ) {
+				if( ! empty( $element->label ) && false !== $element->type_obj->input ) {
+					torro()->templatetags()->get_registered( 'formtags' )->add_element( $element->id, $element->label );
+				}
+			}
+		}
 		$icon_url = torro()->get_asset_url( 'mail', 'svg' );
 
 		$html = '<h4 class="widget-top notification-' . $id . '"><a class="widget-action hide-if-no-js"></a><img src="' . $icon_url . '" class="icon" />' . $notification_name . '</h4>';
@@ -412,7 +422,9 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 		$id = torro_generate_temp_id();
 		$editor_id = 'email_notification_message-' . $id;
 
-		$html = torro()->actions()->get_registered( 'emailnotifications' )->get_notification_settings_html( '_AJAX_' . $id, __( 'New Email Notification' ) );
+		$form_id = $data['form_id'];
+
+		$html = torro()->actions()->get_registered( 'emailnotifications' )->get_notification_settings_html( $form_id, '_AJAX_' . $id, __( 'New Email Notification' ) );
 
 		$response = Torro_AJAX_WP_Editor::get( '', $editor_id, array(
 			'textarea_name'	=> 'email_notifications[' . $id . '][message]',

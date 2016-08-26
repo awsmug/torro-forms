@@ -67,7 +67,8 @@
 				$button.addClass('button-loading');
 
 				wp.ajax.post( 'torro_get_email_notification_html', {
-					nonce: self.translations.nonce_get_email_notification_html
+					nonce: self.translations.nonce_get_email_notification_html,
+					form_id: self.get_form_id()
 				}).done( function( response ) {
 					$( self.selectors.notifications ).prepend( response.html );
 
@@ -108,6 +109,13 @@
 			} else {
 				$( this.selectors.notifications ).find( this.selectors.nothing_found_sub ).hide();
 			}
+		},
+
+		/**
+		 * Returns the current form ID
+		 */
+		get_form_id: function() {
+			return $( '#post_ID' ).val();
 		}
 	};
 
