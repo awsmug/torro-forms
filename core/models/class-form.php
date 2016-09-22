@@ -168,6 +168,17 @@ class Torro_Form extends Torro_Instance_Base {
 	 * @return string
 	 */
 	public function get_html( $form_action_url, $container_id = null, $response = array(), $errors = array() ) {
+		/**
+		 * Filtering form action url
+		 *
+		 * @param string $form_action_url   The form action url
+		 * @param string $form_id           The form id
+		 *
+		 * @return string $form_action_url  The filtered form action url
+		 * @since 1.0.0
+		 */
+		$form_action_url = apply_filters( 'torro_form_action_url', $form_action_url, $this->id );
+
 		ob_start();
 		torro()->template( 'form', $this->to_json( $form_action_url, $container_id, $response, $errors ) );
 		return ob_get_clean();

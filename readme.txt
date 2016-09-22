@@ -79,6 +79,9 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.0-beta.8 =
+* Enhanced: Added 'torro_form_action_url' filter
+
 = 1.0.0-beta.7 =
 * Enhanced: Added a new filter for the element data sent to the template
 * Enhanced: Introduce element tab slugs for more meaningful hook usage
