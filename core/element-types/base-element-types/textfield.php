@@ -62,7 +62,7 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 			$data['placeholder'] = $element->settings['placeholder']->value;
 		}
 
-		$data['placeholder'] = apply_filters( 'torro_input_placeholder', $data['placeholder'], $element_id );
+		$data['placeholder'] = apply_filters( 'torro_input_placeholder', $data['placeholder'], $element->id );
 
 		return $data;
 	}

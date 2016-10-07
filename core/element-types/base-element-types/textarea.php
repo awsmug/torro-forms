@@ -55,7 +55,7 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 		if ( ! empty( $element->settings['placeholder'] ) && ! empty( $element->settings['placeholder']->value ) ) {
 			$data['placeholder'] = $element->settings['placeholder']->value;
 		}
-		$data['placeholder'] = apply_filters( 'torro_input_placeholder', $data['placeholder'], $element_id );
+		$data['placeholder'] = apply_filters( 'torro_input_placeholder', $data['placeholder'], $element->id );
 
 		$data['extra_attr'] = ' maxlength="' . $element->settings['max_length']->value . '" rows="' . $element->settings['rows']->value . '" cols="' . $element->settings['cols']->value . '"';
 
