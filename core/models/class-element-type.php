@@ -101,9 +101,9 @@ abstract class Torro_Element_Type extends Torro_Base {
 		 * @return string mixed|Torro_Error The filtered order number
 		 * @since 1.0.0
 		 */
-		$input = apply_filters( 'torro_element_type_validate_input', $input, $element->id, $element );
+		$input = apply_filters( 'torro_element_type_validate_input', $input, $element );
 
-		return stripslashes( $input );
+		return $input;
 	}
 
 	/**

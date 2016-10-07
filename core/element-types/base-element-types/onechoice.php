@@ -78,7 +78,7 @@ final class Torro_Element_Type_Onechoice extends Torro_Element_Type {
 			return new Torro_Error( 'missing_value', __( 'Please select a value.', 'torro-forms' ) );
 		}
 
-		return parent::validate( $input, $element );;
+		return parent::validate( $input, $element );
 	}
 }
 
