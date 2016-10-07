@@ -82,6 +82,16 @@ final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 		);
 	}
 
+	/**
+	 * Validating user input
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array|string  $input      User input
+	 * @param Torro_Element $element    Element object instance
+	 *
+	 * @return mixed|Torro_Error
+	 */
 	public function validate( $input, $element ) {
 		$input = stripslashes( $input );
 
@@ -89,13 +99,18 @@ final class Torro_Element_Type_Dropdown extends Torro_Element_Type {
 			return new Torro_Error( 'missing_value', __( 'Please select a value.', 'torro-forms' ) );
 		}
 
+		$found = false;
 		foreach ( $element->answers as $answer ) {
 			if ( $input == $answer->answer ) {
-				return $input;
+				$found = TRUE;
 			}
 		}
 
-		return new Torro_Error( 'invalid_value', __( 'Please select one of the provided values.', 'torro-forms' ) );
+		if( false === $found ) {
+			new Torro_Error( 'invalid_value', __( 'Please select one of the provided values.', 'torro-forms' ) );
+		}
+
+		return parent::validate( $input, $element );
 	}
 
 }

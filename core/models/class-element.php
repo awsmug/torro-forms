@@ -109,7 +109,9 @@ class Torro_Element extends Torro_Instance_Base {
 	}
 
 	/**
-	 * Validate response data - dummy function
+	 * Validate response data
+	 *
+	 * @param mixed $input Element input
 	 *
 	 * @return mixed|Torro_Error
 	 * @since 1.0.0

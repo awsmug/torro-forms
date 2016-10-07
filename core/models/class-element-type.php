@@ -82,12 +82,27 @@ abstract class Torro_Element_Type extends Torro_Base {
 	}
 
 	/**
-	 * Validate response data - dummy function
+	 * Validate response data
+	 *
+	 * @param string|array $input Input of the element
+	 * @param Torro_Element $element The element instance
 	 *
 	 * @return mixed|Torro_Error
 	 * @since 1.0.0
 	 */
 	public function validate( $input, $element ) {
+		/**
+		 * Actionhook for additional validations
+		 *
+		 * @param string|array $input Input of the element
+		 * @param int $element_id ID of the Element
+		 * @param Torro_Element $element The element instance
+		 *
+		 * @return string mixed|Torro_Error The filtered order number
+		 * @since 1.0.0
+		 */
+		$input = apply_filters( 'torro_element_type_validate_input', $input, $element->id, $element );
+
 		return stripslashes( $input );
 	}
 

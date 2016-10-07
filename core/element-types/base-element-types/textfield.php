@@ -196,6 +196,16 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 		return $input_types;
 	}
 
+	/**
+	 * Validating user input
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array|string  $input      User input
+	 * @param Torro_Element $element    Element object instance
+	 *
+	 * @return array|mixed|string|Torro_Error
+	 */
 	public function validate( $input, $element ) {
 		$min_length = $element->settings['min_length']->value;
 		$max_length = $element->settings['max_length']->value;
@@ -241,7 +251,7 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 			}
 		}
 
-		return $input;
+		return parent::validate( $input, $element );
 	}
 }
 

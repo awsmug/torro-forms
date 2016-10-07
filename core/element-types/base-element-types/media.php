@@ -167,7 +167,7 @@ final class Torro_Element_Type_Media extends Torro_Element_Type {
 	 *
 	 * @param $input
 	 *
-	 * @return int|Torro_Error|WP_Error
+	 * @return int|Torro_Error
 	 * @since 1.0.0
 	 */
 	public function validate( $input, $element ) {

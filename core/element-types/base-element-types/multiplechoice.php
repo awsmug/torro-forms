@@ -101,6 +101,16 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 		);
 	}
 
+	/**
+	 * Validating user input
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array|string  $input      User input
+	 * @param Torro_Element $element    Element object instance
+	 *
+	 * @return mixed|Torro_Error
+	 */
 	public function validate( $input, $element ) {
 		$min_answers = $element->settings['min_answers']->value;
 		$max_answers = $element->settings['max_answers']->value;
@@ -125,7 +135,7 @@ final class Torro_Element_Type_Multiplechoice extends Torro_Element_Type {
 			$input = array_map( 'stripslashes', $input );
 		}
 
-		return $input;
+		return parent::validate( $input, $element );
 	}
 }
 
