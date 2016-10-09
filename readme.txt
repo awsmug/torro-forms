@@ -80,8 +80,10 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.0-beta.8 =
+* Enhanced: Added password option to textfield element
 * Enhanced: Added 'torro_form_action_url' filter
 * Enhanced: Added 'torro_element_type_validate_input' filter for additional validations
+* Fixed: Fixed incompatibility on ACF Calendar CSS on Torro Forms Formbuilder
 * Fixed: Element PHP Notices on not existing variable $element_id
 
 = 1.0.0-beta.7 =
