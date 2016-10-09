@@ -54,6 +54,8 @@ class Torro_Compatibility {
 			// ACF Date and Time Picker Field
 			wp_dequeue_style( 'jquery-style' );
 			wp_dequeue_style( 'timepicker' );
+			wp_dequeue_style( 'acf-timepicker' );
+			wp_dequeue_style( 'acf-datepicker' );
 		}
 	}
 
@@ -65,6 +67,7 @@ class Torro_Compatibility {
 			wp_dequeue_style( 'jquery-ui-css' );
 		}
 	}
+
 
 }
 
