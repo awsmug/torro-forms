@@ -67,9 +67,15 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 		return $data;
 	}
 
+	/**
+	 * Settings fields of element types
+	 *
+	 * @since 1.0.0
+	 */
 	protected function settings_fields() {
 		$_input_types = $this->get_input_types();
 		$input_types = array();
+
 		foreach ( $_input_types as $value => $data ) {
 			if ( ! isset( $data['title'] ) || ! $data['title'] ) {
 				continue;
@@ -128,11 +134,24 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 		);
 	}
 
+	/**
+	 * Getting input types
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param bool $value Name of input type
+	 *
+	 * @return array|bool|mixed|void $value Returns all input types or special input types. False if no value was found.
+	 */
 	protected function get_input_types( $value = false ) {
 		$input_types = array(
 			'text'				=> array(
 				'title'				=> __( 'Standard Text', 'torro-forms' ),
 				'html_field_type'	=> 'text',
+			),
+			'password'				=> array(
+				'title'				=> __( 'Password', 'torro-forms' ),
+				'html_field_type'	=> 'password',
 			),
 			'date'	=> array(
 				'title'				=> __( 'Date', 'torro-forms' ),
@@ -184,6 +203,15 @@ final class Torro_Element_Type_Textfield extends Torro_Element_Type {
 			),
 		);
 
+		/**
+		 * Filter for adding own input types
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $input_types All input types in an array
+		 *
+		 * @return array $input_types Filtered input types in an array
+		 */
 		$input_types = apply_filters( 'torro_element_textfield_input_types', $input_types );
 
 		if ( ! empty( $value ) ) {
