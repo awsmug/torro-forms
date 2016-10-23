@@ -378,6 +378,7 @@ class Torro_Init {
 
 	/**
 	 * Installing tables
+	 *
 	 * @since 1.0.0
 	 */
 	private static function install_tables() {
@@ -653,11 +654,21 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		}
 	}
 
+	/**
+	 * Setting up a Wordpress site
+	 *
+	 * @since 1.0.0
+	 */
 	private static function setup_single_site() {
 		self::setup();
 		self::custom_post_types();
 	}
 
+	/**
+	 * Uninstalling on a WordPress site
+	 *
+	 * @since 1.0.0
+	 */
 	private static function uninstall_single_site() {
 		global $wpdb;
 
@@ -721,6 +732,11 @@ CREATE TABLE $wpdb->torro_email_notifications (
 		delete_option( 'torro_denied_copy_from_questions' );
 	}
 
+	/**
+	 * Flushing rewrite rules for for custom post types
+	 *
+	 * @since 1.0.0
+	 */
 	public static function flush_network_rewrite_rules() {
 		if ( version_compare( get_bloginfo( 'version' ), '4.6', '<' ) ) {
 			$site_ids = wp_list_pluck( wp_get_sites(), 'blog_id' );
