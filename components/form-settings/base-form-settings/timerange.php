@@ -2,10 +2,10 @@
 /**
  * Components: Torro_Form_Setting_Timerange class
  *
- * @package TorroForms
+ * @package    TorroForms
  * @subpackage Components
- * @version 1.0.0-beta.7
- * @since 1.0.0-beta.1
+ * @version    1.0.0-beta.7
+ * @since      1.0.0-beta.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,10 +16,18 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	/**
 	 * Instance
 	 *
-	 * @var null|Torro_Form_Setting_Timerange
 	 * @since 1.0.0
+	 * @var null|Torro_Form_Setting_Timerange
 	 */
 	private static $instance = null;
+
+	/**
+	 * Date format used in WordPress
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private $date_format;
 
 	/**
 	 * Singleton.
@@ -30,34 +38,39 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
-	}
-
-	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function init() {
-		$this->option_name = $this->title = __( 'Timerange', 'torro-forms' );
-		$this->name = 'timerange';
-
-		add_action( 'torro_form_show', array( $this, 'check' ) );
 	}
 
 	/**
 	 * Timerange meta box
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param int $form_id
 	 *
 	 * @return string $html
-	 * @since 1.0.0
 	 */
 	public function option_content( $form_id ) {
 		$start_date = get_post_meta( $form_id, 'start_date', true );
-		$end_date = get_post_meta( $form_id, 'end_date', true );
+		$end_date   = get_post_meta( $form_id, 'end_date', true );
 
-		$html  = '<div class="torro-form-options">';
+		// For compability with dates before 1.0.0 beta 8
+		if ( ! is_numeric( $start_date ) ) {
+			$start_date = strtotime( $start_date );
+		}
+		if ( ! is_numeric( $end_date ) ) {
+			$end_date = strtotime( $end_date );
+		}
+
+		if ( ! empty( $start_date ) ) {
+			$start_date = $this->get_date( $start_date );
+		}
+		if ( ! empty( $end_date ) ) {
+			$end_date = $this->get_date( $end_date );
+		}
+
+		$html = '<div class="torro-form-options">';
 
 		$html .= '<div class="flex-options" role="group">';
 		$html .= '<label for="start_date">' . esc_html__( 'Input Start Date', 'torro-forms' ) . '</label>';
@@ -75,25 +88,58 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	}
 
 	/**
+	 * Getting WordPress date for a timestamp
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $timestamp
+	 *
+	 * @return string $date
+	 */
+	private function get_date( $timestamp ) {
+		return date( $this->date_format, $timestamp );
+	}
+
+	/**
 	 * Checks if the user can pass
 	 *
-	 * @return boolean
 	 * @since 1.0.0
+	 *
+	 * @param
+	 *
+	 * @return boolean
 	 */
 	public function check( $form_show ) {
 		$form_id = torro()->forms()->get_current_form_id();
 
 		$actual_date = time();
-		$start_date = get_post_meta( $form_id, 'start_date', true );
-		$end_date = get_post_meta( $form_id, 'end_date', true );
+		$start_date  = get_post_meta( $form_id, 'start_date', true );
+		$end_date    = get_post_meta( $form_id, 'end_date', true );
 
-		if ( ! empty( $start_date ) && strtotime( $start_date ) > $actual_date ) {
+		// For compability with dates before 1.0.0 beta 8
+		if ( ! is_numeric( $start_date ) ) {
+			$start_date = strtotime( $start_date );
+		}
+		if ( ! is_numeric( $end_date ) ) {
+			$end_date = strtotime( $end_date );
+		}
+
+		if ( ! empty( $start_date ) ) {
+			$start_date = $this->get_date( $start_date );
+		}
+		if ( ! empty( $end_date ) ) {
+			$end_date = $this->get_date( $end_date );
+		}
+
+		if ( ! empty( $start_date ) && $start_date > $actual_date ) {
 			$this->add_message( 'error', __( 'The form is not accessible at this time.', 'torro-forms' ) );
+
 			return $this->messages();
 		}
 
-		if ( ! empty( $end_date )  && strtotime( $end_date ) < $actual_date ) {
+		if ( ! empty( $end_date ) && $end_date < $actual_date ) {
 			$this->add_message( 'error', __( 'The form is not accessible at this time.', 'torro-forms' ) );
+
 			return $this->messages();
 		}
 
@@ -103,19 +149,48 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	/**
 	 * Saving data
 	 *
-	 * @param int $form_id
-	 *
 	 * @since 1.0.0
+	 *
+	 * @param int $form_id
 	 */
 	public function save( $form_id ) {
-		$start_date = wp_unslash( $_POST['start_date'] );
-		$end_date = wp_unslash( $_POST['end_date'] );
+		$start_date = wp_unslash( $_POST[ 'start_date' ] );
+		$end_date   = wp_unslash( $_POST[ 'end_date' ] );
+
+		$start_date = $this->get_timestamp( $start_date );
+		$end_date   = $this->get_timestamp( $end_date );
 
 		/**
 		 * Saving start and end date
 		 */
 		update_post_meta( $form_id, 'start_date', $start_date );
 		update_post_meta( $form_id, 'end_date', $end_date );
+
+		exit;
+	}
+
+	/**
+	 * Getting a timestamp from a WordPress generated date
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $date
+	 *
+	 * @return int $timestamp
+	 */
+	private function get_timestamp( $date ) {
+		$date_time = new DateTime();
+
+		if ( false !== $date_time::createFromFormat( $this->date_format, $date ) ) {
+			$timestamp = $date_time->getTimestamp();
+		} else {
+			FB::log( $date_time::getLastErrors() );
+			$timestamp = strtotime( $date );
+		}
+
+		FB::log( $timestamp );
+
+		return $timestamp;
 	}
 
 	/**
@@ -125,28 +200,28 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	 */
 	public function admin_scripts() {
 		$translations = array(
-			'dateformat'		=> __( 'yy/mm/dd', 'torro-forms' ),
-			'min_sun'			=> __( 'Su', 'torro-forms' ),
-			'min_mon'			=> __( 'Mo', 'torro-forms' ),
-			'min_tue'			=> __( 'Tu', 'torro-forms' ),
-			'min_wed'			=> __( 'We', 'torro-forms' ),
-			'min_thu'			=> __( 'Th', 'torro-forms' ),
-			'min_fri'			=> __( 'Fr', 'torro-forms' ),
-			'min_sat'			=> __( 'Sa', 'torro-forms' ),
-			'january'			=> __( 'January', 'torro-forms' ),
-			'february'			=> __( 'February', 'torro-forms' ),
-			'march'				=> __( 'March', 'torro-forms' ),
-			'april'				=> __( 'April', 'torro-forms' ),
-			'may'				=> __( 'May', 'torro-forms' ),
-			'june'				=> __( 'June', 'torro-forms' ),
-			'july'				=> __( 'July', 'torro-forms' ),
-			'august'			=> __( 'August', 'torro-forms' ),
-			'september'			=> __( 'September', 'torro-forms' ),
-			'october'			=> __( 'October', 'torro-forms' ),
-			'november'			=> __( 'November', 'torro-forms' ),
-			'december'			=> __( 'December', 'torro-forms' ),
-			'select_date'		=> __( 'Select Date', 'torro-forms' ),
-			'calendar_icon_url'	=> torro()->get_asset_url( 'calendar-icon', 'png' ),
+			'dateformat'        => __( 'yy/mm/dd', 'torro-forms' ),
+			'min_sun'           => __( 'Su', 'torro-forms' ),
+			'min_mon'           => __( 'Mo', 'torro-forms' ),
+			'min_tue'           => __( 'Tu', 'torro-forms' ),
+			'min_wed'           => __( 'We', 'torro-forms' ),
+			'min_thu'           => __( 'Th', 'torro-forms' ),
+			'min_fri'           => __( 'Fr', 'torro-forms' ),
+			'min_sat'           => __( 'Sa', 'torro-forms' ),
+			'january'           => __( 'January', 'torro-forms' ),
+			'february'          => __( 'February', 'torro-forms' ),
+			'march'             => __( 'March', 'torro-forms' ),
+			'april'             => __( 'April', 'torro-forms' ),
+			'may'               => __( 'May', 'torro-forms' ),
+			'june'              => __( 'June', 'torro-forms' ),
+			'july'              => __( 'July', 'torro-forms' ),
+			'august'            => __( 'August', 'torro-forms' ),
+			'september'         => __( 'September', 'torro-forms' ),
+			'october'           => __( 'October', 'torro-forms' ),
+			'november'          => __( 'November', 'torro-forms' ),
+			'december'          => __( 'December', 'torro-forms' ),
+			'select_date'       => __( 'Select Date', 'torro-forms' ),
+			'calendar_icon_url' => torro()->get_asset_url( 'calendar-icon', 'png' ),
 		);
 
 		wp_enqueue_script( 'torro-access-controls-timerange', torro()->get_asset_url( 'access-controls-timerange', 'js' ), array( 'torro-form-edit', 'jquery-ui-datepicker' ) );
@@ -160,6 +235,19 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	 */
 	public function admin_styles() {
 		wp_enqueue_style( 'torro-access-controls-timerange', torro()->get_asset_url( 'access-controls-timerange', 'css' ), array( 'torro-form-edit' ) );
+	}
+
+	/**
+	 * Initializing.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function init() {
+		$this->option_name = $this->title = __( 'Timerange', 'torro-forms' );
+		$this->name        = 'timerange';
+		$this->date_format = get_option( 'date_format' );
+
+		add_action( 'torro_form_show', array( $this, 'check' ) );
 	}
 }
 
