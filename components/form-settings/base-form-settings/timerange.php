@@ -165,8 +165,6 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 		 */
 		update_post_meta( $form_id, 'start_date', $start_date );
 		update_post_meta( $form_id, 'end_date', $end_date );
-
-		exit;
 	}
 
 	/**
@@ -179,17 +177,7 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	 * @return int $timestamp
 	 */
 	private function get_timestamp( $date ) {
-		$date_time = new DateTime();
-
-		if ( false !== $date_time::createFromFormat( $this->date_format, $date ) ) {
-			$timestamp = $date_time->getTimestamp();
-		} else {
-			FB::log( $date_time::getLastErrors() );
-			$timestamp = strtotime( $date );
-		}
-
-		FB::log( $timestamp );
-
+		$timestamp = strtotime( $date );
 		return $timestamp;
 	}
 
@@ -245,7 +233,9 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 	protected function init() {
 		$this->option_name = $this->title = __( 'Timerange', 'torro-forms' );
 		$this->name        = 'timerange';
-		$this->date_format = get_option( 'date_format' );
+		// Not working on getting timestamp from dateformat at the moment, using own format
+		// $this->date_format = get_option( 'date_format' );
+		$this->date_format = 'd.m.Y';
 
 		add_action( 'torro_form_show', array( $this, 'check' ) );
 	}
