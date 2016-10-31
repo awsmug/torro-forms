@@ -112,11 +112,13 @@ abstract class Torro_Instance_Manager {
 		$orderby = 'none' !== $args['orderby'] ? $args['orderby'] : '';
 		$order = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
 		$count = $args['count'] ? true : false;
-		unset( $args['number'] );
-		unset( $args['offset'] );
-		unset( $args['orderby'] );
-		unset( $args['order'] );
-		unset( $args['count'] );
+		unset(
+			$args['number'],
+			$args['offset'],
+			$args['orderby'],
+			$args['order'],
+			$args['count']
+		);
 
 		if ( 0 === $number ) {
 			if ( $count ) {
