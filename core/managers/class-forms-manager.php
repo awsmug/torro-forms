@@ -62,6 +62,19 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		return $form_id;
 	}
 
+	/**
+	 * Creates a new form.
+	 *
+	 * @since 1.0.0-beta.1
+	 *
+	 * @param array $args
+	 *
+	 * @return Torro_Form|Torro_Error
+	 */
+	public function create( $args = array(), $invalid = false ) {
+		return parent::create( 0, $args );
+	}
+
 	public function query( $args = array() ) {
 		$args['post_type'] = 'torro_form';
 		$args['post_status'] = 'publish';
