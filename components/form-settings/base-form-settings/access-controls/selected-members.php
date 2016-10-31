@@ -35,15 +35,6 @@ final class Torro_Form_Access_Control_Selected_Members extends Torro_Form_Access
 	}
 
 	/**
-	 * Constructor.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Initializing.
 	 *
 	 * @since 1.0.0

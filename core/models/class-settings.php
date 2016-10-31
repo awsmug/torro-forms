@@ -33,15 +33,6 @@ abstract class Torro_Settings extends Torro_Base {
 	protected $sub_settings = array();
 
 	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Adding settings field by array
 	 *
 	 * @param array $settings_fields

@@ -37,10 +37,6 @@ final class Torro_Participants_Manager extends Torro_Instance_Manager {
 		return self::$instance;
 	}
 
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	/**
 	 * Creates a new participant.
 	 *

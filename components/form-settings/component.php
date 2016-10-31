@@ -35,15 +35,6 @@ final class Torro_Form_Settings_Component extends Torro_Component {
 	}
 
 	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Initializes the Component
 	 *
 	 * @since 1.0.0

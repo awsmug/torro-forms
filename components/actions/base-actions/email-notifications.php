@@ -59,15 +59,6 @@ final class Torro_Email_Notifications extends Torro_Form_Action {
 	}
 
 	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Initializing
 	 *
 	 * @since 1.0.0

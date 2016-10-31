@@ -50,15 +50,6 @@ abstract class Torro_Extension extends Torro_Base {
 	protected $version;
 
 	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Checking and starting
 	 *
 	 * @since 1.0.0
