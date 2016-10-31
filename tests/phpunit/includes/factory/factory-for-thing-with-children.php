@@ -4,10 +4,6 @@ abstract class Torro_UnitTest_Factory_For_Thing_With_Children extends Torro_Unit
 	protected $child_factories = array();
 	protected $id_field_name;
 
-	public function __construct( $factory = null, $default_generation_definitions = array() ) {
-		parent::__construct( $factory, $default_generation_definitions );
-	}
-
 	public function create_full( $args = array() ) {
 		$children = array();
 		foreach ( $this->child_factories as $field_name => $factory_name ) {
