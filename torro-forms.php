@@ -519,7 +519,6 @@ CREATE TABLE $wpdb->torro_email_notifications (
 			'public'				=> true,
 			'show_ui'				=> true,
 			'show_in_menu'			=> true,
-			'show_in_menu'			=> true,
 			'show_in_nav_menus'		=> false,
 			'hierarchical'			=> false,
 			'has_archive'			=> false,
