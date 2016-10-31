@@ -72,8 +72,19 @@ abstract class Torro_Component extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	private function base_init() {
-		if ( method_exists( $this, 'includes' ) ) {
-			$this->includes();
-		}
+		$this->includes();
+	}
+
+	/**
+	 * Optionally add includes.
+	 *
+	 * Override in child class if needed.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected function includes() {
+		// Override in child class to add includes.
 	}
 }
