@@ -43,10 +43,6 @@ class Torro_Email_Notification extends Torro_Instance_Base {
 
 	protected $message = '';
 
-	public function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	public function move( $element_id ) {
 		return parent::move( $element_id );
 	}

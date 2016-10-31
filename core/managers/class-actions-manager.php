@@ -40,15 +40,6 @@ final class Torro_Form_Actions_Manager extends Torro_Manager {
 	}
 
 	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Setting allowed mudules
 	 *
 	 * @return array

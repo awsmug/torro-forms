@@ -34,10 +34,6 @@ final class Torro_Form_Result_Handlers_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function allowed_modules(){
 		$allowed = array(
 			'resulthandlers' => 'Torro_Form_Result',

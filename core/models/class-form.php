@@ -62,17 +62,6 @@ class Torro_Form extends Torro_Instance_Base {
 	protected $container_index = -1;
 
 	/**
-	 * Constructor
-	 *
-	 * @param int $id The id of the form
-	 *
-	 * @since 1.0.0
-	 */
-	public function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
-	/**
 	 * Setting Container id
 	 *
 	 * @param int $container_id

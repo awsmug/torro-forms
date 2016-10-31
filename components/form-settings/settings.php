@@ -29,15 +29,6 @@ final class Torro_Form_Settings_Settings extends Torro_Settings {
 	}
 
 	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Initializing
 	 *
 	 * @since 1.0.0

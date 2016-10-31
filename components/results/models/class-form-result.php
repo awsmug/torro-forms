@@ -28,15 +28,6 @@ abstract class Torro_Form_Result extends Torro_Base {
 	protected $option_content = '';
 
 	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Content of option in Form builder
 	 *
 	 * @param int $form_id

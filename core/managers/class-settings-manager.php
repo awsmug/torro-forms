@@ -34,10 +34,6 @@ final class Torro_Settings_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function allowed_modules(){
 		$allowed = array(
 			'settings' => 'Torro_Settings'

@@ -33,15 +33,6 @@ final class Torro_Result_Charts_C3 extends Torro_Result_Charts {
 	}
 
 	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Initializes the Component.
 	 *
 	 * @since 1.0.0

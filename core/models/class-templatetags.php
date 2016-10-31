@@ -28,15 +28,6 @@ abstract class Torro_TemplateTags extends Torro_Base {
 	protected $tags = array();
 
 	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Add a tag to taglist
 	 *
 	 * @param       $description

@@ -27,10 +27,6 @@ class Torro_Element_Setting extends Torro_Instance_Base {
 
 	protected $value = '';
 
-	public function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	public function move( $element_id ) {
 		return parent::move( $element_id );
 	}

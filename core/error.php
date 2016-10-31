@@ -21,10 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0-beta.1
  */
 class Torro_Error extends WP_Error {
-	public function __construct( $code = '', $message = '', $data = '' ) {
-		parent::__construct( $code, $message, $data );
-	}
-
 	public function __call( $function, $args ) {
 		if ( method_exists( $this, $function ) ) {
 			return call_user_func_array( array( $this, $function ), $args );

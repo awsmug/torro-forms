@@ -34,10 +34,6 @@ final class Torro_Form_Settings_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function allowed_modules(){
 		$allowed = array(
 			'form_setting' => 'Torro_Form_Setting'

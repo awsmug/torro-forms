@@ -35,15 +35,6 @@ final class Torro_Extensions_Settings extends Torro_Settings {
 		return self::$instance;
 	}
 
-	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	public function init() {
 		$this->title = __( 'Extensions', 'torro-forms-conditional-logic' );
 		$this->name = 'extensions';

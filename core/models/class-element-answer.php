@@ -29,10 +29,6 @@ class Torro_Element_Answer extends Torro_Instance_Base {
 
 	protected $section = '';
 
-	public function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	public function move( $element_id ) {
 		return parent::move( $element_id );
 	}

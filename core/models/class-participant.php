@@ -28,10 +28,6 @@ class Torro_Participant extends Torro_Instance_Base {
 
 	protected $user;
 
-	public function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	public function move( $form_id ) {
 		return parent::move( $form_id );
 	}

@@ -34,10 +34,6 @@ final class Torro_Extensions_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function allowed_modules(){
 		$allowed = array(
 			'extensions' => 'Torro_Extension'

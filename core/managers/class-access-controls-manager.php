@@ -33,10 +33,6 @@ final class Torro_Form_Access_Controls_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function allowed_modules(){
 		$allowed = array(
 			'access_controls' => 'Torro_Form_Access_Control'

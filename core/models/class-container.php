@@ -50,17 +50,6 @@ class Torro_Container extends Torro_Instance_Base {
 	protected $elements = array();
 
 	/**
-	 * Torro_Container constructor.
-	 *
-	 * @param int $id
-	 *
-	 * @since 1.0.0
-	 */
-	public function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
-	/**
 	 * Renders and returns the container HTML output.
 	 *
 	 * @since 1.0.0

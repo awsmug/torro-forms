@@ -37,17 +37,6 @@ class Torro_Result extends Torro_Instance_Base {
 
 	protected $values = array();
 
-	/**
-	 * Torro_Container constructor.
-	 *
-	 * @param int $id
-	 *
-	 * @since 1.0.0
-	 */
-	public function __construct( $id = null ) {
-		parent::__construct( $id );
-	}
-
 	public function move( $form_id ) {
 		return parent::move( $form_id );
 	}

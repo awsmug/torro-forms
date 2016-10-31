@@ -35,15 +35,6 @@ final class Torro_Templatetags_Global extends Torro_TemplateTags {
 		return self::$instance;
 	}
 
-	/**
-	 * Initializing.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	protected function init() {
 		$this->title = __( 'Global', 'torro-forms' );
 		$this->name = 'basetags';

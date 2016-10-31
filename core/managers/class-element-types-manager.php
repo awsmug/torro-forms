@@ -34,10 +34,6 @@ final class Torro_Element_Types_Manager extends Torro_Manager {
 		return self::$instance;
 	}
 
-	protected function __construct() {
-		parent::__construct();
-	}
-
 	public function get_class_name_by_type( $type ) {
 		$element_types = $this->get_all_registered();
 
