@@ -244,30 +244,6 @@ class Torro_Element extends Torro_Instance_Base {
 	}
 
 	/**
-	 * Moving Element to another container
-	 *
-	 * @param int $container_id
-	 *
-	 * @return int|Torro_Error
-	 * @since 1.0.0
-	 */
-	public function move( $container_id ) {
-		return parent::move( $container_id );
-	}
-
-	/**
-	 * Copy Element to another container
-	 *
-	 * @param $container_id
-	 *
-	 * @return Torro_Error
-	 * @since 1.0.0
-	 */
-	public function copy( $container_id ) {
-		return parent::copy( $container_id );
-	}
-
-	/**
 	 * Initializing
 	 *
 	 * @since 1.0.0

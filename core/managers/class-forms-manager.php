@@ -62,46 +62,6 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		return $form_id;
 	}
 
-	/**
-	 * Creates a new form.
-	 *
-	 * @since 1.0.0-beta.1
-	 *
-	 * @param array $args
-	 *
-	 * @return Torro_Form|Torro_Error
-	 */
-	public function create( $args = array(), $invalid = false ) {
-		return parent::create( 0, $args );
-	}
-
-	/**
-	 * Updates an existing form.
-	 *
-	 * @since 1.0.0-beta.1
-	 *
-	 * @param int   $id
-	 * @param array $args
-	 *
-	 * @return Torro_Form|Torro_Error
-	 */
-	public function update( $id, $args = array() ) {
-		return parent::update( $id, $args );
-	}
-
-	/**
-	 * Gets a form.
-	 *
-	 * @since 1.0.0-beta.1
-	 *
-	 * @param int $id
-	 *
-	 * @return Torro_Form|Torro_Error
-	 */
-	public function get( $id ) {
-		return parent::get( $id );
-	}
-
 	public function query( $args = array() ) {
 		$args['post_type'] = 'torro_form';
 		$args['post_status'] = 'publish';
@@ -126,33 +86,6 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Copies a form.
-	 *
-	 * @since 1.0.0-beta.1
-	 *
-	 * @param int   $id
-	 * @param array $args
-	 *
-	 * @return Torro_Form|Torro_Error
-	 */
-	public function copy( $id, $args = array() ) {
-		return parent::copy( $id, $args );
-	}
-
-	/**
-	 * Deletes a form.
-	 *
-	 * @since 1.0.0-beta.1
-	 *
-	 * @param int $id
-	 *
-	 * @return Torro_Form|Torro_Error
-	 */
-	public function delete( $id ) {
-		return parent::delete( $id );
 	}
 
 	protected function init() {
