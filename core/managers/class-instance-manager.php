@@ -107,8 +107,8 @@ abstract class Torro_Instance_Manager {
 			'count'		=> false,
 		) );
 
-		$number = intval( $args['number'] );
-		$offset = intval( $args['offset'] );
+		$number = (int) $args['number'];
+		$offset = (int) $args['offset'];
 		$orderby = 'none' !== $args['orderby'] ? $args['orderby'] : '';
 		$order = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
 		$count = $args['count'] ? true : false;

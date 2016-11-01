@@ -129,15 +129,15 @@ abstract class Torro_Instance_Base extends Torro_Base {
 			$type = $this->valid_args[ $key ];
 			switch ( $type ) {
 				case 'int':
-					$this->$key = intval( $value );
+					$this->$key = (int) $value;
 					break;
 				case 'double':
 				case 'float':
-					$this->$key = floatval( $value );
+					$this->$key = (float) $value;
 					break;
 				case 'string':
 				default:
-					$this->$key = strval( $value );
+					$this->$key = (string) $value;
 			}
 		}
 
@@ -232,15 +232,15 @@ abstract class Torro_Instance_Base extends Torro_Base {
 		foreach ( $this->valid_args as $arg => $type ) {
 			switch ( $type ) {
 				case 'int':
-					$this->$arg = intval( $data->$arg );
+					$this->$arg = (int) $data->$arg;
 					break;
 				case 'double':
 				case 'float':
-					$this->$arg = floatval( $data->$arg );
+					$this->$arg = (float) $data->$arg;
 					break;
 				case 'string':
 				default:
-					$this->$arg = strval( $data->$arg );
+					$this->$arg = (string) $data->$arg;
 			}
 		}
 	}
