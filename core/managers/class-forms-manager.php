@@ -101,6 +101,20 @@ final class Torro_Forms_Manager extends Torro_Instance_Manager {
 		return $results;
 	}
 
+	/**
+	 * Copies a form.
+	 *
+	 * @since 1.0.0-beta.1
+	 *
+	 * @param int   $id
+	 * @param array $args
+	 *
+	 * @return Torro_Form|Torro_Error
+	 */
+	public function copy( $id, $args = array() ) {
+		return parent::copy( $id, $args );
+	}
+
 	protected function init() {
 		$this->class_name = 'Torro_Form';
 	}
