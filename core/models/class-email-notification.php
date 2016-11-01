@@ -43,14 +43,6 @@ class Torro_Email_Notification extends Torro_Instance_Base {
 
 	protected $message = '';
 
-	public function move( $element_id ) {
-		return parent::move( $element_id );
-	}
-
-	public function copy( $element_id ) {
-		return parent::copy( $element_id );
-	}
-
 	protected function init() {
 		$this->table_name = 'torro_email_notifications';
 		$this->superior_id_name = 'form_id';

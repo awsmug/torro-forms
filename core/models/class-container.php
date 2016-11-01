@@ -104,14 +104,6 @@ class Torro_Container extends Torro_Instance_Base {
 		return $data;
 	}
 
-	public function move( $form_id ) {
-		return parent::move( $form_id );
-	}
-
-	public function copy( $form_id ) {
-		return parent::copy( $form_id );
-	}
-
 	protected function init() {
 		$this->table_name = 'torro_containers';
 		$this->superior_id_name = 'form_id';
