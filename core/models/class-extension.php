@@ -78,13 +78,24 @@ abstract class Torro_Extension extends Torro_Base {
 	 * @since 1.0.0
 	 */
 	protected function base_init() {
-		if ( method_exists( $this, 'includes' ) ) {
-			$this->includes();
-		}
+		$this->includes();
 
 		if ( isset( $this->settings_fields['serial'] ) ) {
 			add_action( 'admin_init', array( $this, 'plugin_updater' ), 0 );
 		}
+	}
+
+	/**
+	 * Optionally add includes.
+	 *
+	 * Override in child class if needed.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function includes() {
+		// Override in child class to add includes.
 	}
 
 	/**
