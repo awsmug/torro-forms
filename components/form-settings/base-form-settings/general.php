@@ -181,17 +181,17 @@ final class Torro_Form_Setting_General extends Torro_Form_Setting {
 
 		$html .= '<div class="flex-options" role="group">';
 		$html .= '<label for="already_entered_text">' . esc_html__( 'Already entered data', 'torro-forms' ) . '</label>';
-		$html .= '<div><input type="text" id="already_entered_text" name="already_entered_text" value="' . $already_entered_text . '" placeholder="' .  esc_attr( 'You have already entered your data.', 'torro-forms' ) . '" /></div>';
+		$html .= '<div><input type="text" id="already_entered_text" name="already_entered_text" value="' . $already_entered_text . '" placeholder="' .  esc_attr__( 'You have already entered your data.', 'torro-forms' ) . '" /></div>';
 		$html .= '</div>';
 
 		$html .= '<div class="flex-options" role="group">';
 		$html .= '<label for="not_allowed_text">' . esc_html__( 'Not allowed', 'torro-forms' ) . '</label>';
-		$html .= '<div><input type="text" id="not_allowed_text" name="not_allowed_text" value="' . $not_allowed_text . '" placeholder="' .  esc_attr( 'You are not allowed to participate.', 'torro-forms' ) . '" /></div>';
+		$html .= '<div><input type="text" id="not_allowed_text" name="not_allowed_text" value="' . $not_allowed_text . '" placeholder="' .  esc_attr__( 'You are not allowed to participate.', 'torro-forms' ) . '" /></div>';
 		$html .= '</div>';
 
 		$html .= '<div class="flex-options" role="group">';
 		$html .= '<label for="to_be_logged_in_text">' . esc_html__( 'Need to login', 'torro-forms' ) . '</label>';
-		$html .= '<div><input type="text" id="to_be_logged_in_text" name="to_be_logged_in_text" value="' . $to_be_logged_in_text . '" placeholder="' .  esc_attr( 'You have to be logged in to participate.', 'torro-forms' ) . '" /></div>';
+		$html .= '<div><input type="text" id="to_be_logged_in_text" name="to_be_logged_in_text" value="' . $to_be_logged_in_text . '" placeholder="' .  esc_attr__( 'You have to be logged in to participate.', 'torro-forms' ) . '" /></div>';
 		$html .= '</div>';
 
 		$html .= '<h4>' . esc_html__( 'Misc', 'torro-forms' ) . '</h4>';
