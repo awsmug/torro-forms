@@ -85,6 +85,8 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Added 'torro_element_type_validate_input' filter for additional validations
 * Fixed: Fixed incompatibility on ACF Calendar CSS on Torro Forms Formbuilder
 * Fixed: Element PHP Notices on not existing variable $element_id
+* Fixed: Element settings fields have now unique element ids
+* Fixed: Page 1 couldn't be deleted
 
 = 1.0.0-beta.7 =
 * Enhanced: Added a new filter for the element data sent to the template

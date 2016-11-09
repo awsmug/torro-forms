@@ -99,7 +99,7 @@ class Torro_Formbuilder {
 				$html .= '<div class="drop-elements-here">' . __( 'Drop your elements here', 'torro-forms' ) . '</div>';
 				$html .= '</div>';
 				$html .= '<div class="container-buttons">';
-				$html .= '<a class="delete-button delete-container-button">' . __( 'Delete Page', 'torro-forms' ) . '</a>';
+				$html .= '<input class="button delete-container-button" name="delete_container" value="' .  __( 'Delete Page', 'torro-forms' ) . '" type="button">';
 				$html .= '</div>';
 				$html .= '<input type="hidden" name="container_id" value="' . $container->id . '" />';
 				$html .= '<input type="hidden" name="containers[' . $container->id . '][id]" value="' . $container->id . '" />';
@@ -116,12 +116,15 @@ class Torro_Formbuilder {
 
 			$html .= '<div id="containers" class="tabs">';
 			$html .= '<ul class="container-tabs">';
-			$html .= '<li class="tab-container"><input class="txt" type="text" /><a href="#torro-container-new">' . $label . '</a></li>';
+			$html .= '<li id="tab-container-' . $temp_id . '" class="tab-container-' . $temp_id . '"><input class="txt" type="text" /><a href="#torro-container-new">' . $label . '</a></li>';
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
-			$html .= '<div id="torro-container-new" class="tab-content torro-container">';
+			$html .= '<div id="torro-container-' . $temp_id . '" class="tab-content torro-container">';
 			$html .= '<div class="torro-drag-drop-inside">';
 			$html .= '<div class="drop-elements-here">' . __( 'Drop your elements here', 'torro-forms' ) . '</div>';
+			$html .= '</div>';
+			$html .= '<div class="container-buttons">';
+			$html .= '<input class="button delete-container-button" name="delete_container" value="' .  __( 'Delete Page', 'torro-forms' ) . '" type="button">';
 			$html .= '</div>';
 			$html .= '<input type="hidden" name="container_id" value="' . $temp_id . '" />';
 			$html .= '<input type="hidden" name="containers[' . $temp_id . '][id]" value="' . $temp_id . '" />';
