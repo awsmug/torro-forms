@@ -636,11 +636,13 @@ abstract class Torro_Element_Type extends Torro_Base {
 		$value = '';
 
 		if ( isset( $element->settings[ $name ] ) && isset( $element->settings[ $name ]->id ) ) {
+			// Existing element
 			$id = $element->settings[ $name ]->id;
 			$name = $element->settings[ $name ]->name;
 			$value = maybe_unserialize( $element->settings[ $name ]->value );
 		} else {
-			$id = torro_generate_temp_id();
+			// New element
+			$id = 'replace_element_id_' . torro_generate_temp_id();
 		}
 
 		if ( empty( $value ) ) {
