@@ -57,11 +57,32 @@
 	display: inline;
 }
 
-.post-type-torro_form #poststuff #form-elements .inside .formelement {
-	height: 45px;
+.post-type-torro_form #poststuff #form-elements .inside {
+	padding: 12px;
+	margin-top: 0;
 }
-.post-type-torro_form #poststuff #form-elements .inside .formelement:first-child {
-	margin-top: 15px;
+.post-type-torro_form #poststuff #form-elements .inside .formelement {
+	width: 100%;
+	height: 45px;
+	margin: 0 0 12px 0; 
+	margin-bottom: 12px;
+}
+.post-type-torro_form #poststuff #form-elements .inside:last-child {
+	margin-bottom: 0;
+}
+@media (max-width: 850px) {
+	.post-type-torro_form #poststuff #form-elements .inside {
+		display: flex;
+
+		flex-wrap: wrap;
+	}
+	.post-type-torro_form #poststuff #form-elements .inside .formelement {
+		width: 48%;
+		margin: 0 1% 12px 1%;
+	}
+	.post-type-torro_form #poststuff #form-elements .inside:first-child {
+		margin-top: 0;
+	}
 }
 
 .post-type-torro_form #poststuff .tabs > ul {
@@ -273,11 +294,6 @@
 }
 .post-type-torro_form #poststuff .form-fields input[type=text] {
 	width: 50%;
-}
-
-.post-type-torro_form #poststuff #postbox-container-2 .inside {
-	padding: 0;
-	margin: 0;
 }
 
 .post-type-torro_form #poststuff .button-loading {
