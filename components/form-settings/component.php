@@ -66,7 +66,7 @@ final class Torro_Form_Settings_Component extends Torro_Component {
 		require_once( $folder . 'base-form-settings/general.php' );
 		require_once( $folder . 'base-form-settings/access-control.php' );
 		require_once( $folder . 'base-form-settings/timerange.php' );
-		require_once( $folder . 'base-form-settings/recaptcha.php' );
+		require_once( $folder . 'base-form-settings/spam-protection.php' );
 
 		// Visitors
 		require_once( $folder . 'base-form-settings/access-controls/all-visitors.php' );
