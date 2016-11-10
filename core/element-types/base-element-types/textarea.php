@@ -160,6 +160,8 @@ final class Torro_Element_Type_Textarea extends Torro_Element_Type {
 			}
 		}
 
+
+
 		return parent::validate( $input, $element );
 	}
 }

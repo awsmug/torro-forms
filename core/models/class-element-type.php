@@ -95,7 +95,6 @@ abstract class Torro_Element_Type extends Torro_Base {
 		 * Actionhook for additional validations
 		 *
 		 * @param string|array $input Input of the element
-		 * @param int $element_id ID of the Element
 		 * @param Torro_Element $element The element instance
 		 *
 		 * @return string mixed|Torro_Error The filtered order number
