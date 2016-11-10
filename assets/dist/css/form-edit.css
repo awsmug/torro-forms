@@ -85,6 +85,19 @@
 	}
 }
 
+.post-type-torro_form #poststuff #postbox-container-2 #form-elements .inside {
+	display: flex;
+
+	flex-wrap: wrap;
+}
+.post-type-torro_form #poststuff #postbox-container-2 #form-elements .inside .formelement {
+	width: 48%;
+	margin: 0 1% 12px 1%;
+}
+.post-type-torro_form #poststuff #postbox-container-2 #form-elements .inside:first-child {
+	margin-top: 0;
+}
+
 .post-type-torro_form #poststuff .tabs > ul {
 	display: block;
 	height: 29px;

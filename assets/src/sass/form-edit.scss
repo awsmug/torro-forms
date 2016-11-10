@@ -95,8 +95,22 @@
 						margin-top: 0;
 					}
 				}
-				@media (min-width: 851px) {
+			}
 
+		}
+
+		#postbox-container-2 {
+			#form-elements {
+				.inside {
+					display: flex;
+					flex-wrap: wrap;
+					.formelement {
+						width: 48%;
+						margin: 0 1% 12px 1%;
+					}
+					&:first-child {
+						margin-top: 0;
+					}
 				}
 			}
 		}
