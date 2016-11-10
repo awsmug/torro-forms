@@ -47,13 +47,13 @@
 		init: function() {
 			this.init_drag_and_drop();
 
-			this.init_container_deletion();
-
-			this.init_formelement_deletion();
-
-			this.init_sortable_answers();
+			this.init_container_tabs();
 
 			this.init_container_addition();
+
+			this.init_container_deletion();
+
+			this.init_sortable_answers();
 
 			this.init_answer_addition();
 
@@ -62,6 +62,8 @@
 			this.init_answer_enter();
 
 			this.init_tab_handling();
+
+			this.init_formelement_deletion();
 
 			this.init_element_title_rewrite();
 
@@ -76,8 +78,6 @@
 			this.init_access_controls();
 
 			this.check_max_input_vars();
-
-			this.init_container_tabs();
 		},
 
 		load_ajax_editor: function( $wrapper, element_id, name, content ) {
@@ -257,13 +257,13 @@
 		},
 
 		/**
-		 * Additional functionality for container tabs
+		 * Container tabs
 		 */
 		init_container_tabs: function() {
 			var self = this;
+			var $tabs = $( self.selectors.tabs );
 
-			$( self.selectors.container_tabs ).parent().tabs();
-
+			$tabs.tabs();
 			$( self.selectors.container_tabs ).sortable({
 				items: self.selectors.container_tab,
 				stop: function(e,ui) {
@@ -277,7 +277,7 @@
 						}
 					});
 
-					$( self.selectors.container_tabs ).parent().tabs( "refresh" );
+					$tabs.tabs( "refresh" );
 				}
 			});
 
@@ -291,8 +291,6 @@
 					if ( ! $( this ).is( ":visible") ) {
 						return;
 					}
-
-					console.log( e );
 
 					if ( e.type == "keydown" ) {
 						if ( e.which == 13 ) {
@@ -324,6 +322,85 @@
 			init_container_tab( $( self.selectors.container_tab ) );
 			$( document ).on( 'torro.insert_container', function( event, data ) {
 				init_container_tab( $( data.tab_selector ) );
+			});
+		},
+
+		/**
+		 * Initializing jquery tabs in elements
+		 */
+		init_tab_handling: function() {
+			var self = this;
+
+			function init_droppable( $droppable_area ) {
+				function make_tabs( $element ) {
+					$element.tabs({
+						active: 0
+					});
+				}
+
+				make_tabs( $droppable_area.find( self.selectors.tabs ) );
+				$droppable_area.on( 'torro.element_dropped', function( event, data ) {
+					var $element = data.element;
+
+					make_tabs( $element.find( self.selectors.tabs ) );
+				});
+			}
+
+			$( self.selectors.tabs ).tabs({
+				active: 0
+			});
+
+			init_droppable( $( this.selectors.droppable_area ) );
+
+			$( document ).on( 'torro.insert_container', function( event, data ) {
+				init_droppable( $( data.container_selector + ' ' + self.selectors.droppable_area ) );
+			});
+		},
+
+		/**
+		 * Initializing container addition
+		 */
+		init_container_addition: function() {
+			var self = this;
+
+			$( this.selectors.container_add ).on( 'click', function() {
+				var count_container = $( self.selectors.container_tabs ).parent().find( '.torro-container' ).length;
+
+				var id = self.generate_temp_id();
+				var container_id = 'torro-container-' + id;
+				var tab_id = 'tab-container-' + id;
+
+				var tab = '<li id="' + tab_id + '" class="tab-container"><input class="txt" type="text"/><a href="#' + container_id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
+
+				var container = '<div id="' + container_id + '" class="torro-container">';
+				container += '<div class="torro-drag-drop-inside">';
+				container += '<div class="drop-elements-here">' + self.translations.drop_elements_here + '</div>';
+				container += '</div>';
+				container += '<div class="container-buttons">';
+				container += '<input type="button" name="delete_container" value="' +  self.translations.delete_page + '" class="button delete-container-button" />';
+				container += '</div>';
+				container += '<input type="hidden" name="container_id" value="'+ id +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'id' ) + '" value="'+ id +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'label' ) + '" value="Page '+ ( count_container + 1 ) +'" />';
+				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'sort' ) + '" value="'+ count_container +'" />';
+				container += '</div>';
+
+				$( tab ).insertBefore( this );
+				$( self.selectors.container_tabs ).parent().append( container );
+				$( self.selectors.container_tabs ).parent().tabs( "refresh" );
+				self.init_tab_handling();
+
+				var index = $( self.selectors.container_tabs + ' li' ).length - 2;
+				$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
+
+				var data = {
+					tab_id: tab_id,
+					tab_selector: '#' + tab_id,
+					container_id: container_id,
+					container_selector: '#' + container_id
+				};
+				$( document ).trigger( 'torro.insert_container', [ data ] );
+
 			});
 		},
 
@@ -474,6 +551,7 @@
 			});
 		},
 
+
 		/**
 		 * Making answers in elements sortable
 		 */
@@ -521,51 +599,6 @@
 			init_droppable( $( this.selectors.droppable_area ) );
 			$( document ).on( 'torro.insert_container', function( event, data ) {
 				init_droppable( $( data.container_selector + ' ' + self.selectors.droppable_area ) );
-			});
-		},
-
-		/**
-		 * Initializing container addition
-		 */
-		init_container_addition: function() {
-			var self = this;
-
-			$( this.selectors.container_add ).on( 'click', function() {
-				var count_container = $( self.selectors.container_tabs ).parent().find( '.torro-container' ).length;
-
-				var id = self.generate_temp_id();
-				var container_id = 'torro-container-' + id;
-				var tab_id = 'tab-container-' + id;
-
-				var tab = '<li id="' + tab_id + '" class="tab-container"><input class="txt" type="text"/><a href="#' + container_id + '">' + self.translations.page + ' ' + ( count_container + 1 ) +  '</a></li>';
-
-				var container = '<div id="' + container_id + '" class="torro-container">';
-				container += '<div class="torro-drag-drop-inside">';
-				container += '<div class="drop-elements-here">' + self.translations.drop_elements_here + '</div>';
-				container += '</div>';
-				container += '<div class="container-buttons">';
-				container += '<input type="button" name="delete_container" value="' +  self.translations.delete_page + '" class="button delete-container-button" />';
-				container += '</div>';
-				container += '<input type="hidden" name="container_id" value="'+ id +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'id' ) + '" value="'+ id +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'label' ) + '" value="Page '+ ( count_container + 1 ) +'" />';
-				container += '<input type="hidden" name="' + self.generate_admin_input_name( id, undefined, undefined, 'sort' ) + '" value="'+ count_container +'" />';
-				container += '</div>';
-
-				$( tab ).insertBefore( this );
-				$( self.selectors.container_tabs ).parent().append( container );
-				$( self.selectors.container_tabs ).parent().tabs( "refresh" );
-
-				var index = $( self.selectors.container_tabs + ' li:last-child' ).parent().index() - 1;
-				$( self.selectors.container_tabs ).parent().tabs( 'option', 'active', index );
-
-				var data = {
-					tab_id: tab_id,
-					tab_selector: '#' + tab_id,
-					container_id: container_id,
-					container_selector: '#' + container_id
-				};
-				$( document ).trigger( 'torro.insert_container', [ data ] );
 			});
 		},
 
@@ -688,38 +721,6 @@
 					var $add_answer_button = $( this ).parents( self.selectors.element_tabs ).find( self.selectors.add_answer_button );
 					$add_answer_button.trigger( 'click' );
 				}
-			});
-		},
-
-		/**
-         * Initializing jquery tabs in elements
-         */
-		init_tab_handling: function() {
-			var self = this;
-
-			function init_droppable( $droppable_area ) {
-				function make_tabs( $element ) {
-					$element.tabs({
-						active: 0
-					});
-				}
-
-				make_tabs( $droppable_area.find( self.selectors.tabs ) );
-				$droppable_area.on( 'torro.element_dropped', function( event, data ) {
-					var $element = data.element;
-
-					make_tabs( $element.find( self.selectors.tabs ) );
-				});
-			}
-
-			$( self.selectors.tabs ).tabs({
-				active: 0
-			});
-
-			init_droppable( $( this.selectors.droppable_area ) );
-
-			$( document ).on( 'torro.insert_container', function( event, data ) {
-				init_droppable( $( data.container_selector + ' ' + self.selectors.droppable_area ) );
 			});
 		},
 
@@ -873,6 +874,59 @@
 			});
 		},
 
+		init_extensions: function() {
+			var keys = Object.keys( this.extensions );
+			for ( var i in keys ) {
+				this.extensions[ keys[ i ] ].init();
+			}
+		},
+
+		add_extension: function( name, obj ) {
+			this.extensions[ name ] = obj;
+		},
+
+		get_extension: function( name ) {
+			return this.extensions[ name ];
+		},
+
+		get_extensions: function() {
+			return this.extensions;
+		},
+
+		/**
+		 * Returns the current form ID
+		 */
+		get_form_id: function() {
+			return $( '#post_ID' ).val();
+		},
+
+		generate_temp_id: function() {
+			var now = new Date();
+			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
+
+			random = random * now.getTime();
+			random = random.toString();
+
+			return ( 'temp_id_' + random ).substring( 0, 14 );
+		},
+
+		is_temp_id: function( id ) {
+			return 'temp_id' === id.substring( 0, 7 );
+		},
+
+		/**
+		 * Counting all input fields of a selected container
+		 */
+		count_form_elements: function( selector ) {
+			var count_inputs = $( selector ).find( 'input' ).length;
+			var count_textareas = $( selector ).find( 'textarea' ).length;
+			var count_select = $( selector ).find( 'select' ).length;
+
+			var count_all = count_inputs + count_textareas + count_select;
+
+			return count_all;
+		},
+
 		/**
          * Counting form input vars and showing
          */
@@ -901,45 +955,6 @@
 			}
 		},
 
-		/**
-         * Counting all input fields of a selected container
-         */
-		count_form_elements: function( selector ) {
-			var count_inputs = $( selector ).find( 'input' ).length;
-			var count_textareas = $( selector ).find( 'textarea' ).length;
-			var count_select = $( selector ).find( 'select' ).length;
-
-			var count_all = count_inputs + count_textareas + count_select;
-
-			return count_all;
-		},
-
-		/**
-         * Returns the current form ID
-         */
-		get_form_id: function() {
-			return $( '#post_ID' ).val();
-		},
-
-		init_extensions: function() {
-			var keys = Object.keys( this.extensions );
-			for ( var i in keys ) {
-				this.extensions[ keys[ i ] ].init();
-			}
-		},
-
-		add_extension: function( name, obj ) {
-			this.extensions[ name ] = obj;
-		},
-
-		get_extension: function( name ) {
-			return this.extensions[ name ];
-		},
-
-		get_extensions: function() {
-			return this.extensions;
-		},
-
 		generate_admin_input_name: function( container_id, element_id, answer_id, field, escaped ) {
 			if ( ! container_id ) {
 				return '';
@@ -962,20 +977,6 @@
 			}
 
 			return name;
-		},
-
-		generate_temp_id: function() {
-			var now = new Date();
-			var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
-
-			random = random * now.getTime();
-			random = random.toString();
-
-			return ( 'temp_id_' + random ).substring( 0, 14 );
-		},
-
-		is_temp_id: function( id ) {
-			return 'temp_id' === id.substring( 0, 7 );
 		}
 	};
 

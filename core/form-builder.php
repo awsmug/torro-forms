@@ -116,7 +116,7 @@ class Torro_Formbuilder {
 
 			$html .= '<div id="containers" class="tabs">';
 			$html .= '<ul class="container-tabs">';
-			$html .= '<li id="tab-container-' . $temp_id . '" class="tab-container-' . $temp_id . '"><input class="txt" type="text" /><a href="#torro-container-new">' . $label . '</a></li>';
+			$html .= '<li id="tab-container-' . $temp_id . '" class="tab-container-' . $temp_id . '"><input class="txt" type="text" /><a href="#torro-container-' . $temp_id . '">' . $label . '</a></li>';
 			$html .= '<li id="container-add">' . __( '+', 'torro-forms' ) . '</a></li>';
 			$html .= '</ul>';
 			$html .= '<div id="torro-container-' . $temp_id . '" class="tab-content torro-container">';
