@@ -27,6 +27,9 @@
 .torro-form .torro-element .element-description {
 	font-style: italic;
 }
+.torro-form .torro-element-trap {
+	display: none;
+}
 .torro-form .torro-pagination {
 	margin-bottom: 20px;
 }

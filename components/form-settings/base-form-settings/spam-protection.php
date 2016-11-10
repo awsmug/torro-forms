@@ -33,7 +33,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 *
 	 * @since 1.0.0
 	 */
-	protected $recaptcha_errors = array();
+	protected $errors = array();
 
 	/**
 	 * Whether the script is already enqueued.
@@ -79,8 +79,10 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 		add_action( 'admin_notices', array( $this, 'check_settings' ), 1 );
 
-		add_action( 'torro_form_send_button_before', array( $this, 'draw_placeholder_element' ), 10, 1 );
+		add_action( 'torro_form_send_button_before', array( $this, 'draw_recaptcha_element' ), 10, 1 );
+		add_action( 'torro_form_send_button_before', array( $this, 'draw_honeypot_element' ), 10, 1 );
 		add_filter( 'torro_response_status', array( $this, 'check_recaptcha_submission' ), 10, 4 );
+		add_filter( 'torro_response_status', array( $this, 'check_honeypot_submission' ), 10, 4 );
 
 		// compatibility with Contact Form 7
 		remove_action( 'wpcf7_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts' );
@@ -104,7 +106,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 		$form_id = $post->ID;
 
-		if ( $this->is_enabled( $form_id ) && ! $this->is_configured() ) {
+		if ( $this->is_recaptcha_ebabled( $form_id ) && ! $this->is_recaptcha_configured() ) {
 			torro()->admin_notices()->add( 'recaptcha_not_configured', sprintf( __( 'To use reCAPTCHA you have to enter a Sitekey and Secret in your <a href="%s">reCAPTCHA settings</a>.', 'torro-forms' ), admin_url( 'edit.php?post_type=torro_form&page=Torro_Admin&tab=form_settings&section=spam_protection' ) ), 'warning' );
 		}
 	}
@@ -139,7 +141,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		$html .= '<label for="recaptcha_enabled">' . esc_html__( 'Enable', 'torro-forms' ) . '</label>';
 		$html .= '<div>';
 		$html .= '<input type="checkbox" id="recaptcha_enabled" name="recaptcha_enabled" value="1" ' . checked( $recaptcha_enabled, true, false ) . ' aria-describedby="enable-recaptcha-desc" />';
-		$html .= '<div id="enable-recaptcha-desc">' .esc_html__( 'Enable Google reCAPTCHA for this form.', 'torro-forms' ). '</div>';
+		$html .= '<div id="enable-recaptcha-desc">' .esc_html__( 'Enable Google reCAPTCHA.', 'torro-forms' ). '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -167,9 +169,52 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 		$html .= '</select></div>';
 		$html .= '</div>';
 
+		$honeypot_enabled = get_post_meta( $form_id, 'honeypot_enabled', true );
+
+		if ( $honeypot_enabled ) {
+			$honeypot_enabled = true;
+		} else {
+			$honeypot_enabled = false;
+		}
+
+		$html .= '<h4>' . esc_html__( 'Honeypot', 'torro-forms' ) . '</h4>';
+
+		$html .= '<div class="flex-options" role="group">';
+		$html .= '<label for="honeypot_enabled">' . esc_html__( 'Enable', 'torro-forms' ) . '</label>';
+		$html .= '<div>';
+		$html .= '<input type="checkbox" id="honeypot_enabled" name="honeypot_enabled" value="1" ' . checked( $honeypot_enabled, true, false ) . ' aria-describedby="enable-honeypot_-desc" />';
+		$html .= '<div id="enable-recaptcha-desc">' .esc_html__( 'Enable Honeypot.', 'torro-forms' ). '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
+
+
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Saving option
+	 *
+	 * @param int $form_id
+	 *
+	 * @since 1.0.0
+	 */
+	public function save( $form_id ) {
+		$recaptcha_enabled = isset( $_POST['recaptcha_enabled'] ) ? (bool) $_POST['recaptcha_enabled'] : false;
+		$recaptcha_type = isset( $_POST['recaptcha_type'] ) ? wp_unslash( $_POST['recaptcha_type'] ) : 'image';
+		$recaptcha_size = isset( $_POST['recaptcha_size'] ) ? wp_unslash( $_POST['recaptcha_size'] ) : 'normal';
+		$recaptcha_theme = isset( $_POST['recaptcha_theme'] ) ? wp_unslash( $_POST['recaptcha_theme'] ) : 'light';
+		$honeypot_enabled = isset( $_POST['honeypot_enabled'] ) ? (bool) $_POST['honeypot_enabled'] : false;
+
+		/**
+		 * Saving settings
+		 */
+		update_post_meta( $form_id, 'recaptcha_enabled', $recaptcha_enabled );
+		update_post_meta( $form_id, 'recaptcha_type', $recaptcha_type );
+		update_post_meta( $form_id, 'recaptcha_size', $recaptcha_size );
+		update_post_meta( $form_id, 'recaptcha_theme', $recaptcha_theme );
+		update_post_meta( $form_id, 'honeypot_enabled', $honeypot_enabled );
 	}
 
 	/**
@@ -178,7 +223,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 * @return boolean
 	 * @since 1.0.0
 	 */
-	public function is_configured() {
+	public function is_recaptcha_configured() {
 		if ( empty( $this->settings['recaptcha_sitekey'] ) ) {
 			return false;
 		}
@@ -196,7 +241,7 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	 * @return boolean
 	 * @since 1.0.0
 	 */
-	public function is_enabled( $form_id ) {
+	public function is_recaptcha_ebabled( $form_id ) {
 		if ( ! get_post_meta( $form_id, 'recaptcha_enabled', true ) ) {
 			return false;
 		}
@@ -204,21 +249,83 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	}
 
 	/**
+	 * Detects if Honepot is enabled for form
+	 *
+	 * @return boolean
+	 * @since 1.0.0
+	 */
+	public function is_honeypot_ebabled( $form_id ) {
+		if ( ! get_post_meta( $form_id, 'honeypot_enabled', true ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Creates the reCAPTCHA placeholder element and optionally prints errors
+	 *
+	 * @param int $form_id
+	 *
+	 * @since 1.0.0
+	 */
+	public function draw_recaptcha_element( $form_id ) {
+		if ( ! $this->is_recaptcha_ebabled( $form_id ) || ! $this->is_recaptcha_configured() ) {
+			return;
+		}
+
+		$error = '';
+		if ( isset( $this->errors[ $form_id ] ) ) {
+			$error = $this->errors[ $form_id ];
+		}
+
+		$type = get_post_meta( $form_id, 'recaptcha_type', true );
+		if ( ! $type ) {
+			$type = 'image';
+		}
+
+		$size = get_post_meta( $form_id, 'recaptcha_size', true );
+		if ( ! $size ) {
+			$size = 'normal';
+		}
+
+		$theme = get_post_meta( $form_id, 'recaptcha_theme', true );
+		if ( ! $theme ) {
+			$theme = 'light';
+		}
+
+		torro()->template( 'recaptcha', array(
+			'id'		=> 'recaptcha-placeholder-' . $form_id,
+			'form_id'	=> $form_id,
+			'type'		=> $type,
+			'size'		=> $size,
+			'theme'		=> $theme,
+			'error'		=> $error,
+		) );
+
+		$this->enqueue_recaptcha_script( $form_id );
+	}
+
+	/**
 	 * Actually checks whether the user submitted a valid captcha
 	 *
 	 * This check is only performed on submitting the form (i.e. last page of the form)
+	 *
+	 * @param boolean $status
+	 * @param int $form_id
+	 * @param int $container_id
+	 * @param boolean $is_submit
 	 *
 	 * @return boolean
 	 * @since 1.0.0
 	 */
 	public function check_recaptcha_submission( $status, $form_id, $container_id, $is_submit = false ) {
-		if ( $this->is_enabled( $form_id ) && $this->is_configured() && $is_submit ) {
+		if ( $this->is_recaptcha_ebabled( $form_id ) && $this->is_recaptcha_configured() && $is_submit ) {
 			if ( isset( $_POST['g-recaptcha-response'] ) && ! empty( $_POST['g-recaptcha-response'] ) ) {
 				$verification = $this->verify_response( $_POST['g-recaptcha-response'] );
 				try {
 					$verification = json_decode( $verification, true );
 				} catch ( Exception $e ) {
-					$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'torro-forms' );
+					$this->errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'torro-forms' );
 					$status = false;
 				}
 
@@ -226,31 +333,72 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 					if ( isset( $verification['error-codes'] ) && count( $verification['error-codes'] ) > 0 ) {
 						switch ( $verification['error-codes'][0] ) {
 							case 'missing-input-secret':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is missing.', 'torro-forms' );
+								$this->errors[ $form_id ] = __( 'The reCAPTCHA secret is missing.', 'torro-forms' );
 								break;
 							case 'invalid-input-secret':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA secret is invalid or malformed.', 'torro-forms' );
+								$this->errors[ $form_id ] = __( 'The reCAPTCHA secret is invalid or malformed.', 'torro-forms' );
 								break;
 							case 'missing-input-response':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is missing.', 'torro-forms' );
+								$this->errors[ $form_id ] = __( 'The reCAPTCHA response is missing.', 'torro-forms' );
 								break;
 							case 'invalid-input-response':
-								$this->recaptcha_errors[ $form_id ] = __( 'The reCAPTCHA response is invalid or malformed.', 'torro-forms' );
+								$this->errors[ $form_id ] = __( 'The reCAPTCHA response is invalid or malformed.', 'torro-forms' );
 								break;
 							default:
 						}
 					} else {
-						$this->recaptcha_errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'torro-forms' );
+						$this->errors[ $form_id ] = __( 'An unknown error occurred processing the reCAPTCHA response.', 'torro-forms' );
 					}
 					$status = false;
 				}
 			} else {
-				$this->recaptcha_errors[ $form_id ] = __( 'Missing reCAPTCHA response.', 'torro-forms' );
+				$this->errors[ $form_id ] = __( 'Missing reCAPTCHA response.', 'torro-forms' );
 				$status = false;
 			}
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Creates the honepot email field
+	 *
+	 * @param int $form_id
+	 *
+	 * @since 1.0.0
+	 */
+	public function draw_honeypot_element( $form_id ) {
+		$email = '';
+		if( array_key_exists( 'email', $_REQUEST ) && ! empty( $_REQUEST[ 'email' ] ) ) {
+			$email = $_REQUEST[ 'email' ];
+		}
+		$html = '<div class="torro-element torro-element-trap">';
+		$html.= '<label for="email">' . esc_attr__( 'If you are a human, do not fill in this field.', 'torro-forms' ) . '</label>';
+		$html.= '<input id="email" type="text" name="email" value="' . $email . '" />';
+		$html.= '</div>';
+
+		echo $html;
+	}
+
+	/**
+	 * Actually checks whether the user has filled in the honeypot field
+	 *
+	 * @param boolean $status
+	 * @param int $form_id
+	 * @param int $container_id
+	 * @param boolean $is_submit
+	 *
+	 * @return boolean
+	 * @since 1.0.0
+	 */
+	public function check_honeypot_submission( $status, $form_id, $container_id, $is_submit = false ) {
+		if ( $this->is_honeypot_ebabled( $form_id ) && $this->is_recaptcha_configured() && $is_submit ) {
+			if( array_key_exists( 'email', $_REQUEST ) && ! empty( $_REQUEST[ 'email' ] ) ) {
+				$this->errors[ $form_id ] = __( 'Go away!', 'torro-forms' );
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -283,71 +431,14 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 	}
 
 	/**
-	 * Saving data
+	 * Adding scripts for recaptcha
 	 *
-	 * @param int $form_id
-	 *
-	 * @since 1.0.0
-	 */
-	public function save( $form_id ) {
-		$recaptcha_enabled = isset( $_POST['recaptcha_enabled'] ) ? (bool) $_POST['recaptcha_enabled'] : false;
-		$recaptcha_type = isset( $_POST['recaptcha_type'] ) ? wp_unslash( $_POST['recaptcha_type'] ) : 'image';
-		$recaptcha_size = isset( $_POST['recaptcha_size'] ) ? wp_unslash( $_POST['recaptcha_size'] ) : 'normal';
-		$recaptcha_theme = isset( $_POST['recaptcha_theme'] ) ? wp_unslash( $_POST['recaptcha_theme'] ) : 'light';
-
-		/**
-		 * Saving reCAPTCHA settings
-		 */
-		update_post_meta( $form_id, 'recaptcha_enabled', $recaptcha_enabled );
-		update_post_meta( $form_id, 'recaptcha_type', $recaptcha_type );
-		update_post_meta( $form_id, 'recaptcha_size', $recaptcha_size );
-		update_post_meta( $form_id, 'recaptcha_theme', $recaptcha_theme );
-	}
-
-	/**
-	 * Creates the reCAPTCHA placeholder element and optionally prints errors
+	 * @param $form_id
 	 *
 	 * @since 1.0.0
 	 */
-	public function draw_placeholder_element( $form_id ) {
-		if ( ! $this->is_enabled( $form_id ) || ! $this->is_configured() ) {
-			return;
-		}
-
-		$error = '';
-		if ( isset( $this->recaptcha_errors[ $form_id ] ) ) {
-			$error = $this->recaptcha_errors[ $form_id ];
-		}
-
-		$type = get_post_meta( $form_id, 'recaptcha_type', true );
-		if ( ! $type ) {
-			$type = 'image';
-		}
-
-		$size = get_post_meta( $form_id, 'recaptcha_size', true );
-		if ( ! $size ) {
-			$size = 'normal';
-		}
-
-		$theme = get_post_meta( $form_id, 'recaptcha_theme', true );
-		if ( ! $theme ) {
-			$theme = 'light';
-		}
-
-		torro()->template( 'recaptcha', array(
-			'id'		=> 'recaptcha-placeholder-' . $form_id,
-			'form_id'	=> $form_id,
-			'type'		=> $type,
-			'size'		=> $size,
-			'theme'		=> $theme,
-			'error'		=> $error,
-		) );
-
-		$this->enqueue_recaptcha_script( $form_id );
-	}
-
 	public function enqueue_recaptcha_script( $form_id ) {
-		if ( ! $this->is_enabled( $form_id ) || ! $this->is_configured() ) {
+		if ( ! $this->is_recaptcha_ebabled( $form_id ) || ! $this->is_recaptcha_configured() ) {
 			return;
 		}
 
@@ -397,6 +488,12 @@ final class Torro_Form_Setting_Spam_Protection extends Torro_Form_Setting {
 
 	/**
 	 * Adds 'async' and 'defer' attributes to the reCAPTCHA script tag
+	 *
+	 * @param string $tag
+	 * @param string $handle
+	 * @param string $src
+	 *
+	 * @return string $tag
 	 *
 	 * @since 1.0.0
 	 */
