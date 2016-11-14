@@ -326,12 +326,16 @@ class Torro_Form extends Torro_Instance_Base {
 	 * @param int   $form_id
 	 * @param array $response
 	 *
-	 * @return boolean $saved
+	 * @return int|Torro_Error $result_id The ID of the result
 	 * @since 1.0.0
 	 */
 	public function save_response( $response ) {
 		$current_user = wp_get_current_user();
 		$user_id = $current_user && $current_user->exists() ? $current_user->ID : 0;
+
+		if( ! array_key_exists( 'containers', $response ) ) {
+			return new Torro_Error( 'nothing_to_save', __( 'There was nothing to save, because form has no elements containing any input.') );
+		}
 
 		$result_obj = torro()->results()->create( $this->id, array(
 			'user_id'		=> $user_id,
@@ -339,6 +343,7 @@ class Torro_Form extends Torro_Instance_Base {
 			'remote_addr'	=> '',
 			'cookie_key'	=> '',
 		) );
+
 		if ( is_wp_error( $result_obj ) ) {
 			return $result_obj;
 		}

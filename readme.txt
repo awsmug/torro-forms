@@ -83,13 +83,16 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Added password option to textfield element
 * Enhanced: Added 'torro_form_action_url' filter
 * Enhanced: Added 'torro_element_type_validate_input' filter for additional validations
+* Enhanced: Enhanced code
 * Enhanced: Added honeypot spam filter
 * Enhanced: Added timetrap spam filter
 * Enhanced: Added linkcount spam filter
+* Enhanced: Added filter 'torro_form_show_saving_error' on whats happening after data could not be saved
 * Fixed: Fixed incompatibility on ACF Calendar CSS on Torro Forms Formbuilder
 * Fixed: Element PHP Notices on not existing variable $element_id
 * Fixed: Element settings fields have now unique element ids
 * Fixed: Page 1 couldn't be deleted
+* Fixed: Warning if there is no element with an input. 
 
 = 1.0.0-beta.7 =
 * Enhanced: Added a new filter for the element data sent to the template

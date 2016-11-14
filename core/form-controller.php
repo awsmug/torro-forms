@@ -327,6 +327,16 @@ class Torro_Form_Controller {
 			return;
 		}
 
+		/**
+		 * Should the form be shown
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param boolean $torro_form_show True if form can go further. False if not
+		 * @param int $form_id The ID of the form
+		 *
+		 * @return boolean $torro_form_show Fitlered value if the form can go further or not
+		 */
 		$torro_form_show = apply_filters( 'torro_form_show', true, $this->form_id );
 
 		if( true !== $torro_form_show ) {
@@ -426,6 +436,16 @@ class Torro_Form_Controller {
 
 			$this->cache->add_response( $response );
 			$is_submit = is_wp_error( $this->form->get_next_container_id() ); // we're in the last step
+
+			/**
+			 * Filter to stop form
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param boolean $status True if form can go further. False if not.
+			 *
+			 * @return boolean $status The filtered status
+			 */
 			$status = apply_filters( 'torro_response_status', true, $this->form_id, $this->container_id, $is_submit );
 
 			/**
@@ -438,16 +458,52 @@ class Torro_Form_Controller {
 				} else {
 					$result_id = $this->save_response();
 
-					if ( false === $result_id ) {
-						$this->content = new Torro_Error( 'torro_save_response_error', __( 'Your response couldn\'t be saved.', 'torro-forms' ) );
-						return;
+					if ( is_wp_error( $result_id ) ) {
+						/**
+						 * Filter if the error have to be shown or not
+						 *
+						 * @since 1.0.0
+						 *
+						 * @param boolean $show_saving_error Do we show an error on saving or not
+						 * @param Torro_Error $result_id On Error the $result_id becomes an Torro_Error
+						 *
+						 * @return boolean $show_saving_error Do we show an error on saving or not filtered
+						 */
+						$show_saving_error = apply_filters( 'torro_form_show_saving_error', true, $result_id );
+
+						if( $show_saving_error ) {
+							$this->content = $result_id;
+							return;
+						}
 					}
 
 					$html  = '<div id="torro-thank-submitting">';
 					$html .= '<p>' . esc_html__( 'Thank you for submitting!', 'torro-forms' ) . '</p>';
 					$html .= '</div>';
 
+					/**
+					 * Doing some action after Torro Response is saved
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param int $form_id The ID of the form
+					 * @param int $result_id The ID of the result
+					 * @param array $response The whole response of the user
+					 */
 					do_action( 'torro_response_saved', $this->form_id, $result_id, $this->cache->get_response() );
+
+					/**
+					 * Filtering the content which will be displayed after submitting form
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param string $html The content which will be displayed
+					 * @param int $form_id The ID of the form
+					 * @param int $result_id The ID of the result
+					 * @param array $response The whole response of the user
+					 *
+					 * @return string $html The filtered content which will be displayed
+					 */
 					$this->content = apply_filters( 'torro_response_saved_content', $html, $this->form_id, $result_id, $this->cache->get_response() );
 
 					$this->cache->delete_response();
@@ -469,6 +525,13 @@ class Torro_Form_Controller {
 			if( isset( $errors[ $this->container_id ]['elements'] )) {
 				$this->errors = $errors[ $this->container_id ]['elements'];
 
+				/**
+				 * Doing some actions if the submission has errors
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $errors All current errors from form
+				 */
 				do_action( 'torro_submission_has_errors', $this->errors );
 			}
 		}
