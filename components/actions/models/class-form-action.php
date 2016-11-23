@@ -32,7 +32,7 @@ abstract class Torro_Form_Action extends Torro_Base {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		parent::__construct();
 
 		add_action( 'torro_formbuilder_save', array( $this, 'save' ), 10, 1 );
