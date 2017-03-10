@@ -15,7 +15,7 @@ var config = {
 	tags: pkg.keywords.join( ', ' ),
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
 	minRequired: '4.4',
-	testedUpTo: '4.5.2',
+	testedUpTo: '4.7.3',
 	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms'
 };
 

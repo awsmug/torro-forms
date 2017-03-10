@@ -7,8 +7,8 @@ Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.4
 Tested up to:      4.5.2
-Stable tag:        1.0.0-beta.7
-Version:           1.0.0-beta.7
+Stable tag:        1.0.0-beta.8
+Version:           1.0.0-beta.8
 License:           GNU General Public License v3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
