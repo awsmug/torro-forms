@@ -124,13 +124,6 @@ final class Torro_Form_Setting_Timerange extends Torro_Form_Setting {
 			$end_date = strtotime( $end_date );
 		}
 
-		if ( ! empty( $start_date ) ) {
-			$start_date = $this->get_date( $start_date );
-		}
-		if ( ! empty( $end_date ) ) {
-			$end_date = $this->get_date( $end_date );
-		}
-
 		if ( ! empty( $start_date ) && $start_date > $actual_date ) {
 			$this->add_message( 'error', __( 'The form is not accessible at this time.', 'torro-forms' ) );
 
