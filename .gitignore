@@ -18,8 +18,14 @@ local.properties
 .cproject
 .buildpath
 nbproject/
-node_modules/*
 composer.lock
+
+############
+## Vendor
+############
+
+node_modules/
+vendor/
 
 ############
 ## OSes
@@ -51,6 +57,3 @@ temp/
 .Trashes
 
 .svn
-
-
-tests/_output/*
