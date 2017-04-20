@@ -2,34 +2,63 @@ sudo: false
 language: php
 cache:
   directories:
+    - node_modules
     - vendor
     - $HOME/.composer/cache
 matrix:
   allow_failures:
     - php: hhvm
   include:
-    - php: 7.0
+    - php: 7.1
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 COVERAGE=1
     - php: 5.4
       env: WP_VERSION=4.7 WP_MULTISITE=1 PHPLINT=1
+    - php: 7.1
+      env: WP_VERSION=4.7
+    - php: 7.1
+      env: WP_VERSION=4.6
+    - php: 7.1
+      env: WP_VERSION=4.5
+    - php: 7.1
+      env: WP_VERSION=4.4
     - php: 7.0
       env: WP_VERSION=4.7
-    - php: 7.0
-      env: WP_VERSION=4.6
-    - php: 7.0
-      env: WP_VERSION=4.5
-    - php: 7.0
-      env: WP_VERSION=4.4
     - php: 5.6
       env: WP_VERSION=4.7
     - php: 5.5
       env: WP_VERSION=4.7
     - php: 5.4
       env: WP_VERSION=4.7
+    - php: 5.6
+      env: WP_VERSION=4.7 WP_TRAVIS_OBJECT_CACHE=true
+      services: memcached
     - php: hhvm
       env: WP_VERSION=4.7
+before_install:
+- |
+  if [[ "$WP_TRAVIS_OBJECT_CACHE" == "true" ]]; then
+    echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  fi
 before_script:
 - phpenv local 5.6
+- |
+  composer config --list --global
+  export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
+- |
+  case "$TRAVIS_PHP_VERSION" in
+    7.1|7.0|hhvm|nightly)
+      echo "Using PHPUnit 5.7"
+      composer global require "phpunit/phpunit=5.7.*"
+      ;;
+    5.6|5.5|5.4)
+      echo "Using PHPUnit 4.8"
+      composer global require "phpunit/phpunit=4.8.*"
+      ;;
+    *)
+      echo "No PHPUnit version handling for PHP version $TRAVIS_PHP_VERSION"
+      exit 1
+      ;;
+  esac
 - composer selfupdate 1.0.0 --no-interaction
 - composer install --dev --no-interaction
 - npm install &>/dev/null
@@ -40,6 +69,10 @@ before_script:
 - cd ..
 - cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - cd /tmp/wordpress/
+- |
+  if [[ "$WP_TRAVIS_OBJECT_CACHE" == "true" ]]; then
+    curl https://raw.githubusercontent.com/tollmanz/wordpress-pecl-memcached-object-cache/584392b56dc4adbe52bd2c7b86f875e23a3e5f75/object-cache.php > src/wp-content/object-cache.php
+  fi
 - cp wp-tests-config-sample.php wp-tests-config.php
 - sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
 - sed -i "s/yourusernamehere/travis/" wp-tests-config.php
