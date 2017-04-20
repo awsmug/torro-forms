@@ -55,13 +55,15 @@
     "preferred-install": "dist"
   },
   "require": {
+    "php": ">=5.4.0",
     "composer/installers": "~1.0",
     "felixarntz/plugin-lib": "dev-master",
     "phpoffice/phpexcel": "1.8.1",
     "easydigitaldownloads/EDD-License-handler": "dev-master"
   },
   "require-dev": {
-    "codeclimate/php-test-reporter": "dev-master"
+    "codeclimate/php-test-reporter": "dev-master",
+    "phpunit/phpunit": ">4.8.20 <6.0"
   },
   "scripts":     {
     "post-install-cmd": [
