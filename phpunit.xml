@@ -22,8 +22,8 @@
 
 	<filter>
 		<whitelist>
-			<directory>./components</directory>
-			<directory>./core</directory>
+			<directory>./src</directory>
+			<file>./torro-forms.php</file>
 		</whitelist>
 	</filter>
 </phpunit>
