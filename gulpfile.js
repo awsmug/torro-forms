@@ -136,7 +136,7 @@ gulp.task( 'sass', function( done ) {
 		.pipe( csscomb() )
 		.pipe( banner( assetheader ) )
 		.pipe( gulp.dest( paths.sass.dst ) )
-		.pipe( cleanCSS({
+		.pipe( cleanCss({
 			keepSpecialComments: 0
 		}) )
 		.pipe( banner( assetheader ) )

@@ -7,22 +7,26 @@
 	width: 100%;
 	overflow-x: hidden;
 }
+
 #torro-entries .entry-actions,
 #torro-entries .export-links {
 	text-align: right;
 }
+
 #torro-entries tbody > :nth-child(2n+1) {
 	background-color: #f9f9f9;
 }
 
 #torro-entry-table {
 	width: 100%;
-	font-size: 14px; 
+	font-size: 14px;
 	text-align: left;
 }
+
 #torro-entry-table th {
 	width: 50%;
 }
+
 #torro-entry-table tr {
 	line-height: 25px;
 }

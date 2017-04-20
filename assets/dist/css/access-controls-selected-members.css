@@ -13,7 +13,7 @@
 
 .torro-participants-options-content {
 	padding: 10px;
-	margin-bottom: 10px; 
+	margin-bottom: 10px;
 	background-color: #fdfdfd;
 	border: 1px #dfdfdf solid;
 }
@@ -43,6 +43,7 @@
 	   -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
 	        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
 }
+
 .participant.new td:first-child {
 	border-left: 4px solid #dd3d36;
 }
@@ -53,6 +54,7 @@
 	   -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
 	        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
 }
+
 .participant.just-added td:first-child {
 	border-left: 4px solid #2ea2cc;
 }

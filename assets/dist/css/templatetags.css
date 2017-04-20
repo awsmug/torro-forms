@@ -10,6 +10,7 @@
 	height: 28px;
 	line-height: 30px;
 }
+
 .torro-templatetag-button .button {
 	width: 25px;
 	height: 25px;
@@ -17,6 +18,7 @@
 	margin-top: 2px;
 	line-height: 25px;
 }
+
 .torro-templatetag-button .torro-templatetag-list {
 	position: absolute;
 	z-index: 1000;
@@ -26,19 +28,22 @@
 	max-height: 200px;
 	overflow-y: scroll;
 	font-size: 11px;
-	line-height: 20px; 
+	line-height: 20px;
 	background-color: #fff;
 	border: 1px solid #e3e3e3;
 }
+
 .torro-templatetag-button .torro-templatetag-list .torro-templatetag-collection-headline {
 	padding: 8px 12px;
 	background-color: #e3e3e3;
 }
+
 .torro-templatetag-button .torro-templatetag-list .torro-templatetag {
 	padding: 4px 12px;
-	cursor: hand; 
+	cursor: hand;
 	border-bottom: 1px solid #ccc;
 }
+
 .torro-templatetag-button .torro-templatetag-list .torro-templatetag:hover {
 	color: #fff;
 	background-color: #0073aa;

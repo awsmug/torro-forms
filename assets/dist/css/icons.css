@@ -5,7 +5,7 @@
 /* --- Icon Font --- */
 @font-face {
 	font-family: "aficons";
-	font-style: normal; 
+	font-style: normal;
 	font-weight: normal;
 
 	src: url("../fonts/af.eot");
@@ -14,7 +14,7 @@
 
 [class^="icon-torro-"] {
 	display: inline;
-	width: 14px; 
+	width: 14px;
 	height: 14px;
 	overflow: visible;
 	font-size: 14px;
@@ -22,6 +22,7 @@
 	font-weight: normal !important;
 	background-image: none;
 }
+
 [class^="icon-torro-"]:before {
 	font-family: aficons;
 }
@@ -117,6 +118,6 @@
 	height: 20px;
 	font-family: aficons;
 	font-size: 14px;
-	line-height: 20px; 
+	line-height: 20px;
 	content: "\E801";
 }

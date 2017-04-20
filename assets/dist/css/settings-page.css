@@ -13,6 +13,7 @@
 #torro-settings ul {
 	margin: 0 0 5px 0;
 }
+
 #torro-settings h1:last-child,
 #torro-settings h2:last-child,
 #torro-settings h3:last-child,
@@ -43,24 +44,28 @@
 #torro-settings #torro-settings-submenu {
 	margin-bottom: 0;
 }
+
 #torro-settings #torro-settings-submenu li {
 	float: left;
 }
+
 #torro-settings #torro-settings-submenu li:after {
 	margin: 0 5px;
 	content: "|";
 }
+
 #torro-settings #torro-settings-submenu li:last-child {
-	float: none; 
+	float: none;
 	margin-right: 0;
 }
+
 #torro-settings #torro-settings-submenu li:last-child:after {
 	margin: 0;
 	content: "";
 }
 
 #torro-settings .submenu-tab.active a {
-	font-weight: bold; 
+	font-weight: bold;
 	color: #555;
 	text-decoration: none;
 }
@@ -75,16 +80,18 @@
 #torro-settings-content {
 	padding: 10px 0;
 }
+
 #torro-settings-content.general .settings-disclaimer {
 	min-height: 80px;
 	padding: 20px 20px 20px 298px;
 	margin-bottom: 15px;
-	color: #fff; 
+	color: #fff;
 	background-color: #d50c0c;
 	background-image: url("../img/logo.png");
 	background-repeat: no-repeat;
 	background-position: 10px -9px;
 }
+
 #torro-settings-content.general .settings-disclaimer h3 {
 	margin-top: 20px;
 	font-size: 20px;

@@ -4,23 +4,27 @@
  */
 /* --- Email Notifications --- */
 #form-email-notifications .list .widget-title h4 {
-	height: 20px; 
+	height: 20px;
 	padding: 10px;
 	font-weight: normal;
 	line-height: 20px;
 }
+
 #form-email-notifications .list .widget-title h4:last-child {
 	margin-bottom: 0;
 }
+
 #form-email-notifications .list .widget-title h4 .widget-action {
 	float: right;
 }
+
 #form-email-notifications .list .widget-title h4 .widget-action:after {
 	padding: 0;
 	margin-top: 0;
 }
+
 #form-email-notifications .list .widget-title h4.ui-state-active .widget-action:after {
-	font: 400 20px/1 dashicons; 
+	font: 400 20px/1 dashicons;
 	content: "\f142";
 }
 
@@ -54,9 +58,11 @@
 #form-email-notifications .actions {
 	margin-bottom: 15px;
 }
+
 #form-email-notifications .actions .intro-text {
 	line-height: 30px;
 }
+
 #form-email-notifications .actions input[type="button"] {
 	float: right;
 	margin-left: 10px;
@@ -72,6 +78,7 @@
 	   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
+
 #form-email-notifications .notification input[type="text"] {
 	width: 90%;
 }

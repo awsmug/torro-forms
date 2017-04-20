@@ -6,14 +6,17 @@
 .post-type-torro_form {
 	/* --- DatePicker Container --- */
 }
+
 .post-type-torro_form #start_date,
 .post-type-torro_form #end_date {
 	margin: 0 5px 0 0;
 }
+
 .post-type-torro_form .ui-datepicker-unselectable .ui-state-default {
-	color: #b4b3b3; 
+	color: #b4b3b3;
 	background: #f4f4f4;
 }
+
 .post-type-torro_form .ui-datepicker {
 	position: relative;
 	width: 216px;
@@ -25,12 +28,15 @@
 	   -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 	        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
+
 .post-type-torro_form .ui-datepicker a {
 	text-decoration: none;
 }
+
 .post-type-torro_form .ui-datepicker table {
 	width: 100%;
 }
+
 .post-type-torro_form .ui-datepicker thead {
 	background: #f7f7f7;
 	background:    -moz-linear-gradient(top, #f7f7f7 0%, #f1f1f1 100%);
@@ -47,6 +53,7 @@
 	border-bottom: 1px solid #bbb;
 	/* W3C */
 }
+
 .post-type-torro_form .ui-datepicker th {
 	padding: 5px 0;
 	font-size: 6pt;
@@ -55,23 +62,28 @@
 	text-transform: uppercase;
 	filter: dropshadow(color=#fff, offx=1, offy=0);
 }
+
 .post-type-torro_form .ui-datepicker tbody tr {
 	border-bottom: 1px solid #bbb;
 }
+
 .post-type-torro_form .ui-datepicker tbody tr:last-child {
 	border-bottom: 0;
 }
+
 .post-type-torro_form .ui-datepicker tbody td {
 	padding: 0;
 	border-right: 1px solid #bbb;
 }
+
 .post-type-torro_form .ui-datepicker tbody td:last-child {
 	border-right: 0;
 }
+
 .post-type-torro_form .ui-datepicker tbody td span,
 .post-type-torro_form .ui-datepicker tbody td a {
 	display: inline-block;
-	width: 27px; 
+	width: 27px;
 	height: 27px;
 	font-weight: bold;
 	line-height: 27px;
@@ -79,6 +91,7 @@
 	text-align: center;
 	text-shadow: 1px 1px 0 #fff;
 }
+
 .post-type-torro_form .ui-datepicker-header {
 	font-weight: bold;
 	line-height: 30px;
@@ -86,36 +99,41 @@
 	text-shadow: 1px -1px 0 #000;
 	background: url("../img/dark-leather.png") repeat 0 0 #000;
 	filter: dropshadow(color=#000, offx=1, offy=-1);
-	border-color: #111; 
+	border-color: #111;
 	border-style: solid;
 	border-width: 1px 0 0 0;
 	-webkit-box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, 0.2);
 	   -moz-box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, 0.2);
 	        box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, 0.2);
 }
+
 .post-type-torro_form .ui-datepicker-title {
 	text-align: center;
 }
+
 .post-type-torro_form .ui-datepicker-prev,
 .post-type-torro_form .ui-datepicker-next {
 	display: inline-block;
 	width: 30px;
 	height: 30px;
-	overflow: hidden; 
+	overflow: hidden;
 	line-height: 600%;
 	text-align: center;
 	cursor: pointer;
 	background-image: url("../img/arrow.png");
 	background-repeat: no-repeat;
 }
+
 .post-type-torro_form .ui-datepicker-prev {
 	float: left;
 	background-position: center -30px;
 }
+
 .post-type-torro_form .ui-datepicker-next {
 	float: right;
 	background-position: center 0;
 }
+
 .post-type-torro_form .ui-datepicker-calendar .ui-state-default {
 	background: #ededed;
 	background:    -moz-linear-gradient(top, #ededed 0%, #dedede 100%);
@@ -134,12 +152,14 @@
 	   -moz-box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, 0.5);
 	        box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, 0.5);
 }
+
 .post-type-torro_form .ui-datepicker-calendar .ui-state-hover {
 	background: #f7f7f7;
 }
+
 .post-type-torro_form .ui-datepicker-calendar .ui-state-active {
 	position: relative;
-	margin: -1px; 
+	margin: -1px;
 	color: #e0e0e0;
 	text-shadow: 0 1px 0 #4d7a85;
 	background: #6eafbf;
@@ -149,14 +169,17 @@
 	   -moz-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.1);
 	        box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
+
 .post-type-torro_form .ui-datepicker-calendar tr:last-child .ui-state-active {
 	height: 29px;
 	margin-bottom: 0;
 }
+
 .post-type-torro_form .ui-datepicker-calendar td:first-child .ui-state-active {
 	width: 29px;
 	margin-left: 0;
 }
+
 .post-type-torro_form .ui-datepicker-calendar td:last-child .ui-state-active {
 	width: 29px;
 	margin-right: 0;

@@ -12,35 +12,44 @@
 .post-type-torro_form #poststuff .torro-form-options {
 	margin-bottom: 15px;
 }
+
 .post-type-torro_form #poststuff .torro-form-options h4 {
 	margin: 0 0 15px 0;
 }
+
 .post-type-torro_form #poststuff .torro-form-options .flex-options {
 	display: flex;
 	margin-bottom: 15px;
 }
+
 .post-type-torro_form #poststuff .torro-form-options .flex-options label,
 .post-type-torro_form #poststuff .torro-form-options .flex-options legend {
 	        flex: 1;
 	-webkit-flex: 1;
 }
+
 .post-type-torro_form #poststuff .torro-form-options .flex-options > div {
 	        flex: 4;
 	-webkit-flex: 4;
 }
+
 .post-type-torro_form #poststuff .torro-form-options .flex-options > div div {
 	display: inline;
 }
+
 .post-type-torro_form #poststuff .torro-form-options .flex-options > div select {
 	margin-right: 5px;
 }
+
 .post-type-torro_form #poststuff .torro-form-options .flex-options .flex-radio-checkbox > div {
-	display: block; 
+	display: block;
 	width: 100%;
 }
+
 .post-type-torro_form #poststuff .torro-form-options .flex-options:last-child {
 	margin-bottom: 0;
 }
+
 .post-type-torro_form #poststuff .torro-form-options:last-child {
 	margin-bottom: 0;
 }
@@ -53,6 +62,7 @@
 	   -moz-box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
 	        box-shadow: rgba(0, 0, 0, 0.0392157) 0 1px 1px;
 }
+
 .post-type-torro_form #poststuff #drag-drop-area .formelement .widget-title-action {
 	display: inline;
 }
@@ -61,15 +71,18 @@
 	padding: 12px;
 	margin-top: 0;
 }
+
 .post-type-torro_form #poststuff #form-elements .inside .formelement {
 	width: 100%;
 	height: 45px;
-	margin: 0 0 12px 0; 
+	margin: 0 0 12px 0;
 	margin-bottom: 12px;
 }
+
 .post-type-torro_form #poststuff #form-elements .inside:last-child {
 	margin-bottom: 0;
 }
+
 @media (max-width: 850px) {
 	.post-type-torro_form #poststuff #form-elements .inside {
 		display: flex;
@@ -90,10 +103,12 @@
 
 	flex-wrap: wrap;
 }
+
 .post-type-torro_form #poststuff #postbox-container-2 #form-elements .inside .formelement {
 	width: 48%;
 	margin: 0 1% 12px 1%;
 }
+
 .post-type-torro_form #poststuff #postbox-container-2 #form-elements .inside:first-child {
 	margin-top: 0;
 }
@@ -104,35 +119,40 @@
 	padding: 0 5px;
 	padding: 15px 15px 0;
 	margin: 0;
-	background-color: #f5f5f5; 
+	background-color: #f5f5f5;
 	border-bottom: 1px solid #ccc;
 }
+
 .post-type-torro_form #poststuff .tabs > ul > li {
 	float: left;
-	height: 28px; 
+	height: 28px;
 	margin: 0 3px 0 0;
 	background-color: #fafafa;
 	border: 1px solid #ccc;
 }
+
 .post-type-torro_form #poststuff .tabs > ul > li:last-child {
 	border-right: 1px solid #ccc;
 }
+
 .post-type-torro_form #poststuff .tabs > ul > li.ui-state-active {
-	background-color: #fff; 
+	background-color: #fff;
 	border-bottom: #fff 1px solid;
 }
+
 .post-type-torro_form #poststuff .tabs > ul > li a {
 	display: block;
 	height: 14px;
 	padding: 7px;
 	line-height: 14px;
-	color: #000; 
+	color: #000;
 	text-decoration: none;
 }
 
 .post-type-torro_form #poststuff .tab-content {
 	padding: 15px;
 }
+
 .post-type-torro_form #poststuff .tab-content.torro-container {
 	padding: 0;
 }
@@ -146,30 +166,36 @@
 	padding: 15px 15px 12px;
 	margin-bottom: 0;
 	overflow: hidden;
-	background-color: #fff; 
+	background-color: #fff;
 	border-bottom: 1px solid #ccc;
 }
+
 .post-type-torro_form #poststuff #containers .container-tabs #container-add {
-	padding: 0 12px; 
+	padding: 0 12px;
 	line-height: 28px;
 	cursor: pointer;
 }
+
 .post-type-torro_form #poststuff #containers .container-tabs li {
-	margin-bottom: 3px; 
+	margin-bottom: 3px;
 	border: #ccc solid 1px;
 }
+
 .post-type-torro_form #poststuff #containers .container-tabs li.ui-state-active {
-	color: #fff; 
+	color: #fff;
 	background: #0085ba none repeat scroll 0 0;
 	border-color: #0073aa #006799 #006799;
 }
+
 .post-type-torro_form #poststuff #containers .container-tabs li.ui-state-active a {
 	color: #fff;
 }
+
 .post-type-torro_form #poststuff #containers .container-tabs li .txt {
 	width: 200px;
 	height: 28px;
 }
+
 .post-type-torro_form #poststuff #containers .container-tabs input {
 	display: none;
 	width: 99%;
@@ -183,6 +209,7 @@
 .post-type-torro_form #poststuff #containers .tab-content textarea {
 	width: 100%;
 }
+
 .post-type-torro_form #poststuff #containers .tab-content input[type="text"].form-label,
 .post-type-torro_form #poststuff #containers .tab-content textarea.form-label {
 	width: 100%;
@@ -191,6 +218,7 @@
 .post-type-torro_form #poststuff #containers .tab-content .answers {
 	margin-bottom: 15px;
 }
+
 .post-type-torro_form #poststuff #containers .tab-content .answers input[type="text"] {
 	width: 50%;
 }
@@ -198,11 +226,12 @@
 .post-type-torro_form #poststuff #containers .tab-content .answer {
 	height: 40px;
 	padding-left: 20px;
-	cursor: move; 
+	cursor: move;
 	background-image: url("../img/icon-updown.png");
 	background-repeat: no-repeat;
 	background-position: top 7px left 0;
 }
+
 .post-type-torro_form #poststuff #containers .tab-content .answer p {
 	display: inline;
 }
@@ -234,43 +263,54 @@
 	overflow: hidden;
 	cursor: move;
 }
+
 .post-type-torro_form #poststuff .formelement .widget-title {
 	height: 43px;
 }
+
 .post-type-torro_form #poststuff .formelement .widget-title-action {
 	display: none;
 }
+
 .post-type-torro_form #poststuff .formelement .widget-inside {
 	padding: 0;
 }
+
 .post-type-torro_form #poststuff .formelement .element-tabs ul {
 	padding: 15px 15px 0 15px;
 }
+
 .post-type-torro_form #poststuff .formelement .element-tabs-content {
 	padding: 15px;
 	background-color: #fff;
 }
+
 .post-type-torro_form #poststuff .formelement div > label {
 	display: block;
 	line-height: 26px;
 }
+
 .post-type-torro_form #poststuff .formelement .form-element-buttons ul {
 	padding: 15px;
 	margin: 0;
 	background-color: #fafafa;
 	border-top: 1px solid #ddd;
 }
+
 .post-type-torro_form #poststuff .formelement .form-element-buttons li {
 	padding: 0;
 	margin: 0;
 }
+
 .post-type-torro_form #poststuff .formelement .form-elements-widget-icon {
 	float: left;
 	margin: 6px 0 6px 6px;
 }
+
 .post-type-torro_form #poststuff .formelement .torro-element-tab-additional-content {
 	margin-top: 15px;
 }
+
 .post-type-torro_form #poststuff .formelement .torro-element-chart-shortcode .clipboardfield {
 	width: 30%;
 }
@@ -278,12 +318,12 @@
 .post-type-torro_form #poststuff .form-element-placeholder {
 	height: 43px;
 	margin-top: 0;
-	margin-bottom: 15px; 
+	margin-bottom: 15px;
 	border: #ccc dashed 1px;
 }
 
 .post-type-torro_form #poststuff .drop-elements-here {
-	display: none; 
+	display: none;
 	height: 195px;
 	font-size: 20px;
 	font-weight: bold;
@@ -296,21 +336,24 @@
 .post-type-torro_form #poststuff .form-fields {
 	margin-bottom: 10px;
 }
+
 .post-type-torro_form #poststuff .form-fields label {
 	display: block;
 	float: left;
-	width: 150px; 
+	width: 150px;
 	line-height: 30px;
 }
+
 .post-type-torro_form #poststuff .form-fields small {
 	margin-left: 15px;
 }
+
 .post-type-torro_form #poststuff .form-fields input[type=text] {
 	width: 50%;
 }
 
 .post-type-torro_form #poststuff .button-loading {
-	padding-left: 28px; 
+	padding-left: 28px;
 	background-image: url("../img/loading.gif");
 	background-repeat: no-repeat;
 	background-position: 5px 5px;
@@ -320,44 +363,50 @@
 	float: left;
 	width: 30%;
 	min-height: 50px;
-	padding: 1%; 
+	padding: 1%;
 	margin-right: 2%;
 	background-color: #f5f5f5;
 	border: 1px solid #ddd;
 }
+
 .post-type-torro_form #poststuff .in-postbox-one-third:last-child {
 	margin-right: 0;
 }
+
 .post-type-torro_form #poststuff .in-postbox-one-third label {
 	display: block;
 	margin-bottom: 5px;
 }
 
 .post-type-torro_form #poststuff div.section {
-	margin: 0; 
+	margin: 0;
 	border-top: 1px solid #ddd;
 }
 
 .post-type-torro_form #poststuff .clipboardfield {
 	width: 100%;
 }
+
 .post-type-torro_form #poststuff .clipboardfield label {
-	display: block; 
+	display: block;
 	width: 100%;
 }
+
 .post-type-torro_form #poststuff .clipboardfield input {
-	width: 200px; 
+	width: 200px;
 	height: 28px;
 	font-size: 12px;
 	background-color: #f7f7f7;
 }
+
 .post-type-torro_form #poststuff .clipboardfield .clipboard {
-	width: 29px; 
+	width: 29px;
 	height: 27px;
 	padding: 3px;
 	margin-top: 1px;
 	margin-left: 1px;
 }
+
 .post-type-torro_form #poststuff .clipboardfield .clipboard img {
 	width: 14px;
 	height: auto;
@@ -366,7 +415,7 @@
 .post-type-torro_form #poststuff .not-found-area {
 	padding: 10px;
 	font-weight: bold;
-	color: #ddd; 
+	color: #ddd;
 	text-align: center;
 	background-color: #f5f5f5;
 }
@@ -388,21 +437,26 @@
 	width: 100%;
 	overflow: hidden;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-slider {
 	width: 300%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-slider .torro-slider-left {
 	margin-left: -100%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-slider .torro-slider-right {
 	margin-left: 100%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-slider .torro-slider-middle,
 .post-type-torro_form #poststuff .torro-table-nav .torro-slider .torro-slider-left,
 .post-type-torro_form #poststuff .torro-table-nav .torro-slider .torro-slider-right {
 	float: left;
 	width: 33.3%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-nav {
 	display: flex;
 	width: 100%;
@@ -410,64 +464,81 @@
 	margin-top: 15px;
 	flex-direction: row;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-nav .torro-nav-prev-link {
-	text-align: left; 
+	text-align: left;
 
 	flex: 1;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-nav .torro-nav-next-link {
-	text-align: right; 
+	text-align: right;
 
 	flex: 1;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-nav .torro-nav-prev-link a,
 .post-type-torro_form #poststuff .torro-table-nav .torro-nav .torro-nav-next-link a {
 	min-width: 50px;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-nav .torro-nav-info {
-	text-align: center; 
+	text-align: center;
 
 	flex: 4;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav tbody > :nth-child(2n+1) {
 	background-color: #f9f9f9;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav #torro-entry-table {
 	width: 100%;
 	font-size: 14px;
 	text-align: left;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav th {
 	width: 50%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav tr {
 	line-height: 25px;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav #torro-entry-buttons {
-	min-height: 30px; 
+	min-height: 30px;
 	margin-top: 15px;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .torro-entries-slider {
 	width: 200%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .column-one {
 	width: 1%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .column-ten {
 	width: 10%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .column-five {
 	width: 5%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .column-fifteen {
 	width: 15%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .column-twenty {
 	width: 20%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .column-twentyfive {
 	width: 25%;
 }
+
 .post-type-torro_form #poststuff .torro-table-nav .column-button {
 	text-align: right;
 }
@@ -492,12 +563,12 @@
 }
 
 .torro-form-fieldset-title {
-	float: left; 
+	float: left;
 	width: 20%;
 }
 
 .torro-form-fieldset-input {
-	float: right; 
+	float: right;
 	width: 80%;
 }
 
@@ -517,16 +588,19 @@
 a.delete-button {
 	cursor: pointer;
 }
+
 a.delete-button.disabled {
-	cursor: default; 
+	cursor: default;
 	opacity: 0.4;
 }
+
 a.delete-button:hover,
 a.delete-button:focus {
 	color: #f00;
 	text-decoration: none;
 	border: none;
 }
+
 a.delete-button:hover.disabled,
 a.delete-button:focus.disabled {
 	color: #0073aa;
@@ -551,17 +625,19 @@ a.delete-button:focus.disabled {
 .tooltipped {
 	position: relative;
 }
+
 .tooltipped:before {
 	position: absolute;
 	z-index: 1000001;
 	display: none;
-	width: 0; 
+	width: 0;
 	height: 0;
 	color: rgba(0, 0, 0, 0.8);
 	pointer-events: none;
 	content: "";
 	border: 5px solid transparent;
 }
+
 .tooltipped:after {
 	position: absolute;
 	z-index: 1000000;
@@ -574,7 +650,7 @@ a.delete-button:focus.disabled {
 	text-shadow: none;
 	text-transform: none;
 	letter-spacing: normal;
-	word-wrap: break-word; 
+	word-wrap: break-word;
 	white-space: pre;
 	pointer-events: none;
 	content: attr(aria-label);
@@ -584,6 +660,7 @@ a.delete-button:focus.disabled {
 	-webkit-border-radius: 3px;
 	   -moz-border-radius: 3px;
 }
+
 .tooltipped:hover:before,
 .tooltipped:hover:after,
 .tooltipped:focus:before,
@@ -597,7 +674,7 @@ a.delete-button:focus.disabled {
 .tooltipped-s:before,
 .tooltipped-se:before,
 .tooltipped-sw:before {
-	top: auto; 
+	top: auto;
 	right: 50%;
 	bottom: -5px;
 	margin-right: -5px;
@@ -607,7 +684,7 @@ a.delete-button:focus.disabled {
 .tooltipped-s:after,
 .tooltipped-se:after,
 .tooltipped-sw:after {
-	top: 100%; 
+	top: 100%;
 	right: 50%;
 	margin-top: 5px;
 }
@@ -619,7 +696,7 @@ a.delete-button:focus.disabled {
 
 .tooltipped-se:after,
 .tooltipped-ne:after {
-	right: auto; 
+	right: auto;
 	left: 50%;
 	margin-left: -15px;
 }
@@ -632,7 +709,7 @@ a.delete-button:focus.disabled {
 .tooltipped-n:before,
 .tooltipped-ne:before,
 .tooltipped-nw:before {
-	top: -5px; 
+	top: -5px;
 	right: 50%;
 	bottom: auto;
 	margin-right: -5px;
@@ -642,7 +719,7 @@ a.delete-button:focus.disabled {
 .tooltipped-n:after,
 .tooltipped-ne:after,
 .tooltipped-nw:after {
-	right: 50%; 
+	right: 50%;
 	bottom: 100%;
 	margin-bottom: 5px;
 }
@@ -688,10 +765,11 @@ a.delete-button:focus.disabled {
 .tooltipped-multiline:after {
 	width: -moz-max-content;
 	max-width: 250px;
-	word-wrap: normal; 
+	word-wrap: normal;
 	white-space: pre-line;
 	border-collapse: separate;
 }
+
 @media not all {
 	.tooltipped-multiline:after {
 		width: 250px;
@@ -735,16 +813,18 @@ a.delete-button:focus.disabled {
 #form-functions {
 	text-align: left;
 }
+
 #form-functions input {
 	margin-right: 10px;
 }
+
 #form-functions input:last-child {
 	margin-right: 0;
 }
 
 /* --- Form access-controls --- */
 #form-access-controls .inside h3 {
-	padding: 0; 
+	padding: 0;
 	margin: 0 0 10px 0;
 }
 
@@ -800,6 +880,7 @@ a.delete-button:focus.disabled {
 	height: 48px !important;
 	overflow: hidden !important;
 }
+
 .ui-draggable-dragging .widget-title h4 {
 	opacity: 0;
 }
