@@ -40,7 +40,11 @@ before_install:
     echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   fi
 before_script:
-- phpenv local 5.6
+- |
+  stable='^[0-9\.]+$'
+  if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]]; then
+    phpenv config-rm xdebug.ini
+  fi
 - |
   composer config --list --global
   export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
@@ -62,7 +66,6 @@ before_script:
 - composer selfupdate 1.0.0 --no-interaction
 - composer install --dev --no-interaction
 - npm install &>/dev/null
-- phpenv local --unset
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
