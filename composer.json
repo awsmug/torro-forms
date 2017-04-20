@@ -47,6 +47,11 @@
         "dist": {
           "url": "https://github.com/easydigitaldownloads/EDD-License-handler/archive/master.zip",
           "type": "zip"
+        },
+        "autoload": {
+          "classmap": [
+            "EDD_SL_Plugin_Updater.php"
+          ]
         }
       }
     }
