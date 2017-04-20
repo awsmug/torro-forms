@@ -38,7 +38,7 @@
       "type": "package",
       "package": {
         "name": "easydigitaldownloads/EDD-License-handler",
-        "version": "1.6.11",
+        "version": "dev-master",
         "source": {
           "url": "git://github.com/easydigitaldownloads/EDD-License-handler.git",
           "type": "git",
@@ -58,21 +58,17 @@
     "composer/installers": "~1.0",
     "felixarntz/plugin-lib": "dev-master",
     "phpoffice/phpexcel": "1.8.1",
-    "easydigitaldownloads/EDD-License-handler": "1.6.11"
+    "easydigitaldownloads/EDD-License-handler": "dev-master"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master"
   },
   "scripts":     {
     "post-install-cmd": [
-      "cd vendor/felixarntz/plugin-lib",
-      "npm install --only=production",
-      "cd ../../.."
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
     ],
     "post-update-cmd": [
-      "cd vendor/felixarntz/plugin-lib",
-      "npm install --only=production",
-      "cd ../../.."
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
     ]
   },
   "extra": {
