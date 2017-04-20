@@ -99,23 +99,28 @@ rm -rf vendor/
 composer install --prefer-dist --no-dev --quiet
 echo "Done."
 
+printf "Installing NPM dependencies..."
+rm -rf node_modules/
+npm install --only=production &>/dev/null
+echo "Done."
+
 printf "Ignoring GitHub specific files and deployment script..."
-svn propset --quiet svn:ignore ".bowerrc
-.codeclimate.yml
+svn propset --quiet svn:ignore ".codeclimate.yml
 .git
 .gitignore
 .travis.yml
-bower.json
 composer.json
 composer.lock
 CONTRIBUTING.md
 deploy.sh
 gulpfile.js
-Gruntfile.js
 package.json
+phpcs.xml
+phpmd.xml
 phpunit.xml
 README.md
-tests" .
+tests
+vendor/felixarntz/plugin-lib/tests" .
 echo "Done."
 
 printf "Adding new files..."
