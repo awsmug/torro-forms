@@ -34,5 +34,3 @@ require_once dirname( __FILE__ ) . '/testcase.php';
 echo "Installing Torro Forms...\n";
 
 activate_plugin( 'torro-forms/torro-forms.php' );
-
-Torro_Init::activate( false );
