@@ -41,9 +41,11 @@ before_install:
   fi
 before_script:
 - |
-  stable='^[0-9\.]+$'
-  if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]]; then
-    phpenv config-rm xdebug.ini
+  if [[ "$COVERAGE" != "1" ]]; then
+    stable='^[0-9\.]+$'
+    if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]]; then
+      phpenv config-rm xdebug.ini
+    fi
   fi
 - |
   composer config --list --global
