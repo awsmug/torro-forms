@@ -3,6 +3,8 @@
   "version": "1.0.0-beta.8",
   "description": "Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.",
   "keywords": [
+    "wordpress",
+    "plugin",
     "forms",
     "form builder",
     "surveys",
@@ -25,7 +27,7 @@
     {
       "name": "Felix Arntz",
       "email": "felix-arntz@leaves-and-love.net",
-      "url": "http://leaves-and-love.net"
+      "url": "https://leaves-and-love.net"
     }
   ],
   "homepage": "http://torro-forms.com",
@@ -36,31 +38,28 @@
   "bugs": {
     "url": "https://github.com/awsmug/torro-forms/issues"
   },
-  "license": {
-    "type": "GPL-3.0",
-    "name": "GNU General Public License v3",
-    "url": "http://www.gnu.org/licenses/gpl-3.0.html"
-  },
+  "license": "GPL-3.0",
   "engines": {
     "node": ">= 0.10.0"
   },
+  "dependencies": {
+    "c3": "0.4.11",
+    "fingerprintjs2": "1.5.1",
+    "clipboard": "1.6.1"
+  },
   "devDependencies": {
-    "bower": "^1.7.7",
-    "gulp": "^3.9.1",
-    "gulp-banner": "^0.1.3",
-    "gulp-composer": "^0.4.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-csscomb": "^3.0.6",
-    "gulp-install": "^0.6.0",
-    "gulp-jshint": "^2.0.0",
-    "gulp-load-plugins": "^1.2.0",
-    "gulp-minify-css": "^1.2.4",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
-    "gulp-sass": "^2.2.0",
-    "gulp-sort": "^2.0.0",
-    "gulp-uglify": "^1.5.3",
-    "gulp-util": "^3.0.7",
-    "jshint": "^2.9.1"
+    "gulp": "~3.9.1",
+    "gulp-banner": "~0.1.3",
+    "gulp-concat": "~2.6.1",
+    "gulp-csscomb": "~3.0.8",
+    "gulp-jshint": "~2.0.4",
+    "gulp-clean-css": "~2.3.2",
+    "gulp-rename": "~1.2.2",
+    "gulp-replace": "~0.5.4",
+    "gulp-sass": "~3.1.0",
+    "gulp-sort": "~2.0.0",
+    "gulp-uglify": "~2.0.1",
+    "gulp-util": "~3.0.8",
+    "jshint": "~2.9.4"
   }
 }

@@ -2,6 +2,23 @@
 
 var pkg = require( './package.json' );
 
+function parseKeywords( keywords ) {
+	// These keywords are useful for Packagist/NPM/Bower, but not for the WordPress plugin repository.
+	var disallowed = [ 'wordpress', 'plugin' ];
+
+	k = keywords;
+	for ( var i in disallowed ) {
+		var index = k.indexOf( disallowed[ i ] );
+		if ( -1 < index ) {
+			k.splice( index, 1 );
+		}
+	}
+
+	return k;
+}
+
+var keywords = parseKeywords( pkg.keywords );
+
 var config = {
 	pluginSlug: 'torro-forms',
 	pluginName: 'Torro Forms',
@@ -10,13 +27,15 @@ var config = {
 	authorURI: pkg.author.url,
 	description: pkg.description,
 	version: pkg.version,
-	license: pkg.license.name,
-	licenseURI: pkg.license.url,
-	tags: pkg.keywords.join( ', ' ),
+	license: 'GNU General Public License v3',
+	licenseURI: 'http://www.gnu.org/licenses/gpl-3.0.html',
+	tags: keywords.join( ', ' ),
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
+	donateLink: false,
 	minRequired: '4.4',
-	testedUpTo: '4.7.3',
-	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms'
+	testedUpTo: '4.7',
+	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms',
+	network: false
 };
 
 /* ---- DO NOT EDIT BELOW THIS LINE ---- */
@@ -31,6 +50,7 @@ var pluginheader = 	'Plugin Name: ' + config.pluginName + '\n' +
 					'License:     ' + config.license + '\n' +
 					'License URI: ' + config.licenseURI + '\n' +
 					'Text Domain: ' + config.pluginSlug + '\n' +
+					( config.network ? 'Network:     true' + '\n' : '' ) +
 					'Tags:        ' + config.tags;
 
 // WP plugin header for readme.txt
@@ -39,6 +59,7 @@ var readmeheader =	'Plugin Name:       ' + config.pluginName + '\n' +
 					'Author:            ' + config.author + '\n' +
 					'Author URI:        ' + config.authorURI + '\n' +
 					'Contributors:      ' + config.contributors + '\n' +
+					( config.donateLink ? 'Donate link:       ' + config.donateLink + '\n' : '' ) +
 					'Requires at least: ' + config.minRequired + '\n' +
 					'Tested up to:      ' + config.testedUpTo + '\n' +
 					'Stable tag:        ' + config.version + '\n' +
@@ -58,23 +79,21 @@ var assetheader =	'/*!\n' +
 
 var gulp = require( 'gulp' );
 
-var sass = require( 'gulp-sass' );
-var csscomb = require( 'gulp-csscomb' );
-var minifyCSS = require( 'gulp-minify-css' );
-var jshint = require( 'gulp-jshint' );
-var concat = require( 'gulp-concat' );
-var uglify = require( 'gulp-uglify' );
 var gutil = require( 'gulp-util' );
 var rename = require( 'gulp-rename' );
 var replace = require( 'gulp-replace' );
 var sort = require( 'gulp-sort' );
 var banner = require( 'gulp-banner' );
-var composer = require( 'gulp-composer' );
-var bower = require( 'bower' );
+var sass = require( 'gulp-sass' );
+var csscomb = require( 'gulp-csscomb' );
+var cleanCss = require( 'gulp-clean-css' );
+var jshint = require( 'gulp-jshint' );
+var concat = require( 'gulp-concat' );
+var uglify = require( 'gulp-uglify' );
 
 var paths = {
 	php: {
-		files: [ './*.php', './components/**/*.php', './core/**/*.php', './includes/**/*.php', './templates/**/*.php' ]
+		files: [ './*.php', './src/**/*.php', './templates/**/*.php' ]
 	},
 	sass: {
 		files: [ './assets/src/sass/**/*.scss' ],
@@ -100,7 +119,7 @@ gulp.task( 'watch', function() {
 });
 
 // build the plugin
-gulp.task( 'build', [ 'version-replace', 'readme-replace' ], function() {
+gulp.task( 'build', [ 'readme-replace' ], function() {
 	gulp.start( 'header-replace' );
 	gulp.start( 'default' );
 });
@@ -111,12 +130,13 @@ gulp.task( 'build', [ 'version-replace', 'readme-replace' ], function() {
 gulp.task( 'sass', function( done ) {
 	gulp.src( paths.sass.files )
 		.pipe( sass({
-			errLogToConsole: true
+			errLogToConsole: true,
+			outputStyle: 'expanded'
 		}) )
 		.pipe( csscomb() )
 		.pipe( banner( assetheader ) )
 		.pipe( gulp.dest( paths.sass.dst ) )
-		.pipe( minifyCSS({
+		.pipe( cleanCSS({
 			keepSpecialComments: 0
 		}) )
 		.pipe( banner( assetheader ) )
@@ -144,14 +164,6 @@ gulp.task( 'js', function( done ) {
 		.on( 'end', done );
 });
 
-// replace the version header in all PHP files
-gulp.task( 'version-replace', function( done ) {
-	gulp.src( paths.php.files, { base: './' })
-		.pipe( replace( /\* @version ([^\s])+/, '* @version ' + config.version ) )
-		.pipe( gulp.dest( './' ) )
-		.on( 'end', done );
-});
-
 // replace the plugin header in the main plugin file
 gulp.task( 'header-replace', function( done ) {
 	gulp.src( './' + config.pluginSlug + '.php' )
@@ -166,12 +178,4 @@ gulp.task( 'readme-replace', function( done ) {
 		.pipe( replace( /\=\=\= (.+) \=\=\=([\s\S]+)\=\= Description \=\=/m, '=== ' + config.pluginName + ' ===\n\n' + readmeheader + '\n\n' + config.description + '\n\n== Description ==' ) )
 		.pipe( gulp.dest( './' ) )
 		.on( 'end', done );
-});
-
-// install Bower components
-gulp.task( 'bower-install', function() {
-	return bower.commands.install()
-		.on( 'log', function( data ) {
-			gutil.log( 'bower', gutil.colors.cyan( data.id ), data.message );
-		});
 });

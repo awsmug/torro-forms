@@ -5,6 +5,8 @@
   "license": "GPL-3.0",
   "type": "wordpress-plugin",
   "keywords": [
+    "wordpress",
+    "plugin",
     "forms",
     "form builder",
     "surveys",
@@ -19,13 +21,13 @@
       "name": "Sven Wagener",
       "email": "contact@awesome.ug",
       "homepage": "http://www.awesome.ug",
-      "role": "Lead Developer"
+      "role": "Product Lead"
     },
     {
       "name": "Felix Arntz",
       "email": "felix-arntz@leaves-and-love.net",
-      "homepage": "http://leaves-and-love.net",
-      "role": "Developer"
+      "homepage": "https://leaves-and-love.net",
+      "role": "Lead Developer"
     }
   ],
   "support": {
@@ -36,7 +38,7 @@
       "type": "package",
       "package": {
         "name": "easydigitaldownloads/EDD-License-handler",
-        "version": "1.6.3",
+        "version": "1.6.11",
         "source": {
           "url": "git://github.com/easydigitaldownloads/EDD-License-handler.git",
           "type": "git",
@@ -54,11 +56,28 @@
   },
   "require": {
     "composer/installers": "~1.0",
+    "felixarntz/plugin-lib": "dev-master",
     "phpoffice/phpexcel": "1.8.1",
-    "easydigitaldownloads/EDD-License-handler": "1.6.3"
+    "easydigitaldownloads/EDD-License-handler": "1.6.11"
   },
   "require-dev": {
-    "codeclimate/php-test-reporter": "dev-master",
-    "codeception/codeception": "^2.1"
+    "codeclimate/php-test-reporter": "dev-master"
+  },
+  "scripts":     {
+    "post-install-cmd": [
+      "cd vendor/felixarntz/plugin-lib",
+      "npm install --only=production",
+      "cd ../../.."
+    ],
+    "post-update-cmd": [
+      "cd vendor/felixarntz/plugin-lib",
+      "npm install --only=production",
+      "cd ../../.."
+    ]
+  },
+  "extra": {
+    "installer-paths": {
+      "vendor/felixarntz/{$name}/": ["felixarntz/plugin-lib"]
+    }
   }
 }

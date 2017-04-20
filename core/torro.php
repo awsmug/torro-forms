@@ -460,10 +460,10 @@ final class Torro {
 				$can_min = false;
 				break;
 			case 'vendor-css':
-				$urlpath .= 'vendor/' . $name . '.css';
+				$urlpath = 'node_modules/' . $name . '.css';
 				break;
 			case 'vendor-js':
-				$urlpath .= 'vendor/' . $name . '.js';
+				$urlpath = 'node_modules/' . $name . '.js';
 				break;
 			default:
 				return '';
