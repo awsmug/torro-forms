@@ -79,6 +79,18 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.0-beta.9 =
+* Major refactor: breaks backward-compatibility development-wise, plugin now requires at least PHP 5.6 and WordPress 4.7
+* Added: REST API endpoints for managing forms, their content and submissions
+* Added: WP-CLI commands for managing forms, their content and submissions
+* Added: Cache layer for all database requests
+* Enhanced: Element types can now contain multiple fields
+* Enhanced: Form stats now scale by storing aggregate results persistently
+* Fixed: Installation routine works now properly on multisite setups of any size
+* Tweaked: namespaces are used throughout the plugin code
+* Tweaked: form results are now relabelled as form submissions
+* Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
+
 = 1.0.0-beta.8 =
 * Enhanced: Added password option to textfield element
 * Enhanced: Added 'torro_form_action_url' filter
