@@ -86,9 +86,12 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Added: Cache layer for all database requests
 * Enhanced: Element types can now contain multiple fields
 * Enhanced: Form stats now scale by storing aggregate results persistently
+* Enhanced: Form submissions now have a status
+* Enhanced: Indexes have been added to database tables to speed up queries
 * Fixed: Installation routine works now properly on multisite setups of any size
 * Tweaked: namespaces are used throughout the plugin code
 * Tweaked: form results are now relabelled as form submissions
+* Tweaked: element answers are now relabelled as element choices
 * Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
 
 = 1.0.0-beta.8 =
