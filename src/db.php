@@ -18,19 +18,24 @@ use Leaves_And_Love\Plugin_Lib\DB as DB_Base;
 class DB extends DB_Base {
 
 	/**
-	 * Installs the database tables for the current site.
+	 * Checks whether the database tables are up to date for the current site.
+	 *
+	 * If outdated, the tables will be refreshed.
 	 *
 	 * @since 1.0.0
-	 * @access protected
+	 * @access public
 	 */
-	protected function install_single() {
-		//TODO: handle legacy upgrades
+	public function check( $force = false ) {
+		// If the db_version option is set for the site and contains a semantic version number, it is a legacy version.
+		$db_version = get_option( $this->get_prefix() . 'db_version' );
+		if ( is_string( $db_version ) && false !== strpos( $db_version, '.' ) ) {
+			$legacy_upgrades = new Legacy_Upgrades( $this->get_prefix() );
+			$legacy_upgrades->upgrade( $db_version );
 
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			delete_option( $this->get_prefix() . 'db_version' );
+		}
 
-		$queries = $this->replace_table_placeholders( $this->schema );
-
-		dbDelta( $queries );
+		parent::check( $force );
 	}
 
 	/**
