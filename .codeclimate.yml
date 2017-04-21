@@ -32,5 +32,6 @@ exclude_paths:
 - "gulpfile.js"
 - "vendor/*"
 - "node_modules/*"
+- "src/translations/*"
 - "templates/*"
 - "tests/*"

@@ -26,6 +26,7 @@
 			<file>./torro-forms.php</file>
 			<exclude>
 				<directory>./src/translations</directory>
+				<directory>./templates</directory>
 			</exclude>
 		</whitelist>
 	</filter>
