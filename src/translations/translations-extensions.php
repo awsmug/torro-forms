@@ -16,6 +16,7 @@ use Leaves_And_Love\Plugin_Lib\Translations\Translations_Extensions as Translati
  * @since 1.0.0
  */
 class Translations_Extensions extends Translations_Extensions_Base {
+
 	/**
 	 * Initializes the translation strings.
 	 *

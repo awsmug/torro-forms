@@ -16,6 +16,7 @@ use Leaves_And_Love\Plugin_Lib\Translations\Translations_Field_Manager as Transl
  * @since 1.0.0
  */
 class Translations_Field_Manager extends Translations_Field_Manager_Base {
+
 	/**
 	 * Initializes the translation strings.
 	 *

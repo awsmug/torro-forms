@@ -16,6 +16,7 @@ use Leaves_And_Love\Plugin_Lib\Translations\Translations_AJAX as Translations_AJ
  * @since 1.0.0
  */
 class Translations_AJAX extends Translations_AJAX_Base {
+
 	/**
 	 * Initializes the translation strings.
 	 *

@@ -16,6 +16,7 @@ use Leaves_And_Love\Plugin_Lib\Translations\Translations_Error_Handler as Transl
  * @since 1.0.0
  */
 class Translations_Error_Handler extends Translations_Error_Handler_Base {
+
 	/**
 	 * Initializes the translation strings.
 	 *

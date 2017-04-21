@@ -16,6 +16,7 @@ use Leaves_And_Love\Plugin_Lib\Translations\Translations_DB as Translations_DB_B
  * @since 1.0.0
  */
 class Translations_DB extends Translations_DB_Base {
+
 	/**
 	 * Initializes the translation strings.
 	 *

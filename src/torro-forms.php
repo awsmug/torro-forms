@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * @method Leaves_And_Love\Plugin_Lib\Components\Extensions  extensions()
  */
 class Torro_Forms extends Leaves_And_Love_Plugin {
+
 	/**
 	 * The error handler instance.
 	 *
