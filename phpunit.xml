@@ -24,6 +24,9 @@
 		<whitelist>
 			<directory>./src</directory>
 			<file>./torro-forms.php</file>
+			<exclude>
+				<directory>./src/translations</directory>
+			</exclude>
 		</whitelist>
 	</filter>
 </phpunit>
