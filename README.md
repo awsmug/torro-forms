@@ -10,6 +10,10 @@
 
 Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.
 
+## Requirements
+
+Torro Forms requires at least PHP 5.6 and WordPress 4.7 in order to work.
+
 ## Download
 
 It is recommended to use the stable version of the plugin which you can download at [wordpress.org](https://wordpress.org/plugins/torro-forms/).
