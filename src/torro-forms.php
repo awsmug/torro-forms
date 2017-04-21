@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @method Leaves_And_Love\Plugin_Lib\Error_Handler          error_handler()
  * @method Leaves_And_Love\Plugin_Lib\Options                options()
  * @method Leaves_And_Love\Plugin_Lib\Cache                  cache()
- * @method Leaves_And_Love\Plugin_Lib\DB                     db()
+ * @method awsmug\Torro_Forms\DB                             db()
  * @method Leaves_And_Love\Plugin_Lib\Meta                   meta()
  * @method Leaves_And_Love\Plugin_Lib\Assets                 assets()
  * @method Leaves_And_Love\Plugin_Lib\Template               template()
@@ -62,7 +62,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\DB
+	 * @var awsmug\Torro_Forms\DB
 	 */
 	protected $db;
 
@@ -216,7 +216,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->error_handler = $this->instantiate_library_service( 'Error_Handler', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Error_Handler' ) );
 		$this->options       = $this->instantiate_library_service( 'Options', $this->prefix );
 		$this->cache         = $this->instantiate_library_service( 'Cache', $this->prefix );
-		$this->db            = $this->instantiate_library_service( 'DB', $this->prefix, array(
+		$this->db            = $this->instantiate_plugin_service( 'DB', $this->prefix, array(
 			'options'       => $this->options,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_DB' ) );
