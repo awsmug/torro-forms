@@ -12,6 +12,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Managers\Core_Manager;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Title_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Slug_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Author_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
 
 /**
  * Manager class for forms.
@@ -23,7 +24,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Author_Manager_Trait;
  * @method Leaves_And_Love\Plugin_Lib\Error_Handler error_handler()
  */
 class Form_Manager extends Core_Manager {
-	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait;
+	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait;
 
 	/**
 	 * Constructor.
@@ -37,6 +38,7 @@ class Form_Manager extends Core_Manager {
 	 *
 	 *     @type awsmug\Torro_Forms\DB                    $db            The database instance.
 	 *     @type Leaves_And_Love\Plugin_Lib\Cache         $cache         The cache instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Meta          $meta          The meta instance.
 	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler $error_handler The error handler instance.
 	 * }
 	 * @param awsmug\Torro_Forms\Translations\Translations_Form_Manager $translations Translations instance.
@@ -51,6 +53,7 @@ class Form_Manager extends Core_Manager {
 
 		$this->table_name  = $this->plural_slug;
 		$this->cache_group = $this->plural_slug;
+		$this->meta_type   = $this->singular_slug;
 
 		$this->fetch_callback = array( $this, 'fetch_from_db' );
 
