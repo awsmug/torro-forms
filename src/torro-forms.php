@@ -349,6 +349,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function instantiate_db_object_managers() {
 		$this->forms = $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'meta'          => $this->meta,
@@ -356,42 +357,49 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		), $this->instantiate_plugin_class( 'Translations\Translations_Form_Manager' ) );
 
 		$this->containers = $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Container_Manager' ) );
 
 		$this->elements = $this->instantiate_plugin_service( 'DB_Objects\Elements\Element_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Elements\Element_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Manager' ) );
 
 		$this->element_choices = $this->instantiate_plugin_service( 'DB_Objects\Element_Choices\Element_Choice_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Element_Choices\Element_Choice_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Choice_Manager' ) );
 
 		$this->element_settings = $this->instantiate_plugin_service( 'DB_Objects\Element_Settings\Element_Setting_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Element_Settings\Element_Setting_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Setting_Manager' ) );
 
 		$this->submissions = $this->instantiate_plugin_service( 'DB_Objects\Submissions\Submission_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Submissions\Submission_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Manager' ) );
 
 		$this->submission_values = $this->instantiate_plugin_service( 'DB_Objects\Submission_Values\Submission_Value_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Submission_Values\Submission_Value_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' ) );
 
 		$this->participants = $this->instantiate_plugin_service( 'DB_Objects\Participants\Participant_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Participants\Participant_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,

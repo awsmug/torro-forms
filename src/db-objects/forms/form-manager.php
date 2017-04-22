@@ -13,18 +13,21 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Title_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Slug_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Author_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 
 /**
  * Manager class for forms.
  *
  * @since 1.0.0
  *
- * @method awsmug\Torro_Forms\DB                    db()
- * @method Leaves_And_Love\Plugin_Lib\Cache         cache()
- * @method Leaves_And_Love\Plugin_Lib\Error_Handler error_handler()
+ * @method awsmug\Torro_Forms\DB_Objects\Forms\Form_Capabilities capabilities()
+ * @method awsmug\Torro_Forms\DB                                 db()
+ * @method Leaves_And_Love\Plugin_Lib\Cache                      cache()
+ * @method Leaves_And_Love\Plugin_Lib\Meta                       meta()
+ * @method Leaves_And_Love\Plugin_Lib\Error_Handler              error_handler()
  */
 class Form_Manager extends Core_Manager {
-	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait;
+	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait;
 
 	/**
 	 * Constructor.
@@ -36,10 +39,11 @@ class Form_Manager extends Core_Manager {
 	 * @param array                                                     $services {
 	 *     Array of service instances.
 	 *
-	 *     @type awsmug\Torro_Forms\DB                    $db            The database instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Cache         $cache         The cache instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Meta          $meta          The meta instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler $error_handler The error handler instance.
+	 *     @type awsmug\Torro_Forms\DB_Objects\Forms\Form_Capabilities $capabilities  The capabilities instance.
+	 *     @type awsmug\Torro_Forms\DB                                 $db            The database instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Cache                      $cache         The cache instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Meta                       $meta          The meta instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler              $error_handler The error handler instance.
 	 * }
 	 * @param awsmug\Torro_Forms\Translations\Translations_Form_Manager $translations Translations instance.
 	 */
