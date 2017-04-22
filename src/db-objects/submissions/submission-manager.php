@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Manager;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
 
 /**
  * Manager class for submissions.
@@ -22,7 +23,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
  * @method Leaves_And_Love\Plugin_Lib\Error_Handler                          error_handler()
  */
 class Submission_Manager extends Manager {
-	use Capability_Manager_Trait;
+	use Capability_Manager_Trait, REST_API_Manager_Trait;
 
 	/**
 	 * Constructor.
@@ -42,9 +43,10 @@ class Submission_Manager extends Manager {
 	 * @param awsmug\Torro_Forms\Translations\Translations_Submission_Manager $translations Translations instance.
 	 */
 	public function __construct( $prefix, $services, $translations ) {
-		$this->class_name            = Submission::class;
-		$this->collection_class_name = Submission_Collection::class;
-		$this->query_class_name      = Submission_Query::class;
+		$this->class_name                 = Submission::class;
+		$this->collection_class_name      = Submission_Collection::class;
+		$this->query_class_name           = Submission_Query::class;
+		$this->rest_controller_class_name = REST_Submissions_Controller::class;
 
 		$this->singular_slug = 'submission';
 		$this->plural_slug   = 'submissions';
