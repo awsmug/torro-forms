@@ -270,7 +270,7 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $submissions ADD KEY status_form_id (status,form_id)" );
 		$wpdb->query( "ALTER TABLE $result_values RENAME TO $submission_values" );
 		$wpdb->query( "ALTER TABLE $submission_values CHANGE result_id submission_id int(11) unsigned NOT NULL" );
-		$wpdb->query( "ALTER TABLE $submission_values ADD name text NOT NULL default '' AFTER element_id" );
+		$wpdb->query( "ALTER TABLE $submission_values ADD field char(100) NOT NULL default '' AFTER element_id" );
 		$wpdb->query( "ALTER TABLE $submission_values ADD KEY submission_id (submission_id)" );
 		$wpdb->query( "ALTER TABLE $submission_values ADD KEY element_id (element_id)" );
 		$wpdb->query( "ALTER TABLE $participants ADD KEY form_id (form_id)" );

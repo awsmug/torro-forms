@@ -64,7 +64,7 @@ class Submission_Value_Manager extends Manager {
 			"id int(11) unsigned NOT NULL auto_increment",
 			"submission_id int(11) unsigned NOT NULL",
 			"element_id int(11) unsigned NOT NULL",
-			"name text NOT NULL default ''",
+			"field char(100) NOT NULL default ''",
 			"value text NOT NULL",
 			"PRIMARY KEY  (id)",
 			"KEY submission_id (submission_id)",
