@@ -275,6 +275,8 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $submission_values ADD KEY element_id (element_id)" );
 		$wpdb->query( "ALTER TABLE $participants ADD KEY form_id (form_id)" );
 		$wpdb->query( "ALTER TABLE $participants ADD KEY user_id (user_id)" );
+
+		//TODO: What happens with email_notifications table?
 	}
 
 	/**
