@@ -17,16 +17,24 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @method Leaves_And_Love\Plugin_Lib\Error_Handler          error_handler()
- * @method Leaves_And_Love\Plugin_Lib\Options                options()
- * @method Leaves_And_Love\Plugin_Lib\Cache                  cache()
- * @method awsmug\Torro_Forms\DB                             db()
- * @method Leaves_And_Love\Plugin_Lib\Meta                   meta()
- * @method Leaves_And_Love\Plugin_Lib\Assets                 assets()
- * @method Leaves_And_Love\Plugin_Lib\Template               template()
- * @method Leaves_And_Love\Plugin_Lib\AJAX                   ajax()
- * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages admin_pages()
- * @method Leaves_And_Love\Plugin_Lib\Components\Extensions  extensions()
+ * @method awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager                         forms()
+ * @method awsmug\Torro_Forms\DB_Objects\Containers\Container_Manager               containers()
+ * @method awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager                   elements()
+ * @method awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Manager     element_choices()
+ * @method awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Manager   element_settings()
+ * @method awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Manager             submissions()
+ * @method awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager submission_values()
+ * @method awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager           participants()
+ * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                 error_handler()
+ * @method Leaves_And_Love\Plugin_Lib\Options                                       options()
+ * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
+ * @method awsmug\Torro_Forms\DB                                                    db()
+ * @method Leaves_And_Love\Plugin_Lib\Meta                                          meta()
+ * @method Leaves_And_Love\Plugin_Lib\Assets                                        assets()
+ * @method Leaves_And_Love\Plugin_Lib\Template                                      template()
+ * @method Leaves_And_Love\Plugin_Lib\AJAX                                          ajax()
+ * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
+ * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
  */
 class Torro_Forms extends Leaves_And_Love_Plugin {
 
@@ -121,6 +129,78 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $extensions;
 
 	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager
+	 */
+	protected $forms;
+
+	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Containers\Container_Manager
+	 */
+	protected $containers;
+
+	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager
+	 */
+	protected $elements;
+
+	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Manager
+	 */
+	protected $element_choices;
+
+	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Manager
+	 */
+	protected $element_settings;
+
+	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Manager
+	 */
+	protected $submissions;
+
+	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager
+	 */
+	protected $submission_values;
+
+	/**
+	 * The forms manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager
+	 */
+	protected $participants;
+
+	/**
 	 * Uninstalls the plugin.
 	 *
 	 * Drops all database tables and related content.
@@ -211,27 +291,45 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @access protected
 	 */
 	protected function instantiate_services() {
+		$this->instantiate_core_services();
+		$this->instantiate_db_object_managers();
+	}
+
+	/**
+	 * Instantiates the plugin core services.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function instantiate_core_services() {
 		call_user_func( array( 'Leaves_And_Love\Plugin_Lib\Fields\Field_Manager', 'set_translations' ), $this->instantiate_plugin_class( 'Translations\Translations_Field_Manager' ) );
 
 		$this->error_handler = $this->instantiate_library_service( 'Error_Handler', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Error_Handler' ) );
-		$this->options       = $this->instantiate_library_service( 'Options', $this->prefix );
-		$this->cache         = $this->instantiate_library_service( 'Cache', $this->prefix );
-		$this->db            = $this->instantiate_plugin_service( 'DB', $this->prefix, array(
+
+		$this->options = $this->instantiate_library_service( 'Options', $this->prefix );
+
+		$this->cache = $this->instantiate_library_service( 'Cache', $this->prefix );
+
+		$this->db = $this->instantiate_plugin_service( 'DB', $this->prefix, array(
 			'options'       => $this->options,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_DB' ) );
-		$this->meta          = $this->instantiate_library_service( 'Meta', $this->prefix, array(
+
+		$this->meta = $this->instantiate_library_service( 'Meta', $this->prefix, array(
 			'db'            => $this->db,
 			'error_handler' => $this->error_handler,
 		) );
-		$this->assets        = $this->instantiate_library_service( 'Assets', $this->prefix, array(
+
+		$this->assets = $this->instantiate_library_service( 'Assets', $this->prefix, array(
 			'path_callback' => array( $this, 'path' ),
 			'url_callback'  => array( $this, 'url' ),
 		) );
-		$this->template      = $this->instantiate_library_service( 'Template', $this->prefix, array(
+
+		$this->template = $this->instantiate_library_service( 'Template', $this->prefix, array(
 			'default_location' => $this->path( 'templates/' ),
 		) );
-		$this->ajax          = $this->instantiate_library_service( 'AJAX', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_AJAX' ) );
+
+		$this->ajax = $this->instantiate_library_service( 'AJAX', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_AJAX' ) );
 
 		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
 			'ajax'          => $this->ajax,
@@ -244,16 +342,103 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	}
 
 	/**
+	 * Instantiates the plugin DB object managers.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function instantiate_db_object_managers() {
+		$this->forms = $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'meta'          => $this->meta,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Form_Manager' ) );
+
+		$this->containers = $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Container_Manager' ) );
+
+		$this->elements = $this->instantiate_plugin_service( 'DB_Objects\Elements\Element_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Manager' ) );
+
+		$this->element_choices = $this->instantiate_plugin_service( 'DB_Objects\Element_Choices\Element_Choice_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Choice_Manager' ) );
+
+		$this->element_settings = $this->instantiate_plugin_service( 'DB_Objects\Element_Settings\Element_Setting_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Setting_Manager' ) );
+
+		$this->submissions = $this->instantiate_plugin_service( 'DB_Objects\Submissions\Submission_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Manager' ) );
+
+		$this->submission_values = $this->instantiate_plugin_service( 'DB_Objects\Submission_Values\Submission_Value_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' ) );
+
+		$this->participants = $this->instantiate_plugin_service( 'DB_Objects\Participants\Participant_Manager', $this->prefix, array(
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Participant_Manager' ) );
+
+		$this->db->set_version( 20170422 );
+	}
+
+	/**
 	 * Adds the necessary plugin hooks.
 	 *
 	 * @since 1.0.0
 	 * @access protected
 	 */
 	protected function add_hooks() {
+		$this->add_core_service_hooks();
+		$this->add_db_object_manager_hooks();
+	}
+
+	/**
+	 * Adds the necessary plugin core service hooks.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function add_core_service_hooks() {
 		$this->options->add_hooks();
 		$this->db->add_hooks();
 		$this->ajax->add_hooks();
 		$this->admin_pages->add_hooks();
 		$this->extensions->add_hooks();
+	}
+
+	/**
+	 * Adds the necessary plugin DB object manager hooks.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function add_db_object_manager_hooks() {
+		$this->forms->add_hooks();
+		$this->containers->add_hooks();
+		$this->elements->add_hooks();
+		$this->element_choices->add_hooks();
+		$this->element_settings->add_hooks();
+		$this->submissions->add_hooks();
+		$this->submission_values->add_hooks();
+		$this->participants->add_hooks();
 	}
 }
