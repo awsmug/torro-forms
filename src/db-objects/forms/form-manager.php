@@ -15,6 +15,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Author_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
+use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 
 /**
  * Manager class for forms.
@@ -28,7 +29,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
  * @method Leaves_And_Love\Plugin_Lib\Error_Handler              error_handler()
  */
 class Form_Manager extends Core_Manager {
-	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait;
+	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Children_Trait;
 
 	/**
 	 * Constructor.

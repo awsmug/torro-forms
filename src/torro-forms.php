@@ -293,6 +293,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected function instantiate_services() {
 		$this->instantiate_core_services();
 		$this->instantiate_db_object_managers();
+		$this->connect_db_object_managers();
 	}
 
 	/**
@@ -406,6 +407,36 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		), $this->instantiate_plugin_class( 'Translations\Translations_Participant_Manager' ) );
 
 		$this->db->set_version( 20170422 );
+	}
+
+	/**
+	 * Connects the plugin DB object managers through hierarchical relationships.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function connect_db_object_managers() {
+		$this->forms->add_child_manager( 'containers', $this->containers );
+		$this->forms->add_child_manager( 'submissions', $this->submissions );
+		$this->forms->add_child_manager( 'participants', $this->participants );
+
+		$this->containers->add_parent_manager( 'forms', $this->forms );
+		$this->containers->add_child_manager( 'elements', $this->elements );
+
+		$this->elements->add_parent_manager( 'containers', $this->containers );
+		$this->elements->add_child_manager( 'element_choices', $this->element_choices );
+		$this->elements->add_child_manager( 'element_settings', $this->element_settings );
+
+		$this->element_choices->add_parent_manager( 'elements', $this->elements );
+
+		$this->element_settings->add_parent_manager( 'elements', $this->elements );
+
+		$this->submissions->add_parent_manager( 'forms', $this->forms );
+		$this->submissions->add_child_manager( 'submission_values', $this->submission_values );
+
+		$this->submission_values->add_parent_manager( 'submissions', $this->submissions );
+
+		$this->participants->add_parent_manager( 'forms', $this->forms );
 	}
 
 	/**

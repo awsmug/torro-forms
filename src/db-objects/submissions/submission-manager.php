@@ -11,6 +11,8 @@ namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Manager;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
+use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
+use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 
 /**
  * Manager class for submissions.
@@ -23,7 +25,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
  * @method Leaves_And_Love\Plugin_Lib\Error_Handler                          error_handler()
  */
 class Submission_Manager extends Manager {
-	use Capability_Manager_Trait, REST_API_Manager_Trait;
+	use Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
 
 	/**
 	 * Constructor.
