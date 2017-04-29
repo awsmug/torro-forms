@@ -361,9 +361,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->extensions = $this->instantiate_library_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
 		$this->extensions->set_plugin( $this );
 
-		$this->post_types = $this->instantiate_plugin_service( 'Post_Types', $this->prefix );
+		$this->post_types = $this->instantiate_plugin_service( 'Post_Types', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
 
-		$this->taxonomies = $this->instantiate_plugin_service( 'Taxonomies', $this->prefix );
+		$this->taxonomies = $this->instantiate_plugin_service( 'Taxonomies', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
 	}
 
 	/**
