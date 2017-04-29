@@ -25,7 +25,8 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Manager             submissions()
  * @method awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager submission_values()
  * @method awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager           participants()
- * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                 error_handler()
+ * @method awsmug\Torro_Forms\Post_Types                                            post_types()
+ * @method awsmug\Torro_Forms\Taxonomies                                            taxonomies()
  * @method Leaves_And_Love\Plugin_Lib\Options                                       options()
  * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
  * @method awsmug\Torro_Forms\DB                                                    db()
@@ -33,100 +34,11 @@ defined( 'ABSPATH' ) || exit;
  * @method Leaves_And_Love\Plugin_Lib\Assets                                        assets()
  * @method Leaves_And_Love\Plugin_Lib\Template                                      template()
  * @method Leaves_And_Love\Plugin_Lib\AJAX                                          ajax()
+ * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                 error_handler()
  * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
  * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
  */
 class Torro_Forms extends Leaves_And_Love_Plugin {
-
-	/**
-	 * The error handler instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Error_Handler
-	 */
-	protected $error_handler;
-
-	/**
-	 * The Option API instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Options
-	 */
-	protected $options;
-
-	/**
-	 * The cache instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Cache
-	 */
-	protected $cache;
-
-	/**
-	 * The database instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var awsmug\Torro_Forms\DB
-	 */
-	protected $db;
-
-	/**
-	 * The Metadata API instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Meta
-	 */
-	protected $meta;
-
-	/**
-	 * The Assets manager instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Assets
-	 */
-	protected $assets;
-
-	/**
-	 * The Template instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Template
-	 */
-	protected $template;
-
-	/**
-	 * The AJAX handler instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\AJAX
-	 */
-	protected $ajax;
-
-	/**
-	 * The Admin Pages instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Components\Admin_Pages
-	 */
-	protected $admin_pages;
-
-	/**
-	 * The Extensions instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Components\Extensions
-	 */
-	protected $extensions;
 
 	/**
 	 * The forms manager instance.
@@ -199,6 +111,114 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @var awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager
 	 */
 	protected $participants;
+
+	/**
+	 * The post types API instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\Post_Types
+	 */
+	protected $post_types;
+
+	/**
+	 * The taxonomies API instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\Taxonomies
+	 */
+	protected $taxonomies;
+
+	/**
+	 * The Option API instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Options
+	 */
+	protected $options;
+
+	/**
+	 * The cache instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Cache
+	 */
+	protected $cache;
+
+	/**
+	 * The database instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB
+	 */
+	protected $db;
+
+	/**
+	 * The Metadata API instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Meta
+	 */
+	protected $meta;
+
+	/**
+	 * The Assets manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Assets
+	 */
+	protected $assets;
+
+	/**
+	 * The Template instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Template
+	 */
+	protected $template;
+
+	/**
+	 * The AJAX handler instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\AJAX
+	 */
+	protected $ajax;
+
+	/**
+	 * The error handler instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Error_Handler
+	 */
+	protected $error_handler;
+
+	/**
+	 * The Admin Pages instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Components\Admin_Pages
+	 */
+	protected $admin_pages;
+
+	/**
+	 * The Extensions instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Components\Extensions
+	 */
+	protected $extensions;
 
 	/**
 	 * Uninstalls the plugin.
@@ -340,6 +360,10 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 
 		$this->extensions = $this->instantiate_library_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
 		$this->extensions->set_plugin( $this );
+
+		$this->post_types = $this->instantiate_plugin_service( 'Post_Types', $this->prefix );
+
+		$this->taxonomies = $this->instantiate_plugin_service( 'Taxonomies', $this->prefix );
 	}
 
 	/**
@@ -462,6 +486,8 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->ajax->add_hooks();
 		$this->admin_pages->add_hooks();
 		$this->extensions->add_hooks();
+		$this->post_types->add_hooks();
+		$this->taxonomies->add_hooks();
 	}
 
 	/**
