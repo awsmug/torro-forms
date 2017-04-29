@@ -92,9 +92,8 @@ class Post_Types extends Post_Type_Manager {
 			'show_in_nav_menus'   => false,
 			'menu_position'       => 50,
 			'menu_icon'           => '',
-			'capability_type'     => 'post',
-			'capabilities'        => array(),
-			'map_meta_cap'        => null,
+			'capability_type'     => array( 'form', 'forms' ),
+			'map_meta_cap'        => false,
 			'supports'            => array( 'title' ),
 			'has_archive'         => false,
 			'rewrite'             => array(

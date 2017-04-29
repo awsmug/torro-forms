@@ -90,7 +90,12 @@ class Taxonomies extends Taxonomy_Manager {
 			'show_in_nav_menus' => false,
 			'show_tagcloud'     => false,
 			'show_admin_column' => true,
-			'capabilities'      => array(),
+			'capabilities'      => array(
+				'manage_terms' => 'manage_form_categories',
+				'edit_terms'   => 'manage_form_categories',
+				'delete_terms' => 'manage_form_categories',
+				'assign_terms' => 'edit_forms',
+			),
 			'rewrite'           => array(
 				'slug'       => $rewrite_slug,
 				'with_front' => false,
