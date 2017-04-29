@@ -18,6 +18,29 @@ use Leaves_And_Love\Plugin_Lib\DB as DB_Base;
 class DB extends DB_Base {
 
 	/**
+	 * Constructor.
+	 *
+	 * This sets the table prefix and adds the tables.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string                                               $prefix       The prefix for all database tables.
+	 * @param array                                                $services {
+	 *     Array of service instances.
+	 *
+	 *     @type Leaves_And_Love\Plugin_Lib\Options       $options       The Option API class instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler $error_handler The error handler instance.
+	 * }
+	 * @param Leaves_And_Love\Plugin_Lib\Translations\Translations $translations Translations instance.
+	 */
+	public function __construct( $prefix, $services, $translations ) {
+		parent::__construct( $prefix, $services, $translations );
+
+		$this->options()->store_in_network( 'rewrite_rules' );
+	}
+
+	/**
 	 * Checks whether the database tables are up to date for the current site.
 	 *
 	 * If outdated, the tables will be refreshed.
@@ -39,6 +62,23 @@ class DB extends DB_Base {
 	}
 
 	/**
+	 * Uninstalls the database tables.
+	 *
+	 * This method is called on plugin deletion.
+	 *
+	 * On a Multisite/Multinetwork installation, this method ensures that the database tables
+	 * for all sites in the entire setup are wiped out.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function uninstall() {
+		parent::uninstall();
+
+		$this->options()->flush( 'rewrite_rules' );
+	}
+
+	/**
 	 * Uninstalls the database tables for the current site.
 	 *
 	 * @since 1.0.0
@@ -47,9 +87,43 @@ class DB extends DB_Base {
 	protected function uninstall_single() {
 		//TODO: Only drop tables if hard_uninstall option is enabled
 
-		foreach ( $this->tables as $prefixed_table_name ) {
-			$db_table_name = $this->table_to_db_table( $prefixed_table_name );
-			$this->wpdb->query( "DROP TABLE $db_table_name" );
+		parent::uninstall_single();
+	}
+
+	/**
+	 * Flushes rewrite rules if necessary.
+	 *
+	 * This ensures the post type and taxonomy rewrites work properly.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function maybe_flush_rewrite_rules() {
+		if ( $this->options()->get( 'rewrite_rules', false ) ) {
+			return;
 		}
+
+		flush_rewrite_rules();
+
+		$this->options()->update( 'rewrite_rules', true );
+	}
+
+	/**
+	 * Sets up all action and filter hooks for the service.
+	 *
+	 * This method must be implemented and then be called from the constructor.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function setup_hooks() {
+		parent::setup_hooks();
+
+		$this->actions[] = array(
+			'name'     => 'admin_init',
+			'callback' => array( $this, 'maybe_flush_rewrite_rules' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
 	}
 }
