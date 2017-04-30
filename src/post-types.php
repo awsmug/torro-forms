@@ -92,7 +92,7 @@ class Post_Types extends Post_Type_Manager {
 			'show_in_nav_menus'   => false,
 			'menu_position'       => 50,
 			'menu_icon'           => '',
-			'capability_type'     => array( 'form', 'forms' ),
+			'capability_type'     => array( $this->get_prefix() . 'form', $this->get_prefix() . 'forms' ),
 			'map_meta_cap'        => false,
 			'supports'            => array( 'title' ),
 			'has_archive'         => false,

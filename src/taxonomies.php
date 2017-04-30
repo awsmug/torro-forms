@@ -91,10 +91,10 @@ class Taxonomies extends Taxonomy_Manager {
 			'show_tagcloud'     => false,
 			'show_admin_column' => true,
 			'capabilities'      => array(
-				'manage_terms' => 'manage_form_categories',
-				'edit_terms'   => 'manage_form_categories',
-				'delete_terms' => 'manage_form_categories',
-				'assign_terms' => 'edit_forms',
+				'manage_terms' => 'manage_' . $this->get_prefix() . 'form_categories',
+				'edit_terms'   => 'manage_' . $this->get_prefix() . 'form_categories',
+				'delete_terms' => 'manage_' . $this->get_prefix() . 'form_categories',
+				'assign_terms' => 'edit_' . $this->get_prefix() . 'forms',
 			),
 			'rewrite'           => array(
 				'slug'       => $rewrite_slug,
