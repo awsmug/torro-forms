@@ -73,6 +73,18 @@ class Form_Manager extends Core_Manager {
 	}
 
 	/**
+	 * Returns the name of the property which identifies the form status.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return string Status property name.
+	 */
+	public function get_status_property() {
+		return 'status';
+	}
+
+	/**
 	 * Internal method to insert a new form into the database.
 	 *
 	 * @since 1.0.0
