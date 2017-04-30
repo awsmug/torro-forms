@@ -313,6 +313,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected function instantiate_services() {
 		$this->instantiate_core_services();
 		$this->instantiate_db_object_managers();
+		$this->setup_capabilities();
 		$this->connect_db_object_managers();
 	}
 
@@ -440,6 +441,27 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	}
 
 	/**
+	 * Sets up capabilities for the plugin DB object managers.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function setup_capabilities() {
+		// Map form capabilities to post capabilities.
+		$this->forms->capabilities()->map_capabilities( 'posts' );
+
+		// Map all other objects' capabilities to form capabilities.
+		$form_capability_mode = $this->prefix . 'forms';
+		$this->containers->capabilities()->map_capabilities( $form_capability_mode );
+		$this->elements->capabilities()->map_capabilities( $form_capability_mode );
+		$this->element_choices->capabilities()->map_capabilities( $form_capability_mode );
+		$this->element_settings->capabilities()->map_capabilities( $form_capability_mode );
+		$this->submissions->capabilities()->map_capabilities( $form_capability_mode );
+		$this->submission_values->capabilities()->map_capabilities( $form_capability_mode );
+		$this->participants->capabilities()->map_capabilities( $form_capability_mode );
+	}
+
+	/**
 	 * Connects the plugin DB object managers through hierarchical relationships.
 	 *
 	 * @since 1.0.0
@@ -511,5 +533,14 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->submissions->add_hooks();
 		$this->submission_values->add_hooks();
 		$this->participants->add_hooks();
+
+		$this->forms->capabilities()->add_hooks();
+		$this->containers->capabilities()->add_hooks();
+		$this->elements->capabilities()->add_hooks();
+		$this->element_choices->capabilities()->add_hooks();
+		$this->element_settings->capabilities()->add_hooks();
+		$this->submissions->capabilities()->add_hooks();
+		$this->submission_values->capabilities()->add_hooks();
+		$this->participants->capabilities()->add_hooks();
 	}
 }

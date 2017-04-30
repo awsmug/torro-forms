@@ -93,7 +93,7 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 			'menu_position'       => 50,
 			'menu_icon'           => '',
 			'capability_type'     => array( $this->get_prefix() . 'form', $this->get_prefix() . 'forms' ),
-			'map_meta_cap'        => false,
+			'map_meta_cap'        => true,
 			'supports'            => array( 'title' ),
 			'has_archive'         => false,
 			'rewrite'             => array(
@@ -104,6 +104,34 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 		);
 
 		$this->register( $this->get_prefix() . 'form', $args );
+
+		$this->unregister_map_meta_caps();
+	}
+
+	/**
+	 * Unregisters capabilities from being used in map_meta_cap().
+	 *
+	 * Those capabilities are already handled by the capability manager.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @global array $post_type_meta_caps Used to store meta capabilities.
+	 */
+	protected function unregister_map_meta_caps() {
+		global $post_type_meta_caps;
+
+		$meta_caps = array(
+			'read_' . $this->get_prefix() . 'form',
+			'edit_' . $this->get_prefix() . 'form',
+			'delete_' . $this->get_prefix() . 'form',
+		);
+
+		foreach ( $meta_caps as $meta_cap ) {
+			if ( isset( $post_type_meta_caps[ $meta_cap ] ) ) {
+				unset( $post_type_meta_caps[ $meta_cap ] );
+			}
+		}
 	}
 
 	/**
