@@ -1,6 +1,6 @@
 <?php
 /**
- * Taxonomies class
+ * Taxonomy manager class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -8,7 +8,7 @@
 
 namespace awsmug\Torro_Forms;
 
-use Leaves_And_Love\Plugin_Lib\DB_Objects\Model_Type_Managers\Taxonomy_Manager;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Model_Type_Managers\Taxonomy_Manager as Taxonomy_Manager_Base;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
 
@@ -17,7 +17,7 @@ use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
  *
  * @since 1.0.0
  */
-class Taxonomies extends Taxonomy_Manager {
+class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	use Container_Service_Trait, Hook_Service_Trait;
 
 	/**

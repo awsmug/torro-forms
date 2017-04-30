@@ -25,8 +25,8 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Manager             submissions()
  * @method awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager submission_values()
  * @method awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager           participants()
- * @method awsmug\Torro_Forms\Post_Types                                            post_types()
- * @method awsmug\Torro_Forms\Taxonomies                                            taxonomies()
+ * @method awsmug\Torro_Forms\Post_Type_Manager                                     post_types()
+ * @method awsmug\Torro_Forms\Taxonomy_Manager                                      taxonomies()
  * @method Leaves_And_Love\Plugin_Lib\Options                                       options()
  * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
  * @method awsmug\Torro_Forms\DB                                                    db()
@@ -117,7 +117,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\Post_Types
+	 * @var awsmug\Torro_Forms\Post_Type_Manager
 	 */
 	protected $post_types;
 
@@ -126,7 +126,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\Taxonomies
+	 * @var awsmug\Torro_Forms\Taxonomy_Manager
 	 */
 	protected $taxonomies;
 
@@ -361,12 +361,12 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->extensions = $this->instantiate_library_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
 		$this->extensions->set_plugin( $this );
 
-		$this->post_types = $this->instantiate_plugin_service( 'Post_Types', $this->prefix, array(
+		$this->post_types = $this->instantiate_plugin_service( 'Post_Type_Manager', $this->prefix, array(
 			'options'       => $this->options,
 			'error_handler' => $this->error_handler,
 		) );
 
-		$this->taxonomies = $this->instantiate_plugin_service( 'Taxonomies', $this->prefix, array(
+		$this->taxonomies = $this->instantiate_plugin_service( 'Taxonomy_Manager', $this->prefix, array(
 			'options'       => $this->options,
 			'error_handler' => $this->error_handler,
 		) );
