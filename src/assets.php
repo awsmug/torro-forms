@@ -46,6 +46,17 @@ class Assets extends Assets_Base {
 	 * @access protected
 	 */
 	protected function register_assets() {
+		$this->register_script( 'admin-settings', 'assets/dist/js/admin-settings.js', array(
+			'deps'      => array( 'jquery' ),
+			'ver'       => $this->plugin_version,
+			'in_footer' => true,
+		) );
+
+		$this->register_style( 'admin-settings', 'assets/dist/css/admin-settings.css', array(
+			'deps' => array(),
+			'ver'  => $this->plugin_version,
+		) );
+
 		/**
 		 * Fires after all default plugin assets have been registered.
 		 *
@@ -82,5 +93,23 @@ class Assets extends Assets_Base {
 				'num_args' => 0,
 			),
 		);
+	}
+
+	/**
+	 * Parses the plugin version number.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 *
+	 * @param mixed $value The input value.
+	 * @return string The parsed value.
+	 */
+	protected static function parse_arg_plugin_version( $value ) {
+		if ( ! $value ) {
+			return false;
+		}
+
+		return $value;
 	}
 }

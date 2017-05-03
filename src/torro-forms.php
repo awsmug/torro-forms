@@ -337,6 +337,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->instantiate_db_object_managers();
 		$this->setup_capabilities();
 		$this->connect_db_object_managers();
+		$this->setup_admin_pages();
 	}
 
 	/**
@@ -365,8 +366,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		) );
 
 		$this->assets = $this->instantiate_plugin_service( 'Assets', $this->prefix, array(
-			'path_callback' => array( $this, 'path' ),
-			'url_callback'  => array( $this, 'url' ),
+			'path_callback'  => array( $this, 'path' ),
+			'url_callback'   => array( $this, 'url' ),
+			'plugin_version' => $this->version,
 		) );
 
 		$this->template = $this->instantiate_library_service( 'Template', $this->prefix, array(
@@ -525,6 +527,23 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->submission_values->add_parent_manager( 'submissions', $this->submissions );
 
 		$this->participants->add_parent_manager( 'forms', $this->forms );
+	}
+
+	/**
+	 * Sets up the admin pages.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function setup_admin_pages() {
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$form_settings_class_name = 'awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page';
+		$form_settings_page = new $form_settings_class_name( $this->admin_pages->get_prefix() . 'form_settings', $this->admin_pages, $this->forms );
+
+		$this->admin_pages->add( 'form_settings', $form_settings_page, 'edit.php?post_type=torro_form', null, 'site' );
 	}
 
 	/**
