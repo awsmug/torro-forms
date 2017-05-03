@@ -246,6 +246,18 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	}
 
 	/**
+	 * Returns the current version of Torro Forms.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return string Version number.
+	 */
+	public function version() {
+		return $this->version;
+	}
+
+	/**
 	 * Returns the uninstall callback.
 	 *
 	 * @since 1.0.0
