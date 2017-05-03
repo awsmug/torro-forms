@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
  * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
  * @method awsmug\Torro_Forms\DB                                                    db()
  * @method Leaves_And_Love\Plugin_Lib\Meta                                          meta()
- * @method Leaves_And_Love\Plugin_Lib\Assets                                        assets()
+ * @method awsmug\Torro_Forms\Assets                                                assets()
  * @method Leaves_And_Love\Plugin_Lib\Template                                      template()
  * @method Leaves_And_Love\Plugin_Lib\AJAX                                          ajax()
  * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                 error_handler()
@@ -181,7 +181,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Assets
+	 * @var awsmug\Torro_Forms\Assets
 	 */
 	protected $assets;
 
@@ -364,7 +364,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'error_handler' => $this->error_handler,
 		) );
 
-		$this->assets = $this->instantiate_library_service( 'Assets', $this->prefix, array(
+		$this->assets = $this->instantiate_plugin_service( 'Assets', $this->prefix, array(
 			'path_callback' => array( $this, 'path' ),
 			'url_callback'  => array( $this, 'url' ),
 		) );
@@ -547,6 +547,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected function add_core_service_hooks() {
 		$this->options->add_hooks();
 		$this->db->add_hooks();
+		$this->assets->add_hooks();
 		$this->ajax->add_hooks();
 		$this->admin_pages->add_hooks();
 		$this->extensions->add_hooks();
