@@ -58,7 +58,8 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 	 * @access protected
 	 */
 	protected function register_form_post_type() {
-		$rewrite_slug = _x( 'forms', 'default form rewrite slug', 'torro-forms' );
+		$options = $this->options()->get( 'general_settings', array() );
+		$rewrite_slug = ! empty( $options['slug'] ) ? $options['slug'] : _x( 'forms', 'default form rewrite slug', 'torro-forms' );
 
 		$args = array(
 			'labels'              => array(
