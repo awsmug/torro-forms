@@ -46,6 +46,11 @@ class Assets extends Assets_Base {
 	 * @access protected
 	 */
 	protected function register_assets() {
+		$this->register_style( 'icons', 'assets/dist/css/icons.css', array(
+			'deps' => array(),
+			'ver'  => $this->plugin_version,
+		) );
+
 		$this->register_script( 'admin-settings', 'assets/dist/js/admin-settings.js', array(
 			'deps'      => array( 'jquery' ),
 			'ver'       => $this->plugin_version,
@@ -71,6 +76,16 @@ class Assets extends Assets_Base {
 	}
 
 	/**
+	 * Enqueues the icons stylesheet.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function enqueue_icons() {
+		$this->enqueue_style( 'icons' );
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * This method must be implemented and then be called from the constructor.
@@ -90,6 +105,12 @@ class Assets extends Assets_Base {
 				'name'     => 'admin_enqueue_scripts',
 				'callback' => array( $this, 'register_assets' ),
 				'priority' => 1,
+				'num_args' => 0,
+			),
+			array(
+				'name'     => 'admin_enqueue_scripts',
+				'callback' => array( $this, 'enqueue_icons' ),
+				'priority' => 10,
 				'num_args' => 0,
 			),
 		);
