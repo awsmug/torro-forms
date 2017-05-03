@@ -85,9 +85,18 @@ class DB extends DB_Base {
 	 * @access protected
 	 */
 	protected function uninstall_single() {
-		//TODO: Only drop tables if hard_uninstall option is enabled
+		// Only drop database tables if a hard uninstall should be run.
+		$options = $this->options()->get( 'general_settings', array() );
+		if ( empty( $options['hard_uninstall'] ) ) {
+			return;
+		}
 
 		parent::uninstall_single();
+
+		//TODO: Delete form posts and form category terms.
+
+		$this->options->delete( 'general_settings' );
+		$this->options->delete( 'extension_settings' );
 	}
 
 	/**

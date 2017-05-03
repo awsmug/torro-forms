@@ -242,7 +242,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @codeCoverageIgnore
 	 */
 	public static function uninstall() {
-		//TODO: uninstall routine
+		torro()->db()->uninstall();
 	}
 
 	/**
