@@ -167,7 +167,7 @@ class Form extends Core_Model {
 		}
 
 		$values = array();
-		foreach ( $fields as $property ) {
+		foreach ( $properties as $property ) {
 			$values[ $property ] = $this->__get( $property );
 		}
 

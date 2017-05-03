@@ -17,6 +17,7 @@ use WP_Query;
  * @since 1.0.0
  */
 class Form_Query extends Core_Query {
+
 	/**
 	 * Sets up the query for retrieving forms.
 	 *
@@ -82,7 +83,7 @@ class Form_Query extends Core_Query {
 		foreach ( $args as $query_var => $value ) {
 			switch ( $query_var ) {
 				case 'slug':
-					$mapped_args['post_name'] = $value;
+					$mapped_args['name'] = $value;
 					unset( $mapped_args['slug'] );
 					break;
 				case 'timestamp':
@@ -91,8 +92,15 @@ class Form_Query extends Core_Query {
 				case 'timestamp_modified':
 					unset( $mapped_args['timestamp_modified'] );
 					break;
-				case 'title':
-				case 'author':
+				case 'orderby':
+					if ( 'slug' === $value ) {
+						$mapped_args[ $query_var ] = 'name';
+					} elseif ( 'timestamp' === $value ) {
+						$mapped_args[ $query_var ] = 'date';
+					} elseif ( 'timestamp_modified' === $value ) {
+						$mapped_args[ $query_var ] = 'modified';
+					}
+					break;
 				case 'status':
 					$mapped_args[ 'post_' . $query_var ] = $value;
 			}

@@ -58,9 +58,9 @@ class Form_Manager extends Core_Manager {
 		$this->singular_slug = 'form';
 		$this->plural_slug   = 'forms';
 
-		$this->table_name  = $this->plural_slug;
-		$this->cache_group = $this->plural_slug;
-		$this->meta_type   = $this->singular_slug;
+		$this->table_name  = 'posts';
+		$this->cache_group = 'posts';
+		$this->meta_type   = 'post';
 
 		$this->fetch_callback = array( $this, 'fetch_from_db' );
 
@@ -187,6 +187,8 @@ class Form_Manager extends Core_Manager {
 					$mapped_args[ 'post_' . $property ] = $value;
 			}
 		}
+
+		$mapped_args['post_type'] = $this->get_prefix() . 'form';
 
 		return $mapped_args;
 	}
