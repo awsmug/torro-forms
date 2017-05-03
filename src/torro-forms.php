@@ -406,6 +406,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected function instantiate_db_object_managers() {
 		$this->forms = $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Manager', $this->prefix, array(
 			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Capabilities', $this->prefix ),
+			'options'       => $this->options,
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'meta'          => $this->meta,

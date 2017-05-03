@@ -23,6 +23,7 @@ use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
  * @since 1.0.0
  *
  * @method awsmug\Torro_Forms\DB_Objects\Forms\Form_Capabilities capabilities()
+ * @method Leaves_And_Love\Plugin_Lib\Options                    options()
  * @method awsmug\Torro_Forms\DB                                 db()
  * @method Leaves_And_Love\Plugin_Lib\Cache                      cache()
  * @method Leaves_And_Love\Plugin_Lib\Meta                       meta()
@@ -30,6 +31,16 @@ use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
  */
 class Form_Manager extends Core_Manager {
 	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Children_Trait;
+
+	/**
+	 * The Option API service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_options = 'Leaves_And_Love\Plugin_Lib\Options';
 
 	/**
 	 * Constructor.
@@ -42,6 +53,7 @@ class Form_Manager extends Core_Manager {
 	 *     Array of service instances.
 	 *
 	 *     @type awsmug\Torro_Forms\DB_Objects\Forms\Form_Capabilities $capabilities  The capabilities instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Options                    $options       The options instance.
 	 *     @type awsmug\Torro_Forms\DB                                 $db            The database instance.
 	 *     @type Leaves_And_Love\Plugin_Lib\Cache                      $cache         The cache instance.
 	 *     @type Leaves_And_Love\Plugin_Lib\Meta                       $meta          The meta instance.

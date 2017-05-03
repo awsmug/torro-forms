@@ -245,6 +245,29 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	}
 
 	/**
+	 * Validates field values for an array of fields.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array  $values Array of values.
+	 * @param string $option Option name.
+	 * @param array  $fields Array of field instances.
+	 * @return array Array of validated values.
+	 */
+	protected function validate_values( $values, $option, $fields ) {
+		$old_values = get_option( $option, array() );
+		$new_values = parent::validate_values( $values, $option, $fields );
+
+		if ( ! empty( $old_values['slug'] ) && ! empty( $new_values['slug'] ) && $new_values['slug'] !== $old_values['slug'] ) {
+			// Deleting this option ensures that rewrite rules are flushed.
+			$this->form_manager->options()->delete( 'rewrite_rules' );
+		}
+
+		return $new_values;
+	}
+
+	/**
 	 * Renders the tab navigation.
 	 *
 	 * @since 1.0.0
