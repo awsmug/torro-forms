@@ -1,0 +1,195 @@
+<?php
+/**
+ * Form category manager class
+ *
+ * @package TorroForms
+ * @since 1.0.0
+ */
+
+namespace awsmug\Torro_Forms\DB_Objects\Form_Categories;
+
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Managers\Core_Manager;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Title_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Slug_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
+use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
+
+/**
+ * Manager class for form categories.
+ *
+ * @since 1.0.0
+ *
+ * @method awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Capabilities capabilities()
+ * @method awsmug\Torro_Forms\DB                                                    db()
+ * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
+ * @method Leaves_And_Love\Plugin_Lib\Meta                                          meta()
+ * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                 error_handler()
+ */
+class Form_Category_Manager extends Core_Manager {
+	use Title_Manager_Trait, Slug_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string                                                             $prefix   The instance prefix.
+	 * @param array                                                              $services {
+	 *     Array of service instances.
+	 *
+	 *     @type awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Capabilities $capabilities  The capabilities instance.
+	 *     @type awsmug\Torro_Forms\DB                                                    $db            The database instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Cache                                         $cache         The cache instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Meta                                          $meta          The meta instance.
+	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler                                 $error_handler The error handler instance.
+	 * }
+	 * @param awsmug\Torro_Forms\Translations\Translations_Form_Category_Manager $translations Translations instance.
+	 */
+	public function __construct( $prefix, $services, $translations ) {
+		$this->class_name                 = Form_Category::class;
+		$this->collection_class_name      = Form_Category_Collection::class;
+		$this->query_class_name           = Form_Category_Query::class;
+		$this->rest_controller_class_name = REST_Form_Categories_Controller::class;
+
+		$this->singular_slug = 'form_category';
+		$this->plural_slug   = 'form_categories';
+
+		$this->table_name  = 'terms';
+		$this->cache_group = 'terms';
+		$this->meta_type   = 'term';
+
+		$this->fetch_callback = array( $this, 'fetch_from_db' );
+
+		$this->primary_property = 'id';
+		$this->title_property   = 'title';
+		$this->slug_property    = 'slug';
+
+		parent::__construct( $prefix, $services, $translations );
+	}
+
+	/**
+	 * Internal method to insert a new form into the database.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array $args Array of column => value pairs for the new database row.
+	 * @return int|false The ID of the new form, or false on failure.
+	 */
+	protected function insert_into_db( $args ) {
+		$args = $this->map_args( $args );
+
+		if ( ! isset( $args['name'] ) || ! isset( $args['taxonomy'] ) ) {
+			return false;
+		}
+
+		$name = $args['name'];
+		unset( $args['name'] );
+
+		$taxonomy = $args['taxonomy'];
+		unset( $args['taxonomy'] );
+
+		$result = wp_insert_term( $name, $taxonomy, $args );
+		if ( is_wp_error( $result ) ) {
+			return false;
+		}
+
+		return $result['term_id'];
+	}
+
+	/**
+	 * Internal method to update an existing form in the database.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int   $form_category_id ID of the form to update.
+	 * @param array $args             Array of column => value pairs to update in the database row.
+	 * @return bool True on success, or false on failure.
+	 */
+	protected function update_in_db( $form_category_id, $args ) {
+		$args = $this->map_args( $args );
+
+		$taxonomy = $args['taxonomy'];
+		unset( $args['taxonomy'] );
+
+		$result = wp_update_term( $form_category_id, $taxonomy, $args );
+		if ( is_wp_error( $result ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Internal method to delete a form from the database.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int $form_category_id ID of the form to delete.
+	 * @return bool True on success, or false on failure.
+	 */
+	protected function delete_from_db( $form_category_id ) {
+		$term = $this->fetch_from_db( $form_category_id );
+		if ( ! $term ) {
+			return false;
+		}
+
+		$result = wp_delete_term( $form_category_id, $term->taxonomy );
+		if ( ! $result || is_wp_error( $result ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Internal method to fetch a form from the database.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int $form_category_id ID of the form to fetch.
+	 * @return WP_Post|null Post object of the form, or null if not found.
+	 */
+	protected function fetch_from_db( $form_category_id ) {
+		$term = get_term( $form_category_id );
+		if ( ! $term || is_wp_error( $term ) || $this->get_prefix() . 'form_category' !== $term->taxonomy ) {
+			return null;
+		}
+
+		return $term;
+	}
+
+	/**
+	 * Maps form arguments to regular post arguments.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array $args Arguments as `$property => $value` pairs.
+	 * @return array Mapped arguments.
+	 */
+	protected function map_args( $args ) {
+		$mapped_args = array();
+		foreach ( $args as $property => $value ) {
+			switch ( $property ) {
+				case 'title':
+					$mapped_args['name'] = $value;
+					break;
+				case 'slug':
+				case 'description':
+				case 'parent':
+					$mapped_args[ $property ] = $value;
+			}
+		}
+
+		$mapped_args['taxonomy'] = $this->get_prefix() . 'form_category';
+
+		return $mapped_args;
+	}
+}

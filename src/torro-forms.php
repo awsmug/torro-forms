@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  *
  * @method awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager                         forms()
+ * @method awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Manager      form_categories()
  * @method awsmug\Torro_Forms\DB_Objects\Containers\Container_Manager               containers()
  * @method awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager                   elements()
  * @method awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Manager     element_choices()
@@ -50,7 +51,16 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $forms;
 
 	/**
-	 * The forms manager instance.
+	 * The form categories manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Manager
+	 */
+	protected $form_categories;
+
+	/**
+	 * The containers manager instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -59,7 +69,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $containers;
 
 	/**
-	 * The forms manager instance.
+	 * The elements manager instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -68,7 +78,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $elements;
 
 	/**
-	 * The forms manager instance.
+	 * The element choices manager instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -77,7 +87,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $element_choices;
 
 	/**
-	 * The forms manager instance.
+	 * The element settings manager instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -86,7 +96,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $element_settings;
 
 	/**
-	 * The forms manager instance.
+	 * The submissions manager instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -95,7 +105,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $submissions;
 
 	/**
-	 * The forms manager instance.
+	 * The submission values manager instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -104,7 +114,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $submission_values;
 
 	/**
-	 * The forms manager instance.
+	 * The participants manager instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -388,6 +398,14 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Form_Manager' ) );
 
+		$this->form_categories = $this->instantiate_plugin_service( 'DB_Objects\Form_Categories\Form_Category_Manager', $this->prefix, array(
+			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Form_Categories\Form_Category_Capabilities', $this->prefix ),
+			'db'            => $this->db,
+			'cache'         => $this->cache,
+			'meta'          => $this->meta,
+			'error_handler' => $this->error_handler,
+		), $this->instantiate_plugin_class( 'Translations\Translations_Form_Category_Manager' ) );
+
 		$this->containers = $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Manager', $this->prefix, array(
 			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Capabilities', $this->prefix ),
 			'db'            => $this->db,
@@ -450,6 +468,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		// Map form capabilities to post capabilities.
 		$this->forms->capabilities()->map_capabilities( 'posts' );
 
+		// Map form category capabilities to term capabilities.
+		$this->form_categories->capabilities()->map_capabilities( 'terms' );
+
 		// Map all other objects' capabilities to form capabilities.
 		$form_capability_mode = $this->prefix . 'forms';
 		$this->containers->capabilities()->map_capabilities( $form_capability_mode );
@@ -468,9 +489,12 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @access protected
 	 */
 	protected function connect_db_object_managers() {
+		$this->forms->add_child_manager( 'form_categories', $this->form_categories );
 		$this->forms->add_child_manager( 'containers', $this->containers );
 		$this->forms->add_child_manager( 'submissions', $this->submissions );
 		$this->forms->add_child_manager( 'participants', $this->participants );
+
+		$this->form_categories->add_parent_manager( 'forms', $this->forms );
 
 		$this->containers->add_parent_manager( 'forms', $this->forms );
 		$this->containers->add_child_manager( 'elements', $this->elements );
@@ -526,6 +550,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function add_db_object_manager_hooks() {
 		$this->forms->add_hooks();
+		$this->form_categories->add_hooks();
 		$this->containers->add_hooks();
 		$this->elements->add_hooks();
 		$this->element_choices->add_hooks();
@@ -535,6 +560,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->participants->add_hooks();
 
 		$this->forms->capabilities()->add_hooks();
+		$this->form_categories->capabilities()->add_hooks();
 		$this->containers->capabilities()->add_hooks();
 		$this->elements->capabilities()->add_hooks();
 		$this->element_choices->capabilities()->add_hooks();
