@@ -468,8 +468,8 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		// Map form capabilities to post capabilities.
 		$this->forms->capabilities()->map_capabilities( 'posts' );
 
-		// Map form category capabilities to term capabilities.
-		$this->form_categories->capabilities()->map_capabilities( 'terms' );
+		// Map form category capabilities to category capabilities.
+		$this->form_categories->capabilities()->map_capabilities( 'categories' );
 
 		// Map all other objects' capabilities to form capabilities.
 		$form_capability_mode = $this->prefix . 'forms';

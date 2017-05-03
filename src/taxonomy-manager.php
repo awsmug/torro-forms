@@ -92,8 +92,8 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 			'show_admin_column' => true,
 			'capabilities'      => array(
 				'manage_terms' => 'manage_' . $this->get_prefix() . 'form_categories',
-				'edit_terms'   => 'manage_' . $this->get_prefix() . 'form_categories',
-				'delete_terms' => 'manage_' . $this->get_prefix() . 'form_categories',
+				'edit_terms'   => 'edit_' . $this->get_prefix() . 'form_categories',
+				'delete_terms' => 'delete_' . $this->get_prefix() . 'form_categories',
 				'assign_terms' => 'edit_' . $this->get_prefix() . 'forms',
 			),
 			'rewrite'           => array(
