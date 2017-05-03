@@ -277,6 +277,40 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $participants ADD KEY user_id (user_id)" );
 
 		//TODO: What happens with email_notifications table?
+
+		$general_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_general_' ) . '%' ) );
+		if ( ! empty( $general_settings ) ) {
+			$general_offset = strlen( $this->get_prefix() . 'settings_general_' );
+
+			$general_settings_array = array();
+			foreach ( $general_settings as $general_setting ) {
+				$name = substr( $general_setting->option_name, $general_offset );
+				$value = $general_setting->option_value;
+
+				$general_settings_array[ $name ] = $value;
+
+				delete_option( $general_setting->option_name );
+			}
+
+			update_option( $this->get_prefix() . 'general_settings', $general_settings_array );
+		}
+
+		$extension_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_extensions_' ) . '%' ) );
+		if ( ! empty( $extension_settings ) ) {
+			$extension_offset = strlen( $this->get_prefix() . 'settings_extensions_' );
+
+			$extension_settings_array = array();
+			foreach ( $extension_settings as $extension_setting ) {
+				$name = substr( $extension_setting->option_name, $extension_offset );
+				$value = $extension_setting->option_value;
+
+				$extension_settings_array[ $name ] = $value;
+
+				delete_option( $extension_setting->option_name );
+			}
+
+			update_option( $this->get_prefix() . 'extension_settings', $extension_settings_array );
+		}
 	}
 
 	/**
