@@ -22,4 +22,11 @@
 		});
 	});
 
+	var $rewriteSlugPreview = $( '#torro-rewrite-slug-preview' );
+	if ( $rewriteSlugPreview.length ) {
+		$rewriteSlugPreview.parent().prev().on( 'keyup', function() {
+			$rewriteSlugPreview.text( $( this ).val() );
+		});
+	}
+
 }( jQuery ) );

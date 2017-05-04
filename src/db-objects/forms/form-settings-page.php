@@ -549,11 +549,15 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	protected function get_fields() {
+		$options = $this->form_manager->options()->get( 'general_settings', array() );
+
 		$modules = array();
 		foreach ( torro()->modules()->get_all() as $slug => $module ) {
 			$modules[ $slug ] = $module->get_title();
 		}
 		$default_modules = array_keys( $modules );
+
+		$default_slug = _x( 'forms', 'default form rewrite slug', 'torro-forms' );
 
 		$fields = array(
 			'modules'        => array(
@@ -568,8 +572,8 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		    	'section'     => 'form_behavior',
 			    'type'        => 'text',
 			    'label'       => __( 'Slug', 'torro-forms' ),
-			    'description' => __( 'The slug for permalinks (e.g. for a URL like http://mydomain.com/<strong>forms</strong>/mycontactform).', 'torro-forms' ),
-			    'default'     => 'forms',
+			    'description' => sprintf( __( 'The slug for permalinks (e.g. for a URL like %s).', 'torro-forms' ), home_url( '/' ) . '<strong id="torro-rewrite-slug-preview">' . ( ! empty( $options['slug'] ) ? $options['slug'] : $default_slug ) . '</strong>/my-contact-form/' ),
+			    'default'     => $default_slug,
 			),
 		    'frontend_css'   => array(
 		    	'section' => 'misc',
