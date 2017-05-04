@@ -10,6 +10,9 @@ namespace awsmug\Torro_Forms\Modules;
 
 use Leaves_And_Love\Plugin_Lib\Service;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
+use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
+use awsmug\Torro_Forms\Modules\Form_Settings\Module as Form_Settings_Module;
+use awsmug\Torro_Forms\Modules\Submission_Handlers\Module as Submission_Handlers_Module;
 use awsmug\Torro_Forms\Error;
 
 /**
@@ -17,13 +20,13 @@ use awsmug\Torro_Forms\Error;
  *
  * @since 1.0.0
  *
- * @method awsmug\Torro_Forms\Modules\Actions\Module         actions()
- * @method awsmug\Torro_Forms\Modules\Form_Settings\Module   form_settings()
- * @method awsmug\Torro_Forms\Modules\Result_Handlers\Module result_handlers()
- * @method Leaves_And_Love\Plugin_Lib\Options                options()
- * @method Leaves_And_Love\Plugin_Lib\Assets                 assets()
- * @method Leaves_And_Love\Plugin_Lib\AJAX                   ajax()
- * @method awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager  forms()
+ * @method awsmug\Torro_Forms\Modules\Actions\Module             actions()
+ * @method awsmug\Torro_Forms\Modules\Form_Settings\Module       form_settings()
+ * @method awsmug\Torro_Forms\Modules\Submission_Handlers\Module submission_handlers()
+ * @method Leaves_And_Love\Plugin_Lib\Options                    options()
+ * @method Leaves_And_Love\Plugin_Lib\Assets                     assets()
+ * @method Leaves_And_Love\Plugin_Lib\AJAX                       ajax()
+ * @method awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager      forms()
  */
 class Module_Manager extends Service {
 	use Container_Service_Trait {
@@ -118,12 +121,14 @@ class Module_Manager extends Service {
 		$this->set_services( $services );
 
 		$this->default_modules = array(
-			'actions'         => 'awsmug\Torro_Forms\Modules\Actions\Module',
-			'form_settings'   => 'awsmug\Torro_Forms\Modules\Form_Settings\Module',
-			'result_handlers' => 'awsmug\Torro_Forms\Modules\Result_Handlers\Module',
+			'actions'             => Actions_Module::class,
+			'form_settings'       => Form_Settings_Module::class,
+			'submission_handlers' => Submission_Handlers_Module::class,
 		);
 
-		//TODO: register default modules
+		foreach ( $this->default_modules as $slug => $module_class_name ) {
+			$this->register( $slug, $module_class_name );
+		}
 	}
 
 	/**
