@@ -441,6 +441,15 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 			$this->add_field( $slug, $type, $args );
 		}
+
+		/**
+		 * Fires after the form settings page content has been registered.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page $settings_page The settings page instance.
+		 */
+		do_action( "{$this->manager->get_prefix()}add_form_settings_content", $this );
 	}
 
 	/**
