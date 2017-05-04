@@ -223,13 +223,13 @@ abstract class Module extends Service {
 	protected function setup_hooks() {
 		$this->actions = array(
 			array(
-				'name'     => "{$this->manager->get_prefix()}add_form_settings_content",
+				'name'     => "{$this->get_prefix()}add_form_settings_content",
 				'callback' => array( $this, 'add_settings' ),
 				'priority' => 1,
 				'num_args' => 1,
 			),
 			array(
-				'name'     => "{$this->manager->get_prefix()}register_assets",
+				'name'     => "{$this->get_prefix()}register_assets",
 				'callback' => array( $this, 'register_assets' ),
 				'priority' => 1,
 				'num_args' => 1,
