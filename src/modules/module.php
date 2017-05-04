@@ -228,6 +228,12 @@ abstract class Module extends Service {
 				'priority' => 1,
 				'num_args' => 1,
 			),
+			array(
+				'name'     => "{$this->manager->get_prefix()}register_assets",
+				'callback' => array( $this, 'register_assets' ),
+				'priority' => 1,
+				'num_args' => 1,
+			),
 		);
 	}
 
@@ -268,4 +274,14 @@ abstract class Module extends Service {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	protected abstract function get_settings_fields();
+
+	/**
+	 * Registers the available module scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param awsmug\Torro_Forms\Assets $assets Assets API instance.
+	 */
+	protected abstract function register_assets( $assets );
 }
