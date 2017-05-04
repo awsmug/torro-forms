@@ -574,6 +574,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			    'label'       => __( 'Slug', 'torro-forms' ),
 			    'description' => sprintf( __( 'The slug for permalinks (e.g. for a URL like %s).', 'torro-forms' ), home_url( '/' ) . '<strong id="torro-rewrite-slug-preview">' . ( ! empty( $options['slug'] ) ? $options['slug'] : $default_slug ) . '</strong>/my-contact-form/' ),
 			    'default'     => $default_slug,
+			    'required'    => true,
 			),
 		    'frontend_css'   => array(
 		    	'section' => 'misc',
