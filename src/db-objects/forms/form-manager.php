@@ -33,6 +33,15 @@ class Form_Manager extends Core_Manager {
 	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Children_Trait;
 
 	/**
+	 * The form edit page handler.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Forms\Form_Edit_Page_Handler
+	 */
+	protected $edit_page_handler;
+
+	/**
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
@@ -81,7 +90,21 @@ class Form_Manager extends Core_Manager {
 		$this->slug_property    = 'slug';
 		$this->author_property  = 'author';
 
+		$this->edit_page_handler = new Form_Edit_Page_Handler( $this );
+
 		parent::__construct( $prefix, $services, $translations );
+	}
+
+	/**
+	 * Returns the form edit page handler.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\Torro_Forms\DB_Objects\Forms\Form_Edit_Page_Handler Edit page handler instance.
+	 */
+	public function edit_page_handler() {
+		return $this->edit_page_handler;
 	}
 
 	/**
@@ -203,5 +226,36 @@ class Form_Manager extends Core_Manager {
 		$mapped_args['post_type'] = $this->get_prefix() . 'form';
 
 		return $mapped_args;
+	}
+
+	/**
+	 * Sets up all action and filter hooks for the service.
+	 *
+	 * This method must be implemented and then be called from the constructor.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function setup_hooks() {
+		parent::setup_hooks();
+
+		$this->actions[] = array(
+			'name'     => "save_post_{$this->get_prefix()}form",
+			'callback' => array( $this->edit_page_handler, 'maybe_handle_save_request' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => "add_meta_boxes_{$this->get_prefix()}form",
+			'callback' => array( $this->edit_page_handler, 'maybe_add_meta_boxes' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => 'admin_enqueue_scripts',
+			'callback' => array( $this->edit_page_handler, 'maybe_enqueue_assets' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
 	}
 }
