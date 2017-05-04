@@ -311,6 +311,40 @@ class Legacy_Upgrades extends Service {
 
 			update_option( $this->get_prefix() . 'extension_settings', $extension_settings_array );
 		}
+
+		$spam_protection_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_spam_protection_' ) . '%' ) );
+		$selectedmembers_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_selectedmembers_' ) . '%' ) );
+		if ( ! empty( $spam_protection_settings ) || ! empty( $selectedmembers_settings ) ) {
+			$form_settings_array = array();
+
+			if ( ! empty( $spam_protection_settings ) ) {
+				$spam_protection_offset = strlen( $this->get_prefix() . 'settings_spam_protection_' );
+
+				foreach ( $spam_protection_settings as $spam_protection_setting ) {
+					$name = substr( $spam_protection_setting->option_name, $spam_protection_offset );
+					$value = $spam_protection_setting->option_value;
+
+					$form_settings_array[ $name ] = $value;
+
+					delete_option( $spam_protection_setting->option_name );
+				}
+			}
+
+			if ( ! empty( $selectedmembers_settings ) ) {
+				$selectedmembers_offset = strlen( $this->get_prefix() . 'settings_selectedmembers_' );
+
+				foreach ( $selectedmembers_settings as $selectedmembers_setting ) {
+					$name = substr( $selectedmembers_setting->option_name, $selectedmembers_offset );
+					$value = $selectedmembers_setting->option_value;
+
+					$form_settings_array[ $name ] = $value;
+
+					delete_option( $selectedmembers_setting->option_name );
+				}
+			}
+
+			update_option( $this->get_prefix() . 'module_form_settings', $form_settings_array );
+		}
 	}
 
 	/**
