@@ -26,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Manager             submissions()
  * @method awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager submission_values()
  * @method awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager           participants()
+ * @method awsmug\Torro_Forms\Modules\Module_Manager                                modules()
  * @method awsmug\Torro_Forms\Post_Type_Manager                                     post_types()
  * @method awsmug\Torro_Forms\Taxonomy_Manager                                      taxonomies()
  * @method Leaves_And_Love\Plugin_Lib\Options                                       options()
@@ -121,6 +122,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @var awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager
 	 */
 	protected $participants;
+
+	/**
+	 * The module manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\Modules\Module_Manager
+	 */
+	protected $modules;
 
 	/**
 	 * The post types API instance.
@@ -335,6 +345,8 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected function instantiate_services() {
 		$this->instantiate_core_services();
 		$this->instantiate_db_object_managers();
+		$this->instantiate_modules();
+
 		$this->setup_capabilities();
 		$this->connect_db_object_managers();
 		$this->setup_admin_pages();
@@ -474,6 +486,22 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	}
 
 	/**
+	 * Instantiates the module manager.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function instantiate_modules() {
+		$this->modules = $this->instantiate_plugin_service( 'Modules\Module_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'assets'        => $this->assets,
+			'ajax'          => $this->ajax,
+			'forms'         => $this->forms,
+			'error_handler' => $this->error_handler,
+		) );
+	}
+
+	/**
 	 * Sets up capabilities for the plugin DB object managers.
 	 *
 	 * @since 1.0.0
@@ -556,6 +584,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected function add_hooks() {
 		$this->add_core_service_hooks();
 		$this->add_db_object_manager_hooks();
+		$this->add_module_hooks();
 	}
 
 	/**
@@ -601,5 +630,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->submissions->capabilities()->add_hooks();
 		$this->submission_values->capabilities()->add_hooks();
 		$this->participants->capabilities()->add_hooks();
+	}
+
+	/**
+	 * Adds the necessary module hooks.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function add_module_hooks() {
+		$this->modules->add_hooks();
 	}
 }
