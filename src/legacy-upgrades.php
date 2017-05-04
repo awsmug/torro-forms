@@ -287,6 +287,16 @@ class Legacy_Upgrades extends Service {
 				$name = substr( $general_setting->option_name, $general_offset );
 				$value = $general_setting->option_value;
 
+				if ( 'modules' === $name && is_array( $value ) ) {
+					if ( false !== ( $key = array_search( 'form-settings', $value, true ) ) ) {
+						$value[ $key ] = 'form_settings';
+					}
+
+					if ( false !== ( $key = array_search( 'results', $value, true ) ) ) {
+						$value[ $key ] = 'submission_handlers';
+					}
+				}
+
 				$general_settings_array[ $name ] = $value;
 
 				delete_option( $general_setting->option_name );
