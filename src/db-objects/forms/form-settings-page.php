@@ -549,12 +549,10 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	protected function get_fields() {
-		//TODO: Do not hardcode those.
-		$modules = array(
-			'actions'         => __( 'Actions', 'module name', 'torro-forms' ),
-			'form_settings'   => __( 'Form Settings', 'module name', 'torro-forms' ),
-			'result_handlers' => __( 'Result Handlers', 'module name', 'torro-forms' ),
-		);
+		$modules = array();
+		foreach ( torro()->modules()->get_all() as $slug => $module ) {
+			$modules[ $slug ] = $module->get_title();
+		}
 		$default_modules = array_keys( $modules );
 
 		$fields = array(
