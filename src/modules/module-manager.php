@@ -210,14 +210,17 @@ class Module_Manager extends Service {
 	 */
 	public function register( $slug, $module_class_name ) {
 		if ( isset( $this->modules[ $slug ] ) ) {
+			/* translators: %s: module slug */
 			return new Error( $this->get_prefix() . 'module_already_exist', sprintf( __( 'A module with the slug %s already exists.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
 
 		if ( ! class_exists( $module_class_name ) ) {
+			/* translators: %s: module class name */
 			return new Error( $this->get_prefix() . 'module_class_not_exist', sprintf( __( 'The class %s does not exist.', 'torro-forms' ), $module_class_name ), __METHOD__, '1.0.0' );
 		}
 
 		if ( ! is_subclass_of( $module_class_name, Module::class ) ) {
+			/* translators: %s: module class name */
 			return new Error( $this->get_prefix() . 'module_class_not_allowed', sprintf( __( 'The class %s is not allowed for a module.', 'torro-forms' ), $module_class_name ), __METHOD__, '1.0.0' );
 		}
 
@@ -240,10 +243,12 @@ class Module_Manager extends Service {
 	 */
 	public function unregister( $slug ) {
 		if ( ! isset( $this->modules[ $slug ] ) ) {
+			/* translators: %s: module slug */
 			return new Error( $this->get_prefix() . 'module_not_exist', sprintf( __( 'A module with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
 
 		if ( isset( $this->default_modules[ $slug ] ) ) {
+			/* translators: %s: module slug */
 			return new Error( $this->get_prefix() . 'module_is_default', sprintf( __( 'The default module %s cannot be unregistered.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
 
