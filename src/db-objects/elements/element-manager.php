@@ -14,6 +14,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type_Manager;
 
 /**
  * Manager class for elements.
@@ -27,6 +28,15 @@ use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
  */
 class Element_Manager extends Manager {
 	use Title_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
+
+	/**
+	 * The element type manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type_Manager
+	 */
+	protected $types;
 
 	/**
 	 * Constructor.
@@ -61,6 +71,55 @@ class Element_Manager extends Manager {
 		$this->title_property   = 'label';
 
 		parent::__construct( $prefix, $services, $translations );
+
+		$this->types = new Element_Type_Manager( $this->get_prefix(), array(
+			'elements'      => $this,
+			'error_handler' => $this->error_handler(),
+		) );
+	}
+
+	/**
+	 * Returns the element type manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type_Manager The element type manager instance.
+	 */
+	public function types() {
+		return $this->types;
+	}
+
+	/**
+	 * Adds the service hooks.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function add_hooks() {
+		$result = parent::add_hooks();
+
+		if ( $result ) {
+			$this->types->add_hooks();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Removes the service hooks.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function remove_hooks() {
+		$result = parent::remove_hooks();
+
+		if ( $result ) {
+			$this->types->remove_hooks();
+		}
+
+		return $result;
 	}
 
 	/**
