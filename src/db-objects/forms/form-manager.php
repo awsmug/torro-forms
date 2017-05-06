@@ -239,6 +239,15 @@ class Form_Manager extends Core_Manager {
 	protected function setup_hooks() {
 		parent::setup_hooks();
 
+		if ( method_exists( $this, 'register_rest_routes' ) ) {
+			$this->filters[] = array(
+				'name'     => 'rest_api_init',
+				'callback' => array( $this, 'register_rest_routes' ),
+				'priority' => 10,
+				'num_args' => 0,
+			);
+		}
+
 		$this->actions[] = array(
 			'name'     => "save_post_{$this->get_prefix()}form",
 			'callback' => array( $this->edit_page_handler, 'maybe_handle_save_request' ),
