@@ -29,8 +29,30 @@ class Submission_Value_Query extends Query {
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
 
+		$this->query_var_defaults['form_id']       = '';
 		$this->query_var_defaults['submission_id'] = '';
 		$this->query_var_defaults['element_id']    = '';
+	}
+
+	/**
+	 * Parses the SQL join value.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return string Join value for the SQL query.
+	 */
+	protected function parse_join() {
+		$join = parent::parse_join();
+
+		if ( ! empty( $this->query_vars['form_id'] ) ) {
+			$table_name = $this->manager->get_table_name();
+			$submission_table_name = $this->manager->get_parent_manager( 'submissions' )->get_table_name();
+
+			$join .= " INNER JOIN %{$submission_table_name}% ON ( %{$table_name}%.submission_id = %{$submission_table_name}%.id )";
+		}
+
+		return $join;
 	}
 
 	/**
@@ -47,6 +69,14 @@ class Submission_Value_Query extends Query {
 
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'submission_id', 'submission_id', '%d', 'absint', true );
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'element_id', 'element_id', '%d', 'absint', true );
+
+		if ( ! empty( $this->query_vars['form_id'] ) ) {
+			$table_name = $this->manager->get_table_name();
+			$submission_table_name = $this->manager->get_parent_manager( 'submissions' )->get_table_name();
+
+			list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'form_id', 'form_id', '%d', 'absint', true );
+			$where['form_id'] = str_replace( "%{$table_name}%", "%{$submission_table_name}%", $where['form_id'] );
+		}
 
 		return array( $where, $args );
 	}
