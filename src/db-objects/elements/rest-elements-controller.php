@@ -133,6 +133,12 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	protected function prepare_links( $model ) {
 		$links = parent::prepare_links( $model );
 
+		if ( ! empty( $model->type ) ) {
+			$links['about'] = array(
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) . 'types/' . $model->type ),
+			);
+		}
+
 		if ( ! empty( $model->container_id ) ) {
 			$links['parent_container'] = array(
 				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'containers' ) ) . $model->container_id ),
