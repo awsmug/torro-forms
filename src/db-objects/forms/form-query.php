@@ -70,6 +70,20 @@ class Form_Query extends Core_Query {
 	}
 
 	/**
+	 * Returns the fields that are valid to be used in orderby clauses.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Array of valid orderby fields.
+	 */
+	public function get_valid_orderby_fields() {
+		$orderby_fields = parent::get_valid_orderby_fields();
+
+		return array_merge( $orderby_fields, array( 'timestamp', 'timestamp_modified' ) );
+	}
+
+	/**
 	 * Maps form query arguments to regular post query arguments.
 	 *
 	 * @since 1.0.0
