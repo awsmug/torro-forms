@@ -79,6 +79,11 @@ class Form_Query extends Core_Query {
 	 * @return array Mapped arguments.
 	 */
 	protected function map_args( $args ) {
+		if ( is_array( $args['orderby'] ) && ! empty( $args['orderby'] ) ) {
+			$args['order'] = array_values( $args['orderby'] )[0];
+			$args['orderby'] = array_keys( $args['orderby'] )[0];
+		}
+
 		$mapped_args = $args;
 		foreach ( $args as $query_var => $value ) {
 			switch ( $query_var ) {
