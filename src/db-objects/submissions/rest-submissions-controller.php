@@ -32,4 +32,131 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 
 		$this->namespace .= '/v1';
 	}
+
+	/**
+	 * Retrieves the model's schema, conforming to JSON Schema.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Model schema data.
+	 */
+	public function get_item_schema() {
+		$schema = parent::get_item_schema();
+
+		$schema['properties']['form_id'] = array(
+			'description' => __( 'ID of the form this submission belongs to.', 'torro-forms' ),
+			'type'        => 'integer',
+			'minimum'     => 1,
+			'context'     => array( 'view', 'edit', 'embed' ),
+			'arg_options' => array(
+				'minimum' => 1,
+			),
+		);
+
+		$schema['properties']['user_id'] = array(
+			'description' => __( 'ID of the user this submission belongs to, if any.', 'torro-forms' ),
+			'type'        => 'integer',
+			'minimum'     => 0,
+			'context'     => array( 'view', 'edit', 'embed' ),
+			'arg_options' => array(
+				'minimum' => 0,
+			),
+		);
+
+		$schema['properties']['timestamp'] = array(
+			'description' => __( 'UNIX timestamp for when the submission was created.', 'torro-forms' ),
+			'type'        => 'integer',
+			'context'     => array( 'view', 'edit', 'embed' ),
+		);
+
+		$schema['properties']['remote_addr'] = array(
+			'description' => __( 'IP address of who created the submission.', 'torro-forms' ),
+			'type'        => 'string',
+			'context'     => array( 'view', 'edit', 'embed' ),
+		);
+
+		$schema['properties']['cookie_key'] = array(
+			'description' => __( 'Cookie key of who created the submission.', 'torro-forms' ),
+			'type'        => 'string',
+			'context'     => array( 'view', 'edit', 'embed' ),
+		);
+
+		$schema['properties']['status'] = array(
+			'description' => __( 'Status of the submission.', 'torro-forms' ),
+			'type'        => 'string',
+			'enum'        => array( 'completed', 'progressing' ),
+			'context'     => array( 'view', 'edit', 'embed' ),
+		);
+
+		return $schema;
+	}
+
+	/**
+	 * Retrieves the query params for the models collection.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Collection parameters.
+	 */
+	public function get_collection_params() {
+		$query_params = parent::get_collection_params();
+
+		$query_params['per_page']['maximum'] = 500;
+		$query_params['orderby']['default'] = 'timestamp';
+		$query_params['order']['default'] = 'desc';
+
+		$query_params['form_id'] = array(
+			'description' => __( 'Limit result set to submissions associated with a specific form ID.', 'torro-forms' ),
+			'type'        => 'integer',
+			'minimum'     => 1,
+		);
+
+		$query_params['user_id'] = array(
+			'description' => __( 'Limit result set to submissions associated with a specific user ID.', 'torro-forms' ),
+			'type'        => 'integer',
+			'minimum'     => 1,
+		);
+
+		return $query_params;
+	}
+
+	/**
+	 * Prepares links for the request.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
+	 * @return array Links for the given model.
+	 */
+	protected function prepare_links( $model ) {
+		$links = parent::prepare_links( $model );
+
+		if ( ! empty( $model->user_id ) ) {
+			$links['author'] = array(
+				'href'       => rest_url( 'wp/v2/users/' . $model->user_id ),
+				'embeddable' => true,
+			);
+		}
+
+		if ( ! empty( $model->form_id ) ) {
+			$links['form'] = array(
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'forms' ) ) . $model->form_id ),
+			);
+		}
+
+		$primary_property = $this->manager->get_primary_property();
+
+		$links['submission_values'] = array(
+			'href'       => add_query_arg( array(
+				'submission_id' => $model->$primary_property,
+				'per_page'      => 50,
+			), rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) ) ),
+			'embeddable' => true,
+		);
+
+		return $links;
+	}
 }

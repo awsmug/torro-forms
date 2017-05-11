@@ -142,6 +142,18 @@ class REST_Forms_Controller extends REST_Models_Controller {
 			'embeddable' => true,
 		);
 
+		$links['submissions'] = array(
+			'href' => add_query_arg( 'form_id', $model->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'submissions' ) ) ),
+		);
+
+		$links['submission_values'] = array(
+			'href' => add_query_arg( 'form_id', $model->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) ) ),
+		);
+
+		$links['participants'] = array(
+			'href' => add_query_arg( 'form_id', $model->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'participants' ) ) ),
+		);
+
 		return $links;
 	}
 

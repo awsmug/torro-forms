@@ -29,6 +29,7 @@ class Submission_Query extends Query {
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
 
+		$this->query_var_defaults['orderby'] = array( 'timestamp' => 'DESC' );
 		$this->query_var_defaults['form_id'] = '';
 		$this->query_var_defaults['user_id'] = '';
 	}
@@ -49,5 +50,19 @@ class Submission_Query extends Query {
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'user_id', 'user_id', '%d', 'absint', true );
 
 		return array( $where, $args );
+	}
+
+	/**
+	 * Returns the fields that are valid to be used in orderby clauses.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Array of valid orderby fields.
+	 */
+	public function get_valid_orderby_fields() {
+		$orderby_fields = parent::get_valid_orderby_fields();
+
+		return array_merge( $orderby_fields, array( 'timestamp' ) );
 	}
 }
