@@ -49,6 +49,9 @@ class REST_Containers_Controller extends REST_Models_Controller {
 			'type'        => 'integer',
 			'minimum'     => 1,
 			'context'     => array( 'view', 'edit', 'embed' ),
+			'arg_options' => array(
+				'minimum' => 1,
+			),
 		);
 
 		$schema['properties']['sort'] = array(

@@ -49,6 +49,9 @@ class REST_Element_Settings_Controller extends REST_Models_Controller {
 			'type'        => 'integer',
 			'minimum'     => 1,
 			'context'     => array( 'view', 'edit', 'embed' ),
+			'arg_options' => array(
+				'minimum' => 1,
+			),
 		);
 
 		$schema['properties']['name'] = array(
