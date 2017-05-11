@@ -31,6 +31,9 @@ class Form_Capabilities extends Capabilities {
 		$singular_slug = $this->manager->get_singular_slug();
 		$plural_slug   = $this->manager->get_plural_slug();
 
+		$this->base_capabilities['publish_items'] = sprintf( 'publish_%s', $prefix . $plural_slug );
+		$this->meta_capabilities['publish_item'] = sprintf( 'publish_%s', $prefix . $singular_slug );
+
 		$this->base_capabilities['read_private_items']     = sprintf( 'read_private_%s', $prefix . $plural_slug );
 		$this->base_capabilities['edit_published_items']   = sprintf( 'edit_published_%s', $prefix . $plural_slug );
 		$this->base_capabilities['edit_private_items']     = sprintf( 'edit_private_%s', $prefix . $plural_slug );
@@ -111,21 +114,17 @@ class Form_Capabilities extends Capabilities {
 			}
 		}
 
-		if ( method_exists( $this->manager, 'get_status_property' ) ) {
-			$status_property = $this->manager->get_status_property();
+		$status = $item->status;
+		if ( 'trash' === $status ) {
+			$status = get_post_meta( $item->$primary_property, '_wp_trash_meta_status', true );
+		}
 
-			$status = $item->$status_property;
-			if ( 'trash' === $status ) {
-				$status = get_post_meta( $item->$primary_property, '_wp_trash_meta_status', true );
-			}
+		if ( $action . '_items' !== $fallback_cap && 'private' === $status ) {
+			return $this->base_capabilities[ $action . '_private_items' ];
+		}
 
-			if ( $action . '_items' !== $fallback_cap && 'private' === $status ) {
-				return $this->base_capabilities[ $action . '_private_items' ];
-			}
-
-			if ( 'read' !== $action && in_array( $status, array( 'publish', 'future' ), true ) ) {
-				return $this->base_capabilities[ $action . '_published_items' ];
-			}
+		if ( 'read' !== $action && in_array( $status, array( 'publish', 'future' ), true ) ) {
+			return $this->base_capabilities[ $action . '_published_items' ];
 		}
 
 		return $this->base_capabilities[ $fallback_cap ];
