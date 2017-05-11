@@ -52,14 +52,12 @@ class Translations_Element_Choice_Manager extends Translations_Manager {
 			'rest_cannot_delete_item'             => __( 'Sorry, you are not allowed to delete this element choice.', 'torro-forms' ),
 			'rest_cannot_publish_item'            => __( 'Sorry, you are not allowed to publish this element choice.', 'torro-forms' ),
 			'rest_item_id_description'            => __( 'Unique identifier for the element choice.', 'torro-forms' ),
-			'rest_item_slug_description'          => __( 'A unique alphanumeric identifier for the element choice.', 'torro-forms' ),
-			'rest_item_title_description'         => __( 'The element choice title.', 'torro-forms' ),
+			'rest_item_title_description'         => __( 'The element choice value.', 'torro-forms' ),
 			'rest_collection_include_description' => __( 'Limit result set to specific element choice IDs.', 'torro-forms' ),
 			'rest_collection_exclude_description' => __( 'Ensure result set excludes specific element choice IDs.', 'torro-forms' ),
 			'rest_collection_orderby_description' => __( 'Sort collection by element choice attribute.', 'torro-forms' ),
 			'rest_collection_order_description'   => __( 'Order element choice sort attribute ascending or descending.', 'torro-forms' ),
-			'rest_collection_slug_description'    => __( 'Limit result set to element choices with one or more specific slugs.', 'torro-forms' ),
-			'rest_collection_title_description'   => __( 'Limit result set to element choices with a specific title.', 'torro-forms' ),
+			'rest_collection_title_description'   => __( 'Limit result set to element choices with a specific value.', 'torro-forms' ),
 
 		);
 	}

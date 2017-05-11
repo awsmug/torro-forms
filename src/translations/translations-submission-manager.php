@@ -52,14 +52,10 @@ class Translations_Submission_Manager extends Translations_Manager {
 			'rest_cannot_delete_item'             => __( 'Sorry, you are not allowed to delete this submission.', 'torro-forms' ),
 			'rest_cannot_publish_item'            => __( 'Sorry, you are not allowed to publish this submission.', 'torro-forms' ),
 			'rest_item_id_description'            => __( 'Unique identifier for the submission.', 'torro-forms' ),
-			'rest_item_slug_description'          => __( 'A unique alphanumeric identifier for the submission.', 'torro-forms' ),
-			'rest_item_title_description'         => __( 'The submission title.', 'torro-forms' ),
 			'rest_collection_include_description' => __( 'Limit result set to specific submission IDs.', 'torro-forms' ),
 			'rest_collection_exclude_description' => __( 'Ensure result set excludes specific submission IDs.', 'torro-forms' ),
 			'rest_collection_orderby_description' => __( 'Sort collection by submission attribute.', 'torro-forms' ),
 			'rest_collection_order_description'   => __( 'Order submission sort attribute ascending or descending.', 'torro-forms' ),
-			'rest_collection_slug_description'    => __( 'Limit result set to submissions with one or more specific slugs.', 'torro-forms' ),
-			'rest_collection_title_description'   => __( 'Limit result set to submissions with a specific title.', 'torro-forms' ),
 
 		);
 	}

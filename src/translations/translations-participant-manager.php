@@ -52,14 +52,10 @@ class Translations_Participant_Manager extends Translations_Manager {
 			'rest_cannot_delete_item'             => __( 'Sorry, you are not allowed to delete this participant.', 'torro-forms' ),
 			'rest_cannot_publish_item'            => __( 'Sorry, you are not allowed to publish this participant.', 'torro-forms' ),
 			'rest_item_id_description'            => __( 'Unique identifier for the participant.', 'torro-forms' ),
-			'rest_item_slug_description'          => __( 'A unique alphanumeric identifier for the participant.', 'torro-forms' ),
-			'rest_item_title_description'         => __( 'The participant title.', 'torro-forms' ),
 			'rest_collection_include_description' => __( 'Limit result set to specific participant IDs.', 'torro-forms' ),
 			'rest_collection_exclude_description' => __( 'Ensure result set excludes specific participant IDs.', 'torro-forms' ),
 			'rest_collection_orderby_description' => __( 'Sort collection by participant attribute.', 'torro-forms' ),
 			'rest_collection_order_description'   => __( 'Order participant sort attribute ascending or descending.', 'torro-forms' ),
-			'rest_collection_slug_description'    => __( 'Limit result set to participants with one or more specific slugs.', 'torro-forms' ),
-			'rest_collection_title_description'   => __( 'Limit result set to participants with a specific title.', 'torro-forms' ),
 
 		);
 	}

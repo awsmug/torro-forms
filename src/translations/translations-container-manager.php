@@ -52,14 +52,12 @@ class Translations_Container_Manager extends Translations_Manager {
 			'rest_cannot_delete_item'             => __( 'Sorry, you are not allowed to delete this container.', 'torro-forms' ),
 			'rest_cannot_publish_item'            => __( 'Sorry, you are not allowed to publish this container.', 'torro-forms' ),
 			'rest_item_id_description'            => __( 'Unique identifier for the container.', 'torro-forms' ),
-			'rest_item_slug_description'          => __( 'A unique alphanumeric identifier for the container.', 'torro-forms' ),
-			'rest_item_title_description'         => __( 'The container title.', 'torro-forms' ),
+			'rest_item_title_description'         => __( 'The container label.', 'torro-forms' ),
 			'rest_collection_include_description' => __( 'Limit result set to specific container IDs.', 'torro-forms' ),
 			'rest_collection_exclude_description' => __( 'Ensure result set excludes specific container IDs.', 'torro-forms' ),
 			'rest_collection_orderby_description' => __( 'Sort collection by container attribute.', 'torro-forms' ),
 			'rest_collection_order_description'   => __( 'Order container sort attribute ascending or descending.', 'torro-forms' ),
-			'rest_collection_slug_description'    => __( 'Limit result set to containers with one or more specific slugs.', 'torro-forms' ),
-			'rest_collection_title_description'   => __( 'Limit result set to containers with a specific title.', 'torro-forms' ),
+			'rest_collection_title_description'   => __( 'Limit result set to containers with a specific label.', 'torro-forms' ),
 
 		);
 	}

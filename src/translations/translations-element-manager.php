@@ -52,14 +52,12 @@ class Translations_Element_Manager extends Translations_Manager {
 			'rest_cannot_delete_item'             => __( 'Sorry, you are not allowed to delete this element.', 'torro-forms' ),
 			'rest_cannot_publish_item'            => __( 'Sorry, you are not allowed to publish this element.', 'torro-forms' ),
 			'rest_item_id_description'            => __( 'Unique identifier for the element.', 'torro-forms' ),
-			'rest_item_slug_description'          => __( 'A unique alphanumeric identifier for the element.', 'torro-forms' ),
-			'rest_item_title_description'         => __( 'The element title.', 'torro-forms' ),
+			'rest_item_title_description'         => __( 'The element label.', 'torro-forms' ),
 			'rest_collection_include_description' => __( 'Limit result set to specific element IDs.', 'torro-forms' ),
 			'rest_collection_exclude_description' => __( 'Ensure result set excludes specific element IDs.', 'torro-forms' ),
 			'rest_collection_orderby_description' => __( 'Sort collection by element attribute.', 'torro-forms' ),
 			'rest_collection_order_description'   => __( 'Order element sort attribute ascending or descending.', 'torro-forms' ),
-			'rest_collection_slug_description'    => __( 'Limit result set to elements with one or more specific slugs.', 'torro-forms' ),
-			'rest_collection_title_description'   => __( 'Limit result set to elements with a specific title.', 'torro-forms' ),
+			'rest_collection_title_description'   => __( 'Limit result set to elements with a specific label.', 'torro-forms' ),
 
 		);
 	}
