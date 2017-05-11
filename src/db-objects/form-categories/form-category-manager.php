@@ -194,4 +194,25 @@ class Form_Category_Manager extends Core_Manager {
 
 		return $mapped_args;
 	}
+
+	/**
+	 * Sets up all action and filter hooks for the service.
+	 *
+	 * This method must be implemented and then be called from the constructor.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function setup_hooks() {
+		parent::setup_hooks();
+
+		if ( method_exists( $this, 'register_rest_routes' ) ) {
+			$this->filters[] = array(
+				'name'     => 'rest_api_init',
+				'callback' => array( $this, 'register_rest_routes' ),
+				'priority' => 10,
+				'num_args' => 0,
+			);
+		}
+	}
 }

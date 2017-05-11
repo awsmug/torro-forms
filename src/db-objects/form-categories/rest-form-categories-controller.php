@@ -32,4 +32,58 @@ class REST_Form_Categories_Controller extends REST_Models_Controller {
 
 		$this->namespace .= '/v1';
 	}
+
+	/**
+	 * Retrieves the model's schema, conforming to JSON Schema.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Model schema data.
+	 */
+	public function get_item_schema() {
+		$schema = parent::get_item_schema();
+
+		$schema['properties']['description'] = array(
+			'description' => __( 'Description for the form category.', 'torro-forms' ),
+			'type'        => 'string',
+			'context'     => array( 'view', 'edit', 'embed' ),
+		);
+
+		$schema['properties']['parent'] = array(
+			'description' => __( 'ID of the parent of the form category, if any.', 'torro-forms' ),
+			'type'        => 'integer',
+			'context'     => array( 'view', 'edit', 'embed' ),
+			'arg_options' => array(
+				'minimum' => 0,
+				'default' => 0,
+			),
+		);
+
+		$schema['properties']['count'] = array(
+			'description' => __( 'Number of forms associated with the form category.', 'torro-forms' ),
+			'type'        => 'integer',
+			'context'     => array( 'view', 'edit', 'embed' ),
+			'readonly'    => true,
+		);
+
+		return $schema;
+	}
+
+	/**
+	 * Retrieves the query params for the models collection.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Collection parameters.
+	 */
+	public function get_collection_params() {
+		$query_params = parent::get_collection_params();
+
+		$query_params['per_page']['maximum'] = 500;
+		$query_params['orderby']['default'] = $this->manager->get_slug_property();
+
+		return $query_params;
+	}
 }
