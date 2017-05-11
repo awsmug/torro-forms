@@ -9,7 +9,6 @@
 namespace awsmug\Torro_Forms\DB_Objects\Element_Settings;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Manager;
-use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Title_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
@@ -25,7 +24,7 @@ use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
  * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                    error_handler()
  */
 class Element_Setting_Manager extends Manager {
-	use Title_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;
+	use Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;
 
 	/**
 	 * Constructor.
@@ -57,7 +56,6 @@ class Element_Setting_Manager extends Manager {
 		$this->cache_group = $this->plural_slug;
 
 		$this->primary_property = 'id';
-		$this->title_property   = 'name';
 
 		parent::__construct( $prefix, $services, $translations );
 	}
