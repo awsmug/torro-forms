@@ -271,6 +271,12 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
+				'icon_url'    => array(
+					'description' => __( 'Icon URL for the element type.', 'torro-forms' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
 			),
 		);
 
