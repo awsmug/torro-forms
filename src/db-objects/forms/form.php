@@ -63,6 +63,7 @@ class Form extends Core_Model {
 		switch ( $property ) {
 			case 'id':
 			case 'slug':
+			case 'author':
 			case 'timestamp':
 			case 'timestamp_modified':
 				return true;
@@ -88,6 +89,8 @@ class Form extends Core_Model {
 				return $this->original->ID;
 			case 'slug':
 				return $this->original->post_name;
+			case 'author':
+				return (int) $this->original->post_author;
 			case 'timestamp':
 				return (int) strtotime( $this->original->post_date_gmt );
 			case 'timestamp_modified':
@@ -119,6 +122,13 @@ class Form extends Core_Model {
 				$found = true;
 				if ( $this->original->post_name !== $value ) {
 					$this->original->post_name = $value;
+					$changed = true;
+				}
+				break;
+			case 'author':
+				$found = true;
+				if ( (int) $this->original->post_author !== (int) $value ) {
+					$this->original->post_author = (int) $value;
 					$changed = true;
 				}
 				break;
