@@ -62,6 +62,50 @@ class Submission_Manager extends Manager {
 	}
 
 	/**
+	 * Counts all existing models for this manager.
+	 *
+	 * If the manager supports statuses, individual counts for each status
+	 * are returned as well.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $user_id Optional. If provided and the manager supports authors,
+	 *                     only models by that user are counted. Default 0 (ignored).
+	 * @return array Array of `$status => $count` pairs. In addition, the array
+	 *               always includes a key called '_total', containing the overall
+	 *               count. If the manager does not support statuses, the array
+	 *               only contains the '_total' key.
+	 */
+	public function count( $user_id = 0 ) {
+		$user_id = absint( $user_id );
+
+		$cache_key = $this->plural_slug;
+		if ( $user_id > 0 ) {
+			$cache_key .= '-' . $user_id;
+		}
+
+		$counts = $this->cache()->get( $cache_key, 'counts' );
+		if ( false !== $counts ) {
+			return $counts;
+		}
+
+		$where = '';
+		$where_args = array();
+		if ( $user_id > 0 ) {
+			$where = " WHERE user_id = %d";
+			$where_args[] = $user_id;
+		}
+
+		$total = $this->db()->get_var( "SELECT COUNT( * ) FROM %{$this->table_name}% $where", $where_args );
+		$counts = array( '_total' => $total );
+
+		$this->cache()->set( $cache_key, $counts, 'counts' );
+
+		return $counts;
+	}
+
+	/**
 	 * Adds the database table.
 	 *
 	 * @since 1.0.0

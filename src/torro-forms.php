@@ -569,6 +569,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			return;
 		}
 
+		$submissions_list_class_name = 'awsmug\Torro_Forms\DB_Objects\Submissions\Submissions_List_Page';
+		$submission_edit_class_name  = 'awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Edit_Page';
+
+		$submissions_list_page = new $submissions_list_class_name( $this->admin_pages->get_prefix() . 'list_submissions', $this->admin_pages, $this->submissions );
+		$submission_edit_page  = new $submission_edit_class_name( $this->admin_pages->get_prefix() . 'edit_submission', $this->admin_pages, $this->submissions );
+
+		$this->admin_pages->add( 'list_submissions', $submissions_list_page, 'edit.php?post_type=' . $this->admin_pages->get_prefix() . 'form', null, 'site' );
+		$this->admin_pages->add( 'edit_submission', $submission_edit_page, null, null, 'site', true );
+
 		$form_settings_class_name = 'awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page';
 		$form_settings_page = new $form_settings_class_name( $this->admin_pages->get_prefix() . 'form_settings', $this->admin_pages, $this->forms );
 
