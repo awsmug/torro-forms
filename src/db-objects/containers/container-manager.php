@@ -60,6 +60,8 @@ class Container_Manager extends Manager {
 		$this->primary_property = 'id';
 		$this->title_property   = 'label';
 
+		$this->public = true;
+
 		parent::__construct( $prefix, $services, $translations );
 	}
 

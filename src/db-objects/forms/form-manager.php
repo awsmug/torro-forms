@@ -90,6 +90,8 @@ class Form_Manager extends Core_Manager {
 		$this->slug_property    = 'slug';
 		$this->author_property  = 'author';
 
+		$this->public = true;
+
 		$this->edit_page_handler = new Form_Edit_Page_Handler( $this );
 
 		parent::__construct( $prefix, $services, $translations );

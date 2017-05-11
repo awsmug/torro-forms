@@ -59,6 +59,8 @@ class Element_Choice_Manager extends Manager {
 		$this->primary_property = 'id';
 		$this->title_property   = 'value';
 
+		$this->public = true;
+
 		parent::__construct( $prefix, $services, $translations );
 	}
 

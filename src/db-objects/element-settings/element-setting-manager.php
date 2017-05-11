@@ -57,6 +57,8 @@ class Element_Setting_Manager extends Manager {
 
 		$this->primary_property = 'id';
 
+		$this->public = true;
+
 		parent::__construct( $prefix, $services, $translations );
 	}
 

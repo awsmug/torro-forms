@@ -67,6 +67,8 @@ class Form_Category_Manager extends Core_Manager {
 		$this->title_property   = 'title';
 		$this->slug_property    = 'slug';
 
+		$this->public = true;
+
 		parent::__construct( $prefix, $services, $translations );
 	}
 

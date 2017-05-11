@@ -70,6 +70,8 @@ class Element_Manager extends Manager {
 		$this->primary_property = 'id';
 		$this->title_property   = 'label';
 
+		$this->public = true;
+
 		parent::__construct( $prefix, $services, $translations );
 
 		$this->types = new Element_Type_Manager( $this->get_prefix(), array(
