@@ -32,6 +32,7 @@ class Element_Query extends Query {
 		$this->query_var_defaults['orderby']      = array( 'sort' => 'ASC' );
 		$this->query_var_defaults['form_id']      = '';
 		$this->query_var_defaults['container_id'] = '';
+		$this->query_var_defaults['type']         = '';
 	}
 
 	/**
@@ -76,6 +77,8 @@ class Element_Query extends Query {
 			list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'form_id', 'form_id', '%d', 'absint', true );
 			$where['form_id'] = str_replace( "%{$table_name}%", "%{$container_table_name}%", $where['form_id'] );
 		}
+
+		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'type', 'type', '%s', 'sanitize_key', true );
 
 		return array( $where, $args );
 	}
