@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Elements;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\REST_Element_Types_Controller;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,6 +19,15 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  */
 class REST_Elements_Controller extends REST_Models_Controller {
+
+	/**
+	 * REST element types controller.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\REST_Element_Types_Controller
+	 */
+	protected $types_controller;
 
 	/**
 	 * Constructor.
@@ -31,6 +41,8 @@ class REST_Elements_Controller extends REST_Models_Controller {
 		parent::__construct( $manager );
 
 		$this->namespace .= '/v1';
+
+		$this->types_controller = new REST_Element_Types_Controller( $this->manager );
 	}
 
 	/**
