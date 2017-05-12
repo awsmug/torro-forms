@@ -508,21 +508,28 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @access protected
 	 */
 	protected function setup_capabilities() {
-		// Map form capabilities to post capabilities.
+		// Map form and its component capabilities to post capabilities.
 		$this->forms->capabilities()->map_capabilities( 'posts' );
+		$this->containers->capabilities()->map_capabilities( 'posts' );
+		$this->elements->capabilities()->map_capabilities( 'posts' );
+		$this->element_choices->capabilities()->map_capabilities( 'posts' );
+		$this->element_settings->capabilities()->map_capabilities( 'posts' );
 
 		// Map form category capabilities to category capabilities.
 		$this->form_categories->capabilities()->map_capabilities( 'categories' );
 
-		// Map all other objects' capabilities to form capabilities.
-		$form_capability_mode = $this->prefix . 'forms';
-		$this->containers->capabilities()->map_capabilities( $form_capability_mode );
-		$this->elements->capabilities()->map_capabilities( $form_capability_mode );
-		$this->element_choices->capabilities()->map_capabilities( $form_capability_mode );
-		$this->element_settings->capabilities()->map_capabilities( $form_capability_mode );
-		$this->submissions->capabilities()->map_capabilities( $form_capability_mode );
-		$this->submission_values->capabilities()->map_capabilities( $form_capability_mode );
-		$this->participants->capabilities()->map_capabilities( $form_capability_mode );
+		// Map meta capabilities only for submissions and related data.
+		$this->submissions->capabilities()->map_capabilities( 'meta' );
+		$this->submission_values->capabilities()->map_capabilities( 'meta' );
+		$this->participants->capabilities()->map_capabilities( 'meta' );
+
+		// Grant submission and related data capabilities if the user can manage users.
+		$this->submissions->capabilities()->grant_capabilities( 'edit_users' );
+		$this->submission_values->capabilities()->grant_capabilities( 'edit_users' );
+		$this->participants->capabilities()->grant_capabilities( 'edit_users' );
+
+		// Grant access to plugin settings if the user can manage options.
+		$this->forms->capabilities()->grant_capabilities( array( 'manage_item_settings' => 'manage_options' ) );
 	}
 
 	/**
