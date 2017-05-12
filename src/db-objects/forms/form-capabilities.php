@@ -18,6 +18,31 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Capabilities;
 class Form_Capabilities extends Capabilities {
 
 	/**
+	 * Sets the mapping mode for capabilities.
+	 *
+	 * Capabilities can be dealt with manually, or meta capabilities can be mapped to
+	 * base capabilities, or all capabilities can be mapped to other WordPress capabilities.
+	 *
+	 * By default, mapping is entirely disabled.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string|array|false $mode The new mapping mode. This can either be set to 'meta'
+	 *                                 in order to map meta capabilities only, a plural slug
+	 *                                 like 'posts' in order to map to WordPress capabilities
+	 *                                 of that slug, an array with individual key mappings, or
+	 *                                 false to disable mapping.
+	 */
+	public function map_capabilities( $mode ) {
+		parent::map_capabilities( $mode );
+
+		if ( isset( $this->capability_mappings[ $this->base_capabilities['manage_item_settings'] ] ) && 'manage_item_settings' === $this->capability_mappings[ $this->base_capabilities['manage_item_settings'] ] ) {
+			unset( $this->capability_mappings[ $this->base_capabilities['manage_item_settings'] ] );
+		}
+	}
+
+	/**
 	 * Sets the supported capabilities.
 	 *
 	 * @since 1.0.0
@@ -39,6 +64,8 @@ class Form_Capabilities extends Capabilities {
 		$this->base_capabilities['edit_private_items']     = sprintf( 'edit_private_%s', $prefix . $plural_slug );
 		$this->base_capabilities['delete_published_items'] = sprintf( 'delete_published_%s', $prefix . $plural_slug );
 		$this->base_capabilities['delete_private_items']   = sprintf( 'delete_private_%s', $prefix . $plural_slug );
+
+		$this->base_capabilities['manage_item_settings'] = sprintf( 'manage_%s_settings', $prefix . $singular_slug );
 	}
 
 	/**

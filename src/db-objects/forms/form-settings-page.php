@@ -53,7 +53,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 		$this->menu_title = $this->title = __( 'Settings', 'torro-forms' );
 
-		$this->capability = 'edit_' . $form_manager->get_prefix() . $form_manager->get_plural_slug();
+		$this->capability = 'manage_' . $form_manager->get_prefix() . $form_manager->get_singular_slug() . '_settings';
 	}
 
 	/**
@@ -80,11 +80,13 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			'title' => '',
 		) );
 
-		$this->tabs[ $id ]['field_manager'] = new Field_Manager( $this->manager->get_prefix(), array(
+		$services = array(
 			'ajax'          => $this->manager->ajax(),
 			'assets'        => $this->manager->assets(),
 			'error_handler' => $this->manager->error_handler(),
-		), array(
+		);
+
+		$this->tabs[ $id ]['field_manager'] = new Field_Manager( $this->manager->get_prefix(), $services, array(
 			'get_value_callback_args'    => array( $id ),
 			'update_value_callback_args' => array( $id, '{value}' ),
 			'name_prefix'                => $id,
