@@ -70,4 +70,40 @@ class Element extends Model {
 	 * @var string
 	 */
 	protected $type = '';
+
+	/**
+	 * Returns all element choices that belong to the form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection List of element choices.
+	 */
+	public function get_element_choices() {
+		if ( empty( $this->id ) ) {
+			return $this->manager->get_child_manager( 'element_choices' )->get_collection( array(), 0, 'objects' );
+		}
+
+		return $this->manager->get_child_manager( 'element_choices' )->query( array(
+			'element_id' => $this->id,
+		) );
+	}
+
+	/**
+	 * Returns all element settings that belong to the form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection List of element settings.
+	 */
+	public function get_element_settings() {
+		if ( empty( $this->id ) ) {
+			return $this->manager->get_child_manager( 'element_settings' )->get_collection( array(), 0, 'objects' );
+		}
+
+		return $this->manager->get_child_manager( 'element_settings' )->query( array(
+			'element_id' => $this->id,
+		) );
+	}
 }

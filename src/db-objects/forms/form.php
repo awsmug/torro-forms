@@ -162,6 +162,24 @@ class Form extends Core_Model {
 	}
 
 	/**
+	 * Returns all containers that belong to the form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\Torro_Forms\DB_Objects\Containers\Container_Collection List of containers.
+	 */
+	public function get_containers() {
+		if ( empty( $this->original->ID ) ) {
+			return $this->manager->get_child_manager( 'containers' )->get_collection( array(), 0, 'objects' );
+		}
+
+		return $this->manager->get_child_manager( 'containers' )->query( array(
+			'form_id' => $this->original->ID,
+		) );
+	}
+
+	/**
 	 * Returns all current values as $property => $value pairs.
 	 *
 	 * @since 1.0.0

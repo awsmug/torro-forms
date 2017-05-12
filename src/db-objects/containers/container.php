@@ -60,4 +60,22 @@ class Container extends Model {
 	 * @var int
 	 */
 	protected $sort = 0;
+
+	/**
+	 * Returns all elements that belong to the form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection List of elements.
+	 */
+	public function get_elements() {
+		if ( empty( $this->id ) ) {
+			return $this->manager->get_child_manager( 'elements' )->get_collection( array(), 0, 'objects' );
+		}
+
+		return $this->manager->get_child_manager( 'elements' )->query( array(
+			'container_id' => $this->id,
+		) );
+	}
 }
