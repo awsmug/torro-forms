@@ -107,6 +107,10 @@ class Submission extends Model {
 			$this->user_id = get_current_user_id();
 		}
 
+		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) && preg_match( '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_SERVER['REMOTE_ADDR'] ) ) {
+			$this->remote_addr = $_SERVER['REMOTE_ADDR'];
+		}
+
 		parent::__construct( $manager, $db_obj );
 	}
 }

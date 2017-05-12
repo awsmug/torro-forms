@@ -65,6 +65,7 @@ class Translations_Submission_Manager extends Translations_Manager {
 
 			'edit_page_item'                          => __( 'Edit Submission', 'torro-forms' ),
 			'edit_page_add_new'                       => _x( 'Add New', 'submission button', 'torro-forms' ),
+			'edit_page_add_new_item'                  => __( 'Add New Submission', 'torro-forms' ),
 			'edit_page_invalid_id'                    => __( 'Invalid submission ID.', 'torro-forms' ),
 			'edit_page_cannot_edit_item'              => __( 'Sorry, you are not allowed to edit this submission.', 'torro-forms' ),
 			'edit_page_cannot_create_item'            => __( 'Sorry, you are not allowed to create a new submission.', 'torro-forms' ),
@@ -121,9 +122,9 @@ class Translations_Submission_Manager extends Translations_Manager {
 			/* translators: %s: formatted submission count */
 			'list_table_view_mine'                    => _nx_noop( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', 'submission view', 'torro-forms' ),
 			/* translators: %s: formatted submission count */
-			'list_table_view_status_draft'            => _nx_noop( 'Draft <span class="count">(%s)</span>', 'Draft <span class="count">(%s)</span>', 'submission view', 'torro-forms' ),
+			'list_table_view_status_completed'        => _nx_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'submission view', 'torro-forms' ),
 			/* translators: %s: formatted submission count */
-			'list_table_view_status_publish'          => _nx_noop( 'Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>', 'submission view', 'torro-forms' ),
+			'list_table_view_status_progressing'      => _nx_noop( 'In Progress <span class="count">(%s)</span>', 'In Progress <span class="count">(%s)</span>', 'submission view', 'torro-forms' ),
 			/* translators: %s: formatted submission count */
 			'list_table_view_all'                     => _nx_noop( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', 'submission view', 'torro-forms' ),
 			'list_table_bulk_action_delete'           => _x( 'Delete Permanently', 'submission bulk action', 'torro-forms' ),

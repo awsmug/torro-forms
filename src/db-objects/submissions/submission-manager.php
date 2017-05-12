@@ -97,8 +97,16 @@ class Submission_Manager extends Manager {
 			$where_args[] = $user_id;
 		}
 
-		$total = $this->db()->get_var( "SELECT COUNT( * ) FROM %{$this->table_name}% $where", $where_args );
-		$counts = array( '_total' => $total );
+		$results = $this->db()->get_results( "SELECT status, COUNT( * ) AS num_models FROM %{$this->table_name}% $where GROUP BY status", $where_args );
+
+		$total = 0;
+		$counts = array_fill_keys( array( 'completed', 'progressing' ), 0 );
+		foreach ( $results as $row ) {
+			$counts[ $row->status ] = $row->num_models;
+			$total += $row->num_models;
+		}
+
+		$counts['_total'] = $total;
 
 		$this->cache()->set( $cache_key, $counts, 'counts' );
 
@@ -126,5 +134,45 @@ class Submission_Manager extends Manager {
 			"KEY status (status)",
 			"KEY status_form_id (status,form_id)",
 		) );
+	}
+
+	/**
+	 * Sets some automatic properties on a submission if they aren't set already.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param null       $ret        Return value from the filter.
+	 * @param Submission $submission The submission to modify.
+	 * @return null The unmodified pre-filter value.
+	 */
+	protected function maybe_set_automatic_properties( $ret, $submission ) {
+		if ( empty( $submission->timestamp ) ) {
+			$submission->timestamp = current_time( 'timestamp', 1 );
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Sets up all action and filter hooks for the service.
+	 *
+	 * This method must be implemented and then be called from the constructor.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function setup_hooks() {
+		parent::setup_hooks();
+
+		$prefix        = $this->get_prefix();
+		$singular_slug = $this->get_singular_slug();
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}pre_add_{$singular_slug}",
+			'callback' => array( $this, 'maybe_set_automatic_properties' ),
+			'priority' => 100,
+			'num_args' => 2,
+		);
 	}
 }
