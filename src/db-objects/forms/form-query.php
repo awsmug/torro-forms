@@ -101,6 +101,10 @@ class Form_Query extends Core_Query {
 		$mapped_args = $args;
 		foreach ( $args as $query_var => $value ) {
 			switch ( $query_var ) {
+				case 'search':
+					$mapped_args['s'] = $value;
+					unset( $mapped_args['search'] );
+					break;
 				case 'slug':
 					$mapped_args['name'] = $value;
 					unset( $mapped_args['slug'] );
