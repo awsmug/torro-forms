@@ -78,4 +78,21 @@ class Container extends Model {
 			'container_id' => $this->id,
 		) );
 	}
+
+	/**
+	 * Deletes the model from the database.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return true|WP_Error True on success, or an error object on failure.
+	 */
+	public function delete() {
+		$elements = $this->get_elements();
+		foreach ( $elements as $element ) {
+			$element->delete();
+		}
+
+		return parent::delete();
+	}
 }

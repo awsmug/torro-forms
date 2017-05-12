@@ -106,4 +106,26 @@ class Element extends Model {
 			'element_id' => $this->id,
 		) );
 	}
+
+	/**
+	 * Deletes the model from the database.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return true|WP_Error True on success, or an error object on failure.
+	 */
+	public function delete() {
+		$element_choices = $this->get_element_choices();
+		foreach ( $element_choices as $element_choice ) {
+			$element_choice->delete();
+		}
+
+		$element_settings = $this->get_element_settings();
+		foreach ( $element_settings as $element_setting ) {
+			$element_setting->delete();
+		}
+
+		return parent::delete();
+	}
 }

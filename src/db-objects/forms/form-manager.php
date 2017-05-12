@@ -219,6 +219,26 @@ class Form_Manager extends Core_Manager {
 	}
 
 	/**
+	 * Deletes containers of a form that is about to be deleted.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int $post_id Post ID. Will only be handled if a form ID.
+	 */
+	protected function maybe_delete_form_containers( $post_id ) {
+		$form = $this->get( $post_id );
+		if ( ! $form ) {
+			return;
+		}
+
+		$containers = $form->get_containers();
+		foreach ( $containers as $container ) {
+			$container->delete();
+		}
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * This method must be implemented and then be called from the constructor.
@@ -237,6 +257,13 @@ class Form_Manager extends Core_Manager {
 				'num_args' => 0,
 			);
 		}
+
+		$this->actions[] = array(
+			'name'     => 'before_delete_post',
+			'callback' => array( $this, 'maybe_delete_form_containers' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
 
 		$this->actions[] = array(
 			'name'     => "save_post_{$this->get_prefix()}form",
