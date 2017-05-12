@@ -89,5 +89,24 @@ class Submission extends Model {
 	 * @access protected
 	 * @var string
 	 */
-	protected $status = '';
+	protected $status = 'completed';
+
+	/**
+	 * Constructor.
+	 *
+	 * Sets the ID and fetches relevant data.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Submission_Manager $manager The manager instance for the model.
+	 * @param object|null        $db_obj  Optional. The database object or null for a new instance.
+	 */
+	public function __construct( $manager, $db_obj = null ) {
+		if ( is_user_logged_in() ) {
+			$this->user_id = get_current_user_id();
+		}
+
+		parent::__construct( $manager, $db_obj );
+	}
 }
