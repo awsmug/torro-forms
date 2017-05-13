@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use WP_Error;
 
 /**
  * Class representing a submission.
@@ -112,5 +113,40 @@ class Submission extends Model {
 		}
 
 		parent::__construct( $manager, $db_obj );
+	}
+
+	/**
+	 * Returns all submission values that belong to the submission.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Container_Collection List of submission values.
+	 */
+	public function get_submission_values() {
+		if ( empty( $this->id ) ) {
+			return $this->manager->get_child_manager( 'submission_values' )->get_collection( array(), 0, 'objects' );
+		}
+
+		return $this->manager->get_child_manager( 'submission_values' )->query( array(
+			'submission_id' => $this->id,
+		) );
+	}
+
+	/**
+	 * Deletes the model from the database.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return true|WP_Error True on success, or an error object on failure.
+	 */
+	public function delete() {
+		$submission_values = $this->get_submission_values();
+		foreach ( $submission_values as $submission_value ) {
+			$submission_value->delete();
+		}
+
+		return parent::delete();
 	}
 }

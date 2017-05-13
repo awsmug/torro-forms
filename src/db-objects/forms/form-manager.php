@@ -225,14 +225,14 @@ class Form_Manager extends Core_Manager {
 	}
 
 	/**
-	 * Deletes containers of a form that is about to be deleted.
+	 * Deletes sub-components of a form that is about to be deleted.
 	 *
 	 * @since 1.0.0
 	 * @access protected
 	 *
 	 * @param int $post_id Post ID. Will only be handled if a form ID.
 	 */
-	protected function maybe_delete_form_containers( $post_id ) {
+	protected function maybe_delete_form_subcomponents( $post_id ) {
 		$form = $this->get( $post_id );
 		if ( ! $form ) {
 			return;
@@ -241,6 +241,16 @@ class Form_Manager extends Core_Manager {
 		$containers = $form->get_containers();
 		foreach ( $containers as $container ) {
 			$container->delete();
+		}
+
+		$submissions = $form->get_submissions();
+		foreach ( $submissions as $submission ) {
+			$submission->delete();
+		}
+
+		$participants = $form->get_participants();
+		foreach ( $participants as $participant ) {
+			$participant->delete();
 		}
 	}
 
@@ -266,7 +276,7 @@ class Form_Manager extends Core_Manager {
 
 		$this->actions[] = array(
 			'name'     => 'before_delete_post',
-			'callback' => array( $this, 'maybe_delete_form_containers' ),
+			'callback' => array( $this, 'maybe_delete_form_subcomponents' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);

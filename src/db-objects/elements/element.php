@@ -12,6 +12,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
 use awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Collection;
 use awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Collection;
+use WP_Error;
 
 /**
  * Class representing an element.

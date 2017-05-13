@@ -11,6 +11,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Containers;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection;
+use WP_Error;
 
 /**
  * Class representing a container.

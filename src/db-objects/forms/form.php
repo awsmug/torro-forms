@@ -11,6 +11,8 @@ namespace awsmug\Torro_Forms\DB_Objects\Forms;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Models\Core_Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
 use awsmug\Torro_Forms\DB_Objects\Containers\Container_Collection;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Collection;
+use awsmug\Torro_Forms\DB_Objects\Participants\Participant_Collection;
 use WP_Post;
 use stdClass;
 
@@ -175,6 +177,42 @@ class Form extends Core_Model {
 		}
 
 		return $this->manager->get_child_manager( 'containers' )->query( array(
+			'form_id' => $this->original->ID,
+		) );
+	}
+
+	/**
+	 * Returns all submissions that belong to the form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Submission_Collection List of submissions.
+	 */
+	public function get_submissions() {
+		if ( empty( $this->original->ID ) ) {
+			return $this->manager->get_child_manager( 'submissions' )->get_collection( array(), 0, 'objects' );
+		}
+
+		return $this->manager->get_child_manager( 'submissions' )->query( array(
+			'form_id' => $this->original->ID,
+		) );
+	}
+
+	/**
+	 * Returns all participants that belong to the form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Participant_Collection List of participants.
+	 */
+	public function get_participants() {
+		if ( empty( $this->original->ID ) ) {
+			return $this->manager->get_child_manager( 'participants' )->get_collection( array(), 0, 'objects' );
+		}
+
+		return $this->manager->get_child_manager( 'participants' )->query( array(
 			'form_id' => $this->original->ID,
 		) );
 	}
