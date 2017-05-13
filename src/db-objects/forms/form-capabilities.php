@@ -86,7 +86,7 @@ class Form_Capabilities extends Capabilities {
 		}
 
 		if ( ! isset( $this->capability_mappings[ $cap ] ) ) {
-			if ( ! isset( $this->capability_mappings[ $caps[0] ] ) ) {
+			if ( ! isset( $caps[0] ) || ! isset( $this->capability_mappings[ $caps[0] ] ) ) {
 				return $caps;
 			}
 
