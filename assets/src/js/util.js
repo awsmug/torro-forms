@@ -45,7 +45,7 @@ window.torro = window.torro || {};
 							Participant: this.models.Participants
 						});
 
-						deferred.rejectWith( torro.api );
+						deferred.resolveWith( torro.api );
 					})
 					.fail( function() {
 						deferred.rejectWith( torro.api );

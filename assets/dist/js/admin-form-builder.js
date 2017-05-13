@@ -7,8 +7,8 @@ window.torro = window.torro || {};
 ( function( torro, $, _, Backbone, wp, i18n ) {
 	'use strict';
 
-	var instanceCount = 0;
-	var callbacks = {};
+	var instanceCount = 0,
+		callbacks = {};
 
 	function Builder( selector ) {
 		instanceCount++;
@@ -27,14 +27,28 @@ window.torro = window.torro || {};
 
 			torro.api.init()
 				.done( _.bind( function() {
-					for ( var i in callbacks[ 'builder' + this.instanceCount ] ) {
-						callbacks[ 'builder' + this.instanceCount ][ i ]( this );
-					}
+					( new torro.api.models.Form({
+						id: parseInt( $( '#post_ID' ).val(), 10 )
+					}) ).fetch({
+						data: { _embed: true },
+						context: this,
+						success: function( form ) {
+							$( document ).ready( _.bind( function() {
+								console.log( form );
 
-					delete callbacks[ 'builder' + this.instanceCount ];
+								for ( var i in callbacks[ 'builder' + this.instanceCount ] ) {
+									callbacks[ 'builder' + this.instanceCount ][ i ]( this );
+								}
+
+								delete callbacks[ 'builder' + this.instanceCount ];
+							}, this ) );
+						}
+					});
 				}, this ) )
 				.fail( _.bind( function() {
-					this.fail( i18n.couldNotLoadData );
+					$( document ).ready( _.bind( function() {
+						this.fail( i18n.couldNotLoadData );
+					}, this ) );
 				}, this ) );
 		},
 
