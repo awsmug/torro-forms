@@ -93,7 +93,7 @@ class Assets extends Assets_Base {
 	 * @access protected
 	 */
 	protected function enqueue_icons() {
-		$this->enqueue_style( 'icons' );
+		$this->enqueue_style( 'admin-icons' );
 	}
 
 	/**
