@@ -25,7 +25,7 @@ class Form_Category_Query extends Core_Query {
 	 * @access public
 	 *
 	 * @param string|array $query Array or query string of form query arguments.
-	 * @return awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Collection Collection of form categories.
+	 * @return Form_Category_Collection Collection of form categories.
 	 */
 	public function query( $query ) {
 		$query = $this->map_args( $query );
@@ -55,7 +55,7 @@ class Form_Category_Query extends Core_Query {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @return awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Collection Results as a collection.
+	 * @return Form_Category_Collection Results as a collection.
 	 */
 	protected function parse_results_collection() {
 		$ids = null !== $this->original->terms ? $this->original->terms : array();

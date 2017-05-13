@@ -24,7 +24,7 @@ class Element_Setting_Query extends Query {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance for the model query.
+	 * @param Element_Setting_Manager $manager The manager instance for the model query.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );

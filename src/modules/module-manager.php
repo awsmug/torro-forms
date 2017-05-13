@@ -13,20 +13,25 @@ use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
 use awsmug\Torro_Forms\Modules\Form_Settings\Module as Form_Settings_Module;
 use awsmug\Torro_Forms\Modules\Submission_Handlers\Module as Submission_Handlers_Module;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager;
 use awsmug\Torro_Forms\Error;
+use Leaves_And_Love\Plugin_Lib\Options;
+use Leaves_And_Love\Plugin_Lib\Assets;
+use Leaves_And_Love\Plugin_Lib\AJAX;
+use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
  * Class for managing modules.
  *
  * @since 1.0.0
  *
- * @method awsmug\Torro_Forms\Modules\Actions\Module             actions()
- * @method awsmug\Torro_Forms\Modules\Form_Settings\Module       form_settings()
- * @method awsmug\Torro_Forms\Modules\Submission_Handlers\Module submission_handlers()
- * @method Leaves_And_Love\Plugin_Lib\Options                    options()
- * @method Leaves_And_Love\Plugin_Lib\Assets                     assets()
- * @method Leaves_And_Love\Plugin_Lib\AJAX                       ajax()
- * @method awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager      forms()
+ * @method Actions_Module             actions()
+ * @method Form_Settings_Module       form_settings()
+ * @method Submission_Handlers_Module submission_handlers()
+ * @method Options                    options()
+ * @method Assets                     assets()
+ * @method AJAX                       ajax()
+ * @method Form_Manager               forms()
  */
 class Module_Manager extends Service {
 	use Container_Service_Trait {
@@ -68,7 +73,7 @@ class Module_Manager extends Service {
 	 * @static
 	 * @var string
 	 */
-	protected static $service_options = 'Leaves_And_Love\Plugin_Lib\Options';
+	protected static $service_options = Options::class;
 
 	/**
 	 * Assets service definition.
@@ -78,7 +83,7 @@ class Module_Manager extends Service {
 	 * @static
 	 * @var string
 	 */
-	protected static $service_assets = 'Leaves_And_Love\Plugin_Lib\Assets';
+	protected static $service_assets = Assets::class;
 
 	/**
 	 * AJAX service definition.
@@ -88,7 +93,7 @@ class Module_Manager extends Service {
 	 * @static
 	 * @var string
 	 */
-	protected static $service_ajax = 'Leaves_And_Love\Plugin_Lib\AJAX';
+	protected static $service_ajax = AJAX::class;
 
 	/**
 	 * The form manager service definition.
@@ -98,7 +103,7 @@ class Module_Manager extends Service {
 	 * @static
 	 * @var string
 	 */
-	protected static $service_forms = 'awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager';
+	protected static $service_forms = Form_Manager::class;
 
 	/**
 	 * Constructor.
@@ -110,10 +115,10 @@ class Module_Manager extends Service {
 	 * @param array  $services {
 	 *     Array of service instances.
 	 *
-	 *     @type Leaves_And_Love\Plugin_Lib\Options       $options       The Option API instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Assets        $assets        The Assets API instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\AJAX          $ajax          The AJAX API instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler $error_handler The error handler instance.
+	 *     @type Options       $options       The Option API instance.
+	 *     @type Assets        $assets        The Assets API instance.
+	 *     @type AJAX          $ajax          The AJAX API instance.
+	 *     @type Error_Handler $error_handler The error handler instance.
 	 * }
 	 */
 	public function __construct( $prefix, $services ) {
@@ -141,7 +146,7 @@ class Module_Manager extends Service {
 	 *
 	 * @param string $method_name Method name. Should be the name of a service.
 	 * @param array  $args        Method arguments. Unused here.
-	 * @return awsmug\Torro_Forms\Modules\Module|Leaves_And_Love\Plugin_Lib\Service|null The module, service instance, or null
+	 * @return Module|Service|null The module, service instance, or null
 	 *                                                                                   if neither exist.
 	 */
 	public function __call( $method_name, $arguments ) {
@@ -159,7 +164,7 @@ class Module_Manager extends Service {
 	 * @access public
 	 *
 	 * @param string $slug Module slug.
-	 * @return awsmug\Torro_Forms\Modules\Module|awsmug\Torro_Forms\Error Module instance, or error object if module is not registered.
+	 * @return Module|Error Module instance, or error object if module is not registered.
 	 */
 	public function get( $slug ) {
 		if ( ! isset( $this->modules[ $slug ] ) ) {
@@ -206,7 +211,7 @@ class Module_Manager extends Service {
 	 *
 	 * @param string $slug              Module slug.
 	 * @param string $module_class_name Module class name.
-	 * @return bool|awsmug\Torro_Forms\Error True on success, error object on failure.
+	 * @return bool|Error True on success, error object on failure.
 	 */
 	public function register( $slug, $module_class_name ) {
 		if ( isset( $this->modules[ $slug ] ) ) {
@@ -239,7 +244,7 @@ class Module_Manager extends Service {
 	 * @access public
 	 *
 	 * @param string $slug Module slug.
-	 * @return bool|awsmug\Torro_Forms\Error True on success, error object on failure.
+	 * @return bool|Error True on success, error object on failure.
 	 */
 	public function unregister( $slug ) {
 		if ( ! isset( $this->modules[ $slug ] ) ) {

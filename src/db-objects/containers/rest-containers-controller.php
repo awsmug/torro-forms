@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms\DB_Objects\Containers;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Class to access containers via the REST API.
  *
@@ -25,7 +23,7 @@ class REST_Containers_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Container_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
@@ -92,15 +90,15 @@ class REST_Containers_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Container $container Container object.
+	 * @return array Links for the given container.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $container ) {
+		$links = parent::prepare_links( $container );
 
-		if ( ! empty( $model->form_id ) ) {
+		if ( ! empty( $container->form_id ) ) {
 			$links['parent_form'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'forms' ) ) . $model->form_id ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'forms' ) ) . $container->form_id ),
 			);
 		}
 
@@ -108,7 +106,7 @@ class REST_Containers_Controller extends REST_Models_Controller {
 
 		$links['elements'] = array(
 			'href'       => add_query_arg( array(
-				'container_id' => $model->$primary_property,
+				'container_id' => $container->$primary_property,
 				'per_page'     => 50,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'elements' ) ) ),
 			'embeddable' => true,
@@ -116,7 +114,7 @@ class REST_Containers_Controller extends REST_Models_Controller {
 
 		$links['element_choices'] = array(
 			'href'       => add_query_arg( array(
-				'container_id' => $model->$primary_property,
+				'container_id' => $container->$primary_property,
 				'per_page'     => 250,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
 			'embeddable' => true,
@@ -124,7 +122,7 @@ class REST_Containers_Controller extends REST_Models_Controller {
 
 		$links['element_settings'] = array(
 			'href'       => add_query_arg( array(
-				'container_id' => $model->$primary_property,
+				'container_id' => $container->$primary_property,
 				'per_page'     => 250,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
 			'embeddable' => true,

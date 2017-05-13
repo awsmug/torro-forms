@@ -9,6 +9,9 @@
 namespace awsmug\Torro_Forms;
 
 use Leaves_And_Love\Plugin_Lib\DB as DB_Base;
+use Leaves_And_Love\Plugin_Lib\Options;
+use Leaves_And_Love\Plugin_Lib\Error_Handler;
+use awsmug\Torro_Forms\Translations\Translations_DB;
 
 /**
  * Class for database handling.
@@ -25,14 +28,14 @@ class DB extends DB_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string                                               $prefix       The prefix for all database tables.
-	 * @param array                                                $services {
+	 * @param string          $prefix       The prefix for all database tables.
+	 * @param array           $services     {
 	 *     Array of service instances.
 	 *
-	 *     @type Leaves_And_Love\Plugin_Lib\Options       $options       The Option API class instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler $error_handler The error handler instance.
+	 *     @type Options       $options       The Option API class instance.
+	 *     @type Error_Handler $error_handler The error handler instance.
 	 * }
-	 * @param Leaves_And_Love\Plugin_Lib\Translations\Translations $translations Translations instance.
+	 * @param Translations_DB $translations Translations instance.
 	 */
 	public function __construct( $prefix, $services, $translations ) {
 		parent::__construct( $prefix, $services, $translations );

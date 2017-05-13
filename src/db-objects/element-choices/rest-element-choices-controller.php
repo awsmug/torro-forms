@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms\DB_Objects\Element_Choices;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Class to access element choices via the REST API.
  *
@@ -110,15 +108,15 @@ class REST_Element_Choices_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Element_Choice $element_choice Element choice object.
+	 * @return array Links for the given element choice.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $element_choice ) {
+		$links = parent::prepare_links( $element_choice );
 
-		if ( ! empty( $model->element_id ) ) {
+		if ( ! empty( $element_choice->element_id ) ) {
 			$links['parent_element'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'elements' ) ) . $model->element_id ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'elements' ) ) . $element_choice->element_id ),
 			);
 		}
 

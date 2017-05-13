@@ -8,16 +8,18 @@
 
 namespace awsmug\Torro_Forms\Modules;
 
+use awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page;
 use Leaves_And_Love\Plugin_Lib\Service;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
+use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
  * Base class for a module.
  *
  * @since 1.0.0
  *
- * @method awsmug\Torro_Forms\Modules\Module_Manager manager()
+ * @method Module_Manager manager()
  */
 abstract class Module extends Service {
 	use Container_Service_Trait, Hook_Service_Trait;
@@ -57,7 +59,7 @@ abstract class Module extends Service {
 	 * @static
 	 * @var string
 	 */
-	protected static $service_manager = 'awsmug\Torro_Forms\Modules\Module_Manager';
+	protected static $service_manager = Module_Manager::class;
 
 	/**
 	 * Constructor.
@@ -69,8 +71,8 @@ abstract class Module extends Service {
 	 * @param array  $services {
 	 *     Array of service instances.
 	 *
-	 *     @type Leaves_And_Love\Plugin_Lib\Options       $options       The Option API class instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler $error_handler The error handler instance.
+	 *     @type Module_Manager $manager       The module manager instance.
+	 *     @type Error_Handler  $error_handler The error handler instance.
 	 * }
 	 */
 	public function __construct( $prefix, $services ) {
@@ -160,7 +162,7 @@ abstract class Module extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page $settings_page Settings page instance.
+	 * @param Form_Settings_Page $settings_page Settings page instance.
 	 */
 	protected final function add_settings( $settings_page ) {
 		$subtabs = $this->get_settings_subtabs();
@@ -223,7 +225,7 @@ abstract class Module extends Service {
 	protected function setup_hooks() {
 		$this->actions = array(
 			array(
-				'name'     => "{$this->get_prefix()}add_form_settings_content",
+				'name'     => "{$this->get_prefix()}add_settings_content",
 				'callback' => array( $this, 'add_settings' ),
 				'priority' => 1,
 				'num_args' => 1,

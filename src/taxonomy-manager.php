@@ -11,6 +11,8 @@ namespace awsmug\Torro_Forms;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model_Type_Managers\Taxonomy_Manager as Taxonomy_Manager_Base;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
+use Leaves_And_Love\Plugin_Lib\Options;
+use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
  * Class for managing taxonomies.
@@ -28,7 +30,7 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * @static
 	 * @var string
 	 */
-	protected static $service_options = 'Leaves_And_Love\Plugin_Lib\Options';
+	protected static $service_options = Options::class;
 
 	/**
 	 * Constructor.
@@ -40,8 +42,8 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * @param array  $services {
 	 *     Array of service instances.
 	 *
-	 *     @type Leaves_And_Love\Plugin_Lib\Options       $options       The Option API class instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler $error_handler The error handler instance.
+	 *     @type Options       $options       The Option API class instance.
+	 *     @type Error_Handler $error_handler The error handler instance.
 	 * }
 	 */
 	public function __construct( $prefix, $services ) {

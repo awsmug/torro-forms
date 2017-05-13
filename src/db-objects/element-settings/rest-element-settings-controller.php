@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms\DB_Objects\Element_Settings;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Class to access element settings via the REST API.
  *
@@ -25,7 +23,7 @@ class REST_Element_Settings_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Element_Setting_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
@@ -109,15 +107,15 @@ class REST_Element_Settings_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Element_Setting $element_setting Element setting object.
+	 * @return array Links for the given element setting.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $element_setting ) {
+		$links = parent::prepare_links( $element_setting );
 
-		if ( ! empty( $model->element_id ) ) {
+		if ( ! empty( $element_setting->element_id ) ) {
 			$links['parent_element'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'elements' ) ) . $model->element_id ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'elements' ) ) . $element_setting->element_id ),
 			);
 		}
 

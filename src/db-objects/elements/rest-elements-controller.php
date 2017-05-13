@@ -10,8 +10,8 @@ namespace awsmug\Torro_Forms\DB_Objects\Elements;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\REST_Element_Types_Controller;
-
-defined( 'ABSPATH' ) || exit;
+use WP_REST_Request;
+use WP_Error;
 
 /**
  * Class to access elements via the REST API.
@@ -25,7 +25,7 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\REST_Element_Types_Controller
+	 * @var REST_Element_Types_Controller
 	 */
 	protected $types_controller;
 
@@ -35,7 +35,7 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Element_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
@@ -127,21 +127,21 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Element $element Element object.
+	 * @return array Links for the given element.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $element ) {
+		$links = parent::prepare_links( $element );
 
-		if ( ! empty( $model->type ) ) {
+		if ( ! empty( $element->type ) ) {
 			$links['about'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) . 'types/' . $model->type ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) . 'types/' . $element->type ),
 			);
 		}
 
-		if ( ! empty( $model->container_id ) ) {
+		if ( ! empty( $element->container_id ) ) {
 			$links['parent_container'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'containers' ) ) . $model->container_id ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'containers' ) ) . $element->container_id ),
 			);
 		}
 
@@ -149,7 +149,7 @@ class REST_Elements_Controller extends REST_Models_Controller {
 
 		$links['element_choices'] = array(
 			'href'       => add_query_arg( array(
-				'element_id' => $model->$primary_property,
+				'element_id' => $element->$primary_property,
 				'per_page'   => 250,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
 			'embeddable' => true,
@@ -157,7 +157,7 @@ class REST_Elements_Controller extends REST_Models_Controller {
 
 		$links['element_settings'] = array(
 			'href'       => add_query_arg( array(
-				'element_id' => $model->$primary_property,
+				'element_id' => $element->$primary_property,
 				'per_page'   => 250,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
 			'embeddable' => true,

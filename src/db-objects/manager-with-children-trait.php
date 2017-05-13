@@ -32,8 +32,8 @@ trait Manager_With_Children_Trait {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string                                        $slug    Child manager identifier.
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager Child manager instance.
+	 * @param string  $slug    Child manager identifier.
+	 * @param Manager $manager Child manager instance.
 	 * @return bool True on success, false on failure.
 	 */
 	public function add_child_manager( $slug, $manager ) {
@@ -53,7 +53,7 @@ trait Manager_With_Children_Trait {
 	 * @access public
 	 *
 	 * @param string $slug Child manager identifier.
-	 * @return Leaves_And_Love\Plugin_Lib\DB_Objects\Manager Child manager instance.
+	 * @return Manager Child manager instance.
 	 */
 	public function get_child_manager( $slug ) {
 		if ( ! isset( $this->child_managers[ $slug ] ) ) {

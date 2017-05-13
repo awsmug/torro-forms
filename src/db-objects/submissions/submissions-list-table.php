@@ -23,7 +23,7 @@ class Submissions_List_Table extends Models_List_Table {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Submissions\Submission $submission The current submission object.
+	 * @param Submission $submission The current submission object.
 	 */
 	public function column_id( $submission ) {
 		$primary_property = $this->manager->get_primary_property();
@@ -48,7 +48,7 @@ class Submissions_List_Table extends Models_List_Table {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Submissions\Submission $submission The current submission object.
+	 * @param Submission $submission The current submission object.
 	 */
 	public function column_form_id( $submission ) {
 		if ( empty( $submission->form_id ) ) {
@@ -69,7 +69,7 @@ class Submissions_List_Table extends Models_List_Table {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Submissions\Submission $submission The current submission object.
+	 * @param Submission $submission The current submission object.
 	 */
 	public function column_user_id( $submission ) {
 		if ( empty( $submission->user_id ) ) {
@@ -90,7 +90,7 @@ class Submissions_List_Table extends Models_List_Table {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Submissions\Submission $submission The current submission object.
+	 * @param Submission $submission The current submission object.
 	 */
 	public function column_timestamp( $submission ) {
 		if ( empty( $submission->timestamp ) ) {
@@ -258,14 +258,11 @@ class Submissions_List_Table extends Models_List_Table {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Submissions\Submission $submission    The submission for which to return row actions.
-	 * @param int                                                  $submission_id The submission ID.
-	 * @param string                                               $view_url      Optional. The URL to view the submission in the
-	 *                                                                            frontend. Default empty.
-	 * @param string                                               $edit_url      Optional. The URL to edit the submission in the
-	 *                                                                            backend. Default empty.
-	 * @param string                                               $list_url      Optional. The URL to the list page. Default
-	 *                                                                            empty.
+	 * @param Submission $submission    The submission for which to return row actions.
+	 * @param int        $submission_id The submission ID.
+	 * @param string     $view_url      Optional. The URL to view the submission in the frontend. Default empty.
+	 * @param string     $edit_url      Optional. The URL to edit the submission in the backend. Default empty.
+	 * @param string     $list_url      Optional. The URL to the list page. Default empty.
 	 * @return array Row actions as `$id => $link` pairs.
 	 */
 	protected function build_row_actions( $submission, $submission_id, $view_url = '', $edit_url = '', $list_url = '' ) {
@@ -276,9 +273,9 @@ class Submissions_List_Table extends Models_List_Table {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array                                                $actions       Associative array of `$action_slug => $action_link` pairs.
-		 * @param awsmug\Torro_Forms\DB_Objects\Submissions\Submission $submission    Current submission object.
-		 * @param int                                                  $submission_id Current submission ID.
+		 * @param array      $actions       Associative array of `$action_slug => $action_link` pairs.
+		 * @param Submission $submission    Current submission object.
+		 * @param int        $submission_id Current submission ID.
 		 */
 		return apply_filters( "{$this->manager->get_prefix()}submission_admin_row_actions", $actions, $submission, $submission_id );
 	}

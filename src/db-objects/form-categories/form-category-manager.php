@@ -15,17 +15,22 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
+use awsmug\Torro_Forms\Translations\Translations_Form_Category_Manager;
+use awsmug\Torro_Forms\DB;
+use Leaves_And_Love\Plugin_Lib\Cache;
+use Leaves_And_Love\Plugin_Lib\Meta;
+use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
  * Manager class for form categories.
  *
  * @since 1.0.0
  *
- * @method awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Capabilities capabilities()
- * @method awsmug\Torro_Forms\DB                                                    db()
- * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
- * @method Leaves_And_Love\Plugin_Lib\Meta                                          meta()
- * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                 error_handler()
+ * @method Form_Category_Capabilities capabilities()
+ * @method DB                         db()
+ * @method Cache                      cache()
+ * @method Meta                       meta()
+ * @method Error_Handler              error_handler()
  */
 class Form_Category_Manager extends Core_Manager {
 	use Title_Manager_Trait, Slug_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;
@@ -36,17 +41,17 @@ class Form_Category_Manager extends Core_Manager {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string                                                             $prefix   The instance prefix.
-	 * @param array                                                              $services {
+	 * @param string                             $prefix       The instance prefix.
+	 * @param array                              $services     {
 	 *     Array of service instances.
 	 *
-	 *     @type awsmug\Torro_Forms\DB_Objects\Form_Categories\Form_Category_Capabilities $capabilities  The capabilities instance.
-	 *     @type awsmug\Torro_Forms\DB                                                    $db            The database instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Cache                                         $cache         The cache instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Meta                                          $meta          The meta instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler                                 $error_handler The error handler instance.
+	 *     @type Form_Category_Capabilities $capabilities  The capabilities instance.
+	 *     @type DB                         $db            The database instance.
+	 *     @type Cache                      $cache         The cache instance.
+	 *     @type Meta                       $meta          The meta instance.
+	 *     @type Error_Handler              $error_handler The error handler instance.
 	 * }
-	 * @param awsmug\Torro_Forms\Translations\Translations_Form_Category_Manager $translations Translations instance.
+	 * @param Translations_Form_Category_Manager $translations Translations instance.
 	 */
 	public function __construct( $prefix, $services, $translations ) {
 		$this->class_name                 = Form_Category::class;

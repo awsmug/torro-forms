@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms\DB_Objects\Form_Categories;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Class to access form categories via the REST API.
  *
@@ -25,7 +23,7 @@ class REST_Form_Categories_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Form_Category_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );

@@ -8,8 +8,10 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types;
 
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager;
 use WP_REST_Controller;
 use WP_REST_Server;
+use WP_REST_Request;
 use WP_Error;
 
 /**
@@ -24,7 +26,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\DB_Objects\Manager
+	 * @var Element_Manager
 	 */
 	protected $manager;
 
@@ -34,7 +36,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Element_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		$this->manager = $manager;
@@ -179,8 +181,8 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type $element_type Element type object.
-	 * @param WP_REST_Request                                                   $request      Request object.
+	 * @param Element_Type    $element_type Element type object.
+	 * @param WP_REST_Request $request      Request object.
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $element_type, $request ) {
@@ -218,7 +220,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type $element_type Element type object.
+	 * @param Element_Type $element_type Element type object.
 	 * @return array Links for the given element type.
 	 */
 	protected function prepare_links( $element_type ) {

@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use Leaves_And_Love\Plugin_Lib\Components\Tabbed_Settings_Page;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
+use Leaves_And_Love\Plugin_Lib\Components\Admin_Pages;
 
 /**
  * Class representing the form settings page in the admin.
@@ -23,7 +24,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager
+	 * @var Form_Manager
 	 */
 	protected $form_manager;
 
@@ -42,9 +43,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string                                            $slug         Page slug.
-	 * @param Leaves_And_Love\Plugin_Lib\Components\Admin_Pages $manager      Admin page manager instance.
-	 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager  $form_manager Form manager instance.
+	 * @param string       $slug         Page slug.
+	 * @param Admin_Pages  $manager      Admin page manager instance.
+	 * @param Form_Manager $form_manager Form manager instance.
 	 */
 	public function __construct( $slug, $manager, $form_manager ) {
 		$this->slug         = $slug;
@@ -451,7 +452,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		 *
 		 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page $settings_page The settings page instance.
 		 */
-		do_action( "{$this->manager->get_prefix()}add_form_settings_content", $this );
+		do_action( "{$this->manager->get_prefix()}add_settings_content", $this );
 	}
 
 	/**
@@ -479,7 +480,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		 *
 		 * @param array $tabs Associative array of `$tab_slug => $tab_args` pairs.
 		 */
-		return apply_filters( "{$this->manager->get_prefix()}form_settings_tabs", $tabs );
+		return apply_filters( "{$this->manager->get_prefix()}settings_tabs", $tabs );
 	}
 
 	/**
@@ -505,7 +506,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		 *
 		 * @param array $tabs Associative array of `$subtab_slug => $subtab_args` pairs.
 		 */
-		return apply_filters( "{$this->manager->get_prefix()}form_settings_subtabs", $subtabs );
+		return apply_filters( "{$this->manager->get_prefix()}settings_subtabs", $subtabs );
 	}
 
 	/**
@@ -539,7 +540,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		 *
 		 * @param array $tabs Associative array of `$section_slug => $section_args` pairs.
 		 */
-		return apply_filters( "{$this->manager->get_prefix()}form_settings_sections", $sections );
+		return apply_filters( "{$this->manager->get_prefix()}settings_sections", $sections );
 	}
 
 	/**
@@ -600,6 +601,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		 *
 		 * @param array $tabs Associative array of `$field_slug => $field_args` pairs.
 		 */
-		return apply_filters( "{$this->manager->get_prefix()}form_settings_fields", $fields );
+		return apply_filters( "{$this->manager->get_prefix()}settings_fields", $fields );
 	}
 }

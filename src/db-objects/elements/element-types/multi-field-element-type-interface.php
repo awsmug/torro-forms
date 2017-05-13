@@ -8,6 +8,8 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types;
 
+use awsmug\Torro_Forms\DB_Objects\Elements\Element;
+
 /**
  * Interface for element type that supports multiple fields.
  *
@@ -21,8 +23,8 @@ interface Multi_Field_Element_Type_Interface {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param array                                  $values  Associative arrays of `$field => $value` pairs.
-	 * @param awsmug\Torro_Forms\DB_Objects\Elements $element Element to validate fields for.
+	 * @param array   $values  Associative arrays of `$field => $value` pairs.
+	 * @param Element $element Element to validate fields for.
 	 * @return array Array of validated values or error objects.
 	 */
 	public function validate_additional_fields( $values, $element );

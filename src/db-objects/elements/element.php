@@ -10,6 +10,8 @@ namespace awsmug\Torro_Forms\DB_Objects\Elements;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Collection;
+use awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Collection;
 
 /**
  * Class representing an element.
@@ -77,7 +79,7 @@ class Element extends Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection List of element choices.
+	 * @return Element_Choice_Collection List of element choices.
 	 */
 	public function get_element_choices() {
 		if ( empty( $this->id ) ) {
@@ -95,7 +97,7 @@ class Element extends Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection List of element settings.
+	 * @return Element_Setting_Collection List of element settings.
 	 */
 	public function get_element_settings() {
 		if ( empty( $this->id ) ) {

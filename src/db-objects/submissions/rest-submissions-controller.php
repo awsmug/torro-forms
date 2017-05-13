@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Class to access submissions via the REST API.
  *
@@ -25,7 +23,7 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Submission_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
@@ -128,22 +126,22 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Submission $submission Submission object.
+	 * @return array Links for the given submission.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $submission ) {
+		$links = parent::prepare_links( $submission );
 
-		if ( ! empty( $model->user_id ) ) {
+		if ( ! empty( $submission->user_id ) ) {
 			$links['author'] = array(
-				'href'       => rest_url( 'wp/v2/users/' . $model->user_id ),
+				'href'       => rest_url( 'wp/v2/users/' . $submission->user_id ),
 				'embeddable' => true,
 			);
 		}
 
-		if ( ! empty( $model->form_id ) ) {
+		if ( ! empty( $submission->form_id ) ) {
 			$links['form'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'forms' ) ) . $model->form_id ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'forms' ) ) . $submission->form_id ),
 			);
 		}
 
@@ -151,7 +149,7 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 
 		$links['submission_values'] = array(
 			'href'       => add_query_arg( array(
-				'submission_id' => $model->$primary_property,
+				'submission_id' => $submission->$primary_property,
 				'per_page'      => 50,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) ) ),
 			'embeddable' => true,

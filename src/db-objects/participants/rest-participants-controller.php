@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms\DB_Objects\Participants;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Class to access participants via the REST API.
  *
@@ -25,7 +23,7 @@ class REST_Participants_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Participant_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
@@ -101,21 +99,21 @@ class REST_Participants_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Participant $participant Participant object.
+	 * @return array Links for the given participant.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $participant ) {
+		$links = parent::prepare_links( $participant );
 
-		if ( ! empty( $model->form_id ) ) {
+		if ( ! empty( $participant->form_id ) ) {
 			$links['form'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'forms' ) ) . $model->form_id ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'forms' ) ) . $participant->form_id ),
 			);
 		}
 
-		if ( ! empty( $model->user_id ) ) {
+		if ( ! empty( $participant->user_id ) ) {
 			$links['user'] = array(
-				'href'       => rest_url( 'wp/v2/users/' . $model->user_id ),
+				'href'       => rest_url( 'wp/v2/users/' . $participant->user_id ),
 			);
 		}
 

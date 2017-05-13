@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\Modules\Actions;
 
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
+use awsmug\Torro_Forms\Assets;
 
 /**
  * Class for the Actions module.
@@ -71,7 +72,7 @@ class Module extends Module_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param awsmug\Torro_Forms\Assets $assets Assets API instance.
+	 * @param Assets $assets Assets API instance.
 	 */
 	protected function register_assets( $assets ) {
 		// Empty method body.

@@ -9,9 +9,8 @@
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
+use WP_REST_Request;
 use WP_Error;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Class to access forms via the REST API.
@@ -26,7 +25,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Form_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
@@ -102,17 +101,17 @@ class REST_Forms_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Form $form Form object.
+	 * @return array Links for the given form.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $form ) {
+		$links = parent::prepare_links( $form );
 
 		$primary_property = $this->manager->get_primary_property();
 
 		$links['containers'] = array(
 			'href'       => add_query_arg( array(
-				'form_id'  => $model->$primary_property,
+				'form_id'  => $form->$primary_property,
 				'per_page' => 10,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'containers' ) ) ),
 			'embeddable' => true,
@@ -120,7 +119,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 
 		$links['elements'] = array(
 			'href'       => add_query_arg( array(
-				'form_id'  => $model->$primary_property,
+				'form_id'  => $form->$primary_property,
 				'per_page' => 50,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'elements' ) ) ),
 			'embeddable' => true,
@@ -128,7 +127,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 
 		$links['element_choices'] = array(
 			'href'       => add_query_arg( array(
-				'form_id'  => $model->$primary_property,
+				'form_id'  => $form->$primary_property,
 				'per_page' => 250,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
 			'embeddable' => true,
@@ -136,22 +135,22 @@ class REST_Forms_Controller extends REST_Models_Controller {
 
 		$links['element_settings'] = array(
 			'href'       => add_query_arg( array(
-				'form_id'  => $model->$primary_property,
+				'form_id'  => $form->$primary_property,
 				'per_page' => 250,
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
 			'embeddable' => true,
 		);
 
 		$links['submissions'] = array(
-			'href' => add_query_arg( 'form_id', $model->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'submissions' ) ) ),
+			'href' => add_query_arg( 'form_id', $form->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'submissions' ) ) ),
 		);
 
 		$links['submission_values'] = array(
-			'href' => add_query_arg( 'form_id', $model->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) ) ),
+			'href' => add_query_arg( 'form_id', $form->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) ) ),
 		);
 
 		$links['participants'] = array(
-			'href' => add_query_arg( 'form_id', $model->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'participants' ) ) ),
+			'href' => add_query_arg( 'form_id', $form->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'participants' ) ) ),
 		);
 
 		return $links;
@@ -163,9 +162,9 @@ class REST_Forms_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param  string|array    $statuses  One or more statuses.
-	 * @param  WP_REST_Request $request   Full details about the request.
-	 * @param  string          $parameter Additional parameter to pass to validation.
+	 * @param string|array    $statuses  One or more statuses.
+	 * @param WP_REST_Request $request   Full details about the request.
+	 * @param string          $parameter Additional parameter to pass to validation.
 	 * @return array|WP_Error A list of valid statuses, otherwise WP_Error object.
 	 */
 	public function sanitize_status_param( $statuses, $request, $parameter ) {

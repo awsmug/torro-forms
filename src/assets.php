@@ -70,7 +70,7 @@ class Assets extends Assets_Base {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param awsmug\Torro_Forms\Assets $assets The assets manager instance.
+		 * @param Assets $assets The assets manager instance.
 		 */
 		do_action( "{$this->get_prefix()}register_assets", $this );
 	}

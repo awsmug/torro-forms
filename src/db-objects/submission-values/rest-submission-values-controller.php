@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms\DB_Objects\Submission_Values;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Class to access submission values via the REST API.
  *
@@ -25,7 +23,7 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance.
+	 * @param Submission_Value_Manager $manager The manager instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
@@ -119,15 +117,15 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Model $model Model object.
-	 * @return array Links for the given model.
+	 * @param Submission_Value $submission_value Submission value object.
+	 * @return array Links for the given submission value.
 	 */
-	protected function prepare_links( $model ) {
-		$links = parent::prepare_links( $model );
+	protected function prepare_links( $submission_value ) {
+		$links = parent::prepare_links( $submission_value );
 
-		if ( ! empty( $model->submission_id ) ) {
+		if ( ! empty( $submission_value->submission_id ) ) {
 			$links['submission'] = array(
-				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'submissions' ) ) . $model->submission_id ),
+				'href' => rest_url( trailingslashit( sprintf( '%s/%s', $this->namespace, 'submissions' ) ) . $submission_value->submission_id ),
 			);
 		}
 

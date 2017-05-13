@@ -74,7 +74,7 @@ abstract class Element_Type {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type_Manager
+	 * @var Element_Type_Manager
 	 */
 	protected $manager;
 
@@ -84,7 +84,7 @@ abstract class Element_Type {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type_Manager $manager The element type manager instance.
+	 * @param Element_Type_Manager $manager The element type manager instance.
 	 */
 	public function __construct( $manager ) {
 		$this->manager = $manager;

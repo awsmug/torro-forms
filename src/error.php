@@ -55,7 +55,7 @@ class Error extends WP_Error {
 	 *
 	 * @param string $method_name Method name.
 	 * @param array  $arguments   Method arguments.
-	 * @return awsmug\Torro_Forms\Error Pass-through error instance.
+	 * @return Error Pass-through error instance.
 	 */
 	public function __call( $method_name, $arguments ) {
 		if ( ! $this->error_handled ) {
@@ -76,7 +76,7 @@ class Error extends WP_Error {
 	 * @access public
 	 *
 	 * @param string $property Property name.
-	 * @return awsmug\Torro_Forms\Error Pass-through error instance.
+	 * @return Error Pass-through error instance.
 	 */
 	public function __get( $property ) {
 		if ( ! $this->error_handled ) {

@@ -11,15 +11,17 @@ namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types;
 use Leaves_And_Love\Plugin_Lib\Service;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager;
 use awsmug\Torro_Forms\Error;
+use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
  * Manager class for element types.
  *
  * @since 1.0.0
  *
- * @method awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager elements()
- * @method Leaves_And_Love\Plugin_Lib\Error_Handler               error_handler()
+ * @method Element_Manager elements()
+ * @method Error_Handler   error_handler()
  */
 class Element_Type_Manager extends Service {
 	use Container_Service_Trait, Hook_Service_Trait;
@@ -50,7 +52,7 @@ class Element_Type_Manager extends Service {
 	 * @static
 	 * @var string
 	 */
-	protected static $service_elements = 'awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager';
+	protected static $service_elements = Element_Manager::class;
 
 	/**
 	 * Constructor.
@@ -62,8 +64,8 @@ class Element_Type_Manager extends Service {
 	 * @param array  $services {
 	 *     Array of service instances.
 	 *
-	 *     @type awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager $elements      The element manager instance.
-	 *     @type Leaves_And_Love\Plugin_Lib\Error_Handler               $error_handler The error handler instance.
+	 *     @type Element_Manager $elements      The element manager instance.
+	 *     @type Error_Handler   $error_handler The error handler instance.
 	 * }
 	 */
 	public function __construct( $prefix, $services ) {
@@ -81,7 +83,7 @@ class Element_Type_Manager extends Service {
 	 * @access public
 	 *
 	 * @param string $slug Element type slug.
-	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type|awsmug\Torro_Forms\Error Element type instance, or error object if element type is not registered.
+	 * @return Element_Type|Error Element type instance, or error object if element type is not registered.
 	 */
 	public function get( $slug ) {
 		if ( ! isset( $this->element_types[ $slug ] ) ) {
@@ -111,7 +113,7 @@ class Element_Type_Manager extends Service {
 	 *
 	 * @param string $slug                    Element type slug.
 	 * @param string $element_type_class_name Element type class name.
-	 * @return bool|awsmug\Torro_Forms\Error True on success, error object on failure.
+	 * @return bool|Error True on success, error object on failure.
 	 */
 	public function register( $slug, $element_type_class_name ) {
 		if ( ! did_action( 'init' ) ) {
@@ -146,7 +148,7 @@ class Element_Type_Manager extends Service {
 	 * @access public
 	 *
 	 * @param string $slug Element type slug.
-	 * @return bool|awsmug\Torro_Forms\Error True on success, error object on failure.
+	 * @return bool|Error True on success, error object on failure.
 	 */
 	public function unregister( $slug ) {
 		if ( ! isset( $this->element_types[ $slug ] ) ) {
@@ -184,7 +186,7 @@ class Element_Type_Manager extends Service {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type_Manager $element_types Element type manager instance.
+		 * @param Element_Type_Manager $element_types Element type manager instance.
 		 */
 		do_action( "{$this->get_prefix()}register_element_types", $this );
 	}

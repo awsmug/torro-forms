@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
+use WP_Post;
 use WP_Error;
 
 /**
@@ -22,7 +23,7 @@ class Form_Edit_Page_Handler {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager
+	 * @var Form_Manager
 	 */
 	protected $form_manager;
 
@@ -32,7 +33,7 @@ class Form_Edit_Page_Handler {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager $form_manager Form manager instance.
+	 * @param Form_Manager $form_manager Form manager instance.
 	 */
 	public function __construct( $form_manager ) {
 		$this->form_manager = $form_manager;

@@ -93,7 +93,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_3() {
 		global $wpdb;
@@ -109,7 +109,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_4() {
 		global $wpdb;
@@ -137,7 +137,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_5() {
 		global $wpdb;
@@ -154,7 +154,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_6() {
 		global $wpdb;
@@ -178,7 +178,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_7() {
 		global $wpdb;
@@ -194,7 +194,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_8() {
 		global $wpdb;
@@ -210,7 +210,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_9() {
 		global $wpdb;
@@ -235,7 +235,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function upgrade_to_1_0_10() {
 		global $wpdb;
@@ -375,7 +375,7 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $table_name Unprefixed table name.
 	 * @return string Full table name.
