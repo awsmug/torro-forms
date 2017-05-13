@@ -313,6 +313,18 @@ class Form_Manager extends Core_Manager {
 			'num_args' => 1,
 		);
 		$this->actions[] = array(
+			'name'     => 'admin_footer-post.php',
+			'callback' => array( $this->edit_page_handler, 'maybe_print_templates' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
+			'name'     => 'admin_footer-post-new.php',
+			'callback' => array( $this->edit_page_handler, 'maybe_print_templates' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
 			'name'     => "save_post_{$this->get_prefix()}form",
 			'callback' => array( $this->edit_page_handler, 'maybe_handle_save_request' ),
 			'priority' => 10,

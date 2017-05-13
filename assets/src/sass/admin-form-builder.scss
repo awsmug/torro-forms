@@ -1,0 +1,42 @@
+.torro-form-canvas {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.drag-drop-area {
+	position: relative;
+	min-height: 150px;
+	border: 4px dashed #b4b9be;
+
+	&.is-empty {
+		> div {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 80%;
+			font-size: 1.3em;
+			line-height: 1.4em;
+
+			&.loader-content {
+				font-style: italic;
+				text-align: center;
+			}
+		}
+
+		.spinner {
+			float: none;
+			height: 1.4em;
+			margin: 0 10px;
+		}
+	}
+}
+
+.torro-notice {
+	padding: 1px 12px;
+	background: #ffffff;
+	border-left-width: 4px;
+	border-left-style: solid;
+	-webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, .1 );
+	        box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, .1 );
+}

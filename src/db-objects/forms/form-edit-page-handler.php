@@ -98,6 +98,24 @@ class Form_Edit_Page_Handler {
 	}
 
 	/**
+	 * Prints templates if conditions are met.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function maybe_print_templates() {
+		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
+
+		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) {
+			if ( empty( $_GET['post'] ) || $target_post_type !== get_post_type( $_GET['post'] ) ) {
+				return;
+			}
+		}
+
+		$this->print_templates();
+	}
+
+	/**
 	 * Handles a save request if conditions are met.
 	 *
 	 * @since 1.0.0
@@ -136,14 +154,16 @@ class Form_Edit_Page_Handler {
 	 */
 	private function render_form_canvas( $form ) {
 		?>
-		<div class="torro-form-canvas">
+		<div id="torro-form-canvas" class="torro-form-canvas">
 			<div class="drag-drop-area is-empty">
-				<div class="hide-if-no-js">
+				<div class="loader-content hide-if-no-js">
 					<?php _e( 'Loading form builder...', 'torro-forms' ); ?>
 					<span class="spinner is-active"></span>
 				</div>
-				<div class="hide-if-js">
-					<?php _e( 'It seems you have disabled JavaScript in your browser. Torro Forms requires JavaScript in order to edit your forms.', 'torro-forms' ); ?>
+				<div class="torro-notice notice-warning hide-if-js">
+					<p>
+						<?php _e( 'It seems you have disabled JavaScript in your browser. Torro Forms requires JavaScript in order to edit your forms.', 'torro-forms' ); ?>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -169,8 +189,27 @@ class Form_Edit_Page_Handler {
 	 * @access private
 	 */
 	private function enqueue_assets() {
-		$this->form_manager->assets()->enqueue_script( 'admin-form-edit' );
-		$this->form_manager->assets()->enqueue_style( 'admin-form-edit' );
+		$this->form_manager->assets()->enqueue_script( 'admin-form-builder' );
+		$this->form_manager->assets()->enqueue_style( 'admin-form-builder' );
+	}
+
+	/**
+	 * Prints templates to use in JavaScript.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function print_templates() {
+		?>
+		<script type="text/html" id="tmpl-torro-failure">
+			<div class="torro-notice notice-error">
+				<p>
+					<strong><?php _e( 'Error:', 'torro-forms' ); ?></strong>
+					{{ data.message }}
+				</p>
+			</div>
+		</script>
+		<?php
 	}
 
 	/**

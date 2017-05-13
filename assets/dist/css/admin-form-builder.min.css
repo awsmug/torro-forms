@@ -1,0 +1,5 @@
+/*!
+ * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
+ * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
+ */
+.torro-form-canvas{margin-top:15px;margin-bottom:15px}.drag-drop-area{position:relative;min-height:150px;border:4px dashed #b4b9be}.drag-drop-area.is-empty>div{font-size:1.3em;line-height:1.4em;position:absolute;top:50%;left:50%;width:80%;transform:translate(-50%,-50%)}.drag-drop-area.is-empty>div.loader-content{font-style:italic;text-align:center}.drag-drop-area.is-empty .spinner{float:none;height:1.4em;margin:0 10px}.torro-notice{padding:1px 12px;border-left-width:4px;border-left-style:solid;background:#fff;-webkit-box-shadow:0 1px 1px 0 rgba(0,0,0,.1);box-shadow:0 1px 1px 0 rgba(0,0,0,.1)}

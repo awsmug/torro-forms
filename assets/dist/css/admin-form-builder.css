@@ -17,19 +17,25 @@
     border: 4px dashed #b4b9be;
 }
 
-.drag-drop-area.is-empty
+.drag-drop-area.is-empty > div
 {
     font-size: 1.3em;
     line-height: 1.4em;
-}
 
-.drag-drop-area.is-empty > div
-{
     position: absolute;
     top: 50%;
     left: 50%;
 
+    width: 80%;
+
     transform: translate(-50%, -50%);
+}
+
+.drag-drop-area.is-empty > div.loader-content
+{
+    font-style: italic;
+
+    text-align: center;
 }
 
 .drag-drop-area.is-empty .spinner
@@ -38,4 +44,15 @@
 
     height: 1.4em;
     margin: 0 10px;
+}
+
+.torro-notice
+{
+    padding: 1px 12px;
+
+    border-left-width: 4px;
+    border-left-style: solid;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 }
