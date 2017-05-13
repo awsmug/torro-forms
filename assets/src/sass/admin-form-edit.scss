@@ -1,0 +1,28 @@
+.torro-form-canvas {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.drag-drop-area {
+	position: relative;
+	min-height: 150px;
+	border: 4px dashed #b4b9be;
+
+	&.is-empty {
+		font-size: 1.3em;
+		line-height: 1.4em;
+
+		> div {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.spinner {
+			float: none;
+			height: 1.4em;
+			margin: 0 10px;
+		}
+	}
+}

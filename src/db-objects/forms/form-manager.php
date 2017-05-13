@@ -17,6 +17,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 use awsmug\Torro_Forms\Translations\Translations_Form_Manager;
+use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\DB;
 use Leaves_And_Love\Plugin_Lib\Options;
 use Leaves_And_Love\Plugin_Lib\Cache;
@@ -30,6 +31,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  *
  * @method Form_Capabilities capabilities()
  * @method Options           options()
+ * @method Assets            assets()
  * @method DB                db()
  * @method Cache             cache()
  * @method Meta              meta()
@@ -58,6 +60,16 @@ class Form_Manager extends Core_Manager {
 	protected static $service_options = Options::class;
 
 	/**
+	 * The Assets API service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_assets = Assets::class;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -69,6 +81,7 @@ class Form_Manager extends Core_Manager {
 	 *
 	 *     @type Form_Capabilities $capabilities  The capabilities instance.
 	 *     @type Options           $options       The options instance.
+	 *     @type Assets            $assets        The assets instance.
 	 *     @type DB                $db            The database instance.
 	 *     @type Cache             $cache         The cache instance.
 	 *     @type Meta              $meta          The meta instance.
@@ -282,8 +295,8 @@ class Form_Manager extends Core_Manager {
 		);
 
 		$this->actions[] = array(
-			'name'     => "save_post_{$this->get_prefix()}form",
-			'callback' => array( $this->edit_page_handler, 'maybe_handle_save_request' ),
+			'name'     => 'edit_form_after_title',
+			'callback' => array( $this->edit_page_handler, 'maybe_render_form_canvas' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);
@@ -296,6 +309,12 @@ class Form_Manager extends Core_Manager {
 		$this->actions[] = array(
 			'name'     => 'admin_enqueue_scripts',
 			'callback' => array( $this->edit_page_handler, 'maybe_enqueue_assets' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => "save_post_{$this->get_prefix()}form",
+			'callback' => array( $this->edit_page_handler, 'maybe_handle_save_request' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);

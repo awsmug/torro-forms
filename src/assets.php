@@ -46,7 +46,18 @@ class Assets extends Assets_Base {
 	 * @access protected
 	 */
 	protected function register_assets() {
-		$this->register_style( 'icons', 'assets/dist/css/icons.css', array(
+		$this->register_style( 'admin-icons', 'assets/dist/css/admin-icons.css', array(
+			'deps' => array(),
+			'ver'  => $this->plugin_version,
+		) );
+
+		$this->register_script( 'admin-form-edit', 'assets/dist/js/admin-form-edit.js', array(
+			'deps'      => array( 'jquery', 'underscore', 'backbone', 'wp-api' ),
+			'ver'       => $this->plugin_version,
+			'in_footer' => true,
+		) );
+
+		$this->register_style( 'admin-form-edit', 'assets/dist/css/admin-form-edit.css', array(
 			'deps' => array(),
 			'ver'  => $this->plugin_version,
 		) );

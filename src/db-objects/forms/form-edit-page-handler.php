@@ -40,6 +40,23 @@ class Form_Edit_Page_Handler {
 	}
 
 	/**
+	 * Renders form canvas if conditions are met.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param WP_Post $post Current post.
+	 */
+	public function maybe_render_form_canvas( $post ) {
+		$form = $this->form_manager->get( $post->ID );
+		if ( ! $form ) {
+			return;
+		}
+
+		$this->render_form_canvas( $form );
+	}
+
+	/**
 	 * Adds meta boxes if conditions are met.
 	 *
 	 * @since 1.0.0
@@ -110,12 +127,36 @@ class Form_Edit_Page_Handler {
 	}
 
 	/**
+	 * Renders form canvas.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param Form $form Current form.
+	 */
+	private function render_form_canvas( $form ) {
+		?>
+		<div class="torro-form-canvas">
+			<div class="drag-drop-area is-empty">
+				<div class="hide-if-no-js">
+					<?php _e( 'Loading form builder...', 'torro-forms' ); ?>
+					<span class="spinner is-active"></span>
+				</div>
+				<div class="hide-if-js">
+					<?php _e( 'It seems you have disabled JavaScript in your browser. Torro Forms requires JavaScript in order to edit your forms.', 'torro-forms' ); ?>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Adds meta boxes to the page.
 	 *
 	 * @since 1.0.0
 	 * @access private
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Forms $form Current form.
+	 * @param Form $form Current form.
 	 */
 	private function add_meta_boxes( $form ) {
 		// Empty method body.
@@ -128,7 +169,8 @@ class Form_Edit_Page_Handler {
 	 * @access private
 	 */
 	private function enqueue_assets() {
-		// Empty method body.
+		$this->form_manager->assets()->enqueue_script( 'admin-form-edit' );
+		$this->form_manager->assets()->enqueue_style( 'admin-form-edit' );
 	}
 
 	/**
