@@ -14,6 +14,14 @@ window.torro = window.torro || {};
 
 		this.instanceNumber = instanceCount;
 		this.$el = $( selector );
+
+		this.elementTypes;
+
+		this.form;
+		this.containers;
+		this.elements;
+		this.elementChoices;
+		this.elementSettings;
 	}
 
 	_.extend( Builder.prototype, {
@@ -28,24 +36,45 @@ window.torro = window.torro || {};
 					( new torro.api.models.Form({
 						id: parseInt( $( '#post_ID' ).val(), 10 )
 					}) ).fetch({
-						data: { _embed: true },
+						data: {
+							context: 'edit',
+							_embed: true
+						},
 						context: this,
 						success: function( form ) {
-							$( document ).ready( _.bind( function() {
-								var i;
+							( new torro.api.collections.ElementTypes() ).fetch({
+								data: {
+									context: 'edit'
+								},
+								context: this,
+								success: function( elementTypes ) {
+									$( document ).ready( _.bind( function() {
+										var i;
 
-								initialized.push( this.instanceCount );
+										initialized.push( this.instanceCount );
 
-								console.log( form );
+										this.elementTypes = torro.Builder.ElementTypes.fromApiCollection( elementTypes );
 
-								this.addHooks();
-								this.setupInitialData( form );
+										this.addHooks();
+										this.setupInitialData( form );
 
-								for ( i in callbacks[ 'builder' + this.instanceCount ] ) {
-									callbacks[ 'builder' + this.instanceCount ][ i ]( this );
+										for ( i in callbacks[ 'builder' + this.instanceCount ] ) {
+											callbacks[ 'builder' + this.instanceCount ][ i ]( this );
+										}
+
+										delete callbacks[ 'builder' + this.instanceCount ];
+									}, this ) );
+								},
+								error: function() {
+									$( document ).ready( _.bind( function() {
+										this.fail( i18n.couldNotLoadData );
+									}, this ) );
 								}
-
-								delete callbacks[ 'builder' + this.instanceCount ];
+							});
+						},
+						error: function() {
+							$( document ).ready( _.bind( function() {
+								this.fail( i18n.couldNotLoadData );
 							}, this ) );
 						}
 					});

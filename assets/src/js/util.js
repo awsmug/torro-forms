@@ -19,12 +19,19 @@ window.torro = window.torro || {};
 
 				wp.api.init({ versionString: torro.api.versionString })
 					.done( function() {
+						var origUrl = this.collections.ElementsTypes.prototype.url;
+
 						torro.api.collections = _.extend( torro.api.collections, {
 							Forms: this.collections.Forms,
 							FormCategories: this.collections.Form_categories,
 							Containers: this.collections.Containers,
 							Elements: this.collections.Elements,
-							ElementTypes: this.collections.ElementsTypes,
+							ElementTypes: this.collections.ElementsTypes.extend({
+								url: function() {
+									/* Fix bug in element types URL. */
+									return origUrl.call( this ).replace( 'elements//types', 'elements/types' );
+								}
+							}),
 							ElementChoices: this.collections.Element_choices,
 							ElementSettings: this.collections.Element_settings,
 							Submissions: this.collections.Submissions,
@@ -58,5 +65,18 @@ window.torro = window.torro || {};
 
 	torro.template = function( id ) {
 		return wp.template( 'torro-' + id );
+	};
+
+	torro.isTempId = function( id ) {
+		return _.isString( id ) && 'temp_id_' === id.substring( 0, 8 );
+	};
+
+	torro.generateTempId = function() {
+		var random = Math.floor( Math.random() * ( 10000 - 10 + 1 ) ) + 10;
+
+		random = random * ( new Date() ).getTime();
+		random = random.toString();
+
+		return ( 'temp_id_' + random ).substring( 0, 14 );
 	};
 }( window.torro, window.jQuery, window._, window.wp ) );

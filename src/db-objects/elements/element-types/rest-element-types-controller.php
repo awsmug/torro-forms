@@ -124,7 +124,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 		foreach ( $this->manager->types()->get_all() as $obj ) {
 			$type = $this->prepare_item_for_response( $obj, $request );
 
-			$data[ $obj->get_slug() ] = $this->prepare_response_for_collection( $type );
+			$data[] = $this->prepare_response_for_collection( $type );
 		}
 
 		return rest_ensure_response( $data );
