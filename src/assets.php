@@ -40,6 +40,55 @@ class Assets extends Assets_Base {
 	}
 
 	/**
+	 * Transforms a relative asset path into a full URL.
+	 *
+	 * The method also automatically handles loading a minified vs non-minified file.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $src Relative asset path.
+	 * @return string|bool Full asset URL, or false if the path
+	 *                     is requested for a full $src URL.
+	 */
+	public function get_full_url( $src ) {
+		return $this->get_full_path( $src, true );
+	}
+
+	/**
+	 * Transforms a relative asset path into a full path.
+	 *
+	 * The method also automatically handles loading a minified vs non-minified file.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $src Relative asset path.
+	 * @param bool   $url Whether to return the URL instead of the path. Default false.
+	 * @return string|bool Full asset path or URL, depending on the $url parameter, or false
+	 *                     if the path is requested for a full $src URL.
+	 */
+	public function get_full_path( $src, $url = false ) {
+		if ( preg_match( '/^(http|https):\/\//', $src ) || 0 === strpos( $src, '//' ) ) {
+			if ( $url ) {
+				return $src;
+			}
+
+			return false;
+		}
+
+		if ( '.js' !== substr( $src, -3 ) && '.css' !== substr( $src, -4 ) ) {
+			if ( $url ) {
+				return call_user_func( $this->url_callback, $src );
+			}
+
+			return call_user_func( $this->path_callback, $src );
+		}
+
+		return parent::get_full_path( $src, $url );
+	}
+
+	/**
 	 * Registers all default plugin assets.
 	 *
 	 * @since 1.0.0
