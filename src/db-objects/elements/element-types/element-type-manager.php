@@ -13,6 +13,7 @@ use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager;
 use awsmug\Torro_Forms\Error;
+use awsmug\Torro_Forms\Assets;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
@@ -21,6 +22,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @since 1.0.0
  *
  * @method Element_Manager elements()
+ * @method Assets          assets()
  * @method Error_Handler   error_handler()
  */
 class Element_Type_Manager extends Service {
@@ -55,6 +57,16 @@ class Element_Type_Manager extends Service {
 	protected static $service_elements = Element_Manager::class;
 
 	/**
+	 * The Assets API service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_assets = Assets::class;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -65,6 +77,7 @@ class Element_Type_Manager extends Service {
 	 *     Array of service instances.
 	 *
 	 *     @type Element_Manager $elements      The element manager instance.
+	 *     @type Assets          $assets        The assets instance.
 	 *     @type Error_Handler   $error_handler The error handler instance.
 	 * }
 	 */
