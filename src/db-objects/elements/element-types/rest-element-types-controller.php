@@ -124,7 +124,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 		foreach ( $this->manager->types()->get_all() as $obj ) {
 			$type = $this->prepare_item_for_response( $obj, $request );
 
-			$data[ $obj->slug ] = $this->prepare_response_for_collection( $type );
+			$data[ $obj->get_slug() ] = $this->prepare_response_for_collection( $type );
 		}
 
 		return rest_ensure_response( $data );
@@ -204,9 +204,9 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				case 'multifield':
 					$data[ $property ] = is_a( $element_type, Multi_Field_Element_Type_Interface::class );
 					break;
+				default:
+					$data[ $property ] = null;
 			}
-
-			$data[ $property ] = null;
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
@@ -234,13 +234,13 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 
 		$links = array(
 			'self' => array(
-				'href'   => rest_url( trailingslashit( $base ) . $element_type->slug ),
+				'href'   => rest_url( trailingslashit( $base ) . $element_type->get_slug() ),
 			),
 			'collection' => array(
 				'href'   => rest_url( $base ),
 			),
-			'https://api.w.org/items' => array(
-				'href' => rest_url( substr( $base, 0, -6 ) . '?type=' . $element_type->slug ),
+			'elements' => array(
+				'href' => rest_url( substr( $base, 0, -6 ) . '?type=' . $element_type->get_slug() ),
 			),
 		);
 
