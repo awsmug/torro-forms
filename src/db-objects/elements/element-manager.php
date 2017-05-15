@@ -93,7 +93,7 @@ class Element_Manager extends Manager {
 
 		$this->types = new Element_Type_Manager( $this->get_prefix(), array(
 			'elements'      => $this,
-			'assets'        => $this->assets,
+			'assets'        => $this->assets(),
 			'error_handler' => $this->error_handler(),
 		) );
 	}
