@@ -204,6 +204,20 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				case 'multifield':
 					$data[ $property ] = is_a( $element_type, Multi_Field_Element_Type_Interface::class );
 					break;
+				case 'sections':
+					$sections = $element_type->get_settings_sections();
+					$data[ $property ] = array();
+					foreach ( $sections as $slug => $section ) {
+						$data[ $property ][] = array_merge( array( 'slug' => $slug ), $section );
+					}
+					break;
+				case 'fields':
+					$fields = $element_type->get_settings_fields();
+					$data[ $property ] = array();
+					foreach ( $fields as $slug => $field ) {
+						$data[ $property ][] = array_merge( array( 'slug' => $slug ), $field );
+					}
+					break;
 				default:
 					$data[ $property ] = null;
 			}
@@ -296,6 +310,82 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
+				),
+				'sections'    => array(
+					'description' => __( 'Settings sections the element type uses.', 'torro-forms' ),
+					'type'        => 'array',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'slug'  => array(
+								'description' => __( 'Slug for the element type settings section.', 'torro-forms' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+							'title' => array(
+								'description' => __( 'Title for the element type settings section.', 'torro-forms' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+						),
+					),
+				),
+				'fields'      => array(
+					'description' => __( 'Settings fields the element type uses.', 'torro-forms' ),
+					'type'        => 'array',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'slug'        => array(
+								'description' => __( 'Slug for the element type settings field.', 'torro-forms' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+							'section'     => array(
+								'description' => __( 'Slug of the section for the element type settings field.', 'torro-forms' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+							'type'        => array(
+								'description' => __( 'Identifier for the field API type the element type settings field uses.', 'torro-forms' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+							'label'       => array(
+								'description' => __( 'Label for the element type settings field.', 'torro-forms' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+							'description' => array(
+								'description' => __( 'Description for the element type settings field.', 'torro-forms' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+							'is_label'    => array(
+								'description' => __( 'Whether the element type settings field determines the element label.', 'torro-forms' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+							'is_choices'  => array(
+								'description' => __( 'Whether the element type settings field determines element choices.', 'torro-forms' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'readonly'    => true,
+							),
+						),
+					),
 				),
 			),
 		);
