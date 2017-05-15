@@ -1,6 +1,13 @@
 ( function( $ ) {
 	'use strict';
 
+	var $rewriteSlugPreview = $( '#torro-rewrite-slug-preview' );
+	if ( $rewriteSlugPreview.length ) {
+		$rewriteSlugPreview.parent().prev().on( 'keyup', function() {
+			$rewriteSlugPreview.text( $( this ).val() );
+		});
+	}
+
 	$( '.torro-subtab' ).on( 'click', function( e ) {
 		var $this = $( this );
 		var $all  = $this.parent().children( '.torro-subtab' );
@@ -22,11 +29,4 @@
 		});
 	});
 
-	var $rewriteSlugPreview = $( '#torro-rewrite-slug-preview' );
-	if ( $rewriteSlugPreview.length ) {
-		$rewriteSlugPreview.parent().prev().on( 'keyup', function() {
-			$rewriteSlugPreview.text( $( this ).val() );
-		});
-	}
-
-}( jQuery ) );
+}( window.jQuery ) );

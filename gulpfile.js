@@ -79,15 +79,14 @@ var assetheader =	'/*!\n' +
 
 var gulp = require( 'gulp' );
 
-var gutil = require( 'gulp-util' );
 var rename = require( 'gulp-rename' );
 var replace = require( 'gulp-replace' );
-var sort = require( 'gulp-sort' );
 var banner = require( 'gulp-banner' );
 var sass = require( 'gulp-sass' );
 var csscomb = require( 'gulp-csscomb' );
 var cleanCss = require( 'gulp-clean-css' );
 var jshint = require( 'gulp-jshint' );
+var jscs = require( 'gulp-jscs' );
 var concat = require( 'gulp-concat' );
 var uglify = require( 'gulp-uglify' );
 
@@ -96,12 +95,21 @@ var paths = {
 		files: [ './*.php', './src/**/*.php', './templates/**/*.php' ]
 	},
 	sass: {
-		files: [ './assets/src/sass/**/*.scss' ],
+		files: [ './assets/src/sass/*.scss' ],
 		src: './assets/src/sass/',
 		dst: './assets/dist/css/'
 	},
 	js: {
-		files: [ './assets/src/js/**/*.js' ],
+		files: [ './assets/src/js/*.js' ],
+		builderFiles: [
+			'./assets/src/js/admin-form-builder/app.js',
+			'./assets/src/js/admin-form-builder/element-type.js',
+			'./assets/src/js/admin-form-builder/element-types.js',
+			'./assets/src/js/admin-form-builder/collections/*.js',
+			'./assets/src/js/admin-form-builder/factories/*.js',
+			'./assets/src/js/admin-form-builder/views/*.js',
+			'./assets/src/js/admin-form-builder/init.js',
+		],
 		src: './assets/src/js/',
 		dst: './assets/dist/js/'
 	}
@@ -150,9 +158,10 @@ gulp.task( 'sass', function( done ) {
 // compile JavaScript
 gulp.task( 'js', function( done ) {
 	gulp.src( paths.js.files )
-		.pipe( jshint({
-			lookup: true
-		}) )
+		.pipe( jshint() )
+		.pipe( jshint.reporter( 'default' ) )
+		.pipe( jscs() )
+		.pipe( jscs.reporter() )
 		.pipe( banner( assetheader ) )
 		.pipe( gulp.dest( paths.js.dst ) )
 		.pipe( uglify() )
@@ -161,7 +170,23 @@ gulp.task( 'js', function( done ) {
 			extname: '.min.js'
 		}) )
 		.pipe( gulp.dest( paths.js.dst ) )
-		.on( 'end', done );
+		.on( 'end', function() {
+			gulp.src( paths.js.builderFiles )
+				.pipe( jshint() )
+				.pipe( jshint.reporter( 'default' ) )
+				.pipe( jscs() )
+				.pipe( jscs.reporter() )
+				.pipe( concat( 'admin-form-builder.js' ) )
+				.pipe( banner( assetheader ) )
+				.pipe( gulp.dest( paths.js.dst ) )
+				.pipe( uglify() )
+				.pipe( banner( assetheader ) )
+				.pipe( rename({
+					extname: '.min.js'
+				}) )
+				.pipe( gulp.dest( paths.js.dst ) )
+				.on( 'end', done );
+		});
 });
 
 // replace the plugin header in the main plugin file

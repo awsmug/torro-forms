@@ -4,7 +4,9 @@ window.torro = window.torro || {};
 	'use strict';
 
 	var instanceCount = 0,
-		callbacks = {};
+		initialized = [],
+		callbacks = {},
+		builder;
 
 	function Builder( selector ) {
 		instanceCount++;
@@ -30,9 +32,16 @@ window.torro = window.torro || {};
 						context: this,
 						success: function( form ) {
 							$( document ).ready( _.bind( function() {
+								var i;
+
+								initialized.push( this.instanceCount );
+
 								console.log( form );
 
-								for ( var i in callbacks[ 'builder' + this.instanceCount ] ) {
+								this.addHooks();
+								this.setupInitialData( form );
+
+								for ( i in callbacks[ 'builder' + this.instanceCount ] ) {
 									callbacks[ 'builder' + this.instanceCount ][ i ]( this );
 								}
 
@@ -46,6 +55,18 @@ window.torro = window.torro || {};
 						this.fail( i18n.couldNotLoadData );
 					}, this ) );
 				}, this ) );
+		},
+
+		addHooks: function() {
+			if ( ! _.contains( initialized, this.instanceCount ) ) {
+				return;
+			}
+		},
+
+		setupInitialData: function( form ) {
+			if ( ! _.contains( initialized, this.instanceCount ) ) {
+				return;
+			}
 		},
 
 		onLoad: function( callback ) {
@@ -64,11 +85,13 @@ window.torro = window.torro || {};
 		}
 	});
 
-	var builder = new Builder( '#torro-form-canvas' );
-	builder.init();
-
 	torro.Builder = Builder;
-	torro.Builder.instance = function() {
+	torro.Builder.getInstance = function() {
+		if ( ! builder ) {
+			builder = new Builder( '#torro-form-canvas' );
+			builder.init();
+		}
+
 		return builder;
 	};
 

@@ -4,7 +4,7 @@
  */
 window.torro = window.torro || {};
 
-( function( exports, $, _, wp ) {
+( function( torro, $, _, wp ) {
 	var apiPromise;
 
 	torro.api = {
