@@ -198,6 +198,12 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				case 'icon_url':
 					$data[ $property ] = call_user_func( array( $element_type, 'get_' . $property ) );
 					break;
+				case 'evaluable':
+					$data[ $property ] = is_a( $element_type, Evaluable_Element_Type_Interface::class );
+					break;
+				case 'multifield':
+					$data[ $property ] = is_a( $element_type, Multi_Field_Element_Type_Interface::class );
+					break;
 			}
 
 			$data[ $property ] = null;
@@ -276,6 +282,18 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				'icon_url'    => array(
 					'description' => __( 'Icon URL for the element type.', 'torro-forms' ),
 					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
+				'evaluable'   => array(
+					'description' => __( 'Whether the element type is evaluable in stats.', 'torro-forms' ),
+					'type'        => 'boolean',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
+				'multifield'  => array(
+					'description' => __( 'Whether the element type contains multiple fields.', 'torro-forms' ),
+					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
