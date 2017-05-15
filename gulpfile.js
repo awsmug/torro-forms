@@ -105,6 +105,7 @@ var paths = {
 			'./assets/src/js/admin-form-builder/app.js',
 			'./assets/src/js/admin-form-builder/element-type.js',
 			'./assets/src/js/admin-form-builder/element-types.js',
+			'./assets/src/js/admin-form-builder/models/*.js',
 			'./assets/src/js/admin-form-builder/collections/*.js',
 			'./assets/src/js/admin-form-builder/factories/*.js',
 			'./assets/src/js/admin-form-builder/views/*.js',

@@ -8,6 +8,13 @@ window.torro = window.torro || {};
 		callbacks = {},
 		builder;
 
+	/**
+	 * A form builder instance.
+	 *
+	 * @class
+	 *
+	 * @param {string} selector DOM selector for the wrapping element for the UI.
+	 */
 	function Builder( selector ) {
 		instanceCount++;
 		callbacks[ 'builder' + instanceCount ] = [];
@@ -25,6 +32,13 @@ window.torro = window.torro || {};
 	}
 
 	_.extend( Builder.prototype, {
+
+		/**
+		 * Initializes the form builder.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
 		init: function() {
 			if ( ! this.$el.length ) {
 				console.error( i18n.couldNotInitCanvas );
@@ -86,18 +100,48 @@ window.torro = window.torro || {};
 				}, this ) );
 		},
 
+		/**
+		 * Adds hooked callbacks.
+		 *
+		 * This method only works if the form builder has been initialized.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
 		addHooks: function() {
 			if ( ! _.contains( initialized, this.instanceCount ) ) {
 				return;
 			}
 		},
 
+		/**
+		 * Sets up initial data for the form builder.
+		 *
+		 * This method only works if the form builder has been initialized.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object} form REST API form response including embedded data.
+		 */
 		setupInitialData: function( form ) {
 			if ( ! _.contains( initialized, this.instanceCount ) ) {
 				return;
 			}
 		},
 
+		/**
+		 * Adds a callback that will be executed once the form builder has been initialized.
+		 *
+		 * If the form builder has already been initialized, the callback will be executed
+		 * immediately.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {function} callback Callback to execute. Should accept the form builder instance
+		 *                            as parameter.
+		 */
 		onLoad: function( callback ) {
 			if ( _.isUndefined( callbacks[ 'builder' + this.instanceCount ] ) ) {
 				callback( this );
@@ -107,6 +151,14 @@ window.torro = window.torro || {};
 			callbacks[ 'builder' + this.instanceCount ].push( callback );
 		},
 
+		/**
+		 * Shows a failure message for the form builder in the UI.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {string} message Failure message to display.
+		 */
 		fail: function( message ) {
 			var compiled = torro.template( 'failure' );
 
@@ -115,6 +167,15 @@ window.torro = window.torro || {};
 	});
 
 	torro.Builder = Builder;
+
+	/**
+	 * Returns the main form builder instance.
+	 *
+	 * It will be instantiated and initialized if it does not exist yet.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	torro.Builder.getInstance = function() {
 		if ( ! builder ) {
 			builder = new Builder( '#torro-form-canvas' );
