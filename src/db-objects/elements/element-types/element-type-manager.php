@@ -15,6 +15,7 @@ use awsmug\Torro_Forms\DB_Objects\Elements\Element_Manager;
 use awsmug\Torro_Forms\Error;
 use awsmug\Torro_Forms\Assets;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
+use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 
 /**
  * Manager class for element types.
@@ -207,6 +208,24 @@ class Element_Type_Manager extends Service {
 	}
 
 	/**
+	 * Enqueues form builder scripts for the available element types.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function enqueue_admin_scripts() {
+		$dummy_manager = new Field_Manager( $this->manager->get_prefix(), $services, array(
+			'get_value_callback_args'    => array( $id ),
+			'update_value_callback_args' => array( $id, '{value}' ),
+			'name_prefix'                => $this->get_prefix() . 'dummy',
+		) );
+
+		foreach ( $this->element_types as $slug => $element_type ) {
+			//TODO: add dummy fields, and enqueue afterwards.
+		}
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * This method must be implemented and then be called from the constructor.
@@ -219,6 +238,12 @@ class Element_Type_Manager extends Service {
 			array(
 				'name'     => 'init',
 				'callback' => array( $this, 'register_defaults' ),
+				'priority' => 1,
+				'num_args' => 0,
+			),
+			array(
+				'name'     => "{$this->get_prefix()}enqueue_form_builder_scripts",
+				'callback' => array( $this, 'enqueue_admin_scripts' ),
 				'priority' => 1,
 				'num_args' => 0,
 			),
