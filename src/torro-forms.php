@@ -445,6 +445,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Elements\Element_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'assets'        => $this->assets,
+			'ajax'          => $this->ajax,
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Manager' ) );

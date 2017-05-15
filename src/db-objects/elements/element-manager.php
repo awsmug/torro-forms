@@ -18,6 +18,7 @@ use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type_Manager;
 use awsmug\Torro_Forms\Translations\Translations_Element_Manager;
 use awsmug\Torro_Forms\DB;
 use awsmug\Torro_Forms\Assets;
+use Leaves_And_Love\Plugin_Lib\AJAX;
 use Leaves_And_Love\Plugin_Lib\Cache;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
@@ -29,6 +30,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method Element_Capabilities capabilities()
  * @method DB                   db()
  * @method Assets               assets()
+ * @method AJAX                 ajax()
  * @method Cache                cache()
  * @method Error_Handler        error_handler()
  */
@@ -55,6 +57,16 @@ class Element_Manager extends Manager {
 	protected static $service_assets = Assets::class;
 
 	/**
+	 * The AJAX API service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_ajax = AJAX::class;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -67,6 +79,7 @@ class Element_Manager extends Manager {
 	 *     @type Element_Capabilities $capabilities  The capabilities instance.
 	 *     @type DB                   $db            The database instance.
 	 *     @type Assets               $assets        The assets instance.
+	 *     @type AJAX                 $ajax          The AJAX instance.
 	 *     @type Cache                $cache         The cache instance.
 	 *     @type Error_Handler        $error_handler The error handler instance.
 	 * }
