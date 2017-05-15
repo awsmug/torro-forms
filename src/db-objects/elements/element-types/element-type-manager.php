@@ -214,15 +214,35 @@ class Element_Type_Manager extends Service {
 	 * @access protected
 	 */
 	protected function enqueue_admin_scripts() {
-		$dummy_manager = new Field_Manager( $this->manager->get_prefix(), $services, array(
-			'get_value_callback_args'    => array( $id ),
-			'update_value_callback_args' => array( $id, '{value}' ),
-			'name_prefix'                => $this->get_prefix() . 'dummy',
+		$services = array(
+			'ajax'          => $this->elements()->ajax(),
+			'assets'        => $this->elements()->assets(),
+			'error_handler' => $this->elements()->error_handler(),
+		);
+
+		$dummy_manager = new Field_Manager( $this->get_prefix(), $services, array(
+			'get_value_callback'    => '__return_empty_array',
+			'update_value_callback' => '__return_empty_array',
+			'name_prefix'           => $this->get_prefix() . 'dummy',
 		) );
 
+		$added = array();
 		foreach ( $this->element_types as $slug => $element_type ) {
-			//TODO: add dummy fields, and enqueue afterwards.
+			$fields = $element_type->get_settings_fields();
+			foreach ( $fields as $field ) {
+				if ( in_array( $field['type'], $added, true ) ) {
+					continue;
+				}
+
+				$dummy_manager->add( 'dummy_' . $field['type'], $field['type'], array(
+					'section' => 'main',
+					'label'   => sprintf( 'Dummy %s', $field['type'] ),
+				) );
+				$added[] = $field['type'];
+			}
 		}
+
+		$dummy_manager->enqueue();
 	}
 
 	/**
