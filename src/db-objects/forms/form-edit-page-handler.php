@@ -231,36 +231,36 @@ class Form_Edit_Page_Handler {
 
 		$errors = new WP_Error();
 
-		if ( isset( $_POST['containers'] ) ) {
-			$mappings = $this->save_containers( wp_unslash( $_POST['containers'] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ) ) {
+			$mappings = $this->save_containers( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ), $mappings, $errors );
 		}
 
-		if ( isset( $_POST['elements'] ) ) {
-			$mappings = $this->save_elements( wp_unslash( $_POST['elements'] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ) ) {
+			$mappings = $this->save_elements( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ), $mappings, $errors );
 		}
 
-		if ( isset( $_POST['element_choices'] ) ) {
-			$mappings = $this->save_element_choices( wp_unslash( $_POST['element_choices'] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ) ) {
+			$mappings = $this->save_element_choices( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ), $mappings, $errors );
 		}
 
-		if ( isset( $_POST['element_settings'] ) ) {
-			$mappings = $this->save_element_settings( wp_unslash( $_POST['element_settings'] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ) ) {
+			$mappings = $this->save_element_settings( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ), $mappings, $errors );
 		}
 
-		if ( isset( $_POST['deleted_containers'] ) ) {
-			$this->delete_containers( array_map( 'absint', $_POST['deleted_containers'] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) ) {
+			$this->delete_containers( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) );
 		}
 
-		if ( isset( $_POST['deleted_elements'] ) ) {
-			$this->delete_elements( array_map( 'absint', $_POST['deleted_elements'] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) ) {
+			$this->delete_elements( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) );
 		}
 
-		if ( isset( $_POST['deleted_element_choices'] ) ) {
-			$this->delete_element_choices( array_map( 'absint', $_POST['deleted_element_choices'] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) ) {
+			$this->delete_element_choices( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) );
 		}
 
-		if ( isset( $_POST['deleted_element_settings'] ) ) {
-			$this->delete_element_settings( array_map( 'absint', $_POST['deleted_element_settings'] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ) {
+			$this->delete_element_settings( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) );
 		}
 	}
 
