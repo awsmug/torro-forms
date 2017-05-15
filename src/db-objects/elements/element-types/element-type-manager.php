@@ -86,7 +86,9 @@ class Element_Type_Manager extends Service {
 		$this->set_services( $services );
 		$this->setup_hooks();
 
-		$this->default_element_types = array();
+		$this->default_element_types = array(
+			'textfield' => Base\Text::class,
+		);
 	}
 
 	/**
