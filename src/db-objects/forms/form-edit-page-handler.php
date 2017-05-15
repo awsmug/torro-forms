@@ -191,6 +191,13 @@ class Form_Edit_Page_Handler {
 	private function enqueue_assets() {
 		$this->form_manager->assets()->enqueue_script( 'admin-form-builder' );
 		$this->form_manager->assets()->enqueue_style( 'admin-form-builder' );
+
+		/**
+		 * Fires after scripts and stylesheets for the form builder have been enqueued.
+		 *
+		 * @since 1.0.0
+		 */
+		do_action( "{$this->form_manager->get_prefix()}enqueue_form_builder_scripts" );
 	}
 
 	/**
@@ -218,7 +225,7 @@ class Form_Edit_Page_Handler {
 	 * @since 1.0.0
 	 * @access private
 	 *
-	 * @param awsmug\Torro_Forms\DB_Objects\Forms $form Current form.
+	 * @param Form $form Current form.
 	 */
 	private function handle_save_request( $form ) {
 		$mappings = array(
@@ -262,6 +269,15 @@ class Form_Edit_Page_Handler {
 		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ) {
 			$this->delete_element_settings( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) );
 		}
+
+		/**
+		 * Fires after a form has been saved.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Form $form Form that has been saved.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}save_form", $form );
 	}
 
 	/**
