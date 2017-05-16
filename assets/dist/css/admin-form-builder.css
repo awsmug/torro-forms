@@ -2,6 +2,9 @@
  * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
  * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
+/* ----------------------------------------------------------------------------
+  1.0 - Torro Form Canvas
+---------------------------------------------------------------------------- */
 .torro-form-canvas
 {
     margin-top: 15px;
@@ -41,8 +44,13 @@
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
 
+/* ----------------------------------------------------------------------------
+  2.0 - Torro Form Canvas Tabs
+---------------------------------------------------------------------------- */
 .torro-form-canvas-header.torro-form-canvas-tabs
 {
     padding: 0 12px;
@@ -91,6 +99,20 @@
     color: #b4b9be;
 }
 
+.torro-form-canvas-panel[aria-hidden='true']
+{
+    position: absolute !important;
+
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+
+    width: 1px;
+    height: 1px;
+}
+
+/* ----------------------------------------------------------------------------
+  3.0 - Drag & Drop Area
+---------------------------------------------------------------------------- */
 .drag-drop-area
 {
     position: relative;
@@ -117,11 +139,14 @@
     transform: translate(-50%, -50%);
 }
 
+.drag-drop-area.is-empty > div.content
+{
+    text-align: center;
+}
+
 .drag-drop-area.is-empty > div.loader-content
 {
     font-style: italic;
-
-    text-align: center;
 }
 
 .drag-drop-area.is-empty .spinner
@@ -132,6 +157,9 @@
     margin: 0 10px;
 }
 
+/* ----------------------------------------------------------------------------
+  4.0 - General Notice
+---------------------------------------------------------------------------- */
 .torro-notice
 {
     padding: 1px 12px;
@@ -141,4 +169,62 @@
     background: #fff;
     -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - Polyfill for button links in WordPress < 4.8
+---------------------------------------------------------------------------- */
+.wp-core-ui .button-link
+{
+    margin: 0;
+    padding: 0;
+
+    cursor: pointer;
+    -webkit-transition-timing-function: ease-in-out;
+            transition-timing-function: ease-in-out;
+    -webkit-transition-duration: .05s;
+            transition-duration: .05s;
+    -webkit-transition-property: border, background, color;
+            transition-property: border, background, color;
+    text-align: left;
+    text-decoration: underline;
+    /* Mimics the default link style in common.css */
+
+    color: #0073aa;
+    border: 0;
+    -webkit-border-radius: 0;
+            border-radius: 0;
+    outline: none;
+    background: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.wp-core-ui .button-link:hover,
+.wp-core-ui .button-link:active
+{
+    color: #00a0d2;
+}
+
+.wp-core-ui .button-link:focus
+{
+    color: #124964;
+    -webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+            box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
+.wp-core-ui .button-link-delete
+{
+    color: #a00;
+}
+
+.wp-core-ui .button-link-delete:hover,
+.wp-core-ui .button-link-delete:focus
+{
+    color: #f00;
+}
+
+.ie8 .wp-core-ui .button-link:focus
+{
+    outline: #5b9dd9 solid 1px;
 }

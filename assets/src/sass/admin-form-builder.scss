@@ -1,3 +1,7 @@
+/* ----------------------------------------------------------------------------
+  1.0 - Torro Form Canvas
+---------------------------------------------------------------------------- */
+
 .torro-form-canvas {
 	margin-top: 15px;
 	margin-bottom: 15px;
@@ -30,7 +34,13 @@
 	border-right-width: 1px;
 	border-bottom-width: 1px;
 	border-left-width: 1px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
+
+/* ----------------------------------------------------------------------------
+  2.0 - Torro Form Canvas Tabs
+---------------------------------------------------------------------------- */
 
 .torro-form-canvas-header.torro-form-canvas-tabs {
 	padding: 0 12px;
@@ -67,6 +77,18 @@
 	}
 }
 
+.torro-form-canvas-panel[aria-hidden="true"] {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
+}
+
+/* ----------------------------------------------------------------------------
+  3.0 - Drag & Drop Area
+---------------------------------------------------------------------------- */
+
 .drag-drop-area {
 	position: relative;
 	min-height: 150px;
@@ -83,9 +105,12 @@
 			font-size: 1.3em;
 			line-height: 1.4em;
 
+			&.content {
+				text-align: center;
+			}
+
 			&.loader-content {
 				font-style: italic;
-				text-align: center;
 			}
 		}
 
@@ -97,6 +122,10 @@
 	}
 }
 
+/* ----------------------------------------------------------------------------
+  4.0 - General Notice
+---------------------------------------------------------------------------- */
+
 .torro-notice {
 	padding: 1px 12px;
 	background: #ffffff;
@@ -104,4 +133,55 @@
 	border-left-style: solid;
 	-webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, .1 );
 	        box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, .1 );
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - Polyfill for button links in WordPress < 4.8
+---------------------------------------------------------------------------- */
+
+.wp-core-ui .button-link {
+	margin: 0;
+	padding: 0;
+	-webkit-box-shadow: none;
+	        box-shadow: none;
+	border: 0;
+	-webkit-border-radius: 0;
+	        border-radius: 0;
+	background: none;
+	outline: none;
+	cursor: pointer;
+	text-align: left;
+	/* Mimics the default link style in common.css */
+	color: #0073aa;
+	text-decoration: underline;
+	-webkit-transition-property: border, background, color;
+	        transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	        transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	        transition-timing-function: ease-in-out;
+
+	&:hover,
+	&:active {
+		color: #00a0d2;
+	}
+
+	&:focus {
+		color: #124964;
+		-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+		        box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	}
+}
+
+.wp-core-ui .button-link-delete {
+	color: #a00;
+
+	&:hover,
+	&:focus {
+		color: #f00;
+	}
+}
+
+.ie8 .wp-core-ui .button-link:focus {
+	outline: #5b9dd9 solid 1px;
 }
