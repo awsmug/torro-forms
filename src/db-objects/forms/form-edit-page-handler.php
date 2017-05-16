@@ -155,16 +155,29 @@ class Form_Edit_Page_Handler {
 	private function render_form_canvas( $form ) {
 		?>
 		<div id="torro-form-canvas" class="torro-form-canvas">
-			<div class="drag-drop-area is-empty">
-				<div class="loader-content hide-if-no-js">
-					<?php _e( 'Loading form builder...', 'torro-forms' ); ?>
-					<span class="spinner is-active"></span>
+			<div class="torro-form-canvas-header torro-form-canvas-tabs" role="tablist">
+				<button type="button" id="container-tab-1" class="torro-form-canvas-tab" aria-controls="container-panel-1" role="tab">
+					<span>Page 1</span>
+				</button>
+				<button type="button" class="torro-form-canvas-tab" aria-selected="true" disabled="disabled">
+					<span aria-hidden="true">+</span><span class="screen-reader-text"><?php _e( 'Add New Container', 'torro-forms' ); ?></span>
+				</button>
+			</div>
+			<div class="torro-form-canvas-content">
+				<div class="drag-drop-area is-empty">
+					<div class="loader-content hide-if-no-js">
+						<?php _e( 'Loading form builder...', 'torro-forms' ); ?>
+						<span class="spinner is-active"></span>
+					</div>
+					<div class="torro-notice notice-warning hide-if-js">
+						<p>
+							<?php _e( 'It seems you have disabled JavaScript in your browser. Torro Forms requires JavaScript in order to edit your forms.', 'torro-forms' ); ?>
+						</p>
+					</div>
 				</div>
-				<div class="torro-notice notice-warning hide-if-js">
-					<p>
-						<?php _e( 'It seems you have disabled JavaScript in your browser. Torro Forms requires JavaScript in order to edit your forms.', 'torro-forms' ); ?>
-					</p>
-				</div>
+			</div>
+			<div class="torro-form-canvas-footer">
+
 			</div>
 		</div>
 		<?php

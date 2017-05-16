@@ -8,12 +8,92 @@
     margin-bottom: 15px;
 }
 
+.torro-form-canvas-header,
+.torro-form-canvas-content,
+.torro-form-canvas-footer
+{
+    margin: 0;
+    padding: 12px;
+
+    border-style: solid;
+    border-color: #e5e5e5;
+    background-color: #fff;
+}
+
+.torro-form-canvas-header
+{
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    border-width: 1px;
+}
+
+.torro-form-canvas-content
+{
+    border-width: 1px;
+}
+
+.torro-form-canvas-footer,
+.torro-form-canvas-header + .torro-form-canvas-content
+{
+    border-top-width: 0;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+.torro-form-canvas-header.torro-form-canvas-tabs
+{
+    overflow: hidden;
+
+    padding: 0 12px;
+
+    border-width: 0;
+    border-bottom-width: 1px;
+    background-color: transparent;
+}
+
+.torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab
+{
+    display: block;
+    float: left;
+
+    margin: 0 .5em -1px 0;
+    padding: 8px 12px;
+
+    cursor: pointer;
+
+    color: #000;
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+
+    -webkit-appearance: none;
+}
+
+.torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab[aria-selected='true']
+{
+    cursor: default;
+
+    border-bottom-color: #fff;
+}
+
+.torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab[disabled]
+{
+    cursor: not-allowed;
+
+    color: #b4b9be;
+}
+
 .drag-drop-area
 {
     position: relative;
 
     min-height: 150px;
+}
 
+.drag-drop-area.is-empty
+{
     border: 4px dashed #b4b9be;
 }
 

@@ -3,12 +3,72 @@
 	margin-bottom: 15px;
 }
 
+.torro-form-canvas-header,
+.torro-form-canvas-content,
+.torro-form-canvas-footer {
+	margin: 0;
+	padding: 12px;
+	background-color: #fff;
+	border-color: #e5e5e5;
+	border-style: solid;
+}
+
+.torro-form-canvas-header {
+	border-width: 1px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.torro-form-canvas-content {
+	border-width: 1px;
+}
+
+.torro-form-canvas-footer,
+.torro-form-canvas-header + .torro-form-canvas-content {
+	border-top-width: 0;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+}
+
+.torro-form-canvas-header.torro-form-canvas-tabs {
+	padding: 0 12px;
+	overflow: hidden;
+	background-color: transparent;
+	border-width: 0;
+	border-bottom-width: 1px;
+
+	.torro-form-canvas-tab {
+		margin: 0 0.5em -1px 0;
+		padding: 8px 12px;
+		display: block;
+		float: left;
+		color: #000000;
+		border: 1px solid #e5e5e5;
+		background-color: #fff;
+		cursor: pointer;
+		-webkit-appearance: none;
+
+		&[aria-selected="true"] {
+			border-bottom-color: #fff;
+			cursor: default;
+		}
+
+		&[disabled] {
+			color: #b4b9be;
+			cursor: not-allowed;
+		}
+	}
+}
+
 .drag-drop-area {
 	position: relative;
 	min-height: 150px;
-	border: 4px dashed #b4b9be;
 
 	&.is-empty {
+		border: 4px dashed #b4b9be;
+
 		> div {
 			position: absolute;
 			top: 50%;
