@@ -34,10 +34,15 @@
 
 .torro-form-canvas-header.torro-form-canvas-tabs {
 	padding: 0 12px;
-	overflow: hidden;
 	background-color: transparent;
 	border-width: 0;
 	border-bottom-width: 1px;
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
 
 	.torro-form-canvas-tab {
 		margin: 0 0.5em -1px 0;

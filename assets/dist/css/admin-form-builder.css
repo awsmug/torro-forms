@@ -45,13 +45,19 @@
 
 .torro-form-canvas-header.torro-form-canvas-tabs
 {
-    overflow: hidden;
-
     padding: 0 12px;
 
     border-width: 0;
     border-bottom-width: 1px;
     background-color: transparent;
+}
+
+.torro-form-canvas-header.torro-form-canvas-tabs:after
+{
+    display: table;
+    clear: both;
+
+    content: '';
 }
 
 .torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab
