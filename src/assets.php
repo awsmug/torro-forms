@@ -112,8 +112,10 @@ class Assets extends Assets_Base {
 			'in_footer'     => true,
 			'localize_name' => 'torroBuilderI18n',
 			'localize_data' => array(
-				'couldNotInitCanvas' => __( 'Could not initialize form canvas as the selector points to an element that does not exist.', 'torro-forms' ),
-				'couldNotLoadData'   => __( 'Could not load form builder data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
+				'couldNotInitCanvas'    => __( 'Could not initialize form canvas as the selector points to an element that does not exist.', 'torro-forms' ),
+				'couldNotLoadData'      => __( 'Could not load form builder data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
+				/* translators: %s: container index number */
+				'defaultContainerLabel' => __( 'Page %s', 'torro-forms' ),
 			),
 		) );
 

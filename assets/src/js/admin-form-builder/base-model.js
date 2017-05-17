@@ -45,7 +45,7 @@
 				attrs[ idAttribute ] = torro.generateTempId();
 			}
 
-			Backbone.Model.constructor.apply( this, [ attrs, options ] );
+			Backbone.Model.apply( this, [ attrs, options ] );
 		},
 
 		/**
