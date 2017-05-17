@@ -226,26 +226,14 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-form-canvas">
-			<div id="torro-form-canvas" class="torro-form-canvas">
-				<div class="torro-form-canvas-header torro-form-canvas-tabs" role="tablist"></div>
-				<div class="torro-form-canvas-content">
-					<# if ( data.hasContainers ) { #>
-						<div class="drag-drop-area"></div>
-					<# } else { #>
-						<div class="drag-drop-area is-empty">
-							<div class="content"><?php _e( 'Click the button above to add your first container', 'torro-forms' ); ?></div>
-						</div>
-					<# } #>
-				</div>
-				<div class="torro-form-canvas-footer"></div>
-			</div>
+			<div class="torro-form-canvas-header torro-form-canvas-tabs torro-js-container-tabs"></div>
+			<div class="torro-form-canvas-content torro-js-container-panels"></div>
+			<div class="torro-form-canvas-footer torro-js-container-footer-panels"></div>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-tab">
-			<button type="button" id="container-tab-{{ data.sort + 1 }}" class="torro-form-canvas-tab" aria-controls="container-panel-{{ data.sort + 1 }} container-footer-panel-{{ data.sort + 1 }}"<# if ( data.selected ) { #> aria-selected="true"<# } #> role="tab">
-				<span>{{ data.label }}</span>
-				<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][label]" value="{{ data.label }}" />
-			</button>
+			<span>{{ data.label }}</span>
+			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][label]" value="{{ data.label }}" />
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-tab-button">
@@ -254,25 +242,23 @@ class Form_Edit_Page_Handler {
 			</button>
 		</script>
 
-		<script type="text/html" id="tmpl-torro-container-panel">
-			<div id="container-panel-{{ data.sort + 1 }}" class="torro-form-canvas-panel" aria-labelledby="container-tab-{{ data.sort + 1 }}"<# if ( ! data.selected ) { #> aria-hidden="true"<# } #> role="tabpanel">
-				<# if ( data.hasElements ) { #>
-					<div class="drag-drop-area"></div>
-				<# } else { #>
-					<div class="drag-drop-area is-empty">
-						<div class="content"><?php _e( 'Drop your elements here', 'torro-forms' ); ?></div>
-					</div>
-				<# } #>
+		<script type="text/html" id="tmpl-torro-empty-container-drag-drop">
+			<div class="content"><?php _e( 'Click the button above to add your first container', 'torro-forms' ); ?></div>
+		</script>
 
-				<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][form_id]" value="{{ data.form_id }}" />
-				<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][sort]" value="{{ data.sort }}" />
-			</div>
+		<script type="text/html" id="tmpl-torro-container-panel">
+			<div class="drag-drop-area torro-js-elements"></div>
+
+			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][form_id]" value="{{ data.form_id }}" />
+			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][sort]" value="{{ data.sort }}" />
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-footer-panel">
-			<div id="container-footer-panel-{{ data.sort + 1 }}" class="torro-form-canvas-panel" aria-labelledby="container-tab-{{ data.sort + 1 }}"<# if ( ! data.selected ) { #> aria-hidden="true"<# } #> role="tabpanel">
-				<button type="button" class="button-link button-link-delete delete-container-button"><?php _e( 'Delete Page', 'torro-forms' ); ?></button>
-			</div>
+			<button type="button" class="button-link button-link-delete delete-container-button"><?php _e( 'Delete Page', 'torro-forms' ); ?></button>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-empty-element-drag-drop">
+			<div class="content"><?php _e( 'Drop your elements here', 'torro-forms' ); ?></div>
 		</script>
 		<?php
 	}

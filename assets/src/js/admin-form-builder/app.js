@@ -20,7 +20,9 @@ window.torro = window.torro || {};
 		callbacks[ 'builder' + instanceCount ] = [];
 
 		this.instanceNumber = instanceCount;
-		this.$el = $( selector );
+
+		this.el  = selector;
+		this.$el = $( this.el );
 	}
 
 	_.extend( Builder.prototype, {
@@ -78,6 +80,15 @@ window.torro = window.torro || {};
 		 * @type {torro.Builder.ElementSettingCollection}
 		 */
 		elementSettings: undefined,
+
+		/**
+		 * Form canvas view.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {torro.Builder.FormCanvasView}
+		 */
+		formCanvas: undefined,
 
 		/**
 		 * Initializes the form builder.
@@ -235,6 +246,22 @@ window.torro = window.torro || {};
 			if ( ! _.contains( initialized, this.instanceCount ) ) {
 				return;
 			}
+
+			this.formCanvas = new torro.Builder.FormCanvasView({
+				el: this.el,
+				model: this.form
+			});
+			this.formCanvas.views.set( '.torro-js-container-tabs', new torro.Builder.ContainerTabsView({
+				collection: this.containers
+			}) );
+			this.formCanvas.views.set( '.torro-js-container-panels', new torro.Builder.ContainerPanelsView({
+				collection: this.containers
+			}) );
+			this.formCanvas.views.set( '.torro-js-container-footer-panels', new torro.Builder.ContainerFooterPanelsView({
+				collection: this.containers
+			}) );
+
+			this.formCanvas.render();
 		},
 
 		/**
