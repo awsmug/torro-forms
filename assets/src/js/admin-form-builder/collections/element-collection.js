@@ -16,7 +16,16 @@
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementModel
+		model: torroBuilder.ElementModel,
+
+		/**
+		 * REST endpoint URL part for accessing elements.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'elements'
 	});
 
 })( window.torro.Builder );

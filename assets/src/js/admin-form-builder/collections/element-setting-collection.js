@@ -16,7 +16,16 @@
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementSettingModel
+		model: torroBuilder.ElementSettingModel,
+
+		/**
+		 * REST endpoint URL part for accessing element settings.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'element_settings'
 	});
 
 })( window.torro.Builder );

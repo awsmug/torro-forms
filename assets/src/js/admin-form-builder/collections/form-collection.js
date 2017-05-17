@@ -16,7 +16,16 @@
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.FormModel
+		model: torroBuilder.FormModel,
+
+		/**
+		 * REST endpoint URL part for accessing forms.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'forms'
 	});
 
 })( window.torro.Builder );

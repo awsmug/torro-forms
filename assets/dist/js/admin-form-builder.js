@@ -799,7 +799,16 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ContainerModel
+		model: torroBuilder.ContainerModel,
+
+		/**
+		 * REST endpoint URL part for accessing containers.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'containers'
 	});
 
 })( window.torro.Builder );
@@ -822,7 +831,16 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementChoiceModel
+		model: torroBuilder.ElementChoiceModel,
+
+		/**
+		 * REST endpoint URL part for accessing element choices.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'element_choices'
 	});
 
 })( window.torro.Builder );
@@ -845,7 +863,16 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementModel
+		model: torroBuilder.ElementModel,
+
+		/**
+		 * REST endpoint URL part for accessing elements.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'elements'
 	});
 
 })( window.torro.Builder );
@@ -868,7 +895,16 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementSettingModel
+		model: torroBuilder.ElementSettingModel,
+
+		/**
+		 * REST endpoint URL part for accessing element settings.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'element_settings'
 	});
 
 })( window.torro.Builder );
@@ -891,7 +927,16 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.FormModel
+		model: torroBuilder.FormModel,
+
+		/**
+		 * REST endpoint URL part for accessing forms.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		urlEndpoint: 'forms'
 	});
 
 })( window.torro.Builder );
