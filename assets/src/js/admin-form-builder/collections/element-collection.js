@@ -1,15 +1,13 @@
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A collection of elements.
 	 *
-	 * This collection has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Collection
+	 * @augments torro.Builder.BaseCollection
 	 */
-	torroBuilder.ElementCollection = Backbone.Collection.extend({
+	torroBuilder.ElementCollection = torroBuilder.BaseCollection.extend({
 
 		/**
 		 * Model class for the element collection.
@@ -18,21 +16,7 @@
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementModel,
-
-		/**
-		 * Synchronizes the element collection with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
-		}
+		model: torroBuilder.ElementModel
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );

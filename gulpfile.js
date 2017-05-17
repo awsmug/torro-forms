@@ -103,6 +103,8 @@ var paths = {
 		files: [ './assets/src/js/*.js' ],
 		builderFiles: [
 			'./assets/src/js/admin-form-builder/app.js',
+			'./assets/src/js/admin-form-builder/base-model.js',
+			'./assets/src/js/admin-form-builder/base-collection.js',
 			'./assets/src/js/admin-form-builder/element-type.js',
 			'./assets/src/js/admin-form-builder/element-types.js',
 			'./assets/src/js/admin-form-builder/models/*.js',

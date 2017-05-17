@@ -191,6 +191,146 @@ window.torro = window.torro || {};
 
 }( window.torro, window.jQuery, window._, window.Backbone, window.wp, window.torroBuilderI18n ) );
 
+( function( torroBuilder, torro, _, Backbone ) {
+	'use strict';
+
+	/**
+	 * Base for a form builder model.
+	 *
+	 * This model has no persistence with the server.
+	 *
+	 * @class
+	 * @augments Backbone.Model
+	 */
+	torroBuilder.BaseModel = Backbone.Model.extend({
+
+		/**
+		 * Related REST links.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {object}
+		 */
+		links: {},
+
+		/**
+		 * Instantiates a new model.
+		 *
+		 * Overrides constructor in order to strip out unnecessary attributes.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object} [attributes] Model attributes.
+		 * @param {object} [options]    Options for the model behavior.
+		 */
+		constructor: function( attributes, options ) {
+			var attrs = attributes || {};
+			var idAttribute = this.idAttribute || Backbone.Model.prototype.idAttribute || 'id';
+
+			if ( attrs._links ) {
+				this.links = attrs._links;
+			}
+
+			attrs = _.omit( attrs, [ '_links', '_embedded' ] );
+
+			if ( ! attrs[ idAttribute ] ) {
+				attrs[ idAttribute ] = torro.generateTempId();
+			}
+
+			Backbone.Model.constructor.apply( this, [ attrs, options ] );
+		},
+
+		/**
+		 * Synchronizes the model with the server.
+		 *
+		 * Overrides synchronization in order to disable synchronization.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {boolean} True on success, false on failure.
+		 */
+		sync: function( method, model, options ) {
+			if ( 'create' === method && model.has( model.idAttribute ) ) {
+				if ( ! options.attrs ) {
+					options.attrs = model.toJSON( options );
+				}
+
+				options.attrs = _.omit( options.attrs, model.idAttribute );
+			}
+
+			return false;
+		},
+
+		/**
+		 * Checks whether this model is new.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return {boolean} True if the model is new, false otherwise.
+		 */
+		isNew: function() {
+			return ! this.has( this.idAttribute ) || torro.isTempId( this.get( this.idAttribute ) );
+		}
+	});
+
+})( window.torro.Builder, window.torro, window._, window.Backbone );
+
+( function( torroBuilder, torro, _, Backbone ) {
+	'use strict';
+
+	/**
+	 * Base for a form builder collection.
+	 *
+	 * This collection has no persistence with the server.
+	 *
+	 * @class
+	 * @augments Backbone.Collection
+	 */
+	torroBuilder.BaseCollection = Backbone.Collection.extend({
+
+		/**
+		 * Model class for the collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {function}
+		 */
+		model: torroBuilder.BaseModel,
+
+		/**
+		 * Performs additional initialization logic.
+		 *
+		 * Sets the collection URL from a specified endpoint URL part.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		initialize: function() {
+			if ( this.urlEndpoint ) {
+				this.url = torro.api.root + torro.api.versionString + this.urlEndpoint;
+			}
+		},
+
+		/**
+		 * Synchronizes the collection with the server.
+		 *
+		 * Overrides synchronization in order to disable synchronization.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {boolean} True on success, false on failure.
+		 */
+		sync: function() {
+			return false;
+		}
+	});
+
+})( window.torro.Builder, window.torro, window._, window.Backbone );
+
 ( function( torroBuilder, _ ) {
 	'use strict';
 
@@ -389,18 +529,16 @@ window.torro = window.torro || {};
 
 })( window.torro.Builder, window._ );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A single container.
 	 *
-	 * This model has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Model
+	 * @augments torro.Builder.BaseModel
 	 */
-	torroBuilder.ContainerModel = Backbone.Model.extend({
+	torroBuilder.ContainerModel = torroBuilder.BaseModel.extend({
 
 		/**
 		 * Container defaults.
@@ -414,37 +552,21 @@ window.torro = window.torro || {};
 			form_id: 0,
 			label: '',
 			sort: 0
-		},
-
-		/**
-		 * Synchronizes the container with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
 		}
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A single element choice.
 	 *
-	 * This model has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Model
+	 * @augments torro.Builder.BaseModel
 	 */
-	torroBuilder.ElementChoiceModel = Backbone.Model.extend({
+	torroBuilder.ElementChoiceModel = torroBuilder.BaseModel.extend({
 
 		/**
 		 * Element choice defaults.
@@ -459,37 +581,21 @@ window.torro = window.torro || {};
 			field: '',
 			value: '',
 			sort: 0
-		},
-
-		/**
-		 * Synchronizes the element choice with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
 		}
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A single element.
 	 *
-	 * This model has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Model
+	 * @augments torro.Builder.BaseModel
 	 */
-	torroBuilder.ElementModel = Backbone.Model.extend({
+	torroBuilder.ElementModel = torroBuilder.BaseModel.extend({
 
 		/**
 		 * Element defaults.
@@ -504,37 +610,21 @@ window.torro = window.torro || {};
 			label: '',
 			sort: 0,
 			type: 'textfield'
-		},
-
-		/**
-		 * Synchronizes the element with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
 		}
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A single element setting.
 	 *
-	 * This model has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Model
+	 * @augments torro.Builder.BaseModel
 	 */
-	torroBuilder.ElementSettingModel = Backbone.Model.extend({
+	torroBuilder.ElementSettingModel = torroBuilder.BaseModel.extend({
 
 		/**
 		 * Element setting defaults.
@@ -548,37 +638,21 @@ window.torro = window.torro || {};
 			element_id: 0,
 			name: '',
 			value: ''
-		},
-
-		/**
-		 * Synchronizes the element setting with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
 		}
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A single form.
 	 *
-	 * This model has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Model
+	 * @augments torro.Builder.BaseModel
 	 */
-	torroBuilder.FormModel = Backbone.Model.extend({
+	torroBuilder.FormModel = torroBuilder.BaseModel.extend({
 
 		/**
 		 * Form defaults.
@@ -595,37 +669,21 @@ window.torro = window.torro || {};
 			status: 'draft',
 			timestamp: 0,
 			timestamp_modified: 0
-		},
-
-		/**
-		 * Synchronizes the form with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
 		}
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A collection of containers.
 	 *
-	 * This collection has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Collection
+	 * @augments torro.Builder.BaseCollection
 	 */
-	torroBuilder.ContainerCollection = Backbone.Collection.extend({
+	torroBuilder.ContainerCollection = torroBuilder.BaseCollection.extend({
 
 		/**
 		 * Model class for the container collection.
@@ -634,37 +692,21 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ContainerModel,
-
-		/**
-		 * Synchronizes the container collection with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
-		}
+		model: torroBuilder.ContainerModel
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A collection of element choices.
 	 *
-	 * This collection has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Collection
+	 * @augments torro.Builder.BaseCollection
 	 */
-	torroBuilder.ElementChoiceCollection = Backbone.Collection.extend({
+	torroBuilder.ElementChoiceCollection = torroBuilder.BaseCollection.extend({
 
 		/**
 		 * Model class for the element choice collection.
@@ -673,37 +715,21 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementChoiceModel,
-
-		/**
-		 * Synchronizes the element choice collection with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
-		}
+		model: torroBuilder.ElementChoiceModel
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A collection of elements.
 	 *
-	 * This collection has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Collection
+	 * @augments torro.Builder.BaseCollection
 	 */
-	torroBuilder.ElementCollection = Backbone.Collection.extend({
+	torroBuilder.ElementCollection = torroBuilder.BaseCollection.extend({
 
 		/**
 		 * Model class for the element collection.
@@ -712,37 +738,21 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementModel,
-
-		/**
-		 * Synchronizes the element collection with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
-		}
+		model: torroBuilder.ElementModel
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A collection of element settings.
 	 *
-	 * This collection has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Collection
+	 * @augments torro.Builder.BaseCollection
 	 */
-	torroBuilder.ElementSettingCollection = Backbone.Collection.extend({
+	torroBuilder.ElementSettingCollection = torroBuilder.BaseCollection.extend({
 
 		/**
 		 * Model class for the element setting collection.
@@ -751,37 +761,21 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.ElementSettingModel,
-
-		/**
-		 * Synchronizes the element setting collection with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
-		}
+		model: torroBuilder.ElementSettingModel
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
-( function( torroBuilder, _, Backbone ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
 	 * A collection of forms.
 	 *
-	 * This collection has no persistence with the server.
-	 *
 	 * @class
-	 * @augments Backbone.Collection
+	 * @augments torro.Builder.BaseCollection
 	 */
-	torroBuilder.FormCollection = Backbone.Collection.extend({
+	torroBuilder.FormCollection = torroBuilder.BaseCollection.extend({
 
 		/**
 		 * Model class for the form collection.
@@ -790,24 +784,10 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @property {function}
 		 */
-		model: torroBuilder.FormModel,
-
-		/**
-		 * Synchronizes the form collection with the server.
-		 *
-		 * Overrides synchronization in order to disable synchronization.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {boolean} True on success, false on failure.
-		 */
-		sync: function() {
-			return false;
-		}
+		model: torroBuilder.FormModel
 	});
 
-})( window.torro.Builder, window._, window.Backbone );
+})( window.torro.Builder );
 
 ( function( torroBuilder ) {
 	'use strict';

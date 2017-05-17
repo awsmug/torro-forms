@@ -4,13 +4,15 @@
  */
 window.torro = window.torro || {};
 
-( function( torro, $, _, wp ) {
+( function( torro, $, _, wp, wpApiSettings ) {
 	var apiPromise;
 
 	torro.api = {
 		collections: {},
 
 		models: {},
+
+		root: wpApiSettings.root || window.location.origin + '/wp-json/',
 
 		versionString: 'torro/v1/',
 
@@ -83,4 +85,4 @@ window.torro = window.torro || {};
 
 		return ( 'temp_id_' + random ).substring( 0, 14 );
 	};
-}( window.torro, window.jQuery, window._, window.wp ) );
+}( window.torro, window.jQuery, window._, window.wp, window.wpApiSettings || {} ) );
