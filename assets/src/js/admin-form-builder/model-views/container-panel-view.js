@@ -49,9 +49,35 @@
 			return {
 				'id': 'container-panel-' + this.model.get( 'id' ),
 				'aria-labelledby': 'container-tab-' + this.model.get( 'id' ),
-				'aria-hidden': true,
+				'aria-hidden': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'false' : 'true',
 				'role': 'tabpanel'
 			};
+		},
+
+		/**
+		 * Initializes the view.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		initialize: function() {
+			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
+		},
+
+		/**
+		 * Sets the aria-hidden attribute depending on whether this is a panel for the currently selected tab.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {Backbone.Model} props Collection properties.
+		 */
+		_toggleSelection: function( props ) {
+			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
+				this.$el.attr( 'aria-hidden', 'false' );
+			} else {
+				this.$el.attr( 'aria-hidden', 'true' );
+			}
 		}
 	});
 

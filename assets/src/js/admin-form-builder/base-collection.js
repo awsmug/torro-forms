@@ -21,17 +21,35 @@
 		model: torroBuilder.BaseModel,
 
 		/**
-		 * Performs additional initialization logic.
-		 *
-		 * Sets the collection URL from a specified endpoint URL part.
+		 * Default properties for the collection.
 		 *
 		 * @since 1.0.0
 		 * @access public
+		 * @property {object}
 		 */
-		initialize: function() {
+		defaultProps: {},
+
+		/**
+		 * Instantiates a new collection.
+		 *
+		 * Sets up collection properties.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object[]} [models]  Models for the collection.
+		 * @param {object}   [options] Options for the model behavior.
+		 */
+		constructor: function( models, options ) {
+			var props = _.defaults( options && options.props || {}, this.defaultProps );
+
+			this.props = new Backbone.Model( props );
+
 			if ( this.urlEndpoint ) {
 				this.url = torro.api.root + torro.api.versionString + this.urlEndpoint;
 			}
+
+			Backbone.Collection.apply( this, arguments );
 		},
 
 		/**

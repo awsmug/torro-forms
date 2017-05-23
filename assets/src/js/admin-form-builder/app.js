@@ -219,12 +219,12 @@ window.torro = window.torro || {};
 			} else {
 				this.form = new torro.Builder.FormModel();
 
-				this.containers = new torro.Builder.ContainerCollection([
-					{
-						form_id: this.form.get( 'id' ),
-						label: i18n.defaultContainerLabel.replace( '%s', '1' )
+				this.containers = new torro.Builder.ContainerCollection([ {}, {} ], {
+					props: {
+						form_id:           this.form.get( 'id' ),
+						label_placeholder: i18n.defaultContainerLabel
 					}
-				]);
+				});
 
 				this.elements = new torro.Builder.ElementCollection();
 

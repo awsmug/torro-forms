@@ -1,4 +1,4 @@
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -10,18 +10,21 @@
 	torroBuilder.ContainerModel = torroBuilder.BaseModel.extend({
 
 		/**
-		 * Container defaults.
+		 * Returns container defaults.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @property {object}
+		 *
+		 * @returns {object} Container defaults.
 		 */
-		defaults: {
-			id: 0,
-			form_id: 0,
-			label: '',
-			sort: 0
+		defaults: function() {
+			return _.extend( _.clone({
+				id: 0,
+				form_id: 0,
+				label: '',
+				sort: 0
+			}), this.collection.getDefaultAttributes() );
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );

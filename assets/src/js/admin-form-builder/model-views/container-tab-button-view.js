@@ -2,12 +2,12 @@
 	'use strict';
 
 	/**
-	 * Container tab view.
+	 * Container tab button view.
 	 *
 	 * @class
 	 * @augments torro.Builder.BaseModelView
 	 */
-	torroBuilder.ContainerTabView = torroBuilder.BaseModelView.extend({
+	torroBuilder.ContainerTabButtonView = torroBuilder.BaseModelView.extend({
 
 		/**
 		 * Element tag name.
@@ -25,7 +25,7 @@
 		 * @access public
 		 * @type {string}
 		 */
-		className: 'torro-form-canvas-tab',
+		className: 'torro-form-canvas-tab add-button',
 
 		/**
 		 * Template function.
@@ -35,7 +35,7 @@
 		 *
 		 * @type {function}
 		 */
-		template: torro.template( 'container-tab' ),
+		template: torro.template( 'container-tab-button' ),
 
 		/**
 		 * Element attributes.
@@ -48,10 +48,7 @@
 		attributes: function() {
 			return {
 				'type': 'button',
-				'id': 'container-tab-' + this.model.get( 'id' ),
-				'aria-controls': 'container-panel-' + this.model.get( 'id' ) + ' container-footer-panel-' + this.model.get( 'id' ),
-				'aria-selected': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'true' : 'false',
-				'role': 'tab'
+				'aria-selected': false === this.collection.props.get( 'selection' ) ? 'true' : 'false'
 			};
 		},
 
@@ -64,7 +61,7 @@
 		 * @type {object}
 		 */
 		events: {
-			'click': 'selectTab'
+			'click': 'addContainer'
 		},
 
 		/**
@@ -78,17 +75,13 @@
 		},
 
 		/**
-		 * Selects the element as the current tab.
+		 * Adds a new container.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 */
-		selectTab: function() {
-			if ( this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ) {
-				return;
-			}
-
-			this.collection.props.set( 'selection', this.model.get( 'id' ) );
+		addContainer: function() {
+			this.collection.add({});
 		},
 
 		/**
@@ -100,7 +93,7 @@
 		 * @param {Backbone.Model} props Collection properties.
 		 */
 		_toggleSelection: function( props ) {
-			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
+			if ( false === props.get( 'selection' ) ) {
 				this.$el.attr( 'aria-selected', 'true' );
 			} else {
 				this.$el.attr( 'aria-selected', 'false' );

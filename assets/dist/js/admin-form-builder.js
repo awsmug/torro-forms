@@ -223,12 +223,12 @@ window.torro = window.torro || {};
 			} else {
 				this.form = new torro.Builder.FormModel();
 
-				this.containers = new torro.Builder.ContainerCollection([
-					{
-						form_id: this.form.get( 'id' ),
-						label: i18n.defaultContainerLabel.replace( '%s', '1' )
+				this.containers = new torro.Builder.ContainerCollection([ {}, {} ], {
+					props: {
+						form_id:           this.form.get( 'id' ),
+						label_placeholder: i18n.defaultContainerLabel
 					}
-				]);
+				});
 
 				this.elements = new torro.Builder.ElementCollection();
 
@@ -633,17 +633,35 @@ window.torro = window.torro || {};
 		model: torroBuilder.BaseModel,
 
 		/**
-		 * Performs additional initialization logic.
-		 *
-		 * Sets the collection URL from a specified endpoint URL part.
+		 * Default properties for the collection.
 		 *
 		 * @since 1.0.0
 		 * @access public
+		 * @property {object}
 		 */
-		initialize: function() {
+		defaultProps: {},
+
+		/**
+		 * Instantiates a new collection.
+		 *
+		 * Sets up collection properties.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object[]} [models]  Models for the collection.
+		 * @param {object}   [options] Options for the model behavior.
+		 */
+		constructor: function( models, options ) {
+			var props = _.defaults( options && options.props || {}, this.defaultProps );
+
+			this.props = new Backbone.Model( props );
+
 			if ( this.urlEndpoint ) {
 				this.url = torro.api.root + torro.api.versionString + this.urlEndpoint;
 			}
+
+			Backbone.Collection.apply( this, arguments );
 		},
 
 		/**
@@ -663,7 +681,7 @@ window.torro = window.torro || {};
 
 })( window.torro.Builder, window.torro, window._, window.Backbone );
 
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -675,21 +693,24 @@ window.torro = window.torro || {};
 	torroBuilder.ContainerModel = torroBuilder.BaseModel.extend({
 
 		/**
-		 * Container defaults.
+		 * Returns container defaults.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @property {object}
+		 *
+		 * @returns {object} Container defaults.
 		 */
-		defaults: {
-			id: 0,
-			form_id: 0,
-			label: '',
-			sort: 0
+		defaults: function() {
+			return _.extend( _.clone({
+				id: 0,
+				form_id: 0,
+				label: '',
+				sort: 0
+			}), this.collection.getDefaultAttributes() );
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );
 
 ( function( torroBuilder ) {
 	'use strict';
@@ -835,7 +856,36 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @type {string}
 		 */
-		urlEndpoint: 'containers'
+		urlEndpoint: 'containers',
+
+		/**
+		 * Default properties for the collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		defaultProps: {
+			selected:          false,
+			form_id:           0,
+			label_placeholder: 'Page %s'
+		},
+
+		/**
+		 * Returns container defaults.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {object} Container defaults.
+		 */
+		getDefaultAttributes: function() {
+			return {
+				form_id: this.props.get( 'form_id' ),
+				label:   this.props.get( 'label_placeholder' ).replace( '%s', this.length + 1 ),
+				sort:    this.length
+			};
+		}
 	});
 
 })( window.torro.Builder );
@@ -1290,9 +1340,35 @@ window.torro = window.torro || {};
 			return {
 				'id': 'container-footer-panel-' + this.model.get( 'id' ),
 				'aria-labelledby': 'container-tab-' + this.model.get( 'id' ),
-				'aria-hidden': true,
+				'aria-hidden': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'false' : 'true',
 				'role': 'tabpanel'
 			};
+		},
+
+		/**
+		 * Initializes the view.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		initialize: function() {
+			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
+		},
+
+		/**
+		 * Sets the aria-hidden attribute depending on whether this is a panel for the currently selected tab.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {Backbone.Model} props Collection properties.
+		 */
+		_toggleSelection: function( props ) {
+			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
+				this.$el.attr( 'aria-hidden', 'false' );
+			} else {
+				this.$el.attr( 'aria-hidden', 'true' );
+			}
 		}
 	});
 
@@ -1349,9 +1425,140 @@ window.torro = window.torro || {};
 			return {
 				'id': 'container-panel-' + this.model.get( 'id' ),
 				'aria-labelledby': 'container-tab-' + this.model.get( 'id' ),
-				'aria-hidden': true,
+				'aria-hidden': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'false' : 'true',
 				'role': 'tabpanel'
 			};
+		},
+
+		/**
+		 * Initializes the view.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		initialize: function() {
+			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
+		},
+
+		/**
+		 * Sets the aria-hidden attribute depending on whether this is a panel for the currently selected tab.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {Backbone.Model} props Collection properties.
+		 */
+		_toggleSelection: function( props ) {
+			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
+				this.$el.attr( 'aria-hidden', 'false' );
+			} else {
+				this.$el.attr( 'aria-hidden', 'true' );
+			}
+		}
+	});
+
+})( window.torro.Builder, window.torro );
+
+( function( torroBuilder, torro ) {
+	'use strict';
+
+	/**
+	 * Container tab button view.
+	 *
+	 * @class
+	 * @augments torro.Builder.BaseModelView
+	 */
+	torroBuilder.ContainerTabButtonView = torroBuilder.BaseModelView.extend({
+
+		/**
+		 * Element tag name.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		tagName: 'button',
+
+		/**
+		 * Element class name.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @type {string}
+		 */
+		className: 'torro-form-canvas-tab add-button',
+
+		/**
+		 * Template function.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @type {function}
+		 */
+		template: torro.template( 'container-tab-button' ),
+
+		/**
+		 * Element attributes.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {object} Default attributes.
+		 */
+		attributes: function() {
+			return {
+				'type': 'button',
+				'aria-selected': false === this.collection.props.get( 'selection' ) ? 'true' : 'false'
+			};
+		},
+
+		/**
+		 * View events.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @type {object}
+		 */
+		events: {
+			'click': 'addContainer'
+		},
+
+		/**
+		 * Initializes the view.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		initialize: function() {
+			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
+		},
+
+		/**
+		 * Adds a new container.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		addContainer: function() {
+			this.collection.add({});
+		},
+
+		/**
+		 * Sets the aria-selected attribute depending on whether this is the currently selected tab.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {Backbone.Model} props Collection properties.
+		 */
+		_toggleSelection: function( props ) {
+			if ( false === props.get( 'selection' ) ) {
+				this.$el.attr( 'aria-selected', 'true' );
+			} else {
+				this.$el.attr( 'aria-selected', 'false' );
+			}
 		}
 	});
 
@@ -1409,9 +1616,61 @@ window.torro = window.torro || {};
 				'type': 'button',
 				'id': 'container-tab-' + this.model.get( 'id' ),
 				'aria-controls': 'container-panel-' + this.model.get( 'id' ) + ' container-footer-panel-' + this.model.get( 'id' ),
-				'aria-selected': false,
+				'aria-selected': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'true' : 'false',
 				'role': 'tab'
 			};
+		},
+
+		/**
+		 * View events.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @type {object}
+		 */
+		events: {
+			'click': 'selectTab'
+		},
+
+		/**
+		 * Initializes the view.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		initialize: function() {
+			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
+		},
+
+		/**
+		 * Selects the element as the current tab.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		selectTab: function() {
+			if ( this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ) {
+				return;
+			}
+
+			this.collection.props.set( 'selection', this.model.get( 'id' ) );
+		},
+
+		/**
+		 * Sets the aria-selected attribute depending on whether this is the currently selected tab.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {Backbone.Model} props Collection properties.
+		 */
+		_toggleSelection: function( props ) {
+			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
+				this.$el.attr( 'aria-selected', 'true' );
+			} else {
+				this.$el.attr( 'aria-selected', 'false' );
+			}
 		}
 	});
 
