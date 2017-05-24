@@ -50,6 +50,7 @@ class Translations_Submission_Manager extends Translations_Manager {
 			'list_page_filter_items_list'             => __( 'Filter submissions list', 'torro-forms' ),
 			'list_page_items_list_navigation'         => __( 'Submissions list navigation', 'torro-forms' ),
 			'list_page_items_list'                    => __( 'Submissions list', 'torro-forms' ),
+			'list_page_confirm_deletion'                            => _x( 'Are you sure you want to delete this submission? You will not be able to restore it afterwards.', 'submissions list page', 'torro-forms' ),
 			/* translators: %s: submission title */
 			'bulk_action_cannot_delete_item'          => __( 'You are not allowed to delete the submission &#8220;%s&#8221;.', 'torro-forms' ),
 			/* translators: %s: submission title */
@@ -84,6 +85,7 @@ class Translations_Submission_Manager extends Translations_Manager {
 			'edit_page_status_label'                  => _x( 'Status', 'submission status label', 'torro-forms' ),
 			'edit_page_ok'                            => _x( 'OK', 'submission slug buttons', 'torro-forms' ),
 			'edit_page_cancel'                        => _x( 'Cancel', 'submission slug buttons', 'torro-forms' ),
+			'edit_page_confirm_deletion'                            => _x( 'Are you sure you want to delete this submission? You will not be able to restore it afterwards.', 'submission edit page', 'torro-forms' ),
 			'action_edit_item_invalid_type'           => __( 'The submission type is invalid.', 'torro-forms' ),
 			'action_edit_item_invalid_status'         => __( 'The submission status is invalid.', 'torro-forms' ),
 			'action_edit_item_cannot_publish'         => __( 'You are not allowed to publish this submission.', 'torro-forms' ),
