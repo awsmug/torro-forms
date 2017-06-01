@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Containers;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection;
 use WP_Error;
 
@@ -62,6 +63,22 @@ class Container extends Model {
 	 * @var int
 	 */
 	protected $sort = 0;
+
+	/**
+	 * Returns the parent form for the container.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Form|null Parent form, or null if none set.
+	 */
+	public function get_form() {
+		if ( empty( $this->form_id ) ) {
+			return null;
+		}
+
+		return $this->manager->get_parent_manager( 'forms' )->get( $this->form_id );
+	}
 
 	/**
 	 * Returns all elements that belong to the form.

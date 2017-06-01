@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Elements;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use awsmug\Torro_Forms\DB_Objects\Containers\Container;
 use awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Collection;
 use awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Collection;
 use WP_Error;
@@ -75,7 +76,23 @@ class Element extends Model {
 	protected $type = '';
 
 	/**
-	 * Returns all element choices that belong to the form.
+	 * Returns the parent container for the element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Container|null Parent container, or null if none set.
+	 */
+	public function get_container() {
+		if ( empty( $this->container_id ) ) {
+			return null;
+		}
+
+		return $this->manager->get_parent_manager( 'containers' )->get( $this->container_id );
+	}
+
+	/**
+	 * Returns all element choices that belong to the element.
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -93,7 +110,7 @@ class Element extends Model {
 	}
 
 	/**
-	 * Returns all element settings that belong to the form.
+	 * Returns all element settings that belong to the element.
 	 *
 	 * @since 1.0.0
 	 * @access public

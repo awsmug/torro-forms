@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Submission_Values;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 
 /**
  * Class representing a submission value.
@@ -60,4 +61,20 @@ class Submission_Value extends Model {
 	 * @var string
 	 */
 	protected $value = '';
+
+	/**
+	 * Returns the parent submission for the submission value.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Submission|null Parent submission, or null if none set.
+	 */
+	public function get_submission() {
+		if ( empty( $this->submission_id ) ) {
+			return null;
+		}
+
+		return $this->manager->get_parent_manager( 'submissions' )->get( $this->submission_id );
+	}
 }

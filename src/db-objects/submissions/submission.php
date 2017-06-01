@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use WP_Error;
 
 /**
@@ -113,6 +114,22 @@ class Submission extends Model {
 		}
 
 		parent::__construct( $manager, $db_obj );
+	}
+
+	/**
+	 * Returns the parent form for the submission.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Form|null Parent form, or null if none set.
+	 */
+	public function get_form() {
+		if ( empty( $this->form_id ) ) {
+			return null;
+		}
+
+		return $this->manager->get_parent_manager( 'forms' )->get( $this->form_id );
 	}
 
 	/**

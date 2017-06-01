@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Element_Settings;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element;
 
 /**
  * Class representing an element setting.
@@ -60,4 +61,20 @@ class Element_Setting extends Model {
 	 * @var string
 	 */
 	protected $value = '';
+
+	/**
+	 * Returns the parent element for the element setting.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Element|null Parent element, or null if none set.
+	 */
+	public function get_element() {
+		if ( empty( $this->element_id ) ) {
+			return null;
+		}
+
+		return $this->manager->get_parent_manager( 'elements' )->get( $this->element_id );
+	}
 }

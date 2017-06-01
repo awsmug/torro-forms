@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Element_Choices;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element;
 
 /**
  * Class representing an element choice.
@@ -70,4 +71,20 @@ class Element_Choice extends Model {
 	 * @var int
 	 */
 	protected $sort = 0;
+
+	/**
+	 * Returns the parent element for the element choice.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Element|null Parent element, or null if none set.
+	 */
+	public function get_element() {
+		if ( empty( $this->element_id ) ) {
+			return null;
+		}
+
+		return $this->manager->get_parent_manager( 'elements' )->get( $this->element_id );
+	}
 }
