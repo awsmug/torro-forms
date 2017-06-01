@@ -13,6 +13,8 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
 use awsmug\Torro_Forms\DB_Objects\Containers\Container;
 use awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Collection;
 use awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Collection;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use WP_Error;
 
 /**
@@ -128,6 +130,27 @@ class Element extends Model {
 	}
 
 	/**
+	 * Returns the element type object for this element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Element_Type Element type object.
+	 */
+	public function get_element_type() {
+		if ( empty( $this->type ) ) {
+			return null;
+		}
+
+		$type = $this->manager->types()->get( $this->type );
+		if ( is_wp_error( $type ) ) {
+			return null;
+		}
+
+		return $type;
+	}
+
+	/**
 	 * Deletes the model from the database.
 	 *
 	 * @since 1.0.0
@@ -147,5 +170,27 @@ class Element extends Model {
 		}
 
 		return parent::delete();
+	}
+
+	/**
+	 * Returns an array representation of the model.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param bool            $include_meta Optional. Whether to include metadata for each model in the collection.
+	 *                                      Default true.
+	 * @param Submission|null $submission   Optional. Submission to get the values from, if available. Default null.
+	 * @return array Array including all information for the model.
+	 */
+	public function to_json( $include_meta = true, $submission = null ) {
+		$data = parent::to_json( $include_meta );
+
+		$element_type = $this->get_element_type();
+		if ( $element_type ) {
+			$data['field_data'] = $element_type->to_json( $this, $submission );
+		}
+
+		return $data;
 	}
 }

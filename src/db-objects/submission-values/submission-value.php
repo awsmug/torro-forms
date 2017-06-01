@@ -54,6 +54,15 @@ class Submission_Value extends Model {
 	protected $element_id = 0;
 
 	/**
+	 * Element field this submission value is for.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var string
+	 */
+	protected $field = '';
+
+	/**
 	 * Submission value.
 	 *
 	 * @since 1.0.0

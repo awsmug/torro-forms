@@ -18,6 +18,21 @@ use awsmug\Torro_Forms\DB_Objects\Elements\Element;
 interface Multi_Field_Element_Type_Interface {
 
 	/**
+	 * Returns an array representation for each additional field of an element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Element         $element    The element object to get the additional fields data for.
+	 * @param Submission|null $submission Optional. Current submission object, if available. Default null.
+	 * @param array           $choices    Optional. Array of `$field => $choices` pairs, if available. Default empty array.
+	 * @param array           $settings   Optional. Array of `$setting_name => $setting_value` pairs. Default empty array.
+	 * @param array           $values     Optional. Array of current values as `$field => $value` pairs. Default empty array.
+	 * @return array Array including all additioinal fields information for the element type.
+	 */
+	public function additional_fields_to_json( $element, $submission = null, $choices = array(), $settings = array(), $values = array() );
+
+	/**
 	 * Validates additional fields for an element.
 	 *
 	 * @since 1.0.0

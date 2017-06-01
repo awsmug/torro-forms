@@ -24,7 +24,7 @@ interface Evaluable_Element_Type_Interface {
 	 * @access public
 	 *
 	 * @param array   $submission_values Submission values to take into account.
-	 * @param Element $element           Element evaluate values for.
+	 * @param Element $element           Element to evaluate values for.
 	 * @param string  $field             Optional. Field to evaluate. If empty, the default field
 	 *                                   is evaluated. Default empty.
 	 * @return array Array of statistics.
