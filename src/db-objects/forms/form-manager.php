@@ -41,6 +41,24 @@ class Form_Manager extends Core_Manager {
 	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Children_Trait;
 
 	/**
+	 * The frontend submission handler.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Form_Frontend_Submission_Handler
+	 */
+	protected $frontend_submission_handler;
+
+	/**
+	 * The frontend output handler.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Form_Frontend_Output_Handler
+	 */
+	protected $frontend_output_handler;
+
+	/**
 	 * The form edit page handler.
 	 *
 	 * @since 1.0.0
@@ -111,9 +129,35 @@ class Form_Manager extends Core_Manager {
 
 		$this->public = true;
 
-		$this->edit_page_handler = new Form_Edit_Page_Handler( $this );
-
 		parent::__construct( $prefix, $services, $translations );
+
+		$this->frontend_submission_handler = new Form_Frontend_Submission_Handler( $this );
+		$this->frontend_output_handler     = new Form_Frontend_Output_Handler( $this );
+		$this->edit_page_handler           = new Form_Edit_Page_Handler( $this );
+	}
+
+	/**
+	 * Returns the form frontend submission handler.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Form_Frontend_Submission_Handler Frontend submission handler instance.
+	 */
+	public function frontend_submission_handler() {
+		return $this->frontend_submission_handler;
+	}
+
+	/**
+	 * Returns the form frontend output handler.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Form_Frontend_Output_Handler Frontend output handler instance.
+	 */
+	public function frontend_output_handler() {
+		return $this->frontend_output_handler;
 	}
 
 	/**
@@ -126,6 +170,36 @@ class Form_Manager extends Core_Manager {
 	 */
 	public function edit_page_handler() {
 		return $this->edit_page_handler;
+	}
+
+	/**
+	 * Adds the service hooks.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function add_hooks() {
+		if ( ! $this->hooks_added ) {
+			add_shortcode( "{$this->get_prefix()}form", array( $this->frontend_output_handler, 'get_shortcode_content' ) );
+			add_shortcode( 'form', array( $this->frontend_output_handler, 'get_deprecated_shortcode_content' ) );
+		}
+
+		return parent::add_hooks();
+	}
+
+	/**
+	 * Removes the service hooks.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function remove_hooks() {
+		if ( $this->hooks_added ) {
+			remove_shortcode( "{$this->get_prefix()}form" );
+			remove_shortcode( 'form' );
+		}
+
+		return parent::remove_hooks();
 	}
 
 	/**
@@ -290,6 +364,20 @@ class Form_Manager extends Core_Manager {
 		$this->actions[] = array(
 			'name'     => 'before_delete_post',
 			'callback' => array( $this, 'maybe_delete_form_subcomponents' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+
+		$this->actions[] = array(
+			'name'     => 'wp',
+			'callback' => array( $this->frontend_submission_handler, 'maybe_handle_form_submission' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+
+		$this->filters[] = array(
+			'name'     => 'wp',
+			'callback' => array( $this->frontend_output_handler, 'maybe_get_form_content' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);
