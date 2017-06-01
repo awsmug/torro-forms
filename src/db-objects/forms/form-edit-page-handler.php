@@ -261,6 +261,13 @@ class Form_Edit_Page_Handler {
 			<div class="content"><?php _e( 'Drop your elements here', 'torro-forms' ); ?></div>
 		</script>
 		<?php
+
+		/**
+		 * Fires after templates for the form builder have been printed.
+		 *
+		 * @since 1.0.0
+		 */
+		do_action( "{$this->form_manager->get_prefix()}print_form_builder_templates" );
 	}
 
 	/**
