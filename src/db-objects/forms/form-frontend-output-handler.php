@@ -138,7 +138,7 @@ class Form_Frontend_Output_Handler {
 	 * }
 	 */
 	public function get_deprecated_shortcode_content( $atts ) {
-		$this->form_manager->error_handler()->deprecated_shortcode( 'form', '1.0.0-beta.9', 'torro_form' );
+		$this->form_manager->error_handler()->deprecated_shortcode( 'form', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form" );
 
 		return $this->get_shortcode_content( $atts );
 	}

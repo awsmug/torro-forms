@@ -86,7 +86,7 @@ class Form_List_Page_Handler {
 	protected function render_custom_list_table_column( $column_name, $form ) {
 		switch ( $column_name ) {
 			case 'form_shortcode':
-				echo '<code>' . sprintf( '[torro_form id=&quot;%d&quot;]', $form->id ) . '</code>';
+				echo '<code>' . sprintf( "[{$this->form_manager->get_prefix()}form id=&quot;%d&quot;]", $form->id ) . '</code>';
 				break;
 		}
 	}
