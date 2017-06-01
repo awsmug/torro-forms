@@ -59,6 +59,15 @@ class Form_Manager extends Core_Manager {
 	protected $frontend_output_handler;
 
 	/**
+	 * The form list page handler.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Form_List_Page_Handler
+	 */
+	protected $list_page_handler;
+
+	/**
 	 * The form edit page handler.
 	 *
 	 * @since 1.0.0
@@ -133,6 +142,7 @@ class Form_Manager extends Core_Manager {
 
 		$this->frontend_submission_handler = new Form_Frontend_Submission_Handler( $this );
 		$this->frontend_output_handler     = new Form_Frontend_Output_Handler( $this );
+		$this->list_page_handler           = new Form_List_Page_Handler( $this );
 		$this->edit_page_handler           = new Form_Edit_Page_Handler( $this );
 	}
 
@@ -158,6 +168,18 @@ class Form_Manager extends Core_Manager {
 	 */
 	public function frontend_output_handler() {
 		return $this->frontend_output_handler;
+	}
+
+	/**
+	 * Returns the form list page handler.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Form_List_Page_Handler List page handler instance.
+	 */
+	public function list_page_handler() {
+		return $this->list_page_handler;
 	}
 
 	/**
@@ -380,6 +402,19 @@ class Form_Manager extends Core_Manager {
 			'callback' => array( $this->frontend_output_handler, 'maybe_get_form_content' ),
 			'priority' => 10,
 			'num_args' => 1,
+		);
+
+		$this->filters[] = array(
+			'name'     => "manage_edit-{$this->get_prefix()}form_columns",
+			'callback' => array( $this->list_page_handler, 'maybe_adjust_table_columns' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => "manage_{$this->get_prefix()}form_posts_custom_column",
+			'callback' => array( $this->list_page_handler, 'maybe_render_custom_table_column' ),
+			'priority' => 10,
+			'num_args' => 2,
 		);
 
 		$this->actions[] = array(
