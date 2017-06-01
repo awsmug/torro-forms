@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\Assets                                                assets()
  * @method Leaves_And_Love\Plugin_Lib\Template                                      template()
  * @method Leaves_And_Love\Plugin_Lib\AJAX                                          ajax()
- * @method Leaves_And_Love\Plugin_Lib\Error_Handler                                 error_handler()
+ * @method awsmug\Torro_Forms\Error_Handler                                         error_handler()
  * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
  * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
  */
@@ -218,7 +218,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Error_Handler
+	 * @var awsmug\Torro_Forms\Error_Handler
 	 */
 	protected $error_handler;
 
@@ -361,7 +361,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected function instantiate_core_services() {
 		call_user_func( array( 'Leaves_And_Love\Plugin_Lib\Fields\Field_Manager', 'set_translations' ), $this->instantiate_plugin_class( 'Translations\Translations_Field_Manager' ) );
 
-		$this->error_handler = $this->instantiate_library_service( 'Error_Handler', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Error_Handler' ) );
+		$this->error_handler = $this->instantiate_plugin_service( 'Error_Handler', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Error_Handler' ) );
 
 		$this->options = $this->instantiate_library_service( 'Options', $this->prefix );
 
