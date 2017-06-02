@@ -10,12 +10,14 @@ namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Manager;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 use awsmug\Torro_Forms\Translations\Translations_Submission_Manager;
 use awsmug\Torro_Forms\DB;
 use Leaves_And_Love\Plugin_Lib\Cache;
+use Leaves_And_Love\Plugin_Lib\Meta;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
@@ -26,10 +28,11 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method Submission_Capabilities capabilities()
  * @method DB                      db()
  * @method Cache                   cache()
+ * @method Meta                    meta()
  * @method Error_Handler           error_handler()
  */
 class Submission_Manager extends Manager {
-	use Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
+	use Capability_Manager_Trait, Meta_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
 
 	/**
 	 * Constructor.
@@ -44,6 +47,7 @@ class Submission_Manager extends Manager {
 	 *     @type Submission_Capabilities $capabilities  The capabilities instance.
 	 *     @type DB                      $db            The database instance.
 	 *     @type Cache                   $cache         The cache instance.
+	 *     @type Meta                    $meta          The meta instance.
 	 *     @type Error_Handler           $error_handler The error handler instance.
 	 * }
 	 * @param Translations_Submission_Manager $translations Translations instance.
@@ -59,6 +63,7 @@ class Submission_Manager extends Manager {
 
 		$this->table_name  = $this->plural_slug;
 		$this->cache_group = $this->plural_slug;
+		$this->meta_type   = $this->singular_slug;
 
 		$this->primary_property = 'id';
 
@@ -138,6 +143,8 @@ class Submission_Manager extends Manager {
 			"KEY status (status)",
 			"KEY status_form_id (status,form_id)",
 		) );
+
+		$this->add_meta_database_table();
 	}
 
 	/**

@@ -468,6 +468,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Submissions\Submission_Capabilities', $this->prefix ),
 			'db'            => $this->db,
 			'cache'         => $this->cache,
+			'meta'          => $this->meta,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Manager' ) );
 
@@ -485,7 +486,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Participant_Manager' ) );
 
-		$this->db->set_version( 20170422 );
+		$this->db->set_version( 20170602 );
 	}
 
 	/**

@@ -186,4 +186,158 @@ class Submission extends Model {
 
 		return parent::delete();
 	}
+
+	/**
+	 * Adds an error to the submission.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int    $element_id Element ID to add the error for.
+	 * @param string $code       Error code.
+	 * @param string $message    Error message.
+	 * @return bool True on success, false on failure.
+	 */
+	public function add_error( $element_id, $code, $message ) {
+		if ( ! array_key_exists( 'errors', $this->pending_meta ) ) {
+			if ( $this->primary_property_value() ) {
+				$this->pending_meta['errors'] = $this->manager->get_meta( $this->primary_property_value(), 'errors', true );
+			} else {
+				$this->pending_meta['errors'] = array();
+			}
+		}
+
+		if ( ! is_array( $this->pending_meta['errors'] ) ) {
+			$this->pending_meta['errors'] = array();
+		}
+
+		if ( ! is_array( $this->pending_meta['errors'][ $element_id ] ) ) {
+			$this->pending_meta['errors'][ $element_id ] = array();
+		}
+
+		$this->pending_meta['errors'][ $element_id ][ $code ] = $message;
+
+		return true;
+	}
+
+	/**
+	 * Removes an error from the submission.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int    $element_id Element ID to remove an error for.
+	 * @param string $code       Error code to remove.
+	 * @return bool True on success, false on failure.
+	 */
+	public function remove_error( $element_id, $code ) {
+		if ( ! array_key_exists( 'errors', $this->pending_meta ) ) {
+			if ( $this->primary_property_value() ) {
+				$this->pending_meta['errors'] = $this->manager->get_meta( $this->primary_property_value(), 'errors', true );
+			} else {
+				$this->pending_meta['errors'] = array();
+			}
+		}
+
+		if ( ! is_array( $this->pending_meta['errors'] ) ) {
+			return false;
+		}
+
+		if ( ! is_array( $this->pending_meta['errors'][ $element_id ] ) ) {
+			return false;
+		}
+
+		if ( ! is_array( $this->pending_meta['errors'][ $element_id ][ $code ] ) ) {
+			return false;
+		}
+
+		unset( $this->pending_meta['errors'][ $element_id ][ $code ] );
+
+		if ( empty( $this->pending_meta['errors'][ $element_id ] ) ) {
+			unset( $this->pending_meta['errors'][ $element_id ] );
+		}
+
+		if ( empty( $this->pending_meta['errors'] ) ) {
+			$this->pending_meta['errors'] = null;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets all errors, for the entire submission or a specific element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int|null $element_id Optional. If an element ID is given, only errors for that element are returned.
+	 * @return array If $element_id is given, the array of `$code => $message` pairs is returned. Otherwise the array
+	 *               of `$element_id => $errors` pairs is returned.
+	 */
+	public function get_errors( $element_id = null ) {
+		if ( ! array_key_exists( 'errors', $this->pending_meta ) ) {
+			if ( ! $this->primary_property_value() ) {
+				return array();
+			}
+
+			$errors = $this->manager->get_meta( $this->primary_property_value(), 'errors', true );
+		} else {
+			$errors = $this->pending_meta['errors'];
+		}
+
+		if ( ! is_array( $errors ) ) {
+			return array();
+		}
+
+		if ( ! empty( $element_id ) ) {
+			if ( empty( $errors[ $element_id ] ) ) {
+				return array();
+			}
+
+			return $errors[ $element_id ];
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * Resets all errors, for the entire submission or a specific element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int|null $element_id Optional. If an element ID is given, only errors for that element are reset.
+	 * @return bool True on success, false on failure.
+	 */
+	public function reset_errors( $element_id = null ) {
+		if ( ! array_key_exists( 'errors', $this->pending_meta ) ) {
+			if ( ! $this->primary_property_value() ) {
+				return false;
+			}
+
+			$this->pending_meta['errors'] = $this->manager->get_meta( $this->primary_property_value(), 'errors', true );
+		}
+
+		if ( ! is_array( $this->pending_meta['errors'] ) ) {
+			if ( null !== $this->pending_meta['errors'] ) {
+				unset( $this->pending_meta['errors'] );
+			}
+
+			return false;
+		}
+
+		if ( ! empty( $element_id ) ) {
+			if ( ! is_array( $this->pending_meta['errors'] ) || empty( $this->pending_meta['errors'][ $element_id ] ) ) {
+				return false;
+			}
+
+			unset( $this->pending_meta['errors'][ $element_id ] );
+
+			return true;
+		}
+
+		$this->pending_meta['errors'] = null;
+
+		return true;
+	}
 }
