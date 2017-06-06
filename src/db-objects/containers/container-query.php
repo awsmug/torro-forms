@@ -31,6 +31,7 @@ class Container_Query extends Query {
 
 		$this->query_var_defaults['orderby'] = array( 'sort' => 'ASC' );
 		$this->query_var_defaults['form_id'] = '';
+		$this->query_var_defaults['sort']    = '';
 	}
 
 	/**
@@ -46,6 +47,33 @@ class Container_Query extends Query {
 		list( $where, $args ) = parent::parse_where();
 
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'form_id', 'form_id', '%d', 'absint', true );
+
+		if ( '' !== $this->query_vars['sort'] ) {
+			$table_name = $this->manager->get_table_name();
+
+			if ( is_array( $this->query_vars['sort'] ) ) {
+				if ( ! empty( $this->query_vars['sort']['greater_than'] ) ) {
+					if ( ! empty( $this->query_vars['sort']['inclusive'] ) ) {
+						$where['sort_greater_than'] = "%{$table_name}%.sort >= %d";
+					} else {
+						$where['sort_greater_than'] = "%{$table_name}%.sort > %d";
+					}
+					$args[] = absint( $this->query_vars['sort']['greater_than'] );
+				}
+
+				if ( ! empty( $this->query_vars['sort']['lower_than'] ) ) {
+					if ( ! empty( $this->query_vars['sort']['inclusive'] ) ) {
+						$where['sort_lower_than'] = "%{$table_name}%.sort <= %d";
+					} else {
+						$where['sort_lower_than'] = "%{$table_name}%.sort < %d";
+					}
+					$args[] = absint( $this->query_vars['sort']['lower_than'] );
+				}
+			} else {
+				$where['sort'] = "%{$table_name}%.sort = %d";
+				$args[] = absint( $this->query_vars['sort'] );
+			}
+		}
 
 		return array( $where, $args );
 	}
