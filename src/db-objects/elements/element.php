@@ -14,6 +14,7 @@ use awsmug\Torro_Forms\DB_Objects\Containers\Container;
 use awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Collection;
 use awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Collection;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Multi_Field_Element_Type_Interface;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use WP_Error;
 
@@ -192,5 +193,38 @@ class Element extends Model {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Validates submission fields for this element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param array $values Array of `$field => $value` pairs with the main field having
+	 *                      a key of '_main'.
+	 * @return array Validated array where each value is either the validated value, or an
+	 *               error object on failure.
+	 */
+	public function validate_fields( $values ) {
+		$element_type = $this->get_element_type();
+		if ( ! $element_type ) {
+			return array();
+		}
+
+		$main_value = null;
+		if ( isset( $values['_main'] ) ) {
+			$main_value = $values['_main'];
+			unset( $values['_main'] );
+		}
+
+		$validated = array();
+		if ( is_a( $element_type, Multi_Field_Element_Type_Interface::class ) ) {
+			$validated = $element_type->validate_additional_fields( $values, $this );
+		}
+
+		$validated['_main'] = $element_type->validate_field( $main_value, $this );
+
+		return $validated;
 	}
 }

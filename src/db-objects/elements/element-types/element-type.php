@@ -11,6 +11,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use WP_Error;
 
 /**
  * Base class representing an element type.
@@ -330,6 +331,18 @@ abstract class Element_Type {
 
 		return $data;
 	}
+
+	/**
+	 * Validates a field value for an element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param mixed   $value   The value to validate.
+	 * @param Element $element Element to validate the field value for.
+	 * @return mixed|WP_Error Validated value, or error object on failure.
+	 */
+	public abstract function validate_field( $value, $element );
 
 	/**
 	 * Bootstraps the element type by setting properties.
