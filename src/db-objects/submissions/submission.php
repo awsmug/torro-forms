@@ -11,6 +11,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use awsmug\Torro_Forms\DB_Objects\Containers\Container;
 use WP_Error;
 
 /**
@@ -185,6 +186,117 @@ class Submission extends Model {
 		}
 
 		return parent::delete();
+	}
+
+	/**
+	 * Sets the current container for the submission.
+	 *
+	 * The form ID of the container must match the submission's form ID.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Container|null $container Container, or null if the current container data should be unset.
+	 */
+	public function set_current_container( $container ) {
+		if ( null === $container ) {
+			$this->__set( 'current_container_id', null );
+			return true;
+		}
+
+		if ( $container->form_id !== $this->form_id ) {
+			return false;
+		}
+
+		$this->__set( 'current_container_id', $container->id );
+		return true;
+	}
+
+	/**
+	 * Returns the current container for the submission.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Container|null Current container, or null on failure.
+	 */
+	public function get_current_container() {
+		$container_id = (int) $this->__get( 'current_container_id' );
+
+		if ( ! empty( $container_id ) ) {
+			$container = $container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->get( $container_id );
+		} else {
+			$container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->query( array(
+				'number'        => 1,
+				'form_id'       => $this->form_id,
+				'orderby'       => array( 'sort' => 'ASC' ),
+				'no_found_rows' => true,
+			) );
+			if ( 1 > count( $container_collection ) ) {
+				return null;
+			}
+
+			$container = $container_collection[0];
+			$this->set_current_container( $container );
+		}
+
+		return $container;
+	}
+
+	/**
+	 * Returns the next container for the submission, if there is one.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Container|null Next container, or null if there is none.
+	 */
+	public function get_next_container() {
+		$container = $this->get_current_container();
+		if ( ! $container ) {
+			return null;
+		}
+
+		$container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->query( array(
+			'number'        => 1,
+			'form_id'       => $this->form_id,
+			'sort'          => array( 'greater_than' => $container->sort ),
+			'orderby'       => array( 'sort' => 'ASC' ),
+			'no_found_rows' => true,
+		) );
+		if ( 1 > count( $container_collection ) ) {
+			return null;
+		}
+
+		return $container_collection[0];
+	}
+
+	/**
+	 * Returns the previous container for the submission, if there is one.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Container|null Previous container, or null if there is none.
+	 */
+	public function get_previous_container() {
+		$container = $this->get_current_container();
+		if ( ! $container ) {
+			return null;
+		}
+
+		$container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->query( array(
+			'number'        => 1,
+			'form_id'       => $this->form_id,
+			'sort'          => array( 'lower_than' => $container->sort ),
+			'orderby'       => array( 'sort' => 'DESC' ),
+			'no_found_rows' => true,
+		) );
+		if ( 1 > count( $container_collection ) ) {
+			return null;
+		}
+
+		return $container_collection[0];
 	}
 
 	/**
