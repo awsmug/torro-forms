@@ -155,4 +155,22 @@ class Form_Frontend_Output_Handler {
 	protected function render_form_content( $form, $submission = null ) {
 
 	}
+
+	/**
+	 * Returns the name of the nonce action to check.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
+	 * @return string Nonce action name.
+	 */
+	protected function get_nonce_action( $form, $submission = null ) {
+		if ( $submission && ! empty( $submission->id ) ) {
+			return $this->form_manager->get_prefix() . 'form_' . $form->id . '_submission_' . $submission->id;
+		}
+
+		return $this->form_manager->get_prefix() . 'form_' . $form->id;
+	}
 }
