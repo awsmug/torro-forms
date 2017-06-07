@@ -230,6 +230,51 @@ class Form extends Core_Model {
 	}
 
 	/**
+	 * Returns an array representation of the model.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param bool $include_meta Optional. Whether to include metadata for each model in the collection.
+	 *                           Default true.
+	 * @return array Array including all information for the model.
+	 */
+	public function to_json( $include_meta = true ) {
+		$data = parent::to_json( $include_meta );
+
+		/**
+		 * Filters the form tag classes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $form_classes Array of form classes.
+		 * @param Form  $form         Form object.
+		 */
+		$form_classes = apply_filters( "{$this->manager->get_prefix()}form_classes", array( 'torro-form' ), $this );
+
+		/**
+		 * Filters the form action URL.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $form_action_url Form action URL.
+		 * @param int    $form_id         Form ID.
+		 */
+		$form_action_url = apply_filters( 'torro_form_action_url', home_url( $_SERVER['REQUEST_URI'] ), $this->id );
+
+		$data['form_attrs'] = array(
+			'id'         => 'torro-form-' . $this->id,
+			'class'      => implode( ' ', $form_classes ),
+			'action'     => $form_action_url,
+			'method'     => 'post',
+			'enctype'    => 'multipart/form-data',
+			'novalidate' => true,
+		);
+
+		return $data;
+	}
+
+	/**
 	 * Returns all current values as $property => $value pairs.
 	 *
 	 * @since 1.0.0

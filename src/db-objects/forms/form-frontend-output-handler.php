@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use awsmug\Torro_Forms\DB_Objects\Containers\Container;
 
 /**
  * Class for handling the form frontend output.
@@ -153,7 +154,179 @@ class Form_Frontend_Output_Handler {
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
 	 */
 	protected function render_form_content( $form, $submission = null ) {
+		/**
+		 * Filters whether a user can access a specific form, and optionally submission.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool|WP_Error   $can_access_form Whether a user can access the form. Can be an error object to show a specific message to the user.
+		 * @param Form            $form            Form object.
+		 * @param Submission|null $submission      Submission object, or null if no submission is set.
+		 */
+		$can_access_form = apply_filters( "{$this->form_manager->get_prefix()}can_access_form", true, $form, $submission );
 
+		if ( is_wp_error( $can_access_form ) ) {
+			$this->print_notice( $can_access_form->get_error_message() );
+			return;
+		}
+
+		if ( ! $can_access_form ) {
+			$message = $submission ? __( 'You are not allowed to access this form submission.', 'torro-forms' ) : __( 'You are not allowed to access this form.', 'torro-forms' );
+			$this->print_notice( $message );
+			return;
+		}
+
+		if ( $submission && 'completed' === $submission->status ) {
+			$this->print_notice( __( 'Thank you for submitting!', 'torro-forms' ), 'success' );
+			return;
+		}
+
+		$container = $this->get_current_container( $form, $submission );
+		if ( ! $container ) {
+			$this->print_notice( __( 'No container exists for this form.', 'torro-forms' ), 'error' );
+			return;
+		}
+
+		if ( $submission ) {
+			$this->maybe_print_submission_errors( $submission );
+		}
+
+		$template_data = $form->to_json( false );
+		$template_data['current_container'] = $container->to_json();
+
+		$template_data['hidden_fields'] = '<input type="hidden" name="torro_submission[nonce]" value="' . wp_create_nonce( $this->get_nonce_action( $form, $submission ) ) . '">';
+		$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[form_id]" value="' . esc_attr( $form->id ) . '">';
+		if ( $submission ) {
+			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[id]" value="' . esc_attr( $submission->id ) . '">';
+		}
+		if ( in_the_loop() && $form->id !== (int) get_the_ID() ) {
+			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[original_id]" value="' . esc_attr( get_the_ID() ) . '">';
+		}
+
+		$template_data['navigation'] = array();
+		if ( $this->has_next_container( $form, $submission ) ) {
+
+		} else {
+
+		}
+		if ( $this->has_previous_container( $form, $submission ) ) {
+
+		}
+	}
+
+	/**
+	 * Gets the current container for a given form and submission.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
+	 * @return Container|null Container object, or null on failure.
+	 */
+	protected function get_current_container( $form, $submission = null ) {
+		if ( $submission ) {
+			return $submission->get_current_container();
+		}
+
+		$container_collection = $form->get_containers( array(
+			'number'        => 1,
+			'orderby'       => array( 'sort' => 'ASC' ),
+			'no_found_rows' => true,
+		) );
+
+		if ( 1 > count( $container_collection ) ) {
+			return null;
+		}
+
+		return $container_collection[0];
+	}
+
+	/**
+	 * Checks whether there is a next container.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Submission object, or null if no submission is set.
+	 * @return bool True if there is a next container, false otherwise.
+	 */
+	protected function has_next_container( $form, $submission = null ) {
+		if ( $submission ) {
+			$next_container = $submission->get_next_container();
+			return null !== $next_container;
+		}
+
+		$containers = $form->get_containers();
+		return 1 < count( $containers );
+	}
+
+	/**
+	 * Checks whether there is a previous container.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Submission object, or null if no submission is set.
+	 * @return bool True if there is a previous container, false otherwise.
+	 */
+	protected function has_previous_container( $form, $submission = null ) {
+		if ( $submission ) {
+			$previous_container = $submission->get_previous_container();
+			return null !== $previous_container;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Prints submission errors in a notice if necessary.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Submission $submission Submission object.
+	 */
+	protected function maybe_print_submission_errors( $submission ) {
+		if ( $submission->has_errors( 0 ) ) {
+			$global_errors = $submission->get_errors( 0 );
+			if ( 1 === count( $global_errors ) ) {
+				$error_key = key( $global_errors );
+				$this->print_notice( $global_errors[ $error_key ], 'error' );
+			} else {
+				?>
+				<div class="torro-notice torro-error-notice">
+					<p><?php _e( 'Some errors occurred while trying to submit the form:', 'torro-forms' ); ?></p>
+					<ul>
+						<?php foreach ( $global_errors as $error_code => $error_message ) : ?>
+							<li><?php echo $error_message; ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+				<?php
+			}
+		} elseif ( $submission->has_errors() ) {
+			$this->print_notice( __( 'Some errors occurred while trying to submit the form.', 'torro-forms' ), 'error' );
+		}
+	}
+
+	/**
+	 * Prints a notice with a message to the user.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $message Message to show.
+	 * @param string $type    Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
+	 */
+	protected function print_notice( $message, $type = 'warning' ) {
+		?>
+		<div class="<?php echo esc_attr( 'torro-notice torro-' . $type . '-notice' ); ?>">
+			<p><?php echo $message; ?></p>
+		</div>
+		<?php
 	}
 
 	/**
