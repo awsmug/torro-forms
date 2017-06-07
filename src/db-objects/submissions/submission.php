@@ -413,6 +413,21 @@ class Submission extends Model {
 	}
 
 	/**
+	 * Checks whether there are errors, for the entire submission or a specific element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int|null $element_id Optional. If an element ID is given, only errors for that element are returned.
+	 * @return bool True if there are errors, false otherwise.
+	 */
+	public function has_errors( $element_id = null ) {
+		$errors = $this->get_errors( $element_id );
+
+		return ! empty( $errors );
+	}
+
+	/**
 	 * Resets all errors, for the entire submission or a specific element.
 	 *
 	 * @since 1.0.0

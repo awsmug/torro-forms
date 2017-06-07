@@ -51,20 +51,37 @@ class Form_Frontend_Submission_Handler {
 
 		$data = wp_unslash( $_POST['torro_submission'] );
 
+		if ( ! isset( $data['nonce'] ) ) {
+			wp_die( __( 'Missing security nonce.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
+		}
+
 		$form = $submission = null;
 		if ( ! empty( $data['id'] ) ) {
 			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $data['id'] ) );
-			if ( $submission && ! empty( $submission->form_id ) ) {
-				$form = $submission->get_form();
+			if ( $submission ) {
+				if ( 'completed' === $submission->status ) {
+					wp_die( __( 'Submission already completed.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
+				}
+
+				if ( ! empty( $submission->form_id ) ) {
+					$form = $submission->get_form();
+				}
 			}
 		}
 
 		if ( ! $form ) {
 			if ( empty( $data['form_id'] ) ) {
-				return;
+				wp_die( __( 'Could not detect form.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
 			}
 
 			$form = $this->form_manager->get( absint( $data['form_id'] ) );
+			if ( ! $form ) {
+				wp_die( __( 'Could not detect form.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
+			}
+		}
+
+		if ( ! wp_verify_nonce( $data['nonce'], $this->get_nonce_action( $form, $submission ) ) ) {
+			wp_die( __( 'Invalid security nonce.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
 		}
 
 		if ( ! $submission ) {
@@ -96,18 +113,6 @@ class Form_Frontend_Submission_Handler {
 	 * @param array      $data       Submission POST data.
 	 */
 	protected function handle_form_submission( $form, $submission, $data = array() ) {
-		if ( ! isset( $data['nonce'] ) ) {
-			$submission->add_error( 0, 'missing_nonce', __( 'Missing security nonce.', 'torro-forms' ) );
-			$submission->sync_upstream();
-			return;
-		}
-
-		if ( ! wp_verify_nonce( $data['nonce'], $this->get_nonce_action( $form, $submission ) ) ) {
-			$submission->add_error( 0, 'invalid_nonce', __( 'Invalid security nonce.', 'torro-forms' ) );
-			$submission->sync_upstream();
-			return;
-		}
-
 		$container = $submission->get_current_container();
 		if ( ! $container ) {
 			$submission->add_error( 0, 'internal_error_container', __( 'Internal error: No current container is available for this form.', 'torro-forms' ) );
@@ -115,7 +120,24 @@ class Form_Frontend_Submission_Handler {
 			return;
 		}
 
-		//TODO: Do action for further checks here.
+		/**
+		 * Fires before a form submission is handled.
+		 *
+		 * If you add one or more errors to the submission, the rest of the handling is skipped, essentially making the submission fail.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Submission $submission Submission object.
+		 * @param Form       $form       Form object.
+		 * @param Container  $container  Current container object.
+		 * @param array      $data       Submission POST data.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}pre_handle_submission", $submission, $form, $container, $data );
+
+		if ( $submission->has_errors() ) {
+			$submission->sync_upstream();
+			return;
+		}
 
 		$submission->sync_upstream();
 
@@ -186,9 +208,49 @@ class Form_Frontend_Submission_Handler {
 			}
 		}
 
-		//TODO: Check if there is a next container. If there are no errors, either set the next container or set the status to completed and unset the current container. Plus trigger hooks.
+		/**
+		 * Fires when a form submission is handled.
+		 *
+		 * If you add one or more errors to the submission, this will make the submission fail.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Submission $submission Submission object.
+		 * @param Form       $form       Form object.
+		 * @param Container  $container  Current container object.
+		 * @param array      $data       Submission POST data.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}handle_submission", $submission, $form, $container, $data );
+
+		if ( $submission->has_errors() ) {
+			$submission->sync_upstream();
+			return;
+		}
+
+		$next_container = $submission->get_next_container();
+		if ( $next_container ) {
+			$submission->set_current_container( $next_container );
+		} else {
+			$submission->set_current_container( null );
+			$submission->status = 'completed';
+		}
 
 		$submission->sync_upstream();
+
+		if ( 'completed' === $submission->status ) {
+			/**
+			 * Fires when a form submission is completed.
+			 *
+			 * At the point of this action, all submission data is already synchronized with the database
+			 * and its status is set as 'completed'.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param Submission $submission Submission object.
+			 * @param Form       $form       Form object.
+			 */
+			do_action( "{$this->form_manager->get_prefix()}complete_submission", $submission, $form );
+		}
 	}
 
 	/**
@@ -197,12 +259,12 @@ class Form_Frontend_Submission_Handler {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Form       $form       Form object.
-	 * @param Submission $submission Submission object.
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
 	 * @return string Nonce action name.
 	 */
-	protected function get_nonce_action( $form, $submission ) {
-		if ( ! empty( $submission->id ) ) {
+	protected function get_nonce_action( $form, $submission = null ) {
+		if ( $submission && ! empty( $submission->id ) ) {
 			return $this->form_manager->get_prefix() . 'form_' . $form->id . '_submission_' . $submission->id;
 		}
 
