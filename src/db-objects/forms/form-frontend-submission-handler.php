@@ -120,6 +120,8 @@ class Form_Frontend_Submission_Handler {
 			return;
 		}
 
+		$old_submission_status = $submission->status;
+
 		/**
 		 * Fires before a form submission is handled.
 		 *
@@ -227,17 +229,26 @@ class Form_Frontend_Submission_Handler {
 			return;
 		}
 
-		$next_container = $submission->get_next_container();
-		if ( $next_container ) {
-			$submission->set_current_container( $next_container );
+		if ( ! empty( $data['action'] ) && 'back' === $data['action'] ) {
+			$previous_container = $submission->get_previous_container();
+			if ( $previous_container ) {
+				$submission->set_current_container( $previous_container );
+			} else {
+				$submission->add_error( 0, 'internal_error_previous_container', __( 'Internal error: There is no previous container available.', 'torro-forms' ) );
+			}
 		} else {
-			$submission->set_current_container( null );
-			$submission->status = 'completed';
+			$next_container = $submission->get_next_container();
+			if ( $next_container ) {
+				$submission->set_current_container( $next_container );
+			} else {
+				$submission->set_current_container( null );
+				$submission->status = 'completed';
+			}
 		}
 
 		$submission->sync_upstream();
 
-		if ( 'completed' === $submission->status ) {
+		if ( 'processing' === $old_submission_status && 'completed' === $submission->status ) {
 			/**
 			 * Fires when a form submission is completed.
 			 *
