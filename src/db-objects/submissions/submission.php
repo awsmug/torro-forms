@@ -210,9 +210,13 @@ class Submission extends Model {
 		if ( ! empty( $container_id ) ) {
 			$container = $container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->get( $container_id );
 		} else {
-			$container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->query( array(
+			$form = $this->get_form();
+			if ( ! $form ) {
+				return null;
+			}
+
+			$container_collection = $form->get_containers( array(
 				'number'        => 1,
-				'form_id'       => $this->form_id,
 				'orderby'       => array( 'sort' => 'ASC' ),
 				'no_found_rows' => true,
 			) );
@@ -241,9 +245,13 @@ class Submission extends Model {
 			return null;
 		}
 
-		$container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->query( array(
+		$form = $this->get_form();
+		if ( ! $form ) {
+			return null;
+		}
+
+		$container_collection = $form->get_containers( array(
 			'number'        => 1,
-			'form_id'       => $this->form_id,
 			'sort'          => array( 'greater_than' => $container->sort ),
 			'orderby'       => array( 'sort' => 'ASC' ),
 			'no_found_rows' => true,
@@ -269,9 +277,13 @@ class Submission extends Model {
 			return null;
 		}
 
-		$container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->query( array(
+		$form = $this->get_form();
+		if ( ! $form ) {
+			return null;
+		}
+
+		$container_collection = $form->get_containers( array(
 			'number'        => 1,
-			'form_id'       => $this->form_id,
 			'sort'          => array( 'lower_than' => $container->sort ),
 			'orderby'       => array( 'sort' => 'DESC' ),
 			'no_found_rows' => true,
