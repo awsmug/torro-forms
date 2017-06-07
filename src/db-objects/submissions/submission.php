@@ -397,7 +397,7 @@ class Submission extends Model {
 			return array();
 		}
 
-		if ( ! empty( $element_id ) ) {
+		if ( null !== $element_id ) {
 			if ( empty( $errors[ $element_id ] ) ) {
 				return array();
 			}
@@ -449,7 +449,7 @@ class Submission extends Model {
 			return false;
 		}
 
-		if ( ! empty( $element_id ) ) {
+		if ( null !== $element_id ) {
 			if ( ! is_array( $this->pending_meta['errors'] ) || empty( $this->pending_meta['errors'][ $element_id ] ) ) {
 				return false;
 			}
