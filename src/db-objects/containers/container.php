@@ -86,16 +86,20 @@ class Container extends Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection List of elements.
 	 */
-	public function get_elements() {
+	public function get_elements( $args = array() ) {
 		if ( empty( $this->id ) ) {
 			return $this->manager->get_child_manager( 'elements' )->get_collection( array(), 0, 'objects' );
 		}
 
-		return $this->manager->get_child_manager( 'elements' )->query( array(
+		$args = wp_parse_args( $args, array(
+			'number'       => -1,
 			'container_id' => $this->id,
 		) );
+
+		return $this->manager->get_child_manager( 'elements' )->query( $args );
 	}
 
 	/**

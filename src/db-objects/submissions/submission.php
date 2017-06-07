@@ -139,36 +139,20 @@ class Submission extends Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Submission_Value_Collection List of submission values.
 	 */
-	public function get_submission_values() {
+	public function get_submission_values( $args = array() ) {
 		if ( empty( $this->id ) ) {
 			return $this->manager->get_child_manager( 'submission_values' )->get_collection( array(), 0, 'objects' );
 		}
 
-		return $this->manager->get_child_manager( 'submission_values' )->query( array(
+		$args = wp_parse_args( $args, array(
+			'number'        => -1,
 			'submission_id' => $this->id,
 		) );
-	}
 
-	/**
-	 * Returns all submission values that belong to the submission.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param int $element_id ID of the element to get submission values for.
-	 * @return Submission_Value_Collection List of submission values.
-	 */
-	public function get_submission_values_for_element( $element_id ) {
-		if ( empty( $this->id ) ) {
-			return $this->manager->get_child_manager( 'submission_values' )->get_collection( array(), 0, 'objects' );
-		}
-
-		return $this->manager->get_child_manager( 'submission_values' )->query( array(
-			'submission_id' => $this->id,
-			'element_id'    => absint( $element_id ),
-		) );
+		return $this->manager->get_child_manager( 'submission_values' )->query( $args );
 	}
 
 	/**

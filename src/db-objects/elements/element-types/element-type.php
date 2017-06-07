@@ -224,7 +224,7 @@ abstract class Element_Type {
 	public function get_values( $element, $submission = null ) {
 		$values = array();
 		if ( $submission ) {
-			$submission_values = $submission->get_submission_values_for_element( $element->id );
+			$submission_values = $submission->get_submission_values( array( 'element_id' => $element->id ) );
 			foreach ( $submission_values as $submission_value ) {
 				$field = empty( $submission_value->field ) ? '_main' : $submission_value->field;
 

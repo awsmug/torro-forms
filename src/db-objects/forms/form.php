@@ -169,16 +169,20 @@ class Form extends Core_Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Container_Collection List of containers.
 	 */
-	public function get_containers() {
+	public function get_containers( $args = array() ) {
 		if ( empty( $this->original->ID ) ) {
 			return $this->manager->get_child_manager( 'containers' )->get_collection( array(), 0, 'objects' );
 		}
 
-		return $this->manager->get_child_manager( 'containers' )->query( array(
+		$args = wp_parse_args( $args, array(
+			'number'  => -1,
 			'form_id' => $this->original->ID,
 		) );
+
+		return $this->manager->get_child_manager( 'containers' )->query( $args );
 	}
 
 	/**
@@ -187,16 +191,20 @@ class Form extends Core_Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Submission_Collection List of submissions.
 	 */
-	public function get_submissions() {
+	public function get_submissions( $args = array() ) {
 		if ( empty( $this->original->ID ) ) {
 			return $this->manager->get_child_manager( 'submissions' )->get_collection( array(), 0, 'objects' );
 		}
 
-		return $this->manager->get_child_manager( 'submissions' )->query( array(
+		$args = wp_parse_args( $args, array(
+			'number'  => -1,
 			'form_id' => $this->original->ID,
 		) );
+
+		return $this->manager->get_child_manager( 'submissions' )->query( $args );
 	}
 
 	/**
@@ -205,16 +213,20 @@ class Form extends Core_Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Participant_Collection List of participants.
 	 */
-	public function get_participants() {
+	public function get_participants( $args = array() ) {
 		if ( empty( $this->original->ID ) ) {
 			return $this->manager->get_child_manager( 'participants' )->get_collection( array(), 0, 'objects' );
 		}
 
-		return $this->manager->get_child_manager( 'participants' )->query( array(
+		$args = wp_parse_args( $args, array(
+			'number'  => -1,
 			'form_id' => $this->original->ID,
 		) );
+
+		return $this->manager->get_child_manager( 'participants' )->query( $args );
 	}
 
 	/**

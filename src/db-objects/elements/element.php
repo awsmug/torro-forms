@@ -100,16 +100,20 @@ class Element extends Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Element_Choice_Collection List of element choices.
 	 */
-	public function get_element_choices() {
+	public function get_element_choices( $args = array() ) {
 		if ( empty( $this->id ) ) {
 			return $this->manager->get_child_manager( 'element_choices' )->get_collection( array(), 0, 'objects' );
 		}
 
-		return $this->manager->get_child_manager( 'element_choices' )->query( array(
+		$args = wp_parse_args( $args, array(
+			'number'     => -1,
 			'element_id' => $this->id,
 		) );
+
+		return $this->manager->get_child_manager( 'element_choices' )->query( $args );
 	}
 
 	/**
@@ -118,16 +122,20 @@ class Element extends Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Element_Setting_Collection List of element settings.
 	 */
-	public function get_element_settings() {
+	public function get_element_settings( $args = array() ) {
 		if ( empty( $this->id ) ) {
 			return $this->manager->get_child_manager( 'element_settings' )->get_collection( array(), 0, 'objects' );
 		}
 
-		return $this->manager->get_child_manager( 'element_settings' )->query( array(
+		$args = wp_parse_args( $args, array(
+			'number'     => -1,
 			'element_id' => $this->id,
 		) );
+
+		return $this->manager->get_child_manager( 'element_settings' )->query( $args );
 	}
 
 	/**
