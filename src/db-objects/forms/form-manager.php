@@ -19,6 +19,7 @@ use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 use awsmug\Torro_Forms\Translations\Translations_Form_Manager;
 use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\DB;
+use Leaves_And_Love\Plugin_Lib\Template;
 use Leaves_And_Love\Plugin_Lib\Options;
 use Leaves_And_Love\Plugin_Lib\Cache;
 use Leaves_And_Love\Plugin_Lib\Meta;
@@ -30,6 +31,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @since 1.0.0
  *
  * @method Form_Capabilities capabilities()
+ * @method Template          template()
  * @method Options           options()
  * @method Assets            assets()
  * @method DB                db()
@@ -77,6 +79,16 @@ class Form_Manager extends Core_Manager {
 	protected $edit_page_handler;
 
 	/**
+	 * The Template API service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_template = Template::class;
+
+	/**
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
@@ -107,6 +119,7 @@ class Form_Manager extends Core_Manager {
 	 *     Array of service instances.
 	 *
 	 *     @type Form_Capabilities $capabilities  The capabilities instance.
+	 *     @type Template          $template      The template instance.
 	 *     @type Options           $options       The options instance.
 	 *     @type Assets            $assets        The assets instance.
 	 *     @type DB                $db            The database instance.
