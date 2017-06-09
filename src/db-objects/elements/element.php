@@ -267,7 +267,39 @@ class Element extends Model {
 				'id'    => 'torro-element-' . $this->id . '-errors',
 				'class' => implode( ' ', $errors_classes ),
 			),
+			'before'            => '',
+			'after'             => '',
 		) );
+
+		if ( has_action( "{$this->manager->get_prefix()}element_before" ) ) {
+			ob_start();
+
+			/**
+			 * Allows to print additional content before an element in the frontend.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param int $element_id Element ID.
+			 */
+			do_action( "{$this->manager->get_prefix()}element_before", $this->id );
+
+			$data['before'] = ob_get_clean();
+		}
+
+		if ( has_action( "{$this->manager->get_prefix()}element_after" ) ) {
+			ob_start();
+
+			/**
+			 * Allows to print additional content after an element in the frontend.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param int $element_id Element ID.
+			 */
+			do_action( "{$this->manager->get_prefix()}element_after", $this->id );
+
+			$data['after'] = ob_get_clean();
+		}
 
 		$element_type = $this->get_element_type();
 		if ( $element_type ) {
