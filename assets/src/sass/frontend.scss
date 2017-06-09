@@ -1,0 +1,25 @@
+.torro-element-wrap {
+	margin-bottom: 2em;
+}
+
+.torro-element-label {
+	margin-bottom: 0.5em;
+}
+
+.torro-pager {
+	display: block;
+	clear: both;
+
+	.prev,
+	.next {
+		display: inline-block;
+	}
+
+	.prev > button {
+		float: left;
+	}
+
+	.next > button {
+		float: right;
+	}
+}
