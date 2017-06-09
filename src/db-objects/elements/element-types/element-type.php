@@ -287,6 +287,8 @@ abstract class Element_Type {
 	 * @return array Array including all information for the element type.
 	 */
 	public function filter_json( $data, $element, $submission = null ) {
+		$data['template_suffix'] = $this->slug;
+
 		$settings = $this->get_settings( $element );
 		$values   = $this->get_values( $element, $submission );
 
@@ -309,7 +311,7 @@ abstract class Element_Type {
 			 * @param string $required_indicator Indicator HTML string. Default is a screen-reader-only
 			 *                                   '(required)' text and an asterisk for visual appearance.
 			 */
-			$data['label_required'] .= ' ' . apply_filters( "{$this->manager->get_prefix()}required_indicator", $required_indicator );
+			$data['label_required'] = apply_filters( "{$this->manager->get_prefix()}required_indicator", $required_indicator );
 
 			$data['input_attrs']['aria-required'] = 'true';
 			$data['input_attrs']['required'] = true;
