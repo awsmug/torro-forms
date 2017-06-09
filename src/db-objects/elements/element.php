@@ -195,10 +195,94 @@ class Element extends Model {
 	public function to_json( $include_meta = true, $submission = null ) {
 		$data = parent::to_json( $include_meta );
 
+		/**
+		 * Filters the element input classes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $input_classes Array of input classes.
+		 */
+		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ) );
+
+		/**
+		 * Filters the element label classes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $label_classes Array of label classes.
+		 */
+		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ) );
+
+		/**
+		 * Filters the element wrap classes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $wrap_classes Array of wrap classes.
+		 */
+		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ) );
+
+		/**
+		 * Filters the element description classes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $description_classes Array of description classes.
+		 */
+		$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ) );
+
+		/**
+		 * Filters the element errors classes, for the error messages wrap.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $errors_classes Array of errors classes.
+		 */
+		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ) );
+
+		$data = array_merge( $data, array(
+			'value'             => null,
+			'input_attrs'       => array(
+				'id'       => 'torro-element-' . $this->id,
+				'name'     => 'torro_submission[values][' . $this->id . '][_main]',
+				'class'    => implode( ' ', $input_classes ),
+			),
+			'label_required'    => '',
+			'label_attrs'       => array(
+				'id'    => 'torro-element-' . $this->id . '-label',
+				'class' => implode( ' ', $label_classes ),
+				'for'   => 'torro-element-' . $this->id,
+			),
+			'wrap_attrs'        => array(
+				'id'    => 'torro-element-' . $this->id . '-wrap',
+				'class' => implode( ' ', $wrap_classes ),
+			),
+			'description'       => '',
+			'description_attrs' => array(
+				'id'    => 'torro-element-' . $this->id . '-description',
+				'class' => implode( ' ', $description_classes ),
+			),
+			'errors'            => array(),
+			'errors_attrs'      => array(
+				'id'    => 'torro-element-' . $this->id . '-errors',
+				'class' => implode( ' ', $errors_classes ),
+			),
+		) );
+
 		$element_type = $this->get_element_type();
 		if ( $element_type ) {
-			$data['field_data'] = $element_type->to_json( $this, $submission );
+			$data = $element_type->filter_json( $data, $this, $submission );
 		}
+
+		/**
+		 * Filters the main element value.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param mixed   $value   Element value.
+		 * @param Element $element Element object.
+		 */
+		$data['value'] = apply_filters( "{$this->manager->get_prefix()}element_value", $data['value'], $this );
 
 		return $data;
 	}
