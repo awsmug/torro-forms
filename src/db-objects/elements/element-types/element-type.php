@@ -311,23 +311,105 @@ abstract class Element_Type {
 		 * @param array        $input_classes Array of input classes.
 		 * @param Element_Type $element_type  Element type instance.
 		 */
-		$input_classes = apply_filters( "{$this->manager->get_prefix()}input_classes", array( 'torro-form-input' ), $this );
+		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ), $this );
+
+		/**
+		 * Filters the element label classes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array        $label_classes Array of label classes.
+		 * @param Element_Type $element_type  Element type instance.
+		 */
+		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ), $this );
+
+		/**
+		 * Filters the element wrap classes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array        $wrap_classes Array of wrap classes.
+		 * @param Element_Type $element_type Element type instance.
+		 */
+		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ), $this );
 
 		$data = array(
-			'template_suffix'   => $this->slug,
-			'type'              => 'text',
-			'id'                => 'torro-element-' . $element->id,
-			'name'              => 'torro_submission[values][' . $element->id . '][_main]',
-			'classes'           => $input_classes,
-			'description'       => ! empty( $settings['description'] ) ? $settings['description'] : '',
-			'required'          => ! empty( $settings['required'] ) ? (bool) $settings['required'] : false,
-			'choices'           => ! empty( $choices['_main'] ) ? $choices['_main'] : array(),
 			'value'             => $value,
-			'has_error'         => false,
-			'has_success'       => false,
-			'extra_attr'        => '',
+			'choices'           => ! empty( $choices['_main'] ) ? $choices['_main'] : array(),
+			'input_attrs'       => array(
+				'id'       => 'torro-element-' . $element->id,
+				'name'     => 'torro_submission[values][' . $element->id . '][_main]',
+				'class'    => implode( ' ', $input_classes ),
+				'required' => ! empty( $settings['required'] ) ? (bool) $settings['required'] : false,
+			),
+			'label'             => $element->label,
+			'label_attrs'       => array(
+				'id'    => 'torro-element-' . $element->id . '-label',
+				'class' => implode( ' ', $label_classes ),
+				'for'   => 'torro-element-' . $element->id,
+			),
+			'wrap_attrs'        => array(
+				'id'    => 'torro-element-' . $element->id . '-wrap',
+				'class' => implode( ' ', $wrap_classes ),
+			),
+			'description'       => ! empty( $settings['description'] ) ? $settings['description'] : '',
+			'description_attrs' => array(),
+			'errors'            => array(),
+			'errors_attrs'      => array(),
 			'additional_fields' => is_a( $this, Multi_Field_Element_Type_Interface::class ) ? $this->additional_fields_to_json( $element, $submission, $choices, $settings, $values ) : array(),
 		);
+
+		if ( ! empty( $data['description'] ) ) {
+			/**
+			 * Filters the element description classes.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param array        $description_classes Array of description classes.
+			 * @param Element_Type $element_type        Element type instance.
+			 */
+			$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ), $this );
+
+			$data['description_attrs']['id'] = 'torro-element-' . $element->id . '-description';
+			$data['description_attrs']['class'] = implode( ' ', $description_classes );
+
+			$data['input_attrs']['aria-describedby'] = $data['description_attrs']['id'];
+		}
+
+		if ( $data['input_attrs']['required'] ) {
+			$required_indicator = '<span class="screen-reader-text">' . __( '(required)', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>';
+
+			/**
+			 * Filters the required indicator for an element that must be filled.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $required_indicator Indicator HTML string. Default is a screen-reader-only
+			 *                                   '(required)' text and an asterisk for visual appearance.
+			 */
+			$data['label'] .= ' ' . apply_filters( "{$this->manager->get_prefix()}required_indicator", $required_indicator );
+
+			$data['input_attrs']['aria-required'] = 'true';
+		}
+
+		if ( $submission && $submission->has_errors( $element->id ) ) {
+			/**
+			 * Filters the element errors classes, for the error messages wrap.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param array        $errors_classes Array of errors classes.
+			 * @param Element_Type $element_type   Element type instance.
+			 */
+			$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ), $this );
+
+			$data['errors'] = $submission->get_errors( $element->id );
+
+			$data['input_attrs']['aria-invalid'] = 'true';
+
+			$data['errors_attrs']['id'] = 'torro-element-' . $element->id . '-errors';
+			$data['errors_attrs']['class'] = implode( ' ', $errors_classes );
+		}
 
 		return $data;
 	}
