@@ -2,41 +2,41 @@
 /**
  * Template: element.php
  *
- * Available data: $element_id, $label, $id, $classes, $errors, $description, $required, $type
+ * Available data: $id, $container_id, $label, $sort, $type, $value, $input_attrs, $label_required, $label_attrs, $wrap_attrs, $description, $description_attrs, $errors, $errors_attrs, $before, $after
  *
  * @package TorroForms
- * @subpackage Templates
- * @version 1.0.0-beta.7
- * @since 1.0.0-beta.4
+ * @since 1.0.0
  */
 ?>
-<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
-	<?php do_action( 'torro_element_start', $element_id ); ?>
+<div<?php echo torro()->template()->attrs( $wrap_attrs ); ?>>
+	<?php if ( ! empty( $before ) ) : ?>
+		<?php echo $before; ?>
+	<?php endif; ?>
 
-	<label for="<?php echo esc_attr( $id ); ?>">
+	<label<?php echo torro()->template()->attrs( $label_attrs ); ?>>
 		<?php echo esc_html( $label ); ?>
-		<?php if ( $required ) : ?>
-			<span class="required">*</span>
-		<?php endif; ?>
+		<?php echo $label_required; ?>
 	</label>
 
 	<div>
-		<?php torro()->template( 'element-type', $type ); ?>
+		<input type="text"<?php echo torro()->template()->attrs( $input_attrs ); ?>>
 
 		<?php if ( ! empty( $description ) ) : ?>
-			<div id="<?php echo esc_attr( $id ); ?>-description" class="element-description">
+			<div<?php echo torro()->template()->attrs( $description_attrs ); ?>>
 				<?php echo $description; ?>
 			</div>
 		<?php endif; ?>
 
-		<?php if ( 0 < count( $errors ) ) : ?>
-			<ul id="<?php echo esc_attr( $id ); ?>-errors" class="error-messages">
-				<?php foreach ( $errors as $error ) : ?>
-					<li><?php echo $error; ?></li>
+		<?php if ( ! empty( $errors ) ) : ?>
+			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?>>
+				<?php foreach ( $errors as $error_code => $error_message ) : ?>
+					<li><?php echo $error_message; ?></li>
 				<?php endforeach; ?>
 			</ul>
 		<?php endif; ?>
 	</div>
 
-	<?php do_action( 'torro_element_end', $element_id ); ?>
+	<?php if ( ! empty( $after ) ) : ?>
+		<?php echo $after; ?>
+	<?php endif; ?>
 </div>
