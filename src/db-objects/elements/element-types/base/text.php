@@ -18,6 +18,22 @@ use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
 class Text extends Element_Type {
 
 	/**
+	 * Validates a field value for an element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param mixed   $value   The value to validate.
+	 * @param Element $element Element to validate the field value for.
+	 * @return mixed|WP_Error Validated value, or error object on failure.
+	 */
+	public function validate_field( $value, $element ) {
+		//TODO
+
+		return trim( $value );
+	}
+
+	/**
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0
