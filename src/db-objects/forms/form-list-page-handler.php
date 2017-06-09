@@ -53,7 +53,7 @@ class Form_List_Page_Handler {
 			'form_shortcode' => __( 'Shortcode', 'torro-forms' )
 		);
 
-		return array_merge( array_slice( $columns, 0, 2, true ), array( $new_columns ), array_slice( $columns, 2, count( $columns ) - 1, true ) );
+		return array_merge( array_slice( $columns, 0, 2, true ), $new_columns, array_slice( $columns, 2, count( $columns ) - 1, true ) );
 	}
 
 	/**

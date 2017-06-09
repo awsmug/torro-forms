@@ -151,12 +151,12 @@ class Form_Manager extends Core_Manager {
 
 		$this->public = true;
 
-		parent::__construct( $prefix, $services, $translations );
-
 		$this->frontend_submission_handler = new Form_Frontend_Submission_Handler( $this );
 		$this->frontend_output_handler     = new Form_Frontend_Output_Handler( $this );
 		$this->list_page_handler           = new Form_List_Page_Handler( $this );
 		$this->edit_page_handler           = new Form_Edit_Page_Handler( $this );
+
+		parent::__construct( $prefix, $services, $translations );
 	}
 
 	/**
@@ -411,7 +411,7 @@ class Form_Manager extends Core_Manager {
 		);
 
 		$this->filters[] = array(
-			'name'     => 'wp',
+			'name'     => 'the_content',
 			'callback' => array( $this->frontend_output_handler, 'maybe_get_form_content' ),
 			'priority' => 10,
 			'num_args' => 1,
