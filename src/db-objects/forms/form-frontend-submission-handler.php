@@ -93,7 +93,7 @@ class Form_Frontend_Submission_Handler {
 
 		$this->handle_form_submission( $form, $submission, $data );
 
-		$redirect_url = ! empty( $data['original_id'] ) ? get_permalink( absint( $data['original_id'] ) ) : get_permalink( $form->id );
+		$redirect_url = ! empty( $data['original_form_id'] ) ? get_permalink( absint( $data['original_form_id'] ) ) : get_permalink( $form->id );
 		if ( ! empty( $submission->id ) ) {
 			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
 		}
@@ -229,7 +229,7 @@ class Form_Frontend_Submission_Handler {
 			return;
 		}
 
-		if ( ! empty( $data['action'] ) && 'back' === $data['action'] ) {
+		if ( ! empty( $data['action'] ) && 'prev' === $data['action'] ) {
 			$previous_container = $submission->get_previous_container();
 			if ( $previous_container ) {
 				$submission->set_current_container( $previous_container );

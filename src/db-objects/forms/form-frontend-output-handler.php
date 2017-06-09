@@ -192,26 +192,166 @@ class Form_Frontend_Output_Handler {
 		}
 
 		$template_data = $form->to_json( false );
-		$template_data['current_container'] = $container->to_json();
 
 		$template_data['hidden_fields'] = '<input type="hidden" name="torro_submission[nonce]" value="' . wp_create_nonce( $this->get_nonce_action( $form, $submission ) ) . '">';
 		$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[form_id]" value="' . esc_attr( $form->id ) . '">';
 		if ( $submission ) {
 			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[id]" value="' . esc_attr( $submission->id ) . '">';
 		}
-		if ( in_the_loop() && $form->id !== (int) get_the_ID() ) {
-			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[original_id]" value="' . esc_attr( get_the_ID() ) . '">';
+		if ( ! is_archive() && in_the_loop() && $form->id !== (int) get_the_ID() ) {
+			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[original_form_id]" value="' . esc_attr( get_the_ID() ) . '">';
 		}
+
+		/**
+		 * Filters the CSS class to use for every button for a form in the frontend.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $button_class Button CSS class. Default 'torro-button'.
+		 */
+		$button_class = apply_filters( "{$this->form_manager->get_prefix()}form_button_class", 'torro-button' );
 
 		$template_data['navigation'] = array();
 		if ( $this->has_next_container( $form, $submission ) ) {
+			/**
+			 * Filters the text for the Next button for a form in the frontend.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $next_button_text Next button text. Default 'Next Step'.
+			 * @param int    $form_id          Form ID.
+			 */
+			$next_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_next_step_text", __( 'Next Step', 'torro-forms' ), $form->id );
 
+			$template_data['navigation']['next_button'] = array(
+				'label' => $next_button_text,
+				'attrs' => array(
+					'type'  => 'submit',
+					'name'  => 'torro_submission[action]',
+					'value' => 'next',
+					'class' => $button_class,
+				),
+			);
 		} else {
+			/**
+			 * Filters the text for the Submit button for a form in the frontend.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $submit_button_text Submit button text. Default 'Submit'.
+			 * @param int    $form_id            Form ID.
+			 */
+			$submit_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_submit_text", __( 'Submit', 'torro-forms' ), $form->id );
 
+			/**
+			 * Filters the CSS class to use for a primary button for a form in the frontend.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $button_primary_class Primary button CSS class. Default 'torro-button-primary'.
+			 */
+			$button_primary_class = apply_filters( "{$this->form_manager->get_prefix()}form_button_class", 'torro-button-primary' );
+
+			$submit_button_before = '';
+			if ( has_action( "{$this->form_manager->get_prefix()}form_submit_button_before" ) ) {
+				ob_start();
+
+				/**
+				 * Allows to print additional content before the Submit button for a form in the frontend.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param int $form_id Form ID.
+				 */
+				do_action( "{$this->form_manager->get_prefix()}form_submit_button_before", $form->id );
+
+				$submit_button_before = ob_get_clean();
+			}
+
+			$submit_button_after = '';
+			if ( has_action( "{$this->form_manager->get_prefix()}form_submit_button_after" ) ) {
+				ob_start();
+
+				/**
+				 * Allows to print additional content after the Submit button for a form in the frontend.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param int $form_id Form ID.
+				 */
+				do_action( "{$this->form_manager->get_prefix()}form_submit_button_after", $form->id );
+
+				$submit_button_after = ob_get_clean();
+			}
+
+			$template_data['navigation']['submit_button'] = array(
+				'label'  => $submit_button_text,
+				'attrs'  => array(
+					'type'  => 'submit',
+					'name'  => 'torro_submission[action]',
+					'value' => 'submit',
+					'class' => $button_class . ' ' . $button_primary_class,
+				),
+				'before' => $submit_button_before,
+				'after'  => $submit_button_after,
+			);
 		}
 		if ( $this->has_previous_container( $form, $submission ) ) {
+			/**
+			 * Filters the text for the Previous button for a form in the frontend.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $prev_button_text Previous button text. Default 'Previous Step'.
+			 * @param int    $form_id          Form ID.
+			 */
+			$prev_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_prev_step_text", __( 'Next Step', 'torro-forms' ), $form->id );
 
+			$template_data['navigation']['prev_button'] = array(
+				'label' => $prev_button_text,
+				'attrs' => array(
+					'type'  => 'submit',
+					'name'  => 'torro_submission[action]',
+					'value' => 'prev',
+					'class' => $button_class,
+				),
+			);
 		}
+
+		$template_data['current_container'] = $container->to_json( false );
+
+		$container_collection = $form->get_containers( array(
+			'number'        => 2,
+			'no_found_rows' => true,
+		) );
+
+		$show_container_title = $container_collection->get_total() > 1;
+
+		/**
+		 * Filters whether the container title should be displayed on the frontend.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $show_container_title Whether to show the title. Default is true if the current form has multiple containers,
+		 *                                   or false otherwise.
+		 * @param int  $form_id              Form ID.
+		 * @param int  $container_id         Container ID.
+		 */
+		if ( ! apply_filters( "{$this->form_manager->get_prefix()}form_container_show_title", $show_container_title, $form->id, $container->id ) ) {
+			$template_data['current_container']['label'] = '';
+		}
+
+		$template_data['current_container']['elements'] = array();
+		foreach ( $container->get_elements() as $element ) {
+			$template_data['current_container']['elements'][] = $element->to_json( false, $submission );
+		}
+
+		if ( $submission && $submission->has_errors() ) {
+			$submission->reset_errors();
+			$submission->sync_upstream();
+		}
+
+		$this->form_manager->template()->get_partial( 'form', $template );
 	}
 
 	/**
