@@ -13,5 +13,5 @@
 <?php endif; ?>
 
 <?php foreach ( $elements as $element ) : ?>
-	<?php torro()->template( 'element', $element ); ?>
+	<?php torro()->template()->get_partial( 'element', $element ); ?>
 <?php endforeach; ?>

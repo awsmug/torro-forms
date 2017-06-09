@@ -351,7 +351,7 @@ class Form_Frontend_Output_Handler {
 			$submission->sync_upstream();
 		}
 
-		$this->form_manager->template()->get_partial( 'form', $template );
+		$this->form_manager->template()->get_partial( 'form', $template_data );
 	}
 
 	/**

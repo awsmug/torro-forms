@@ -12,7 +12,7 @@
 	<?php echo $hidden_fields; ?>
 
 	<?php if ( $current_container ) : ?>
-		<?php torro()->template( 'container', $current_container ); ?>
+		<?php torro()->template()->get_partial( 'container', $current_container ); ?>
 	<?php endif; ?>
 
 	<?php if ( ! empty( $navigation['submit_button']['before'] ) ) : ?>
