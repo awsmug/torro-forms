@@ -55,6 +55,12 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 	 * @since 1.0.0
 	 */
 	public function notification( $form_id, $response_id, $response ) {
+		$redirect_type = get_post_meta( $form_id, 'redirect_type', true );
+
+		if( 'redirect_none' == $redirect_type ) {
+			return false;
+		}
+
 		$notification = get_post_meta( $form_id, 'redirect_text_content', true );
 		$notification = wpautop( do_shortcode( $notification ) );
 
@@ -134,6 +140,9 @@ final class Torro_Redirection_Action extends Torro_Form_Action {
 
 		$selected = $redirect_type == 'redirect_url' ? ' selected="selected"' : '';
 		$html .= '<option value="redirect_url"' . $selected . '>' . esc_attr__( 'URL Redirection', 'torro-forms' ) . '</option>';
+
+		$selected = $redirect_type == 'redirect_none' ? ' selected="selected"' : '';
+		$html .= '<option value="redirect_none"' . $selected . '>' . esc_attr__( 'No Redirection', 'torro-forms' ) . '</option>';
 
 		$html .= '</select> ';
 		$html .= '<small>' . __( 'Redirect the user to this content after successful submitted form data.', 'torro-forms' ) . '</small>';
