@@ -187,7 +187,14 @@ class Form_Edit_Page_Handler {
 	 * @param Form $form Current form.
 	 */
 	private function add_meta_boxes( $form ) {
-		// Empty method body.
+		/**
+		 * Fires when meta boxes for the form edit page should be added.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Form $form Form that is being edited.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}add_form_meta_boxes", $form );
 	}
 
 	/**
