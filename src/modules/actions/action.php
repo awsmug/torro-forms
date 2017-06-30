@@ -59,6 +59,26 @@ abstract class Action {
 	}
 
 	/**
+	 * Retrieves the value of a specific module option.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $option  Name of the option to retrieve.
+	 * @param mixed  $default Optional. Value to return if the option doesn't exist. Default false.
+	 * @return mixed Value set for the option.
+	 */
+	public function get_option( $option, $default = false ) {
+		$options = $this->module->get_option( $this->get_settings_identifier(), array() );
+
+		if ( isset( $options[ $option ] ) ) {
+			return $options[ $option ];
+		}
+
+		return $default;
+	}
+
+	/**
 	 * Returns the settings identifier for the action.
 	 *
 	 * @since 1.0.0
