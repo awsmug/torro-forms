@@ -186,7 +186,21 @@ class Module extends Module_Base {
 	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
 	 */
 	protected function get_settings_subtabs() {
-		return array();
+		$subtabs = array();
+
+		foreach ( $this->actions as $slug => $action ) {
+			$action_settings_identifier = $action->get_settings_identifier();
+			$action_settings_sections = $action->get_settings_sections();
+			if ( empty( $action_settings_sections ) ) {
+				continue;
+			}
+
+			$subtabs[ $action_settings_identifier ] = array(
+				'title' => $action->get_settings_title(),
+			);
+		}
+
+		return $subtabs;
 	}
 
 	/**
@@ -198,7 +212,20 @@ class Module extends Module_Base {
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
 	protected function get_settings_sections() {
-		return array();
+		$sections = array();
+
+		foreach ( $this->actions as $slug => $action ) {
+			$action_settings_identifier = $action->get_settings_identifier();
+
+			$action_settings_sections = $action->get_settings_sections();
+			foreach ( $action_settings_sections as $section_slug => $section_data ) {
+				$section_data['subtab'] = $action_settings_identifier;
+
+				$sections[ $section_slug ] = $section_data;
+			}
+		}
+
+		return $sections;
 	}
 
 	/**
@@ -210,7 +237,13 @@ class Module extends Module_Base {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	protected function get_settings_fields() {
-		return array();
+		$fields = array();
+
+		foreach ( $this->actions as $slug => $action ) {
+			$fields = array_merge( $fields, $action->get_settings_fields() );
+		}
+
+		return $fields;
 	}
 
 	/**
