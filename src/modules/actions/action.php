@@ -8,129 +8,29 @@
 
 namespace awsmug\Torro_Forms\Modules\Actions;
 
-use awsmug\Torro_Forms\Assets;
+use awsmug\Torro_Forms\Modules\Submodule;
+use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
+use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+
 
 /**
  * Base class for an action.
  *
  * @since 1.0.0
  */
-abstract class Action {
+abstract class Action extends Submodule implements Settings_Submodule_Interface {
+	use Settings_Submodule_Trait;
 
 	/**
-	 * The action slug. Must match the slug when registering the action.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var string
-	 */
-	protected $slug = '';
-
-	/**
-	 * The action title.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var string
-	 */
-	protected $title = '';
-
-	/**
-	 * The actions module instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Module
-	 */
-	protected $module;
-
-	/**
-	 * Constructor.
+	 * Handles the action for a specific form submission.
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Module $module The actions module instance.
+	 * @param Form       $form       Form the submission applies to.
+	 * @param Submission $submission Submission to handle by the action.
 	 */
-	public function __construct( $module ) {
-		$this->module = $module;
-
-		$this->bootstrap();
-	}
-
-	/**
-	 * Retrieves the value of a specific module option.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $option  Name of the option to retrieve.
-	 * @param mixed  $default Optional. Value to return if the option doesn't exist. Default false.
-	 * @return mixed Value set for the option.
-	 */
-	public function get_option( $option, $default = false ) {
-		$options = $this->module->get_option( $this->get_settings_identifier(), array() );
-
-		if ( isset( $options[ $option ] ) ) {
-			return $options[ $option ];
-		}
-
-		return $default;
-	}
-
-	/**
-	 * Returns the settings identifier for the action.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @return string Action settings identifier.
-	 */
-	public function get_settings_identifier() {
-		return $this->slug;
-	}
-
-	/**
-	 * Returns the settings subtab title for the action.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @return string Action settings title.
-	 */
-	public function get_settings_title() {
-		return $this->title;
-	}
-
-	/**
-	 * Returns the available settings sections for the action.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @return array Associative array of `$section_slug => $section_args` pairs.
-	 */
-	public function get_settings_sections() {
-		return array();
-	}
-
-	/**
-	 * Returns the available settings fields for the action.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @return array Associative array of `$field_slug => $field_args` pairs.
-	 */
-	public function get_settings_fields() {
-		return array();
-	}
-
-	/**
-	 * Bootstraps the action by setting properties.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 */
-	protected abstract function bootstrap();
+	public abstract function handle( $form, $submission );
 }

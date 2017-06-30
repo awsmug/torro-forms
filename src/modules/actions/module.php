@@ -9,33 +9,18 @@
 namespace awsmug\Torro_Forms\Modules\Actions;
 
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
+use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
+use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
+use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Assets;
-use awsmug\Torro_Forms\Error;
 
 /**
  * Class for the Actions module.
  *
  * @since 1.0.0
  */
-class Module extends Module_Base {
-
-	/**
-	 * Registered actions.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $actions = array();
-
-	/**
-	 * Default actions definition.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $default_actions = array();
+class Module extends Module_Base implements Submodule_Registry_Interface {
+	use Submodule_Registry_Trait;
 
 	/**
 	 * Bootstraps the module by setting properties.
@@ -47,109 +32,9 @@ class Module extends Module_Base {
 		$this->slug        = 'actions';
 		$this->title       = __( 'Actions', 'torro-forms' );
 		$this->description = __( 'Actions are executed in the moment users submit their form data.', 'torro-forms' );
-	}
 
-	/**
-	 * Checks whether a specific action is registered.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug Action slug.
-	 * @return bool True if the action is registered, false otherwise.
-	 */
-	public function has( $slug ) {
-		return isset( $this->actions[ $slug ] );
-	}
-
-	/**
-	 * Returns a specific registered action.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug Action slug.
-	 * @return Action|Error Action instance, or error object if action is not registered.
-	 */
-	public function get( $slug ) {
-		if ( ! $this->has( $slug ) ) {
-			return new Error( $this->get_prefix() . 'action_not_exist', sprintf( __( 'An action with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		return $this->actions[ $slug ];
-	}
-
-	/**
-	 * Returns all registered actions.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @return array Associative array of `$slug => $action_instance` pairs.
-	 */
-	public function get_all() {
-		return $this->actions;
-	}
-
-	/**
-	 * Registers a new action.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug                    Action slug.
-	 * @param string $action_class_name Action class name.
-	 * @return bool|Error True on success, error object on failure.
-	 */
-	public function register( $slug, $action_class_name ) {
-		if ( ! did_action( 'init' ) ) {
-			/* translators: 1: action slug, 2: init hookname */
-			return new Error( $this->get_prefix() . 'action_too_early', sprintf( __( 'The action %1$s cannot be registered before the %2$s hook.', 'torro-forms' ), $slug, '<code>init</code>' ), __METHOD__, '1.0.0' );
-		}
-
-		if ( $this->has( $slug ) ) {
-			/* translators: %s: action slug */
-			return new Error( $this->get_prefix() . 'action_already_exist', sprintf( __( 'An action with the slug %s already exists.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		if ( ! class_exists( $action_class_name ) ) {
-			/* translators: %s: action class name */
-			return new Error( $this->get_prefix() . 'action_class_not_exist', sprintf( __( 'The class %s does not exist.', 'torro-forms' ), $action_class_name ), __METHOD__, '1.0.0' );
-		}
-
-		if ( ! is_subclass_of( $action_class_name, Action::class ) ) {
-			/* translators: %s: action class name */
-			return new Error( $this->get_prefix() . 'action_class_not_allowed', sprintf( __( 'The class %s is not allowed for a action.', 'torro-forms' ), $action_class_name ), __METHOD__, '1.0.0' );
-		}
-
-		$this->actions[ $slug ] = new $action_class_name( $this );
-
-		return true;
-	}
-
-	/**
-	 * Unregisters a new action.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug Action slug.
-	 * @return bool|Error True on success, error object on failure.
-	 */
-	public function unregister( $slug ) {
-		if ( ! $this->has( $slug ) ) {
-			/* translators: %s: action slug */
-			return new Error( $this->get_prefix() . 'action_not_exist', sprintf( __( 'An action with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		if ( isset( $this->default_actions[ $slug ] ) ) {
-			/* translators: %s: action slug */
-			return new Error( $this->get_prefix() . 'action_is_default', sprintf( __( 'The default action %s cannot be unregistered.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		unset( $this->actions[ $slug ] );
-
-		return true;
+		$this->submodule_base_class = Action::class;
+		//TODO: Setup $default_submodules.
 	}
 
 	/**
@@ -161,7 +46,7 @@ class Module extends Module_Base {
 	 * @access protected
 	 */
 	protected function register_defaults() {
-		foreach ( $this->default_actions as $slug => $action_class_name ) {
+		foreach ( $this->default_submodules as $slug => $action_class_name ) {
 			$this->register( $slug, $action_class_name );
 		}
 
@@ -188,7 +73,11 @@ class Module extends Module_Base {
 	protected function get_settings_subtabs() {
 		$subtabs = array();
 
-		foreach ( $this->actions as $slug => $action ) {
+		foreach ( $this->submodules as $slug => $action ) {
+			if ( ! is_a( $action, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
 			$action_settings_identifier = $action->get_settings_identifier();
 			$action_settings_sections = $action->get_settings_sections();
 			if ( empty( $action_settings_sections ) ) {
@@ -214,7 +103,11 @@ class Module extends Module_Base {
 	protected function get_settings_sections() {
 		$sections = array();
 
-		foreach ( $this->actions as $slug => $action ) {
+		foreach ( $this->submodules as $slug => $action ) {
+			if ( ! is_a( $action, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
 			$action_settings_identifier = $action->get_settings_identifier();
 
 			$action_settings_sections = $action->get_settings_sections();
@@ -239,7 +132,11 @@ class Module extends Module_Base {
 	protected function get_settings_fields() {
 		$fields = array();
 
-		foreach ( $this->actions as $slug => $action ) {
+		foreach ( $this->submodules as $slug => $action ) {
+			if ( ! is_a( $action, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
 			$fields = array_merge( $fields, $action->get_settings_fields() );
 		}
 
