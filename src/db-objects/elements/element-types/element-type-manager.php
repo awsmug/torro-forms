@@ -93,6 +93,19 @@ class Element_Type_Manager extends Service {
 	}
 
 	/**
+	 * Checks whether a specific element type is registered.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $slug Element type slug.
+	 * @return bool True if the element type is registered, false otherwise.
+	 */
+	public function has( $slug ) {
+		return isset( $this->element_types[ $slug ] );
+	}
+
+	/**
 	 * Returns a specific registered element type.
 	 *
 	 * @since 1.0.0
@@ -102,7 +115,7 @@ class Element_Type_Manager extends Service {
 	 * @return Element_Type|Error Element type instance, or error object if element type is not registered.
 	 */
 	public function get( $slug ) {
-		if ( ! isset( $this->element_types[ $slug ] ) ) {
+		if ( ! $this->has( $slug ) ) {
 			return new Error( $this->get_prefix() . 'element_type_not_exist', sprintf( __( 'An element type with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
 
@@ -137,7 +150,7 @@ class Element_Type_Manager extends Service {
 			return new Error( $this->get_prefix() . 'element_type_too_early', sprintf( __( 'The element type %1$s cannot be registered before the %2$s hook.', 'torro-forms' ), $slug, '<code>init</code>' ), __METHOD__, '1.0.0' );
 		}
 
-		if ( isset( $this->element_types[ $slug ] ) ) {
+		if ( $this->has( $slug ) ) {
 			/* translators: %s: element type slug */
 			return new Error( $this->get_prefix() . 'element_type_already_exist', sprintf( __( 'An element type with the slug %s already exists.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
@@ -167,7 +180,7 @@ class Element_Type_Manager extends Service {
 	 * @return bool|Error True on success, error object on failure.
 	 */
 	public function unregister( $slug ) {
-		if ( ! isset( $this->element_types[ $slug ] ) ) {
+		if ( ! $this->has( $slug ) ) {
 			/* translators: %s: element type slug */
 			return new Error( $this->get_prefix() . 'element_type_not_exist', sprintf( __( 'An element type with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
