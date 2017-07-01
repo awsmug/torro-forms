@@ -14,7 +14,6 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 
-
 /**
  * Base class for an action.
  *
