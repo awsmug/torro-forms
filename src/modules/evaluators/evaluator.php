@@ -29,7 +29,18 @@ abstract class Evaluator extends Submodule implements Settings_Submodule_Interfa
 	 * @access public
 	 *
 	 * @param Form       $form       Form the submission applies to.
-	 * @param Submission $submission Submission to handle by the action.
+	 * @param Submission $submission Submission to evaluate.
 	 */
-	public abstract function handle( $form, $submission );
+	public abstract function evaluate( $form, $submission );
+
+	/**
+	 * Renders evaluation results for a specific form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Form  $form Form to show results for.
+	 * @param array $args Arguments to tweak the displayed results.
+	 */
+	public abstract function show_results( $form, $args = array() );
 }
