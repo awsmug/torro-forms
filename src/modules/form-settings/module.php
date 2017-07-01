@@ -9,6 +9,8 @@
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
 
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
+use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
+use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
 use awsmug\Torro_Forms\Assets;
 
 /**
@@ -16,25 +18,8 @@ use awsmug\Torro_Forms\Assets;
  *
  * @since 1.0.0
  */
-class Module extends Module_Base {
-
-	/**
-	 * Registered form settings.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $form_settings = array();
-
-	/**
-	 * Default form settings definition.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $default_form_settings = array();
+class Module extends Module_Base implements Submodule_Registry_Interface {
+	use Submodule_Registry_Trait;
 
 	/**
 	 * Bootstraps the module by setting properties.
@@ -45,110 +30,10 @@ class Module extends Module_Base {
 	protected function bootstrap() {
 		$this->slug        = 'form_settings';
 		$this->title       = __( 'Form Settings', 'torro-forms' );
-		$this->description = __( 'Form settings control the general behavior of forms, such as access control or security.', 'torro-forms' );
-	}
+		$this->description = __( 'Form settings control the general behavior of forms.', 'torro-forms' );
 
-	/**
-	 * Checks whether a specific form setting is registered.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug Form setting slug.
-	 * @return bool True if the form setting is registered, false otherwise.
-	 */
-	public function has( $slug ) {
-		return isset( $this->form_settings[ $slug ] );
-	}
-
-	/**
-	 * Returns a specific registered form setting.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug Form setting slug.
-	 * @return Form_Setting|Error Form setting instance, or error object if form setting is not registered.
-	 */
-	public function get( $slug ) {
-		if ( ! $this->has( $slug ) ) {
-			return new Error( $this->get_prefix() . 'form_setting_not_exist', sprintf( __( 'A form setting with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		return $this->form_settings[ $slug ];
-	}
-
-	/**
-	 * Returns all registered form settings.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @return array Associative array of `$slug => $form_setting_instance` pairs.
-	 */
-	public function get_all() {
-		return $this->form_settings;
-	}
-
-	/**
-	 * Registers a new form setting.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug                    Form setting slug.
-	 * @param string $form_setting_class_name Form setting class name.
-	 * @return bool|Error True on success, error object on failure.
-	 */
-	public function register( $slug, $form_setting_class_name ) {
-		if ( ! did_action( 'init' ) ) {
-			/* translators: 1: form setting slug, 2: init hookname */
-			return new Error( $this->get_prefix() . 'form_setting_too_early', sprintf( __( 'The form setting %1$s cannot be registered before the %2$s hook.', 'torro-forms' ), $slug, '<code>init</code>' ), __METHOD__, '1.0.0' );
-		}
-
-		if ( $this->has( $slug ) ) {
-			/* translators: %s: form setting slug */
-			return new Error( $this->get_prefix() . 'form_setting_already_exist', sprintf( __( 'A form setting with the slug %s already exists.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		if ( ! class_exists( $form_setting_class_name ) ) {
-			/* translators: %s: form setting class name */
-			return new Error( $this->get_prefix() . 'form_setting_class_not_exist', sprintf( __( 'The class %s does not exist.', 'torro-forms' ), $form_setting_class_name ), __METHOD__, '1.0.0' );
-		}
-
-		if ( ! is_subclass_of( $form_setting_class_name, Form_Setting::class ) ) {
-			/* translators: %s: form setting class name */
-			return new Error( $this->get_prefix() . 'form_setting_class_not_allowed', sprintf( __( 'The class %s is not allowed for a form setting.', 'torro-forms' ), $form_setting_class_name ), __METHOD__, '1.0.0' );
-		}
-
-		$this->form_settings[ $slug ] = new $form_setting_class_name( $this );
-
-		return true;
-	}
-
-	/**
-	 * Unregisters a new form setting.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $slug Form setting slug.
-	 * @return bool|Error True on success, error object on failure.
-	 */
-	public function unregister( $slug ) {
-		if ( ! $this->has( $slug ) ) {
-			/* translators: %s: form setting slug */
-			return new Error( $this->get_prefix() . 'form_setting_not_exist', sprintf( __( 'A form setting with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		if ( isset( $this->default_form_settings[ $slug ] ) ) {
-			/* translators: %s: form setting slug */
-			return new Error( $this->get_prefix() . 'form_setting_is_default', sprintf( __( 'The default form setting %s cannot be unregistered.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
-		}
-
-		unset( $this->form_settings[ $slug ] );
-
-		return true;
+		$this->submodule_base_class = Form_Setting::class;
+		//TODO: Setup $default_submodules.
 	}
 
 	/**
@@ -160,7 +45,7 @@ class Module extends Module_Base {
 	 * @access protected
 	 */
 	protected function register_defaults() {
-		foreach ( $this->default_form_settings as $slug => $form_setting_class_name ) {
+		foreach ( $this->default_submodules as $slug => $form_setting_class_name ) {
 			$this->register( $slug, $form_setting_class_name );
 		}
 
@@ -185,7 +70,25 @@ class Module extends Module_Base {
 	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
 	 */
 	protected function get_settings_subtabs() {
-		return array();
+		$subtabs = array();
+
+		foreach ( $this->submodules as $slug => $form_setting ) {
+			if ( ! is_a( $form_setting, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$form_setting_settings_identifier = $form_setting->get_settings_identifier();
+			$form_setting_settings_sections = $form_setting->get_settings_sections();
+			if ( empty( $form_setting_settings_sections ) ) {
+				continue;
+			}
+
+			$subtabs[ $form_setting_settings_identifier ] = array(
+				'title' => $form_setting->get_settings_title(),
+			);
+		}
+
+		return $subtabs;
 	}
 
 	/**
@@ -197,7 +100,24 @@ class Module extends Module_Base {
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
 	protected function get_settings_sections() {
-		return array();
+		$sections = array();
+
+		foreach ( $this->submodules as $slug => $form_setting ) {
+			if ( ! is_a( $form_setting, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$form_setting_settings_identifier = $form_setting->get_settings_identifier();
+
+			$form_setting_settings_sections = $form_setting->get_settings_sections();
+			foreach ( $form_setting_settings_sections as $section_slug => $section_data ) {
+				$section_data['subtab'] = $form_setting_settings_identifier;
+
+				$sections[ $section_slug ] = $section_data;
+			}
+		}
+
+		return $sections;
 	}
 
 	/**
@@ -209,7 +129,17 @@ class Module extends Module_Base {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	protected function get_settings_fields() {
-		return array();
+		$fields = array();
+
+		foreach ( $this->submodules as $slug => $form_setting ) {
+			if ( ! is_a( $form_setting, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$fields = array_merge( $fields, $form_setting->get_settings_fields() );
+		}
+
+		return $fields;
 	}
 
 	/**
