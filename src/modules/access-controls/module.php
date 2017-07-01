@@ -195,7 +195,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	protected function setup_hooks() {
 		parent::setup_hooks();
 
-		$this->actions[] = array(
+		$this->filters[] = array(
 			'name'     => "{$this->get_prefix()}can_access_form",
 			'callback' => array( $this, 'can_access' ),
 			'priority' => 10,
