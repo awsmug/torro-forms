@@ -80,18 +80,27 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.0-beta.9 =
-* Major refactor: breaks backward-compatibility development-wise, plugin now requires at least PHP 5.6 and WordPress 4.7
+
+This pre-release is a major refactor that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.7. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version.
+
 * Added: REST API endpoints for managing forms, their content and submissions
 * Added: WP-CLI commands for managing forms, their content and submissions
-* Added: Cache layer for all database requests
-* Enhanced: Element types can now contain multiple fields
-* Enhanced: Form stats now scale by storing aggregate results persistently
-* Enhanced: Form submissions now have a status
-* Enhanced: Indexes have been added to database tables to speed up queries
-* Fixed: Installation routine works now properly on multisite setups of any size
+* Added: cache layer for all database requests
+* Added: form submissions now live under their own admin submenu
+* Added: form edit page now uses Backbone for the form builder
+* Enhanced: element types can now contain multiple fields
+* Enhanced: form stats now scale by storing aggregate results persistently
+* Enhanced: form submissions now have a status
+* Enhanced: form submissions are now stored in the database immediately which prevents leakage due to cookie or session issues
+* Enhanced: Modules API now follows a clean structure throughout all modules
+* Enhanced: access controls are a separete module instead of a group of form settings
+* Enhanced: indexes have been added to database tables to speed up queries
+* Fixed: installation routine works now properly on multisite setups of any size
+* Fixed: it is now possible to properly register any kind of modules and submodules
 * Tweaked: 'form' shortcode is now deprecated in favor of 'torro_form'
 * Tweaked: form results are now relabelled as form submissions
 * Tweaked: element answers are now relabelled as element choices
+* Tweaked: submission handlers are now relabelled as evaluators
 * Tweaked: namespaces are used throughout the plugin code
 * Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
 
