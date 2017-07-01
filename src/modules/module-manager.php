@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\Modules;
 
 use Leaves_And_Love\Plugin_Lib\Service;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
+use awsmug\Torro_Forms\Modules\Access_Controls\Module as Access_Controls_Module;
 use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
 use awsmug\Torro_Forms\Modules\Evaluators\Module as Evaluators_Module;
 use awsmug\Torro_Forms\Modules\Submission_Handlers\Module as Submission_Handlers_Module;
@@ -25,6 +26,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  *
  * @since 1.0.0
  *
+ * @method Access_Controls_Module     access_controls()
  * @method Actions_Module             actions()
  * @method Evaluators_Module          evaluators()
  * @method Submission_Handlers_Module submission_handlers()
@@ -126,6 +128,7 @@ class Module_Manager extends Service {
 		$this->set_services( $services );
 
 		$this->default_modules = array(
+			'access_controls'     => Access_Controls_Module::class,
 			'actions'             => Actions_Module::class,
 			'evaluators'          => Evaluators_Module::class,
 			'submission_handlers' => Submission_Handlers_Module::class,
