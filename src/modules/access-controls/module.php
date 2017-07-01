@@ -55,7 +55,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		}
 
 		foreach ( $this->submodules as $slug => $access_control ) {
-			if ( ! $access_control->enabled() ) {
+			if ( ! $access_control->enabled( $form ) ) {
 				continue;
 			}
 
