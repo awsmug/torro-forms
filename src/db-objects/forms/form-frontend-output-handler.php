@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\DB_Objects\Containers\Container;
+use awsmug\Torro_Forms\Error;
 
 /**
  * Class for handling the form frontend output.
@@ -159,7 +160,7 @@ class Form_Frontend_Output_Handler {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param bool|WP_Error   $can_access_form Whether a user can access the form. Can be an error object to show a specific message to the user.
+		 * @param bool|Error      $can_access_form Whether a user can access the form. Can be an error object to show a specific message to the user.
 		 * @param Form            $form            Form object.
 		 * @param Submission|null $submission      Submission object, or null if no submission is set.
 		 */

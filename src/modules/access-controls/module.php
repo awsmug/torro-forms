@@ -11,7 +11,9 @@ namespace awsmug\Torro_Forms\Modules\Access_Controls;
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
-use awsmug\Torro_Forms\Assets;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use awsmug\Torro_Forms\Error;
 
 /**
  * Class for the Access Controls module.
@@ -34,6 +36,36 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Access_Control::class;
 		//TODO: Setup $default_submodules.
+	}
+
+	/**
+	 * Determines whether the current user can access a specific form or submission.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param bool|Error      $result     Whether a user can access the form. Can be an error object to show a specific message to the user.
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Submission object, or null if no submission is set.
+	 * @return bool|Error True if the form or submission can be accessed, false or error object otherwise.
+	 */
+	protected function can_access( $result, $form, $submission = null ) {
+		if ( ! $result || is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		foreach ( $this->submodules as $slug => $access_control ) {
+			if ( ! $access_control->enabled() ) {
+				continue;
+			}
+
+			$sub_result = $access_control->can_access( $form, $submission );
+			if ( ! $sub_result || is_wp_error( $sub_result ) ) {
+				return $sub_result;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -163,6 +195,12 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	protected function setup_hooks() {
 		parent::setup_hooks();
 
+		$this->actions[] = array(
+			'name'     => "{$this->get_prefix()}can_access_form",
+			'callback' => array( $this, 'can_access' ),
+			'priority' => 10,
+			'num_args' => 3,
+		);
 		$this->actions[] = array(
 			'name'     => 'init',
 			'callback' => array( $this, 'register_defaults' ),
