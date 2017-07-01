@@ -29,6 +29,7 @@ abstract class Access_Control extends Submodule implements Settings_Submodule_In
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param Form $form Form object to check.
 	 * @return bool True if the access control is enabled, false otherwise.
 	 */
 	public function enabled( $form ) {
