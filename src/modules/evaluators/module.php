@@ -37,6 +37,26 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	}
 
 	/**
+	 * Evaluates a specific form submission.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Submission $submission Submission to evaluate.
+	 * @param Form       $form       Form the submission applies to.
+	 */
+	protected function evaluate( $submission, $form ) {
+		foreach ( $this->submodules as $slug => $evaluator ) {
+			if ( ! $evaluator->enabled( $form ) ) {
+				continue;
+			}
+
+			$evaluator_result = $evaluator->evaluate( $submission, $form );
+			//TODO: Log errors
+		}
+	}
+
+	/**
 	 * Registers the default evaluators.
 	 *
 	 * The function also executes a hook that should be used by other developers to register their own evaluators.
@@ -163,6 +183,12 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	protected function setup_hooks() {
 		parent::setup_hooks();
 
+		$this->actions[] = array(
+			'name'     => "{$this->get_prefix()}complete_submission",
+			'callback' => array( $this, 'evaluate' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
 		$this->actions[] = array(
 			'name'     => 'init',
 			'callback' => array( $this, 'register_defaults' ),

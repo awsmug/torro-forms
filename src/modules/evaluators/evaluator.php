@@ -13,6 +13,7 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use awsmug\Torro_Forms\Error;
 
 /**
  * Base class for an evaluator.
@@ -23,15 +24,30 @@ abstract class Evaluator extends Submodule implements Settings_Submodule_Interfa
 	use Settings_Submodule_Trait;
 
 	/**
+	 * Checks whether the evaluator is enabled for a specific form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Form $form Form object to check.
+	 * @return bool True if the evaluator is enabled, false otherwise.
+	 */
+	public function enabled( $form ) {
+		//TODO: Manage this through meta.
+		return true;
+	}
+
+	/**
 	 * Evaluates a specific form submission.
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Form       $form       Form the submission applies to.
 	 * @param Submission $submission Submission to evaluate.
+	 * @param Form       $form       Form the submission applies to.
+	 * @return bool|Error True on success, error object on failure.
 	 */
-	public abstract function evaluate( $form, $submission );
+	public abstract function evaluate( $submission, $form );
 
 	/**
 	 * Renders evaluation results for a specific form.
