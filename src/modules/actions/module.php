@@ -12,6 +12,8 @@ use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\Assets;
 
 /**
@@ -35,6 +37,26 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Action::class;
 		//TODO: Setup $default_submodules.
+	}
+
+	/**
+	 * Handles the action for a specific form submission.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Submission $submission Submission to handle by the action.
+	 * @param Form       $form       Form the submission applies to.
+	 */
+	protected function handle( $submission, $form ) {
+		foreach ( $this->submodules as $slug => $action ) {
+			if ( ! $action->enabled( $form ) ) {
+				continue;
+			}
+
+			$action_result = $action->handle( $submission, $form );
+			//TODO: Log errors
+		}
 	}
 
 	/**
@@ -164,6 +186,12 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	protected function setup_hooks() {
 		parent::setup_hooks();
 
+		$this->actions[] = array(
+			'name'     => "{$this->get_prefix()}complete_submission",
+			'callback' => array( $this, 'handle' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
 		$this->actions[] = array(
 			'name'     => 'init',
 			'callback' => array( $this, 'register_defaults' ),
