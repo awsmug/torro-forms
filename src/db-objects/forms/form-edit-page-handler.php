@@ -37,6 +37,15 @@ class Form_Edit_Page_Handler {
 	protected $meta_boxes = array();
 
 	/**
+	 * Array of tabs as `$id => $args` pairs.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $tabs = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -58,14 +67,39 @@ class Form_Edit_Page_Handler {
 	 * @param array  $args {
 	 *     Optional. Meta box arguments.
 	 *
-	 *     @type string $title    Meta box title.
-	 *     @type string $context  Meta box content. Either 'normal', 'advanced' or 'side'.
-	 *     @type string $priority Meta box priority. Either 'high', 'core', 'default' or 'low'.
+	 *     @type string $title       Meta box title.
+	 *     @type string $description Meta box description.
+	 *     @type string $context     Meta box content. Either 'normal', 'advanced' or 'side'. Default 'advanced'.
+	 *     @type string $priority    Meta box priority. Either 'high', 'core', 'default' or 'low'. Default 'default'.
 	 * }
 	 */
 	public function add_meta_box( $id, $args ) {
-		//TODO: add meta box and setup field manager for it
-		//TODO: How can we deal with multiple field managers on one page?
+		$prefix = $this->form_manager->get_prefix();
+
+		if ( 0 !== strpos( $id, $prefix ) ) {
+			$id = $prefix . $id;
+		}
+
+		$this->meta_boxes[ $id ] = wp_parse_args( $args, array(
+			'title'       => '',
+			'description' => '',
+			'content'     => 'advanced',
+			'priority'    => 'default',
+		) );
+
+		$services = array(
+			'ajax'          => $this->form_manager->ajax(),
+			'assets'        => $this->form_manager->assets(),
+			'error_handler' => $this->form_manager->error_handler(),
+		);
+
+		$this->meta_boxes[ $id ]['field_manager'] = new Field_Manager( $prefix, $services, array(
+			'get_value_callback_args'    => array( $id ),
+			'update_value_callback_args' => array( $id, '{value}' ),
+			'name_prefix'                => $id,
+		) );
+		//TODO: Provide get and update callbacks, set the current form as property to access in those callbacks.
+		//TODO: Provide and use an option in the field manager to prefix each field with its section as well.
 	}
 
 	/**
@@ -78,34 +112,24 @@ class Form_Edit_Page_Handler {
 	 * @param array  $args {
 	 *     Optional. Tab arguments.
 	 *
-	 *     @type string $title Tab title.
+	 *     @type string $title       Tab title.
+	 *     @type string $description Tab description.
+	 *     @type string $meta_box    Identifier of the meta box this tab should belong to.
 	 * }
 	 */
 	public function add_tab( $id, $args ) {
-		//TODO: add tab
-	}
+		if ( ! empty( $args['meta_box'] ) ) {
+			$prefix = $this->manager->get_prefix();
 
-	/**
-	 * Adds a section to the edit page.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $id   Section identifier.
-	 * @param array  $args {
-	 *     Optional. Section arguments.
-	 *
-	 *     @type string $title       Section title.
-	 *     @type string $description Section description. Default empty.
-	 *     @type string $tab         Identifier of the tab this section should belong to.
-	 * }
-	 */
-	public function add_section( $id, $args = array() ) {
-		//TODO: add section
-		$this->sections[ $id ] = wp_parse_args( $args, array(
+			if ( 0 !== strpos( $args['meta_box'], $prefix ) ) {
+				$args['meta_box'] = $prefix . $args['meta_box'];
+			}
+		}
+
+		$this->tabs[ $id ] = wp_parse_args( $args, array(
 			'title'       => '',
 			'description' => '',
-			'subtab'      => '',
+			'meta_box'    => '',
 		) );
 	}
 
@@ -120,7 +144,7 @@ class Form_Edit_Page_Handler {
 	 * @param array  $args    {
 	 *     Optional. Field arguments. See the field class constructor for further arguments.
 	 *
-	 *     @type string $section       Section identifier this field belongs to. Default empty.
+	 *     @type string $tab           Tab identifier this field belongs to. Default empty.
 	 *     @type string $label         Field label. Default empty.
 	 *     @type string $description   Field description. Default empty.
 	 *     @type mixed  $default       Default value for the field. Default null.
@@ -131,25 +155,25 @@ class Form_Edit_Page_Handler {
 	 * }
 	 */
 	public function add_field( $id, $type, $args = array() ) {
-		//TODO: add field
+		if ( isset( $args['tab'] ) ) {
+			$args['section'] = $args['tab'];
+			unset( $args['tab'] );
+		}
+
 		if ( ! isset( $args['section'] ) ) {
 			return;
 		}
 
-		if ( ! isset( $this->sections[ $args['section'] ] ) ) {
+		if ( ! isset( $this->tabs[ $args['section'] ] ) ) {
 			return;
 		}
 
-		if ( ! isset( $this->subtabs[ $this->sections[ $args['section'] ]['subtab'] ] ) ) {
+		if ( ! isset( $this->meta_boxes[ $this->tabs[ $args['section'] ]['meta_box'] ] ) ) {
 			return;
 		}
 
-		if ( ! isset( $this->tabs[ $this->subtabs[ $this->sections[ $args['section'] ]['subtab'] ]['tab'] ] ) ) {
-			return;
-		}
-
-		$tab_args = $this->tabs[ $this->subtabs[ $this->sections[ $args['section'] ]['subtab'] ]['tab'] ];
-		$tab_args['field_manager']->add( $id, $type, $args );
+		$meta_box_args = $this->meta_boxes[ $this->tabs[ $args['section'] ]['meta_box'] ];
+		$meta_box_args['field_manager']->add( $id, $type, $args );
 	}
 
 	/**
@@ -300,14 +324,30 @@ class Form_Edit_Page_Handler {
 	 * @param Form $form Current form.
 	 */
 	private function add_meta_boxes( $form ) {
-		/**
-		 * Fires when meta boxes for the form edit page should be added.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param Form_Edit_Page_Handler $edit_page Form edit page.
-		 */
-		do_action( "{$this->form_manager->get_prefix()}add_form_meta_content", $this );
+		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {
+			/**
+			 * Fires when meta boxes for the form edit page should be added.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param Form_Edit_Page_Handler $edit_page Form edit page.
+			 */
+			do_action( "{$this->form_manager->get_prefix()}add_form_meta_content", $this );
+		}
+
+		foreach ( $this->meta_boxes as $id => $args ) {
+			add_meta_box( $id, $args['title'], function( $post, $box ) {
+				if ( ! empty( $box['args']['description'] ) ) {
+					echo '<p class="description">' . $box['args']['description'] . '</p>';
+				}
+
+				$tabs = wp_list_filter( $this->tabs, array( 'meta_box' => $box['id'] ) );
+				foreach ( $tabs as $id => $args ) {
+					//TODO: Render tabs and tabpanels
+					$box['args']['field_manager']->render( $id );
+				}
+			}, null, $args['context'], $args['priority'], $args );
+		}
 
 		/**
 		 * Fires when meta boxes for the form edit page should be added.
@@ -328,6 +368,16 @@ class Form_Edit_Page_Handler {
 	private function enqueue_assets() {
 		$this->form_manager->assets()->enqueue_script( 'admin-form-builder' );
 		$this->form_manager->assets()->enqueue_style( 'admin-form-builder' );
+
+		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {
+			/** This action is documented in src/db-objects/forms/form-edit-page-handler.php */
+			do_action( "{$this->form_manager->get_prefix()}add_form_meta_content", $this );
+		}
+
+		foreach ( $this->meta_boxes as $id => $args ) {
+			$args['field_manager']->enqueue();
+			//TODO: Figure out how multiple field managers can enqueue their stuff compatibly.
+		}
 
 		/**
 		 * Fires after scripts and stylesheets for the form builder have been enqueued.
@@ -448,6 +498,18 @@ class Form_Edit_Page_Handler {
 
 		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ) {
 			$this->delete_element_settings( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) );
+		}
+
+		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {
+			/** This action is documented in src/db-objects/forms/form-edit-page-handler.php */
+			do_action( "{$this->form_manager->get_prefix()}add_form_meta_content", $this );
+		}
+
+		foreach ( $this->meta_boxes as $id => $args ) {
+			if ( isset( $_POST[ $id ] ) ) {
+				$args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) );
+				//TODO: Figure out how to deal with errors.
+			}
 		}
 
 		/**

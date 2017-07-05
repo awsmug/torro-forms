@@ -192,8 +192,7 @@ abstract class Module extends Service {
 			return;
 		}
 
-		$sections = $this->get_meta_sections();
-		$fields   = $this->get_meta_fields();
+		$fields = $this->get_meta_fields();
 
 		$meta_box_id = $this->get_meta_identifier();
 
@@ -207,10 +206,6 @@ abstract class Module extends Service {
 			$args['meta_box'] = $meta_box_id;
 
 			$edit_page->add_tab( $slug, $args );
-		}
-
-		foreach ( $sections as $slug => $args ) {
-			$edit_page->add_section( $slug, $args );
 		}
 
 		foreach ( $fields as $slug => $args ) {
@@ -344,16 +339,6 @@ abstract class Module extends Service {
 	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
 	 */
 	protected abstract function get_meta_tabs();
-
-	/**
-	 * Returns the available meta box sections for the module.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 *
-	 * @return array Associative array of `$section_slug => $section_args` pairs.
-	 */
-	protected abstract function get_meta_sections();
 
 	/**
 	 * Returns the available meta box fields for the module.
