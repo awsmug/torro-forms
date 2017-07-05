@@ -28,6 +28,15 @@ class Form_Edit_Page_Handler {
 	protected $form_manager;
 
 	/**
+	 * Array of meta boxes as `$id => $args` pairs.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $meta_boxes = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -37,6 +46,110 @@ class Form_Edit_Page_Handler {
 	 */
 	public function __construct( $form_manager ) {
 		$this->form_manager = $form_manager;
+	}
+
+	/**
+	 * Adds a meta box to the edit page.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $id   Meta box identifier.
+	 * @param array  $args {
+	 *     Optional. Meta box arguments.
+	 *
+	 *     @type string $title    Meta box title.
+	 *     @type string $context  Meta box content. Either 'normal', 'advanced' or 'side'.
+	 *     @type string $priority Meta box priority. Either 'high', 'core', 'default' or 'low'.
+	 * }
+	 */
+	public function add_meta_box( $id, $args ) {
+		//TODO: add meta box and setup field manager for it
+		//TODO: How can we deal with multiple field managers on one page?
+	}
+
+	/**
+	 * Adds a tab to the edit page.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $id   Tab identifier.
+	 * @param array  $args {
+	 *     Optional. Tab arguments.
+	 *
+	 *     @type string $title Tab title.
+	 * }
+	 */
+	public function add_tab( $id, $args ) {
+		//TODO: add tab
+	}
+
+	/**
+	 * Adds a section to the edit page.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $id   Section identifier.
+	 * @param array  $args {
+	 *     Optional. Section arguments.
+	 *
+	 *     @type string $title       Section title.
+	 *     @type string $description Section description. Default empty.
+	 *     @type string $tab         Identifier of the tab this section should belong to.
+	 * }
+	 */
+	public function add_section( $id, $args = array() ) {
+		//TODO: add section
+		$this->sections[ $id ] = wp_parse_args( $args, array(
+			'title'       => '',
+			'description' => '',
+			'subtab'      => '',
+		) );
+	}
+
+	/**
+	 * Adds a field to the edit page.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $id      Field identifier.
+	 * @param string $type    Identifier of the type.
+	 * @param array  $args    {
+	 *     Optional. Field arguments. See the field class constructor for further arguments.
+	 *
+	 *     @type string $section       Section identifier this field belongs to. Default empty.
+	 *     @type string $label         Field label. Default empty.
+	 *     @type string $description   Field description. Default empty.
+	 *     @type mixed  $default       Default value for the field. Default null.
+	 *     @type array  $input_classes Array of CSS classes for the field input. Default empty array.
+	 *     @type array  $label_classes Array of CSS classes for the field label. Default empty array.
+	 *     @type array  $input_attrs   Array of additional input attributes as `$key => $value` pairs.
+	 *                                 Default empty array.
+	 * }
+	 */
+	public function add_field( $id, $type, $args = array() ) {
+		//TODO: add field
+		if ( ! isset( $args['section'] ) ) {
+			return;
+		}
+
+		if ( ! isset( $this->sections[ $args['section'] ] ) ) {
+			return;
+		}
+
+		if ( ! isset( $this->subtabs[ $this->sections[ $args['section'] ]['subtab'] ] ) ) {
+			return;
+		}
+
+		if ( ! isset( $this->tabs[ $this->subtabs[ $this->sections[ $args['section'] ]['subtab'] ]['tab'] ] ) ) {
+			return;
+		}
+
+		$tab_args = $this->tabs[ $this->subtabs[ $this->sections[ $args['section'] ]['subtab'] ]['tab'] ];
+		$tab_args['field_manager']->add( $id, $type, $args );
 	}
 
 	/**
@@ -187,6 +300,15 @@ class Form_Edit_Page_Handler {
 	 * @param Form $form Current form.
 	 */
 	private function add_meta_boxes( $form ) {
+		/**
+		 * Fires when meta boxes for the form edit page should be added.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Form_Edit_Page_Handler $edit_page Form edit page.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}add_form_meta_content", $this );
+
 		/**
 		 * Fires when meta boxes for the form edit page should be added.
 		 *
