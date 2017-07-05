@@ -13,10 +13,11 @@ use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use awsmug\Torro_Forms\Modules\Access_Controls\Module as Access_Controls_Module;
 use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
 use awsmug\Torro_Forms\Modules\Evaluators\Module as Evaluators_Module;
-use awsmug\Torro_Forms\Modules\Submission_Handlers\Module as Submission_Handlers_Module;
+use awsmug\Torro_Forms\Modules\Form_Settings\Module as Form_Settings_Module;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager;
 use awsmug\Torro_Forms\Error;
 use Leaves_And_Love\Plugin_Lib\Options;
+use Leaves_And_Love\Plugin_Lib\Meta;
 use Leaves_And_Love\Plugin_Lib\Assets;
 use Leaves_And_Love\Plugin_Lib\AJAX;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
@@ -31,6 +32,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method Evaluators_Module          evaluators()
  * @method Submission_Handlers_Module submission_handlers()
  * @method Options                    options()
+ * @method Meta                       meta()
  * @method Assets                     assets()
  * @method AJAX                       ajax()
  * @method Form_Manager               forms()
@@ -78,6 +80,16 @@ class Module_Manager extends Service {
 	protected static $service_options = Options::class;
 
 	/**
+	 * The Metadata API service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_meta = Meta::class;
+
+	/**
 	 * Assets service definition.
 	 *
 	 * @since 1.0.0
@@ -118,6 +130,7 @@ class Module_Manager extends Service {
 	 *     Array of service instances.
 	 *
 	 *     @type Options       $options       The Option API instance.
+	 *     @type Meta          $meta          The Metadata API instance.
 	 *     @type Assets        $assets        The Assets API instance.
 	 *     @type AJAX          $ajax          The AJAX API instance.
 	 *     @type Error_Handler $error_handler The error handler instance.
@@ -128,10 +141,10 @@ class Module_Manager extends Service {
 		$this->set_services( $services );
 
 		$this->default_modules = array(
-			'access_controls'     => Access_Controls_Module::class,
-			'actions'             => Actions_Module::class,
-			'evaluators'          => Evaluators_Module::class,
-			'submission_handlers' => Submission_Handlers_Module::class,
+			'access_controls' => Access_Controls_Module::class,
+			'actions'         => Actions_Module::class,
+			'evaluators'      => Evaluators_Module::class,
+			'form_settings'   => Form_Settings_Module::class,
 		);
 
 		foreach ( $this->default_modules as $slug => $module_class_name ) {
