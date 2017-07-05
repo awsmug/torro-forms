@@ -21,6 +21,7 @@ use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\DB;
 use Leaves_And_Love\Plugin_Lib\Template;
 use Leaves_And_Love\Plugin_Lib\Options;
+use Leaves_And_Love\Plugin_Lib\AJAX;
 use Leaves_And_Love\Plugin_Lib\Cache;
 use Leaves_And_Love\Plugin_Lib\Meta;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
@@ -34,6 +35,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method Template          template()
  * @method Options           options()
  * @method Assets            assets()
+ * @method AJAX              ajax()
  * @method DB                db()
  * @method Cache             cache()
  * @method Meta              meta()
@@ -109,6 +111,16 @@ class Form_Manager extends Core_Manager {
 	protected static $service_assets = Assets::class;
 
 	/**
+	 * The AJAX API service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_ajax = AJAX::class;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -122,6 +134,7 @@ class Form_Manager extends Core_Manager {
 	 *     @type Template          $template      The template instance.
 	 *     @type Options           $options       The options instance.
 	 *     @type Assets            $assets        The assets instance.
+	 *     @type AJAX              $ajax          The AJAX instance.
 	 *     @type DB                $db            The database instance.
 	 *     @type Cache             $cache         The cache instance.
 	 *     @type Meta              $meta          The meta instance.

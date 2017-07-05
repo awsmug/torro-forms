@@ -421,6 +421,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'template'      => $this->template,
 			'options'       => $this->options,
 			'assets'        => $this->assets,
+			'ajax'          => $this->ajax,
 			'db'            => $this->db,
 			'cache'         => $this->cache,
 			'meta'          => $this->meta,
