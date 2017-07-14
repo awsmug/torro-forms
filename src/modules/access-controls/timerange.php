@@ -78,11 +78,13 @@ class Timerange extends Access_Control {
 			'type'        => 'datetime',
 			'label'       => __( 'Start Date', 'torro-forms' ),
 			'description' => __( 'Select the date this form should be opened.', 'torro-forms' ),
+			'store'       => 'datetime',
 		);
 		$meta_fields['end'] = array(
 			'type'        => 'datetime',
 			'label'       => __( 'End Date', 'torro-forms' ),
 			'description' => __( 'Select the date this form should be closed.', 'torro-forms' ),
+			'store'       => 'datetime',
 		);
 
 		//TODO: back-compat with 'start_date' and 'end_date' (both timestamps); if set, set 'enabled' too
