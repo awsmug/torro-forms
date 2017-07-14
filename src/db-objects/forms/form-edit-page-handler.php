@@ -423,7 +423,6 @@ class Form_Edit_Page_Handler {
 
 		foreach ( $this->meta_boxes as $id => $args ) {
 			$args['field_manager']->enqueue();
-			//TODO: Figure out how multiple field managers can enqueue their stuff compatibly.
 		}
 
 		/**
