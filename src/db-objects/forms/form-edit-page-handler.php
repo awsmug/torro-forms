@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
+use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 use WP_Post;
 use WP_Error;
 
@@ -128,7 +129,7 @@ class Form_Edit_Page_Handler {
 	 */
 	public function add_tab( $id, $args ) {
 		if ( ! empty( $args['meta_box'] ) ) {
-			$prefix = $this->manager->get_prefix();
+			$prefix = $this->form_manager->get_prefix();
 
 			if ( 0 !== strpos( $args['meta_box'], $prefix ) ) {
 				$args['meta_box'] = $prefix . $args['meta_box'];
