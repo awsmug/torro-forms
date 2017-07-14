@@ -46,6 +46,15 @@ class Form_Edit_Page_Handler {
 	protected $tabs = array();
 
 	/**
+	 * Current form storage.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Form|null
+	 */
+	protected $current_form = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -94,12 +103,12 @@ class Form_Edit_Page_Handler {
 		);
 
 		$this->meta_boxes[ $id ]['field_manager'] = new Field_Manager( $prefix, $services, array(
+			'get_value_callback'         => array( $this, 'get_meta_values' ),
 			'get_value_callback_args'    => array( $id ),
+			'update_value_callback'      => array( $this, 'update_meta_values' ),
 			'update_value_callback_args' => array( $id, '{value}' ),
 			'name_prefix'                => $id,
 		) );
-		//TODO: Provide get and update callbacks, set the current form as property to access in those callbacks.
-		//TODO: Provide and use an option in the field manager to prefix each field with its section as well.
 	}
 
 	/**
@@ -282,6 +291,40 @@ class Form_Edit_Page_Handler {
 	}
 
 	/**
+	 * Callback to get meta values for a specific meta box identifier.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $meta_box_id Meta box identifier.
+	 * @return array Meta values stored for the meta box.
+	 */
+	public function get_meta_values( $meta_box_id ) {
+		if ( ! $this->current_form ) {
+			return array();
+		}
+
+		$this->form_manager->get_meta( $this->current_form->id, $meta_box_id, true );
+	}
+
+	/**
+	 * Callback to update meta values for a specific meta box identifier.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $meta_box_id Meta box identifier.
+	 * @param array  $values      Meta values to store for the meta box.
+	 */
+	public function update_meta_values( $meta_box_id, $values ) {
+		if ( ! $this->current_form ) {
+			return;
+		}
+
+		$this->form_manager->update_meta( $this->current_form->id, $meta_box_id, $values );
+	}
+
+	/**
 	 * Renders form canvas.
 	 *
 	 * @since 1.0.0
@@ -324,6 +367,8 @@ class Form_Edit_Page_Handler {
 	 * @param Form $form Current form.
 	 */
 	private function add_meta_boxes( $form ) {
+		$this->current_form = $form;
+
 		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {
 			/**
 			 * Fires when meta boxes for the form edit page should be added.
@@ -357,6 +402,8 @@ class Form_Edit_Page_Handler {
 		 * @param Form $form Form that is being edited.
 		 */
 		do_action( "{$this->form_manager->get_prefix()}add_form_meta_boxes", $form );
+
+		$this->current_form = null;
 	}
 
 	/**
@@ -458,6 +505,8 @@ class Form_Edit_Page_Handler {
 	 * @param Form $form Current form.
 	 */
 	private function handle_save_request( $form ) {
+		$this->current_form = $form;
+
 		$mappings = array(
 			'forms'            => array( $form->id => $form->id ),
 			'containers'       => array(),
@@ -520,6 +569,8 @@ class Form_Edit_Page_Handler {
 		 * @param Form $form Form that has been saved.
 		 */
 		do_action( "{$this->form_manager->get_prefix()}save_form", $form );
+
+		$this->current_form = null;
 	}
 
 	/**
