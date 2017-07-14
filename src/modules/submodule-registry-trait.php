@@ -97,7 +97,7 @@ trait Submodule_Registry_Trait {
 	 * @return bool|Error True on success, error object on failure.
 	 */
 	public function register( $slug, $submodule_class_name ) {
-		if ( ! did_submodule( 'init' ) ) {
+		if ( ! did_action( 'init' ) ) {
 			/* translators: 1: submodule slug, 2: init hookname */
 			return new Error( $this->get_prefix() . 'submodule_too_early', sprintf( __( 'The submodule %1$s cannot be registered before the %2$s hook.', 'torro-forms' ), $slug, '<code>init</code>' ), __METHOD__, '1.0.0' );
 		}
