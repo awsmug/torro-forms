@@ -149,13 +149,32 @@ abstract class Module extends Service {
 	 * @return mixed Value set for the option.
 	 */
 	public function get_form_option( $form_id, $option, $default = false ) {
-		$metadata = $this->manager()->meta()->get( 'post', $form_id, $this->get_meta_identifier(), true );
+		$metadata = $this->get_form_options( $form_id );
 
-		if ( is_array( $metadata ) && isset( $metadata[ $option ] ) ) {
+		if ( isset( $metadata[ $option ] ) ) {
 			return $metadata[ $option ];
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Retrieves the values of all module options for a specific form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $form_id Form ID.
+	 * @return array Option values.
+	 */
+	public function get_form_options( $form_id ) {
+		$metadata = $this->manager()->meta()->get( 'post', $form_id, $this->get_meta_identifier(), true );
+
+		if ( is_array( $metadata ) ) {
+			return $metadata;
+		}
+
+		return array();
 	}
 
 	/**
@@ -169,7 +188,7 @@ abstract class Module extends Service {
 	 * @return mixed Value set for the option.
 	 */
 	public function get_option( $option, $default = false ) {
-		$options = $this->manager()->options()->get( $this->get_settings_identifier(), array() );
+		$options = $this->get_options();
 
 		if ( isset( $options[ $option ] ) ) {
 			return $options[ $option ];
@@ -179,12 +198,24 @@ abstract class Module extends Service {
 	}
 
 	/**
+	 * Retrieves the values of all module options.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Option values.
+	 */
+	public function get_options() {
+		return $this->manager()->options()->get( $this->get_settings_identifier(), array() );
+	}
+
+	/**
 	 * Adds meta tabs, sections and fields for the module to the form edit page.
 	 *
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param Form_Edit_Page_Handler $settings_page Settings page instance.
+	 * @param Form_Edit_Page_Handler $edit_page Edit page handler.
 	 */
 	protected final function add_meta( $edit_page ) {
 		$tabs = $this->get_meta_tabs();
