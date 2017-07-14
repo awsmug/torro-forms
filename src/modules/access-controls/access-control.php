@@ -23,7 +23,9 @@ use awsmug\Torro_Forms\Error;
  * @since 1.0.0
  */
 abstract class Access_Control extends Submodule implements Meta_Submodule_Interface, Settings_Submodule_Interface {
-	use Meta_Submodule_Trait, Settings_Submodule_Trait;
+	use Meta_Submodule_Trait, Settings_Submodule_Trait {
+		Meta_Submodule_Trait::get_meta_fields as protected _get_meta_fields;
+	}
 
 	/**
 	 * Checks whether the access control is enabled for a specific form.
@@ -35,8 +37,7 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 	 * @return bool True if the access control is enabled, false otherwise.
 	 */
 	public function enabled( $form ) {
-		//TODO: Manage this through meta.
-		return true;
+		return $this->get_form_option( $form->id, 'enabled', false );
 	}
 
 	/**
@@ -50,4 +51,23 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 	 * @return bool|Error True if the form or submission can be accessed, false or error object otherwise.
 	 */
 	public abstract function can_access( $form, $submission = null );
+
+	/**
+	 * Returns the available meta fields for the submodule.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Associative array of `$field_slug => $field_args` pairs.
+	 */
+	public function get_meta_fields() {
+		$meta_fields = $this->_get_meta_fields();
+
+		$meta_fields['enabled'] = array(
+			'type'       => 'checkbox',
+			'label'      => _x( 'Enable?', 'access control', 'torro-forms' ),
+		);
+
+		return $meta_fields;
+	}
 }
