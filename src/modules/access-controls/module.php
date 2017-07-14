@@ -37,6 +37,9 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->description = __( 'Access controls allow to limit who has permissions to view and submit a form.', 'torro-forms' );
 
 		$this->submodule_base_class = Access_Control::class;
+		$this->default_submodules = array(
+			'timerange' => Timerange::class,
+		);
 		//TODO: Setup $default_submodules.
 	}
 
