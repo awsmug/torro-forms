@@ -11,6 +11,7 @@ namespace awsmug\Torro_Forms\Modules\Actions;
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
+use awsmug\Torro_Forms\Modules\Meta_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
@@ -82,6 +83,76 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		 * @param Module $actions Action manager instance.
 		 */
 		do_action( "{$this->get_prefix()}register_actions", $this );
+	}
+
+	/**
+	 * Returns the available meta box tabs for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
+	 */
+	protected function get_meta_tabs() {
+		$tabs = array();
+
+		foreach ( $this->submodules as $slug => $action ) {
+			if ( ! is_a( $action, Meta_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$action_meta_identifier = $action->get_meta_identifier();
+			$action_meta_fields = $action->get_meta_fields();
+			if ( empty( $action_meta_fields ) ) {
+				continue;
+			}
+
+			$tabs[ $action_meta_identifier ] = array(
+				'title' => $action->get_meta_title(),
+			);
+		}
+
+		return $tabs;
+	}
+
+	/**
+	 * Returns the available meta box fields for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$field_slug => $field_args` pairs.
+	 */
+	protected function get_meta_fields() {
+		$fields = array();
+
+		foreach ( $this->submodules as $slug => $action ) {
+			if ( ! is_a( $action, Meta_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$action_meta_identifier = $action->get_meta_identifier();
+
+			$action_meta_fields = $action->get_meta_fields();
+			foreach ( $action_meta_fields as $field_slug => $field_data ) {
+				$field_slug        = $action_meta_identifier . '__' . $field_slug;
+				$field_data['tab'] = $action_meta_identifier;
+
+				if ( isset( $field_data['dependencies'] ) ) {
+					for ( $i = 0; $i < count( $field_data['dependencies'] ); $i++ ) {
+						if ( isset( $field_data['dependencies'][ $i ]['fields'] ) ) {
+							for ( $j = 0; $j < count( $field_data['dependencies'][ $i ]['fields'] ); $j++ ) {
+								$field_data['dependencies'][ $i ]['fields'][ $j ] = $action_meta_identifier . '__' . $field_data['dependencies'][ $i ]['fields'][ $j ];
+							}
+						}
+					}
+				}
+
+				$fields[ $field_slug ] = $field_data;
+			}
+		}
+
+		return $fields;
 	}
 
 	/**

@@ -9,6 +9,8 @@
 namespace awsmug\Torro_Forms\Modules\Evaluators;
 
 use awsmug\Torro_Forms\Modules\Submodule;
+use awsmug\Torro_Forms\Modules\Meta_Submodule_Interface;
+use awsmug\Torro_Forms\Modules\Meta_Submodule_Trait;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
@@ -20,8 +22,8 @@ use awsmug\Torro_Forms\Error;
  *
  * @since 1.0.0
  */
-abstract class Evaluator extends Submodule implements Settings_Submodule_Interface {
-	use Settings_Submodule_Trait;
+abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, Settings_Submodule_Interface {
+	use Meta_Submodule_Trait, Settings_Submodule_Trait;
 
 	/**
 	 * Checks whether the evaluator is enabled for a specific form.

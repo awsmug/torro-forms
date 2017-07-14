@@ -11,6 +11,8 @@ namespace awsmug\Torro_Forms\Modules\Evaluators;
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
+use awsmug\Torro_Forms\Modules\Meta_Submodule_Interface;
+use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Assets;
 
 /**
@@ -79,6 +81,76 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		 * @param Module $evaluators Form setting manager instance.
 		 */
 		do_action( "{$this->get_prefix()}register_evaluators", $this );
+	}
+
+	/**
+	 * Returns the available meta box tabs for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
+	 */
+	protected function get_meta_tabs() {
+		$tabs = array();
+
+		foreach ( $this->submodules as $slug => $evaluator ) {
+			if ( ! is_a( $evaluator, Meta_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$evaluator_meta_identifier = $evaluator->get_meta_identifier();
+			$evaluator_meta_fields = $evaluator->get_meta_fields();
+			if ( empty( $evaluator_meta_fields ) ) {
+				continue;
+			}
+
+			$tabs[ $evaluator_meta_identifier ] = array(
+				'title' => $evaluator->get_meta_title(),
+			);
+		}
+
+		return $tabs;
+	}
+
+	/**
+	 * Returns the available meta box fields for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$field_slug => $field_args` pairs.
+	 */
+	protected function get_meta_fields() {
+		$fields = array();
+
+		foreach ( $this->submodules as $slug => $evaluator ) {
+			if ( ! is_a( $evaluator, Meta_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$evaluator_meta_identifier = $evaluator->get_meta_identifier();
+
+			$evaluator_meta_fields = $evaluator->get_meta_fields();
+			foreach ( $evaluator_meta_fields as $field_slug => $field_data ) {
+				$field_slug        = $evaluator_meta_identifier . '__' . $field_slug;
+				$field_data['tab'] = $evaluator_meta_identifier;
+
+				if ( isset( $field_data['dependencies'] ) ) {
+					for ( $i = 0; $i < count( $field_data['dependencies'] ); $i++ ) {
+						if ( isset( $field_data['dependencies'][ $i ]['fields'] ) ) {
+							for ( $j = 0; $j < count( $field_data['dependencies'][ $i ]['fields'] ); $j++ ) {
+								$field_data['dependencies'][ $i ]['fields'][ $j ] = $evaluator_meta_identifier . '__' . $field_data['dependencies'][ $i ]['fields'][ $j ];
+							}
+						}
+					}
+				}
+
+				$fields[ $field_slug ] = $field_data;
+			}
+		}
+
+		return $fields;
 	}
 
 	/**
