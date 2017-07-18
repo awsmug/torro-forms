@@ -232,6 +232,11 @@
     background-color: #fff;
 }
 
+.torro-metabox-tab-panel[aria-hidden='true']
+{
+    display: none;
+}
+
 .postbox .form-table th
 {
     width: 120px;

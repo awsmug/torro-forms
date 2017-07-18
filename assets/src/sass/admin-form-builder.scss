@@ -184,6 +184,10 @@
 	}
 }
 
+.torro-metabox-tab-panel[aria-hidden="true"] {
+	display: none;
+}
+
 .postbox .form-table {
 	th {
 		padding: 15px 7px 15px 0;
