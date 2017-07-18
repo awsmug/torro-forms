@@ -88,6 +88,7 @@ This pre-release is a major refactor that fully breaks backward-compatibility de
 * Added: cache layer for all database requests
 * Added: form submissions now live under their own admin submenu
 * Added: form edit page now uses Backbone for the form builder
+* Added: new "Submission Count" access control to limit total form submissions
 * Enhanced: element types can now contain multiple fields
 * Enhanced: form stats now scale by storing aggregate results persistently
 * Enhanced: form submissions now have a status

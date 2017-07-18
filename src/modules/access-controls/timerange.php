@@ -1,6 +1,6 @@
 <?php
 /**
- * Access control base class
+ * Timerange access control class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -8,17 +8,12 @@
 
 namespace awsmug\Torro_Forms\Modules\Access_Controls;
 
-use awsmug\Torro_Forms\Modules\Submodule;
-use awsmug\Torro_Forms\Modules\Meta_Submodule_Interface;
-use awsmug\Torro_Forms\Modules\Meta_Submodule_Trait;
-use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
-use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use WP_Error;
 
 /**
- * Base class for an access control.
+ * Class for an access control to restrict based on a time range.
  *
  * @since 1.0.0
  */
@@ -53,11 +48,21 @@ class Timerange extends Access_Control {
 		$now = current_time( 'timestamp' );
 
 		if ( $start && $now < strtotime( $start ) ) {
-			return new WP_Error( 'form_not_yet_open', __( 'This form is currently not accessible.', 'torro-forms' ) );
+			$message = $this->get_form_option( $form->id, 'not_yet_open_message' );
+			if ( empty( $message ) ) {
+				$message = $this->get_default_not_yet_open_message();
+			}
+
+			return new WP_Error( 'form_not_yet_open', $message );
 		}
 
 		if ( $end && $now > strtotime( $end ) ) {
-			return new WP_Error( 'form_not_open_anymore', __( 'This form is currently not accessible.', 'torro-forms' ) );
+			$message = $this->get_form_option( $form->id, 'no_longer_open_message' );
+			if ( empty( $message ) ) {
+				$message = $this->get_default_no_longer_open_message();
+			}
+
+			return new WP_Error( 'form_no_longer_open', $message );
 		}
 
 		return true;
@@ -86,9 +91,47 @@ class Timerange extends Access_Control {
 			'description' => __( 'Select the date this form should be closed.', 'torro-forms' ),
 			'store'       => 'datetime',
 		);
+		$meta_fields['not_yet_open_message'] = array(
+			'type'          => 'text',
+			'label'         => __( '&#8220;Not yet open&#8221; Message', 'torro-forms' ),
+			'description'   => __( 'Enter the message to show to the user in case the form is not yet open to submissions.', 'torro-forms' ),
+			'default'       => $this->get_default_not_yet_open_message(),
+			'input_classes' => array( 'regular-text' ),
+		);
+		$meta_fields['no_longer_open_message'] = array(
+			'type'          => 'text',
+			'label'         => __( '&#8220;No longer open&#8221; Message', 'torro-forms' ),
+			'description'   => __( 'Enter the message to show to the user in case the form is no longer open to submissions.', 'torro-forms' ),
+			'default'       => $this->get_default_no_longer_open_message(),
+			'input_classes' => array( 'regular-text' ),
+		);
 
 		/* TODO: back-compat with 'start_date' and 'end_date' (both timestamps); if set, set 'enabled' too. */
 
 		return $meta_fields;
+	}
+
+	/**
+	 * Returns the default message to display when the form is not yet open.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return string Message to display.
+	 */
+	protected function get_default_not_yet_open_message() {
+		return __( 'This form is not yet open to submissions.', 'torro-forms' );
+	}
+
+	/**
+	 * Returns the default message to display when the form has already been closed.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return string Message to display.
+	 */
+	protected function get_default_no_longer_open_message() {
+		return __( 'This form is no longer open to submissions.', 'torro-forms' );
 	}
 }
