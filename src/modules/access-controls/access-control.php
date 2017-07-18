@@ -15,7 +15,7 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
-use awsmug\Torro_Forms\Error;
+use awsmug\Torro_Forms\WP_Error;
 
 /**
  * Base class for an access control.
@@ -48,7 +48,7 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
-	 * @return bool|Error True if the form or submission can be accessed, false or error object otherwise.
+	 * @return bool|WP_Error True if the form or submission can be accessed, false or error object otherwise.
 	 */
 	public abstract function can_access( $form, $submission = null );
 

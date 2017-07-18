@@ -15,7 +15,7 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
-use awsmug\Torro_Forms\Error;
+use WP_Error;
 
 /**
  * Base class for an access control.
@@ -44,7 +44,7 @@ class Timerange extends Access_Control {
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
-	 * @return bool|Error True if the form or submission can be accessed, false or error object otherwise.
+	 * @return bool|WP_Error True if the form or submission can be accessed, false or error object otherwise.
 	 */
 	public function can_access( $form, $submission = null ) {
 		$start = $this->get_form_option( $form->id, 'start' );
@@ -53,11 +53,11 @@ class Timerange extends Access_Control {
 		$now = current_time( 'timestamp' );
 
 		if ( $start && $now < strtotime( $start ) ) {
-			return new Error( 'form_not_yet_open', __( 'This form is currently not accessible.', 'torro-forms' ) );
+			return new WP_Error( 'form_not_yet_open', __( 'This form is currently not accessible.', 'torro-forms' ) );
 		}
 
 		if ( $end && $now > strtotime( $end ) ) {
-			return new Error( 'form_not_yet_open', __( 'This form is currently not accessible.', 'torro-forms' ) );
+			return new WP_Error( 'form_not_open_anymore', __( 'This form is currently not accessible.', 'torro-forms' ) );
 		}
 
 		return true;
@@ -87,7 +87,7 @@ class Timerange extends Access_Control {
 			'store'       => 'datetime',
 		);
 
-		//TODO: back-compat with 'start_date' and 'end_date' (both timestamps); if set, set 'enabled' too
+		/* TODO: back-compat with 'start_date' and 'end_date' (both timestamps); if set, set 'enabled' too. */
 
 		return $meta_fields;
 	}

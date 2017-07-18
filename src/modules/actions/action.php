@@ -15,7 +15,7 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
-use awsmug\Torro_Forms\Error;
+use awsmug\Torro_Forms\WP_Error;
 
 /**
  * Base class for an action.
@@ -48,7 +48,7 @@ abstract class Action extends Submodule implements Meta_Submodule_Interface, Set
 	 *
 	 * @param Submission $submission Submission to handle by the action.
 	 * @param Form       $form       Form the submission applies to.
-	 * @return bool|Error True on success, error object on failure.
+	 * @return bool|WP_Error True on success, error object on failure.
 	 */
 	public abstract function handle( $submission, $form );
 
