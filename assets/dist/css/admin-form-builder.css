@@ -232,6 +232,22 @@
     background-color: #fff;
 }
 
+.postbox .form-table th
+{
+    width: 120px;
+    padding: 15px 7px 15px 0;
+}
+
+.postbox .form-table td
+{
+    padding: 10px 0 10px 7px;
+}
+
+.postbox .form-table td p.description
+{
+    font-size: 13px;
+}
+
 /* ----------------------------------------------------------------------------
   6.0 - Polyfill for button links in WordPress < 4.8
 ---------------------------------------------------------------------------- */

@@ -109,6 +109,7 @@ class Form_Edit_Page_Handler {
 			'update_value_callback'      => array( $this, 'update_meta_values' ),
 			'update_value_callback_args' => array( $id, '{value}' ),
 			'name_prefix'                => $id,
+			'render_mode'                => 'form-table',
 		) );
 	}
 
@@ -392,7 +393,7 @@ class Form_Edit_Page_Handler {
 
 				$tabs = wp_list_filter( $this->tabs, array( 'meta_box' => $box['id'] ) );
 				?>
-				<div class="torro-metabox-tab-wrapper" role="tablist">
+				<h3 class="torro-metabox-tab-wrapper" role="tablist">
 					<?php
 					$first = true;
 					foreach ( $tabs as $id => $args ) : ?>
@@ -402,7 +403,7 @@ class Form_Edit_Page_Handler {
 						<?php
 						$first = false;
 					endforeach; ?>
-				</div>
+				</h3>
 				<?php
 				$first = true;
 				foreach ( $tabs as $id => $args ) : ?>
@@ -410,7 +411,9 @@ class Form_Edit_Page_Handler {
 						<?php if ( ! empty( $args['description'] ) ) : ?>
 							<p class="description"><?php echo $args['description']; ?></p>
 						<?php endif; ?>
-						<?php $box['args']['field_manager']->render( $id ); ?>
+						<table class="form-table">
+							<?php $box['args']['field_manager']->render( $id ); ?>
+						</table>
 					</div>
 					<?php
 					$first = false;
