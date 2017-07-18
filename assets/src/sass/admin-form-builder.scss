@@ -136,7 +136,56 @@
 }
 
 /* ----------------------------------------------------------------------------
-  5.0 - Polyfill for button links in WordPress < 4.8
+  5.0 - Torro Metabox Tabs
+---------------------------------------------------------------------------- */
+
+.torro-metabox-tab-wrapper {
+	margin: 0 0 10px;
+	padding: 4px 4px 0;
+	font-size: 13px;
+	line-height: 1.1;
+	border-bottom: 1px solid #cccccc;
+
+	&:not(.wp-clearfix):after {
+		display: table;
+		content: "";
+		clear: both;
+	}
+}
+
+.torro-metabox-tab {
+	margin-left: 0.5em;
+	padding: 5px 10px;
+	float: left;
+	font-size: 13px;
+	line-height: 15px;
+	font-weight: 600;
+	text-decoration: none;
+	color: #555;
+	background-color: #fafafa;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	white-space: nowrap;
+
+	&[aria-selected="true"] {
+		margin-bottom: -1px;
+		color: #444444;
+		-webkit-box-shadow: none;
+		        box-shadow: none;
+
+		&,
+		&:hover,
+		&:focus,
+		&:active {
+			color: #000000;
+			background-color: #ffffff;
+			border-bottom: 1px solid #ffffff;
+		}
+	}
+}
+
+/* ----------------------------------------------------------------------------
+  6.0 - Polyfill for button links in WordPress < 4.8
 ---------------------------------------------------------------------------- */
 
 .wp-core-ui .button-link {

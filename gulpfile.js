@@ -114,7 +114,8 @@ var paths = {
 			'./assets/src/js/admin-form-builder/model-views/*.js',
 			'./assets/src/js/admin-form-builder/collection-views/*.js',
 			'./assets/src/js/admin-form-builder/views/*.js',
-			'./assets/src/js/admin-form-builder/init.js',
+			'./assets/src/js/admin-form-builder/metabox-tabs.js',
+			'./assets/src/js/admin-form-builder/init.js'
 		],
 		src: './assets/src/js/',
 		dst: './assets/dist/js/'

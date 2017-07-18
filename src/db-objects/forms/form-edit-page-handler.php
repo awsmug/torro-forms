@@ -387,11 +387,34 @@ class Form_Edit_Page_Handler {
 					echo '<p class="description">' . $box['args']['description'] . '</p>';
 				}
 
+				$tab_id_prefix      = 'metabox-' . $box['id'] . '-tab-';
+				$tabpanel_id_prefix = 'metabox-' . $box['id'] . '-tabpanel-';
+
 				$tabs = wp_list_filter( $this->tabs, array( 'meta_box' => $box['id'] ) );
-				foreach ( $tabs as $id => $args ) {
-					//TODO: Render tabs and tabpanels
-					$box['args']['field_manager']->render( $id );
-				}
+				?>
+				<div class="torro-metabox-tab-wrapper" role="tablist">
+					<?php
+					$first = true;
+					foreach ( $tabs as $id => $args ) : ?>
+						<a id="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" class="torro-metabox-tab" href="<?php echo esc_attr( '#' . $tabpanel_id_prefix . $id ); ?>" aria-controls="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>" role="tab">
+							<?php echo $args['title']; ?>
+						</a>
+						<?php
+						$first = false;
+					endforeach; ?>
+				</div>
+				<?php
+				$first = true;
+				foreach ( $tabs as $id => $args ) : ?>
+					<div id="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" class="torro-metabox-tab-panel" aria-labelledby="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
+						<?php if ( ! empty( $args['description'] ) ) : ?>
+							<p class="description"><?php echo $args['description']; ?></p>
+						<?php endif; ?>
+						<?php $box['args']['field_manager']->render( $id ); ?>
+					</div>
+					<?php
+					$first = false;
+				endforeach;
 			}, null, $args['context'], $args['priority'], $args );
 		}
 
