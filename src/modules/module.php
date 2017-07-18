@@ -168,7 +168,7 @@ abstract class Module extends Service {
 	 * @return array Option values.
 	 */
 	public function get_form_options( $form_id ) {
-		$metadata = $this->manager()->meta()->get( 'post', $form_id, $this->get_meta_identifier(), true );
+		$metadata = $this->manager()->meta()->get( 'post', $form_id, $this->manager()->get_prefix() . $this->get_meta_identifier(), true );
 
 		if ( is_array( $metadata ) ) {
 			return $metadata;
