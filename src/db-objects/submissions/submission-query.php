@@ -32,6 +32,8 @@ class Submission_Query extends Query {
 		$this->query_var_defaults['orderby'] = array( 'timestamp' => 'DESC' );
 		$this->query_var_defaults['form_id'] = '';
 		$this->query_var_defaults['user_id'] = '';
+		$this->query_var_defaults['remote_addr'] = '';
+		$this->query_var_defaults['cookie_key'] = '';
 		$this->query_var_defaults['status']  = '';
 	}
 
@@ -49,6 +51,8 @@ class Submission_Query extends Query {
 
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'form_id', 'form_id', '%d', 'absint', true );
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'user_id', 'user_id', '%d', 'absint', true );
+		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'remote_addr', 'remote_addr', '%s', 'sanitize_key', true );
+		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'cookie_key', 'cookie_key', '%s', 'sanitize_key', true );
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'status', 'status', '%s', 'sanitize_key', true );
 
 		return array( $where, $args );
