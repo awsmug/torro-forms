@@ -306,7 +306,7 @@ class Form_Edit_Page_Handler {
 			return array();
 		}
 
-		$this->form_manager->get_meta( $this->current_form->id, $meta_box_id, true );
+		return $this->form_manager->get_meta( $this->current_form->id, $meta_box_id, true );
 	}
 
 	/**
@@ -429,8 +429,6 @@ class Form_Edit_Page_Handler {
 		 * @param Form $form Form that is being edited.
 		 */
 		do_action( "{$this->form_manager->get_prefix()}add_form_meta_boxes", $form );
-
-		$this->current_form = null;
 	}
 
 	/**
@@ -595,8 +593,6 @@ class Form_Edit_Page_Handler {
 		 * @param Form $form Form that has been saved.
 		 */
 		do_action( "{$this->form_manager->get_prefix()}save_form", $form );
-
-		$this->current_form = null;
 	}
 
 	/**
