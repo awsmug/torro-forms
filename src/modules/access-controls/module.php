@@ -121,7 +121,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			}
 
 			$tabs[ $access_control_meta_identifier ] = array(
-				'title' => $access_control->get_meta_title(),
+				'title'       => $access_control->get_meta_title(),
+				'description' => $access_control->get_meta_description(),
 			);
 		}
 

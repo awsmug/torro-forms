@@ -106,7 +106,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			}
 
 			$tabs[ $evaluator_meta_identifier ] = array(
-				'title' => $evaluator->get_meta_title(),
+				'title'       => $evaluator->get_meta_title(),
+				'description' => $evaluator->get_meta_description(),
 			);
 		}
 

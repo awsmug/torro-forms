@@ -108,7 +108,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			}
 
 			$tabs[ $action_meta_identifier ] = array(
-				'title' => $action->get_meta_title(),
+				'title'       => $action->get_meta_title(),
+				'description' => $action->get_meta_description(),
 			);
 		}
 

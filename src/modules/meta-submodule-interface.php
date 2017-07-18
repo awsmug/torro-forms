@@ -60,6 +60,16 @@ interface Meta_Submodule_Interface {
 	public function get_meta_title();
 
 	/**
+	 * Returns the meta subtab description for the submodule.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return string Submodule meta description.
+	 */
+	public function get_meta_description();
+
+	/**
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0

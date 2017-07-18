@@ -86,7 +86,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			}
 
 			$tabs[ $form_setting_meta_identifier ] = array(
-				'title' => $form_setting->get_meta_title(),
+				'title'       => $form_setting->get_meta_title(),
+				'description' => $form_setting->get_meta_description(),
 			);
 		}
 
