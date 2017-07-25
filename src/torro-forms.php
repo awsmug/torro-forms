@@ -333,7 +333,21 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @return bool True if the dependencies are loaded, false otherwise.
 	 */
 	protected function dependencies_loaded() {
-		return class_exists( 'EDD_SL_Plugin_Updater' ) && class_exists( 'PHPExcel' );
+		$required_classes = array(
+			'APIAPI\Core\APIAPI',
+			'APIAPI\Storage_WordPress_Option\Storage_WordPress_Option',
+			'APIAPI\Transporter_WordPress\Transporter_WordPress',
+			'EDD_SL_Plugin_Updater',
+			'PHPExcel',
+		);
+
+		foreach ( $required_classes as $required_class ) {
+			if ( ! class_exists( $required_class ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
