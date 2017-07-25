@@ -21,6 +21,7 @@ use Leaves_And_Love\Plugin_Lib\Meta;
 use Leaves_And_Love\Plugin_Lib\Assets;
 use Leaves_And_Love\Plugin_Lib\AJAX;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
+use APIAPI\Core\APIAPI;
 
 /**
  * Class for managing modules.
@@ -36,6 +37,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method Assets                     assets()
  * @method AJAX                       ajax()
  * @method Form_Manager               forms()
+ * @method APIAPI                     apiapi()
  */
 class Module_Manager extends Service {
 	use Container_Service_Trait {
@@ -68,6 +70,15 @@ class Module_Manager extends Service {
 	 * @var bool
 	 */
 	protected $hooks_added = false;
+
+	/**
+	 * The plugin's API-API instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var APIAPI
+	 */
+	protected $apiapi;
 
 	/**
 	 * The Option API service definition.
@@ -140,6 +151,8 @@ class Module_Manager extends Service {
 		$this->set_prefix( $prefix );
 		$this->set_services( $services );
 
+		$this->apiapi = torro()->apiapi();
+
 		$this->default_modules = array(
 			'access_controls' => Access_Controls_Module::class,
 			'actions'         => Actions_Module::class,
@@ -166,6 +179,10 @@ class Module_Manager extends Service {
 	 *                                                                                   if neither exist.
 	 */
 	public function __call( $method_name, $arguments ) {
+		if ( 'apiapi' === $method_name ) {
+			return $this->apiapi;
+		}
+
 		if ( isset( $this->modules[ $method_name ] ) ) {
 			return $this->modules[ $method_name ];
 		}

@@ -16,6 +16,7 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\Assets;
+use APIAPI\Core\APIAPI;
 
 /**
  * Class for the Actions module.
@@ -38,6 +39,18 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Action::class;
 		//TODO: Setup $default_submodules.
+	}
+
+	/**
+	 * Returns the plugin's API-API instance.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return APIAPI The API-API instance.
+	 */
+	public function apiapi() {
+		return $this->manager()->apiapi();
 	}
 
 	/**
