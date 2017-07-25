@@ -13,6 +13,7 @@ use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
 use awsmug\Torro_Forms\Modules\Meta_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
+use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\Error;
@@ -261,7 +262,13 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @param Assets $assets Assets API instance.
 	 */
 	protected function register_assets( $assets ) {
-		// Empty method body.
+		foreach ( $this->submodules as $slug => $access_control ) {
+			if ( ! is_a( $access_control, Assets_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$access_control->register_assets( $assets );
+		}
 	}
 
 	/**
