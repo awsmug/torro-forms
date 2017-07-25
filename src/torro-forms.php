@@ -241,6 +241,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $extensions;
 
 	/**
+	 * The plugin's API-API instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var APIAPI\Core\APIAPI
+	 */
+	protected $apiapi;
+
+	/**
 	 * Uninstalls the plugin.
 	 *
 	 * Drops all database tables and related content.
@@ -277,6 +286,18 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	public function get_uninstall_hook() {
 		return array( __CLASS__, 'uninstall' );
+	}
+
+	/**
+	 * Returns the plugin's API-API instance.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return APIAPI\Core\APIAPI The API-API instance.
+	 */
+	public function apiapi() {
+		return $this->apiapi;
 	}
 
 	/**
@@ -421,6 +442,8 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'options'       => $this->options,
 			'error_handler' => $this->error_handler,
 		) );
+
+		$this->apiapi = apiapi( $this->prefix . 'forms', $this->instantiate_plugin_class( 'APIAPI_Config', $this->prefix ) );
 	}
 
 	/**
@@ -639,6 +662,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->extensions->add_hooks();
 		$this->post_types->add_hooks();
 		$this->taxonomies->add_hooks();
+		$this->apiapi->config()->add_hooks();
 	}
 
 	/**
