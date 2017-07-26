@@ -28,8 +28,7 @@ class Text extends Element_Type {
 	 * @return mixed|WP_Error Validated value, or error object on failure.
 	 */
 	public function validate_field( $value, $element ) {
-		//TODO
-
+		// TODO: Validate field.
 		return trim( $value );
 	}
 

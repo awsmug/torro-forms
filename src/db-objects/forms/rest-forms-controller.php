@@ -47,7 +47,9 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$schema['properties']['status'] = array(
 			'description' => __( 'Status of the form.', 'torro-forms' ),
 			'type'        => 'string',
-			'enum'        => array_keys( get_post_stati( array( 'internal' => false ) ) ),
+			'enum'        => array_keys( get_post_stati( array(
+				'internal' => false,
+			) ) ),
 			'context'     => array( 'edit' ),
 		);
 
@@ -86,7 +88,9 @@ class REST_Forms_Controller extends REST_Models_Controller {
 			'type'              => 'array',
 			'items'             => array(
 				'type' => 'string',
-				'enum' => array_keys( get_post_stati( array( 'internal' => false ) ) ),
+				'enum' => array_keys( get_post_stati( array(
+					'internal' => false,
+				) ) ),
 			),
 			'default'           => 'publish',
 			'sanitize_callback' => array( $this, 'sanitize_status_param' ),

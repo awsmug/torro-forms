@@ -79,7 +79,9 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				'callback'            => array( $this, 'get_item' ),
 				'permission_callback' => array( $this, 'get_item_permissions_check' ),
 				'args'                => array(
-					'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+					'context' => $this->get_context_param( array(
+						'default' => 'view',
+					) ),
 				),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
@@ -208,14 +210,18 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 					$sections = $element_type->get_settings_sections();
 					$data[ $property ] = array();
 					foreach ( $sections as $slug => $section ) {
-						$data[ $property ][] = array_merge( array( 'slug' => $slug ), $section );
+						$data[ $property ][] = array_merge( array(
+							'slug' => $slug,
+						), $section );
 					}
 					break;
 				case 'fields':
 					$fields = $element_type->get_settings_fields();
 					$data[ $property ] = array();
 					foreach ( $fields as $slug => $field ) {
-						$data[ $property ][] = array_merge( array( 'slug' => $slug ), $field );
+						$data[ $property ][] = array_merge( array(
+							'slug' => $slug,
+						), $field );
 					}
 					break;
 				default:
@@ -403,7 +409,9 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 */
 	public function get_collection_params() {
 		return array(
-			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+			'context' => $this->get_context_param( array(
+				'default' => 'view',
+			) ),
 		);
 	}
 }

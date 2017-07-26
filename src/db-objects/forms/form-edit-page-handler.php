@@ -238,7 +238,7 @@ class Form_Edit_Page_Handler {
 		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
 
 		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) {
-			if ( empty( $_GET['post'] ) || $target_post_type !== get_post_type( $_GET['post'] ) ) {
+			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) {
 				return;
 			}
 		}
@@ -256,7 +256,7 @@ class Form_Edit_Page_Handler {
 		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
 
 		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) {
-			if ( empty( $_GET['post'] ) || $target_post_type !== get_post_type( $_GET['post'] ) ) {
+			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) {
 				return;
 			}
 		}
@@ -393,21 +393,19 @@ class Form_Edit_Page_Handler {
 				$tabpanel_id_prefix = 'metabox-' . $box['id'] . '-tabpanel-';
 
 				$tabs = wp_list_filter( $this->tabs, array( 'meta_box' => $box['id'] ) );
+
+				$first = true;
 				?>
 				<h3 class="torro-metabox-tab-wrapper" role="tablist">
-					<?php
-					$first = true;
-					foreach ( $tabs as $id => $args ) : ?>
+					<?php foreach ( $tabs as $id => $args ) : ?>
 						<a id="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" class="torro-metabox-tab" href="<?php echo esc_attr( '#' . $tabpanel_id_prefix . $id ); ?>" aria-controls="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>" role="tab">
 							<?php echo $args['title']; ?>
 						</a>
-						<?php
-						$first = false;
-					endforeach; ?>
+						<?php $first = false; ?>
+					<?php endforeach; ?>
 				</h3>
-				<?php
-				$first = true;
-				foreach ( $tabs as $id => $args ) : ?>
+				<?php $first = true; ?>
+				<?php foreach ( $tabs as $id => $args ) : ?>
 					<div id="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" class="torro-metabox-tab-panel" aria-labelledby="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
 						<?php if ( ! empty( $args['description'] ) ) : ?>
 							<p class="description"><?php echo $args['description']; ?></p>
@@ -416,9 +414,9 @@ class Form_Edit_Page_Handler {
 							<?php $box['args']['field_manager']->render( $id ); ?>
 						</table>
 					</div>
-					<?php
-					$first = false;
-				endforeach;
+					<?php $first = true; ?>
+				<?php endforeach; ?>
+			<?php
 			}, null, $args['context'], $args['priority'], $args );
 		}
 
@@ -535,7 +533,9 @@ class Form_Edit_Page_Handler {
 		$this->current_form = $form;
 
 		$mappings = array(
-			'forms'            => array( $form->id => $form->id ),
+			'forms'            => array(
+				$form->id => $form->id,
+			),
 			'containers'       => array(),
 			'elements'         => array(),
 			'element_choices'  => array(),
@@ -583,8 +583,8 @@ class Form_Edit_Page_Handler {
 
 		foreach ( $this->meta_boxes as $id => $args ) {
 			if ( isset( $_POST[ $id ] ) ) {
+				// TODO: Figure out how to deal with errors.
 				$args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) );
-				//TODO: Figure out how to deal with errors.
 			}
 		}
 

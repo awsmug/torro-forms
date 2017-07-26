@@ -341,7 +341,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function load_messages() {
 		$this->messages['cheatin_huh']  = __( 'Cheatin&#8217; huh?', 'torro-forms' );
+		/* translators: %s: PHP version number */
 		$this->messages['outdated_php'] = __( 'Torro Forms cannot be initialized because your setup uses a PHP version older than %s.', 'torro-forms' );
+		/* translators: %s: WordPress version number */
 		$this->messages['outdated_wp']  = __( 'Torro Forms cannot be initialized because your setup uses a WordPress version older than %s.', 'torro-forms' );
 	}
 
@@ -573,7 +575,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->participants->capabilities()->grant_capabilities( 'edit_users' );
 
 		// Grant access to plugin settings if the user can manage options.
-		$this->forms->capabilities()->grant_capabilities( array( 'manage_item_settings' => 'manage_options' ) );
+		$this->forms->capabilities()->grant_capabilities( array(
+			'manage_item_settings' => 'manage_options',
+		) );
 	}
 
 	/**

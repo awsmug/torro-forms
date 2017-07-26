@@ -39,7 +39,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->description = __( 'Actions are executed in the moment users submit their form data.', 'torro-forms' );
 
 		$this->submodule_base_class = Action::class;
-		//TODO: Setup $default_submodules.
+		// TODO: Setup $default_submodules.
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			}
 
 			$action_result = $action->handle( $submission, $form );
-			//TODO: Log errors
+			// TODO: Log errors.
 		}
 	}
 
@@ -154,9 +154,13 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 				$field_data['tab'] = $action_meta_identifier;
 
 				if ( isset( $field_data['dependencies'] ) ) {
-					for ( $i = 0; $i < count( $field_data['dependencies'] ); $i++ ) {
+					$dependency_count = count( $field_data['dependencies'] );
+
+					for ( $i = 0; $i < $dependency_count; $i++ ) {
 						if ( isset( $field_data['dependencies'][ $i ]['fields'] ) ) {
-							for ( $j = 0; $j < count( $field_data['dependencies'][ $i ]['fields'] ); $j++ ) {
+							$field_count = count( $field_data['dependencies'][ $i ]['fields'] );
+
+							for ( $j = 0; $j < $field_count; $j++ ) {
 								$field_data['dependencies'][ $i ]['fields'][ $j ] = $action_meta_identifier . '__' . $field_data['dependencies'][ $i ]['fields'][ $j ];
 							}
 						}

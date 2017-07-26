@@ -110,9 +110,7 @@ class Submission extends Model {
 			$this->user_id = get_current_user_id();
 		}
 
-		//TODO: Set cookie if not set
-		//TODO: Store cookie key
-
+		// TODO: Set cookie if not set, and store cookie key.
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) && preg_match( '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_SERVER['REMOTE_ADDR'] ) ) {
 			$this->remote_addr = $_SERVER['REMOTE_ADDR'];
 		}
@@ -211,7 +209,7 @@ class Submission extends Model {
 		$container_id = (int) $this->__get( 'current_container_id' );
 
 		if ( ! empty( $container_id ) ) {
-			$container = $container_collection = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->get( $container_id );
+			$container = $this->manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->get( $container_id );
 		} else {
 			$form = $this->get_form();
 			if ( ! $form ) {
@@ -220,7 +218,9 @@ class Submission extends Model {
 
 			$container_collection = $form->get_containers( array(
 				'number'        => 1,
-				'orderby'       => array( 'sort' => 'ASC' ),
+				'orderby'       => array(
+					'sort' => 'ASC',
+				),
 				'no_found_rows' => true,
 			) );
 			if ( 1 > count( $container_collection ) ) {
@@ -255,8 +255,12 @@ class Submission extends Model {
 
 		$container_collection = $form->get_containers( array(
 			'number'        => 1,
-			'sort'          => array( 'greater_than' => $container->sort ),
-			'orderby'       => array( 'sort' => 'ASC' ),
+			'sort'          => array(
+				'greater_than' => $container->sort,
+			),
+			'orderby'       => array(
+				'sort' => 'ASC',
+			),
 			'no_found_rows' => true,
 		) );
 		if ( 1 > count( $container_collection ) ) {
@@ -287,8 +291,12 @@ class Submission extends Model {
 
 		$container_collection = $form->get_containers( array(
 			'number'        => 1,
-			'sort'          => array( 'lower_than' => $container->sort ),
-			'orderby'       => array( 'sort' => 'DESC' ),
+			'sort'          => array(
+				'lower_than' => $container->sort,
+			),
+			'orderby'       => array(
+				'sort' => 'DESC',
+			),
 			'no_found_rows' => true,
 		) );
 		if ( 1 > count( $container_collection ) ) {

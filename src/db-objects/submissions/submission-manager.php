@@ -102,7 +102,7 @@ class Submission_Manager extends Manager {
 		$where = '';
 		$where_args = array();
 		if ( $user_id > 0 ) {
-			$where = " WHERE user_id = %d";
+			$where = ' WHERE user_id = %d';
 			$where_args[] = $user_id;
 		}
 
@@ -130,18 +130,18 @@ class Submission_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"form_id bigint(20) unsigned NOT NULL",
-			"user_id bigint(20) unsigned NOT NULL",
-			"timestamp int(11) unsigned NOT NULL",
-			"remote_addr char(15) NOT NULL",
-			"cookie_key char(50) NOT NULL",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'form_id bigint(20) unsigned NOT NULL',
+			'user_id bigint(20) unsigned NOT NULL',
+			'timestamp int(11) unsigned NOT NULL',
+			'remote_addr char(15) NOT NULL',
+			'cookie_key char(50) NOT NULL',
 			"status char(50) NOT NULL default 'completed'",
-			"PRIMARY KEY  (id)",
-			"KEY form_id (form_id)",
-			"KEY user_id (user_id)",
-			"KEY status (status)",
-			"KEY status_form_id (status,form_id)",
+			'PRIMARY KEY  (id)',
+			'KEY form_id (form_id)',
+			'KEY user_id (user_id)',
+			'KEY status (status)',
+			'KEY status_form_id (status,form_id)',
 		) );
 
 		$this->add_meta_database_table();

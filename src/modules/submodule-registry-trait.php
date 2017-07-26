@@ -68,6 +68,7 @@ trait Submodule_Registry_Trait {
 	 */
 	public function get( $slug ) {
 		if ( ! $this->has( $slug ) ) {
+			/* translators: %s: submodule slug */
 			return new Error( $this->get_prefix() . 'submodule_not_exist', sprintf( __( 'An submodule with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
 

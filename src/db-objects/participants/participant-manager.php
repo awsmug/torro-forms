@@ -72,12 +72,12 @@ class Participant_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"form_id bigint(20) unsigned NOT NULL",
-			"user_id bigint(20) unsigned NOT NULL",
-			"PRIMARY KEY  (id)",
-			"KEY form_id (form_id)",
-			"KEY user_id (user_id)",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'form_id bigint(20) unsigned NOT NULL',
+			'user_id bigint(20) unsigned NOT NULL',
+			'PRIMARY KEY  (id)',
+			'KEY form_id (form_id)',
+			'KEY user_id (user_id)',
 		) );
 	}
 }

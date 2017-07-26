@@ -10,8 +10,6 @@ namespace awsmug\Torro_Forms;
 
 use Leaves_And_Love\Plugin_Lib\Error_Handler as Error_Handler_Base;
 
-if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Error_Handler' ) ) :
-
 /**
  * Class for error handling
  *
@@ -45,5 +43,3 @@ class Error_Handler extends Error_Handler_Base {
 		}
 	}
 }
-
-endif;

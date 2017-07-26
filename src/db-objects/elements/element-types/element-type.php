@@ -224,7 +224,9 @@ abstract class Element_Type {
 	public function get_values( $element, $submission = null ) {
 		$values = array();
 		if ( $submission ) {
-			$submission_values = $submission->get_submission_values( array( 'element_id' => $element->id ) );
+			$submission_values = $submission->get_submission_values( array(
+				'element_id' => $element->id,
+			) );
 			foreach ( $submission_values as $submission_value ) {
 				$field = empty( $submission_value->field ) ? '_main' : $submission_value->field;
 
@@ -273,6 +275,8 @@ abstract class Element_Type {
 				}
 			}
 		}
+
+		return $values;
 	}
 
 	/**
@@ -394,12 +398,14 @@ abstract class Element_Type {
 
 		foreach ( $this->settings_fields as $slug => $field ) {
 			if ( empty( $field['section'] ) || ! isset( $this->settings_sections[ $field['section'] ] ) ) {
+				/* translators: %s: field section slug */
 				$this->manager->error_handler()->doing_it_wrong( get_class( $this ) . '::bootstrap()', sprintf( __( 'Invalid element type field section %s.', 'torro-forms' ), esc_html( $field['section'] ) ), '1.0.0' );
 				$invalid_fields[ $slug ] = true;
 				continue;
 			}
 
 			if ( empty( $field['type'] ) || ! Field_Manager::is_field_type_registered( $field['type'] ) ) {
+				/* translators: %s: field type slug */
 				$this->manager->error_handler()->doing_it_wrong( get_class( $this ) . '::bootstrap()', sprintf( __( 'Invalid element type field type %s.', 'torro-forms' ), esc_html( $field['type'] ) ), '1.0.0' );
 				$invalid_fields[ $slug ] = true;
 				continue;

@@ -50,7 +50,7 @@ class Form_List_Page_Handler {
 	 */
 	public function maybe_adjust_table_columns( $columns ) {
 		$new_columns = array(
-			'form_shortcode' => __( 'Shortcode', 'torro-forms' )
+			'form_shortcode' => __( 'Shortcode', 'torro-forms' ),
 		);
 
 		return array_merge( array_slice( $columns, 0, 2, true ), $new_columns, array_slice( $columns, 2, count( $columns ) - 1, true ) );

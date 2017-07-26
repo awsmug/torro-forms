@@ -116,6 +116,7 @@ class Element_Type_Manager extends Service {
 	 */
 	public function get( $slug ) {
 		if ( ! $this->has( $slug ) ) {
+			/* translators: %s: element type slug */
 			return new Error( $this->get_prefix() . 'element_type_not_exist', sprintf( __( 'An element type with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
 

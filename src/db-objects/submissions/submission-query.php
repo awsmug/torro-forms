@@ -29,7 +29,9 @@ class Submission_Query extends Query {
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
 
-		$this->query_var_defaults['orderby'] = array( 'timestamp' => 'DESC' );
+		$this->query_var_defaults['orderby'] = array(
+			'timestamp' => 'DESC',
+		);
 		$this->query_var_defaults['form_id'] = '';
 		$this->query_var_defaults['user_id'] = '';
 		$this->query_var_defaults['remote_addr'] = '';

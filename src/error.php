@@ -59,6 +59,7 @@ class Error extends WP_Error {
 	 */
 	public function __call( $method_name, $arguments ) {
 		if ( ! $this->error_handled ) {
+			/* translators: %s: method name */
 			$this->handle_error( sprintf( __( 'After the error occurred, it was tried to call method %s on the unhandled error object.', 'torro-forms' ), '<code>' . $method_name . '()</code>' ) );
 
 			$this->error_handled = true;
@@ -80,6 +81,7 @@ class Error extends WP_Error {
 	 */
 	public function __get( $property ) {
 		if ( ! $this->error_handled ) {
+			/* translators: %s: property name */
 			$this->handle_error( sprintf( __( 'After the error occurred, it was tried to access property %s on the unhandled error object.', 'torro-forms' ), '<code>$' . $property . '</code>' ) );
 
 			$this->error_handled = true;

@@ -17,5 +17,5 @@ use awsmug\Torro_Forms\Modules\Submodule;
  */
 abstract class Form_Setting extends Submodule {
 
-	//TODO: What will this do?
+	// TODO: What will this do?
 }

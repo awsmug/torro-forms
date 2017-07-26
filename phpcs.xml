@@ -2,9 +2,18 @@
 <ruleset name="Torro Forms PHPCS Rules">
 	<description>A custom set of PHPCS rules for Torro Forms.</description>
 
+	<exclude-pattern>*/src/legacy-upgrades.php</exclude-pattern>
+	<exclude-pattern>*/src/translations/*</exclude-pattern>
+	<exclude-pattern>*/templates/*</exclude-pattern>
+	<exclude-pattern>*/tests/*</exclude-pattern>
+
 	<rule ref="WordPress">
+		<exclude name="WordPress.CSRF.NonceVerification"/>
 		<exclude name="WordPress.Files.FileName"/>
+		<exclude name="WordPress.PHP.DevelopmentFunctions"/>
 		<exclude name="WordPress.XSS.EscapeOutput"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions"/>
+		<exclude name="WordPress.VIP.RestrictedVariables"/>
 		<exclude name="WordPress.VIP.SuperGlobalInputUsage"/>
 		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
 		<exclude name="WordPress.Variables.GlobalVariables.OverrideProhibited"/>

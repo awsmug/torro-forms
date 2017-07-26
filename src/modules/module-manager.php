@@ -178,7 +178,7 @@ class Module_Manager extends Service {
 	 * @return Module|Service|null The module, service instance, or null
 	 *                                                                                   if neither exist.
 	 */
-	public function __call( $method_name, $arguments ) {
+	public function __call( $method_name, $args ) {
 		if ( 'apiapi' === $method_name ) {
 			return $this->apiapi;
 		}
@@ -187,7 +187,7 @@ class Module_Manager extends Service {
 			return $this->modules[ $method_name ];
 		}
 
-		return $this->__callService( $method_name, $arguments );
+		return $this->__callService( $method_name, $args );
 	}
 
 	/**
@@ -201,6 +201,7 @@ class Module_Manager extends Service {
 	 */
 	public function get( $slug ) {
 		if ( ! isset( $this->modules[ $slug ] ) ) {
+			/* translators: %s: module slug */
 			return new Error( $this->get_prefix() . 'module_not_exist', sprintf( __( 'A module with the slug %s does not exist.', 'torro-forms' ), $slug ), __METHOD__, '1.0.0' );
 		}
 

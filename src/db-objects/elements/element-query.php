@@ -29,7 +29,9 @@ class Element_Query extends Query {
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
 
-		$this->query_var_defaults['orderby']      = array( 'sort' => 'ASC' );
+		$this->query_var_defaults['orderby']      = array(
+			'sort' => 'ASC',
+		);
 		$this->query_var_defaults['form_id']      = '';
 		$this->query_var_defaults['container_id'] = '';
 		$this->query_var_defaults['type']         = '';

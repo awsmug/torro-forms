@@ -52,7 +52,8 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		$this->manager      = $manager;
 		$this->form_manager = $form_manager;
 
-		$this->menu_title = $this->title = __( 'Settings', 'torro-forms' );
+		$this->title = __( 'Settings', 'torro-forms' );
+		$this->menu_title = $this->title;
 
 		$this->capability = 'manage_' . $form_manager->get_prefix() . $form_manager->get_singular_slug() . '_settings';
 	}
@@ -290,7 +291,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				<?php endforeach; ?>
 			</h2>
 		<?php else : ?>
-			<h2 class="screen-reader-text"><?php echo $tabs[ $current_tab_id ]['title']; ?></h2>
+			<h2 class="screen-reader-text">
+				<?php echo $tabs[ $current_tab_id ]['title']; ?>
+			</h2>
 		<?php endif;
 	}
 
@@ -335,7 +338,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			<?php
 		}
 
-		$subtabs = wp_list_filter( $this->subtabs, array( 'tab' => $current_tab_id ) );
+		$subtabs = wp_list_filter( $this->subtabs, array(
+			'tab' => $current_tab_id,
+		) );
 		if ( empty( $subtabs ) ) {
 			return;
 		}
@@ -571,26 +576,26 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				'choices'     => $modules,
 				'default'     => $default_modules,
 			),
-		    'slug'           => array(
-		    	'section'     => 'form_behavior',
-			    'type'        => 'text',
-			    'label'       => __( 'Slug', 'torro-forms' ),
-			    'description' => sprintf( __( 'The slug for permalinks (e.g. for a URL like %s).', 'torro-forms' ), home_url( '/' ) . '<strong id="torro-rewrite-slug-preview">' . ( ! empty( $options['slug'] ) ? $options['slug'] : $default_slug ) . '</strong>/my-contact-form/' ),
-			    'default'     => $default_slug,
-			    'required'    => true,
+			'slug'           => array(
+				'section'     => 'form_behavior',
+				'type'        => 'text',
+				'label'       => __( 'Slug', 'torro-forms' ),
+				'description' => sprintf( __( 'The slug for permalinks (e.g. for a URL like %s).', 'torro-forms' ), home_url( '/' ) . '<strong id="torro-rewrite-slug-preview">' . ( ! empty( $options['slug'] ) ? $options['slug'] : $default_slug ) . '</strong>/my-contact-form/' ),
+				'default'     => $default_slug,
+				'required'    => true,
 			),
-		    'frontend_css'   => array(
-		    	'section' => 'misc',
-			    'type'    => 'checkbox',
-			    'label'   => __( 'Include Torro Forms CSS on frontend?', 'torro-forms' ),
-			    'default' => true,
+			'frontend_css'   => array(
+				'section' => 'misc',
+				'type'    => 'checkbox',
+				'label'   => __( 'Include Torro Forms CSS on frontend?', 'torro-forms' ),
+				'default' => true,
 			),
-		    'hard_uninstall' => array(
-		    	'section'     => 'misc',
-			    'type'        => 'checkbox',
-			    'label'       => __( 'Perform a hard uninstall when the plugin is removed?', 'torro-forms' ),
-			    'description' => __( '<strong>Use this setting with extreme caution</strong> as, when it is enabled, removing the plugin will remove all form content from your site forever.', 'torro-forms' ),
-			    'default'     => false,
+			'hard_uninstall' => array(
+				'section'     => 'misc',
+				'type'        => 'checkbox',
+				'label'       => __( 'Perform a hard uninstall when the plugin is removed?', 'torro-forms' ),
+				'description' => __( '<strong>Use this setting with extreme caution</strong> as, when it is enabled, removing the plugin will remove all form content from your site forever.', 'torro-forms' ),
+				'default'     => false,
 			),
 		);
 

@@ -163,15 +163,15 @@ class Element_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"container_id int(11) unsigned NOT NULL",
-			"label text NOT NULL",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'container_id int(11) unsigned NOT NULL',
+			'label text NOT NULL',
 			"sort int(11) unsigned NOT NULL default '0'",
-			"type char(50) NOT NULL",
-			"PRIMARY KEY  (id)",
-			"KEY container_id (container_id)",
-			"KEY type (type)",
-			"KEY type_container_id (type,container_id)",
+			'type char(50) NOT NULL',
+			'PRIMARY KEY  (id)',
+			'KEY container_id (container_id)',
+			'KEY type (type)',
+			'KEY type_container_id (type,container_id)',
 		) );
 	}
 }

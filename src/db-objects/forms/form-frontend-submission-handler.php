@@ -55,7 +55,8 @@ class Form_Frontend_Submission_Handler {
 			wp_die( __( 'Missing security nonce.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
 		}
 
-		$form = $submission = null;
+		$form = null;
+		$submission = null;
 		if ( ! empty( $data['id'] ) ) {
 			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $data['id'] ) );
 			if ( $submission ) {

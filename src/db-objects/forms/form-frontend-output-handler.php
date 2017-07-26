@@ -199,7 +199,7 @@ class Form_Frontend_Output_Handler {
 		if ( $submission ) {
 			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[id]" value="' . esc_attr( $submission->id ) . '">';
 		}
-		if ( ! is_archive() && in_the_loop() && $form->id !== (int) get_the_ID() ) {
+		if ( ! is_archive() && in_the_loop() && (int) get_the_ID() !== $form->id ) {
 			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[original_form_id]" value="' . esc_attr( get_the_ID() ) . '">';
 		}
 
@@ -372,7 +372,9 @@ class Form_Frontend_Output_Handler {
 
 		$container_collection = $form->get_containers( array(
 			'number'        => 1,
-			'orderby'       => array( 'sort' => 'ASC' ),
+			'orderby'       => array(
+				'sort' => 'ASC',
+			),
 			'no_found_rows' => true,
 		) );
 

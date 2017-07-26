@@ -50,6 +50,8 @@ class DB extends DB_Base {
 	 *
 	 * @since 1.0.0
 	 * @access public
+	 *
+	 * @param bool $force Optional. Whether to force install regardless of the check. Default false.
 	 */
 	public function check( $force = false ) {
 		// If the db_version option is set for the site and contains a semantic version number, it is a legacy version.
@@ -96,8 +98,7 @@ class DB extends DB_Base {
 
 		parent::uninstall_single();
 
-		//TODO: Delete form posts and form category terms.
-
+		// TODO: Delete form posts and form category terms.
 		$this->options->delete( 'general_settings' );
 		$this->options->delete( 'extension_settings' );
 	}
