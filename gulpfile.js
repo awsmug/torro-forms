@@ -6,7 +6,7 @@ function parseKeywords( keywords ) {
 	// These keywords are useful for Packagist/NPM/Bower, but not for the WordPress plugin repository.
 	var disallowed = [ 'wordpress', 'plugin' ];
 
-	k = keywords;
+	var k = keywords;
 	for ( var i in disallowed ) {
 		var index = k.indexOf( disallowed[ i ] );
 		if ( -1 < index ) {
@@ -33,7 +33,7 @@ var config = {
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
 	donateLink: false,
 	minRequired: '4.7',
-	testedUpTo: '4.7',
+	testedUpTo: '4.8',
 	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms',
 	network: false
 };
@@ -41,17 +41,17 @@ var config = {
 /* ---- DO NOT EDIT BELOW THIS LINE ---- */
 
 // WP plugin header for main plugin file
-var pluginheader = 	'Plugin Name: ' + config.pluginName + '\n' +
-					'Plugin URI:  ' + config.pluginURI + '\n' +
-					'Description: ' + config.description + '\n' +
-					'Version:     ' + config.version + '\n' +
-					'Author:      ' + config.author + '\n' +
-					'Author URI:  ' + config.authorURI + '\n' +
-					'License:     ' + config.license + '\n' +
-					'License URI: ' + config.licenseURI + '\n' +
-					'Text Domain: ' + config.pluginSlug + '\n' +
-					( config.network ? 'Network:     true' + '\n' : '' ) +
-					'Tags:        ' + config.tags;
+var pluginheader = 	' * Plugin Name: ' + config.pluginName + '\n' +
+					' * Plugin URI:  ' + config.pluginURI + '\n' +
+					' * Description: ' + config.description + '\n' +
+					' * Version:     ' + config.version + '\n' +
+					' * Author:      ' + config.author + '\n' +
+					' * Author URI:  ' + config.authorURI + '\n' +
+					' * License:     ' + config.license + '\n' +
+					' * License URI: ' + config.licenseURI + '\n' +
+					' * Text Domain: ' + config.pluginSlug + '\n' +
+					( config.network ? ' * Network:     true' + '\n' : '' ) +
+					' * Tags:        ' + config.tags;
 
 // WP plugin header for readme.txt
 var readmeheader =	'Plugin Name:       ' + config.pluginName + '\n' +
@@ -199,7 +199,7 @@ gulp.task( 'js', function( done ) {
 // replace the plugin header in the main plugin file
 gulp.task( 'header-replace', function( done ) {
 	gulp.src( './' + config.pluginSlug + '.php' )
-		.pipe( replace( /((?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:\/\/.*))/, '/*\n' + pluginheader + '\n*/' ) )
+		.pipe( replace( /(?:\s\*\s@wordpress-plugin\s(?:[^*]|(?:\*+[^*\/]))*\*+\/)/, ' * @wordpress-plugin\n' + pluginheader + '\n */' ) )
 		.pipe( gulp.dest( './' ) )
 		.on( 'end', done );
 });

@@ -3,6 +3,7 @@
 	<description>A custom set of PHPCS rules for Torro Forms.</description>
 
 	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName"/>
 		<exclude name="WordPress.XSS.EscapeOutput"/>
 		<exclude name="WordPress.VIP.SuperGlobalInputUsage"/>
 		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>

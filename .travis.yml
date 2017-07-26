@@ -8,23 +8,25 @@ cache:
 matrix:
   allow_failures:
     - php: hhvm
-    - env: WP_VERSION=4.7 WP_TRAVIS_OBJECT_CACHE=true
+    - env: WP_VERSION=4.8 WP_TRAVIS_OBJECT_CACHE=true
   include:
     - php: 7.1
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 COVERAGE=1
     - php: 5.6
-      env: WP_VERSION=4.7 WP_MULTISITE=1 PHPLINT=1
+      env: WP_VERSION=4.8 WP_MULTISITE=1 PHPLINT=1
+    - php: 7.1
+      env: WP_VERSION=4.8
     - php: 7.1
       env: WP_VERSION=4.7
     - php: 7.0
-      env: WP_VERSION=4.7
+      env: WP_VERSION=4.8
     - php: 5.6
-      env: WP_VERSION=4.7
+      env: WP_VERSION=4.8
     - php: 5.6
-      env: WP_VERSION=4.7 WP_TRAVIS_OBJECT_CACHE=true
+      env: WP_VERSION=4.8 WP_TRAVIS_OBJECT_CACHE=true
       services: memcached
     - php: hhvm
-      env: WP_VERSION=4.7
+      env: WP_VERSION=4.8
 before_install:
 - |
   if [[ "$WP_TRAVIS_OBJECT_CACHE" == "true" ]]; then

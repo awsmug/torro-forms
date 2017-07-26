@@ -5,8 +5,8 @@ Plugin URI:        http://torro-forms.com
 Author:            Awesome UG
 Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
-Requires at least: 4.4
-Tested up to:      4.7
+Requires at least: 4.7
+Tested up to:      4.8
 Stable tag:        1.0.0-beta.8
 Version:           1.0.0-beta.8
 License:           GNU General Public License v3
