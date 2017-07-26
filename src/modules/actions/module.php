@@ -270,6 +270,24 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	}
 
 	/**
+	 * Enqueues the module's form builder scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Assets $assets Assets API instance.
+	 */
+	protected function enqueue_form_builder_assets( $assets ) {
+		foreach ( $this->submodules as $slug => $action ) {
+			if ( ! is_a( $action, Assets_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$action->enqueue_form_builder_assets( $assets );
+		}
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0

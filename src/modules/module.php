@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\Modules;
 
 use awsmug\Torro_Forms\DB_Objects\Forms\Form_Edit_Page_Handler;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page;
+use awsmug\Torro_Forms\Assets;
 use Leaves_And_Love\Plugin_Lib\Service;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
@@ -350,6 +351,12 @@ abstract class Module extends Service {
 				'priority' => 1,
 				'num_args' => 1,
 			),
+			array(
+				'name'     => "{$this->get_prefix()}enqueue_form_builder_scripts",
+				'callback' => array( $this, 'enqueue_form_builder_scripts' ),
+				'priority' => 1,
+				'num_args' => 1,
+			),
 		);
 	}
 
@@ -417,7 +424,17 @@ abstract class Module extends Service {
 	 * @since 1.0.0
 	 * @access protected
 	 *
-	 * @param awsmug\Torro_Forms\Assets $assets Assets API instance.
+	 * @param Assets $assets Assets API instance.
 	 */
 	protected abstract function register_assets( $assets );
+
+	/**
+	 * Enqueues the module's form builder scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Assets $assets Assets API instance.
+	 */
+	protected abstract function enqueue_form_builder_assets( $assets );
 }

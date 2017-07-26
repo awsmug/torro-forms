@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
+use awsmug\Torro_Forms\Assets;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 use WP_Post;
 use WP_Error;
@@ -454,8 +455,10 @@ class Form_Edit_Page_Handler {
 		 * Fires after scripts and stylesheets for the form builder have been enqueued.
 		 *
 		 * @since 1.0.0
+		 *
+		 * @param Assets $assets The Assets API instance.
 		 */
-		do_action( "{$this->form_manager->get_prefix()}enqueue_form_builder_scripts" );
+		do_action( "{$this->form_manager->get_prefix()}enqueue_form_builder_scripts", $this->form_manager->assets() );
 	}
 
 	/**

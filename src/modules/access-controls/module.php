@@ -16,6 +16,7 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\Error;
 
 /**
@@ -268,6 +269,24 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			}
 
 			$access_control->register_assets( $assets );
+		}
+	}
+
+	/**
+	 * Enqueues the module's form builder scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Assets $assets Assets API instance.
+	 */
+	protected function enqueue_form_builder_assets( $assets ) {
+		foreach ( $this->submodules as $slug => $access_control ) {
+			if ( ! is_a( $access_control, Assets_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$access_control->enqueue_form_builder_assets( $assets );
 		}
 	}
 
