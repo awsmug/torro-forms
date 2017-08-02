@@ -72,15 +72,6 @@ class Module_Manager extends Service {
 	protected $hooks_added = false;
 
 	/**
-	 * The plugin's API-API instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var APIAPI
-	 */
-	protected $apiapi;
-
-	/**
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
@@ -151,8 +142,6 @@ class Module_Manager extends Service {
 		$this->set_prefix( $prefix );
 		$this->set_services( $services );
 
-		$this->apiapi = torro()->apiapi();
-
 		$this->default_modules = array(
 			'access_controls' => Access_Controls_Module::class,
 			'actions'         => Actions_Module::class,
@@ -180,7 +169,7 @@ class Module_Manager extends Service {
 	 */
 	public function __call( $method_name, $args ) {
 		if ( 'apiapi' === $method_name ) {
-			return $this->apiapi;
+			return torro()->apiapi();
 		}
 
 		if ( isset( $this->modules[ $method_name ] ) ) {
