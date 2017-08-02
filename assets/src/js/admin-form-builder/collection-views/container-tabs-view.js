@@ -1,4 +1,4 @@
-( function( torroBuilder, torro ) {
+( function( torroBuilder ) {
 	'use strict';
 
 	/**
@@ -51,4 +51,4 @@
 		}
 	});
 
-})( window.torro.Builder, window.torro );
+})( window.torro.Builder );
