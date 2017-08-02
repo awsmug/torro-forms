@@ -593,9 +593,10 @@ class Form_Edit_Page_Handler {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param Form $form Form that has been saved.
+		 * @param Form  $form     Form that has been saved.
+		 * @param array $mappings Array of ID mappings from the objects that have been saved.
 		 */
-		do_action( "{$this->form_manager->get_prefix()}save_form", $form );
+		do_action( "{$this->form_manager->get_prefix()}save_form", $form, $mappings );
 	}
 
 	/**
