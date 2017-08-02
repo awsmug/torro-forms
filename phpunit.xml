@@ -27,6 +27,7 @@
 			<exclude>
 				<directory>./src/translations</directory>
 				<directory>./templates</directory>
+				<directory>./vendor</directory>
 			</exclude>
 		</whitelist>
 	</filter>
