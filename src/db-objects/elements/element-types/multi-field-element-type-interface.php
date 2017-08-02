@@ -18,6 +18,16 @@ use awsmug\Torro_Forms\DB_Objects\Elements\Element;
 interface Multi_Field_Element_Type_Interface {
 
 	/**
+	 * Returns the slugs for the additional fields of this type.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Array of field slugs.
+	 */
+	public function get_additional_field_slugs();
+
+	/**
 	 * Returns an array representation for each additional field of an element.
 	 *
 	 * @since 1.0.0
