@@ -661,7 +661,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 
 		$config_key = $this->api_structure()->get_config_key();
 
-		if ( $config->isset( $config_key, 'authentication_data' ) ) {
+		if ( $config->exists( $config_key, 'authentication_data' ) ) {
 			$authentication_data = array_merge( (array) $config->get( $config_key, 'authentication_data' ), $authentication_data );
 		}
 
