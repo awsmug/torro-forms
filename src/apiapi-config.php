@@ -82,13 +82,13 @@ class APIAPI_Config extends Config {
 	protected function setup_hooks() {
 		$this->actions = array(
 			array(
-				'name'     => "admin_action_{$this->prefix}apiapi_callback",
+				'name'     => 'wp_loaded',
 				'callback' => array( $this, 'trigger_setup_config' ),
 				'priority' => 10,
 				'num_args' => 0,
 			),
 			array(
-				'name'     => 'init',
+				'name'     => "admin_action_{$this->prefix}apiapi_callback",
 				'callback' => array( $this, 'trigger_listen_for_callback' ),
 				'priority' => 10,
 				'num_args' => 0,
@@ -103,7 +103,7 @@ class APIAPI_Config extends Config {
 	 * @access protected
 	 */
 	protected function trigger_setup_config() {
-		torro()->apiapi()->trigger_hook( 'setup_config' );
+		torro()->apiapi()->trigger_hook( 'setup_config', $this );
 	}
 
 	/**
