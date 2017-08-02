@@ -12,7 +12,6 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Model_Type_Managers\Post_Type_Manager 
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
 use Leaves_And_Love\Plugin_Lib\Options;
-use Leaves_And_Love\Plugin_Lib\Error_Handler;
 
 /**
  * Class for managing post types.
