@@ -15,7 +15,7 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
-use awsmug\Torro_Forms\WP_Error;
+use WP_Error;
 
 /**
  * Base class for an access control.
