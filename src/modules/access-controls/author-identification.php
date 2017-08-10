@@ -43,6 +43,10 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 	 */
 	public function can_access( $form, $submission = null ) {
 		if ( $this->get_form_option( $form->id, 'prevent_multiple_submissions' ) ) {
+			// Always allow access to already completed submissions.
+			if ( $submission && 'completed' === $submission->status ) {
+				return true;
+			}
 
 			// Back-compat: Check for whether an old cookie is still set.
 			if ( $this->get_form_option( $form->id, 'use_cookie_check' ) && isset( $_COOKIE[ 'torro_has_participated_form_' . $form->id ] ) && 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $form->id ] ) {
@@ -67,8 +71,10 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 				if ( $this->get_form_option( $form->id, 'use_ip_check' ) && ! empty( $_SERVER['REMOTE_ADDR'] ) && preg_match( '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_SERVER['REMOTE_ADDR'] ) ) {
 					$identification_args['remote_addr'] = $_SERVER['REMOTE_ADDR'];
 				}
-				if ( $this->get_form_option( $form->id, 'use_cookie_check' ) && isset( $_COOKIE['torro_identity'] ) ) {
-					$identification_args['cookie_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
+				if ( $this->get_form_option( $form->id, 'use_cookie_check' ) && ! empty( $_COOKIE['torro_identity'] ) ) {
+					$identification_args['user_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
+				} elseif( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
+					$identification_args['user_key'] = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 				}
 				if ( ! empty( $identification_args ) ) {
 					$query_args['author_identification'] = $identification_args;
@@ -109,14 +115,8 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 		}
 
 		if ( $this->get_form_option( $form->id, 'use_cookie_check' ) ) {
-			if ( isset( $_COOKIE['torro_identity'] ) ) {
-				$submission->cookie_key = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
-			} else {
-				$base_string = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] . microtime() : microtime();
-				$new_cookie_key = md5( $base_string );
-				if ( setcookie( 'torro_identity', $new_cookie_key, current_time( 'timestamp' ) + 3 * YEAR_IN_SECONDS ) ) {
-					$submission->cookie_key = $new_cookie_key;
-				}
+			if ( ! isset( $_COOKIE['torro_identity'] ) ) {
+				setcookie( 'torro_identity', $submission->user_key, current_time( 'timestamp' ) + 3 * YEAR_IN_SECONDS );
 			}
 		}
 	}

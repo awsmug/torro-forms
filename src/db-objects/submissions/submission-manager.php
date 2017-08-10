@@ -12,6 +12,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Manager;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 use awsmug\Torro_Forms\Translations\Translations_Submission_Manager;
@@ -19,6 +20,7 @@ use awsmug\Torro_Forms\DB;
 use Leaves_And_Love\Plugin_Lib\Cache;
 use Leaves_And_Love\Plugin_Lib\Meta;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
+use WP_Error;
 
 /**
  * Manager class for submissions.
@@ -135,7 +137,7 @@ class Submission_Manager extends Manager {
 			'user_id bigint(20) unsigned NOT NULL',
 			'timestamp int(11) unsigned NOT NULL',
 			'remote_addr char(15) NOT NULL',
-			'cookie_key char(50) NOT NULL',
+			'user_key char(50) NOT NULL',
 			"status char(50) NOT NULL default 'completed'",
 			'PRIMARY KEY  (id)',
 			'KEY form_id (form_id)',
@@ -147,23 +149,6 @@ class Submission_Manager extends Manager {
 		$this->add_meta_database_table();
 	}
 
-	/**
-	 * Sets some automatic properties on a submission if they aren't set already.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 *
-	 * @param null       $ret        Return value from the filter.
-	 * @param Submission $submission The submission to modify.
-	 * @return null The unmodified pre-filter value.
-	 */
-	protected function maybe_set_automatic_properties( $ret, $submission ) {
-		if ( empty( $submission->timestamp ) ) {
-			$submission->timestamp = current_time( 'timestamp', 1 );
-		}
-
-		return $ret;
-	}
 
 	/**
 	 * Sets up all action and filter hooks for the service.
@@ -176,14 +161,120 @@ class Submission_Manager extends Manager {
 	protected function setup_hooks() {
 		parent::setup_hooks();
 
-		$prefix        = $this->get_prefix();
-		$singular_slug = $this->get_singular_slug();
-
-		$this->filters[] = array(
-			'name'     => "{$prefix}pre_add_{$singular_slug}",
-			'callback' => array( $this, 'maybe_set_automatic_properties' ),
-			'priority' => 100,
+		$this->actions[] = array(
+			'name'     => "{$this->get_prefix()}create_new_submission",
+			'callback' => array( $this, 'set_initial_submission_data' ),
+			'priority' => 1,
 			'num_args' => 2,
 		);
+		$this->filters[] = array(
+			'name'     => "{$this->get_prefix()}can_access_form",
+			'callback' => array( $this, 'can_access_submission' ),
+			'priority' => 1,
+			'num_args' => 3,
+		);
+	}
+
+	/**
+	 * Sets the initial data for a new submission.
+	 *
+	 * It also stores the user key in session storage for the most basic user identification.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Submission $submission Submission object.
+	 * @param Form       $form       Form object.
+	 */
+	public function set_initial_submission_data( $submission, $form ) {
+		$submission->form_id   = $form->id;
+		$submission->status    = 'processing';
+		$submission->timestamp = current_time( 'timestamp', true );
+
+		if ( is_user_logged_in() ) {
+			$submission->user_id = get_current_user_id();
+		}
+
+		if ( ! empty( $_COOKIE['torro_identity'] ) ) {
+			$submission->user_key = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
+		} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
+			$submission->user_key = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
+		} else {
+			$base_string = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $this->anonymize_ip_address( $_SERVER['REMOTE_ADDR'] ) . microtime() : microtime();
+			$submission->user_key = md5( $base_string );
+		}
+
+		if ( ! isset( $_SESSION ) ) {
+			if ( ! headers_sent() ) {
+				return;
+			}
+
+			session_start();
+		}
+
+		$_SESSION['torro_identity'] = $submission->user_key;
+	}
+
+	/**
+	 * Determines whether the current user can access a specific submission.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param bool|WP_Error   $result     Whether a user can access the form. Can be an error object to show a specific message to the user.
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Submission object, or null if no submission is set.
+	 * @return bool|WP_Error True if the form or submission can be accessed, false or error object otherwise.
+	 */
+	public function can_access_submission( $result, $form, $submission = null ) {
+		// If no submission set, bail.
+		if ( ! $submission ) {
+			return $result;
+		}
+
+		if ( is_user_logged_in() && get_current_user_id() === $submission->user_id ) {
+			return $result;
+		}
+
+		if ( ! empty( $submission->user_key ) ) {
+			if ( ! empty( $_COOKIE['torro_identity'] ) && esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) ) === $submission->user_key ) {
+				return $result;
+			}
+
+			if ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) && esc_attr( wp_unslash( $_SESSION['torro_identity'] ) ) === $submission->user_key ) {
+				return $result;
+			}
+		}
+
+		if ( ! empty( $submission->remote_addr ) ) {
+			if ( ! empty( $_SERVER['REMOTE_ADDR'] ) && $_SERVER['REMOTE_ADDR'] === $submission->remote_addr ) {
+				return $result;
+			}
+		}
+
+		return new WP_Error( 'submission_no_access', __( 'You do not have access to this form submission.', 'torro-forms' ) );
+	}
+
+	/**
+	 * Anonymizes an IP address.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $address IPv4 or IPv6 address.
+	 * @return string Anonymized IP address.
+	 */
+	protected function anonymize_ip_address( $address ) {
+		$packed_address = inet_pton( $address );
+
+		if ( strlen( $packed_address ) === 4 ) {
+			return inet_ntop( $packed_address & inet_pton( '255.255.255.0' ) );
+		}
+
+		if ( strlen( $packed_address ) === 16 ) {
+			return inet_ntop( $packed_address & inet_pton( 'ffff:ffff:ffff:ffff:0000:0000:0000:0000' ) );
+		}
+
+		return '';
 	}
 }

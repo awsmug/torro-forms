@@ -88,13 +88,6 @@ class Form_Frontend_Submission_Handler {
 		if ( ! $submission ) {
 			$submission = $this->form_manager->get_child_manager( 'submissions' )->create();
 
-			$submission->form_id = $form->id;
-			$submission->status  = 'processing';
-
-			if ( is_user_logged_in() ) {
-				$submission->user_id = get_current_user_id();
-			}
-
 			/**
 			 * Fires when a new submission object has just been instantiated.
 			 *
