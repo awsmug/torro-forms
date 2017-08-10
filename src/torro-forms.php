@@ -25,7 +25,6 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Manager   element_settings()
  * @method awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Manager             submissions()
  * @method awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager submission_values()
- * @method awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager           participants()
  * @method awsmug\Torro_Forms\Modules\Module_Manager                                modules()
  * @method awsmug\Torro_Forms\Post_Type_Manager                                     post_types()
  * @method awsmug\Torro_Forms\Taxonomy_Manager                                      taxonomies()
@@ -113,15 +112,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @var awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager
 	 */
 	protected $submission_values;
-
-	/**
-	 * The participants manager instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var awsmug\Torro_Forms\DB_Objects\Participants\Participant_Manager
-	 */
-	protected $participants;
 
 	/**
 	 * The module manager instance.
@@ -533,13 +523,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' ) );
 
-		$this->participants = $this->instantiate_plugin_service( 'DB_Objects\Participants\Participant_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Participants\Participant_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Participant_Manager' ) );
-
 		$this->db->set_version( 20170602 );
 	}
 
@@ -580,12 +563,10 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		// Map meta capabilities only for submissions and related data.
 		$this->submissions->capabilities()->map_capabilities( 'meta' );
 		$this->submission_values->capabilities()->map_capabilities( 'meta' );
-		$this->participants->capabilities()->map_capabilities( 'meta' );
 
 		// Grant submission and related data capabilities if the user can manage users.
 		$this->submissions->capabilities()->grant_capabilities( 'edit_users' );
 		$this->submission_values->capabilities()->grant_capabilities( 'edit_users' );
-		$this->participants->capabilities()->grant_capabilities( 'edit_users' );
 
 		// Grant access to plugin settings if the user can manage options.
 		$this->forms->capabilities()->grant_capabilities( array(
@@ -603,7 +584,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->forms->add_child_manager( 'form_categories', $this->form_categories );
 		$this->forms->add_child_manager( 'containers', $this->containers );
 		$this->forms->add_child_manager( 'submissions', $this->submissions );
-		$this->forms->add_child_manager( 'participants', $this->participants );
 
 		$this->form_categories->add_parent_manager( 'forms', $this->forms );
 
@@ -622,8 +602,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->submissions->add_child_manager( 'submission_values', $this->submission_values );
 
 		$this->submission_values->add_parent_manager( 'submissions', $this->submissions );
-
-		$this->participants->add_parent_manager( 'forms', $this->forms );
 	}
 
 	/**
@@ -697,7 +675,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->element_settings->add_hooks();
 		$this->submissions->add_hooks();
 		$this->submission_values->add_hooks();
-		$this->participants->add_hooks();
 
 		$this->forms->capabilities()->add_hooks();
 		$this->form_categories->capabilities()->add_hooks();
@@ -707,7 +684,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->element_settings->capabilities()->add_hooks();
 		$this->submissions->capabilities()->add_hooks();
 		$this->submission_values->capabilities()->add_hooks();
-		$this->participants->capabilities()->add_hooks();
 	}
 
 	/**

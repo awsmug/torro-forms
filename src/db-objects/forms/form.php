@@ -208,28 +208,6 @@ class Form extends Core_Model {
 	}
 
 	/**
-	 * Returns all participants that belong to the form.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param array $args Optional. Additional query arguments. Default empty array.
-	 * @return Participant_Collection List of participants.
-	 */
-	public function get_participants( $args = array() ) {
-		if ( empty( $this->original->ID ) ) {
-			return $this->manager->get_child_manager( 'participants' )->get_collection( array(), 0, 'objects' );
-		}
-
-		$args = wp_parse_args( $args, array(
-			'number'  => -1,
-			'form_id' => $this->original->ID,
-		) );
-
-		return $this->manager->get_child_manager( 'participants' )->query( $args );
-	}
-
-	/**
 	 * Returns an array representation of the model.
 	 *
 	 * @since 1.0.0

@@ -153,10 +153,6 @@ class REST_Forms_Controller extends REST_Models_Controller {
 			'href' => add_query_arg( 'form_id', $form->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) ) ),
 		);
 
-		$links['participants'] = array(
-			'href' => add_query_arg( 'form_id', $form->$primary_property, rest_url( sprintf( '%s/%s', $this->namespace, 'participants' ) ) ),
-		);
-
 		return $links;
 	}
 

@@ -382,11 +382,6 @@ class Form_Manager extends Core_Manager {
 		foreach ( $submissions as $submission ) {
 			$submission->delete();
 		}
-
-		$participants = $form->get_participants();
-		foreach ( $participants as $participant ) {
-			$participant->delete();
-		}
 	}
 
 	/**
