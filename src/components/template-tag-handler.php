@@ -110,7 +110,8 @@ class Template_Tag_Handler {
 	/**
 	 * Adds a new template tag.
 	 *
-	 * Template tag data must contain a 'label' and 'callback'.
+	 * Template tag data must contain a 'label' and 'callback', and may optionally contain
+	 * a 'description' and 'group'.
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -190,9 +191,14 @@ class Template_Tag_Handler {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param string|null $group Optional. Group slug to only get tags of that group. Default null.
 	 * @return array Array of template tags.
 	 */
-	public function get_tags() {
+	public function get_tags( $group = null ) {
+		if ( null !== $group ) {
+			return wp_list_filter( $this->tags, array( 'group' => $group ) );
+		}
+
 		return $this->tags;
 	}
 
@@ -202,12 +208,17 @@ class Template_Tag_Handler {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param string|null $group Optional. Group slug to only get tags of that group. Default null.
 	 * @return array Array of template tag labels.
 	 */
-	public function get_tag_labels() {
+	public function get_tag_labels( $group = null ) {
 		$labels = array();
 
 		foreach ( $this->tags as $slug => $data ) {
+			if ( null !== $group && $data['group'] !== $group ) {
+				continue;
+			}
+
 			$labels[ $slug ] = $data['label'];
 		}
 
@@ -253,6 +264,14 @@ class Template_Tag_Handler {
 		if ( empty( $data['label'] ) || empty( $data['callback'] ) ) {
 			/* translators: 1: template tag slug, 2: template tag handler slug */
 			throw new InvalidArgumentException( sprintf( __( 'Invalid template tag %1$s for handler %2$s.', 'torro-forms' ), $slug, $this->slug ) );
+		}
+
+		if ( ! isset( $data['description'] ) ) {
+			$data['description'] = '';
+		}
+
+		if ( ! isset( $data['group'] ) ) {
+			$data['group'] = 'default';
 		}
 
 		return $data;
