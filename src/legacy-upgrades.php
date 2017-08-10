@@ -264,6 +264,7 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $element_settings ADD KEY element_id (element_id)" );
 		$wpdb->query( "ALTER TABLE $results RENAME TO $submissions" );
 		$wpdb->query( "ALTER TABLE $submissions ADD status char(50) NOT NULL default 'completed' AFTER cookie_key" );
+		$wpdb->query( "ALTER TABLE $submissions CHANGE cookie_key user_key char(50) NOT NULL" );
 		$wpdb->query( "ALTER TABLE $submissions ADD KEY form_id (form_id)" );
 		$wpdb->query( "ALTER TABLE $submissions ADD KEY user_id (user_id)" );
 		$wpdb->query( "ALTER TABLE $submissions ADD KEY status (status)" );
@@ -276,7 +277,9 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $participants ADD KEY form_id (form_id)" );
 		$wpdb->query( "ALTER TABLE $participants ADD KEY user_id (user_id)" );
 
-		//TODO: What happens with email_notifications table?
+		// TODO: What happens with email_notifications table?
+
+		// TODO: Migrate form metadata.
 
 		$general_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_general_' ) . '%' ) );
 		if ( ! empty( $general_settings ) ) {

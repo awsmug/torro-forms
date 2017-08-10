@@ -74,8 +74,8 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 			'context'     => array( 'view', 'edit', 'embed' ),
 		);
 
-		$schema['properties']['cookie_key'] = array(
-			'description' => __( 'Cookie key of who created the submission.', 'torro-forms' ),
+		$schema['properties']['user_key'] = array(
+			'description' => __( 'Key of who created the submission.', 'torro-forms' ),
 			'type'        => 'string',
 			'context'     => array( 'view', 'edit', 'embed' ),
 		);

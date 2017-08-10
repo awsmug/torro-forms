@@ -35,7 +35,7 @@ class Submission_Query extends Query {
 		$this->query_var_defaults['form_id'] = '';
 		$this->query_var_defaults['user_id'] = '';
 		$this->query_var_defaults['remote_addr'] = '';
-		$this->query_var_defaults['cookie_key'] = '';
+		$this->query_var_defaults['user_key'] = '';
 		$this->query_var_defaults['author_identification'] = '';
 		$this->query_var_defaults['status']  = '';
 	}
@@ -55,7 +55,7 @@ class Submission_Query extends Query {
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'form_id', 'form_id', '%d', 'absint', true );
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'user_id', 'user_id', '%d', 'absint', true );
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'remote_addr', 'remote_addr', '%s', 'sanitize_key', true );
-		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'cookie_key', 'cookie_key', '%s', 'sanitize_key', true );
+		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'user_key', 'user_key', '%s', 'sanitize_key', true );
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'status', 'status', '%s', 'sanitize_key', true );
 
 		if ( is_array( $this->query_vars['author_identification'] ) ) {
@@ -90,7 +90,7 @@ class Submission_Query extends Query {
 	 * @return array Array of valid author identification fields.
 	 */
 	protected function get_author_identification_fields() {
-		return array( 'user_id', 'remote_addr', 'cookie_key' );
+		return array( 'user_id', 'remote_addr', 'user_key' );
 	}
 
 	/**

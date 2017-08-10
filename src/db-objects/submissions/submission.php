@@ -23,7 +23,7 @@ use WP_Error;
  * @property int    $user_id
  * @property int    $timestamp
  * @property string $remote_addr
- * @property string $cookie_key
+ * @property string $user_key
  * @property string $status
  *
  * @property-read int $id
@@ -77,13 +77,13 @@ class Submission extends Model {
 	protected $remote_addr = '';
 
 	/**
-	 * Submission cookie key.
+	 * Submission user key.
 	 *
 	 * @since 1.0.0
 	 * @access protected
 	 * @var string
 	 */
-	protected $cookie_key = '';
+	protected $user_key = '';
 
 	/**
 	 * Submission status identifier.

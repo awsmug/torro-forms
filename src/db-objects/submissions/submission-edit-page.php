@@ -242,11 +242,11 @@ class Submission_Edit_Page extends Model_Edit_Page {
 				'description' => __( 'Specify the IP address where this submission should be sent from.', 'torro-forms' ),
 				'pattern'     => '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}',
 			),
-			'cookie_key'  => array(
+			'user_key'    => array(
 				'section'     => 'identification_data',
 				'type'        => 'text',
-				'label'       => __( 'Cookie Key', 'torro-forms' ),
-				'description' => __( 'Specify the cookie key identifying the submission creator.', 'torro-forms' ),
+				'label'       => __( 'Key', 'torro-forms' ),
+				'description' => __( 'Specify the key identifying the submission creator.', 'torro-forms' ),
 			),
 		);
 
