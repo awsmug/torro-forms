@@ -78,6 +78,10 @@ class Template_Tag_Handler {
 	 * @return string Content with template tags replaced.
 	 */
 	public function process_content( $content, $args ) {
+		if ( false === strpos( $content, '{' ) ) {
+			return $content;
+		}
+
 		try {
 			$args = $this->validate_tag_args( $args, $this->args_definition );
 		} catch ( InvalidArgumentException $e ) {
