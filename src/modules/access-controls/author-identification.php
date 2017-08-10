@@ -62,10 +62,17 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 			$valid_args = false;
 			if ( is_user_logged_in() ) {
 				$query_args['user_id'] = get_current_user_id();
-			} elseif ( $this->get_form_option( $form->id, 'use_ip_check' ) && ! empty( $_SERVER['REMOTE_ADDR'] ) && preg_match( '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_SERVER['REMOTE_ADDR'] ) ) {
-				$query_args['remote_addr'] = $_SERVER['REMOTE_ADDR'];
-			} elseif ( $this->get_form_option( $form->id, 'use_cookie_check' ) && isset( $_COOKIE['torro_identity'] ) ) {
-				$query_args['cookie_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
+			} else {
+				$identification_args = array();
+				if ( $this->get_form_option( $form->id, 'use_ip_check' ) && ! empty( $_SERVER['REMOTE_ADDR'] ) && preg_match( '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_SERVER['REMOTE_ADDR'] ) ) {
+					$identification_args['remote_addr'] = $_SERVER['REMOTE_ADDR'];
+				}
+				if ( $this->get_form_option( $form->id, 'use_cookie_check' ) && isset( $_COOKIE['torro_identity'] ) ) {
+					$identification_args['cookie_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
+				}
+				if ( ! empty( $identification_args ) ) {
+					$query_args['author_identification'] = $identification_args;
+				}
 			}
 
 			if ( count( $query_args ) === 4 ) {

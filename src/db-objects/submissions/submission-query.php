@@ -36,6 +36,7 @@ class Submission_Query extends Query {
 		$this->query_var_defaults['user_id'] = '';
 		$this->query_var_defaults['remote_addr'] = '';
 		$this->query_var_defaults['cookie_key'] = '';
+		$this->query_var_defaults['author_identification'] = '';
 		$this->query_var_defaults['status']  = '';
 	}
 
@@ -57,7 +58,39 @@ class Submission_Query extends Query {
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'cookie_key', 'cookie_key', '%s', 'sanitize_key', true );
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'status', 'status', '%s', 'sanitize_key', true );
 
+		if ( is_array( $this->query_vars['author_identification'] ) ) {
+			$author_identification_fields = $this->get_author_identification_fields();
+
+			$table_name = $this->manager->get_table_name();
+
+			$author_identification = array();
+			foreach ( $author_identification_fields as $author_identification_field ) {
+				if ( empty( $this->query_vars['author_identification'][ $author_identification_field ] ) ) {
+					continue;
+				}
+
+				$author_identification[] = "%{$table_name}%.{$author_identification_field} = %s";
+				$args[] = $this->query_vars['author_identification'][ $author_identification_field ];
+			}
+
+			if ( ! empty( $author_identification ) ) {
+				$where['author_identification'] = '( (' . implode( ') OR (', $author_identification ) . ') )';
+			}
+		}
+
 		return array( $where, $args );
+	}
+
+	/**
+	 * Returns the author identification query fields.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Array of valid author identification fields.
+	 */
+	protected function get_author_identification_fields() {
+		return array( 'user_id', 'remote_addr', 'cookie_key' );
 	}
 
 	/**
