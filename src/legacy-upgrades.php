@@ -250,6 +250,7 @@ class Legacy_Upgrades extends Service {
 		$result_values = $this->get_full_table_name( 'result_values' );
 		$submission_values = $this->get_full_table_name( 'submission_values' );
 		$participants = $this->get_full_table_name( 'participants' );
+		$email_notifications = $this->get_full_table_name( 'email_notifications' );
 
 		$wpdb->query( "ALTER TABLE $containers CHANGE sort sort int(11) unsigned NOT NULL default '0'" );
 		$wpdb->query( "ALTER TABLE $containers ADD KEY form_id (form_id)" );
@@ -358,6 +359,7 @@ class Legacy_Upgrades extends Service {
 		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) );
 		if ( empty( $form_ids ) ) {
 			$wpdb->query( "DROP TABLE IF EXISTS `$participants`" );
+			$wpdb->query( "DROP TABLE IF EXISTS `$email_notifications`" );
 			return;
 		}
 
@@ -381,7 +383,15 @@ class Legacy_Upgrades extends Service {
 		// Set a flag that the old participants table still exists.
 		update_option( $this->get_prefix() . 'legacy_participants_table_installed', 'true' );
 
-		// TODO: What happens with email_notifications table?
+		// If email notifications exist as well, this data will be needed for form meta migration.
+		$email_notification_ids = $wpdb->get_col( "SELECT ID FROM $email_notifications WHERE 1=1 LIMIT 1" );
+		if ( empty( $email_notification_ids ) ) {
+			$wpdb->query( "DROP TABLE IF EXISTS `$email_notifications`" );
+			return;
+		}
+
+		// Set a flag that the old email notifications table still exists.
+		update_option( $this->get_prefix() . 'legacy_email_notifications_table_installed', 'true' );
 
 		// TODO: Migrate form metadata.
 	}
