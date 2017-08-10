@@ -90,6 +90,23 @@ class Form_Frontend_Submission_Handler {
 
 			$submission->form_id = $form->id;
 			$submission->status  = 'processing';
+
+			if ( is_user_logged_in() ) {
+				$submission->user_id = get_current_user_id();
+			}
+
+			/**
+			 * Fires when a new submission object has just been instantiated.
+			 *
+			 * This hook may be used to set additional unique data on a submission.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param Submission $submission Submission object.
+			 * @param Form       $form       Form object.
+			 * @param array      $data       Submission POST data.
+			 */
+			do_action( "{$this->form_manager->get_prefix()}create_new_submission", $submission, $form, $data );
 		}
 
 		$this->handle_form_submission( $form, $submission, $data );

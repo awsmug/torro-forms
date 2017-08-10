@@ -78,6 +78,30 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	}
 
 	/**
+	 * Sets additional data for a submission when it is created.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Submission $submission New submission object.
+	 * @param Form       $form       Form object the submission belongs to.
+	 * @param array      $data       Submission POST data.
+	 */
+	protected function set_submission_data( $submission, $form, $data ) {
+		foreach ( $this->submodules as $slug => $access_control ) {
+			if ( ! is_a( $access_control, Submission_Modifier_Access_Control_Interface::class ) ) {
+				continue;
+			}
+
+			if ( ! $access_control->enabled( $form ) ) {
+				continue;
+			}
+
+			$access_control->set_submission_data( $submission, $form, $data );
+		}
+	}
+
+	/**
 	 * Registers the default access controls.
 	 *
 	 * The function also executes a hook that should be used by other developers to register their own access controls.
@@ -306,6 +330,12 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->filters[] = array(
 			'name'     => "{$this->get_prefix()}can_access_form",
 			'callback' => array( $this, 'can_access' ),
+			'priority' => 10,
+			'num_args' => 3,
+		);
+		$this->actions[] = array(
+			'name'     => "{$this->get_prefix()}create_new_submission",
+			'callback' => array( $this, 'set_submission_data' ),
 			'priority' => 10,
 			'num_args' => 3,
 		);
