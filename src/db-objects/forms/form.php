@@ -208,6 +208,25 @@ class Form extends Core_Model {
 	}
 
 	/**
+	 * Formats the form date and time.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $format Datetime format string. Will be localized.
+	 * @param bool   $gmt    Optional. Whether to return as GMT. Default true.
+	 * @return string Formatted date and time.
+	 */
+	public function format_datetime( $format, $gmt = true ) {
+		$timestamp = $this->original->post_date_gmt;
+		if ( ! $gmt ) {
+			$timestamp = strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $timestamp ) ) );
+		}
+
+		return date_i18n( $format, $timestamp );
+	}
+
+	/**
 	 * Returns an array representation of the model.
 	 *
 	 * @since 1.0.0

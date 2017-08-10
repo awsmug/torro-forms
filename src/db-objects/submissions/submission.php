@@ -150,6 +150,25 @@ class Submission extends Model {
 	}
 
 	/**
+	 * Formats the submission date and time.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $format Datetime format string. Will be localized.
+	 * @param bool   $gmt    Optional. Whether to return as GMT. Default true.
+	 * @return string Formatted date and time.
+	 */
+	public function format_datetime( $format, $gmt = true ) {
+		$timestamp = $this->timestamp;
+		if ( ! $gmt ) {
+			$timestamp = strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $timestamp ) ) );
+		}
+
+		return date_i18n( $format, $timestamp );
+	}
+
+	/**
 	 * Sets the current container for the submission.
 	 *
 	 * The form ID of the container must match the submission's form ID.
