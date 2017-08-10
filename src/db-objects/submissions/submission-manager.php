@@ -258,6 +258,8 @@ class Submission_Manager extends Manager {
 	/**
 	 * Anonymizes an IP address.
 	 *
+	 * Taken from https://github.com/geertw/php-ip-anonymizer/blob/master/src/IpAnonymizer.php.
+	 *
 	 * @since 1.0.0
 	 * @access protected
 	 *
