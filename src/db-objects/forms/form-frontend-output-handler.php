@@ -58,7 +58,7 @@ class Form_Frontend_Output_Handler {
 		$submission = null;
 		if ( isset( $_GET['torro_submission_id'] ) ) {
 			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $_GET['torro_submission_id'] ) );
-			if ( $submission->form_id !== $form->id ) {
+			if ( $submission && $submission->form_id !== $form->id ) {
 				$submission = null;
 			}
 		}
