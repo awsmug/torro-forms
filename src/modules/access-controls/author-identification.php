@@ -68,8 +68,11 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 				$query_args['user_id'] = get_current_user_id();
 			} else {
 				$identification_args = array();
-				if ( $this->get_form_option( $form->id, 'use_ip_check' ) && ! empty( $_SERVER['REMOTE_ADDR'] ) && preg_match( '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_SERVER['REMOTE_ADDR'] ) ) {
-					$identification_args['remote_addr'] = $_SERVER['REMOTE_ADDR'];
+				if ( $this->get_form_option( $form->id, 'use_ip_check' ) && ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+					$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
+					if ( ! empty( $validated_ip ) ) {
+						$identification_args['remote_addr'] = $validated_ip;
+					}
 				}
 				if ( $this->get_form_option( $form->id, 'use_cookie_check' ) && ! empty( $_COOKIE['torro_identity'] ) ) {
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
@@ -109,8 +112,11 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 	 */
 	public function set_submission_data( $submission, $form, $data ) {
 		if ( $this->get_form_option( $form->id, 'use_ip_check' ) ) {
-			if ( ! empty( $_SERVER['REMOTE_ADDR'] ) && preg_match( '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_SERVER['REMOTE_ADDR'] ) ) {
-				$submission->remote_addr = $_SERVER['REMOTE_ADDR'];
+			if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+				$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
+				if ( ! empty( $validated_ip ) ) {
+					$submission->remote_addr = $validated_ip;
+				}
 			}
 		}
 
