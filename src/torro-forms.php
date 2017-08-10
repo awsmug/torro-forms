@@ -546,12 +546,13 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function instantiate_modules() {
 		$this->modules = $this->instantiate_plugin_service( 'Modules\Module_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'meta'          => $this->meta,
-			'assets'        => $this->assets,
-			'ajax'          => $this->ajax,
-			'forms'         => $this->forms,
-			'error_handler' => $this->error_handler,
+			'options'               => $this->options,
+			'meta'                  => $this->meta,
+			'assets'                => $this->assets,
+			'ajax'                  => $this->ajax,
+			'forms'                 => $this->forms,
+			'template_tag_handlers' => $this->template_tag_handlers,
+			'error_handler'         => $this->error_handler,
 		) );
 	}
 

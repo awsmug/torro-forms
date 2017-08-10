@@ -15,6 +15,7 @@ use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
 use awsmug\Torro_Forms\Modules\Evaluators\Module as Evaluators_Module;
 use awsmug\Torro_Forms\Modules\Form_Settings\Module as Form_Settings_Module;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager;
+use awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager;
 use awsmug\Torro_Forms\Error;
 use Leaves_And_Love\Plugin_Lib\Options;
 use Leaves_And_Love\Plugin_Lib\Meta;
@@ -28,16 +29,17 @@ use APIAPI\Core\APIAPI;
  *
  * @since 1.0.0
  *
- * @method Access_Controls_Module     access_controls()
- * @method Actions_Module             actions()
- * @method Evaluators_Module          evaluators()
- * @method Submission_Handlers_Module submission_handlers()
- * @method Options                    options()
- * @method Meta                       meta()
- * @method Assets                     assets()
- * @method AJAX                       ajax()
- * @method Form_Manager               forms()
- * @method APIAPI                     apiapi()
+ * @method Access_Controls_Module       access_controls()
+ * @method Actions_Module               actions()
+ * @method Evaluators_Module            evaluators()
+ * @method Submission_Handlers_Module   submission_handlers()
+ * @method Options                      options()
+ * @method Meta                         meta()
+ * @method Assets                       assets()
+ * @method AJAX                         ajax()
+ * @method Form_Manager                 forms()
+ * @method Template_Tag_Handler_Manager template_tag_handlers()
+ * @method APIAPI                       apiapi()
  */
 class Module_Manager extends Service {
 	use Container_Service_Trait {
@@ -122,6 +124,16 @@ class Module_Manager extends Service {
 	protected static $service_forms = Form_Manager::class;
 
 	/**
+	 * The template tag handler manager service definition.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @static
+	 * @var string
+	 */
+	protected static $service_template_tag_handlers = Template_Tag_Handler_Manager::class;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -131,11 +143,13 @@ class Module_Manager extends Service {
 	 * @param array  $services {
 	 *     Array of service instances.
 	 *
-	 *     @type Options       $options       The Option API instance.
-	 *     @type Meta          $meta          The Metadata API instance.
-	 *     @type Assets        $assets        The Assets API instance.
-	 *     @type AJAX          $ajax          The AJAX API instance.
-	 *     @type Error_Handler $error_handler The error handler instance.
+	 *     @type Options                      $options               The Option API instance.
+	 *     @type Meta                         $meta                  The Metadata API instance.
+	 *     @type Assets                       $assets                The Assets API instance.
+	 *     @type AJAX                         $ajax                  The AJAX API instance.
+	 *     @type Form_Manager                 $forms                 The form manager instance.
+	 *     @type Template_Tag_Handler_Manager $template_tag_handlers The template tag handler manager instance.
+	 *     @type Error_Handler                $error_handler         The error handler instance.
 	 * }
 	 */
 	public function __construct( $prefix, $services ) {
