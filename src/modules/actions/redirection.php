@@ -140,11 +140,12 @@ class Redirection extends Action {
 		);
 
 		$meta_fields['redirect_url'] = array(
-			'type'         => 'url',
-			'label'        => __( 'Redirect URL', 'torro-forms' ),
-			'description'  => __( 'Enter the URL to redirect to.', 'torro-forms' ),
-			'placeholder'  => 'https://',
-			'dependencies' => array(
+			'type'          => 'url',
+			'label'         => __( 'Redirect URL', 'torro-forms' ),
+			'description'   => __( 'Enter the URL to redirect to.', 'torro-forms' ),
+			'placeholder'   => 'https://',
+			'input_classes' => array( 'regular-text' ),
+			'dependencies'  => array(
 				array(
 					'prop'     => 'display',
 					'callback' => 'get_data_by_map',
