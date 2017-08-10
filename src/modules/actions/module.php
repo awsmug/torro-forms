@@ -39,7 +39,10 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->description = __( 'Actions are executed in the moment users submit their form data.', 'torro-forms' );
 
 		$this->submodule_base_class = Action::class;
-		// TODO: Setup $default_submodules.
+		$this->default_submodules = array(
+			//'email_notification' => Email_Notification::class,
+			'redirection'        => Redirection::class,
+		);
 	}
 
 	/**
