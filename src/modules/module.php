@@ -353,7 +353,7 @@ abstract class Module extends Service {
 			),
 			array(
 				'name'     => "{$this->get_prefix()}enqueue_form_builder_scripts",
-				'callback' => array( $this, 'enqueue_form_builder_scripts' ),
+				'callback' => array( $this, 'enqueue_form_builder_assets' ),
 				'priority' => 1,
 				'num_args' => 1,
 			),
