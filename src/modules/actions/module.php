@@ -40,8 +40,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Action::class;
 		$this->default_submodules = array(
-			//'email_notification' => Email_Notification::class,
-			'redirection'        => Redirection::class,
+			'email_notifications' => Email_Notifications::class,
+			'redirection'         => Redirection::class,
 		);
 	}
 
