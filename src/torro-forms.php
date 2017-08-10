@@ -36,6 +36,7 @@ defined( 'ABSPATH' ) || exit;
  * @method Leaves_And_Love\Plugin_Lib\Template                                      template()
  * @method Leaves_And_Love\Plugin_Lib\AJAX                                          ajax()
  * @method awsmug\Torro_Forms\Error_Handler                                         error_handler()
+ * @method awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager               template_tag_handlers()
  * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
  * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
  */
@@ -211,6 +212,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @var awsmug\Torro_Forms\Error_Handler
 	 */
 	protected $error_handler;
+
+	/**
+	 * The template tag handlers instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager
+	 */
+	protected $template_tag_handlers;
 
 	/**
 	 * The Admin Pages instance.
@@ -428,6 +438,8 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		) );
 
 		$this->ajax = $this->instantiate_library_service( 'AJAX', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_AJAX' ) );
+
+		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
 
 		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
 			'ajax'          => $this->ajax,
