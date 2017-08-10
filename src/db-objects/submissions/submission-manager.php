@@ -136,7 +136,7 @@ class Submission_Manager extends Manager {
 			'form_id bigint(20) unsigned NOT NULL',
 			'user_id bigint(20) unsigned NOT NULL',
 			'timestamp int(11) unsigned NOT NULL',
-			'remote_addr char(15) NOT NULL',
+			'remote_addr char(50) NOT NULL',
 			'user_key char(50) NOT NULL',
 			"status char(50) NOT NULL default 'completed'",
 			'PRIMARY KEY  (id)',
