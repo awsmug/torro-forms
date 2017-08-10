@@ -40,9 +40,10 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Access_Control::class;
 		$this->default_submodules = array(
-			'submission_count' => Submission_Count::class,
-			'timerange'        => Timerange::class,
-			'allmembers'       => All_Members::class,
+			'author_identification' => Author_Identification::class,
+			'timerange'             => Timerange::class,
+			'allmembers'            => All_Members::class,
+			'submission_count'      => Submission_Count::class,
 		);
 		// TODO: Setup $default_submodules.
 	}

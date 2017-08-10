@@ -28,7 +28,7 @@ class All_Members extends Access_Control {
 	protected function bootstrap() {
 		$this->slug        = 'allmembers';
 		$this->title       = __( 'All Members', 'torro-forms' );
-		$this->description = __( 'Allows you make this form available to all logged-in members only.', 'torro-forms' );
+		$this->description = __( 'Allows you to make this form available to all logged-in members only.', 'torro-forms' );
 	}
 
 	/**
