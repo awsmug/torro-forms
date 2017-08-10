@@ -274,12 +274,6 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $submission_values ADD field char(100) NOT NULL default '' AFTER element_id" );
 		$wpdb->query( "ALTER TABLE $submission_values ADD KEY submission_id (submission_id)" );
 		$wpdb->query( "ALTER TABLE $submission_values ADD KEY element_id (element_id)" );
-		$wpdb->query( "ALTER TABLE $participants ADD KEY form_id (form_id)" );
-		$wpdb->query( "ALTER TABLE $participants ADD KEY user_id (user_id)" );
-
-		// TODO: What happens with email_notifications table?
-
-		// TODO: Migrate form metadata.
 
 		$general_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_general_' ) . '%' ) );
 		if ( ! empty( $general_settings ) ) {
@@ -358,6 +352,37 @@ class Legacy_Upgrades extends Service {
 
 			update_option( $this->get_prefix() . 'module_form_settings', $form_settings_array );
 		}
+
+		// If forms exist, their data needs to be migrated on-the-fly later.
+		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) );
+		if ( empty( $form_ids ) ) {
+			$wpdb->query( "DROP TABLE IF EXISTS `$participants`" );
+			return;
+		}
+
+		// Set flags to indicate that form meta still need to be migrated.
+		$insert_flags = array();
+		foreach ( $form_ids as $form_id ) {
+			$insert_flags[] = $wpdb->prepare( "( %d, %s, %s)", (int) $form_id, $this->get_prefix() . 'legacy_needs_migration', 'true' );
+		}
+		$wpdb->query( "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) VALUES " . implode( ', ', $insert_flags ) );
+		foreach ( $form_ids as $form_id ) {
+			wp_cache_delete( (int) $form_id, 'post_meta' );
+		}
+
+		// If participants exist as well, this data will be needed for form meta migration.
+		$participant_ids = $wpdb->get_col( "SELECT ID FROM $participants WHERE 1=1 LIMIT 1" );
+		if ( empty( $participant_ids ) ) {
+			$wpdb->query( "DROP TABLE IF EXISTS `$participants`" );
+			return;
+		}
+
+		// Set a flag that the old participants table still exists.
+		update_option( $this->get_prefix() . 'legacy_participants_table_installed', 'true' );
+
+		// TODO: What happens with email_notifications table?
+
+		// TODO: Migrate form metadata.
 	}
 
 	/**
