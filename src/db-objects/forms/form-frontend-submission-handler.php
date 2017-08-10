@@ -109,7 +109,19 @@ class Form_Frontend_Submission_Handler {
 			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
 		}
 
-		wp_safe_redirect( $redirect_url );
+		/**
+		 * Filters the URL to redirect the user to after a form submission has been processed.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string     $redirect_url URL to redirect to. Default is the original ID with the submission ID appended.
+		 * @param Form       $form         Form object.
+		 * @param Submission $submission   Submission object.
+		 * @param array      $data         Submission POST data.
+		 */
+		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form, $submission, $data );
+
+		wp_redirect( $redirect_url );
 		exit;
 	}
 
