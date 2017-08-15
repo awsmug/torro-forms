@@ -253,6 +253,11 @@
     font-size: 13px;
 }
 
+#metabox-torro_module_actions-tabpanel-email_notifications > .form-table th
+{
+    display: none;
+}
+
 /* ----------------------------------------------------------------------------
   6.0 - Polyfill for button links in WordPress < 4.8
 ---------------------------------------------------------------------------- */

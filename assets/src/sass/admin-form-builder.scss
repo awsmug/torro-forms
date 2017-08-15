@@ -203,6 +203,11 @@
 	}
 }
 
+// This is hacky. It's bad and should not be here. But it is.
+#metabox-torro_module_actions-tabpanel-email_notifications > .form-table th {
+	display: none;
+}
+
 /* ----------------------------------------------------------------------------
   6.0 - Polyfill for button links in WordPress < 4.8
 ---------------------------------------------------------------------------- */
