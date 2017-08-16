@@ -125,7 +125,6 @@ class Email_Notifications extends Action {
 			'label'      => _x( 'Enable?', 'action', 'torro-forms' ),
 		);
 
-		// TODO: implement special field classes for template tag support, add general script and register it in template tag handler
 		$meta_fields['notifications'] = array(
 			'type'        => 'group',
 			'label'       => __( 'Notifications', 'torro-forms' ),
@@ -133,42 +132,42 @@ class Email_Notifications extends Action {
 			'repeatable'  => 8,
 			'fields'      => array(
 				'from_name'   => array(
-					'type'          => 'text',
-					'label'         => __( 'From Name', 'torro-forms' ),
-					'input_classes' => array( 'regular-text' ),
-					'tag_handler'   => $this->slug,
+					'type'                 => 'templatetagtext',
+					'label'                => __( 'From Name', 'torro-forms' ),
+					'input_classes'        => array( 'regular-text' ),
+					'template_tag_handler' => $this->template_tag_handler,
 				),
 				'from_email'  => array(
-					'type'          => 'email',
-					'label'         => __( 'From Email', 'torro-forms' ),
+					'type'                 => 'templatetagtext',
+					'label'                => __( 'From Email', 'torro-forms' ),
 					/* translators: %s: email address */
-					'description'   => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@yourwebsite.com' ),
-					'input_classes' => array( 'regular-text' ),
-					'tag_handler'   => $this->slug,
+					'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@yourwebsite.com' ),
+					'input_classes'        => array( 'regular-text' ),
+					'template_tag_handler' => $this->template_tag_handler,
 				),
 				'reply_email' => array(
-					'type'          => 'email',
-					'label'         => __( 'Reply Email', 'torro-forms' ),
-					'input_classes' => array( 'regular-text' ),
-					'tag_handler'   => $this->slug,
+					'type'                 => 'templatetagtext',
+					'label'                => __( 'Reply Email', 'torro-forms' ),
+					'input_classes'        => array( 'regular-text' ),
+					'template_tag_handler' => $this->template_tag_handler,
 				),
 				'to_email'    => array(
-					'type'          => 'email',
-					'label'         => __( 'To Email', 'torro-forms' ),
-					'input_classes' => array( 'regular-text' ),
-					'tag_handler'   => $this->slug,
+					'type'                 => 'templatetagtext',
+					'label'                => __( 'To Email', 'torro-forms' ),
+					'input_classes'        => array( 'regular-text' ),
+					'template_tag_handler' => $this->template_tag_handler,
 				),
 				'subject'     => array(
-					'type'          => 'text',
-					'label'         => __( 'Subject', 'torro-forms' ),
-					'input_classes' => array( 'regular-text' ),
-					'tag_handler'   => $this->slug,
+					'type'                 => 'templatetagtext',
+					'label'                => __( 'Subject', 'torro-forms' ),
+					'input_classes'        => array( 'regular-text' ),
+					'template_tag_handler' => $this->template_tag_handler,
 				),
 				'message'     => array(
-					'type'          => 'wysiwyg',
-					'label'         => __( 'Message', 'torro-forms' ),
-					'media_buttons' => true,
-					'tag_handler'   => $this->slug,
+					'type'                 => 'templatetagwysiwyg',
+					'label'                => __( 'Message', 'torro-forms' ),
+					'media_buttons'        => true,
+					'template_tag_handler' => $this->template_tag_handler,
 				),
 			),
 		);
@@ -301,7 +300,13 @@ class Email_Notifications extends Action {
 			),
 		);
 
-		$this->template_tag_handler = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ) );
+		$groups = array(
+			'global'     => _x( 'Global', 'template tag group', 'torro-forms' ),
+			'form'       => _x( 'Form', 'template tag group', 'torro-forms' ),
+			'submission' => _x( 'Submission', 'template tag group', 'torro-forms' ),
+		);
+
+		$this->template_tag_handler = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ), $groups );
 
 		$this->module->manager()->template_tag_handlers()->register( $this->template_tag_handler );
 	}

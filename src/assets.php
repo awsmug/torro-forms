@@ -135,6 +135,17 @@ class Assets extends Assets_Base {
 			'ver'  => $this->plugin_version,
 		) );
 
+		$this->register_script( 'template-tag-fields', 'assets/dist/js/template-tag-fields.js', array(
+			'deps'      => array( 'plugin-lib-fields', 'jquery' ),
+			'ver'       => $this->plugin_version,
+			'in_footer' => true,
+		) );
+
+		$this->register_style( 'template-tag-fields', 'assets/dist/css/template-tag-fields.css', array(
+			'deps' => array( 'plugin-lib-fields' ),
+			'ver'  => $this->plugin_version,
+		) );
+
 		/**
 		 * Fires after all default plugin assets have been registered.
 		 *

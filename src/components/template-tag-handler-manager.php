@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\Components;
 
 use Leaves_And_Love\Plugin_Lib\Service;
+use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 
 /**
  * Class for managing template tag handlers.
@@ -36,6 +37,9 @@ class Template_Tag_Handler_Manager extends Service {
 	 */
 	public function __construct( $prefix ) {
 		$this->set_prefix( $prefix );
+
+		Field_Manager::register_field_type( 'templatetagtext', Template_Tag_Text_Field::class );
+		Field_Manager::register_field_type( 'templatetagwysiwyg', Template_Tag_WYSIWYG_Field::class );
 	}
 
 	/**
