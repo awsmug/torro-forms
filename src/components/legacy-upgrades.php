@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-namespace awsmug\Torro_Forms;
+namespace awsmug\Torro_Forms\Components;
 
 use Leaves_And_Love\Plugin_Lib\Service;
 

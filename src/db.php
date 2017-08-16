@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms;
 
 use Leaves_And_Love\Plugin_Lib\DB as DB_Base;
 use Leaves_And_Love\Plugin_Lib\Options;
+use awsmug\Torro_Forms\Components\Legacy_Upgrades;
 use awsmug\Torro_Forms\Translations\Translations_DB;
 
 /**
