@@ -39,6 +39,7 @@ class Template_Tag_Handler_Manager extends Service {
 		$this->set_prefix( $prefix );
 
 		Field_Manager::register_field_type( 'templatetagtext', Template_Tag_Text_Field::class );
+		Field_Manager::register_field_type( 'templatetagemail', Template_Tag_Email_Field::class );
 		Field_Manager::register_field_type( 'templatetagwysiwyg', Template_Tag_WYSIWYG_Field::class );
 	}
 

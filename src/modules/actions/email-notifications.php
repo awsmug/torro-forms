@@ -30,6 +30,24 @@ class Email_Notifications extends Action {
 	protected $template_tag_handler;
 
 	/**
+	 * Template tag handler for email address fields.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Template_Tag_Handler
+	 */
+	protected $template_tag_handler_email_only;
+
+	/**
+	 * Template tag handler for complex fields with more than one line.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Template_Tag_Handler
+	 */
+	protected $template_tag_handler_complex;
+
+	/**
 	 * Temporary storage for email from name.
 	 *
 	 * @since 1.0.0
@@ -58,7 +76,7 @@ class Email_Notifications extends Action {
 		$this->title       = __( 'Email Notifications', 'torro-forms' );
 		$this->description = __( 'Sends one or more email notifications to specific addresses.', 'torro-forms' );
 
-		$this->register_template_tag_handler();
+		$this->register_template_tag_handlers();
 	}
 
 	/**
@@ -138,24 +156,24 @@ class Email_Notifications extends Action {
 					'template_tag_handler' => $this->template_tag_handler,
 				),
 				'from_email'  => array(
-					'type'                 => 'templatetagtext',
+					'type'                 => 'templatetagemail',
 					'label'                => __( 'From Email', 'torro-forms' ),
 					/* translators: %s: email address */
 					'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@yourwebsite.com' ),
 					'input_classes'        => array( 'regular-text' ),
-					'template_tag_handler' => $this->template_tag_handler,
+					'template_tag_handler' => $this->template_tag_handler_email_only,
 				),
 				'reply_email' => array(
-					'type'                 => 'templatetagtext',
+					'type'                 => 'templatetagemail',
 					'label'                => __( 'Reply Email', 'torro-forms' ),
 					'input_classes'        => array( 'regular-text' ),
-					'template_tag_handler' => $this->template_tag_handler,
+					'template_tag_handler' => $this->template_tag_handler_email_only,
 				),
 				'to_email'    => array(
-					'type'                 => 'templatetagtext',
+					'type'                 => 'templatetagemail',
 					'label'                => __( 'To Email', 'torro-forms' ),
 					'input_classes'        => array( 'regular-text' ),
-					'template_tag_handler' => $this->template_tag_handler,
+					'template_tag_handler' => $this->template_tag_handler_email_only,
 				),
 				'subject'     => array(
 					'type'                 => 'templatetagtext',
@@ -167,7 +185,7 @@ class Email_Notifications extends Action {
 					'type'                 => 'templatetagwysiwyg',
 					'label'                => __( 'Message', 'torro-forms' ),
 					'media_buttons'        => true,
-					'template_tag_handler' => $this->template_tag_handler,
+					'template_tag_handler' => $this->template_tag_handler_complex,
 				),
 			),
 		);
@@ -183,7 +201,7 @@ class Email_Notifications extends Action {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function register_template_tag_handler() {
+	protected function register_template_tag_handlers() {
 		$tags = array(
 			'sitetitle'          => array(
 				'group'       => 'global',
@@ -289,6 +307,9 @@ class Email_Notifications extends Action {
 					return sprintf( _x( '%1$s at %2$s', 'concatenating date and time', 'torro-forms' ), $date, $time );
 				},
 			),
+		);
+
+		$complex_tags = array(
 			'allelements'        => array(
 				'group'       => 'submission',
 				'label'       => __( 'All Element Values', 'torro-forms' ),
@@ -306,9 +327,13 @@ class Email_Notifications extends Action {
 			'submission' => _x( 'Submission', 'template tag group', 'torro-forms' ),
 		);
 
-		$this->template_tag_handler = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ), $groups );
+		$this->template_tag_handler            = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ), $groups );
+		$this->template_tag_handler_email_only = new Template_Tag_Handler( $this->slug . '_email_only', array( 'adminemail' => $tags['adminemail'] ), array( Form::class, Submission::class ), array( 'global' => $groups['global'] ) );
+		$this->template_tag_handler_complex    = new Template_Tag_Handler( $this->slug . '_complex', array_merge( $tags, $complex_tags ), array( Form::class, Submission::class ), $groups );
 
 		$this->module->manager()->template_tag_handlers()->register( $this->template_tag_handler );
+		$this->module->manager()->template_tag_handlers()->register( $this->template_tag_handler_email_only );
+		$this->module->manager()->template_tag_handlers()->register( $this->template_tag_handler_complex );
 	}
 
 	/**
