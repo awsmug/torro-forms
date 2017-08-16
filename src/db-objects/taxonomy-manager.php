@@ -96,35 +96,35 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	}
 
 	/**
-	 * Gets the slug for the attachment taxonomy term that should be used for form uploads.
+	 * Gets the ID for the attachment taxonomy term that should be used for form uploads.
 	 *
-	 * The slug identifies a term of the attachment taxonomy to use for form uploads.
+	 * The ID identifies a term of the attachment taxonomy to use for form uploads.
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
 	 * @see Taxonomy_Manager::get_attachment_taxonomy_slug()
 	 *
-	 * @return string Taxonomy term slug, or empty string if attachment taxonomies should not be used.
+	 * @return int Taxonomy term ID, or 0 if attachment taxonomies should not be used.
 	 */
-	public function get_attachment_taxonomy_term_slug() {
+	public function get_attachment_taxonomy_term_id() {
 		$taxonomy_slug = $this->get_attachment_taxonomy_slug();
 		if ( empty( $taxonomy_slug ) ) {
-			return '';
+			return 0;
 		}
 
 		$options = $this->options()->get( 'general_settings', array() );
-		$term_slug = ! empty( $options['attachment_taxonomy_term_slug'] ) ? $options['attachment_taxonomy_term_slug'] : '';
-		if ( empty( $term_slug ) ) {
-			return '';
+		$term_id = ! empty( $options['attachment_taxonomy_term_id'] ) ? $options['attachment_taxonomy_term_id'] : 0;
+		if ( empty( $term_id ) ) {
+			return 0;
 		}
 
-		$term = get_term_by( 'slug', $term_slug, $taxonomy_slug );
+		$term = get_term_by( 'slug', $term_id, $taxonomy_slug );
 		if ( ! $term ) {
-			return '';
+			return 0;
 		}
 
-		return $term_slug;
+		return (int) $term->term_id;
 	}
 
 	/**
@@ -184,6 +184,12 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 		$this->register( $this->get_prefix() . 'form_category', $args );
 	}
 
+	/**
+	 * Registers the attachment category taxonomy if necessary.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
 	protected function maybe_register_attachment_category_taxonomy() {
 		$taxonomy_slug = $this->get_attachment_taxonomy_slug();
 		if ( empty( $taxonomy_slug ) ) {
@@ -218,6 +224,33 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	}
 
 	/**
+	 * Creates the default attachment taxonomy term if necessary.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function create_default_attachment_taxonomy_term() {
+		$taxonomy_slug = $this->get_attachment_taxonomy_slug();
+		if ( empty( $taxonomy_slug ) ) {
+			return;
+		}
+
+		$options = $this->options()->get( 'general_settings', array() );
+		if ( isset( $options['attachment_taxonomy_term_id'] ) ) {
+			return;
+		}
+
+		$result = wp_insert_term( __( 'Form Upload', 'torro-forms' ), $taxonomy_slug );
+		if ( is_wp_error( $result ) ) {
+			return;
+		}
+
+		$options['attachment_taxonomy_term_id'] = (int) $result['term_id'];
+
+		$this->options()->update( 'general_settings', $options );
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * This method must be implemented and then be called from the constructor.
@@ -237,6 +270,12 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 				'name'     => 'init',
 				'callback' => array( $this, 'maybe_register_attachment_category_taxonomy' ),
 				'priority' => 9999,
+				'num_args' => 0,
+			),
+			array(
+				'name'     => "{$this->get_prefix()}install",
+				'callback' => array( $this, 'create_default_attachment_taxonomy_term' ),
+				'priority' => 10,
 				'num_args' => 0,
 			),
 		);

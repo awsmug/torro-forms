@@ -568,7 +568,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		$default_slug = _x( 'forms', 'default form rewrite slug', 'torro-forms' );
 
 		$fields = array(
-			'modules'        => array(
+			'modules' => array(
 				'section'     => 'modules',
 				'type'        => 'multibox',
 				'label'       => __( 'Active Modules', 'torro-forms' ),
@@ -576,7 +576,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				'choices'     => $modules,
 				'default'     => $default_modules,
 			),
-			'slug'           => array(
+			'slug'    => array(
 				'section'     => 'form_behavior',
 				'type'        => 'text',
 				'label'       => __( 'Slug', 'torro-forms' ),
@@ -584,6 +584,39 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				'default'     => $default_slug,
 				'required'    => true,
 			),
+		);
+
+		$attachment_taxonomy_slug = torro()->taxonomies()->get_attachment_taxonomy_slug();
+		if ( ! empty( $attachment_taxonomy_slug ) ) {
+			$attachment_taxonomy = get_taxonomy( $attachment_taxonomy_slug );
+			if ( $attachment_taxonomy ) {
+				$term_choices = array( '0' => _x( 'None', 'term choices', 'torro-forms' ) );
+				$terms = get_terms( array(
+					'taxonomy'   => $attachment_taxonomy->name,
+					'number'     => 0,
+					'hide_empty' => false,
+					'orderby'    => 'name',
+					'order'      => 'ASC',
+				) );
+				if ( ! is_wp_error( $terms ) ) {
+					foreach ( $terms as $term ) {
+						$term_choices[ $term->term_id ] = $term->name;
+					}
+				}
+
+				$fields['attachment_taxonomy_term_id'] = array(
+					'section'     => 'misc',
+					'type'        => 'select',
+					/* translators: %s: attachment taxonomy name */
+					'label'       => sprintf( __( '%s Term', 'torro-forms' ), $attachment_taxonomy->labels->singular_name ),
+					'description' => __( 'The default term to use for form uploads.', 'torro-forms' ),
+					'default'     => '0',
+					'choices'     => $term_choices,
+				);
+			}
+		}
+
+		$fields = array_merge( $fields, array(
 			'frontend_css'   => array(
 				'section' => 'misc',
 				'type'    => 'checkbox',
@@ -597,7 +630,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				'description' => __( '<strong>Use this setting with extreme caution</strong> as, when it is enabled, removing the plugin will remove all form content from your site forever.', 'torro-forms' ),
 				'default'     => false,
 			),
-		);
+		) );
 
 		/**
 		 * Filters the form settings fields.

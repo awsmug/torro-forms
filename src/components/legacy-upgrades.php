@@ -355,6 +355,8 @@ class Legacy_Upgrades extends Service {
 			update_option( $this->get_prefix() . 'module_form_settings', $form_settings_array );
 		}
 
+		// TODO: Migrate attachments with 'torro-forms-upload' status to the new attachment taxonomy term
+
 		// If forms exist, their data needs to be migrated on-the-fly later.
 		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) );
 		if ( empty( $form_ids ) ) {
