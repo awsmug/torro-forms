@@ -532,9 +532,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				'subtab' => 'general',
 				'title'  => __( 'Form Behavior', 'torro-forms' ),
 			),
-			'misc'          => array(
+			'advanced'      => array(
 				'subtab' => 'general',
-				'title'  => _x( 'Miscellaneous', 'form settings', 'torro-forms' ),
+				'title'  => _x( 'Advanced', 'form settings', 'torro-forms' ),
 			),
 		);
 
@@ -605,7 +605,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				}
 
 				$fields['attachment_taxonomy_term_id'] = array(
-					'section'     => 'misc',
+					'section'     => 'advanced',
 					'type'        => 'select',
 					/* translators: %s: attachment taxonomy name */
 					'label'       => sprintf( __( '%s Term', 'torro-forms' ), $attachment_taxonomy->labels->singular_name ),
@@ -618,13 +618,13 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 		$fields = array_merge( $fields, array(
 			'frontend_css'   => array(
-				'section' => 'misc',
+				'section' => 'advanced',
 				'type'    => 'checkbox',
 				'label'   => __( 'Include Torro Forms CSS on frontend?', 'torro-forms' ),
 				'default' => true,
 			),
 			'hard_uninstall' => array(
-				'section'     => 'misc',
+				'section'     => 'advanced',
 				'type'        => 'checkbox',
 				'label'       => __( 'Perform a hard uninstall when the plugin is removed?', 'torro-forms' ),
 				'description' => __( '<strong>Use this setting with extreme caution</strong> as, when it is enabled, removing the plugin will remove all form content from your site forever.', 'torro-forms' ),
