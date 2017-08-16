@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-namespace awsmug\Torro_Forms;
+namespace awsmug\Torro_Forms\DB_Objects;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Model_Type_Managers\Taxonomy_Manager as Taxonomy_Manager_Base;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;

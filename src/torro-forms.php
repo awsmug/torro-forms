@@ -25,9 +25,12 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Manager   element_settings()
  * @method awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Manager             submissions()
  * @method awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager submission_values()
+ * @method awsmug\Torro_Forms\DB_Objects\Post_Type_Manager                          post_types()
+ * @method awsmug\Torro_Forms\DB_Objects\Taxonomy_Manager                           taxonomies()
+ * @method awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager               template_tag_handlers()
+ * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
+ * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
  * @method awsmug\Torro_Forms\Modules\Module_Manager                                modules()
- * @method awsmug\Torro_Forms\Post_Type_Manager                                     post_types()
- * @method awsmug\Torro_Forms\Taxonomy_Manager                                      taxonomies()
  * @method Leaves_And_Love\Plugin_Lib\Options                                       options()
  * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
  * @method awsmug\Torro_Forms\DB                                                    db()
@@ -36,9 +39,6 @@ defined( 'ABSPATH' ) || exit;
  * @method Leaves_And_Love\Plugin_Lib\Template                                      template()
  * @method Leaves_And_Love\Plugin_Lib\AJAX                                          ajax()
  * @method awsmug\Torro_Forms\Error_Handler                                         error_handler()
- * @method awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager               template_tag_handlers()
- * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
- * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
  */
 class Torro_Forms extends Leaves_And_Love_Plugin {
 
@@ -115,20 +115,11 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $submission_values;
 
 	/**
-	 * The module manager instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var awsmug\Torro_Forms\Modules\Module_Manager
-	 */
-	protected $modules;
-
-	/**
 	 * The post types API instance.
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\Post_Type_Manager
+	 * @var awsmug\Torro_Forms\DB_Objects\Post_Type_Manager
 	 */
 	protected $post_types;
 
@@ -137,9 +128,45 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 *
 	 * @since 1.0.0
 	 * @access protected
-	 * @var awsmug\Torro_Forms\Taxonomy_Manager
+	 * @var awsmug\Torro_Forms\DB_Objects\Taxonomy_Manager
 	 */
 	protected $taxonomies;
+
+	/**
+	 * The template tag handlers instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager
+	 */
+	protected $template_tag_handlers;
+
+	/**
+	 * The Admin Pages instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Components\Admin_Pages
+	 */
+	protected $admin_pages;
+
+	/**
+	 * The Extensions instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Leaves_And_Love\Plugin_Lib\Components\Extensions
+	 */
+	protected $extensions;
+
+	/**
+	 * The module manager instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\Modules\Module_Manager
+	 */
+	protected $modules;
 
 	/**
 	 * The Option API instance.
@@ -212,33 +239,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @var awsmug\Torro_Forms\Error_Handler
 	 */
 	protected $error_handler;
-
-	/**
-	 * The template tag handlers instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager
-	 */
-	protected $template_tag_handlers;
-
-	/**
-	 * The Admin Pages instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Components\Admin_Pages
-	 */
-	protected $admin_pages;
-
-	/**
-	 * The Extensions instance.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var Leaves_And_Love\Plugin_Lib\Components\Extensions
-	 */
-	protected $extensions;
 
 	/**
 	 * The plugin's API-API instance.
@@ -394,6 +394,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function instantiate_services() {
 		$this->instantiate_core_services();
+		$this->instantiate_component_services();
 		$this->instantiate_db_object_managers();
 		$this->instantiate_modules();
 
@@ -441,6 +442,16 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 
 		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
 
+		$this->apiapi_config = $this->instantiate_plugin_class( 'APIAPI_Config', $this->prefix );
+	}
+
+	/**
+	 * Instantiates the plugin component services.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function instantiate_component_services() {
 		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
 			'ajax'          => $this->ajax,
 			'assets'        => $this->assets,
@@ -449,18 +460,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 
 		$this->extensions = $this->instantiate_library_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
 		$this->extensions->set_plugin( $this );
-
-		$this->post_types = $this->instantiate_plugin_service( 'Post_Type_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->taxonomies = $this->instantiate_plugin_service( 'Taxonomy_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->apiapi_config = $this->instantiate_plugin_class( 'APIAPI_Config', $this->prefix );
 	}
 
 	/**
@@ -534,6 +533,16 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' ) );
+
+		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
 
 		$this->db->set_version( 20170602 );
 	}
@@ -651,6 +660,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function add_hooks() {
 		$this->add_core_service_hooks();
+		$this->add_component_service_hooks();
 		$this->add_db_object_manager_hooks();
 		$this->add_module_hooks();
 	}
@@ -666,11 +676,18 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->db->add_hooks();
 		$this->assets->add_hooks();
 		$this->ajax->add_hooks();
+		$this->apiapi_config->add_hooks();
+	}
+
+	/**
+	 * Adds the necessary plugin component service hooks.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function add_component_service_hooks() {
 		$this->admin_pages->add_hooks();
 		$this->extensions->add_hooks();
-		$this->post_types->add_hooks();
-		$this->taxonomies->add_hooks();
-		$this->apiapi_config->add_hooks();
 	}
 
 	/**
@@ -697,6 +714,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->element_settings->capabilities()->add_hooks();
 		$this->submissions->capabilities()->add_hooks();
 		$this->submission_values->capabilities()->add_hooks();
+
+		$this->post_types->add_hooks();
+		$this->taxonomies->add_hooks();
 	}
 
 	/**
