@@ -45,6 +45,15 @@ class Template_Tag_Handler {
 	private $tag_args_definition = array();
 
 	/**
+	 * Available template tag groups for this handler.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var array
+	 */
+	private $groups = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * Sets the template tag handler properties.
@@ -57,13 +66,15 @@ class Template_Tag_Handler {
 	 * @param array  $tag_args_definition Template tag callback arguments definition as an array of scalar $type
 	 *                                    values, where $type must either be a class name, or one out of
 	 *                                    'string', 'int', 'float' or 'bool'.
+	 * @param array  $groups              Optional. Template tag groups. Default empty array.
 	 *
 	 * @throws InvalidArgumentException Thrown when invalid parameters are passed.
 	 */
-	public function __construct( $slug, $tags, $tag_args_definition ) {
+	public function __construct( $slug, $tags, $tag_args_definition, $groups = array() ) {
 		$this->slug                = $slug;
 		$this->tags                = $this->validate_tags( $tags );
 		$this->tag_args_definition = $this->validate_tag_args_definition( $tag_args_definition );
+		$this->groups              = $groups;
 	}
 
 	/**
@@ -227,6 +238,57 @@ class Template_Tag_Handler {
 		}
 
 		return $labels;
+	}
+
+	/**
+	 * Adds a new template tag group.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $slug  Group slug.
+	 * @param string $label Group label.
+	 * @return bool True on success, false on failure.
+	 */
+	public function add_group( $slug, $label ) {
+		if ( isset( $this->groups[ $slug ] ) ) {
+			return false;
+		}
+
+		$this->groups[ $slug ] = $label;
+
+		return true;
+	}
+
+	/**
+	 * Removes an existing template tag group.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $slug Group slug.
+	 * @return bool True on success, false on failure.
+	 */
+	public function remove_group( $slug ) {
+		if ( ! isset( $this->groups[ $slug ] ) ) {
+			return false;
+		}
+
+		unset( $this->groups[ $slug ] );
+
+		return true;
+	}
+
+	/**
+	 * Gets all available template tag groups for the handler.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Array of `$slug => $label` pairs.
+	 */
+	public function get_groups() {
+		return $this->groups;
 	}
 
 	/**
