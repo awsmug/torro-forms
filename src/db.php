@@ -96,11 +96,11 @@ class DB extends DB_Base {
 			return;
 		}
 
-		parent::uninstall_single();
-
 		// TODO: Delete form posts and form category terms.
 		$this->options->delete( 'general_settings' );
 		$this->options->delete( 'extension_settings' );
+
+		parent::uninstall_single();
 	}
 
 	/**
