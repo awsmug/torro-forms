@@ -53,6 +53,81 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	}
 
 	/**
+	 * Gets the slug for the attachment taxonomy that should be used for form uploads.
+	 *
+	 * If a hierarchical attachment taxonomy has already been registered, the method will
+	 * try its best to make a correct guess on which taxonomy to use. A filter is available
+	 * to override this.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return string Taxonomy slug, or empty string if attachment taxonomies should not be used.
+	 */
+	public function get_attachment_taxonomy_slug() {
+		$prefix = $this->get_prefix();
+		$taxonomy_slug = 'attachment_category';
+
+		// If a hierarchical taxonomy has already been registered, make the best guess to use the right one.
+		$attachment_taxonomies = get_object_taxonomies( 'attachment', 'objects' );
+		if ( ! empty( $attachment_taxonomies ) ) {
+			$attachment_taxonomies = array_keys( wp_list_filter( $attachment_taxonomies, array( 'hierarchical' => true ) ) );
+			if ( ! empty( $attachment_taxonomies ) ) {
+				if ( in_array( 'attachment_category', $attachment_taxonomies, true ) ) {
+					$taxonomy_slug = 'attachment_category';
+				} elseif ( in_array( 'category', $attachment_taxonomies, true ) ) {
+					$taxonomy_slug = 'category';
+				} else {
+					$taxonomy_slug = $attachment_taxonomies[0];
+				}
+			}
+		}
+
+		/**
+		 * Filters the slug for the attachment taxonomy that should be used for form uploads.
+		 *
+		 * An empty string may be returned in order to not use attachment taxonomies at all.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $taxonomy_slug The taxonomy slug, or an empty string.
+		 */
+		return apply_filters( "{$prefix}get_attachment_taxonomy_slug", $taxonomy_slug );
+	}
+
+	/**
+	 * Gets the slug for the attachment taxonomy term that should be used for form uploads.
+	 *
+	 * The slug identifies a term of the attachment taxonomy to use for form uploads.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @see Taxonomy_Manager::get_attachment_taxonomy_slug()
+	 *
+	 * @return string Taxonomy term slug, or empty string if attachment taxonomies should not be used.
+	 */
+	public function get_attachment_taxonomy_term_slug() {
+		$taxonomy_slug = $this->get_attachment_taxonomy_slug();
+		if ( empty( $taxonomy_slug ) ) {
+			return '';
+		}
+
+		$options = $this->options()->get( 'general_settings', array() );
+		$term_slug = ! empty( $options['attachment_taxonomy_term_slug'] ) ? $options['attachment_taxonomy_term_slug'] : '';
+		if ( empty( $term_slug ) ) {
+			return '';
+		}
+
+		$term = get_term_by( 'slug', $term_slug, $taxonomy_slug );
+		if ( ! $term ) {
+			return '';
+		}
+
+		return $term_slug;
+	}
+
+	/**
 	 * Registers the form category taxonomy.
 	 *
 	 * @since 1.0.0
@@ -109,6 +184,39 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 		$this->register( $this->get_prefix() . 'form_category', $args );
 	}
 
+	protected function maybe_register_attachment_category_taxonomy() {
+		$taxonomy_slug = $this->get_attachment_taxonomy_slug();
+		if ( empty( $taxonomy_slug ) ) {
+			return;
+		}
+
+		if ( taxonomy_exists( $taxonomy_slug ) ) {
+			return;
+		}
+
+		$args = array(
+			'public'                => false,
+			'show_ui'               => true,
+			'hierarchical'          => true,
+			'show_in_menu'          => true,
+			'show_in_nav_menus'     => false,
+			'show_tagcloud'         => false,
+			'show_admin_column'     => true,
+			'capabilities'          => array(
+				'manage_terms' => 'upload_files',
+				'edit_terms'   => 'upload_files',
+				'delete_terms' => 'upload_files',
+				'assign_terms' => 'upload_files',
+			),
+			'rewrite'               => false,
+			'update_count_callback' => '_update_generic_term_count',
+		);
+
+		$args['object_type'] = array( 'attachment' );
+
+		$this->register( $taxonomy_slug, $args );
+	}
+
 	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
@@ -123,6 +231,12 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 				'name'     => 'init',
 				'callback' => array( $this, 'register_form_category_taxonomy' ),
 				'priority' => 1,
+				'num_args' => 0,
+			),
+			array(
+				'name'     => 'init',
+				'callback' => array( $this, 'maybe_register_attachment_category_taxonomy' ),
+				'priority' => 9999,
 				'num_args' => 0,
 			),
 		);
