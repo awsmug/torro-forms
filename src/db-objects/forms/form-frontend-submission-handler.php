@@ -271,7 +271,7 @@ class Form_Frontend_Submission_Handler {
 
 		$submission->sync_upstream();
 
-		if ( 'processing' === $old_submission_status && 'completed' === $submission->status ) {
+		if ( 'progressing' === $old_submission_status && 'completed' === $submission->status ) {
 			/**
 			 * Fires when a form submission is completed.
 			 *

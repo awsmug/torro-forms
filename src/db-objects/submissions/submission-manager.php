@@ -188,7 +188,7 @@ class Submission_Manager extends Manager {
 	 */
 	public function set_initial_submission_data( $submission, $form ) {
 		$submission->form_id   = $form->id;
-		$submission->status    = 'processing';
+		$submission->status    = 'progressing';
 		$submission->timestamp = current_time( 'timestamp', true );
 
 		if ( is_user_logged_in() ) {
