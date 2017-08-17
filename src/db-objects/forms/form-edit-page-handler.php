@@ -385,6 +385,8 @@ class Form_Edit_Page_Handler {
 
 		foreach ( $this->meta_boxes as $id => $args ) {
 			add_meta_box( $id, $args['title'], function( $post, $box ) {
+				$prefix = $this->form_manager->get_prefix();
+
 				if ( ! empty( $box['args']['description'] ) ) {
 					echo '<p class="description">' . $box['args']['description'] . '</p>';
 				}
@@ -395,6 +397,18 @@ class Form_Edit_Page_Handler {
 				$tabs = wp_list_filter( $this->tabs, array( 'meta_box' => $box['id'] ) );
 
 				$first = true;
+
+				/**
+				 * Fires before a form meta box is rendered.
+				 *
+				 * The dynamic portion of the hook name refers to the meta box identifier.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param int $form_id Current form ID.
+				 */
+				do_action( "{$prefix}metabox_{$box['id']}_before", $this->current_form->id );
+
 				?>
 				<h3 class="torro-metabox-tab-wrapper" role="tablist">
 					<?php foreach ( $tabs as $id => $args ) : ?>
@@ -407,15 +421,59 @@ class Form_Edit_Page_Handler {
 				<?php $first = true; ?>
 				<?php foreach ( $tabs as $id => $args ) : ?>
 					<div id="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" class="torro-metabox-tab-panel" aria-labelledby="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
+						<?php
+
+						/**
+						 * Fires before a form meta box tab is rendered.
+						 *
+						 * The dynamic portions of the hook name refer to the meta box identifier and
+						 * tab identifier respectively.
+						 *
+						 * @since 1.0.0
+						 *
+						 * @param int $form_id Current form ID.
+						 */
+						do_action( "{$prefix}metabox_{$box['id']}_tab_{$id}_before", $this->current_form->id );
+
+						?>
 						<?php if ( ! empty( $args['description'] ) ) : ?>
 							<p class="description"><?php echo $args['description']; ?></p>
 						<?php endif; ?>
 						<table class="form-table">
 							<?php $box['args']['field_manager']->render( $id ); ?>
 						</table>
+						<?php
+
+						/**
+						 * Fires after a form meta box tab has been rendered.
+						 *
+						 * The dynamic portions of the hook name refer to the meta box identifier and
+						 * tab identifier respectively.
+						 *
+						 * @since 1.0.0
+						 *
+						 * @param int $form_id Current form ID.
+						 */
+						do_action( "{$prefix}metabox_{$box['id']}_tab_{$id}_after", $this->current_form->id );
+
+						?>
 					</div>
 					<?php $first = true; ?>
 				<?php endforeach; ?>
+				<?php
+
+				/**
+				 * Fires after a form meta box has been rendered.
+				 *
+				 * The dynamic portion of the hook name refers to the meta box identifier.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param int $form_id Current form ID.
+				 */
+				do_action( "{$prefix}metabox_{$box['id']}_after", $this->current_form->id );
+
+				?>
 			<?php
 			}, null, $args['context'], $args['priority'], $args );
 		}
