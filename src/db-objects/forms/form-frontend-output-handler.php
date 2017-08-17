@@ -215,17 +215,17 @@ class Form_Frontend_Output_Handler {
 		$template_data['navigation'] = array();
 		if ( $this->has_next_container( $form, $submission ) ) {
 			/**
-			 * Filters the text for the Next button for a form in the frontend.
+			 * Filters the label for the Next button for a form in the frontend.
 			 *
 			 * @since 1.0.0
 			 *
-			 * @param string $next_button_text Next button text. Default 'Next Step'.
-			 * @param int    $form_id          Form ID.
+			 * @param string $next_button_label Next button label. Default 'Next Step'.
+			 * @param int    $form_id           Form ID.
 			 */
-			$next_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_next_step_text", _x( 'Next Step', 'button label', 'torro-forms' ), $form->id );
+			$next_button_label = apply_filters( "{$this->form_manager->get_prefix()}form_button_next_step_label", _x( 'Next Step', 'button label', 'torro-forms' ), $form->id );
 
 			$template_data['navigation']['next_button'] = array(
-				'label' => $next_button_text,
+				'label' => $next_button_label,
 				'attrs' => array(
 					'type'  => 'submit',
 					'name'  => 'torro_submission[action]',
@@ -235,14 +235,14 @@ class Form_Frontend_Output_Handler {
 			);
 		} else {
 			/**
-			 * Filters the text for the Submit button for a form in the frontend.
+			 * Filters the label for the Submit button for a form in the frontend.
 			 *
 			 * @since 1.0.0
 			 *
-			 * @param string $submit_button_text Submit button text. Default 'Submit'.
-			 * @param int    $form_id            Form ID.
+			 * @param string $submit_button_label Submit button label. Default 'Submit'.
+			 * @param int    $form_id             Form ID.
 			 */
-			$submit_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_submit_text", _x( 'Submit', 'button label', 'torro-forms' ), $form->id );
+			$submit_button_label = apply_filters( "{$this->form_manager->get_prefix()}form_button_submit_label", _x( 'Submit', 'button label', 'torro-forms' ), $form->id );
 
 			/**
 			 * Filters the CSS class to use for a primary button for a form in the frontend.
@@ -286,7 +286,7 @@ class Form_Frontend_Output_Handler {
 			}
 
 			$template_data['navigation']['submit_button'] = array(
-				'label'  => $submit_button_text,
+				'label'  => $submit_button_label,
 				'attrs'  => array(
 					'type'  => 'submit',
 					'name'  => 'torro_submission[action]',
@@ -299,17 +299,17 @@ class Form_Frontend_Output_Handler {
 		}
 		if ( $this->has_previous_container( $form, $submission ) ) {
 			/**
-			 * Filters the text for the Previous button for a form in the frontend.
+			 * Filters the label for the Previous button for a form in the frontend.
 			 *
 			 * @since 1.0.0
 			 *
-			 * @param string $prev_button_text Previous button text. Default 'Previous Step'.
-			 * @param int    $form_id          Form ID.
+			 * @param string $prev_button_label Previous button label. Default 'Previous Step'.
+			 * @param int    $form_id           Form ID.
 			 */
-			$prev_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_prev_step_text", _x( 'Previous Step', 'button label', 'torro-forms' ), $form->id );
+			$prev_button_label = apply_filters( "{$this->form_manager->get_prefix()}form_button_prev_step_label", _x( 'Previous Step', 'button label', 'torro-forms' ), $form->id );
 
 			$template_data['navigation']['prev_button'] = array(
-				'label' => $prev_button_text,
+				'label' => $prev_button_label,
 				'attrs' => array(
 					'type'  => 'submit',
 					'name'  => 'torro_submission[action]',
