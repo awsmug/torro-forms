@@ -206,8 +206,7 @@
 	}
 }
 
-// This is hacky. It's bad and should not be here. But it is.
-#metabox-torro_module_actions-tabpanel-email_notifications > .form-table th {
+.torro-metabox-tab-panel.single-column > .form-table th {
 	display: none;
 }
 
