@@ -478,7 +478,7 @@ class Form_Edit_Page_Handler {
 
 						?>
 					</div>
-					<?php $first = true; ?>
+					<?php $first = false; ?>
 				<?php endforeach; ?>
 				<?php
 
