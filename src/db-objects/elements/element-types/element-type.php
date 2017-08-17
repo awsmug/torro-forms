@@ -234,13 +234,23 @@ abstract class Element_Type {
 			}
 		}
 
-		if ( isset( $_GET[ 'torro_input_value_' . $element->id ] ) && ( is_array( $_GET[ 'torro_input_value_' . $element->id ] ) || empty( $values['_main'] ) ) ) {
+		if ( has_filter( "{$this->manager->get_prefix()}allow_get_params" ) && isset( $_GET[ 'torro_input_value_' . $element->id ] ) && ( is_array( $_GET[ 'torro_input_value_' . $element->id ] ) || empty( $values['_main'] ) ) ) {
 			$container = $element->get_container();
 			if ( $container ) {
 				$form = $container->get_form();
 				if ( $form ) {
-					$allow_get_param = get_post_meta( $form->id, 'allow_get_param', true );
-					if ( $allow_get_param && 'no' !== $allow_get_param ) {
+					/**
+					 * Filters whether to allow GET parameters to pre-populate form element values.
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param bool $allow_get_paramss Whether to allow GET parameters. Default false.
+					 * @param int  $element_id       Element ID for which GET parameters are being checked.
+					 * @param int  $form_id          Form ID the element is part of.
+					 */
+					$allow_get_params = apply_filters( "{$this->manager->get_prefix()}allow_get_params", false, $element->id, $form->id );
+
+					if ( $allow_get_params ) {
 						$choices = is_a( $this, Choice_Element_Type_Interface::class ) ? $this->get_choices( $element ) : array();
 
 						$get_params = wp_unslash( $_GET[ 'torro_input_value_' . $element->id ] );
