@@ -155,6 +155,8 @@ class Form_Frontend_Output_Handler {
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
 	 */
 	protected function render_form_content( $form, $submission = null ) {
+		$prefix = $this->form_manager->get_prefix();
+
 		/**
 		 * Filters whether a user can access a specific form, and optionally submission.
 		 *
@@ -164,7 +166,7 @@ class Form_Frontend_Output_Handler {
 		 * @param Form            $form            Form object.
 		 * @param Submission|null $submission      Submission object, or null if no submission is set.
 		 */
-		$can_access_form = apply_filters( "{$this->form_manager->get_prefix()}can_access_form", true, $form, $submission );
+		$can_access_form = apply_filters( "{$prefix}can_access_form", true, $form, $submission );
 
 		if ( is_wp_error( $can_access_form ) ) {
 			$this->print_notice( $can_access_form->get_error_message() );
@@ -186,7 +188,7 @@ class Form_Frontend_Output_Handler {
 			 * @param string $success_message Success message. Default 'Thank you for submitting!'.
 			 * @param int    $form_id         Form ID.
 			 */
-			$success_message = apply_filters( "{$this->form_manager->get_prefix()}form_submission_success_message", __( 'Thank you for submitting!', 'torro-forms' ), $form->id );
+			$success_message = apply_filters( "{$prefix}form_submission_success_message", __( 'Thank you for submitting!', 'torro-forms' ), $form->id );
 
 			$this->print_notice( $success_message, 'success' );
 			return;
@@ -220,7 +222,7 @@ class Form_Frontend_Output_Handler {
 		 *
 		 * @param string $button_class Button CSS class. Default 'torro-button'.
 		 */
-		$button_class = apply_filters( "{$this->form_manager->get_prefix()}form_button_class", 'torro-button' );
+		$button_class = apply_filters( "{$prefix}form_button_class", 'torro-button' );
 
 		$template_data['navigation'] = array();
 		if ( $this->has_next_container( $form, $submission ) ) {
@@ -232,7 +234,7 @@ class Form_Frontend_Output_Handler {
 			 * @param string $next_button_label Next button label. Default 'Next Step'.
 			 * @param int    $form_id           Form ID.
 			 */
-			$next_button_label = apply_filters( "{$this->form_manager->get_prefix()}form_button_next_step_label", _x( 'Next Step', 'button label', 'torro-forms' ), $form->id );
+			$next_button_label = apply_filters( "{$prefix}form_button_next_step_label", _x( 'Next Step', 'button label', 'torro-forms' ), $form->id );
 
 			$template_data['navigation']['next_button'] = array(
 				'label' => $next_button_label,
@@ -252,7 +254,7 @@ class Form_Frontend_Output_Handler {
 			 * @param string $submit_button_label Submit button label. Default 'Submit'.
 			 * @param int    $form_id             Form ID.
 			 */
-			$submit_button_label = apply_filters( "{$this->form_manager->get_prefix()}form_button_submit_label", _x( 'Submit', 'button label', 'torro-forms' ), $form->id );
+			$submit_button_label = apply_filters( "{$prefix}form_button_submit_label", _x( 'Submit', 'button label', 'torro-forms' ), $form->id );
 
 			/**
 			 * Filters the CSS class to use for a primary button for a form in the frontend.
@@ -261,10 +263,10 @@ class Form_Frontend_Output_Handler {
 			 *
 			 * @param string $button_primary_class Primary button CSS class. Default 'torro-button-primary'.
 			 */
-			$button_primary_class = apply_filters( "{$this->form_manager->get_prefix()}form_button_primary_class", 'torro-button-primary' );
+			$button_primary_class = apply_filters( "{$prefix}form_button_primary_class", 'torro-button-primary' );
 
 			$submit_button_before = '';
-			if ( has_action( "{$this->form_manager->get_prefix()}form_submit_button_before" ) ) {
+			if ( has_action( "{$prefix}form_submit_button_before" ) ) {
 				ob_start();
 
 				/**
@@ -274,13 +276,13 @@ class Form_Frontend_Output_Handler {
 				 *
 				 * @param int $form_id Form ID.
 				 */
-				do_action( "{$this->form_manager->get_prefix()}form_submit_button_before", $form->id );
+				do_action( "{$prefix}form_submit_button_before", $form->id );
 
 				$submit_button_before = ob_get_clean();
 			}
 
 			$submit_button_after = '';
-			if ( has_action( "{$this->form_manager->get_prefix()}form_submit_button_after" ) ) {
+			if ( has_action( "{$prefix}form_submit_button_after" ) ) {
 				ob_start();
 
 				/**
@@ -290,7 +292,7 @@ class Form_Frontend_Output_Handler {
 				 *
 				 * @param int $form_id Form ID.
 				 */
-				do_action( "{$this->form_manager->get_prefix()}form_submit_button_after", $form->id );
+				do_action( "{$prefix}form_submit_button_after", $form->id );
 
 				$submit_button_after = ob_get_clean();
 			}
@@ -316,7 +318,7 @@ class Form_Frontend_Output_Handler {
 			 * @param string $prev_button_label Previous button label. Default 'Previous Step'.
 			 * @param int    $form_id           Form ID.
 			 */
-			$prev_button_label = apply_filters( "{$this->form_manager->get_prefix()}form_button_prev_step_label", _x( 'Previous Step', 'button label', 'torro-forms' ), $form->id );
+			$prev_button_label = apply_filters( "{$prefix}form_button_prev_step_label", _x( 'Previous Step', 'button label', 'torro-forms' ), $form->id );
 
 			$template_data['navigation']['prev_button'] = array(
 				'label' => $prev_button_label,
@@ -348,7 +350,7 @@ class Form_Frontend_Output_Handler {
 		 * @param int  $form_id              Form ID.
 		 * @param int  $container_id         Container ID.
 		 */
-		if ( ! apply_filters( "{$this->form_manager->get_prefix()}form_container_show_title", $show_container_title, $form->id, $container->id ) ) {
+		if ( ! apply_filters( "{$prefix}form_container_show_title", $show_container_title, $form->id, $container->id ) ) {
 			$template_data['current_container']['label'] = '';
 		}
 
