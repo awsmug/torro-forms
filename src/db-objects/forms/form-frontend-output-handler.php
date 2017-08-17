@@ -222,7 +222,7 @@ class Form_Frontend_Output_Handler {
 			 * @param string $next_button_text Next button text. Default 'Next Step'.
 			 * @param int    $form_id          Form ID.
 			 */
-			$next_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_next_step_text", __( 'Next Step', 'torro-forms' ), $form->id );
+			$next_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_next_step_text", _x( 'Next Step', 'button label', 'torro-forms' ), $form->id );
 
 			$template_data['navigation']['next_button'] = array(
 				'label' => $next_button_text,
@@ -242,7 +242,7 @@ class Form_Frontend_Output_Handler {
 			 * @param string $submit_button_text Submit button text. Default 'Submit'.
 			 * @param int    $form_id            Form ID.
 			 */
-			$submit_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_submit_text", __( 'Submit', 'torro-forms' ), $form->id );
+			$submit_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_submit_text", _x( 'Submit', 'button label', 'torro-forms' ), $form->id );
 
 			/**
 			 * Filters the CSS class to use for a primary button for a form in the frontend.
@@ -306,7 +306,7 @@ class Form_Frontend_Output_Handler {
 			 * @param string $prev_button_text Previous button text. Default 'Previous Step'.
 			 * @param int    $form_id          Form ID.
 			 */
-			$prev_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_prev_step_text", __( 'Next Step', 'torro-forms' ), $form->id );
+			$prev_button_text = apply_filters( "{$this->form_manager->get_prefix()}form_button_prev_step_text", _x( 'Previous Step', 'button label', 'torro-forms' ), $form->id );
 
 			$template_data['navigation']['prev_button'] = array(
 				'label' => $prev_button_text,
