@@ -178,7 +178,17 @@ class Form_Frontend_Output_Handler {
 		}
 
 		if ( $submission && 'completed' === $submission->status ) {
-			$this->print_notice( __( 'Thank you for submitting!', 'torro-forms' ), 'success' );
+			/**
+			 * Filters the success message to display once a form submission has been completed.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $success_message Success message. Default 'Thank you for submitting!'.
+			 * @param int    $form_id         Form ID.
+			 */
+			$success_message = apply_filters( "{$this->form_manager->get_prefix()}form_submission_success_message", __( 'Thank you for submitting!', 'torro-forms' ), $form->id );
+
+			$this->print_notice( $success_message, 'success' );
 			return;
 		}
 
