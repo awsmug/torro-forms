@@ -106,7 +106,7 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 * Tweaked: 'form' shortcode is now deprecated in favor of 'torro_form'
 * Tweaked: form results are now relabelled as form submissions
 * Tweaked: element answers are now relabelled as element choices
-* Tweaked: result handlers are now relabelled as stats
+* Tweaked: result handlers are now relabelled as evaluations
 * Tweaked: components are now called modules
 * Tweaked: namespaces are used throughout the plugin code
 * Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
