@@ -515,6 +515,9 @@ class Form_Edit_Page_Handler {
 	 * @access private
 	 */
 	private function enqueue_assets() {
+		$this->form_manager->assets()->enqueue_script( 'admin-fixed-sidebar' );
+		$this->form_manager->assets()->enqueue_style( 'admin-fixed-sidebar' );
+
 		$this->form_manager->assets()->enqueue_script( 'admin-form-builder' );
 		$this->form_manager->assets()->enqueue_style( 'admin-form-builder' );
 

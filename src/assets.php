@@ -106,6 +106,17 @@ class Assets extends Assets_Base {
 			'ver'  => $this->plugin_version,
 		) );
 
+		$this->register_script( 'admin-fixed-sidebar', 'assets/dist/js/admin-fixed-sidebar.js', array(
+			'deps'      => array( 'jquery' ),
+			'ver'       => $this->plugin_version,
+			'in_footer' => true,
+		) );
+
+		$this->register_style( 'admin-fixed-sidebar', 'assets/dist/css/admin-fixed-sidebar.css', array(
+			'deps' => array(),
+			'ver'  => $this->plugin_version,
+		) );
+
 		$this->register_script( 'admin-form-builder', 'assets/dist/js/admin-form-builder.js', array(
 			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone' ),
 			'ver'           => $this->plugin_version,
