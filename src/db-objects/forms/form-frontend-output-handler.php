@@ -251,7 +251,7 @@ class Form_Frontend_Output_Handler {
 			 *
 			 * @param string $button_primary_class Primary button CSS class. Default 'torro-button-primary'.
 			 */
-			$button_primary_class = apply_filters( "{$this->form_manager->get_prefix()}form_button_class", 'torro-button-primary' );
+			$button_primary_class = apply_filters( "{$this->form_manager->get_prefix()}form_button_primary_class", 'torro-button-primary' );
 
 			$submit_button_before = '';
 			if ( has_action( "{$this->form_manager->get_prefix()}form_submit_button_before" ) ) {
