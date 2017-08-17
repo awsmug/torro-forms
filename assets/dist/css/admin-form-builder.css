@@ -239,8 +239,15 @@
 
 .postbox .form-table th
 {
-    width: 120px;
     padding: 15px 7px 15px 0;
+}
+
+@media screen and (min-width: 783px)
+{
+    .postbox .form-table th
+    {
+        width: 30%;
+    }
 }
 
 .postbox .form-table td
