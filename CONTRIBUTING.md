@@ -9,7 +9,7 @@ When contributing code...
 * fork the `develop` branch of the repository on GitHub (do not use the `master` branch)
 * make changes to the forked repository
     * make sure you stick to the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/)
-    * write code that is backward-compatible with PHP 5.6 and WordPress 4.7 functionality
+    * write code that is backward-compatible with PHP 5.6 and WordPress 4.8 functionality
     * test your code with the constant `WP_DEBUG` enabled
 * when committing, in addition to a note about the fix please reference your issue (if present)
 * push the changes to your fork and submit a pull request to the `develop` branch

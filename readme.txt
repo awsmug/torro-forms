@@ -5,7 +5,7 @@ Plugin URI:        http://torro-forms.com
 Author:            Awesome UG
 Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
-Requires at least: 4.7
+Requires at least: 4.8
 Tested up to:      4.8
 Stable tag:        1.0.0-beta.8
 Version:           1.0.0-beta.8
@@ -81,29 +81,36 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 = 1.0.0-beta.9 =
 
-This pre-release is a major refactor that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.7. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version.
+This pre-release is a major rewrite that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.8. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version. Rest assured that none of this will happen again, but we are still in Beta and the previous versions had some severe architectural issues. We want you to have the best Torro Forms experience possible!
 
 * Added: REST API endpoints for managing forms, their content and submissions
 * Added: WP-CLI commands for managing forms, their content and submissions
 * Added: cache layer for all database requests
 * Added: form submissions now live under their own admin submenu
+* Added: form submissions can now be edited through the backend
 * Added: form edit page now uses Backbone for the form builder
 * Added: new "Submission Count" access control to limit total form submissions
 * Enhanced: element types can now contain multiple fields
 * Enhanced: form stats now scale by storing aggregate results persistently
 * Enhanced: form submissions now have a status
 * Enhanced: form submissions are now stored in the database immediately which prevents leakage due to cookie or session issues
+* Enhanced: Entries are no longer a submodule, instead their functionality is now located in the submissions list
 * Enhanced: Modules API now follows a clean structure throughout all modules
 * Enhanced: access controls are a separete module instead of a group of form settings
+* Enhanced: spam protection submodules are now part of a new security module
 * Enhanced: indexes have been added to database tables to speed up queries
+* Enhanced: a consistent fields API is used throughout the entire plugin
+* Enhanced: meta and settings fields can now have dependencies
 * Fixed: installation routine works now properly on multisite setups of any size
 * Fixed: it is now possible to properly register any kind of modules and submodules
 * Tweaked: 'form' shortcode is now deprecated in favor of 'torro_form'
 * Tweaked: form results are now relabelled as form submissions
 * Tweaked: element answers are now relabelled as element choices
-* Tweaked: submission handlers are now relabelled as evaluators
+* Tweaked: submission handlers are now relabelled as stats
+* Tweaked: components are now called modules
 * Tweaked: namespaces are used throughout the plugin code
 * Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
+* Plus: a lot more improvements and tweaks here or there... It's an entire rewrite, you know.
 
 = 1.0.0-beta.8 =
 * Enhanced: Added password option to textfield element

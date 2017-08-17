@@ -32,7 +32,7 @@ var config = {
 	tags: keywords.join( ', ' ),
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
 	donateLink: false,
-	minRequired: '4.7',
+	minRequired: '4.8',
 	testedUpTo: '4.8',
 	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms',
 	network: false

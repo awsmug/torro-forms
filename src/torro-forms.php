@@ -325,7 +325,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->vendor_name = 'awsmug';
 		$this->project_name = 'Torro_Forms';
 		$this->minimum_php = '5.6';
-		$this->minimum_wp = '4.7';
+		$this->minimum_wp = '4.8';
 	}
 
 	/**
