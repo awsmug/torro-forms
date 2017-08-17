@@ -200,6 +200,8 @@ class Form_Frontend_Output_Handler {
 			return;
 		}
 
+		$this->maybe_print_form_error( $form );
+
 		if ( $submission ) {
 			$this->maybe_print_submission_errors( $submission );
 		}
@@ -437,6 +439,43 @@ class Form_Frontend_Output_Handler {
 	}
 
 	/**
+	 * Prints form errors in a notice if necessary.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form $form Form object.
+	 */
+	protected function maybe_print_form_error( $form ) {
+		$key = $this->form_manager->get_prefix() . 'form_errors';
+
+		if ( is_user_logged_in() ) {
+			$errors = get_user_meta( get_current_user_id(), $key, true );
+			if ( is_array( $errors ) && isset( $errors[ $form->id ] ) ) {
+				$this->print_notice( $errors[ $form->id ], 'error' );
+
+				if ( count( $errors ) === 1 ) {
+					delete_user_meta( get_current_user_id(), $key );
+				} else {
+					unset( $errors[ $form->id ] );
+					update_user_meta( get_current_user_id(), $key, $errors );
+				}
+			}
+			return;
+		}
+
+		if ( isset( $_SESSION ) && isset( $_SESSION[ $key ] ) && isset( $_SESSION[ $key ][ $form->id ] ) ) {
+			$this->print_notice( $_SESSION[ $key ][ $form->id ], 'error', true );
+
+			if ( count( $_SESSION[ $key ] ) === 1 ) {
+				unset( $_SESSION[ $key ] );
+			} else {
+				unset( $_SESSION[ $key ][ $form->id ] );
+			}
+		}
+	}
+
+	/**
 	 * Prints submission errors in a notice if necessary.
 	 *
 	 * @since 1.0.0
@@ -475,8 +514,14 @@ class Form_Frontend_Output_Handler {
 	 *
 	 * @param string $message Message to show.
 	 * @param string $type    Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
+	 * @param bool   $escape  Optional. Whether to escape the message. This should be set to true if the source of the
+	 *                        message is not a 100% trusted. Default false.
 	 */
-	protected function print_notice( $message, $type = 'warning' ) {
+	protected function print_notice( $message, $type = 'warning', $escape = false ) {
+		if ( $escape ) {
+			$message = esc_html( $message );
+		}
+
 		?>
 		<div class="<?php echo esc_attr( 'torro-notice torro-' . $type . '-notice' ); ?>">
 			<p><?php echo $message; ?></p>

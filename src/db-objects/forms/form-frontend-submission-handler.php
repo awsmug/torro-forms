@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use WP_Error;
 
 /**
  * Class for handling form frontend submissions.
@@ -51,75 +52,47 @@ class Form_Frontend_Submission_Handler {
 
 		$data = wp_unslash( $_POST['torro_submission'] );
 
-		if ( ! isset( $data['nonce'] ) ) {
-			wp_die( __( 'Missing security nonce.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
+		$context = $this->detect_request_form_and_submission( $data );
+		if ( is_wp_error( $context ) ) {
+			// Always die when one of these strange errors happens.
+			wp_die( $context->get_error_message(), __( 'Form Submission Error', 'torro-forms' ), 400 );
 		}
 
-		$form = null;
-		$submission = null;
-		if ( ! empty( $data['id'] ) ) {
-			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $data['id'] ) );
-			if ( $submission ) {
-				if ( 'completed' === $submission->status ) {
-					wp_die( __( 'Submission already completed.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
-				}
+		$form       = $context['form'];
+		$submission = $context['submission'];
 
-				if ( ! empty( $submission->form_id ) ) {
-					$form = $submission->get_form();
-				}
+		$verified = $this->verify_request( $data, $form, $submission );
+		if ( is_wp_error( $verified ) ) {
+			// Die only if the form error could not be set.
+			if ( ! $this->set_form_error( $form, $verified ) ) {
+				wp_die( $verified->get_error_message(), __( 'Form Submission Error', 'torro-forms' ), 403 );
 			}
-		}
-
-		if ( ! $form ) {
-			if ( empty( $data['form_id'] ) ) {
-				wp_die( __( 'Could not detect form.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
+		} else {
+			if ( ! $submission ) {
+				$submission = $this->create_new_submission( $form, $data );
 			}
 
-			$form = $this->form_manager->get( absint( $data['form_id'] ) );
-			if ( ! $form ) {
-				wp_die( __( 'Could not detect form.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
-			}
+			$this->handle_form_submission( $form, $submission, $data );
 		}
-
-		if ( ! wp_verify_nonce( $data['nonce'], $this->get_nonce_action( $form, $submission ) ) ) {
-			wp_die( __( 'Invalid security nonce.', 'torro-forms' ), __( 'Form Submission Error', 'torro-forms' ), 400 );
-		}
-
-		if ( ! $submission ) {
-			$submission = $this->form_manager->get_child_manager( 'submissions' )->create();
-
-			/**
-			 * Fires when a new submission object has just been instantiated.
-			 *
-			 * This hook may be used to set additional unique data on a submission.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param Submission $submission Submission object.
-			 * @param Form       $form       Form object.
-			 * @param array      $data       Submission POST data.
-			 */
-			do_action( "{$this->form_manager->get_prefix()}create_new_submission", $submission, $form, $data );
-		}
-
-		$this->handle_form_submission( $form, $submission, $data );
 
 		$redirect_url = ! empty( $data['original_form_id'] ) ? get_permalink( absint( $data['original_form_id'] ) ) : get_permalink( $form->id );
-		if ( ! empty( $submission->id ) ) {
-			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
-		}
 
 		/**
-		 * Filters the URL to redirect the user to after a form submission has been processed.
+		 * Filters the URL to redirect the user to after a form submission request has been processed.
+		 *
+		 * If a submission is applicable, its query variable will be appended.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string     $redirect_url URL to redirect to. Default is the original ID with the submission ID appended.
-		 * @param Form       $form         Form object.
-		 * @param Submission $submission   Submission object.
-		 * @param array      $data         Submission POST data.
+		 * @param string $redirect_url URL to redirect to. Default is the original form URL.
+		 * @param Form   $form         Form object.
 		 */
-		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form, $submission, $data );
+		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form );
+
+		// Append submission ID if the URL belongs to the site.
+		if ( $submission && ! empty( $submission->id ) && 0 === strpos( $redirect_url, home_url() ) ) {
+			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
+		}
 
 		wp_redirect( $redirect_url );
 		exit;
@@ -288,6 +261,113 @@ class Form_Frontend_Submission_Handler {
 	}
 
 	/**
+	 * Detects the form and submission from the request.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array $data Submission POST data.
+	 * @return array|WP_Error Array with 'form' and 'submission' keys, or error object on failure.
+	 */
+	protected function detect_request_form_and_submission( $data ) {
+		$form = null;
+		$submission = null;
+
+		if ( ! empty( $data['id'] ) ) {
+			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $data['id'] ) );
+			if ( $submission ) {
+				if ( 'completed' === $submission->status ) {
+					return new WP_Error( 'submission_already_completed', __( 'Submission already completed.', 'torro-forms' ) );
+				}
+
+				if ( ! empty( $submission->form_id ) ) {
+					$form = $submission->get_form();
+				}
+			}
+		}
+
+		if ( ! $form ) {
+			if ( empty( $data['form_id'] ) ) {
+				return new WP_Error( 'cannot_detect_form', __( 'Could not detect form.', 'torro-forms' ) );
+			}
+
+			$form = $this->form_manager->get( absint( $data['form_id'] ) );
+			if ( ! $form ) {
+				return new WP_Error( 'cannot_detect_form', __( 'Could not detect form.', 'torro-forms' ) );
+			}
+		}
+
+		return array(
+			'form'       => $form,
+			'submission' => $submission,
+		);
+	}
+
+	/**
+	 * Creates a new submission object.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form  $form Form object.
+	 * @param array $data Submission POST data.
+	 * @return Submission New submission object.
+	 */
+	protected function create_new_submission( $form, $data ) {
+		$submission = $this->form_manager->get_child_manager( 'submissions' )->create();
+
+		/**
+		 * Fires when a new submission object has just been instantiated.
+		 *
+		 * This hook may be used to set additional unique data on a submission.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Submission $submission Submission object.
+		 * @param Form       $form       Form object.
+		 * @param array      $data       Submission POST data.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}create_new_submission", $submission, $form, $data );
+
+		return $submission;
+	}
+
+	/**
+	 * Verifies the request.
+	 *
+	 * By default only the security nonce is checked. Further checks can be applied via a filter.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array           $data       Submission POST data.
+	 * @param Form            $form       Form object.
+	 * @param Submission|null $submission Submission object, or null if a new submission.
+	 * @return bool|WP_Error True if request is verified, error object otherwise.
+	 */
+	protected function verify_request( $data, $form, $submission = null ) {
+		if ( ! isset( $data['nonce'] ) ) {
+			return new WP_Error( 'missing_nonce', __( 'Missing security nonce.', 'torro-forms' ) );
+		}
+
+		if ( ! wp_verify_nonce( $data['nonce'], $this->get_nonce_action( $form, $submission ) ) ) {
+			return new WP_Error( 'invalid_nonce', __( 'Invalid security nonce.', 'torro-forms' ) );
+		}
+
+		/**
+		 * Filters the verification of a form submission request.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool|WP_Error   $verified   Either true of an error object must be returned. Default true.
+		 * @param array           $data       Submission POST data.
+		 * @param Form            $form       Form object.
+		 * @param Submission|null $submission Submission object, or null if a new submission.
+		 */
+		return apply_filters( "{$this->form_manager->get_prefix()}verify_form_submission_request", true, $data, $form, $submission );
+	}
+
+	/**
 	 * Returns the name of the nonce action to check.
 	 *
 	 * @since 1.0.0
@@ -303,5 +383,47 @@ class Form_Frontend_Submission_Handler {
 		}
 
 		return $this->form_manager->get_prefix() . 'form_' . $form->id;
+	}
+
+	/**
+	 * Sets a form error so that it can be printed to the user in the next request.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form     $form  Form object.
+	 * @param WP_Error $error Error object.
+	 * @return bool True on success, false on failure.
+	 */
+	protected function set_form_error( $form, $error ) {
+		$key = $this->form_manager->get_prefix() . 'form_errors';
+
+		if ( is_user_logged_in() ) {
+			$errors = get_user_meta( get_current_user_id(), $key, true );
+
+			if ( ! is_array( $errors ) ) {
+				$errors = array();
+			}
+
+			$errors[ $form->id ] = $error->get_error_message();
+
+			return (bool) update_user_meta( get_current_user_id(), $key, $errors );
+		}
+
+		if ( ! isset( $_SESSION ) ) {
+			if ( headers_sent() ) {
+				return false;
+			}
+
+			session_start();
+		}
+
+		if ( ! isset( $_SESSION[ $key ] ) ) {
+			$_SESSION[ $key ] = array();
+		}
+
+		$_SESSION[ $key ][ $form->id ] = $error->get_error_message();
+
+		return true;
 	}
 }
