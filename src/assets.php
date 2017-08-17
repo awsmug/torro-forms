@@ -95,6 +95,11 @@ class Assets extends Assets_Base {
 	 * @access protected
 	 */
 	protected function register_assets() {
+		$this->register_style( 'frontend', 'assets/dist/css/frontend.css', array(
+			'deps' => array(),
+			'ver'  => $this->plugin_version,
+		) );
+
 		$this->register_script( 'util', 'assets/dist/js/util.js', array(
 			'deps'      => array( 'jquery', 'underscore', 'wp-util', 'wp-api' ),
 			'ver'       => $this->plugin_version,

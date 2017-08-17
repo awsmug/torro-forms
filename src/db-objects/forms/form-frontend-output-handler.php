@@ -69,6 +69,23 @@ class Form_Frontend_Output_Handler {
 	}
 
 	/**
+	 * Enqueues the frontend stylesheet if necessary.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function maybe_enqueue_frontend_assets() {
+		$settings = $this->form_manager->options()->get( 'general_settings', array() );
+		$load_css = isset( $settings['frontend_css'] ) ? (bool) $settings['frontend_css'] : true;
+		if ( ! $load_css ) {
+			return;
+		}
+
+		// TODO: Can we detect whether we need this?
+		$this->form_manager->assets()->enqueue_style( 'frontend' );
+	}
+
+	/**
 	 * Handles the form shortcode.
 	 *
 	 * @since 1.0.0

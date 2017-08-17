@@ -419,6 +419,13 @@ class Form_Manager extends Core_Manager {
 		);
 
 		$this->filters[] = array(
+			'name'     => 'wp_enqueue_scripts',
+			'callback' => array( $this->frontend_output_handler, 'maybe_enqueue_frontend_assets' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+
+		$this->filters[] = array(
 			'name'     => 'the_content',
 			'callback' => array( $this->frontend_output_handler, 'maybe_get_form_content' ),
 			'priority' => 10,

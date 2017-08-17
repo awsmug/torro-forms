@@ -33,3 +33,43 @@
 {
     float: right;
 }
+
+.torro-notice
+{
+    margin-bottom: 2em;
+    padding: .5em 1em;
+
+    border-left: 4px solid #fff;
+    background-color: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+}
+
+.torro-notice.torro-success-notice
+{
+    border-left-color: #46b450;
+    background-color: #d4ffd8;
+}
+
+.torro-notice.torro-info-notice
+{
+    border-left-color: #00a0d2;
+    background-color: #d1f4ff;
+}
+
+.torro-notice.torro-warning-notice
+{
+    border-left-color: #ffb900;
+    background-color: #fff3d2;
+}
+
+.torro-notice.torro-error-notice
+{
+    border-left-color: #dc3232;
+    background-color: #ffdcdc;
+}
+
+.torro-notice > p:last-child,
+.torro-notice > ul:last-child
+{
+    margin-bottom: 0;
+}

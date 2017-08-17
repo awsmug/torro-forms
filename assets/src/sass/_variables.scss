@@ -1,2 +1,18 @@
 $image-path: "../img";
 $font-path: "../fonts";
+
+$basic-spacing: 2em;
+
+$element-wrap-spacing: $basic-spacing;
+$element-label-spacing: 0.5em;
+
+$notice-spacing: $basic-spacing;
+
+$color-success: #46b450;
+$color-success-light: #d4ffd8;
+$color-info: #00a0d2;
+$color-info-light: #d1f4ff;
+$color-warning: #ffb900;
+$color-warning-light: #fff3d2;
+$color-error: #dc3232;
+$color-error-light: #ffdcdc;

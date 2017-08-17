@@ -1,9 +1,11 @@
+@import "variables";
+
 .torro-element-wrap {
-	margin-bottom: 2em;
+	margin-bottom: $element-wrap-spacing;
 }
 
 .torro-element-label {
-	margin-bottom: 0.5em;
+	margin-bottom: $element-label-spacing;
 }
 
 .torro-pager {
@@ -21,5 +23,38 @@
 
 	.next > button {
 		float: right;
+	}
+}
+
+.torro-notice {
+	margin-bottom: $notice-spacing;
+	padding: 0.5em 1em;
+	background-color: #ffffff;
+	border-left: 4px solid #fff;
+	box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+
+	&.torro-success-notice {
+		background-color: $color-success-light;
+		border-left-color: $color-success;
+	}
+
+	&.torro-info-notice {
+		background-color: $color-info-light;
+		border-left-color: $color-info;
+	}
+
+	&.torro-warning-notice {
+		background-color: $color-warning-light;
+		border-left-color: $color-warning;
+	}
+
+	&.torro-error-notice {
+		background-color: $color-error-light;
+		border-left-color: $color-error;
+	}
+
+	> p:last-child,
+	> ul:last-child {
+		margin-bottom: 0;
 	}
 }
