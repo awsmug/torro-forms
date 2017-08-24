@@ -237,7 +237,7 @@ class reCAPTCHA extends Protector {
 		$settings_sections = parent::get_settings_sections();
 
 		$settings_sections['credentials'] = array(
-			'title' => _x( 'Credentials', 'reCAPTCHA data', 'torro-forms' ),
+			'title' => _x( 'Credentials', 'reCAPTCHA', 'torro-forms' ),
 		);
 
 		return $settings_sections;
