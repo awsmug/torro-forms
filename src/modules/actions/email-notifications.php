@@ -105,7 +105,18 @@ class Email_Notifications extends Action {
 			}
 
 			foreach ( $notification as $key => $value ) {
-				$notification[ $key ] = $this->template_tag_handler->process_content( $value, array( $form, $submission ) );
+				switch ( $key ) {
+					case 'from_email':
+					case 'reply_email':
+					case 'to_email':
+						$notification[ $key ] = $this->template_tag_handler_email_only->process_content( $value, array( $form, $submission ) );
+						break;
+					case 'message':
+						$notification[ $key ] = $this->template_tag_handler_complex->process_content( $value, array( $form, $submission ) );
+						break;
+					default:
+						$notification[ $key ] = $this->template_tag_handler->process_content( $value, array( $form, $submission ) );
+				}
 			}
 
 			$notification['message'] = wpautop( $notification['message'] );
@@ -143,6 +154,12 @@ class Email_Notifications extends Action {
 			'label'      => _x( 'Enable?', 'action', 'torro-forms' ),
 		);
 
+		$domain = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
+		if ( ! $domain ) {
+			// Fall back to a random domain.
+			$domain = 'yourwebsite.com';
+		}
+
 		$meta_fields['notifications'] = array(
 			'type'        => 'group',
 			'label'       => __( 'Notifications', 'torro-forms' ),
@@ -159,7 +176,7 @@ class Email_Notifications extends Action {
 					'type'                 => 'templatetagemail',
 					'label'                => __( 'From Email', 'torro-forms' ),
 					/* translators: %s: email address */
-					'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@yourwebsite.com' ),
+					'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@' . $domain ),
 					'input_classes'        => array( 'regular-text' ),
 					'template_tag_handler' => $this->template_tag_handler_email_only,
 				),
