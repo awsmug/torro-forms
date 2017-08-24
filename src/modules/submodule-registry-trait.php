@@ -147,4 +147,196 @@ trait Submodule_Registry_Trait {
 
 		return true;
 	}
+
+	/**
+	 * Returns the available meta box tabs for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
+	 */
+	protected function get_meta_tabs() {
+		$tabs = array();
+
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Meta_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$submodule_meta_identifier = $submodule->get_meta_identifier();
+			$submodule_meta_fields = $submodule->get_meta_fields();
+			if ( empty( $submodule_meta_fields ) ) {
+				continue;
+			}
+
+			$tabs[ $submodule_meta_identifier ] = array(
+				'title'       => $submodule->get_meta_title(),
+				'description' => $submodule->get_meta_description(),
+			);
+		}
+
+		return $tabs;
+	}
+
+	/**
+	 * Returns the available meta box fields for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$field_slug => $field_args` pairs.
+	 */
+	protected function get_meta_fields() {
+		$fields = array();
+
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Meta_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$submodule_meta_identifier = $submodule->get_meta_identifier();
+
+			$submodule_meta_fields = $submodule->get_meta_fields();
+			foreach ( $submodule_meta_fields as $field_slug => $field_data ) {
+				$field_slug        = $submodule_meta_identifier . '__' . $field_slug;
+				$field_data['tab'] = $submodule_meta_identifier;
+
+				if ( isset( $field_data['dependencies'] ) ) {
+					$dependency_count = count( $field_data['dependencies'] );
+
+					for ( $i = 0; $i < $dependency_count; $i++ ) {
+						if ( isset( $field_data['dependencies'][ $i ]['fields'] ) ) {
+							$field_count = count( $field_data['dependencies'][ $i ]['fields'] );
+
+							for ( $j = 0; $j < $field_count; $j++ ) {
+								$field_data['dependencies'][ $i ]['fields'][ $j ] = $submodule_meta_identifier . '__' . $field_data['dependencies'][ $i ]['fields'][ $j ];
+							}
+						}
+					}
+				}
+
+				$fields[ $field_slug ] = $field_data;
+			}
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Returns the available settings sub-tabs for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
+	 */
+	protected function get_settings_subtabs() {
+		$subtabs = array();
+
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$submodule_settings_identifier = $submodule->get_settings_identifier();
+			$submodule_settings_sections = $submodule->get_settings_sections();
+			if ( empty( $submodule_settings_sections ) ) {
+				continue;
+			}
+
+			$subtabs[ $submodule_settings_identifier ] = array(
+				'title' => $submodule->get_settings_title(),
+			);
+		}
+
+		return $subtabs;
+	}
+
+	/**
+	 * Returns the available settings sections for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$section_slug => $section_args` pairs.
+	 */
+	protected function get_settings_sections() {
+		$sections = array();
+
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$submodule_settings_identifier = $submodule->get_settings_identifier();
+
+			$submodule_settings_sections = $submodule->get_settings_sections();
+			foreach ( $submodule_settings_sections as $section_slug => $section_data ) {
+				$section_data['subtab'] = $submodule_settings_identifier;
+
+				$sections[ $section_slug ] = $section_data;
+			}
+		}
+
+		return $sections;
+	}
+
+	/**
+	 * Returns the available settings fields for the module.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Associative array of `$field_slug => $field_args` pairs.
+	 */
+	protected function get_settings_fields() {
+		$fields = array();
+
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Settings_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$fields = array_merge( $fields, $submodule->get_settings_fields() );
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Registers the available module scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Assets $assets Assets API instance.
+	 */
+	protected function register_assets( $assets ) {
+		foreach ( $this->submodules as $slug => $access_control ) {
+			if ( ! is_a( $access_control, Assets_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$access_control->register_assets( $assets );
+		}
+	}
+
+	/**
+	 * Enqueues the module's form builder scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Assets $assets Assets API instance.
+	 */
+	protected function enqueue_form_builder_assets( $assets ) {
+		foreach ( $this->submodules as $slug => $access_control ) {
+			if ( ! is_a( $access_control, Assets_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$access_control->enqueue_form_builder_assets( $assets );
+		}
+	}
 }
