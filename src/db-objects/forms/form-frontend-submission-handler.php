@@ -62,7 +62,11 @@ class Form_Frontend_Submission_Handler {
 		$submission = $context['submission'];
 
 		$verified = $this->verify_request( $data, $form, $submission );
-		if ( is_wp_error( $verified ) ) {
+		if ( ! $verified || is_wp_error( $verified ) ) {
+			if ( ! $verified ) {
+				$verified = new WP_Error( 'cannot_verify_request', __( 'The request could not be verified.', 'torro-forms' ) );
+			}
+
 			// Die only if the form error could not be set.
 			if ( ! $this->set_form_error( $form, $verified ) ) {
 				wp_die( $verified->get_error_message(), __( 'Form Submission Error', 'torro-forms' ), 403 );
