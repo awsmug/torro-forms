@@ -11,10 +11,6 @@ namespace awsmug\Torro_Forms\Modules\Evaluators;
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
-use awsmug\Torro_Forms\Modules\Meta_Submodule_Interface;
-use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
-use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
-use awsmug\Torro_Forms\Assets;
 
 /**
  * Class for the Evaluators module.
