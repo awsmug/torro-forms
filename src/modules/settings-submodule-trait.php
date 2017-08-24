@@ -26,13 +26,7 @@ trait Settings_Submodule_Trait {
 	 * @return mixed Value set for the option.
 	 */
 	public function get_option( $option, $default = false ) {
-		$options = $this->get_options();
-
-		if ( isset( $options[ $option ] ) ) {
-			return $options[ $option ];
-		}
-
-		return $default;
+		return $this->module->get_option( $this->get_settings_identifier() . '__' . $option, $default );
 	}
 
 	/**
@@ -44,7 +38,21 @@ trait Settings_Submodule_Trait {
 	 * @return array Associative array of `$key => $value` pairs for every option that is set.
 	 */
 	public function get_options() {
-		return $this->module->get_option( $this->get_settings_identifier(), array() );
+		$settings = $this->module->get_options();
+
+		$prefix = $this->get_settings_identifier() . '__';
+
+		$options = array();
+		foreach ( $settings as $key => $value ) {
+			if ( 0 !== strpos( $key, $prefix ) ) {
+				continue;
+			}
+
+			$key = substr( $key, strlen( $prefix ) );
+			$options[ $key ] = $value;
+		}
+
+		return $options;
 	}
 
 	/**

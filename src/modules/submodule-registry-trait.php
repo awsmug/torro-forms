@@ -273,6 +273,7 @@ trait Submodule_Registry_Trait {
 
 			$submodule_settings_sections = $submodule->get_settings_sections();
 			foreach ( $submodule_settings_sections as $section_slug => $section_data ) {
+				$section_slug           = $submodule_settings_identifier . '__' . $section_slug;
 				$section_data['subtab'] = $submodule_settings_identifier;
 
 				$sections[ $section_slug ] = $section_data;
@@ -298,7 +299,32 @@ trait Submodule_Registry_Trait {
 				continue;
 			}
 
-			$fields = array_merge( $fields, $submodule->get_settings_fields() );
+			$submodule_settings_identifier = $submodule->get_settings_identifier();
+
+			$submodule_settings_fields = $submodule->get_settings_fields();
+			foreach ( $submodule_settings_fields as $field_slug => $field_data ) {
+				$field_slug = $submodule_settings_identifier . '__' . $field_slug;
+
+				if ( ! empty( $field_data['section'] ) ) {
+					$field_data['section'] = $submodule_settings_identifier . '__' . $field_data['section'];
+				}
+
+				if ( isset( $field_data['dependencies'] ) ) {
+					$dependency_count = count( $field_data['dependencies'] );
+
+					for ( $i = 0; $i < $dependency_count; $i++ ) {
+						if ( isset( $field_data['dependencies'][ $i ]['fields'] ) ) {
+							$field_count = count( $field_data['dependencies'][ $i ]['fields'] );
+
+							for ( $j = 0; $j < $field_count; $j++ ) {
+								$field_data['dependencies'][ $i ]['fields'][ $j ] = $submodule_settings_identifier . '__' . $field_data['dependencies'][ $i ]['fields'][ $j ];
+							}
+						}
+					}
+				}
+
+				$fields[ $field_slug ] = $field_data;
+			}
 		}
 
 		return $fields;
