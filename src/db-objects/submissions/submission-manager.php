@@ -256,6 +256,39 @@ class Submission_Manager extends Manager {
 	}
 
 	/**
+	 * Renders a status select field.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int|null           $id         Current submission ID, or null if new submission.
+	 * @param Submission         $submission Current submission object.
+	 */
+	public function render_status_select( $id, $submission ) {
+		$current_status = $submission->status;
+
+		$timestamp = ! empty( $submission->timestamp ) ? $submission->timestamp : current_time( 'timestamp', 'mysql' );
+
+		?>
+		<div class="misc-pub-section">
+			<div id="date-information">
+				<?php _e( 'Date:', 'torro-forms' ); ?>
+				<?php echo date_i18n( get_option( 'date_format' ), $timestamp ); ?>
+			</div>
+		</div>
+		<div class="misc-pub-section">
+			<div id="post-status-select">
+				<label for="post-status"><?php echo $this->get_message( 'edit_page_status_label' ); ?></label>
+				<select id="post-status" name="status">
+					<option value="completed"<?php selected( $current_status, 'completed' ); ?>><?php _ex( 'Completed', 'submission status label', 'torro-forms' ); ?></option>
+					<option value="progressing"<?php selected( $current_status, 'progressing' ); ?>><?php _ex( 'In Progress', 'submission status label', 'torro-forms' ); ?></option>
+				</select>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Anonymizes an IP address.
 	 *
 	 * Taken from https://github.com/geertw/php-ip-anonymizer/blob/master/src/IpAnonymizer.php.

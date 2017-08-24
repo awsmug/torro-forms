@@ -49,40 +49,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	}
 
 	/**
-	 * Renders a status select field.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param int|null           $id         Current submission ID, or null if new submission.
-	 * @param Submission         $submission Current submission object.
-	 * @param Submission_Manager $manager    Submission manager instance.
-	 */
-	public function status_select( $id, $submission, $manager ) {
-		$current_status = $submission->status;
-
-		$timestamp = ! empty( $submission->timestamp ) ? $submission->timestamp : current_time( 'timestamp', 'mysql' );
-
-		?>
-		<div class="misc-pub-section">
-			<div id="date-information">
-				<?php _e( 'Date:', 'torro-forms' ); ?>
-				<?php echo date_i18n( get_option( 'date_format' ), $timestamp ); ?>
-			</div>
-		</div>
-		<div class="misc-pub-section">
-			<div id="post-status-select">
-				<label for="post-status"><?php echo $manager->get_message( 'edit_page_status_label' ); ?></label>
-				<select id="post-status" name="status">
-					<option value="completed"<?php selected( $current_status, 'completed' ); ?>><?php _ex( 'Completed', 'submission status label', 'torro-forms' ); ?></option>
-					<option value="progressing"<?php selected( $current_status, 'progressing' ); ?>><?php _ex( 'In Progress', 'submission status label', 'torro-forms' ); ?></option>
-				</select>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Renders the edit page header.
 	 *
 	 * @since 1.0.0
@@ -236,17 +202,19 @@ class Submission_Edit_Page extends Model_Edit_Page {
 				),
 			),
 			'remote_addr' => array(
-				'section'     => 'identification_data',
-				'type'        => 'text',
-				'label'       => __( 'IP Address', 'torro-forms' ),
-				'description' => __( 'Specify the IP address where this submission should be sent from.', 'torro-forms' ),
-				'pattern'     => '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}',
+				'section'       => 'identification_data',
+				'type'          => 'text',
+				'label'         => __( 'IP Address', 'torro-forms' ),
+				'description'   => __( 'Specify the IP address where this submission should be sent from.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+				'pattern'       => '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}',
 			),
 			'user_key'    => array(
-				'section'     => 'identification_data',
-				'type'        => 'text',
-				'label'       => __( 'Key', 'torro-forms' ),
-				'description' => __( 'Specify the key identifying the submission creator.', 'torro-forms' ),
+				'section'       => 'identification_data',
+				'type'          => 'text',
+				'label'         => __( 'Key', 'torro-forms' ),
+				'description'   => __( 'Specify the key identifying the submission creator.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
 			),
 		);
 
