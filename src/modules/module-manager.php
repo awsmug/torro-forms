@@ -12,6 +12,7 @@ use Leaves_And_Love\Plugin_Lib\Service;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use awsmug\Torro_Forms\Modules\Access_Controls\Module as Access_Controls_Module;
 use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
+use awsmug\Torro_Forms\Modules\Protectors\Module as Protectors_Module;
 use awsmug\Torro_Forms\Modules\Evaluators\Module as Evaluators_Module;
 use awsmug\Torro_Forms\Modules\Form_Settings\Module as Form_Settings_Module;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager;
@@ -159,6 +160,7 @@ class Module_Manager extends Service {
 		$this->default_modules = array(
 			'access_controls' => Access_Controls_Module::class,
 			'actions'         => Actions_Module::class,
+			'protectors'      => Protectors_Module::class,
 			'evaluators'      => Evaluators_Module::class,
 			'form_settings'   => Form_Settings_Module::class,
 		);

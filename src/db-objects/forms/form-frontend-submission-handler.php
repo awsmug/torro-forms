@@ -363,7 +363,7 @@ class Form_Frontend_Submission_Handler {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param bool|WP_Error   $verified   Either true of an error object must be returned. Default true.
+		 * @param bool|WP_Error   $verified   Either a boolean or an error object must be returned. Default true.
 		 * @param array           $data       Submission POST data.
 		 * @param Form            $form       Form object.
 		 * @param Submission|null $submission Submission object, or null if a new submission.
