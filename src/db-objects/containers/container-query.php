@@ -52,7 +52,7 @@ class Container_Query extends Query {
 			$table_name = $this->manager->get_table_name();
 
 			if ( is_array( $this->query_vars['sort'] ) ) {
-				if ( ! empty( $this->query_vars['sort']['greater_than'] ) ) {
+				if ( isset( $this->query_vars['sort']['greater_than'] ) ) {
 					if ( ! empty( $this->query_vars['sort']['inclusive'] ) ) {
 						$where['sort_greater_than'] = "%{$table_name}%.sort >= %d";
 					} else {
@@ -61,7 +61,7 @@ class Container_Query extends Query {
 					$args[] = absint( $this->query_vars['sort']['greater_than'] );
 				}
 
-				if ( ! empty( $this->query_vars['sort']['lower_than'] ) ) {
+				if ( isset( $this->query_vars['sort']['lower_than'] ) ) {
 					if ( ! empty( $this->query_vars['sort']['inclusive'] ) ) {
 						$where['sort_lower_than'] = "%{$table_name}%.sort <= %d";
 					} else {
