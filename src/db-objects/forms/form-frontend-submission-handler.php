@@ -145,7 +145,7 @@ class Form_Frontend_Submission_Handler {
 
 		$validated = array();
 		foreach ( $container->get_elements() as $element ) {
-			$fields = isset( $data['values'][ $element->id ] ) ? (array) $data['values'][ $element_id ] : array();
+			$fields = isset( $data['values'][ $element->id ] ) ? (array) $data['values'][ $element->id ] : array();
 
 			$validated[ $element->id ] = $element->validate_fields( $fields );
 		}
