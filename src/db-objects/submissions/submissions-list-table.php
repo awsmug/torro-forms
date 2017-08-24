@@ -306,7 +306,7 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		if ( ! empty( $_REQUEST['status'] ) ) {
-			$query_params['status'] = array_map( 'absint', (array) $_REQUEST['status'] );
+			$query_params['status'] = array_map( 'sanitize_key', (array) $_REQUEST['status'] );
 		}
 
 		return $query_params;
