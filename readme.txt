@@ -87,26 +87,29 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 * Added: WP-CLI commands for managing forms, their content and submissions
 * Added: cache layer for all database requests
 * Added: form submissions now live under their own admin submenu
-* Added: form submissions can now be edited through the backend
+* Added: form submissions can now be edited and created through the backend
 * Added: form edit page now uses Backbone for the form builder
 * Added: new "Submission Count" access control to limit total form submissions
 * Enhanced: element types can now contain multiple fields
 * Enhanced: form stats now scale by storing aggregate results persistently
 * Enhanced: form submissions now have a status
 * Enhanced: form submissions are now stored in the database immediately which prevents leakage due to cookie or session issues
+* Enhanced: form access can now be restricted based on the total submission count
+* Enhanced: form access can now be restricted based on a logged-in user's role
 * Enhanced: Entries are no longer a submodule, instead their functionality is now located in the submissions list
 * Enhanced: Modules API now follows a clean structure throughout all modules
-* Enhanced: access controls are a separete module instead of a group of form settings
-* Enhanced: spam protection submodules are now part of a new security module
+* Enhanced: access controls are a separate module instead of a group of form settings
+* Enhanced: spam protection submodules are now part of a new protectors module
 * Enhanced: indexes have been added to database tables to speed up queries
 * Enhanced: a consistent fields API is used throughout the entire plugin
 * Enhanced: meta and settings fields can now have dependencies
 * Fixed: installation routine works now properly on multisite setups of any size
 * Fixed: it is now possible to properly register any kind of modules and submodules
+* Fixed: dynamically loaded editor now works correctly
 * Tweaked: 'form' shortcode is now deprecated in favor of 'torro_form'
 * Tweaked: form results are now relabelled as form submissions
 * Tweaked: element answers are now relabelled as element choices
-* Tweaked: result handlers are now relabelled as evaluations
+* Tweaked: result handlers are now relabelled as evaluators
 * Tweaked: components are now called modules
 * Tweaked: namespaces are used throughout the plugin code
 * Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
