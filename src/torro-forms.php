@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value_Manager submission_values()
  * @method awsmug\Torro_Forms\DB_Objects\Post_Type_Manager                          post_types()
  * @method awsmug\Torro_Forms\DB_Objects\Taxonomy_Manager                           taxonomies()
+ * @method awsmug\Torro_Forms\Components\Form_Upload_Manager                        form_uploads()
  * @method awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager               template_tag_handlers()
  * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
  * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
@@ -131,6 +132,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @var awsmug\Torro_Forms\DB_Objects\Taxonomy_Manager
 	 */
 	protected $taxonomies;
+
+	/**
+	 * The form uploads instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var awsmug\Torro_Forms\Components\Form_Upload_Manager
+	 */
+	protected $form_uploads;
 
 	/**
 	 * The template tag handlers instance.
@@ -440,8 +450,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 
 		$this->ajax = $this->instantiate_library_service( 'AJAX', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_AJAX' ) );
 
-		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
-
 		$this->apiapi_config = $this->instantiate_plugin_class( 'APIAPI_Config', $this->prefix );
 	}
 
@@ -460,6 +468,23 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 
 		$this->extensions = $this->instantiate_library_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
 		$this->extensions->set_plugin( $this );
+
+		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
+
+		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->form_uploads = $this->instantiate_plugin_service( 'Components\Form_Upload_Manager', $this->prefix, array(
+			'taxonomies'    => $this->taxonomies,
+			'error_handler' => $this->error_handler,
+		) );
 	}
 
 	/**
@@ -533,16 +558,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'cache'         => $this->cache,
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' ) );
-
-		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
 
 		$this->db->set_version( 20170602 );
 	}
