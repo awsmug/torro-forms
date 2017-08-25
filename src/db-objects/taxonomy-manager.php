@@ -22,6 +22,15 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	use Container_Service_Trait, Hook_Service_Trait;
 
 	/**
+	 * Internally cached slug for the attachment taxonomy to use for form uploads.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var string
+	 */
+	protected $attachment_taxonomy_slug = '';
+
+	/**
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
@@ -66,19 +75,24 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 */
 	public function get_attachment_taxonomy_slug() {
 		$prefix = $this->get_prefix();
-		$taxonomy_slug = 'attachment_category';
 
-		// If a hierarchical taxonomy has already been registered, make the best guess to use the right one.
-		$attachment_taxonomies = get_object_taxonomies( 'attachment', 'objects' );
-		if ( ! empty( $attachment_taxonomies ) ) {
-			$attachment_taxonomies = array_keys( wp_list_filter( $attachment_taxonomies, array( 'hierarchical' => true ) ) );
+		if ( ! empty( $this->attachment_taxonomy_slug ) ) {
+			$taxonomy_slug = $this->attachment_taxonomy_slug;
+		} else {
+			$taxonomy_slug = 'attachment_category';
+
+			// If a hierarchical taxonomy has already been registered, make the best guess to use the right one.
+			$attachment_taxonomies = get_object_taxonomies( 'attachment', 'objects' );
 			if ( ! empty( $attachment_taxonomies ) ) {
-				if ( in_array( 'attachment_category', $attachment_taxonomies, true ) ) {
-					$taxonomy_slug = 'attachment_category';
-				} elseif ( in_array( 'category', $attachment_taxonomies, true ) ) {
-					$taxonomy_slug = 'category';
-				} else {
-					$taxonomy_slug = $attachment_taxonomies[0];
+				$attachment_taxonomies = array_keys( wp_list_filter( $attachment_taxonomies, array( 'hierarchical' => true ) ) );
+				if ( ! empty( $attachment_taxonomies ) ) {
+					if ( in_array( 'attachment_category', $attachment_taxonomies, true ) ) {
+						$taxonomy_slug = 'attachment_category';
+					} elseif ( in_array( 'category', $attachment_taxonomies, true ) ) {
+						$taxonomy_slug = 'category';
+					} else {
+						$taxonomy_slug = $attachment_taxonomies[0];
+					}
 				}
 			}
 		}
@@ -195,6 +209,8 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 		if ( empty( $taxonomy_slug ) ) {
 			return;
 		}
+
+		$this->attachment_taxonomy_slug = $taxonomy_slug;
 
 		if ( taxonomy_exists( $taxonomy_slug ) ) {
 			return;
