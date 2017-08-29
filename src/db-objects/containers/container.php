@@ -118,4 +118,41 @@ class Container extends Model {
 
 		return parent::delete();
 	}
+
+	/**
+	 * Duplicates the container including all of its contents.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $form_id New parent form ID to use for the container.
+	 * @return Container|WP_Error New container object on success, error object on failure.
+	 */
+	public function duplicate( $form_id ) {
+		$new_container = $this->manager->create();
+
+		foreach ( $this->to_json() as $key => $value ) {
+			if ( 'id' === $key ) {
+				continue;
+			}
+
+			if ( 'form_id' === $key ) {
+				$new_container->form_id = $form_id;
+				continue;
+			}
+
+			$new_container->$key = $value;
+		}
+
+		$status = $new_container->sync_upstream();
+		if ( is_wp_error( $status ) ) {
+			return $status;
+		}
+
+		foreach ( $this->get_elements() as $element ) {
+			$element->duplicate( $new_container->id );
+		}
+
+		return $new_container;
+	}
 }

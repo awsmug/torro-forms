@@ -14,6 +14,7 @@ use awsmug\Torro_Forms\DB_Objects\Containers\Container_Collection;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Collection;
 use awsmug\Torro_Forms\DB_Objects\Participants\Participant_Collection;
 use WP_Post;
+use WP_Error;
 use stdClass;
 
 /**
@@ -88,7 +89,7 @@ class Form extends Core_Model {
 	public function __get( $property ) {
 		switch ( $property ) {
 			case 'id':
-				return $this->original->ID;
+				return (int) $this->original->ID;
 			case 'slug':
 				return $this->original->post_name;
 			case 'author':
@@ -257,10 +258,10 @@ class Form extends Core_Model {
 		 * @param string $form_action_url Form action URL.
 		 * @param int    $form_id         Form ID.
 		 */
-		$form_action_url = apply_filters( 'torro_form_action_url', home_url( $_SERVER['REQUEST_URI'] ), $this->id );
+		$form_action_url = apply_filters( 'torro_form_action_url', home_url( $_SERVER['REQUEST_URI'] ), (int) $this->original->ID );
 
 		$data['form_attrs'] = array(
-			'id'         => 'torro-form-' . $this->id,
+			'id'         => 'torro-form-' . $this->original->ID,
 			'class'      => implode( ' ', $form_classes ),
 			'action'     => $form_action_url,
 			'method'     => 'post',
@@ -269,6 +270,144 @@ class Form extends Core_Model {
 		);
 
 		return $data;
+	}
+
+	/**
+	 * Duplicates the form including all of its contents (except submissions).
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param bool $as_draft    Optional. Whether to set the new form post to 'draft' status initially. Default true.
+	 * @param string $new_title Optional. New form title. Default is the original title prefixed with 'Copy of '.
+	 * @return Form|WP_Error New form object on success, error object on failure.
+	 */
+	public function duplicate( $as_draft = true, $new_title = '' ) {
+		if ( empty( $this->original->ID ) ) {
+			return new WP_Error( 'form_post_not_exist', __( 'The form post does not exist in the database.', 'torro-forms' ) );
+		}
+
+		$post_data = get_post( $this->original->ID, ARRAY_A );
+		if ( ! $post_data ) {
+			return new WP_Error( 'form_post_not_exist', __( 'The form post does not exist in the database.', 'torro-forms' ) );
+		}
+
+		$post_data['ID'] = '';
+		$post_data['post_date'] = $post_data['post_modified'] = $post_data['post_date_gmt'] = $post_data['post_modified_gmt'] = '';
+
+		if ( ! empty( $new_title ) ) {
+			$post_data['post_title'] = $new_title;
+		} else {
+			/* translators: %s: original form title */
+			$post_data['post_title'] = sprintf( _x( 'Copy of %s', 'duplicated form title', 'torro-forms' ), $post_data['post_title'] );
+		}
+
+		if ( ! $as_draft ) {
+			$post_data['post_status'] = 'publish';
+		} else {
+			$post_data['post_status'] = 'draft';
+		}
+
+		$new_form_id = wp_insert_post( $post_data, true );
+		if ( is_wp_error( $new_form_id ) ) {
+			return $new_form_id;
+		}
+
+		$this->duplicate_terms_for_form( $new_form_id );
+		$this->duplicate_metadata_for_form( $new_form_id );
+		$this->duplicate_comments_for_form( $new_form_id );
+
+		foreach ( $this->get_containers() as $container ) {
+			$container->duplicate( $new_form_id );
+		}
+
+		return $this->manager->get( $new_form_id );
+	}
+
+	/**
+	 * Duplicates all taxonomy terms for this form and applies them to another given form.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int $form_id New form ID to apply the taxonomy terms to.
+	 */
+	protected function duplicate_terms_for_form( $form_id ) {
+		$taxonomies = get_object_taxonomies( get_post( $this->original->ID ), 'names' );
+		foreach ( $taxonomies as $taxonomy ) {
+			$terms = wp_get_object_terms( $this->original->ID, $taxonomy, array( 'fields' => 'ids' ) );
+			wp_set_object_terms( $form_id, $terms, $taxonomy );
+		}
+	}
+
+	/**
+	 * Duplicates all metadata for this form and attaches it to another given form.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int $form_id New form ID to attach the metadata to.
+	 */
+	protected function duplicate_metadata_for_form( $form_id ) {
+		$forbidden_meta = array( '_edit_lock', '_edit_last' );
+
+		$meta = get_post_meta( $this->original->ID );
+		foreach ( $meta as $meta_key => $meta_values ) {
+			if ( in_array( $meta_key, $forbidden_meta, true ) ) {
+				continue;
+			}
+
+			foreach ( $meta_values as $meta_value ) {
+				$meta_value = maybe_unserialize( $meta_value );
+
+				add_post_meta( $form_id, $meta_key, $meta_value );
+			}
+		}
+	}
+
+	/**
+	 * Duplicates all comments for this form and attaches them to another given form.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int $form_id New form ID to attach the comments to.
+	 */
+	protected function duplicate_comments_for_form( $form_id ) {
+		if ( ! post_type_supports( $this->manager->get_prefix() . 'form', 'comments' ) ) {
+			return;
+		}
+
+		$mappings = array();
+
+		$comments = get_comments( array(
+			'post_id' => $this->original->ID,
+		) );
+
+		foreach ( $comments as $comment ) {
+			$comment_data = get_comment( $comment, ARRAY_A );
+			$comment_data['comment_post_ID'] = $form_id;
+
+			$old_id = $comment_data['comment_ID'];
+			unset( $comment_data['comment_ID'] );
+
+			$new_id = wp_insert_comment( $comment_data );
+			$mappings[ $old_id ] = $new_id;
+		}
+
+		foreach ( $mappings as $old_id => $new_id ) {
+			$comment_data = get_comment( $new_id, ARRAY_A );
+			if ( 0 === absint( $comment_data['comment_parent'] ) ) {
+				continue;
+			}
+
+			if ( ! isset( $mappings[ $comment_data['comment_parent'] ] ) ) {
+				continue;
+			}
+
+			$comment_data['comment_parent'] = $mappings[ $comment_data['comment_parent'] ];
+			wp_update_comment( $comment_data );
+		}
 	}
 
 	/**

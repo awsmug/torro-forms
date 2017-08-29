@@ -75,6 +75,36 @@ class Form_List_Page_Handler {
 	}
 
 	/**
+	 * Adds the Duplicate row action to the list table if conditions are met.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param array   $actions Original row actions.
+	 * @param WP_Post $post    Post object.
+	 * @return array Modified row actions.
+	 */
+	public function maybe_insert_duplicate_row_action( $actions, $post ) {
+		$prefix = $this->form_manager->get_prefix();
+
+		if ( $prefix . 'form' !== $post->post_type ) {
+			return $actions;
+		}
+
+		$nonce_action = $prefix . 'duplicate_form_' . $post->ID;
+
+		$actions[ $prefix . 'duplicate' ] = sprintf(
+			'<a href="%1$s" aria-label="%2$s">%3$s</a>',
+			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action ),
+			/* translators: %s: form title */
+			esc_attr( sprintf( __( 'Duplicate &#8220;%s&#8221;', 'torro-forms' ), get_the_title( $post ) ) ),
+			_x( 'Duplicate', 'action', 'torro-forms' )
+		);
+
+		return $actions;
+	}
+
+	/**
 	 * Renders a custom list table column.
 	 *
 	 * @since 1.0.0

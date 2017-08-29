@@ -320,6 +320,47 @@ class Element extends Model {
 	}
 
 	/**
+	 * Duplicates the element including all of its contents.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $container_id New parent container ID to use for the element.
+	 * @return Element|WP_Error New element object on success, error object on failure.
+	 */
+	public function duplicate( $container_id ) {
+		$new_element = $this->manager->create();
+
+		foreach ( $this->to_json() as $key => $value ) {
+			if ( 'id' === $key ) {
+				continue;
+			}
+
+			if ( 'container_id' === $key ) {
+				$new_element->container_id = $container_id;
+				continue;
+			}
+
+			$new_element->$key = $value;
+		}
+
+		$status = $new_element->sync_upstream();
+		if ( is_wp_error( $status ) ) {
+			return $status;
+		}
+
+		foreach ( $this->get_element_choices() as $element_choice ) {
+			$element_choice->duplicate( $new_element->id );
+		}
+
+		foreach ( $this->get_element_settings() as $element_setting ) {
+			$element_setting->duplicate( $new_element->id );
+		}
+
+		return $new_element;
+	}
+
+	/**
 	 * Validates submission fields for this element.
 	 *
 	 * @since 1.0.0

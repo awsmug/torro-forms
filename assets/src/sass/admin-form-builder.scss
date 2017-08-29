@@ -211,52 +211,10 @@
 }
 
 /* ----------------------------------------------------------------------------
-  6.0 - Polyfill for button links in WordPress < 4.8
+  6.0 - Misc
 ---------------------------------------------------------------------------- */
 
-.wp-core-ui .button-link {
-	margin: 0;
-	padding: 0;
-	-webkit-box-shadow: none;
-	        box-shadow: none;
-	border: 0;
-	-webkit-border-radius: 0;
-	        border-radius: 0;
-	background: none;
-	outline: none;
-	cursor: pointer;
-	text-align: left;
-	/* Mimics the default link style in common.css */
-	color: #0073aa;
-	text-decoration: underline;
-	-webkit-transition-property: border, background, color;
-	        transition-property: border, background, color;
-	-webkit-transition-duration: .05s;
-	        transition-duration: .05s;
-	-webkit-transition-timing-function: ease-in-out;
-	        transition-timing-function: ease-in-out;
-
-	&:hover,
-	&:active {
-		color: #00a0d2;
-	}
-
-	&:focus {
-		color: #124964;
-		-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-		        box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-	}
-}
-
-.wp-core-ui .button-link-delete {
-	color: #a00;
-
-	&:hover,
-	&:focus {
-		color: #f00;
-	}
-}
-
-.ie8 .wp-core-ui .button-link:focus {
-	outline: #5b9dd9 solid 1px;
+#minor-publishing-actions #duplicate-action {
+	clear: both;
+	padding-top: 1em;
 }

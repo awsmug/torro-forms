@@ -77,4 +77,37 @@ class Element_Setting extends Model {
 
 		return $this->manager->get_parent_manager( 'elements' )->get( $this->element_id );
 	}
+
+	/**
+	 * Duplicates the element setting.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $element_id New parent element ID to use for the element setting.
+	 * @return Element_Setting|WP_Error New element setting object on success, error object on failure.
+	 */
+	public function duplicate( $element_id ) {
+		$new_element_setting = $this->manager->create();
+
+		foreach ( $this->to_json() as $key => $value ) {
+			if ( 'id' === $key ) {
+				continue;
+			}
+
+			if ( 'element_id' === $key ) {
+				$new_element_setting->element_id = $element_id;
+				continue;
+			}
+
+			$new_element_setting->$key = $value;
+		}
+
+		$status = $new_element_setting->sync_upstream();
+		if ( is_wp_error( $status ) ) {
+			return $status;
+		}
+
+		return $new_element_setting;
+	}
 }

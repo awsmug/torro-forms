@@ -87,4 +87,37 @@ class Element_Choice extends Model {
 
 		return $this->manager->get_parent_manager( 'elements' )->get( $this->element_id );
 	}
+
+	/**
+	 * Duplicates the element choice.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $element_id New parent element ID to use for the element choice.
+	 * @return Element_Choice|WP_Error New element choice object on success, error object on failure.
+	 */
+	public function duplicate( $element_id ) {
+		$new_element_choice = $this->manager->create();
+
+		foreach ( $this->to_json() as $key => $value ) {
+			if ( 'id' === $key ) {
+				continue;
+			}
+
+			if ( 'element_id' === $key ) {
+				$new_element_choice->element_id = $element_id;
+				continue;
+			}
+
+			$new_element_choice->$key = $value;
+		}
+
+		$status = $new_element_choice->sync_upstream();
+		if ( is_wp_error( $status ) ) {
+			return $status;
+		}
+
+		return $new_element_choice;
+	}
 }

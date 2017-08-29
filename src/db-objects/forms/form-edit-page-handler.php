@@ -348,6 +348,114 @@ class Form_Edit_Page_Handler {
 	}
 
 	/**
+	 * Handles the duplicate form action.
+	 *
+	 * Duplicates the form and redirects back to the referer URL.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function action_duplicate_form() {
+		if ( ! isset( $_REQUEST['form_id'] ) ) {
+			wp_die( __( 'Missing form ID.', 'torro-forms' ), '', 400 );
+		}
+
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+			wp_die( __( 'Missing nonce.', 'torro-forms' ), '', 400 );
+		}
+
+		$form_id = (int) $_REQUEST['form_id'];
+
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $this->form_manager->get_prefix() . 'duplicate_form_' . $form_id ) ) {
+			wp_die( __( 'Invalid nonce.', 'torro-forms' ), '', 403 );
+		}
+
+		$form = $this->form_manager->get( $form_id );
+		if ( ! $form ) {
+			wp_die( __( 'Invalid form ID.', 'torro-forms' ), '', 404 );
+		}
+
+		$new_form = $form->duplicate();
+		if ( is_wp_error( $new_form ) ) {
+			$feedback = array(
+				'type'     => 'error',
+				/* translators: 1: form title, 2: error message */
+				'message' => sprintf( __( 'The form &#8220;%1$s&#8221; could not be duplicated: %2$s', 'torro-forms' ), $form->title, $new_form->get_error_message() ),
+			);
+		} else {
+			$feedback = array(
+				'type'     => 'success',
+				/* translators: 1: form title, 2: new form edit URL */
+				'message' => sprintf( __( 'The form &#8220;%1$s&#8221; was duplicated successfully. <a href="%2$s">View the duplicate</a>', 'torro-forms' ), $form->title, get_edit_post_link( $new_form->id ) ),
+			);
+		}
+
+		$meta_key = $this->form_manager->get_prefix() . 'duplicate_feedback';
+
+		$this->form_manager->update_meta( $form->id, $meta_key, $feedback );
+
+		$redirect_url = add_query_arg( $meta_key, $form->id, wp_get_referer() );
+
+		wp_redirect( $redirect_url );
+		exit;
+	}
+
+	/**
+	 * Displays feedback from the duplicate form action when applicable.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function maybe_show_duplicate_form_feedback() {
+		$meta_key = $this->form_manager->get_prefix() . 'duplicate_feedback';
+
+		if ( empty( $_GET[ $meta_key ] ) ) {
+			return;
+		}
+
+		$form_id = (int) $_GET[ $meta_key ];
+		unset( $_GET[ $meta_key ] );
+
+		$feedback = $this->form_manager->get_meta( $form_id, $meta_key, true );
+		if ( ! is_array( $feedback ) ) {
+			return;
+		}
+
+		$this->form_manager->delete_meta( $form_id, $meta_key );
+
+		?>
+		<div class="notice notice-<?php echo esc_attr( $feedback['type'] ); ?>">
+			<p><?php echo wp_kses( $feedback['message'], array( 'strong' => array(), 'a' => array( 'href' => array() ) ) ); ?></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Displays a button to duplicate a form when applicable.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param WP_Post $post Current post object.
+	 */
+	public function maybe_render_duplicate_button( $post ) {
+		$prefix = $this->form_manager->get_prefix();
+
+		if ( $prefix . 'form' !== $post->post_type || 'auto-draft' === $post->post_status ) {
+			return;
+		}
+
+		$nonce_action = $prefix . 'duplicate_form_' . $post->ID;
+		$url = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action );
+
+		?>
+		<div id="duplicate-action">
+			<a class="button" href="<?php echo $url; ?>"><?php _ex( 'Duplicate', 'action', 'torro-forms' ); ?></a>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Renders form canvas.
 	 *
 	 * @since 1.0.0

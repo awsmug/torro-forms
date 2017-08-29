@@ -444,6 +444,18 @@ class Form_Manager extends Core_Manager {
 			'priority' => 10,
 			'num_args' => 2,
 		);
+		$this->actions[] = array(
+			'name'     => 'post_row_actions',
+			'callback' => array( $this->list_page_handler, 'maybe_insert_duplicate_row_action' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
+		$this->actions[] = array(
+			'name'     => 'page_row_actions',
+			'callback' => array( $this->list_page_handler, 'maybe_insert_duplicate_row_action' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
 
 		$this->actions[] = array(
 			'name'     => 'edit_form_after_title',
@@ -478,6 +490,24 @@ class Form_Manager extends Core_Manager {
 		$this->actions[] = array(
 			'name'     => "save_post_{$this->get_prefix()}form",
 			'callback' => array( $this->edit_page_handler, 'maybe_handle_save_request' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => "admin_action_{$this->get_prefix()}duplicate_form",
+			'callback' => array( $this->edit_page_handler, 'action_duplicate_form' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
+			'name'     => 'admin_notices',
+			'callback' => array( $this->edit_page_handler, 'maybe_show_duplicate_form_feedback' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
+			'name'     => 'post_submitbox_minor_actions',
+			'callback' => array( $this->edit_page_handler, 'maybe_render_duplicate_button' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);

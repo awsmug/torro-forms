@@ -266,59 +266,11 @@
 }
 
 /* ----------------------------------------------------------------------------
-  6.0 - Polyfill for button links in WordPress < 4.8
+  6.0 - Misc
 ---------------------------------------------------------------------------- */
-.wp-core-ui .button-link
+#minor-publishing-actions #duplicate-action
 {
-    margin: 0;
-    padding: 0;
+    clear: both;
 
-    cursor: pointer;
-    -webkit-transition-timing-function: ease-in-out;
-            transition-timing-function: ease-in-out;
-    -webkit-transition-duration: .05s;
-            transition-duration: .05s;
-    -webkit-transition-property: border, background, color;
-            transition-property: border, background, color;
-    text-align: left;
-    text-decoration: underline;
-    /* Mimics the default link style in common.css */
-
-    color: #0073aa;
-    border: 0;
-    -webkit-border-radius: 0;
-            border-radius: 0;
-    outline: none;
-    background: none;
-    -webkit-box-shadow: none;
-            box-shadow: none;
-}
-
-.wp-core-ui .button-link:hover,
-.wp-core-ui .button-link:active
-{
-    color: #00a0d2;
-}
-
-.wp-core-ui .button-link:focus
-{
-    color: #124964;
-    -webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-            box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-}
-
-.wp-core-ui .button-link-delete
-{
-    color: #a00;
-}
-
-.wp-core-ui .button-link-delete:hover,
-.wp-core-ui .button-link-delete:focus
-{
-    color: #f00;
-}
-
-.ie8 .wp-core-ui .button-link:focus
-{
-    outline: #5b9dd9 solid 1px;
+    padding-top: 1em;
 }
