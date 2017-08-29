@@ -81,7 +81,12 @@ class Submissions_List_Table extends Models_List_Table {
 			return;
 		}
 
-		printf( '<a href="%1$s">%2$s</a>', esc_url( add_query_arg( 'user_id', $user->ID, $this->_args['models_page'] ) ), $user->display_name );
+		$url = add_query_arg( 'user_id', $user->ID, $this->_args['models_page'] );
+		if ( ! empty( $_GET['form_id'] ) ) {
+			$url = add_query_arg( 'form_id', (int) $_GET['form_id'], $url );
+		}
+
+		printf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $user->display_name );
 	}
 
 	/**
@@ -188,7 +193,12 @@ class Submissions_List_Table extends Models_List_Table {
 			);
 		}
 
-		$counts = $this->manager->count( $user_id );
+		$form_id = 0;
+		if ( ! empty( $_GET['form_id'] ) ) {
+			$form_id = (int) $_GET['form_id'];
+		}
+
+		$counts = $this->manager->count( $user_id, $form_id );
 
 		foreach ( $counts as $status => $number ) {
 			if ( '_total' === $status ) {
@@ -218,6 +228,12 @@ class Submissions_List_Table extends Models_List_Table {
 					'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_all', true ), $total ), number_format_i18n( $total ) ),
 				),
 			), $views );
+		}
+
+		if ( $form_id > 0 ) {
+			foreach ( $views as $slug => $data ) {
+				$views[ $slug ]['url'] = add_query_arg( 'form_id', $form_id, $data['url'] );
+			}
 		}
 
 		/**
@@ -309,6 +325,119 @@ class Submissions_List_Table extends Models_List_Table {
 			$query_params['status'] = array_map( 'sanitize_key', (array) $_REQUEST['status'] );
 		}
 
+		if ( ! empty( $_REQUEST['m'] ) ) {
+			$year =  (int) substr( $_REQUEST['m'], 0, 4 );
+			$month = (int) substr( $_REQUEST['m'], 4, 2 );
+
+			$yearmonth = '' . $year . '-' . $month;
+			if ( 12 === $month ) {
+				$next_yearmonth = '' . ( $year + 1 ) . '-01';
+			} else {
+				$next_yearmonth = '' . $year . '-' . ( $month + 1 );
+			}
+
+			$query_params['timestamp'] = array(
+				'greater_than' => (int) strtotime( $yearmonth . '-01' ),
+				'lower_than'   => (int) strtotime( $next_yearmonth . '-01' ) - 1,
+				'inclusive'    => true,
+			);
+		}
+
+		$default_orderby = 'timestamp';
+		$default_order = 'DESC';
+		if ( isset( $_REQUEST['orderby'] ) && isset( $_REQUEST['order'] ) ) {
+			$query_params['orderby'] = array( $_REQUEST['orderby'] => $_REQUEST['order'] );
+		} elseif ( isset( $_REQUEST['orderby'] ) ) {
+			$query_params['orderby'] = array( $_REQUEST['orderby'] => $default_order );
+		} elseif ( isset( $_REQUEST['order'] ) ) {
+			$query_params['orderby'] = array( $default_orderby => $_REQUEST['order'] );
+		} else {
+			$query_params['orderby'] = array( $default_orderby => $default_order );
+		}
+
 		return $query_params;
+	}
+
+	/**
+	 * Prints input fields for filtering.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function print_filters() {
+		$this->timestamp_months_dropdown( 'timestamp' );
+
+		parent::print_filters();
+	}
+
+	/**
+	 * Displays a monthly timestamp dropdown for filtering.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @global WP_Locale $wp_locale
+	 *
+	 * @param string $timestamp_property The timestamp property.
+	 */
+	protected function timestamp_months_dropdown( $timestamp_property ) {
+		global $wp_locale;
+
+		$where = '';
+		$where_args = array();
+
+		if ( ! empty( $_GET['form_id'] ) ) {
+			$where .= ' AND form_id = %d';
+			$where_args[] = (int) $_GET['form_id'];
+		}
+
+		if ( method_exists( $this->manager, 'get_author_property' ) ) {
+			$author_property = $this->manager->get_author_property();
+
+			$capabilities = $this->manager->capabilities();
+			if ( ! $capabilities || ! $capabilities->current_user_can( 'edit_others_items' ) ) {
+				$where .= " AND $author_property = %d";
+				$where_args[] = get_current_user_id();
+			}
+		}
+
+		if ( method_exists( $this->manager, 'get_status_property' ) ) {
+			$status_property = $this->manager->get_status_property();
+			$internal_statuses = array_keys( $this->manager->statuses()->query( array( 'internal' => true ) ) );
+
+			if ( ! empty( $internal_statuses ) ) {
+				$where .= " AND $status_property NOT IN (" . implode( ',', array_fill( 0, count( $internal_statuses ), '%s' ) ) . ')';
+				$where_args = array_merge( $where_args, $internal_statuses );
+			}
+		}
+
+		$table_name = $this->manager->get_table_name();
+
+		$months = $this->manager->db()->get_results( "SELECT DISTINCT YEAR( FROM_UNIXTIME( $timestamp_property ) ) AS year, MONTH( FROM_UNIXTIME( $timestamp_property ) ) AS month FROM %{$table_name}% WHERE 1=1 $where ORDER BY $timestamp_property DESC", $where_args );
+
+		$month_count = count( $months );
+
+		if ( ! $month_count || ( 1 === $month_count && 0 === (int) $months[0]->month ) ) {
+			return;
+		}
+
+		$m = isset( $_REQUEST['m'] ) ? (int) $_REQUEST['m'] : 0;
+
+		echo '<label for="filter-by-date" class="screen-reader-text">' . $this->manager->get_message( 'list_table_filter_by_date_label' ) . '</label>';
+		echo '<select id="filter-by-date" name="m">';
+		echo '<option value="0"' . selected( $m, 0, false ) . '>' . $this->manager->get_message( 'list_table_all_dates' ) . '</option>';
+
+		foreach ( $months as $row ) {
+			if ( 0 === (int) $row->year ) {
+				continue;
+			}
+
+			$month = zeroise( $row->month, 2 );
+			$year  = $row->year;
+
+			printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $year . $month ), selected( $m, $year . $month, false ), sprintf( $this->manager->get_message( 'list_table_month_year' ), $wp_locale->get_month( $month ), $year ) );
+		}
+
+		echo '</select>';
 	}
 }

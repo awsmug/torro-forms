@@ -83,12 +83,14 @@ class Submission_Manager extends Manager {
 	 *
 	 * @param int $user_id Optional. If provided and the manager supports authors,
 	 *                     only models by that user are counted. Default 0 (ignored).
+	 * @param int $form_id Optional. If provided only submissions for that form are
+	 *                     counted. Default 0 (ignored).
 	 * @return array Array of `$status => $count` pairs. In addition, the array
 	 *               always includes a key called '_total', containing the overall
 	 *               count. If the manager does not support statuses, the array
 	 *               only contains the '_total' key.
 	 */
-	public function count( $user_id = 0 ) {
+	public function count( $user_id = 0, $form_id = 0 ) {
 		$user_id = absint( $user_id );
 
 		$cache_key = $this->plural_slug;
@@ -101,11 +103,21 @@ class Submission_Manager extends Manager {
 			return $counts;
 		}
 
-		$where = '';
+		$where = array();
 		$where_args = array();
 		if ( $user_id > 0 ) {
-			$where = ' WHERE user_id = %d';
+			$where[] = 'user_id = %d';
 			$where_args[] = $user_id;
+		}
+		if ( $form_id > 0 ) {
+			$where[] = 'form_id = %d';
+			$where_args[] = $form_id;
+		}
+
+		if ( ! empty( $where ) ) {
+			$where = 'WHERE ' . implode( ' AND ', $where );
+		} else {
+			$where = '';
 		}
 
 		$results = $this->db()->get_results( "SELECT status, COUNT( * ) AS num_models FROM %{$this->table_name}% $where GROUP BY status", $where_args );

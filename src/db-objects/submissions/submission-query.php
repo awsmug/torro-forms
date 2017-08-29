@@ -38,6 +38,7 @@ class Submission_Query extends Query {
 		$this->query_var_defaults['user_key'] = '';
 		$this->query_var_defaults['author_identification'] = '';
 		$this->query_var_defaults['status']  = '';
+		$this->query_var_defaults['timestamp'] = '';
 	}
 
 	/**
@@ -75,6 +76,33 @@ class Submission_Query extends Query {
 
 			if ( ! empty( $author_identification ) ) {
 				$where['author_identification'] = '( (' . implode( ') OR (', $author_identification ) . ') )';
+			}
+		}
+
+		if ( '' !== $this->query_vars['timestamp'] ) {
+			$table_name = $this->manager->get_table_name();
+
+			if ( is_array( $this->query_vars['timestamp'] ) ) {
+				if ( isset( $this->query_vars['timestamp']['greater_than'] ) ) {
+					if ( ! empty( $this->query_vars['timestamp']['inclusive'] ) ) {
+						$where['timestamp_greater_than'] = "%{$table_name}%.timestamp >= %d";
+					} else {
+						$where['timestamp_greater_than'] = "%{$table_name}%.timestamp > %d";
+					}
+					$args[] = absint( $this->query_vars['timestamp']['greater_than'] );
+				}
+
+				if ( isset( $this->query_vars['timestamp']['lower_than'] ) ) {
+					if ( ! empty( $this->query_vars['timestamp']['inclusive'] ) ) {
+						$where['timestamp_lower_than'] = "%{$table_name}%.timestamp <= %d";
+					} else {
+						$where['timestamp_lower_than'] = "%{$table_name}%.timestamp < %d";
+					}
+					$args[] = absint( $this->query_vars['timestamp']['lower_than'] );
+				}
+			} else {
+				$where['timestamp'] = "%{$table_name}%.timestamp = %d";
+				$args[] = absint( $this->query_vars['timestamp'] );
 			}
 		}
 
