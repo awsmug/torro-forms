@@ -446,13 +446,13 @@ class Form_Manager extends Core_Manager {
 		);
 		$this->actions[] = array(
 			'name'     => 'post_row_actions',
-			'callback' => array( $this->list_page_handler, 'maybe_insert_duplicate_row_action' ),
+			'callback' => array( $this->list_page_handler, 'maybe_adjust_row_actions' ),
 			'priority' => 10,
 			'num_args' => 2,
 		);
 		$this->actions[] = array(
 			'name'     => 'page_row_actions',
-			'callback' => array( $this->list_page_handler, 'maybe_insert_duplicate_row_action' ),
+			'callback' => array( $this->list_page_handler, 'maybe_adjust_row_actions' ),
 			'priority' => 10,
 			'num_args' => 2,
 		);

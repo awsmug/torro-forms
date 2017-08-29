@@ -46,7 +46,7 @@ class Form_List_Page_Handler {
 	 * @access public
 	 *
 	 * @param array $columns Form list table columns.
-	 * @return array Adjust columns.
+	 * @return array Adjusted columns.
 	 */
 	public function maybe_adjust_table_columns( $columns ) {
 		$new_columns = array(
@@ -75,29 +75,44 @@ class Form_List_Page_Handler {
 	}
 
 	/**
-	 * Adds the Duplicate row action to the list table if conditions are met.
+	 * Adjusts row actions if conditions are met.
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
 	 * @param array   $actions Original row actions.
-	 * @param WP_Post $post    Post object.
-	 * @return array Modified row actions.
+	 * @param WP_Post $post    Current post object.
+	 * @return array Possibly modified row actions.
 	 */
-	public function maybe_insert_duplicate_row_action( $actions, $post ) {
-		$prefix = $this->form_manager->get_prefix();
-
-		if ( $prefix . 'form' !== $post->post_type ) {
-			return $actions;
+	public function maybe_adjust_row_actions( $actions, $post ) {
+		$form = $this->form_manager->get( $post->ID );
+		if ( ! $form ) {
+			return $actions;;
 		}
 
-		$nonce_action = $prefix . 'duplicate_form_' . $post->ID;
+		return $this->insert_custom_row_actions( $actions, $form );
+	}
+
+	/**
+	 * Inserts custom row actions for the list table.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param array $actions Original row actions.
+	 * @param Form  $form    Current form object.
+	 * @return array Modified row actions.
+	 */
+	public function insert_custom_row_actions( $actions, $form ) {
+		$prefix = $this->form_manager->get_prefix();
+
+		$nonce_action = $prefix . 'duplicate_form_' . $form->id;
 
 		$actions[ $prefix . 'duplicate' ] = sprintf(
 			'<a href="%1$s" aria-label="%2$s">%3$s</a>',
-			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action ),
+			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $form->id . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action ),
 			/* translators: %s: form title */
-			esc_attr( sprintf( __( 'Duplicate &#8220;%s&#8221;', 'torro-forms' ), get_the_title( $post ) ) ),
+			esc_attr( sprintf( __( 'Duplicate &#8220;%s&#8221;', 'torro-forms' ), get_the_title( $form->id ) ) ),
 			_x( 'Duplicate', 'action', 'torro-forms' )
 		);
 
