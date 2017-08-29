@@ -108,6 +108,14 @@ class Form_List_Page_Handler {
 
 		$nonce_action = $prefix . 'duplicate_form_' . $form->id;
 
+		$actions[ $prefix . 'view_submissions' ] = sprintf(
+			'<a href="%1$s" aria-label="%2$s">%3$s</a>',
+			add_query_arg( 'form_id', $form->id, torro()->admin_pages()->get( 'list_submissions' )->url ),
+			/* translators: %s: form title */
+			esc_attr( sprintf( __( 'View submissions for &#8220;%s&#8221;', 'torro-forms' ), get_the_title( $form->id ) ) ),
+			_x( 'View Submissions', 'action', 'torro-forms' )
+		);
+
 		$actions[ $prefix . 'duplicate' ] = sprintf(
 			'<a href="%1$s" aria-label="%2$s">%3$s</a>',
 			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $form->id . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action ),
