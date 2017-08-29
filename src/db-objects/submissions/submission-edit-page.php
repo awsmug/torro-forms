@@ -135,8 +135,9 @@ class Submission_Edit_Page extends Model_Edit_Page {
 			'general'    => array(
 				'title' => _x( 'General', 'submission edit page tab', 'torro-forms' ),
 			),
-			'form_input' => array(
-				'title' => _x( 'Form Input', 'submission edit page tab', 'torro-forms' ),
+			'advanced'   => array(
+				'title' => _x( 'Advanced', 'submission edit page tab', 'torro-forms' ),
+				'description' => __( 'Here you can edit the individual input values the user provided for the submission. <strong>Please be careful: You should only be tweaking these if you know exactly what you are doing!</strong>', 'torro-forms' ),
 			),
 		);
 
@@ -161,6 +162,10 @@ class Submission_Edit_Page extends Model_Edit_Page {
 				'tab'   => 'general',
 				'title' => _x( 'Identification Data', 'submission edit page section', 'torro-forms' ),
 			),
+			'form_input'          => array(
+				'tab'   => 'advanced',
+				'title' => _x( 'Form Input', 'submission edit page section', 'torro-forms' ),
+			),
 		);
 
 		return $sections;
@@ -175,6 +180,55 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	protected function get_fields() {
+		$form = null;
+		if ( ! empty( $_REQUEST['id'] ) ) {
+			$submission = $this->model_manager->get( (int) $_REQUEST['id'] );
+			if ( $submission && ! empty( $submission->form_id ) ) {
+				$form = $this->model_manager->get_parent_manager( 'forms' )->get( $submission->form_id );
+			}
+		}
+
+		if ( $form ) {
+			$elements = $this->model_manager->get_parent_manager( 'forms' )->get_child_manager( 'containers' )->get_child_manager( 'elements' )->query( array(
+				'number'  => -1,
+				'form_id' => $form->id,
+			) );
+			if ( count( $elements ) > 8 ) {
+				$element_id_field = array(
+					'type'          => 'autocomplete',
+					'label'         => __( 'Element', 'torro-forms' ),
+					'description'   => __( 'Specify the form element this value applies to.', 'torro-forms' ),
+					'input_classes' => array( 'regular-text' ),
+					'autocomplete'  => array(
+						'rest_placeholder_search_route' => 'torro/v1/elements?form_id=' . $form->id . '&search=%search%',
+						'rest_placeholder_label_route'  => 'torro/v1/elements/%value%',
+						'value_generator'               => '%id%',
+						'label_generator'               => '%label%',
+					),
+				);
+			} else {
+				$element_choices = array( '0' => _x( 'None', 'element choices', 'torro-forms' ) );
+				foreach ( $elements as $element ) {
+					$element_choices[ $element->id ] = $element->label;
+				}
+
+				$element_id_field = array(
+					'type'         => 'select',
+					'label'        => __( 'Element', 'torro-forms' ),
+					'description'  => __( 'Specify the form element this value applies to.', 'torro-forms' ),
+					'choices'      => $element_choices,
+				);
+			}
+		} else {
+			$element_id_field = array(
+				'type'        => 'number',
+				'label'       => __( 'Element ID', 'torro-forms' ),
+				'description' => __( 'Specify the internal form element ID this value applies to.', 'torro-forms' ),
+				'min'         => 1,
+				'step'        => 1,
+			);
+		}
+
 		$fields = array(
 			'form_id'     => array(
 				'section'      => 'associated_data',
@@ -215,6 +269,34 @@ class Submission_Edit_Page extends Model_Edit_Page {
 				'label'         => __( 'Key', 'torro-forms' ),
 				'description'   => __( 'Specify the key identifying the submission creator.', 'torro-forms' ),
 				'input_classes' => array( 'regular-text' ),
+			),
+			'values'      => array(
+				'section'       => 'form_input',
+				'type'          => 'group',
+				'label'         => __( 'Submission Values', 'torro-forms' ),
+				'repeatable'    => true,
+				'fields'        => array(
+					'id'         => array(
+						'type'        => 'number',
+						'label'       => __( 'Value ID', 'torro-forms' ),
+						'description' => __( 'Specify the internal ID of this value.', 'torro-forms' ),
+						'min'         => 1,
+						'step'        => 1,
+					),
+					'element_id' => $element_id_field,
+					'field'      => array(
+						'type'          => 'text',
+						'label'         => __( 'Field', 'torro-forms' ),
+						'description'   => __( 'Specify the form element field identifier this value applies to. Must be empty for non multi-field elements.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'value'      => array(
+						'type'          => 'text',
+						'label'         => __( 'Value', 'torro-forms' ),
+						'description'   => __( 'Enter or modify the actual value given for the element and field.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+				),
 			),
 		);
 

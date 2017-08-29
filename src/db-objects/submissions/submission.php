@@ -95,6 +95,77 @@ class Submission extends Model {
 	protected $status = 'completed';
 
 	/**
+	 * Internal submission value storage.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var array|null
+	 */
+	protected $values = null;
+
+	/**
+	 * Magic isset-er.
+	 *
+	 * Checks whether a property is set.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $property Property to check for.
+	 * @return bool True if the property is set, false otherwise.
+	 */
+	public function __isset( $property ) {
+		if ( 'values' === $property ) {
+			return true;
+		}
+
+		return parent::__isset( $property );
+	}
+
+	/**
+	 * Magic getter.
+	 *
+	 * Returns a property value.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $property Property to get.
+	 * @return mixed Property value, or null if property is not set.
+	 */
+	public function __get( $property ) {
+		if ( 'values' === $property ) {
+			if ( is_array( $this->values ) ) {
+				return $this->values;
+			}
+
+			return $this->get_values_data();
+		}
+
+		return parent::__get( $property );
+	}
+
+	/**
+	 * Magic setter.
+	 *
+	 * Sets a property value.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $property Property to set.
+	 * @param mixed  $value    Property value.
+	 */
+	public function __set( $property, $value ) {
+		if ( 'values' === $property ) {
+			$this->set_values_data( $value );
+			return;
+		}
+
+		parent::__set( $property, $value );
+	}
+
+	/**
 	 * Returns the parent form for the submission.
 	 *
 	 * @since 1.0.0
@@ -130,6 +201,94 @@ class Submission extends Model {
 		) );
 
 		return $this->manager->get_child_manager( 'submission_values' )->query( $args );
+	}
+
+	/**
+	 * Synchronizes the model with the database by storing the currently pending values.
+	 *
+	 * If the model is new (i.e. does not have an ID yet), it will be inserted to the database.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return true|WP_Error True on success, or an error object on failure.
+	 */
+	public function sync_upstream() {
+		$result = parent::sync_upstream();
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		if ( null !== $this->values ) {
+			$manager = $this->manager->get_child_manager( 'submission_values' );
+
+			$ids = array();
+			foreach ( $this->values as $item ) {
+				$submission_value = null;
+				if ( ! empty( $item['id'] ) ) {
+					$submission_value = $manager->get( $item['id'] );
+					if ( $submission_value && $this->id !== $submission_value->submission_id ) {
+						continue;
+					}
+				}
+
+				if ( ! $submission_value ) {
+					$submission_value = $manager->create();
+				}
+
+				$submission_value->submission_id = $this->id;
+				$submission_value->field         = $item['field'];
+				$submission_value->value         = $item['value'];
+				if ( ! empty( $item['element_id'] ) ) {
+					$submission_value->element_id = $item['element_id'];
+				}
+
+				$submission_value->sync_upstream();
+
+				if ( empty( $submission_value->id ) ) {
+					continue;
+				}
+
+				$ids[] = $submission_value->id;
+			}
+
+			if ( ! empty( $ids ) ) {
+				$old_values = $this->get_submission_values( array(
+					'exclude' => $ids,
+				) );
+				foreach ( $old_values as $old_value ) {
+					$old_value->delete();
+				}
+			}
+
+			$this->values = null;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Synchronizes the model with the database by fetching the currently stored values.
+	 *
+	 * If the model contains unsynchronized changes, these will be overridden. This method basically allows
+	 * to reset the model to the values stored in the database.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return true|WP_Error True on success, or an error object on failure.
+	 */
+	public function sync_downstream() {
+		$result = parent::sync_downstream();
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		$this->values = null;
+
+		return $result;
 	}
 
 	/**
@@ -468,5 +627,72 @@ class Submission extends Model {
 		$this->pending_meta['errors'] = null;
 
 		return true;
+	}
+
+	/**
+	 * Gets submission values data for the submission, to be used with the field manager.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Submission values data.
+	 */
+	protected function get_values_data() {
+		$data = array();
+
+		foreach ( $this->get_submission_values() as $submission_value ) {
+			$data[] = array(
+				'id'         => $submission_value->id,
+				'element_id' => $submission_value->element_id,
+				'field'      => $submission_value->field,
+				'value'      => $submission_value->value,
+			);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Sets submission values data for the submission, to be used with the field manager.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array $value Submission values data.
+	 */
+	protected function set_values_data( $value ) {
+		if ( ! is_array( $value ) ) {
+			return;
+		}
+
+		$data = array();
+		foreach ( $value as $item ) {
+			$data[] = array(
+				'id'         => ! empty( $item['id'] ) ? (int) $item['id'] : 0,
+				'element_id' => ! empty( $item['element_id'] ) ? (int) $item['element_id'] : 0,
+				'field'      => ! empty( $item['field'] ) ? sanitize_key( $item['field'] ) : '',
+				'value'      => ! empty( $item['value'] ) ? $item['value'] : '',
+			);
+		}
+
+		$this->values = $data;
+	}
+
+	/**
+	 * Returns a list of internal properties that are not publicly accessible.
+	 *
+	 * When overriding this method, always make sure to merge with the parent result.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @return array Property blacklist.
+	 */
+	protected function get_blacklist() {
+		$blacklist = parent::get_blacklist();
+
+		$blacklist[] = 'values';
+
+		return $blacklist;
 	}
 }
