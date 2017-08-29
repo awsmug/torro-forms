@@ -151,6 +151,17 @@ class Assets extends Assets_Base {
 			'ver'  => $this->plugin_version,
 		) );
 
+		$this->register_script( 'clipboard', 'assets/dist/js/clipboard.js', array(
+			'deps'      => array(),
+			'ver'       => $this->plugin_version,
+			'in_footer' => true,
+		) );
+
+		$this->register_style( 'clipboard', 'assets/dist/css/clipboard.css', array(
+			'deps' => array(),
+			'ver'  => $this->plugin_version,
+		) );
+
 		$this->register_script( 'template-tag-fields', 'assets/dist/js/template-tag-fields.js', array(
 			'deps'      => array( 'plugin-lib-fields', 'jquery' ),
 			'ver'       => $this->plugin_version,
@@ -186,6 +197,25 @@ class Assets extends Assets_Base {
 	}
 
 	/**
+	 * Adds utility CSS classes to the admin body tag.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $classes Optional. Admin body classes. Default empty string.
+	 * @return string Modified admin body classes.
+	 */
+	protected function add_admin_utility_body_classes( $classes = '' ) {
+		if ( ! empty( $classes ) ) {
+			$classes .= ' ';
+		}
+
+		$classes .= 'no-clipboard';
+
+		return $classes;
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * This method must be implemented and then be called from the constructor.
@@ -212,6 +242,15 @@ class Assets extends Assets_Base {
 				'callback' => array( $this, 'enqueue_icons' ),
 				'priority' => 10,
 				'num_args' => 0,
+			),
+		);
+
+		$this->filters = array(
+			array(
+				'name'     => 'admin_body_class',
+				'callback' => array( $this, 'add_admin_utility_body_classes' ),
+				'priority' => 1,
+				'num_args' => 1,
 			),
 		);
 	}

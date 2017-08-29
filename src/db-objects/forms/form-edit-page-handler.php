@@ -455,6 +455,29 @@ class Form_Edit_Page_Handler {
 		<?php
 	}
 
+	public function maybe_render_shortcode( $post ) {
+		$prefix = $this->form_manager->get_prefix();
+
+		if ( $prefix . 'form' !== $post->post_type || 'auto-draft' === $post->post_status ) {
+			return;
+		}
+
+		$this->form_manager->assets()->enqueue_script( 'clipboard' );
+		$this->form_manager->assets()->enqueue_style( 'clipboard' );
+
+		$id_attr = 'form-shortcode-' . $post->ID;
+
+		?>
+		<div class="misc-pub-section form-shortcode">
+			<label for="<?php echo esc_attr( $id_attr ); ?>"><?php _e( 'Form Shortcode:', 'torro-forms' ); ?></label>
+			<input id="<?php echo esc_attr( $id_attr ); ?>" class="clipboard-field" value="<?php echo esc_attr( sprintf( "[{$this->form_manager->get_prefix()}form id=&quot;%d&quot;]", $post->ID ) ); ?>" readonly="readonly" />
+			<button type="button" class="clipboard-button button" data-clipboard-target="#<?php echo esc_attr( $id_attr ); ?>">
+				<img src="<?php echo esc_url( $this->form_manager->assets()->get_full_url( 'assets/dist/img/clippy.svg' ) ); ?>" alt="<?php esc_attr_e( 'Copy to clipboard', 'torro-forms' ); ?>" />
+			</button>
+		</div>
+		<?php
+	}
+
 	/**
 	 * Renders form canvas.
 	 *

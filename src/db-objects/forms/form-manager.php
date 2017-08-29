@@ -511,5 +511,11 @@ class Form_Manager extends Core_Manager {
 			'priority' => 10,
 			'num_args' => 1,
 		);
+		$this->actions[] = array(
+			'name'     => 'post_submitbox_misc_actions',
+			'callback' => array( $this->edit_page_handler, 'maybe_render_shortcode' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
 	}
 }
