@@ -29,3 +29,8 @@ button.button.clipboard-button img
     width: 14px;
     height: auto;
 }
+
+.no-clipboard .clipboard-button
+{
+    display: none;
+}

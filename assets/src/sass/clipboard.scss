@@ -19,3 +19,7 @@ button.button.clipboard-button {
 		height: auto;
 	}
 }
+
+.no-clipboard .clipboard-button {
+	display: none;
+}

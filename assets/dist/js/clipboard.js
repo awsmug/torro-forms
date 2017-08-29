@@ -7,6 +7,17 @@
 
 	var supported, clipboardButtons, clipboardFields, i;
 
+	function select( e ) {
+		var clipboardField = e.srcElement;
+
+		clipboardField.select();
+	}
+
+	clipboardFields = document.getElementsByClassName( 'clipboard-field' );
+	for ( i = 0; i < clipboardFields.length; i++ ) {
+		clipboardFields[ i ].addEventListener( 'focus', select );
+	}
+
 	try {
 		supported = document.queryCommandSupported( 'copy' );
 	} catch ( err ) {
@@ -52,19 +63,8 @@
 		}
 	}
 
-	function select( e ) {
-		var clipboardField = e.srcElement;
-
-		clipboardField.select();
-	}
-
 	clipboardButtons = document.getElementsByClassName( 'clipboard-button' );
 	for ( i = 0; i < clipboardButtons.length; i++ ) {
 		clipboardButtons[ i ].addEventListener( 'click', copyToClipboard );
-	}
-
-	clipboardFields = document.getElementsByClassName( 'clipboard-field' );
-	for ( i = 0; i < clipboardFields.length; i++ ) {
-		clipboardFields[ i ].addEventListener( 'focus', select );
 	}
 }() );
