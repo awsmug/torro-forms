@@ -41,6 +41,52 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	}
 
 	/**
+	 * Gets aggregate form statistics for the evaluator.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $form_id Form ID.
+	 * @return array Array of statistics, or empty array if nothing set yet.
+	 */
+	public function get_stats( $form_id ) {
+		$stats = $this->module->manager()->meta()->get( 'post', $form_id, $this->module->manager()->get_prefix() . 'stats', true );
+		if ( ! is_array( $stats ) ) {
+			return array();
+		}
+
+		$stats_slug = $this->get_meta_identifier();
+		if ( ! isset( $stats[ $stats_slug ] ) ) {
+			return array();
+		}
+
+		return $stats[ $stats_slug ];
+	}
+
+	/**
+	 * Updates aggregate form statistics for the evaluator.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int   $form_id Form ID.
+	 * @param array $data    Array of statistics.
+	 * @return bool True on success, false on failure.
+	 */
+	public function update_stats( $form_id, $data ) {
+		$stats = $this->module->manager()->meta()->get( 'post', $form_id, $this->module->manager()->get_prefix() . 'stats', true );
+		if ( ! is_array( $stats ) ) {
+			$stats = array();
+		}
+
+		$stats_slug = $this->get_meta_identifier();
+
+		$stats[ $stats_slug ] = $data;
+
+		return (bool) $this->module->manager()->meta()->update( 'post', $form_id, $this->module->manager()->get_prefix() . 'stats', $stats );
+	}
+
+	/**
 	 * Evaluates a specific form submission.
 	 *
 	 * @since 1.0.0
