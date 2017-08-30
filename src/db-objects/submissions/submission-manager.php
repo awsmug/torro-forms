@@ -207,8 +207,12 @@ class Submission_Manager extends Manager {
 	 * @access public
 	 */
 	public function schedule_cron_task() {
-		if ( ! wp_next_scheduled( "{$this->get_prefix()}cron_maybe_delete_submissions" ) && ! wp_installing() ) {
-			wp_schedule_event( time(), 'twicedaily', "{$this->get_prefix()}cron_maybe_delete_submissions" );
+		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general', array() );
+
+		if ( isset( $settings['delete_submissions'] ) && $settings['delete_submissions'] ) {
+			if ( ! wp_next_scheduled( "{$this->get_prefix()}cron_maybe_delete_submissions" ) ) {
+				wp_schedule_event( time(), 'twicedaily', "{$this->get_prefix()}cron_maybe_delete_submissions" );
+			}
 		}
 	}
 
