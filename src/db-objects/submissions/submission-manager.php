@@ -174,17 +174,96 @@ class Submission_Manager extends Manager {
 		parent::setup_hooks();
 
 		$this->actions[] = array(
+			'name'     => 'init',
+			'callback' => array( $this, 'schedule_cron_task' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
+			'name'     => "{$this->get_prefix()}cron_maybe_delete_submissions",
+			'callback' => array( $this, 'maybe_delete_submissions' ),
+			'priority' => 10,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
 			'name'     => "{$this->get_prefix()}create_new_submission",
 			'callback' => array( $this, 'set_initial_submission_data' ),
 			'priority' => 1,
 			'num_args' => 2,
 		);
+
 		$this->filters[] = array(
 			'name'     => "{$this->get_prefix()}can_access_form",
 			'callback' => array( $this, 'can_access_submission' ),
 			'priority' => 1,
 			'num_args' => 3,
 		);
+	}
+
+	/**
+	 * Schedules the cron task for deleting incomplete submissions.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function schedule_cron_task() {
+		if ( ! wp_next_scheduled( "{$this->get_prefix()}cron_maybe_delete_submissions" ) && ! wp_installing() ) {
+			wp_schedule_event( time(), 'twicedaily', "{$this->get_prefix()}cron_maybe_delete_submissions" );
+		}
+	}
+
+	/**
+	 * Clears the cron task for deleting incomplete submissions.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function clear_cron_task() {
+		$timestamp = wp_next_scheduled( "{$this->get_prefix()}cron_maybe_delete_submissions" );
+		if ( $timestamp ) {
+			wp_unschedule_event( $timestamp, "{$this->get_prefix()}cron_maybe_delete_submissions" );
+		}
+	}
+
+	/**
+	 * Deletes submissions that have been 'progressing' for too long, if enabled.
+	 *
+	 * This is executed twice daily via cron.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function maybe_delete_submissions() {
+		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general', array() );
+
+		$delete = isset( $settings['delete_submissions'] ) ? (bool) $settings['delete_submissions'] : false;
+		if ( ! $delete ) {
+			return;
+		}
+
+		$delete_days = ! empty( $settings['delete_submissions_days'] ) ? (int) $settings['delete_submissions_days'] : 1;
+
+		/**
+		 * Filters the limit for the query detecting incomplete submissions to delete.
+		 *
+		 * This can be used to adjust the value, depending on more or less server power.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $limit Limit for the query. Default is 50.
+		 */
+		$limit = apply_filters( "{$this->get_prefix()}delete_submissions_query_limit", 50 );
+
+		$submissions = $this->query( array(
+			'number'    => $limit,
+			'status'    => 'progressing',
+			'timestamp' => array(
+				'lower_than' => current_time( 'timestamp', true ) - $delete_days * DAY_IN_SECONDS,
+			),
+		) );
+		foreach ( $submissions as $submission ) {
+			$submission->delete();
+		}
 	}
 
 	/**

@@ -269,6 +269,33 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $apiapi_config;
 
 	/**
+	 * Deactivates the plugin.
+	 *
+	 * Clears the cron task scheduled.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public static function deactivate( $network_wide = false ) {
+		if ( $network_wide ) {
+			$sites = get_sites( array(
+				'network_id'    => get_current_network_id(),
+				'no_found_rows' => true,
+			) );
+			foreach ( $sites as $site ) {
+				switch_to_blog( $site->id );
+				torro()->submissions->clear_cron_task();
+				restore_current_blog();
+			}
+		} else {
+			torro()->submissions->clear_cron_task();
+		}
+	}
+
+	/**
 	 * Uninstalls the plugin.
 	 *
 	 * Drops all database tables and related content.
@@ -293,6 +320,18 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	public function version() {
 		return $this->version;
+	}
+
+	/**
+	 * Returns the deactivation callback.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return callable Deactivation callback.
+	 */
+	public function get_deactivation_hook() {
+		return array( __CLASS__, 'deactivate' );
 	}
 
 	/**

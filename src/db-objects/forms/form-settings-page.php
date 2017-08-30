@@ -605,7 +605,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				}
 
 				$fields['attachment_taxonomy_term_id'] = array(
-					'section'     => 'advanced',
+					'section'     => 'form_behavior',
 					'type'        => 'select',
 					/* translators: %s: attachment taxonomy name */
 					'label'       => sprintf( __( '%s Term', 'torro-forms' ), $attachment_taxonomy->labels->singular_name ),
@@ -617,13 +617,39 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		}
 
 		$fields = array_merge( $fields, array(
-			'frontend_css'   => array(
+			'frontend_css'            => array(
 				'section' => 'advanced',
 				'type'    => 'checkbox',
 				'label'   => __( 'Include Torro Forms CSS on frontend?', 'torro-forms' ),
 				'default' => true,
 			),
-			'hard_uninstall' => array(
+			'delete_submissions'      => array(
+				'section'     => 'advanced',
+				'type'        => 'checkbox',
+				'label'       => __( 'Delete submission that have not completed after a certain amount of time?', 'torro-forms' ),
+				'description' => __( 'Enabling this setting can help keep your database cleaner by deleting submissions that have been started, but never completed.', 'torro-forms' ),
+				'default'     => false,
+			),
+			'delete_submissions_days' => array(
+				'section'       => 'advanced',
+				'type'          => 'number',
+				'label'         => __( 'Submission Deletion', 'torro-forms' ),
+				'description'   => __( 'Specify the number of days after which incomplete submissions should be deleted.', 'torro-forms' ),
+				'min'           => 1,
+				'step'          => 1,
+				'default'       => 1,
+				'unit'          => _x( 'day/s', 'field unit', 'torro-forms' ),
+				'input_classes' => array( 'small-text' ),
+				'dependencies'  => array(
+					array(
+						'prop'     => 'display',
+						'callback' => 'get_data_by_condition_true',
+						'fields'   => array( 'delete_submissions' ),
+						'args'     => array(),
+					),
+				),
+			),
+			'hard_uninstall'          => array(
 				'section'     => 'advanced',
 				'type'        => 'checkbox',
 				'label'       => __( 'Perform a hard uninstall when the plugin is removed?', 'torro-forms' ),
