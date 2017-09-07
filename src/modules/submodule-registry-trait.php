@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\Modules;
 
+use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\Error;
 
 /**
