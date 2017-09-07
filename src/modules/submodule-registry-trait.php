@@ -339,12 +339,12 @@ trait Submodule_Registry_Trait {
 	 * @param Assets $assets Assets API instance.
 	 */
 	protected function register_assets( $assets ) {
-		foreach ( $this->submodules as $slug => $access_control ) {
-			if ( ! is_a( $access_control, Assets_Submodule_Interface::class ) ) {
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Assets_Submodule_Interface::class ) ) {
 				continue;
 			}
 
-			$access_control->register_assets( $assets );
+			$submodule->register_assets( $assets );
 		}
 	}
 
@@ -357,12 +357,12 @@ trait Submodule_Registry_Trait {
 	 * @param Assets $assets Assets API instance.
 	 */
 	protected function enqueue_form_builder_assets( $assets ) {
-		foreach ( $this->submodules as $slug => $access_control ) {
-			if ( ! is_a( $access_control, Assets_Submodule_Interface::class ) ) {
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Assets_Submodule_Interface::class ) ) {
 				continue;
 			}
 
-			$access_control->enqueue_form_builder_assets( $assets );
+			$submodule->enqueue_form_builder_assets( $assets );
 		}
 	}
 }
