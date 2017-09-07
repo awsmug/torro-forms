@@ -86,6 +86,15 @@ class Submissions_List_Page extends Models_List_Page {
 	 * @access protected
 	 */
 	protected function render_form() {
+		/**
+		 * Fires before the submissions admin list table is printed.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Submission_Manager $submissions Submission manager instance.
+		 */
+		do_action( "{$this->model_manager->get_prefix()}before_submissions_list", $this->model_manager );
+
 		$this->list_table->views();
 
 		?>

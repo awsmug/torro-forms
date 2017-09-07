@@ -1,0 +1,126 @@
+/*!
+ * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
+ * Licensed under GNU General Public License v3 (http://www.gnu.org/licenses/gpl-3.0.html)
+ */
+/* ----------------------------------------------------------------------------
+  1.0 - Torro Evaluations Tabs
+---------------------------------------------------------------------------- */
+.torro-evaluations-box.postbox .inside
+{
+    margin: 0;
+    padding: 0;
+}
+
+.torro-evaluations-box.postbox .inside:after
+{
+    display: table;
+    clear: both;
+
+    content: '';
+}
+
+.torro-evaluations-tabs,
+.torro-evaluations-content
+{
+    position: relative;
+
+    display: block;
+
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    min-height: 1px;
+    margin: 0;
+}
+
+@media screen and (min-width: 783px)
+{
+    .torro-evaluations-tabs
+    {
+        float: left;
+
+        width: 20%;
+    }
+}
+
+@media screen and (min-width: 783px)
+{
+    .torro-evaluations-content
+    {
+        float: left;
+
+        width: 80%;
+    }
+}
+
+.torro-evaluations-tab
+{
+    display: block;
+
+    padding: 11px 12px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.torro-evaluations-tab[aria-selected='true']
+{
+    font-weight: bold;
+
+    text-decoration: none;
+
+    color: #555;
+}
+
+@media screen and (min-width: 783px)
+{
+    .torro-evaluations-tab
+    {
+        border-right: 1px solid #eee;
+    }
+    .torro-evaluations-tab[aria-selected='true']
+    {
+        border-right: 1px solid #fff;
+    }
+}
+
+.torro-evaluations-tab-panel[aria-hidden='true']
+{
+    display: none;
+}
+
+.torro-evaluations-description-wrap,
+.torro-evaluations-results
+{
+    padding: 11px 12px;
+}
+
+.torro-evaluations-description-wrap p.description
+{
+    margin: 0;
+}
+
+/* ----------------------------------------------------------------------------
+  2.0 - Global Postbox Fixes
+---------------------------------------------------------------------------- */
+.postbox h2
+{
+    font-size: 14px;
+    line-height: 1.4;
+
+    margin: 0;
+    padding: 8px 12px;
+}
+
+.js .postbox .toggle-indicator:before
+{
+    font: normal 20px/1 dashicons;
+
+    display: inline-block;
+
+    content: '\f142';
+    text-decoration: none !important;
+
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

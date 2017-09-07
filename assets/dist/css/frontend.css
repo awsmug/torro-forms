@@ -73,3 +73,11 @@
 {
     margin-bottom: 0;
 }
+
+.torro-evaluations-results
+{
+    margin: 0 0 2em;
+    padding: 2em;
+
+    border: 1px solid #ccc;
+}
