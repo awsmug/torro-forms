@@ -107,6 +107,8 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 * Fixed: it is now possible to properly register any kind of modules and submodules
 * Fixed: dynamically loaded editor now works correctly
 * Tweaked: 'form' shortcode is now deprecated in favor of 'torro_form'
+* Tweaked: 'form_charts' shortcode is now deprecated in favor of 'torro_form_charts'
+* Tweaked: 'element_chart' shortcode is now deprecated in favor of 'torro_form_charts'
 * Tweaked: form results are now relabelled as form submissions
 * Tweaked: element answers are now relabelled as element choices
 * Tweaked: result handlers are now relabelled as evaluators
