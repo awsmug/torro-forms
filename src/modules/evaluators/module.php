@@ -296,6 +296,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 *     @type string $mode Slug of the evaluator to use. The evaluator must exist and be enabled for the form.
 	 *                        Default is 'barcharts'.
 	 * }
+	 * @return string Shortcode output.
 	 */
 	public function get_shortcode_content( $atts ) {
 		$atts = shortcode_atts( array(
@@ -353,9 +354,54 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 *     @type string $mode Slug of the evaluator to use. The evaluator must exist and be enabled for the form.
 	 *                        Default is 'barcharts'.
 	 * }
+	 * @return string Shortcode output.
 	 */
 	public function get_deprecated_shortcode_content( $atts ) {
-		$this->manager()->error_handler()->deprecated_shortcode( 'form', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form_charts" );
+		$this->manager()->error_handler()->deprecated_shortcode( 'form_charts', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form_charts" );
+
+		$atts['mode'] = 'barcharts';
+
+		return $this->get_shortcode_content( $atts );
+	}
+
+	/**
+	 * Handles the deprecated element chart shortcode.
+	 *
+	 * Arguments are tweaked around inside it and passed on to the new shortcode to account for back-compat.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param array $atts {
+	 *     Array of shortcode attributes.
+	 *
+	 *     @type int $id Element ID. This must always be present.
+	 * }
+	 * @return string Shortcode output.
+	 */
+	public function get_deprecated_element_chart_shortcode_content( $atts ) {
+		$this->manager()->error_handler()->deprecated_shortcode( 'element_chart', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form_charts" );
+
+		$atts['mode'] = 'barcharts';
+
+		if ( ! isset( $atts['id'] ) ) {
+			return __( 'Shortcode is missing an element ID!', 'torro-forms' );
+		}
+
+		$atts['element_id'] = $atts['id'];
+		unset( $atts['id'] );
+
+		$element = $torro()->elements()->get( $atts['element_id'] );
+		if ( ! $element ) {
+			return __( 'Shortcode is using an invalid element ID!', 'torro-forms' );
+		}
+
+		$container = $element->get_container();
+		if ( ! $container ) {
+			return __( 'It looks like the container for this element has been removed. Please enter a different element ID into the shortcode.', 'torro-forms' );
+		}
+
+		$atts['id'] = $container->form_id;
 
 		return $this->get_shortcode_content( $atts );
 	}
@@ -370,6 +416,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		if ( ! $this->hooks_added ) {
 			add_shortcode( "{$this->get_prefix()}form_charts", array( $this, 'get_shortcode_content' ) );
 			add_shortcode( 'form_charts', array( $this, 'get_deprecated_shortcode_content' ) );
+			add_shortcode( 'element_chart', array( $this, 'get_deprecated_element_chart_shortcode_content' ) );
 		}
 
 		return parent::add_hooks();
@@ -385,6 +432,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		if ( $this->hooks_added ) {
 			remove_shortcode( "{$this->get_prefix()}form_charts" );
 			remove_shortcode( 'form_charts' );
+			remove_shortcode( 'element_chart' );
 		}
 
 		return parent::remove_hooks();
