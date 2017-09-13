@@ -156,7 +156,10 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 					?>
 					<p>
 						<strong>
-							<?php _e( 'Number of completed submissions:', 'torro-forms' ); ?>
+							<?php
+							/* translators: %s: a year */
+							printf( __( 'Number of completed submissions in %s:', 'torro-forms' ), $year );
+							?>
 							<?php echo absint( $total_count ); ?>
 						</strong>
 					</p>
