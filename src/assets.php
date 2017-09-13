@@ -185,6 +185,20 @@ class Assets extends Assets_Base {
 			'in_footer' => true,
 		) );
 
+		$c3_script = <<<JAVASCRIPT
+( function( c3 ) {
+	var c3Definitions = document.getElementsByClassName( 'c3-chart-data' );
+	var c3Definition, i;
+
+	for ( i = 0; i < c3Definitions.length; i++ ) {
+		c3Definition = JSON.parse( c3Definitions[ i ].innerHTML );
+		c3.generate( c3Definition );
+	}
+}( window.c3 ) );
+JAVASCRIPT;
+
+		wp_add_inline_script( 'c3', $c3_script );
+
 		$this->register_style( 'c3', 'node_modules/c3/c3.css', array(
 			'deps' => array(),
 			'ver'  => '0.4.11',
