@@ -121,7 +121,7 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 					?>
 					<p>
 						<strong>
-							<?php _e( 'Number of submissions:', 'torro-forms' ); ?>
+							<?php _e( 'Number of completed submissions:', 'torro-forms' ); ?>
 							<?php echo absint( $total_count ); ?>
 						</strong>
 					</p>
@@ -156,7 +156,7 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 					?>
 					<p>
 						<strong>
-							<?php _e( 'Number of submissions:', 'torro-forms' ); ?>
+							<?php _e( 'Number of completed submissions:', 'torro-forms' ); ?>
 							<?php echo absint( $total_count ); ?>
 						</strong>
 					</p>
