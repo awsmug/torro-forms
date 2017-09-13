@@ -81,3 +81,8 @@
 
     border: 1px solid #ccc;
 }
+
+#torro-email-wrap
+{
+    display: none;
+}
