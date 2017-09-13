@@ -35,17 +35,21 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 	/**
 	 * Evaluates a specific form submission.
 	 *
+	 * This method is run whenever a submission is completed to update the aggregate calculations.
+	 * Aggregate calculations are stored so that forms with a very high number of submissions do
+	 * not need to be calculated live.
+	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Submission $submission Submission to evaluate.
-	 * @param Form       $form       Form the submission applies to.
-	 * @return bool|WP_Error True on success, error object on failure.
+	 * @param array      $aggregate_results Aggregate results to update.
+	 * @param Submission $submission        Submission to evaluate.
+	 * @param Form       $form              Form the submission applies to.
+	 * @return array Updated aggregate evaluation results.
 	 */
-	public function evaluate( $submission, $form ) {
+	public function evaluate_single( $aggregate_results, $submission, $form ) {
 		// TODO.
-
-		return true;
+		return $aggregate_results;
 	}
 
 	/**
@@ -54,11 +58,12 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Form  $form Form to show results for.
-	 * @param array $args Arguments to tweak the displayed results.
+	 * @param array $results Results to show.
+	 * @param Form  $form    Form the results belong to.
+	 * @param array $args    Arguments to tweak the displayed results.
 	 */
-	public function show_results( $form, $args = array() ) {
-
+	public function show_results( $results, $form, $args = array() ) {
+		// TODO.
 	}
 
 	/**

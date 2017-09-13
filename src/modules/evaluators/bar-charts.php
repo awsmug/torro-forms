@@ -36,54 +36,41 @@ class Bar_Charts extends Evaluator implements Assets_Submodule_Interface {
 	/**
 	 * Evaluates a specific form submission.
 	 *
+	 * This method is run whenever a submission is completed to update the aggregate calculations.
+	 * Aggregate calculations are stored so that forms with a very high number of submissions do
+	 * not need to be calculated live.
+	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Submission $submission Submission to evaluate.
-	 * @param Form       $form       Form the submission applies to.
-	 * @return bool|WP_Error True on success, error object on failure.
+	 * @param array      $aggregate_results Aggregate results to update.
+	 * @param Submission $submission        Submission to evaluate.
+	 * @param Form       $form              Form the submission applies to.
+	 * @return array Updated aggregate evaluation results.
 	 */
-	public function evaluate( $submission, $form ) {
-		$stats = $this->get_stats( $form->id );
-
-		$elements = $form->get_child_manager( 'containers' )->get_child_manager( 'elements' );
-
+	public function evaluate_single( $aggregate_results, $submission, $form ) {
 		foreach ( $submission->get_submission_values() as $submission_value ) {
-			$element = $elements->get( $submission_value->element_id );
-			if ( ! $element ) {
+			if ( ! $this->is_element_evaluatable( $submission_value->element_id ) ) {
 				continue;
 			}
 
-			$element_type = $element->get_element_type();
-			if ( ! $element_type ) {
-				continue;
-			}
-
-			if ( ! is_a( $element_type, Choice_Element_Type_Interface::class ) ) {
-				continue;
-			}
-
-			if ( ! isset( $stats[ $submission_value->element_id ] ) ) {
-				$stats[ $submission_value->element_id ] = array();
+			if ( ! isset( $aggregate_results[ $submission_value->element_id ] ) ) {
+				$aggregate_results[ $submission_value->element_id ] = array();
 			}
 
 			$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
-			if ( ! isset( $stats[ $submission_value->element_id ][ $field ] ) ) {
-				$stats[ $submission_value->element_id ][ $field ] = array();
+			if ( ! isset( $aggregate_results[ $submission_value->element_id ][ $field ] ) ) {
+				$aggregate_results[ $submission_value->element_id ][ $field ] = array();
 			}
 
-			if ( ! isset( $stats[ $submission_value->element_id ][ $field ][ $submission_value->value ] ) ) {
-				$stats[ $submission_value->element_id ][ $field ][ $submission_value->value ] = 1;
+			if ( ! isset( $aggregate_results[ $submission_value->element_id ][ $field ][ $submission_value->value ] ) ) {
+				$aggregate_results[ $submission_value->element_id ][ $field ][ $submission_value->value ] = 1;
 			} else {
-				$stats[ $submission_value->element_id ][ $field ][ $submission_value->value ]++;
+				$aggregate_results[ $submission_value->element_id ][ $field ][ $submission_value->value ]++;
 			}
 		}
 
-		if ( ! empty( $stats ) ) {
-			$this->update_stats( $form->id, $stats );
-		}
-
-		return true;
+		return $aggregate_results;
 	}
 
 	/**
@@ -92,11 +79,12 @@ class Bar_Charts extends Evaluator implements Assets_Submodule_Interface {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param Form  $form Form to show results for.
-	 * @param array $args Arguments to tweak the displayed results.
+	 * @param array $results Results to show.
+	 * @param Form  $form    Form the results belong to.
+	 * @param array $args    Arguments to tweak the displayed results.
 	 */
-	public function show_results( $form, $args = array() ) {
-
+	public function show_results( $results, $form, $args = array() ) {
+		// TODO.
 	}
 
 	/**

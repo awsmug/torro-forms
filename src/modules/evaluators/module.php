@@ -60,8 +60,10 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 				continue;
 			}
 
-			$evaluator_result = $evaluator->evaluate( $submission, $form );
-			// TODO: Log errors.
+			$aggregate_results = $evaluator->get_stats( $form->id );
+			$aggregate_results = $evaluator->evaluate_single( $aggregate_results, $submission, $form );
+
+			$evaluator->update_stats( $form->id, $aggregate_results );
 		}
 	}
 
@@ -90,8 +92,10 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 				continue;
 			}
 
+			$results = $evaluator->evaluate_all( $form );
+
 			ob_start();
-			$evaluator->show_results( $form );
+			$evaluator->show_results( $results, $form );
 
 			$tabs[ $evaluator->get_slug() ] = array(
 				'title'       => $evaluator->get_title(),
