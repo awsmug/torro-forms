@@ -192,6 +192,40 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	}
 
 	/**
+	 * Renders sub-tabs in the evaluation area.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array $tabs Associative array where each key is a sub-tab slug and each value is an array with a
+	 *                    'label' key and 'callback' key.
+	 */
+	protected function display_tabs( $tabs ) {
+		$prefix = 'evaluations-tab-' . $this->slug . '-subtab';
+
+		?>
+		<div class="torro-evaluations-subtabs" role="tablist">
+			<?php $first = true; ?>
+			<?php foreach ( $tabs as $tab_slug => $tab_data ) : ?>
+				<a id="<?php echo esc_attr( $prefix . '-label-' . $tab_slug ); ?>" class="torro-evaluations-subtab" href="<?php echo esc_attr( '#' . $prefix . '-' . $tab_slug ); ?>" aria-controls="<?php echo esc_attr( $prefix . '-' . $tab_slug ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>" role="tab">
+					<?php echo esc_html( $tab_data['label'] ); ?>
+				</a>
+				<?php $first = false; ?>
+			<?php endforeach; ?>
+		</div>
+		<div class="torro-evaluations-subcontent">
+			<?php $first = true; ?>
+			<?php foreach ( $tabs as $tab_slug => $tab_data ) : ?>
+				<div id="<?php echo esc_attr( $prefix . '-' . $tab_slug ); ?>" class="torro-evaluations-subtab-panel" aria-labelledby="<?php echo esc_attr( $prefix . '-label-' . $tab_slug ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
+					<?php call_user_func( $tab_data['callback'] ); ?>
+				</div>
+				<?php $first = false; ?>
+			<?php endforeach; ?>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Checks whether aggregate calculations should be used for evaluating all submissions of a specific form.
 	 *
 	 * @since 1.0.0

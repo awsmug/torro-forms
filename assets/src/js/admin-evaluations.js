@@ -22,6 +22,25 @@
 		});
 	});
 
+	$( '.torro-evaluations-subtab' ).on( 'click', function( e ) {
+		var $this = $( this );
+		var $all  = $this.parent().children( '.torro-evaluations-subtab' );
+
+		e.preventDefault();
+
+		if ( 'true' === $this.attr( 'aria-selected' ) ) {
+			return;
+		}
+
+		$all.each( function() {
+			$( this ).attr( 'aria-selected', 'false' );
+			$( '#' + $( this ).attr( 'aria-controls' ) ).attr( 'aria-hidden', 'true' );
+		});
+
+		$this.attr( 'aria-selected', 'true' );
+		$( '#' + $this.attr( 'aria-controls' ) ).attr( 'aria-hidden', 'false' );
+	});
+
 	$( '.handlediv' ).on( 'click', function() {
 		var $button = $( this );
 		var $postbox = $button.parent( '.postbox' );
