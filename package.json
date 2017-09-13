@@ -43,9 +43,7 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "c3": "0.4.11",
-    "fingerprintjs2": "1.5.1",
-    "clipboard": "1.6.1"
+    "c3": "0.4.11"
   },
   "devDependencies": {
     "gulp": "~3.9.1",
