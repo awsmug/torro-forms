@@ -92,10 +92,14 @@ class Submission_Manager extends Manager {
 	 */
 	public function count( $user_id = 0, $form_id = 0 ) {
 		$user_id = absint( $user_id );
+		$form_id = absint( $form_id );
 
 		$cache_key = $this->plural_slug;
 		if ( $user_id > 0 ) {
 			$cache_key .= '-' . $user_id;
+		}
+		if ( $form_id > 0 ) {
+			$cache_key .= '-' . $form_id;
 		}
 
 		$counts = $this->cache()->get( $cache_key, 'counts' );
