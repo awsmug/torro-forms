@@ -173,6 +173,23 @@ class Assets extends Assets_Base {
 			'ver'  => $this->plugin_version,
 		) );
 
+		$this->register_script( 'd3', 'node_modules/d3/d3.js', array(
+			'deps'      => array(),
+			'ver'       => '3.5.17',
+			'in_footer' => true,
+		) );
+
+		$this->register_script( 'c3', 'node_modules/c3/c3.js', array(
+			'deps'      => array( 'd3' ),
+			'ver'       => '0.4.11',
+			'in_footer' => true,
+		) );
+
+		$this->register_style( 'c3', 'node_modules/c3/c3.css', array(
+			'deps' => array(),
+			'ver'  => '0.4.11',
+		) );
+
 		/**
 		 * Fires after all default plugin assets have been registered.
 		 *
