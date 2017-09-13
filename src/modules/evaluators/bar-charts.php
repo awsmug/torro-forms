@@ -96,7 +96,7 @@ class Bar_Charts extends Evaluator implements Assets_Submodule_Interface {
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function register_assets( $assets ) {
-
+		// Empty method body.
 	}
 
 	/**
@@ -122,7 +122,8 @@ class Bar_Charts extends Evaluator implements Assets_Submodule_Interface {
 	 * @param array  $args   Arguments to tweak the displayed results.
 	 */
 	public function enqueue_submission_results_assets( $assets, $form, $args = array() ) {
-
+		$assets->enqueue_script( 'c3' );
+		$assets->enqueue_style( 'c3' );
 	}
 
 	/**
