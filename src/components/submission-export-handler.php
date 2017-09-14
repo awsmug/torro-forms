@@ -61,8 +61,8 @@ class Submission_Export_Handler extends Service {
 		$this->submission_manager = $submission_manager;
 
 		$this->modes = array(
-			'xls' => new Submission_Export_XLS(),
-			'csv' => new Submission_Export_CSV(),
+			'xls' => new Submission_Export_XLS( $this ),
+			'csv' => new Submission_Export_CSV( $this ),
 		);
 
 		$this->nonce_action = $this->get_prefix() . 'submission_export';
