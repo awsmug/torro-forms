@@ -17,6 +17,7 @@ use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 use awsmug\Torro_Forms\Translations\Translations_Submission_Manager;
 use awsmug\Torro_Forms\DB;
+use awsmug\Torro_Forms\Components\Submission_Export_Handler;
 use Leaves_And_Love\Plugin_Lib\Cache;
 use Leaves_And_Love\Plugin_Lib\Meta;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
@@ -35,6 +36,15 @@ use WP_Error;
  */
 class Submission_Manager extends Manager {
 	use Capability_Manager_Trait, Meta_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
+
+	/**
+	 * Submission export handler instance.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var Submission_Export_Handler
+	 */
+	protected $export_handler;
 
 	/**
 	 * Constructor.
@@ -69,7 +79,21 @@ class Submission_Manager extends Manager {
 
 		$this->primary_property = 'id';
 
+		$this->export_handler = new Submission_Export_Handler( $prefix, $this );
+
 		parent::__construct( $prefix, $services, $translations );
+	}
+
+	/**
+	 * Returns the submission export handler.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return Submission_Export_Handler Submission export handler instance.
+	 */
+	public function export_handler() {
+		return $this->export_handler();
 	}
 
 	/**
@@ -194,6 +218,18 @@ class Submission_Manager extends Manager {
 			'callback' => array( $this, 'set_initial_submission_data' ),
 			'priority' => 1,
 			'num_args' => 2,
+		);
+		$this->actions[] = array(
+			'name'     => "admin_action_{$this->export_handler->get_export_action_name()}",
+			'callback' => array( $this->export_handler, 'handle_export_action' ),
+			'priority' => 1,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
+			'name'     => "{$this->get_prefix()}after_submissions_list",
+			'callback' => array( $this->export_handler, 'render_export_form' ),
+			'priority' => 10,
+			'num_args' => 0,
 		);
 
 		$this->filters[] = array(
