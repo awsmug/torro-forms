@@ -305,11 +305,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 				),
 				'y' => array(
 					'label' => $y_label,
-					'tick'  => array(
-						'time' => array(
-							'interval' => 1,
-						),
-					),
 					'min'   => 1,
 				),
 			),
