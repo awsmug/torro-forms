@@ -129,5 +129,14 @@ class Submissions_List_Page extends Models_List_Page {
 			<?php $this->list_table->display(); ?>
 		</form>
 		<?php
+
+		/**
+		 * Fires after the submissions admin list table has been printed.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Submission_Manager $submissions Submission manager instance.
+		 */
+		do_action( "{$this->model_manager->get_prefix()}after_submissions_list", $this->model_manager );
 	}
 }
