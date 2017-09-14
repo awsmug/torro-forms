@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\Components;
 
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Collection;
 
 /**
  * Base class for exporting submissions.
@@ -120,8 +121,88 @@ abstract class Submission_Export {
 		// Only export completed submissions.
 		$args['status'] = 'completed';
 
-		// TODO: Create rows and pass them to the actual export instance.
 		$submissions = $form->get_submissions( $args );
+
+		$columns = $this->get_columns( $submission_columns, $element_columns );
+		$rows    = $this->get_rows( $submissions, $submission_columns, $element_columns );
+
+		$this->generate_export_from_data( $columns, $rows );
+	}
+
+	/**
+	 * Gets all columns for the export.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array $submission_columns Submission columns definition.
+	 * @param array $element_columns    Element columns definition for submission values.
+	 * @return array Associative columns array of `$column_slug => $column_label` pairs.
+	 */
+	protected function get_columns( $submission_columns, $element_columns ) {
+		$columns = array();
+
+		foreach ( $submission_columns as $slug => $data ) {
+			$columns[ $slug ] = $data['label'];
+		}
+
+		foreach ( $element_columns as $element_id => $data ) {
+			$columns = array_merge( $columns, $data['columns'] );
+		}
+
+		return $columns;
+	}
+
+	/**
+	 * Gets all rows for the export.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Submission_Collection $submissions        Submissions to create rows for.
+	 * @param array                 $submission_columns Submission columns definition.
+	 * @param array                 $element_columns    Element columns definition for submission values.
+	 * @return array Rows array where each row is an associative array of `$column_slug => $column_value` pairs.
+	 */
+	protected function get_rows( $submissions, $submission_columns, $element_columns ) {
+		$rows = array();
+
+		foreach ( $submissions as $submission ) {
+			$row = array();
+
+			foreach ( $submission_columns as $slug => $data ) {
+				$row[ $slug ] = call_user_func( $data['callback'], $submission );
+			}
+
+			$element_values = array();
+			foreach ( $submission->get_submission_values() as $submission_value ) {
+				$element_id = $submission_value->element_id;
+				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
+
+				if ( ! isset( $element_values[ $element_id ] ) ) {
+					$element_values[ $element_id ] = array();
+				}
+
+				if ( ! empty( $element_values[ $element_id ][ $field ] ) ) {
+					$element_values[ $element_id ][ $field ] = array_push( (array) $element_values[ $element_id ][ $field ], $submission_value->value );
+				} else {
+					$element_values[ $element_id ][ $field ] = $submission_value->value;
+				}
+			}
+
+			foreach ( $element_columns as $element_id => $data ) {
+				$values = isset( $element_values[ $element_id ] ) ? $element_values[ $element_id ] : array();
+
+				$column_values = call_user_func( $data['callback'], $values );
+				foreach ( $data['columns'] as $slug => $label ) {
+					$row[ $slug ] = $column_values[ $slug ];
+				}
+			}
+
+			$rows[] = $row;
+		}
+
+		return $rows;
 	}
 
 	/**
@@ -216,6 +297,18 @@ abstract class Submission_Export {
 
 		return $elements;
 	}
+
+	/**
+	 * Generates the actual export from given data.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param array $columns Associative columns array of `$column_slug => $column_label` pairs.
+	 * @param array $rows    Rows array where each row is an associative array of
+	 *                       `$column_slug => $column_value` pairs.
+	 */
+	protected abstract function generate_export_from_data( $columns, $rows );
 
 	/**
 	 * Bootstraps the export class by setting properties.
