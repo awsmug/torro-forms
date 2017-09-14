@@ -126,7 +126,7 @@ abstract class Submission_Export {
 		$columns = $this->get_columns( $submission_columns, $element_columns );
 		$rows    = $this->get_rows( $submissions, $submission_columns, $element_columns );
 
-		$this->generate_export_from_data( $columns, $rows );
+		$this->generate_export_from_data( $columns, $rows, $form );
 	}
 
 	/**
@@ -307,8 +307,9 @@ abstract class Submission_Export {
 	 * @param array $columns Associative columns array of `$column_slug => $column_label` pairs.
 	 * @param array $rows    Rows array where each row is an associative array of
 	 *                       `$column_slug => $column_value` pairs.
+	 * @param Form  $form    Form for which submissions are being exported.
 	 */
-	protected abstract function generate_export_from_data( $columns, $rows );
+	protected abstract function generate_export_from_data( $columns, $rows, $form );
 
 	/**
 	 * Bootstraps the export class by setting properties.
