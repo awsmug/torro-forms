@@ -11,6 +11,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Forms;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Models\Core_Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
 use awsmug\Torro_Forms\DB_Objects\Containers\Container_Collection;
+use awsmug\Torro_Forms\DB_Objects\Containers\Element_Collection;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Collection;
 use awsmug\Torro_Forms\DB_Objects\Participants\Participant_Collection;
 use WP_Post;
@@ -184,6 +185,28 @@ class Form extends Core_Model {
 		) );
 
 		return $this->manager->get_child_manager( 'containers' )->query( $args );
+	}
+
+	/**
+	 * Returns all elements that belong to the form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param array $args Optional. Additional query arguments. Default empty array.
+	 * @return Element_Collection List of elements.
+	 */
+	public function get_elements( $args = array() ) {
+		if ( empty( $this->original->ID ) ) {
+			return $this->manager->get_child_manager( 'containers' )->get_child_manager( 'elements' )->get_collection( array(), 0, 'objects' );
+		}
+
+		$args = wp_parse_args( $args, array(
+			'number'  => -1,
+			'form_id' => $this->original->ID,
+		) );
+
+		return $this->manager->get_child_manager( 'containers' )->get_child_manager( 'elements' )->query( $args );
 	}
 
 	/**
