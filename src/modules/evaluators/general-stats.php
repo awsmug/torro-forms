@@ -84,9 +84,8 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 	 *
 	 * @param array $results Results to show.
 	 * @param Form  $form    Form the results belong to.
-	 * @param array $args    Arguments to tweak the displayed results.
 	 */
-	public function show_results( $results, $form, $args = array() ) {
+	public function show_results( $results, $form ) {
 		$total_count = 0;
 		if ( isset( $results['total'] ) ) {
 			$total_count = $results['total'];
@@ -207,9 +206,8 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 * @param Form   $form   Form to show results for.
-	 * @param array  $args   Arguments to tweak the displayed results.
 	 */
-	public function enqueue_submission_results_assets( $assets, $form, $args = array() ) {
+	public function enqueue_submission_results_assets( $assets, $form ) {
 		$assets->enqueue_script( 'c3' );
 		$assets->enqueue_style( 'c3' );
 	}

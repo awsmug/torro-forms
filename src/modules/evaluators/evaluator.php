@@ -168,9 +168,8 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 *
 	 * @param array $results Results to show.
 	 * @param Form  $form    Form the results belong to.
-	 * @param array $args    Arguments to tweak the displayed results.
 	 */
-	public abstract function show_results( $results, $form, $args = array() );
+	public abstract function show_results( $results, $form );
 
 	/**
 	 * Returns the available meta fields for the submodule.
