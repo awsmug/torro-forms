@@ -290,6 +290,40 @@ abstract class Element_Type {
 	}
 
 	/**
+	 * Formats values for an export.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param array   $values  Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
+	 * @param Element $element Element the values belong to.
+	 * @return array Associative array of `$column_slug => $column_value` pairs. The number of items and the column slugs
+	 *               must match those returned from the get_export_columns() method.
+	 */
+	public function format_values_for_export( $values, $element ) {
+		$value = isset( $values['_main'] ) ? $values['_main'] : '';
+
+		return array(
+			'element_' . $element->id . '__main' => $value,
+		);
+	}
+
+	/**
+	 * Gets the columns required for an export.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Element $element Element to export columns for.
+	 * @return array Associative array of `$column_slug => $column_label` pairs.
+	 */
+	public function get_export_columns( $element ) {
+		return array(
+			'element_' . $element->id . '__main' => $element->label,
+		);
+	}
+
+	/**
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
