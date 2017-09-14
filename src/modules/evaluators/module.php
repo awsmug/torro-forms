@@ -40,8 +40,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Evaluator::class;
 		$this->default_submodules = array(
-			'generalstats' => General_Stats::class,
-			'barcharts'    => Bar_Charts::class,
+			'participation'     => Participation::class,
+			'element_responses' => Element_Responses::class,
 		);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * General stats evaluator class
+ * Participation evaluator class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -14,11 +14,11 @@ use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
 use WP_Error;
 
 /**
- * Class for an evaluator that measures some general form stats.
+ * Class for an evaluator that measures form participation over time.
  *
  * @since 1.0.0
  */
-class General_Stats extends Evaluator implements Assets_Submodule_Interface {
+class Participation extends Evaluator implements Assets_Submodule_Interface {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
@@ -27,9 +27,9 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 	 * @access protected
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'generalstats';
-		$this->title       = __( 'General Stats', 'torro-forms' );
-		$this->description = __( 'Creates general stats on submissions for a form.', 'torro-forms' );
+		$this->slug        = 'participation';
+		$this->title       = __( 'Participation', 'torro-forms' );
+		$this->description = __( 'Evaluates participation for a form over time.', 'torro-forms' );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 		$tabs = array(
 			'total' => array(
 				'label'    => _x( 'Total', 'submission count', 'torro-forms' ),
-				'callback' => function() use ( $results, $years, $total_count ) {
+				'callback' => function() use ( $results, $years, $total_count, $form ) {
 					$year_results = array();
 					foreach ( $years as $year ) {
 						if ( isset( $results[ $year ]['total'] ) ) {
@@ -126,7 +126,7 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 					</p>
 					<div id="<?php echo esc_attr( $this->slug . '-chart-total' ); ?>"></div>
 					<script type="application/json" class="c3-chart-data">
-						<?php echo json_encode( $this->get_chart_json( esc_attr( $this->slug . '-chart-total' ), $years, $year_results, __( 'Years', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) ); ?>
+						<?php echo json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-total' ), $years, $year_results, __( 'Years', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) ); ?>
 					</script>
 					<?php
 				},
@@ -136,7 +136,7 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 		foreach ( $years as $year ) {
 			$tabs[ $year ] = array(
 				'label'    => $year,
-				'callback' => function() use ( $results, $year ) {
+				'callback' => function() use ( $results, $year, $form ) {
 					global $wp_locale;
 
 					$total_count = isset( $results[ $year ]['total'] ) ? $results[ $year ]['total'] : 0;
@@ -164,7 +164,7 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 					</p>
 					<div id="<?php echo esc_attr( $this->slug . '-chart-' . $year ); ?>"></div>
 					<script type="application/json" class="c3-chart-data">
-						<?php echo json_encode( $this->get_chart_json( esc_attr( $this->slug . '-chart-' . $year ), array_values( $months ), $month_results, __( 'Months', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) ); ?>
+						<?php echo json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-' . $year ), array_values( $months ), $month_results, __( 'Months', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) ); ?>
 					</script>
 					<?php
 				},
@@ -242,10 +242,38 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 			'default' => true,
 		);
 
+		$meta_fields['display_mode'] = array(
+			'type'    => 'select',
+			'label'   => __( 'Display Mode', 'torro-forms' ),
+			'choices' => array(
+				'line'   => __( 'Line Chart', 'torro-forms' ),
+				'spline' => __( 'Spline Chart', 'torro-forms' ),
+				'step'   => __( 'Step Chart', 'torro-forms' ),
+				'bar'    => __( 'Bar Chart', 'torro-forms' ),
+			),
+			'default' => 'line',
+		);
+
 		return $meta_fields;
 	}
 
-	protected function get_chart_json( $id, $x_values, $y_values, $x_label, $y_label ) {
+	/**
+	 * Returns the JSON data to generate the chart.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Form   $form     Form object.
+	 * @param string $id       ID attribute of the element to bind the chart to.
+	 * @param array  $x_values Values for the 'x' axis.
+	 * @param array  $y_values Values for the 'y' axis. Must match the number of $x_values passed.
+	 * @param string $x_label  Label for the 'x' axis.
+	 * @param string $y_label  Label for the 'y' axis.
+	 * @return array JSON data for the chart.
+	 */
+	protected function get_chart_json( $form, $id, $x_values, $y_values, $x_label, $y_label ) {
+		$display_mode = $this->get_form_option( $form->id, 'display_mode', 'line' );
+
 		$less_than_10 = true;
 		foreach ( $y_values as $y_value ) {
 			if ( $y_value > 10 ) {
@@ -265,7 +293,7 @@ class General_Stats extends Evaluator implements Assets_Submodule_Interface {
 				'names'   => array(
 					'submissionCount' => $y_label,
 				),
-				'type'    => 'line',
+				'type'    => $display_mode,
 				'colors'  => array(
 					'submissionCount' => '#0073aa',
 				),

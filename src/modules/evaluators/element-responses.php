@@ -1,6 +1,6 @@
 <?php
 /**
- * Bar charts evaluator class
+ * Element responses evaluator class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -15,11 +15,11 @@ use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Choice_Element_Type_Int
 use WP_Error;
 
 /**
- * Class for an evaluator using bar charts for individual elements.
+ * Class for an evaluator for individual element responses.
  *
  * @since 1.0.0
  */
-class Bar_Charts extends Evaluator implements Assets_Submodule_Interface {
+class Element_Responses extends Evaluator implements Assets_Submodule_Interface {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
@@ -28,9 +28,9 @@ class Bar_Charts extends Evaluator implements Assets_Submodule_Interface {
 	 * @access protected
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'barcharts';
-		$this->title       = __( 'Bar Charts', 'torro-forms' );
-		$this->description = __( 'Evaluates individual element responses using bar charts.', 'torro-forms' );
+		$this->slug        = 'element_responses';
+		$this->title       = __( 'Element Responses', 'torro-forms' );
+		$this->description = __( 'Evaluates individual element responses.', 'torro-forms' );
 	}
 
 	/**
