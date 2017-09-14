@@ -106,6 +106,10 @@ class Form_List_Page_Handler {
 	public function insert_custom_row_actions( $actions, $form ) {
 		$prefix = $this->form_manager->get_prefix();
 
+		if ( 'trash' === $form->status ) {
+			return $actions;
+		}
+
 		$nonce_action = $prefix . 'duplicate_form_' . $form->id;
 
 		$actions[ $prefix . 'view_submissions' ] = sprintf(
