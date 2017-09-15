@@ -135,7 +135,17 @@ class Submission_Export_Handler extends Service {
 			wp_die( __( 'Missing submission export handler.', 'torro-forms' ) );
 		}
 
-		$this->export_submissions( wp_unslash( $_REQUEST['mode'] ), $form );
+		$args = array();
+		if ( isset( $_REQUEST['orderby'] ) && isset( $_REQUEST['order'] ) ) {
+			$orderby = in_array( $_REQUEST['orderby'], array( 'id', 'timestamp' ), true ) ? $_REQUEST['orderby'] : 'id';
+			$order   = in_array( $_REQUEST['order'], array( 'ASC', 'DESC' ), true ) ? $_REQUEST['order'] : 'ASC';
+
+			$args['orderby'] = array( $orderby => $order );
+		} else {
+			$args['orderby'] = array( 'id' => 'ASC' );
+		}
+
+		$this->export_submissions( wp_unslash( $_REQUEST['mode'] ), $form, $args );
 	}
 
 	/**
@@ -157,11 +167,27 @@ class Submission_Export_Handler extends Service {
 
 			<h3><?php _e( 'Export Submissions', 'torro-forms' ); ?></h3>
 
+			<p class="description">
+				<?php _e( 'Here you can export all completed submissions in a file format of your choice.', 'torro-forms' ); ?>
+			</p>
+
 			<label for="torro-export-mode"><?php _e( 'Export as', 'torro-forms' ); ?></label>
-			<select id="torro-export-mode">
+			<select id="torro-export-mode" name="mode" style="margin-right:15px;">
 				<?php foreach ( $this->modes as $slug => $mode ) : ?>
 					<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $mode->get_title() ); ?></option>
 				<?php endforeach; ?>
+			</select>
+
+			<label for="torro-export-orderby"><?php _e( 'Order by', 'torro-forms' ); ?></label>
+			<select id="torro-export-orderby" name="orderby">
+				<option value="id"><?php _e( 'ID', 'torro-forms' ); ?></option>
+				<option value="timestamp"><?php _e( 'Date', 'torro-forms' ); ?></option>
+			</select>
+
+			<label for="torro-export-order" class="screen-reader-text"><?php _e( 'Order', 'torro-forms' ); ?></label>
+			<select id="torro-export-order" name="order" style="margin-right:15px;">
+				<option value="ASC"><?php _e( 'Ascending', 'torro-forms' ); ?></option>
+				<option value="DESC"><?php _e( 'Descending', 'torro-forms' ); ?></option>
 			</select>
 
 			<button type="submit" class="button"><?php _e( 'Export', 'torro-forms' ); ?></button>
