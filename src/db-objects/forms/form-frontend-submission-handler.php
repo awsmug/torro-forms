@@ -103,6 +103,31 @@ class Form_Frontend_Submission_Handler {
 	}
 
 	/**
+	 * Inserts a new submission value into the database.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int    $submission_id ID of the submission the value belongs to.
+	 * @param int    $element_id    ID of the element the value applies to.
+	 * @param string $field         Slug of the field the value applies to.
+	 * @param mixed  $value         Value to set.
+	 * @return bool|WP_Error True on success, or error object on failure.
+	 */
+	protected function insert_submission_value( $submission_id, $element_id, $field, $value ) {
+		$submission_value = $this->form_manager->get_child_manager( 'submissions' )->get_child_manager( 'submission_values' )->create();
+
+		$submission_value->submission_id = $submission_id;
+		$submission_value->element_id    = $element_id;
+		if ( '_main' !== $field ) {
+			$submission_value->field = $field;
+		}
+		$submission_value->value = $value;
+
+		return $submission_value->sync_upstream();
+	}
+
+	/**
 	 * Handles a form submission.
 	 *
 	 * @since 1.0.0
@@ -136,12 +161,11 @@ class Form_Frontend_Submission_Handler {
 		 */
 		do_action( "{$this->form_manager->get_prefix()}pre_handle_submission", $submission, $form, $container, $data );
 
+		$submission->sync_upstream();
+
 		if ( $submission->has_errors() ) {
-			$submission->sync_upstream();
 			return;
 		}
-
-		$submission->sync_upstream();
 
 		$validated = array();
 		foreach ( $container->get_elements() as $element ) {
@@ -150,22 +174,47 @@ class Form_Frontend_Submission_Handler {
 			$validated[ $element->id ] = $element->validate_fields( $fields );
 		}
 
+		// Update existing submission values first.
 		$submission_values = $submission->get_submission_values();
 		foreach ( $submission_values as $submission_value ) {
-			if ( ! isset( $validated[ $submission_value->element_id ] ) ) {
-				continue;
-			}
-
 			$field = $submission_value->field;
 			if ( empty( $field ) ) {
 				$field = '_main';
 			}
 
 			if ( ! isset( $validated[ $submission_value->element_id ][ $field ] ) ) {
+				$submission_value->delete();
 				continue;
 			}
 
-			$value = $validated[ $submission_value->element_id ][ $field ];
+			$result = $validated[ $submission_value->element_id ][ $field ];
+
+			if ( is_wp_error( $result ) ) {
+				$submission->add_error( $submission_value->element_id, $result->get_error_code(), $result->get_error_message() );
+
+				$error_data = $result->get_error_data();
+				if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
+					$submission_value->value = $error_data['validated_value'];
+					$submission_value->sync_upstream();
+				} else {
+					$submission_value->delete();
+				}
+
+				unset( $validated[ $submission_value->element_id ][ $field ] );
+				continue;
+			}
+
+			$result = (array) $result;
+
+			$value = array_shift( $result );
+
+			if ( empty( $result ) ) {
+				unset( $validated[ $submission_value->element_id ][ $field ] );
+
+				if ( empty( $validated[ $submission_value->element_id ] ) ) {
+					unset( $validated[ $submission_value->element_id ] );
+				}
+			}
 
 			if ( is_wp_error( $value ) ) {
 				$submission->add_error( $submission_value->element_id, $value->get_error_code(), $value->get_error_message() );
@@ -173,39 +222,42 @@ class Form_Frontend_Submission_Handler {
 				if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
 					$submission_value->value = $error_data['validated_value'];
 					$submission_value->sync_upstream();
+				} else {
+					$submission_value->delete();
 				}
 			} else {
 				$submission_value->value = $value;
 				$submission_value->sync_upstream();
 			}
-
-			unset( $validated[ $submission_value->element_id ][ $field ] );
 		}
 
+		// Add the remaining results as new submission values.
 		foreach ( $validated as $element_id => $values ) {
-			foreach ( $values as $name => $value ) {
+			foreach ( $values as $field => $result ) {
+				if ( is_wp_error( $result ) ) {
+					$submission->add_error( $element_id, $result->get_error_code(), $result->get_error_message() );
+
+					$error_data = $result->get_error_data();
+					if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
+						$this->insert_submission_value( $submission->id, $element_id, $field, $error_data['validated_value'] );
+					}
+
+					continue;
+				}
+
+				$result = (array) $result;
+
+				$value = array_shift( $result );
+
 				if ( is_wp_error( $value ) ) {
 					$submission->add_error( $element_id, $value->get_error_code(), $value->get_error_message() );
+
 					$error_data = $value->get_error_data();
 					if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
-						$submission_value = $this->form_manager->get_child_manager( 'submissions' )->get_child_manager( 'submission_values' )->create();
-						$submission_value->submission_id = $submission->id;
-						$submission_value->element_id    = $element_id;
-						if ( '_main' !== $name ) {
-							$submission_value->field = $name;
-						}
-						$submission_value->value = $error_data['validated_value'];
-						$submission_value->sync_upstream();
+						$this->insert_submission_value( $submission->id, $element_id, $field, $error_data['validated_value'] );
 					}
 				} else {
-					$submission_value = $this->form_manager->get_child_manager( 'submissions' )->get_child_manager( 'submission_values' )->create();
-					$submission_value->submission_id = $submission->id;
-					$submission_value->element_id    = $element_id;
-					if ( '_main' !== $name ) {
-						$submission_value->field = $name;
-					}
-					$submission_value->value = $value;
-					$submission_value->sync_upstream();
+					$this->insert_submission_value( $submission->id, $element_id, $field, $value );
 				}
 			}
 		}

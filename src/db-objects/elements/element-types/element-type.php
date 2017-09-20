@@ -230,7 +230,12 @@ abstract class Element_Type {
 			foreach ( $submission_values as $submission_value ) {
 				$field = empty( $submission_value->field ) ? '_main' : $submission_value->field;
 
-				$values[ $field ] = $submission_value->value;
+				if ( ! empty( $values[ $field ] ) ) {
+					$values[ $field ] = (array) $values[ $field ];
+					$values[ $field ][] = $submission_value->value;
+				} else {
+					$values[ $field ] = $submission_value->value;
+				}
 			}
 		}
 
