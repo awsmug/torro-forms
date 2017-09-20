@@ -106,8 +106,6 @@ class Timerange extends Access_Control {
 			'input_classes' => array( 'regular-text' ),
 		);
 
-		/* TODO: back-compat with 'start_date' and 'end_date' (both timestamps); if set, set 'enabled' too. */
-
 		return $meta_fields;
 	}
 

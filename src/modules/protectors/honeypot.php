@@ -140,8 +140,6 @@ class Honeypot extends Protector {
 			'input_classes' => array( 'regular-text' ),
 		);
 
-		/* TODO: back-compat with 'honeypot_enabled' */
-
 		return $meta_fields;
 	}
 

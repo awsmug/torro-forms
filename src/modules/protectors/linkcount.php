@@ -101,8 +101,6 @@ class Linkcount extends Protector {
 			'step'        => 1,
 		);
 
-		/* TODO: back-compat with 'linkcount_enabled' */
-
 		return $meta_fields;
 	}
 }

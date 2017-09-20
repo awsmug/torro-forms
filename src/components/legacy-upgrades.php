@@ -30,6 +30,172 @@ class Legacy_Upgrades extends Service {
 	}
 
 	/**
+	 * Upgrades legacy form metadata to new schema if necessary.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $form_id ID of the form for which to migrate data.
+	 * @return bool True if form metadata was migrated, false if it had already been
+	 *              migrated before.
+	 */
+	public function maybe_upgrade_legacy_form_meta( $form_id ) {
+		if ( get_post_meta( $form_id, $this->get_prefix() . 'legacy_needs_migration', true ) !== 'true' ) {
+			return false;
+		}
+
+		$mappings = array(
+			'access_controls' => array(
+				'author_identification' => array(
+					'use_ip_check'                 => array( 'form_access_controls_check_ip', 'bool' ),
+					'use_cookie_check'             => array( 'form_access_controls_check_cookie', 'bool' ),
+					'prevent_multiple_submissions' => array( array( 'form_access_controls_allmembers_same_users', 'form_access_controls_selectedmembers_same_users' ), 'bool' ),
+					'already_submitted_message'    => array( 'already_entered_text', 'string' ),
+				),
+				'members'               => array(
+					'login_required_message' => array( 'to_be_logged_in_text', 'string' ),
+					'allowed_users'          => 'PARTICIPANTS',
+				),
+				'timerange'             => array(
+					'start' => array( 'start_date', 'datetime' ),
+					'end'   => array( 'end_date', 'datetime' ),
+				),
+			),
+			'actions'         => array(
+				'email_notifications' => array(
+					'notifications' => 'EMAIL_NOTIFICATIONS',
+				),
+				'redirection'         => array(
+					'redirect_type' => array( 'redirect_type', 'string' ),
+					'redirect_page' => array( 'redirect_page', 'string' ),
+					'redirect_url'  => array( 'redirect_url', 'string' ),
+				),
+			),
+			'evaluators'      => array(),
+			'form_settings'   => array(
+				'' => array(
+					'show_container_title'  => array( 'show_page_title', 'bool' ),
+					'previous_button_label' => array( 'previous_button_text', 'string' ),
+					'next_button_label'     => array( 'next_button_text', 'string' ),
+					'submit_button_label'   => array( 'send_button_text', 'string' ),
+					'success_message'       => array( 'redirect_text_content', 'string' ),
+					'allow_get_params'      => array( 'allow_get_param', 'bool' ),
+				),
+			),
+			'protectors'      => array(
+				'honeypot'  => array(
+					'enabled' => array( 'honeypot_enabled', 'bool' ),
+				),
+				'linkcount' => array(
+					'enabled' => array( 'linkcount_enabled', 'bool' ),
+				),
+				'recaptcha' => array(
+					'enabled' => array( 'recaptcha_enabled', 'bool' ),
+					'type'    => array( 'recaptcha_type', 'string' ),
+					'size'    => array( 'recaptcha_size', 'string' ),
+					'theme'   => array( 'recaptcha_theme', 'string' ),
+				),
+				'timetrap'  => array(
+					'enabled' => array( 'timetrap_enabled', 'bool' ),
+				),
+			),
+		);
+
+		$metadata = array();
+		foreach ( $mappings as $module => $module_mappings ) {
+			$metadata[ $module ] = get_post_meta( $form_id, 'torro_module_' . $module, true );
+			if ( ! is_array( $metadata[ $module ] ) ) {
+				$metadata[ $module ] = array();
+			}
+
+			foreach ( $module_mappings as $submodule => $submodule_mappings ) {
+				$submodule_data_found = false;
+
+				$form_option_prefix = ! empty( $submodule ) ? $submodule . '__' : '';
+
+				foreach ( $submodule_mappings as $form_option => $mapping_data ) {
+					if ( 'PARTICIPANTS' === $mapping_data ) {
+						if ( get_option( $this->get_prefix() . 'legacy_participants_table_installed' ) === 'true' ) {
+							// TODO: Migrate participants over into new form option and set $submodule_data_found accordingly.
+						}
+						continue;
+					}
+
+					if ( 'EMAIL_NOTIFICATIONS' === $mapping_data ) {
+						if ( get_option( $this->get_prefix() . 'legacy_email_notifications_table_installed' ) === 'true' ) {
+							// TODO: Migrate email notifications over into new form option and set $submodule_data_found accordingly.
+						}
+						continue;
+					}
+
+					$old = array();
+					if ( is_array( $mapping_data[0] ) ) {
+						foreach ( $mapping_data[0] as $old_form_option ) {
+							$old = get_post_meta( $form_id, $old_form_option );
+							if ( ! empty( $old ) ) {
+								break;
+							}
+						}
+					} else {
+						$old = get_post_meta( $form_id, $mapping_data[0] );
+					}
+
+					if ( empty( $old ) ) {
+						continue;
+					}
+
+					$submodule_data_found = true;
+
+					// New values already set take precedence.
+					if ( isset( $metadata[ $module ][ $form_option_prefix . $form_option ] ) ) {
+						continue;
+					}
+
+					$old = $old[0];
+
+					switch ( $mapping_data[1] ) {
+						case 'bool':
+							$new = ! empty( $old ) && 'no' !== strtolower( $old ) ? true : false;
+							break;
+						case 'datetime':
+							if ( ! is_numeric( $old ) ) {
+								$old = strtotime( $old );
+							}
+							$new = date( 'Y-m-d H:i:s', $old );
+							break;
+						case 'string':
+						default:
+							$new = $old;
+					}
+
+					$metadata[ $module ][ $form_option_prefix . $form_option ] = $new;
+				}
+
+				if ( ! empty( $form_option_prefix ) && 'protectors' !== $module && $submodule_data_found ) {
+					// This is ugly, but who cares here...?
+					if ( isset( $metadata[ $module ][ $form_option_prefix . 'redirect_type' ] ) && 'none' === $metadata[ $module ][ $form_option_prefix . 'redirect_type' ] ) {
+						continue;
+					}
+
+					$metadata[ $module ][ $form_option_prefix . 'enabled' ] = true;
+				}
+			}
+		}
+
+		foreach ( $metadata as $module => $module_metadata ) {
+			if ( empty( $module_metadata ) ) {
+				continue;
+			}
+
+			update_post_meta( $form_id, 'torro_module_' . $module, $module_metadata );
+		}
+
+		delete_post_meta( $form_id, $this->get_prefix() . 'legacy_needs_migration' );
+
+		return true;
+	}
+
+	/**
 	 * Runs the upgrade from a legacy version.
 	 *
 	 * @since 1.0.0
@@ -379,21 +545,19 @@ class Legacy_Upgrades extends Service {
 		$participant_ids = $wpdb->get_col( "SELECT ID FROM $participants WHERE 1=1 LIMIT 1" );
 		if ( empty( $participant_ids ) ) {
 			$wpdb->query( "DROP TABLE IF EXISTS `$participants`" );
-			return;
+		} else {
+			// Set a flag that the old participants table still exists.
+			update_option( $this->get_prefix() . 'legacy_participants_table_installed', 'true' );
 		}
-
-		// Set a flag that the old participants table still exists.
-		update_option( $this->get_prefix() . 'legacy_participants_table_installed', 'true' );
 
 		// If email notifications exist as well, this data will be needed for form meta migration.
 		$email_notification_ids = $wpdb->get_col( "SELECT ID FROM $email_notifications WHERE 1=1 LIMIT 1" );
 		if ( empty( $email_notification_ids ) ) {
 			$wpdb->query( "DROP TABLE IF EXISTS `$email_notifications`" );
-			return;
+		} else {
+			// Set a flag that the old email notifications table still exists.
+			update_option( $this->get_prefix() . 'legacy_email_notifications_table_installed', 'true' );
 		}
-
-		// Set a flag that the old email notifications table still exists.
-		update_option( $this->get_prefix() . 'legacy_email_notifications_table_installed', 'true' );
 
 		// TODO: Migrate form metadata.
 	}

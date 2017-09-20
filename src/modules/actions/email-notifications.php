@@ -207,8 +207,6 @@ class Email_Notifications extends Action {
 			),
 		);
 
-		/* TODO: back-compat with the old torro_email_notifications table (add these to the notifications array); if set, set 'enabled' too. */
-
 		return $meta_fields;
 	}
 

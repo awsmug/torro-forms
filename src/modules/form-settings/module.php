@@ -119,8 +119,6 @@ class Module extends Module_Base {
 			),
 		);
 
-		// TODO: backward-compatibility with 'show_page_title' ('yes' or 'no'), 'previous_button_text', 'next_button_text', 'send_button_text', 'redirect_text_content' and 'allow_get_param' ('yes' or 'no')
-
 		/**
 		 * Filters the meta fields in the form settings metabox.
 		 *

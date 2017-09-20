@@ -187,8 +187,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 			'input_classes' => array( 'regular-text' ),
 		);
 
-		/* TODO: back-compat with 'form_access_controls_allmembers_same_users' or 'form_access_controls_selectedmembers_same_users' (set to 'yes' or empty string) and 'to_be_logged_in_text' (string) and the old torro_participants table (add these users to the allowed_users array); if set, set 'enabled' too. */
-
 		return $meta_fields;
 	}
 

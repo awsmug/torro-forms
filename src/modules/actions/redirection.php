@@ -160,8 +160,6 @@ class Redirection extends Action {
 			),
 		);
 
-		/* TODO: back-compat with 'redirect_type', 'redirect_page' and 'redirect_url'; if 'redirect_type' != 'redirect_none', set 'enabled' too. */
-
 		return $meta_fields;
 	}
 }

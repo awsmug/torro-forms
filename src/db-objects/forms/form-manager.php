@@ -19,6 +19,7 @@ use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
 use awsmug\Torro_Forms\Translations\Translations_Form_Manager;
 use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\DB;
+use awsmug\Torro_Forms\Components\Legacy_Upgrades;
 use Leaves_And_Love\Plugin_Lib\Template;
 use Leaves_And_Love\Plugin_Lib\Options;
 use Leaves_And_Love\Plugin_Lib\AJAX;
@@ -79,6 +80,15 @@ class Form_Manager extends Core_Manager {
 	 * @var Form_Edit_Page_Handler
 	 */
 	protected $edit_page_handler;
+
+	/**
+	 * The legacy upgrades instance. TODO: Remove this property in the future.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var Legacy_Upgrades
+	 */
+	protected $legacy_upgrades;
 
 	/**
 	 * The Template API service definition.
@@ -168,6 +178,9 @@ class Form_Manager extends Core_Manager {
 		$this->frontend_output_handler     = new Form_Frontend_Output_Handler( $this );
 		$this->list_page_handler           = new Form_List_Page_Handler( $this );
 		$this->edit_page_handler           = new Form_Edit_Page_Handler( $this );
+
+		// TODO: Remove this instantiation in the future.
+		$this->legacy_upgrades = new Legacy_Upgrades( $prefix );
 
 		parent::__construct( $prefix, $services, $translations );
 	}
@@ -320,6 +333,9 @@ class Form_Manager extends Core_Manager {
 			return null;
 		}
 
+		// TODO: Remove this logic in the future.
+		$this->legacy_upgrades->maybe_upgrade_legacy_form_meta( $post->ID );
+
 		return $post;
 	}
 
@@ -382,6 +398,32 @@ class Form_Manager extends Core_Manager {
 		foreach ( $submissions as $submission ) {
 			$submission->delete();
 		}
+	}
+
+	/**
+	 * Upgrades legacy form meta when a form is accessed in the admin.
+	 *
+	 * TODO: Remove this method in the future.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param WP_Screen $screen Current screen object.
+	 */
+	private function maybe_upgrade_legacy_form_meta( $screen ) {
+		if ( 'post' !== $screen->base ) {
+			return;
+		}
+
+		if ( $this->get_prefix() . 'form' !== $screen->post_type ) {
+			return;
+		}
+
+		if ( empty( $_GET['post'] ) ) {
+			return;
+		}
+
+		$this->legacy_upgrades->maybe_upgrade_legacy_form_meta( (int) $_GET['post'] );
 	}
 
 	/**
@@ -514,6 +556,14 @@ class Form_Manager extends Core_Manager {
 		$this->actions[] = array(
 			'name'     => 'post_submitbox_misc_actions',
 			'callback' => array( $this->edit_page_handler, 'maybe_render_shortcode' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+
+		// TODO: Remove this hook in the future.
+		$this->actions[] = array(
+			'name'     => 'current_screen',
+			'callback' => array( $this, 'maybe_upgrade_legacy_form_meta' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);

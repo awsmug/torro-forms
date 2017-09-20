@@ -169,8 +169,6 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 			),
 		);
 
-		/* TODO: back-compat with 'form_access_controls_allmembers_same_users', 'form_access_controls_check_ip', 'form_access_controls_check_cookie' (all set to 'yes' or empty string) and 'already_entered_text' (string); if set, set 'enabled' too. */
-
 		return $meta_fields;
 	}
 

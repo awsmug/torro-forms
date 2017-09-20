@@ -220,8 +220,6 @@ class reCAPTCHA extends Protector {
 			),
 		);
 
-		/* TODO: back-compat with 'recaptcha_enabled', 'recaptcha_type', 'recaptcha_size' and 'recaptcha_theme' */
-
 		return $meta_fields;
 	}
 

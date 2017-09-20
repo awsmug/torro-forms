@@ -94,8 +94,6 @@ class Timetrap extends Protector {
 			'step'        => 1,
 		);
 
-		/* TODO: back-compat with 'timetrap_enabled' */
-
 		return $meta_fields;
 	}
 }
