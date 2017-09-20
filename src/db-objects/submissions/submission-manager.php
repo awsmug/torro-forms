@@ -189,10 +189,11 @@ class Submission_Manager extends Manager {
 	 * @access public
 	 *
 	 * @param Submission $submission Submission object to get element values for.
+	 * @param bool       $force      Optional. Whether to force querying and parsing. Default false.
 	 * @return array Element values data set for the submission.
 	 */
-	public function get_element_values_data_for_submission( $submission ) {
-		if ( ! isset( $this->element_values[ $submission->id ] ) ) {
+	public function get_element_values_data_for_submission( $submission, $force = false ) {
+		if ( ! isset( $this->element_values[ $submission->id ] ) || $force ) {
 			$this->element_values[ $submission->id ] = array();
 
 			foreach ( $submission->get_submission_values() as $submission_value ) {
