@@ -224,18 +224,9 @@ abstract class Element_Type {
 	public function get_values( $element, $submission = null ) {
 		$values = array();
 		if ( $submission ) {
-			$submission_values = $submission->get_submission_values( array(
-				'element_id' => $element->id,
-			) );
-			foreach ( $submission_values as $submission_value ) {
-				$field = empty( $submission_value->field ) ? '_main' : $submission_value->field;
-
-				if ( ! empty( $values[ $field ] ) ) {
-					$values[ $field ] = (array) $values[ $field ];
-					$values[ $field ][] = $submission_value->value;
-				} else {
-					$values[ $field ] = $submission_value->value;
-				}
+			$all_values = $submission->get_element_values_data();
+			if ( isset( $all_values[ $element->id ] ) ) {
+				$values = $all_values[ $element->id ];
 			}
 		}
 

@@ -29,15 +29,6 @@ class Form_Frontend_Output_Handler {
 	protected $form_manager;
 
 	/**
-	 * Temporary storage for all element values for currently loaded submissions.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $element_values = array();
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -172,27 +163,6 @@ class Form_Frontend_Output_Handler {
 	}
 
 	/**
-	 * Returns element values set for a currently loaded submission.
-	 *
-	 * This is a utility method that should only be used by the Element_Type class in order
-	 * to fetch the current values for the element. Managing the element values in a centralized
-	 * location improves performance compared to if they were queried for every element individually.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param int $submission_id ID of the submission to get element values for.
-	 * @return array Element values set for the submission, or empty array if nothing set.
-	 */
-	public function get_element_values( $submission_id ) {
-		if ( ! isset( $this->element_values[ $submission_id ] ) ) {
-			return array();
-		}
-
-		return $this->element_values[ $submission_id ];
-	}
-
-	/**
 	 * Renders the content for a given form.
 	 *
 	 * @since 1.0.0
@@ -239,28 +209,6 @@ class Form_Frontend_Output_Handler {
 
 			$this->print_notice( $success_message, 'success' );
 			return;
-		}
-
-		if ( $submission ) {
-			foreach ( $submission->get_submission_values() as $submission_value ) {
-				$element_id = $submission_value->element_id;
-				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
-
-				if ( ! isset( $this->element_values[ $submission->id ] ) ) {
-					$this->element_values[ $submission->id ] = array();
-				}
-
-				if ( ! isset( $this->element_values[ $submission->id ][ $element_id ] ) ) {
-					$this->element_values[ $submission->id ][ $element_id ] = array();
-				}
-
-				if ( ! empty( $this->element_values[ $submission->id ][ $element_id ][ $field ] ) ) {
-					$this->element_values[ $submission->id ][ $element_id ][ $field ] = (array) $this->element_values[ $submission->id ][ $element_id ][ $field ];
-					$this->element_values[ $submission->id ][ $element_id ][ $field ][] = $submission_value->value;
-				} else {
-					$this->element_values[ $submission->id ][ $element_id ][ $field ] = $submission_value->value;
-				}
-			}
 		}
 
 		$container = $this->get_current_container( $form, $submission );

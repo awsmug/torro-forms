@@ -139,7 +139,7 @@ class Submission extends Model {
 				return $this->values;
 			}
 
-			return $this->get_values_data();
+			return $this->get_submission_values_data();
 		}
 
 		return parent::__get( $property );
@@ -158,7 +158,7 @@ class Submission extends Model {
 	 */
 	public function __set( $property, $value ) {
 		if ( 'values' === $property ) {
-			$this->set_values_data( $value );
+			$this->set_submission_values_data( $value );
 			return;
 		}
 
@@ -461,6 +461,26 @@ class Submission extends Model {
 	}
 
 	/**
+	 * Gets all element values set for the submission.
+	 *
+	 * The returned element values data array is an multi-dimensional associative array
+	 * where the keys are element IDs and their inner keys field slugs belonging to the element
+	 * with the actual value for the element and field combination as value.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Element values data set for the submission.
+	 */
+	public function get_element_values_data() {
+		if ( ! $this->primary_property_value() ) {
+			return array();
+		}
+
+		return $this->manager->get_element_values_data_for_submission( $this );
+	}
+
+	/**
 	 * Adds an error to the submission.
 	 *
 	 * @since 1.0.0
@@ -637,7 +657,7 @@ class Submission extends Model {
 	 *
 	 * @return array Submission values data.
 	 */
-	protected function get_values_data() {
+	protected function get_submission_values_data() {
 		$data = array();
 
 		foreach ( $this->get_submission_values() as $submission_value ) {
@@ -660,7 +680,7 @@ class Submission extends Model {
 	 *
 	 * @param array $value Submission values data.
 	 */
-	protected function set_values_data( $value ) {
+	protected function set_submission_values_data( $value ) {
 		if ( ! is_array( $value ) ) {
 			return;
 		}

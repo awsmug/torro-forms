@@ -47,6 +47,15 @@ class Submission_Manager extends Manager {
 	protected $export_handler;
 
 	/**
+	 * Temporary storage for all element values loaded for submissions.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $element_values = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -162,6 +171,48 @@ class Submission_Manager extends Manager {
 		$this->cache()->set( $cache_key, $counts, 'counts' );
 
 		return $counts;
+	}
+
+	/**
+	 * Gets all element values set for a submission.
+	 *
+	 * This method queries all submission values that belong to the submission and parses
+	 * them into an element values data array. It is an multi-dimensional associative array
+	 * where the keys are element IDs and their inner keys field slugs belonging to the element
+	 * with the actual value for the element and field combination as value.
+	 *
+	 * The querying and parsing logic will only be executed once per submission and request,
+	 * for performance reasons. On subsequent calls, the non-persistently cached value will be
+	 * returned.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Submission $submission Submission object to get element values for.
+	 * @return array Element values data set for the submission.
+	 */
+	public function get_element_values_data_for_submission( $submission ) {
+		if ( ! isset( $this->element_values[ $submission->id ] ) ) {
+			$this->element_values[ $submission->id ] = array();
+
+			foreach ( $submission->get_submission_values() as $submission_value ) {
+				$element_id = $submission_value->element_id;
+				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
+
+				if ( ! isset( $this->element_values[ $submission->id ][ $element_id ] ) ) {
+					$this->element_values[ $submission->id ][ $element_id ] = array();
+				}
+
+				if ( ! empty( $this->element_values[ $submission->id ][ $element_id ][ $field ] ) ) {
+					$this->element_values[ $submission->id ][ $element_id ][ $field ] = (array) $this->element_values[ $submission->id ][ $element_id ][ $field ];
+					$this->element_values[ $submission->id ][ $element_id ][ $field ][] = $submission_value->value;
+				} else {
+					$this->element_values[ $submission->id ][ $element_id ][ $field ] = $submission_value->value;
+				}
+			}
+		}
+
+		return $this->element_values[ $submission->id ];
 	}
 
 	/**

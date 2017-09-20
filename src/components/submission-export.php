@@ -174,22 +174,7 @@ abstract class Submission_Export {
 				$row[ $slug ] = call_user_func( $data['callback'], $submission );
 			}
 
-			$element_values = array();
-			foreach ( $submission->get_submission_values() as $submission_value ) {
-				$element_id = $submission_value->element_id;
-				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
-
-				if ( ! isset( $element_values[ $element_id ] ) ) {
-					$element_values[ $element_id ] = array();
-				}
-
-				if ( ! empty( $element_values[ $element_id ][ $field ] ) ) {
-					$element_values[ $element_id ][ $field ] = (array) $element_values[ $element_id ][ $field ];
-					$element_values[ $element_id ][ $field ][] = $submission_value->value;
-				} else {
-					$element_values[ $element_id ][ $field ] = $submission_value->value;
-				}
-			}
+			$element_values = $submission->get_element_values_data();
 
 			foreach ( $element_columns as $element_id => $data ) {
 				$values = isset( $element_values[ $element_id ] ) ? $element_values[ $element_id ] : array();
