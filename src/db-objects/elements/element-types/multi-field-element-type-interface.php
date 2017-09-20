@@ -50,7 +50,11 @@ interface Multi_Field_Element_Type_Interface {
 	 *
 	 * @param array   $values  Associative arrays of `$field => $value` pairs.
 	 * @param Element $element Element to validate fields for.
-	 * @return array Array of validated values or error objects.
+	 * @return array Associative array of `$field => $validated_value` pairs. Each validated
+	 *               value must be either the validated value, or an error object on failure.
+	 *               It may also be an array, in which case the individual values will be stored
+	 *               in the database separately. That array may also contain error objects for
+	 *               cases where errors occurred.
 	 */
 	public function validate_additional_fields( $values, $element );
 }

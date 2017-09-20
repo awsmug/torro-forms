@@ -398,7 +398,9 @@ abstract class Element_Type {
 	 *
 	 * @param mixed   $value   The value to validate.
 	 * @param Element $element Element to validate the field value for.
-	 * @return mixed|WP_Error Validated value, or error object on failure.
+	 * @return mixed|array|WP_Error Validated value, or error object on failure. If an array is returned,
+	 *                              the individual values will be stored in the database separately. The
+	 *                              array may also contain error objects for cases where errors occurred.
 	 */
 	public abstract function validate_field( $value, $element );
 
