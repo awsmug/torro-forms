@@ -458,7 +458,17 @@ class Legacy_Upgrades extends Service {
 					}
 
 					if ( false !== ( $key = array_search( 'results', $value, true ) ) ) {
-						$value[ $key ] = 'submission_handlers';
+						$value[ $key ] = 'evaluators';
+					}
+
+					if ( in_array( 'form_settings', $value, true ) ) {
+						if ( ! in_array( 'access_controls', $value, true ) ) {
+							$value[] = 'access_controls';
+						}
+
+						if ( ! in_array( 'protectors', $value, true ) ) {
+							$value[] = 'protectors';
+						}
 					}
 				}
 
@@ -487,39 +497,19 @@ class Legacy_Upgrades extends Service {
 			update_option( $this->get_prefix() . 'extension_settings', $extension_settings_array );
 		}
 
-		$spam_protection_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_spam_protection_' ) . '%' ) );
-		$selectedmembers_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_selectedmembers_' ) . '%' ) );
-		if ( ! empty( $spam_protection_settings ) || ! empty( $selectedmembers_settings ) ) {
-			$form_settings_array = array();
-
-			if ( ! empty( $spam_protection_settings ) ) {
-				$spam_protection_offset = strlen( $this->get_prefix() . 'settings_spam_protection_' );
-
-				foreach ( $spam_protection_settings as $spam_protection_setting ) {
-					$name = substr( $spam_protection_setting->option_name, $spam_protection_offset );
-					$value = $spam_protection_setting->option_value;
-
-					$form_settings_array[ $name ] = $value;
-
-					delete_option( $spam_protection_setting->option_name );
-				}
-			}
-
-			if ( ! empty( $selectedmembers_settings ) ) {
-				$selectedmembers_offset = strlen( $this->get_prefix() . 'settings_selectedmembers_' );
-
-				foreach ( $selectedmembers_settings as $selectedmembers_setting ) {
-					$name = substr( $selectedmembers_setting->option_name, $selectedmembers_offset );
-					$value = $selectedmembers_setting->option_value;
-
-					$form_settings_array[ $name ] = $value;
-
-					delete_option( $selectedmembers_setting->option_name );
-				}
-			}
-
-			update_option( $this->get_prefix() . 'module_form_settings', $form_settings_array );
-		}
+		/*
+		TODO: Migrate the following options:
+		 - 'torro_settings_form_settings_spam_protection_recaptcha_sitekey' to 'torro_module_protectors[recaptcha][site_key]'
+		 - 'torro_settings_form_settings_spam_protection_recaptcha_secret' to 'torro_module_protectors[recaptcha][secret_key]'
+		 - 'torro_settings_visitors_selectedmembers_invite_from_name' to 'torro_module_access_controls[members][invitation_from_name]'
+		 - 'torro_settings_visitors_selectedmembers_invite_from' to 'torro_module_access_controls[members][invitation_from_email]'
+		 - 'torro_settings_visitors_selectedmembers_invite_subject' to 'torro_module_access_controls[members][invitation_subject]'
+		 - 'torro_settings_visitors_selectedmembers_invite_text' to 'torro_module_access_controls[members][invitation_message]'
+		 - 'torro_settings_visitors_selectedmembers_reinvite_from_name' to 'torro_module_access_controls[members][reinvitation_from_name]'
+		 - 'torro_settings_visitors_selectedmembers_reinvite_from' to 'torro_module_access_controls[members][reinvitation_from_email]'
+		 - 'torro_settings_visitors_selectedmembers_reinvite_subject' to 'torro_module_access_controls[members][reinvitation_subject]'
+		 - 'torro_settings_visitors_selectedmembers_reinvite_text' to 'torro_module_access_controls[members][reinvitation_message]'
+		 */
 
 		// TODO: Migrate attachments with 'torro-forms-upload' status to the new attachment taxonomy term
 

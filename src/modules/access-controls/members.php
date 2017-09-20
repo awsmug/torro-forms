@@ -311,15 +311,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 			'template_tag_handler' => $this->template_tag_handler,
 		);
 
-		/* TODO: back-compat with 'torro_settings_visitors_selectedmembers_invite_from_name',
-		'torro_settings_visitors_selectedmembers_invite_from',
-		'torro_settings_visitors_selectedmembers_invite_subject',
-		'torro_settings_visitors_selectedmembers_invite_text',
-		'torro_settings_visitors_selectedmembers_reinvite_from_name',
-		'torro_settings_visitors_selectedmembers_reinvite_from',
-		'torro_settings_visitors_selectedmembers_reinvite_subject',
-		'torro_settings_visitors_selectedmembers_reinvite_text' */
-
 		return $settings_fields;
 	}
 

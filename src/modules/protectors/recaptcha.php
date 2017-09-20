@@ -270,8 +270,6 @@ class reCAPTCHA extends Protector {
 			'input_classes' => array( 'regular-text' ),
 		);
 
-		/* TODO: back-compat with 'torro_settings_form_settings_spam_protection_recaptcha_sitekey' and 'torro_settings_form_settings_spam_protection_recaptcha_secret' */
-
 		return $settings_fields;
 	}
 
