@@ -29,7 +29,7 @@ class Form_Frontend_Output_Handler {
 	protected $form_manager;
 
 	/**
-	 * Temporary storage for all element values for a submission.
+	 * Temporary storage for all element values for currently loaded submissions.
 	 *
 	 * @since 1.0.0
 	 * @access protected
@@ -172,7 +172,7 @@ class Form_Frontend_Output_Handler {
 	}
 
 	/**
-	 * Returns element values set for the current submission.
+	 * Returns element values set for a currently loaded submission.
 	 *
 	 * This is a utility method that should only be used by the Element_Type class in order
 	 * to fetch the current values for the element. Managing the element values in a centralized
@@ -181,10 +181,15 @@ class Form_Frontend_Output_Handler {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return array Element values set for the current submission.
+	 * @param int $submission_id ID of the submission to get element values for.
+	 * @return array Element values set for the submission, or empty array if nothing set.
 	 */
-	public function get_current_element_values() {
-		return $this->element_values;
+	public function get_element_values( $submission_id ) {
+		if ( ! isset( $this->element_values[ $submission_id ] ) ) {
+			return array();
+		}
+
+		return $this->element_values[ $submission_id ];
 	}
 
 	/**
@@ -234,6 +239,28 @@ class Form_Frontend_Output_Handler {
 
 			$this->print_notice( $success_message, 'success' );
 			return;
+		}
+
+		if ( $submission ) {
+			foreach ( $submission->get_submission_values() as $submission_value ) {
+				$element_id = $submission_value->element_id;
+				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
+
+				if ( ! isset( $this->element_values[ $submission->id ] ) ) {
+					$this->element_values[ $submission->id ] = array();
+				}
+
+				if ( ! isset( $this->element_values[ $submission->id ][ $element_id ] ) ) {
+					$this->element_values[ $submission->id ][ $element_id ] = array();
+				}
+
+				if ( ! empty( $this->element_values[ $submission->id ][ $element_id ][ $field ] ) ) {
+					$this->element_values[ $submission->id ][ $element_id ][ $field ] = (array) $this->element_values[ $submission->id ][ $element_id ][ $field ];
+					$this->element_values[ $submission->id ][ $element_id ][ $field ][] = $submission_value->value;
+				} else {
+					$this->element_values[ $submission->id ][ $element_id ][ $field ] = $submission_value->value;
+				}
+			}
 		}
 
 		$container = $this->get_current_container( $form, $submission );
@@ -398,25 +425,6 @@ class Form_Frontend_Output_Handler {
 			$template_data['current_container']['label'] = '';
 		}
 
-		$this->element_values = array();
-		if ( $submission ) {
-			foreach ( $submission->get_submission_values() as $submission_value ) {
-				$element_id = $submission_value->element_id;
-				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
-
-				if ( ! isset( $this->element_values[ $element_id ] ) ) {
-					$this->element_values[ $element_id ] = array();
-				}
-
-				if ( ! empty( $this->element_values[ $element_id ][ $field ] ) ) {
-					$this->element_values[ $element_id ][ $field ] = (array) $this->element_values[ $element_id ][ $field ];
-					$this->element_values[ $element_id ][ $field ][] = $submission_value->value;
-				} else {
-					$this->element_values[ $element_id ][ $field ] = $submission_value->value;
-				}
-			}
-		}
-
 		$template_data['current_container']['elements'] = array();
 		foreach ( $container->get_elements() as $element ) {
 			$template_data['current_container']['elements'][] = $element->to_json( false, $submission );
@@ -428,8 +436,6 @@ class Form_Frontend_Output_Handler {
 		}
 
 		$this->form_manager->template()->get_partial( 'form', $template_data );
-
-		$this->element_values = array();
 	}
 
 	/**
