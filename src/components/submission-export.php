@@ -185,7 +185,7 @@ abstract class Submission_Export {
 
 				if ( ! empty( $element_values[ $element_id ][ $field ] ) ) {
 					$element_values[ $element_id ][ $field ] = (array) $element_values[ $element_id ][ $field ];
-					array_push( $element_values[ $element_id ][ $field ], $submission_value->value );
+					$element_values[ $element_id ][ $field ][] = $submission_value->value;
 				} else {
 					$element_values[ $element_id ][ $field ] = $submission_value->value;
 				}

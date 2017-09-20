@@ -29,6 +29,15 @@ class Form_Frontend_Output_Handler {
 	protected $form_manager;
 
 	/**
+	 * Temporary storage for all element values for a submission.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $element_values = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -160,6 +169,22 @@ class Form_Frontend_Output_Handler {
 		$this->form_manager->error_handler()->deprecated_shortcode( 'form', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form" );
 
 		return $this->get_shortcode_content( $atts );
+	}
+
+	/**
+	 * Returns element values set for the current submission.
+	 *
+	 * This is a utility method that should only be used by the Element_Type class in order
+	 * to fetch the current values for the element. Managing the element values in a centralized
+	 * location improves performance compared to if they were queried for every element individually.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return array Element values set for the current submission.
+	 */
+	public function get_current_element_values() {
+		return $this->element_values;
 	}
 
 	/**
@@ -373,6 +398,25 @@ class Form_Frontend_Output_Handler {
 			$template_data['current_container']['label'] = '';
 		}
 
+		$this->element_values = array();
+		if ( $submission ) {
+			foreach ( $submission->get_submission_values() as $submission_value ) {
+				$element_id = $submission_value->element_id;
+				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
+
+				if ( ! isset( $this->element_values[ $element_id ] ) ) {
+					$this->element_values[ $element_id ] = array();
+				}
+
+				if ( ! empty( $this->element_values[ $element_id ][ $field ] ) ) {
+					$this->element_values[ $element_id ][ $field ] = (array) $this->element_values[ $element_id ][ $field ];
+					$this->element_values[ $element_id ][ $field ][] = $submission_value->value;
+				} else {
+					$this->element_values[ $element_id ][ $field ] = $submission_value->value;
+				}
+			}
+		}
+
 		$template_data['current_container']['elements'] = array();
 		foreach ( $container->get_elements() as $element ) {
 			$template_data['current_container']['elements'][] = $element->to_json( false, $submission );
@@ -384,6 +428,8 @@ class Form_Frontend_Output_Handler {
 		}
 
 		$this->form_manager->template()->get_partial( 'form', $template_data );
+
+		$this->element_values = array();
 	}
 
 	/**
