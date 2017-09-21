@@ -30,19 +30,129 @@ class Legacy_Upgrades extends Service {
 	}
 
 	/**
-	 * Upgrades legacy form metadata to new schema if necessary.
+	 * Upgrades legacy settings to new schema.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function upgrade_legacy_settings() {
+		$prefix = $this->get_prefix();
+
+		$general_mappings = array(
+			'modules'        => array( $prefix . 'settings_general_modules', 'modules' ),
+			'slug'           => array( $prefix . 'settings_general_slug', 'string' ),
+			'frontend_css'   => array( $prefix . 'settings_general_frontend_css', 'bool' ),
+			'hard_uninstall' => array( $prefix . 'settings_general_hard_uninstall', 'bool' ),
+		);
+
+		$general = get_option( $prefix . 'general_settings', array() );
+
+		foreach ( $general_mappings as $option => $mapping_data ) {
+			// New values already set take precedence.
+			if ( isset( $general[ $option ] ) ) {
+				continue;
+			}
+
+			$old = get_option( $mapping_data[0] );
+			if ( false === $old ) {
+				continue;
+			}
+
+			switch ( $mapping_data[1] ) {
+				case 'bool':
+					$new = ! empty( $old ) && 'no' !== strtolower( $old ) ? true : false;
+					break;
+				case 'modules':
+					$old = (array) $old;
+					if ( in_array( 'actions', $old, true ) ) {
+						$new[] = 'actions';
+					}
+					if ( in_array( 'results', $old, true ) ) {
+						$new[] = 'evaluators';
+					}
+					if ( in_array( 'form-settings', $old, true ) ) {
+						$new[] = 'form_settings';
+						$new[] = 'access_controls';
+						$new[] = 'protectors';
+					}
+					$new = $old;
+					break;
+				case 'string':
+				default:
+					$new = $old;
+			}
+
+			$general[ $option ] = $new;
+		}
+
+		if ( ! empty( $general ) ) {
+			update_option( $prefix . 'general_settings', $general );
+		}
+
+		$mappings = array(
+			'access_controls' => array(
+				'members' => array(
+					'invitation_from_name'      => array( $prefix . 'settings_visitors_selectedmembers_invite_from_name', 'string' ),
+					'invitation_from_email'     => array( $prefix . 'settings_visitors_selectedmembers_invite_from', 'string' ),
+					'invitation_from_subject'   => array( $prefix . 'settings_visitors_selectedmembers_invite_from_subject', 'string' ),
+					'invitation_from_message'   => array( $prefix . 'settings_visitors_selectedmembers_invite_from_text', 'string' ),
+					'reinvitation_from_name'    => array( $prefix . 'settings_visitors_selectedmembers_reinvite_from_name', 'string' ),
+					'reinvitation_from_email'   => array( $prefix . 'settings_visitors_selectedmembers_reinvite_from', 'string' ),
+					'reinvitation_from_subject' => array( $prefix . 'settings_visitors_selectedmembers_reinvite_from_subject', 'string' ),
+					'reinvitation_from_message' => array( $prefix . 'settings_visitors_selectedmembers_reinvite_from_text', 'string' ),
+				),
+			),
+			'protectors'      => array(
+				'recaptcha' => array(
+					'site_key'   => array( $prefix . 'settings_form_settings_spam_protection_recaptcha_sitekey', 'string' ),
+					'secret_key' => array( $prefix . 'settings_form_settings_spam_protection_recaptcha_secret', 'string' ),
+				),
+			),
+		);
+
+		foreach ( $mappings as $module => $module_mappings ) {
+			$settings = get_option( $prefix . 'module_' . $module, array() );
+
+			foreach ( $module_mappings as $submodule => $submodule_mappings ) {
+				$option_prefix = ! empty( $submodule ) ? $submodule . '__' : '';
+
+				foreach ( $submodule_mappings as $option => $mapping_data ) {
+					// New values already set take precedence.
+					if ( isset( $settings[ $option_prefix . $option ] ) ) {
+						continue;
+					}
+
+					$old = get_option( $mapping_data[0] );
+					if ( false === $old ) {
+						continue;
+					}
+
+					switch ( $mapping_data[1] ) {
+						case 'string':
+						default:
+							$new = $old;
+					}
+
+					$settings[ $option_prefix . $option ] = $new;
+				}
+			}
+
+			if ( ! empty( $settings ) ) {
+				update_option( $prefix . 'module_' . $module, $settings );
+			}
+		}
+	}
+
+	/**
+	 * Upgrades legacy form metadata to new schema.
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
 	 * @param int $form_id ID of the form for which to migrate data.
-	 * @return bool True if form metadata was migrated, false if it had already been
-	 *              migrated before.
 	 */
-	public function maybe_upgrade_legacy_form_meta( $form_id ) {
-		if ( get_post_meta( $form_id, $this->get_prefix() . 'legacy_needs_migration', true ) !== 'true' ) {
-			return false;
-		}
+	public function upgrade_legacy_form_meta( $form_id ) {
+		$prefix = $this->get_prefix();
 
 		$mappings = array(
 			'access_controls' => array(
@@ -101,11 +211,10 @@ class Legacy_Upgrades extends Service {
 			),
 		);
 
-		$metadata = array();
 		foreach ( $mappings as $module => $module_mappings ) {
-			$metadata[ $module ] = get_post_meta( $form_id, 'torro_module_' . $module, true );
-			if ( ! is_array( $metadata[ $module ] ) ) {
-				$metadata[ $module ] = array();
+			$metadata = get_post_meta( $form_id, $prefix . 'module_' . $module, true );
+			if ( ! is_array( $metadata ) ) {
+				$metadata = array();
 			}
 
 			foreach ( $module_mappings as $submodule => $submodule_mappings ) {
@@ -115,14 +224,14 @@ class Legacy_Upgrades extends Service {
 
 				foreach ( $submodule_mappings as $form_option => $mapping_data ) {
 					if ( 'PARTICIPANTS' === $mapping_data ) {
-						if ( get_option( $this->get_prefix() . 'legacy_participants_table_installed' ) === 'true' ) {
+						if ( get_option( $prefix . 'legacy_participants_table_installed' ) === 'true' ) {
 							// TODO: Migrate participants over into new form option and set $submodule_data_found accordingly.
 						}
 						continue;
 					}
 
 					if ( 'EMAIL_NOTIFICATIONS' === $mapping_data ) {
-						if ( get_option( $this->get_prefix() . 'legacy_email_notifications_table_installed' ) === 'true' ) {
+						if ( get_option( $prefix . 'legacy_email_notifications_table_installed' ) === 'true' ) {
 							// TODO: Migrate email notifications over into new form option and set $submodule_data_found accordingly.
 						}
 						continue;
@@ -147,7 +256,7 @@ class Legacy_Upgrades extends Service {
 					$submodule_data_found = true;
 
 					// New values already set take precedence.
-					if ( isset( $metadata[ $module ][ $form_option_prefix . $form_option ] ) ) {
+					if ( isset( $metadata[ $form_option_prefix . $form_option ] ) ) {
 						continue;
 					}
 
@@ -168,27 +277,41 @@ class Legacy_Upgrades extends Service {
 							$new = $old;
 					}
 
-					$metadata[ $module ][ $form_option_prefix . $form_option ] = $new;
+					$metadata[ $form_option_prefix . $form_option ] = $new;
 				}
 
 				if ( ! empty( $form_option_prefix ) && 'protectors' !== $module && $submodule_data_found ) {
 					// This is ugly, but who cares here...?
-					if ( isset( $metadata[ $module ][ $form_option_prefix . 'redirect_type' ] ) && 'none' === $metadata[ $module ][ $form_option_prefix . 'redirect_type' ] ) {
+					if ( isset( $metadata[ $form_option_prefix . 'redirect_type' ] ) && 'none' === $metadata[ $form_option_prefix . 'redirect_type' ] ) {
 						continue;
 					}
 
-					$metadata[ $module ][ $form_option_prefix . 'enabled' ] = true;
+					$metadata[ $form_option_prefix . 'enabled' ] = true;
 				}
 			}
-		}
 
-		foreach ( $metadata as $module => $module_metadata ) {
-			if ( empty( $module_metadata ) ) {
-				continue;
+			if ( ! empty( $metadata ) ) {
+				update_post_meta( $form_id, $prefix . 'module_' . $module, $metadata );
 			}
-
-			update_post_meta( $form_id, 'torro_module_' . $module, $module_metadata );
 		}
+	}
+
+	/**
+	 * Upgrades legacy form metadata to new schema if necessary.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param int $form_id ID of the form for which to migrate data.
+	 * @return bool True if form metadata was migrated, false if it had already been
+	 *              migrated before.
+	 */
+	public function maybe_upgrade_legacy_form_meta( $form_id ) {
+		if ( get_post_meta( $form_id, $this->get_prefix() . 'legacy_needs_migration', true ) !== 'true' ) {
+			return false;
+		}
+
+		$this->upgrade_legacy_form_meta( $form_id );
 
 		delete_post_meta( $form_id, $this->get_prefix() . 'legacy_needs_migration' );
 
@@ -443,73 +566,7 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $submission_values ADD KEY submission_id (submission_id)" );
 		$wpdb->query( "ALTER TABLE $submission_values ADD KEY element_id (element_id)" );
 
-		$general_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_general_' ) . '%' ) );
-		if ( ! empty( $general_settings ) ) {
-			$general_offset = strlen( $this->get_prefix() . 'settings_general_' );
-
-			$general_settings_array = array();
-			foreach ( $general_settings as $general_setting ) {
-				$name = substr( $general_setting->option_name, $general_offset );
-				$value = $general_setting->option_value;
-
-				if ( 'modules' === $name && is_array( $value ) ) {
-					if ( false !== ( $key = array_search( 'form-settings', $value, true ) ) ) {
-						$value[ $key ] = 'form_settings';
-					}
-
-					if ( false !== ( $key = array_search( 'results', $value, true ) ) ) {
-						$value[ $key ] = 'evaluators';
-					}
-
-					if ( in_array( 'form_settings', $value, true ) ) {
-						if ( ! in_array( 'access_controls', $value, true ) ) {
-							$value[] = 'access_controls';
-						}
-
-						if ( ! in_array( 'protectors', $value, true ) ) {
-							$value[] = 'protectors';
-						}
-					}
-				}
-
-				$general_settings_array[ $name ] = $value;
-
-				delete_option( $general_setting->option_name );
-			}
-
-			update_option( $this->get_prefix() . 'general_settings', $general_settings_array );
-		}
-
-		$extension_settings = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( $this->get_prefix() . 'settings_extensions_' ) . '%' ) );
-		if ( ! empty( $extension_settings ) ) {
-			$extension_offset = strlen( $this->get_prefix() . 'settings_extensions_' );
-
-			$extension_settings_array = array();
-			foreach ( $extension_settings as $extension_setting ) {
-				$name = substr( $extension_setting->option_name, $extension_offset );
-				$value = $extension_setting->option_value;
-
-				$extension_settings_array[ $name ] = $value;
-
-				delete_option( $extension_setting->option_name );
-			}
-
-			update_option( $this->get_prefix() . 'extension_settings', $extension_settings_array );
-		}
-
-		/*
-		TODO: Migrate the following options:
-		 - 'torro_settings_form_settings_spam_protection_recaptcha_sitekey' to 'torro_module_protectors[recaptcha][site_key]'
-		 - 'torro_settings_form_settings_spam_protection_recaptcha_secret' to 'torro_module_protectors[recaptcha][secret_key]'
-		 - 'torro_settings_visitors_selectedmembers_invite_from_name' to 'torro_module_access_controls[members][invitation_from_name]'
-		 - 'torro_settings_visitors_selectedmembers_invite_from' to 'torro_module_access_controls[members][invitation_from_email]'
-		 - 'torro_settings_visitors_selectedmembers_invite_subject' to 'torro_module_access_controls[members][invitation_subject]'
-		 - 'torro_settings_visitors_selectedmembers_invite_text' to 'torro_module_access_controls[members][invitation_message]'
-		 - 'torro_settings_visitors_selectedmembers_reinvite_from_name' to 'torro_module_access_controls[members][reinvitation_from_name]'
-		 - 'torro_settings_visitors_selectedmembers_reinvite_from' to 'torro_module_access_controls[members][reinvitation_from_email]'
-		 - 'torro_settings_visitors_selectedmembers_reinvite_subject' to 'torro_module_access_controls[members][reinvitation_subject]'
-		 - 'torro_settings_visitors_selectedmembers_reinvite_text' to 'torro_module_access_controls[members][reinvitation_message]'
-		 */
+		$this->upgrade_legacy_settings();
 
 		// TODO: Migrate attachments with 'torro-forms-upload' status to the new attachment taxonomy term
 
