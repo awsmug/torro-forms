@@ -64,8 +64,9 @@ class Submission_Export_CSV extends Submission_Export {
 	 * @access protected
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'csv';
-		$this->title       = _x( 'CSV', 'file extension', 'torro-forms' );
-		$this->description = __( 'Exports submissions in CSV format, raw data to be used for importing into other software.', 'torro-forms' );
+		$this->slug          = 'csv';
+		$this->title         = _x( 'CSV', 'file extension', 'torro-forms' );
+		$this->description   = __( 'Exports submissions in CSV format, raw data to be used for importing into other software.', 'torro-forms' );
+		$this->export_format = 'csv';
 	}
 }

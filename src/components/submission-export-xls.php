@@ -64,8 +64,9 @@ class Submission_Export_XLS extends Submission_Export {
 	 * @access protected
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'xls';
-		$this->title       = _x( 'XLS', 'file extension', 'torro-forms' );
-		$this->description = __( 'Exports submissions in XLS format, to be used by table processing software such as Excel.', 'torro-forms' );
+		$this->slug          = 'xls';
+		$this->title         = _x( 'XLS', 'file extension', 'torro-forms' );
+		$this->description   = __( 'Exports submissions in XLS format, to be used by table processing software such as Excel.', 'torro-forms' );
+		$this->export_format = 'xls';
 	}
 }

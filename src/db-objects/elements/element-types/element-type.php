@@ -291,16 +291,17 @@ abstract class Element_Type {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param array   $values  Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
-	 * @param Element $element Element the values belong to.
+	 * @param array   $values        Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
+	 * @param Element $element       Element the values belong to.
+	 * @param string  $export_format Export format identifier. May be 'xls', 'csv', 'json', 'xml' or 'html'.
 	 * @return array Associative array of `$column_slug => $column_value` pairs. The number of items and the column slugs
 	 *               must match those returned from the get_export_columns() method.
 	 */
-	public function format_values_for_export( $values, $element ) {
+	public function format_values_for_export( $values, $element, $export_format ) {
 		$value = isset( $values['_main'] ) ? $values['_main'] : '';
 
 		return array(
-			'element_' . $element->id . '__main' => $value,
+			'element_' . $element->id . '__main' => $this->escape_single_value_for_export( $value, $export_format ),
 		);
 	}
 
@@ -402,6 +403,50 @@ abstract class Element_Type {
 	 * @access protected
 	 */
 	protected abstract function bootstrap();
+
+	/**
+	 * Escapes a single value for a specific export format.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param mixed  $value         Value to escape.
+	 * @param string $export_format Export format identifier. May be 'xls', 'csv', 'json', 'xml' or 'html'.
+	 * @return mixed Escaped value, usually a string.
+	 */
+	protected function escape_single_value_for_export( $value, $export_format ) {
+		switch ( $export_format ) {
+			case 'xls':
+			case 'csv':
+				if ( is_array( $value ) && is_string( $value[ key( $value ) ] ) ) {
+					$value = implode( ', ', $value );
+				}
+
+				if ( is_string( $value ) ) {
+					if ( 'csv' === $export_format ) {
+						// Replace CSV delimiter.
+						$value = str_replace( ';', ',', $value );
+					}
+
+					// Add paragraphs if there are linebreaks.
+					if ( false !== strpos( $value, "\n" ) ) {
+						$value = wpautop( $value );
+					}
+				}
+				break;
+			case 'json':
+				break;
+			case 'xml':
+			case 'html':
+				if ( is_array( $value ) && is_string( $value[ key( $value ) ] ) ) {
+					$value = implode( ', ', $value );
+				}
+
+				$value = esc_html( $value );
+		}
+
+		return $value;
+	}
 
 	/**
 	 * Sanitizes the settings sections.

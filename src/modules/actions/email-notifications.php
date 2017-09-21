@@ -340,7 +340,7 @@ class Email_Notifications extends Action {
 						$element_columns[ $element->id ] = array(
 							'columns'  => $element_type->get_export_columns( $element ),
 							'callback' => function( $values ) use ( $element, $element_type ) {
-								return $element_type->format_values_for_export( $values, $element );
+								return $element_type->format_values_for_export( $values, $element, 'html' );
 							},
 						);
 					}

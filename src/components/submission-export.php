@@ -55,6 +55,17 @@ abstract class Submission_Export {
 	protected $description = '';
 
 	/**
+	 * Submission export format slug.
+	 *
+	 * Usually matches the $slug property, but may be different.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 * @var string
+	 */
+	protected $export_format = '';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -276,7 +287,7 @@ abstract class Submission_Export {
 			$element_columns[ $element->id ] = array(
 				'columns'  => $element_type->get_export_columns( $element ),
 				'callback' => function( $values ) use ( $element, $element_type ) {
-					return $element_type->format_values_for_export( $values, $element );
+					return $element_type->format_values_for_export( $values, $element, $this->export_format );
 				},
 			);
 		}
