@@ -330,8 +330,41 @@ class Email_Notifications extends Action {
 				'label'       => __( 'All Element Values', 'torro-forms' ),
 				'description' => __( 'Inserts all element values from the submission.', 'torro-forms' ),
 				'callback'    => function( $form, $submission ) {
-					// TODO: Implement this.
-					return '';
+					$element_columns = array();
+					foreach ( $form->get_elements() as $element ) {
+						$element_type = $element->get_element_type();
+						if ( ! $element_type ) {
+							continue;
+						}
+
+						$element_columns[ $element->id ] = array(
+							'columns'  => $element_type->get_export_columns( $element ),
+							'callback' => function( $values ) use ( $element, $element_type ) {
+								return $element_type->format_values_for_export( $values, $element );
+							},
+						);
+					}
+
+					$element_values = $submission->get_element_values_data();
+
+					$output = '<table style="width:100%;">';
+
+					foreach ( $element_columns as $element_id => $data ) {
+						$values = isset( $element_values[ $element_id ] ) ? $element_values[ $element_id ] : array();
+
+						$column_values = call_user_func( $data['callback'], $values );
+
+						foreach ( $data['columns'] as $slug => $label ) {
+							$output .= '<tr>';
+							$output .= '<th scope="row">' . esc_html( $label ) . '</th>';
+							$output .= '<td>' . esc_html( $column_values[ $slug ] ) . '</td>';
+							$output .= '</tr>';
+						}
+					}
+
+					$output .= '</table>';
+
+					return $output;
 				},
 			),
 		);
