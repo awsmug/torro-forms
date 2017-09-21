@@ -103,31 +103,6 @@ class Form_Frontend_Submission_Handler {
 	}
 
 	/**
-	 * Inserts a new submission value into the database.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 *
-	 * @param int    $submission_id ID of the submission the value belongs to.
-	 * @param int    $element_id    ID of the element the value applies to.
-	 * @param string $field         Slug of the field the value applies to.
-	 * @param mixed  $value         Value to set.
-	 * @return bool|WP_Error True on success, or error object on failure.
-	 */
-	protected function insert_submission_value( $submission_id, $element_id, $field, $value ) {
-		$submission_value = $this->form_manager->get_child_manager( 'submissions' )->get_child_manager( 'submission_values' )->create();
-
-		$submission_value->submission_id = $submission_id;
-		$submission_value->element_id    = $element_id;
-		if ( '_main' !== $field ) {
-			$submission_value->field = $field;
-		}
-		$submission_value->value = $value;
-
-		return $submission_value->sync_upstream();
-	}
-
-	/**
 	 * Handles a form submission.
 	 *
 	 * @since 1.0.0
@@ -386,6 +361,31 @@ class Form_Frontend_Submission_Handler {
 		do_action( "{$this->form_manager->get_prefix()}create_new_submission", $submission, $form, $data );
 
 		return $submission;
+	}
+
+	/**
+	 * Inserts a new submission value into the database.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param int    $submission_id ID of the submission the value belongs to.
+	 * @param int    $element_id    ID of the element the value applies to.
+	 * @param string $field         Slug of the field the value applies to.
+	 * @param mixed  $value         Value to set.
+	 * @return bool|WP_Error True on success, or error object on failure.
+	 */
+	protected function insert_submission_value( $submission_id, $element_id, $field, $value ) {
+		$submission_value = $this->form_manager->get_child_manager( 'submissions' )->get_child_manager( 'submission_values' )->create();
+
+		$submission_value->submission_id = $submission_id;
+		$submission_value->element_id    = $element_id;
+		if ( '_main' !== $field ) {
+			$submission_value->field = $field;
+		}
+		$submission_value->value = $value;
+
+		return $submission_value->sync_upstream();
 	}
 
 	/**
