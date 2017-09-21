@@ -149,10 +149,17 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param int $form_id ID of the form for which to migrate data.
 	 */
 	public function upgrade_legacy_form_meta( $form_id ) {
+		global $wpdb;
+
 		$prefix = $this->get_prefix();
+
+		$participants = $this->get_full_table_name( 'participants' );
+		$email_notifications = $this->get_full_table_name( 'email_notifications' );
 
 		$mappings = array(
 			'access_controls' => array(
@@ -225,14 +232,40 @@ class Legacy_Upgrades extends Service {
 				foreach ( $submodule_mappings as $form_option => $mapping_data ) {
 					if ( 'PARTICIPANTS' === $mapping_data ) {
 						if ( get_option( $prefix . 'legacy_participants_table_installed' ) === 'true' ) {
-							// TODO: Migrate participants over into new form option and set $submodule_data_found accordingly.
+							$user_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT user_id FROM $participants WHERE form_id = %d", $form_id ) );
+							if ( ! empty( $user_ids ) ) {
+								$submodule_data_found = true;
+
+								// New values already set take precedence.
+								if ( ! isset( $metadata[ $form_option_prefix . $form_option ] ) ) {
+									$metadata[ $form_option_prefix . $form_option ] = $user_ids;
+								}
+							}
 						}
 						continue;
 					}
 
 					if ( 'EMAIL_NOTIFICATIONS' === $mapping_data ) {
 						if ( get_option( $prefix . 'legacy_email_notifications_table_installed' ) === 'true' ) {
-							// TODO: Migrate email notifications over into new form option and set $submodule_data_found accordingly.
+							$notifications = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $email_notifications WHERE form_id = %d", $form_id ) );
+							if ( ! empty( $notifications ) ) {
+								$submodule_data_found = true;
+
+								// New values already set take precedence.
+								if ( ! isset( $metadata[ $form_option_prefix . $form_option ] ) ) {
+									$metadata[ $form_option_prefix . $form_option ] = array();
+									foreach ( $notifications as $notification ) {
+										$metadata[ $form_option_prefix . $form_option ][] = array(
+											'from_name'   => $notification->from_name,
+											'from_email'  => $notification->from_email,
+											'reply_email' => $notification->reply_email,
+											'to_email'    => $notification->to_email,
+											'subject'     => $notification->subject,
+											'message'     => wpautop( $notification->message ),
+										);
+									}
+								}
+							}
 						}
 						continue;
 					}
@@ -589,7 +622,7 @@ class Legacy_Upgrades extends Service {
 		}
 
 		// If participants exist as well, this data will be needed for form meta migration.
-		$participant_ids = $wpdb->get_col( "SELECT ID FROM $participants WHERE 1=1 LIMIT 1" );
+		$participant_ids = $wpdb->get_col( "SELECT id FROM $participants WHERE 1=1 LIMIT 1" );
 		if ( empty( $participant_ids ) ) {
 			$wpdb->query( "DROP TABLE IF EXISTS `$participants`" );
 		} else {
@@ -598,15 +631,13 @@ class Legacy_Upgrades extends Service {
 		}
 
 		// If email notifications exist as well, this data will be needed for form meta migration.
-		$email_notification_ids = $wpdb->get_col( "SELECT ID FROM $email_notifications WHERE 1=1 LIMIT 1" );
+		$email_notification_ids = $wpdb->get_col( "SELECT id FROM $email_notifications WHERE 1=1 LIMIT 1" );
 		if ( empty( $email_notification_ids ) ) {
 			$wpdb->query( "DROP TABLE IF EXISTS `$email_notifications`" );
 		} else {
 			// Set a flag that the old email notifications table still exists.
 			update_option( $this->get_prefix() . 'legacy_email_notifications_table_installed', 'true' );
 		}
-
-		// TODO: Migrate form metadata.
 	}
 
 	/**
