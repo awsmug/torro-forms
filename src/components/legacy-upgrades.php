@@ -352,6 +352,59 @@ class Legacy_Upgrades extends Service {
 	}
 
 	/**
+	 * Upgrades legacy form attachment statuses to new attachment taxonomy term if necessary.
+	 *
+	 * This method will migrate a maximum of 50 attachments at a time, so it may not necessarily
+	 * perform the full migration. It will only delete the flag once the last attachment has been
+	 * migrated.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return bool True if form attachments were migrated, false if they had already been
+	 *              migrated before.
+	 */
+	public function maybe_upgrade_legacy_form_attachment_statuses() {
+		global $wpdb;
+
+		if ( get_option( $this->get_prefix() . 'legacy_attachments_need_migration' ) !== 'true' ) {
+			return false;
+		}
+
+		$general = get_option( $this->get_prefix() . 'general_settings', array() );
+
+		// If no term is set, migration is not possible.
+		if ( empty( $general['attachment_taxonomy_term_id'] ) ) {
+			return true;
+		}
+
+		$taxonomy_slug = torro()->taxonomies()->get_attachment_taxonomy_slug();
+
+		// If no taxonomy is available, migration is not possible.
+		if ( empty( $taxonomy_slug ) ) {
+			return true;
+		}
+
+		$form_attachment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s LIMIT 50", 'attachment', 'torro-forms-upload' ) );
+		foreach ( $form_attachment_ids as $form_attachment_id ) {
+			$result = wp_set_post_terms( $form_attachment_id, array( $general['attachment_taxonomy_term_id'] ), $taxonomy_slug, true );
+			if ( is_array( $result ) ) {
+				wp_update_post( array(
+					'ID'          => $form_attachment_id,
+					'post_status' => 'inherit',
+				) );
+			}
+		}
+
+		$form_attachment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s LIMIT 1", 'attachment', 'torro-forms-upload' ) );
+		if ( empty( $form_attachment_ids ) ) {
+			delete_option( $this->get_prefix() . 'legacy_attachments_need_migration' );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Runs the upgrade from a legacy version.
 	 *
 	 * @since 1.0.0
@@ -601,7 +654,11 @@ class Legacy_Upgrades extends Service {
 
 		$this->upgrade_legacy_settings();
 
-		// TODO: Migrate attachments with 'torro-forms-upload' status to the new attachment taxonomy term
+		$form_attachment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s LIMIT 1", 'attachment', 'torro-forms-upload' ) );
+		if ( ! empty( $form_attachment_ids ) ) {
+			// Set a flag to indicate that some form attachments need to have their old status migrated to a taxonomy term.
+			update_option( $this->get_prefix() . 'legacy_attachments_need_migration', 'true' );
+		}
 
 		// If forms exist, their data needs to be migrated on-the-fly later.
 		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) );

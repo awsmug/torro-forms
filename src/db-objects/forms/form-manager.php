@@ -427,6 +427,18 @@ class Form_Manager extends Core_Manager {
 	}
 
 	/**
+	 * Upgrades legacy form attachments when the admin is initialized.
+	 *
+	 * TODO: Remove this method in the future.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function maybe_upgrade_legacy_form_attachments() {
+		$this->legacy_upgrades->maybe_upgrade_legacy_form_attachment_statuses();
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * This method must be implemented and then be called from the constructor.
@@ -560,12 +572,18 @@ class Form_Manager extends Core_Manager {
 			'num_args' => 1,
 		);
 
-		// TODO: Remove this hook in the future.
+		// TODO: Remove these hooks in the future.
 		$this->actions[] = array(
 			'name'     => 'current_screen',
 			'callback' => array( $this, 'maybe_upgrade_legacy_form_meta' ),
 			'priority' => 10,
 			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => 'admin_init',
+			'callback' => array( $this, 'maybe_upgrade_legacy_form_attachments' ),
+			'priority' => 100,
+			'num_args' => 0,
 		);
 	}
 }
