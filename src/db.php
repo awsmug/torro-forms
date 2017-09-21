@@ -88,17 +88,35 @@ class DB extends DB_Base {
 	 *
 	 * @since 1.0.0
 	 * @access protected
+	 *
+	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function uninstall_single() {
+		global $wpdb;
+
 		// Only drop database tables if a hard uninstall should be run.
 		$options = $this->options()->get( 'general_settings', array() );
 		if ( empty( $options['hard_uninstall'] ) ) {
 			return;
 		}
 
-		// TODO: Delete form posts and form category terms.
 		$this->options->delete( 'general_settings' );
 		$this->options->delete( 'extension_settings' );
+
+		$modules = array_keys( torro()->modules()->get_all() );
+		foreach ( $modules as $module ) {
+			$this->options->delete( 'module_' . $module );
+		}
+
+		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) );
+		foreach ( $form_ids as $form_id ) {
+			wp_delete_post( $form_id, true );
+		}
+
+		$form_category_ids = $wpdb->get_col( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s", $this->get_prefix() . 'form_category' ) );
+		foreach ( $form_category_ids as $form_category_id ) {
+			wp_delete_term( $form_category_id, $this->get_prefix() . 'form_category' );
+		}
 
 		parent::uninstall_single();
 	}

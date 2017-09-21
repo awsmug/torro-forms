@@ -361,6 +361,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return bool True if form attachments were migrated, false if they had already been
 	 *              migrated before.
 	 */
