@@ -90,6 +90,7 @@ class Element_Type_Manager extends Service {
 		$this->default_element_types = array(
 			'textfield' => Base\Textfield::class,
 			'textarea'  => Base\Textarea::class,
+			'content'   => Base\Content::class,
 		);
 	}
 
