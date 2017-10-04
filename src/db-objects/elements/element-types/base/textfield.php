@@ -1,6 +1,6 @@
 <?php
 /**
- * Text element type class
+ * Textfield element type class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -9,13 +9,16 @@
 namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Base;
 
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use WP_Error;
 
 /**
  * Class representing a text element type.
  *
  * @since 1.0.0
  */
-class Text extends Element_Type {
+class Textfield extends Element_Type {
 
 	/**
 	 * Filters the array representation of a given element of this type.
@@ -64,22 +67,6 @@ class Text extends Element_Type {
 			}
 
 			$data['description'] .= $limits_text;
-		}
-
-		$placeholder = ! empty( $settings['placeholder'] ) ? $settings['placeholder'] : '';
-
-		/**
-		 * Filters the placeholder for a text element field.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $placeholder Original placeholder.
-		 * @param int    $element_id  Element ID.
-		 */
-		$placeholder = apply_filters( "{$this->manager->get_prefix()}input_placeholder", $placeholder, $element->id );
-
-		if ( ! empty( $placeholder ) ) {
-			$data['input_attrs']['placeholder'] = $placeholder;
 		}
 
 		return $data;
@@ -154,20 +141,8 @@ class Text extends Element_Type {
 			$input_types[ $slug ] = $data['title'];
 		}
 
-		$this->settings_fields['placeholder'] = array(
-			'section'       => 'settings',
-			'type'          => 'text',
-			'label'         => __( 'Placeholder', 'torro-forms' ),
-			'description'   => __( 'Placeholder text will be shown until data is being entered.', 'torro-forms' ),
-			'input_classes' => array( 'regular-text' ),
-		);
-		$this->settings_fields['description'] = array(
-			'section'       => 'settings',
-			'type'          => 'textarea',
-			'label'         => __( 'Description', 'torro-forms' ),
-			'description'   => __( 'The description will be shown below the element.', 'torro-forms' ),
-			'input_classes' => array( 'widefat' ),
-		);
+		$this->add_placeholder_settings_field();
+		$this->add_description_settings_field();
 		$this->add_required_settings_field();
 		$this->settings_fields['min_length'] = array(
 			'section'     => 'settings',

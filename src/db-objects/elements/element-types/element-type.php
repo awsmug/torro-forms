@@ -339,6 +339,22 @@ abstract class Element_Type {
 
 		$data['value'] = ! empty( $values['_main'] ) ? $values['_main'] : '';
 
+		$placeholder = ! empty( $settings['placeholder'] ) ? $settings['placeholder'] : '';
+
+		/**
+		 * Filters the placeholder for an element field.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $placeholder Original placeholder.
+		 * @param int    $element_id  Element ID.
+		 */
+		$placeholder = apply_filters( "{$this->manager->get_prefix()}input_placeholder", $placeholder, $element->id );
+
+		if ( ! empty( $placeholder ) ) {
+			$data['input_attrs']['placeholder'] = $placeholder;
+		}
+
 		if ( ! empty( $settings['description'] ) ) {
 			$data['description'] = $settings['description'];
 
@@ -480,6 +496,24 @@ abstract class Element_Type {
 		}
 
 		return new WP_Error( $code, $message, $data );
+	}
+
+	/**
+	 * Adds a settings field for specifying the element placeholder.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
+	 */
+	protected function add_placeholder_settings_field( $section = 'settings' ) {
+		$this->settings_fields['placeholder'] = array(
+			'section'       => $section,
+			'type'          => 'text',
+			'label'         => __( 'Placeholder', 'torro-forms' ),
+			'description'   => __( 'Placeholder text will be shown until data is being entered.', 'torro-forms' ),
+			'input_classes' => array( 'regular-text' ),
+		);
 	}
 
 	/**
