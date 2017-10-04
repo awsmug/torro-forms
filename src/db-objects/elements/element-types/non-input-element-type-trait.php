@@ -9,6 +9,8 @@
 namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types;
 
 use awsmug\Torro_Forms\DB_Objects\Elements\Element;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use WP_Error;
 
 /**
  * Trait for element type that does not expect any input.
@@ -58,5 +60,19 @@ trait Non_Input_Element_Type_Trait {
 	 */
 	public function get_export_columns( $element ) {
 		return array();
+	}
+
+	/**
+	 * Validates a field value for an element.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param mixed   $value   The value to validate. It is already unslashed when it arrives here.
+	 * @param Element $element Element to validate the field value for.
+	 * @return mixed|WP_Error Validated value, or error object on failure.
+	 */
+	public function validate_field( $value, $element ) {
+		return $this->create_error( 'value_not_accepted', __( 'No values are accepted here.', 'torro-forms' ) );
 	}
 }
