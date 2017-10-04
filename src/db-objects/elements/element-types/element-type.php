@@ -483,6 +483,24 @@ abstract class Element_Type {
 	}
 
 	/**
+	 * Adds a settings field for specifying the element description.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
+	 */
+	protected function add_description_settings_field( $section = 'settings' ) {
+		$this->settings_fields['description'] = array(
+			'section'       => $section,
+			'type'          => 'textarea',
+			'label'         => __( 'Description', 'torro-forms' ),
+			'description'   => __( 'The description will be shown below the element.', 'torro-forms' ),
+			'input_classes' => array( 'widefat' ),
+		);
+	}
+
+	/**
 	 * Adds a settings field for specifying whether the element is required to be filled in.
 	 *
 	 * @since 1.0.0
