@@ -345,7 +345,7 @@ abstract class Element_Type {
 			$data['input_attrs']['aria-describedby'] = $data['description_attrs']['id'];
 		}
 
-		if ( ! empty( $settings['required'] ) ) {
+		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] ) {
 			$required_indicator = '<span class="screen-reader-text">' . __( '(required)', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>';
 
 			/**
@@ -360,6 +360,16 @@ abstract class Element_Type {
 
 			$data['input_attrs']['aria-required'] = 'true';
 			$data['input_attrs']['required'] = true;
+		}
+
+		if ( ! empty( $settings['css_classes'] ) ) {
+			if ( ! empty( $data['input_attrs']['class'] ) ) {
+				$data['input_attrs']['class'] .= ' ';
+			} else {
+				$data['input_attrs']['class'] = '';
+			}
+
+			$data['input_attrs']['class'] .= $settings['css_classes'];
 		}
 
 		if ( $submission && $submission->has_errors( $element->id ) ) {
@@ -388,7 +398,7 @@ abstract class Element_Type {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param mixed   $value   The value to validate.
+	 * @param mixed   $value   The value to validate. It is already unslashed when it arrives here.
 	 * @param Element $element Element to validate the field value for.
 	 * @return mixed|array|WP_Error Validated value, or error object on failure. If an array is returned,
 	 *                              the individual values will be stored in the database separately. The
@@ -446,6 +456,70 @@ abstract class Element_Type {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Creates a new error object.
+	 *
+	 * This method should be used to create the result to return in case
+	 * submission value validation errors occur.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $code            Error code.
+	 * @param string $message         Error message.
+	 * @param mixed  $validated_value Optional. Validated value to store in the database,
+	 *                                regardless of it being invalid.
+	 * @return WP_Error Error object to return.
+	 */
+	protected function create_error( $code, $message, $validated_value = null ) {
+		$data = '';
+		if ( null !== $validated_value ) {
+			$data = array( 'validated_value' => $validated_value );
+		}
+
+		return new WP_Error( $code, $message, $data );
+	}
+
+	/**
+	 * Adds a settings field for specifying whether the element is required to be filled in.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
+	 */
+	protected function add_required_settings_field( $section = 'settings' ) {
+		$this->settings_fields['required'] = array(
+			'section'     => $section,
+			'type'        => 'radio',
+			'label'       => __( 'Required?', 'torro-forms' ),
+			'choices'     => array(
+				'yes' => __( 'Yes', 'torro-forms' ),
+				'no'  => __( 'No', 'torro-forms' ),
+			),
+			'description' => __( 'Whether the user must input something.', 'torro-forms' ),
+			'default'     => 'no',
+		);
+	}
+
+	/**
+	 * Adds a settings field for specifying additional CSS classes for the input.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
+	 */
+	protected function add_css_classes_settings_field( $section = 'settings' ) {
+		$this->settings_fields['css_classes'] = array(
+			'section'       => $section,
+			'type'          => 'text',
+			'label'         => __( 'CSS Classes', 'torro-forms' ),
+			'description'   => __( 'Additional CSS Classes separated by whitespaces.', 'torro-forms' ),
+			'input_classes' => array( 'regular-text' ),
+		);
 	}
 
 	/**
