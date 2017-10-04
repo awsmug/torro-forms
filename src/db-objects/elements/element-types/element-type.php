@@ -372,7 +372,7 @@ abstract class Element_Type {
 		if ( is_a( $this, Choice_Element_Type_Interface::class ) ) {
 			$choices = $this->get_choices( $element );
 
-			$data['choices'] = $choices;
+			$data['choices'] = ! empty( $choices['_main'] ) ? $choices['_main'] : array();
 		}
 
 		if ( is_a( $this, Multi_Field_Element_Type_Interface::class ) ) {

@@ -42,4 +42,60 @@ trait Choice_Element_Type_Trait {
 
 		return $choices;
 	}
+
+	/**
+	 * Returns the available choices for a specific field.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Element $element Element to get choices for.
+	 * @param string  $field   Optional. Element field for which to get choices. Default empty string (main field).
+	 * @return array Array of choices.
+	 */
+	public function get_choices_for_field( $element, $field = '' ) {
+		if ( empty( $field ) ) {
+			$field = '_main';
+		}
+
+		$choices = array();
+
+		$element_choices = $element->get_element_choices();
+		foreach ( $element_choices as $element_choice ) {
+			$current_field = empty( $element_choice->field ) ? '_main' : $element_choice->field;
+
+			if ( $current_field !== $field ) {
+				continue;
+			}
+
+			$choices[] = $element_choice->value;
+		}
+
+		return $choices;
+	}
+
+	/**
+	 * Adds a settings field for specifying choices.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $field   Optional. Element field to which the choices should apply. Default empty string (main field).
+	 * @param string $section Optional. Settings section the settings field should be part of. Default 'content'.
+	 */
+	protected function add_choices_settings_field( $field = '', $section = 'content' ) {
+		if ( empty( $field ) ) {
+			$field = '_main';
+		}
+
+		$this->settings_fields[ 'choices_' . $field ] = array(
+			'section'       => $section,
+			'type'          => 'text',
+			'label'         => __( 'Choices', 'torro-forms' ),
+			'description'   => __( 'Specify the choices to select from.', 'torro-forms' ),
+			'input_classes' => array( 'regular-text' ),
+			'repeatable'    => true,
+			'is_choices'    => $field,
+		);
+	}
 }
