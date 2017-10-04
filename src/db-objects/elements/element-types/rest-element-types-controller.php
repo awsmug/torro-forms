@@ -200,8 +200,11 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				case 'icon_url':
 					$data[ $property ] = call_user_func( array( $element_type, 'get_' . $property ) );
 					break;
+				case 'non_input':
+					$data[ $property ] = is_a( $element_type, Non_Input_Element_Type_Interface::class );
+					break;
 				case 'evaluable':
-					$data[ $property ] = is_a( $element_type, Evaluable_Element_Type_Interface::class );
+					$data[ $property ] = is_a( $element_type, Choice_Element_Type_Interface::class );
 					break;
 				case 'multifield':
 					$data[ $property ] = is_a( $element_type, Multi_Field_Element_Type_Interface::class );
@@ -302,6 +305,12 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				'icon_url'    => array(
 					'description' => __( 'Icon URL for the element type.', 'torro-forms' ),
 					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
+				'non_input'   => array(
+					'description' => __( 'Whether the element type does not expect any input.', 'torro-forms' ),
+					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),

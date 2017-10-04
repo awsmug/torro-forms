@@ -14,6 +14,8 @@ use awsmug\Torro_Forms\DB_Objects\Containers\Container;
 use awsmug\Torro_Forms\DB_Objects\Element_Choices\Element_Choice_Collection;
 use awsmug\Torro_Forms\DB_Objects\Element_Settings\Element_Setting_Collection;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Non_Input_Element_Type_Interface;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Choice_Element_Type_Interface;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Multi_Field_Element_Type_Interface;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use WP_Error;
@@ -377,6 +379,10 @@ class Element extends Model {
 			return array();
 		}
 
+		if ( is_a( $element_type, Non_Input_Element_Type_Interface::class ) ) {
+			return array();
+		}
+
 		$main_value = null;
 		if ( isset( $values['_main'] ) ) {
 			$main_value = $values['_main'];
@@ -391,5 +397,56 @@ class Element extends Model {
 		$validated['_main'] = $element_type->validate_field( $main_value, $this );
 
 		return $validated;
+	}
+
+	/**
+	 * Checks whether the element does not expect any input.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return bool True if the element does not expect any input, false otherwise.
+	 */
+	public function is_non_input() {
+		$element_type = $this->get_element_type();
+		if ( ! $element_type ) {
+			return false;
+		}
+
+		return is_a( $element_type, Non_Input_Element_Type_Interface::class );
+	}
+
+	/**
+	 * Checks whether the element is evaluable.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return bool True if the element is evaluable, false otherwise.
+	 */
+	public function is_evaluable() {
+		$element_type = $this->get_element_type();
+		if ( ! $element_type ) {
+			return false;
+		}
+
+		return is_a( $element_type, Choice_Element_Type_Interface::class );
+	}
+
+	/**
+	 * Checks whether the element contains multiple fields.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return bool True if the element contains multiple fields, false otherwise.
+	 */
+	public function is_multifield() {
+		$element_type = $this->get_element_type();
+		if ( ! $element_type ) {
+			return false;
+		}
+
+		return is_a( $element_type, Multi_Field_Element_Type_Interface::class );
 	}
 }
