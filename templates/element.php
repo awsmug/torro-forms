@@ -14,8 +14,8 @@
 	<?php endif; ?>
 
 	<label<?php echo torro()->template()->attrs( $label_attrs ); ?>>
-		<?php echo esc_html( $label ); ?>
-		<?php echo $label_required; ?>
+		<?php echo torro()->template()->esc_html( $label ); ?>
+		<?php echo torro()->template()->esc_kses_basic( $label_required ); ?>
 	</label>
 
 	<div>
@@ -23,14 +23,14 @@
 
 		<?php if ( ! empty( $description ) ) : ?>
 			<div<?php echo torro()->template()->attrs( $description_attrs ); ?>>
-				<?php echo $description; ?>
+				<?php echo torro()->template()->esc_kses_basic( $description ); ?>
 			</div>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $errors ) ) : ?>
 			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?>>
 				<?php foreach ( $errors as $error_code => $error_message ) : ?>
-					<li><?php echo $error_message; ?></li>
+					<li><?php echo torro()->template()->esc_kses_basic( $error_message ); ?></li>
 				<?php endforeach; ?>
 			</ul>
 		<?php endif; ?>
