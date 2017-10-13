@@ -58,6 +58,7 @@ class Form_Upload_Manager extends Service {
 	 * @since 1.0.0
 	 * @access public
 	 *
+	 * @param string     $file_id          Identifier to look for in $_FILES.
 	 * @param Submission $submission       Submission object.
 	 * @param Form       $form             Form object.
 	 * @param int        $element_id       Element ID.
@@ -168,17 +169,18 @@ class Form_Upload_Manager extends Service {
 	 * @param Form       $form       Form object.
 	 * @param int        $element_id Element ID.
 	 * @param string     $field      Optional. Element field slug. Default is '_main'.
+	 * @param int        $ignore_id  Optional. New attachment ID, so that it is not deleted. Default none.
 	 * @return array Array where each element is either the deleted attachment ID, or an error object indicating a deletion failure.
 	 *               May also be empty in case nothing needed to be deleted.
 	 */
-	public function delete_old_files( $submission, $form, $element_id, $field = '_main' ) {
+	public function delete_old_files( $submission, $form, $element_id, $field = '_main', $ignore_id = 0 ) {
 		$prefix = $this->get_prefix();
 
 		if ( ! $field ) {
 			$field = '_main';
 		}
 
-		$attachment_ids = get_posts( array(
+		$args = array(
 			'fields'         => 'ids',
 			'posts_per_page' => 20,
 			'no_found_rows'  => true,
@@ -202,7 +204,13 @@ class Form_Upload_Manager extends Service {
 					'type'  => 'CHAR',
 				),
 			),
-		) );
+		);
+
+		if ( ! empty( $ignore_id ) ) {
+			$args['post__not_in'] = array( $ignore_id );
+		}
+
+		$attachment_ids = get_posts( $args );
 
 		$result = array();
 		foreach ( $attachment_ids as $attachment_id ) {
