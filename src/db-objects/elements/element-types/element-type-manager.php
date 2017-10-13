@@ -88,9 +88,12 @@ class Element_Type_Manager extends Service {
 		$this->setup_hooks();
 
 		$this->default_element_types = array(
-			'textfield' => Base\Textfield::class,
-			'textarea'  => Base\Textarea::class,
-			'content'   => Base\Content::class,
+			'textfield'      => Base\Textfield::class,
+			'textarea'       => Base\Textarea::class,
+			'content'        => Base\Content::class,
+			'dropdown'       => Base\Dropdown::class,
+			'onechoice'      => Base\Onechoice::class,
+			'multiplechoice' => Base\Multiplechoice::class,
 		);
 	}
 
