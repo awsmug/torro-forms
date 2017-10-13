@@ -90,6 +90,7 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 * Added: form submissions can now be edited and created through the backend
 * Added: form edit page now uses Backbone for the form builder
 * Added: new "Submission Count" access control to limit total form submissions
+* Added: new "checkbox" element type
 * Enhanced: element types can now contain multiple fields
 * Enhanced: form stats now scale by storing aggregate results persistently
 * Enhanced: form submissions now have a status
