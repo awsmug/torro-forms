@@ -80,11 +80,12 @@ class Textarea extends Element_Type {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param mixed   $value   The value to validate. It is already unslashed when it arrives here.
-	 * @param Element $element Element to validate the field value for.
+	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
+	 * @param Element    $element    Element to validate the field value for.
+	 * @param Submission $submission Submission the value belongs to.
 	 * @return mixed|WP_Error Validated value, or error object on failure.
 	 */
-	public function validate_field( $value, $element ) {
+	public function validate_field( $value, $element, $submission ) {
 		$settings = $this->get_settings( $element );
 
 		$value = trim( (string) $value );

@@ -94,6 +94,7 @@ class Element_Type_Manager extends Service {
 			'dropdown'       => Base\Dropdown::class,
 			'onechoice'      => Base\Onechoice::class,
 			'multiplechoice' => Base\Multiplechoice::class,
+			'media'          => Base\Media::class,
 		);
 	}
 

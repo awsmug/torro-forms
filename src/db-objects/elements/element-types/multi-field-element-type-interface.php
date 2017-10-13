@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types;
 
 use awsmug\Torro_Forms\DB_Objects\Elements\Element;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 
 /**
  * Interface for element type that supports multiple fields.
@@ -48,13 +49,14 @@ interface Multi_Field_Element_Type_Interface {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param array   $values  Associative arrays of `$field => $value` pairs.
-	 * @param Element $element Element to validate fields for.
+	 * @param array      $values     Associative arrays of `$field => $value` pairs.
+	 * @param Element    $element    Element to validate fields for.
+	 * @param Submission $submission Submission the values belong to.
 	 * @return array Associative array of `$field => $validated_value` pairs. Each validated
 	 *               value must be either the validated value, or an error object on failure.
 	 *               It may also be an array, in which case the individual values will be stored
 	 *               in the database separately. That array may also contain error objects for
 	 *               cases where errors occurred.
 	 */
-	public function validate_additional_fields( $values, $element );
+	public function validate_additional_fields( $values, $element, $submission );
 }

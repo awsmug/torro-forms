@@ -368,12 +368,13 @@ class Element extends Model {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param array $values Array of `$field => $value` pairs with the main field having
-	 *                      a key of '_main'.
+	 * @param array      $values     Array of `$field => $value` pairs with the main field having
+	 *                               a key of '_main'.
+	 * @param Submission $submission Submission the values belong to.
 	 * @return array Validated array where each value is either the validated value, or an
 	 *               error object on failure.
 	 */
-	public function validate_fields( $values ) {
+	public function validate_fields( $values, $submission ) {
 		$element_type = $this->get_element_type();
 		if ( ! $element_type ) {
 			return array();
@@ -391,10 +392,10 @@ class Element extends Model {
 
 		$validated = array();
 		if ( is_a( $element_type, Multi_Field_Element_Type_Interface::class ) ) {
-			$validated = $element_type->validate_additional_fields( $values, $this );
+			$validated = $element_type->validate_additional_fields( $values, $this, $submission );
 		}
 
-		$validated['_main'] = $element_type->validate_field( $main_value, $this );
+		$validated['_main'] = $element_type->validate_field( $main_value, $this, $submission );
 
 		return $validated;
 	}

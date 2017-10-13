@@ -414,13 +414,14 @@ abstract class Element_Type {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param mixed   $value   The value to validate. It is already unslashed when it arrives here.
-	 * @param Element $element Element to validate the field value for.
+	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
+	 * @param Element    $element    Element to validate the field value for.
+	 * @param Submission $submission Submission the value belongs to.
 	 * @return mixed|array|WP_Error Validated value, or error object on failure. If an array is returned,
 	 *                              the individual values will be stored in the database separately. The
 	 *                              array may also contain error objects for cases where errors occurred.
 	 */
-	public abstract function validate_field( $value, $element );
+	public abstract function validate_field( $value, $element, $submission );
 
 	/**
 	 * Bootstraps the element type by setting properties.
