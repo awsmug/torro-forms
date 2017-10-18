@@ -1,4 +1,4 @@
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -10,19 +10,22 @@
 	torroBuilder.ElementChoiceModel = torroBuilder.BaseModel.extend({
 
 		/**
-		 * Element choice defaults.
+		 * Returns element choice defaults.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @property {object}
+		 *
+		 * @returns {object} Element choice defaults.
 		 */
-		defaults: {
-			id: 0,
-			element_id: 0,
-			field: '',
-			value: '',
-			sort: 0
+		defaults: function() {
+			return _.extend( _.clone({
+				id: 0,
+				element_id: 0,
+				field: '',
+				value: '',
+				sort: 0
+			}), this.collection.getDefaultAttributes() );
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );

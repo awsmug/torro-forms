@@ -242,9 +242,10 @@ class Element_Type_Manager extends Service {
 		);
 
 		$dummy_manager = new Field_Manager( $this->get_prefix(), $services, array(
-			'get_value_callback'    => '__return_empty_array',
-			'update_value_callback' => '__return_empty_array',
-			'name_prefix'           => $this->get_prefix() . 'dummy',
+			'get_value_callback'     => '__return_empty_array',
+			'update_value_callback'  => '__return_empty_array',
+			'name_prefix'            => $this->get_prefix() . 'dummy',
+			'skip_js_initialization' => true,
 		) );
 
 		$added = array();

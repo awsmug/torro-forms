@@ -1,6 +1,6 @@
 window.torro = window.torro || {};
 
-( function( torro, $, _, Backbone, wp, i18n ) {
+( function( torro, $, _, i18n ) {
 	'use strict';
 
 	var instanceCount = 0,
@@ -21,8 +21,7 @@ window.torro = window.torro || {};
 
 		this.instanceNumber = instanceCount;
 
-		this.el  = selector;
-		this.$el = $( this.el );
+		this.$el = $( selector );
 	}
 
 	_.extend( Builder.prototype, {
@@ -46,49 +45,13 @@ window.torro = window.torro || {};
 		form: undefined,
 
 		/**
-		 * Current container collection.
+		 * View object.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @type {torro.Builder.ContainerCollection}
+		 * @type {torro.Builder.View}
 		 */
-		containers: undefined,
-
-		/**
-		 * Current element collection.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.ElementCollection}
-		 */
-		elements: undefined,
-
-		/**
-		 * Current element choice collection.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.ElementChoiceCollection}
-		 */
-		elementChoices: undefined,
-
-		/**
-		 * Current element setting collection.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.ElementSettingCollection}
-		 */
-		elementSettings: undefined,
-
-		/**
-		 * Form canvas view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.FormCanvasView}
-		 */
-		formCanvas: undefined,
+		view: undefined,
 
 		/**
 		 * Initializes the form builder.
@@ -186,51 +149,73 @@ window.torro = window.torro || {};
 		 *                                undefined if this is a new form.
 		 */
 		setupInitialData: function( form ) {
+			var container, element, elementChoice, elementSetting, elementParents, i;
+
 			if ( ! _.contains( initialized, this.instanceCount ) ) {
 				return;
 			}
 
 			if ( form ) {
-				this.form = new torro.Builder.FormModel( form );
-
-				if ( form._embedded.containers && form._embedded.containers[0] ) {
-					this.containers = new torro.Builder.ContainerCollection( form._embedded.containers[0] );
-				} else {
-					this.containers = new torro.Builder.ContainerCollection();
-				}
-
-				if ( form._embedded.elements && form._embedded.elements[0] ) {
-					this.elements = new torro.Builder.ElementCollection( form._embedded.elements[0] );
-				} else {
-					this.elements = new torro.Builder.ElementCollection();
-				}
-
-				if ( form._embedded.element_choices && form._embedded.element_choices[0] ) {
-					this.elementChoices = new torro.Builder.ElementChoiceCollection( form._embedded.element_choices[0] );
-				} else {
-					this.elementChoices = new torro.Builder.ElementChoiceCollection();
-				}
-
-				if ( form._embedded.element_settings && form._embedded.element_settings[0] ) {
-					this.elementSettings = new torro.Builder.ElementSettingCollection( form._embedded.element_settings[0] );
-				} else {
-					this.elementSettings = new torro.Builder.ElementSettingCollection();
-				}
-			} else {
-				this.form = new torro.Builder.FormModel();
-
-				this.containers = new torro.Builder.ContainerCollection([ {}, {} ], {
-					props: {
-						form_id:           this.form.get( 'id' ),
-						label_placeholder: i18n.defaultContainerLabel
-					}
+				this.form = new torro.Builder.FormModel( form, {
+					container_label_placeholder: i18n.defaultContainerLabel
 				});
 
-				this.elements = new torro.Builder.ElementCollection();
+				if ( form._embedded.containers && form._embedded.containers[0] ) {
+					this.form.containers.add( form._embedded.containers[0] );
 
-				this.elementChoices = new torro.Builder.ElementChoiceCollection();
+					if ( form._embedded.elements && form._embedded.elements[0] ) {
+						elementParents = {};
 
-				this.elementSettings = new torro.Builder.ElementSettingCollection();
+						for ( i = 0; i < form._embedded.elements[0].length; i++ ) {
+							element = form._embedded.elements[0][ i ];
+
+							container = this.form.containers.get( element.container_id );
+							if ( container ) {
+								container.elements.add( element );
+
+								elementParents[ element.id ] = element.container_id;
+							}
+						}
+
+						if ( form._embedded.element_choices && form._embedded.element_choices[0] ) {
+							for ( i = 0; i < form._embedded.element_choices[0].length; i++ ) {
+								elementChoice = form._embedded.element_choices[0][ i ];
+
+								if ( elementParents[ elementChoice.element_id ] ) {
+									container = this.form.containers.get( elementParents[ elementChoice.element_id ] );
+									if ( container ) {
+										element = container.elements.get( elementChoice.element_id );
+										if ( element ) {
+											element.element_choices.add( elementChoice );
+										}
+									}
+								}
+							}
+						}
+
+						if ( form._embedded.element_settings && form._embedded.element_settings[0] ) {
+							for ( i = 0; i < form._embedded.element_settings[0].length; i++ ) {
+								elementSetting = form._embedded.element_settings[0][ i ];
+
+								if ( elementParents[ elementSetting.element_id ] ) {
+									container = this.form.containers.get( elementParents[ elementSetting.element_id ] );
+									if ( container ) {
+										element = container.elements.get( elementSetting.element_id );
+										if ( element ) {
+											element.element_settings.add( elementSetting );
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			} else {
+				this.form = new torro.Builder.FormModel({}, {
+					container_label_placeholder: i18n.defaultContainerLabel
+				});
+
+				this.form.containers.add({});
 			}
 		},
 
@@ -247,21 +232,11 @@ window.torro = window.torro || {};
 				return;
 			}
 
-			this.formCanvas = new torro.Builder.FormCanvasView({
-				el: this.el,
-				model: this.form
+			this.view = new torro.Builder.View( this.$el, this.form, {
+				i18n: i18n
 			});
-			this.formCanvas.views.set( '.torro-js-container-tabs', new torro.Builder.ContainerTabsView({
-				collection: this.containers
-			}) );
-			this.formCanvas.views.set( '.torro-js-container-panels', new torro.Builder.ContainerPanelsView({
-				collection: this.containers
-			}) );
-			this.formCanvas.views.set( '.torro-js-container-footer-panels', new torro.Builder.ContainerFooterPanelsView({
-				collection: this.containers
-			}) );
 
-			this.formCanvas.render();
+			this.view.initialize();
 		},
 
 		/**
@@ -319,4 +294,4 @@ window.torro = window.torro || {};
 		return builder;
 	};
 
-}( window.torro, window.jQuery, window._, window.Backbone, window.wp, window.torroBuilderI18n ) );
+}( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );

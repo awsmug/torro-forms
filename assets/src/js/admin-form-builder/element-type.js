@@ -63,6 +63,18 @@
 		},
 
 		/**
+		 * Checks whether the element type is a non input element type.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {string} True if the element type is a non input element type, false otherwise.
+		 */
+		isNonInput: function() {
+			return this.attributes.non_input;
+		},
+
+		/**
 		 * Checks whether the element type is evaluable.
 		 *
 		 * @since 1.0.0

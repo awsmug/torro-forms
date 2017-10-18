@@ -40,7 +40,7 @@
   },
   "license": "GPL-3.0",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 6.9.4"
   },
   "dependencies": {
     "c3": "0.4.11"

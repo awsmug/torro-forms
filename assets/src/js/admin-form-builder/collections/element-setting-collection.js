@@ -25,7 +25,33 @@
 		 * @access public
 		 * @type {string}
 		 */
-		urlEndpoint: 'element_settings'
+		urlEndpoint: 'element_settings',
+
+		/**
+		 * Default properties for the collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		defaultProps: {
+			element_id: 0
+		},
+
+		/**
+		 * Returns element setting defaults.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {object} Element setting defaults.
+		 */
+		getDefaultAttributes: function() {
+			return {
+				element_id: this.props.get( 'element_id' ),
+				sort:       this.length
+			};
+		}
 	});
 
 })( window.torro.Builder );

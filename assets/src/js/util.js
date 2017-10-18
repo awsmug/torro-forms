@@ -21,37 +21,37 @@ window.torro = window.torro || {};
 
 				wp.api.init({ versionString: torro.api.versionString })
 					.done( function() {
-						var origUrl = this.collections.ElementsTypes.prototype.url;
+						var origUrl = wp.api.collections.ElementsTypes.prototype.url;
 
 						torro.api.collections = _.extend( torro.api.collections, {
-							Forms: this.collections.Forms,
-							FormCategories: this.collections.Form_categories,
-							Containers: this.collections.Containers,
-							Elements: this.collections.Elements,
-							ElementTypes: this.collections.ElementsTypes.extend({
+							Forms: wp.api.collections.Forms,
+							FormCategories: wp.api.collections.Form_categories,
+							Containers: wp.api.collections.Containers,
+							Elements: wp.api.collections.Elements,
+							ElementTypes: wp.api.collections.ElementsTypes.extend({
 								url: function() {
 									/* Fix bug in element types URL. */
 									return origUrl.call( this ).replace( 'elements//types', 'elements/types' );
 								}
 							}),
-							ElementChoices: this.collections.Element_choices,
-							ElementSettings: this.collections.Element_settings,
-							Submissions: this.collections.Submissions,
-							SubmissionValues: this.collections.Submission_values,
-							Participants: this.collections.Participants
+							ElementChoices: wp.api.collections.Element_choices,
+							ElementSettings: wp.api.collections.Element_settings,
+							Submissions: wp.api.collections.Submissions,
+							SubmissionValues: wp.api.collections.Submission_values,
+							Participants: wp.api.collections.Participants
 						});
 
 						torro.api.models = _.extend( torro.api.models, {
-							Form: this.models.Forms,
-							FormCategory: this.models.Form_categories,
-							Container: this.models.Containers,
-							Element: this.models.Elements,
-							ElementType: this.models.ElementsTypes,
-							ElementChoice: this.models.Element_choices,
-							ElementSetting: this.models.Element_settings,
-							Submission: this.models.Submissions,
-							SubmissionValue: this.models.Submission_values,
-							Participant: this.models.Participants
+							Form: wp.api.models.Forms,
+							FormCategory: wp.api.models.Form_categories,
+							Container: wp.api.models.Containers,
+							Element: wp.api.models.Elements,
+							ElementType: wp.api.models.ElementsTypes,
+							ElementChoice: wp.api.models.Element_choices,
+							ElementSetting: wp.api.models.Element_settings,
+							Submission: wp.api.models.Submissions,
+							SubmissionValue: wp.api.models.Submission_values,
+							Participant: wp.api.models.Participants
 						});
 
 						deferred.resolveWith( torro.api );

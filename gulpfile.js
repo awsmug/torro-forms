@@ -109,11 +109,7 @@ var paths = {
 			'./assets/src/js/admin-form-builder/base-collection.js',
 			'./assets/src/js/admin-form-builder/models/*.js',
 			'./assets/src/js/admin-form-builder/collections/*.js',
-			'./assets/src/js/admin-form-builder/base-model-view.js',
-			'./assets/src/js/admin-form-builder/base-collection-view.js',
-			'./assets/src/js/admin-form-builder/model-views/*.js',
-			'./assets/src/js/admin-form-builder/collection-views/*.js',
-			'./assets/src/js/admin-form-builder/views/*.js',
+			'./assets/src/js/admin-form-builder/view.js',
 			'./assets/src/js/admin-form-builder/metabox-tabs.js',
 			'./assets/src/js/admin-form-builder/init.js'
 		],

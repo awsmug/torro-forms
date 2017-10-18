@@ -1,4 +1,4 @@
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -10,18 +10,21 @@
 	torroBuilder.ElementSettingModel = torroBuilder.BaseModel.extend({
 
 		/**
-		 * Element setting defaults.
+		 * Returns element choice defaults.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @property {object}
+		 *
+		 * @returns {object} Element choice defaults.
 		 */
-		defaults: {
-			id: 0,
-			element_id: 0,
-			name: '',
-			value: ''
+		defaults: function() {
+			return _.extend( _.clone({
+				id: 0,
+				element_id: 0,
+				name: '',
+				value: ''
+			}), this.collection.getDefaultAttributes() );
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );

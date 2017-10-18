@@ -19,6 +19,7 @@ local.properties
 .buildpath
 nbproject/
 composer.lock
+package-lock.json
 
 ############
 ## Vendor

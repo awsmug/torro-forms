@@ -4,7 +4,7 @@
  */
 window.torro = window.torro || {};
 
-( function( torro, $, _, Backbone, wp, i18n ) {
+( function( torro, $, _, i18n ) {
 	'use strict';
 
 	var instanceCount = 0,
@@ -25,8 +25,7 @@ window.torro = window.torro || {};
 
 		this.instanceNumber = instanceCount;
 
-		this.el  = selector;
-		this.$el = $( this.el );
+		this.$el = $( selector );
 	}
 
 	_.extend( Builder.prototype, {
@@ -50,49 +49,13 @@ window.torro = window.torro || {};
 		form: undefined,
 
 		/**
-		 * Current container collection.
+		 * View object.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @type {torro.Builder.ContainerCollection}
+		 * @type {torro.Builder.View}
 		 */
-		containers: undefined,
-
-		/**
-		 * Current element collection.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.ElementCollection}
-		 */
-		elements: undefined,
-
-		/**
-		 * Current element choice collection.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.ElementChoiceCollection}
-		 */
-		elementChoices: undefined,
-
-		/**
-		 * Current element setting collection.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.ElementSettingCollection}
-		 */
-		elementSettings: undefined,
-
-		/**
-		 * Form canvas view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {torro.Builder.FormCanvasView}
-		 */
-		formCanvas: undefined,
+		view: undefined,
 
 		/**
 		 * Initializes the form builder.
@@ -190,51 +153,73 @@ window.torro = window.torro || {};
 		 *                                undefined if this is a new form.
 		 */
 		setupInitialData: function( form ) {
+			var container, element, elementChoice, elementSetting, elementParents, i;
+
 			if ( ! _.contains( initialized, this.instanceCount ) ) {
 				return;
 			}
 
 			if ( form ) {
-				this.form = new torro.Builder.FormModel( form );
-
-				if ( form._embedded.containers && form._embedded.containers[0] ) {
-					this.containers = new torro.Builder.ContainerCollection( form._embedded.containers[0] );
-				} else {
-					this.containers = new torro.Builder.ContainerCollection();
-				}
-
-				if ( form._embedded.elements && form._embedded.elements[0] ) {
-					this.elements = new torro.Builder.ElementCollection( form._embedded.elements[0] );
-				} else {
-					this.elements = new torro.Builder.ElementCollection();
-				}
-
-				if ( form._embedded.element_choices && form._embedded.element_choices[0] ) {
-					this.elementChoices = new torro.Builder.ElementChoiceCollection( form._embedded.element_choices[0] );
-				} else {
-					this.elementChoices = new torro.Builder.ElementChoiceCollection();
-				}
-
-				if ( form._embedded.element_settings && form._embedded.element_settings[0] ) {
-					this.elementSettings = new torro.Builder.ElementSettingCollection( form._embedded.element_settings[0] );
-				} else {
-					this.elementSettings = new torro.Builder.ElementSettingCollection();
-				}
-			} else {
-				this.form = new torro.Builder.FormModel();
-
-				this.containers = new torro.Builder.ContainerCollection([ {}, {} ], {
-					props: {
-						form_id:           this.form.get( 'id' ),
-						label_placeholder: i18n.defaultContainerLabel
-					}
+				this.form = new torro.Builder.FormModel( form, {
+					container_label_placeholder: i18n.defaultContainerLabel
 				});
 
-				this.elements = new torro.Builder.ElementCollection();
+				if ( form._embedded.containers && form._embedded.containers[0] ) {
+					this.form.containers.add( form._embedded.containers[0] );
 
-				this.elementChoices = new torro.Builder.ElementChoiceCollection();
+					if ( form._embedded.elements && form._embedded.elements[0] ) {
+						elementParents = {};
 
-				this.elementSettings = new torro.Builder.ElementSettingCollection();
+						for ( i = 0; i < form._embedded.elements[0].length; i++ ) {
+							element = form._embedded.elements[0][ i ];
+
+							container = this.form.containers.get( element.container_id );
+							if ( container ) {
+								container.elements.add( element );
+
+								elementParents[ element.id ] = element.container_id;
+							}
+						}
+
+						if ( form._embedded.element_choices && form._embedded.element_choices[0] ) {
+							for ( i = 0; i < form._embedded.element_choices[0].length; i++ ) {
+								elementChoice = form._embedded.element_choices[0][ i ];
+
+								if ( elementParents[ elementChoice.element_id ] ) {
+									container = this.form.containers.get( elementParents[ elementChoice.element_id ] );
+									if ( container ) {
+										element = container.elements.get( elementChoice.element_id );
+										if ( element ) {
+											element.element_choices.add( elementChoice );
+										}
+									}
+								}
+							}
+						}
+
+						if ( form._embedded.element_settings && form._embedded.element_settings[0] ) {
+							for ( i = 0; i < form._embedded.element_settings[0].length; i++ ) {
+								elementSetting = form._embedded.element_settings[0][ i ];
+
+								if ( elementParents[ elementSetting.element_id ] ) {
+									container = this.form.containers.get( elementParents[ elementSetting.element_id ] );
+									if ( container ) {
+										element = container.elements.get( elementSetting.element_id );
+										if ( element ) {
+											element.element_settings.add( elementSetting );
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			} else {
+				this.form = new torro.Builder.FormModel({}, {
+					container_label_placeholder: i18n.defaultContainerLabel
+				});
+
+				this.form.containers.add({});
 			}
 		},
 
@@ -251,21 +236,11 @@ window.torro = window.torro || {};
 				return;
 			}
 
-			this.formCanvas = new torro.Builder.FormCanvasView({
-				el: this.el,
-				model: this.form
+			this.view = new torro.Builder.View( this.$el, this.form, {
+				i18n: i18n
 			});
-			this.formCanvas.views.set( '.torro-js-container-tabs', new torro.Builder.ContainerTabsView({
-				collection: this.containers
-			}) );
-			this.formCanvas.views.set( '.torro-js-container-panels', new torro.Builder.ContainerPanelsView({
-				collection: this.containers
-			}) );
-			this.formCanvas.views.set( '.torro-js-container-footer-panels', new torro.Builder.ContainerFooterPanelsView({
-				collection: this.containers
-			}) );
 
-			this.formCanvas.render();
+			this.view.initialize();
 		},
 
 		/**
@@ -323,7 +298,7 @@ window.torro = window.torro || {};
 		return builder;
 	};
 
-}( window.torro, window.jQuery, window._, window.Backbone, window.wp, window.torroBuilderI18n ) );
+}( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );
 
 ( function( torroBuilder, _ ) {
 	'use strict';
@@ -387,6 +362,18 @@ window.torro = window.torro || {};
 		 */
 		getIconUrl: function() {
 			return this.attributes.icon_url;
+		},
+
+		/**
+		 * Checks whether the element type is a non input element type.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {string} True if the element type is a non input element type, false otherwise.
+		 */
+		isNonInput: function() {
+			return this.attributes.non_input;
 		},
 
 		/**
@@ -707,12 +694,42 @@ window.torro = window.torro || {};
 				label: '',
 				sort: 0
 			}), this.collection.getDefaultAttributes() );
+		},
+
+		/**
+		 * Element collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		elements: undefined,
+
+		/**
+		 * Instantiates a new model.
+		 *
+		 * Overrides constructor in order to strip out unnecessary attributes.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object} [attributes] Model attributes.
+		 * @param {object} [options]    Options for the model behavior.
+		 */
+		constructor: function( attributes, options ) {
+			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
+
+			this.elements = new torroBuilder.ElementCollection([], {
+				props: {
+					container_id: this.get( 'id' )
+				}
+			});
 		}
 	});
 
 })( window.torro.Builder, window._ );
 
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -724,24 +741,27 @@ window.torro = window.torro || {};
 	torroBuilder.ElementChoiceModel = torroBuilder.BaseModel.extend({
 
 		/**
-		 * Element choice defaults.
+		 * Returns element choice defaults.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @property {object}
+		 *
+		 * @returns {object} Element choice defaults.
 		 */
-		defaults: {
-			id: 0,
-			element_id: 0,
-			field: '',
-			value: '',
-			sort: 0
+		defaults: function() {
+			return _.extend( _.clone({
+				id: 0,
+				element_id: 0,
+				field: '',
+				value: '',
+				sort: 0
+			}), this.collection.getDefaultAttributes() );
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );
 
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -753,24 +773,72 @@ window.torro = window.torro || {};
 	torroBuilder.ElementModel = torroBuilder.BaseModel.extend({
 
 		/**
-		 * Element defaults.
+		 * Returns element defaults.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {object} Element defaults.
+		 */
+		defaults: function() {
+			return _.extend( _.clone({
+				id: 0,
+				container_id: 0,
+				label: '',
+				sort: 0,
+				type: 'textfield'
+			}), this.collection.getDefaultAttributes() );
+		},
+
+		/**
+		 * Element choice collection.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 * @property {object}
 		 */
-		defaults: {
-			id: 0,
-			container_id: 0,
-			label: '',
-			sort: 0,
-			type: 'textfield'
+		element_choices: null,
+
+		/**
+		 * Element setting collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		element_settings: undefined,
+
+		/**
+		 * Instantiates a new model.
+		 *
+		 * Overrides constructor in order to strip out unnecessary attributes.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object} [attributes] Model attributes.
+		 * @param {object} [options]    Options for the model behavior.
+		 */
+		constructor: function( attributes, options ) {
+			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
+
+			this.element_choices = new torroBuilder.ElementChoiceCollection([], {
+				props: {
+					element_id: this.get( 'id' )
+				}
+			});
+
+			this.element_settings = new torroBuilder.ElementSettingCollection([], {
+				props: {
+					element_id: this.get( 'id' )
+				}
+			});
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );
 
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -782,21 +850,24 @@ window.torro = window.torro || {};
 	torroBuilder.ElementSettingModel = torroBuilder.BaseModel.extend({
 
 		/**
-		 * Element setting defaults.
+		 * Returns element choice defaults.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @property {object}
+		 *
+		 * @returns {object} Element choice defaults.
 		 */
-		defaults: {
-			id: 0,
-			element_id: 0,
-			name: '',
-			value: ''
+		defaults: function() {
+			return _.extend( _.clone({
+				id: 0,
+				element_id: 0,
+				name: '',
+				value: ''
+			}), this.collection.getDefaultAttributes() );
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );
 
 ( function( torroBuilder ) {
 	'use strict';
@@ -824,6 +895,44 @@ window.torro = window.torro || {};
 			status: 'draft',
 			timestamp: 0,
 			timestamp_modified: 0
+		},
+
+		/**
+		 * Container collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		containers: undefined,
+
+		/**
+		 * Instantiates a new model.
+		 *
+		 * Overrides constructor in order to strip out unnecessary attributes.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object} [attributes] Model attributes.
+		 * @param {object} [options]    Options for the model behavior.
+		 */
+		constructor: function( attributes, options ) {
+			var containerProps;
+
+			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
+
+			containerProps = {
+				form_id: this.get( 'id' )
+			};
+
+			if ( 'object' === typeof options && options.container_label_placeholder ) {
+				containerProps.label_placeholder = options.container_label_placeholder;
+			}
+
+			this.containers = new torroBuilder.ContainerCollection([], {
+				props: containerProps
+			});
 		}
 	});
 
@@ -917,7 +1026,33 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @type {string}
 		 */
-		urlEndpoint: 'element_choices'
+		urlEndpoint: 'element_choices',
+
+		/**
+		 * Default properties for the collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		defaultProps: {
+			element_id: 0
+		},
+
+		/**
+		 * Returns element choice defaults.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {object} Element choice defaults.
+		 */
+		getDefaultAttributes: function() {
+			return {
+				element_id: this.props.get( 'element_id' ),
+				sort:       this.length
+			};
+		}
 	});
 
 })( window.torro.Builder );
@@ -949,7 +1084,34 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @type {string}
 		 */
-		urlEndpoint: 'elements'
+		urlEndpoint: 'elements',
+
+		/**
+		 * Default properties for the collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		defaultProps: {
+			active:       false,
+			container_id: 0
+		},
+
+		/**
+		 * Returns element defaults.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {object} Element defaults.
+		 */
+		getDefaultAttributes: function() {
+			return {
+				container_id: this.props.get( 'container_id' ),
+				sort:         this.length
+			};
+		}
 	});
 
 })( window.torro.Builder );
@@ -981,7 +1143,33 @@ window.torro = window.torro || {};
 		 * @access public
 		 * @type {string}
 		 */
-		urlEndpoint: 'element_settings'
+		urlEndpoint: 'element_settings',
+
+		/**
+		 * Default properties for the collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		defaultProps: {
+			element_id: 0
+		},
+
+		/**
+		 * Returns element setting defaults.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {object} Element setting defaults.
+		 */
+		getDefaultAttributes: function() {
+			return {
+				element_id: this.props.get( 'element_id' ),
+				sort:       this.length
+			};
+		}
 	});
 
 })( window.torro.Builder );
@@ -1018,852 +1206,36 @@ window.torro = window.torro || {};
 
 })( window.torro.Builder );
 
-( function( torroBuilder, _, wp ) {
+( function( torroBuilder, $, _ ) {
 	'use strict';
 
 	/**
-	 * Base for a form builder model view.
+	 * The form builder view.
 	 *
 	 * @class
-	 * @augments wp.Backbone.View
-	 */
-	torroBuilder.BaseModelView = wp.Backbone.View.extend({
-
-		/**
-		 * Renders the view, and subviews.
-		 *
-		 * @since  1.0.0
-		 * @access public
-		 *
-		 * @returns {torro.Builder.BaseModelView} Returns itself to allow chaining.
-		 */
-		render: function() {
-			var options;
-
-			if ( this.prepare ) {
-				options = this.prepare();
-			}
-
-			this.views.detach();
-
-			if ( this.template ) {
-				options = options || {};
-				this.trigger( 'prepare', options );
-				this.$el.html( this.template( options ) );
-			}
-
-			this.views.render();
-			return this;
-		},
-
-		/**
-		 * Prepares model data for the template.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @return {object} Template data.
-		 */
-		prepare: function() {
-			return _.extend( {}, this.model.attributes, this.options );
-		},
-
-		/**
-		 * Undelegates events related to the view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @return {torro.Builder.BaseModelView} Returns itself to allow chaining.
-		 */
-		dispose: function() {
-
-			// Undelegating events, removing events from the model, and
-			// removing events from the controller mirror the code for
-			// `Backbone.View.dispose` in Backbone 0.9.8 development.
-			this.undelegateEvents();
-
-			if ( this.model && this.model.off ) {
-				this.model.off( null, null, this );
-			}
-
-			if ( this.collection && this.collection.off ) {
-				this.collection.off( null, null, this );
-			}
-
-			return this;
-		},
-
-		/**
-		 * Removes the view from the DOM.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @return {torro.Builder.BaseModelView} Returns itself to allow chaining.
-		 */
-		remove: function() {
-			this.dispose();
-
-			return wp.Backbone.View.prototype.remove.apply( this, arguments );
-		}
-	});
-
-})( window.torro.Builder, window._, window.wp );
-
-( function( torroBuilder, _, wp ) {
-	'use strict';
-
-	/**
-	 * Base for a form builder collection view.
 	 *
-	 * @class
-	 * @augments wp.Backbone.View
+	 * @param {object} attributes Element type attributes.
 	 */
-	torroBuilder.BaseCollectionView = wp.Backbone.View.extend({
+	function View( $el, form, options ) {
+		this.$el = $el;
 
-		/**
-		 * Model view class for the collection view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {function}
-		 */
-		modelView: torroBuilder.BaseModelView,
+		this.form = form;
+		this.options = options || {};
+	}
 
-		/**
-		 * Performs additional initialization logic.
-		 *
-		 * Sets up the view lookup and some hooks.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 */
+	_.extend( View.prototype, {
 		initialize: function() {
-			this._viewsByCid = {};
+			console.log( this.form );
 
-			this.collection.on( 'add', function( model ) {
-				if ( 1 === this.collection.length ) {
-					this.$el.removeClass( 'is-empty' );
-				}
-
-				this.views.add( this.createModelView( model ), {
-					at: this.collection.indexOf( model )
-				});
-			}, this );
-
-			this.collection.on( 'remove', function( model ) {
-				var view = this._viewsByCid[ model.cid ];
-				delete this._viewsByCid[ model.cid ];
-
-				if ( ! this.collection.length ) {
-					this.$el.addClass( 'is-empty' );
-				}
-
-				if ( view ) {
-					view.remove();
-				}
-			}, this );
-
-			this.collection.on( 'reset', this.render, this );
-		},
-
-		/**
-		 * Creates a new model view for the collection view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param {torro.Builder.BaseModel} model Model to create a view for.
-		 * @returns {torro.Builder.BaseModelView} New model view.
-		 */
-		createModelView: function( model ) {
-			var view = new this.modelView({
-				model:      model,
-				collection: this.collection
-			});
-
-			return this._viewsByCid[ model.cid ] = view;
-		},
-
-		/**
-		 * Renders the view, and subviews.
-		 *
-		 * @since  1.0.0
-		 * @access public
-		 *
-		 * @returns {torro.Builder.BaseCollectionView} Returns itself to allow chaining.
-		 */
-		render: function() {
-			var options;
-
-			if ( this.prepare ) {
-				options = this.prepare();
-			}
-
-			this.views.detach();
-
-			if ( this.collection.length ) {
-				this.$el.removeClass( 'is-empty' );
-
-				if ( this.template ) {
-					options = options || {};
-					this.trigger( 'prepare', options );
-					this.$el.html( this.template( options ) );
-				}
-			} else {
-				this.$el.addClass( 'is-empty' );
-
-				if ( this.emptyTemplate ) {
-					options = options || {};
-					this.trigger( 'prepare', options );
-					this.$el.html( this.emptyTemplate( options ) );
-				}
-			}
-
-			this.views.render();
-			return this;
-		},
-
-		/**
-		 * Prepares collection data for the template.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {object} Template data.
-		 */
-		prepare: function() {
-			if ( this.collection.length ) {
-				this.views.set( this.collection.map( this.createModelView, this ) );
-			} else {
-				this.views.unset();
-			}
-
-			return this.options;
-		},
-
-		/**
-		 * Undelegates events related to the view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {torro.Builder.BaseCollectionView} Returns itself to allow chaining.
-		 */
-		dispose: function() {
-			if ( this.collection && this.collection.props && this.collection.props.off ) {
-				this.collection.props.off( null, null, this );
-			}
-
-			// Undelegating events, removing events from the model, and
-			// removing events from the controller mirror the code for
-			// `Backbone.View.dispose` in Backbone 0.9.8 development.
-			this.undelegateEvents();
-
-			if ( this.model && this.model.off ) {
-				this.model.off( null, null, this );
-			}
-
-			if ( this.collection && this.collection.off ) {
-				this.collection.off( null, null, this );
-			}
-
-			return this;
-		},
-
-		/**
-		 * Removes the view from the DOM.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {torro.Builder.BaseCollectionView} Returns itself to allow chaining.
-		 */
-		remove: function() {
-			this.dispose();
-
-			return wp.Backbone.View.prototype.remove.apply( this, arguments );
+			// TODO.
 		}
+
+		// TODO: functions here.
 	});
 
-})( window.torro.Builder, window._, window.wp );
+	torroBuilder.View = View;
 
-( function( torroBuilder, torro ) {
-	'use strict';
-
-	/**
-	 * Container footer panel view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseModelView
-	 */
-	torroBuilder.ContainerFooterPanelView = torroBuilder.BaseModelView.extend({
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'div',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-canvas-panel',
-
-		/**
-		 * Template function.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {function}
-		 */
-		template: torro.template( 'container-footer-panel' ),
-
-		/**
-		 * Element attributes.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {object} Default attributes.
-		 */
-		attributes: function() {
-			return {
-				'id': 'container-footer-panel-' + this.model.get( 'id' ),
-				'aria-labelledby': 'container-tab-' + this.model.get( 'id' ),
-				'aria-hidden': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'false' : 'true',
-				'role': 'tabpanel'
-			};
-		},
-
-		/**
-		 * Initializes the view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 */
-		initialize: function() {
-			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
-		},
-
-		/**
-		 * Sets the aria-hidden attribute depending on whether this is a panel for the currently selected tab.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param {Backbone.Model} props Collection properties.
-		 */
-		_toggleSelection: function( props ) {
-			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
-				this.$el.attr( 'aria-hidden', 'false' );
-			} else {
-				this.$el.attr( 'aria-hidden', 'true' );
-			}
-		}
-	});
-
-})( window.torro.Builder, window.torro );
-
-( function( torroBuilder, torro ) {
-	'use strict';
-
-	/**
-	 * Container panel view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseModelView
-	 */
-	torroBuilder.ContainerPanelView = torroBuilder.BaseModelView.extend({
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'div',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-canvas-panel',
-
-		/**
-		 * Template function.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {function}
-		 */
-		template: torro.template( 'container-panel' ),
-
-		/**
-		 * Element attributes.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {object} Default attributes.
-		 */
-		attributes: function() {
-			return {
-				'id': 'container-panel-' + this.model.get( 'id' ),
-				'aria-labelledby': 'container-tab-' + this.model.get( 'id' ),
-				'aria-hidden': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'false' : 'true',
-				'role': 'tabpanel'
-			};
-		},
-
-		/**
-		 * Initializes the view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 */
-		initialize: function() {
-			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
-		},
-
-		/**
-		 * Sets the aria-hidden attribute depending on whether this is a panel for the currently selected tab.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param {Backbone.Model} props Collection properties.
-		 */
-		_toggleSelection: function( props ) {
-			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
-				this.$el.attr( 'aria-hidden', 'false' );
-			} else {
-				this.$el.attr( 'aria-hidden', 'true' );
-			}
-		}
-	});
-
-})( window.torro.Builder, window.torro );
-
-( function( torroBuilder, torro ) {
-	'use strict';
-
-	/**
-	 * Container tab button view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseModelView
-	 */
-	torroBuilder.ContainerTabButtonView = torroBuilder.BaseModelView.extend({
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'button',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-canvas-tab add-button',
-
-		/**
-		 * Template function.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {function}
-		 */
-		template: torro.template( 'container-tab-button' ),
-
-		/**
-		 * Element attributes.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {object} Default attributes.
-		 */
-		attributes: function() {
-			return {
-				'type': 'button',
-				'aria-selected': false === this.collection.props.get( 'selection' ) ? 'true' : 'false'
-			};
-		},
-
-		/**
-		 * View events.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {object}
-		 */
-		events: {
-			'click': 'addContainer'
-		},
-
-		/**
-		 * Initializes the view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 */
-		initialize: function() {
-			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
-		},
-
-		/**
-		 * Adds a new container.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 */
-		addContainer: function() {
-			this.collection.add({});
-		},
-
-		/**
-		 * Sets the aria-selected attribute depending on whether this is the currently selected tab.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param {Backbone.Model} props Collection properties.
-		 */
-		_toggleSelection: function( props ) {
-			if ( false === props.get( 'selection' ) ) {
-				this.$el.attr( 'aria-selected', 'true' );
-			} else {
-				this.$el.attr( 'aria-selected', 'false' );
-			}
-		}
-	});
-
-})( window.torro.Builder, window.torro );
-
-( function( torroBuilder, torro ) {
-	'use strict';
-
-	/**
-	 * Container tab view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseModelView
-	 */
-	torroBuilder.ContainerTabView = torroBuilder.BaseModelView.extend({
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'button',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-canvas-tab',
-
-		/**
-		 * Template function.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {function}
-		 */
-		template: torro.template( 'container-tab' ),
-
-		/**
-		 * Element attributes.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {object} Default attributes.
-		 */
-		attributes: function() {
-			return {
-				'type': 'button',
-				'id': 'container-tab-' + this.model.get( 'id' ),
-				'aria-controls': 'container-panel-' + this.model.get( 'id' ) + ' container-footer-panel-' + this.model.get( 'id' ),
-				'aria-selected': this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ? 'true' : 'false',
-				'role': 'tab'
-			};
-		},
-
-		/**
-		 * View events.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {object}
-		 */
-		events: {
-			'click': 'selectTab'
-		},
-
-		/**
-		 * Initializes the view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 */
-		initialize: function() {
-			this.listenTo( this.collection.props, 'change:selection', this._toggleSelection );
-		},
-
-		/**
-		 * Selects the element as the current tab.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 */
-		selectTab: function() {
-			if ( this.model.get( 'id' ) === this.collection.props.get( 'selection' ) ) {
-				return;
-			}
-
-			this.collection.props.set( 'selection', this.model.get( 'id' ) );
-		},
-
-		/**
-		 * Sets the aria-selected attribute depending on whether this is the currently selected tab.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param {Backbone.Model} props Collection properties.
-		 */
-		_toggleSelection: function( props ) {
-			if ( this.model.get( 'id' ) === props.get( 'selection' ) ) {
-				this.$el.attr( 'aria-selected', 'true' );
-			} else {
-				this.$el.attr( 'aria-selected', 'false' );
-			}
-		}
-	});
-
-})( window.torro.Builder, window.torro );
-
-( function( torroBuilder, torro ) {
-	'use strict';
-
-	/**
-	 * Form canvas view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseModelView
-	 */
-	torroBuilder.FormCanvasView = torroBuilder.BaseModelView.extend({
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'div',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-canvas',
-
-		/**
-		 * Template function.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {function}
-		 */
-		template: torro.template( 'form-canvas' )
-	});
-
-})( window.torro.Builder, window.torro );
-
-( function( torroBuilder ) {
-	'use strict';
-
-	/**
-	 * Container footer panels view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseCollectionView
-	 */
-	torroBuilder.ContainerFooterPanelsView = torroBuilder.BaseCollectionView.extend({
-
-		/**
-		 * Model view class for the collection view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {function}
-		 */
-		modelView: torroBuilder.ContainerFooterPanelView,
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'div',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-container-footer-panels'
-	});
-
-})( window.torro.Builder );
-
-( function( torroBuilder, torro ) {
-	'use strict';
-
-	/**
-	 * Container panels view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseCollectionView
-	 */
-	torroBuilder.ContainerPanelsView = torroBuilder.BaseCollectionView.extend({
-
-		/**
-		 * Model view class for the collection view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {function}
-		 */
-		modelView: torroBuilder.ContainerPanelView,
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'div',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-container-panels drag-drop-area',
-
-		/**
-		 * Template function.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @type {function}
-		 */
-		emptyTemplate: torro.template( 'empty-container-drag-drop' )
-	});
-
-})( window.torro.Builder, window.torro );
-
-( function( torroBuilder ) {
-	'use strict';
-
-	/**
-	 * Container tabs view.
-	 *
-	 * @class
-	 * @augments torro.Builder.BaseCollectionView
-	 */
-	torroBuilder.ContainerTabsView = torroBuilder.BaseCollectionView.extend({
-
-		/**
-		 * Model view class for the collection view.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {function}
-		 */
-		modelView: torroBuilder.ContainerTabView,
-
-		/**
-		 * Element tag name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		tagName: 'div',
-
-		/**
-		 * Element class name.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 * @type {string}
-		 */
-		className: 'torro-form-container-tabs',
-
-		/**
-		 * Element attributes.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @returns {object} Default attributes.
-		 */
-		attributes: function() {
-			return {
-				'role': 'tablist'
-			};
-		}
-	});
-
-})( window.torro.Builder );
+})( window.torro.Builder, window.jQuery, window._ );
 
 ( function( $ ) {
 	'use strict';

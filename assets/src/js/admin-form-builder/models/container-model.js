@@ -24,6 +24,36 @@
 				label: '',
 				sort: 0
 			}), this.collection.getDefaultAttributes() );
+		},
+
+		/**
+		 * Element collection.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 * @property {object}
+		 */
+		elements: undefined,
+
+		/**
+		 * Instantiates a new model.
+		 *
+		 * Overrides constructor in order to strip out unnecessary attributes.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {object} [attributes] Model attributes.
+		 * @param {object} [options]    Options for the model behavior.
+		 */
+		constructor: function( attributes, options ) {
+			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
+
+			this.elements = new torroBuilder.ElementCollection([], {
+				props: {
+					container_id: this.get( 'id' )
+				}
+			});
 		}
 	});
 
