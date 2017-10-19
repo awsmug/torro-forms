@@ -689,19 +689,19 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-form-canvas">
-			<div class="torro-form-canvas-header torro-form-canvas-tabs torro-js-container-tabs">
+			<div class="torro-form-canvas-header torro-form-canvas-tabs">
 				<button type="button" class="torro-form-canvas-tab add-button">
 					<span aria-hidden="true">+</span><span class="screen-reader-text"><?php _e( 'Add New Container', 'torro-forms' ); ?></span>
 				</button>
 			</div>
-			<div class="torro-form-canvas-content torro-js-container-panels">
+			<div class="torro-form-canvas-content">
 				<div class="torro-form-canvas-panel add-panel">
 					<div class="drag-drop-area is-empty">
 						<div class="content"><?php _e( 'Click the button above to add your first container', 'torro-forms' ); ?></div>
 					</div>
 				</div>
 			</div>
-			<div class="torro-form-canvas-footer torro-js-container-footer-panels"></div>
+			<div class="torro-form-canvas-footer"></div>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-tab">
@@ -710,7 +710,7 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-panel">
-			<div class="drag-drop-area torro-js-elements"></div>
+			<div class="drag-drop-area"></div>
 
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][form_id]" value="{{ data.form_id }}" />
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][sort]" value="{{ data.sort }}" />
