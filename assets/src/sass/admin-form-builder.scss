@@ -70,6 +70,10 @@
 			cursor: default;
 		}
 
+		&.add-button.is-active {
+			border-bottom-color: #fff;
+		}
+
 		&[disabled] {
 			color: #b4b9be;
 			cursor: not-allowed;

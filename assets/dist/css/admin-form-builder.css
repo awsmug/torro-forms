@@ -92,6 +92,11 @@
     border-bottom-color: #fff;
 }
 
+.torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab.add-button.is-active
+{
+    border-bottom-color: #fff;
+}
+
 .torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab[disabled]
 {
     cursor: not-allowed;
