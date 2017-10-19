@@ -49,10 +49,26 @@
 		 * @returns {object} Container defaults.
 		 */
 		getDefaultAttributes: function() {
+			var labelNumber = this.length + 1;
+			var sort        = this.length;
+			var last;
+
+			if ( this.length ) {
+				last = this.at( this.length - 1 );
+
+				if ( last ) {
+					sort = last.get( 'sort' ) + 1;
+
+					if ( last.get( 'label' ) === this.props.get( 'label_placeholder' ).replace( '%s', sort ) ) {
+						labelNumber = sort + 1;
+					}
+				}
+			}
+
 			return {
 				form_id: this.props.get( 'form_id' ),
-				label:   this.props.get( 'label_placeholder' ).replace( '%s', this.length + 1 ),
-				sort:    this.length
+				label:   this.props.get( 'label_placeholder' ).replace( '%s', labelNumber ),
+				sort:    sort
 			};
 		},
 
