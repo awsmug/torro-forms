@@ -75,8 +75,10 @@
 
 		checkHasContainers: function() {
 			if ( this.form.containers.length ) {
+				this.$addButton.removeClass( 'is-active' );
 				this.$addPanel.attr( 'aria-hidden', 'true' );
 			} else {
+				this.$addButton.addClass( 'is-active' );
 				this.$addPanel.attr( 'aria-hidden', 'false' );
 			}
 		},

@@ -61,19 +61,45 @@
 		},
 
 		attach: function() {
+			this.container.on( 'remove', this.listenRemove, this );
+			this.container.on( 'change:label', this.listenChangeLabel, this );
+			this.container.on( 'change:sort', this.listenChangeSort, this );
 			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
 
 			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
+			this.$tab.on( 'dblclick', _.bind( this.editLabel, this ) );
+			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 
 			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
+			this.container.off( 'change:sort', this.listenChangeSort, this );
+			this.container.off( 'change:label', this.listenChangeLabel, this );
+			this.container.off( 'remove', this.listenRemove, this );
 
+			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
+			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
 			// TODO: remove jQuery hooks
+		},
+
+		listenRemove: function() {
+			this.destroy();
+		},
+
+		listenChangeLabel: function( container, label ) {
+			var name = torro.escapeSelector( torro.getFieldName( this.container, 'label' ) );
+
+			this.$panel.find( 'input[name="' + name + '"]' ).val( label );
+		},
+
+		listenChangeSort: function( container, sort ) {
+			var name = torro.escapeSelector( torro.getFieldName( this.container, 'sort' ) );
+
+			this.$panel.find( 'input[name="' + name + '"]' ).val( sort );
 		},
 
 		listenChangeSelected: function( props, selected ) {
@@ -90,6 +116,58 @@
 
 		setSelected: function() {
 			this.container.collection.props.set( 'selected', this.container.get( 'id' ) );
+		},
+
+		editLabel: function() {
+			var container = this.container;
+			var $original = this.$tab.find( 'span' );
+			var $replacement;
+
+			if ( ! $original.length ) {
+				return;
+			}
+
+			$replacement = $( '<input />' );
+			$replacement.attr( 'type', 'text' );
+			$replacement.val( $original.text() );
+
+			$replacement.on( 'keydown blur', function( event ) {
+				var proceed = false;
+				var value;
+
+				if ( 'keydown' === event.type ) {
+					if ( 13 === event.which ) {
+						proceed = true;
+
+						event.preventDefault();
+					} else if ( [ 32, 37, 38, 39, 40 ].includes( event.which ) ) {
+						event.stopPropagation();
+					}
+				} else if ( 'blur' === event.type ) {
+					proceed = true;
+				} else {
+					event.stopPropagation();
+				}
+
+				if ( ! proceed ) {
+					return;
+				}
+
+				value = $replacement.val();
+
+				container.set( 'label', value );
+
+				$original.text( value );
+				$replacement.replaceWith( $original );
+				$original.focus();
+			});
+
+			$original.replaceWith( $replacement );
+			$replacement.focus();
+		},
+
+		deleteContainer: function() {
+			this.container.collection.remove( this.container );
 		}
 	});
 

@@ -57,19 +57,24 @@
 		},
 
 		initialize: function() {
-			this.on( 'add remove reset', _.bind( this.maybeUpdateSelected, this ) );
+			this.on( 'add', _.bind( this.maybeUpdateSelectedOnAdd, this ) );
+			this.on( 'remove', _.bind( this.maybeUpdateSelectedOnRemove, this ) );
 		},
 
-		maybeUpdateSelected: function( container, containers, options ) {
+		maybeUpdateSelectedOnAdd: function( container ) {
 			if ( container ) {
-				if ( options.add ) {
-					this.props.set( 'selected', container.get( 'id' ) );
-				} else if ( options.remove && this.props.get( 'selected' ) === container.get( 'id' ) ) {
-					if ( this.length ) {
-						this.props.set( 'selected', this.at( this.length - 1 ).get( 'id' ) );
-					} else {
-						this.props.set( 'selected', false );
-					}
+				this.props.set( 'selected', container.get( 'id' ) );
+			}
+		},
+
+		maybeUpdateSelectedOnRemove: function( container, containers, options ) {
+			var index = options.index ? options.index - 1 : options.index;
+
+			if ( container && this.props.get( 'selected' ) === container.get( 'id' ) ) {
+				if ( this.length ) {
+					this.props.set( 'selected', this.at( index ).get( 'id' ) );
+				} else {
+					this.props.set( 'selected', false );
 				}
 			}
 		}

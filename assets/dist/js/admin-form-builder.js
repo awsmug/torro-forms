@@ -298,6 +298,28 @@ window.torro = window.torro || {};
 		return builder;
 	};
 
+	torro.getFieldName = function( model, attribute ) {
+		var groupSlug;
+
+		if ( model instanceof torro.Builder.FormModel ) {
+			groupSlug = 'forms';
+		} else if ( model instanceof torro.Builder.ContainerModel ) {
+			groupSlug = 'containers';
+		} else if ( model instanceof torro.Builder.ElementModel ) {
+			groupSlug = 'elements';
+		} else if ( model instanceof torro.Builder.ElementChoiceModel ) {
+			groupSlug = 'element_choices';
+		} else if ( model instanceof torro.Builder.ElementSettingModel ) {
+			groupSlug = 'element_settings';
+		}
+
+		if ( ! groupSlug ) {
+			return;
+		}
+
+		return 'torro_' + groupSlug + '[' + model.get( 'id' ) + '][' + attribute + ']';
+	};
+
 }( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );
 
 ( function( torroBuilder, _ ) {
@@ -997,19 +1019,24 @@ window.torro = window.torro || {};
 		},
 
 		initialize: function() {
-			this.on( 'add remove reset', _.bind( this.maybeUpdateSelected, this ) );
+			this.on( 'add', _.bind( this.maybeUpdateSelectedOnAdd, this ) );
+			this.on( 'remove', _.bind( this.maybeUpdateSelectedOnRemove, this ) );
 		},
 
-		maybeUpdateSelected: function( container, containers, options ) {
+		maybeUpdateSelectedOnAdd: function( container ) {
 			if ( container ) {
-				if ( options.add ) {
-					this.props.set( 'selected', container.get( 'id' ) );
-				} else if ( options.remove && this.props.get( 'selected' ) === container.get( 'id' ) ) {
-					if ( this.length ) {
-						this.props.set( 'selected', this.at( this.length - 1 ).get( 'id' ) );
-					} else {
-						this.props.set( 'selected', false );
-					}
+				this.props.set( 'selected', container.get( 'id' ) );
+			}
+		},
+
+		maybeUpdateSelectedOnRemove: function( container, containers, options ) {
+			var index = options.index ? options.index - 1 : options.index;
+
+			if ( container && this.props.get( 'selected' ) === container.get( 'id' ) ) {
+				if ( this.length ) {
+					this.props.set( 'selected', this.at( index ).get( 'id' ) );
+				} else {
+					this.props.set( 'selected', false );
 				}
 			}
 		}
@@ -1287,19 +1314,45 @@ window.torro = window.torro || {};
 		},
 
 		attach: function() {
+			this.container.on( 'remove', this.listenRemove, this );
+			this.container.on( 'change:label', this.listenChangeLabel, this );
+			this.container.on( 'change:sort', this.listenChangeSort, this );
 			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
 
 			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
+			this.$tab.on( 'dblclick', _.bind( this.editLabel, this ) );
+			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 
 			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
+			this.container.off( 'change:sort', this.listenChangeSort, this );
+			this.container.off( 'change:label', this.listenChangeLabel, this );
+			this.container.off( 'remove', this.listenRemove, this );
 
+			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
+			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
 			// TODO: remove jQuery hooks
+		},
+
+		listenRemove: function() {
+			this.destroy();
+		},
+
+		listenChangeLabel: function( container, label ) {
+			var name = torro.escapeSelector( torro.getFieldName( this.container, 'label' ) );
+
+			this.$panel.find( 'input[name="' + name + '"]' ).val( label );
+		},
+
+		listenChangeSort: function( container, sort ) {
+			var name = torro.escapeSelector( torro.getFieldName( this.container, 'sort' ) );
+
+			this.$panel.find( 'input[name="' + name + '"]' ).val( sort );
 		},
 
 		listenChangeSelected: function( props, selected ) {
@@ -1316,6 +1369,58 @@ window.torro = window.torro || {};
 
 		setSelected: function() {
 			this.container.collection.props.set( 'selected', this.container.get( 'id' ) );
+		},
+
+		editLabel: function() {
+			var container = this.container;
+			var $original = this.$tab.find( 'span' );
+			var $replacement;
+
+			if ( ! $original.length ) {
+				return;
+			}
+
+			$replacement = $( '<input />' );
+			$replacement.attr( 'type', 'text' );
+			$replacement.val( $original.text() );
+
+			$replacement.on( 'keydown blur', function( event ) {
+				var proceed = false;
+				var value;
+
+				if ( 'keydown' === event.type ) {
+					if ( 13 === event.which ) {
+						proceed = true;
+
+						event.preventDefault();
+					} else if ( [ 32, 37, 38, 39, 40 ].includes( event.which ) ) {
+						event.stopPropagation();
+					}
+				} else if ( 'blur' === event.type ) {
+					proceed = true;
+				} else {
+					event.stopPropagation();
+				}
+
+				if ( ! proceed ) {
+					return;
+				}
+
+				value = $replacement.val();
+
+				container.set( 'label', value );
+
+				$original.text( value );
+				$replacement.replaceWith( $original );
+				$original.focus();
+			});
+
+			$original.replaceWith( $replacement );
+			$replacement.focus();
+		},
+
+		deleteContainer: function() {
+			this.container.collection.remove( this.container );
 		}
 	});
 
@@ -1400,8 +1505,10 @@ window.torro = window.torro || {};
 
 		checkHasContainers: function() {
 			if ( this.form.containers.length ) {
+				this.$addButton.removeClass( 'is-active' );
 				this.$addPanel.attr( 'aria-hidden', 'true' );
 			} else {
+				this.$addButton.addClass( 'is-active' );
 				this.$addPanel.attr( 'aria-hidden', 'false' );
 			}
 		},

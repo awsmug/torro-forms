@@ -294,4 +294,26 @@ window.torro = window.torro || {};
 		return builder;
 	};
 
+	torro.getFieldName = function( model, attribute ) {
+		var groupSlug;
+
+		if ( model instanceof torro.Builder.FormModel ) {
+			groupSlug = 'forms';
+		} else if ( model instanceof torro.Builder.ContainerModel ) {
+			groupSlug = 'containers';
+		} else if ( model instanceof torro.Builder.ElementModel ) {
+			groupSlug = 'elements';
+		} else if ( model instanceof torro.Builder.ElementChoiceModel ) {
+			groupSlug = 'element_choices';
+		} else if ( model instanceof torro.Builder.ElementSettingModel ) {
+			groupSlug = 'element_settings';
+		}
+
+		if ( ! groupSlug ) {
+			return;
+		}
+
+		return 'torro_' + groupSlug + '[' + model.get( 'id' ) + '][' + attribute + ']';
+	};
+
 }( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );
