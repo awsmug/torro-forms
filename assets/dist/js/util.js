@@ -85,4 +85,29 @@ window.torro = window.torro || {};
 
 		return ( 'temp_id_' + random ).substring( 0, 14 );
 	};
+
+	torro.escapeSelector = function( selector ) {
+		var pattern, replacement;
+
+		if ( 'function' === typeof $.escapeSelector ) {
+			return $.escapeSelector( selector );
+		}
+
+		pattern = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g;
+
+		replacement = function( ch, asCodePoint ) {
+			if ( asCodePoint ) {
+				if ( '\0' === ch ) {
+					return '\uFFFD';
+				}
+
+				return ch.slice( 0, -1 ) + '\\' + ch.charCodeAt( ch.length - 1 ).toString( 16 ) + ' ';
+			}
+
+			return '\\' + ch;
+		};
+
+		return selector.replace( pattern, replacement );
+	};
+
 }( window.torro, window.jQuery, window._, window.wp, window.wpApiSettings || {} ) );
