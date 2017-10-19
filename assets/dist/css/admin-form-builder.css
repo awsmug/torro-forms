@@ -125,6 +125,11 @@
     min-height: 150px;
 }
 
+.drag-drop-area .add-element-content
+{
+    display: none;
+}
+
 .drag-drop-area.is-empty
 {
     border: 4px dashed #b4b9be;
@@ -154,6 +159,11 @@
     font-style: italic;
 }
 
+.drag-drop-area.is-empty .add-element-content
+{
+    display: block;
+}
+
 .drag-drop-area.is-empty .spinner
 {
     float: none;
@@ -163,7 +173,59 @@
 }
 
 /* ----------------------------------------------------------------------------
-  4.0 - General Notice
+  3.0 - Elements
+---------------------------------------------------------------------------- */
+.torro-element-content
+{
+    display: none;
+}
+
+.torro-element-content.is-expanded
+{
+    display: block;
+}
+
+.torro-element-expand-button
+{
+    -webkit-appearance: none;
+            appearance: none;
+}
+
+.torro-element-expand-button .torro-element-expand-button-icon:before
+{
+    font: 400 20px/1 dashicons;
+
+    position: relative;
+
+    display: block;
+
+    padding: 0;
+
+    content: '\f140';
+    text-align: center;
+    text-decoration: none !important;
+    text-indent: 0;
+
+    border: none;
+    background: 0 0;
+
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.torro-element-expand-button[aria-expanded='true'] .torro-element-expand-button-icon:before
+{
+    content: '\f142';
+}
+
+.torro-element-header .torro-element-expand-button
+{
+    float: right;
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - General Notice
 ---------------------------------------------------------------------------- */
 .torro-notice
 {
@@ -177,7 +239,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  5.0 - Torro Metabox Tabs
+  6.0 - Torro Metabox Tabs
 ---------------------------------------------------------------------------- */
 .torro-metabox-tab-wrapper
 {
@@ -271,7 +333,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  6.0 - Misc
+  7.0 - Misc
 ---------------------------------------------------------------------------- */
 #minor-publishing-actions #duplicate-action
 {

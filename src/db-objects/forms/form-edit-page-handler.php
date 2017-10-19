@@ -709,7 +709,9 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-panel">
-			<div class="drag-drop-area"></div>
+			<div class="drag-drop-area is-empty">
+				<div class="content add-element-content"><?php _e( 'Drop your elements here', 'torro-forms' ); ?></div>
+			</div>
 
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][form_id]" value="{{ data.form_id }}" />
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][label]" value="{{ data.label }}" />
@@ -717,11 +719,33 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-footer-panel">
-			<button type="button" class="button-link button-link-delete delete-container-button"><?php _e( 'Delete Page', 'torro-forms' ); ?></button>
+			<button type="button" class="button-link button-link-delete delete-container-button">
+				<?php _e( 'Delete Page', 'torro-forms' ); ?>
+			</button>
 		</script>
 
-		<script type="text/html" id="tmpl-torro-empty-element-drag-drop">
-			<div class="content"><?php _e( 'Drop your elements here', 'torro-forms' ); ?></div>
+		<script type="text/html" id="tmpl-torro-element">
+			<div class="torro-element-header">
+				<img class="torro-element-header-icon" src="{{ data.type.icon_url }}">
+				<span class="torro-element-header-title">
+					{{ ! _.isEmpty( data.label ) ? data.label : data.type.label }}
+				</span>
+				<button class="torro-element-expand-button" aria-controls="torro-element-{{ data.id }}-content" aria-expanded="false">
+					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text"><?php _e( 'Toggle Content', 'torro-forms' ); ?></span>
+				</button>
+			</div>
+			<div id="torro-element-{{ data.id }}-content" class="torro-element-content">
+				<div class="torro-element-content-main">
+					This is the element main content.
+				</div>
+				<div class="torro-element-content-footer">
+					<button type="button" class="button-link button-link-delete delete-element-button">
+						<?php _e( 'Delete Element', 'torro-forms' ); ?>
+					</button>
+				</div>
+			</div>
+			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][container_id]" value="{{ data.container_id }}" />
+			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][sort]" value="{{ data.sort }}" />
 		</script>
 		<?php
 

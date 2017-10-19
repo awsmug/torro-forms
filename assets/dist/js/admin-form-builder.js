@@ -1314,9 +1314,17 @@ window.torro = window.torro || {};
 
 	_.extend( ContainerView.prototype, {
 		render: function() {
+			var i;
+
 			this.$tab.html( this.tabTemplate( this.container.attributes ) );
 			this.$panel.html( this.panelTemplate( this.container.attributes ) );
 			this.$footerPanel.html( this.footerPanelTemplate( this.container.attributes ) );
+
+			this.checkHasElements();
+
+			for ( i = 0; i < this.container.elements.length; i++ ) {
+				this.listenAddElement( this.container.elements.at( i ) );
+			}
 
 			this.attach();
 		},
@@ -1331,6 +1339,8 @@ window.torro = window.torro || {};
 
 		attach: function() {
 			this.container.on( 'remove', this.listenRemove, this );
+			this.container.elements.on( 'add', this.listenAddContainer, this );
+			this.container.elements.on( 'add remove reset', this.checkHasElements, this );
 			this.container.on( 'change:label', this.listenChangeLabel, this );
 			this.container.on( 'change:sort', this.listenChangeSort, this );
 			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
@@ -1346,6 +1356,8 @@ window.torro = window.torro || {};
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );
 			this.container.off( 'change:label', this.listenChangeLabel, this );
+			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
+			this.container.elements.off( 'add', this.listenAddContainer, this );
 			this.container.off( 'remove', this.listenRemove, this );
 
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
@@ -1357,6 +1369,22 @@ window.torro = window.torro || {};
 
 		listenRemove: function() {
 			this.destroy();
+		},
+
+		listenAddElement: function( element ) {
+			var view = new torro.Builder.ElementView( element );
+
+			this.$panel.find( '.drag-drop-area' ).append( view.$wrap );
+
+			view.render();
+		},
+
+		checkHasElements: function() {
+			if ( this.container.elements.length ) {
+				this.$panel.find( '.drag-drop-area' ).removeClass( 'is-empty' );
+			} else {
+				this.$panel.find( '.drag-drop-area' ).addClass( 'is-empty' );
+			}
 		},
 
 		listenChangeLabel: function( container, label ) {
@@ -1441,6 +1469,93 @@ window.torro = window.torro || {};
 	});
 
 	torro.Builder.ContainerView = ContainerView;
+
+})( window.torro, window.jQuery, window._ );
+
+( function( torro, $, _ ) {
+	'use strict';
+
+	/**
+	 * An element view.
+	 *
+	 * @class
+	 *
+	 * @param {torro.Builder.Element} element Element model.
+	 * @param {object}                options View options.
+	 */
+	function ElementView( element, options ) {
+		var id = element.get( 'id' );
+
+		this.element = element;
+		this.options = options || {};
+
+		this.elementType = torro.Builder.getInstance().elementTypes.get( this.element.get( 'type' ) );
+
+		this.wrapTemplate = torro.template( 'element' );
+
+		this.$wrap = $( '<div />' );
+		this.$wrap.attr( 'id', 'torro-element-' + id );
+		this.$wrap.addClass( 'torro-element' );
+	}
+
+	_.extend( ElementView.prototype, {
+		render: function() {
+			var templateData = this.element.attributes;
+			templateData.type = this.elementType.attributes;
+
+			this.$wrap.html( this.wrapTemplate( templateData ) );
+
+			this.attach();
+		},
+
+		destroy: function() {
+			this.detach();
+
+			this.$wrap.remove();
+		},
+
+		attach: function() {
+			this.element.on( 'remove', this.listenRemove, this );
+			this.element.on( 'change:label', this.listenChangeLabel, this );
+			this.element.on( 'change:sort', this.listenChangeSort, this );
+
+			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
+
+			// TODO: add jQuery hooks
+		},
+
+		detach: function() {
+			this.element.off( 'change:sort', this.listenChangeSort, this );
+			this.element.off( 'change:label', this.listenChangeLabel, this );
+			this.element.off( 'remove', this.listenRemove, this );
+
+			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
+
+			// TODO: remove jQuery hooks
+		},
+
+		listenRemove: function() {
+			this.destroy();
+		},
+
+		listenChangeLabel: function( container, label ) {
+			var name = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
+
+			this.$wrap.find( 'input[name="' + name + '"]' ).val( label );
+		},
+
+		listenChangeSort: function( container, sort ) {
+			var name = torro.escapeSelector( torro.getFieldName( this.element, 'sort' ) );
+
+			this.$wrap.find( 'input[name="' + name + '"]' ).val( sort );
+		},
+
+		deleteElement: function() {
+			this.element.collection.remove( this.element );
+		}
+	});
+
+	torro.Builder.ElementView = ElementView;
 
 })( window.torro, window.jQuery, window._ );
 

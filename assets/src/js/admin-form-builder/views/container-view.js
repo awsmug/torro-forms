@@ -45,9 +45,17 @@
 
 	_.extend( ContainerView.prototype, {
 		render: function() {
+			var i;
+
 			this.$tab.html( this.tabTemplate( this.container.attributes ) );
 			this.$panel.html( this.panelTemplate( this.container.attributes ) );
 			this.$footerPanel.html( this.footerPanelTemplate( this.container.attributes ) );
+
+			this.checkHasElements();
+
+			for ( i = 0; i < this.container.elements.length; i++ ) {
+				this.listenAddElement( this.container.elements.at( i ) );
+			}
 
 			this.attach();
 		},
@@ -62,6 +70,8 @@
 
 		attach: function() {
 			this.container.on( 'remove', this.listenRemove, this );
+			this.container.elements.on( 'add', this.listenAddContainer, this );
+			this.container.elements.on( 'add remove reset', this.checkHasElements, this );
 			this.container.on( 'change:label', this.listenChangeLabel, this );
 			this.container.on( 'change:sort', this.listenChangeSort, this );
 			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
@@ -77,6 +87,8 @@
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );
 			this.container.off( 'change:label', this.listenChangeLabel, this );
+			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
+			this.container.elements.off( 'add', this.listenAddContainer, this );
 			this.container.off( 'remove', this.listenRemove, this );
 
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
@@ -88,6 +100,22 @@
 
 		listenRemove: function() {
 			this.destroy();
+		},
+
+		listenAddElement: function( element ) {
+			var view = new torro.Builder.ElementView( element );
+
+			this.$panel.find( '.drag-drop-area' ).append( view.$wrap );
+
+			view.render();
+		},
+
+		checkHasElements: function() {
+			if ( this.container.elements.length ) {
+				this.$panel.find( '.drag-drop-area' ).removeClass( 'is-empty' );
+			} else {
+				this.$panel.find( '.drag-drop-area' ).addClass( 'is-empty' );
+			}
 		},
 
 		listenChangeLabel: function( container, label ) {
