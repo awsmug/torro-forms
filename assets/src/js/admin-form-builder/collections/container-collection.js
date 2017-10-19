@@ -1,4 +1,4 @@
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -54,7 +54,25 @@
 				label:   this.props.get( 'label_placeholder' ).replace( '%s', this.length + 1 ),
 				sort:    this.length
 			};
+		},
+
+		initialize: function() {
+			this.on( 'add remove reset', _.bind( this.maybeUpdateSelected, this ) );
+		},
+
+		maybeUpdateSelected: function( container, containers, options ) {
+			if ( container ) {
+				if ( options.add ) {
+					this.props.set( 'selected', container.get( 'id' ) );
+				} else if ( options.remove && this.props.get( 'selected' ) === container.get( 'id' ) ) {
+					if ( this.length ) {
+						this.props.set( 'selected', this.at( this.length - 1 ).get( 'id' ) );
+					} else {
+						this.props.set( 'selected', false );
+					}
+				}
+			}
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );

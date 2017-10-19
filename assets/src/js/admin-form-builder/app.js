@@ -45,13 +45,13 @@ window.torro = window.torro || {};
 		form: undefined,
 
 		/**
-		 * View object.
+		 * Form view object.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @type {torro.Builder.View}
+		 * @type {torro.Builder.FormView}
 		 */
-		view: undefined,
+		formView: undefined,
 
 		/**
 		 * Initializes the form builder.
@@ -232,11 +232,11 @@ window.torro = window.torro || {};
 				return;
 			}
 
-			this.view = new torro.Builder.View( this.$el, this.form, {
+			this.formView = new torro.Builder.FormView( this.$el, this.form, {
 				i18n: i18n
 			});
 
-			this.view.initialize();
+			this.formView.render();
 		},
 
 		/**

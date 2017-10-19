@@ -49,13 +49,13 @@ window.torro = window.torro || {};
 		form: undefined,
 
 		/**
-		 * View object.
+		 * Form view object.
 		 *
 		 * @since 1.0.0
 		 * @access public
-		 * @type {torro.Builder.View}
+		 * @type {torro.Builder.FormView}
 		 */
-		view: undefined,
+		formView: undefined,
 
 		/**
 		 * Initializes the form builder.
@@ -236,11 +236,11 @@ window.torro = window.torro || {};
 				return;
 			}
 
-			this.view = new torro.Builder.View( this.$el, this.form, {
+			this.formView = new torro.Builder.FormView( this.$el, this.form, {
 				i18n: i18n
 			});
 
-			this.view.initialize();
+			this.formView.render();
 		},
 
 		/**
@@ -938,7 +938,7 @@ window.torro = window.torro || {};
 
 })( window.torro.Builder );
 
-( function( torroBuilder ) {
+( function( torroBuilder, _ ) {
 	'use strict';
 
 	/**
@@ -994,10 +994,28 @@ window.torro = window.torro || {};
 				label:   this.props.get( 'label_placeholder' ).replace( '%s', this.length + 1 ),
 				sort:    this.length
 			};
+		},
+
+		initialize: function() {
+			this.on( 'add remove reset', _.bind( this.maybeUpdateSelected, this ) );
+		},
+
+		maybeUpdateSelected: function( container, containers, options ) {
+			if ( container ) {
+				if ( options.add ) {
+					this.props.set( 'selected', container.get( 'id' ) );
+				} else if ( options.remove && this.props.get( 'selected' ) === container.get( 'id' ) ) {
+					if ( this.length ) {
+						this.props.set( 'selected', this.at( this.length - 1 ).get( 'id' ) );
+					} else {
+						this.props.set( 'selected', false );
+					}
+				}
+			}
 		}
 	});
 
-})( window.torro.Builder );
+})( window.torro.Builder, window._ );
 
 ( function( torroBuilder ) {
 	'use strict';
@@ -1206,36 +1224,196 @@ window.torro = window.torro || {};
 
 })( window.torro.Builder );
 
-( function( torroBuilder, $, _ ) {
+( function( torro, $, _ ) {
 	'use strict';
 
 	/**
-	 * The form builder view.
+	 * A container view.
 	 *
 	 * @class
 	 *
-	 * @param {object} attributes Element type attributes.
+	 * @param {torro.Builder.Container} container Container model.
+	 * @param {object}                  options   View options.
 	 */
-	function View( $el, form, options ) {
-		this.$el = $el;
+	function ContainerView( container, options ) {
+		var id       = container.get( 'id' );
+		var selected = container.get( 'id' ) === container.collection.props.get( 'selected' );
 
-		this.form = form;
+		this.container = container;
 		this.options = options || {};
+
+		this.tabTemplate = torro.template( 'container-tab' );
+		this.panelTemplate = torro.template( 'container-panel' );
+		this.footerPanelTemplate = torro.template( 'container-footer-panel' );
+
+		this.$tab = $( '<button />' );
+		this.$tab.attr( 'type', 'button' );
+		this.$tab.attr( 'id', 'container-tab-' + id );
+		this.$tab.addClass( 'torro-form-canvas-tab' );
+		this.$tab.attr( 'aria-controls', 'container-panel-' + id + ' container-footer-panel-' + id );
+		this.$tab.attr( 'aria-selected', selected ? 'true' : 'false' );
+		this.$tab.attr( 'role', 'tab' );
+
+		this.$panel = $( '<div />' );
+		this.$panel.attr( 'id', 'container-panel-' + id );
+		this.$panel.addClass( 'torro-form-canvas-panel' );
+		this.$panel.attr( 'aria-labelledby', 'container-tab-' + id );
+		this.$panel.attr( 'aria-hidden', selected ? 'false' : 'true' );
+		this.$panel.attr( 'role', 'tabpanel' );
+
+		this.$footerPanel = $( '<div />' );
+		this.$footerPanel.attr( 'id', 'container-footer-panel-' + id );
+		this.$footerPanel.addClass( 'torro-form-canvas-panel' );
+		this.$footerPanel.attr( 'aria-labelledby', 'container-tab-' + id );
+		this.$footerPanel.attr( 'aria-hidden', selected ? 'false' : 'true' );
+		this.$footerPanel.attr( 'role', 'tabpanel' );
 	}
 
-	_.extend( View.prototype, {
-		initialize: function() {
-			console.log( this.form );
+	_.extend( ContainerView.prototype, {
+		render: function() {
+			this.$tab.html( this.tabTemplate( this.container.attributes ) );
+			this.$panel.html( this.panelTemplate( this.container.attributes ) );
+			this.$footerPanel.html( this.footerPanelTemplate( this.container.attributes ) );
 
-			// TODO.
+			this.attach();
+		},
+
+		destroy: function() {
+			this.detach();
+
+			this.$tab.remove();
+			this.$panel.remove();
+			this.$footerPanel.remove();
+		},
+
+		attach: function() {
+			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
+
+			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
+
+			// TODO: add jQuery hooks
+		},
+
+		detach: function() {
+			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
+
+			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
+
+			// TODO: remove jQuery hooks
+		},
+
+		listenChangeSelected: function( props, selected ) {
+			if ( selected === this.container.get( 'id' ) ) {
+				this.$tab.attr( 'aria-selected', 'true' );
+				this.$panel.attr( 'aria-hidden', 'false' );
+				this.$footerPanel.attr( 'aria-hidden', 'false' );
+			} else {
+				this.$tab.attr( 'aria-selected', 'false' );
+				this.$panel.attr( 'aria-hidden', 'true' );
+				this.$footerPanel.attr( 'aria-hidden', 'true' );
+			}
+		},
+
+		setSelected: function() {
+			this.container.collection.props.set( 'selected', this.container.get( 'id' ) );
 		}
-
-		// TODO: functions here.
 	});
 
-	torroBuilder.View = View;
+	torro.Builder.ContainerView = ContainerView;
 
-})( window.torro.Builder, window.jQuery, window._ );
+})( window.torro, window.jQuery, window._ );
+
+( function( torro, $, _ ) {
+	'use strict';
+
+	/**
+	 * A form view.
+	 *
+	 * @class
+	 *
+	 * @param {jQuery}             $canvas Form canvas div.
+	 * @param {torro.Builder.Form} form    Form model.
+	 * @param {object}             options View options.
+	 */
+	function FormView( $canvas, form, options ) {
+		this.form = form;
+		this.options = options || {};
+
+		this.canvasTemplate = torro.template( 'form-canvas' );
+
+		this.$canvas = $canvas;
+	}
+
+	_.extend( FormView.prototype, {
+		render: function() {
+			var i;
+
+			console.log( this.form );
+
+			this.$canvas.html( this.canvasTemplate( this.form.attributes ) );
+
+			this.$addButton = this.$canvas.find( '.add-button' );
+			this.$addPanel  = this.$canvas.find( '.add-panel' );
+
+			this.checkHasContainers();
+
+			for ( i = 0; i < this.form.containers.length; i++ ) {
+				this.listenAddContainer( this.form.containers.at( i ) );
+			}
+
+			this.attach();
+		},
+
+		destroy: function() {
+			this.detach();
+
+			this.$canvas.empty();
+		},
+
+		attach: function() {
+			this.form.containers.on( 'add', this.listenAddContainer, this );
+			this.form.containers.on( 'add remove reset', this.checkHasContainers, this );
+
+			this.$addButton.on( 'click', _.bind( this.addContainer, this ) );
+
+			// TODO: add jQuery hooks
+		},
+
+		detach: function() {
+			this.form.containers.off( 'add remove reset', _.bind( this.checkHasContainers, this ) );
+			this.form.containers.off( 'add', this.listenAddContainer, this );
+
+			this.$addButton.off( 'click', _.bind( this.addContainer, this ) );
+
+			// TODO: remove jQuery hooks
+		},
+
+		listenAddContainer: function( container ) {
+			var view = new torro.Builder.ContainerView( container );
+
+			view.$tab.insertBefore( this.$addButton );
+			view.$panel.insertBefore( this.$addPanel );
+			this.$canvas.find( '.torro-form-canvas-footer' ).append( view.$footerPanel );
+
+			view.render();
+		},
+
+		checkHasContainers: function() {
+			if ( this.form.containers.length ) {
+				this.$addPanel.attr( 'aria-hidden', 'true' );
+			} else {
+				this.$addPanel.attr( 'aria-hidden', 'false' );
+			}
+		},
+
+		addContainer: function() {
+			this.form.containers.create();
+		}
+	});
+
+	torro.Builder.FormView = FormView;
+
+})( window.torro, window.jQuery, window._ );
 
 ( function( $ ) {
 	'use strict';

@@ -689,24 +689,24 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-form-canvas">
-			<div class="torro-form-canvas-header torro-form-canvas-tabs torro-js-container-tabs"></div>
-			<div class="torro-form-canvas-content torro-js-container-panels"></div>
+			<div class="torro-form-canvas-header torro-form-canvas-tabs torro-js-container-tabs">
+				<button type="button" class="torro-form-canvas-tab add-button">
+					<span aria-hidden="true">+</span><span class="screen-reader-text"><?php _e( 'Add New Container', 'torro-forms' ); ?></span>
+				</button>
+			</div>
+			<div class="torro-form-canvas-content torro-js-container-panels">
+				<div class="torro-form-canvas-panel add-panel">
+					<div class="drag-drop-area is-empty">
+						<div class="content"><?php _e( 'Click the button above to add your first container', 'torro-forms' ); ?></div>
+					</div>
+				</div>
+			</div>
 			<div class="torro-form-canvas-footer torro-js-container-footer-panels"></div>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-tab">
 			<span>{{ data.label }}</span>
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][label]" value="{{ data.label }}" />
-		</script>
-
-		<script type="text/html" id="tmpl-torro-container-tab-button">
-			<button type="button" class="torro-form-canvas-tab add-button">
-				<span aria-hidden="true">+</span><span class="screen-reader-text"><?php _e( 'Add New Container', 'torro-forms' ); ?></span>
-			</button>
-		</script>
-
-		<script type="text/html" id="tmpl-torro-empty-container-drag-drop">
-			<div class="content"><?php _e( 'Click the button above to add your first container', 'torro-forms' ); ?></div>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-panel">
