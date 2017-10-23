@@ -1155,7 +1155,7 @@ window.torro = window.torro || {};
 		 * @property {object}
 		 */
 		defaultProps: {
-			active:       false,
+			active:       [],
 			container_id: 0
 		},
 
@@ -1172,6 +1172,19 @@ window.torro = window.torro || {};
 				container_id: this.props.get( 'container_id' ),
 				sort:         this.length
 			};
+		},
+
+		toggleActive: function( id ) {
+			var active = this.props.get( 'active' );
+			var index = active.indexOf( id );
+
+			if ( index > -1 ) {
+				active.splice( index, 1 );
+			} else {
+				active.push( id );
+			}
+
+			this.props.set( 'active', active );
 		}
 	});
 
@@ -1372,7 +1385,7 @@ window.torro = window.torro || {};
 		},
 
 		listenAddElement: function( element ) {
-			var view = new torro.Builder.ElementView( element );
+			var view = new torro.Builder.ElementView( element, this.options );
 
 			this.$panel.find( '.drag-drop-area' ).append( view.$wrap );
 
@@ -1501,7 +1514,8 @@ window.torro = window.torro || {};
 	_.extend( ElementView.prototype, {
 		render: function() {
 			var templateData = this.element.attributes;
-			templateData.type = this.elementType.attributes;
+			templateData.type   = this.elementType.attributes;
+			templateData.active =  this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
 
 			this.$wrap.html( this.wrapTemplate( templateData ) );
 
@@ -1518,18 +1532,22 @@ window.torro = window.torro || {};
 			this.element.on( 'remove', this.listenRemove, this );
 			this.element.on( 'change:label', this.listenChangeLabel, this );
 			this.element.on( 'change:sort', this.listenChangeSort, this );
+			this.element.collection.props.on( 'change:active', this.listenChangeActive, this );
 
+			this.$wrap.on( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 
 			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
+			this.element.collection.props.off( 'change:active', this.listenChangeActive, this );
 			this.element.off( 'change:sort', this.listenChangeSort, this );
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
 
 			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
+			this.$wrap.off( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 
 			// TODO: remove jQuery hooks
 		},
@@ -1538,16 +1556,30 @@ window.torro = window.torro || {};
 			this.destroy();
 		},
 
-		listenChangeLabel: function( container, label ) {
+		listenChangeLabel: function( element, label ) {
 			var name = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
 
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( label );
 		},
 
-		listenChangeSort: function( container, sort ) {
+		listenChangeSort: function( element, sort ) {
 			var name = torro.escapeSelector( torro.getFieldName( this.element, 'sort' ) );
 
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( sort );
+		},
+
+		listenChangeActive: function( props, active ) {
+			if ( active.includes( this.element.get( 'id' ) ) ) {
+				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'true' ).find( '.screen-reader-text' ).text( this.options.i18n.hideContent );
+				this.$wrap.find( '.torro-element-content' ).addClass( 'is-expanded' );
+			} else {
+				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'false' ).find( '.screen-reader-text' ).text( this.options.i18n.showContent );
+				this.$wrap.find( '.torro-element-content' ).removeClass( 'is-expanded' );
+			}
+		},
+
+		toggleActive: function() {
+			this.element.collection.toggleActive( this.element.get( 'id' ) );
 		},
 
 		deleteElement: function() {
@@ -1625,7 +1657,7 @@ window.torro = window.torro || {};
 		},
 
 		listenAddContainer: function( container ) {
-			var view = new torro.Builder.ContainerView( container );
+			var view = new torro.Builder.ContainerView( container, this.options );
 
 			view.$tab.insertBefore( this.$addButton );
 			view.$panel.insertBefore( this.$addPanel );

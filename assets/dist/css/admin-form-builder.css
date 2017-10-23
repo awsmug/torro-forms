@@ -48,6 +48,11 @@
             box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
 
+.torro-form-canvas-footer
+{
+    background-color: #f5f5f5;
+}
+
 /* ----------------------------------------------------------------------------
   2.0 - Torro Form Canvas Tabs
 ---------------------------------------------------------------------------- */
@@ -175,18 +180,65 @@
 /* ----------------------------------------------------------------------------
   3.0 - Elements
 ---------------------------------------------------------------------------- */
-.torro-element-content
+.torro-element
 {
-    display: none;
+    margin-bottom: 1em;
+
+    border: 1px solid #ccc;
+    background-color: #fafafa;
 }
 
-.torro-element-content.is-expanded
+.torro-element-header
+{
+    clear: both;
+    overflow: hidden;
+
+    padding: 6px;
+}
+
+.torro-element-header .torro-element-header-icon
+{
+    display: block;
+    float: left;
+
+    width: 32px;
+    height: 32px;
+}
+
+.torro-element-header .torro-element-header-title
+{
+    line-height: 32px;
+
+    display: block;
+    float: left;
+    overflow: hidden;
+
+    margin: 0 15px;
+}
+
+.torro-element-header .torro-element-expand-button
 {
     display: block;
 }
 
+.torro-element-header-title
+{
+    font-weight: 600;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .torro-element-expand-button
 {
+    color: #555d66;
+    border: 0;
+    background: transparent;
+
     -webkit-appearance: none;
             appearance: none;
 }
@@ -214,6 +266,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.torro-element-expand-button:hover,
+.torro-element-expand-button:focus
+{
+    color: #444;
+}
+
 .torro-element-expand-button[aria-expanded='true'] .torro-element-expand-button-icon:before
 {
     content: '\f142';
@@ -222,6 +280,27 @@
 .torro-element-header .torro-element-expand-button
 {
     float: right;
+}
+
+.torro-element-content
+{
+    display: none;
+}
+
+.torro-element-content.is-expanded
+{
+    display: block;
+}
+
+.torro-element-content-main,
+.torro-element-content-footer
+{
+    border-top: 1px solid #ccc;
+}
+
+.torro-element-content-main
+{
+    background-color: #f5f5f5;
 }
 
 /* ----------------------------------------------------------------------------

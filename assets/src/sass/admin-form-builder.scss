@@ -38,6 +38,10 @@
 	        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
+.torro-form-canvas-footer {
+	background-color: #f5f5f5;
+}
+
 /* ----------------------------------------------------------------------------
   2.0 - Torro Form Canvas Tabs
 ---------------------------------------------------------------------------- */
@@ -138,15 +142,51 @@
   3.0 - Elements
 ---------------------------------------------------------------------------- */
 
-.torro-element-content {
-	display: none;
+.torro-element {
+	margin-bottom: 1em;
+	background-color: #fafafa;
+	border: 1px solid #ccc;
+}
 
-	&.is-expanded {
+.torro-element-header {
+	padding: 6px;
+	overflow: hidden;
+	clear: both;
+
+	.torro-element-header-icon {
+		display: block;
+		float: left;
+		width: 32px;
+		height: 32px;
+	}
+
+	.torro-element-header-title {
+		display: block;
+		margin: 0 15px;
+		overflow: hidden;
+		float: left;
+		line-height: 32px;
+	}
+
+	.torro-element-expand-button {
 		display: block;
 	}
 }
 
+.torro-element-header-title {
+	font-weight: 600;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+}
+
 .torro-element-expand-button {
+	color: #555d66;
+	background: transparent;
+	border: 0;
 	-webkit-appearance: none;
 	        appearance: none;
 
@@ -166,6 +206,11 @@
 		text-decoration: none!important;
 	}
 
+	&:hover,
+	&:focus {
+		color: #444;
+	}
+
 	&[aria-expanded="true"] .torro-element-expand-button-icon:before {
 		content: "\f142";
 	}
@@ -173,6 +218,23 @@
 	.torro-element-header & {
 		float: right;
 	}
+}
+
+.torro-element-content {
+	display: none;
+
+	&.is-expanded {
+		display: block;
+	}
+}
+
+.torro-element-content-main,
+.torro-element-content-footer {
+	border-top: 1px solid #ccc;
+}
+
+.torro-element-content-main {
+	background-color: #f5f5f5;
 }
 
 /* ----------------------------------------------------------------------------

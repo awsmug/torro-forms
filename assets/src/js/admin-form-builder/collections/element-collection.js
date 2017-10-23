@@ -35,7 +35,7 @@
 		 * @property {object}
 		 */
 		defaultProps: {
-			active:       false,
+			active:       [],
 			container_id: 0
 		},
 
@@ -52,6 +52,19 @@
 				container_id: this.props.get( 'container_id' ),
 				sort:         this.length
 			};
+		},
+
+		toggleActive: function( id ) {
+			var active = this.props.get( 'active' );
+			var index = active.indexOf( id );
+
+			if ( index > -1 ) {
+				active.splice( index, 1 );
+			} else {
+				active.push( id );
+			}
+
+			this.props.set( 'active', active );
 		}
 	});
 

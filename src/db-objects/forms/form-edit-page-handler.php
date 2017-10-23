@@ -730,11 +730,11 @@ class Form_Edit_Page_Handler {
 				<span class="torro-element-header-title">
 					{{ ! _.isEmpty( data.label ) ? data.label : data.type.label }}
 				</span>
-				<button class="torro-element-expand-button" aria-controls="torro-element-{{ data.id }}-content" aria-expanded="false">
-					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text"><?php _e( 'Toggle Content', 'torro-forms' ); ?></span>
+				<button type="button" class="torro-element-expand-button" aria-controls="torro-element-{{ data.id }}-content" aria-expanded="{{ data.active ? 'true' : 'false' }}">
+					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text">{{ data.active ? '<?php _e( 'Hide Content', 'torro-forms' ); ?>' : '<?php _e( 'Show Content', 'torro-forms' ); ?>' }}</span>
 				</button>
 			</div>
-			<div id="torro-element-{{ data.id }}-content" class="torro-element-content">
+			<div id="torro-element-{{ data.id }}-content" class="{{ data.active ? 'torro-element-content is-expanded' : 'torro-element-content' }}">
 				<div class="torro-element-content-main">
 					This is the element main content.
 				</div>

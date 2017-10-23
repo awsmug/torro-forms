@@ -64,7 +64,7 @@
 		},
 
 		listenAddContainer: function( container ) {
-			var view = new torro.Builder.ContainerView( container );
+			var view = new torro.Builder.ContainerView( container, this.options );
 
 			view.$tab.insertBefore( this.$addButton );
 			view.$panel.insertBefore( this.$addPanel );

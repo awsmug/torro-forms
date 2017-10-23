@@ -103,7 +103,7 @@
 		},
 
 		listenAddElement: function( element ) {
-			var view = new torro.Builder.ElementView( element );
+			var view = new torro.Builder.ElementView( element, this.options );
 
 			this.$panel.find( '.drag-drop-area' ).append( view.$wrap );
 
