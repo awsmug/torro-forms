@@ -70,14 +70,16 @@
 
 		attach: function() {
 			this.container.on( 'remove', this.listenRemove, this );
-			this.container.elements.on( 'add', this.listenAddContainer, this );
+			this.container.elements.on( 'add', this.listenAddElement, this );
 			this.container.elements.on( 'add remove reset', this.checkHasElements, this );
 			this.container.on( 'change:label', this.listenChangeLabel, this );
 			this.container.on( 'change:sort', this.listenChangeSort, this );
+			this.container.on( 'change:addingElement', this.listenChangeAddingElement, this );
 			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
 
 			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
 			this.$tab.on( 'dblclick', _.bind( this.editLabel, this ) );
+			this.$panel.on( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
 			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 
 			// TODO: add jQuery hooks
@@ -85,6 +87,7 @@
 
 		detach: function() {
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
+			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );
 			this.container.off( 'change:label', this.listenChangeLabel, this );
 			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
@@ -92,6 +95,7 @@
 			this.container.off( 'remove', this.listenRemove, this );
 
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
+			this.$panel.off( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
@@ -128,6 +132,18 @@
 			var name = torro.escapeSelector( torro.getFieldName( this.container, 'sort' ) );
 
 			this.$panel.find( 'input[name="' + name + '"]' ).val( sort );
+		},
+
+		listenChangeAddingElement: function( container, addingElement ) {
+			if ( addingElement ) {
+				this.$panel.find( '.add-element-toggle-wrap' ).addClass( 'is-expanded' );
+				this.$panel.find( '.add-element-toggle' ).attr( 'aria-expanded', 'true' );
+				this.$panel.find( '.add-element-content-wrap' ).addClass( 'is-expanded' );
+			} else {
+				this.$panel.find( '.add-element-toggle-wrap' ).removeClass( 'is-expanded' );
+				this.$panel.find( '.add-element-toggle' ).attr( 'aria-expanded', 'false' );
+				this.$panel.find( '.add-element-content-wrap' ).removeClass( 'is-expanded' );
+			}
 		},
 
 		listenChangeSelected: function( props, selected ) {
@@ -192,6 +208,14 @@
 
 			$original.replaceWith( $replacement );
 			$replacement.focus();
+		},
+
+		toggleAddingElement: function() {
+			if ( this.container.get( 'addingElement' ) ) {
+				this.container.set( 'addingElement', false );
+			} else {
+				this.container.set( 'addingElement', true );
+			}
 		},
 
 		deleteContainer: function() {

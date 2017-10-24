@@ -60,7 +60,7 @@
 
 	.torro-form-canvas-tab {
 		margin: 0 0.5em -1px 0;
-		padding: 8px 12px;
+		padding: 6px 12px;
 		display: block;
 		float: left;
 		color: #000000;
@@ -139,17 +139,68 @@
 }
 
 /* ----------------------------------------------------------------------------
-  3.0 - Elements
+  4.0 - Containers
+---------------------------------------------------------------------------- */
+
+.add-element-toggle-wrap {
+	position: relative;
+	margin-bottom: -10px;
+	text-align: center;
+	border-top: 1px solid #444;
+
+	.add-element-toggle {
+		position: relative;
+		top: -10px;
+		margin: 0;
+		padding: 0 6px;
+		color: #444;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.2;
+		background: #fff;
+		border: 0;
+		cursor: pointer;
+		-webkit-appearance: none;
+		        appearance: none;
+	}
+
+	&.is-expanded {
+		border-right: 1px solid #444;
+		border-left: 1px solid #444;
+	}
+}
+
+.add-element-content-wrap {
+	display: none;
+
+	&.is-expanded {
+		display: block;
+		border: 1px solid #444;
+		border-top: 0;
+	}
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - Elements
 ---------------------------------------------------------------------------- */
 
 .torro-element {
 	margin-bottom: 1em;
 	background-color: #fafafa;
 	border: 1px solid #ccc;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.torro-element-header,
+.torro-element-content-main,
+.torro-element-content-footer {
+	padding: 6px 12px;
 }
 
 .torro-element-header {
-	padding: 6px;
 	overflow: hidden;
 	clear: both;
 
@@ -184,9 +235,12 @@
 }
 
 .torro-element-expand-button {
+	margin: 0;
+	padding: 0;
 	color: #555d66;
 	background: transparent;
 	border: 0;
+	cursor: pointer;
 	-webkit-appearance: none;
 	        appearance: none;
 
@@ -195,6 +249,7 @@
 		border: none;
 		background: 0 0;
 		font: 400 20px/1 dashicons;
+		line-height: 32px;
 		speak: none;
 		display: block;
 		padding: 0;
@@ -238,7 +293,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  5.0 - General Notice
+  6.0 - General Notice
 ---------------------------------------------------------------------------- */
 
 .torro-notice {
@@ -251,7 +306,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  6.0 - Torro Metabox Tabs
+  7.0 - Torro Metabox Tabs
 ---------------------------------------------------------------------------- */
 
 .torro-metabox-tab-wrapper {
@@ -326,7 +381,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  7.0 - Misc
+  8.0 - Misc
 ---------------------------------------------------------------------------- */
 
 #minor-publishing-actions #duplicate-action {

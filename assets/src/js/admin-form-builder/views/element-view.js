@@ -28,7 +28,7 @@
 		render: function() {
 			var templateData = this.element.attributes;
 			templateData.type   = this.elementType.attributes;
-			templateData.active =  this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
+			templateData.active = this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
 
 			this.$wrap.html( this.wrapTemplate( templateData ) );
 
@@ -45,7 +45,7 @@
 			this.element.on( 'remove', this.listenRemove, this );
 			this.element.on( 'change:label', this.listenChangeLabel, this );
 			this.element.on( 'change:sort', this.listenChangeSort, this );
-			this.element.collection.props.on( 'change:active', this.listenChangeActive, this );
+			this.element.collection.props.on( 'toggleActive', this.listenChangeActive, this );
 
 			this.$wrap.on( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
@@ -54,7 +54,7 @@
 		},
 
 		detach: function() {
-			this.element.collection.props.off( 'change:active', this.listenChangeActive, this );
+			this.element.collection.props.off( 'toggleActive', this.listenChangeActive, this );
 			this.element.off( 'change:sort', this.listenChangeSort, this );
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
@@ -82,6 +82,8 @@
 		},
 
 		listenChangeActive: function( props, active ) {
+			console.log( props );
+			console.log( active );
 			if ( active.includes( this.element.get( 'id' ) ) ) {
 				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'true' ).find( '.screen-reader-text' ).text( this.options.i18n.hideContent );
 				this.$wrap.find( '.torro-element-content' ).addClass( 'is-expanded' );

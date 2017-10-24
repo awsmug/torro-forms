@@ -65,6 +65,8 @@
 			}
 
 			this.props.set( 'active', active );
+
+			this.props.trigger( 'toggleActive', this, active, {});
 		}
 	});
 

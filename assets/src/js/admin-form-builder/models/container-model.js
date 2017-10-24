@@ -47,6 +47,18 @@
 		 * @param {object} [options]    Options for the model behavior.
 		 */
 		constructor: function( attributes, options ) {
+			attributes = attributes || {};
+
+			if ( _.isUndefined( attributes.addingElement ) ) {
+				options = options || {};
+
+				if ( options.addingElement ) {
+					attributes.addingElement = true;
+				} else {
+					attributes.addingElement = false;
+				}
+			}
+
 			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
 
 			this.elements = new torroBuilder.ElementCollection([], {

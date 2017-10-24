@@ -709,8 +709,18 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-panel">
+			<div class="add-element-wrap">
+				<div class="{{ data.addingElement ? 'add-element-toggle-wrap is-expanded' : 'add-element-toggle-wrap' }}">
+					<button type="button" class="add-element-toggle" aria-controls="torro-{{ data.id }}-add-element-content-wrap" aria-expanded="{{ data.addingElement ? 'true' : 'false' }}">
+						<?php _e( 'Add element', 'torro-forms' ); ?>
+					</button>
+				</div>
+				<div id="torro-{{ data.id }}-add-element-content-wrap" class="{{ data.addingElement ? 'add-element-content-wrap is-expanded' : 'add-element-content-wrap' }}" role="region">
+					Add an element!
+				</div>
+			</div>
 			<div class="drag-drop-area is-empty">
-				<div class="content add-element-content"><?php _e( 'Drop your elements here', 'torro-forms' ); ?></div>
+				<div class="content add-element-content"><?php _e( 'Add your elements here', 'torro-forms' ); ?></div>
 			</div>
 
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][form_id]" value="{{ data.form_id }}" />
@@ -734,7 +744,7 @@ class Form_Edit_Page_Handler {
 					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text">{{ data.active ? '<?php _e( 'Hide Content', 'torro-forms' ); ?>' : '<?php _e( 'Show Content', 'torro-forms' ); ?>' }}</span>
 				</button>
 			</div>
-			<div id="torro-element-{{ data.id }}-content" class="{{ data.active ? 'torro-element-content is-expanded' : 'torro-element-content' }}">
+			<div id="torro-element-{{ data.id }}-content" class="{{ data.active ? 'torro-element-content is-expanded' : 'torro-element-content' }}" role="region">
 				<div class="torro-element-content-main">
 					This is the element main content.
 				</div>

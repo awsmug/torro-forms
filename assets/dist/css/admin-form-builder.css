@@ -79,7 +79,7 @@
     float: left;
 
     margin: 0 .5em -1px 0;
-    padding: 8px 12px;
+    padding: 6px 12px;
 
     cursor: pointer;
 
@@ -178,7 +178,62 @@
 }
 
 /* ----------------------------------------------------------------------------
-  3.0 - Elements
+  4.0 - Containers
+---------------------------------------------------------------------------- */
+.add-element-toggle-wrap
+{
+    position: relative;
+
+    margin-bottom: -10px;
+
+    text-align: center;
+
+    border-top: 1px solid #444;
+}
+
+.add-element-toggle-wrap .add-element-toggle
+{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    position: relative;
+    top: -10px;
+
+    margin: 0;
+    padding: 0 6px;
+
+    cursor: pointer;
+
+    color: #444;
+    border: 0;
+    background: #fff;
+
+    -webkit-appearance: none;
+            appearance: none;
+}
+
+.add-element-toggle-wrap.is-expanded
+{
+    border-right: 1px solid #444;
+    border-left: 1px solid #444;
+}
+
+.add-element-content-wrap
+{
+    display: none;
+}
+
+.add-element-content-wrap.is-expanded
+{
+    display: block;
+
+    border: 1px solid #444;
+    border-top: 0;
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - Elements
 ---------------------------------------------------------------------------- */
 .torro-element
 {
@@ -188,12 +243,22 @@
     background-color: #fafafa;
 }
 
+.torro-element:last-child
+{
+    margin-bottom: 0;
+}
+
+.torro-element-header,
+.torro-element-content-main,
+.torro-element-content-footer
+{
+    padding: 6px 12px;
+}
+
 .torro-element-header
 {
     clear: both;
     overflow: hidden;
-
-    padding: 6px;
 }
 
 .torro-element-header .torro-element-header-icon
@@ -235,6 +300,11 @@
 
 .torro-element-expand-button
 {
+    margin: 0;
+    padding: 0;
+
+    cursor: pointer;
+
     color: #555d66;
     border: 0;
     background: transparent;
@@ -246,6 +316,7 @@
 .torro-element-expand-button .torro-element-expand-button-icon:before
 {
     font: 400 20px/1 dashicons;
+    line-height: 32px;
 
     position: relative;
 
@@ -304,7 +375,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  5.0 - General Notice
+  6.0 - General Notice
 ---------------------------------------------------------------------------- */
 .torro-notice
 {
@@ -318,7 +389,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  6.0 - Torro Metabox Tabs
+  7.0 - Torro Metabox Tabs
 ---------------------------------------------------------------------------- */
 .torro-metabox-tab-wrapper
 {
@@ -412,7 +483,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  7.0 - Misc
+  8.0 - Misc
 ---------------------------------------------------------------------------- */
 #minor-publishing-actions #duplicate-action
 {
