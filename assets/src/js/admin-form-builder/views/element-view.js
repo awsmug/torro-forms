@@ -30,7 +30,7 @@
 			templateData.type   = this.elementType.attributes;
 			templateData.active = this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
 
-			this.$wrap.html( this.wrapTemplate( templateData ) );
+			this.$wrap.html( this.wrapTemplate( templateData ) ).find( 'input,textarea,select' ).first().focus();
 
 			this.attach();
 		},
@@ -82,8 +82,6 @@
 		},
 
 		listenChangeActive: function( props, active ) {
-			console.log( props );
-			console.log( active );
 			if ( active.includes( this.element.get( 'id' ) ) ) {
 				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'true' ).find( '.screen-reader-text' ).text( this.options.i18n.hideContent );
 				this.$wrap.find( '.torro-element-content' ).addClass( 'is-expanded' );

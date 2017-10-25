@@ -59,6 +59,16 @@
 				}
 			}
 
+			if ( _.isUndefined( attributes.selectedElementType ) ) {
+				options = options || {};
+
+				if ( options.selectedElementType ) {
+					attributes.selectedElementType = options.selectedElementType;
+				} else {
+					attributes.selectedElementType = false;
+				}
+			}
+
 			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
 
 			this.elements = new torroBuilder.ElementCollection([], {

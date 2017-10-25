@@ -716,7 +716,26 @@ class Form_Edit_Page_Handler {
 					</button>
 				</div>
 				<div id="torro-{{ data.id }}-add-element-content-wrap" class="{{ data.addingElement ? 'add-element-content-wrap is-expanded' : 'add-element-content-wrap' }}" role="region">
-					Add an element!
+					<div class="torro-element-types">
+						<# _.each( data.elementTypes, function( elementType ) { #>
+							<div class="torro-element-type-wrap">
+								<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
+									<div class="torro-element-type-header">
+										<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}">
+										<span class="torro-element-type-header-title">
+											{{ elementType.title }}
+										</span>
+									</div>
+									<div class="torro-element-type-content">
+										<p>{{ elementType.description }}</p>
+									</div>
+								</div>
+							</div>
+						<# } ); #>
+					</div>
+					<button type="button" class="button add-element-button"{{{ data.selectedElementType ? '' : ' disabled' }}}>
+						<?php _e( 'Add element', 'torro-forms' ); ?>
+					</button>
 				</div>
 			</div>
 			<div class="drag-drop-area is-empty">
@@ -738,7 +757,7 @@ class Form_Edit_Page_Handler {
 			<div class="torro-element-header">
 				<img class="torro-element-header-icon" src="{{ data.type.icon_url }}">
 				<span class="torro-element-header-title">
-					{{ ! _.isEmpty( data.label ) ? data.label : data.type.label }}
+					{{ ! _.isEmpty( data.label ) ? data.label : data.type.title }}
 				</span>
 				<button type="button" class="torro-element-expand-button" aria-controls="torro-element-{{ data.id }}-content" aria-expanded="{{ data.active ? 'true' : 'false' }}">
 					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text">{{ data.active ? '<?php _e( 'Hide Content', 'torro-forms' ); ?>' : '<?php _e( 'Show Content', 'torro-forms' ); ?>' }}</span>
