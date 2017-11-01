@@ -387,7 +387,6 @@
 }
 
 .torro-element-header,
-.torro-element-content-main,
 .torro-element-content-footer
 {
     padding: 6px 12px;
@@ -510,6 +509,66 @@
 .torro-element-content-main
 {
     background-color: #f5f5f5;
+}
+
+.torro-element-content-tabs
+{
+    padding: 8px 12px 0;
+
+    border-width: 0;
+    border-bottom-width: 1px;
+    background-color: transparent;
+}
+
+.torro-element-content-tabs:after
+{
+    display: table;
+    clear: both;
+
+    content: '';
+}
+
+.torro-element-content-tabs .torro-element-content-tab
+{
+    display: block;
+    float: left;
+
+    margin: 0 .5em -1px 0;
+    padding: 6px 12px;
+
+    cursor: pointer;
+
+    color: #000;
+    border: 1px solid #ccc;
+    background-color: #fff;
+
+    -webkit-appearance: none;
+}
+
+.torro-element-content-tabs .torro-element-content-tab[aria-selected='true']
+{
+    cursor: default;
+
+    border-bottom-color: #fff;
+}
+
+.torro-element-content-panel
+{
+    padding: 6px 12px;
+
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.torro-element-content-panel[aria-hidden='true']
+{
+    position: absolute !important;
+
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+
+    width: 1px;
+    height: 1px;
 }
 
 /* ----------------------------------------------------------------------------

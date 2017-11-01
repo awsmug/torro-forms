@@ -296,7 +296,6 @@
 }
 
 .torro-element-header,
-.torro-element-content-main,
 .torro-element-content-footer {
 	padding: 6px 12px;
 }
@@ -391,6 +390,50 @@
 
 .torro-element-content-main {
 	background-color: #f5f5f5;
+}
+
+.torro-element-content-tabs {
+	padding: 8px 12px 0;
+	background-color: transparent;
+	border-width: 0;
+	border-bottom-width: 1px;
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.torro-element-content-tab {
+		margin: 0 0.5em -1px 0;
+		padding: 6px 12px;
+		display: block;
+		float: left;
+		color: #000000;
+		border: 1px solid #ccc;
+		background-color: #fff;
+		cursor: pointer;
+		-webkit-appearance: none;
+
+		&[aria-selected="true"] {
+			border-bottom-color: #fff;
+			cursor: default;
+		}
+	}
+}
+
+.torro-element-content-panel {
+	padding: 6px 12px;
+	background-color: #fff;
+	border-top: 1px solid #ccc;
+
+	&[aria-hidden="true"] {
+		clip: rect(1px, 1px, 1px, 1px);
+		height: 1px;
+		overflow: hidden;
+		position: absolute !important;
+		width: 1px;
+	}
 }
 
 /* ----------------------------------------------------------------------------

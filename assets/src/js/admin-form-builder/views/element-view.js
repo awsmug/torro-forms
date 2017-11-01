@@ -11,11 +11,17 @@
 	 */
 	function ElementView( element, options ) {
 		var id = element.get( 'id' );
+		var sections;
 
 		this.element = element;
 		this.options = options || {};
 
 		this.elementType = torro.Builder.getInstance().elementTypes.get( this.element.get( 'type' ) );
+
+		sections = this.elementType.getSections();
+		if ( sections.length ) {
+			this.options.activeSection = sections[0].slug;
+		}
 
 		this.wrapTemplate = torro.template( 'element' );
 
@@ -26,9 +32,10 @@
 
 	_.extend( ElementView.prototype, {
 		render: function() {
-			var templateData = this.element.attributes;
-			templateData.type   = this.elementType.attributes;
-			templateData.active = this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
+			var templateData            = this.element.attributes;
+			templateData.type           = this.elementType.attributes;
+			templateData.active         = this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
+			templateData.active_section = this.options.activeSection;
 
 			this.$wrap.html( this.wrapTemplate( templateData ) ).find( 'input,textarea,select' ).first().focus();
 
@@ -49,6 +56,7 @@
 
 			this.$wrap.on( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
+			this.$wrap.on( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
 
 			// TODO: add jQuery hooks
 		},
@@ -59,6 +67,7 @@
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
 
+			this.$wrap.off( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
 			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 			this.$wrap.off( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 
@@ -105,6 +114,22 @@
 			torro.askConfirmation( this.options.i18n.confirmDeleteElement, _.bind( function() {
 				this.element.collection.remove( this.element );
 			}, this ) );
+		},
+
+		changeActiveSection: function( e ) {
+			var $button = $( e.target || e.delegateTarget );
+
+			if ( $button.data( 'slug' ) === this.options.activeSection ) {
+				return;
+			}
+
+			this.options.activeSection = $button.data( 'slug' );
+
+			this.$wrap.find( '.torro-element-content-tab' ).attr( 'aria-selected', 'false' );
+			this.$wrap.find( '.torro-element-content-panel' ).attr( 'aria-hidden', 'true' );
+
+			$button.attr( 'aria-selected', 'true' );
+			this.$wrap.find( '#' + $button.attr( 'aria-controls' ) ).attr( 'aria-hidden', 'false' );
 		}
 	});
 

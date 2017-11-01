@@ -765,7 +765,20 @@ class Form_Edit_Page_Handler {
 			</div>
 			<div id="torro-element-{{ data.id }}-content" class="{{ data.active ? 'torro-element-content is-expanded' : 'torro-element-content' }}" role="region">
 				<div class="torro-element-content-main">
-					This is the element main content.
+					<div class="torro-element-content-tabs">
+						<# _.each( data.type.sections, function( section ) { #>
+							<button type="button" id="element-tab-{{ data.id }}-{{ section.slug }}" class="torro-element-content-tab" data-slug="{{ section.slug }}" aria-controls="element-panel-{{ data.id }}-{{ section.slug }}" aria-selected="{{ data.active_section === section.slug ? 'true' : 'false' }}" role="tab">
+								{{ section.title }}
+							</button>
+						<# } ); #>
+					</div>
+					<div class="torro-element-content-panels">
+						<# _.each( data.type.sections, function( section ) { #>
+							<div id="element-panel-{{ data.id }}-{{ section.slug }}" class="torro-element-content-panel" aria-labelledby="element-tab-{{ data.id }}-{{ section.slug }}" aria-hidden="{{ data.active_section === section.slug ? 'false' : 'true' }}" role="tabpanel">
+								Element tab content for {{ section.title }}.
+							</div>
+						<# } ); #>
+					</div>
 				</div>
 				<div class="torro-element-content-footer">
 					<button type="button" class="button-link button-link-delete delete-element-button">
