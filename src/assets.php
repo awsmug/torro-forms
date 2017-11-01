@@ -123,17 +123,22 @@ class Assets extends Assets_Base {
 		) );
 
 		$this->register_script( 'admin-form-builder', 'assets/dist/js/admin-form-builder.js', array(
-			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone' ),
+			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog' ),
 			'ver'           => $this->plugin_version,
 			'in_footer'     => true,
 			'localize_name' => 'torroBuilderI18n',
 			'localize_data' => array(
-				'couldNotInitCanvas'    => __( 'Could not initialize form canvas as the selector points to an element that does not exist.', 'torro-forms' ),
-				'couldNotLoadData'      => __( 'Could not load form builder data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
+				'couldNotInitCanvas'         => __( 'Could not initialize form canvas as the selector points to an element that does not exist.', 'torro-forms' ),
+				'couldNotLoadData'           => __( 'Could not load form builder data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
 				/* translators: %s: container index number */
-				'defaultContainerLabel' => __( 'Page %s', 'torro-forms' ),
-				'showContent'           => __( 'Show Content', 'torro-forms' ),
-				'hideContent'           => __( 'Hide Content', 'torro-forms' ),
+				'defaultContainerLabel'      => __( 'Page %s', 'torro-forms' ),
+				'showContent'                => __( 'Show Content', 'torro-forms' ),
+				'hideContent'                => __( 'Hide Content', 'torro-forms' ),
+				'yes'                        => __( 'Yes', 'torro-forms' ),
+				'no'                         => __( 'No', 'torro-forms' ),
+				'confirmDeleteContainer'     => __( 'Do you really want to delete this page?', 'torro-forms' ),
+				'confirmDeleteElement'       => __( 'Do you really want to delete this element?', 'torro-forms' ),
+				'confirmDeleteElementChoice' => __( 'Do you really want to delete this choice?', 'torro-forms' ),
 			),
 		) );
 

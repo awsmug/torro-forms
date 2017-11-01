@@ -228,7 +228,7 @@
 {
     display: none;
 
-    padding: 6px 12px;
+    padding: 12px;
 }
 
 .add-element-content-wrap.is-expanded
@@ -527,7 +527,43 @@
 }
 
 /* ----------------------------------------------------------------------------
-  7.0 - Torro Metabox Tabs
+  7.0 - Dialogs
+---------------------------------------------------------------------------- */
+.torro-dialog
+{
+    width: 300px;
+
+    text-align: center;
+
+    border: 1px solid #ccc;
+    background-color: #fff;
+    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, .5);
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, .5);
+}
+
+.torro-dialog .ui-dialog-titlebar
+{
+    display: none;
+}
+
+.torro-dialog .ui-dialog-content
+{
+    font-size: 14px;
+
+    padding: 10px;
+}
+
+.torro-dialog .ui-button
+{
+    width: 40%;
+    margin: 0 10px 10px 10px;
+
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+  8.0 - Torro Metabox Tabs
 ---------------------------------------------------------------------------- */
 .torro-metabox-tab-wrapper
 {
@@ -621,7 +657,7 @@
 }
 
 /* ----------------------------------------------------------------------------
-  8.0 - Misc
+  9.0 - Misc
 ---------------------------------------------------------------------------- */
 #minor-publishing-actions #duplicate-action
 {

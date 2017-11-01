@@ -66,6 +66,12 @@
 		},
 
 		listenRemove: function() {
+			var id = this.element.get( 'id' );
+
+			if ( ! torro.isTempId( id ) ) {
+				$( '#torro-deleted-wrap' ).append( '<input type="hidden" name="' + torro.getDeletedFieldName( this.element ) + '" value="' + id + '" />' );
+			}
+
 			this.destroy();
 		},
 
@@ -96,7 +102,9 @@
 		},
 
 		deleteElement: function() {
-			this.element.collection.remove( this.element );
+			torro.askConfirmation( this.options.i18n.confirmDeleteElement, _.bind( function() {
+				this.element.collection.remove( this.element );
+			}, this ) );
 		}
 	});
 

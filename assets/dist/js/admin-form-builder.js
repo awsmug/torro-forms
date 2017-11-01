@@ -320,6 +320,62 @@ window.torro = window.torro || {};
 		return 'torro_' + groupSlug + '[' + model.get( 'id' ) + '][' + attribute + ']';
 	};
 
+	torro.getDeletedFieldName = function( model ) {
+		var groupSlug;
+
+		if ( model instanceof torro.Builder.FormModel ) {
+			groupSlug = 'forms';
+		} else if ( model instanceof torro.Builder.ContainerModel ) {
+			groupSlug = 'containers';
+		} else if ( model instanceof torro.Builder.ElementModel ) {
+			groupSlug = 'elements';
+		} else if ( model instanceof torro.Builder.ElementChoiceModel ) {
+			groupSlug = 'element_choices';
+		} else if ( model instanceof torro.Builder.ElementSettingModel ) {
+			groupSlug = 'element_settings';
+		}
+
+		if ( ! groupSlug ) {
+			return;
+		}
+
+		return 'torro_deleted_' + groupSlug + '[]';
+	};
+
+	torro.askConfirmation = function( message, successCallback ) {
+		var $dialog = $( '<div />' );
+
+		$dialog.html( message );
+
+		$( 'body' ).append( $dialog );
+
+		$dialog.dialog({
+			dialogClass: 'wp-dialog torro-dialog',
+			modal: true,
+			autoOpen: true,
+			closeOnEscape: true,
+			minHeight: 80,
+			buttons: [
+				{
+					text: i18n.yes,
+					click: function() {
+						successCallback();
+
+						$( this ).dialog( 'close' );
+						$( this ).remove();
+					}
+				},
+				{
+					text: i18n.no,
+					click: function() {
+						$( this ).dialog( 'close' );
+						$( this ).remove();
+					}
+				}
+			]
+		});
+	};
+
 }( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );
 
 ( function( torroBuilder, _ ) {
@@ -1422,6 +1478,12 @@ window.torro = window.torro || {};
 		},
 
 		listenRemove: function() {
+			var id = this.container.get( 'id' );
+
+			if ( ! torro.isTempId( id ) ) {
+				$( '#torro-deleted-wrap' ).append( '<input type="hidden" name="' + torro.getDeletedFieldName( this.container ) + '" value="' + id + '" />' );
+			}
+
 			this.destroy();
 		},
 
@@ -1587,7 +1649,9 @@ window.torro = window.torro || {};
 		},
 
 		deleteContainer: function() {
-			this.container.collection.remove( this.container );
+			torro.askConfirmation( this.options.i18n.confirmDeleteContainer, _.bind( function() {
+				this.container.collection.remove( this.container );
+			}, this ) );
 		}
 	});
 
@@ -1663,6 +1727,12 @@ window.torro = window.torro || {};
 		},
 
 		listenRemove: function() {
+			var id = this.element.get( 'id' );
+
+			if ( ! torro.isTempId( id ) ) {
+				$( '#torro-deleted-wrap' ).append( '<input type="hidden" name="' + torro.getDeletedFieldName( this.element ) + '" value="' + id + '" />' );
+			}
+
 			this.destroy();
 		},
 
@@ -1693,7 +1763,9 @@ window.torro = window.torro || {};
 		},
 
 		deleteElement: function() {
-			this.element.collection.remove( this.element );
+			torro.askConfirmation( this.options.i18n.confirmDeleteElement, _.bind( function() {
+				this.element.collection.remove( this.element );
+			}, this ) );
 		}
 	});
 
@@ -1724,11 +1796,16 @@ window.torro = window.torro || {};
 
 	_.extend( FormView.prototype, {
 		render: function() {
-			var i;
+			var $deletedWrap, i;
 
 			console.log( this.form );
 
+			$deletedWrap = $( '<div />' );
+			$deletedWrap.attr( 'id', 'torro-deleted-wrap' );
+			$deletedWrap.css( 'display', 'none' );
+
 			this.$canvas.html( this.canvasTemplate( this.form.attributes ) );
+			this.$canvas.after( $deletedWrap );
 
 			this.$addButton = this.$canvas.find( '.add-button' );
 			this.$addPanel  = this.$canvas.find( '.add-panel' );

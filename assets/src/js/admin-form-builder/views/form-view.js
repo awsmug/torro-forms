@@ -21,11 +21,16 @@
 
 	_.extend( FormView.prototype, {
 		render: function() {
-			var i;
+			var $deletedWrap, i;
 
 			console.log( this.form );
 
+			$deletedWrap = $( '<div />' );
+			$deletedWrap.attr( 'id', 'torro-deleted-wrap' );
+			$deletedWrap.css( 'display', 'none' );
+
 			this.$canvas.html( this.canvasTemplate( this.form.attributes ) );
+			this.$canvas.after( $deletedWrap );
 
 			this.$addButton = this.$canvas.find( '.add-button' );
 			this.$addPanel  = this.$canvas.find( '.add-panel' );
