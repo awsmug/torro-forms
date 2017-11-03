@@ -241,7 +241,7 @@ class Element_Type_Manager extends Service {
 			'error_handler' => $this->elements()->error_handler(),
 		);
 
-		$dummy_manager = new Field_Manager( $this->get_prefix(), $services, array(
+		$dummy_manager = new Field_Manager( $this->get_prefix() . 'dummy_', $services, array(
 			'get_value_callback'     => '__return_empty_array',
 			'update_value_callback'  => '__return_empty_array',
 			'name_prefix'            => $this->get_prefix() . 'dummy',
