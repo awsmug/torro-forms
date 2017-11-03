@@ -59,6 +59,7 @@
 		constructor: function( attributes, options ) {
 			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
 
+			// TODO: Retrieve element type here and automatically populate element_settings where missing.
 			this.element_choices = new torroBuilder.ElementChoiceCollection([], {
 				props: {
 					element_id: this.get( 'id' )
