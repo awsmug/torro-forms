@@ -775,7 +775,7 @@ class Form_Edit_Page_Handler {
 					<div class="torro-element-content-panels">
 						<# _.each( data.type.sections, function( section ) { #>
 							<div id="element-panel-{{ data.id }}-{{ section.slug }}" class="torro-element-content-panel" aria-labelledby="element-tab-{{ data.id }}-{{ section.slug }}" aria-hidden="{{ data.active_section === section.slug ? 'false' : 'true' }}" role="tabpanel">
-								Element tab content for {{ section.title }}.
+								<div class="torro-element-fields"></div>
 							</div>
 						<# } ); #>
 					</div>
@@ -788,6 +788,13 @@ class Form_Edit_Page_Handler {
 			</div>
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][container_id]" value="{{ data.container_id }}" />
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][sort]" value="{{ data.sort }}" />
+		</script>
+
+		<script type="text/html" id="tmpl-torro-element-field">
+			<div{{{ _.attrs( data.wrapAttrs ) }}}>
+				<div id="{{ data.id }}-label-wrap" class="label-wrap"></div>
+				<div id="{{ data.id }}-content-wrap" class="content-wrap"></div>
+			</div>
 		</script>
 		<?php
 

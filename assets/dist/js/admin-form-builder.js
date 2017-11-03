@@ -1659,8 +1659,97 @@ window.torro = window.torro || {};
 
 })( window.torro, window.jQuery, window._ );
 
-( function( torro, $, _ ) {
+( function( torro, $, _, fieldsAPI, dummyFieldManager ) {
 	'use strict';
+
+	function parseFields( fields, element ) {
+		var parsedFields = [];
+		var hasLabel = false;
+
+		_.each( fields, function( field ) {
+			var parsedField;
+			var elementChoices;
+			var elementSetting;
+
+			if ( _.isUndefined( field.type ) || _.isUndefined( dummyFieldManager.fields[ 'dummy_' + field.type ] ) ) {
+				return;
+			}
+
+			parsedField = _.clone( dummyFieldManager.fields[ 'dummy_' + field.type ] );
+
+			parsedField.section     = field.section;
+			parsedField.label       = field.label;
+			parsedField.description = field.description;
+			parsedField['default']  = field['default'] || null;
+
+			if ( field.is_choices ) {
+				elementChoices = element.element_choices.where({
+					field: _.isString( field.is_choices ) ? field.is_choices : '_main'
+				});
+
+				// TODO: Set ID and name for the repeatable choices field.
+				return;
+			}
+
+			if ( field.is_label ) {
+
+				// Only one label field is allowed.
+				if ( hasLabel ) {
+					return;
+				}
+
+				hasLabel = true;
+
+				parsedField.id = 'torro_element_' + element.get( 'id' ) + '_label';
+				parsedField.name = torro.getFieldName( element, 'label' );
+				parsedField.currentValue = element.get( 'label' );
+			} else {
+				if ( field.repeatable ) {
+
+					// Repeatable fields are currently not supported.
+					return;
+				}
+
+				elementSetting = element.element_settings.findWhere({
+					name: field.slug
+				});
+
+				if ( ! elementSetting ) {
+					return;
+				}
+
+				parsedField.id = 'torro_element_' + element.get( 'id' ) + '_' + elementSetting.get( 'id' );
+				parsedField.name = torro.getFieldName( elementSetting, 'value' );
+				parsedField.currentValue = elementSetting.get( 'value' );
+			}
+
+			if ( parsedField.inputAttrs ) {
+				parsedField.inputAttrs.id = parsedField.id;
+				parsedField.inputAttrs.name = parsedField.name;
+
+				if ( _.isArray( field.input_classes ) ) {
+					parsedField.inputAttrs['class'] += ' ' + field.input_classes.join( ' ' );
+				}
+
+				if ( parsedField.description.length ) {
+					parsedField.inputAttrs['aria-describedby'] = parsedField.id + '-description';
+				}
+			}
+
+			if ( parsedField.labelAttrs ) {
+				parsedField.labelAttrs.id = parsedField.id + '-label';
+				parsedField.labelAttrs['for'] = parsedField.id;
+			}
+
+			if ( parsedField.wrapAttrs ) {
+				parsedField.wrapAttrs.id = parsedField.id + '-wrap';
+			}
+
+			parsedFields.push( parsedField );
+		});
+
+		return parsedFields;
+	}
 
 	/**
 	 * An element view.
@@ -1672,7 +1761,7 @@ window.torro = window.torro || {};
 	 */
 	function ElementView( element, options ) {
 		var id = element.get( 'id' );
-		var sections;
+		var sections, fields;
 
 		this.element = element;
 		this.options = options || {};
@@ -1684,7 +1773,15 @@ window.torro = window.torro || {};
 			this.options.activeSection = sections[0].slug;
 		}
 
+		fields = this.elementType.getFields();
+
+		this.fieldManager = new fieldsAPI.FieldManager( parseFields( fields, this.element ), {
+			instanceId: 'torro_element_' + this.element.get( 'id' )
+		});
+		this.fieldViews = [];
+
 		this.wrapTemplate = torro.template( 'element' );
+		this.fieldTemplate = torro.template( 'element-field' );
 
 		this.$wrap = $( '<div />' );
 		this.$wrap.attr( 'id', 'torro-element-' + id );
@@ -1701,12 +1798,52 @@ window.torro = window.torro || {};
 			this.$wrap.html( this.wrapTemplate( templateData ) ).find( 'input,textarea,select' ).first().focus();
 
 			this.attach();
+
+			this.initializeFields();
 		},
 
 		destroy: function() {
+			this.deinitializeFields();
+
 			this.detach();
 
 			this.$wrap.remove();
+		},
+
+		initializeFields: function() {
+			_.each( this.fieldManager.models, _.bind( function( field ) {
+				var viewClassName      = field.get( 'backboneView' );
+				var FieldView          = fieldsAPI.FieldView;
+				var $sectionFieldsWrap = this.$wrap.find( '#element-panel-' + this.element.get( 'id' ) + '-' + field.get( 'section' ) + ' > .torro-element-fields' );
+				var view;
+
+				if ( ! $sectionFieldsWrap.length ) {
+					return;
+				}
+
+				$sectionFieldsWrap.html( this.fieldTemplate( field.attributes ) );
+
+				if ( viewClassName && 'FieldView' !== viewClassName && fieldsAPI.FieldView[ viewClassName ] ) {
+					FieldView = fieldsAPI.FieldView[ viewClassName ];
+				}
+
+				view = new FieldView({
+					model: field
+				});
+
+				view.renderLabel();
+				view.renderContent();
+
+				this.fieldViews.push( view );
+			}, this ) );
+		},
+
+		deinitializeFields: function() {
+			_.each( this.fieldViews, function( fieldView ) {
+				fieldView.remove();
+			});
+
+			this.fieldViews = [];
 		},
 
 		attach: function() {
@@ -1796,7 +1933,7 @@ window.torro = window.torro || {};
 
 	torro.Builder.ElementView = ElementView;
 
-})( window.torro, window.jQuery, window._ );
+})( window.torro, window.jQuery, window._, window.pluginLibFieldsAPI, window.pluginLibFieldsAPIData.field_managers.torro_dummy_1 );
 
 ( function( torro, $, _ ) {
 	'use strict';
