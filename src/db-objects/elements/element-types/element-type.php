@@ -581,7 +581,7 @@ abstract class Element_Type {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function sanitize_settings_sections() {
+	protected final function sanitize_settings_sections() {
 		$defaults = array(
 			'title' => '',
 		);
@@ -597,7 +597,7 @@ abstract class Element_Type {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function sanitize_settings_fields() {
+	protected final function sanitize_settings_fields() {
 		$defaults = array(
 			'section'     => '',
 			'type'        => 'text',
@@ -621,6 +621,20 @@ abstract class Element_Type {
 			if ( empty( $field['type'] ) || ! Field_Manager::is_field_type_registered( $field['type'] ) ) {
 				/* translators: %s: field type slug */
 				$this->manager->error_handler()->doing_it_wrong( get_class( $this ) . '::bootstrap()', sprintf( __( 'Invalid element type field type %s.', 'torro-forms' ), esc_html( $field['type'] ) ), '1.0.0' );
+				$invalid_fields[ $slug ] = true;
+				continue;
+			}
+
+			if ( in_array( $field['type'], array( 'multiselect', 'multibox' ), true ) ) {
+				/* translators: %s: field type slug */
+				$this->manager->error_handler()->doing_it_wrong( get_class( $this ) . '::bootstrap()', sprintf( __( 'Disallowed element type field type %s.', 'torro-forms' ), esc_html( $field['type'] ) ), '1.0.0' );
+				$invalid_fields[ $slug ] = true;
+				continue;
+			}
+
+			if ( ! empty( $field['repeatable'] ) && empty( $field['is_choices'] ) ) {
+				/* translators: %s: field type slug */
+				$this->manager->error_handler()->doing_it_wrong( get_class( $this ) . '::bootstrap()', __( 'Disallowed repeatable element type field.', 'torro-forms' ), '1.0.0' );
 				$invalid_fields[ $slug ] = true;
 				continue;
 			}
