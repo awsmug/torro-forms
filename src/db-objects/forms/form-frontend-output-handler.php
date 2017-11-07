@@ -508,7 +508,7 @@ class Form_Frontend_Output_Handler {
 				$this->print_notice( $global_errors[ $error_key ], 'error' );
 			} else {
 				?>
-				<div class="torro-notice torro-error-notice">
+				<div class="<?php echo esc_attr( $this->get_notice_class( 'error' ) ); ?>">
 					<p><?php _e( 'Some errors occurred while trying to submit the form:', 'torro-forms' ); ?></p>
 					<ul>
 						<?php foreach ( $global_errors as $error_code => $error_message ) : ?>
@@ -540,10 +540,31 @@ class Form_Frontend_Output_Handler {
 		}
 
 		?>
-		<div class="<?php echo esc_attr( 'torro-notice torro-' . $type . '-notice' ); ?>">
+		<div class="<?php echo esc_attr( $this->get_notice_class( $type ) ); ?>">
 			<p><?php echo $message; ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Gets the CSS class to use for notices.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param string $type Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
+	 * @return string CSS class to use for notices of the given type.
+	 */
+	protected function get_notice_class( $type = 'warning' ) {
+		/**
+		 * Filters the CSS class to use for notices.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $notice_class Notice CSS class. Default 'torro-notice torro-{$type}-notice'.
+		 * @param string $type         Notice type.
+		 */
+		return apply_filters( "{$this->form_manager->get_prefix()}form_notice_class", "torro-notice torro-{$type}-notice", $type );
 	}
 
 	/**
