@@ -77,11 +77,23 @@ class Form_Frontend_Output_Handler {
 	public function maybe_enqueue_frontend_assets() {
 		$settings = $this->form_manager->options()->get( 'general_settings', array() );
 		$load_css = isset( $settings['frontend_css'] ) ? (bool) $settings['frontend_css'] : true;
+
+		/**
+		 * Filters whether to enqueue the plugin's bundled CSS file for forms in the frontend.
+		 *
+		 * This filter can be used to more granularly disable loading the CSS file when necessary.
+		 * By default it is enqueued on every page unless the setting is set to not enqueuing it.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $load_css Whether the frontend CSS file should be enqueued. Default depends on the setting.
+		 */
+		$load_css = apply_filters( "{$this->form_manager->get_prefix()}load_frontend_css", $load_css );
+
 		if ( ! $load_css ) {
 			return;
 		}
 
-		// TODO: Can we detect whether we need this?
 		$this->form_manager->assets()->enqueue_style( 'frontend' );
 	}
 
