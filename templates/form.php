@@ -9,8 +9,6 @@
  */
 ?>
 <form<?php echo torro()->template()->attrs( $form_attrs ); ?>>
-	<?php echo $hidden_fields; ?>
-
 	<?php if ( $current_container ) : ?>
 		<?php torro()->template()->get_partial( 'container', $current_container ); ?>
 	<?php endif; ?>
@@ -40,4 +38,6 @@
 	<?php if ( ! empty( $navigation['submit_button']['after'] ) ) : ?>
 		<?php echo $navigation['submit_button']['after']; ?>
 	<?php endif; ?>
+
+	<?php echo $hidden_fields; ?>
 </form>
