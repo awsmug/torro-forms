@@ -7,6 +7,7 @@
  * @package TorroForms
  * @since 1.0.0
  */
+
 ?>
 <?php if ( ! empty( $label ) ) : ?>
 	<h2 class="torro-container-title"><?php echo torro()->template()->esc_html( $label ); ?></h2>
