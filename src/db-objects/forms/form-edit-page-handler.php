@@ -765,20 +765,8 @@ class Form_Edit_Page_Handler {
 			</div>
 			<div id="torro-element-{{ data.id }}-content" class="{{ data.active ? 'torro-element-content is-expanded' : 'torro-element-content' }}" role="region">
 				<div class="torro-element-content-main">
-					<div class="torro-element-content-tabs">
-						<# _.each( data.type.sections, function( section ) { #>
-							<button type="button" id="element-tab-{{ data.id }}-{{ section.slug }}" class="torro-element-content-tab" data-slug="{{ section.slug }}" aria-controls="element-panel-{{ data.id }}-{{ section.slug }}" aria-selected="{{ data.active_section === section.slug ? 'true' : 'false' }}" role="tab">
-								{{ section.title }}
-							</button>
-						<# } ); #>
-					</div>
-					<div class="torro-element-content-panels">
-						<# _.each( data.type.sections, function( section ) { #>
-							<div id="element-panel-{{ data.id }}-{{ section.slug }}" class="torro-element-content-panel" aria-labelledby="element-tab-{{ data.id }}-{{ section.slug }}" aria-hidden="{{ data.active_section === section.slug ? 'false' : 'true' }}" role="tabpanel">
-								<div class="torro-element-fields"></div>
-							</div>
-						<# } ); #>
-					</div>
+					<div class="torro-element-content-tabs"></div>
+					<div class="torro-element-content-panels"></div>
 				</div>
 				<div class="torro-element-content-footer">
 					<button type="button" class="button-link button-link-delete delete-element-button">
@@ -787,7 +775,20 @@ class Form_Edit_Page_Handler {
 				</div>
 			</div>
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][container_id]" value="{{ data.container_id }}" />
+			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][type]" value="{{ data.type.slug }}" />
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][sort]" value="{{ data.sort }}" />
+		</script>
+
+		<script type="text/html" id="tmpl-torro-element-section-tab">
+			<button type="button" id="element-tab-{{ data.elementId }}-{{ data.slug }}" class="torro-element-content-tab" data-slug="{{ data.slug }}" aria-controls="element-panel-{{ data.elementId }}-{{ data.slug }}" aria-selected="{{ data.active ? 'true' : 'false' }}" role="tab">
+				{{ data.title }}
+			</button>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-element-section-panel">
+			<div id="element-panel-{{ data.elementId }}-{{ data.slug }}" class="torro-element-content-panel" aria-labelledby="element-tab-{{ data.elementId }}-{{ data.slug }}" aria-hidden="{{ data.active ? 'false' : 'true' }}" role="tabpanel">
+				<div class="torro-element-fields"></div>
+			</div>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-element-field">

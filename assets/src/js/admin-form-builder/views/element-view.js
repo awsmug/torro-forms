@@ -100,26 +100,13 @@
 	 */
 	function ElementView( element, options ) {
 		var id = element.get( 'id' );
-		var sections, fields;
 
 		this.element = element;
 		this.options = options || {};
 
-		this.elementType = torro.Builder.getInstance().elementTypes.get( this.element.get( 'type' ) );
-
-		sections = this.elementType.getSections();
-		if ( sections.length ) {
-			this.options.activeSection = sections[0].slug;
-		}
-
-		fields = this.elementType.getFields();
-
-		this.fieldManager = new fieldsAPI.FieldManager( parseFields( fields, this.element ), {
-			instanceId: 'torro_element_' + this.element.get( 'id' )
-		});
-		this.fieldViews = [];
-
 		this.wrapTemplate = torro.template( 'element' );
+		this.sectionTabTemplate = torro.template( 'element-section-tab' );
+		this.sectionPanelTemplate = torro.template( 'element-section-panel' );
 		this.fieldTemplate = torro.template( 'element-field' );
 
 		this.$wrap = $( '<div />' );
@@ -130,26 +117,61 @@
 	_.extend( ElementView.prototype, {
 		render: function() {
 			var templateData            = this.element.attributes;
-			templateData.type           = this.elementType.attributes;
+			templateData.type           = this.element.element_type.attributes;
 			templateData.active         = this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
-			templateData.active_section = this.options.activeSection;
+			templateData.active_section = this.element.getActiveSection();
 
-			this.$wrap.html( this.wrapTemplate( templateData ) ).find( 'input,textarea,select' ).first().focus();
+			this.$wrap.html( this.wrapTemplate( templateData ) );
 
 			this.attach();
 
+			this.initializeSections();
 			this.initializeFields();
 		},
 
 		destroy: function() {
 			this.deinitializeFields();
+			this.deinitializeSections();
 
 			this.detach();
 
 			this.$wrap.remove();
 		},
 
+		initializeSections: function() {
+			var $sectionTabsWrap   = this.$wrap.find( '.torro-element-content-tabs' );
+			var $sectionPanelsWrap = this.$wrap.find( '.torro-element-content-panels' );
+
+			var sections = this.element.element_type.getSections();
+			var element = this.element;
+
+			_.each( sections, _.bind( function( section ) {
+				var templateData = _.clone( section );
+
+				templateData.elementId = element.get( 'id' );
+				templateData.active = element.getActiveSection() === templateData.slug;
+
+				$sectionTabsWrap.append( this.sectionTabTemplate( templateData ) );
+				$sectionPanelsWrap.append( this.sectionPanelTemplate( templateData ) );
+			}, this ) );
+		},
+
+		deinitializeSections: function() {
+			var $sectionTabsWrap   = this.$wrap.find( '.torro-element-content-tabs' );
+			var $sectionPanelsWrap = this.$wrap.find( '.torro-element-content-panels' );
+
+			$sectionTabsWrap.empty();
+			$sectionPanelsWrap.empty();
+		},
+
 		initializeFields: function() {
+			var fields = this.element.element_type.getFields();
+
+			this.fieldManager = new fieldsAPI.FieldManager( parseFields( fields, this.element ), {
+				instanceId: 'torro_element_' + this.element.get( 'id' )
+			});
+			this.fieldViews = [];
+
 			_.each( this.fieldManager.models, _.bind( function( field ) {
 				var viewClassName      = field.get( 'backboneView' );
 				var FieldView          = fieldsAPI.FieldView;
@@ -160,7 +182,7 @@
 					return;
 				}
 
-				$sectionFieldsWrap.html( this.fieldTemplate( field.attributes ) );
+				$sectionFieldsWrap.append( this.fieldTemplate( field.attributes ) );
 
 				if ( viewClassName && 'FieldView' !== viewClassName && fieldsAPI.FieldView[ viewClassName ] ) {
 					FieldView = fieldsAPI.FieldView[ viewClassName ];
@@ -182,13 +204,21 @@
 				fieldView.remove();
 			});
 
+			this.$wrap.find( '.torro-element-fields' ).each( function() {
+				$( this ).empty();
+			});
+
 			this.fieldViews = [];
+			this.fieldManager = null;
 		},
 
 		attach: function() {
 			this.element.on( 'remove', this.listenRemove, this );
 			this.element.on( 'change:label', this.listenChangeLabel, this );
+			this.element.on( 'change:type', this.listenChangeType, this );
 			this.element.on( 'change:sort', this.listenChangeSort, this );
+			this.element.on( 'changeElementType', this.listenChangeElementType, this );
+			this.element.on( 'changeActiveSection', this.listenChangeActiveSection, this );
 			this.element.collection.props.on( 'toggleActive', this.listenChangeActive, this );
 
 			this.$wrap.on( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
@@ -200,7 +230,10 @@
 
 		detach: function() {
 			this.element.collection.props.off( 'toggleActive', this.listenChangeActive, this );
+			this.element.off( 'changeActiveSection', this.listenChangeActiveSection, this );
+			this.element.off( 'changeElementType', this.listenChangeElementType, this );
 			this.element.off( 'change:sort', this.listenChangeSort, this );
+			this.element.off( 'change:type', this.listenChangeType, this );
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
 
@@ -227,10 +260,36 @@
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( label );
 		},
 
+		listenChangeType: function( element, type ) {
+			var name = torro.escapeSelector( torro.getFieldName( this.element, 'type' ) );
+
+			this.$wrap.find( 'input[name="' + name + '"]' ).val( type );
+		},
+
 		listenChangeSort: function( element, sort ) {
 			var name = torro.escapeSelector( torro.getFieldName( this.element, 'sort' ) );
 
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( sort );
+		},
+
+		listenChangeElementType: function() {
+			this.deinitializeFields();
+			this.deinitializeSections();
+
+			this.initializeSections();
+			this.initializeFields();
+		},
+
+		listenChangeActiveSection: function( element, activeSection ) {
+			var $button = this.$wrap.find( '.torro-element-content-tab[data-slug="' + activeSection + '"]' );
+
+			this.$wrap.find( '.torro-element-content-tab' ).attr( 'aria-selected', 'false' );
+			this.$wrap.find( '.torro-element-content-panel' ).attr( 'aria-hidden', 'true' );
+
+			if ( $button.length ) {
+				$button.attr( 'aria-selected', 'true' );
+				this.$wrap.find( '#' + $button.attr( 'aria-controls' ) ).attr( 'aria-hidden', 'false' );
+			}
 		},
 
 		listenChangeActive: function( props, active ) {
@@ -256,17 +315,7 @@
 		changeActiveSection: function( e ) {
 			var $button = $( e.target || e.delegateTarget );
 
-			if ( $button.data( 'slug' ) === this.options.activeSection ) {
-				return;
-			}
-
-			this.options.activeSection = $button.data( 'slug' );
-
-			this.$wrap.find( '.torro-element-content-tab' ).attr( 'aria-selected', 'false' );
-			this.$wrap.find( '.torro-element-content-panel' ).attr( 'aria-hidden', 'true' );
-
-			$button.attr( 'aria-selected', 'true' );
-			this.$wrap.find( '#' + $button.attr( 'aria-controls' ) ).attr( 'aria-hidden', 'false' );
+			this.element.setActiveSection( $button.data( 'slug' ) );
 		}
 	});
 
