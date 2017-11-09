@@ -1816,21 +1816,6 @@ window.torro = window.torro || {};
 				});
 
 				// TODO: Set ID and name for the repeatable choices field.
-				return;
-			}
-
-			if ( field.is_label ) {
-
-				// Only one label field is allowed.
-				if ( hasLabel ) {
-					return;
-				}
-
-				hasLabel = true;
-
-				parsedField.id = 'torro_element_' + element.get( 'id' ) + '_label';
-				parsedField.name = torro.getFieldName( element, 'label' );
-				parsedField.currentValue = element.get( 'label' );
 			} else {
 				if ( field.repeatable ) {
 
@@ -1838,39 +1823,157 @@ window.torro = window.torro || {};
 					return;
 				}
 
-				elementSetting = element.element_settings.findWhere({
-					name: field.slug
-				});
+				if ( field.is_label ) {
 
-				if ( ! elementSetting ) {
-					return;
+					// Only one label field is allowed.
+					if ( hasLabel ) {
+						return;
+					}
+
+					hasLabel = true;
+
+					parsedField.id = 'torro_element_' + element.get( 'id' ) + '_label';
+					parsedField.name = torro.getFieldName( element, 'label' );
+					parsedField.currentValue = element.get( 'label' );
+				} else {
+
+					elementSetting = element.element_settings.findWhere({
+						name: field.slug
+					});
+
+					if ( ! elementSetting ) {
+						return;
+					}
+
+					parsedField.id = 'torro_element_' + element.get( 'id' ) + '_' + elementSetting.get( 'id' );
+					parsedField.name = torro.getFieldName( elementSetting, 'value' );
+					parsedField.currentValue = elementSetting.get( 'value' );
 				}
 
-				parsedField.id = 'torro_element_' + element.get( 'id' ) + '_' + elementSetting.get( 'id' );
-				parsedField.name = torro.getFieldName( elementSetting, 'value' );
-				parsedField.currentValue = elementSetting.get( 'value' );
-			}
-
-			if ( parsedField.inputAttrs ) {
-				parsedField.inputAttrs.id = parsedField.id;
-				parsedField.inputAttrs.name = parsedField.name;
-
-				if ( _.isArray( field.input_classes ) ) {
-					parsedField.inputAttrs['class'] += ' ' + field.input_classes.join( ' ' );
+				// Manage special fields per type.
+				switch ( parsedField.slug ) {
+					case 'autocomplete':
+						if ( ! _.isUndefined( field.autocomplete ) ) {
+							parsedField.autocomplete = deepClone( field.autocomplete );
+						}
+						break;
+					case 'color':
+						parsedField.inputAttrs.maxlength = 7;
+						break;
+					case 'datetime':
+						if ( ! _.isUndefined( field.store ) ) {
+							parsedField.store = field.store;
+						}
+						if ( ! _.isUndefined( field.min ) ) {
+							parsedField.inputAttrs.min = field.min;
+						}
+						if ( ! _.isUndefined( field.max ) ) {
+							parsedField.inputAttrs.max = field.max;
+						}
+						break;
+					case 'map':
+						if ( ! _.isUndefined( field.store ) ) {
+							parsedField.store = field.store;
+						}
+						break;
+					case 'media':
+						if ( ! _.isUndefined( field.store ) ) {
+							parsedField.store = field.store;
+						}
+						if ( ! _.isUndefined( field.mime_types ) ) {
+							parsedField.mimeTypes = field.mime_types;
+						}
+						break;
+					case 'number':
+					case 'range':
+						if ( ! _.isUndefined( field.min ) ) {
+							parsedField.inputAttrs.min = field.min;
+						}
+						if ( ! _.isUndefined( field.max ) ) {
+							parsedField.inputAttrs.max = field.max;
+						}
+						if ( ! _.isUndefined( field.step ) ) {
+							parsedField.inputAttrs.step = field.step;
+						}
+						if ( ! _.isUndefined( field.unit ) ) {
+							parsedField.unit = field.unit;
+						}
+						break;
+					case 'radio':
+					case 'multibox':
+					case 'select':
+					case 'multiselect':
+						if ( ! _.isUndefined( field.choices ) ) {
+							parsedField.choices = deepClone( field.choices );
+						} else {
+							parsedField.choices = {};
+						}
+						break;
+					case 'textarea':
+						if ( ! _.isUndefined( field.rows ) ) {
+							parsedField.inputAttrs.rows = field.rows;
+						}
+						break;
+					case 'wysiwyg':
+						if ( ! _.isUndefined( field.wpautop ) ) {
+							parsedField.wpautop = field.wpautop;
+						}
+						if ( ! _.isUndefined( field.media_buttons ) ) {
+							parsedField.media_buttons = field.media_buttons;
+						}
+						if ( ! _.isUndefined( field.button_mode ) ) {
+							parsedField.button_mode = field.button_mode;
+						}
+						break;
 				}
 
-				if ( parsedField.description.length ) {
-					parsedField.inputAttrs['aria-describedby'] = parsedField.id + '-description';
+				if ( null === parsedField.currentValue ) {
+					switch ( parsedField.slug ) {
+						case 'media':
+							if ( 'url' === parsedField.store ) {
+								parsedField.currentValue = '';
+							} else {
+								parsedField.currentValue = 0;
+							}
+							break;
+						case 'number':
+						case 'range':
+							if ( ! _.isUndefined( parsedField.inputAttrs.min ) ) {
+								parsedField.currentValue = parsedField.inputAttrs.min;
+							} else {
+								parsedField.currentValue = 0;
+							}
+							break;
+						case 'multibox':
+						case 'multiselect':
+							parsedField.currentValue = [];
+							break;
+						default:
+							parsedField.currentValue = '';
+					}
 				}
-			}
 
-			if ( parsedField.labelAttrs ) {
-				parsedField.labelAttrs.id = parsedField.id + '-label';
-				parsedField.labelAttrs['for'] = parsedField.id;
-			}
+				if ( parsedField.inputAttrs ) {
+					parsedField.inputAttrs.id = parsedField.id;
+					parsedField.inputAttrs.name = parsedField.name;
 
-			if ( parsedField.wrapAttrs ) {
-				parsedField.wrapAttrs.id = parsedField.id + '-wrap';
+					if ( _.isArray( field.input_classes ) ) {
+						parsedField.inputAttrs['class'] += ' ' + field.input_classes.join( ' ' );
+					}
+
+					if ( parsedField.description.length ) {
+						parsedField.inputAttrs['aria-describedby'] = parsedField.id + '-description';
+					}
+				}
+
+				if ( parsedField.labelAttrs ) {
+					parsedField.labelAttrs.id = parsedField.id + '-label';
+					parsedField.labelAttrs['for'] = parsedField.id;
+				}
+
+				if ( parsedField.wrapAttrs ) {
+					parsedField.wrapAttrs.id = parsedField.id + '-wrap';
+				}
 			}
 
 			parsedFields.push( parsedField );
