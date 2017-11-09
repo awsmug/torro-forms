@@ -166,7 +166,7 @@ class Textfield extends Element_Type {
 			'type'        => 'radio',
 			'label'       => __( 'Input type', 'torro-forms' ),
 			'choices'     => $input_types,
-			'description' => sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supportet by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
+			'description' => sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supported by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
 			'default'     => 'text',
 		);
 		$this->add_css_classes_settings_field();
