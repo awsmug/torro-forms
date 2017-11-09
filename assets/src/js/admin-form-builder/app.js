@@ -202,7 +202,7 @@ window.torro = window.torro || {};
 									if ( container ) {
 										element = container.elements.get( elementSetting.element_id );
 										if ( element ) {
-											element.element_settings.add( elementSetting );
+											element.setElementSetting( elementSetting );
 										}
 									}
 								}

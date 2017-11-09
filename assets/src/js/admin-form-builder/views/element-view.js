@@ -1,6 +1,32 @@
 ( function( torro, $, _, fieldsAPI, dummyFieldManager ) {
 	'use strict';
 
+	function deepClone( input ) {
+		var output = _.clone( input );
+
+		_.each( output, function( value, key ) {
+			var temp, i;
+
+			if ( _.isArray( value ) ) {
+				temp = [];
+
+				for ( i = 0; i < value.length; i++ ) {
+					if ( _.isObject( value[ i ] ) ) {
+						temp.push( deepClone( value[ i ] ) );
+					} else {
+						temp.push( value[ i ] );
+					}
+				}
+
+				output[ key ] = temp;
+			} else if ( _.isObject( value ) ) {
+				output[ key ] = deepClone( value );
+			}
+		});
+
+		return output;
+	}
+
 	function parseFields( fields, element ) {
 		var parsedFields = [];
 		var hasLabel = false;
@@ -14,7 +40,7 @@
 				return;
 			}
 
-			parsedField = _.clone( dummyFieldManager.fields[ 'dummy_' + field.type ] );
+			parsedField = deepClone( dummyFieldManager.fields[ 'dummy_' + field.type ] );
 
 			parsedField.section     = field.section;
 			parsedField.label       = field.label;
@@ -187,6 +213,8 @@
 				if ( viewClassName && 'FieldView' !== viewClassName && fieldsAPI.FieldView[ viewClassName ] ) {
 					FieldView = fieldsAPI.FieldView[ viewClassName ];
 				}
+
+				console.log( field.attributes );
 
 				view = new FieldView({
 					model: field

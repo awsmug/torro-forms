@@ -77,11 +77,6 @@
 		constructor: function( attributes, options ) {
 			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
 
-			this.listenTypeChanged( this, this.get( 'type' ) );
-
-			this.on( 'change:type', this.listenTypeChanged, this );
-
-			// TODO: Retrieve element type here and automatically populate element_settings where missing.
 			this.element_choices = new torroBuilder.ElementChoiceCollection([], {
 				props: {
 					element_id: this.get( 'id' )
@@ -93,6 +88,34 @@
 					element_id: this.get( 'id' )
 				}
 			});
+
+			this.listenTypeChanged( this, this.get( 'type' ) );
+
+			this.on( 'change:type', this.listenTypeChanged, this );
+		},
+
+		setElementSetting: function( elementSetting ) {
+			var existingSetting, index;
+
+			if ( elementSetting.attributes ) {
+				elementSetting = elementSetting.attributes;
+			}
+
+			existingSetting = this.element_settings.findWhere({
+				name: elementSetting.name
+			});
+			if ( ! existingSetting ) {
+				return false;
+			}
+
+			index = this.element_settings.indexOf( existingSetting );
+
+			this.element_settings.remove( existingSetting );
+			this.element_settings.add( elementSetting, {
+				at: index
+			});
+
+			return true;
 		},
 
 		setActiveSection: function( section ) {
@@ -110,7 +133,7 @@
 		},
 
 		listenTypeChanged: function( element, type ) {
-			var sections;
+			var sections, settingFields, settingNames, oldSettings = {};
 
 			element.element_type = torroBuilder.getInstance().elementTypes.get( type );
 			if ( ! element.element_type ) {
@@ -123,6 +146,32 @@
 			if ( sections.length ) {
 				element.setActiveSection( sections[0].slug );
 			}
+
+			settingFields = element.element_type.getFields().filter( function( field ) {
+				return ! field.is_label && ! field.is_choices;
+			});
+
+			settingNames = settingFields.map( function( settingField ) {
+				return settingField.slug;
+			});
+
+			element.element_settings.each( function( elementSetting ) {
+				if ( settingNames.includes( elementSetting.name ) ) {
+					oldSettings[ elementSetting.name ] = elementSetting.attributes;
+				}
+			});
+			element.element_settings.reset();
+
+			_.each( settingFields, function( settingField ) {
+				if ( oldSettings[ settingField.slug ] ) {
+					element.element_settings.add( oldSettings[ settingField.slug ] );
+				} else {
+					element.element_settings.create({
+						name: settingField.slug,
+						value: settingField['default'] || null
+					});
+				}
+			});
 		}
 	});
 

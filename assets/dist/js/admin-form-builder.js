@@ -206,7 +206,7 @@ window.torro = window.torro || {};
 									if ( container ) {
 										element = container.elements.get( elementSetting.element_id );
 										if ( element ) {
-											element.element_settings.add( elementSetting );
+											element.setElementSetting( elementSetting );
 										}
 									}
 								}
@@ -940,11 +940,6 @@ window.torro = window.torro || {};
 		constructor: function( attributes, options ) {
 			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
 
-			this.listenTypeChanged( this, this.get( 'type' ) );
-
-			this.on( 'change:type', this.listenTypeChanged, this );
-
-			// TODO: Retrieve element type here and automatically populate element_settings where missing.
 			this.element_choices = new torroBuilder.ElementChoiceCollection([], {
 				props: {
 					element_id: this.get( 'id' )
@@ -956,6 +951,34 @@ window.torro = window.torro || {};
 					element_id: this.get( 'id' )
 				}
 			});
+
+			this.listenTypeChanged( this, this.get( 'type' ) );
+
+			this.on( 'change:type', this.listenTypeChanged, this );
+		},
+
+		setElementSetting: function( elementSetting ) {
+			var existingSetting, index;
+
+			if ( elementSetting.attributes ) {
+				elementSetting = elementSetting.attributes;
+			}
+
+			existingSetting = this.element_settings.findWhere({
+				name: elementSetting.name
+			});
+			if ( ! existingSetting ) {
+				return false;
+			}
+
+			index = this.element_settings.indexOf( existingSetting );
+
+			this.element_settings.remove( existingSetting );
+			this.element_settings.add( elementSetting, {
+				at: index
+			});
+
+			return true;
 		},
 
 		setActiveSection: function( section ) {
@@ -973,7 +996,7 @@ window.torro = window.torro || {};
 		},
 
 		listenTypeChanged: function( element, type ) {
-			var sections;
+			var sections, settingFields, settingNames, oldSettings = {};
 
 			element.element_type = torroBuilder.getInstance().elementTypes.get( type );
 			if ( ! element.element_type ) {
@@ -986,6 +1009,32 @@ window.torro = window.torro || {};
 			if ( sections.length ) {
 				element.setActiveSection( sections[0].slug );
 			}
+
+			settingFields = element.element_type.getFields().filter( function( field ) {
+				return ! field.is_label && ! field.is_choices;
+			});
+
+			settingNames = settingFields.map( function( settingField ) {
+				return settingField.slug;
+			});
+
+			element.element_settings.each( function( elementSetting ) {
+				if ( settingNames.includes( elementSetting.name ) ) {
+					oldSettings[ elementSetting.name ] = elementSetting.attributes;
+				}
+			});
+			element.element_settings.reset();
+
+			_.each( settingFields, function( settingField ) {
+				if ( oldSettings[ settingField.slug ] ) {
+					element.element_settings.add( oldSettings[ settingField.slug ] );
+				} else {
+					element.element_settings.create({
+						name: settingField.slug,
+						value: settingField['default'] || null
+					});
+				}
+			});
 		}
 	});
 
@@ -1715,6 +1764,32 @@ window.torro = window.torro || {};
 ( function( torro, $, _, fieldsAPI, dummyFieldManager ) {
 	'use strict';
 
+	function deepClone( input ) {
+		var output = _.clone( input );
+
+		_.each( output, function( value, key ) {
+			var temp, i;
+
+			if ( _.isArray( value ) ) {
+				temp = [];
+
+				for ( i = 0; i < value.length; i++ ) {
+					if ( _.isObject( value[ i ] ) ) {
+						temp.push( deepClone( value[ i ] ) );
+					} else {
+						temp.push( value[ i ] );
+					}
+				}
+
+				output[ key ] = temp;
+			} else if ( _.isObject( value ) ) {
+				output[ key ] = deepClone( value );
+			}
+		});
+
+		return output;
+	}
+
 	function parseFields( fields, element ) {
 		var parsedFields = [];
 		var hasLabel = false;
@@ -1728,7 +1803,7 @@ window.torro = window.torro || {};
 				return;
 			}
 
-			parsedField = _.clone( dummyFieldManager.fields[ 'dummy_' + field.type ] );
+			parsedField = deepClone( dummyFieldManager.fields[ 'dummy_' + field.type ] );
 
 			parsedField.section     = field.section;
 			parsedField.label       = field.label;
@@ -1901,6 +1976,8 @@ window.torro = window.torro || {};
 				if ( viewClassName && 'FieldView' !== viewClassName && fieldsAPI.FieldView[ viewClassName ] ) {
 					FieldView = fieldsAPI.FieldView[ viewClassName ];
 				}
+
+				console.log( field.attributes );
 
 				view = new FieldView({
 					model: field
