@@ -1790,6 +1790,10 @@ window.torro = window.torro || {};
 		return output;
 	}
 
+	function getElementFieldId( element, field ) {
+		return 'torro_element_' + element.get( 'id' ) + '_' + field;
+	}
+
 	function parseFields( fields, element ) {
 		var parsedFields = [];
 		var hasLabel = false;
@@ -1832,7 +1836,7 @@ window.torro = window.torro || {};
 
 					hasLabel = true;
 
-					parsedField.id = 'torro_element_' + element.get( 'id' ) + '_label';
+					parsedField.id = getElementFieldId( element, 'label' );
 					parsedField.name = torro.getFieldName( element, 'label' );
 					parsedField.currentValue = element.get( 'label' );
 				} else {
@@ -1845,9 +1849,13 @@ window.torro = window.torro || {};
 						return;
 					}
 
-					parsedField.id = 'torro_element_' + element.get( 'id' ) + '_' + elementSetting.get( 'id' );
+					parsedField.id = getElementFieldId( element, elementSetting.get( 'id' ) );
 					parsedField.name = torro.getFieldName( elementSetting, 'value' );
 					parsedField.currentValue = elementSetting.get( 'value' );
+
+					parsedField._element_setting = _.clone( elementSetting.attributes );
+
+					parsedField.inputAttrs['data-element-setting-id'] = elementSetting.get( 'id' );
 				}
 
 				// Manage special fields per type.
@@ -1951,27 +1959,21 @@ window.torro = window.torro || {};
 					}
 				}
 
-				if ( parsedField.inputAttrs ) {
-					parsedField.inputAttrs.id = parsedField.id;
-					parsedField.inputAttrs.name = parsedField.name;
+				parsedField.inputAttrs.id = parsedField.id;
+				parsedField.inputAttrs.name = parsedField.name;
 
-					if ( _.isArray( field.input_classes ) ) {
-						parsedField.inputAttrs['class'] += ' ' + field.input_classes.join( ' ' );
-					}
-
-					if ( parsedField.description.length ) {
-						parsedField.inputAttrs['aria-describedby'] = parsedField.id + '-description';
-					}
+				if ( _.isArray( field.input_classes ) ) {
+					parsedField.inputAttrs['class'] += ' ' + field.input_classes.join( ' ' );
 				}
 
-				if ( parsedField.labelAttrs ) {
-					parsedField.labelAttrs.id = parsedField.id + '-label';
-					parsedField.labelAttrs['for'] = parsedField.id;
+				if ( parsedField.description.length ) {
+					parsedField.inputAttrs['aria-describedby'] = parsedField.id + '-description';
 				}
 
-				if ( parsedField.wrapAttrs ) {
-					parsedField.wrapAttrs.id = parsedField.id + '-wrap';
-				}
+				parsedField.labelAttrs.id = parsedField.id + '-label';
+				parsedField.labelAttrs['for'] = parsedField.id;
+
+				parsedField.wrapAttrs.id = parsedField.id + '-wrap';
 			}
 
 			parsedFields.push( parsedField );
@@ -2013,17 +2015,17 @@ window.torro = window.torro || {};
 
 			this.$wrap.html( this.wrapTemplate( templateData ) );
 
-			this.attach();
-
 			this.initializeSections();
 			this.initializeFields();
+
+			this.attach();
 		},
 
 		destroy: function() {
+			this.detach();
+
 			this.deinitializeFields();
 			this.deinitializeSections();
-
-			this.detach();
 
 			this.$wrap.remove();
 		},
@@ -2055,9 +2057,7 @@ window.torro = window.torro || {};
 		},
 
 		initializeFields: function() {
-			var fields = this.element.element_type.getFields();
-
-			this.fieldManager = new fieldsAPI.FieldManager( parseFields( fields, this.element ), {
+			this.fieldManager = new fieldsAPI.FieldManager( parseFields( this.element.element_type.getFields(), this.element ), {
 				instanceId: 'torro_element_' + this.element.get( 'id' )
 			});
 			this.fieldViews = [];
@@ -2116,6 +2116,18 @@ window.torro = window.torro || {};
 			this.$wrap.on( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 			this.$wrap.on( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
+			this.$wrap.on( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
+
+			_.each( this.fieldViews, _.bind( function( fieldView ) {
+				var $contentWrap;
+
+				if ( ! fieldView.model.get( '_element_setting' ) ) {
+					return;
+				}
+
+				$contentWrap = this.$wrap.find( '#' + fieldView.model.get( 'id' ) + '-content-wrap' );
+				$contentWrap.find( 'input, select, textarea' ).on( 'change', _.bind( this.updateElementSettingValue, this ) );
+			}, this ) );
 
 			// TODO: add jQuery hooks
 		},
@@ -2129,6 +2141,18 @@ window.torro = window.torro || {};
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
 
+			_.each( this.fieldViews, _.bind( function( fieldView ) {
+				var $contentWrap;
+
+				if ( ! fieldView.model.get( '_element_setting' ) ) {
+					return;
+				}
+
+				$contentWrap = this.$wrap.find( '#' + fieldView.model.get( 'id' ) + '-content-wrap' );
+				$contentWrap.find( 'input, select, textarea' ).off( 'change', _.bind( this.updateElementSettingValue, this ) );
+			}, this ) );
+
+			this.$wrap.off( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
 			this.$wrap.off( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
 			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 			this.$wrap.off( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
@@ -2150,6 +2174,12 @@ window.torro = window.torro || {};
 			var name = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
 
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( label );
+
+			if ( label && label.length ) {
+				this.$wrap.find( '.torro-element-header-title' ).text( label );
+			} else {
+				this.$wrap.find( '.torro-element-header-title' ).text( this.element.element_type.getTitle() );
+			}
 		},
 
 		listenChangeType: function( element, type ) {
@@ -2208,6 +2238,29 @@ window.torro = window.torro || {};
 			var $button = $( e.target || e.delegateTarget );
 
 			this.element.setActiveSection( $button.data( 'slug' ) );
+		},
+
+		updateLabel: function( e ) {
+			var $input = $( e.target || e.delegateTarget );
+
+			this.element.set( 'label', $input.val() );
+		},
+
+		updateElementSettingValue: function( e ) {
+			var $input = $( e.target || e.delegateTarget );
+			var settingId = $input.data( 'element-setting-id' );
+			var setting;
+
+			if ( ! settingId ) {
+				return;
+			}
+
+			setting = this.element.element_settings.get( settingId );
+			if ( ! setting ) {
+				return;
+			}
+
+			setting.set( 'value', $input.val() );
 		}
 	});
 

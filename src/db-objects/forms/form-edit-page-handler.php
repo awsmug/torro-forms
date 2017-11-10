@@ -795,6 +795,10 @@ class Form_Edit_Page_Handler {
 			<div{{{ _.attrs( data.wrapAttrs ) }}}>
 				<div id="{{ data.id }}-label-wrap" class="label-wrap"></div>
 				<div id="{{ data.id }}-content-wrap" class="content-wrap"></div>
+				<# if ( data._element_setting ) { #>
+					<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][element_id]" value="{{ data._element_setting.element_id }}" />
+					<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][name]" value="{{ data._element_setting.name }}" />
+				<# } #>
 			</div>
 		</script>
 		<?php
