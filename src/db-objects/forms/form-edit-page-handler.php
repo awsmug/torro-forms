@@ -780,13 +780,13 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-element-section-tab">
-			<button type="button" id="element-tab-{{ data.elementId }}-{{ data.slug }}" class="torro-element-content-tab" data-slug="{{ data.slug }}" aria-controls="element-panel-{{ data.elementId }}-{{ data.slug }}" aria-selected="{{ data.active ? 'true' : 'false' }}" role="tab">
+			<button type="button" id="element-tab-{{ data.elementId }}-{{ data.slug }}" class="torro-element-content-tab torro-element-content-tab-{{ data.slug }}" data-slug="{{ data.slug }}" aria-controls="element-panel-{{ data.elementId }}-{{ data.slug }}" aria-selected="{{ data.active ? 'true' : 'false' }}" role="tab">
 				{{ data.title }}
 			</button>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-element-section-panel">
-			<div id="element-panel-{{ data.elementId }}-{{ data.slug }}" class="torro-element-content-panel" aria-labelledby="element-tab-{{ data.elementId }}-{{ data.slug }}" aria-hidden="{{ data.active ? 'false' : 'true' }}" role="tabpanel">
+			<div id="element-panel-{{ data.elementId }}-{{ data.slug }}" class="torro-element-content-panel torro-element-content-panel-{{ data.slug }}" aria-labelledby="element-tab-{{ data.elementId }}-{{ data.slug }}" aria-hidden="{{ data.active ? 'false' : 'true' }}" role="tabpanel">
 				<div class="torro-element-fields"></div>
 			</div>
 		</script>

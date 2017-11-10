@@ -559,7 +559,7 @@
 
 .torro-element-content-panel
 {
-    padding: 6px 12px;
+    padding: 10px 12px;
 
     border-top: 1px solid #ccc;
     background-color: #fff;
@@ -574,6 +574,42 @@
 
     width: 1px;
     height: 1px;
+}
+
+.torro-element-content-panel .plugin-lib-wrap
+{
+    margin-bottom: 1em;
+}
+
+.torro-element-content-panel .plugin-lib-wrap:last-child
+{
+    margin-bottom: 0;
+}
+
+@media screen and (min-width: 783px)
+{
+    .torro-element-content-panel.torro-element-content-panel-settings .plugin-lib-wrap
+    {
+        display: flex;
+
+        align-items: flex-start;
+    }
+    .torro-element-content-panel.torro-element-content-panel-settings .plugin-lib-wrap > .label-wrap
+    {
+        flex: 1;
+    }
+    .torro-element-content-panel.torro-element-content-panel-settings .plugin-lib-wrap > .label-wrap label
+    {
+        line-height: 32px;
+    }
+    .torro-element-content-panel.torro-element-content-panel-settings .plugin-lib-wrap > .content-wrap
+    {
+        flex: 3;
+    }
+    .torro-element-content-panel.torro-element-content-panel-settings .plugin-lib-wrap > input
+    {
+        flex: 0;
+    }
 }
 
 .torro-element-placeholder
