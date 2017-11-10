@@ -90,7 +90,7 @@ trait Choice_Element_Type_Trait {
 
 		$this->settings_fields[ 'choices_' . $field ] = array(
 			'section'       => $section,
-			'type'          => 'text',
+			'type'          => 'torrochoices',
 			'label'         => __( 'Choices', 'torro-forms' ),
 			'description'   => __( 'Specify the choices to select from.', 'torro-forms' ),
 			'input_classes' => array( 'regular-text' ),

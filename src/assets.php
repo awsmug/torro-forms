@@ -132,6 +132,8 @@ class Assets extends Assets_Base {
 				'couldNotLoadData'           => __( 'Could not load form builder data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
 				/* translators: %s: container index number */
 				'defaultContainerLabel'      => __( 'Page %s', 'torro-forms' ),
+				/* translators: %s: element choice index number */
+				'elementChoiceLabel'         => __( 'Choice %s', 'torro-forms' ),
 				'showContent'                => __( 'Show Content', 'torro-forms' ),
 				'hideContent'                => __( 'Hide Content', 'torro-forms' ),
 				'yes'                        => __( 'Yes', 'torro-forms' ),

@@ -473,6 +473,14 @@
 	}
 }
 
+.torro-element-choice-move {
+	display: inline-block;
+
+	&.ui-sortable-handle {
+		cursor: move;
+	}
+}
+
 // Placeholder for jQuery Sortable
 .torro-element-placeholder {
 	display: block;

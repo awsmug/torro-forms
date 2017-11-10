@@ -612,6 +612,16 @@
     }
 }
 
+.torro-element-choice-move
+{
+    display: inline-block;
+}
+
+.torro-element-choice-move.ui-sortable-handle
+{
+    cursor: move;
+}
+
 .torro-element-placeholder
 {
     display: block;

@@ -27,11 +27,67 @@
 		return output;
 	}
 
+	function getObjectReplaceableFields( obj ) {
+		var fields = {};
+
+		_.each( obj, function( value, key ) {
+			if ( _.isObject( value ) && ! _.isArray( value ) ) {
+				value = getObjectReplaceableFields( value );
+				if ( ! _.isEmpty( value ) ) {
+					fields[ key ] = value;
+				}
+			} else if ( _.isString( value ) ) {
+				if ( value.match( /%([A-Za-z0-9]+)%/g ) ) {
+					fields[ key ] = value;
+				}
+			}
+		});
+
+		return fields;
+	}
+
+	function replaceObjectFields( obj, replacements, fields ) {
+		if ( _.isUndefined( fields ) ) {
+			fields = getObjectReplaceableFields( obj );
+		}
+
+		function _doReplacements( match, name ) {
+			if ( ! _.isUndefined( replacements[ name ] ) ) {
+				return replacements[ name ];
+			}
+
+			return match;
+		}
+
+		_.each( fields, function( value, key ) {
+			if ( _.isObject( value ) ) {
+				if ( ! _.isObject( obj[ key ] ) ) {
+					obj[ key ] = {};
+				}
+
+				replaceObjectFields( obj[ key ], replacements, value );
+			} else {
+				obj[ key ] = value.replace( /%([A-Za-z0-9]+)%/g, _doReplacements );
+			}
+		});
+	}
+
+	function generateItem( itemInitial, index ) {
+		var newItem = _.deepClone( itemInitial );
+
+		replaceObjectFields( newItem, {
+			index: index,
+			indexPlus1: index + 1
+		});
+
+		return newItem;
+	}
+
 	function getElementFieldId( element, field ) {
 		return 'torro_element_' + element.get( 'id' ) + '_' + field;
 	}
 
-	function parseFields( fields, element ) {
+	function parseFields( fields, element, options ) {
 		var parsedFields = [];
 		var hasLabel = false;
 
@@ -39,6 +95,7 @@
 			var parsedField;
 			var elementChoices;
 			var elementSetting;
+			var tempId;
 
 			if ( _.isUndefined( field.type ) || _.isUndefined( dummyFieldManager.fields[ 'dummy_' + field.type ] ) ) {
 				return;
@@ -56,7 +113,49 @@
 					field: _.isString( field.is_choices ) ? field.is_choices : '_main'
 				});
 
-				// TODO: Set ID and name for the repeatable choices field.
+				tempId = torro.generateTempId();
+
+				parsedField.repeatable = true;
+				parsedField.repeatableLimit = 0;
+
+				parsedField.id = getElementFieldId( element, field.slug );
+				parsedField.labelAttrs.id = parsedField.id + '-label';
+
+				parsedField.itemInitial.currentValue = parsedField['default'];
+				parsedField.itemInitial['default']   = parsedField['default'];
+				parsedField.itemInitial.element_id   = element.get( 'id' );
+				parsedField.itemInitial.field        = _.isString( field.is_choices ) ? field.is_choices : '_main';
+				parsedField.itemInitial.id           = parsedField.id + '-%indexPlus1%';
+				parsedField.itemInitial.label        = options.i18n.elementChoiceLabel.replace( '%s', '%indexPlus1%' );
+				parsedField.itemInitial.name         = 'torro_element_choices[' + tempId + '_%index%][value]';
+				parsedField.itemInitial.section      = parsedField.section;
+				parsedField.itemInitial.sort         = '%index%';
+
+				parsedField.itemInitial.inputAttrs.id   = parsedField.itemInitial.id;
+				parsedField.itemInitial.inputAttrs.name = parsedField.itemInitial.name;
+
+				if ( _.isArray( field.input_classes ) ) {
+					parsedField.itemInitial.inputAttrs['class'] += ' ' + field.input_classes.join( ' ' );
+				}
+
+				parsedField.itemInitial.labelAttrs.id     = parsedField.itemInitial.id + '-label';
+				parsedField.itemInitial.labelAttrs['for'] = parsedField.itemInitial.id;
+
+				parsedField.itemInitial.wrapAttrs.id = parsedField.itemInitial.id + '-wrap';
+
+				parsedField.wrapAttrs = deepClone( parsedField.itemInitial.wrapAttrs );
+				parsedField.wrapAttrs.id = parsedField.id + '-wrap';
+
+				_.each( elementChoices, function( elementChoice, index ) {
+					var newItem = generateItem( parsedField.itemInitial, index );
+
+					newItem.name = torro.getFieldName( elementChoice, 'value' );
+					newItem.inputAttrs.name = newItem.name;
+
+					newItem.currentValue = elementChoice.get( 'value' );
+
+					parsedField.items.push( newItem );
+				});
 			} else {
 				if ( field.repeatable ) {
 
@@ -302,7 +401,7 @@
 		},
 
 		initializeFields: function() {
-			this.fieldManager = new fieldsAPI.FieldManager( parseFields( this.element.element_type.getFields(), this.element ), {
+			this.fieldManager = new fieldsAPI.FieldManager( parseFields( this.element.element_type.getFields(), this.element, this.options ), {
 				instanceId: 'torro_element_' + this.element.get( 'id' )
 			});
 			this.fieldViews = [];

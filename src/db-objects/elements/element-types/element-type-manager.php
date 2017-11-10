@@ -87,6 +87,8 @@ class Element_Type_Manager extends Service {
 		$this->set_services( $services );
 		$this->setup_hooks();
 
+		Field_Manager::register_field_type( 'torrochoices', Choices_Field::class );
+
 		$this->default_element_types = array(
 			'textfield'      => Base\Textfield::class,
 			'textarea'       => Base\Textarea::class,
