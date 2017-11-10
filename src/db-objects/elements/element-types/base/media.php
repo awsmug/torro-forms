@@ -192,6 +192,7 @@ class Media extends Element_Type {
 			'type'        => 'select',
 			'label'       => __( 'Valid file types', 'torro-forms' ),
 			'description' => __( 'The file type the user is allowed to upload.', 'torro-forms' ),
+			'choices'     => $this->get_type_dropdown_options(),
 			'default'     => 'any',
 		);
 		$this->add_css_classes_settings_field();
