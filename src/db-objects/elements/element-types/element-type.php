@@ -625,7 +625,7 @@ abstract class Element_Type {
 				continue;
 			}
 
-			if ( in_array( $field['type'], array( 'multiselect', 'multibox' ), true ) ) {
+			if ( in_array( $field['type'], array( 'multiselect', 'multibox', 'group' ), true ) ) {
 				/* translators: %s: field type slug */
 				$this->manager->error_handler()->doing_it_wrong( get_class( $this ) . '::bootstrap()', sprintf( __( 'Disallowed element type field type %s.', 'torro-forms' ), esc_html( $field['type'] ) ), '1.0.0' );
 				$invalid_fields[ $slug ] = true;
