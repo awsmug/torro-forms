@@ -2249,26 +2249,35 @@ window.torro = window.torro || {};
 			this.element.on( 'changeActiveSection', this.listenChangeActiveSection, this );
 			this.element.collection.props.on( 'toggleActive', this.listenChangeActive, this );
 
+			_.each( this.fieldViews, _.bind( function( fieldView ) {
+				if ( fieldView.model.get( '_element_setting' ) ) {
+					fieldView.model.on( 'changeValue', _.bind( this.listenChangeElementSettingFieldValue, this ) );
+				} else if ( 'torrochoices' === fieldView.model.get( 'slug' ) ) {
+					fieldView.model.on( 'addItem', _.bind( this.listenAddElementChoiceField, this ) );
+					fieldView.model.on( 'removeItem', _.bind( this.listenRemoveElementChoiceField, this ) );
+					fieldView.model.on( 'changeItemValue', _.bind( this.listenChangeElementChoiceFieldValue, this ) );
+				}
+			}, this ) );
+
 			this.$wrap.on( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 			this.$wrap.on( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
 			this.$wrap.on( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
 
-			_.each( this.fieldViews, _.bind( function( fieldView ) {
-				var $contentWrap;
-
-				if ( ! fieldView.model.get( '_element_setting' ) ) {
-					return;
-				}
-
-				$contentWrap = this.$wrap.find( '#' + fieldView.model.get( 'id' ) + '-content-wrap' );
-				$contentWrap.find( 'input, select, textarea' ).on( 'change', _.bind( this.updateElementSettingValue, this ) );
-			}, this ) );
-
 			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
+			_.each( this.fieldViews, _.bind( function( fieldView ) {
+				if ( fieldView.model.get( '_element_setting' ) ) {
+					fieldView.model.off( 'changeValue', _.bind( this.listenChangeElementSettingFieldValue, this ) );
+				} else if ( 'torrochoices' === fieldView.model.get( 'slug' ) ) {
+					fieldView.model.off( 'addItem', _.bind( this.listenAddElementChoiceField, this ) );
+					fieldView.model.off( 'removeItem', _.bind( this.listenRemoveElementChoiceField, this ) );
+					fieldView.model.off( 'changeItemValue', _.bind( this.listenChangeElementChoiceFieldValue, this ) );
+				}
+			}, this ) );
+
 			this.element.collection.props.off( 'toggleActive', this.listenChangeActive, this );
 			this.element.off( 'changeActiveSection', this.listenChangeActiveSection, this );
 			this.element.off( 'changeElementType', this.listenChangeElementType, this );
@@ -2276,17 +2285,6 @@ window.torro = window.torro || {};
 			this.element.off( 'change:type', this.listenChangeType, this );
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
-
-			_.each( this.fieldViews, _.bind( function( fieldView ) {
-				var $contentWrap;
-
-				if ( ! fieldView.model.get( '_element_setting' ) ) {
-					return;
-				}
-
-				$contentWrap = this.$wrap.find( '#' + fieldView.model.get( 'id' ) + '-content-wrap' );
-				$contentWrap.find( 'input, select, textarea' ).off( 'change', _.bind( this.updateElementSettingValue, this ) );
-			}, this ) );
 
 			this.$wrap.off( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
 			this.$wrap.off( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
@@ -2360,6 +2358,39 @@ window.torro = window.torro || {};
 			}
 		},
 
+		listenChangeElementSettingFieldValue: function( model, value ) {
+			var elementSettingId = model.get( '_element_setting' ).id;
+			var elementSetting = this.element.element_settings.get( elementSettingId );
+
+			if ( ! elementSetting ) {
+				return;
+			}
+
+			elementSetting.set( 'value', value );
+		},
+
+		listenAddElementChoiceField: function( model, addedChoiceItem ) {
+			var elementChoiceId = addedChoiceItem.name.replace( 'torro_element_choices[', '' ).replace( '][value]', '' );
+
+			this.element.element_choices.create({
+				id: elementChoiceId,
+				field: addedChoiceItem.field
+			});
+		},
+
+		listenRemoveElementChoiceField: function( model, removedChoiceItem ) {
+			var elementChoiceId = removedChoiceItem.name.replace( 'torro_element_choices[', '' ).replace( '][value]', '' );
+
+			this.element.element_choices.remove( elementChoiceId );
+		},
+
+		listenChangeElementChoiceFieldValue: function( model, changedChoiceItem, value ) {
+			var elementChoiceId = changedChoiceItem.name.replace( 'torro_element_choices[', '' ).replace( '][value]', '' );
+			var elementChoice = this.element.element_choices.get( elementChoiceId );
+
+			elementChoice.set( 'value', value );
+		},
+
 		toggleActive: function() {
 			this.element.collection.toggleActive( this.element.get( 'id' ) );
 		},
@@ -2380,23 +2411,6 @@ window.torro = window.torro || {};
 			var $input = $( e.target || e.delegateTarget );
 
 			this.element.set( 'label', $input.val() );
-		},
-
-		updateElementSettingValue: function( e ) {
-			var $input = $( e.target || e.delegateTarget );
-			var settingId = $input.data( 'element-setting-id' );
-			var setting;
-
-			if ( ! settingId ) {
-				return;
-			}
-
-			setting = this.element.element_settings.get( settingId );
-			if ( ! setting ) {
-				return;
-			}
-
-			setting.set( 'value', $input.val() );
 		}
 	});
 
