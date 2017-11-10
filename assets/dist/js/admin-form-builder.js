@@ -1941,6 +1941,14 @@ window.torro = window.torro || {};
 							parsedField.choices = {};
 						}
 						break;
+					case 'text':
+						if ( ! _.isUndefined( field.maxlength ) ) {
+							parsedField.inputAttrs.maxlength = field.maxlength;
+						}
+						if ( ! _.isUndefined( field.pattern ) ) {
+							parsedField.inputAttrs.pattern = field.pattern;
+						}
+						break;
 					case 'textarea':
 						if ( ! _.isUndefined( field.rows ) ) {
 							parsedField.inputAttrs.rows = field.rows;
