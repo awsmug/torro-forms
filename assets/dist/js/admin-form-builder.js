@@ -1863,6 +1863,7 @@ window.torro = window.torro || {};
 					case 'datetime':
 						if ( ! _.isUndefined( field.store ) ) {
 							parsedField.store = field.store;
+							parsedField.inputAttrs['data-store'] = field.store;
 						}
 						if ( ! _.isUndefined( field.min ) ) {
 							parsedField.inputAttrs.min = field.min;
@@ -1872,16 +1873,10 @@ window.torro = window.torro || {};
 						}
 						break;
 					case 'map':
-						if ( ! _.isUndefined( field.store ) ) {
-							parsedField.store = field.store;
-						}
-						break;
 					case 'media':
 						if ( ! _.isUndefined( field.store ) ) {
 							parsedField.store = field.store;
-						}
-						if ( ! _.isUndefined( field.mime_types ) ) {
-							parsedField.mimeTypes = field.mime_types;
+							parsedField.inputAttrs['data-store'] = field.store;
 						}
 						break;
 					case 'number':
@@ -1917,12 +1912,15 @@ window.torro = window.torro || {};
 					case 'wysiwyg':
 						if ( ! _.isUndefined( field.wpautop ) ) {
 							parsedField.wpautop = field.wpautop;
+							parsedField.inputAttrs['data-wpautop'] = field.wpautop;
 						}
 						if ( ! _.isUndefined( field.media_buttons ) ) {
 							parsedField.media_buttons = field.media_buttons;
+							parsedField.inputAttrs['data-media-buttons'] = field.media_buttons;
 						}
 						if ( ! _.isUndefined( field.button_mode ) ) {
 							parsedField.button_mode = field.button_mode;
+							parsedField.inputAttrs['data-button-mode'] = field.button_mode;
 						}
 						break;
 				}
