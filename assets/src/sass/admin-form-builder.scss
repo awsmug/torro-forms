@@ -304,6 +304,10 @@
 	overflow: hidden;
 	clear: both;
 
+	&.ui-sortable-handle {
+		cursor: move;
+	}
+
 	.torro-element-header-icon {
 		display: block;
 		float: left;
@@ -434,6 +438,13 @@
 		position: absolute !important;
 		width: 1px;
 	}
+}
+
+// Placeholder for jQuery Sortable
+.torro-element-placeholder {
+	display: block;
+	margin-bottom: 1em;
+	height: 44px;
 }
 
 /* ----------------------------------------------------------------------------

@@ -91,6 +91,14 @@
 			this.$panel.on( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
 			this.$panel.on( 'click', '.add-element-button', _.bind( this.addElement, this ) );
 			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
+			this.$panel.find( '.drag-drop-area' ).sortable({
+				containment: 'parent',
+				handle: '.torro-element-header',
+				items: '.torro-element',
+				placeholder: 'torro-element-placeholder',
+				tolerance: 'pointer',
+				update: _.bind( this.updateElementsSorted, this )
+			});
 
 			// TODO: add jQuery hooks
 		},
@@ -105,6 +113,7 @@
 			this.container.elements.off( 'add', this.listenAddContainer, this );
 			this.container.off( 'remove', this.listenRemove, this );
 
+			this.$panel.find( 'drag-drop-area' ).sortable( 'destroy' );
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 			this.$panel.off( 'click', '.add-element-button', _.bind( this.addElement, this ) );
 			this.$panel.off( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
@@ -290,6 +299,17 @@
 			torro.askConfirmation( this.options.i18n.confirmDeleteContainer, _.bind( function() {
 				this.container.collection.remove( this.container );
 			}, this ) );
+		},
+
+		updateElementsSorted: function( e, ui ) {
+			var container = this.container;
+
+			ui.item.parent().find( '.torro-element' ).each( function( index ) {
+				var $element = $( this );
+				var element  = container.elements.get( $element.attr( 'id' ).replace( 'torro-element-', '' ) );
+
+				element.set( 'sort', index );
+			});
 		}
 	});
 

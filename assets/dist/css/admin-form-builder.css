@@ -398,6 +398,11 @@
     overflow: hidden;
 }
 
+.torro-element-header.ui-sortable-handle
+{
+    cursor: move;
+}
+
 .torro-element-header .torro-element-header-icon
 {
     display: block;
@@ -569,6 +574,14 @@
 
     width: 1px;
     height: 1px;
+}
+
+.torro-element-placeholder
+{
+    display: block;
+
+    height: 44px;
+    margin-bottom: 1em;
 }
 
 /* ----------------------------------------------------------------------------
