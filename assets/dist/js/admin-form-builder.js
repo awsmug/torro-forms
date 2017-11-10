@@ -1602,10 +1602,15 @@ window.torro = window.torro || {};
 
 		listenAddElement: function( element ) {
 			var view = new torro.Builder.ElementView( element, this.options );
+			var $dragDropArea = this.$panel.find( '.drag-drop-area' );
 
-			this.$panel.find( '.drag-drop-area' ).append( view.$wrap );
+			$dragDropArea.append( view.$wrap );
 
 			view.render();
+
+			if ( $dragDropArea.sortable( 'instance' ) ) {
+				$dragDropArea.sortable( 'refresh' );
+			}
 		},
 
 		checkHasElements: function() {
