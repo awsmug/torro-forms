@@ -822,7 +822,8 @@ window.torro = window.torro || {};
 			this.elements = new torroBuilder.ElementCollection([], {
 				props: {
 					container_id: this.get( 'id' )
-				}
+				},
+				comparator: 'sort'
 			});
 		}
 	});
@@ -1133,7 +1134,8 @@ window.torro = window.torro || {};
 			}
 
 			this.containers = new torroBuilder.ContainerCollection([], {
-				props: containerProps
+				props: containerProps,
+				comparator: 'sort'
 			});
 		}
 	});
@@ -1774,6 +1776,8 @@ window.torro = window.torro || {};
 
 				element.set( 'sort', index );
 			});
+
+			container.elements.sort();
 		}
 	});
 

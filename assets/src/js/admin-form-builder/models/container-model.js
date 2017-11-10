@@ -74,7 +74,8 @@
 			this.elements = new torroBuilder.ElementCollection([], {
 				props: {
 					container_id: this.get( 'id' )
-				}
+				},
+				comparator: 'sort'
 			});
 		}
 	});

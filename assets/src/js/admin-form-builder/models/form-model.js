@@ -60,7 +60,8 @@
 			}
 
 			this.containers = new torroBuilder.ContainerCollection([], {
-				props: containerProps
+				props: containerProps,
+				comparator: 'sort'
 			});
 		}
 	});

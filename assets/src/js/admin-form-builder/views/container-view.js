@@ -310,6 +310,8 @@
 
 				element.set( 'sort', index );
 			});
+
+			container.elements.sort();
 		}
 	});
 
