@@ -473,6 +473,20 @@
 	}
 }
 
+// Placeholder for jQuery Sortable
+.torro-element-placeholder {
+	display: block;
+	margin-bottom: 1em;
+	height: 44px;
+}
+
+// Element choice repeatable
+.plugin-lib-repeatable-torrochoices-wrap {
+	.plugin-lib-repeatable-item {
+		margin-bottom: 0.8em;
+	}
+}
+
 .torro-element-choice-move {
 	display: inline-block;
 
@@ -482,10 +496,10 @@
 }
 
 // Placeholder for jQuery Sortable
-.torro-element-placeholder {
+.torro-element-choice-placeholder {
 	display: block;
-	margin-bottom: 1em;
-	height: 44px;
+	margin-bottom: 0.8em;
+	height: 28px;
 }
 
 /* ----------------------------------------------------------------------------

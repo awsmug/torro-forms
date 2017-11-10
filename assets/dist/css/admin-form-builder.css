@@ -612,6 +612,19 @@
     }
 }
 
+.torro-element-placeholder
+{
+    display: block;
+
+    height: 44px;
+    margin-bottom: 1em;
+}
+
+.plugin-lib-repeatable-torrochoices-wrap .plugin-lib-repeatable-item
+{
+    margin-bottom: .8em;
+}
+
 .torro-element-choice-move
 {
     display: inline-block;
@@ -622,12 +635,12 @@
     cursor: move;
 }
 
-.torro-element-placeholder
+.torro-element-choice-placeholder
 {
     display: block;
 
-    height: 44px;
-    margin-bottom: 1em;
+    height: 28px;
+    margin-bottom: .8em;
 }
 
 /* ----------------------------------------------------------------------------

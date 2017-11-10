@@ -944,7 +944,8 @@ window.torro = window.torro || {};
 			this.element_choices = new torroBuilder.ElementChoiceCollection([], {
 				props: {
 					element_id: this.get( 'id' )
-				}
+				},
+				comparator: 'sort'
 			});
 
 			this.element_settings = new torroBuilder.ElementSettingCollection([], {
@@ -2214,8 +2215,6 @@ window.torro = window.torro || {};
 					FieldView = fieldsAPI.FieldView[ viewClassName ];
 				}
 
-				console.log( field.attributes );
-
 				view = new FieldView({
 					model: field
 				});
@@ -2241,6 +2240,8 @@ window.torro = window.torro || {};
 		},
 
 		attach: function() {
+			var updateElementChoicesSorted = _.bind( this.updateElementChoicesSorted, this );
+
 			this.element.on( 'remove', this.listenRemove, this );
 			this.element.on( 'change:label', this.listenChangeLabel, this );
 			this.element.on( 'change:type', this.listenChangeType, this );
@@ -2263,6 +2264,16 @@ window.torro = window.torro || {};
 			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 			this.$wrap.on( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
 			this.$wrap.on( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
+			this.$wrap.find( '.plugin-lib-repeatable-torrochoices-wrap' ).each( function() {
+				$( this ).sortable({
+					containment: 'parent',
+					handle: '.torro-element-choice-move',
+					items: '.plugin-lib-repeatable-item',
+					placeholder: 'torro-element-choice-placeholder',
+					tolerance: 'pointer',
+					update: updateElementChoicesSorted
+				});
+			});
 
 			// TODO: add jQuery hooks
 		},
@@ -2286,6 +2297,9 @@ window.torro = window.torro || {};
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
 
+			this.$wrap.find( '.plugin-lib-repeatable-torrochoices-wrap' ).each( function() {
+				$( this ).sortable( 'destroy' );
+			});
 			this.$wrap.off( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
 			this.$wrap.off( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
 			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
@@ -2371,11 +2385,16 @@ window.torro = window.torro || {};
 
 		listenAddElementChoiceField: function( model, addedChoiceItem ) {
 			var elementChoiceId = addedChoiceItem.name.replace( 'torro_element_choices[', '' ).replace( '][value]', '' );
+			var $elementChoicesRepeatableWrap = $( '#torro_element_' + this.element.get( 'id' ) + '_choices_' + addedChoiceItem.field + '-repeatable-wrap' );
 
 			this.element.element_choices.create({
 				id: elementChoiceId,
 				field: addedChoiceItem.field
 			});
+
+			if ( $elementChoicesRepeatableWrap.sortable( 'instance' ) ) {
+				$elementChoicesRepeatableWrap.sortable( 'refresh' );
+			}
 		},
 
 		listenRemoveElementChoiceField: function( model, removedChoiceItem ) {
@@ -2411,6 +2430,22 @@ window.torro = window.torro || {};
 			var $input = $( e.target || e.delegateTarget );
 
 			this.element.set( 'label', $input.val() );
+		},
+
+		updateElementChoicesSorted: function( e, ui ) {
+			var element = this.element;
+
+			ui.item.parent().find( '.plugin-lib-repeatable-item' ).each( function( index ) {
+				var elementChoiceId = $( this ).find( 'input[type="text"]' ).attr( 'name' ).replace( 'torro_element_choices[', '' ).replace( '][value]', '' );
+				var elementChoice   = element.element_choices.get( elementChoiceId );
+
+				elementChoice.set( 'sort', index );
+
+				// This is far from optimal, but we don't have element choice listeners at this point.
+				$( this ).find( 'input[name="' + torro.escapeSelector( 'torro_element_choices[' + elementChoiceId + '][sort]' ) + '"]' ).val( index );
+			});
+
+			element.element_choices.sort();
 		}
 	});
 
@@ -2442,8 +2477,6 @@ window.torro = window.torro || {};
 	_.extend( FormView.prototype, {
 		render: function() {
 			var $deletedWrap, i;
-
-			console.log( this.form );
 
 			$deletedWrap = $( '<div />' );
 			$deletedWrap.attr( 'id', 'torro-deleted-wrap' );

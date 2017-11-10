@@ -80,7 +80,8 @@
 			this.element_choices = new torroBuilder.ElementChoiceCollection([], {
 				props: {
 					element_id: this.get( 'id' )
-				}
+				},
+				comparator: 'sort'
 			});
 
 			this.element_settings = new torroBuilder.ElementSettingCollection([], {

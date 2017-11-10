@@ -23,8 +23,6 @@
 		render: function() {
 			var $deletedWrap, i;
 
-			console.log( this.form );
-
 			$deletedWrap = $( '<div />' );
 			$deletedWrap.attr( 'id', 'torro-deleted-wrap' );
 			$deletedWrap.css( 'display', 'none' );
