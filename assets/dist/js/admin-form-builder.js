@@ -1566,20 +1566,9 @@ window.torro = window.torro || {};
 				tolerance: 'pointer',
 				update: _.bind( this.updateElementsSorted, this )
 			});
-
-			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
-			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
-			this.container.off( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
-			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
-			this.container.off( 'change:sort', this.listenChangeSort, this );
-			this.container.off( 'change:label', this.listenChangeLabel, this );
-			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
-			this.container.elements.off( 'add', this.listenAddContainer, this );
-			this.container.off( 'remove', this.listenRemove, this );
-
 			this.$panel.find( 'drag-drop-area' ).sortable( 'destroy' );
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 			this.$panel.off( 'click', '.add-element-button', _.bind( this.addElement, this ) );
@@ -1588,7 +1577,14 @@ window.torro = window.torro || {};
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
-			// TODO: remove jQuery hooks
+			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
+			this.container.off( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
+			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
+			this.container.off( 'change:sort', this.listenChangeSort, this );
+			this.container.off( 'change:label', this.listenChangeLabel, this );
+			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
+			this.container.elements.off( 'add', this.listenAddContainer, this );
+			this.container.off( 'remove', this.listenRemove, this );
 		},
 
 		listenRemove: function() {
@@ -2274,11 +2270,17 @@ window.torro = window.torro || {};
 					update: updateElementChoicesSorted
 				});
 			});
-
-			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
+			this.$wrap.find( '.plugin-lib-repeatable-torrochoices-wrap' ).each( function() {
+				$( this ).sortable( 'destroy' );
+			});
+			this.$wrap.off( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
+			this.$wrap.off( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
+			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
+			this.$wrap.off( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
+
 			_.each( this.fieldViews, _.bind( function( fieldView ) {
 				if ( fieldView.model.get( '_element_setting' ) ) {
 					fieldView.model.off( 'changeValue', _.bind( this.listenChangeElementSettingFieldValue, this ) );
@@ -2296,16 +2298,6 @@ window.torro = window.torro || {};
 			this.element.off( 'change:type', this.listenChangeType, this );
 			this.element.off( 'change:label', this.listenChangeLabel, this );
 			this.element.off( 'remove', this.listenRemove, this );
-
-			this.$wrap.find( '.plugin-lib-repeatable-torrochoices-wrap' ).each( function() {
-				$( this ).sortable( 'destroy' );
-			});
-			this.$wrap.off( 'keyup change', 'input[type="text"]#' + getElementFieldId( this.element, 'label' ), _.bind( this.updateLabel, this ) );
-			this.$wrap.off( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
-			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
-			this.$wrap.off( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
-
-			// TODO: remove jQuery hooks
 		},
 
 		listenRemove: function() {
@@ -2508,17 +2500,13 @@ window.torro = window.torro || {};
 			this.form.containers.on( 'add remove reset', this.checkHasContainers, this );
 
 			this.$addButton.on( 'click', _.bind( this.addContainer, this ) );
-
-			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
-			this.form.containers.off( 'add remove reset', _.bind( this.checkHasContainers, this ) );
-			this.form.containers.off( 'add', this.listenAddContainer, this );
-
 			this.$addButton.off( 'click', _.bind( this.addContainer, this ) );
 
-			// TODO: remove jQuery hooks
+			this.form.containers.off( 'add remove reset', _.bind( this.checkHasContainers, this ) );
+			this.form.containers.off( 'add', this.listenAddContainer, this );
 		},
 
 		listenAddContainer: function( container ) {

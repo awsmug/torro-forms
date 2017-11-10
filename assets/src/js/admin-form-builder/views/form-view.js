@@ -53,17 +53,13 @@
 			this.form.containers.on( 'add remove reset', this.checkHasContainers, this );
 
 			this.$addButton.on( 'click', _.bind( this.addContainer, this ) );
-
-			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
-			this.form.containers.off( 'add remove reset', _.bind( this.checkHasContainers, this ) );
-			this.form.containers.off( 'add', this.listenAddContainer, this );
-
 			this.$addButton.off( 'click', _.bind( this.addContainer, this ) );
 
-			// TODO: remove jQuery hooks
+			this.form.containers.off( 'add remove reset', _.bind( this.checkHasContainers, this ) );
+			this.form.containers.off( 'add', this.listenAddContainer, this );
 		},
 
 		listenAddContainer: function( container ) {

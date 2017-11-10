@@ -99,20 +99,9 @@
 				tolerance: 'pointer',
 				update: _.bind( this.updateElementsSorted, this )
 			});
-
-			// TODO: add jQuery hooks
 		},
 
 		detach: function() {
-			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
-			this.container.off( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
-			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
-			this.container.off( 'change:sort', this.listenChangeSort, this );
-			this.container.off( 'change:label', this.listenChangeLabel, this );
-			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
-			this.container.elements.off( 'add', this.listenAddContainer, this );
-			this.container.off( 'remove', this.listenRemove, this );
-
 			this.$panel.find( 'drag-drop-area' ).sortable( 'destroy' );
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 			this.$panel.off( 'click', '.add-element-button', _.bind( this.addElement, this ) );
@@ -121,7 +110,14 @@
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
-			// TODO: remove jQuery hooks
+			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
+			this.container.off( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
+			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
+			this.container.off( 'change:sort', this.listenChangeSort, this );
+			this.container.off( 'change:label', this.listenChangeLabel, this );
+			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
+			this.container.elements.off( 'add', this.listenAddContainer, this );
+			this.container.off( 'remove', this.listenRemove, this );
 		},
 
 		listenRemove: function() {
