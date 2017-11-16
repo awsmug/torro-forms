@@ -62,6 +62,11 @@ class Submission_Value_Manager extends Manager {
 		$this->primary_property = 'id';
 
 		parent::__construct( $prefix, $services, $translations );
+
+		if ( defined( 'WP_CLI' ) ) {
+			$command = new CLI_Submission_Values_Command( $this );
+			$command->add( $this->prefix . $this->singular_slug );
+		}
 	}
 
 	/**

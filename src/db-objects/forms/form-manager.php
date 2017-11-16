@@ -183,6 +183,11 @@ class Form_Manager extends Core_Manager {
 		$this->legacy_upgrades = new Legacy_Upgrades( $prefix );
 
 		parent::__construct( $prefix, $services, $translations );
+
+		if ( defined( 'WP_CLI' ) ) {
+			$command = new CLI_Forms_Command( $this );
+			$command->add( $this->prefix . $this->singular_slug );
+		}
 	}
 
 	/**

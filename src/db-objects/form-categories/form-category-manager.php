@@ -75,6 +75,11 @@ class Form_Category_Manager extends Core_Manager {
 		$this->public = true;
 
 		parent::__construct( $prefix, $services, $translations );
+
+		if ( defined( 'WP_CLI' ) ) {
+			$command = new CLI_Form_Categories_Command( $this );
+			$command->add( $this->prefix . $this->singular_slug );
+		}
 	}
 
 	/**

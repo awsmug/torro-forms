@@ -91,6 +91,11 @@ class Submission_Manager extends Manager {
 		$this->export_handler = new Submission_Export_Handler( $prefix, $this );
 
 		parent::__construct( $prefix, $services, $translations );
+
+		if ( defined( 'WP_CLI' ) ) {
+			$command = new CLI_Submissions_Command( $this );
+			$command->add( $this->prefix . $this->singular_slug );
+		}
 	}
 
 	/**

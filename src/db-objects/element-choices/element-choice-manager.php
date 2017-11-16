@@ -66,6 +66,11 @@ class Element_Choice_Manager extends Manager {
 		$this->public = true;
 
 		parent::__construct( $prefix, $services, $translations );
+
+		if ( defined( 'WP_CLI' ) ) {
+			$command = new CLI_Element_Choices_Command( $this );
+			$command->add( $this->prefix . $this->singular_slug );
+		}
 	}
 
 	/**

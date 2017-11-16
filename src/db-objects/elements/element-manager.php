@@ -109,6 +109,11 @@ class Element_Manager extends Manager {
 			'assets'        => $this->assets(),
 			'error_handler' => $this->error_handler(),
 		) );
+
+		if ( defined( 'WP_CLI' ) ) {
+			$command = new CLI_Elements_Command( $this );
+			$command->add( $this->prefix . $this->singular_slug );
+		}
 	}
 
 	/**
