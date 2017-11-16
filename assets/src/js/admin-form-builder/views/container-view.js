@@ -128,6 +128,8 @@
 			}
 
 			this.destroy();
+
+			torro.Builder.getInstance().trigger( 'removeContainer', [ this.container, this ] );
 		},
 
 		listenAddElement: function( element ) {
@@ -141,6 +143,8 @@
 			if ( $dragDropArea.sortable( 'instance' ) ) {
 				$dragDropArea.sortable( 'refresh' );
 			}
+
+			torro.Builder.getInstance().trigger( 'addElement', [ element, view ] );
 		},
 
 		checkHasElements: function() {

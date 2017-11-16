@@ -70,6 +70,8 @@
 			this.$canvas.find( '.torro-form-canvas-footer' ).append( view.$footerPanel );
 
 			view.render();
+
+			torro.Builder.getInstance().trigger( 'addContainer', [ container, view ] );
 		},
 
 		checkHasContainers: function() {

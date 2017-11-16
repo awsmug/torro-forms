@@ -1636,6 +1636,8 @@ window.torro = window.torro || {};
 			}
 
 			this.destroy();
+
+			torro.Builder.getInstance().trigger( 'removeContainer', [ this.container, this ] );
 		},
 
 		listenAddElement: function( element ) {
@@ -1649,6 +1651,8 @@ window.torro = window.torro || {};
 			if ( $dragDropArea.sortable( 'instance' ) ) {
 				$dragDropArea.sortable( 'refresh' );
 			}
+
+			torro.Builder.getInstance().trigger( 'addElement', [ element, view ] );
 		},
 
 		checkHasElements: function() {
@@ -2349,6 +2353,8 @@ window.torro = window.torro || {};
 			}
 
 			this.destroy();
+
+			torro.Builder.getInstance().trigger( 'removeElement', [ this.element, this ] );
 		},
 
 		listenChangeLabel: function( element, label ) {
@@ -2558,6 +2564,8 @@ window.torro = window.torro || {};
 			this.$canvas.find( '.torro-form-canvas-footer' ).append( view.$footerPanel );
 
 			view.render();
+
+			torro.Builder.getInstance().trigger( 'addContainer', [ container, view ] );
 		},
 
 		checkHasContainers: function() {

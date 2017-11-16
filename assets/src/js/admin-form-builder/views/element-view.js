@@ -519,6 +519,8 @@
 			}
 
 			this.destroy();
+
+			torro.Builder.getInstance().trigger( 'removeElement', [ this.element, this ] );
 		},
 
 		listenChangeLabel: function( element, label ) {
