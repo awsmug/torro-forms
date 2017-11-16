@@ -272,6 +272,47 @@ window.torro = window.torro || {};
 			var compiled = torro.template( 'failure' );
 
 			this.$el.find( '.drag-drop-area' ).addClass( 'is-empty' ).html( compiled({ message: message }) );
+		},
+
+		/**
+		 * Registers a function to be called whenever a certain form builder hook is triggered.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {string}   hook     Hook name.
+		 * @param {function} callback Callback function to execute.
+		 */
+		on: function( hook, callback ) {
+			hook = 'torro.' + hook;
+
+			this.$el.on( hook, function() {
+
+				// Pass on all arguments except the event.
+				var args = Array.prototype.slice.call( arguments, 1 );
+
+				if ( args.length ) {
+					callback.apply( undefined, args );
+				} else {
+					callback.apply( undefined, undefined );
+				}
+			});
+		},
+
+		/**
+		 * Triggers a hook for the form builder.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param {string} hook Hook name.
+		 * @param {array}  data Optional. Arguments to pass to each callback.
+		 */
+		trigger: function( hook, data ) {
+			hook = 'torro.' + hook;
+			data = data || [];
+
+			this.$el.trigger( hook, data );
 		}
 	});
 
