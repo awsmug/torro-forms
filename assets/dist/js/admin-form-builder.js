@@ -2438,8 +2438,13 @@ window.torro = window.torro || {};
 
 		listenRemoveElementChoiceField: function( model, removedChoiceItem ) {
 			var elementChoiceId = removedChoiceItem.name.replace( 'torro_element_choices[', '' ).replace( '][value]', '' );
+			var elementChoice = this.element.element_choices.get( elementChoiceId );
 
 			this.element.element_choices.remove( elementChoiceId );
+
+			if ( ! torro.isTempId( elementChoiceId ) ) {
+				$( '#torro-deleted-wrap' ).append( '<input type="hidden" name="' + torro.getDeletedFieldName( elementChoice ) + '" value="' + elementChoiceId + '" />' );
+			}
 		},
 
 		listenChangeElementChoiceFieldValue: function( model, changedChoiceItem, value ) {
