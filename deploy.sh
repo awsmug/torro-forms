@@ -111,8 +111,10 @@ svn propset --quiet svn:ignore ".codeclimate.yml
 .travis.yml
 composer.json
 composer.lock
+conf
 CONTRIBUTING.md
 deploy.sh
+docker-compose.yml
 gulpfile.js
 package.json
 phpcs.xml
