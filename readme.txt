@@ -6,7 +6,7 @@ Author:            Awesome UG
 Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
-Tested up to:      4.8
+Tested up to:      4.9
 Stable tag:        1.0.0-beta.8
 Version:           1.0.0-beta.8
 License:           GNU General Public License v3

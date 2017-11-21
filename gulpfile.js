@@ -33,7 +33,7 @@ var config = {
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
 	donateLink: false,
 	minRequired: '4.8',
-	testedUpTo: '4.8',
+	testedUpTo: '4.9',
 	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms',
 	network: false
 };
