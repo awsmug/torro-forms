@@ -65,9 +65,9 @@ class Element_Setting_Manager extends Manager {
 
 		parent::__construct( $prefix, $services, $translations );
 
-		if ( defined( 'WP_CLI' ) ) {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$command = new CLI_Element_Settings_Command( $this );
-			$command->add( $this->prefix . $this->singular_slug );
+			$command->add( str_replace( '_', ' ', $this->prefix ) . str_replace( '_', '-', $this->singular_slug ) );
 		}
 	}
 

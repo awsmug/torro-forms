@@ -110,9 +110,9 @@ class Element_Manager extends Manager {
 			'error_handler' => $this->error_handler(),
 		) );
 
-		if ( defined( 'WP_CLI' ) ) {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$command = new CLI_Elements_Command( $this );
-			$command->add( $this->prefix . $this->singular_slug );
+			$command->add( str_replace( '_', ' ', $this->prefix ) . str_replace( '_', '-', $this->singular_slug ) );
 		}
 	}
 
