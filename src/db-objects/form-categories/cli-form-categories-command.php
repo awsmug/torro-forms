@@ -30,19 +30,4 @@ class CLI_Form_Categories_Command extends CLI_Models_Command {
 
 		$this->obj_fields = array( 'id', 'title', 'slug', 'description', 'parent', 'count' );
 	}
-
-	/**
-	 * Returns command information for the aggregate command that includes the other commands.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 *
-	 * @param string $name Base command name.
-	 * @return array Command information.
-	 */
-	protected function get_general_args( $name ) {
-		return array(
-			'shortdesc' => 'Manage Torro Forms form categories.',
-		);
-	}
 }

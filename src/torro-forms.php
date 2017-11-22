@@ -442,6 +442,12 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @access protected
 	 */
 	protected function instantiate_services() {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			WP_CLI::add_command( substr( $this->prefix, 0, -1 ), $this->instantiate_library_class( 'CLI_Command_Aggregate' ), array(
+				'shortdesc' => 'Manage Torro Forms content.',
+			) );
+		}
+
 		$this->instantiate_core_services();
 		$this->instantiate_component_services();
 		$this->instantiate_db_object_managers();
