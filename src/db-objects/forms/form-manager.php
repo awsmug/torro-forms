@@ -576,6 +576,12 @@ class Form_Manager extends Core_Manager {
 			'priority' => 10,
 			'num_args' => 1,
 		);
+		$this->actions[] = array(
+			'name'     => 'post_edit_form_tag',
+			'callback' => array( $this->edit_page_handler, 'maybe_print_post_form_novalidate' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
 
 		// TODO: Remove these hooks in the future.
 		$this->actions[] = array(

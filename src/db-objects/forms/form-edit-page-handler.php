@@ -479,6 +479,23 @@ class Form_Edit_Page_Handler {
 	}
 
 	/**
+	 * Prints a 'novalidate' attribute for the post form if conditions are met.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param WP_Post $post Post for which the form is currently being printed.
+	 */
+	public function maybe_print_post_form_novalidate( $post ) {
+		$form = $this->form_manager->get( $post->ID );
+		if ( ! $form ) {
+			return;
+		}
+
+		echo ' novalidate="novalidate"';
+	}
+
+	/**
 	 * Renders form canvas.
 	 *
 	 * @since 1.0.0
