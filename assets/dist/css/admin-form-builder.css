@@ -241,57 +241,30 @@
 
 .torro-element-types
 {
-    display: block;
+    display: flex;
     clear: both;
     overflow: hidden;
 
     margin: 0 -3px;
-}
 
-.torro-element-type-wrap
-{
-    display: block;
-    float: left;
-
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    width: 100%;
-    min-height: 95px;
-    margin-bottom: 1em;
-    padding: 0 3px;
-}
-
-@media screen and (min-width: 851px)
-{
-    .torro-element-type-wrap
-    {
-        width: 50%;
-    }
-}
-
-@media screen and (min-width: 1100px)
-{
-    .torro-element-type-wrap
-    {
-        width: 33.33333333333%;
-    }
-}
-
-@media screen and (min-width: 1400px)
-{
-    .torro-element-type-wrap
-    {
-        width: 25%;
-    }
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
 }
 
 .torro-element-type
 {
+    display: block;
+
+    margin: 0 3px 1em;
+
     cursor: pointer;
 
     border: 1px solid #ccc;
     background-color: #fafafa;
+
+    flex-basis: 200px;
+    flex-grow: 1;
 }
 
 .torro-element-type .torro-element-type-header,

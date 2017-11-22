@@ -735,17 +735,15 @@ class Form_Edit_Page_Handler {
 				<div id="torro-{{ data.id }}-add-element-content-wrap" class="{{ data.addingElement ? 'add-element-content-wrap is-expanded' : 'add-element-content-wrap' }}" role="region">
 					<div class="torro-element-types">
 						<# _.each( data.elementTypes, function( elementType ) { #>
-							<div class="torro-element-type-wrap">
-								<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
-									<div class="torro-element-type-header">
-										<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}">
-										<span class="torro-element-type-header-title">
-											{{ elementType.title }}
-										</span>
-									</div>
-									<div class="torro-element-type-content">
-										<p>{{ elementType.description }}</p>
-									</div>
+							<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
+								<div class="torro-element-type-header">
+									<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}">
+									<span class="torro-element-type-header-title">
+										{{ elementType.title }}
+									</span>
+								</div>
+								<div class="torro-element-type-content">
+									<p>{{ elementType.description }}</p>
 								</div>
 							</div>
 						<# } ); #>
