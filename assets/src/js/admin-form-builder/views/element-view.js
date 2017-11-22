@@ -467,6 +467,7 @@
 				}
 			}, this ) );
 
+			this.$wrap.on( 'click', '.torro-element-header', _.bind( this.toggleActive, this ) );
 			this.$wrap.on( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
 			this.$wrap.on( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 			this.$wrap.on( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
@@ -491,6 +492,7 @@
 			this.$wrap.off( 'click', '.torro-element-content-tab', _.bind( this.changeActiveSection, this ) );
 			this.$wrap.off( 'click', '.delete-element-button', _.bind( this.deleteElement, this ) );
 			this.$wrap.off( 'click', '.torro-element-expand-button', _.bind( this.toggleActive, this ) );
+			this.$wrap.off( 'click', '.torro-element-header', _.bind( this.toggleActive, this ) );
 
 			_.each( this.fieldViews, _.bind( function( fieldView ) {
 				if ( fieldView.model.get( '_element_setting' ) ) {
