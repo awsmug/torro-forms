@@ -575,6 +575,14 @@
 				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'false' ).find( '.screen-reader-text' ).text( this.options.i18n.showContent );
 				this.$wrap.find( '.torro-element-content' ).removeClass( 'is-expanded' );
 			}
+
+			this.$wrap.find( '.plugin-lib-repeatable-torrochoices-wrap' ).each( function() {
+				var $repeatableWrap = $( this );
+
+				if ( $repeatableWrap.sortable( 'instance' ) ) {
+					$repeatableWrap.sortable( 'refresh' );
+				}
+			});
 		},
 
 		listenChangeElementSettingFieldValue: function( model, value ) {
