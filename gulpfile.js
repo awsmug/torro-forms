@@ -34,6 +34,7 @@ var config = {
 	donateLink: false,
 	minRequired: '4.8',
 	testedUpTo: '4.9',
+	requiresPHP: '5.6',
 	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms',
 	network: false
 };
@@ -62,6 +63,7 @@ var readmeheader =	'Plugin Name:       ' + config.pluginName + '\n' +
 					( config.donateLink ? 'Donate link:       ' + config.donateLink + '\n' : '' ) +
 					'Requires at least: ' + config.minRequired + '\n' +
 					'Tested up to:      ' + config.testedUpTo + '\n' +
+					( config.requiresPHP ? 'Requires PHP:      ' + config.requiresPHP + '\n' : '' ) +
 					'Stable tag:        ' + config.version + '\n' +
 					'Version:           ' + config.version + '\n' +
 					'License:           ' + config.license + '\n' +
