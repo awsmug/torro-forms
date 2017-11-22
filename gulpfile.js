@@ -1,25 +1,15 @@
 /* ---- THE FOLLOWING CONFIG SHOULD BE EDITED ---- */
 
-var pkg = require( './package.json' );
+const pkg = require( './package.json' );
 
 function parseKeywords( keywords ) {
 	// These keywords are useful for Packagist/NPM/Bower, but not for the WordPress plugin repository.
-	var disallowed = [ 'wordpress', 'plugin' ];
+	const disallowed = [ 'wordpress', 'plugin' ];
 
-	var k = keywords;
-	for ( var i in disallowed ) {
-		var index = k.indexOf( disallowed[ i ] );
-		if ( -1 < index ) {
-			k.splice( index, 1 );
-		}
-	}
-
-	return k;
+	return keywords.filter( keyword => ! disallowed.includes( keyword ) );
 }
 
-var keywords = parseKeywords( pkg.keywords );
-
-var config = {
+const config = {
 	pluginSlug: 'torro-forms',
 	pluginName: 'Torro Forms',
 	pluginURI: pkg.homepage,
@@ -29,7 +19,7 @@ var config = {
 	version: pkg.version,
 	license: 'GNU General Public License v3',
 	licenseURI: 'http://www.gnu.org/licenses/gpl-3.0.html',
-	tags: keywords.join( ', ' ),
+	tags: parseKeywords( pkg.keywords ).join( ', ' ),
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
 	donateLink: false,
 	minRequired: '4.8',
@@ -42,7 +32,7 @@ var config = {
 /* ---- DO NOT EDIT BELOW THIS LINE ---- */
 
 // WP plugin header for main plugin file
-var pluginheader = 	' * Plugin Name: ' + config.pluginName + '\n' +
+const pluginheader =' * Plugin Name: ' + config.pluginName + '\n' +
 					' * Plugin URI:  ' + config.pluginURI + '\n' +
 					' * Description: ' + config.description + '\n' +
 					' * Version:     ' + config.version + '\n' +
@@ -55,7 +45,7 @@ var pluginheader = 	' * Plugin Name: ' + config.pluginName + '\n' +
 					' * Tags:        ' + config.tags;
 
 // WP plugin header for readme.txt
-var readmeheader =	'Plugin Name:       ' + config.pluginName + '\n' +
+const readmeheader ='Plugin Name:       ' + config.pluginName + '\n' +
 					'Plugin URI:        ' + config.pluginURI + '\n' +
 					'Author:            ' + config.author + '\n' +
 					'Author URI:        ' + config.authorURI + '\n' +
@@ -71,7 +61,7 @@ var readmeheader =	'Plugin Name:       ' + config.pluginName + '\n' +
 					'Tags:              ' + config.tags;
 
 // header for minified assets
-var assetheader =	'/*!\n' +
+const assetheader =	'/*!\n' +
 					' * ' + config.pluginName + ' Version ' + config.version + ' (' + config.pluginURI + ')\n' +
 					' * Licensed under ' + config.license + ' (' + config.licenseURI + ')\n' +
 					' */\n';
@@ -79,20 +69,20 @@ var assetheader =	'/*!\n' +
 
 /* ---- REQUIRED DEPENDENCIES ---- */
 
-var gulp = require( 'gulp' );
+const gulp = require( 'gulp' );
 
-var rename = require( 'gulp-rename' );
-var replace = require( 'gulp-replace' );
-var banner = require( 'gulp-banner' );
-var sass = require( 'gulp-sass' );
-var csscomb = require( 'gulp-csscomb' );
-var cleanCss = require( 'gulp-clean-css' );
-var jshint = require( 'gulp-jshint' );
-var jscs = require( 'gulp-jscs' );
-var concat = require( 'gulp-concat' );
-var uglify = require( 'gulp-uglify' );
+const rename = require( 'gulp-rename' );
+const replace = require( 'gulp-replace' );
+const banner = require( 'gulp-banner' );
+const sass = require( 'gulp-sass' );
+const csscomb = require( 'gulp-csscomb' );
+const cleanCss = require( 'gulp-clean-css' );
+const jshint = require( 'gulp-jshint' );
+const jscs = require( 'gulp-jscs' );
+const concat = require( 'gulp-concat' );
+const uglify = require( 'gulp-uglify' );
 
-var paths = {
+const paths = {
 	php: {
 		files: [ './*.php', './src/**/*.php', './templates/**/*.php' ]
 	},
@@ -126,13 +116,13 @@ var paths = {
 gulp.task( 'default', [ 'sass', 'js' ]);
 
 // watch Sass and JavaScript files
-gulp.task( 'watch', function() {
+gulp.task( 'watch', () => {
 	gulp.watch( paths.sass.files, [ 'sass' ]);
 	gulp.watch( paths.js.files, [ 'js' ]);
 });
 
 // build the plugin
-gulp.task( 'build', [ 'readme-replace' ], function() {
+gulp.task( 'build', [ 'readme-replace' ], () => {
 	gulp.start( 'header-replace' );
 	gulp.start( 'default' );
 });
@@ -140,7 +130,7 @@ gulp.task( 'build', [ 'readme-replace' ], function() {
 /* ---- SUB TASKS ---- */
 
 // compile Sass
-gulp.task( 'sass', function( done ) {
+gulp.task( 'sass', done => {
 	gulp.src( paths.sass.files )
 		.pipe( sass({
 			errLogToConsole: true,
@@ -161,7 +151,7 @@ gulp.task( 'sass', function( done ) {
 });
 
 // compile JavaScript
-gulp.task( 'js', function( done ) {
+gulp.task( 'js', done => {
 	gulp.src( paths.js.files )
 		.pipe( jshint() )
 		.pipe( jshint.reporter( 'default' ) )
@@ -175,7 +165,7 @@ gulp.task( 'js', function( done ) {
 			extname: '.min.js'
 		}) )
 		.pipe( gulp.dest( paths.js.dst ) )
-		.on( 'end', function() {
+		.on( 'end', () => {
 			gulp.src( paths.js.builderFiles )
 				.pipe( jshint() )
 				.pipe( jshint.reporter( 'default' ) )
@@ -195,7 +185,7 @@ gulp.task( 'js', function( done ) {
 });
 
 // replace the plugin header in the main plugin file
-gulp.task( 'header-replace', function( done ) {
+gulp.task( 'header-replace', done => {
 	gulp.src( './' + config.pluginSlug + '.php' )
 		.pipe( replace( /(?:\s\*\s@wordpress-plugin\s(?:[^*]|(?:\*+[^*\/]))*\*+\/)/, ' * @wordpress-plugin\n' + pluginheader + '\n */' ) )
 		.pipe( gulp.dest( './' ) )
@@ -203,7 +193,7 @@ gulp.task( 'header-replace', function( done ) {
 });
 
 // replace the plugin header in readme.txt
-gulp.task( 'readme-replace', function( done ) {
+gulp.task( 'readme-replace', done => {
 	gulp.src( './readme.txt' )
 		.pipe( replace( /\=\=\= (.+) \=\=\=([\s\S]+)\=\= Description \=\=/m, '=== ' + config.pluginName + ' ===\n\n' + readmeheader + '\n\n' + config.description + '\n\n== Description ==' ) )
 		.pipe( gulp.dest( './' ) )
