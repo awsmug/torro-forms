@@ -99,6 +99,12 @@ class Email_Notifications extends Action {
 		add_filter( 'wp_mail_from_name', array( $this, 'override_from_name' ) );
 		add_filter( 'wp_mail_from', array( $this, 'override_from_email' ) );
 
+		$email_header_fields = array(
+			'reply_email' => 'Reply-To',
+			'cc_email'    => 'Cc',
+			'bcc_email'   => 'Bcc',
+		);
+
 		foreach ( $notifications as $notification ) {
 			if ( empty( $notification['to_email'] ) || empty( $notification['subject'] ) || empty( $notification['message'] ) ) {
 				continue;
@@ -109,6 +115,8 @@ class Email_Notifications extends Action {
 					case 'from_email':
 					case 'reply_email':
 					case 'to_email':
+					case 'cc_email':
+					case 'bcc_email':
 						$notification[ $key ] = $this->template_tag_handler_email_only->process_content( $value, array( $form, $submission ) );
 						break;
 					case 'message':
@@ -124,8 +132,15 @@ class Email_Notifications extends Action {
 			$this->from_name  = $notification['from_name'];
 			$this->from_email = $notification['from_email'];
 
+			$headers = array();
+			foreach ( $email_header_fields as $field => $header ) {
+				if ( ! empty( $notification[ $field ] ) ) {
+					$headers[] = $header . ': ' . $notification[ $field ];
+				}
+			}
+
 			// TODO: Handle errors here.
-			wp_mail( $notification['to_email'], $notification['subject'], $notification['message'], array( 'Reply-To: ' . $notification['reply_email'] ) );
+			wp_mail( $notification['to_email'], $notification['subject'], $notification['message'], $headers );
 		}
 
 		$this->from_name = '';
@@ -189,6 +204,18 @@ class Email_Notifications extends Action {
 				'to_email'    => array(
 					'type'                 => 'templatetagemail',
 					'label'                => __( 'To Email', 'torro-forms' ),
+					'input_classes'        => array( 'regular-text' ),
+					'template_tag_handler' => $this->template_tag_handler_email_only,
+				),
+				'cc_email'    => array(
+					'type'                 => 'templatetagemail',
+					'label'                => _x( 'Cc', 'email', 'torro-forms' ),
+					'input_classes'        => array( 'regular-text' ),
+					'template_tag_handler' => $this->template_tag_handler_email_only,
+				),
+				'bcc_email'   => array(
+					'type'                 => 'templatetagemail',
+					'label'                => _x( 'Bcc', 'email', 'torro-forms' ),
 					'input_classes'        => array( 'regular-text' ),
 					'template_tag_handler' => $this->template_tag_handler_email_only,
 				),
