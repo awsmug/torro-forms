@@ -92,11 +92,13 @@
 			this.$panel.on( 'click', '.add-element-button', _.bind( this.addElement, this ) );
 			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 			this.$panel.find( '.drag-drop-area' ).sortable({
-				containment: 'parent',
 				handle: '.torro-element-header',
 				items: '.torro-element',
 				placeholder: 'torro-element-placeholder',
 				tolerance: 'pointer',
+				start: function( e, ui ) {
+					ui.placeholder.height( ui.item.height() );
+				},
 				update: _.bind( this.updateElementsSorted, this )
 			});
 		},
