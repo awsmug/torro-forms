@@ -2466,7 +2466,9 @@ window.torro = window.torro || {};
 			elementChoice.set( 'value', value );
 		},
 
-		toggleActive: function() {
+		toggleActive: function( e ) {
+			e.stopPropagation();
+
 			this.element.collection.toggleActive( this.element.get( 'id' ) );
 		},
 
