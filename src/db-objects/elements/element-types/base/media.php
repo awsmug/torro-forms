@@ -74,9 +74,19 @@ class Media extends Element_Type {
 						$output = '<img src="' . $image_url . '" style="max-width:300px;height:auto;" />';
 					}
 
-					$edit_url = get_edit_post_link( $attachment->ID );
+					$attachment_url = get_edit_post_link( $attachment->ID );
 
-					$output = '<a href="' . $edit_url . '">' . $output . '</a>';
+					/**
+					 * Filters the URL to use when generating the export output for an attachment.
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param string  $attachment_url URL to use for the attachment. Default is the edit URL.
+					 * @param WP_Post $attachment     Attachment object the URL is for.
+					 */
+					$attachment_url = apply_filters( "{$this->manager->get_prefix()}export_attachment_url", $attachment_url, $attachment );
+
+					$output = '<a href="' . esc_url( $attachment_url ) . '">' . $output . '</a>';
 				}
 			} else {
 				$output = __( 'File deleted.', 'torro-forms' );
