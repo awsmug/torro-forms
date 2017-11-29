@@ -99,11 +99,11 @@ class Template_Tag_WYSIWYG_Field extends WYSIWYG {
 			</button>
 			<ul id="<?php echo esc_attr( $id . '-template-tag-list' ); ?>" class="template-tag-list" role="region" tabindex="-1">
 				<?php foreach ( $this->template_tag_handler->get_groups() as $group_slug => $group_label ) : ?>
-					<li class="template-tag-list-group">
+					<li class="template-tag-list-group <?php echo esc_attr( 'template-tag-list-group-' . $group_slug ); ?>">
 						<span><?php echo esc_html( $group_label ); ?></span>
 						<ul>
 							<?php foreach ( $this->template_tag_handler->get_tag_labels( $group_slug ) as $tag_slug => $tag_label ) : ?>
-								<li class="template-tag">
+								<li class="template-tag <?php echo esc_attr( 'template-tag-' . $tag_slug ); ?>">
 									<button type="button" class="template-tag-button" data-tag="<?php echo esc_attr( $tag_slug ); ?>">
 										<?php echo esc_html( $tag_label ); ?>
 									</button>
@@ -133,7 +133,7 @@ class Template_Tag_WYSIWYG_Field extends WYSIWYG {
 			</button>
 			<ul id="{{ data.inputAttrs.id }}-template-tag-list" class="template-tag-list" role="region" tabindex="-1">
 				<# _.each( data.templateTags, function( groupData, groupSlug ) { #>
-					<li class="template-tag-list-group">
+					<li class="template-tag-list-group template-tag-list-group-{{ groupSlug }}">
 						<span>{{ groupData.label }}</span>
 						<ul>
 							<# _.each( groupData.tags, function( tagLabel, tagSlug ) { #>

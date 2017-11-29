@@ -32,7 +32,7 @@
 				e.preventDefault();
 			});
 
-			$el.find( '.template-tag-button' ).on( 'click', function() {
+			$el.on( 'click', '.template-tag-button', function() {
 				var tag = '{' + $( this ).data( 'tag' ) + '}';
 
 				$input.val( $input.val() + tag );
@@ -72,7 +72,7 @@
 				e.preventDefault();
 			});
 
-			$el.find( '.template-tag-button' ).on( 'click', function() {
+			$el.on( 'click', '.template-tag-button', function() {
 				var tag = '{' + $( this ).data( 'tag' ) + '}';
 				var editor = window.tinymce.get( $input.attr( 'id' ) );
 

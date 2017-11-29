@@ -12,6 +12,7 @@ use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Base\Textfield;
 use awsmug\Torro_Forms\Components\Template_Tag_Handler;
+use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
 use WP_Error;
 
 /**
@@ -19,7 +20,7 @@ use WP_Error;
  *
  * @since 1.0.0
  */
-class Email_Notifications extends Action {
+class Email_Notifications extends Action implements Assets_Submodule_Interface {
 
 	/**
 	 * Template tag handler for email notifications.
@@ -532,5 +533,53 @@ class Email_Notifications extends Action {
 	 */
 	public function override_from_email() {
 		return $this->from_email;
+	}
+
+	/**
+	 * Registers all assets the submodule provides.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Assets $assets The plugin assets instance.
+	 */
+	public function register_assets( $assets ) {
+		$template_tag_template = '<li class="template-tag template-tag-%slug%">';
+		$template_tag_template .= '<button type="button" class="template-tag-button" data-tag="%slug%">%label%</button>';
+		$template_tag_template .= '</li>';
+
+		$template_tag_group_template = '<li class="template-tag-list-group template-tag-list-group-%slug%">';
+		$template_tag_group_template .= '<span>%label%</span>';
+		$template_tag_group_template .= '<ul></ul>';
+		$template_tag_group_template .= '</li>';
+
+		$assets->register_script( 'admin-email-notifications', 'assets/dist/js/admin-email-notifications.js', array(
+			'deps'          => array( 'jquery', 'torro-template-tag-fields', 'torro-admin-form-builder' ),
+			'in_footer'     => true,
+			'localize_name' => 'torroEmailNotifications',
+			'localize_data' => array(
+				'templateTagGroupTemplate' => $template_tag_group_template,
+				'templateTagTemplate'      => $template_tag_template,
+				'templateTagSlug'          => 'value_element_%element_id%',
+				'templateTagGroup'         => 'submission',
+				'templateTagGroupLabel'    => _x( 'Submission', 'template tag group', 'torro-forms' ),
+				/* translators: %s: element label */
+				'templateTagLabel'         => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), '%element_label%' ),
+				/* translators: %s: element label */
+				'templateTagDescription'   => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), '%element_label%' ),
+			),
+		) );
+	}
+
+	/**
+	 * Enqueues scripts and stylesheets on the form editing screen.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Assets $assets The plugin assets instance.
+	 */
+	public function enqueue_form_builder_assets( $assets ) {
+		$assets->enqueue_script( 'admin-email-notifications' );
 	}
 }
