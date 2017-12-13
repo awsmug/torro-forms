@@ -277,7 +277,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 			$labels = false;
 			if ( 'value' === $data_point_labels ) {
 				$labels = true;
-			} else {
+			} elseif ( 'percentage' === $data_point_labels ) {
 				$aggregate = array_reduce( $y_values, function( $carry, $y_value ) {
 					$carry += $y_value;
 
