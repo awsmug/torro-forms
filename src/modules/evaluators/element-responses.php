@@ -223,6 +223,12 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 			'default' => 'bar',
 		);
 
+		$meta_fields['show_numbers'] = array(
+			'type'    => 'checkbox',
+			'label'   => _x( 'Show Numbers on each data points?', 'evaluator', 'torro-forms' ),
+			'default' => false,
+		);
+
 		return $meta_fields;
 	}
 
@@ -240,6 +246,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 	 */
 	protected function get_chart_json( $form, $id, $x_values, $y_values ) {
 		$display_mode = $this->get_form_option( $form->id, 'display_mode', 'bar' );
+		$show_numbers = (bool) $this->get_form_option( $form->id, 'show_numbers', false );
 
 		if ( 'bar' === $display_mode ) {
 			$less_than_10 = true;
@@ -262,6 +269,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 						'responseCount' => __( 'Response Count', 'torro-forms' ),
 					),
 					'type'    => $display_mode,
+					'labels'  => $show_numbers,
 				),
 				'axis'   => array(
 					'x' => array(
@@ -289,6 +297,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 				'columns' => array(),
 				'names'   => array(),
 				'type'    => $display_mode,
+				'labels'  => $show_numbers,
 			),
 		);
 

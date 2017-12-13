@@ -254,6 +254,12 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 			'default' => 'line',
 		);
 
+		$meta_fields['show_numbers'] = array(
+			'type'    => 'checkbox',
+			'label'   => _x( 'Show Numbers on each data points?', 'evaluator', 'torro-forms' ),
+			'default' => false,
+		);
+
 		return $meta_fields;
 	}
 
@@ -273,6 +279,7 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 */
 	protected function get_chart_json( $form, $id, $x_values, $y_values, $x_label, $y_label ) {
 		$display_mode = $this->get_form_option( $form->id, 'display_mode', 'line' );
+		$show_numbers = (bool) $this->get_form_option( $form->id, 'show_numbers', false );
 
 		$less_than_10 = true;
 		foreach ( $y_values as $y_value ) {
@@ -297,6 +304,7 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 				'colors'  => array(
 					'submissionCount' => '#0073aa',
 				),
+				'labels'  => $show_numbers,
 			),
 			'axis'   => array(
 				'x' => array(
