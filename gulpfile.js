@@ -103,6 +103,7 @@ const paths = {
 			'./assets/src/js/admin-form-builder/collections/*.js',
 			'./assets/src/js/admin-form-builder/views/*.js',
 			'./assets/src/js/admin-form-builder/metabox-tabs.js',
+			'./assets/src/js/admin-form-builder/unload.js',
 			'./assets/src/js/admin-form-builder/init.js'
 		],
 		src: './assets/src/js/',
