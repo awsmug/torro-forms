@@ -153,7 +153,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 		}
 
 		$meta_fields['allowed_roles'] = array(
-			'type'        => count( $role_choices ) > 8 ? 'multiselect' : 'multibox',
+			'type'        => count( $role_choices ) > 3 ? 'multiselect' : 'multibox',
 			'label'       => __( 'Allowed Roles', 'torro-forms' ),
 			'description' => __( 'If you select user roles here, only users with these roles are granted access to the form.', 'torro-forms' ),
 			'choices'     => $role_choices,

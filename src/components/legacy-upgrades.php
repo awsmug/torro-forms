@@ -218,6 +218,17 @@ class Legacy_Upgrades extends Service {
 			),
 		);
 
+		$skip_enabled = array(
+			'access_controls-author_identification',
+			'access_controls-timerange',
+			'actions-email_notifications',
+			'actions-redirection',
+			'protectors-honeypot',
+			'protectors-linkcount',
+			'protectors-recaptcha',
+			'protectors-timetrap',
+		);
+
 		foreach ( $mappings as $module => $module_mappings ) {
 			$metadata = get_post_meta( $form_id, $prefix . 'module_' . $module, true );
 			if ( ! is_array( $metadata ) ) {
@@ -313,12 +324,7 @@ class Legacy_Upgrades extends Service {
 					$metadata[ $form_option_prefix . $form_option ] = $new;
 				}
 
-				if ( ! empty( $form_option_prefix ) && 'protectors' !== $module && $submodule_data_found ) {
-					// This is ugly, but who cares here...?
-					if ( isset( $metadata[ $form_option_prefix . 'redirect_type' ] ) && 'none' === $metadata[ $form_option_prefix . 'redirect_type' ] ) {
-						continue;
-					}
-
+				if ( ! empty( $form_option_prefix ) && ! in_array( $module . '-' . $submodule, $skip_enabled, true ) && $submodule_data_found ) {
 					$metadata[ $form_option_prefix . 'enabled' ] = true;
 				}
 			}

@@ -32,6 +32,21 @@ class Redirection extends Action {
 	}
 
 	/**
+	 * Checks whether the access control is enabled for a specific form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Form $form Form object to check.
+	 * @return bool True if the access control is enabled, false otherwise.
+	 */
+	public function enabled( $form ) {
+		$redirect_type = $this->get_form_option( $form->id, 'redirect_type', 'redirect_none' );
+
+		return 'redirect_none' !== $redirect_type;
+	}
+
+	/**
 	 * Handles the action for a specific form submission.
 	 *
 	 * @since 1.0.0
@@ -42,7 +57,7 @@ class Redirection extends Action {
 	 * @return bool|WP_Error True on success, error object on failure.
 	 */
 	public function handle( $submission, $form ) {
-		$redirect_type = $this->get_form_option( $form->id, 'redirect_type', 'redirect_page' );
+		$redirect_type = $this->get_form_option( $form->id, 'redirect_type', 'redirect_none' );
 
 		$redirect_url = '';
 		switch ( $redirect_type ) {
@@ -76,16 +91,14 @@ class Redirection extends Action {
 	public function get_meta_fields() {
 		$meta_fields = $this->_get_meta_fields();
 
-		$meta_fields['enabled'] = array(
-			'type'       => 'checkbox',
-			'label'      => _x( 'Enable?', 'action', 'torro-forms' ),
-		);
+		unset( $meta_fields['enabled'] );
 
 		$meta_fields['redirect_type'] = array(
 			'type'        => 'select',
 			'label'       => __( 'Redirect Type', 'torro-forms' ),
 			'description' => __( 'Select to which type of content to redirect the user.', 'torro-forms' ),
 			'choices'     => array(
+				'redirect_none' => __( 'No Redirection', 'torro-forms' ),
 				'redirect_page' => __( 'Page Redirection', 'torro-forms' ),
 				'redirect_url'  => __( 'URL Redirection', 'torro-forms' ),
 			),
@@ -132,6 +145,7 @@ class Redirection extends Action {
 				'fields'   => array( 'redirect_type' ),
 				'args'     => array(
 					'map' => array(
+						'redirect_none' => false,
 						'redirect_page' => true,
 						'redirect_url'  => false,
 					),
@@ -152,6 +166,7 @@ class Redirection extends Action {
 					'fields'   => array( 'redirect_type' ),
 					'args'     => array(
 						'map' => array(
+							'redirect_none' => false,
 							'redirect_page' => false,
 							'redirect_url'  => true,
 						),

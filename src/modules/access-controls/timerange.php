@@ -32,6 +32,30 @@ class Timerange extends Access_Control {
 	}
 
 	/**
+	 * Checks whether the access control is enabled for a specific form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Form $form Form object to check.
+	 * @return bool True if the access control is enabled, false otherwise.
+	 */
+	public function enabled( $form ) {
+		$start = $this->get_form_option( $form->id, 'start' );
+		$end   = $this->get_form_option( $form->id, 'end' );
+
+		if ( ! empty( $start ) && '0000-00-00 00:00:00' !== $start ) {
+			return true;
+		}
+
+		if ( ! empty( $end ) && '0000-00-00 00:00:00' !== $end ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
@@ -78,6 +102,8 @@ class Timerange extends Access_Control {
 	 */
 	public function get_meta_fields() {
 		$meta_fields = parent::get_meta_fields();
+
+		unset( $meta_fields['enabled'] );
 
 		$meta_fields['start'] = array(
 			'type'        => 'datetime',

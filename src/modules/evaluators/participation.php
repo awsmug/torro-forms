@@ -222,7 +222,7 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * @return bool True if the evaluator is enabled, false otherwise.
 	 */
 	public function enabled( $form ) {
-		return $this->get_form_option( $form->id, 'enabled', true );
+		return true;
 	}
 
 	/**
@@ -236,11 +236,7 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	public function get_meta_fields() {
 		$meta_fields = $this->_get_meta_fields();
 
-		$meta_fields['enabled'] = array(
-			'type'    => 'checkbox',
-			'label'   => _x( 'Enable?', 'evaluator', 'torro-forms' ),
-			'default' => true,
-		);
+		unset( $meta_fields['enabled'] );
 
 		$meta_fields['display_mode'] = array(
 			'type'    => 'select',

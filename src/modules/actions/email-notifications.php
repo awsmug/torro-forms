@@ -82,6 +82,29 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	}
 
 	/**
+	 * Checks whether the access control is enabled for a specific form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Form $form Form object to check.
+	 * @return bool True if the access control is enabled, false otherwise.
+	 */
+	public function enabled( $form ) {
+		$notifications = $this->get_form_option( $form->id, 'notifications', array() );
+
+		$notifications = array_filter( $notifications, function( $notification ) {
+			return ! empty( $notification['to_email'] ) && ! empty( $notification['subject'] ) && ! empty( $notification['message'] );
+		});
+
+		if ( ! empty( $notifications ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Handles the action for a specific form submission.
 	 *
 	 * @since 1.0.0
@@ -192,10 +215,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	public function get_meta_fields() {
 		$meta_fields = $this->_get_meta_fields();
 
-		$meta_fields['enabled'] = array(
-			'type'       => 'checkbox',
-			'label'      => _x( 'Enable?', 'action', 'torro-forms' ),
-		);
+		unset( $meta_fields['enabled'] );
 
 		$domain = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
 		if ( ! $domain ) {

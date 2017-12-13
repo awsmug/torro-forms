@@ -32,6 +32,19 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 	}
 
 	/**
+	 * Checks whether the access control is enabled for a specific form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param Form $form Form object to check.
+	 * @return bool True if the access control is enabled, false otherwise.
+	 */
+	public function enabled( $form ) {
+		return true;
+	}
+
+	/**
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
@@ -137,6 +150,8 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 	 */
 	public function get_meta_fields() {
 		$meta_fields = parent::get_meta_fields();
+
+		unset( $meta_fields['enabled'] );
 
 		$meta_fields['use_ip_check'] = array(
 			'type'         => 'checkbox',
