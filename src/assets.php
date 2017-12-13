@@ -199,8 +199,48 @@ class Assets extends Assets_Base {
 	var c3Definitions = document.getElementsByClassName( 'c3-chart-data' );
 	var c3Definition, i;
 
+	function parseFormatFunction( format ) {
+		var search = [
+			'%value%',
+			'%percentage%',
+			'%id%'
+		];
+		var replace, replaced, percentage, i;
+
+		function formatter( value, id ) {
+			value = Math.round( value * 100 ) / 100;
+
+			if ( ! format.template ) {
+				return '' + value;
+			}
+
+			percentage = ( ( format.aggregate && format.aggregate > 0 ) ? value / format.aggregate : 0.0 ) * 100.0;
+
+			replace = [
+				value,
+				Math.round( percentage * 100 ) / 100,
+				id
+			];
+
+			replaced = format.template;
+
+			for ( i = 0; i < replace.length; i++ ) {
+				replaced = replaced.replace( search[ i ], replace[ i ] );
+			}
+
+			return replaced;
+		};
+
+		return formatter;
+	}
+
 	for ( i = 0; i < c3Definitions.length; i++ ) {
 		c3Definition = JSON.parse( c3Definitions[ i ].innerHTML );
+
+		if ( 'object' === typeof c3Definition.data && 'object' === typeof c3Definition.data.labels && 'object' === typeof c3Definition.data.labels.format ) {
+			c3Definition.data.labels.format = parseFormatFunction( c3Definition.data.labels.format );
+		}
+
 		c3.generate( c3Definition );
 	}
 }( window.c3 ) );

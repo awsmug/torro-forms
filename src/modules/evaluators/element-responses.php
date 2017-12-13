@@ -223,10 +223,30 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 			'default' => 'bar',
 		);
 
-		$meta_fields['show_numbers'] = array(
-			'type'    => 'checkbox',
-			'label'   => _x( 'Show Numbers on each data points?', 'evaluator', 'torro-forms' ),
-			'default' => false,
+		$meta_fields['data_point_labels'] = array(
+			'type'         => 'select',
+			'label'        => _x( 'Data Point Labels', 'evaluator', 'torro-forms' ),
+			'description'  => __( 'Specify whether a label should be shown with each data point and which content it should display.', 'torro-forms' ),
+			'choices'      => array(
+				'none'       => _x( 'None', 'data point labels', 'torro-forms' ),
+				'value'      => _x( 'Values', 'data point labels', 'torro-forms' ),
+				'percentage' => _x( 'Percentages', 'data point labels', 'torro-forms' ),
+			),
+			'default'      => 'none',
+			'dependencies' => array(
+				array(
+					'prop'     => 'display',
+					'callback' => 'get_data_by_map',
+					'fields'   => array( 'display_mode' ),
+					'args'     => array(
+						'map' => array(
+							'bar'   => true,
+							'pie'   => false,
+							'donut' => false,
+						),
+					),
+				),
+			),
 		);
 
 		return $meta_fields;
@@ -246,15 +266,34 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 	 */
 	protected function get_chart_json( $form, $id, $x_values, $y_values ) {
 		$display_mode = $this->get_form_option( $form->id, 'display_mode', 'bar' );
-		$show_numbers = (bool) $this->get_form_option( $form->id, 'show_numbers', false );
 
 		if ( 'bar' === $display_mode ) {
-			$less_than_10 = true;
-			foreach ( $y_values as $y_value ) {
+			$data_point_labels = $this->get_form_option( $form->id, 'data_point_labels', 'none' );
+
+			$less_than_10 = array_reduce( $y_values, function( $carry, $y_value ) {
 				if ( $y_value > 10 ) {
-					$less_than_10 = false;
-					break;
+					return false;
 				}
+
+				return $carry;
+			}, true );
+
+			$labels = false;
+			if ( 'value' === $data_point_labels ) {
+				$labels = true;
+			} else {
+				$aggregate = array_reduce( $y_values, function( $carry, $y_value ) {
+					$carry += $y_value;
+
+					return $carry;
+				}, 0 );
+
+				$labels = array(
+					'format' => array(
+						'template'  => '%percentage%%',
+						'aggregate' => $aggregate,
+					),
+				);
 			}
 
 			array_unshift( $x_values, 'x' );
@@ -269,7 +308,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 						'responseCount' => __( 'Response Count', 'torro-forms' ),
 					),
 					'type'    => $display_mode,
-					'labels'  => $show_numbers,
+					'labels'  => $labels,
 				),
 				'axis'   => array(
 					'x' => array(
@@ -297,7 +336,6 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 				'columns' => array(),
 				'names'   => array(),
 				'type'    => $display_mode,
-				'labels'  => $show_numbers,
 			),
 		);
 

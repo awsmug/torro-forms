@@ -254,10 +254,16 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 			'default' => 'line',
 		);
 
-		$meta_fields['show_numbers'] = array(
-			'type'    => 'checkbox',
-			'label'   => _x( 'Show Numbers on each data points?', 'evaluator', 'torro-forms' ),
-			'default' => false,
+		$meta_fields['data_point_labels'] = array(
+			'type'        => 'select',
+			'label'       => _x( 'Data Point Labels', 'evaluator', 'torro-forms' ),
+			'description' => __( 'Specify whether a label should be shown with each data point and which content it should display.', 'torro-forms' ),
+			'choices'     => array(
+				'none'       => _x( 'None', 'data point labels', 'torro-forms' ),
+				'value'      => _x( 'Values', 'data point labels', 'torro-forms' ),
+				'percentage' => _x( 'Percentages', 'data point labels', 'torro-forms' ),
+			),
+			'default'     => 'none',
 		);
 
 		return $meta_fields;
@@ -269,6 +275,8 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * @since 1.0.0
 	 * @access protected
 	 *
+	 * @global WP_Locale $wp_locale WordPress locale object.
+	 *
 	 * @param Form   $form     Form object.
 	 * @param string $id       ID attribute of the element to bind the chart to.
 	 * @param array  $x_values Values for the 'x' axis.
@@ -278,15 +286,35 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * @return array JSON data for the chart.
 	 */
 	protected function get_chart_json( $form, $id, $x_values, $y_values, $x_label, $y_label ) {
-		$display_mode = $this->get_form_option( $form->id, 'display_mode', 'line' );
-		$show_numbers = (bool) $this->get_form_option( $form->id, 'show_numbers', false );
+		global $wp_locale;
 
-		$less_than_10 = true;
-		foreach ( $y_values as $y_value ) {
+		$display_mode      = $this->get_form_option( $form->id, 'display_mode', 'line' );
+		$data_point_labels = $this->get_form_option( $form->id, 'data_point_labels', 'none' );
+
+		$less_than_10 = array_reduce( $y_values, function( $carry, $y_value ) {
 			if ( $y_value > 10 ) {
-				$less_than_10 = false;
-				break;
+				return false;
 			}
+
+			return $carry;
+		}, true );
+
+		$labels = false;
+		if ( 'value' === $data_point_labels ) {
+			$labels = true;
+		} else {
+			$aggregate = array_reduce( $y_values, function( $carry, $y_value ) {
+				$carry += $y_value;
+
+				return $carry;
+			}, 0 );
+
+			$labels = array(
+				'format' => array(
+					'template'  => '%percentage%%',
+					'aggregate' => $aggregate,
+				),
+			);
 		}
 
 		array_unshift( $x_values, 'x' );
@@ -304,7 +332,7 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 				'colors'  => array(
 					'submissionCount' => '#0073aa',
 				),
-				'labels'  => $show_numbers,
+				'labels'  => $labels,
 			),
 			'axis'   => array(
 				'x' => array(
