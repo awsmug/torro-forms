@@ -133,8 +133,14 @@ class Assets extends Assets_Base {
 			'ver'  => $this->plugin_version,
 		) );
 
+		$this->register_script( 'admin-unload', 'assets/dist/js/admin-unload.js', array(
+			'deps'      => array( 'jquery', 'post' ),
+			'ver'       => $this->plugin_version,
+			'in_footer' => true,
+		) );
+
 		$this->register_script( 'admin-form-builder', 'assets/dist/js/admin-form-builder.js', array(
-			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'plugin-lib-fields', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog', 'post' ),
+			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'plugin-lib-fields', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog' ),
 			'ver'           => $this->plugin_version,
 			'in_footer'     => true,
 			'localize_name' => 'torroBuilderI18n',

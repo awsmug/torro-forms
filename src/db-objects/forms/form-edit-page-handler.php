@@ -669,6 +669,8 @@ class Form_Edit_Page_Handler {
 		$this->form_manager->assets()->enqueue_script( 'admin-tooltip-descriptions' );
 		$this->form_manager->assets()->enqueue_style( 'admin-tooltip-descriptions' );
 
+		$this->form_manager->assets()->enqueue_script( 'admin-unload' );
+
 		$this->form_manager->assets()->enqueue_script( 'admin-form-builder' );
 		$this->form_manager->assets()->enqueue_style( 'admin-form-builder' );
 
