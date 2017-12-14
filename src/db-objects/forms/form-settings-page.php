@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use Leaves_And_Love\Plugin_Lib\Components\Tabbed_Settings_Page;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
+use Leaves_And_Love\Plugin_Lib\Fields\Field;
 use Leaves_And_Love\Plugin_Lib\Components\Admin_Pages;
 
 /**
@@ -79,7 +80,8 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		}
 
 		$this->tabs[ $id ] = wp_parse_args( $args, array(
-			'title' => '',
+			'title'            => '',
+			'rest_description' => '',
 		) );
 
 		$services = array(
@@ -216,9 +218,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		$this->add_page_content();
 
 		foreach ( $this->tabs as $id => $tab_args ) {
-			register_setting( $id, $id );
-			add_filter( "sanitize_option_{$id}", array( $this, 'validate' ), 10, 2 );
-
 			foreach ( $tab_args['field_manager']->get_fields() as $field ) {
 				if ( ! isset( $this->sections[ $field->section ] ) ) {
 					continue;
@@ -235,6 +234,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 					'field_instance' => $field,
 				) );
 			}
+
+			register_setting( $id, $id );
+			add_filter( "sanitize_option_{$id}", array( $this, 'validate' ), 10, 2 );
 		}
 
 		foreach ( $this->sections as $id => $section_args ) {
@@ -246,6 +248,190 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 			add_settings_section( $id, $section_args['title'], array( $this, 'render_section_description' ), $tab_subtab_slug );
 		}
+	}
+
+	/**
+	 * Registers the settings for this page in the WordPress REST API.
+	 *
+	 * This method is only meant for internal usage.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function register_rest_api_settings() {
+		$this->add_page_content();
+
+		foreach ( $this->tabs as $id => $tab_args ) {
+			$setting_args = array(
+				'type'         => 'object',
+				'description'  => $tab_args['rest_description'],
+				'show_in_rest' => array(
+					'schema' => array(
+						'type'       => 'object',
+						'properties' => array(),
+					),
+				),
+				'default'      => array(),
+			);
+
+			foreach ( $tab_args['field_manager']->get_fields() as $field ) {
+				if ( ! isset( $this->sections[ $field->section ] ) ) {
+					continue;
+				}
+
+				if ( ! isset( $this->subtabs[ $this->sections[ $field->section ]['subtab'] ] ) ) {
+					continue;
+				}
+
+				$setting_args['show_in_rest']['schema']['properties'][ $field->id ] = $this->build_rest_schema_for_field( $field );
+				$setting_args['default'][ $field->id ]                              = $this->get_rest_default_for_field( $field );
+			}
+
+			if ( empty( $setting_args['show_in_rest']['schema']['properties'] ) ) {
+				$setting_args['show_in_rest'] = false;
+			}
+
+			register_setting( $id, $id, $setting_args );
+			add_filter( "sanitize_option_{$id}", array( $this, 'validate' ), 10, 2 );
+		}
+	}
+
+	/**
+	 * Builds the REST schema array data for a field.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Field $field Field to build the schema for.
+	 * @return array Schema data for the field.
+	 */
+	protected function build_rest_schema_for_field( $field ) {
+		$schema = array();
+
+		switch ( $field->slug ) {
+			case 'group':
+				$schema['type']       = 'object';
+				$schema['properties'] = array();
+				foreach ( $field->fields as $sub_field ) {
+					$schema['properties'][ $sub_field->id ] = $this->build_rest_schema_for_field( $sub_field );
+				}
+				break;
+
+			case 'multiselect':
+			case 'multibox':
+				$schema['type']  = 'array';
+				$schema['items'] = array(
+					'type' => 'string',
+					'enum' => array_map( 'strval', array_keys( $field->choices ) ),
+				);
+				break;
+
+			case 'select':
+			case 'radio':
+				$schema['type'] = 'string';
+				$schema['enum'] = array_map( 'strval', array_keys( $field->choices ) );
+				break;
+
+			case 'checkbox':
+				$schema['type'] = 'boolean';
+				break;
+
+			case 'number':
+			case 'range':
+				$input_attrs    = $field->input_attrs;
+				$schema['type'] = ( ! empty( $input_attrs['step'] ) && is_int( $input_attrs['step'] ) ) ? 'integer' : 'number';
+				if ( isset( $input_attrs['min'] ) ) {
+					$schema['minimum'] = $input_attrs['min'];
+				}
+				if ( isset( $input_attrs['max'] ) ) {
+					$schema['maximum'] = $input_attrs['max'];
+				}
+				break;
+
+			case 'media':
+				if ( 'url' === $field->store ) {
+					$schema['type']   = 'string';
+					$schema['format'] = 'uri';
+				} else {
+					$schema['type']    = 'integer';
+					$schema['minimum'] = 0;
+				}
+				break;
+
+			case 'url':
+				$schema['type'] = 'string';
+				$schema['format'] = 'uri';
+				break;
+
+			case 'email':
+				$schema['type'] = 'string';
+				$schema['format'] = 'email';
+				break;
+
+			default:
+				$schema['type'] = 'string';
+		}
+
+		if ( $field->repeatable ) {
+			$schema['items'] = $schema;
+			$schema['type']  = 'array';
+		}
+
+		if ( ! empty( $field->description ) ) {
+			$schema['description'] = strip_tags( $field->description );
+		} elseif ( 'checkbox' === $field->slug && ! empty( $field->label ) ) {
+			$schema['description'] = strip_tags( $field->label );
+		}
+
+		return $schema;
+	}
+
+	/**
+	 * Gets the REST default value for a field.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 *
+	 * @param Field $field Field to get the default value for.
+	 * @return array Default value for the field.
+	 */
+	protected function get_rest_default_for_field( $field ) {
+		if ( null !== $field->default ) {
+			return $field->default;
+		}
+
+		if ( $field->repeatable ) {
+			return array();
+		}
+
+		switch ( $field->slug ) {
+			case 'group':
+			case 'multiselect':
+			case 'multibox':
+				return array();
+			case 'checkbox':
+				return false;
+			case 'number':
+			case 'range':
+				$input_attrs = $field->input_attrs;
+				if ( ! empty( $input_attrs['step'] ) && is_int( $input_attrs['step'] ) ) {
+					if ( isset( $input_attrs['min'] ) && $input_attrs['min'] > 0 ) {
+						return (int) $input_attrs['min'];
+					}
+					return 0;
+				}
+				if ( isset( $input_attrs['min'] ) && $input_attrs['min'] > 0.0 ) {
+					return (float) $input_attrs['min'];
+				}
+				return 0.0;
+			case 'media':
+				if ( 'url' === $field->store ) {
+					return '';
+				}
+				return 0;
+		}
+
+		return '';
 	}
 
 	/**
@@ -471,10 +657,12 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	protected function get_tabs() {
 		$tabs = array(
 			'general_settings' => array(
-				'title' => _x( 'General', 'form settings', 'torro-forms' ),
+				'title'            => _x( 'General', 'form settings', 'torro-forms' ),
+				'rest_description' => _x( 'Torro Forms general settings.', 'REST API description', 'torro-forms' ),
 			),
 			'extension_settings' => array(
-				'title' => _x( 'Extensions', 'form settings', 'torro-forms' ),
+				'title'            => _x( 'Extensions', 'form settings', 'torro-forms' ),
+				'rest_description' => _x( 'Torro Forms extension settings.', 'REST API description', 'torro-forms' ),
 			),
 		);
 

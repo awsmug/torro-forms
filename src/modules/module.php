@@ -286,6 +286,8 @@ abstract class Module extends Service {
 
 		$settings_page->add_tab( $tab_id, array(
 			'title' => $this->get_title(),
+			/* translators: %s: module title */
+			'rest_description' => sprintf( _x( 'Torro Forms %s module settings.', 'REST API description', 'torro-forms' ), $this->get_title() ),
 		) );
 
 		foreach ( $subtabs as $slug => $args ) {

@@ -406,6 +406,17 @@ class Form_Manager extends Core_Manager {
 	}
 
 	/**
+	 * Registers settings for the REST API.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function register_settings() {
+		$settings_page = new Form_Settings_Page( 'form_settings', torro()->admin_pages(), $this );
+		$settings_page->register_rest_api_settings();
+	}
+
+	/**
 	 * Upgrades legacy form meta when a form is accessed in the admin.
 	 *
 	 * TODO: Remove this method in the future.
@@ -587,6 +598,12 @@ class Form_Manager extends Core_Manager {
 			'callback' => array( $this->edit_page_handler, 'maybe_print_post_form_novalidate' ),
 			'priority' => 10,
 			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => 'rest_api_init',
+			'callback' => array( $this, 'register_settings' ),
+			'priority' => 1,
+			'num_args' => 0,
 		);
 
 		// TODO: Remove these hooks in the future.
