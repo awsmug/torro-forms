@@ -94,14 +94,15 @@ class Redirection extends Action {
 		unset( $meta_fields['enabled'] );
 
 		$meta_fields['redirect_type'] = array(
-			'type'        => 'select',
-			'label'       => __( 'Redirect Type', 'torro-forms' ),
-			'description' => __( 'Select to which type of content to redirect the user.', 'torro-forms' ),
-			'choices'     => array(
+			'type'         => 'select',
+			'label'        => __( 'Redirect Type', 'torro-forms' ),
+			'description'  => __( 'Select to which type of content to redirect the user.', 'torro-forms' ),
+			'choices'      => array(
 				'redirect_none' => __( 'No Redirection', 'torro-forms' ),
 				'redirect_page' => __( 'Page Redirection', 'torro-forms' ),
 				'redirect_url'  => __( 'URL Redirection', 'torro-forms' ),
 			),
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 
 		$page_count = (int) wp_count_posts( 'page' )->publish;
@@ -111,6 +112,7 @@ class Redirection extends Action {
 				'label'         => __( 'Redirect Page', 'torro-forms' ),
 				'description'   => __( 'Specify the page to redirect to.', 'torro-forms' ),
 				'input_classes' => array( 'regular-text' ),
+				'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 				'autocomplete'  => array(
 					'rest_placeholder_search_route' => 'wp/v2/pages?search=%search%',
 					'rest_placeholder_label_route'  => 'wp/v2/pages/%value%',
@@ -131,10 +133,11 @@ class Redirection extends Action {
 			}
 
 			$meta_fields['redirect_page'] = array(
-				'type'        => 'select',
-				'label'       => __( 'Redirect Page', 'torro-forms' ),
-				'description' => __( 'Specify the page to redirect to.', 'torro-forms' ),
-				'choices'     => $page_choices,
+				'type'         => 'select',
+				'label'        => __( 'Redirect Page', 'torro-forms' ),
+				'description'  => __( 'Specify the page to redirect to.', 'torro-forms' ),
+				'choices'      => $page_choices,
+				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			);
 		}
 
@@ -159,6 +162,7 @@ class Redirection extends Action {
 			'description'   => __( 'Enter the URL to redirect to.', 'torro-forms' ),
 			'placeholder'   => 'https://',
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 			'dependencies'  => array(
 				array(
 					'prop'     => 'display',

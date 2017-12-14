@@ -145,6 +145,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 			'description'   => __( 'Enter the message to show to the user in case they are not logged in.', 'torro-forms' ),
 			'default'       => $this->get_default_login_required_message(),
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 		);
 
 		$role_choices = array();
@@ -185,6 +186,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 			'description'   => __( 'Enter the message to show to the user when they are logged in, but have not been selected to participate.', 'torro-forms' ),
 			'default'       => $this->get_default_not_selected_message(),
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 		);
 
 		return $meta_fields;

@@ -73,12 +73,13 @@ class Submission_Count extends Access_Control {
 		$meta_fields = parent::get_meta_fields();
 
 		$meta_fields['total_submissions_limit'] = array(
-			'type'        => 'number',
-			'label'       => __( 'Total Submissions Limit', 'torro-forms' ),
-			'description' => __( 'Enter the total amount of submissions that are allowed to be submitted for this form.', 'torro-forms' ),
-			'min'         => 0,
-			'step'        => 1,
-			'default'     => 100,
+			'type'         => 'number',
+			'label'        => __( 'Total Submissions Limit', 'torro-forms' ),
+			'description'  => __( 'Enter the total amount of submissions that are allowed to be submitted for this form.', 'torro-forms' ),
+			'min'          => 0,
+			'step'         => 1,
+			'default'      => 100,
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 		$meta_fields['total_submissions_reached_message'] = array(
 			'type'          => 'text',
@@ -86,6 +87,7 @@ class Submission_Count extends Access_Control {
 			'description'   => __( 'Enter the message to show to the user when a sufficient amount of submissions have already been completed.', 'torro-forms' ),
 			'default'       => $this->get_default_total_submissions_reached_message(),
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 		);
 
 		return $meta_fields;

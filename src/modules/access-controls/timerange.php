@@ -106,16 +106,18 @@ class Timerange extends Access_Control {
 		unset( $meta_fields['enabled'] );
 
 		$meta_fields['start'] = array(
-			'type'        => 'datetime',
-			'label'       => __( 'Start Date', 'torro-forms' ),
-			'description' => __( 'Select the date this form should be opened.', 'torro-forms' ),
-			'store'       => 'datetime',
+			'type'         => 'datetime',
+			'label'        => __( 'Start Date', 'torro-forms' ),
+			'description'  => __( 'Select the date this form should be opened.', 'torro-forms' ),
+			'store'        => 'datetime',
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 		$meta_fields['end'] = array(
-			'type'        => 'datetime',
-			'label'       => __( 'End Date', 'torro-forms' ),
-			'description' => __( 'Select the date this form should be closed.', 'torro-forms' ),
-			'store'       => 'datetime',
+			'type'         => 'datetime',
+			'label'        => __( 'End Date', 'torro-forms' ),
+			'description'  => __( 'Select the date this form should be closed.', 'torro-forms' ),
+			'store'        => 'datetime',
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 		$meta_fields['not_yet_open_message'] = array(
 			'type'          => 'text',
@@ -123,6 +125,7 @@ class Timerange extends Access_Control {
 			'description'   => __( 'Enter the message to show to the user in case the form is not yet open to submissions.', 'torro-forms' ),
 			'default'       => $this->get_default_not_yet_open_message(),
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 		);
 		$meta_fields['no_longer_open_message'] = array(
 			'type'          => 'text',
@@ -130,6 +133,7 @@ class Timerange extends Access_Control {
 			'description'   => __( 'Enter the message to show to the user in case the form is no longer open to submissions.', 'torro-forms' ),
 			'default'       => $this->get_default_no_longer_open_message(),
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 		);
 
 		return $meta_fields;

@@ -138,6 +138,7 @@ class Honeypot extends Protector {
 			'description'   => __( 'Enter the label to show for the honeypot field. This should indicate that the user must not fill it in.', 'torro-forms' ),
 			'default'       => $this->get_default_skip_field_label(),
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 		);
 
 		return $meta_fields;

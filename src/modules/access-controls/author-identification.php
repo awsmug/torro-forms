@@ -157,16 +157,19 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 			'type'         => 'checkbox',
 			'label'        => __( 'Enable IP address detection to identify a non logged-in user?', 'torro-forms' ),
 			'description'  => __( 'If you activate this checkbox, the IP address will be detected to identify a non logged-in user submitting a form.', 'torro-forms' ),
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 		$meta_fields['use_cookie_check'] = array(
 			'type'         => 'checkbox',
 			'label'        => __( 'Enable usage of a cookie to identify a non logged-in user?', 'torro-forms' ),
 			'description'  => __( 'If you activate this checkbox, a cookie will be set to identify a non logged-in user submitting a form.', 'torro-forms' ),
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 		$meta_fields['prevent_multiple_submissions'] = array(
-			'type'        => 'checkbox',
-			'label'       => __( 'Prevent multiple submissions by a single user?', 'torro-forms' ),
-			'description' => __( 'Click the checkbox to ensure that participants may only submit this form once.', 'torro-forms' ),
+			'type'         => 'checkbox',
+			'label'        => __( 'Prevent multiple submissions by a single user?', 'torro-forms' ),
+			'description'  => __( 'Click the checkbox to ensure that participants may only submit this form once.', 'torro-forms' ),
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 		$meta_fields['already_submitted_message'] = array(
 			'type'          => 'text',
@@ -174,6 +177,7 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 			'description'   => __( 'Enter the message to show to the user when they have already submitted this form.', 'torro-forms' ),
 			'default'       => $this->get_default_already_submitted_message(),
 			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 			'dependencies'  => array(
 				array(
 					'prop'     => 'display',

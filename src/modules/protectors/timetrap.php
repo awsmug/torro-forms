@@ -86,12 +86,13 @@ class Timetrap extends Protector {
 		$meta_fields = parent::get_meta_fields();
 
 		$meta_fields['trigger'] = array(
-			'type'        => 'number',
-			'label'       => __( 'Timetrap Trigger', 'torro-forms' ),
-			'description' => __( 'Specify the number of minimum seconds a user needs to be on the page in order to qualify as a human.', 'torro-forms' ),
-			'default'     => 3,
-			'min'         => 1,
-			'step'        => 1,
+			'type'         => 'number',
+			'label'        => __( 'Timetrap Trigger', 'torro-forms' ),
+			'description'  => __( 'Specify the number of minimum seconds a user needs to be on the page in order to qualify as a human.', 'torro-forms' ),
+			'default'      => 3,
+			'min'          => 1,
+			'step'         => 1,
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 
 		return $meta_fields;

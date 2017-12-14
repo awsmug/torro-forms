@@ -122,6 +122,17 @@ class Assets extends Assets_Base {
 			'ver'  => $this->plugin_version,
 		) );
 
+		$this->register_script( 'admin-tooltip-descriptions', 'assets/dist/js/admin-tooltip-descriptions.js', array(
+			'deps'      => array( 'jquery' ),
+			'ver'       => $this->plugin_version,
+			'in_footer' => true,
+		) );
+
+		$this->register_style( 'admin-tooltip-descriptions', 'assets/dist/css/admin-tooltip-descriptions.css', array(
+			'deps' => array( 'dashicons' ),
+			'ver'  => $this->plugin_version,
+		) );
+
 		$this->register_script( 'admin-form-builder', 'assets/dist/js/admin-form-builder.js', array(
 			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'plugin-lib-fields', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog', 'post' ),
 			'ver'           => $this->plugin_version,

@@ -93,12 +93,13 @@ class Linkcount extends Protector {
 		$meta_fields = parent::get_meta_fields();
 
 		$meta_fields['trigger'] = array(
-			'type'        => 'number',
-			'label'       => __( 'Link Count Trigger', 'torro-forms' ),
-			'description' => __( 'Specify the maximum number of links a field is allowed to contain before it is considered spam.', 'torro-forms' ),
-			'default'     => 3,
-			'min'         => 1,
-			'step'        => 1,
+			'type'         => 'number',
+			'label'        => __( 'Link Count Trigger', 'torro-forms' ),
+			'description'  => __( 'Specify the maximum number of links a field is allowed to contain before it is considered spam.', 'torro-forms' ),
+			'default'      => 3,
+			'min'          => 1,
+			'step'         => 1,
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
 
 		return $meta_fields;
