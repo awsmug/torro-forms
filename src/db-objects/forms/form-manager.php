@@ -565,10 +565,16 @@ class Form_Manager extends Core_Manager {
 			'num_args' => 0,
 		);
 		$this->actions[] = array(
-			'name'     => 'post_submitbox_minor_actions',
-			'callback' => array( $this->edit_page_handler, 'maybe_render_duplicate_button' ),
+			'name'     => 'get_sample_permalink_html',
+			'callback' => array( $this->edit_page_handler, 'maybe_add_duplicate_button' ),
 			'priority' => 10,
-			'num_args' => 1,
+			'num_args' => 5,
+		);
+		$this->actions[] = array(
+			'name'     => 'get_sample_permalink_html',
+			'callback' => array( $this->edit_page_handler, 'maybe_add_submissions_button' ),
+			'priority' => 10,
+			'num_args' => 5,
 		);
 		$this->actions[] = array(
 			'name'     => 'post_submitbox_misc_actions',

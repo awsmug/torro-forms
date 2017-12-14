@@ -436,23 +436,49 @@ class Form_Edit_Page_Handler {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param WP_Post $post Current post object.
+	 * @param string  $output    Sample permalink HTML markup.
+	 * @param int     $post_id   Post ID.
+	 * @param string  $new_title New sample permalink title.
+	 * @param string  $new_slug  New sample permalink slug.
+	 * @param WP_Post $post      Post object.
+	 * @return string Sample permalink HTML, possibly including the additional button.
 	 */
-	public function maybe_render_duplicate_button( $post ) {
+	public function maybe_add_duplicate_button( $output, $post_id, $new_title, $new_slug, $post ) {
 		$prefix = $this->form_manager->get_prefix();
 
 		if ( $prefix . 'form' !== $post->post_type || 'auto-draft' === $post->post_status ) {
-			return;
+			return $output;
 		}
 
 		$nonce_action = $prefix . 'duplicate_form_' . $post->ID;
 		$url = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action );
 
-		?>
-		<div id="duplicate-action">
-			<a class="button" href="<?php echo $url; ?>"><?php _ex( 'Duplicate', 'action', 'torro-forms' ); ?></a>
-		</div>
-		<?php
+		return $output . ' <a class="button button-small" href="' . esc_url( $url ) . '">' . esc_html( _x( 'Duplicate Form', 'action', 'torro-forms' ) ) . '</a>';
+	}
+
+	/**
+	 * Displays a button to view form submissions when applicable.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string  $output    Sample permalink HTML markup.
+	 * @param int     $post_id   Post ID.
+	 * @param string  $new_title New sample permalink title.
+	 * @param string  $new_slug  New sample permalink slug.
+	 * @param WP_Post $post      Post object.
+	 * @return string Sample permalink HTML, possibly including the additional button.
+	 */
+	public function maybe_add_submissions_button( $output, $post_id, $new_title, $new_slug, $post ) {
+		$prefix = $this->form_manager->get_prefix();
+
+		if ( $prefix . 'form' !== $post->post_type || 'auto-draft' === $post->post_status ) {
+			return $output;
+		}
+
+		$url = add_query_arg( 'form_id', $post_id, torro()->admin_pages()->get( 'list_submissions' )->url );
+
+		return $output . ' <a class="button button-small" href="' . esc_url( $url ) . '">' . esc_html( _x( 'View Form Submissions', 'action', 'torro-forms' ) ) . '</a>';
 	}
 
 	public function maybe_render_shortcode( $post ) {
