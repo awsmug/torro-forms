@@ -325,6 +325,8 @@ class Form extends Core_Model {
 			$post_data['post_title'] = sprintf( _x( 'Copy of %s', 'duplicated form title', 'torro-forms' ), $post_data['post_title'] );
 		}
 
+		unset( $post_data['post_name'] );
+
 		if ( ! $as_draft ) {
 			$post_data['post_status'] = 'publish';
 		} else {
