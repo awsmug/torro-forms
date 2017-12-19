@@ -401,7 +401,7 @@
 		-webkit-appearance: none;
 
 		&:focus {
-			outline:0;
+			outline: 0;
 		}
 
 		&[aria-selected="true"] {
@@ -530,6 +530,10 @@
 	&[aria-selected="true"] {
 		border-bottom-color: #00a0d2;
 		font-weight: 600;
+	}
+
+	&:focus {
+		box-shadow: none;
 	}
 }
 

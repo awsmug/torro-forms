@@ -683,6 +683,11 @@
     border-bottom-color: #00a0d2;
 }
 
+.torro-metabox-tab:focus
+{
+    box-shadow: none;
+}
+
 .torro-metabox-tab-panel[aria-hidden='true']
 {
     display: none;
