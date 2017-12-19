@@ -99,13 +99,13 @@
 
 .drag-drop-area {
 	position: relative;
-	min-height: 150px;
 
 	.add-element-content {
 		display: none;
 	}
 
 	&.is-empty {
+		min-height: 150px;
 		border: 4px dashed #b4b9be;
 
 		> div {
@@ -143,14 +143,14 @@
 ---------------------------------------------------------------------------- */
 
 .add-element-wrap {
-	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
 .add-element-toggle-wrap {
 	position: relative;
 	margin-bottom: -10px;
 	text-align: center;
-	border-top: 1px solid #444;
+	border-top: 1px solid #ccc;
 
 	.add-element-toggle {
 		position: relative;
@@ -169,8 +169,8 @@
 	}
 
 	&.is-expanded {
-		border-right: 1px solid #444;
-		border-left: 1px solid #444;
+		border-right: 1px solid #ccc;
+		border-left: 1px solid #ccc;
 	}
 }
 
@@ -180,7 +180,7 @@
 
 	&.is-expanded {
 		display: block;
-		border: 1px solid #444;
+		border: 1px solid #ccc;
 		border-top: 0;
 	}
 }
@@ -274,7 +274,7 @@
 	border: 1px solid #ccc;
 
 	&:last-child {
-		margin-bottom: 0;
+		margin-bottom: 2em;
 	}
 }
 

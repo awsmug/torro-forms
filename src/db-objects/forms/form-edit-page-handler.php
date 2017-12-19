@@ -737,6 +737,7 @@ class Form_Edit_Page_Handler {
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-panel">
+			<div class="drag-drop-area"></div>
 			<div class="add-element-wrap">
 				<div class="{{ data.addingElement ? 'add-element-toggle-wrap is-expanded' : 'add-element-toggle-wrap' }}">
 					<button type="button" class="add-element-toggle" aria-controls="torro-{{ data.id }}-add-element-content-wrap" aria-expanded="{{ data.addingElement ? 'true' : 'false' }}">
@@ -763,9 +764,6 @@ class Form_Edit_Page_Handler {
 						<?php _e( 'Add element', 'torro-forms' ); ?>
 					</button>
 				</div>
-			</div>
-			<div class="drag-drop-area is-empty">
-				<div class="content add-element-content"><?php _e( 'Add your elements here', 'torro-forms' ); ?></div>
 			</div>
 
 			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][form_id]" value="{{ data.form_id }}" />
