@@ -348,6 +348,15 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 		$assets->enqueue_script( 'admin-member-invitations' );
 	}
 
+	/**
+	 * Sends an email invitation to a member.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param array $data AJAX data, including $userId and $formId arguments.
+	 * @return array|WP_Error AJAX response array, or error object in case of failure.
+	 */
 	public function ajax_invite_member( $data ) {
 		if ( empty( $data['userId'] ) || empty( $data['formId'] ) ) {
 			return new WP_Error( 'missing_parameters', __( 'Missing request parameters.', 'torro-forms' ) );
