@@ -787,19 +787,23 @@ class Form_Edit_Page_Handler {
 
 		<script type="text/html" id="tmpl-torro-element-section-panel">
 			<div id="element-panel-{{ data.elementId }}-{{ data.slug }}" class="torro-element-content-panel torro-element-content-panel-{{ data.slug }}" aria-labelledby="element-tab-{{ data.elementId }}-{{ data.slug }}" aria-hidden="{{ data.active ? 'false' : 'true' }}" role="tabpanel">
-				<div class="torro-element-fields"></div>
+				<table class="torro-element-fields form-table"></table>
 			</div>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-element-field">
-			<div{{{ _.attrs( data.wrapAttrs ) }}}>
-				<div id="{{ data.id }}-label-wrap" class="label-wrap"></div>
-				<div id="{{ data.id }}-content-wrap" class="content-wrap"></div>
-				<# if ( data._element_setting ) { #>
-					<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][element_id]" value="{{ data._element_setting.element_id }}" />
-					<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][name]" value="{{ data._element_setting.name }}" />
-				<# } #>
-			</div>
+			<tr{{{ _.attrs( data.wrapAttrs ) }}}>
+				<th scope="row">
+					<div id="{{ data.id }}-label-wrap" class="label-wrap"></div>
+				</th>
+				<td>
+					<div id="{{ data.id }}-content-wrap" class="content-wrap"></div>
+					<# if ( data._element_setting ) { #>
+						<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][element_id]" value="{{ data._element_setting.element_id }}" />
+						<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][name]" value="{{ data._element_setting.name }}" />
+					<# } #>
+				</td>
+			</tr>
 		</script>
 		<?php
 

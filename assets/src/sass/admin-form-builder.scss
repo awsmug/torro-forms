@@ -430,39 +430,6 @@
 		position: absolute !important;
 		width: 1px;
 	}
-
-	.plugin-lib-wrap {
-		margin-bottom: 1em;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-
-	&.torro-element-content-panel-settings {
-		@media screen and (min-width: 783px) {
-			.plugin-lib-wrap {
-				display: flex;
-				align-items: flex-start;
-
-				> .label-wrap {
-					flex: 1;
-
-					label {
-						line-height: 32px;
-					}
-				}
-
-				> .content-wrap {
-					flex: 3;
-				}
-
-				> input {
-					flex: 0;
-				}
-			}
-		}
-	}
 }
 
 // Placeholder for jQuery Sortable
