@@ -164,9 +164,11 @@ class Legacy_Upgrades extends Service {
 		$mappings = array(
 			'access_controls' => array(
 				'author_identification' => array(
-					'use_ip_check'                 => array( 'form_access_controls_check_ip', 'bool' ),
-					'use_cookie_check'             => array( 'form_access_controls_check_cookie', 'bool' ),
 					'prevent_multiple_submissions' => array( array( 'form_access_controls_allmembers_same_users', 'form_access_controls_selectedmembers_same_users' ), 'bool' ),
+					'identification_modes'         => array(
+						'ip_address' => 'form_access_controls_check_ip',
+						'cookie'     => 'form_access_controls_check_cookie',
+					),
 					'already_submitted_message'    => array( 'already_entered_text', 'string' ),
 				),
 				'members'               => array(
@@ -278,6 +280,18 @@ class Legacy_Upgrades extends Service {
 								}
 							}
 						}
+						continue;
+					}
+
+					if ( ! isset( $mapping_data[0] ) ) {
+						$new = array();
+						foreach ( $mapping_data as $group_value => $old_form_option ) {
+							if ( (bool) get_post_meta( $form_id, $old_form_option, true ) ) {
+								$new[] = $group_value;
+							}
+						}
+
+						$metadata[ $form_option_prefix . $form_option ] = $new;
 						continue;
 					}
 
