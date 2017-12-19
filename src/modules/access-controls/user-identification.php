@@ -1,6 +1,6 @@
 <?php
 /**
- * Author identification access control class
+ * User identification access control class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -17,7 +17,7 @@ use WP_Error;
  *
  * @since 1.0.0
  */
-class Author_Identification extends Access_Control implements Submission_Modifier_Access_Control_Interface {
+class User_Identification extends Access_Control implements Submission_Modifier_Access_Control_Interface {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
@@ -26,9 +26,9 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 	 * @access protected
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'author_identification';
-		$this->title       = __( 'Author Identification', 'torro-forms' );
-		$this->description = __( 'Allows you to restrict this form based on whether it belongs to a specific author.', 'torro-forms' );
+		$this->slug        = 'user_identification';
+		$this->title       = __( 'User Identification', 'torro-forms' );
+		$this->description = __( 'Allows you to restrict this form based on the user who wants to access it.', 'torro-forms' );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 				}
 				if ( ! empty( $identification_args ) ) {
-					$query_args['author_identification'] = $identification_args;
+					$query_args['user_identification'] = $identification_args;
 				}
 			}
 

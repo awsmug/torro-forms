@@ -163,7 +163,7 @@ class Legacy_Upgrades extends Service {
 
 		$mappings = array(
 			'access_controls' => array(
-				'author_identification' => array(
+				'user_identification' => array(
 					'prevent_multiple_submissions' => array( array( 'form_access_controls_allmembers_same_users', 'form_access_controls_selectedmembers_same_users' ), 'bool' ),
 					'identification_modes'         => array(
 						'ip_address' => 'form_access_controls_check_ip',
@@ -221,7 +221,7 @@ class Legacy_Upgrades extends Service {
 		);
 
 		$skip_enabled = array(
-			'access_controls-author_identification',
+			'access_controls-user_identification',
 			'access_controls-timerange',
 			'actions-email_notifications',
 			'actions-redirection',
