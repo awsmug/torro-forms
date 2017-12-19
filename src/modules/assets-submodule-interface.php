@@ -21,7 +21,6 @@ interface Assets_Submodule_Interface {
 	 * Registers all assets the submodule provides.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -31,7 +30,6 @@ interface Assets_Submodule_Interface {
 	 * Enqueues scripts and stylesheets on the form editing screen.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */

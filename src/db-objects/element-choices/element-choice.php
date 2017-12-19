@@ -31,7 +31,6 @@ class Element_Choice extends Model {
 	 * Element choice ID.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $id = 0;
@@ -40,7 +39,6 @@ class Element_Choice extends Model {
 	 * ID of the element this element choice is part of.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $element_id = 0;
@@ -49,7 +47,6 @@ class Element_Choice extends Model {
 	 * Identifier of the field this element choice belongs to.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $field = '';
@@ -58,7 +55,6 @@ class Element_Choice extends Model {
 	 * Element choice value.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $value = '';
@@ -67,7 +63,6 @@ class Element_Choice extends Model {
 	 * Index to sort element choices by.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $sort = 0;
@@ -76,7 +71,6 @@ class Element_Choice extends Model {
 	 * Returns the parent element for the element choice.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Element|null Parent element, or null if none set.
 	 */
@@ -92,7 +86,6 @@ class Element_Choice extends Model {
 	 * Duplicates the element choice.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $element_id New parent element ID to use for the element choice.
 	 * @return Element_Choice|WP_Error New element choice object on success, error object on failure.

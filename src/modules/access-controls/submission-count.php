@@ -23,7 +23,6 @@ class Submission_Count extends Access_Control {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'submission_count';
@@ -35,7 +34,6 @@ class Submission_Count extends Access_Control {
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -65,7 +63,6 @@ class Submission_Count extends Access_Control {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -97,7 +94,6 @@ class Submission_Count extends Access_Control {
 	 * Returns the default message to display when the total amount of submissions has been reached.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */

@@ -27,7 +27,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Bootstraps the module by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'protectors';
@@ -47,7 +46,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Verifies a request by ensuring that it is not spammy.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param bool|WP_Error   $verified   Either a boolean or an error object must be returned. Default true.
 	 * @param array           $data       Submission POST data.
@@ -83,7 +81,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Renders the output for the protector before the Submit button.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id Form ID.
 	 */
@@ -105,7 +102,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * The function also executes a hook that should be used by other developers to register their own protectors.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_defaults() {
 		foreach ( $this->default_submodules as $slug => $class_name ) {
@@ -128,7 +124,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Checks whether the current request is the final submit request for a submission completion.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -148,7 +143,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

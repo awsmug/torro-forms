@@ -25,7 +25,6 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -35,7 +34,6 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix   The instance prefix.
 	 * @param array  $services {
@@ -56,7 +54,6 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 	 * Registers the form post type.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_form_post_type() {
 		$options = $this->options()->get( 'general_settings', array() );
@@ -116,7 +113,6 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 	 * Those capabilities are already handled by the capability manager.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global array $post_type_meta_caps Used to store meta capabilities.
 	 */
@@ -142,7 +138,6 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		$this->actions = array(

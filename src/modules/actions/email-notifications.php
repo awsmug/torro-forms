@@ -26,7 +26,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Template tag handler for email notifications.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Template_Tag_Handler
 	 */
 	protected $template_tag_handler;
@@ -35,7 +34,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Template tag handler for email address fields.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Template_Tag_Handler
 	 */
 	protected $template_tag_handler_email_only;
@@ -44,7 +42,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Template tag handler for complex fields with more than one line.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Template_Tag_Handler
 	 */
 	protected $template_tag_handler_complex;
@@ -53,7 +50,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Temporary storage for email from name.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $from_name = '';
@@ -62,7 +58,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Temporary storage for email from email.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $from_email = '';
@@ -71,7 +66,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'email_notifications';
@@ -85,7 +79,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Checks whether the access control is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the access control is enabled, false otherwise.
@@ -108,7 +101,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Handles the action for a specific form submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission Submission to handle by the action.
 	 * @param Form       $form       Form the submission applies to.
@@ -208,7 +200,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -289,7 +280,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Registers the template tag handler for email notifications.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_template_tag_handlers() {
 		$tags = array(
@@ -463,7 +453,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Gets all the dynamic template tags for a form, consisting of the form's element value tags.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form $form        Form for which to get the dynamic template tags.
 	 * @param bool $back_compat Optional. Whether to also include back-compat keys for Torro Forms before 1.0.0-beta.9. Default false.
@@ -523,7 +512,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Gets the email content type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Email content type.
 	 */
@@ -535,7 +523,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Gets the email from name.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Email from name.
 	 */
@@ -547,7 +534,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Gets the email from email.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Email from email.
 	 */
@@ -559,7 +545,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Registers all assets the submodule provides.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -595,7 +580,6 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * Enqueues scripts and stylesheets on the form editing screen.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */

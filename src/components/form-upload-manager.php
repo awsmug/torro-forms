@@ -27,7 +27,6 @@ class Form_Upload_Manager extends Service {
 	 * The taxonomy manager service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -37,7 +36,6 @@ class Form_Upload_Manager extends Service {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix   Instance prefix.
 	 * @param array  $services {
@@ -56,7 +54,6 @@ class Form_Upload_Manager extends Service {
 	 * Uploads a new file for a specific form submission and element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string     $file_id          Identifier to look for in $_FILES.
 	 * @param Submission $submission       Submission object.
@@ -163,7 +160,6 @@ class Form_Upload_Manager extends Service {
 	 * clutter from the now unneeded files previously uploaded.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission Submission object.
 	 * @param Form       $form       Form object.
@@ -229,7 +225,6 @@ class Form_Upload_Manager extends Service {
 	 * Checks whether form uploads should have the form they're uploaded for set as their parent.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id Form ID for which to check this.
 	 * @return bool True if the form should be set as parent, false otherwise.
@@ -252,7 +247,6 @@ class Form_Upload_Manager extends Service {
 	 * Checks whether the typical image sizes should be generated for form uploads.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id Form ID for which to check this.
 	 * @return bool True if image sizes should be generated, false otherwise.

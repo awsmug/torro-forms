@@ -21,7 +21,6 @@ class REST_Form_Categories_Controller extends REST_Models_Controller {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form_Category_Manager $manager The manager instance.
 	 */
@@ -35,7 +34,6 @@ class REST_Form_Categories_Controller extends REST_Models_Controller {
 	 * Retrieves the model's schema, conforming to JSON Schema.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Model schema data.
 	 */
@@ -72,7 +70,6 @@ class REST_Form_Categories_Controller extends REST_Models_Controller {
 	 * Retrieves the query params for the models collection.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Collection parameters.
 	 */

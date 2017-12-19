@@ -21,7 +21,6 @@ class Template_Tag_Handler {
 	 * The template tag handler slug.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 * @var string
 	 */
 	private $slug;
@@ -30,7 +29,6 @@ class Template_Tag_Handler {
 	 * Available template tag data for this handler.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 * @var array
 	 */
 	private $tags = array();
@@ -39,7 +37,6 @@ class Template_Tag_Handler {
 	 * Arguments to pass to the template tag callbacks.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 * @var array
 	 */
 	private $tag_args_definition = array();
@@ -48,7 +45,6 @@ class Template_Tag_Handler {
 	 * Available template tag groups for this handler.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 * @var array
 	 */
 	private $groups = array();
@@ -59,7 +55,6 @@ class Template_Tag_Handler {
 	 * Sets the template tag handler properties.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug                Template tag handler slug.
 	 * @param array  $tags                Template tags as an associative array of `$slug => $data` pairs.
@@ -81,7 +76,6 @@ class Template_Tag_Handler {
 	 * Processes content and replaces template tags.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $content Input content.
 	 * @param array  $args    Arguments to pass to the template tag callbacks. Must validate against the
@@ -114,7 +108,6 @@ class Template_Tag_Handler {
 	 * Gets the template tag handler slug.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Template tag handler slug.
 	 */
@@ -129,7 +122,6 @@ class Template_Tag_Handler {
 	 * a 'description' and 'group'.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Template tag slug.
 	 * @param array  $data Template tag data.
@@ -155,7 +147,6 @@ class Template_Tag_Handler {
 	 * Removes an existing template tag.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Template tag slug.
 	 * @param bool True on success, false on failure.
@@ -174,7 +165,6 @@ class Template_Tag_Handler {
 	 * Checks whether a specific template tag is available.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Template tag slug.
 	 * @return bool True if template tag is available, false otherwise.
@@ -187,7 +177,6 @@ class Template_Tag_Handler {
 	 * Gets a specific template tag.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Template tag slug.
 	 * @return array|null Template tag data, or null if not found.
@@ -204,7 +193,6 @@ class Template_Tag_Handler {
 	 * Gets all available template tags for the handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string|null $group Optional. Group slug to only get tags of that group. Default null.
 	 * @return array Array of template tags.
@@ -221,7 +209,6 @@ class Template_Tag_Handler {
 	 * Gets all available template tag labels for the handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string|null $group Optional. Group slug to only get tags of that group. Default null.
 	 * @return array Array of template tag labels.
@@ -244,7 +231,6 @@ class Template_Tag_Handler {
 	 * Adds a new template tag group.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug  Group slug.
 	 * @param string $label Group label.
@@ -264,7 +250,6 @@ class Template_Tag_Handler {
 	 * Removes an existing template tag group.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Group slug.
 	 * @return bool True on success, false on failure.
@@ -283,7 +268,6 @@ class Template_Tag_Handler {
 	 * Gets all available template tag groups for the handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Array of `$slug => $label` pairs.
 	 */
@@ -295,7 +279,6 @@ class Template_Tag_Handler {
 	 * Validates template tags.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $tags Template tags as an associative array of `$slug => $data` pairs.
 	 * @return array Validated template tags.
@@ -314,7 +297,6 @@ class Template_Tag_Handler {
 	 * Validates data for a template tag.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $data Template tag data to validate.
 	 * @return array Validated template tag data.
@@ -347,7 +329,6 @@ class Template_Tag_Handler {
 	 * Validates template tag callback arguments against an arguments definition.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $tag_args            Template tag callback arguments.
 	 * @param array $tag_args_definition Template tag callback arguments definition as an array of scalar $type values.
@@ -392,7 +373,6 @@ class Template_Tag_Handler {
 	 * Validates a template tag arguments definition.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $tag_args_definition Template tag callback arguments definition as an array of scalar $type values.
 	 * @return array Validated template tag callback arguments definition.

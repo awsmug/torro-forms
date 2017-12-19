@@ -24,7 +24,6 @@ class Media extends Element_Type {
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array           $data       Element data to filter.
 	 * @param Element         $element    The element object to get the data for.
@@ -46,7 +45,6 @@ class Media extends Element_Type {
 	 * Formats values for an export.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array   $values        Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
 	 * @param Element $element       Element the values belong to.
@@ -108,7 +106,6 @@ class Media extends Element_Type {
 	 * Validates a field value for an element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
 	 * @param Element    $element    Element to validate the field value for.
@@ -187,7 +184,6 @@ class Media extends Element_Type {
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'media';
@@ -212,7 +208,6 @@ class Media extends Element_Type {
 	 * Gets the available dropdown options to specify the file type.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array of `$value => $label` pairs.
 	 */
@@ -242,7 +237,6 @@ class Media extends Element_Type {
 	 * Gets the available file mime types.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array of `$file_extension => $mime_type` pairs.
 	 */
@@ -264,7 +258,6 @@ class Media extends Element_Type {
 	 * Gets the available media types.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array of `$media_type => $file_extensions` pairs.
 	 */

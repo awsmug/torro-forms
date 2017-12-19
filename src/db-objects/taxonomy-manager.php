@@ -25,7 +25,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * Internally cached slug for the attachment taxonomy to use for form uploads.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $attachment_taxonomy_slug = '';
@@ -34,7 +33,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -44,7 +42,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix   The instance prefix.
 	 * @param array  $services {
@@ -69,7 +66,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * to override this.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Taxonomy slug, or empty string if attachment taxonomies should not be used.
 	 */
@@ -115,7 +111,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * The ID identifies a term of the attachment taxonomy to use for form uploads.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @see Taxonomy_Manager::get_attachment_taxonomy_slug()
 	 *
@@ -145,7 +140,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * Registers the form category taxonomy.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_form_category_taxonomy() {
 		$rewrite_slug = _x( 'form-categories', 'default form category rewrite slug', 'torro-forms' );
@@ -202,7 +196,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * Registers the attachment category taxonomy if necessary.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function maybe_register_attachment_category_taxonomy() {
 		$taxonomy_slug = $this->get_attachment_taxonomy_slug();
@@ -243,7 +236,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * Creates the default attachment taxonomy term if necessary.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function create_default_attachment_taxonomy_term() {
 		$taxonomy_slug = $this->get_attachment_taxonomy_slug();
@@ -272,7 +264,6 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		$this->actions = array(

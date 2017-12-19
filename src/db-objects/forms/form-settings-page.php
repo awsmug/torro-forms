@@ -24,7 +24,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Form manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Manager
 	 */
 	protected $form_manager;
@@ -33,7 +32,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Array of sub-tabs as `$id => $args` pairs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $subtabs = array();
@@ -42,7 +40,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string       $slug         Page slug.
 	 * @param Admin_Pages  $manager      Admin page manager instance.
@@ -63,7 +60,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Adds a tab to the settings page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $id   Tab identifier.
 	 * @param array  $args {
@@ -101,7 +97,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Adds a sub-tab to the settings page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $id   Sub-tab identifier.
 	 * @param array  $args {
@@ -132,7 +127,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Adds a section to the settings page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $id   Section identifier.
 	 * @param array  $args {
@@ -155,7 +149,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Adds a field to the settings page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $id      Field identifier.
 	 * @param string $type    Identifier of the type.
@@ -197,7 +190,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Enqueues assets to load on the page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function enqueue_assets() {
 		parent::enqueue_assets();
@@ -212,7 +204,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * This method is only meant for internal usage.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function register() {
 		$this->add_page_content();
@@ -256,7 +247,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * This method is only meant for internal usage.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function register_rest_api_settings() {
 		$this->add_page_content();
@@ -300,7 +290,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Builds the REST schema array data for a field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Field $field Field to build the schema for.
 	 * @return array Schema data for the field.
@@ -390,7 +379,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Gets the REST default value for a field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Field $field Field to get the default value for.
 	 * @return array Default value for the field.
@@ -438,7 +426,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Validates field values for an array of fields.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array  $values Array of values.
 	 * @param string $option Option name.
@@ -461,7 +448,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Renders the tab navigation.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $current_tab_id Identifier of the current tab.
 	 */
@@ -487,7 +473,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Renders the settings page form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $option Option name.
 	 */
@@ -509,7 +494,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Renders the settings page form content.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $current_tab_id    Identifier of the current tab.
 	 * @param string $current_subtab_id Identifier of the current sub-tab.
@@ -577,7 +561,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Returns the identifier of the current sub-tab.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $current_tab_id Identifier of the current tab.
 	 * @return string Identifier of the current sub-tab.
@@ -607,7 +590,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * `add_field()` to populate the page.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function add_page_content() {
 		$tabs = $this->get_tabs();
@@ -650,7 +632,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Returns the available settings tabs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
 	 */
@@ -680,7 +661,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Returns the available settings sub-tabs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
 	 */
@@ -706,7 +686,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Returns the available settings sections.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -740,7 +719,6 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * Returns the available settings fields.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */

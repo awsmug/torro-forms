@@ -41,7 +41,6 @@ class Form extends Core_Model {
 	 * Sets the ID and fetches relevant data.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form_Manager $manager The manager instance for the model.
 	 * @param WP_Post|null $db_obj  Optional. The database object or null for a new instance.
@@ -58,7 +57,6 @@ class Form extends Core_Model {
 	 * Checks whether a property is set.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to check for.
 	 * @return bool True if the property is set, false otherwise.
@@ -82,7 +80,6 @@ class Form extends Core_Model {
 	 * Returns a property value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to get.
 	 * @return mixed Property value, or null if property is not set.
@@ -110,7 +107,6 @@ class Form extends Core_Model {
 	 * Sets a property value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to set.
 	 * @param mixed  $value    Property value.
@@ -169,7 +165,6 @@ class Form extends Core_Model {
 	 * Returns all containers that belong to the form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Container_Collection List of containers.
@@ -191,7 +186,6 @@ class Form extends Core_Model {
 	 * Returns all elements that belong to the form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Element_Collection List of elements.
@@ -213,7 +207,6 @@ class Form extends Core_Model {
 	 * Returns all submissions that belong to the form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Submission_Collection List of submissions.
@@ -235,7 +228,6 @@ class Form extends Core_Model {
 	 * Formats the form date and time.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $format Datetime format string. Will be localized.
 	 * @param bool   $gmt    Optional. Whether to return as GMT. Default true.
@@ -254,7 +246,6 @@ class Form extends Core_Model {
 	 * Returns an array representation of the model.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param bool $include_meta Optional. Whether to include metadata for each model in the collection.
 	 *                           Default true.
@@ -299,7 +290,6 @@ class Form extends Core_Model {
 	 * Duplicates the form including all of its contents (except submissions).
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param bool $as_draft    Optional. Whether to set the new form post to 'draft' status initially. Default true.
 	 * @param string $new_title Optional. New form title. Default is the original title prefixed with 'Copy of '.
@@ -353,7 +343,6 @@ class Form extends Core_Model {
 	 * Duplicates all taxonomy terms for this form and applies them to another given form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id New form ID to apply the taxonomy terms to.
 	 */
@@ -369,7 +358,6 @@ class Form extends Core_Model {
 	 * Duplicates all metadata for this form and attaches it to another given form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id New form ID to attach the metadata to.
 	 */
@@ -394,7 +382,6 @@ class Form extends Core_Model {
 	 * Duplicates all comments for this form and attaches them to another given form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id New form ID to attach the comments to.
 	 */
@@ -439,7 +426,6 @@ class Form extends Core_Model {
 	 * Returns all current values as $property => $value pairs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param bool $pending_only Whether to only return pending properties. Default false.
 	 * @return array Array of $property => $value pairs.
@@ -464,7 +450,6 @@ class Form extends Core_Model {
 	 * This method is called if a new object has been instantiated.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function set_default_object() {
 		$this->original = new WP_Post( new stdClass() );
@@ -474,7 +459,6 @@ class Form extends Core_Model {
 	 * Returns the names of all properties that should be accessible on the Core object.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array of property names.
 	 */

@@ -22,7 +22,6 @@ class Element_Query extends Query {
 	 * Sets the manager instance and assigns the defaults.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element_Manager $manager The manager instance for the model query.
 	 */
@@ -41,7 +40,6 @@ class Element_Query extends Query {
 	 * Parses the SQL join value.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Join value for the SQL query.
 	 */
@@ -62,7 +60,6 @@ class Element_Query extends Query {
 	 * Parses the SQL where clause.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array with the first element being the array of SQL where clauses and the second
 	 *               being the array of arguments for those where clauses.
@@ -89,7 +86,6 @@ class Element_Query extends Query {
 	 * Returns the fields that are valid to be used in orderby clauses.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array of valid orderby fields.
 	 */

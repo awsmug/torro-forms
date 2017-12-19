@@ -22,7 +22,6 @@ class Form_List_Page_Handler {
 	 * Form manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Manager
 	 */
 	protected $form_manager;
@@ -31,7 +30,6 @@ class Form_List_Page_Handler {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form_Manager $form_manager Form manager instance.
 	 */
@@ -43,7 +41,6 @@ class Form_List_Page_Handler {
 	 * Adjusts the list table columns if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $columns Form list table columns.
 	 * @return array Adjusted columns.
@@ -60,7 +57,6 @@ class Form_List_Page_Handler {
 	 * Renders a custom list table column if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $column_name Name of the column to render.
 	 * @param int    $post_id     Current post ID.
@@ -78,7 +74,6 @@ class Form_List_Page_Handler {
 	 * Adjusts row actions if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array   $actions Original row actions.
 	 * @param WP_Post $post    Current post object.
@@ -97,7 +92,6 @@ class Form_List_Page_Handler {
 	 * Inserts custom row actions for the list table.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $actions Original row actions.
 	 * @param Form  $form    Current form object.
@@ -135,7 +129,6 @@ class Form_List_Page_Handler {
 	 * Renders a custom list table column.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $column_name Name of the column to render.
 	 * @param Form   $form        Current form object.

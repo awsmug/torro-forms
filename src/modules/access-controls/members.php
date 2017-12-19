@@ -27,7 +27,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Template tag handler for email notifications.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Template_Tag_Handler
 	 */
 	protected $template_tag_handler;
@@ -36,7 +35,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Template tag handler for email address fields.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Template_Tag_Handler
 	 */
 	protected $template_tag_handler_email_only;
@@ -45,7 +43,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Temporary storage for email from name.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $from_name = '';
@@ -54,7 +51,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Temporary storage for email from email.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $from_email = '';
@@ -63,7 +59,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'members';
@@ -81,7 +76,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -132,7 +126,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -196,7 +189,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the available settings sections for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -220,7 +212,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the available settings fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -320,7 +311,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Registers all assets the submodule provides.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -340,7 +330,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Enqueues scripts and stylesheets on the form editing screen.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -348,6 +337,14 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 		$assets->enqueue_script( 'admin-member-invitations' );
 	}
 
+	/**
+	 * Sends an email invitation to a member.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $data AJAX data, including $userId and $formId arguments.
+	 * @return array|WP_Error AJAX response array, or error object in case of failure.
+	 */
 	public function ajax_invite_member( $data ) {
 		if ( empty( $data['userId'] ) || empty( $data['formId'] ) ) {
 			return new WP_Error( 'missing_parameters', __( 'Missing request parameters.', 'torro-forms' ) );
@@ -422,7 +419,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Gets the email content type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Email content type.
 	 */
@@ -434,7 +430,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Gets the email from name.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Email from name.
 	 */
@@ -446,7 +441,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Gets the email from email.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Email from email.
 	 */
@@ -458,7 +452,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Checks whether a user has been previously invited to a form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $user_id User ID.
 	 * @param int $form_id Form ID.
@@ -485,7 +478,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Sets a user as invited to a form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $user_id User ID.
 	 * @param int $form_id Form ID.
@@ -504,7 +496,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the default message to display when the user is not logged in.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */
@@ -516,7 +507,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the default message to display when the user has not been selected.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */
@@ -528,7 +518,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the default subject for an invitation email, including placeholders.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Invitation email subject.
 	 */
@@ -541,7 +530,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the default subject for a reinvitation email, including placeholders.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Reinvitation email subject.
 	 */
@@ -554,7 +542,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the default message for an invitation email, including placeholders.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Invitation email message.
 	 */
@@ -575,7 +562,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Returns the default message for a reinvitation email, including placeholders.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Reinvitation email message.
 	 */
@@ -596,7 +582,6 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * Registers the template tag handler for member invitations.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_template_tag_handlers() {
 		$tags = array(

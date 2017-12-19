@@ -23,7 +23,6 @@ class Submission_Export_Handler extends Service {
 	 * Submission manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Submission_Manager
 	 */
 	protected $submission_manager;
@@ -32,7 +31,6 @@ class Submission_Export_Handler extends Service {
 	 * Submission export mode.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $modes = array();
@@ -41,7 +39,6 @@ class Submission_Export_Handler extends Service {
 	 * Nonce action to use.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $nonce_action = '';
@@ -50,7 +47,6 @@ class Submission_Export_Handler extends Service {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string             $prefix             Instance prefix.
 	 * @param Submission_Manager $submission_manager Submission manager instance.
@@ -72,7 +68,6 @@ class Submission_Export_Handler extends Service {
 	 * Gets the export admin action name.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Action name.
 	 */
@@ -86,7 +81,6 @@ class Submission_Export_Handler extends Service {
 	 * This method will terminate the current request.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $mode Export mode to use. Either 'xls' or 'csv'.
 	 * @param Form   $form Form to export submissions for.
@@ -106,7 +100,6 @@ class Submission_Export_Handler extends Service {
 	 * Handles the export admin action.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function handle_export_action() {
 		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
@@ -152,7 +145,6 @@ class Submission_Export_Handler extends Service {
 	 * Renders the export form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function render_export_form() {
 		if ( ! isset( $_REQUEST['form_id'] ) ) {

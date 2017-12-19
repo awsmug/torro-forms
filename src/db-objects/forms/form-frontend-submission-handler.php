@@ -22,7 +22,6 @@ class Form_Frontend_Submission_Handler {
 	 * Form manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Manager
 	 */
 	protected $form_manager;
@@ -31,7 +30,6 @@ class Form_Frontend_Submission_Handler {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form_Manager $form_manager Form manager instance.
 	 */
@@ -43,7 +41,6 @@ class Form_Frontend_Submission_Handler {
 	 * Handles a form submission and redirects back if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function maybe_handle_form_submission() {
 		if ( ! isset( $_POST['torro_submission'] ) ) {
@@ -106,7 +103,6 @@ class Form_Frontend_Submission_Handler {
 	 * Handles a form submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form       $form       Form object.
 	 * @param Submission $submission Submission object.
@@ -295,7 +291,6 @@ class Form_Frontend_Submission_Handler {
 	 * Detects the form and submission from the request.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $data Submission POST data.
 	 * @return array|WP_Error Array with 'form' and 'submission' keys, or error object on failure.
@@ -338,7 +333,6 @@ class Form_Frontend_Submission_Handler {
 	 * Creates a new submission object.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form  $form Form object.
 	 * @param array $data Submission POST data.
@@ -367,7 +361,6 @@ class Form_Frontend_Submission_Handler {
 	 * Inserts a new submission value into the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int    $submission_id ID of the submission the value belongs to.
 	 * @param int    $element_id    ID of the element the value applies to.
@@ -394,7 +387,6 @@ class Form_Frontend_Submission_Handler {
 	 * By default only the security nonce is checked. Further checks can be applied via a filter.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array           $data       Submission POST data.
 	 * @param Form            $form       Form object.
@@ -427,7 +419,6 @@ class Form_Frontend_Submission_Handler {
 	 * Returns the name of the nonce action to check.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
@@ -445,7 +436,6 @@ class Form_Frontend_Submission_Handler {
 	 * Sets a form error so that it can be printed to the user in the next request.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form     $form  Form object.
 	 * @param WP_Error $error Error object.

@@ -31,7 +31,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Bootstraps the module by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'evaluators';
@@ -49,7 +48,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Evaluates a specific form submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission $submission Submission to evaluate.
 	 * @param Form       $form       Form the submission applies to.
@@ -71,7 +69,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Shows evaluation results if a form ID is provided as GET parameter.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission_Manager $submissions Submission manager instance.
 	 */
@@ -165,7 +162,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * The function also executes a hook that should be used by other developers to register their own evaluators.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_defaults() {
 		foreach ( $this->default_submodules as $slug => $class_name ) {
@@ -188,7 +184,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Registers the available module scripts and stylesheets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */
@@ -211,7 +206,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Enqueues assets to load in the submissions list table view if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission_Manager $submissions Submission manager instance.
 	 */
@@ -256,7 +250,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();
@@ -291,7 +284,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Handles the form charts shortcode.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $atts {
 	 *     Array of shortcode attributes.
@@ -349,7 +341,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Handles the deprecated form charts shortcode.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $atts {
 	 *     Array of shortcode attributes.
@@ -374,7 +365,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Arguments are tweaked around inside it and passed on to the new shortcode to account for back-compat.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $atts {
 	 *     Array of shortcode attributes.
@@ -414,7 +404,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Adds the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function add_hooks() {
 		if ( ! $this->hooks_added ) {
@@ -430,7 +419,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Removes the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function remove_hooks() {
 		if ( $this->hooks_added ) {

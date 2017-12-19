@@ -39,7 +39,6 @@ class Element extends Model {
 	 * Element ID.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $id = 0;
@@ -48,7 +47,6 @@ class Element extends Model {
 	 * ID of the container this element is part of.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $container_id = 0;
@@ -57,7 +55,6 @@ class Element extends Model {
 	 * Element label.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $label = '';
@@ -66,7 +63,6 @@ class Element extends Model {
 	 * Index to sort elements by.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $sort = 0;
@@ -75,7 +71,6 @@ class Element extends Model {
 	 * Element type identifier.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $type = '';
@@ -84,7 +79,6 @@ class Element extends Model {
 	 * Returns the parent container for the element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Container|null Parent container, or null if none set.
 	 */
@@ -100,7 +94,6 @@ class Element extends Model {
 	 * Returns all element choices that belong to the element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Element_Choice_Collection List of element choices.
@@ -122,7 +115,6 @@ class Element extends Model {
 	 * Returns all element settings that belong to the element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Element_Setting_Collection List of element settings.
@@ -144,7 +136,6 @@ class Element extends Model {
 	 * Returns the element type object for this element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Element_Type Element type object.
 	 */
@@ -165,7 +156,6 @@ class Element extends Model {
 	 * Deletes the model from the database.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return true|WP_Error True on success, or an error object on failure.
 	 */
@@ -187,7 +177,6 @@ class Element extends Model {
 	 * Returns an array representation of the model.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param bool            $include_meta Optional. Whether to include metadata for each model in the collection.
 	 *                                      Default true.
@@ -325,7 +314,6 @@ class Element extends Model {
 	 * Duplicates the element including all of its contents.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $container_id New parent container ID to use for the element.
 	 * @return Element|WP_Error New element object on success, error object on failure.
@@ -366,7 +354,6 @@ class Element extends Model {
 	 * Validates submission fields for this element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array      $values     Array of `$field => $value` pairs with the main field having
 	 *                               a key of '_main'.
@@ -404,7 +391,6 @@ class Element extends Model {
 	 * Checks whether the element does not expect any input.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return bool True if the element does not expect any input, false otherwise.
 	 */
@@ -421,7 +407,6 @@ class Element extends Model {
 	 * Checks whether the element is evaluable.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return bool True if the element is evaluable, false otherwise.
 	 */
@@ -438,7 +423,6 @@ class Element extends Model {
 	 * Checks whether the element contains multiple fields.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return bool True if the element contains multiple fields, false otherwise.
 	 */

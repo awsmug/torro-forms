@@ -21,7 +21,6 @@ class Translations_Field_Manager extends Translations_Field_Manager_Base {
 	 * Initializes the translation strings.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function init() {
 		$this->translations = array(

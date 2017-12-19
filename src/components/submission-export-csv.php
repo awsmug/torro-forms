@@ -21,7 +21,6 @@ class Submission_Export_CSV extends Submission_Export {
 	 * Generates the actual export from given data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $columns Associative columns array of `$column_slug => $column_label` pairs.
 	 * @param array $rows    Rows array where each row is an associative array of
@@ -61,7 +60,6 @@ class Submission_Export_CSV extends Submission_Export {
 	 * Bootstraps the export class by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug          = 'csv';

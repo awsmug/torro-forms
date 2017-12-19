@@ -19,7 +19,6 @@ interface Submodule_Registry_Interface {
 	 * Checks whether a specific submodule is registered.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Submodule slug.
 	 * @return bool True if the submodule is registered, false otherwise.
@@ -30,7 +29,6 @@ interface Submodule_Registry_Interface {
 	 * Returns a specific registered submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Submodule slug.
 	 * @return Submodule|Error Submodule instance, or error object if submodule is not registered.
@@ -41,7 +39,6 @@ interface Submodule_Registry_Interface {
 	 * Returns all registered submodules.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$slug => $submodule_instance` pairs.
 	 */
@@ -51,7 +48,6 @@ interface Submodule_Registry_Interface {
 	 * Registers a new submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug                 Submodule slug.
 	 * @param string $submodule_class_name Submodule class name.
@@ -63,7 +59,6 @@ interface Submodule_Registry_Interface {
 	 * Unregisters a new submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Submodule slug.
 	 * @return bool|Error True on success, error object on failure.

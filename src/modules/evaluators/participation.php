@@ -24,7 +24,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'participation';
@@ -40,7 +39,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * not need to be calculated live.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array      $aggregate_results Aggregate results to update.
 	 * @param Submission $submission        Submission to evaluate.
@@ -80,7 +78,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Renders evaluation results for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $results Results to show.
 	 * @param Form  $form    Form the results belong to.
@@ -178,7 +175,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Registers all assets the submodule provides.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -190,7 +186,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Enqueues scripts and stylesheets on the form editing screen.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -202,7 +197,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Enqueues scripts and stylesheets on the submissions list table view.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 * @param Form   $form   Form to show results for.
@@ -216,7 +210,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Checks whether the evaluator is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the evaluator is enabled, false otherwise.
@@ -229,7 +222,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -269,7 +261,6 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * Returns the JSON data to generate the chart.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global WP_Locale $wp_locale WordPress locale object.
 	 *

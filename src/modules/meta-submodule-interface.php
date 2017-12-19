@@ -19,7 +19,6 @@ interface Meta_Submodule_Interface {
 	 * Retrieves the value of a specific submodule form option.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int    $form_id Form ID.
 	 * @param string $option  Name of the form option to retrieve.
@@ -32,7 +31,6 @@ interface Meta_Submodule_Interface {
 	 * Retrieves the values for all submodule form options.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $form_id Form ID.
 	 * @return array Associative array of `$key => $value` pairs for every form option that is set.
@@ -43,7 +41,6 @@ interface Meta_Submodule_Interface {
 	 * Returns the meta identifier for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule meta identifier.
 	 */
@@ -53,7 +50,6 @@ interface Meta_Submodule_Interface {
 	 * Returns the meta subtab title for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule meta title.
 	 */
@@ -63,7 +59,6 @@ interface Meta_Submodule_Interface {
 	 * Returns the meta subtab description for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule meta description.
 	 */
@@ -73,7 +68,6 @@ interface Meta_Submodule_Interface {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */

@@ -49,7 +49,6 @@ class Form_Manager extends Core_Manager {
 	 * The frontend submission handler.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Frontend_Submission_Handler
 	 */
 	protected $frontend_submission_handler;
@@ -58,7 +57,6 @@ class Form_Manager extends Core_Manager {
 	 * The frontend output handler.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Frontend_Output_Handler
 	 */
 	protected $frontend_output_handler;
@@ -67,7 +65,6 @@ class Form_Manager extends Core_Manager {
 	 * The form list page handler.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_List_Page_Handler
 	 */
 	protected $list_page_handler;
@@ -76,7 +73,6 @@ class Form_Manager extends Core_Manager {
 	 * The form edit page handler.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Edit_Page_Handler
 	 */
 	protected $edit_page_handler;
@@ -85,7 +81,6 @@ class Form_Manager extends Core_Manager {
 	 * The legacy upgrades instance. TODO: Remove this property in the future.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 * @var Legacy_Upgrades
 	 */
 	protected $legacy_upgrades;
@@ -94,7 +89,6 @@ class Form_Manager extends Core_Manager {
 	 * The Template API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -104,7 +98,6 @@ class Form_Manager extends Core_Manager {
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -114,7 +107,6 @@ class Form_Manager extends Core_Manager {
 	 * The Assets API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -124,7 +116,6 @@ class Form_Manager extends Core_Manager {
 	 * The AJAX API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -134,7 +125,6 @@ class Form_Manager extends Core_Manager {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string                    $prefix       The instance prefix.
 	 * @param array                     $services     {
@@ -194,7 +184,6 @@ class Form_Manager extends Core_Manager {
 	 * Returns the form frontend submission handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Form_Frontend_Submission_Handler Frontend submission handler instance.
 	 */
@@ -206,7 +195,6 @@ class Form_Manager extends Core_Manager {
 	 * Returns the form frontend output handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Form_Frontend_Output_Handler Frontend output handler instance.
 	 */
@@ -218,7 +206,6 @@ class Form_Manager extends Core_Manager {
 	 * Returns the form list page handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Form_List_Page_Handler List page handler instance.
 	 */
@@ -230,7 +217,6 @@ class Form_Manager extends Core_Manager {
 	 * Returns the form edit page handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Form_Edit_Page_Handler Edit page handler instance.
 	 */
@@ -242,7 +228,6 @@ class Form_Manager extends Core_Manager {
 	 * Adds the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function add_hooks() {
 		if ( ! $this->hooks_added ) {
@@ -257,7 +242,6 @@ class Form_Manager extends Core_Manager {
 	 * Removes the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function remove_hooks() {
 		if ( $this->hooks_added ) {
@@ -272,7 +256,6 @@ class Form_Manager extends Core_Manager {
 	 * Internal method to insert a new form into the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $args Array of column => value pairs for the new database row.
 	 * @return int|false The ID of the new form, or false on failure.
@@ -292,7 +275,6 @@ class Form_Manager extends Core_Manager {
 	 * Internal method to update an existing form in the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int   $form_id ID of the form to update.
 	 * @param array $args    Array of column => value pairs to update in the database row.
@@ -314,7 +296,6 @@ class Form_Manager extends Core_Manager {
 	 * Internal method to delete a form from the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id ID of the form to delete.
 	 * @return bool True on success, or false on failure.
@@ -327,7 +308,6 @@ class Form_Manager extends Core_Manager {
 	 * Internal method to fetch a form from the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_id ID of the form to fetch.
 	 * @return WP_Post|null Post object of the form, or null if not found.
@@ -348,7 +328,6 @@ class Form_Manager extends Core_Manager {
 	 * Maps form arguments to regular post arguments.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $args Arguments as `$property => $value` pairs.
 	 * @return array Mapped arguments.
@@ -384,7 +363,6 @@ class Form_Manager extends Core_Manager {
 	 * Deletes sub-components of a form that is about to be deleted.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $post_id Post ID. Will only be handled if a form ID.
 	 */
@@ -409,7 +387,6 @@ class Form_Manager extends Core_Manager {
 	 * Registers settings for the REST API.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_settings() {
 		$settings_page = new Form_Settings_Page( 'form_settings', torro()->admin_pages(), $this );
@@ -422,7 +399,6 @@ class Form_Manager extends Core_Manager {
 	 * TODO: Remove this method in the future.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param WP_Screen $screen Current screen object.
 	 */
@@ -448,7 +424,6 @@ class Form_Manager extends Core_Manager {
 	 * TODO: Remove this method in the future.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 */
 	private function maybe_upgrade_legacy_form_attachments() {
 		$this->legacy_upgrades->maybe_upgrade_legacy_form_attachment_statuses();
@@ -460,7 +435,6 @@ class Form_Manager extends Core_Manager {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

@@ -31,7 +31,6 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 	 * Checks whether the access control is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the access control is enabled, false otherwise.
@@ -44,7 +43,6 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -56,7 +54,6 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */

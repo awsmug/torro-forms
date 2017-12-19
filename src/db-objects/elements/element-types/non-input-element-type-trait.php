@@ -23,7 +23,6 @@ trait Non_Input_Element_Type_Trait {
 	 * Returns the current values for the element fields, optionally for a specific submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element         $element    The element object to get values for.
 	 * @param Submission|null $submission Optional. Submission to get the values from, if available. Default null.
@@ -37,7 +36,6 @@ trait Non_Input_Element_Type_Trait {
 	 * Formats values for an export.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array   $values        Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
 	 * @param Element $element       Element the values belong to.
@@ -53,7 +51,6 @@ trait Non_Input_Element_Type_Trait {
 	 * Gets the columns required for an export.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element $element Element to export columns for.
 	 * @return array Associative array of `$column_slug => $column_label` pairs.
@@ -66,7 +63,6 @@ trait Non_Input_Element_Type_Trait {
 	 * Validates a field value for an element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
 	 * @param Element    $element    Element to validate the field value for.

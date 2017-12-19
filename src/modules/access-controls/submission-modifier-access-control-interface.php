@@ -19,7 +19,6 @@ interface Submission_Modifier_Access_Control_Interface {
 	 * Sets additional data for a submission when it is created.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission New submission object.
 	 * @param Form       $form       Form object the submission belongs to.

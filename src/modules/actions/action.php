@@ -31,7 +31,6 @@ abstract class Action extends Submodule implements Meta_Submodule_Interface, Set
 	 * Checks whether the action is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the action is enabled, false otherwise.
@@ -44,7 +43,6 @@ abstract class Action extends Submodule implements Meta_Submodule_Interface, Set
 	 * Handles the action for a specific form submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission Submission to handle by the action.
 	 * @param Form       $form       Form the submission applies to.
@@ -56,7 +54,6 @@ abstract class Action extends Submodule implements Meta_Submodule_Interface, Set
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */

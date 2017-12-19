@@ -30,7 +30,6 @@ class Element_Setting extends Model {
 	 * Element setting ID.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $id = 0;
@@ -39,7 +38,6 @@ class Element_Setting extends Model {
 	 * ID of the element this element setting is part of.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $element_id = 0;
@@ -48,7 +46,6 @@ class Element_Setting extends Model {
 	 * Element setting name.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $name = '';
@@ -57,7 +54,6 @@ class Element_Setting extends Model {
 	 * Element setting value.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $value = '';
@@ -66,7 +62,6 @@ class Element_Setting extends Model {
 	 * Returns the parent element for the element setting.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Element|null Parent element, or null if none set.
 	 */
@@ -82,7 +77,6 @@ class Element_Setting extends Model {
 	 * Duplicates the element setting.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $element_id New parent element ID to use for the element setting.
 	 * @return Element_Setting|WP_Error New element setting object on success, error object on failure.

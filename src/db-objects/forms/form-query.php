@@ -22,7 +22,6 @@ class Form_Query extends Core_Query {
 	 * Sets up the query for retrieving forms.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string|array $query Array or query string of form query arguments.
 	 * @return Form_Collection Collection of forms.
@@ -41,7 +40,6 @@ class Form_Query extends Core_Query {
 	 * Instantiates the internal Core query object.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return object Internal Core query object.
 	 */
@@ -53,7 +51,6 @@ class Form_Query extends Core_Query {
 	 * Parses the results of the internal Core query into a collection.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return Form_Collection Results as a collection.
 	 */
@@ -73,7 +70,6 @@ class Form_Query extends Core_Query {
 	 * Returns the fields that are valid to be used in orderby clauses.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array of valid orderby fields.
 	 */
@@ -87,7 +83,6 @@ class Form_Query extends Core_Query {
 	 * Maps form query arguments to regular post query arguments.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $args Arguments as `$query_var => $value` pairs.
 	 * @return array Mapped arguments.

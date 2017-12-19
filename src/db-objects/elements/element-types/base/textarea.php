@@ -24,7 +24,6 @@ class Textarea extends Element_Type {
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array           $data       Element data to filter.
 	 * @param Element         $element    The element object to get the data for.
@@ -78,7 +77,6 @@ class Textarea extends Element_Type {
 	 * Validates a field value for an element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
 	 * @param Element    $element    Element to validate the field value for.
@@ -109,7 +107,6 @@ class Textarea extends Element_Type {
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'textarea';

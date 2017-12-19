@@ -30,7 +30,6 @@ class Submission_Value extends Model {
 	 * Submission value ID.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $id = 0;
@@ -39,7 +38,6 @@ class Submission_Value extends Model {
 	 * ID of the submission this submission value is part of.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $submission_id = 0;
@@ -48,7 +46,6 @@ class Submission_Value extends Model {
 	 * Element ID this submission value applies to.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $element_id = 0;
@@ -57,7 +54,6 @@ class Submission_Value extends Model {
 	 * Element field this submission value is for.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $field = '';
@@ -66,7 +62,6 @@ class Submission_Value extends Model {
 	 * Submission value.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $value = '';
@@ -75,7 +70,6 @@ class Submission_Value extends Model {
 	 * Returns the parent submission for the submission value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Submission|null Parent submission, or null if none set.
 	 */

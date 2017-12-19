@@ -19,7 +19,6 @@ trait Settings_Submodule_Trait {
 	 * Retrieves the value of a specific submodule option.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $option  Name of the option to retrieve.
 	 * @param mixed  $default Optional. Value to return if the option doesn't exist. Default false.
@@ -33,7 +32,6 @@ trait Settings_Submodule_Trait {
 	 * Retrieves the values for all submodule options.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$key => $value` pairs for every option that is set.
 	 */
@@ -59,7 +57,6 @@ trait Settings_Submodule_Trait {
 	 * Returns the settings identifier for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule settings identifier.
 	 */
@@ -71,7 +68,6 @@ trait Settings_Submodule_Trait {
 	 * Returns the settings subtab title for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule settings title.
 	 */
@@ -83,7 +79,6 @@ trait Settings_Submodule_Trait {
 	 * Returns the available settings sections for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -95,7 +90,6 @@ trait Settings_Submodule_Trait {
 	 * Returns the available settings fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */

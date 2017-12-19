@@ -24,43 +24,38 @@ class Form_Edit_Page_Handler {
 	 * Form manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Manager
 	 */
-	protected $form_manager;
+	private $form_manager;
 
 	/**
 	 * Array of meta boxes as `$id => $args` pairs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
-	protected $meta_boxes = array();
+	private $meta_boxes = array();
 
 	/**
 	 * Array of tabs as `$id => $args` pairs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
-	protected $tabs = array();
+	private $tabs = array();
 
 	/**
 	 * Current form storage.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form|null
 	 */
-	protected $current_form = null;
+	private $current_form = null;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form_Manager $form_manager Form manager instance.
 	 */
@@ -72,7 +67,6 @@ class Form_Edit_Page_Handler {
 	 * Adds a meta box to the edit page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $id   Meta box identifier.
 	 * @param array  $args {
@@ -118,7 +112,6 @@ class Form_Edit_Page_Handler {
 	 * Adds a tab to the edit page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $id   Tab identifier.
 	 * @param array  $args {
@@ -149,7 +142,6 @@ class Form_Edit_Page_Handler {
 	 * Adds a field to the edit page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $id      Field identifier.
 	 * @param string $type    Identifier of the type.
@@ -192,7 +184,6 @@ class Form_Edit_Page_Handler {
 	 * Renders form canvas if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param WP_Post $post Current post.
 	 */
@@ -209,7 +200,6 @@ class Form_Edit_Page_Handler {
 	 * Adds meta boxes if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param WP_Post $post Current post.
 	 */
@@ -226,7 +216,6 @@ class Form_Edit_Page_Handler {
 	 * Enqueues assets to load if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $hook_suffix Current hook suffix.
 	 */
@@ -250,7 +239,6 @@ class Form_Edit_Page_Handler {
 	 * Prints templates if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function maybe_print_templates() {
 		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
@@ -268,7 +256,6 @@ class Form_Edit_Page_Handler {
 	 * Handles a save request if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $post_id Current post ID.
 	 */
@@ -297,7 +284,6 @@ class Form_Edit_Page_Handler {
 	 * Callback to get meta values for a specific meta box identifier.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $meta_box_id Meta box identifier.
 	 * @return array Meta values stored for the meta box.
@@ -314,7 +300,6 @@ class Form_Edit_Page_Handler {
 	 * Callback to update meta values for a specific meta box identifier.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $meta_box_id Meta box identifier.
 	 * @param array  $values      Meta values to store for the meta box.
@@ -333,7 +318,6 @@ class Form_Edit_Page_Handler {
 	 * Duplicates the form and redirects back to the referer URL.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function action_duplicate_form() {
 		if ( ! isset( $_REQUEST['form_id'] ) ) {
@@ -384,7 +368,6 @@ class Form_Edit_Page_Handler {
 	 * Displays feedback from the duplicate form action when applicable.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function maybe_show_duplicate_form_feedback() {
 		$meta_key = $this->form_manager->get_prefix() . 'duplicate_feedback';
@@ -414,7 +397,6 @@ class Form_Edit_Page_Handler {
 	 * Displays a button to duplicate a form when applicable.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string  $output    Sample permalink HTML markup.
 	 * @param int     $post_id   Post ID.
@@ -440,7 +422,6 @@ class Form_Edit_Page_Handler {
 	 * Displays a button to view form submissions when applicable.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string  $output    Sample permalink HTML markup.
 	 * @param int     $post_id   Post ID.
@@ -488,7 +469,6 @@ class Form_Edit_Page_Handler {
 	 * Prints a 'novalidate' attribute for the post form if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param WP_Post $post Post for which the form is currently being printed.
 	 */
@@ -505,7 +485,6 @@ class Form_Edit_Page_Handler {
 	 * Renders form canvas.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param Form $form Current form.
 	 */
@@ -539,7 +518,6 @@ class Form_Edit_Page_Handler {
 	 * Adds meta boxes to the page.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param Form $form Current form.
 	 */
@@ -666,7 +644,6 @@ class Form_Edit_Page_Handler {
 	 * Enqueues assets to load on the page.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 */
 	private function enqueue_assets() {
 		$this->form_manager->assets()->enqueue_script( 'admin-fixed-sidebar' );
@@ -703,7 +680,6 @@ class Form_Edit_Page_Handler {
 	 * Prints templates to use in JavaScript.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 */
 	private function print_templates() {
 		?>
@@ -839,7 +815,6 @@ class Form_Edit_Page_Handler {
 	 * Handles a save request for the page.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param Form $form Current form.
 	 */
@@ -917,7 +892,6 @@ class Form_Edit_Page_Handler {
 	 * Saves containers.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array    $containers Array of `$container_id => $container_data` pairs.
 	 * @param array    $mappings   Array of mappings to pass-through and modify.
@@ -961,7 +935,6 @@ class Form_Edit_Page_Handler {
 	 * Saves elements.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array    $elements Array of `$element_id => $element_data` pairs.
 	 * @param array    $mappings Array of mappings to pass-through and modify.
@@ -1009,7 +982,6 @@ class Form_Edit_Page_Handler {
 	 * Saves element choices.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array    $element_choices Array of `$element_choice_id => $element_choice_data` pairs.
 	 * @param array    $mappings        Array of mappings to pass-through and modify.
@@ -1057,7 +1029,6 @@ class Form_Edit_Page_Handler {
 	 * Saves element settings.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array    $element_settings Array of `$element_setting_id => $element_setting_data` pairs.
 	 * @param array    $mappings        Array of mappings to pass-through and modify.
@@ -1105,7 +1076,6 @@ class Form_Edit_Page_Handler {
 	 * Deletes containers with specific IDs.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $container_ids Array of container IDs.
 	 */
@@ -1126,7 +1096,6 @@ class Form_Edit_Page_Handler {
 	 * Deletes elements with specific IDs.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $element_ids Array of element IDs.
 	 */
@@ -1147,7 +1116,6 @@ class Form_Edit_Page_Handler {
 	 * Deletes element choices with specific IDs.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $element_choice_ids Array of element choice IDs.
 	 */
@@ -1168,7 +1136,6 @@ class Form_Edit_Page_Handler {
 	 * Deletes element settings with specific IDs.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param array $element_setting_ids Array of element setting IDs.
 	 */
@@ -1189,7 +1156,6 @@ class Form_Edit_Page_Handler {
 	 * Checks whether a specific ID is a temporary ID.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param int $id Component ID.
 	 * @return bool True if temporary ID, false otherwise.

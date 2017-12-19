@@ -23,7 +23,6 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'user_identification';
@@ -35,7 +34,6 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * Checks whether the access control is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the access control is enabled, false otherwise.
@@ -48,7 +46,6 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -119,7 +116,6 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * Sets additional data for a submission when it is created.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission New submission object.
 	 * @param Form       $form       Form object the submission belongs to.
@@ -148,7 +144,6 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -197,7 +192,6 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * Returns the default message to display when the user is not logged in.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */

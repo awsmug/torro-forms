@@ -22,7 +22,6 @@ interface Multi_Field_Element_Type_Interface {
 	 * Returns the slugs for the additional fields of this type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Array of field slugs.
 	 */
@@ -32,7 +31,6 @@ interface Multi_Field_Element_Type_Interface {
 	 * Returns an array representation for each additional field of an element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element         $element    The element object to get the additional fields data for.
 	 * @param Submission|null $submission Optional. Current submission object, if available. Default null.
@@ -47,7 +45,6 @@ interface Multi_Field_Element_Type_Interface {
 	 * Validates additional fields for an element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array      $values     Associative arrays of `$field => $value` pairs.
 	 * @param Element    $element    Element to validate fields for.

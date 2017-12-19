@@ -21,7 +21,6 @@ class Error extends WP_Error {
 	 * Whether the error was handled already.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $error_handled = false;
@@ -30,7 +29,6 @@ class Error extends WP_Error {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $error_code    Error code.
 	 * @param string $error_message Error message.
@@ -51,7 +49,6 @@ class Error extends WP_Error {
 	 * Ensures unhandled errors still trigger proper messages without causing a fatal error.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $method_name Method name.
 	 * @param array  $arguments   Method arguments.
@@ -74,7 +71,6 @@ class Error extends WP_Error {
 	 * Ensures unhandled errors still trigger proper messages without causing a fatal error.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property name.
 	 * @return Error Pass-through error instance.
@@ -94,7 +90,6 @@ class Error extends WP_Error {
 	 * Handles the error by triggering a warning.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $access_message Message about how the error handler was triggered.
 	 */

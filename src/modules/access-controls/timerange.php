@@ -23,7 +23,6 @@ class Timerange extends Access_Control {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'timerange';
@@ -35,7 +34,6 @@ class Timerange extends Access_Control {
 	 * Checks whether the access control is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the access control is enabled, false otherwise.
@@ -59,7 +57,6 @@ class Timerange extends Access_Control {
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -96,7 +93,6 @@ class Timerange extends Access_Control {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -143,7 +139,6 @@ class Timerange extends Access_Control {
 	 * Returns the default message to display when the form is not yet open.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */
@@ -155,7 +150,6 @@ class Timerange extends Access_Control {
 	 * Returns the default message to display when the form has already been closed.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */

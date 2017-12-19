@@ -26,7 +26,6 @@ class Form_Category_Capabilities extends Capabilities {
 	 * By default, mapping is entirely disabled.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string|array|false $mode The new mapping mode. This can either be set to 'meta'
 	 *                                 in order to map meta capabilities only, a plural slug
@@ -84,7 +83,6 @@ class Form_Category_Capabilities extends Capabilities {
 	 * Sets the supported capabilities.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function set_capabilities() {
 		parent::set_capabilities();
@@ -112,7 +110,6 @@ class Form_Category_Capabilities extends Capabilities {
 	 * Maps the item assigning capability.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int   $user_id  User ID.
 	 * @param array $args     Additional arguments.

@@ -33,7 +33,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Name of the API structure this action uses.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $api_structure_name;
@@ -42,7 +41,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Route URI of the API structure this action uses.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $api_route_uri;
@@ -53,7 +51,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'. Default 'POST'.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $api_request_method = 'POST';
@@ -64,7 +61,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Do not use this property, but instead the api_structure() method.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Structure|null
 	 */
 	protected $lazyloaded_api_structure = null;
@@ -75,7 +71,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Do not use this property, but instead the api_route() method.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Route|null
 	 */
 	protected $lazyloaded_api_route = null;
@@ -86,7 +81,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Do not use this property, but instead the api() method.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var API|null
 	 */
 	protected $lazyloaded_api = null;
@@ -95,7 +89,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Internal flag for whether the API script used for all API actions has been registered.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var bool
 	 */
@@ -105,7 +98,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Internal flag for whether the API script used for all API actions has been enqueued.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var bool
 	 */
@@ -115,7 +107,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Handles the action for a specific form submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission Submission to handle by the action.
 	 * @param Form       $form       Form the submission applies to.
@@ -173,7 +164,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -185,7 +175,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the available settings sections for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -208,7 +197,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the available settings fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -225,7 +213,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the element mappings for a given form ID.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $form_id Form ID.
 	 * @return array Multidimensional array, where the first level is `$element_id => $field_slugs` pairs and
@@ -245,7 +232,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Saves the element mappings for a given form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int   $form_id     Form ID.
 	 * @param array $id_mappings Array of ID mappings from the elements that have just been saved.
@@ -289,7 +275,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Registers the API-API hook for adding the necessary configuration data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	public function register_config_data_hook() {
 		$this->module->apiapi()->hook_on( 'setup_config', function( $config ) {
@@ -301,7 +286,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Registers all assets the submodule provides.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -320,7 +304,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Enqueues scripts and stylesheets on the form editing screen.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -348,7 +331,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Processes a response from an API request for a submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Route_Response $response   API response object to process.
 	 * @param Route_Request  $request    Original API request object the response addresses.
@@ -365,7 +347,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Processes an exception thrown by an API request for a submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Exception      $exception  Exception thrown by the API request.
 	 * @param Submission     $submission Submission for which the API request was made.
@@ -387,7 +368,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the API fields that an element can map to.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -397,7 +377,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the API fields that a meta value should exist for to map to.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -410,7 +389,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * to get the full list and then filter the parameter fields that should be mappable.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -500,7 +478,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the settings fields for the API's authentication data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -622,7 +599,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns API action data to pass to the script file.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form|null $form Optional. Form for which to generate the data. Default null.
 	 * @return array Data to pass to JavaScript.
@@ -642,7 +618,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Adds the necessary API-API configuration data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param APIAPI_Config $config The plugin's API-API configuration.
 	 */
@@ -675,7 +650,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * use the api() method. If you don't though, this method is more efficient to use then.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return Structure The API structure.
 	 */
@@ -691,7 +665,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the API route this action uses.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return Route The API route.
 	 */
@@ -707,7 +680,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * Returns the configured API instance this action uses.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return API The configured API instance.
 	 */
