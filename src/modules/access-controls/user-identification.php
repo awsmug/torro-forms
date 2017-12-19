@@ -1,6 +1,6 @@
 <?php
 /**
- * Author identification access control class
+ * User identification access control class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -17,7 +17,7 @@ use WP_Error;
  *
  * @since 1.0.0
  */
-class Author_Identification extends Access_Control implements Submission_Modifier_Access_Control_Interface {
+class User_Identification extends Access_Control implements Submission_Modifier_Access_Control_Interface {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
@@ -26,9 +26,9 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 	 * @access protected
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'author_identification';
-		$this->title       = __( 'Author Identification', 'torro-forms' );
-		$this->description = __( 'Allows you to restrict this form based on whether it belongs to a specific author.', 'torro-forms' );
+		$this->slug        = 'user_identification';
+		$this->title       = __( 'User Identification', 'torro-forms' );
+		$this->description = __( 'Allows you to restrict this form based on the user who wants to access it.', 'torro-forms' );
 	}
 
 	/**
@@ -61,8 +61,10 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 				return true;
 			}
 
+			$identification_modes = $this->get_form_option( $form->id, 'identification_modes', array() );
+
 			// Back-compat: Check for whether an old cookie is still set.
-			if ( $this->get_form_option( $form->id, 'use_cookie_check' ) && isset( $_COOKIE[ 'torro_has_participated_form_' . $form->id ] ) && 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $form->id ] ) {
+			if ( in_array( 'cookie', $identification_modes, true ) && isset( $_COOKIE[ 'torro_has_participated_form_' . $form->id ] ) && 'yes' === $_COOKIE[ 'torro_has_participated_form_' . $form->id ] ) {
 				$message = $this->get_form_option( $form->id, 'already_submitted_message' );
 				if ( empty( $message ) ) {
 					$message = $this->get_default_already_submitted_message();
@@ -81,19 +83,19 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 				$query_args['user_id'] = get_current_user_id();
 			} else {
 				$identification_args = array();
-				if ( $this->get_form_option( $form->id, 'use_ip_check' ) && ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+				if ( in_array( 'ip_address', $identification_modes, true ) && ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 					$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
 					if ( ! empty( $validated_ip ) ) {
 						$identification_args['remote_addr'] = $validated_ip;
 					}
 				}
-				if ( $this->get_form_option( $form->id, 'use_cookie_check' ) && ! empty( $_COOKIE['torro_identity'] ) ) {
+				if ( in_array( 'cookie', $identification_modes, true ) && ! empty( $_COOKIE['torro_identity'] ) ) {
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
 				} elseif( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 				}
 				if ( ! empty( $identification_args ) ) {
-					$query_args['author_identification'] = $identification_args;
+					$query_args['user_identification'] = $identification_args;
 				}
 			}
 
@@ -124,7 +126,9 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 	 * @param array      $data       Submission POST data.
 	 */
 	public function set_submission_data( $submission, $form, $data ) {
-		if ( $this->get_form_option( $form->id, 'use_ip_check' ) ) {
+		$identification_modes = $this->get_form_option( $form->id, 'identification_modes', array() );
+
+		if ( in_array( 'ip_address', $identification_modes, true ) ) {
 			if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 				$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
 				if ( ! empty( $validated_ip ) ) {
@@ -133,7 +137,7 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 			}
 		}
 
-		if ( $this->get_form_option( $form->id, 'use_cookie_check' ) ) {
+		if ( in_array( 'cookie', $identification_modes, true ) ) {
 			if ( ! isset( $_COOKIE['torro_identity'] ) ) {
 				setcookie( 'torro_identity', $submission->user_key, current_time( 'timestamp' ) + 3 * YEAR_IN_SECONDS );
 			}
@@ -153,26 +157,21 @@ class Author_Identification extends Access_Control implements Submission_Modifie
 
 		unset( $meta_fields['enabled'] );
 
-		$meta_fields['use_ip_check'] = array(
-			'type'         => 'checkbox',
-			'label'        => __( 'Enable IP address detection to identify a non logged-in user?', 'torro-forms' ),
-			'description'  => __( 'If you activate this checkbox, the IP address will be detected to identify a non logged-in user submitting a form.', 'torro-forms' ),
-			'wrap_classes' => array( 'has-torro-tooltip-description' ),
-			'visual_label' => __( 'IP address detection', 'torro-forms' ),
-		);
-		$meta_fields['use_cookie_check'] = array(
-			'type'         => 'checkbox',
-			'label'        => __( 'Enable usage of a cookie to identify a non logged-in user?', 'torro-forms' ),
-			'description'  => __( 'If you activate this checkbox, a cookie will be set to identify a non logged-in user submitting a form.', 'torro-forms' ),
-			'wrap_classes' => array( 'has-torro-tooltip-description' ),
-			'visual_label' => __( 'Cookie usage', 'torro-forms' ),
-		);
 		$meta_fields['prevent_multiple_submissions'] = array(
 			'type'         => 'checkbox',
 			'label'        => __( 'Prevent multiple submissions by a single user?', 'torro-forms' ),
 			'description'  => __( 'Click the checkbox to ensure that participants may only submit this form once.', 'torro-forms' ),
 			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			'visual_label' => __( 'Single submission', 'torro-forms' ),
+		);
+		$meta_fields['identification_modes'] = array(
+			'type'         => 'multibox',
+			'label'        => __( 'Identification Modes', 'torro-forms' ),
+			'description'  => __( 'For non logged-in users, by default PHP sessions are used to identity them. You can enable further modes here to improve accuracy.', 'torro-forms' ),
+			'choices'      => array(
+				'ip_address' => __( 'IP address', 'torro-forms' ),
+				'cookie'     => __( 'Cookie', 'torro-forms' ),
+			),
 		);
 		$meta_fields['already_submitted_message'] = array(
 			'type'          => 'text',

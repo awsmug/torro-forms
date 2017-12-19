@@ -1566,8 +1566,6 @@ window.torro = window.torro || {};
 			this.$panel.html( this.panelTemplate( combinedAttributes ) );
 			this.$footerPanel.html( this.footerPanelTemplate( this.container.attributes ) );
 
-			this.checkHasElements();
-
 			for ( i = 0; i < this.container.elements.length; i++ ) {
 				this.listenAddElement( this.container.elements.at( i ) );
 			}
@@ -1586,7 +1584,6 @@ window.torro = window.torro || {};
 		attach: function() {
 			this.container.on( 'remove', this.listenRemove, this );
 			this.container.elements.on( 'add', this.listenAddElement, this );
-			this.container.elements.on( 'add remove reset', this.checkHasElements, this );
 			this.container.on( 'change:label', this.listenChangeLabel, this );
 			this.container.on( 'change:sort', this.listenChangeSort, this );
 			this.container.on( 'change:addingElement', this.listenChangeAddingElement, this );
@@ -1625,7 +1622,6 @@ window.torro = window.torro || {};
 			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );
 			this.container.off( 'change:label', this.listenChangeLabel, this );
-			this.container.elements.off( 'add remove reset', this.checkHasElements, this );
 			this.container.elements.off( 'add', this.listenAddContainer, this );
 			this.container.off( 'remove', this.listenRemove, this );
 		},
@@ -1655,14 +1651,6 @@ window.torro = window.torro || {};
 			}
 
 			torro.Builder.getInstance().trigger( 'addElement', [ element, view ] );
-		},
-
-		checkHasElements: function() {
-			if ( this.container.elements.length ) {
-				this.$panel.find( '.drag-drop-area' ).removeClass( 'is-empty' );
-			} else {
-				this.$panel.find( '.drag-drop-area' ).addClass( 'is-empty' );
-			}
 		},
 
 		listenChangeLabel: function( container, label ) {

@@ -139,22 +139,13 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	public function get_meta_fields() {
 		$meta_fields = parent::get_meta_fields();
 
-		$meta_fields['login_required_message'] = array(
-			'type'          => 'text',
-			'label'         => __( '&#8220;Login required&#8221; Message', 'torro-forms' ),
-			'description'   => __( 'Enter the message to show to the user in case they are not logged in.', 'torro-forms' ),
-			'default'       => $this->get_default_login_required_message(),
-			'input_classes' => array( 'regular-text' ),
-			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
-		);
-
 		$role_choices = array();
 		foreach ( wp_roles()->roles as $role => $details ) {
 			$role_choices[ $role ] = translate_user_role( $details['name'] );
 		}
 
 		$meta_fields['allowed_roles'] = array(
-			'type'        => count( $role_choices ) > 3 ? 'multiselect' : 'multibox',
+			'type'        => count( $role_choices ) > 8 ? 'multiselect' : 'multibox',
 			'label'       => __( 'Allowed Roles', 'torro-forms' ),
 			'description' => __( 'If you select user roles here, only users with these roles are granted access to the form.', 'torro-forms' ),
 			'choices'     => $role_choices,
@@ -178,6 +169,15 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 				'class'    => 'button-link torro-send-invitation',
 				'disabled' => true,
 			),
+		);
+
+		$meta_fields['login_required_message'] = array(
+			'type'          => 'text',
+			'label'         => __( '&#8220;Login required&#8221; Message', 'torro-forms' ),
+			'description'   => __( 'Enter the message to show to the user in case they are not logged in.', 'torro-forms' ),
+			'default'       => $this->get_default_login_required_message(),
+			'input_classes' => array( 'regular-text' ),
+			'wrap_classes'  => array( 'has-torro-tooltip-description' ),
 		);
 
 		$meta_fields['not_selected_message'] = array(
