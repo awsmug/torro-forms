@@ -172,8 +172,8 @@ class Legacy_Upgrades extends Service {
 					'already_submitted_message'    => array( 'already_entered_text', 'string' ),
 				),
 				'members'               => array(
-					'login_required_message' => array( 'to_be_logged_in_text', 'string' ),
 					'allowed_users'          => 'PARTICIPANTS',
+					'login_required_message' => array( 'to_be_logged_in_text', 'string' ),
 				),
 				'timerange'             => array(
 					'start' => array( 'start_date', 'datetime' ),
