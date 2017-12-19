@@ -29,6 +29,8 @@
     font-weight: 600;
     line-height: 1.4;
 
+    padding: 0;
+
     border-width: 1px;
 }
 
@@ -48,21 +50,15 @@
             box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
 
-.torro-form-canvas-footer
-{
-    background-color: #f5f5f5;
-}
-
 /* ----------------------------------------------------------------------------
   2.0 - Torro Form Canvas Tabs
 ---------------------------------------------------------------------------- */
 .torro-form-canvas-header.torro-form-canvas-tabs
 {
-    padding: 0 12px;
+    font-size: 13px;
+    line-height: 1.1;
 
-    border-width: 0;
-    border-bottom-width: 1px;
-    background-color: transparent;
+    display: block;
 }
 
 .torro-form-canvas-header.torro-form-canvas-tabs:after
@@ -75,31 +71,39 @@
 
 .torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab
 {
+    font-weight: 400;
+
     display: block;
     float: left;
 
-    margin: 0 .5em -1px 0;
-    padding: 6px 12px;
+    height: 38px;
+    margin-left: 0;
+    padding: 0 12px;
+    padding: 5px 12px;
 
     cursor: pointer;
+    text-decoration: none;
 
     color: #000;
-    border: 1px solid #e5e5e5;
-    background-color: #fff;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background-color: transparent;
 
     -webkit-appearance: none;
 }
 
 .torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab[aria-selected='true']
 {
-    cursor: default;
+    font-weight: 600;
 
-    border-bottom-color: #fff;
+    border-bottom-color: #00a0d2;
 }
 
 .torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab.add-button.is-active
 {
-    border-bottom-color: #fff;
+    font-weight: 600;
+
+    border-bottom-color: #00a0d2;
 }
 
 .torro-form-canvas-header.torro-form-canvas-tabs .torro-form-canvas-tab[disabled]
@@ -351,7 +355,7 @@
     margin-bottom: 1em;
 
     border: 1px solid #ccc;
-    background-color: #fafafa;
+    background-color: #fff;
 }
 
 .torro-element:last-child
@@ -654,8 +658,9 @@
 
     display: block;
 
+    margin: -6px -12px 1em;
+
     border-bottom: 1px solid #e2e4e7;
-    background-color: #edeff0;
 }
 
 .torro-metabox-tab-wrapper:not(.wp-clearfix):after
@@ -669,12 +674,12 @@
 .torro-metabox-tab
 {
     font-weight: 400;
-    line-height: 50px;
+    line-height: 40px;
 
     display: block;
     float: left;
 
-    height: 50px;
+    height: 40px;
     margin-left: 0;
     padding: 0 20px;
 
