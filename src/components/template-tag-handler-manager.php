@@ -22,7 +22,6 @@ class Template_Tag_Handler_Manager extends Service {
 	 * Registered template tag handlers.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 * @var array
 	 */
 	private $handlers = array();
@@ -31,7 +30,6 @@ class Template_Tag_Handler_Manager extends Service {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix Instance prefix.
 	 */
@@ -47,7 +45,6 @@ class Template_Tag_Handler_Manager extends Service {
 	 * Registers a template tag handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Template_Tag_Handler $template_tag_handler Template tag handler to register.
 	 * @return bool True on success, false on failure.
@@ -68,7 +65,6 @@ class Template_Tag_Handler_Manager extends Service {
 	 * Unregisters a template tag handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Template tag handler slug.
 	 * @return bool True on success, false on failure.
@@ -87,7 +83,6 @@ class Template_Tag_Handler_Manager extends Service {
 	 * Checks whether a specific template tag handler is registered.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Template tag handler slug.
 	 * @return bool True if handler is registered, false otherwise.
@@ -100,7 +95,6 @@ class Template_Tag_Handler_Manager extends Service {
 	 * Gets a registered template tag handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Template tag handler slug.
 	 * @return Template_Tag_Handler|null Template tag handler, or null if not registered.

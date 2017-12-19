@@ -39,7 +39,6 @@ class Form_Category_Manager extends Core_Manager {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string                             $prefix       The instance prefix.
 	 * @param array                              $services     {
@@ -86,7 +85,6 @@ class Form_Category_Manager extends Core_Manager {
 	 * Internal method to insert a new form into the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $args Array of column => value pairs for the new database row.
 	 * @return int|false The ID of the new form, or false on failure.
@@ -116,7 +114,6 @@ class Form_Category_Manager extends Core_Manager {
 	 * Internal method to update an existing form in the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int   $form_category_id ID of the form to update.
 	 * @param array $args             Array of column => value pairs to update in the database row.
@@ -140,7 +137,6 @@ class Form_Category_Manager extends Core_Manager {
 	 * Internal method to delete a form from the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_category_id ID of the form to delete.
 	 * @return bool True on success, or false on failure.
@@ -163,7 +159,6 @@ class Form_Category_Manager extends Core_Manager {
 	 * Internal method to fetch a form from the database.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $form_category_id ID of the form to fetch.
 	 * @return WP_Post|null Post object of the form, or null if not found.
@@ -181,7 +176,6 @@ class Form_Category_Manager extends Core_Manager {
 	 * Maps form arguments to regular post arguments.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $args Arguments as `$property => $value` pairs.
 	 * @return array Mapped arguments.
@@ -211,7 +205,6 @@ class Form_Category_Manager extends Core_Manager {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

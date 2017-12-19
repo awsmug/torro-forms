@@ -32,7 +32,6 @@ class Container extends Model {
 	 * Container ID.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $id = 0;
@@ -41,7 +40,6 @@ class Container extends Model {
 	 * ID of the form this container is part of.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $form_id = 0;
@@ -50,7 +48,6 @@ class Container extends Model {
 	 * Container label.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $label = '';
@@ -59,7 +56,6 @@ class Container extends Model {
 	 * Index to sort containers by.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $sort = 0;
@@ -68,7 +64,6 @@ class Container extends Model {
 	 * Returns the parent form for the container.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Form|null Parent form, or null if none set.
 	 */
@@ -84,7 +79,6 @@ class Container extends Model {
 	 * Returns all elements that belong to the form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return awsmug\Torro_Forms\DB_Objects\Elements\Element_Collection List of elements.
@@ -106,7 +100,6 @@ class Container extends Model {
 	 * Deletes the model from the database.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return true|WP_Error True on success, or an error object on failure.
 	 */
@@ -123,7 +116,6 @@ class Container extends Model {
 	 * Duplicates the container including all of its contents.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $form_id New parent form ID to use for the container.
 	 * @return Container|WP_Error New container object on success, error object on failure.

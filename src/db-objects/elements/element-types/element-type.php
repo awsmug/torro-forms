@@ -24,7 +24,6 @@ abstract class Element_Type {
 	 * The element type slug. Must match the slug when registering the element type.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = '';
@@ -33,7 +32,6 @@ abstract class Element_Type {
 	 * The element type title.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $title = '';
@@ -42,7 +40,6 @@ abstract class Element_Type {
 	 * The element type description.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $description = '';
@@ -51,7 +48,6 @@ abstract class Element_Type {
 	 * The element type icon URL.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $icon_url = '';
@@ -60,7 +56,6 @@ abstract class Element_Type {
 	 * The element type settings sections.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $settings_sections = array();
@@ -69,7 +64,6 @@ abstract class Element_Type {
 	 * The element type settings fields.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $settings_fields = array();
@@ -78,7 +72,6 @@ abstract class Element_Type {
 	 * The element type manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Element_Type_Manager
 	 */
 	protected $manager;
@@ -87,7 +80,6 @@ abstract class Element_Type {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element_Type_Manager $manager The element type manager instance.
 	 */
@@ -123,7 +115,6 @@ abstract class Element_Type {
 	 * Returns the element type slug.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Element type slug.
 	 */
@@ -135,7 +126,6 @@ abstract class Element_Type {
 	 * Returns the element type title.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Element type title.
 	 */
@@ -147,7 +137,6 @@ abstract class Element_Type {
 	 * Returns the element type description.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Element type description.
 	 */
@@ -159,7 +148,6 @@ abstract class Element_Type {
 	 * Returns the element type icon URL.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Element type icon URL.
 	 */
@@ -171,7 +159,6 @@ abstract class Element_Type {
 	 * Returns the element type settings sections.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Element type settings sections.
 	 */
@@ -183,7 +170,6 @@ abstract class Element_Type {
 	 * Returns the element type settings fields.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Element type settings fields.
 	 */
@@ -195,7 +181,6 @@ abstract class Element_Type {
 	 * Returns the available settings.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element $element Element to get settings for.
 	 * @return array Associative array of `$setting_name => $setting_value` pairs.
@@ -215,7 +200,6 @@ abstract class Element_Type {
 	 * Returns the current values for the element fields, optionally for a specific submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element         $element    The element object to get values for.
 	 * @param Submission|null $submission Optional. Submission to get the values from, if available. Default null.
@@ -289,7 +273,6 @@ abstract class Element_Type {
 	 * Formats values for an export.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array   $values        Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
 	 * @param Element $element       Element the values belong to.
@@ -309,7 +292,6 @@ abstract class Element_Type {
 	 * Gets the columns required for an export.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element $element Element to export columns for.
 	 * @return array Associative array of `$column_slug => $column_label` pairs.
@@ -324,7 +306,6 @@ abstract class Element_Type {
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array           $data       Element data to filter.
 	 * @param Element         $element    The element object to get the data for.
@@ -412,7 +393,6 @@ abstract class Element_Type {
 	 * Validates a field value for an element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
 	 * @param Element    $element    Element to validate the field value for.
@@ -427,7 +407,6 @@ abstract class Element_Type {
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected abstract function bootstrap();
 
@@ -435,7 +414,6 @@ abstract class Element_Type {
 	 * Escapes a single value for a specific export format.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed  $value         Value to escape.
 	 * @param string $export_format Export format identifier. May be 'xls', 'csv', 'json', 'xml' or 'html'.
@@ -482,7 +460,6 @@ abstract class Element_Type {
 	 * submission value validation errors occur.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $code            Error code.
 	 * @param string $message         Error message.
@@ -503,7 +480,6 @@ abstract class Element_Type {
 	 * Adds a settings field for specifying the element placeholder.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
 	 */
@@ -521,7 +497,6 @@ abstract class Element_Type {
 	 * Adds a settings field for specifying the element description.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
 	 */
@@ -539,7 +514,6 @@ abstract class Element_Type {
 	 * Adds a settings field for specifying whether the element is required to be filled in.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
 	 */
@@ -561,7 +535,6 @@ abstract class Element_Type {
 	 * Adds a settings field for specifying additional CSS classes for the input.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $section Optional. Settings section the settings field should be part of. Default 'settings'.
 	 */
@@ -579,7 +552,6 @@ abstract class Element_Type {
 	 * Sanitizes the settings sections.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected final function sanitize_settings_sections() {
 		$defaults = array(
@@ -595,7 +567,6 @@ abstract class Element_Type {
 	 * Sanitizes the settings fields.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected final function sanitize_settings_fields() {
 		$defaults = array(

@@ -21,7 +21,6 @@ class REST_Element_Settings_Controller extends REST_Models_Controller {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element_Setting_Manager $manager The manager instance.
 	 */
@@ -35,7 +34,6 @@ class REST_Element_Settings_Controller extends REST_Models_Controller {
 	 * Retrieves the model's schema, conforming to JSON Schema.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Model schema data.
 	 */
@@ -71,7 +69,6 @@ class REST_Element_Settings_Controller extends REST_Models_Controller {
 	 * Retrieves the query params for the models collection.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -105,7 +102,6 @@ class REST_Element_Settings_Controller extends REST_Models_Controller {
 	 * Prepares links for the request.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Element_Setting $element_setting Element setting object.
 	 * @return array Links for the given element setting.

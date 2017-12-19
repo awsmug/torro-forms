@@ -21,7 +21,6 @@ class Translations_Submission_Value_Manager extends Translations_Manager {
 	 * Initializes the translation strings.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function init() {
 		$this->translations = array(

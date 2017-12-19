@@ -26,7 +26,6 @@ class Form_Capabilities extends Capabilities {
 	 * By default, mapping is entirely disabled.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string|array|false $mode The new mapping mode. This can either be set to 'meta'
 	 *                                 in order to map meta capabilities only, a plural slug
@@ -46,7 +45,6 @@ class Form_Capabilities extends Capabilities {
 	 * Sets the supported capabilities.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function set_capabilities() {
 		parent::set_capabilities();
@@ -72,7 +70,6 @@ class Form_Capabilities extends Capabilities {
 	 * Maps capabilities via the `map_meta_cap` filter.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array  $caps    Required capabilities.
 	 * @param string $cap     Capability name.
@@ -110,7 +107,6 @@ class Form_Capabilities extends Capabilities {
 	 * Maps a specific item capability.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $action  Action name. Either 'read', 'edit' or 'delete'.
 	 * @param int    $user_id User ID.

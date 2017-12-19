@@ -24,7 +24,6 @@ class Timetrap extends Protector {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'timetrap';
@@ -36,7 +35,6 @@ class Timetrap extends Protector {
 	 * Verifies a request by ensuring that it is not spammy.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array           $data       Submission POST data.
 	 * @param Form            $form       Form object.
@@ -64,7 +62,6 @@ class Timetrap extends Protector {
 	 * Renders the output for the protector before the Submit button.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object.
 	 */
@@ -78,7 +75,6 @@ class Timetrap extends Protector {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */

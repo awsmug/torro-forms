@@ -23,7 +23,6 @@ class Form_Frontend_Output_Handler {
 	 * Form manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Form_Manager
 	 */
 	protected $form_manager;
@@ -32,7 +31,6 @@ class Form_Frontend_Output_Handler {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form_Manager $form_manager Form manager instance.
 	 */
@@ -44,7 +42,6 @@ class Form_Frontend_Output_Handler {
 	 * Appends the content for a form if conditions are met.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $content Post content.
 	 * @return string Post content including form content, if the current post is a form.
@@ -72,7 +69,6 @@ class Form_Frontend_Output_Handler {
 	 * Enqueues the frontend stylesheet if necessary.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function maybe_enqueue_frontend_assets() {
 		$settings = $this->form_manager->options()->get( 'general_settings', array() );
@@ -101,7 +97,6 @@ class Form_Frontend_Output_Handler {
 	 * Handles the form shortcode.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $atts {
 	 *     Array of shortcode attributes.
@@ -157,7 +152,6 @@ class Form_Frontend_Output_Handler {
 	 * Handles the deprecated form shortcode.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $atts {
 	 *     Array of shortcode attributes.
@@ -178,7 +172,6 @@ class Form_Frontend_Output_Handler {
 	 * Renders the content for a given form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
@@ -402,7 +395,6 @@ class Form_Frontend_Output_Handler {
 	 * Gets the current container for a given form and submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
@@ -432,7 +424,6 @@ class Form_Frontend_Output_Handler {
 	 * Checks whether there is a next container.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -452,7 +443,6 @@ class Form_Frontend_Output_Handler {
 	 * Checks whether there is a previous container.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
@@ -471,7 +461,6 @@ class Form_Frontend_Output_Handler {
 	 * Prints form errors in a notice if necessary.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form $form Form object.
 	 */
@@ -508,7 +497,6 @@ class Form_Frontend_Output_Handler {
 	 * Prints submission errors in a notice if necessary.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission $submission Submission object.
 	 */
@@ -539,7 +527,6 @@ class Form_Frontend_Output_Handler {
 	 * Prints a notice with a message to the user.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $message Message to show.
 	 * @param string $type    Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
@@ -562,7 +549,6 @@ class Form_Frontend_Output_Handler {
 	 * Gets the CSS class to use for notices.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $type Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
 	 * @return string CSS class to use for notices of the given type.
@@ -583,7 +569,6 @@ class Form_Frontend_Output_Handler {
 	 * Returns the name of the nonce action to check.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.

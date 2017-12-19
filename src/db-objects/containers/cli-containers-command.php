@@ -21,7 +21,6 @@ class CLI_Containers_Command extends CLI_Models_Command {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Manager $manager The manager instance.
 	 */

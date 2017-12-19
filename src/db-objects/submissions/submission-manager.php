@@ -41,7 +41,6 @@ class Submission_Manager extends Manager {
 	 * Submission export handler instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Submission_Export_Handler
 	 */
 	protected $export_handler;
@@ -50,7 +49,6 @@ class Submission_Manager extends Manager {
 	 * Temporary storage for all element values loaded for submissions.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $element_values = array();
@@ -59,7 +57,6 @@ class Submission_Manager extends Manager {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string                          $prefix       The instance prefix.
 	 * @param array                           $services     {
@@ -102,7 +99,6 @@ class Submission_Manager extends Manager {
 	 * Returns the submission export handler.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Submission_Export_Handler Submission export handler instance.
 	 */
@@ -117,7 +113,6 @@ class Submission_Manager extends Manager {
 	 * are returned as well.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $user_id Optional. If provided and the manager supports authors,
 	 *                     only models by that user are counted. Default 0 (ignored).
@@ -191,7 +186,6 @@ class Submission_Manager extends Manager {
 	 * returned.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission Submission object to get element values for.
 	 * @param bool       $force      Optional. Whether to force querying and parsing. Default false.
@@ -225,7 +219,6 @@ class Submission_Manager extends Manager {
 	 * Adds the database table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
@@ -253,7 +246,6 @@ class Submission_Manager extends Manager {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();
@@ -301,7 +293,6 @@ class Submission_Manager extends Manager {
 	 * Schedules the cron task for deleting incomplete submissions.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function schedule_cron_task() {
 		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general', array() );
@@ -317,7 +308,6 @@ class Submission_Manager extends Manager {
 	 * Clears the cron task for deleting incomplete submissions.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function clear_cron_task() {
 		$timestamp = wp_next_scheduled( "{$this->get_prefix()}cron_maybe_delete_submissions" );
@@ -332,7 +322,6 @@ class Submission_Manager extends Manager {
 	 * This is executed twice daily via cron.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function maybe_delete_submissions() {
 		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general', array() );
@@ -373,7 +362,6 @@ class Submission_Manager extends Manager {
 	 * It also stores the user key in session storage for the most basic user identification.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission Submission object.
 	 * @param Form       $form       Form object.
@@ -411,7 +399,6 @@ class Submission_Manager extends Manager {
 	 * Determines whether the current user can access a specific submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param bool|WP_Error   $result     Whether a user can access the form. Can be an error object to show a specific message to the user.
 	 * @param Form            $form       Form object.
@@ -451,7 +438,6 @@ class Submission_Manager extends Manager {
 	 * Renders a status select field.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int|null           $id         Current submission ID, or null if new submission.
 	 * @param Submission         $submission Current submission object.
@@ -486,7 +472,6 @@ class Submission_Manager extends Manager {
 	 * Taken from https://github.com/geertw/php-ip-anonymizer/blob/master/src/IpAnonymizer.php.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $address IPv4 or IPv6 address.
 	 * @return string Anonymized IP address.

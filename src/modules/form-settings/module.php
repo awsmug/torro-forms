@@ -22,7 +22,6 @@ class Module extends Module_Base {
 	 * Bootstraps the module by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'form_settings';
@@ -34,7 +33,6 @@ class Module extends Module_Base {
 	 * Returns the available meta box tabs for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
 	 */
@@ -66,7 +64,6 @@ class Module extends Module_Base {
 	 * Returns the available meta box fields for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -138,7 +135,6 @@ class Module extends Module_Base {
 	 * Returns the available settings sub-tabs for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
 	 */
@@ -161,7 +157,6 @@ class Module extends Module_Base {
 	 * Returns the available settings sections for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -184,7 +179,6 @@ class Module extends Module_Base {
 	 * Returns the available settings fields for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -207,7 +201,6 @@ class Module extends Module_Base {
 	 * Registers the available module scripts and stylesheets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */
@@ -228,7 +221,6 @@ class Module extends Module_Base {
 	 * Enqueues the module's form builder scripts and stylesheets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */
@@ -249,7 +241,6 @@ class Module extends Module_Base {
 	 * Returns the default label for the Previous button.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */
@@ -261,7 +252,6 @@ class Module extends Module_Base {
 	 * Returns the default label for the Next button.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */
@@ -273,7 +263,6 @@ class Module extends Module_Base {
 	 * Returns the default label for the Submit button.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */
@@ -285,7 +274,6 @@ class Module extends Module_Base {
 	 * Returns the default message to display when a form submission has been completed.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Message to display.
 	 */
@@ -297,7 +285,6 @@ class Module extends Module_Base {
 	 * Filters whether to show the title of the current container in the frontend.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param bool $show_container_title Whether to show the title.
 	 * @param int  $form_id              Form ID.
@@ -311,7 +298,6 @@ class Module extends Module_Base {
 	 * Filters the label for the Previous button in the frontend.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $prev_button_label The Previous button label.
 	 * @param int    $form_id           Form ID.
@@ -330,7 +316,6 @@ class Module extends Module_Base {
 	 * Filters the label for the Next button in the frontend.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $next_button_label The Next button label.
 	 * @param int    $form_id           Form ID.
@@ -349,7 +334,6 @@ class Module extends Module_Base {
 	 * Filters the label for the Submit button in the frontend.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $submit_button_label The Submit button label.
 	 * @param int    $form_id             Form ID.
@@ -368,7 +352,6 @@ class Module extends Module_Base {
 	 * Filters the success message for a completed form submission in the frontend.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $success_message The success message.
 	 * @param int    $form_id         Form ID.
@@ -387,7 +370,6 @@ class Module extends Module_Base {
 	 * Filters whether to allow GET parameters to pre-populate form element values.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param bool $allow_get_params Whether to allow GET parameters.
 	 * @param int  $element_id       Element ID.
@@ -402,7 +384,6 @@ class Module extends Module_Base {
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

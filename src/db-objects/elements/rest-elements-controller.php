@@ -24,7 +24,6 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * REST element types controller.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var REST_Element_Types_Controller
 	 */
 	protected $types_controller;
@@ -33,7 +32,6 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element_Manager $manager The manager instance.
 	 */
@@ -49,7 +47,6 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * Retrieves the model's schema, conforming to JSON Schema.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Model schema data.
 	 */
@@ -86,7 +83,6 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * Retrieves the query params for the models collection.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -125,7 +121,6 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * Prepares links for the request.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Element $element Element object.
 	 * @return array Links for the given element.
@@ -170,7 +165,6 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	 * Sanitizes and validates the list of element types.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string|array    $types     One or more element types.
 	 * @param WP_REST_Request $request   Full details about the request.

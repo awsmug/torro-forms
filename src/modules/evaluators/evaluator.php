@@ -33,7 +33,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Temporary storage to cache whether specific elements are evaluatable for the current request.
 	 *
 	 * @since 1.0.0
-	 * @access private
 	 * @var array
 	 */
 	private $evaluatable_elements = array();
@@ -42,7 +41,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Checks whether the evaluator is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the evaluator is enabled, false otherwise.
@@ -55,7 +53,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Gets aggregate form statistics for the evaluator.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $form_id Form ID.
 	 * @return array Array of statistics, or empty array if nothing set yet.
@@ -78,7 +75,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Updates aggregate form statistics for the evaluator.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int   $form_id Form ID.
 	 * @param array $data    Array of statistics.
@@ -105,7 +101,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * not need to be calculated live.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array      $aggregate_results Aggregate results to update.
 	 * @param Submission $submission        Submission to evaluate.
@@ -122,7 +117,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * in the same way as in evaluate().
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array                 $aggregate_results Aggregate results to update.
 	 * @param Submission_Collection $submission        Submission to evaluate.
@@ -144,7 +138,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Otherwise the evaluation results will be calculated live.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form for which to evaluate all submissions.
 	 * @return array Evaluation results for all completed form submissions.
@@ -165,7 +158,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Renders evaluation results for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $results Results to show.
 	 * @param Form  $form    Form the results belong to.
@@ -176,7 +168,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -196,7 +187,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Renders sub-tabs in the evaluation area.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $tabs Associative array where each key is a sub-tab slug and each value is an array with a
 	 *                    'label' key and 'callback' key.
@@ -230,7 +220,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * Checks whether aggregate calculations should be used for evaluating all submissions of a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form $form Form for which to check this.
 	 * @return bool True if aggregate calculations should be used, false otherwise.
@@ -264,7 +253,6 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * An evaluatable element must implement the Choice_Element_Type_Interface interface.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $element_id Element ID to check.
 	 * @return bool True if the element is evaluatable, false otherwise.

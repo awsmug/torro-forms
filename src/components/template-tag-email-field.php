@@ -19,7 +19,6 @@ class Template_Tag_Email_Field extends Template_Tag_Text_Field {
 	 * Field type identifier.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = 'templatetagemail';
@@ -28,7 +27,6 @@ class Template_Tag_Email_Field extends Template_Tag_Text_Field {
 	 * Type attribute for the input.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $type = 'email';
@@ -37,7 +35,6 @@ class Template_Tag_Email_Field extends Template_Tag_Text_Field {
 	 * Validates a single value for the field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed $value Value to validate. When null is passed, the method
 	 *                     assumes no value was sent.

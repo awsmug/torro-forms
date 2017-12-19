@@ -33,7 +33,6 @@ class Element_Type_Manager extends Service {
 	 * Registered element types.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $element_types = array();
@@ -42,7 +41,6 @@ class Element_Type_Manager extends Service {
 	 * Default element types definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $default_element_types = array();
@@ -51,7 +49,6 @@ class Element_Type_Manager extends Service {
 	 * The element manager service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -61,7 +58,6 @@ class Element_Type_Manager extends Service {
 	 * The Assets API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -71,7 +67,6 @@ class Element_Type_Manager extends Service {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix   The instance prefix.
 	 * @param array  $services {
@@ -105,7 +100,6 @@ class Element_Type_Manager extends Service {
 	 * Checks whether a specific element type is registered.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Element type slug.
 	 * @return bool True if the element type is registered, false otherwise.
@@ -118,7 +112,6 @@ class Element_Type_Manager extends Service {
 	 * Returns a specific registered element type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Element type slug.
 	 * @return Element_Type|Error Element type instance, or error object if element type is not registered.
@@ -136,7 +129,6 @@ class Element_Type_Manager extends Service {
 	 * Returns all registered element types.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$slug => $element_type_instance` pairs.
 	 */
@@ -148,7 +140,6 @@ class Element_Type_Manager extends Service {
 	 * Registers a new element type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug                    Element type slug.
 	 * @param string $element_type_class_name Element type class name.
@@ -184,7 +175,6 @@ class Element_Type_Manager extends Service {
 	 * Unregisters a new element type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Element type slug.
 	 * @return bool|Error True on success, error object on failure.
@@ -211,7 +201,6 @@ class Element_Type_Manager extends Service {
 	 * The function also executes a hook that should be used by other developers to register their own element types.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_defaults() {
 		foreach ( $this->default_element_types as $slug => $element_type_class_name ) {
@@ -234,7 +223,6 @@ class Element_Type_Manager extends Service {
 	 * Enqueues form builder scripts for the available element types.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function enqueue_admin_scripts() {
 		$services = array(
@@ -275,7 +263,6 @@ class Element_Type_Manager extends Service {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		$this->actions = array(

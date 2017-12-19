@@ -27,7 +27,6 @@ class Onechoice extends Element_Type implements Choice_Element_Type_Interface {
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array           $data       Element data to filter.
 	 * @param Element         $element    The element object to get the data for.
@@ -59,7 +58,6 @@ class Onechoice extends Element_Type implements Choice_Element_Type_Interface {
 	 * Validates a field value for an element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
 	 * @param Element    $element    Element to validate the field value for.
@@ -88,7 +86,6 @@ class Onechoice extends Element_Type implements Choice_Element_Type_Interface {
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'onechoice';

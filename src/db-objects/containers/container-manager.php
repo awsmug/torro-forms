@@ -36,7 +36,6 @@ class Container_Manager extends Manager {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string                         $prefix       The instance prefix.
 	 * @param array                          $services     {
@@ -78,7 +77,6 @@ class Container_Manager extends Manager {
 	 * Adds the database table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(

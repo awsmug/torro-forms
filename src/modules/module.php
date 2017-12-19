@@ -30,7 +30,6 @@ abstract class Module extends Service {
 	 * The module slug. Must match the slug when registering the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = '';
@@ -39,7 +38,6 @@ abstract class Module extends Service {
 	 * The module title.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $title = '';
@@ -48,7 +46,6 @@ abstract class Module extends Service {
 	 * The module description.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $description = '';
@@ -57,7 +54,6 @@ abstract class Module extends Service {
 	 * The module manager service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -67,7 +63,6 @@ abstract class Module extends Service {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix   The instance prefix.
 	 * @param array  $services {
@@ -89,7 +84,6 @@ abstract class Module extends Service {
 	 * Returns the module slug.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Module slug.
 	 */
@@ -101,7 +95,6 @@ abstract class Module extends Service {
 	 * Returns the module title.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Module title.
 	 */
@@ -113,7 +106,6 @@ abstract class Module extends Service {
 	 * Returns the module description.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Module description.
 	 */
@@ -125,7 +117,6 @@ abstract class Module extends Service {
 	 * Checks whether this module is active.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return bool True if the module is active, false otherwise.
 	 */
@@ -142,7 +133,6 @@ abstract class Module extends Service {
 	 * Retrieves the value of a specific module option for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int    $form_id Form ID.
 	 * @param string $option  Name of the form option to retrieve.
@@ -163,7 +153,6 @@ abstract class Module extends Service {
 	 * Retrieves the values of all module options for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $form_id Form ID.
 	 * @return array Option values.
@@ -182,7 +171,6 @@ abstract class Module extends Service {
 	 * Retrieves the value of a specific module option.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $option  Name of the option to retrieve.
 	 * @param mixed  $default Optional. Value to return if the option doesn't exist. Default false.
@@ -202,7 +190,6 @@ abstract class Module extends Service {
 	 * Retrieves the values of all module options.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Option values.
 	 */
@@ -214,7 +201,6 @@ abstract class Module extends Service {
 	 * Adds meta tabs, sections and fields for the module to the form edit page.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form_Edit_Page_Handler $edit_page Edit page handler.
 	 */
@@ -257,7 +243,6 @@ abstract class Module extends Service {
 	 * This identifier must be used to access module metadata.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Module meta identifier.
 	 */
@@ -269,7 +254,6 @@ abstract class Module extends Service {
 	 * Adds settings subtabs, sections and fields for the module to the plugin settings page.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form_Settings_Page $settings_page Settings page instance.
 	 */
@@ -317,7 +301,6 @@ abstract class Module extends Service {
 	 * This identifier must be used to access module options.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return string Module settings identifier.
 	 */
@@ -331,7 +314,6 @@ abstract class Module extends Service {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		$this->actions = array(
@@ -366,7 +348,6 @@ abstract class Module extends Service {
 	 * Bootstraps the module by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected abstract function bootstrap();
 
@@ -374,7 +355,6 @@ abstract class Module extends Service {
 	 * Returns the available meta box tabs for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
 	 */
@@ -384,7 +364,6 @@ abstract class Module extends Service {
 	 * Returns the available meta box fields for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -394,7 +373,6 @@ abstract class Module extends Service {
 	 * Returns the available settings sub-tabs for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
 	 */
@@ -404,7 +382,6 @@ abstract class Module extends Service {
 	 * Returns the available settings sections for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -414,7 +391,6 @@ abstract class Module extends Service {
 	 * Returns the available settings fields for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -424,7 +400,6 @@ abstract class Module extends Service {
 	 * Registers the available module scripts and stylesheets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */
@@ -434,7 +409,6 @@ abstract class Module extends Service {
 	 * Enqueues the module's form builder scripts and stylesheets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */

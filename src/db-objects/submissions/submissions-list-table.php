@@ -21,7 +21,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Handles the ID column output.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission The current submission object.
 	 */
@@ -46,7 +45,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Handles the form ID column output.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission The current submission object.
 	 */
@@ -67,7 +65,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Handles the user ID column output.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission The current submission object.
 	 */
@@ -93,7 +90,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Handles the timestamp column output.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission $submission The current submission object.
 	 */
@@ -109,7 +105,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Returns the available columns for the list table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Columns as `$slug => $label` pairs.
 	 */
@@ -135,7 +130,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Returns the sortable columns for the list table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Sortable columns as `$slug => $orderby` pairs. $orderby
 	 *               can be a plain string or an array with the first element
@@ -161,7 +155,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Returns the available views for the list table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $current  Slug of the current view, passed by reference. Should be
 	 *                         set properly in the method.
@@ -250,7 +243,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Returns the available bulk actions for the list table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Actions as `$slug => $data` pairs. The $data array must have the key
 	 *               'label'.
@@ -272,7 +264,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Returns the available row actions for a given item in the list table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission $submission    The submission for which to return row actions.
 	 * @param int        $submission_id The submission ID.
@@ -300,7 +291,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Builds query parameters for the current request.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param int $number Maximum number of models to query.
 	 * @param int $offset Offset to query models.
@@ -362,7 +352,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Prints input fields for filtering.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function print_filters() {
 		$this->timestamp_months_dropdown( 'timestamp' );
@@ -374,7 +363,6 @@ class Submissions_List_Table extends Models_List_Table {
 	 * Displays a monthly timestamp dropdown for filtering.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global WP_Locale $wp_locale
 	 *

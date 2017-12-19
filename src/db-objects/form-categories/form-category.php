@@ -35,7 +35,6 @@ class Form_Category extends Core_Model {
 	 * Sets the ID and fetches relevant data.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Leaves_And_Love\Plugin_Lib\DB_Objects\Manager $manager The manager instance for the model.
 	 * @param WP_Post|null                                  $db_obj  Optional. The database object or
@@ -53,7 +52,6 @@ class Form_Category extends Core_Model {
 	 * Checks whether a property is set.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to check for.
 	 * @return bool True if the property is set, false otherwise.
@@ -74,7 +72,6 @@ class Form_Category extends Core_Model {
 	 * Returns a property value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to get.
 	 * @return mixed Property value, or null if property is not set.
@@ -96,7 +93,6 @@ class Form_Category extends Core_Model {
 	 * Sets a property value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to set.
 	 * @param mixed  $value    Property value.
@@ -133,7 +129,6 @@ class Form_Category extends Core_Model {
 	 * Returns all current values as $property => $value pairs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param bool $pending_only Whether to only return pending properties. Default false.
 	 * @return array Array of $property => $value pairs.
@@ -158,7 +153,6 @@ class Form_Category extends Core_Model {
 	 * This method is called if a new object has been instantiated.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function set_default_object() {
 		$this->original = new WP_Term( new stdClass() );
@@ -168,7 +162,6 @@ class Form_Category extends Core_Model {
 	 * Returns the names of all properties that should be accessible on the Core object.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Array of property names.
 	 */

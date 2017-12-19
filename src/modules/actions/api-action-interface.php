@@ -19,7 +19,6 @@ interface API_Action_Interface {
 	 * Returns the element mappings for a given form ID.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $form_id Form ID.
 	 * @return array Multidimensional array, where the first level is `$element_id => $field_slugs` pairs and
@@ -31,7 +30,6 @@ interface API_Action_Interface {
 	 * Saves the element mappings for a given form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int   $form_id     Form ID.
 	 * @param array $id_mappings Array of ID mappings from the elements that have just been saved.
@@ -42,7 +40,6 @@ interface API_Action_Interface {
 	 * Registers the API-API hook for adding the necessary configuration data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	public function register_config_data_hook();
 }

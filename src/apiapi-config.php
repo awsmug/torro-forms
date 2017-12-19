@@ -24,7 +24,6 @@ class APIAPI_Config extends Config {
 	 * Plugin prefix.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $prefix = '';
@@ -35,7 +34,6 @@ class APIAPI_Config extends Config {
 	 * Allows to set the config parameters.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix Plugin config prefix.
 	 * @param array  $params Optional. Associative array of config parameters with their values. Default empty.
@@ -52,7 +50,6 @@ class APIAPI_Config extends Config {
 	 * Returns the default parameters with their values.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of default config parameters with their values.
 	 */
@@ -77,7 +74,6 @@ class APIAPI_Config extends Config {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		$this->actions = array(
@@ -100,7 +96,6 @@ class APIAPI_Config extends Config {
 	 * Triggers the API-API instance's 'setup_config' hook.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function trigger_setup_config() {
 		torro()->apiapi()->trigger_hook( 'setup_config', $this );
@@ -110,7 +105,6 @@ class APIAPI_Config extends Config {
 	 * Triggers the API-API instance's 'listen_for_callback' hook.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function trigger_listen_for_callback() {
 		torro()->apiapi()->trigger_hook( 'listen_for_callback' );

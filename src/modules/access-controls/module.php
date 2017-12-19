@@ -27,7 +27,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Bootstraps the module by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'access_controls';
@@ -47,7 +46,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Determines whether the current user can access a specific form or submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param bool|Error      $result     Whether a user can access the form. Can be an error object to show a specific message to the user.
 	 * @param Form            $form       Form object.
@@ -77,7 +75,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Sets additional data for a submission when it is created.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission $submission New submission object.
 	 * @param Form       $form       Form object the submission belongs to.
@@ -103,7 +100,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * The function also executes a hook that should be used by other developers to register their own access controls.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_defaults() {
 		foreach ( $this->default_submodules as $slug => $class_name ) {
@@ -126,7 +122,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

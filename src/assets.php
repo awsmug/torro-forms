@@ -23,7 +23,6 @@ class Assets extends Assets_Base {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix The prefix for all AJAX actions.
 	 * @param array  $args   {
@@ -45,7 +44,6 @@ class Assets extends Assets_Base {
 	 * The method also automatically handles loading a minified vs non-minified file.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $src Relative asset path.
 	 * @return string|bool Full asset URL, or false if the path
@@ -61,7 +59,6 @@ class Assets extends Assets_Base {
 	 * The method also automatically handles loading a minified vs non-minified file.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $src Relative asset path.
 	 * @param bool   $url Whether to return the URL instead of the path. Default false.
@@ -92,7 +89,6 @@ class Assets extends Assets_Base {
 	 * Registers all default plugin assets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_assets() {
 		$this->register_style( 'frontend', 'assets/dist/css/frontend.css', array(
@@ -287,7 +283,6 @@ JAVASCRIPT;
 	 * Enqueues the icons stylesheet.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function enqueue_icons() {
 		$this->enqueue_style( 'admin-icons' );
@@ -297,7 +292,6 @@ JAVASCRIPT;
 	 * Adds utility CSS classes to the admin body tag.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $classes Optional. Admin body classes. Default empty string.
 	 * @return string Modified admin body classes.
@@ -318,7 +312,6 @@ JAVASCRIPT;
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		$this->actions = array(
@@ -356,7 +349,6 @@ JAVASCRIPT;
 	 * Parses the plugin version number.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 *
 	 * @param mixed $value The input value.

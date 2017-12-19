@@ -25,7 +25,6 @@ class Error_Handler extends Error_Handler_Base {
 	 * Marks a shortcode as deprecated and inform when it has been used.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $shortcode   The shortcode that was called.
 	 * @param string $version     The version of the plugin that deprecated the shortcode.

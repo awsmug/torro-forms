@@ -21,7 +21,6 @@ class Legacy_Upgrades extends Service {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix Instance prefix.
 	 */
@@ -33,7 +32,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades legacy settings to new schema.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function upgrade_legacy_settings() {
 		$prefix = $this->get_prefix();
@@ -147,7 +145,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades legacy form metadata to new schema.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -353,7 +350,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades legacy form metadata to new schema if necessary.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int $form_id ID of the form for which to migrate data.
 	 * @return bool True if form metadata was migrated, false if it had already been
@@ -379,7 +375,6 @@ class Legacy_Upgrades extends Service {
 	 * migrated.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -430,7 +425,6 @@ class Legacy_Upgrades extends Service {
 	 * Runs the upgrade from a legacy version.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $legacy_db_version The legacy version number.
 	 */
@@ -488,7 +482,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.3.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -504,7 +497,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.4.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -532,7 +524,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.5.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -549,7 +540,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.6.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -573,7 +563,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.7.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -589,7 +578,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.8.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -605,7 +593,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.9.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -630,7 +617,6 @@ class Legacy_Upgrades extends Service {
 	 * Upgrades to legacy version 1.0.10.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -723,7 +709,6 @@ class Legacy_Upgrades extends Service {
 	 * Updates the legacy version number.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $legacy_db_version The legacy version number to set.
 	 */
@@ -735,7 +720,6 @@ class Legacy_Upgrades extends Service {
 	 * Creates a full database table name for an unprefixed table name.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 *

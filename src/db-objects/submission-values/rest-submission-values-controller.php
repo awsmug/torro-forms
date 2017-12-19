@@ -21,7 +21,6 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Submission_Value_Manager $manager The manager instance.
 	 */
@@ -35,7 +34,6 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	 * Retrieves the model's schema, conforming to JSON Schema.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Model schema data.
 	 */
@@ -81,7 +79,6 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	 * Retrieves the query params for the models collection.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -115,7 +112,6 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	 * Prepares links for the request.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission_Value $submission_value Submission value object.
 	 * @return array Links for the given submission value.

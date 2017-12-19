@@ -25,7 +25,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * The manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Element_Manager
 	 */
 	protected $manager;
@@ -34,7 +33,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element_Manager $manager The manager instance.
 	 */
@@ -54,7 +52,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Registers the routes for the objects of the controller.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function register_routes() {
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
@@ -92,7 +89,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Checks whether a given request has permission to read types.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|true True if the request has read access, WP_Error object otherwise.
@@ -115,7 +111,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Retrieves a collection of element types.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|WP_REST_Response Response object on success, or WP_Error object on failure.
@@ -136,7 +131,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Checks whether a given request has permission to read a type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|true True if the request has read access, WP_Error object otherwise.
@@ -164,7 +158,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Retrieves a specific element type.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|WP_REST_Response Response object on success, or WP_Error object on failure.
@@ -181,7 +174,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Prepares an element type for response.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element_Type    $element_type Element type object.
 	 * @param WP_REST_Request $request      Request object.
@@ -247,7 +239,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Prepares links for the request.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Element_Type $element_type Element type object.
 	 * @return array Links for the given element type.
@@ -274,7 +265,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Retrieves the element type's schema, conforming to JSON Schema.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Element type schema data.
 	 */
@@ -412,7 +402,6 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 	 * Retrieves the query params for collections.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Collection parameters.
 	 */

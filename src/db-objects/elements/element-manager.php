@@ -41,7 +41,6 @@ class Element_Manager extends Manager {
 	 * The element type manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Element_Type_Manager
 	 */
 	protected $types;
@@ -50,7 +49,6 @@ class Element_Manager extends Manager {
 	 * The Assets API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -60,7 +58,6 @@ class Element_Manager extends Manager {
 	 * The AJAX API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -70,7 +67,6 @@ class Element_Manager extends Manager {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string                       $prefix       The instance prefix.
 	 * @param array                        $services     {
@@ -120,7 +116,6 @@ class Element_Manager extends Manager {
 	 * Returns the element type manager instance.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Element_Type_Manager The element type manager instance.
 	 */
@@ -132,7 +127,6 @@ class Element_Manager extends Manager {
 	 * Adds the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function add_hooks() {
 		$result = parent::add_hooks();
@@ -148,7 +142,6 @@ class Element_Manager extends Manager {
 	 * Removes the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function remove_hooks() {
 		$result = parent::remove_hooks();
@@ -164,7 +157,6 @@ class Element_Manager extends Manager {
 	 * Adds the database table.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(

@@ -19,7 +19,6 @@ abstract class Submodule {
 	 * The submodule slug. Must match the slug when registering the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = '';
@@ -28,7 +27,6 @@ abstract class Submodule {
 	 * The submodule title.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $title = '';
@@ -37,7 +35,6 @@ abstract class Submodule {
 	 * The submodule description.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $description = '';
@@ -46,7 +43,6 @@ abstract class Submodule {
 	 * The submodules module instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Module
 	 */
 	protected $module;
@@ -55,7 +51,6 @@ abstract class Submodule {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Module $module The submodule's parent module instance.
 	 */
@@ -69,7 +64,6 @@ abstract class Submodule {
 	 * Returns the submodule slug.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule slug.
 	 */
@@ -81,7 +75,6 @@ abstract class Submodule {
 	 * Returns the submodule title.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule title.
 	 */
@@ -93,7 +86,6 @@ abstract class Submodule {
 	 * Returns the submodule description.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submodule description.
 	 */
@@ -105,7 +97,6 @@ abstract class Submodule {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected abstract function bootstrap();
 }

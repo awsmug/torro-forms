@@ -24,7 +24,6 @@ class reCAPTCHA extends Protector {
 	 * Internal flag for whether the reCAPTCHA script has been hooked in.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $script_hooked = false;
@@ -33,7 +32,6 @@ class reCAPTCHA extends Protector {
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'recaptcha';
@@ -45,7 +43,6 @@ class reCAPTCHA extends Protector {
 	 * Verifies a request by ensuring that it is not spammy.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array           $data       Submission POST data.
 	 * @param Form            $form       Form object.
@@ -92,7 +89,6 @@ class reCAPTCHA extends Protector {
 	 * Renders the output for the protector before the Submit button.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object.
 	 */
@@ -129,7 +125,6 @@ class reCAPTCHA extends Protector {
 	 * This method must only be called once per request.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function print_script() {
 		$locale = str_replace( '_', '-', get_locale() );
@@ -186,7 +181,6 @@ class reCAPTCHA extends Protector {
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -227,7 +221,6 @@ class reCAPTCHA extends Protector {
 	 * Returns the available settings sections for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -245,7 +238,6 @@ class reCAPTCHA extends Protector {
 	 * Returns the available settings fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -277,7 +269,6 @@ class reCAPTCHA extends Protector {
 	 * Verifies a reCAPTCHA response with Google's API.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $response reCAPTCHA response input.
 	 * @return string Raw response as a JSON-formatted string.
@@ -309,7 +300,6 @@ class reCAPTCHA extends Protector {
 	 * It does not check whether these are actually correct though.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return bool True if reCAPTCHA is configured, false otherwise.
 	 */

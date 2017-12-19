@@ -21,7 +21,6 @@ class Translations_AJAX extends Translations_AJAX_Base {
 	 * Initializes the translation strings.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function init() {
 		$this->translations = array(

@@ -21,7 +21,6 @@ trait Manager_With_Children_Trait {
 	 * Child managers.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $child_managers = array();
@@ -30,7 +29,6 @@ trait Manager_With_Children_Trait {
 	 * Adds a child manager.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string  $slug    Child manager identifier.
 	 * @param Manager $manager Child manager instance.
@@ -50,7 +48,6 @@ trait Manager_With_Children_Trait {
 	 * Retrieves a child manager.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Child manager identifier.
 	 * @return Manager Child manager instance.

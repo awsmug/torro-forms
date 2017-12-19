@@ -22,7 +22,6 @@ trait Submodule_Registry_Trait {
 	 * Registered submodules.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $submodules = array();
@@ -31,7 +30,6 @@ trait Submodule_Registry_Trait {
 	 * Default submodules definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $default_submodules = array();
@@ -40,7 +38,6 @@ trait Submodule_Registry_Trait {
 	 * Name of the base class that each submodule in this registry must inherit.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $submodule_base_class = Submodule::class;
@@ -49,7 +46,6 @@ trait Submodule_Registry_Trait {
 	 * Checks whether a specific submodule is registered.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Submodule slug.
 	 * @return bool True if the submodule is registered, false otherwise.
@@ -62,7 +58,6 @@ trait Submodule_Registry_Trait {
 	 * Returns a specific registered submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Submodule slug.
 	 * @return Submodule|Error Submodule instance, or error object if submodule is not registered.
@@ -80,7 +75,6 @@ trait Submodule_Registry_Trait {
 	 * Returns all registered submodules.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$slug => $submodule_instance` pairs.
 	 */
@@ -92,7 +86,6 @@ trait Submodule_Registry_Trait {
 	 * Registers a new submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug                 Submodule slug.
 	 * @param string $submodule_class_name Submodule class name.
@@ -128,7 +121,6 @@ trait Submodule_Registry_Trait {
 	 * Unregisters a new submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Submodule slug.
 	 * @return bool|Error True on success, error object on failure.
@@ -153,7 +145,6 @@ trait Submodule_Registry_Trait {
 	 * Returns the available meta box tabs for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
 	 */
@@ -184,7 +175,6 @@ trait Submodule_Registry_Trait {
 	 * Returns the available meta box fields for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -228,7 +218,6 @@ trait Submodule_Registry_Trait {
 	 * Returns the available settings sub-tabs for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
 	 */
@@ -258,7 +247,6 @@ trait Submodule_Registry_Trait {
 	 * Returns the available settings sections for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -288,7 +276,6 @@ trait Submodule_Registry_Trait {
 	 * Returns the available settings fields for the module.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -335,7 +322,6 @@ trait Submodule_Registry_Trait {
 	 * Registers the available module scripts and stylesheets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */
@@ -353,7 +339,6 @@ trait Submodule_Registry_Trait {
 	 * Enqueues the module's form builder scripts and stylesheets.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */

@@ -21,7 +21,6 @@ interface Choice_Element_Type_Interface {
 	 * Returns the available choices.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element $element Element to get choices for.
 	 * @return array Associative array of `$field => $choices` pairs, with the main element field having the key '_main'.
@@ -32,7 +31,6 @@ interface Choice_Element_Type_Interface {
 	 * Returns the available choices for a specific field.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Element $element Element to get choices for.
 	 * @param string  $field   Optional. Element field for which to get choices. Default empty string (main field).

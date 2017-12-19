@@ -26,7 +26,6 @@ class DB extends DB_Base {
 	 * This sets the table prefix and adds the tables.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string          $prefix       The prefix for all database tables.
 	 * @param array           $services     {
@@ -49,7 +48,6 @@ class DB extends DB_Base {
 	 * If outdated, the tables will be refreshed.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param bool $force Optional. Whether to force install regardless of the check. Default false.
 	 */
@@ -75,7 +73,6 @@ class DB extends DB_Base {
 	 * for all sites in the entire setup are wiped out.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function uninstall() {
 		parent::uninstall();
@@ -87,7 +84,6 @@ class DB extends DB_Base {
 	 * Uninstalls the database tables for the current site.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -127,7 +123,6 @@ class DB extends DB_Base {
 	 * This ensures the post type and taxonomy rewrites work properly.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function maybe_flush_rewrite_rules() {
 		if ( $this->options()->get( 'rewrite_rules', false ) ) {
@@ -145,7 +140,6 @@ class DB extends DB_Base {
 	 * This method must be implemented and then be called from the constructor.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

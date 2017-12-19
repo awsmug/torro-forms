@@ -21,7 +21,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string             $slug          Page slug.
 	 * @param Admin_Pages        $manager       Admin page manager instance.
@@ -37,7 +36,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * Handles a request to the page.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function handle_request() {
 		global $parent_file, $submenu_file;
@@ -52,7 +50,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * Renders the edit page header.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function render_header() {
 		$primary_property = $this->model_manager->get_primary_property();
@@ -70,7 +67,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * This method is called from within the 'edit' action.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array    $form_data Form POST data.
 	 * @param WP_Error $error     Error object to add errors to.
@@ -94,7 +90,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * `add_field()` to populate the page.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function add_page_content() {
 		$tabs = $this->get_tabs();
@@ -126,7 +121,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * Returns the available edit tabs.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
 	 */
@@ -148,7 +142,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * Returns the available edit sections.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -175,7 +168,6 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 * Returns the available edit fields.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */

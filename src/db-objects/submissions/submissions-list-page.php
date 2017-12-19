@@ -21,7 +21,6 @@ class Submissions_List_Page extends Models_List_Page {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string             $slug          Page slug.
 	 * @param Admin_Pages        $manager       Admin page manager instance.
@@ -46,7 +45,6 @@ class Submissions_List_Page extends Models_List_Page {
 	 * Renders the list page header.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function render_header() {
 		$capabilities = $this->model_manager->capabilities();
@@ -83,7 +81,6 @@ class Submissions_List_Page extends Models_List_Page {
 	 * Renders the list page form.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function render_form() {
 		/**

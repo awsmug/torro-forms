@@ -21,7 +21,6 @@ class Choices_Field extends Text {
 	 * Field type identifier.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = 'torrochoices';
@@ -30,7 +29,6 @@ class Choices_Field extends Text {
 	 * Whether this is a repeatable field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $repeatable = true;
@@ -39,7 +37,6 @@ class Choices_Field extends Text {
 	 * Element ID to which the choices apply.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $element_id = 0;
@@ -48,7 +45,6 @@ class Choices_Field extends Text {
 	 * Field identifier to which the choices apply.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $field = '_main';
@@ -57,7 +53,6 @@ class Choices_Field extends Text {
 	 * Sort value for the choice.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $sort = 0;
@@ -66,7 +61,6 @@ class Choices_Field extends Text {
 	 * Renders a single input for the field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed $current_value Current field value.
 	 */
@@ -96,7 +90,6 @@ class Choices_Field extends Text {
 	 * Prints a single input template.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function print_single_input_template() {
 		?>
@@ -115,7 +108,6 @@ class Choices_Field extends Text {
 	 * Transforms single field data into an array to be passed to JavaScript applications.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed $current_value Current value of the field.
 	 * @return array Field data to be JSON-encoded.

@@ -35,7 +35,6 @@ class Submission extends Model {
 	 * Submission ID.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $id = 0;
@@ -44,7 +43,6 @@ class Submission extends Model {
 	 * ID of the form this submission applies to.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $form_id = 0;
@@ -53,7 +51,6 @@ class Submission extends Model {
 	 * User ID of the user who created this submission, if any.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $user_id = 0;
@@ -62,7 +59,6 @@ class Submission extends Model {
 	 * Timestamp of when the submission was created.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $timestamp = 0;
@@ -71,7 +67,6 @@ class Submission extends Model {
 	 * IP address of the user who created this submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $remote_addr = '';
@@ -80,7 +75,6 @@ class Submission extends Model {
 	 * Submission user key.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $user_key = '';
@@ -89,7 +83,6 @@ class Submission extends Model {
 	 * Submission status identifier.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $status = 'completed';
@@ -98,7 +91,6 @@ class Submission extends Model {
 	 * Internal submission value storage.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array|null
 	 */
 	protected $values = null;
@@ -109,7 +101,6 @@ class Submission extends Model {
 	 * Checks whether a property is set.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to check for.
 	 * @return bool True if the property is set, false otherwise.
@@ -128,7 +119,6 @@ class Submission extends Model {
 	 * Returns a property value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to get.
 	 * @return mixed Property value, or null if property is not set.
@@ -151,7 +141,6 @@ class Submission extends Model {
 	 * Sets a property value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $property Property to set.
 	 * @param mixed  $value    Property value.
@@ -169,7 +158,6 @@ class Submission extends Model {
 	 * Returns the parent form for the submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Form|null Parent form, or null if none set.
 	 */
@@ -185,7 +173,6 @@ class Submission extends Model {
 	 * Returns all submission values that belong to the submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array $args Optional. Additional query arguments. Default empty array.
 	 * @return Submission_Value_Collection List of submission values.
@@ -209,7 +196,6 @@ class Submission extends Model {
 	 * If the model is new (i.e. does not have an ID yet), it will be inserted to the database.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return true|WP_Error True on success, or an error object on failure.
 	 */
@@ -275,7 +261,6 @@ class Submission extends Model {
 	 * to reset the model to the values stored in the database.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return true|WP_Error True on success, or an error object on failure.
 	 */
@@ -295,7 +280,6 @@ class Submission extends Model {
 	 * Deletes the model from the database.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return true|WP_Error True on success, or an error object on failure.
 	 */
@@ -312,7 +296,6 @@ class Submission extends Model {
 	 * Formats the submission date and time.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $format Datetime format string. Will be localized.
 	 * @param bool   $gmt    Optional. Whether to return as GMT. Default true.
@@ -333,7 +316,6 @@ class Submission extends Model {
 	 * The form ID of the container must match the submission's form ID.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Container|null $container Container, or null if the current container data should be unset.
 	 */
@@ -355,7 +337,6 @@ class Submission extends Model {
 	 * Returns the current container for the submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Container|null Current container, or null on failure.
 	 */
@@ -392,7 +373,6 @@ class Submission extends Model {
 	 * Returns the next container for the submission, if there is one.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Container|null Next container, or null if there is none.
 	 */
@@ -428,7 +408,6 @@ class Submission extends Model {
 	 * Returns the previous container for the submission, if there is one.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return Container|null Previous container, or null if there is none.
 	 */
@@ -468,7 +447,6 @@ class Submission extends Model {
 	 * with the actual value for the element and field combination as value.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Element values data set for the submission.
 	 */
@@ -484,7 +462,6 @@ class Submission extends Model {
 	 * Adds an error to the submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int    $element_id Element ID to add the error for.
 	 * @param string $code       Error code.
@@ -517,7 +494,6 @@ class Submission extends Model {
 	 * Removes an error from the submission.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int    $element_id Element ID to remove an error for.
 	 * @param string $code       Error code to remove.
@@ -561,7 +537,6 @@ class Submission extends Model {
 	 * Gets all errors, for the entire submission or a specific element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int|null $element_id Optional. If an element ID is given, only errors for that element are returned.
 	 * @return array If $element_id is given, the array of `$code => $message` pairs is returned. Otherwise the array
@@ -597,7 +572,6 @@ class Submission extends Model {
 	 * Checks whether there are errors, for the entire submission or a specific element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int|null $element_id Optional. If an element ID is given, only errors for that element are returned.
 	 * @return bool True if there are errors, false otherwise.
@@ -612,7 +586,6 @@ class Submission extends Model {
 	 * Resets all errors, for the entire submission or a specific element.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param int|null $element_id Optional. If an element ID is given, only errors for that element are reset.
 	 * @return bool True on success, false on failure.
@@ -653,7 +626,6 @@ class Submission extends Model {
 	 * Gets submission values data for the submission, to be used with the field manager.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Submission values data.
 	 */
@@ -676,7 +648,6 @@ class Submission extends Model {
 	 * Sets submission values data for the submission, to be used with the field manager.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $value Submission values data.
 	 */
@@ -704,7 +675,6 @@ class Submission extends Model {
 	 * When overriding this method, always make sure to merge with the parent result.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @return array Property blacklist.
 	 */

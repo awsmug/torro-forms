@@ -22,7 +22,6 @@ abstract class Submission_Export {
 	 * Submission export handler instance.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Submission_Export_Handler
 	 */
 	protected $handler;
@@ -31,7 +30,6 @@ abstract class Submission_Export {
 	 * Submission export slug.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = '';
@@ -40,7 +38,6 @@ abstract class Submission_Export {
 	 * Submission export title.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $title = '';
@@ -49,7 +46,6 @@ abstract class Submission_Export {
 	 * Submission export description.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $description = '';
@@ -60,7 +56,6 @@ abstract class Submission_Export {
 	 * Usually matches the $slug property, but may be different.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $export_format = '';
@@ -69,7 +64,6 @@ abstract class Submission_Export {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function __construct( $handler ) {
 		$this->handler = $handler;
@@ -81,7 +75,6 @@ abstract class Submission_Export {
 	 * Gets the submission export slug.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submission export slug.
 	 */
@@ -93,7 +86,6 @@ abstract class Submission_Export {
 	 * Gets the submission export title.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submission export title.
 	 */
@@ -105,7 +97,6 @@ abstract class Submission_Export {
 	 * Gets the submission export description.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return string Submission export description.
 	 */
@@ -117,7 +108,6 @@ abstract class Submission_Export {
 	 * Exports submissions for a form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form  $form Form to export submissions for.
 	 * @param array $args Optional. Extra query arguments to pass to the submissions
@@ -144,7 +134,6 @@ abstract class Submission_Export {
 	 * Gets all columns for the export.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $submission_columns Submission columns definition.
 	 * @param array $element_columns    Element columns definition for submission values.
@@ -168,7 +157,6 @@ abstract class Submission_Export {
 	 * Gets all rows for the export.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission_Collection $submissions        Submissions to create rows for.
 	 * @param array                 $submission_columns Submission columns definition.
@@ -209,7 +197,6 @@ abstract class Submission_Export {
 	 * submission values.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Form $form Form for which submissions are being exported.
 	 * @return array Associative array of `$column_slug => $column_data` pairs
@@ -268,7 +255,6 @@ abstract class Submission_Export {
 	 * Gets element columns for the export.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Element_Collection $elements Elements for which to get columns.
 	 * @return array Associative array of `$element_id => $element_data` pairs where
@@ -299,7 +285,6 @@ abstract class Submission_Export {
 	 * Generates the actual export from given data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param array $columns Associative columns array of `$column_slug => $column_label` pairs.
 	 * @param array $rows    Rows array where each row is an associative array of
@@ -312,7 +297,6 @@ abstract class Submission_Export {
 	 * Bootstraps the export class by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected abstract function bootstrap();
 }

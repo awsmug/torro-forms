@@ -51,7 +51,6 @@ class Module_Manager extends Service {
 	 * Registered modules.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $modules = array();
@@ -60,7 +59,6 @@ class Module_Manager extends Service {
 	 * Default modules definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $default_modules = array();
@@ -69,7 +67,6 @@ class Module_Manager extends Service {
 	 * Whether the hooks for the service have been added.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $hooks_added = false;
@@ -78,7 +75,6 @@ class Module_Manager extends Service {
 	 * The Option API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -88,7 +84,6 @@ class Module_Manager extends Service {
 	 * The Metadata API service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -98,7 +93,6 @@ class Module_Manager extends Service {
 	 * Assets service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -108,7 +102,6 @@ class Module_Manager extends Service {
 	 * AJAX service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -118,7 +111,6 @@ class Module_Manager extends Service {
 	 * The form manager service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -128,7 +120,6 @@ class Module_Manager extends Service {
 	 * The template tag handler manager service definition.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var string
 	 */
@@ -138,7 +129,6 @@ class Module_Manager extends Service {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $prefix   The instance prefix.
 	 * @param array  $services {
@@ -176,7 +166,6 @@ class Module_Manager extends Service {
 	 * Supports retrieval of a module or an internally used service.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $method_name Method name. Should be the name of a service.
 	 * @param array  $args        Method arguments. Unused here.
@@ -199,7 +188,6 @@ class Module_Manager extends Service {
 	 * Returns a specific registered module.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Module slug.
 	 * @return Module|Error Module instance, or error object if module is not registered.
@@ -217,7 +205,6 @@ class Module_Manager extends Service {
 	 * Returns all registered modules.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$slug => $module_instance` pairs.
 	 */
@@ -229,7 +216,6 @@ class Module_Manager extends Service {
 	 * Returns all active modules.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$slug => $module_instance` pairs.
 	 */
@@ -246,7 +232,6 @@ class Module_Manager extends Service {
 	 * Registers a new module.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug              Module slug.
 	 * @param string $module_class_name Module class name.
@@ -280,7 +265,6 @@ class Module_Manager extends Service {
 	 * Unregisters a new module.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param string $slug Module slug.
 	 * @return bool|Error True on success, error object on failure.
@@ -305,7 +289,6 @@ class Module_Manager extends Service {
 	 * Adds the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function add_hooks() {
 		if ( $this->hooks_added ) {
@@ -325,7 +308,6 @@ class Module_Manager extends Service {
 	 * Removes the service hooks.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 */
 	public function remove_hooks() {
 		if ( ! $this->hooks_added ) {

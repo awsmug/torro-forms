@@ -27,7 +27,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Bootstraps the module by setting properties.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'actions';
@@ -45,7 +44,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Returns the plugin's API-API instance.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return APIAPI The API-API instance.
 	 */
@@ -57,7 +55,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Handles the action for a specific form submission.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param Submission $submission Submission to handle by the action.
 	 * @param Form       $form       Form the submission applies to.
@@ -79,7 +76,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * The function also executes a hook that should be used by other developers to register their own actions.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_defaults() {
 		foreach ( $this->default_submodules as $slug => $class_name ) {
@@ -102,7 +98,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Saves the API mappings for the elements of a given form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form  $form     Form that has been saved.
 	 * @param array $mappings Array of ID mappings from the objects that have been saved.
@@ -125,7 +120,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Registers the hooks for the API-API configuration data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function register_api_config_data_hook() {
 		foreach ( $this->submodules as $slug => $action ) {
@@ -141,7 +135,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

@@ -21,7 +21,6 @@ class Autocomplete_With_Button extends Autocomplete {
 	 * Field type identifier.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = 'autocompletewithbutton';
@@ -30,7 +29,6 @@ class Autocomplete_With_Button extends Autocomplete {
 	 * Label for the custom button.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $button_label = '';
@@ -39,7 +37,6 @@ class Autocomplete_With_Button extends Autocomplete {
 	 * Attributes for the custom button.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $button_attrs = array();
@@ -48,7 +45,6 @@ class Autocomplete_With_Button extends Autocomplete {
 	 * Renders a single input for the field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed $current_value Current field value.
 	 */
@@ -90,7 +86,6 @@ class Autocomplete_With_Button extends Autocomplete {
 	 * Prints a single input template.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function print_single_input_template() {
 		?>
@@ -107,7 +102,6 @@ class Autocomplete_With_Button extends Autocomplete {
 	 * Transforms single field data into an array to be passed to JavaScript applications.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed $current_value Current value of the field.
 	 * @return array Field data to be JSON-encoded.

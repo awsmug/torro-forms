@@ -21,7 +21,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Field type identifier.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $slug = 'templatetagtext';
@@ -30,7 +29,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Backbone view class name to use for this field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $backbone_view = 'TemplatetagtextFieldView';
@@ -39,7 +37,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Template tag handler for this field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @var Template_Tag_Handler
 	 */
 	protected $template_tag_handler = null;
@@ -48,7 +45,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Whether scripts for template tag text fields have been enqueued.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 * @static
 	 * @var bool
 	 */
@@ -58,7 +54,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Enqueues the necessary assets for the field.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Array where the first element is an array of script handles and the second element
 	 *               is an associative array of data to pass to the main script.
@@ -84,7 +79,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Renders a single input for the field.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed $current_value Current field value.
 	 */
@@ -127,7 +121,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Prints a single input template.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function print_single_input_template() {
 		?>
@@ -162,7 +155,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Transforms single field data into an array to be passed to JavaScript applications.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param mixed $current_value Current value of the field.
 	 * @return array Field data to be JSON-encoded.
@@ -185,7 +177,6 @@ class Template_Tag_Text_Field extends Text {
 	 * Checks whether the scripts for the template tag text field have been enqueued.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 * @static
 	 *
 	 * @return bool True if enqueued, false otherwise.

@@ -21,7 +21,6 @@ class Translations_Error_Handler extends Translations_Error_Handler_Base {
 	 * Initializes the translation strings.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected function init() {
 		$this->translations = array(

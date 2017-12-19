@@ -31,7 +31,6 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 	 * Checks whether the protector is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the protector is enabled, false otherwise.
@@ -44,7 +43,6 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 	 * Verifies a request by ensuring that it is not spammy.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param array           $data       Submission POST data.
 	 * @param Form            $form       Form object.
@@ -57,7 +55,6 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 	 * Renders the output for the protector before the Submit button.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @param Form $form Form object.
 	 */
@@ -67,7 +64,6 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 	 * Returns the available meta fields for the submodule.
 	 *
 	 * @since 1.0.0
-	 * @access public
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -87,7 +83,6 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 	 * Wraps a non-prefixed form input name attribute so that it will be properly included the submission POST data.
 	 *
 	 * @since 1.0.0
-	 * @access protected
 	 *
 	 * @param string $name_attr Form input name.
 	 * @return string Wrapped form input name ready to print on an input element.
