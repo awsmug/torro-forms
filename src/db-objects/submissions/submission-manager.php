@@ -385,7 +385,7 @@ class Submission_Manager extends Manager {
 		}
 
 		if ( ! isset( $_SESSION ) ) {
-			if ( ! headers_sent() ) {
+			if ( headers_sent() ) {
 				return;
 			}
 
