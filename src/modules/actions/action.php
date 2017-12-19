@@ -64,8 +64,9 @@ abstract class Action extends Submodule implements Meta_Submodule_Interface, Set
 		$meta_fields = $this->_get_meta_fields();
 
 		$meta_fields['enabled'] = array(
-			'type'       => 'checkbox',
-			'label'      => _x( 'Enable?', 'action', 'torro-forms' ),
+			'type'         => 'checkbox',
+			'label'        => _x( 'Enable?', 'action', 'torro-forms' ),
+			'visual_label' => _x( 'Status', 'action', 'torro-forms' ),
 		);
 
 		return $meta_fields;

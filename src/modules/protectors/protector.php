@@ -75,8 +75,9 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 		$meta_fields = $this->_get_meta_fields();
 
 		$meta_fields['enabled'] = array(
-			'type'       => 'checkbox',
-			'label'      => _x( 'Enable?', 'protector', 'torro-forms' ),
+			'type'         => 'checkbox',
+			'label'        => _x( 'Enable?', 'protector', 'torro-forms' ),
+			'visual_label' => _x( 'Status', 'protector', 'torro-forms' ),
 		);
 
 		return $meta_fields;

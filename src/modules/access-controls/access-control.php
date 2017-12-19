@@ -64,8 +64,9 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 		$meta_fields = $this->_get_meta_fields();
 
 		$meta_fields['enabled'] = array(
-			'type'       => 'checkbox',
-			'label'      => _x( 'Enable?', 'access control', 'torro-forms' ),
+			'type'         => 'checkbox',
+			'label'        => _x( 'Enable?', 'access control', 'torro-forms' ),
+			'visual_label' => _x( 'Status', 'access control', 'torro-forms' ),
 		);
 
 		return $meta_fields;

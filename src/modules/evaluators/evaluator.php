@@ -184,8 +184,9 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 		$meta_fields = $this->_get_meta_fields();
 
 		$meta_fields['enabled'] = array(
-			'type'       => 'checkbox',
-			'label'      => _x( 'Enable?', 'evaluator', 'torro-forms' ),
+			'type'         => 'checkbox',
+			'label'        => _x( 'Enable?', 'evaluator', 'torro-forms' ),
+			'visual_label' => _x( 'Status', 'evaluator', 'torro-forms' ),
 		);
 
 		return $meta_fields;

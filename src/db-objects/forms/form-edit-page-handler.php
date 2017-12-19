@@ -57,16 +57,6 @@ class Form_Edit_Page_Handler {
 	protected $current_form = null;
 
 	/**
-	 * Holds the tab identifiers of tabs that should render as a single column panel.
-	 * This is automatically detected by the fields used within each tab.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $single_column_tabpanels = array();
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -196,16 +186,6 @@ class Form_Edit_Page_Handler {
 
 		$meta_box_args = $this->meta_boxes[ $this->tabs[ $args['section'] ]['meta_box'] ];
 		$meta_box_args['field_manager']->add( $id, $type, $args );
-
-		// Determine whether the tab holding the field should use a single column tabpanel.
-		$metabox_tab_combination = $this->tabs[ $args['section'] ]['meta_box'] . '__' . $args['section'];
-		if ( in_array( $type, array( 'checkbox', 'group' ), true ) ) {
-			if ( ! isset( $this->single_column_tabpanels[ $metabox_tab_combination ] ) ) {
-				$this->single_column_tabpanels[ $metabox_tab_combination ] = true;
-			}
-		} else {
-			$this->single_column_tabpanels[ $metabox_tab_combination ] = false;
-		}
 	}
 
 	/**
@@ -614,7 +594,7 @@ class Form_Edit_Page_Handler {
 				</h3>
 				<?php $first = true; ?>
 				<?php foreach ( $tabs as $id => $args ) : ?>
-					<div id="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" class="torro-metabox-tab-panel<?php echo ( isset( $this->single_column_tabpanels[ $box['id'] . '__' . $id ] ) && $this->single_column_tabpanels[ $box['id'] . '__' . $id ] ) ? ' single-column' : ''; ?>" aria-labelledby="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
+					<div id="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" class="torro-metabox-tab-panel" aria-labelledby="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
 						<?php
 
 						/**
