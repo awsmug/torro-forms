@@ -74,10 +74,11 @@ class Module extends Module_Base {
 			'show_container_title'  => array(
 				'tab'          => 'labels',
 				'type'         => 'checkbox',
-				'label'        => __( 'Show container title?', 'torro-forms' ),
-				'description'  => __( 'Click the checkbox to display the title of the current container in the frontend.', 'torro-forms' ),
+				'label'        => __( 'Show page title?', 'torro-forms' ),
+				'description'  => __( 'Click the checkbox to display the title of the current page in the frontend.', 'torro-forms' ),
 				'default'      => true,
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
+				'visual_label' => __( 'Page Title', 'torro-forms' ),
 			),
 			'previous_button_label' => array(
 				'tab'          => 'labels',
