@@ -394,6 +394,7 @@
 	.torro-element-content-tab {
 		border:none;
 		border-bottom: 3px solid transparent;
+		background-color: transparent;
 		color: #000;
 		cursor: pointer;
 		height: 38px;
@@ -405,6 +406,10 @@
 		text-decoration: none;
 		padding: 5px 12px;
 		-webkit-appearance: none;
+
+		&:focus {
+			outline:0;
+		}
 
 		&[aria-selected="true"] {
 			border-bottom-color: #00a0d2;
