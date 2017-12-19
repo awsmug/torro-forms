@@ -22,6 +22,7 @@
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.4;
+	padding:0;
 }
 
 .torro-form-canvas-content {
@@ -47,10 +48,10 @@
 ---------------------------------------------------------------------------- */
 
 .torro-form-canvas-header.torro-form-canvas-tabs {
-	padding: 0 12px;
-	background-color: transparent;
-	border-width: 0;
-	border-bottom-width: 1px;
+	background-color: #edeff0;
+	font-size: 13px;
+	line-height: 1.1;
+	display: block;
 
 	&:after {
 		content: "";
@@ -59,23 +60,29 @@
 	}
 
 	.torro-form-canvas-tab {
-		margin: 0 0.5em -1px 0;
-		padding: 6px 12px;
+		border:none;
+		border-bottom: 3px solid transparent;
+		background-color: transparent;
+		color: #000;
+		cursor: pointer;
+		height: 38px;
+		padding: 0px 12px;
+		margin-left: 0;
+		font-weight: 400;
 		display: block;
 		float: left;
-		color: #000000;
-		border: 1px solid #e5e5e5;
-		background-color: #fff;
-		cursor: pointer;
+		text-decoration: none;
+		padding: 5px 12px;
 		-webkit-appearance: none;
 
 		&[aria-selected="true"] {
-			border-bottom-color: #fff;
-			cursor: default;
+			border-bottom-color: #00a0d2;
+			font-weight: 600;
 		}
 
 		&.add-button.is-active {
-			border-bottom-color: #fff;
+			border-bottom-color: #00a0d2;
+			font-weight: 600;
 		}
 
 		&[disabled] {
@@ -542,11 +549,11 @@
 ---------------------------------------------------------------------------- */
 
 .torro-metabox-tab-wrapper {
-	background-color: #edeff0;
 	font-size: 13px;
 	line-height: 1.1;
 	border-bottom: 1px solid #e2e4e7;
 	display: block;
+	margin: -6px -12px 0 -12px;
 
 	&:not(.wp-clearfix):after {
 		display: table;
@@ -559,8 +566,8 @@
 	border-bottom: 3px solid transparent;
 	color: #000;
 	cursor: pointer;
-	height: 50px;
-	line-height: 50px;
+	height: 40px;
+	line-height: 40px;
 	padding: 0 20px;
 	margin-left: 0;
 	font-weight: 400;
