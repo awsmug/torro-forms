@@ -404,6 +404,50 @@ abstract class Element_Type {
 	public abstract function validate_field( $value, $element, $submission );
 
 	/**
+	 * Gets the fields arguments for an element of this type when editing submission values in the admin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element to get fields arguments for.
+	 * @return array An associative array of `$field_slug => $field_args` pairs.
+	 */
+	public function get_edit_submission_fields_args( $element ) {
+		$settings = $this->get_settings( $element );
+
+		$slug = $this->get_edit_submission_field_slug( $element->id );
+		$args = array(
+			'type'  => 'text',
+			'label' => $element->label,
+		);
+
+		if ( ! empty( $settings['placeholder'] ) ) {
+			$args['placeholder'] = $settings['placeholder'];
+		}
+
+		if ( ! empty( $settings['description'] ) ) {
+			$args['description'] = $settings['description'];
+		}
+
+		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] ) {
+			$args['required'] = true;
+		}
+
+		if ( ! empty( $settings['css_classes'] ) ) {
+			$args['input_classes'] = explode( ' ', $settings['css_classes'] );
+		}
+
+		if ( is_a( $this, Choice_Element_Type_Interface::class ) ) {
+			$choices = $this->get_choices( $element );
+
+			$args['choices'] = ! empty( $choices['_main'] ) ? array_combine( $choices['_main'], $choices['_main'] ) : array();
+		}
+
+		return array(
+			$slug => $args,
+		);
+	}
+
+	/**
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0
@@ -474,6 +518,21 @@ abstract class Element_Type {
 		}
 
 		return new WP_Error( $code, $message, $data );
+	}
+
+	/**
+	 * Gets the slug for a submission value edit field.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int    $element_id    Element ID the submission value is for.
+	 * @param string $element_field Element field the submission value is for.
+	 * @return string Edit field slug.
+	 */
+	protected function get_edit_submission_field_slug( $element_id, $element_field = '' ) {
+		$element_field = ! empty( $element_field ) ? $element_field : '_main';
+
+		return 'element_' . $element_id . '_' . $element_field . '_value';
 	}
 
 	/**

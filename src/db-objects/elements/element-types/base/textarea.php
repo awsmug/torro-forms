@@ -104,6 +104,38 @@ class Textarea extends Element_Type {
 	}
 
 	/**
+	 * Gets the fields arguments for an element of this type when editing submission values in the admin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element to get fields arguments for.
+	 * @return array An associative array of `$field_slug => $field_args` pairs.
+	 */
+	public function get_edit_submission_fields_args( $element ) {
+		$fields = parent::get_edit_submission_fields_args( $element );
+
+		$slug = $this->get_edit_submission_field_slug( $element->id );
+
+		$fields[ $slug ]['type'] = 'textarea';
+
+		$settings = $this->get_settings( $element );
+
+		if ( ! empty( $settings['max_length'] ) ) {
+			$fields[ $slug ]['maxlength'] = (int) $settings['max_length'];
+		}
+
+		if ( ! empty( $settings['rows'] ) ) {
+			$fields[ $slug ]['rows'] = (int) $settings['rows'];
+		}
+
+		if ( ! empty( $settings['cols'] ) ) {
+			$fields[ $slug ]['cols'] = (int) $settings['cols'];
+		}
+
+		return $fields;
+	}
+
+	/**
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0

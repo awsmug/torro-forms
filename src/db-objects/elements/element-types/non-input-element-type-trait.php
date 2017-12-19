@@ -72,4 +72,16 @@ trait Non_Input_Element_Type_Trait {
 	public function validate_field( $value, $element, $submission ) {
 		return $this->create_error( 'value_not_accepted', __( 'No values are accepted here.', 'torro-forms' ) );
 	}
+
+	/**
+	 * Gets the fields arguments for an element of this type when editing submission values in the admin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element to get fields arguments for.
+	 * @return array An associative array of `$field_slug => $field_args` pairs.
+	 */
+	public function get_edit_submission_fields_args( $element ) {
+		return array();
+	}
 }

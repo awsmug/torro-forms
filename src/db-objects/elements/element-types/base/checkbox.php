@@ -80,6 +80,24 @@ class Checkbox extends Element_Type {
 	}
 
 	/**
+	 * Gets the fields arguments for an element of this type when editing submission values in the admin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element to get fields arguments for.
+	 * @return array An associative array of `$field_slug => $field_args` pairs.
+	 */
+	public function get_edit_submission_fields_args( $element ) {
+		$fields = parent::get_edit_submission_fields_args( $element );
+
+		$slug = $this->get_edit_submission_field_slug( $element->id );
+
+		$fields[ $slug ]['type'] = 'checkbox';
+
+		return $fields;
+	}
+
+	/**
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0

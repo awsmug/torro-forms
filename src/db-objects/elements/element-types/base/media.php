@@ -169,6 +169,35 @@ class Media extends Element_Type {
 	}
 
 	/**
+	 * Gets the fields arguments for an element of this type when editing submission values in the admin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element to get fields arguments for.
+	 * @return array An associative array of `$field_slug => $field_args` pairs.
+	 */
+	public function get_edit_submission_fields_args( $element ) {
+		$fields = parent::get_edit_submission_fields_args( $element );
+
+		$slug = $this->get_edit_submission_field_slug( $element->id );
+
+		$fields[ $slug ]['type'] = 'media';
+		$fields[ $slug ]['store'] = 'id';
+
+		$settings = $this->get_settings( $element );
+
+		if ( ! empty( $settings['file_type'] ) && 'any' !== $settings['file_type'] ) {
+			if ( 0 === strpos( $settings['file_type'], 'type_' ) ) {
+				$field[ $slug ]['mime_types'] = substr( $settings['file_type'], 5 );
+			} else {
+				$field[ $slug ]['mime_types'] = $settings['file_type'];
+			}
+		}
+
+		return $fields;
+	}
+
+	/**
 	 * Gets the ID under which to store the upload in $_FILES.
 	 *
 	 * @since 1.0.0
@@ -216,7 +245,7 @@ class Media extends Element_Type {
 			'type_image'       => __( 'Images (.jpg, .png, ...)', 'torro-forms' ),
 			'type_audio'       => __( 'Audio files (.wav, .mp3, ...)', 'torro-forms' ),
 			'type_video'       => __( 'Video files (.avi, .mpeg, ...)', 'torro-forms' ),
-			'type_documents'   => __( 'Documents (.doc, .pdf, ...)', 'torro-forms' ),
+			'type_document'    => __( 'Documents (.doc, .pdf, ...)', 'torro-forms' ),
 			'type_spreadsheet' => __( 'Spreadsheets (.xls, .numbers, ...)', 'torro-forms' ),
 			'type_interactive' => __( 'Interactive (.ppt, .swf, ...)', 'torro-forms' ),
 			'type_text'        => __( 'Text files (.txt, .csv, ...)', 'torro-forms' ),

@@ -96,6 +96,14 @@ class Submission extends Model {
 	protected $values = null;
 
 	/**
+	 * Internal element value storage.
+	 *
+	 * @since 1.0.0
+	 * @var array|null
+	 */
+	protected $element_values = null;
+
+	/**
 	 * Magic isset-er.
 	 *
 	 * Checks whether a property is set.
@@ -108,6 +116,16 @@ class Submission extends Model {
 	public function __isset( $property ) {
 		if ( 'values' === $property ) {
 			return true;
+		}
+
+		if ( preg_match( '/^element_([0-9]+)_([a-z_]+)_value$/U', $property, $matches ) ) {
+			$values = $this->get_element_values_data();
+
+			if ( isset( $values[ $matches[1] ] ) && isset( $values[ $matches[1] ][ $matches[2] ] ) ) {
+				return true;
+			}
+
+			return false;
 		}
 
 		return parent::__isset( $property );
@@ -132,6 +150,16 @@ class Submission extends Model {
 			return $this->get_submission_values_data();
 		}
 
+		if ( preg_match( '/^element_([0-9]+)_([a-z_]+)_value$/U', $property, $matches ) ) {
+			$values = $this->get_element_values_data();
+
+			if ( isset( $values[ $matches[1] ] ) && isset( $values[ $matches[1] ][ $matches[2] ] ) ) {
+				return $values[ $matches[1] ][ $matches[2] ];
+			}
+
+			return null;
+		}
+
 		return parent::__get( $property );
 	}
 
@@ -149,6 +177,49 @@ class Submission extends Model {
 		if ( 'values' === $property ) {
 			$this->set_submission_values_data( $value );
 			return;
+		}
+
+		if ( preg_match( '/^element_([0-9]+)_([a-z_]+)_value$/U', $property, $matches ) ) {
+			if ( ! isset( $this->values ) ) {
+				$this->values = $this->get_submission_values_data();
+			}
+
+			$original_value = $value;
+
+			$value = (array) $value;
+
+			$indexes_to_remove = array();
+
+			foreach ( $this->values as $index => $item ) {
+				$item['field'] = ! empty( $item['field'] ) ? $item['field'] : '_main';
+
+				if ( (int) $matches[1] !== (int) $item['element_id'] || $matches[2] !== $item['field'] ) {
+					continue;
+				}
+
+				if ( ! empty( $value ) ) {
+					$this->values[ $index ]['value'] = array_shift( $value );
+				} else {
+					$indexes_to_remove[] = $index;
+				}
+			}
+
+			foreach ( $indexes_to_remove as $index_to_remove ) {
+				unset( $this->values[ $index_to_remove ] );
+			}
+
+			foreach ( $value as $single_value ) {
+				$this->values[] = array(
+					'id'         => 0,
+					'element_id' => (int) $matches[1],
+					'field'      => $matches[2],
+					'value'      => $single_value,
+				);
+			}
+
+			$this->get_element_values_data();
+
+			$this->element_values[ $matches[1] ][ $matches[2] ] = $original_value;
 		}
 
 		parent::__set( $property, $value );
@@ -455,7 +526,11 @@ class Submission extends Model {
 			return array();
 		}
 
-		return $this->manager->get_element_values_data_for_submission( $this );
+		if ( ! isset( $this->element_values ) ) {
+			$this->element_values = $this->manager->get_element_values_data_for_submission( $this );
+		}
+
+		return $this->element_values;
 	}
 
 	/**
@@ -481,7 +556,7 @@ class Submission extends Model {
 			$this->pending_meta['errors'] = array();
 		}
 
-		if ( ! is_array( $this->pending_meta['errors'][ $element_id ] ) ) {
+		if ( ! isset( $this->pending_meta['errors'][ $element_id ] ) || ! is_array( $this->pending_meta['errors'][ $element_id ] ) ) {
 			$this->pending_meta['errors'][ $element_id ] = array();
 		}
 
@@ -682,6 +757,7 @@ class Submission extends Model {
 		$blacklist = parent::get_blacklist();
 
 		$blacklist[] = 'values';
+		$blacklist[] = 'element_values';
 
 		return $blacklist;
 	}
