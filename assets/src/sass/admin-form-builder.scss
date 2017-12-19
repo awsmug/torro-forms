@@ -407,6 +407,10 @@
 		padding: 5px 12px;
 		-webkit-appearance: none;
 
+		&:focus {
+			outline:0;
+		}
+
 		&[aria-selected="true"] {
 			border-bottom-color: #00a0d2;
 			font-weight: 600;
