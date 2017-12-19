@@ -218,17 +218,17 @@ class Form_Frontend_Submission_Handler {
 
 				$result = (array) $result;
 
-				$value = array_shift( $result );
+				foreach ( $result as $value ) {
+					if ( is_wp_error( $value ) ) {
+						$submission->add_error( $element_id, $value->get_error_code(), $value->get_error_message() );
 
-				if ( is_wp_error( $value ) ) {
-					$submission->add_error( $element_id, $value->get_error_code(), $value->get_error_message() );
-
-					$error_data = $value->get_error_data();
-					if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
-						$this->insert_submission_value( $submission->id, $element_id, $field, $error_data['validated_value'] );
+						$error_data = $value->get_error_data();
+						if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
+							$this->insert_submission_value( $submission->id, $element_id, $field, $error_data['validated_value'] );
+						}
+					} else {
+						$this->insert_submission_value( $submission->id, $element_id, $field, $value );
 					}
-				} else {
-					$this->insert_submission_value( $submission->id, $element_id, $field, $value );
 				}
 			}
 		}
