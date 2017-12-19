@@ -177,20 +177,22 @@ class Textfield extends Element_Type {
 		$this->add_description_settings_field();
 		$this->add_required_settings_field();
 		$this->settings_fields['min_length'] = array(
-			'section'     => 'settings',
-			'type'        => 'number',
-			'label'       => __( 'Minimum length', 'torro-forms' ),
-			'description' => __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
-			'min'         => 0,
-			'step'        => 1,
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Minimum length', 'torro-forms' ),
+			'description'   => __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'min'           => 0,
+			'step'          => 1,
 		);
 		$this->settings_fields['max_length'] = array(
-			'section'     => 'settings',
-			'type'        => 'number',
-			'label'       => __( 'Maximum length', 'torro-forms' ),
-			'description' => __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
-			'min'         => 0,
-			'step'        => 1,
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Maximum length', 'torro-forms' ),
+			'description'   => __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'min'           => 0,
+			'step'          => 1,
 		);
 		$this->settings_fields['input_type'] = array(
 			'section'     => 'settings',

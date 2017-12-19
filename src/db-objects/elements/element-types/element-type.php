@@ -97,11 +97,12 @@ abstract class Element_Type {
 
 		$this->settings_fields = array(
 			'label' => array(
-				'section'     => 'content',
-				'type'        => 'text',
-				'label'       => __( 'Label', 'torro-forms' ),
-				'description' => __( 'Enter the form field label.', 'torro-forms' ),
-				'is_label'    => true,
+				'section'       => 'content',
+				'type'          => 'text',
+				'label'         => __( 'Label', 'torro-forms' ),
+				'description'   => __( 'Enter the form field label.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+				'is_label'      => true,
 			),
 		);
 
