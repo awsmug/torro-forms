@@ -380,10 +380,10 @@
 }
 
 .torro-element-content-tabs {
-	padding: 8px 12px 0;
-	background-color: transparent;
-	border-width: 0;
-	border-bottom-width: 1px;
+	background-color: #edeff0;
+	font-size: 13px;
+	line-height: 1.1;
+	display: block;
 
 	&:after {
 		content: "";
@@ -392,19 +392,23 @@
 	}
 
 	.torro-element-content-tab {
-		margin: 0 0.5em -1px 0;
-		padding: 6px 12px;
+		border:none;
+		border-bottom: 3px solid transparent;
+		color: #000;
+		cursor: pointer;
+		height: 38px;
+		padding: 0px 12px;
+		margin-left: 0;
+		font-weight: 400;
 		display: block;
 		float: left;
-		color: #000000;
-		border: 1px solid #ccc;
-		background-color: #fff;
-		cursor: pointer;
+		text-decoration: none;
+		padding: 5px 12px;
 		-webkit-appearance: none;
 
 		&[aria-selected="true"] {
-			border-bottom-color: #fff;
-			cursor: default;
+			border-bottom-color: #00a0d2;
+			font-weight: 600;
 		}
 	}
 }
@@ -533,11 +537,11 @@
 ---------------------------------------------------------------------------- */
 
 .torro-metabox-tab-wrapper {
-	margin: 0 0 10px;
-	padding: 4px 4px 0;
+	background-color: #edeff0;
 	font-size: 13px;
 	line-height: 1.1;
-	border-bottom: 1px solid #cccccc;
+	border-bottom: 1px solid #e2e4e7;
+	display: block;
 
 	&:not(.wp-clearfix):after {
 		display: table;
@@ -547,33 +551,21 @@
 }
 
 .torro-metabox-tab {
-	margin-left: 0.5em;
-	padding: 5px 10px;
+	border-bottom: 3px solid transparent;
+	color: #000;
+	cursor: pointer;
+	height: 50px;
+	line-height: 50px;
+	padding: 0 20px;
+	margin-left: 0;
+	font-weight: 400;
+	display: block;
 	float: left;
-	font-size: 13px;
-	line-height: 15px;
-	font-weight: 600;
 	text-decoration: none;
-	color: #555;
-	background-color: #fafafa;
-	border: 1px solid #ccc;
-	border-bottom: none;
-	white-space: nowrap;
 
 	&[aria-selected="true"] {
-		margin-bottom: -1px;
-		color: #444444;
-		-webkit-box-shadow: none;
-		        box-shadow: none;
-
-		&,
-		&:hover,
-		&:focus,
-		&:active {
-			color: #000000;
-			background-color: #ffffff;
-			border-bottom: 1px solid #ffffff;
-		}
+		border-bottom-color: #00a0d2;
+		font-weight: 600;
 	}
 }
 
