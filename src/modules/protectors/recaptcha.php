@@ -36,7 +36,7 @@ class reCAPTCHA extends Protector {
 	protected function bootstrap() {
 		$this->slug        = 'recaptcha';
 		$this->title       = __( 'reCAPTCHA', 'torro-forms' );
-		$this->description = __( 'Uses Google reCAPTCHA service to filter out spam.', 'torro-forms' );
+		// $this->description = __( 'Uses Google reCAPTCHA service to filter out spam.', 'torro-forms' );
 	}
 
 	/**
@@ -186,6 +186,12 @@ class reCAPTCHA extends Protector {
 	 */
 	public function get_meta_fields() {
 		$meta_fields = parent::get_meta_fields();
+
+		$meta_fields['enabled'] = array(
+			'type'         => 'checkbox',
+			'label'        => _x( 'Add captcha at the end of the form.', 'protector', 'torro-forms' ),
+			'visual_label' => _x( 'Google reCAPTCHA', 'protector', 'torro-forms' ),
+		);
 
 		$meta_fields['type'] = array(
 			'type'    => 'select',

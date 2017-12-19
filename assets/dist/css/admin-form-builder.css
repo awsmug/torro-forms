@@ -695,6 +695,8 @@
 
 .postbox .form-table th
 {
+    font-weight: normal;
+
     padding: 15px 7px 15px 0;
 }
 

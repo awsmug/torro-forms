@@ -27,7 +27,7 @@ class Submission_Count extends Access_Control {
 	protected function bootstrap() {
 		$this->slug        = 'submission_count';
 		$this->title       = __( 'Submission Count', 'torro-forms' );
-		$this->description = __( 'Allows you to restrict this form based on how many submissions have already been completed.', 'torro-forms' );
+		// $this->description = __( 'Allows you to restrict this form based on how many submissions have already been completed.', 'torro-forms' );
 	}
 
 	/**

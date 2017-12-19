@@ -70,7 +70,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	protected function bootstrap() {
 		$this->slug        = 'email_notifications';
 		$this->title       = __( 'Email Notifications', 'torro-forms' );
-		$this->description = __( 'Sends one or more email notifications to specific addresses.', 'torro-forms' );
+		// $this->description = __( 'Sends one or more email notifications to specific addresses.', 'torro-forms' );
 
 		$this->register_template_tag_handlers();
 	}
@@ -217,7 +217,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		$meta_fields['notifications'] = array(
 			'type'        => 'group',
 			'label'       => __( 'Notifications', 'torro-forms' ),
-			'description' => __( 'Add email notifications to send.', 'torro-forms' ),
+			// 'description' => __( 'Add email notifications to send.', 'torro-forms' ),
 			'repeatable'  => 8,
 			'fields'      => array(
 				'from_name'   => array(

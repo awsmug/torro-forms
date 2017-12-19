@@ -27,7 +27,7 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	protected function bootstrap() {
 		$this->slug        = 'user_identification';
 		$this->title       = __( 'User Identification', 'torro-forms' );
-		$this->description = __( 'Allows you to restrict this form based on the user who wants to access it.', 'torro-forms' );
+		// $this->description = __( 'Allows you to restrict this form based on the user who wants to access it.', 'torro-forms' );
 	}
 
 	/**
