@@ -525,8 +525,14 @@
     color: #000;
     border: none;
     border-bottom: 3px solid transparent;
+    background-color: transparent;
 
     -webkit-appearance: none;
+}
+
+.torro-element-content-tabs .torro-element-content-tab:focus
+{
+    outline: 0;
 }
 
 .torro-element-content-tabs .torro-element-content-tab[aria-selected='true']

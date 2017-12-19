@@ -12,6 +12,12 @@
     margin-bottom: .5em;
 }
 
+.torro-toggle input[type='radio'] + label,
+.torro-toggle input[type='checkbox'] + label
+{
+    display: inline-block;
+}
+
 .torro-pager
 {
     display: block;
