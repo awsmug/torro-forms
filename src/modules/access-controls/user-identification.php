@@ -52,6 +52,39 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * @return bool|WP_Error True if the form or submission can be accessed, false or error object otherwise.
 	 */
 	public function can_access( $form, $submission = null ) {
+		if ( $this->get_form_option( $form->id, 'prevent_edit_others_submission', true ) && $submission ) {
+			$others_submission_error = new WP_Error( 'others_submission', __( 'You do not have access to this form submission.', 'torro-forms' ) );
+
+			if ( is_user_logged_in() && ! empty( $submission->user_id ) && get_current_user_id() !== $submission->user_id ) {
+				return $others_submission_error;
+			}
+
+			$skip_further_checks = false;
+			if ( ! empty( $submission->user_key ) ) {
+				if ( ! empty( $_COOKIE['torro_identity'] ) ) {
+					if ( esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) ) !== $submission->user_key ) {
+						return $others_submission_error;
+					} else {
+						$skip_further_checks = true;
+					}
+				}
+			}
+
+			if ( ! $skip_further_checks && ! empty( $submission->remote_addr ) ) {
+				if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+					if ( $_SERVER['REMOTE_ADDR'] !== $submission->remote_addr ) {
+						return $others_submission_error;
+					} else {
+						$skip_further_checks = true;
+					}
+				}
+			}
+
+			if ( ! $skip_further_checks && ( empty( $submission->user_key ) || ! isset( $_SESSION ) || empty( $_SESSION['torro_identity'] ) || $_SESSION['torro_identity'] !== $submission->user_key ) ) {
+				return $others_submission_error;
+			}
+		}
+
 		if ( $this->get_form_option( $form->id, 'prevent_multiple_submissions' ) ) {
 			// Always allow access to already completed submissions.
 			if ( $submission && 'completed' === $submission->status ) {
@@ -152,6 +185,14 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 
 		unset( $meta_fields['enabled'] );
 
+		$meta_fields['prevent_edit_others_submission'] = array(
+			'type'         => 'checkbox',
+			'label'        => __( 'Prevent users from accessing someone else&apos;s submission?', 'torro-forms' ),
+			'description'  => __( 'Click the checkbox to ensure that participants cannot access other participants&apos; submissions.', 'torro-forms' ),
+			'default'      => true,
+			'wrap_classes' => array( 'has-torro-tooltip-description' ),
+			'visual_label' => __( 'User per submission', 'torro-forms' ),
+		);
 		$meta_fields['prevent_multiple_submissions'] = array(
 			'type'         => 'checkbox',
 			'label'        => __( 'Prevent multiple submissions by a single user?', 'torro-forms' ),

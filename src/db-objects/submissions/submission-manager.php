@@ -280,13 +280,6 @@ class Submission_Manager extends Manager {
 			'priority' => 10,
 			'num_args' => 0,
 		);
-
-		$this->filters[] = array(
-			'name'     => "{$this->get_prefix()}can_access_form",
-			'callback' => array( $this, 'can_access_submission' ),
-			'priority' => 1,
-			'num_args' => 3,
-		);
 	}
 
 	/**
@@ -385,7 +378,7 @@ class Submission_Manager extends Manager {
 		}
 
 		if ( ! isset( $_SESSION ) ) {
-			if ( ! headers_sent() ) {
+			if ( headers_sent() ) {
 				return;
 			}
 
@@ -393,45 +386,6 @@ class Submission_Manager extends Manager {
 		}
 
 		$_SESSION['torro_identity'] = $submission->user_key;
-	}
-
-	/**
-	 * Determines whether the current user can access a specific submission.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param bool|WP_Error   $result     Whether a user can access the form. Can be an error object to show a specific message to the user.
-	 * @param Form            $form       Form object.
-	 * @param Submission|null $submission Submission object, or null if no submission is set.
-	 * @return bool|WP_Error True if the form or submission can be accessed, false or error object otherwise.
-	 */
-	public function can_access_submission( $result, $form, $submission = null ) {
-		// If no submission set, bail.
-		if ( ! $submission ) {
-			return $result;
-		}
-
-		if ( is_user_logged_in() && get_current_user_id() === $submission->user_id ) {
-			return $result;
-		}
-
-		if ( ! empty( $submission->user_key ) ) {
-			if ( ! empty( $_COOKIE['torro_identity'] ) && esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) ) === $submission->user_key ) {
-				return $result;
-			}
-
-			if ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) && esc_attr( wp_unslash( $_SESSION['torro_identity'] ) ) === $submission->user_key ) {
-				return $result;
-			}
-		}
-
-		if ( ! empty( $submission->remote_addr ) ) {
-			if ( ! empty( $_SERVER['REMOTE_ADDR'] ) && $_SERVER['REMOTE_ADDR'] === $submission->remote_addr ) {
-				return $result;
-			}
-		}
-
-		return new WP_Error( 'submission_no_access', __( 'You do not have access to this form submission.', 'torro-forms' ) );
 	}
 
 	/**

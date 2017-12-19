@@ -43,6 +43,10 @@ class Form_Frontend_Submission_Handler {
 	 * @since 1.0.0
 	 */
 	public function maybe_handle_form_submission() {
+		if ( ! isset( $_SESSION ) && ! headers_sent() ) {
+			session_start();
+		}
+
 		if ( ! isset( $_POST['torro_submission'] ) ) {
 			return;
 		}
