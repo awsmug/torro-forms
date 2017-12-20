@@ -295,11 +295,6 @@
     color: #00a0d2;
 }
 
-.torro-element-type .torro-element-type-header svg.torro-element-type-header-icon
-{
-    fill: currentColor;
-}
-
 .torro-element-type .torro-element-type-header .torro-element-type-header-title
 {
     line-height: 24px;
@@ -405,11 +400,6 @@
     margin: 4px;
 
     color: #00a0d2;
-}
-
-.torro-element-header svg.torro-element-header-icon
-{
-    fill: currentColor;
 }
 
 .torro-element-header .torro-element-header-title

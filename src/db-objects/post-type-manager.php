@@ -59,6 +59,8 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 		$options = $this->options()->get( 'general_settings', array() );
 		$rewrite_slug = ! empty( $options['slug'] ) ? $options['slug'] : _x( 'forms', 'default form rewrite slug', 'torro-forms' );
 
+		$menu_icon = '<svg viewBox="0 -200 1200 1100" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m0-150l0 1000 646 0-164-164-318 0 0-672 672 0 0 319 164 164 0-647-1000 0z m234 623l133 131 129-129 361 363 133-132-361-364-133-133z"/></svg>';
+
 		$args = array(
 			'labels'              => array(
 				'name'                  => __( 'Forms', 'torro-forms' ),
@@ -90,7 +92,7 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 			'show_in_menu'        => true,
 			'show_in_nav_menus'   => false,
 			'menu_position'       => 50,
-			'menu_icon'           => '',
+			'menu_icon'           => 'data:image/svg+xml;base64,' . base64_encode( $menu_icon ),
 			'capability_type'     => array( $this->get_prefix() . 'form', $this->get_prefix() . 'forms' ),
 			'map_meta_cap'        => true,
 			'supports'            => array( 'title' ),

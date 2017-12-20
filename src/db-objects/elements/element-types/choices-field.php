@@ -76,7 +76,7 @@ class Choices_Field extends Text {
 
 		?>
 		<span class="torro-element-choice-move" aria-hidden="true">
-			<img src="<?php echo esc_url( torro()->assets()->get_full_url( 'assets/dist/img/icon-updown.png' ) ); ?>" alt="">
+			<?php torro()->assets()->render_icon( 'torro-icon-move' ); ?>
 		</span>
 		<input<?php echo $this->get_input_attrs( $input_attrs ); ?>>
 		<input type="hidden" name="<?php echo esc_attr( str_replace( '[value]', '[element_id]', $input_attrs['name'] ) ); ?>" value="<?php echo esc_attr( $this->element_id ); ?>">
@@ -94,7 +94,7 @@ class Choices_Field extends Text {
 	protected function print_single_input_template() {
 		?>
 		<span class="torro-element-choice-move" aria-hidden="true">
-			<img src="<?php echo esc_url( torro()->assets()->get_full_url( 'assets/dist/img/icon-updown.png' ) ); ?>" alt="">
+			<?php torro()->assets()->render_icon( 'torro-icon-move' ); ?>
 		</span>
 		<input type="<?php echo esc_attr( $this->type ); ?>"{{{ _.attrs( data.inputAttrs ) }}} value="{{ data.currentValue }}">
 		<input type="hidden" name="{{ data.inputAttrs.name.replace( '[value]', '[element_id]' ) }}" value="{{ data.element_id }}">
