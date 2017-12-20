@@ -597,17 +597,11 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->elements->capabilities()->map_capabilities( 'posts' );
 		$this->element_choices->capabilities()->map_capabilities( 'posts' );
 		$this->element_settings->capabilities()->map_capabilities( 'posts' );
+		$this->submissions->capabilities()->map_capabilities( 'posts' );
+		$this->submission_values->capabilities()->map_capabilities( 'posts' );
 
 		// Map form category capabilities to category capabilities.
 		$this->form_categories->capabilities()->map_capabilities( 'categories' );
-
-		// Map meta capabilities only for submissions and related data.
-		$this->submissions->capabilities()->map_capabilities( 'meta' );
-		$this->submission_values->capabilities()->map_capabilities( 'meta' );
-
-		// Grant submission and related data capabilities if the user can manage users.
-		$this->submissions->capabilities()->grant_capabilities( 'edit_users' );
-		$this->submission_values->capabilities()->grant_capabilities( 'edit_users' );
 
 		// Grant access to plugin settings if the user can manage options.
 		$this->forms->capabilities()->grant_capabilities( array(
