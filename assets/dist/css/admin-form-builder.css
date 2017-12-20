@@ -265,7 +265,7 @@
 
     cursor: pointer;
 
-    border: 1px solid #ccc;
+    border: 1px solid #e5e5e5;
     background-color: #fff;
 
     flex-basis: 200px;
@@ -291,6 +291,13 @@
 
     width: 24px;
     height: 24px;
+
+    color: #00a0d2;
+}
+
+.torro-element-type .torro-element-type-header svg.torro-element-type-header-icon
+{
+    fill: currentColor;
 }
 
 .torro-element-type .torro-element-type-header .torro-element-type-header-title
@@ -320,7 +327,7 @@
 {
     min-height: 50px;
 
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #e5e5e5;
 }
 
 .torro-element-type .torro-element-type-content p
@@ -338,7 +345,7 @@
 {
     cursor: default;
 
-    border: 2px solid #0085ba;
+    border: 2px solid #00a0d2;
 }
 
 /* ----------------------------------------------------------------------------
@@ -397,7 +404,12 @@
     height: 24px;
     margin: 4px;
 
-    fill: #00a0d2;
+    color: #00a0d2;
+}
+
+.torro-element-header svg.torro-element-header-icon
+{
+    fill: currentColor;
 }
 
 .torro-element-header .torro-element-header-title
@@ -494,7 +506,7 @@
 .torro-element-content-main,
 .torro-element-content-footer
 {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #e5e5e5;
 }
 
 .torro-element-content-tabs
@@ -552,7 +564,7 @@
 {
     padding: 10px 12px;
 
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #e5e5e5;
 }
 
 .torro-element-content-panel[aria-hidden='true']
@@ -606,7 +618,7 @@
 
     border-left-width: 4px;
     border-left-style: solid;
-    background: #fff;
+    background-color: #fff;
     -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 }
@@ -661,7 +673,7 @@
 
     margin: -6px -12px 1em;
 
-    border-bottom: 1px solid #e2e4e7;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .torro-metabox-tab-wrapper:not(.wp-clearfix):after
