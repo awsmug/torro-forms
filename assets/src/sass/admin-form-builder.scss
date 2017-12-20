@@ -555,6 +555,11 @@
 		font-weight: 600;
 	}
 
+	&:hover,
+	&:focus {
+		color: $color-tab-text;
+	}
+
 	&:focus {
 		box-shadow: none;
 	}

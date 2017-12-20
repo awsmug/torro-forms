@@ -710,6 +710,12 @@
     border-bottom-color: #00a0d2;
 }
 
+.torro-metabox-tab:hover,
+.torro-metabox-tab:focus
+{
+    color: #000;
+}
+
 .torro-metabox-tab:focus
 {
     box-shadow: none;
