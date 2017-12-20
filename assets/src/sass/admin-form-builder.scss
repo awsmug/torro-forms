@@ -271,6 +271,16 @@
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
 
+	.form-table {
+		th {
+			font-weight: normal;
+			padding: 0 0 12px 0;
+		}
+		td {
+			padding: 0 0 12px 0;
+		}
+	}
+
 	&:last-child {
 		margin-bottom: 2em;
 	}
@@ -544,9 +554,11 @@
 }
 
 .postbox .form-table {
+
 	th {
 		padding: 15px 7px 15px 0;
 		font-weight: normal;
+		font-size: 13px;
 
 		@media screen and (min-width: 783px) {
 			width: 30%;
@@ -555,6 +567,7 @@
 
 	td {
 		padding: 10px 0 10px 7px;
+		font-size: 13px;
 
 		p.description {
 			font-size: 13px;

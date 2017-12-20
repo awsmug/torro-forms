@@ -352,6 +352,18 @@
     background-color: #fff;
 }
 
+.torro-element .form-table th
+{
+    font-weight: normal;
+
+    padding: 0 0 12px 0;
+}
+
+.torro-element .form-table td
+{
+    padding: 0 0 12px 0;
+}
+
 .torro-element:last-child
 {
     margin-bottom: 2em;
@@ -698,6 +710,7 @@
 
 .postbox .form-table th
 {
+    font-size: 13px;
     font-weight: normal;
 
     padding: 15px 7px 15px 0;
@@ -713,6 +726,8 @@
 
 .postbox .form-table td
 {
+    font-size: 13px;
+
     padding: 10px 0 10px 7px;
 }
 
