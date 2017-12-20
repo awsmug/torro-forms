@@ -282,7 +282,26 @@ abstract class Element_Type {
 	 *               must match those returned from the get_export_columns() method.
 	 */
 	public function format_values_for_export( $values, $element, $export_format ) {
+		if ( is_a( $this, Choice_Element_Type_Interface::class ) && ! $this->use_single_export_column_for_choices( $element ) ) {
+			$value  = isset( $values['_main'] ) ? (array) $values['_main'] : array();
+			$yes_no = $this->get_export_column_choices_yes_no( $element );
+
+			$columns = array();
+
+			foreach ( $element->get_element_choices() as $element_choice ) {
+				$choice_slug = sanitize_title( $element_choice->value );
+
+				$columns[ 'element_' . $element->id . '__main_' . $choice_slug ] = in_array( $element_choice->value, $value ) ? $yes_no[0] : $yes_no[1];
+			}
+
+			return $columns;
+		}
+
 		$value = isset( $values['_main'] ) ? $values['_main'] : '';
+
+		if ( is_array( $value ) ) {
+			$value = implode( ', ', $value );
+		}
 
 		return array(
 			'element_' . $element->id . '__main' => $this->escape_single_value_for_export( $value, $export_format ),
@@ -298,6 +317,18 @@ abstract class Element_Type {
 	 * @return array Associative array of `$column_slug => $column_label` pairs.
 	 */
 	public function get_export_columns( $element ) {
+		if ( is_a( $this, Choice_Element_Type_Interface::class ) && ! $this->use_single_export_column_for_choices( $element ) ) {
+			$columns = array();
+
+			foreach ( $element->get_element_choices() as $element_choice ) {
+				$choice_slug = sanitize_title( $element_choice->value );
+
+				$columns[ 'element_' . $element->id . '__main_' . $choice_slug ] = $element->label . ' - ' . $element_choice->value;
+			}
+
+			return $columns;
+		}
+
 		return array(
 			'element_' . $element->id . '__main' => $element->label,
 		);
@@ -454,6 +485,65 @@ abstract class Element_Type {
 	 * @since 1.0.0
 	 */
 	protected abstract function bootstrap();
+
+	/**
+	 * Gets the two strings indicating 'Yes' and 'No' in an export column.
+	 *
+	 * By default, these are simply localized 'Yes' and 'No'.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element for which to use the strings.
+	 * @return array Array with two elements where the first value is the 'Yes' string and the second is the 'No' string.
+	 */
+	protected function get_export_column_choices_yes_no( $element ) {
+		$yes_no = array(
+			__( 'Yes', 'torro-forms' ),
+			__( 'No', 'torro-forms' ),
+		);
+
+		/**
+		 * Filters the two strings to use for choice export columns indicating whether the choice was included in the submission or not.
+		 *
+		 * By default, the strings are a localized 'Yes' and 'No'.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array        $yes_no        Array with two elements where the first value is the 'Yes' string and the second value
+		 *                                    is the 'No' string.
+		 * @param Element_Type $element_type  Current element type.
+		 * @param Element      $element       Current element.
+		 */
+		return apply_filters( "{$this->manager->get_prefix()}export_column_choices_yes_no", $yes_no, $this, $element );
+	}
+
+	/**
+	 * Checks whether a single export column should be used for all choices.
+	 *
+	 * By default, each choice has its own column.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element for which to check this flag.
+	 * @return bool True if a single column should be used, false otherwise.
+	 */
+	protected function use_single_export_column_for_choices( $element ) {
+		/**
+		 * Filters whether to only render a single column for all choices when exporting submissions.
+		 *
+		 * If this filter returns true, there will only be one column for all choices. In case of an element
+		 * where multiple choices are seletable, those values will be concatenated.
+		 *
+		 * By default, each choice has its own column.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool         $single_column Whether to only render a single column for all choices.
+		 * @param Element_Type $element_type  Current element type.
+		 * @param Element      $element       Current element.
+		 */
+		return apply_filters( "{$this->manager->get_prefix()}use_single_export_column_for_choices", false, $this, $element );
+	}
 
 	/**
 	 * Escapes a single value for a specific export format.
