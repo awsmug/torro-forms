@@ -27,6 +27,14 @@ class Form_List_Page_Handler {
 	protected $form_manager;
 
 	/**
+	 * Internal submission count storage.
+	 *
+	 * @since 1.0.0
+	 * @var array|null
+	 */
+	protected $submission_counts = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -47,7 +55,8 @@ class Form_List_Page_Handler {
 	 */
 	public function maybe_adjust_table_columns( $columns ) {
 		$new_columns = array(
-			'form_shortcode' => __( 'Shortcode', 'torro-forms' ),
+			'form_shortcode'   => __( 'Shortcode', 'torro-forms' ),
+			'submission_count' => __( 'Submission Count', 'torro-forms' ),
 		);
 
 		return array_merge( array_slice( $columns, 0, 2, true ), $new_columns, array_slice( $columns, 2, count( $columns ) - 1, true ) );
@@ -148,6 +157,45 @@ class Form_List_Page_Handler {
 				</button>
 				<?php
 				break;
+			case 'submission_count':
+				$count = $this->get_submission_count( $form->id );
+
+				$output = esc_html( $count );
+				if ( $count > 0 ) {
+					$output = '<a href="' . esc_url( add_query_arg( 'form_id', $form->id, torro()->admin_pages()->get( 'list_submissions' )->url ) ) . '">' . $output . '</a>';
+				}
+
+				echo $output;
+				break;
 		}
+	}
+
+	/**
+	 * Gets the submission count for a given form ID.
+	 *
+	 * This method should be used since it makes a single aggregated API call to count submissions over each form.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $form_id Form ID.
+	 * @return int Submission count for the form.
+	 */
+	protected function get_submission_count( $form_id ) {
+		if ( ! isset( $this->submission_counts ) ) {
+			$submission_manager = $this->form_manager->get_child_manager( 'submissions' );
+
+			$results = $this->form_manager->db()->get_results( "SELECT form_id, COUNT( * ) AS num_submissions FROM %{$submission_manager->get_table_name()}% GROUP BY form_id" );
+
+			$this->submission_counts = array();
+			foreach ( $results as $row ) {
+				$this->submission_counts[ $row->form_id ] = (int) $row->num_submissions;
+			}
+		}
+
+		if ( ! isset( $this->submission_counts[ $form_id ] ) ) {
+			return 0;
+		}
+
+		return $this->submission_counts[ $form_id ];
 	}
 }
