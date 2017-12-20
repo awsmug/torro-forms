@@ -91,11 +91,27 @@ class Assets extends Assets_Base {
 	 * @since 1.0.0
 	 *
 	 * @param string $icon_id ID of the SVG icon to use.
-	 * @param string $class   Optional. Additional CSS class to use on the SVG element.
+	 * @param string $title   Optional. Alternative text for the SVG. If not, the element will be
+	 *                        ignored by screen readers. Default empty string.
+	 * @param string $class   Optional. Additional CSS class to use on the SVG element. Default
+	 *                        empty string.
 	 */
-	public function render_icon( $icon_id, $class = '' ) {
+	public function render_icon( $icon_id, $title = '', $class = '' ) {
+		$aria_hidden     = ' aria-hidden="true"';
+		$aria_labelledby = '';
+
+		if ( ! empty( $title ) ) {
+			$unique_id = uniqid();
+
+			$aria_hidden     = '';
+			$aria_labelledby = ' aria-labelledby="title-' . esc_attr( $unique_id ) . '"';
+		}
+
 		?>
-		<svg class="torro-icon <?php echo esc_attr( $class ); ?>" aria-hidden="true" role="img">
+		<svg class="torro-icon <?php echo esc_attr( $class ); ?>"<?php echo $aria_hidden . $aria_labelledby; ?> role="img">
+			<?php if ( ! empty( $title ) ) : ?>
+				<title id="title-<?php echo esc_attr( $unique_id ); ?>"><?php echo esc_html( $title ); ?></title>
+			<?php endif; ?>
 			<use href="#<?php echo esc_attr( $icon_id ); ?>" xlink:href="#<?php echo esc_attr( $icon_id ); ?>"></use>
 		</svg>
 		<?php
