@@ -45,6 +45,22 @@ abstract class Element_Type {
 	protected $description = '';
 
 	/**
+	 * The element type icon CSS class.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	protected $icon_css_class = '';
+
+	/**
+	 * The element type icon SVG ID.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	protected $icon_svg_id = '';
+
+	/**
 	 * The element type icon URL.
 	 *
 	 * @since 1.0.0
@@ -143,6 +159,28 @@ abstract class Element_Type {
 	 */
 	public function get_description() {
 		return $this->description;
+	}
+
+	/**
+	 * Returns the element type icon CSS class.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Element type icon CSS class.
+	 */
+	public function get_icon_css_class() {
+		return $this->icon_css_class;
+	}
+
+	/**
+	 * Returns the element type icon SVG ID.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Element type icon SVG ID.
+	 */
+	public function get_icon_svg_id() {
+		return $this->icon_svg_id;
 	}
 
 	/**

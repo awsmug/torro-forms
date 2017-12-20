@@ -725,7 +725,15 @@ class Form_Edit_Page_Handler {
 						<# _.each( data.elementTypes, function( elementType ) { #>
 							<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
 								<div class="torro-element-type-header">
-									<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}">
+									<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
+										<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
+									<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
+										<svg class="torro-element-type-header-icon" aria-hidden="true" role="img">
+											<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
+										</svg>
+									<# } else { #>
+										<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}" alt="">
+									<# } #>
 									<span class="torro-element-type-header-title">
 										{{ elementType.title }}
 									</span>
@@ -755,7 +763,15 @@ class Form_Edit_Page_Handler {
 
 		<script type="text/html" id="tmpl-torro-element">
 			<div class="torro-element-header">
-				<img class="torro-element-header-icon" src="{{ data.type.icon_url }}">
+				<# if ( ! _.isEmpty( data.type.icon_css_class ) ) { #>
+					<span class="torro-element-header-icon {{ data.type.icon_css_class }}" aria-hidden="true"></span>
+				<# } else if ( ! _.isEmpty( data.type.icon_svg_id ) ) { #>
+					<svg class="torro-element-header-icon" aria-hidden="true" role="img">
+						<use href="#{{ data.type.icon_svg_id }}" xlink:href="#{{ data.type.icon_svg_id }}"></use>
+					</svg>
+				<# } else { #>
+					<img class="torro-element-header-icon" src="{{ data.type.icon_url }}" alt="">
+				<# } #>
 				<span class="torro-element-header-title">
 					{{ ! _.isEmpty( data.label ) ? data.label : data.type.title }}
 				</span>

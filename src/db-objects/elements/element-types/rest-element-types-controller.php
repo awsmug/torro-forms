@@ -189,6 +189,8 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 				case 'slug':
 				case 'title':
 				case 'description':
+				case 'icon_css_class':
+				case 'icon_svg_id':
 				case 'icon_url':
 					$data[ $property ] = call_user_func( array( $element_type, 'get_' . $property ) );
 					break;
@@ -274,49 +276,61 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 			'title'      => $this->manager->get_singular_slug() . '_type',
 			'type'       => 'object',
 			'properties' => array(
-				'slug'        => array(
+				'slug'           => array(
 					'description' => __( 'Slug for the element type.', 'torro-forms' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'title'       => array(
+				'title'          => array(
 					'description' => __( 'Title for the element type.', 'torro-forms' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'description' => array(
+				'description'    => array(
 					'description' => __( 'Description for the element type.', 'torro-forms' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'icon_url'    => array(
+				'icon_css_class' => array(
+					'description' => __( 'Icon CSS class for the element type.', 'torro-forms' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
+				'icon_svg_id'    => array(
+					'description' => __( 'Icon SVG ID for the element type.', 'torro-forms' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
+				'icon_url'       => array(
 					'description' => __( 'Icon URL for the element type.', 'torro-forms' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'non_input'   => array(
+				'non_input'      => array(
 					'description' => __( 'Whether the element type does not expect any input.', 'torro-forms' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'evaluable'   => array(
+				'evaluable'      => array(
 					'description' => __( 'Whether the element type is evaluable in stats.', 'torro-forms' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'multifield'  => array(
+				'multifield'     => array(
 					'description' => __( 'Whether the element type contains multiple fields.', 'torro-forms' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'sections'    => array(
+				'sections'       => array(
 					'description' => __( 'Settings sections the element type uses.', 'torro-forms' ),
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),
@@ -339,7 +353,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 						),
 					),
 				),
-				'fields'      => array(
+				'fields'         => array(
 					'description' => __( 'Settings fields the element type uses.', 'torro-forms' ),
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),

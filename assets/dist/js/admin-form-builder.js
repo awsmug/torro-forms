@@ -472,6 +472,30 @@ window.torro = window.torro || {};
 		},
 
 		/**
+		 * Returns the element type icon CSS class.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {string} Element type icon CSS class.
+		 */
+		getIconCssClass: function() {
+			return this.attributes.icon_css_class;
+		},
+
+		/**
+		 * Returns the element type icon SVG ID.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @returns {string} Element type icon SVG ID.
+		 */
+		getIconSvgId: function() {
+			return this.attributes.icon_svg_id;
+		},
+
+		/**
 		 * Returns the element type icon URL.
 		 *
 		 * @since 1.0.0
