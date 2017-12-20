@@ -19,7 +19,7 @@
 
 .torro-form-canvas-header {
 	border-width: 1px;
-	font-size: 14px;
+	font-size: 13px;
 	font-weight: 600;
 	line-height: 1.4;
 	padding:0;
@@ -45,7 +45,7 @@
 ---------------------------------------------------------------------------- */
 
 .torro-form-canvas-header.torro-form-canvas-tabs {
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 1.1;
 	display: block;
 
@@ -269,7 +269,7 @@
 .torro-element {
 	margin-bottom: 1em;
 	background-color: #fff;
-	border: 1px solid #ccc;
+	border: 1px solid #e5e5e5;
 
 	&:last-child {
 		margin-bottom: 2em;
@@ -284,6 +284,7 @@
 .torro-element-header {
 	overflow: hidden;
 	clear: both;
+	font-size: 13px;
 
 	&.ui-sortable-handle {
 		cursor: move;
@@ -292,8 +293,10 @@
 	.torro-element-header-icon {
 		display: block;
 		float: left;
-		width: 32px;
-		height: 32px;
+		width: 24px;
+		height: 24px;
+		margin: 4px;
+		fill: #00a0d2;
 	}
 
 	.torro-element-header-title {
@@ -310,7 +313,6 @@
 }
 
 .torro-element-header-title {
-	font-weight: 600;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	-webkit-user-select: none;
@@ -374,7 +376,7 @@
 }
 
 .torro-element-content-tabs {
-	font-size: 14x;
+	font-size: 13x;
 	line-height: 1.1;
 	display: block;
 
@@ -485,7 +487,7 @@
 
 	.ui-dialog-content {
 		padding: 10px;
-		font-size: 14px;
+		font-size: 13px;
 	}
 
 	.ui-button {
@@ -501,7 +503,7 @@
 ---------------------------------------------------------------------------- */
 
 .torro-metabox-tab-wrapper {
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 1.1;
 	border-bottom: 1px solid #e2e4e7;
 	display: block;
