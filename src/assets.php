@@ -306,6 +306,14 @@ JAVASCRIPT;
 		return $classes;
 	}
 
+	protected function load_icons() {
+		$svg_icons = $this->get_full_path( 'assets/dist/img/icons.svg' );
+
+		if ( file_exists( $svg_icons ) ) {
+			require_once $svg_icons;
+		}
+	}
+
 	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
@@ -330,6 +338,12 @@ JAVASCRIPT;
 			array(
 				'name'     => 'admin_enqueue_scripts',
 				'callback' => array( $this, 'enqueue_icons' ),
+				'priority' => 10,
+				'num_args' => 0,
+			),
+			array(
+				'name'     => 'admin_footer',
+				'callback' => array( $this, 'load_icons' ),
 				'priority' => 10,
 				'num_args' => 0,
 			),

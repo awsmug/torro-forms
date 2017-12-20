@@ -162,7 +162,7 @@ class Textfield extends Element_Type {
 		$this->slug        = 'textfield';
 		$this->title       = __( 'Text', 'torro-forms' );
 		$this->description = __( 'A single text field element.', 'torro-forms' );
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-textfield.png' );
+		$this->icon_svg_id = 'torro-icon-textfield';
 
 		$input_types = array();
 		foreach ( $this->get_input_types() as $slug => $data ) {

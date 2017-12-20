@@ -218,7 +218,7 @@ class Media extends Element_Type {
 		$this->slug        = 'media';
 		$this->title       = __( 'Media', 'torro-forms' );
 		$this->description = __( 'An element to upload a file to the media library.', 'torro-forms' );
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-upload.png' );
+		$this->icon_svg_id = 'torro-icon-media';
 
 		$this->add_description_settings_field();
 		$this->add_required_settings_field();

@@ -114,7 +114,7 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 		$this->slug        = 'multiplechoice';
 		$this->title       = __( 'Multiple Choice', 'torro-forms' );
 		$this->description = __( 'A checkbox group element to select multiple values from.', 'torro-forms' );
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-multiplechoice.png' );
+		$this->icon_svg_id = 'torro-icon-multiplechoice';
 
 		$this->add_choices_settings_field();
 		$this->add_description_settings_field();

@@ -109,7 +109,7 @@ class Onechoice extends Element_Type implements Choice_Element_Type_Interface {
 		$this->slug        = 'onechoice';
 		$this->title       = __( 'One Choice', 'torro-forms' );
 		$this->description = __( 'A radio group element to select a single value from.', 'torro-forms' );
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-onechoice.png' );
+		$this->icon_svg_id = 'torro-icon-onechoice';
 
 		$this->add_choices_settings_field();
 		$this->add_description_settings_field();

@@ -99,7 +99,7 @@ class Dropdown extends Element_Type implements Choice_Element_Type_Interface {
 		$this->slug        = 'dropdown';
 		$this->title       = __( 'Dropdown', 'torro-forms' );
 		$this->description = __( 'A dropdown element to select a value from.', 'torro-forms' );
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-dropdown.png' );
+		$this->icon_svg_id = 'torro-icon-dropdown';
 
 		$this->add_choices_settings_field();
 		$this->add_placeholder_settings_field();

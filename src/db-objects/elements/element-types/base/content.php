@@ -56,7 +56,7 @@ class Content extends Element_Type implements Non_Input_Element_Type_Interface {
 		$this->slug        = 'content';
 		$this->title       = __( 'Content', 'torro-forms' );
 		$this->description = __( 'A non-input element to display custom content.', 'torro-forms' );
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-text.png' );
+		$this->icon_svg_id = 'torro-icon-content';
 
 		$this->settings_fields['label']['type'] = 'wysiwyg';
 		$this->settings_fields['label']['label'] = __( 'Content', 'torro-forms' );

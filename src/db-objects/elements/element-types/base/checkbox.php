@@ -108,9 +108,7 @@ class Checkbox extends Element_Type {
 		$this->slug        = 'checkbox';
 		$this->title       = __( 'Checkbox', 'torro-forms' );
 		$this->description = __( 'A single checkbox element to toggle a value.', 'torro-forms' );
-
-		// TODO: Add this icon.
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-checkbox.png' );
+		$this->icon_svg_id = 'torro-icon-checkbox';
 
 		$this->add_description_settings_field();
 		$this->add_required_settings_field();

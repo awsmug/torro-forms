@@ -144,7 +144,7 @@ class Textarea extends Element_Type {
 		$this->slug        = 'textarea';
 		$this->title       = __( 'Textarea', 'torro-forms' );
 		$this->description = __( 'A textarea element.', 'torro-forms' );
-		$this->icon_url    = $this->manager->assets()->get_full_url( 'assets/dist/img/icon-textarea.png' );
+		$this->icon_svg_id = 'torro-icon-textarea';
 
 		$this->add_placeholder_settings_field();
 		$this->add_description_settings_field();
