@@ -50,7 +50,9 @@ class Checkbox extends Element_Type {
 	 *               must match those returned from the get_export_columns() method.
 	 */
 	public function format_values_for_export( $values, $element, $export_format ) {
-		$value = isset( $values['_main'] ) && $values['_main'] ? __( 'Yes', 'torro-forms' ) : __( 'No', 'torro-forms' );
+		$yes_no = $this->get_export_column_choices_yes_no( $element );
+
+		$value = isset( $values['_main'] ) && $values['_main'] ? $yes_no[0] : $yes_no[1];
 
 		return array(
 			'element_' . $element->id . '__main' => $this->escape_single_value_for_export( $value, $export_format ),
