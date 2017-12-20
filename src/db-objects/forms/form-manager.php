@@ -394,6 +394,23 @@ class Form_Manager extends Core_Manager {
 	}
 
 	/**
+	 * Starts a PHP session if the current request is any frontend form request.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function maybe_start_session() {
+		if ( is_admin() ) {
+			return;
+		}
+
+		if ( is_singular() && $this->get_prefix() . 'form' === get_post_type( get_queried_object_id() ) || isset( $_POST['torro_submission'] ) ) {
+			if ( ! isset( $_SESSION ) && ! headers_sent() ) {
+				session_start();
+			}
+		}
+	}
+
+	/**
 	 * Upgrades legacy form meta when a form is accessed in the admin.
 	 *
 	 * TODO: Remove this method in the future.
@@ -447,6 +464,20 @@ class Form_Manager extends Core_Manager {
 				'num_args' => 0,
 			);
 		}
+
+		$this->actions[] = array(
+			'name'     => 'rest_api_init',
+			'callback' => array( $this, 'register_settings' ),
+			'priority' => 1,
+			'num_args' => 0,
+		);
+
+		$this->actions[] = array(
+			'name'     => 'wp',
+			'callback' => array( $this, 'maybe_start_session' ),
+			'priority' => 1,
+			'num_args' => 0,
+		);
 
 		$this->actions[] = array(
 			'name'     => 'before_delete_post',
@@ -572,12 +603,6 @@ class Form_Manager extends Core_Manager {
 			'callback' => array( $this->edit_page_handler, 'maybe_print_post_form_novalidate' ),
 			'priority' => 10,
 			'num_args' => 1,
-		);
-		$this->actions[] = array(
-			'name'     => 'rest_api_init',
-			'callback' => array( $this, 'register_settings' ),
-			'priority' => 1,
-			'num_args' => 0,
 		);
 
 		// TODO: Remove these hooks in the future.
