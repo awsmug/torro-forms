@@ -728,7 +728,7 @@ class Form_Edit_Page_Handler {
 									<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
 										<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
 									<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
-										<svg class="torro-element-type-header-icon" aria-hidden="true" role="img">
+										<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
 											<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
 										</svg>
 									<# } else { #>
@@ -766,7 +766,7 @@ class Form_Edit_Page_Handler {
 				<# if ( ! _.isEmpty( data.type.icon_css_class ) ) { #>
 					<span class="torro-element-header-icon {{ data.type.icon_css_class }}" aria-hidden="true"></span>
 				<# } else if ( ! _.isEmpty( data.type.icon_svg_id ) ) { #>
-					<svg class="torro-element-header-icon" aria-hidden="true" role="img">
+					<svg class="torro-icon torro-element-header-icon" aria-hidden="true" role="img">
 						<use href="#{{ data.type.icon_svg_id }}" xlink:href="#{{ data.type.icon_svg_id }}"></use>
 					</svg>
 				<# } else { #>

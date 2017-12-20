@@ -86,6 +86,22 @@ class Assets extends Assets_Base {
 	}
 
 	/**
+	 * Renders an SVG icon.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $icon_id ID of the SVG icon to use.
+	 * @param string $class   Optional. Additional CSS class to use on the SVG element.
+	 */
+	public function render_icon( $icon_id, $class = '' ) {
+		?>
+		<svg class="torro-icon <?php echo esc_attr( $class ); ?>" aria-hidden="true" role="img">
+			<use href="#<?php echo esc_attr( $icon_id ); ?>" xlink:href="#<?php echo esc_attr( $icon_id ); ?>"></use>
+		</svg>
+		<?php
+	}
+
+	/**
 	 * Registers all default plugin assets.
 	 *
 	 * @since 1.0.0
@@ -306,6 +322,11 @@ JAVASCRIPT;
 		return $classes;
 	}
 
+	/**
+	 * Prints the SVG icons to the page so that they are available to use.
+	 *
+	 * @since 1.0.0
+	 */
 	protected function load_icons() {
 		$svg_icons = $this->get_full_path( 'assets/dist/img/icons.svg' );
 
