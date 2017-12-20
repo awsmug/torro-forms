@@ -42,6 +42,21 @@ class Submissions_List_Table extends Models_List_Table {
 	}
 
 	/**
+	 * Handles the status column output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Submission $submission The current submission object.
+	 */
+	public function column_status( $submission ) {
+		if ( 'completed' === $submission->status ) {
+			echo '<strong>' . _x( 'Completed', 'submission status label', 'torro-forms' ) . '</strong>';
+		} elseif ( 'progressing' === $submission->status ) {
+			_ex( 'In Progress', 'submission status label', 'torro-forms' );
+		}
+	}
+
+	/**
 	 * Handles the form ID column output.
 	 *
 	 * @since 1.0.0
@@ -112,6 +127,7 @@ class Submissions_List_Table extends Models_List_Table {
 		$columns = parent::build_columns();
 
 		$columns['id']        = _x( 'ID', 'submission column label', 'torro-forms' );
+		$columns['status']    = _x( 'Status', 'submission column label', 'torro-forms' );
 		$columns['form_id']   = _x( 'Form', 'submission column label', 'torro-forms' );
 		$columns['user_id']   = _x( 'User', 'submission column label', 'torro-forms' );
 		$columns['timestamp'] = _x( 'Date', 'submission column label', 'torro-forms' );
