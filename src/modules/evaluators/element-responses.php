@@ -107,7 +107,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 					$response_values = array();
 
 					foreach ( $element->get_element_choices() as $element_choice ) {
-						if ( ! empty( $element_choice->field ) ) {
+						if ( ! empty( $element_choice->field ) && '_main' !== $element_choice->field ) {
 							continue;
 						}
 
