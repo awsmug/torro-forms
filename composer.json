@@ -63,6 +63,7 @@
     "php": ">=5.6.0",
     "composer/installers": "~1.0",
     "felixarntz/plugin-lib": "dev-master",
+    "psr/log": "^1",
     "api-api/core": "dev-master",
     "api-api/storage-wordpress-option": "dev-master",
     "api-api/transporter-wordpress": "dev-master",

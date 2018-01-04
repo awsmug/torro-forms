@@ -236,6 +236,14 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	protected $apiapi;
 
 	/**
+	 * The plugin's logger instance.
+	 *
+	 * @since 1.0.0
+	 * @var Psr\Log\LoggerInterface
+	 */
+	protected $logger;
+
+	/**
 	 * The plugin's API-API config.
 	 *
 	 * @since 1.0.0
@@ -329,6 +337,38 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		}
 
 		return $this->apiapi;
+	}
+
+	/**
+	 * Returns the plugin's logger instance.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return Psr\Log\LoggerInterface The logger instance.
+	 */
+	public function logger() {
+		if ( ! $this->logger ) {
+
+			/**
+			 * Filters initializing the plugin's logger instance.
+			 *
+			 * An implementation of Psr\Log\LoggerInterface may be returned to use
+			 * that instead of the regular logger, which simply uses the typical
+			 * PHP error handler controlled by WordPress.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param Psr\Log\LoggerInterface|null Logger instance to use, or null to not override (default).
+			 */
+			$logger = apply_filters( "{$this->prefix}set_logger", null );
+			if ( $logger && is_a( $logger, 'Psr\Log\LoggerInterface' ) ) {
+				$this->logger = $logger;
+			} else {
+				$this->logger = $this->instantiate_plugin_class( 'Logger' );
+			}
+		}
+
+		return $this->logger;
 	}
 
 	/**
