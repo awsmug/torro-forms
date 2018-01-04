@@ -63,6 +63,14 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	protected $from_email = '';
 
 	/**
+	 * Temporary storage for PHPMailer error object.
+	 *
+	 * @since 1.0.0
+	 * @var WP_Error|null
+	 */
+	private $phpmailer_error = null;
+
+	/**
 	 * Bootstraps the submodule by setting properties.
 	 *
 	 * @since 1.0.0
@@ -129,9 +137,12 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 			$this->template_tag_handler_complex->add_tag( $slug, $data );
 		}
 
+		$error = new WP_Error();
+
 		add_filter( 'wp_mail_content_type', array( $this, 'override_content_type' ) );
 		add_filter( 'wp_mail_from_name', array( $this, 'override_from_name' ) );
 		add_filter( 'wp_mail_from', array( $this, 'override_from_email' ) );
+		add_action( 'wp_mail_failed', array( $this, 'store_phpmailer_error' ) );
 
 		$email_header_fields = array(
 			'reply_email' => 'Reply-To',
@@ -173,8 +184,19 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 				}
 			}
 
-			// TODO: Handle errors here.
-			wp_mail( $notification['to_email'], $notification['subject'], $notification['message'], $headers );
+			$sent = wp_mail( $notification['to_email'], $notification['subject'], $notification['message'], $headers );
+			if ( ! $sent ) {
+				/* translators: %s: email address */
+				$error_message = sprintf( __( 'Email notification to %s could not be sent.', 'torro-forms' ), $notification['to_email'] );
+				if ( $this->phpmailer_error ) {
+					/* translators: %s: error message */
+					$error_message .= ' ' . sprintf( __( 'Original error message: %s', 'torro-forms' ), $this->phpmailer_error->get_error_message() );
+
+					$this->phpmailer_error = null;
+				}
+
+				$error->add( 'email_notification_not_sent', $error_message );
+			}
 		}
 
 		$this->from_name = '';
@@ -183,6 +205,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		remove_filter( 'wp_mail_content_type', array( $this, 'override_content_type' ) );
 		remove_filter( 'wp_mail_from_name', array( $this, 'override_from_name' ) );
 		remove_filter( 'wp_mail_from', array( $this, 'override_from_email' ) );
+		remove_action( 'wp_mail_failed', array( $this, 'store_phpmailer_error' ) );
 
 		foreach ( $dynamic_template_tags as $slug => $data ) {
 			if ( isset( $data['email_support'] ) && $data['email_support'] ) {
@@ -191,6 +214,10 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 
 			$this->template_tag_handler->remove_tag( $slug );
 			$this->template_tag_handler_complex->remove_tag( $slug );
+		}
+
+		if ( ! empty( $error->errors ) ) {
+			return $error;
 		}
 
 		return true;
@@ -539,6 +566,17 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 */
 	public function override_from_email() {
 		return $this->from_email;
+	}
+
+	/**
+	 * Stores an error object as the internal PHPMailer error.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_Error $error Error object.
+	 */
+	public function store_phpmailer_error( $error ) {
+		$this->phpmailer_error = $error;
 	}
 
 	/**
