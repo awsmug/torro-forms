@@ -15,6 +15,8 @@ use Psr\Log\InvalidArgumentException;
 /**
  * PSR-3-compatible logger class.
  *
+ * It simply uses the PHP error handler as managed by WordPress.
+ *
  * @since 1.0.0
  */
 class Logger extends AbstractLogger {

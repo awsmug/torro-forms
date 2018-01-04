@@ -106,6 +106,8 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 * Enhanced: indexes have been added to database tables to speed up queries
 * Enhanced: a consistent fields API is used throughout the entire plugin
 * Enhanced: meta and settings fields can now have dependencies
+* Enhanced: more modern look and feel
+* Enhanced: dedicated PSR-3 compatible logger class
 * Fixed: installation routine works now properly on multisite setups of any size
 * Fixed: it is now possible to properly register any kind of modules and submodules
 * Fixed: dynamically loaded editor now works correctly
