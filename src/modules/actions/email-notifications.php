@@ -199,7 +199,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 			}
 		}
 
-		$this->from_name = '';
+		$this->from_name  = '';
 		$this->from_email = '';
 
 		remove_filter( 'wp_mail_content_type', array( $this, 'override_content_type' ) );

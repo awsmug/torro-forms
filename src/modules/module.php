@@ -51,6 +51,14 @@ abstract class Module extends Service {
 	protected $description = '';
 
 	/**
+	 * Logging context for this module.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $logging_context = array();
+
+	/**
 	 * The module manager service definition.
 	 *
 	 * @since 1.0.0
@@ -77,6 +85,11 @@ abstract class Module extends Service {
 		$this->set_services( $services );
 
 		$this->bootstrap();
+
+		$this->logging_context = array(
+			'module' => $this->get_slug(),
+		);
+
 		$this->setup_hooks();
 	}
 

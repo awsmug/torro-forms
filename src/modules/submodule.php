@@ -40,6 +40,14 @@ abstract class Submodule {
 	protected $description = '';
 
 	/**
+	 * Logging context for this submodule.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $logging_context = array();
+
+	/**
 	 * The submodules module instance.
 	 *
 	 * @since 1.0.0
@@ -58,6 +66,11 @@ abstract class Submodule {
 		$this->module = $module;
 
 		$this->bootstrap();
+
+		$this->logging_context = array(
+			'module'    => $this->module->get_slug(),
+			'submodule' => $this->get_slug(),
+		);
 	}
 
 	/**

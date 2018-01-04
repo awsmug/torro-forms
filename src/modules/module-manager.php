@@ -24,6 +24,7 @@ use Leaves_And_Love\Plugin_Lib\Assets;
 use Leaves_And_Love\Plugin_Lib\AJAX;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
 use APIAPI\Core\APIAPI;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for managing modules.
@@ -41,6 +42,7 @@ use APIAPI\Core\APIAPI;
  * @method Form_Manager                 forms()
  * @method Template_Tag_Handler_Manager template_tag_handlers()
  * @method APIAPI                       apiapi()
+ * @method LoggerInterface              logger()
  */
 class Module_Manager extends Service {
 	use Container_Service_Trait {
@@ -175,6 +177,10 @@ class Module_Manager extends Service {
 	public function __call( $method_name, $args ) {
 		if ( 'apiapi' === $method_name ) {
 			return torro()->apiapi();
+		}
+
+		if ( 'logger' === $method_name ) {
+			return torro()->logger();
 		}
 
 		if ( isset( $this->modules[ $method_name ] ) ) {
