@@ -59,7 +59,7 @@ class Post_Type_Manager extends Post_Type_Manager_Base {
 		$options = $this->options()->get( 'general_settings', array() );
 		$rewrite_slug = ! empty( $options['slug'] ) ? $options['slug'] : _x( 'forms', 'default form rewrite slug', 'torro-forms' );
 
-		$menu_icon = '<svg viewBox="0 -200 1200 1100" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m0-150l0 1000 646 0-164-164-318 0 0-672 672 0 0 319 164 164 0-647-1000 0z m234 623l133 131 129-129 361 363 133-132-361-364-133-133z"/></svg>';
+		$menu_icon = '<svg viewBox="0 0 1500 1500" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M0 750 l0 -750 750 0 750 0 0 750 0 750 -750 0 -750 0 0 -750z m680 161 l0 -158 -74 -6 c-83 -6 -132 -27 -148 -63 -11 -24 -5 -94 19 -238 l6 -39 -79 54 c-109 75 -201 164 -231 222 -51 102 -38 214 32 276 46 40 175 80 335 105 14 2 51 4 83 5 l57 1 0 -159z m395 130 c175 -42 237 -81 265 -167 17 -50 7 -131 -23 -191 -30 -58 -122 -147 -231 -222 l-79 -54 6 39 c24 144 30 214 19 238 -16 36 -65 57 -148 63 l-74 6 0 160 0 160 93 -7 c50 -3 128 -15 172 -25z"/></svg>';
 
 		$args = array(
 			'labels'              => array(
