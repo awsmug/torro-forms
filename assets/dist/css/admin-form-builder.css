@@ -713,7 +713,7 @@
     font-size: 13px;
     font-weight: normal;
 
-    padding: 15px 7px 15px 0;
+    padding: 0 0 20px 0;
 }
 
 @media screen and (min-width: 783px)
@@ -728,7 +728,7 @@
 {
     font-size: 13px;
 
-    padding: 10px 0 10px 7px;
+    padding: 0 0 20px 0;
 }
 
 .postbox .form-table td p.description
