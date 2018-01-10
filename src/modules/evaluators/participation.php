@@ -81,8 +81,22 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 *
 	 * @param array $results Results to show.
 	 * @param Form  $form    Form the results belong to.
+	 * @param array $args    {
+	 *     Optional. Additional arguments for displaying the results.
+	 *
+	 *     @type bool             $total Whether to show total results. Default true.
+	 *     @type int|string|array $year  One or more years to only display results for those. Otherwise
+	 *                                   results are displayed for all relevant years. Default none.
+	 * }
 	 */
-	public function show_results( $results, $form ) {
+	public function show_results( $results, $form, $args = array() ) {
+		$args = wp_parse_args( $args, array(
+			'total' => true,
+			'year'  => 0,
+		) );
+
+		$args['total'] = rest_sanitize_boolean( $args['total'] );
+
 		$total_count = 0;
 		if ( isset( $results['total'] ) ) {
 			$total_count = $results['total'];
@@ -101,8 +115,10 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 			$years = array( (string) current_time( 'Y' ) );
 		}
 
-		$tabs = array(
-			'total' => array(
+		$tabs = array();
+
+		if ( $args['total'] ) {
+			$tabs['total'] = array(
 				'label'    => _x( 'Total', 'submission count', 'torro-forms' ),
 				'callback' => function() use ( $results, $years, $total_count, $form ) {
 					$year_results = array();
@@ -127,8 +143,16 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 					</script>
 					<?php
 				},
-			),
-		);
+			);
+		}
+
+		if ( ! empty( $args['year'] ) ) {
+			if ( is_int( $args['year'] ) ) {
+				$years = array( $args['year'] );
+			} else {
+				$years = wp_parse_id_list( $args['year'] );
+			}
+		}
 
 		foreach ( $years as $year ) {
 			$tabs[ $year ] = array(

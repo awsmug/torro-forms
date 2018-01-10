@@ -459,7 +459,7 @@ class Form_Edit_Page_Handler {
 			<label for="<?php echo esc_attr( $id_attr ); ?>"><?php _e( 'Form Shortcode:', 'torro-forms' ); ?></label>
 			<input id="<?php echo esc_attr( $id_attr ); ?>" class="clipboard-field" value="<?php echo esc_attr( sprintf( "[{$this->form_manager->get_prefix()}form id=&quot;%d&quot;]", $post->ID ) ); ?>" readonly="readonly" />
 			<button type="button" class="clipboard-button button" data-clipboard-target="#<?php echo esc_attr( $id_attr ); ?>">
-				<img src="<?php echo esc_url( $this->form_manager->assets()->get_full_url( 'assets/dist/img/clippy.svg' ) ); ?>" alt="<?php esc_attr_e( 'Copy to clipboard', 'torro-forms' ); ?>" />
+				<?php $this->form_manager->assets()->render_icon( 'torro-icon-clippy', __( 'Copy to clipboard', 'torro-forms' ) ); ?>
 			</button>
 		</div>
 		<?php
@@ -728,7 +728,7 @@ class Form_Edit_Page_Handler {
 									<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
 										<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
 									<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
-										<svg class="torro-element-type-header-icon" aria-hidden="true" role="img">
+										<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
 											<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
 										</svg>
 									<# } else { #>
@@ -766,7 +766,7 @@ class Form_Edit_Page_Handler {
 				<# if ( ! _.isEmpty( data.type.icon_css_class ) ) { #>
 					<span class="torro-element-header-icon {{ data.type.icon_css_class }}" aria-hidden="true"></span>
 				<# } else if ( ! _.isEmpty( data.type.icon_svg_id ) ) { #>
-					<svg class="torro-element-header-icon" aria-hidden="true" role="img">
+					<svg class="torro-icon torro-element-header-icon" aria-hidden="true" role="img">
 						<use href="#{{ data.type.icon_svg_id }}" xlink:href="#{{ data.type.icon_svg_id }}"></use>
 					</svg>
 				<# } else { #>

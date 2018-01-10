@@ -148,6 +148,13 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 							<div id="<?php echo esc_attr( 'torro-evaluations-results-' . $slug ); ?>" class="torro-evaluations-results">
 								<?php echo $data['content']; ?>
 							</div>
+							<div class="torro-evaluations-shortcode">
+								<label for="<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>"><?php _e( 'Charts Shortcode:', 'torro-forms' ); ?></label>
+								<input id="<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>" class="clipboard-field regular-text" value="<?php echo esc_attr( sprintf( "[{$this->manager()->forms()->get_prefix()}form_charts id=&quot;%d&quot; mode=&quot;%s&quot;]", $form->id, $slug ) ); ?>" readonly="readonly" />
+								<button type="button" class="clipboard-button button" data-clipboard-target="#<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>">
+									<?php $this->manager()->forms()->assets()->render_icon( 'torro-icon-clippy', __( 'Copy to clipboard', 'torro-forms' ) ); ?>
+								</button>
+							</div>
 						</div>
 					<?php endforeach; ?>
 				</div>
@@ -241,6 +248,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		}
 
 		if ( $has_enabled ) {
+			$assets->enqueue_script( 'clipboard' );
+			$assets->enqueue_style( 'clipboard' );
 			$assets->enqueue_script( 'admin-evaluations' );
 			$assets->enqueue_style( 'admin-evaluations' );
 		}
@@ -286,19 +295,24 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @since 1.0.0
 	 *
 	 * @param array $atts {
-	 *     Array of shortcode attributes.
+	 *     Array of shortcode attributes. In addition to the attributes specified here you may pass any arguments
+	 *     that should be forwarded to the respective evaluator.
 	 *
 	 *     @type int    $id   Form ID. This must always be present.
 	 *     @type string $mode Slug of the evaluator to use. The evaluator must exist and be enabled for the form.
-	 *                        Default is 'barcharts'.
+	 *                        Default is 'element_responses'.
 	 * }
 	 * @return string Shortcode output.
 	 */
 	public function get_shortcode_content( $atts ) {
+		$args = $atts;
+
 		$atts = shortcode_atts( array(
 			'id'   => '',
-			'mode' => 'barcharts',
-		), $atts );
+			'mode' => 'element_responses',
+		), $atts, "{$this->get_prefix()}form_charts" );
+
+		$args = array_diff_key( $args, $atts );
 
 		$atts['id'] = absint( $atts['id'] );
 
@@ -328,13 +342,17 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			$evaluator->enqueue_submission_results_assets( $this->manager()->assets(), $form );
 		}
 
+		$results = $evaluator->evaluate_all( $form );
+
 		ob_start();
 
 		echo '<div id="' . esc_attr( 'torro-evaluations-results-' . $evaluator->get_slug() ) . '" class="torro-evaluations-results">' . "\n";
-		$evaluator->show_results( $form );
+		$evaluator->show_results( $results, $form, $args );
 		echo "\n" . '</div>';
 
-		return ob_get_clean();
+		$onclick = "var clickedLink=this;Array.from( clickedLink.parentElement.children ).forEach(function(link){clickedLink===link?link.setAttribute('aria-selected','true')||link.parentElement.parentElement.querySelector('#'+link.getAttribute('aria-controls')).setAttribute('aria-hidden','false'):link.setAttribute('aria-selected','false')||link.parentElement.parentElement.querySelector('#'+link.getAttribute('aria-controls')).setAttribute('aria-hidden','true')});return false";
+
+		return str_replace( ' class="torro-evaluations-subtab"', ' class="torro-evaluations-subtab" onclick="' . esc_attr( $onclick ) . '"', ob_get_clean() );
 	}
 
 	/**
@@ -347,14 +365,14 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 *
 	 *     @type int    $id   Form ID. This must always be present.
 	 *     @type string $mode Slug of the evaluator to use. The evaluator must exist and be enabled for the form.
-	 *                        Default is 'barcharts'.
+	 *                        Default is 'element_responses'.
 	 * }
 	 * @return string Shortcode output.
 	 */
 	public function get_deprecated_shortcode_content( $atts ) {
-		$this->manager()->error_handler()->deprecated_shortcode( 'form_charts', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form_charts" );
+		$this->manager()->error_handler()->deprecated_shortcode( 'form_charts', '1.0.0-beta.9', "{$this->manager()->forms()->get_prefix()}form_charts" );
 
-		$atts['mode'] = 'barcharts';
+		$atts['mode'] = 'element_responses';
 
 		return $this->get_shortcode_content( $atts );
 	}
@@ -374,9 +392,9 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @return string Shortcode output.
 	 */
 	public function get_deprecated_element_chart_shortcode_content( $atts ) {
-		$this->manager()->error_handler()->deprecated_shortcode( 'element_chart', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form_charts" );
+		$this->manager()->error_handler()->deprecated_shortcode( 'element_chart', '1.0.0-beta.9', "{$this->manager()->forms()->get_prefix()}form_charts" );
 
-		$atts['mode'] = 'barcharts';
+		$atts['mode'] = 'element_responses';
 
 		if ( ! isset( $atts['id'] ) ) {
 			return __( 'Shortcode is missing an element ID!', 'torro-forms' );
@@ -385,7 +403,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$atts['element_id'] = $atts['id'];
 		unset( $atts['id'] );
 
-		$element = $torro()->elements()->get( $atts['element_id'] );
+		$element = $this->manager()->forms()->get_child_manager( 'containers' )->get_child_manager( 'elements' )->get( $atts['element_id'] );
 		if ( ! $element ) {
 			return __( 'Shortcode is using an invalid element ID!', 'torro-forms' );
 		}

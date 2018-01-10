@@ -78,15 +78,29 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 	 *
 	 * @param array $results Results to show.
 	 * @param Form  $form    Form the results belong to.
+	 * @param array $args    {
+	 *     Optional. Additional arguments for displaying the results.
+	 *
+	 *     @type int|string|array $element_id One or more element IDs to only display results for those elements. Otherwise
+	 *                                        results are displayed for all elements. Default none.
+	 * }
 	 */
-	public function show_results( $results, $form ) {
+	public function show_results( $results, $form, $args = array() ) {
 		$tabs = array();
 
 		$elements = $this->module->manager()->forms()->get_child_manager( 'containers' )->get_child_manager( 'elements' );
 
-		$element_ids = $form->get_elements( array(
-			'fields' => 'ids',
-		) );
+		if ( ! empty( $args['element_id'] ) ) {
+			if ( is_int( $args['element_id'] ) ) {
+				$element_ids = array( $args['element_id'] );
+			} else {
+				$element_ids = wp_parse_id_list( $args['element_id'] );
+			}
+		} else {
+			$element_ids = $form->get_elements( array(
+				'fields' => 'ids',
+			) );
+		}
 
 		foreach ( $element_ids as $element_id ) {
 			if ( ! $this->is_element_evaluatable( $element_id ) ) {
@@ -120,11 +134,6 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 					}
 
 					?>
-					<p style="font-size:120%;text-align:center;">
-						<strong>
-							<?php echo esc_html( $element->label ); ?>
-						</strong>
-					</p>
 					<div id="<?php echo esc_attr( $this->slug . '-chart-' . $element->id . '__main' ); ?>"></div>
 					<script type="application/json" class="c3-chart-data">
 						<?php echo json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-' . $element->id . '__main' ), $responses, $response_values ) ); ?>

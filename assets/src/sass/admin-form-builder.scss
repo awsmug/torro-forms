@@ -1,3 +1,5 @@
+@import "variables";
+
 /* ----------------------------------------------------------------------------
   1.0 - Torro Form Canvas
 ---------------------------------------------------------------------------- */
@@ -12,8 +14,8 @@
 .torro-form-canvas-footer {
 	margin: 0;
 	padding: 12px;
-	background-color: #fff;
-	border-color: #e5e5e5;
+	background-color: $color-metabox-background;
+	border-color: $color-metabox-border;
 	border-style: solid;
 }
 
@@ -26,7 +28,7 @@
 }
 
 .torro-form-canvas-content {
-	background-color: #fafafa;
+	background-color: $color-canvas-background;
 	border-width: 1px;
 }
 
@@ -59,7 +61,7 @@
 		border:none;
 		border-bottom: 3px solid transparent;
 		background-color: transparent;
-		color: #000;
+		color: $color-tab-text;
 		cursor: pointer;
 		height: 38px;
 		padding: 0px 12px;
@@ -72,12 +74,12 @@
 		-webkit-appearance: none;
 
 		&[aria-selected="true"] {
-			border-bottom-color: #00a0d2;
+			border-bottom-color: $color-metabox-tab-active-border;
 			font-weight: 600;
 		}
 
 		&.add-button.is-active {
-			border-bottom-color: #00a0d2;
+			border-bottom-color: $color-metabox-tab-active-border;
 			font-weight: 600;
 		}
 
@@ -153,7 +155,7 @@
 	position: relative;
 	margin-bottom: -10px;
 	text-align: center;
-	border-top: 1px solid #ccc;
+	border-top: 1px solid $color-add-element-border;
 
 	.add-element-toggle {
 		position: relative;
@@ -164,7 +166,7 @@
 		font-size: 16px;
 		font-weight: 600;
 		line-height: 1.2;
-		background: #fafafa;
+		background: $color-canvas-background;
 		border: 0;
 		cursor: pointer;
 		-webkit-appearance: none;
@@ -172,8 +174,8 @@
 	}
 
 	&.is-expanded {
-		border-right: 1px solid #ccc;
-		border-left: 1px solid #ccc;
+		border-right: 1px solid $color-add-element-border;
+		border-left: 1px solid $color-add-element-border;
 	}
 }
 
@@ -183,7 +185,7 @@
 
 	&.is-expanded {
 		display: block;
-		border: 1px solid #ccc;
+		border: 1px solid $color-add-element-border;
 		border-top: 0;
 	}
 }
@@ -203,8 +205,8 @@
 	margin: 0 3px 1em;
 	flex-basis: 200px;
 	flex-grow: 1;
-	background-color: #fff;
-	border: 1px solid #ccc;
+	background-color: $color-element-background;
+	border: 1px solid $color-element-border;
 	cursor: pointer;
 
 	.torro-element-type-header,
@@ -221,6 +223,7 @@
 			float: left;
 			width: 24px;
 			height: 24px;
+			color: $color-element-type-icons;
 		}
 
 		.torro-element-type-header-title {
@@ -244,7 +247,7 @@
 
 	.torro-element-type-content {
 		min-height: 50px;
-		border-top: 1px solid #ccc;
+		border-top: 1px solid $color-element-border;
 
 		p {
 			margin: 0;
@@ -253,11 +256,11 @@
 
 	&:hover,
 	&:focus {
-		background-color: #eee;
+		background-color: $color-element-hover-background;
 	}
 
 	&.is-selected {
-		border: 2px solid #0085ba;
+		border: 2px solid $color-element-type-selected-border;
 		cursor: default;
 	}
 }
@@ -268,8 +271,8 @@
 
 .torro-element {
 	margin-bottom: 1em;
-	background-color: #fff;
-	border: 1px solid #e5e5e5;
+	background-color: $color-element-background;
+	border: 1px solid $color-element-border;
 
 	.form-table {
 		th {
@@ -306,7 +309,7 @@
 		width: 24px;
 		height: 24px;
 		margin: 4px;
-		fill: #00a0d2;
+		color: $color-element-type-icons;
 	}
 
 	.torro-element-header-title {
@@ -382,7 +385,7 @@
 
 .torro-element-content-main,
 .torro-element-content-footer {
-	border-top: 1px solid #ccc;
+	border-top: 1px solid $color-element-border;
 }
 
 .torro-element-content-tabs {
@@ -400,7 +403,7 @@
 		border:none;
 		border-bottom: 3px solid transparent;
 		background-color: transparent;
-		color: #000;
+		color: $color-tab-text;
 		cursor: pointer;
 		height: 38px;
 		padding: 0px 12px;
@@ -417,7 +420,7 @@
 		}
 
 		&[aria-selected="true"] {
-			border-bottom-color: #00a0d2;
+			border-bottom-color: $color-metabox-tab-active-border;
 			font-weight: 600;
 		}
 	}
@@ -425,7 +428,7 @@
 
 .torro-element-content-panel {
 	padding: 10px 12px;
-	border-top: 1px solid #ccc;
+	border-top: 1px solid $color-element-border;
 
 	&[aria-hidden="true"] {
 		clip: rect(1px, 1px, 1px, 1px);
@@ -471,7 +474,7 @@
 
 .torro-notice {
 	padding: 1px 12px;
-	background: #ffffff;
+	background-color: $color-notice-background;
 	border-left-width: 4px;
 	border-left-style: solid;
 	-webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, .1 );
@@ -485,8 +488,8 @@
 .torro-dialog {
 	z-index: 9999;
 	width: 300px;
-	background-color: #FFF;
-	border: 1px solid #CCC;
+	background-color: $color-dialog-background;
+	border: 1px solid $color-dialog-border;
 	text-align: center;
 	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 	        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
@@ -503,8 +506,8 @@
 	.ui-button {
 		width: 40%;
 		margin: 0 10px 10px 10px;
-		background-color: #FFF;
-		border: 1px solid #CCC;
+		background-color: $color-dialog-background;
+		border: 1px solid $color-dialog-border;
 	}
 }
 
@@ -515,7 +518,7 @@
 .torro-metabox-tab-wrapper {
 	font-size: 13px;
 	line-height: 1.1;
-	border-bottom: 1px solid #e2e4e7;
+	border-bottom: 1px solid $color-metabox-border;
 	display: block;
 	margin: -6px -12px 1em;
 
@@ -528,7 +531,7 @@
 
 .torro-metabox-tab {
 	border-bottom: 3px solid transparent;
-	color: #000;
+	color: $color-tab-text;
 	cursor: pointer;
 	height: 40px;
 	line-height: 40px;
@@ -540,8 +543,13 @@
 	text-decoration: none;
 
 	&[aria-selected="true"] {
-		border-bottom-color: #00a0d2;
+		border-bottom-color: $color-metabox-tab-active-border;
 		font-weight: 600;
+	}
+
+	&:hover,
+	&:focus {
+		color: $color-tab-text;
 	}
 
 	&:focus {
