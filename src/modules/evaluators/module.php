@@ -290,14 +290,14 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 *
 	 *     @type int    $id   Form ID. This must always be present.
 	 *     @type string $mode Slug of the evaluator to use. The evaluator must exist and be enabled for the form.
-	 *                        Default is 'barcharts'.
+	 *                        Default is 'element_responses'.
 	 * }
 	 * @return string Shortcode output.
 	 */
 	public function get_shortcode_content( $atts ) {
 		$atts = shortcode_atts( array(
 			'id'   => '',
-			'mode' => 'barcharts',
+			'mode' => 'element_responses',
 		), $atts );
 
 		$atts['id'] = absint( $atts['id'] );
@@ -328,13 +328,17 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			$evaluator->enqueue_submission_results_assets( $this->manager()->assets(), $form );
 		}
 
+		$results = $evaluator->evaluate_all( $form );
+
 		ob_start();
 
 		echo '<div id="' . esc_attr( 'torro-evaluations-results-' . $evaluator->get_slug() ) . '" class="torro-evaluations-results">' . "\n";
-		$evaluator->show_results( $form );
+		$evaluator->show_results( $results, $form );
 		echo "\n" . '</div>';
 
-		return ob_get_clean();
+		$onclick = "var clickedLink=this;Array.from( clickedLink.parentElement.children ).forEach(function(link){clickedLink===link?link.setAttribute('aria-selected','true')||link.parentElement.parentElement.querySelector('#'+link.getAttribute('aria-controls')).setAttribute('aria-hidden','false'):link.setAttribute('aria-selected','false')||link.parentElement.parentElement.querySelector('#'+link.getAttribute('aria-controls')).setAttribute('aria-hidden','true')});return false";
+
+		return str_replace( ' class="torro-evaluations-subtab"', ' class="torro-evaluations-subtab" onclick="' . esc_attr( $onclick ) . '"', ob_get_clean() );
 	}
 
 	/**
@@ -347,14 +351,14 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 *
 	 *     @type int    $id   Form ID. This must always be present.
 	 *     @type string $mode Slug of the evaluator to use. The evaluator must exist and be enabled for the form.
-	 *                        Default is 'barcharts'.
+	 *                        Default is 'element_responses'.
 	 * }
 	 * @return string Shortcode output.
 	 */
 	public function get_deprecated_shortcode_content( $atts ) {
 		$this->manager()->error_handler()->deprecated_shortcode( 'form_charts', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form_charts" );
 
-		$atts['mode'] = 'barcharts';
+		$atts['mode'] = 'element_responses';
 
 		return $this->get_shortcode_content( $atts );
 	}
@@ -376,7 +380,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	public function get_deprecated_element_chart_shortcode_content( $atts ) {
 		$this->manager()->error_handler()->deprecated_shortcode( 'element_chart', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form_charts" );
 
-		$atts['mode'] = 'barcharts';
+		$atts['mode'] = 'element_responses';
 
 		if ( ! isset( $atts['id'] ) ) {
 			return __( 'Shortcode is missing an element ID!', 'torro-forms' );
