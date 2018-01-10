@@ -11,12 +11,8 @@
 
     width: 1rem;
     height: 1rem;
-    margin: -5px 0 -7px -12px !important;
-    padding: 10px;
 
     vertical-align: baseline;
-
-    background-color: #fafafa;
 
     fill: currentColor;
 }
