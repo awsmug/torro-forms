@@ -148,6 +148,13 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 							<div id="<?php echo esc_attr( 'torro-evaluations-results-' . $slug ); ?>" class="torro-evaluations-results">
 								<?php echo $data['content']; ?>
 							</div>
+							<div class="torro-evaluations-shortcode">
+								<label for="<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>"><?php _e( 'Charts Shortcode:', 'torro-forms' ); ?></label>
+								<input id="<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>" class="clipboard-field regular-text" value="<?php echo esc_attr( sprintf( "[{$this->manager()->forms()->get_prefix()}form_charts id=&quot;%d&quot; mode=&quot;%s&quot;]", $form->id, $slug ) ); ?>" readonly="readonly" />
+								<button type="button" class="clipboard-button button" data-clipboard-target="#<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>">
+									<?php $this->manager()->forms()->assets()->render_icon( 'torro-icon-clippy', __( 'Copy to clipboard', 'torro-forms' ) ); ?>
+								</button>
+							</div>
 						</div>
 					<?php endforeach; ?>
 				</div>
@@ -241,6 +248,8 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		}
 
 		if ( $has_enabled ) {
+			$assets->enqueue_script( 'clipboard' );
+			$assets->enqueue_style( 'clipboard' );
 			$assets->enqueue_script( 'admin-evaluations' );
 			$assets->enqueue_style( 'admin-evaluations' );
 		}
