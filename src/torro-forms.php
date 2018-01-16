@@ -427,7 +427,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'APIAPI\Core\APIAPI',
 			'APIAPI\Storage_WordPress_Option\Storage_WordPress_Option',
 			'APIAPI\Transporter_WordPress\Transporter_WordPress',
-			'EDD_SL_Plugin_Updater',
 			'PHPExcel',
 		);
 
