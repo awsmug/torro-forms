@@ -123,7 +123,7 @@ class Tests_Torro extends Torro_UnitTestCase {
 		$torro = new Torro_Forms( WP_PLUGIN_DIR . '/torro-forms/torro-forms.php', '' );
 
 		add_filter( 'torro_set_logger', function() {
-			return 'Torro_Null_Logger';
+			return new Torro_Null_Logger();
 		});
 
 		$this->assertInstanceOf( 'Torro_Null_Logger', $torro->logger() );
