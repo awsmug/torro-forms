@@ -27,9 +27,11 @@ if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 
 require $test_root . '/includes/bootstrap.php';
 
-require_once dirname( __FILE__ ) . '/factory.php';
-require_once dirname( __FILE__ ) . '/screen-mock.php';
-require_once dirname( __FILE__ ) . '/testcase.php';
+define( 'TORRO_TEST_ROOT', dirname( __DIR__ ) );
+
+require_once TORRO_TEST_ROOT . '/includes/factory.php';
+require_once TORRO_TEST_ROOT . '/includes/screen-mock.php';
+require_once TORRO_TEST_ROOT . '/includes/testcase.php';
 
 echo "Installing Torro Forms...\n";
 

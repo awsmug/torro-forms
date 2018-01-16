@@ -33,29 +33,6 @@
   "support": {
     "issues": "https://github.com/awsmug/torro-forms/issues"
   },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "easydigitaldownloads/EDD-License-handler",
-        "version": "dev-master",
-        "source": {
-          "url": "git://github.com/easydigitaldownloads/EDD-License-handler.git",
-          "type": "git",
-          "reference": "master"
-        },
-        "dist": {
-          "url": "https://github.com/easydigitaldownloads/EDD-License-handler/archive/master.zip",
-          "type": "zip"
-        },
-        "autoload": {
-          "classmap": [
-            "EDD_SL_Plugin_Updater.php"
-          ]
-        }
-      }
-    }
-  ],
   "config": {
     "preferred-install": "dist"
   },
@@ -67,7 +44,6 @@
     "api-api/core": "dev-master",
     "api-api/storage-wordpress-option": "dev-master",
     "api-api/transporter-wordpress": "dev-master",
-    "easydigitaldownloads/EDD-License-handler": "dev-master",
     "phpoffice/phpexcel": "1.8.1"
   },
   "require-dev": {

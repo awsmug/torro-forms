@@ -15,7 +15,7 @@
 	<?php endif; ?>
 
 	<label<?php echo torro()->template()->attrs( $label_attrs ); ?>>
-		<?php echo torro()->template()->esc_html( $label ); ?>
+		<?php echo torro()->template()->esc_kses_basic( $label ); ?>
 		<?php echo torro()->template()->esc_kses_basic( $label_required ); ?>
 	</label>
 

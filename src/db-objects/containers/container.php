@@ -113,6 +113,35 @@ class Container extends Model {
 	}
 
 	/**
+	 * Returns an array representation of the model.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param bool $include_meta Optional. Whether to include metadata for each model in the collection.
+	 *                           Default true.
+	 * @return array Array including all information for the model.
+	 */
+	public function to_json( $include_meta = true ) {
+		$data = parent::to_json( $include_meta );
+
+		/* translators: %s: HTML code for required indicator */
+		$required_indicator_description = '<span aria-hidden="true">' . sprintf( __( 'Required fields are marked %s.', 'torro-forms' ), '<span class="torro-required-indicator">*</span>' ) . '</span>';
+
+		/**
+		 * Filters the required indicator description, which is displayed above or below each form.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $required_indicator_description Indicator description HTML string. Default is a description hidden for screen reader users,
+		 *                                               explaining the asterisk character to mark a required field.
+		 */
+		$data['required_description'] = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description );
+
+		return $data;
+	}
+
+	/**
 	 * Duplicates the container including all of its contents.
 	 *
 	 * @since 1.0.0
