@@ -120,18 +120,22 @@ class Tests_Torro extends Torro_UnitTestCase {
 	public function test_custom_logger() {
 		require_once TORRO_TEST_ROOT . '/includes/null-logger.php';
 
+		$torro = new Torro_Forms( WP_PLUGIN_DIR . '/torro-forms/torro-forms.php', '' );
+
 		add_filter( 'torro_set_logger', function() {
 			return 'Torro_Null_Logger';
 		});
 
-		$this->assertInstanceOf( 'Torro_Null_Logger', torro()->logger() );
+		$this->assertInstanceOf( 'Torro_Null_Logger', $torro->logger() );
 	}
 
 	public function test_custom_logger_invalid() {
+		$torro = new Torro_Forms( WP_PLUGIN_DIR . '/torro-forms/torro-forms.php', '' );
+
 		add_filter( 'torro_set_logger', function() {
 			return new stdClass();
 		});
 
-		$this->assertInstanceOf( 'awsmug\Torro_Forms\Logger', torro()->logger() );
+		$this->assertInstanceOf( 'awsmug\Torro_Forms\Logger', $torro->logger() );
 	}
 }
