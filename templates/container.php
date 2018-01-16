@@ -10,7 +10,7 @@
 
 ?>
 <?php if ( ! empty( $label ) ) : ?>
-	<h2 class="torro-container-title"><?php echo torro()->template()->esc_html( $label ); ?></h2>
+	<h2 class="torro-container-title"><?php echo torro()->template()->esc_kses_basic( $label ); ?></h2>
 <?php endif; ?>
 
 <?php foreach ( $elements as $element ) : ?>

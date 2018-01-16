@@ -15,7 +15,7 @@
 	<?php endif; ?>
 
 	<legend<?php echo torro()->template()->attrs( $legend_attrs ); ?>>
-		<?php echo torro()->template()->esc_html( $label ); ?>
+		<?php echo torro()->template()->esc_kses_basic( $label ); ?>
 		<?php echo torro()->template()->esc_kses_basic( $label_required ); ?>
 	</legend>
 
