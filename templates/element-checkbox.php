@@ -18,7 +18,7 @@
 		<input type="checkbox"<?php echo torro()->template()->attrs( $input_attrs ); ?> value="1"<?php echo $value ? ' checked' : ''; ?>>
 
 		<label<?php echo torro()->template()->attrs( $label_attrs ); ?>>
-			<?php echo torro()->template()->esc_html( $label ); ?>
+			<?php echo torro()->template()->esc_kses_basic( $label ); ?>
 			<?php echo torro()->template()->esc_kses_basic( $label_required ); ?>
 		</label>
 

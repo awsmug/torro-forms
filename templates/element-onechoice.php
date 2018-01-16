@@ -32,7 +32,7 @@
 			<div class="torro-toggle">
 				<input type="radio"<?php echo torro()->template()->attrs( $choice_input_attrs ); ?> value="<?php echo torro()->template()->esc_attr( $choice ); ?>"<?php echo $value === $choice ? ' checked' : ''; ?>>
 				<label<?php echo torro()->template()->attrs( $choice_label_attrs ); ?>>
-					<?php echo torro()->template()->esc_html( $choice ); ?>
+					<?php echo torro()->template()->esc_kses_basic( $choice ); ?>
 				</label>
 			</div>
 		<?php endforeach; ?>
