@@ -12,8 +12,8 @@
  * Version:     1.0.0-beta.8
  * Author:      Awesome UG
  * Author URI:  http://www.awesome.ug
- * License:     GNU General Public License v3
- * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ * License:     GNU General Public License v2 (or later)
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: torro-forms
  * Tags:        forms, form builder, surveys, polls, votes, charts, api
  */

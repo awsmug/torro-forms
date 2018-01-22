@@ -10,8 +10,8 @@ Tested up to:      4.9
 Requires PHP:      5.6
 Stable tag:        1.0.0-beta.8
 Version:           1.0.0-beta.8
-License:           GNU General Public License v3
-License URI:       http://www.gnu.org/licenses/gpl-3.0.html
+License:           GNU General Public License v2 (or later)
+License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
 
 Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.
