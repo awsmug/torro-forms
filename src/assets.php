@@ -145,11 +145,6 @@ class Assets extends Assets_Base {
 			'in_footer' => true,
 		) );
 
-		$this->register_style( 'admin-fixed-sidebar', 'assets/dist/css/admin-fixed-sidebar.css', array(
-			'deps' => array(),
-			'ver'  => $this->plugin_version,
-		) );
-
 		$this->register_script( 'admin-tooltip-descriptions', 'assets/dist/js/admin-tooltip-descriptions.js', array(
 			'deps'      => array( 'jquery' ),
 			'ver'       => $this->plugin_version,

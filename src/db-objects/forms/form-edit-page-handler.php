@@ -647,7 +647,6 @@ class Form_Edit_Page_Handler {
 	 */
 	private function enqueue_assets() {
 		$this->form_manager->assets()->enqueue_script( 'admin-fixed-sidebar' );
-		$this->form_manager->assets()->enqueue_style( 'admin-fixed-sidebar' );
 
 		$this->form_manager->assets()->enqueue_script( 'admin-tooltip-descriptions' );
 		$this->form_manager->assets()->enqueue_style( 'admin-tooltip-descriptions' );
