@@ -2,6 +2,7 @@
 	'use strict';
 
 	var $sideSortables = $( '#postbox-container-1 #side-sortables' );
+	var extraMargin = 20;
 	var height, offsetTop, offsetBottom, windowHeight, toolbarOffset, lastScroll = 0;
 
 	if ( ! $sideSortables.length ) {
@@ -12,10 +13,10 @@
 		var scrollTop = $( window ).scrollTop();
 
 		if ( height < windowHeight - toolbarOffset - offsetTop ) {
-			if ( scrollTop + toolbarOffset >= offsetTop ) {
+			if ( scrollTop + toolbarOffset >= offsetTop - extraMargin ) {
 				$sideSortables.css({
 					position: 'fixed',
-					top: toolbarOffset,
+					top: toolbarOffset + extraMargin,
 					bottom: 'auto'
 				});
 			} else {
@@ -27,17 +28,17 @@
 			}
 		} else {
 			if ( scrollTop > lastScroll ) {
-				if ( scrollTop + windowHeight >= $( document ).height() - offsetBottom ) {
+				if ( scrollTop + windowHeight >= $( document ).height() - offsetBottom + extraMargin ) {
 					$sideSortables.css({
 						position: 'fixed',
 						top: 'auto',
-						bottom: scrollTop + windowHeight - $( document ).height() + offsetBottom
+						bottom: scrollTop + windowHeight - $( document ).height() + offsetBottom - extraMargin
 					});
 				} else if ( scrollTop + windowHeight >= offsetTop + height ) {
 					$sideSortables.css({
 						position: 'fixed',
 						top: 'auto',
-						bottom: 0
+						bottom: extraMargin
 					});
 				} else {
 					$sideSortables.css({
@@ -47,16 +48,16 @@
 					});
 				}
 			} else {
-				if ( scrollTop + toolbarOffset >= $( document ).height() - offsetBottom - height ) {
+				if ( scrollTop + toolbarOffset >= $( document ).height() - offsetBottom - height - extraMargin ) {
 					$sideSortables.css({
 						position: 'fixed',
 						top: 'auto',
-						bottom: scrollTop + windowHeight - $( document ).height() + offsetBottom
+						bottom: scrollTop + windowHeight - $( document ).height() + offsetBottom - extraMargin
 					});
 				} else if ( scrollTop + toolbarOffset >= offsetTop ) {
 					$sideSortables.css({
 						position: 'fixed',
-						top: toolbarOffset,
+						top: toolbarOffset + extraMargin,
 						bottom: 'auto'
 					});
 				} else {
