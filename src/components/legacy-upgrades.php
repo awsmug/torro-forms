@@ -182,9 +182,9 @@ class Legacy_Upgrades extends Service {
 					'notifications' => 'EMAIL_NOTIFICATIONS',
 				),
 				'redirection'         => array(
-					'redirect_type' => array( 'redirect_type', 'string' ),
-					'redirect_page' => array( 'redirect_page', 'string' ),
-					'redirect_url'  => array( 'redirect_url', 'string' ),
+					'type' => array( 'redirect_type', 'string' ),
+					'page' => array( 'redirect_page', 'string' ),
+					'url'  => array( 'redirect_url', 'string' ),
 				),
 			),
 			'evaluators'      => array(),

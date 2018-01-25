@@ -39,7 +39,7 @@ class Redirection extends Action {
 	 * @return bool True if the access control is enabled, false otherwise.
 	 */
 	public function enabled( $form ) {
-		$redirect_type = $this->get_form_option( $form->id, 'redirect_type', 'redirect_none' );
+		$redirect_type = $this->get_form_option( $form->id, 'type', 'redirect_none' );
 
 		return 'redirect_none' !== $redirect_type;
 	}
@@ -54,15 +54,15 @@ class Redirection extends Action {
 	 * @return bool|WP_Error True on success, error object on failure.
 	 */
 	public function handle( $submission, $form ) {
-		$redirect_type = $this->get_form_option( $form->id, 'redirect_type', 'redirect_none' );
+		$redirect_type = $this->get_form_option( $form->id, 'type', 'redirect_none' );
 
 		$redirect_url = '';
 		switch ( $redirect_type ) {
 			case 'redirect_url':
-				$redirect_url = $this->get_form_option( $form->id, 'redirect_url' );
+				$redirect_url = $this->get_form_option( $form->id, 'url' );
 				break;
 			case 'redirect_page':
-				$redirect_page = (int) $this->get_form_option( $form->id, 'redirect_page' );
+				$redirect_page = (int) $this->get_form_option( $form->id, 'page' );
 				if ( ! empty( $redirect_page ) ) {
 					$redirect_url = get_permalink( $redirect_page );
 				}
@@ -89,7 +89,7 @@ class Redirection extends Action {
 
 		unset( $meta_fields['enabled'] );
 
-		$meta_fields['redirect_type'] = array(
+		$meta_fields['type'] = array(
 			'type'         => 'select',
 			'label'        => __( 'Redirect Type', 'torro-forms' ),
 			'description'  => __( 'Select to which type of content to redirect the user.', 'torro-forms' ),
@@ -103,7 +103,7 @@ class Redirection extends Action {
 
 		$page_count = (int) wp_count_posts( 'page' )->publish;
 		if ( $page_count > 15 ) {
-			$meta_fields['redirect_page'] = array(
+			$meta_fields['page'] = array(
 				'type'          => 'autocomplete',
 				'label'         => __( 'Redirect Page', 'torro-forms' ),
 				'description'   => __( 'Specify the page to redirect to.', 'torro-forms' ),
@@ -128,7 +128,7 @@ class Redirection extends Action {
 				$page_choices[ $page->ID ] = get_the_title( $page->ID );
 			}
 
-			$meta_fields['redirect_page'] = array(
+			$meta_fields['page'] = array(
 				'type'         => 'select',
 				'label'        => __( 'Redirect Page', 'torro-forms' ),
 				'description'  => __( 'Specify the page to redirect to.', 'torro-forms' ),
@@ -137,11 +137,11 @@ class Redirection extends Action {
 			);
 		}
 
-		$meta_fields['redirect_page']['dependencies'] = array(
+		$meta_fields['page']['dependencies'] = array(
 			array(
 				'prop'     => 'display',
 				'callback' => 'get_data_by_map',
-				'fields'   => array( 'redirect_type' ),
+				'fields'   => array( 'type' ),
 				'args'     => array(
 					'map' => array(
 						'redirect_none' => false,
@@ -152,7 +152,7 @@ class Redirection extends Action {
 			),
 		);
 
-		$meta_fields['redirect_url'] = array(
+		$meta_fields['url'] = array(
 			'type'          => 'url',
 			'label'         => __( 'Redirect URL', 'torro-forms' ),
 			'description'   => __( 'Enter the URL to redirect to.', 'torro-forms' ),
@@ -163,7 +163,7 @@ class Redirection extends Action {
 				array(
 					'prop'     => 'display',
 					'callback' => 'get_data_by_map',
-					'fields'   => array( 'redirect_type' ),
+					'fields'   => array( 'type' ),
 					'args'     => array(
 						'map' => array(
 							'redirect_none' => false,

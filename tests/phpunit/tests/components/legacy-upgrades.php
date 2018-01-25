@@ -549,10 +549,26 @@ CREATE TABLE $email_notifications (
 			),
 			array(
 				'module_actions',
-				'redirection__redirect_type',
+				'redirection__type',
 				'redirect_url',
 				array(
 					'redirect_type' => 'redirect_url',
+				),
+			),
+			array(
+				'module_actions',
+				'redirection__page',
+				22,
+				array(
+					'redirect_page' => 22,
+				),
+			),
+			array(
+				'module_actions',
+				'redirection__url',
+				'https://example.com',
+				array(
+					'redirect_url' => 'https://example.com',
 				),
 			),
 			array(
