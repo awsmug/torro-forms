@@ -62,6 +62,7 @@ class Legacy_Upgrades extends Service {
 					break;
 				case 'modules':
 					$old = (array) $old;
+					$new = array();
 					if ( in_array( 'actions', $old, true ) ) {
 						$new[] = 'actions';
 					}
@@ -73,7 +74,6 @@ class Legacy_Upgrades extends Service {
 						$new[] = 'access_controls';
 						$new[] = 'protectors';
 					}
-					$new = $old;
 					break;
 				case 'string':
 				default:
@@ -427,6 +427,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @param string $legacy_db_version The legacy version number.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function upgrade( $legacy_db_version ) {
 		$last_legacy_db_version = '1.0.10';
@@ -484,6 +486,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function upgrade_to_1_0_3() {
 		global $wpdb;
@@ -499,6 +503,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function upgrade_to_1_0_4() {
 		global $wpdb;
@@ -526,6 +532,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function upgrade_to_1_0_5() {
 		global $wpdb;
@@ -542,6 +550,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function upgrade_to_1_0_6() {
 		global $wpdb;
@@ -565,6 +575,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function upgrade_to_1_0_7() {
 		global $wpdb;
@@ -580,6 +592,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function upgrade_to_1_0_8() {
 		global $wpdb;
@@ -595,6 +609,8 @@ class Legacy_Upgrades extends Service {
 	 * @since 1.0.0
 	 *
 	 * @global \wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function upgrade_to_1_0_9() {
 		global $wpdb;
