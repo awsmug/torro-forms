@@ -611,7 +611,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'error_handler' => $this->error_handler,
 		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' ) );
 
-		$this->db->set_version( 20170602 );
+		$this->db->set_version( 20180125 );
 	}
 
 	/**

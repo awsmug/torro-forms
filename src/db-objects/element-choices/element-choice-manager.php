@@ -82,6 +82,7 @@ class Element_Choice_Manager extends Manager {
 			"id int(11) unsigned NOT NULL auto_increment",
 			"element_id int(11) unsigned NOT NULL",
 			"field char(100) NOT NULL default ''",
+			"section char(100) NOT NULL",
 			"value text NOT NULL",
 			"sort int(11) unsigned NOT NULL default '0'",
 			"PRIMARY KEY  (id)",
