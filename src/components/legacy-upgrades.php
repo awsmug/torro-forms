@@ -669,11 +669,15 @@ class Legacy_Upgrades extends Service {
 			update_option( $this->get_prefix() . 'legacy_attachments_need_migration', 'true' );
 		}
 
+		// Set a flag that the old participants table still exists.
+		update_option( $this->get_prefix() . 'legacy_participants_table_installed', 'true' );
+
+		// Set a flag that the old email notifications table still exists.
+		update_option( $this->get_prefix() . 'legacy_email_notifications_table_installed', 'true' );
+
 		// If forms exist, their data needs to be migrated on-the-fly later.
 		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) );
 		if ( empty( $form_ids ) ) {
-			$wpdb->query( "DROP TABLE IF EXISTS `$participants`" );
-			$wpdb->query( "DROP TABLE IF EXISTS `$email_notifications`" );
 			return;
 		}
 
@@ -685,24 +689,6 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) VALUES " . implode( ', ', $insert_flags ) );
 		foreach ( $form_ids as $form_id ) {
 			wp_cache_delete( (int) $form_id, 'post_meta' );
-		}
-
-		// If participants exist as well, this data will be needed for form meta migration.
-		$participant_ids = $wpdb->get_col( "SELECT id FROM $participants WHERE 1=1 LIMIT 1" );
-		if ( empty( $participant_ids ) ) {
-			$wpdb->query( "DROP TABLE IF EXISTS `$participants`" );
-		} else {
-			// Set a flag that the old participants table still exists.
-			update_option( $this->get_prefix() . 'legacy_participants_table_installed', 'true' );
-		}
-
-		// If email notifications exist as well, this data will be needed for form meta migration.
-		$email_notification_ids = $wpdb->get_col( "SELECT id FROM $email_notifications WHERE 1=1 LIMIT 1" );
-		if ( empty( $email_notification_ids ) ) {
-			$wpdb->query( "DROP TABLE IF EXISTS `$email_notifications`" );
-		} else {
-			// Set a flag that the old email notifications table still exists.
-			update_option( $this->get_prefix() . 'legacy_email_notifications_table_installed', 'true' );
 		}
 	}
 
