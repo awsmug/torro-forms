@@ -10,14 +10,16 @@ matrix:
     - php: hhvm
     - env: WP_VERSION=4.9 WP_TRAVIS_OBJECT_CACHE=true
   include:
-    - php: 7.1
+    - php: 7.2
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 COVERAGE=1
     - php: 5.6
       env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1
+    - php: 7.2
+      env: WP_VERSION=4.9
+    - php: 7.2
+      env: WP_VERSION=4.8
     - php: 7.1
       env: WP_VERSION=4.9
-    - php: 7.1
-      env: WP_VERSION=4.8
     - php: 7.0
       env: WP_VERSION=4.9
     - php: 5.6
