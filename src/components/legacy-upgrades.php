@@ -283,7 +283,8 @@ class Legacy_Upgrades extends Service {
 					if ( ! isset( $mapping_data[0] ) ) {
 						$new = array();
 						foreach ( $mapping_data as $group_value => $old_form_option ) {
-							if ( (bool) get_post_meta( $form_id, $old_form_option, true ) ) {
+							$old = get_post_meta( $form_id, $old_form_option, true );
+							if ( ! empty( $old ) && 'no' !== strtolower( $old ) ) {
 								$new[] = $group_value;
 							}
 						}
