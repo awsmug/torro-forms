@@ -18,7 +18,8 @@ class Factory_For_Form extends Factory_For_Thing implements Factory_For_Thing_Wi
 
 		if ( empty( $default_generation_definitions ) ) {
 			$default_generation_definitions = array(
-				'title' => new WP_UnitTest_Generator_Sequence( 'Form Title %s' ),
+				'title'  => new WP_UnitTest_Generator_Sequence( 'Form Title %s' ),
+				'status' => 'publish',
 			);
 		}
 
