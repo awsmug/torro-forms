@@ -108,7 +108,10 @@ printf "Ignoring GitHub specific files and deployment script..."
 svn propset --quiet svn:ignore ".codeclimate.yml
 .git
 .gitignore
+.jscsrc
+.jshintrc
 .travis.yml
+assets/src
 composer.json
 composer.lock
 conf
@@ -116,12 +119,30 @@ CONTRIBUTING.md
 deploy.sh
 docker-compose.yml
 gulpfile.js
+node_modules/c3/extensions
+node_modules/c3/htdocs
+node_modules/c3/spec
+node_modules/c3/src
+node_modules/d3/bin
+node_modules/d3/src
 package.json
 phpcs.xml
 phpmd.xml
 phpunit.xml
 README.md
 tests
+vendor/api-api/core/tests
+vendor/api-api/storage-wordpress-option/tests
+vendor/api-api/transporter-wordpress/tests
+vendor/felixarntz/plugin-lib/assets/src
+vendor/felixarntz/plugin-lib/node_modules/almond
+vendor/felixarntz/plugin-lib/node_modules/jquery
+vendor/felixarntz/plugin-lib/node_modules/jquery-datetimepicker/tests
+vendor/felixarntz/plugin-lib/node_modules/jquery-mousewheel
+vendor/felixarntz/plugin-lib/node_modules/php-date-formatter
+vendor/felixarntz/plugin-lib/node_modules/select2/src
+vendor/phpoffice/phpexcel/Examples
+vendor/phpoffice/phpexcel/unitTests
 vendor/felixarntz/plugin-lib/tests" .
 echo "Done."
 
