@@ -1,12 +1,24 @@
+[![WordPress plugin](https://img.shields.io/wordpress/plugin/v/torro-forms.svg?maxAge=2592000)](https://wordpress.org/plugins/torro-forms/)
+[![WordPress](https://img.shields.io/wordpress/v/torro-forms.svg?maxAge=2592000)](https://wordpress.org/plugins/torro-forms/)
+[![Build Status](https://api.travis-ci.org/awsmug/torro-forms.png?branch=master)](https://travis-ci.org/awsmug/torro-forms)
+[![Code Climate](https://codeclimate.com/github/awsmug/torro-forms/badges/gpa.svg)](https://codeclimate.com/github/awsmug/torro-forms)
+[![Test Coverage](https://codeclimate.com/github/awsmug/torro-forms/badges/coverage.svg)](https://codeclimate.com/github/awsmug/torro-forms/coverage)
+[![Latest Stable Version](https://poser.pugx.org/awsmug/torro-forms/version)](https://packagist.org/packages/awsmug/torro-forms)
+[![License](https://poser.pugx.org/awsmug/torro-forms/license)](https://packagist.org/packages/awsmug/torro-forms)
+
 # Torro Forms
 
 Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.
+
+## Requirements
+
+Torro Forms requires at least PHP 5.6 and WordPress 4.8 in order to work.
 
 ## Download
 
 It is recommended to use the stable version of the plugin which you can download at [wordpress.org](https://wordpress.org/plugins/torro-forms/).
 
-Of course you can also download the plugin from GitHub. Stable versions are available under [Releases](https://github.com/awsmug/torro-forms/releases). If you're interested in a developmental version, you can download it [here](https://github.com/awsmug/torro-forms/archive/develop.zip). Note that you should not use a development version in a production environment.
+Of course you can also download the plugin from GitHub. Stable versions are available under [Releases](https://github.com/awsmug/torro-forms/releases). If you're interested in a developmental version, you can download it [here](https://github.com/awsmug/torro-forms/archive/develop.zip). Note that you should not use a development version in a production environment. If you download Torro Forms from GitHub, you need to manually install its dependencies using the `composer install --prefer-dist --no-dev` and `npm install --only=production` commands.
 
 ## Contributing
 

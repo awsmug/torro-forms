@@ -22,8 +22,13 @@
 
 	<filter>
 		<whitelist>
-			<directory>./components</directory>
-			<directory>./core</directory>
+			<directory>./src</directory>
+			<file>./torro-forms.php</file>
+			<exclude>
+				<directory>./src/translations</directory>
+				<directory>./templates</directory>
+				<directory>./vendor</directory>
+			</exclude>
 		</whitelist>
 	</filter>
 </phpunit>

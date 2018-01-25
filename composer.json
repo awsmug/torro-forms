@@ -2,9 +2,11 @@
   "name": "awsmug/torro-forms",
   "description": "Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.",
   "version": "1.0.0-beta.8",
-  "license": "GPL-3.0",
+  "license": "GPL-2.0-or-later",
   "type": "wordpress-plugin",
   "keywords": [
+    "wordpress",
+    "plugin",
     "forms",
     "form builder",
     "surveys",
@@ -19,46 +21,46 @@
       "name": "Sven Wagener",
       "email": "contact@awesome.ug",
       "homepage": "http://www.awesome.ug",
-      "role": "Lead Developer"
+      "role": "Product Lead"
     },
     {
       "name": "Felix Arntz",
       "email": "felix-arntz@leaves-and-love.net",
-      "homepage": "http://leaves-and-love.net",
-      "role": "Developer"
+      "homepage": "https://leaves-and-love.net",
+      "role": "Lead Developer"
     }
   ],
   "support": {
     "issues": "https://github.com/awsmug/torro-forms/issues"
   },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "easydigitaldownloads/EDD-License-handler",
-        "version": "1.6.3",
-        "source": {
-          "url": "git://github.com/easydigitaldownloads/EDD-License-handler.git",
-          "type": "git",
-          "reference": "master"
-        },
-        "dist": {
-          "url": "https://github.com/easydigitaldownloads/EDD-License-handler/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    }
-  ],
   "config": {
     "preferred-install": "dist"
   },
   "require": {
+    "php": ">=5.6.0",
     "composer/installers": "~1.0",
-    "phpoffice/phpexcel": "1.8.1",
-    "easydigitaldownloads/EDD-License-handler": "1.6.3"
+    "felixarntz/plugin-lib": "dev-master",
+    "psr/log": "^1",
+    "api-api/core": "dev-master",
+    "api-api/storage-wordpress-option": "dev-master",
+    "api-api/transporter-wordpress": "dev-master",
+    "phpoffice/phpexcel": "1.8.1"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",
-    "codeception/codeception": "^2.1"
+    "phpunit/phpunit": ">4.8.20 <6.0"
+  },
+  "scripts":     {
+    "post-install-cmd": [
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
+    ],
+    "post-update-cmd": [
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
+    ]
+  },
+  "extra": {
+    "installer-paths": {
+      "vendor/felixarntz/{$name}/": ["felixarntz/plugin-lib"]
+    }
   }
 }

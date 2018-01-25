@@ -1,61 +1,109 @@
 @import "variables";
-@import "mixins";
 
-/* --- Frontend --- */
+.torro-element-wrap {
+	margin-bottom: $element-wrap-spacing;
+}
 
-.torro-form {
-	/* For accessibility */
-	.torro-element {
-		margin-bottom: $base-padding-bottom;
+.torro-element-label {
+	margin-bottom: $element-label-spacing;
+}
 
-		input,
-		select,
-		textarea {
-			display:block;
-		}
+.torro-toggle input[type="radio"] + label,
+.torro-toggle input[type="checkbox"] + label {
+	display: inline-block;
+}
 
-		input[type="checkbox"],
-		input[type="radio"] {
-			display:inline;
-			margin-right:5px;
-		}
+.torro-pager {
+	display: block;
+	clear: both;
 
-		&.error {
-			input,
-			select,
-			textarea {
-				border-color: $color-error;
-			}
-		}
+	.prev,
+	.next {
+		display: inline-block;
+	}
 
-		.element-description {
-			font-style: italic;
+	.prev > button {
+		float: left;
+	}
+
+	.next > button {
+		float: right;
+	}
+}
+
+.torro-required-indicator {
+	font-weight: bold;
+}
+
+.torro-notice {
+	margin-bottom: $notice-spacing;
+	padding: 0.5em 1em;
+	background-color: #ffffff;
+	border-left: 4px solid #fff;
+	box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+
+	&.torro-success-notice {
+		background-color: $color-success-light;
+		border-left-color: $color-success;
+	}
+
+	&.torro-info-notice {
+		background-color: $color-info-light;
+		border-left-color: $color-info;
+	}
+
+	&.torro-warning-notice {
+		background-color: $color-warning-light;
+		border-left-color: $color-warning;
+	}
+
+	&.torro-error-notice {
+		background-color: $color-error-light;
+		border-left-color: $color-error;
+	}
+
+	> p:last-child,
+	> ul:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.torro-evaluations-results {
+	margin: 0 0 $basic-spacing;
+	padding: $basic-spacing;
+	border: 1px solid #ccc;
+
+	.torro-evaluations-subtabs,
+	.torro-evaluations-subcontent {
+		position: relative;
+		display: block;
+		margin: 0;
+		min-height: 1px;
+		-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+		        box-sizing: border-box;
+	}
+
+	.torro-evaluations-subtabs {
+		border-bottom: 1px solid #eee;
+	}
+
+	.torro-evaluations-subtab {
+		display: inline-block;
+		padding: 11px 12px;
+
+		&[aria-selected="true"] {
+			color: #555;
+			text-decoration: none;
+			font-weight: bold;
 		}
 	}
 
-	.torro-element-trap {
-		display:none;
+	.torro-evaluations-subtab-panel[aria-hidden="true"] {
+		display: none;
 	}
+}
 
-	.torro-pagination {
-		margin-bottom: $base-padding-bottom;
-
-		.torro-highlight-number {
-			padding: 2px 6px;
-			border-radius: 3px;
-			background-color: #cccccc;
-			color: #ffffff;
-		}
-	}
-
-	.error-messages {
-		margin: 5px 0 0;
-		padding: 0;
-		list-style-type: none;
-
-		li {
-			display: block;
-			color: $color-error;
-		}
-	}
+#torro-email-wrap {
+	display: none;
 }

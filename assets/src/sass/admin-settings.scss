@@ -1,0 +1,54 @@
+@import "variables";
+
+.nav-tab-wrapper,
+.wrap h2.nav-tab-wrapper,
+h1.nav-tab-wrapper {
+	margin: 0 0 15px;
+}
+
+.torro-subtab-wrapper {
+	display: block;
+	margin-left: 5px;
+}
+
+.torro-subtab {
+	display: inline-block;
+	padding: 5px;
+
+	&[aria-selected="true"] {
+		color:#555;
+		text-decoration: none;
+		font-weight: bold;
+	}
+}
+
+.torro-subtab-panel[aria-hidden="true"] {
+	display: none;
+}
+
+input[type="radio"].plugin-lib-radio-control,
+input[type="checkbox"].plugin-lib-multibox-control {
+	margin-left: 20px;
+
+	&:first-of-type {
+		margin-left: 0;
+	}
+}
+
+.welcome-to-torro {
+	margin-bottom: 15px;
+	padding: 20px 20px 20px 298px;
+	min-height: 80px;
+	color: #fff;
+	border: 1px solid #ccc;
+	background-image: url("#{$image-path}/logo.png");
+	background-position: 10px -9px;
+	background-repeat: no-repeat;
+	background-color: #d50c0c;
+
+	h3 {
+		margin-top: 20px;
+		font-size: 20px;
+		color: #fff;
+	}
+}

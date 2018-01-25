@@ -1,0 +1,128 @@
+/* ----------------------------------------------------------------------------
+  1.0 - Torro Evaluations Tabs
+---------------------------------------------------------------------------- */
+
+.torro-evaluations-box.postbox .inside {
+	margin: 0;
+	padding: 0;
+
+	&:after {
+		display: table;
+		content: "";
+		clear: both;
+	}
+}
+
+.torro-evaluations-tabs,
+.torro-evaluations-content {
+	position: relative;
+	display: block;
+	margin: 0;
+	min-height: 1px;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.torro-evaluations-tabs {
+	@media screen and (min-width: 783px) {
+		float: left;
+		width: 20%;
+	}
+}
+
+.torro-evaluations-content {
+	@media screen and (min-width: 783px) {
+		float: left;
+		width: 80%;
+	}
+}
+
+.torro-evaluations-tab {
+	display: block;
+	padding: 11px 12px;
+	border-bottom: 1px solid #eee;
+
+	&[aria-selected="true"] {
+		color: #555;
+		text-decoration: none;
+		font-weight: bold;
+	}
+
+	@media screen and (min-width: 783px) {
+		border-right: 1px solid #eee;
+
+		&[aria-selected="true"] {
+			border-right: 1px solid #fff;
+		}
+	}
+}
+
+.torro-evaluations-tab-panel[aria-hidden="true"] {
+	display: none;
+}
+
+.torro-evaluations-description-wrap,
+.torro-evaluations-results,
+.torro-evaluations-shortcode {
+	padding: 11px 12px;
+}
+
+.torro-evaluations-description-wrap p.description {
+	margin: 0;
+}
+
+/* ----------------------------------------------------------------------------
+  2.0 - Torro Evaluations Sub-Tabs
+---------------------------------------------------------------------------- */
+
+.torro-evaluations-subtabs,
+.torro-evaluations-subcontent {
+	position: relative;
+	display: block;
+	margin: 0;
+	min-height: 1px;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.torro-evaluations-subtabs {
+	border-bottom: 1px solid #eee;
+}
+
+.torro-evaluations-subtab {
+	display: inline-block;
+	padding: 11px 12px;
+
+	&[aria-selected="true"] {
+		color: #555;
+		text-decoration: none;
+		font-weight: bold;
+	}
+}
+
+.torro-evaluations-subtab-panel[aria-hidden="true"] {
+	display: none;
+}
+
+/* ----------------------------------------------------------------------------
+  3.0 - Global Postbox Fixes
+---------------------------------------------------------------------------- */
+
+.postbox h2 {
+	font-size: 14px;
+    padding: 8px 12px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.js .postbox .toggle-indicator:before {
+	content: "\f142";
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+}

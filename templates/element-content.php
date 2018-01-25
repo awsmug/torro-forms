@@ -2,18 +2,25 @@
 /**
  * Template: element-content.php
  *
- * Available data: $element_id, $label, $id, $classes, $errors, $description, $required, $type
+ * Available data: $id, $container_id, $label, $sort, $type, $value, $input_attrs, $label_required, $label_attrs, $wrap_attrs, $description, $description_attrs, $errors, $errors_attrs, $before, $after
  *
  * @package TorroForms
- * @subpackage Templates
- * @version 1.0.0-beta.7
- * @since 1.0.0-beta.4
+ * @since 1.0.0
  */
+
 ?>
-<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
-	<?php do_action( 'torro_element_start', $element_id ); ?>
+<div<?php echo torro()->template()->attrs( $wrap_attrs ); ?>>
+	<?php if ( ! empty( $before ) ) : ?>
+		<?php echo $before; ?>
+	<?php endif; ?>
 
-	<?php echo wpautop( $label ); ?>
+	<div>
+		<div<?php echo torro()->template()->attrs( $input_attrs ); ?>>
+			<?php echo torro()->template()->esc_kses_post( $label ); ?>
+		</div>
+	</div>
 
-	<?php do_action( 'torro_element_end', $element_id ); ?>
+	<?php if ( ! empty( $after ) ) : ?>
+		<?php echo $after; ?>
+	<?php endif; ?>
 </div>

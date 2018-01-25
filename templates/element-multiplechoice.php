@@ -2,45 +2,57 @@
 /**
  * Template: element-multiplechoice.php
  *
- * Available data: $element_id, $label, $id, $classes, $errors, $description, $required, $type
+ * Available data: $id, $container_id, $label, $sort, $type, $value, $input_attrs, $label_required, $label_attrs, $wrap_attrs, $description, $description_attrs, $errors, $errors_attrs, $before, $after, $choices, $legend_attrs
  *
  * @package TorroForms
- * @subpackage Templates
- * @version 1.0.0-beta.7
- * @since 1.0.0-beta.4
+ * @since 1.0.0
  */
 
-$aria_required = $required ? ' aria-required="true"' : '';
 ?>
-<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
-	<?php do_action( 'torro_element_start', $element_id ); ?>
+<fieldset<?php echo torro()->template()->attrs( $wrap_attrs ); ?>>
+	<?php if ( ! empty( $before ) ) : ?>
+		<?php echo $before; ?>
+	<?php endif; ?>
 
-	<fieldset role="group"<?php echo $aria_required; ?>>
-		<legend>
-			<?php echo esc_html( $label ); ?>
-			<?php if ( $required ) : ?>
-				<span class="required">*</span>
-			<?php endif; ?>
-		</legend>
+	<legend<?php echo torro()->template()->attrs( $legend_attrs ); ?>>
+		<?php echo torro()->template()->esc_kses_basic( $label ); ?>
+		<?php echo torro()->template()->esc_kses_basic( $label_required ); ?>
+	</legend>
 
-		<div>
-			<?php torro()->template( 'element-type', $type ); ?>
+	<div>
+		<?php foreach ( $choices as $index => $choice ) : ?>
+			<?php
+			$choice_input_attrs = $input_attrs;
+			$choice_label_attrs = $label_attrs;
 
-			<?php if ( ! empty( $description ) ) : ?>
-				<div id="<?php echo esc_attr( $id ); ?>-description" class="element-description">
-					<?php echo $description; ?>
-				</div>
-			<?php endif; ?>
+			$choice_input_attrs['id']  = str_replace( '%index%', $index + 1, $choice_input_attrs['id'] );
+			$choice_label_attrs['id']  = str_replace( '%index%', $index + 1, $choice_label_attrs['id'] );
+			$choice_label_attrs['for'] = str_replace( '%index%', $index + 1, $choice_label_attrs['for'] );
+			?>
+			<div class="torro-toggle">
+				<input type="checkbox"<?php echo torro()->template()->attrs( $choice_input_attrs ); ?> value="<?php echo torro()->template()->esc_attr( $choice ); ?>"<?php echo in_array( $choice, $value, true ) ? ' checked' : ''; ?>>
+				<label<?php echo torro()->template()->attrs( $choice_label_attrs ); ?>>
+					<?php echo torro()->template()->esc_kses_basic( $choice ); ?>
+				</label>
+			</div>
+		<?php endforeach; ?>
 
-			<?php if ( 0 < count( $errors ) ) : ?>
-				<ul id="<?php echo esc_attr( $id ); ?>-errors" class="error-messages">
-					<?php foreach ( $errors as $error ) : ?>
-						<li><?php echo $error; ?></li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
-		</div>
-	</fieldset>
+		<?php if ( ! empty( $description ) ) : ?>
+			<div<?php echo torro()->template()->attrs( $description_attrs ); ?>>
+				<?php echo torro()->template()->esc_kses_basic( $description ); ?>
+			</div>
+		<?php endif; ?>
 
-	<?php do_action( 'torro_element_end', $element_id ); ?>
-</div>
+		<?php if ( ! empty( $errors ) ) : ?>
+			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?>>
+				<?php foreach ( $errors as $error_code => $error_message ) : ?>
+					<li><?php echo torro()->template()->esc_kses_basic( $error_message ); ?></li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
+	</div>
+
+	<?php if ( ! empty( $after ) ) : ?>
+		<?php echo $after; ?>
+	<?php endif; ?>
+</fieldset>

@@ -1,0 +1,42 @@
+.torro-tooltip-wrap {
+	position: relative;
+	display: inline;
+}
+
+.torro-tooltip-button {
+	padding: 0;
+	vertical-align: middle;
+	line-height: 1;
+	color: #666;
+	cursor: help;
+}
+
+.torro-tooltip-description,
+p.description.torro-tooltip-description {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+	z-index: 10;
+	overflow: hidden;
+	width: 1px;
+	text-align: center;
+	color: #fff;
+	background: #333;
+	border-radius: 3px;
+
+	.torro-tooltip-button:hover + &,
+	.torro-tooltip-button:focus + & {
+		top: 100%;
+		left: 0;
+		padding: 0.5em 1em;
+		width: 250px;
+	}
+}
+
+.js .has-torro-tooltip-description .content-wrap > .description:not(.torro-tooltip-description) {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+	overflow: hidden;
+	width: 1px;
+}

@@ -1,0 +1,25 @@
+input.clipboard-field {
+	height: 28px;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 12px;
+    direction: ltr;
+    unicode-bidi: embed;
+	background-color: #f7f7f7;
+}
+
+button.button.clipboard-button {
+	width: 29px;
+    height: 27px;
+    padding: 3px;
+    margin-top: 1px;
+    margin-left: 1px;
+
+    img {
+		width: 14px;
+		height: auto;
+	}
+}
+
+.no-clipboard .clipboard-button {
+	display: none;
+}

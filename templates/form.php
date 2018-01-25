@@ -2,32 +2,43 @@
 /**
  * Template: form.php
  *
- * Available data: $form_id, $title, $action_url, $classes, $hidden_fields, $current_container, $navigation
+ * Available data: $id, $title, $slug, $author, $status, $timestamp, $timestamp_modified, $form_attrs, $hidden_fields, $navigation, $current_container
  *
  * @package TorroForms
- * @subpackage Templates
- * @version 1.0.0-beta.7
- * @since 1.0.0-beta.4
+ * @since 1.0.0
  */
+
 ?>
-<form id="torro-form-<?php echo $form_id; ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" action="<?php echo esc_url( $action_url ); ?>" method="post" enctype="multipart/form-data" novalidate>
-	<?php echo $hidden_fields; ?>
-
+<form<?php echo torro()->template()->attrs( $form_attrs ); ?>>
 	<?php if ( $current_container ) : ?>
-		<?php torro()->template( 'container', $current_container ); ?>
+		<?php torro()->template()->get_partial( 'container', $current_container ); ?>
 	<?php endif; ?>
 
-	<?php if ( $navigation['prev_button'] ) : ?>
-		<input type="submit" name="<?php echo esc_attr( $navigation['prev_button']['name'] ); ?>" value="<?php echo esc_attr( $navigation['prev_button']['label'] ); ?>">
+	<?php if ( ! empty( $navigation['submit_button']['before'] ) ) : ?>
+		<?php echo $navigation['submit_button']['before']; ?>
 	<?php endif; ?>
 
-	<?php if ( $navigation['next_button'] ) : ?>
-		<input type="submit" name="<?php echo esc_attr( $navigation['next_button']['name'] ); ?>" value="<?php echo esc_attr( $navigation['next_button']['label'] ); ?>">
+	<div class="torro-pager">
+		<?php if ( ! empty( $navigation['prev_button'] ) ) : ?>
+			<div class="prev">
+				<button<?php echo torro()->template()->attrs( $navigation['prev_button']['attrs'] ); ?>><?php echo esc_html( $navigation['prev_button']['label'] ); ?></button>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( ! empty( $navigation['next_button'] ) ) : ?>
+			<div class="next">
+				<button<?php echo torro()->template()->attrs( $navigation['next_button']['attrs'] ); ?>><?php echo esc_html( $navigation['next_button']['label'] ); ?></button>
+			</div>
+		<?php elseif ( ! empty( $navigation['submit_button'] ) ) : ?>
+			<div class="next">
+				<button<?php echo torro()->template()->attrs( $navigation['submit_button']['attrs'] ); ?>><?php echo esc_html( $navigation['submit_button']['label'] ); ?></button>
+			</div>
+		<?php endif; ?>
+	</div>
+
+	<?php if ( ! empty( $navigation['submit_button']['after'] ) ) : ?>
+		<?php echo $navigation['submit_button']['after']; ?>
 	<?php endif; ?>
 
-	<?php if ( $navigation['submit_button'] ) : ?>
-		<?php do_action( 'torro_form_send_button_before', $form_id ); ?>
-		<input type="submit" name="<?php echo esc_attr( $navigation['submit_button']['name'] ); ?>" value="<?php echo esc_attr( $navigation['submit_button']['label'] ); ?>">
-		<?php do_action( 'torro_form_send_button_after', $form_id ); ?>
-	<?php endif; ?>
+	<?php echo $hidden_fields; ?>
 </form>

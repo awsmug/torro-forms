@@ -1,0 +1,593 @@
+@import "variables";
+
+/* ----------------------------------------------------------------------------
+  1.0 - Torro Form Canvas
+---------------------------------------------------------------------------- */
+
+.torro-form-canvas {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.torro-form-canvas-header,
+.torro-form-canvas-content,
+.torro-form-canvas-footer {
+	margin: 0;
+	padding: 12px;
+	background-color: $color-metabox-background;
+	border-color: $color-metabox-border;
+	border-style: solid;
+}
+
+.torro-form-canvas-header {
+	border-width: 1px;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.4;
+	padding:0;
+}
+
+.torro-form-canvas-content {
+	background-color: $color-canvas-background;
+	border-width: 1px;
+}
+
+.torro-form-canvas-footer,
+.torro-form-canvas-header + .torro-form-canvas-content {
+	border-top-width: 0;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+/* ----------------------------------------------------------------------------
+  2.0 - Torro Form Canvas Tabs
+---------------------------------------------------------------------------- */
+
+.torro-form-canvas-header.torro-form-canvas-tabs {
+	font-size: 13px;
+	line-height: 1.1;
+	display: block;
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.torro-form-canvas-tab {
+		border:none;
+		border-bottom: 3px solid transparent;
+		background-color: transparent;
+		color: $color-tab-text;
+		cursor: pointer;
+		height: 38px;
+		padding: 0px 12px;
+		margin-left: 0;
+		font-weight: 400;
+		display: block;
+		float: left;
+		text-decoration: none;
+		padding: 5px 12px;
+		-webkit-appearance: none;
+
+		&[aria-selected="true"] {
+			border-bottom-color: $color-metabox-tab-active-border;
+			font-weight: 600;
+		}
+
+		&.add-button.is-active {
+			border-bottom-color: $color-metabox-tab-active-border;
+			font-weight: 600;
+		}
+
+		&[disabled] {
+			color: #b4b9be;
+			cursor: not-allowed;
+		}
+	}
+}
+
+.torro-form-canvas-panel[aria-hidden="true"] {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
+}
+
+/* ----------------------------------------------------------------------------
+  3.0 - Drag & Drop Area
+---------------------------------------------------------------------------- */
+
+.drag-drop-area {
+	position: relative;
+
+	.add-element-content {
+		display: none;
+	}
+
+	&.is-empty {
+		min-height: 150px;
+		border: 4px dashed #b4b9be;
+
+		> div {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 80%;
+			font-size: 1.3em;
+			line-height: 1.4em;
+
+			&.content {
+				text-align: center;
+			}
+
+			&.loader-content {
+				font-style: italic;
+			}
+		}
+
+		.add-element-content {
+			display: block;
+		}
+
+		.spinner {
+			float: none;
+			height: 1.4em;
+			margin: 0 10px;
+		}
+	}
+}
+
+/* ----------------------------------------------------------------------------
+  4.0 - Containers
+---------------------------------------------------------------------------- */
+
+.add-element-wrap {
+	margin-top: 1em;
+}
+
+.add-element-toggle-wrap {
+	position: relative;
+	margin-bottom: -10px;
+	text-align: center;
+	border-top: 1px solid $color-add-element-border;
+
+	.add-element-toggle {
+		position: relative;
+		top: -10px;
+		margin: 0;
+		padding: 0 6px;
+		color: #444;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.2;
+		background: $color-canvas-background;
+		border: 0;
+		cursor: pointer;
+		-webkit-appearance: none;
+		        appearance: none;
+	}
+
+	&.is-expanded {
+		border-right: 1px solid $color-add-element-border;
+		border-left: 1px solid $color-add-element-border;
+	}
+}
+
+.add-element-content-wrap {
+	display: none;
+	padding: 12px;
+
+	&.is-expanded {
+		display: block;
+		border: 1px solid $color-add-element-border;
+		border-top: 0;
+	}
+}
+
+.torro-element-types {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	justify-content: flex-start;
+	margin: 0 -3px;
+	overflow: hidden;
+	clear: both;
+}
+
+.torro-element-type {
+	display: block;
+	margin: 0 3px 1em;
+	flex-basis: 200px;
+	flex-grow: 1;
+	background-color: $color-element-background;
+	border: 1px solid $color-element-border;
+	cursor: pointer;
+
+	.torro-element-type-header,
+	.torro-element-type-content {
+		padding: 3px 6px;
+	}
+
+	.torro-element-type-header {
+		overflow: hidden;
+		clear: both;
+
+		.torro-element-type-header-icon {
+			display: block;
+			float: left;
+			width: 24px;
+			height: 24px;
+			color: $color-element-type-icons;
+		}
+
+		.torro-element-type-header-title {
+			display: block;
+			float: left;
+			margin: 0 15px;
+			overflow: hidden;
+			line-height: 24px;
+		}
+	}
+
+	.torro-element-type-header-title {
+		font-weight: 600;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		-webkit-user-select: none;
+		   -moz-user-select: none;
+		    -ms-user-select: none;
+		        user-select: none;
+	}
+
+	.torro-element-type-content {
+		min-height: 50px;
+		border-top: 1px solid $color-element-border;
+
+		p {
+			margin: 0;
+		}
+	}
+
+	&:hover,
+	&:focus {
+		background-color: $color-element-hover-background;
+	}
+
+	&.is-selected {
+		border: 2px solid $color-element-type-selected-border;
+		cursor: default;
+	}
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - Elements
+---------------------------------------------------------------------------- */
+
+.torro-element {
+	margin-bottom: 1em;
+	background-color: $color-element-background;
+	border: 1px solid $color-element-border;
+
+	.form-table {
+		th {
+			font-weight: normal;
+			padding: 0 0 12px 0;
+		}
+		td {
+			padding: 0 0 12px 0;
+		}
+	}
+
+	&:last-child {
+		margin-bottom: 2em;
+	}
+}
+
+.torro-element-header,
+.torro-element-content-footer {
+	padding: 6px 12px;
+}
+
+.torro-element-header {
+	overflow: hidden;
+	clear: both;
+	font-size: 13px;
+
+	&.ui-sortable-handle {
+		cursor: move;
+	}
+
+	.torro-element-header-icon {
+		display: block;
+		float: left;
+		width: 24px;
+		height: 24px;
+		margin: 4px;
+		color: $color-element-type-icons;
+	}
+
+	.torro-element-header-title {
+		display: block;
+		margin: 0 15px;
+		overflow: hidden;
+		float: left;
+		line-height: 32px;
+	}
+
+	.torro-element-expand-button {
+		display: block;
+	}
+}
+
+.torro-element-header-title {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+}
+
+.torro-element-expand-button {
+	margin: 0;
+	padding: 0;
+	color: #555d66;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	-webkit-appearance: none;
+	        appearance: none;
+
+	.torro-element-expand-button-icon:before {
+		content: "\f140";
+		border: none;
+		background: 0 0;
+		font: 400 20px/1 dashicons;
+		line-height: 32px;
+		speak: none;
+		display: block;
+		padding: 0;
+		text-indent: 0;
+		text-align: center;
+		position: relative;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-decoration: none!important;
+	}
+
+	&:hover,
+	&:focus {
+		color: #444;
+	}
+
+	&[aria-expanded="true"] .torro-element-expand-button-icon:before {
+		content: "\f142";
+	}
+
+	.torro-element-header & {
+		float: right;
+	}
+}
+
+.torro-element-content {
+	display: none;
+
+	&.is-expanded {
+		display: block;
+	}
+}
+
+.torro-element-content-main,
+.torro-element-content-footer {
+	border-top: 1px solid $color-element-border;
+}
+
+.torro-element-content-tabs {
+	font-size: 13x;
+	line-height: 1.1;
+	display: block;
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.torro-element-content-tab {
+		border:none;
+		border-bottom: 3px solid transparent;
+		background-color: transparent;
+		color: $color-tab-text;
+		cursor: pointer;
+		height: 38px;
+		padding: 0px 12px;
+		margin-left: 0;
+		font-weight: 400;
+		display: block;
+		float: left;
+		text-decoration: none;
+		padding: 5px 12px;
+		-webkit-appearance: none;
+
+		&:focus {
+			outline: 0;
+		}
+
+		&[aria-selected="true"] {
+			border-bottom-color: $color-metabox-tab-active-border;
+			font-weight: 600;
+		}
+	}
+}
+
+.torro-element-content-panel {
+	padding: 10px 12px;
+	border-top: 1px solid $color-element-border;
+
+	&[aria-hidden="true"] {
+		clip: rect(1px, 1px, 1px, 1px);
+		height: 1px;
+		overflow: hidden;
+		position: absolute !important;
+		width: 1px;
+	}
+}
+
+// Placeholder for jQuery Sortable
+.torro-element-placeholder {
+	display: block;
+	margin-bottom: 1em;
+	height: 44px;
+}
+
+// Element choice repeatable
+.plugin-lib-repeatable-torrochoices-wrap {
+	.plugin-lib-repeatable-item {
+		margin-bottom: 0.8em;
+	}
+}
+
+.torro-element-choice-move {
+	display: inline-block;
+
+	&.ui-sortable-handle {
+		cursor: move;
+	}
+}
+
+// Placeholder for jQuery Sortable
+.torro-element-choice-placeholder {
+	display: block;
+	margin-bottom: 0.8em;
+	height: 28px;
+}
+
+/* ----------------------------------------------------------------------------
+  6.0 - General Notice
+---------------------------------------------------------------------------- */
+
+.torro-notice {
+	padding: 1px 12px;
+	background-color: $color-notice-background;
+	border-left-width: 4px;
+	border-left-style: solid;
+	-webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, .1 );
+	        box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, .1 );
+}
+
+/* ----------------------------------------------------------------------------
+  7.0 - Dialogs
+---------------------------------------------------------------------------- */
+
+.torro-dialog {
+	z-index: 9999;
+	width: 300px;
+	background-color: $color-dialog-background;
+	border: 1px solid $color-dialog-border;
+	text-align: center;
+	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+
+	.ui-dialog-titlebar {
+		display: none;
+	}
+
+	.ui-dialog-content {
+		padding: 10px;
+		font-size: 13px;
+	}
+
+	.ui-button {
+		width: 40%;
+		margin: 0 10px 10px 10px;
+		background-color: $color-dialog-background;
+		border: 1px solid $color-dialog-border;
+	}
+}
+
+/* ----------------------------------------------------------------------------
+  8.0 - Torro Metabox Tabs
+---------------------------------------------------------------------------- */
+
+.torro-metabox-tab-wrapper {
+	font-size: 13px;
+	line-height: 1.1;
+	border-bottom: 1px solid $color-metabox-border;
+	display: block;
+	margin: -6px -12px 1em;
+
+	&:not(.wp-clearfix):after {
+		display: table;
+		content: "";
+		clear: both;
+	}
+}
+
+.torro-metabox-tab {
+	border-bottom: 3px solid transparent;
+	color: $color-tab-text;
+	cursor: pointer;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 12px;
+	margin-left: 0;
+	font-weight: 400;
+	display: block;
+	float: left;
+	text-decoration: none;
+
+	&[aria-selected="true"] {
+		border-bottom-color: $color-metabox-tab-active-border;
+		font-weight: 600;
+	}
+
+	&:hover,
+	&:focus {
+		color: $color-tab-text;
+	}
+
+	&:focus {
+		box-shadow: none;
+	}
+}
+
+.torro-metabox-tab-panel[aria-hidden="true"] {
+	display: none;
+}
+
+.postbox .form-table {
+
+	th {
+		padding: 0 0 20px 0;
+		font-weight: normal;
+		font-size: 13px;
+
+		@media screen and (min-width: 783px) {
+			width: 30%;
+		}
+	}
+
+	td {
+		padding: 0 0 20px 0;
+		font-size: 13px;
+
+		p.description {
+			font-size: 13px;
+		}
+	}
+}
+
+/* ----------------------------------------------------------------------------
+  9.0 - Misc
+---------------------------------------------------------------------------- */
+
+#minor-publishing-actions #duplicate-action {
+	clear: both;
+	padding-top: 1em;
+}

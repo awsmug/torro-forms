@@ -1,0 +1,5 @@
+/*!
+ * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
+ * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
+ */
+input.clipboard-field{font-family:Consolas,Monaco,monospace;font-size:12px;height:28px;background-color:#f7f7f7;direction:ltr;unicode-bidi:embed}button.button.clipboard-button{width:29px;height:27px;margin-top:1px;margin-left:1px;padding:3px}button.button.clipboard-button img{width:14px;height:auto}.no-clipboard .clipboard-button{display:none}
