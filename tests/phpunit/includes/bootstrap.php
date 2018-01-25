@@ -17,12 +17,28 @@ $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'torro-forms/torro-forms.php' ),
 );
 
-if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
-	$test_root = getenv( 'WP_DEVELOP_DIR' ) . '/tests/phpunit';
+function _manually_load_plugin() {
+	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/torro-forms.php';
+}
+
+if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+	$test_root    = rtrim( getenv( 'WP_TESTS_DIR' ), '/' );
+	$_manual_load = true;
+} elseif ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+	$test_root    = getenv( 'WP_DEVELOP_DIR' ) . '/tests/phpunit';
+	$_manual_load = true;
 } elseif ( file_exists( '/tmp/wordpress-tests-lib/includes/bootstrap.php' ) ) {
-	$test_root = '/tmp/wordpress-tests-lib';
+	$test_root    = '/tmp/wordpress-tests-lib';
+	$_manual_load = true;
 } else {
-	$test_root = '../../../../../../tests/phpunit';
+	$test_root    = '../../../../../../tests/phpunit';
+	$_manual_load = false;
+}
+
+require_once $test_root . '/includes/functions.php';
+
+if ( $_manual_load ) {
+	tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 }
 
 require $test_root . '/includes/bootstrap.php';
