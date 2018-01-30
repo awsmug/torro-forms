@@ -11,14 +11,15 @@ namespace awsmug\Torro_Forms\Modules\Actions;
 use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
-use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Multi_Field_Element_Type_Interface;
-use awsmug\Torro_Forms\APIAPI_Config;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\OAuth2_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\OAuth1_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\X_Account_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\X_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Basic_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Key_Connection;
 use APIAPI\Core\Structures\Structure;
 use APIAPI\Core\Structures\Route;
 use APIAPI\Core\Request\API;
-use APIAPI\Core\Request\Route_Request;
-use APIAPI\Core\Request\Route_Response;
-use APIAPI\Core\Exception as APIAPIException;
 use Exception;
 use WP_Error;
 
@@ -30,78 +31,50 @@ use WP_Error;
 abstract class API_Action extends Action implements API_Action_Interface, Assets_Submodule_Interface {
 
 	/**
-	 * Name of the API structure this action uses.
+	 * The available API structures and their routes.
 	 *
 	 * @since 1.0.0
-	 * @var string
+	 * @var array|null
 	 */
-	protected $api_structure_name;
+	protected $available_structures = null;
 
 	/**
-	 * Route URI of the API structure this action uses.
+	 * The structure instances, for internal use.
 	 *
 	 * @since 1.0.0
-	 * @var string
+	 * @var array
 	 */
-	protected $api_route_uri;
+	private $structure_instances = array();
 
 	/**
-	 * API request method.
-	 *
-	 * Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'. Default 'POST'.
+	 * The structure API instances, for internal use.
 	 *
 	 * @since 1.0.0
-	 * @var string
+	 * @var array
 	 */
-	protected $api_request_method = 'POST';
+	private $structure_api_instances = array();
 
 	/**
-	 * The API structure this action uses.
-	 *
-	 * Do not use this property, but instead the api_structure() method.
+	 * Checks whether the action is enabled for a specific form.
 	 *
 	 * @since 1.0.0
-	 * @var Structure|null
+	 *
+	 * @param Form $form Form object to check.
+	 * @return bool True if the action is enabled, false otherwise.
 	 */
-	protected $lazyloaded_api_structure = null;
+	public function enabled( $form ) {
+		$integrations = $this->get_form_option( $form->id, 'integrations', array() );
 
-	/**
-	 * The API route this action uses.
-	 *
-	 * Do not use this property, but instead the api_route() method.
-	 *
-	 * @since 1.0.0
-	 * @var Route|null
-	 */
-	protected $lazyloaded_api_route = null;
+		$integrations = array_filter( $integrations, function( $integration ) {
+			return ! empty( $integration['connection'] ) && ! empty( $integration['route'] ) && ! empty( $integration['mappings'] );
+		});
 
-	/**
-	 * The configured API instance this action uses.
-	 *
-	 * Do not use this property, but instead the api() method.
-	 *
-	 * @since 1.0.0
-	 * @var API|null
-	 */
-	protected $lazyloaded_api = null;
+		if ( ! empty( $integrations ) ) {
+			return true;
+		}
 
-	/**
-	 * Internal flag for whether the API script used for all API actions has been registered.
-	 *
-	 * @since 1.0.0
-	 * @static
-	 * @var bool
-	 */
-	protected static $script_registered = false;
-
-	/**
-	 * Internal flag for whether the API script used for all API actions has been enqueued.
-	 *
-	 * @since 1.0.0
-	 * @static
-	 * @var bool
-	 */
-	protected static $script_enqueued = false;
+		return false;
+	}
 
 	/**
 	 * Handles the action for a specific form submission.
@@ -113,51 +86,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @return bool|WP_Error True on success, error object on failure.
 	 */
 	public function handle( $submission, $form ) {
-		$form_options      = $this->get_form_options( $form->id );
-		$submission_values = $submission->get_submission_values();
-
-		$meta_map_fields = $this->get_meta_map_fields();
-
-		$mappings = $this->get_mappings( $form->id );
-
-		try {
-			$request = $this->api()->get_request_object( $this->api_route_uri, $this->api_request_method );
-
-			foreach ( $form_options as $key => $value ) {
-				if ( ! isset( $meta_map_fields[ $key ] ) ) {
-					continue;
-				}
-
-				if ( empty( $value ) ) {
-					continue;
-				}
-
-				$request->set_param( $key, $value );
-			}
-
-			foreach ( $submission_values as $submission_value ) {
-				if ( ! isset( $mappings[ $submission_value->element_id ] ) ) {
-					continue;
-				}
-
-				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
-				if ( ! isset( $mappings[ $submission_value->element_id ][ $field ] ) ) {
-					continue;
-				}
-
-				if ( empty( $submission_value->value ) ) {
-					continue;
-				}
-
-				$request->set_param( $mappings[ $submission_value->element_id ][ $field ], $submission_value->value );
-			}
-
-			$response = $this->module->apiapi()->send_request( $request );
-		} catch ( Exception $e ) {
-			return $this->process_error_response( $e, $submission, $form );
-		}
-
-		return $this->process_response( $response, $request, $submission, $form );
+		return true;
 	}
 
 	/**
@@ -168,7 +97,45 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	public function get_meta_fields() {
-		return array_merge( parent::get_meta_fields(), $this->get_meta_map_fields() );
+		$meta_fields = parent::get_meta_fields();
+
+		unset( $meta_fields['enabled'] );
+
+		$connection_choices = array_merge( array(
+			'' => __( 'Select a connection...', 'torro-forms' ),
+		), $this->get_available_connection_choices() );
+
+		$settings_url = add_query_arg( array(
+			'page'   => torro()->forms()->get_prefix() . 'form_settings',
+			'tab'    => $this->module->manager()->get_prefix() . 'module_actions',
+			'subtab' => $this->slug,
+		), admin_url( 'edit.php?post_type=' . torro()->post_types()->get_prefix() . 'form' ) );
+
+		$meta_fields['integrations'] = array(
+			'type'        => 'group',
+			'label'       => __( 'Integrations', 'torro-forms' ),
+			'description' => __( 'Add one or more integrations for the API.', 'torro-forms' ),
+			'repeatable'  => true,
+			'fields'      => array(
+				'connection' => array(
+					'type'        => 'select',
+					'label'       => __( 'Connection', 'torro-forms' ),
+					/* translators: %s: settings page URL */
+					'description' => sprintf( __( 'Select one of the connections here that you have created in the <a href="%s">plugin settings</a>.', 'torro-forms' ), $settings_url ),
+					'choices'     => $connection_choices,
+					'required'    => true,
+				),
+				'route'      => array(
+					'type'        => 'select',
+					'label'       => __( 'Route', 'torro-forms' ),
+					'description' => __( 'Select the API connection route to submit the data to.', 'torro-forms' ),
+					'choices'     => array(),
+					'required'    => true,
+				),
+			),
+		);
+
+		return $meta_fields;
 	}
 
 	/**
@@ -180,11 +147,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 */
 	public function get_settings_sections() {
 		$settings_sections = parent::get_settings_sections();
-
-		$authentication_fields = $this->get_authentication_fields();
-		if ( empty( $authentication_fields ) ) {
-			return $settings_sections;
-		}
 
 		$settings_sections['authentication'] = array(
 			'title' => __( 'Authentication', 'torro-forms' ),
@@ -201,493 +163,415 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	public function get_settings_fields() {
-		$authentication_fields = $this->get_authentication_fields();
-		foreach ( $authentication_fields as $field_slug => $field_args ) {
-			$authentication_fields[ $field_slug ]['section'] = 'authentication';
-		}
+		$settings_fields = parent::get_settings_fields();
 
-		return array_merge( parent::get_settings_fields(), $authentication_fields );
-	}
+		$structure_choices = $this->get_available_structure_choices();
 
-	/**
-	 * Returns the element mappings for a given form ID.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $form_id Form ID.
-	 * @return array Multidimensional array, where the first level is `$element_id => $field_slugs` pairs and
-	 *               the second level is `$field_slug => $mapped_param` pairs.
-	 */
-	public final function get_mappings( $form_id ) {
-		$mappings = $this->module->manager()->meta()->get( 'post', $form_id, $this->module->manager()->get_prefix() . $this->slug . '_mappings', true );
+		$settings_fields['connections'] = array(
+			'section'     => 'authentication',
+			'type'        => 'group',
+			'label'       => __( 'Connections', 'torro-forms' ),
+			'description' => __( 'Add API connections that you can then use when setting up a form integration.', 'torro-forms' ),
+			'repeatable'  => true,
+			'fields'      => array(
+				'title'     => array(
+					'type'          => 'text',
+					'label'         => __( 'Title', 'torro-forms' ),
+					'description'   => __( 'Enter a title for that connection to be used internally. You can access that connection via that title.', 'torro-forms' ),
+					'input_classes' => array( 'regular-text' ),
+					'required'      => true,
+				),
+				'slug'      => array(
+					'type'    => 'text',
+					'label'   => __( 'Slug', 'torro-forms' ),
+					'display' => false,
+				),
+				'structure' => array(
+					'type'        => 'select',
+					'label'       => __( 'API Structure', 'torro-forms' ),
+					'description' => __( 'Select the API this connection applies to.', 'torro-forms' ),
+					'choices'     => $structure_choices,
+					'default'     => key( $structure_choices ),
+					'display'     => count( $structure_choices ) > 1,
+					'required'    => count( $structure_choices ) > 1,
+				),
+			),
+		);
 
-		if ( is_array( $mappings ) ) {
-			return $mappings;
-		}
-
-		return $mappings;
-	}
-
-	/**
-	 * Saves the element mappings for a given form.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int   $form_id     Form ID.
-	 * @param array $id_mappings Array of ID mappings from the elements that have just been saved.
-	 */
-	public final function save_mappings( $form_id, $id_mappings ) {
-		$mappings = array();
-
-		if ( isset( $_POST[ $this->module->manager()->get_prefix() . $this->slug . '_mappings' ] ) ) {
-			$element_map_fields = $this->get_element_map_fields();
-
-			$raw_mappings = wp_unslash( $_POST[ $this->module->manager()->get_prefix() . $this->slug . '_mappings' ] );
-
-			foreach ( $raw_mappings as $element_id => $field_slugs ) {
-				$real_fields = array();
-				foreach ( $field_slugs as $field_slug => $mapped_param ) {
-					if ( empty( $mapped_param ) ) {
-						continue;
-					}
-
-					if ( ! isset( $element_map_fields[ $mapped_param ] ) ) {
-						continue;
-					}
-
-					$real_fields[ $field_slug ] = $mapped_param;
-				}
-
-				if ( empty( $real_fields ) ) {
+		foreach ( static::get_registered_connection_types() as $connection_slug => $data ) {
+			foreach ( $data['authenticator_fields'] as $field_slug => $field_data ) {
+				if ( isset( $settings_fields['connections']['fields'][ $field_slug ] ) ) {
+					$settings_fields['connections']['fields'][ $field_slug ]['data-authenticator'] .= ',' . $connection_slug;
 					continue;
 				}
 
-				$real_element_id = isset( $id_mappings[ $element_id ] ) ? $id_mappings[ $element_id ] : $element_id;
+				// Display is handled via JS.
+				$field_data['display']            = false;
+				$field_data['required']           = false;
+				$field_data['data-authenticator'] = $connection_slug;
 
-				$mappings[ $real_element_id ] = $real_fields;
+				$settings_fields['connections']['fields'][ $field_slug ] = $field_data;
 			}
 		}
 
-		$this->module->manager()->meta()->update( 'post', $form_id, $this->module->manager()->get_prefix() . $this->slug . '_mappings', $mappings );
+		return $settings_fields;
 	}
 
 	/**
-	 * Registers the API-API hook for adding the necessary configuration data.
+	 * Gets the available connection choices.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array Connection choices as $value => $label pairs.
 	 */
-	public function register_config_data_hook() {
-		$this->module->apiapi()->hook_on( 'setup_config', function( $config ) {
-			$this->add_config_data( $config );
-		}, 5 );
+	public function get_available_connection_choices() {
+		$connections = $this->get_available_connections();
+
+		return array_map( function( $connection ) {
+			return $connection->get( 'title' );
+		}, $connections );
 	}
 
 	/**
-	 * Registers all assets the submodule provides.
+	 * Gets the available API connections stored.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Assets $assets The plugin assets instance.
+	 * @return array Array of $connection_slug => $connection pairs.
 	 */
-	public function register_assets( $assets ) {
-		if ( ! self::$script_registered ) {
-			$assets->register_script( 'admin-api-element-mapping', 'assets/dist/js/admin-api-element-mapping.js', array(
-				'deps'          => array( str_replace( '_', '-', $assets()->get_prefix() ) . 'admin-form-builder', 'jquery' ),
-				'in_footer'     => true,
-			) );
+	public function get_available_connections() {
+		$connections = array();
 
-			self::$script_registered = true;
-		}
-	}
+		$connection_types = static::get_registered_connection_types();
 
-	/**
-	 * Enqueues scripts and stylesheets on the form editing screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Assets $assets The plugin assets instance.
-	 */
-	public function enqueue_form_builder_assets( $assets ) {
-		$prefixed_script_handle = str_replace( '_', '-', $assets()->get_prefix() ) . 'admin-api-element-mapping';
-
-		if ( ! self::$script_enqueued ) {
-			$assets->enqueue_script( 'admin-api-element-mapping' );
-
-			wp_add_inline_script( $prefixed_script_handle, 'var torroAPIElementMappings = [];', 'before' );
-
-			self::$script_enqueued = true;
-		}
-
-		$form = null;
-		if ( ! empty( $_GET['post'] ) ) {
-			$form = $this->module->manager()->forms()->get( absint( $_GET['post'] ) );
-		}
-
-		$output = 'torroAPIElementMappings.push(' . wp_json_encode( $this->get_js_data( $form ) ) . ');';
-		wp_add_inline_script( $prefixed_script_handle, $output, 'before' );
-	}
-
-	/**
-	 * Processes a response from an API request for a submission.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Route_Response $response   API response object to process.
-	 * @param Route_Request  $request    Original API request object the response addresses.
-	 * @param Submission     $submission Submission for which the API request was made.
-	 * @param Form           $form       Form the submission applies to.
-	 * @return bool|WP_Error True on success, error object on failure.
-	 */
-	protected function process_response( $response, $request, $submission, $form ) {
-		// The default implementation is to simply return true.
-		return true;
-	}
-
-	/**
-	 * Processes an exception thrown by an API request for a submission.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Exception      $exception  Exception thrown by the API request.
-	 * @param Submission     $submission Submission for which the API request was made.
-	 * @param Form           $form       Form the submission applies to.
-	 * @return bool|WP_Error True on success, error object on failure.
-	 */
-	protected function process_error_response( $exception, $submission, $form ) {
-		// The default implementation simply transforms the exceptions into errors.
-		if ( is_a( $exception, APIAPIException::class ) ) {
-			/* translators: 1: name of the API, 2: error message */
-			return new WP_Error( 'apirequest_apiapi_exception', sprintf( __( 'An API error occurred while trying to call the %1$s API. Original error message: %2$s', 'torro-forms' ), $this->api()->get_title(), $exception->getMessage() ), $exception->getData() );
-		}
-
-		/* translators: 1: name of the API, 2: error message */
-		return new WP_Error( 'apirequest_exception', sprintf( __( 'An error occurred while trying to call the %1$s API. Original error message: %2$s', 'torro-forms' ), $this->api()->get_title(), $exception->getMessage() ) );
-	}
-
-	/**
-	 * Returns the API fields that an element can map to.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Associative array of `$field_slug => $field_args` pairs.
-	 */
-	protected abstract function get_element_map_fields();
-
-	/**
-	 * Returns the API fields that a meta value should exist for to map to.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Associative array of `$field_slug => $field_args` pairs.
-	 */
-	protected abstract function get_meta_map_fields();
-
-	/**
-	 * Returns all fields for request parameters.
-	 *
-	 * This method can be used by the get_element_map_fields() and get_meta_map_fields() methods
-	 * to get the full list and then filter the parameter fields that should be mappable.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Associative array of `$field_slug => $field_args` pairs.
-	 */
-	protected function get_parameter_fields() {
-		$structure = $this->api_structure();
-		$route     = $this->api_route();
-		$method    = $this->api_request_method;
-
-		$mode = $this->api()->get_mode();
-
-		$params = array_merge( $structure->get_base_uri_params( $mode ), $route->get_method_params( $method ) );
-
-		$fields = array();
-		foreach ( $params as $param => $param_info ) {
-			if ( ! empty( $param_info['internal'] ) ) {
+		foreach ( $this->get_option( 'connections', array() ) as $connection ) {
+			if ( empty( $connection['structure'] ) ) {
 				continue;
 			}
 
-			$field = array(
-				'label'       => $param,
-				'description' => $param_info['description'],
-				'default'     => $param_info['default'],
-				'required'    => $param_info['required'],
-			);
-
-			switch ( $param_info['type'] ) {
-				case 'boolean':
-					$field['type'] = 'checkbox';
-					break;
-				case 'float':
-				case 'number':
-					$field['type'] = 'number';
-					$field['step'] = 0.001;
-					break;
-				case 'integer':
-					$field['type'] = 'number';
-					$field['step'] = 1;
-					break;
-				case 'array':
-					if ( ! empty( $param_info['enum'] ) ) {
-						$field['type']    = 'multiselect';
-						$field['choices'] = array_combine( $param_info['enum'], $param_info['enum'] );
-					} elseif ( ! empty( $param_info['items']['enum'] ) ) {
-						$field['type']    = 'multiselect';
-						$field['choices'] = array_combine( $param_info['items']['enum'], $param_info['items']['enum'] );
-					} elseif ( ! empty( $param_info['items']['type'] ) ) {
-						$field['repeatable'] = true;
-						switch ( $param_info['items']['type'] ) {
-							case 'boolean':
-								$field['type'] = 'checkbox';
-								break;
-							case 'float':
-							case 'number':
-								$field['type'] = 'number';
-								$field['step'] = 0.001;
-								break;
-							case 'integer':
-								$field['type'] = 'number';
-								$field['step'] = 1;
-								break;
-							case 'string':
-							default:
-								$field['type'] = 'text';
-						}
-					} else {
-						$field['type']       = 'text';
-						$field['repeatable'] = true;
-					}
-					break;
-				case 'string':
-				default:
-					if ( ! empty( $param_info['enum'] ) ) {
-						$field['type']    = 'select';
-						$field['choices'] = array_combine( $param_info['enum'], $param_info['enum'] );
-					} else {
-						$field['type'] = 'text';
-					}
+			$structure = $this->api_structure( $connection['structure'] );
+			if ( ! $structure ) {
+				continue;
 			}
 
-			$fields[ $param ] = $field;
+			$authenticator = $structure->get_authenticator();
+
+			if ( empty( $authenticator ) ) {
+				continue;
+			}
+
+			if ( empty( $connection_types[ $authenticator ] ) ) {
+				continue;
+			}
+
+			$connection_class = $connection_types[ $authenticator ]['class'];
+
+			$connection = new $connection_class( $connection );
+
+			$connections[ $connection->get( 'slug' ) ] = $connection;
 		}
 
-		return $fields;
+		return $connections;
 	}
 
 	/**
-	 * Returns the settings fields for the API's authentication data.
+	 * Gets the available structure choices.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return array Associative array of `$field_slug => $field_args` pairs.
+	 * @return array Structure choices as $value => $label pairs.
 	 */
-	protected function get_authentication_fields() {
-		$authenticator = $this->api()->get_authenticator();
+	public function get_available_structure_choices() {
+		$structures = $this->get_available_structures();
 
-		// TODO: Use authentication data to detect what has been set programmatically.
-		$authenticator_defaults = $this->api()->get_authentication_data_defaults();
-
-		$title = $this->api()->get_title();
-
-		$fields = array();
-
-		switch ( $authenticator ) {
-			case 'oauth1':
-				$fields = array(
-					'consumer_key'    => array(
-						'type'        => 'text',
-						'label'       => __( 'API Consumer Key', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the consumer key for the %s API.', 'torro-forms' ), $title ),
-					),
-					'consumer_secret' => array(
-						'type'        => 'text',
-						'label'       => __( 'API Consumer Secret', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the consumer secret for the %s API.', 'torro-forms' ), $title ),
-					),
-				);
-				break;
-			case 'x':
-				if ( empty( $authenticator_defaults['header_name'] ) ) {
-					$fields['header_name'] = array(
-						'type'        => 'text',
-						'label'       => __( 'Authorization Header Name', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the name of the authorization header that is sent to verify %s API requests. It will be prefixed with &#8220;X-&#8221;.', 'torro-forms' ), $title ),
-						'default'     => 'Authorization',
-					);
-				}
-				$fields['token'] = array(
-					'type'        => 'text',
-					'label'       => __( 'Authorization Token', 'torro-forms' ),
-					/* translators: %s: an API title */
-					'description' => sprintf( __( 'Enter the authorization token for the %s API.', 'torro-forms' ), $title ),
-				);
-				break;
-			case 'x-account':
-				if ( empty( $authenticator_defaults['placeholder_name'] ) ) {
-					$fields['placeholder_name'] = array(
-						'type'        => 'text',
-						'label'       => __( 'Account Placeholder Name', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the name of the placeholder in the URI used to verify %s API requests.', 'torro-forms' ), $title ),
-						'default'     => 'account',
-					);
-				}
-				$fields['account'] = array(
-					'type'        => 'text',
-					'label'       => __( 'Account Identifier', 'torro-forms' ),
-					/* translators: %s: an API title */
-					'description' => sprintf( __( 'Enter the account identifier for the %s API.', 'torro-forms' ), $title ),
-				);
-				if ( empty( $authenticator_defaults['header_name'] ) ) {
-					$fields['header_name'] = array(
-						'type'        => 'text',
-						'label'       => __( 'Authorization Header Name', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the name of the authorization header that is sent to verify %s API requests. It will be prefixed with &#8220;X-&#8221;.', 'torro-forms' ), $title ),
-						'default'     => 'Authorization',
-					);
-				}
-				$fields['token'] = array(
-					'type'        => 'text',
-					'label'       => __( 'Authorization Token', 'torro-forms' ),
-					/* translators: %s: an API title */
-					'description' => sprintf( __( 'Enter the authorization token for the %s API.', 'torro-forms' ), $title ),
-				);
-				break;
-			case 'basic':
-				$fields = array(
-					'username' => array(
-						'type'        => 'text',
-						'label'       => __( 'API Username', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the username for the %s API.', 'torro-forms' ), $title ),
-					),
-					'password' => array(
-						'type'        => 'text',
-						'label'       => __( 'API Password', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the password for the %s API.', 'torro-forms' ), $title ),
-					),
-				);
-				break;
-			case 'key':
-				if ( empty( $authenticator_defaults['parameter_name'] ) ) {
-					$fields['parameter_name'] = array(
-						'type'        => 'text',
-						'label'       => __( 'API Key Parameter Name', 'torro-forms' ),
-						/* translators: %s: an API title */
-						'description' => sprintf( __( 'Enter the name of the request parameter that is sent to verify %s API requests.', 'torro-forms' ), $title ),
-						'default'     => 'key',
-					);
-				}
-				$fields['key'] = array(
-					'type'        => 'text',
-					'label'       => __( 'API Key', 'torro-forms' ),
-					/* translators: %s: an API title */
-					'description' => sprintf( __( 'Enter the API key for the %s API.', 'torro-forms' ), $title ),
-				);
-				break;
-		}
-
-		return $fields;
+		return array_map( function( $data ) {
+			return $data['title'];
+		}, $structures );
 	}
 
 	/**
-	 * Returns API action data to pass to the script file.
+	 * Gets the available route choices for a given structure.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Form|null $form Optional. Form for which to generate the data. Default null.
-	 * @return array Data to pass to JavaScript.
+	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
+	 * @return array Route choices as $value => $label pairs.
 	 */
-	protected final function get_js_data( $form = null ) {
-		return array(
-			'actionSlug'   => $this->slug,
-			'mappingsName' => $this->module->manager()->get_prefix() . $this->slug . '_mappings',
-			'metaName'     => $this->get_meta_identifier(),
-			'mapFields'    => $this->get_element_map_fields(),
-			'enabled'      => $form ? $this->enabled( $form ) : false,
-			'mappings'     => $form ? $this->get_mappings( $form->id ) : array(),
-		);
+	public function get_available_route_choices( $structure_slug = null ) {
+		$structures = $this->get_available_structures();
+
+		if ( null === $structure_slug ) {
+			$structure_slug = key( $structures );
+		} elseif ( ! isset( $structures[ $structure_slug ] ) ) {
+			return array();
+		}
+
+		return $structures[ $structure_slug ]['routes'];
 	}
 
 	/**
-	 * Adds the necessary API-API configuration data.
+	 * Gets the available API structures with their routes.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param APIAPI_Config $config The plugin's API-API configuration.
+	 * @return Associative array of $structure_slug => $data pairs.
 	 */
-	protected function add_config_data( $config ) {
-		$authentication_fields = $this->get_authentication_fields();
-		if ( empty( $authentication_fields ) ) {
-			return;
+	public function get_available_structures() {
+		if ( ! isset( $this->available_structures ) ) {
+			$this->available_structures = $this->get_available_structures_and_routes();
+
+			$this->validate_available_structures();
 		}
 
-		$options = $this->get_options();
-
-		$authentication_data = array_filter( array_intersect_key( $options, $authentication_fields ) );
-		if ( empty( $authentication_data ) ) {
-			return;
-		}
-
-		$config_key = $this->api_structure()->get_config_key();
-
-		if ( $config->exists( $config_key, 'authentication_data' ) ) {
-			$authentication_data = array_merge( (array) $config->get( $config_key, 'authentication_data' ), $authentication_data );
-		}
-
-		$config->set( $config_key, 'authentication_data', $authentication_data );
+		return $this->available_structures;
 	}
 
 	/**
-	 * Returns the API structure this action uses.
+	 * Gets an API structure.
 	 *
 	 * The API structure is not scoped for the plugin. If you need the configured variant of the API,
 	 * use the api() method. If you don't though, this method is more efficient to use then.
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return Structure The API structure.
 	 */
-	protected function api_structure() {
-		if ( null === $this->lazyloaded_api_structure ) {
-			$this->lazyloaded_api_structure = apiapi_manager()->structures()->get( $this->api_structure_name );
+	public final function api_structure( $structure_slug = null ) {
+		if ( null === $structure_slug ) {
+			$structures     = $this->get_available_structure_choices();
+			$structure_slug = key( $structures );
 		}
 
-		return $this->lazyloaded_api_structure;
+		if ( ! isset( $this->structure_instances[ $structure_slug ] ) ) {
+			$this->structure_instances[ $structure_slug ] = apiapi_manager()->structures()->get( $structure_slug );
+		}
+
+		return $this->structure_instances[ $structure_slug ];
 	}
 
 	/**
-	 * Returns the API route this action uses.
+	 * Gets an API route for a structure.
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $route_slug     Optional. Route identifier. Default is the first available route that is part of $structure_slug.
+	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return Route The API route.
 	 */
-	protected function api_route() {
-		if ( null === $this->lazyloaded_api_route ) {
-			$this->lazyloaded_api_route = $this->api_structure()->get_route_object( $this->api_route_uri );
+	public final function api_route( $route_slug = null, $structure_slug = null ) {
+		$structure = $this->api_structure( $structure_slug );
+
+		if ( null === $route_slug ) {
+			$routes     = $this->get_available_route_choices( $structure->get_name() );
+			$route_slug = key( $routes );
 		}
 
-		return $this->lazyloaded_api_route;
+		return $structure->get_route_object( $route_slug );
 	}
 
 	/**
-	 * Returns the configured API instance this action uses.
+	 * Gets a configured API instance for an API structure.
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return API The configured API instance.
 	 */
-	protected function api() {
-		if ( null === $this->lazyloaded_api ) {
-			$this->lazyloaded_api = $this->module->apiapi()->get_api_object( $this->api_structure_name );
+	public final function api( $structure_slug = null ) {
+		if ( null === $structure_slug ) {
+			$structures     = $this->get_available_structure_choices();
+			$structure_slug = key( $structures );
 		}
 
-		return $this->lazyloaded_api;
+		if ( ! isset( $this->structure_api_instances[ $structure_slug ] ) ) {
+			$this->structure_api_instances[ $structure_slug ] = $this->module->apiapi()->get_api_object( $structure_slug );
+		}
+
+		return $this->structure_api_instances[ $structure_slug ];
+	}
+
+	/**
+	 * Validates the available structures with their routes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @throws Exception Thrown when a validation error occurs.
+	 */
+	protected function validate_available_structures() {
+		if ( empty( $this->available_structures ) || ! is_array( $this->available_structures ) ) {
+			/* translators: %s: API action title */
+			throw new Exception( sprintf( __( 'No available structures set for API action %s.', 'torro-forms' ), $this->title ) );
+		}
+
+		foreach ( $this->available_structures as $structure_slug => $data ) {
+			if ( ! is_array( $data ) || empty( $data['title'] ) || empty( $data['routes'] ) ) {
+				/* translators: 1: API action title, 2: API structure slug */
+				throw new Exception( sprintf( __( 'Invalid or incomplete data set for API action %1$s and structure %2$s.', 'torro-forms' ), $this->title, $structure_slug ) );
+			}
+		}
+	}
+
+	/**
+	 * Gets the available API structures and their routes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array Associative array of $structure_slug => $data pairs. $data must be an associative array with keys
+	 *               'title' and 'routes'. 'routes' must be an associative array of $route_slug => $route_title pairs.
+	 */
+	protected abstract function get_available_structures_and_routes();
+
+	/**
+	 * Gets the registered connection types.
+	 *
+	 * @since 1.0.0
+	 * @static
+	 *
+	 * @return array Associative array of $connection_slug => $data pairs. $data has a 'class' key containing the
+	 *               class name to use for connections of that type, and 'authenticator_fields' is an associative
+	 *               array of $field_slug => $field_definition pairs.
+	 */
+	public static function get_registered_connection_types() {
+		return array(
+			'oauth2'    => array(
+				'class'                => OAuth2_Connection::class,
+				'authenticator_fields' => array(
+					'consumer_key'    => array(
+						'type'          => 'text',
+						'label'         => __( 'Consumer Key', 'torro-forms' ),
+						'description'   => __( 'Enter the consumer key for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'consumer_secret' => array(
+						'type'          => 'text',
+						'label'         => __( 'Consumer Secret', 'torro-forms' ),
+						'description'   => __( 'Enter the consumer secret for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'token'           => array(
+						'type'          => 'text',
+						'label'         => __( 'Token', 'torro-forms' ),
+						'description'   => __( 'Enter the token for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'token_secret'    => array(
+						'type'          => 'text',
+						'label'         => __( 'Token Secret', 'torro-forms' ),
+						'description'   => __( 'Enter the token secret for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+				),
+			),
+			'oauth1'    => array(
+				'class'                => OAuth1_Connection::class,
+				'authenticator_fields' => array(
+					'consumer_key'    => array(
+						'type'          => 'text',
+						'label'         => __( 'Consumer Key', 'torro-forms' ),
+						'description'   => __( 'Enter the consumer key for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'consumer_secret' => array(
+						'type'          => 'text',
+						'label'         => __( 'Consumer Secret', 'torro-forms' ),
+						'description'   => __( 'Enter the consumer secret for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'token'           => array(
+						'type'          => 'text',
+						'label'         => __( 'Token', 'torro-forms' ),
+						'description'   => __( 'Enter the token for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'token_secret'    => array(
+						'type'          => 'text',
+						'label'         => __( 'Token Secret', 'torro-forms' ),
+						'description'   => __( 'Enter the token secret for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+				),
+			),
+			'x-account' => array(
+				'class'                => X_Account_Connection::class,
+				'authenticator_fields' => array(
+					'placeholder_name' => array(
+						'type'        => 'text',
+						'label'       => __( 'Account Placeholder Name', 'torro-forms' ),
+						'description' => __( 'Enter the name of the placeholder in the URI used to verify API requests.', 'torro-forms' ),
+						'default'     => 'account',
+					),
+					'account'          => array(
+						'type'          => 'text',
+						'label'         => __( 'Account Identifier', 'torro-forms' ),
+						'description'   => __( 'Enter the account identifier for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'header_name'      => array(
+						'type'        => 'text',
+						'label'       => __( 'Authorization Header Name', 'torro-forms' ),
+						'description' => __( 'Enter the name of the authorization header that is sent to verify API requests. It will be prefixed with &#8220;X-&#8221;.', 'torro-forms' ),
+						'default'     => 'Authorization',
+					),
+					'token'            => array(
+						'type'          => 'text',
+						'label'         => __( 'Authorization Token', 'torro-forms' ),
+						'description'   => __( 'Enter the authorization token for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+				),
+			),
+			'x'         => array(
+				'class'                => X_Connection::class,
+				'authenticator_fields' => array(
+					'header_name' => array(
+						'type'        => 'text',
+						'label'       => __( 'Authorization Header Name', 'torro-forms' ),
+						'description' => __( 'Enter the name of the authorization header that is sent to verify API requests. It will be prefixed with &#8220;X-&#8221;.', 'torro-forms' ),
+						'default'     => 'Authorization',
+					),
+					'token'       => array(
+						'type'          => 'text',
+						'label'         => __( 'Authorization Token', 'torro-forms' ),
+						'description'   => __( 'Enter the authorization token for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+				),
+			),
+			'basic'     => array(
+				'class'                => Basic_Connection::class,
+				'authenticator_fields' => array(
+					'username' => array(
+						'type'          => 'text',
+						'label'         => __( 'Username', 'torro-forms' ),
+						'description'   => __( 'Enter the username for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+					'password' => array(
+						'type'          => 'text',
+						'label'         => __( 'Password', 'torro-forms' ),
+						'description'   => __( 'Enter the password for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+				),
+			),
+			'key'       => array(
+				'class'                => Key_Connection::class,
+				'authenticator_fields' => array(
+					'parameter_name' => array(
+						'type'        => 'text',
+						'label'       => __( 'API Key Parameter Name', 'torro-forms' ),
+						'description' => __( 'Enter the name of the request parameter that is sent to verify API requests.', 'torro-forms' ),
+						'default'     => 'key',
+					),
+					'key'            => array(
+						'type'          => 'text',
+						'label'         => __( 'API Key', 'torro-forms' ),
+						'description'   => __( 'Enter the API key for the API.', 'torro-forms' ),
+						'input_classes' => array( 'regular-text' ),
+					),
+				),
+			),
+		);
 	}
 }

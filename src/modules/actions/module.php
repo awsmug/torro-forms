@@ -101,43 +101,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	}
 
 	/**
-	 * Saves the API mappings for the elements of a given form.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param Form  $form     Form that has been saved.
-	 * @param array $mappings Array of ID mappings from the objects that have been saved.
-	 */
-	protected function save_api_mappings( $form, $id_mappings ) {
-		foreach ( $this->submodules as $slug => $action ) {
-			if ( ! is_a( $action, API_Action_Interface::class ) ) {
-				continue;
-			}
-
-			if ( ! $action->enabled( $form ) ) {
-				continue;
-			}
-
-			$action->save_mappings( $form->id, $id_mappings['elements'] );
-		}
-	}
-
-	/**
-	 * Registers the hooks for the API-API configuration data.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function register_api_config_data_hook() {
-		foreach ( $this->submodules as $slug => $action ) {
-			if ( ! is_a( $action, API_Action_Interface::class ) ) {
-				continue;
-			}
-
-			$action->register_config_data_hook();
-		}
-	}
-
-	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0
@@ -155,18 +118,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			'name'     => 'init',
 			'callback' => array( $this, 'register_defaults' ),
 			'priority' => 100,
-			'num_args' => 0,
-		);
-		$this->actions[] = array(
-			'name'     => "{$this->get_prefix()}save_form",
-			'callback' => array( $this, 'save_api_mappings' ),
-			'priority' => 10,
-			'num_args' => 2,
-		);
-		$this->actions[] = array(
-			'name'     => 'init',
-			'callback' => array( $this, 'register_api_config_data_hook' ),
-			'priority' => 200,
 			'num_args' => 0,
 		);
 	}
