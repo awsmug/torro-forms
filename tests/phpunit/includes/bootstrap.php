@@ -13,12 +13,14 @@ if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
 }
 
-$GLOBALS['wp_tests_options'] = array(
-	'active_plugins' => array( 'torro-forms/torro-forms.php' ),
-);
+if ( empty( $GLOBALS['wp_tests_options']['active_plugins'] ) ) {
+	$GLOBALS['wp_tests_options'] = array(
+		'active_plugins' => array( 'torro-forms/torro-forms.php' ),
+	);
+}
 
 function _manually_load_plugin() {
-	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/torro-forms.php';
+	require '../../../torro-forms.php';
 }
 
 if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
@@ -38,7 +40,11 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 require_once $test_root . '/includes/functions.php';
 
 if ( $_manual_load ) {
+	define( 'TORRO_MANUAL_LOAD', true );
+
 	tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+} else {
+	define( 'TORRO_MANUAL_LOAD', false );
 }
 
 require $test_root . '/includes/bootstrap.php';
