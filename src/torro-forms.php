@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
  * @method awsmug\Torro_Forms\Components\Form_Upload_Manager                        form_uploads()
  * @method awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager               template_tag_handlers()
  * @method Leaves_And_Love\Plugin_Lib\Components\Admin_Pages                        admin_pages()
- * @method Leaves_And_Love\Plugin_Lib\Components\Extensions                         extensions()
+ * @method awsmug\Torro_Forms\Components\Extensions                                 extensions()
  * @method awsmug\Torro_Forms\Modules\Module_Manager                                modules()
  * @method Leaves_And_Love\Plugin_Lib\Options                                       options()
  * @method Leaves_And_Love\Plugin_Lib\Cache                                         cache()
@@ -151,7 +151,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * The Extensions instance.
 	 *
 	 * @since 1.0.0
-	 * @var Leaves_And_Love\Plugin_Lib\Components\Extensions
+	 * @var awsmug\Torro_Forms\Components\Extensions
 	 */
 	protected $extensions;
 
@@ -519,7 +519,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'error_handler' => $this->error_handler,
 		) );
 
-		$this->extensions = $this->instantiate_library_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
+		$this->extensions = $this->instantiate_plugin_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
 		$this->extensions->set_plugin( $this );
 
 		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
