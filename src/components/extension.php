@@ -17,6 +17,6 @@ use Leaves_And_Love\Plugin_Lib\Components\Extension as Extension_Base;
  *
  * @since 1.0.0
  */
-class Extension extends Extension_Base {
+abstract class Extension extends Extension_Base {
 
 }
