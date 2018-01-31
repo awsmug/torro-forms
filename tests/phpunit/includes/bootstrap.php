@@ -20,7 +20,7 @@ if ( empty( $GLOBALS['wp_tests_options']['active_plugins'] ) ) {
 }
 
 function _manually_load_plugin() {
-	require '../../../torro-forms.php';
+	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/torro-forms.php';
 }
 
 if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
@@ -33,7 +33,7 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	$test_root    = '/tmp/wordpress-tests-lib';
 	$_manual_load = true;
 } else {
-	$test_root    = '../../../../../../tests/phpunit';
+	$test_root    = dirname( dirname( dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) ) ) . '/tests/phpunit';
 	$_manual_load = false;
 }
 
