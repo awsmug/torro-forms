@@ -1,0 +1,48 @@
+{
+  "name": "plugin-lib",
+  "version": "1.0.0",
+  "description": "Reusable library for all kinds of WordPress plugins.",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "library"
+  ],
+  "author": {
+    "name": "Felix Arntz",
+    "email": "felix-arntz@leaves-and-love.net",
+    "url": "https://leaves-and-love.net"
+  },
+  "homepage": "https://github.com/felixarntz/plugin-lib",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/felixarntz/plugin-lib.git"
+  },
+  "bugs": {
+    "url": "https://github.com/felixarntz/plugin-lib/issues"
+  },
+  "license": "GPL-2.0-or-later",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "dependencies": {
+    "jquery-datetimepicker": "^2.5.4",
+    "select2": "^4.0.3",
+    "wp-media-picker": "^0.6.0",
+    "wp-map-picker": "^0.7.0"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.1",
+    "gulp-sass": "~3.1.0",
+    "gulp-csscomb": "~3.0.8",
+    "gulp-clean-css": "~2.3.2",
+    "jshint": "~2.9.4",
+    "gulp-jshint": "~2.0.4",
+    "gulp-concat": "~2.6.1",
+    "gulp-uglify": "~2.0.1",
+    "gulp-util": "~3.0.8",
+    "gulp-rename": "~1.2.2",
+    "gulp-replace": "~0.5.4",
+    "gulp-sort": "~2.0.0",
+    "gulp-banner": "~0.1.3"
+  }
+}

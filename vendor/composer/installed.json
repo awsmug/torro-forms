@@ -1,0 +1,454 @@
+[
+    {
+        "name": "composer/installers",
+        "version": "v1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/installers.git",
+            "reference": "049797d727261bf27f2690430d935067710049c2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/composer/installers/zipball/049797d727261bf27f2690430d935067710049c2",
+            "reference": "049797d727261bf27f2690430d935067710049c2",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "^4.8.36"
+        },
+        "time": "2017-12-29T09:13:20+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Composer\\Installers\\Plugin",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\Installers\\": "src/Composer/Installers"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "https://composer.github.io/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Eliasis",
+            "Hurad",
+            "ImageCMS",
+            "Kanboard",
+            "Lan Management System",
+            "MODX Evo",
+            "Mautic",
+            "Maya",
+            "OXID",
+            "Plentymarkets",
+            "Porto",
+            "RadPHP",
+            "SMF",
+            "Thelia",
+            "WolfCMS",
+            "agl",
+            "aimeos",
+            "annotatecms",
+            "attogram",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "cockpit",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "dokuwiki",
+            "drupal",
+            "eZ Platform",
+            "elgg",
+            "expressionengine",
+            "fuelphp",
+            "grav",
+            "installer",
+            "itop",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lavalite",
+            "lithium",
+            "magento",
+            "majima",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "modx",
+            "moodle",
+            "osclass",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "pxcms",
+            "reindex",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "sydes",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "yawik",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "felixarntz/plugin-lib",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/felixarntz/plugin-lib.git",
+            "reference": "fc01bae49472dd713e4a48781bcb6134f799b763"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/fc01bae49472dd713e4a48781bcb6134f799b763",
+            "reference": "fc01bae49472dd713e4a48781bcb6134f799b763",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "dev-master",
+            "phpmd/phpmd": "*",
+            "phpunit/phpunit": ">4.8.20 <6.0",
+            "sebastian/phpcpd": "*",
+            "wp-coding-standards/wpcs": "*"
+        },
+        "time": "2018-01-31T16:25:00+00:00",
+        "type": "wordpress-muplugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "Reusable library for all kinds of WordPress plugins.",
+        "homepage": "https://leaves-and-love.net",
+        "keywords": [
+            "library",
+            "plugin",
+            "wordpress"
+        ]
+    },
+    {
+        "name": "api-api/core",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/core.git",
+            "reference": "e661f9d764a418a7f8578e84ebc1505ac67b29f3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/core/zipball/e661f9d764a418a7f8578e84ebc1505ac67b29f3",
+            "reference": "e661f9d764a418a7f8578e84ebc1505ac67b29f3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6.0"
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "dev-master",
+            "phpunit/phpunit": "5.7.23"
+        },
+        "time": "2018-02-06T16:31:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Core\\": "src/Core/"
+            },
+            "files": [
+                "src/api-api.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "A library of API components to interact with external APIs.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api",
+            "api-api",
+            "client",
+            "library",
+            "request",
+            "rest"
+        ]
+    },
+    {
+        "name": "api-api/storage-wordpress-option",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/storage-wordpress-option.git",
+            "reference": "b97f7037c55e21bc1aa6a0b076c3b5f8edd03712"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/storage-wordpress-option/zipball/b97f7037c55e21bc1aa6a0b076c3b5f8edd03712",
+            "reference": "b97f7037c55e21bc1aa6a0b076c3b5f8edd03712",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26T09:59:33+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Storage_WordPress_Option\\": "src/Storage_WordPress_Option/"
+            },
+            "files": [
+                "src/storage-wordpress-option.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Storage implementation using WordPress options.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "storage",
+            "storage-wordpress-option"
+        ]
+    },
+    {
+        "name": "api-api/transporter-wordpress",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/transporter-wordpress.git",
+            "reference": "d374641c48320dee8d1887f357c11449e6a36a0b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/transporter-wordpress/zipball/d374641c48320dee8d1887f357c11449e6a36a0b",
+            "reference": "d374641c48320dee8d1887f357c11449e6a36a0b",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26T10:01:16+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Transporter_WordPress\\": "src/Transporter_WordPress/"
+            },
+            "files": [
+                "src/transporter-wordpress.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Transporter implementation for WordPress.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "transporter",
+            "transporter-wordpress"
+        ]
+    },
+    {
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-05-01T07:00:55+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://blog.rootslabs.net"
+            },
+            {
+                "name": "Erik Tilt"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "http://phpexcel.codeplex.com",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ],
+        "abandoned": "phpoffice/phpspreadsheet"
+    },
+    {
+        "name": "psr/log",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-10-10T12:19:37+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    }
+]
