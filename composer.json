@@ -53,13 +53,14 @@
     "wimg/php-compatibility": "^8"
   },
   "scripts":     {
+    "config-phpcs": [
+      "vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs"
+    ],
     "post-install-cmd": [
-      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../..",
-      "if [ $COMPOSER_DEV_MODE -eq 1 ]; then vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs; fi"
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
     ],
     "post-update-cmd": [
-      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../..",
-      "if [ $COMPOSER_DEV_MODE -eq 1 ]; then vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs; fi"
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
     ]
   },
   "extra": {
