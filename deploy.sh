@@ -107,6 +107,7 @@ echo "Done."
 printf "Ignoring GitHub specific files and deployment script..."
 svn propset --quiet svn:ignore ".codeclimate.yml
 .git
+.github
 .gitignore
 .jscsrc
 .jshintrc
@@ -126,6 +127,7 @@ node_modules/c3/src
 node_modules/d3/bin
 node_modules/d3/src
 package.json
+package-lock.json
 phpcs.xml
 phpmd.xml
 phpunit.xml
