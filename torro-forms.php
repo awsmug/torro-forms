@@ -37,10 +37,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function torro() {
 	if ( ! class_exists( 'Torro_Forms' ) ) {
-		$main_file = __FILE__;
+		$main_file        = __FILE__;
 		$basedir_relative = '';
 
-		$file = wp_normalize_path( $main_file );
+		$file          = wp_normalize_path( $main_file );
 		$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 		if ( preg_match( '#^' . preg_quote( $mu_plugin_dir, '#' ) . '/#', $file ) && file_exists( $mu_plugin_dir . '/torro-forms.php' ) ) {
 			$basedir_relative = 'torro-forms/';

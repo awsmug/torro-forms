@@ -94,7 +94,7 @@ class Error extends WP_Error {
 	 * @param string $access_message Message about how the error handler was triggered.
 	 */
 	protected function handle_error( $access_message ) {
-		$data = $this->get_error_data();
+		$data    = $this->get_error_data();
 		$message = $this->get_error_message() . ' ' . $access_message;
 
 		torro()->error_handler()->doing_it_wrong( $data['method'], $message, $data['version'] );

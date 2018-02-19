@@ -101,21 +101,21 @@ class Timerange extends Access_Control {
 
 		unset( $meta_fields['enabled'] );
 
-		$meta_fields['start'] = array(
+		$meta_fields['start']                  = array(
 			'type'         => 'datetime',
 			'label'        => __( 'Start Date', 'torro-forms' ),
 			'description'  => __( 'Select the date this form should be opened.', 'torro-forms' ),
 			'store'        => 'datetime',
 			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
-		$meta_fields['end'] = array(
+		$meta_fields['end']                    = array(
 			'type'         => 'datetime',
 			'label'        => __( 'End Date', 'torro-forms' ),
 			'description'  => __( 'Select the date this form should be closed.', 'torro-forms' ),
 			'store'        => 'datetime',
 			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
-		$meta_fields['not_yet_open_message'] = array(
+		$meta_fields['not_yet_open_message']   = array(
 			'type'          => 'text',
 			'label'         => __( '&#8220;Not yet open&#8221; Message', 'torro-forms' ),
 			'description'   => __( 'Enter the message to show to the user in case the form is not yet open to submissions.', 'torro-forms' ),

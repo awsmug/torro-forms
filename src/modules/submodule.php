@@ -111,5 +111,5 @@ abstract class Submodule {
 	 *
 	 * @since 1.0.0
 	 */
-	protected abstract function bootstrap();
+	abstract protected function bootstrap();
 }

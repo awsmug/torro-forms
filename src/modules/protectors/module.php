@@ -34,7 +34,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->description = __( 'Protectors increase security by preventing your form from spam.', 'torro-forms' );
 
 		$this->submodule_base_class = Protector::class;
-		$this->default_submodules = array(
+		$this->default_submodules   = array(
 			'recaptcha' => reCAPTCHA::class,
 			'honeypot'  => Honeypot::class,
 			'timetrap'  => Timetrap::class,

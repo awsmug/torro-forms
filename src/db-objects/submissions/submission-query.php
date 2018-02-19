@@ -28,16 +28,14 @@ class Submission_Query extends Query {
 	public function __construct( $manager ) {
 		parent::__construct( $manager );
 
-		$this->query_var_defaults['orderby'] = array(
-			'timestamp' => 'DESC',
-		);
-		$this->query_var_defaults['form_id'] = '';
-		$this->query_var_defaults['user_id'] = '';
-		$this->query_var_defaults['remote_addr'] = '';
-		$this->query_var_defaults['user_key'] = '';
+		$this->query_var_defaults['orderby']             = array( 'timestamp' => 'DESC' );
+		$this->query_var_defaults['form_id']             = '';
+		$this->query_var_defaults['user_id']             = '';
+		$this->query_var_defaults['remote_addr']         = '';
+		$this->query_var_defaults['user_key']            = '';
 		$this->query_var_defaults['user_identification'] = '';
-		$this->query_var_defaults['status']  = '';
-		$this->query_var_defaults['timestamp'] = '';
+		$this->query_var_defaults['status']              = '';
+		$this->query_var_defaults['timestamp']           = '';
 	}
 
 	/**
@@ -69,7 +67,7 @@ class Submission_Query extends Query {
 				}
 
 				$user_identification[] = "%{$table_name}%.{$user_identification_field} = %s";
-				$args[] = $this->query_vars['user_identification'][ $user_identification_field ];
+				$args[]                = $this->query_vars['user_identification'][ $user_identification_field ];
 			}
 
 			if ( ! empty( $user_identification ) ) {
@@ -100,7 +98,7 @@ class Submission_Query extends Query {
 				}
 			} else {
 				$where['timestamp'] = "%{$table_name}%.timestamp = %d";
-				$args[] = absint( $this->query_vars['timestamp'] );
+				$args[]             = absint( $this->query_vars['timestamp'] );
 			}
 		}
 

@@ -77,8 +77,8 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$query_params = parent::get_collection_params();
 
 		$query_params['per_page']['maximum'] = 500;
-		$query_params['orderby']['default'] = 'timestamp';
-		$query_params['order']['default'] = 'desc';
+		$query_params['orderby']['default']  = 'timestamp';
+		$query_params['order']['default']    = 'desc';
 
 		$query_params['status'] = array(
 			'description'       => __( 'Limit result set to forms with one or more specific statuses.', 'torro-forms' ),
@@ -165,7 +165,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 	public function sanitize_status_param( $statuses, $request, $parameter ) {
 		$statuses = wp_parse_slug_list( $statuses );
 
-		$attributes = $request->get_attributes();
+		$attributes     = $request->get_attributes();
 		$default_status = $attributes['args']['status']['default'];
 
 		foreach ( $statuses as $status ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * reCAPTCHA protector class
+ * Google reCAPTCHA protector class
  *
  * @package TorroForms
  * @since 1.0.0
@@ -18,7 +18,7 @@ use Exception;
  *
  * @since 1.0.0
  */
-class reCAPTCHA extends Protector {
+class reCAPTCHA extends Protector { // @codingStandardsIgnoreLine
 
 	/**
 	 * Internal flag for whether the reCAPTCHA script has been hooked in.
@@ -34,9 +34,8 @@ class reCAPTCHA extends Protector {
 	 * @since 1.0.0
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'recaptcha';
-		$this->title       = __( 'reCAPTCHA', 'torro-forms' );
-		// $this->description = __( 'Uses Google reCAPTCHA service to filter out spam.', 'torro-forms' );
+		$this->slug  = 'recaptcha';
+		$this->title = __( 'reCAPTCHA', 'torro-forms' );
 	}
 
 	/**
@@ -50,11 +49,11 @@ class reCAPTCHA extends Protector {
 	 * @return bool|WP_Error True if request is not spammy, false or error object otherwise.
 	 */
 	public function verify_request( $data, $form, $submission = null ) {
-		if ( empty( $_POST['g-recaptcha-response'] ) ) {
+		if ( empty( $_POST['g-recaptcha-response'] ) ) { // WPCS: CSRF OK.
 			return new WP_Error( 'missing_recaptcha', __( 'Missing reCAPTCHA response. Please check the reCAPTCHA checkbox to verify you are human.', 'torro-forms' ) );
 		}
 
-		$verification = $this->verify_response_input( $_POST['g-recaptcha-response'] );
+		$verification = $this->verify_response_input( $_POST['g-recaptcha-response'] ); // WPCS: CSRF OK.
 
 		try {
 			$verification = json_decode( $verification, true );
@@ -96,7 +95,7 @@ class reCAPTCHA extends Protector {
 		if ( ! $this->is_configured() ) {
 			?>
 			<div class="torro-notice torro-error-notice">
-				<p><?php _e( 'You should actually be able to see a reCAPTCHA field here, but it is not correctly configured. Please contact an administrator.', 'torro-forms' ); ?></p>
+				<p><?php esc_html_e( 'You should actually be able to see a reCAPTCHA field here, but it is not correctly configured. Please contact an administrator.', 'torro-forms' ); ?></p>
 			</div>
 			<?php
 			return;
@@ -143,21 +142,22 @@ class reCAPTCHA extends Protector {
 			'es-419',
 		);
 
-		if ( ! in_array( $locale, $special_locales ) ) {
+		if ( ! in_array( $locale, $special_locales, true ) ) {
 			$locale = substr( $locale, 0, 2 );
 		}
 
 		$callback_name = 'torroReCAPTCHAWidgetsInit';
 
 		$recaptcha_script_url = add_query_arg( array(
-			'onload'	=> $callback_name,
-			'render'	=> 'explicit',
-			'hl'		=> $locale,
+			'onload' => $callback_name,
+			'render' => 'explicit',
+			'hl'     => $locale,
 		), 'https://www.google.com/recaptcha/api.js' );
 
+		// @codingStandardsIgnoreStart
 		?>
 		<script type="text/javascript">
-			var <?php echo $callback_name; ?> = function() {
+			var <?php echo esc_js( $callback_name ); ?> = function() {
 				var captchaTags = document.getElementsByClassName( 'torro-recaptcha-placeholder' );
 				var captchaTag, captchaWidgetId, captchaForm, i;
 
@@ -175,6 +175,7 @@ class reCAPTCHA extends Protector {
 		</script>
 		<script src="<?php echo esc_url( $recaptcha_script_url ); ?>" async defer></script>
 		<?php
+		// @codingStandardsIgnoreEnd
 	}
 
 	/**
@@ -283,21 +284,21 @@ class reCAPTCHA extends Protector {
 		$peer_key = version_compare( phpversion(), '5.6.0', '<' ) ? 'CN_name' : 'peer_name';
 
 		$options = array(
-			'http'			=> array(
-				'header'		=> "Content-type: application/x-www-form-urlencoded\r\n",
-				'method'		=> 'POST',
-				'content'		=> http_build_query( array(
-					'secret'		=> $this->get_option( 'secret_key' ),
-					'response'		=> $response,
+			'http' => array(
+				'header'      => "Content-type: application/x-www-form-urlencoded\r\n",
+				'method'      => 'POST',
+				'content'     => http_build_query( array(
+					'secret'   => $this->get_option( 'secret_key' ),
+					'response' => $response,
 				), '', '&' ),
-				'verify_peer'	=> true,
-				$peer_key		=> 'www.google.com',
+				'verify_peer' => true,
+				$peer_key     => 'www.google.com',
 			),
 		);
 
 		$context = stream_context_create( $options );
 
-		return file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
+		return file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context ); // @codingStandardsIgnoreLine
 	}
 
 	/**

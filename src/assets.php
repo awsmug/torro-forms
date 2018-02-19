@@ -108,7 +108,7 @@ class Assets extends Assets_Base {
 		}
 
 		?>
-		<svg class="torro-icon <?php echo esc_attr( $class ); ?>"<?php echo $aria_hidden . $aria_labelledby; ?> role="img">
+		<svg class="torro-icon <?php echo esc_attr( $class ); ?>"<?php echo $aria_hidden . $aria_labelledby; // WPCS: XSS OK. ?> role="img">
 			<?php if ( ! empty( $title ) ) : ?>
 				<title id="title-<?php echo esc_attr( $unique_id ); ?>"><?php echo esc_html( $title ); ?></title>
 			<?php endif; ?>

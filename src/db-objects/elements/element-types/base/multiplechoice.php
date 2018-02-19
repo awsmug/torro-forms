@@ -50,9 +50,9 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 		unset( $data['legend_attrs']['for'] );
 
 		$data['input_attrs']['name'] .= '[]';
-		$data['input_attrs']['id']  = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['input_attrs']['id'] );
-		$data['label_attrs']['id']  = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['id'] );
-		$data['label_attrs']['for'] = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['for'] );
+		$data['input_attrs']['id']    = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['input_attrs']['id'] );
+		$data['label_attrs']['id']    = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['id'] );
+		$data['label_attrs']['for']   = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['for'] );
 
 		return $data;
 	}

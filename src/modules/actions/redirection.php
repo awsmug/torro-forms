@@ -25,9 +25,8 @@ class Redirection extends Action {
 	 * @since 1.0.0
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'redirection';
-		$this->title       = __( 'Redirection', 'torro-forms' );
-		// $this->description = __( 'Redirects the user to a specific page or URL.', 'torro-forms' );
+		$this->slug  = 'redirection';
+		$this->title = __( 'Redirection', 'torro-forms' );
 	}
 
 	/**

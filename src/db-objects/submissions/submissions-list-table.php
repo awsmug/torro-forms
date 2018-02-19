@@ -26,7 +26,7 @@ class Submissions_List_Table extends Models_List_Table {
 	 */
 	public function column_id( $submission ) {
 		$primary_property = $this->manager->get_primary_property();
-		$submission_id = $submission->$primary_property;
+		$submission_id    = $submission->$primary_property;
 
 		$title = '#' . $submission_id;
 
@@ -38,7 +38,7 @@ class Submissions_List_Table extends Models_List_Table {
 			$title = sprintf( '<a href="%1$s" class="row-title" aria-label="%2$s">%3$s</a>', esc_url( $edit_url ), esc_attr( $aria_label ), $title );
 		}
 
-		echo '<strong>' . $title . '</strong>';
+		echo '<strong>' . $title . '</strong>'; // WPCS: XSS OK.
 	}
 
 	/**
@@ -50,9 +50,9 @@ class Submissions_List_Table extends Models_List_Table {
 	 */
 	public function column_status( $submission ) {
 		if ( 'completed' === $submission->status ) {
-			echo '<strong>' . _x( 'Completed', 'submission status label', 'torro-forms' ) . '</strong>';
+			echo '<strong>' . esc_html_x( 'Completed', 'submission status label', 'torro-forms' ) . '</strong>';
 		} elseif ( 'progressing' === $submission->status ) {
-			_ex( 'In Progress', 'submission status label', 'torro-forms' );
+			echo esc_html_x( 'In Progress', 'submission status label', 'torro-forms' );
 		}
 	}
 
@@ -73,7 +73,7 @@ class Submissions_List_Table extends Models_List_Table {
 			return;
 		}
 
-		printf( '<a href="%1$s">%2$s</a>', esc_url( add_query_arg( 'form_id', $form->id, $this->_args['models_page'] ) ), $form->title );
+		printf( '<a href="%1$s">%2$s</a>', esc_url( add_query_arg( 'form_id', $form->id, $this->_args['models_page'] ) ), wp_kses_data( $form->title ) );
 	}
 
 	/**
@@ -94,11 +94,11 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		$url = add_query_arg( 'user_id', $user->ID, $this->_args['models_page'] );
-		if ( ! empty( $_GET['form_id'] ) ) {
-			$url = add_query_arg( 'form_id', (int) $_GET['form_id'], $url );
+		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
+			$url = add_query_arg( 'form_id', (int) $_GET['form_id'], $url ); // WPCS: CSRF OK.
 		}
 
-		printf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $user->display_name );
+		printf( '<a href="%1$s">%2$s</a>', esc_url( $url ), wp_kses_data( $user->display_name ) );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Submissions_List_Table extends Models_List_Table {
 			return;
 		}
 
-		echo date_i18n( get_option( 'date_format' ), $submission->timestamp );
+		echo esc_html( date_i18n( get_option( 'date_format' ), $submission->timestamp ) );
 	}
 
 	/**
@@ -182,7 +182,7 @@ class Submissions_List_Table extends Models_List_Table {
 		$capabilities = $this->manager->capabilities();
 
 		$current = 'all';
-		$total = 0;
+		$total   = 0;
 
 		$views = array();
 
@@ -192,7 +192,7 @@ class Submissions_List_Table extends Models_List_Table {
 		} else {
 			$user_counts = $this->manager->count( get_current_user_id() );
 
-			if ( isset( $_REQUEST['user_id'] ) && get_current_user_id() === absint( $_REQUEST['user_id'] ) ) {
+			if ( isset( $_REQUEST['user_id'] ) && get_current_user_id() === absint( $_REQUEST['user_id'] ) ) { // WPCS: CSRF OK.
 				$current = 'mine';
 			}
 
@@ -203,7 +203,7 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		$form_id = 0;
-		if ( ! empty( $_GET['form_id'] ) ) {
+		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
 			$form_id = (int) $_GET['form_id'];
 		}
 
@@ -222,8 +222,8 @@ class Submissions_List_Table extends Models_List_Table {
 			$total += $number;
 		}
 
-		if ( isset( $_REQUEST['status'] ) ) {
-			$current = $_REQUEST['status'];
+		if ( isset( $_REQUEST['status'] ) ) { // WPCS: CSRF OK.
+			$current = $_REQUEST['status']; // WPCS: CSRF OK.
 		}
 
 		if ( isset( $user_counts ) && absint( $user_counts['_total'] ) === absint( $total ) ) {
@@ -317,23 +317,23 @@ class Submissions_List_Table extends Models_List_Table {
 
 		$capabilities = $this->manager->capabilities();
 
-		if ( isset( $_REQUEST['form_id'] ) ) {
+		if ( isset( $_REQUEST['form_id'] ) ) { // WPCS: CSRF OK.
 			$query_params['form_id'] = absint( $_REQUEST['form_id'] );
 		}
 
 		if ( ! $capabilities || ! $capabilities->current_user_can( 'edit_others_items' ) || ! $capabilities->current_user_can( 'read_others_items' ) ) {
 			$query_params['user_id'] = get_current_user_id();
-		} elseif ( isset( $_REQUEST['user_id'] ) ) {
+		} elseif ( isset( $_REQUEST['user_id'] ) ) { // WPCS: CSRF OK.
 			$query_params['user_id'] = absint( $_REQUEST['user_id'] );
 		}
 
-		if ( ! empty( $_REQUEST['status'] ) ) {
+		if ( ! empty( $_REQUEST['status'] ) ) { // WPCS: CSRF OK.
 			$query_params['status'] = array_map( 'sanitize_key', (array) $_REQUEST['status'] );
 		}
 
-		if ( ! empty( $_REQUEST['m'] ) ) {
-			$year =  (int) substr( $_REQUEST['m'], 0, 4 );
-			$month = (int) substr( $_REQUEST['m'], 4, 2 );
+		if ( ! empty( $_REQUEST['m'] ) ) { // WPCS: CSRF OK.
+			$year  = (int) substr( $_REQUEST['m'], 0, 4 ); // WPCS: CSRF OK.
+			$month = (int) substr( $_REQUEST['m'], 4, 2 ); // WPCS: CSRF OK.
 
 			$yearmonth = '' . $year . '-' . $month;
 			if ( 12 === $month ) {
@@ -350,13 +350,13 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		$default_orderby = 'timestamp';
-		$default_order = 'DESC';
-		if ( isset( $_REQUEST['orderby'] ) && isset( $_REQUEST['order'] ) ) {
-			$query_params['orderby'] = array( $_REQUEST['orderby'] => $_REQUEST['order'] );
-		} elseif ( isset( $_REQUEST['orderby'] ) ) {
-			$query_params['orderby'] = array( $_REQUEST['orderby'] => $default_order );
-		} elseif ( isset( $_REQUEST['order'] ) ) {
-			$query_params['orderby'] = array( $default_orderby => $_REQUEST['order'] );
+		$default_order   = 'DESC';
+		if ( isset( $_REQUEST['orderby'] ) && isset( $_REQUEST['order'] ) ) { // WPCS: CSRF OK.
+			$query_params['orderby'] = array( $_REQUEST['orderby'] => $_REQUEST['order'] ); // WPCS: CSRF OK.
+		} elseif ( isset( $_REQUEST['orderby'] ) ) { // WPCS: CSRF OK.
+			$query_params['orderby'] = array( $_REQUEST['orderby'] => $default_order ); // WPCS: CSRF OK.
+		} elseif ( isset( $_REQUEST['order'] ) ) { // WPCS: CSRF OK.
+			$query_params['orderby'] = array( $default_orderby => $_REQUEST['order'] ); // WPCS: CSRF OK.
 		} else {
 			$query_params['orderby'] = array( $default_orderby => $default_order );
 		}
@@ -387,11 +387,11 @@ class Submissions_List_Table extends Models_List_Table {
 	protected function timestamp_months_dropdown( $timestamp_property ) {
 		global $wp_locale;
 
-		$where = '';
+		$where      = '';
 		$where_args = array();
 
-		if ( ! empty( $_GET['form_id'] ) ) {
-			$where .= ' AND form_id = %d';
+		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
+			$where       .= ' AND form_id = %d';
 			$where_args[] = (int) $_GET['form_id'];
 		}
 
@@ -400,17 +400,17 @@ class Submissions_List_Table extends Models_List_Table {
 
 			$capabilities = $this->manager->capabilities();
 			if ( ! $capabilities || ! $capabilities->current_user_can( 'edit_others_items' ) ) {
-				$where .= " AND $author_property = %d";
+				$where       .= " AND $author_property = %d";
 				$where_args[] = get_current_user_id();
 			}
 		}
 
 		if ( method_exists( $this->manager, 'get_status_property' ) ) {
-			$status_property = $this->manager->get_status_property();
+			$status_property   = $this->manager->get_status_property();
 			$internal_statuses = array_keys( $this->manager->statuses()->query( array( 'internal' => true ) ) );
 
 			if ( ! empty( $internal_statuses ) ) {
-				$where .= " AND $status_property NOT IN (" . implode( ',', array_fill( 0, count( $internal_statuses ), '%s' ) ) . ')';
+				$where     .= " AND $status_property NOT IN (" . implode( ',', array_fill( 0, count( $internal_statuses ), '%s' ) ) . ')';
 				$where_args = array_merge( $where_args, $internal_statuses );
 			}
 		}
@@ -425,11 +425,11 @@ class Submissions_List_Table extends Models_List_Table {
 			return;
 		}
 
-		$m = isset( $_REQUEST['m'] ) ? (int) $_REQUEST['m'] : 0;
+		$current_month = isset( $_REQUEST['m'] ) ? (int) $_REQUEST['m'] : 0; // WPCS: CSRF OK.
 
-		echo '<label for="filter-by-date" class="screen-reader-text">' . $this->manager->get_message( 'list_table_filter_by_date_label' ) . '</label>';
+		echo '<label for="filter-by-date" class="screen-reader-text">' . esc_html( $this->manager->get_message( 'list_table_filter_by_date_label' ) ) . '</label>';
 		echo '<select id="filter-by-date" name="m">';
-		echo '<option value="0"' . selected( $m, 0, false ) . '>' . $this->manager->get_message( 'list_table_all_dates' ) . '</option>';
+		echo '<option value="0"' . selected( $current_month, 0, false ) . '>' . esc_html( $this->manager->get_message( 'list_table_all_dates' ) ) . '</option>';
 
 		foreach ( $months as $row ) {
 			if ( 0 === (int) $row->year ) {
@@ -439,7 +439,7 @@ class Submissions_List_Table extends Models_List_Table {
 			$month = zeroise( $row->month, 2 );
 			$year  = $row->year;
 
-			printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $year . $month ), selected( $m, $year . $month, false ), sprintf( $this->manager->get_message( 'list_table_month_year' ), $wp_locale->get_month( $month ), $year ) );
+			printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $year . $month ), selected( $current_month, $year . $month, false ), esc_html( sprintf( $this->manager->get_message( 'list_table_month_year' ), $wp_locale->get_month( $month ), $year ) ) );
 		}
 
 		echo '</select>';

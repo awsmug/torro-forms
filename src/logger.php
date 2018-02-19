@@ -65,7 +65,7 @@ class Logger extends AbstractLogger {
 			$message_type = E_USER_DEPRECATED;
 		}
 
-		trigger_error( $message, $message_type );
+		trigger_error( $message, $message_type ); // WPCS: XSS OK.
 	}
 
 	/**

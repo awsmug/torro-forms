@@ -25,9 +25,8 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	 * @since 1.0.0
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'user_identification';
-		$this->title       = __( 'User Identification', 'torro-forms' );
-		// $this->description = __( 'Allows you to restrict this form based on the user who wants to access it.', 'torro-forms' );
+		$this->slug  = 'user_identification';
+		$this->title = __( 'User Identification', 'torro-forms' );
 	}
 
 	/**
@@ -121,7 +120,7 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 				}
 				if ( in_array( 'cookie', $identification_modes, true ) && ! empty( $_COOKIE['torro_identity'] ) ) {
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
-				} elseif( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
+				} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 				}
 				if ( ! empty( $identification_args ) ) {
@@ -193,23 +192,23 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			'visual_label' => __( 'User per submission', 'torro-forms' ),
 		);
-		$meta_fields['prevent_multiple_submissions'] = array(
+		$meta_fields['prevent_multiple_submissions']   = array(
 			'type'         => 'checkbox',
 			'label'        => __( 'Prevent multiple submissions by a single user?', 'torro-forms' ),
 			'description'  => __( 'Click the checkbox to ensure that participants may only submit this form once.', 'torro-forms' ),
 			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			'visual_label' => __( 'Single submission', 'torro-forms' ),
 		);
-		$meta_fields['identification_modes'] = array(
-			'type'         => 'multibox',
-			'label'        => __( 'Identification Modes', 'torro-forms' ),
-			'description'  => __( 'For non logged-in users, by default PHP sessions are used to identity them. You can enable further modes here to improve accuracy.', 'torro-forms' ),
-			'choices'      => array(
+		$meta_fields['identification_modes']           = array(
+			'type'        => 'multibox',
+			'label'       => __( 'Identification Modes', 'torro-forms' ),
+			'description' => __( 'For non logged-in users, by default PHP sessions are used to identity them. You can enable further modes here to improve accuracy.', 'torro-forms' ),
+			'choices'     => array(
 				'ip_address' => __( 'IP address', 'torro-forms' ),
 				'cookie'     => __( 'Cookie', 'torro-forms' ),
 			),
 		);
-		$meta_fields['already_submitted_message'] = array(
+		$meta_fields['already_submitted_message']      = array(
 			'type'          => 'text',
 			'label'         => __( '&#8220;Already submitted&#8221; Message', 'torro-forms' ),
 			'description'   => __( 'Enter the message to show to the user when they have already submitted this form.', 'torro-forms' ),

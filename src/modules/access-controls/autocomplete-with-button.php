@@ -53,7 +53,7 @@ class Autocomplete_With_Button extends Autocomplete {
 
 		if ( ! empty( $current_value ) && ! empty( $this->autocomplete['rest_placeholder_label_route'] ) ) {
 			$rest_url = rest_url( str_replace( '%value%', $current_value, $this->autocomplete['rest_placeholder_label_route'] ) );
-			$request = WP_REST_Request::from_url( $rest_url );
+			$request  = WP_REST_Request::from_url( $rest_url );
 			if ( $request ) {
 				$response = rest_do_request( $request );
 				if ( ! is_wp_error( $response ) ) {
@@ -73,10 +73,10 @@ class Autocomplete_With_Button extends Autocomplete {
 			'value' => $current_value,
 		);
 		?>
-		<input<?php echo $this->get_input_attrs( $input_attrs ); ?>>
-		<input<?php echo $this->attrs( $hidden_attrs ); ?>>
+		<input<?php echo $this->get_input_attrs( $input_attrs ); // WPCS: XSS OK. ?>>
+		<input<?php echo $this->attrs( $hidden_attrs ); // WPCS: XSS OK. ?>>
 		<?php if ( ! empty( $this->button_label ) ) : ?>
-			<button type="button" <?php echo $this->attrs( $this->button_attrs ); ?>><?php echo esc_html( $this->button_label ); ?></button>
+			<button type="button"<?php echo $this->attrs( $this->button_attrs ); // WPCS: XSS OK. ?>><?php echo esc_html( $this->button_label ); ?></button>
 		<?php endif; ?>
 		<?php
 		$this->render_repeatable_remove_button();

@@ -77,12 +77,12 @@ class Element_Setting_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"element_id int(11) unsigned NOT NULL",
-			"name text NOT NULL",
-			"value text NOT NULL",
-			"PRIMARY KEY  (id)",
-			"KEY element_id (element_id)",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'element_id int(11) unsigned NOT NULL',
+			'name text NOT NULL',
+			'value text NOT NULL',
+			'PRIMARY KEY  (id)',
+			'KEY element_id (element_id)',
 		) );
 	}
 }

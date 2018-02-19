@@ -49,7 +49,7 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 	 * @param Submission|null $submission Submission object, or null if a new submission.
 	 * @return bool|WP_Error True if request is not spammy, false or error object otherwise.
 	 */
-	public abstract function verify_request( $data, $form, $submission = null );
+	abstract public function verify_request( $data, $form, $submission = null );
 
 	/**
 	 * Renders the output for the protector before the Submit button.
@@ -58,7 +58,7 @@ abstract class Protector extends Submodule implements Meta_Submodule_Interface, 
 	 *
 	 * @param Form $form Form object.
 	 */
-	public abstract function render_output( $form );
+	abstract public function render_output( $form );
 
 	/**
 	 * Returns the available meta fields for the submodule.

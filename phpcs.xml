@@ -12,9 +12,12 @@
 
 	<rule ref="WordPress">
 		<exclude name="WordPress.Files.FileName"/>
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis"/>
 		<exclude name="WordPress.PHP.DevelopmentFunctions"/>
 		<exclude name="WordPress.VIP.RestrictedFunctions"/>
 		<exclude name="WordPress.VIP.RestrictedVariables"/>
+		<exclude name="WordPress.VIP.SessionFunctionsUsage"/>
+		<exclude name="WordPress.VIP.SessionVariableUsage"/>
 		<exclude name="WordPress.VIP.SuperGlobalInputUsage"/>
 		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
 		<exclude name="WordPress.Variables.GlobalVariables.OverrideProhibited"/>

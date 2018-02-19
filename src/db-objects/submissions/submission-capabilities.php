@@ -29,8 +29,8 @@ class Submission_Capabilities extends Capabilities {
 		$prefix      = $this->get_prefix();
 		$plural_slug = $this->manager->get_plural_slug();
 
-		$this->base_capabilities['read_others_items'] = sprintf( 'read_others_%s', $prefix . $plural_slug );
-		$this->base_capabilities['edit_others_items'] = sprintf( 'edit_others_%s', $prefix . $plural_slug );
+		$this->base_capabilities['read_others_items']   = sprintf( 'read_others_%s', $prefix . $plural_slug );
+		$this->base_capabilities['edit_others_items']   = sprintf( 'edit_others_%s', $prefix . $plural_slug );
 		$this->base_capabilities['delete_others_items'] = sprintf( 'delete_others_%s', $prefix . $plural_slug );
 	}
 

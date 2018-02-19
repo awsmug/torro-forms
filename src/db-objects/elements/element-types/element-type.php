@@ -253,7 +253,7 @@ abstract class Element_Type {
 			}
 		}
 
-		if ( has_filter( "{$this->manager->get_prefix()}allow_get_params" ) && isset( $_GET[ 'torro_input_value_' . $element->id ] ) && ( is_array( $_GET[ 'torro_input_value_' . $element->id ] ) || empty( $values['_main'] ) ) ) {
+		if ( has_filter( "{$this->manager->get_prefix()}allow_get_params" ) && isset( $_GET[ 'torro_input_value_' . $element->id ] ) && ( is_array( $_GET[ 'torro_input_value_' . $element->id ] ) || empty( $values['_main'] ) ) ) { // WPCS: CSRF OK.
 			$container = $element->get_container();
 			if ( $container ) {
 				$form = $container->get_form();
@@ -272,7 +272,7 @@ abstract class Element_Type {
 					if ( $allow_get_params ) {
 						$choices = is_a( $this, Choice_Element_Type_Interface::class ) ? $this->get_choices( $element ) : array();
 
-						$get_params = wp_unslash( $_GET[ 'torro_input_value_' . $element->id ] );
+						$get_params = wp_unslash( $_GET[ 'torro_input_value_' . $element->id ] ); // WPCS: CSRF OK.
 						if ( is_array( $get_params ) ) {
 							foreach ( $get_params as $field => $value ) {
 								if ( empty( $values[ $field ] ) ) {
@@ -329,7 +329,7 @@ abstract class Element_Type {
 			foreach ( $element->get_element_choices() as $element_choice ) {
 				$choice_slug = sanitize_title( $element_choice->value );
 
-				$columns[ 'element_' . $element->id . '__main_' . $choice_slug ] = in_array( $element_choice->value, $value ) ? $yes_no[0] : $yes_no[1];
+				$columns[ 'element_' . $element->id . '__main_' . $choice_slug ] = in_array( $element_choice->value, $value ) ? $yes_no[0] : $yes_no[1]; // @codingStandardsIgnoreLine
 			}
 
 			return $columns;
@@ -426,7 +426,7 @@ abstract class Element_Type {
 			$data['label_required'] = apply_filters( "{$this->manager->get_prefix()}required_indicator", $required_indicator );
 
 			$data['input_attrs']['aria-required'] = 'true';
-			$data['input_attrs']['required'] = true;
+			$data['input_attrs']['required']      = true;
 		}
 
 		if ( ! empty( $settings['css_classes'] ) ) {
@@ -471,7 +471,7 @@ abstract class Element_Type {
 	 *                              the individual values will be stored in the database separately. The
 	 *                              array may also contain error objects for cases where errors occurred.
 	 */
-	public abstract function validate_field( $value, $element, $submission );
+	abstract public function validate_field( $value, $element, $submission );
 
 	/**
 	 * Gets the fields arguments for an element of this type when editing submission values in the admin.
@@ -522,7 +522,7 @@ abstract class Element_Type {
 	 *
 	 * @since 1.0.0
 	 */
-	protected abstract function bootstrap();
+	abstract protected function bootstrap();
 
 	/**
 	 * Gets the two strings indicating 'Yes' and 'No' in an export column.
@@ -741,7 +741,7 @@ abstract class Element_Type {
 	 *
 	 * @since 1.0.0
 	 */
-	protected final function sanitize_settings_sections() {
+	final protected function sanitize_settings_sections() {
 		$defaults = array(
 			'title' => '',
 		);
@@ -756,7 +756,7 @@ abstract class Element_Type {
 	 *
 	 * @since 1.0.0
 	 */
-	protected final function sanitize_settings_fields() {
+	final protected function sanitize_settings_fields() {
 		$defaults = array(
 			'section'     => '',
 			'type'        => 'text',
@@ -799,10 +799,10 @@ abstract class Element_Type {
 			}
 
 			$valid_sections[ $field['section'] ] = true;
-			$this->settings_fields[ $slug ] = array_merge( $defaults, $field );
+			$this->settings_fields[ $slug ]      = array_merge( $defaults, $field );
 		}
 
-		$this->settings_fields = array_diff_key( $this->settings_fields, $invalid_fields );
+		$this->settings_fields   = array_diff_key( $this->settings_fields, $invalid_fields );
 		$this->settings_sections = array_intersect_key( $this->settings_sections, $valid_sections );
 	}
 }

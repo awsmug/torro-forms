@@ -38,7 +38,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->description = __( 'Evaluators allow evaluating form submissions, for example to generate charts and analytics.', 'torro-forms' );
 
 		$this->submodule_base_class = Evaluator::class;
-		$this->default_submodules = array(
+		$this->default_submodules   = array(
 			'participation'     => Participation::class,
 			'element_responses' => Element_Responses::class,
 		);
@@ -73,11 +73,11 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @param Submission_Manager $submissions Submission manager instance.
 	 */
 	protected function maybe_show_evaluation_results( $submissions ) {
-		if ( empty( $_GET['form_id'] ) ) {
+		if ( empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
 			return;
 		}
 
-		$form = $submissions->get_parent_manager( 'forms' )->get( (int) $_GET['form_id'] );
+		$form = $submissions->get_parent_manager( 'forms' )->get( (int) $_GET['form_id'] ); // WPCS: CSRF OK.
 		if ( ! $form ) {
 			return;
 		}
@@ -123,12 +123,12 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		?>
 		<div id="<?php echo esc_attr( $box_id ); ?>" class="<?php echo esc_attr( $box_class ); ?>">
 			<button type="button" class="handlediv" aria-expanded="true">
-				<span class="screen-reader-text"><?php _e( 'Toggle panel: Evaluations', 'torro-forms' ); ?></span>
+				<span class="screen-reader-text"><?php esc_html_e( 'Toggle panel: Evaluations', 'torro-forms' ); ?></span>
 				<span class="toggle-indicator" aria-hidden="true"></span>
 			</button>
 
 			<h2 class="hndle">
-				<span><?php _e( 'Evaluations', 'torro-forms' ); ?></span>
+				<span><?php esc_html_e( 'Evaluations', 'torro-forms' ); ?></span>
 			</h2>
 
 			<div class="inside">
@@ -143,13 +143,13 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 					<?php foreach ( $tabs as $slug => $data ) : ?>
 						<div id="<?php echo esc_attr( 'evaluations-tab-' . $slug ); ?>" class="torro-evaluations-tab-panel" aria-labelledby="<?php echo esc_attr( 'evaluations-tab-label-' . $slug ); ?>" aria-hidden="<?php echo $slug === $current_tab_slug ? 'false' : 'true'; ?>" role="tabpanel">
 							<div class="torro-evaluations-description-wrap">
-								<p class="description"><?php echo $data['description']; ?></p>
+								<p class="description"><?php echo wp_kses_data( $data['description'] ); ?></p>
 							</div>
 							<div id="<?php echo esc_attr( 'torro-evaluations-results-' . $slug ); ?>" class="torro-evaluations-results">
-								<?php echo $data['content']; ?>
+								<?php echo $data['content']; // WPCS: XSS OK. ?>
 							</div>
 							<div class="torro-evaluations-shortcode">
-								<label for="<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>"><?php _e( 'Charts Shortcode:', 'torro-forms' ); ?></label>
+								<label for="<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>"><?php esc_html_e( 'Charts Shortcode:', 'torro-forms' ); ?></label>
 								<input id="<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>" class="clipboard-field regular-text" value="<?php echo esc_attr( sprintf( "[{$this->manager()->forms()->get_prefix()}form_charts id=&quot;%d&quot; mode=&quot;%s&quot;]", $form->id, $slug ) ); ?>" readonly="readonly" />
 								<button type="button" class="clipboard-button button" data-clipboard-target="#<?php echo esc_attr( 'torro-evaluations-shortcode-' . $slug ); ?>">
 									<?php $this->manager()->forms()->assets()->render_icon( 'torro-icon-clippy', __( 'Copy to clipboard', 'torro-forms' ) ); ?>
@@ -217,11 +217,11 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @param Submission_Manager $submissions Submission manager instance.
 	 */
 	protected function maybe_enqueue_submission_results_assets( $submissions ) {
-		if ( empty( $_GET['form_id'] ) ) {
+		if ( empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
 			return;
 		}
 
-		$form = $submissions->get_parent_manager( 'forms' )->get( (int) $_GET['form_id'] );
+		$form = $submissions->get_parent_manager( 'forms' )->get( (int) $_GET['form_id'] ); // WPCS: CSRF OK.
 		if ( ! $form ) {
 			return;
 		}

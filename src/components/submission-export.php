@@ -64,6 +64,8 @@ abstract class Submission_Export {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param Submission_Export_Handler $handler Submission export handler instance.
 	 */
 	public function __construct( $handler ) {
 		$this->handler = $handler;
@@ -291,12 +293,12 @@ abstract class Submission_Export {
 	 *                       `$column_slug => $column_value` pairs.
 	 * @param Form  $form    Form for which submissions are being exported.
 	 */
-	protected abstract function generate_export_from_data( $columns, $rows, $form );
+	abstract protected function generate_export_from_data( $columns, $rows, $form );
 
 	/**
 	 * Bootstraps the export class by setting properties.
 	 *
 	 * @since 1.0.0
 	 */
-	protected abstract function bootstrap();
+	abstract protected function bootstrap();
 }

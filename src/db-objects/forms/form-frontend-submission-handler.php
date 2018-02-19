@@ -43,16 +43,16 @@ class Form_Frontend_Submission_Handler {
 	 * @since 1.0.0
 	 */
 	public function maybe_handle_form_submission() {
-		if ( ! isset( $_POST['torro_submission'] ) ) {
+		if ( ! isset( $_POST['torro_submission'] ) ) { // WPCS: CSRF OK.
 			return;
 		}
 
-		$data = wp_unslash( $_POST['torro_submission'] );
+		$data = wp_unslash( $_POST['torro_submission'] ); // WPCS: CSRF OK.
 
 		$context = $this->detect_request_form_and_submission( $data );
 		if ( is_wp_error( $context ) ) {
 			// Always die when one of these strange errors happens.
-			wp_die( $context->get_error_message(), __( 'Form Submission Error', 'torro-forms' ), 400 );
+			wp_die( wp_kses_data( $context->get_error_message() ), esc_html__( 'Form Submission Error', 'torro-forms' ), 400 );
 		}
 
 		$form       = $context['form'];
@@ -66,7 +66,7 @@ class Form_Frontend_Submission_Handler {
 
 			// Die only if the form error could not be set.
 			if ( ! $this->set_form_error( $form, $verified ) ) {
-				wp_die( $verified->get_error_message(), __( 'Form Submission Error', 'torro-forms' ), 403 );
+				wp_die( wp_kses_data( $verified->get_error_message() ), esc_html__( 'Form Submission Error', 'torro-forms' ), 403 );
 			}
 		} else {
 			if ( ! $submission ) {
@@ -296,7 +296,7 @@ class Form_Frontend_Submission_Handler {
 	 * @return array|WP_Error Array with 'form' and 'submission' keys, or error object on failure.
 	 */
 	protected function detect_request_form_and_submission( $data ) {
-		$form = null;
+		$form       = null;
 		$submission = null;
 
 		if ( ! empty( $data['id'] ) ) {
