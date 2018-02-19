@@ -41,6 +41,10 @@ before_script:
     if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]]; then
       phpenv config-rm xdebug.ini
     fi
+  else
+    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    chmod +x ./cc-test-reporter
+    ./cc-test-reporter before-build
   fi
 - composer selfupdate 1.0.0 --no-interaction
 - composer install --no-interaction
@@ -75,9 +79,13 @@ script:
   if [[ "$COVERAGE" == "1" ]]; then
     mkdir -p build/logs
     vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
-    vendor/bin/test-reporter;
   else
     vendor/bin/phpunit -c phpunit.xml
+  fi
+after_script:
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   fi
 notifications:
   email: false

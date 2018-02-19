@@ -47,7 +47,6 @@
     "phpoffice/phpexcel": "1.8.1"
   },
   "require-dev": {
-    "codeclimate/php-test-reporter": "dev-master",
     "phpunit/phpunit": ">4.8.20 <6.0"
   },
   "scripts":     {
