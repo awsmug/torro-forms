@@ -55,11 +55,11 @@
   "scripts":     {
     "post-install-cmd": [
       "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../..",
-      "[[ \"$COMPOSER_DEV_MODE\" == \"1\" ]] && vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs"
+      "if [ $COMPOSER_DEV_MODE -eq 1 ]; then vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs; fi"
     ],
     "post-update-cmd": [
       "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../..",
-      "[[ \"$COMPOSER_DEV_MODE\" == \"1\" ]] && vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs"
+      "if [ $COMPOSER_DEV_MODE -eq 1 ]; then vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs; fi"
     ]
   },
   "extra": {
