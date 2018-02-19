@@ -2,7 +2,10 @@
 <ruleset name="Torro Forms PHPCS Rules">
 	<description>A custom set of PHPCS rules for Torro Forms.</description>
 
-	<exclude-pattern>*/src/legacy-upgrades.php</exclude-pattern>
+	<file>./torro-forms.php</file>
+	<file>./src</file>
+
+	<exclude-pattern>*/src/components/legacy-upgrades.php</exclude-pattern>
 	<exclude-pattern>*/src/translations/*</exclude-pattern>
 	<exclude-pattern>*/templates/*</exclude-pattern>
 	<exclude-pattern>*/tests/*</exclude-pattern>
@@ -18,4 +21,13 @@
 		<exclude name="WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar"/>
 		<exclude name="Squiz.PHP.CommentedOutCode.Found"/>
 	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="string" value="torro-forms"/>
+		</properties>
+	</rule>
+
+	<config name="testVersion" value="5.6-99.0"/>
+	<rule ref="PHPCompatibility"/>
 </ruleset>

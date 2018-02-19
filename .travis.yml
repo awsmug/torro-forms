@@ -11,7 +11,7 @@ matrix:
     - env: WP_VERSION=4.9 WP_TRAVIS_OBJECT_CACHE=true
   include:
     - php: 7.2
-      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 COVERAGE=1
+      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 PHPCS=1 COVERAGE=1
     - php: 5.6
       env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1
     - php: 7.2
@@ -70,6 +70,10 @@ script:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+  fi
+- |
+  if [[ "$PHPCS" == "1" ]]; then
+    vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1
   fi
 - |
   if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then
