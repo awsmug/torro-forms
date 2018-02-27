@@ -120,6 +120,7 @@ class Translations_Submission_Manager extends Translations_Manager {
 			'list_table_column_label_title'           => _x( 'Title', 'submission column label', 'torro-forms' ),
 			'list_table_column_label_author'          => _x( 'Author', 'submission column label', 'torro-forms' ),
 			'list_table_column_label_date'            => _x( 'Date', 'submission column label', 'torro-forms' ),
+			'list_table_no_title'                     => _x( '(no title)', 'submission title placeholder', 'torro-forms' ),
 			/* translators: %s: formatted submission count */
 			'list_table_view_mine'                    => _nx_noop( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', 'submission view', 'torro-forms' ),
 			/* translators: %s: formatted submission count */
