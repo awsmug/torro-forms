@@ -86,11 +86,18 @@ class Form_Frontend_Output_Handler {
 		 */
 		$load_css = apply_filters( "{$this->form_manager->get_prefix()}load_frontend_css", $load_css );
 
-		if ( ! $load_css ) {
-			return;
+		if ( $load_css ) {
+			$this->form_manager->assets()->enqueue_style( 'frontend' );
 		}
 
-		$this->form_manager->assets()->enqueue_style( 'frontend' );
+		/**
+		 * Fires when form assets should be enqueued in the frontend.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $load_css Whether CSS files should be enqueued or not.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}enqueue_form_frontend_assets", $load_css );
 	}
 
 	/**
