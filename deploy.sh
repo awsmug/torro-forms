@@ -106,6 +106,7 @@ echo "Done."
 
 printf "Ignoring GitHub specific files and deployment script..."
 svn propset --quiet svn:ignore ".codeclimate.yml
+.csscomb.json
 .git
 .github
 .gitignore

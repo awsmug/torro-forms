@@ -1,73 +1,57 @@
 /*!
- * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.9 (http://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 .nav-tab-wrapper,
 .wrap h2.nav-tab-wrapper,
-h1.nav-tab-wrapper
-{
-    margin: 0 0 15px;
+h1.nav-tab-wrapper {
+	margin: 0 0 15px;
 }
 
-.torro-subtab-wrapper
-{
-    display: block;
-
-    margin-left: 5px;
+.torro-subtab-wrapper {
+	display: block;
+	margin-left: 5px;
 }
 
-.torro-subtab
-{
-    display: inline-block;
-
-    padding: 5px;
+.torro-subtab {
+	display: inline-block;
+	padding: 5px;
 }
 
-.torro-subtab[aria-selected='true']
-{
-    font-weight: bold;
-
-    text-decoration: none;
-
-    color: #555;
+.torro-subtab[aria-selected="true"] {
+	color: #555;
+	font-weight: bold;
+	text-decoration: none;
 }
 
-.torro-subtab-panel[aria-hidden='true']
-{
-    display: none;
+.torro-subtab-panel[aria-hidden="true"] {
+	display: none;
 }
 
-input[type='radio'].plugin-lib-radio-control,
-input[type='checkbox'].plugin-lib-multibox-control
-{
-    margin-left: 20px;
+input[type="radio"].plugin-lib-radio-control,
+input[type="checkbox"].plugin-lib-multibox-control {
+	margin-left: 20px;
 }
 
-input[type='radio'].plugin-lib-radio-control:first-of-type,
-input[type='checkbox'].plugin-lib-multibox-control:first-of-type
-{
-    margin-left: 0;
+input[type="radio"].plugin-lib-radio-control:first-of-type,
+input[type="checkbox"].plugin-lib-multibox-control:first-of-type {
+	margin-left: 0;
 }
 
-.welcome-to-torro
-{
-    min-height: 80px;
-    margin-bottom: 15px;
-    padding: 20px 20px 20px 298px;
-
-    color: #fff;
-    border: 1px solid #ccc;
-    background-color: #d50c0c;
-    background-image: url('../img/logo.png');
-    background-repeat: no-repeat;
-    background-position: 10px -9px;
+.welcome-to-torro {
+	min-height: 80px;
+	padding: 20px 20px 20px 298px;
+	margin-bottom: 15px;
+	color: #fff;
+	background-color: #d50c0c;
+	background-image: url("../img/logo.png");
+	background-repeat: no-repeat;
+	background-position: 10px -9px;
+	border: 1px solid #ccc;
 }
 
-.welcome-to-torro h3
-{
-    font-size: 20px;
-
-    margin-top: 20px;
-
-    color: #fff;
+.welcome-to-torro h3 {
+	margin-top: 20px;
+	color: #fff;
+	font-size: 20px;
 }
