@@ -380,7 +380,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function load_base_properties() {
-		$this->version      = '1.0.0';
+		$this->version      = '1.0.0-beta.9';
 		$this->prefix       = 'torro_';
 		$this->vendor_name  = 'awsmug';
 		$this->project_name = 'Torro_Forms';
