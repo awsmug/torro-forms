@@ -220,3 +220,9 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 = 1.0.0-beta.1 =
 
 * First official beta release
+
+== Upgrade Notice ==
+
+= 1.0.0-beta.9 =
+
+Torro Forms has been completely rewritten for this release. If you're using custom extensions for it, you may wanna consult with the authors of those extensions before upgrading.
