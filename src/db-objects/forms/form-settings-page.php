@@ -90,6 +90,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			'get_value_callback_args'    => array( $id ),
 			'update_value_callback_args' => array( $id, '{value}' ),
 			'name_prefix'                => $id,
+			'field_required_markup'      => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
 		) );
 	}
 

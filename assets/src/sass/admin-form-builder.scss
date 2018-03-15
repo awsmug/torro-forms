@@ -587,6 +587,11 @@
   9.0 - Misc
 ---------------------------------------------------------------------------- */
 
+.torro-required-indicator {
+	color: $color-required-indicator;
+	font-weight: bold;
+}
+
 #minor-publishing-actions #duplicate-action {
 	clear: both;
 	padding-top: 1em;

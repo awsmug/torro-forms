@@ -55,3 +55,8 @@ input[type="checkbox"].plugin-lib-multibox-control:first-of-type {
 	color: #fff;
 	font-size: 20px;
 }
+
+.torro-required-indicator {
+	color: #00a0d2;
+	font-weight: bold;
+}

@@ -574,6 +574,11 @@
 /* ----------------------------------------------------------------------------
   9.0 - Misc
 ---------------------------------------------------------------------------- */
+.torro-required-indicator {
+	color: #00a0d2;
+	font-weight: bold;
+}
+
 #minor-publishing-actions #duplicate-action {
 	padding-top: 1em;
 	clear: both;

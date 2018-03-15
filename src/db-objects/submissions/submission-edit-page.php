@@ -23,14 +23,16 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string             $slug          Page slug.
-	 * @param Admin_Pages        $manager       Admin page manager instance.
-	 * @param Submission_Manager $model_manager Model manager instance.
+	 * @param string             $slug               Page slug.
+	 * @param Admin_Pages        $manager            Admin page manager instance.
+	 * @param Submission_Manager $model_manager      Model manager instance.
+	 * @param array              $field_manager_args Optional. Arguments to pass to the field manager used.
+	 *                                               Default empty array.
 	 */
-	public function __construct( $slug, $manager, $model_manager ) {
+	public function __construct( $slug, $manager, $model_manager, $field_manager_args = array() ) {
 		$this->list_page_slug = $manager->get_prefix() . 'edit_submissions';
 
-		parent::__construct( $slug, $manager, $model_manager );
+		parent::__construct( $slug, $manager, $model_manager, $field_manager_args );
 	}
 
 	/**
