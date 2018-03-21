@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.9 (http://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 /* ----------------------------------------------------------------------------
@@ -187,46 +187,16 @@
 ---------------------------------------------------------------------------- */
 .add-element-wrap
 {
-    margin-top: 1em;
-}
-
-.add-element-toggle-wrap
-{
-    position: relative;
-
-    margin-bottom: -10px;
-
-    text-align: center;
-
-    border-top: 1px solid #ccc;
+    margin-top: -12px;
 }
 
 .add-element-toggle-wrap .add-element-toggle
 {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.2;
+    width: 100%;
+    height: auto;
+    padding: 8px;
 
-    position: relative;
-    top: -10px;
-
-    margin: 0;
-    padding: 0 6px;
-
-    cursor: pointer;
-
-    color: #444;
-    border: 0;
-    background: #fafafa;
-
-    -webkit-appearance: none;
-            appearance: none;
-}
-
-.add-element-toggle-wrap.is-expanded
-{
-    border-right: 1px solid #ccc;
-    border-left: 1px solid #ccc;
+    color: #000;
 }
 
 .add-element-content-wrap
@@ -239,9 +209,6 @@
 .add-element-content-wrap.is-expanded
 {
     display: block;
-
-    border: 1px solid #ccc;
-    border-top: 0;
 }
 
 .torro-element-types
@@ -404,6 +371,7 @@
 
 .torro-element-header .torro-element-header-title
 {
+    font-weight: bold;
     line-height: 32px;
 
     display: block;

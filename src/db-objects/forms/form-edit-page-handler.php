@@ -733,7 +733,7 @@ class Form_Edit_Page_Handler {
 			<div class="drag-drop-area"></div>
 			<div class="add-element-wrap">
 				<div class="{{ data.addingElement ? 'add-element-toggle-wrap is-expanded' : 'add-element-toggle-wrap' }}">
-					<button type="button" class="add-element-toggle" aria-controls="torro-{{ data.id }}-add-element-content-wrap" aria-expanded="{{ data.addingElement ? 'true' : 'false' }}">
+					<button type="button" class="add-element-toggle button" aria-controls="torro-{{ data.id }}-add-element-content-wrap" aria-expanded="{{ data.addingElement ? 'true' : 'false' }}">
 						<?php esc_html_e( 'Add element', 'torro-forms' ); ?>
 					</button>
 				</div>

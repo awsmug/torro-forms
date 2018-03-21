@@ -148,34 +148,22 @@
 ---------------------------------------------------------------------------- */
 
 .add-element-wrap {
-	margin-top: 1em;
+	margin-top:-12px;
 }
 
 .add-element-toggle-wrap {
-	position: relative;
-	margin-bottom: -10px;
-	text-align: center;
-	border-top: 1px solid $color-add-element-border;
 
 	.add-element-toggle {
-		position: relative;
-		top: -10px;
-		margin: 0;
-		padding: 0 6px;
-		color: #444;
-		font-size: 16px;
-		font-weight: 600;
-		line-height: 1.2;
-		background: $color-canvas-background;
-		border: 0;
-		cursor: pointer;
-		-webkit-appearance: none;
-		        appearance: none;
+		width: 100%;
+		padding: 8px;
+		color: #000;
+		height: auto;
+	}
+	.add-element-toggle:active {
+
 	}
 
 	&.is-expanded {
-		border-right: 1px solid $color-add-element-border;
-		border-left: 1px solid $color-add-element-border;
 	}
 }
 
@@ -185,8 +173,6 @@
 
 	&.is-expanded {
 		display: block;
-		border: 1px solid $color-add-element-border;
-		border-top: 0;
 	}
 }
 
@@ -318,6 +304,7 @@
 		overflow: hidden;
 		float: left;
 		line-height: 32px;
+		font-weight: bold;
 	}
 
 	.torro-element-expand-button {
