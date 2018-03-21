@@ -8,8 +8,8 @@ Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
 Tested up to:      4.9
 Requires PHP:      5.6
-Stable tag:        1.0.0-beta.8
-Version:           1.0.0-beta.8
+Stable tag:        1.0.0-beta.9
+Version:           1.0.0-beta.9
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -220,3 +220,9 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 = 1.0.0-beta.1 =
 
 * First official beta release
+
+== Upgrade Notice ==
+
+= 1.0.0-beta.9 =
+
+Torro Forms has been completely rewritten for this release. If you're using custom extensions for it, you may wanna consult with the authors of those extensions before upgrading.

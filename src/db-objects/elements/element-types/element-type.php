@@ -413,7 +413,7 @@ abstract class Element_Type {
 		}
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] ) {
-			$required_indicator = '<span class="screen-reader-text">' . __( '(required)', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>';
+			$required_indicator = '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>';
 
 			/**
 			 * Filters the required indicator for an element that must be filled.

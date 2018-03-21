@@ -380,7 +380,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function load_base_properties() {
-		$this->version      = '1.0.0';
+		$this->version      = '1.0.0-beta.9';
 		$this->prefix       = 'torro_';
 		$this->vendor_name  = 'awsmug';
 		$this->project_name = 'Torro_Forms';
@@ -703,7 +703,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$submission_edit_class_name  = 'awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Edit_Page';
 
 		$submissions_list_page = new $submissions_list_class_name( $this->admin_pages->get_prefix() . 'list_submissions', $this->admin_pages, $this->submissions );
-		$submission_edit_page  = new $submission_edit_class_name( $this->admin_pages->get_prefix() . 'edit_submission', $this->admin_pages, $this->submissions );
+		$submission_edit_page  = new $submission_edit_class_name( $this->admin_pages->get_prefix() . 'edit_submission', $this->admin_pages, $this->submissions, array(
+			'field_required_markup' => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
+		) );
 
 		$this->admin_pages->add( 'list_submissions', $submissions_list_page, 'edit.php?post_type=' . $this->admin_pages->get_prefix() . 'form', null, 'site' );
 		$this->admin_pages->add( 'edit_submission', $submission_edit_page, null, null, 'site', true );
