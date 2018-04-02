@@ -147,29 +147,18 @@
   4.0 - Containers
 ---------------------------------------------------------------------------- */
 
-.add-element-wrap {
-	margin-top:-12px;
-}
-
 .add-element-toggle-wrap {
-
 	.add-element-toggle {
 		width: 100%;
 		padding: 8px;
 		color: #000;
 		height: auto;
 	}
-	.add-element-toggle:active {
-
-	}
-
-	&.is-expanded {
-	}
 }
 
 .add-element-content-wrap {
 	display: none;
-	padding: 12px;
+	padding: 1em;
 
 	&.is-expanded {
 		display: block;
@@ -268,10 +257,6 @@
 		td {
 			padding: 0 0 12px 0;
 		}
-	}
-
-	&:last-child {
-		margin-bottom: 2em;
 	}
 }
 

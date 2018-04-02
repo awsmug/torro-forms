@@ -145,10 +145,6 @@
 /* ----------------------------------------------------------------------------
   4.0 - Containers
 ---------------------------------------------------------------------------- */
-.add-element-wrap {
-	margin-top: -12px;
-}
-
 .add-element-toggle-wrap .add-element-toggle {
 	width: 100%;
 	height: auto;
@@ -158,7 +154,7 @@
 
 .add-element-content-wrap {
 	display: none;
-	padding: 12px;
+	padding: 1em;
 }
 
 .add-element-content-wrap.is-expanded {
@@ -256,10 +252,6 @@
 
 .torro-element .form-table td {
 	padding: 0 0 12px 0;
-}
-
-.torro-element:last-child {
-	margin-bottom: 2em;
 }
 
 .torro-element-header,
