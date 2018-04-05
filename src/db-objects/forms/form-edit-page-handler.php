@@ -665,6 +665,8 @@ class Form_Edit_Page_Handler {
 	 * @since 1.0.0
 	 */
 	private function enqueue_assets() {
+		wp_enqueue_media();
+
 		$this->form_manager->assets()->enqueue_script( 'admin-fixed-sidebar' );
 
 		$this->form_manager->assets()->enqueue_script( 'admin-tooltip-descriptions' );
@@ -733,36 +735,8 @@ class Form_Edit_Page_Handler {
 		<script type="text/html" id="tmpl-torro-container-panel">
 			<div class="drag-drop-area"></div>
 			<div class="add-element-wrap">
-				<div class="{{ data.addingElement ? 'add-element-toggle-wrap is-expanded' : 'add-element-toggle-wrap' }}">
-					<button type="button" class="add-element-toggle button" aria-controls="torro-{{ data.id }}-add-element-content-wrap" aria-expanded="{{ data.addingElement ? 'true' : 'false' }}">
-						<?php esc_html_e( 'Add element', 'torro-forms' ); ?>
-					</button>
-				</div>
-				<div id="torro-{{ data.id }}-add-element-content-wrap" class="{{ data.addingElement ? 'add-element-content-wrap is-expanded' : 'add-element-content-wrap' }}" role="region">
-					<div class="torro-element-types">
-						<# _.each( data.elementTypes, function( elementType ) { #>
-							<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
-								<div class="torro-element-type-header">
-									<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
-										<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
-									<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
-										<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
-											<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
-										</svg>
-									<# } else { #>
-										<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}" alt="">
-									<# } #>
-									<span class="torro-element-type-header-title">
-										{{ elementType.title }}
-									</span>
-								</div>
-								<div class="torro-element-type-content">
-									<p>{{ elementType.description }}</p>
-								</div>
-							</div>
-						<# } ); #>
-					</div>
-					<button type="button" class="button add-element-button"{{{ data.selectedElementType ? '' : ' disabled' }}}>
+				<div class="add-element-toggle-wrap">
+					<button type="button" class="add-element-toggle button">
 						<?php esc_html_e( 'Add element', 'torro-forms' ); ?>
 					</button>
 				</div>
@@ -777,6 +751,38 @@ class Form_Edit_Page_Handler {
 			<button type="button" class="button-link button-link-delete delete-container-button">
 				<?php esc_html_e( 'Delete Page', 'torro-forms' ); ?>
 			</button>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-add-element-frame">
+			<div class="torro-add-element-frame-title"></div>
+			<div class="torro-add-element-frame-content"></div>
+			<div class="torro-add-element-frame-toolbar"></div>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-element-types-browser">
+			<div class="torro-element-types">
+				<# _.each( data.elementTypes, function( elementType ) { #>
+					<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
+						<div class="torro-element-type-header">
+							<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
+								<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
+							<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
+								<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
+									<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
+								</svg>
+							<# } else { #>
+								<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}" alt="">
+							<# } #>
+							<span class="torro-element-type-header-title">
+								{{ elementType.title }}
+							</span>
+						</div>
+						<div class="torro-element-type-content">
+							<p>{{ elementType.description }}</p>
+						</div>
+					</div>
+				<# } ); #>
+			</div>
 		</script>
 
 		<script type="text/html" id="tmpl-torro-element">

@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.9 (http://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 window.torro = window.torro || {};
@@ -1530,6 +1530,166 @@ window.torro = window.torro || {};
 
 })( window.torro.Builder );
 
+( function( torro, _, Backbone, wp ) {
+	'use strict';
+
+	var Frame = wp.media.view.Frame;
+	var AddElementFrameView;
+	var ElementTypeLibrary;
+
+	ElementTypeLibrary = wp.media.controller.State.extend({
+		defaults: {
+			id: 'element-type-library',
+			title: 'Select Element Type',
+			content: 'default',
+			toolbar: 'default'
+		},
+
+		initialize: function() {
+			if ( ! this.get( 'collection' ) ) {
+				this.set( 'collection', new Backbone.Collection( [] ) );
+			}
+
+			this.set( 'selected', null );
+		}
+	});
+
+	AddElementFrameView = Frame.extend({
+		className: 'media-frame',
+		template:  torro.template( 'add-element-frame' ),
+		regions:   [ 'title', 'content', 'toolbar' ],
+
+		initialize: function() {
+			Frame.prototype.initialize.apply( this, arguments );
+
+			_.defaults( this.options, {
+				title: '',
+				buttonLabel: '',
+				modal: true,
+				collection: [],
+				state: 'element-type-library'
+			});
+
+			this.$el.addClass( 'wp-core-ui' );
+
+			if ( this.options.modal ) {
+				this.modal = new wp.media.view.Modal({
+					controller: this,
+					title:      this.options.title
+				});
+
+				this.modal.content( this );
+			}
+
+			console.log( this );
+
+			this.on( 'attach', _.bind( this.views.ready, this.views ), this );
+
+			this.createCollection();
+			this.createStates();
+			this.bindHandlers();
+
+			this.title.mode( 'default' );
+		},
+
+		render: function() {
+			if ( ! this.state() && this.options.state ) {
+				this.setState( this.options.state );
+			}
+
+			return Frame.prototype.render.apply( this, arguments );
+		},
+
+		createCollection: function() {
+			var collection = this.options.collection;
+			var elementTypes;
+
+			if ( ! ( collection instanceof Backbone.Collection ) ) {
+				elementTypes = [];
+				if ( collection instanceof torro.Builder.ElementTypes ) {
+					_.each( collection.getAll(), function( elementType ) {
+						elementTypes.push( elementType.attributes );
+					});
+				} else if ( collection ) {
+					elementTypes = collection;
+				}
+
+				this.options.collection = new Backbone.Collection( elementTypes );
+			}
+		},
+
+		createStates: function() {
+			this.states.add([
+				new ElementTypeLibrary({
+					title:      this.options.title,
+					collection: this.options.collection,
+					priority:   20
+				})
+			]);
+		},
+
+		bindHandlers: function() {
+			this.on( 'title:create:default', this.createTitle, this );
+			this.on( 'content:create:default', this.createContent, this );
+			this.on( 'toolbar:create:default', this.createToolbar, this );
+
+			this.on( 'title:render', function( view ) {
+				view.$el.append( '<span class="dashicons dashicons-arrow-down"></span>' );
+			});
+		},
+
+		createTitle: function( title ) {
+			title.view = new wp.media.View({
+				controller: this,
+				tagName: 'h1'
+			});
+		},
+
+		createContent: function( content ) {
+			content.view = new torro.Builder.ElementTypesBrowserView({
+				controller: this,
+				collection: this.options.collection
+			});
+		},
+
+		createToolbar: function( toolbar ) {
+			var controller = this;
+
+			toolbar.view = new wp.media.view.Toolbar({
+				controller: this,
+				items: {
+					insert: {
+						style:    'primary',
+						text:     this.options.buttonLabel,
+						priority: 80,
+						requires: { selected: true },
+
+						click: function() {
+							var state    = controller.state();
+							var selected = state.get( 'selected' );
+
+							controller.close();
+							state.trigger( 'insert', selected ).reset();
+						}
+					}
+				}
+			});
+		}
+	});
+
+	_.each([ 'open', 'close', 'attach', 'detach', 'escape' ], function( method ) {
+		AddElementFrameView.prototype[ method ] = function() {
+			if ( this.modal ) {
+				this.modal[ method ].apply( this.modal, arguments );
+			}
+			return this;
+		};
+	});
+
+	torro.Builder.AddElementFrameView = AddElementFrameView;
+
+})( window.torro, window._, window.Backbone, window.wp );
+
 ( function( torro, $, _ ) {
 	'use strict';
 
@@ -1573,21 +1733,20 @@ window.torro = window.torro || {};
 		this.$footerPanel.attr( 'aria-labelledby', 'container-tab-' + id );
 		this.$footerPanel.attr( 'aria-hidden', selected ? 'false' : 'true' );
 		this.$footerPanel.attr( 'role', 'tabpanel' );
+
+		this.addElementFrame = new torro.Builder.AddElementFrameView({
+			title: 'Add Element',
+			buttonLabel: 'Insert into container',
+			collection: torro.Builder.getInstance().elementTypes
+		});
 	}
 
 	_.extend( ContainerView.prototype, {
 		render: function() {
-			var combinedAttributes, i;
-
-			combinedAttributes = _.clone( this.container.attributes );
-
-			combinedAttributes.elementTypes = [];
-			_.each( torro.Builder.getInstance().elementTypes.getAll(), function( elementType ) {
-				combinedAttributes.elementTypes.push( elementType.attributes );
-			});
+			var i;
 
 			this.$tab.html( this.tabTemplate( this.container.attributes ) );
-			this.$panel.html( this.panelTemplate( combinedAttributes ) );
+			this.$panel.html( this.panelTemplate( this.container.attributes ) );
 			this.$footerPanel.html( this.footerPanelTemplate( this.container.attributes ) );
 
 			for ( i = 0; i < this.container.elements.length; i++ ) {
@@ -1616,9 +1775,7 @@ window.torro = window.torro || {};
 
 			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
 			this.$tab.on( 'dblclick', _.bind( this.editLabel, this ) );
-			this.$panel.on( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
-			this.$panel.on( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
-			this.$panel.on( 'click', '.add-element-button', _.bind( this.addElement, this ) );
+			this.$panel.on( 'click', '.add-element-toggle', _.bind( this.openAddElementFrame, this ) );
 			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 			this.$panel.find( '.drag-drop-area' ).sortable({
 				handle: '.torro-element-header',
@@ -1635,9 +1792,7 @@ window.torro = window.torro || {};
 		detach: function() {
 			this.$panel.find( 'drag-drop-area' ).sortable( 'destroy' );
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
-			this.$panel.off( 'click', '.add-element-button', _.bind( this.addElement, this ) );
-			this.$panel.off( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
-			this.$panel.off( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
+			this.$panel.off( 'click', '.add-element-toggle', _.bind( this.openAddElementFrame, this ) );
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
@@ -1782,6 +1937,10 @@ window.torro = window.torro || {};
 			$replacement.focus();
 		},
 
+		openAddElementFrame: function() {
+			this.addElementFrame.open();
+		},
+
 		toggleAddingElement: function() {
 			if ( this.container.get( 'addingElement' ) ) {
 				this.container.set( 'addingElement', false );
@@ -1845,6 +2004,53 @@ window.torro = window.torro || {};
 	torro.Builder.ContainerView = ContainerView;
 
 })( window.torro, window.jQuery, window._ );
+
+( function( torro, _, Backbone, wp ) {
+	'use strict';
+
+	var View = wp.media.View;
+	var ElementTypesBrowserView;
+
+	ElementTypesBrowserView = View.extend({
+		tagName: 'div',
+		className: 'element-types-browser',
+		template:  torro.template( 'element-types-browser' ),
+
+		events: {
+			'click .torro-element-type': 'setSelected'
+		},
+
+		initialize: function() {
+			View.prototype.initialize.apply( this, arguments );
+
+			_.defaults( this.options, {
+				collection: []
+			});
+
+			if ( ! ( this.options.collection instanceof Backbone.Collection ) ) {
+				this.options.collection = new Backbone.Collection( this.options.collection );
+			}
+		},
+
+		prepare: function() {
+			var data = {
+				elementTypes: this.options.collection.toJSON(),
+				selectedElementType: this.controller.state().get( 'selected' )
+			};
+
+			return data;
+		},
+
+		setSelected: function( e ) {
+			if ( e.currentTarget && e.currentTarget.dataset.slug ) {
+				this.controller.state().set( 'selected', e.currentTarget.dataset.slug );
+			}
+		}
+	});
+
+	torro.Builder.ElementTypesBrowserView = ElementTypesBrowserView;
+
+})( window.torro, window._, window.Backbone, window.wp );
 
 ( function( torro, $, _, fieldsAPI, dummyFieldManager ) {
 	'use strict';

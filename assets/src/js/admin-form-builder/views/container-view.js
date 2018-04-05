@@ -41,21 +41,20 @@
 		this.$footerPanel.attr( 'aria-labelledby', 'container-tab-' + id );
 		this.$footerPanel.attr( 'aria-hidden', selected ? 'false' : 'true' );
 		this.$footerPanel.attr( 'role', 'tabpanel' );
+
+		this.addElementFrame = new torro.Builder.AddElementFrameView({
+			title: 'Add Element',
+			buttonLabel: 'Insert into container',
+			collection: torro.Builder.getInstance().elementTypes
+		});
 	}
 
 	_.extend( ContainerView.prototype, {
 		render: function() {
-			var combinedAttributes, i;
-
-			combinedAttributes = _.clone( this.container.attributes );
-
-			combinedAttributes.elementTypes = [];
-			_.each( torro.Builder.getInstance().elementTypes.getAll(), function( elementType ) {
-				combinedAttributes.elementTypes.push( elementType.attributes );
-			});
+			var i;
 
 			this.$tab.html( this.tabTemplate( this.container.attributes ) );
-			this.$panel.html( this.panelTemplate( combinedAttributes ) );
+			this.$panel.html( this.panelTemplate( this.container.attributes ) );
 			this.$footerPanel.html( this.footerPanelTemplate( this.container.attributes ) );
 
 			for ( i = 0; i < this.container.elements.length; i++ ) {
@@ -84,9 +83,7 @@
 
 			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
 			this.$tab.on( 'dblclick', _.bind( this.editLabel, this ) );
-			this.$panel.on( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
-			this.$panel.on( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
-			this.$panel.on( 'click', '.add-element-button', _.bind( this.addElement, this ) );
+			this.$panel.on( 'click', '.add-element-toggle', _.bind( this.openAddElementFrame, this ) );
 			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 			this.$panel.find( '.drag-drop-area' ).sortable({
 				handle: '.torro-element-header',
@@ -103,9 +100,7 @@
 		detach: function() {
 			this.$panel.find( 'drag-drop-area' ).sortable( 'destroy' );
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
-			this.$panel.off( 'click', '.add-element-button', _.bind( this.addElement, this ) );
-			this.$panel.off( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
-			this.$panel.off( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
+			this.$panel.off( 'click', '.add-element-toggle', _.bind( this.openAddElementFrame, this ) );
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
@@ -248,6 +243,10 @@
 
 			$original.replaceWith( $replacement );
 			$replacement.focus();
+		},
+
+		openAddElementFrame: function() {
+			this.addElementFrame.open();
 		},
 
 		toggleAddingElement: function() {
