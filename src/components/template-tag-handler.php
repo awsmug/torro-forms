@@ -125,7 +125,7 @@ class Template_Tag_Handler {
 	 *
 	 * @param string $slug Template tag slug.
 	 * @param array  $data Template tag data.
-	 * @param bool True on success, false on failure.
+	 * @return bool True on success, false on failure.
 	 */
 	public function add_tag( $slug, $data ) {
 		if ( $this->has_tag( $slug ) ) {
@@ -149,7 +149,7 @@ class Template_Tag_Handler {
 	 * @since 1.0.0
 	 *
 	 * @param string $slug Template tag slug.
-	 * @param bool True on success, false on failure.
+	 * @return bool True on success, false on failure.
 	 */
 	public function remove_tag( $slug ) {
 		if ( ! $this->has_tag( $slug ) ) {
@@ -357,7 +357,6 @@ class Template_Tag_Handler {
 					if ( ! is_a( $tag_arg, $tag_args_definition[ $index ] ) ) {
 						$valid = false;
 					}
-
 			}
 		}
 

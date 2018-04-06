@@ -108,7 +108,7 @@ class Assets extends Assets_Base {
 		}
 
 		?>
-		<svg class="torro-icon <?php echo esc_attr( $class ); ?>"<?php echo $aria_hidden . $aria_labelledby; ?> role="img">
+		<svg class="torro-icon <?php echo esc_attr( $class ); ?>"<?php echo $aria_hidden . $aria_labelledby; // WPCS: XSS OK. ?> role="img">
 			<?php if ( ! empty( $title ) ) : ?>
 				<title id="title-<?php echo esc_attr( $unique_id ); ?>"><?php echo esc_html( $title ); ?></title>
 			<?php endif; ?>
@@ -163,7 +163,7 @@ class Assets extends Assets_Base {
 		) );
 
 		$this->register_script( 'admin-form-builder', 'assets/dist/js/admin-form-builder.js', array(
-			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'plugin-lib-fields', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog' ),
+			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'plugin-lib-fields', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog', 'media-editor' ),
 			'ver'           => $this->plugin_version,
 			'in_footer'     => true,
 			'localize_name' => 'torroBuilderI18n',
@@ -181,6 +181,8 @@ class Assets extends Assets_Base {
 				'confirmDeleteContainer'     => __( 'Do you really want to delete this page?', 'torro-forms' ),
 				'confirmDeleteElement'       => __( 'Do you really want to delete this element?', 'torro-forms' ),
 				'confirmDeleteElementChoice' => __( 'Do you really want to delete this choice?', 'torro-forms' ),
+				'selectElementType'          => __( 'Select Element Type', 'torro-forms' ),
+				'insertIntoContainer'        => __( 'Insert into container', 'torro-forms' ),
 			),
 		) );
 

@@ -42,7 +42,7 @@ class Honeypot extends Protector {
 	 * @return bool|WP_Error True if request is not spammy, false or error object otherwise.
 	 */
 	public function verify_request( $data, $form, $submission = null ) {
-		if ( ! empty( $_POST['email'] ) ) {
+		if ( ! empty( $_POST['email'] ) ) { // WPCS: CSRF OK.
 			return new WP_Error( 'honeypot_filled', __( 'You entered something into the field that is used to detect whether you are human. Please leave it blank.', 'torro-forms' ) );
 		}
 
@@ -87,9 +87,9 @@ class Honeypot extends Protector {
 			'type'              => 'honeypot',
 			'value'             => '',
 			'input_attrs'       => array(
-				'id'       => 'torro-email',
-				'name'     => 'email',
-				'class'    => implode( ' ', $input_classes ),
+				'id'    => 'torro-email',
+				'name'  => 'email',
+				'class' => implode( ' ', $input_classes ),
 			),
 			'label_required'    => '',
 			'label_attrs'       => array(

@@ -35,9 +35,9 @@ class Submission_Export_XLS extends Submission_Export {
 		header( 'Cache-Control: max-age=0' );
 		header( 'Cache-Control: max-age=1' ); // For IE9.
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-		header( 'Last-Modified: ' . gmdate('D, d M Y H:i:s' ) . ' GMT' );
+		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 		header( 'Cache-Control: cache, must-revalidate' ); // For HTTP 1.1.
-		header( 'Pragma: public'); // For HTTP 1.0.
+		header( 'Pragma: public' ); // For HTTP 1.0.
 
 		$php_excel = new \PHPExcel();
 

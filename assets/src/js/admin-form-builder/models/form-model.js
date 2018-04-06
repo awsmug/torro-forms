@@ -55,10 +55,6 @@
 				form_id: this.get( 'id' )
 			};
 
-			if ( 'object' === typeof options && options.container_label_placeholder ) {
-				containerProps.label_placeholder = options.container_label_placeholder;
-			}
-
 			this.containers = new torroBuilder.ContainerCollection([], {
 				props: containerProps,
 				comparator: 'sort'

@@ -112,7 +112,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 				continue;
 			}
 
-			// TODO: Multi-field element support.
+			/* TODO: Multi-field element support. */
 
 			$tabs[ $element_id . '__main' ] = array(
 				'label'    => $element->label,
@@ -136,7 +136,9 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 					?>
 					<div id="<?php echo esc_attr( $this->slug . '-chart-' . $element->id . '__main' ); ?>"></div>
 					<script type="application/json" class="c3-chart-data">
-						<?php echo json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-' . $element->id . '__main' ), $responses, $response_values ) ); ?>
+						<?php
+						echo wp_json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-' . $element->id . '__main' ), $responses, $response_values ) );
+						?>
 					</script>
 					<?php
 				},
@@ -146,7 +148,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 		if ( ! empty( $tabs ) ) {
 			$this->display_tabs( $tabs );
 		} else {
-			echo '<p>' . __( 'This form does not contain any evaluatable elements.', 'torro-forms' ) . '</p>';
+			echo '<p>' . esc_html__( 'This form does not contain any evaluatable elements.', 'torro-forms' ) . '</p>';
 		}
 	}
 
@@ -311,7 +313,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 						'type' => 'category',
 					),
 					'y' => array(
-						'min'   => 1,
+						'min' => 1,
 					),
 				),
 				'legend' => array(
@@ -341,6 +343,7 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 			}
 
 			$data['data']['columns'][] = array( 'data' . ( $index + 1 ), $y_values[ $index ] );
+
 			$data['data']['names'][ 'data' . ( $index + 1 ) ] = $x_value;
 		}
 

@@ -383,7 +383,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 
 		$result = wp_mail( $user->user_email, $subject, $message );
 
-		$this->from_name = '';
+		$this->from_name  = '';
 		$this->from_email = '';
 
 		remove_filter( 'wp_mail_content_type', array( $this, 'override_content_type' ) );
@@ -585,7 +585,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 */
 	protected function register_template_tag_handlers() {
 		$tags = array(
-			'sitetitle'          => array(
+			'sitetitle'       => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Title', 'torro-forms' ),
 				'description' => __( 'Inserts the site title.', 'torro-forms' ),
@@ -593,7 +593,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return get_bloginfo( 'name' );
 				},
 			),
-			'sitetagline'        => array(
+			'sitetagline'     => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Tagline', 'torro-forms' ),
 				'description' => __( 'Inserts the site tagline.', 'torro-forms' ),
@@ -601,7 +601,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return get_bloginfo( 'description' );
 				},
 			),
-			'siteurl'            => array(
+			'siteurl'         => array(
 				'group'       => 'global',
 				'label'       => __( 'Site URL', 'torro-forms' ),
 				'description' => __( 'Inserts the site home URL.', 'torro-forms' ),
@@ -609,7 +609,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return home_url( '/' );
 				},
 			),
-			'adminemail'         => array(
+			'adminemail'      => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Admin Email', 'torro-forms' ),
 				'description' => __( 'Inserts the site admin email.', 'torro-forms' ),
@@ -617,7 +617,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return get_option( 'admin_email' );
 				},
 			),
-			'userip'             => array(
+			'userip'          => array(
 				'group'       => 'global',
 				'label'       => __( 'User IP', 'torro-forms' ),
 				'description' => __( 'Inserts the current user IP address.', 'torro-forms' ),
@@ -629,7 +629,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return $validated_ip;
 				},
 			),
-			'refererurl'         => array(
+			'refererurl'      => array(
 				'group'       => 'global',
 				'label'       => __( 'Referer URL', 'torro-forms' ),
 				'description' => __( 'Inserts the current referer URL.', 'torro-forms' ),
@@ -637,7 +637,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return wp_get_referer();
 				},
 			),
-			'formtitle'          => array(
+			'formtitle'       => array(
 				'group'       => 'form',
 				'label'       => __( 'Form Title', 'torro-forms' ),
 				'description' => __( 'Inserts the form title.', 'torro-forms' ),
@@ -645,7 +645,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return $form->title;
 				},
 			),
-			'formurl'            => array(
+			'formurl'         => array(
 				'group'       => 'form',
 				'label'       => __( 'Form URL', 'torro-forms' ),
 				'description' => __( 'Inserts the URL to the form.', 'torro-forms' ),
@@ -653,7 +653,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return get_permalink( $form->id );
 				},
 			),
-			'formediturl'        => array(
+			'formediturl'     => array(
 				'group'       => 'form',
 				'label'       => __( 'Form Edit URL', 'torro-forms' ),
 				'description' => __( 'Inserts the edit URL for the form.', 'torro-forms' ),
@@ -661,7 +661,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return get_edit_post_link( $form->id );
 				},
 			),
-			'useremail'          => array(
+			'useremail'       => array(
 				'group'       => 'user',
 				'label'       => __( 'User Email', 'torro-forms' ),
 				'description' => __( 'Inserts the email address for the user.', 'torro-forms' ),
@@ -669,7 +669,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return $user->user_email;
 				},
 			),
-			'username'           => array(
+			'username'        => array(
 				'group'       => 'user',
 				'label'       => __( 'Username', 'torro-forms' ),
 				'description' => __( 'Inserts the username.', 'torro-forms' ),
@@ -677,7 +677,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 					return $user->user_login;
 				},
 			),
-			'userdisplayname'    => array(
+			'userdisplayname' => array(
 				'group'       => 'user',
 				'label'       => __( 'User Display Name', 'torro-forms' ),
 				'description' => __( 'Inserts the full display name the user has chosen to be addressed with.', 'torro-forms' ),
@@ -693,14 +693,24 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 			'user'   => _x( 'User', 'template tag group', 'torro-forms' ),
 		);
 
-		$this->template_tag_handler            = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, WP_User::class ), $groups );
-		$this->template_tag_handler_email_only = new Template_Tag_Handler( $this->slug . '_email_only', array(
-			'adminemail' => $tags['adminemail'],
-			'useremail'  => $tags['useremail'],
-		), array( Form::class, WP_User::class ), array(
-			'global' => $groups['global'],
-			'user'   => $groups['user'],
-		) );
+		$this->template_tag_handler            = new Template_Tag_Handler(
+			$this->slug,
+			$tags,
+			array( Form::class, WP_User::class ),
+			$groups
+		);
+		$this->template_tag_handler_email_only = new Template_Tag_Handler(
+			$this->slug . '_email_only',
+			array(
+				'adminemail' => $tags['adminemail'],
+				'useremail'  => $tags['useremail'],
+			),
+			array( Form::class, WP_User::class ),
+			array(
+				'global' => $groups['global'],
+				'user'   => $groups['user'],
+			)
+		);
 
 		$this->module->manager()->template_tag_handlers()->register( $this->template_tag_handler );
 		$this->module->manager()->template_tag_handlers()->register( $this->template_tag_handler_email_only );

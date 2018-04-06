@@ -112,7 +112,7 @@ class Form extends Core_Model {
 	 * @param mixed  $value    Property value.
 	 */
 	public function __set( $property, $value ) {
-		$found = false;
+		$found   = false;
 		$changed = false;
 
 		switch ( $property ) {
@@ -122,30 +122,30 @@ class Form extends Core_Model {
 				$found = true;
 				if ( $this->original->post_name !== $value ) {
 					$this->original->post_name = $value;
-					$changed = true;
+					$changed                   = true;
 				}
 				break;
 			case 'author':
 				$found = true;
 				if ( (int) $this->original->post_author !== (int) $value ) {
 					$this->original->post_author = (int) $value;
-					$changed = true;
+					$changed                     = true;
 				}
 				break;
 			case 'timestamp':
 				$found = true;
 				if ( (int) strtotime( $this->original->post_date_gmt ) !== (int) $value ) {
-					$this->original->post_date = '0000-00-00 00:00:00';
+					$this->original->post_date     = '0000-00-00 00:00:00';
 					$this->original->post_date_gmt = date( 'Y-m-d H:i:s', $value );
-					$changed = true;
+					$changed                       = true;
 				}
 				break;
 			case 'timestamp_modified':
 				$found = true;
 				if ( (int) strtotime( $this->original->post_modified_gmt ) !== (int) $value ) {
-					$this->original->post_modified = '0000-00-00 00:00:00';
+					$this->original->post_modified     = '0000-00-00 00:00:00';
 					$this->original->post_modified_gmt = date( 'Y-m-d H:i:s', $value );
-					$changed = true;
+					$changed                           = true;
 				}
 				break;
 		}
@@ -291,7 +291,7 @@ class Form extends Core_Model {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param bool $as_draft    Optional. Whether to set the new form post to 'draft' status initially. Default true.
+	 * @param bool   $as_draft  Optional. Whether to set the new form post to 'draft' status initially. Default true.
 	 * @param string $new_title Optional. New form title. Default is the original title prefixed with 'Copy of '.
 	 * @return Form|WP_Error New form object on success, error object on failure.
 	 */
@@ -305,8 +305,11 @@ class Form extends Core_Model {
 			return new WP_Error( 'form_post_not_exist', __( 'The form post does not exist in the database.', 'torro-forms' ) );
 		}
 
-		$post_data['ID'] = '';
-		$post_data['post_date'] = $post_data['post_modified'] = $post_data['post_date_gmt'] = $post_data['post_modified_gmt'] = '';
+		$post_data['ID']                = '';
+		$post_data['post_date']         = '';
+		$post_data['post_date_gmt']     = '';
+		$post_data['post_modified']     = '';
+		$post_data['post_modified_gmt'] = '';
 
 		if ( ! empty( $new_title ) ) {
 			$post_data['post_title'] = $new_title;
@@ -397,14 +400,13 @@ class Form extends Core_Model {
 		) );
 
 		foreach ( $comments as $comment ) {
-			$comment_data = get_comment( $comment, ARRAY_A );
+			$comment_data                    = get_comment( $comment, ARRAY_A );
 			$comment_data['comment_post_ID'] = $form_id;
 
 			$old_id = $comment_data['comment_ID'];
 			unset( $comment_data['comment_ID'] );
 
-			$new_id = wp_insert_comment( $comment_data );
-			$mappings[ $old_id ] = $new_id;
+			$mappings[ $old_id ] = wp_insert_comment( $comment_data );
 		}
 
 		foreach ( $mappings as $old_id => $new_id ) {

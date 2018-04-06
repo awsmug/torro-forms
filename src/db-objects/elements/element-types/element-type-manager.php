@@ -235,6 +235,7 @@ class Element_Type_Manager extends Service {
 			'get_value_callback'     => '__return_empty_array',
 			'update_value_callback'  => '__return_empty_array',
 			'name_prefix'            => $this->get_prefix() . 'dummy',
+			'field_required_markup'  => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
 			'skip_js_initialization' => true,
 		) );
 

@@ -107,7 +107,7 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * @param Form       $form              Form the submission applies to.
 	 * @return array Updated aggregate evaluation results.
 	 */
-	public abstract function evaluate_single( $aggregate_results, $submission, $form );
+	abstract public function evaluate_single( $aggregate_results, $submission, $form );
 
 	/**
 	 * Evaluates multiple specific form submissions.
@@ -119,7 +119,7 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * @since 1.0.0
 	 *
 	 * @param array                 $aggregate_results Aggregate results to update.
-	 * @param Submission_Collection $submission        Submission to evaluate.
+	 * @param Submission_Collection $submissions       Submission collection to evaluate.
 	 * @param Form                  $form              Form the submission applies to.
 	 * @return array Updated aggregate evaluation results.
 	 */
@@ -164,7 +164,7 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 	 * @param array $args    Optional. Additional arguments for displaying the results, which depend on the respective evaluator.
 	 *                       Default empty array.
 	 */
-	public abstract function show_results( $results, $form, $args = array() );
+	abstract public function show_results( $results, $form, $args = array() );
 
 	/**
 	 * Returns the available meta fields for the submodule.

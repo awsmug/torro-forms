@@ -42,12 +42,12 @@ class Timetrap extends Protector {
 	 * @return bool|WP_Error True if request is not spammy, false or error object otherwise.
 	 */
 	public function verify_request( $data, $form, $submission = null ) {
-		if ( empty( $_POST['timestamp'] ) ) {
+		if ( empty( $_POST['timestamp'] ) ) { // WPCS: CSRF OK.
 			return new WP_Error( 'missing_timestamp', __( 'Internal error: Could not verify you are human. Please contact an administrator if you are.', 'torro-forms' ) );
 		}
 
-		$now = current_time( 'timestamp' );
-		$timestamp = wp_unslash( $_POST['timestamp'] );
+		$now       = current_time( 'timestamp' );
+		$timestamp = wp_unslash( $_POST['timestamp'] ); // WPCS: CSRF OK.
 
 		$trigger = $this->get_form_option( $form->id, 'trigger', 3 );
 
@@ -67,7 +67,7 @@ class Timetrap extends Protector {
 	 */
 	public function render_output( $form ) {
 		?>
-		<input type="hidden" id="torro-timestamp" name="timestamp" value="<?php echo current_time( 'timestamp' ); ?>">
+		<input type="hidden" id="torro-timestamp" name="timestamp" value="<?php echo esc_attr( current_time( 'timestamp' ) ); ?>">
 		<?php
 	}
 

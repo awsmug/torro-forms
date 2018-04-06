@@ -140,14 +140,14 @@ class Submission_Manager extends Manager {
 			return $counts;
 		}
 
-		$where = array();
+		$where      = array();
 		$where_args = array();
 		if ( $user_id > 0 ) {
-			$where[] = 'user_id = %d';
+			$where[]      = 'user_id = %d';
 			$where_args[] = $user_id;
 		}
 		if ( $form_id > 0 ) {
-			$where[] = 'form_id = %d';
+			$where[]      = 'form_id = %d';
 			$where_args[] = $form_id;
 		}
 
@@ -159,11 +159,11 @@ class Submission_Manager extends Manager {
 
 		$results = $this->db()->get_results( "SELECT status, COUNT( * ) AS num_models FROM %{$this->table_name}% $where GROUP BY status", $where_args );
 
-		$total = 0;
+		$total  = 0;
 		$counts = array_fill_keys( array( 'completed', 'progressing' ), 0 );
 		foreach ( $results as $row ) {
 			$counts[ $row->status ] = $row->num_models;
-			$total += $row->num_models;
+			$total                 += $row->num_models;
 		}
 
 		$counts['_total'] = $total;
@@ -197,14 +197,14 @@ class Submission_Manager extends Manager {
 
 			foreach ( $submission->get_submission_values() as $submission_value ) {
 				$element_id = $submission_value->element_id;
-				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
+				$field      = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
 
 				if ( ! isset( $this->element_values[ $submission->id ][ $element_id ] ) ) {
 					$this->element_values[ $submission->id ][ $element_id ] = array();
 				}
 
 				if ( ! empty( $this->element_values[ $submission->id ][ $element_id ][ $field ] ) ) {
-					$this->element_values[ $submission->id ][ $element_id ][ $field ] = (array) $this->element_values[ $submission->id ][ $element_id ][ $field ];
+					$this->element_values[ $submission->id ][ $element_id ][ $field ]   = (array) $this->element_values[ $submission->id ][ $element_id ][ $field ];
 					$this->element_values[ $submission->id ][ $element_id ][ $field ][] = $submission_value->value;
 				} else {
 					$this->element_values[ $submission->id ][ $element_id ][ $field ] = $submission_value->value;
@@ -373,7 +373,7 @@ class Submission_Manager extends Manager {
 		} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 			$submission->user_key = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 		} else {
-			$base_string = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $this->anonymize_ip_address( $_SERVER['REMOTE_ADDR'] ) . microtime() : microtime();
+			$base_string          = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $this->anonymize_ip_address( $_SERVER['REMOTE_ADDR'] ) . microtime() : microtime();
 			$submission->user_key = md5( $base_string );
 		}
 
@@ -393,8 +393,8 @@ class Submission_Manager extends Manager {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int|null           $id         Current submission ID, or null if new submission.
-	 * @param Submission         $submission Current submission object.
+	 * @param int|null   $id         Current submission ID, or null if new submission.
+	 * @param Submission $submission Current submission object.
 	 */
 	public function render_status_select( $id, $submission ) {
 		$current_status = $submission->status;
@@ -404,16 +404,16 @@ class Submission_Manager extends Manager {
 		?>
 		<div class="misc-pub-section">
 			<div id="date-information">
-				<?php _e( 'Date:', 'torro-forms' ); ?>
-				<?php echo date_i18n( get_option( 'date_format' ), $timestamp ); ?>
+				<?php esc_html_e( 'Date:', 'torro-forms' ); ?>
+				<?php echo esc_html( date_i18n( get_option( 'date_format' ), $timestamp ) ); ?>
 			</div>
 		</div>
 		<div class="misc-pub-section">
 			<div id="post-status-select">
-				<label for="post-status"><?php echo $this->get_message( 'edit_page_status_label' ); ?></label>
+				<label for="post-status"><?php echo esc_html( $this->get_message( 'edit_page_status_label' ) ); ?></label>
 				<select id="post-status" name="status">
-					<option value="completed"<?php selected( $current_status, 'completed' ); ?>><?php _ex( 'Completed', 'submission status label', 'torro-forms' ); ?></option>
-					<option value="progressing"<?php selected( $current_status, 'progressing' ); ?>><?php _ex( 'In Progress', 'submission status label', 'torro-forms' ); ?></option>
+					<option value="completed"<?php selected( $current_status, 'completed' ); ?>><?php echo esc_html_x( 'Completed', 'submission status label', 'torro-forms' ); ?></option>
+					<option value="progressing"<?php selected( $current_status, 'progressing' ); ?>><?php echo esc_html_x( 'In Progress', 'submission status label', 'torro-forms' ); ?></option>
 				</select>
 			</div>
 		</div>

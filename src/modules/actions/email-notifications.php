@@ -76,9 +76,8 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * @since 1.0.0
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'email_notifications';
-		$this->title       = __( 'Email Notifications', 'torro-forms' );
-		// $this->description = __( 'Sends one or more email notifications to specific addresses.', 'torro-forms' );
+		$this->slug  = 'email_notifications';
+		$this->title = __( 'Email Notifications', 'torro-forms' );
 
 		$this->register_template_tag_handlers();
 	}
@@ -242,11 +241,10 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		}
 
 		$meta_fields['notifications'] = array(
-			'type'        => 'group',
-			'label'       => __( 'Notifications', 'torro-forms' ),
-			// 'description' => __( 'Add email notifications to send.', 'torro-forms' ),
-			'repeatable'  => 8,
-			'fields'      => array(
+			'type'       => 'group',
+			'label'      => __( 'Notifications', 'torro-forms' ),
+			'repeatable' => 8,
+			'fields'     => array(
 				'from_name'   => array(
 					'type'                 => 'templatetagtext',
 					'label'                => __( 'From Name', 'torro-forms' ),
@@ -394,7 +392,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					return add_query_arg( 'torro_submission_id', $submission->id, get_permalink( $form->id ) );
 				},
 			),
-			'submissionediturl' => array(
+			'submissionediturl'  => array(
 				'group'       => 'submission',
 				'label'       => __( 'Submission Edit URL', 'torro-forms' ),
 				'description' => __( 'Inserts the edit URL for the submission.', 'torro-forms' ),
@@ -417,7 +415,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		);
 
 		$complex_tags = array(
-			'allelements'        => array(
+			'allelements' => array(
 				'group'       => 'submission',
 				'label'       => __( 'All Element Values', 'torro-forms' ),
 				'description' => __( 'Inserts all element values from the submission.', 'torro-forms' ),
@@ -587,11 +585,11 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function register_assets( $assets ) {
-		$template_tag_template = '<li class="template-tag template-tag-%slug%">';
+		$template_tag_template  = '<li class="template-tag template-tag-%slug%">';
 		$template_tag_template .= '<button type="button" class="template-tag-button" data-tag="%slug%">%label%</button>';
 		$template_tag_template .= '</li>';
 
-		$template_tag_group_template = '<li class="template-tag-list-group template-tag-list-group-%slug%">';
+		$template_tag_group_template  = '<li class="template-tag-list-group template-tag-list-group-%slug%">';
 		$template_tag_group_template .= '<span>%label%</span>';
 		$template_tag_group_template .= '<ul></ul>';
 		$template_tag_group_template .= '</li>';

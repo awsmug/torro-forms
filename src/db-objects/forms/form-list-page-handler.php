@@ -91,7 +91,7 @@ class Form_List_Page_Handler {
 	public function maybe_adjust_row_actions( $actions, $post ) {
 		$form = $this->form_manager->get( $post->ID );
 		if ( ! $form ) {
-			return $actions;;
+			return $actions;
 		}
 
 		return $this->insert_custom_row_actions( $actions, $form );
@@ -125,7 +125,7 @@ class Form_List_Page_Handler {
 
 		$actions[ $prefix . 'duplicate' ] = sprintf(
 			'<a href="%1$s" aria-label="%2$s">%3$s</a>',
-			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $form->id . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action ),
+			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $form->id . '&amp;_wp_http_referer=' . rawurlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action ),
 			/* translators: %s: form title */
 			esc_attr( sprintf( __( 'Duplicate &#8220;%s&#8221;', 'torro-forms' ), get_the_title( $form->id ) ) ),
 			_x( 'Duplicate', 'action', 'torro-forms' )
@@ -165,7 +165,7 @@ class Form_List_Page_Handler {
 					$output = '<a href="' . esc_url( add_query_arg( 'form_id', $form->id, torro()->admin_pages()->get( 'list_submissions' )->url ) ) . '">' . $output . '</a>';
 				}
 
-				echo $output;
+				echo $output; // WPCS: XSS OK.
 				break;
 		}
 	}

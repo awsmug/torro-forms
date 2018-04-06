@@ -61,7 +61,7 @@ class Textfield extends Element_Type {
 			if ( ! empty( $data['description'] ) ) {
 				$data['description'] .= '<br>';
 			} else {
-				$data['description'] = '';
+				$data['description']                     = '';
 				$data['input_attrs']['aria-describedby'] = $data['description_attrs']['id'];
 			}
 
@@ -199,6 +199,7 @@ class Textfield extends Element_Type {
 			'type'        => 'radio',
 			'label'       => __( 'Input type', 'torro-forms' ),
 			'choices'     => $input_types,
+			/* translators: %s: HTML input type info URL */
 			'description' => sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supported by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
 			'default'     => 'text',
 		);

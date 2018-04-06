@@ -55,11 +55,11 @@ class Form_Query extends Core_Query {
 	 * @return Form_Collection Results as a collection.
 	 */
 	protected function parse_results_collection() {
-		$ids = $this->original->posts;
+		$ids    = $this->original->posts;
 		$fields = $this->original->query_vars['fields'];
 
 		if ( 'ids' !== $fields ) {
-			$ids = wp_list_pluck( $ids, 'ID' );
+			$ids    = wp_list_pluck( $ids, 'ID' );
 			$fields = 'objects';
 		}
 
@@ -89,7 +89,7 @@ class Form_Query extends Core_Query {
 	 */
 	protected function map_args( $args ) {
 		if ( is_array( $args['orderby'] ) && ! empty( $args['orderby'] ) ) {
-			$args['order'] = array_values( $args['orderby'] )[0];
+			$args['order']   = array_values( $args['orderby'] )[0];
 			$args['orderby'] = array_keys( $args['orderby'] )[0];
 		}
 

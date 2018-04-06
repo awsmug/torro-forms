@@ -25,9 +25,8 @@ class Submission_Count extends Access_Control {
 	 * @since 1.0.0
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'submission_count';
-		$this->title       = __( 'Submission Count', 'torro-forms' );
-		// $this->description = __( 'Allows you to restrict this form based on how many submissions have already been completed.', 'torro-forms' );
+		$this->slug  = 'submission_count';
+		$this->title = __( 'Submission Count', 'torro-forms' );
 	}
 
 	/**
@@ -69,7 +68,7 @@ class Submission_Count extends Access_Control {
 	public function get_meta_fields() {
 		$meta_fields = parent::get_meta_fields();
 
-		$meta_fields['total_submissions_limit'] = array(
+		$meta_fields['total_submissions_limit']           = array(
 			'type'         => 'number',
 			'label'        => __( 'Total Submissions Limit', 'torro-forms' ),
 			'description'  => __( 'Enter the total amount of submissions that are allowed to be submitted for this form.', 'torro-forms' ),

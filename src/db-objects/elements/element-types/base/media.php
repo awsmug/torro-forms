@@ -35,7 +35,7 @@ class Media extends Element_Type {
 
 		$data['value'] = absint( $data['value'] );
 
-		$data['hidden_name'] = $data['input_attrs']['name'];
+		$data['hidden_name']         = $data['input_attrs']['name'];
 		$data['input_attrs']['name'] = $this->get_file_id( $element );
 
 		return $data;
@@ -181,7 +181,7 @@ class Media extends Element_Type {
 
 		$slug = $this->get_edit_submission_field_slug( $element->id );
 
-		$fields[ $slug ]['type'] = 'media';
+		$fields[ $slug ]['type']  = 'media';
 		$fields[ $slug ]['store'] = 'id';
 
 		$settings = $this->get_settings( $element );

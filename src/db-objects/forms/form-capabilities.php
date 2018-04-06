@@ -55,7 +55,7 @@ class Form_Capabilities extends Capabilities {
 		$plural_slug   = $this->manager->get_plural_slug();
 
 		$this->base_capabilities['publish_items'] = sprintf( 'publish_%s', $prefix . $plural_slug );
-		$this->meta_capabilities['publish_item'] = sprintf( 'publish_%s', $prefix . $singular_slug );
+		$this->meta_capabilities['publish_item']  = sprintf( 'publish_%s', $prefix . $singular_slug );
 
 		$this->base_capabilities['read_private_items']     = sprintf( 'read_private_%s', $prefix . $plural_slug );
 		$this->base_capabilities['edit_published_items']   = sprintf( 'edit_published_%s', $prefix . $plural_slug );

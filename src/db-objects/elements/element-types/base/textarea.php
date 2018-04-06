@@ -63,7 +63,7 @@ class Textarea extends Element_Type {
 			if ( ! empty( $data['description'] ) ) {
 				$data['description'] .= '<br>';
 			} else {
-				$data['description'] = '';
+				$data['description']                     = '';
 				$data['input_attrs']['aria-describedby'] = $data['description_attrs']['id'];
 			}
 
@@ -167,7 +167,7 @@ class Textarea extends Element_Type {
 			'min'           => 0,
 			'step'          => 1,
 		);
-		$this->settings_fields['rows'] = array(
+		$this->settings_fields['rows']       = array(
 			'section'       => 'settings',
 			'type'          => 'number',
 			'label'         => __( 'Rows', 'torro-forms' ),
@@ -177,7 +177,7 @@ class Textarea extends Element_Type {
 			'min'           => 0,
 			'step'          => 1,
 		);
-		$this->settings_fields['cols'] = array(
+		$this->settings_fields['cols']       = array(
 			'section'       => 'settings',
 			'type'          => 'number',
 			'label'         => __( 'Columns', 'torro-forms' ),

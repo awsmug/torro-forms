@@ -78,7 +78,7 @@ class Choices_Field extends Text {
 		<span class="torro-element-choice-move" aria-hidden="true">
 			<?php torro()->assets()->render_icon( 'torro-icon-move' ); ?>
 		</span>
-		<input<?php echo $this->get_input_attrs( $input_attrs ); ?>>
+		<input<?php echo $this->get_input_attrs( $input_attrs ); // WPCS: XSS OK. ?>>
 		<input type="hidden" name="<?php echo esc_attr( str_replace( '[value]', '[element_id]', $input_attrs['name'] ) ); ?>" value="<?php echo esc_attr( $this->element_id ); ?>">
 		<input type="hidden" name="<?php echo esc_attr( str_replace( '[value]', '[field]', $input_attrs['name'] ) ); ?>" value="<?php echo esc_attr( $this->field ); ?>">
 		<input type="hidden" name="<?php echo esc_attr( str_replace( '[value]', '[sort]', $input_attrs['name'] ) ); ?>" value="<?php echo esc_attr( $this->sort ); ?>">

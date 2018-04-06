@@ -9,7 +9,7 @@
  * Plugin Name: Torro Forms
  * Plugin URI:  http://torro-forms.com
  * Description: Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.
- * Version:     1.0.0-beta.8
+ * Version:     1.0.0-beta.9
  * Author:      Awesome UG
  * Author URI:  http://www.awesome.ug
  * License:     GNU General Public License v2 (or later)
@@ -37,10 +37,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function torro() {
 	if ( ! class_exists( 'Torro_Forms' ) ) {
-		$main_file = __FILE__;
+		$main_file        = __FILE__;
 		$basedir_relative = '';
 
-		$file = wp_normalize_path( $main_file );
+		$file          = wp_normalize_path( $main_file );
 		$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 		if ( preg_match( '#^' . preg_quote( $mu_plugin_dir, '#' ) . '/#', $file ) && file_exists( $mu_plugin_dir . '/torro-forms.php' ) ) {
 			$basedir_relative = 'torro-forms/';

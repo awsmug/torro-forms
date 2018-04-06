@@ -234,9 +234,9 @@ class Element extends Model {
 		$data = array_merge( $data, array(
 			'value'             => null,
 			'input_attrs'       => array(
-				'id'       => 'torro-element-' . $this->id,
-				'name'     => 'torro_submission[values][' . $this->id . '][_main]',
-				'class'    => implode( ' ', $input_classes ),
+				'id'    => 'torro-element-' . $this->id,
+				'name'  => 'torro_submission[values][' . $this->id . '][_main]',
+				'class' => implode( ' ', $input_classes ),
 			),
 			'label_required'    => '',
 			'label_attrs'       => array(

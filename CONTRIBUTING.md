@@ -1,31 +1,31 @@
 # Contribute to Torro Forms
 
-Patches, bug reports, translations and any kind of contributions are very welcome. When contributing, please ensure you stick to the following guidelines.
-
-## Contributing Code
-
-When contributing code...
-
-* fork the `develop` branch of the repository on GitHub (do not use the `master` branch)
-* make changes to the forked repository
-    * make sure you stick to the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/)
-    * write code that is backward-compatible with PHP 5.6 and WordPress 4.8 functionality
-    * test your code with the constant `WP_DEBUG` enabled
-* when committing, in addition to a note about the fix please reference your issue (if present)
-* push the changes to your fork and submit a pull request to the `develop` branch
-
-After that we will review the pull-request as soon as possible and either merge it, make suggestions on improvements or ask you for further details about your implementation.
+Bug reports, patches, translations and any kind of contributions are very welcome. When contributing, please ensure you stick to the following guidelines.
 
 ## Writing a Bug Report
 
 When writing a bug report...
 
-* tell us what you were looking to achieve
-* tell us what should have happened upon doing your action
-* tell us what actually happened (please provide screenshots if UI-related)
-* feel free to include any notes on your investigations (if you already digged in deeper)
+* [open an issue](https://github.com/awsmug/torro-forms/issues/new)
+* follow the guidelines specified in the issue template
 
 We will take a look at your issue and either assign it keywords and a milestone or get back to you if there are open questions.
+
+## Contributing Code
+
+When contributing code...
+
+* fork the `master` branch of the repository on GitHub
+* make changes to the forked repository
+    * write code that is backward-compatible with PHP 5.6 and WordPress 4.8 functionality
+    * make sure you stick to the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/)
+    * make sure you document the code properly
+    * test your code with the constant `WP_DEBUG` enabled
+* when committing, in addition to a note about the fix, please reference your issue (if present)
+* push the changes to your fork and [submit a pull request](https://github.com/awsmug/torro-forms/compare) to the `master` branch
+* follow the guidelines specified in the pull request template
+
+After that we will review the pull-request as soon as possible and either merge it, make suggestions on improvements or ask you for further details about your implementation.
 
 ## Providing Translations
 

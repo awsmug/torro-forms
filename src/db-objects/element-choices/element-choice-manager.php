@@ -79,14 +79,14 @@ class Element_Choice_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"element_id int(11) unsigned NOT NULL",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'element_id int(11) unsigned NOT NULL',
 			"field char(100) NOT NULL default ''",
-			"section char(100) NOT NULL",
-			"value text NOT NULL",
+			'section char(100) NOT NULL',
+			'value text NOT NULL',
 			"sort int(11) unsigned NOT NULL default '0'",
-			"PRIMARY KEY  (id)",
-			"KEY element_id (element_id)",
+			'PRIMARY KEY  (id)',
+			'KEY element_id (element_id)',
 		) );
 	}
 }

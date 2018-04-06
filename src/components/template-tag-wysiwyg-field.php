@@ -89,7 +89,7 @@ class Template_Tag_WYSIWYG_Field extends WYSIWYG {
 		<div class="template-tag-list-wrap">
 			<button type="button" class="template-tag-list-toggle button" aria-controls="<?php echo esc_attr( $id . '-template-tag-list' ); ?>" aria-expanded="false">
 				<span aria-hidden="true">+</span>
-				<span class="screen-reader-text"><?php _e( 'Insert template tag', 'torro-forms' ); ?></span>
+				<span class="screen-reader-text"><?php esc_html_e( 'Insert template tag', 'torro-forms' ); ?></span>
 			</button>
 			<ul id="<?php echo esc_attr( $id . '-template-tag-list' ); ?>" class="template-tag-list" role="region" tabindex="-1">
 				<?php foreach ( $this->template_tag_handler->get_groups() as $group_slug => $group_label ) : ?>
@@ -122,7 +122,7 @@ class Template_Tag_WYSIWYG_Field extends WYSIWYG {
 		<div class="template-tag-list-wrap">
 			<button type="button" class="template-tag-list-toggle button" aria-controls="{{ data.inputAttrs.id }}-template-tag-list" aria-expanded="false">
 				<span aria-hidden="true">+</span>
-				<span class="screen-reader-text"><?php _e( 'Insert template tag', 'torro-forms' ); ?></span>
+				<span class="screen-reader-text"><?php esc_html_e( 'Insert template tag', 'torro-forms' ); ?></span>
 			</button>
 			<ul id="{{ data.inputAttrs.id }}-template-tag-list" class="template-tag-list" role="region" tabindex="-1">
 				<# _.each( data.templateTags, function( groupData, groupSlug ) { #>

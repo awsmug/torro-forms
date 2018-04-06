@@ -53,8 +53,8 @@ class Form_Frontend_Output_Handler {
 		}
 
 		$submission = null;
-		if ( isset( $_GET['torro_submission_id'] ) ) {
-			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $_GET['torro_submission_id'] ) );
+		if ( isset( $_GET['torro_submission_id'] ) ) { // WPCS: CSRF OK.
+			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $_GET['torro_submission_id'] ) ); // WPCS: CSRF OK.
 			if ( $submission && $submission->form_id !== $form->id ) {
 				$submission = null;
 			}
@@ -86,11 +86,18 @@ class Form_Frontend_Output_Handler {
 		 */
 		$load_css = apply_filters( "{$this->form_manager->get_prefix()}load_frontend_css", $load_css );
 
-		if ( ! $load_css ) {
-			return;
+		if ( $load_css ) {
+			$this->form_manager->assets()->enqueue_style( 'frontend' );
 		}
 
-		$this->form_manager->assets()->enqueue_style( 'frontend' );
+		/**
+		 * Fires when form assets should be enqueued in the frontend.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $load_css Whether CSS files should be enqueued or not.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}enqueue_form_frontend_assets", $load_css );
 	}
 
 	/**
@@ -128,16 +135,16 @@ class Form_Frontend_Output_Handler {
 
 		if ( 'iframe' === $atts['show'] ) {
 			$url = get_permalink( $form->id );
-			if ( isset( $_GET['torro_submission_id'] ) ) {
-				$url = add_query_arg( 'torro_submission_id', absint( $_GET['torro_submission_id'] ), $url );
+			if ( isset( $_GET['torro_submission_id'] ) ) { // WPCS: CSRF OK.
+				$url = add_query_arg( 'torro_submission_id', absint( $_GET['torro_submission_id'] ), $url ); // WPCS: CSRF OK.
 			}
 
 			return '<iframe src="' . $url . '" style="width:' . esc_attr( $atts['iframe_width'] ) . ';height:' . esc_attr( $atts['iframe_height'] ) . ';"></iframe>';
 		}
 
 		$submission = null;
-		if ( isset( $_GET['torro_submission_id'] ) ) {
-			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $_GET['torro_submission_id'] ) );
+		if ( isset( $_GET['torro_submission_id'] ) ) { // WPCS: CSRF OK.
+			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $_GET['torro_submission_id'] ) ); // WPCS: CSRF OK.
 			if ( $submission->form_id !== $form->id ) {
 				$submission = null;
 			}
@@ -230,7 +237,7 @@ class Form_Frontend_Output_Handler {
 
 		$template_data = $form->to_json( false );
 
-		$template_data['hidden_fields'] = '<input type="hidden" name="torro_submission[nonce]" value="' . wp_create_nonce( $this->get_nonce_action( $form, $submission ) ) . '">';
+		$template_data['hidden_fields']  = '<input type="hidden" name="torro_submission[nonce]" value="' . wp_create_nonce( $this->get_nonce_action( $form, $submission ) ) . '">';
 		$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[form_id]" value="' . esc_attr( $form->id ) . '">';
 		if ( $submission ) {
 			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[id]" value="' . esc_attr( $submission->id ) . '">';
@@ -509,10 +516,10 @@ class Form_Frontend_Output_Handler {
 			} else {
 				?>
 				<div class="<?php echo esc_attr( $this->get_notice_class( 'error' ) ); ?>">
-					<p><?php _e( 'Some errors occurred while trying to submit the form:', 'torro-forms' ); ?></p>
+					<p><?php esc_html_e( 'Some errors occurred while trying to submit the form:', 'torro-forms' ); ?></p>
 					<ul>
-						<?php foreach ( $global_errors as $error_code => $error_message ) : ?>
-							<li><?php echo $error_message; ?></li>
+						<?php foreach ( $global_errors as $error_message ) : ?>
+							<li><?php echo wp_kses_data( $error_message ); ?></li>
 						<?php endforeach; ?>
 					</ul>
 				</div>
@@ -540,7 +547,7 @@ class Form_Frontend_Output_Handler {
 
 		?>
 		<div class="<?php echo esc_attr( $this->get_notice_class( $type ) ); ?>">
-			<p><?php echo $message; ?></p>
+			<p><?php echo wp_kses_data( $message ); ?></p>
 		</div>
 		<?php
 	}

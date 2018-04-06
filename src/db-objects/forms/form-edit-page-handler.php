@@ -105,6 +105,7 @@ class Form_Edit_Page_Handler {
 			'update_value_callback_args' => array( $id, '{value}' ),
 			'name_prefix'                => $id,
 			'render_mode'                => 'form-table',
+			'field_required_markup'      => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
 		) );
 	}
 
@@ -226,8 +227,8 @@ class Form_Edit_Page_Handler {
 
 		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
 
-		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) {
-			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) {
+		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) { // WPCS: CSRF OK.
+			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) { // WPCS: CSRF OK.
 				return;
 			}
 		}
@@ -243,8 +244,8 @@ class Form_Edit_Page_Handler {
 	public function maybe_print_templates() {
 		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
 
-		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) {
-			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) {
+		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) { // WPCS: CSRF OK.
+			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) { // WPCS: CSRF OK.
 				return;
 			}
 		}
@@ -321,34 +322,34 @@ class Form_Edit_Page_Handler {
 	 */
 	public function action_duplicate_form() {
 		if ( ! isset( $_REQUEST['form_id'] ) ) {
-			wp_die( __( 'Missing form ID.', 'torro-forms' ), '', 400 );
+			wp_die( esc_html__( 'Missing form ID.', 'torro-forms' ), '', 400 );
 		}
 
 		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
-			wp_die( __( 'Missing nonce.', 'torro-forms' ), '', 400 );
+			wp_die( esc_html__( 'Missing nonce.', 'torro-forms' ), '', 400 );
 		}
 
 		$form_id = (int) $_REQUEST['form_id'];
 
 		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $this->form_manager->get_prefix() . 'duplicate_form_' . $form_id ) ) {
-			wp_die( __( 'Invalid nonce.', 'torro-forms' ), '', 403 );
+			wp_die( esc_html__( 'Invalid nonce.', 'torro-forms' ), '', 403 );
 		}
 
 		$form = $this->form_manager->get( $form_id );
 		if ( ! $form ) {
-			wp_die( __( 'Invalid form ID.', 'torro-forms' ), '', 404 );
+			wp_die( esc_html__( 'Invalid form ID.', 'torro-forms' ), '', 404 );
 		}
 
 		$new_form = $form->duplicate();
 		if ( is_wp_error( $new_form ) ) {
 			$feedback = array(
-				'type'     => 'error',
+				'type'    => 'error',
 				/* translators: 1: form title, 2: error message */
 				'message' => sprintf( __( 'The form &#8220;%1$s&#8221; could not be duplicated: %2$s', 'torro-forms' ), $form->title, $new_form->get_error_message() ),
 			);
 		} else {
 			$feedback = array(
-				'type'     => 'success',
+				'type'    => 'success',
 				/* translators: 1: form title, 2: new form edit URL */
 				'message' => sprintf( __( 'The form &#8220;%1$s&#8221; was duplicated successfully. <a href="%2$s">View the duplicate</a>', 'torro-forms' ), $form->title, get_edit_post_link( $new_form->id ) ),
 			);
@@ -372,7 +373,7 @@ class Form_Edit_Page_Handler {
 	public function maybe_show_duplicate_form_feedback() {
 		$meta_key = $this->form_manager->get_prefix() . 'duplicate_feedback';
 
-		if ( empty( $_GET[ $meta_key ] ) ) {
+		if ( empty( $_GET[ $meta_key ] ) ) { // WPCS: CSRF OK.
 			return;
 		}
 
@@ -388,7 +389,16 @@ class Form_Edit_Page_Handler {
 
 		?>
 		<div class="notice notice-<?php echo esc_attr( $feedback['type'] ); ?>">
-			<p><?php echo wp_kses( $feedback['message'], array( 'strong' => array(), 'a' => array( 'href' => array() ) ) ); ?></p>
+			<p>
+				<?php
+				echo wp_kses( $feedback['message'], array(
+					'strong' => array(),
+					'a'      => array(
+						'href' => array(),
+					),
+				) );
+				?>
+			</p>
 		</div>
 		<?php
 	}
@@ -413,7 +423,7 @@ class Form_Edit_Page_Handler {
 		}
 
 		$nonce_action = $prefix . 'duplicate_form_' . $post->ID;
-		$url = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action );
+		$url          = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . rawurlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action );
 
 		return $output . ' <a class="button button-small" href="' . esc_url( $url ) . '">' . esc_html( _x( 'Duplicate Form', 'action', 'torro-forms' ) ) . '</a>';
 	}
@@ -442,6 +452,13 @@ class Form_Edit_Page_Handler {
 		return $output . ' <a class="button button-small" href="' . esc_url( $url ) . '">' . esc_html( _x( 'View Form Submissions', 'action', 'torro-forms' ) ) . '</a>';
 	}
 
+	/**
+	 * Renders a read-only field containing the form shortcode markup for a post if applicable.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_Post $post Post object.
+	 */
 	public function maybe_render_shortcode( $post ) {
 		$prefix = $this->form_manager->get_prefix();
 
@@ -456,7 +473,7 @@ class Form_Edit_Page_Handler {
 
 		?>
 		<div class="misc-pub-section form-shortcode">
-			<label for="<?php echo esc_attr( $id_attr ); ?>"><?php _e( 'Form Shortcode:', 'torro-forms' ); ?></label>
+			<label for="<?php echo esc_attr( $id_attr ); ?>"><?php esc_html_e( 'Form Shortcode:', 'torro-forms' ); ?></label>
 			<input id="<?php echo esc_attr( $id_attr ); ?>" class="clipboard-field" value="<?php echo esc_attr( sprintf( "[{$this->form_manager->get_prefix()}form id=&quot;%d&quot;]", $post->ID ) ); ?>" readonly="readonly" />
 			<button type="button" class="clipboard-button button" data-clipboard-target="#<?php echo esc_attr( $id_attr ); ?>">
 				<?php $this->form_manager->assets()->render_icon( 'torro-icon-clippy', __( 'Copy to clipboard', 'torro-forms' ) ); ?>
@@ -493,18 +510,18 @@ class Form_Edit_Page_Handler {
 		<div id="torro-form-canvas" class="torro-form-canvas">
 			<div class="torro-form-canvas-header torro-form-canvas-tabs" role="tablist">
 				<button type="button" class="torro-form-canvas-tab add-button is-active" disabled="disabled">
-					<span aria-hidden="true">+</span><span class="screen-reader-text"><?php _e( 'Add New Container', 'torro-forms' ); ?></span>
+					<span aria-hidden="true">+</span><span class="screen-reader-text"><?php esc_html_e( 'Add New Container', 'torro-forms' ); ?></span>
 				</button>
 			</div>
 			<div class="torro-form-canvas-content">
 				<div class="drag-drop-area is-empty">
 					<div class="content loader-content hide-if-no-js">
-						<?php _e( 'Loading form builder...', 'torro-forms' ); ?>
+						<?php esc_html_e( 'Loading form builder...', 'torro-forms' ); ?>
 						<span class="spinner is-active"></span>
 					</div>
 					<div class="torro-notice notice-warning hide-if-js">
 						<p>
-							<?php _e( 'It seems you have disabled JavaScript in your browser. Torro Forms requires JavaScript in order to edit your forms.', 'torro-forms' ); ?>
+							<?php esc_html_e( 'It seems you have disabled JavaScript in your browser. Torro Forms requires JavaScript in order to edit your forms.', 'torro-forms' ); ?>
 						</p>
 					</div>
 				</div>
@@ -535,99 +552,101 @@ class Form_Edit_Page_Handler {
 			do_action( "{$this->form_manager->get_prefix()}add_form_meta_content", $this );
 		}
 
-		foreach ( $this->meta_boxes as $id => $args ) {
-			add_meta_box( $id, $args['title'], function( $post, $box ) {
-				$prefix = $this->form_manager->get_prefix();
+		$meta_box_cb = function( $post, $box ) {
+			$prefix = $this->form_manager->get_prefix();
 
-				if ( ! empty( $box['args']['description'] ) ) {
-					echo '<p class="description">' . $box['args']['description'] . '</p>';
-				}
+			if ( ! empty( $box['args']['description'] ) ) {
+				echo '<p class="description">' . wp_kses_data( $box['args']['description'] ) . '</p>';
+			}
 
-				$tab_id_prefix      = 'metabox-' . $box['id'] . '-tab-';
-				$tabpanel_id_prefix = 'metabox-' . $box['id'] . '-tabpanel-';
+			$tab_id_prefix      = 'metabox-' . $box['id'] . '-tab-';
+			$tabpanel_id_prefix = 'metabox-' . $box['id'] . '-tabpanel-';
 
-				$tabs = wp_list_filter( $this->tabs, array( 'meta_box' => $box['id'] ) );
+			$tabs = wp_list_filter( $this->tabs, array( 'meta_box' => $box['id'] ) );
 
-				$first = true;
+			$first = true;
 
-				/**
-				 * Fires before a form meta box is rendered.
-				 *
-				 * The dynamic portion of the hook name refers to the meta box identifier.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param int $form_id Current form ID.
-				 */
-				do_action( "{$prefix}metabox_{$box['id']}_before", $this->current_form->id );
+			/**
+			 * Fires before a form meta box is rendered.
+			 *
+			 * The dynamic portion of the hook name refers to the meta box identifier.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param int $form_id Current form ID.
+			 */
+			do_action( "{$prefix}metabox_{$box['id']}_before", $this->current_form->id );
 
-				?>
-				<h3 class="torro-metabox-tab-wrapper" role="tablist">
-					<?php foreach ( $tabs as $id => $args ) : ?>
-						<a id="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" class="torro-metabox-tab" href="<?php echo esc_attr( '#' . $tabpanel_id_prefix . $id ); ?>" aria-controls="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>" role="tab">
-							<?php echo $args['title']; ?>
-						</a>
-						<?php $first = false; ?>
-					<?php endforeach; ?>
-				</h3>
-				<?php $first = true; ?>
+			?>
+			<h3 class="torro-metabox-tab-wrapper" role="tablist">
 				<?php foreach ( $tabs as $id => $args ) : ?>
-					<div id="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" class="torro-metabox-tab-panel" aria-labelledby="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
-						<?php
-
-						/**
-						 * Fires before a form meta box tab is rendered.
-						 *
-						 * The dynamic portions of the hook name refer to the meta box identifier and
-						 * tab identifier respectively.
-						 *
-						 * @since 1.0.0
-						 *
-						 * @param int $form_id Current form ID.
-						 */
-						do_action( "{$prefix}metabox_{$box['id']}_tab_{$id}_before", $this->current_form->id );
-
-						?>
-						<?php if ( ! empty( $args['description'] ) ) : ?>
-							<p class="description"><?php echo $args['description']; ?></p>
-						<?php endif; ?>
-						<table class="form-table">
-							<?php $box['args']['field_manager']->render( $id ); ?>
-						</table>
-						<?php
-
-						/**
-						 * Fires after a form meta box tab has been rendered.
-						 *
-						 * The dynamic portions of the hook name refer to the meta box identifier and
-						 * tab identifier respectively.
-						 *
-						 * @since 1.0.0
-						 *
-						 * @param int $form_id Current form ID.
-						 */
-						do_action( "{$prefix}metabox_{$box['id']}_tab_{$id}_after", $this->current_form->id );
-
-						?>
-					</div>
+					<a id="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" class="torro-metabox-tab" href="<?php echo esc_attr( '#' . $tabpanel_id_prefix . $id ); ?>" aria-controls="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>" role="tab">
+						<?php echo wp_kses_data( $args['title'] ); ?>
+					</a>
 					<?php $first = false; ?>
 				<?php endforeach; ?>
-				<?php
+			</h3>
+			<?php $first = true; ?>
+			<?php foreach ( $tabs as $id => $args ) : ?>
+				<div id="<?php echo esc_attr( $tabpanel_id_prefix . $id ); ?>" class="torro-metabox-tab-panel" aria-labelledby="<?php echo esc_attr( $tab_id_prefix . $id ); ?>" aria-hidden="<?php echo $first ? 'false' : 'true'; ?>" role="tabpanel">
+					<?php
 
-				/**
-				 * Fires after a form meta box has been rendered.
-				 *
-				 * The dynamic portion of the hook name refers to the meta box identifier.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param int $form_id Current form ID.
-				 */
-				do_action( "{$prefix}metabox_{$box['id']}_after", $this->current_form->id );
+					/**
+					 * Fires before a form meta box tab is rendered.
+					 *
+					 * The dynamic portions of the hook name refer to the meta box identifier and
+					 * tab identifier respectively.
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param int $form_id Current form ID.
+					 */
+					do_action( "{$prefix}metabox_{$box['id']}_tab_{$id}_before", $this->current_form->id );
 
-				?>
+					?>
+					<?php if ( ! empty( $args['description'] ) ) : ?>
+						<p class="description"><?php echo wp_kses_data( $args['description'] ); ?></p>
+					<?php endif; ?>
+					<table class="form-table">
+						<?php $box['args']['field_manager']->render( $id ); ?>
+					</table>
+					<?php
+
+					/**
+					 * Fires after a form meta box tab has been rendered.
+					 *
+					 * The dynamic portions of the hook name refer to the meta box identifier and
+					 * tab identifier respectively.
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param int $form_id Current form ID.
+					 */
+					do_action( "{$prefix}metabox_{$box['id']}_tab_{$id}_after", $this->current_form->id );
+
+					?>
+				</div>
+				<?php $first = false; ?>
+			<?php endforeach; ?>
 			<?php
-			}, null, $args['context'], $args['priority'], $args );
+
+			/**
+			 * Fires after a form meta box has been rendered.
+			 *
+			 * The dynamic portion of the hook name refers to the meta box identifier.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param int $form_id Current form ID.
+			 */
+			do_action( "{$prefix}metabox_{$box['id']}_after", $this->current_form->id );
+
+			?>
+		<?php
+		};
+
+		foreach ( $this->meta_boxes as $id => $args ) {
+			add_meta_box( $id, $args['title'], $meta_box_cb, null, $args['context'], $args['priority'], $args );
 		}
 
 		/**
@@ -646,6 +665,8 @@ class Form_Edit_Page_Handler {
 	 * @since 1.0.0
 	 */
 	private function enqueue_assets() {
+		wp_enqueue_media();
+
 		$this->form_manager->assets()->enqueue_script( 'admin-fixed-sidebar' );
 
 		$this->form_manager->assets()->enqueue_script( 'admin-tooltip-descriptions' );
@@ -661,7 +682,7 @@ class Form_Edit_Page_Handler {
 			do_action( "{$this->form_manager->get_prefix()}add_form_meta_content", $this );
 		}
 
-		foreach ( $this->meta_boxes as $id => $args ) {
+		foreach ( $this->meta_boxes as $args ) {
 			$args['field_manager']->enqueue();
 		}
 
@@ -685,7 +706,7 @@ class Form_Edit_Page_Handler {
 		<script type="text/html" id="tmpl-torro-failure">
 			<div class="torro-notice notice-error">
 				<p>
-					<strong><?php _e( 'Error:', 'torro-forms' ); ?></strong>
+					<strong><?php esc_html_e( 'Error:', 'torro-forms' ); ?></strong>
 					{{ data.message }}
 				</p>
 			</div>
@@ -694,13 +715,13 @@ class Form_Edit_Page_Handler {
 		<script type="text/html" id="tmpl-torro-form-canvas">
 			<div class="torro-form-canvas-header torro-form-canvas-tabs">
 				<button type="button" class="torro-form-canvas-tab add-button">
-					<span aria-hidden="true">+</span><span class="screen-reader-text"><?php _e( 'Add New Container', 'torro-forms' ); ?></span>
+					<span aria-hidden="true">+</span><span class="screen-reader-text"><?php esc_html_e( 'Add New Container', 'torro-forms' ); ?></span>
 				</button>
 			</div>
 			<div class="torro-form-canvas-content">
 				<div class="torro-form-canvas-panel add-panel">
 					<div class="drag-drop-area is-empty">
-						<div class="content"><?php _e( 'Click the button above to add your first container', 'torro-forms' ); ?></div>
+						<div class="content"><?php esc_html_e( 'Click the button above to add your first container', 'torro-forms' ); ?></div>
 					</div>
 				</div>
 			</div>
@@ -714,49 +735,21 @@ class Form_Edit_Page_Handler {
 		<script type="text/html" id="tmpl-torro-container-panel">
 			<div class="drag-drop-area"></div>
 			<div class="add-element-wrap">
-				<div class="{{ data.addingElement ? 'add-element-toggle-wrap is-expanded' : 'add-element-toggle-wrap' }}">
-					<button type="button" class="add-element-toggle" aria-controls="torro-{{ data.id }}-add-element-content-wrap" aria-expanded="{{ data.addingElement ? 'true' : 'false' }}">
-						<?php _e( 'Add element', 'torro-forms' ); ?>
-					</button>
-				</div>
-				<div id="torro-{{ data.id }}-add-element-content-wrap" class="{{ data.addingElement ? 'add-element-content-wrap is-expanded' : 'add-element-content-wrap' }}" role="region">
-					<div class="torro-element-types">
-						<# _.each( data.elementTypes, function( elementType ) { #>
-							<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
-								<div class="torro-element-type-header">
-									<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
-										<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
-									<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
-										<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
-											<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
-										</svg>
-									<# } else { #>
-										<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}" alt="">
-									<# } #>
-									<span class="torro-element-type-header-title">
-										{{ elementType.title }}
-									</span>
-								</div>
-								<div class="torro-element-type-content">
-									<p>{{ elementType.description }}</p>
-								</div>
-							</div>
-						<# } ); #>
-					</div>
-					<button type="button" class="button add-element-button"{{{ data.selectedElementType ? '' : ' disabled' }}}>
-						<?php _e( 'Add element', 'torro-forms' ); ?>
+				<div class="add-element-toggle-wrap">
+					<button type="button" class="add-element-toggle button">
+						<?php esc_html_e( 'Add element', 'torro-forms' ); ?>
 					</button>
 				</div>
 			</div>
 
-			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][form_id]" value="{{ data.form_id }}" />
-			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][label]" value="{{ data.label }}" />
-			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>containers[{{ data.id }}][sort]" value="{{ data.sort }}" />
+			<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'containers[{{ data.id }}][form_id]' ); ?>" value="{{ data.form_id }}" />
+			<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'containers[{{ data.id }}][label]' ); ?>" value="{{ data.label }}" />
+			<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'containers[{{ data.id }}][sort]' ); ?>" value="{{ data.sort }}" />
 		</script>
 
 		<script type="text/html" id="tmpl-torro-container-footer-panel">
 			<button type="button" class="button-link button-link-delete delete-container-button">
-				<?php _e( 'Delete Page', 'torro-forms' ); ?>
+				<?php esc_html_e( 'Delete Page', 'torro-forms' ); ?>
 			</button>
 		</script>
 
@@ -775,7 +768,7 @@ class Form_Edit_Page_Handler {
 					{{ ! _.isEmpty( data.label ) ? data.label : data.type.title }}
 				</span>
 				<button type="button" class="torro-element-expand-button" aria-controls="torro-element-{{ data.id }}-content" aria-expanded="{{ data.active ? 'true' : 'false' }}">
-					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text">{{ data.active ? '<?php _e( 'Hide Content', 'torro-forms' ); ?>' : '<?php _e( 'Show Content', 'torro-forms' ); ?>' }}</span>
+					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text">{{ data.active ? '<?php esc_html_e( 'Hide Content', 'torro-forms' ); ?>' : '<?php esc_html_e( 'Show Content', 'torro-forms' ); ?>' }}</span>
 				</button>
 			</div>
 			<div id="torro-element-{{ data.id }}-content" class="{{ data.active ? 'torro-element-content is-expanded' : 'torro-element-content' }}" role="region">
@@ -785,13 +778,13 @@ class Form_Edit_Page_Handler {
 				</div>
 				<div class="torro-element-content-footer">
 					<button type="button" class="button-link button-link-delete delete-element-button">
-						<?php _e( 'Delete Element', 'torro-forms' ); ?>
+						<?php esc_html_e( 'Delete Element', 'torro-forms' ); ?>
 					</button>
 				</div>
 			</div>
-			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][container_id]" value="{{ data.container_id }}" />
-			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][type]" value="{{ data.type.slug }}" />
-			<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>elements[{{ data.id }}][sort]" value="{{ data.sort }}" />
+			<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'elements[{{ data.id }}][container_id]' ); ?>" value="{{ data.container_id }}" />
+			<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'elements[{{ data.id }}][type]' ); ?>" value="{{ data.type.slug }}" />
+			<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'elements[{{ data.id }}][sort]' ); ?>" value="{{ data.sort }}" />
 		</script>
 
 		<script type="text/html" id="tmpl-torro-element-section-tab">
@@ -814,11 +807,44 @@ class Form_Edit_Page_Handler {
 				<td>
 					<div id="{{ data.id }}-content-wrap" class="content-wrap"></div>
 					<# if ( data._element_setting ) { #>
-						<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][element_id]" value="{{ data._element_setting.element_id }}" />
-						<input type="hidden" name="<?php echo $this->form_manager->get_prefix(); ?>element_settings[{{ data._element_setting.id }}][name]" value="{{ data._element_setting.name }}" />
+						<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'element_settings[{{ data._element_setting.id }}][element_id]' ); ?>" value="{{ data._element_setting.element_id }}" />
+						<input type="hidden" name="<?php echo esc_attr( $this->form_manager->get_prefix() . 'element_settings[{{ data._element_setting.id }}][name]' ); ?>" value="{{ data._element_setting.name }}" />
 					<# } #>
 				</td>
 			</tr>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-add-element-frame">
+			<div class="media-frame-menu"></div>
+			<div class="media-frame-title"></div>
+			<div class="media-frame-content"></div>
+			<div class="media-frame-toolbar"></div>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-element-types-browser">
+			<div class="torro-element-types">
+				<# _.each( data.elementTypes, function( elementType ) { #>
+					<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}" tabindex="0">
+						<div class="torro-element-type-header">
+							<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
+								<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
+							<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
+								<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
+									<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
+								</svg>
+							<# } else { #>
+								<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}" alt="">
+							<# } #>
+							<span class="torro-element-type-header-title">
+								{{ elementType.title }}
+							</span>
+						</div>
+						<div class="torro-element-type-content">
+							<p>{{ elementType.description }}</p>
+						</div>
+					</div>
+				<# } ); #>
+			</div>
 		</script>
 		<?php
 
@@ -852,36 +878,36 @@ class Form_Edit_Page_Handler {
 
 		$errors = new WP_Error();
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ) ) {
-			$mappings = $this->save_containers( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ) ) { // WPCS: CSRF OK.
+			$mappings = $this->save_containers( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ), $mappings, $errors ); // WPCS: CSRF OK.
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ) ) {
-			$mappings = $this->save_elements( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ) ) { // WPCS: CSRF OK.
+			$mappings = $this->save_elements( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ), $mappings, $errors ); // WPCS: CSRF OK.
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ) ) {
-			$mappings = $this->save_element_choices( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ) ) { // WPCS: CSRF OK.
+			$mappings = $this->save_element_choices( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ), $mappings, $errors ); // WPCS: CSRF OK.
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ) ) {
-			$mappings = $this->save_element_settings( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ), $mappings, $errors );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ) ) { // WPCS: CSRF OK.
+			$mappings = $this->save_element_settings( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ), $mappings, $errors ); // WPCS: CSRF OK.
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) ) {
-			$this->delete_containers( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) ) { // WPCS: CSRF OK.
+			$this->delete_containers( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) ); // WPCS: CSRF OK.
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) ) {
-			$this->delete_elements( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) ) { // WPCS: CSRF OK.
+			$this->delete_elements( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) ); // WPCS: CSRF OK.
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) ) {
-			$this->delete_element_choices( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) ) { // WPCS: CSRF OK.
+			$this->delete_element_choices( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) ); // WPCS: CSRF OK.
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ) {
-			$this->delete_element_settings( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) );
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ) { // WPCS: CSRF OK.
+			$this->delete_element_settings( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ); // WPCS: CSRF OK.
 		}
 
 		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {
@@ -890,9 +916,9 @@ class Form_Edit_Page_Handler {
 		}
 
 		foreach ( $this->meta_boxes as $id => $args ) {
-			if ( isset( $_POST[ $id ] ) ) {
+			if ( isset( $_POST[ $id ] ) ) { // WPCS: CSRF OK.
 				// TODO: Figure out how to deal with errors.
-				$args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) );
+				$args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) ); // WPCS: CSRF OK.
 			}
 		}
 

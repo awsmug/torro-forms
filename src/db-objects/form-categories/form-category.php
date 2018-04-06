@@ -98,7 +98,7 @@ class Form_Category extends Core_Model {
 	 * @param mixed  $value    Property value.
 	 */
 	public function __set( $property, $value ) {
-		$found = false;
+		$found   = false;
 		$changed = false;
 
 		switch ( $property ) {
@@ -109,7 +109,7 @@ class Form_Category extends Core_Model {
 				$found = true;
 				if ( $this->original->name !== $value ) {
 					$this->original->name = $value;
-					$changed = true;
+					$changed              = true;
 				}
 				break;
 		}

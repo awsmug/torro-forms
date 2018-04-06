@@ -157,7 +157,7 @@ trait Submodule_Registry_Trait {
 			}
 
 			$submodule_meta_identifier = $submodule->get_meta_identifier();
-			$submodule_meta_fields = $submodule->get_meta_fields();
+			$submodule_meta_fields     = $submodule->get_meta_fields();
 			if ( empty( $submodule_meta_fields ) ) {
 				continue;
 			}
@@ -230,7 +230,7 @@ trait Submodule_Registry_Trait {
 			}
 
 			$submodule_settings_identifier = $submodule->get_settings_identifier();
-			$submodule_settings_sections = $submodule->get_settings_sections();
+			$submodule_settings_sections   = $submodule->get_settings_sections();
 			if ( empty( $submodule_settings_sections ) ) {
 				continue;
 			}
