@@ -173,8 +173,7 @@
 }
 
 .torro-element-type {
-	flex-basis: 200px;
-	flex-grow: 1;
+	flex-basis: 350px;
 	display: block;
 	margin: 0 0.5em 1em;
 	background-color: #fff;
