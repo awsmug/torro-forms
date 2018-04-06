@@ -43,8 +43,8 @@
 		this.$footerPanel.attr( 'role', 'tabpanel' );
 
 		this.addElementFrame = new torro.Builder.AddElement.View.Frame({
-			title: torro.i18n.selectElementType,
-			buttonLabel: torro.i18n.insertIntoContainer,
+			title: torro.Builder.i18n.selectElementType,
+			buttonLabel: torro.Builder.i18n.insertIntoContainer,
 			collection: torro.Builder.getInstance().elementTypes
 		});
 	}
@@ -235,7 +235,7 @@
 		},
 
 		deleteContainer: function() {
-			torro.askConfirmation( this.options.i18n.confirmDeleteContainer, _.bind( function() {
+			torro.askConfirmation( torro.Builder.i18n.confirmDeleteContainer, _.bind( function() {
 				this.container.collection.remove( this.container );
 			}, this ) );
 		},

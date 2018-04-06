@@ -35,9 +35,8 @@
 		 * @property {object}
 		 */
 		defaultProps: {
-			selected:          false,
-			form_id:           0,
-			label_placeholder: 'Page %s'
+			selected: false,
+			form_id:  0
 		},
 
 		/**
@@ -49,8 +48,9 @@
 		 * @returns {object} Container defaults.
 		 */
 		getDefaultAttributes: function() {
-			var labelNumber = this.length + 1;
-			var sort        = this.length;
+			var labelPlaceholder = torroBuilder.i18n.defaultContainerLabel;
+			var labelNumber      = this.length + 1;
+			var sort             = this.length;
 			var last;
 
 			if ( this.length ) {
@@ -59,7 +59,7 @@
 				if ( last ) {
 					sort = last.get( 'sort' ) + 1;
 
-					if ( last.get( 'label' ) === this.props.get( 'label_placeholder' ).replace( '%s', sort ) ) {
+					if ( last.get( 'label' ) === labelPlaceholder.replace( '%s', sort ) ) {
 						labelNumber = sort + 1;
 					}
 				}
@@ -67,7 +67,7 @@
 
 			return {
 				form_id: this.props.get( 'form_id' ),
-				label:   this.props.get( 'label_placeholder' ).replace( '%s', labelNumber ),
+				label:   labelPlaceholder.replace( '%s', labelNumber ),
 				sort:    sort
 			};
 		},

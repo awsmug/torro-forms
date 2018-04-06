@@ -160,9 +160,7 @@ window.torro = window.torro || {};
 			}
 
 			if ( form ) {
-				this.form = new torro.Builder.FormModel( form, {
-					container_label_placeholder: i18n.defaultContainerLabel
-				});
+				this.form = new torro.Builder.FormModel( form );
 
 				if ( form._embedded.containers && form._embedded.containers[0] ) {
 					this.form.containers.add( form._embedded.containers[0] );
@@ -215,9 +213,7 @@ window.torro = window.torro || {};
 					}
 				}
 			} else {
-				this.form = new torro.Builder.FormModel({}, {
-					container_label_placeholder: i18n.defaultContainerLabel
-				});
+				this.form = new torro.Builder.FormModel({});
 
 				this.form.containers.add({});
 			}
@@ -236,9 +232,7 @@ window.torro = window.torro || {};
 				return;
 			}
 
-			this.formView = new torro.Builder.FormView( this.$el, this.form, {
-				i18n: i18n
-			});
+			this.formView = new torro.Builder.FormView( this.$el, this.form );
 
 			this.formView.render();
 		},
@@ -423,7 +417,7 @@ window.torro = window.torro || {};
 		});
 	};
 
-	torro.i18n = i18n;
+	torro.Builder.i18n = i18n;
 
 }( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );
 
@@ -832,7 +826,7 @@ window.torro = window.torro || {};
 	ElementTypeLibrary = State.extend({
 		defaults: {
 			id: 'element-type-library',
-			title: torro.i18n.selectElementType,
+			title: torro.Builder.i18n.selectElementType,
 			menu: 'default',
 			content: 'select-element-type',
 			toolbar: 'insert-element'
@@ -1475,10 +1469,6 @@ window.torro = window.torro || {};
 				form_id: this.get( 'id' )
 			};
 
-			if ( 'object' === typeof options && options.container_label_placeholder ) {
-				containerProps.label_placeholder = options.container_label_placeholder;
-			}
-
 			this.containers = new torroBuilder.ContainerCollection([], {
 				props: containerProps,
 				comparator: 'sort'
@@ -1525,9 +1515,8 @@ window.torro = window.torro || {};
 		 * @property {object}
 		 */
 		defaultProps: {
-			selected:          false,
-			form_id:           0,
-			label_placeholder: 'Page %s'
+			selected: false,
+			form_id:  0
 		},
 
 		/**
@@ -1539,8 +1528,9 @@ window.torro = window.torro || {};
 		 * @returns {object} Container defaults.
 		 */
 		getDefaultAttributes: function() {
-			var labelNumber = this.length + 1;
-			var sort        = this.length;
+			var labelPlaceholder = torroBuilder.i18n.defaultContainerLabel;
+			var labelNumber      = this.length + 1;
+			var sort             = this.length;
 			var last;
 
 			if ( this.length ) {
@@ -1549,7 +1539,7 @@ window.torro = window.torro || {};
 				if ( last ) {
 					sort = last.get( 'sort' ) + 1;
 
-					if ( last.get( 'label' ) === this.props.get( 'label_placeholder' ).replace( '%s', sort ) ) {
+					if ( last.get( 'label' ) === labelPlaceholder.replace( '%s', sort ) ) {
 						labelNumber = sort + 1;
 					}
 				}
@@ -1557,7 +1547,7 @@ window.torro = window.torro || {};
 
 			return {
 				form_id: this.props.get( 'form_id' ),
-				label:   this.props.get( 'label_placeholder' ).replace( '%s', labelNumber ),
+				label:   labelPlaceholder.replace( '%s', labelNumber ),
 				sort:    sort
 			};
 		},
@@ -1855,8 +1845,8 @@ window.torro = window.torro || {};
 		this.$footerPanel.attr( 'role', 'tabpanel' );
 
 		this.addElementFrame = new torro.Builder.AddElement.View.Frame({
-			title: torro.i18n.selectElementType,
-			buttonLabel: torro.i18n.insertIntoContainer,
+			title: torro.Builder.i18n.selectElementType,
+			buttonLabel: torro.Builder.i18n.insertIntoContainer,
 			collection: torro.Builder.getInstance().elementTypes
 		});
 	}
@@ -2047,7 +2037,7 @@ window.torro = window.torro || {};
 		},
 
 		deleteContainer: function() {
-			torro.askConfirmation( this.options.i18n.confirmDeleteContainer, _.bind( function() {
+			torro.askConfirmation( torro.Builder.i18n.confirmDeleteContainer, _.bind( function() {
 				this.container.collection.remove( this.container );
 			}, this ) );
 		},
@@ -2159,7 +2149,7 @@ window.torro = window.torro || {};
 		return 'torro_element_' + element.get( 'id' ) + '_' + field;
 	}
 
-	function parseFields( fields, element, options ) {
+	function parseFields( fields, element ) {
 		var parsedFields = [];
 		var hasLabel = false;
 
@@ -2198,7 +2188,7 @@ window.torro = window.torro || {};
 				parsedField.itemInitial.element_id   = element.get( 'id' );
 				parsedField.itemInitial.field        = _.isString( field.is_choices ) ? field.is_choices : '_main';
 				parsedField.itemInitial.id           = parsedField.id + '-%indexPlus1%';
-				parsedField.itemInitial.label        = options.i18n.elementChoiceLabel.replace( '%s', '%indexPlus1%' );
+				parsedField.itemInitial.label        = torro.Builder.i18n.elementChoiceLabel.replace( '%s', '%indexPlus1%' );
 				parsedField.itemInitial.name         = 'torro_element_choices[' + tempId + '_%index%][value]';
 				parsedField.itemInitial.section      = parsedField.section;
 				parsedField.itemInitial.sort         = '%index%';
@@ -2473,7 +2463,7 @@ window.torro = window.torro || {};
 		},
 
 		initializeFields: function() {
-			this.fieldManager = new fieldsAPI.FieldManager( parseFields( this.element.element_type.getFields(), this.element, this.options ), {
+			this.fieldManager = new fieldsAPI.FieldManager( parseFields( this.element.element_type.getFields(), this.element ), {
 				instanceId: 'torro_element_' + this.element.get( 'id' )
 			});
 			this.fieldViews = [];
@@ -2643,10 +2633,10 @@ window.torro = window.torro || {};
 
 		listenChangeActive: function( props, active ) {
 			if ( active.includes( this.element.get( 'id' ) ) ) {
-				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'true' ).find( '.screen-reader-text' ).text( this.options.i18n.hideContent );
+				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'true' ).find( '.screen-reader-text' ).text( torro.Builder.i18n.hideContent );
 				this.$wrap.find( '.torro-element-content' ).addClass( 'is-expanded' );
 			} else {
-				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'false' ).find( '.screen-reader-text' ).text( this.options.i18n.showContent );
+				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'false' ).find( '.screen-reader-text' ).text( torro.Builder.i18n.showContent );
 				this.$wrap.find( '.torro-element-content' ).removeClass( 'is-expanded' );
 			}
 
@@ -2709,7 +2699,7 @@ window.torro = window.torro || {};
 		},
 
 		deleteElement: function() {
-			torro.askConfirmation( this.options.i18n.confirmDeleteElement, _.bind( function() {
+			torro.askConfirmation( torro.Builder.i18n.confirmDeleteElement, _.bind( function() {
 				this.element.collection.remove( this.element );
 			}, this ) );
 		},

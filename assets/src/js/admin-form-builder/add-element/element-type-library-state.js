@@ -7,7 +7,7 @@
 	ElementTypeLibrary = State.extend({
 		defaults: {
 			id: 'element-type-library',
-			title: torro.i18n.selectElementType,
+			title: torro.Builder.i18n.selectElementType,
 			menu: 'default',
 			content: 'select-element-type',
 			toolbar: 'insert-element'
