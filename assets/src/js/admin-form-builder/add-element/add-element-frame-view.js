@@ -2,30 +2,16 @@
 	'use strict';
 
 	var Frame = wp.media.view.Frame;
-	var AddElementFrameView;
-	var ElementTypeLibrary;
+	var AddElementFrame;
 
-	ElementTypeLibrary = wp.media.controller.State.extend({
-		defaults: {
-			id: 'element-type-library',
-			title: 'Select Element Type',
-			content: 'default',
-			toolbar: 'default'
-		},
-
-		initialize: function() {
-			if ( ! this.get( 'collection' ) ) {
-				this.set( 'collection', new Backbone.Collection( [] ) );
-			}
-
-			this.set( 'selected', null );
-		}
-	});
-
-	AddElementFrameView = Frame.extend({
+	AddElementFrame = Frame.extend({
 		className: 'media-frame',
 		template:  torro.template( 'add-element-frame' ),
-		regions:   [ 'title', 'content', 'toolbar' ],
+		regions:   [ 'menu', 'title', 'content', 'toolbar' ],
+
+		events: {
+			'click div.media-frame-title h1': 'toggleMenu'
+		},
 
 		initialize: function() {
 			Frame.prototype.initialize.apply( this, arguments );
@@ -49,9 +35,8 @@
 				this.modal.content( this );
 			}
 
-			console.log( this );
-
 			this.on( 'attach', _.bind( this.views.ready, this.views ), this );
+			this.on( 'attach', this.showMenu, this );
 
 			this.createCollection();
 			this.createStates();
@@ -88,7 +73,7 @@
 
 		createStates: function() {
 			this.states.add([
-				new ElementTypeLibrary({
+				new torro.Builder.AddElement.State.ElementTypeLibrary({
 					title:      this.options.title,
 					collection: this.options.collection,
 					priority:   20
@@ -97,13 +82,24 @@
 		},
 
 		bindHandlers: function() {
+			this.on( 'menu:create:default', this.createMenu, this );
 			this.on( 'title:create:default', this.createTitle, this );
-			this.on( 'content:create:default', this.createContent, this );
-			this.on( 'toolbar:create:default', this.createToolbar, this );
+			this.on( 'content:create:select-element-type', this.createContent, this );
+			this.on( 'toolbar:create:insert-element', this.createToolbar, this );
 
 			this.on( 'title:render', function( view ) {
 				view.$el.append( '<span class="dashicons dashicons-arrow-down"></span>' );
 			});
+		},
+
+		createMenu: function( menu ) {
+			menu.view = new wp.media.view.Menu({
+				controller: this
+			});
+		},
+
+		toggleMenu: function() {
+			this.$el.find( '.media-menu' ).toggleClass( 'visible' );
 		},
 
 		createTitle: function( title ) {
@@ -114,7 +110,7 @@
 		},
 
 		createContent: function( content ) {
-			content.view = new torro.Builder.ElementTypesBrowserView({
+			content.view = new torro.Builder.AddElement.View.ElementTypesBrowser({
 				controller: this,
 				collection: this.options.collection
 			});
@@ -123,7 +119,7 @@
 		createToolbar: function( toolbar ) {
 			var controller = this;
 
-			toolbar.view = new wp.media.view.Toolbar({
+			toolbar.view = new torro.Builder.AddElement.View.InsertElementToolbar({
 				controller: this,
 				items: {
 					insert: {
@@ -142,11 +138,17 @@
 					}
 				}
 			});
+		},
+
+		showMenu: function() {
+
+			// This fixes that the menu is not shown otherwise.
+			this.$el.removeClass( 'hide-menu' );
 		}
 	});
 
 	_.each([ 'open', 'close', 'attach', 'detach', 'escape' ], function( method ) {
-		AddElementFrameView.prototype[ method ] = function() {
+		AddElementFrame.prototype[ method ] = function() {
 			if ( this.modal ) {
 				this.modal[ method ].apply( this.modal, arguments );
 			}
@@ -154,6 +156,6 @@
 		};
 	});
 
-	torro.Builder.AddElementFrameView = AddElementFrameView;
+	torro.Builder.AddElement.View.Frame = AddElementFrame;
 
 })( window.torro, window._, window.Backbone, window.wp );

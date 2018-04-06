@@ -170,15 +170,16 @@
 	flex-wrap: wrap;
 	align-items: stretch;
 	justify-content: flex-start;
-	margin: 0 -3px;
+	margin: 0;
+	padding: 1em 0.5em;
 	overflow: hidden;
 	clear: both;
 }
 
 .torro-element-type {
 	display: block;
-	margin: 0 3px 1em;
-	flex-basis: 200px;
+	margin: 0 0.5em 1em;
+	flex-basis: 350px;
 	flex-grow: 1;
 	background-color: $color-element-background;
 	border: 1px solid $color-element-border;

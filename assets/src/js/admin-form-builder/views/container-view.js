@@ -42,9 +42,9 @@
 		this.$footerPanel.attr( 'aria-hidden', selected ? 'false' : 'true' );
 		this.$footerPanel.attr( 'role', 'tabpanel' );
 
-		this.addElementFrame = new torro.Builder.AddElementFrameView({
-			title: 'Add Element',
-			buttonLabel: 'Insert into container',
+		this.addElementFrame = new torro.Builder.AddElement.View.Frame({
+			title: torro.i18n.selectElementType,
+			buttonLabel: torro.i18n.insertIntoContainer,
 			collection: torro.Builder.getInstance().elementTypes
 		});
 	}
@@ -77,9 +77,9 @@
 			this.container.elements.on( 'add', this.listenAddElement, this );
 			this.container.on( 'change:label', this.listenChangeLabel, this );
 			this.container.on( 'change:sort', this.listenChangeSort, this );
-			this.container.on( 'change:addingElement', this.listenChangeAddingElement, this );
-			this.container.on( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
 			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
+
+			this.addElementFrame.on( 'insert', this.addElement, this );
 
 			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
 			this.$tab.on( 'dblclick', _.bind( this.editLabel, this ) );
@@ -104,9 +104,9 @@
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
+			this.addElementFrame.state().off( 'insert', this.addElement, this );
+
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
-			this.container.off( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
-			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );
 			this.container.off( 'change:label', this.listenChangeLabel, this );
 			this.container.elements.off( 'add', this.listenAddContainer, this );
@@ -150,35 +150,6 @@
 			var name = torro.escapeSelector( torro.getFieldName( this.container, 'sort' ) );
 
 			this.$panel.find( 'input[name="' + name + '"]' ).val( sort );
-		},
-
-		listenChangeAddingElement: function( container, addingElement ) {
-			if ( addingElement ) {
-				this.$panel.find( '.add-element-toggle-wrap' ).addClass( 'is-expanded' );
-				this.$panel.find( '.add-element-toggle' ).attr( 'aria-expanded', 'true' );
-				this.$panel.find( '.add-element-content-wrap' ).addClass( 'is-expanded' );
-			} else {
-				this.$panel.find( '.add-element-toggle-wrap' ).removeClass( 'is-expanded' );
-				this.$panel.find( '.add-element-toggle' ).attr( 'aria-expanded', 'false' );
-				this.$panel.find( '.add-element-content-wrap' ).removeClass( 'is-expanded' );
-			}
-		},
-
-		listenChangeSelectedElementType: function( container, selectedElementType ) {
-			var elementType;
-
-			this.$panel.find( '.torro-element-type' ).removeClass( 'is-selected' );
-
-			if ( selectedElementType ) {
-				elementType = torro.Builder.getInstance().elementTypes.get( selectedElementType );
-				if ( elementType ) {
-					this.$panel.find( '.torro-element-type-' + elementType.getSlug() ).addClass( 'is-selected' );
-					this.$panel.find( '.add-element-button' ).prop( 'disabled', false );
-					return;
-				}
-			}
-
-			this.$panel.find( '.add-element-button' ).prop( 'disabled', true );
 		},
 
 		listenChangeSelected: function( props, selected ) {
@@ -249,30 +220,7 @@
 			this.addElementFrame.open();
 		},
 
-		toggleAddingElement: function() {
-			if ( this.container.get( 'addingElement' ) ) {
-				this.container.set( 'addingElement', false );
-			} else {
-				this.container.set( 'addingElement', true );
-			}
-		},
-
-		setSelectedElementType: function( e ) {
-			var slug = false;
-
-			if ( e && e.currentTarget ) {
-				slug = $( e.currentTarget ).data( 'slug' );
-			}
-
-			if ( slug ) {
-				this.container.set( 'selectedElementType', slug );
-			} else {
-				this.container.set( 'selectedElementType', false );
-			}
-		},
-
-		addElement: function() {
-			var selectedElementType = this.container.get( 'selectedElementType' );
+		addElement: function( selectedElementType ) {
 			var element;
 
 			if ( ! selectedElementType ) {
@@ -282,9 +230,6 @@
 			element = this.container.elements.create({
 				type: selectedElementType
 			});
-
-			this.toggleAddingElement();
-			this.setSelectedElementType();
 
 			this.container.elements.toggleActive( element.get( 'id' ) );
 		},

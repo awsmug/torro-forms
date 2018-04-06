@@ -335,6 +335,12 @@ window.torro = window.torro || {};
 		return builder;
 	};
 
+	// Scaffold the AddElement namespace for modal functionality.
+	torro.Builder.AddElement = {
+		State: {},
+		View:  {}
+	};
+
 	torro.getFieldName = function( model, attribute ) {
 		var groupSlug;
 
@@ -412,5 +418,7 @@ window.torro = window.torro || {};
 			]
 		});
 	};
+
+	torro.i18n = i18n;
 
 }( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );

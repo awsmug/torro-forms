@@ -49,26 +49,6 @@
 		constructor: function( attributes, options ) {
 			attributes = attributes || {};
 
-			if ( _.isUndefined( attributes.addingElement ) ) {
-				options = options || {};
-
-				if ( options.addingElement ) {
-					attributes.addingElement = true;
-				} else {
-					attributes.addingElement = false;
-				}
-			}
-
-			if ( _.isUndefined( attributes.selectedElementType ) ) {
-				options = options || {};
-
-				if ( options.selectedElementType ) {
-					attributes.selectedElementType = options.selectedElementType;
-				} else {
-					attributes.selectedElementType = false;
-				}
-			}
-
 			torroBuilder.BaseModel.apply( this, [ attributes, options ] );
 
 			this.elements = new torroBuilder.ElementCollection([], {

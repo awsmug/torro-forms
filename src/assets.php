@@ -181,6 +181,8 @@ class Assets extends Assets_Base {
 				'confirmDeleteContainer'     => __( 'Do you really want to delete this page?', 'torro-forms' ),
 				'confirmDeleteElement'       => __( 'Do you really want to delete this element?', 'torro-forms' ),
 				'confirmDeleteElementChoice' => __( 'Do you really want to delete this choice?', 'torro-forms' ),
+				'selectElementType'          => __( 'Select Element Type', 'torro-forms' ),
+				'insertIntoContainer'        => __( 'Insert into container', 'torro-forms' ),
 			),
 		) );
 

@@ -753,38 +753,6 @@ class Form_Edit_Page_Handler {
 			</button>
 		</script>
 
-		<script type="text/html" id="tmpl-torro-add-element-frame">
-			<div class="torro-add-element-frame-title"></div>
-			<div class="torro-add-element-frame-content"></div>
-			<div class="torro-add-element-frame-toolbar"></div>
-		</script>
-
-		<script type="text/html" id="tmpl-torro-element-types-browser">
-			<div class="torro-element-types">
-				<# _.each( data.elementTypes, function( elementType ) { #>
-					<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}">
-						<div class="torro-element-type-header">
-							<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
-								<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
-							<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
-								<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
-									<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
-								</svg>
-							<# } else { #>
-								<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}" alt="">
-							<# } #>
-							<span class="torro-element-type-header-title">
-								{{ elementType.title }}
-							</span>
-						</div>
-						<div class="torro-element-type-content">
-							<p>{{ elementType.description }}</p>
-						</div>
-					</div>
-				<# } ); #>
-			</div>
-		</script>
-
 		<script type="text/html" id="tmpl-torro-element">
 			<div class="torro-element-header">
 				<# if ( ! _.isEmpty( data.type.icon_css_class ) ) { #>
@@ -844,6 +812,39 @@ class Form_Edit_Page_Handler {
 					<# } #>
 				</td>
 			</tr>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-add-element-frame">
+			<div class="media-frame-menu"></div>
+			<div class="media-frame-title"></div>
+			<div class="media-frame-content"></div>
+			<div class="media-frame-toolbar"></div>
+		</script>
+
+		<script type="text/html" id="tmpl-torro-element-types-browser">
+			<div class="torro-element-types">
+				<# _.each( data.elementTypes, function( elementType ) { #>
+					<div class="torro-element-type torro-element-type-{{ elementType.slug }}{{ elementType.slug === data.selectedElementType ? ' is-selected' : '' }}" data-slug="{{ elementType.slug }}" tabindex="0">
+						<div class="torro-element-type-header">
+							<# if ( ! _.isEmpty( elementType.icon_css_class ) ) { #>
+								<span class="torro-element-type-header-icon {{ elementType.icon_css_class }}" aria-hidden="true"></span>
+							<# } else if ( ! _.isEmpty( elementType.icon_svg_id ) ) { #>
+								<svg class="torro-icon torro-element-type-header-icon" aria-hidden="true" role="img">
+									<use href="#{{ elementType.icon_svg_id }}" xlink:href="#{{ elementType.icon_svg_id }}"></use>
+								</svg>
+							<# } else { #>
+								<img class="torro-element-type-header-icon" src="{{ elementType.icon_url }}" alt="">
+							<# } #>
+							<span class="torro-element-type-header-title">
+								{{ elementType.title }}
+							</span>
+						</div>
+						<div class="torro-element-type-content">
+							<p>{{ elementType.description }}</p>
+						</div>
+					</div>
+				<# } ); #>
+			</div>
 		</script>
 		<?php
 

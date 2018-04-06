@@ -1,16 +1,17 @@
-( function( torro, _, Backbone, wp ) {
+( function( torro, $, _, Backbone, wp ) {
 	'use strict';
 
 	var View = wp.media.View;
-	var ElementTypesBrowserView;
+	var ElementTypesBrowser;
 
-	ElementTypesBrowserView = View.extend({
+	ElementTypesBrowser = View.extend({
 		tagName: 'div',
 		className: 'element-types-browser',
 		template:  torro.template( 'element-types-browser' ),
 
 		events: {
-			'click .torro-element-type': 'setSelected'
+			'click .torro-element-type': 'setSelected',
+			'keyup .torro-element-type': 'setSelected'
 		},
 
 		initialize: function() {
@@ -23,6 +24,8 @@
 			if ( ! ( this.options.collection instanceof Backbone.Collection ) ) {
 				this.options.collection = new Backbone.Collection( this.options.collection );
 			}
+
+			this.controller.state().on( 'change:selected', this.listenToSelected, this );
 		},
 
 		prepare: function() {
@@ -35,12 +38,24 @@
 		},
 
 		setSelected: function( e ) {
+			if ( 'keyup' === e.type && 32 !== e.keyCode ) {
+				return;
+			}
+
 			if ( e.currentTarget && e.currentTarget.dataset.slug ) {
 				this.controller.state().set( 'selected', e.currentTarget.dataset.slug );
 			}
+		},
+
+		listenToSelected: function( state, selected ) {
+			this.$el.find( '.torro-element-type' ).each( function() {
+				var $this = $( this );
+
+				$this.toggleClass( 'is-selected', $this.data( 'slug' ) === selected );
+			});
 		}
 	});
 
-	torro.Builder.ElementTypesBrowserView = ElementTypesBrowserView;
+	torro.Builder.AddElement.View.ElementTypesBrowser = ElementTypesBrowser;
 
-})( window.torro, window._, window.Backbone, window.wp );
+})( window.torro, window.jQuery, window._, window.Backbone, window.wp );
