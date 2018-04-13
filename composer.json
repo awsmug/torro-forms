@@ -39,11 +39,11 @@
   "require": {
     "php": ">=5.6.0",
     "composer/installers": "~1.0",
-    "felixarntz/plugin-lib": "dev-master",
+    "felixarntz/plugin-lib": "1.0.0-beta.1",
     "psr/log": "^1",
-    "api-api/core": "dev-master",
-    "api-api/storage-wordpress-option": "dev-master",
-    "api-api/transporter-wordpress": "dev-master",
+    "api-api/core": "1.0.0-beta.1",
+    "api-api/storage-wordpress-option": "1.0.0",
+    "api-api/transporter-wordpress": "1.0.0",
     "phpoffice/phpexcel": "1.8.1"
   },
   "require-dev": {
