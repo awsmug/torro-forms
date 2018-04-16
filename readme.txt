@@ -1,7 +1,7 @@
 === Torro Forms ===
 
 Plugin Name:       Torro Forms
-Plugin URI:        http://torro-forms.com
+Plugin URI:        https://torro-forms.com
 Author:            Awesome UG
 Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
@@ -24,22 +24,24 @@ Torro Forms is a Drag & Drop form builder plugin that is easy to use for adminis
 
 Torro Forms can serve several purposes. Its functionality goes beyond simple contact forms (although you could of course technically create one if you wanted to). Whether you're interested in a survey solution or whether you need internal forms that you can restrict to a specific group of users - Torro Forms is the way to go. And if you don't find what you've been looking for, be aware that our plugin is extendable via several APIs - we encourage you to do it yourself instead of locking you with what we already provide.
 
-Torro Forms was made with a specific attention to polls and surveys. Form submissions are permanently stored in the database so that they can be browsed, exported and evaluated through charts.
+Torro Forms was made with a specific attention to polls and surveys. Form submissions are permanently stored in the database so that they can be browsed, exported and evaluated.
 
 = Key Features =
 
-* **Drag & Drop elements** - Drag elements into your working area and edit them. Look and feel of the form builder are the similar to what you would expect from WordPress.
-* **Actions** - Use our built-in actions like page redirections to show your message or send out emails to notify users, yourself or others.
-* **Charts** - Every element that can be evaluated, for example a multiple choice field, can be displayed as bar charts and will help you analyze your submissions.
-* **Excel & CSV Exports** - Export the results of form submissions into as Excel or CSV file. The export can be created from the form overview or in the form builder.
-* **Create element types** - Enhance your forms further by creating custom element types. Our easy-to-use Element Types API makes it possible.
-* **Create actions** - Create additional kinds of actions which will be executed whenever the form is submitted successfully by using our Actions API.
-* **Extend more...** - Like element types and actions, you can extend Torro Forms in many other ways too by extending specific PHP classes. It's just like creating widgets in WordPress.
-* **Code completion** - Our flexible API was made with developers in mind: The `torro()` function acts as a root for easy chaining and autocompletion.
+* **Drag-and-Drop Form Builder** - Drag elements into your working area and edit them. Look and feel of the form builder are the similar to what you would expect from WordPress.
+* **Actions** - Use actions executed on form submission to handle the submitted data, for example to send them in an email or redirect the user.
+* **Access Controls** - Granularly restrict who can access your forms and submit their responses for them.
+* **Evaluators** - Display stats and charts for form submissions, including bar and pie charts for individual choice fields.
+* **Protectors** - Secure your forms with a variety of measures to prevent spam, such as Google reCAPTCHA integration or a honeypot field.
+* **Form Settings** - Adjust the behavior of your forms precisely, with a clear and organized UI.
+* **Element Types** - Use several field types, including analyzable dropdown or multiple-choice fields.
+* **Excel & CSV Exports** - Export the results of form submissions into an Excel or CSV file.
+* **Easy-to-use APIs** - Developers will love Torro Forms for its great extensibility features and simple APIs. The plugin includes an extension base class and solid foundations for every integration point. The `torro()` function acts as a root for easy chaining and autocompletion.
 
 = Links =
 
-* [Website](http://torro-forms.com)
+* [Website](https://torro-forms.com)
+* [Developer Reference](http://developer.torro-forms.com)
 * [Twitter](https://twitter.com/torro_forms)
 * [GitHub](https://github.com/awsmug/torro-forms)
 * [Translations](https://translate.wordpress.org/projects/wp-plugins/torro-forms)
@@ -53,11 +55,11 @@ Torro Forms was made with a specific attention to polls and surveys. Form submis
 
 = How do I use the plugin? =
 
-You can find instructions on what you can do with Torro Forms and how to use it in our [User Guide](http://torro-forms.com/user-guide/).
+You can find instructions on what you can do with Torro Forms and how to use it in our [User Guide](https://torro-forms.com/user-guide/).
 
 = How can I, as a developer, extend the plugin? =
 
-Torro Forms supports the concept of extensions and provides flexible APIs for several areas of it. A good point to start are our [API resources](http://torro-forms.com/api/). The plugin itself can also be found [on GitHub](https://github.com/awsmug/torro-forms) if you wanna have a look at the code in detail.
+Torro Forms supports the concept of extensions and provides flexible APIs for several areas of it. A good point to start are our [tutorials](http://developer.torro-forms.com/tutorials/), and we also provide a full [code reference](http://developer.torro-forms.com/reference/). The plugin itself can also be found [on GitHub](https://github.com/awsmug/torro-forms) if you wanna have a look at the code itself.
 
 = Where should I submit my support request? =
 
@@ -71,18 +73,16 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Screenshots ==
 
-1. an overview of the form builder
-2. the redirection interface
-3. the email notifications interface
-4. a list of form submission results
-5. an example of some form element charts
-6. the plugin settings screen
+1. Overview of the form builder
+2. Modal to add a new element to a form
+3. Submissions list overview
+4. Plugin settings screen
 
 == Changelog ==
 
 = 1.0.0-beta.9 =
 
-This pre-release is a major rewrite that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.8. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version. Rest assured that none of this will happen again, but we are still in Beta and the previous versions had some severe architectural issues. We want you to have the best Torro Forms experience possible!
+This pre-release is a major rewrite that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.8. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version. Rest assured that none of this will happen again, but we are still in Beta and the previous versions had some severe architectural issues. Please [read more about it in our blog post](https://torro-forms.com/new-revamped-form-builder-experience/) if you're interested!
 
 * Added: REST API endpoints for managing forms, their content and submissions
 * Added: WP-CLI commands for managing forms, their content and submissions
@@ -119,7 +119,7 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 * Tweaked: result handlers are now relabelled as evaluators
 * Tweaked: components are now called modules
 * Tweaked: namespaces are used throughout the plugin code
-* Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
+* Tweaked: uses external [`felixarntz/plugin-lib` library](https://github.com/felixarntz/plugin-lib) for standard plugin functionality
 * Plus: a lot more improvements and tweaks here or there... It's an entire rewrite, you know.
 
 = 1.0.0-beta.8 =
