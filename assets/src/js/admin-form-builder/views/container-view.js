@@ -104,7 +104,7 @@
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
-			this.addElementFrame.state().off( 'insert', this.addElement, this );
+			this.addElementFrame.off( 'insert', this.addElement, this );
 
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );

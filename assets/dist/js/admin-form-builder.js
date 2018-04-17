@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.9 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.9 (https://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 window.torro = window.torro || {};
@@ -1906,7 +1906,7 @@ window.torro = window.torro || {};
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
-			this.addElementFrame.state().off( 'insert', this.addElement, this );
+			this.addElementFrame.off( 'insert', this.addElement, this );
 
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );
