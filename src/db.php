@@ -96,12 +96,12 @@ class DB extends DB_Base {
 			return;
 		}
 
-		$this->options->delete( 'general_settings' );
-		$this->options->delete( 'extension_settings' );
+		$this->options()->delete( 'general_settings' );
+		$this->options()->delete( 'extension_settings' );
 
 		$modules = array_keys( torro()->modules()->get_all() );
 		foreach ( $modules as $module ) {
-			$this->options->delete( 'module_' . $module );
+			$this->options()->delete( 'module_' . $module );
 		}
 
 		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) ); // WPCS: DB call OK. Cache OK.
