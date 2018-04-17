@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.9 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0-beta.9 (https://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 .torro-element-wrap {
@@ -35,6 +35,32 @@
 
 .torro-required-indicator {
 	font-weight: bold;
+}
+
+.torro-element-wrap input[type="text"][aria-invalid="true"],
+.torro-element-wrap input[type="email"][aria-invalid="true"],
+.torro-element-wrap input[type="url"][aria-invalid="true"],
+.torro-element-wrap input[type="password"][aria-invalid="true"],
+.torro-element-wrap input[type="search"][aria-invalid="true"],
+.torro-element-wrap input[type="number"][aria-invalid="true"],
+.torro-element-wrap input[type="tel"][aria-invalid="true"],
+.torro-element-wrap input[type="range"][aria-invalid="true"],
+.torro-element-wrap input[type="date"][aria-invalid="true"],
+.torro-element-wrap input[type="month"][aria-invalid="true"],
+.torro-element-wrap input[type="week"][aria-invalid="true"],
+.torro-element-wrap input[type="time"][aria-invalid="true"],
+.torro-element-wrap input[type="datetime"][aria-invalid="true"],
+.torro-element-wrap input[type="datetime-local"][aria-invalid="true"],
+.torro-element-wrap input[type="color"][aria-invalid="true"],
+.torro-element-wrap input[type="radio"][aria-invalid="true"],
+.torro-element-wrap input[type="checkbox"][aria-invalid="true"],
+.torro-element-wrap textarea[aria-invalid="true"],
+.torro-element-wrap select[aria-invalid="true"] {
+	border-color: #dc3232;
+}
+
+.torro-element-errors {
+	color: #dc3232;
 }
 
 .torro-notice {

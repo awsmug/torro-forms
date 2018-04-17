@@ -35,6 +35,36 @@
 	font-weight: bold;
 }
 
+.torro-element-wrap {
+	input[type="text"],
+	input[type="email"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	input[type="tel"],
+	input[type="range"],
+	input[type="date"],
+	input[type="month"],
+	input[type="week"],
+	input[type="time"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="color"],
+	input[type="radio"],
+	input[type="checkbox"],
+	textarea,
+	select {
+		&[aria-invalid="true"] {
+			border-color: $color-error;
+		}
+	}
+}
+
+.torro-element-errors {
+	color: $color-error;
+}
+
 .torro-notice {
 	margin-bottom: $notice-spacing;
 	padding: 0.5em 1em;
