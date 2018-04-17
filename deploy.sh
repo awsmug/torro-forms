@@ -96,7 +96,7 @@ if [ -f composer.lock ]
 	then rm composer.lock
 fi
 rm -rf vendor/
-composer install --prefer-dist --no-dev --quiet
+composer install --prefer-dist --no-dev
 echo "Done."
 
 printf "Installing NPM dependencies..."
