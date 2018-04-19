@@ -28,6 +28,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method DB                     db()
  * @method Cache                  cache()
  * @method Error_Handler          error_handler()
+ * @method Container              create()
  */
 class Container_Manager extends Manager {
 	use Title_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;

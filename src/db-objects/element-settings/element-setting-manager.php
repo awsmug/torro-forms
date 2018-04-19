@@ -26,6 +26,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method DB                           db()
  * @method Cache                        cache()
  * @method Error_Handler                error_handler()
+ * @method Element_Setting              create()
  */
 class Element_Setting_Manager extends Manager {
 	use Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;

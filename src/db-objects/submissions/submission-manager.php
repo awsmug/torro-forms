@@ -33,6 +33,7 @@ use WP_Error;
  * @method Cache                   cache()
  * @method Meta                    meta()
  * @method Error_Handler           error_handler()
+ * @method Submission              create()
  */
 class Submission_Manager extends Manager {
 	use Capability_Manager_Trait, Meta_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
