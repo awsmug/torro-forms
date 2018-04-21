@@ -88,7 +88,7 @@ class Template_Tag_Handler {
 		}
 
 		try {
-			$args = $this->validate_tag_args( $args, $this->args_definition );
+			$args = $this->validate_tag_args( $args, $this->tag_args_definition );
 		} catch ( InvalidArgumentException $e ) {
 			return $content;
 		}
