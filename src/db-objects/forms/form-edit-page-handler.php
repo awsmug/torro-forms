@@ -555,6 +555,8 @@ class Form_Edit_Page_Handler {
 		$meta_box_cb = function( $post, $box ) {
 			$prefix = $this->form_manager->get_prefix();
 
+			echo '<input type="hidden" id="' . esc_attr( $box['id'] . '-field-manager-instance' ) . '" value="' . esc_attr( $box['args']['field_manager']->get_instance_id() ) . '" />';
+
 			if ( ! empty( $box['args']['description'] ) ) {
 				echo '<p class="description">' . wp_kses_data( $box['args']['description'] ) . '</p>';
 			}

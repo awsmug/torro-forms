@@ -5,7 +5,8 @@
 ( function( torro, fieldsAPI, $, data ) {
 	'use strict';
 
-	var builder = torro.Builder.getInstance();
+	var builder       = torro.Builder.getInstance();
+	var elementModels = {};
 
 	function removeTemplateTagForElement( model, $list ) {
 		var templateTagSlug  = data.templateTagSlug.replace( '%element_id%', model.get( 'id' ) );
@@ -63,41 +64,75 @@
 		});
 	}
 
-	builder.on( 'addElement', function( model ) {
-		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
-			var $list       = $( this );
-			var $emailInput = $list.parents( '.template-tag-list-wrap' ).prev( 'input[type="email"]' );
+	function initializeElementForList( model, $list ) {
+		var $emailInput = $list.parents( '.template-tag-list-wrap' ).prev( 'input[type="email"]' );
 
-			var inputTypeSetting;
+		var inputTypeSetting;
 
-			if ( $emailInput.length ) {
-				inputTypeSetting = model.element_settings.findWhere({
-					name: 'input_type'
-				});
-				if ( inputTypeSetting ) {
-					if ( 'email_address' === inputTypeSetting.get( 'value' ) ) {
-						addTemplateTagForElement( model, $list );
-					}
-
-					inputTypeSetting.on( 'change:value', function( setting, value ) {
-						if ( 'email_address' === value ) {
-							addTemplateTagForElement( model, $list );
-						} else {
-							removeTemplateTagForElement( model, $list );
-						}
-					});
+		if ( $emailInput.length ) {
+			inputTypeSetting = model.element_settings.findWhere({
+				name: 'input_type'
+			});
+			if ( inputTypeSetting ) {
+				if ( 'email_address' === inputTypeSetting.get( 'value' ) ) {
+					addTemplateTagForElement( model, $list );
 				}
-			} else {
-				addTemplateTagForElement( model, $list );
+
+				inputTypeSetting.on( 'change:value', function( setting, value ) {
+					if ( 'email_address' === value ) {
+						addTemplateTagForElement( model, $list );
+					} else {
+						removeTemplateTagForElement( model, $list );
+					}
+				});
 			}
+		} else {
+			addTemplateTagForElement( model, $list );
+		}
+	}
+
+	builder.on( 'addElement', function( model ) {
+		elementModels[ model.get( 'id' ) ] = model;
+
+		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
+			initializeElementForList( model, $( this ) );
 		});
 	});
 
 	builder.on( 'removeElement', function( model ) {
-		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
-			var $list       = $( this );
+		if ( elementModels[ model.get( 'id' ) ] ) {
+			delete elementModels[ model.get( 'id' ) ];
+		}
 
-			removeTemplateTagForElement( model, $list );
+		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
+			removeTemplateTagForElement( model, $( this ) );
+		});
+	});
+
+	$( document ).ready( function() {
+		var fieldManagerInstanceId = $( '#torro_module_actions-field-manager-instance' );
+		var emailNotifications;
+
+		if ( ! fieldManagerInstanceId ) {
+			return;
+		}
+
+		fieldManagerInstanceId = fieldManagerInstanceId.val();
+		emailNotifications     = fieldsAPI.FieldManager.instances[ fieldManagerInstanceId ].get( fieldManagerInstanceId + '_email-notifications--notifications' );
+
+		if ( ! emailNotifications ) {
+			return;
+		}
+
+		emailNotifications.on( 'addItem', function( fieldModel, newItem ) {
+			$( '#' + newItem.id + ' .template-tag-list' ).each( function() {
+				var keys = Object.keys( elementModels );
+				var i;
+
+				for ( i = 0; i < keys.length; i++ ) {
+					initializeElementForList( elementModels[ keys[ i ] ], $( this ) );
+				}
+			});
 		});
 	});
 
