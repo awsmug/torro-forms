@@ -67,7 +67,7 @@
 
 			fieldsAPI.FieldView.WYSIWYGFieldView.prototype.postRender.apply( this, arguments );
 
-			$el.find( '.template-tag-list-toggle' ).on( 'click', function( e ) {
+			$el.on( 'click', '.template-tag-list-toggle', function( e ) {
 				var $button = $( this );
 
 				toggleTemplateTagList( $button );
