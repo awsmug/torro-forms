@@ -80,6 +80,19 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.0-beta.10 =
+
+* Enhanced: Field-specific errors in frontend are now highlighted more obviously
+* Fixed: Email notification template tag buttons now work correctly
+* Fixed: Dynamic element template tags for email notifications are now applied correctly
+* Fixed: Template tags in email notifications are now correctly replaced
+* Fixed: Non-required media elements no longer throw an error in the frontend when no file is uploaded
+* Fixed: Pages in the form builder can now be deleted properly
+* Fixed: Datetime fields now show the currently selected date on opening as expected
+* Fixed: Datetime fields no longer have issues with certain locales
+* Fixed: Fatal error no longer occurs that could happen when accessing the settings page under certain conditions
+* Fixed: Plugin can now be properly deleted through the admin interface
+
 = 1.0.0-beta.9 =
 
 This pre-release is a major rewrite that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.8. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version. Rest assured that none of this will happen again, but we are still in Beta and the previous versions had some severe architectural issues. Please [read more about it in our blog post](https://torro-forms.com/new-revamped-form-builder-experience/) if you're interested!
