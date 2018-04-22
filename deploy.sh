@@ -105,6 +105,8 @@ npm install --only=production &>/dev/null
 echo "Done."
 
 printf "Removing unnecessary source and test files..."
+rm LICENSE.md
+rm README.md
 rm -rf assets/src
 rm -rf node_modules/c3/extensions
 rm -rf node_modules/c3/htdocs
