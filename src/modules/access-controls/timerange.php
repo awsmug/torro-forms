@@ -68,7 +68,7 @@ class Timerange extends Access_Control {
 
 		$now = current_time( 'timestamp' );
 
-		if ( $start && $now < strtotime( $start ) ) {
+		if ( ! empty( $start ) && '0000-00-00 00:00:00' !== $start && $now < strtotime( $start ) ) {
 			$message = $this->get_form_option( $form->id, 'not_yet_open_message' );
 			if ( empty( $message ) ) {
 				$message = $this->get_default_not_yet_open_message();
@@ -77,7 +77,7 @@ class Timerange extends Access_Control {
 			return new WP_Error( 'form_not_yet_open', $message );
 		}
 
-		if ( $end && $now > strtotime( $end ) ) {
+		if ( ! empty( $end ) && '0000-00-00 00:00:00' !== $end && $now > strtotime( $end ) ) {
 			$message = $this->get_form_option( $form->id, 'no_longer_open_message' );
 			if ( empty( $message ) ) {
 				$message = $this->get_default_no_longer_open_message();
