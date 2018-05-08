@@ -76,6 +76,7 @@ class REST_Form_Categories_Controller extends REST_Models_Controller {
 	public function get_collection_params() {
 		$query_params = parent::get_collection_params();
 
+		$query_params['per_page']['maximum'] = 500;
 		$query_params['orderby']['default']  = $this->manager->get_slug_property();
 
 		return $query_params;
