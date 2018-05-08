@@ -41,17 +41,11 @@ class Submission_Export_XLS extends Submission_Export {
 		header( 'Cache-Control: cache, must-revalidate' ); // For HTTP 1.1.
 		header( 'Pragma: public' ); // For HTTP 1.0.
 
+		// Add column headings to data.
+		array_unshift( $rows, $columns );
+
 		$spreadsheet = new Spreadsheet();
-
-		$spreadsheet->setActiveSheetIndex( 0 );
-
-		$i = 0;
-		foreach ( $columns as $slug => $label ) {
-			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow( $i, 1, $label );
-			$i++;
-		}
-
-		$spreadsheet->getActiveSheet()->fromArray( $rows, null, 'A2' );
+		$spreadsheet->getActiveSheet()->fromArray( $rows );
 
 		$writer = IOFactory::createWriter( $spreadsheet, 'Xls' );
 		$writer->save( 'php://output' );

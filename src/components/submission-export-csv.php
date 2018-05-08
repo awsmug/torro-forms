@@ -37,23 +37,16 @@ class Submission_Export_CSV extends Submission_Export {
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 
+		// Add column headings to data.
+		array_unshift( $rows, $columns );
+
 		$spreadsheet = new Spreadsheet();
-
-		$spreadsheet->setActiveSheetIndex( 0 );
-
-		$i = 0;
-		foreach ( $columns as $slug => $label ) {
-			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow( $i, 1, $label );
-			$i++;
-		}
-
-		$spreadsheet->getActiveSheet()->fromArray( $rows, null, 'A2' );
+		$spreadsheet->getActiveSheet()->fromArray( $rows );
 
 		$writer = IOFactory::createWriter( $spreadsheet, 'Csv' );
-		$writer->setDelimiter( ';' );
 		$writer->setEnclosure( '"' );
+		$writer->setDelimiter( ';' );
 		$writer->setLineEnding( "\r\n" );
-		$writer->setSheetIndex( 0 );
 		$writer->save( 'php://output' );
 		exit;
 	}
