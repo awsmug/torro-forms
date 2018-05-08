@@ -76,11 +76,13 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 			return $this->create_error( 'value_required', __( 'You must select at least a single value here.', 'torro-forms' ), $value );
 		}
 
-		$choices = $this->get_choices_for_field( $element );
+		if ( ! empty( $value ) ) {
+			$choices = $this->get_choices_for_field( $element );
 
-		foreach ( $value as $single_value ) {
-			if ( ! in_array( $single_value, $choices, true ) ) {
-				return $this->create_error( 'value_invalid_choice', __( 'You must select valid values from the list.', 'torro-forms' ), $value );
+			foreach ( $value as $single_value ) {
+				if ( ! in_array( $single_value, $choices, true ) ) {
+					return $this->create_error( 'value_invalid_choice', __( 'You must select valid values from the list.', 'torro-forms' ), $value );
+				}
 			}
 		}
 

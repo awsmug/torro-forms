@@ -63,10 +63,12 @@ class Dropdown extends Element_Type implements Choice_Element_Type_Interface {
 			return $this->create_error( 'value_required', __( 'You must enter something here.', 'torro-forms' ), $value );
 		}
 
-		$choices = $this->get_choices_for_field( $element );
+		if ( ! empty( $value ) ) {
+			$choices = $this->get_choices_for_field( $element );
 
-		if ( ! in_array( $value, $choices, true ) ) {
-			return $this->create_error( 'value_invalid_choice', __( 'You must select a valid value from the list.', 'torro-forms' ), $value );
+			if ( ! in_array( $value, $choices, true ) ) {
+				return $this->create_error( 'value_invalid_choice', __( 'You must select a valid value from the list.', 'torro-forms' ), $value );
+			}
 		}
 
 		return $value;
