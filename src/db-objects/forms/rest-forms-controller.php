@@ -78,9 +78,9 @@ class REST_Forms_Controller extends REST_Models_Controller {
 	public function get_collection_params() {
 		$query_params = parent::get_collection_params();
 
-		$query_params['per_page']['maximum'] = 500;
-		$query_params['orderby']['default']  = 'timestamp';
-		$query_params['order']['default']    = 'desc';
+		unset( $query_params['per_page']['maximum'] );
+		$query_params['orderby']['default'] = 'timestamp';
+		$query_params['order']['default']   = 'desc';
 
 		$query_params['status'] = array(
 			'description'       => __( 'Limit result set to forms with one or more specific statuses.', 'torro-forms' ),
