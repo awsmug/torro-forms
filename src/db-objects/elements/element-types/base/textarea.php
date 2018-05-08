@@ -92,12 +92,14 @@ class Textarea extends Element_Type {
 			return $this->create_error( 'value_required', __( 'You must enter something here.', 'torro-forms' ), $value );
 		}
 
-		if ( ! empty( $settings['min_length'] ) && strlen( $value ) < (int) $settings['min_length'] ) {
-			return $this->create_error( 'value_too_short', __( 'The value you entered is too short.', 'torro-forms' ), $value );
-		}
+		if ( ! empty( $value ) ) {
+			if ( ! empty( $settings['min_length'] ) && strlen( $value ) < (int) $settings['min_length'] ) {
+				return $this->create_error( 'value_too_short', __( 'The value you entered is too short.', 'torro-forms' ), $value );
+			}
 
-		if ( ! empty( $settings['max_length'] ) && strlen( $value ) > (int) $settings['max_length'] ) {
-			return $this->create_error( 'value_too_long', __( 'The value you entered is too long.', 'torro-forms' ), $value );
+			if ( ! empty( $settings['max_length'] ) && strlen( $value ) > (int) $settings['max_length'] ) {
+				return $this->create_error( 'value_too_long', __( 'The value you entered is too long.', 'torro-forms' ), $value );
+			}
 		}
 
 		return $value;
