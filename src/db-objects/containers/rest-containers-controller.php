@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Containers;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
+use awsmug\Torro_Forms\DB_Objects\REST_Embed_Limits_Trait;
 
 /**
  * Class to access containers via the REST API.
@@ -16,6 +17,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
  * @since 1.0.0
  */
 class REST_Containers_Controller extends REST_Models_Controller {
+	use REST_Embed_Limits_Trait;
 
 	/**
 	 * Constructor.
@@ -103,7 +105,7 @@ class REST_Containers_Controller extends REST_Models_Controller {
 		$links['elements'] = array(
 			'href'       => add_query_arg( array(
 				'container_id' => $container->$primary_property,
-				'per_page'     => 50,
+				'per_page'     => $this->get_embed_limit( 'elements' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'elements' ) ) ),
 			'embeddable' => true,
 		);
@@ -111,7 +113,7 @@ class REST_Containers_Controller extends REST_Models_Controller {
 		$links['element_choices'] = array(
 			'href'       => add_query_arg( array(
 				'container_id' => $container->$primary_property,
-				'per_page'     => 250,
+				'per_page'     => $this->get_embed_limit( 'element_choices' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
 			'embeddable' => true,
 		);
@@ -119,7 +121,7 @@ class REST_Containers_Controller extends REST_Models_Controller {
 		$links['element_settings'] = array(
 			'href'       => add_query_arg( array(
 				'container_id' => $container->$primary_property,
-				'per_page'     => 250,
+				'per_page'     => $this->get_embed_limit( 'element_settings' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
 			'embeddable' => true,
 		);
