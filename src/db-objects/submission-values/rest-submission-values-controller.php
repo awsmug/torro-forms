@@ -85,8 +85,6 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	public function get_collection_params() {
 		$query_params = parent::get_collection_params();
 
-		$query_params['per_page']['maximum'] = 500;
-
 		$query_params['form_id'] = array(
 			'description' => __( 'Limit result set to submission values associated with a specific form ID.', 'torro-forms' ),
 			'type'        => 'integer',

@@ -98,9 +98,8 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 	public function get_collection_params() {
 		$query_params = parent::get_collection_params();
 
-		$query_params['per_page']['maximum'] = 500;
-		$query_params['orderby']['default']  = 'timestamp';
-		$query_params['order']['default']    = 'desc';
+		$query_params['orderby']['default'] = 'timestamp';
+		$query_params['order']['default']   = 'desc';
 
 		$query_params['form_id'] = array(
 			'description' => __( 'Limit result set to submissions associated with a specific form ID.', 'torro-forms' ),
