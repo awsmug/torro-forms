@@ -30,7 +30,7 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 *                                               Default empty array.
 	 */
 	public function __construct( $slug, $manager, $model_manager, $field_manager_args = array() ) {
-		$this->list_page_slug = $manager->get_prefix() . 'edit_submissions';
+		$this->list_page_slug = $manager->get_prefix() . 'list_submissions';
 
 		parent::__construct( $slug, $manager, $model_manager, $field_manager_args );
 	}
