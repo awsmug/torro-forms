@@ -127,8 +127,9 @@ rm -rf vendor/felixarntz/plugin-lib/node_modules/jquery-mousewheel
 rm -rf vendor/felixarntz/plugin-lib/node_modules/php-date-formatter
 rm -rf vendor/felixarntz/plugin-lib/node_modules/select2/src
 rm -rf vendor/felixarntz/plugin-lib/tests
-rm -rf vendor/phpoffice/phpexcel/Examples
-rm -rf vendor/phpoffice/phpexcel/unitTests
+rm -rf vendor/phpoffice/phpspreadsheet/bin
+rm -rf vendor/phpoffice/phpspreadsheet/docs
+rm -rf vendor/phpoffice/phpspreadsheet/samples
 echo "Done."
 
 printf "Ignoring GitHub specific files and deployment script..."

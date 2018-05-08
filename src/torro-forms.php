@@ -428,7 +428,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @return bool True if the dependencies are loaded, false otherwise.
 	 */
 	protected function dependencies_loaded() {
-		if ( ! class_exists( 'PHPExcel' ) ) {
+		if ( ! class_exists( 'PhpOffice\PhpSpreadsheet\Spreadsheet' ) ) {
 			return false;
 		}
 

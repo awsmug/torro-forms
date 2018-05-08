@@ -9,6 +9,8 @@
 namespace awsmug\Torro_Forms\Components;
 
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Class for exporting submissions in XLS format.
@@ -39,19 +41,19 @@ class Submission_Export_XLS extends Submission_Export {
 		header( 'Cache-Control: cache, must-revalidate' ); // For HTTP 1.1.
 		header( 'Pragma: public' ); // For HTTP 1.0.
 
-		$php_excel = new \PHPExcel();
+		$spreadsheet = new Spreadsheet();
 
-		$php_excel->setActiveSheetIndex( 0 );
+		$spreadsheet->setActiveSheetIndex( 0 );
 
 		$i = 0;
 		foreach ( $columns as $slug => $label ) {
-			$php_excel->getActiveSheet()->setCellValueByColumnAndRow( $i, 1, $label );
+			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow( $i, 1, $label );
 			$i++;
 		}
 
-		$php_excel->getActiveSheet()->fromArray( $rows, null, 'A2' );
+		$spreadsheet->getActiveSheet()->fromArray( $rows, null, 'A2' );
 
-		$writer = \PHPExcel_IOFactory::createWriter( $php_excel, 'Excel5' );
+		$writer = IOFactory::createWriter( $spreadsheet, 'Xls' );
 		$writer->save( 'php://output' );
 		exit;
 	}
