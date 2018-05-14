@@ -504,7 +504,9 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 						return '';
 					}
 
+					add_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
 					$export_values = $element_type->format_values_for_export( $element_values[ $element->id ], $element, 'html' );
+					remove_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
 
 					if ( ! isset( $export_values[ 'element_' . $element->id . '__main' ] ) ) {
 						if ( count( $export_values ) !== 1 ) {
