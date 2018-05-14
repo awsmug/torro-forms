@@ -240,6 +240,69 @@ class Submission_Manager extends Manager {
 		$this->add_meta_database_table();
 	}
 
+	/**
+	 * Cleans the count cache for a model if relevant changes have been applied.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object|null $new_db_object The new raw database object, or null if deleted.
+	 * @param object|null $old_db_object The old raw database object, or null if added.
+	 */
+	protected function maybe_clean_count_cache( $new_db_object, $old_db_object ) {
+		$delete_user_count = false;
+		$delete_form_count = false;
+
+		if ( null === $new_db_object || null === $old_db_object || $new_db_object->status !== $old_db_object->status ) {
+			$this->cache()->delete( $this->plural_slug, 'counts' );
+
+			$delete_user_count = true;
+			$delete_form_count = true;
+		} elseif ( null !== $new_db_object && null !== $old_db_object ) {
+			if ( $new_db_object->user_id !== $old_db_object->user_id ) {
+				$delete_user_count = true;
+			}
+			if ( $new_db_object->form_id !== $old_db_object->form_id ) {
+				$delete_form_count = true;
+			}
+		}
+
+		$user_ids = array();
+		if ( $delete_user_count ) {
+			if ( null !== $new_db_object ) {
+				$user_ids[] = absint( $new_db_object->user_id );
+			}
+			if ( null !== $old_db_object && ! in_array( absint( $old_db_object->user_id ), $user_ids, true ) ) {
+				$user_ids[] = absint( $old_db_object->user_id );
+			}
+		}
+
+		$form_ids = array();
+		if ( $delete_form_count ) {
+			if ( null !== $new_db_object ) {
+				$form_ids[] = absint( $new_db_object->form_id );
+			}
+			if ( null !== $old_db_object && ! in_array( absint( $old_db_object->form_id ), $form_ids, true ) ) {
+				$form_ids[] = absint( $old_db_object->form_id );
+			}
+		}
+
+		$extra_delete_keys = array();
+		foreach ( $user_ids as $user_id ) {
+			$extra_delete_keys[] = $this->plural_slug . '-' . $user_id;
+
+			foreach ( $form_ids as $form_id ) {
+				$extra_delete_keys[] = $this->plural_slug . '-' . $user_id . '-' . $form_id;
+			}
+		}
+		foreach ( $form_ids as $form_id ) {
+			$extra_delete_keys[] = $this->plural_slug . '-' . $form_id;
+		}
+
+		foreach ( $extra_delete_keys as $extra_delete_key ) {
+			$this->cache()->delete( $extra_delete_key, 'counts' );
+		}
+	}
+
 
 	/**
 	 * Sets up all action and filter hooks for the service.
