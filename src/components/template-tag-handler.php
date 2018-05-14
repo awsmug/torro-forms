@@ -97,6 +97,10 @@ class Template_Tag_Handler {
 		$replacements = array();
 
 		foreach ( $this->tags as $slug => $data ) {
+			if ( false === strpos( $content, '{' . $slug . '}' ) ) {
+				continue;
+			}
+
 			$placeholders[] = '{' . $slug . '}';
 			$replacements[] = (string) call_user_func_array( $data['callback'], $args );
 		}
