@@ -397,7 +397,11 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 				'label'       => __( 'Submission Edit URL', 'torro-forms' ),
 				'description' => __( 'Inserts the edit URL for the submission.', 'torro-forms' ),
 				'callback'    => function( $form, $submission ) {
-					return add_query_arg( 'id', $submission->id, torro()->admin_pages()->get( 'edit_submission' )->url );
+					return add_query_arg( array(
+						'post_type' => torro()->post_types()->get_prefix() . 'form',
+						'page'      => torro()->admin_pages()->get_prefix() . 'edit_submission',
+						'id'        => $submission->id,
+					), admin_url( 'edit.php' ) );
 				},
 			),
 			'submissiondatetime' => array(
