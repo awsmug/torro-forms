@@ -171,7 +171,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 				}
 			}
 
-			$notification['message'] = wpautop( $notification['message'] );
+			$notification['message'] = $this->wrap_message( wpautop( $notification['message'] ), $notification['subject'] );
 
 			$this->from_name  = $notification['from_name'];
 			$this->from_email = $notification['from_email'];
@@ -505,6 +505,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					}
 
 					$export_values = $element_type->format_values_for_export( $element_values[ $element->id ], $element, 'html' );
+
 					if ( ! isset( $export_values[ 'element_' . $element->id . '__main' ] ) ) {
 						if ( count( $export_values ) !== 1 ) {
 							return '';
@@ -531,6 +532,32 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		}
 
 		return $tags;
+	}
+
+	/**
+	 * Wraps the message in valid presentational HTML markup.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $message HTML message to wrap.
+	 * @param string $title   Optional. String to use in the title tag. Default empty string for no title.
+	 * @return string Wrapped HTML message.
+	 */
+	protected function wrap_message( $message, $title = '' ) {
+		$before  = '<!DOCTYPE html>';
+		$before .= '<html>';
+		$before .= '<head>';
+		$before .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+		if ( ! empty( $title ) ) {
+			$before .= '<title>' . esc_html( $title ) . '</title>';
+		}
+		$before .= '</head>';
+		$before .= '<body>';
+
+		$after  = '</body>';
+		$after .= '</html>';
+
+		return $before . $message . $after;
 	}
 
 	/**
