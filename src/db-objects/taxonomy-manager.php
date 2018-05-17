@@ -128,7 +128,7 @@ class Taxonomy_Manager extends Taxonomy_Manager_Base {
 			return 0;
 		}
 
-		$term = get_term_by( 'slug', $term_id, $taxonomy_slug );
+		$term = get_term_by( 'id', $term_id, $taxonomy_slug );
 		if ( ! $term ) {
 			return 0;
 		}
