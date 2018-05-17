@@ -100,6 +100,25 @@ class REST_Element_Choices_Controller extends REST_Models_Controller {
 	}
 
 	/**
+	 * Prepares a single model output for response.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Model           $model   Model object.
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $model, $request ) {
+		$response = parent::prepare_item_for_response( $model, $request );
+
+		if ( isset( $response->data['field'] ) && '' === $response->data['field'] ) {
+			$response->data['field'] = '_main';
+		}
+
+		return $response;
+	}
+
+	/**
 	 * Prepares links for the request.
 	 *
 	 * @since 1.0.0
