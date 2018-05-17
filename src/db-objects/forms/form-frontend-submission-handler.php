@@ -184,7 +184,6 @@ class Form_Frontend_Submission_Handler {
 			}
 
 			if ( ! isset( $validated[ $submission_value->element_id ][ $field ] ) ) {
-				$submission_value->delete();
 				continue;
 			}
 
