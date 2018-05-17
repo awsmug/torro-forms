@@ -8,8 +8,8 @@ Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
 Tested up to:      4.9
 Requires PHP:      5.6
-Stable tag:        1.0.0-beta.10
-Version:           1.0.0-beta.10
+Stable tag:        1.0.0-beta.11
+Version:           1.0.0-beta.11
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -79,6 +79,27 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 4. Plugin settings screen
 
 == Changelog ==
+
+= 1.0.0-beta.11 =
+
+* Enhanced: New `set_props()` and `get_props()` methods available on all model classes
+* Enhanced: When editing a submission, the currently active tab is now maintained across pageviews
+* Enhanced: Performance of template tag handler processing content has been significantly improved
+* Tweaked: An unnecessary database query in the frontend has been removed
+* Tweaked: The [`PhpSpreadsheet`](https://github.com/PHPOffice/PhpSpreadsheet) project is now used instead of the deprecated [`PHPExcel`](https://github.com/PHPOffice/PHPExcel) project
+* Fixed: Forms now store data of all their pages correctly
+* Fixed: Email notifications now display correct output for all element types
+* Fixed: Email notifications are now sent using fully valid HTML
+* Fixed: Form uploads are now correctly tagged with the specified taxonomy term
+* Fixed: It is now possible to freely navigate back to a previous form page if values for required fields have not been provided yet
+* Fixed: Ensure modifying a submission now correctly clears the respective caches
+* Fixed: Ensure deleting a submission does not lead to a non-existing admin screen
+* Fixed: Increase the query limit so that all element choices are displayed in the backend
+* Fixed: Empty values are no longer validated against the available choices
+* Fixed: Empty values are now allowed when they are actually available as a choice
+* Fixed: Ensure user columns are correctly offset in form submission exports
+* Fixed: Cron task to delete submissions is now correctly clear when deactivating the plugin
+* Fixed: Ensure old element choices data is displayed in both frontend and backend
 
 = 1.0.0-beta.10 =
 
