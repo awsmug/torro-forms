@@ -272,11 +272,11 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			) );
 			foreach ( $sites as $site ) {
 				switch_to_blog( $site->id );
-				torro()->submissions->clear_cron_task();
+				torro()->submissions()->clear_cron_task();
 				restore_current_blog();
 			}
 		} else {
-			torro()->submissions->clear_cron_task();
+			torro()->submissions()->clear_cron_task();
 		}
 	}
 
