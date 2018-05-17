@@ -78,6 +78,11 @@ class Form_Frontend_Submission_Handler {
 
 		$redirect_url = ! empty( $data['original_form_id'] ) ? get_permalink( absint( $data['original_form_id'] ) ) : get_permalink( $form->id );
 
+		// Append submission ID.
+		if ( $submission && ! empty( $submission->id ) ) {
+			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
+		}
+
 		/**
 		 * Filters the URL to redirect the user to after a form submission request has been processed.
 		 *
@@ -85,15 +90,11 @@ class Form_Frontend_Submission_Handler {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $redirect_url URL to redirect to. Default is the original form URL.
-		 * @param Form   $form         Form object.
+		 * @param string     $redirect_url URL to redirect to. Default is the original form URL.
+		 * @param Form       $form         Form object.
+		 * @param Submission $submission   Submission object, or null if no submission.
 		 */
-		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form );
-
-		// Append submission ID if the URL belongs to the site.
-		if ( $submission && ! empty( $submission->id ) && 0 === strpos( $redirect_url, home_url() ) ) {
-			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
-		}
+		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form, $submission );
 
 		wp_redirect( $redirect_url );
 		exit;
