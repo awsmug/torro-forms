@@ -315,7 +315,7 @@ class Submission_Manager extends Manager {
 		parent::setup_hooks();
 
 		$this->actions[] = array(
-			'name'     => 'init',
+			'name'     => 'admin_init',
 			'callback' => array( $this, 'schedule_cron_task' ),
 			'priority' => 10,
 			'num_args' => 0,
