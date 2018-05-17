@@ -122,7 +122,7 @@ class Media extends Element_Type {
 		$has_file = ! empty( $_FILES[ $file_id ] ) && ( empty( $_FILES[ $file_id ]['error'] ) || 4 !== (int) $_FILES[ $file_id ]['error'] );
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) && ! $has_file ) {
-			return $this->create_error( 'value_required', __( 'You must upload a file.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must upload a file.', 'torro-forms' ), $value );
 		}
 
 		if ( $has_file ) {

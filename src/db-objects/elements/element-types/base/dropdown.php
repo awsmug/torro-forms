@@ -60,7 +60,7 @@ class Dropdown extends Element_Type implements Choice_Element_Type_Interface {
 		$value = trim( (string) $value );
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) ) {
-			return $this->create_error( 'value_required', __( 'You must enter something here.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must enter something here.', 'torro-forms' ), $value );
 		}
 
 		if ( ! empty( $value ) ) {

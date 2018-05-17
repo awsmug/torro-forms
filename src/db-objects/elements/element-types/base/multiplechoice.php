@@ -73,7 +73,7 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 		$value = (array) $value;
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) ) {
-			return $this->create_error( 'value_required', __( 'You must select at least a single value here.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must select at least a single value here.', 'torro-forms' ), $value );
 		}
 
 		if ( ! empty( $value ) ) {

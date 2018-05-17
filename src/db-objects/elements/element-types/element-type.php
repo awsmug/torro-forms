@@ -21,6 +21,14 @@ use WP_Error;
 abstract class Element_Type {
 
 	/**
+	 * Error code to use when the error says the field is required.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	const ERROR_CODE_REQUIRED = 'value_required';
+
+	/**
 	 * The element type slug. Must match the slug when registering the element type.
 	 *
 	 * @since 1.0.0

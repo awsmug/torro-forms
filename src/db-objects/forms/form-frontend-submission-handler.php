@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
 use WP_Error;
 
 /**
@@ -119,6 +120,8 @@ class Form_Frontend_Submission_Handler {
 
 		$old_submission_status = $submission->status;
 
+		$going_back = ! empty( $data['action'] ) && 'prev' === $data['action'];
+
 		/**
 		 * Fires before a form submission is handled.
 		 *
@@ -143,7 +146,33 @@ class Form_Frontend_Submission_Handler {
 		foreach ( $container->get_elements() as $element ) {
 			$fields = isset( $data['values'][ $element->id ] ) ? (array) $data['values'][ $element->id ] : array();
 
-			$validated[ $element->id ] = $element->validate_fields( $fields, $submission );
+			$validation_result = $element->validate_fields( $fields, $submission );
+
+			// When navigating back to the previous step, allow errors resulting of required fields to be skipped.
+			if ( $going_back ) {
+				$skip_validation = true;
+
+				foreach ( $validation_result as $field => $result ) {
+					if ( ! is_wp_error( $result ) ) {
+						$skip_validation = false;
+						break;
+					}
+
+					$non_required_errors = array_diff_key( $result->errors, array( Element_Type::ERROR_CODE_REQUIRED => true ) );
+					if ( ! empty( $non_required_errors ) ) {
+						$skip_validation = false;
+						break;
+					}
+				}
+
+				if ( ! $skip_validation ) {
+					$validated[ $element->id ] = $validation_result;
+				}
+
+				continue;
+			}
+
+			$validated[ $element->id ] = $validation_result;
 		}
 
 		// Update existing submission values first.
@@ -253,7 +282,7 @@ class Form_Frontend_Submission_Handler {
 			return;
 		}
 
-		if ( ! empty( $data['action'] ) && 'prev' === $data['action'] ) {
+		if ( $going_back ) {
 			$previous_container = $submission->get_previous_container();
 			if ( $previous_container ) {
 				$submission->set_current_container( $previous_container );

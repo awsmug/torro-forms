@@ -87,7 +87,7 @@ class Textfield extends Element_Type {
 		$value = trim( (string) $value );
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) ) {
-			return $this->create_error( 'value_required', __( 'You must enter something here.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must enter something here.', 'torro-forms' ), $value );
 		}
 
 		if ( ! empty( $value ) ) {
