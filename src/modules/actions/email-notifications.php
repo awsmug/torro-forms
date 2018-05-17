@@ -451,7 +451,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 						foreach ( $data['columns'] as $slug => $label ) {
 							$output .= '<tr>';
 							$output .= '<th scope="row">' . esc_html( $label ) . '</th>';
-							$output .= '<td>' . esc_html( $column_values[ $slug ] ) . '</td>';
+							$output .= '<td>' . wp_kses_post( $column_values[ $slug ] ) . '</td>';
 							$output .= '</tr>';
 						}
 					}
