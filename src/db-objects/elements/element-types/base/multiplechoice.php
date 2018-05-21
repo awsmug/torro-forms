@@ -70,7 +70,9 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 	public function validate_field( $value, $element, $submission ) {
 		$settings = $this->get_settings( $element );
 
-		$value = (array) $value;
+		if ( $value != null ){
+			$value = (array) $value;
+		}
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) ) {
 			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must select at least a single value here.', 'torro-forms' ), $value );
