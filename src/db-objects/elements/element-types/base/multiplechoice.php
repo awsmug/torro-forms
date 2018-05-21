@@ -70,7 +70,7 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 	public function validate_field( $value, $element, $submission ) {
 		$settings = $this->get_settings( $element );
 
-		if ( $value != null ){
+		if ( null !== $value ) {
 			$value = (array) $value;
 		}
 
