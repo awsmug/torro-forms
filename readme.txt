@@ -8,8 +8,8 @@ Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
 Tested up to:      4.9
 Requires PHP:      5.6
-Stable tag:        1.0.0-beta.11
-Version:           1.0.0-beta.11
+Stable tag:        1.0.0-rc.1
+Version:           1.0.0-rc.1
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -79,6 +79,11 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 4. Plugin settings screen
 
 == Changelog ==
+
+= 1.0.0-rc.1 =
+
+* Fixed: Element headers in the form builder may no longer contain HTML tags, and in addition now have their maximum length limited.
+* Fixed: You no longer get a PHP notice triggered when visiting the submissions list page with active filters.
 
 = 1.0.0-beta.11 =
 
