@@ -767,7 +767,7 @@ class Form_Edit_Page_Handler {
 					<img class="torro-element-header-icon" src="{{ data.type.icon_url }}" alt="">
 				<# } #>
 				<span class="torro-element-header-title">
-					{{ ! _.isEmpty( data.label ) ? data.label : data.type.title }}
+					{{ ! _.isEmpty( data.elementHeader ) ? data.elementHeader : data.type.title }}
 				</span>
 				<button type="button" class="torro-element-expand-button" aria-controls="torro-element-{{ data.id }}-content" aria-expanded="{{ data.active ? 'true' : 'false' }}">
 					<span class="torro-element-expand-button-icon" aria-hidden="true"></span><span class="screen-reader-text">{{ data.active ? '<?php esc_html_e( 'Hide Content', 'torro-forms' ); ?>' : '<?php esc_html_e( 'Show Content', 'torro-forms' ); ?>' }}</span>

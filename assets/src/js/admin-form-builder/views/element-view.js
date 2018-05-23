@@ -326,6 +326,24 @@
 		return parsedFields;
 	}
 
+	function sanitizeElementLabelForElementHeader( label ) {
+		var tmp;
+
+		// Strip HTML tags.
+		if ( label.length && -1 !== label.search( '<' ) ) {
+			tmp = document.createElement( 'div' );
+			tmp.innerHTML = label;
+			label  = tmp.textContent.trim();
+		}
+
+		// Limit maximum length.
+		if ( label.length > 50 ) {
+			label = label.substring( 0, 47 ) + '...';
+		}
+
+		return label;
+	}
+
 	/**
 	 * An element view.
 	 *
@@ -353,6 +371,7 @@
 	_.extend( ElementView.prototype, {
 		render: function() {
 			var templateData            = this.element.attributes;
+			templateData.elementHeader  = templateData.label ? sanitizeElementLabelForElementHeader( templateData.label ) : '';
 			templateData.type           = this.element.element_type.attributes;
 			templateData.active         = this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
 			templateData.active_section = this.element.getActiveSection();
@@ -526,28 +545,16 @@
 		},
 
 		listenChangeLabel: function( element, label ) {
-			var name         = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
-			var elementTitle = label;
-			var tmp;
+			var name          = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
+			var elementHeader = label;
 
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( label );
 
-			if ( elementTitle ) {
+			if ( elementHeader ) {
+				elementHeader = sanitizeElementLabelForElementHeader( elementHeader );
 
-				// Strip HTML tags from new element title.
-				if ( elementTitle.length && -1 !== elementTitle.search( '<' ) ) {
-					tmp = document.createElement( 'div' );
-					tmp.innerHTML = elementTitle;
-					elementTitle  = tmp.textContent.trim();
-				}
-
-				// Limit the length of the new element title.
-				if ( elementTitle.length > 50 ) {
-					elementTitle = elementTitle.substring( 0, 47 ) + '...';
-				}
-
-				if ( elementTitle.length ) {
-					this.$wrap.find( '.torro-element-header-title' ).text( elementTitle );
+				if ( elementHeader.length ) {
+					this.$wrap.find( '.torro-element-header-title' ).text( elementHeader );
 					return;
 				}
 			}
