@@ -526,15 +526,33 @@
 		},
 
 		listenChangeLabel: function( element, label ) {
-			var name = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
+			var name         = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
+			var elementTitle = label;
+			var tmp;
 
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( label );
 
-			if ( label && label.length ) {
-				this.$wrap.find( '.torro-element-header-title' ).text( label );
-			} else {
-				this.$wrap.find( '.torro-element-header-title' ).text( this.element.element_type.getTitle() );
+			if ( elementTitle ) {
+
+				// Strip HTML tags from new element title.
+				if ( elementTitle.length && -1 !== elementTitle.search( '<' ) ) {
+					tmp = document.createElement( 'div' );
+					tmp.innerHTML = elementTitle;
+					elementTitle  = tmp.textContent.trim();
+				}
+
+				// Limit the length of the new element title.
+				if ( elementTitle.length > 50 ) {
+					elementTitle = elementTitle.substring( 0, 47 ) + '...';
+				}
+
+				if ( elementTitle.length ) {
+					this.$wrap.find( '.torro-element-header-title' ).text( elementTitle );
+					return;
+				}
 			}
+
+			this.$wrap.find( '.torro-element-header-title' ).text( this.element.element_type.getTitle() );
 		},
 
 		listenChangeType: function( element, type ) {
