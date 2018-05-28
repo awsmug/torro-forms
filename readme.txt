@@ -28,15 +28,18 @@ Torro Forms was made with a specific attention to polls and surveys. Form submis
 
 = Key Features =
 
-* **Drag-and-Drop Form Builder** - Drag elements into your working area and edit them. Look and feel of the form builder are the similar to what you would expect from WordPress.
-* **Actions** - Use actions executed on form submission to handle the submitted data, for example to send them in an email or redirect the user.
-* **Access Controls** - Granularly restrict who can access your forms and submit their responses for them.
-* **Evaluators** - Display stats and charts for form submissions, including bar and pie charts for individual choice fields.
-* **Protectors** - Secure your forms with a variety of measures to prevent spam, such as Google reCAPTCHA integration or a honeypot field.
-* **Form Settings** - Adjust the behavior of your forms precisely, with a clear and organized UI.
-* **Element Types** - Use several field types, including analyzable dropdown or multiple-choice fields.
-* **Excel & CSV Exports** - Export the results of form submissions into an Excel or CSV file.
-* **Easy-to-use APIs** - Developers will love Torro Forms for its great extensibility features and simple APIs. The plugin includes an extension base class and solid foundations for every integration point. The `torro()` function acts as a root for easy chaining and autocompletion.
+* **Multi-Page** Forms,
+* **Shortcodes** to embed forms and live results,
+* **Excel, CSV** export,
+* **Actions** like unlimited email-notifications and redirections,
+* **Protectors** like Google reCaptcha and honeypot and link counting,
+* **Access Controls** for visitors, users or by timerange or number of submissions,
+* **Evaluators** for displaying results with bar, pie or donut charts,
+* **WP-CLI** commands,
+* **REST-API** endpoints,
+* **Templating** of elements,
+* **PHP API** for developers,
+* and much more.
 
 = Links =
 
