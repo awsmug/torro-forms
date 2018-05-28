@@ -464,9 +464,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		}
 
 		$this->instantiate_core_services();
-		$this->instantiate_component_services();
 		$this->instantiate_db_object_managers();
 		$this->instantiate_modules();
+		$this->instantiate_component_services();
 
 		$this->setup_capabilities();
 		$this->connect_db_object_managers();
@@ -510,39 +510,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->ajax = $this->instantiate_library_service( 'AJAX', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_AJAX' ) );
 
 		$this->apiapi_config = $this->instantiate_plugin_class( 'APIAPI_Config', $this->prefix );
-	}
-
-	/**
-	 * Instantiates the plugin component services.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function instantiate_component_services() {
-		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
-			'ajax'          => $this->ajax,
-			'assets'        => $this->assets,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->extensions = $this->instantiate_plugin_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
-		$this->extensions->set_plugin( $this );
-
-		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
-
-		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->form_uploads = $this->instantiate_plugin_service( 'Components\Form_Upload_Manager', $this->prefix, array(
-			'taxonomies'    => $this->taxonomies,
-			'error_handler' => $this->error_handler,
-		) );
 	}
 
 	/**
@@ -637,6 +604,39 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	}
 
 	/**
+	 * Instantiates the plugin component services.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function instantiate_component_services() {
+		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
+			'ajax'          => $this->ajax,
+			'assets'        => $this->assets,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->extensions = $this->instantiate_plugin_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
+		$this->extensions->set_plugin( $this );
+
+		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
+
+		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->form_uploads = $this->instantiate_plugin_service( 'Components\Form_Upload_Manager', $this->prefix, array(
+			'taxonomies'    => $this->taxonomies,
+			'error_handler' => $this->error_handler,
+		) );
+	}
+
+	/**
 	 * Sets up capabilities for the plugin DB object managers.
 	 *
 	 * @since 1.0.0
@@ -723,9 +723,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function add_hooks() {
 		$this->add_core_service_hooks();
-		$this->add_component_service_hooks();
 		$this->add_db_object_manager_hooks();
 		$this->add_module_hooks();
+		$this->add_component_service_hooks();
 	}
 
 	/**
@@ -739,16 +739,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->assets->add_hooks();
 		$this->ajax->add_hooks();
 		$this->apiapi_config->add_hooks();
-	}
-
-	/**
-	 * Adds the necessary plugin component service hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function add_component_service_hooks() {
-		$this->admin_pages->add_hooks();
-		$this->extensions->add_hooks();
 	}
 
 	/**
@@ -786,5 +776,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function add_module_hooks() {
 		$this->modules->add_hooks();
+	}
+
+	/**
+	 * Adds the necessary plugin component service hooks.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function add_component_service_hooks() {
+		$this->admin_pages->add_hooks();
+		$this->extensions->add_hooks();
 	}
 }
