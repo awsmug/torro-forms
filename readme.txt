@@ -8,8 +8,8 @@ Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
 Tested up to:      4.9
 Requires PHP:      5.6
-Stable tag:        1.0.0-rc.1
-Version:           1.0.0-rc.1
+Stable tag:        1.0.0
+Version:           1.0.0
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -82,6 +82,10 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 4. Plugin settings screen
 
 == Changelog ==
+
+= 1.0.0 =
+
+* Initial release
 
 = 1.0.0-rc.1 =
 
