@@ -307,7 +307,18 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * @since 1.0.0
 	 */
 	protected function register_template_tag_handlers() {
-		$tags = array(
+		$prefix = $this->module->get_prefix();
+
+		/**
+		 * Filters template tags
+		 *
+		 * An array will be returned with all template tags
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $tags All template tags in an array.
+		 */
+		$tags = apply_filters( "{$prefix}_email_notifications_template_tags", array(
 			'sitetitle'          => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Title', 'torro-forms' ),
@@ -416,9 +427,18 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					return sprintf( _x( '%1$s at %2$s', 'concatenating date and time', 'torro-forms' ), $date, $time );
 				},
 			),
-		);
+		));
 
-		$complex_tags = array(
+		/**
+		 * Filters complex template tags
+		 *
+		 * An array will be returned with all complex template tags
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $tags All complex template tags in an array.
+		 */
+		$complex_tags = apply_filters( "{$prefix}_email_notifications_template_tags_complex", array(
 			'allelements' => array(
 				'group'       => 'submission',
 				'label'       => __( 'All Element Values', 'torro-forms' ),
@@ -461,13 +481,22 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					return $output;
 				},
 			),
-		);
+		));
 
-		$groups = array(
+		/**
+		 * Filters template tag groups
+		 *
+		 * An array will be returned with all template tag groups
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $tags All template tag groups.
+		 */
+		$groups = apply_filters( "{$prefix}_email_notifications_template_tag_groups", array(
 			'global'     => _x( 'Global', 'template tag group', 'torro-forms' ),
 			'form'       => _x( 'Form', 'template tag group', 'torro-forms' ),
 			'submission' => _x( 'Submission', 'template tag group', 'torro-forms' ),
-		);
+		));
 
 		$this->template_tag_handler            = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ), $groups );
 		$this->template_tag_handler_email_only = new Template_Tag_Handler( $this->slug . '_email_only', array( 'adminemail' => $tags['adminemail'] ), array( Form::class, Submission::class ), array( 'global' => $groups['global'] ) );
