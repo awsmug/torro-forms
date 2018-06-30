@@ -502,7 +502,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		 *
 		 * @param array $tags All template tag groups.
 		 */
-		$groups = apply_filters( "{$prefix}_email_notifications_template_tag_groups", $groups );
+		$groups = apply_filters( "{$prefix}_email_notifications_template_tags_groups", $groups );
 
 		$this->template_tag_handler            = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ), $groups );
 		$this->template_tag_handler_email_only = new Template_Tag_Handler( $this->slug . '_email_only', array( 'adminemail' => $tags['adminemail'] ), array( Form::class, Submission::class ), array( 'global' => $groups['global'] ) );
