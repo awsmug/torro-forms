@@ -309,16 +309,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	protected function register_template_tag_handlers() {
 		$prefix = $this->module->get_prefix();
 
-		/**
-		 * Filters template tags
-		 *
-		 * An array will be returned with all template tags
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param array $tags All template tags in an array.
-		 */
-		$tags = apply_filters( "{$prefix}_email_notifications_template_tags", array(
+		$tags = array(
 			'sitetitle'          => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Title', 'torro-forms' ),
@@ -427,18 +418,9 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					return sprintf( _x( '%1$s at %2$s', 'concatenating date and time', 'torro-forms' ), $date, $time );
 				},
 			),
-		));
+		);
 
-		/**
-		 * Filters complex template tags
-		 *
-		 * An array will be returned with all complex template tags
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param array $tags All complex template tags in an array.
-		 */
-		$complex_tags = apply_filters( "{$prefix}_email_notifications_template_tags_complex", array(
+		$complex_tags = array(
 			'allelements' => array(
 				'group'       => 'submission',
 				'label'       => __( 'All Element Values', 'torro-forms' ),
@@ -481,7 +463,35 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					return $output;
 				},
 			),
-		));
+		);
+
+		$groups = array(
+			'global'     => _x( 'Global', 'template tag group', 'torro-forms' ),
+			'form'       => _x( 'Form', 'template tag group', 'torro-forms' ),
+			'submission' => _x( 'Submission', 'template tag group', 'torro-forms' ),
+		);
+
+		/**
+		 * Filters template tags
+		 *
+		 * An array will be returned with all template tags
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $tags All template tags in an array.
+		 */
+		$tags = apply_filters( "{$prefix}_email_notifications_template_tags", $tags );
+
+		/**
+		 * Filters complex template tags
+		 *
+		 * An array will be returned with all complex template tags
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $tags All complex template tags in an array.
+		 */
+		$complex_tags = apply_filters( "{$prefix}_email_notifications_template_tags_complex", $complex_tags );
 
 		/**
 		 * Filters template tag groups
@@ -492,11 +502,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		 *
 		 * @param array $tags All template tag groups.
 		 */
-		$groups = apply_filters( "{$prefix}_email_notifications_template_tag_groups", array(
-			'global'     => _x( 'Global', 'template tag group', 'torro-forms' ),
-			'form'       => _x( 'Form', 'template tag group', 'torro-forms' ),
-			'submission' => _x( 'Submission', 'template tag group', 'torro-forms' ),
-		));
+		$groups = apply_filters( "{$prefix}_email_notifications_template_tags_groups", $groups );
 
 		$this->template_tag_handler            = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ), $groups );
 		$this->template_tag_handler_email_only = new Template_Tag_Handler( $this->slug . '_email_only', array( 'adminemail' => $tags['adminemail'] ), array( Form::class, Submission::class ), array( 'global' => $groups['global'] ) );
