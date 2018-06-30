@@ -53,24 +53,6 @@ class Privacy extends Setting {
 		 *
 		 * @param array $fields Array of `$field_slug => $field_data` pairs.
 		 */
-		return apply_filters( "{$prefix}form_settings_meta_fields", $meta_fields );
-	}
-
-	/**
-	 * Sets up all action and filter hooks for the service.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function setup_hooks() {
-		parent::setup_hooks();
-
-		$prefix = $this->module->get_prefix();
-
-		$this->filters[] = array(
-			'name'     => "{$prefix}allow_get_params",
-			'callback' => array( $this, 'filter_allow_get_params' ),
-			'priority' => 10,
-			'num_args' => 3,
-		);
+		return apply_filters( "{$prefix}form_settings_privacy_meta_fields", $meta_fields );
 	}
 }

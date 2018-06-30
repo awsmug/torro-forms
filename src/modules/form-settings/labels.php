@@ -8,8 +8,6 @@
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
 
-use WP_Error;
-
 /**
  * Class for a protector using a link count.
  *

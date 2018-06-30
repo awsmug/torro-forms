@@ -8,8 +8,6 @@
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
 
-use WP_Error;
-
 /**
  * Class for a protector using a link count.
  *
@@ -38,6 +36,8 @@ class Advanced extends Setting {
 	public function get_meta_fields() {
 		$meta_fields = $this->_get_meta_fields();
 
+		$prefix = $this->module->get_prefix();
+
 		$meta_fields['allow_get_params'] = array(
 			'tab'         => 'advanced',
 			'type'        => 'checkbox',
@@ -53,7 +53,7 @@ class Advanced extends Setting {
 		 *
 		 * @param array $fields Array of `$field_slug => $field_data` pairs.
 		 */
-		return apply_filters( "{$prefix}form_settings_meta_fields", $meta_fields );
+		return apply_filters( "{$prefix}form_settings_advanced_meta_fields", $meta_fields );
 	}
 
 	/**
