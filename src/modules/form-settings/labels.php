@@ -78,7 +78,7 @@ class Labels extends Setting {
 				'input_classes' => array( 'regular-text' ),
 				'default'       => $this->get_default_success_message(),
 				'wrap_classes'  => array( 'has-torro-tooltip-description' ),
-			)
+			),
 		);
 
 		/**

@@ -39,11 +39,11 @@ class Privacy extends Setting {
 		$prefix = $this->module->get_prefix();
 
 		$meta_fields['double_opt_in'] = array(
-			'tab'         => 'privacy',
-			'type'        => 'checkbox',
-			'label'       => __( 'Enable', 'torro-forms' ),
-			'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
-			'description' => sprintf( __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ), '<code>?torro_input_value_ELEMENT_ID=VALUE</code>' ),
+			'tab'         	=> 'privacy',
+			'type'        	=> 'checkbox',
+			'label'       	=> __( 'Enable', 'torro-forms' ),
+			'visual_label' 	=> __( 'Double Opt-In', 'torro-forms' ),
+			'description' 	=> sprintf( __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ), '<code>?torro_input_value_ELEMENT_ID=VALUE</code>' ),
 		);
 
 		/**
