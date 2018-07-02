@@ -32,9 +32,9 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Setting::class;
 		$this->default_submodules   = array(
-			'labels'    => labels::class,
-			'privacy'   => privacy::class,
-			'advanced'  => advanced::class,
+			'labels'   => labels::class,
+			'privacy'  => privacy::class,
+			'advanced' => advanced::class,
 		);
 	}
 
