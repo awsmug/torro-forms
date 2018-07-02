@@ -61,7 +61,7 @@ class Textfield extends Element_Type {
 			if ( ! empty( $data['description'] ) ) {
 				$data['description'] .= '<br>';
 			} else {
-				$data['description'] = '';
+				$data['description']                     = '';
 				$data['input_attrs']['aria-describedby'] = $data['description_attrs']['id'];
 			}
 
@@ -87,31 +87,33 @@ class Textfield extends Element_Type {
 		$value = trim( (string) $value );
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) ) {
-			return $this->create_error( 'value_required', __( 'You must enter something here.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must enter something here.', 'torro-forms' ), $value );
 		}
 
-		if ( ! empty( $settings['min_length'] ) && strlen( $value ) < (int) $settings['min_length'] ) {
-			return $this->create_error( 'value_too_short', __( 'The value you entered is too short.', 'torro-forms' ), $value );
-		}
+		if ( ! empty( $value ) ) {
+			if ( ! empty( $settings['min_length'] ) && strlen( $value ) < (int) $settings['min_length'] ) {
+				return $this->create_error( 'value_too_short', __( 'The value you entered is too short.', 'torro-forms' ), $value );
+			}
 
-		if ( ! empty( $settings['max_length'] ) && strlen( $value ) > (int) $settings['max_length'] ) {
-			return $this->create_error( 'value_too_long', __( 'The value you entered is too long.', 'torro-forms' ), $value );
-		}
+			if ( ! empty( $settings['max_length'] ) && strlen( $value ) > (int) $settings['max_length'] ) {
+				return $this->create_error( 'value_too_long', __( 'The value you entered is too long.', 'torro-forms' ), $value );
+			}
 
-		if ( ! empty( $settings['input_type'] ) ) {
-			$input_type = $this->get_input_type( $settings['input_type'] );
-			if ( $input_type ) {
-				$status = true;
-				if ( isset( $input_type['callback'] ) && $input_type['callback'] && is_callable( $input_type['callback'] ) ) {
-					$status = call_user_func( $input_type['callback'], $value );
-				} elseif ( isset( $input_type['pattern'] ) && $input_type['pattern'] ) {
-					$status = preg_match( '/' . $input_type['pattern'] . '/i', $value );
-				}
+			if ( ! empty( $settings['input_type'] ) ) {
+				$input_type = $this->get_input_type( $settings['input_type'] );
+				if ( $input_type ) {
+					$status = true;
+					if ( isset( $input_type['callback'] ) && $input_type['callback'] && is_callable( $input_type['callback'] ) ) {
+						$status = call_user_func( $input_type['callback'], $value );
+					} elseif ( isset( $input_type['pattern'] ) && $input_type['pattern'] ) {
+						$status = preg_match( '/' . $input_type['pattern'] . '/i', $value );
+					}
 
-				if ( ! $status ) {
-					$message = ! empty( $input_type['error_message'] ) ? $input_type['error_message'] : __( 'The value you entered is invalid.', 'torro-forms' );
+					if ( ! $status ) {
+						$message = ! empty( $input_type['error_message'] ) ? $input_type['error_message'] : __( 'The value you entered is invalid.', 'torro-forms' );
 
-					return $this->create_error( 'value_invalid', $message, $value );
+						return $this->create_error( 'value_invalid', $message, $value );
+					}
 				}
 			}
 		}
@@ -199,6 +201,7 @@ class Textfield extends Element_Type {
 			'type'        => 'radio',
 			'label'       => __( 'Input type', 'torro-forms' ),
 			'choices'     => $input_types,
+			/* translators: %s: HTML input type info URL */
 			'description' => sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supported by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
 			'default'     => 'text',
 		);

@@ -76,9 +76,8 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * @since 1.0.0
 	 */
 	protected function bootstrap() {
-		$this->slug        = 'email_notifications';
-		$this->title       = __( 'Email Notifications', 'torro-forms' );
-		// $this->description = __( 'Sends one or more email notifications to specific addresses.', 'torro-forms' );
+		$this->slug  = 'email_notifications';
+		$this->title = __( 'Email Notifications', 'torro-forms' );
 
 		$this->register_template_tag_handlers();
 	}
@@ -172,7 +171,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 				}
 			}
 
-			$notification['message'] = wpautop( $notification['message'] );
+			$notification['message'] = $this->wrap_message( wpautop( $notification['message'] ), $notification['subject'] );
 
 			$this->from_name  = $notification['from_name'];
 			$this->from_email = $notification['from_email'];
@@ -242,11 +241,10 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		}
 
 		$meta_fields['notifications'] = array(
-			'type'        => 'group',
-			'label'       => __( 'Notifications', 'torro-forms' ),
-			// 'description' => __( 'Add email notifications to send.', 'torro-forms' ),
-			'repeatable'  => 8,
-			'fields'      => array(
+			'type'       => 'group',
+			'label'      => __( 'Notifications', 'torro-forms' ),
+			'repeatable' => 8,
+			'fields'     => array(
 				'from_name'   => array(
 					'type'                 => 'templatetagtext',
 					'label'                => __( 'From Name', 'torro-forms' ),
@@ -394,12 +392,16 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					return add_query_arg( 'torro_submission_id', $submission->id, get_permalink( $form->id ) );
 				},
 			),
-			'submissionediturl' => array(
+			'submissionediturl'  => array(
 				'group'       => 'submission',
 				'label'       => __( 'Submission Edit URL', 'torro-forms' ),
 				'description' => __( 'Inserts the edit URL for the submission.', 'torro-forms' ),
 				'callback'    => function( $form, $submission ) {
-					return add_query_arg( 'id', $submission->id, torro()->admin_pages()->get( 'edit_submission' )->url );
+					return add_query_arg( array(
+						'post_type' => torro()->post_types()->get_prefix() . 'form',
+						'page'      => torro()->admin_pages()->get_prefix() . 'edit_submission',
+						'id'        => $submission->id,
+					), admin_url( 'edit.php' ) );
 				},
 			),
 			'submissiondatetime' => array(
@@ -417,7 +419,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		);
 
 		$complex_tags = array(
-			'allelements'        => array(
+			'allelements' => array(
 				'group'       => 'submission',
 				'label'       => __( 'All Element Values', 'torro-forms' ),
 				'description' => __( 'Inserts all element values from the submission.', 'torro-forms' ),
@@ -449,7 +451,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 						foreach ( $data['columns'] as $slug => $label ) {
 							$output .= '<tr>';
 							$output .= '<th scope="row">' . esc_html( $label ) . '</th>';
-							$output .= '<td>' . esc_html( $column_values[ $slug ] ) . '</td>';
+							$output .= '<td>' . wp_kses_post( $column_values[ $slug ] ) . '</td>';
 							$output .= '</tr>';
 						}
 					}
@@ -506,7 +508,10 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 						return '';
 					}
 
+					add_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
 					$export_values = $element_type->format_values_for_export( $element_values[ $element->id ], $element, 'html' );
+					remove_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
+
 					if ( ! isset( $export_values[ 'element_' . $element->id . '__main' ] ) ) {
 						if ( count( $export_values ) !== 1 ) {
 							return '';
@@ -533,6 +538,32 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		}
 
 		return $tags;
+	}
+
+	/**
+	 * Wraps the message in valid presentational HTML markup.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $message HTML message to wrap.
+	 * @param string $title   Optional. String to use in the title tag. Default empty string for no title.
+	 * @return string Wrapped HTML message.
+	 */
+	protected function wrap_message( $message, $title = '' ) {
+		$before  = '<!DOCTYPE html>';
+		$before .= '<html>';
+		$before .= '<head>';
+		$before .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+		if ( ! empty( $title ) ) {
+			$before .= '<title>' . esc_html( $title ) . '</title>';
+		}
+		$before .= '</head>';
+		$before .= '<body>';
+
+		$after  = '</body>';
+		$after .= '</html>';
+
+		return $before . $message . $after;
 	}
 
 	/**
@@ -587,11 +618,11 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function register_assets( $assets ) {
-		$template_tag_template = '<li class="template-tag template-tag-%slug%">';
+		$template_tag_template  = '<li class="template-tag template-tag-%slug%">';
 		$template_tag_template .= '<button type="button" class="template-tag-button" data-tag="%slug%">%label%</button>';
 		$template_tag_template .= '</li>';
 
-		$template_tag_group_template = '<li class="template-tag-list-group template-tag-list-group-%slug%">';
+		$template_tag_group_template  = '<li class="template-tag-list-group template-tag-list-group-%slug%">';
 		$template_tag_group_template .= '<span>%label%</span>';
 		$template_tag_group_template .= '<ul></ul>';
 		$template_tag_group_template .= '</li>';

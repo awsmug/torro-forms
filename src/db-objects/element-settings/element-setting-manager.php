@@ -26,6 +26,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method DB                           db()
  * @method Cache                        cache()
  * @method Error_Handler                error_handler()
+ * @method Element_Setting              create()
  */
 class Element_Setting_Manager extends Manager {
 	use Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;
@@ -77,12 +78,12 @@ class Element_Setting_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"element_id int(11) unsigned NOT NULL",
-			"name text NOT NULL",
-			"value text NOT NULL",
-			"PRIMARY KEY  (id)",
-			"KEY element_id (element_id)",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'element_id int(11) unsigned NOT NULL',
+			'name text NOT NULL',
+			'value text NOT NULL',
+			'PRIMARY KEY  (id)',
+			'KEY element_id (element_id)',
 		) );
 	}
 }

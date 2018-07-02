@@ -87,7 +87,7 @@
 		return 'torro_element_' + element.get( 'id' ) + '_' + field;
 	}
 
-	function parseFields( fields, element, options ) {
+	function parseFields( fields, element ) {
 		var parsedFields = [];
 		var hasLabel = false;
 
@@ -126,7 +126,7 @@
 				parsedField.itemInitial.element_id   = element.get( 'id' );
 				parsedField.itemInitial.field        = _.isString( field.is_choices ) ? field.is_choices : '_main';
 				parsedField.itemInitial.id           = parsedField.id + '-%indexPlus1%';
-				parsedField.itemInitial.label        = options.i18n.elementChoiceLabel.replace( '%s', '%indexPlus1%' );
+				parsedField.itemInitial.label        = torro.Builder.i18n.elementChoiceLabel.replace( '%s', '%indexPlus1%' );
 				parsedField.itemInitial.name         = 'torro_element_choices[' + tempId + '_%index%][value]';
 				parsedField.itemInitial.section      = parsedField.section;
 				parsedField.itemInitial.sort         = '%index%';
@@ -326,6 +326,24 @@
 		return parsedFields;
 	}
 
+	function sanitizeElementLabelForElementHeader( label ) {
+		var tmp;
+
+		// Strip HTML tags.
+		if ( label.length && -1 !== label.search( '<' ) ) {
+			tmp = document.createElement( 'div' );
+			tmp.innerHTML = label;
+			label  = tmp.textContent.trim();
+		}
+
+		// Limit maximum length.
+		if ( label.length > 50 ) {
+			label = label.substring( 0, 47 ) + '...';
+		}
+
+		return label;
+	}
+
 	/**
 	 * An element view.
 	 *
@@ -353,6 +371,7 @@
 	_.extend( ElementView.prototype, {
 		render: function() {
 			var templateData            = this.element.attributes;
+			templateData.elementHeader  = templateData.label ? sanitizeElementLabelForElementHeader( templateData.label ) : '';
 			templateData.type           = this.element.element_type.attributes;
 			templateData.active         = this.element.collection.props.get( 'active' ).includes( this.element.get( 'id' ) );
 			templateData.active_section = this.element.getActiveSection();
@@ -401,7 +420,7 @@
 		},
 
 		initializeFields: function() {
-			this.fieldManager = new fieldsAPI.FieldManager( parseFields( this.element.element_type.getFields(), this.element, this.options ), {
+			this.fieldManager = new fieldsAPI.FieldManager( parseFields( this.element.element_type.getFields(), this.element ), {
 				instanceId: 'torro_element_' + this.element.get( 'id' )
 			});
 			this.fieldViews = [];
@@ -526,15 +545,21 @@
 		},
 
 		listenChangeLabel: function( element, label ) {
-			var name = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
+			var name          = torro.escapeSelector( torro.getFieldName( this.element, 'label' ) );
+			var elementHeader = label;
 
 			this.$wrap.find( 'input[name="' + name + '"]' ).val( label );
 
-			if ( label && label.length ) {
-				this.$wrap.find( '.torro-element-header-title' ).text( label );
-			} else {
-				this.$wrap.find( '.torro-element-header-title' ).text( this.element.element_type.getTitle() );
+			if ( elementHeader ) {
+				elementHeader = sanitizeElementLabelForElementHeader( elementHeader );
+
+				if ( elementHeader.length ) {
+					this.$wrap.find( '.torro-element-header-title' ).text( elementHeader );
+					return;
+				}
 			}
+
+			this.$wrap.find( '.torro-element-header-title' ).text( this.element.element_type.getTitle() );
 		},
 
 		listenChangeType: function( element, type ) {
@@ -571,10 +596,10 @@
 
 		listenChangeActive: function( props, active ) {
 			if ( active.includes( this.element.get( 'id' ) ) ) {
-				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'true' ).find( '.screen-reader-text' ).text( this.options.i18n.hideContent );
+				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'true' ).find( '.screen-reader-text' ).text( torro.Builder.i18n.hideContent );
 				this.$wrap.find( '.torro-element-content' ).addClass( 'is-expanded' );
 			} else {
-				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'false' ).find( '.screen-reader-text' ).text( this.options.i18n.showContent );
+				this.$wrap.find( '.torro-element-expand-button' ).attr( 'aria-expanded', 'false' ).find( '.screen-reader-text' ).text( torro.Builder.i18n.showContent );
 				this.$wrap.find( '.torro-element-content' ).removeClass( 'is-expanded' );
 			}
 
@@ -637,7 +662,7 @@
 		},
 
 		deleteElement: function() {
-			torro.askConfirmation( this.options.i18n.confirmDeleteElement, _.bind( function() {
+			torro.askConfirmation( torro.Builder.i18n.confirmDeleteElement, _.bind( function() {
 				this.element.collection.remove( this.element );
 			}, this ) );
 		},

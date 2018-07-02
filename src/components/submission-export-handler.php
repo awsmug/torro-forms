@@ -89,7 +89,7 @@ class Submission_Export_Handler extends Service {
 	 */
 	public function export_submissions( $mode, $form, $args = array() ) {
 		if ( ! isset( $this->modes[ $mode ] ) ) {
-			wp_die( __( 'Invalid submission export handler.', 'torro-forms' ) );
+			wp_die( esc_html__( 'Invalid submission export handler.', 'torro-forms' ) );
 		}
 
 		$this->modes[ $mode ]->export_submissions( $form, $args );
@@ -103,29 +103,29 @@ class Submission_Export_Handler extends Service {
 	 */
 	public function handle_export_action() {
 		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
-			wp_die( __( 'Missing nonce.', 'torro-forms' ) );
+			wp_die( esc_html__( 'Missing nonce.', 'torro-forms' ) );
 		}
 
 		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $this->nonce_action ) ) {
-			wp_die( __( 'Invalid nonce.', 'torro-forms' ) );
+			wp_die( esc_html__( 'Invalid nonce.', 'torro-forms' ) );
 		}
 
 		if ( ! isset( $_REQUEST['form_id'] ) ) {
-			wp_die( __( 'Missing form ID.', 'torro-forms' ) );
+			wp_die( esc_html__( 'Missing form ID.', 'torro-forms' ) );
 		}
 
 		$capabilities = $this->submission_manager->capabilities();
 		if ( ! $capabilities || ! $capabilities->user_can_read() ) {
-			wp_die( __( 'Insufficient permissions.', 'torro-forms' ) );
+			wp_die( esc_html__( 'Insufficient permissions.', 'torro-forms' ) );
 		}
 
 		$form = $this->submission_manager->get_parent_manager( 'forms' )->get( (int) $_REQUEST['form_id'] );
 		if ( ! $form ) {
-			wp_die( __( 'Invalid form ID.', 'torro-forms' ) );
+			wp_die( esc_html__( 'Invalid form ID.', 'torro-forms' ) );
 		}
 
 		if ( ! isset( $_REQUEST['mode'] ) ) {
-			wp_die( __( 'Missing submission export handler.', 'torro-forms' ) );
+			wp_die( esc_html__( 'Missing submission export handler.', 'torro-forms' ) );
 		}
 
 		$args = array();
@@ -147,7 +147,7 @@ class Submission_Export_Handler extends Service {
 	 * @since 1.0.0
 	 */
 	public function render_export_form() {
-		if ( ! isset( $_REQUEST['form_id'] ) ) {
+		if ( ! isset( $_REQUEST['form_id'] ) ) { // WPCS: CSRF OK.
 			return;
 		}
 
@@ -157,32 +157,32 @@ class Submission_Export_Handler extends Service {
 			<input type="hidden" name="form_id" value="<?php echo absint( $_REQUEST['form_id'] ); ?>" />
 			<?php wp_nonce_field( $this->nonce_action ); ?>
 
-			<h3><?php _e( 'Export Submissions', 'torro-forms' ); ?></h3>
+			<h3><?php esc_html_e( 'Export Submissions', 'torro-forms' ); ?></h3>
 
 			<p class="description">
-				<?php _e( 'Here you can export all completed submissions in a file format of your choice.', 'torro-forms' ); ?>
+				<?php esc_html_e( 'Here you can export all completed submissions in a file format of your choice.', 'torro-forms' ); ?>
 			</p>
 
-			<label for="torro-export-mode"><?php _e( 'Export as', 'torro-forms' ); ?></label>
+			<label for="torro-export-mode"><?php esc_html_e( 'Export as', 'torro-forms' ); ?></label>
 			<select id="torro-export-mode" name="mode" style="margin-right:15px;">
 				<?php foreach ( $this->modes as $slug => $mode ) : ?>
 					<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $mode->get_title() ); ?></option>
 				<?php endforeach; ?>
 			</select>
 
-			<label for="torro-export-orderby"><?php _e( 'Order by', 'torro-forms' ); ?></label>
+			<label for="torro-export-orderby"><?php esc_html_e( 'Order by', 'torro-forms' ); ?></label>
 			<select id="torro-export-orderby" name="orderby">
-				<option value="id"><?php _e( 'ID', 'torro-forms' ); ?></option>
-				<option value="timestamp"><?php _e( 'Date', 'torro-forms' ); ?></option>
+				<option value="id"><?php esc_html_e( 'ID', 'torro-forms' ); ?></option>
+				<option value="timestamp"><?php esc_html_e( 'Date', 'torro-forms' ); ?></option>
 			</select>
 
-			<label for="torro-export-order" class="screen-reader-text"><?php _e( 'Order', 'torro-forms' ); ?></label>
+			<label for="torro-export-order" class="screen-reader-text"><?php esc_html_e( 'Order', 'torro-forms' ); ?></label>
 			<select id="torro-export-order" name="order" style="margin-right:15px;">
-				<option value="ASC"><?php _e( 'Ascending', 'torro-forms' ); ?></option>
-				<option value="DESC"><?php _e( 'Descending', 'torro-forms' ); ?></option>
+				<option value="ASC"><?php esc_html_e( 'Ascending', 'torro-forms' ); ?></option>
+				<option value="DESC"><?php esc_html_e( 'Descending', 'torro-forms' ); ?></option>
 			</select>
 
-			<button type="submit" class="button"><?php _e( 'Export', 'torro-forms' ); ?></button>
+			<button type="submit" class="button"><?php esc_html_e( 'Export', 'torro-forms' ); ?></button>
 		</form>
 		<?php
 	}

@@ -50,9 +50,9 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 		unset( $data['legend_attrs']['for'] );
 
 		$data['input_attrs']['name'] .= '[]';
-		$data['input_attrs']['id']  = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['input_attrs']['id'] );
-		$data['label_attrs']['id']  = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['id'] );
-		$data['label_attrs']['for'] = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['for'] );
+		$data['input_attrs']['id']    = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['input_attrs']['id'] );
+		$data['label_attrs']['id']    = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['id'] );
+		$data['label_attrs']['for']   = str_replace( (string) $element->id, (string) $element->id . '-%index%', $data['label_attrs']['for'] );
 
 		return $data;
 	}
@@ -73,14 +73,16 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 		$value = (array) $value;
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) ) {
-			return $this->create_error( 'value_required', __( 'You must select at least a single value here.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must select at least a single value here.', 'torro-forms' ), $value );
 		}
 
-		$choices = $this->get_choices_for_field( $element );
+		if ( ! empty( $value ) ) {
+			$choices = $this->get_choices_for_field( $element );
 
-		foreach ( $value as $single_value ) {
-			if ( ! in_array( $single_value, $choices, true ) ) {
-				return $this->create_error( 'value_invalid_choice', __( 'You must select valid values from the list.', 'torro-forms' ), $value );
+			foreach ( $value as $single_value ) {
+				if ( ! in_array( $single_value, $choices, true ) ) {
+					return $this->create_error( 'value_invalid_choice', __( 'You must select valid values from the list.', 'torro-forms' ), $value );
+				}
 			}
 		}
 

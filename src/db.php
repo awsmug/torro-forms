@@ -96,20 +96,20 @@ class DB extends DB_Base {
 			return;
 		}
 
-		$this->options->delete( 'general_settings' );
-		$this->options->delete( 'extension_settings' );
+		$this->options()->delete( 'general_settings' );
+		$this->options()->delete( 'extension_settings' );
 
 		$modules = array_keys( torro()->modules()->get_all() );
 		foreach ( $modules as $module ) {
-			$this->options->delete( 'module_' . $module );
+			$this->options()->delete( 'module_' . $module );
 		}
 
-		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) );
+		$form_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", $this->get_prefix() . 'form' ) ); // WPCS: DB call OK. Cache OK.
 		foreach ( $form_ids as $form_id ) {
 			wp_delete_post( $form_id, true );
 		}
 
-		$form_category_ids = $wpdb->get_col( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s", $this->get_prefix() . 'form_category' ) );
+		$form_category_ids = $wpdb->get_col( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s", $this->get_prefix() . 'form_category' ) ); // WPCS: DB call OK. Cache OK.
 		foreach ( $form_category_ids as $form_category_id ) {
 			wp_delete_term( $form_category_id, $this->get_prefix() . 'form_category' );
 		}

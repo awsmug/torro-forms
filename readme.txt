@@ -1,15 +1,15 @@
 === Torro Forms ===
 
 Plugin Name:       Torro Forms
-Plugin URI:        http://torro-forms.com
+Plugin URI:        https://torro-forms.com
 Author:            Awesome UG
 Author URI:        http://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
 Tested up to:      4.9
 Requires PHP:      5.6
-Stable tag:        1.0.0-beta.8
-Version:           1.0.0-beta.8
+Stable tag:        1.0.0
+Version:           1.0.0
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -24,22 +24,27 @@ Torro Forms is a Drag & Drop form builder plugin that is easy to use for adminis
 
 Torro Forms can serve several purposes. Its functionality goes beyond simple contact forms (although you could of course technically create one if you wanted to). Whether you're interested in a survey solution or whether you need internal forms that you can restrict to a specific group of users - Torro Forms is the way to go. And if you don't find what you've been looking for, be aware that our plugin is extendable via several APIs - we encourage you to do it yourself instead of locking you with what we already provide.
 
-Torro Forms was made with a specific attention to polls and surveys. Form submissions are permanently stored in the database so that they can be browsed, exported and evaluated through charts.
+Torro Forms was made with a specific attention to polls and surveys. Form submissions are permanently stored in the database so that they can be browsed, exported and evaluated.
 
 = Key Features =
 
-* **Drag & Drop elements** - Drag elements into your working area and edit them. Look and feel of the form builder are the similar to what you would expect from WordPress.
-* **Actions** - Use our built-in actions like page redirections to show your message or send out emails to notify users, yourself or others.
-* **Charts** - Every element that can be evaluated, for example a multiple choice field, can be displayed as bar charts and will help you analyze your submissions.
-* **Excel & CSV Exports** - Export the results of form submissions into as Excel or CSV file. The export can be created from the form overview or in the form builder.
-* **Create element types** - Enhance your forms further by creating custom element types. Our easy-to-use Element Types API makes it possible.
-* **Create actions** - Create additional kinds of actions which will be executed whenever the form is submitted successfully by using our Actions API.
-* **Extend more...** - Like element types and actions, you can extend Torro Forms in many other ways too by extending specific PHP classes. It's just like creating widgets in WordPress.
-* **Code completion** - Our flexible API was made with developers in mind: The `torro()` function acts as a root for easy chaining and autocompletion.
+* **Multi-Page** Forms,
+* **Shortcodes** to embed forms and live results,
+* **Excel, CSV** export,
+* **Actions** like unlimited email-notifications and redirections,
+* **Protectors** like Google reCaptcha and honeypot and link counting,
+* **Access Controls** for visitors, users or by timerange or number of submissions,
+* **Evaluators** for displaying results with bar, pie or donut charts,
+* **WP-CLI** commands,
+* **REST-API** endpoints,
+* **Templating** of elements,
+* **PHP API** for developers,
+* and much more.
 
 = Links =
 
-* [Website](http://torro-forms.com)
+* [Website](https://torro-forms.com)
+* [Developer Reference](http://developer.torro-forms.com)
 * [Twitter](https://twitter.com/torro_forms)
 * [GitHub](https://github.com/awsmug/torro-forms)
 * [Translations](https://translate.wordpress.org/projects/wp-plugins/torro-forms)
@@ -53,11 +58,11 @@ Torro Forms was made with a specific attention to polls and surveys. Form submis
 
 = How do I use the plugin? =
 
-You can find instructions on what you can do with Torro Forms and how to use it in our [User Guide](http://torro-forms.com/user-guide/).
+You can find instructions on what you can do with Torro Forms and how to use it in our [User Guide](https://torro-forms.com/user-guide/).
 
 = How can I, as a developer, extend the plugin? =
 
-Torro Forms supports the concept of extensions and provides flexible APIs for several areas of it. A good point to start are our [API resources](http://torro-forms.com/api/). The plugin itself can also be found [on GitHub](https://github.com/awsmug/torro-forms) if you wanna have a look at the code in detail.
+Torro Forms supports the concept of extensions and provides flexible APIs for several areas of it. A good point to start are our [tutorials](http://developer.torro-forms.com/tutorials/), and we also provide a full [code reference](http://developer.torro-forms.com/reference/). The plugin itself can also be found [on GitHub](https://github.com/awsmug/torro-forms) if you wanna have a look at the code itself.
 
 = Where should I submit my support request? =
 
@@ -71,18 +76,59 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Screenshots ==
 
-1. an overview of the form builder
-2. the redirection interface
-3. the email notifications interface
-4. a list of form submission results
-5. an example of some form element charts
-6. the plugin settings screen
+1. Overview of the form builder
+2. Modal to add a new element to a form
+3. Submissions list overview
+4. Plugin settings screen
 
 == Changelog ==
 
+= 1.0.0 =
+
+* Initial release
+
+= 1.0.0-rc.1 =
+
+* Fixed: Element headers in the form builder may no longer contain HTML tags, and in addition now have their maximum length limited.
+* Fixed: You no longer get a PHP notice triggered when visiting the submissions list page with active filters.
+
+= 1.0.0-beta.11 =
+
+* Enhanced: New `set_props()` and `get_props()` methods available on all model classes
+* Enhanced: When editing a submission, the currently active tab is now maintained across pageviews
+* Enhanced: Performance of template tag handler processing content has been significantly improved
+* Tweaked: An unnecessary database query in the frontend has been removed
+* Tweaked: The [`PhpSpreadsheet`](https://github.com/PHPOffice/PhpSpreadsheet) project is now used instead of the deprecated [`PHPExcel`](https://github.com/PHPOffice/PHPExcel) project
+* Fixed: Forms now store data of all their pages correctly
+* Fixed: Email notifications now display correct output for all element types
+* Fixed: Email notifications are now sent using fully valid HTML
+* Fixed: Form uploads are now correctly tagged with the specified taxonomy term
+* Fixed: It is now possible to freely navigate back to a previous form page if values for required fields have not been provided yet
+* Fixed: Ensure modifying a submission now correctly clears the respective caches
+* Fixed: Ensure deleting a submission does not lead to a non-existing admin screen
+* Fixed: Increase the query limit so that all element choices are displayed in the backend
+* Fixed: Empty values are no longer validated against the available choices
+* Fixed: Empty values are now allowed when they are actually available as a choice
+* Fixed: Ensure user columns are correctly offset in form submission exports
+* Fixed: Cron task to delete submissions is now correctly clear when deactivating the plugin
+* Fixed: Ensure old element choices data is displayed in both frontend and backend
+
+= 1.0.0-beta.10 =
+
+* Enhanced: Field-specific errors in frontend are now highlighted more obviously
+* Fixed: Email notification template tag buttons now work correctly
+* Fixed: Dynamic element template tags for email notifications are now applied correctly
+* Fixed: Template tags in email notifications are now correctly replaced
+* Fixed: Non-required media elements no longer throw an error in the frontend when no file is uploaded
+* Fixed: Pages in the form builder can now be deleted properly
+* Fixed: Datetime fields now show the currently selected date on opening as expected
+* Fixed: Datetime fields no longer have issues with certain locales
+* Fixed: Fatal error no longer occurs that could happen when accessing the settings page under certain conditions
+* Fixed: Plugin can now be properly deleted through the admin interface
+
 = 1.0.0-beta.9 =
 
-This pre-release is a major rewrite that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.8. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version. Rest assured that none of this will happen again, but we are still in Beta and the previous versions had some severe architectural issues. We want you to have the best Torro Forms experience possible!
+This pre-release is a major rewrite that fully breaks backward-compatibility development-wise. Only user-generated content remains intact. The plugin now requires at least PHP 5.6 and WordPress 4.8. If you have already created extensions for Torro Forms, you need to adjust them in order for them to work with the refactored version. Rest assured that none of this will happen again, but we are still in Beta and the previous versions had some severe architectural issues. Please [read more about it in our blog post](https://torro-forms.com/new-revamped-form-builder-experience/) if you're interested!
 
 * Added: REST API endpoints for managing forms, their content and submissions
 * Added: WP-CLI commands for managing forms, their content and submissions
@@ -119,7 +165,7 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 * Tweaked: result handlers are now relabelled as evaluators
 * Tweaked: components are now called modules
 * Tweaked: namespaces are used throughout the plugin code
-* Tweaked: uses external `felixarntz/plugin-lib` library for standard plugin functionality
+* Tweaked: uses external [`felixarntz/plugin-lib` library](https://github.com/felixarntz/plugin-lib) for standard plugin functionality
 * Plus: a lot more improvements and tweaks here or there... It's an entire rewrite, you know.
 
 = 1.0.0-beta.8 =
@@ -220,3 +266,9 @@ This pre-release is a major rewrite that fully breaks backward-compatibility dev
 = 1.0.0-beta.1 =
 
 * First official beta release
+
+== Upgrade Notice ==
+
+= 1.0.0-beta.9 =
+
+Torro Forms has been completely rewritten for this release. If you're using custom extensions for it, you may wanna consult with the authors of those extensions before upgrading.

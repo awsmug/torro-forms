@@ -54,7 +54,7 @@ class Linkcount extends Protector {
 					continue;
 				}
 
-				preg_match_all('@https?://@' , $value, $matches );
+				preg_match_all( '@https?://@', $value, $matches );
 
 				if ( count( $matches[0] ) < $trigger ) {
 					continue;

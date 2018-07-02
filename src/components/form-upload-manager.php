@@ -76,6 +76,7 @@ class Form_Upload_Manager extends Service {
 		}
 
 		$attachment_data = array(
+			/* translators: 1: submission ID, 2: form title */
 			'post_title' => sprintf( __( 'Form upload for submission #%1$s (form &#8220;%2$s&#8221;)', 'torro-forms' ), $submission->id, $form->title ),
 			'meta_input' => array(
 				$prefix . 'parent_submission_id' => $submission->id,
@@ -92,9 +93,9 @@ class Form_Upload_Manager extends Service {
 
 		$overrides = array(
 			'mimes'     => $allowed_mimes,
-			'test_form'	=> false,
-			'test_type'	=> true,
-			'test_size'	=> true,
+			'test_form' => false,
+			'test_type' => true,
+			'test_size' => true,
 		);
 
 		if ( $allowed_filesize ) {
@@ -128,7 +129,7 @@ class Form_Upload_Manager extends Service {
 
 		if ( is_wp_error( $attachment_id ) ) {
 			// The following line has no textdomain on purpose as it's a WP core message.
-			if ( $allowed_mimes && 'upload_error' === $attachment_id->get_error_code() && __( 'Sorry, this file type is not permitted for security reasons.' ) === $attachment_id->get_error_message() ) {
+			if ( $allowed_mimes && 'upload_error' === $attachment_id->get_error_code() && __( 'Sorry, this file type is not permitted for security reasons.' ) === $attachment_id->get_error_message() ) { // @codingStandardsIgnoreLine
 				return new WP_Error( 'upload_error', __( 'The file type is not permitted.', 'torro-forms' ) );
 			}
 
@@ -182,7 +183,7 @@ class Form_Upload_Manager extends Service {
 			'no_found_rows'  => true,
 			'post_type'      => 'attachment',
 			'post_status'    => 'inherit',
-			'meta_query'     => array(
+			'meta_query'     => array( // WPCS: Slow query OK.
 				'relation' => 'AND',
 				array(
 					'key'   => $prefix . 'parent_submission_id',

@@ -1020,7 +1020,7 @@ CREATE TABLE $email_notifications (
 					),
 					'field'      => array(
 						'Type'    => 'char(100)',
-						'Default' => '',
+						'Default' => '_main',
 					),
 					'value'      => array(
 						'Type' => 'text',

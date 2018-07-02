@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
 use WP_Error;
 
 /**
@@ -43,16 +44,16 @@ class Form_Frontend_Submission_Handler {
 	 * @since 1.0.0
 	 */
 	public function maybe_handle_form_submission() {
-		if ( ! isset( $_POST['torro_submission'] ) ) {
+		if ( ! isset( $_POST['torro_submission'] ) ) { // WPCS: CSRF OK.
 			return;
 		}
 
-		$data = wp_unslash( $_POST['torro_submission'] );
+		$data = wp_unslash( $_POST['torro_submission'] ); // WPCS: CSRF OK.
 
 		$context = $this->detect_request_form_and_submission( $data );
 		if ( is_wp_error( $context ) ) {
 			// Always die when one of these strange errors happens.
-			wp_die( $context->get_error_message(), __( 'Form Submission Error', 'torro-forms' ), 400 );
+			wp_die( wp_kses_data( $context->get_error_message() ), esc_html__( 'Form Submission Error', 'torro-forms' ), 400 );
 		}
 
 		$form       = $context['form'];
@@ -66,7 +67,7 @@ class Form_Frontend_Submission_Handler {
 
 			// Die only if the form error could not be set.
 			if ( ! $this->set_form_error( $form, $verified ) ) {
-				wp_die( $verified->get_error_message(), __( 'Form Submission Error', 'torro-forms' ), 403 );
+				wp_die( wp_kses_data( $verified->get_error_message() ), esc_html__( 'Form Submission Error', 'torro-forms' ), 403 );
 			}
 		} else {
 			if ( ! $submission ) {
@@ -78,6 +79,11 @@ class Form_Frontend_Submission_Handler {
 
 		$redirect_url = ! empty( $data['original_form_id'] ) ? get_permalink( absint( $data['original_form_id'] ) ) : get_permalink( $form->id );
 
+		// Append submission ID.
+		if ( $submission && ! empty( $submission->id ) ) {
+			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
+		}
+
 		/**
 		 * Filters the URL to redirect the user to after a form submission request has been processed.
 		 *
@@ -85,15 +91,11 @@ class Form_Frontend_Submission_Handler {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $redirect_url URL to redirect to. Default is the original form URL.
-		 * @param Form   $form         Form object.
+		 * @param string     $redirect_url URL to redirect to. Default is the original form URL.
+		 * @param Form       $form         Form object.
+		 * @param Submission $submission   Submission object, or null if no submission.
 		 */
-		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form );
-
-		// Append submission ID if the URL belongs to the site.
-		if ( $submission && ! empty( $submission->id ) && 0 === strpos( $redirect_url, home_url() ) ) {
-			$redirect_url = add_query_arg( 'torro_submission_id', $submission->id, $redirect_url );
-		}
+		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form, $submission );
 
 		wp_redirect( $redirect_url );
 		exit;
@@ -117,6 +119,8 @@ class Form_Frontend_Submission_Handler {
 		}
 
 		$old_submission_status = $submission->status;
+
+		$going_back = ! empty( $data['action'] ) && 'prev' === $data['action'];
 
 		/**
 		 * Fires before a form submission is handled.
@@ -142,7 +146,33 @@ class Form_Frontend_Submission_Handler {
 		foreach ( $container->get_elements() as $element ) {
 			$fields = isset( $data['values'][ $element->id ] ) ? (array) $data['values'][ $element->id ] : array();
 
-			$validated[ $element->id ] = $element->validate_fields( $fields, $submission );
+			$validation_result = $element->validate_fields( $fields, $submission );
+
+			// When navigating back to the previous step, allow errors resulting of required fields to be skipped.
+			if ( $going_back ) {
+				$skip_validation = true;
+
+				foreach ( $validation_result as $field => $result ) {
+					if ( ! is_wp_error( $result ) ) {
+						$skip_validation = false;
+						break;
+					}
+
+					$non_required_errors = array_diff_key( $result->errors, array( Element_Type::ERROR_CODE_REQUIRED => true ) );
+					if ( ! empty( $non_required_errors ) ) {
+						$skip_validation = false;
+						break;
+					}
+				}
+
+				if ( ! $skip_validation ) {
+					$validated[ $element->id ] = $validation_result;
+				}
+
+				continue;
+			}
+
+			$validated[ $element->id ] = $validation_result;
 		}
 
 		// Update existing submission values first.
@@ -154,7 +184,6 @@ class Form_Frontend_Submission_Handler {
 			}
 
 			if ( ! isset( $validated[ $submission_value->element_id ][ $field ] ) ) {
-				$submission_value->delete();
 				continue;
 			}
 
@@ -252,7 +281,7 @@ class Form_Frontend_Submission_Handler {
 			return;
 		}
 
-		if ( ! empty( $data['action'] ) && 'prev' === $data['action'] ) {
+		if ( $going_back ) {
 			$previous_container = $submission->get_previous_container();
 			if ( $previous_container ) {
 				$submission->set_current_container( $previous_container );
@@ -296,7 +325,7 @@ class Form_Frontend_Submission_Handler {
 	 * @return array|WP_Error Array with 'form' and 'submission' keys, or error object on failure.
 	 */
 	protected function detect_request_form_and_submission( $data ) {
-		$form = null;
+		$form       = null;
 		$submission = null;
 
 		if ( ! empty( $data['id'] ) ) {

@@ -33,8 +33,9 @@ use Psr\Log\LoggerInterface;
  *
  * @method Access_Controls_Module       access_controls()
  * @method Actions_Module               actions()
+ * @method Protectors_Module            protectors()
  * @method Evaluators_Module            evaluators()
- * @method Submission_Handlers_Module   submission_handlers()
+ * @method Form_Settings_Module         form_settings()
  * @method Options                      options()
  * @method Meta                         meta()
  * @method Assets                       assets()

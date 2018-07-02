@@ -31,6 +31,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method Cache                      cache()
  * @method Meta                       meta()
  * @method Error_Handler              error_handler()
+ * @method Form_Category              create()
  */
 class Form_Category_Manager extends Core_Manager {
 	use Title_Manager_Trait, Slug_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;

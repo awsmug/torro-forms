@@ -41,6 +41,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method Cache             cache()
  * @method Meta              meta()
  * @method Error_Handler     error_handler()
+ * @method Form              create()
  */
 class Form_Manager extends Core_Manager {
 	use Title_Manager_Trait, Slug_Manager_Trait, Author_Manager_Trait, Meta_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Children_Trait;
@@ -281,7 +282,7 @@ class Form_Manager extends Core_Manager {
 	 * @return bool True on success, or false on failure.
 	 */
 	protected function update_in_db( $form_id, $args ) {
-		$args = $this->map_args( $args );
+		$args       = $this->map_args( $args );
 		$args['ID'] = $form_id;
 
 		$result = wp_update_post( $args, true );
@@ -340,11 +341,11 @@ class Form_Manager extends Core_Manager {
 					$mapped_args['post_name'] = $value;
 					break;
 				case 'timestamp':
-					$mapped_args['post_date'] = '0000-00-00 00:00:00';
+					$mapped_args['post_date']     = '0000-00-00 00:00:00';
 					$mapped_args['post_date_gmt'] = date( 'Y-m-d H:i:s', $value );
 					break;
 				case 'timestamp_modified':
-					$mapped_args['post_modified'] = '0000-00-00 00:00:00';
+					$mapped_args['post_modified']     = '0000-00-00 00:00:00';
 					$mapped_args['post_modified_gmt'] = date( 'Y-m-d H:i:s', $value );
 					break;
 				case 'title':
@@ -403,7 +404,7 @@ class Form_Manager extends Core_Manager {
 			return;
 		}
 
-		if ( is_singular() && $this->get_prefix() . 'form' === get_post_type( get_queried_object_id() ) || isset( $_POST['torro_submission'] ) ) {
+		if ( is_singular() && $this->get_prefix() . 'form' === get_post_type( get_queried_object_id() ) || isset( $_POST['torro_submission'] ) ) { // WPCS: CSRF OK.
 			if ( ! isset( $_SESSION ) && ! headers_sent() ) {
 				session_start();
 			}
@@ -428,11 +429,11 @@ class Form_Manager extends Core_Manager {
 			return;
 		}
 
-		if ( empty( $_GET['post'] ) ) {
+		if ( empty( $_GET['post'] ) ) { // WPCS: CSRF OK.
 			return;
 		}
 
-		$this->legacy_upgrades->maybe_upgrade_legacy_form_meta( (int) $_GET['post'] );
+		$this->legacy_upgrades->maybe_upgrade_legacy_form_meta( (int) $_GET['post'] ); // WPCS: CSRF OK.
 	}
 
 	/**

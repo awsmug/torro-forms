@@ -156,9 +156,7 @@ window.torro = window.torro || {};
 			}
 
 			if ( form ) {
-				this.form = new torro.Builder.FormModel( form, {
-					container_label_placeholder: i18n.defaultContainerLabel
-				});
+				this.form = new torro.Builder.FormModel( form );
 
 				if ( form._embedded.containers && form._embedded.containers[0] ) {
 					this.form.containers.add( form._embedded.containers[0] );
@@ -211,9 +209,7 @@ window.torro = window.torro || {};
 					}
 				}
 			} else {
-				this.form = new torro.Builder.FormModel({}, {
-					container_label_placeholder: i18n.defaultContainerLabel
-				});
+				this.form = new torro.Builder.FormModel({});
 
 				this.form.containers.add({});
 			}
@@ -232,9 +228,7 @@ window.torro = window.torro || {};
 				return;
 			}
 
-			this.formView = new torro.Builder.FormView( this.$el, this.form, {
-				i18n: i18n
-			});
+			this.formView = new torro.Builder.FormView( this.$el, this.form );
 
 			this.formView.render();
 		},
@@ -335,6 +329,12 @@ window.torro = window.torro || {};
 		return builder;
 	};
 
+	// Scaffold the AddElement namespace for modal functionality.
+	torro.Builder.AddElement = {
+		State: {},
+		View:  {}
+	};
+
 	torro.getFieldName = function( model, attribute ) {
 		var groupSlug;
 
@@ -412,5 +412,7 @@ window.torro = window.torro || {};
 			]
 		});
 	};
+
+	torro.Builder.i18n = i18n;
 
 }( window.torro, window.jQuery, window._, window.torroBuilderI18n ) );

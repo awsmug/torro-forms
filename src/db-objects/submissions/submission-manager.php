@@ -33,6 +33,7 @@ use WP_Error;
  * @method Cache                   cache()
  * @method Meta                    meta()
  * @method Error_Handler           error_handler()
+ * @method Submission              create()
  */
 class Submission_Manager extends Manager {
 	use Capability_Manager_Trait, Meta_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
@@ -140,14 +141,14 @@ class Submission_Manager extends Manager {
 			return $counts;
 		}
 
-		$where = array();
+		$where      = array();
 		$where_args = array();
 		if ( $user_id > 0 ) {
-			$where[] = 'user_id = %d';
+			$where[]      = 'user_id = %d';
 			$where_args[] = $user_id;
 		}
 		if ( $form_id > 0 ) {
-			$where[] = 'form_id = %d';
+			$where[]      = 'form_id = %d';
 			$where_args[] = $form_id;
 		}
 
@@ -159,11 +160,11 @@ class Submission_Manager extends Manager {
 
 		$results = $this->db()->get_results( "SELECT status, COUNT( * ) AS num_models FROM %{$this->table_name}% $where GROUP BY status", $where_args );
 
-		$total = 0;
+		$total  = 0;
 		$counts = array_fill_keys( array( 'completed', 'progressing' ), 0 );
 		foreach ( $results as $row ) {
 			$counts[ $row->status ] = $row->num_models;
-			$total += $row->num_models;
+			$total                 += $row->num_models;
 		}
 
 		$counts['_total'] = $total;
@@ -197,14 +198,14 @@ class Submission_Manager extends Manager {
 
 			foreach ( $submission->get_submission_values() as $submission_value ) {
 				$element_id = $submission_value->element_id;
-				$field = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
+				$field      = ! empty( $submission_value->field ) ? $submission_value->field : '_main';
 
 				if ( ! isset( $this->element_values[ $submission->id ][ $element_id ] ) ) {
 					$this->element_values[ $submission->id ][ $element_id ] = array();
 				}
 
 				if ( ! empty( $this->element_values[ $submission->id ][ $element_id ][ $field ] ) ) {
-					$this->element_values[ $submission->id ][ $element_id ][ $field ] = (array) $this->element_values[ $submission->id ][ $element_id ][ $field ];
+					$this->element_values[ $submission->id ][ $element_id ][ $field ]   = (array) $this->element_values[ $submission->id ][ $element_id ][ $field ];
 					$this->element_values[ $submission->id ][ $element_id ][ $field ][] = $submission_value->value;
 				} else {
 					$this->element_values[ $submission->id ][ $element_id ][ $field ] = $submission_value->value;
@@ -239,6 +240,69 @@ class Submission_Manager extends Manager {
 		$this->add_meta_database_table();
 	}
 
+	/**
+	 * Cleans the count cache for a model if relevant changes have been applied.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object|null $new_db_object The new raw database object, or null if deleted.
+	 * @param object|null $old_db_object The old raw database object, or null if added.
+	 */
+	protected function maybe_clean_count_cache( $new_db_object, $old_db_object ) {
+		$delete_user_count = false;
+		$delete_form_count = false;
+
+		if ( null === $new_db_object || null === $old_db_object || $new_db_object->status !== $old_db_object->status ) {
+			$this->cache()->delete( $this->plural_slug, 'counts' );
+
+			$delete_user_count = true;
+			$delete_form_count = true;
+		} elseif ( null !== $new_db_object && null !== $old_db_object ) {
+			if ( $new_db_object->user_id !== $old_db_object->user_id ) {
+				$delete_user_count = true;
+			}
+			if ( $new_db_object->form_id !== $old_db_object->form_id ) {
+				$delete_form_count = true;
+			}
+		}
+
+		$user_ids = array();
+		if ( $delete_user_count ) {
+			if ( null !== $new_db_object ) {
+				$user_ids[] = absint( $new_db_object->user_id );
+			}
+			if ( null !== $old_db_object && ! in_array( absint( $old_db_object->user_id ), $user_ids, true ) ) {
+				$user_ids[] = absint( $old_db_object->user_id );
+			}
+		}
+
+		$form_ids = array();
+		if ( $delete_form_count ) {
+			if ( null !== $new_db_object ) {
+				$form_ids[] = absint( $new_db_object->form_id );
+			}
+			if ( null !== $old_db_object && ! in_array( absint( $old_db_object->form_id ), $form_ids, true ) ) {
+				$form_ids[] = absint( $old_db_object->form_id );
+			}
+		}
+
+		$extra_delete_keys = array();
+		foreach ( $user_ids as $user_id ) {
+			$extra_delete_keys[] = $this->plural_slug . '-' . $user_id;
+
+			foreach ( $form_ids as $form_id ) {
+				$extra_delete_keys[] = $this->plural_slug . '-' . $user_id . '-' . $form_id;
+			}
+		}
+		foreach ( $form_ids as $form_id ) {
+			$extra_delete_keys[] = $this->plural_slug . '-' . $form_id;
+		}
+
+		foreach ( $extra_delete_keys as $extra_delete_key ) {
+			$this->cache()->delete( $extra_delete_key, 'counts' );
+		}
+	}
+
 
 	/**
 	 * Sets up all action and filter hooks for the service.
@@ -251,7 +315,7 @@ class Submission_Manager extends Manager {
 		parent::setup_hooks();
 
 		$this->actions[] = array(
-			'name'     => 'init',
+			'name'     => 'admin_init',
 			'callback' => array( $this, 'schedule_cron_task' ),
 			'priority' => 10,
 			'num_args' => 0,
@@ -373,7 +437,7 @@ class Submission_Manager extends Manager {
 		} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 			$submission->user_key = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 		} else {
-			$base_string = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $this->anonymize_ip_address( $_SERVER['REMOTE_ADDR'] ) . microtime() : microtime();
+			$base_string          = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $this->anonymize_ip_address( $_SERVER['REMOTE_ADDR'] ) . microtime() : microtime();
 			$submission->user_key = md5( $base_string );
 		}
 
@@ -393,8 +457,8 @@ class Submission_Manager extends Manager {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int|null           $id         Current submission ID, or null if new submission.
-	 * @param Submission         $submission Current submission object.
+	 * @param int|null   $id         Current submission ID, or null if new submission.
+	 * @param Submission $submission Current submission object.
 	 */
 	public function render_status_select( $id, $submission ) {
 		$current_status = $submission->status;
@@ -404,16 +468,16 @@ class Submission_Manager extends Manager {
 		?>
 		<div class="misc-pub-section">
 			<div id="date-information">
-				<?php _e( 'Date:', 'torro-forms' ); ?>
-				<?php echo date_i18n( get_option( 'date_format' ), $timestamp ); ?>
+				<?php esc_html_e( 'Date:', 'torro-forms' ); ?>
+				<?php echo esc_html( date_i18n( get_option( 'date_format' ), $timestamp ) ); ?>
 			</div>
 		</div>
 		<div class="misc-pub-section">
 			<div id="post-status-select">
-				<label for="post-status"><?php echo $this->get_message( 'edit_page_status_label' ); ?></label>
+				<label for="post-status"><?php echo esc_html( $this->get_message( 'edit_page_status_label' ) ); ?></label>
 				<select id="post-status" name="status">
-					<option value="completed"<?php selected( $current_status, 'completed' ); ?>><?php _ex( 'Completed', 'submission status label', 'torro-forms' ); ?></option>
-					<option value="progressing"<?php selected( $current_status, 'progressing' ); ?>><?php _ex( 'In Progress', 'submission status label', 'torro-forms' ); ?></option>
+					<option value="completed"<?php selected( $current_status, 'completed' ); ?>><?php echo esc_html_x( 'Completed', 'submission status label', 'torro-forms' ); ?></option>
+					<option value="progressing"<?php selected( $current_status, 'progressing' ); ?>><?php echo esc_html_x( 'In Progress', 'submission status label', 'torro-forms' ); ?></option>
 				</select>
 			</div>
 		</div>

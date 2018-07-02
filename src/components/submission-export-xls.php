@@ -9,6 +9,8 @@
 namespace awsmug\Torro_Forms\Components;
 
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Class for exporting submissions in XLS format.
@@ -35,23 +37,17 @@ class Submission_Export_XLS extends Submission_Export {
 		header( 'Cache-Control: max-age=0' );
 		header( 'Cache-Control: max-age=1' ); // For IE9.
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-		header( 'Last-Modified: ' . gmdate('D, d M Y H:i:s' ) . ' GMT' );
+		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 		header( 'Cache-Control: cache, must-revalidate' ); // For HTTP 1.1.
-		header( 'Pragma: public'); // For HTTP 1.0.
+		header( 'Pragma: public' ); // For HTTP 1.0.
 
-		$php_excel = new \PHPExcel();
+		// Add column headings to data.
+		array_unshift( $rows, $columns );
 
-		$php_excel->setActiveSheetIndex( 0 );
+		$spreadsheet = new Spreadsheet();
+		$spreadsheet->getActiveSheet()->fromArray( $rows );
 
-		$i = 0;
-		foreach ( $columns as $slug => $label ) {
-			$php_excel->getActiveSheet()->setCellValueByColumnAndRow( $i, 1, $label );
-			$i++;
-		}
-
-		$php_excel->getActiveSheet()->fromArray( $rows, null, 'A2' );
-
-		$writer = \PHPExcel_IOFactory::createWriter( $php_excel, 'Excel5' );
+		$writer = IOFactory::createWriter( $spreadsheet, 'Xls' );
 		$writer->save( 'php://output' );
 		exit;
 	}

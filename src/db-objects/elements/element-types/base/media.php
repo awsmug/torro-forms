@@ -35,7 +35,7 @@ class Media extends Element_Type {
 
 		$data['value'] = absint( $data['value'] );
 
-		$data['hidden_name'] = $data['input_attrs']['name'];
+		$data['hidden_name']         = $data['input_attrs']['name'];
 		$data['input_attrs']['name'] = $this->get_file_id( $element );
 
 		return $data;
@@ -119,11 +119,13 @@ class Media extends Element_Type {
 
 		$file_id = $this->get_file_id( $element );
 
-		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) && empty( $_FILES[ $file_id ] ) ) {
-			return $this->create_error( 'value_required', __( 'You must upload a file.', 'torro-forms' ), $value );
+		$has_file = ! empty( $_FILES[ $file_id ] ) && ( empty( $_FILES[ $file_id ]['error'] ) || 4 !== (int) $_FILES[ $file_id ]['error'] );
+
+		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) && ! $has_file ) {
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must upload a file.', 'torro-forms' ), $value );
 		}
 
-		if ( ! empty( $_FILES[ $file_id ] ) ) {
+		if ( $has_file ) {
 			$form = $submission->get_form();
 
 			$mimes = null;
@@ -181,7 +183,7 @@ class Media extends Element_Type {
 
 		$slug = $this->get_edit_submission_field_slug( $element->id );
 
-		$fields[ $slug ]['type'] = 'media';
+		$fields[ $slug ]['type']  = 'media';
 		$fields[ $slug ]['store'] = 'id';
 
 		$settings = $this->get_settings( $element );

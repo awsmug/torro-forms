@@ -48,7 +48,7 @@ trait Meta_Submodule_Trait {
 				continue;
 			}
 
-			$key = substr( $key, strlen( $prefix ) );
+			$key             = substr( $key, strlen( $prefix ) );
 			$options[ $key ] = $value;
 		}
 

@@ -19,6 +19,7 @@ use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
  *
  * @property int    $submission_id
  * @property int    $element_id
+ * @property string $field
  * @property string $value
  *
  * @property-read int $id

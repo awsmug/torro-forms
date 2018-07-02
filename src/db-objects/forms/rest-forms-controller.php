@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
+use awsmug\Torro_Forms\DB_Objects\REST_Embed_Limits_Trait;
 use WP_REST_Request;
 use WP_Error;
 
@@ -18,6 +19,7 @@ use WP_Error;
  * @since 1.0.0
  */
 class REST_Forms_Controller extends REST_Models_Controller {
+	use REST_Embed_Limits_Trait;
 
 	/**
 	 * Constructor.
@@ -76,9 +78,9 @@ class REST_Forms_Controller extends REST_Models_Controller {
 	public function get_collection_params() {
 		$query_params = parent::get_collection_params();
 
-		$query_params['per_page']['maximum'] = 500;
+		unset( $query_params['per_page']['maximum'] );
 		$query_params['orderby']['default'] = 'timestamp';
-		$query_params['order']['default'] = 'desc';
+		$query_params['order']['default']   = 'desc';
 
 		$query_params['status'] = array(
 			'description'       => __( 'Limit result set to forms with one or more specific statuses.', 'torro-forms' ),
@@ -112,7 +114,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$links['containers'] = array(
 			'href'       => add_query_arg( array(
 				'form_id'  => $form->$primary_property,
-				'per_page' => 10,
+				'per_page' => $this->get_embed_limit( 'containers' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'containers' ) ) ),
 			'embeddable' => true,
 		);
@@ -120,7 +122,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$links['elements'] = array(
 			'href'       => add_query_arg( array(
 				'form_id'  => $form->$primary_property,
-				'per_page' => 50,
+				'per_page' => $this->get_embed_limit( 'elements' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'elements' ) ) ),
 			'embeddable' => true,
 		);
@@ -128,7 +130,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$links['element_choices'] = array(
 			'href'       => add_query_arg( array(
 				'form_id'  => $form->$primary_property,
-				'per_page' => 250,
+				'per_page' => $this->get_embed_limit( 'element_choices' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
 			'embeddable' => true,
 		);
@@ -136,7 +138,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$links['element_settings'] = array(
 			'href'       => add_query_arg( array(
 				'form_id'  => $form->$primary_property,
-				'per_page' => 250,
+				'per_page' => $this->get_embed_limit( 'element_settings' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
 			'embeddable' => true,
 		);
@@ -165,7 +167,7 @@ class REST_Forms_Controller extends REST_Models_Controller {
 	public function sanitize_status_param( $statuses, $request, $parameter ) {
 		$statuses = wp_parse_slug_list( $statuses );
 
-		$attributes = $request->get_attributes();
+		$attributes     = $request->get_attributes();
 		$default_status = $attributes['args']['status']['default'];
 
 		foreach ( $statuses as $status ) {

@@ -65,7 +65,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 		) );
 
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<slug>[\w-]+)', array(
-			'args' => array(
+			'args'   => array(
 				'slug' => array(
 					'description' => __( 'An alphanumeric identifier for the element type.', 'torro-forms' ),
 					'type'        => 'string',
@@ -204,7 +204,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 					$data[ $property ] = is_a( $element_type, Multi_Field_Element_Type_Interface::class );
 					break;
 				case 'sections':
-					$sections = $element_type->get_settings_sections();
+					$sections          = $element_type->get_settings_sections();
 					$data[ $property ] = array();
 					foreach ( $sections as $slug => $section ) {
 						$data[ $property ][] = array_merge( array(
@@ -213,7 +213,7 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 					}
 					break;
 				case 'fields':
-					$fields = $element_type->get_settings_fields();
+					$fields            = $element_type->get_settings_fields();
 					$data[ $property ] = array();
 					foreach ( $fields as $slug => $field ) {
 						$data[ $property ][] = array_merge( array(
@@ -249,13 +249,13 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 		$base = sprintf( '%s/%s', $this->namespace, $this->rest_base );
 
 		$links = array(
-			'self' => array(
-				'href'   => rest_url( trailingslashit( $base ) . $element_type->get_slug() ),
+			'self'       => array(
+				'href' => rest_url( trailingslashit( $base ) . $element_type->get_slug() ),
 			),
 			'collection' => array(
-				'href'   => rest_url( $base ),
+				'href' => rest_url( $base ),
 			),
-			'elements' => array(
+			'elements'   => array(
 				'href' => rest_url( substr( $base, 0, -6 ) . '?type=' . $element_type->get_slug() ),
 			),
 		);

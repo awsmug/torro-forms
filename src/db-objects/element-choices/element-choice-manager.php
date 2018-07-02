@@ -27,6 +27,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method DB                          db()
  * @method Cache                       cache()
  * @method Error_Handler               error_handler()
+ * @method Element_Choice              create()
  */
 class Element_Choice_Manager extends Manager {
 	use Title_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait;
@@ -79,14 +80,14 @@ class Element_Choice_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"element_id int(11) unsigned NOT NULL",
-			"field char(100) NOT NULL default ''",
-			"section char(100) NOT NULL",
-			"value text NOT NULL",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'element_id int(11) unsigned NOT NULL',
+			"field char(100) NOT NULL default '_main'",
+			'section char(100) NOT NULL',
+			'value text NOT NULL',
 			"sort int(11) unsigned NOT NULL default '0'",
-			"PRIMARY KEY  (id)",
-			"KEY element_id (element_id)",
+			'PRIMARY KEY  (id)',
+			'KEY element_id (element_id)',
 		) );
 	}
 }

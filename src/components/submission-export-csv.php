@@ -9,6 +9,8 @@
 namespace awsmug\Torro_Forms\Components;
 
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Class for exporting submissions in CSV format.
@@ -35,23 +37,16 @@ class Submission_Export_CSV extends Submission_Export {
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 
-		$php_excel = new \PHPExcel();
+		// Add column headings to data.
+		array_unshift( $rows, $columns );
 
-		$php_excel->setActiveSheetIndex( 0 );
+		$spreadsheet = new Spreadsheet();
+		$spreadsheet->getActiveSheet()->fromArray( $rows );
 
-		$i = 0;
-		foreach ( $columns as $slug => $label ) {
-			$php_excel->getActiveSheet()->setCellValueByColumnAndRow( $i, 1, $label );
-			$i++;
-		}
-
-		$php_excel->getActiveSheet()->fromArray( $rows, null, 'A2' );
-
-		$writer = \PHPExcel_IOFactory::createWriter( $php_excel, 'CSV' );
-		$writer->setDelimiter( ';' );
+		$writer = IOFactory::createWriter( $spreadsheet, 'Csv' );
 		$writer->setEnclosure( '"' );
+		$writer->setDelimiter( ';' );
 		$writer->setLineEnding( "\r\n" );
-		$writer->setSheetIndex( 0 );
 		$writer->save( 'php://output' );
 		exit;
 	}

@@ -75,7 +75,7 @@ class Checkbox extends Element_Type {
 		$value = (bool) $value;
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && ! $value ) {
-			return $this->create_error( 'value_required', __( 'You must check this box.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must check this box.', 'torro-forms' ), $value );
 		}
 
 		return $value;

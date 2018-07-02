@@ -75,7 +75,7 @@ class REST_Element_Choices_Controller extends REST_Models_Controller {
 	public function get_collection_params() {
 		$query_params = parent::get_collection_params();
 
-		$query_params['per_page']['maximum'] = 500;
+		unset( $query_params['per_page']['maximum'] );
 		$query_params['orderby']['default'] = 'sort';
 
 		$query_params['form_id'] = array(
@@ -97,6 +97,25 @@ class REST_Element_Choices_Controller extends REST_Models_Controller {
 		);
 
 		return $query_params;
+	}
+
+	/**
+	 * Prepares a single model output for response.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Model           $model   Model object.
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $model, $request ) {
+		$response = parent::prepare_item_for_response( $model, $request );
+
+		if ( isset( $response->data['field'] ) && '' === $response->data['field'] ) {
+			$response->data['field'] = '_main';
+		}
+
+		return $response;
 	}
 
 	/**

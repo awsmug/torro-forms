@@ -7,11 +7,10 @@ cache:
     - $HOME/.composer/cache
 matrix:
   allow_failures:
-    - php: hhvm
     - env: WP_VERSION=4.9 WP_TRAVIS_OBJECT_CACHE=true
   include:
     - php: 7.2
-      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 COVERAGE=1
+      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 PHPCS=1 COVERAGE=1
     - php: 5.6
       env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1
     - php: 7.2
@@ -27,8 +26,6 @@ matrix:
     - php: 5.6
       env: WP_VERSION=4.9 WP_TRAVIS_OBJECT_CACHE=true
       services: memcached
-    - php: hhvm
-      env: WP_VERSION=4.9
 before_install:
 - |
   if [[ "$WP_TRAVIS_OBJECT_CACHE" == "true" ]]; then
@@ -41,9 +38,14 @@ before_script:
     if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]]; then
       phpenv config-rm xdebug.ini
     fi
+  else
+    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    chmod +x ./cc-test-reporter
+    ./cc-test-reporter before-build
   fi
 - composer selfupdate 1.0.0 --no-interaction
 - composer install --no-interaction
+- composer config-phpcs
 - npm install &>/dev/null
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
@@ -68,16 +70,24 @@ script:
     find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
   fi
 - |
-  if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then
+  if [[ "$PHPCS" == "1" ]]; then
+    vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1
+  fi
+- |
+  if [[ -z "$CC_TEST_REPORTER_ID" ]]; then
     COVERAGE="0"
   fi
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     mkdir -p build/logs
     vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
-    vendor/bin/test-reporter;
   else
     vendor/bin/phpunit -c phpunit.xml
+  fi
+after_script:
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   fi
 notifications:
   email: false

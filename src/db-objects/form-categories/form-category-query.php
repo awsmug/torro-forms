@@ -55,11 +55,11 @@ class Form_Category_Query extends Core_Query {
 	 * @return Form_Category_Collection Results as a collection.
 	 */
 	protected function parse_results_collection() {
-		$ids = null !== $this->original->terms ? $this->original->terms : array();
+		$ids    = null !== $this->original->terms ? $this->original->terms : array();
 		$fields = $this->original->query_vars['fields'];
 
 		if ( 'ids' !== $fields ) {
-			$ids = wp_list_pluck( $ids, 'term_id' );
+			$ids    = wp_list_pluck( $ids, 'term_id' );
 			$fields = 'objects';
 		}
 

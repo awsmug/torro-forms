@@ -50,7 +50,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		$this->manager      = $manager;
 		$this->form_manager = $form_manager;
 
-		$this->title = __( 'Settings', 'torro-forms' );
+		$this->title      = __( 'Settings', 'torro-forms' );
 		$this->menu_title = $this->title;
 
 		$this->capability = 'manage_' . $form_manager->get_prefix() . $form_manager->get_singular_slug() . '_settings';
@@ -90,6 +90,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			'get_value_callback_args'    => array( $id ),
 			'update_value_callback_args' => array( $id, '{value}' ),
 			'name_prefix'                => $id,
+			'field_required_markup'      => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
 		) );
 	}
 
@@ -348,12 +349,12 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				break;
 
 			case 'url':
-				$schema['type'] = 'string';
+				$schema['type']   = 'string';
 				$schema['format'] = 'uri';
 				break;
 
 			case 'email':
-				$schema['type'] = 'string';
+				$schema['type']   = 'string';
 				$schema['format'] = 'email';
 				break;
 
@@ -453,20 +454,23 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 */
 	protected function render_tab_navigation( $current_tab_id ) {
 		$tabs = array_intersect_key( $this->tabs, array_flip( wp_list_pluck( $this->subtabs, 'tab' ) ) );
+		?>
 
-		if ( count( $tabs ) > 1 ) : ?>
+		<?php if ( count( $tabs ) > 1 ) : ?>
 			<h2 class="nav-tab-wrapper">
 				<?php foreach ( $tabs as $tab_id => $tab_args ) : ?>
-					<a class="nav-tab<?php echo $tab_id === $current_tab_id ? ' nav-tab-active' : ''; ?>" href="<?php echo add_query_arg( 'tab', $tab_id ); ?>">
-						<?php echo $tab_args['title']; ?>
+					<a class="<?php echo esc_attr( 'nav-tab' . ( $tab_id === $current_tab_id ? ' nav-tab-active' : '' ) ); ?>" href="<?php echo esc_url( add_query_arg( 'tab', $tab_id ) ); ?>">
+						<?php echo wp_kses_data( $tab_args['title'] ); ?>
 					</a>
 				<?php endforeach; ?>
 			</h2>
 		<?php else : ?>
 			<h2 class="screen-reader-text">
-				<?php echo $tabs[ $current_tab_id ]['title']; ?>
+				<?php echo wp_kses_data( $tabs[ $current_tab_id ]['title'] ); ?>
 			</h2>
-		<?php endif;
+		<?php endif; ?>
+
+		<?php
 	}
 
 	/**
@@ -502,8 +506,8 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		if ( $this->manager->get_prefix() . 'general_settings' === $current_tab_id ) {
 			?>
 			<div class="welcome-to-torro">
-				<h3><?php _e( 'Welcome to Torro Forms!', 'torro-forms' ); ?></h3>
-				<p><?php _e( 'You want to build forms in an easy way? Torro Forms will help you do it quickly, yet with tons of options.', 'torro-forms' ); ?></p>
+				<h3><?php esc_html_e( 'Welcome to Torro Forms!', 'torro-forms' ); ?></h3>
+				<p><?php esc_html_e( 'You want to build forms in an easy way? Torro Forms will help you do it quickly, yet with tons of options.', 'torro-forms' ); ?></p>
 			</div>
 			<?php
 		}
@@ -522,30 +526,30 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 			<?php if ( $use_subtabs ) : ?>
 				<div class="torro-subtab-wrapper" role="tablist">
-					<?php foreach ( $subtabs as $subtab_id => $subtab_args ) :
+					<?php foreach ( $subtabs as $subtab_id => $subtab_args ) : ?>
+						<?php
 						$url = add_query_arg( array(
 							'tab'    => $current_tab_id,
 							'subtab' => $subtab_id,
 						), $this->url );
-
 						?>
 						<a id="<?php echo esc_attr( 'torro-subtab-label-' . $subtab_id ); ?>" class="torro-subtab" href="<?php echo esc_url( $url ); ?>" aria-controls="<?php echo esc_attr( 'torro-subtab-' . $subtab_id ); ?>" aria-selected="<?php echo $subtab_id === $current_subtab_id ? 'true' : 'false'; ?>" role="tab">
-							<?php echo $subtab_args['title']; ?>
+							<?php echo wp_kses_data( $subtab_args['title'] ); ?>
 						</a>
 					<?php endforeach; ?>
 				</div>
 			<?php else : ?>
-				<div class="screen-reader-text"><?php echo $subtabs[ $current_subtab_id ]['title']; ?></div>
+				<div class="screen-reader-text"><?php echo wp_kses_data( $subtabs[ $current_subtab_id ]['title'] ); ?></div>
 			<?php endif; ?>
 
-			<?php foreach ( $subtabs as $subtab_id => $subtab_args ) :
+			<?php foreach ( $subtabs as $subtab_id => $subtab_args ) : ?>
+				<?php
 				$atts = $use_subtabs ? ' aria-labelledby="' . esc_attr( 'torro-subtab-label-' . $subtab_id ) . '" aria-hidden="' . ( $subtab_id === $current_subtab_id ? 'false' : 'true' ) . '" role="tabpanel"' : '';
-
 				?>
-				<div id="<?php echo esc_attr( 'torro-subtab-' . $subtab_id ); ?>" class="torro-subtab-panel"<?php echo $atts; ?>>
+				<div id="<?php echo esc_attr( 'torro-subtab-' . $subtab_id ); ?>" class="torro-subtab-panel"<?php echo $atts; // WPCS: XSS OK. ?>>
 
 					<?php if ( ! empty( $subtab_args['description'] ) ) : ?>
-						<p class="description"><?php echo $subtab_args['description']; ?></p>
+						<p class="description"><?php echo wp_kses_data( $subtab_args['description'] ); ?></p>
 					<?php endif; ?>
 
 					<?php $this->do_settings_sections( $current_tab_id . '_' . $subtab_id ); ?>
@@ -566,8 +570,8 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * @return string Identifier of the current sub-tab.
 	 */
 	protected function get_current_subtab( $current_tab_id ) {
-		if ( isset( $_GET['subtab'] ) ) {
-			$current_subtab_id = wp_unslash( $_GET['subtab'] );
+		if ( isset( $_GET['subtab'] ) ) { // WPCS: CSRF OK.
+			$current_subtab_id = wp_unslash( $_GET['subtab'] ); // WPCS: CSRF OK.
 
 			if ( isset( $this->subtabs[ $current_subtab_id ] ) && $current_tab_id === $this->subtabs[ $current_subtab_id ]['tab'] ) {
 				return $current_subtab_id;
@@ -637,7 +641,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 */
 	protected function get_tabs() {
 		$tabs = array(
-			'general_settings' => array(
+			'general_settings'   => array(
 				'title'            => _x( 'General', 'form settings', 'torro-forms' ),
 				'rest_description' => _x( 'Torro Forms general settings.', 'REST API description', 'torro-forms' ),
 			),
@@ -746,6 +750,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				'section'     => 'form_behavior',
 				'type'        => 'text',
 				'label'       => __( 'Slug', 'torro-forms' ),
+				/* translators: %s: sample form permalink URL */
 				'description' => sprintf( __( 'The slug for permalinks (e.g. for a URL like %s).', 'torro-forms' ), home_url( '/' ) . '<strong id="torro-rewrite-slug-preview">' . ( ! empty( $options['slug'] ) ? $options['slug'] : $default_slug ) . '</strong>/my-contact-form/' ),
 				'default'     => $default_slug,
 				'required'    => true,
@@ -757,7 +762,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			$attachment_taxonomy = get_taxonomy( $attachment_taxonomy_slug );
 			if ( $attachment_taxonomy ) {
 				$term_choices = array( '0' => _x( 'None', 'term choices', 'torro-forms' ) );
-				$terms = get_terms( array(
+				$terms        = get_terms( array(
 					'taxonomy'   => $attachment_taxonomy->name,
 					'number'     => 0,
 					'hide_empty' => false,

@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0-beta.8 (http://torro-forms.com)
+ * Torro Forms Version 1.0.0 (https://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 ( function( fieldsAPI, $ ) {
@@ -67,7 +67,7 @@
 
 			fieldsAPI.FieldView.WYSIWYGFieldView.prototype.postRender.apply( this, arguments );
 
-			$el.find( '.template-tag-list-toggle' ).on( 'click', function( e ) {
+			$el.on( 'click', '.template-tag-list-toggle', function( e ) {
 				var $button = $( this );
 
 				toggleTemplateTagList( $button );

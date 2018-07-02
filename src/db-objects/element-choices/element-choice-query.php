@@ -45,7 +45,7 @@ class Element_Choice_Query extends Query {
 		$join = parent::parse_join();
 
 		if ( ! empty( $this->query_vars['form_id'] ) || ! empty( $this->query_vars['container_id'] ) ) {
-			$table_name = $this->manager->get_table_name();
+			$table_name         = $this->manager->get_table_name();
 			$element_table_name = $this->manager->get_parent_manager( 'elements' )->get_table_name();
 
 			$join .= " INNER JOIN %{$element_table_name}% ON ( %{$table_name}%.element_id = %{$element_table_name}%.id )";
@@ -74,19 +74,19 @@ class Element_Choice_Query extends Query {
 		list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'element_id', 'element_id', '%d', 'absint', true );
 
 		if ( ! empty( $this->query_vars['container_id'] ) ) {
-			$table_name = $this->manager->get_table_name();
+			$table_name         = $this->manager->get_table_name();
 			$element_table_name = $this->manager->get_parent_manager( 'elements' )->get_table_name();
 
-			list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'container_id', 'container_id', '%d', 'absint', true );
+			list( $where, $args )  = $this->parse_default_where_field( $where, $args, 'container_id', 'container_id', '%d', 'absint', true );
 			$where['container_id'] = str_replace( "%{$table_name}%", "%{$element_table_name}%", $where['container_id'] );
 		}
 
 		if ( ! empty( $this->query_vars['form_id'] ) ) {
-			$table_name = $this->manager->get_table_name();
+			$table_name           = $this->manager->get_table_name();
 			$container_table_name = $this->manager->get_parent_manager( 'elements' )->get_parent_manager( 'containers' )->get_table_name();
 
 			list( $where, $args ) = $this->parse_default_where_field( $where, $args, 'form_id', 'form_id', '%d', 'absint', true );
-			$where['form_id'] = str_replace( "%{$table_name}%", "%{$container_table_name}%", $where['form_id'] );
+			$where['form_id']     = str_replace( "%{$table_name}%", "%{$container_table_name}%", $where['form_id'] );
 		}
 
 		return array( $where, $args );

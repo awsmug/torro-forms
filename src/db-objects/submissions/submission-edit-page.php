@@ -23,14 +23,16 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string             $slug          Page slug.
-	 * @param Admin_Pages        $manager       Admin page manager instance.
-	 * @param Submission_Manager $model_manager Model manager instance.
+	 * @param string             $slug               Page slug.
+	 * @param Admin_Pages        $manager            Admin page manager instance.
+	 * @param Submission_Manager $model_manager      Model manager instance.
+	 * @param array              $field_manager_args Optional. Arguments to pass to the field manager used.
+	 *                                               Default empty array.
 	 */
-	public function __construct( $slug, $manager, $model_manager ) {
-		$this->list_page_slug = $manager->get_prefix() . 'edit_submissions';
+	public function __construct( $slug, $manager, $model_manager, $field_manager_args = array() ) {
+		$this->list_page_slug = $manager->get_prefix() . 'list_submissions';
 
-		parent::__construct( $slug, $manager, $model_manager );
+		parent::__construct( $slug, $manager, $model_manager, $field_manager_args );
 	}
 
 	/**
@@ -41,40 +43,10 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	public function handle_request() {
 		global $parent_file, $submenu_file;
 
-		$parent_file = 'edit.php?post_type=' . $this->manager->get_prefix() . 'form';
+		$parent_file  = 'edit.php?post_type=' . $this->manager->get_prefix() . 'form';
 		$submenu_file = $this->manager->get_prefix() . 'list_submissions';
 
 		parent::handle_request();
-
-		//add_action( "{$this->model_manager->get_prefix()}edit_submission_tab_form_input", array( $this, 'render_submission_value_fields' ), 10, 0 );
-	}
-
-	/**
-	 * Renders the fields for each submission value.
-	 *
-	 * @since 1.0.0
-	 */
-	public function render_submission_value_fields() {
-		$submission = $this->model;
-		$form       = $this->model_manager->get_parent_manager( 'forms' )->get( $this->model->form_id );
-
-		var_dump( $form->id );
-
-		foreach ( $form->get_containers() as $container ) {
-			?>
-			<h3><?php echo esc_html( $container->label ); ?></h3>
-
-			<table class="form-table">
-				<tbody>
-					<?php foreach ( $container->get_elements() as $element ) : ?>
-						<?php
-
-						?>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-			<?php
-		}
 	}
 
 	/**
@@ -164,7 +136,7 @@ class Submission_Edit_Page extends Model_Edit_Page {
 
 		$primary_property = $this->model_manager->get_primary_property();
 
-		$id = isset( $_REQUEST[ $primary_property ] ) ? absint( $_REQUEST[ $primary_property ] ) : null;
+		$id = isset( $_REQUEST[ $primary_property ] ) ? absint( $_REQUEST[ $primary_property ] ) : null; // WPCS: CSRF OK.
 
 		if ( $id ) {
 			$submission = $this->model_manager->get( $id );
@@ -205,7 +177,7 @@ class Submission_Edit_Page extends Model_Edit_Page {
 
 		$primary_property = $this->model_manager->get_primary_property();
 
-		$id = isset( $_REQUEST[ $primary_property ] ) ? absint( $_REQUEST[ $primary_property ] ) : null;
+		$id = isset( $_REQUEST[ $primary_property ] ) ? absint( $_REQUEST[ $primary_property ] ) : null; // WPCS: CSRF OK.
 
 		if ( $id ) {
 			$submission = $this->model_manager->get( $id );
@@ -280,7 +252,7 @@ class Submission_Edit_Page extends Model_Edit_Page {
 
 		$primary_property = $this->model_manager->get_primary_property();
 
-		$id = isset( $_REQUEST[ $primary_property ] ) ? absint( $_REQUEST[ $primary_property ] ) : null;
+		$id = isset( $_REQUEST[ $primary_property ] ) ? absint( $_REQUEST[ $primary_property ] ) : null; // WPCS: CSRF OK.
 
 		if ( $id ) {
 			$submission = $this->model_manager->get( $id );

@@ -217,7 +217,7 @@ abstract class Module extends Service {
 	 *
 	 * @param Form_Edit_Page_Handler $edit_page Edit page handler.
 	 */
-	protected final function add_meta( $edit_page ) {
+	final protected function add_meta( $edit_page ) {
 		$tabs = $this->get_meta_tabs();
 		if ( empty( $tabs ) ) {
 			return;
@@ -259,7 +259,7 @@ abstract class Module extends Service {
 	 *
 	 * @return string Module meta identifier.
 	 */
-	protected final function get_meta_identifier() {
+	final protected function get_meta_identifier() {
 		return 'module_' . $this->slug;
 	}
 
@@ -270,7 +270,7 @@ abstract class Module extends Service {
 	 *
 	 * @param Form_Settings_Page $settings_page Settings page instance.
 	 */
-	protected final function add_settings( $settings_page ) {
+	final protected function add_settings( $settings_page ) {
 		$subtabs = $this->get_settings_subtabs();
 		if ( empty( $subtabs ) ) {
 			return;
@@ -282,7 +282,7 @@ abstract class Module extends Service {
 		$tab_id = $this->get_settings_identifier();
 
 		$settings_page->add_tab( $tab_id, array(
-			'title' => $this->get_title(),
+			'title'            => $this->get_title(),
 			/* translators: %s: module title */
 			'rest_description' => sprintf( _x( 'Torro Forms %s module settings.', 'REST API description', 'torro-forms' ), $this->get_title() ),
 		) );
@@ -317,7 +317,7 @@ abstract class Module extends Service {
 	 *
 	 * @return string Module settings identifier.
 	 */
-	protected final function get_settings_identifier() {
+	final protected function get_settings_identifier() {
 		return 'module_' . $this->slug;
 	}
 
@@ -362,7 +362,7 @@ abstract class Module extends Service {
 	 *
 	 * @since 1.0.0
 	 */
-	protected abstract function bootstrap();
+	abstract protected function bootstrap();
 
 	/**
 	 * Returns the available meta box tabs for the module.
@@ -371,7 +371,7 @@ abstract class Module extends Service {
 	 *
 	 * @return array Associative array of `$tab_slug => $tab_args` pairs.
 	 */
-	protected abstract function get_meta_tabs();
+	abstract protected function get_meta_tabs();
 
 	/**
 	 * Returns the available meta box fields for the module.
@@ -380,7 +380,7 @@ abstract class Module extends Service {
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
-	protected abstract function get_meta_fields();
+	abstract protected function get_meta_fields();
 
 	/**
 	 * Returns the available settings sub-tabs for the module.
@@ -389,7 +389,7 @@ abstract class Module extends Service {
 	 *
 	 * @return array Associative array of `$subtab_slug => $subtab_args` pairs.
 	 */
-	protected abstract function get_settings_subtabs();
+	abstract protected function get_settings_subtabs();
 
 	/**
 	 * Returns the available settings sections for the module.
@@ -398,7 +398,7 @@ abstract class Module extends Service {
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
-	protected abstract function get_settings_sections();
+	abstract protected function get_settings_sections();
 
 	/**
 	 * Returns the available settings fields for the module.
@@ -407,7 +407,7 @@ abstract class Module extends Service {
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
-	protected abstract function get_settings_fields();
+	abstract protected function get_settings_fields();
 
 	/**
 	 * Registers the available module scripts and stylesheets.
@@ -416,7 +416,7 @@ abstract class Module extends Service {
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */
-	protected abstract function register_assets( $assets );
+	abstract protected function register_assets( $assets );
 
 	/**
 	 * Enqueues the module's form builder scripts and stylesheets.
@@ -425,5 +425,5 @@ abstract class Module extends Service {
 	 *
 	 * @param Assets $assets Assets API instance.
 	 */
-	protected abstract function enqueue_form_builder_assets( $assets );
+	abstract protected function enqueue_form_builder_assets( $assets );
 }

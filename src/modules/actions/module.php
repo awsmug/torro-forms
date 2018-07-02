@@ -34,7 +34,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->description = __( 'Actions are executed in the moment users submit their form data.', 'torro-forms' );
 
 		$this->submodule_base_class = Action::class;
-		$this->default_submodules = array(
+		$this->default_submodules   = array(
 			'email_notifications' => Email_Notifications::class,
 			'redirection'         => Redirection::class,
 		);
@@ -70,7 +70,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			if ( is_wp_error( $action_result ) ) {
 				foreach ( $action_result->get_error_messages() as $error_message ) {
 					/* translators: 1: form ID, 2: submission ID, 3: log message */
-					$this->module->manager()->logger()->error( sprintf( _x( 'Form %1$s Submission %2$s: %3$s', 'submission process log', 'torro-forms' ), $form->id, $submission->id, $error_message ), $this->logging_context );
+					$this->manager()->logger()->error( sprintf( _x( 'Form %1$s Submission %2$s: %3$s', 'submission process log', 'torro-forms' ), $form->id, $submission->id, $error_message ), $this->logging_context );
 				}
 			}
 		}

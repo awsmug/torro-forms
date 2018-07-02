@@ -63,7 +63,7 @@ class Textarea extends Element_Type {
 			if ( ! empty( $data['description'] ) ) {
 				$data['description'] .= '<br>';
 			} else {
-				$data['description'] = '';
+				$data['description']                     = '';
 				$data['input_attrs']['aria-describedby'] = $data['description_attrs']['id'];
 			}
 
@@ -89,15 +89,17 @@ class Textarea extends Element_Type {
 		$value = trim( (string) $value );
 
 		if ( ! empty( $settings['required'] ) && 'no' !== $settings['required'] && empty( $value ) ) {
-			return $this->create_error( 'value_required', __( 'You must enter something here.', 'torro-forms' ), $value );
+			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must enter something here.', 'torro-forms' ), $value );
 		}
 
-		if ( ! empty( $settings['min_length'] ) && strlen( $value ) < (int) $settings['min_length'] ) {
-			return $this->create_error( 'value_too_short', __( 'The value you entered is too short.', 'torro-forms' ), $value );
-		}
+		if ( ! empty( $value ) ) {
+			if ( ! empty( $settings['min_length'] ) && strlen( $value ) < (int) $settings['min_length'] ) {
+				return $this->create_error( 'value_too_short', __( 'The value you entered is too short.', 'torro-forms' ), $value );
+			}
 
-		if ( ! empty( $settings['max_length'] ) && strlen( $value ) > (int) $settings['max_length'] ) {
-			return $this->create_error( 'value_too_long', __( 'The value you entered is too long.', 'torro-forms' ), $value );
+			if ( ! empty( $settings['max_length'] ) && strlen( $value ) > (int) $settings['max_length'] ) {
+				return $this->create_error( 'value_too_long', __( 'The value you entered is too long.', 'torro-forms' ), $value );
+			}
 		}
 
 		return $value;
@@ -167,7 +169,7 @@ class Textarea extends Element_Type {
 			'min'           => 0,
 			'step'          => 1,
 		);
-		$this->settings_fields['rows'] = array(
+		$this->settings_fields['rows']       = array(
 			'section'       => 'settings',
 			'type'          => 'number',
 			'label'         => __( 'Rows', 'torro-forms' ),
@@ -177,7 +179,7 @@ class Textarea extends Element_Type {
 			'min'           => 0,
 			'step'          => 1,
 		);
-		$this->settings_fields['cols'] = array(
+		$this->settings_fields['cols']       = array(
 			'section'       => 'settings',
 			'type'          => 'number',
 			'label'         => __( 'Columns', 'torro-forms' ),

@@ -68,7 +68,7 @@ class Timerange extends Access_Control {
 
 		$now = current_time( 'timestamp' );
 
-		if ( $start && $now < strtotime( $start ) ) {
+		if ( ! empty( $start ) && '0000-00-00 00:00:00' !== $start && $now < strtotime( $start ) ) {
 			$message = $this->get_form_option( $form->id, 'not_yet_open_message' );
 			if ( empty( $message ) ) {
 				$message = $this->get_default_not_yet_open_message();
@@ -77,7 +77,7 @@ class Timerange extends Access_Control {
 			return new WP_Error( 'form_not_yet_open', $message );
 		}
 
-		if ( $end && $now > strtotime( $end ) ) {
+		if ( ! empty( $end ) && '0000-00-00 00:00:00' !== $end && $now > strtotime( $end ) ) {
 			$message = $this->get_form_option( $form->id, 'no_longer_open_message' );
 			if ( empty( $message ) ) {
 				$message = $this->get_default_no_longer_open_message();
@@ -101,21 +101,21 @@ class Timerange extends Access_Control {
 
 		unset( $meta_fields['enabled'] );
 
-		$meta_fields['start'] = array(
+		$meta_fields['start']                  = array(
 			'type'         => 'datetime',
 			'label'        => __( 'Start Date', 'torro-forms' ),
 			'description'  => __( 'Select the date this form should be opened.', 'torro-forms' ),
 			'store'        => 'datetime',
 			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
-		$meta_fields['end'] = array(
+		$meta_fields['end']                    = array(
 			'type'         => 'datetime',
 			'label'        => __( 'End Date', 'torro-forms' ),
 			'description'  => __( 'Select the date this form should be closed.', 'torro-forms' ),
 			'store'        => 'datetime',
 			'wrap_classes' => array( 'has-torro-tooltip-description' ),
 		);
-		$meta_fields['not_yet_open_message'] = array(
+		$meta_fields['not_yet_open_message']   = array(
 			'type'          => 'text',
 			'label'         => __( '&#8220;Not yet open&#8221; Message', 'torro-forms' ),
 			'description'   => __( 'Enter the message to show to the user in case the form is not yet open to submissions.', 'torro-forms' ),

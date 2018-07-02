@@ -24,6 +24,7 @@ class Translations_Field_Manager extends Translations_Field_Manager_Base {
 	 */
 	protected function init() {
 		$this->translations = array(
+			'field_required_indicator'               => _x( '(required)', 'field required indicator', 'torro-forms' ),
 			/* translators: %s: field label */
 			'field_empty_required'                   => __( 'No value was given for the required field &#8220;%s&#8221;.', 'torro-forms' ),
 			/* translators: %s: field label */

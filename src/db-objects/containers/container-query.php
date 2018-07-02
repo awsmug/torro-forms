@@ -69,7 +69,7 @@ class Container_Query extends Query {
 				}
 			} else {
 				$where['sort'] = "%{$table_name}%.sort = %d";
-				$args[] = absint( $this->query_vars['sort'] );
+				$args[]        = absint( $this->query_vars['sort'] );
 			}
 		}
 

@@ -41,12 +41,10 @@ class Module extends Module_Base {
 
 		$tabs = array(
 			'labels'   => array(
-				'title'       => _x( 'Labels', 'form settings tab', 'torro-forms' ),
-				// 'description' => __( 'Allows you to tweak some labels and messages displayed in the form frontend.', 'torro-form' ),
+				'title' => _x( 'Labels', 'form settings tab', 'torro-forms' ),
 			),
 			'advanced' => array(
-				'title'       => _x( 'Advanced', 'form settings tab', 'torro-forms' ),
-				//'description' => __( 'Allows you to modify advanced form settings.', 'torro-forms' ),
+				'title' => _x( 'Advanced', 'form settings tab', 'torro-forms' ),
 			),
 		);
 

@@ -88,7 +88,7 @@ class Template_Tag_Handler {
 		}
 
 		try {
-			$args = $this->validate_tag_args( $args, $this->args_definition );
+			$args = $this->validate_tag_args( $args, $this->tag_args_definition );
 		} catch ( InvalidArgumentException $e ) {
 			return $content;
 		}
@@ -97,6 +97,10 @@ class Template_Tag_Handler {
 		$replacements = array();
 
 		foreach ( $this->tags as $slug => $data ) {
+			if ( false === strpos( $content, '{' . $slug . '}' ) ) {
+				continue;
+			}
+
 			$placeholders[] = '{' . $slug . '}';
 			$replacements[] = (string) call_user_func_array( $data['callback'], $args );
 		}
@@ -125,7 +129,7 @@ class Template_Tag_Handler {
 	 *
 	 * @param string $slug Template tag slug.
 	 * @param array  $data Template tag data.
-	 * @param bool True on success, false on failure.
+	 * @return bool True on success, false on failure.
 	 */
 	public function add_tag( $slug, $data ) {
 		if ( $this->has_tag( $slug ) ) {
@@ -149,7 +153,7 @@ class Template_Tag_Handler {
 	 * @since 1.0.0
 	 *
 	 * @param string $slug Template tag slug.
-	 * @param bool True on success, false on failure.
+	 * @return bool True on success, false on failure.
 	 */
 	public function remove_tag( $slug ) {
 		if ( ! $this->has_tag( $slug ) ) {
@@ -357,7 +361,6 @@ class Template_Tag_Handler {
 					if ( ! is_a( $tag_arg, $tag_args_definition[ $index ] ) ) {
 						$valid = false;
 					}
-
 			}
 		}
 

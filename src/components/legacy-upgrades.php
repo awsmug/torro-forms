@@ -661,7 +661,7 @@ class Legacy_Upgrades extends Service {
 		$wpdb->query( "ALTER TABLE $element_answers RENAME TO $element_choices" );
 		$wpdb->query( "ALTER TABLE $element_choices CHANGE answer value text NOT NULL" );
 		$wpdb->query( "ALTER TABLE $element_choices CHANGE sort sort int(11) unsigned NOT NULL default '0'" );
-		$wpdb->query( "ALTER TABLE $element_choices ADD field char(100) NOT NULL default '' AFTER element_id" );
+		$wpdb->query( "ALTER TABLE $element_choices ADD field char(100) NOT NULL default '_main' AFTER element_id" );
 		$wpdb->query( "ALTER TABLE $element_choices ADD KEY element_id (element_id)" );
 		$wpdb->query( "ALTER TABLE $element_settings ADD KEY element_id (element_id)" );
 		$wpdb->query( "ALTER TABLE $results RENAME TO $submissions" );

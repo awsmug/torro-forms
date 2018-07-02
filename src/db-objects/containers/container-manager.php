@@ -28,6 +28,7 @@ use Leaves_And_Love\Plugin_Lib\Error_Handler;
  * @method DB                     db()
  * @method Cache                  cache()
  * @method Error_Handler          error_handler()
+ * @method Container              create()
  */
 class Container_Manager extends Manager {
 	use Title_Manager_Trait, Capability_Manager_Trait, REST_API_Manager_Trait, Manager_With_Parents_Trait, Manager_With_Children_Trait;
@@ -80,12 +81,12 @@ class Container_Manager extends Manager {
 	 */
 	protected function add_database_table() {
 		$this->db()->add_table( $this->table_name, array(
-			"id int(11) unsigned NOT NULL auto_increment",
-			"form_id bigint(20) unsigned NOT NULL",
-			"label text NOT NULL",
+			'id int(11) unsigned NOT NULL auto_increment',
+			'form_id bigint(20) unsigned NOT NULL',
+			'label text NOT NULL',
 			"sort int(11) unsigned NOT NULL default '0'",
-			"PRIMARY KEY  (id)",
-			"KEY form_id (form_id)",
+			'PRIMARY KEY  (id)',
+			'KEY form_id (form_id)',
 		) );
 	}
 }

@@ -133,13 +133,15 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 					?>
 					<p>
 						<strong>
-							<?php _e( 'Number of completed submissions:', 'torro-forms' ); ?>
+							<?php esc_html_e( 'Number of completed submissions:', 'torro-forms' ); ?>
 							<?php echo absint( $total_count ); ?>
 						</strong>
 					</p>
 					<div id="<?php echo esc_attr( $this->slug . '-chart-total' ); ?>"></div>
 					<script type="application/json" class="c3-chart-data">
-						<?php echo json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-total' ), $years, $year_results, __( 'Years', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) ); ?>
+						<?php
+						echo wp_json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-total' ), $years, $year_results, __( 'Years', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) );
+						?>
 					</script>
 					<?php
 				},
@@ -178,14 +180,16 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 						<strong>
 							<?php
 							/* translators: %s: a year */
-							printf( __( 'Number of completed submissions in %s:', 'torro-forms' ), $year );
+							echo esc_html( sprintf( __( 'Number of completed submissions in %s:', 'torro-forms' ), $year ) );
 							?>
 							<?php echo absint( $total_count ); ?>
 						</strong>
 					</p>
 					<div id="<?php echo esc_attr( $this->slug . '-chart-' . $year ); ?>"></div>
 					<script type="application/json" class="c3-chart-data">
-						<?php echo json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-' . $year ), array_values( $months ), $month_results, __( 'Months', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) ); ?>
+						<?php
+						echo wp_json_encode( $this->get_chart_json( $form, esc_attr( $this->slug . '-chart-' . $year ), array_values( $months ), $month_results, __( 'Months', 'torro-forms' ), __( 'Submission Count', 'torro-forms' ) ) );
+						?>
 					</script>
 					<?php
 				},
@@ -348,7 +352,7 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 			'axis'   => array(
 				'x' => array(
 					'label' => $x_label,
-					'type' => 'category',
+					'type'  => 'category',
 				),
 				'y' => array(
 					'label' => $y_label,

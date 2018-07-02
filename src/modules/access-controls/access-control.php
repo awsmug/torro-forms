@@ -48,7 +48,7 @@ abstract class Access_Control extends Submodule implements Meta_Submodule_Interf
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
 	 * @return bool|WP_Error True if the form or submission can be accessed, false or error object otherwise.
 	 */
-	public abstract function can_access( $form, $submission = null );
+	abstract public function can_access( $form, $submission = null );
 
 	/**
 	 * Returns the available meta fields for the submodule.

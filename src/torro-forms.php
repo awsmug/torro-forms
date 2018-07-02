@@ -259,6 +259,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 * @static
 	 *
+	 * @param bool $network_wide Optional. Whether the plugin is being deactivated for the whole network.
+	 *                           Default false.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	public static function deactivate( $network_wide = false ) {
@@ -269,11 +272,11 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			) );
 			foreach ( $sites as $site ) {
 				switch_to_blog( $site->id );
-				torro()->submissions->clear_cron_task();
+				torro()->submissions()->clear_cron_task();
 				restore_current_blog();
 			}
 		} else {
-			torro()->submissions->clear_cron_task();
+			torro()->submissions()->clear_cron_task();
 		}
 	}
 
@@ -377,12 +380,12 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function load_base_properties() {
-		$this->version = '1.0.0';
-		$this->prefix = 'torro_';
-		$this->vendor_name = 'awsmug';
+		$this->version      = '1.0.0';
+		$this->prefix       = 'torro_';
+		$this->vendor_name  = 'awsmug';
 		$this->project_name = 'Torro_Forms';
-		$this->minimum_php = '5.6';
-		$this->minimum_wp = '4.8';
+		$this->minimum_php  = '5.6';
+		$this->minimum_wp   = '4.8';
 	}
 
 	/**
@@ -408,11 +411,13 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function load_messages() {
-		$this->messages['cheatin_huh']  = __( 'Cheatin&#8217; huh?', 'torro-forms' );
+		$this->messages['cheatin_huh'] = __( 'Cheatin&#8217; huh?', 'torro-forms' );
+
 		/* translators: %s: PHP version number */
 		$this->messages['outdated_php'] = __( 'Torro Forms cannot be initialized because your setup uses a PHP version older than %s.', 'torro-forms' );
+
 		/* translators: %s: WordPress version number */
-		$this->messages['outdated_wp']  = __( 'Torro Forms cannot be initialized because your setup uses a WordPress version older than %s.', 'torro-forms' );
+		$this->messages['outdated_wp'] = __( 'Torro Forms cannot be initialized because your setup uses a WordPress version older than %s.', 'torro-forms' );
 	}
 
 	/**
@@ -423,7 +428,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @return bool True if the dependencies are loaded, false otherwise.
 	 */
 	protected function dependencies_loaded() {
-		if ( ! class_exists( 'PHPExcel' ) ) {
+		if ( ! class_exists( 'PhpOffice\PhpSpreadsheet\Spreadsheet' ) ) {
 			return false;
 		}
 
@@ -435,7 +440,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			return false;
 		}
 
-		if ( ! apiapi_manager()->transporters()->is_registered( 'wordpress' ) ) {
+		if ( ! apiapi_manager()->transporters()->is_registered( 'wordpress' ) ) { // WPCS: spelling ok.
 			return false;
 		}
 
@@ -459,9 +464,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		}
 
 		$this->instantiate_core_services();
-		$this->instantiate_component_services();
 		$this->instantiate_db_object_managers();
 		$this->instantiate_modules();
+		$this->instantiate_component_services();
 
 		$this->setup_capabilities();
 		$this->connect_db_object_managers();
@@ -505,39 +510,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->ajax = $this->instantiate_library_service( 'AJAX', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_AJAX' ) );
 
 		$this->apiapi_config = $this->instantiate_plugin_class( 'APIAPI_Config', $this->prefix );
-	}
-
-	/**
-	 * Instantiates the plugin component services.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function instantiate_component_services() {
-		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
-			'ajax'          => $this->ajax,
-			'assets'        => $this->assets,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->extensions = $this->instantiate_plugin_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
-		$this->extensions->set_plugin( $this );
-
-		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
-
-		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
-
-		$this->form_uploads = $this->instantiate_plugin_service( 'Components\Form_Upload_Manager', $this->prefix, array(
-			'taxonomies'    => $this->taxonomies,
-			'error_handler' => $this->error_handler,
-		) );
 	}
 
 	/**
@@ -632,6 +604,39 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	}
 
 	/**
+	 * Instantiates the plugin component services.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function instantiate_component_services() {
+		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
+			'ajax'          => $this->ajax,
+			'assets'        => $this->assets,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->extensions = $this->instantiate_plugin_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
+		$this->extensions->set_plugin( $this );
+
+		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
+
+		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
+			'options'       => $this->options,
+			'error_handler' => $this->error_handler,
+		) );
+
+		$this->form_uploads = $this->instantiate_plugin_service( 'Components\Form_Upload_Manager', $this->prefix, array(
+			'taxonomies'    => $this->taxonomies,
+			'error_handler' => $this->error_handler,
+		) );
+	}
+
+	/**
 	 * Sets up capabilities for the plugin DB object managers.
 	 *
 	 * @since 1.0.0
@@ -698,13 +703,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$submission_edit_class_name  = 'awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Edit_Page';
 
 		$submissions_list_page = new $submissions_list_class_name( $this->admin_pages->get_prefix() . 'list_submissions', $this->admin_pages, $this->submissions );
-		$submission_edit_page  = new $submission_edit_class_name( $this->admin_pages->get_prefix() . 'edit_submission', $this->admin_pages, $this->submissions );
+		$submission_edit_page  = new $submission_edit_class_name( $this->admin_pages->get_prefix() . 'edit_submission', $this->admin_pages, $this->submissions, array(
+			'field_required_markup' => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
+		) );
 
 		$this->admin_pages->add( 'list_submissions', $submissions_list_page, 'edit.php?post_type=' . $this->admin_pages->get_prefix() . 'form', null, 'site' );
 		$this->admin_pages->add( 'edit_submission', $submission_edit_page, null, null, 'site', true );
 
 		$form_settings_class_name = 'awsmug\Torro_Forms\DB_Objects\Forms\Form_Settings_Page';
-		$form_settings_page = new $form_settings_class_name( $this->admin_pages->get_prefix() . 'form_settings', $this->admin_pages, $this->forms );
+		$form_settings_page       = new $form_settings_class_name( $this->admin_pages->get_prefix() . 'form_settings', $this->admin_pages, $this->forms );
 
 		$this->admin_pages->add( 'form_settings', $form_settings_page, 'edit.php?post_type=torro_form', null, 'site' );
 	}
@@ -716,9 +723,9 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function add_hooks() {
 		$this->add_core_service_hooks();
-		$this->add_component_service_hooks();
 		$this->add_db_object_manager_hooks();
 		$this->add_module_hooks();
+		$this->add_component_service_hooks();
 	}
 
 	/**
@@ -732,16 +739,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->assets->add_hooks();
 		$this->ajax->add_hooks();
 		$this->apiapi_config->add_hooks();
-	}
-
-	/**
-	 * Adds the necessary plugin component service hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function add_component_service_hooks() {
-		$this->admin_pages->add_hooks();
-		$this->extensions->add_hooks();
 	}
 
 	/**
@@ -779,5 +776,15 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function add_module_hooks() {
 		$this->modules->add_hooks();
+	}
+
+	/**
+	 * Adds the necessary plugin component service hooks.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function add_component_service_hooks() {
+		$this->admin_pages->add_hooks();
+		$this->extensions->add_hooks();
 	}
 }

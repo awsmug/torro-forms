@@ -48,7 +48,7 @@ abstract class Action extends Submodule implements Meta_Submodule_Interface, Set
 	 * @param Form       $form       Form the submission applies to.
 	 * @return bool|WP_Error True on success, error object on failure.
 	 */
-	public abstract function handle( $submission, $form );
+	abstract public function handle( $submission, $form );
 
 	/**
 	 * Returns the available meta fields for the submodule.

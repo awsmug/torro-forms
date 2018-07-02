@@ -41,21 +41,20 @@
 		this.$footerPanel.attr( 'aria-labelledby', 'container-tab-' + id );
 		this.$footerPanel.attr( 'aria-hidden', selected ? 'false' : 'true' );
 		this.$footerPanel.attr( 'role', 'tabpanel' );
+
+		this.addElementFrame = new torro.Builder.AddElement.View.Frame({
+			title: torro.Builder.i18n.selectElementType,
+			buttonLabel: torro.Builder.i18n.insertIntoContainer,
+			collection: torro.Builder.getInstance().elementTypes
+		});
 	}
 
 	_.extend( ContainerView.prototype, {
 		render: function() {
-			var combinedAttributes, i;
-
-			combinedAttributes = _.clone( this.container.attributes );
-
-			combinedAttributes.elementTypes = [];
-			_.each( torro.Builder.getInstance().elementTypes.getAll(), function( elementType ) {
-				combinedAttributes.elementTypes.push( elementType.attributes );
-			});
+			var i;
 
 			this.$tab.html( this.tabTemplate( this.container.attributes ) );
-			this.$panel.html( this.panelTemplate( combinedAttributes ) );
+			this.$panel.html( this.panelTemplate( this.container.attributes ) );
 			this.$footerPanel.html( this.footerPanelTemplate( this.container.attributes ) );
 
 			for ( i = 0; i < this.container.elements.length; i++ ) {
@@ -78,15 +77,13 @@
 			this.container.elements.on( 'add', this.listenAddElement, this );
 			this.container.on( 'change:label', this.listenChangeLabel, this );
 			this.container.on( 'change:sort', this.listenChangeSort, this );
-			this.container.on( 'change:addingElement', this.listenChangeAddingElement, this );
-			this.container.on( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
 			this.container.collection.props.on( 'change:selected', this.listenChangeSelected, this );
+
+			this.addElementFrame.on( 'insert', this.addElement, this );
 
 			this.$tab.on( 'click', _.bind( this.setSelected, this ) );
 			this.$tab.on( 'dblclick', _.bind( this.editLabel, this ) );
-			this.$panel.on( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
-			this.$panel.on( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
-			this.$panel.on( 'click', '.add-element-button', _.bind( this.addElement, this ) );
+			this.$panel.on( 'click', '.add-element-toggle', _.bind( this.openAddElementFrame, this ) );
 			this.$footerPanel.on( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
 			this.$panel.find( '.drag-drop-area' ).sortable({
 				handle: '.torro-element-header',
@@ -103,15 +100,13 @@
 		detach: function() {
 			this.$panel.find( 'drag-drop-area' ).sortable( 'destroy' );
 			this.$footerPanel.off( 'click', '.delete-container-button', _.bind( this.deleteContainer, this ) );
-			this.$panel.off( 'click', '.add-element-button', _.bind( this.addElement, this ) );
-			this.$panel.off( 'click', '.torro-element-type', _.bind( this.setSelectedElementType, this ) );
-			this.$panel.off( 'click', '.add-element-toggle', _.bind( this.toggleAddingElement, this ) );
+			this.$panel.off( 'click', '.add-element-toggle', _.bind( this.openAddElementFrame, this ) );
 			this.$tab.off( 'dblclick', _.bind( this.editLabel, this ) );
 			this.$tab.off( 'click', _.bind( this.setSelected, this ) );
 
+			this.addElementFrame.off( 'insert', this.addElement, this );
+
 			this.container.collection.props.off( 'change:selected', this.listenChangeSelected, this );
-			this.container.off( 'change:selectedElementType', this.listenChangeSelectedElementType, this );
-			this.container.off( 'change:addingElement', this.listenChangeAddingElement, this );
 			this.container.off( 'change:sort', this.listenChangeSort, this );
 			this.container.off( 'change:label', this.listenChangeLabel, this );
 			this.container.elements.off( 'add', this.listenAddContainer, this );
@@ -155,35 +150,6 @@
 			var name = torro.escapeSelector( torro.getFieldName( this.container, 'sort' ) );
 
 			this.$panel.find( 'input[name="' + name + '"]' ).val( sort );
-		},
-
-		listenChangeAddingElement: function( container, addingElement ) {
-			if ( addingElement ) {
-				this.$panel.find( '.add-element-toggle-wrap' ).addClass( 'is-expanded' );
-				this.$panel.find( '.add-element-toggle' ).attr( 'aria-expanded', 'true' );
-				this.$panel.find( '.add-element-content-wrap' ).addClass( 'is-expanded' );
-			} else {
-				this.$panel.find( '.add-element-toggle-wrap' ).removeClass( 'is-expanded' );
-				this.$panel.find( '.add-element-toggle' ).attr( 'aria-expanded', 'false' );
-				this.$panel.find( '.add-element-content-wrap' ).removeClass( 'is-expanded' );
-			}
-		},
-
-		listenChangeSelectedElementType: function( container, selectedElementType ) {
-			var elementType;
-
-			this.$panel.find( '.torro-element-type' ).removeClass( 'is-selected' );
-
-			if ( selectedElementType ) {
-				elementType = torro.Builder.getInstance().elementTypes.get( selectedElementType );
-				if ( elementType ) {
-					this.$panel.find( '.torro-element-type-' + elementType.getSlug() ).addClass( 'is-selected' );
-					this.$panel.find( '.add-element-button' ).prop( 'disabled', false );
-					return;
-				}
-			}
-
-			this.$panel.find( '.add-element-button' ).prop( 'disabled', true );
 		},
 
 		listenChangeSelected: function( props, selected ) {
@@ -250,30 +216,11 @@
 			$replacement.focus();
 		},
 
-		toggleAddingElement: function() {
-			if ( this.container.get( 'addingElement' ) ) {
-				this.container.set( 'addingElement', false );
-			} else {
-				this.container.set( 'addingElement', true );
-			}
+		openAddElementFrame: function() {
+			this.addElementFrame.open();
 		},
 
-		setSelectedElementType: function( e ) {
-			var slug = false;
-
-			if ( e && e.currentTarget ) {
-				slug = $( e.currentTarget ).data( 'slug' );
-			}
-
-			if ( slug ) {
-				this.container.set( 'selectedElementType', slug );
-			} else {
-				this.container.set( 'selectedElementType', false );
-			}
-		},
-
-		addElement: function() {
-			var selectedElementType = this.container.get( 'selectedElementType' );
+		addElement: function( selectedElementType ) {
 			var element;
 
 			if ( ! selectedElementType ) {
@@ -284,14 +231,11 @@
 				type: selectedElementType
 			});
 
-			this.toggleAddingElement();
-			this.setSelectedElementType();
-
 			this.container.elements.toggleActive( element.get( 'id' ) );
 		},
 
 		deleteContainer: function() {
-			torro.askConfirmation( this.options.i18n.confirmDeleteContainer, _.bind( function() {
+			torro.askConfirmation( torro.Builder.i18n.confirmDeleteContainer, _.bind( function() {
 				this.container.collection.remove( this.container );
 			}, this ) );
 		},

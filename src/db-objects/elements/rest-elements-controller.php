@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Elements;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
+use awsmug\Torro_Forms\DB_Objects\REST_Embed_Limits_Trait;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\REST_Element_Types_Controller;
 use WP_REST_Request;
 use WP_Error;
@@ -19,6 +20,7 @@ use WP_Error;
  * @since 1.0.0
  */
 class REST_Elements_Controller extends REST_Models_Controller {
+	use REST_Embed_Limits_Trait;
 
 	/**
 	 * REST element types controller.
@@ -89,7 +91,7 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	public function get_collection_params() {
 		$query_params = parent::get_collection_params();
 
-		$query_params['per_page']['maximum'] = 500;
+		unset( $query_params['per_page']['maximum'] );
 		$query_params['orderby']['default'] = 'sort';
 
 		$query_params['form_id'] = array(
@@ -145,7 +147,7 @@ class REST_Elements_Controller extends REST_Models_Controller {
 		$links['element_choices'] = array(
 			'href'       => add_query_arg( array(
 				'element_id' => $element->$primary_property,
-				'per_page'   => 250,
+				'per_page'   => $this->get_embed_limit( 'element_choices' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
 			'embeddable' => true,
 		);
@@ -153,7 +155,7 @@ class REST_Elements_Controller extends REST_Models_Controller {
 		$links['element_settings'] = array(
 			'href'       => add_query_arg( array(
 				'element_id' => $element->$primary_property,
-				'per_page'   => 250,
+				'per_page'   => $this->get_embed_limit( 'element_settings' ),
 			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
 			'embeddable' => true,
 		);

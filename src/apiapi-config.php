@@ -109,6 +109,6 @@ class APIAPI_Config extends Config {
 	protected function trigger_listen_for_callback() {
 		torro()->apiapi()->trigger_hook( 'listen_for_callback' );
 
-		//TODO: Redirect to the correct location.
+		/* TODO: Redirect to the correct location. */
 	}
 }
