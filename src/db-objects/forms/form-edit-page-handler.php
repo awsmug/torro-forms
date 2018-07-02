@@ -642,7 +642,6 @@ class Form_Edit_Page_Handler {
 			 * @param int $form_id Current form ID.
 			 */
 			do_action( "{$prefix}metabox_{$box['id']}_after", $this->current_form->id );
-
 		};
 
 		foreach ( $this->meta_boxes as $id => $args ) {
