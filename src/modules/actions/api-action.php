@@ -198,23 +198,45 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			),
 		);
 
-		foreach ( static::get_registered_connection_types() as $connection_slug => $data ) {
+		foreach ( static::get_registered_connection_types() as $authenticator_slug => $data ) {
 			foreach ( $data['authenticator_fields'] as $field_slug => $field_data ) {
 				if ( isset( $settings_fields['connections']['fields'][ $field_slug ] ) ) {
-					$settings_fields['connections']['fields'][ $field_slug ]['data-authenticator'] .= ',' . $connection_slug;
+					$settings_fields['connections']['fields'][ $field_slug ]['data-authenticator'] .= ',' . $authenticator_slug;
 					continue;
 				}
 
 				// Display is handled via JS.
 				$field_data['display']            = false;
 				$field_data['required']           = false;
-				$field_data['data-authenticator'] = $connection_slug;
+				$field_data['data-authenticator'] = $authenticator_slug;
 
 				$settings_fields['connections']['fields'][ $field_slug ] = $field_data;
 			}
 		}
 
 		return $settings_fields;
+	}
+
+	/**
+	 * Registers all assets the submodule provides.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Assets $assets The plugin assets instance.
+	 */
+	public function register_assets( $assets ) {
+
+	}
+
+	/**
+	 * Enqueues scripts and stylesheets on the form editing screen.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Assets $assets The plugin assets instance.
+	 */
+	public function enqueue_form_builder_assets( $assets ) {
+
 	}
 
 	/**
