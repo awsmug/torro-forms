@@ -472,9 +472,9 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		);
 
 		/**
-		 * Filters template tags
+		 * Filters template tags.
 		 *
-		 * An array will be returned with all template tags
+		 * An array will be returned with all template tags.
 		 *
 		 * @since 1.1.0
 		 *
@@ -483,9 +483,9 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		$tags = apply_filters( "{$prefix}_email_notifications_template_tags", $tags );
 
 		/**
-		 * Filters complex template tags
+		 * Filters complex template tags.
 		 *
-		 * An array will be returned with all complex template tags
+		 * An array will be returned with all complex template tags.
 		 *
 		 * @since 1.1.0
 		 *
@@ -494,9 +494,9 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		$complex_tags = apply_filters( "{$prefix}_email_notifications_template_tags_complex", $complex_tags );
 
 		/**
-		 * Filters template tag groups
+		 * Filters template tag groups.
 		 *
-		 * An array will be returned with all template tag groups
+		 * An array will be returned with all template tag groups.
 		 *
 		 * @since 1.1.0
 		 *
