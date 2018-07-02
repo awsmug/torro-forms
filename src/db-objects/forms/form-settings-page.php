@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
+use awsmug\Torro_Forms\Assets;
 use Leaves_And_Love\Plugin_Lib\Components\Tabbed_Settings_Page;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 use Leaves_And_Love\Plugin_Lib\Fields\Field;
@@ -197,6 +198,20 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 		$this->manager->assets()->enqueue_script( 'admin-settings' );
 		$this->manager->assets()->enqueue_style( 'admin-settings' );
+
+		$current_tab_id    = $this->get_current_tab();
+		$current_subtab_id = $this->get_current_subtab( $current_tab_id );
+
+		/**
+		 * Fires when assets for the form settings page should be enqueued.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param Assets $assets            The Assets API instance.
+		 * @param string $current_tab_id    Identifier of the current tab.
+		 * @param string $current_subtab_id Identifier of the current sub-tab.
+		 */
+		do_action( "{$this->manager->get_prefix()}enqueue_form_settings_scripts", $this->manager->assets(), $current_tab_id, $current_subtab_id );
 	}
 
 	/**
