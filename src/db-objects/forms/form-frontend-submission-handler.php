@@ -118,8 +118,6 @@ class Form_Frontend_Submission_Handler {
 			return;
 		}
 
-		$old_submission_status = $submission->status;
-
 		$going_back = ! empty( $data['action'] ) && 'prev' === $data['action'];
 
 		/**
@@ -288,32 +286,77 @@ class Form_Frontend_Submission_Handler {
 			} else {
 				$submission->add_error( 0, 'internal_error_previous_container', __( 'Internal error: There is no previous container available.', 'torro-forms' ) );
 			}
-		} else {
-			$next_container = $submission->get_next_container();
-			if ( $next_container ) {
-				$submission->set_current_container( $next_container );
-			} else {
-				$submission->set_current_container( null );
-				$submission->status = 'completed';
-			}
+
+			$submission->sync_upstream();
+			return;
 		}
 
+		$next_container = $submission->get_next_container();
+		if ( $next_container ) {
+			$submission->set_current_container( $next_container );
+
+			$submission->sync_upstream();
+			return;
+		}
+
+		$submission->set_current_container( null );
+
+		/**
+		 * Filters whether the completion process of a form submission should proceed when all its data has been correctly entered.
+		 *
+		 * This filter can be used to prevent form completion when it is typically supposed to happen, for example in order to delay
+		 * it to a later point that is handled manually.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool       $should_complete Whether the completion process for the form submission should proceed. Default true.
+		 * @param Submission $submission      Submission object.
+		 * @param Form       $form            Form object.
+		 */
+		if ( ! apply_filters( "{$this->form_manager->get_prefix()}should_complete_submission", true, $submission, $form ) ) {
+			$submission->sync_upstream();
+			return;
+		}
+
+		$this->complete_form_submission( $submission, $form );
+	}
+
+	/**
+	 * Completes a form submission.
+	 *
+	 * The submission status is set to 'completed', and then the completion hook is fired to
+	 * trigger the relevant handlers.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Submission $submission Submission object.
+	 * @param Form       $form       Optional. Form object. Default is the form that belongs to the submission.
+	 */
+	public function complete_form_submission( $submission, $form = null ) {
+		if ( ! $form ) {
+			$form = $submission->get_form();
+		}
+
+		// Only complete once.
+		if ( 'completed' === $submission->status ) {
+			return;
+		}
+
+		$submission->status = 'completed';
 		$submission->sync_upstream();
 
-		if ( 'progressing' === $old_submission_status && 'completed' === $submission->status ) {
-			/**
-			 * Fires when a form submission is completed.
-			 *
-			 * At the point of this action, all submission data is already synchronized with the database
-			 * and its status is set as 'completed'.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param Submission $submission Submission object.
-			 * @param Form       $form       Form object.
-			 */
-			do_action( "{$this->form_manager->get_prefix()}complete_submission", $submission, $form );
-		}
+		/**
+		 * Fires when a form submission is completed.
+		 *
+		 * At the point of this action, all submission data is already synchronized with the database
+		 * and its status is set as 'completed'.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Submission $submission Submission object.
+		 * @param Form       $form       Form object.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}complete_submission", $submission, $form );
 	}
 
 	/**
