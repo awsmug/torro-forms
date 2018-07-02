@@ -9,6 +9,8 @@
 namespace awsmug\Torro_Forms\Modules\Actions;
 
 use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
+use awsmug\Torro_Forms\Modules\Settings_Assets_Submodule_Interface;
+use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\OAuth2_Connection;
@@ -28,7 +30,7 @@ use WP_Error;
  *
  * @since 1.0.0
  */
-abstract class API_Action extends Action implements API_Action_Interface, Assets_Submodule_Interface {
+abstract class API_Action extends Action implements API_Action_Interface, Assets_Submodule_Interface, Settings_Assets_Submodule_Interface {
 
 	/**
 	 * The available API structures and their routes.
@@ -236,6 +238,19 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function enqueue_form_builder_assets( $assets ) {
+
+	}
+
+	/**
+	 * Enqueues scripts and stylesheets on the settings screen.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Assets $assets            Assets API instance.
+	 * @param string $current_tab_id    Identifier of the current tab.
+	 * @param string $current_subtab_id Identifier of the current sub-tab.
+	 */
+	public function enqueue_settings_assets( $assets, $current_tab_id, $current_subtab_id ) {
 
 	}
 
