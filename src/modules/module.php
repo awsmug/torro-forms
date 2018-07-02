@@ -354,6 +354,12 @@ abstract class Module extends Service {
 				'priority' => 1,
 				'num_args' => 1,
 			),
+			array(
+				'name'     => "{$this->get_prefix()}enqueue_settings_scripts",
+				'callback' => array( $this, 'enqueue_settings_assets' ),
+				'priority' => 1,
+				'num_args' => 3,
+			),
 		);
 	}
 
@@ -426,4 +432,15 @@ abstract class Module extends Service {
 	 * @param Assets $assets Assets API instance.
 	 */
 	abstract protected function enqueue_form_builder_assets( $assets );
+
+	/**
+	 * Enqueues the module's settings scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Assets $assets            Assets API instance.
+	 * @param string $current_tab_id    Identifier of the current tab.
+	 * @param string $current_subtab_id Identifier of the current sub-tab.
+	 */
+	abstract protected function enqueue_settings_assets( $assets, $current_tab_id, $current_subtab_id );
 }

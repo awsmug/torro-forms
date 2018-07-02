@@ -351,4 +351,23 @@ trait Submodule_Registry_Trait {
 			$submodule->enqueue_form_builder_assets( $assets );
 		}
 	}
+
+	/**
+	 * Enqueues the module's settings scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Assets $assets            Assets API instance.
+	 * @param string $current_tab_id    Identifier of the current tab.
+	 * @param string $current_subtab_id Identifier of the current sub-tab.
+	 */
+	protected function enqueue_settings_assets( $assets, $current_tab_id, $current_subtab_id ) {
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Settings_Assets_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$submodule->enqueue_settings_assets( $assets, $current_tab_id, $current_subtab_id );
+		}
+	}
 }

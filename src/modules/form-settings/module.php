@@ -237,6 +237,19 @@ class Module extends Module_Base {
 	}
 
 	/**
+	 * Enqueues the module's settings scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Assets $assets            Assets API instance.
+	 * @param string $current_tab_id    Identifier of the current tab.
+	 * @param string $current_subtab_id Identifier of the current sub-tab.
+	 */
+	protected function enqueue_settings_assets( $assets, $current_tab_id, $current_subtab_id ) {
+		// Empty method body.
+	}
+
+	/**
 	 * Returns the default label for the Previous button.
 	 *
 	 * @since 1.0.0
