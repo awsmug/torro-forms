@@ -203,7 +203,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		$current_subtab_id = $this->get_current_subtab( $current_tab_id );
 
 		/**
-		 * Fires when assets for the form settings page should be enqueued.
+		 * Fires when assets for the settings page should be enqueued.
 		 *
 		 * @since 1.1.0
 		 *
@@ -211,7 +211,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		 * @param string $current_tab_id    Identifier of the current tab.
 		 * @param string $current_subtab_id Identifier of the current sub-tab.
 		 */
-		do_action( "{$this->manager->get_prefix()}enqueue_form_settings_scripts", $this->manager->assets(), $current_tab_id, $current_subtab_id );
+		do_action( "{$this->manager->get_prefix()}enqueue_settings_scripts", $this->manager->assets(), $current_tab_id, $current_subtab_id );
 	}
 
 	/**
