@@ -43,6 +43,9 @@ class Module extends Module_Base {
 			'labels'   => array(
 				'title' => _x( 'Labels', 'form settings tab', 'torro-forms' ),
 			),
+			'double_optin' => array(
+				'title' => _x( 'Double OptIn', 'form settings tab', 'torro-forms' ),
+			),
 			'advanced' => array(
 				'title' => _x( 'Advanced', 'form settings tab', 'torro-forms' ),
 			),
@@ -67,6 +70,10 @@ class Module extends Module_Base {
 	 */
 	protected function get_meta_fields() {
 		$prefix = $this->manager()->get_prefix();
+
+		$elements = array(
+			'none'       => _x( 'Select', 'double opt in email selection', 'torro-forms' ),
+		);
 
 		$fields = array(
 			'show_container_title'  => array(
@@ -110,6 +117,23 @@ class Module extends Module_Base {
 				'input_classes' => array( 'regular-text' ),
 				'default'       => $this->get_default_success_message(),
 				'wrap_classes'  => array( 'has-torro-tooltip-description' ),
+			),
+			'enable_double_optin'       => array(
+				'tab'           => 'double_optin',
+				'type'          => 'checkbox',
+				'visual_label'  => __( 'Double OptIn', 'torro-forms' ),
+				'label'         => __( 'Enable', 'torro-forms' ),
+				'description'   => __( 'This will send out an email which contains a link for completing the current submission.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+				'default'       => $this->get_default_success_message(),
+				'wrap_classes'  => array( 'has-torro-tooltip-description' ),
+			),
+			'double_optin_email_element_id'       => array(
+				'tab'           => 'double_optin',
+				'type'        => 'text',
+				'label'       => __( 'Email Element ID', 'torro-forms' ),
+				'description' => __( 'Choose the element which will contains the email address. This', 'torro-forms' ),
+				'default'     => '',
 			),
 			'allow_get_params'      => array(
 				'tab'         => 'advanced',
