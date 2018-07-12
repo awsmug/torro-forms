@@ -1,19 +1,19 @@
 <?php
 /**
- * Link Count protector class
+ * Labels form setting class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
 
 /**
- * Class for a protector using a link count.
+ * Class for form settings for labels.
  *
  * @since 1.1.0
  */
-class Labels extends Setting {
+class Labels extends Form_Setting {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
@@ -29,7 +29,7 @@ class Labels extends Setting {
 	/**
 	 * Returns the available meta box fields for the module.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -38,7 +38,6 @@ class Labels extends Setting {
 
 		$fields = array(
 			'show_container_title'  => array(
-				'tab'          => 'labels',
 				'type'         => 'checkbox',
 				'label'        => __( 'Show page title?', 'torro-forms' ),
 				'description'  => __( 'Click the checkbox to display the title of the current page in the frontend.', 'torro-forms' ),
@@ -47,7 +46,6 @@ class Labels extends Setting {
 				'visual_label' => __( 'Page Title', 'torro-forms' ),
 			),
 			'previous_button_label' => array(
-				'tab'          => 'labels',
 				'type'         => 'text',
 				'label'        => __( 'Previous Button Label', 'torro-forms' ),
 				'description'  => __( 'Enter the label for the button that leads to the previous form page.', 'torro-forms' ),
@@ -55,7 +53,6 @@ class Labels extends Setting {
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			),
 			'next_button_label'     => array(
-				'tab'          => 'labels',
 				'type'         => 'text',
 				'label'        => __( 'Next Button Label', 'torro-forms' ),
 				'description'  => __( 'Enter the label for the button that leads to the next form page.', 'torro-forms' ),
@@ -63,7 +60,6 @@ class Labels extends Setting {
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			),
 			'submit_button_label'   => array(
-				'tab'          => 'labels',
 				'type'         => 'text',
 				'label'        => __( 'Submit Button Label', 'torro-forms' ),
 				'description'  => __( 'Enter the label for the button that submits the form.', 'torro-forms' ),
@@ -71,7 +67,6 @@ class Labels extends Setting {
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			),
 			'success_message'       => array(
-				'tab'           => 'labels',
 				'type'          => 'text',
 				'label'         => __( 'Success Message', 'torro-forms' ),
 				'description'   => __( 'Enter a message to display when a form submission has successfully been completed.', 'torro-forms' ),
@@ -94,7 +89,7 @@ class Labels extends Setting {
 	/**
 	 * Returns the default label for the Previous button.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return string Message to display.
 	 */
@@ -105,7 +100,7 @@ class Labels extends Setting {
 	/**
 	 * Returns the default label for the Next button.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return string Message to display.
 	 */
@@ -116,7 +111,7 @@ class Labels extends Setting {
 	/**
 	 * Returns the default label for the Submit button.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return string Message to display.
 	 */
@@ -127,7 +122,7 @@ class Labels extends Setting {
 	/**
 	 * Returns the default message to display when a form submission has been completed.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return string Message to display.
 	 */
@@ -138,7 +133,7 @@ class Labels extends Setting {
 	/**
 	 * Filters whether to show the title of the current container in the frontend.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param bool $show_container_title Whether to show the title.
 	 * @param int  $form_id              Form ID.
@@ -151,7 +146,7 @@ class Labels extends Setting {
 	/**
 	 * Filters the label for the Previous button in the frontend.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $prev_button_label The Previous button label.
 	 * @param int    $form_id           Form ID.
@@ -169,7 +164,7 @@ class Labels extends Setting {
 	/**
 	 * Filters the label for the Next button in the frontend.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $next_button_label The Next button label.
 	 * @param int    $form_id           Form ID.
@@ -187,7 +182,7 @@ class Labels extends Setting {
 	/**
 	 * Filters the label for the Submit button in the frontend.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $submit_button_label The Submit button label.
 	 * @param int    $form_id             Form ID.
@@ -205,7 +200,7 @@ class Labels extends Setting {
 	/**
 	 * Filters the success message for a completed form submission in the frontend.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $success_message The success message.
 	 * @param int    $form_id         Form ID.
@@ -223,7 +218,7 @@ class Labels extends Setting {
 	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

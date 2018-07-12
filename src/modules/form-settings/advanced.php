@@ -1,24 +1,24 @@
 <?php
 /**
- * Link Count protector class
+ * Advanced form setting class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
 
 /**
- * Class for a protector using a link count.
+ * Class for advanced form settings.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
-class Advanced extends Setting {
+class Advanced extends Form_Setting {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'advanced';
@@ -29,7 +29,7 @@ class Advanced extends Setting {
 	/**
 	 * Returns the available meta box fields for the module.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -49,7 +49,7 @@ class Advanced extends Setting {
 		/**
 		 * Filters the meta fields in the form settings metabox.
 		 *
-		 * @since 1.0.0
+		 * @since 1.1.0
 		 *
 		 * @param array $fields Array of `$field_slug => $field_data` pairs.
 		 */
@@ -59,7 +59,7 @@ class Advanced extends Setting {
 	/**
 	 * Filters whether to allow GET parameters to pre-populate form element values.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param bool $allow_get_params Whether to allow GET parameters.
 	 * @param int  $element_id       Element ID.
@@ -74,7 +74,7 @@ class Advanced extends Setting {
 	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();

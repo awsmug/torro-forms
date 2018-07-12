@@ -1,24 +1,24 @@
 <?php
 /**
- * Link Count protector class
+ * Privacy form setting class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
 
 /**
- * Class for a protector using a link count.
+ * Class for form settings for privacy.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
-class Privacy extends Setting {
+class Privacy extends Form_Setting {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'privacy';
@@ -29,7 +29,7 @@ class Privacy extends Setting {
 	/**
 	 * Returns the available meta box fields for the module.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -39,17 +39,16 @@ class Privacy extends Setting {
 		$prefix = $this->module->get_prefix();
 
 		$meta_fields['double_opt_in'] = array(
-			'tab'            => 'privacy',
-			'type'           => 'checkbox',
-			'label'          => __( 'Enable', 'torro-forms' ),
-			'visual_label'   => __( 'Double Opt-In', 'torro-forms' ),
-			'description'    => sprintf( __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ), '<code>?torro_input_value_ELEMENT_ID=VALUE</code>' ),
+			'type'         => 'checkbox',
+			'label'        => __( 'Enable', 'torro-forms' ),
+			'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
+			'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
 		);
 
 		/**
 		 * Filters the meta fields in the form settings metabox.
 		 *
-		 * @since 1.0.0
+		 * @since 1.1.0
 		 *
 		 * @param array $fields Array of `$field_slug => $field_data` pairs.
 		 */
