@@ -132,7 +132,14 @@ class Module extends Module_Base {
 				'tab'           => 'double_optin',
 				'type'        => 'text',
 				'label'       => __( 'Email Element ID', 'torro-forms' ),
-				'description' => __( 'Choose the element which will contains the email address. This', 'torro-forms' ),
+				'description' => __( 'Choose the element which will contains the email address.', 'torro-forms' ),
+				'default'     => '',
+			),
+			'double_optin_redirect_page_id'       => array(
+				'tab'           => 'double_optin',
+				'type'        => 'text',
+				'label'       => __( 'Redirect Page ID', 'torro-forms' ),
+				'description' => __( 'Choose a page where the user gets redirected after clicking link in email.', 'torro-forms' ),
 				'default'     => '',
 			),
 			'allow_get_params'      => array(
