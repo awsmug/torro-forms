@@ -519,7 +519,15 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			return;
 		}
 
-		$use_subtabs = count( $subtabs ) > 1;
+		$use_subtabs = true;
+		if ( count( $subtabs ) === 1 ) {
+			reset( $subtabs );
+			$first_subtab_id = key( $subtabs );
+
+			if ( $current_tab_id === $first_subtab_id || $current_tab_id === $first_subtab_id . '_settings' ) {
+				$use_subtabs = false;
+			}
+		}
 
 		?>
 		<div class="torro-form-content <?php echo $use_subtabs ? 'tabbed' : 'no-tabs'; ?>">
