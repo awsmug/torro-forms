@@ -69,15 +69,14 @@ class Advanced extends Form_Setting {
 		return (bool) $this->get_form_option( $form_id, 'allow_get_params' );
 	}
 
-
 	/**
 	 * Sets up all action and filter hooks for the service.
+	 *
+	 * Hooks declared here must occur at some point after `init`.
 	 *
 	 * @since 1.1.0
 	 */
 	protected function setup_hooks() {
-		parent::setup_hooks();
-
 		$prefix = $this->module->get_prefix();
 
 		$this->filters[] = array(

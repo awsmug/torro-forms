@@ -11,6 +11,7 @@ namespace awsmug\Torro_Forms\Modules\Form_Settings;
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
+use awsmug\Torro_Forms\Modules\Hooks_Submodule_Interface;
 
 /**
  * Class for the Form Settings module.
@@ -63,6 +64,23 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 	}
 
 	/**
+	 * Adds hooks for all registered submodules that support them.
+	 *
+	 * Submodule hooks should occur at some point after `init`.
+	 *
+	 * @since 1.1.0
+	 */
+	protected function add_submodule_hooks() {
+		foreach ( $this->submodules as $slug => $submodule ) {
+			if ( ! is_a( $submodule, Hooks_Submodule_Interface::class ) ) {
+				continue;
+			}
+
+			$submodule->add_hooks();
+		}
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.1.0
@@ -75,6 +93,12 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 			'callback' => array( $this, 'register_defaults' ),
 			'priority' => 100,
 			'num_args' => 1,
+		);
+		$this->actions[] = array(
+			'name'     => 'init',
+			'callback' => array( $this, 'add_submodule_hooks' ),
+			'priority' => PHP_INT_MAX,
+			'num_args' => 0,
 		);
 	}
 }

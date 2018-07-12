@@ -23,7 +23,7 @@ class Labels extends Form_Setting {
 	protected function bootstrap() {
 		$this->slug        = 'labels';
 		$this->title       = __( 'Labels', 'torro-forms' );
-		$this->description = __( 'Change text appearing in form frontend.', 'torro-forms' );
+		$this->description = __( 'Change form messages appearing in the frontend.', 'torro-forms' );
 	}
 
 	/**
@@ -218,11 +218,11 @@ class Labels extends Form_Setting {
 	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
+	 * Hooks declared here must occur at some point after `init`.
+	 *
 	 * @since 1.1.0
 	 */
 	protected function setup_hooks() {
-		parent::setup_hooks();
-
 		$prefix = $this->module->get_prefix();
 
 		$this->filters[] = array(

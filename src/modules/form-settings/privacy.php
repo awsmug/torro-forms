@@ -54,4 +54,15 @@ class Privacy extends Form_Setting {
 		 */
 		return apply_filters( "{$prefix}form_settings_privacy_meta_fields", $meta_fields );
 	}
+
+	/**
+	 * Sets up all action and filter hooks for the service.
+	 *
+	 * Hooks declared here must occur at some point after `init`.
+	 *
+	 * @since 1.1.0
+	 */
+	protected function setup_hooks() {
+		// TODO: Setup hooks for double opt-in.
+	}
 }
