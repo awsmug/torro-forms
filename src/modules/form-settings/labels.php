@@ -36,7 +36,7 @@ class Labels extends Form_Setting {
 	public function get_meta_fields() {
 		$prefix = $this->module->get_prefix();
 
-		$fields = array(
+		$meta_fields = array(
 			'show_container_title'  => array(
 				'type'         => 'checkbox',
 				'label'        => __( 'Show page title?', 'torro-forms' ),
@@ -81,9 +81,9 @@ class Labels extends Form_Setting {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param array $fields Array of `$field_slug => $field_data` pairs.
+		 * @param array $meta_fields Array of `$field_slug => $field_data` pairs.
 		 */
-		return apply_filters( "{$prefix}form_settings_labels_meta_fields", $fields );
+		return apply_filters( "{$prefix}form_settings_labels_meta_fields", $meta_fields );
 	}
 
 	/**

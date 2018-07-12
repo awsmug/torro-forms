@@ -34,16 +34,15 @@ class Advanced extends Form_Setting {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	public function get_meta_fields() {
-		$meta_fields = $this->_get_meta_fields();
-
 		$prefix = $this->module->get_prefix();
 
-		$meta_fields['allow_get_params'] = array(
-			'tab'         => 'advanced',
-			'type'        => 'checkbox',
-			'label'       => __( 'Allow GET parameters?', 'torro-forms' ),
-			/* translators: %s: GET parameter example */
-			'description' => sprintf( __( 'Click the checkbox to allow initial field values to be set through GET parameters (such as %s).', 'torro-forms' ), '<code>?torro_input_value_ELEMENT_ID=VALUE</code>' ),
+		$meta_fields = array(
+			'allow_get_params' => array(
+				'type'        => 'checkbox',
+				'label'       => __( 'Allow GET parameters?', 'torro-forms' ),
+				/* translators: %s: GET parameter example */
+				'description' => sprintf( __( 'Click the checkbox to allow initial field values to be set through GET parameters (such as %s).', 'torro-forms' ), '<code>?torro_input_value_ELEMENT_ID=VALUE</code>' ),
+			),
 		);
 
 		/**

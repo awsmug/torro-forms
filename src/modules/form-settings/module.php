@@ -30,18 +30,18 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 		$this->title       = __( 'Form Settings', 'torro-forms' );
 		$this->description = __( 'Form settings control the general behavior of forms.', 'torro-forms' );
 
-		$this->submodule_base_class = Setting::class;
+		$this->submodule_base_class = Form_Setting::class;
 		$this->default_submodules   = array(
-			'labels'   => labels::class,
-			'privacy'  => privacy::class,
-			'advanced' => advanced::class,
+			'labels'   => Labels::class,
+			'privacy'  => Privacy::class,
+			'advanced' => Advanced::class,
 		);
 	}
 
 	/**
-	 * Registers the default settings.
+	 * Registers the default form settings.
 	 *
-	 * The function also executes a hook that should be used by other developers to register their own evaluators.
+	 * The function also executes a hook that should be used by other developers to register their own form settings.
 	 *
 	 * @since 1.1.0
 	 */
@@ -51,15 +51,15 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 		}
 
 		/**
-		 * Fires when the default evaluators have been registered.
+		 * Fires when the default form settings have been registered.
 		 *
-		 * This action should be used to register custom evaluators.
+		 * This action should be used to register custom form settings.
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param Module $evaluators Form setting manager instance.
+		 * @param Module $form_settings Form setting manager instance.
 		 */
-		do_action( "{$this->get_prefix()}register_settings", $this );
+		do_action( "{$this->get_prefix()}register_form_settings", $this );
 	}
 
 	/**

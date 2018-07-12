@@ -34,15 +34,15 @@ class Privacy extends Form_Setting {
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
 	public function get_meta_fields() {
-		$meta_fields = $this->_get_meta_fields();
-
 		$prefix = $this->module->get_prefix();
 
-		$meta_fields['double_opt_in'] = array(
-			'type'         => 'checkbox',
-			'label'        => __( 'Enable', 'torro-forms' ),
-			'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
-			'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
+		$meta_fields = array(
+			'double_opt_in' => array(
+				'type'         => 'checkbox',
+				'label'        => __( 'Enable', 'torro-forms' ),
+				'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
+				'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
+			),
 		);
 
 		/**
