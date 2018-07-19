@@ -43,6 +43,18 @@ class Privacy extends Form_Setting {
 				'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
 				'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
 			),
+			'double_optin_email_element_id'       => array(
+				'type'        => 'text',
+				'label'       => __( 'Email Element', 'torro-forms' ),
+				'description' => __( 'Choose the element which will contains the email address.', 'torro-forms' ),
+				'default'     => '',
+			),
+			'double_optin_redirect_page_id'       => array(
+				'type'        => 'text',
+				'label'       => __( 'Redirect Page', 'torro-forms' ),
+				'description' => __( 'Choose a page where the user gets redirected after clicking link in email.', 'torro-forms' ),
+				'default'     => '',
+			),
 		);
 
 		/**
