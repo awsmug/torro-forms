@@ -43,6 +43,18 @@ class Privacy extends Form_Setting {
 				'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
 				'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
 			),
+			'double_optin_email_element_id'       => array(
+				'type'        => 'text',
+				'label'       => __( 'Opt-In mail Element', 'torro-forms' ),
+				'description' => __( 'Choose the element which will contains the email address.', 'torro-forms' ),
+				'default'     => '',
+			),
+			'double_optin_redirect_page_id'       => array(
+				'type'        => 'text',
+				'label'       => __( 'Opt-In Page', 'torro-forms' ),
+				'description' => __( 'Choose the element which will contains the email address.', 'torro-forms' ),
+				'default'     => '',
+			),
 		);
 
 		/**
@@ -63,6 +75,13 @@ class Privacy extends Form_Setting {
 	 * @since 1.1.0
 	 */
 	protected function setup_hooks() {
-		// TODO: Setup hooks for double opt-in.
+		parent::setup_hooks();
+
+		$this->actions[] = array(
+			'name'     => "{$this->module->get_prefix()}verify_form_submission_request",
+			'callback' => array( $this, 'verify_request' ),
+			'priority' => 10,
+			'num_args' => 4,
+		);
 	}
 }

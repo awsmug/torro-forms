@@ -634,15 +634,6 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 			'taxonomies'    => $this->taxonomies,
 			'error_handler' => $this->error_handler,
 		) );
-
-		$this->modules = $this->instantiate_plugin_service( 'Components\Double_OptIn', $this->prefix, array(
-			'options'               => $this->options,
-			'meta'                  => $this->meta,
-			'assets'                => $this->assets,
-			'forms'                 => $this->forms,
-			'template_tag_handlers' => $this->template_tag_handlers,
-			'error_handler'         => $this->error_handler,
-		) );
 	}
 
 	/**
