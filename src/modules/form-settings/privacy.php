@@ -130,9 +130,24 @@ class Privacy extends Form_Setting {
 			return true;
 		}
 
+		$submission->optin_key = $this->create_torro_optin_key( $submission );
+		$submission->sync_upstream();
+
 		$this->send_email( $form, $submission );
 
 		return false;
+	}
+
+	/**
+	 * Creates a submission id.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param  Submission $submission      Submission object.
+	 * @return string                      Submission ID.
+	 */
+	private function create_torro_optin_key( $submission ) {
+		return md5( spl_object_hash( $submission ) );
 	}
 
 	/**
@@ -249,8 +264,46 @@ class Privacy extends Form_Setting {
 		return $url;
 	}
 
+	/**
+	 * Catch redirected url.
+	 *
+	 * Catches a link rom a double optin mail.
+	 *
+	 * @since 1.1.0
+	 */
 	public function catch_redirected_url() {
+		if( ! isset( $_GET['torro_optin_key'] ) ) {
+			return;
+		}
 
+		$optin_key = $_GET['torro_optin_key'];
+
+		$query = array(
+			'meta_query'  => array(
+				array(
+					'key' => 'optin_key',
+					'value' => $optin_key,
+					'compare' => '=',
+				),
+			),
+		);
+
+		$results = torro()->submissions()->query( $query );
+
+		if( 0 === $results->get_total() ) {
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: " . get_bloginfo('url') );
+			exit();
+		}
+
+		$submission = $results->current();
+		$form = $submission->get_form();
+		$url = $this->get_redirect_url( $form );
+
+		torro()->forms()->frontend_submission_handler()->complete_form_submission( $submission, $form );
+
+		wp_redirect( $url );
+		exit;
 	}
 
 	/**
@@ -399,8 +452,15 @@ class Privacy extends Form_Setting {
 		$this->filters[] = array(
 			'name'     => "{$prefix}should_complete_submission",
 			'callback' => array( $this, 'interrupt_submission' ),
-			'priority' => 100,
+			'priority' => 10,
 			'num_args' => 3,
+		);
+
+		$this->actions[] = array(
+			'name'     => "wp_loaded",
+			'callback' => array( $this, 'catch_redirected_url' ),
+			'priority' => PHP_INT_MAX,
+			'num_args' => 1,
 		);
 	}
 
@@ -500,7 +560,7 @@ class Privacy extends Form_Setting {
 				'label'       => __( 'Double Optin URL', 'torro-forms' ),
 				'description' => __( 'Inserts the double optin URL for the form.', 'torro-forms' ),
 				'callback'    => function( $form, $submission ) {
-					return home_url( '/' ) . '?double_optin=' . $submission->user_key;
+					return home_url( '/' ) . "?torro_optin_key=" . $submission->optin_key;
 				},
 			),
 		);
