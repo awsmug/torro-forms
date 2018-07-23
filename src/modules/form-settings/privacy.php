@@ -281,8 +281,8 @@ class Privacy extends Form_Setting {
 		$query = array(
 			'meta_query'  => array(
 				array(
-					'key' => 'optin_key',
-					'value' => $optin_key,
+					'key'     => 'optin_key',
+					'value'   => $optin_key,
 					'compare' => '=',
 				),
 			),
@@ -291,8 +291,8 @@ class Privacy extends Form_Setting {
 		$results = torro()->submissions()->query( $query );
 
 		if( 0 === $results->get_total() ) {
-			header("HTTP/1.1 301 Moved Permanently");
-			header("Location: " . get_bloginfo('url') );
+			header('HTTP/1.1 301 Moved Permanently' );
+			header('Location: ' . get_bloginfo('url') );
 			exit();
 		}
 
