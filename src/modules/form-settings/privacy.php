@@ -298,12 +298,8 @@ class Privacy extends Form_Setting {
 
 		$submission = $results->current();
 		$form = $submission->get_form();
-		$url = $this->get_redirect_url( $form );
 
 		torro()->forms()->frontend_submission_handler()->complete_form_submission( $submission, $form );
-
-		wp_redirect( $url );
-		exit;
 	}
 
 	/**
