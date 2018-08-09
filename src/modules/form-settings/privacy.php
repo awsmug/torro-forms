@@ -88,42 +88,42 @@ class Privacy extends Form_Setting {
 				'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
 				'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
 			),
-			'from_name'   => array(
+			'double_optin_email_from_name'   => array(
 				'type'                 => 'templatetagtext',
 				'label'                => __( 'From Name', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler,
-				'default'              => _x( '{sitetitle}', 'From name in double opt-in email.', 'torro-forms' )
+				'default'              => $this->get_default_email_from_name()
 			),
-			'from_email'  => array(
+			'double_optin_email_from_email'  => array(
 				'type'                 => 'templatetagemail',
 				'label'                => __( 'From Email', 'torro-forms' ),
 				/* translators: %s: email address */
 				'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@' . $domain ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler_email_only,
-				'default'              => _x( '{adminemail}', 'From name in double opt-in email.', 'torro-forms' )
+				'default'              => $this->get_default_email_from_email()
 			),
-			'to_email'    => array(
+			'double_optin_email_to_email'    => array(
 				'type'                 => 'templatetagemail',
 				'label'                => __( 'To Email', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'description'          => _x( 'Please enter a field from the form that contains the email address.', 'To email in double opt-in email ','torro-forms' ),
 				'template_tag_handler' => $this->template_tag_handler_email_only,
 			),
-			'subject'     => array(
+			'double_optin_email_subject'     => array(
 				'type'                 => 'templatetagtext',
 				'label'                => __( 'Subject', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler,
-				'default'              => _x( 'Confirm your email address', 'Subject in double opt-in email ', 'torro-forms' )
+				'default'              => $this->get_default_email_subject()
 			),
-			'message'     => array(
+			'double_optin_email_message'     => array(
 				'type'                 => 'templatetagwysiwyg',
 				'label'                => __( 'Message', 'torro-forms' ),
 				'media_buttons'        => true,
 				'template_tag_handler' => $this->template_tag_handler,
-				'default'              => _x( 'Dear user!\r\nThank you for your submission! To complete the process, you must click on the following link to confirm your identity:\n\n{doubleoptinurl}\n\nCheers,\n\n{sitetitle}', 'Message in double opt-in email ', 'torro-forms' )
+				'default'              => $this->get_default_email_message()
 			),
 		);
 
@@ -174,7 +174,6 @@ class Privacy extends Form_Setting {
 	 * @return string    $content Content to show.
 	 */
 	public function success_message( $content, $form, $submission ) {
-
 		return '<div class="' . esc_attr( $this->get_notice_class( 'notice' ) ) . '"><p>' . __( 'Thank you for submitting!', 'torro-forms') . '</p></div>';
 	}
 
@@ -238,7 +237,7 @@ class Privacy extends Form_Setting {
 	 * @return string     $email_address Email address.
 	 */
 	private function get_email_from_email( $form, $submission ) {
-		$from_email = $this->get_option(  'double_optin_from_email', call_user_func( array( $this, 'get_default_from_email' ) ) );
+		$from_email = $this->get_form_option( $form->id, 'double_optin_email_from_email', false );
 		$from_email = $this->template_tag_handler->process_content( $from_email, array( $form, $submission ) );
 
 		return $from_email;
@@ -254,7 +253,7 @@ class Privacy extends Form_Setting {
 	 * @return string     $email_address Email address.
 	 */
 	private function get_email_from_name( $form, $submission ) {
-		$from_name = $this->get_option(  'double_optin_from_name', call_user_func( array( $this, 'get_default_from_name' ) ) );
+		$from_name = $this->get_form_option( $form->id, 'double_optin_email_from_name', $this->get_default_email_from_name() );
 		$from_name = $this->template_tag_handler->process_content( $from_name, array( $form, $submission ) );
 
 		return $from_name;
@@ -270,7 +269,7 @@ class Privacy extends Form_Setting {
 	 * @return string     $email_address Email address.
 	 */
 	private function get_email_to_email( $form, $submission ) {
-		$email_element_id = $this->get_form_option( $form->id, 'double_optin_email_element_id', false );
+		$email_element_id = $this->get_form_option( $form->id, 'double_optin_email_to_email', false );
 
 		$data = $submission->get_element_values_data();
 		$email_address = $data[ $email_element_id ]['_main'];
@@ -287,7 +286,7 @@ class Privacy extends Form_Setting {
 	 * @return string $subject Email subject.
 	 */
 	private function get_email_subject( $form, $submission ) {
-		$subject = $this->get_option(  'double_optin_subject', call_user_func( array( $this, 'get_default_subject' ) ) );
+		$subject = $this->get_form_option( $form->id, 'double_optin_email_subject', $this->get_default_email_subject() );
 		$subject = $this->template_tag_handler->process_content( $subject, array( $form, $submission ) );
 
 		return $subject;
@@ -303,10 +302,55 @@ class Privacy extends Form_Setting {
 	 * @return string $content Email content.
 	 */
 	private function get_email_message( $form, $submission ) {
-		$message = $this->get_option(  'double_optin_message', call_user_func( array( $this, 'get_default_message' ) ) );
+		$message = $this->get_form_option( $form->id, 'double_optin_email_message', $this->get_default_email_message() );
 		$message = $this->template_tag_handler->process_content( $message, array( $form, $submission ) );
 
 		return $message;
+	}
+
+	/**
+	 * Returns the default from email for an double optin email, including placeholders.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Invitation email subject.
+	 */
+	protected function get_default_email_from_email() {
+		return '{adminemail}';
+	}
+
+	/**
+	 * Returns the default from name for an double optin email, including placeholders.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Invitation email subject.
+	 */
+	protected function get_default_email_from_name() {
+		return '{sitetitle}';
+	}
+
+	/**
+	 * Returns the default subject for an double optin email, including placeholders.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Invitation email subject.
+	 */
+	protected function get_default_email_subject() {
+		return sprintf( __( 'Confirm your email address for &#8220;%s&#8221;', 'torro-forms' ), '{formtitle}' );
+	}
+
+
+	/**
+	 * Returns the default email message for an double optin email, including placeholders.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string Invitation email message.
+	 */
+	protected function get_default_email_message() {
+		return _x( 'Dear user!\r\nThank you for your submission! To complete the process, you must click on the following link to confirm your identity:\n\n{doubleoptinurl}\n\nCheers,\n\n{sitetitle}', 'Message in double opt-in email ', 'torro-forms' );
 	}
 
 	/**
@@ -360,139 +404,6 @@ class Privacy extends Form_Setting {
 		$form = $submission->get_form();
 
 		torro()->forms()->frontend_submission_handler()->complete_form_submission( $submission, $form );
-	}
-
-	/**
-	 * Returns the available settings sections for the submodule.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return array Associative array of `$section_slug => $section_args` pairs.
-	 */
-	public function get_settings_sections() {
-		$settings_sections = parent::get_settings_sections();
-
-		$settings_sections['double_optin'] = array(
-			'title'       => __( 'Double Optin Email Template', 'torro-forms' ),
-			'description' => __( 'Setup mail templates for double optin email to users.', 'torro-forms' ),
-		);
-
-		return $settings_sections;
-	}
-
-	/**
-	 * Returns the available settings fields for the submodule.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Associative array of `$field_slug => $field_args` pairs.
-	 */
-	public function get_settings_fields() {
-		$settings_fields = parent::get_settings_fields();
-
-		$domain = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
-		if ( ! $domain ) {
-			// Fall back to a random domain.
-			$domain = 'yourwebsite.com';
-		}
-
-		$settings_fields['double_optin_from_name'] = array(
-			'section'              => 'double_optin',
-			'type'                 => 'templatetagtext',
-			'label'                => __( 'From Name', 'torro-forms' ),
-			'input_classes'        => array( 'regular-text' ),
-			'default'              => $this->get_default_from_name(),
-			'template_tag_handler' => $this->template_tag_handler,
-		);
-
-		$settings_fields['double_optin_from_email'] = array(
-			'section'              => 'double_optin',
-			'type'                 => 'templatetagemail',
-			'label'                => __( 'From Email', 'torro-forms' ),
-			/* translators: %s: email address */
-			'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@' . $domain ),
-			'input_classes'        => array( 'regular-text' ),
-			'default'              => $this->get_default_from_email(),
-			'template_tag_handler' => $this->template_tag_handler_email_only,
-		);
-
-		$settings_fields['double_optin_subject'] = array(
-			'section'              => 'double_optin',
-			'type'                 => 'templatetagtext',
-			'label'                => __( 'Subject', 'torro-forms' ),
-			'input_classes'        => array( 'regular-text' ),
-			'default'              => $this->get_default_subject(),
-			'template_tag_handler' => $this->template_tag_handler,
-		);
-
-		$settings_fields['double_optin_message'] = array(
-			'section'              => 'double_optin',
-			'type'                 => 'templatetagwysiwyg',
-			'label'                => __( 'Message', 'torro-forms' ),
-			'rows'                 => 12,
-			'media_buttons'        => true,
-			'wpautop'              => true,
-			'default'              => $this->get_default_message(),
-			'template_tag_handler' => $this->template_tag_handler,
-		);
-
-		return $settings_fields;
-	}
-
-	/**
-	 * Returns the default from email for an double optin email, including placeholders.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Invitation email subject.
-	 */
-	protected function get_default_from_email() {
-		/* translators: %s: form title */
-		return '{adminemail}';
-	}
-
-	/**
-	 * Returns the default from name for an double optin email, including placeholders.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Invitation email subject.
-	 */
-	protected function get_default_from_name() {
-		/* translators: %s: form title */
-		return '{sitetitle}';
-	}
-
-	/**
-	 * Returns the default subject for an double optin email, including placeholders.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Invitation email subject.
-	 */
-	protected function get_default_subject() {
-		/* translators: %s: form title */
-		return sprintf( __( 'Confirm your email address for &#8220;%s&#8221;', 'torro-forms' ), '{formtitle}' );
-	}
-
-	/**
-	 * Returns the default message for an double optin email, including placeholders.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Invitation email message.
-	 */
-	protected function get_default_message() {
-		/* translators: %s: user display name */
-		$message = __( 'Dear User,', 'torro-forms' ) . "\n\n";
-
-		/* translators: %s: form title */
-		$message .= sprintf( __( 'We need to verify that {emailaddress} is your email address. Please confirm the address by clicking the following link:', 'torro-forms' ), '{formtitle}' ) . "\n\n";
-		$message .= '<a href="{doubleoptinurl}">{doubleoptinurl}</a>' . "\n\n";
-		$message .= __( 'Thanks in advance for participating!', 'torro-forms' ) . "\n\n";
-		$message .= '{sitetitle}';
-
-		return $message;
 	}
 
 	/**
