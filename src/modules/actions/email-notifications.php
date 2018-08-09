@@ -521,6 +521,8 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	 * @param Form $form        Form for which to get the dynamic template tags.
 	 * @param bool $back_compat Optional. Whether to also include back-compat keys for Torro Forms before 1.0.0-beta.9. Default false.
 	 * @return array Dynamic tags as `$slug => $data` pairs.
+	 *
+	 * @todo Exists also in privacy submodule and is the same function. Should go into a central class.
 	 */
 	protected function get_dynamic_template_tags( $form, $back_compat = false ) {
 		$tags = array();

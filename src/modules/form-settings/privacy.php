@@ -14,6 +14,7 @@ use awsmug\Torro_Forms\Modules\Meta_Submodule_Trait;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\Components\Template_Tag_Handler;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
+use WP_Error;
 
 /**
  * Class for form settings for privacy.
@@ -229,7 +230,23 @@ class Privacy extends Form_Setting {
 	 * @param Submission $submission    Submission object.
 	 * @return WP_Error|bool True if sending out email was without errors, otherwise false.
 	 */
-	private function send_optin_mail( $form, $submission ) {;
+	private function send_optin_mail( $form, $submission ) {
+		$dynamic_template_tags = $this->get_dynamic_template_tags( $form, true );
+
+		foreach ( $dynamic_template_tags as $slug => $data ) {
+			if ( isset( $data['email_support'] ) ) {
+				$email_support = (bool) $data['email_support'];
+
+				unset( $data['email_support'] );
+
+				if ( $email_support ) {
+					$this->template_tag_handler_email_only->add_tag( $slug, $data );
+				}
+			}
+
+			$this->template_tag_handler->add_tag( $slug, $data );
+		}
+
 		$to_email = $this->get_email_to_email( $form, $submission );
 		$from_email = $this->get_email_from_email ( $form, $submission );
 		$from_name = $this->get_email_from_name ( $form, $submission );
@@ -237,7 +254,81 @@ class Privacy extends Form_Setting {
 		$message = $this->get_email_message( $form, $submission );
 
 		$this->setup_mail( $from_name, $from_email, $to_email, $subject, $message );
-		return $this->send_mail();
+		$sent = $this->send_mail();
+
+		foreach ( $dynamic_template_tags as $slug => $data ) {
+			if ( isset( $data['email_support'] ) && $data['email_support'] ) {
+				$this->template_tag_handler_email_only->remove_tag( $slug );
+			}
+
+			$this->template_tag_handler->remove_tag( $slug );
+		}
+
+		return $sent;
+	}
+
+	/**
+	 * Gets all the dynamic template tags for a form, consisting of the form's element value tags.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Form $form        Form for which to get the dynamic template tags.
+	 * @param bool $back_compat Optional. Whether to also include back-compat keys for Torro Forms before 1.0.0-beta.9. Default false.
+	 * @return array Dynamic tags as `$slug => $data` pairs.
+	 *
+	 * @todo Comes from Email-Notifications and is the same function. Should go into a central class.
+	 */
+	protected function get_dynamic_template_tags( $form, $back_compat = false ) {
+		$tags = array();
+
+		foreach ( $form->get_elements() as $element ) {
+			$element_type = $element->get_element_type();
+			if ( ! $element_type ) {
+				continue;
+			}
+
+			$tags[ 'value_element_' . $element->id ] = array(
+				'group'       => 'submission',
+				/* translators: %s: element label */
+				'label'       => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), $element->label ),
+				/* translators: %s: element label */
+				'description' => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), $element->label ),
+				'callback'    => function( $form, $submission ) use ( $element, $element_type ) {
+					$element_values = $submission->get_element_values_data();
+					if ( ! isset( $element_values[ $element->id ] ) ) {
+						return '';
+					}
+
+					add_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
+					$export_values = $element_type->format_values_for_export( $element_values[ $element->id ], $element, 'html' );
+					remove_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
+
+					if ( ! isset( $export_values[ 'element_' . $element->id . '__main' ] ) ) {
+						if ( count( $export_values ) !== 1 ) {
+							return '';
+						}
+
+						return array_pop( $export_values );
+					}
+
+					return $export_values[ 'element_' . $element->id . '__main' ];
+				},
+			);
+
+			// Add email support to text fields with input_type 'email_address'.
+			if ( is_a( $element_type, Textfield::class ) ) {
+				$settings = $element_type->get_settings( $element );
+				if ( ! empty( $settings['input_type'] ) && 'email_address' === $settings['input_type'] ) {
+					$tags[ 'value_element_' . $element->id ]['email_support'] = true;
+				}
+			}
+
+			if ( $back_compat ) {
+				$tags[ $element->label . ':' . $element->id ] = $tags[ 'value_element_' . $element->id ];
+			}
+		}
+
+		return $tags;
 	}
 
 	/**
