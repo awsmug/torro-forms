@@ -104,6 +104,8 @@ trait Email {
 	 * Sending out email
 	 *
 	 * @since 1.1.0
+	 *
+	 * @return WP_Error|bool True if sending out email was without errors, otherwise false.
 	 */
 	protected function wp_mail() {
 		$sent = wp_mail( $this->email_to_email, $this->email_subject, $this->email_message, $this->email_headers );
@@ -121,6 +123,12 @@ trait Email {
 
 			$error->add( 'email_notification_not_sent', $error_message );
 		}
+
+		if ( ! empty( $error->errors ) ) {
+			return $error;
+		}
+
+		return true;
 	}
 
 	/**
