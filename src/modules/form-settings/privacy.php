@@ -88,17 +88,42 @@ class Privacy extends Form_Setting {
 				'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
 				'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
 			),
-			'double_optin_email_element_id'       => array(
-				'type'        => 'text',
-				'label'       => __( 'Email Element', 'torro-forms' ),
-				'description' => __( 'Choose the element which will contains the email address.', 'torro-forms' ),
-				'default'     => '',
+			'from_name'   => array(
+				'type'                 => 'templatetagtext',
+				'label'                => __( 'From Name', 'torro-forms' ),
+				'input_classes'        => array( 'regular-text' ),
+				'template_tag_handler' => $this->template_tag_handler,
+				'default'              => _x( '{sitetitle}', 'From name in double opt-in email.', 'torro-forms' )
 			),
-			'double_optin_redirect_page_id'       => array(
-				'type'        => 'text',
-				'label'       => __( 'Redirect Page', 'torro-forms' ),
-				'description' => __( 'Choose a page where the user gets redirected after clicking link in email.', 'torro-forms' ),
-				'default'     => '',
+			'from_email'  => array(
+				'type'                 => 'templatetagemail',
+				'label'                => __( 'From Email', 'torro-forms' ),
+				/* translators: %s: email address */
+				'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@' . $domain ),
+				'input_classes'        => array( 'regular-text' ),
+				'template_tag_handler' => $this->template_tag_handler_email_only,
+				'default'              => _x( '{adminemail}', 'From name in double opt-in email.', 'torro-forms' )
+			),
+			'to_email'    => array(
+				'type'                 => 'templatetagemail',
+				'label'                => __( 'To Email', 'torro-forms' ),
+				'input_classes'        => array( 'regular-text' ),
+				'description'          => _x( 'Please enter a field from the form that contains the email address.', 'To email in double opt-in email ','torro-forms' ),
+				'template_tag_handler' => $this->template_tag_handler_email_only,
+			),
+			'subject'     => array(
+				'type'                 => 'templatetagtext',
+				'label'                => __( 'Subject', 'torro-forms' ),
+				'input_classes'        => array( 'regular-text' ),
+				'template_tag_handler' => $this->template_tag_handler,
+				'default'              => _x( 'Confirm your email address', 'Subject in double opt-in email ', 'torro-forms' )
+			),
+			'message'     => array(
+				'type'                 => 'templatetagwysiwyg',
+				'label'                => __( 'Message', 'torro-forms' ),
+				'media_buttons'        => true,
+				'template_tag_handler' => $this->template_tag_handler,
+				'default'              => _x( 'Dear user!\r\nThank you for your submission! To complete the process, you must click on the following link to confirm your identity:\n\n{doubleoptinurl}\n\nCheers,\n\n{sitetitle}', 'Message in double opt-in email ', 'torro-forms' )
 			),
 		);
 
