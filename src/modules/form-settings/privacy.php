@@ -139,6 +139,41 @@ class Privacy extends Form_Setting {
 	}
 
 	/**
+	 * Showing success message after submission.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string     $content    Form content to filter.
+	 * @param string     $content    Form content to filter.
+	 * @param string     $content    Form content to filter.
+	 * @return string    $content Content to show.
+	 */
+	public function success_message( $content, $form, $submission ) {
+
+		return '<div class="' . esc_attr( $this->get_notice_class( 'notice' ) ) . '"><p>' . __( 'Thank you for submitting!', 'torro-forms') . '</p></div>';
+	}
+
+	/**
+	 * Gets the CSS class to use for notices.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $type Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
+	 * @return string CSS class to use for notices of the given type.
+	 */
+	protected function get_notice_class( $type = 'warning' ) {
+		/**
+		 * Filters the CSS class to use for notices.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $notice_class Notice CSS class. Default 'torro-notice torro-{$type}-notice'.
+		 * @param string $type         Notice type.
+		 */
+		return apply_filters( "{$this->module->get_prefix()}form_notice_class", "torro-notice torro-{$type}-notice", $type );
+	}
+
+	/**
 	 * Creates a submission id.
 	 *
 	 * @since 1.1.0
@@ -450,6 +485,13 @@ class Privacy extends Form_Setting {
 			'callback' => array( $this, 'interrupt_submission' ),
 			'priority' => 10,
 			'num_args' => 3,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}render_form_content",
+			'callback' => array( $this, 'success_message' ),
+			'priority' => 10,
+			'num_args' => 1,
 		);
 
 		$this->actions[] = array(

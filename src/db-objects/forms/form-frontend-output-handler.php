@@ -223,6 +223,24 @@ class Form_Frontend_Output_Handler {
 			return;
 		}
 
+		/**
+		 * Filters the content of the form and replaces it.
+		 *
+		 * This filter can be used for own content after submitting.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param string     $content         Whether the completion process for the form submission should proceed. Default true.
+		 * @param Submission $submission      Submission object.
+		 * @param Form       $form            Form object.
+		 */
+		$form_content = apply_filters( "{$this->form_manager->get_prefix()}render_form_content", null, $submission, $form );
+
+		if ( ! empty( $form_content ) ) {
+			echo $form_content;
+			return;
+		}
+
 		$container = $this->get_current_container( $form, $submission );
 		if ( ! $container ) {
 			$this->print_notice( __( 'No container exists for this form.', 'torro-forms' ), 'error' );
