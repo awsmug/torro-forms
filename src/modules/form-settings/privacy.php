@@ -7,7 +7,7 @@
  */
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
-use awsmug\Torro_Forms\Components\Email;
+use awsmug\Torro_Forms\Components\Email_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\Modules\Meta_Submodule_Trait;
@@ -21,7 +21,7 @@ use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
  * @since 1.1.0
  */
 class Privacy extends Form_Setting {
-	use Settings_Submodule_Trait, Meta_Submodule_Trait, Email;
+	use Settings_Submodule_Trait, Meta_Submodule_Trait, Email_Trait;
 
 	/**
 	 * Template tag handler for email notifications.
@@ -155,9 +155,13 @@ class Privacy extends Form_Setting {
 		}
 
 		$submission->optin_key = $this->create_torro_optin_key( $submission );
-		$submission->sync_upstream();
 
-		$this->send_optin_mail( $form, $submission );
+		// @todo What to do on and with error?
+		if( ! is_wp_error( $this->send_optin_mail( $form, $submission ) ) ) {
+			$submission->optin_sent = true;
+		}
+
+		$submission->sync_upstream();
 
 		return false;
 	}
@@ -167,13 +171,21 @@ class Privacy extends Form_Setting {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string     $content    Form content to filter.
-	 * @param string     $content    Form content to filter.
-	 * @param string     $content    Form content to filter.
-	 * @return string    $content Content to show.
+	 * @param string       $content    Form content to filter.
+	 * @param Submission   $submission Submission object.
+	 * @return string|null $content    Filtered form content.
 	 */
-	public function success_message( $content, $form, $submission ) {
-		return '<div class="' . esc_attr( $this->get_notice_class( 'notice' ) ) . '"><p>' . __( 'Thank you for submitting!', 'torro-forms') . '</p></div>';
+	public function success_message( $content, $submission ) {
+		if( empty( $submission ) ) {
+			return $content;
+		}
+
+		// todo: Creating more possibilities for success message like in redirection.
+		if( $submission->optin_sent ) {
+			return '<div class="' . esc_attr( $this->get_notice_class( 'notice' ) ) . '"><p>' . __( 'Thank you for submitting!', 'torro-forms' ) . '</p></div>';
+		}
+
+		return $content;
 	}
 
 	/**
@@ -215,6 +227,7 @@ class Privacy extends Form_Setting {
 	 *
 	 * @param Form       $form          Form object.
 	 * @param Submission $submission    Submission object.
+	 * @return WP_Error|bool True if sending out email was without errors, otherwise false.
 	 */
 	private function send_optin_mail( $form, $submission ) {;
 		$to_email = $this->get_email_to_email( $form, $submission );
@@ -224,7 +237,7 @@ class Privacy extends Form_Setting {
 		$message = $this->get_email_message( $form, $submission );
 
 		$this->setup_mail( $from_name, $from_email, $to_email, $subject, $message );
-		$this->send_mail();
+		return $this->send_mail();
 	}
 
 	/**
@@ -427,7 +440,7 @@ class Privacy extends Form_Setting {
 			'name'     => "{$prefix}render_form_content",
 			'callback' => array( $this, 'success_message' ),
 			'priority' => 10,
-			'num_args' => 1,
+			'num_args' => 2,
 		);
 
 		$this->actions[] = array(

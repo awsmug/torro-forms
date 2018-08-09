@@ -11,7 +11,7 @@ namespace awsmug\Torro_Forms\Components;
 
 use WP_Error;
 
-trait Email {
+trait Email_Trait {
 	/**
 	 * Temporary storage for email from name.
 	 *
@@ -93,11 +93,15 @@ trait Email {
 	 * Sending out email with setting up filters.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @return WP_Error|bool True if sending out email was without errors, otherwise false.
 	 */
 	protected function send_mail() {
 		$this->add_filters();
-		$this->wp_mail();
+		$sent = $this->wp_mail();
 		$this->remove_filters();
+
+		return $sent;
 	}
 
 	/**
