@@ -96,7 +96,7 @@ trait Email {
 	 */
 	protected function send_mail() {
 		$this->add_filters();
-		$this->send();
+		$this->wp_mail();
 		$this->remove_filters();
 	}
 
@@ -105,7 +105,7 @@ trait Email {
 	 *
 	 * @since 1.1.0
 	 */
-	protected function send() {
+	protected function wp_mail() {
 		$sent = wp_mail( $this->email_to_email, $this->email_subject, $this->email_message, $this->email_headers );
 		$error = new WP_Error();
 

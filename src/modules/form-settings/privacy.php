@@ -7,6 +7,7 @@
  */
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
+use awsmug\Torro_Forms\Components\Email;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\Modules\Meta_Submodule_Trait;
@@ -14,15 +15,13 @@ use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\Components\Template_Tag_Handler;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
 
-use WP_User;
-
 /**
  * Class for form settings for privacy.
  *
  * @since 1.1.0
  */
 class Privacy extends Form_Setting {
-	use Settings_Submodule_Trait, Meta_Submodule_Trait;
+	use Settings_Submodule_Trait, Meta_Submodule_Trait, Email;
 
 	/**
 	 * Template tag handler for email notifications.
@@ -158,7 +157,7 @@ class Privacy extends Form_Setting {
 		$submission->optin_key = $this->create_torro_optin_key( $submission );
 		$submission->sync_upstream();
 
-		$this->send_email( $form, $submission );
+		$this->send_optin_mail( $form, $submission );
 
 		return false;
 	}
@@ -217,14 +216,15 @@ class Privacy extends Form_Setting {
 	 * @param Form       $form          Form object.
 	 * @param Submission $submission    Submission object.
 	 */
-	private function send_email( $form, $submission ) {;
-		$to = $this->get_email_to_email( $form, $submission );
+	private function send_optin_mail( $form, $submission ) {;
+		$to_email = $this->get_email_to_email( $form, $submission );
 		$from_email = $this->get_email_from_email ( $form, $submission );
 		$from_name = $this->get_email_from_name ( $form, $submission );
 		$subject = $this->get_email_subject( $form, $submission );
 		$message = $this->get_email_message( $form, $submission );
 
-		wp_mail( $to, $subject, $message );
+		$this->setup_mail( $from_name, $from_email, $to_email, $subject, $message );
+		$this->send_mail();
 	}
 
 	/**
