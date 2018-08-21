@@ -43,8 +43,8 @@ class Submission_Edit_Page extends Model_Edit_Page {
 	public function handle_request() {
 		global $parent_file, $submenu_file;
 
-		$parent_file  = 'edit.php?post_type=' . $this->manager->get_prefix() . 'form';
-		$submenu_file = $this->manager->get_prefix() . 'list_submissions';
+		$parent_file  = 'edit.php?post_type=' . $this->manager->get_prefix() . 'form'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+		$submenu_file = $this->manager->get_prefix() . 'list_submissions'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
 
 		parent::handle_request();
 	}

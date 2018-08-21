@@ -63,6 +63,7 @@ class Translations_Field_Manager extends Translations_Field_Manager_Base {
 			'field_datetime_greater_than'            => __( 'The value %1$s for the field &#8220;%2$s&#8221; is greater than the required maximum of %3$s.', 'torro-forms' ),
 			/* translators: 1: incorrect value, 2: field label */
 			'field_color_invalid_format'             => __( 'The value %1$s for the field &#8220;%2$s&#8221; is not a valid color format.', 'torro-forms' ),
+			'field_cannot_update'                    => __( 'Could not update the value/s in the database.', 'torro-forms' ),
 			'field_media_add_button'                 => _x( 'Choose a File', 'media button', 'torro-forms' ),
 			'field_media_replace_button'             => _x( 'Choose another File', 'media button', 'torro-forms' ),
 			'field_media_remove_button'              => _x( 'Remove', 'media button', 'torro-forms' ),

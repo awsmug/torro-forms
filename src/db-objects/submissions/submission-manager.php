@@ -432,12 +432,13 @@ class Submission_Manager extends Manager {
 			$submission->user_id = get_current_user_id();
 		}
 
-		if ( ! empty( $_COOKIE['torro_identity'] ) ) {
-			$submission->user_key = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
+		if ( filter_has_var( INPUT_COOKIE, 'torro_identity' ) ) {
+			$submission->user_key = esc_attr( filter_input( INPUT_COOKIE, 'torro_identity' ) );
 		} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 			$submission->user_key = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 		} else {
-			$base_string          = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $this->anonymize_ip_address( $_SERVER['REMOTE_ADDR'] ) . microtime() : microtime();
+			$remote_addr          = filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
+			$base_string          = ! empty( $remote_addr ) ? $this->anonymize_ip_address( $remote_addr ) . microtime() : microtime();
 			$submission->user_key = md5( $base_string );
 		}
 

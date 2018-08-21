@@ -99,7 +99,7 @@ class Form_Upload_Manager extends Service {
 		);
 
 		if ( $allowed_filesize ) {
-			$filesize = isset( $_FILES[ $file_id ]['size'] ) ? $_FILES[ $file_id ]['size'] : filesize( $_FILES[ $file_id ]['tmp_name'] );
+			$filesize = isset( $_FILES[ $file_id ]['size'] ) ? (int) $_FILES[ $file_id ]['size'] : filesize( wp_unslash( $_FILES[ $file_id ]['tmp_name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			if ( (int) $filesize > (int) $allowed_filesize ) {
 				return new WP_Error( 'upload_error', __( 'The file exceeds the maximum allowed size.', 'torro-forms' ) );
 			}

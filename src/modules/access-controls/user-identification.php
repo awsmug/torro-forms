@@ -60,8 +60,8 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 
 			$skip_further_checks = false;
 			if ( ! empty( $submission->user_key ) ) {
-				if ( ! empty( $_COOKIE['torro_identity'] ) ) {
-					if ( esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) ) !== $submission->user_key ) {
+				if ( filter_has_var( INPUT_COOKIE, 'torro_identity' ) ) {
+					if ( esc_attr( filter_input( INPUT_COOKIE, 'torro_identity' ) ) !== $submission->user_key ) {
 						return $others_submission_error;
 					} else {
 						$skip_further_checks = true;
@@ -70,8 +70,9 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 			}
 
 			if ( ! $skip_further_checks && ! empty( $submission->remote_addr ) ) {
-				if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-					if ( $_SERVER['REMOTE_ADDR'] !== $submission->remote_addr ) {
+				$remote_addr = filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
+				if ( ! empty( $remote_addr ) ) {
+					if ( $remote_addr !== $submission->remote_addr ) {
 						return $others_submission_error;
 					} else {
 						$skip_further_checks = true;
@@ -113,13 +114,13 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 			} else {
 				$identification_args = array();
 				if ( in_array( 'ip_address', $identification_modes, true ) && ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-					$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
+					$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
 					if ( ! empty( $validated_ip ) ) {
 						$identification_args['remote_addr'] = $validated_ip;
 					}
 				}
-				if ( in_array( 'cookie', $identification_modes, true ) && ! empty( $_COOKIE['torro_identity'] ) ) {
-					$identification_args['user_key'] = esc_attr( wp_unslash( $_COOKIE['torro_identity'] ) );
+				if ( in_array( 'cookie', $identification_modes, true ) && filter_has_var( INPUT_COOKIE, 'torro_identity' ) ) {
+					$identification_args['user_key'] = esc_attr( filter_input( INPUT_COOKIE, 'torro_identity' ) );
 				} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 				}
@@ -157,11 +158,9 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 		$identification_modes = $this->get_form_option( $form->id, 'identification_modes', array() );
 
 		if ( in_array( 'ip_address', $identification_modes, true ) ) {
-			if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-				$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
-				if ( ! empty( $validated_ip ) ) {
-					$submission->remote_addr = $validated_ip;
-				}
+			$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
+			if ( ! empty( $validated_ip ) ) {
+				$submission->remote_addr = $validated_ip;
 			}
 		}
 

@@ -576,6 +576,12 @@ class Form_Manager extends Core_Manager {
 			'num_args' => 0,
 		);
 		$this->actions[] = array(
+			'name'     => 'edit_form_top',
+			'callback' => array( $this->edit_page_handler, 'maybe_show_form_save_feedback' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+		$this->actions[] = array(
 			'name'     => 'admin_notices',
 			'callback' => array( $this->edit_page_handler, 'maybe_show_duplicate_form_feedback' ),
 			'priority' => 10,
