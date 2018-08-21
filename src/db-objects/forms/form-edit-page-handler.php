@@ -318,6 +318,11 @@ class Form_Edit_Page_Handler {
 			return true;
 		}
 
+		$old_values = $this->form_manager->get_meta( $this->current_form->id, $meta_box_id, true );
+		if ( $old_values === $values ) {
+			return true;
+		}
+
 		if ( ! $this->form_manager->update_meta( $this->current_form->id, $meta_box_id, $values ) ) {
 			$meta_box_title = ! empty( $this->meta_boxes[ $meta_box_id ]['title'] ) ? $this->meta_boxes[ $meta_box_id ]['title'] : $meta_box_id;
 
