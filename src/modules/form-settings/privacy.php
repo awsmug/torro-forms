@@ -7,6 +7,7 @@
  */
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
+use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\Components\Email_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
@@ -713,6 +714,6 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function enqueue_form_builder_assets( $assets ) {
-		$assets->enqueue_script( 'admin-email-notifications' );
+		$assets->enqueue_script( 'admin-double-optin' );
 	}
 }
