@@ -41,7 +41,7 @@ class Logger extends AbstractLogger {
 			LogLevel::EMERGENCY => E_USER_ERROR,
 			LogLevel::ALERT     => E_USER_ERROR,
 			LogLevel::CRITICAL  => E_USER_ERROR,
-			LogLevel::ERROR     => E_USER_WARNING,
+			LogLevel::ERROR     => E_USER_ERROR,
 			LogLevel::WARNING   => E_USER_WARNING,
 			LogLevel::NOTICE    => E_USER_NOTICE,
 			LogLevel::INFO      => E_USER_NOTICE,
