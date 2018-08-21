@@ -455,7 +455,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 * @return string Invitation email message.
 	 */
 	protected function get_default_email_message() {
-		return _x( 'Dear user!\r\nThank you for your submission! To complete the process, you must click on the following link to confirm your identity:\n\n{doubleoptinurl}\n\nCheers,\n\n{sitetitle}', 'Message in double opt-in email ', 'torro-forms' );
+		return _x( '<p>Dear user!</p><p>Thank you for your submission! To complete the process, you must click on the following link to confirm your identity:</p>{doubleoptinurl}<p>Cheers,</p><p>{sitetitle}</p>', 'Message in double opt-in email ', 'torro-forms' );
 	}
 
 	/**
