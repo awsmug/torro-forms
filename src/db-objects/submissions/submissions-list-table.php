@@ -38,7 +38,7 @@ class Submissions_List_Table extends Models_List_Table {
 			$title = sprintf( '<a href="%1$s" class="row-title" aria-label="%2$s">%3$s</a>', esc_url( $edit_url ), esc_attr( $aria_label ), $title );
 		}
 
-		echo '<strong>' . $title . '</strong>'; // WPCS: XSS OK.
+		echo '<strong>' . $title . '</strong>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -93,9 +93,11 @@ class Submissions_List_Table extends Models_List_Table {
 			return;
 		}
 
+		$form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+
 		$url = add_query_arg( 'user_id', $user->ID, $this->_args['models_page'] );
-		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
-			$url = add_query_arg( 'form_id', (int) $_GET['form_id'], $url ); // WPCS: CSRF OK.
+		if ( ! empty( $form_id ) ) {
+			$url = add_query_arg( 'form_id', $form_id, $url );
 		}
 
 		printf( '<a href="%1$s">%2$s</a>', esc_url( $url ), wp_kses_data( $user->display_name ) );
@@ -181,18 +183,27 @@ class Submissions_List_Table extends Models_List_Table {
 	protected function build_views( &$current, $list_url = '' ) {
 		$capabilities = $this->manager->capabilities();
 
+		$form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+		if ( empty( $form_id ) ) {
+			$form_id = 0;
+		}
+
 		$current = 'all';
 		$total   = 0;
 
 		$views = array();
 
-		$user_id = 0;
 		if ( ! $capabilities || ! $capabilities->current_user_can( 'edit_others_items' ) || ! $capabilities->current_user_can( 'read_others_items' ) ) {
 			$user_id = get_current_user_id();
 		} else {
-			$user_counts = $this->manager->count( get_current_user_id() );
+			$user_counts = $this->manager->count( get_current_user_id(), $form_id );
 
-			if ( isset( $_REQUEST['user_id'] ) && get_current_user_id() === absint( $_REQUEST['user_id'] ) ) { // WPCS: CSRF OK.
+			$user_id = filter_input( INPUT_GET, 'user_id', FILTER_VALIDATE_INT );
+			if ( empty( $user_id ) ) {
+				$user_id = 0;
+			}
+
+			if ( get_current_user_id() === absint( $user_id ) ) {
 				$current = 'mine';
 			}
 
@@ -200,11 +211,6 @@ class Submissions_List_Table extends Models_List_Table {
 				'url'   => add_query_arg( 'user_id', get_current_user_id(), $list_url ),
 				'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_mine', true ), $user_counts['_total'] ), number_format_i18n( $user_counts['_total'] ) ),
 			);
-		}
-
-		$form_id = 0;
-		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
-			$form_id = (int) $_GET['form_id'];
 		}
 
 		$counts = $this->manager->count( $user_id, $form_id );
@@ -222,8 +228,9 @@ class Submissions_List_Table extends Models_List_Table {
 			$total += $number;
 		}
 
-		if ( isset( $_REQUEST['status'] ) ) { // WPCS: CSRF OK.
-			$current = $_REQUEST['status']; // WPCS: CSRF OK.
+		$current_status = filter_input( INPUT_GET, 'status' );
+		if ( ! empty( $current_status ) ) {
+			$current = $current_status;
 		}
 
 		if ( isset( $user_counts ) && absint( $user_counts['_total'] ) === absint( $total ) ) {
@@ -317,23 +324,24 @@ class Submissions_List_Table extends Models_List_Table {
 
 		$capabilities = $this->manager->capabilities();
 
-		if ( isset( $_REQUEST['form_id'] ) ) { // WPCS: CSRF OK.
-			$query_params['form_id'] = absint( $_REQUEST['form_id'] );
+		if ( filter_has_var( INPUT_GET, 'form_id' ) ) {
+			$query_params['form_id'] = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
 		}
 
 		if ( ! $capabilities || ! $capabilities->current_user_can( 'edit_others_items' ) || ! $capabilities->current_user_can( 'read_others_items' ) ) {
 			$query_params['user_id'] = get_current_user_id();
-		} elseif ( isset( $_REQUEST['user_id'] ) ) { // WPCS: CSRF OK.
-			$query_params['user_id'] = absint( $_REQUEST['user_id'] );
+		} elseif ( filter_has_var( INPUT_GET, 'user_id' ) ) {
+			$query_params['user_id'] = filter_input( INPUT_GET, 'user_id', FILTER_VALIDATE_INT );
 		}
 
-		if ( ! empty( $_REQUEST['status'] ) ) { // WPCS: CSRF OK.
-			$query_params['status'] = array_map( 'sanitize_key', (array) $_REQUEST['status'] );
+		if ( filter_has_var( INPUT_GET, 'status' ) ) {
+			$query_params['status'] = array_map( 'sanitize_key', (array) filter_input( INPUT_GET, 'status', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) );
 		}
 
-		if ( ! empty( $_REQUEST['m'] ) ) { // WPCS: CSRF OK.
-			$year  = (int) substr( $_REQUEST['m'], 0, 4 ); // WPCS: CSRF OK.
-			$month = (int) substr( $_REQUEST['m'], 4, 2 ); // WPCS: CSRF OK.
+		$yearmonth = filter_input( INPUT_GET, 'm' );
+		if ( ! empty( $yearmonth ) ) {
+			$year  = (int) substr( $yearmonth, 0, 4 );
+			$month = (int) substr( $yearmonth, 4, 2 );
 
 			$yearmonth = '' . $year . '-' . $month;
 			if ( 12 === $month ) {
@@ -351,12 +359,15 @@ class Submissions_List_Table extends Models_List_Table {
 
 		$default_orderby = 'timestamp';
 		$default_order   = 'DESC';
-		if ( isset( $_REQUEST['orderby'] ) && isset( $_REQUEST['order'] ) ) { // WPCS: CSRF OK.
-			$query_params['orderby'] = array( $_REQUEST['orderby'] => $_REQUEST['order'] ); // WPCS: CSRF OK.
-		} elseif ( isset( $_REQUEST['orderby'] ) ) { // WPCS: CSRF OK.
-			$query_params['orderby'] = array( $_REQUEST['orderby'] => $default_order ); // WPCS: CSRF OK.
-		} elseif ( isset( $_REQUEST['order'] ) ) { // WPCS: CSRF OK.
-			$query_params['orderby'] = array( $default_orderby => $_REQUEST['order'] ); // WPCS: CSRF OK.
+
+		$orderby = filter_input( INPUT_GET, 'orderby' );
+		$order   = filter_input( INPUT_GET, 'order' );
+		if ( ! empty( $orderby ) && ! empty( $order ) ) {
+			$query_params['orderby'] = array( $orderby => $order );
+		} elseif ( ! empty( $orderby ) ) {
+			$query_params['orderby'] = array( $orderby => $default_order );
+		} elseif ( ! empty( $order ) ) {
+			$query_params['orderby'] = array( $default_orderby => $order );
 		} else {
 			$query_params['orderby'] = array( $default_orderby => $default_order );
 		}
@@ -390,9 +401,10 @@ class Submissions_List_Table extends Models_List_Table {
 		$where      = '';
 		$where_args = array();
 
-		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
+		$form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+		if ( ! empty( $form_id ) ) {
 			$where       .= ' AND form_id = %d';
-			$where_args[] = (int) $_GET['form_id'];
+			$where_args[] = $form_id;
 		}
 
 		if ( method_exists( $this->manager, 'get_author_property' ) ) {
@@ -425,7 +437,10 @@ class Submissions_List_Table extends Models_List_Table {
 			return;
 		}
 
-		$current_month = isset( $_REQUEST['m'] ) ? (int) $_REQUEST['m'] : 0; // WPCS: CSRF OK.
+		$current_month = filter_input( INPUT_GET, 'm', FILTER_SANITIZE_NUMBER_INT );
+		if ( empty( $current_month ) ) {
+			$current_month = 0;
+		}
 
 		echo '<label for="filter-by-date" class="screen-reader-text">' . esc_html( $this->manager->get_message( 'list_table_filter_by_date_label' ) ) . '</label>';
 		echo '<select id="filter-by-date" name="m">';

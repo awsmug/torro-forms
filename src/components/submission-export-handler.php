@@ -102,15 +102,19 @@ class Submission_Export_Handler extends Service {
 	 * @since 1.0.0
 	 */
 	public function handle_export_action() {
-		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+		$nonce   = filter_input( INPUT_POST, '_wpnonce' );
+		$form_id = filter_input( INPUT_POST, 'form_id', FILTER_VALIDATE_INT );
+		$mode    = filter_input( INPUT_POST, 'mode' );
+
+		if ( empty( $nonce ) ) {
 			wp_die( esc_html__( 'Missing nonce.', 'torro-forms' ) );
 		}
 
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $this->nonce_action ) ) {
+		if ( ! wp_verify_nonce( $nonce, $this->nonce_action ) ) {
 			wp_die( esc_html__( 'Invalid nonce.', 'torro-forms' ) );
 		}
 
-		if ( ! isset( $_REQUEST['form_id'] ) ) {
+		if ( empty( $form_id ) ) {
 			wp_die( esc_html__( 'Missing form ID.', 'torro-forms' ) );
 		}
 
@@ -119,26 +123,29 @@ class Submission_Export_Handler extends Service {
 			wp_die( esc_html__( 'Insufficient permissions.', 'torro-forms' ) );
 		}
 
-		$form = $this->submission_manager->get_parent_manager( 'forms' )->get( (int) $_REQUEST['form_id'] );
+		$form = $this->submission_manager->get_parent_manager( 'forms' )->get( $form_id );
 		if ( ! $form ) {
 			wp_die( esc_html__( 'Invalid form ID.', 'torro-forms' ) );
 		}
 
-		if ( ! isset( $_REQUEST['mode'] ) ) {
+		if ( empty( $mode ) ) {
 			wp_die( esc_html__( 'Missing submission export handler.', 'torro-forms' ) );
 		}
 
+		$orderby = filter_input( INPUT_POST, 'orderby' );
+		$order   = filter_input( INPUT_POST, 'order' );
+
 		$args = array();
-		if ( isset( $_REQUEST['orderby'] ) && isset( $_REQUEST['order'] ) ) {
-			$orderby = in_array( $_REQUEST['orderby'], array( 'id', 'timestamp' ), true ) ? $_REQUEST['orderby'] : 'id';
-			$order   = in_array( $_REQUEST['order'], array( 'ASC', 'DESC' ), true ) ? $_REQUEST['order'] : 'ASC';
+		if ( ! empty( $orderby ) && ! empty( $order ) ) {
+			$orderby = in_array( $orderby, array( 'id', 'timestamp' ), true ) ? $orderby : 'id';
+			$order   = in_array( $order, array( 'ASC', 'DESC' ), true ) ? $order : 'ASC';
 
 			$args['orderby'] = array( $orderby => $order );
 		} else {
 			$args['orderby'] = array( 'id' => 'ASC' );
 		}
 
-		$this->export_submissions( wp_unslash( $_REQUEST['mode'] ), $form, $args );
+		$this->export_submissions( $mode, $form, $args );
 	}
 
 	/**

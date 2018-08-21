@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use awsmug\Torro_Forms\DB_Objects\Submission_Values\Submission_Value;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Element_Type;
 use WP_Error;
 
@@ -44,11 +45,11 @@ class Form_Frontend_Submission_Handler {
 	 * @since 1.0.0
 	 */
 	public function maybe_handle_form_submission() {
-		if ( ! isset( $_POST['torro_submission'] ) ) { // WPCS: CSRF OK.
+		if ( ! isset( $_POST['torro_submission'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 			return;
 		}
 
-		$data = wp_unslash( $_POST['torro_submission'] ); // WPCS: CSRF OK.
+		$data = wp_unslash( $_POST['torro_submission'] ); // phpcs:ignore WordPress.Security
 
 		$context = $this->detect_request_form_and_submission( $data );
 		if ( is_wp_error( $context ) ) {
@@ -97,7 +98,7 @@ class Form_Frontend_Submission_Handler {
 		 */
 		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form, $submission );
 
-		wp_redirect( $redirect_url );
+		wp_redirect( $redirect_url ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit;
 	}
 
@@ -192,8 +193,7 @@ class Form_Frontend_Submission_Handler {
 
 				$error_data = $result->get_error_data();
 				if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
-					$submission_value->value = $error_data['validated_value'];
-					$submission_value->sync_upstream();
+					$this->update_submission_value( $submission_value, $error_data['validated_value'] );
 				} else {
 					$submission_value->delete();
 				}
@@ -216,16 +216,15 @@ class Form_Frontend_Submission_Handler {
 
 			if ( is_wp_error( $value ) ) {
 				$submission->add_error( $submission_value->element_id, $value->get_error_code(), $value->get_error_message() );
+
 				$error_data = $value->get_error_data();
 				if ( is_array( $error_data ) && isset( $error_data['validated_value'] ) ) {
-					$submission_value->value = $error_data['validated_value'];
-					$submission_value->sync_upstream();
+					$this->update_submission_value( $submission_value, $error_data['validated_value'] );
 				} else {
 					$submission_value->delete();
 				}
 			} else {
-				$submission_value->value = $value;
-				$submission_value->sync_upstream();
+				$this->update_submission_value( $submission_value, $value );
 			}
 		}
 
@@ -450,6 +449,36 @@ class Form_Frontend_Submission_Handler {
 		}
 		$submission_value->value = $value;
 
+		return $submission_value->sync_upstream();
+	}
+
+	/**
+	 * Updates an existing submission value in the database.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param Submission_Value $submission_value Existing submission value to update.
+	 * @param mixed            $value            New value to set.
+	 * @return bool|WP_Error True on success, or error object on failure.
+	 */
+	protected function update_submission_value( $submission_value, $value ) {
+		if ( is_array( $value ) ) {
+			$submission_value->value = array_shift( $value );
+			$result                  = $submission_value->sync_upstream();
+
+			$field = $submission_value->field;
+			if ( empty( $field ) ) {
+				$field = '_main';
+			}
+
+			foreach ( $value as $val ) {
+				$this->insert_submission_value( $submission_value->submission_id, $submission_value->element_id, $field, $val );
+			}
+
+			return $result;
+		}
+
+		$submission_value->value = $value;
 		return $submission_value->sync_upstream();
 	}
 

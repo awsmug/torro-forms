@@ -49,11 +49,11 @@ class reCAPTCHA extends Protector { // @codingStandardsIgnoreLine
 	 * @return bool|WP_Error True if request is not spammy, false or error object otherwise.
 	 */
 	public function verify_request( $data, $form, $submission = null ) {
-		if ( empty( $_POST['g-recaptcha-response'] ) ) { // WPCS: CSRF OK.
+		if ( empty( $_POST['g-recaptcha-response'] ) ) { // phpcs:ignore WordPress.Security
 			return new WP_Error( 'missing_recaptcha', __( 'Missing reCAPTCHA response. Please check the reCAPTCHA checkbox to verify you are human.', 'torro-forms' ) );
 		}
 
-		$verification = $this->verify_response_input( $_POST['g-recaptcha-response'] ); // WPCS: CSRF OK.
+		$verification = $this->verify_response_input( $_POST['g-recaptcha-response'] ); // phpcs:ignore WordPress.Security
 
 		try {
 			$verification = json_decode( $verification, true );

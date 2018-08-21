@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0 (https://torro-forms.com)
+ * Torro Forms Version 1.0.1 (https://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 /* ----------------------------------------------------------------------------
@@ -440,6 +440,11 @@
 	        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	border-left-style: solid;
 	border-left-width: 4px;
+}
+
+.torro-notice ul {
+	padding-left: 20px;
+	list-style: disc;
 }
 
 /* ----------------------------------------------------------------------------
