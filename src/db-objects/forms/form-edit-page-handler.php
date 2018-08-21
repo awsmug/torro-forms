@@ -227,8 +227,11 @@ class Form_Edit_Page_Handler {
 
 		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
 
-		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) { // WPCS: CSRF OK.
-			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) { // WPCS: CSRF OK.
+		$post_type = filter_input( INPUT_GET, 'post_type' );
+		$post_id   = filter_input( INPUT_GET, 'post', FILTER_VALIDATE_INT );
+
+		if ( empty( $post_type ) || $target_post_type !== $post_type ) {
+			if ( empty( $post_id ) || get_post_type( $post_id ) !== $target_post_type ) {
 				return;
 			}
 		}
@@ -244,8 +247,11 @@ class Form_Edit_Page_Handler {
 	public function maybe_print_templates() {
 		$target_post_type = $this->form_manager->get_prefix() . $this->form_manager->get_singular_slug();
 
-		if ( empty( $_GET['post_type'] ) || $target_post_type !== $_GET['post_type'] ) { // WPCS: CSRF OK.
-			if ( empty( $_GET['post'] ) || get_post_type( $_GET['post'] ) !== $target_post_type ) { // WPCS: CSRF OK.
+		$post_type = filter_input( INPUT_GET, 'post_type' );
+		$post_id   = filter_input( INPUT_GET, 'post', FILTER_VALIDATE_INT );
+
+		if ( empty( $post_type ) || $target_post_type !== $post_type ) {
+			if ( empty( $post_id ) || get_post_type( $post_id ) !== $target_post_type ) {
 				return;
 			}
 		}
@@ -314,6 +320,8 @@ class Form_Edit_Page_Handler {
 
 		if ( ! $this->form_manager->update_meta( $this->current_form->id, $meta_box_id, $values ) ) {
 			$meta_box_title = ! empty( $this->meta_boxes[ $meta_box_id ]['title'] ) ? $this->meta_boxes[ $meta_box_id ]['title'] : $meta_box_id;
+
+			/* translators: %s: meta box title */
 			return new WP_Error( 'cannot_update_values', sprintf( __( 'An unknown error occurred while trying to save %s data.', 'torro-forms' ), $meta_box_title ) );
 		}
 
@@ -328,17 +336,18 @@ class Form_Edit_Page_Handler {
 	 * @since 1.0.0
 	 */
 	public function action_duplicate_form() {
-		if ( ! isset( $_REQUEST['form_id'] ) ) {
+		$nonce   = filter_input( INPUT_GET, '_wpnonce' );
+		$form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+
+		if ( empty( $form_id ) ) {
 			wp_die( esc_html__( 'Missing form ID.', 'torro-forms' ), '', 400 );
 		}
 
-		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+		if ( empty( $nonce ) ) {
 			wp_die( esc_html__( 'Missing nonce.', 'torro-forms' ), '', 400 );
 		}
 
-		$form_id = (int) $_REQUEST['form_id'];
-
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $this->form_manager->get_prefix() . 'duplicate_form_' . $form_id ) ) {
+		if ( ! wp_verify_nonce( $nonce, $this->form_manager->get_prefix() . 'duplicate_form_' . $form_id ) ) {
 			wp_die( esc_html__( 'Invalid nonce.', 'torro-forms' ), '', 403 );
 		}
 
@@ -368,7 +377,7 @@ class Form_Edit_Page_Handler {
 
 		$redirect_url = add_query_arg( $meta_key, $form->id, wp_get_referer() );
 
-		wp_redirect( $redirect_url );
+		wp_safe_redirect( $redirect_url );
 		exit;
 	}
 
@@ -418,11 +427,11 @@ class Form_Edit_Page_Handler {
 	public function maybe_show_duplicate_form_feedback() {
 		$meta_key = $this->form_manager->get_prefix() . 'duplicate_feedback';
 
-		if ( empty( $_GET[ $meta_key ] ) ) { // WPCS: CSRF OK.
+		$form_id = filter_input( INPUT_GET, $meta_key, FILTER_VALIDATE_INT );
+		if ( empty( $form_id ) ) {
 			return;
 		}
 
-		$form_id = (int) $_GET[ $meta_key ];
 		unset( $_GET[ $meta_key ] );
 
 		$feedback = $this->form_manager->get_meta( $form_id, $meta_key, true );
@@ -468,7 +477,7 @@ class Form_Edit_Page_Handler {
 		}
 
 		$nonce_action = $prefix . 'duplicate_form_' . $post->ID;
-		$url          = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . rawurlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), $nonce_action );
+		$url          = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . rawurlencode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ), $nonce_action );
 
 		return $output . ' <a class="button button-small" href="' . esc_url( $url ) . '">' . esc_html( _x( 'Duplicate Form', 'action', 'torro-forms' ) ) . '</a>';
 	}
@@ -922,36 +931,36 @@ class Form_Edit_Page_Handler {
 
 		$errors = new WP_Error();
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ) ) { // WPCS: CSRF OK.
-			$mappings = $this->save_containers( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ), $mappings, $errors ); // WPCS: CSRF OK.
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+			$mappings = $this->save_containers( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'containers' ] ), $mappings, $errors ); // phpcs:ignore WordPress.Security
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ) ) { // WPCS: CSRF OK.
-			$mappings = $this->save_elements( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ), $mappings, $errors ); // WPCS: CSRF OK.
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+			$mappings = $this->save_elements( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'elements' ] ), $mappings, $errors ); // phpcs:ignore WordPress.Security
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ) ) { // WPCS: CSRF OK.
-			$mappings = $this->save_element_choices( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ), $mappings, $errors ); // WPCS: CSRF OK.
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+			$mappings = $this->save_element_choices( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_choices' ] ), $mappings, $errors ); // phpcs:ignore WordPress.Security
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ) ) { // WPCS: CSRF OK.
-			$mappings = $this->save_element_settings( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ), $mappings, $errors ); // WPCS: CSRF OK.
+		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+			$mappings = $this->save_element_settings( wp_unslash( $_POST[ $this->form_manager->get_prefix() . 'element_settings' ] ), $mappings, $errors ); // phpcs:ignore WordPress.Security
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) ) { // WPCS: CSRF OK.
-			$this->delete_containers( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_containers' ] ) ); // WPCS: CSRF OK.
+		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers' ) ) {
+			$this->delete_containers( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) ) { // WPCS: CSRF OK.
-			$this->delete_elements( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_elements' ] ) ); // WPCS: CSRF OK.
+		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements' ) ) {
+			$this->delete_elements( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) ) { // WPCS: CSRF OK.
-			$this->delete_element_choices( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_choices' ] ) ); // WPCS: CSRF OK.
+		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices' ) ) {
+			$this->delete_element_choices( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
 		}
 
-		if ( isset( $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ) { // WPCS: CSRF OK.
-			$this->delete_element_settings( array_map( 'absint', $_POST[ $this->form_manager->get_prefix() . 'deleted_element_settings' ] ) ); // WPCS: CSRF OK.
+		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings' ) ) {
+			$this->delete_element_settings( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
 		}
 
 		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {
@@ -960,8 +969,8 @@ class Form_Edit_Page_Handler {
 		}
 
 		foreach ( $this->meta_boxes as $id => $args ) {
-			if ( isset( $_POST[ $id ] ) ) { // WPCS: CSRF OK.
-				$metabox_result = $args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) ); // WPCS: CSRF OK.
+			if ( isset( $_POST[ $id ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+				$metabox_result = $args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) ); // phpcs:ignore WordPress.Security
 				if ( is_wp_error( $metabox_result ) ) {
 					foreach ( $metabox_result->errors as $error_code => $error_messages ) {
 						foreach ( $error_messages as $error_message ) {

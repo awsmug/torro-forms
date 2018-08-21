@@ -272,7 +272,7 @@ class Form extends Core_Model {
 		 * @param string $form_action_url Form action URL.
 		 * @param int    $form_id         Form ID.
 		 */
-		$form_action_url = apply_filters( 'torro_form_action_url', home_url( $_SERVER['REQUEST_URI'] ), (int) $this->original->ID );
+		$form_action_url = apply_filters( 'torro_form_action_url', home_url( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ), (int) $this->original->ID );
 
 		$data['form_attrs'] = array(
 			'id'         => 'torro-form-' . $this->original->ID,

@@ -35,9 +35,12 @@ class Submissions_List_Page extends Models_List_Page {
 
 		parent::__construct( $slug, $manager, $model_manager );
 
-		if ( ! empty( $_GET['page'] ) && $slug === $_GET['page'] && ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
+		$page    = filter_input( INPUT_GET, 'page' );
+		$form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+
+		if ( ! empty( $page ) && $slug === $page && ! empty( $form_id ) ) {
 			/* translators: %s: form title */
-			$this->title = sprintf( __( 'Submissions for form &#8220;%s&#8221;', 'torro-forms' ), get_the_title( (int) $_GET['form_id'] ) ); // WPCS: CSRF OK.
+			$this->title = sprintf( __( 'Submissions for form &#8220;%s&#8221;', 'torro-forms' ), get_the_title( $form_id ) );
 		}
 	}
 
@@ -54,19 +57,22 @@ class Submissions_List_Page extends Models_List_Page {
 			$new_page_url = add_query_arg( 'page', $this->edit_page_slug, $this->url );
 		}
 
+		$form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+		$search  = filter_input( INPUT_GET, 's' );
+
 		?>
 		<h1 class="wp-heading-inline">
 			<?php echo wp_kses_data( $this->title ); ?>
 		</h1>
 
-		<?php if ( ! empty( $_GET['form_id'] ) ) : // WPCS: CSRF OK. ?>
+		<?php if ( ! empty( $form_id ) ) : ?>
 			<a href="<?php echo esc_url( $this->url ); ?>" class="page-title-action"><?php echo esc_html_x( 'Back to Overview', 'submission admin list', 'torro-forms' ); ?></a>
 		<?php elseif ( ! empty( $new_page_url ) && $capabilities && $capabilities->user_can_create() ) : ?>
 			<a href="<?php echo esc_url( $new_page_url ); ?>" class="page-title-action"><?php echo esc_html( $this->model_manager->get_message( 'list_page_add_new' ) ); ?></a>
 		<?php endif; ?>
 
-		<?php if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) : // WPCS: CSRF OK. ?>
-			<span class="subtitle"><?php printf( $this->model_manager->get_message( 'list_page_search_results_for' ), esc_attr( wp_unslash( $_REQUEST['s'] ) ) ); // WPCS: XSS OK. CSRF OK. ?></span>
+		<?php if ( ! empty( $search ) ) : ?>
+			<span class="subtitle"><?php printf( $this->model_manager->get_message( 'list_page_search_results_for' ), esc_attr( $search ) ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?></span>
 		<?php endif; ?>
 
 		<hr class="wp-header-end">
@@ -96,6 +102,9 @@ class Submissions_List_Page extends Models_List_Page {
 
 		$this->list_table->views();
 
+		$form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+		$author  = ! empty( $author_property ) ? filter_input( INPUT_GET, $author_property ) : '';
+
 		?>
 		<form id="<?php echo esc_attr( $this->model_manager->get_plural_slug() . '-filter' ); ?>" method="get">
 
@@ -117,12 +126,12 @@ class Submissions_List_Page extends Models_List_Page {
 
 			<input type="hidden" name="page" value="<?php echo esc_attr( $this->slug ); ?>" />
 
-			<?php if ( ! empty( $_GET['form_id'] ) ) : // WPCS: CSRF OK. ?>
-				<input type="hidden" name="form_id" value="<?php echo (int) $_GET['form_id']; ?>" />
+			<?php if ( ! empty( $form_id ) ) : ?>
+				<input type="hidden" name="form_id" value="<?php echo esc_attr( $form_id ); ?>" />
 			<?php endif; ?>
 
-			<?php if ( ! empty( $author_property ) && ! empty( $_REQUEST[ $author_property ] ) ) : // WPCS: CSRF OK. ?>
-				<input type="hidden" name="<?php echo esc_attr( $author_property ); ?>" value="<?php echo esc_attr( $_REQUEST[ $author_property ] ); // WPCS: CSRF OK. ?>" />
+			<?php if ( ! empty( $author ) ) : ?>
+				<input type="hidden" name="<?php echo esc_attr( $author_property ); ?>" value="<?php echo esc_attr( $author ); ?>" />
 			<?php endif; ?>
 
 			<?php $this->list_table->display(); ?>

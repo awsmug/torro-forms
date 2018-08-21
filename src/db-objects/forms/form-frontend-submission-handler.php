@@ -45,11 +45,11 @@ class Form_Frontend_Submission_Handler {
 	 * @since 1.0.0
 	 */
 	public function maybe_handle_form_submission() {
-		if ( ! isset( $_POST['torro_submission'] ) ) { // WPCS: CSRF OK.
+		if ( ! isset( $_POST['torro_submission'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 			return;
 		}
 
-		$data = wp_unslash( $_POST['torro_submission'] ); // WPCS: CSRF OK.
+		$data = wp_unslash( $_POST['torro_submission'] ); // phpcs:ignore WordPress.Security
 
 		$context = $this->detect_request_form_and_submission( $data );
 		if ( is_wp_error( $context ) ) {
@@ -98,7 +98,7 @@ class Form_Frontend_Submission_Handler {
 		 */
 		$redirect_url = apply_filters( "{$this->form_manager->get_prefix()}handle_form_submission_redirect_url", $redirect_url, $form, $submission );
 
-		wp_redirect( $redirect_url );
+		wp_redirect( $redirect_url ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit;
 	}
 
