@@ -301,16 +301,23 @@ class Form_Edit_Page_Handler {
 	 * Callback to update meta values for a specific meta box identifier.
 	 *
 	 * @since 1.0.0
+	 * @since 1.0.1 Added the return value.
 	 *
 	 * @param string $meta_box_id Meta box identifier.
 	 * @param array  $values      Meta values to store for the meta box.
+	 * @return bool|WP_Error True on success, error object on failure.
 	 */
 	public function update_meta_values( $meta_box_id, $values ) {
 		if ( ! $this->current_form ) {
-			return;
+			return true;
 		}
 
-		$this->form_manager->update_meta( $this->current_form->id, $meta_box_id, $values );
+		if ( ! $this->form_manager->update_meta( $this->current_form->id, $meta_box_id, $values ) ) {
+			$meta_box_title = ! empty( $this->meta_boxes[ $meta_box_id ]['title'] ) ? $this->meta_boxes[ $meta_box_id ]['title'] : $meta_box_id;
+			return new WP_Error( 'cannot_update_values', sprintf( __( 'An unknown error occurred while trying to save %s data.', 'torro-forms' ), $meta_box_title ) );
+		}
+
+		return true;
 	}
 
 	/**
@@ -363,6 +370,44 @@ class Form_Edit_Page_Handler {
 
 		wp_redirect( $redirect_url );
 		exit;
+	}
+
+	/**
+	 * Displays feedback for errors that might have occurred during form save.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param WP_Post $post Post object.
+	 */
+	public function maybe_show_form_save_feedback( $post ) {
+		$form = $this->form_manager->get( $post->ID );
+		if ( ! $form ) {
+			return;
+		}
+
+		$errors = get_transient( "{$this->form_manager->get_prefix()}_save_form_errors_{$form->id}" );
+		if ( false === $errors ) {
+			return;
+		}
+
+		delete_transient( "{$this->form_manager->get_prefix()}_save_form_errors_{$form->id}" );
+
+		?>
+		<div class="notice notice-error">
+			<p><?php esc_html_e( 'Some errors occurred while trying to save the form:', 'torro-forms' ); ?></p>
+			<ul>
+				<?php
+				foreach ( $errors as $error_code => $error_messages ) {
+					foreach ( $error_messages as $error_message ) {
+						?>
+						<li><?php echo wp_kses( $error_message, "{$this->form_manager->get_prefix()}error_message" ); ?></li>
+						<?php
+					}
+				}
+				?>
+			</ul>
+		</div>
+		<?php
 	}
 
 	/**
@@ -916,8 +961,14 @@ class Form_Edit_Page_Handler {
 
 		foreach ( $this->meta_boxes as $id => $args ) {
 			if ( isset( $_POST[ $id ] ) ) { // WPCS: CSRF OK.
-				// TODO: Figure out how to deal with errors.
-				$args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) ); // WPCS: CSRF OK.
+				$metabox_result = $args['field_manager']->update_values( wp_unslash( $_POST[ $id ] ) ); // WPCS: CSRF OK.
+				if ( is_wp_error( $metabox_result ) ) {
+					foreach ( $metabox_result->errors as $error_code => $error_messages ) {
+						foreach ( $error_messages as $error_message ) {
+							$errors->add( $error_code, $error_message );
+						}
+					}
+				}
 			}
 		}
 
@@ -925,11 +976,18 @@ class Form_Edit_Page_Handler {
 		 * Fires after a form has been saved.
 		 *
 		 * @since 1.0.0
+		 * @since 1.0.1 Added the $errors parameter.
 		 *
-		 * @param Form  $form     Form that has been saved.
-		 * @param array $mappings Array of ID mappings from the objects that have been saved.
+		 * @param Form     $form     Form that has been saved.
+		 * @param array    $mappings Array of ID mappings from the objects that have been saved.
+		 * @param WP_Error $errors   Error object to add possible errors to.
 		 */
-		do_action( "{$this->form_manager->get_prefix()}save_form", $form, $mappings );
+		do_action( "{$this->form_manager->get_prefix()}save_form", $form, $mappings, $errors );
+
+		// Store save errors in a transient.
+		if ( ! empty( $errors->errors ) ) {
+			set_transient( "{$this->form_manager->get_prefix()}_save_form_errors_{$form->id}", $errors->errors, 30 );
+		}
 	}
 
 	/**
