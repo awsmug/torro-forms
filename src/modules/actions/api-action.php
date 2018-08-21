@@ -128,11 +128,38 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 					'required'    => true,
 				),
 				'route'      => array(
-					'type'        => 'select',
-					'label'       => __( 'Route', 'torro-forms' ),
-					'description' => __( 'Select the API connection route to submit the data to.', 'torro-forms' ),
-					'choices'     => array(),
-					'required'    => true,
+					'type'         => 'select',
+					'label'        => __( 'Route', 'torro-forms' ),
+					'description'  => __( 'Select the API connection route to submit the data to.', 'torro-forms' ),
+					'choices'      => array(),
+					'required'     => true,
+					'dependencies' => array(
+						array(
+							'prop'     => 'choices',
+							'callback' => 'torro_get_api_connection_routes',
+							'fields'   => array( 'connection' ),
+							'args'     => array(
+								'api_action' => $this->slug,
+							),
+						),
+					),
+				),
+				'mappings'   => array(
+					'type'         => 'fieldmappings',
+					'label'        => __( 'Field Mappings', 'torro-forms' ),
+					'description'  => __( 'Map form elements to the fields needed for the API route.', 'torro-forms' ),
+					'fields'       => array(),
+					'required'     => true,
+					'dependencies' => array(
+						array(
+							'prop'     => 'fields',
+							'callback' => 'torro_get_api_connection_route_fields',
+							'fields'   => array( 'connection', 'route' ),
+							'args'     => array(
+								'api_action' => $this->slug,
+							),
+						),
+					),
 				),
 			),
 		);
@@ -343,7 +370,9 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			return array();
 		}
 
-		return $structures[ $structure_slug ]['routes'];
+		return array_map( function( $route_data ) {
+			return $route_data['title'];
+		}, $structures[ $structure_slug ]['routes'] );
 	}
 
 	/**
@@ -441,10 +470,26 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			throw new Exception( sprintf( __( 'No available structures set for API action %s.', 'torro-forms' ), $this->title ) );
 		}
 
-		foreach ( $this->available_structures as $structure_slug => $data ) {
-			if ( ! is_array( $data ) || empty( $data['title'] ) || empty( $data['routes'] ) ) {
+		foreach ( $this->available_structures as $structure_slug => $structure_data ) {
+			if ( ! is_array( $structure_data ) || empty( $structure_data['title'] ) || empty( $structure_data['routes'] ) ) {
 				/* translators: 1: API action title, 2: API structure slug */
 				throw new Exception( sprintf( __( 'Invalid or incomplete data set for API action %1$s and structure %2$s.', 'torro-forms' ), $this->title, $structure_slug ) );
+			}
+
+			foreach ( $structure_data['routes'] as $route_slug => $route_data ) {
+				if ( is_string( $route_data ) ) {
+					$route_data                                                             = array( 'title' => $route_data );
+					$this->available_structures[ $structure_slug ]['routes'][ $route_slug ] = $route_data;
+				}
+
+				if ( ! is_array( $route_data ) || empty( $route_data['title'] ) || isset( $route_data['fields'] ) && ! is_array( $route_data['fields'] ) ) {
+					/* translators: 1: API action title, 2: API structure slug, 3: API route slug */
+					throw new Exception( sprintf( __( 'Invalid or incomplete data set for API action %1$s, structure %2$s and route %3$s.', 'torro-forms' ), $this->title, $structure_slug, $route_slug ) );
+				}
+
+				if ( empty( $route_data['fields'] ) ) {
+					$this->available_structures[ $structure_slug ]['routes'][ $route_slug ]['fields'] = array();
+				}
 			}
 		}
 	}
@@ -455,7 +500,10 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @since 1.0.0
 	 *
 	 * @return array Associative array of $structure_slug => $data pairs. $data must be an associative array with keys
-	 *               'title' and 'routes'. 'routes' must be an associative array of $route_slug => $route_title pairs.
+	 *               'title' and 'routes'. 'routes' must be an associative array of $route_slug => $route_data pairs.
+	 *               $route_data must be an associative array with keys 'title' and 'fields'. 'fields' must be an
+	 *               associative array of $field_slug => $field_data pairs where details are specified for each route
+	 *               field that requires special handling. Possible keys are 'value', 'value_callback', and 'default'.
 	 */
 	protected abstract function get_available_structures_and_routes();
 
