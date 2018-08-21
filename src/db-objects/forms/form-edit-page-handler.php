@@ -407,7 +407,7 @@ class Form_Edit_Page_Handler {
 		delete_transient( "{$this->form_manager->get_prefix()}_save_form_errors_{$form->id}" );
 
 		?>
-		<div class="notice notice-error">
+		<div class="torro-notice notice notice-error">
 			<p><?php esc_html_e( 'Some errors occurred while trying to save the form:', 'torro-forms' ); ?></p>
 			<ul>
 				<?php
