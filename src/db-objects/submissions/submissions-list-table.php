@@ -181,6 +181,11 @@ class Submissions_List_Table extends Models_List_Table {
 	protected function build_views( &$current, $list_url = '' ) {
 		$capabilities = $this->manager->capabilities();
 
+		$form_id = 0;
+		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
+			$form_id = (int) $_GET['form_id'];
+		}
+
 		$current = 'all';
 		$total   = 0;
 
@@ -190,7 +195,7 @@ class Submissions_List_Table extends Models_List_Table {
 		if ( ! $capabilities || ! $capabilities->current_user_can( 'edit_others_items' ) || ! $capabilities->current_user_can( 'read_others_items' ) ) {
 			$user_id = get_current_user_id();
 		} else {
-			$user_counts = $this->manager->count( get_current_user_id() );
+			$user_counts = $this->manager->count( get_current_user_id(), $form_id );
 
 			if ( isset( $_REQUEST['user_id'] ) && get_current_user_id() === absint( $_REQUEST['user_id'] ) ) { // WPCS: CSRF OK.
 				$current = 'mine';
@@ -200,11 +205,6 @@ class Submissions_List_Table extends Models_List_Table {
 				'url'   => add_query_arg( 'user_id', get_current_user_id(), $list_url ),
 				'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_mine', true ), $user_counts['_total'] ), number_format_i18n( $user_counts['_total'] ) ),
 			);
-		}
-
-		$form_id = 0;
-		if ( ! empty( $_GET['form_id'] ) ) { // WPCS: CSRF OK.
-			$form_id = (int) $_GET['form_id'];
 		}
 
 		$counts = $this->manager->count( $user_id, $form_id );
