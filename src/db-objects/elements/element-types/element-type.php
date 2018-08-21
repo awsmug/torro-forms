@@ -280,7 +280,7 @@ abstract class Element_Type {
 					if ( $allow_get_params ) {
 						$choices = is_a( $this, Choice_Element_Type_Interface::class ) ? $this->get_choices( $element ) : array();
 
-						$get_params = wp_unslash( $_GET[ 'torro_input_value_' . $element->id ] ); // WPCS: CSRF OK.
+						$get_params = wp_unslash( $_GET[ 'torro_input_value_' . $element->id ] ); // phpcs:ignore WordPress.Security
 						if ( is_array( $get_params ) ) {
 							foreach ( $get_params as $field => $value ) {
 								if ( empty( $values[ $field ] ) ) {
@@ -396,7 +396,7 @@ abstract class Element_Type {
 		$settings = $this->get_settings( $element );
 		$values   = $this->get_values( $element, $submission );
 
-		$data['value'] = $values['_main'];
+		$data['value'] = ( ! empty( $values['_main'] ) || is_numeric( $values['_main'] ) ) ? $values['_main'] : '';
 
 		$placeholder = ! empty( $settings['placeholder'] ) ? $settings['placeholder'] : '';
 

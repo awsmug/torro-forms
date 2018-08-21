@@ -42,12 +42,11 @@ class Timetrap extends Protector {
 	 * @return bool|WP_Error True if request is not spammy, false or error object otherwise.
 	 */
 	public function verify_request( $data, $form, $submission = null ) {
-		if ( empty( $_POST['timestamp'] ) ) { // WPCS: CSRF OK.
+		$now       = current_time( 'timestamp' );
+		$timestamp = filter_input( INPUT_POST, 'timestamp' );
+		if ( empty( $timestamp ) ) {
 			return new WP_Error( 'missing_timestamp', __( 'Internal error: Could not verify you are human. Please contact an administrator if you are.', 'torro-forms' ) );
 		}
-
-		$now       = current_time( 'timestamp' );
-		$timestamp = wp_unslash( $_POST['timestamp'] ); // WPCS: CSRF OK.
 
 		$trigger = $this->get_form_option( $form->id, 'trigger', 3 );
 

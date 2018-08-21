@@ -38,6 +38,13 @@ vendor/
 .DS_store?
 
 ############
+# Docker
+############
+conf
+docker-compose.yml
+www
+
+############
 ## Misc
 ############
 
@@ -59,3 +66,4 @@ temp/
 
 .svn
 vendor
+

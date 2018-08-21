@@ -383,9 +383,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 		}
 
 		if ( ! empty( $field->description ) ) {
-			$schema['description'] = strip_tags( $field->description );
+			$schema['description'] = wp_strip_all_tags( $field->description );
 		} elseif ( 'checkbox' === $field->slug && ! empty( $field->label ) ) {
-			$schema['description'] = strip_tags( $field->label );
+			$schema['description'] = wp_strip_all_tags( $field->label );
 		}
 
 		return $schema;
@@ -569,7 +569,7 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				<?php
 				$atts = $use_subtabs ? ' aria-labelledby="' . esc_attr( 'torro-subtab-label-' . $subtab_id ) . '" aria-hidden="' . ( $subtab_id === $current_subtab_id ? 'false' : 'true' ) . '" role="tabpanel"' : '';
 				?>
-				<div id="<?php echo esc_attr( 'torro-subtab-' . $subtab_id ); ?>" class="torro-subtab-panel"<?php echo $atts; // WPCS: XSS OK. ?>>
+				<div id="<?php echo esc_attr( 'torro-subtab-' . $subtab_id ); ?>" class="torro-subtab-panel"<?php echo $atts; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
 
 					<?php if ( ! empty( $subtab_args['description'] ) ) : ?>
 						<p class="description"><?php echo wp_kses_data( $subtab_args['description'] ); ?></p>
@@ -593,12 +593,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * @return string Identifier of the current sub-tab.
 	 */
 	protected function get_current_subtab( $current_tab_id ) {
-		if ( isset( $_GET['subtab'] ) ) { // WPCS: CSRF OK.
-			$current_subtab_id = wp_unslash( $_GET['subtab'] ); // WPCS: CSRF OK.
-
-			if ( isset( $this->subtabs[ $current_subtab_id ] ) && $current_tab_id === $this->subtabs[ $current_subtab_id ]['tab'] ) {
-				return $current_subtab_id;
-			}
+		$current_subtab_id = filter_input( INPUT_GET, 'subtab' );
+		if ( ! empty( $current_subtab_id ) && isset( $this->subtabs[ $current_subtab_id ] ) && $current_tab_id === $this->subtabs[ $current_subtab_id ]['tab'] ) {
+			return $current_subtab_id;
 		}
 
 		foreach ( $this->subtabs as $slug => $args ) {

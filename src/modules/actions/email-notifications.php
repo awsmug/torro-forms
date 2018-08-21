@@ -347,7 +347,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 				'label'       => __( 'User IP', 'torro-forms' ),
 				'description' => __( 'Inserts the current user IP address.', 'torro-forms' ),
 				'callback'    => function() {
-					$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
+					$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
 					if ( empty( $validated_ip ) ) {
 						return '0.0.0.0';
 					}

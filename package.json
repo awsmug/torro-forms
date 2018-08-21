@@ -1,6 +1,6 @@
 {
   "name": "torro-forms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.",
   "keywords": [
     "wordpress",
@@ -16,13 +16,13 @@
   "author": {
     "name": "Awesome UG",
     "email": "contact@awesome.ug",
-    "url": "http://www.awesome.ug"
+    "url": "https://www.awesome.ug"
   },
   "contributors": [
     {
       "name": "Sven Wagener",
       "email": "contact@awesome.ug",
-      "url": "http://www.awesome.ug"
+      "url": "https://www.awesome.ug"
     },
     {
       "name": "Felix Arntz",
@@ -57,6 +57,6 @@
     "gulp-replace": "~0.5.4",
     "gulp-sass": "~3.1.0",
     "gulp-uglify": "~2.0.1",
-    "jshint": "~2.9.4"
+    "jshint": "^2.9.6"
   }
 }
