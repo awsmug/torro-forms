@@ -57,6 +57,6 @@
     "gulp-replace": "~0.5.4",
     "gulp-sass": "~3.1.0",
     "gulp-uglify": "~2.0.1",
-    "jshint": "~2.9.4"
+    "jshint": "^2.9.6"
   }
 }
