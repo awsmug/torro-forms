@@ -953,19 +953,19 @@ class Form_Edit_Page_Handler {
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers' ) ) {
-			$this->delete_containers( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_containers( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements' ) ) {
-			$this->delete_elements( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_elements( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices' ) ) {
-			$this->delete_element_choices( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_element_choices( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings' ) ) {
-			$this->delete_element_settings( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_element_settings( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {

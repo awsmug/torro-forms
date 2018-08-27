@@ -335,7 +335,7 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		if ( filter_has_var( INPUT_GET, 'status' ) ) {
-			$query_params['status'] = array_map( 'sanitize_key', (array) filter_input( INPUT_GET, 'status', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) );
+			$query_params['status'] = array_map( 'sanitize_key', filter_input( INPUT_GET, 'status', FILTER_DEFAULT, FILTER_FORCE_ARRAY ) );
 		}
 
 		$yearmonth = filter_input( INPUT_GET, 'm' );
