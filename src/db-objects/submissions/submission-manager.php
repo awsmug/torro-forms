@@ -352,7 +352,7 @@ class Submission_Manager extends Manager {
 	 * @since 1.0.0
 	 */
 	public function schedule_cron_task() {
-		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general', array() );
+		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general_settings', array() );
 
 		if ( isset( $settings['delete_submissions'] ) && $settings['delete_submissions'] ) {
 			if ( ! wp_next_scheduled( "{$this->get_prefix()}cron_maybe_delete_submissions" ) ) {
@@ -381,7 +381,7 @@ class Submission_Manager extends Manager {
 	 * @since 1.0.0
 	 */
 	public function maybe_delete_submissions() {
-		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general', array() );
+		$settings = $this->get_parent_manager( 'forms' )->options()->get( 'general_settings', array() );
 
 		$delete = isset( $settings['delete_submissions'] ) ? (bool) $settings['delete_submissions'] : false;
 		if ( ! $delete ) {
