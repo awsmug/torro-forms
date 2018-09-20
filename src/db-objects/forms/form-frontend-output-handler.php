@@ -395,11 +395,6 @@ class Form_Frontend_Output_Handler {
 			$template_data['current_container']['elements'][] = $element->to_json( false, $submission );
 		}
 
-		if ( $submission && $submission->has_errors() ) {
-			$submission->reset_errors();
-			$submission->sync_upstream();
-		}
-
 		$this->form_manager->template()->get_partial( 'form', $template_data );
 	}
 
