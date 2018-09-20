@@ -205,13 +205,13 @@ class REST_Element_Types_Controller extends WP_REST_Controller {
 					$data[ $property ] = call_user_func( array( $element_type, 'get_' . $property ) );
 					break;
 				case 'non_input':
-					$data[ $property ] = is_a( $element_type, Non_Input_Element_Type_Interface::class );
+					$data[ $property ] = $element_type instanceof Non_Input_Element_Type_Interface;
 					break;
 				case 'evaluable':
-					$data[ $property ] = is_a( $element_type, Choice_Element_Type_Interface::class );
+					$data[ $property ] = $element_type instanceof Choice_Element_Type_Interface;
 					break;
 				case 'multifield':
-					$data[ $property ] = is_a( $element_type, Multi_Field_Element_Type_Interface::class );
+					$data[ $property ] = $element_type instanceof Multi_Field_Element_Type_Interface;
 					break;
 				case 'sections':
 					$sections          = $element_type->get_settings_sections();

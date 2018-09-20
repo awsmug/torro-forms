@@ -386,7 +386,7 @@ class Element extends Model {
 			return array();
 		}
 
-		if ( is_a( $element_type, Non_Input_Element_Type_Interface::class ) ) {
+		if ( $element_type instanceof Non_Input_Element_Type_Interface ) {
 			return array();
 		}
 
@@ -397,7 +397,7 @@ class Element extends Model {
 		}
 
 		$validated = array();
-		if ( is_a( $element_type, Multi_Field_Element_Type_Interface::class ) ) {
+		if ( $element_type instanceof Multi_Field_Element_Type_Interface ) {
 			$validated = $element_type->validate_additional_fields( $values, $this, $submission );
 		}
 
@@ -419,7 +419,7 @@ class Element extends Model {
 			return false;
 		}
 
-		return is_a( $element_type, Non_Input_Element_Type_Interface::class );
+		return $element_type instanceof Non_Input_Element_Type_Interface;
 	}
 
 	/**
@@ -435,7 +435,7 @@ class Element extends Model {
 			return false;
 		}
 
-		return is_a( $element_type, Choice_Element_Type_Interface::class );
+		return $element_type instanceof Choice_Element_Type_Interface;
 	}
 
 	/**
@@ -451,6 +451,6 @@ class Element extends Model {
 			return false;
 		}
 
-		return is_a( $element_type, Multi_Field_Element_Type_Interface::class );
+		return $element_type instanceof Multi_Field_Element_Type_Interface;
 	}
 }

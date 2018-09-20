@@ -152,7 +152,7 @@ trait Submodule_Registry_Trait {
 		$tabs = array();
 
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Meta_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Meta_Submodule_Interface ) {
 				continue;
 			}
 
@@ -182,7 +182,7 @@ trait Submodule_Registry_Trait {
 		$fields = array();
 
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Meta_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Meta_Submodule_Interface ) {
 				continue;
 			}
 
@@ -225,7 +225,7 @@ trait Submodule_Registry_Trait {
 		$subtabs = array();
 
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Settings_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Settings_Submodule_Interface ) {
 				continue;
 			}
 
@@ -254,7 +254,7 @@ trait Submodule_Registry_Trait {
 		$sections = array();
 
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Settings_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Settings_Submodule_Interface ) {
 				continue;
 			}
 
@@ -283,7 +283,7 @@ trait Submodule_Registry_Trait {
 		$fields = array();
 
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Settings_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Settings_Submodule_Interface ) {
 				continue;
 			}
 
@@ -327,7 +327,7 @@ trait Submodule_Registry_Trait {
 	 */
 	protected function register_assets( $assets ) {
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Assets_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Assets_Submodule_Interface ) {
 				continue;
 			}
 
@@ -344,7 +344,7 @@ trait Submodule_Registry_Trait {
 	 */
 	protected function enqueue_form_builder_assets( $assets ) {
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Assets_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Assets_Submodule_Interface ) {
 				continue;
 			}
 
