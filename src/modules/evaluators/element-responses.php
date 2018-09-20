@@ -97,9 +97,11 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 				$element_ids = wp_parse_id_list( $args['element_id'] );
 			}
 		} else {
-			$element_ids = $form->get_elements( array(
-				'fields' => 'ids',
-			) );
+			$element_ids = $form->get_elements(
+				array(
+					'fields' => 'ids',
+				)
+			);
 		}
 
 		foreach ( $element_ids as $element_id ) {
@@ -268,23 +270,31 @@ class Element_Responses extends Evaluator implements Assets_Submodule_Interface 
 		if ( 'bar' === $display_mode ) {
 			$data_point_labels = $this->get_form_option( $form->id, 'data_point_labels', 'none' );
 
-			$less_than_10 = array_reduce( $y_values, function( $carry, $y_value ) {
-				if ( $y_value > 10 ) {
-					return false;
-				}
+			$less_than_10 = array_reduce(
+				$y_values,
+				function( $carry, $y_value ) {
+					if ( $y_value > 10 ) {
+						return false;
+					}
 
-				return $carry;
-			}, true );
+					return $carry;
+				},
+				true
+			);
 
 			$labels = false;
 			if ( 'value' === $data_point_labels ) {
 				$labels = true;
 			} elseif ( 'percentage' === $data_point_labels ) {
-				$aggregate = array_reduce( $y_values, function( $carry, $y_value ) {
-					$carry += $y_value;
+				$aggregate = array_reduce(
+					$y_values,
+					function( $carry, $y_value ) {
+						$carry += $y_value;
 
-					return $carry;
-				}, 0 );
+						return $carry;
+					},
+					0
+				);
 
 				$labels = array(
 					'format' => array(

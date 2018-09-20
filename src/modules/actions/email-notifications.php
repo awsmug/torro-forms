@@ -93,9 +93,12 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 	public function enabled( $form ) {
 		$notifications = $this->get_form_option( $form->id, 'notifications', array() );
 
-		$notifications = array_filter( $notifications, function( $notification ) {
-			return ! empty( $notification['to_email'] ) && ! empty( $notification['subject'] ) && ! empty( $notification['message'] );
-		});
+		$notifications = array_filter(
+			$notifications,
+			function( $notification ) {
+				return ! empty( $notification['to_email'] ) && ! empty( $notification['subject'] ) && ! empty( $notification['message'] );
+			}
+		);
 
 		if ( ! empty( $notifications ) ) {
 			return true;
@@ -397,11 +400,14 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 				'label'       => __( 'Submission Edit URL', 'torro-forms' ),
 				'description' => __( 'Inserts the edit URL for the submission.', 'torro-forms' ),
 				'callback'    => function( $form, $submission ) {
-					return add_query_arg( array(
-						'post_type' => torro()->post_types()->get_prefix() . 'form',
-						'page'      => torro()->admin_pages()->get_prefix() . 'edit_submission',
-						'id'        => $submission->id,
-					), admin_url( 'edit.php' ) );
+					return add_query_arg(
+						array(
+							'post_type' => torro()->post_types()->get_prefix() . 'form',
+							'page'      => torro()->admin_pages()->get_prefix() . 'edit_submission',
+							'id'        => $submission->id,
+						),
+						admin_url( 'edit.php' )
+					);
 				},
 			),
 			'submissiondatetime' => array(
@@ -627,22 +633,26 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		$template_tag_group_template .= '<ul></ul>';
 		$template_tag_group_template .= '</li>';
 
-		$assets->register_script( 'admin-email-notifications', 'assets/dist/js/admin-email-notifications.js', array(
-			'deps'          => array( 'jquery', 'torro-template-tag-fields', 'torro-admin-form-builder' ),
-			'in_footer'     => true,
-			'localize_name' => 'torroEmailNotifications',
-			'localize_data' => array(
-				'templateTagGroupTemplate' => $template_tag_group_template,
-				'templateTagTemplate'      => $template_tag_template,
-				'templateTagSlug'          => 'value_element_%element_id%',
-				'templateTagGroup'         => 'submission',
-				'templateTagGroupLabel'    => _x( 'Submission', 'template tag group', 'torro-forms' ),
-				/* translators: %s: element label */
-				'templateTagLabel'         => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), '%element_label%' ),
-				/* translators: %s: element label */
-				'templateTagDescription'   => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), '%element_label%' ),
-			),
-		) );
+		$assets->register_script(
+			'admin-email-notifications',
+			'assets/dist/js/admin-email-notifications.js',
+			array(
+				'deps'          => array( 'jquery', 'torro-template-tag-fields', 'torro-admin-form-builder' ),
+				'in_footer'     => true,
+				'localize_name' => 'torroEmailNotifications',
+				'localize_data' => array(
+					'templateTagGroupTemplate' => $template_tag_group_template,
+					'templateTagTemplate'      => $template_tag_template,
+					'templateTagSlug'          => 'value_element_%element_id%',
+					'templateTagGroup'         => 'submission',
+					'templateTagGroupLabel'    => _x( 'Submission', 'template tag group', 'torro-forms' ),
+					/* translators: %s: element label */
+					'templateTagLabel'         => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), '%element_label%' ),
+					/* translators: %s: element label */
+					'templateTagDescription'   => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), '%element_label%' ),
+				),
+			)
+		);
 	}
 
 	/**

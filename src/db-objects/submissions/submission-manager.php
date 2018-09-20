@@ -222,20 +222,23 @@ class Submission_Manager extends Manager {
 	 * @since 1.0.0
 	 */
 	protected function add_database_table() {
-		$this->db()->add_table( $this->table_name, array(
-			'id int(11) unsigned NOT NULL auto_increment',
-			'form_id bigint(20) unsigned NOT NULL',
-			'user_id bigint(20) unsigned NOT NULL',
-			'timestamp int(11) unsigned NOT NULL',
-			'remote_addr char(50) NOT NULL',
-			'user_key char(50) NOT NULL',
-			"status char(50) NOT NULL default 'completed'",
-			'PRIMARY KEY  (id)',
-			'KEY form_id (form_id)',
-			'KEY user_id (user_id)',
-			'KEY status (status)',
-			'KEY status_form_id (status,form_id)',
-		) );
+		$this->db()->add_table(
+			$this->table_name,
+			array(
+				'id int(11) unsigned NOT NULL auto_increment',
+				'form_id bigint(20) unsigned NOT NULL',
+				'user_id bigint(20) unsigned NOT NULL',
+				'timestamp int(11) unsigned NOT NULL',
+				'remote_addr char(50) NOT NULL',
+				'user_key char(50) NOT NULL',
+				"status char(50) NOT NULL default 'completed'",
+				'PRIMARY KEY  (id)',
+				'KEY form_id (form_id)',
+				'KEY user_id (user_id)',
+				'KEY status (status)',
+				'KEY status_form_id (status,form_id)',
+			)
+		);
 
 		$this->add_meta_database_table();
 	}
@@ -401,13 +404,15 @@ class Submission_Manager extends Manager {
 		 */
 		$limit = apply_filters( "{$this->get_prefix()}delete_submissions_query_limit", 50 );
 
-		$submissions = $this->query( array(
-			'number'    => $limit,
-			'status'    => 'progressing',
-			'timestamp' => array(
-				'lower_than' => current_time( 'timestamp', true ) - $delete_days * DAY_IN_SECONDS,
-			),
-		) );
+		$submissions = $this->query(
+			array(
+				'number'    => $limit,
+				'status'    => 'progressing',
+				'timestamp' => array(
+					'lower_than' => current_time( 'timestamp', true ) - $delete_days * DAY_IN_SECONDS,
+				),
+			)
+		);
 		foreach ( $submissions as $submission ) {
 			$submission->delete();
 		}

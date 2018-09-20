@@ -315,15 +315,19 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function register_assets( $assets ) {
-		$assets->register_script( 'admin-member-invitations', 'assets/dist/js/admin-member-invitations.js', array(
-			'deps'          => array( 'wp-util', 'jquery' ),
-			'in_footer'     => true,
-			'localize_name' => 'torroMemberInvitations',
-			'localize_data' => array(
-				'ajaxPrefix'            => $this->module->manager()->ajax()->get_prefix(),
-				'ajaxInviteMemberNonce' => $this->module->manager()->ajax()->get_nonce( 'invite_member' ),
-			),
-		) );
+		$assets->register_script(
+			'admin-member-invitations',
+			'assets/dist/js/admin-member-invitations.js',
+			array(
+				'deps'          => array( 'wp-util', 'jquery' ),
+				'in_footer'     => true,
+				'localize_name' => 'torroMemberInvitations',
+				'localize_data' => array(
+					'ajaxPrefix'            => $this->module->manager()->ajax()->get_prefix(),
+					'ajaxInviteMemberNonce' => $this->module->manager()->ajax()->get_nonce( 'invite_member' ),
+				),
+			)
+		);
 	}
 
 	/**

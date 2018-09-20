@@ -253,10 +253,13 @@ class Submission extends Model {
 			return $this->manager->get_child_manager( 'submission_values' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'        => -1,
-			'submission_id' => $this->id,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'        => -1,
+				'submission_id' => $this->id,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'submission_values' )->query( $args );
 	}
@@ -311,9 +314,11 @@ class Submission extends Model {
 			}
 
 			if ( ! empty( $ids ) ) {
-				$old_values = $this->get_submission_values( array(
-					'exclude' => $ids,
-				) );
+				$old_values = $this->get_submission_values(
+					array(
+						'exclude' => $ids,
+					)
+				);
 				foreach ( $old_values as $old_value ) {
 					$old_value->delete();
 				}
@@ -422,13 +427,15 @@ class Submission extends Model {
 				return null;
 			}
 
-			$container_collection = $form->get_containers( array(
-				'number'        => 1,
-				'orderby'       => array(
-					'sort' => 'ASC',
-				),
-				'no_found_rows' => true,
-			) );
+			$container_collection = $form->get_containers(
+				array(
+					'number'        => 1,
+					'orderby'       => array(
+						'sort' => 'ASC',
+					),
+					'no_found_rows' => true,
+				)
+			);
 			if ( 1 > count( $container_collection ) ) {
 				return null;
 			}
@@ -458,16 +465,18 @@ class Submission extends Model {
 			return null;
 		}
 
-		$container_collection = $form->get_containers( array(
-			'number'        => 1,
-			'sort'          => array(
-				'greater_than' => $container->sort,
-			),
-			'orderby'       => array(
-				'sort' => 'ASC',
-			),
-			'no_found_rows' => true,
-		) );
+		$container_collection = $form->get_containers(
+			array(
+				'number'        => 1,
+				'sort'          => array(
+					'greater_than' => $container->sort,
+				),
+				'orderby'       => array(
+					'sort' => 'ASC',
+				),
+				'no_found_rows' => true,
+			)
+		);
 		if ( 1 > count( $container_collection ) ) {
 			return null;
 		}
@@ -493,16 +502,18 @@ class Submission extends Model {
 			return null;
 		}
 
-		$container_collection = $form->get_containers( array(
-			'number'        => 1,
-			'sort'          => array(
-				'lower_than' => $container->sort,
-			),
-			'orderby'       => array(
-				'sort' => 'DESC',
-			),
-			'no_found_rows' => true,
-		) );
+		$container_collection = $form->get_containers(
+			array(
+				'number'        => 1,
+				'sort'          => array(
+					'lower_than' => $container->sort,
+				),
+				'orderby'       => array(
+					'sort' => 'DESC',
+				),
+				'no_found_rows' => true,
+			)
+		);
 		if ( 1 > count( $container_collection ) ) {
 			return null;
 		}
