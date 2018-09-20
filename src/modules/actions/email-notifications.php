@@ -566,7 +566,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 			);
 
 			// Add email support to text fields with input_type 'email_address'.
-			if ( is_a( $element_type, Textfield::class ) ) {
+			if ( $element_type instanceof Textfield ) {
 				$settings = $element_type->get_settings( $element );
 				if ( ! empty( $settings['input_type'] ) && 'email_address' === $settings['input_type'] ) {
 					$tags[ 'value_element_' . $element->id ]['email_support'] = true;

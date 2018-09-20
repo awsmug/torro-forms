@@ -278,7 +278,7 @@ abstract class Element_Type {
 					$allow_get_params = apply_filters( "{$this->manager->get_prefix()}allow_get_params", false, $element->id, $form->id );
 
 					if ( $allow_get_params ) {
-						$choices = is_a( $this, Choice_Element_Type_Interface::class ) ? $this->get_choices( $element ) : array();
+						$choices = ( $this instanceof Choice_Element_Type_Interface ) ? $this->get_choices( $element ) : array();
 
 						$get_params = wp_unslash( $_GET[ 'torro_input_value_' . $element->id ] ); // phpcs:ignore WordPress.Security
 						if ( is_array( $get_params ) ) {
@@ -328,7 +328,7 @@ abstract class Element_Type {
 	 *               must match those returned from the get_export_columns() method.
 	 */
 	public function format_values_for_export( $values, $element, $export_format ) {
-		if ( is_a( $this, Choice_Element_Type_Interface::class ) && ! $this->use_single_export_column_for_choices( $element ) ) {
+		if ( $this instanceof Choice_Element_Type_Interface::class && ! $this->use_single_export_column_for_choices( $element ) ) {
 			$value  = isset( $values['_main'] ) ? (array) $values['_main'] : array();
 			$yes_no = $this->get_export_column_choices_yes_no( $element );
 
@@ -363,7 +363,7 @@ abstract class Element_Type {
 	 * @return array Associative array of `$column_slug => $column_label` pairs.
 	 */
 	public function get_export_columns( $element ) {
-		if ( is_a( $this, Choice_Element_Type_Interface::class ) && ! $this->use_single_export_column_for_choices( $element ) ) {
+		if ( $this instanceof Choice_Element_Type_Interface::class && ! $this->use_single_export_column_for_choices( $element ) ) {
 			$columns = array();
 
 			foreach ( $element->get_element_choices() as $element_choice ) {
@@ -457,13 +457,13 @@ abstract class Element_Type {
 		}
 
 		$choices = array();
-		if ( is_a( $this, Choice_Element_Type_Interface::class ) ) {
+		if ( $this instanceof Choice_Element_Type_Interface ) {
 			$choices = $this->get_choices( $element );
 
 			$data['choices'] = ! empty( $choices['_main'] ) ? $choices['_main'] : array();
 		}
 
-		if ( is_a( $this, Multi_Field_Element_Type_Interface::class ) ) {
+		if ( $this instanceof Multi_Field_Element_Type_Interface ) {
 			$data['additional_fields'] = $this->additional_fields_to_json( $element, $submission, $choices, $settings, $values );
 		}
 
@@ -517,7 +517,7 @@ abstract class Element_Type {
 			$args['input_classes'] = explode( ' ', $settings['css_classes'] );
 		}
 
-		if ( is_a( $this, Choice_Element_Type_Interface::class ) ) {
+		if ( $this instanceof Choice_Element_Type_Interface ) {
 			$choices = $this->get_choices( $element );
 
 			$args['choices'] = ! empty( $choices['_main'] ) ? array_combine( $choices['_main'], $choices['_main'] ) : array();

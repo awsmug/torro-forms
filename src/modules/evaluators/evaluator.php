@@ -270,7 +270,7 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 				$this->evaluatable_elements[ $element_id ] = false;
 			} else {
 				$element_type = $element->get_element_type();
-				if ( ! $element_type || ! is_a( $element_type, Choice_Element_Type_Interface::class ) ) {
+				if ( ! $element_type || ! $element_type instanceof Choice_Element_Type_Interface ) {
 					$this->evaluatable_elements[ $element_id ] = false;
 				} else {
 					$this->evaluatable_elements[ $element_id ] = true;

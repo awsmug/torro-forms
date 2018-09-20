@@ -266,7 +266,7 @@ class Submission_Edit_Page extends Model_Edit_Page {
 							$element_type = $element->get_element_type();
 
 							if ( $element_type ) {
-								if ( is_a( $element_type, Non_Input_Element_Type_Interface::class ) ) {
+								if ( $element_type instanceof Non_Input_Element_Type_Interface ) {
 									continue;
 								}
 
