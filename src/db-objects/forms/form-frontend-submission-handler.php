@@ -112,6 +112,10 @@ class Form_Frontend_Submission_Handler {
 	 * @param array      $data       Submission POST data.
 	 */
 	protected function handle_form_submission( $form, $submission, $data = array() ) {
+		if ( $submission->has_errors() ) {
+			$submission->reset_errors();
+		}
+
 		$container = $submission->get_current_container();
 		if ( ! $container ) {
 			$submission->add_error( 0, 'internal_error_container', __( 'Internal error: No current container is available for this form.', 'torro-forms' ) );
