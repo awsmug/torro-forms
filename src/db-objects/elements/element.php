@@ -103,10 +103,13 @@ class Element extends Model {
 			return $this->manager->get_child_manager( 'element_choices' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'     => -1,
-			'element_id' => $this->id,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'     => -1,
+				'element_id' => $this->id,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'element_choices' )->query( $args );
 	}
@@ -124,10 +127,13 @@ class Element extends Model {
 			return $this->manager->get_child_manager( 'element_settings' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'     => -1,
-			'element_id' => $this->id,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'     => -1,
+				'element_id' => $this->id,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'element_settings' )->query( $args );
 	}
@@ -190,77 +196,90 @@ class Element extends Model {
 		 * Filters the element input classes.
 		 *
 		 * @since 1.0.0
+		 * @since 1.1.0 Added the $element parameter.
 		 *
-		 * @param array $input_classes Array of input classes.
+		 * @param array   $input_classes Array of input classes.
+		 * @param Element $element       Element object.
 		 */
-		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ) );
+		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ), $this );
 
 		/**
 		 * Filters the element label classes.
 		 *
 		 * @since 1.0.0
+		 * @since 1.1.0 Added the $element parameter.
 		 *
-		 * @param array $label_classes Array of label classes.
+		 * @param array   $label_classes Array of label classes.
+		 * @param Element $element       Element object.
 		 */
-		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ) );
+		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ), $this );
 
 		/**
 		 * Filters the element wrap classes.
 		 *
 		 * @since 1.0.0
+		 * @since 1.1.0 Added the $element parameter.
 		 *
-		 * @param array $wrap_classes Array of wrap classes.
+		 * @param array   $wrap_classes Array of wrap classes.
+		 * @param Element $element      Element object.
 		 */
-		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ) );
+		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ), $this );
 
 		/**
 		 * Filters the element description classes.
 		 *
 		 * @since 1.0.0
+		 * @since 1.1.0 Added the $element parameter.
 		 *
-		 * @param array $description_classes Array of description classes.
+		 * @param array   $description_classes Array of description classes.
+		 * @param Element $element             Element object.
 		 */
-		$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ) );
+		$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ), $this );
 
 		/**
 		 * Filters the element errors classes, for the error messages wrap.
 		 *
 		 * @since 1.0.0
+		 * @since 1.1.0 Added the $element parameter.
 		 *
-		 * @param array $errors_classes Array of errors classes.
+		 * @param array   $errors_classes Array of errors classes.
+		 * @param Element $element        Element object.
 		 */
-		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ) );
+		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ), $this );
 
-		$data = array_merge( $data, array(
-			'value'             => null,
-			'input_attrs'       => array(
-				'id'    => 'torro-element-' . $this->id,
-				'name'  => 'torro_submission[values][' . $this->id . '][_main]',
-				'class' => implode( ' ', $input_classes ),
-			),
-			'label_required'    => '',
-			'label_attrs'       => array(
-				'id'    => 'torro-element-' . $this->id . '-label',
-				'class' => implode( ' ', $label_classes ),
-				'for'   => 'torro-element-' . $this->id,
-			),
-			'wrap_attrs'        => array(
-				'id'    => 'torro-element-' . $this->id . '-wrap',
-				'class' => implode( ' ', $wrap_classes ),
-			),
-			'description'       => '',
-			'description_attrs' => array(
-				'id'    => 'torro-element-' . $this->id . '-description',
-				'class' => implode( ' ', $description_classes ),
-			),
-			'errors'            => array(),
-			'errors_attrs'      => array(
-				'id'    => 'torro-element-' . $this->id . '-errors',
-				'class' => implode( ' ', $errors_classes ),
-			),
-			'before'            => '',
-			'after'             => '',
-		) );
+		$data = array_merge(
+			$data,
+			array(
+				'value'             => null,
+				'input_attrs'       => array(
+					'id'    => 'torro-element-' . $this->id,
+					'name'  => 'torro_submission[values][' . $this->id . '][_main]',
+					'class' => implode( ' ', $input_classes ),
+				),
+				'label_required'    => '',
+				'label_attrs'       => array(
+					'id'    => 'torro-element-' . $this->id . '-label',
+					'class' => implode( ' ', $label_classes ),
+					'for'   => 'torro-element-' . $this->id,
+				),
+				'wrap_attrs'        => array(
+					'id'    => 'torro-element-' . $this->id . '-wrap',
+					'class' => implode( ' ', $wrap_classes ),
+				),
+				'description'       => '',
+				'description_attrs' => array(
+					'id'    => 'torro-element-' . $this->id . '-description',
+					'class' => implode( ' ', $description_classes ),
+				),
+				'errors'            => array(),
+				'errors_attrs'      => array(
+					'id'    => 'torro-element-' . $this->id . '-errors',
+					'class' => implode( ' ', $errors_classes ),
+				),
+				'before'            => '',
+				'after'             => '',
+			)
+		);
 
 		if ( has_action( "{$this->manager->get_prefix()}element_before" ) ) {
 			ob_start();

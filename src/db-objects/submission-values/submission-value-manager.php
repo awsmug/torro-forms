@@ -75,15 +75,18 @@ class Submission_Value_Manager extends Manager {
 	 * @since 1.0.0
 	 */
 	protected function add_database_table() {
-		$this->db()->add_table( $this->table_name, array(
-			'id int(11) unsigned NOT NULL auto_increment',
-			'submission_id int(11) unsigned NOT NULL',
-			'element_id int(11) unsigned NOT NULL',
-			"field char(100) NOT NULL default ''",
-			'value text NOT NULL',
-			'PRIMARY KEY  (id)',
-			'KEY submission_id (submission_id)',
-			'KEY element_id (element_id)',
-		) );
+		$this->db()->add_table(
+			$this->table_name,
+			array(
+				'id int(11) unsigned NOT NULL auto_increment',
+				'submission_id int(11) unsigned NOT NULL',
+				'element_id int(11) unsigned NOT NULL',
+				"field char(100) NOT NULL default ''",
+				'value text NOT NULL',
+				'PRIMARY KEY  (id)',
+				'KEY submission_id (submission_id)',
+				'KEY element_id (element_id)',
+			)
+		);
 	}
 }

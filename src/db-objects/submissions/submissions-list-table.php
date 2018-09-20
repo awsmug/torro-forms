@@ -238,12 +238,15 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		if ( ! empty( $views ) ) {
-			$views = array_merge( array(
-				'all' => array(
-					'url'   => $list_url,
-					'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_all', true ), $total ), number_format_i18n( $total ) ),
+			$views = array_merge(
+				array(
+					'all' => array(
+						'url'   => $list_url,
+						'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_all', true ), $total ), number_format_i18n( $total ) ),
+					),
 				),
-			), $views );
+				$views
+			);
 		}
 
 		if ( $form_id > 0 ) {

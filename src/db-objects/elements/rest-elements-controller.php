@@ -145,18 +145,24 @@ class REST_Elements_Controller extends REST_Models_Controller {
 		$primary_property = $this->manager->get_primary_property();
 
 		$links['element_choices'] = array(
-			'href'       => add_query_arg( array(
-				'element_id' => $element->$primary_property,
-				'per_page'   => $this->get_embed_limit( 'element_choices' ),
-			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
+			'href'       => add_query_arg(
+				array(
+					'element_id' => $element->$primary_property,
+					'per_page'   => $this->get_embed_limit( 'element_choices' ),
+				),
+				rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) )
+			),
 			'embeddable' => true,
 		);
 
 		$links['element_settings'] = array(
-			'href'       => add_query_arg( array(
-				'element_id' => $element->$primary_property,
-				'per_page'   => $this->get_embed_limit( 'element_settings' ),
-			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
+			'href'       => add_query_arg(
+				array(
+					'element_id' => $element->$primary_property,
+					'per_page'   => $this->get_embed_limit( 'element_settings' ),
+				),
+				rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) )
+			),
 			'embeddable' => true,
 		);
 

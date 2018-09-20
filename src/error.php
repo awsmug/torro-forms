@@ -37,10 +37,17 @@ class Error extends WP_Error {
 	 * @param array  $data          Optional. Further error data. Default empty array.
 	 */
 	public function __construct( $error_code, $error_message, $method, $version = '1.0.0', $data = array() ) {
-		parent::__construct( $error_code, $error_message, array_merge( array(
-			'method'  => $method,
-			'version' => $version,
-		), $data ) );
+		parent::__construct(
+			$error_code,
+			$error_message,
+			array_merge(
+				array(
+					'method'  => $method,
+					'version' => $version,
+				),
+				$data
+			)
+		);
 	}
 
 	/**

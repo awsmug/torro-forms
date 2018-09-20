@@ -227,11 +227,14 @@ abstract class Module extends Service {
 
 		$meta_box_id = $this->get_meta_identifier();
 
-		$edit_page->add_meta_box( $meta_box_id, array(
-			'title'    => $this->get_title(),
-			'context'  => 'normal',
-			'priority' => 'high',
-		) );
+		$edit_page->add_meta_box(
+			$meta_box_id,
+			array(
+				'title'    => $this->get_title(),
+				'context'  => 'normal',
+				'priority' => 'high',
+			)
+		);
 
 		foreach ( $tabs as $slug => $args ) {
 			$args['meta_box'] = $meta_box_id;
@@ -281,11 +284,14 @@ abstract class Module extends Service {
 
 		$tab_id = $this->get_settings_identifier();
 
-		$settings_page->add_tab( $tab_id, array(
-			'title'            => $this->get_title(),
-			/* translators: %s: module title */
-			'rest_description' => sprintf( _x( 'Torro Forms %s module settings.', 'REST API description', 'torro-forms' ), $this->get_title() ),
-		) );
+		$settings_page->add_tab(
+			$tab_id,
+			array(
+				'title'            => $this->get_title(),
+				/* translators: %s: module title */
+				'rest_description' => sprintf( _x( 'Torro Forms %s module settings.', 'REST API description', 'torro-forms' ), $this->get_title() ),
+			)
+		);
 
 		foreach ( $subtabs as $slug => $args ) {
 			$args['tab'] = $tab_id;

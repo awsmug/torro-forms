@@ -68,9 +68,14 @@ class Redirection extends Action {
 		}
 
 		if ( ! empty( $redirect_url ) ) {
-			add_filter( "{$this->module->get_prefix()}handle_form_submission_redirect_url", function() use ( $redirect_url ) {
-				return $redirect_url;
-			}, 100, 0 );
+			add_filter(
+				"{$this->module->get_prefix()}handle_form_submission_redirect_url",
+				function() use ( $redirect_url ) {
+					return $redirect_url;
+				},
+				100,
+				0
+			);
 		}
 
 		return true;
@@ -116,11 +121,13 @@ class Redirection extends Action {
 				),
 			);
 		} else {
-			$pages = get_posts( array(
-				'posts_per_page' => 15,
-				'post_type'      => 'page',
-				'post_status'    => 'publish',
-			) );
+			$pages = get_posts(
+				array(
+					'posts_per_page' => 15,
+					'post_type'      => 'page',
+					'post_status'    => 'publish',
+				)
+			);
 
 			$page_choices = array();
 			foreach ( $pages as $page ) {
