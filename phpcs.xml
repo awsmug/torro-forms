@@ -10,6 +10,8 @@
 	<exclude-pattern>*/templates/*</exclude-pattern>
 	<exclude-pattern>*/tests/*</exclude-pattern>
 
+	<arg value="sv"/>
+
 	<rule ref="WordPress">
 		<exclude name="WordPress.Files.FileName"/>
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis"/>
