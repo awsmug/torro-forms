@@ -90,10 +90,13 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 	 * }
 	 */
 	public function show_results( $results, $form, $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'total' => true,
-			'year'  => 0,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'total' => true,
+				'year'  => 0,
+			)
+		);
 
 		$args['total'] = rest_sanitize_boolean( $args['total'] );
 
@@ -306,23 +309,31 @@ class Participation extends Evaluator implements Assets_Submodule_Interface {
 		$display_mode      = $this->get_form_option( $form->id, 'display_mode', 'line' );
 		$data_point_labels = $this->get_form_option( $form->id, 'data_point_labels', 'none' );
 
-		$less_than_10 = array_reduce( $y_values, function( $carry, $y_value ) {
-			if ( $y_value > 10 ) {
-				return false;
-			}
+		$less_than_10 = array_reduce(
+			$y_values,
+			function( $carry, $y_value ) {
+				if ( $y_value > 10 ) {
+					return false;
+				}
 
-			return $carry;
-		}, true );
+				return $carry;
+			},
+			true
+		);
 
 		$labels = false;
 		if ( 'value' === $data_point_labels ) {
 			$labels = true;
 		} elseif ( 'percentage' === $data_point_labels ) {
-			$aggregate = array_reduce( $y_values, function( $carry, $y_value ) {
-				$carry += $y_value;
+			$aggregate = array_reduce(
+				$y_values,
+				function( $carry, $y_value ) {
+					$carry += $y_value;
 
-				return $carry;
-			}, 0 );
+					return $carry;
+				},
+				0
+			);
 
 			$labels = array(
 				'format' => array(

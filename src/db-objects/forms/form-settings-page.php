@@ -75,10 +75,13 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			$id = $prefix . $id;
 		}
 
-		$this->tabs[ $id ] = wp_parse_args( $args, array(
-			'title'            => '',
-			'rest_description' => '',
-		) );
+		$this->tabs[ $id ] = wp_parse_args(
+			$args,
+			array(
+				'title'            => '',
+				'rest_description' => '',
+			)
+		);
 
 		$services = array(
 			'ajax'          => $this->manager->ajax(),
@@ -86,12 +89,16 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			'error_handler' => $this->manager->error_handler(),
 		);
 
-		$this->tabs[ $id ]['field_manager'] = new Field_Manager( $this->manager->get_prefix(), $services, array(
-			'get_value_callback_args'    => array( $id ),
-			'update_value_callback_args' => array( $id, '{value}' ),
-			'name_prefix'                => $id,
-			'field_required_markup'      => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
-		) );
+		$this->tabs[ $id ]['field_manager'] = new Field_Manager(
+			$this->manager->get_prefix(),
+			$services,
+			array(
+				'get_value_callback_args'    => array( $id ),
+				'update_value_callback_args' => array( $id, '{value}' ),
+				'name_prefix'                => $id,
+				'field_required_markup'      => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
+			)
+		);
 	}
 
 	/**
@@ -117,11 +124,14 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			}
 		}
 
-		$this->subtabs[ $id ] = wp_parse_args( $args, array(
-			'title'       => '',
-			'description' => '',
-			'tab'         => '',
-		) );
+		$this->subtabs[ $id ] = wp_parse_args(
+			$args,
+			array(
+				'title'       => '',
+				'description' => '',
+				'tab'         => '',
+			)
+		);
 	}
 
 	/**
@@ -139,11 +149,14 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 	 * }
 	 */
 	public function add_section( $id, $args = array() ) {
-		$this->sections[ $id ] = wp_parse_args( $args, array(
-			'title'       => '',
-			'description' => '',
-			'subtab'      => '',
-		) );
+		$this->sections[ $id ] = wp_parse_args(
+			$args,
+			array(
+				'title'       => '',
+				'description' => '',
+				'subtab'      => '',
+			)
+		);
 	}
 
 	/**
@@ -221,10 +234,17 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 				$tab_subtab_slug = $this->subtabs[ $this->sections[ $field->section ]['subtab'] ]['tab'] . '_' . $this->sections[ $field->section ]['subtab'];
 
-				add_settings_field( $field->id, $field->label, array( $this, 'render_field' ), $tab_subtab_slug, $field->section, array(
-					'label_for'      => $tab_args['field_manager']->make_id( $field->id ),
-					'field_instance' => $field,
-				) );
+				add_settings_field(
+					$field->id,
+					$field->label,
+					array( $this, 'render_field' ),
+					$tab_subtab_slug,
+					$field->section,
+					array(
+						'label_for'      => $tab_args['field_manager']->make_id( $field->id ),
+						'field_instance' => $field,
+					)
+				);
 			}
 
 			register_setting( $id, $id );
@@ -512,9 +532,12 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			<?php
 		}
 
-		$subtabs = wp_list_filter( $this->subtabs, array(
-			'tab' => $current_tab_id,
-		) );
+		$subtabs = wp_list_filter(
+			$this->subtabs,
+			array(
+				'tab' => $current_tab_id,
+			)
+		);
 		if ( empty( $subtabs ) ) {
 			return;
 		}
@@ -536,10 +559,13 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 				<div class="torro-subtab-wrapper" role="tablist">
 					<?php foreach ( $subtabs as $subtab_id => $subtab_args ) : ?>
 						<?php
-						$url = add_query_arg( array(
-							'tab'    => $current_tab_id,
-							'subtab' => $subtab_id,
-						), $this->url );
+						$url = add_query_arg(
+							array(
+								'tab'    => $current_tab_id,
+								'subtab' => $subtab_id,
+							),
+							$this->url
+						);
 						?>
 						<a id="<?php echo esc_attr( 'torro-subtab-label-' . $subtab_id ); ?>" class="torro-subtab" href="<?php echo esc_url( $url ); ?>" aria-controls="<?php echo esc_attr( 'torro-subtab-' . $subtab_id ); ?>" aria-selected="<?php echo $subtab_id === $current_subtab_id ? 'true' : 'false'; ?>" role="tab">
 							<?php echo wp_kses_data( $subtab_args['title'] ); ?>
@@ -767,13 +793,15 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			$attachment_taxonomy = get_taxonomy( $attachment_taxonomy_slug );
 			if ( $attachment_taxonomy ) {
 				$term_choices = array( '0' => _x( 'None', 'term choices', 'torro-forms' ) );
-				$terms        = get_terms( array(
-					'taxonomy'   => $attachment_taxonomy->name,
-					'number'     => 0,
-					'hide_empty' => false,
-					'orderby'    => 'name',
-					'order'      => 'ASC',
-				) );
+				$terms        = get_terms(
+					array(
+						'taxonomy'   => $attachment_taxonomy->name,
+						'number'     => 0,
+						'hide_empty' => false,
+						'orderby'    => 'name',
+						'order'      => 'ASC',
+					)
+				);
 				if ( ! is_wp_error( $terms ) ) {
 					foreach ( $terms as $term ) {
 						$term_choices[ $term->term_id ] = $term->name;
@@ -792,47 +820,50 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 			}
 		}
 
-		$fields = array_merge( $fields, array(
-			'frontend_css'            => array(
-				'section' => 'advanced',
-				'type'    => 'checkbox',
-				'label'   => __( 'Include Torro Forms CSS on frontend?', 'torro-forms' ),
-				'default' => true,
-			),
-			'delete_submissions'      => array(
-				'section'     => 'advanced',
-				'type'        => 'checkbox',
-				'label'       => __( 'Delete submission that have not completed after a certain amount of time?', 'torro-forms' ),
-				'description' => __( 'Enabling this setting can help keep your database cleaner by deleting submissions that have been started, but never completed.', 'torro-forms' ),
-				'default'     => false,
-			),
-			'delete_submissions_days' => array(
-				'section'       => 'advanced',
-				'type'          => 'number',
-				'label'         => __( 'Submission Deletion', 'torro-forms' ),
-				'description'   => __( 'Specify the number of days after which incomplete submissions should be deleted.', 'torro-forms' ),
-				'min'           => 1,
-				'step'          => 1,
-				'default'       => 1,
-				'unit'          => _x( 'day/s', 'field unit', 'torro-forms' ),
-				'input_classes' => array( 'small-text' ),
-				'dependencies'  => array(
-					array(
-						'prop'     => 'display',
-						'callback' => 'get_data_by_condition_true',
-						'fields'   => array( 'delete_submissions' ),
-						'args'     => array(),
+		$fields = array_merge(
+			$fields,
+			array(
+				'frontend_css'            => array(
+					'section' => 'advanced',
+					'type'    => 'checkbox',
+					'label'   => __( 'Include Torro Forms CSS on frontend?', 'torro-forms' ),
+					'default' => true,
+				),
+				'delete_submissions'      => array(
+					'section'     => 'advanced',
+					'type'        => 'checkbox',
+					'label'       => __( 'Delete submission that have not completed after a certain amount of time?', 'torro-forms' ),
+					'description' => __( 'Enabling this setting can help keep your database cleaner by deleting submissions that have been started, but never completed.', 'torro-forms' ),
+					'default'     => false,
+				),
+				'delete_submissions_days' => array(
+					'section'       => 'advanced',
+					'type'          => 'number',
+					'label'         => __( 'Submission Deletion', 'torro-forms' ),
+					'description'   => __( 'Specify the number of days after which incomplete submissions should be deleted.', 'torro-forms' ),
+					'min'           => 1,
+					'step'          => 1,
+					'default'       => 1,
+					'unit'          => _x( 'day/s', 'field unit', 'torro-forms' ),
+					'input_classes' => array( 'small-text' ),
+					'dependencies'  => array(
+						array(
+							'prop'     => 'display',
+							'callback' => 'get_data_by_condition_true',
+							'fields'   => array( 'delete_submissions' ),
+							'args'     => array(),
+						),
 					),
 				),
-			),
-			'hard_uninstall'          => array(
-				'section'     => 'advanced',
-				'type'        => 'checkbox',
-				'label'       => __( 'Perform a hard uninstall when the plugin is removed?', 'torro-forms' ),
-				'description' => __( '<strong>Use this setting with extreme caution</strong> as, when it is enabled, removing the plugin will remove all form content from your site forever.', 'torro-forms' ),
-				'default'     => false,
-			),
-		) );
+				'hard_uninstall'          => array(
+					'section'     => 'advanced',
+					'type'        => 'checkbox',
+					'label'       => __( 'Perform a hard uninstall when the plugin is removed?', 'torro-forms' ),
+					'description' => __( '<strong>Use this setting with extreme caution</strong> as, when it is enabled, removing the plugin will remove all form content from your site forever.', 'torro-forms' ),
+					'default'     => false,
+				),
+			)
+		);
 
 		/**
 		 * Filters the form settings fields.

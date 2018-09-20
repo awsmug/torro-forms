@@ -41,11 +41,13 @@ class Submission_Count extends Access_Control {
 	public function can_access( $form, $submission = null ) {
 		$limit = (int) $this->get_form_option( $form->id, 'total_submissions_limit', 100 );
 
-		$submissions = $form->get_submissions( array(
-			'number' => $limit,
-			'fields' => 'ids',
-			'status' => 'completed',
-		) );
+		$submissions = $form->get_submissions(
+			array(
+				'number' => $limit,
+				'fields' => 'ids',
+				'status' => 'completed',
+			)
+		);
 		if ( count( $submissions ) >= $limit ) {
 			$message = $this->get_form_option( $form->id, 'total_submissions_reached_message' );
 			if ( empty( $message ) ) {

@@ -174,10 +174,13 @@ class Form extends Core_Model {
 			return $this->manager->get_child_manager( 'containers' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'  => -1,
-			'form_id' => $this->original->ID,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'  => -1,
+				'form_id' => $this->original->ID,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'containers' )->query( $args );
 	}
@@ -195,10 +198,13 @@ class Form extends Core_Model {
 			return $this->manager->get_child_manager( 'containers' )->get_child_manager( 'elements' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'  => -1,
-			'form_id' => $this->original->ID,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'  => -1,
+				'form_id' => $this->original->ID,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'containers' )->get_child_manager( 'elements' )->query( $args );
 	}
@@ -216,10 +222,13 @@ class Form extends Core_Model {
 			return $this->manager->get_child_manager( 'submissions' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'  => -1,
-			'form_id' => $this->original->ID,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'  => -1,
+				'form_id' => $this->original->ID,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'submissions' )->query( $args );
 	}
@@ -395,9 +404,11 @@ class Form extends Core_Model {
 
 		$mappings = array();
 
-		$comments = get_comments( array(
-			'post_id' => $this->original->ID,
-		) );
+		$comments = get_comments(
+			array(
+				'post_id' => $this->original->ID,
+			)
+		);
 
 		foreach ( $comments as $comment ) {
 			$comment_data                    = get_comment( $comment, ARRAY_A );

@@ -115,12 +115,15 @@ class Form_Frontend_Output_Handler {
 	 * }
 	 */
 	public function get_shortcode_content( $atts ) {
-		$atts = shortcode_atts( array(
-			'id'            => '',
-			'show'          => 'direct',
-			'iframe_width'  => '100%',
-			'iframe_height' => '100%',
-		), $atts );
+		$atts = shortcode_atts(
+			array(
+				'id'            => '',
+				'show'          => 'direct',
+				'iframe_width'  => '100%',
+				'iframe_height' => '100%',
+			),
+			$atts
+		);
 
 		$atts['id'] = absint( $atts['id'] );
 
@@ -364,10 +367,12 @@ class Form_Frontend_Output_Handler {
 
 		$template_data['current_container'] = $container->to_json( false );
 
-		$container_collection = $form->get_containers( array(
-			'number'        => 2,
-			'no_found_rows' => true,
-		) );
+		$container_collection = $form->get_containers(
+			array(
+				'number'        => 2,
+				'no_found_rows' => true,
+			)
+		);
 
 		$show_container_title = $container_collection->get_total() > 1;
 
@@ -390,11 +395,6 @@ class Form_Frontend_Output_Handler {
 			$template_data['current_container']['elements'][] = $element->to_json( false, $submission );
 		}
 
-		if ( $submission && $submission->has_errors() ) {
-			$submission->reset_errors();
-			$submission->sync_upstream();
-		}
-
 		$this->form_manager->template()->get_partial( 'form', $template_data );
 	}
 
@@ -412,13 +412,15 @@ class Form_Frontend_Output_Handler {
 			return $submission->get_current_container();
 		}
 
-		$container_collection = $form->get_containers( array(
-			'number'        => 1,
-			'orderby'       => array(
-				'sort' => 'ASC',
-			),
-			'no_found_rows' => true,
-		) );
+		$container_collection = $form->get_containers(
+			array(
+				'number'        => 1,
+				'orderby'       => array(
+					'sort' => 'ASC',
+				),
+				'no_found_rows' => true,
+			)
+		);
 
 		if ( 1 > count( $container_collection ) ) {
 			return null;
