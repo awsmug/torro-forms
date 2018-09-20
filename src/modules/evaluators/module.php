@@ -195,16 +195,24 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @param Assets $assets Assets API instance.
 	 */
 	protected function register_assets( $assets ) {
-		$assets->register_script( 'admin-evaluations', 'assets/dist/js/admin-evaluations.js', array(
-			'deps'      => array( 'jquery' ),
-			'ver'       => torro()->version(),
-			'in_footer' => true,
-		) );
+		$assets->register_script(
+			'admin-evaluations',
+			'assets/dist/js/admin-evaluations.js',
+			array(
+				'deps'      => array( 'jquery' ),
+				'ver'       => torro()->version(),
+				'in_footer' => true,
+			)
+		);
 
-		$assets->register_style( 'admin-evaluations', 'assets/dist/css/admin-evaluations.css', array(
-			'deps' => array(),
-			'ver'  => torro()->version(),
-		) );
+		$assets->register_style(
+			'admin-evaluations',
+			'assets/dist/css/admin-evaluations.css',
+			array(
+				'deps' => array(),
+				'ver'  => torro()->version(),
+			)
+		);
 
 		$this->_register_assets( $assets );
 	}
@@ -307,10 +315,14 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	public function get_shortcode_content( $atts ) {
 		$args = $atts;
 
-		$atts = shortcode_atts( array(
-			'id'   => '',
-			'mode' => 'element_responses',
-		), $atts, "{$this->get_prefix()}form_charts" );
+		$atts = shortcode_atts(
+			array(
+				'id'   => '',
+				'mode' => 'element_responses',
+			),
+			$atts,
+			"{$this->get_prefix()}form_charts"
+		);
 
 		$args = array_diff_key( $args, $atts );
 

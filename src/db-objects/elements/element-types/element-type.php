@@ -396,7 +396,10 @@ abstract class Element_Type {
 		$settings = $this->get_settings( $element );
 		$values   = $this->get_values( $element, $submission );
 
-		$data['value'] = ( ! empty( $values['_main'] ) || is_numeric( $values['_main'] ) ) ? $values['_main'] : '';
+		$data['value'] = '';
+		if ( isset( $values['_main'] ) && ( ! empty( $values['_main'] ) || is_numeric( $values['_main'] ) ) ) {
+			$data['value'] = $values['_main'];
+		}
 
 		$placeholder = ! empty( $settings['placeholder'] ) ? $settings['placeholder'] : '';
 

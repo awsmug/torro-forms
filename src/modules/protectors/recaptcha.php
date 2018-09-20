@@ -148,11 +148,14 @@ class reCAPTCHA extends Protector { // @codingStandardsIgnoreLine
 
 		$callback_name = 'torroReCAPTCHAWidgetsInit';
 
-		$recaptcha_script_url = add_query_arg( array(
-			'onload' => $callback_name,
-			'render' => 'explicit',
-			'hl'     => $locale,
-		), 'https://www.google.com/recaptcha/api.js' );
+		$recaptcha_script_url = add_query_arg(
+			array(
+				'onload' => $callback_name,
+				'render' => 'explicit',
+				'hl'     => $locale,
+			),
+			'https://www.google.com/recaptcha/api.js'
+		);
 
 		// @codingStandardsIgnoreStart
 		?>
@@ -287,10 +290,14 @@ class reCAPTCHA extends Protector { // @codingStandardsIgnoreLine
 			'http' => array(
 				'header'      => "Content-type: application/x-www-form-urlencoded\r\n",
 				'method'      => 'POST',
-				'content'     => http_build_query( array(
-					'secret'   => $this->get_option( 'secret_key' ),
-					'response' => $response,
-				), '', '&' ),
+				'content'     => http_build_query(
+					array(
+						'secret'   => $this->get_option( 'secret_key' ),
+						'response' => $response,
+					),
+					'',
+					'&'
+				),
 				'verify_peer' => true,
 				$peer_key     => 'www.google.com',
 			),

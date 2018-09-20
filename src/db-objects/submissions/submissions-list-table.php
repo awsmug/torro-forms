@@ -238,12 +238,15 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		if ( ! empty( $views ) ) {
-			$views = array_merge( array(
-				'all' => array(
-					'url'   => $list_url,
-					'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_all', true ), $total ), number_format_i18n( $total ) ),
+			$views = array_merge(
+				array(
+					'all' => array(
+						'url'   => $list_url,
+						'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_all', true ), $total ), number_format_i18n( $total ) ),
+					),
 				),
-			), $views );
+				$views
+			);
 		}
 
 		if ( $form_id > 0 ) {
@@ -335,7 +338,7 @@ class Submissions_List_Table extends Models_List_Table {
 		}
 
 		if ( filter_has_var( INPUT_GET, 'status' ) ) {
-			$query_params['status'] = array_map( 'sanitize_key', (array) filter_input( INPUT_GET, 'status', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) );
+			$query_params['status'] = array_map( 'sanitize_key', filter_input( INPUT_GET, 'status', FILTER_DEFAULT, FILTER_FORCE_ARRAY ) );
 		}
 
 		$yearmonth = filter_input( INPUT_GET, 'm' );

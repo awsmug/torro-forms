@@ -103,10 +103,13 @@ class Element extends Model {
 			return $this->manager->get_child_manager( 'element_choices' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'     => -1,
-			'element_id' => $this->id,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'     => -1,
+				'element_id' => $this->id,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'element_choices' )->query( $args );
 	}
@@ -124,10 +127,13 @@ class Element extends Model {
 			return $this->manager->get_child_manager( 'element_settings' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'     => -1,
-			'element_id' => $this->id,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'     => -1,
+				'element_id' => $this->id,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'element_settings' )->query( $args );
 	}
@@ -231,36 +237,39 @@ class Element extends Model {
 		 */
 		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ) );
 
-		$data = array_merge( $data, array(
-			'value'             => null,
-			'input_attrs'       => array(
-				'id'    => 'torro-element-' . $this->id,
-				'name'  => 'torro_submission[values][' . $this->id . '][_main]',
-				'class' => implode( ' ', $input_classes ),
-			),
-			'label_required'    => '',
-			'label_attrs'       => array(
-				'id'    => 'torro-element-' . $this->id . '-label',
-				'class' => implode( ' ', $label_classes ),
-				'for'   => 'torro-element-' . $this->id,
-			),
-			'wrap_attrs'        => array(
-				'id'    => 'torro-element-' . $this->id . '-wrap',
-				'class' => implode( ' ', $wrap_classes ),
-			),
-			'description'       => '',
-			'description_attrs' => array(
-				'id'    => 'torro-element-' . $this->id . '-description',
-				'class' => implode( ' ', $description_classes ),
-			),
-			'errors'            => array(),
-			'errors_attrs'      => array(
-				'id'    => 'torro-element-' . $this->id . '-errors',
-				'class' => implode( ' ', $errors_classes ),
-			),
-			'before'            => '',
-			'after'             => '',
-		) );
+		$data = array_merge(
+			$data,
+			array(
+				'value'             => null,
+				'input_attrs'       => array(
+					'id'    => 'torro-element-' . $this->id,
+					'name'  => 'torro_submission[values][' . $this->id . '][_main]',
+					'class' => implode( ' ', $input_classes ),
+				),
+				'label_required'    => '',
+				'label_attrs'       => array(
+					'id'    => 'torro-element-' . $this->id . '-label',
+					'class' => implode( ' ', $label_classes ),
+					'for'   => 'torro-element-' . $this->id,
+				),
+				'wrap_attrs'        => array(
+					'id'    => 'torro-element-' . $this->id . '-wrap',
+					'class' => implode( ' ', $wrap_classes ),
+				),
+				'description'       => '',
+				'description_attrs' => array(
+					'id'    => 'torro-element-' . $this->id . '-description',
+					'class' => implode( ' ', $description_classes ),
+				),
+				'errors'            => array(),
+				'errors_attrs'      => array(
+					'id'    => 'torro-element-' . $this->id . '-errors',
+					'class' => implode( ' ', $errors_classes ),
+				),
+				'before'            => '',
+				'after'             => '',
+			)
+		);
 
 		if ( has_action( "{$this->manager->get_prefix()}element_before" ) ) {
 			ob_start();

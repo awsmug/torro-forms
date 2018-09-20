@@ -101,11 +101,14 @@ class Element_Manager extends Manager {
 
 		parent::__construct( $prefix, $services, $translations );
 
-		$this->types = new Element_Type_Manager( $this->get_prefix(), array(
-			'elements'      => $this,
-			'assets'        => $this->assets(),
-			'error_handler' => $this->error_handler(),
-		) );
+		$this->types = new Element_Type_Manager(
+			$this->get_prefix(),
+			array(
+				'elements'      => $this,
+				'assets'        => $this->assets(),
+				'error_handler' => $this->error_handler(),
+			)
+		);
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$command = new CLI_Elements_Command( $this );
@@ -160,16 +163,19 @@ class Element_Manager extends Manager {
 	 * @since 1.0.0
 	 */
 	protected function add_database_table() {
-		$this->db()->add_table( $this->table_name, array(
-			'id int(11) unsigned NOT NULL auto_increment',
-			'container_id int(11) unsigned NOT NULL',
-			'label text NOT NULL',
-			"sort int(11) unsigned NOT NULL default '0'",
-			'type char(50) NOT NULL',
-			'PRIMARY KEY  (id)',
-			'KEY container_id (container_id)',
-			'KEY type (type)',
-			'KEY type_container_id (type,container_id)',
-		) );
+		$this->db()->add_table(
+			$this->table_name,
+			array(
+				'id int(11) unsigned NOT NULL auto_increment',
+				'container_id int(11) unsigned NOT NULL',
+				'label text NOT NULL',
+				"sort int(11) unsigned NOT NULL default '0'",
+				'type char(50) NOT NULL',
+				'PRIMARY KEY  (id)',
+				'KEY container_id (container_id)',
+				'KEY type (type)',
+				'KEY type_container_id (type,container_id)',
+			)
+		);
 	}
 }

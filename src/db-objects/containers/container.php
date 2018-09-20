@@ -88,10 +88,13 @@ class Container extends Model {
 			return $this->manager->get_child_manager( 'elements' )->get_collection( array(), 0, 'objects' );
 		}
 
-		$args = wp_parse_args( $args, array(
-			'number'       => -1,
-			'container_id' => $this->id,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'number'       => -1,
+				'container_id' => $this->id,
+			)
+		);
 
 		return $this->manager->get_child_manager( 'elements' )->query( $args );
 	}

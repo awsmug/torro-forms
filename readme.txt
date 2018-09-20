@@ -8,8 +8,8 @@ Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
 Tested up to:      4.9
 Requires PHP:      5.6
-Stable tag:        1.0.1
-Version:           1.0.1
+Stable tag:        1.0.3
+Version:           1.0.3
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -82,6 +82,15 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 4. Plugin settings screen
 
 == Changelog ==
+
+= 1.0.3 =
+
+* Fixed: Submissions list table filtering by status or search works correctly again.
+* Fixed: Containers, elements, element choices and element settings are deleted correctly in form builder.
+
+= 1.0.2 =
+
+* Fixed: Undefined index in element type
 
 = 1.0.1 =
 

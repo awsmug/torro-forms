@@ -47,9 +47,13 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$schema['properties']['status'] = array(
 			'description' => __( 'Status of the form.', 'torro-forms' ),
 			'type'        => 'string',
-			'enum'        => array_keys( get_post_stati( array(
-				'internal' => false,
-			) ) ),
+			'enum'        => array_keys(
+				get_post_stati(
+					array(
+						'internal' => false,
+					)
+				)
+			),
 			'context'     => array( 'edit' ),
 		);
 
@@ -87,9 +91,13 @@ class REST_Forms_Controller extends REST_Models_Controller {
 			'type'              => 'array',
 			'items'             => array(
 				'type' => 'string',
-				'enum' => array_keys( get_post_stati( array(
-					'internal' => false,
-				) ) ),
+				'enum' => array_keys(
+					get_post_stati(
+						array(
+							'internal' => false,
+						)
+					)
+				),
 			),
 			'default'           => 'publish',
 			'sanitize_callback' => array( $this, 'sanitize_status_param' ),
@@ -112,34 +120,46 @@ class REST_Forms_Controller extends REST_Models_Controller {
 		$primary_property = $this->manager->get_primary_property();
 
 		$links['containers'] = array(
-			'href'       => add_query_arg( array(
-				'form_id'  => $form->$primary_property,
-				'per_page' => $this->get_embed_limit( 'containers' ),
-			), rest_url( sprintf( '%s/%s', $this->namespace, 'containers' ) ) ),
+			'href'       => add_query_arg(
+				array(
+					'form_id'  => $form->$primary_property,
+					'per_page' => $this->get_embed_limit( 'containers' ),
+				),
+				rest_url( sprintf( '%s/%s', $this->namespace, 'containers' ) )
+			),
 			'embeddable' => true,
 		);
 
 		$links['elements'] = array(
-			'href'       => add_query_arg( array(
-				'form_id'  => $form->$primary_property,
-				'per_page' => $this->get_embed_limit( 'elements' ),
-			), rest_url( sprintf( '%s/%s', $this->namespace, 'elements' ) ) ),
+			'href'       => add_query_arg(
+				array(
+					'form_id'  => $form->$primary_property,
+					'per_page' => $this->get_embed_limit( 'elements' ),
+				),
+				rest_url( sprintf( '%s/%s', $this->namespace, 'elements' ) )
+			),
 			'embeddable' => true,
 		);
 
 		$links['element_choices'] = array(
-			'href'       => add_query_arg( array(
-				'form_id'  => $form->$primary_property,
-				'per_page' => $this->get_embed_limit( 'element_choices' ),
-			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) ) ),
+			'href'       => add_query_arg(
+				array(
+					'form_id'  => $form->$primary_property,
+					'per_page' => $this->get_embed_limit( 'element_choices' ),
+				),
+				rest_url( sprintf( '%s/%s', $this->namespace, 'element_choices' ) )
+			),
 			'embeddable' => true,
 		);
 
 		$links['element_settings'] = array(
-			'href'       => add_query_arg( array(
-				'form_id'  => $form->$primary_property,
-				'per_page' => $this->get_embed_limit( 'element_settings' ),
-			), rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) ) ),
+			'href'       => add_query_arg(
+				array(
+					'form_id'  => $form->$primary_property,
+					'per_page' => $this->get_embed_limit( 'element_settings' ),
+				),
+				rest_url( sprintf( '%s/%s', $this->namespace, 'element_settings' ) )
+			),
 			'embeddable' => true,
 		);
 
