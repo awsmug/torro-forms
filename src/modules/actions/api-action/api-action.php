@@ -508,7 +508,16 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				}
 
 				if ( empty( $route_data['fields'] ) ) {
-					$this->available_structures[ $structure_slug ]['routes'][ $route_slug ]['fields'] = array();
+					$route_data['fields'] = array();
+
+					$this->available_structures[ $structure_slug ]['routes'][ $route_slug ]['fields'] = $route_data['fields'];
+				}
+
+				foreach ( $route_data['fields'] as $field_slug => $field_data ) {
+					if ( ! is_array( $field_data ) || ! isset( $field_data['value'] ) && ! isset( $field_data['value_callback'] ) && ! isset( $field_data['default'] ) ) {
+						/* translators: 1: API action title, 2: API structure slug, 3: API route slug, 4: API route field slug */
+						throw new Exception( sprintf( __( 'Invalid or incomplete data set for API action %1$s, structure %2$s, route %3$s and field %4$s.', 'torro-forms' ), $this->title, $structure_slug, $route_slug, $field_slug ) );
+					}
 				}
 			}
 		}
