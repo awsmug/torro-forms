@@ -328,7 +328,7 @@ abstract class Element_Type {
 	 *               must match those returned from the get_export_columns() method.
 	 */
 	public function format_values_for_export( $values, $element, $export_format ) {
-		if ( $this instanceof Choice_Element_Type_Interface::class && ! $this->use_single_export_column_for_choices( $element ) ) {
+		if ( $this instanceof Choice_Element_Type_Interface && ! $this->use_single_export_column_for_choices( $element ) ) {
 			$value  = isset( $values['_main'] ) ? (array) $values['_main'] : array();
 			$yes_no = $this->get_export_column_choices_yes_no( $element );
 
@@ -363,7 +363,7 @@ abstract class Element_Type {
 	 * @return array Associative array of `$column_slug => $column_label` pairs.
 	 */
 	public function get_export_columns( $element ) {
-		if ( $this instanceof Choice_Element_Type_Interface::class && ! $this->use_single_export_column_for_choices( $element ) ) {
+		if ( $this instanceof Choice_Element_Type_Interface && ! $this->use_single_export_column_for_choices( $element ) ) {
 			$columns = array();
 
 			foreach ( $element->get_element_choices() as $element_choice ) {
