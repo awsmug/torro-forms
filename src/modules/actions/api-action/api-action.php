@@ -68,9 +68,12 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	public function enabled( $form ) {
 		$integrations = $this->get_form_option( $form->id, 'integrations', array() );
 
-		$integrations = array_filter( $integrations, function( $integration ) {
-			return ! empty( $integration['connection'] ) && ! empty( $integration['route'] ) && ! empty( $integration['mappings'] );
-		});
+		$integrations = array_filter(
+			$integrations,
+			function( $integration ) {
+				return ! empty( $integration['connection'] ) && ! empty( $integration['route'] ) && ! empty( $integration['mappings'] );
+			}
+		);
 
 		if ( ! empty( $integrations ) ) {
 			return true;
@@ -104,15 +107,21 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 
 		unset( $meta_fields['enabled'] );
 
-		$connection_choices = array_merge( array(
-			'' => __( 'Select a connection...', 'torro-forms' ),
-		), $this->get_available_connection_choices() );
+		$connection_choices = array_merge(
+			array(
+				'' => __( 'Select a connection...', 'torro-forms' ),
+			),
+			$this->get_available_connection_choices()
+		);
 
-		$settings_url = add_query_arg( array(
-			'page'   => torro()->forms()->get_prefix() . 'form_settings',
-			'tab'    => $this->module->manager()->get_prefix() . 'module_actions',
-			'subtab' => $this->slug,
-		), admin_url( 'edit.php?post_type=' . torro()->post_types()->get_prefix() . 'form' ) );
+		$settings_url = add_query_arg(
+			array(
+				'page'   => torro()->forms()->get_prefix() . 'form_settings',
+				'tab'    => $this->module->manager()->get_prefix() . 'module_actions',
+				'subtab' => $this->slug,
+			),
+			admin_url( 'edit.php?post_type=' . torro()->post_types()->get_prefix() . 'form' )
+		);
 
 		$meta_fields['integrations'] = array(
 			'type'        => 'group',
@@ -292,9 +301,12 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	public function get_available_connection_choices() {
 		$connections = $this->get_available_connections();
 
-		return array_map( function( $connection ) {
-			return $connection->get( 'title' );
-		}, $connections );
+		return array_map(
+			function( $connection ) {
+				return $connection->get( 'title' );
+			},
+			$connections
+		);
 	}
 
 	/**
@@ -349,9 +361,12 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	public function get_available_structure_choices() {
 		$structures = $this->get_available_structures();
 
-		return array_map( function( $data ) {
-			return $data['title'];
-		}, $structures );
+		return array_map(
+			function( $data ) {
+				return $data['title'];
+			},
+			$structures
+		);
 	}
 
 	/**
@@ -371,9 +386,12 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			return array();
 		}
 
-		return array_map( function( $route_data ) {
-			return $route_data['title'];
-		}, $structures[ $structure_slug ]['routes'] );
+		return array_map(
+			function( $route_data ) {
+				return $route_data['title'];
+			},
+			$structures[ $structure_slug ]['routes']
+		);
 	}
 
 	/**
@@ -404,7 +422,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return Structure The API structure.
 	 */
-	public final function api_structure( $structure_slug = null ) {
+	final public function api_structure( $structure_slug = null ) {
 		if ( null === $structure_slug ) {
 			$structures     = $this->get_available_structure_choices();
 			$structure_slug = key( $structures );
@@ -426,7 +444,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return Route The API route.
 	 */
-	public final function api_route( $route_slug = null, $structure_slug = null ) {
+	final public function api_route( $route_slug = null, $structure_slug = null ) {
 		$structure = $this->api_structure( $structure_slug );
 
 		if ( null === $route_slug ) {
@@ -445,7 +463,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return API The configured API instance.
 	 */
-	public final function api( $structure_slug = null ) {
+	final public function api( $structure_slug = null ) {
 		if ( null === $structure_slug ) {
 			$structures     = $this->get_available_structure_choices();
 			$structure_slug = key( $structures );
@@ -479,7 +497,8 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 
 			foreach ( $structure_data['routes'] as $route_slug => $route_data ) {
 				if ( is_string( $route_data ) ) {
-					$route_data                                                             = array( 'title' => $route_data );
+					$route_data = array( 'title' => $route_data );
+
 					$this->available_structures[ $structure_slug ]['routes'][ $route_slug ] = $route_data;
 				}
 
@@ -506,7 +525,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *               associative array of $field_slug => $field_data pairs where details are specified for each route
 	 *               field that requires special handling. Possible keys are 'value', 'value_callback', and 'default'.
 	 */
-	protected abstract function get_available_structures_and_routes();
+	abstract protected function get_available_structures_and_routes();
 
 	/**
 	 * Gets the registered connection types.
@@ -518,7 +537,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *               class name to use for connections of that type, and 'authenticator_fields' is an associative
 	 *               array of $field_slug => $field_definition pairs.
 	 */
-	public static function get_registered_connection_types() {
+	final public static function get_registered_connection_types() {
 		return array(
 			'oauth2'    => array(
 				'class'                => OAuth2_Connection::class,
