@@ -11,6 +11,7 @@ namespace awsmug\Torro_Forms\Modules\Actions;
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\REST_API\API_Actions_Controller;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use APIAPI\Core\APIAPI;
@@ -101,6 +102,16 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	}
 
 	/**
+	 * Registers routes for API actions in the REST API.
+	 *
+	 * @since 1.1.0
+	 */
+	protected function register_rest_routes() {
+		$actions_controller = new API_Actions_Controller( $this );
+		$actions_controller->register_routes();
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.0.0
@@ -118,6 +129,12 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			'name'     => 'init',
 			'callback' => array( $this, 'register_defaults' ),
 			'priority' => 100,
+			'num_args' => 0,
+		);
+		$this->actions[] = array(
+			'name'     => 'rest_api_init',
+			'callback' => array( $this, 'register_rest_routes' ),
+			'priority' => 10,
 			'num_args' => 0,
 		);
 	}
