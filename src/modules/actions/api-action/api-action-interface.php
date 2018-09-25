@@ -6,7 +6,11 @@
  * @since 1.0.0
  */
 
-namespace awsmug\Torro_Forms\Modules\Actions;
+namespace awsmug\Torro_Forms\Modules\Actions\API_Action;
+
+use APIAPI\Core\Structures\Structure;
+use APIAPI\Core\Structures\Route;
+use APIAPI\Core\Request\API;
 
 /**
  * Interface for an API action.

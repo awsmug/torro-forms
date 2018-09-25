@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-namespace awsmug\Torro_Forms\Modules\Actions\API_Action;
+namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 
 /**
  * Class for an API connection via OAuth2.

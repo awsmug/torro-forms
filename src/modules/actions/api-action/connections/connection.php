@@ -6,9 +6,9 @@
  * @since 1.0.0
  */
 
-namespace awsmug\Torro_Forms\Modules\Actions\API_Action;
+namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 
-use awsmug\Torro_Forms\Modules\Actions\API_Action;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\API_Action;
 
 /**
  * Base class for an API connection.

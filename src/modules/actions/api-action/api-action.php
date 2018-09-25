@@ -6,19 +6,20 @@
  * @since 1.0.0
  */
 
-namespace awsmug\Torro_Forms\Modules\Actions;
+namespace awsmug\Torro_Forms\Modules\Actions\API_Action;
 
 use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Assets_Submodule_Interface;
 use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
-use awsmug\Torro_Forms\Modules\Actions\API_Action\OAuth2_Connection;
-use awsmug\Torro_Forms\Modules\Actions\API_Action\OAuth1_Connection;
-use awsmug\Torro_Forms\Modules\Actions\API_Action\X_Account_Connection;
-use awsmug\Torro_Forms\Modules\Actions\API_Action\X_Connection;
-use awsmug\Torro_Forms\Modules\Actions\API_Action\Basic_Connection;
-use awsmug\Torro_Forms\Modules\Actions\API_Action\Key_Connection;
+use awsmug\Torro_Forms\Modules\Actions\Action;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\OAuth2_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\OAuth1_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\X_Account_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\X_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\Basic_Connection;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\Key_Connection;
 use APIAPI\Core\Structures\Structure;
 use APIAPI\Core\Structures\Route;
 use APIAPI\Core\Request\API;
