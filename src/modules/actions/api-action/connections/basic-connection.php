@@ -30,4 +30,28 @@ class Basic_Connection extends Connection {
 	 * @var string
 	 */
 	protected $password = '';
+
+	/**
+	 * Gets the definitions for the fields required to provide authentication data.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return Array of $field_slug => $field_definition pairs.
+	 */
+	public static function get_authenticator_fields() {
+		return array(
+			'username' => array(
+				'type'          => 'text',
+				'label'         => __( 'Username', 'torro-forms' ),
+				'description'   => __( 'Enter the username for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+			'password' => array(
+				'type'          => 'text',
+				'label'         => __( 'Password', 'torro-forms' ),
+				'description'   => __( 'Enter the password for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+		);
+	}
 }

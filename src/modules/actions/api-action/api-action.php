@@ -237,8 +237,14 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			),
 		);
 
-		foreach ( static::get_registered_connection_types() as $authenticator_slug => $data ) {
-			foreach ( $data['authenticator_fields'] as $field_slug => $field_data ) {
+		foreach ( static::get_registered_connection_types() as $authenticator_slug => $classname ) {
+			$authenticator_fields = call_user_func( array( $classname, 'get_authenticator_fields' ) );
+
+			foreach ( $authenticator_fields as $field_slug => $field_data ) {
+				if ( ! empty( $field_data['readonly'] ) ) {
+					continue;
+				}
+
 				if ( isset( $settings_fields['connections']['fields'][ $field_slug ] ) ) {
 					$settings_fields['connections']['fields'][ $field_slug ]['data-authenticator'] .= ',' . $authenticator_slug;
 					continue;
@@ -341,7 +347,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				continue;
 			}
 
-			$connection_class = $connection_types[ $authenticator ]['class'];
+			$connection_class = $connection_types[ $authenticator ];
 
 			$connection = new $connection_class( $connection );
 
@@ -378,19 +384,13 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @return array Route choices as $value => $label pairs.
 	 */
 	public function get_available_route_choices( $structure_slug = null ) {
-		$structures = $this->get_available_structures();
-
-		if ( null === $structure_slug ) {
-			$structure_slug = key( $structures );
-		} elseif ( ! isset( $structures[ $structure_slug ] ) ) {
-			return array();
-		}
+		$routes = $this->get_available_routes( $structure_slug );
 
 		return array_map(
 			function( $route_data ) {
 				return $route_data['title'];
 			},
-			$structures[ $structure_slug ]['routes']
+			$routes
 		);
 	}
 
@@ -399,7 +399,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return Associative array of $structure_slug => $data pairs.
+	 * @return array Associative array of $structure_slug => $data pairs.
 	 */
 	public function get_available_structures() {
 		if ( ! isset( $this->available_structures ) ) {
@@ -409,6 +409,28 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 		}
 
 		return $this->available_structures;
+	}
+
+	/**
+	 * Gets the available API routes for a given structure.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
+	 * @return array Associative array of $route_slug => $data pairs.
+	 */
+	public function get_available_routes( $structure_slug = null ) {
+		$structures = $this->get_available_structures();
+
+		if ( null === $structure_slug ) {
+			$structure_slug = key( $structures );
+		}
+
+		if ( ! isset( $structures[ $structure_slug ] ) ) {
+			return array();
+		}
+
+		return $structures[ $structure_slug ]['routes'];
 	}
 
 	/**
@@ -424,7 +446,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 */
 	final public function api_structure( $structure_slug = null ) {
 		if ( null === $structure_slug ) {
-			$structures     = $this->get_available_structure_choices();
+			$structures     = $this->get_available_structures();
 			$structure_slug = key( $structures );
 		}
 
@@ -448,7 +470,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 		$structure = $this->api_structure( $structure_slug );
 
 		if ( null === $route_slug ) {
-			$routes     = $this->get_available_route_choices( $structure->get_name() );
+			$routes     = $this->get_available_routes( $structure->get_name() );
 			$route_slug = key( $routes );
 		}
 
@@ -537,155 +559,21 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	abstract protected function get_available_structures_and_routes();
 
 	/**
-	 * Gets the registered connection types.
+	 * Gets the registered connection types and their classes.
 	 *
 	 * @since 1.1.0
 	 * @static
 	 *
-	 * @return array Associative array of $connection_slug => $data pairs. $data has a 'class' key containing the
-	 *               class name to use for connections of that type, and 'authenticator_fields' is an associative
-	 *               array of $field_slug => $field_definition pairs.
+	 * @return array Associative array of $connection_slug => $classname pairs.
 	 */
 	final public static function get_registered_connection_types() {
 		return array(
-			'oauth2'    => array(
-				'class'                => OAuth2_Connection::class,
-				'authenticator_fields' => array(
-					'consumer_key'    => array(
-						'type'          => 'text',
-						'label'         => __( 'Consumer Key', 'torro-forms' ),
-						'description'   => __( 'Enter the consumer key for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'consumer_secret' => array(
-						'type'          => 'text',
-						'label'         => __( 'Consumer Secret', 'torro-forms' ),
-						'description'   => __( 'Enter the consumer secret for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'token'           => array(
-						'type'          => 'text',
-						'label'         => __( 'Token', 'torro-forms' ),
-						'description'   => __( 'Enter the token for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'token_secret'    => array(
-						'type'          => 'text',
-						'label'         => __( 'Token Secret', 'torro-forms' ),
-						'description'   => __( 'Enter the token secret for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-				),
-			),
-			'oauth1'    => array(
-				'class'                => OAuth1_Connection::class,
-				'authenticator_fields' => array(
-					'consumer_key'    => array(
-						'type'          => 'text',
-						'label'         => __( 'Consumer Key', 'torro-forms' ),
-						'description'   => __( 'Enter the consumer key for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'consumer_secret' => array(
-						'type'          => 'text',
-						'label'         => __( 'Consumer Secret', 'torro-forms' ),
-						'description'   => __( 'Enter the consumer secret for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'token'           => array(
-						'type'          => 'text',
-						'label'         => __( 'Token', 'torro-forms' ),
-						'description'   => __( 'Enter the token for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'token_secret'    => array(
-						'type'          => 'text',
-						'label'         => __( 'Token Secret', 'torro-forms' ),
-						'description'   => __( 'Enter the token secret for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-				),
-			),
-			'x-account' => array(
-				'class'                => X_Account_Connection::class,
-				'authenticator_fields' => array(
-					'placeholder_name' => array(
-						'type'        => 'text',
-						'label'       => __( 'Account Placeholder Name', 'torro-forms' ),
-						'description' => __( 'Enter the name of the placeholder in the URI used to verify API requests.', 'torro-forms' ),
-						'default'     => 'account',
-					),
-					'account'          => array(
-						'type'          => 'text',
-						'label'         => __( 'Account Identifier', 'torro-forms' ),
-						'description'   => __( 'Enter the account identifier for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'header_name'      => array(
-						'type'        => 'text',
-						'label'       => __( 'Authorization Header Name', 'torro-forms' ),
-						'description' => __( 'Enter the name of the authorization header that is sent to verify API requests. It will be prefixed with &#8220;X-&#8221;.', 'torro-forms' ),
-						'default'     => 'Authorization',
-					),
-					'token'            => array(
-						'type'          => 'text',
-						'label'         => __( 'Authorization Token', 'torro-forms' ),
-						'description'   => __( 'Enter the authorization token for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-				),
-			),
-			'x'         => array(
-				'class'                => X_Connection::class,
-				'authenticator_fields' => array(
-					'header_name' => array(
-						'type'        => 'text',
-						'label'       => __( 'Authorization Header Name', 'torro-forms' ),
-						'description' => __( 'Enter the name of the authorization header that is sent to verify API requests. It will be prefixed with &#8220;X-&#8221;.', 'torro-forms' ),
-						'default'     => 'Authorization',
-					),
-					'token'       => array(
-						'type'          => 'text',
-						'label'         => __( 'Authorization Token', 'torro-forms' ),
-						'description'   => __( 'Enter the authorization token for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-				),
-			),
-			'basic'     => array(
-				'class'                => Basic_Connection::class,
-				'authenticator_fields' => array(
-					'username' => array(
-						'type'          => 'text',
-						'label'         => __( 'Username', 'torro-forms' ),
-						'description'   => __( 'Enter the username for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-					'password' => array(
-						'type'          => 'text',
-						'label'         => __( 'Password', 'torro-forms' ),
-						'description'   => __( 'Enter the password for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-				),
-			),
-			'key'       => array(
-				'class'                => Key_Connection::class,
-				'authenticator_fields' => array(
-					'parameter_name' => array(
-						'type'        => 'text',
-						'label'       => __( 'API Key Parameter Name', 'torro-forms' ),
-						'description' => __( 'Enter the name of the request parameter that is sent to verify API requests.', 'torro-forms' ),
-						'default'     => 'key',
-					),
-					'key'            => array(
-						'type'          => 'text',
-						'label'         => __( 'API Key', 'torro-forms' ),
-						'description'   => __( 'Enter the API key for the API.', 'torro-forms' ),
-						'input_classes' => array( 'regular-text' ),
-					),
-				),
-			),
+			'oauth2'    => OAuth2_Connection::class,
+			'oauth1'    => OAuth1_Connection::class,
+			'x-account' => X_Account_Connection::class,
+			'x'         => X_Connection::class,
+			'basic'     => Basic_Connection::class,
+			'key'       => Key_Connection::class,
 		);
 	}
 }

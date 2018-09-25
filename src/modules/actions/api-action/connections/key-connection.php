@@ -21,7 +21,7 @@ class Key_Connection extends Connection {
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $parameter_name = 'key';
+	protected $parameter_name = '';
 
 	/**
 	 * The API key.
@@ -30,4 +30,29 @@ class Key_Connection extends Connection {
 	 * @var string
 	 */
 	protected $key = '';
+
+	/**
+	 * Gets the definitions for the fields required to provide authentication data.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return Array of $field_slug => $field_definition pairs.
+	 */
+	public static function get_authenticator_fields() {
+		return array(
+			'parameter_name' => array(
+				'type'        => 'text',
+				'label'       => __( 'API Key Parameter Name', 'torro-forms' ),
+				'description' => __( 'Enter the name of the request parameter that is sent to verify API requests.', 'torro-forms' ),
+				'default'     => 'key',
+				'readonly'    => true,
+			),
+			'key'            => array(
+				'type'          => 'text',
+				'label'         => __( 'API Key', 'torro-forms' ),
+				'description'   => __( 'Enter the API key for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+		);
+	}
 }

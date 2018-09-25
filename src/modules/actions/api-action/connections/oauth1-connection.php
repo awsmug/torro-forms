@@ -46,4 +46,40 @@ class OAuth1_Connection extends Connection {
 	 * @var string
 	 */
 	protected $token_secret = '';
+
+	/**
+	 * Gets the definitions for the fields required to provide authentication data.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return Array of $field_slug => $field_definition pairs.
+	 */
+	public static function get_authenticator_fields() {
+		return array(
+			'consumer_key'    => array(
+				'type'          => 'text',
+				'label'         => __( 'Consumer Key', 'torro-forms' ),
+				'description'   => __( 'Enter the consumer key for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+			'consumer_secret' => array(
+				'type'          => 'text',
+				'label'         => __( 'Consumer Secret', 'torro-forms' ),
+				'description'   => __( 'Enter the consumer secret for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+			'token'           => array(
+				'type'          => 'text',
+				'label'         => __( 'Token', 'torro-forms' ),
+				'description'   => __( 'Enter the token for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+			'token_secret'    => array(
+				'type'          => 'text',
+				'label'         => __( 'Token Secret', 'torro-forms' ),
+				'description'   => __( 'Enter the token secret for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+		);
+	}
 }

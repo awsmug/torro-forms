@@ -61,9 +61,19 @@ interface API_Action_Interface {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return Associative array of $structure_slug => $data pairs.
+	 * @return array Associative array of $structure_slug => $data pairs.
 	 */
 	public function get_available_structures();
+
+	/**
+	 * Gets the available API routes for a given structure.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
+	 * @return array Associative array of $route_slug => $data pairs.
+	 */
+	public function get_available_routes( $structure_slug = null );
 
 	/**
 	 * Gets an API structure.

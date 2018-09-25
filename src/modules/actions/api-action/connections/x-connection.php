@@ -21,7 +21,7 @@ class X_Connection extends Connection {
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $header_name = 'Authorization';
+	protected $header_name = '';
 
 	/**
 	 * The authorization token.
@@ -30,4 +30,29 @@ class X_Connection extends Connection {
 	 * @var string
 	 */
 	protected $token = '';
+
+	/**
+	 * Gets the definitions for the fields required to provide authentication data.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return Array of $field_slug => $field_definition pairs.
+	 */
+	public static function get_authenticator_fields() {
+		return array(
+			'header_name' => array(
+				'type'        => 'text',
+				'label'       => __( 'Authorization Header Name', 'torro-forms' ),
+				'description' => __( 'Enter the name of the authorization header that is sent to verify API requests. It will be prefixed with &#8220;X-&#8221;.', 'torro-forms' ),
+				'default'     => 'Authorization',
+				'readonly'    => true,
+			),
+			'token'       => array(
+				'type'          => 'text',
+				'label'         => __( 'Authorization Token', 'torro-forms' ),
+				'description'   => __( 'Enter the authorization token for the API.', 'torro-forms' ),
+				'input_classes' => array( 'regular-text' ),
+			),
+		);
+	}
 }
