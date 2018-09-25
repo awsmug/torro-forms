@@ -474,6 +474,9 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			$route_slug = key( $routes );
 		}
 
+		// Strip possibly included request method from route slug.
+		$route_slug = preg_replace( '/^(GET|POST|PUT|PATCH|DELETE)\:/', '', $route_slug );
+
 		return $structure->get_route_object( $route_slug );
 	}
 
