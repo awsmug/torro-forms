@@ -3,7 +3,7 @@
  * API connection base class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
@@ -13,14 +13,14 @@ use awsmug\Torro_Forms\Modules\Actions\API_Action\API_Action;
 /**
  * Base class for an API connection.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
 abstract class Connection {
 
 	/**
 	 * The connection slug.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $slug = '';
@@ -28,7 +28,7 @@ abstract class Connection {
 	/**
 	 * The connection title.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $title = '';
@@ -36,7 +36,7 @@ abstract class Connection {
 	/**
 	 * The parent API action.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var API_Action|null
 	 */
 	protected $api_action = null;
@@ -46,7 +46,7 @@ abstract class Connection {
 	 *
 	 * Sets the connection data.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param API_Action $api_action Parent API action.
 	 * @param array      $data       Connection data array.
@@ -68,7 +68,7 @@ abstract class Connection {
 	/**
 	 * Gets information about this connection.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $field Field slug to get the value for.
 	 * @return string Value for the field, or empty string if invalid field.
@@ -84,7 +84,7 @@ abstract class Connection {
 	/**
 	 * Gets the array of authentication data.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Authentication data as $key => $value pairs.
 	 */

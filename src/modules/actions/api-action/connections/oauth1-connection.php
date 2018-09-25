@@ -3,7 +3,7 @@
  * OAuth1 API connection class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
@@ -11,14 +11,14 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 /**
  * Class for an API connection via OAuth1.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
 class OAuth1_Connection extends Connection {
 
 	/**
 	 * The consumer key.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $consumer_key = '';
@@ -26,7 +26,7 @@ class OAuth1_Connection extends Connection {
 	/**
 	 * The consumer secret.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $consumer_secret = '';
@@ -34,7 +34,7 @@ class OAuth1_Connection extends Connection {
 	/**
 	 * The token.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $token = '';
@@ -42,7 +42,7 @@ class OAuth1_Connection extends Connection {
 	/**
 	 * The token secret.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $token_secret = '';

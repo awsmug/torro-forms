@@ -3,7 +3,7 @@
  * Action base class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\Modules\Actions\API_Action;
@@ -29,14 +29,14 @@ use WP_Error;
 /**
  * Base class for an action.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
 abstract class API_Action extends Action implements API_Action_Interface, Assets_Submodule_Interface, Settings_Assets_Submodule_Interface {
 
 	/**
 	 * The available API structures and their routes.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var array|null
 	 */
 	protected $available_structures = null;
@@ -44,7 +44,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * The structure instances, for internal use.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var array
 	 */
 	private $structure_instances = array();
@@ -52,7 +52,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * The structure API instances, for internal use.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var array
 	 */
 	private $structure_api_instances = array();
@@ -60,7 +60,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Checks whether the action is enabled for a specific form.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param Form $form Form object to check.
 	 * @return bool True if the action is enabled, false otherwise.
@@ -85,7 +85,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Handles the action for a specific form submission.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param Submission $submission Submission to handle by the action.
 	 * @param Form       $form       Form the submission applies to.
@@ -98,7 +98,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Returns the available meta fields for the submodule.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -180,7 +180,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Returns the available settings sections for the submodule.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Associative array of `$section_slug => $section_args` pairs.
 	 */
@@ -197,7 +197,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Returns the available settings fields for the submodule.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
@@ -259,7 +259,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Registers all assets the submodule provides.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -270,7 +270,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Enqueues scripts and stylesheets on the form editing screen.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param Assets $assets The plugin assets instance.
 	 */
@@ -281,7 +281,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Enqueues scripts and stylesheets on the settings screen.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param Assets $assets            Assets API instance.
 	 * @param string $current_tab_id    Identifier of the current tab.
@@ -294,7 +294,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the available connection choices.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Connection choices as $value => $label pairs.
 	 */
@@ -312,7 +312,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the available API connections stored.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Array of $connection_slug => $connection pairs.
 	 */
@@ -354,7 +354,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the available structure choices.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Structure choices as $value => $label pairs.
 	 */
@@ -372,7 +372,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the available route choices for a given structure.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return array Route choices as $value => $label pairs.
@@ -397,7 +397,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the available API structures with their routes.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return Associative array of $structure_slug => $data pairs.
 	 */
@@ -417,7 +417,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * The API structure is not scoped for the plugin. If you need the configured variant of the API,
 	 * use the api() method. If you don't though, this method is more efficient to use then.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return Structure The API structure.
@@ -438,7 +438,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets an API route for a structure.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $route_slug     Optional. Route identifier. Default is the first available route that is part of $structure_slug.
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
@@ -458,7 +458,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets a configured API instance for an API structure.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
 	 * @return API The configured API instance.
@@ -479,7 +479,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Validates the available structures with their routes.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @throws Exception Thrown when a validation error occurs.
 	 */
@@ -517,7 +517,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the available API structures and their routes.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return array Associative array of $structure_slug => $data pairs. $data must be an associative array with keys
 	 *               'title' and 'routes'. 'routes' must be an associative array of $route_slug => $route_data pairs.
@@ -530,7 +530,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the registered connection types.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @static
 	 *
 	 * @return array Associative array of $connection_slug => $data pairs. $data has a 'class' key containing the

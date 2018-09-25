@@ -3,7 +3,7 @@
  * X-Account API connection class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
@@ -11,14 +11,14 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 /**
  * Class for an API connection via X-Account header authentication.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
 class X_Account_Connection extends Connection {
 
 	/**
 	 * The account placeholder name.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $placeholder_name = 'account';
@@ -26,7 +26,7 @@ class X_Account_Connection extends Connection {
 	/**
 	 * The account identifier.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $account = '';
@@ -34,7 +34,7 @@ class X_Account_Connection extends Connection {
 	/**
 	 * The authorization header name.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $header_name = 'Authorization';
@@ -42,7 +42,7 @@ class X_Account_Connection extends Connection {
 	/**
 	 * The authorization token.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @var string
 	 */
 	protected $token = '';
