@@ -12,6 +12,7 @@ use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\REST_API\API_Actions_Controller;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\REST_API\API_Action_Connections_Controller;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use APIAPI\Core\APIAPI;
@@ -109,6 +110,9 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	protected function register_rest_routes() {
 		$actions_controller = new API_Actions_Controller( $this );
 		$actions_controller->register_routes();
+
+		$action_connections_controller = new API_Action_Connections_Controller( $this );
+		$action_connections_controller->register_routes();
 	}
 
 	/**

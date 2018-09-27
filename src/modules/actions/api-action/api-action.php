@@ -309,7 +309,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 
 		return array_map(
 			function( $connection ) {
-				return $connection->get( 'title' );
+				return $connection->get_title();
 			},
 			$connections
 		);
@@ -351,7 +351,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 
 			$connection = new $connection_class( $connection );
 
-			$connections[ $connection->get( 'slug' ) ] = $connection;
+			$connections[ $connection->get_slug() ] = $connection;
 		}
 
 		return $connections;

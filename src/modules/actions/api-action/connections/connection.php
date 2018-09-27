@@ -82,19 +82,47 @@ abstract class Connection {
 	}
 
 	/**
-	 * Gets information about this connection.
+	 * Returns the connection slug.
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string $field Field slug to get the value for.
-	 * @return string Value for the field, or empty string if invalid field.
+	 * @return string Connection slug.
 	 */
-	public function get( $field ) {
-		if ( 'api_action' === $field || ! isset( $this->$field ) ) {
-			return '';
-		}
+	public function get_slug() {
+		return $this->slug;
+	}
 
-		return $this->$field;
+	/**
+	 * Returns the connection title.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string Connection title.
+	 */
+	public function get_title() {
+		return $this->title;
+	}
+
+	/**
+	 * Returns the connection structure.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string Connection structure.
+	 */
+	public function get_structure() {
+		return $this->structure;
+	}
+
+	/**
+	 * Returns the API action the connection belongs to.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return API_Action Parent API action of the connection.
+	 */
+	public function get_api_action() {
+		return $this->api_action;
 	}
 
 	/**
@@ -182,6 +210,8 @@ abstract class Connection {
 			} elseif ( ! empty( $route_fields[ $field_slug ]['value_callback'] ) ) {
 				$param_info['value']    = $route_fields[ $field_slug ]['value_callback'];
 				$param_info['readonly'] = true;
+			} elseif ( ! isset( $param_info['readonly'] ) ) {
+				$param_info['readonly'] = false;
 			}
 
 			if ( isset( $route_fields[ $field_slug ]['default'] ) ) {

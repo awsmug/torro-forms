@@ -247,6 +247,10 @@ class API_Actions_Controller extends WP_REST_Controller {
 			'collection'  => array(
 				'href' => rest_url( $base ),
 			),
+			'connections' => array(
+				'href'       => rest_url( trailingslashit( $base ) . $action->get_slug() . '/connections' ),
+				'embeddable' => true,
+			),
 		);
 	}
 
@@ -290,8 +294,8 @@ class API_Actions_Controller extends WP_REST_Controller {
 			'description' => __( 'The available structures for the API action.', 'torro-forms' ),
 			'type'        => 'array',
 			'items'       => array(
-				'type'       => 'object',
-				'properties' => array(
+				'type'                 => 'object',
+				'properties'           => array(
 					'slug'  => array(
 						'description' => __( 'The API structure slug.', 'torro-forms' ),
 						'type'        => 'string',
@@ -301,6 +305,7 @@ class API_Actions_Controller extends WP_REST_Controller {
 						'type'        => 'string',
 					),
 				),
+				'additionalProperties' => false,
 			),
 			'context'     => array( 'view', 'edit' ),
 			'readonly'    => true,
