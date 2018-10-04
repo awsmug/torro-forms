@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.0 (https://torro-forms.com)
+ * Torro Forms Version 1.0.3 (https://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 ( function( torro, fieldsAPI, $, data ) {
@@ -94,7 +94,7 @@
 	builder.on( 'addElement', function( model ) {
 		elementModels[ model.get( 'id' ) ] = model;
 
-		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
+		$( '#metabox-torro_module_form_settings-tabpanel-privacy .template-tag-list' ).each( function() {
 			initializeElementForList( model, $( this ) );
 		});
 	});
@@ -104,36 +104,9 @@
 			delete elementModels[ model.get( 'id' ) ];
 		}
 
-		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
+		$( '#metabox-torro_module_form_settings-tabpanel-privacy .template-tag-list' ).each( function() {
 			removeTemplateTagForElement( model, $( this ) );
 		});
 	});
 
-	$( document ).ready( function() {
-		var fieldManagerInstanceId = $( '#torro_module_form_settings-field-manager-instance' );
-		var emailNotifications;
-
-		if ( ! fieldManagerInstanceId ) {
-			return;
-		}
-
-		fieldManagerInstanceId = fieldManagerInstanceId.val();
-		emailNotifications     = fieldsAPI.FieldManager.instances[ fieldManagerInstanceId ].get( fieldManagerInstanceId + '_email-notifications--notifications' );
-
-		if ( ! emailNotifications ) {
-			return;
-		}
-
-		emailNotifications.on( 'addItem', function( fieldModel, newItem ) {
-			$( '#' + newItem.id + ' .template-tag-list' ).each( function() {
-				var keys = Object.keys( elementModels );
-				var i;
-
-				for ( i = 0; i < keys.length; i++ ) {
-					initializeElementForList( elementModels[ keys[ i ] ], $( this ) );
-				}
-			});
-		});
-	});
-
-}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroEmailNotifications ) );
+}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroDoubleOptin ) );

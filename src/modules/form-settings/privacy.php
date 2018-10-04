@@ -698,7 +698,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 			array(
 				'deps'          => array( 'jquery', 'torro-template-tag-fields', 'torro-admin-form-builder' ),
 				'in_footer'     => true,
-				'localize_name' => 'torroEmailNotifications',
+				'localize_name' => 'torroDoubleOptin',
 				'localize_data' => array(
 					'templateTagGroupTemplate' => $template_tag_group_template,
 					'templateTagTemplate'      => $template_tag_template,

@@ -90,7 +90,7 @@
 	builder.on( 'addElement', function( model ) {
 		elementModels[ model.get( 'id' ) ] = model;
 
-		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
+		$( '#metabox-torro_module_form_settings-tabpanel-privacy .template-tag-list' ).each( function() {
 			initializeElementForList( model, $( this ) );
 		});
 	});
@@ -100,36 +100,9 @@
 			delete elementModels[ model.get( 'id' ) ];
 		}
 
-		$( '.plugin-lib-repeatable-group-email_notifications__notifications-wrap .template-tag-list' ).each( function() {
+		$( '#metabox-torro_module_form_settings-tabpanel-privacy .template-tag-list' ).each( function() {
 			removeTemplateTagForElement( model, $( this ) );
 		});
 	});
 
-	$( document ).ready( function() {
-		var fieldManagerInstanceId = $( '#torro_module_form_settings-field-manager-instance' );
-		var emailNotifications;
-
-		if ( ! fieldManagerInstanceId ) {
-			return;
-		}
-
-		fieldManagerInstanceId = fieldManagerInstanceId.val();
-		emailNotifications     = fieldsAPI.FieldManager.instances[ fieldManagerInstanceId ].get( fieldManagerInstanceId + '_email-notifications--notifications' );
-
-		if ( ! emailNotifications ) {
-			return;
-		}
-
-		emailNotifications.on( 'addItem', function( fieldModel, newItem ) {
-			$( '#' + newItem.id + ' .template-tag-list' ).each( function() {
-				var keys = Object.keys( elementModels );
-				var i;
-
-				for ( i = 0; i < keys.length; i++ ) {
-					initializeElementForList( elementModels[ keys[ i ] ], $( this ) );
-				}
-			});
-		});
-	});
-
-}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroEmailNotifications ) );
+}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroDoubleOptin ) );
