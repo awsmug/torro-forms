@@ -38,7 +38,9 @@ window.torro = window.torro || {};
 							ElementSettings: wp.api.collections.Element_settings,
 							Submissions: wp.api.collections.Submissions,
 							SubmissionValues: wp.api.collections.Submission_values,
-							Participants: wp.api.collections.Participants
+							Participants: wp.api.collections.Participants,
+							ApiActions: wp.api.collections.Api_actions,
+							ApiActionConnections: wp.api.collections.Api_actionsConnections
 						});
 
 						torro.api.models = _.extend( torro.api.models, {
@@ -51,7 +53,9 @@ window.torro = window.torro || {};
 							ElementSetting: wp.api.models.Element_settings,
 							Submission: wp.api.models.Submissions,
 							SubmissionValue: wp.api.models.Submission_values,
-							Participant: wp.api.models.Participants
+							Participant: wp.api.models.Participants,
+							ApiAction: wp.api.models.Api_actions,
+							ApiActionConnection: wp.api.models.Api_actionsConnections
 						});
 
 						deferred.resolveWith( torro.api );
