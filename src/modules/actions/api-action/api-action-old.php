@@ -218,7 +218,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @return array Multidimensional array, where the first level is `$element_id => $field_slugs` pairs and
 	 *               the second level is `$field_slug => $mapped_param` pairs.
 	 */
-	public final function get_mappings( $form_id ) {
+	final public function get_mappings( $form_id ) {
 		$mappings = $this->module->manager()->meta()->get( 'post', $form_id, $this->module->manager()->get_prefix() . $this->slug . '_mappings', true );
 
 		if ( is_array( $mappings ) ) {
@@ -236,7 +236,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param int   $form_id     Form ID.
 	 * @param array $id_mappings Array of ID mappings from the elements that have just been saved.
 	 */
-	public final function save_mappings( $form_id, $id_mappings ) {
+	final public function save_mappings( $form_id, $id_mappings ) {
 		$mappings = array();
 
 		if ( isset( $_POST[ $this->module->manager()->get_prefix() . $this->slug . '_mappings' ] ) ) {
@@ -277,9 +277,13 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @since 1.0.0
 	 */
 	public function register_config_data_hook() {
-		$this->module->apiapi()->hook_on( 'setup_config', function( $config ) {
-			$this->add_config_data( $config );
-		}, 5 );
+		$this->module->apiapi()->hook_on(
+			'setup_config',
+			function( $config ) {
+				$this->add_config_data( $config );
+			},
+			5
+		);
 	}
 
 	/**
@@ -291,10 +295,14 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 */
 	public function register_assets( $assets ) {
 		if ( ! self::$script_registered ) {
-			$assets->register_script( 'admin-api-element-mapping', 'assets/dist/js/admin-api-element-mapping.js', array(
-				'deps'          => array( str_replace( '_', '-', $assets()->get_prefix() ) . 'admin-form-builder', 'jquery' ),
-				'in_footer'     => true,
-			) );
+			$assets->register_script(
+				'admin-api-element-mapping',
+				'assets/dist/js/admin-api-element-mapping.js',
+				array(
+					'deps'      => array( str_replace( '_', '-', $assets()->get_prefix() ) . 'admin-form-builder', 'jquery' ),
+					'in_footer' => true,
+				)
+			);
 
 			self::$script_registered = true;
 		}
@@ -348,9 +356,9 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Exception      $exception  Exception thrown by the API request.
-	 * @param Submission     $submission Submission for which the API request was made.
-	 * @param Form           $form       Form the submission applies to.
+	 * @param Exception  $exception  Exception thrown by the API request.
+	 * @param Submission $submission Submission for which the API request was made.
+	 * @param Form       $form       Form the submission applies to.
 	 * @return bool|WP_Error True on success, error object on failure.
 	 */
 	protected function process_error_response( $exception, $submission, $form ) {
@@ -371,7 +379,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
-	protected abstract function get_element_map_fields();
+	abstract protected function get_element_map_fields();
 
 	/**
 	 * Returns the API fields that a meta value should exist for to map to.
@@ -380,7 +388,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *
 	 * @return array Associative array of `$field_slug => $field_args` pairs.
 	 */
-	protected abstract function get_meta_map_fields();
+	abstract protected function get_meta_map_fields();
 
 	/**
 	 * Returns all fields for request parameters.
@@ -603,7 +611,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param Form|null $form Optional. Form for which to generate the data. Default null.
 	 * @return array Data to pass to JavaScript.
 	 */
-	protected final function get_js_data( $form = null ) {
+	final protected function get_js_data( $form = null ) {
 		return array(
 			'actionSlug'   => $this->slug,
 			'mappingsName' => $this->module->manager()->get_prefix() . $this->slug . '_mappings',

@@ -293,13 +293,13 @@ class API_Action_Connections_Controller extends WP_REST_Controller {
 		$base        = sprintf( '%s/%s', $parent_base, $this->rest_base );
 
 		return array(
-			'self'        => array(
+			'self'       => array(
 				'href' => rest_url( trailingslashit( $base ) . $connection->get_slug() ),
 			),
-			'collection'  => array(
+			'collection' => array(
 				'href' => rest_url( $base ),
 			),
-			'parent'      => array(
+			'parent'     => array(
 				'href' => rest_url( $parent_base ),
 			),
 		);
