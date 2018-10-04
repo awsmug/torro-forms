@@ -240,7 +240,7 @@ class Form_Frontend_Output_Handler {
 		$form_content = apply_filters( "{$this->form_manager->get_prefix()}render_form_content", null, $submission, $form );
 
 		if ( ! empty( $form_content ) ) {
-			echo $form_content;
+			echo $form_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		}
 

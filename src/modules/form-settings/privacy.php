@@ -7,6 +7,7 @@
  */
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
+
 use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\Components\Email_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
@@ -23,7 +24,7 @@ use WP_Error;
  *
  * @since 1.1.0
  */
-class Privacy extends Form_Setting implements Assets_Submodule_Interface{
+class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	use Settings_Submodule_Trait, Meta_Submodule_Trait, Email_Trait;
 
 	/**
@@ -84,48 +85,48 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 		$prefix = $this->module->get_prefix();
 
 		$meta_fields = array(
-			'double_optin' => array(
+			'double_optin'                  => array(
 				'type'         => 'checkbox',
 				'label'        => __( 'Enable', 'torro-forms' ),
 				'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
 				'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
 			),
-			'double_optin_email_from_name'   => array(
+			'double_optin_email_from_name'  => array(
 				'type'                 => 'templatetagtext',
 				'label'                => __( 'From Name', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler,
-				'default'              => $this->get_default_email_from_name()
+				'default'              => $this->get_default_email_from_name(),
 			),
-			'double_optin_email_from_email'  => array(
+			'double_optin_email_from_email' => array(
 				'type'                 => 'templatetagemail',
 				'label'                => __( 'From Email', 'torro-forms' ),
 				/* translators: %s: email address */
 				'description'          => sprintf( __( 'This email address should contain the same domain like your website (e.g. %s).', 'torro-forms' ), 'email@' . $domain ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler_email_only,
-				'default'              => $this->get_default_email_from_email()
+				'default'              => $this->get_default_email_from_email(),
 			),
-			'double_optin_email_to_email'    => array(
+			'double_optin_email_to_email'   => array(
 				'type'                 => 'templatetagemail',
 				'label'                => __( 'To Email', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
-				'description'          => _x( 'Please enter a field from the form that contains the email address.', 'To email in double opt-in email ','torro-forms' ),
+				'description'          => _x( 'Please enter a field from the form that contains the email address.', 'To email in double opt-in email ', 'torro-forms' ),
 				'template_tag_handler' => $this->template_tag_handler_email_only,
 			),
-			'double_optin_email_subject'     => array(
+			'double_optin_email_subject'    => array(
 				'type'                 => 'templatetagtext',
 				'label'                => __( 'Subject', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler,
-				'default'              => $this->get_default_email_subject()
+				'default'              => $this->get_default_email_subject(),
 			),
-			'double_optin_email_message'     => array(
+			'double_optin_email_message'    => array(
 				'type'                 => 'templatetagwysiwyg',
 				'label'                => __( 'Message', 'torro-forms' ),
 				'media_buttons'        => true,
 				'template_tag_handler' => $this->template_tag_handler,
-				'default'              => $this->get_default_email_message()
+				'default'              => $this->get_default_email_message(),
 			),
 		);
 
@@ -153,14 +154,14 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 * @return bool      $should_complete Whether the completion process for the form submission should proceed.
 	 */
 	public function interrupt_submission( $should_complete, $submission, $form ) {
-		if( false === $this->get_form_option( $form->id, 'double_optin', false ) ) {
+		if ( false === $this->get_form_option( $form->id, 'double_optin', false ) ) {
 			return true;
 		}
 
 		$submission->optin_key = $this->create_torro_optin_key( $submission );
 
 		// @todo What to do on and with error?
-		if( ! is_wp_error( $this->send_optin_mail( $form, $submission ) ) ) {
+		if ( ! is_wp_error( $this->send_optin_mail( $form, $submission ) ) ) {
 			$submission->optin_sent = true;
 		}
 
@@ -174,17 +175,17 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string       $content    Form content to filter.
-	 * @param Submission   $submission Submission object.
+	 * @param string     $content    Form content to filter.
+	 * @param Submission $submission Submission object.
 	 * @return string|null $content    Filtered form content.
 	 */
 	public function success_message( $content, $submission ) {
-		if( empty( $submission ) ) {
+		if ( empty( $submission ) ) {
 			return $content;
 		}
 
 		// todo: Creating more possibilities for success message like in redirection.
-		if( $submission->optin_sent ) {
+		if ( $submission->optin_sent ) {
 			return '<div class="' . esc_attr( $this->get_notice_class( 'notice' ) ) . '"><p>' . __( 'Thank you for submitting!', 'torro-forms' ) . '</p></div>';
 		}
 
@@ -249,11 +250,11 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 			$this->template_tag_handler->add_tag( $slug, $data );
 		}
 
-		$to_email = $this->get_email_to_email( $form, $submission );
-		$from_email = $this->get_email_from_email ( $form, $submission );
-		$from_name = $this->get_email_from_name ( $form, $submission );
-		$subject = $this->get_email_subject( $form, $submission );
-		$message = $this->get_email_message( $form, $submission );
+		$to_email   = $this->get_email_to_email( $form, $submission );
+		$from_email = $this->get_email_from_email( $form, $submission );
+		$from_name  = $this->get_email_from_name( $form, $submission );
+		$subject    = $this->get_email_subject( $form, $submission );
+		$message    = $this->get_email_message( $form, $submission );
 
 		$this->setup_mail( $from_name, $from_email, $to_email, $subject, $message );
 		$sent = $this->send_mail();
@@ -377,7 +378,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	private function get_email_to_email( $form, $submission ) {
 		$email_element_id = $this->get_form_option( $form->id, 'double_optin_email_to_email', false );
 
-		$data = $submission->get_element_values_data();
+		$data          = $submission->get_element_values_data();
 		$email_address = $data[ $email_element_id ]['_main'];
 
 		return $email_address;
@@ -388,7 +389,9 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param  Form   $form    Form object.
+	 * @param  Form       $form       Form object.
+	 * @param  Submission $submission Submission object.
+	 *
 	 * @return string $subject Email subject.
 	 */
 	private function get_email_subject( $form, $submission ) {
@@ -403,7 +406,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param  Form   $form    Form object.
+	 * @param  Form       $form    Form object.
 	 * @param  Submission $submission Submission object.
 	 * @return string $content Email content.
 	 */
@@ -444,6 +447,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 * @return string Invitation email subject.
 	 */
 	protected function get_default_email_subject() {
+		/* translators: %s: Form title placeholder */
 		return sprintf( __( 'Confirm your email address for &#8220;%s&#8221;', 'torro-forms' ), '{formtitle}' );
 	}
 
@@ -464,12 +468,12 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param  Form   $form Form object.
+	 * @param  Form $form Form object.
 	 * @return string $url  Redirect URL.
 	 */
 	private function get_redirect_url( $form ) {
 		$redirect_page_id = $this->get_form_option( $form->id, 'double_optin_redirect_page_id', false );
-		$url = get_permalink( $redirect_page_id );
+		$url              = get_permalink( $redirect_page_id );
 
 		return $url;
 	}
@@ -482,14 +486,14 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 * @since 1.1.0
 	 */
 	public function catch_redirected_url() {
-		if( ! isset( $_GET['torro_optin_key'] ) ) {
+		$optin_key = filter_input( INPUT_GET, 'torro_optin_key', FILTER_SANITIZE_STRING );
+
+		if ( empty( $optin_key ) ) {
 			return;
 		}
 
-		$optin_key = $_GET['torro_optin_key'];
-
 		$query = array(
-			'meta_query'  => array(
+			'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => 'optin_key',
 					'value'   => $optin_key,
@@ -500,14 +504,14 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 
 		$results = torro()->submissions()->query( $query );
 
-		if( 0 === $results->get_total() ) {
-			header('HTTP/1.1 301 Moved Permanently' );
-			header('Location: ' . get_bloginfo('url') );
+		if ( 0 === $results->get_total() ) {
+			header( 'HTTP/1.1 301 Moved Permanently' );
+			header( 'Location: ' . get_bloginfo( 'url' ) );
 			exit();
 		}
 
 		$submission = $results->current();
-		$form = $submission->get_form();
+		$form       = $submission->get_form();
 
 		torro()->forms()->frontend_submission_handler()->complete_form_submission( $submission, $form );
 	}
@@ -537,7 +541,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 		);
 
 		$this->actions[] = array(
-			'name'     => "wp_loaded",
+			'name'     => 'wp_loaded',
 			'callback' => array( $this, 'catch_redirected_url' ),
 			'priority' => PHP_INT_MAX,
 			'num_args' => 1,
@@ -551,7 +555,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 	 */
 	protected function register_template_tag_handlers() {
 		$tags = array(
-			'sitetitle'       => array(
+			'sitetitle'      => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Title', 'torro-forms' ),
 				'description' => __( 'Inserts the site title.', 'torro-forms' ),
@@ -559,7 +563,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return get_bloginfo( 'name' );
 				},
 			),
-			'sitetagline'     => array(
+			'sitetagline'    => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Tagline', 'torro-forms' ),
 				'description' => __( 'Inserts the site tagline.', 'torro-forms' ),
@@ -567,7 +571,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return get_bloginfo( 'description' );
 				},
 			),
-			'siteurl'         => array(
+			'siteurl'        => array(
 				'group'       => 'global',
 				'label'       => __( 'Site URL', 'torro-forms' ),
 				'description' => __( 'Inserts the site home URL.', 'torro-forms' ),
@@ -575,7 +579,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return home_url( '/' );
 				},
 			),
-			'adminemail'      => array(
+			'adminemail'     => array(
 				'group'       => 'global',
 				'label'       => __( 'Site Admin Email', 'torro-forms' ),
 				'description' => __( 'Inserts the site admin email.', 'torro-forms' ),
@@ -583,19 +587,19 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return get_option( 'admin_email' );
 				},
 			),
-			'userip'          => array(
+			'userip'         => array(
 				'group'       => 'global',
 				'label'       => __( 'User IP', 'torro-forms' ),
 				'description' => __( 'Inserts the current user IP address.', 'torro-forms' ),
 				'callback'    => function() {
-					$validated_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
+					$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
 					if ( empty( $validated_ip ) ) {
 						return '0.0.0.0';
 					}
 					return $validated_ip;
 				},
 			),
-			'refererurl'      => array(
+			'refererurl'     => array(
 				'group'       => 'global',
 				'label'       => __( 'Referer URL', 'torro-forms' ),
 				'description' => __( 'Inserts the current referer URL.', 'torro-forms' ),
@@ -603,7 +607,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return wp_get_referer();
 				},
 			),
-			'formtitle'       => array(
+			'formtitle'      => array(
 				'group'       => 'form',
 				'label'       => __( 'Form Title', 'torro-forms' ),
 				'description' => __( 'Inserts the form title.', 'torro-forms' ),
@@ -611,7 +615,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return $form->title;
 				},
 			),
-			'formurl'         => array(
+			'formurl'        => array(
 				'group'       => 'form',
 				'label'       => __( 'Form URL', 'torro-forms' ),
 				'description' => __( 'Inserts the URL to the form.', 'torro-forms' ),
@@ -619,7 +623,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return get_permalink( $form->id );
 				},
 			),
-			'formediturl'     => array(
+			'formediturl'    => array(
 				'group'       => 'form',
 				'label'       => __( 'Form Edit URL', 'torro-forms' ),
 				'description' => __( 'Inserts the edit URL for the form.', 'torro-forms' ),
@@ -627,7 +631,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return get_edit_post_link( $form->id );
 				},
 			),
-			'toemail'     => array(
+			'toemail'        => array(
 				'group'       => 'form',
 				'label'       => __( 'To email address', 'torro-forms' ),
 				'description' => __( 'Inserts the to email address to the form.', 'torro-forms' ),
@@ -635,12 +639,12 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 					return $this->get_email_to_email( $form, $submission );
 				},
 			),
-			'doubleoptinurl'     => array(
+			'doubleoptinurl' => array(
 				'group'       => 'form',
 				'label'       => __( 'Double Optin URL', 'torro-forms' ),
 				'description' => __( 'Inserts the double optin URL for the form.', 'torro-forms' ),
 				'callback'    => function( $form, $submission ) {
-					return home_url( '/' ) . "?torro_optin_key=" . $submission->optin_key;
+					return home_url( '/' ) . '?torro_optin_key=' . $submission->optin_key;
 				},
 			),
 		);
@@ -688,22 +692,26 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface{
 		$template_tag_group_template .= '<ul></ul>';
 		$template_tag_group_template .= '</li>';
 
-		$assets->register_script( 'admin-double-optin', 'assets/dist/js/admin-double-optin.js', array(
-			'deps'          => array( 'jquery', 'torro-template-tag-fields', 'torro-admin-form-builder' ),
-			'in_footer'     => true,
-			'localize_name' => 'torroEmailNotifications',
-			'localize_data' => array(
-				'templateTagGroupTemplate' => $template_tag_group_template,
-				'templateTagTemplate'      => $template_tag_template,
-				'templateTagSlug'          => 'value_element_%element_id%',
-				'templateTagGroup'         => 'submission',
-				'templateTagGroupLabel'    => _x( 'Submission', 'template tag group', 'torro-forms' ),
-				/* translators: %s: element label */
-				'templateTagLabel'         => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), '%element_label%' ),
-				/* translators: %s: element label */
-				'templateTagDescription'   => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), '%element_label%' ),
-			),
-		) );
+		$assets->register_script(
+			'admin-double-optin',
+			'assets/dist/js/admin-double-optin.js',
+			array(
+				'deps'          => array( 'jquery', 'torro-template-tag-fields', 'torro-admin-form-builder' ),
+				'in_footer'     => true,
+				'localize_name' => 'torroEmailNotifications',
+				'localize_data' => array(
+					'templateTagGroupTemplate' => $template_tag_group_template,
+					'templateTagTemplate'      => $template_tag_template,
+					'templateTagSlug'          => 'value_element_%element_id%',
+					'templateTagGroup'         => 'submission',
+					'templateTagGroupLabel'    => _x( 'Submission', 'template tag group', 'torro-forms' ),
+					/* translators: %s: element label */
+					'templateTagLabel'         => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), '%element_label%' ),
+					/* translators: %s: element label */
+					'templateTagDescription'   => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), '%element_label%' ),
+				),
+			)
+		);
 	}
 
 	/**

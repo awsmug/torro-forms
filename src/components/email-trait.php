@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Email trait
  *
@@ -73,20 +72,20 @@ trait Email_Trait {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string $from_name      From name in email.
-	 * @param string $from_email     From email address.
-	 * @param string $to_email       To email address.
-	 * @param string $subject        Email Subject.
-	 * @param string $message        Email Message.
+	 * @param string        $from_name      From name in email.
+	 * @param string        $from_email     From email address.
+	 * @param string        $to_email       To email address.
+	 * @param string        $subject        Email Subject.
+	 * @param string        $message        Email Message.
 	 * @param string string $headers Additional Email Headers.
 	 */
 	protected function setup_mail( $from_name, $from_email, $to_email, $subject, $message, $headers = '' ) {
-		$this->email_from_name = $from_name;
+		$this->email_from_name  = $from_name;
 		$this->email_from_email = $from_email;
-		$this->email_to_email = $to_email;
-		$this->email_subject = $subject;
-		$this->email_message = $message;
-		$this->email_headers = $headers;
+		$this->email_to_email   = $to_email;
+		$this->email_subject    = $subject;
+		$this->email_message    = $message;
+		$this->email_headers    = $headers;
 	}
 
 	/**
@@ -112,7 +111,7 @@ trait Email_Trait {
 	 * @return WP_Error|bool True if sending out email was without errors, otherwise false.
 	 */
 	protected function wp_mail() {
-		$sent = wp_mail( $this->email_to_email, $this->email_subject, $this->email_message, $this->email_headers );
+		$sent  = wp_mail( $this->email_to_email, $this->email_subject, $this->email_message, $this->email_headers );
 		$error = new WP_Error();
 
 		if ( ! $sent ) {
