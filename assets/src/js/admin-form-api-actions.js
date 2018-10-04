@@ -1,11 +1,13 @@
-( function( torro, fieldsAPI, $, apiActions ) {
+( function( torro, fieldsAPI, $, apiActionsData ) {
 	'use strict';
 
-	var apiAction, i;
+	var apiActions = apiActionsData.actions;
+	var apiAction;
+	var i;
 
 	for ( i in apiActions ) {
 		apiAction = apiActions[ i ];
 		console.log( apiAction );
 	}
 
-}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroAPIActions || [] ) );
+}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroAPIActionsData ) );

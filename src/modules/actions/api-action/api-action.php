@@ -58,6 +58,24 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	private $structure_api_instances = array();
 
 	/**
+	 * Internal flag for whether the API script used for all API actions has been registered.
+	 *
+	 * @since 1.0.0
+	 * @static
+	 * @var bool
+	 */
+	private static $script_registered = false;
+
+	/**
+	 * Internal flag for whether the API script used for all API actions has been enqueued.
+	 *
+	 * @since 1.0.0
+	 * @static
+	 * @var bool
+	 */
+	private static $script_enqueued = false;
+
+	/**
 	 * Checks whether the action is enabled for a specific form.
 	 *
 	 * @since 1.1.0
@@ -270,7 +288,31 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function register_assets( $assets ) {
+		if ( self::$script_registered ) {
+			return;
+		}
 
+		$asset_prefix = str_replace( '_', '-', $assets->get_prefix() );
+
+		$assets->register_script(
+			'admin-form-api-actions',
+			'assets/dist/js/admin-form-api-actions.js',
+			array(
+				'deps'      => array( $asset_prefix . 'util', $asset_prefix . 'admin-form-builder', 'jquery', 'plugin-lib-fields' ),
+				'in_footer' => true,
+			)
+		);
+
+		$assets->register_script(
+			'admin-settings-api-actions',
+			'assets/dist/js/admin-settings-api-actions.js',
+			array(
+				'deps'      => array( $asset_prefix . 'util', 'jquery', 'plugin-lib-fields' ),
+				'in_footer' => true,
+			)
+		);
+
+		self::$script_registered = true;
 	}
 
 	/**
@@ -281,7 +323,34 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param Assets $assets The plugin assets instance.
 	 */
 	public function enqueue_form_builder_assets( $assets ) {
+		if ( self::$script_enqueued ) {
+			return;
+		}
 
+		$assets->enqueue_script( 'admin-form-api-actions' );
+
+		// Pass all API action slugs to the script.
+		$api_actions = array_map(
+			function( API_Action $action ) {
+				return $action->get_slug();
+			},
+			array_filter(
+				$this->module->get_submodules(),
+				function( Action $action ) {
+					return $action instanceof API_Action;
+				}
+			)
+		);
+		$data = array(
+			'actions' => $api_actions,
+		);
+		wp_add_inline_script(
+			str_replace( '_', '-', $assets->get_prefix() ) . 'admin-form-api-actions',
+			'var torroAPIActionsData = ' . wp_json_encode( $data ) . ';',
+			'before'
+		);
+
+		self::$script_enqueued = true;
 	}
 
 	/**
@@ -294,7 +363,34 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param string $current_subtab_id Identifier of the current sub-tab.
 	 */
 	public function enqueue_settings_assets( $assets, $current_tab_id, $current_subtab_id ) {
+		if ( "{$assets->get_prefix()}module_actions" !== $current_tab_id ) {
+			return;
+		}
 
+		if ( $this->slug !== $current_subtab_id ) {
+			return;
+		}
+
+		if ( self::$script_enqueued ) {
+			return;
+		}
+
+		$assets->enqueue_script( 'admin-settings-api-actions' );
+
+		$data = array(
+			// Pass the current API action slug to the script.
+			'action' => $this->slug,
+			'i18n'   => array(
+				'couldNotLoadData' => __( 'Could not load API action data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
+			),
+		);
+		wp_add_inline_script(
+			str_replace( '_', '-', $assets->get_prefix() ) . 'admin-settings-api-actions',
+			'var torroAPIActionsData = ' . wp_json_encode( $data ) . ';',
+			'before'
+		);
+
+		self::$script_enqueued = true;
 	}
 
 	/**

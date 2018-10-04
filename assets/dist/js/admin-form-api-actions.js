@@ -1,15 +1,17 @@
 /*!
- * Torro Forms Version 1.0.0 (https://torro-forms.com)
+ * Torro Forms Version 1.0.3 (https://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
-( function( torro, fieldsAPI, $, apiActions ) {
+( function( torro, fieldsAPI, $, apiActionsData ) {
 	'use strict';
 
-	var apiAction, i;
+	var apiActions = apiActionsData.actions;
+	var apiAction;
+	var i;
 
 	for ( i in apiActions ) {
 		apiAction = apiActions[ i ];
 		console.log( apiAction );
 	}
 
-}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroAPIActions || [] ) );
+}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroAPIActionsData ) );
