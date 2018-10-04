@@ -123,118 +123,186 @@ class Assets extends Assets_Base {
 	 * @since 1.0.0
 	 */
 	protected function register_assets() {
-		$this->register_style( 'frontend', 'assets/dist/css/frontend.css', array(
-			'deps' => array(),
-			'ver'  => $this->plugin_version,
-		) );
+		$this->register_style(
+			'frontend',
+			'assets/dist/css/frontend.css',
+			array(
+				'deps' => array(),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
-		$this->register_script( 'util', 'assets/dist/js/util.js', array(
-			'deps'      => array( 'jquery', 'underscore', 'wp-util', 'wp-api' ),
-			'ver'       => $this->plugin_version,
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'util',
+			'assets/dist/js/util.js',
+			array(
+				'deps'      => array( 'jquery', 'underscore', 'wp-util', 'wp-api' ),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_style( 'admin-icons', 'assets/dist/css/admin-icons.css', array(
-			'deps' => array(),
-			'ver'  => $this->plugin_version,
-		) );
+		$this->register_style(
+			'admin-icons',
+			'assets/dist/css/admin-icons.css',
+			array(
+				'deps' => array(),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
-		$this->register_script( 'admin-fixed-sidebar', 'assets/dist/js/admin-fixed-sidebar.js', array(
-			'deps'      => array( 'jquery' ),
-			'ver'       => $this->plugin_version,
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'admin-fixed-sidebar',
+			'assets/dist/js/admin-fixed-sidebar.js',
+			array(
+				'deps'      => array( 'jquery' ),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_script( 'admin-tooltip-descriptions', 'assets/dist/js/admin-tooltip-descriptions.js', array(
-			'deps'      => array( 'jquery' ),
-			'ver'       => $this->plugin_version,
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'admin-tooltip-descriptions',
+			'assets/dist/js/admin-tooltip-descriptions.js',
+			array(
+				'deps'      => array( 'jquery' ),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_style( 'admin-tooltip-descriptions', 'assets/dist/css/admin-tooltip-descriptions.css', array(
-			'deps' => array( 'dashicons' ),
-			'ver'  => $this->plugin_version,
-		) );
+		$this->register_style(
+			'admin-tooltip-descriptions',
+			'assets/dist/css/admin-tooltip-descriptions.css',
+			array(
+				'deps' => array( 'dashicons' ),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
-		$this->register_script( 'admin-unload', 'assets/dist/js/admin-unload.js', array(
-			'deps'      => array( 'jquery', 'post' ),
-			'ver'       => $this->plugin_version,
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'admin-unload',
+			'assets/dist/js/admin-unload.js',
+			array(
+				'deps'      => array( 'jquery', 'post' ),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_script( 'admin-form-builder', 'assets/dist/js/admin-form-builder.js', array(
-			'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'plugin-lib-fields', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog', 'media-editor' ),
-			'ver'           => $this->plugin_version,
-			'in_footer'     => true,
-			'localize_name' => 'torroBuilderI18n',
-			'localize_data' => array(
-				'couldNotInitCanvas'         => __( 'Could not initialize form canvas as the selector points to an element that does not exist.', 'torro-forms' ),
-				'couldNotLoadData'           => __( 'Could not load form builder data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
-				/* translators: %s: container index number */
-				'defaultContainerLabel'      => __( 'Page %s', 'torro-forms' ),
-				/* translators: %s: element choice index number */
-				'elementChoiceLabel'         => __( 'Choice %s', 'torro-forms' ),
-				'showContent'                => __( 'Show Content', 'torro-forms' ),
-				'hideContent'                => __( 'Hide Content', 'torro-forms' ),
-				'yes'                        => __( 'Yes', 'torro-forms' ),
-				'no'                         => __( 'No', 'torro-forms' ),
-				'confirmDeleteContainer'     => __( 'Do you really want to delete this page?', 'torro-forms' ),
-				'confirmDeleteElement'       => __( 'Do you really want to delete this element?', 'torro-forms' ),
-				'confirmDeleteElementChoice' => __( 'Do you really want to delete this choice?', 'torro-forms' ),
-				'selectElementType'          => __( 'Select Element Type', 'torro-forms' ),
-				'insertIntoContainer'        => __( 'Insert into container', 'torro-forms' ),
-			),
-		) );
+		$this->register_script(
+			'admin-form-builder',
+			'assets/dist/js/admin-form-builder.js',
+			array(
+				'deps'          => array( $this->prefix_handle( 'util' ), 'jquery', 'underscore', 'backbone', 'wp-backbone', 'plugin-lib-fields', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-dialog', 'media-editor' ),
+				'ver'           => $this->plugin_version,
+				'in_footer'     => true,
+				'localize_name' => 'torroBuilderI18n',
+				'localize_data' => array(
+					'couldNotInitCanvas'         => __( 'Could not initialize form canvas as the selector points to an element that does not exist.', 'torro-forms' ),
+					'couldNotLoadData'           => __( 'Could not load form builder data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
+					/* translators: %s: container index number */
+					'defaultContainerLabel'      => __( 'Page %s', 'torro-forms' ),
+					/* translators: %s: element choice index number */
+					'elementChoiceLabel'         => __( 'Choice %s', 'torro-forms' ),
+					'showContent'                => __( 'Show Content', 'torro-forms' ),
+					'hideContent'                => __( 'Hide Content', 'torro-forms' ),
+					'yes'                        => __( 'Yes', 'torro-forms' ),
+					'no'                         => __( 'No', 'torro-forms' ),
+					'confirmDeleteContainer'     => __( 'Do you really want to delete this page?', 'torro-forms' ),
+					'confirmDeleteElement'       => __( 'Do you really want to delete this element?', 'torro-forms' ),
+					'confirmDeleteElementChoice' => __( 'Do you really want to delete this choice?', 'torro-forms' ),
+					'selectElementType'          => __( 'Select Element Type', 'torro-forms' ),
+					'insertIntoContainer'        => __( 'Insert into container', 'torro-forms' ),
+				),
+			)
+		);
 
-		$this->register_style( 'admin-form-builder', 'assets/dist/css/admin-form-builder.css', array(
-			'deps' => array(),
-			'ver'  => $this->plugin_version,
-		) );
+		$this->register_style(
+			'admin-form-builder',
+			'assets/dist/css/admin-form-builder.css',
+			array(
+				'deps' => array(),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
-		$this->register_script( 'admin-settings', 'assets/dist/js/admin-settings.js', array(
-			'deps'      => array( 'jquery' ),
-			'ver'       => $this->plugin_version,
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'admin-settings',
+			'assets/dist/js/admin-settings.js',
+			array(
+				'deps'      => array( 'jquery' ),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_style( 'admin-settings', 'assets/dist/css/admin-settings.css', array(
-			'deps' => array(),
-			'ver'  => $this->plugin_version,
-		) );
+		$this->register_style(
+			'admin-settings',
+			'assets/dist/css/admin-settings.css',
+			array(
+				'deps' => array(),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
-		$this->register_script( 'clipboard', 'assets/dist/js/clipboard.js', array(
-			'deps'      => array(),
-			'ver'       => $this->plugin_version,
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'clipboard',
+			'assets/dist/js/clipboard.js',
+			array(
+				'deps'      => array(),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_style( 'clipboard', 'assets/dist/css/clipboard.css', array(
-			'deps' => array(),
-			'ver'  => $this->plugin_version,
-		) );
+		$this->register_style(
+			'clipboard',
+			'assets/dist/css/clipboard.css',
+			array(
+				'deps' => array(),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
-		$this->register_script( 'template-tag-fields', 'assets/dist/js/template-tag-fields.js', array(
-			'deps'      => array( 'plugin-lib-fields', 'jquery' ),
-			'ver'       => $this->plugin_version,
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'template-tag-fields',
+			'assets/dist/js/template-tag-fields.js',
+			array(
+				'deps'      => array( 'plugin-lib-fields', 'jquery' ),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_style( 'template-tag-fields', 'assets/dist/css/template-tag-fields.css', array(
-			'deps' => array( 'plugin-lib-fields' ),
-			'ver'  => $this->plugin_version,
-		) );
+		$this->register_style(
+			'template-tag-fields',
+			'assets/dist/css/template-tag-fields.css',
+			array(
+				'deps' => array( 'plugin-lib-fields' ),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
-		$this->register_script( 'd3', 'node_modules/d3/d3.js', array(
-			'deps'      => array(),
-			'ver'       => '3.5.17',
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'd3',
+			'node_modules/d3/d3.js',
+			array(
+				'deps'      => array(),
+				'ver'       => '3.5.17',
+				'in_footer' => true,
+			)
+		);
 
-		$this->register_script( 'c3', 'node_modules/c3/c3.js', array(
-			'deps'      => array( 'd3' ),
-			'ver'       => '0.4.11',
-			'in_footer' => true,
-		) );
+		$this->register_script(
+			'c3',
+			'node_modules/c3/c3.js',
+			array(
+				'deps'      => array( 'd3' ),
+				'ver'       => '0.4.11',
+				'in_footer' => true,
+			)
+		);
 
 		$c3_script = <<<JAVASCRIPT
 ( function( c3 ) {
@@ -290,10 +358,14 @@ JAVASCRIPT;
 
 		wp_add_inline_script( 'c3', $c3_script );
 
-		$this->register_style( 'c3', 'node_modules/c3/c3.css', array(
-			'deps' => array(),
-			'ver'  => '0.4.11',
-		) );
+		$this->register_style(
+			'c3',
+			'node_modules/c3/c3.css',
+			array(
+				'deps' => array(),
+				'ver'  => '0.4.11',
+			)
+		);
 
 		/**
 		 * Fires after all default plugin assets have been registered.

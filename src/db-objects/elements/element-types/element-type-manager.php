@@ -231,13 +231,17 @@ class Element_Type_Manager extends Service {
 			'error_handler' => $this->elements()->error_handler(),
 		);
 
-		$dummy_manager = new Field_Manager( $this->get_prefix() . 'dummy_', $services, array(
-			'get_value_callback'     => '__return_empty_array',
-			'update_value_callback'  => '__return_empty_array',
-			'name_prefix'            => $this->get_prefix() . 'dummy',
-			'field_required_markup'  => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
-			'skip_js_initialization' => true,
-		) );
+		$dummy_manager = new Field_Manager(
+			$this->get_prefix() . 'dummy_',
+			$services,
+			array(
+				'get_value_callback'     => '__return_empty_array',
+				'update_value_callback'  => '__return_empty_array',
+				'name_prefix'            => $this->get_prefix() . 'dummy',
+				'field_required_markup'  => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
+				'skip_js_initialization' => true,
+			)
+		);
 
 		$added = array();
 		foreach ( $this->element_types as $slug => $element_type ) {
@@ -247,10 +251,14 @@ class Element_Type_Manager extends Service {
 					continue;
 				}
 
-				$dummy_manager->add( 'dummy_' . $field['type'], $field['type'], array(
-					'section' => 'main',
-					'label'   => sprintf( 'Dummy %s', $field['type'] ),
-				) );
+				$dummy_manager->add(
+					'dummy_' . $field['type'],
+					$field['type'],
+					array(
+						'section' => 'main',
+						'label'   => sprintf( 'Dummy %s', $field['type'] ),
+					)
+				);
 				$added[] = $field['type'];
 			}
 		}

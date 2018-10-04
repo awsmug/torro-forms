@@ -266,10 +266,12 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	public static function deactivate( $network_wide = false ) {
 		if ( $network_wide ) {
-			$sites = get_sites( array(
-				'network_id'    => get_current_network_id(),
-				'no_found_rows' => true,
-			) );
+			$sites = get_sites(
+				array(
+					'network_id'    => get_current_network_id(),
+					'no_found_rows' => true,
+				)
+			);
 			foreach ( $sites as $site ) {
 				switch_to_blog( $site->id );
 				torro()->submissions()->clear_cron_task();
@@ -380,7 +382,7 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function load_base_properties() {
-		$this->version      = '1.0.1';
+		$this->version      = '1.0.3';
 		$this->prefix       = 'torro_';
 		$this->vendor_name  = 'awsmug';
 		$this->project_name = 'Torro_Forms';
@@ -458,9 +460,13 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 */
 	protected function instantiate_services() {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			WP_CLI::add_command( substr( $this->prefix, 0, -1 ), $this->instantiate_library_class( 'CLI_Command_Aggregate' ), array(
-				'shortdesc' => 'Manage Torro Forms content.',
-			) );
+			WP_CLI::add_command(
+				substr( $this->prefix, 0, -1 ),
+				$this->instantiate_library_class( 'CLI_Command_Aggregate' ),
+				array(
+					'shortdesc' => 'Manage Torro Forms content.',
+				)
+			);
 		}
 
 		$this->instantiate_core_services();
@@ -487,25 +493,42 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 
 		$this->cache = $this->instantiate_library_service( 'Cache', $this->prefix );
 
-		$this->db = $this->instantiate_plugin_service( 'DB', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_DB' ) );
+		$this->db = $this->instantiate_plugin_service(
+			'DB',
+			$this->prefix,
+			array(
+				'options'       => $this->options,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_DB' )
+		);
 
-		$this->meta = $this->instantiate_library_service( 'Meta', $this->prefix, array(
-			'db'            => $this->db,
-			'error_handler' => $this->error_handler,
-		) );
+		$this->meta = $this->instantiate_library_service(
+			'Meta',
+			$this->prefix,
+			array(
+				'db'            => $this->db,
+				'error_handler' => $this->error_handler,
+			)
+		);
 
-		$this->assets = $this->instantiate_plugin_service( 'Assets', $this->prefix, array(
-			'path_callback'  => array( $this, 'path' ),
-			'url_callback'   => array( $this, 'url' ),
-			'plugin_version' => $this->version,
-		) );
+		$this->assets = $this->instantiate_plugin_service(
+			'Assets',
+			$this->prefix,
+			array(
+				'path_callback'  => array( $this, 'path' ),
+				'url_callback'   => array( $this, 'url' ),
+				'plugin_version' => $this->version,
+			)
+		);
 
-		$this->template = $this->instantiate_library_service( 'Template', $this->prefix, array(
-			'default_location' => $this->path( 'templates/' ),
-		) );
+		$this->template = $this->instantiate_library_service(
+			'Template',
+			$this->prefix,
+			array(
+				'default_location' => $this->path( 'templates/' ),
+			)
+		);
 
 		$this->ajax = $this->instantiate_library_service( 'AJAX', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_AJAX' ) );
 
@@ -518,70 +541,110 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function instantiate_db_object_managers() {
-		$this->forms = $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Capabilities', $this->prefix ),
-			'template'      => $this->template,
-			'options'       => $this->options,
-			'assets'        => $this->assets,
-			'ajax'          => $this->ajax,
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'meta'          => $this->meta,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Form_Manager' ) );
+		$this->forms = $this->instantiate_plugin_service(
+			'DB_Objects\Forms\Form_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Forms\Form_Capabilities', $this->prefix ),
+				'template'      => $this->template,
+				'options'       => $this->options,
+				'assets'        => $this->assets,
+				'ajax'          => $this->ajax,
+				'db'            => $this->db,
+				'cache'         => $this->cache,
+				'meta'          => $this->meta,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Form_Manager' )
+		);
 
-		$this->form_categories = $this->instantiate_plugin_service( 'DB_Objects\Form_Categories\Form_Category_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Form_Categories\Form_Category_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'meta'          => $this->meta,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Form_Category_Manager' ) );
+		$this->form_categories = $this->instantiate_plugin_service(
+			'DB_Objects\Form_Categories\Form_Category_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Form_Categories\Form_Category_Capabilities', $this->prefix ),
+				'db'            => $this->db,
+				'cache'         => $this->cache,
+				'meta'          => $this->meta,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Form_Category_Manager' )
+		);
 
-		$this->containers = $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Container_Manager' ) );
+		$this->containers = $this->instantiate_plugin_service(
+			'DB_Objects\Containers\Container_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Containers\Container_Capabilities', $this->prefix ),
+				'db'            => $this->db,
+				'cache'         => $this->cache,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Container_Manager' )
+		);
 
-		$this->elements = $this->instantiate_plugin_service( 'DB_Objects\Elements\Element_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Elements\Element_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'assets'        => $this->assets,
-			'ajax'          => $this->ajax,
-			'cache'         => $this->cache,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Manager' ) );
+		$this->elements = $this->instantiate_plugin_service(
+			'DB_Objects\Elements\Element_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Elements\Element_Capabilities', $this->prefix ),
+				'db'            => $this->db,
+				'assets'        => $this->assets,
+				'ajax'          => $this->ajax,
+				'cache'         => $this->cache,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Element_Manager' )
+		);
 
-		$this->element_choices = $this->instantiate_plugin_service( 'DB_Objects\Element_Choices\Element_Choice_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Element_Choices\Element_Choice_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Choice_Manager' ) );
+		$this->element_choices = $this->instantiate_plugin_service(
+			'DB_Objects\Element_Choices\Element_Choice_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Element_Choices\Element_Choice_Capabilities', $this->prefix ),
+				'db'            => $this->db,
+				'cache'         => $this->cache,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Element_Choice_Manager' )
+		);
 
-		$this->element_settings = $this->instantiate_plugin_service( 'DB_Objects\Element_Settings\Element_Setting_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Element_Settings\Element_Setting_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Element_Setting_Manager' ) );
+		$this->element_settings = $this->instantiate_plugin_service(
+			'DB_Objects\Element_Settings\Element_Setting_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Element_Settings\Element_Setting_Capabilities', $this->prefix ),
+				'db'            => $this->db,
+				'cache'         => $this->cache,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Element_Setting_Manager' )
+		);
 
-		$this->submissions = $this->instantiate_plugin_service( 'DB_Objects\Submissions\Submission_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Submissions\Submission_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'meta'          => $this->meta,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Manager' ) );
+		$this->submissions = $this->instantiate_plugin_service(
+			'DB_Objects\Submissions\Submission_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Submissions\Submission_Capabilities', $this->prefix ),
+				'db'            => $this->db,
+				'cache'         => $this->cache,
+				'meta'          => $this->meta,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Submission_Manager' )
+		);
 
-		$this->submission_values = $this->instantiate_plugin_service( 'DB_Objects\Submission_Values\Submission_Value_Manager', $this->prefix, array(
-			'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Submission_Values\Submission_Value_Capabilities', $this->prefix ),
-			'db'            => $this->db,
-			'cache'         => $this->cache,
-			'error_handler' => $this->error_handler,
-		), $this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' ) );
+		$this->submission_values = $this->instantiate_plugin_service(
+			'DB_Objects\Submission_Values\Submission_Value_Manager',
+			$this->prefix,
+			array(
+				'capabilities'  => $this->instantiate_plugin_service( 'DB_Objects\Submission_Values\Submission_Value_Capabilities', $this->prefix ),
+				'db'            => $this->db,
+				'cache'         => $this->cache,
+				'error_handler' => $this->error_handler,
+			),
+			$this->instantiate_plugin_class( 'Translations\Translations_Submission_Value_Manager' )
+		);
 
 		$this->db->set_version( 20180125 );
 	}
@@ -592,15 +655,19 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function instantiate_modules() {
-		$this->modules = $this->instantiate_plugin_service( 'Modules\Module_Manager', $this->prefix, array(
-			'options'               => $this->options,
-			'meta'                  => $this->meta,
-			'assets'                => $this->assets,
-			'ajax'                  => $this->ajax,
-			'forms'                 => $this->forms,
-			'template_tag_handlers' => $this->template_tag_handlers,
-			'error_handler'         => $this->error_handler,
-		) );
+		$this->modules = $this->instantiate_plugin_service(
+			'Modules\Module_Manager',
+			$this->prefix,
+			array(
+				'options'               => $this->options,
+				'meta'                  => $this->meta,
+				'assets'                => $this->assets,
+				'ajax'                  => $this->ajax,
+				'forms'                 => $this->forms,
+				'template_tag_handlers' => $this->template_tag_handlers,
+				'error_handler'         => $this->error_handler,
+			)
+		);
 	}
 
 	/**
@@ -609,31 +676,47 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 	 * @since 1.0.0
 	 */
 	protected function instantiate_component_services() {
-		$this->admin_pages = $this->instantiate_library_service( 'Components\Admin_Pages', $this->prefix, array(
-			'ajax'          => $this->ajax,
-			'assets'        => $this->assets,
-			'error_handler' => $this->error_handler,
-		) );
+		$this->admin_pages = $this->instantiate_library_service(
+			'Components\Admin_Pages',
+			$this->prefix,
+			array(
+				'ajax'          => $this->ajax,
+				'assets'        => $this->assets,
+				'error_handler' => $this->error_handler,
+			)
+		);
 
 		$this->extensions = $this->instantiate_plugin_service( 'Components\Extensions', $this->prefix, $this->instantiate_plugin_class( 'Translations\Translations_Extensions' ) );
 		$this->extensions->set_plugin( $this );
 
 		$this->template_tag_handlers = $this->instantiate_plugin_service( 'Components\Template_Tag_Handler_Manager', $this->prefix );
 
-		$this->post_types = $this->instantiate_plugin_service( 'DB_Objects\Post_Type_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
+		$this->post_types = $this->instantiate_plugin_service(
+			'DB_Objects\Post_Type_Manager',
+			$this->prefix,
+			array(
+				'options'       => $this->options,
+				'error_handler' => $this->error_handler,
+			)
+		);
 
-		$this->taxonomies = $this->instantiate_plugin_service( 'DB_Objects\Taxonomy_Manager', $this->prefix, array(
-			'options'       => $this->options,
-			'error_handler' => $this->error_handler,
-		) );
+		$this->taxonomies = $this->instantiate_plugin_service(
+			'DB_Objects\Taxonomy_Manager',
+			$this->prefix,
+			array(
+				'options'       => $this->options,
+				'error_handler' => $this->error_handler,
+			)
+		);
 
-		$this->form_uploads = $this->instantiate_plugin_service( 'Components\Form_Upload_Manager', $this->prefix, array(
-			'taxonomies'    => $this->taxonomies,
-			'error_handler' => $this->error_handler,
-		) );
+		$this->form_uploads = $this->instantiate_plugin_service(
+			'Components\Form_Upload_Manager',
+			$this->prefix,
+			array(
+				'taxonomies'    => $this->taxonomies,
+				'error_handler' => $this->error_handler,
+			)
+		);
 	}
 
 	/**
@@ -655,9 +738,11 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$this->form_categories->capabilities()->map_capabilities( 'categories' );
 
 		// Grant access to plugin settings if the user can manage options.
-		$this->forms->capabilities()->grant_capabilities( array(
-			'manage_item_settings' => 'manage_options',
-		) );
+		$this->forms->capabilities()->grant_capabilities(
+			array(
+				'manage_item_settings' => 'manage_options',
+			)
+		);
 	}
 
 	/**
@@ -703,9 +788,14 @@ class Torro_Forms extends Leaves_And_Love_Plugin {
 		$submission_edit_class_name  = 'awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Edit_Page';
 
 		$submissions_list_page = new $submissions_list_class_name( $this->admin_pages->get_prefix() . 'list_submissions', $this->admin_pages, $this->submissions );
-		$submission_edit_page  = new $submission_edit_class_name( $this->admin_pages->get_prefix() . 'edit_submission', $this->admin_pages, $this->submissions, array(
-			'field_required_markup' => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
-		) );
+		$submission_edit_page  = new $submission_edit_class_name(
+			$this->admin_pages->get_prefix() . 'edit_submission',
+			$this->admin_pages,
+			$this->submissions,
+			array(
+				'field_required_markup' => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
+			)
+		);
 
 		$this->admin_pages->add( 'list_submissions', $submissions_list_page, 'edit.php?post_type=' . $this->admin_pages->get_prefix() . 'form', null, 'site' );
 		$this->admin_pages->add( 'edit_submission', $submission_edit_page, null, null, 'site', true );

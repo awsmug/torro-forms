@@ -257,9 +257,15 @@ class Media extends Element_Type {
 
 		$file_extensions = array_keys( $this->get_file_mime_types() );
 
-		$media_sub_types = array_combine( $file_extensions, array_map( function( $extension ) {
-			return '.' . $extension;
-		}, $file_extensions ) );
+		$media_sub_types = array_combine(
+			$file_extensions,
+			array_map(
+				function( $extension ) {
+					return '.' . $extension;
+				},
+				$file_extensions
+			)
+		);
 
 		return array_merge( array( 'any' => __( 'Any', 'torro-forms' ) ), $media_types, $media_sub_types );
 	}

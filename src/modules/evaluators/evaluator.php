@@ -147,9 +147,11 @@ abstract class Evaluator extends Submodule implements Meta_Submodule_Interface, 
 			return $this->get_stats( $form->id );
 		}
 
-		$submissions = $form->get_submissions( array(
-			'status' => 'completed',
-		) );
+		$submissions = $form->get_submissions(
+			array(
+				'status' => 'completed',
+			)
+		);
 
 		return $this->evaluate_multiple( array(), $submissions, $form );
 	}

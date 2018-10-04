@@ -144,10 +144,13 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 		$primary_property = $this->manager->get_primary_property();
 
 		$links['submission_values'] = array(
-			'href'       => add_query_arg( array(
-				'submission_id' => $submission->$primary_property,
-				'per_page'      => 50,
-			), rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) ) ),
+			'href'       => add_query_arg(
+				array(
+					'submission_id' => $submission->$primary_property,
+					'per_page'      => 50,
+				),
+				rest_url( sprintf( '%s/%s', $this->namespace, 'submission_values' ) )
+			),
 			'embeddable' => true,
 		);
 

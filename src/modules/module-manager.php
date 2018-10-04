@@ -260,10 +260,13 @@ class Module_Manager extends Service {
 			return new Error( $this->get_prefix() . 'module_class_not_allowed', sprintf( __( 'The class %s is not allowed for a module.', 'torro-forms' ), $module_class_name ), __METHOD__, '1.0.0' );
 		}
 
-		$this->modules[ $slug ] = new $module_class_name( $this->get_prefix(), array(
-			'manager'       => $this,
-			'error_handler' => $this->error_handler(),
-		) );
+		$this->modules[ $slug ] = new $module_class_name(
+			$this->get_prefix(),
+			array(
+				'manager'       => $this,
+				'error_handler' => $this->error_handler(),
+			)
+		);
 
 		return true;
 	}

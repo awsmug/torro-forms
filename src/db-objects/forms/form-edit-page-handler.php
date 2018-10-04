@@ -85,12 +85,15 @@ class Form_Edit_Page_Handler {
 			$id = $prefix . $id;
 		}
 
-		$this->meta_boxes[ $id ] = wp_parse_args( $args, array(
-			'title'       => '',
-			'description' => '',
-			'content'     => 'advanced',
-			'priority'    => 'default',
-		) );
+		$this->meta_boxes[ $id ] = wp_parse_args(
+			$args,
+			array(
+				'title'       => '',
+				'description' => '',
+				'content'     => 'advanced',
+				'priority'    => 'default',
+			)
+		);
 
 		$services = array(
 			'ajax'          => $this->form_manager->ajax(),
@@ -98,15 +101,19 @@ class Form_Edit_Page_Handler {
 			'error_handler' => $this->form_manager->error_handler(),
 		);
 
-		$this->meta_boxes[ $id ]['field_manager'] = new Field_Manager( $prefix, $services, array(
-			'get_value_callback'         => array( $this, 'get_meta_values' ),
-			'get_value_callback_args'    => array( $id ),
-			'update_value_callback'      => array( $this, 'update_meta_values' ),
-			'update_value_callback_args' => array( $id, '{value}' ),
-			'name_prefix'                => $id,
-			'render_mode'                => 'form-table',
-			'field_required_markup'      => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
-		) );
+		$this->meta_boxes[ $id ]['field_manager'] = new Field_Manager(
+			$prefix,
+			$services,
+			array(
+				'get_value_callback'         => array( $this, 'get_meta_values' ),
+				'get_value_callback_args'    => array( $id ),
+				'update_value_callback'      => array( $this, 'update_meta_values' ),
+				'update_value_callback_args' => array( $id, '{value}' ),
+				'name_prefix'                => $id,
+				'render_mode'                => 'form-table',
+				'field_required_markup'      => '<span class="screen-reader-text">' . _x( '(required)', 'field required indicator', 'torro-forms' ) . '</span><span class="torro-required-indicator" aria-hidden="true">*</span>',
+			)
+		);
 	}
 
 	/**
@@ -132,11 +139,14 @@ class Form_Edit_Page_Handler {
 			}
 		}
 
-		$this->tabs[ $id ] = wp_parse_args( $args, array(
-			'title'       => '',
-			'description' => '',
-			'meta_box'    => '',
-		) );
+		$this->tabs[ $id ] = wp_parse_args(
+			$args,
+			array(
+				'title'       => '',
+				'description' => '',
+				'meta_box'    => '',
+			)
+		);
 	}
 
 	/**
@@ -450,12 +460,15 @@ class Form_Edit_Page_Handler {
 		<div class="notice notice-<?php echo esc_attr( $feedback['type'] ); ?>">
 			<p>
 				<?php
-				echo wp_kses( $feedback['message'], array(
-					'strong' => array(),
-					'a'      => array(
-						'href' => array(),
-					),
-				) );
+				echo wp_kses(
+					$feedback['message'],
+					array(
+						'strong' => array(),
+						'a'      => array(
+							'href' => array(),
+						),
+					)
+				);
 				?>
 			</p>
 		</div>
@@ -953,19 +966,19 @@ class Form_Edit_Page_Handler {
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers' ) ) {
-			$this->delete_containers( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_containers( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_containers', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements' ) ) {
-			$this->delete_elements( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_elements( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_elements', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices' ) ) {
-			$this->delete_element_choices( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_element_choices( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_choices', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( filter_has_var( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings' ) ) {
-			$this->delete_element_settings( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY ) );
+			$this->delete_element_settings( filter_input( INPUT_POST, $this->form_manager->get_prefix() . 'deleted_element_settings', FILTER_VALIDATE_INT, FILTER_FORCE_ARRAY ) );
 		}
 
 		if ( ! did_action( "{$this->form_manager->get_prefix()}add_form_meta_content" ) ) {
@@ -1035,10 +1048,14 @@ class Form_Edit_Page_Handler {
 
 			$status = $container->sync_upstream();
 			if ( is_wp_error( $status ) ) {
-				$errors->add( $status->get_error_code(), $status->get_error_message(), array(
-					'id'   => $id,
-					'data' => $data,
-				) );
+				$errors->add(
+					$status->get_error_code(),
+					$status->get_error_message(),
+					array(
+						'id'   => $id,
+						'data' => $data,
+					)
+				);
 			} else {
 				$mappings['containers'][ $id ] = $container->id;
 			}
@@ -1082,10 +1099,14 @@ class Form_Edit_Page_Handler {
 
 			$status = $element->sync_upstream();
 			if ( is_wp_error( $status ) ) {
-				$errors->add( $status->get_error_code(), $status->get_error_message(), array(
-					'id'   => $id,
-					'data' => $data,
-				) );
+				$errors->add(
+					$status->get_error_code(),
+					$status->get_error_message(),
+					array(
+						'id'   => $id,
+						'data' => $data,
+					)
+				);
 			} else {
 				$mappings['elements'][ $id ] = $element->id;
 			}
@@ -1129,10 +1150,14 @@ class Form_Edit_Page_Handler {
 
 			$status = $element_choice->sync_upstream();
 			if ( is_wp_error( $status ) ) {
-				$errors->add( $status->get_error_code(), $status->get_error_message(), array(
-					'id'   => $id,
-					'data' => $data,
-				) );
+				$errors->add(
+					$status->get_error_code(),
+					$status->get_error_message(),
+					array(
+						'id'   => $id,
+						'data' => $data,
+					)
+				);
 			} else {
 				$mappings['element_choices'][ $id ] = $element_choice->id;
 			}
@@ -1176,10 +1201,14 @@ class Form_Edit_Page_Handler {
 
 			$status = $element_setting->sync_upstream();
 			if ( is_wp_error( $status ) ) {
-				$errors->add( $status->get_error_code(), $status->get_error_message(), array(
-					'id'   => $id,
-					'data' => $data,
-				) );
+				$errors->add(
+					$status->get_error_code(),
+					$status->get_error_message(),
+					array(
+						'id'   => $id,
+						'data' => $data,
+					)
+				);
 			} else {
 				$mappings['element_settings'][ $id ] = $element_setting->id;
 			}

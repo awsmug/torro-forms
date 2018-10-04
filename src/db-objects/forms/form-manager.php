@@ -398,16 +398,67 @@ class Form_Manager extends Core_Manager {
 	 * Starts a PHP session if the current request is any frontend form request.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global WP_Query $wp_the_query WordPress main query object.
 	 */
 	protected function maybe_start_session() {
+		global $wp_the_query;
+
+		// No need to start a session twice or in case we cannot start it anyway.
+		if ( isset( $_SESSION ) || headers_sent() ) {
+			return;
+		}
+
+		// Forms cannot be regularly submitted through the admin.
 		if ( is_admin() ) {
 			return;
 		}
 
-		if ( is_singular() && $this->get_prefix() . 'form' === get_post_type( get_queried_object_id() ) || isset( $_POST['torro_submission'] ) ) { // WPCS: CSRF OK.
-			if ( ! isset( $_SESSION ) && ! headers_sent() ) {
+		// When a form is submitted, definitely start a session.
+		if ( filter_input( INPUT_POST, 'torro_submission' ) ) {
+			session_start();
+			return;
+		}
+
+		/**
+		 * Filters whether to start a PHP session, depending on whether a form is loaded in the current request.
+		 *
+		 * This filter is run before the actual logic to determine this. Returning anything other than null allows
+		 * to effectively short-circuit this, with the return value being interpreted as a boolean.
+		 *
+		 * @since 1.0.4
+		 *
+		 * @param null|bool $start_session Whether to start a session. Anything other than null will cause the original
+		 *                                 logic to be skipped and instead set the session based on that value. Default
+		 *                                 null.
+		 * @param WP_Query  $wp_the_query  WordPress main query object.
+		 */
+		$start_session = apply_filters( "{$this->get_prefix()}form_pre_start_session", null, $wp_the_query );
+		if ( null !== $start_session ) {
+			if ( $start_session ) {
 				session_start();
 			}
+			return;
+		}
+
+		$start_session = false;
+		if ( $wp_the_query->is_singular( $this->get_prefix() . 'form' ) ) {
+			$start_session = true;
+		} elseif ( $wp_the_query->is_post_type_archive( $this->get_prefix() . 'form' ) ) {
+			$start_session = true;
+		} elseif ( $wp_the_query->is_tax( $this->get_prefix() . 'form_category' ) ) {
+			$start_session = true;
+		} elseif ( ! empty( $wp_the_query->posts ) ) {
+			foreach ( $wp_the_query->posts as $post ) {
+				if ( ! empty( $post->post_content ) && ( false !== strpos( $post->post_content, "[{$this->get_prefix()}form " ) || false !== strpos( $post->post_content, '[form ' ) ) ) {
+					$start_session = true;
+					break;
+				}
+			}
+		}
+
+		if ( $start_session ) {
+			session_start();
 		}
 	}
 
