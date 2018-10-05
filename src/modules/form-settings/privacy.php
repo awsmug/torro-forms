@@ -85,20 +85,20 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 		$prefix = $this->module->get_prefix();
 
 		$meta_fields = array(
-			'double_optin'                  => array(
+			'double_optin'                    => array(
 				'type'         => 'checkbox',
 				'label'        => __( 'Enable', 'torro-forms' ),
 				'visual_label' => __( 'Double Opt-In', 'torro-forms' ),
 				'description'  => __( 'Click to activate the double opt-in. After activation a double opt-in template variable {double-opt-in-link} will be available for email notifications and submissions will have an "checked" or "unchecked" status.', 'torro-forms' ),
 			),
-			'double_optin_email_from_name'  => array(
+			'double_optin_email_from_name'    => array(
 				'type'                 => 'templatetagtext',
 				'label'                => __( 'From Name', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler,
 				'default'              => $this->get_default_email_from_name(),
 			),
-			'double_optin_email_from_email' => array(
+			'double_optin_email_from_email'   => array(
 				'type'                 => 'templatetagemail',
 				'label'                => __( 'From Email', 'torro-forms' ),
 				/* translators: %s: email address */
@@ -107,26 +107,33 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 				'template_tag_handler' => $this->template_tag_handler_email_only,
 				'default'              => $this->get_default_email_from_email(),
 			),
-			'double_optin_email_to_email'   => array(
+			'double_optin_email_to_email'     => array(
 				'type'                 => 'templatetagemail',
 				'label'                => __( 'To Email', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'description'          => _x( 'Please enter a field from the form that contains the email address.', 'To email in double opt-in email ', 'torro-forms' ),
 				'template_tag_handler' => $this->template_tag_handler_email_only,
 			),
-			'double_optin_email_subject'    => array(
+			'double_optin_email_subject'      => array(
 				'type'                 => 'templatetagtext',
 				'label'                => __( 'Subject', 'torro-forms' ),
 				'input_classes'        => array( 'regular-text' ),
 				'template_tag_handler' => $this->template_tag_handler,
 				'default'              => $this->get_default_email_subject(),
 			),
-			'double_optin_email_message'    => array(
+			'double_optin_email_message'      => array(
 				'type'                 => 'templatetagwysiwyg',
 				'label'                => __( 'Message', 'torro-forms' ),
 				'media_buttons'        => true,
 				'template_tag_handler' => $this->template_tag_handler,
 				'default'              => $this->get_default_email_message(),
+			),
+			'double_optin_submission_message' => array(
+				'type'                 => 'templatetagwysiwyg',
+				'label'                => __( 'Submission Message', 'torro-forms' ),
+				'media_buttons'        => true,
+				'template_tag_handler' => $this->template_tag_handler,
+				'default'              => $this->get_default_submission_message(),
 			),
 		);
 
@@ -138,6 +145,19 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 		 * @param array $fields Array of `$field_slug => $field_data` pairs.
 		 */
 		return apply_filters( "{$prefix}form_settings_privacy_meta_fields", $meta_fields );
+	}
+
+	/**
+	 * Checks is optin is enabled for the given form.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Form $form Form object.
+	 *
+	 * @return bool Is optin enabled.
+	 */
+	public function is_optin_enabled( $form ) {
+		return (bool) $this->get_form_option( $form->id, 'double_optin', false );
 	}
 
 	/**
@@ -154,13 +174,12 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	 * @return bool      $should_complete Whether the completion process for the form submission should proceed.
 	 */
 	public function interrupt_submission( $should_complete, $submission, $form ) {
-		if ( false === $this->get_form_option( $form->id, 'double_optin', false ) ) {
+		if ( false === $this->is_optin_enabled( $form ) ) {
 			return true;
 		}
 
-		$submission->optin_key = $this->create_torro_optin_key( $submission );
+		$submission->optin_key = $this->create_optin_key( $submission );
 
-		// @todo What to do on and with error?
 		if ( ! is_wp_error( $this->send_optin_mail( $form, $submission ) ) ) {
 			$submission->optin_sent = true;
 		}
@@ -171,56 +190,39 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	}
 
 	/**
-	 * Showing success message after submission.
+	 * Showing message after submission.
 	 *
 	 * @since 1.1.0
 	 *
 	 * @param string     $content    Form content to filter.
 	 * @param Submission $submission Submission object.
+	 * @param Form       $form       Form object.
 	 * @return string|null $content    Filtered form content.
 	 */
-	public function success_message( $content, $submission ) {
+	public function form_content( $content, $submission, $form ) {
 		if ( empty( $submission ) ) {
 			return $content;
 		}
 
-		// todo: Creating more possibilities for success message like in redirection.
-		if ( $submission->optin_sent ) {
-			return '<div class="' . esc_attr( $this->get_notice_class( 'notice' ) ) . '"><p>' . __( 'Thank you for submitting!', 'torro-forms' ) . '</p></div>';
+		if ( $this->is_optin_enabled( $form ) && ! isset( $submission->optin_sent ) ) {
+			return __( 'There went something wrong. Could not sent double optin mail to user. Please try again later.', 'torro-forms' );
+		} else {
+			$dynamic_template_tags = $this->get_dynamic_template_tags( $form, true );
+			$this->setup_template_tag_handler( $dynamic_template_tags );
+
+			return $this->get_submission_message( $form, $submission );
 		}
-
-		return $content;
 	}
 
 	/**
-	 * Gets the CSS class to use for notices.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $type Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
-	 * @return string CSS class to use for notices of the given type.
-	 */
-	protected function get_notice_class( $type = 'warning' ) {
-		/**
-		 * Filters the CSS class to use for notices.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $notice_class Notice CSS class. Default 'torro-notice torro-{$type}-notice'.
-		 * @param string $type         Notice type.
-		 */
-		return apply_filters( "{$this->module->get_prefix()}form_notice_class", "torro-notice torro-{$type}-notice", $type );
-	}
-
-	/**
-	 * Creates a submission id.
+	 * Creates an optin key.
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param  Submission $submission      Submission object.
-	 * @return string                      Submission ID.
+	 * @param  Submission $submission Submission object.
+	 * @return string                 Optin key.
 	 */
-	private function create_torro_optin_key( $submission ) {
+	private function create_optin_key( $submission ) {
 		return md5( spl_object_hash( $submission ) );
 	}
 
@@ -235,20 +237,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	 */
 	private function send_optin_mail( $form, $submission ) {
 		$dynamic_template_tags = $this->get_dynamic_template_tags( $form, true );
-
-		foreach ( $dynamic_template_tags as $slug => $data ) {
-			if ( isset( $data['email_support'] ) ) {
-				$email_support = (bool) $data['email_support'];
-
-				unset( $data['email_support'] );
-
-				if ( $email_support ) {
-					$this->template_tag_handler_email_only->add_tag( $slug, $data );
-				}
-			}
-
-			$this->template_tag_handler->add_tag( $slug, $data );
-		}
+		$this->setup_template_tag_handler( $dynamic_template_tags );
 
 		$to_email   = $this->get_email_to_email( $form, $submission );
 		$from_email = $this->get_email_from_email( $form, $submission );
@@ -268,6 +257,29 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 		}
 
 		return $sent;
+	}
+
+	/**
+	 * Setting up tempplate tag handler variable.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array $dynamic_template_tags Dynamic tags as `$slug => $data` pairs.
+	 */
+	private function setup_template_tag_handler( $dynamic_template_tags ) {
+		foreach ( $dynamic_template_tags as $slug => $data ) {
+			if ( isset( $data['email_support'] ) ) {
+				$email_support = (bool) $data['email_support'];
+
+				unset( $data['email_support'] );
+
+				if ( $email_support ) {
+					$this->template_tag_handler_email_only->add_tag( $slug, $data );
+				}
+			}
+
+			$this->template_tag_handler->add_tag( $slug, $data );
+		}
 	}
 
 	/**
@@ -385,7 +397,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	}
 
 	/**
-	 * Get Email subject.
+	 * Get email subject.
 	 *
 	 * @since 1.1.0
 	 *
@@ -402,7 +414,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	}
 
 	/**
-	 * Get Email content.
+	 * Get email message.
 	 *
 	 * @since 1.1.0
 	 *
@@ -418,9 +430,25 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	}
 
 	/**
+	 * Get submission message.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param  Form       $form       Form object.
+	 * @param  Submission $submission Submission object.
+	 * @return string     $content    Email content.
+	 */
+	private function get_submission_message( $form, $submission ) {
+		$message = $this->get_form_option( $form->id, 'double_optin_submission_message', $this->get_default_submission_message() );
+		$message = $this->template_tag_handler->process_content( $message, array( $form, $submission ) );
+
+		return $message;
+	}
+
+	/**
 	 * Returns the default from email for an double optin email, including placeholders.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return string Invitation email subject.
 	 */
@@ -431,7 +459,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	/**
 	 * Returns the default from name for an double optin email, including placeholders.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return string Invitation email subject.
 	 */
@@ -442,7 +470,7 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	/**
 	 * Returns the default subject for an double optin email, including placeholders.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return string Invitation email subject.
 	 */
@@ -457,10 +485,22 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return string Invitation email message.
+	 * @return string Email message.
 	 */
 	protected function get_default_email_message() {
 		return _x( '<p>Dear user!</p><p>Thank you for your submission! To complete the process, you must click on the following link to confirm your identity:</p>{doubleoptinurl}<p>Cheers,</p><p>{sitetitle}</p>', 'Message in double opt-in email ', 'torro-forms' );
+	}
+
+
+	/**
+	 * Returns the default submission message which is dosplayed after submitting the form.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string Submission message.
+	 */
+	protected function get_default_submission_message() {
+		return _x( '<p>Thank you for your submission! To complete the process, you must click on the link we have sent you to your email.</p>', 'Message in double opt-in email ', 'torro-forms' );
 	}
 
 	/**
@@ -535,9 +575,9 @@ class Privacy extends Form_Setting implements Assets_Submodule_Interface {
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}render_form_content",
-			'callback' => array( $this, 'success_message' ),
+			'callback' => array( $this, 'form_content' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->actions[] = array(

@@ -113,6 +113,8 @@ class Form_Frontend_Output_Handler {
 	 *     @type string $iframe_width  If $show is set to 'iframe', this indicates the iframe width. Default '100%'.
 	 *     @type string $iframe_height If $show is set to 'iframe', this indicates the iframe height. Default '100%'.
 	 * }
+	 *
+	 * @return string Shortcode content.
 	 */
 	public function get_shortcode_content( $atts ) {
 		$atts = shortcode_atts(
@@ -171,6 +173,8 @@ class Form_Frontend_Output_Handler {
 	 *     @type string $iframe_width  If $show is set to 'iframe', this indicates the iframe width. Default '100%'.
 	 *     @type string $iframe_height If $show is set to 'iframe', this indicates the iframe height. Default '100%'.
 	 * }
+	 *
+	 * @return string Deprecated shortcode content.
 	 */
 	public function get_deprecated_shortcode_content( $atts ) {
 		$this->form_manager->error_handler()->deprecated_shortcode( 'form', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form" );
@@ -233,14 +237,14 @@ class Form_Frontend_Output_Handler {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string     $content         Whether the completion process for the form submission should proceed. Default true.
-		 * @param Submission $submission      Submission object.
-		 * @param Form       $form            Form object.
+		 * @param string          $content         Whether the completion process for the form submission should proceed. Default true.
+		 * @param Submission|null $submission      Submission object.
+		 * @param Form            $form            Form object.
 		 */
 		$form_content = apply_filters( "{$this->form_manager->get_prefix()}render_form_content", null, $submission, $form );
 
 		if ( ! empty( $form_content ) ) {
-			echo $form_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$this->print_content( $form_content );
 			return;
 		}
 
@@ -567,9 +571,20 @@ class Form_Frontend_Output_Handler {
 
 		?>
 		<div class="<?php echo esc_attr( $this->get_notice_class( $type ) ); ?>">
-			<p><?php echo wp_kses_data( $message ); ?></p>
+			<p><?php $this->print_content( $message ); ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Prints content.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $content Content to show.
+	 */
+	protected function print_content( $content ) {
+		echo wp_kses_data( $content );
 	}
 
 	/**
