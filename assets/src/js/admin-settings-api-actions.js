@@ -19,13 +19,9 @@
 		fieldManagerInstanceId = fieldManagerInstanceId.val();
 		connections            = fieldsAPI.FieldManager.instances[ fieldManagerInstanceId ].get( fieldManagerInstanceId + '_' + apiAction.replace( '_', '-' ) + '--connections' );
 
-		console.log( connections );
-
 		connections.on( 'changeItemValue:title', function( model, connection, values ) {
 			var $slugField;
 			var newSlug;
-
-			console.log( values );
 
 			// Never change an existing slug.
 			if ( values.slug && values.slug.length ) {
@@ -60,18 +56,56 @@
 					},
 					context: this,
 					success: function( apiActionInstance ) {
-						console.log( apiActionInstance );
-						function updateAuthenticatorFieldsDisplay( structure, connectionId ) {
-							console.log( structure );
-							console.log( connectionId );
+						var authenticators = {};
+						apiActionInstance.get( 'structures' ).forEach( function( structure ) {
+							authenticators[ structure.slug ] = structure.authentication_type;
+						});
+
+						function updateAuthenticatorFieldsDisplay( structure, connection ) {
+							var fieldSlugs      = Object.keys( connection.fields );
+							var $requiredMarkup = $( '#' + connection.fields.title.labelAttrs.id ).children( 'span' );
+
+							fieldSlugs.forEach( function( fieldSlug ) {
+								var fieldData     = connection.fields[ fieldSlug ];
+								var shouldDisplay = false;
+
+								if ( ! fieldData.inputAttrs['data-authenticator'] ) {
+									return;
+								}
+
+								if ( authenticators[ structure ] ) {
+									shouldDisplay = !! fieldData.inputAttrs['data-authenticator'].match( new RegExp( '(^|,)' + authenticators[ structure ] + '(,|$)' ) );
+								}
+
+								if ( shouldDisplay === fieldData.display ) {
+									return;
+								}
+
+								fieldData.display                  = shouldDisplay;
+								fieldData.required                 = fieldData.display;
+								fieldData.inputAttrs.tabindex      = fieldData.display ? '0' : '-1';
+								fieldData.inputAttrs.required      = fieldData.required ? true : false;
+								fieldData.wrapAttrs['class']       = fieldData.display ? fieldData.wrapAttrs['class'].replace( ' plugin-lib-hidden', '' ) : fieldData.wrapAttrs['class'] + ' plugin-lib-hidden';
+								fieldData.wrapAttrs['aria-hidden'] = fieldData.display ? 'false' : 'true';
+
+								$( '#' + fieldData.inputAttrs.id ).attr( 'tabindex', fieldData.inputAttrs.tabindex );
+								$( '#' + fieldData.inputAttrs.id ).prop( 'required', fieldData.inputAttrs.required );
+								$( '#' + fieldData.wrapAttrs.id ).attr( 'class', fieldData.wrapAttrs['class'] );
+								$( '#' + fieldData.wrapAttrs.id ).attr( 'aria-hidden', fieldData.wrapAttrs['aria-hidden'] );
+								if ( fieldData.required ) {
+									$( '#' + fieldData.labelAttrs.id ).append( $requiredMarkup.clone() );
+								} else {
+									$( '#' + fieldData.labelAttrs.id ).children( 'span' ).remove();
+								}
+							});
 						}
 
 						connections.get( 'items' ).forEach( function( connection ) {
-							updateAuthenticatorFieldsDisplay( connection.fields.structure.currentValue, connection.id );
+							updateAuthenticatorFieldsDisplay( connection.fields.structure.currentValue, connection );
 						});
 
 						connections.on( 'addItem', function( model, connection ) {
-							updateAuthenticatorFieldsDisplay( connection.fields.structure.currentValue, connection.id );
+							updateAuthenticatorFieldsDisplay( connection.fields.structure.currentValue, connection );
 						});
 
 						connections.on( 'changeItemValue:structure', function( model, connection, values ) {
@@ -79,7 +113,7 @@
 								return;
 							}
 
-							updateAuthenticatorFieldsDisplay( values.structure, connection.id );
+							updateAuthenticatorFieldsDisplay( values.structure, connection );
 						});
 					},
 					error: function() {
