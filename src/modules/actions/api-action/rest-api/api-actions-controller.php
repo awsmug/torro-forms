@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\REST_API;
 
 use awsmug\Torro_Forms\Modules\Actions\API_Action\API_Action;
 use awsmug\Torro_Forms\Modules\Actions\Module;
+use APIAPI\Core\Structures\Structure;
 use WP_REST_Controller;
 use WP_REST_Server;
 use WP_REST_Request;
@@ -212,9 +213,12 @@ class API_Actions_Controller extends WP_REST_Controller {
 		if ( isset( $data['structures'] ) ) {
 			$structures = $action->get_available_structures();
 			foreach ( $structures as $structure_slug => $structure_data ) {
+				$api_structure = $action->api_structure( $structure_slug );
+
 				$data['structures'][] = array(
-					'slug'  => $structure_slug,
-					'title' => $structure_data['title'],
+					'slug'                => $structure_slug,
+					'title'               => $structure_data['title'],
+					'authentication_type' => $this->get_structure_authentication_type( $api_structure ),
 				);
 			}
 		}
@@ -296,13 +300,18 @@ class API_Actions_Controller extends WP_REST_Controller {
 			'items'       => array(
 				'type'                 => 'object',
 				'properties'           => array(
-					'slug'  => array(
+					'slug'                => array(
 						'description' => __( 'The API structure slug.', 'torro-forms' ),
 						'type'        => 'string',
 					),
-					'title' => array(
+					'title'               => array(
 						'description' => __( 'The API structure title.', 'torro-forms' ),
 						'type'        => 'string',
+					),
+					'authentication_type' => array(
+						'description' => __( 'The API structure authentication type.', 'torro-forms' ),
+						'type'        => 'string',
+						'enum'        => array_merge( array_keys( API_Action::get_registered_connection_types() ), array( '' ) ),
 					),
 				),
 				'additionalProperties' => false,
@@ -340,6 +349,34 @@ class API_Actions_Controller extends WP_REST_Controller {
 		$capabilities = $this->module->manager()->forms()->capabilities();
 
 		return $capabilities && $capabilities->user_can_edit();
+	}
+
+	/**
+	 * Gets the authentication type required for authenticating with a given API structure.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Structure $structure API-API structure instance.
+	 * @return string One of the registered connection types, or empty string if none found.
+	 */
+	protected function get_structure_authentication_type( Structure $structure ) {
+		$authentication_types = array_keys( API_Action::get_registered_connection_types() );
+
+		$authenticator = $structure->get_authenticator();
+
+		// First, try matching exactly.
+		if ( in_array( $authenticator, $authentication_types, true ) ) {
+			return $authenticator;
+		}
+
+		// Then, try matching a substring.
+		foreach ( $authentication_types as $authentication_type ) {
+			if ( false !== strpos( $authenticator, $authentication_type ) ) {
+				return $authentication_type;
+			}
+		}
+
+		return '';
 	}
 }
 

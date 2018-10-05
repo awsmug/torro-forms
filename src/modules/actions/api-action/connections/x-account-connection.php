@@ -16,6 +16,13 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 class X_Account_Connection extends Connection {
 
 	/**
+	 * Connection type.
+	 *
+	 * @since 1.1.0
+	 */
+	const TYPE = 'x-account';
+
+	/**
 	 * The account placeholder name.
 	 *
 	 * @since 1.1.0

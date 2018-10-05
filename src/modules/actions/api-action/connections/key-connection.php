@@ -16,6 +16,13 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 class Key_Connection extends Connection {
 
 	/**
+	 * Connection type.
+	 *
+	 * @since 1.1.0
+	 */
+	const TYPE = 'key';
+
+	/**
 	 * The API key parameter name.
 	 *
 	 * @since 1.1.0

@@ -18,6 +18,13 @@ use awsmug\Torro_Forms\Modules\Actions\API_Action\API_Action;
 abstract class Connection {
 
 	/**
+	 * Connection type. Based on the connection class.
+	 *
+	 * @since 1.1.0
+	 */
+	const TYPE = '';
+
+	/**
 	 * The connection slug.
 	 *
 	 * @since 1.1.0

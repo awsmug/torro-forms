@@ -16,6 +16,13 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 class X_Connection extends Connection {
 
 	/**
+	 * Connection type.
+	 *
+	 * @since 1.1.0
+	 */
+	const TYPE = 'x';
+
+	/**
 	 * The authorization header name.
 	 *
 	 * @since 1.1.0

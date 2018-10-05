@@ -660,6 +660,8 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Gets the registered connection types and their classes.
 	 *
+	 * Connection types should match API-API authenticator slugs.
+	 *
 	 * @since 1.1.0
 	 * @static
 	 *
@@ -667,12 +669,12 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 */
 	final public static function get_registered_connection_types() {
 		return array(
-			'oauth2'    => OAuth2_Connection::class,
-			'oauth1'    => OAuth1_Connection::class,
-			'x-account' => X_Account_Connection::class,
-			'x'         => X_Connection::class,
-			'basic'     => Basic_Connection::class,
-			'key'       => Key_Connection::class,
+			OAuth2_Connection::TYPE    => OAuth2_Connection::class,
+			OAuth1_Connection::TYPE    => OAuth1_Connection::class,
+			X_Account_Connection::TYPE => X_Account_Connection::class,
+			X_Connection::TYPE         => X_Connection::class,
+			Basic_Connection::TYPE     => Basic_Connection::class,
+			Key_Connection::TYPE       => Key_Connection::class,
 		);
 	}
 }

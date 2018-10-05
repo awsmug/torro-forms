@@ -16,6 +16,13 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 class Basic_Connection extends Connection {
 
 	/**
+	 * Connection type.
+	 *
+	 * @since 1.1.0
+	 */
+	const TYPE = 'basic';
+
+	/**
 	 * The API username.
 	 *
 	 * @since 1.1.0

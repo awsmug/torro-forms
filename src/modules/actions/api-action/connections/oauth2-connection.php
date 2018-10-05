@@ -16,6 +16,13 @@ namespace awsmug\Torro_Forms\Modules\Actions\API_Action\Connections;
 class OAuth2_Connection extends Connection {
 
 	/**
+	 * Connection type.
+	 *
+	 * @since 1.1.0
+	 */
+	const TYPE = 'oauth2';
+
+	/**
 	 * The consumer key.
 	 *
 	 * @since 1.1.0

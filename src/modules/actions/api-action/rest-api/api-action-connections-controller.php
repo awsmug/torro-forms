@@ -227,6 +227,7 @@ class API_Action_Connections_Controller extends WP_REST_Controller {
 			'slug'                => $connection->get_slug(),
 			'title'               => $connection->get_title(),
 			'structure'           => $connection->get_structure(),
+			'authentication_type' => $connection::TYPE,
 			'authentication_data' => array(),
 			'routes'              => array(),
 		);
@@ -337,6 +338,14 @@ class API_Action_Connections_Controller extends WP_REST_Controller {
 		$schema['properties']['structure'] = array(
 			'description' => __( 'The API action connection structure.', 'torro-forms' ),
 			'type'        => 'string',
+			'context'     => array( 'view', 'edit', 'embed' ),
+			'readonly'    => true,
+		);
+
+		$schema['properties']['authentication_type'] = array(
+			'description' => __( 'The API action connection authentication type.', 'torro-forms' ),
+			'type'        => 'string',
+			'enum'        => array_keys( API_Action::get_registered_connection_types() ),
 			'context'     => array( 'view', 'edit', 'embed' ),
 			'readonly'    => true,
 		);
