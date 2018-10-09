@@ -220,14 +220,14 @@ class API_Actions_Controller extends WP_REST_Controller {
 				if ( ! empty( $authentication_type ) ) {
 					$connection_types = API_Action::get_registered_connection_types();
 					if ( isset( $connection_types[ $authentication_type ] ) ) {
-						$connection_fields            = call_user_func( array( $connection_types[ $authentication_type ], 'get_authenticator_fields' ) );
-						$authentication_data_defaults = $action->get_authentication_data_defaults( $structure_slug );
+						$connection_fields         = call_user_func( array( $connection_types[ $authentication_type ], 'get_authenticator_fields' ) );
+						$extra_authentication_data = $action->get_authentication_data( $structure_slug );
 						foreach ( $connection_fields as $field_slug => $field_data ) {
 							if ( ! empty( $field_data['readonly'] ) ) {
 								continue;
 							}
 
-							if ( isset( $authentication_data_defaults[ $field_slug ] ) ) {
+							if ( isset( $extra_authentication_data[ $field_slug ]['value'] ) ) {
 								continue;
 							}
 

@@ -148,7 +148,24 @@ abstract class Connection {
 		$data   = get_object_vars( $this );
 		$fields = static::get_authenticator_fields();
 
-		return array_intersect_key( $data, $fields );
+		$authentication_data = array_intersect_key( $data, $fields );
+
+		// Apply dynamic values on-the-fly.
+		$extra_authentication_data = $this->api_action->get_authentication_data( $this->structure );
+		foreach ( $extra_authentication_data as $field_slug => $field_data ) {
+			if ( ! isset( $field_data['value'] ) ) {
+				continue;
+			}
+
+			if ( is_callable( $field_data['value'] ) ) {
+				$authentication_data[ $field_slug ] = call_user_func( $field_data['value'] );
+				continue;
+			}
+
+			$authentication_data[ $field_slug ] = $field_data['value'];
+		}
+
+		return $authentication_data;
 	}
 
 	/**
@@ -274,7 +291,9 @@ abstract class Connection {
 	 * @since 1.1.0
 	 */
 	protected function set_default_authentication_values() {
-		$authentication_defaults = $this->api_action->get_authentication_data_defaults( $this->structure );
+		$api_structure             = $this->api_action->api_structure( $this->structure );
+		$authentication_defaults   = $api_structure->get_authentication_data_defaults();
+		$extra_authentication_data = $this->api_action->get_authentication_data( $this->structure );
 
 		$fields = static::get_authenticator_fields();
 		foreach ( $fields as $field_slug => $field_data ) {
@@ -287,6 +306,18 @@ abstract class Connection {
 				continue;
 			}
 
+			// Check custom authentication data defaults.
+			if ( isset( $extra_authentication_data[ $field_slug ]['default'] ) ) {
+				if ( is_callable( $extra_authentication_data[ $field_slug ]['default'] ) ) {
+					$this->$field_slug = call_user_func( $extra_authentication_data[ $field_slug ]['default'] );
+					continue;
+				}
+
+				$this->$field_slug = $extra_authentication_data[ $field_slug ]['default'];
+				continue;
+			}
+
+			// Check API-API-provided authentication data defaults.
 			if ( isset( $authentication_defaults[ $field_slug ] ) ) {
 				if ( is_callable( $authentication_defaults[ $field_slug ] ) ) {
 					$this->$field_slug = call_user_func( $authentication_defaults[ $field_slug ] );
@@ -297,6 +328,7 @@ abstract class Connection {
 				continue;
 			}
 
+			// Check field data defaults.
 			if ( isset( $field_data['default'] ) ) {
 				if ( is_callable( $field_data['default'] ) ) {
 					$this->$field_slug = call_user_func( $field_data['default'] );

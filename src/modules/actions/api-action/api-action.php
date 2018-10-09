@@ -524,15 +524,14 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	}
 
 	/**
-	 * Gets the authentication data defaults for a given structure.
+	 * Gets the authentication data definition for a given structure.
 	 *
 	 * @since 1.1.0
 	 *
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
-	 * @return array Associative array of $field_slug => $field_value pairs. $field_value may be either
-	 *               a concrete value (as string) or a callback to get the value dynamically.
+	 * @return array Associative array of $field_slug => $data pairs.
 	 */
-	public function get_authentication_data_defaults( $structure_slug = null ) {
+	public function get_authentication_data( $structure_slug = null ) {
 		$structures = $this->get_available_structures();
 
 		if ( null === $structure_slug ) {
@@ -543,16 +542,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			return array();
 		}
 
-		$api_structure           = $this->api_structure( $structure_slug );
-		$authentication_defaults = $api_structure->get_authentication_data_defaults();
-
-		foreach ( $structures[ $structure_slug ]['authentication_data'] as $field_slug => $field_data ) {
-			if ( isset( $field_data['default'] ) ) {
-				$authentication_defaults[ $field_slug ] = $field_data['default'];
-			}
-		}
-
-		return $authentication_defaults;
+		return $structures[ $structure_slug ]['authentication_data'];
 	}
 
 	/**
@@ -656,7 +646,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 					$this->available_structures[ $structure_slug ]['authentication_data'][ $field_slug ] = $field_data;
 				}
 
-				if ( ! is_array( $field_data ) || empty( $field_data['default'] ) ) {
+				if ( ! is_array( $field_data ) || ! isset( $field_data['value'] ) && ! isset( $field_data['default'] ) ) {
 					/* translators: 1: API action title, 2: API structure slug, 3: API route slug */
 					throw new Exception( sprintf( __( 'Invalid or incomplete data set for API action %1$s, structure %2$s and authentication data field %3$s.', 'torro-forms' ), $this->title, $structure_slug, $field_slug ) );
 				}
@@ -698,7 +688,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @return array Associative array of $structure_slug => $data pairs. $data must be an associative array with keys
 	 *               'title', 'authentication_data' and 'routes'. 'authentication_data' must be an associative array of
 	 *               $field_slug => $field_data pairs where details are specified for the respective authentication field.
-	 *               The only possible key at this point is 'default'. 'routes' must be an associative array of
+	 *               Possible keys are 'value', and 'default'. 'routes' must be an associative array of
 	 *               $route_slug => $route_data pairs. $route_data must be an associative array with keys 'title' and 'fields'.
 	 *               'fields' must be an associative array of $field_slug => $field_data pairs where details are specified for
 	 *               each route field that requires special handling. Possible keys are 'value', and 'default'.

@@ -76,15 +76,14 @@ interface API_Action_Interface {
 	public function get_available_routes( $structure_slug = null );
 
 	/**
-	 * Gets the authentication data defaults for a given structure.
+	 * Gets the authentication data definition for a given structure.
 	 *
 	 * @since 1.1.0
 	 *
 	 * @param string $structure_slug Optional. Structure identifier. Default is the first structure.
-	 * @return array Associative array of $field_slug => $field_value pairs. $field_value may be either
-	 *               a concrete value (as string) or a callback to get the value dynamically.
+	 * @return array Associative array of $field_slug => $data pairs.
 	 */
-	public function get_authentication_data_defaults( $structure_slug = null );
+	public function get_authentication_data( $structure_slug = null );
 
 	/**
 	 * Gets an API structure.
