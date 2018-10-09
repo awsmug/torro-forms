@@ -8,12 +8,14 @@
 
 namespace awsmug\Torro_Forms\Modules\Actions\API_Action;
 
+use awsmug\Torro_Forms\Components\Template_Tag_Handler;
 use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Assets_Submodule_Interface;
 use awsmug\Torro_Forms\Assets;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\Modules\Actions\Action;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\Connection;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\OAuth2_Connection;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\OAuth1_Connection;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\X_Account_Connection;
@@ -58,9 +60,18 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	private $structure_api_instances = array();
 
 	/**
+	 * Template tag handler for API actions.
+	 *
+	 * @since 1.1.0
+	 * @static
+	 * @var Template_Tag_Handler
+	 */
+	private static $template_tag_handler;
+
+	/**
 	 * Internal flag for whether the API script used for all API actions has been registered.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @static
 	 * @var bool
 	 */
@@ -69,11 +80,35 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	/**
 	 * Internal flag for whether the API script used for all API actions has been enqueued.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @static
 	 * @var bool
 	 */
 	private static $script_enqueued = false;
+
+	/**
+	 * Internal flag for whether the API template tag handlers have been registered.
+	 *
+	 * @since 1.1.0
+	 * @static
+	 * @var bool
+	 */
+	private static $template_tag_handlers_registered = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * In addition to calling the parent constructor, it registers the template tag handlers used for all API actions.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Module $module The submodule's parent module instance.
+	 */
+	public function __construct( $module ) {
+		parent::__construct( $module );
+
+		$this->register_template_tag_handlers();
+	}
 
 	/**
 	 * Checks whether the action is enabled for a specific form.
@@ -110,6 +145,85 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @return bool|WP_Error True on success, error object on failure.
 	 */
 	public function handle( $submission, $form ) {
+		$integrations = $this->get_form_option( $form->id, 'integrations', array() );
+		if ( empty( $integrations ) ) {
+			return true;
+		}
+
+		$dynamic_template_tags = $this->get_dynamic_template_tags( $form );
+
+		foreach ( $dynamic_template_tags as $slug => $data ) {
+			self::$template_tag_handler->add_tag( $slug, $data );
+		}
+
+		$error = new WP_Error();
+
+		$connections = $this->get_available_connections();
+		foreach ( $integrations as $integration ) {
+			if ( empty( $integration['connection'] ) || empty( $integration['route'] ) || empty( $integration['mappings'] ) ) {
+				continue;
+			}
+
+			if ( ! isset( $connections[ $integration['connection'] ] ) ) {
+				continue;
+			}
+
+			$result = $this->handle_single_integration(
+				$connections[ $integration['connection'] ],
+				$integration['route'],
+				$integration['mappings'],
+				$submission
+			);
+			if ( is_wp_error( $result ) ) {
+				foreach ( $result->errors as $error_code => $error_messages ) {
+					foreach ( $error_messages as $error_message ) {
+						$error->add( $error_code, $error_message );
+					}
+				}
+			}
+		}
+
+		foreach ( $dynamic_template_tags as $slug => $data ) {
+			self::$template_tag_handler->remove_tag( $slug );
+		}
+
+		if ( ! empty( $error->errors ) ) {
+			return $error;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Handles a single action integration for a specific form submission.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Connection $connection API connection instance with structure and authentication details.
+	 * @param string     $route_slug API-API route identifier.
+	 * @param array      $mappings   Mapping definitions for the route, as specified via the form editing screen.
+	 * @param Submission $submission Submission to handle by the action.
+	 * @return bool|WP_Error True on success, error object on failure.
+	 */
+	protected function handle_single_integration( $connection, $route_slug, $mappings, $submission ) {
+		$structure_slug = $connection->get_structure();
+		$method         = 'POST';
+		if ( preg_match( '/^(GET|POST|PUT|PATCH|DELETE)\:/', $route_slug, $matches ) ) {
+			$method     = $matches[1];
+			$route_slug = substr( $route_slug, strlen( $method ) + 1 );
+		}
+
+		$api_structure = $this->api_structure( $structure_slug );
+		$routes        = $this->get_available_routes( $structure_slug );
+
+		try {
+			$request = $this->api( $structure_slug )->get_request_object( $route_slug, $method );
+
+			// TODO.
+		} catch ( Exception $e ) {
+			return new WP_Error( 'apiapi_' . $structure_slug . '_error', $e->getMessage() );
+		}
+
 		return true;
 	}
 
@@ -694,6 +808,216 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *               each route field that requires special handling. Possible keys are 'value', and 'default'.
 	 */
 	abstract protected function get_available_structures_and_routes();
+
+	/**
+	 * Registers the template tag handler for email notifications.
+	 *
+	 * @since 1.1.0
+	 */
+	protected function register_template_tag_handlers() {
+		if ( self::$template_tag_handlers_registered ) {
+			return;
+		}
+
+		$prefix = $this->module->get_prefix();
+
+		$tags = array(
+			'sitetitle'          => array(
+				'group'       => 'global',
+				'label'       => __( 'Site Title', 'torro-forms' ),
+				'description' => __( 'Inserts the site title.', 'torro-forms' ),
+				'callback'    => function() {
+					return get_bloginfo( 'name' );
+				},
+			),
+			'sitetagline'        => array(
+				'group'       => 'global',
+				'label'       => __( 'Site Tagline', 'torro-forms' ),
+				'description' => __( 'Inserts the site tagline.', 'torro-forms' ),
+				'callback'    => function() {
+					return get_bloginfo( 'description' );
+				},
+			),
+			'siteurl'            => array(
+				'group'       => 'global',
+				'label'       => __( 'Site URL', 'torro-forms' ),
+				'description' => __( 'Inserts the site home URL.', 'torro-forms' ),
+				'callback'    => function() {
+					return home_url( '/' );
+				},
+			),
+			'adminemail'         => array(
+				'group'       => 'global',
+				'label'       => __( 'Site Admin Email', 'torro-forms' ),
+				'description' => __( 'Inserts the site admin email.', 'torro-forms' ),
+				'callback'    => function() {
+					return get_option( 'admin_email' );
+				},
+			),
+			'userip'             => array(
+				'group'       => 'global',
+				'label'       => __( 'User IP', 'torro-forms' ),
+				'description' => __( 'Inserts the current user IP address.', 'torro-forms' ),
+				'callback'    => function() {
+					$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
+					if ( empty( $validated_ip ) ) {
+						return '0.0.0.0';
+					}
+					return $validated_ip;
+				},
+			),
+			'refererurl'         => array(
+				'group'       => 'global',
+				'label'       => __( 'Referer URL', 'torro-forms' ),
+				'description' => __( 'Inserts the current referer URL.', 'torro-forms' ),
+				'callback'    => function() {
+					return wp_get_referer();
+				},
+			),
+			'formtitle'          => array(
+				'group'       => 'form',
+				'label'       => __( 'Form Title', 'torro-forms' ),
+				'description' => __( 'Inserts the form title.', 'torro-forms' ),
+				'callback'    => function( $form ) {
+					return $form->title;
+				},
+			),
+			'formurl'            => array(
+				'group'       => 'form',
+				'label'       => __( 'Form URL', 'torro-forms' ),
+				'description' => __( 'Inserts the URL to the form.', 'torro-forms' ),
+				'callback'    => function( $form ) {
+					return get_permalink( $form->id );
+				},
+			),
+			'formediturl'        => array(
+				'group'       => 'form',
+				'label'       => __( 'Form Edit URL', 'torro-forms' ),
+				'description' => __( 'Inserts the edit URL for the form.', 'torro-forms' ),
+				'callback'    => function( $form ) {
+					return get_edit_post_link( $form->id );
+				},
+			),
+			'submissionurl'      => array(
+				'group'       => 'submission',
+				'label'       => __( 'Submission URL', 'torro-forms' ),
+				'description' => __( 'Inserts the URL to the submission.', 'torro-forms' ),
+				'callback'    => function( $form, $submission ) {
+					return add_query_arg( 'torro_submission_id', $submission->id, get_permalink( $form->id ) );
+				},
+			),
+			'submissionediturl'  => array(
+				'group'       => 'submission',
+				'label'       => __( 'Submission Edit URL', 'torro-forms' ),
+				'description' => __( 'Inserts the edit URL for the submission.', 'torro-forms' ),
+				'callback'    => function( $form, $submission ) {
+					return add_query_arg(
+						array(
+							'post_type' => torro()->post_types()->get_prefix() . 'form',
+							'page'      => torro()->admin_pages()->get_prefix() . 'edit_submission',
+							'id'        => $submission->id,
+						),
+						admin_url( 'edit.php' )
+					);
+				},
+			),
+			'submissiondatetime' => array(
+				'group'       => 'submission',
+				'label'       => __( 'Submission Date and Time', 'torro-forms' ),
+				'description' => __( 'Inserts the submission date and time.', 'torro-forms' ),
+				'callback'    => function( $form, $submission ) {
+					$date = $submission->format_datetime( get_option( 'date_format' ), false );
+					$time = $submission->format_datetime( get_option( 'time_format' ), false );
+
+					/* translators: 1: formatted date, 2: formatted time */
+					return sprintf( _x( '%1$s at %2$s', 'concatenating date and time', 'torro-forms' ), $date, $time );
+				},
+			),
+		);
+
+		$groups = array(
+			'global'     => _x( 'Global', 'template tag group', 'torro-forms' ),
+			'form'       => _x( 'Form', 'template tag group', 'torro-forms' ),
+			'submission' => _x( 'Submission', 'template tag group', 'torro-forms' ),
+		);
+
+		/**
+		 * Filters API action template tags.
+		 *
+		 * An array will be returned with all template tags.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $tags All API action template tags in an array.
+		 */
+		$tags = apply_filters( "{$prefix}api_actions_template_tags", $tags );
+
+		/**
+		 * Filters API action template tag groups.
+		 *
+		 * An array will be returned with all template tag groups.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $tags All API action template tag groups.
+		 */
+		$groups = apply_filters( "{$prefix}api_actions_template_tags_groups", $groups );
+
+		self::$template_tag_handler = new Template_Tag_Handler( 'api_actions', $tags, array( Form::class, Submission::class ), $groups );
+
+		$this->module->manager()->template_tag_handlers()->register( self::$template_tag_handler );
+
+		self::$template_tag_handlers_registered = true;
+	}
+
+	/**
+	 * Gets all the dynamic template tags for a form, consisting of the form's element value tags.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Form $form Form for which to get the dynamic template tags.
+	 * @return array Dynamic tags as `$slug => $data` pairs.
+	 */
+	protected function get_dynamic_template_tags( $form ) {
+		$tags = array();
+
+		foreach ( $form->get_elements() as $element ) {
+			$element_type = $element->get_element_type();
+			if ( ! $element_type ) {
+				continue;
+			}
+
+			$tags[ 'value_element_' . $element->id ] = array(
+				'group'       => 'submission',
+				/* translators: %s: element label */
+				'label'       => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), $element->label ),
+				/* translators: %s: element label */
+				'description' => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), $element->label ),
+				'callback'    => function( $form, $submission ) use ( $element, $element_type ) {
+					$element_values = $submission->get_element_values_data();
+					if ( ! isset( $element_values[ $element->id ] ) ) {
+						return '';
+					}
+
+					add_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
+					$export_values = $element_type->format_values_for_export( $element_values[ $element->id ], $element, 'html' );
+					remove_filter( "{$this->module->manager()->get_prefix()}use_single_export_column_for_choices", '__return_true' );
+
+					if ( ! isset( $export_values[ 'element_' . $element->id . '__main' ] ) ) {
+						if ( count( $export_values ) !== 1 ) {
+							return '';
+						}
+
+						return array_pop( $export_values );
+					}
+
+					return $export_values[ 'element_' . $element->id . '__main' ];
+				},
+			);
+		}
+
+		return $tags;
+	}
 
 	/**
 	 * Gets the registered connection types and their classes.
