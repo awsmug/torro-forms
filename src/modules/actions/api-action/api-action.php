@@ -329,7 +329,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				return $action->get_slug();
 			},
 			array_filter(
-				$this->module->get_submodules(),
+				$this->module->get_all(),
 				function( Action $action ) {
 					return $action instanceof API_Action;
 				}
@@ -439,7 +439,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 
 			$connection_class = $connection_types[ $authenticator ];
 
-			$connection = new $connection_class( $connection );
+			$connection = new $connection_class( $this, $connection );
 
 			$connections[ $connection->get_slug() ] = $connection;
 		}
