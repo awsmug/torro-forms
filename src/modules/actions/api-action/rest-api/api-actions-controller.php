@@ -215,10 +215,32 @@ class API_Actions_Controller extends WP_REST_Controller {
 			foreach ( $structures as $structure_slug => $structure_data ) {
 				$api_structure = $action->api_structure( $structure_slug );
 
+				$authentication_type   = $this->get_structure_authentication_type( $api_structure );
+				$authentication_fields = array();
+				if ( ! empty( $authentication_type ) ) {
+					$connection_types = API_Action::get_registered_connection_types();
+					if ( isset( $connection_types[ $authentication_type ] ) ) {
+						$connection_fields            = call_user_func( array( $connection_types[ $authentication_type ], 'get_authenticator_fields' ) );
+						$authentication_data_defaults = $action->get_authentication_data_defaults( $structure_slug );
+						foreach ( $connection_fields as $field_slug => $field_data ) {
+							if ( ! empty( $field_data['readonly'] ) ) {
+								continue;
+							}
+
+							if ( isset( $authentication_data_defaults[ $field_slug ] ) ) {
+								continue;
+							}
+
+							$authentication_fields[] = $field_slug;
+						}
+					}
+				}
+
 				$data['structures'][] = array(
-					'slug'                => $structure_slug,
-					'title'               => $structure_data['title'],
-					'authentication_type' => $this->get_structure_authentication_type( $api_structure ),
+					'slug'                  => $structure_slug,
+					'title'                 => $structure_data['title'],
+					'authentication_type'   => $authentication_type,
+					'authentication_fields' => $authentication_fields,
 				);
 			}
 		}
@@ -300,18 +322,25 @@ class API_Actions_Controller extends WP_REST_Controller {
 			'items'       => array(
 				'type'                 => 'object',
 				'properties'           => array(
-					'slug'                => array(
+					'slug'                  => array(
 						'description' => __( 'The API structure slug.', 'torro-forms' ),
 						'type'        => 'string',
 					),
-					'title'               => array(
+					'title'                 => array(
 						'description' => __( 'The API structure title.', 'torro-forms' ),
 						'type'        => 'string',
 					),
-					'authentication_type' => array(
+					'authentication_type'   => array(
 						'description' => __( 'The API structure authentication type.', 'torro-forms' ),
 						'type'        => 'string',
 						'enum'        => array_merge( array_keys( API_Action::get_registered_connection_types() ), array( '' ) ),
+					),
+					'authentication_fields' => array(
+						'description' => __( 'The API structure authentication fields.', 'torro-forms' ),
+						'type'        => 'array',
+						'items'       => array(
+							'type' => 'string',
+						),
 					),
 				),
 				'additionalProperties' => false,

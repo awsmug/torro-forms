@@ -60,9 +60,10 @@
 					},
 					context: this,
 					success: function( apiActionInstance ) {
-						var authenticators = {};
+						var baseConnectionFields = [ 'title', 'slug', 'structure' ];
+						var authenticationFields = {};
 						apiActionInstance.get( 'structures' ).forEach( function( structure ) {
-							authenticators[ structure.slug ] = structure.authentication_type;
+							authenticationFields[ structure.slug ] = structure.authentication_fields;
 						});
 
 						function updateAuthenticatorFieldsDisplay( structure, connection ) {
@@ -73,12 +74,13 @@
 								var fieldData     = connection.fields[ fieldSlug ];
 								var shouldDisplay = false;
 
-								if ( ! fieldData.inputAttrs['data-authenticator'] ) {
+								// Never alter visibility of the default fields.
+								if ( baseConnectionFields.includes( fieldSlug ) ) {
 									return;
 								}
 
-								if ( authenticators[ structure ] ) {
-									shouldDisplay = !! fieldData.inputAttrs['data-authenticator'].match( new RegExp( '(^|,)' + authenticators[ structure ] + '(,|$)' ) );
+								if ( authenticationFields[ structure ] ) {
+									shouldDisplay = authenticationFields[ structure ].includes( fieldSlug );
 								}
 
 								if ( shouldDisplay === fieldData.display ) {

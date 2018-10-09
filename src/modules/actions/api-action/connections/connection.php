@@ -57,12 +57,12 @@ abstract class Connection {
 	protected $api_action = null;
 
 	/**
-	 * Internal flag for whether read-only values have been set.
+	 * Internal flag for whether default values have been set.
 	 *
 	 * @since 1.1.0
 	 * @var bool
 	 */
-	protected $readonly_values_set = false;
+	protected $default_values_set = false;
 
 	/**
 	 * Constructor.
@@ -140,9 +140,9 @@ abstract class Connection {
 	 * @return array Authentication data as $key => $value pairs.
 	 */
 	public function get_authentication_data() {
-		if ( ! $this->readonly_values_set ) {
-			$this->set_readonly_fields();
-			$this->readonly_values_set = true;
+		if ( ! $this->default_values_set ) {
+			$this->set_default_authentication_values();
+			$this->default_values_set = true;
 		}
 
 		$data   = get_object_vars( $this );
@@ -267,28 +267,47 @@ abstract class Connection {
 	}
 
 	/**
-	 * Sets the values for the read-only authentication data fields.
+	 * Sets the values for the default authentication data fields.
 	 *
 	 * This data is set based on the structure associated with the connection.
 	 *
 	 * @since 1.1.0
 	 */
-	protected function set_readonly_fields() {
-		$api_structure           = $this->api_action->api_structure( $this->structure );
-		$authentication_defaults = $api_structure->get_authentication_data_defaults();
+	protected function set_default_authentication_values() {
+		$authentication_defaults = $this->api_action->get_authentication_data_defaults( $this->structure );
 
 		$fields = static::get_authenticator_fields();
 		foreach ( $fields as $field_slug => $field_data ) {
-			if ( empty( $field_data['readonly'] ) || ! property_exists( $this->$field_slug ) ) {
+			if ( ! property_exists( $this->$field_slug ) ) {
+				continue;
+			}
+
+			// Do not override non-empty authentication data values with defaults.
+			if ( ! empty( $this->$field_slug ) ) {
 				continue;
 			}
 
 			if ( isset( $authentication_defaults[ $field_slug ] ) ) {
+				if ( is_callable( $authentication_defaults[ $field_slug ] ) ) {
+					$this->$field_slug = call_user_func( $authentication_defaults[ $field_slug ] );
+					continue;
+				}
+
 				$this->$field_slug = $authentication_defaults[ $field_slug ];
 				continue;
 			}
 
-			$this->$field_slug = isset( $field_data['default'] ) ? $field_data['default'] : '';
+			if ( isset( $field_data['default'] ) ) {
+				if ( is_callable( $field_data['default'] ) ) {
+					$this->$field_slug = call_user_func( $field_data['default'] );
+					continue;
+				}
+
+				$this->$field_slug = $field_data['default'];
+				continue;
+			}
+
+			$this->$field_slug = '';
 		}
 	}
 
