@@ -246,7 +246,7 @@ class API_Action_Connections_Controller extends WP_REST_Controller {
 		}
 
 		if ( isset( $data['routes'] ) ) {
-			$routes = $connection->get_available_routes();
+			$routes = $connection->get_routes_with_fields();
 			foreach ( $routes as $route_slug => $route_data ) {
 				$route = array(
 					'slug'   => $route_slug,

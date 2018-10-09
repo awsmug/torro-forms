@@ -229,17 +229,22 @@ abstract class Connection {
 			$field_slug = $parent_prefix . $param;
 
 			if ( isset( $route_fields[ $field_slug ]['value'] ) ) {
-				$param_info['value']    = $route_fields[ $field_slug ]['value'];
-				$param_info['readonly'] = true;
-			} elseif ( ! empty( $route_fields[ $field_slug ]['value_callback'] ) ) {
-				$param_info['value']    = $route_fields[ $field_slug ]['value_callback'];
+				if ( is_callable( $route_fields[ $field_slug ]['value'] ) ) {
+					$param_info['value'] = call_user_func( $route_fields[ $field_slug ]['value'] );
+				} else {
+					$param_info['value'] = $route_fields[ $field_slug ]['value'];
+				}
 				$param_info['readonly'] = true;
 			} elseif ( ! isset( $param_info['readonly'] ) ) {
 				$param_info['readonly'] = false;
 			}
 
 			if ( isset( $route_fields[ $field_slug ]['default'] ) ) {
-				$param_info['default'] = $route_fields[ $field_slug ]['default'];
+				if ( is_callable( $route_fields[ $field_slug ]['default'] ) ) {
+					$param_info['default'] = call_user_func( $route_fields[ $field_slug ]['default'] );
+				} else {
+					$param_info['default'] = $route_fields[ $field_slug ]['default'];
+				}
 			}
 
 			switch ( $param_info['type'] ) {
