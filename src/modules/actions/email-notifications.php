@@ -478,7 +478,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		);
 
 		/**
-		 * Filters template tags.
+		 * Filters email notification template tags.
 		 *
 		 * An array will be returned with all template tags.
 		 *
@@ -486,10 +486,10 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		 *
 		 * @param array $tags All template tags in an array.
 		 */
-		$tags = apply_filters( "{$prefix}_email_notifications_template_tags", $tags );
+		$tags = apply_filters( "{$prefix}email_notifications_template_tags", $tags );
 
 		/**
-		 * Filters complex template tags.
+		 * Filters complex email notification template tags.
 		 *
 		 * An array will be returned with all complex template tags.
 		 *
@@ -497,10 +497,10 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		 *
 		 * @param array $tags All complex template tags in an array.
 		 */
-		$complex_tags = apply_filters( "{$prefix}_email_notifications_template_tags_complex", $complex_tags );
+		$complex_tags = apply_filters( "{$prefix}email_notifications_template_tags_complex", $complex_tags );
 
 		/**
-		 * Filters template tag groups.
+		 * Filters email notification template tag groups.
 		 *
 		 * An array will be returned with all template tag groups.
 		 *
@@ -508,7 +508,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 		 *
 		 * @param array $tags All template tag groups.
 		 */
-		$groups = apply_filters( "{$prefix}_email_notifications_template_tags_groups", $groups );
+		$groups = apply_filters( "{$prefix}email_notifications_template_tags_groups", $groups );
 
 		$this->template_tag_handler            = new Template_Tag_Handler( $this->slug, $tags, array( Form::class, Submission::class ), $groups );
 		$this->template_tag_handler_email_only = new Template_Tag_Handler( $this->slug . '_email_only', array( 'adminemail' => $tags['adminemail'] ), array( Form::class, Submission::class ), array( 'global' => $groups['global'] ) );
