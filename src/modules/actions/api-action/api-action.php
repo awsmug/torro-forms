@@ -213,9 +213,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			$route_slug = substr( $route_slug, strlen( $method ) + 1 );
 		}
 
-		$api_structure = $this->api_structure( $structure_slug );
-		$routes        = $this->get_available_routes( $structure_slug );
-
 		try {
 			$request = $this->api( $structure_slug )->get_request_object( $route_slug, $method );
 
@@ -536,18 +533,8 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				continue;
 			}
 
-			$structure = $this->api_structure( $connection['structure'] );
-			if ( ! $structure ) {
-				continue;
-			}
-
-			$authenticator = $structure->get_authenticator();
-
-			if ( empty( $authenticator ) ) {
-				continue;
-			}
-
-			if ( empty( $connection_types[ $authenticator ] ) ) {
+			$authenticator = $this->get_structure_authenticator( $connection['structure'] );
+			if ( empty( $authenticator ) || empty( $connection_types[ $authenticator ] ) ) {
 				continue;
 			}
 
@@ -808,6 +795,46 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 *               each route field that requires special handling. Possible keys are 'value', and 'default'.
 	 */
 	abstract protected function get_available_structures_and_routes();
+
+	/**
+	 * Gets the authenticator to use for a given structure.
+	 *
+	 * Because checking this requires the APIAPI structure to be loaded, the authenticator
+	 * is stored in a transient for the duration of a week.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $structure_slug Structure identifier.
+	 * @return string Authenticator slug, or empty string if not found.
+	 */
+	protected function get_structure_authenticator( $structure_slug ) {
+		$transient_key = $this->module->get_prefix() . 'apiapi_' . $structure_slug . '_authenticator';
+
+		$authenticator = get_transient( $transient_key );
+		if ( $authenticator ) {
+			return $authenticator;
+		}
+
+		$structure = $this->api_structure( $structure_slug );
+		if ( ! $structure ) {
+			return '';
+		}
+
+		// In case lazy-loading the structure throws an exception.
+		try {
+			$authenticator = $structure->get_authenticator();
+		} catch ( Exception $e ) {
+			$authenticator = '';
+		}
+
+		if ( empty( $authenticator ) ) {
+			return '';
+		}
+
+		set_transient( $transient_key, $authenticator, WEEK_IN_SECONDS );
+
+		return $authenticator;
+	}
 
 	/**
 	 * Registers the template tag handler for email notifications.
