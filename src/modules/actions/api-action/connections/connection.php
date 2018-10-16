@@ -302,7 +302,7 @@ abstract class Connection {
 
 		$fields = static::get_authenticator_fields();
 		foreach ( $fields as $field_slug => $field_data ) {
-			if ( ! property_exists( $this->$field_slug ) ) {
+			if ( ! property_exists( $this, $field_slug ) ) {
 				continue;
 			}
 
