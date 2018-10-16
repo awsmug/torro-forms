@@ -270,18 +270,10 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 					'type'         => 'select',
 					'label'        => __( 'Route', 'torro-forms' ),
 					'description'  => __( 'Select the API connection route to submit the data to.', 'torro-forms' ),
-					'choices'      => array(),
-					'required'     => true,
-					'dependencies' => array(
-						array(
-							'prop'     => 'choices',
-							'callback' => 'torro_get_api_connection_routes',
-							'fields'   => array( 'connection' ),
-							'args'     => array(
-								'api_action' => $this->slug,
-							),
-						),
+					'choices'      => array(
+						'' => __( 'Select a route...', 'torro-forms' ),
 					),
+					'required'     => true,
 				),
 				'mappings'   => array(
 					'type'         => 'fieldmappings',
@@ -289,16 +281,6 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 					'description'  => __( 'Map form elements to the fields needed for the API route.', 'torro-forms' ),
 					'fields'       => array(),
 					'required'     => true,
-					'dependencies' => array(
-						array(
-							'prop'     => 'fields',
-							'callback' => 'torro_get_api_connection_route_fields',
-							'fields'   => array( 'connection', 'route' ),
-							'args'     => array(
-								'api_action' => $this->slug,
-							),
-						),
-					),
 				),
 			),
 		);
@@ -435,19 +417,25 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 		$assets->enqueue_script( 'admin-form-api-actions' );
 
 		// Pass all API action slugs to the script.
-		$api_actions = array_map(
-			function( API_Action $action ) {
-				return $action->get_slug();
-			},
-			array_filter(
-				$this->module->get_all(),
-				function( Action $action ) {
-					return $action instanceof API_Action;
-				}
+		$api_actions = array_values(
+			array_map(
+				function( API_Action $action ) {
+					return $action->get_slug();
+				},
+				array_filter(
+					$this->module->get_all(),
+					function( Action $action ) {
+						return $action instanceof API_Action;
+					}
+				)
 			)
 		);
 		$data = array(
 			'actions' => $api_actions,
+			'i18n'    => array(
+				'couldNotLoadData' => __( 'Could not load API action connection data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
+				'selectARoute'     => __( 'Select a route...', 'torro-forms' ),
+			),
 		);
 		wp_add_inline_script(
 			str_replace( '_', '-', $assets->get_prefix() ) . 'admin-form-api-actions',
