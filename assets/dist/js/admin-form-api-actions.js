@@ -10,6 +10,18 @@
 	var apiActionConnectionCache = {};
 	var fieldManagerInstanceId   = $( '#torro_module_actions-field-manager-instance' );
 
+	fieldsAPI.FieldView.FieldmappingsFieldView = fieldsAPI.FieldView.extend({
+		getEvents: function() {
+
+			// Disable default events for now.
+			return {};
+		},
+
+		applyParams: function() {
+			this.renderContent();
+		}
+	});
+
 	if ( ! apiActions.length ) {
 		return;
 	}
@@ -150,4 +162,4 @@
 
 	apiActions.forEach( initializeAction );
 
-}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroAPIActionsData ) );
+}( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroAPIActionsData || {} ) );

@@ -204,7 +204,7 @@ abstract class Connection {
 	 * Generates field data from API route parameter data.
 	 *
 	 * The resulting fields array is always one level deep, with nested route parameters being on the top-level
-	 * with their parameter path as $field_slug, where each part is separated by '->'.
+	 * with their parameter path as $field_slug, where each part is separated by '___'.
 	 *
 	 * This method is recursive in order to support arrays and objects.
 	 *
@@ -220,9 +220,9 @@ abstract class Connection {
 	 *                            parameter in the API route and $field_data is data from the API-API route.
 	 */
 	protected function fill_param_fields( $fields, $route_fields, $params, $parent_path = array() ) {
-		$parent_prefix = implode( '->', $parent_path );
+		$parent_prefix = implode( '___', $parent_path );
 		if ( ! empty( $parent_prefix ) ) {
-			$parent_prefix .= '->';
+			$parent_prefix .= '___';
 		}
 
 		foreach ( $params as $param => $param_info ) {
@@ -248,22 +248,6 @@ abstract class Connection {
 			}
 
 			switch ( $param_info['type'] ) {
-				case 'array':
-					$fields[ $field_slug ] = $param_info;
-
-					if ( empty( $param_info['readonly'] ) && ! empty( $param_info['items'] ) ) {
-						array_push( $parent_path, $param );
-
-						$fields = $this->fill_param_fields(
-							$fields,
-							$route_fields,
-							array( 'items' => $param_info['items'] ),
-							$parent_path
-						);
-
-						array_pop( $parent_path );
-					}
-					break;
 				case 'object':
 					if ( empty( $param_info['readonly'] ) && ! empty( $param_info['properties'] ) ) {
 						array_push( $parent_path, $param );
