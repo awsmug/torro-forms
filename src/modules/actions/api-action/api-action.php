@@ -386,21 +386,21 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 					'required'    => true,
 				),
 				'route'      => array(
-					'type'         => 'routeselect',
-					'label'        => __( 'Route', 'torro-forms' ),
-					'description'  => __( 'Select the API connection route to submit the data to.', 'torro-forms' ),
-					'choices'      => array(
+					'type'        => 'routeselect',
+					'label'       => __( 'Route', 'torro-forms' ),
+					'description' => __( 'Select the API connection route to submit the data to.', 'torro-forms' ),
+					'choices'     => array(
 						'' => __( 'Select a route...', 'torro-forms' ),
 					),
-					'required'     => true,
+					'required'    => true,
 				),
 				'mappings'   => array(
-					'type'         => 'fieldmappings',
-					'label'        => __( 'Parameter Mappings', 'torro-forms' ),
-					'description'  => __( 'Map form elements to the parameters needed for the API route.', 'torro-forms' ),
-					'fields'       => array(),
-					'display'      => false,
-					'required'     => true,
+					'type'        => 'fieldmappings',
+					'label'       => __( 'Parameter Mappings', 'torro-forms' ),
+					'description' => __( 'Map form elements to the parameters needed for the API route.', 'torro-forms' ),
+					'fields'      => array(),
+					'display'     => false,
+					'required'    => true,
 				),
 			),
 		);
@@ -550,6 +550,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				)
 			)
 		);
+
 		$data = array(
 			'actions' => $api_actions,
 			'i18n'    => array(
@@ -557,6 +558,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				'selectARoute'     => __( 'Select a route...', 'torro-forms' ),
 			),
 		);
+
 		wp_add_inline_script(
 			str_replace( '_', '-', $assets->get_prefix() ) . 'admin-form-api-actions',
 			'var torroAPIActionsData = ' . wp_json_encode( $data ) . ';',
