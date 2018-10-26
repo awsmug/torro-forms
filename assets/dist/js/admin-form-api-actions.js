@@ -9,6 +9,7 @@
 	var i18n                     = apiActionsData.i18n;
 	var apiActionConnectionCache = {};
 	var fieldManagerInstanceId   = $( '#torro_module_actions-field-manager-instance' );
+	var fieldMappingsViews       = {};
 
 	fieldsAPI.FieldView.FieldmappingsFieldView = fieldsAPI.FieldView.extend({
 		getEvents: function() {
@@ -100,7 +101,7 @@
 		$( document ).ready( function() {
 			var integrations = fieldsAPI.FieldManager.instances[ fieldManagerInstanceId ].get( fieldManagerInstanceId + '_' + apiAction.replace( '_', '-' ) + '--integrations' );
 
-			integrations.on( 'changeItemValue:connection', function( model, integration, values ) {
+			function onChangeConnection( model, integration, values ) {
 				var index = integration.name.match( /\[(\d+)\]$/ );
 				var items = integrations.get( 'items' );
 
@@ -118,7 +119,7 @@
 					var routeChoices  = {};
 					var selectOptions = [];
 					var $routeSelect  = $( '#' + items[ index ].fields.route.id );
-					var routeValue    = $routeSelect.val();
+					var routeValue    = $routeSelect;
 
 					routeChoices[ '' ] = i18n.selectARoute;
 					selectOptions.push({
@@ -142,20 +143,87 @@
 						data: selectOptions
 					});
 
-					if ( routeValue && ! routeChoices[ routeValue ] ) {
-						$routeSelect.val( '' ).trigger( 'change' );
+					if ( values.route ) {
+						if ( ! routeChoices[ values.route ] ) {
+							$routeSelect.val( '' ).trigger( 'change' );
+							return;
+						}
+
+						if ( values.route !== routeValue ) {
+							$routeSelect.val( values.route ).trigger( 'change' );
+						}
 					}
 				});
+			}
+
+			function onChangeRoute( model, integration, values ) {
+				getActionConnection( apiAction, values.connection, function( connectionData ) {
+					getConnectionRoute( connectionData, values.route, function( routeData ) {
+						var params  = {};
+						var display = false;
+						var $el     = $( '#' + integration.fields.mappings.wrapAttrs.id );
+						var customModel;
+						var customView;
+
+						if ( routeData ) {
+							routeData.fields.forEach( function( paramData ) {
+								if ( paramData.readonly ) {
+									return;
+								}
+
+								// Arrays (i.e. repeatable parameters) are currently not supported.
+								if ( 'array' === paramData.type ) {
+									return;
+								}
+
+								params[ paramData.slug ] = paramData;
+							});
+
+							if ( params ) {
+								display = true;
+							}
+						}
+
+						integration.fields.mappings.params  = params;
+						integration.fields.mappings.display = display;
+
+						// The Fields API itself is currently not able to deal with dynamic nested fields, therefore we need some extra logic.
+						if ( $el.data( 'torroView' ) && fieldMappingsViews[ $el.data( 'torroView' ) ] ) {
+							customView  = fieldMappingsViews[ $el.data( 'torroView' ) ];
+							customModel = customView.model;
+						} else {
+							customModel = new fieldsAPI.Field( integration.fields.mappings );
+							customView  = new fieldsAPI.FieldView.FieldmappingsFieldView({
+								model: customModel
+							});
+
+							fieldMappingsViews[ customView.cid ] = customView;
+							$el.data( 'torroView', customView.cid );
+						}
+
+						customView.applyParams( customModel, params );
+						customView.applyDisplay( customModel, display );
+					});
+				});
+			}
+
+			integrations.on( 'changeItemValue:connection', function( model, integration, values ) {
+				onChangeConnection( model, integration, values );
 			});
 
 			integrations.on( 'changeItemValue:route', function( model, integration, values ) {
-				getActionConnection( apiAction, values.connection, function( connectionData ) {
-					getConnectionRoute( connectionData, values.route, function( routeData ) {
+				onChangeRoute( model, integration, values );
+			});
 
-						// TODO: Update field mappings.
-						console.log( routeData );
-					});
-				});
+			integrations.get( 'items' ).forEach( function( integration ) {
+				var $connectionSelect = $( '#' + integration.fields.connection.id );
+				var connectionValue   = $connectionSelect.val();
+
+				if ( connectionValue && connectionValue.length ) {
+					$connectionSelect.trigger( 'change' );
+
+					onChangeConnection( integrations, integration, integration.currentValue );
+				}
 			});
 		});
 	}

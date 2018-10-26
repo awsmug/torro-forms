@@ -554,6 +554,16 @@
 	font-weight: bold;
 }
 
+.plugin-lib-fieldmappings-control {
+	padding: 5px 10px;
+	margin: 0;
+	border: 1px solid #ccc;
+}
+
+.field-mappings-param-wrap {
+	margin-bottom: 12px;
+}
+
 #minor-publishing-actions #duplicate-action {
 	padding-top: 1em;
 	clear: both;

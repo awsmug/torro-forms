@@ -96,6 +96,15 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	private static $template_tag_handlers_registered = false;
 
 	/**
+	 * Internal flag for whether the API script used for all API actions has been enqueued.
+	 *
+	 * @since 1.1.0
+	 * @static
+	 * @var bool
+	 */
+	private static $dummy_fieldmappings_template_printed = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * In addition to calling the parent constructor, it registers the template tag handlers used for all API actions.
@@ -236,6 +245,18 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 
 		unset( $meta_fields['enabled'] );
 
+		// Include a dummy fieldmappings field, so that the template is rendered. This is hacky.
+		if ( ! self::$dummy_fieldmappings_template_printed || self::$dummy_fieldmappings_template_printed === $this->slug ) {
+			$meta_fields['dummy_fieldmappings'] = array(
+				'type'        => 'fieldmappings',
+				'label'       => __( 'Parameter Mappings (Dummy)', 'torro-forms' ),
+				'description' => __( 'Dummy field.', 'torro-forms' ),
+				'display'     => false,
+			);
+
+			self::$dummy_fieldmappings_template_printed = $this->slug;
+		}
+
 		$connection_choices = array_merge(
 			array(
 				'' => __( 'Select a connection...', 'torro-forms' ),
@@ -267,7 +288,7 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 					'required'    => true,
 				),
 				'route'      => array(
-					'type'         => 'select',
+					'type'         => 'routeselect',
 					'label'        => __( 'Route', 'torro-forms' ),
 					'description'  => __( 'Select the API connection route to submit the data to.', 'torro-forms' ),
 					'choices'      => array(
@@ -277,9 +298,10 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				),
 				'mappings'   => array(
 					'type'         => 'fieldmappings',
-					'label'        => __( 'Field Mappings', 'torro-forms' ),
-					'description'  => __( 'Map form elements to the fields needed for the API route.', 'torro-forms' ),
+					'label'        => __( 'Parameter Mappings', 'torro-forms' ),
+					'description'  => __( 'Map form elements to the parameters needed for the API route.', 'torro-forms' ),
 					'fields'       => array(),
+					'display'      => false,
 					'required'     => true,
 				),
 			),

@@ -13,6 +13,7 @@ use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Trait;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\REST_API\API_Actions_Controller;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\REST_API\API_Action_Connections_Controller;
+use awsmug\Torro_Forms\Modules\Actions\API_Action\Route_Select_Field;
 use awsmug\Torro_Forms\Modules\Actions\API_Action\Field_Mappings_Field;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
@@ -43,6 +44,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			'redirection'         => Redirection::class,
 		);
 
+		Field_Manager::register_field_type( 'routeselect', Route_Select_Field::class );
 		Field_Manager::register_field_type( 'fieldmappings', Field_Mappings_Field::class );
 	}
 
