@@ -185,6 +185,7 @@ abstract class Connection {
 		foreach ( $routes as $route_slug => $route_data ) {
 			$orig_route_slug = $route_slug;
 
+			// Route and method are specified in the same value in the plugin.
 			$method = 'POST';
 			if ( preg_match( '/^(GET|POST|PUT|PATCH|DELETE)\:/', $route_slug, $matches ) ) {
 				$method     = $matches[1];

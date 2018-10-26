@@ -25,6 +25,8 @@ use awsmug\Torro_Forms\Modules\Actions\API_Action\Connections\Key_Connection;
 use APIAPI\Core\Structures\Structure;
 use APIAPI\Core\Structures\Route;
 use APIAPI\Core\Request\API;
+use APIAPI\Core\Request\Route_Request;
+use APIAPI\Core\Request\Route_Response;
 use Exception;
 use WP_Error;
 
@@ -181,7 +183,8 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				$connections[ $integration['connection'] ],
 				$integration['route'],
 				$integration['mappings'],
-				$submission
+				$submission,
+				$form
 			);
 			if ( is_wp_error( $result ) ) {
 				foreach ( $result->errors as $error_code => $error_messages ) {
@@ -212,20 +215,115 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 	 * @param string     $route_slug API-API route identifier.
 	 * @param array      $mappings   Mapping definitions for the route, as specified via the form editing screen.
 	 * @param Submission $submission Submission to handle by the action.
+	 * @param Form       $form       Form the submission applies to.
 	 * @return bool|WP_Error True on success, error object on failure.
 	 */
-	protected function handle_single_integration( $connection, $route_slug, $mappings, $submission ) {
+	protected function handle_single_integration( $connection, $route_slug, $mappings, $submission, $form ) {
 		$structure_slug = $connection->get_structure();
-		$method         = 'POST';
+
+		$authentication_data = $connection->get_authentication_data();
+		$routes              = $connection->get_routes_with_fields();
+		if ( ! isset( $routes[ $route_slug ] ) ) {
+			/* translators: %s: route slug */
+			return new WP_Error( 'invalid_' . $structure_slug . '_route', sprintf( __( 'Invalid API route %s.', 'torro-forms' ), $route_slug ) );
+		}
+
+		$route_fields = $routes[ $route_slug ]['fields'];
+
+		// Route and method are specified in the same value in the plugin.
+		$method = 'POST';
 		if ( preg_match( '/^(GET|POST|PUT|PATCH|DELETE)\:/', $route_slug, $matches ) ) {
 			$method     = $matches[1];
 			$route_slug = substr( $route_slug, strlen( $method ) + 1 );
 		}
 
 		try {
-			$request = $this->api( $structure_slug )->get_request_object( $route_slug, $method );
+			$structure = apiapi_manager()->structures()->get( $structure_slug );
 
-			// TODO.
+			// Get the API-API instance and set the necessary configuration on-the-fly.
+			$apiapi = $this->module->apiapi();
+			$apiapi->config()->set( $structure->get_config_key(), 'authentication_data', $authentication_data );
+
+			// Get a new API-API request object for the given structure, route and method.
+			$request = $apiapi->get_request_object( $structure_slug, $route_slug, $method );
+
+			// Set the necessary parameters based on the route field definitions and mappings.
+			foreach ( $route_fields as $field_slug => $field_data ) {
+				$value = '';
+				if ( isset( $field_data['default'] ) ) {
+					if ( is_callable( $field_data['default'] ) ) {
+						$value = call_user_func( $field_data['default'] );
+					} else {
+						$value = $field_data['default'];
+					}
+				}
+
+				if ( isset( $field_data['value'] ) ) {
+					if ( is_callable( $field_data['value'] ) ) {
+						$value = call_user_func( $field_data['value'] );
+					} else {
+						$value = $field_data['value'];
+					}
+				} elseif ( ! empty( $mappings[ $field_slug ] ) ) {
+					$value = $mappings[ $field_slug ];
+					if ( is_string( $value ) ) {
+						$value = self::$template_tag_handler->process_content( $value, array( $form, $submission ) );
+					}
+				}
+
+				if ( empty( $value ) ) {
+					continue;
+				}
+
+				$param = explode( '___', $field_slug );
+				if ( count( $param ) > 1 ) {
+					call_user_func_array( array( $request, 'set_subparam' ), array_merge( $param, array( $value ) ) );
+				} else {
+					$request->set_param( $param[0], $value );
+				}
+			}
+
+			/**
+			 * Filters the request for an API action connection before it is executed.
+			 *
+			 * This filter allows to perform extra handling on the request prior to sending it. This hook allows you to perform additional
+			 * logic, such as setting additional request parameters or modifying existing ones.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param Route_Request $request         Request object.
+			 * @param string        $api_action_slug API action slug.
+			 * @param Connection    $connection      API connection instance with structure and authentication details.
+			 * @param string        $route_slug      API-API route identifier.
+			 * @param Submission    $submission      Submission to handle by the action.
+			 * @param Form          $form            Form the submission applies to.
+			 */
+			$request = apply_filters( "{$this->module->manager()->get_prefix()}process_api_action_connection_request", $request, $this->slug, $connection, $route_slug, $submission, $form );
+
+			// Run the actual request. If anything fails here, an exception will be thrown.
+			$response = $apiapi->send_request( $request );
+
+			/**
+			 * Filters the response of a request executed for an API action connection.
+			 *
+			 * This filter allows to perform extra handling on the response returned by the request. By default, nothing happens with it,
+			 * the process will simply return true to indicate success. This hook allows you to perform additional logic, such as storing
+			 * the contents of the response somewhere, or returning an error result in case this is appropriate for the given response.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param Route_Response|WP_Error $response        Response object given for the API request. Alternatively, you can return an error object to cause a negative result.
+			 * @param string                  $api_action_slug API action slug.
+			 * @param Connection              $connection      API connection instance with structure and authentication details.
+			 * @param string                  $route_slug      API-API route identifier.
+			 * @param Submission              $submission      Submission to handle by the action.
+			 * @param Form                    $form            Form the submission applies to.
+			 */
+			$response = apply_filters( "{$this->module->manager()->get_prefix()}process_api_action_connection_response", $response, $this->slug, $connection, $route_slug, $submission, $form );
+
+			if ( is_wp_error( $response ) ) {
+				return $response;
+			}
 		} catch ( Exception $e ) {
 			return new WP_Error( 'apiapi_' . $structure_slug . '_error', $e->getMessage() );
 		}
