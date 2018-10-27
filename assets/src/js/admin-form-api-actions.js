@@ -7,6 +7,22 @@
 	var fieldManagerInstanceId   = $( '#torro_module_actions-field-manager-instance' );
 	var fieldMappingsViews       = {};
 
+	var builder       = torro.Builder.getInstance();
+	var elementModels = {};
+
+	function toggleTemplateTagList( $button ) {
+		if ( 'true' === $button.attr( 'aria-expanded' ) ) {
+			$button.attr( 'aria-expanded', 'false' );
+		} else {
+			$button.attr( 'aria-expanded', 'true' );
+			$button.next( '.template-tag-list' ).focus();
+
+			$( 'html' ).one( 'click', function() {
+				$button.attr( 'aria-expanded', 'false' ).focus();
+			});
+		}
+	}
+
 	fieldsAPI.FieldView.FieldmappingsFieldView = fieldsAPI.FieldView.extend({
 		getEvents: function() {
 
@@ -16,6 +32,35 @@
 
 		applyParams: function() {
 			this.renderContent();
+		},
+
+		preRender: function( $el ) {
+			$el.find( '.template-tag-list-toggle' ).off( 'click' );
+			$el.find( '.template-tag-button' ).off( 'click' );
+		},
+
+		postRender: function( $el ) {
+			var $templateTagListToggles = $el.find( '.template-tag-list-toggle' );
+
+			if ( ! $templateTagListToggles.length ) {
+				return;
+			}
+
+			$templateTagListToggles.on( 'click', function( e ) {
+				var $button = $( this );
+
+				toggleTemplateTagList( $button );
+
+				e.stopPropagation();
+				e.preventDefault();
+			});
+
+			$el.on( 'click', '.template-tag-button', function() {
+				var tag    = '{' + $( this ).data( 'tag' ) + '}';
+				var $input = $( '#' + $( this ).data( 'targetId' ) );
+
+				$input.val( $input.val() + tag );
+			});
 		}
 	});
 
@@ -26,6 +71,83 @@
 	if ( ! fieldManagerInstanceId.length ) {
 		return;
 	}
+
+	function removeTemplateTagForElement( model, $list ) {
+		var templateTagSlug  = apiActionsData.templateTagSlug.replace( '%element_id%', model.get( 'id' ) );
+		var templateTagGroup = apiActionsData.templateTagGroup;
+		var $tag             = $list.find( '.template-tag-' + templateTagSlug );
+
+		if ( $tag ) {
+			$tag.remove();
+
+			if ( ! $list.find( '.template-tag-list-group-' + templateTagGroup + ' > ul > li' ).length ) {
+				$list.find( '.template-tag-list-group-' + templateTagGroup ).remove();
+			}
+		}
+	}
+
+	function addTemplateTagForElement( model, $list ) {
+		var targetId = $list.attr( 'id' ).replace( '-template-tag-list', '' );
+
+		var templateTag = {
+			slug: apiActionsData.templateTagSlug.replace( '%element_id%', model.get( 'id' ) ),
+			group: apiActionsData.templateTagGroup,
+			label: apiActionsData.templateTagLabel.replace( '%element_label%', model.get( 'label' ) ),
+			description: apiActionsData.templateTagDescription.replace( '%element_label%', model.get( 'label' ) )
+		};
+
+		var templateTagGroup = {
+			slug: apiActionsData.templateTagGroup,
+			label: apiActionsData.templateTagGroupLabel
+		};
+
+		var $tag = $( apiActionsData.templateTagTemplate
+			.replace( /%slug%/g, templateTag.slug )
+			.replace( /%group%/g, templateTag.group )
+			.replace( /%label%/g, templateTag.label )
+			.replace( /%description%/g, templateTag.description )
+			.replace( /%target_id%/g, targetId ) );
+
+		var $group = $list.find( '.template-tag-list-group-' + templateTag.group + ' > ul' );
+
+		if ( ! $group.length ) {
+			$group = $( apiActionsData.templateTagGroupTemplate
+				.replace( /%slug%/g, templateTagGroup.slug )
+				.replace( /%label%/g, templateTagGroup.label ) );
+
+			$list.append( $group );
+
+			$group = $group.children( 'ul' );
+		}
+
+		$group.append( $tag );
+
+		model.on( 'change:label', function( element, label ) {
+			var newLabel = apiActionsData.templateTagLabel.replace( '%element_label%', label );
+
+			$tag.html( $tag.html().replace( templateTag.label, newLabel ) );
+
+			templateTag.label = newLabel;
+		});
+	}
+
+	builder.on( 'addElement', function( model ) {
+		elementModels[ model.get( 'id' ) ] = model;
+
+		$( '.field-mappings-template-tag-list' ).each( function() {
+			addTemplateTagForElement( model, $( this ) );
+		});
+	});
+
+	builder.on( 'removeElement', function( model ) {
+		if ( elementModels[ model.get( 'id' ) ] ) {
+			delete elementModels[ model.get( 'id' ) ];
+		}
+
+		$( '.field-mappings-template-tag-list' ).each( function() {
+			removeTemplateTagForElement( model, $( this ) );
+		});
+	});
 
 	fieldManagerInstanceId = fieldManagerInstanceId.val();
 
@@ -199,6 +321,15 @@
 
 						customView.applyParams( customModel, params );
 						customView.applyDisplay( customModel, display );
+
+						$el.find( '.field-mappings-template-tag-list' ).each( function() {
+							var keys = Object.keys( elementModels );
+							var i;
+
+							for ( i = 0; i < keys.length; i++ ) {
+								addTemplateTagForElement( elementModels[ keys[ i ] ], $( this ) );
+							}
+						});
 					});
 				});
 			}

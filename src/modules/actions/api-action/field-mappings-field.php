@@ -9,6 +9,7 @@
 namespace awsmug\Torro_Forms\Modules\Actions\API_Action;
 
 use Leaves_And_Love\Plugin_Lib\Fields\Field;
+use awsmug\Torro_Forms\Components\Template_Tag_Handler;
 
 /**
  * Class for a  (very custom) field mappings field.
@@ -50,6 +51,14 @@ class Field_Mappings_Field extends Field {
 	 * @var array
 	 */
 	protected $params = array();
+
+	/**
+	 * Template tag handler for this field.
+	 *
+	 * @since 1.1.0
+	 * @var Template_Tag_Handler
+	 */
+	protected $template_tag_handler = null;
 
 	/**
 	 * Renders a single input for the field.
@@ -100,6 +109,28 @@ class Field_Mappings_Field extends Field {
 							</select>
 						<?php else : ?>
 							<input type="text" id="<?php echo esc_attr( $id . '-' . $param_slug ); ?>" name="<?php echo esc_attr( $name . '[' . $param_slug . ']' ); ?>" class="field-mappings-param-control plugin-lib-control plugin-lib-text-control" value="<?php echo esc_attr( $param_value ); ?>">
+							<div class="template-tag-list-wrap">
+								<button type="button" class="template-tag-list-toggle button" aria-controls="<?php echo esc_attr( $id . '-' . $param_slug . '-template-tag-list' ); ?>" aria-expanded="false">
+									<span aria-hidden="true">+</span>
+									<span class="screen-reader-text"><?php esc_html_e( 'Insert template tag', 'torro-forms' ); ?></span>
+								</button>
+								<ul id="<?php echo esc_attr( $id . '-' . $param_slug . '-template-tag-list' ); ?>" class="template-tag-list field-mappings-template-tag-list" role="region" tabindex="-1">
+									<?php foreach ( $this->template_tag_handler->get_groups() as $group_slug => $group_label ) : ?>
+										<li class="template-tag-list-group <?php echo esc_attr( 'template-tag-list-group-' . $group_slug ); ?>">
+											<span><?php echo esc_html( $group_label ); ?></span>
+											<ul>
+												<?php foreach ( $this->template_tag_handler->get_tag_labels( $group_slug ) as $tag_slug => $tag_label ) : ?>
+													<li class="template-tag <?php echo esc_attr( 'template-tag-' . $tag_slug ); ?>">
+														<button type="button" class="template-tag-button" data-tag="<?php echo esc_attr( $tag_slug ); ?>" data-target-id="<?php echo esc_attr( $id . '-' . $param_slug ); ?>">
+															<?php echo esc_html( $tag_label ); ?>
+														</button>
+													</li>
+												<?php endforeach; ?>
+											</ul>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
 						<?php endif; ?>
 						<?php if ( ! empty( $param_info['description'] ) ) : ?>
 							<p class="description"><?php echo wp_kses_data( $param_info['description'] ); ?></p>
@@ -146,6 +177,28 @@ class Field_Mappings_Field extends Field {
 							</select>
 						<# } else { #>
 							<input type="text" id="{{ data.id + '-' + paramSlug }}" name="{{ data.name + '[' + paramSlug + ']' }}" class="field-mappings-param-control" value="{{ paramValue }}">
+							<div class="template-tag-list-wrap">
+								<button type="button" class="template-tag-list-toggle button" aria-controls="{{ data.id + '-' + paramSlug }}-template-tag-list" aria-expanded="false">
+									<span aria-hidden="true">+</span>
+									<span class="screen-reader-text"><?php esc_html_e( 'Insert template tag', 'torro-forms' ); ?></span>
+								</button>
+								<ul id="{{ data.id + '-' + paramSlug }}-template-tag-list" class="template-tag-list field-mappings-template-tag-list" role="region" tabindex="-1">
+									<# _.each( data.templateTags, function( groupData, groupSlug ) { #>
+										<li class="template-tag-list-group template-tag-list-group-{{ groupSlug }}">
+											<span>{{ groupData.label }}</span>
+											<ul>
+												<# _.each( groupData.tags, function( tagLabel, tagSlug ) { #>
+													<li class="template-tag">
+														<button type="button" class="template-tag-button" data-tag="{{ tagSlug }}" data-target-id="{{ data.id + '-' + paramSlug }}">
+															{{ tagLabel }}
+														</button>
+													</li>
+												<# } ) #>
+											</ul>
+										</li>
+									<# } ) #>
+								</ul>
+							</div>
 						<# } #>
 						<# if ( ! _.isEmpty( paramInfo.description ) ) { #>
 							<p class="description">{{{ paramInfo.description }}}</p>
@@ -175,6 +228,14 @@ class Field_Mappings_Field extends Field {
 		$data['params'] = $this->params;
 		if ( empty( $data['params'] ) ) {
 			$data['params'] = new \stdClass(); // Ensure an object in JavaScript.
+		}
+
+		$data['templateTags'] = array();
+		foreach ( $this->template_tag_handler->get_groups() as $group_slug => $group_label ) {
+			$data['templateTags'][ $group_slug ] = array(
+				'label' => $group_label,
+				'tags'  => $this->template_tag_handler->get_tag_labels( $group_slug ),
+			);
 		}
 
 		return $data;

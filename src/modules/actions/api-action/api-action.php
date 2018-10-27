@@ -283,52 +283,61 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 				}
 			}
 
-			/**
-			 * Filters the request for an API action connection before it is executed.
-			 *
-			 * This filter allows to perform extra handling on the request prior to sending it. This hook allows you to perform additional
-			 * logic, such as setting additional request parameters or modifying existing ones.
-			 *
-			 * @since 1.1.0
-			 *
-			 * @param Route_Request $request         Request object.
-			 * @param string        $api_action_slug API action slug.
-			 * @param Connection    $connection      API connection instance with structure and authentication details.
-			 * @param string        $route_slug      API-API route identifier.
-			 * @param Submission    $submission      Submission to handle by the action.
-			 * @param Form          $form            Form the submission applies to.
-			 */
-			$request = apply_filters( "{$this->module->manager()->get_prefix()}process_api_action_connection_request", $request, $this->slug, $connection, $route_slug, $submission, $form );
+			// Allow sub-class to further prepare the request.
+			$request = $this->prepare_request( $request, $connection, $route_slug, $submission, $form );
 
 			// Run the actual request. If anything fails here, an exception will be thrown.
 			$response = $apiapi->send_request( $request );
 
-			/**
-			 * Filters the response of a request executed for an API action connection.
-			 *
-			 * This filter allows to perform extra handling on the response returned by the request. By default, nothing happens with it,
-			 * the process will simply return true to indicate success. This hook allows you to perform additional logic, such as storing
-			 * the contents of the response somewhere, or returning an error result in case this is appropriate for the given response.
-			 *
-			 * @since 1.1.0
-			 *
-			 * @param Route_Response|WP_Error $response        Response object given for the API request. Alternatively, you can return an error object to cause a negative result.
-			 * @param string                  $api_action_slug API action slug.
-			 * @param Connection              $connection      API connection instance with structure and authentication details.
-			 * @param string                  $route_slug      API-API route identifier.
-			 * @param Submission              $submission      Submission to handle by the action.
-			 * @param Form                    $form            Form the submission applies to.
-			 */
-			$response = apply_filters( "{$this->module->manager()->get_prefix()}process_api_action_connection_response", $response, $this->slug, $connection, $route_slug, $submission, $form );
+			// Allow sub-class to further process the response.
+			$response = $this->process_response( $response, $connection, $route_slug, $submission, $form );
 
 			if ( is_wp_error( $response ) ) {
 				return $response;
+			}
+
+			$response_code = $response->get_response_code();
+			if ( $response_code >= 400 ) {
+				/* translators: 1: HTTP status code, 2: HTTP status message */
+				return new WP_Error( 'apiapi_' . $structure_slug . '_bad_response', sprintf( __( 'Bad response: %1$d %2$s', 'torro-forms' ), $response_code, $response->get_response_message() ) );
 			}
 		} catch ( Exception $e ) {
 			return new WP_Error( 'apiapi_' . $structure_slug . '_error', $e->getMessage() );
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepares the request prior to sending it.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Route_Request $request    Request object.
+	 * @param Connection    $connection API connection instance with structure and authentication details.
+	 * @param string        $route_slug API-API route identifier.
+	 * @param Submission    $submission Submission to handle by the action.
+	 * @param Form          $form       Form the submission applies to.
+	 * @return Route_Request $request Prepared request object.
+	 */
+	protected function prepare_request( $request, $connection, $route_slug, $submission, $form ) {
+		return $request;
+	}
+
+	/**
+	 * Processes the response after it has been received.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Route_Response $response   Response object.
+	 * @param Connection     $connection API connection instance with structure and authentication details.
+	 * @param string         $route_slug API-API route identifier.
+	 * @param Submission     $submission Submission to handle by the action.
+	 * @param Form           $form       Form the submission applies to.
+	 * @return Route_Response|WP_Error Processed response object, or error object.
+	 */
+	protected function process_response( $response, $connection, $route_slug, $submission, $form ) {
+		return $response;
 	}
 
 	/**
@@ -346,10 +355,11 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 		// Include a dummy fieldmappings field, so that the template is rendered. This is hacky.
 		if ( ! self::$dummy_fieldmappings_template_printed || self::$dummy_fieldmappings_template_printed === $this->slug ) {
 			$meta_fields['dummy_fieldmappings'] = array(
-				'type'        => 'fieldmappings',
-				'label'       => __( 'Parameter Mappings (Dummy)', 'torro-forms' ),
-				'description' => __( 'Dummy field.', 'torro-forms' ),
-				'display'     => false,
+				'type'                 => 'fieldmappings',
+				'label'                => __( 'Parameter Mappings (Dummy)', 'torro-forms' ),
+				'description'          => __( 'Dummy field.', 'torro-forms' ),
+				'display'              => false,
+				'template_tag_handler' => self::$template_tag_handler,
 			);
 
 			self::$dummy_fieldmappings_template_printed = $this->slug;
@@ -395,12 +405,13 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 					'required'    => true,
 				),
 				'mappings'   => array(
-					'type'        => 'fieldmappings',
-					'label'       => __( 'Parameter Mappings', 'torro-forms' ),
-					'description' => __( 'Map form elements to the parameters needed for the API route.', 'torro-forms' ),
-					'fields'      => array(),
-					'display'     => false,
-					'required'    => true,
+					'type'                 => 'fieldmappings',
+					'label'                => __( 'Parameter Mappings', 'torro-forms' ),
+					'description'          => __( 'Map form elements to the parameters needed for the API route.', 'torro-forms' ),
+					'fields'               => array(),
+					'display'              => false,
+					'required'             => true,
+					'template_tag_handler' => self::$template_tag_handler,
 				),
 			),
 		);
@@ -551,9 +562,27 @@ abstract class API_Action extends Action implements API_Action_Interface, Assets
 			)
 		);
 
+		$template_tag_template  = '<li class="template-tag template-tag-%slug%">';
+		$template_tag_template .= '<button type="button" class="template-tag-button" data-tag="%slug%" data-target-id="%target_id%">%label%</button>';
+		$template_tag_template .= '</li>';
+
+		$template_tag_group_template  = '<li class="template-tag-list-group template-tag-list-group-%slug%">';
+		$template_tag_group_template .= '<span>%label%</span>';
+		$template_tag_group_template .= '<ul></ul>';
+		$template_tag_group_template .= '</li>';
+
 		$data = array(
-			'actions' => $api_actions,
-			'i18n'    => array(
+			'actions'                  => $api_actions,
+			'templateTagGroupTemplate' => $template_tag_group_template,
+			'templateTagTemplate'      => $template_tag_template,
+			'templateTagSlug'          => 'value_element_%element_id%',
+			'templateTagGroup'         => 'submission',
+			'templateTagGroupLabel'    => _x( 'Submission', 'template tag group', 'torro-forms' ),
+			/* translators: %s: element label */
+			'templateTagLabel'         => sprintf( __( 'Value for &#8220;%s&#8221;', 'torro-forms' ), '%element_label%' ),
+			/* translators: %s: element label */
+			'templateTagDescription'   => sprintf( __( 'Inserts the submission value for the element &#8220;%s&#8221;.', 'torro-forms' ), '%element_label%' ),
+			'i18n'                     => array(
 				'couldNotLoadData' => __( 'Could not load API action connection data. Please verify that the REST API is correctly enabled on your site.', 'torro-forms' ),
 				'selectARoute'     => __( 'Select a route...', 'torro-forms' ),
 			),
