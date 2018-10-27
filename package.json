@@ -51,7 +51,7 @@
     "gulp-clean-css": "~2.3.2",
     "gulp-concat": "~2.6.1",
     "gulp-csscomb": "~3.0.8",
-    "gulp-jscs": "~4.0.0",
+    "gulp-jscs": "^4.1.0",
     "gulp-jshint": "~2.0.4",
     "gulp-rename": "^1.2.3",
     "gulp-replace": "~0.5.4",
