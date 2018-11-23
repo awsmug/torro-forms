@@ -244,7 +244,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 			$has_enabled = true;
 
-			if ( ! is_a( $evaluator, Assets_Submodule_Interface::class ) ) {
+			if ( ! $evaluator instanceof Assets_Submodule_Interface ) {
 				continue;
 			}
 
@@ -350,7 +350,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			return __( 'Shortcode is using an invalid mode!', 'torro-forms' );
 		}
 
-		if ( is_a( $evaluator, Assets_Submodule_Interface::class ) && is_callable( array( $evaluator, 'enqueue_submission_results_assets' ) ) ) {
+		if ( $evaluator instanceof Assets_Submodule_Interface && is_callable( array( $evaluator, 'enqueue_submission_results_assets' ) ) ) {
 			$evaluator->enqueue_submission_results_assets( $this->manager()->assets(), $form );
 		}
 

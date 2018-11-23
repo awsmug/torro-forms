@@ -35,7 +35,7 @@ trait Manager_With_Children_Trait {
 	 * @return bool True on success, false on failure.
 	 */
 	public function add_child_manager( $slug, $manager ) {
-		if ( ! is_a( $manager, Manager::class ) ) {
+		if ( ! $manager instanceof Manager ) {
 			return false;
 		}
 

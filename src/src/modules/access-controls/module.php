@@ -82,7 +82,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 */
 	protected function set_submission_data( $submission, $form, $data ) {
 		foreach ( $this->submodules as $slug => $access_control ) {
-			if ( ! is_a( $access_control, Submission_Modifier_Access_Control_Interface::class ) ) {
+			if ( ! $access_control instanceof Submission_Modifier_Access_Control_Interface ) {
 				continue;
 			}
 

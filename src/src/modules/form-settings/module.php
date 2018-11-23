@@ -72,7 +72,7 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 	 */
 	protected function add_submodule_hooks() {
 		foreach ( $this->submodules as $slug => $submodule ) {
-			if ( ! is_a( $submodule, Hooks_Submodule_Interface::class ) ) {
+			if ( ! $submodule instanceof Hooks_Submodule_Interface ) {
 				continue;
 			}
 
