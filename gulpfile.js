@@ -87,28 +87,28 @@ const paths = {
 		files: [ './*.php', './src/**/*.php', './templates/**/*.php' ]
 	},
 	sass: {
-		files: [ './assets/src/sass/*.scss' ],
-		src: './assets/src/sass/',
-		dst: './assets/dist/css/'
+		files: [ './src/assets/src/sass/*.scss' ],
+		src: './src/assets/src/sass/',
+		dst: './src/assets/dist/css/'
 	},
 	js: {
-		files: [ './assets/src/js/*.js' ],
+		files: [ './src/assets/src/js/*.js' ],
 		builderFiles: [
-			'./assets/src/js/admin-form-builder/app.js',
-			'./assets/src/js/admin-form-builder/element-type.js',
-			'./assets/src/js/admin-form-builder/element-types.js',
-			'./assets/src/js/admin-form-builder/add-element/*.js',
-			'./assets/src/js/admin-form-builder/base-model.js',
-			'./assets/src/js/admin-form-builder/base-collection.js',
-			'./assets/src/js/admin-form-builder/models/*.js',
-			'./assets/src/js/admin-form-builder/collections/*.js',
-			'./assets/src/js/admin-form-builder/views/*.js',
-			'./assets/src/js/admin-form-builder/metabox-tabs.js',
-			'./assets/src/js/admin-form-builder/unload.js',
-			'./assets/src/js/admin-form-builder/init.js'
+			'./src/assets/src/js/admin-form-builder/app.js',
+			'./src/assets/src/js/admin-form-builder/element-type.js',
+			'./src/assets/src/js/admin-form-builder/element-types.js',
+			'./src/assets/src/js/admin-form-builder/add-element/*.js',
+			'./src/assets/src/js/admin-form-builder/base-model.js',
+			'./src/assets/src/js/admin-form-builder/base-collection.js',
+			'./src/assets/src/js/admin-form-builder/models/*.js',
+			'./src/assets/src/js/admin-form-builder/collections/*.js',
+			'./src/assets/src/js/admin-form-builder/views/*.js',
+			'./src/assets/src/js/admin-form-builder/metabox-tabs.js',
+			'./src/assets/src/js/admin-form-builder/unload.js',
+			'./src/assets/src/js/admin-form-builder/init.js'
 		],
-		src: './assets/src/js/',
-		dst: './assets/dist/js/'
+		src: './src/assets/src/js/',
+		dst: './src/assets/dist/js/'
 	}
 };
 

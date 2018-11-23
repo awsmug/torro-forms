@@ -1,7 +1,7 @@
 {
   "name": "awsmug/torro-forms",
   "description": "Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "license": "GPL-2.0-or-later",
   "type": "wordpress-plugin",
   "keywords": [
@@ -25,8 +25,8 @@
     },
     {
       "name": "Felix Arntz",
-      "email": "felix-arntz@leaves-and-love.net",
-      "homepage": "https://leaves-and-love.net",
+      "email": "hello@felix-arntz.me",
+      "homepage": "https://felix-arntz.me",
       "role": "Lead Developer"
     }
   ],
@@ -39,7 +39,7 @@
   "require": {
     "php": ">=5.6.0",
     "composer/installers": "~1.0",
-    "felixarntz/plugin-lib": "1.0.3",
+    "felixarntz/plugin-lib": "dev-master",
     "psr/log": "^1",
     "api-api/core": "1.0.0-beta.1",
     "api-api/storage-wordpress-option": "1.0.0",
@@ -49,12 +49,14 @@
   "require-dev": {
     "phpunit/phpunit": ">4.8.20 <6.0",
     "squizlabs/php_codesniffer": "3.*",
-    "wp-coding-standards/wpcs": "*",
-    "wimg/php-compatibility": "^8"
+    "wp-coding-standards/wpcs": "^1",
+    "wimg/php-compatibility": "^8",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+    "awsmug/wp-devops": "dev-master"
   },
   "scripts":     {
-    "config-phpcs": [
-      "vendor/bin/phpcs --config-set installed_paths ../../wimg/php-compatibility,../../wp-coding-standards/wpcs"
+    "install-codestandards": [
+      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
     ],
     "post-install-cmd": [
       "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
