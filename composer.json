@@ -55,10 +55,10 @@
       "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
     ],
     "post-install-cmd": [
-      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
+      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && rm -rf .git && cd ../../../.."
     ],
     "post-update-cmd": [
-      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
+      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && rm -rf .git &&  cd ../../../.."
     ]
   },
   "extra": {

@@ -18,15 +18,14 @@ local.properties
 .cproject
 .buildpath
 nbproject/
-composer.lock
-package-lock.json
+node_modules/*
 
 ############
 ## Vendor
 ############
 
-/node_modules/
-/vendor/
+vendor/
+!assets/vendor/
 
 ############
 ## OSes
@@ -38,11 +37,6 @@ package-lock.json
 .DS_store?
 
 ############
-# Devops
-############
-www
-
-############
 ## Misc
 ############
 
@@ -52,6 +46,7 @@ tmp/
 *.bak
 *.log
 *.lock
+package-lock.json
 *.[Cc]ache
 *.cpr
 *.orig
