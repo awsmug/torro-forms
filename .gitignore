@@ -40,11 +40,7 @@ package-lock.json
 ############
 # Devops
 ############
-conf
-docker-compose.yml
 www
-devops.sh
-wp.sh
 
 ############
 ## Misc
