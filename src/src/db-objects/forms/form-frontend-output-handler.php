@@ -113,6 +113,8 @@ class Form_Frontend_Output_Handler {
 	 *     @type string $iframe_width  If $show is set to 'iframe', this indicates the iframe width. Default '100%'.
 	 *     @type string $iframe_height If $show is set to 'iframe', this indicates the iframe height. Default '100%'.
 	 * }
+	 *
+	 * @return string Shortcode content to show.
 	 */
 	public function get_shortcode_content( $atts ) {
 		$atts = shortcode_atts(
@@ -171,6 +173,8 @@ class Form_Frontend_Output_Handler {
 	 *     @type string $iframe_width  If $show is set to 'iframe', this indicates the iframe width. Default '100%'.
 	 *     @type string $iframe_height If $show is set to 'iframe', this indicates the iframe height. Default '100%'.
 	 * }
+	 *
+	 * @return string Shortcode content to show.
 	 */
 	public function get_deprecated_shortcode_content( $atts ) {
 		$this->form_manager->error_handler()->deprecated_shortcode( 'form', '1.0.0-beta.9', "{$this->form_manager->get_prefix()}form" );

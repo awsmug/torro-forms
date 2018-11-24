@@ -38,11 +38,13 @@ vendor/
 .DS_store?
 
 ############
-# Docker
+# Devops
 ############
 conf
 docker-compose.yml
 www
+devops.sh
+wp.sh
 
 ############
 ## Misc
