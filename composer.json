@@ -41,12 +41,6 @@
   "require": {
     "php": ">=5.6.0",
     "composer/installers": "~1.0",
-    "felixarntz/plugin-lib": "dev-master",
-    "psr/log": "^1",
-    "api-api/core": "dev-master",
-    "api-api/storage-wordpress-option": "dev-master",
-    "api-api/transporter-wordpress": "dev-master",
-    "phpoffice/phpspreadsheet": "1.2.1"
   },
   "require-dev": {
     "phpunit/phpunit": ">4.8.20 <6.0",
@@ -61,10 +55,10 @@
       "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
     ],
     "post-install-cmd": [
-      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
+      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
     ],
     "post-update-cmd": [
-      "cd vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
+      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && cd ../../.."
     ]
   },
   "extra": {

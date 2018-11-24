@@ -25,8 +25,8 @@ package-lock.json
 ## Vendor
 ############
 
-node_modules/
-vendor/
+/node_modules/
+/vendor/
 
 ############
 ## OSes
@@ -67,5 +67,3 @@ temp/
 .Trashes
 
 .svn
-vendor
-

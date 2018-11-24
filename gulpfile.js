@@ -84,7 +84,7 @@ const uglify = require( 'gulp-uglify' );
 
 const paths = {
 	php: {
-		files: [ './*.php', './src/**/*.php', './templates/**/*.php' ]
+		files: [ './src/*.php', './src/src/**/*.php', './src/templates/**/*.php' ]
 	},
 	sass: {
 		files: [ './src/assets/src/sass/*.scss' ],
