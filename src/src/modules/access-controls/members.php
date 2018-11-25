@@ -201,7 +201,7 @@ class Members extends Access_Control implements Assets_Submodule_Interface {
 		);
 
 		$settings_sections['reinvitation_email'] = array(
-			'title'       => __( 'Renvitation Email Template', 'torro-forms' ),
+			'title'       => __( 'Reinvitation Email Template', 'torro-forms' ),
 			'description' => __( 'Setup mail templates for reinviting a user to a form.', 'torro-forms' ),
 		);
 
