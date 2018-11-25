@@ -31,8 +31,8 @@ services:
   php:
     build: ./conf/php
     volumes:
-      - ./conf/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./conf/php/php.ini:/usr/local/etc/php/php.ini
+      - ./conf/php/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ./conf/php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./www:/var/www/html
       - ./src:/var/www/html/wp-content/plugins/plugin:ro
     depends_on:
@@ -50,5 +50,10 @@ services:
     image: phpmyadmin/phpmyadmin
     ports:
     - 8080:80
+  mailcatcher:
+    image: mailhog/mailhog
+    ports:
+    - 1025:1025
+    - 8025:8025
 volumes:
   database:
