@@ -5,12 +5,6 @@ RUN apt-get update \
     libfreetype6-dev \
     libjpeg-dev \
     libpng-dev \
-    && yes | pecl install xdebug \
-    && docker-php-ext-configure gd \
-            --enable-gd-native-ttf \
-            --with-freetype-dir=/usr/include/freetype2 \
-            --with-png-dir=/usr/include \
-            --with-jpeg-dir=/usr/include \
     && docker-php-ext-install gd \
     && docker-php-ext-install mysqli \
     && docker-php-ext-enable mysqli
