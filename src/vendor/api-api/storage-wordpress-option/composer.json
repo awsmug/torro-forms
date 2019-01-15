@@ -1,0 +1,43 @@
+{
+  "name": "api-api/storage-wordpress-option",
+  "description": "Storage implementation using WordPress options.",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "api-api",
+    "storage",
+    "storage-wordpress-option"
+  ],
+  "homepage": "http://awesome.ug",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "https://leaves-and-love.net",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Sven Wagener",
+      "email": "sven@awesome.ug",
+      "homepage": "http://awesome.ug",
+      "role": "Head of Development"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/api-api/storage-wordpress-option/issues"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-4": {
+      "APIAPI\\Storage_WordPress_Option\\": "src/Storage_WordPress_Option/"
+    },
+    "files": [
+      "src/storage-wordpress-option.php"
+    ]
+  },
+  "require": {
+    "api-api/core": "*"
+  }
+}

@@ -25,8 +25,8 @@ package-lock.json
 ## Vendor
 ############
 
-node_modules/
-vendor/
+/node_modules/
+/vendor/
 
 ############
 ## OSes
@@ -40,11 +40,7 @@ vendor/
 ############
 # Devops
 ############
-conf
-docker-compose.yml
 www
-devops.sh
-wp.sh
 
 ############
 ## Misc
@@ -67,5 +63,3 @@ temp/
 .Trashes
 
 .svn
-vendor
-
