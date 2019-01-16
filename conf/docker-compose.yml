@@ -53,7 +53,7 @@ services:
   mailcatcher:
     image: mailhog/mailhog
     ports:
-    - 1025:1025
+    - 1030:1025
     - 8025:8025
 volumes:
   database:
