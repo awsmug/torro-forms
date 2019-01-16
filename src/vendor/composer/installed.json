@@ -25,7 +25,7 @@
             "composer/composer": "1.0.*@dev",
             "phpunit/phpunit": "^4.8.36"
         },
-        "time": "2018-08-27T06:10:37+00:00",
+        "time": "2018-08-27 06:10:37",
         "type": "composer-plugin",
         "extra": {
             "class": "Composer\\Installers\\Plugin",
@@ -148,7 +148,7 @@
             "squizlabs/php_codesniffer": "3.*",
             "wp-coding-standards/wpcs": "^1"
         },
-        "time": "2018-11-08T00:14:07+00:00",
+        "time": "2018-11-08 00:14:07",
         "type": "wordpress-muplugin",
         "installation-source": "source",
         "notification-url": "https://packagist.org/downloads/",
@@ -193,7 +193,7 @@
             "codeclimate/php-test-reporter": "dev-master",
             "phpunit/phpunit": "5.7.23"
         },
-        "time": "2018-04-12T11:48:07+00:00",
+        "time": "2018-04-12 11:48:07",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -251,7 +251,7 @@
         "require": {
             "api-api/core": "*"
         },
-        "time": "2018-01-26T09:59:33+00:00",
+        "time": "2018-01-26 09:59:33",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -306,7 +306,7 @@
         "require": {
             "api-api/core": "*"
         },
-        "time": "2018-01-26T10:01:16+00:00",
+        "time": "2018-01-26 10:01:16",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -361,7 +361,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2017-10-23T01:57:42+00:00",
+        "time": "2017-10-23 01:57:42",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -439,7 +439,7 @@
             "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
             "tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
         },
-        "time": "2018-04-10T03:53:16+00:00",
+        "time": "2018-04-10 03:53:16",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -499,7 +499,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2018-11-20T15:27:04+00:00",
+        "time": "2018-11-20 15:27:04",
         "type": "library",
         "extra": {
             "branch-alias": {
