@@ -95,19 +95,3 @@ function torro_load( $callback ) {
 }
 
 torro();
-
-class NewsletterApi extends awsmug\Torro_Forms\Modules\Actions\Action {
-	protected function bootstrap() {
-		$this->slug  = 'newsletter-api';
-		$this->title = 'Newsletter API';
-	}
-
-	public function handle( $submission, $form ) {
-		wp_die($submission);
-	}
-}
-
-torro_load( function() {
-	var_dump( $_SERVER['REMOTE_ADDR'] );
-	torro()->modules()->actions()->register( 'newsletterapi', 'NewsletterApi' );
-});
