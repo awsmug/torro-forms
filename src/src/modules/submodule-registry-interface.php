@@ -8,6 +8,8 @@
 
 namespace awsmug\Torro_Forms\Modules;
 
+use awsmug\Torro_Forms\Error;
+
 /**
  * Interface for modules that act as a submodule registry.
  *

@@ -25,8 +25,6 @@ window.torro = window.torro || {};
 
 				wp.api.init({ versionString: torro.api.versionString })
 					.done( function() {
-						var origUrl = wp.api.collections.ElementsTypes.prototype.url;
-
 						torro.api.collections = _.extend( torro.api.collections, {
 							Forms: wp.api.collections.Forms,
 							FormCategories: wp.api.collections.Form_categories,
@@ -35,14 +33,23 @@ window.torro = window.torro || {};
 							ElementTypes: wp.api.collections.ElementsTypes.extend({
 								url: function() {
 									/* Fix bug in element types URL. */
-									return origUrl.call( this ).replace( 'elements//types', 'elements/types' );
+									return wp.api.collections.ElementsTypes.prototype.url.call( this ).replace( 'elements//types', 'elements/types' );
 								}
 							}),
 							ElementChoices: wp.api.collections.Element_choices,
 							ElementSettings: wp.api.collections.Element_settings,
 							Submissions: wp.api.collections.Submissions,
 							SubmissionValues: wp.api.collections.Submission_values,
-							Participants: wp.api.collections.Participants
+							Participants: wp.api.collections.Participants,
+							ApiActions: wp.api.collections.Api_actions,
+							ApiActionConnections: wp.api.collections.Api_actionsConnections.extend({
+								initialize: function( models, options ) {
+									wp.api.collections.Api_actionsConnections.prototype.initialize.apply( this, arguments );
+									if ( ! _.isUndefined( options ) && options.action ) {
+										this.parent = options.action;
+									}
+								}
+							})
 						});
 
 						torro.api.models = _.extend( torro.api.models, {
@@ -55,7 +62,30 @@ window.torro = window.torro || {};
 							ElementSetting: wp.api.models.Element_settings,
 							Submission: wp.api.models.Submissions,
 							SubmissionValue: wp.api.models.Submission_values,
-							Participant: wp.api.models.Participants
+							Participant: wp.api.models.Participants,
+							ApiAction: wp.api.models.Api_actions.extend({
+								url: function() {
+									var url = wp.api.models.Api_actions.prototype.url.call( this );
+									if ( ! _.isUndefined( this.get( 'action' ) ) ) {
+										url +=  '/' + this.get( 'action' );
+									}
+
+									return url;
+								}
+							}),
+							ApiActionConnection: wp.api.models.Api_actionsConnections.extend({
+								url: function() {
+									var url = wp.api.models.Api_actionsConnections.prototype.url.call( this );
+									if ( ! _.isUndefined( this.get( 'action' ) ) ) {
+										url = url.replace( '/connections', '/' + this.get( 'action' ) + '/connections' );
+									}
+									if ( ! _.isUndefined( this.get( 'connection' ) ) ) {
+										url +=  '/' + this.get( 'connection' );
+									}
+
+									return url;
+								}
+							})
 						});
 
 						deferred.resolveWith( torro.api );

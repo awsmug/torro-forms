@@ -520,6 +520,8 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 		?>
 		<form action="options.php" method="post" novalidate="novalidate">
+			<?php echo '<input type="hidden" id="' . esc_attr( $option . '-field-manager-instance' ) . '" value="' . esc_attr( $this->tabs[ $option ]['field_manager']->get_instance_id() ) . '" />'; ?>
+
 			<?php settings_fields( $option ); ?>
 
 			<?php $this->render_form_content( $option, $current_subtab_id ); ?>
