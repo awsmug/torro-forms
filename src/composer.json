@@ -7,6 +7,7 @@
     "api-api/core": "dev-master",
     "api-api/storage-wordpress-option": "dev-master",
     "api-api/transporter-wordpress": "dev-master",
+    "api-api/structure-wordpress": "dev-master",
     "phpoffice/phpspreadsheet": "1.2.1"
   },
   "extra": {

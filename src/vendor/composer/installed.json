@@ -529,5 +529,172 @@
             "transporter",
             "transporter-wordpress"
         ]
+    },
+    {
+        "name": "api-api/authenticator-oauth1",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/authenticator-oauth1.git",
+            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/authenticator-oauth1/zipball/6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
+            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26 09:57:09",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Authenticator_OAuth1\\": "src/Authenticator_OAuth1/"
+            },
+            "files": [
+                "src/authenticator-oauth1.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Authenticator implementation for OAuth 1.0.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "authenticator",
+            "authenticator-oauth1"
+        ]
+    },
+    {
+        "name": "api-api/authenticator-x",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/authenticator-x.git",
+            "reference": "94cc997e3e96b40401954e16f2500fe64e41b97a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/authenticator-x/zipball/94cc997e3e96b40401954e16f2500fe64e41b97a",
+            "reference": "94cc997e3e96b40401954e16f2500fe64e41b97a",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-02-06 16:25:45",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Authenticator_X\\": "src/Authenticator_X/"
+            },
+            "files": [
+                "src/authenticator-x.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Authenticator implementation for X header tokens.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "authenticator",
+            "authenticator-x"
+        ]
+    },
+    {
+        "name": "api-api/structure-wordpress",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/structure-wordpress.git",
+            "reference": "86c37e1621dc70921ee655d6401f52decaff1783"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/structure-wordpress/zipball/86c37e1621dc70921ee655d6401f52decaff1783",
+            "reference": "86c37e1621dc70921ee655d6401f52decaff1783",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/authenticator-oauth1": "*",
+            "api-api/authenticator-x": "*",
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26 10:00:31",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Structure_WordPress\\": "src/Structure_WordPress/"
+            },
+            "files": [
+                "src/structure-wordpress.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Structure implementation for the API of any WordPress site.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "structure",
+            "structure-wordpress"
+        ]
     }
 ]

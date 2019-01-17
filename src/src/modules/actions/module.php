@@ -42,7 +42,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->default_submodules   = array(
 			'email_notifications' => Email_Notifications::class,
 			'redirection'         => Redirection::class,
-			'frontend_posting'         => Redirection::class,
+			'frontend_posting'         => Frontend_Posting::class,
 		);
 
 		Field_Manager::register_field_type( 'routeselect', Route_Select_Field::class );
