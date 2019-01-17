@@ -22,12 +22,12 @@
 
 	<filter>
 		<whitelist>
-			<directory>./src</directory>
-			<file>./torro-forms.php</file>
+			<directory>./src/src</directory>
+			<file>./src/torro-forms.php</file>
 			<exclude>
-				<directory>./src/translations</directory>
-				<directory>./templates</directory>
-				<directory>./vendor</directory>
+				<directory>./src/src/translations</directory>
+				<directory>./src/templates</directory>
+				<directory>./src/vendor</directory>
 			</exclude>
 		</whitelist>
 	</filter>
