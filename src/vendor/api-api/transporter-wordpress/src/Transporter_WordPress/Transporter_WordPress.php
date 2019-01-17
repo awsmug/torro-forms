@@ -61,9 +61,24 @@ if ( ! class_exists( 'APIAPI\Transporter_WordPress\Transporter_WordPress' ) ) {
 				}
 			}
 
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				add_filter( 'https_local_ssl_verify', '__return_false' );
+				add_filter( 'https_ssl_verify', '__return_false' );
+			}
+
 			$response_data = wp_remote_request( $url, $args );
+
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				remove_filter( 'https_local_ssl_verify', '__return_false' );
+				remove_filter( 'https_ssl_verify', '__return_false' );
+			}
+
 			if ( is_wp_error( $response_data ) ) {
 				throw new Request_Transport_Exception( sprintf( 'The request to %1$s could not be sent: %2$s', $url, $response_data->get_error_message() ) );
+			}
+
+			if ( $response_data['headers'] instanceof \Requests_Utility_CaseInsensitiveDictionary ) {
+				$response_data['headers'] = $response_data['headers']->getAll();
 			}
 
 			// Cookies are not supported at this point.

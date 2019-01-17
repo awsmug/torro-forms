@@ -66,7 +66,10 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 			$authenticator       = $this->get_authenticator();
 			$authentication_data = $this->get_authentication_data();
 
-			return $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
+			$request_object = $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
+			$request_object->set_params( $this->get_base_params() );
+
+			return $request_object;
 		}
 
 		/**
@@ -138,6 +141,23 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 			}
 
 			return $this->structure->get_authentication_data_defaults( $mode );
+		}
+
+		/**
+		 * Returns base parameters of config
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return array Array with all parameters of config
+		 */
+		public function get_base_params() {
+			$config_key = $this->structure->get_config_key();
+
+			if ( $this->config->exists( $config_key, 'params' ) ) {
+				return $this->config->get( $config_key, 'params' );
+			}
+
+			return array();
 		}
 
 		/**

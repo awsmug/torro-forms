@@ -4,9 +4,9 @@
     "composer/installers": "~1.0",
     "felixarntz/plugin-lib": "dev-master",
     "psr/log": "^1",
-    "api-api/core": "1.0.0-beta.1",
-    "api-api/storage-wordpress-option": "1.0.0",
-    "api-api/transporter-wordpress": "1.0.0",
+    "api-api/core": "dev-master",
+    "api-api/storage-wordpress-option": "dev-master",
+    "api-api/transporter-wordpress": "dev-master",
     "phpoffice/phpspreadsheet": "1.2.1"
   },
   "extra": {

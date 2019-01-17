@@ -1,0 +1,50 @@
+{
+  "name": "api-api/core",
+  "description": "A library of API components to interact with external APIs.",
+  "version": "1.0.0-beta.1",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "api-api",
+    "api",
+    "rest",
+    "library",
+    "client",
+    "request"
+  ],
+  "homepage": "http://awesome.ug",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "https://leaves-and-love.net",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Sven Wagener",
+      "email": "sven@awesome.ug",
+      "homepage": "http://awesome.ug",
+      "role": "Head of Development"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/api-api/core/issues"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-4": {
+      "APIAPI\\Core\\": "src/Core/"
+    },
+    "files": [
+      "src/api-api.php"
+    ]
+  },
+  "require": {
+    "php": ">=5.6.0"
+  },
+  "require-dev": {
+    "codeclimate/php-test-reporter": "dev-master",
+    "phpunit/phpunit": "5.7.23"
+  }
+}
