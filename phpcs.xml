@@ -2,12 +2,12 @@
 <ruleset name="Torro Forms PHPCS Rules">
 	<description>A custom set of PHPCS rules for Torro Forms.</description>
 
-	<file>./torro-forms.php</file>
-	<file>./src</file>
+	<file>./src/torro-forms.php</file>
+	<file>./src/src</file>
 
-	<exclude-pattern>*/src/components/legacy-upgrades.php</exclude-pattern>
-	<exclude-pattern>*/src/translations/*</exclude-pattern>
-	<exclude-pattern>*/templates/*</exclude-pattern>
+	<exclude-pattern>*/src/src/components/legacy-upgrades.php</exclude-pattern>
+	<exclude-pattern>*/src/src/translations/*</exclude-pattern>
+	<exclude-pattern>*/src/templates/*</exclude-pattern>
 	<exclude-pattern>*/tests/*</exclude-pattern>
 
 	<arg value="sv"/>
