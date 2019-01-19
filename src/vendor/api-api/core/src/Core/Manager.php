@@ -167,7 +167,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return Transporters The structures container.
+		 * @return Structures The structures container.
 		 */
 		public function structures() {
 			return $this->structures;
