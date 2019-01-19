@@ -17,7 +17,7 @@ services:
       - ./src:/var/www/html/wp-content/plugins/plugin:ro
     depends_on:
       - db
-  web:
+  torro-forms.test:
     image: nginx:latest
     ports:
       - 80:80
