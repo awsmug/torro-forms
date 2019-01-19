@@ -83,6 +83,12 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.4 =
+* Fixed: Changed wrong option name 'general' to 'general_settings'
+* Fixed: Only reset form submission errors on submission, not during a regular… 
+* Fixed: Correctly start PHP session for forms rendered via shortcodes, and in… 
+* Fixed: Submission Deletion: Cron never runs
+
 = 1.0.3 =
 
 * Fixed: Submissions list table filtering by status or search works correctly again.
