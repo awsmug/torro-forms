@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function torro() {
 	if ( ! class_exists( 'Torro_Forms' ) ) {
-		$main_file        = __FILE__;
+gi		$main_file        = __FILE__;
 		$basedir_relative = '';
 
 		$file          = wp_normalize_path( $main_file );

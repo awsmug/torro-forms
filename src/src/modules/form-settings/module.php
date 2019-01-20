@@ -102,6 +102,14 @@ class Module extends Module_Base {
 				'default'      => $this->get_default_submit_button_label(),
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			),
+			'required_fields_text'   => array(
+				'tab'          => 'labels',
+				'type'         => 'text',
+				'label'        => __( 'Required fields text', 'torro-forms' ),
+				'description'  => __( 'This text appears on top of a form and shows the user which fields are required.', 'torro-forms'  ),
+				'default'      => $this->get_default_required_fields_label(),
+				'wrap_classes' => array( 'has-torro-tooltip-description' ),
+			),
 			'success_message'       => array(
 				'tab'           => 'labels',
 				'type'          => 'text',
@@ -267,6 +275,17 @@ class Module extends Module_Base {
 	 */
 	protected function get_default_submit_button_label() {
 		return _x( 'Submit', 'button label', 'torro-forms' );
+	}
+
+	/**
+	 * Returns the default text for required fields hint
+	 *
+	 * @since 1.0.4
+	 *
+	 * @return string Message to display.
+	 */
+	protected function get_default_required_fields_label() {
+		return _x( 'Required fields are marked *.', 'text on top of form', 'torro-forms'  );
 	}
 
 	/**
