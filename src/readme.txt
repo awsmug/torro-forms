@@ -84,6 +84,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.4 =
+* Fixed: Required fields text can now be edited
 * Fixed: Changed wrong option name 'general' to 'general_settings'
 * Fixed: Only reset form submission errors on submission, not during a regular… 
 * Fixed: Correctly start PHP session for forms rendered via shortcodes, and in… 
