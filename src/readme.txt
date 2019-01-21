@@ -84,6 +84,8 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.4 =
+* Enhanced: One Choice elements can be exported in one column
+* Enhanced: Added filter for date format on exporting 'torro_submission_export_time_format'
 * Fixed: Required fields text can now be edited
 * Fixed: Changed wrong option name 'general' to 'general_settings'
 * Fixed: Only reset form submission errors on submission, not during a regular… 

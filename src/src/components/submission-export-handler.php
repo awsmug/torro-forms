@@ -145,6 +145,11 @@ class Submission_Export_Handler extends Service {
 			$args['orderby'] = array( 'id' => 'ASC' );
 		}
 
+		$onechoice_columns = filter_input( INPUT_POST, 'onechoice_columns' );
+		if ( 'one' === $onechoice_columns ) {
+			add_filter( "{$this->prefix}use_single_export_column_for_choices", '__return_true' );
+		}
+
 		$this->export_submissions( $mode, $form, $args );
 	}
 
@@ -187,6 +192,12 @@ class Submission_Export_Handler extends Service {
 			<select id="torro-export-order" name="order" style="margin-right:15px;">
 				<option value="ASC"><?php esc_html_e( 'Ascending', 'torro-forms' ); ?></option>
 				<option value="DESC"><?php esc_html_e( 'Descending', 'torro-forms' ); ?></option>
+			</select>
+
+			<label for="torro-export-onechoice-columns"><?php esc_html_e( 'One Choice items', 'torro-forms' ); ?></label>
+			<select id="torro-export-onechoice-columns" name="onechoice_columns" style="margin-right:15px;">
+				<option value="one"><?php esc_html_e( 'Export all values in one column', 'torro-forms' ); ?></option>
+				<option value="multi"><?php esc_html_e( 'Export each value in a different column', 'torro-forms' ); ?></option>
 			</select>
 
 			<button type="submit" class="button"><?php esc_html_e( 'Export', 'torro-forms' ); ?></button>
