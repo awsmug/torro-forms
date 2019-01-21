@@ -78,6 +78,14 @@ class Module extends Module_Base {
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 				'visual_label' => __( 'Page Title', 'torro-forms' ),
 			),
+			'required_fields_text'   => array(
+				'tab'          => 'labels',
+				'type'         => 'text',
+				'label'        => __( 'Required fields text', 'torro-forms' ),
+				'description'  => __( 'This text appears on top of a form and shows the user which fields are required. The value has to cotain a %s to output the correct indicator.', 'torro-forms'  ),
+				'default'      => $this->get_default_required_fields_text(),
+				'wrap_classes' => array( 'has-torro-tooltip-description' ),
+			),
 			'previous_button_label' => array(
 				'tab'          => 'labels',
 				'type'         => 'text',
@@ -100,14 +108,6 @@ class Module extends Module_Base {
 				'label'        => __( 'Submit Button Label', 'torro-forms' ),
 				'description'  => __( 'Enter the label for the button that submits the form.', 'torro-forms' ),
 				'default'      => $this->get_default_submit_button_label(),
-				'wrap_classes' => array( 'has-torro-tooltip-description' ),
-			),
-			'required_fields_text'   => array(
-				'tab'          => 'labels',
-				'type'         => 'text',
-				'label'        => __( 'Required fields text', 'torro-forms' ),
-				'description'  => __( 'This text appears on top of a form and shows the user which fields are required.', 'torro-forms'  ),
-				'default'      => $this->get_default_required_fields_label(),
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			),
 			'success_message'       => array(
@@ -245,6 +245,17 @@ class Module extends Module_Base {
 	}
 
 	/**
+	 * Returns the default text for required fields hint
+	 *
+	 * @since 1.0.4
+	 *
+	 * @return string Message to display.
+	 */
+	protected function get_default_required_fields_text() {
+		return _x( 'Required fields are marked %s.', 'required fields text on top of form', 'torro-forms'  );
+	}
+
+	/**
 	 * Returns the default label for the Previous button.
 	 *
 	 * @since 1.0.0
@@ -278,17 +289,6 @@ class Module extends Module_Base {
 	}
 
 	/**
-	 * Returns the default text for required fields hint
-	 *
-	 * @since 1.0.4
-	 *
-	 * @return string Message to display.
-	 */
-	protected function get_default_required_fields_label() {
-		return _x( 'Required fields are marked *.', 'text on top of form', 'torro-forms'  );
-	}
-
-	/**
 	 * Returns the default message to display when a form submission has been completed.
 	 *
 	 * @since 1.0.0
@@ -310,6 +310,26 @@ class Module extends Module_Base {
 	 */
 	protected function filter_show_container_title( $show_container_title, $form_id ) {
 		return (bool) $this->get_form_option( $form_id, 'show_container_title', true );
+	}
+
+	/**
+	 * Filters the label for the required fields text in the frontend.
+	 *
+	 * @since 1.0.4
+	 *
+	 * @param string $required_fields_text The required fields text.
+	 * @param int    $form_id           Form ID.
+	 * @return string The required fields text depending on the form setting.
+	 */
+	protected function filter_required_fields_text( $required_fields_text, $form_id ) {
+		$required_fields_text = $this->get_form_option( $form_id, 'required_fields_text', '' );
+		if ( empty( $required_fields_text ) ) {
+			$required_fields_text = $this->get_default_required_fields_text();
+		}
+
+		$required_fields_text = '<span aria-hidden="true">' . sprintf( $required_fields_text, '<span class="torro-required-indicator">*</span>' ) . '</span>';
+
+		return $required_fields_text;
 	}
 
 	/**
@@ -411,6 +431,12 @@ class Module extends Module_Base {
 		$this->filters[] = array(
 			'name'     => "{$prefix}form_container_show_title",
 			'callback' => array( $this, 'filter_show_container_title' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
+		$this->filters[] = array(
+			'name'     => "{$prefix}required_indicator_description",
+			'callback' => array( $this, 'filter_required_fields_text' ),
 			'priority' => 10,
 			'num_args' => 2,
 		);

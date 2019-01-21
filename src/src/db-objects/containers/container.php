@@ -140,8 +140,9 @@ class Container extends Model {
 		 *
 		 * @param string $required_indicator_description Indicator description HTML string. Default is a description hidden for screen reader users,
 		 *                                               explaining the asterisk character to mark a required field.
+		 * @param int    $form_id                        Current form ID
 		 */
-		$data['required_description'] = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description );
+		$data['required_description'] = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description, $this->form_id );
 
 		return $data;
 	}
