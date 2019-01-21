@@ -1,6 +1,6 @@
 {
   "name": "torro-forms",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Torro Forms is an extendable WordPress form builder with Drag & Drop functionality, chart evaluation and more - with WordPress look and feel.",
   "keywords": [
     "wordpress",
@@ -41,10 +41,6 @@
   "license": "GPL-2.0-or-later",
   "engines": {
     "node": ">= 6.9.4"
-  },
-  "dependencies": {
-    "c3": "0.4.11",
-    "gulp-install": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "~3.9.1",
