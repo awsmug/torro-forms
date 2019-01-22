@@ -1,0 +1,44 @@
+/* ----------------------------------------------------------------------------
+  1.0 - Correct styles for tabs
+---------------------------------------------------------------------------- */
+
+#poststuff h2.nav-tab-wrapper {
+	border-bottom: 1px solid #ccc;
+	margin: 0 0 15px;
+	padding-top: 9px;
+	padding-bottom: 0;
+	line-height: inherit;
+}
+
+.nav-tab[aria-selected="true"] {
+	margin-bottom: -1px;
+	color: #444;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+
+	&,
+	&:hover,
+	&:focus,
+	&:active {
+		border-bottom: 1px solid #f1f1f1;
+		background: #f1f1f1;
+		color: #000;
+	}
+}
+
+.nav-tab-panel[aria-hidden="true"] {
+	display: none;
+}
+
+/* ----------------------------------------------------------------------------
+  2.0 - Additional styles
+---------------------------------------------------------------------------- */
+
+#view-action {
+	float: left;
+}
+
+.notice ul ul {
+	margin-left: 20px;
+	list-style: disc;
+}

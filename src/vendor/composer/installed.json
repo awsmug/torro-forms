@@ -1,0 +1,699 @@
+[
+    {
+        "name": "composer/installers",
+        "version": "v1.6.0",
+        "version_normalized": "1.6.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/installers.git",
+            "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/composer/installers/zipball/cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+            "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "^4.8.36"
+        },
+        "time": "2018-08-27 06:10:37",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Composer\\Installers\\Plugin",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\Installers\\": "src/Composer/Installers"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "https://composer.github.io/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Eliasis",
+            "Hurad",
+            "ImageCMS",
+            "Kanboard",
+            "Lan Management System",
+            "MODX Evo",
+            "Mautic",
+            "Maya",
+            "OXID",
+            "Plentymarkets",
+            "Porto",
+            "RadPHP",
+            "SMF",
+            "Thelia",
+            "WolfCMS",
+            "agl",
+            "aimeos",
+            "annotatecms",
+            "attogram",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "cockpit",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "dokuwiki",
+            "drupal",
+            "eZ Platform",
+            "elgg",
+            "expressionengine",
+            "fuelphp",
+            "grav",
+            "installer",
+            "itop",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lavalite",
+            "lithium",
+            "magento",
+            "majima",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "modx",
+            "moodle",
+            "osclass",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "pxcms",
+            "reindex",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "sydes",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "yawik",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "felixarntz/plugin-lib",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/felixarntz/plugin-lib.git",
+            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/eea0135ade265cba9eebe6deccf0e1359c67e046",
+            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "phpmd/phpmd": "*",
+            "phpunit/phpunit": ">4.8.20 <6.0",
+            "sebastian/phpcpd": "*",
+            "squizlabs/php_codesniffer": "3.*",
+            "wp-coding-standards/wpcs": "*"
+        },
+        "time": "2018-08-27 19:08:14",
+        "type": "wordpress-muplugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "Reusable library for all kinds of WordPress plugins.",
+        "homepage": "https://leaves-and-love.net",
+        "keywords": [
+            "library",
+            "plugin",
+            "wordpress"
+        ]
+    },
+    {
+        "name": "api-api/core",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/core.git",
+            "reference": "abe78bc1dda34253bcf0a4b60e8afcaa02299df8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/core/zipball/abe78bc1dda34253bcf0a4b60e8afcaa02299df8",
+            "reference": "abe78bc1dda34253bcf0a4b60e8afcaa02299df8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6.0"
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "dev-master",
+            "phpunit/phpunit": "5.7.23"
+        },
+        "time": "2018-10-05 06:09:56",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Core\\": "src/Core/"
+            },
+            "files": [
+                "src/api-api.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "A library of API components to interact with external APIs.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api",
+            "api-api",
+            "client",
+            "library",
+            "request",
+            "rest"
+        ]
+    },
+    {
+        "name": "api-api/storage-wordpress-option",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/storage-wordpress-option.git",
+            "reference": "b97f7037c55e21bc1aa6a0b076c3b5f8edd03712"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/storage-wordpress-option/zipball/b97f7037c55e21bc1aa6a0b076c3b5f8edd03712",
+            "reference": "b97f7037c55e21bc1aa6a0b076c3b5f8edd03712",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26 09:59:33",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Storage_WordPress_Option\\": "src/Storage_WordPress_Option/"
+            },
+            "files": [
+                "src/storage-wordpress-option.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Storage implementation using WordPress options.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "storage",
+            "storage-wordpress-option"
+        ]
+    },
+    {
+        "name": "api-api/transporter-wordpress",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/transporter-wordpress.git",
+            "reference": "c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/transporter-wordpress/zipball/c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0",
+            "reference": "c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-10-27 01:31:07",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Transporter_WordPress\\": "src/Transporter_WordPress/"
+            },
+            "files": [
+                "src/transporter-wordpress.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Transporter implementation for WordPress.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "transporter",
+            "transporter-wordpress"
+        ]
+    },
+    {
+        "name": "api-api/authenticator-oauth1",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/authenticator-oauth1.git",
+            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/authenticator-oauth1/zipball/6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
+            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26 09:57:09",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Authenticator_OAuth1\\": "src/Authenticator_OAuth1/"
+            },
+            "files": [
+                "src/authenticator-oauth1.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Authenticator implementation for OAuth 1.0.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "authenticator",
+            "authenticator-oauth1"
+        ]
+    },
+    {
+        "name": "api-api/authenticator-x",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/authenticator-x.git",
+            "reference": "94cc997e3e96b40401954e16f2500fe64e41b97a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/authenticator-x/zipball/94cc997e3e96b40401954e16f2500fe64e41b97a",
+            "reference": "94cc997e3e96b40401954e16f2500fe64e41b97a",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-02-06 16:25:45",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Authenticator_X\\": "src/Authenticator_X/"
+            },
+            "files": [
+                "src/authenticator-x.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Authenticator implementation for X header tokens.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "authenticator",
+            "authenticator-x"
+        ]
+    },
+    {
+        "name": "api-api/structure-wordpress",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/structure-wordpress.git",
+            "reference": "86c37e1621dc70921ee655d6401f52decaff1783"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/structure-wordpress/zipball/86c37e1621dc70921ee655d6401f52decaff1783",
+            "reference": "86c37e1621dc70921ee655d6401f52decaff1783",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/authenticator-oauth1": "*",
+            "api-api/authenticator-x": "*",
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26 10:00:31",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Structure_WordPress\\": "src/Structure_WordPress/"
+            },
+            "files": [
+                "src/structure-wordpress.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Structure implementation for the API of any WordPress site.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "structure",
+            "structure-wordpress"
+        ]
+    },
+    {
+        "name": "psr/simple-cache",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/simple-cache.git",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2017-10-23 01:57:42",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\SimpleCache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interfaces for simple caching",
+        "keywords": [
+            "cache",
+            "caching",
+            "psr",
+            "psr-16",
+            "simple-cache"
+        ]
+    },
+    {
+        "name": "phpoffice/phpspreadsheet",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
+            "reference": "36acc372875c4d894dc093825ce4f62209db5a76"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/36acc372875c4d894dc093825ce4f62209db5a76",
+            "reference": "36acc372875c4d894dc093825ce4f62209db5a76",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "ext-dom": "*",
+            "ext-gd": "*",
+            "ext-iconv": "*",
+            "ext-libxml": "*",
+            "ext-mbstring": "*",
+            "ext-simplexml": "*",
+            "ext-xml": "*",
+            "ext-xmlreader": "*",
+            "ext-xmlwriter": "*",
+            "ext-zip": "*",
+            "ext-zlib": "*",
+            "php": "^5.6|^7.0",
+            "psr/simple-cache": "^1.0"
+        },
+        "require-dev": {
+            "dompdf/dompdf": "^0.8.0",
+            "friendsofphp/php-cs-fixer": "@stable",
+            "jpgraph/jpgraph": "^4.0",
+            "mpdf/mpdf": "^7.0.0",
+            "phpunit/phpunit": "^5.7",
+            "squizlabs/php_codesniffer": "^2.7",
+            "tecnickcom/tcpdf": "^6.2"
+        },
+        "suggest": {
+            "dompdf/dompdf": "Option for rendering PDF with PDF Writer",
+            "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+            "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
+            "tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
+        },
+        "time": "2018-04-10 03:53:16",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PhpOffice\\PhpSpreadsheet\\": "src/PhpSpreadsheet"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Erik Tilt"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://rootslabs.net"
+            },
+            {
+                "name": "Mark Baker",
+                "homepage": "http://markbakeruk.net"
+            }
+        ],
+        "description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "https://github.com/PHPOffice/PhpSpreadsheet",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "gnumeric",
+            "ods",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+    },
+    {
+        "name": "psr/log",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2018-11-20 15:27:04",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    }
+]

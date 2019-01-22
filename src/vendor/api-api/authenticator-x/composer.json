@@ -1,0 +1,43 @@
+{
+  "name": "api-api/authenticator-x",
+  "description": "Authenticator implementation for X header tokens.",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "api-api",
+    "authenticator",
+    "authenticator-x"
+  ],
+  "homepage": "http://awesome.ug",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "https://leaves-and-love.net",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Sven Wagener",
+      "email": "sven@awesome.ug",
+      "homepage": "http://awesome.ug",
+      "role": "Head of Development"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/api-api/authenticator-x/issues"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-4": {
+      "APIAPI\\Authenticator_X\\": "src/Authenticator_X/"
+    },
+    "files": [
+      "src/authenticator-x.php"
+    ]
+  },
+  "require": {
+    "api-api/core": "*"
+  }
+}
