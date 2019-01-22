@@ -263,7 +263,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\CLI_Models_Command' 
 			$collection = $this->manager->query( $query_args );
 
 			if ( 'ids' === $formatter->format ) {
-				echo implode( ' ', $collection->get_raw() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo implode( ' ', $collection->get_raw() ); // WPCS: XSS OK.
 			} else {
 				$data = $collection->to_json( false );
 				$formatter->display_items( $data['models'] );

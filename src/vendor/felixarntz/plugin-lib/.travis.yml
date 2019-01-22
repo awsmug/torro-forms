@@ -52,6 +52,7 @@ before_script:
   fi
 - composer selfupdate 1.0.0 --no-interaction
 - composer install --dev --no-interaction
+- composer config-phpcs
 - npm install &>/dev/null
 - PLUGIN_LIB_DIR=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/

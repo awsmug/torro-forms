@@ -323,19 +323,19 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 			if ( ! empty( $this->label ) && 'skip' !== $this->label_mode ) {
 				if ( in_array( $this->label_mode, array( 'no_assoc', 'aria_hidden' ), true ) ) {
 					?>
-					<span<?php echo $this->get_label_attrs(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+					<span<?php echo $this->get_label_attrs(); /* WPCS: XSS OK. */ ?>>
 						<?php echo wp_kses_data( $this->label ); ?>
 						<?php if ( ! $this->is_repeatable() && isset( $this->input_attrs['required'] ) && $this->input_attrs['required'] ) : ?>
-							<?php echo $this->manager->get_field_required_markup(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo $this->manager->get_field_required_markup(); // WPCS: XSS OK. ?>
 						<?php endif; ?>
 					</span>
 					<?php
 				} else {
 					?>
-					<label<?php echo $this->get_label_attrs(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+					<label<?php echo $this->get_label_attrs(); /* WPCS: XSS OK. */ ?>>
 						<?php echo wp_kses_data( $this->label ); ?>
 						<?php if ( ! $this->is_repeatable() && isset( $this->input_attrs['required'] ) && $this->input_attrs['required'] ) : ?>
-							<?php echo $this->manager->get_field_required_markup(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo $this->manager->get_field_required_markup(); // WPCS: XSS OK. ?>
 						<?php endif; ?>
 					</label>
 					<?php
@@ -361,7 +361,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 				if ( is_callable( $this->before ) ) {
 					call_user_func( $this->before );
 				} elseif ( is_string( $this->before ) ) {
-					echo $this->before; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $this->before; // WPCS: XSS OK.
 				}
 			}
 
@@ -379,7 +379,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 				if ( is_callable( $this->after ) ) {
 					call_user_func( $this->after );
 				} elseif ( is_string( $this->after ) ) {
-					echo $this->after; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $this->after; // WPCS: XSS OK.
 				}
 			}
 
@@ -466,14 +466,14 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 						<span{{{ _.attrs( data.labelAttrs ) }}}>
 							{{{ data.label }}}
 							<# if ( ! data.repeatable && data.inputAttrs.required ) { #>
-								<?php echo $this->manager->get_field_required_markup(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+								<?php echo wp_kses_data( $this->manager->get_field_required_markup() ); ?>
 							<# } #>
 						</span>
 					<# } else { #>
 						<label{{{ _.attrs( data.labelAttrs ) }}}>
 							{{{ data.label }}}
 							<# if ( ! data.repeatable && data.inputAttrs.required ) { #>
-								<?php echo $this->manager->get_field_required_markup(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+								<?php echo wp_kses_data( $this->manager->get_field_required_markup() ); ?>
 							<# } #>
 						</label>
 					<# } #>
@@ -874,7 +874,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 				'class' => 'plugin-lib-repeatable-wrap plugin-lib-repeatable-' . $this->slug . '-wrap',
 			);
 
-			echo '<span' . $this->attrs( $wrap_attrs ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<span' . $this->attrs( $wrap_attrs ) . '>'; // WPCS: XSS OK.
 		}
 
 		/**
@@ -899,7 +899,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 				'class' => 'plugin-lib-repeatable-item',
 			);
 
-			echo '<span' . $this->attrs( $wrap_attrs ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<span' . $this->attrs( $wrap_attrs ) . '>'; // WPCS: XSS OK.
 		}
 
 		/**
@@ -968,7 +968,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 				$button_attrs['style'] = 'display:none;';
 			}
 
-			echo '<button' . $this->attrs( $button_attrs ) . '>' . $message . '</button>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<button' . $this->attrs( $button_attrs ) . '>' . $message . '</button>'; // WPCS: XSS OK.
 		}
 
 		/**
@@ -1057,7 +1057,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field' ) ) :
 			?>
 			<# if ( data.repeatable ) { #>
 				<button type="button" id="<?php echo esc_attr( '{{ data.id }}-repeatable-' . $mode . '-button' ); ?>" class="<?php echo esc_attr( 'plugin-lib-repeatable-' . $mode . '-button ' . $core_class ); ?>" data-target="<?php echo esc_attr( '#{{ data.id }}-repeatable-' . $target_mode ); ?>" style="<?php echo esc_attr( $style ); ?>">
-					<?php echo $message; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+					<?php echo $message; /* WPCS: XSS OK. */ ?>
 				</button>
 			<# } #>
 			<?php

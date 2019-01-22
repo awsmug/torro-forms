@@ -196,7 +196,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Options' ) ) :
 				return array( 1 );
 			}
 
-			return array_map( 'absint', $wpdb->get_col( $wpdb->prepare( "SELECT site_id FROM $wpdb->sitemeta WHERE meta_key = %s", $this->get_prefix() . $option ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			return array_map( 'absint', $wpdb->get_col( $wpdb->prepare( "SELECT site_id FROM $wpdb->sitemeta WHERE meta_key = %s", $this->get_prefix() . $option ) ) ); // WPCS: DB call OK. Cache OK.
 		}
 
 		/**

@@ -880,13 +880,10 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Manager' ) ) :
 			}
 
 			// TODO.
-			$delete_url = add_query_arg(
-				array(
-					'action'   => 'delete',
-					'_wpnonce' => wp_create_nonce( $this->get_nonce_action( 'action', $id ) ),
-				),
-				$edit_url
-			);
+			$delete_url = add_query_arg( array(
+				'action'   => 'delete',
+				'_wpnonce' => wp_create_nonce( $this->get_nonce_action( 'action', $id ) ),
+			), $edit_url );
 
 			?>
 			<div id="delete-action">

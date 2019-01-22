@@ -83,15 +83,12 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Components\Shortcode' ) ) :
 		public function __construct( $tag, $func, $args, $manager ) {
 			$this->tag  = $tag;
 			$this->func = $func;
-			$this->args = wp_parse_args(
-				$args,
-				array(
-					'enqueue_callback' => null,
-					'defaults'         => false,
-					'cache'            => false,
-					'cache_expiration' => DAY_IN_SECONDS,
-				)
-			);
+			$this->args = wp_parse_args( $args, array(
+				'enqueue_callback' => null,
+				'defaults'         => false,
+				'cache'            => false,
+				'cache_expiration' => DAY_IN_SECONDS,
+			) );
 
 			$this->manager = $manager;
 		}

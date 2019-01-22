@@ -172,9 +172,9 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Query' ) ) :
 			}
 
 			if ( method_exists( $this->manager, 'get_meta_type' ) ) {
-				$this->query_var_defaults['meta_key']   = ''; // phpcs:ignore WordPress.DB.SlowDBQuery
-				$this->query_var_defaults['meta_value'] = ''; // phpcs:ignore WordPress.DB.SlowDBQuery
-				$this->query_var_defaults['meta_query'] = ''; // phpcs:ignore WordPress.DB.SlowDBQuery
+				$this->query_var_defaults['meta_key']   = ''; // WPCS: Slow query OK.
+				$this->query_var_defaults['meta_value'] = ''; // WPCS: Slow query OK.
+				$this->query_var_defaults['meta_query'] = ''; // WPCS: Slow query OK.
 
 				if ( method_exists( $this->manager, 'update_meta_cache' ) ) {
 					$this->query_var_defaults['update_meta_cache'] = true;
@@ -618,7 +618,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Query' ) ) :
 			}
 
 			if ( ! empty( $this->meta_query_clauses ) ) {
-				$where['meta_query'] = preg_replace( '/^\s*AND\s*/', '', $this->meta_query_clauses['where'] ); // phpcs:ignore WordPress.DB.SlowDBQuery
+				$where['meta_query'] = preg_replace( '/^\s*AND\s*/', '', $this->meta_query_clauses['where'] ); // WPCS: Slow query OK.
 			}
 
 			return array( $where, $args );
@@ -917,7 +917,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Query' ) ) :
 
 			$searches = array();
 			foreach ( $fields as $field ) {
-				$searches[] = "%{$table_name}%." . $wpdb->prepare( "{$field} LIKE %s", $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				$searches[] = "%{$table_name}%." . $wpdb->prepare( "{$field} LIKE %s", $like ); // WPCS: Unprepared SQL OK.
 			}
 
 			return '(' . implode( ' OR ', $searches ) . ')';

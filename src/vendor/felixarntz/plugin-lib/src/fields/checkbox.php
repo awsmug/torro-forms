@@ -58,7 +58,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Checkbox' ) ) :
 
 			if ( ! empty( $this->visual_label ) ) {
 				?>
-				<span<?php echo $this->get_label_attrs(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+				<span<?php echo $this->get_label_attrs(); /* WPCS: XSS OK. */ ?>>
 					<?php echo wp_kses_data( $this->visual_label ); ?>
 				</span>
 				<?php
@@ -112,7 +112,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Checkbox' ) ) :
 				'checked' => (bool) $current_value,
 			);
 			?>
-			<input<?php echo $this->get_input_attrs( $input_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+			<input<?php echo $this->get_input_attrs( $input_attrs ); /* WPCS: XSS OK. */ ?>>
 			<label for="<?php echo esc_attr( $this->get_id_attribute() ); ?>"><?php echo wp_kses_data( $this->label ); ?></label>
 			<?php
 			$this->render_repeatable_remove_button();

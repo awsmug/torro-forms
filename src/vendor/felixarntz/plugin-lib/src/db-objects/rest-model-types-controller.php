@@ -55,41 +55,33 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Model_Types_Con
 		 * @since 1.0.0
 		 */
 		public function register_routes() {
-			register_rest_route(
-				$this->namespace,
-				'/' . $this->rest_base,
+			register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 				array(
-					array(
-						'methods'             => WP_REST_Server::READABLE,
-						'callback'            => array( $this, 'get_items' ),
-						'permission_callback' => array( $this, 'get_items_permissions_check' ),
-						'args'                => $this->get_collection_params(),
-					),
-					'schema' => array( $this, 'get_public_item_schema' ),
-				)
-			);
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_items' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			) );
 
-			register_rest_route(
-				$this->namespace,
-				'/' . $this->rest_base . '/(?P<slug>[\w-]+)',
+			register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<slug>[\w-]+)', array(
+				'args'   => array(
+					'slug' => array(
+						'description' => $this->manager->get_message( 'rest_type_slug_description' ),
+						'type'        => 'string',
+					),
+				),
 				array(
-					'args'   => array(
-						'slug' => array(
-							'description' => $this->manager->get_message( 'rest_type_slug_description' ),
-							'type'        => 'string',
-						),
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_item' ),
+					'permission_callback' => array( $this, 'get_item_permissions_check' ),
+					'args'                => array(
+						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
-					array(
-						'methods'             => WP_REST_Server::READABLE,
-						'callback'            => array( $this, 'get_item' ),
-						'permission_callback' => array( $this, 'get_item_permissions_check' ),
-						'args'                => array(
-							'context' => $this->get_context_param( array( 'default' => 'view' ) ),
-						),
-					),
-					'schema' => array( $this, 'get_public_item_schema' ),
-				)
-			);
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			) );
 		}
 
 		/**
@@ -194,16 +186,11 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Model_Types_Con
 		 * @return WP_REST_Response Response object.
 		 */
 		public function prepare_item_for_response( $model_type, $request ) {
-			if ( method_exists( $this, 'get_fields_for_response' ) ) {
-				$fields = $this->get_fields_for_response( $request );
-			} else {
-				$schema = $this->get_item_schema();
-				$fields = array_keys( $schema['properties'] );
-			}
+			$schema = $this->get_item_schema();
 
 			$data = array();
 
-			foreach ( $fields as $property ) {
+			foreach ( $schema['properties'] as $property => $params ) {
 				$data[ $property ] = $model_type->$property;
 			}
 

@@ -54,7 +54,7 @@ if ( ! trait_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Slug_Manager_
 			$slug_property    = $this->get_slug_property();
 
 			if ( empty( $slug ) ) {
-				$slug = $this->generate_slug( $model );
+				$slug = $model->$slug_property;
 			}
 
 			$id = $model->$primary_property;
@@ -106,26 +106,7 @@ if ( ! trait_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Slug_Manager_
 				return '';
 			}
 
-			$slug = sanitize_title( $model->$title_property );
-
-			return $slug;
-		}
-
-		/**
-		 * Escapes a slug.
-		 *
-		 * This method acts in compliance with how WordPress core escapes slugs.
-		 *
-		 * @since 1.0.5
-		 *
-		 * @param string $slug Slug to escape.
-		 * @return string Escaped slug.
-		 */
-		public function escape_slug( $slug ) {
-			$slug = urldecode( $slug );
-			$slug = esc_textarea( $slug );
-
-			return $slug;
+			return sanitize_title( $model->$title_property );
 		}
 
 		/**

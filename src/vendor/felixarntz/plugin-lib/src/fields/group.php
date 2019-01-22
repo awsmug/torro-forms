@@ -251,13 +251,13 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Group' ) ) :
 			}
 
 			?>
-			<div id="<?php echo esc_attr( $group_id ); ?>"<?php echo $class; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+			<div id="<?php echo esc_attr( $group_id ); ?>"<?php echo $class; /* WPCS: XSS OK. */ ?>>
 				<?php $this->render_repeatable_remove_button(); ?>
 				<?php foreach ( $this->fields as $id => $field_instance ) : ?>
 					<?php
 					$partial_value = isset( $current_value[ $id ] ) ? $current_value[ $id ] : $field_instance->default;
 					?>
-					<div<?php echo $field_instance->get_wrap_attrs(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+					<div<?php echo $field_instance->get_wrap_attrs(); /* WPCS: XSS OK. */ ?>>
 						<?php $field_instance->render_label(); ?>
 						<?php $field_instance->render_content( $partial_value ); ?>
 					</div>

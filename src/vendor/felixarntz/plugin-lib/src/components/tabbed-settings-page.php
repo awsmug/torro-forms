@@ -63,13 +63,10 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Components\Tabbed_Settings_Page
 				$id = $prefix . $id;
 			}
 
-			$this->tabs[ $id ] = wp_parse_args(
-				$args,
-				array(
-					'title'       => '',
-					'description' => '',
-				)
-			);
+			$this->tabs[ $id ] = wp_parse_args( $args, array(
+				'title'       => '',
+				'description' => '',
+			) );
 
 			$services = array(
 				'ajax'          => $this->manager->ajax(),
@@ -109,14 +106,11 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Components\Tabbed_Settings_Page
 				}
 			}
 
-			$this->sections[ $id ] = wp_parse_args(
-				$args,
-				array(
-					'title'       => '',
-					'description' => '',
-					'tab'         => '',
-				)
-			);
+			$this->sections[ $id ] = wp_parse_args( $args, array(
+				'title'       => '',
+				'description' => '',
+				'tab'         => '',
+			) );
 		}
 
 		/**
@@ -224,17 +218,10 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Components\Tabbed_Settings_Page
 				add_filter( "sanitize_option_{$id}", array( $this, 'validate' ), 10, 2 );
 
 				foreach ( $tab_args['field_manager']->get_fields() as $field ) {
-					add_settings_field(
-						$field->id,
-						$field->label,
-						array( $this, 'render_field' ),
-						$id,
-						$field->section,
-						array(
-							'label_for'      => $tab_args['field_manager']->make_id( $field->id ),
-							'field_instance' => $field,
-						)
-					);
+					add_settings_field( $field->id, $field->label, array( $this, 'render_field' ), $id, $field->section, array(
+						'label_for'      => $tab_args['field_manager']->make_id( $field->id ),
+						'field_instance' => $field,
+					) );
 				}
 			}
 

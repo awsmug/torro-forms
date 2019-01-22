@@ -122,56 +122,6 @@
         ]
     },
     {
-        "name": "felixarntz/plugin-lib",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/felixarntz/plugin-lib.git",
-            "reference": "be6d44493919781f115f9f69d5ffd22af0f67d17"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/be6d44493919781f115f9f69d5ffd22af0f67d17",
-            "reference": "be6d44493919781f115f9f69d5ffd22af0f67d17",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-            "phpmd/phpmd": "*",
-            "phpunit/phpunit": ">4.8.20 <6.0",
-            "sebastian/phpcpd": "*",
-            "squizlabs/php_codesniffer": "3.*",
-            "wp-coding-standards/wpcs": "^1"
-        },
-        "time": "2018-11-08 00:14:07",
-        "type": "wordpress-muplugin",
-        "installation-source": "source",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0-or-later"
-        ],
-        "authors": [
-            {
-                "name": "Felix Arntz",
-                "email": "felix-arntz@leaves-and-love.net",
-                "homepage": "https://leaves-and-love.net",
-                "role": "Developer"
-            }
-        ],
-        "description": "Reusable library for all kinds of WordPress plugins.",
-        "homepage": "https://leaves-and-love.net",
-        "keywords": [
-            "library",
-            "plugin",
-            "wordpress"
-        ]
-    },
-    {
         "name": "psr/simple-cache",
         "version": "1.0.1",
         "version_normalized": "1.0.1.0",
@@ -695,6 +645,55 @@
             "api-api",
             "structure",
             "structure-wordpress"
+        ]
+    },
+    {
+        "name": "felixarntz/plugin-lib",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/felixarntz/plugin-lib.git",
+            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/eea0135ade265cba9eebe6deccf0e1359c67e046",
+            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "phpmd/phpmd": "*",
+            "phpunit/phpunit": ">4.8.20 <6.0",
+            "sebastian/phpcpd": "*",
+            "squizlabs/php_codesniffer": "3.*",
+            "wp-coding-standards/wpcs": "*"
+        },
+        "time": "2018-08-27 19:08:14",
+        "type": "wordpress-muplugin",
+        "installation-source": "source",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "Reusable library for all kinds of WordPress plugins.",
+        "homepage": "https://leaves-and-love.net",
+        "keywords": [
+            "library",
+            "plugin",
+            "wordpress"
         ]
     }
 ]

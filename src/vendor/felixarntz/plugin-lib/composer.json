@@ -33,13 +33,12 @@
     "phpunit/phpunit": ">4.8.20 <6.0",
     "phpmd/phpmd": "*",
     "squizlabs/php_codesniffer": "3.*",
-    "wp-coding-standards/wpcs": "^1",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+    "wp-coding-standards/wpcs": "*",
     "sebastian/phpcpd": "*"
   },
   "scripts": {
-    "install-codestandards": [
-      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+    "config-phpcs": [
+      "vendor/bin/phpcs --config-set installed_paths ../../wp-coding-standards/wpcs"
     ]
   }
 }
