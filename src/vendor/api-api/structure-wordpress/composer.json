@@ -1,0 +1,45 @@
+{
+  "name": "api-api/structure-wordpress",
+  "description": "Structure implementation for the API of any WordPress site.",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "api-api",
+    "structure",
+    "structure-wordpress"
+  ],
+  "homepage": "http://awesome.ug",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "https://leaves-and-love.net",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Sven Wagener",
+      "email": "sven@awesome.ug",
+      "homepage": "http://awesome.ug",
+      "role": "Head of Development"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/api-api/structure-wordpress/issues"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-4": {
+      "APIAPI\\Structure_WordPress\\": "src/Structure_WordPress/"
+    },
+    "files": [
+      "src/structure-wordpress.php"
+    ]
+  },
+  "require": {
+    "api-api/core": "*",
+    "api-api/authenticator-x": "*",
+    "api-api/authenticator-oauth1": "*"
+  }
+}
