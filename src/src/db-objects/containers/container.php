@@ -128,6 +128,8 @@ class Container extends Model {
 	public function to_json( $include_meta = true ) {
 		$data = parent::to_json( $include_meta );
 
+		// $submit_button_label = $this->get_form()->get_form_option( $form_id, 'submit_button_label', '' );
+
 		/* translators: %s: HTML code for required indicator */
 		$required_indicator_description = '<span aria-hidden="true">' . sprintf( __( 'Required fields are marked %s.', 'torro-forms' ), '<span class="torro-required-indicator">*</span>' ) . '</span>';
 
@@ -138,8 +140,9 @@ class Container extends Model {
 		 *
 		 * @param string $required_indicator_description Indicator description HTML string. Default is a description hidden for screen reader users,
 		 *                                               explaining the asterisk character to mark a required field.
+		 * @param int    $form_id                        Current form ID
 		 */
-		$data['required_description'] = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description );
+		$data['required_description'] = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description, $this->form_id );
 
 		return $data;
 	}

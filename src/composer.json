@@ -2,7 +2,7 @@
   "require": {
     "php": ">=5.6.0",
     "composer/installers": "~1.0",
-    "felixarntz/plugin-lib": "dev-master",
+    "felixarntz/plugin-lib": "1.0.4",
     "psr/log": "^1",
     "api-api/core": "dev-master",
     "api-api/storage-wordpress-option": "dev-master",

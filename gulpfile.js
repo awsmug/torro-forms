@@ -23,7 +23,7 @@ const config = {
 	contributors: [ 'mahype', 'flixos90', 'awesome-ug' ].join( ', ' ),
 	donateLink: false,
 	minRequired: '4.8',
-	testedUpTo: '4.9',
+	testedUpTo: '5.0.3',
 	requiresPHP: '5.6',
 	translateURI: 'https://translate.wordpress.org/projects/wp-plugins/torro-forms',
 	network: false
@@ -188,16 +188,16 @@ gulp.task( 'js', done => {
 
 // replace the plugin header in the main plugin file
 gulp.task( 'header-replace', done => {
-	gulp.src( './' + config.pluginSlug + '.php' )
+	gulp.src( './src/' + config.pluginSlug + '.php' )
 		.pipe( replace( /(?:\s\*\s@wordpress-plugin\s(?:[^*]|(?:\*+[^*\/]))*\*+\/)/, ' * @wordpress-plugin\n' + pluginheader + '\n */' ) )
-		.pipe( gulp.dest( './' ) )
+		.pipe( gulp.dest( './src/' ) )
 		.on( 'end', done );
 });
 
 // replace the plugin header in readme.txt
 gulp.task( 'readme-replace', done => {
-	gulp.src( './readme.txt' )
+	gulp.src( './src/readme.txt' )
 		.pipe( replace( /\=\=\= (.+) \=\=\=([\s\S]+)\=\= Description \=\=/m, '=== ' + config.pluginName + ' ===\n\n' + readmeheader + '\n\n' + config.description + '\n\n== Description ==' ) )
-		.pipe( gulp.dest( './' ) )
+		.pipe( gulp.dest( './src/' ) )
 		.on( 'end', done );
 });

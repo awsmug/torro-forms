@@ -6,10 +6,10 @@ Author:            Awesome UG
 Author URI:        https://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
-Tested up to:      4.9
+Tested up to:      5.0.3
 Requires PHP:      5.6
-Stable tag:        1.0.3
-Version:           1.0.3
+Stable tag:        1.0.4
+Version:           1.0.4
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -82,6 +82,15 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 4. Plugin settings screen
 
 == Changelog ==
+
+= 1.0.4 =
+* Enhanced: One Choice elements can be exported in one column
+* Enhanced: Added filter for date format on exporting 'torro_submission_export_time_format'
+* Fixed: Required fields text can now be edited
+* Fixed: Changed wrong option name 'general' to 'general_settings'
+* Fixed: Only reset form submission errors on submission, not during a regular… 
+* Fixed: Correctly start PHP session for forms rendered via shortcodes, and in… 
+* Fixed: Submission Deletion: Cron never runs
 
 = 1.0.3 =
 

@@ -235,6 +235,15 @@ abstract class Submission_Export {
 					/* translators: 1: date format string, 2: time format string */
 					$format = sprintf( _x( '%1$s %2$s', 'concatenating date and time format', 'torro-forms' ), get_option( 'date_format' ), get_option( 'time_format' ) );
 
+					/**
+					 * Filters the time format for a submission when exporting.
+					 *
+					 * @since 1.0.4
+					 *
+					 * @param string $format Date format like with PHP date format (https://secure.php.net/manual/function.date.php).
+					 */
+					$format = apply_filters( "{$this->handler->get_prefix()}submission_export_time_format", $format );
+
 					return $submission->format_datetime( $format, false );
 				},
 			),
