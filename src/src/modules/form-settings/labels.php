@@ -45,6 +45,14 @@ class Labels extends Form_Setting {
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 				'visual_label' => __( 'Page Title', 'torro-forms' ),
 			),
+			'required_fields_text'   => array(
+				'tab'          => 'labels',
+				'type'         => 'text',
+				'label'        => __( 'Required fields text', 'torro-forms' ),
+				'description'  => __( 'This text appears on top of a form and shows the user which fields are required. The value has to cotain a %s to output the correct indicator.', 'torro-forms'  ),
+				'default'      => $this->get_default_required_fields_text(),
+				'wrap_classes' => array( 'has-torro-tooltip-description' ),
+			),
 			'previous_button_label' => array(
 				'type'         => 'text',
 				'label'        => __( 'Previous Button Label', 'torro-forms' ),
@@ -84,6 +92,17 @@ class Labels extends Form_Setting {
 		 * @param array $meta_fields Array of `$field_slug => $field_data` pairs.
 		 */
 		return apply_filters( "{$prefix}form_settings_labels_meta_fields", $meta_fields );
+	}
+
+	/**
+	 * Returns the default text for required fields hint
+	 *
+	 * @since 1.0.4
+	 *
+	 * @return string Message to display.
+	 */
+	protected function get_default_required_fields_text() {
+		return _x( 'Required fields are marked %s.', 'required fields text on top of form', 'torro-forms'  );
 	}
 
 	/**
@@ -141,6 +160,26 @@ class Labels extends Form_Setting {
 	 */
 	protected function filter_show_container_title( $show_container_title, $form_id ) {
 		return (bool) $this->get_form_option( $form_id, 'show_container_title', true );
+	}
+
+	/**
+	 * Filters the label for the required fields text in the frontend.
+	 *
+	 * @since 1.0.4
+	 *
+	 * @param string $required_fields_text The required fields text.
+	 * @param int    $form_id           Form ID.
+	 * @return string The required fields text depending on the form setting.
+	 */
+	protected function filter_required_fields_text( $required_fields_text, $form_id ) {
+		$required_fields_text = $this->get_form_option( $form_id, 'required_fields_text', '' );
+		if ( empty( $required_fields_text ) ) {
+			$required_fields_text = $this->get_default_required_fields_text();
+		}
+
+		$required_fields_text = '<span aria-hidden="true">' . sprintf( $required_fields_text, '<span class="torro-required-indicator">*</span>' ) . '</span>';
+
+		return $required_fields_text;
 	}
 
 	/**
@@ -228,6 +267,12 @@ class Labels extends Form_Setting {
 		$this->filters[] = array(
 			'name'     => "{$prefix}form_container_show_title",
 			'callback' => array( $this, 'filter_show_container_title' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
+		$this->filters[] = array(
+			'name'     => "{$prefix}required_indicator_description",
+			'callback' => array( $this, 'filter_required_fields_text' ),
 			'priority' => 10,
 			'num_args' => 2,
 		);
