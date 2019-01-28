@@ -42,16 +42,18 @@ echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
 
 if git show-ref --quiet --tags --verify -- "refs/tags/$NEWVERSION1"
 	then
-		echo "Version $NEWVERSION1 already exists as git tag. Skipping."
-	else
-		printf "Tagging new Git version..."
-		git tag -a "$NEWVERSION1" -m "tagged version $NEWVERSION1"
-		echo "Done."
-
-		printf "Pushing new Git tag..."
-		git push --quiet --tags
-		echo "Done."
+		echo "Version $NEWVERSION1 already exists as git tag. Deleting."
+		git tag -d $NEWVERSION1
+		git push origin :refs/tags/$NEWVERSION1
 fi
+
+printf "Tagging new Git version..."
+git tag -a $NEWVERSION1 -m "tagged version $NEWVERSION1"
+echo "Done."
+
+printf "Pushing new Git tag..."
+git push --quiet --tags
+echo "Done."
 
 printf "Creating local copy of SVN repo..."
 svn checkout --quiet $SVNURL/trunk $SVNPATH/trunk
