@@ -177,7 +177,7 @@ svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet -m "tagged version $NEW
 echo "Done."
 
 printf "Removing temporary directory %s..." "$SVNPATH"
-#rm -rf $SVNPATH/
+rm -rf $SVNPATH/
 echo "Done."
 
 echo
