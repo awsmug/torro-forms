@@ -142,6 +142,16 @@ class Assets extends Assets_Base {
 			)
 		);
 
+		$this->register_script(
+			'frontend-init',
+			'assets/dist/js/form/init.js',
+			array(
+				'deps'      => array( 'jquery', 'underscore', 'wp-util', 'wp-api' ),
+				'ver'       => $this->plugin_version,
+				'in_footer' => true,
+			)
+		);
+
 		$this->register_style(
 			'admin-icons',
 			'assets/dist/css/admin-icons.css',
