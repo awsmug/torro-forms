@@ -1552,33 +1552,22 @@
 			var itemIndex  = $item.parent().children().index( $item );
 
 			var items = this.model.get( 'items' );
-			if ( ! items[ itemIndex ] ) {
-				return;
-			}
+			if ( items[ itemIndex ] ) {
+				var fieldKeys = Object.keys( items[ itemIndex ].fields );
+				var data, id;
+				for ( var i in fieldKeys ) {
+					id = fieldKeys[ i ];
+					data = items[ itemIndex ].fields[ id ];
 
-			var fieldKeys = Object.keys( items[ itemIndex ].fields );
-			var data, id;
-			for ( var i in fieldKeys ) {
-				id = fieldKeys[ i ];
-				data = items[ itemIndex ].fields[ id ];
-
-				if ( data.id === itemFieldId ) {
-					items[ itemIndex ].fields[ id ].currentValue = newValue;
-					items[ itemIndex ].currentValue[ id ] = newValue;
-					break;
+					if ( data.id === itemFieldId ) {
+						items[ itemIndex ].fields[ id ].currentValue = newValue;
+						items[ itemIndex ].currentValue[ id ] = newValue;
+						break;
+					}
 				}
-
-				id = undefined;
-			}
-
-			if ( ! id ) {
-				return;
 			}
 
 			this.model.set( 'items', items );
-
-			this.model.trigger( 'changeItemValue', this.model, items[ itemIndex ], items[ itemIndex ].currentValue );
-			this.model.trigger( 'changeItemValue:' + id, this.model, items[ itemIndex ], items[ itemIndex ].currentValue );
 		},
 
 		preRender: function( $el ) {
@@ -1604,10 +1593,6 @@
 				}
 
 				if ( ! fieldsAPI.FieldView[ data.backboneView ] ) {
-					return;
-				}
-
-				if ( ! fieldsAPI.FieldView[ data.backboneView ].prototype.preRender ) {
 					return;
 				}
 
@@ -1640,10 +1625,6 @@
 				}
 
 				if ( ! fieldsAPI.FieldView[ data.backboneView ] ) {
-					return;
-				}
-
-				if ( ! fieldsAPI.FieldView[ data.backboneView ].prototype.postRender ) {
 					return;
 				}
 

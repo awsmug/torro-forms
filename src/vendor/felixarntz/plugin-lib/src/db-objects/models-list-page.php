@@ -104,22 +104,18 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Models_List_Page' ) 
 		public function enqueue_assets() {
 			$assets = Assets::get_library_instance();
 
-			$assets->register_script(
-				'list-models',
-				'assets/dist/js/list-models.js',
-				array(
-					'deps'          => array( 'jquery' ),
-					'ver'           => \Leaves_And_Love_Plugin_Loader::VERSION,
-					'in_footer'     => true,
-					'enqueue'       => true,
-					'localize_name' => 'pluginLibListModelsData',
-					'localize_data' => array(
-						'i18n' => array(
-							'confirm_deletion' => $this->model_manager->get_message( 'list_page_confirm_deletion' ),
-						),
+			$assets->register_script( 'list-models', 'assets/dist/js/list-models.js', array(
+				'deps'          => array( 'jquery' ),
+				'ver'           => \Leaves_And_Love_Plugin_Loader::VERSION,
+				'in_footer'     => true,
+				'enqueue'       => true,
+				'localize_name' => 'pluginLibListModelsData',
+				'localize_data' => array(
+					'i18n' => array(
+						'confirm_deletion' => $this->model_manager->get_message( 'list_page_confirm_deletion' ),
 					),
-				)
-			);
+				),
+			) );
 
 			$prefix      = $this->model_manager->get_prefix();
 			$plural_slug = $this->model_manager->get_plural_slug();
@@ -232,14 +228,11 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Models_List_Page' ) 
 				$edit_page_url = add_query_arg( 'page', $this->edit_page_slug, $this->url );
 			}
 
-			$this->list_table = new $class_name(
-				$this->model_manager,
-				array(
-					'screen'      => $this->hook_suffix,
-					'models_page' => $this->url,
-					'model_page'  => $edit_page_url,
-				)
-			);
+			$this->list_table = new $class_name( $this->model_manager, array(
+				'screen'      => $this->hook_suffix,
+				'models_page' => $this->url,
+				'model_page'  => $edit_page_url,
+			) );
 		}
 
 		/**
@@ -322,21 +315,16 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Models_List_Page' ) 
 		 * @param WP_Screen $screen Current screen.
 		 */
 		protected function setup_screen( $screen ) {
-			$screen->set_screen_reader_content(
-				array(
-					'heading_views'      => $this->model_manager->get_message( 'list_page_filter_items_list' ),
-					'heading_pagination' => $this->model_manager->get_message( 'list_page_items_list_navigation' ),
-					'heading_list'       => $this->model_manager->get_message( 'list_page_items_list' ),
-				)
-			);
+			$screen->set_screen_reader_content( array(
+				'heading_views'      => $this->model_manager->get_message( 'list_page_filter_items_list' ),
+				'heading_pagination' => $this->model_manager->get_message( 'list_page_items_list_navigation' ),
+				'heading_list'       => $this->model_manager->get_message( 'list_page_items_list' ),
+			) );
 
-			add_screen_option(
-				'per_page',
-				array(
-					'default' => 20,
-					'option'  => 'list_' . $this->model_manager->get_prefix() . $this->model_manager->get_plural_slug() . '_per_page',
-				)
-			);
+			add_screen_option( 'per_page', array(
+				'default' => 20,
+				'option'  => 'list_' . $this->model_manager->get_prefix() . $this->model_manager->get_plural_slug() . '_per_page',
+			) );
 		}
 
 		/**

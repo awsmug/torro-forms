@@ -125,37 +125,26 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Media' ) ) :
 
 			$mediapicker_version = '0.7.2';
 
-			$assets->register_style(
-				'wp-media-picker',
-				'node_modules/wp-media-picker/wp-media-picker.css',
-				array(
-					'ver'     => $mediapicker_version,
-					'enqueue' => true,
-				)
-			);
+			$assets->register_style( 'wp-media-picker', 'node_modules/wp-media-picker/wp-media-picker.css', array(
+				'ver'     => $mediapicker_version,
+				'enqueue' => true,
+			) );
 
-			$assets->register_script(
-				'wp-media-picker',
-				'node_modules/wp-media-picker/wp-media-picker.js',
-				array(
-					'deps'      => array( 'jquery', 'jquery-ui-widget', 'media-editor' ),
-					'ver'       => $mediapicker_version,
-					'in_footer' => true,
-					'enqueue'   => true,
-				)
-			);
+			$assets->register_script( 'wp-media-picker', 'node_modules/wp-media-picker/wp-media-picker.js', array(
+				'deps'      => array( 'jquery', 'jquery-ui-widget', 'media-editor' ),
+				'ver'       => $mediapicker_version,
+				'in_footer' => true,
+				'enqueue'   => true,
+			) );
 
 			$ret[0][] = 'wp-media-picker';
-			$ret[1]   = array_merge(
-				$ret[1],
-				array(
-					'i18nMediaAddButton'     => $this->manager->get_message( 'field_media_add_button' ),
-					'i18nMediaReplaceButton' => $this->manager->get_message( 'field_media_replace_button' ),
-					'i18nMediaRemoveButton'  => $this->manager->get_message( 'field_media_remove_button' ),
-					'i18nMediaModalHeading'  => $this->manager->get_message( 'field_media_modal_heading' ),
-					'i18nMediaModalButton'   => $this->manager->get_message( 'field_media_modal_button' ),
-				)
-			);
+			$ret[1]   = array_merge( $ret[1], array(
+				'i18nMediaAddButton'     => $this->manager->get_message( 'field_media_add_button' ),
+				'i18nMediaReplaceButton' => $this->manager->get_message( 'field_media_replace_button' ),
+				'i18nMediaRemoveButton'  => $this->manager->get_message( 'field_media_remove_button' ),
+				'i18nMediaModalHeading'  => $this->manager->get_message( 'field_media_modal_heading' ),
+				'i18nMediaModalButton'   => $this->manager->get_message( 'field_media_modal_button' ),
+			) );
 
 			return $ret;
 		}

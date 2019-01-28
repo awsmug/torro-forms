@@ -177,12 +177,9 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\WYSIWYG' ) ) :
 				}
 
 				$ret[0][] = 'editor';
-				$ret[1]   = array_merge(
-					$ret[1],
-					array(
-						'i18nWYSIWYGAddMediaButton' => __( 'Add Media' ),
-					)
-				);
+				$ret[1]   = array_merge( $ret[1], array(
+					'i18nWYSIWYGAddMediaButton' => __( 'Add Media' ),
+				) );
 			}
 
 			return $ret;
@@ -206,7 +203,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\WYSIWYG' ) ) :
 
 			$this->setup_editor( $current_value );
 
-			echo $this->editor_markup[ $editor_id ]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $this->editor_markup[ $editor_id ]; // WPCS: XSS OK.
 
 			$this->render_repeatable_remove_button();
 		}
@@ -262,7 +259,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\WYSIWYG' ) ) :
 
 				<div id="wp-{{data.inputAttrs.id}}-editor-container" class="wp-editor-container">
 					<div id="qt_{{data.inputAttrs.id}}_toolbar" class="quicktags-toolbar"></div>
-					<textarea class="{{data.editorSettings.editor_class}} wp-editor-area" rows="{{data.editorSettings.textarea_rows}}"<?php echo $autocomplete; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?> cols="40" name="{{data.editorSettings.textarea_name}}" id="{{data.inputAttrs.id}}">{{ data.currentValue }}</textarea>
+					<textarea class="{{data.editorSettings.editor_class}} wp-editor-area" rows="{{data.editorSettings.textarea_rows}}"<?php echo $autocomplete; /* WPCS: XSS OK. */ ?> cols="40" name="{{data.editorSettings.textarea_name}}" id="{{data.inputAttrs.id}}">{{ data.currentValue }}</textarea>
 				</div>
 			</div>
 

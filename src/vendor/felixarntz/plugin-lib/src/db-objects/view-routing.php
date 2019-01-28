@@ -265,7 +265,9 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 					}
 				}
 
-				return $this->home_url( $permalink, $this->manager->get_prefix() . $this->manager->get_singular_slug() );
+				$permalink .= '/';
+
+				return home_url( $permalink );
 			}
 
 			$primary_property = $this->manager->get_primary_property();
@@ -273,7 +275,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 				return '';
 			}
 
-			return add_query_arg( $this->singular_query_var, $model->$primary_property, $this->home_url() );
+			return add_query_arg( $this->singular_query_var, $model->$primary_property, home_url( '/' ) );
 		}
 
 		/**
@@ -299,9 +301,9 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 			}
 
 			if ( '' !== (string) get_option( 'permalink_structure' ) ) {
-				$permalink = $this->base . '/preview/' . $preview_key;
+				$permalink = $this->base . '/preview/' . $preview_key . '/';
 
-				return $this->home_url( $permalink, $this->manager->get_prefix() . $this->manager->get_singular_slug() );
+				return home_url( $permalink );
 			}
 
 			$query_args = array(
@@ -309,7 +311,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 				'preview'                => $preview_key,
 			);
 
-			return add_query_arg( $query_args, $this->home_url() );
+			return add_query_arg( $query_args, home_url( '/' ) );
 		}
 
 		/**
@@ -322,13 +324,13 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 		 */
 		public function get_archive_permalink( $page = 1 ) {
 			if ( '' !== (string) get_option( 'permalink_structure' ) ) {
-				$permalink = $this->base;
+				$permalink = $this->base . '/';
 
 				if ( $page > 1 ) {
-					$permalink .= '/page/' . $page;
+					$permalink .= 'page/' . $page . '/';
 				}
 
-				return $this->home_url( $permalink, $this->manager->get_prefix() . $this->manager->get_singular_slug() . '_archive' );
+				return home_url( $permalink );
 			}
 
 			$query_args = array( $this->archive_query_var => '1' );
@@ -336,7 +338,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 				$query_args['paged'] = $page;
 			}
 
-			return add_query_arg( $query_args, $this->home_url() );
+			return add_query_arg( $query_args, home_url( '/' ) );
 		}
 
 		/**
@@ -397,7 +399,9 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 				}
 			}
 
-			return $this->home_url( $permalink, $this->manager->get_prefix() . $this->manager->get_singular_slug() );
+			$permalink .= '/';
+
+			return home_url( $permalink );
 		}
 
 		/**
@@ -700,7 +704,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 				$permalink_parts = explode( '/', $this->permalink );
 				foreach ( $permalink_parts as $permalink_part ) {
 					if ( preg_match( '/^%([a-z0-9_]+)%$/', $permalink_part, $matches ) ) {
-						$pattern .= '/(?P<' . $matches[1] . '>[^/]+)';
+						$pattern .= '/(?P<' . $matches[1] . '>[\w-]+)';
 					} else {
 						$pattern .= '/' . $permalink_part;
 					}
@@ -870,12 +874,8 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 		 * Loads the template for a singular view.
 		 *
 		 * @since 1.0.0
-		 *
-		 * @global WP_Rewrite $wp_rewrite WordPress rewrite rules controller.
 		 */
 		protected function load_template() {
-			global $wp_rewrite;
-
 			$request_method = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
 
 			/** This filter is documented in wp-includes/template-loader.php */
@@ -884,20 +884,17 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 			}
 
 			if ( $this->is_archive() ) {
-				$this->template()->get_partial(
-					$this->archive_template_name,
-					array(
-						$this->collection_var_name => $this->current_collection,
-						'manager'                  => $this->manager,
-						'page'                     => $this->paged,
-						'per_page'                 => $this->per_page,
-						'max_pages'                => ceil( $this->current_collection->get_total() / $this->per_page ),
-						'page_link_template'       => $this->get_archive_permalink( '%d' ),
-						'pagenum_link'             => '' !== (string) get_option( 'permalink_structure' ) ? home_url( $this->base . '%_%' ) : home_url( '%_%&' . $this->archive_query_var . '=1' ),
-						'pagenum_format'           => '' !== (string) get_option( 'permalink_structure' ) ? '/page/%#%' . ( $wp_rewrite->use_trailing_slashes ? '/' : '' ) : '?paged=%#%',
-						'template'                 => $this->template(),
-					)
-				);
+				$this->template()->get_partial( $this->archive_template_name, array(
+					$this->collection_var_name => $this->current_collection,
+					'manager'                  => $this->manager,
+					'page'                     => $this->paged,
+					'per_page'                 => $this->per_page,
+					'max_pages'                => ceil( $this->current_collection->get_total() / $this->per_page ),
+					'page_link_template'       => $this->get_archive_permalink( '%d' ),
+					'pagenum_link'             => '' !== (string) get_option( 'permalink_structure' ) ? home_url( $this->base . '%_%' ) : home_url( '%_%&' . $this->archive_query_var . '=1' ),
+					'pagenum_format'           => '' !== (string) get_option( 'permalink_structure' ) ? '/page/%#%/' : '?paged=%#%',
+					'template'                 => $this->template(),
+				) );
 			} else {
 				$data = array(
 					$this->model_var_name => $this->current_model,
@@ -915,24 +912,6 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 			}
 
 			exit;
-		}
-
-		/**
-		 * Prefixes a path with the home URL.
-		 *
-		 * @since 1.0.5
-		 *
-		 * @param string $path        Optional. Relative path. If empty, the home URL is returned. Default empty string.
-		 * @param string $type_of_url Optional. Type of URL. Used to determine whether the URL should receive a trailing
-		 *                            slash, so it should be provided if $path is not empty. Default is 'home' (which
-		 *                            only makes sense when $path is empty).
-		 * @return string Absolute URL.
-		 */
-		protected function home_url( $path = '', $type_of_url = 'home' ) {
-			$url = home_url( $path );
-			$url = user_trailingslashit( home_url( $path ), $type_of_url );
-
-			return $url;
 		}
 	}
 

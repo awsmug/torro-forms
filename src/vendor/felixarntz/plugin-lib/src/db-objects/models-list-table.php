@@ -97,12 +97,10 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 			$this->items = $collection->get_raw();
 
-			$this->set_pagination_args(
-				array(
-					'total_items' => $total,
-					'per_page'    => $per_page,
-				)
-			);
+			$this->set_pagination_args( array(
+				'total_items' => $total,
+				'per_page'    => $per_page,
+			) );
 		}
 
 		/**
@@ -376,13 +374,10 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 				$action_url = $data['url'];
 				if ( 0 === strpos( $action_url, $edit_url ) ) {
-					$action_url = add_query_arg(
-						array(
-							'_wpnonce'         => $nonce,
-							'_wp_http_referer' => rawurlencode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ),
-						),
-						$action_url
-					);
+					$action_url = add_query_arg( array(
+						'_wpnonce'         => $nonce,
+						'_wp_http_referer' => rawurlencode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ),
+					), $action_url );
 				}
 
 				$links[ $slug ] = sprintf( '<a href="%1$s"%2$s%3$s>%4$s</a>', esc_url( $action_url ), $class, $aria_label, $data['label'] );
@@ -830,15 +825,12 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 			}
 
 			if ( ! empty( $views ) ) {
-				$views = array_merge(
-					array(
-						'all' => array(
-							'url'   => $list_url,
-							'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_all', true ), $total ), number_format_i18n( $total ) ),
-						),
+				$views = array_merge( array(
+					'all' => array(
+						'url'   => $list_url,
+						'label' => sprintf( translate_nooped_plural( $this->manager->get_message( 'list_table_view_all', true ), $total ), number_format_i18n( $total ) ),
 					),
-					$views
-				);
+				), $views );
 			}
 
 			return $views;

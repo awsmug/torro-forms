@@ -240,7 +240,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		protected function parse_headers( array $headers ) {
 			foreach ( $headers as $key => $value ) {
 				if ( is_int( $key ) && is_string( $value ) ) {
-					list( $key, $value ) = explode( ':', $header, 2 );
+					list( $key, $value ) = explode( ':', $value, 2 );
 
 					$key = $this->canonicalize_header_name( $key );
 
@@ -280,7 +280,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 
 			$content_type = $this->get_content_type();
 
-			if ( 'application/json' === $content_type ) {
+			/**
+			 * 2018-07-10
+			 * @todo 'application/hal+json' was hotfixed, because needed for rapidmail. Have to be checked if to be implemented in another way.
+			 */
+			if ( 'application/json' === $content_type || 'application/hal+json' === $content_type ) {
 				$this->params = $this->json_decode( $body );
 			} elseif ( 'application/xml' === $content_type ) {
 				$this->params = $this->xml_decode( $body );

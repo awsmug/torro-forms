@@ -93,9 +93,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Template' ) ) :
 			$locations = array_values( $this->locations );
 
 			if ( ! empty( $locations ) ) {
-				usort(
-					$locations,
-					function( $a, $b ) {
+				usort( $locations, function( $a, $b ) {
 					if ( $a['priority'] < $b['priority'] ) {
 						return -1;
 					}
@@ -105,36 +103,26 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Template' ) ) :
 					}
 
 					return 0;
-					}
-				);
+				});
 			}
 
 			if ( STYLESHEETPATH !== TEMPLATEPATH ) { // phpcs:ignore
-				array_unshift(
-					$locations,
-					array(
-						'priority' => -1,
+				array_unshift( $locations, array(
+					'priority' => -1,
 					'path'     => TEMPLATEPATH . '/' . $this->get_prefix() . 'templates/', // phpcs:ignore
-					)
-				);
+				) );
 			}
 
-			array_unshift(
-				$locations,
-				array(
-					'priority' => -2,
+			array_unshift( $locations, array(
+				'priority' => -2,
 				'path'     => STYLESHEETPATH . '/' . $this->get_prefix() . 'templates/', // phpcs:ignore
-				)
-			);
+			) );
 
 			if ( ! empty( $this->default_location ) ) {
-				array_push(
-					$locations,
-					array(
-						'priority' => 1000,
-						'path'     => $this->default_location,
-					)
-				);
+				array_push( $locations, array(
+					'priority' => 1000,
+					'path'     => $this->default_location,
+				) );
 			}
 
 			foreach ( (array) $template_names as $template_name ) {

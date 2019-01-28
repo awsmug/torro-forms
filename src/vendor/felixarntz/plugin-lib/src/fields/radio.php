@@ -44,12 +44,9 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Radio' ) ) :
 		protected function render_single_input( $current_value ) {
 			$current_value = array_map( 'strval', (array) $current_value );
 
-			$input_attrs = $this->get_input_attrs(
-				array(
-					'type' => 'radio',
-				),
-				false
-			);
+			$input_attrs = $this->get_input_attrs( array(
+				'type' => 'radio',
+			), false );
 
 			if ( $this->multi ) {
 				$input_attrs['type'] = 'checkbox';
@@ -72,7 +69,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Radio' ) ) :
 					$input_attrs['checked'] = in_array( (string) $value, $current_value, true );
 					?>
 					<div class="plugin-lib-input-choice-wrap">
-						<input<?php echo $this->attrs( $input_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+						<input<?php echo $this->attrs( $input_attrs ); /* WPCS: XSS OK. */ ?>>
 						<label for="<?php echo esc_attr( $input_attrs['id'] ); ?>"><?php echo wp_kses_data( $label ); ?></label>
 					</div>
 				<?php endforeach; ?>
@@ -103,7 +100,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Radio' ) ) :
 						<input type="<?php echo esc_attr( $type ); ?>"{{{ _.attrs( _.extend( {}, data.inputAttrs, {
 							id: data.inputAttrs.id + _.indexOf( _.keys( obj ), value ),
 							name: data.inputAttrs.name
-						} ) ) }}} value="{{ value }}"<?php echo $checked; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+						} ) ) }}} value="{{ value }}"<?php echo $checked; /* WPCS: XSS OK. */ ?>>
 						<label for="{{ data.inputAttrs.id + _.indexOf( _.keys( obj ), value ) }}">{{ label }}</label>
 					</div>
 				<# } ) #>

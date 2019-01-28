@@ -119,36 +119,24 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Map' ) ) :
 
 			$gmaps_url = add_query_arg( $gmaps_args, $gmaps_url );
 
-			$assets->register_script(
-				'google-maps',
-				$gmaps_url,
-				array(
-					'in_footer' => true,
-					'enqueue'   => true,
-				)
-			);
+			$assets->register_script( 'google-maps', $gmaps_url, array(
+				'in_footer' => true,
+				'enqueue'   => true,
+			) );
 
 			$mappicker_version = '0.7.1';
 
-			$assets->register_style(
-				'wp-map-picker',
-				'node_modules/wp-map-picker/wp-map-picker.css',
-				array(
-					'ver'     => $mappicker_version,
-					'enqueue' => true,
-				)
-			);
+			$assets->register_style( 'wp-map-picker', 'node_modules/wp-map-picker/wp-map-picker.css', array(
+				'ver'     => $mappicker_version,
+				'enqueue' => true,
+			) );
 
-			$assets->register_script(
-				'wp-map-picker',
-				'node_modules/wp-map-picker/wp-map-picker.js',
-				array(
-					'deps'      => array( 'jquery', 'jquery-ui-widget', 'jquery-ui-autocomplete', 'google-maps' ),
-					'ver'       => $mappicker_version,
-					'in_footer' => true,
-					'enqueue'   => true,
-				)
-			);
+			$assets->register_script( 'wp-map-picker', 'node_modules/wp-map-picker/wp-map-picker.js', array(
+				'deps'      => array( 'jquery', 'jquery-ui-widget', 'jquery-ui-autocomplete', 'google-maps' ),
+				'ver'       => $mappicker_version,
+				'in_footer' => true,
+				'enqueue'   => true,
+			) );
 
 			$ret[0][] = 'wp-map-picker';
 

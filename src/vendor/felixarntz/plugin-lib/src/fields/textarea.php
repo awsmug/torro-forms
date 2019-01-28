@@ -43,7 +43,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Textarea' ) ) :
 		 */
 		protected function render_single_input( $current_value ) {
 			?>
-			<textarea<?php echo $this->get_input_attrs(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>><?php echo esc_textarea( $current_value ); ?></textarea>
+			<textarea<?php echo $this->get_input_attrs(); /* WPCS: XSS OK. */ ?>><?php echo esc_textarea( $current_value ); ?></textarea>
 			<?php
 			$this->render_repeatable_remove_button();
 		}

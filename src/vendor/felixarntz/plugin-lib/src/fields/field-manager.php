@@ -310,25 +310,17 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field_Manager' ) ) :
 		 */
 		public function enqueue() {
 			if ( ! $this->enqueued( '_core' ) ) {
-				$this->library_assets()->register_style(
-					'fields',
-					'assets/dist/css/fields.css',
-					array(
-						'ver'     => \Leaves_And_Love_Plugin_Loader::VERSION,
-						'enqueue' => true,
-					)
-				);
+				$this->library_assets()->register_style( 'fields', 'assets/dist/css/fields.css', array(
+					'ver'     => \Leaves_And_Love_Plugin_Loader::VERSION,
+					'enqueue' => true,
+				) );
 
-				$this->library_assets()->register_script(
-					'fields',
-					'assets/dist/js/fields.js',
-					array(
-						'deps'      => array( 'jquery', 'underscore', 'backbone', 'wp-util' ),
-						'ver'       => \Leaves_And_Love_Plugin_Loader::VERSION,
-						'in_footer' => true,
-						'enqueue'   => true,
-					)
-				);
+				$this->library_assets()->register_script( 'fields', 'assets/dist/js/fields.js', array(
+					'deps'      => array( 'jquery', 'underscore', 'backbone', 'wp-util' ),
+					'ver'       => \Leaves_And_Love_Plugin_Loader::VERSION,
+					'in_footer' => true,
+					'enqueue'   => true,
+				) );
 
 				$this->enqueued( '_core', true );
 			}
@@ -413,35 +405,25 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field_Manager' ) ) :
 				$data_hook_name      = is_admin() ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
 				$templates_hook_name = is_admin() ? 'admin_footer' : 'wp_footer';
 
-				add_action(
-					$data_hook_name,
-					function() use ( &$script ) {
+				add_action( $data_hook_name, function() use ( &$script ) {
 					$output = 'var pluginLibFieldsAPIData = ' . wp_json_encode( $script->extra['plugin_lib_data'] ) . ';';
 					wp_scripts()->add_inline_script( $script->handle, $output, 'before' );
-					},
-					9999,
-					0
-				);
-				add_action(
-					$templates_hook_name,
-					function() use ( &$script ) {
+				}, 9999, 0 );
+				add_action( $templates_hook_name, function() use ( &$script ) {
 					foreach ( $script->extra['plugin_lib_templates'] as $type => $templates ) {
 						?>
 						<script type="text/html" id="<?php echo esc_attr( 'tmpl-plugin-lib-field-' . $type . '-label' ); ?>">
-							<?php echo $templates['label']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+							<?php echo $templates['label']; /* WPCS: XSS OK. */ ?>
 						</script>
 						<script type="text/html" id="<?php echo esc_attr( 'tmpl-plugin-lib-field-' . $type . '-content' ); ?>">
-							<?php echo $templates['content']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+							<?php echo $templates['content']; /* WPCS: XSS OK. */ ?>
 						</script>
 						<script type="text/html" id="<?php echo esc_attr( 'tmpl-plugin-lib-field-' . $type . '-repeatable-item' ); ?>">
-							<?php echo $templates['repeatable_item']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+							<?php echo $templates['repeatable_item']; /* WPCS: XSS OK. */ ?>
 						</script>
 						<?php
 					}
-					},
-					1,
-					0
-				);
+				}, 1, 0 );
 
 				self::$first_enqueue_run = false;
 			}
@@ -747,7 +729,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field_Manager' ) ) :
 		 */
 		protected function render_form_table_row( $field, $value ) {
 			?>
-			<tr<?php echo $field->get_wrap_attrs(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+			<tr<?php echo $field->get_wrap_attrs(); /* WPCS: XSS OK. */ ?>>
 				<th scope="row">
 					<?php $field->render_label(); ?>
 				</th>
@@ -768,7 +750,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Field_Manager' ) ) :
 		 */
 		protected function render_divs_row( $field, $value ) {
 			?>
-			<div<?php echo $field->get_wrap_attrs(); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+			<div<?php echo $field->get_wrap_attrs(); /* WPCS: XSS OK. */ ?>>
 				<div class="plugin-lib-label-wrap">
 					<?php $field->render_label(); ?>
 				</div>

@@ -83,15 +83,12 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Autocomplete' ) ) :
 				$args['autocomplete'] = array();
 			}
 
-			$args['autocomplete'] = wp_parse_args(
-				$args['autocomplete'],
-				array(
-					'rest_placeholder_search_route' => 'wp/v2/posts?search=%search%',
-					'rest_placeholder_label_route'  => 'wp/v2/posts/%value%',
-					'value_generator'               => '%id%',
-					'label_generator'               => '%title.rendered%',
-				)
-			);
+			$args['autocomplete'] = wp_parse_args( $args['autocomplete'], array(
+				'rest_placeholder_search_route' => 'wp/v2/posts?search=%search%',
+				'rest_placeholder_label_route'  => 'wp/v2/posts/%value%',
+				'value_generator'               => '%id%',
+				'label_generator'               => '%title.rendered%',
+			) );
 
 			$args['autocomplete']['rest_placeholder_search_route'] = ltrim( $args['autocomplete']['rest_placeholder_search_route'], '/' );
 			$args['autocomplete']['rest_placeholder_label_route']  = ltrim( $args['autocomplete']['rest_placeholder_label_route'], '/' );
@@ -144,7 +141,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Autocomplete' ) ) :
 				'value' => $current_value,
 			);
 			?>
-			<input<?php echo $this->attrs( $hidden_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+			<input<?php echo $this->attrs( $hidden_attrs ); /* WPCS: XSS OK. */ ?>>
 			<?php
 			parent::render_single_input( $current_label );
 		}
@@ -160,7 +157,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Autocomplete' ) ) :
 			<?php
 			ob_start();
 			parent::print_single_input_template();
-			echo str_replace( '"{{ data.currentValue }}"', '"{{ data.currentLabel }}"', ob_get_clean() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo str_replace( '"{{ data.currentValue }}"', '"{{ data.currentLabel }}"', ob_get_clean() ); // WPCS: XSS OK.
 		}
 
 		/**
@@ -254,9 +251,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Autocomplete' ) ) :
 		 * @return string String after the replacements, or an empty string if errors occurred while replacing.
 		 */
 		protected function replace_placeholders_with_data( $placeholder_string, $data ) {
-			$replaced = preg_replace_callback(
-				'/\%([A-Za-z0-9_\.]+)\%/',
-				function( $matches ) use ( $data ) {
+			$replaced = preg_replace_callback( '/\%([A-Za-z0-9_\.]+)\%/', function( $matches ) use ( $data ) {
 				$field_path = explode( '.', $matches[1] );
 
 				$value = $this->get_data_field( $field_path, $data );
@@ -265,9 +260,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Autocomplete' ) ) :
 				}
 
 				return $value;
-				},
-				$placeholder_string
-			);
+			}, $placeholder_string );
 
 			if ( false !== strpos( $replaced, '%' ) ) {
 				return '';

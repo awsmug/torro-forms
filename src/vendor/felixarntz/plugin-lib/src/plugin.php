@@ -127,7 +127,7 @@ if ( ! class_exists( 'Leaves_And_Love_Plugin' ) ) :
 		 * @codeCoverageIgnore
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, $this->messages['cheatin_huh'], '1.0.0' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			_doing_it_wrong( __FUNCTION__, $this->messages['cheatin_huh'], '1.0.0' ); // WPCS: XSS OK.
 		}
 
 		/**
@@ -138,7 +138,7 @@ if ( ! class_exists( 'Leaves_And_Love_Plugin' ) ) :
 		 * @codeCoverageIgnore
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, $this->messages['cheatin_huh'], '1.0.0' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			_doing_it_wrong( __FUNCTION__, $this->messages['cheatin_huh'], '1.0.0' ); // WPCS: XSS OK.
 		}
 
 		/**
@@ -154,15 +154,11 @@ if ( ! class_exists( 'Leaves_And_Love_Plugin' ) ) :
 		 * @return object|null Either the class instance denoted by the method name, or null if it doesn't exist.
 		 */
 		public function __call( $method_name, $args ) {
-			if ( in_array(
-				$method_name,
-				array(
-					'get_activation_hook',
-					'get_deactivation_hook',
-					'get_uninstall_hook',
-				),
-				true
-			) ) {
+			if ( in_array( $method_name, array(
+				'get_activation_hook',
+				'get_deactivation_hook',
+				'get_uninstall_hook',
+			), true ) ) {
 				return false;
 			}
 

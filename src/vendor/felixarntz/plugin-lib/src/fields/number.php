@@ -59,7 +59,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Number' ) ) :
 				'value' => $current_value,
 			);
 			?>
-			<input<?php echo $this->get_input_attrs( $input_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+			<input<?php echo $this->get_input_attrs( $input_attrs ); /* WPCS: XSS OK. */ ?>>
 			<?php
 			if ( ! empty( $this->unit ) ) {
 				?>
@@ -122,7 +122,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Number' ) ) :
 
 			$format_as_int = ! empty( $this->input_attrs['step'] ) && is_int( $this->input_attrs['step'] );
 
-			if ( ! is_numeric( $value ) ) {
+			if ( empty( $value ) ) {
 				if ( ! empty( $this->input_attrs['min'] ) ) {
 					return $this->parse( $this->input_attrs['min'], $format_as_int );
 				}

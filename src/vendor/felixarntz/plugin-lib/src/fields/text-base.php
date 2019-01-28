@@ -39,7 +39,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Text_Base' ) ) :
 				'value' => $current_value,
 			);
 			?>
-			<input<?php echo $this->get_input_attrs( $input_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
+			<input<?php echo $this->get_input_attrs( $input_attrs ); /* WPCS: XSS OK. */ ?>>
 			<?php
 			$this->render_repeatable_remove_button();
 		}
