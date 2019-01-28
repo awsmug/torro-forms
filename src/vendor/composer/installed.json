@@ -122,55 +122,6 @@
         ]
     },
     {
-        "name": "felixarntz/plugin-lib",
-        "version": "1.0.4",
-        "version_normalized": "1.0.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/felixarntz/plugin-lib.git",
-            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/eea0135ade265cba9eebe6deccf0e1359c67e046",
-            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "phpmd/phpmd": "*",
-            "phpunit/phpunit": ">4.8.20 <6.0",
-            "sebastian/phpcpd": "*",
-            "squizlabs/php_codesniffer": "3.*",
-            "wp-coding-standards/wpcs": "*"
-        },
-        "time": "2018-08-27 19:08:14",
-        "type": "wordpress-muplugin",
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0-or-later"
-        ],
-        "authors": [
-            {
-                "name": "Felix Arntz",
-                "email": "felix-arntz@leaves-and-love.net",
-                "homepage": "https://leaves-and-love.net",
-                "role": "Developer"
-            }
-        ],
-        "description": "Reusable library for all kinds of WordPress plugins.",
-        "homepage": "https://leaves-and-love.net",
-        "keywords": [
-            "library",
-            "plugin",
-            "wordpress"
-        ]
-    },
-    {
         "name": "api-api/core",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -194,7 +145,7 @@
         },
         "time": "2018-10-05 06:09:56",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "APIAPI\\Core\\": "src/Core/"
@@ -252,7 +203,7 @@
         },
         "time": "2018-01-26 09:59:33",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "APIAPI\\Storage_WordPress_Option\\": "src/Storage_WordPress_Option/"
@@ -285,116 +236,6 @@
             "api-api",
             "storage",
             "storage-wordpress-option"
-        ]
-    },
-    {
-        "name": "api-api/transporter-wordpress",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/api-api/transporter-wordpress.git",
-            "reference": "c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/api-api/transporter-wordpress/zipball/c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0",
-            "reference": "c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0",
-            "shasum": ""
-        },
-        "require": {
-            "api-api/core": "*"
-        },
-        "time": "2018-10-27 01:31:07",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "APIAPI\\Transporter_WordPress\\": "src/Transporter_WordPress/"
-            },
-            "files": [
-                "src/transporter-wordpress.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0-or-later"
-        ],
-        "authors": [
-            {
-                "name": "Felix Arntz",
-                "email": "felix-arntz@leaves-and-love.net",
-                "homepage": "https://leaves-and-love.net",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Sven Wagener",
-                "email": "sven@awesome.ug",
-                "homepage": "http://awesome.ug",
-                "role": "Head of Development"
-            }
-        ],
-        "description": "Transporter implementation for WordPress.",
-        "homepage": "http://awesome.ug",
-        "keywords": [
-            "api-api",
-            "transporter",
-            "transporter-wordpress"
-        ]
-    },
-    {
-        "name": "api-api/authenticator-oauth1",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/api-api/authenticator-oauth1.git",
-            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/api-api/authenticator-oauth1/zipball/6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
-            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
-            "shasum": ""
-        },
-        "require": {
-            "api-api/core": "*"
-        },
-        "time": "2018-01-26 09:57:09",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "APIAPI\\Authenticator_OAuth1\\": "src/Authenticator_OAuth1/"
-            },
-            "files": [
-                "src/authenticator-oauth1.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0-or-later"
-        ],
-        "authors": [
-            {
-                "name": "Felix Arntz",
-                "email": "felix-arntz@leaves-and-love.net",
-                "homepage": "https://leaves-and-love.net",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Sven Wagener",
-                "email": "sven@awesome.ug",
-                "homepage": "http://awesome.ug",
-                "role": "Head of Development"
-            }
-        ],
-        "description": "Authenticator implementation for OAuth 1.0.",
-        "homepage": "http://awesome.ug",
-        "keywords": [
-            "api-api",
-            "authenticator",
-            "authenticator-oauth1"
         ]
     },
     {
@@ -453,6 +294,61 @@
         ]
     },
     {
+        "name": "api-api/authenticator-oauth1",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/authenticator-oauth1.git",
+            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/authenticator-oauth1/zipball/6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
+            "reference": "6bf10ba2c3a4ac23cd66c3a85c505bc9dfa39d09",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-01-26 09:57:09",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Authenticator_OAuth1\\": "src/Authenticator_OAuth1/"
+            },
+            "files": [
+                "src/authenticator-oauth1.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Authenticator implementation for OAuth 1.0.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "authenticator",
+            "authenticator-oauth1"
+        ]
+    },
+    {
         "name": "api-api/structure-wordpress",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -474,7 +370,7 @@
         },
         "time": "2018-01-26 10:00:31",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "APIAPI\\Structure_WordPress\\": "src/Structure_WordPress/"
@@ -507,6 +403,110 @@
             "api-api",
             "structure",
             "structure-wordpress"
+        ]
+    },
+    {
+        "name": "api-api/transporter-wordpress",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/api-api/transporter-wordpress.git",
+            "reference": "c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/api-api/transporter-wordpress/zipball/c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0",
+            "reference": "c8831b332e2656cc5ad1d1e4cbdfa4f25b0aeec0",
+            "shasum": ""
+        },
+        "require": {
+            "api-api/core": "*"
+        },
+        "time": "2018-10-27 01:31:07",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "APIAPI\\Transporter_WordPress\\": "src/Transporter_WordPress/"
+            },
+            "files": [
+                "src/transporter-wordpress.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Sven Wagener",
+                "email": "sven@awesome.ug",
+                "homepage": "http://awesome.ug",
+                "role": "Head of Development"
+            }
+        ],
+        "description": "Transporter implementation for WordPress.",
+        "homepage": "http://awesome.ug",
+        "keywords": [
+            "api-api",
+            "transporter",
+            "transporter-wordpress"
+        ]
+    },
+    {
+        "name": "felixarntz/plugin-lib",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/felixarntz/plugin-lib.git",
+            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/eea0135ade265cba9eebe6deccf0e1359c67e046",
+            "reference": "eea0135ade265cba9eebe6deccf0e1359c67e046",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "phpmd/phpmd": "*",
+            "phpunit/phpunit": ">4.8.20 <6.0",
+            "sebastian/phpcpd": "*",
+            "squizlabs/php_codesniffer": "3.*",
+            "wp-coding-standards/wpcs": "*"
+        },
+        "time": "2018-08-27 19:08:14",
+        "type": "wordpress-muplugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Felix Arntz",
+                "email": "felix-arntz@leaves-and-love.net",
+                "homepage": "https://leaves-and-love.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "Reusable library for all kinds of WordPress plugins.",
+        "homepage": "https://leaves-and-love.net",
+        "keywords": [
+            "library",
+            "plugin",
+            "wordpress"
         ]
     },
     {
