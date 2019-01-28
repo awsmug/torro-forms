@@ -45,11 +45,11 @@ if git show-ref --quiet --tags --verify -- "refs/tags/$NEWVERSION1"
 		echo "Version $NEWVERSION1 already exists as git tag. Skipping."
 	else
 		printf "Tagging new Git version..."
-		#git tag -a "$NEWVERSION1" -m "tagged version $NEWVERSION1"
+		git tag -a "$NEWVERSION1" -m "tagged version $NEWVERSION1"
 		echo "Done."
 
 		printf "Pushing new Git tag..."
-		#git push --quiet --tags
+		git push --quiet --tags
 		echo "Done."
 fi
 
@@ -167,11 +167,11 @@ rm /tmp/wppdcommitmsg.tmp
 echo "Done."
 
 printf "Committing new SVN version..."
-# svn commit --username "$SVNUSER" --password "$SVNPASS" --quiet -m "$COMMITMSG"
+svn commit --username "$SVNUSER" --password "$SVNPASS" --quiet -m "$COMMITMSG"
 echo "Done."
 
 printf "Tagging and committing new SVN tag..."
-#svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet -m "tagged version $NEWVERSION1"
+svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet -m "tagged version $NEWVERSION1"
 echo "Done."
 
 printf "Removing temporary directory %s..." "$SVNPATH"
