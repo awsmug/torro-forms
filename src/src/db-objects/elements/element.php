@@ -199,7 +199,7 @@ class Element extends Model {
 		 *
 		 * @param array $input_classes Array of input classes.
 		 */
-		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ) );
+		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ), $this );
 
 		/**
 		 * Filters the element label classes.
@@ -208,7 +208,7 @@ class Element extends Model {
 		 *
 		 * @param array $label_classes Array of label classes.
 		 */
-		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ) );
+		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ), $this );
 
 		/**
 		 * Filters the element wrap classes.
@@ -217,7 +217,7 @@ class Element extends Model {
 		 *
 		 * @param array $wrap_classes Array of wrap classes.
 		 */
-		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ) );
+		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ), $this );
 
 		/**
 		 * Filters the element description classes.
@@ -226,7 +226,7 @@ class Element extends Model {
 		 *
 		 * @param array $description_classes Array of description classes.
 		 */
-		$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ) );
+		$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ), $this );
 
 		/**
 		 * Filters the element errors classes, for the error messages wrap.
@@ -235,7 +235,7 @@ class Element extends Model {
 		 *
 		 * @param array $errors_classes Array of errors classes.
 		 */
-		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ) );
+		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ), $this );
 
 		$data = array_merge(
 			$data,
@@ -393,7 +393,7 @@ class Element extends Model {
 
 		$validated['_main'] = $element_type->validate_field( $main_value, $this, $submission );
 
-		return $validated;
+		return apply_filters( "{$this->manager->get_prefix()}element_values_validated", $validated, $this->get_element_type(), $this );
 	}
 
 	/**
