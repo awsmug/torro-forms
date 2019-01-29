@@ -760,7 +760,7 @@ abstract class Element_Type {
 		/**
 		 * Filters the element_type settings sections.
 		 *
-		 * @since 1.0.4
+		 * @since 1.0.5
 		 *
 		 * @param array        $settings_sections Array of settings sections.
 		 * @param Element_Type $element_type      Element_Type object.
@@ -793,7 +793,7 @@ abstract class Element_Type {
 		/**
 		 * Filters the element_type settings fields.
 		 *
-		 * @since 1.0.4
+		 * @since 1.0.5
 		 *
 		 * @param array        $settings_fields Array of settings fields.
 		 * @param Element_Type $element_type    Element_Type object.

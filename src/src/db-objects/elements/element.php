@@ -401,7 +401,7 @@ class Element extends Model {
 		/**
 		 * Filters the element values.
 		 *
-		 * @since 1.0.4
+		 * @since 1.0.5
 		 *
 		 * @param array        $validated    Array of element values.
 		 * @param Element_Type $element_type Element_Type object.
