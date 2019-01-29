@@ -197,45 +197,50 @@ class Element extends Model {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $input_classes Array of input classes.
+		 * @param array   $input_classes Array of input classes.
+		 * @param Element $element       Element object.
 		 */
-		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ) );
+		$input_classes = apply_filters( "{$this->manager->get_prefix()}element_input_classes", array( 'torro-element-input' ), $this );
 
 		/**
 		 * Filters the element label classes.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $label_classes Array of label classes.
+		 * @param array   $label_classes Array of label classes.
+		 * @param Element $element       Element object.
 		 */
-		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ) );
+		$label_classes = apply_filters( "{$this->manager->get_prefix()}element_label_classes", array( 'torro-element-label' ), $this );
 
 		/**
 		 * Filters the element wrap classes.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $wrap_classes Array of wrap classes.
+		 * @param array   $wrap_classes Array of wrap classes.
+		 * @param Element $element      Element object.
 		 */
-		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ) );
+		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ), $this );
 
 		/**
 		 * Filters the element description classes.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $description_classes Array of description classes.
+		 * @param array   $description_classes Array of description classes.
+		 * @param Element $element             Element object.
 		 */
-		$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ) );
+		$description_classes = apply_filters( "{$this->manager->get_prefix()}element_description_classes", array( 'torro-element-description' ), $this );
 
 		/**
 		 * Filters the element errors classes, for the error messages wrap.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $errors_classes Array of errors classes.
+		 * @param array   $errors_classes Array of errors classes.
+		 * @param Element $element        Element object.
 		 */
-		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ) );
+		$errors_classes = apply_filters( "{$this->manager->get_prefix()}element_errors_classes", array( 'torro-element-errors' ), $this );
 
 		$data = array_merge(
 			$data,
@@ -392,6 +397,17 @@ class Element extends Model {
 		}
 
 		$validated['_main'] = $element_type->validate_field( $main_value, $this, $submission );
+
+		/**
+		 * Filters the element values.
+		 *
+		 * @since 1.0.4
+		 *
+		 * @param array        $validated    Array of element values.
+		 * @param Element_Type $element_type Element_Type object.
+		 * @param Element      $element      Element object.
+		 */
+		$validated = apply_filters( "{$this->manager->get_prefix()}element_values_validated", $validated, $this->get_element_type(), $this );
 
 		return $validated;
 	}
