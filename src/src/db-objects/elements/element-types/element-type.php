@@ -757,7 +757,17 @@ abstract class Element_Type {
 			'title' => '',
 		);
 
-		foreach ( apply_filters( "{$this->manager->get_prefix()}element_type_settings_sections", $this->settings_sections, $this ) as $slug => $section ) {
+		/**
+		 * Filters the element_type settings sections.
+		 *
+		 * @since 1.0.4
+		 *
+		 * @param array        $settings_sections Array of settings sections.
+		 * @param Element_Type $element_type      Element_Type object.
+		 */
+		$this->settings_sections = apply_filters( "{$this->manager->get_prefix()}element_type_settings_sections", $this->settings_sections, $this );
+
+		foreach ( $this->settings_sections as $slug => $section ) {
 			$this->settings_sections[ $slug ] = array_merge( $defaults, $section );
 		}
 	}
@@ -780,7 +790,17 @@ abstract class Element_Type {
 		$invalid_fields = array();
 		$valid_sections = array();
 
-		foreach ( apply_filters( "{$this->manager->get_prefix()}element_type_settings_fields", $this->settings_fields, $this ) as $slug => $field ) {
+		/**
+		 * Filters the element_type settings fields.
+		 *
+		 * @since 1.0.4
+		 *
+		 * @param array        $settings_fields Array of settings fields.
+		 * @param Element_Type $element_type    Element_Type object.
+		 */
+		$this->settings_fields = apply_filters( "{$this->manager->get_prefix()}element_type_settings_fields", $this->settings_fields, $this );
+
+		foreach ( $this->settings_fields as $slug => $field ) {
 			if ( empty( $field['section'] ) || ! isset( $this->settings_sections[ $field['section'] ] ) ) {
 				/* translators: %s: field section slug */
 				$this->manager->error_handler()->doing_it_wrong( get_class( $this ) . '::bootstrap()', sprintf( __( 'Invalid element type field section %s.', 'torro-forms' ), esc_html( $field['section'] ) ), '1.0.0' );
