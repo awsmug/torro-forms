@@ -602,7 +602,7 @@ class Submission extends Model {
 			return false;
 		}
 
-		if ( ! is_array( $this->pending_meta['errors'][ $element_id ][ $code ] ) ) {
+		if ( ! isset( $this->pending_meta['errors'][ $element_id ][ $code ] ) ) {
 			return false;
 		}
 
