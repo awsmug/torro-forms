@@ -52,6 +52,10 @@ class Form_Frontend_Output_Handler {
 			return $content;
 		}
 
+		if ( post_password_required() ) {
+			return $content;
+		}
+
 		$submission = null;
 		if ( isset( $_GET['torro_submission_id'] ) ) { // WPCS: CSRF OK.
 			$submission = $this->form_manager->get_child_manager( 'submissions' )->get( absint( $_GET['torro_submission_id'] ) ); // WPCS: CSRF OK.
