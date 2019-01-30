@@ -21,12 +21,12 @@
 /**
  * Allows to print additional content before partials rendered.
  *
- * @since 1.0.4
+ * @since 1.0.5
  *
  * @param int   $form_id  Form ID
  * @param array $elements Array with elements
  */
-do_action( "{$this->get_prefix()}form_partials_before", $form_id, $elements );
+do_action( "{$this->get_prefix()}container_partials_before", $form_id, $elements );
 ?>
 
 <?php foreach ( $elements as $element ) : ?>
@@ -37,10 +37,10 @@ do_action( "{$this->get_prefix()}form_partials_before", $form_id, $elements );
 /**
  * Allows to print additional content after partials rendered.
  *
- * @since 1.0.4
+ * @since 1.0.5
  *
  * @param int   $form_id  Form ID
  * @param array $elements Array with elements
  */
-do_action( "{$this->get_prefix()}form_partials_after", $form_id, $elements );
+do_action( "{$this->get_prefix()}container_partials_after", $form_id, $elements );
 ?>
