@@ -17,6 +17,30 @@
 	<p><?php echo torro()->template()->esc_kses_basic( $required_description ); ?></p>
 <?php endif; ?>
 
+<?php
+/**
+ * Allows to print additional content before partials rendered.
+ *
+ * @since 1.0.4
+ *
+ * @param int   $form_id  Form ID
+ * @param array $elements Array with elements
+ */
+do_action( "{$this->get_prefix()}form_partials_before", $form_id, $elements );
+?>
+
 <?php foreach ( $elements as $element ) : ?>
 	<?php torro()->template()->get_partial( 'element', $element ); ?>
 <?php endforeach; ?>
+
+<?php
+/**
+ * Allows to print additional content after partials rendered.
+ *
+ * @since 1.0.4
+ *
+ * @param int   $form_id  Form ID
+ * @param array $elements Array with elements
+ */
+do_action( "{$this->get_prefix()}form_partials_after", $form_id, $elements );
+?>
