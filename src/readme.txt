@@ -85,7 +85,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 = 1.0.5 =
 * Enhanced: Added actionhooks torro_container_partials_before, toro_container_partials_after
-* Enhanced: Added filtrs torro_element_type_settings_sections, torro_element_type_settings_fields an element_values_validated
+* Enhanced: Added filters torro_element_type_settings_sections, torro_element_type_settings_fields an element_values_validated
 * Fixed: Added missing object in filters torro_element_input_classes, torro_element_label_classes, torro_element_wrap_classes, torro_element_description_classes and torro_element_errors_classes
 * Fixed: Inserted WordPress password protection query
 
