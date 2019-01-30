@@ -1,0 +1,6 @@
+/*!
+ * WP Map Picker -  version 0.7.1
+ * 
+ * Felix Arntz <felix-arntz@leaves-and-love.net>
+ */
+.wp-mappicker-map-canvas-wrap{width:480px;max-width:100%}.wp-mappicker-map-canvas{position:relative;margin-top:10px;overflow:hidden;width:100%;height:0;padding-bottom:56.25%;background-color:#eee;border:1px solid #888}
