@@ -349,6 +349,16 @@ abstract class Element_Type {
 			$value = implode( ', ', $value );
 		}
 
+		/**
+		 * Filters the value for export
+		 *
+		 * @since 1.0.5
+		 *
+		 * @param string  $value    Value to filter.
+		 * @param Element $element  Element object.
+		 */
+		$value = apply_filters( "{$this->manager->get_prefix()}export_value", $value, $element );
+
 		return array(
 			'element_' . $element->id . '__main' => $this->escape_single_value_for_export( $value, $export_format ),
 		);
