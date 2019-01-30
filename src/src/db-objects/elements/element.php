@@ -403,6 +403,17 @@ class Element extends Model {
 
 		$validated['_main'] = $element_type->validate_field( $main_value, $this, $submission );
 
+		/**
+		 * Filters the element values.
+		 *
+		 * @since 1.0.5
+		 *
+		 * @param array        $validated    Array of element values.
+		 * @param Element_Type $element_type Element_Type object.
+		 * @param Element      $element      Element object.
+		 */
+		$validated = apply_filters( "{$this->manager->get_prefix()}element_values_validated", $validated, $this->get_element_type(), $this );
+
 		return $validated;
 	}
 
