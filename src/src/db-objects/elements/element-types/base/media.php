@@ -93,6 +93,16 @@ class Media extends Element_Type {
 			$output = __( 'No file uploaded.', 'torro-forms' );
 		}
 
+		/**
+		 * Filters the value for export
+		 *
+		 * @since 1.0.5
+		 *
+		 * @param string  $value    Value to filter.
+		 * @param Element $element  Element object.
+		 */
+		$output = apply_filters( "{$this->manager->get_prefix()}export_value", $output, $element );
+
 		if ( ! $skip_escaping ) {
 			$output = $this->escape_single_value_for_export( $output, $export_format );
 		}

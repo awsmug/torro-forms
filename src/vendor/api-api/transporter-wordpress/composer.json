@@ -1,0 +1,43 @@
+{
+  "name": "api-api/transporter-wordpress",
+  "description": "Transporter implementation for WordPress.",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "api-api",
+    "transporter",
+    "transporter-wordpress"
+  ],
+  "homepage": "http://awesome.ug",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "https://leaves-and-love.net",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Sven Wagener",
+      "email": "sven@awesome.ug",
+      "homepage": "http://awesome.ug",
+      "role": "Head of Development"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/api-api/transporter-wordpress/issues"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-4": {
+      "APIAPI\\Transporter_WordPress\\": "src/Transporter_WordPress/"
+    },
+    "files": [
+      "src/transporter-wordpress.php"
+    ]
+  },
+  "require": {
+    "api-api/core": "*"
+  }
+}

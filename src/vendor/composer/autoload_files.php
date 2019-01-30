@@ -7,9 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'a7095d87cbcc6a30feb9948d6a1b979f' => $vendorDir . '/api-api/core/src/api-api.php',
-    'da40a0c65acfab0bd2551f3dd6da23eb' => $vendorDir . '/api-api/authenticator-oauth1/src/authenticator-oauth1.php',
     'ce13a363600fbe46c0c1876625b25261' => $vendorDir . '/api-api/authenticator-x/src/authenticator-x.php',
+    'da40a0c65acfab0bd2551f3dd6da23eb' => $vendorDir . '/api-api/authenticator-oauth1/src/authenticator-oauth1.php',
     '667743c980c9496d0457f2aa557196bd' => $vendorDir . '/api-api/storage-wordpress-option/src/storage-wordpress-option.php',
-    '6e7e8dee9dd1d6d497ee40cf7e92879c' => $vendorDir . '/api-api/transporter-wordpress/src/transporter-wordpress.php',
     'b8aa2ebabb8493d4e0ccac734d32b27f' => $vendorDir . '/api-api/structure-wordpress/src/structure-wordpress.php',
+    '6e7e8dee9dd1d6d497ee40cf7e92879c' => $vendorDir . '/api-api/transporter-wordpress/src/transporter-wordpress.php',
 );
