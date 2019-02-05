@@ -107,12 +107,6 @@ const paths = {
 			'./src/assets/src/js/admin-form-builder/unload.js',
 			'./src/assets/src/js/admin-form-builder/init.js'
 		],
-		formFiles: [
-			'./src/assets/src/js/form/app.js',
-			'./src/assets/src/js/form/models/*.js',
-			'./src/assets/src/js/form/collections/*.js',
-			'./src/assets/src/js/form/init.js',
-		],
 		src: './src/assets/src/js/',
 		dst: './src/assets/dist/js/'
 	}
@@ -180,21 +174,6 @@ gulp.task( 'js', done => {
 				.pipe( jscs() )
 				.pipe( jscs.reporter() )
 				.pipe( concat( 'admin-form-builder.js' ) )
-				.pipe( banner( assetheader ) )
-				.pipe( gulp.dest( paths.js.dst ) )
-				.pipe( uglify() )
-				.pipe( banner( assetheader ) )
-				.pipe( rename({
-					extname: '.min.js'
-				}) )
-				.pipe( gulp.dest( paths.js.dst ) )
-				.on( 'end', done );
-			gulp.src( paths.js.formFiles )
-				.pipe( jshint() )
-				.pipe( jshint.reporter( 'default' ) )
-				.pipe( jscs() )
-				.pipe( jscs.reporter() )
-				.pipe( concat( 'form.js' ) )
 				.pipe( banner( assetheader ) )
 				.pipe( gulp.dest( paths.js.dst ) )
 				.pipe( uglify() )

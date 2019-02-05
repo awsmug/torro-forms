@@ -143,10 +143,10 @@ class Assets extends Assets_Base {
 		);
 
 		$this->register_script(
-			'frontend-init',
-			'assets/dist/js/form/init.js',
+			'frontend-bundle',
+			'assets/dist/js/frontend-bundle.js',
 			array(
-				'deps'      => array( 'jquery', 'underscore', 'wp-util', 'wp-api' ),
+				'deps'      => array( 'wp-api', 'wp-element' ),
 				'ver'       => $this->plugin_version,
 				'in_footer' => true,
 			)
