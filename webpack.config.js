@@ -7,7 +7,7 @@ const assets = {
 
 const webpackConfig = {
 	entry: [
-		assets.src + '/App.js'
+		assets.src + '/index.js'
 	],
 	output: {
 		filename: 'frontend-bundle.js',
