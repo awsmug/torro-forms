@@ -116,7 +116,7 @@
 		if ( ! fieldManagerInstanceId ) {
 			return;
 		}
-( window.torro, window.pluginLibFieldsAPI, window.jQuery, window.torroEmailNotifications ) );
+
 		fieldManagerInstanceId = fieldManagerInstanceId.val();
 		emailNotifications     = fieldsAPI.FieldManager.instances[ fieldManagerInstanceId ].get( fieldManagerInstanceId + '_email-notifications--notifications' );
 
