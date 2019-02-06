@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\Components;
 
+use APIAPI\Core\Exception;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -24,13 +25,13 @@ class Submission_Export_CSV extends Submission_Export {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $columns Associative columns array of `$column_slug => $column_label` pairs.
-	 * @param array $rows    Rows array where each row is an associative array of
-	 *                       `$column_slug => $column_value` pairs.
-	 * @param Form  $form    Form for which submissions are being exported
+	 * @param array $columns                              Associative columns array of `$column_slug => $column_label` pairs.
+	 * @param array $rows                                 Rows array where each row is an associative array of
+	 *                                                    `$column_slug => $column_value` pairs.
+	 * @param Form  $form                                 Form for which submissions are being exported.
 	 *
-	 * @throws \Exception
-	 * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+	 * @throws \Exception                                 Error on gettiong data from array.
+	 * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception Error on creating CSV data.
 	 */
 	protected function generate_export_from_data( $columns, $rows, $form ) {
 		$filename = sanitize_title( $form->title ) . '.csv';

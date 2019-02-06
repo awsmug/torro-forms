@@ -84,6 +84,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.5 =
+* Enhanced: Email notifications element "all_elements" looking now better
 * Enhanced: Added filter torro_export_value
 * Enhanced: Added actionhooks torro_container_partials_before, toro_container_partials_after
 * Enhanced: Added filters torro_element_type_settings_sections, torro_element_type_settings_fields an element_values_validated

@@ -449,19 +449,25 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 
 					$element_values = $submission->get_element_values_data();
 
-					$output = '<table style="width:100%;">';
+					$output = '<table style="width:100%;border-spacing:0; font-family: Arial, Helvetica, sans-serif;">';
+
+					$i = 0;
 
 					foreach ( $element_columns as $element_id => $data ) {
+						$bg_color = ( $i % 2 ) === 1 ? '#ffffff' : '#f2f2f2';
+
 						$values = isset( $element_values[ $element_id ] ) ? $element_values[ $element_id ] : array();
 
 						$column_values = call_user_func( $data['callback'], $values );
 
 						foreach ( $data['columns'] as $slug => $label ) {
-							$output .= '<tr>';
-							$output .= '<th scope="row">' . esc_html( $label ) . '</th>';
-							$output .= '<td>' . wp_kses_post( $column_values[ $slug ] ) . '</td>';
+							$output .= '<tr style="background-color:' . $bg_color . '"">';
+							$output .= '<th scope="row" style="text-align:left;vertical-align: top; width:25%; padding: 10px;">' . esc_html( $label ) . '</th>';
+							$output .= '<td style="padding: 10px;">' . wp_kses_post( $column_values[ $slug ] ) . '</td>';
 							$output .= '</tr>';
 						}
+
+						$i++;
 					}
 
 					$output .= '</table>';
