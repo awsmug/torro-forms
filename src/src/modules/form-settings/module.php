@@ -78,11 +78,11 @@ class Module extends Module_Base {
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 				'visual_label' => __( 'Page Title', 'torro-forms' ),
 			),
-			'required_fields_text'   => array(
+			'required_fields_text'  => array(
 				'tab'          => 'labels',
 				'type'         => 'text',
 				'label'        => __( 'Required fields text', 'torro-forms' ),
-				'description'  => __( 'This text appears on top of a form and shows the user which fields are required. The value has to cotain a %s to output the correct indicator.', 'torro-forms'  ),
+				'description'  => __( 'This text appears on top of a form and shows the user which fields are required. The value has to cotain a %s to output the correct indicator.', 'torro-forms' ), //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 				'default'      => $this->get_default_required_fields_text(),
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			),
@@ -252,7 +252,7 @@ class Module extends Module_Base {
 	 * @return string Message to display.
 	 */
 	protected function get_default_required_fields_text() {
-		return _x( 'Required fields are marked %s.', 'required fields text on top of form', 'torro-forms'  );
+		return _x( 'Required fields are marked %s.', 'required fields text on top of form', 'torro-forms' ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 	}
 
 	/**

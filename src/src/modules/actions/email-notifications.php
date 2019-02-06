@@ -452,7 +452,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 					$i = 0;
 
 					foreach ( $element_columns as $element_id => $data ) {
-						$bg_color = ( $i % 2 ) == 1 ? '#ffffff' : '#f2f2f2';
+						$bg_color = ( $i % 2 ) === 1 ? '#ffffff' : '#f2f2f2';
 
 						$values = isset( $element_values[ $element_id ] ) ? $element_values[ $element_id ] : array();
 

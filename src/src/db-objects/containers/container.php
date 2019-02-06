@@ -129,7 +129,6 @@ class Container extends Model {
 		$data = parent::to_json( $include_meta );
 
 		// $submit_button_label = $this->get_form()->get_form_option( $form_id, 'submit_button_label', '' );
-
 		/* translators: %s: HTML code for required indicator */
 		$required_indicator_description = '<span aria-hidden="true">' . sprintf( __( 'Required fields are marked %s.', 'torro-forms' ), '<span class="torro-required-indicator">*</span>' ) . '</span>';
 
