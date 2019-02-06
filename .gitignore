@@ -27,6 +27,12 @@ package-lock.json
 
 /node_modules/
 /vendor/
+/src/vendor/felixarntz/plugin-lib/node_modules/almond/
+/src/vendor/felixarntz/plugin-lib/node_modules/jquery/
+/src/vendor/felixarntz/plugin-lib/node_modules/jquery-datetimepicker/tests/
+/src/vendor/felixarntz/plugin-lib/node_modules/jquery-mousewheel/
+/src/vendor/felixarntz/plugin-lib/node_modules/php-date-formatter/
+/src/vendor/felixarntz/plugin-lib/node_modules/select2/src/
 
 ############
 ## OSes
