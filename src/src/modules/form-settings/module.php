@@ -51,7 +51,6 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 			$this->register( $slug, $class_name );
 		}
 
-
 		/**
 		 * Fires when the default form settings have been registered.
 		 *
