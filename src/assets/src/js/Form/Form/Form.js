@@ -1,22 +1,45 @@
-import React, { Component } from "react";
-// import Container from "./Container/Container.js";
+import { __ } from "@wordpress/i18n";
+import AjaxComponent from "../AjaxComponent";
+import Containers from "../Container/Containers";
 
-class Form extends Component {
+/**
+ * Class for handling forms.
+ *
+ * @since 1.1.0
+ */
+class Form extends AjaxComponent {
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param {*} props Form properties.
+	 */
+	constructor(props) {
+		super(props);
+		this.formId = props.id;
 
-  constructor() {
-  	super();
-  	this.formID = 123;
-	  this.activeContainer = 1;
-  }
+		this.setPath("/forms");
+		this.updateParams({
+			id: this.formId
+		});
+	}
 
-  render() {
-    return (
-      <div>
-        <h1>Torro Forms is going react!</h1>
-        <p>Let see what we can get!</p>
-      </div>
-    );
-  }
-};
+	/**
+	 * Rendering content.
+	 *
+	 * @since 1.1.0
+	 */
+	renderComponent() {
+		return (
+			<div className="torro-form">
+				<h2>{this.state.data.title}</h2>
+				<form>
+					<Containers formId={this.formId} ajaxUrl={this.ajaxUrl} />
+				</form>
+			</div>
+		);
+	}
+}
 
 export default Form;
