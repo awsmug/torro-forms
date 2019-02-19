@@ -18,12 +18,30 @@ class Form extends AjaxComponent {
 	constructor(props) {
 		super(props);
 		this.formId = props.id;
+	}
 
-		this.setPath("/forms");
-		this.updateParams({
+	/**
+	 * Doing things after component mounted.
+	 * 
+	 * @since 1.1.0
+	 */
+	componentDidMount() {
+		this.request({
 			id: this.formId
 		});
 	}
+
+	/**
+	 * Creating query string for get request.
+	 *
+	 * @param {object} params Parameters for API query.
+	 *
+	 * @returns {string} Query string.
+	 */
+	getQueryString(params) {
+		return "/forms?id=" + params.id;
+	}
+
 
 	/**
 	 * Rendering content.

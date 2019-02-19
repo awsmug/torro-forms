@@ -29,7 +29,8 @@ class Element extends Component {
 			ajaxUrl: this.ajaxUrl
 		};
 
-		this.elementSettings = new ElementSettings(params);
+		this.settings = new ElementSettings(params);
+		this.settings.request();
 	}
 }
 

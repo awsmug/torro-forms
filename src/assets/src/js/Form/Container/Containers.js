@@ -17,10 +17,15 @@ class Containers extends AjaxComponent {
 	constructor(props) {
 		super(props);
 		this.formId = props.formId;
-		this.ajaxUrl = props.ajaxUrl;
+	}
 
-		this.setPath("/containers");
-		this.updateParams({
+	/**
+	 * Doing things after component mounted.
+	 * 
+	 * @since 1.1.0
+	 */
+	componentDidMount() {
+		this.request({
 			formId: this.formId
 		});
 	}
@@ -33,13 +38,7 @@ class Containers extends AjaxComponent {
 	 * @returns {string} Query string.
 	 */
 	getQueryString(params) {
-		let queryString = "?";
-
-		if (params.formId !== undefined) {
-			queryString += "form_id=" + params.formId;
-		}
-
-		return queryString;
+		return "/containers?form_id=" + params.formId;
 	}
 
 	/**

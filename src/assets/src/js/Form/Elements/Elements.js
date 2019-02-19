@@ -1,5 +1,8 @@
 import AjaxComponent from "../AjaxComponent";
 import Textfield from "./Textfield";
+import Textarea from "./Textarea";
+import Content from "./Content";
+import Onechoice from "./Onechoice";
 
 /**
  * Class for handling Elements.
@@ -17,10 +20,15 @@ class Elements extends AjaxComponent {
 	constructor(props) {
 		super(props);
 		this.containerId = props.containerId;
-		this.ajaxUrl = props.ajaxUrl;
+	}
 
-		this.setPath("/Elements");
-		this.updateParams({
+	/**
+	 * Doing things after component mounted.
+	 * 
+	 * @since 1.1.0
+	 */
+	componentDidMount() {
+		this.request({
 			containerId: this.containerId
 		});
 	}
@@ -33,13 +41,30 @@ class Elements extends AjaxComponent {
 	 * @returns {string} Query string.
 	 */
 	getQueryString(params) {
-		let queryString = "?";
+		return "/elements?container_id=" + params.containerId;
+	}
 
-		if (params.containerId !== undefined) {
-			queryString += "container_id=" + params.containerId;
+	renderElement(element) {
+		let elements = {
+			'textfield': element => {
+				return (<Textfield data={element} ajaxUrl={this.ajaxUrl} />);
+			},
+			'textarea': element => {
+				return (<Textarea data={element} ajaxUrl={this.ajaxUrl} />);
+			},
+			'content': element => {
+				return (<Content data={element} ajaxUrl={this.ajaxUrl} />);
+			},
+			'onechoice': element => {
+				return (<Onechoice data={element} ajaxUrl={this.ajaxUrl} />);
+			},
+			'default': element => {
+
+				return (<Textfield data={element} ajaxUrl={this.ajaxUrl} />);
+			},
 		}
 
-		return queryString;
+		return (elements[element.type] || elements['default'])(element);
 	}
 
 	/**
@@ -50,7 +75,9 @@ class Elements extends AjaxComponent {
 	 * @param {*} elements
 	 */
 	renderElements(elements) {
-		return this.state.data.map(element => <Textfield data={element} ajaxUrl={this.ajaxUrl} />);
+		return elements.map(element => {
+			return this.renderElement(element)
+		});
 	}
 
 	/**

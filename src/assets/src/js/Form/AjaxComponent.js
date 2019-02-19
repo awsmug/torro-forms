@@ -24,20 +24,30 @@ class AjaxComponent extends Component {
 		this.id = props.id;
 		this.ajaxUrl = props.ajaxUrl;
 
-		this.namespace = "/torro/v1";
-		this.textLoading = "Loading...";
-		this.textFailing = "Failed loading form!";
+		this.setTextLoading("Loading...");
+		this.setTextFailing("Failed loading form!");
 	}
 
 	/**
-	 * Setting path which results in endpoint url. Have to be called in child constructor.
+	 * Setting up text on loading component.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
-	 * @param {string} path Path for object.
+	 * @param {string} Text to display on loading component.
 	 */
-	setPath(path) {
-		this.endpointUrl = this.ajaxUrl + this.namespace + path;
+	setTextLoading(text) {
+		this.textLoading = text;
+	}
+
+	/**
+	 * Setting up text on failing component.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param {string} Text to display on a component which failed to load.
+	 */
+	setTextFailing(text) {
+		this.textFailing = text;
 	}
 
 	/**
@@ -47,8 +57,8 @@ class AjaxComponent extends Component {
 	 *
 	 * @param {object} params Parameters for API query.
 	 */
-	updateParams(params) {
-		this.get(params)
+	request(params) {
+		return this.get(params)
 			.then(response => {
 				this.setState(response);
 			})
@@ -89,10 +99,12 @@ class AjaxComponent extends Component {
 	 * Returning query string for url. Should be overwritten by childs.
 	 *
 	 * @since 1.1.0
+	 * 
+	 * @param {array} params
 	 *
 	 * @return {null}
 	 */
-	getQueryString() {
+	getQueryString(params) {
 		return null;
 	}
 
@@ -108,24 +120,16 @@ class AjaxComponent extends Component {
 	 * @returns Promise
 	 */
 	get(params) {
-		let path;
-
-		if (params.id !== undefined) {
-			path = "/" + params.id;
-		} else {
-			path = this.getQueryString(params);
-		}
-
-		let url = this.endpointUrl + path;
-		let request = new AjaxRequest(url);
+		let query = this.getQueryString(params);
+		let request = new AjaxRequest(this.ajaxUrl, query);
 		return request.get();
 	}
 
-	post() {}
+	post() { }
 
-	update() {}
+	update() { }
 
-	delete() {}
+	delete() { }
 }
 
 export default AjaxComponent;

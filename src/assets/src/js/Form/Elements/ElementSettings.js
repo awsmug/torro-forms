@@ -1,30 +1,25 @@
-import AjaxComponent from "../AjaxComponent";
+import AjaxManager from "../AjaxManager";
 
 /**
  * Element settings.
  *
  * @since 1.2.0
  */
-class ElementSettings extends AjaxComponent {
+class ElementSettings extends AjaxManager {
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param {*} props
+	 * @param {*} params
 	 */
-	constructor(props) {
-		super(props);
+	constructor(params) {
+		super(params);
 
-		this.elementId = props.elementId;
-		this.ajaxUrl = props.ajaxUrl;
-		this.textLoading = null;
-	}
+		this.elementId = params.elementId;
+		this.ajaxUrl = params.ajaxUrl;
 
-	componentDidMount() {
-		this.setPath("/element_settings");
-
-		this.updateParams({
+		this.setParams({
 			elementId: this.elementId
 		});
 	}
@@ -32,27 +27,17 @@ class ElementSettings extends AjaxComponent {
 	/**
 	 * Creating query string for get request.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @param {object} params Parameters for API query.
 	 *
 	 * @return {null}
 	 */
 	getQueryString(params) {
-		let queryString = "?";
-
-		if (params.elementId !== undefined) {
-			queryString += "element_id=" + params.elementId;
-		}
-
-		return queryString;
+		return "/element_settings?element_id=" + params.elementId;
 	}
 
-	getSetting(name) {}
-
-	renderComponent() {
-		console.log(this.state);
-	}
+	getSetting(name) { }
 }
 
 export default ElementSettings;

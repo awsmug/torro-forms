@@ -11,6 +11,7 @@ class Container extends Component {
 	 */
 	constructor(props) {
 		super(props);
+
 		this.ajaxUrl = props.ajaxUrl;
 		this.data = props.data;
 	}
