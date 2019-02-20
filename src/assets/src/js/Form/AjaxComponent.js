@@ -1,5 +1,5 @@
-import { Component } from "@wordpress/element";
-import AjaxRequest from "./AjaxRequest";
+import { Component } from '@wordpress/element';
+import AjaxRequest from './AjaxRequest';
 
 /**
  * Component to use in for components using data from DB.
@@ -18,14 +18,43 @@ class AjaxComponent extends Component {
 		super(props);
 
 		if (new.target === AjaxComponent) {
-			throw new TypeError("Cannot construct abstract instances directly");
+			throw new TypeError('Cannot construct abstract instances directly');
 		}
 
 		this.id = props.id;
 		this.ajaxUrl = props.ajaxUrl;
 
-		this.setTextLoading("Loading...");
-		this.setTextFailing("Failed loading form!");
+		this.state = {
+			request: null,
+			data: null
+		};
+
+		this.setTextLoading('Loading...');
+		this.setTextFailing('Failed loading form!');
+	}
+
+	/**
+	 * Doing things after component mounted.
+	 *
+	 * @since 1.2.0
+	 */
+	componentDidMount() {
+		if (this.params === null) {
+			console.error('Missing parameters for request.');
+		}
+
+		this.get(this.params);
+	}
+
+	/**
+	 * Parameters for query.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param {object} params
+	 */
+	setParams(params) {
+		this.params = params;
 	}
 
 	/**
@@ -48,23 +77,6 @@ class AjaxComponent extends Component {
 	 */
 	setTextFailing(text) {
 		this.textFailing = text;
-	}
-
-	/**
-	 * Updating parameters for request.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param {object} params Parameters for API query.
-	 */
-	request(params) {
-		return this.get(params)
-			.then(response => {
-				this.setState(response);
-			})
-			.catch(error => {
-				console.log(error);
-			});
 	}
 
 	/**
@@ -99,7 +111,7 @@ class AjaxComponent extends Component {
 	 * Returning query string for url. Should be overwritten by childs.
 	 *
 	 * @since 1.1.0
-	 * 
+	 *
 	 * @param {array} params
 	 *
 	 * @return {null}
@@ -120,16 +132,29 @@ class AjaxComponent extends Component {
 	 * @returns Promise
 	 */
 	get(params) {
-		let query = this.getQueryString(params);
-		let request = new AjaxRequest(this.ajaxUrl, query);
-		return request.get();
+		let queryString = this.getQueryString(params);
+		let request = new AjaxRequest(this.ajaxUrl, queryString);
+
+		request
+			.get()
+			.then(response => {
+				let data = {
+					status: response.status,
+					data: response.data
+				};
+
+				this.setState(data);
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
 
-	post() { }
+	post() {}
 
-	update() { }
+	update() {}
 
-	delete() { }
+	delete() {}
 }
 
 export default AjaxComponent;

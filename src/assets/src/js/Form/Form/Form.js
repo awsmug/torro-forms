@@ -1,6 +1,6 @@
-import { __ } from "@wordpress/i18n";
-import AjaxComponent from "../AjaxComponent";
-import Containers from "../Container/Containers";
+import { __ } from '@wordpress/i18n';
+import AjaxComponent from '../AjaxComponent';
+import Containers from '../Container/Containers';
 
 /**
  * Class for handling forms.
@@ -18,15 +18,8 @@ class Form extends AjaxComponent {
 	constructor(props) {
 		super(props);
 		this.formId = props.id;
-	}
 
-	/**
-	 * Doing things after component mounted.
-	 * 
-	 * @since 1.1.0
-	 */
-	componentDidMount() {
-		this.request({
+		this.setParams({
 			id: this.formId
 		});
 	}
@@ -39,9 +32,8 @@ class Form extends AjaxComponent {
 	 * @returns {string} Query string.
 	 */
 	getQueryString(params) {
-		return "/forms?id=" + params.id;
+		return '/forms/' + params.id;
 	}
-
 
 	/**
 	 * Rendering content.

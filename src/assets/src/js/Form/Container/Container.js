@@ -1,5 +1,5 @@
-import { Component } from "@wordpress/element";
-import Elements from "../Elements/Elements";
+import { Component } from '@wordpress/element';
+import Elements from '../Elements/Elements';
 
 class Container extends Component {
 	/**

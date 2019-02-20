@@ -1,4 +1,4 @@
-import AjaxRequest from "./AjaxRequest";
+import AjaxRequest from './AjaxRequest';
 
 /**
  * Component to use in for components using data from DB.
@@ -15,20 +15,19 @@ class AjaxModel {
 	 */
 	constructor(ajaxUrl) {
 		if (new.target === AjaxModel) {
-			throw new TypeError("Cannot construct abstract instances directly");
+			throw new TypeError('Cannot construct abstract instances directly');
 		}
 
 		this.ajaxUrl = ajaxUrl;
-
 		this.params = null;
 	}
 
 	/**
 	 * Parameters for query.
-	 * 
+	 *
 	 * @since 1.2.0
-	 * 
-	 * @param {object} params 
+	 *
+	 * @param {object} params
 	 */
 	setParams(params) {
 		this.params = params;
@@ -38,7 +37,7 @@ class AjaxModel {
 	 * Do the request.
 	 *
 	 * @since 1.1.0
-	 * 
+	 *
 	 * @returns Promise
 	 */
 	request() {
@@ -49,7 +48,7 @@ class AjaxModel {
 	 * Returning query string for url. Should be overwritten by childs.
 	 *
 	 * @since 1.2.0
-	 * 
+	 *
 	 * @param {array} params
 	 *
 	 * @return {null}
@@ -76,11 +75,11 @@ class AjaxModel {
 		return request.get();
 	}
 
-	post() { }
+	post() {}
 
-	update() { }
+	update() {}
 
-	delete() { }
+	delete() {}
 }
 
 export default AjaxModel;

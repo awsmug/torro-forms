@@ -1,5 +1,5 @@
-import AjaxComponent from "../AjaxComponent";
-import Container from "./Container";
+import AjaxComponent from '../AjaxComponent';
+import Container from './Container';
 
 /**
  * Class for handling containers.
@@ -17,15 +17,8 @@ class Containers extends AjaxComponent {
 	constructor(props) {
 		super(props);
 		this.formId = props.formId;
-	}
 
-	/**
-	 * Doing things after component mounted.
-	 * 
-	 * @since 1.1.0
-	 */
-	componentDidMount() {
-		this.request({
+		this.setParams({
 			formId: this.formId
 		});
 	}
@@ -38,7 +31,7 @@ class Containers extends AjaxComponent {
 	 * @returns {string} Query string.
 	 */
 	getQueryString(params) {
-		return "/containers?form_id=" + params.formId;
+		return '/containers?form_id=' + params.formId;
 	}
 
 	/**
@@ -49,7 +42,9 @@ class Containers extends AjaxComponent {
 	 * @param {*} containers
 	 */
 	renderContainers(containers) {
-		return this.state.data.map(container => <Container data={container} formId={this.formId} ajaxUrl={this.ajaxUrl} />);
+		return this.state.data.map((container, i) => (
+			<Container data={container} formId={this.formId} ajaxUrl={this.ajaxUrl} key={i} />
+		));
 	}
 
 	/**
