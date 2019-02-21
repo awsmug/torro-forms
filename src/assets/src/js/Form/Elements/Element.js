@@ -1,5 +1,6 @@
-import { Component } from "@wordpress/element";
-import ElementSettings from "./ElementSettings";
+import { Component } from '@wordpress/element';
+import ElementSettings from './ElementSettings';
+import ElementChoices from './ElementChoices';
 
 /**
  * Base form element class.
@@ -18,7 +19,7 @@ class Element extends Component {
 		super(props);
 
 		if (new.target === Element) {
-			throw new TypeError("Cannot construct abstract instances directly");
+			throw new TypeError('Cannot construct abstract instances directly');
 		}
 
 		this.ajaxUrl = props.ajaxUrl;
@@ -31,6 +32,11 @@ class Element extends Component {
 
 		this.settings = new ElementSettings(params);
 		this.settings.request();
+	}
+
+	componentDidMount() {
+		if (this.hastChoices) {
+		}
 	}
 }
 
