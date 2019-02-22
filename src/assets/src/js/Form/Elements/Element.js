@@ -24,13 +24,12 @@ class Element extends Component {
 
 		this.ajaxUrl = props.ajaxUrl;
 
-		this.elementId = props.data.id;
 		this.hasChoices = false;
 
 		this.state = {
 			status: props.data.status,
 			elementId: props.data.id,
-			label: props.data.label
+			data: props.data
 		};
 
 		this.settings = null;
@@ -43,64 +42,27 @@ class Element extends Component {
 	 * @since 1.2.0
 	 */
 	componentDidMount() {
-		this.syncDownSettings();
-
-		if (this.hasChoices) {
-			this.syncDownChoices();
-		}
 	}
 
 	/**
-	 * Syncing down Settings.
+	 * Renders an element
 	 *
 	 * @since 1.2.0
 	 */
-	syncDownSettings() {
-		const settingsParams = {
-			ajaxUrl: this.ajaxUrl,
-			elementId: this.elementId
-		};
-
-		this.settings = new ElementSettings(settingsParams);
-		this.settings
-			.syncDownstream()
-			.then(settings => {
-				const elementSettings = {
-					settings: settings.data
-				};
-				const state = Object.assign(this.state, elementSettings);
-				this.setState(state);
-			})
-			.catch(error => {
-				console.error(error);
-			});
+	render() {
+		const data = this.state.data.instance;
+		return this.renderElement(data);
 	}
 
 	/**
-	 * Syncing down Choices.
+	 * Rendering element function. Should be overwritten by child elements.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @param instance
 	 */
-	syncDownChoices() {
-		const choicesParams = {
-			ajaxUrl: this.ajaxUrl,
-			elementId: this.elementId
-		};
-
-		this.choices = new ElementChoices(choicesParams);
-		this.choices
-			.syncDownstream()
-			.then(choices => {
-				const elementChoices = {
-					choices: choices.data
-				};
-				const state = Object.assign(this.state, elementChoices);
-				this.setState(state);
-				console.log(this);
-			})
-			.catch(error => {
-				console.error(error);
-			});
+	renderElement(instance) {
+		throw new TypeError("Missing renderElement function in element class");
 	}
 
 	/**
