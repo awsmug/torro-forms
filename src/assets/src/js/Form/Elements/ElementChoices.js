@@ -1,11 +1,11 @@
-import AjaxManager from "../AjaxManager";
+import AjaxModel from "../AjaxModel";
 
 /**
  * Element settings.
  *
  * @since 1.2.0
  */
-class ElementChoices extends AjaxManager {
+class ElementChoices extends AjaxModel {
 	/**
 	 * Constructor.
 	 *
@@ -13,16 +13,16 @@ class ElementChoices extends AjaxManager {
 	 *
 	 * @param {*} params
 	 */
-    constructor(params) {
-        super(params);
+	constructor(params) {
+		super(params);
 
-        this.elementId = params.elementId;
-        this.ajaxUrl = params.ajaxUrl;
+		this.elementId = params.elementId;
 
-        this.setParams({
-            elementId: this.elementId
-        });
-    }
+		this.setParams({
+			ajaxUrl: this.ajaxUrl,
+			elementId: this.elementId
+		});
+	}
 
 	/**
 	 * Creating query string for get request.
@@ -33,9 +33,9 @@ class ElementChoices extends AjaxManager {
 	 *
 	 * @return {null}
 	 */
-    getQueryString(params) {
-        return "/element_choices?element_id=" + params.elementId;
-    }
+	getQueryString(params) {
+		return "/element_choices?element_id=" + params.elementId;
+	}
 }
 
 export default ElementChoices;

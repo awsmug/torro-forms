@@ -11,11 +11,9 @@ class Content extends Element {
 	 *
 	 * @since 1.1.0
 	 */
-    render() {
-        return (
-            <div className={"torro-element torro-element-" + this.data.id + " torro-content"} dangerouslySetInnerHTML={{ __html: this.data.label }}></div>
-        );
-    }
+	render() {
+		return <div className={"torro-element torro-element-" + this.elementId + " torro-content"} dangerouslySetInnerHTML={{ __html: this.state.label }} />;
+	}
 }
 
 export default Content;

@@ -1,11 +1,11 @@
-import AjaxManager from "../AjaxManager";
+import AjaxModel from "../AjaxModel";
 
 /**
  * Element settings.
  *
  * @since 1.2.0
  */
-class ElementSettings extends AjaxManager {
+class ElementSettings extends AjaxModel {
 	/**
 	 * Constructor.
 	 *
@@ -17,9 +17,9 @@ class ElementSettings extends AjaxManager {
 		super(params);
 
 		this.elementId = params.elementId;
-		this.ajaxUrl = params.ajaxUrl;
 
 		this.setParams({
+			ajaxUrl: params.ajaxUrl,
 			elementId: this.elementId
 		});
 	}
@@ -37,7 +37,7 @@ class ElementSettings extends AjaxManager {
 		return "/element_settings?element_id=" + params.elementId;
 	}
 
-	getSetting(name) { }
+	getSetting(name) {}
 }
 
 export default ElementSettings;

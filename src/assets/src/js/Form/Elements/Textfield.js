@@ -13,9 +13,9 @@ class Textfield extends Element {
 	 */
 	render() {
 		return (
-			<div className={"torro-element torro-element-" + this.data.id + " torro-textfield"}>
-				<label htmlFor={"torro-element-" + this.data.id}>{this.data.label}</label>
-				<input id={"torro-element-" + this.data.id} type="text" value={this.data.value} />
+			<div className={"torro-element torro-element-" + this.elementId + " torro-textfield"}>
+				<label htmlFor={"torro-element-" + this.elementId}>{this.state.label}</label>
+				<input id={"torro-element-" + this.elementId} type="text" value={this.state.value} />
 			</div>
 		);
 	}
