@@ -84,18 +84,18 @@ class REST_Containers_Controller extends REST_Models_Controller {
 	}
 
 	/**
-	 * Prepares a response for insertion into a collection.
+	 * Prepares the item for the REST response.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param WP_REST_Response $response Response object.
-	 * @return array|mixed Response data, ready for insertion into collection data.
+	 * @param mixed           $item    WordPress representation of the item.
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_Error|WP_REST_Response Response object on success, or WP_Error object on failure.
 	 */
-	public function prepare_response_for_collection( $response ) {
-		$response = parent::prepare_response_for_collection( $response );
-
-		$additional_data['instance'] = torro()->containers()->get( $response['id'] )->to_json();
-		$response                    = array_merge( $response, $additional_data );
+	public function prepare_item_for_response( $item, $request ) {
+		$response = parent::prepare_item_for_response( $item, $request );
+		$additional_data['instance'] = torro()->containers()->get( $response->data['id'] )->to_json();
+		$response->data              = array_merge( $response->data, $additional_data );
 
 		return $response;
 	}
