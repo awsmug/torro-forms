@@ -1,1 +1,1 @@
-/home/wagesve/Repositories/_WP-Plugins/torro-forms/vendor/awsmug/wp-devops/devops.sh
+/Users/wagesve/Repositories/_WP-Plugins/torro-forms/vendor/awsmug/wp-devops/devops.sh
