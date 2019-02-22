@@ -1,4 +1,4 @@
-import AjaxRequest from './AjaxRequest';
+import AjaxRequest from "./AjaxRequest";
 
 /**
  * Component to use in for components using data from DB.
@@ -11,15 +11,14 @@ class AjaxModel {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param {object} Properties React properties.
+	 * @param {object} params Model parameters.
 	 */
-	constructor(ajaxUrl) {
+	constructor(params) {
 		if (new.target === AjaxModel) {
-			throw new TypeError('Cannot construct abstract instances directly');
+			throw new TypeError("Cannot construct abstract instances directly");
 		}
 
-		this.ajaxUrl = ajaxUrl;
-		this.params = null;
+		this.ajaxUrl = params.ajaxUrl;
 	}
 
 	/**
@@ -40,7 +39,7 @@ class AjaxModel {
 	 *
 	 * @returns Promise
 	 */
-	request() {
+	syncDownstream() {
 		return this.get(this.params);
 	}
 
@@ -70,7 +69,7 @@ class AjaxModel {
 	 */
 	get(params) {
 		let query = this.getQueryString(params);
-		let request = new AjaxRequest(this.ajaxUrl, query);
+		let request = new AjaxRequest(params.ajaxUrl, query);
 
 		return request.get();
 	}

@@ -18,8 +18,8 @@ use awsmug\Torro_Forms\Error;
  * @since 1.1.0
  */
 class Form_Frontend_Standard_Output_Handler extends Form_Frontend_Output_Handler {
-	   
-    /**
+
+	/**
 	 * Renders the content for a given form.
 	 *
 	 * @since 1.0.0
@@ -30,13 +30,13 @@ class Form_Frontend_Standard_Output_Handler extends Form_Frontend_Output_Handler
 	protected function render_form_content( $form, $submission = null ) {
 		$prefix = $this->form_manager->get_prefix();
 
-        if( ! $this->can_access_form_check( $form, $submission ) ) {
-            return;
-        }
+		if ( ! $this->can_access_form_check( $form, $submission ) ) {
+			return;
+		}
 
-		if( $this->is_completed_check( $form, $submission ) ) {
-            return;
-        }
+		if ( $this->is_completed_check( $form, $submission ) ) {
+			return;
+		}
 
 		$container = $this->get_current_container( $form, $submission );
 		if ( ! $container ) {
@@ -208,9 +208,9 @@ class Form_Frontend_Standard_Output_Handler extends Form_Frontend_Output_Handler
 		}
 
 		$this->form_manager->template()->get_partial( 'form', $template_data );
-    }
-    
-    /**
+	}
+
+	/**
 	 * Prints form errors in a notice if necessary.
 	 *
 	 * @since 1.0.0
@@ -274,5 +274,5 @@ class Form_Frontend_Standard_Output_Handler extends Form_Frontend_Output_Handler
 		} elseif ( $submission->has_errors() ) {
 			$this->print_notice( __( 'Some errors occurred while trying to submit the form.', 'torro-forms' ), 'error' );
 		}
-    }
+	}
 }

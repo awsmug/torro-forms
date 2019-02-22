@@ -45,10 +45,10 @@ class Frontend_Posting extends API_Action {
 	 * @since 1.1.0
 	 *
 	 * @param \APIAPI\Core\Request\Route_Response $response   Response object.
-	 * @param Connection     $connection API connection instance with structure and authentication details.
-	 * @param string         $route_slug API-API route identifier.
-	 * @param Submission     $submission Submission to handle by the action.
-	 * @param Form           $form       Form the submission applies to.
+	 * @param Connection                          $connection API connection instance with structure and authentication details.
+	 * @param string                              $route_slug API-API route identifier.
+	 * @param Submission                          $submission Submission to handle by the action.
+	 * @param Form                                $form       Form the submission applies to.
 	 * @return \APIAPI\Core\Request\Route_Response|Error Processed response object, or error object.
 	 */
 	protected function process_response( $response, $connection, $route_slug, $submission, $form ) {

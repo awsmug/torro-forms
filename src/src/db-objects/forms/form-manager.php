@@ -173,11 +173,11 @@ class Form_Manager extends Core_Manager {
 
 		$this->public = true;
 
-		$this->frontend_submission_handler = new Form_Frontend_Submission_Handler( $this );
-		$this->frontend_standard_output_handler     = new Form_Frontend_Standard_Output_Handler( $this );
-		$this->frontend_react_output_handler     = new Form_Frontend_React_Output_Handler( $this );
-		$this->list_page_handler           = new Form_List_Page_Handler( $this );
-		$this->edit_page_handler           = new Form_Edit_Page_Handler( $this );
+		$this->frontend_submission_handler      = new Form_Frontend_Submission_Handler( $this );
+		$this->frontend_standard_output_handler = new Form_Frontend_Standard_Output_Handler( $this );
+		$this->frontend_react_output_handler    = new Form_Frontend_React_Output_Handler( $this );
+		$this->list_page_handler                = new Form_List_Page_Handler( $this );
+		$this->edit_page_handler                = new Form_Edit_Page_Handler( $this );
 
 		// TODO: Remove this instantiation in the future.
 		$this->legacy_upgrades = new Legacy_Upgrades( $prefix );
@@ -250,7 +250,7 @@ class Form_Manager extends Core_Manager {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_hooks() {		
+	public function add_hooks() {
 		if ( ! $this->hooks_added ) {
 			$frontend_output_handler = 'frontend_standard_output_handler';
 			$frontend_output_handler = 'frontend_react_output_handler';

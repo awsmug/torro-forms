@@ -67,7 +67,7 @@ abstract class Form_Frontend_Output_Handler {
 		ob_start();
 		$this->render_form_content( $form, $submission );
 		return ob_get_clean() . $content;
-    }
+	}
 
 	/**
 	 * Enqueues the frontend stylesheet if necessary.
@@ -166,9 +166,9 @@ abstract class Form_Frontend_Output_Handler {
 
 	/**
 	 * Rendering form content.
-	 * 
+	 *
 	 * @since 1.1.0
-	 * 
+	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
 	 */
@@ -303,15 +303,15 @@ abstract class Form_Frontend_Output_Handler {
 
 	/**
 	 * Checks form access.
-	 * 
+	 *
 	 * @since 1.1.0
-	 * 
+	 *
 	 * @param Form            $form            Form object.
 	 * @param Submission|null $submission      Submission object, or null if no submission is set.
-	 * 
+	 *
 	 * @return bool Can user access form.
 	 */
-	protected function can_access_form_check ( $form, $submission ) {
+	protected function can_access_form_check( $form, $submission ) {
 		$prefix = $this->form_manager->get_prefix();
 
 		/**
