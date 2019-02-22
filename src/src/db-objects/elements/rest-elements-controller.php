@@ -120,6 +120,23 @@ class REST_Elements_Controller extends REST_Models_Controller {
 	}
 
 	/**
+	 * Prepares a response for insertion into a collection.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param WP_REST_Response $response Response object.
+	 * @return array|mixed Response data, ready for insertion into collection data.
+	 */
+	public function prepare_response_for_collection( $response ) {
+		$response = parent::prepare_response_for_collection( $response );
+
+		$additional_data['instance'] = torro()->elements()->get( $response['id'] )->to_json();
+		$response                    = array_merge( $response, $additional_data );
+
+		return $response;
+	}
+
+	/**
 	 * Prepares links for the request.
 	 *
 	 * @since 1.0.0
