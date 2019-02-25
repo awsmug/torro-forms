@@ -29,8 +29,8 @@ class Onechoice extends Element {
 	render() {
 		return (
 			<div className={"torro-element torro-element-" + this.elementId + " torro-onechoice"}>
-				<label htmlFor={"torro-element-" + this.elementId}>{this.state.label}</label>
-				<input id={"torro-element-" + this.elementId} type="text" value={this.state.value} />
+				<label htmlFor={"torro-element-" + this.elementId}>{this.state.data.label}</label>
+				<input id={"torro-element-" + this.elementId} type="text" value={this.state.data.value} />
 			</div>
 		);
 	}

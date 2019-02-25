@@ -51,7 +51,29 @@ class Element extends Component {
 	 */
 	render() {
 		const data = this.state.data.instance;
-		return this.renderElement(data);
+
+		let html = {
+			before: data.before,
+			after: data. after
+		}
+
+		if( data.description !== '' ){
+			html.description = () =>  { return (
+				<div id={data.description_attrs.id} className={data.description_atts.class}>
+					{data.description}
+				</div>
+			)};
+		}
+
+		if( data.errors.length > 0  ){
+			html.errors = () => { return (
+				<div id={data.errors_attrs.id} className={data.errors_attrs.class}>
+					{data.errors}
+				</div>
+			)};
+		}
+
+		return this.renderElement(data, html);
 	}
 
 	/**
@@ -61,7 +83,9 @@ class Element extends Component {
 	 *
 	 * @param instance
 	 */
-	renderElement(instance) {
+	renderElement(instance, html) {
+
+
 		throw new TypeError("Missing renderElement function in element class");
 	}
 

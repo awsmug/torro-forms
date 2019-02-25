@@ -14,8 +14,8 @@ class Textarea extends Element {
 	render() {
 		return (
 			<div className={"torro-element torro-element-" + this.elementId + " torro-textarea"}>
-				<label htmlFor={"torro-element-" + this.elementId}>{this.state.label}</label>
-				<textarea id={"torro-element-" + this.elementId}>{this.state.value}</textarea>
+				<label htmlFor={"torro-element-" + this.elementId}>{this.state.data.label}</label>
+				<textarea id={"torro-element-" + this.elementId}>{this.state.data.value}</textarea>
 			</div>
 		);
 	}
