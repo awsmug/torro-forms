@@ -76,6 +76,16 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 			return $this->create_error( Element_Type::ERROR_CODE_REQUIRED, __( 'You must select at least a single value here.', 'torro-forms' ), $value );
 		}
 
+		if ( (int) $settings['min_choices'] > 0 && count( $value ) < (int) $settings['min_choices'] ) {
+			/* translators: %s: number of minimum choices */
+			return $this->create_error( 'value_too_few_choices', sprintf( _n( 'You must select at least %s value.', 'You must select at least %s values.', $settings['min_choices'], 'torro-forms' ), $settings['min_choices'] ), $value );
+		}
+
+		if ( (int) $settings['max_choices'] > 0 && count( $value ) > (int) $settings['max_choices'] ) {
+			/* translators: %s: number of maximum choices */
+			return $this->create_error( 'value_too_much_choices', sprintf( _n( 'You may select a maximum of %s value.', 'You may select a maximum of %s values.', $settings['max_choices'], 'torro-forms' ), $settings['max_choices'] ), $value );
+		}
+
 		if ( ! empty( $value ) ) {
 			$choices = $this->get_choices_for_field( $element );
 
@@ -108,6 +118,31 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 	}
 
 	/**
+	 * Adds a settings field for specifying choices.
+	 *
+	 * @since 1.0.5
+	 *
+	 * @param string $section Optional. Settings section the settings field should be part of. Default 'content'.
+	 */
+	protected function add_multiplechoices_settings_fields( $section = 'settings' ) {
+		$this->settings_fields['min_choices'] = array(
+			'section'       => $section,
+			'type'          => 'number',
+			'label'         => __( 'Minimum Choices', 'torro-forms' ),
+			'description'   => __( 'Specify the the minumum choices to select from.', 'torro-forms' ),
+			'input_classes' => array( 'regular-text' ),
+		);
+
+		$this->settings_fields['max_choices'] = array(
+			'section'       => $section,
+			'type'          => 'number',
+			'label'         => __( 'Maximum Choices', 'torro-forms' ),
+			'description'   => __( 'Specify the the maximum choices to select from.', 'torro-forms' ),
+			'input_classes' => array( 'regular-text' ),
+		);
+	}
+
+	/**
 	 * Bootstraps the element type by setting properties.
 	 *
 	 * @since 1.0.0
@@ -121,6 +156,7 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 		$this->add_choices_settings_field();
 		$this->add_description_settings_field();
 		$this->add_required_settings_field();
+		$this->add_multiplechoices_settings_fields();
 		$this->add_css_classes_settings_field();
 	}
 }
