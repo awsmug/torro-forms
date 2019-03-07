@@ -14,10 +14,12 @@ class Textfield extends Element {
 	 *
 	 * @since 1.2.0
 	 */
-	renderElement( data, html ) {
+	renderElement( data ) {
+		console.log( data );
+
 		return (
 			<div id={data.wrap_attrs.id} className={data.wrap_attrs.class}>
-				{html.before}
+				{data.before}
 				<label id={data.label_attrs.id}
 					   htmlFor={data.label_attrs.for}
 					   className={data.label_attrs.class}
@@ -30,11 +32,10 @@ class Textfield extends Element {
 						   className={data.class}
 						   aria-describedby={data.input_attrs["aria-describedby"]}
 						   aria-required={data.input_attrs["aria-required"]}
-						   value={data.value} />
+						   defaultValue={data.value} />
+					{data.element_hints}
 				</div>
-				{html.description}
-				{html.errors}
-				{html.after}
+				{data.after}
 			</div>
 		);
 	}

@@ -11,11 +11,26 @@ class Textarea extends Element {
 	 *
 	 * @since 1.1.0
 	 */
-	render() {
+	renderElement( data ) {
 		return (
-			<div className={"torro-element torro-element-" + this.elementId + " torro-textarea"}>
-				<label htmlFor={"torro-element-" + this.elementId}>{this.state.data.label}</label>
-				<textarea id={"torro-element-" + this.elementId}>{this.state.data.value}</textarea>
+			<div id={data.wrap_attrs.id} className={data.wrap_attrs.class}>
+				{data.before}
+				<label id={data.label_attrs.id}
+					   htmlFor={data.label_attrs.for}
+					   className={data.label_attrs.class}
+					   dangerouslySetInnerHTML={{__html:data.label + data.label_required}}>
+				</label>
+
+				<div>
+					<textarea id={data.id}
+						   type="text"
+						   className={data.class}
+						   aria-describedby={data.input_attrs["aria-describedby"]}
+						   aria-required={data.input_attrs["aria-required"]}
+							  defaultValue={data.value} />
+					{data.element_hints}
+				</div>
+				{data.after}
 			</div>
 		);
 	}

@@ -1,4 +1,6 @@
 import { Component } from "@wordpress/element";
+import Description from "./Description";
+import Errors from "./Errors";
 import ElementSettings from "./ElementSettings";
 import ElementChoices from "./ElementChoices";
 
@@ -52,28 +54,16 @@ class Element extends Component {
 	render() {
 		const data = this.state.data.instance;
 
-		let html = {
-			before: data.before,
-			after: data. after
-		}
+		const element_hints = (
+			<div>
+				<Description id={data.description_attrs.id} className={data.description_attrs.class} text={data.description} />
+				<Errors id={data.errors_attrs.id} className={data.errors_attrs.class} errors={data.errors} />
+			</div>
+		);
 
-		if( data.description !== '' ){
-			html.description = () =>  { return (
-				<div id={data.description_attrs.id} className={data.description_atts.class}>
-					{data.description}
-				</div>
-			)};
-		}
+		Object.assign( data, { element_hints } );
 
-		if( data.errors.length > 0  ){
-			html.errors = () => { return (
-				<div id={data.errors_attrs.id} className={data.errors_attrs.class}>
-					{data.errors}
-				</div>
-			)};
-		}
-
-		return this.renderElement(data, html);
+		return this.renderElement(data);
 	}
 
 	/**
@@ -81,11 +71,9 @@ class Element extends Component {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param instance
+	 * @param data
 	 */
-	renderElement(instance, html) {
-
-
+	renderElement(data) {
 		throw new TypeError("Missing renderElement function in element class");
 	}
 
