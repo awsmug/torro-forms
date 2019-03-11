@@ -35,7 +35,7 @@ class AjaxModel {
 	/**
 	 * Do the request.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @returns Promise
 	 */
@@ -70,7 +70,6 @@ class AjaxModel {
 	get(params) {
 		let query = this.getQueryString(params);
 		let request = new AjaxRequest(params.ajaxUrl, query);
-
 		return request.get();
 	}
 

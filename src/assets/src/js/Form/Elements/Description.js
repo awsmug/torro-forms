@@ -1,7 +1,7 @@
 import { Component } from "@wordpress/element";
 
 /**
- * Base form element class.
+ * Description Element.
  *
  * @since 1.2.0
  */

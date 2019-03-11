@@ -12,7 +12,7 @@ class Content extends Element {
 	 * @since 1.1.0
 	 */
 	render() {
-		return <div className={"torro-element torro-element-" + this.elementId + " torro-content"} dangerouslySetInnerHTML={{ __html: this.state.data.label }} />;
+		return <div className={"torro-element torro-element-" + this.elementId + " torro-content"} dangerouslySetInnerHTML={{ __html: this.state.element.label }} />;
 	}
 }
 

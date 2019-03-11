@@ -19,10 +19,10 @@ class AjaxRequest {
 
 	/**
 	 * Setting endpoint url.
-	 * 
+	 *
 	 * @since 1.2.0
-	 * 
-	 * @param {*} url 
+	 *
+	 * @param {*} url
 	 */
 	setEndpoint(ajaxUrl, namespace, query) {
 		this.endpoint = ajaxUrl + namespace + query;
@@ -38,7 +38,6 @@ class AjaxRequest {
 	 * @return {*} json Json response data from url.
 	 */
 	get() {
-		console.log(this.endpoint);
 		return axios.get(this.endpoint);
 	}
 }
