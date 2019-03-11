@@ -1,7 +1,7 @@
 import Element from "./Element";
 
 /**
- * Textfield element.
+ * Multiplechoice element.
  *
  * @since 1.2.0
  */
@@ -19,18 +19,46 @@ class Onechoice extends Element {
 		this.hasChoices = true;
 	}
 
-	renderChoices() {}
-
 	/**
 	 * Rendering element.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @param {object} Parameters for element.
 	 */
-	render() {
+	renderElement( params ) {
+		let choices = null;
+
+		if( this.state.choices !== null ) {
+			choices = this.state.choices.map( ( choice, index )  => {
+				let input_name = this.state.element.input_attrs.name;
+				let input_id = this.state.element.input_attrs.id;
+				let label_id = this.state.element.label_attrs.id;
+				let label_for = this.state.element.label_attrs.for;
+
+				input_id = input_id.replace( '%index%', index + 1 );
+				label_id = label_id.replace( '%index%', index +1 );
+				label_for = label_for.replace( '%index%', index + 1 );
+
+				return (
+					<div className="torro-toggle">
+						<input name={input_name} id={input_id} type="radio" value={choice.id} onChange={(event) => this.changeValue(event)} />
+						<label id={label_id}
+								htmlFor={label_for}
+								className={this.state.element.label_attrs.class}
+								>{choice.value}</label>
+					</div>
+				);
+			});
+		}
+
 		return (
-			<div className={"torro-element torro-element-" + this.elementId + " torro-onechoice"}>
-				<label htmlFor={"torro-element-" + this.elementId}>{this.state.data.label}</label>
-				<input id={"torro-element-" + this.elementId} type="text" value={this.state.data.value} />
+			<div id={this.state.element.wrap_attrs.id} className={this.state.element.wrap_attrs.class}>
+				<legend id={this.state.element.legend_attrs.id} className={this.state.element.legend_attrs.class} dangerouslySetInnerHTML={{__html:this.state.element.label + this.state.element.label_required}} />
+				{this.state.element.before}
+				{choices}
+				{params.element_hints}
+				{this.state.element.after}
 			</div>
 		);
 	}

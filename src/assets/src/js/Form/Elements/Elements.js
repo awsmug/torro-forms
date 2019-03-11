@@ -2,7 +2,9 @@ import AjaxComponent from '../AjaxComponent';
 import Textfield from './Textfield';
 import Textarea from './Textarea';
 import Content from './Content';
+import Dropdown from './Dropdown';
 import Onechoice from './Onechoice';
+import Multiplechoice from './Multiplechoice';
 
 /**
  * Class for handling Elements.
@@ -40,19 +42,25 @@ class Elements extends AjaxComponent {
 	renderElement(element, i) {
 		let elements = {
 			textfield: element => {
-				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} />;
+				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
 			},
 			textarea: element => {
-				return <Textarea data={element} ajaxUrl={this.ajaxUrl} key={i} />;
+				return <Textarea data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
 			},
 			content: element => {
-				return <Content data={element} ajaxUrl={this.ajaxUrl} key={i} />;
+				return <Content data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+			},
+			dropdown: element => {
+				return <Dropdown data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
 			},
 			onechoice: element => {
-				return <Onechoice data={element} ajaxUrl={this.ajaxUrl} key={i} />;
+				return <Onechoice data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+			},
+			multiplechoice: element => {
+				return <Multiplechoice data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
 			},
 			default: element => {
-				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} />;
+				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
 			}
 		};
 

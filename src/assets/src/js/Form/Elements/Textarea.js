@@ -1,7 +1,7 @@
 import Element from "./Element";
 
 /**
- * Textfield element.
+ * Textarea element.
  *
  * @since 1.1.0
  */
@@ -11,26 +11,28 @@ class Textarea extends Element {
 	 *
 	 * @since 1.1.0
 	 */
-	renderElement( data ) {
+	renderElement( params ) {
 		return (
-			<div id={data.wrap_attrs.id} className={data.wrap_attrs.class}>
-				{data.before}
-				<label id={data.label_attrs.id}
-					   htmlFor={data.label_attrs.for}
-					   className={data.label_attrs.class}
-					   dangerouslySetInnerHTML={{__html:data.label + data.label_required}}>
+			<div id={this.state.element.wrap_attrs.id} className={this.state.element.wrap_attrs.class}>
+				{this.state.element.before}
+				<label id={this.state.element.label_attrs.id}
+					   htmlFor={this.state.element.label_attrs.for}
+					   className={this.state.element.label_attrs.class}
+					   dangerouslySetInnerHTML={{__html:this.state.element.label + this.state.element.label_required}}>
 				</label>
 
 				<div>
-					<textarea id={data.id}
+					<textarea name={this.state.element.input_attrs.name}
+						   id={this.state.element.id}
 						   type="text"
-						   className={data.class}
-						   aria-describedby={data.input_attrs["aria-describedby"]}
-						   aria-required={data.input_attrs["aria-required"]}
-							  defaultValue={data.value} />
-					{data.element_hints}
+						   className={this.state.element.class}
+						   aria-describedby={this.state.element.input_attrs["aria-describedby"]}
+						   aria-required={this.state.element.input_attrs["aria-required"]}
+						   defaultValue={this.state.element.value}
+						   onChange={(event) => this.changeValue(event)} />
+					{params.element_hints}
 				</div>
-				{data.after}
+				{this.state.element.after}
 			</div>
 		);
 	}

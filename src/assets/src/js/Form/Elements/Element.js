@@ -26,24 +26,44 @@ class Element extends Component {
 
 		this.ajaxUrl = props.ajaxUrl;
 
+		this.id = props.data.id;
+
 		this.hasChoices = false;
+		this.choices = null;
 
 		this.state = {
-			status: props.data.status,
-			elementId: props.data.id,
-			data: props.data
+			element: this.props.data.instance,
+			choices: null
 		};
-
-		this.settings = null;
-		this.choices = null;
 	}
 
 	/**
-	 * Doing things after component mounted.
+	 * Component did mount.
 	 *
 	 * @since 1.2.0
 	 */
 	componentDidMount() {
+		if( this.hasChoices ) {
+			let choices = new ElementChoices( {ajaxUrl: this.ajaxUrl, elementId: this.id});
+
+			choices.syncDownstream().then( response => {
+				this.setState({choices:response.data})
+			}).catch( error => {
+				console.error( error );
+			});
+		}
+	}
+
+	/**
+	 * Changing value.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 */
+	changeValue(event) {
+		const value = event.target.value;
+		this.props.changeElementValue(this.id, value);
 	}
 
 	/**
@@ -52,18 +72,16 @@ class Element extends Component {
 	 * @since 1.2.0
 	 */
 	render() {
-		const data = this.state.data.instance;
-
 		const element_hints = (
 			<div>
-				<Description id={data.description_attrs.id} className={data.description_attrs.class} text={data.description} />
-				<Errors id={data.errors_attrs.id} className={data.errors_attrs.class} errors={data.errors} />
+				<Description id={this.state.element.id} className={this.state.element.description_attrs.class} text={this.state.element.description} />
+				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errors={this.state.element.errors} />
 			</div>
 		);
 
-		Object.assign( data, { element_hints } );
+		const params = { element_hints };
 
-		return this.renderElement(data);
+		return this.renderElement( params );
 	}
 
 	/**
@@ -73,24 +91,8 @@ class Element extends Component {
 	 *
 	 * @param data
 	 */
-	renderElement(data) {
+	renderElement() {
 		throw new TypeError("Missing renderElement function in element class");
-	}
-
-	/**
-	 * Transforms an array of attributes into an attribute string.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @param {object} attrs Object of `key: value` pairs like { class: "class-test", title: "test" }.
-	 * @return string Attribute string.
-	 */
-	attrs(attrs) {
-		let pairs = Object.entries(values).map(value => {
-			return value[0] + '="' + value[1] + '"';
-		});
-
-		return pairs.join(" ");
 	}
 }
 
