@@ -41,8 +41,13 @@ class Form extends AjaxComponent {
 	 * @since 1.1.0
 	 */
 	renderComponent() {
-		const htmlId = this.state.data.instance.id;
-		const cssClasses = this.state.data.instance.class;
+		let htmlId = null;
+		let cssClasses = null;
+
+		if( this.state !== null ) {
+			htmlId = this.state.data.instance.id;
+			cssClasses = this.state.data.instance.class;
+		}
 
 		return (
 			<div className="torro-form">
