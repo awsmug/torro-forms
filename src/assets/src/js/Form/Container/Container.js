@@ -5,7 +5,7 @@ class Container extends Component {
 	/**
 	 * Constructor.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @param {*} props Container properties.
 	 */
@@ -42,8 +42,6 @@ class Container extends Component {
 
 		elements.push(element);
 
-		console.log( elements );
-
 		this.setState({elements: elements});
 	}
 
@@ -54,7 +52,7 @@ class Container extends Component {
 	/**
 	 * Rendering output.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 */
 	render() {
 		return (

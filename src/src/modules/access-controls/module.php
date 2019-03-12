@@ -132,6 +132,13 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			'priority' => 10,
 			'num_args' => 3,
 		);
+
+		$this->filters[] = array(
+			'name'     => "{$this->get_prefix()}rest_api_can_create_submission",
+			'callback' => array( $this, 'can_access' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
 		$this->actions[] = array(
 			'name'     => "{$this->get_prefix()}create_new_submission",
 			'callback' => array( $this, 'set_submission_data' ),

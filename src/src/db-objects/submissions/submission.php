@@ -394,6 +394,8 @@ class Submission extends Model {
 	 * @since 1.0.0
 	 *
 	 * @param Container|null $container Container, or null if the current container data should be unset.
+	 *
+	 * @return bool          True if is set, false if not.
 	 */
 	public function set_current_container( $container ) {
 		if ( null === $container ) {
