@@ -5,6 +5,7 @@ import Content from './Content';
 import Dropdown from './Dropdown';
 import Onechoice from './Onechoice';
 import Multiplechoice from './Multiplechoice';
+import axios from "axios/index";
 
 /**
  * Class for handling Elements.
@@ -22,23 +23,43 @@ class Elements extends AjaxComponent {
 	constructor(props) {
 		super(props);
 		this.containerId = props.containerId;
-
-		this.setParams({
-			containerId: this.containerId
-		});
 	}
 
 	/**
-	 * Creating query string for get request.
+	 * Doing things after component mounted.
 	 *
-	 * @param {object} params Parameters for API query.
-	 *
-	 * @returns {string} Query string.
+	 * @since 1.2.0
 	 */
-	getQueryString(params) {
-		return '/elements?container_id=' + params.containerId;
+	componentDidMount() {
+		this.getElements();
 	}
 
+	/**
+	 * Getting Elements.
+	 *
+	 * @since 1.2.0
+	 */
+	getElements() {
+		const elementsGetUrl = this.getEndpointUrl( '/elements?container_id=' + this.containerId )
+
+		console.log( containersGetUrl );
+
+		axios.get( containersGetUrl )
+			.then(response => {
+				this.setState( { elements: response.data } );
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+
+	/**
+	 * Rendering an element.
+	 *
+	 * @param element
+	 * @param i
+	 * @returns {*}
+	 */
 	renderElement(element, i) {
 		let elements = {
 			textfield: element => {
@@ -86,7 +107,7 @@ class Elements extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	renderComponent() {
-		return <div className="torro-forms-elements">{this.renderElements(this.state.data)}</div>;
+		return <div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>;
 	}
 }
 

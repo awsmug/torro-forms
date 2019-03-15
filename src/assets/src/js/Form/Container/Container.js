@@ -14,38 +14,9 @@ class Container extends Component {
 
 		this.ajaxUrl = props.ajaxUrl;
 		this.data = props.data;
-
-		this.state = { elements: [] };
 	}
 
-	/**
-	 * Changing the element value and updating state
-	 *
-	 * @since 1.2.0
-	 *
-	 * @param elementId
-	 * @param value
-	 */
-	changeElementValue( elementId, value ) {
-		let elements = this.state.elements;
-
-		const element = {
-			id: elementId,
-			value: value
-		}
-
-		elements.find((element, index) => {
-			if( element.id === elementId ) {
-				elements.splice( index, 1 );
-			}
-		});
-
-		elements.push(element);
-
-		this.setState({elements: elements});
-	}
-
-	handleSubmit(e) {
+	handleUpdate(event) {
 		event.preventDefault();
 	}
 
@@ -58,8 +29,8 @@ class Container extends Component {
 		return (
 			<div className="torro_container">
 				<h3>{this.data.label}</h3>
-				<Elements containerId={this.data.id} ajaxUrl={this.ajaxUrl} changeElementValue={this.changeElementValue.bind(this)} />
-				<input type="submit" value="Submit" onClick={e => this.handleSubmit(e)} />
+				<Elements containerId={this.data.id} ajaxUrl={this.ajaxUrl} setElementValue={this.props.setElementValue.bind(this)} />
+				<input type="submit" value="Submit" onClick={event => this.handleUpdate(event)} />
 			</div>
 		);
 	}

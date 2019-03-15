@@ -23,38 +23,22 @@ class AjaxComponent extends Component {
 
 		this.id = props.id;
 		this.ajaxUrl = props.ajaxUrl;
+		this.namespace = '/torro/v1';
 
-		this.state = {
-			request: null,
-			data: null
-		};
+		this.state = null;
 
 		this.setTextLoading('Loading...');
 		this.setTextFailing('Failed loading form!');
 	}
 
-	/**
-	 * Doing things after component mounted.
-	 *
-	 * @since 1.2.0
-	 */
-	componentDidMount() {
-		if (this.params === null) {
-			console.error('Missing parameters for request.');
-		}
-
-		this.get(this.params);
-	}
 
 	/**
-	 * Parameters for query.
+	 * Endpoint.
 	 *
-	 * @since 1.2.0
-	 *
-	 * @param {object} params
+	 * @param endpoint
 	 */
-	setParams(params) {
-		this.params = params;
+	getEndpointUrl( endpoint ) {
+		return this.ajaxUrl + this.namespace + endpoint;
 	}
 
 	/**
@@ -89,7 +73,7 @@ class AjaxComponent extends Component {
 			if (this.textLoading !== null) {
 				return <div className="torro-loading">{this.textLoading}</div>;
 			}
-		} else if (this.state.status === 200) {
+		} else if (this.state !== null) {
 			return this.renderComponent();
 		} else {
 			return <div className="torro-error">{this.textFailing}</div>;
@@ -99,62 +83,13 @@ class AjaxComponent extends Component {
 	/**
 	 * Rendering component content. Should be overwritten by childs.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @return {null}
 	 */
 	renderComponent() {
 		return null;
 	}
-
-	/**
-	 * Returning query string for url. Should be overwritten by childs.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param {array} params
-	 *
-	 * @return {null}
-	 */
-	getQueryString(params) {
-		return null;
-	}
-
-	/**
-	 * Getting Data from Rest API.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param {object} params
-	 *
-	 * @promise Getting Data from Rest API.
-	 *
-	 * @returns Promise
-	 */
-	get(params) {
-		let queryString = this.getQueryString(params);
-		let request = new AjaxRequest(this.ajaxUrl, queryString);
-
-		request
-			.get()
-			.then(response => {
-				let data = {
-					status: response.status,
-					data: response.data
-				};
-
-				this.setState(data);
-			})
-			.catch(error => {
-				console.error(error);
-			});
-	}
-
-	post() {}
-
-	update() {}
-
-	delete() {}
 }
 
 export default AjaxComponent;

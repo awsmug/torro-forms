@@ -146,9 +146,13 @@ class Assets extends Assets_Base {
 			'frontend-bundle',
 			'assets/dist/js/frontend-bundle.js',
 			array(
-				'deps'      => array( 'wp-api', 'wp-element' ),
-				'ver'       => $this->plugin_version,
-				'in_footer' => true,
+				'deps'          => array( 'wp-api', 'wp-element' ),
+				'ver'           => $this->plugin_version,
+				'in_footer'     => true,
+				'localize_name' => 'torroFrontendI18n',
+				'localize_data' => array(
+					'api_nonce' => wp_create_nonce( 'torro_api_nonce' ),
+				),
 			)
 		);
 

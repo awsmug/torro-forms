@@ -1,5 +1,6 @@
 import AjaxComponent from '../AjaxComponent';
 import Container from './Container';
+import axios from "axios/index";
 
 /**
  * Class for handling containers.
@@ -17,21 +18,35 @@ class Containers extends AjaxComponent {
 	constructor(props) {
 		super(props);
 		this.formId = props.formId;
-
-		this.setParams({
-			formId: this.formId
-		});
+		this.containerId = props.containerId;
 	}
 
 	/**
-	 * Creating query string for get request.
+	 * Doing things after component mounted.
 	 *
-	 * @param {object} params Parameters for API query.
-	 *
-	 * @returns {string} Query string.
+	 * @since 1.2.0
 	 */
-	getQueryString(params) {
-		return '/containers?form_id=' + params.formId;
+	componentDidMount() {
+		this.getContainers();
+	}
+
+	/**
+	 * Getting Containers.
+	 *
+	 * @since 1.2.0
+	 */
+	getContainers() {
+		const containersGetUrl = this.getEndpointUrl( '/containers?form_id=' + this.formId )
+
+		console.log( containersGetUrl );
+
+		axios.get( containersGetUrl )
+			.then(response => {
+				this.setState( { containers: response.data } );
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
 
 	/**
@@ -42,8 +57,8 @@ class Containers extends AjaxComponent {
 	 * @param {*} containers
 	 */
 	renderContainers(containers) {
-		return this.state.data.map((container, i) => (
-			<Container data={container} formId={this.formId} ajaxUrl={this.ajaxUrl} key={i} />
+		return this.state.containers.map((container, i) => (
+			<Container data={container} formId={this.formId} ajaxUrl={this.ajaxUrl} key={i} handleUpdate={(event) => this.props.handleUpdate(event)} setElementValue={(elementId, value) => this.props.setElementValue(elementId, value)} />
 		));
 	}
 
@@ -53,7 +68,7 @@ class Containers extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	renderComponent() {
-		return <div className="torro-forms-containers">{this.renderContainers(this.state.data)}</div>;
+		return <div className="torro-forms-containers">{this.renderContainers(this.state.containers.data )}</div>;
 	}
 }
 
