@@ -42,7 +42,7 @@ class Onechoice extends Element {
 
 				return (
 					<div className="torro-toggle">
-						<input name={input_name} id={input_id} type="radio" value={choice.id} onChange={(event) => this.changeValue(event)} />
+						<input name={input_name} id={input_id} type="radio" value={choice.id} onBlur={(event) => this.changeValue(event)} />
 						<label id={label_id}
 								htmlFor={label_for}
 								className={this.state.element.label_attrs.class}

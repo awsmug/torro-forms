@@ -27,6 +27,8 @@ class Element extends Component {
 		this.ajaxUrl = props.ajaxUrl;
 
 		this.id = props.data.id;
+		this.submissionValueId = props.submissionValueId;
+		this.errors = null;
 
 		this.hasChoices = false;
 		this.choices = null;
@@ -63,7 +65,7 @@ class Element extends Component {
 	 */
 	changeValue(event) {
 		const value = event.target.value;
-		this.props.changeElementValue(this.id, value);
+		this.props.updateElement(this.id, value, this.submissionValueId );
 	}
 
 	/**
@@ -75,7 +77,7 @@ class Element extends Component {
 		const element_hints = (
 			<div>
 				<Description id={this.state.element.id} className={this.state.element.description_attrs.class} text={this.state.element.description} />
-				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errors={this.state.element.errors} />
+				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errors={this.element.errors} />
 			</div>
 		);
 

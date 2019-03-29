@@ -58,7 +58,7 @@ class Containers extends AjaxComponent {
 	 */
 	renderContainers(containers) {
 		return this.state.containers.map((container, i) => (
-			<Container data={container} formId={this.formId} ajaxUrl={this.ajaxUrl} key={i} handleUpdate={(event) => this.props.handleUpdate(event)} setElementValue={(elementId, value) => this.props.setElementValue(elementId, value)} />
+			<Container data={container} formId={this.formId} ajaxUrl={this.ajaxUrl} key={i} elements={this.props.elements} updateElement={(event) => this.props.updateElement(event)} changeElementValue={(elementId, value) => this.props.changeElementValue(elementId, value)} />
 		));
 	}
 

@@ -22,7 +22,12 @@ class Elements extends AjaxComponent {
 	 */
 	constructor(props) {
 		super(props);
+
 		this.containerId = props.containerId;
+
+		this.state = {
+			elements: props.elements
+		}
 	}
 
 	/**
@@ -42,9 +47,9 @@ class Elements extends AjaxComponent {
 	getElements() {
 		const elementsGetUrl = this.getEndpointUrl( '/elements?container_id=' + this.containerId )
 
-		console.log( containersGetUrl );
+		console.log( elementsGetUrl );
 
-		axios.get( containersGetUrl )
+		axios.get( elementsGetUrl )
 			.then(response => {
 				this.setState( { elements: response.data } );
 			})
@@ -63,25 +68,25 @@ class Elements extends AjaxComponent {
 	renderElement(element, i) {
 		let elements = {
 			textfield: element => {
-				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			},
 			textarea: element => {
-				return <Textarea data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+				return <Textarea data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			},
 			content: element => {
-				return <Content data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+				return <Content data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			},
 			dropdown: element => {
-				return <Dropdown data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+				return <Dropdown data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			},
 			onechoice: element => {
-				return <Onechoice data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+				return <Onechoice data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			},
 			multiplechoice: element => {
-				return <Multiplechoice data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+				return <Multiplechoice data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			},
 			default: element => {
-				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} changeElementValue={this.props.changeElementValue} />;
+				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			}
 		};
 

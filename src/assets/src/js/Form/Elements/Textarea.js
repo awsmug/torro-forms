@@ -29,7 +29,7 @@ class Textarea extends Element {
 						   aria-describedby={this.state.element.input_attrs["aria-describedby"]}
 						   aria-required={this.state.element.input_attrs["aria-required"]}
 						   defaultValue={this.state.element.value}
-						   onChange={(event) => this.changeValue(event)} />
+						   onBlur={(event) => this.changeValue(event)} />
 					{params.element_hints}
 				</div>
 				{this.state.element.after}
