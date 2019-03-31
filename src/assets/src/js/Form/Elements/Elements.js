@@ -26,7 +26,7 @@ class Elements extends AjaxComponent {
 		this.containerId = props.containerId;
 
 		this.state = {
-			elements: props.elements
+			elements: []
 		}
 	}
 
@@ -47,10 +47,9 @@ class Elements extends AjaxComponent {
 	getElements() {
 		const elementsGetUrl = this.getEndpointUrl( '/elements?container_id=' + this.containerId )
 
-		console.log( elementsGetUrl );
-
 		axios.get( elementsGetUrl )
 			.then(response => {
+				this.props.updateContainer( response.data );
 				this.setState( { elements: response.data } );
 			})
 			.catch(error => {

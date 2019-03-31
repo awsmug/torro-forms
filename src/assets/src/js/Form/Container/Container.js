@@ -1,8 +1,14 @@
-import { Component } from '@wordpress/element';
-import Elements from '../Elements/Elements';
+import AjaxComponent from '../AjaxComponent';
+import Textfield from '../Elements/Textfield';
+import Textarea from '../Elements/Textarea';
+import Content from '../Elements/Content';
+import Dropdown from '../Elements/Dropdown';
+import Onechoice from '../Elements/Onechoice';
+import Multiplechoice from '../Elements/Multiplechoice';
+
 import axios from "axios/index";
 
-class Container extends Component {
+class Container extends AjaxComponent {
 	/**
 	 * Constructor.
 	 *
@@ -19,24 +25,52 @@ class Container extends Component {
 
 		this.ajaxUrl = props.ajaxUrl;
 
-		this.label = props.data.label;
+		this.label = props.label;
 
 		this.state = {
 			elements: []
 		}
 	}
 
-	saveContainer() {
+	/**
+	 * Doing things after component mounted.
+	 *
+	 * @since 1.2.0
+	 */
+	componentDidMount() {
+		this.getElements();
+	}
+
+	/**
+	 * Getting Elements.
+	 *
+	 * @since 1.2.0
+	 */
+	getElements() {
+		const elementsGetUrl = this.getEndpointUrl( '/elements?container_id=' + this.containerId )
+
+		axios.get( elementsGetUrl )
+			.then(response => {
+				this.setState( { elements: response.data } );
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+
+	saveContainer(event) {
+		event.preventDefault();
+
 		if( this.submissionId === null ) {
 			this.props.createSubmission();
 		}
 
 		this.state.elements.forEach( element => {
-			this.saveElement( element.id, element.value, element.submissionValueId );
+			this.saveElement( element.id, element.value, element.valueId );
 		});
 	}
 
-	saveElement(elementId, value, submissionValueId = null) {
+	saveElement(elementId, value, valueId = null) {		
 		if( this.state.submissionId === null ) {
 			console.error( 'Missing submission id for saving value.' );
 			return;
@@ -44,7 +78,8 @@ class Container extends Component {
 
 		const submissionValuePostUrl = this.getEndpointUrl( '/submission_values' );
 
-		if( submissionValueId === null ) {
+		if( valueId === null ) {
+
 			axios.post(submissionValuePostUrl, {
 				form_id: this.formId,
 				submission_id: this.state.submissionId,
@@ -52,44 +87,28 @@ class Container extends Component {
 				value: value
 			})
 				.then(response => {
-					this.updateElement(elementId, value, response.data.id );
+					this.updateElement( elementId, value, response.data.id  );
 				})
-				.catch(function (error) {
-					console.log( error.response );
-					if( error.response.status === 400 ) {
-						this.updateElement(elementId, value, null, error.response.data.data.params.value );
-					}
-
+				.catch( error => {
+					console.log( error );
 				});
 		} else {
 			console.log( 'There was a submission on this field!' );
 		}
 	}
 
-	updateElement( elementId, value, submissionValueId = null, errorMessage = null ) {
-		let elements = [];
-
-		if( this.state.elements.length !== 0 ) {
-			elements = this.state.elements;
-		}
-
-		const element = {
-			id: elementId,
-			value: value,
-			submissionValueId: submissionValueId,
-			errorMessage: errorMessage
-		}
-
-		elements.find((element, index) => {
+	updateElement( elementId, value, valueId = null, errorMessage = null ) {
+		let elements = this.state.elements;
+		
+		elements.forEach((element, index) => {
 			if( element.id === elementId ) {
-				elements.splice( index, 1 );
+				elements[index].value = value;
+				elements[index].valueId = valueId;
+				elements[index].errors = [ errorMessage ];
 			}
 		});
 
-		elements.push(element);
-
-		this.setState({elements: elements});
-		this.updateContainer();
+		this.setState( elements );
 	}
 
 	/**
@@ -97,19 +116,62 @@ class Container extends Component {
 	 *
 	 * @since 1.2.0
 	 */
-	render() {
+	renderComponent() {
 		return (
 			<div className="torro_container">
 				<h3>{this.label}</h3>
-				<Elements
-					containerId={this.containerId}
-					ajaxUrl={this.ajaxUrl}
-					elements={this.state.elements}
-					updateElement={this.updateElement} />
-
-				<input type="submit" value="Submit" onClick={this.saveContainer} />
+				<div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>
+				<input type="submit" value="Submit" onClick={this.saveContainer.bind(this)} />
 			</div>
 		);
+	}
+
+	/**
+	 * Rendering containers.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param {*} elements
+	 */
+	renderElements(elements) {
+		return elements.map((element, i) => {
+			return this.renderElement(element, i);
+		});
+	}
+
+	/**
+	 * Rendering an element.
+	 *
+	 * @param element
+	 * @param i
+	 * @returns {*}
+	 */
+	renderElement(element, i) {
+		let elements = {
+			textfield: element => {
+				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			textarea: element => {
+				return <Textarea data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			content: element => {
+				return <Content data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			dropdown: element => {
+				return <Dropdown data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			onechoice: element => {
+				return <Onechoice data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			multiplechoice: element => {
+				return <Multiplechoice data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			default: element => {
+				return <Textfield data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			}
+		};
+
+		return (elements[element.type] || elements['default'])(element);
 	}
 }
 

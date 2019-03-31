@@ -1,8 +1,8 @@
 import { Component } from "@wordpress/element";
 import Description from "./Description";
 import Errors from "./Errors";
-import ElementSettings from "./ElementSettings";
 import ElementChoices from "./ElementChoices";
+import { POINT_CONVERSION_COMPRESSED } from "constants";
 
 /**
  * Base form element class.
@@ -27,7 +27,7 @@ class Element extends Component {
 		this.ajaxUrl = props.ajaxUrl;
 
 		this.id = props.data.id;
-		this.submissionValueId = props.submissionValueId;
+		this.valueId = props.valueId;
 		this.errors = null;
 
 		this.hasChoices = false;
@@ -35,6 +35,7 @@ class Element extends Component {
 
 		this.state = {
 			element: this.props.data.instance,
+			errorMessage: this.props.data.errorMessage,
 			choices: null
 		};
 	}
@@ -49,7 +50,7 @@ class Element extends Component {
 			let choices = new ElementChoices( {ajaxUrl: this.ajaxUrl, elementId: this.id});
 
 			choices.syncDownstream().then( response => {
-				this.setState({choices:response.data})
+				this.setState({choices:response.data});
 			}).catch( error => {
 				console.error( error );
 			});
@@ -64,8 +65,7 @@ class Element extends Component {
 	 * @param event
 	 */
 	changeValue(event) {
-		const value = event.target.value;
-		this.props.updateElement(this.id, value, this.submissionValueId );
+		this.props.updateElement(this.id, event.target.value, this.valueId );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Element extends Component {
 		const element_hints = (
 			<div>
 				<Description id={this.state.element.id} className={this.state.element.description_attrs.class} text={this.state.element.description} />
-				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errors={this.element.errors} />
+				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errorMessage={this.state.errorMessage} />
 			</div>
 		);
 
@@ -89,7 +89,7 @@ class Element extends Component {
 	/**
 	 * Rendering element function. Should be overwritten by child elements.
 	 *
-	 * @since 1.2.0
+	 * @si^nce 1.2.0
 	 *
 	 * @param data
 	 */

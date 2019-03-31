@@ -7,21 +7,11 @@ import { Component } from "@wordpress/element";
  */
 class Errors extends Component {
 	render () {
-		let errors = null;
-
-		if( this.props.errors.length > 0 ) {
-			errors = this.props.errors.map( error => {
-				return (<li>{error}</li>);
-			});
-		} else {
+		if( this.props.errorMessage === undefined ) {
 			return null;
 		}
 
-		return(
-			<div id={this.props.id} className={this.props.class}>
-				<ul>{errors}</ul>
-			</div>
-		);
+		return (<ul><li>{this.props.errorMessage}</li></ul>);			
 	}
 }
 
