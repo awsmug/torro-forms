@@ -65,7 +65,7 @@ class Element extends Component {
 	 * @param event
 	 */
 	changeValue(event) {
-		this.props.updateElement(this.id, event.target.value, this.valueId);
+		this.props.updateElement(this.id, event.target.value, this.props.data.valueId);
 	}
 
 	/**

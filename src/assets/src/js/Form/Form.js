@@ -23,6 +23,11 @@ class Form extends AjaxComponent {
 		this.userId = parseInt(props.userId);
 		this.wpNonce = props.wpNonce;
 
+		this.state = {
+			curContainer: 0
+		};
+		this.numContainer = 0;
+
 		this.key = this.createUserKey();
 
 		this.status = "progressing";
@@ -67,11 +72,53 @@ class Form extends AjaxComponent {
 		axios
 			.get(containersGetUrl)
 			.then(response => {
-				this.setState({ containers: response.data });
+				let containers = response.data;
+
+				containers.sort( function (a, b) {
+					return a.sort-b.sort;
+				});
+
+				this.numContainer = containers.length;
+
+				this.setState({ containers: containers });
 			})
 			.catch(error => {
 				console.error(error);
 			});
+	}
+
+	hasNextContainer() {
+		if((this.state.curContainer +1) >= this.numContainer ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	hasPrevContainer() {
+		if((this.state.curContainer) <= 0 ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	nextContainer() {
+		if( this.hasNextContainer() ) {
+			let curContainer = this.state.curContainer;
+			curContainer += 1;
+
+			this.setState({curContainer: curContainer});
+		}
+	}
+
+	prevContainer() {
+		if( this.hasPrevContainer() ) {
+			let curContainer = this.state.curContainer;
+			curContainer -= 1;
+
+			this.setState({curContainer: curContainer});
+		}
 	}
 
 	/**
@@ -108,6 +155,8 @@ class Form extends AjaxComponent {
 	/**
 	 * Setting submission id
 	 *
+	 * @since 1.2.0
+	 *
 	 * @param {*} id
 	 */
 	setSubmissionId(id) {
@@ -117,7 +166,7 @@ class Form extends AjaxComponent {
 	/**
 	 * Rendering content.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 */
 	renderComponent() {
 		if (this.state.form === undefined || this.state.containers === undefined) {
@@ -144,14 +193,19 @@ class Form extends AjaxComponent {
 	renderContainers() {
 		return this.state.containers.map((container, i) => (
 			<Container
+				key={i}
+				index={i}
 				ajaxUrl={this.props.ajaxUrl}
 				formId={this.id}
-				containerId={container.id}
-				containerLabel={container.label}
 				submissionId={this.state.submissionId}
-				createSubmission={this.createSubmission.bind(this)}
 				setSubmissionId={this.setSubmissionId.bind(this)}
-				key={i}
+				data={container}
+				curContainer={this.state.curContainer}
+				hasPrevContainer={this.hasPrevContainer.bind(this)}
+				hasNextContainer={this.hasNextContainer.bind(this)}
+				nextContainer={this.nextContainer.bind(this)}
+				prevContainer={this.prevContainer.bind(this)}
+				createSubmission={this.createSubmission.bind(this)}
 			/>
 		));
 	}

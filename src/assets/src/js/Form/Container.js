@@ -35,7 +35,7 @@ class Container extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	getElements() {
-		const elementsGetUrl = this.getEndpointUrl("/elements?container_id=" + this.props.containerId);
+		const elementsGetUrl = this.getEndpointUrl("/elements?container_id=" + this.props.data.id);
 
 		axios
 			.get(elementsGetUrl)
@@ -47,41 +47,85 @@ class Container extends AjaxComponent {
 			});
 	}
 
-	saveContainer(event) {
+	prevContainer(event){
 		event.preventDefault();
-
-		if (this.props.submissionId === undefined) {
-			this.props
-				.createSubmission()
-				.then(response => {
-					this.props.setSubmissionId(response.data.id);
-
-					this.state.elements.forEach(element => {
-						this.saveElement(element.id, element.value, element.valueId);
-					});
-				})
-				.catch(function(error) {
-					console.error(error);
-				});
-		} else {
-			this.state.elements.forEach(element => {
-				this.saveElement(element.id, element.value, element.valueId);
-			});
-		}
+		this.props.prevContainer();
 	}
 
-	saveElement(elementId, value, valueId = null) {
-		if (this.props.submissionId === undefined) {
-			console.error("Missing submission id for saving value.");
-			return;
-		}
+	nextContainer(event){
+		event.preventDefault();
 
-		if (valueId === null) {
+		this.saveContainer(event)
+		.then(response => {
+			this.props.nextContainer();
+		})
+		.catch(error => {
+			console.log(error);
+		});
+	}
+
+	saveContainer(event) {
+		event.preventDefault();
+		event.persist();
+
+		event.target.classList.add('torro-button-loading');
+
+		const save = new Promise((resolve, reject) => {
+			if (this.props.submissionId === undefined) {
+				this.props.createSubmission()
+					.then(response => {
+						this.props.setSubmissionId(response.data.id);
+
+						this.state.elements.forEach(element => {
+							this.saveElement(element.id, element.value )
+								.then(response => {
+									event.target.classList.remove('torro-button-loading');
+									return resolve(element.valueId);
+								})
+								.catch(error => {
+									event.target.classList.remove('torro-button-loading');
+									return reject(error);
+								});
+						});
+					})
+					.catch(function (error) {
+						return reject(error);
+					});
+			} else {
+				this.state.elements.forEach(element => {
+					this.saveElement(element.id, element.value, element.valueId)
+						.then(response => {
+							event.target.classList.remove('torro-button-loading');
+							return resolve(element.valueId);
+						})
+						.catch(error => {
+							event.target.classList.remove('torro-button-loading');
+							return reject( error );
+						});
+				});
+			}
+		});
+
+		return save;
+	}
+
+	saveElement(elementId, value, valueId = undefined) {
+		const save = new Promise((resolve, reject) => {
+			if (this.props.submissionId === undefined) {
+				return reject("Missing submission id for saving value.");
+			}
+
+			let submissionValuePostUrl = this.getEndpointUrl("/submission_values");
+			let method = 'post';
+
+			if (valueId !== undefined && valueId !== null) {
+				submissionValuePostUrl += '/' + valueId;
+				method = 'put';
+			}
+
 			if (value === undefined) {
 				value = "";
 			}
-
-			const submissionValuePostUrl = this.getEndpointUrl("/submission_values");
 
 			const params = {
 				form_id: this.props.formId,
@@ -90,49 +134,29 @@ class Container extends AjaxComponent {
 				value: value
 			};
 
-			axios
-				.post(submissionValuePostUrl, params)
-				.then(response => {
-					if (response.status === 201) {
-						this.updateElement(elementId, value, response.data.id);
-					} else if (response.status === 400) {
-						this.updateElement(elementId, value, null, response.data.message);
-					}
-				})
-				.catch(error => {
-					if (error.response.status === 400) {
-						this.updateElement(elementId, value, null, error.response.data.data.params.value);
-					} else {
-						console.error(error);
-					}
-				});
-		} else {
-			const submissionValuePutUrl = this.getEndpointUrl("/submission_values/" + valueId);
-			console.log(submissionValuePutUrl);
+			axios({
+				method: method,
+				url: submissionValuePostUrl,
+				data: params
+			}).then(response => {
+				if (response.status === 200 || response.status === 201) {
+					this.updateElement(elementId, value, response.data.id);
+					return resolve(response.data.id);
+				} else if (response.status === 400) {
+					this.updateElement(elementId, value, null, response.data.message);
+					return reject(response);
+				}
+			}).catch(error => {
+				if (error.response.status === 400) {
+					this.updateElement(elementId, value, null, error.response.data.data.params.value);
+					return reject(error.response);
+				} else {
+					return reject(error.response);
+				}
+			});
+		});
 
-			const params = {
-				id: valueId,
-				element_id: elementId,
-				value: value
-			};
-
-			axios
-				.put(submissionValuePutUrl, params)
-				.then(response => {
-					if (response.status === 201) {
-						this.updateElement(elementId, value, response.data.id);
-					} else if (response.status === 400) {
-						this.updateElement(elementId, value, null, response.data.message);
-					}
-				})
-				.catch(error => {
-					if (error.response.status === 400) {
-						this.updateElement(elementId, value, null, error.response.data.data.params.value);
-					} else {
-						console.error(error);
-					}
-				});
-		}
+		return save;
 	}
 
 	updateElement(elementId, value, valueId = null, errorMessage = null) {
@@ -159,11 +183,20 @@ class Container extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	renderComponent() {
+		let cssClasses = ['torro-container', 'torro-container-visible'];
+
+		if( this.props.index !== this.props.curContainer ) {
+			cssClasses = ['torro-container', 'torro-container-invisible'];
+		}
+
 		return (
-			<div className="torro_container">
+			<div className={cssClasses.join(' ')}>
 				<h3>{this.props.label}</h3>
 				<div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>
-				<input type="submit" value="Submit" onClick={this.saveContainer.bind(this)} />
+				<div className="torro-pager">
+					{this.props.hasPrevContainer() ? <div className="prev"><button onClick={this.prevContainer.bind(this)}>Previous</button></div>: null }
+					{this.props.hasNextContainer() ? <div className="next"><button onClick={this.nextContainer.bind(this)}>Next</button></div>: <div className="next"><button type="button" onClick={this.saveContainer.bind(this)}>Submit</button></div> }
+				</div>
 			</div>
 		);
 	}
