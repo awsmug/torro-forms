@@ -6,12 +6,19 @@ import { Component } from "@wordpress/element";
  * @since 1.1.0
  */
 class Errors extends Component {
-	render () {
-		if( this.props.errorMessage === undefined ) {
+	renderMessage(text) {
+		return <li>{text}</li>;
+	}
+	render() {
+		if (this.props.errors === undefined) {
 			return null;
 		}
 
-		return (<ul><li>{this.props.errorMessage}</li></ul>);			
+		return (
+			<ul id={this.props.id} className={this.props.className}>
+				{this.props.errors.map(text => this.renderMessage(text))}
+			</ul>
+		);
 	}
 }
 

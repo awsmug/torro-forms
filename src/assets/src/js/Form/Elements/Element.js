@@ -27,15 +27,12 @@ class Element extends Component {
 		this.ajaxUrl = props.ajaxUrl;
 
 		this.id = props.data.id;
-		this.valueId = props.valueId;
-		this.errors = null;
 
 		this.hasChoices = false;
 		this.choices = null;
 
 		this.state = {
 			element: this.props.data.instance,
-			errorMessage: this.props.data.errorMessage,
 			choices: null
 		};
 	}
@@ -46,14 +43,17 @@ class Element extends Component {
 	 * @since 1.2.0
 	 */
 	componentDidMount() {
-		if( this.hasChoices ) {
-			let choices = new ElementChoices( {ajaxUrl: this.ajaxUrl, elementId: this.id});
+		if (this.hasChoices) {
+			let choices = new ElementChoices({ ajaxUrl: this.ajaxUrl, elementId: this.id });
 
-			choices.syncDownstream().then( response => {
-				this.setState({choices:response.data});
-			}).catch( error => {
-				console.error( error );
-			});
+			choices
+				.syncDownstream()
+				.then(response => {
+					this.setState({ choices: response.data });
+				})
+				.catch(error => {
+					console.error(error);
+				});
 		}
 	}
 
@@ -65,7 +65,7 @@ class Element extends Component {
 	 * @param event
 	 */
 	changeValue(event) {
-		this.props.updateElement(this.id, event.target.value, this.valueId );
+		this.props.updateElement(this.id, event.target.value, this.valueId);
 	}
 
 	/**
@@ -77,13 +77,13 @@ class Element extends Component {
 		const element_hints = (
 			<div>
 				<Description id={this.state.element.id} className={this.state.element.description_attrs.class} text={this.state.element.description} />
-				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errorMessage={this.state.errorMessage} />
+				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errors={this.props.data.errors} />
 			</div>
 		);
 
 		const params = { element_hints };
 
-		return this.renderElement( params );
+		return this.renderElement(params);
 	}
 
 	/**

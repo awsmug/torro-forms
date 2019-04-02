@@ -1,5 +1,5 @@
-import { Component } from '@wordpress/element';
-import AjaxRequest from './AjaxRequest';
+import { Component } from "@wordpress/element";
+import AjaxRequest from "./AjaxRequest";
 
 /**
  * Component to use in for components using data from DB.
@@ -18,26 +18,25 @@ class AjaxComponent extends Component {
 		super(props);
 
 		if (new.target === AjaxComponent) {
-			throw new TypeError('Cannot construct abstract instances directly');
+			throw new TypeError("Cannot construct abstract instances directly");
 		}
 
 		this.id = props.id;
 		this.ajaxUrl = props.ajaxUrl;
-		this.namespace = '/torro/v1';
+		this.namespace = "/torro/v1";
 
 		this.state = null;
 
-		this.setTextLoading('Loading...');
-		this.setTextFailing('Failed loading form!');
+		this.setTextLoading("Loading...");
+		this.setTextFailing("Failed loading form!");
 	}
-
 
 	/**
 	 * Endpoint.
 	 *
 	 * @param endpoint
 	 */
-	getEndpointUrl( endpoint ) {
+	getEndpointUrl(endpoint) {
 		return this.ajaxUrl + this.namespace + endpoint;
 	}
 
@@ -63,6 +62,14 @@ class AjaxComponent extends Component {
 		this.textFailing = text;
 	}
 
+	showTextLoading() {
+		return <div className="torro-loading">{this.textLoading}</div>;
+	}
+
+	showTextFailing() {
+		return <div className="torro-error">{this.textFailing}</div>;
+	}
+
 	/**
 	 * Rendering content.
 	 *
@@ -71,12 +78,12 @@ class AjaxComponent extends Component {
 	render() {
 		if (this.state === null) {
 			if (this.textLoading !== null) {
-				return <div className="torro-loading">{this.textLoading}</div>;
+				return this.showTextLoading();
 			}
 		} else if (this.state !== null) {
 			return this.renderComponent();
 		} else {
-			return <div className="torro-error">{this.textFailing}</div>;
+			return this.showTextFailing();
 		}
 	}
 
