@@ -135,3 +135,39 @@
 #torro-email-wrap {
 	display: none;
 }
+
+#torro-forms-react-canvas {
+	overflow: hidden;
+}
+
+#torro-forms-react-canvas form {
+	position: relative;
+	width: 100%;
+	height: 400px;
+}
+
+#torro-forms-react-canvas form .torro-button-loading {
+	background-image: url("../img/button-loading.svg");
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	transition: none;
+}
+
+#torro-forms-react-canvas form .torro-container {
+	position: absolute;
+	top: 0;
+	left: 100%;
+	display: inline;
+	width: 98%;
+	height: 100%;
+	transition: all 0.5s ease-out;
+}
+
+#torro-forms-react-canvas form .torro-container-visible {
+	transform: translateX(-100%);
+}
+
+#torro-forms-react-canvas form .torro-container-invisible {
+	left: 100%;
+	transform: translateX(0);
+}
