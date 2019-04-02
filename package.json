@@ -60,11 +60,12 @@
     "gulp-concat": "~2.6.1",
     "gulp-csscomb": "~3.0.8",
     "gulp-jscs": "~4.0.0",
-    "gulp-jshint": "~2.0.4",
+    "gulp-jshint": "^2.0.4",
     "gulp-rename": "^1.2.3",
     "gulp-replace": "~0.5.4",
     "gulp-sass": "~3.1.0",
     "gulp-uglify": "~2.0.1",
+    "jshint": "^2.10.2",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3"
   },
