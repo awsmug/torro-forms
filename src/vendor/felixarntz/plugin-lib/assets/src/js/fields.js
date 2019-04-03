@@ -1,8 +1,3 @@
-/*!
- * plugin-lib (https://github.com/felixarntz/plugin-lib)
- * By Felix Arntz (https://leaves-and-love.net)
- * Licensed under GPL-2.0-or-later
- */
 ( function( exports, $, _, Backbone, wp, fieldsAPIData ) {
 	'use strict';
 
