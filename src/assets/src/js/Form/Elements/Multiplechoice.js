@@ -36,7 +36,6 @@ class Multiplechoice extends Element {
 			}
 		});
 
-		console.log( values );
 		this.props.changeElementValue(this.id, values);
 	}
 

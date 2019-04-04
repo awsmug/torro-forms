@@ -61,7 +61,7 @@ class Container extends AjaxComponent {
 				this.props.nextContainer( event );
 			})
 			.catch(error => {
-				console.log(error);
+				console.error(error);
 			});
 	}
 

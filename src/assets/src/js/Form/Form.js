@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom';
 import { __ } from "@wordpress/i18n";
 import AjaxComponent from "./AjaxComponent";
 import Container from "./Container";
@@ -40,7 +39,6 @@ class Form extends AjaxComponent {
 	componentDidMount() {
 		this.getForm();
 		this.getContainers();
-		console.log( ReactDOM.findDOMNode(this) );
 	}
 
 	/**
@@ -131,8 +129,6 @@ class Form extends AjaxComponent {
 		const margin = steps * 100;
 		const margin_new = this.sliderMargin + margin;
 		const sliderContentWidth = 100 * this.state.containers.length;
-		console.log( margin_new );
-		console.log( sliderContentWidth );
 
 		if(margin_new < 0 || margin_new >= sliderContentWidth ) {
 			return;
