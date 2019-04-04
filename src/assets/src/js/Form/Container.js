@@ -49,19 +49,20 @@ class Container extends AjaxComponent {
 
 	prevContainer(event){
 		event.preventDefault();
-		this.props.prevContainer();
+
+		this.props.prevContainer(event);
 	}
 
 	nextContainer(event){
 		event.preventDefault();
 
 		this.saveContainer(event)
-		.then(response => {
-			this.props.nextContainer();
-		})
-		.catch(error => {
-			console.log(error);
-		});
+			.then(response => {
+				this.props.nextContainer( event );
+			})
+			.catch(error => {
+				console.log(error);
+			});
 	}
 
 	saveContainer(event) {
@@ -183,11 +184,7 @@ class Container extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	renderComponent() {
-		let cssClasses = ['torro-container', 'torro-container-visible'];
-
-		if( this.props.index !== this.props.curContainer ) {
-			cssClasses = ['torro-container', 'torro-container-invisible'];
-		}
+		let cssClasses = ['torro-container', 'slider-item'];
 
 		return (
 			<div className={cssClasses.join(' ')}>

@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import { __ } from "@wordpress/i18n";
 import AjaxComponent from "./AjaxComponent";
 import Container from "./Container";
@@ -23,10 +24,8 @@ class Form extends AjaxComponent {
 		this.userId = parseInt(props.userId);
 		this.wpNonce = props.wpNonce;
 
-		this.state = {
-			curContainer: 0
-		};
-		this.numContainer = 0;
+		this.sliderId = 'torro-slider-' + this.id;
+		this.sliderMargin = 0;
 
 		this.key = this.createUserKey();
 
@@ -41,6 +40,7 @@ class Form extends AjaxComponent {
 	componentDidMount() {
 		this.getForm();
 		this.getContainers();
+		console.log( ReactDOM.findDOMNode(this) );
 	}
 
 	/**
@@ -103,22 +103,44 @@ class Form extends AjaxComponent {
 		return true;
 	}
 
-	nextContainer() {
+	nextContainer(event) {
 		if( this.hasNextContainer() ) {
 			let curContainer = this.state.curContainer;
 			curContainer += 1;
 
 			this.setState({curContainer: curContainer});
+
+			const sliderContent = event.target.closest('.slider-content');
+			this.setSlider(sliderContent, 1 );
 		}
 	}
 
-	prevContainer() {
+	prevContainer(event) {
 		if( this.hasPrevContainer() ) {
 			let curContainer = this.state.curContainer;
 			curContainer -= 1;
 
 			this.setState({curContainer: curContainer});
+
+			const sliderContent = event.target.closest('.slider-content');
+			this.setSlider(sliderContent, -1 );
 		}
+	}
+
+	setSlider(sliderContent, steps) {
+		const margin = steps * 100;
+		const margin_new = this.sliderMargin + margin;
+		const sliderContentWidth = 100 * this.state.containers.length;
+		console.log( margin_new );
+		console.log( sliderContentWidth );
+
+		if(margin_new < 0 || margin_new >= sliderContentWidth ) {
+			return;
+		}
+
+		this.sliderMargin = margin_new;
+		const marginLeft = (-1 * this.sliderMargin.toString()) + '%';
+		sliderContent.style.marginLeft= marginLeft;
 	}
 
 	/**
@@ -173,11 +195,20 @@ class Form extends AjaxComponent {
 			return this.showTextLoading();
 		}
 
+		let sliderContentWidth = this.state.containers.length * 100;
+		let sliderContentStyle = {
+			width: sliderContentWidth + '%'
+		};
+
 		return (
 			<div className="torro-form">
 				<h2>{this.state.form.title}</h2>
 				<form id={this.state.form.instance.id} className={this.state.form.instance.class}>
-					{this.renderContainers()}
+					<div className="torro-slider">
+						<div id={this.sliderId} className="slider-content" style={sliderContentStyle}>
+						{this.renderContainers()}
+						</div>
+					</div>
 				</form>
 			</div>
 		);
