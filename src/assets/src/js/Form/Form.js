@@ -85,16 +85,16 @@ class Form extends AjaxComponent {
 			});
 	}
 
-	hasNextContainer() {
-		if((this.state.curContainer +1) >= this.numContainer ) {
+	hasNextContainer(containerIndex) {
+		if((containerIndex +1) >= this.numContainer ) {
 			return false;
 		}
 
 		return true;
 	}
 
-	hasPrevContainer() {
-		if((this.state.curContainer) <= 0 ) {
+	hasPrevContainer(containerIndex) {
+		if(containerIndex <= 0 ) {
 			return false;
 		}
 
@@ -102,7 +102,7 @@ class Form extends AjaxComponent {
 	}
 
 	nextContainer(event) {
-		if( this.hasNextContainer() ) {
+		if( this.hasNextContainer(this.state.curContainer) ) {
 			let curContainer = this.state.curContainer;
 			curContainer += 1;
 
@@ -114,7 +114,7 @@ class Form extends AjaxComponent {
 	}
 
 	prevContainer(event) {
-		if( this.hasPrevContainer() ) {
+		if( this.hasPrevContainer(this.state.curContainer) ) {
 			let curContainer = this.state.curContainer;
 			curContainer -= 1;
 
@@ -228,8 +228,8 @@ class Form extends AjaxComponent {
 				setSubmissionId={this.setSubmissionId.bind(this)}
 				data={container}
 				curContainer={this.state.curContainer}
-				hasPrevContainer={this.hasPrevContainer.bind(this)}
-				hasNextContainer={this.hasNextContainer.bind(this)}
+				hasPrevContainer={this.hasPrevContainer(i)}
+				hasNextContainer={this.hasNextContainer(i)}
 				nextContainer={this.nextContainer.bind(this)}
 				prevContainer={this.prevContainer.bind(this)}
 				createSubmission={this.createSubmission.bind(this)}

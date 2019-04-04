@@ -191,8 +191,8 @@ class Container extends AjaxComponent {
 				<h3>{this.props.label}</h3>
 				<div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>
 				<div className="torro-pager">
-					{this.props.hasPrevContainer() ? <div className="prev"><button onClick={this.prevContainer.bind(this)}>Previous</button></div>: null }
-					{this.props.hasNextContainer() ? <div className="next"><button onClick={this.nextContainer.bind(this)}>Next</button></div>: <div className="next"><button type="button" onClick={this.saveContainer.bind(this)}>Submit</button></div> }
+					{this.props.hasPrevContainer ? <div className="prev"><button onClick={this.prevContainer.bind(this)}>Previous</button></div>: null }
+					{this.props.hasNextContainer ? <div className="next"><button onClick={this.nextContainer.bind(this)}>Next</button></div>: <div className="next"><button type="button" onClick={this.saveContainer.bind(this)}>Submit</button></div> }
 				</div>
 			</div>
 		);
