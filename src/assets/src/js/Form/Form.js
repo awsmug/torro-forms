@@ -21,7 +21,7 @@ class Form extends AjaxComponent {
 
 		this.id = parseInt(props.id);
 		this.userId = parseInt(props.userId);
-		this.wpNonce = props.wpNonce;
+		this.wpNonce = torroFrontendI18n.wp_nonce;
 
 		this.sliderId = 'torro-slider-' + this.id;
 		this.sliderMargin = 0;
@@ -135,8 +135,7 @@ class Form extends AjaxComponent {
 		}
 
 		this.sliderMargin = margin_new;
-		const marginLeft = (-1 * this.sliderMargin.toString()) + '%';
-		sliderContent.style.marginLeft= marginLeft;
+		sliderContent.style.marginLeft = (-1 * this.sliderMargin.toString()) + '%';
 	}
 
 	/**
@@ -226,6 +225,7 @@ class Form extends AjaxComponent {
 				formId={this.id}
 				submissionId={this.state.submissionId}
 				setSubmissionId={this.setSubmissionId.bind(this)}
+				wpNonce={this.wpNonce}
 				data={container}
 				curContainer={this.state.curContainer}
 				hasPrevContainer={this.hasPrevContainer(i)}

@@ -138,7 +138,8 @@ class Container extends AjaxComponent {
 				form_id: this.props.formId,
 				submission_id: this.props.submissionId,
 				element_id: elementId,
-				value: value
+				value: value,
+				_wpnonce: this.props.wpNonce
 			};
 
 			axios({

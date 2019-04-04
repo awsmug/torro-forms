@@ -151,7 +151,7 @@ class Assets extends Assets_Base {
 				'in_footer'     => true,
 				'localize_name' => 'torroFrontendI18n',
 				'localize_data' => array(
-					'api_nonce' => wp_create_nonce( 'torro_api_nonce' ),
+					'wp_nonce' => wp_create_nonce( 'wp_rest' ),
 				),
 			)
 		);
