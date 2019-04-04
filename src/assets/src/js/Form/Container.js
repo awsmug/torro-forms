@@ -78,6 +78,9 @@ class Container extends AjaxComponent {
 						this.props.setSubmissionId(response.data.id);
 
 						this.state.elements.forEach(element => {
+							if( element.instance.has_input === false ) {
+								return;
+							}
 							this.saveElement(element.id, element.value )
 								.then(response => {
 									event.target.classList.remove('torro-button-loading');
@@ -94,6 +97,9 @@ class Container extends AjaxComponent {
 					});
 			} else {
 				this.state.elements.forEach(element => {
+					if( element.instance.has_input === false ) {
+						return;
+					}
 					this.saveElement(element.id, element.value, element.valueId)
 						.then(response => {
 							event.target.classList.remove('torro-button-loading');

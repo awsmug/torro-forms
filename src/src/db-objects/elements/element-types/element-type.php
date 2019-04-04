@@ -317,6 +317,17 @@ abstract class Element_Type {
 	}
 
 	/**
+	 * Wether the element has an input or not.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
+	public function has_input() {
+		return ! in_array( 'awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Non_Input_Element_Type_Trait', class_uses( $this ), true );
+	}
+
+	/**
 	 * Formats values for an export.
 	 *
 	 * @since 1.0.0
@@ -475,6 +486,12 @@ abstract class Element_Type {
 
 		if ( $this instanceof Multi_Field_Element_Type_Interface ) {
 			$data['additional_fields'] = $this->additional_fields_to_json( $element, $submission, $choices, $settings, $values );
+		}
+
+		if ( $this->has_input() ) {
+			$data['has_input'] = true;
+		} else {
+			$data['has_input'] = false;
 		}
 
 		return $data;
