@@ -38,8 +38,17 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Text_Base' ) ) :
 				'type'  => $this->type,
 				'value' => $current_value,
 			);
+
+			if ( ! empty( $this->input_attrs['minlength'] ) ) {
+				$input_attrs['minlength'] = absint( $this->input_attrs['minlength'] );
+			}
+
+			if ( ! empty( $this->input_attrs['maxlength'] ) ) {
+				$input_attrs['maxlength'] = absint( $this->input_attrs['maxlength'] );
+			}
+
 			?>
-			<input<?php echo $this->get_input_attrs( $input_attrs ); /* WPCS: XSS OK. */ ?>>
+			<input<?php echo $this->get_input_attrs( $input_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
 			<?php
 			$this->render_repeatable_remove_button();
 		}
@@ -72,6 +81,14 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Text_Base' ) ) :
 			}
 
 			$value = trim( $value );
+
+			if ( ! empty( $this->input_attrs['minlength'] ) ) {
+				$minlength = absint( $this->input_attrs['minlength'] );
+
+				if ( strlen( $value ) < $minlength ) {
+					return new WP_Error( 'field_text_too_short', sprintf( translate_nooped_plural( $this->manager->get_message( 'field_text_too_short', true ), $minlength ), $value, $this->label, number_format_i18n( $minlength ) ) );
+				}
+			}
 
 			if ( ! empty( $this->input_attrs['maxlength'] ) ) {
 				$maxlength = absint( $this->input_attrs['maxlength'] );

@@ -171,15 +171,18 @@ if ( ! trait_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_
 
 			$max_index_length = 191;
 
-			$this->db()->add_table( $meta_table_name, array(
-				'meta_id bigint(20) unsigned NOT NULL auto_increment',
-				"{$prefix}{$id_field_name} bigint(20) unsigned NOT NULL default '0'",
-				'meta_key varchar(255) default NULL',
-				'meta_value longtext',
-				'PRIMARY KEY  (meta_id)',
-				"KEY {$prefix}{$id_field_name} ({$prefix}{$id_field_name})",
-				"KEY meta_key (meta_key($max_index_length))",
-			) );
+			$this->db()->add_table(
+				$meta_table_name,
+				array(
+					'meta_id bigint(20) unsigned NOT NULL auto_increment',
+					"{$prefix}{$id_field_name} bigint(20) unsigned NOT NULL default '0'",
+					'meta_key varchar(255) default NULL',
+					'meta_value longtext',
+					'PRIMARY KEY  (meta_id)',
+					"KEY {$prefix}{$id_field_name} ({$prefix}{$id_field_name})",
+					"KEY meta_key (meta_key($max_index_length))",
+				)
+			);
 		}
 	}
 

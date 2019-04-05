@@ -194,11 +194,13 @@ if ( ! trait_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Status_Manage
 			if ( $capabilities && $capabilities->user_can_publish( null, $id ) ) {
 				$statuses = $this->statuses()->query();
 			} else {
-				$statuses = $this->statuses()->query( array(
-					'public'   => false,
-					'slug'     => $current_status,
-					'operator' => 'OR',
-				) );
+				$statuses = $this->statuses()->query(
+					array(
+						'public'   => false,
+						'slug'     => $current_status,
+						'operator' => 'OR',
+					)
+				);
 			}
 
 			if ( empty( $statuses ) ) {

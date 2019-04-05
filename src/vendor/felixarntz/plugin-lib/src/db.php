@@ -598,7 +598,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB' ) ) :
 		protected function uninstall_single() {
 			foreach ( $this->tables as $prefixed_table_name ) {
 				$db_table_name = $this->table_to_db_table( $prefixed_table_name );
-				$this->wpdb->query( "DROP TABLE $db_table_name" ); // WPCS: Unprepared SQL OK.
+				$this->wpdb->query( "DROP TABLE $db_table_name" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			}
 
 			/**

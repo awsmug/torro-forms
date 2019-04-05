@@ -99,53 +99,61 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controll
 		 * @since 1.0.0
 		 */
 		public function register_routes() {
-			register_rest_route( $this->namespace, '/' . $this->rest_base, array(
+			register_rest_route(
+				$this->namespace,
+				'/' . $this->rest_base,
 				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
-					'args'                => $this->get_collection_params(),
-				),
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'create_item' ),
-					'permission_callback' => array( $this, 'create_item_permissions_check' ),
-					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			) );
+					array(
+						'methods'             => WP_REST_Server::READABLE,
+						'callback'            => array( $this, 'get_items' ),
+						'permission_callback' => array( $this, 'get_items_permissions_check' ),
+						'args'                => $this->get_collection_params(),
+					),
+					array(
+						'methods'             => WP_REST_Server::CREATABLE,
+						'callback'            => array( $this, 'create_item' ),
+						'permission_callback' => array( $this, 'create_item_permissions_check' ),
+						'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
+					),
+					'schema' => array( $this, 'get_public_item_schema' ),
+				)
+			);
 
 			$primary_property = $this->manager->get_primary_property();
 
-			register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<' . $primary_property . '>[\d]+)', array(
-				'args'   => array(
-					$primary_property => array(
-						'description' => $this->manager->get_message( 'rest_item_id_description' ),
-						'type'        => 'integer',
+			register_rest_route(
+				$this->namespace,
+				'/' . $this->rest_base . '/(?P<' . $primary_property . '>[\d]+)',
+				array(
+					'args'   => array(
+						$primary_property => array(
+							'description' => $this->manager->get_message( 'rest_item_id_description' ),
+							'type'        => 'integer',
+						),
 					),
-				),
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_item' ),
-					'permission_callback' => array( $this, 'get_item_permissions_check' ),
-					'args'                => array(
-						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+					array(
+						'methods'             => WP_REST_Server::READABLE,
+						'callback'            => array( $this, 'get_item' ),
+						'permission_callback' => array( $this, 'get_item_permissions_check' ),
+						'args'                => array(
+							'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						),
 					),
-				),
-				array(
-					'methods'             => WP_REST_Server::EDITABLE,
-					'callback'            => array( $this, 'update_item' ),
-					'permission_callback' => array( $this, 'update_item_permissions_check' ),
-					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
-				),
-				array(
-					'methods'             => WP_REST_Server::DELETABLE,
-					'callback'            => array( $this, 'delete_item' ),
-					'permission_callback' => array( $this, 'delete_item_permissions_check' ),
-					'args'                => array(),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			) );
+					array(
+						'methods'             => WP_REST_Server::EDITABLE,
+						'callback'            => array( $this, 'update_item' ),
+						'permission_callback' => array( $this, 'update_item_permissions_check' ),
+						'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
+					),
+					array(
+						'methods'             => WP_REST_Server::DELETABLE,
+						'callback'            => array( $this, 'delete_item' ),
+						'permission_callback' => array( $this, 'delete_item_permissions_check' ),
+						'args'                => array(),
+					),
+					'schema' => array( $this, 'get_public_item_schema' ),
+				)
+			);
 
 			if ( isset( $this->types_controller ) ) {
 				$this->types_controller->register_routes();
@@ -605,10 +613,12 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controll
 			}
 
 			$response = new WP_REST_Response();
-			$response->set_data( array(
-				'deleted'  => true,
-				'previous' => $previous->get_data(),
-			) );
+			$response->set_data(
+				array(
+					'deleted'  => true,
+					'previous' => $previous->get_data(),
+				)
+			);
 
 			return $response;
 		}
@@ -686,9 +696,16 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controll
 		public function prepare_item_for_response( $model, $request ) {
 			$schema = $this->get_item_schema();
 
+			if ( method_exists( $this, 'get_fields_for_response' ) ) {
+				$fields = $this->get_fields_for_response( $request );
+			} else {
+				$fields = array_keys( $schema['properties'] );
+			}
+
 			$data = array();
 
-			foreach ( $schema['properties'] as $property => $params ) {
+			foreach ( $fields as $property ) {
+				$params = $schema['properties'][ $property ];
 				if ( isset( $params['format'] ) && 'date-time' === $params['format'] ) {
 					$data[ $property ] = $this->prepare_date_for_response( $model->$property );
 				} else {

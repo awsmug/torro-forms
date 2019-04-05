@@ -88,17 +88,25 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 
 			$select2_version = '4.0.5';
 
-			$assets->register_style( 'select2', 'node_modules/select2/dist/css/select2.css', array(
-				'ver'     => $select2_version,
-				'enqueue' => true,
-			) );
+			$assets->register_style(
+				'select2',
+				'node_modules/select2/dist/css/select2.css',
+				array(
+					'ver'     => $select2_version,
+					'enqueue' => true,
+				)
+			);
 
-			$assets->register_script( 'select2', 'node_modules/select2/dist/js/select2.js', array(
-				'deps'      => array( 'jquery' ),
-				'ver'       => $select2_version,
-				'in_footer' => true,
-				'enqueue'   => true,
-			) );
+			$assets->register_script(
+				'select2',
+				'node_modules/select2/dist/js/select2.js',
+				array(
+					'deps'      => array( 'jquery' ),
+					'ver'       => $select2_version,
+					'in_footer' => true,
+					'enqueue'   => true,
+				)
+			);
 
 			$ret[0][] = 'select2';
 
@@ -107,21 +115,29 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 			$language = substr( $locale, 0, 2 );
 
 			if ( $assets->file_exists( 'node_modules/select2/dist/js/i18n/' . $locale . '.js' ) ) {
-				$assets->register_script( 'select2-locale', 'node_modules/select2/dist/js/i18n/' . $locale . '.js', array(
-					'deps'      => array( 'select2' ),
-					'ver'       => $select2_version,
-					'in_footer' => true,
-					'enqueue'   => true,
-				) );
+				$assets->register_script(
+					'select2-locale',
+					'node_modules/select2/dist/js/i18n/' . $locale . '.js',
+					array(
+						'deps'      => array( 'select2' ),
+						'ver'       => $select2_version,
+						'in_footer' => true,
+						'enqueue'   => true,
+					)
+				);
 
 				$ret[0][] = 'select2-locale';
 			} elseif ( $assets->file_exists( 'node_modules/select2/dist/js/i18n/' . $language . '.js' ) ) {
-				$assets->register_script( 'select2-locale', 'node_modules/select2/dist/js/i18n/' . $language . '.js', array(
-					'deps'      => array( 'select2' ),
-					'ver'       => $select2_version,
-					'in_footer' => true,
-					'enqueue'   => true,
-				) );
+				$assets->register_script(
+					'select2-locale',
+					'node_modules/select2/dist/js/i18n/' . $language . '.js',
+					array(
+						'deps'      => array( 'select2' ),
+						'ver'       => $select2_version,
+						'in_footer' => true,
+						'enqueue'   => true,
+					)
+				);
 
 				$ret[0][] = 'select2-locale';
 			}
@@ -142,7 +158,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 			$input_attrs = array( 'multiple' => $this->multi );
 
 			?>
-			<select<?php echo $this->get_input_attrs( $input_attrs ); /* WPCS: XSS OK. */ ?>>
+			<select<?php echo $this->get_input_attrs( $input_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
 				<?php if ( ! empty( $this->optgroups ) ) : ?>
 					<?php foreach ( $this->optgroups as $optgroup ) : ?>
 						<?php if ( ! empty( $optgroup['label'] ) ) : ?>
@@ -156,7 +172,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 								'selected' => in_array( (string) $value, $current_value, true ),
 							);
 							?>
-							<option<?php echo $this->attrs( $option_attrs ); /* WPCS: XSS OK. */ ?>><?php echo esc_html( $label ); ?></option>
+							<option<?php echo $this->attrs( $option_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>><?php echo esc_html( $label ); ?></option>
 						<?php endforeach; ?>
 
 						<?php if ( ! empty( $optgroup['label'] ) ) : ?>
@@ -171,7 +187,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 							'selected' => in_array( (string) $value, $current_value, true ),
 						);
 						?>
-						<option<?php echo $this->attrs( $option_attrs ); /* WPCS: XSS OK. */ ?>><?php echo esc_html( $label ); ?></option>
+						<option<?php echo $this->attrs( $option_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>><?php echo esc_html( $label ); ?></option>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</select>
@@ -194,7 +210,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 			}
 
 			?>
-			<select{{{ _.attrs( data.inputAttrs ) }}}<?php echo $multiple; /* WPCS: XSS OK. */ ?>>
+			<select{{{ _.attrs( data.inputAttrs ) }}}<?php echo $multiple; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
 				<# if ( ! _.isEmpty( data.optgroups ) ) { #>
 					<# _.each( data.optgroups, function( optgroup ) { #>
 						<# if ( ! _.isEmpty( optgroup.label ) ) { #>
@@ -202,7 +218,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 						<# } #>
 
 						<# _.each( optgroup.choices, function( label, value ) { #>
-							<option value="{{ value }}"<?php echo $selected; /* WPCS: XSS OK. */ ?>>{{ label }}</option>
+							<option value="{{ value }}"<?php echo $selected; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>{{ label }}</option>
 						<# } ) #>
 
 						<# if ( ! _.isEmpty( optgroup.label ) ) { #>
@@ -211,7 +227,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Select' ) ) :
 					<# }) #>
 				<# } else { #>
 					<# _.each( data.choices, function( label, value ) { #>
-						<option value="{{ value }}"<?php echo $selected; /* WPCS: XSS OK. */ ?>>{{ label }}</option>
+						<option value="{{ value }}"<?php echo $selected; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>{{ label }}</option>
 					<# } ) #>
 				<# } #>
 			</select>

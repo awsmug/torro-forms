@@ -70,11 +70,14 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\AJAX' ) ) :
 
 			$nonce = function_exists( 'wp_create_nonce' ) ? wp_create_nonce( $this->get_nonce_action( $name ) ) : '';
 
-			$args = wp_parse_args( $args, array(
-				'callback' => $callback,
-				'nopriv'   => false,
-				'nonce'    => $nonce,
-			) );
+			$args = wp_parse_args(
+				$args,
+				array(
+					'callback' => $callback,
+					'nopriv'   => false,
+					'nonce'    => $nonce,
+				)
+			);
 
 			$this->ajax_actions[ $name ] = $args;
 
@@ -87,7 +90,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\AJAX' ) ) :
 		 * @since 1.0.0
 		 */
 		public function request() {
-			$request_data = wp_unslash( $_REQUEST ); // WPCS: CSRF OK.
+			$request_data = wp_unslash( $_REQUEST ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$name = str_replace( $this->get_prefix(), '', $request_data['action'] );
 
