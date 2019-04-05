@@ -8,8 +8,11 @@ class ComposerStaticInit5d15fdb995c9d0e1699f1ac59cbd8ad5
 {
     public static $files = array (
         'a7095d87cbcc6a30feb9948d6a1b979f' => __DIR__ . '/..' . '/api-api/core/src/api-api.php',
+        'da40a0c65acfab0bd2551f3dd6da23eb' => __DIR__ . '/..' . '/api-api/authenticator-oauth1/src/authenticator-oauth1.php',
+        'ce13a363600fbe46c0c1876625b25261' => __DIR__ . '/..' . '/api-api/authenticator-x/src/authenticator-x.php',
         '667743c980c9496d0457f2aa557196bd' => __DIR__ . '/..' . '/api-api/storage-wordpress-option/src/storage-wordpress-option.php',
         '6e7e8dee9dd1d6d497ee40cf7e92879c' => __DIR__ . '/..' . '/api-api/transporter-wordpress/src/transporter-wordpress.php',
+        'b8aa2ebabb8493d4e0ccac734d32b27f' => __DIR__ . '/..' . '/api-api/structure-wordpress/src/structure-wordpress.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -26,8 +29,11 @@ class ComposerStaticInit5d15fdb995c9d0e1699f1ac59cbd8ad5
         'A' => 
         array (
             'APIAPI\\Transporter_WordPress\\' => 29,
+            'APIAPI\\Structure_WordPress\\' => 27,
             'APIAPI\\Storage_WordPress_Option\\' => 32,
             'APIAPI\\Core\\' => 12,
+            'APIAPI\\Authenticator_X\\' => 23,
+            'APIAPI\\Authenticator_OAuth1\\' => 28,
         ),
     );
 
@@ -52,6 +58,10 @@ class ComposerStaticInit5d15fdb995c9d0e1699f1ac59cbd8ad5
         array (
             0 => __DIR__ . '/..' . '/api-api/transporter-wordpress/src/Transporter_WordPress',
         ),
+        'APIAPI\\Structure_WordPress\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/api-api/structure-wordpress/src/Structure_WordPress',
+        ),
         'APIAPI\\Storage_WordPress_Option\\' => 
         array (
             0 => __DIR__ . '/..' . '/api-api/storage-wordpress-option/src/Storage_WordPress_Option',
@@ -59,6 +69,14 @@ class ComposerStaticInit5d15fdb995c9d0e1699f1ac59cbd8ad5
         'APIAPI\\Core\\' => 
         array (
             0 => __DIR__ . '/..' . '/api-api/core/src/Core',
+        ),
+        'APIAPI\\Authenticator_X\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/api-api/authenticator-x/src/Authenticator_X',
+        ),
+        'APIAPI\\Authenticator_OAuth1\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/api-api/authenticator-oauth1/src/Authenticator_OAuth1',
         ),
     );
 
