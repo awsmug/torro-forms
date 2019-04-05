@@ -18,30 +18,38 @@ local.properties
 .cproject
 .buildpath
 nbproject/
-composer.lock
 package-lock.json
 
 ############
 ## Vendor
 ############
 
-/node_modules/
+/node_modules
 /vendor
 /src/vendor/**/README.md
+/src/vendor/**/CHANGELOG.md
 /src/vendor/**/.gitignore
 /src/vendor/**/.gitattributes
+/src/vendor/**/bower.json
+/src/vendor/**/index.html
+/src/vendor/**/doc.tpl
 /src/vendor/**/composer.json
+/src/vendor/**/package.json
+/src/vendor/**/.travis.yml
 /src/vendor/**/.codeclimate.yml
 /src/vendor/**/.editorconfig
+/src/vendor/**/.jshintrc
 /src/vendor/**/phpcs*
 /src/vendor/**/phpmd*
 /src/vendor/**/phpunit*
+/src/vendor/felixarntz/plugin-lib/vendor/
 /src/vendor/felixarntz/plugin-lib/node_modules/almond/
 /src/vendor/felixarntz/plugin-lib/node_modules/jquery/
 /src/vendor/felixarntz/plugin-lib/node_modules/jquery-datetimepicker/tests/
 /src/vendor/felixarntz/plugin-lib/node_modules/jquery-mousewheel/
 /src/vendor/felixarntz/plugin-lib/node_modules/php-date-formatter/
 /src/vendor/felixarntz/plugin-lib/node_modules/select2/src/
+/src/vendor/felixarntz/plugin-lib/node_modules/wp-map-picker/
 
 ############
 ## OSes
