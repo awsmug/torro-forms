@@ -643,11 +643,6 @@ abstract class Element_Type {
 						// Replace CSV delimiter.
 						$value = str_replace( ';', ',', $value );
 					}
-
-					// Add paragraphs if there are linebreaks.
-					if ( false !== strpos( $value, "\n" ) ) {
-						$value = wpautop( $value );
-					}
 				}
 				break;
 			case 'json':

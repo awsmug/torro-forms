@@ -34,8 +34,10 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Translations\Translations_Field
 				'field_repeatable_add_button'            => $this->__translate( 'Add<span class="screen-reader-text"> another item to the &#8220;%s&#8221; list</span>', 'textdomain' ),
 				/* translators: %s: field label */
 				'field_repeatable_remove_button'         => $this->__translate( 'Remove<span class="screen-reader-text"> this item from the &#8220;%s&#8221; list</span>', 'textdomain' ),
-				/* translators: 1: incorrect value, 2: field label, 3: character limit */
-				'field_text_too_long'                    => $this->_n_nooptranslate( 'The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is longer than the allowed limit of %3$s character.', 'The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is longer than the allowed limit of %3$s characters.', 'textdomain' ),
+				/* translators: 1: incorrect value, 2: field label, 3: minimum length */
+				'field_text_too_short'                   => $this->_n_nooptranslate( 'The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is shorter than the allowed minimum of %3$s character.', 'The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is shorter than the allowed minimum %3$s characters.', 'textdomain' ),
+				/* translators: 1: incorrect value, 2: field label, 3: maximum length */
+				'field_text_too_long'                    => $this->_n_nooptranslate( 'The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is longer than the allowed maximum of %3$s character.', 'The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is longer than the allowed maximum of %3$s characters.', 'textdomain' ),
 				/* translators: 1: incorrect value, 2: field label, 3: regex pattern */
 				'field_text_no_pattern_match'            => $this->__translate( 'The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; does not match the pattern %3$s.', 'textdomain' ),
 				/* translators: 1: incorrect value, 2: field label */

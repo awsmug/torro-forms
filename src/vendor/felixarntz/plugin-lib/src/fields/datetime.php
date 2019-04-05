@@ -119,26 +119,37 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Datetime' ) ) :
 				$css_path = 'node_modules/jquery-datetimepicker/jquery.datetimepicker.css';
 			}
 
-			$assets->register_style( 'datetimepicker', $css_path, array(
-				'ver'     => $datetimepicker_version,
-				'enqueue' => true,
-			) );
+			$assets->register_style(
+				'datetimepicker',
+				$css_path,
+				array(
+					'ver'     => $datetimepicker_version,
+					'enqueue' => true,
+				)
+			);
 
-			$assets->register_script( 'datetimepicker', 'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.js', array(
-				'deps'      => array( 'jquery' ),
-				'ver'       => $datetimepicker_version,
-				'in_footer' => true,
-				'enqueue'   => true,
-			) );
+			$assets->register_script(
+				'datetimepicker',
+				'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.js',
+				array(
+					'deps'      => array( 'jquery' ),
+					'ver'       => $datetimepicker_version,
+					'in_footer' => true,
+					'enqueue'   => true,
+				)
+			);
 
 			$ret[0][] = 'datetimepicker';
-			$ret[1]   = array_merge( $ret[1], array(
-				'language'       => substr( get_locale(), 0, 2 ),
-				'datetimeFormat' => sprintf( $this->manager->get_message( 'field_datetime_format_concat' ), get_option( 'date_format' ), get_option( 'time_format' ) ),
-				'dateFormat'     => get_option( 'date_format' ),
-				'timeFormat'     => get_option( 'time_format' ),
-				'startOfWeek'    => get_option( 'start_of_week' ),
-			) );
+			$ret[1]   = array_merge(
+				$ret[1],
+				array(
+					'language'       => substr( get_locale(), 0, 2 ),
+					'datetimeFormat' => sprintf( $this->manager->get_message( 'field_datetime_format_concat' ), get_option( 'date_format' ), get_option( 'time_format' ) ),
+					'dateFormat'     => get_option( 'date_format' ),
+					'timeFormat'     => get_option( 'time_format' ),
+					'startOfWeek'    => get_option( 'start_of_week' ),
+				)
+			);
 
 			return $ret;
 		}
@@ -166,7 +177,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Datetime' ) ) :
 				'value' => $current_value,
 			);
 			?>
-			<input<?php echo $this->attrs( $hidden_attrs ); /* WPCS: XSS OK. */ ?>>
+			<input<?php echo $this->attrs( $hidden_attrs ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
 			<?php
 			parent::render_single_input( $formatted_value );
 		}
@@ -182,7 +193,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Datetime' ) ) :
 			<?php
 			ob_start();
 			parent::print_single_input_template();
-			echo str_replace( '"{{ data.currentValue }}"', '"{{ data.formattedValue }}"', ob_get_clean() ); // WPCS: XSS OK.
+			echo str_replace( '"{{ data.currentValue }}"', '"{{ data.formattedValue }}"', ob_get_clean() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		/**

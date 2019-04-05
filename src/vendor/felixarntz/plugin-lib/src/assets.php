@@ -85,14 +85,17 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Assets' ) ) :
 		 * }
 		 */
 		public function register_script( $handle, $src, $args = array() ) {
-			$args = wp_parse_args( $args, array(
-				'deps'          => array(),
-				'ver'           => false,
-				'in_footer'     => false,
-				'enqueue'       => false,
-				'localize_name' => null,
-				'localize_data' => array(),
-			) );
+			$args = wp_parse_args(
+				$args,
+				array(
+					'deps'          => array(),
+					'ver'           => false,
+					'in_footer'     => false,
+					'enqueue'       => false,
+					'localize_name' => null,
+					'localize_data' => array(),
+				)
+			);
 
 			$handle = $this->check_handle( $handle, $src );
 			$src    = $this->get_full_url( $src );
@@ -142,12 +145,15 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Assets' ) ) :
 		 * }
 		 */
 		public function register_style( $handle, $src, $args = array() ) {
-			$args = wp_parse_args( $args, array(
-				'deps'    => array(),
-				'ver'     => false,
-				'media'   => 'all',
-				'enqueue' => false,
-			) );
+			$args = wp_parse_args(
+				$args,
+				array(
+					'deps'    => array(),
+					'ver'     => false,
+					'media'   => 'all',
+					'enqueue' => false,
+				)
+			);
 
 			$handle = $this->check_handle( $handle, $src );
 			$src    = $this->get_full_url( $src );
@@ -314,14 +320,17 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Assets' ) ) :
 		 */
 		public static function get_library_instance() {
 			if ( null === self::$library_instance ) {
-				self::$library_instance = new Assets( 'plugin_lib_', array(
-					'path_callback' => function( $rel_path ) {
-						return plugin_dir_path( dirname( __FILE__ ) ) . ltrim( $rel_path, '/' );
-					},
-					'url_callback'  => function( $rel_path ) {
-						return plugin_dir_url( dirname( __FILE__ ) ) . ltrim( $rel_path, '/' );
-					},
-				) );
+				self::$library_instance = new Assets(
+					'plugin_lib_',
+					array(
+						'path_callback' => function( $rel_path ) {
+							return plugin_dir_path( dirname( __FILE__ ) ) . ltrim( $rel_path, '/' );
+						},
+						'url_callback'  => function( $rel_path ) {
+							return plugin_dir_url( dirname( __FILE__ ) ) . ltrim( $rel_path, '/' );
+						},
+					)
+				);
 			}
 
 			return self::$library_instance;
