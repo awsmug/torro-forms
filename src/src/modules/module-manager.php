@@ -15,6 +15,7 @@ use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
 use awsmug\Torro_Forms\Modules\Protectors\Module as Protectors_Module;
 use awsmug\Torro_Forms\Modules\Evaluators\Module as Evaluators_Module;
 use awsmug\Torro_Forms\Modules\Form_Settings\Module as Form_Settings_Module;
+use awsmug\Torro_Forms\Modules\Frontends\Module as Frontends_Module;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form_Manager;
 use awsmug\Torro_Forms\Components\Template_Tag_Handler_Manager;
 use awsmug\Torro_Forms\Error;
@@ -156,6 +157,7 @@ class Module_Manager extends Service {
 			'protectors'      => Protectors_Module::class,
 			'evaluators'      => Evaluators_Module::class,
 			'form_settings'   => Form_Settings_Module::class,
+			'frontends'       => Frontends_Module::class,
 		);
 
 		foreach ( $this->default_modules as $slug => $module_class_name ) {

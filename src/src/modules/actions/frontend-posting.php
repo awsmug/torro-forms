@@ -34,7 +34,7 @@ class Frontend_Posting extends API_Action {
 	 */
 	protected function bootstrap() {
 		$this->slug  = 'frontend_posting';
-		$this->title = __( 'Frontend Posting', 'torro-forms-plugin-boilerplate' );
+		$this->title = __( 'Frontend Posting', 'torro-forms' );
 
 		$this->register_site_apiapi_structure();
 	}
