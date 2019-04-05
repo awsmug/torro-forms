@@ -143,6 +143,16 @@ class Container extends Model {
 		 */
 		$data['required_description'] = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description, $this->form_id );
 
+		/**
+		 * Filters the element model data.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array                                   $data    Array with form model Data.
+		 * @param awsmug\Torro_Forms\DB_Objects\Element   $element Element object.
+		 */
+		$data = apply_filters( "{$this->manager->get_prefix()}container_model_data", $data, $this );
+
 		return $data;
 	}
 

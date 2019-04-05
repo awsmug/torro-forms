@@ -326,6 +326,16 @@ class Element extends Model {
 		 */
 		$data['value'] = apply_filters( "{$this->manager->get_prefix()}element_value", $data['value'], $this );
 
+		/**
+		 * Filters the element model data.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array     $data    Array with form model Data.
+		 * @param Element   $element Element object.
+		 */
+		$data = apply_filters( "{$this->manager->get_prefix()}element_model_data", $data, $this );
+
 		return $data;
 	}
 

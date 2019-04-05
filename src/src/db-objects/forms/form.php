@@ -281,7 +281,7 @@ class Form extends Core_Model {
 		 * @param string $form_action_url Form action URL.
 		 * @param int    $form_id         Form ID.
 		 */
-		$form_action_url = apply_filters( 'torro_form_action_url', home_url( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ), (int) $this->original->ID );
+		$form_action_url = apply_filters( "{$this->manager->get_prefix()}_form_action_url", home_url( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ), (int) $this->original->ID );
 
 		$data['form_attrs'] = array(
 			'id'         => 'torro-form-' . $this->original->ID,
@@ -291,6 +291,16 @@ class Form extends Core_Model {
 			'enctype'    => 'multipart/form-data',
 			'novalidate' => true,
 		);
+
+		/**
+		 * Filters the form model data.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array $data Array with form model Data.
+		 * @param int   $id   Form Id.
+		 */
+		$data = apply_filters( "{$this->manager->get_prefix()}form_model_data", $data, $this->original->ID );
 
 		return $data;
 	}
