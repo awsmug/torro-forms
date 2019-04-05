@@ -28,7 +28,7 @@ class Form extends AjaxComponent {
 
 		this.key = this.createUserKey();
 
-		this.status = "progressing";
+		this.status = 'progressing';
 	}
 
 	/**
@@ -170,6 +170,37 @@ class Form extends AjaxComponent {
 	}
 
 	/**
+	 * Completing submission.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 */
+	completeSubmission( event ){
+		if (this.state.submissionId === undefined) {
+			return;
+		}
+
+		this.status = 'completed';
+
+		const submissionPutUrl = this.getEndpointUrl("/submissions") + '/' + this.state.submissionId;
+
+		axios.put(submissionPutUrl, {
+			form_id: this.id,
+			user_id: this.userId,
+			status: 'completed'
+		}).then(response => {
+			this.setState({
+				containers: undefined,
+				submissionId: undefined,
+				curContainer: undefined
+			});
+		}).catch(error => {
+			console.error((error));
+		})
+	}
+
+	/**
 	 * Setting submission id
 	 *
 	 * @since 1.2.0
@@ -186,6 +217,21 @@ class Form extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	renderComponent() {
+		if( this.status === 'completed' ) {
+			return this.renderSuccessMessage();
+		}
+
+		return this.renderForm();
+	}
+
+	/**
+	 * Rendering Form.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @returns {*}
+	 */
+	renderForm() {
 		if (this.state.form === undefined || this.state.containers === undefined) {
 			return this.showTextLoading();
 		}
@@ -201,10 +247,25 @@ class Form extends AjaxComponent {
 				<form id={this.state.form.instance.id} className={this.state.form.instance.class}>
 					<div className="torro-slider">
 						<div id={this.sliderId} className="slider-content" style={sliderContentStyle}>
-						{this.renderContainers()}
+							{this.renderContainers()}
 						</div>
 					</div>
 				</form>
+			</div>
+		);
+	}
+
+	/**
+	 * Prints out success message.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @returns {*}
+	 */
+	renderSuccessMessage() {
+		return (
+			<div className="torro-notice torro-success-notice">
+				<p>{this.state.form.instance.success_message}</p>
 			</div>
 		);
 	}
@@ -233,6 +294,7 @@ class Form extends AjaxComponent {
 				nextContainer={this.nextContainer.bind(this)}
 				prevContainer={this.prevContainer.bind(this)}
 				createSubmission={this.createSubmission.bind(this)}
+				completeSubmission={this.completeSubmission.bind(this)}
 			/>
 		));
 	}

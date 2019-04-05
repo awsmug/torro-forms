@@ -65,6 +65,18 @@ class Container extends AjaxComponent {
 			});
 	}
 
+	completeSubmission(event) {
+		event.preventDefault();
+
+		this.saveContainer(event)
+			.then(response => {
+				this.props.completeSubmission( event );
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+
 	saveContainer(event) {
 		event.preventDefault();
 		event.persist();
@@ -199,7 +211,7 @@ class Container extends AjaxComponent {
 				<div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>
 				<div className="torro-pager">
 					{this.props.hasPrevContainer ? <div className="prev"><button onClick={this.prevContainer.bind(this)}>Previous</button></div>: null }
-					{this.props.hasNextContainer ? <div className="next"><button onClick={this.nextContainer.bind(this)}>Next</button></div>: <div className="next"><button type="button" onClick={this.saveContainer.bind(this)}>Submit</button></div> }
+					{this.props.hasNextContainer ? <div className="next"><button onClick={this.nextContainer.bind(this)}>Next</button></div>: <div className="next"><button type="button" onClick={this.completeSubmission.bind(this)}>Submit</button></div> }
 				</div>
 			</div>
 		);
