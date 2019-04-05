@@ -26,7 +26,16 @@ package-lock.json
 ############
 
 /node_modules/
-/vendor/
+/vendor
+/src/vendor/**/README.md
+/src/vendor/**/.gitignore
+/src/vendor/**/.gitattributes
+/src/vendor/**/composer.json
+/src/vendor/**/.codeclimate.yml
+/src/vendor/**/.editorconfig
+/src/vendor/**/phpcs*
+/src/vendor/**/phpmd*
+/src/vendor/**/phpunit*
 /src/vendor/felixarntz/plugin-lib/node_modules/almond/
 /src/vendor/felixarntz/plugin-lib/node_modules/jquery/
 /src/vendor/felixarntz/plugin-lib/node_modules/jquery-datetimepicker/tests/
