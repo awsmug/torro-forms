@@ -131,6 +131,14 @@ class Assets extends Assets_Base {
 				'ver'  => $this->plugin_version,
 			)
 		);
+		$this->register_script(
+			'frontend',
+			'assets/dist/js/frontend.js',
+			array(
+				'deps' => array(),
+				'ver'  => $this->plugin_version,
+			)
+		);
 
 		$this->register_script(
 			'util',

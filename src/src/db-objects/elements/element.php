@@ -223,7 +223,7 @@ class Element extends Model {
 		 * @param array   $wrap_classes Array of wrap classes.
 		 * @param Element $element      Element object.
 		 */
-		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap' ), $this );
+		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}element_wrap_classes", array( 'torro-element-wrap', 'torro-element-' . $this->type ), $this );
 
 		/**
 		 * Filters the element description classes.
