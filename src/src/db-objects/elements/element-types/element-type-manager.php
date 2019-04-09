@@ -83,6 +83,7 @@ class Element_Type_Manager extends Service {
 		$this->setup_hooks();
 
 		Field_Manager::register_field_type( 'torrochoices', Choices_Field::class );
+		Field_Manager::register_field_type( 'torroimagechoices', Imagechoices_Field::class );
 
 		$this->default_element_types = array(
 			'textfield'      => Base\Textfield::class,
@@ -90,6 +91,7 @@ class Element_Type_Manager extends Service {
 			'content'        => Base\Content::class,
 			'dropdown'       => Base\Dropdown::class,
 			'onechoice'      => Base\Onechoice::class,
+			'imagechoice'    => Base\Imagechoice::class,
 			'multiplechoice' => Base\Multiplechoice::class,
 			'media'          => Base\Media::class,
 			'checkbox'       => Base\Checkbox::class,

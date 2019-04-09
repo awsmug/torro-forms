@@ -59,7 +59,47 @@
 			border-color: $color-error;
 		}
 	}
+
+	&.torro-element-imagechoice {
+
+		.torro-align-horizontal {
+			display:flex;
+
+			img {
+				display:block;
+			}
+
+			label {
+				text-align: center;
+				cursor: pointer;
+			}
+		}
+
+		.torro-align-vertical {
+			label {
+				display: flex;
+				align-items: center;
+				cursor: pointer;
+			}
+		}
+
+		.torro-imagechoice {
+			border: 1px solid transparent;
+
+			&.torro-imagechoice-checked {
+				border: 1px solid red;
+			}
+
+			[type="radio"] {
+				position: absolute;
+				opacity: 0;
+				width: 0;
+				height: 0;
+			}
+		}
+	}
 }
+
 
 .torro-element-errors {
 	color: $color-error;

@@ -94,6 +94,8 @@ abstract class Form_Frontend_Output_Handler {
 			$this->form_manager->assets()->enqueue_style( 'frontend' );
 		}
 
+		$this->form_manager->assets()->enqueue_script( 'frontend' );
+
 		/**
 		 * Fires when form assets should be enqueued in the frontend.
 		 *
