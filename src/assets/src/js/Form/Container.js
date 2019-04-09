@@ -4,6 +4,7 @@ import Textarea from "./Elements/Textarea";
 import Content from "./Elements/Content";
 import Dropdown from "./Elements/Dropdown";
 import Onechoice from "./Elements/Onechoice";
+import Imagechoice from "./Elements/Imagechoice";
 import Multiplechoice from "./Elements/Multiplechoice";
 
 import axios from "axios/index";
@@ -253,6 +254,9 @@ class Container extends AjaxComponent {
 			},
 			onechoice: element => {
 				return <Onechoice data={element} ajaxUrl={this.props.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			imagechoice: element => {
+				return <Imagechoice data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
 			},
 			multiplechoice: element => {
 				return <Multiplechoice data={element} ajaxUrl={this.props.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
