@@ -123,6 +123,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 		foreach ( $data['choices'] as $choice ) {
 			$images[ $choice ] = array(
 				'img'   => wp_get_attachment_image( $choice, $settings['image_size'] ),
+				'src'   => wp_get_attachment_image_src( $choice, $settings['image_size'] ),
 				'title' => get_the_title( $choice ),
 			);
 		}
