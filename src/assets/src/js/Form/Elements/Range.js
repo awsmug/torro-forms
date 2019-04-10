@@ -20,6 +20,8 @@ class Range extends Element {
 
 		const helper_input = input.closest( '.torro-element-range' ).querySelector('.torro-helper-input input' );
 		helper_input.value = value;
+
+		this.changeValue( event );
 	}
 
 	/**
@@ -36,6 +38,8 @@ class Range extends Element {
 		const input = helper_input.closest( '.torro-element-range' ).querySelector('.torro-input input' );
 
 		input.value = value;
+
+		this.changeValue( event );
 	}
 
 	/**
@@ -48,8 +52,6 @@ class Range extends Element {
 
 		let helper_before = null;
 		let helper_after = null;
-
-		console.log( element );
 
 		if( element.helper_input === 'before' ) {
 			helper_before = (
@@ -79,7 +81,18 @@ class Range extends Element {
 				<div>
 					{helper_before}
 						<div className="torro-input">
-							<input type="range" min={element.input_attrs.min} max={element.input_attrs.max} step={element.input_attrs.step} onChange={event => this.rangeChange(event)} />
+							<input
+								type="range"
+								name={element.input_attrs.name}
+								data-element-id={element.id}
+								min={element.input_attrs.min}
+								max={element.input_attrs.max}
+								step={element.input_attrs.step}
+								aria-describedby={element.input_attrs["aria-describedby"]}
+								aria-required={element.input_attrs["aria-required"]}
+								defaultValue={element.value}
+								onChange={event => this.rangeChange(event)}
+							/>
 						</div>
 					{helper_after}
 				</div>
