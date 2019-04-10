@@ -26,9 +26,25 @@
 			</div>
 		<?php endif; ?>
 
+		<?php if( ! empty( $input_attrs['min'] ) && 'before' === $input_attrs['show_min_max'] ): ?>
+			<div class="torro-min"><?php $input_attrs['min']; ?></div>
+		<?php endif; ?>
+
+		<?php if( ! empty( $input_attrs['max'] ) && 'before' === $input_attrs['show_min_max'] ): ?>
+			<div class="torro-max"><?php $input_attrs['min']; ?></div>
+		<?php endif; ?>
+
 		<div class="torro-input">
 			<input type="range"<?php echo torro()->template()->attrs( $input_attrs ); ?>>
 		</div>
+
+		<?php if( ! empty( $input_attrs['min'] ) && 'after' === $input_attrs['show_min_max'] ): ?>
+			<div class="torro-min"><?php $input_attrs['min']; ?></div>
+		<?php endif; ?>
+
+		<?php if( ! empty( $input_attrs['max'] ) && 'after' === $input_attrs['show_min_max'] ): ?>
+			<div class="torro-max"><?php $input_attrs['min']; ?></div>
+		<?php endif; ?>
 
 		<?php if( 'after' === $helper_input ): ?>
 			<div class="torro-helper-input">
