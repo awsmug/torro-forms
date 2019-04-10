@@ -6,6 +6,7 @@ import Dropdown from "./Elements/Dropdown";
 import Onechoice from "./Elements/Onechoice";
 import Imagechoice from "./Elements/Imagechoice";
 import Multiplechoice from "./Elements/Multiplechoice";
+import Range from "./Elements/Range";
 
 import axios from "axios/index";
 
@@ -260,6 +261,9 @@ class Container extends AjaxComponent {
 			},
 			multiplechoice: element => {
 				return <Multiplechoice data={element} ajaxUrl={this.props.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
+			},
+			range: element => {
+				return <Range data={element} ajaxUrl={this.props.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
 			},
 			default: element => {
 				return <Textfield data={element} ajaxUrl={this.props.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
