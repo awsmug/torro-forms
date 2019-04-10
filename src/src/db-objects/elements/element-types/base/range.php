@@ -96,16 +96,21 @@ class Range extends Element_Type {
 		$data     = parent::filter_json( $data, $element, $submission );
 		$settings = $this->get_settings( $element );
 
-		$data['input_attrs'] = array(
-			'min'  => $settings['min_value'],
-			'max'  => $settings['max_value'],
-			'step' => $settings['step'],
-		);
+		$data['input_attrs']['min']  = $settings['min_value'];
+		$data['input_attrs']['max']  = $settings['max_value'];
+		$data['input_attrs']['step'] = $settings['step'];
+
+		$lentgh[] = strlen( strval( $settings['min_value'] ) );
+		$lentgh[] = strlen( strval( $settings['max_value'] ) );
+
+		$max_length = max( $lentgh );
 
 		$data['helper_input']       = $settings['helper_input'];
 		$data['helper_input_attrs'] = array(
-			'id'    => 'torro-range-helper-' . $element->id,
-			'class' => 'torro-range-helper',
+			'id'        => 'torro-range-helper-' . $element->id,
+			'class'     => 'torro-range-helper',
+			'size'      => $max_length,
+			'maxlength' => $max_length,
 		);
 
 		return $data;
