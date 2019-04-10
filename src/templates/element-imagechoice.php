@@ -1,6 +1,6 @@
 <?php
 /**
- * Template: element-onechoice.php
+ * Template: element-imagechoice.php
  *
  * Available data: $id, $container_id, $label, $sort, $type, $value, $input_attrs, $label_required, $label_attrs, $wrap_attrs, $description, $description_attrs, $errors, $errors_attrs, $before, $after, $choices, $legend_attrs
  *
@@ -19,7 +19,7 @@
 		<?php echo torro()->template()->esc_kses_basic( $label_required ); ?>
 	</legend>
 
-	<div>
+	<div<?php echo torro()->template()->attrs( $choices_attrs ); ?>>
 		<?php foreach ( $choices as $index => $choice ) : ?>
 			<?php
 			$choice_input_attrs = $input_attrs;
@@ -29,10 +29,15 @@
 			$choice_label_attrs['id']  = str_replace( '%index%', $index + 1, $choice_label_attrs['id'] );
 			$choice_label_attrs['for'] = str_replace( '%index%', $index + 1, $choice_label_attrs['for'] );
 			?>
-			<div class="torro-toggle torro-element-choice">
-				<input type="radio"<?php echo torro()->template()->attrs( $choice_input_attrs ); ?> value="<?php echo torro()->template()->esc_attr( $choice ); ?>"<?php echo $value === $choice ? ' checked' : ''; ?>>
+			<div<?php echo torro()->template()->attrs( $choice_attrs ); ?>>
 				<label<?php echo torro()->template()->attrs( $choice_label_attrs ); ?>>
-					<?php echo torro()->template()->esc_kses_basic( $choice ); ?>
+					<div class="torro-imagechoice-image">
+						<input type="radio"<?php echo torro()->template()->attrs( $choice_input_attrs ); ?> value="<?php echo torro()->template()->esc_attr( $choice ); ?>"<?php echo $value === $choice ? ' checked' : ''; ?>>
+						<?php echo $images[ $choice ]['img']; ?>
+					</div>
+					<?php if ( ! empty( $images[ $choice ]['title'] ) && $title_after_image ): ?>
+						<div class="torro-imagechoice-title"><?php echo $images[ $choice ]['title']; ?></div>
+					<?php endif; ?>
 				</label>
 			</div>
 		<?php endforeach; ?>
