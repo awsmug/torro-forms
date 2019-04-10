@@ -93,6 +93,7 @@ class Element_Type_Manager extends Service {
 			'onechoice'      => Base\Onechoice::class,
 			'imagechoice'    => Base\Imagechoice::class,
 			'multiplechoice' => Base\Multiplechoice::class,
+			'range'          => Base\Range::class,
 			'media'          => Base\Media::class,
 			'checkbox'       => Base\Checkbox::class,
 		);
