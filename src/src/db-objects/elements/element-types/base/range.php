@@ -57,6 +57,19 @@ class Range extends Element_Type {
 			'step'          => 1,
 		);
 
+		$this->settings_fields['show_min_max'] = array(
+			'section'     => 'settings',
+			'type'        => 'select',
+			'label'       => __( 'Show min/max values', 'torro-forms' ),
+			'description' => __( 'Shows the minimum and maximum values at the range', 'torro-forms' ),
+			'choices'     => array(
+				'no'     => __( 'No', 'torro-forms' ),
+				'before' => __( 'Before', 'torro-forms' ),
+				'after'  => __( 'After', 'torro-forms' ),
+			),
+			'default'     => 'after',
+		);
+
 		$this->settings_fields['step'] = array(
 			'section'       => 'settings',
 			'type'          => 'text',
@@ -73,8 +86,8 @@ class Range extends Element_Type {
 			'description' => __( 'Shows the current value in a text input to offer manual input if the value', 'torro-forms' ),
 			'choices'     => array(
 				'no'     => __( 'No', 'torro-forms' ),
-				'before' => __( 'Before Input', 'torro-forms' ),
-				'after'  => __( 'After Input', 'torro-forms' ),
+				'before' => __( 'Before', 'torro-forms' ),
+				'after'  => __( 'After', 'torro-forms' ),
 			),
 			'default'     => 'no',
 		);
@@ -96,9 +109,10 @@ class Range extends Element_Type {
 		$data     = parent::filter_json( $data, $element, $submission );
 		$settings = $this->get_settings( $element );
 
-		$data['input_attrs']['min']  = $settings['min_value'];
-		$data['input_attrs']['max']  = $settings['max_value'];
-		$data['input_attrs']['step'] = $settings['step'];
+		$data['input_attrs']['min']          = $settings['min_value'];
+		$data['input_attrs']['max']          = $settings['max_value'];
+		$data['input_attrs']['step']         = $settings['step'];
+		$data['input_attrs']['show_min_max'] = $settings['show_min_max'];
 
 		$lentgh[] = strlen( strval( $settings['min_value'] ) );
 		$lentgh[] = strlen( strval( $settings['max_value'] ) );
