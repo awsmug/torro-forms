@@ -11,7 +11,7 @@
 
 	function imageChoiceChange( event ) {
 		var input = event.target;
-		var choices = event.target.closest( '.torro-element-imagechoice' ).querySelectorAll( '.torro-imagechoice' );
+		var choices = input.closest( '.torro-element-imagechoice' ).querySelectorAll( '.torro-imagechoice' );
 
 		for ( var i = 0 ; i < choices.length ; i++ ) {
 			choices[i].classList.remove( 'torro-imagechoice-checked' );

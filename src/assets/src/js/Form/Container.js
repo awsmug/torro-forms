@@ -256,7 +256,7 @@ class Container extends AjaxComponent {
 				return <Onechoice data={element} ajaxUrl={this.props.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
 			},
 			imagechoice: element => {
-				return <Imagechoice data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.props.updateElement} />;
+				return <Imagechoice data={element} ajaxUrl={this.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
 			},
 			multiplechoice: element => {
 				return <Multiplechoice data={element} ajaxUrl={this.props.ajaxUrl} key={i} updateElement={this.updateElement.bind(this)} />;
