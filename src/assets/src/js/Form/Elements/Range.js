@@ -50,24 +50,22 @@ class Range extends Element {
 	renderElement( params ) {
 		const element = this.state.element;
 
-		let helper_before = null;
-		let helper_after = null;
+		let input_before = null;
+		let input_after = null;
+
+		const helper = (
+			<div className="torro-helper-input">
+				<input type="text" className={element.helper_input_attrs.class} size={element.helper_input_attrs.size} maxLength={element.helper_input_attrs.maxlength} onChange={event => this.rangeChangeBack(event)} />
+			</div>
+		);
 
 		if( element.helper_input === 'before' ) {
-			helper_before = (
-				<div className="torro-helper-input">
-					<input type="text" className={element.helper_input_attrs.class} size={element.helper_input_attrs.size} maxLength={element.helper_input_attrs.maxlength} onChange={event => this.rangeChangeBack(event)} />
-				</div>
-			);
-		};
+			input_before = helper;
+		}
 
 		if( element.helper_input === 'after' ) {
-			helper_after = (
-				<div className="torro-helper-input">
-					<input type="text" className={element.helper_input_attrs.class} size={element.helper_input_attrs.size} maxLength={element.helper_input_attrs.maxlength}/>
-				</div>
-			);
-		};
+			input_after = helper;
+		}
 
 		return (
 			<div id={element.wrap_attrs.id} className={element.wrap_attrs.class}>
@@ -79,7 +77,7 @@ class Range extends Element {
 				</label>
 
 				<div>
-					{helper_before}
+					{input_before}
 						<div className="torro-input">
 							<input
 								type="range"
@@ -94,7 +92,7 @@ class Range extends Element {
 								onChange={event => this.rangeChange(event)}
 							/>
 						</div>
-					{helper_after}
+					{input_after}
 				</div>
 				{element.after}
 			</div>
