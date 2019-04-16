@@ -28,7 +28,7 @@ class Form_Frontend_React_Output_Handler extends Form_Frontend_Output_Handler {
 	 */
 	public function render_form_content( $form, $submission ) {
 		// The rest comes from React...
-		echo '<div id="torro-forms-react-canvas" data-id="' . $form->id . '" data-ajax-url="' . esc_url( home_url( '/wp-json' ) ) . '"></div>';
+		echo '<div id="torro-forms-react-canvas" data-id="' . $form->id . '" data-ajax-url="' . esc_url( get_rest_url() ) . '"></div>';
 	}
 
 	/**

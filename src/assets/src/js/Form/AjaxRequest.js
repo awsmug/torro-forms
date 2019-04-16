@@ -14,7 +14,7 @@ class AjaxRequest {
 	 * @param {*} string Url for requests.
 	 */
 	constructor(ajaxUrl, query) {
-		this.setEndpoint(ajaxUrl, "/torro/v1", query);
+		this.setEndpoint(ajaxUrl, "torro/v1", query);
 	}
 
 	/**

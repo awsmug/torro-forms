@@ -23,7 +23,7 @@ class AjaxComponent extends Component {
 
 		this.id = props.id;
 		this.ajaxUrl = props.ajaxUrl;
-		this.namespace = "/torro/v1";
+		this.namespace = "torro/v1";
 
 		this.state = null;
 
