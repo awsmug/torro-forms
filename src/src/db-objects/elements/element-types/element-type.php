@@ -477,6 +477,16 @@ abstract class Element_Type {
 			$data['additional_fields'] = $this->additional_fields_to_json( $element, $submission, $choices, $settings, $values );
 		}
 
+		/**
+		 * Filters the element data.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array        $data Element data array.
+		 * @param Element_Type $this Element which is handled.
+		 */
+		$data = apply_filters( "{$this->manager->get_prefix()}element_type_filter_json", $data, $this );
+
 		return $data;
 	}
 
