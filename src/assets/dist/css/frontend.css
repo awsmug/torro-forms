@@ -79,11 +79,37 @@
 }
 
 .torro-element-wrap.torro-element-imagechoice .torro-imagechoice {
-	border: 1px solid transparent;
+	width: 100%;
+	padding: 1%;
 }
 
-.torro-element-wrap.torro-element-imagechoice .torro-imagechoice.torro-imagechoice-checked {
-	border: 1px solid red;
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label {
+	background-color: darkgrey;
+	border: 1px solid darkgrey;
+	border-radius: 5px;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label .torro-imagechoice-image {
+	background-color: white;
+	border-radius: 5px 5px 0 0;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label .torro-imagechoice-title {
+	padding: 5%;
+	font-size: 1vw;
+	font-weight: normal;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label:hover {
+	background-color: orange;
+	border-color: orange;
+	transition: background-color, border 0.3s ease-in-out;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice.torro-imagechoice-checked label {
+	background-color: orange;
+	border: 1px solid orange;
+	border-radius: 5px;
 }
 
 .torro-element-wrap.torro-element-imagechoice .torro-imagechoice [type="radio"] {
