@@ -92,6 +92,15 @@ class Range extends Element_Type {
 			'default'     => 'no',
 		);
 
+		$this->settings_fields['helper_input_text'] = array(
+			'section'       => 'settings',
+			'type'          => 'text',
+			'label'         => __( 'Helper Input Text', 'torro-forms' ),
+			'description'   => __( 'A text which is shown at the helper input (e.g. sizes)', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'step'          => 1,
+		);
+
 		$this->add_css_classes_settings_field();
 	}
 
@@ -126,6 +135,8 @@ class Range extends Element_Type {
 			'size'      => $max_length,
 			'maxlength' => $max_length,
 		);
+
+		$data['helper_input_text'] = $settings['helper_input_text'];
 
 		return $data;
 	}

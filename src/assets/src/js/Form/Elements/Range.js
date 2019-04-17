@@ -53,9 +53,19 @@ class Range extends Element {
 		let input_before = null;
 		let input_after = null;
 
+		let helper_input_before = null;
+		let helper_input_after = null;
+
+		if( element.helper_input_label !== '' ) {
+			helper_input_after = <span>{element.helper_input_text}</span>;
+		}
+
+
 		const helper = (
 			<div className="torro-helper-input">
+				{helper_input_before}
 				<input type="text" className={element.helper_input_attrs.class} size={element.helper_input_attrs.size} maxLength={element.helper_input_attrs.maxlength} onChange={event => this.rangeChangeBack(event)} />
+				{helper_input_after}
 			</div>
 		);
 
