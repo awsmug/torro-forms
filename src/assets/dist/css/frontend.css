@@ -59,6 +59,66 @@
 	border-color: #dc3232;
 }
 
+.torro-element-wrap.torro-element-imagechoice .torro-align-horizontal {
+	display: flex;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-align-horizontal img {
+	display: block;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-align-horizontal label {
+	text-align: center;
+	cursor: pointer;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-align-vertical label {
+	align-items: center;
+	display: flex;
+	cursor: pointer;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice {
+	width: 100%;
+	padding: 1%;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label {
+	background-color: darkgrey;
+	border: 1px solid darkgrey;
+	border-radius: 5px;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label .torro-imagechoice-image {
+	background-color: white;
+	border-radius: 5px 5px 0 0;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label .torro-imagechoice-title {
+	padding: 5%;
+	font-size: 1vw;
+	font-weight: normal;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice label:hover {
+	background-color: orange;
+	border-color: orange;
+	transition: background-color, border 0.3s ease-in-out;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice.torro-imagechoice-checked label {
+	background-color: orange;
+	border: 1px solid orange;
+	border-radius: 5px;
+}
+
+.torro-element-wrap.torro-element-imagechoice .torro-imagechoice [type="radio"] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+}
+
 .torro-element-errors {
 	color: #dc3232;
 }
