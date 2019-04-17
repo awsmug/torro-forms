@@ -84,10 +84,38 @@
 		}
 
 		.torro-imagechoice {
-			border: 1px solid transparent;
+			width: 100%;
+			padding: 1%;
+
+			label {
+				border: 1px solid darkgrey;
+				border-radius: 5px;
+				background-color: darkgrey;
+
+				.torro-imagechoice-image {
+					background-color: white;
+					border-radius: 5px 5px 0 0;
+				}
+
+				.torro-imagechoice-title {
+					font-weight: normal;
+					font-size: 1vw;
+					padding: 5%;
+				}
+
+				&:hover {
+					border-color: orange;
+					background-color: orange;
+					transition: background-color, border 0.3s ease-in-out;
+				}
+			}
 
 			&.torro-imagechoice-checked {
-				border: 1px solid red;
+				label {
+					border: 1px solid orange;
+					border-radius: 5px;
+					background-color: orange;
+				}
 			}
 
 			[type="radio"] {

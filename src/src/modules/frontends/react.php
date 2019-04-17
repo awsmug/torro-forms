@@ -43,7 +43,12 @@ class React extends Frontend implements Hooks_Submodule_Interface {
 	 * @return array $data   Filtered array with form model Data.
 	 */
 	public function filter_form_data( $data, $form_id ) {
-		$data['success_message'] = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'success_message' );
+		$data['show_container_title']  = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'show_container_title' );
+		$data['required_fields_text']  = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'required_fields_text' );
+		$data['previous_button_label'] = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'previous_button_label' );
+		$data['next_button_label']     = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'next_button_label' );
+		$data['submit_button_label']   = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'submit_button_label' );
+		$data['success_message']       = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'success_message' );
 
 		return $data;
 	}

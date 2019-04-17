@@ -236,6 +236,8 @@ class Form extends AjaxComponent {
 			return this.showTextLoading();
 		}
 
+		const form = this.state.form.instance;
+
 		let sliderContentWidth = this.state.containers.length * 100;
 		let sliderContentStyle = {
 			width: sliderContentWidth + '%'
@@ -243,8 +245,8 @@ class Form extends AjaxComponent {
 
 		return (
 			<div className="torro-form">
-				<h2>{this.state.form.title}</h2>
-				<form id={this.state.form.instance.id} className={this.state.form.instance.class}>
+				<h2>{form.title}</h2>
+				<form id={form.id} className={form.form_attrs.class}>
 					<div className="torro-slider">
 						<div id={this.sliderId} className="slider-content" style={sliderContentStyle}>
 							{this.renderContainers()}
@@ -278,6 +280,8 @@ class Form extends AjaxComponent {
 	 * @param {*} containers
 	 */
 	renderContainers() {
+		const form = this.state.form.instance;
+
 		return this.state.containers.map((container, i) => (
 			<Container
 				key={i}
@@ -287,6 +291,11 @@ class Form extends AjaxComponent {
 				submissionId={this.state.submissionId}
 				setSubmissionId={this.setSubmissionId.bind(this)}
 				wpNonce={this.wpNonce}
+				showContainerTitle={form.show_container_title}
+				requiredFieldsText={form.required_fields_text}
+				previousButtonLabel={form.previous_button_label}
+				nextButtonLabel={form.next_button_label}
+				submitButtonLabel={form.submit_button_label}
 				data={container}
 				curContainer={this.state.curContainer}
 				hasPrevContainer={this.hasPrevContainer(i)}

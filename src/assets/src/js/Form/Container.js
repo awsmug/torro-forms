@@ -207,13 +207,20 @@ class Container extends AjaxComponent {
 	renderComponent() {
 		let cssClasses = ['torro-container', 'slider-item'];
 
+		let requiredFieldsText = null;
+
+		if( this.props.requiredFieldsText !== '' ) {
+			requiredFieldsText = this.props.requiredFieldsText;
+		}
+
 		return (
 			<div className={cssClasses.join(' ')}>
-				<h3>{this.props.label}</h3>
+				<h3>{this.props.data.label}</h3>
+				{requiredFieldsText}
 				<div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>
 				<div className="torro-pager">
-					{this.props.hasPrevContainer ? <div className="prev"><button onClick={this.prevContainer.bind(this)}>Previous</button></div>: null }
-					{this.props.hasNextContainer ? <div className="next"><button onClick={this.nextContainer.bind(this)}>Next</button></div>: <div className="next"><button type="button" onClick={this.completeSubmission.bind(this)}>Submit</button></div> }
+					{this.props.hasPrevContainer ? <div className="prev"><button onClick={this.prevContainer.bind(this)}>{this.props.previousButtonLabel}</button></div>: null }
+					{this.props.hasNextContainer ? <div className="next"><button onClick={this.nextContainer.bind(this)}>{this.props.nextButtonLabel}</button></div>: <div className="next"><button type="button" onClick={this.completeSubmission.bind(this)}>{this.props.submitButtonLabel}</button></div> }
 				</div>
 			</div>
 		);
