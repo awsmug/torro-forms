@@ -79,6 +79,15 @@ class Range extends Element_Type {
 			'step'          => 1,
 		);
 
+		$this->settings_fields['default_value'] = array(
+			'section'       => 'settings',
+			'type'          => 'text',
+			'label'         => __( 'Default Value', 'torro-forms' ),
+			'description'   => __( 'Sets the default initial value.', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'step'          => 1,
+		);
+
 		$this->settings_fields['helper_input'] = array(
 			'section'     => 'settings',
 			'type'        => 'select',
@@ -118,10 +127,11 @@ class Range extends Element_Type {
 		$data     = parent::filter_json( $data, $element, $submission );
 		$settings = $this->get_settings( $element );
 
-		$data['input_attrs']['min']          = $settings['min_value'];
-		$data['input_attrs']['max']          = $settings['max_value'];
-		$data['input_attrs']['step']         = $settings['step'];
-		$data['input_attrs']['show_min_max'] = $settings['show_min_max'];
+		$data['input_attrs']['min']           = $settings['min_value'];
+		$data['input_attrs']['max']           = $settings['max_value'];
+		$data['input_attrs']['step']          = $settings['step'];
+		$data['input_attrs']['show_min_max']  = $settings['show_min_max'];
+		$data['input_attrs']['default_value'] = $settings['default_value'];
 
 		$lentgh[] = strlen( strval( $settings['min_value'] ) );
 		$lentgh[] = strlen( strval( $settings['max_value'] ) );

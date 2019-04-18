@@ -56,15 +56,23 @@ class Range extends Element {
 		let helper_input_before = null;
 		let helper_input_after = null;
 
+		let value = null;
+		if( element.input_attrs.default_value !== '' ) {
+			value = element.input_attrs.default_value;
+		}
+
+		if( element.value !== '' ) {
+			value = element.value;
+		}
+
 		if( element.helper_input_label !== '' ) {
 			helper_input_after = <span>{element.helper_input_text}</span>;
 		}
 
-
 		const helper = (
 			<div className="torro-helper-input">
 				{helper_input_before}
-				<input type="text" className={element.helper_input_attrs.class} size={element.helper_input_attrs.size} maxLength={element.helper_input_attrs.maxlength} onChange={event => this.rangeChangeBack(event)} />
+				<input type="text" className={element.helper_input_attrs.class} size={element.helper_input_attrs.size} maxLength={element.helper_input_attrs.maxlength} defaultValue={value} onChange={event => this.rangeChangeBack(event)} />
 				{helper_input_after}
 			</div>
 		);
@@ -98,7 +106,7 @@ class Range extends Element {
 								step={element.input_attrs.step}
 								aria-describedby={element.input_attrs["aria-describedby"]}
 								aria-required={element.input_attrs["aria-required"]}
-								defaultValue={element.value}
+								defaultValue={value}
 								onChange={event => this.rangeChange(event)}
 							/>
 						</div>
