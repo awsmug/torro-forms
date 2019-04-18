@@ -207,15 +207,20 @@ class Container extends AjaxComponent {
 	renderComponent() {
 		let cssClasses = ['torro-container', 'slider-item'];
 
+		let containerTitle = null;
 		let requiredFieldsText = null;
 
+		if( this.props.showContainerTitle === true ) {
+			containerTitle = <h3>{this.props.data.label}</h3>;
+		}
+
 		if( this.props.requiredFieldsText !== '' ) {
-			requiredFieldsText = this.props.requiredFieldsText;
+			requiredFieldsText = <p className="torro-required-text">{this.props.requiredFieldsText}</p>;
 		}
 
 		return (
 			<div className={cssClasses.join(' ')}>
-				<h3>{this.props.data.label}</h3>
+				{containerTitle}
 				{requiredFieldsText}
 				<div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>
 				<div className="torro-pager">
