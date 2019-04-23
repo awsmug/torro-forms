@@ -27,6 +27,14 @@ class Imagechoices_Field extends Media {
 	protected $slug = 'imagechoices';
 
 	/**
+	 * Field type identifier.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	protected $type = 'torroimagechoices';
+
+	/**
 	 * Whether this is a repeatable field.
 	 *
 	 * @since 1.0.0

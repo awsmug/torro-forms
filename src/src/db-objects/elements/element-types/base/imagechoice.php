@@ -174,7 +174,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 
 		$slug = $this->get_edit_submission_field_slug( $element->id );
 
-		$fields[ $slug ]['type'] = 'image';
+		$fields[ $slug ]['type'] = 'torroimagechoices';
 
 		return $fields;
 	}
