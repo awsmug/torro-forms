@@ -135,6 +135,23 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 	}
 
 	/**
+	 * Formats values for an export.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param array   $values        Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
+	 * @param Element $element       Element the values belong to.
+	 * @param string  $export_format Export format identifier. May be 'xls', 'csv', 'json', 'xml' or 'html'.
+	 * @return array Associative array of `$column_slug => $column_value` pairs. The number of items and the column slugs
+	 *               must match those returned from the get_export_columns() method.
+	 */
+	public function format_values_for_export( $values, $element, $export_format ) {
+		$values = parent::format_values_for_export( $values, $element, $export_format );
+		$values[ 'element_' . $element->id . '__main' ] = get_the_title( $values[ 'element_' . $element->id . '__main' ] );
+		return $values;
+	}
+
+	/**
 	 * Validates a field value for an element.
 	 *
 	 * @since 1.0.0
