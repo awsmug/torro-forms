@@ -25,6 +25,19 @@ class Range extends Element {
 	}
 
 	/**
+	 * Setting up element after startup.
+	 *
+	 * @since 1.2.0
+	 */
+	componentDidMount() {
+		const element = this.state.element;
+
+		if( element.input_attrs.default_value !== '' ) {
+			this.props.updateElement(this.id, element.input_attrs.default_value, this.props.data.valueId);
+		}
+	}
+
+	/**
 	 * Syncing Change in helper input to range.
 	 *
 	 * @since 1.2.0
