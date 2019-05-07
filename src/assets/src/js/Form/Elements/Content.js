@@ -13,7 +13,7 @@ class Content extends Element {
 	 */
 	render() {
 		return (
-			<div className={this.state.element.wrap_attrs.class}>
+			<div id={this.state.element.wrap_attrs.id} className={this.state.element.wrap_attrs.class}>
 			{this.state.element.before}
 			<div dangerouslySetInnerHTML={{ __html: this.state.element.label }} />
 			{this.state.element.after}
