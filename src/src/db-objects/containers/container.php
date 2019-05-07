@@ -128,6 +128,16 @@ class Container extends Model {
 	public function to_json( $include_meta = true ) {
 		$data = parent::to_json( $include_meta );
 
+		/**
+		 * Filters the containers wrap classes.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param array     $wrap_classes Array of wrap classes.
+		 * @param Container $container    Container object.
+		 */
+		$wrap_classes = apply_filters( "{$this->manager->get_prefix()}container_wrap_classes", array( 'torro-container-wrap' ), $this );
+
 		// $submit_button_label = $this->get_form()->get_form_option( $form_id, 'submit_button_label', '' );
 		/* translators: %s: HTML code for required indicator */
 		$required_indicator_description = '<span aria-hidden="true">' . sprintf( __( 'Required fields are marked %s.', 'torro-forms' ), '<span class="torro-required-indicator">*</span>' ) . '</span>';
@@ -141,7 +151,18 @@ class Container extends Model {
 		 *                                               explaining the asterisk character to mark a required field.
 		 * @param int    $form_id                        Current form ID
 		 */
-		$data['required_description'] = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description, $this->form_id );
+		$required_description = apply_filters( "{$this->manager->get_prefix()}required_indicator_description", $required_indicator_description, $this->form_id );
+
+		$data = array_merge(
+			$data,
+			array(
+				'wrap_attrs'           => array(
+					'id'    => 'torro-container-' . $this->id . '-wrap',
+					'class' => implode( ' ', $wrap_classes ),
+				),
+				'required_description' => $required_description,
+			)
+		);
 
 		/**
 		 * Filters the element model data.
