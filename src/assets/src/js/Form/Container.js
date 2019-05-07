@@ -49,12 +49,26 @@ class Container extends AjaxComponent {
 			});
 	}
 
+	/**
+	 * Go to previous container
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 */
 	prevContainer(event){
 		event.preventDefault();
 
 		this.props.prevContainer(event);
 	}
 
+	/**
+	 * Go to next container
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 */
 	nextContainer(event){
 		event.preventDefault();
 
@@ -67,6 +81,13 @@ class Container extends AjaxComponent {
 			});
 	}
 
+	/**
+	 * Completing submission
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 */
 	completeSubmission(event) {
 		event.preventDefault();
 
@@ -79,6 +100,14 @@ class Container extends AjaxComponent {
 			});
 	}
 
+	/**
+	 * Savong container data
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 * @returns {Promise<any>}
+	 */
 	saveContainer(event) {
 		event.preventDefault();
 		event.persist();
@@ -130,6 +159,16 @@ class Container extends AjaxComponent {
 		return save;
 	}
 
+	/**
+	 * Saves a single element
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param elementId
+	 * @param value
+	 * @param valueId
+	 * @returns {Promise<any>}
+	 */
 	saveElement(elementId, value, valueId = undefined) {
 		const save = new Promise((resolve, reject) => {
 			if (this.props.submissionId === undefined) {
@@ -181,6 +220,16 @@ class Container extends AjaxComponent {
 		return save;
 	}
 
+	/**
+	 * Updates an element.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param elementId
+	 * @param value
+	 * @param valueId
+	 * @param errorMessage
+	 */
 	updateElement(elementId, value, valueId = null, errorMessage = null) {
 		let elements = this.state.elements;
 
