@@ -254,7 +254,8 @@ class Container extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	renderComponent() {
-		let cssClasses = ['torro-container', 'slider-item'];
+		let cssClasses = ['slider-item'];
+		cssClasses.push( this.props.data.instance.wrap_attrs.class )
 
 		let containerTitle = null;
 		let requiredFieldsText = null;
@@ -268,7 +269,7 @@ class Container extends AjaxComponent {
 		}
 
 		return (
-			<div className={cssClasses.join(' ')}>
+			<div id={this.props.data.instance.wrap_attrs.id} className={cssClasses.join(' ')}>
 				{containerTitle}
 				{requiredFieldsText}
 				<div className="torro-forms-elements">{this.renderElements(this.state.elements)}</div>
