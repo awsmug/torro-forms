@@ -21,14 +21,17 @@ class Form extends AjaxComponent {
 
 		this.id = parseInt(props.id);
 		this.userId = parseInt(props.userId);
-		this.wpNonce = torroFrontendI18n.wp_nonce;
+		this.submissionId = null;
+
+		this.torroNonce = torroFrontendI18n.torro_nonce;
 
 		this.sliderId = 'torro-slider-' + this.id;
 		this.sliderMargin = 0;
 
-		this.key = this.createUserKey();
-
-		this.status = 'progressing';
+		this.state = {
+			'status': 'progressing',
+			'curContainer': 0
+		}
 	}
 
 	/**
@@ -37,54 +40,20 @@ class Form extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	componentDidMount() {
-		this.getForm();
-		this.getContainers();
-	}
-
-	/**
-	 * Get Form Data.
-	 *
-	 * @since 1.2.0
-	 */
-	getForm() {
-		const formGetUrl = this.getEndpointUrl("/forms/" + this.id);
-
-		axios
-			.get(formGetUrl)
-			.then(response => {
-				this.setState({ form: response.data });
-			})
-			.catch(error => {
-				console.error(error);
+		this.syncDownstream()
+			.catch(err => {
+				console.error(err);
 			});
 	}
 
 	/**
-	 * Getting Containers.
+	 * Checks is there is a next container.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @param containerIndex
+	 * @returns {boolean}
 	 */
-	getContainers() {
-		const containersGetUrl = this.getEndpointUrl("/containers?form_id=" + this.id);
-
-		axios
-			.get(containersGetUrl)
-			.then(response => {
-				let containers = response.data;
-
-				containers.sort( function (a, b) {
-					return a.sort-b.sort;
-				});
-
-				this.numContainer = containers.length;
-
-				this.setState({ containers: containers });
-			})
-			.catch(error => {
-				console.error(error);
-			});
-	}
-
 	hasNextContainer(containerIndex) {
 		if((containerIndex +1) >= this.numContainer ) {
 			return false;
@@ -93,6 +62,14 @@ class Form extends AjaxComponent {
 		return true;
 	}
 
+	/**
+	 * Checks is there is a previous container.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param containerIndex
+	 * @returns {boolean}
+	 */
 	hasPrevContainer(containerIndex) {
 		if(containerIndex <= 0 ) {
 			return false;
@@ -101,10 +78,18 @@ class Form extends AjaxComponent {
 		return true;
 	}
 
+	/**
+	 * Sets to next container.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 */
 	nextContainer(event) {
 		if( this.hasNextContainer(this.state.curContainer) ) {
 			let curContainer = this.state.curContainer;
 			curContainer += 1;
+			console.log(curContainer);
 
 			this.setState({curContainer: curContainer});
 
@@ -113,6 +98,14 @@ class Form extends AjaxComponent {
 		}
 	}
 
+	/**
+	 * Sets to previous container.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param event
+	 * @returns {boolean}
+	 */
 	prevContainer(event) {
 		if( this.hasPrevContainer(this.state.curContainer) ) {
 			let curContainer = this.state.curContainer;
@@ -125,6 +118,14 @@ class Form extends AjaxComponent {
 		}
 	}
 
+	/**
+	 * Sets current slider.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param sliderContent
+	 * @param steps
+	 */
 	setSlider(sliderContent, steps) {
 		const margin = steps * 100;
 		const margin_new = this.sliderMargin + margin;
@@ -138,34 +139,94 @@ class Form extends AjaxComponent {
 		sliderContent.style.marginLeft = (-1 * this.sliderMargin.toString()) + '%';
 	}
 
+
+
 	/**
-	 * Generating user key.
+	 * Get Form Data.
 	 *
 	 * @since 1.2.0
 	 */
-	createUserKey() {
-		return Math.random()
-			.toString(36)
-			.substr(2, 9);
+	syncDownstream() {
+		return new Promise((resolve, reject) => {
+			const formGetUrl = this.getEndpointUrl("/forms/" + this.id);
+
+			axios
+				.get(formGetUrl)
+				.then(response => {
+					this.setState({form: response.data});
+					return this.syncContainersDownstream();
+				})
+				.catch(err => {
+					return reject(err);
+				});
+		});
+	}
+
+	/**
+	 * Getting Containers.
+	 *
+	 * @since 1.2.0
+	 */
+	syncContainersDownstream() {
+		return new Promise((resolve, reject) => {
+			const containersGetUrl = this.getEndpointUrl("/containers?form_id=" + this.id);
+
+			axios
+				.get(containersGetUrl)
+				.then(response => {
+					let containers = response.data;
+
+					containers.sort( function (a, b) {
+						return a.sort-b.sort;
+					});
+
+					this.numContainer = containers.length;
+					this.setState({ containers: containers });
+
+					return resolve();
+				})
+				.catch(err => {
+					return reject(err);
+				});
+		});
 	}
 
 	/**
 	 * Saving data to rest API.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @return Promise
 	 */
-	createSubmission() {
-		if (this.state.submissionId !== undefined) {
-			return;
-		}
+	syncUpstream() {
+		const self = this;
 
-		const submissionPostUrl = this.getEndpointUrl("/submissions");
+		return new Promise(function(resolve, reject) {
+			let method = 'post';
+			let submissionPostUrl = self.getEndpointUrl("/submissions");
 
-		return axios.post(submissionPostUrl, {
-			form_id: this.id,
-			user_id: this.userId,
-			key: this.createUserKey(),
-			status: this.status
+			if (self.submissionId !== null) {
+				method = 'put';
+				submissionPostUrl += '/' + self.submissionId;
+			}
+
+			const params = {
+				method: method,
+				url: submissionPostUrl,
+				data: {
+					form_id: self.id,
+					user_id: self.userId,
+					status: self.state.status,
+					torro_nonce: self.props.torroNonce
+				}
+			};
+
+			axios(params).then(response => {
+				self.setSubmissionId(response.data.id);
+				return resolve( response.data.id );
+			}).catch( err => {
+				return reject( err );
+			});
 		});
 	}
 
@@ -176,27 +237,11 @@ class Form extends AjaxComponent {
 	 *
 	 * @param event
 	 */
-	completeSubmission( event ){
-		if (this.state.submissionId === undefined) {
-			return;
-		}
-
-		this.status = 'completed';
-
-		const submissionPutUrl = this.getEndpointUrl("/submissions") + '/' + this.state.submissionId;
-
-		axios.put(submissionPutUrl, {
-			form_id: this.id,
-			user_id: this.userId,
-			status: 'completed'
-		}).then(response => {
-			this.setState({
-				containers: undefined,
-				submissionId: undefined,
-				curContainer: undefined
-			});
-		}).catch(error => {
-			console.error((error));
+	completeSubmission(){
+		this.syncUpstream().then(_ => {
+			this.setState({status:'completed'});
+		}).catch(err => {
+			console.log(err);
 		})
 	}
 
@@ -208,7 +253,7 @@ class Form extends AjaxComponent {
 	 * @param {*} id
 	 */
 	setSubmissionId(id) {
-		this.setState({ submissionId: id });
+		this.submissionId = id;
 	}
 
 	/**
@@ -217,7 +262,7 @@ class Form extends AjaxComponent {
 	 * @since 1.2.0
 	 */
 	renderComponent() {
-		if( this.status === 'completed' ) {
+		if( this.state.status === 'completed' ) {
 			return this.renderSuccessMessage();
 		}
 
@@ -233,7 +278,7 @@ class Form extends AjaxComponent {
 	 */
 	renderForm() {
 		if (this.state.form === undefined || this.state.containers === undefined) {
-			return this.showTextLoading();
+			return <div className="torro-loading">{this.textLoading}</div>;
 		}
 
 		const form = this.state.form.instance;
@@ -288,9 +333,9 @@ class Form extends AjaxComponent {
 				index={i}
 				ajaxUrl={this.props.ajaxUrl}
 				formId={this.id}
-				submissionId={this.state.submissionId}
+				submissionId={this.submissionId}
 				setSubmissionId={this.setSubmissionId.bind(this)}
-				wpNonce={this.wpNonce}
+				torroNonce={this.torroNonce}
 				showContainerTitle={form.show_container_title}
 				requiredFieldsText={form.required_fields_text}
 				previousButtonLabel={form.previous_button_label}
@@ -302,7 +347,7 @@ class Form extends AjaxComponent {
 				hasNextContainer={this.hasNextContainer(i)}
 				nextContainer={this.nextContainer.bind(this)}
 				prevContainer={this.prevContainer.bind(this)}
-				createSubmission={this.createSubmission.bind(this)}
+				syncUpstream={this.syncUpstream.bind(this)}
 				completeSubmission={this.completeSubmission.bind(this)}
 			/>
 		));

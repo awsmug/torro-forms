@@ -33,7 +33,7 @@ class Range extends Element {
 		const element = this.state.element;
 
 		if( element.input_attrs.default_value !== '' ) {
-			this.props.updateElement(this.id, element.input_attrs.default_value, this.props.data.valueId);
+			this.props.setElement(this.id, element.input_attrs.default_value, this.props.data.valueId);
 		}
 	}
 
