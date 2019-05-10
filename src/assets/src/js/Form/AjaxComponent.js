@@ -27,8 +27,8 @@ class AjaxComponent extends Component {
 
 		this.state = null;
 
-		this.setTextLoading("Loading...");
-		this.setTextFailing("Failed loading form!");
+		this.textLoading = null;
+		this.textFailing = null;
 	}
 
 	/**
@@ -40,35 +40,6 @@ class AjaxComponent extends Component {
 		return this.ajaxUrl + this.namespace + endpoint;
 	}
 
-	/**
-	 * Setting up text on loading component.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @param {string} Text to display on loading component.
-	 */
-	setTextLoading(text) {
-		this.textLoading = text;
-	}
-
-	/**
-	 * Setting up text on failing component.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @param {string} Text to display on a component which failed to load.
-	 */
-	setTextFailing(text) {
-		this.textFailing = text;
-	}
-
-	showTextLoading() {
-		return <div className="torro-loading">{this.textLoading}</div>;
-	}
-
-	showTextFailing() {
-		return <div className="torro-error">{this.textFailing}</div>;
-	}
 
 	/**
 	 * Rendering content.
@@ -77,13 +48,11 @@ class AjaxComponent extends Component {
 	 */
 	render() {
 		if (this.state === null) {
-			if (this.textLoading !== null) {
-				return this.showTextLoading();
-			}
+			return <div className="torro-loading">{this.textLoading}</div>;
 		} else if (this.state !== null) {
 			return this.renderComponent();
 		} else {
-			return this.showTextFailing();
+			return <div className="torro-error">{this.textFailing}</div>;
 		}
 	}
 
