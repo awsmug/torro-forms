@@ -140,6 +140,8 @@ class Container extends AjaxComponent {
 				.then( _ => {
 					self.syncUpstreamElements().then(_ => {
 						return resolve();
+					}).catch(err => {
+						console.error(err);
 					});
 				})
 				.catch( err => {
@@ -159,7 +161,8 @@ class Container extends AjaxComponent {
 		const elements = this.state.elements;
 
 		const responses = [];
-			elements.forEach( element => {
+
+		elements.forEach( element => {
 			if( element.instance.has_input === false ) {
 				return;
 			}
@@ -222,7 +225,10 @@ class Container extends AjaxComponent {
 						return reject(response);
 					}
 				})
-				.catch(err => {return reject(err)});
+				.catch(err => {
+					console.error(err)
+					return reject(err);
+				});
 		});
 
 	}
