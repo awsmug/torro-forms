@@ -288,9 +288,15 @@ class Form extends AjaxComponent {
 			width: sliderContentWidth + '%'
 		};
 
+		let form_title = null;
+
+		if( form.show_container_title !== false ) {
+			form_title = <h2>{form.title}</h2>
+		}
+
 		return (
 			<div className="torro-form">
-				<h2>{form.title}</h2>
+				{form_title}
 				<form id={form.id} className={form.form_attrs.class}>
 					<div className="torro-slider">
 						<div id={this.sliderId} className="slider-content" style={sliderContentStyle}>

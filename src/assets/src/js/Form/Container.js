@@ -141,7 +141,7 @@ class Container extends AjaxComponent {
 					self.syncUpstreamElements().then(_ => {
 						return resolve();
 					}).catch(err => {
-						console.error(err);
+						console.error(err.response);
 					});
 				})
 				.catch( err => {
@@ -226,7 +226,7 @@ class Container extends AjaxComponent {
 					}
 				})
 				.catch(err => {
-					console.error(err)
+					this.setElement(elementId, value, null, err.response.data.data.params.value);
 					return reject(err);
 				});
 		});

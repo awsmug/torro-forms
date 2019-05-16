@@ -74,12 +74,18 @@ class Element extends Component {
 	 * @since 1.2.0
 	 */
 	render() {
-		const element_hints = (
-			<div>
-				<Description id={this.state.element.id} className={this.state.element.description_attrs.class} text={this.state.element.description} />
-				<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class} errors={this.props.data.errors} />
-			</div>
-		);
+		let element_hints = null;
+
+		if( this.props.data.errors !== undefined || this.state.element.description !== '' ) {
+			element_hints = (
+				<div>
+					<Description id={this.state.element.id} className={this.state.element.description_attrs.class}
+								 text={this.state.element.description}/>
+					<Errors id={this.state.element.errors_attrs.id} className={this.state.element.errors_attrs.class}
+							errors={this.props.data.errors}/>
+				</div>
+			);
+		}
 
 		const params = { element_hints };
 
