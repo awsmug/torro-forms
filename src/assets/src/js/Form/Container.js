@@ -51,13 +51,7 @@ class Container extends AjaxComponent {
 		event.preventDefault();
 		event.persist();
 
-		this.syncUpstream()
-			.then(_ => {
-				this.props.prevContainer(event);
-			})
-			.catch(err => {
-				console.error('Error on setting previous container.', err);
-			});
+		this.props.prevContainer(event);
 	}
 
 	/**
