@@ -83,6 +83,7 @@ class Element_Type_Manager extends Service {
 		$this->setup_hooks();
 
 		Field_Manager::register_field_type( 'torrochoices', Choices_Field::class );
+		Field_Manager::register_field_type( 'tel', Tel_Field::class );
 
 		$this->default_element_types = array(
 			'textfield'      => Base\Textfield::class,
