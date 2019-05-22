@@ -91,6 +91,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Fixed: Added missing object in filters torro_element_input_classes, torro_element_label_classes, torro_element_wrap_classes, torro_element_description_classes and torro_element_errors_classes
 * Fixed: Inserted WordPress password protection query
 * Fixed: Bug on remove_error from submission
+* Fixed: Not shown phone text field in Admin
 
 = 1.0.4 =
 * Enhanced: One Choice elements can be exported in one column
