@@ -96,13 +96,14 @@ class Rest_API extends Form_Setting {
 	 *
 	 * @param bool                                     $enabled Wether submussion endpoint cann be accessed or not.
 	 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form $form Form object.
+	 * @param \WP_REST_Request                         $request Full details about the request.
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
-	public function check_submission_token( $enabled, $form ) {
+	public function check_submission_token( $enabled, $form, $request ) {
 		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_token' );
 
 		if ( 'yes' === $allow ) {
-			$token = filter_input( INPUT_POST, 'torro_token' );
+			$token = $request->get_param( 'torro_token' );
 
 			if ( $this->get_form_option( $form->id, 'token' ) === $token ) {
 				return true;
@@ -118,14 +119,15 @@ class Rest_API extends Form_Setting {
 	 * @since 1.1.0
 	 *
 	 * @param bool                                     $enabled Wether submussion endpoint cann be accessed or not.
-	 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form $form Form object.
+	 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form $form    Form object.
+	 * @param \WP_REST_Request                         $request Full details about the request.
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
-	public function check_submission_dump_nonce( $enabled, $form ) {
+	public function check_submission_dump_nonce( $enabled, $form, $request) {
 		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_dump_nonce' );
 
 		if ( 'yes' === $allow ) {
-			$nonce = filter_input( INPUT_POST, 'torro_dump_nonce' );
+			$nonce = $request->get_param( 'torro_dump_nonce' );
 
 			if ( Dump_Nonce::check( $nonce ) ) {
 				return true;

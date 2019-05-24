@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 use WP_Error;
 
@@ -107,9 +108,10 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 		 * @since 1.1.0
 		 *
 		 * @param bool            $can_create_submission True if item can be filtered, false if not.
-		 * @param WP_REST_Request $request               Full details about the request.
+		 * @param Form            $form                  Form Object.
+		 * @param \WP_REST_Request $request              Full details about the request.
 		 */
-		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_create_submission', parent::create_item_permissions_check( $request ), $form );
+		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_create_submission', parent::create_item_permissions_check( $request ), $form, $request );
 		return $can_create_submission;
 	}
 
@@ -131,9 +133,10 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 		 * @since 1.1.0
 		 *
 		 * @param bool            $can_create_submission True if item can be filtered, false if not.
+		 * @param Form            $form                  Form Object.
 		 * @param WP_REST_Request $request               Full details about the request.
 		 */
-		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_update_submission', parent::update_item_permissions_check( $request ), $form );
+		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_update_submission', parent::update_item_permissions_check( $request ), $form, $request );
 		return $can_create_submission;
 	}
 
