@@ -108,14 +108,15 @@ class Dump_Nonce {
 		$results   = wp_cache_get( $cache_key );
 
 		if ( false === $results ) {
-			$sql     = $wpdb->prepare( 'SELECT * FROM %s WHERE %s LIKE %s', $wpdb->options, 'option_name', '_dump_nonce_%' );
-			$results = $wpdb->get_results( $sql );
+			$sql     = "SELECT * FROM {$wpdb->options} WHERE option_name LIKE '_dump_nonce_%'";
+			// $sql     = $wpdb->prepare( 'SELECT * FROM %s WHERE %s LIKE %s', $wpdb->options, 'option_name', '_dump_nonce_%' );
+			$results = $wpdb->get_results( $sql, ARRAY_A );
 			wp_cache_set( $cache_key, $results );
 		}
 
 		foreach ( $results as $result ) {
 			$option_name  = $result['option_name'];
-			$option_value = $result['option_value'];
+			$option_value = maybe_unserialize( $result['option_value'] );
 
 			$time = $option_value['timestamp'];
 
