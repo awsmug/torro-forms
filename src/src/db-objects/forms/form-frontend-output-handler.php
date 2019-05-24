@@ -249,7 +249,6 @@ class Form_Frontend_Output_Handler {
 
 		$template_data = $form->to_json( false );
 
-		$template_data['hidden_fields']  = '<input type="hidden" name="torro_submission[dump_nonce]" value="' . Dump_Nonces::create() . '">';
 		$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[nonce]" value="' . wp_create_nonce( $this->get_nonce_action( $form, $submission ) ) . '">';
 		$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[form_id]" value="' . esc_attr( $form->id ) . '">';
 		if ( $submission ) {
