@@ -104,18 +104,12 @@ class Dump_Nonce {
 
 		$time_limit = strtotime( '-1 hours' );
 
-		$cache_key = 'torro_dump_nonce';
-		$results   = wp_cache_get( $cache_key );
-
-		if ( false === $results ) {
-			$sql     = $wpdb->prepare( 'SELECT * FROM %s WHERE %s LIKE %s', $wpdb->options, 'option_name', '_dump_nonce_%' );
-			$results = $wpdb->get_results( $sql );
-			wp_cache_set( $cache_key, $results );
-		}
+		$sql     = "SELECT * FROM {$wpdb->options} WHERE option_name LIKE '_dump_nonce_%'";
+		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		foreach ( $results as $result ) {
 			$option_name  = $result['option_name'];
-			$option_value = $result['option_value'];
+			$option_value = maybe_unserialize( $result['option_value'] );
 
 			$time = $option_value['timestamp'];
 
