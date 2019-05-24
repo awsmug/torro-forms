@@ -8,14 +8,14 @@
 
 namespace awsmug\Torro_Forms\Modules\Form_Settings;
 
-use awsmug\Torro_Forms\Components\Dump_Nonces;
+use awsmug\Torro_Forms\Components\Dump_Nonce;
 
 /**
- * Class for form settings for API.
+ * Class for Rest API settings in Form settings.
  *
  * @since 1.1.0
  */
-class API extends Form_Setting {
+class Rest_API extends Form_Setting {
 
 	/**
 	 * Bootstraps the submodule by setting properties.
@@ -24,8 +24,8 @@ class API extends Form_Setting {
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'api';
-		$this->title       = __( 'API', 'torro-forms' );
-		$this->description = __( 'Adjust API settings.', 'torro-forms' );
+		$this->title       = __( 'Rest API', 'torro-forms' );
+		$this->description = __( 'Adjust Rest-API settings.', 'torro-forms' );
 	}
 
 	/**
@@ -41,16 +41,34 @@ class API extends Form_Setting {
 		$token = wp_hash( implode( '', $_SERVER ) . microtime() );
 
 		$meta_fields = array(
-			'allow_submissions_by_token' => array(
+			'allow_submissions_by_token'      => array(
 				'type'        => 'radio',
-				'label'       => __( 'Allow submissions via Token.', 'torro-forms' ),
-				'description' => __( 'Opens the Rest API submissions endpoint with a token.', 'torro-forms' ),
-				'default'     => $token,
+				'label'       => __( 'Verify submissions via Token.', 'torro-forms' ),
+				'description' => __( 'Take rorm token and and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_token</code> to verify the submission.', 'torro-forms' ),
+				'default'     => 'no',
 				'choices'     => array(
 					'yes' => __( 'Yes', 'torro-forms' ),
 					'no'  => __( 'No', 'torro-forms' ),
 				),
 			),
+			'token'                           => array(
+				'type'          => 'text',
+				'label'         => __( 'Form Token', 'torro-forms' ),
+				'description'   => __( 'Token which is needed for accessing Rest API submissions.', 'torro-forms' ),
+				'default'       => $token,
+				'input_classes' => array( 'regular-text' ),
+			),
+			'allow_submissions_by_dump_nonce' => array(
+				'type'        => 'radio',
+				'label'       => __( 'Verify submissions via dump nonces.', 'torro-forms' ),
+				'description' => __( 'Create a nonce by<code>Dump_Nonce::create()</code> and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_dump_nonce</code> to verify the submission.', 'torro-forms' ),
+				'default'     => 'no',
+				'choices'     => array(
+					'yes' => __( 'Yes', 'torro-forms' ),
+					'no'  => __( 'No', 'torro-forms' ),
+				),
+			),
+
 		);
 
 		$meta_fields['token'] = array(
@@ -72,7 +90,7 @@ class API extends Form_Setting {
 	}
 
 	/**
-	 * Adjusting submission endpoint.
+	 * Check submission dump nonce.
 	 *
 	 * @since 1.1.0
 	 *
@@ -89,10 +107,32 @@ class API extends Form_Setting {
 			if ( $this->get_form_option( $form->id, 'token' ) === $token ) {
 				return true;
 			}
-			return false;
 		}
 
-		return false;
+		return $enabled;
+	}
+
+	/**
+	 * Check submission dump nonce.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param bool                                     $enabled Wether submussion endpoint cann be accessed or not.
+	 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form $form Form object.
+	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
+	 */
+	public function check_submission_dump_nonce( $enabled, $form ) {
+		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_dump_nonces' );
+
+		if ( 'yes' === $allow ) {
+			$nonce = filter_input( INPUT_POST, 'torro_dump_nonce' );
+
+			if ( Dump_Nonce::check( $nonce ) ) {
+				return true;
+			}
+		}
+
+		return $enabled;
 	}
 
 	/**
@@ -129,6 +169,34 @@ class API extends Form_Setting {
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_update_submission_value",
 			'callback' => array( $this, 'check_submission_token' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_create_submission",
+			'callback' => array( $this, 'check_submission_dump_nonce' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_update_submission",
+			'callback' => array( $this, 'check_submission_dump_nonce' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_create_submission_value",
+			'callback' => array( $this, 'check_submission_dump_nonce' ),
+			'priority' => 10,
+			'num_args' => 2,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_update_submission_value",
+			'callback' => array( $this, 'check_submission_dump_nonce' ),
 			'priority' => 10,
 			'num_args' => 2,
 		);

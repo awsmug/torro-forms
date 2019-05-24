@@ -15,7 +15,7 @@ namespace awsmug\Torro_Forms\Components;
  *
  * @property int    $form_id
  */
-class Dump_Nonces {
+class Dump_Nonce {
 	/**
 	 * Getting a remote hash for use instead of user id.
 	 *
@@ -82,7 +82,7 @@ class Dump_Nonces {
 	 *
 	 * @return bool
 	 */
-	public function check( $nonce ) {
+	public static function check( $nonce ) {
 		$option_name   = '_dump_nonce_' . self::get_remote_hash();
 		$compare_nonce = get_option( $option_name, $option_name );
 
@@ -114,8 +114,8 @@ class Dump_Nonces {
 		}
 
 		foreach ( $results as $result ) {
-			$option_name   = $result['option_name'];
-			$option_value  = $result['option_value'];
+			$option_name  = $result['option_name'];
+			$option_value = $result['option_value'];
 
 			$time = $option_value['timestamp'];
 
