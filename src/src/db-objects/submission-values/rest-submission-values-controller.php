@@ -76,6 +76,53 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	}
 
 	/**
+	 * Checks if a given request has access to create a model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return true True if the request has access to create models, WP_Error object otherwise.
+	 */
+	public function create_item_permissions_check( $request ) {
+		$form_id = $request->get_param( 'form_id' );
+		$form    = torro()->forms()->get( $form_id );
+		/**
+		 * Filters if submission can be created.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool            $can_create_submission True if item can be filtered, false if not.
+		 * @param WP_REST_Request $request               Full details about the request.
+		 */
+		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_create_submission_value', parent::create_item_permissions_check( $request ), $form );
+		return $can_create_submission;
+	}
+
+	/**
+	 * Checks if a given request has access to update a model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return true True if the request has access to update models, WP_Error object otherwise.
+	 */
+	public function update_item_permissions_check( $request ) {
+		$form_id = $request->get_param( 'form_id' );
+		$form    = torro()->forms()->get( $form_id );
+
+		/**
+		 * Filters if submission can be updated.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool                                     $can_update_submission True if item can be filtered, false if not.
+		 * @param awsmug\Torro_Forms\DB_Objects\Forms\Form $form                  Form object.
+		 */
+		$can_update_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_update_submission_value', parent::update_item_permissions_check( $request ), $form );
+		return $can_update_submission;
+	}
+
+	/**
 	 * Retrieves the query params for the models collection.
 	 *
 	 * @since 1.0.0
