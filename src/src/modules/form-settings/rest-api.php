@@ -122,7 +122,7 @@ class Rest_API extends Form_Setting {
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
 	public function check_submission_dump_nonce( $enabled, $form ) {
-		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_dump_nonces' );
+		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_dump_nonce' );
 
 		if ( 'yes' === $allow ) {
 			$nonce = filter_input( INPUT_POST, 'torro_dump_nonce' );
