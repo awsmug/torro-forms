@@ -23,7 +23,7 @@ class Form extends AjaxComponent {
 		this.userId = parseInt(props.userId);
 		this.submissionId = null;
 
-		this.torroNonce = torroFrontendI18n.torro_nonce;
+		this.torroDumpNonce = torroFrontendI18n.torro_dump_nonce;
 
 		this.sliderId = 'torro-slider-' + this.id;
 		this.sliderMargin = 0;
@@ -210,6 +210,8 @@ class Form extends AjaxComponent {
 				submissionPostUrl += '/' + self.submissionId;
 			}
 
+			console.log( 'Dump Nonce: ' + self.torroDumpNonce );
+
 			const params = {
 				method: method,
 				url: submissionPostUrl,
@@ -217,7 +219,7 @@ class Form extends AjaxComponent {
 					form_id: self.id,
 					user_id: self.userId,
 					status: self.state.status,
-					torro_nonce: self.props.torroNonce
+					torro_dump_nonce: self.torroDumpNonce
 				}
 			};
 
@@ -341,7 +343,7 @@ class Form extends AjaxComponent {
 				formId={this.id}
 				submissionId={this.submissionId}
 				setSubmissionId={this.setSubmissionId.bind(this)}
-				torroNonce={this.torroNonce}
+				torroDumpNonce={this.torroDumpNonce}
 				showContainerTitle={form.show_container_title}
 				requiredFieldsText={form.required_fields_text}
 				previousButtonLabel={form.previous_button_label}

@@ -197,6 +197,8 @@ class Container extends AjaxComponent {
 				value = "";
 			}
 
+			console.log( 'Dump Nonce: ' + self.props.torroDumpNonce );
+
 			const params = {
 				method: method,
 				url: submissionValuePostUrl,
@@ -205,7 +207,7 @@ class Container extends AjaxComponent {
 					submission_id: this.props.submissionId,
 					element_id: elementId,
 					value: value,
-					torro_nonce: this.props.torroNonce
+					torro_dump_nonce: this.props.torroDumpNonce
 				}
 			};
 
