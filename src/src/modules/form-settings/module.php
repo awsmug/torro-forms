@@ -36,6 +36,7 @@ class Module extends Module_Base  implements Submodule_Registry_Interface {
 			'labels'   => Labels::class,
 			'privacy'  => Privacy::class,
 			'advanced' => Advanced::class,
+			'rest_api' => Rest_API::class,
 		);
 	}
 
