@@ -8,12 +8,10 @@
 
 namespace awsmug\Torro_Forms\Modules;
 
-use awsmug\Torro_Forms\Modules\Api\Api;
 use Leaves_And_Love\Plugin_Lib\Service;
 use Leaves_And_Love\Plugin_Lib\Traits\Container_Service_Trait;
 use awsmug\Torro_Forms\Modules\Access_Controls\Module as Access_Controls_Module;
 use awsmug\Torro_Forms\Modules\Actions\Module as Actions_Module;
-use awsmug\Torro_Forms\Modules\API\Module as API_Module;
 use awsmug\Torro_Forms\Modules\Protectors\Module as Protectors_Module;
 use awsmug\Torro_Forms\Modules\Evaluators\Module as Evaluators_Module;
 use awsmug\Torro_Forms\Modules\Form_Settings\Module as Form_Settings_Module;
@@ -158,7 +156,6 @@ class Module_Manager extends Service {
 			'protectors'      => Protectors_Module::class,
 			'evaluators'      => Evaluators_Module::class,
 			'form_settings'   => Form_Settings_Module::class,
-			'api'             => Api_Module::class,
 		);
 
 		foreach ( $this->default_modules as $slug => $module_class_name ) {
