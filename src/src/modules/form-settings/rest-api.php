@@ -151,56 +151,56 @@ class Rest_API extends Form_Setting {
 			'name'     => "{$prefix}rest_api_can_create_submission",
 			'callback' => array( $this, 'check_submission_token' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_update_submission",
 			'callback' => array( $this, 'check_submission_token' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_create_submission_value",
 			'callback' => array( $this, 'check_submission_token' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_update_submission_value",
 			'callback' => array( $this, 'check_submission_token' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_create_submission",
 			'callback' => array( $this, 'check_submission_dump_nonce' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_update_submission",
 			'callback' => array( $this, 'check_submission_dump_nonce' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_create_submission_value",
 			'callback' => array( $this, 'check_submission_dump_nonce' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_update_submission_value",
 			'callback' => array( $this, 'check_submission_dump_nonce' ),
 			'priority' => 10,
-			'num_args' => 2,
+			'num_args' => 3,
 		);
 	}
 }
