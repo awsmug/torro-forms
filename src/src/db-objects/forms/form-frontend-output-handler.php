@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
+use awsmug\Torro_Forms\Components\Dump_Nonces;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\DB_Objects\Containers\Container;
 use awsmug\Torro_Forms\Error;
@@ -248,7 +249,8 @@ class Form_Frontend_Output_Handler {
 
 		$template_data = $form->to_json( false );
 
-		$template_data['hidden_fields']  = '<input type="hidden" name="torro_submission[nonce]" value="' . wp_create_nonce( $this->get_nonce_action( $form, $submission ) ) . '">';
+		$template_data['hidden_fields']  = '<input type="hidden" name="torro_submission[dump_nonce]" value="' . Dump_Nonces::create() . '">';
+		$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[nonce]" value="' . wp_create_nonce( $this->get_nonce_action( $form, $submission ) ) . '">';
 		$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[form_id]" value="' . esc_attr( $form->id ) . '">';
 		if ( $submission ) {
 			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[id]" value="' . esc_attr( $submission->id ) . '">';
@@ -256,6 +258,15 @@ class Form_Frontend_Output_Handler {
 		if ( ! is_archive() && in_the_loop() && (int) get_the_ID() !== $form->id ) {
 			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[original_form_id]" value="' . esc_attr( get_the_ID() ) . '">';
 		}
+
+		/**
+		 * Filters the hidden fields of the form frontend.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param string $button_class Button CSS class. Default 'torro-button'.
+		 */
+		$template_data['hidden_fields'] = apply_filters( "{$prefix}form_hidden_fields", $template_data['hidden_fields'] );
 
 		/**
 		 * Filters the CSS class to use for every button for a form in the frontend.
