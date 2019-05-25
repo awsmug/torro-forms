@@ -147,10 +147,30 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 	 * @since 1.1.0
 	 *
 	 * @param \WP_REST_Request $request Full details about the request.
-	 * @retur \WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 * @return \WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
 		$response = parent::create_item( $request );
+		$status   = $request->get_param( 'status' );
+
+		if ( ! is_wp_error( $response ) && 'completed' === $status ) {
+			$form       = torro()->forms()->get( $request->get_param( 'id' ) );
+			$submission = torro()->submissions()->get( $request->get_param( 'id' ) );
+
+			/**
+			 * Fires when a form submission is completed.
+			 *
+			 * At the point of this action, all submission data is already synchronized with the database
+			 * and its status is set as 'completed'.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param Submission $submission Submission object.
+			 * @param Form       $form       Form object.
+			 */
+			do_action( "{$this->manager->get_prefix()}complete_submission", $submission, $form );
+		}
+
 		return $response;
 	}
 
@@ -164,6 +184,26 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 	 */
 	public function update_item( $request ) {
 		$response = parent::update_item( $request );
+		$status   = $request->get_param( 'status' );
+
+		if ( ! is_wp_error( $response ) && 'completed' === $status ) {
+			$form       = torro()->forms()->get( $request->get_param( 'id' ) );
+			$submission = torro()->submissions()->get( $request->get_param( 'id' ) );
+			
+			/**
+			 * Fires when a form submission is completed.
+			 *
+			 * At the point of this action, all submission data is already synchronized with the database
+			 * and its status is set as 'completed'.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param Submission $submission Submission object.
+			 * @param Form       $form       Form object.
+			 */
+			do_action( "{$this->manager->get_prefix()}complete_submission", $submission, $form );
+		}
+
 		return $response;
 	}
 
