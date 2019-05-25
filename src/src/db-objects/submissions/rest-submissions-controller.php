@@ -177,11 +177,17 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 	 * @return \WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $model, $request ) {
-		$response                 = parent::prepare_item_for_response( $model, $request );
-		$data                     = $response->get_data();
-		$data['torro_dump_nonce'] = Dump_Nonce::create();
+		$response = parent::prepare_item_for_response( $model, $request );
 
-		$response->set_data( $data );
+		/**
+		 * Filters submission response.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param \WP_REST_Response Response object.
+		 * @param Model $model   Model object.
+		 */
+		$response = apply_filters( $this->manager->get_prefix() . 'rest_api_submission_response', $response, $model );
 
 		return $response;
 	}
