@@ -123,7 +123,7 @@ class Rest_API extends Form_Setting {
 	 * @param \WP_REST_Request                         $request Full details about the request.
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
-	public function check_submission_dump_nonce( $enabled, $form, $request) {
+	public function check_submission_dump_nonce( $enabled, $form, $request ) {
 		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_dump_nonce' );
 
 		if ( 'yes' === $allow ) {
