@@ -156,6 +156,31 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	}
 
 	/**
+	 * Prepares a single model output for response.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Model            $model   Model object.
+	 * @param \WP_REST_Request $request Request object.
+	 * @return \WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $model, $request ) {
+		$response = parent::prepare_item_for_response( $model, $request );
+
+		/**
+		 * Filters submission value response.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param \WP_REST_Response Response object.
+		 * @param Model $model   Model object.
+		 */
+		$response = apply_filters( $this->manager->get_prefix() . 'rest_api_submission_value_response', $response, $model );
+
+		return $response;
+	}
+
+	/**
 	 * Retrieves the query params for the models collection.
 	 *
 	 * @since 1.0.0

@@ -41,7 +41,7 @@ class Rest_API extends Form_Setting {
 		$token = wp_hash( implode( '', $_SERVER ) . microtime() );
 
 		$meta_fields = array(
-			'allow_submissions_by_token'      => array(
+			'verify_submissions_by_token'      => array(
 				'type'        => 'radio',
 				'label'       => __( 'Verify submissions via Token.', 'torro-forms' ),
 				'description' => __( 'Take form token and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_token</code> to verify the submission.', 'torro-forms' ),
@@ -51,14 +51,14 @@ class Rest_API extends Form_Setting {
 					'no'  => __( 'No', 'torro-forms' ),
 				),
 			),
-			'token'                           => array(
+			'token'                            => array(
 				'type'          => 'text',
 				'label'         => __( 'Form Token', 'torro-forms' ),
 				'description'   => __( 'Token which is needed for accessing Rest API submissions.', 'torro-forms' ),
 				'default'       => $token,
 				'input_classes' => array( 'regular-text' ),
 			),
-			'allow_submissions_by_dump_nonce' => array(
+			'verify_submissions_by_dump_nonce' => array(
 				'type'        => 'radio',
 				'label'       => __( 'Verify submissions via dump nonces.', 'torro-forms' ),
 				'description' => __( 'Create a nonce by<code>Dump_Nonce::create()</code> and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_dump_nonce</code> to verify the submission.', 'torro-forms' ),
@@ -100,7 +100,7 @@ class Rest_API extends Form_Setting {
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
 	public function check_submission_token( $enabled, $form, $request ) {
-		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_token' );
+		$allow = $this->get_form_option( $form->id, 'verify_submissions_by_token' );
 
 		if ( 'yes' === $allow ) {
 			$token = $request->get_param( 'torro_token' );
@@ -124,7 +124,7 @@ class Rest_API extends Form_Setting {
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
 	public function check_submission_dump_nonce( $enabled, $form, $request ) {
-		$allow = $this->get_form_option( $form->id, 'allow_submissions_by_dump_nonce' );
+		$allow = $this->get_form_option( $form->id, 'verify_submissions_by_dump_nonce' );
 
 		if ( 'yes' === $allow ) {
 			$nonce = $request->get_param( 'torro_dump_nonce' );
@@ -135,6 +135,27 @@ class Rest_API extends Form_Setting {
 		}
 
 		return $enabled;
+	}
+
+	/**
+	 * Addingn dump nonce to response.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Response $response Response object.
+	 * @return \WP_REST_Response $response Response object.
+	 */
+	public function response_add_dump_nonce( $response ) {
+		$data    = $response->get_data();
+		$form_id = $data['form_id'];
+		$allow   = $this->get_form_option( $form_id, 'verify_submissions_by_dump_nonce' );
+
+		if ( 'yes' === $allow ) {
+			$data['torro_dump_nonce'] = Dump_Nonce::create();
+			$response->set_data( $data );
+		}
+
+		return $response;
 	}
 
 	/**
@@ -201,6 +222,20 @@ class Rest_API extends Form_Setting {
 			'callback' => array( $this, 'check_submission_dump_nonce' ),
 			'priority' => 10,
 			'num_args' => 3,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_submission_response",
+			'callback' => array( $this, 'response_add_dump_nonce' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_submission_value_response",
+			'callback' => array( $this, 'response_add_dump_nonce' ),
+			'priority' => 10,
+			'num_args' => 1,
 		);
 	}
 }
