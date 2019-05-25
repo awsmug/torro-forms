@@ -44,7 +44,7 @@ class Rest_API extends Form_Setting {
 			'allow_submissions_by_token'      => array(
 				'type'        => 'radio',
 				'label'       => __( 'Verify submissions via Token.', 'torro-forms' ),
-				'description' => __( 'Take rorm token and and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_token</code> to verify the submission.', 'torro-forms' ),
+				'description' => __( 'Take form token and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_token</code> to verify the submission.', 'torro-forms' ),
 				'default'     => 'no',
 				'choices'     => array(
 					'yes' => __( 'Yes', 'torro-forms' ),
