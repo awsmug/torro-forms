@@ -230,5 +230,12 @@ class Rest_API extends Form_Setting {
 			'priority' => 10,
 			'num_args' => 1,
 		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_submission_value_response",
+			'callback' => array( $this, 'response_add_dump_nonce' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
 	}
 }
