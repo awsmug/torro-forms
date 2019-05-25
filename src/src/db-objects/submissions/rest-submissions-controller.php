@@ -96,7 +96,7 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param WP_REST_Request $request Full details about the request.
+	 * @param \WP_REST_Request $request Full details about the request.
 	 * @return true True if the request has access to create models, WP_Error object otherwise.
 	 */
 	public function create_item_permissions_check( $request ) {
@@ -189,7 +189,7 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 		if ( ! is_wp_error( $response ) && 'completed' === $status ) {
 			$form       = torro()->forms()->get( $request->get_param( 'id' ) );
 			$submission = torro()->submissions()->get( $request->get_param( 'id' ) );
-			
+
 			/**
 			 * Fires when a form submission is completed.
 			 *
