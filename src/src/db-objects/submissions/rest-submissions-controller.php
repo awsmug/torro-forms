@@ -8,7 +8,9 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
+use awsmug\Torro_Forms\Components\Dump_Nonce;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
 /**
@@ -133,10 +135,55 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 		 *
 		 * @param bool            $can_create_submission True if item can be filtered, false if not.
 		 * @param Form            $form                  Form Object.
-		 * @param WP_REST_Request $request               Full details about the request.
+		 * @param \WP_REST_Request $request               Full details about the request.
 		 */
 		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_update_submission', parent::update_item_permissions_check( $request ), $form, $request );
 		return $can_create_submission;
+	}
+
+	/**
+	 * Creates a single model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @retur \WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function create_item( $request ) {
+		$response = parent::create_item( $request );
+		return $response;
+	}
+
+	/**
+	 * Updates a single model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return \WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function update_item( $request ) {
+		$response = parent::update_item( $request );
+		return $response;
+	}
+
+	/**
+	 * Prepares a single model output for response.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Model            $model   Model object.
+	 * @param \WP_REST_Request $request Request object.
+	 * @return \WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $model, $request ) {
+		$response                 = parent::prepare_item_for_response( $model, $request );
+		$data                     = $response->get_data();
+		$data['torro_dump_nonce'] = Dump_Nonce::create();
+
+		$response->set_data( $data );
+
+		return $response;
 	}
 
 	/**
