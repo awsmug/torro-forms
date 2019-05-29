@@ -78,15 +78,16 @@ class Dump_Nonce {
 	/**
 	 * Checking nonce and thwowing away
 	 *
-	 * @param string $nonce Nonce string to check.
+	 * @param string $nonce  Nonce string to check.
+	 * @param bool   $delete Wether delete nonce or not.
 	 *
 	 * @return bool
 	 */
-	public static function check( $nonce ) {
+	public static function check( $nonce, $delete = true ) {
 		$option_name   = '_dump_nonce_' . self::get_remote_hash();
 		$compare_nonce = get_option( $option_name, $option_name );
 
-		if ( $compare_nonce['value'] === $nonce ) {
+		if ( $compare_nonce['value'] === $nonce && $delete ) {
 			delete_option( $option_name );
 			return true;
 		}
