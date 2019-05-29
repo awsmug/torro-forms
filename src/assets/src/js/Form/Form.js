@@ -225,7 +225,7 @@ class Form extends AjaxComponent {
 
 			axios(params).then(response => {
 				self.setSubmissionId(response.data.id);
-				self.setDumpNonce(respose.data.torro_dump_nonce);
+				self.setDumpNonce(response.data.torro_dump_nonce);
 
 				return resolve( response.data.id );
 			}).catch( err => {
@@ -264,7 +264,7 @@ class Form extends AjaxComponent {
 		this.dumpNonce = dumpNonce;
 	}
 
-	getDumpNonce(dumpNonce) {
+	getDumpNonce() {
 		return this.dumpNonce;
 	}
 
@@ -353,8 +353,8 @@ class Form extends AjaxComponent {
 				formId={this.id}
 				submissionId={this.submissionId}
 				setSubmissionId={this.setSubmissionId.bind(this)}
-				setDumpNonce={this.setDumpNonce}
-				getDumpNonce={this.getDumpNonce}
+				setDumpNonce={this.setDumpNonce.bind(this)}
+				getDumpNonce={this.getDumpNonce.bind(this)}
 				showContainerTitle={form.show_container_title}
 				requiredFieldsText={form.required_fields_text}
 				previousButtonLabel={form.previous_button_label}

@@ -197,7 +197,7 @@ class Container extends AjaxComponent {
 				value = "";
 			}
 
-			console.log( 'Dump Nonce: ' + self.props.dumpNonceNonce );
+			console.log( 'Dump Nonce: ' + this.props.getDumpNonce() );
 
 			const params = {
 				method: method,
@@ -207,7 +207,7 @@ class Container extends AjaxComponent {
 					submission_id: this.props.submissionId,
 					element_id: elementId,
 					value: value,
-					torro_dump_nonce: this.props.getNonceNonce
+					torro_dump_nonce: this.props.getDumpNonce()
 				}
 			};
 
@@ -215,7 +215,7 @@ class Container extends AjaxComponent {
 				.then(response => {
 					if (response.status === 200 || response.status === 201) {
 						this.setElement(elementId, value, response.data.id);
-						this.props.setDumpNonce(respose.data.torro_dump_nonce);
+						this.props.setDumpNonce(response.data.torro_dump_nonce);
 
 						return resolve(response.data.id);
 					} else if (response.status === 400) {
