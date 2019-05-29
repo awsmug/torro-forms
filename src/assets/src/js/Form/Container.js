@@ -132,7 +132,7 @@ class Container extends AjaxComponent {
 		return new Promise((resolve, reject) => {
 			this.props.syncUpstream()
 				.then( _ => {
-					self.syncUpstreamElements().then(_ => {
+					self.syncUpstreamElements().then( _ => {
 						return resolve();
 					}).catch(err => {
 						console.error(err.response);
@@ -197,7 +197,7 @@ class Container extends AjaxComponent {
 				value = "";
 			}
 
-			console.log( 'Dump Nonce: ' + self.props.torroDumpNonce );
+			console.log( 'Dump Nonce: ' + self.props.dumpNonceNonce );
 
 			const params = {
 				method: method,
@@ -207,7 +207,7 @@ class Container extends AjaxComponent {
 					submission_id: this.props.submissionId,
 					element_id: elementId,
 					value: value,
-					torro_dump_nonce: this.props.torroDumpNonce
+					torro_dump_nonce: this.props.getNonceNonce
 				}
 			};
 
@@ -215,6 +215,8 @@ class Container extends AjaxComponent {
 				.then(response => {
 					if (response.status === 200 || response.status === 201) {
 						this.setElement(elementId, value, response.data.id);
+						this.props.setDumpNonce(respose.data.torro_dump_nonce);
+
 						return resolve(response.data.id);
 					} else if (response.status === 400) {
 						this.setElement(elementId, value, null, response.data.message);
