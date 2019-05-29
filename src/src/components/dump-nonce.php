@@ -83,7 +83,7 @@ class Dump_Nonce {
 	 *
 	 * @return bool
 	 */
-	public static function check( $nonce, $delete = true ) {
+	public static function check( $nonce, $delete = false ) {
 		$option_name   = '_dump_nonce_' . self::get_remote_hash();
 		$compare_nonce = get_option( $option_name, $option_name );
 
