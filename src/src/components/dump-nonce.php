@@ -87,8 +87,10 @@ class Dump_Nonce {
 		$option_name   = '_dump_nonce_' . self::get_remote_hash();
 		$compare_nonce = get_option( $option_name, $option_name );
 
-		if ( $compare_nonce['value'] === $nonce && $delete ) {
-			delete_option( $option_name );
+		if ( $compare_nonce['value'] === $nonce ) {
+			if ( $delete ) {
+				delete_option( $option_name );
+			}
 			return true;
 		}
 
