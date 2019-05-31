@@ -77,6 +77,35 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	}
 
 	/**
+	 * Validating value with form element settings.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed            $value   Value to validate.
+	 * @param \WP_REST_Request $request WP Rest request object.
+	 * @param string           $key     Name of the key.
+	 *
+	 * @return mixed|\WP_Error Validated value or WP Error on failure.
+	 */
+	public function validate_value( $value, $request, $key ) {
+		$submission_id = $request->get_param( 'submission_id' );
+		$element_id    = $request->get_param( 'element_id' );
+
+		if ( null === $submission_id ) {
+			return new \WP_Error( 'submission_value_missing_submission_id', __( 'Missing submission id for value submission.', 'torro-forms' ) );
+		}
+
+		$submission = torro()->submissions()->get( $submission_id );
+
+		$element      = torro()->elements()->get( $element_id );
+		$element_type = $element->get_element_type();
+
+		$value = $element_type->validate_field( $request->get_param( 'value' ), $element, $submission );
+
+		return $value;
+	}
+
+	/**
 	 * Checks if a given request has access to create a model.
 	 *
 	 * @since 1.1.0
