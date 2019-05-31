@@ -95,6 +95,10 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 		$submission_id = $request->get_param( 'submission_id' );
 		$element_id    = $request->get_param( 'element_id' );
 
+		if ( null === $submission_id ) {
+			return new \WP_Error( 'submission_value_missing_submission_id', __( 'Missing submission id for value submission.', 'torro-forms' ) );
+		}
+
 		$submission = torro()->submissions()->get( $submission_id );
 
 		$element      = torro()->elements()->get( $element_id );
