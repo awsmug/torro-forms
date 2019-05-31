@@ -138,16 +138,40 @@ class Rest_API extends Form_Setting {
 	}
 
 	/**
-	 * Addingn dump nonce to response.
+	 * Addingn submission dump nonce to response.
 	 *
 	 * @since 1.1.0
 	 *
 	 * @param \WP_REST_Response $response Response object.
 	 * @return \WP_REST_Response $response Response object.
 	 */
-	public function response_add_dump_nonce( $response ) {
+	public function response_add_submission_dump_nonce( $response ) {
 		$data    = $response->get_data();
 		$form_id = $data['form_id'];
+		$allow   = $this->get_form_option( $form_id, 'verify_submissions_by_dump_nonce' );
+
+		if ( 'yes' === $allow ) {
+			$data['torro_dump_nonce'] = Dump_Nonce::create();
+			$response->set_data( $data );
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Adding submission value dump nonce to response.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Response $response Response object.
+	 * @return \WP_REST_Response $response Response object.
+	 */
+	public function response_add_submission_value_dump_nonce( $response ) {
+		$data    = $response->get_data();
+		$element_id = $data['element_id'];
+
+		$form_id = torro()->elements()->get( $element_id )->get_container()->get_form()->id;
+
 		$allow   = $this->get_form_option( $form_id, 'verify_submissions_by_dump_nonce' );
 
 		if ( 'yes' === $allow ) {
@@ -226,14 +250,14 @@ class Rest_API extends Form_Setting {
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_submission_response",
-			'callback' => array( $this, 'response_add_dump_nonce' ),
+			'callback' => array( $this, 'response_add_submission_dump_nonce' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_submission_value_response",
-			'callback' => array( $this, 'response_add_dump_nonce' ),
+			'callback' => array( $this, 'response_add_submission_value_dump_nonce' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);
