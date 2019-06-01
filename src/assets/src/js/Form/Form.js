@@ -89,7 +89,6 @@ class Form extends AjaxComponent {
 		if( this.hasNextContainer(this.state.curContainer) ) {
 			let curContainer = this.state.curContainer;
 			curContainer += 1;
-			console.log(curContainer);
 
 			this.setState({curContainer: curContainer});
 
@@ -210,8 +209,6 @@ class Form extends AjaxComponent {
 				submissionPostUrl += '/' + self.submissionId;
 			}
 
-			console.log( 'Dump Nonce: ' + self.dumpNonce );
-
 			const params = {
 				method: method,
 				url: submissionPostUrl,
@@ -245,7 +242,7 @@ class Form extends AjaxComponent {
 		this.syncUpstream().then(_ => {
 			this.setState({status:'completed'});
 		}).catch(err => {
-			console.log(err);
+			console.error(err);
 		})
 	}
 
@@ -258,6 +255,15 @@ class Form extends AjaxComponent {
 	 */
 	setSubmissionId(id) {
 		this.submissionId = id;
+	}
+
+	/**
+	 * Getting submission id
+	 *
+	 * @return {*} id
+	 */
+	getSubmissionId() {
+		return this.submissionId;
 	}
 
 	setDumpNonce(dumpNonce) {
@@ -351,7 +357,7 @@ class Form extends AjaxComponent {
 				index={i}
 				ajaxUrl={this.props.ajaxUrl}
 				formId={this.id}
-				submissionId={this.submissionId}
+				getSubmissionId={this.getSubmissionId.bind(this)}
 				setSubmissionId={this.setSubmissionId.bind(this)}
 				setDumpNonce={this.setDumpNonce.bind(this)}
 				getDumpNonce={this.getDumpNonce.bind(this)}

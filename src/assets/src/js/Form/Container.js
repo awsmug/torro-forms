@@ -23,10 +23,6 @@ class Container extends AjaxComponent {
 
 		this.formId = this.props.formId;
 		this.submissionId = null;
-
-		if (props.submissionId !== null) {
-			this.submissionId = props.submissionId;
-		}
 	}
 
 	/**
@@ -179,10 +175,6 @@ class Container extends AjaxComponent {
 	 */
 	syncUpstreamElement(elementId, value, valueId = undefined) {
 		return new Promise((resolve, reject) => {
-			if ( this.submissionId === undefined) {
-				return reject("Missing submission id for saving value.");
-			}
-
 			let submissionValuePostUrl = this.getEndpointUrl("/submission_values");
 			let method = 'post';
 
@@ -197,14 +189,12 @@ class Container extends AjaxComponent {
 				value = "";
 			}
 
-			console.log( 'Dump Nonce: ' + this.props.getDumpNonce() );
-
 			const params = {
 				method: method,
 				url: submissionValuePostUrl,
 				data: {
 					form_id: this.formId,
-					submission_id: this.props.submissionId,
+					submission_id: this.props.getSubmissionId(),
 					element_id: elementId,
 					value: value,
 					torro_dump_nonce: this.props.getDumpNonce()
@@ -220,6 +210,7 @@ class Container extends AjaxComponent {
 						return resolve(response.data.id);
 					} else if (response.status === 400) {
 						this.setElement(elementId, value, null, response.data.message);
+						this.props.setDumpNonce(response.data.torro_dump_nonce);
 						return reject(response);
 					}
 				})
