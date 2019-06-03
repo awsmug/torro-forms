@@ -151,6 +151,8 @@ class Assets extends Assets_Base {
 			)
 		);
 
+		$dump_nonce = Dump_Nonce::create();
+
 		$this->register_script(
 			'frontend-bundle',
 			'assets/dist/js/frontend-bundle.js',
@@ -160,7 +162,7 @@ class Assets extends Assets_Base {
 				'in_footer'     => true,
 				'localize_name' => 'torroFrontendI18n',
 				'localize_data' => array(
-					'torro_dump_nonce' => Dump_Nonce::create(),
+					'torro_dump_nonce' => $dump_nonce,
 				),
 			)
 		);
