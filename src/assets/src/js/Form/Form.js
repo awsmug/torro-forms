@@ -23,7 +23,7 @@ class Form extends AjaxComponent {
 		this.userId = parseInt(props.userId);
 		this.submissionId = null;
 
-		this.dumpNonce = torroFrontendI18n.torro_dump_nonce;
+		this.setDumpNonce(torroFrontendI18n.torro_dump_nonce);
 
 		this.sliderId = 'torro-slider-' + this.id;
 		this.sliderMargin = 0;
@@ -216,7 +216,7 @@ class Form extends AjaxComponent {
 					form_id: self.id,
 					user_id: self.userId,
 					status: self.state.status,
-					torro_dump_nonce: self.dumpNonce
+					torro_dump_nonce: self.getDumpNonce()
 				}
 			};
 
@@ -239,9 +239,10 @@ class Form extends AjaxComponent {
 	 * @param event
 	 */
 	completeSubmission(){
-		this.syncUpstream().then(_ => {
-			this.setState({status:'completed'});
-		}).catch(err => {
+		this.setState({status:'completed'});
+
+		this.syncUpstream().catch(err => {
+			this.setState({status:'progressing'});
 			console.error(err);
 		})
 	}
