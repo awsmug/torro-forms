@@ -41,42 +41,23 @@ class Rest_API extends Form_Setting {
 		$token = wp_hash( implode( '', $_SERVER ) . microtime() );
 
 		$meta_fields = array(
-			'verify_not'      => array(
-				'type'        => 'radio',
-				'label'       => __( 'Do not verify', 'torro-forms' ),
-				'description' => __( 'Do not verify. Open API endpoints.', 'torro-forms' ),
-				'default'     => 'no',
+			'verification_mode' => array(
+				'type'        => 'select',
+				'label'       => __( 'Verification', 'torro-forms' ),
+				'description' => __( 'Verification mode for submission endpoint.', 'torro-forms' ),
+				'default'     => 'token',
 				'choices'     => array(
-					'yes' => __( 'Yes', 'torro-forms' ),
-					'no'  => __( 'No', 'torro-forms' ),
+					'dump_nonce' => __( 'Dump Nonce', 'torro-forms' ),
+					'token'      => __( 'Token', 'torro-forms' ),
+					'no'         => __( 'No Verification', 'torro-forms' ),
 				),
 			),
-			'verify_submissions_by_token'      => array(
-				'type'        => 'radio',
-				'label'       => __( 'Verify submissions via Token.', 'torro-forms' ),
-				'description' => __( 'Take form token and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_token</code> to verify the submission.', 'torro-forms' ),
-				'default'     => 'no',
-				'choices'     => array(
-					'yes' => __( 'Yes', 'torro-forms' ),
-					'no'  => __( 'No', 'torro-forms' ),
-				),
-			),
-			'token'                            => array(
+			'token'             => array(
 				'type'          => 'text',
 				'label'         => __( 'Form Token', 'torro-forms' ),
 				'description'   => __( 'Token which is needed for accessing Rest API submissions.', 'torro-forms' ),
 				'default'       => $token,
 				'input_classes' => array( 'regular-text' ),
-			),
-			'verify_submissions_by_dump_nonce' => array(
-				'type'        => 'radio',
-				'label'       => __( 'Verify submissions via dump nonces.', 'torro-forms' ),
-				'description' => __( 'Create a nonce by<code>Dump_Nonce::create()</code> and sent it by POST method to the Rest API submission endpoints via the parameter <code>torro_dump_nonce</code> to verify the submission.', 'torro-forms' ),
-				'default'     => 'no',
-				'choices'     => array(
-					'yes' => __( 'Yes', 'torro-forms' ),
-					'no'  => __( 'No', 'torro-forms' ),
-				),
 			),
 
 		);
@@ -110,9 +91,9 @@ class Rest_API extends Form_Setting {
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
 	public function pass_submission( $enabled, $form, $request ) {
-		$allow = $this->get_form_option( $form->id, 'verify_not' );
+		$mode = $this->get_form_option( $form->id, 'verification_mode' );
 
-		if ( 'yes' === $allow ) {
+		if ( 'no' === $mode ) {
 			return true;
 		}
 
@@ -130,9 +111,9 @@ class Rest_API extends Form_Setting {
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
 	public function check_submission_token( $enabled, $form, $request ) {
-		$allow = $this->get_form_option( $form->id, 'verify_submissions_by_token' );
+		$mode = $this->get_form_option( $form->id, 'verification_mode' );
 
-		if ( 'yes' === $allow ) {
+		if ( 'token' === $mode ) {
 			$token = $request->get_param( 'torro_token' );
 
 			if ( $this->get_form_option( $form->id, 'token' ) === $token ) {
@@ -154,9 +135,9 @@ class Rest_API extends Form_Setting {
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
 	public function check_submission_dump_nonce( $enabled, $form, $request ) {
-		$allow = $this->get_form_option( $form->id, 'verify_submissions_by_dump_nonce' );
+		$mode = $this->get_form_option( $form->id, 'verification_mode' );
 
-		if ( 'yes' === $allow ) {
+		if ( 'dump_nonce' === $mode ) {
 			$nonce = $request->get_param( 'torro_dump_nonce' );
 
 			if ( Dump_Nonce::check( $nonce ) ) {
@@ -178,9 +159,9 @@ class Rest_API extends Form_Setting {
 	public function response_add_submission_dump_nonce( $response ) {
 		$data    = $response->get_data();
 		$form_id = $data['form_id'];
-		$allow   = $this->get_form_option( $form_id, 'verify_submissions_by_dump_nonce' );
+		$mode    = $this->get_form_option( $form_id, 'verification_mode' );
 
-		if ( 'yes' === $allow ) {
+		if ( 'yes' === $mode ) {
 			$data['torro_dump_nonce'] = Dump_Nonce::create();
 			$response->set_data( $data );
 		}
@@ -197,12 +178,12 @@ class Rest_API extends Form_Setting {
 	 * @return \WP_REST_Response $response Response object.
 	 */
 	public function response_add_submission_value_dump_nonce( $response ) {
-		$data    = $response->get_data();
+		$data       = $response->get_data();
 		$element_id = $data['element_id'];
 
 		$form_id = torro()->elements()->get( $element_id )->get_container()->get_form()->id;
 
-		$allow   = $this->get_form_option( $form_id, 'verify_submissions_by_dump_nonce' );
+		$allow = $this->get_form_option( $form_id, 'verify_submissions_by_dump_nonce' );
 
 		if ( 'yes' === $allow ) {
 			$data['torro_dump_nonce'] = Dump_Nonce::create();
