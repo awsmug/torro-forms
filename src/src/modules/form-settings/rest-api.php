@@ -91,9 +91,9 @@ class Rest_API extends Form_Setting {
 	 * @return bool                                    $enabled Wether submussion endpoint cann be accessed or not.
 	 */
 	public function pass_submission( $enabled, $form, $request ) {
-		$mode = $this->get_form_option( $form->id, 'verification_mode' );
+		$allow = $this->get_form_option( $form->id, 'verify_not' );
 
-		if ( 'no' === $mode ) {
+		if ( 'yes' === $allow ) {
 			return true;
 		}
 
@@ -193,6 +193,33 @@ class Rest_API extends Form_Setting {
 		return $response;
 	}
 
+	public function filter_response( $response ) {
+		$data = $response->get_data();
+
+		if ( ! array_key_exists( 'form_id', $data ) && ! array_key_exists( 'element_id', $data ) ) {
+			return $response;
+		}
+
+		$form_id = null;
+
+		if( array_key_exists( 'form_id', $data ) ) {
+			$form_id = $data['form_id'];
+		}
+
+		if( array_key_exists( 'element_id', $data ) ) {
+			$form_id = torro()->elements()->get( $data['element_id'] )->get_container()->get_form()->id;
+		}
+
+		$allow = $this->get_form_option( $form_id, 'verify_submissions_by_dump_nonce' );
+
+		if ( 'yes' === $allow ) {
+			$data['torro_dump_nonce'] = Dump_Nonce::create();
+			$response->set_data( $data );
+		}
+
+		return $response;
+	}
+
 	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
@@ -205,6 +232,34 @@ class Rest_API extends Form_Setting {
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_can_create_submission",
+			'callback' => array( $this, 'pass_submission' ),
+			'priority' => 10,
+			'num_args' => 3,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_update_submission",
+			'callback' => array( $this, 'pass_submission' ),
+			'priority' => 10,
+			'num_args' => 3,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_create_submission_value",
+			'callback' => array( $this, 'pass_submission' ),
+			'priority' => 10,
+			'num_args' => 3,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_update_submission_value",
+			'callback' => array( $this, 'pass_submission' ),
+			'priority' => 10,
+			'num_args' => 3,
+		);
+
+		$this->filters[] = array(
+			'name'     => "{$prefix}rest_api_can_create_submission",
 			'callback' => array( $this, 'check_submission_token' ),
 			'priority' => 10,
 			'num_args' => 3,
@@ -258,6 +313,14 @@ class Rest_API extends Form_Setting {
 			'priority' => 10,
 			'num_args' => 3,
 		);
+		/*
+		$this->filters[] = array(
+			'name'     => 'rest_post_dispatch',
+			'callback' => array( $this, 'filter_response' ),
+			'priority' => 10,
+			'num_args' => 1,
+		);
+		*/
 
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_submission_response",
@@ -266,11 +329,13 @@ class Rest_API extends Form_Setting {
 			'num_args' => 1,
 		);
 
+
 		$this->filters[] = array(
 			'name'     => "{$prefix}rest_api_submission_value_response",
 			'callback' => array( $this, 'response_add_submission_value_dump_nonce' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);
+
 	}
 }
