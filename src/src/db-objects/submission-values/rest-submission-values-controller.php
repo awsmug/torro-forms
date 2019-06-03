@@ -83,7 +83,7 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 	/**
 	 * Validating value with form element settings.
 	 *
-	 * @since 1.2.0
+	 * @since 1.1.0
 	 *
 	 * @param mixed            $value   Value to validate.
 	 * @param \WP_REST_Request $request WP Rest request object.
