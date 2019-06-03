@@ -187,7 +187,7 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 		$status   = $request->get_param( 'status' );
 
 		if ( ! is_wp_error( $response ) && 'completed' === $status ) {
-			$form       = torro()->forms()->get( $request->get_param( 'id' ) );
+			$form       = torro()->forms()->get( $request->get_param( 'form_id' ) );
 			$submission = torro()->submissions()->get( $request->get_param( 'id' ) );
 
 			/**
