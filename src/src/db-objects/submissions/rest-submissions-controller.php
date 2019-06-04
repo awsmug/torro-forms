@@ -8,6 +8,9 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Submissions;
 
+use awsmug\Torro_Forms\Components\Dump_Nonce;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use Leaves_And_Love\Plugin_Lib\DB_Objects\Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
 /**
@@ -86,6 +89,147 @@ class REST_Submissions_Controller extends REST_Models_Controller {
 		);
 
 		return $schema;
+	}
+
+	/**
+	 * Checks if a given request has access to create a model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return true True if the request has access to create models, WP_Error object otherwise.
+	 */
+	public function create_item_permissions_check( $request ) {
+		$form_id = $request->get_param( 'form_id' );
+		$form    = torro()->forms()->get( $form_id );
+
+		/**
+		 * Filters if submission can be created.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool            $can_create_submission True if item can be filtered, false if not.
+		 * @param Form            $form                  Form Object.
+		 * @param \WP_REST_Request $request              Full details about the request.
+		 */
+		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_create_submission', parent::create_item_permissions_check( $request ), $form, $request );
+		return $can_create_submission;
+	}
+
+	/**
+	 * Checks if a given request has access to update a model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return true True if the request has access to create models, WP_Error object otherwise.
+	 */
+	public function update_item_permissions_check( $request ) {
+		$form_id = $request->get_param( 'form_id' );
+		$form    = torro()->forms()->get( $form_id );
+
+		/**
+		 * Filters if submission can be created.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool            $can_create_submission True if item can be filtered, false if not.
+		 * @param Form            $form                  Form Object.
+		 * @param \WP_REST_Request $request               Full details about the request.
+		 */
+		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_update_submission', parent::update_item_permissions_check( $request ), $form, $request );
+		return $can_create_submission;
+	}
+
+	/**
+	 * Creates a single model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return \WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function create_item( $request ) {
+		$response = parent::create_item( $request );
+		$status   = $request->get_param( 'status' );
+
+		if ( ! is_wp_error( $response ) && 'completed' === $status ) {
+			$form       = torro()->forms()->get( $request->get_param( 'id' ) );
+			$submission = torro()->submissions()->get( $request->get_param( 'id' ) );
+
+			/**
+			 * Fires when a form submission is completed.
+			 *
+			 * At the point of this action, all submission data is already synchronized with the database
+			 * and its status is set as 'completed'.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param Submission $submission Submission object.
+			 * @param Form       $form       Form object.
+			 */
+			do_action( "{$this->manager->get_prefix()}complete_submission", $submission, $form );
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Updates a single model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return \WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function update_item( $request ) {
+		$response = parent::update_item( $request );
+		$status   = $request->get_param( 'status' );
+
+		if ( ! is_wp_error( $response ) && 'completed' === $status ) {
+			$form       = torro()->forms()->get( $request->get_param( 'form_id' ) );
+			$submission = torro()->submissions()->get( $request->get_param( 'id' ) );
+
+			/**
+			 * Fires when a form submission is completed.
+			 *
+			 * At the point of this action, all submission data is already synchronized with the database
+			 * and its status is set as 'completed'.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param Submission $submission Submission object.
+			 * @param Form       $form       Form object.
+			 */
+			do_action( "{$this->manager->get_prefix()}complete_submission", $submission, $form );
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Prepares a single model output for response.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Model            $model   Model object.
+	 * @param \WP_REST_Request $request Request object.
+	 * @return \WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $model, $request ) {
+		$response = parent::prepare_item_for_response( $model, $request );
+
+		/**
+		 * Filters submission response.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param \WP_REST_Response Response object.
+		 * @param Model $model   Model object.
+		 */
+		$response = apply_filters( $this->manager->get_prefix() . 'rest_api_submission_response', $response, $model );
+
+		return $response;
 	}
 
 	/**

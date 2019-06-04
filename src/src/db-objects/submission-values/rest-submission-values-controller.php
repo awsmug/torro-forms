@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Submission_Values;
 
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\REST_Models_Controller;
 
 /**
@@ -73,6 +74,110 @@ class REST_Submission_Values_Controller extends REST_Models_Controller {
 		);
 
 		return $schema;
+	}
+
+	/**
+	 * Validating value with form element settings.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed            $value   Value to validate.
+	 * @param \WP_REST_Request $request WP Rest request object.
+	 * @param string           $key     Name of the key.
+	 *
+	 * @return mixed|\WP_Error Validated value or WP Error on failure.
+	 */
+	public function validate_value( $value, $request, $key ) {
+		$submission_id = $request->get_param( 'submission_id' );
+		$element_id    = $request->get_param( 'element_id' );
+
+		if ( null === $submission_id ) {
+			return new \WP_Error( 'submission_value_missing_submission_id', __( 'Missing submission id for value submission.', 'torro-forms' ) );
+		}
+
+		$submission = torro()->submissions()->get( $submission_id );
+
+		$element      = torro()->elements()->get( $element_id );
+		$element_type = $element->get_element_type();
+
+		$value = $element_type->validate_field( $request->get_param( 'value' ), $element, $submission );
+
+		return $value;
+	}
+
+	/**
+	 * Checks if a given request has access to create a model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return true True if the request has access to create models, WP_Error object otherwise.
+	 */
+	public function create_item_permissions_check( $request ) {
+		$form_id = $request->get_param( 'form_id' );
+		$form    = torro()->forms()->get( $form_id );
+
+		/**
+		 * Filters if submission can be created.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool             $can_create_submission True if item can be filtered, false if not.
+		 * @param Form             $form                  Form object.
+		 * @param \WP_REST_Request $request               Full details about the request.
+		 */
+		$can_create_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_create_submission_value', parent::create_item_permissions_check( $request ), $form, $request );
+		return $can_create_submission;
+	}
+
+	/**
+	 * Checks if a given request has access to update a model.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return true True if the request has access to update models, WP_Error object otherwise.
+	 */
+	public function update_item_permissions_check( $request ) {
+		$form_id = $request->get_param( 'form_id' );
+		$form    = torro()->forms()->get( $form_id );
+
+		/**
+		 * Filters if submission can be updated.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool             $can_update_submission True if item can be filtered, false if not.
+		 * @param Form             $form                  Form object.
+		 * @param \WP_REST_Request $request               Full details about the request.
+		 */
+		$can_update_submission = apply_filters( $this->manager->get_prefix() . 'rest_api_can_update_submission_value', parent::update_item_permissions_check( $request ), $form, $request );
+		return $can_update_submission;
+	}
+
+	/**
+	 * Prepares a single model output for response.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Model            $model   Model object.
+	 * @param \WP_REST_Request $request Request object.
+	 * @return \WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $model, $request ) {
+		$response = parent::prepare_item_for_response( $model, $request );
+
+		/**
+		 * Filters submission value response.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param \WP_REST_Response Response object.
+		 * @param Model $model   Model object.
+		 */
+		$response = apply_filters( $this->manager->get_prefix() . 'rest_api_submission_value_response', $response, $model );
+
+		return $response;
 	}
 
 	/**

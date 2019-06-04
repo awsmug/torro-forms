@@ -6,10 +6,10 @@ Author:            Awesome UG
 Author URI:        https://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
-Tested up to:      5.0.3
+Tested up to:      5.2.1
 Requires PHP:      5.6
-Stable tag:        1.0.4
-Version:           1.0.4
+Stable tag:        1.0.5
+Version:           1.0.5
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -84,7 +84,12 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.1.0 =
-* Enhanced: Added actionhooks torro_form_model_data, torro_container_model_data and torro_element_model_data.
+* Enhanced: Added double optin functionality
+* Enhanced: Added Frontend Posting
+* Enhanced: Added APIAPI library
+* Enhanced: Added actionhooks torro_form_model_data, torro_container_model_data and torro_element_model_data
+* Enhanced: Access to submission API Endpoints by token for external websites or by dump nonce
+* Tweaked: Invented dump nonces
 
 = 1.0.5 =
 * Enhanced: Email notifications element "all_elements" looking now better
@@ -94,6 +99,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Fixed: Added missing object in filters torro_element_input_classes, torro_element_label_classes, torro_element_wrap_classes, torro_element_description_classes and torro_element_errors_classes
 * Fixed: Inserted WordPress password protection query
 * Fixed: Bug on remove_error from submission
+* Fixed: Not shown phone text field in Admin
 
 = 1.0.4 =
 * Enhanced: One Choice elements can be exported in one column
