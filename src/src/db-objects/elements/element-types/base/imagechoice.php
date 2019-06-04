@@ -228,7 +228,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 		 * @param Element_Type $element_type  Current element type.
 		 * @param Element      $element       Current element.
 		 */
-		return apply_filters( "{$this->manager->get_prefix()}use_single_export_column_for_choices", false, $this, $element );
+		return apply_filters( "{$this->manager->get_prefix()}use_single_export_column_for_choices", true, $this, $element );
 	}
 
 	/**
@@ -280,7 +280,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 	/**
 	 * Gets the columns required for an export.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param Element $element Element to export columns for.
 	 * @return array Associative array of `$column_slug => $column_label` pairs.
