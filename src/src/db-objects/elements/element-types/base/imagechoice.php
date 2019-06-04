@@ -1,9 +1,9 @@
 <?php
 /**
- * One choice element type class
+ * Image choice element type class
  *
  * @package TorroForms
- * @since 1.0.0
+ * @since 1.1.0
  */
 
 namespace awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Base;
@@ -16,9 +16,9 @@ use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use WP_Error;
 
 /**
- * Class representing a one choice element type.
+ * Class representing a image choice element type.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
 class Imagechoice extends Element_Type implements Choice_Element_Type_Interface {
 	use Choice_Element_Type_Trait;
@@ -26,7 +26,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 	/**
 	 * Bootstraps the element type by setting properties.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'imagechoice';
@@ -80,7 +80,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 	/**
 	 * Filters the array representation of a given element of this type.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param array           $data       Element data to filter.
 	 * @param Element         $element    The element object to get the data for.
@@ -137,7 +137,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 	/**
 	 * Validates a field value for an element.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param mixed      $value      The value to validate. It is already unslashed when it arrives here.
 	 * @param Element    $element    Element to validate the field value for.
@@ -164,7 +164,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 	/**
 	 * Gets the fields arguments for an element of this type when editing submission values in the admin.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param Element $element Element to get fields arguments for.
 	 * @return array An associative array of `$field_slug => $field_args` pairs.
@@ -182,7 +182,7 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 	/**
 	 * Adds a settings field for specifying choices.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @param string $field   Optional. Element field to which the choices should apply. Default empty string (main field).
 	 * @param string $section Optional. Settings section the settings field should be part of. Default 'content'.
@@ -200,6 +200,108 @@ class Imagechoice extends Element_Type implements Choice_Element_Type_Interface 
 			'input_classes' => array( 'regular-text' ),
 			'repeatable'    => true,
 			'is_choices'    => $field,
+		);
+	}
+
+	/**
+	 * Checks whether a single export column should be used for all choices.
+	 *
+	 * By default, each choice has its own column.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Element $element Element for which to check this flag.
+	 * @return bool True if a single column should be used, false otherwise.
+	 */
+	protected function use_single_export_column_for_choices( $element ) {
+		/**
+		 * Filters whether to only render a single column for all choices when exporting submissions.
+		 *
+		 * If this filter returns true, there will only be one column for all choices. In case of an element
+		 * where multiple choices are seletable, those values will be concatenated.
+		 *
+		 * By default, each choice has its own column.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param bool         $single_column Whether to only render a single column for all choices.
+		 * @param Element_Type $element_type  Current element type.
+		 * @param Element      $element       Current element.
+		 */
+		return apply_filters( "{$this->manager->get_prefix()}use_single_export_column_for_choices", false, $this, $element );
+	}
+
+	/**
+	 * Formats values for an export.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array   $values        Associative array of `$field => $value` pairs, with the main element field having the key '_main'.
+	 * @param Element $element       Element the values belong to.
+	 * @param string  $export_format Export format identifier. May be 'xls', 'csv', 'json', 'xml' or 'html'.
+	 * @return array Associative array of `$column_slug => $column_value` pairs. The number of items and the column slugs
+	 *               must match those returned from the get_export_columns() method.
+	 */
+	public function format_values_for_export( $values, $element, $export_format ) {
+		if ( $this instanceof Choice_Element_Type_Interface && ! $this->use_single_export_column_for_choices( $element ) ) {
+			$value  = isset( $values['_main'] ) ? (array) $values['_main'] : array();
+			$yes_no = $this->get_export_column_choices_yes_no( $element );
+
+			$columns = array();
+
+			foreach ( $element->get_element_choices() as $element_choice ) {
+				$choice_slug = sanitize_title( $element_choice->value );
+
+				$columns[ 'element_' . $element->id . '__main_' . $choice_slug ] = in_array( $element_choice->value, $value ) ? $yes_no[0] : $yes_no[1]; // @codingStandardsIgnoreLine
+			}
+
+			return parent::format_values_for_export( $values, $element, $export_format );
+		}
+
+		$post_id = isset( $values['_main'] ) ? $values['_main'] : '';
+		$post    = get_post( $post_id );
+		$value   = $post->post_title;
+
+		/**
+		 * Filters the value for export
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param string  $value    Value to filter.
+		 * @param Element $element  Element object.
+		 */
+		$value = apply_filters( "{$this->manager->get_prefix()}export_value", $value, $element );
+
+		return array(
+			'element_' . $element->id . '__main' => $this->escape_single_value_for_export( $value, $export_format ),
+		);
+	}
+
+	/**
+	 * Gets the columns required for an export.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Element $element Element to export columns for.
+	 * @return array Associative array of `$column_slug => $column_label` pairs.
+	 */
+	public function get_export_columns( $element ) {
+		if ( $this instanceof Choice_Element_Type_Interface && ! $this->use_single_export_column_for_choices( $element ) ) {
+			$columns = array();
+
+			foreach ( $element->get_element_choices() as $element_choice ) {
+				$post_id = $element_choice->value;
+				$post    = get_post( $post_id );
+				$title   = $post->post_title;
+
+				$columns[ 'element_' . $element->id . '__main_' . $element_choice->value ] = $element->label . ' - ' . $title;
+			}
+
+			return $columns;
+		}
+
+		return array(
+			'element_' . $element->id . '__main' => $element->label,
 		);
 	}
 }
