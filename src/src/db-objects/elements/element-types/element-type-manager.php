@@ -84,7 +84,6 @@ class Element_Type_Manager extends Service {
 
 		Field_Manager::register_field_type( 'torrochoices', Choices_Field::class );
 		Field_Manager::register_field_type( 'torroimagechoices', Imagechoices_Field::class );
-		Field_Manager::register_field_type( 'tel', Tel_Field::class );
 
 		$this->default_element_types = array(
 			'textfield'      => Base\Textfield::class,
