@@ -23,6 +23,7 @@ package-lock.json
 ############
 ## Vendor
 ############
+installed.json
 
 /node_modules
 /vendor
