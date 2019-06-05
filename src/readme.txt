@@ -91,6 +91,10 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Access to submission API Endpoints by token for external websites or by dump nonce
 * Tweaked: Invented dump nonces
 
+= 1.0.6 =
+* Fixed: Compact PHP function in PHP 7.3 throws error
+* Tweaked: Switched to plugin-lib of felixarntz repo
+
 = 1.0.5 =
 * Enhanced: Email notifications element "all_elements" looking now better
 * Enhanced: Added filter torro_export_value

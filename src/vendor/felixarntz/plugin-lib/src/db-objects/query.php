@@ -477,6 +477,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Query' ) ) :
 			$number = $this->query_vars['number'];
 			$offset = $this->query_vars['offset'];
 
+			$limits = null;
 			if ( $number ) {
 				if ( $offset ) {
 					$limits = "LIMIT $offset,$number";
@@ -500,9 +501,14 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Query' ) ) :
 
 			$where = implode( ' AND ', $this->sql_clauses['where'] );
 
-			$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
-
-			$clauses = compact( $pieces );
+			$clauses = array(
+				'fields'  => $fields,
+				'join'    => $join,
+				'where'   => $where,
+				'orderby' => $orderby,
+				'limits'  => $limits,
+				'groupby' => $groupby,
+			);
 
 			$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 			$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';
