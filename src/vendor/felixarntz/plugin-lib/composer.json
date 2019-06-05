@@ -1,5 +1,5 @@
 {
-  "name": "awsmug/plugin-lib",
+  "name": "felixarntz/plugin-lib",
   "type": "wordpress-muplugin",
   "description": "Reusable library for all kinds of WordPress plugins.",
   "version": "1.0.4",

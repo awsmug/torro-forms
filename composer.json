@@ -47,18 +47,11 @@
     "squizlabs/php_codesniffer": "3.*",
     "wp-coding-standards/wpcs": "^1",
     "wimg/php-compatibility": "^8",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-    "awsmug/wp-devops": "dev-master"
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
   },
   "scripts":     {
     "install-codestandards": [
       "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
-    ],
-    "post-install-cmd": [
-      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && rm -rf .git && cd ../../../.."
-    ],
-    "post-update-cmd": [
-      "cd src/vendor/felixarntz/plugin-lib && npm install --only=production && rm -rf .git &&  cd ../../../.."
     ]
   },
   "extra": {
