@@ -481,18 +481,18 @@
         ]
     },
     {
-        "name": "awsmug/plugin-lib",
+        "name": "felixarntz/plugin-lib",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/awsmug/plugin-lib.git",
-            "reference": "28eac60f87c11caa013a0b0243fa439d51d97687"
+            "url": "https://github.com/felixarntz/plugin-lib.git",
+            "reference": "6f3dffeddf1218f34f384164ab58330fc8595a3b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/awsmug/plugin-lib/zipball/28eac60f87c11caa013a0b0243fa439d51d97687",
-            "reference": "28eac60f87c11caa013a0b0243fa439d51d97687",
+            "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/6f3dffeddf1218f34f384164ab58330fc8595a3b",
+            "reference": "6f3dffeddf1218f34f384164ab58330fc8595a3b",
             "shasum": ""
         },
         "require": {
@@ -507,7 +507,7 @@
             "squizlabs/php_codesniffer": "3.*",
             "wp-coding-standards/wpcs": "^1"
         },
-        "time": "2019-02-04T13:55:04+00:00",
+        "time": "2019-06-05T05:29:41+00:00",
         "type": "wordpress-muplugin",
         "installation-source": "source",
         "notification-url": "https://packagist.org/downloads/",

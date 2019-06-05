@@ -2,16 +2,24 @@
   "require": {
     "php": ">=5.6.0",
     "composer/installers": "~1.0",
-    "awsmug/plugin-lib": "dev-master",
+    "felixarntz/plugin-lib": "dev-master",
     "psr/log": "^1",
     "api-api/core": "1.0.0-beta.1",
     "api-api/storage-wordpress-option": "1.0.0",
     "api-api/transporter-wordpress": "1.0.0",
     "phpoffice/phpspreadsheet": "1.2.1"
   },
+  "scripts":     {
+    "post-install-cmd": [
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && rm -rf .git && cd ../../../.."
+    ],
+    "post-update-cmd": [
+      "cd vendor/felixarntz/plugin-lib && npm install --only=production && rm -rf .git &&  cd ../../../.."
+    ]
+  },
   "extra": {
     "installer-paths": {
-      "vendor/felixarntz/{$name}/": ["awsmug/plugin-lib"]
+      "vendor/felixarntz/{$name}/": ["felixarntz/plugin-lib"]
     }
   }
 }
