@@ -148,6 +148,8 @@ class Submission_Export_Handler extends Service {
 		$onechoice_columns = filter_input( INPUT_POST, 'onechoice_columns' );
 		if ( 'one' === $onechoice_columns ) {
 			add_filter( "{$this->prefix}use_single_export_column_for_choices", '__return_true' );
+		} else {
+			add_filter( "{$this->prefix}use_single_export_column_for_choices", '__return_false' );
 		}
 
 		$this->export_submissions( $mode, $form, $args );

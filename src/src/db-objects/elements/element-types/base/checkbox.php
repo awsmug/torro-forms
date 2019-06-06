@@ -21,6 +21,22 @@ use WP_Error;
 class Checkbox extends Element_Type {
 
 	/**
+	 * Bootstraps the element type by setting properties.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function bootstrap() {
+		$this->slug        = 'checkbox';
+		$this->title       = __( 'Checkbox', 'torro-forms' );
+		$this->description = __( 'A single checkbox element to toggle a value.', 'torro-forms' );
+		$this->icon_svg_id = 'torro-icon-checkbox';
+
+		$this->add_description_settings_field();
+		$this->add_required_settings_field();
+		$this->add_css_classes_settings_field();
+	}
+
+	/**
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
@@ -107,21 +123,5 @@ class Checkbox extends Element_Type {
 		$fields[ $slug ]['type'] = 'checkbox';
 
 		return $fields;
-	}
-
-	/**
-	 * Bootstraps the element type by setting properties.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function bootstrap() {
-		$this->slug        = 'checkbox';
-		$this->title       = __( 'Checkbox', 'torro-forms' );
-		$this->description = __( 'A single checkbox element to toggle a value.', 'torro-forms' );
-		$this->icon_svg_id = 'torro-icon-checkbox';
-
-		$this->add_description_settings_field();
-		$this->add_required_settings_field();
-		$this->add_css_classes_settings_field();
 	}
 }

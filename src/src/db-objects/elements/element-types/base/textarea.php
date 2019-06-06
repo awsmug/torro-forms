@@ -23,6 +23,61 @@ class Textarea extends Element_Type {
 	use Length_Limits_Element_Type_Trait;
 
 	/**
+	 * Bootstraps the element type by setting properties.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function bootstrap() {
+		$this->slug        = 'textarea';
+		$this->title       = __( 'Textarea', 'torro-forms' );
+		$this->description = __( 'A textarea element.', 'torro-forms' );
+		$this->icon_svg_id = 'torro-icon-textarea';
+
+		$this->add_placeholder_settings_field();
+		$this->add_description_settings_field();
+		$this->add_required_settings_field();
+		$this->settings_fields['min_length'] = array(
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Minimum length', 'torro-forms' ),
+			'description'   => __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'min'           => 0,
+			'step'          => 1,
+		);
+		$this->settings_fields['max_length'] = array(
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Maximum length', 'torro-forms' ),
+			'description'   => __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'min'           => 0,
+			'step'          => 1,
+		);
+		$this->settings_fields['rows']       = array(
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Rows', 'torro-forms' ),
+			'description'   => __( 'Number of rows for typing in  (can be overwritten by CSS).', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'default'       => 10,
+			'min'           => 0,
+			'step'          => 1,
+		);
+		$this->settings_fields['cols']       = array(
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Columns', 'torro-forms' ),
+			'description'   => __( 'Number of columns for typing in (can be overwritten by CSS).', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'default'       => 75,
+			'min'           => 0,
+			'step'          => 1,
+		);
+		$this->add_css_classes_settings_field();
+	}
+
+	/**
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
@@ -123,60 +178,5 @@ class Textarea extends Element_Type {
 		}
 
 		return $fields;
-	}
-
-	/**
-	 * Bootstraps the element type by setting properties.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function bootstrap() {
-		$this->slug        = 'textarea';
-		$this->title       = __( 'Textarea', 'torro-forms' );
-		$this->description = __( 'A textarea element.', 'torro-forms' );
-		$this->icon_svg_id = 'torro-icon-textarea';
-
-		$this->add_placeholder_settings_field();
-		$this->add_description_settings_field();
-		$this->add_required_settings_field();
-		$this->settings_fields['min_length'] = array(
-			'section'       => 'settings',
-			'type'          => 'number',
-			'label'         => __( 'Minimum length', 'torro-forms' ),
-			'description'   => __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
-			'input_classes' => array( 'small-text' ),
-			'min'           => 0,
-			'step'          => 1,
-		);
-		$this->settings_fields['max_length'] = array(
-			'section'       => 'settings',
-			'type'          => 'number',
-			'label'         => __( 'Maximum length', 'torro-forms' ),
-			'description'   => __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
-			'input_classes' => array( 'small-text' ),
-			'min'           => 0,
-			'step'          => 1,
-		);
-		$this->settings_fields['rows']       = array(
-			'section'       => 'settings',
-			'type'          => 'number',
-			'label'         => __( 'Rows', 'torro-forms' ),
-			'description'   => __( 'Number of rows for typing in  (can be overwritten by CSS).', 'torro-forms' ),
-			'input_classes' => array( 'small-text' ),
-			'default'       => 10,
-			'min'           => 0,
-			'step'          => 1,
-		);
-		$this->settings_fields['cols']       = array(
-			'section'       => 'settings',
-			'type'          => 'number',
-			'label'         => __( 'Columns', 'torro-forms' ),
-			'description'   => __( 'Number of columns for typing in (can be overwritten by CSS).', 'torro-forms' ),
-			'input_classes' => array( 'small-text' ),
-			'default'       => 75,
-			'min'           => 0,
-			'step'          => 1,
-		);
-		$this->add_css_classes_settings_field();
 	}
 }

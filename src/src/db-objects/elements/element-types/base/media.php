@@ -21,6 +21,30 @@ use WP_Error;
 class Media extends Element_Type {
 
 	/**
+	 * Bootstraps the element type by setting properties.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function bootstrap() {
+		$this->slug        = 'media';
+		$this->title       = __( 'Media', 'torro-forms' );
+		$this->description = __( 'An element to upload a file to the media library.', 'torro-forms' );
+		$this->icon_svg_id = 'torro-icon-media';
+
+		$this->add_description_settings_field();
+		$this->add_required_settings_field();
+		$this->settings_fields['file_type'] = array(
+			'section'     => 'settings',
+			'type'        => 'select',
+			'label'       => __( 'Valid file types', 'torro-forms' ),
+			'description' => __( 'The file type the user is allowed to upload.', 'torro-forms' ),
+			'choices'     => $this->get_type_dropdown_options(),
+			'default'     => 'any',
+		);
+		$this->add_css_classes_settings_field();
+	}
+
+	/**
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
@@ -219,30 +243,6 @@ class Media extends Element_Type {
 	 */
 	protected function get_file_id( $element ) {
 		return $this->manager->get_prefix() . 'media_upload_' . $element->id . '__main';
-	}
-
-	/**
-	 * Bootstraps the element type by setting properties.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function bootstrap() {
-		$this->slug        = 'media';
-		$this->title       = __( 'Media', 'torro-forms' );
-		$this->description = __( 'An element to upload a file to the media library.', 'torro-forms' );
-		$this->icon_svg_id = 'torro-icon-media';
-
-		$this->add_description_settings_field();
-		$this->add_required_settings_field();
-		$this->settings_fields['file_type'] = array(
-			'section'     => 'settings',
-			'type'        => 'select',
-			'label'       => __( 'Valid file types', 'torro-forms' ),
-			'description' => __( 'The file type the user is allowed to upload.', 'torro-forms' ),
-			'choices'     => $this->get_type_dropdown_options(),
-			'default'     => 'any',
-		);
-		$this->add_css_classes_settings_field();
 	}
 
 	/**
