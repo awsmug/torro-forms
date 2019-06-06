@@ -115,4 +115,32 @@ class Onechoice extends Element_Type implements Choice_Element_Type_Interface {
 
 		return $fields;
 	}
+
+	/**
+	 * Checks whether a single export column should be used for all choices.
+	 *
+	 * By default, each choice has its own column.
+	 *
+	 * @since 1.0.6
+	 *
+	 * @param Element $element Element for which to check this flag.
+	 * @return bool True if a single column should be used, false otherwise.
+	 */
+	protected function use_single_export_column_for_choices( $element ) {
+		/**
+		 * Filters whether to only render a single column for all choices when exporting submissions.
+		 *
+		 * If this filter returns true, there will only be one column for all choices. In case of an element
+		 * where multiple choices are seletable, those values will be concatenated.
+		 *
+		 * By default, each choice has its own column.
+		 *
+		 * @since 1.0.6
+		 *
+		 * @param bool         $single_column Whether to only render a single column for all choices.
+		 * @param Element_Type $element_type  Current element type.
+		 * @param Element      $element       Current element.
+		 */
+		return apply_filters( "{$this->manager->get_prefix()}use_single_export_column_for_choices", true, $this, $element );
+	}
 }
