@@ -23,6 +23,59 @@ class Textfield extends Element_Type {
 	use Length_Limits_Element_Type_Trait;
 
 	/**
+	 * Bootstraps the element type by setting properties.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function bootstrap() {
+		$this->slug        = 'textfield';
+		$this->title       = __( 'Text', 'torro-forms' );
+		$this->description = __( 'A single text field element.', 'torro-forms' );
+		$this->icon_svg_id = 'torro-icon-textfield';
+
+		$input_types = array();
+		foreach ( $this->get_input_types() as $slug => $data ) {
+			if ( empty( $data['title'] ) ) {
+				continue;
+			}
+
+			$input_types[ $slug ] = $data['title'];
+		}
+
+		$this->add_placeholder_settings_field();
+		$this->add_description_settings_field();
+		$this->add_required_settings_field();
+		$this->settings_fields['min_length'] = array(
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Minimum length', 'torro-forms' ),
+			'description'   => __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'min'           => 0,
+			'step'          => 1,
+		);
+		$this->settings_fields['max_length'] = array(
+			'section'       => 'settings',
+			'type'          => 'number',
+			'label'         => __( 'Maximum length', 'torro-forms' ),
+			'description'   => __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
+			'input_classes' => array( 'small-text' ),
+			'min'           => 0,
+			'step'          => 1,
+		);
+		$this->settings_fields['input_type'] = array(
+			'section'     => 'settings',
+			'type'        => 'radio',
+			'label'       => __( 'Input type', 'torro-forms' ),
+			'choices'     => $input_types,
+			/* translators: %s: HTML input type info URL */
+			'description' => sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supported by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
+			'default'     => 'text',
+		);
+		$this->add_css_classes_settings_field();
+	}
+
+	/**
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
@@ -141,59 +194,6 @@ class Textfield extends Element_Type {
 		}
 
 		return $fields;
-	}
-
-	/**
-	 * Bootstraps the element type by setting properties.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function bootstrap() {
-		$this->slug        = 'textfield';
-		$this->title       = __( 'Text', 'torro-forms' );
-		$this->description = __( 'A single text field element.', 'torro-forms' );
-		$this->icon_svg_id = 'torro-icon-textfield';
-
-		$input_types = array();
-		foreach ( $this->get_input_types() as $slug => $data ) {
-			if ( empty( $data['title'] ) ) {
-				continue;
-			}
-
-			$input_types[ $slug ] = $data['title'];
-		}
-
-		$this->add_placeholder_settings_field();
-		$this->add_description_settings_field();
-		$this->add_required_settings_field();
-		$this->settings_fields['min_length'] = array(
-			'section'       => 'settings',
-			'type'          => 'number',
-			'label'         => __( 'Minimum length', 'torro-forms' ),
-			'description'   => __( 'The minimum number of chars which can be typed in.', 'torro-forms' ),
-			'input_classes' => array( 'small-text' ),
-			'min'           => 0,
-			'step'          => 1,
-		);
-		$this->settings_fields['max_length'] = array(
-			'section'       => 'settings',
-			'type'          => 'number',
-			'label'         => __( 'Maximum length', 'torro-forms' ),
-			'description'   => __( 'The maximum number of chars which can be typed in.', 'torro-forms' ),
-			'input_classes' => array( 'small-text' ),
-			'min'           => 0,
-			'step'          => 1,
-		);
-		$this->settings_fields['input_type'] = array(
-			'section'     => 'settings',
-			'type'        => 'radio',
-			'label'       => __( 'Input type', 'torro-forms' ),
-			'choices'     => $input_types,
-			/* translators: %s: HTML input type info URL */
-			'description' => sprintf( __( '* Will be validated | Not all <a href="%s" target="_blank">HTML5 input types</a> are supported by browsers!', 'torro-forms' ), 'http://www.wufoo.com/html5/' ),
-			'default'     => 'text',
-		);
-		$this->add_css_classes_settings_field();
 	}
 
 	/**

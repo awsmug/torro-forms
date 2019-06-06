@@ -24,6 +24,24 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 	use Choice_Element_Type_Trait;
 
 	/**
+	 * Bootstraps the element type by setting properties.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function bootstrap() {
+		$this->slug        = 'multiplechoice';
+		$this->title       = __( 'Multiple Choice', 'torro-forms' );
+		$this->description = __( 'A checkbox group element to select multiple values from.', 'torro-forms' );
+		$this->icon_svg_id = 'torro-icon-multiplechoice';
+
+		$this->add_choices_settings_field();
+		$this->add_description_settings_field();
+		$this->add_required_settings_field();
+		$this->add_multiplechoices_settings_fields();
+		$this->add_css_classes_settings_field();
+	}
+
+	/**
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
@@ -140,23 +158,5 @@ class Multiplechoice extends Element_Type implements Choice_Element_Type_Interfa
 			'description'   => __( 'Specify the the maximum choices to select from.', 'torro-forms' ),
 			'input_classes' => array( 'regular-text' ),
 		);
-	}
-
-	/**
-	 * Bootstraps the element type by setting properties.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function bootstrap() {
-		$this->slug        = 'multiplechoice';
-		$this->title       = __( 'Multiple Choice', 'torro-forms' );
-		$this->description = __( 'A checkbox group element to select multiple values from.', 'torro-forms' );
-		$this->icon_svg_id = 'torro-icon-multiplechoice';
-
-		$this->add_choices_settings_field();
-		$this->add_description_settings_field();
-		$this->add_required_settings_field();
-		$this->add_multiplechoices_settings_fields();
-		$this->add_css_classes_settings_field();
 	}
 }

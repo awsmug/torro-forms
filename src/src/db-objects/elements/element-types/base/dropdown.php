@@ -24,6 +24,24 @@ class Dropdown extends Element_Type implements Choice_Element_Type_Interface {
 	use Choice_Element_Type_Trait;
 
 	/**
+	 * Bootstraps the element type by setting properties.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function bootstrap() {
+		$this->slug        = 'dropdown';
+		$this->title       = __( 'Dropdown', 'torro-forms' );
+		$this->description = __( 'A dropdown element to select a value from.', 'torro-forms' );
+		$this->icon_svg_id = 'torro-icon-dropdown';
+
+		$this->add_choices_settings_field();
+		$this->add_placeholder_settings_field();
+		$this->add_description_settings_field();
+		$this->add_required_settings_field();
+		$this->add_css_classes_settings_field();
+	}
+
+	/**
 	 * Filters the array representation of a given element of this type.
 	 *
 	 * @since 1.0.0
@@ -87,23 +105,5 @@ class Dropdown extends Element_Type implements Choice_Element_Type_Interface {
 		$fields[ $slug ]['type'] = 'select';
 
 		return $fields;
-	}
-
-	/**
-	 * Bootstraps the element type by setting properties.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function bootstrap() {
-		$this->slug        = 'dropdown';
-		$this->title       = __( 'Dropdown', 'torro-forms' );
-		$this->description = __( 'A dropdown element to select a value from.', 'torro-forms' );
-		$this->icon_svg_id = 'torro-icon-dropdown';
-
-		$this->add_choices_settings_field();
-		$this->add_placeholder_settings_field();
-		$this->add_description_settings_field();
-		$this->add_required_settings_field();
-		$this->add_css_classes_settings_field();
 	}
 }
