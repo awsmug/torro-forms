@@ -92,8 +92,10 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\Fields\Datetime' ) ) :
 				$args['store'] = 'datetime';
 			}
 
-			if ( ! isset( $args['data-store'] ) ) {
+			if ( ! isset( $args['data-store'] ) && isset( $args['store'] ) ) {
 				$args['data-store'] = $args['store'];
+			} else {
+				$args['data-store'] = $this->store;
 			}
 
 			parent::__construct( $manager, $id, $args );
