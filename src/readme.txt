@@ -84,6 +84,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.6 =
+* Fixed: Plugin-Lib throws notice for datetime fields
 * Fixed: Compact PHP function in PHP 7.3 throws error
 * Tweaked: Switched to plugin-lib of felixarntz repo
 
