@@ -84,7 +84,6 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.1.0 =
-* Enhanced: Added double optin functionality
 * Enhanced: Added Frontend Posting
 * Enhanced: Added APIAPI library
 * Enhanced: Added actionhooks torro_form_model_data, torro_container_model_data and torro_element_model_data
