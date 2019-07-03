@@ -34,7 +34,7 @@ use stdClass;
  * @property-read int $id
  */
 class Form extends Core_Model {
-	use Sitewide_Model_Trait, Fixes_Trait;
+	use Sitewide_Model_Trait;
 
 	/**
 	 * Constructor.
