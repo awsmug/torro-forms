@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use awsmug\Torro_Forms\Assets;
 use Leaves_And_Love\Plugin_Lib\Fields\Field_Manager;
+use Leaves_And_Love\Plugin_Lib\Fixes;
 use WP_Post;
 use WP_Error;
 
@@ -495,7 +496,7 @@ class Form_Edit_Page_Handler {
 		}
 
 		$nonce_action = $prefix . 'duplicate_form_' . $post->ID;
-		$url          = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . rawurlencode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ), $nonce_action );
+		$url          = wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $post->ID . '&amp;_wp_http_referer=' . rawurlencode( Fixes::php_filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ), $nonce_action );
 
 		return $output . ' <a class="button button-small" href="' . esc_url( $url ) . '">' . esc_html( _x( 'Duplicate Form', 'action', 'torro-forms' ) ) . '</a>';
 	}

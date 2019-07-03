@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Models\Core_Model;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Sitewide_Model_Trait;
+use Leaves_And_Love\Plugin_Lib\Fixes;
 use awsmug\Torro_Forms\DB_Objects\Containers\Container_Collection;
 use awsmug\Torro_Forms\DB_Objects\Containers\Element_Collection;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission_Collection;
@@ -33,7 +34,7 @@ use stdClass;
  * @property-read int $id
  */
 class Form extends Core_Model {
-	use Sitewide_Model_Trait;
+	use Sitewide_Model_Trait, Fixes_Trait;
 
 	/**
 	 * Constructor.
@@ -281,7 +282,7 @@ class Form extends Core_Model {
 		 * @param string $form_action_url Form action URL.
 		 * @param int    $form_id         Form ID.
 		 */
-		$form_action_url = apply_filters( 'torro_form_action_url', home_url( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ), (int) $this->original->ID );
+		$form_action_url = apply_filters( 'torro_form_action_url', home_url( Fixes::php_filter_input( INPUT_SERVER, 'REQUEST_URI' ) ), (int) $this->original->ID );
 
 		$data['form_attrs'] = array(
 			'id'         => 'torro-form-' . $this->original->ID,
