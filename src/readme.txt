@@ -6,7 +6,7 @@ Author:            Awesome UG
 Author URI:        https://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
-Tested up to:      5.2.1
+Tested up to:      5.2.2
 Requires PHP:      5.6
 Stable tag:        1.0.5
 Version:           1.0.5
