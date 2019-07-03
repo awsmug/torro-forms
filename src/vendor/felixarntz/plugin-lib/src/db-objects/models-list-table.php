@@ -8,6 +8,8 @@
 
 namespace Leaves_And_Love\Plugin_Lib\DB_Objects;
 
+use Leaves_And_Love\Plugin_Lib\Fixes;
+
 if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Models_List_Table' ) ) :
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -379,7 +381,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 					$action_url = add_query_arg(
 						array(
 							'_wpnonce'         => $nonce,
-							'_wp_http_referer' => rawurlencode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ),
+							'_wp_http_referer' => rawurlencode( Fixes::filter_input( INPUT_SERVER, 'REQUEST_URI' ) ),
 						),
 						$action_url
 					);

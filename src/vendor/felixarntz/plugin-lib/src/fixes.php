@@ -1,23 +1,23 @@
 <?php
 /**
- * Fixes trait
+ * Fixes class.
  *
  * @package Leaves_And_Love\Plugin_Lib
  * @since 1.0.5
  */
 
-namespace Leaves_And_Love\Plugin_Lib\Traits;
+namespace Leaves_And_Love\Plugin_Lib;
 
 if ( ! trait_exists( 'Leaves_And_Love\Plugin_Lib\Traits\Fixes_Trait' ) ) :
 
 	/**
-	 * Trait for Fixes.
+	 * Class for Fixes.
 	 *
-	 * This is a tait which contains fixes for known bugs of 3rd party code.
+	 * This is a class which contains fixes for known bugs of 3rd party code.
 	 *
 	 * @since 1.0.5
 	 */
-	trait Fixes_Trait {
+	class Fixes {
 		/**
 		 * PHP filter_input function fix.
 		 * 
