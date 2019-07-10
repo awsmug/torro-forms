@@ -262,6 +262,8 @@ class Form extends Core_Model {
 	 * @return array Array including all information for the model.
 	 */
 	public function to_json( $include_meta = true ) {
+		global $wp;
+
 		$data = parent::to_json( $include_meta );
 
 		/**
@@ -282,7 +284,7 @@ class Form extends Core_Model {
 		 * @param string $form_action_url Form action URL.
 		 * @param int    $form_id         Form ID.
 		 */
-		$form_action_url = apply_filters( 'torro_form_action_url', home_url( Fixes::php_filter_input( INPUT_SERVER, 'REQUEST_URI' ) ), (int) $this->original->ID );
+		$form_action_url = apply_filters( 'torro_form_action_url', home_url( $wp->request ), (int) $this->original->ID );
 
 		$data['form_attrs'] = array(
 			'id'         => 'torro-form-' . $this->original->ID,
