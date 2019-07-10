@@ -87,6 +87,8 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Changed standard export type to one column for choices for better readability in mails
 * Enhanced: Changed order of reCaptcha to the end of protectors list, because it's 3rd pary
 * Enhanced: Added hint if reCaptcha is not configured properly
+* Enhanced: Moved description before HTML inputs
+* Enhanced: Added role="alert" to errors on forms for better accessibility
 * Fixed: Added wrapper for buggy filter_input PHP function
 * Fixed: Plugin-Lib throws notice for datetime fields
 * Fixed: Compact PHP function in PHP 7.3 throws error

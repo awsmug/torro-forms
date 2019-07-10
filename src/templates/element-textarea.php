@@ -29,7 +29,7 @@
 		<textarea<?php echo torro()->template()->attrs( $input_attrs ); ?>><?php echo torro()->template()->esc_textarea( $value ); ?></textarea>
 
 		<?php if ( ! empty( $errors ) ) : ?>
-			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?>>
+			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?> role="alert">
 				<?php foreach ( $errors as $error_code => $error_message ) : ?>
 					<li><?php echo torro()->template()->esc_kses_basic( $error_message ); ?></li>
 				<?php endforeach; ?>
