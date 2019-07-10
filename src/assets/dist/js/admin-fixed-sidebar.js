@@ -1,5 +1,5 @@
 /*!
- * Torro Forms Version 1.0.6 (https://torro-forms.com)
+ * Torro Forms Version 1.0.7 (https://torro-forms.com)
  * Licensed under GNU General Public License v2 (or later) (http://www.gnu.org/licenses/gpl-2.0.html)
  */
 ( function( $ ) {
