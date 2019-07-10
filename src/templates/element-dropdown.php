@@ -20,6 +20,12 @@
 	</label>
 
 	<div>
+		<?php if ( ! empty( $description ) ) : ?>
+			<div<?php echo torro()->template()->attrs( $description_attrs ); ?>>
+				<?php echo torro()->template()->esc_kses_basic( $description ); ?>
+			</div>
+		<?php endif; ?>
+
 		<select<?php echo torro()->template()->attrs( $input_attrs ); ?>>
 			<?php if ( ! empty( $placeholder ) ) : ?>
 				<option value="">
@@ -34,14 +40,8 @@
 			<?php endforeach; ?>
 		</select>
 
-		<?php if ( ! empty( $description ) ) : ?>
-			<div<?php echo torro()->template()->attrs( $description_attrs ); ?>>
-				<?php echo torro()->template()->esc_kses_basic( $description ); ?>
-			</div>
-		<?php endif; ?>
-
 		<?php if ( ! empty( $errors ) ) : ?>
-			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?>>
+			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?> role="alert">
 				<?php foreach ( $errors as $error_code => $error_message ) : ?>
 					<li><?php echo torro()->template()->esc_kses_basic( $error_message ); ?></li>
 				<?php endforeach; ?>

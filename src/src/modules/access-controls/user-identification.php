@@ -10,6 +10,7 @@ namespace awsmug\Torro_Forms\Modules\Access_Controls;
 
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+use Leaves_And_Love\Plugin_Lib\Fixes;
 use WP_Error;
 
 /**
@@ -70,7 +71,7 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 			}
 
 			if ( ! $skip_further_checks && ! empty( $submission->remote_addr ) ) {
-				$remote_addr = filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
+				$remote_addr = Fixes::php_filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
 				if ( ! empty( $remote_addr ) ) {
 					if ( $remote_addr !== $submission->remote_addr ) {
 						return $others_submission_error;
@@ -114,13 +115,13 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 			} else {
 				$identification_args = array();
 				if ( in_array( 'ip_address', $identification_modes, true ) && ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-					$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
+					$validated_ip = Fixes::php_filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
 					if ( ! empty( $validated_ip ) ) {
 						$identification_args['remote_addr'] = $validated_ip;
 					}
 				}
 				if ( in_array( 'cookie', $identification_modes, true ) && filter_has_var( INPUT_COOKIE, 'torro_identity' ) ) {
-					$identification_args['user_key'] = esc_attr( filter_input( INPUT_COOKIE, 'torro_identity' ) );
+					$identification_args['user_key'] = esc_attr( Fixes::php_filter_input( INPUT_COOKIE, 'torro_identity' ) );
 				} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 					$identification_args['user_key'] = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 				}
@@ -158,7 +159,7 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 		$identification_modes = $this->get_form_option( $form->id, 'identification_modes', array() );
 
 		if ( in_array( 'ip_address', $identification_modes, true ) ) {
-			$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
+			$validated_ip = Fixes::php_filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
 			if ( ! empty( $validated_ip ) ) {
 				$submission->remote_addr = $validated_ip;
 			}

@@ -35,10 +35,10 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Protector::class;
 		$this->default_submodules   = array(
-			'recaptcha' => reCAPTCHA::class,
 			'honeypot'  => Honeypot::class,
 			'timetrap'  => Timetrap::class,
 			'linkcount' => Linkcount::class,
+			'recaptcha' => reCAPTCHA::class,
 		);
 	}
 

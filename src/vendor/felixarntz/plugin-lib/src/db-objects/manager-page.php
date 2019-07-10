@@ -10,6 +10,7 @@ namespace Leaves_And_Love\Plugin_Lib\DB_Objects;
 
 use Leaves_And_Love\Plugin_Lib\Components\Admin_Page;
 use Leaves_And_Love\Plugin_Lib\Components\Admin_Pages;
+use Leaves_And_Love\Plugin_Lib\Fixes;
 use WP_Error;
 
 if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Manager_Page' ) ) :
@@ -20,6 +21,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Manager_Page' ) ) :
 	 * @since 1.0.0
 	 */
 	abstract class Manager_Page extends Admin_Page {
+
 		/**
 		 * The manager instance for the models.
 		 *
@@ -84,7 +86,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\Manager_Page' ) ) :
 				return;
 			}
 
-			wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
+			wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), Fixes::php_filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
 			exit;
 		}
 

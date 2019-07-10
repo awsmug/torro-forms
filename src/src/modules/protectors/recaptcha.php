@@ -197,6 +197,10 @@ class reCAPTCHA extends Protector { // @codingStandardsIgnoreLine
 			'visual_label' => _x( 'Google reCAPTCHA', 'protector', 'torro-forms' ),
 		);
 
+		if ( ! $this->is_configured() ) {
+			$meta_fields['enabled']['description'] = sprintf( __( 'reCaptcha is not configured properly. Please add a site key & secret to the <a href="%s">recaptcha settings page</a>.', 'torro-forms' ), admin_url( 'edit.php?post_type=torro_form&page=torro_form_settings&tab=torro_module_protectors' ) );
+		}
+
 		$meta_fields['type'] = array(
 			'type'    => 'select',
 			'label'   => _x( 'Type', 'reCAPTCHA', 'torro-forms' ),
