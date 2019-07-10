@@ -6,10 +6,10 @@ Author:            Awesome UG
 Author URI:        https://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
-Tested up to:      5.2.2
+Tested up to:      5.0.3
 Requires PHP:      5.6
-Stable tag:        1.0.5
-Version:           1.0.5
+Stable tag:        1.0.6
+Version:           1.0.6
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
