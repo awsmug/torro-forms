@@ -90,6 +90,9 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhanced: Access to submission API Endpoints by token for external websites or by dump nonce
 * Tweaked: Invented dump nonces
 
+= 1.0.7 =
+* Fix: Fixed wrong function name for filter_input fix which caused fatal error
+
 = 1.0.6 =
 * Enhanced: Changed standard export type to one column for choices for better readability in mails
 * Enhanced: Changed order of reCaptcha to the end of protectors list, because it's 3rd pary
