@@ -6,10 +6,10 @@ Author:            Awesome UG
 Author URI:        https://www.awesome.ug
 Contributors:      mahype, flixos90, awesome-ug
 Requires at least: 4.8
-Tested up to:      5.2.1
+Tested up to:      5.0.3
 Requires PHP:      5.6
-Stable tag:        1.0.5
-Version:           1.0.5
+Stable tag:        1.0.6
+Version:           1.0.6
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -91,9 +91,15 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Tweaked: Invented dump nonces
 
 = 1.0.6 =
-* Enhanced: Changed standard export type to one column for choices for better readability in mails.
+* Enhanced: Changed standard export type to one column for choices for better readability in mails
+* Enhanced: Changed order of reCaptcha to the end of protectors list, because it's 3rd pary
+* Enhanced: Added hint if reCaptcha is not configured properly
+* Enhanced: Moved description before HTML inputs
+* Enhanced: Added role="alert" to errors on forms for better accessibility
+* Fixed: Added wrapper for buggy filter_input PHP function
 * Fixed: Plugin-Lib throws notice for datetime fields
 * Fixed: Compact PHP function in PHP 7.3 throws error
+* Fixed: Using query to get form url instead of using REQUEST_URI
 * Tweaked: Switched to plugin-lib of felixarntz repo
 
 = 1.0.5 =

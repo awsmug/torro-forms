@@ -13,6 +13,7 @@ use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 use awsmug\Torro_Forms\DB_Objects\Elements\Element_Types\Base\Textfield;
 use awsmug\Torro_Forms\Components\Template_Tag_Handler;
 use awsmug\Torro_Forms\Modules\Assets_Submodule_Interface;
+use Leaves_And_Love\Plugin_Lib\Fixes;
 use WP_Error;
 
 /**
@@ -350,7 +351,7 @@ class Email_Notifications extends Action implements Assets_Submodule_Interface {
 				'label'       => __( 'User IP', 'torro-forms' ),
 				'description' => __( 'Inserts the current user IP address.', 'torro-forms' ),
 				'callback'    => function() {
-					$validated_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
+					$validated_ip = Fixes::php_filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP );
 					if ( empty( $validated_ip ) ) {
 						return '0.0.0.0';
 					}

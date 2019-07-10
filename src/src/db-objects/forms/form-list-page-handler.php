@@ -8,6 +8,7 @@
 
 namespace awsmug\Torro_Forms\DB_Objects\Forms;
 
+use Leaves_And_Love\Plugin_Lib\Fixes;
 use WP_Post;
 use WP_Error;
 
@@ -125,7 +126,7 @@ class Form_List_Page_Handler {
 
 		$actions[ $prefix . 'duplicate' ] = sprintf(
 			'<a href="%1$s" aria-label="%2$s">%3$s</a>',
-			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $form->id . '&amp;_wp_http_referer=' . rawurlencode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ), $nonce_action ),
+			wp_nonce_url( admin_url( 'admin.php?action=' . $prefix . 'duplicate_form&amp;form_id=' . $form->id . '&amp;_wp_http_referer=' . rawurlencode( Fixes::php_filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ), $nonce_action ),
 			/* translators: %s: form title */
 			esc_attr( sprintf( __( 'Duplicate &#8220;%s&#8221;', 'torro-forms' ), get_the_title( $form->id ) ) ),
 			_x( 'Duplicate', 'action', 'torro-forms' )

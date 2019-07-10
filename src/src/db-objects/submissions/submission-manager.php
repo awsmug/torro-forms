@@ -12,6 +12,7 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Manager;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
+use Leaves_And_Love\Plugin_Lib\Fixes;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Parents_Trait;
 use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
@@ -442,7 +443,7 @@ class Submission_Manager extends Manager {
 		} elseif ( isset( $_SESSION ) && ! empty( $_SESSION['torro_identity'] ) ) {
 			$submission->user_key = esc_attr( wp_unslash( $_SESSION['torro_identity'] ) );
 		} else {
-			$remote_addr          = filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
+			$remote_addr          = Fixes::php_filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
 			$base_string          = ! empty( $remote_addr ) ? $this->anonymize_ip_address( $remote_addr ) . microtime() : microtime();
 			$submission->user_key = md5( $base_string );
 		}

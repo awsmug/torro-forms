@@ -14,6 +14,7 @@ use Leaves_And_Love\Plugin_Lib\Traits\Hooks_Trait;
 use Leaves_And_Love\Plugin_Lib\Router;
 use Leaves_And_Love\Plugin_Lib\Template;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
+use Leaves_And_Love\Plugin_Lib\Fixes;
 
 if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 
@@ -876,7 +877,7 @@ if ( ! class_exists( 'Leaves_And_Love\Plugin_Lib\DB_Objects\View_Routing' ) ) :
 		protected function load_template() {
 			global $wp_rewrite;
 
-			$request_method = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
+			$request_method = Fixes::php_filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
 
 			/** This filter is documented in wp-includes/template-loader.php */
 			if ( 'HEAD' === $request_method && apply_filters( 'exit_on_http_head', true ) ) {
