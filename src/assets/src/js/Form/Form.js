@@ -286,6 +286,7 @@ class Form extends AjaxComponent {
 
 			if( 'redirection_none' !== form.redirect_type ) {
 				window.location.href = form.redirect_url;
+				return;
 			}
 
 			return this.renderSuccessMessage();
