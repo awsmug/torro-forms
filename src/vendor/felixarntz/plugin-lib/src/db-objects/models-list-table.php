@@ -381,7 +381,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 					$action_url = add_query_arg(
 						array(
 							'_wpnonce'         => $nonce,
-							'_wp_http_referer' => rawurlencode( Fixes::filter_input( INPUT_SERVER, 'REQUEST_URI' ) ),
+							'_wp_http_referer' => rawurlencode( Fixes::php_filter_input( INPUT_SERVER, 'REQUEST_URI' ) ),
 						),
 						$action_url
 					);
