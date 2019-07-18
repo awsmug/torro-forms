@@ -43,6 +43,16 @@ class React extends Frontend implements Hooks_Submodule_Interface {
 	 * @return array $data   Filtered array with form model Data.
 	 */
 	public function filter_form_data( $data, $form_id ) {
+		$data['redirect_type'] = torro()->modules()->get( 'actions' )->get( 'redirection' )->get_form_option( $form_id, 'type' );
+
+		if ( 'redirect_url' === $data['redirect_type'] ) {
+			$data['redirect_url'] = torro()->modules()->get( 'actions' )->get( 'redirection' )->get_form_option( $form_id, 'url' );
+		}
+		if ( 'redirect_page' === $data['redirect_type'] ) {
+			$page_id              = torro()->modules()->get( 'actions' )->get( 'redirection' )->get_form_option( $form_id, 'page' );
+			$data['redirect_url'] = get_permalink( $page_id );
+		}
+
 		$data['show_container_title']  = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'show_container_title' );
 		$data['required_fields_text']  = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'required_fields_text' );
 		$data['previous_button_label'] = torro()->modules()->get( 'form_settings' )->get( 'labels' )->get_form_option( $form_id, 'previous_button_label' );

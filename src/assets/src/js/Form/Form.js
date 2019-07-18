@@ -282,6 +282,12 @@ class Form extends AjaxComponent {
 	 */
 	renderComponent() {
 		if( this.state.status === 'completed' ) {
+			const form = this.state.form.instance;
+
+			if( 'redirection_none' !== form.redirect_type ) {
+				window.location.href = form.redirect_url;
+			}
+
 			return this.renderSuccessMessage();
 		}
 
