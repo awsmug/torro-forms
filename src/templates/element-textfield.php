@@ -20,16 +20,16 @@
 	</label>
 
 	<div>
-		<input<?php echo torro()->template()->attrs( $input_attrs ); ?> value="<?php echo torro()->template()->esc_attr( $value ); ?>">
-
 		<?php if ( ! empty( $description ) ) : ?>
 			<div<?php echo torro()->template()->attrs( $description_attrs ); ?>>
 				<?php echo torro()->template()->esc_kses_basic( $description ); ?>
 			</div>
 		<?php endif; ?>
 
+		<input<?php echo torro()->template()->attrs( $input_attrs ); ?> value="<?php echo torro()->template()->esc_attr( $value ); ?>">
+
 		<?php if ( ! empty( $errors ) ) : ?>
-			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?>>
+			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?> role="alert">
 				<?php foreach ( $errors as $error_code => $error_message ) : ?>
 					<li><?php echo torro()->template()->esc_kses_basic( $error_message ); ?></li>
 				<?php endforeach; ?>

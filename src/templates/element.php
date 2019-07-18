@@ -20,13 +20,13 @@
 	</label>
 
 	<div>
-		<input type="text"<?php echo torro()->template()->attrs( $input_attrs ); ?>>
-
 		<?php if ( ! empty( $description ) ) : ?>
 			<div<?php echo torro()->template()->attrs( $description_attrs ); ?>>
 				<?php echo torro()->template()->esc_kses_basic( $description ); ?>
 			</div>
 		<?php endif; ?>
+
+		<input type="text"<?php echo torro()->template()->attrs( $input_attrs ); ?>>
 
 		<?php if ( ! empty( $errors ) ) : ?>
 			<ul<?php echo torro()->template()->attrs( $errors_attrs ); ?>>
