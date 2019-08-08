@@ -173,11 +173,9 @@ class Form_Manager extends Core_Manager {
 
 		$this->public = true;
 
-		$this->frontend_submission_handler      = new Form_Frontend_Submission_Handler( $this );
-		$this->frontend_standard_output_handler = new Form_Frontend_Standard_Output_Handler( $this );
-		$this->frontend_react_output_handler    = new Form_Frontend_React_Output_Handler( $this );
-		$this->list_page_handler                = new Form_List_Page_Handler( $this );
-		$this->edit_page_handler                = new Form_Edit_Page_Handler( $this );
+		$this->frontend_submission_handler = new Form_Frontend_Submission_Handler( $this );
+		$this->list_page_handler           = new Form_List_Page_Handler( $this );
+		$this->edit_page_handler           = new Form_Edit_Page_Handler( $this );
 
 		// TODO: Remove this instantiation in the future.
 		$this->legacy_upgrades = new Legacy_Upgrades( $prefix );
@@ -204,23 +202,27 @@ class Form_Manager extends Core_Manager {
 	/**
 	 * Returns the form frontend output handler.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *
 	 * @return Form_Frontend_Standard_Output_Handler Frontend output handler instance.
 	 */
-	public function frontend_standard_output_handler() {
-		return $this->frontend_standard_output_handler;
-	}
+	public function frontend_output_handler() {
+		/**
+		 * Filtering the output handler.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param Form_Frontend_Output_Handler Instance of child class for an output handler.
+		 * @param Form_Manager                 Instance of this form manager.
+		 */
+		$frontend_output_handler = apply_filters( $this->get_prefix() . 'frontend_output_handler', $this->frontend_standard_output_handler, $this );
 
-	/**
-	 * Returns the form frontend react output handler.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return Form_Frontend_React_Output_Handler Frontend output handler instance.
-	 */
-	public function frontend_react_output_handler() {
-		return $this->frontend_react_output_handler;
+		if ( empty( $frontend_output_handler ) ) {
+			$this->frontend_standard_output_handler = new Form_Frontend_Standard_Output_Handler( $this );
+			$frontend_output_handler                = $this->frontend_standard_output_handler;
+		}
+
+		return $frontend_output_handler;
 	}
 
 	/**
@@ -252,11 +254,8 @@ class Form_Manager extends Core_Manager {
 	 */
 	public function add_hooks() {
 		if ( ! $this->hooks_added ) {
-			$frontend_output_handler = 'frontend_standard_output_handler';
-			$frontend_output_handler = 'frontend_react_output_handler';
-
-			add_shortcode( "{$this->get_prefix()}form", array( $this->$frontend_output_handler, 'get_shortcode_content' ) );
-			add_shortcode( 'form', array( $this->$frontend_output_handler, 'get_deprecated_shortcode_content' ) );
+			add_shortcode( "{$this->get_prefix()}form", array( $this->frontend_output_handler(), 'get_shortcode_content' ) );
+			add_shortcode( 'form', array( $this->frontend_output_handler(), 'get_deprecated_shortcode_content' ) );
 		}
 
 		return parent::add_hooks();
@@ -531,9 +530,6 @@ class Form_Manager extends Core_Manager {
 	protected function setup_hooks() {
 		parent::setup_hooks();
 
-		$frontend_output_handler = 'frontend_standard_output_handler';
-		$frontend_output_handler = 'frontend_react_output_handler';
-
 		if ( method_exists( $this, 'register_rest_routes' ) ) {
 			$this->filters[] = array(
 				'name'     => 'rest_api_init',
@@ -573,14 +569,14 @@ class Form_Manager extends Core_Manager {
 
 		$this->filters[] = array(
 			'name'     => 'wp_enqueue_scripts',
-			'callback' => array( $this->$frontend_output_handler, 'maybe_enqueue_frontend_assets' ),
+			'callback' => array( $this->frontend_output_handler(), 'maybe_enqueue_frontend_assets' ),
 			'priority' => 10,
 			'num_args' => 0,
 		);
 
 		$this->filters[] = array(
 			'name'     => 'the_content',
-			'callback' => array( $this->$frontend_output_handler, 'maybe_get_form_content' ),
+			'callback' => array( $this->frontend_output_handler(), 'maybe_get_form_content' ),
 			'priority' => 10,
 			'num_args' => 1,
 		);

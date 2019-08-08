@@ -10,7 +10,6 @@ namespace awsmug\Torro_Forms;
 
 use Leaves_And_Love\Plugin_Lib\Assets as Assets_Base;
 use Leaves_And_Love\Plugin_Lib\Traits\Hook_Service_Trait;
-use awsmug\Torro_Forms\Components\Dump_Nonce;
 
 /**
  * Class for managing assets.
@@ -148,22 +147,6 @@ class Assets extends Assets_Base {
 				'deps'      => array( 'jquery', 'underscore', 'wp-util', 'wp-api' ),
 				'ver'       => $this->plugin_version,
 				'in_footer' => true,
-			)
-		);
-
-		$dump_nonce = Dump_Nonce::create();
-
-		$this->register_script(
-			'frontend-bundle',
-			'assets/dist/js/frontend-bundle.js',
-			array(
-				'deps'          => array( 'wp-api', 'wp-element' ),
-				'ver'           => $this->plugin_version,
-				'in_footer'     => true,
-				'localize_name' => 'torroFrontendI18n',
-				'localize_data' => array(
-					'torro_dump_nonce' => $dump_nonce,
-				),
 			)
 		);
 
