@@ -136,6 +136,23 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	}
 
 	/**
+	 * Enqueues assets to load in frontend.
+	 *
+	 * @since 1.1.0
+	 */
+	protected function maybe_enqueue_frontend_assets() {
+		$assets = $this->manager()->assets();
+
+		$frontend = $this->get_frontend();
+
+		if ( ! is_callable( array( $frontend, 'enqueue_frontend_assets' ) ) ) {
+			return;
+		}
+
+		$evaluator->enqueue_frontend_assets( $assets );
+	}
+
+	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
 	 * @since 1.1.0
