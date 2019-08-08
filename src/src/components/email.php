@@ -10,14 +10,19 @@ namespace awsmug\Torro_Forms\Components;
 
 use WP_Error;
 
-trait Email_Trait {
+/**
+ * Class Email
+ *
+ * @package awsmug\Torro_Forms\Components
+ */
+class Email {
 	/**
 	 * Temporary storage for email from name.
 	 *
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $email_from_name = '';
+	protected $from_name = '';
 
 	/**
 	 * Temporary storage for email from email.
@@ -25,7 +30,7 @@ trait Email_Trait {
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $email_from_email = '';
+	protected $from_email = '';
 
 	/**
 	 * Temporary storage for email to email.
@@ -33,7 +38,7 @@ trait Email_Trait {
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $email_to_email = '';
+	protected $to_email = '';
 
 	/**
 	 * Temporary storage for email subject.
@@ -41,7 +46,7 @@ trait Email_Trait {
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $email_subject = '';
+	protected $subject = '';
 
 	/**
 	 * Temporary storage for email message
@@ -49,7 +54,7 @@ trait Email_Trait {
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $email_message = '';
+	protected $message = '';
 
 	/**
 	 * Temporary storage for email headers
@@ -57,7 +62,7 @@ trait Email_Trait {
 	 * @since 1.1.0
 	 * @var string
 	 */
-	protected $email_headers = '';
+	protected $headers = '';
 
 	/**
 	 * Temporary storage for PHPMailer error object.
@@ -79,7 +84,7 @@ trait Email_Trait {
 	 * @param string        $message        Email Message.
 	 * @param string string $headers Additional Email Headers.
 	 */
-	protected function setup_mail( $from_name, $from_email, $to_email, $subject, $message, $headers = '' ) {
+	protected function __construct( $from_name, $from_email, $to_email, $subject, $message, $headers = '' ) {
 		$this->email_from_name  = $from_name;
 		$this->email_from_email = $from_email;
 		$this->email_to_email   = $to_email;
@@ -95,7 +100,7 @@ trait Email_Trait {
 	 *
 	 * @return WP_Error|bool True if sending out email was without errors, otherwise false.
 	 */
-	protected function send_mail() {
+	public function send() {
 		$this->add_filters();
 		$sent = $this->wp_mail();
 		$this->remove_filters();
@@ -110,7 +115,7 @@ trait Email_Trait {
 	 *
 	 * @return WP_Error|bool True if sending out email was without errors, otherwise false.
 	 */
-	protected function wp_mail() {
+	private function wp_mail() {
 		$sent  = wp_mail( $this->email_to_email, $this->email_subject, $this->email_message, $this->email_headers );
 		$error = new WP_Error();
 
@@ -139,7 +144,7 @@ trait Email_Trait {
 	 *
 	 * @since 1.1.0
 	 */
-	public function add_filters() {
+	protected function add_filters() {
 		add_filter( 'wp_mail_content_type', array( $this, 'override_content_type' ) );
 		add_filter( 'wp_mail_from_name', array( $this, 'override_from_name' ) );
 		add_filter( 'wp_mail_from', array( $this, 'override_from_email' ) );
@@ -151,7 +156,7 @@ trait Email_Trait {
 	 *
 	 * @since 1.1.0
 	 */
-	private function remove_filters() {
+	protected function remove_filters() {
 		remove_filter( 'wp_mail_content_type', array( $this, 'override_content_type' ) );
 		remove_filter( 'wp_mail_from_name', array( $this, 'override_from_name' ) );
 		remove_filter( 'wp_mail_from', array( $this, 'override_from_email' ) );
@@ -177,7 +182,7 @@ trait Email_Trait {
 	 * @return string Email from name.
 	 */
 	public function override_from_name() {
-		return $this->from_name;
+		return $this->email_from_name;
 	}
 
 	/**
