@@ -779,6 +779,9 @@ class Form_Settings_Page extends Tabbed_Settings_Page {
 
 		$modules = array();
 		foreach ( torro()->modules()->get_all() as $slug => $module ) {
+			if( $module->is_required() ) {
+				continue;
+			}
 			$modules[ $slug ] = $module->get_title();
 		}
 		$default_modules = array_keys( $modules );

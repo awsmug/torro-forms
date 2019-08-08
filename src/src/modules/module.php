@@ -43,6 +43,14 @@ abstract class Module extends Service {
 	protected $title = '';
 
 	/**
+	 * Determines if module is required.
+	 *
+	 * @since 1.1.0
+	 * @var bool
+	 */
+	protected $required = false;
+
+	/**
 	 * The module description.
 	 *
 	 * @since 1.0.0
@@ -124,6 +132,17 @@ abstract class Module extends Service {
 	 */
 	public function get_description() {
 		return $this->description;
+	}
+
+	/**
+	 * Determines if module is required.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return bool True if module is required.
+	 */
+	public function is_required() {
+		return $this->required;
 	}
 
 	/**
