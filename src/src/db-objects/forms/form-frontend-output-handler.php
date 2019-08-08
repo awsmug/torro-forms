@@ -17,7 +17,7 @@ use awsmug\Torro_Forms\Error;
  *
  * @since 1.0.0
  */
-abstract class Form_Frontend_Output_Handler {
+class Form_Frontend_Output_Handler {
 
 	/**
 	 * Form manager instance.
@@ -25,7 +25,7 @@ abstract class Form_Frontend_Output_Handler {
 	 * @since 1.0.0
 	 * @var Form_Manager
 	 */
-	protected $form_manager;
+	public $form_manager;
 
 	/**
 	 * Constructor.
@@ -169,12 +169,23 @@ abstract class Form_Frontend_Output_Handler {
 	/**
 	 * Rendering form content.
 	 *
-	 * @since 1.1.0
+	 * @since 1.0.0
 	 *
 	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
 	 */
-	abstract protected function render_form_content( $form, $submission );
+	protected function render_form_content( $form, $submission ) {
+		/**
+		 * Let to the frontends module make their work.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param Form_Frontend_Output_Handler $output_handler Output handler.
+		 * @param Form                         $form           Current form.
+		 * @param Submission                   $submission     Current submission.
+		 */
+		do_action( "{$this->form_manager->get_prefix()}frontend_output_handler", $this, $form, $submission );
+	}
 
 	/**
 	 * Handles the deprecated form shortcode.
@@ -207,7 +218,7 @@ abstract class Form_Frontend_Output_Handler {
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
 	 * @return Container|null Container object, or null on failure.
 	 */
-	protected function get_current_container( $form, $submission = null ) {
+	public function get_current_container( $form, $submission = null ) {
 		if ( $submission ) {
 			return $submission->get_current_container();
 		}
@@ -238,7 +249,7 @@ abstract class Form_Frontend_Output_Handler {
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
 	 * @return bool True if there is a next container, false otherwise.
 	 */
-	protected function has_next_container( $form, $submission = null ) {
+	public function has_next_container( $form, $submission = null ) {
 		if ( $submission ) {
 			$next_container = $submission->get_next_container();
 			return null !== $next_container;
@@ -257,7 +268,7 @@ abstract class Form_Frontend_Output_Handler {
 	 * @param Submission|null $submission Submission object, or null if no submission is set.
 	 * @return bool True if there is a previous container, false otherwise.
 	 */
-	protected function has_previous_container( $form, $submission = null ) {
+	public function has_previous_container( $form, $submission = null ) {
 		if ( $submission ) {
 			$previous_container = $submission->get_previous_container();
 			return null !== $previous_container;
@@ -274,7 +285,7 @@ abstract class Form_Frontend_Output_Handler {
 	 * @param string $type Optional. Notice type. Either 'success', 'info', 'warning' or 'error'. Default 'warning'.
 	 * @return string CSS class to use for notices of the given type.
 	 */
-	protected function get_notice_class( $type = 'warning' ) {
+	public function get_notice_class( $type = 'warning' ) {
 		/**
 		 * Filters the CSS class to use for notices.
 		 *
@@ -295,7 +306,7 @@ abstract class Form_Frontend_Output_Handler {
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
 	 * @return string Nonce action name.
 	 */
-	protected function get_nonce_action( $form, $submission = null ) {
+	public function get_nonce_action( $form, $submission = null ) {
 		if ( $submission && ! empty( $submission->id ) ) {
 			return $this->form_manager->get_prefix() . 'form_' . $form->id . '_submission_' . $submission->id;
 		}
@@ -313,7 +324,7 @@ abstract class Form_Frontend_Output_Handler {
 	 *
 	 * @return bool Can user access form.
 	 */
-	protected function can_access_form_check( $form, $submission ) {
+	public function can_access_form_check( $form, $submission ) {
 		$prefix = $this->form_manager->get_prefix();
 
 		/**
@@ -346,10 +357,11 @@ abstract class Form_Frontend_Output_Handler {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Form            $form       Form object.
 	 * @param Submission|null $submission Optional. Submission object, or null if none available. Default null.
+	 *
+	 * @return bool True if form is completed.
 	 */
-	protected function is_completed_check( $submission ) {
+	public function is_completed_check( $submission ) {
 		if ( $submission && 'completed' === $submission->status ) {
 			/**
 			 * Filters the success message to display once a form submission has been completed.
@@ -378,7 +390,7 @@ abstract class Form_Frontend_Output_Handler {
 	 * @param bool   $escape  Optional. Whether to escape the message. This should be set to true if the source of the
 	 *                        message is not a 100% trusted. Default false.
 	 */
-	protected function print_notice( $message, $type = 'warning', $escape = false ) {
+	public function print_notice( $message, $type = 'warning', $escape = false ) {
 		if ( $escape ) {
 			$message = esc_html( $message );
 		}
@@ -388,5 +400,71 @@ abstract class Form_Frontend_Output_Handler {
 			<p><?php echo wp_kses_data( $message ); ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Prints form errors in a notice if necessary.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Form $form Form object.
+	 */
+	public function maybe_print_form_error( $form ) {
+		$key = $this->form_manager->get_prefix() . 'form_errors';
+
+		if ( is_user_logged_in() ) {
+			$errors = get_user_meta( get_current_user_id(), $key, true );
+			if ( is_array( $errors ) && isset( $errors[ $form->id ] ) ) {
+				$this->print_notice( $errors[ $form->id ], 'error' );
+
+				if ( count( $errors ) === 1 ) {
+					delete_user_meta( get_current_user_id(), $key );
+				} else {
+					unset( $errors[ $form->id ] );
+					update_user_meta( get_current_user_id(), $key, $errors );
+				}
+			}
+			return;
+		}
+
+		if ( isset( $_SESSION ) && isset( $_SESSION[ $key ] ) && isset( $_SESSION[ $key ][ $form->id ] ) ) {
+			$this->print_notice( $_SESSION[ $key ][ $form->id ], 'error', true );
+
+			if ( count( $_SESSION[ $key ] ) === 1 ) {
+				unset( $_SESSION[ $key ] );
+			} else {
+				unset( $_SESSION[ $key ][ $form->id ] );
+			}
+		}
+	}
+
+	/**
+	 * Prints submission errors in a notice if necessary.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Submission $submission Submission object.
+	 */
+	public function maybe_print_submission_errors( $submission ) {
+		if ( $submission->has_errors( 0 ) ) {
+			$global_errors = $submission->get_errors( 0 );
+			if ( 1 === count( $global_errors ) ) {
+				$error_key = key( $global_errors );
+				$this->print_notice( $global_errors[ $error_key ], 'error' );
+			} else {
+				?>
+				<div class="<?php echo esc_attr( $this->get_notice_class( 'error' ) ); ?>">
+					<p><?php esc_html_e( 'Some errors occurred while trying to submit the form:', 'torro-forms' ); ?></p>
+					<ul>
+						<?php foreach ( $global_errors as $error_message ) : ?>
+							<li><?php echo wp_kses_data( $error_message ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+				<?php
+			}
+		} elseif ( $submission->has_errors() ) {
+			$this->print_notice( __( 'Some errors occurred while trying to submit the form.', 'torro-forms' ), 'error' );
+		}
 	}
 }

@@ -8,6 +8,10 @@
 
 namespace awsmug\Torro_Forms\Modules\Frontends;
 
+use awsmug\Torro_Forms\DB_Objects\Forms\Form_Frontend_Output_Handler;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
+
 use awsmug\Torro_Forms\Modules\Hooks_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Module as Module_Base;
 use awsmug\Torro_Forms\Modules\Submodule_Registry_Interface;
@@ -24,7 +28,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	/**
 	 * Bootstraps the module by setting properties.
 	 *
-	 * @since 1.2.0
+	 * @since 1.1.0
 	 */
 	protected function bootstrap() {
 		$this->slug        = 'frontends';
@@ -33,8 +37,25 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 
 		$this->submodule_base_class = Frontend::class;
 		$this->default_submodules   = array(
-			'react' => React::class,
+			'standard' => Frontend_Standard::class,
 		);
+	}
+
+	/**
+	 * Rendering form content.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Form_Frontend_Output_Handler $output_handler Output handler.
+	 * @param Form                         $form           Current form.
+	 * @param Submission                   $submission     Current submission.
+	 */
+	public function render_output( $output_handler, $form, $submission ) {
+		$frontend_slug = 'standard';
+
+		$frontend = $this->submodules[ $frontend_slug ];
+
+		$frontend->render_output( $output_handler, $form, $submission );
 	}
 
 	/**
@@ -42,7 +63,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 *
 	 * The function also executes a hook that should be used by other developers to register their own access controls.
 	 *
-	 * @since 1.20.0
+	 * @since 1.1.0
 	 */
 	protected function register_defaults() {
 		foreach ( $this->default_submodules as $slug => $class_name ) {
@@ -54,7 +75,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		 *
 		 * This action should be used to register custom frontends.
 		 *
-		 * @since 1.2.0
+		 * @since 1.1.0
 		 *
 		 * @param Module $frontends Form setting manager instance.
 		 */
@@ -66,7 +87,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 *
 	 * Submodule hooks should occur at some point after `init`.
 	 *
-	 * @since 1.2.0
+	 * @since 1.1.0
 	 */
 	protected function add_submodule_hooks() {
 		foreach ( $this->submodules as $slug => $submodule ) {
@@ -81,10 +102,16 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	/**
 	 * Sets up all action and filter hooks for the service.
 	 *
-	 * @since 1.2.0
+	 * @since 1.1.0
 	 */
 	protected function setup_hooks() {
 		parent::setup_hooks();
+		$this->actions[] = array(
+			'name'     => $this->get_prefix() . 'frontend_output_handler',
+			'callback' => array( $this, 'render_output' ),
+			'priority' => 100,
+			'num_args' => 3,
+		);
 		$this->actions[] = array(
 			'name'     => 'init',
 			'callback' => array( $this, 'register_defaults' ),

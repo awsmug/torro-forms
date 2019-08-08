@@ -15,17 +15,18 @@ use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Author_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Meta_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\Capability_Manager_Trait;
 use Leaves_And_Love\Plugin_Lib\DB_Objects\Traits\REST_API_Manager_Trait;
-use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
-use awsmug\Torro_Forms\Translations\Translations_Form_Manager;
-use awsmug\Torro_Forms\Assets;
-use awsmug\Torro_Forms\DB;
-use awsmug\Torro_Forms\Components\Legacy_Upgrades;
 use Leaves_And_Love\Plugin_Lib\Template;
 use Leaves_And_Love\Plugin_Lib\Options;
 use Leaves_And_Love\Plugin_Lib\AJAX;
 use Leaves_And_Love\Plugin_Lib\Cache;
 use Leaves_And_Love\Plugin_Lib\Meta;
 use Leaves_And_Love\Plugin_Lib\Error_Handler;
+
+use awsmug\Torro_Forms\DB_Objects\Manager_With_Children_Trait;
+use awsmug\Torro_Forms\Translations\Translations_Form_Manager;
+use awsmug\Torro_Forms\Assets;
+use awsmug\Torro_Forms\DB;
+use awsmug\Torro_Forms\Components\Legacy_Upgrades;
 
 /**
  * Manager class for forms.
@@ -60,15 +61,7 @@ class Form_Manager extends Core_Manager {
 	 * @since 1.0.0
 	 * @var Form_Frontend_Standard_Output_Handler
 	 */
-	protected $frontend_standard_output_handler;
-
-	/**
-	 * The frontend react output handler.
-	 *
-	 * @since 1.0.0
-	 * @var Form_Frontend_React_Output_Handler
-	 */
-	protected $frontend_react_output_handler;
+	protected $frontend_output_handler;
 
 	/**
 	 * The form list page handler.
@@ -174,6 +167,7 @@ class Form_Manager extends Core_Manager {
 		$this->public = true;
 
 		$this->frontend_submission_handler = new Form_Frontend_Submission_Handler( $this );
+		$this->frontend_output_handler     = new Form_Frontend_Output_Handler( $this );
 		$this->list_page_handler           = new Form_List_Page_Handler( $this );
 		$this->edit_page_handler           = new Form_Edit_Page_Handler( $this );
 
@@ -207,22 +201,7 @@ class Form_Manager extends Core_Manager {
 	 * @return Form_Frontend_Standard_Output_Handler Frontend output handler instance.
 	 */
 	public function frontend_output_handler() {
-		/**
-		 * Filtering the output handler.
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param Form_Frontend_Output_Handler Instance of child class for an output handler.
-		 * @param Form_Manager                 Instance of this form manager.
-		 */
-		$frontend_output_handler = apply_filters( $this->get_prefix() . 'frontend_output_handler', $this->frontend_standard_output_handler, $this );
-
-		if ( empty( $frontend_output_handler ) ) {
-			$this->frontend_standard_output_handler = new Form_Frontend_Standard_Output_Handler( $this );
-			$frontend_output_handler                = $this->frontend_standard_output_handler;
-		}
-
-		return $frontend_output_handler;
+		return $this->frontend_output_handler;
 	}
 
 	/**
@@ -562,7 +541,7 @@ class Form_Manager extends Core_Manager {
 
 		$this->actions[] = array(
 			'name'     => 'wp',
-			'callback' => array( $this->frontend_submission_handler, 'maybe_handle_form_submission' ),
+			'callback' => array( $this->frontend_submission_handler(), 'maybe_handle_form_submission' ),
 			'priority' => 10,
 			'num_args' => 0,
 		);

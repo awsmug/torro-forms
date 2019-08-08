@@ -14,6 +14,8 @@ use awsmug\Torro_Forms\Modules\Meta_Submodule_Trait;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Interface;
 use awsmug\Torro_Forms\Modules\Settings_Submodule_Trait;
 use awsmug\Torro_Forms\DB_Objects\Forms\Form;
+use awsmug\Torro_Forms\DB_Objects\Forms\Form_Frontend_Output_Handler;
+use awsmug\Torro_Forms\DB_Objects\Submissions\Submission;
 
 /**
  * Base class for an access control.
@@ -24,6 +26,17 @@ abstract class Frontend extends Submodule implements Meta_Submodule_Interface, S
 	use Meta_Submodule_Trait, Settings_Submodule_Trait {
 		Meta_Submodule_Trait::get_meta_fields as protected _get_meta_fields;
 	}
+
+	/**
+	 * Renders the content for a given form.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param Form_Frontend_Output_Handler $output_handler Form frontend output handler.
+	 * @param Form                         $form           Form object.
+	 * @param Submission|null              $submission     Optional. Submission object, or null if none available. Default null.
+	 */
+	abstract public function render_output( $output_handler, $form, $submission = null );
 
 	/**
 	 * Checks whether the access control is enabled for a specific form.
