@@ -51,16 +51,28 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 * @param Submission                   $submission     Current submission.
 	 */
 	public function render_output( $output_handler, $form, $submission ) {
-		$options = $this->manager()->options()->get( 'general_settings', array() );
+		$frontend = $this->get_frontend();
+		$frontend->render_output( $output_handler, $form, $submission );
+	}
+
+	/**
+	 * Get Frontend.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return Frontend $frontend Current frontend as object.
+	 */
+	private function get_frontend() {
+		$settings = $this->manager()->options()->get( 'general_settings', array() );
 
 		$frontend_slug = 'standard';
-		if ( array_key_exists( 'frontend_slug', $options ) ) {
-			$frontend_slug = $options['frontend_slug'];
+		if ( array_key_exists( 'frontend_slug', $settings ) ) {
+			$frontend_slug = $settings['frontend_slug'];
 		}
 
 		$frontend = $this->submodules[ $frontend_slug ];
 
-		$frontend->render_output( $output_handler, $form, $submission );
+		return $frontend;
 	}
 
 	/**
