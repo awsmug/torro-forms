@@ -34,7 +34,6 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 		$this->slug        = 'frontends';
 		$this->title       = __( 'Frontends', 'torro-forms' );
 		$this->description = __( 'Frontends allowing to use different types of Frontends', 'torro-forms' );
-		$this->required    = true;
 
 		$this->submodule_base_class = Frontend::class;
 		$this->default_submodules   = array(
@@ -116,7 +115,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 	 */
 	public function general_settings_fields( $fields ) {
 		if ( 1 >= count( $this->submodules ) ) {
-			// return $fields;
+			return $fields;
 		}
 
 		$choices = array();
