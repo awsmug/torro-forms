@@ -161,7 +161,7 @@ class Module extends Module_Base implements Submodule_Registry_Interface {
 			return;
 		}
 
-		$evaluator->enqueue_frontend_assets( $assets );
+		$frontend->enqueue_frontend_assets( $assets );
 	}
 
 	/**
