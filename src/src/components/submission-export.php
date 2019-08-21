@@ -289,7 +289,18 @@ abstract class Submission_Export {
 			);
 		}
 
-		return $element_columns;
+		/**
+		 * Filters the columns to display for a submission when exporting.
+		 *
+		 * @since 1.0.8
+		 *
+		 * @param array $element_columns Associative array of `$element_id => $element_data` pairs where
+		 *                               each `$element_data` must be an array with 'columns' and 'callback'
+		 *                               keys. The callback must accept a $values array of `$field => $value`
+		 *                               pairs.
+		 * @param array $elements        Element_Collection $elements Elements for which to get columns.
+		 */
+		return apply_filters( "{$this->handler->get_prefix()}element_export_columns", $element_columns, $elements );
 	}
 
 	/**
