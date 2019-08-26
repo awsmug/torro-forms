@@ -451,13 +451,13 @@ abstract class Element_Type {
 		}
 
 		if ( ! empty( $settings['css_classes'] ) ) {
-			if ( ! empty( $data['input_attrs']['class'] ) ) {
-				$data['input_attrs']['class'] .= ' ';
+			if ( ! empty( $data['wrap_attrs']['class'] ) ) {
+				$data['wrap_attrs']['class'] .= ' ';
 			} else {
-				$data['input_attrs']['class'] = '';
+				$data['wrap_attrs']['class'] = '';
 			}
 
-			$data['input_attrs']['class'] .= $settings['css_classes'];
+			$data['wrap_attrs']['class'] .= $settings['css_classes'];
 		}
 
 		if ( $submission && $submission->has_errors( $element->id ) ) {
