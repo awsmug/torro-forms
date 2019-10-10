@@ -1,0 +1,4499 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Torro Forms\n"
+"POT-Creation-Date: 2019-10-10 16:25+0200\n"
+"PO-Revision-Date: 2019-10-10 16:25+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: torro-forms.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-2: node_modules\n"
+
+#: src/assets.php:202
+msgid ""
+"Could not initialize form canvas as the selector points to an element that "
+"does not exist."
+msgstr ""
+
+#: src/assets.php:203
+msgid ""
+"Could not load form builder data. Please verify that the REST API is "
+"correctly enabled on your site."
+msgstr ""
+
+#. translators: %s: container index number
+#: src/assets.php:205
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#. translators: %s: element choice index number
+#: src/assets.php:207
+#, php-format
+msgid "Choice %s"
+msgstr ""
+
+#: src/assets.php:208 src/db-objects/forms/form-edit-page-handler.php:843
+msgid "Show Content"
+msgstr ""
+
+#: src/assets.php:209 src/db-objects/forms/form-edit-page-handler.php:843
+msgid "Hide Content"
+msgstr ""
+
+#: src/assets.php:210
+#: src/db-objects/elements/element-types/element-type.php:560
+#: src/db-objects/elements/element-types/element-type.php:730
+#: src/translations/translations-submission-manager.php:113
+msgid "Yes"
+msgstr ""
+
+#: src/assets.php:211
+#: src/db-objects/elements/element-types/element-type.php:561
+#: src/db-objects/elements/element-types/element-type.php:731
+#: src/translations/translations-submission-manager.php:114
+msgid "No"
+msgstr ""
+
+#: src/assets.php:212
+msgid "Do you really want to delete this page?"
+msgstr ""
+
+#: src/assets.php:213
+msgid "Do you really want to delete this element?"
+msgstr ""
+
+#: src/assets.php:214
+msgid "Do you really want to delete this choice?"
+msgstr ""
+
+#: src/assets.php:215
+msgid "Select Element Type"
+msgstr ""
+
+#: src/assets.php:216
+msgid "Insert into container"
+msgstr ""
+
+#: src/components/form-upload-manager.php:69
+msgid "No file was provided to upload."
+msgstr ""
+
+#. translators: 1: submission ID, 2: form title
+#: src/components/form-upload-manager.php:80
+#, php-format
+msgid "Form upload for submission #%1$s (form &#8220;%2$s&#8221;)"
+msgstr ""
+
+#: src/components/form-upload-manager.php:104
+msgid "The file exceeds the maximum allowed size."
+msgstr ""
+
+#: src/components/form-upload-manager.php:132
+msgid "Sorry, this file type is not permitted for security reasons."
+msgstr ""
+
+#: src/components/form-upload-manager.php:133
+msgid "The file type is not permitted."
+msgstr ""
+
+#: src/components/form-upload-manager.php:140
+msgid "The file could not be registered with the database."
+msgstr ""
+
+#: src/components/form-upload-manager.php:216
+msgid "The file could not be deleted."
+msgstr ""
+
+#: src/components/submission-export-csv.php:65
+msgctxt "file extension"
+msgid "CSV"
+msgstr ""
+
+#: src/components/submission-export-csv.php:66
+msgid ""
+"Exports submissions in CSV format, raw data to be used for importing into "
+"other software."
+msgstr ""
+
+#: src/components/submission-export-handler.php:92
+msgid "Invalid submission export handler."
+msgstr ""
+
+#: src/components/submission-export-handler.php:110
+#: src/db-objects/forms/form-edit-page-handler.php:363
+msgid "Missing nonce."
+msgstr ""
+
+#: src/components/submission-export-handler.php:114
+#: src/db-objects/forms/form-edit-page-handler.php:367
+#: src/translations/translations-ajax.php:32
+msgid "Invalid nonce."
+msgstr ""
+
+#: src/components/submission-export-handler.php:118
+#: src/db-objects/forms/form-edit-page-handler.php:359
+msgid "Missing form ID."
+msgstr ""
+
+#: src/components/submission-export-handler.php:123
+msgid "Insufficient permissions."
+msgstr ""
+
+#: src/components/submission-export-handler.php:128
+#: src/db-objects/forms/form-edit-page-handler.php:372
+#: src/translations/translations-form-manager.php:43
+msgid "Invalid form ID."
+msgstr ""
+
+#: src/components/submission-export-handler.php:132
+msgid "Missing submission export handler."
+msgstr ""
+
+#: src/components/submission-export-handler.php:174
+msgid "Export Submissions"
+msgstr ""
+
+#: src/components/submission-export-handler.php:177
+msgid ""
+"Here you can export all completed submissions in a file format of your "
+"choice."
+msgstr ""
+
+#: src/components/submission-export-handler.php:180
+msgid "Export as"
+msgstr ""
+
+#: src/components/submission-export-handler.php:187
+msgid "Order by"
+msgstr ""
+
+#: src/components/submission-export-handler.php:189
+#: src/components/submission-export.php:212
+msgid "ID"
+msgstr ""
+
+#: src/components/submission-export-handler.php:190
+#: src/components/submission-export.php:233
+#: src/db-objects/elements/element-types/base/textfield.php:229
+msgid "Date"
+msgstr ""
+
+#: src/components/submission-export-handler.php:193
+msgid "Order"
+msgstr ""
+
+#: src/components/submission-export-handler.php:195
+msgid "Ascending"
+msgstr ""
+
+#: src/components/submission-export-handler.php:196
+msgid "Descending"
+msgstr ""
+
+#: src/components/submission-export-handler.php:199
+msgid "One Choice items"
+msgstr ""
+
+#: src/components/submission-export-handler.php:201
+msgid "Export all values in one column"
+msgstr ""
+
+#: src/components/submission-export-handler.php:202
+msgid "Export each value in a different column"
+msgstr ""
+
+#: src/components/submission-export-handler.php:205
+msgid "Export"
+msgstr ""
+
+#: src/components/submission-export-xls.php:62
+msgctxt "file extension"
+msgid "XLS"
+msgstr ""
+
+#: src/components/submission-export-xls.php:63
+msgid ""
+"Exports submissions in XLS format, to be used by table processing software "
+"such as Excel."
+msgstr ""
+
+#: src/components/submission-export.php:218
+#: src/db-objects/submissions/submission-edit-page.php:227
+msgid "User"
+msgstr ""
+
+#: src/components/submission-export.php:221
+#: src/components/submission-export.php:226
+msgid "not available"
+msgstr ""
+
+#. translators: 1: date format string, 2: time format string
+#: src/components/submission-export.php:236
+#: src/translations/translations-field-manager.php:59
+#, php-format
+msgctxt "concatenating date and time format"
+msgid "%1$s %2$s"
+msgstr ""
+
+#. translators: 1: template tag slug, 2: template tag handler slug
+#: src/components/template-tag-handler.php:313
+#: src/components/template-tag-handler.php:318
+#, php-format
+msgid "Invalid template tag %1$s for handler %2$s."
+msgstr ""
+
+#. translators: %s: template tag handler slug
+#: src/components/template-tag-handler.php:346
+#: src/components/template-tag-handler.php:369
+#, php-format
+msgid "Invalid template tag arguments passed to handler %s."
+msgstr ""
+
+#. translators: %s: template tag handler slug
+#: src/components/template-tag-handler.php:396
+#, php-format
+msgid "Invalid template tag arguments definition for handler %s."
+msgstr ""
+
+#: src/components/template-tag-text-field.php:97
+#: src/components/template-tag-text-field.php:131
+#: src/components/template-tag-wysiwyg-field.php:92
+#: src/components/template-tag-wysiwyg-field.php:125
+msgid "Insert template tag"
+msgstr ""
+
+#. translators: %s: HTML code for required indicator
+#: src/db-objects/containers/container.php:133
+#, php-format
+msgid "Required fields are marked %s."
+msgstr ""
+
+#: src/db-objects/containers/rest-containers-controller.php:46
+msgid "ID of the form this container belongs to."
+msgstr ""
+
+#: src/db-objects/containers/rest-containers-controller.php:56
+msgid ""
+"Numeric value to determine the order within a list of multiple containers."
+msgstr ""
+
+#: src/db-objects/containers/rest-containers-controller.php:78
+msgid "Limit result set to containers associated with a specific form ID."
+msgstr ""
+
+#: src/db-objects/element-choices/rest-element-choices-controller.php:44
+msgid "ID of the element this element choice belongs to."
+msgstr ""
+
+#: src/db-objects/element-choices/rest-element-choices-controller.php:54
+msgid ""
+"Numeric value to determine the order within a list of multiple element "
+"choices."
+msgstr ""
+
+#: src/db-objects/element-choices/rest-element-choices-controller.php:60
+msgid ""
+"Element type field identifier the element choice is associated with, if not "
+"the main field."
+msgstr ""
+
+#: src/db-objects/element-choices/rest-element-choices-controller.php:82
+msgid "Limit result set to element choices associated with a specific form ID."
+msgstr ""
+
+#: src/db-objects/element-choices/rest-element-choices-controller.php:88
+msgid ""
+"Limit result set to element choices associated with a specific container ID."
+msgstr ""
+
+#: src/db-objects/element-choices/rest-element-choices-controller.php:94
+msgid ""
+"Limit result set to element choices associated with a specific element ID."
+msgstr ""
+
+#: src/db-objects/element-settings/rest-element-settings-controller.php:44
+msgid "ID of the element this element setting belongs to."
+msgstr ""
+
+#: src/db-objects/element-settings/rest-element-settings-controller.php:54
+msgid "Alphanumeric identifier for the element setting."
+msgstr ""
+
+#: src/db-objects/element-settings/rest-element-settings-controller.php:60
+msgid "Value of the element setting."
+msgstr ""
+
+#: src/db-objects/element-settings/rest-element-settings-controller.php:81
+msgid ""
+"Limit result set to element settings associated with a specific form ID."
+msgstr ""
+
+#: src/db-objects/element-settings/rest-element-settings-controller.php:87
+msgid ""
+"Limit result set to element settings associated with a specific container ID."
+msgstr ""
+
+#: src/db-objects/element-settings/rest-element-settings-controller.php:93
+msgid ""
+"Limit result set to element settings associated with a specific element ID."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/checkbox.php:30
+msgid "Checkbox"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/checkbox.php:31
+msgid "A single checkbox element to toggle a value."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/checkbox.php:104
+msgid "You must check this box."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/content.php:33
+#: src/db-objects/elements/element-types/base/content.php:38
+msgid "Content"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/content.php:34
+msgid "A non-input element to display custom content."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/content.php:39
+msgid "Enter the content to display."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/dropdown.php:33
+msgid "Dropdown"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/dropdown.php:34
+msgid "A dropdown element to select a value from."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/dropdown.php:82
+#: src/db-objects/elements/element-types/base/onechoice.php:91
+#: src/db-objects/elements/element-types/base/textarea.php:147
+#: src/db-objects/elements/element-types/base/textfield.php:143
+msgid "You must enter something here."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/dropdown.php:86
+#: src/db-objects/elements/element-types/base/onechoice.php:95
+msgid "You must select a valid value from the list."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:30
+msgid "Media"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:31
+msgid "An element to upload a file to the media library."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:39
+msgid "Valid file types"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:40
+msgid "The file type the user is allowed to upload."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:112
+msgid "File deleted."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:115
+msgid "No file uploaded."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:157
+msgid "You must upload a file."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:255
+msgid "Images (.jpg, .png, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:256
+msgid "Audio files (.wav, .mp3, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:257
+msgid "Video files (.avi, .mpeg, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:258
+msgid "Documents (.doc, .pdf, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:259
+msgid "Spreadsheets (.xls, .numbers, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:260
+msgid "Interactive (.ppt, .swf, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:261
+msgid "Text files (.txt, .csv, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:262
+msgid "File archives (.zip, .rar, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:263
+msgid "Source code (.html, .js, ...)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/media.php:278
+msgid "Any"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:33
+msgid "Multiple Choice"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:34
+msgid "A checkbox group element to select multiple values from."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:94
+msgid "You must select at least a single value here."
+msgstr ""
+
+#. translators: %s: number of minimum choices
+#: src/db-objects/elements/element-types/base/multiplechoice.php:99
+#, php-format
+msgid "You must select at least %s value."
+msgid_plural "You must select at least %s values."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of maximum choices
+#: src/db-objects/elements/element-types/base/multiplechoice.php:104
+#, php-format
+msgid "You may select a maximum of %s value."
+msgid_plural "You may select a maximum of %s values."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:112
+msgid "You must select valid values from the list."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:149
+msgid "Minimum Choices"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:150
+msgid "Specify the the minumum choices to select from."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:157
+msgid "Maximum Choices"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/multiplechoice.php:158
+msgid "Specify the the maximum choices to select from."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/onechoice.php:33
+msgid "One Choice"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/onechoice.php:34
+msgid "A radio group element to select a single value from."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:30
+msgid "Textarea"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:31
+msgid "A textarea element."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:40
+#: src/db-objects/elements/element-types/base/textfield.php:49
+msgid "Minimum length"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:41
+#: src/db-objects/elements/element-types/base/textfield.php:50
+msgid "The minimum number of chars which can be typed in."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:49
+#: src/db-objects/elements/element-types/base/textfield.php:58
+msgid "Maximum length"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:50
+#: src/db-objects/elements/element-types/base/textfield.php:59
+msgid "The maximum number of chars which can be typed in."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:58
+msgid "Rows"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:59
+msgid "Number of rows for typing in  (can be overwritten by CSS)."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:68
+msgid "Columns"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:69
+msgid "Number of columns for typing in (can be overwritten by CSS)."
+msgstr ""
+
+#. translators: 1: minimum length, 2: maximum length
+#: src/db-objects/elements/element-types/base/textarea.php:108
+#: src/db-objects/elements/element-types/base/textfield.php:104
+#, php-format
+msgid "Between %1$s and %2$s characters are required."
+msgstr ""
+
+#. translators: %s: minimum length
+#: src/db-objects/elements/element-types/base/textarea.php:111
+#: src/db-objects/elements/element-types/base/textfield.php:107
+#, php-format
+msgid "At least %s characters are required."
+msgstr ""
+
+#. translators: %s: maximum length
+#: src/db-objects/elements/element-types/base/textarea.php:114
+#: src/db-objects/elements/element-types/base/textfield.php:110
+#, php-format
+msgid "A maximum of %s characters are allowed."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:152
+#: src/db-objects/elements/element-types/base/textfield.php:148
+msgid "The value you entered is too short."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textarea.php:156
+#: src/db-objects/elements/element-types/base/textfield.php:152
+msgid "The value you entered is too long."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:30
+msgid "Text"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:31
+msgid "A single text field element."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:67
+msgid "Input type"
+msgstr ""
+
+#. translators: %s: HTML input type info URL
+#: src/db-objects/elements/element-types/base/textfield.php:70
+#, php-format
+msgid ""
+"* Will be validated | Not all <a href=\"%s\" target=\"_blank\">HTML5 input "
+"types</a> are supported by browsers!"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:166
+msgid "The value you entered is invalid."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:221
+msgid "Standard Text"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:225
+msgid "Password"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:233
+msgid "Email-Address *"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:236
+msgid "The value you entered is not a valid email-address."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:239
+msgid "Color"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:243
+msgid "Number *"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:246
+msgid "The value you entered is not a valid number."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:249
+msgid "Decimal Number *"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:252
+msgid "The value you entered is not a valid decimal number."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:255
+msgid "Search"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:259
+msgid "Telephone"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:263
+msgid "Time"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:267
+msgid "URL *"
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:270
+msgid "The value you entered is not a valid URL."
+msgstr ""
+
+#: src/db-objects/elements/element-types/base/textfield.php:273
+msgid "Week"
+msgstr ""
+
+#: src/db-objects/elements/element-types/choice-element-type-trait.php:91
+msgid "Choices"
+msgstr ""
+
+#: src/db-objects/elements/element-types/choice-element-type-trait.php:92
+msgid "Specify the choices to select from."
+msgstr ""
+
+#. translators: %s: element type slug
+#: src/db-objects/elements/element-types/element-type-manager.php:123
+#: src/db-objects/elements/element-types/element-type-manager.php:186
+#, php-format
+msgid "An element type with the slug %s does not exist."
+msgstr ""
+
+#. translators: 1: element type slug, 2: init hookname
+#: src/db-objects/elements/element-types/element-type-manager.php:152
+#, php-format
+msgid "The element type %1$s cannot be registered before the %2$s hook."
+msgstr ""
+
+#. translators: %s: element type slug
+#: src/db-objects/elements/element-types/element-type-manager.php:157
+#, php-format
+msgid "An element type with the slug %s already exists."
+msgstr ""
+
+#. translators: %s: element type class name
+#. translators: %s: module class name
+#. translators: %s: submodule class name
+#: src/db-objects/elements/element-types/element-type-manager.php:162
+#: src/modules/module-manager.php:255
+#: src/modules/submodule-registry-trait.php:107
+#, php-format
+msgid "The class %s does not exist."
+msgstr ""
+
+#. translators: %s: element type class name
+#: src/db-objects/elements/element-types/element-type-manager.php:167
+#, php-format
+msgid "The class %s is not allowed for a element type."
+msgstr ""
+
+#. translators: %s: element type slug
+#: src/db-objects/elements/element-types/element-type-manager.php:191
+#, php-format
+msgid "The default element type %s cannot be unregistered."
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type-manager.php:242
+#: src/db-objects/elements/element-types/element-type.php:437
+#: src/db-objects/forms/form-edit-page-handler.php:115
+#: src/db-objects/forms/form-settings-page.php:99 src/torro-forms.php:796
+#: src/translations/translations-field-manager.php:27
+msgctxt "field required indicator"
+msgid "(required)"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:115
+msgctxt "element type section"
+msgid "Content"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:118
+msgctxt "element type section"
+msgid "Settings"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:126
+msgid "Label"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:127
+msgid "Enter the form field label."
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:694
+msgid "Placeholder"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:695
+msgid "Placeholder text will be shown until data is being entered."
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:711
+msgid "Description"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:712
+msgid "The description will be shown below the element."
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:728
+msgid "Required?"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:733
+msgid "Whether the user must input something."
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:749
+msgid "CSS Classes"
+msgstr ""
+
+#: src/db-objects/elements/element-types/element-type.php:750
+msgid "Additional CSS Classes separated by whitespaces."
+msgstr ""
+
+#. translators: %s: field section slug
+#: src/db-objects/elements/element-types/element-type.php:811
+#, php-format
+msgid "Invalid element type field section %s."
+msgstr ""
+
+#. translators: %s: field type slug
+#: src/db-objects/elements/element-types/element-type.php:818
+#, php-format
+msgid "Invalid element type field type %s."
+msgstr ""
+
+#. translators: %s: field type slug
+#: src/db-objects/elements/element-types/element-type.php:825
+#, php-format
+msgid "Disallowed element type field type %s."
+msgstr ""
+
+#. translators: %s: field type slug
+#: src/db-objects/elements/element-types/element-type.php:832
+msgid "Disallowed repeatable element type field."
+msgstr ""
+
+#: src/db-objects/elements/element-types/non-input-element-type-trait.php:73
+msgid "No values are accepted here."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:77
+msgid "An alphanumeric identifier for the element type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:110
+msgid "Sorry, you are not allowed to edit elements and their types."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:114
+msgid "Sorry, you are not allowed to view elements and their types."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:152
+msgid "Sorry, you are not allowed to edit elements of this type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:157
+msgid "Invalid element type slug."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:161
+msgid "Sorry, you are not allowed to view elements of this type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:296
+msgid "Slug for the element type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:302
+msgid "Title for the element type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:308
+msgid "Description for the element type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:314
+msgid "Icon CSS class for the element type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:320
+msgid "Icon SVG ID for the element type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:326
+msgid "Icon URL for the element type."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:332
+msgid "Whether the element type does not expect any input."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:338
+msgid "Whether the element type is evaluable in stats."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:344
+msgid "Whether the element type contains multiple fields."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:350
+msgid "Settings sections the element type uses."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:358
+msgid "Slug for the element type settings section."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:364
+msgid "Title for the element type settings section."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:373
+msgid "Settings fields the element type uses."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:381
+msgid "Slug for the element type settings field."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:387
+msgid "Slug of the section for the element type settings field."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:393
+msgid "Identifier for the field API type the element type settings field uses."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:399
+msgid "Label for the element type settings field."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:405
+msgid "Description for the element type settings field."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:411
+msgid "Whether the element type settings field determines the element label."
+msgstr ""
+
+#: src/db-objects/elements/element-types/rest-element-types-controller.php:417
+msgid "Whether the element type settings field determines element choices."
+msgstr ""
+
+#: src/db-objects/elements/rest-elements-controller.php:59
+msgid "ID of the container this element belongs to."
+msgstr ""
+
+#: src/db-objects/elements/rest-elements-controller.php:69
+msgid ""
+"Numeric value to determine the order within a list of multiple elements."
+msgstr ""
+
+#: src/db-objects/elements/rest-elements-controller.php:75
+msgid "Type of the element."
+msgstr ""
+
+#: src/db-objects/elements/rest-elements-controller.php:98
+msgid "Limit result set to elements associated with a specific form ID."
+msgstr ""
+
+#: src/db-objects/elements/rest-elements-controller.php:104
+msgid "Limit result set to elements associated with a specific container ID."
+msgstr ""
+
+#: src/db-objects/elements/rest-elements-controller.php:110
+msgid "Limit result set to elements with one or more specific statuses."
+msgstr ""
+
+#: src/db-objects/form-categories/rest-form-categories-controller.php:44
+msgid "Description for the form category."
+msgstr ""
+
+#: src/db-objects/form-categories/rest-form-categories-controller.php:50
+msgid "ID of the parent of the form category, if any."
+msgstr ""
+
+#: src/db-objects/form-categories/rest-form-categories-controller.php:60
+msgid "Number of forms associated with the form category."
+msgstr ""
+
+#. translators: %s: meta box title
+#: src/db-objects/forms/form-edit-page-handler.php:341
+#, php-format
+msgid "An unknown error occurred while trying to save %s data."
+msgstr ""
+
+#. translators: 1: form title, 2: error message
+#: src/db-objects/forms/form-edit-page-handler.php:380
+#, php-format
+msgid "The form &#8220;%1$s&#8221; could not be duplicated: %2$s"
+msgstr ""
+
+#. translators: 1: form title, 2: new form edit URL
+#: src/db-objects/forms/form-edit-page-handler.php:386
+#, php-format
+msgid ""
+"The form &#8220;%1$s&#8221; was duplicated successfully. <a href=\"%2$s"
+"\">View the duplicate</a>"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:422
+msgid "Some errors occurred while trying to save the form:"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:501
+msgctxt "action"
+msgid "Duplicate Form"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:525
+msgctxt "action"
+msgid "View Form Submissions"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:549
+msgid "Form Shortcode:"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:552
+#: src/db-objects/forms/form-list-page-handler.php:157
+#: src/modules/evaluators/module.php:155
+msgid "Copy to clipboard"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:586
+#: src/db-objects/forms/form-edit-page-handler.php:790
+msgid "Add New Container"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:592
+msgid "Loading form builder..."
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:597
+msgid ""
+"It seems you have disabled JavaScript in your browser. Torro Forms requires "
+"JavaScript in order to edit your forms."
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:781
+msgid "Error:"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:796
+msgid "Click the button above to add your first container"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:812
+msgid "Add element"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:824
+msgid "Delete Page"
+msgstr ""
+
+#: src/db-objects/forms/form-edit-page-handler.php:853
+msgid "Delete Element"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:137
+#: src/modules/evaluators/module.php:332
+msgid "Shortcode is missing a form ID!"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:142
+#: src/modules/evaluators/module.php:341
+msgid "Shortcode is using an invalid form ID!"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:217
+msgid "You are not allowed to access this form submission."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:217
+msgid "You are not allowed to access this form."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:231
+#: src/modules/form-settings/module.php:299
+msgid "Thank you for submitting!"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:239
+msgid "No container exists for this form."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:279
+#: src/modules/form-settings/module.php:277
+msgctxt "button label"
+msgid "Next Step"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:299
+#: src/modules/form-settings/module.php:288
+msgctxt "button label"
+msgid "Submit"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:363
+#: src/modules/form-settings/module.php:266
+msgctxt "button label"
+msgid "Previous Step"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:529
+msgid "Some errors occurred while trying to submit the form:"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-output-handler.php:539
+msgid "Some errors occurred while trying to submit the form."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:57
+#: src/db-objects/forms/form-frontend-submission-handler.php:71
+msgid "Form Submission Error"
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:66
+msgid "The request could not be verified."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:121
+msgid "Internal error: No current container is available for this form."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:292
+msgid "Internal error: There is no previous container available."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:338
+msgid "Submission already completed."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:349
+#: src/db-objects/forms/form-frontend-submission-handler.php:354
+msgid "Could not detect form."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:460
+msgid "Missing security nonce."
+msgstr ""
+
+#: src/db-objects/forms/form-frontend-submission-handler.php:464
+msgid "Invalid security nonce."
+msgstr ""
+
+#: src/db-objects/forms/form-list-page-handler.php:59
+msgid "Shortcode"
+msgstr ""
+
+#: src/db-objects/forms/form-list-page-handler.php:60
+#: src/modules/access-controls/submission-count.php:29
+#: src/modules/evaluators/participation.php:146
+#: src/modules/evaluators/participation.php:194
+msgid "Submission Count"
+msgstr ""
+
+#. translators: %s: form title
+#: src/db-objects/forms/form-list-page-handler.php:123
+#, php-format
+msgid "View submissions for &#8220;%s&#8221;"
+msgstr ""
+
+#: src/db-objects/forms/form-list-page-handler.php:124
+msgctxt "action"
+msgid "View Submissions"
+msgstr ""
+
+#. translators: %s: form title
+#: src/db-objects/forms/form-list-page-handler.php:131
+#, php-format
+msgid "Duplicate &#8220;%s&#8221;"
+msgstr ""
+
+#: src/db-objects/forms/form-list-page-handler.php:132
+msgctxt "action"
+msgid "Duplicate"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:53
+msgid "Settings"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:529
+msgid "Welcome to Torro Forms!"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:530
+msgid ""
+"You want to build forms in an easy way? Torro Forms will help you do it "
+"quickly, yet with tons of options."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:676
+#: src/db-objects/forms/form-settings-page.php:706
+msgctxt "form settings"
+msgid "General"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:677
+msgctxt "REST API description"
+msgid "Torro Forms general settings."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:680
+msgctxt "form settings"
+msgid "Extensions"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:681
+msgctxt "REST API description"
+msgid "Torro Forms extension settings."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:731
+msgctxt "form settings"
+msgid "Modules"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:735
+msgid "Form Behavior"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:739
+msgctxt "form settings"
+msgid "Advanced"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:769
+#: src/db-objects/post-type-manager.php:60
+msgctxt "default form rewrite slug"
+msgid "forms"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:775
+msgid "Active Modules"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:776
+msgid "If you do not need all of these modules, you can disable them here."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:783
+msgid "Slug"
+msgstr ""
+
+#. translators: %s: sample form permalink URL
+#: src/db-objects/forms/form-settings-page.php:785
+#, php-format
+msgid "The slug for permalinks (e.g. for a URL like %s)."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:795
+msgctxt "term choices"
+msgid "None"
+msgstr ""
+
+#. translators: %s: attachment taxonomy name
+#: src/db-objects/forms/form-settings-page.php:815
+#, php-format
+msgid "%s Term"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:816
+msgid "The default term to use for form uploads."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:829
+msgid "Include Torro Forms CSS on frontend?"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:835
+msgid ""
+"Delete submission that have not completed after a certain amount of time?"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:836
+msgid ""
+"Enabling this setting can help keep your database cleaner by deleting "
+"submissions that have been started, but never completed."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:842
+msgid "Submission Deletion"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:843
+msgid ""
+"Specify the number of days after which incomplete submissions should be "
+"deleted."
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:847
+msgctxt "field unit"
+msgid "day/s"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:861
+msgid "Perform a hard uninstall when the plugin is removed?"
+msgstr ""
+
+#: src/db-objects/forms/form-settings-page.php:862
+msgid ""
+"<strong>Use this setting with extreme caution</strong> as, when it is "
+"enabled, removing the plugin will remove all form content from your site "
+"forever."
+msgstr ""
+
+#: src/db-objects/forms/form.php:312 src/db-objects/forms/form.php:317
+msgid "The form post does not exist in the database."
+msgstr ""
+
+#. translators: %s: original form title
+#: src/db-objects/forms/form.php:330
+#, php-format
+msgctxt "duplicated form title"
+msgid "Copy of %s"
+msgstr ""
+
+#: src/db-objects/forms/rest-forms-controller.php:48
+msgid "Status of the form."
+msgstr ""
+
+#: src/db-objects/forms/rest-forms-controller.php:61
+msgid "UNIX timestamp for when the form was created."
+msgstr ""
+
+#: src/db-objects/forms/rest-forms-controller.php:67
+msgid "UNIX timestamp for when the form was last modified."
+msgstr ""
+
+#: src/db-objects/forms/rest-forms-controller.php:90
+msgid "Limit result set to forms with one or more specific statuses."
+msgstr ""
+
+#: src/db-objects/forms/rest-forms-controller.php:206
+msgid "Status is forbidden."
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:66
+#: src/db-objects/post-type-manager.php:86
+msgid "Forms"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:67
+#: src/db-objects/submissions/submission-edit-page.php:214
+msgid "Form"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:68
+msgctxt "form label"
+msgid "Add New"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:69
+msgid "Add New Form"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:70
+msgid "Edit Form"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:71
+msgid "New Form"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:72
+msgid "View Form"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:73
+msgid "View Forms"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:74
+msgid "Search Forms"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:75
+msgid "No forms found."
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:76
+msgid "No forms found in Trash."
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:77
+msgid "Parent Form:"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:78
+msgid "All Forms"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:79
+msgid "Form Archives"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:80
+msgid "Form Attributes"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:81
+msgid "Insert into form"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:82
+msgid "Uploaded to this form"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:83
+msgid "Filter forms list"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:84
+msgid "Forms list navigation"
+msgstr ""
+
+#: src/db-objects/post-type-manager.php:85
+msgid "Forms list"
+msgstr ""
+
+#: src/db-objects/submission-values/rest-submission-values-controller.php:44
+msgid "ID of the submission this submission value belongs to."
+msgstr ""
+
+#: src/db-objects/submission-values/rest-submission-values-controller.php:54
+msgid "ID of the element this submission value refers to."
+msgstr ""
+
+#: src/db-objects/submission-values/rest-submission-values-controller.php:64
+msgid ""
+"Element type field identifier the submission value is associated with, if "
+"not the main element field."
+msgstr ""
+
+#: src/db-objects/submission-values/rest-submission-values-controller.php:70
+msgid "The submission value."
+msgstr ""
+
+#: src/db-objects/submission-values/rest-submission-values-controller.php:91
+msgid ""
+"Limit result set to submission values associated with a specific form ID."
+msgstr ""
+
+#: src/db-objects/submission-values/rest-submission-values-controller.php:97
+msgid ""
+"Limit result set to submission values associated with a specific submission "
+"ID."
+msgstr ""
+
+#: src/db-objects/submission-values/rest-submission-values-controller.php:103
+msgid ""
+"Limit result set to submission values referring to a specific element ID."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:44
+msgid "ID of the form this submission belongs to."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:54
+msgid "ID of the user this submission belongs to, if any."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:64
+msgid "UNIX timestamp for when the submission was created."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:70
+msgid "IP address of who created the submission."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:76
+msgid "Key of who created the submission."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:82
+msgid "Status of the submission."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:106
+msgid "Limit result set to submissions associated with a specific form ID."
+msgstr ""
+
+#: src/db-objects/submissions/rest-submissions-controller.php:112
+msgid "Limit result set to submissions associated with a specific user ID."
+msgstr ""
+
+#. translators: %s: submission ID prefixed with a #
+#: src/db-objects/submissions/submission-edit-page.php:61
+#, php-format
+msgid "Edit Submission %s"
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:133
+msgctxt "submission edit page tab"
+msgid "General"
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:149
+msgctxt "submission edit page tab"
+msgid "Form Input"
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:150
+msgid ""
+"Here you can edit the individual input values the user provided for the "
+"submission."
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:170
+msgctxt "submission edit page section"
+msgid "Associated Data"
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:174
+msgctxt "submission edit page section"
+msgid "Identification Data"
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:215
+msgid "Specify the form this should be a submission for."
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:228
+msgid "Specify the user who should be associated with this submission."
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:239
+msgid "IP Address"
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:240
+msgid "Specify the IP address where this submission should be sent from."
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:247
+msgid "Key"
+msgstr ""
+
+#: src/db-objects/submissions/submission-edit-page.php:248
+msgid "Specify the key identifying the submission creator."
+msgstr ""
+
+#: src/db-objects/submissions/submission-manager.php:478
+msgid "Date:"
+msgstr ""
+
+#: src/db-objects/submissions/submission-manager.php:486
+#: src/db-objects/submissions/submissions-list-table.php:53
+msgctxt "submission status label"
+msgid "Completed"
+msgstr ""
+
+#: src/db-objects/submissions/submission-manager.php:487
+#: src/db-objects/submissions/submissions-list-table.php:55
+msgctxt "submission status label"
+msgid "In Progress"
+msgstr ""
+
+#. translators: %s: form title
+#: src/db-objects/submissions/submissions-list-page.php:43
+#, php-format
+msgid "Submissions for form &#8220;%s&#8221;"
+msgstr ""
+
+#: src/db-objects/submissions/submissions-list-page.php:69
+msgctxt "submission admin list"
+msgid "Back to Overview"
+msgstr ""
+
+#: src/db-objects/submissions/submissions-list-table.php:131
+msgctxt "submission column label"
+msgid "ID"
+msgstr ""
+
+#: src/db-objects/submissions/submissions-list-table.php:132
+msgctxt "submission column label"
+msgid "Status"
+msgstr ""
+
+#: src/db-objects/submissions/submissions-list-table.php:133
+msgctxt "submission column label"
+msgid "Form"
+msgstr ""
+
+#: src/db-objects/submissions/submissions-list-table.php:134
+msgctxt "submission column label"
+msgid "User"
+msgstr ""
+
+#: src/db-objects/submissions/submissions-list-table.php:135
+#: src/translations/translations-submission-manager.php:122
+msgctxt "submission column label"
+msgid "Date"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:145
+msgctxt "default form category rewrite slug"
+msgid "form-categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:149
+#: src/db-objects/taxonomy-manager.php:168
+msgid "Categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:150
+msgid "Category"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:151
+msgid "Search Categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:152
+msgid "Popular Categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:153
+msgid "All Categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:154
+msgid "Parent Category"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:155
+msgid "Parent Category:"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:156
+msgid "Edit Category"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:157
+msgid "View Category"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:158
+msgid "Update Category"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:159
+msgid "Add New Category"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:160
+msgid "New Category Name"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:161
+msgid "Separate categories with commas"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:162
+msgid "Add or remove categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:163
+msgid "Choose from the most used categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:164
+msgid "No categories found."
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:165
+msgid "No categories"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:166
+msgid "Categories list navigation"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:167
+msgid "Categories list"
+msgstr ""
+
+#: src/db-objects/taxonomy-manager.php:251
+msgid "Form Upload"
+msgstr ""
+
+#. translators: %s: method name
+#: src/error.php:67
+#, php-format
+msgid ""
+"After the error occurred, it was tried to call method %s on the unhandled "
+"error object."
+msgstr ""
+
+#. translators: %s: property name
+#: src/error.php:88
+#, php-format
+msgid ""
+"After the error occurred, it was tried to access property %s on the "
+"unhandled error object."
+msgstr ""
+
+#: src/modules/access-controls/access-control.php:65
+msgctxt "access control"
+msgid "Enable?"
+msgstr ""
+
+#: src/modules/access-controls/access-control.php:66
+msgctxt "access control"
+msgid "Status"
+msgstr ""
+
+#: src/modules/access-controls/members.php:66
+msgid "Members"
+msgstr ""
+
+#: src/modules/access-controls/members.php:67
+msgid "Allows you to make this form available to logged-in members only."
+msgstr ""
+
+#: src/modules/access-controls/members.php:143
+msgid "Allowed Roles"
+msgstr ""
+
+#: src/modules/access-controls/members.php:144
+msgid ""
+"If you select user roles here, only users with these roles are granted "
+"access to the form."
+msgstr ""
+
+#: src/modules/access-controls/members.php:150
+msgid "Allowed Users"
+msgstr ""
+
+#: src/modules/access-controls/members.php:151
+msgid ""
+"If you select users here, only these users are granted access to the form."
+msgstr ""
+
+#. translators: 1: user display name, 2: user ID
+#: src/modules/access-controls/members.php:158
+#, php-format
+msgid "%1$s (User ID %2$s)"
+msgstr ""
+
+#: src/modules/access-controls/members.php:161
+msgid "Send Invitation"
+msgstr ""
+
+#: src/modules/access-controls/members.php:170
+msgid "&#8220;Login required&#8221; Message"
+msgstr ""
+
+#: src/modules/access-controls/members.php:171
+msgid "Enter the message to show to the user in case they are not logged in."
+msgstr ""
+
+#: src/modules/access-controls/members.php:179
+msgid "&#8220;Not eligible&#8221; Message"
+msgstr ""
+
+#: src/modules/access-controls/members.php:180
+msgid ""
+"Enter the message to show to the user when they are logged in, but have not "
+"been selected to participate."
+msgstr ""
+
+#: src/modules/access-controls/members.php:200
+msgid "Invitation Email Template"
+msgstr ""
+
+#: src/modules/access-controls/members.php:201
+msgid "Setup mail templates for inviting a user to a form."
+msgstr ""
+
+#: src/modules/access-controls/members.php:205
+msgid "Reinvitation Email Template"
+msgstr ""
+
+#: src/modules/access-controls/members.php:206
+msgid "Setup mail templates for reinviting a user to a form."
+msgstr ""
+
+#: src/modules/access-controls/members.php:231
+#: src/modules/access-controls/members.php:271
+#: src/modules/actions/email-notifications.php:254
+msgid "From Name"
+msgstr ""
+
+#: src/modules/access-controls/members.php:240
+#: src/modules/access-controls/members.php:280
+#: src/modules/actions/email-notifications.php:260
+msgid "From Email"
+msgstr ""
+
+#. translators: %s: email address
+#: src/modules/access-controls/members.php:242
+#: src/modules/access-controls/members.php:282
+#: src/modules/actions/email-notifications.php:262
+#, php-format
+msgid ""
+"This email address should contain the same domain like your website (e.g. "
+"%s)."
+msgstr ""
+
+#: src/modules/access-controls/members.php:251
+#: src/modules/access-controls/members.php:291
+#: src/modules/actions/email-notifications.php:292
+msgid "Subject"
+msgstr ""
+
+#: src/modules/access-controls/members.php:260
+#: src/modules/access-controls/members.php:300
+#: src/modules/actions/email-notifications.php:298
+msgid "Message"
+msgstr ""
+
+#: src/modules/access-controls/members.php:355
+msgid "Missing request parameters."
+msgstr ""
+
+#: src/modules/access-controls/members.php:360
+msgid "Could not find user."
+msgstr ""
+
+#: src/modules/access-controls/members.php:365
+msgid "Could not find form."
+msgstr ""
+
+#. translators: %s: user display name
+#: src/modules/access-controls/members.php:401
+#, php-format
+msgid "User %s could not be reinvited."
+msgstr ""
+
+#. translators: %s: user display name
+#: src/modules/access-controls/members.php:405
+#, php-format
+msgid "User %s could not be invited."
+msgstr ""
+
+#. translators: %s: user display name
+#: src/modules/access-controls/members.php:413
+#, php-format
+msgid "User %s was successfully reinvited."
+msgstr ""
+
+#. translators: %s: user display name
+#: src/modules/access-controls/members.php:419
+#, php-format
+msgid "User %s was successfully invited."
+msgstr ""
+
+#: src/modules/access-controls/members.php:508
+msgid "You have to be logged in to participate."
+msgstr ""
+
+#: src/modules/access-controls/members.php:519
+msgid "You have not been selected to participate."
+msgstr ""
+
+#. translators: %s: form title
+#: src/modules/access-controls/members.php:531
+#, php-format
+msgid "Invitation to the form &#8220;%s&#8221;"
+msgstr ""
+
+#. translators: %s: form title
+#: src/modules/access-controls/members.php:543
+#, php-format
+msgid "Reinvitation to the form &#8220;%s&#8221;"
+msgstr ""
+
+#. translators: %s: user display name
+#: src/modules/access-controls/members.php:555
+#: src/modules/access-controls/members.php:575
+#, php-format
+msgid "Dear %s,"
+msgstr ""
+
+#. translators: %s: form title
+#: src/modules/access-controls/members.php:558
+#, php-format
+msgid ""
+"You have been invited to participate in the form &#8220;%s&#8221; which you "
+"can find at the following URL:"
+msgstr ""
+
+#: src/modules/access-controls/members.php:560
+msgid "Thanks in advance for participating!"
+msgstr ""
+
+#. translators: %s: form title
+#: src/modules/access-controls/members.php:578
+#, php-format
+msgid ""
+"As a reminder, a while ago you have been invited to participate in the form "
+"&#8220;%s&#8221; which you can find at the following URL:"
+msgstr ""
+
+#: src/modules/access-controls/members.php:580
+msgid ""
+"If you have already participated by now, please ignore this email. Thanks!"
+msgstr ""
+
+#: src/modules/access-controls/members.php:595
+#: src/modules/actions/email-notifications.php:317
+msgid "Site Title"
+msgstr ""
+
+#: src/modules/access-controls/members.php:596
+#: src/modules/actions/email-notifications.php:318
+msgid "Inserts the site title."
+msgstr ""
+
+#: src/modules/access-controls/members.php:603
+#: src/modules/actions/email-notifications.php:325
+msgid "Site Tagline"
+msgstr ""
+
+#: src/modules/access-controls/members.php:604
+#: src/modules/actions/email-notifications.php:326
+msgid "Inserts the site tagline."
+msgstr ""
+
+#: src/modules/access-controls/members.php:611
+#: src/modules/actions/email-notifications.php:333
+msgid "Site URL"
+msgstr ""
+
+#: src/modules/access-controls/members.php:612
+#: src/modules/actions/email-notifications.php:334
+msgid "Inserts the site home URL."
+msgstr ""
+
+#: src/modules/access-controls/members.php:619
+#: src/modules/actions/email-notifications.php:341
+msgid "Site Admin Email"
+msgstr ""
+
+#: src/modules/access-controls/members.php:620
+#: src/modules/actions/email-notifications.php:342
+msgid "Inserts the site admin email."
+msgstr ""
+
+#: src/modules/access-controls/members.php:627
+#: src/modules/actions/email-notifications.php:349
+msgid "User IP"
+msgstr ""
+
+#: src/modules/access-controls/members.php:628
+#: src/modules/actions/email-notifications.php:350
+msgid "Inserts the current user IP address."
+msgstr ""
+
+#: src/modules/access-controls/members.php:639
+#: src/modules/actions/email-notifications.php:361
+msgid "Referer URL"
+msgstr ""
+
+#: src/modules/access-controls/members.php:640
+#: src/modules/actions/email-notifications.php:362
+msgid "Inserts the current referer URL."
+msgstr ""
+
+#: src/modules/access-controls/members.php:647
+#: src/modules/actions/email-notifications.php:369
+msgid "Form Title"
+msgstr ""
+
+#: src/modules/access-controls/members.php:648
+#: src/modules/actions/email-notifications.php:370
+msgid "Inserts the form title."
+msgstr ""
+
+#: src/modules/access-controls/members.php:655
+#: src/modules/actions/email-notifications.php:377
+msgid "Form URL"
+msgstr ""
+
+#: src/modules/access-controls/members.php:656
+#: src/modules/actions/email-notifications.php:378
+msgid "Inserts the URL to the form."
+msgstr ""
+
+#: src/modules/access-controls/members.php:663
+#: src/modules/actions/email-notifications.php:385
+msgid "Form Edit URL"
+msgstr ""
+
+#: src/modules/access-controls/members.php:664
+#: src/modules/actions/email-notifications.php:386
+msgid "Inserts the edit URL for the form."
+msgstr ""
+
+#: src/modules/access-controls/members.php:671
+msgid "User Email"
+msgstr ""
+
+#: src/modules/access-controls/members.php:672
+msgid "Inserts the email address for the user."
+msgstr ""
+
+#: src/modules/access-controls/members.php:679
+msgid "Username"
+msgstr ""
+
+#: src/modules/access-controls/members.php:680
+msgid "Inserts the username."
+msgstr ""
+
+#: src/modules/access-controls/members.php:687
+msgid "User Display Name"
+msgstr ""
+
+#: src/modules/access-controls/members.php:688
+msgid "Inserts the full display name the user has chosen to be addressed with."
+msgstr ""
+
+#: src/modules/access-controls/members.php:696
+#: src/modules/actions/email-notifications.php:480
+msgctxt "template tag group"
+msgid "Global"
+msgstr ""
+
+#: src/modules/access-controls/members.php:697
+#: src/modules/actions/email-notifications.php:481
+msgctxt "template tag group"
+msgid "Form"
+msgstr ""
+
+#: src/modules/access-controls/members.php:698
+msgctxt "template tag group"
+msgid "User"
+msgstr ""
+
+#: src/modules/access-controls/module.php:33
+msgid "Access Controls"
+msgstr ""
+
+#: src/modules/access-controls/module.php:34
+msgid ""
+"Access controls allow to limit who has permissions to view and submit a form."
+msgstr ""
+
+#: src/modules/access-controls/submission-count.php:75
+msgid "Total Submissions Limit"
+msgstr ""
+
+#: src/modules/access-controls/submission-count.php:76
+msgid ""
+"Enter the total amount of submissions that are allowed to be submitted for "
+"this form."
+msgstr ""
+
+#: src/modules/access-controls/submission-count.php:84
+msgid "&#8220;Total submissions reached&#8221; Message"
+msgstr ""
+
+#: src/modules/access-controls/submission-count.php:85
+msgid ""
+"Enter the message to show to the user when a sufficient amount of "
+"submissions have already been completed."
+msgstr ""
+
+#: src/modules/access-controls/submission-count.php:102
+msgid ""
+"This form is no longer open to submissions since the maximum number of "
+"submissions has been reached."
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:29
+msgid "Timerange"
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:30
+msgid "Allows you to specific a timerange in which this form is available."
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:106
+msgid "Start Date"
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:107
+msgid "Select the date this form should be opened."
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:113
+msgid "End Date"
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:114
+msgid "Select the date this form should be closed."
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:120
+msgid "&#8220;Not yet open&#8221; Message"
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:121
+msgid ""
+"Enter the message to show to the user in case the form is not yet open to "
+"submissions."
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:128
+msgid "&#8220;No longer open&#8221; Message"
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:129
+msgid ""
+"Enter the message to show to the user in case the form is no longer open to "
+"submissions."
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:146
+msgid "This form is not yet open to submissions."
+msgstr ""
+
+#: src/modules/access-controls/timerange.php:157
+msgid "This form is no longer open to submissions."
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:30
+msgid "User Identification"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:56
+msgid "You do not have access to this form submission."
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:189
+msgid "Prevent users from accessing someone else&apos;s submission?"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:190
+msgid ""
+"Click the checkbox to ensure that participants cannot access other "
+"participants&apos; submissions."
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:193
+msgid "User per submission"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:197
+msgid "Prevent multiple submissions by a single user?"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:198
+msgid ""
+"Click the checkbox to ensure that participants may only submit this form "
+"once."
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:200
+msgid "Single submission"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:204
+msgid "Identification Modes"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:205
+msgid ""
+"For non logged-in users, by default PHP sessions are used to identity them. "
+"You can enable further modes here to improve accuracy."
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:207
+msgid "IP address"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:208
+msgid "Cookie"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:213
+msgid "&#8220;Already submitted&#8221; Message"
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:214
+msgid ""
+"Enter the message to show to the user when they have already submitted this "
+"form."
+msgstr ""
+
+#: src/modules/access-controls/user-identification.php:239
+msgid "You already submitted this form."
+msgstr ""
+
+#: src/modules/actions/action.php:65
+msgctxt "action"
+msgid "Enable?"
+msgstr ""
+
+#: src/modules/actions/action.php:66
+msgctxt "action"
+msgid "Status"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:81
+msgid "Email Notifications"
+msgstr ""
+
+#. translators: %s: email address
+#: src/modules/actions/email-notifications.php:193
+#, php-format
+msgid "Email notification to %s could not be sent."
+msgstr ""
+
+#. translators: %s: error message
+#: src/modules/actions/email-notifications.php:196
+#, php-format
+msgid "Original error message: %s"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:249
+msgid "Notifications"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:268
+msgid "Reply Email"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:274
+msgid "To Email"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:280
+msgctxt "email"
+msgid "Cc"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:286
+msgctxt "email"
+msgid "Bcc"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:393
+msgid "Submission URL"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:394
+msgid "Inserts the URL to the submission."
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:401
+msgid "Submission Edit URL"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:402
+msgid "Inserts the edit URL for the submission."
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:416
+msgid "Submission Date and Time"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:417
+msgid "Inserts the submission date and time."
+msgstr ""
+
+#. translators: 1: formatted date, 2: formatted time
+#: src/modules/actions/email-notifications.php:423
+#, php-format
+msgctxt "concatenating date and time"
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:431
+msgid "All Element Values"
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:432
+msgid "Inserts all element values from the submission."
+msgstr ""
+
+#: src/modules/actions/email-notifications.php:482
+#: src/modules/actions/email-notifications.php:655
+msgctxt "template tag group"
+msgid "Submission"
+msgstr ""
+
+#. translators: %s: element label
+#: src/modules/actions/email-notifications.php:515
+#: src/modules/actions/email-notifications.php:657
+#, php-format
+msgid "Value for &#8220;%s&#8221;"
+msgstr ""
+
+#. translators: %s: element label
+#: src/modules/actions/email-notifications.php:517
+#: src/modules/actions/email-notifications.php:659
+#, php-format
+msgid "Inserts the submission value for the element &#8220;%s&#8221;."
+msgstr ""
+
+#: src/modules/actions/module.php:33
+msgid "Actions"
+msgstr ""
+
+#: src/modules/actions/module.php:34
+msgid "Actions are executed in the moment users submit their form data."
+msgstr ""
+
+#. translators: 1: form ID, 2: submission ID, 3: log message
+#: src/modules/actions/module.php:73
+#, php-format
+msgctxt "submission process log"
+msgid "Form %1$s Submission %2$s: %3$s"
+msgstr ""
+
+#: src/modules/actions/redirection.php:29
+msgid "Redirection"
+msgstr ""
+
+#: src/modules/actions/redirection.php:98
+msgid "Redirect Type"
+msgstr ""
+
+#: src/modules/actions/redirection.php:99
+msgid "Select to which type of content to redirect the user."
+msgstr ""
+
+#: src/modules/actions/redirection.php:101
+msgid "No Redirection"
+msgstr ""
+
+#: src/modules/actions/redirection.php:102
+msgid "Page Redirection"
+msgstr ""
+
+#: src/modules/actions/redirection.php:103
+msgid "URL Redirection"
+msgstr ""
+
+#: src/modules/actions/redirection.php:112
+#: src/modules/actions/redirection.php:139
+msgid "Redirect Page"
+msgstr ""
+
+#: src/modules/actions/redirection.php:113
+#: src/modules/actions/redirection.php:140
+msgid "Specify the page to redirect to."
+msgstr ""
+
+#: src/modules/actions/redirection.php:163
+msgid "Redirect URL"
+msgstr ""
+
+#: src/modules/actions/redirection.php:164
+msgid "Enter the URL to redirect to."
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:31
+msgid "Element Responses"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:32
+msgid "Evaluates individual element responses."
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:153
+msgid "This form does not contain any evaluatable elements."
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:218
+#: src/modules/evaluators/participation.php:266
+msgid "Display Mode"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:220
+#: src/modules/evaluators/participation.php:271
+msgid "Bar Chart"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:221
+msgid "Pie Chart"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:222
+msgid "Donut Chart"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:229
+#: src/modules/evaluators/participation.php:278
+msgctxt "evaluator"
+msgid "Data Point Labels"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:230
+#: src/modules/evaluators/participation.php:279
+msgid ""
+"Specify whether a label should be shown with each data point and which "
+"content it should display."
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:232
+#: src/modules/evaluators/participation.php:281
+msgctxt "data point labels"
+msgid "None"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:233
+#: src/modules/evaluators/participation.php:282
+msgctxt "data point labels"
+msgid "Values"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:234
+#: src/modules/evaluators/participation.php:283
+msgctxt "data point labels"
+msgid "Percentages"
+msgstr ""
+
+#: src/modules/evaluators/element-responses.php:316
+msgid "Response Count"
+msgstr ""
+
+#: src/modules/evaluators/evaluator.php:183
+msgctxt "evaluator"
+msgid "Enable?"
+msgstr ""
+
+#: src/modules/evaluators/evaluator.php:184
+msgctxt "evaluator"
+msgid "Status"
+msgstr ""
+
+#: src/modules/evaluators/module.php:37
+msgid "Evaluators"
+msgstr ""
+
+#: src/modules/evaluators/module.php:38
+msgid ""
+"Evaluators allow evaluating form submissions, for example to generate charts "
+"and analytics."
+msgstr ""
+
+#: src/modules/evaluators/module.php:126
+msgid "Toggle panel: Evaluations"
+msgstr ""
+
+#: src/modules/evaluators/module.php:131
+msgid "Evaluations"
+msgstr ""
+
+#: src/modules/evaluators/module.php:152
+msgid "Charts Shortcode:"
+msgstr ""
+
+#: src/modules/evaluators/module.php:336
+msgid "Shortcode is missing a mode!"
+msgstr ""
+
+#: src/modules/evaluators/module.php:346 src/modules/evaluators/module.php:350
+msgid "Shortcode is using an invalid mode!"
+msgstr ""
+
+#: src/modules/evaluators/module.php:412
+msgid "Shortcode is missing an element ID!"
+msgstr ""
+
+#: src/modules/evaluators/module.php:420
+msgid "Shortcode is using an invalid element ID!"
+msgstr ""
+
+#: src/modules/evaluators/module.php:425
+msgid ""
+"It looks like the container for this element has been removed. Please enter "
+"a different element ID into the shortcode."
+msgstr ""
+
+#: src/modules/evaluators/participation.php:30
+msgid "Participation"
+msgstr ""
+
+#: src/modules/evaluators/participation.php:31
+msgid "Evaluates participation for a form over time."
+msgstr ""
+
+#: src/modules/evaluators/participation.php:125
+msgctxt "submission count"
+msgid "Total"
+msgstr ""
+
+#: src/modules/evaluators/participation.php:139
+msgid "Number of completed submissions:"
+msgstr ""
+
+#: src/modules/evaluators/participation.php:146
+msgid "Years"
+msgstr ""
+
+#. translators: %s: a year
+#: src/modules/evaluators/participation.php:186
+#, php-format
+msgid "Number of completed submissions in %s:"
+msgstr ""
+
+#: src/modules/evaluators/participation.php:194
+msgid "Months"
+msgstr ""
+
+#: src/modules/evaluators/participation.php:268
+msgid "Line Chart"
+msgstr ""
+
+#: src/modules/evaluators/participation.php:269
+msgid "Spline Chart"
+msgstr ""
+
+#: src/modules/evaluators/participation.php:270
+msgid "Step Chart"
+msgstr ""
+
+#: src/modules/form-settings/module.php:28
+msgid "Form Settings"
+msgstr ""
+
+#: src/modules/form-settings/module.php:29
+msgid "Form settings control the general behavior of forms."
+msgstr ""
+
+#: src/modules/form-settings/module.php:44
+msgctxt "form settings tab"
+msgid "Labels"
+msgstr ""
+
+#: src/modules/form-settings/module.php:47
+msgctxt "form settings tab"
+msgid "Advanced"
+msgstr ""
+
+#: src/modules/form-settings/module.php:75
+msgid "Show page title?"
+msgstr ""
+
+#: src/modules/form-settings/module.php:76
+msgid ""
+"Click the checkbox to display the title of the current page in the frontend."
+msgstr ""
+
+#: src/modules/form-settings/module.php:79
+msgid "Page Title"
+msgstr ""
+
+#: src/modules/form-settings/module.php:84
+msgid "Required fields text"
+msgstr ""
+
+#: src/modules/form-settings/module.php:85
+#, php-format
+msgid ""
+"This text appears on top of a form and shows the user which fields are "
+"required. The value has to cotain a %s to output the correct indicator."
+msgstr ""
+
+#: src/modules/form-settings/module.php:92
+msgid "Previous Button Label"
+msgstr ""
+
+#: src/modules/form-settings/module.php:93
+msgid "Enter the label for the button that leads to the previous form page."
+msgstr ""
+
+#: src/modules/form-settings/module.php:100
+msgid "Next Button Label"
+msgstr ""
+
+#: src/modules/form-settings/module.php:101
+msgid "Enter the label for the button that leads to the next form page."
+msgstr ""
+
+#: src/modules/form-settings/module.php:108
+msgid "Submit Button Label"
+msgstr ""
+
+#: src/modules/form-settings/module.php:109
+msgid "Enter the label for the button that submits the form."
+msgstr ""
+
+#: src/modules/form-settings/module.php:116
+msgid "Success Message"
+msgstr ""
+
+#: src/modules/form-settings/module.php:117
+msgid ""
+"Enter a message to display when a form submission has successfully been "
+"completed."
+msgstr ""
+
+#: src/modules/form-settings/module.php:125
+msgid "Allow GET parameters?"
+msgstr ""
+
+#. translators: %s: GET parameter example
+#: src/modules/form-settings/module.php:127
+#, php-format
+msgid ""
+"Click the checkbox to allow initial field values to be set through GET "
+"parameters (such as %s)."
+msgstr ""
+
+#: src/modules/form-settings/module.php:255
+#, php-format
+msgctxt "required fields text on top of form"
+msgid "Required fields are marked %s."
+msgstr ""
+
+#. translators: %s: module slug
+#: src/modules/module-manager.php:205 src/modules/module-manager.php:285
+#, php-format
+msgid "A module with the slug %s does not exist."
+msgstr ""
+
+#. translators: %s: module slug
+#: src/modules/module-manager.php:250
+#, php-format
+msgid "A module with the slug %s already exists."
+msgstr ""
+
+#. translators: %s: module class name
+#: src/modules/module-manager.php:260
+#, php-format
+msgid "The class %s is not allowed for a module."
+msgstr ""
+
+#. translators: %s: module slug
+#: src/modules/module-manager.php:290
+#, php-format
+msgid "The default module %s cannot be unregistered."
+msgstr ""
+
+#. translators: %s: module title
+#: src/modules/module.php:292
+#, php-format
+msgctxt "REST API description"
+msgid "Torro Forms %s module settings."
+msgstr ""
+
+#: src/modules/protectors/honeypot.php:30
+msgid "Honeypot"
+msgstr ""
+
+#: src/modules/protectors/honeypot.php:31
+msgid "Uses a Honeypot field that users must not fill in to recognize bots."
+msgstr ""
+
+#: src/modules/protectors/honeypot.php:46
+msgid ""
+"You entered something into the field that is used to detect whether you are "
+"human. Please leave it blank."
+msgstr ""
+
+#: src/modules/protectors/honeypot.php:133
+msgid "Skip Field Label"
+msgstr ""
+
+#: src/modules/protectors/honeypot.php:134
+msgid ""
+"Enter the label to show for the honeypot field. This should indicate that "
+"the user must not fill it in."
+msgstr ""
+
+#: src/modules/protectors/honeypot.php:151
+msgid "If you are a human, do not fill in this field."
+msgstr ""
+
+#: src/modules/protectors/linkcount.php:30
+msgid "Link Count"
+msgstr ""
+
+#: src/modules/protectors/linkcount.php:31
+msgid ""
+"Tries to detect bots by the amount of links in the form submission data."
+msgstr ""
+
+#: src/modules/protectors/linkcount.php:63
+msgid ""
+"Your submission contains too many links and was therefore considered spam."
+msgstr ""
+
+#: src/modules/protectors/linkcount.php:93
+msgid "Link Count Trigger"
+msgstr ""
+
+#: src/modules/protectors/linkcount.php:94
+msgid ""
+"Specify the maximum number of links a field is allowed to contain before it "
+"is considered spam."
+msgstr ""
+
+#: src/modules/protectors/module.php:33
+msgid "Protectors"
+msgstr ""
+
+#: src/modules/protectors/module.php:34
+msgid "Protectors increase security by preventing your form from spam."
+msgstr ""
+
+#: src/modules/protectors/protector.php:75
+msgctxt "protector"
+msgid "Enable?"
+msgstr ""
+
+#: src/modules/protectors/protector.php:76
+msgctxt "protector"
+msgid "Status"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:38
+msgid "reCAPTCHA"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:53
+msgid ""
+"Missing reCAPTCHA response. Please check the reCAPTCHA checkbox to verify "
+"you are human."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:61
+#: src/modules/protectors/recaptcha.php:65
+msgid "An unknown error occurred processing the reCAPTCHA response."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:72
+msgid ""
+"Internal error: The reCAPTCHA secret is missing. Please contact an "
+"administrator."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:74
+msgid ""
+"Internal error: The reCAPTCHA secret is invalid or malformed. Please contact "
+"an administrator."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:76
+msgid ""
+"Internal error: The reCAPTCHA response is missing. Please contact an "
+"administrator."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:78
+msgid ""
+"Internal error: The reCAPTCHA response is invalid or malformed. Please "
+"contact an administrator."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:80
+msgid ""
+"Internal error: An unknown reCAPTCHA error occurred. Please contact an "
+"administrator."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:98
+msgid ""
+"You should actually be able to see a reCAPTCHA field here, but it is not "
+"correctly configured. Please contact an administrator."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:196
+msgctxt "protector"
+msgid "Add captcha at the end of the form."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:197
+msgctxt "protector"
+msgid "Google reCAPTCHA"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:201
+#, php-format
+msgid ""
+"reCaptcha is not configured properly. Please add a site key & secret to the "
+"<a href=\"%s\">recaptcha settings page</a>."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:206
+msgctxt "reCAPTCHA"
+msgid "Type"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:208
+msgctxt "reCAPTCHA type"
+msgid "Image"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:209
+msgctxt "reCAPTCHA type"
+msgid "Audio"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:215
+msgctxt "reCAPTCHA"
+msgid "Size"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:217
+msgctxt "reCAPTCHA size"
+msgid "Normal"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:218
+msgctxt "reCAPTCHA size"
+msgid "Compact"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:224
+msgctxt "reCAPTCHA"
+msgid "Theme"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:226
+msgctxt "reCAPTCHA theme"
+msgid "Light"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:227
+msgctxt "reCAPTCHA theme"
+msgid "Dark"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:245
+msgctxt "reCAPTCHA"
+msgid "Credentials"
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:264
+msgctxt "reCAPTCHA"
+msgid "Site Key"
+msgstr ""
+
+#. translators: %s: URL to Google reCAPTCHA console
+#: src/modules/protectors/recaptcha.php:266
+#, php-format
+msgid ""
+"The public site key of your website for Google reCAPTCHA. You can get one <a "
+"href=\"%s\" target=\"_blank\">here</a>."
+msgstr ""
+
+#: src/modules/protectors/recaptcha.php:273
+msgctxt "reCAPTCHA"
+msgid "Secret"
+msgstr ""
+
+#. translators: %s: URL to Google reCAPTCHA console
+#: src/modules/protectors/recaptcha.php:275
+#, php-format
+msgid ""
+"The secret key of your website for Google reCAPTCHA. You can get one <a href="
+"\"%s\" target=\"_blank\">here</a>."
+msgstr ""
+
+#: src/modules/protectors/timetrap.php:30
+msgid "Timetrap"
+msgstr ""
+
+#: src/modules/protectors/timetrap.php:31
+msgid ""
+"Tries to detect bots by setting a minimum time that users need to fill in "
+"the form."
+msgstr ""
+
+#: src/modules/protectors/timetrap.php:48
+msgid ""
+"Internal error: Could not verify you are human. Please contact an "
+"administrator if you are."
+msgstr ""
+
+#: src/modules/protectors/timetrap.php:54
+msgid ""
+"You filled this form too quickly to qualify as a human. We understand you "
+"possibly are in a hurry, but you really only have to wait a few seconds to "
+"send it."
+msgstr ""
+
+#: src/modules/protectors/timetrap.php:85
+msgid "Timetrap Trigger"
+msgstr ""
+
+#: src/modules/protectors/timetrap.php:86
+msgid ""
+"Specify the number of minimum seconds a user needs to be on the page in "
+"order to qualify as a human."
+msgstr ""
+
+#. translators: %s: submodule slug
+#: src/modules/submodule-registry-trait.php:68
+#: src/modules/submodule-registry-trait.php:131
+#, php-format
+msgid "An submodule with the slug %s does not exist."
+msgstr ""
+
+#. translators: 1: submodule slug, 2: init hookname
+#: src/modules/submodule-registry-trait.php:97
+#, php-format
+msgid "The submodule %1$s cannot be registered before the %2$s hook."
+msgstr ""
+
+#. translators: %s: submodule slug
+#: src/modules/submodule-registry-trait.php:102
+#, php-format
+msgid "An submodule with the slug %s already exists."
+msgstr ""
+
+#. translators: %s: submodule class name
+#: src/modules/submodule-registry-trait.php:112
+#, php-format
+msgid "The class %s is not allowed for a submodule."
+msgstr ""
+
+#. translators: %s: submodule slug
+#: src/modules/submodule-registry-trait.php:136
+#, php-format
+msgid "The default submodule %s cannot be unregistered."
+msgstr ""
+
+#: src/torro-forms.php:416
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#. translators: %s: PHP version number
+#: src/torro-forms.php:419
+#, php-format
+msgid ""
+"Torro Forms cannot be initialized because your setup uses a PHP version "
+"older than %s."
+msgstr ""
+
+#. translators: %s: WordPress version number
+#: src/torro-forms.php:422
+#, php-format
+msgid ""
+"Torro Forms cannot be initialized because your setup uses a WordPress "
+"version older than %s."
+msgstr ""
+
+#. translators: %s: admin_init
+#: src/translations/translations-ajax.php:28
+#, php-format
+msgid "AJAX actions must be registered before the %s hook."
+msgstr ""
+
+#: src/translations/translations-ajax.php:29
+msgid "Invalid AJAX action name."
+msgstr ""
+
+#: src/translations/translations-ajax.php:30
+msgid "Invalid action."
+msgstr ""
+
+#: src/translations/translations-ajax.php:31
+msgid "Invalid callback."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:29
+msgid "Could not insert container into the database."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:30
+msgid "Could not update container in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-container-manager.php:32
+#, php-format
+msgid "Could not delete container metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-container-manager.php:34
+#, php-format
+msgid "Could not update container metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:35
+msgid ""
+"Could not fetch container from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:36
+msgid "Could not fetch container from the database."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:37
+msgid ""
+"Could not delete container from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:38
+msgid "Could not delete container from the database."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:39
+msgid ""
+"Could not delete the container metadata. The container itself was deleted "
+"successfully though."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:43
+msgid "Invalid container ID."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:44
+msgid "Cannot create an existing container."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:45
+msgctxt "container endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:46
+msgid "Sorry, you are not allowed to edit containers."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:47
+msgid "Sorry, you are not allowed to view containers."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:48
+msgid "Sorry, you are not allowed to edit this container."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:49
+msgid "Sorry, you are not allowed to view this container."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:50
+msgid "Sorry, you are not allowed to create containers."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:51
+msgid "Sorry, you are not allowed to delete this container."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:52
+msgid "Sorry, you are not allowed to publish this container."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:53
+msgid "Unique identifier for the container."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:54
+msgid "The container label."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:55
+msgid "Limit result set to specific container IDs."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:56
+msgid "Ensure result set excludes specific container IDs."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:57
+msgid "Sort collection by container attribute."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:58
+msgid "Order container sort attribute ascending or descending."
+msgstr ""
+
+#: src/translations/translations-container-manager.php:59
+msgid "Limit result set to containers with a specific label."
+msgstr ""
+
+#. translators: %s: table name
+#: src/translations/translations-db.php:28
+#, php-format
+msgid "The table &#8220;%s&#8221; already exists."
+msgstr ""
+
+#: src/translations/translations-db.php:29
+msgid "You cannot add a table without a schema."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:29
+msgid "Could not insert element choice into the database."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:30
+msgid "Could not update element choice in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-element-choice-manager.php:32
+#, php-format
+msgid "Could not delete element choice metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-element-choice-manager.php:34
+#, php-format
+msgid "Could not update element choice metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:35
+msgid ""
+"Could not fetch element choice from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:36
+msgid "Could not fetch element choice from the database."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:37
+msgid ""
+"Could not delete element choice from the database because it is missing an "
+"ID."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:38
+msgid "Could not delete element choice from the database."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:39
+msgid ""
+"Could not delete the element choice metadata. The element choice itself was "
+"deleted successfully though."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:43
+msgid "Invalid element choice ID."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:44
+msgid "Cannot create an existing element choice."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:45
+msgctxt "element choice endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:46
+msgid "Sorry, you are not allowed to edit element choices."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:47
+msgid "Sorry, you are not allowed to view element choices."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:48
+msgid "Sorry, you are not allowed to edit this element choice."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:49
+msgid "Sorry, you are not allowed to view this element choice."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:50
+msgid "Sorry, you are not allowed to create element choices."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:51
+msgid "Sorry, you are not allowed to delete this element choice."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:52
+msgid "Sorry, you are not allowed to publish this element choice."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:53
+msgid "Unique identifier for the element choice."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:54
+msgid "The element choice value."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:55
+msgid "Limit result set to specific element choice IDs."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:56
+msgid "Ensure result set excludes specific element choice IDs."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:57
+msgid "Sort collection by element choice attribute."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:58
+msgid "Order element choice sort attribute ascending or descending."
+msgstr ""
+
+#: src/translations/translations-element-choice-manager.php:59
+msgid "Limit result set to element choices with a specific value."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:29
+msgid "Could not insert element into the database."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:30
+msgid "Could not update element in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-element-manager.php:32
+#, php-format
+msgid "Could not delete element metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-element-manager.php:34
+#, php-format
+msgid "Could not update element metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:35
+msgid "Could not fetch element from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:36
+msgid "Could not fetch element from the database."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:37
+msgid "Could not delete element from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:38
+msgid "Could not delete element from the database."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:39
+msgid ""
+"Could not delete the element metadata. The element itself was deleted "
+"successfully though."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:43
+msgid "Invalid element ID."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:44
+msgid "Cannot create an existing element."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:45
+msgctxt "element endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:46
+msgid "Sorry, you are not allowed to edit elements."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:47
+msgid "Sorry, you are not allowed to view elements."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:48
+msgid "Sorry, you are not allowed to edit this element."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:49
+msgid "Sorry, you are not allowed to view this element."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:50
+msgid "Sorry, you are not allowed to create elements."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:51
+msgid "Sorry, you are not allowed to delete this element."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:52
+msgid "Sorry, you are not allowed to publish this element."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:53
+msgid "Unique identifier for the element."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:54
+msgid "The element label."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:55
+msgid "Limit result set to specific element IDs."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:56
+msgid "Ensure result set excludes specific element IDs."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:57
+msgid "Sort collection by element attribute."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:58
+msgid "Order element sort attribute ascending or descending."
+msgstr ""
+
+#: src/translations/translations-element-manager.php:59
+msgid "Limit result set to elements with a specific label."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:29
+msgid "Could not insert element setting into the database."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:30
+msgid "Could not update element setting in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-element-setting-manager.php:32
+#, php-format
+msgid "Could not delete element setting metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-element-setting-manager.php:34
+#, php-format
+msgid "Could not update element setting metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:35
+msgid ""
+"Could not fetch element setting from the database because it is missing an "
+"ID."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:36
+msgid "Could not fetch element setting from the database."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:37
+msgid ""
+"Could not delete element setting from the database because it is missing an "
+"ID."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:38
+msgid "Could not delete element setting from the database."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:39
+msgid ""
+"Could not delete the element setting metadata. The element setting itself "
+"was deleted successfully though."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:43
+msgid "Invalid element setting ID."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:44
+msgid "Cannot create an existing element setting."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:45
+msgctxt "element setting endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:46
+msgid "Sorry, you are not allowed to edit element settings."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:47
+msgid "Sorry, you are not allowed to view element settings."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:48
+msgid "Sorry, you are not allowed to edit this element setting."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:49
+msgid "Sorry, you are not allowed to view this element setting."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:50
+msgid "Sorry, you are not allowed to create element settings."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:51
+msgid "Sorry, you are not allowed to delete this element setting."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:52
+msgid "Sorry, you are not allowed to publish this element setting."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:53
+msgid "Unique identifier for the element setting."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:54
+msgid "Limit result set to specific element setting IDs."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:55
+msgid "Ensure result set excludes specific element setting IDs."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:56
+msgid "Sort collection by element setting attribute."
+msgstr ""
+
+#: src/translations/translations-element-setting-manager.php:57
+msgid "Order element setting sort attribute ascending or descending."
+msgstr ""
+
+#. translators: %s: comma-separated service names list
+#: src/translations/translations-error-handler.php:28
+#, php-format
+msgid "The following required services have not been passed: %s"
+msgstr ""
+
+#. translators: 1: function name, 2: message
+#: src/translations/translations-error-handler.php:30
+#, php-format
+msgid "%1$s was called <strong>incorrectly</strong>. %2$s"
+msgstr ""
+
+#. translators: %s: version number
+#: src/translations/translations-error-handler.php:32
+#, php-format
+msgid "(This message was added in Torro Forms version %s.)"
+msgstr ""
+
+#. translators: 1: function name, 2: version number, 3: other function name
+#. translators: 1: hook name, 2: version number, 3: other hook name
+#: src/translations/translations-error-handler.php:34
+#: src/translations/translations-error-handler.php:42
+#, php-format
+msgid ""
+"%1$s is <strong>deprecated</strong> since Torro Forms version %2$s. Use %3$s "
+"instead."
+msgstr ""
+
+#. translators: 1: function name, 2: version number
+#. translators: 1: hook name, 2: version number
+#: src/translations/translations-error-handler.php:36
+#: src/translations/translations-error-handler.php:44
+#, php-format
+msgid ""
+"%1$s is <strong>deprecated</strong> since Torro Forms version %2$s with no "
+"alternative available."
+msgstr ""
+
+#. translators: 1: argument name, 2: version number, 3: message
+#: src/translations/translations-error-handler.php:38
+#, php-format
+msgid ""
+"%1$s was called with an argument that is <strong>deprecated</strong> since "
+"Torro Forms version %2$s. %3$s"
+msgstr ""
+
+#. translators: 1: argument name, 2: version number
+#: src/translations/translations-error-handler.php:40
+#, php-format
+msgid ""
+"%1$s was called with an argument that is <strong>deprecated</strong> since "
+"Torro Forms version %2$s with no alternative available."
+msgstr ""
+
+#. translators: 1: shortcode name, 2: version number, 3: other shortcode name
+#: src/translations/translations-error-handler.php:46
+#, php-format
+msgid ""
+"The shortcode %1$s is <strong>deprecated</strong> since Torro Forms version "
+"%2$s. Use %3$s instead."
+msgstr ""
+
+#. translators: 1: shortcode name, 2: version number
+#: src/translations/translations-error-handler.php:48
+#, php-format
+msgid ""
+"The shortcode %1$s is <strong>deprecated</strong> since Torro Forms version "
+"%2$s with no alternative available."
+msgstr ""
+
+#. translators: %s: class name
+#: src/translations/translations-extensions.php:28
+#, php-format
+msgid "The extension class %s does not exist."
+msgstr ""
+
+#. translators: 1: class name, 2: other class name
+#: src/translations/translations-extensions.php:30
+#, php-format
+msgid ""
+"The extension class %1$s is invalid, as it does not inherit the %2$s class."
+msgstr ""
+
+#. translators: %s: extension name
+#: src/translations/translations-extensions.php:32
+#, php-format
+msgid "An extension with the name &#8220;%s&#8221; is already registered."
+msgstr ""
+
+#. translators: %s: field label
+#: src/translations/translations-field-manager.php:29
+#, php-format
+msgid "No value was given for the required field &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: field label
+#: src/translations/translations-field-manager.php:31
+#, php-format
+msgid "The value for the repeatable field &#8220;%s&#8221; is not an array."
+msgstr ""
+
+#. translators: %s: field label
+#: src/translations/translations-field-manager.php:33
+#, php-format
+msgid "One or more errors occurred for the repeatable field &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: field label
+#: src/translations/translations-field-manager.php:35
+#, php-format
+msgid ""
+"Add<span class=\"screen-reader-text\"> another item to the &#8220;%s&#8221; "
+"list</span>"
+msgstr ""
+
+#. translators: %s: field label
+#: src/translations/translations-field-manager.php:37
+#, php-format
+msgid ""
+"Remove<span class=\"screen-reader-text\"> this item from the &#8220;"
+"%s&#8221; list</span>"
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label, 3: character limit
+#: src/translations/translations-field-manager.php:39
+#, php-format
+msgid ""
+"The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is longer than "
+"the allowed limit of %3$s character."
+msgid_plural ""
+"The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is longer than "
+"the allowed limit of %3$s characters."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: incorrect value, 2: field label, 3: regex pattern
+#: src/translations/translations-field-manager.php:41
+#, php-format
+msgid ""
+"The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; does not match "
+"the pattern %3$s."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label
+#: src/translations/translations-field-manager.php:43
+#, php-format
+msgid ""
+"The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is not a valid "
+"email address."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label
+#: src/translations/translations-field-manager.php:45
+#, php-format
+msgid ""
+"The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is not a valid "
+"URL."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label, 3: minimum allowed value
+#: src/translations/translations-field-manager.php:47
+#: src/translations/translations-field-manager.php:61
+#, php-format
+msgid ""
+"The value %1$s for the field &#8220;%2$s&#8221; is lower than the required "
+"minimum of %3$s."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label, 3: maximum allowed value
+#: src/translations/translations-field-manager.php:49
+#: src/translations/translations-field-manager.php:63
+#, php-format
+msgid ""
+"The value %1$s for the field &#8220;%2$s&#8221; is greater than the required "
+"maximum of %3$s."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label
+#: src/translations/translations-field-manager.php:51
+#, php-format
+msgid ""
+"The value &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; is not one of "
+"the available choices."
+msgstr ""
+
+#. translators: 1: comma-separated list of values, 2: field label
+#: src/translations/translations-field-manager.php:53
+#, php-format
+msgid ""
+"Some of the values &#8220;%1$s&#8221; for the field &#8220;%2$s&#8221; are "
+"not part of the available choices."
+msgstr ""
+
+#. translators: %s: field label
+#: src/translations/translations-field-manager.php:55
+#, php-format
+msgid ""
+"No REST route for retrieving the label was specified for the field &#8220;"
+"%s&#8221;."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label
+#: src/translations/translations-field-manager.php:57
+#, php-format
+msgid "The value %1$s for the field &#8220;%2$s&#8221; is invalid."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label
+#: src/translations/translations-field-manager.php:65
+#, php-format
+msgid ""
+"The value %1$s for the field &#8220;%2$s&#8221; is not a valid color format."
+msgstr ""
+
+#: src/translations/translations-field-manager.php:66
+msgid "Could not update the value/s in the database."
+msgstr ""
+
+#: src/translations/translations-field-manager.php:67
+msgctxt "media button"
+msgid "Choose a File"
+msgstr ""
+
+#: src/translations/translations-field-manager.php:68
+msgctxt "media button"
+msgid "Choose another File"
+msgstr ""
+
+#: src/translations/translations-field-manager.php:69
+msgctxt "media button"
+msgid "Remove"
+msgstr ""
+
+#: src/translations/translations-field-manager.php:70
+msgctxt "media modal heading"
+msgid "Choose a File"
+msgstr ""
+
+#: src/translations/translations-field-manager.php:71
+msgctxt "media modal button"
+msgid "Insert File"
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label
+#: src/translations/translations-field-manager.php:73
+#, php-format
+msgid ""
+"The URL %1$s for the field &#8220;%2$s&#8221; does not point to a WordPress "
+"media file."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label
+#: src/translations/translations-field-manager.php:75
+#, php-format
+msgid ""
+"The post with ID %1$s referenced in the field &#8220;%2$s&#8221; is not a "
+"valid WordPress media file."
+msgstr ""
+
+#. translators: 1: incorrect value, 2: field label, 3: comma-separated list of valid formats
+#: src/translations/translations-field-manager.php:77
+#, php-format
+msgid ""
+"The media item with ID %1$s referenced in the field &#8220;%2$s&#8221; is "
+"neither of the valid formats (%3$s)."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:29
+msgid "Could not insert form category into the database."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:30
+msgid "Could not update form category in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-form-category-manager.php:32
+#, php-format
+msgid "Could not delete form category metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-form-category-manager.php:34
+#, php-format
+msgid "Could not update form category metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:35
+msgid ""
+"Could not fetch form category from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:36
+msgid "Could not fetch form category from the database."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:37
+msgid ""
+"Could not delete form category from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:38
+msgid "Could not delete form category from the database."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:39
+msgid ""
+"Could not delete the form category metadata. The form category itself was "
+"deleted successfully though."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:43
+msgid "Invalid form category ID."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:44
+msgid "Cannot create an existing form category."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:45
+msgctxt "form category endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:46
+msgid "Sorry, you are not allowed to edit form categories."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:47
+msgid "Sorry, you are not allowed to view form categories."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:48
+msgid "Sorry, you are not allowed to edit this form category."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:49
+msgid "Sorry, you are not allowed to view this form category."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:50
+msgid "Sorry, you are not allowed to create form categories."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:51
+msgid "Sorry, you are not allowed to delete this form category."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:52
+msgid "Sorry, you are not allowed to publish this form category."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:53
+msgid "Unique identifier for the form category."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:54
+msgid "A unique alphanumeric identifier for the form category."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:55
+msgid "The form category title."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:56
+msgid "Limit result set to specific form category IDs."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:57
+msgid "Ensure result set excludes specific form category IDs."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:58
+msgid "Sort collection by form category attribute."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:59
+msgid "Order form category sort attribute ascending or descending."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:60
+msgid "Limit result set to form categories with one or more specific slugs."
+msgstr ""
+
+#: src/translations/translations-form-category-manager.php:61
+msgid "Limit result set to form categories with a specific title."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:29
+msgid "Could not insert form into the database."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:30
+msgid "Could not update form in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-form-manager.php:32
+#, php-format
+msgid "Could not delete form metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-form-manager.php:34
+#, php-format
+msgid "Could not update form metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:35
+msgid "Could not fetch form from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:36
+msgid "Could not fetch form from the database."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:37
+msgid "Could not delete form from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:38
+msgid "Could not delete form from the database."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:39
+msgid ""
+"Could not delete the form metadata. The form itself was deleted successfully "
+"though."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:44
+msgid "Cannot create an existing form."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:45
+msgctxt "form endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:46
+msgid "Sorry, you are not allowed to edit forms."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:47
+msgid "Sorry, you are not allowed to view forms."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:48
+msgid "Sorry, you are not allowed to view forms by this user."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:49
+msgid "Sorry, you are not allowed to edit this form."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:50
+msgid "Sorry, you are not allowed to edit a form as this user."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:51
+msgid "Sorry, you are not allowed to view this form."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:52
+msgid "Sorry, you are not allowed to create forms."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:53
+msgid "Sorry, you are not allowed to create forms as this user."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:54
+msgid "Sorry, you are not allowed to delete this form."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:55
+msgid "Sorry, you are not allowed to publish this form."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:56
+msgid "Unique identifier for the form."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:57
+msgid "A unique alphanumeric identifier for the form."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:58
+msgid "The form title."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:59
+msgid "Limit result set to specific form IDs."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:60
+msgid "Ensure result set excludes specific form IDs."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:61
+msgid "Sort collection by form attribute."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:62
+msgid "Order form sort attribute ascending or descending."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:63
+msgid "Limit result set to forms with one or more specific slugs."
+msgstr ""
+
+#: src/translations/translations-form-manager.php:64
+msgid "Limit result set to forms with a specific title."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:29
+msgid "Could not insert submission into the database."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:30
+msgid "Could not update submission in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-submission-manager.php:32
+#, php-format
+msgid "Could not delete submission metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-submission-manager.php:34
+#, php-format
+msgid "Could not update submission metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:35
+msgid ""
+"Could not fetch submission from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:36
+msgid "Could not fetch submission from the database."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:37
+msgid ""
+"Could not delete submission from the database because it is missing an ID."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:38
+msgid "Could not delete submission from the database."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:39
+msgid ""
+"Could not delete the submission metadata. The submission itself was deleted "
+"successfully though."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:43
+msgid "Submissions"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:44
+msgid "You are not allowed to edit submissions."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:45
+msgctxt "submissions button"
+msgid "Add New"
+msgstr ""
+
+#. translators: %s: search query string
+#: src/translations/translations-submission-manager.php:47
+#, php-format
+msgctxt "submissions"
+msgid "Search results for &#8220;%s&#8221;"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:48
+msgid "Search submissions"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:49
+msgid "Filter submissions list"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:50
+msgid "Submissions list navigation"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:51
+msgid "Submissions list"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:52
+msgctxt "submissions list page"
+msgid ""
+"Are you sure you want to delete this submission? You will not be able to "
+"restore it afterwards."
+msgstr ""
+
+#. translators: %s: submission title
+#: src/translations/translations-submission-manager.php:54
+#: src/translations/translations-submission-manager.php:97
+#, php-format
+msgid "You are not allowed to delete the submission &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: submission title
+#: src/translations/translations-submission-manager.php:56
+#: src/translations/translations-submission-manager.php:99
+#, php-format
+msgid ""
+"An internal error occurred while trying to delete the submission &#8220;"
+"%s&#8221;."
+msgstr ""
+
+#. translators: %s: formatted submission count
+#: src/translations/translations-submission-manager.php:58
+#, php-format
+msgid "%s submission could not be deleted as errors occurred:"
+msgid_plural "%s submissions could not be deleted as errors occurred:"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: formatted submission count
+#: src/translations/translations-submission-manager.php:60
+#, php-format
+msgid "The other %s submission was deleted successfully."
+msgid_plural "The other %s submissions were deleted successfully."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: formatted submission count
+#: src/translations/translations-submission-manager.php:62
+#, php-format
+msgid "%s submission successfully deleted."
+msgid_plural "%s submissions successfully deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/translations/translations-submission-manager.php:66
+msgid "Edit Submission"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:67
+msgctxt "submission button"
+msgid "Add New"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:68
+msgid "Add New Submission"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:69
+#: src/translations/translations-submission-manager.php:148
+msgid "Invalid submission ID."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:70
+#: src/translations/translations-submission-manager.php:153
+msgid "Sorry, you are not allowed to edit this submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:71
+msgid "Sorry, you are not allowed to create a new submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:72
+#: src/translations/translations-submission-manager.php:73
+msgid "Enter submission title here"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:74
+msgctxt "submission permalink label"
+msgid "Permalink"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:75
+msgctxt "submission slug label"
+msgid "Slug"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:76
+msgctxt "submission slug button"
+msgid "Edit Slug"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:77
+msgctxt "submission button"
+msgid "Create"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:78
+msgctxt "submission button"
+msgid "Update"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:79
+msgctxt "submission button"
+msgid "Delete"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:80
+msgctxt "submission button"
+msgid "View"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:81
+msgctxt "submission button"
+msgid "Preview"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:82
+msgctxt "submission button"
+msgid "Preview Changes"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:83
+msgctxt "submission submit box title"
+msgid "Publish"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:84
+msgctxt "submission status label"
+msgid "Status"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:85
+msgctxt "submission slug buttons"
+msgid "OK"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:86
+msgctxt "submission slug buttons"
+msgid "Cancel"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:87
+msgctxt "submission edit page"
+msgid ""
+"Are you sure you want to delete this submission? You will not be able to "
+"restore it afterwards."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:88
+msgid "The submission type is invalid."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:89
+msgid "The submission status is invalid."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:90
+msgid "You are not allowed to publish this submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:91
+msgid "An internal error occurred while trying to save the submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:92
+msgid "Some errors occurred while trying to save the submission:"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:93
+msgid "All other submission data was saved successfully."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:94
+msgid "Submission successfully saved."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:95
+msgid "An internal error occurred while trying to preview the submission."
+msgstr ""
+
+#. translators: %s: submission title
+#: src/translations/translations-submission-manager.php:101
+#, php-format
+msgid "Submission &#8220;%s&#8221; successfully deleted."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:102
+msgid "Submission slugs are not supported."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:103
+msgid "No submission slug was passed."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:107
+msgid "No submissions."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:108
+msgid "Select submission"
+msgstr ""
+
+#. translators: %s: submission title
+#: src/translations/translations-submission-manager.php:110
+#, php-format
+msgid "Select submission &#8220;%s&#8221;"
+msgstr ""
+
+#. translators: %s: submission title
+#: src/translations/translations-submission-manager.php:112
+#: src/translations/translations-submission-manager.php:135
+#, php-format
+msgid "Edit submission &#8220;%s&#8221;"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:115
+msgctxt "submissions list button"
+msgid "Filter"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:116
+msgctxt "submissions list dropdown label"
+msgid "Filter by date"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:117
+msgid "All dates"
+msgstr ""
+
+#. translators: 1: month name, 2: 4-digit year
+#: src/translations/translations-submission-manager.php:119
+#, php-format
+msgctxt "month and year"
+msgid "%1$s %2$s"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:120
+msgctxt "submission column label"
+msgid "Title"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:121
+msgctxt "submission column label"
+msgid "Author"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:123
+msgctxt "submission title placeholder"
+msgid "(no title)"
+msgstr ""
+
+#. translators: %s: formatted submission count
+#: src/translations/translations-submission-manager.php:125
+#, php-format
+msgctxt "submission view"
+msgid "Mine <span class=\"count\">(%s)</span>"
+msgid_plural "Mine <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: formatted submission count
+#: src/translations/translations-submission-manager.php:127
+#, php-format
+msgctxt "submission view"
+msgid "Completed <span class=\"count\">(%s)</span>"
+msgid_plural "Completed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: formatted submission count
+#: src/translations/translations-submission-manager.php:129
+#, php-format
+msgctxt "submission view"
+msgid "In Progress <span class=\"count\">(%s)</span>"
+msgid_plural "In Progress <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: formatted submission count
+#: src/translations/translations-submission-manager.php:131
+#, php-format
+msgctxt "submission view"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/translations/translations-submission-manager.php:132
+msgctxt "submission bulk action"
+msgid "Delete Permanently"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:133
+msgid "Edit submission"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:136
+msgctxt "submission row action"
+msgid "Edit"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:137
+msgid "Delete submission"
+msgstr ""
+
+#. translators: %s: submission title
+#: src/translations/translations-submission-manager.php:139
+#, php-format
+msgid "Delete submission &#8220;%s&#8221;"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:140
+msgctxt "submission row action"
+msgid "Delete"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:141
+msgid "View submission"
+msgstr ""
+
+#. translators: %s: submission title
+#: src/translations/translations-submission-manager.php:143
+#, php-format
+msgid "View submission &#8220;%s&#8221;"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:144
+msgctxt "submission row action"
+msgid "View"
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:149
+msgid "Cannot create an existing submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:150
+msgctxt "submission endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:151
+msgid "Sorry, you are not allowed to edit submissions."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:152
+msgid "Sorry, you are not allowed to view submissions."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:154
+msgid "Sorry, you are not allowed to view this submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:155
+msgid "Sorry, you are not allowed to create submissions."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:156
+msgid "Sorry, you are not allowed to delete this submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:157
+msgid "Sorry, you are not allowed to publish this submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:158
+msgid "Unique identifier for the submission."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:159
+msgid "Limit result set to specific submission IDs."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:160
+msgid "Ensure result set excludes specific submission IDs."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:161
+msgid "Sort collection by submission attribute."
+msgstr ""
+
+#: src/translations/translations-submission-manager.php:162
+msgid "Order submission sort attribute ascending or descending."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:29
+msgid "Could not insert submission value into the database."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:30
+msgid "Could not update submission value in the database."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-submission-value-manager.php:32
+#, php-format
+msgid "Could not delete submission value metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#. translators: %s: meta key
+#: src/translations/translations-submission-value-manager.php:34
+#, php-format
+msgid "Could not update submission value metadata for key &#8220;%s&#8221;."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:35
+msgid ""
+"Could not fetch submission value from the database because it is missing an "
+"ID."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:36
+msgid "Could not fetch submission value from the database."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:37
+msgid ""
+"Could not delete submission value from the database because it is missing an "
+"ID."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:38
+msgid "Could not delete submission value from the database."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:39
+msgid ""
+"Could not delete the submission value metadata. The submission value itself "
+"was deleted successfully though."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:43
+msgid "Invalid submission value ID."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:44
+msgid "Cannot create an existing submission value."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:45
+msgctxt "submission value endpoint"
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:46
+msgid "Sorry, you are not allowed to edit submission values."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:47
+msgid "Sorry, you are not allowed to view submission values."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:48
+msgid "Sorry, you are not allowed to edit this submission value."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:49
+msgid "Sorry, you are not allowed to view this submission value."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:50
+msgid "Sorry, you are not allowed to create submission values."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:51
+msgid "Sorry, you are not allowed to delete this submission value."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:52
+msgid "Sorry, you are not allowed to publish this submission value."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:53
+msgid "Unique identifier for the submission value."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:54
+msgid "Limit result set to specific submission value IDs."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:55
+msgid "Ensure result set excludes specific submission value IDs."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:56
+msgid "Sort collection by submission value attribute."
+msgstr ""
+
+#: src/translations/translations-submission-value-manager.php:57
+msgid "Order submission value sort attribute ascending or descending."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Torro Forms"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://torro-forms.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Torro Forms is an extendable WordPress form builder with Drag & Drop "
+"functionality, chart evaluation and more - with WordPress look and feel."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Awesome UG"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.awesome.ug"
+msgstr ""

@@ -1,7 +1,5 @@
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/torro-forms.svg?maxAge=2592000)](https://wordpress.org/plugins/torro-forms/)
 [![WordPress](https://img.shields.io/wordpress/v/torro-forms.svg?maxAge=2592000)](https://wordpress.org/plugins/torro-forms/)
-[![Build Status](https://api.travis-ci.org/awsmug/torro-forms.png?branch=master)](https://travis-ci.org/awsmug/torro-forms)
-[![Test Coverage](https://codeclimate.com/github/awsmug/torro-forms/badges/coverage.svg)](https://codeclimate.com/github/awsmug/torro-forms/coverage)
 [![Latest Stable Version](https://poser.pugx.org/awsmug/torro-forms/version)](https://packagist.org/packages/awsmug/torro-forms)
 [![License](https://poser.pugx.org/awsmug/torro-forms/license)](https://packagist.org/packages/awsmug/torro-forms)
 
