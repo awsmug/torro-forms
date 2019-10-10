@@ -85,28 +85,26 @@ class Media extends Element_Type {
 			$attachment = get_post( $value );
 
 			if ( $attachment ) {
-				$output = wp_basename( get_attached_file( $attachment->ID ) );
+				$attachment_url = wp_get_attachment_url( $attachment->ID );
+
+				/**
+				 * Filters the URL to use when generating the export output for an attachment.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param string  $attachment_url URL to use for the attachment. Default is the edit URL.
+				 * @param WP_Post $attachment     Attachment object the URL is for.
+				 */
+				$attachment_url = apply_filters( "{$this->manager->get_prefix()}export_attachment_url", $attachment_url, $attachment );
+				$output = $attachment_url;
 
 				if ( 'html' === $export_format ) {
 					$skip_escaping = true;
 
 					if ( 'image' === substr( $attachment->post_mime_type, 0, 5 ) ) {
 						$image_url = wp_get_attachment_image_url( $attachment->ID, 'full' );
-
 						$output = '<img src="' . $image_url . '" style="max-width:300px;height:auto;" />';
 					}
-
-					$attachment_url = wp_get_attachment_url( $attachment->ID );
-
-					/**
-					 * Filters the URL to use when generating the export output for an attachment.
-					 *
-					 * @since 1.0.0
-					 *
-					 * @param string  $attachment_url URL to use for the attachment. Default is the edit URL.
-					 * @param WP_Post $attachment     Attachment object the URL is for.
-					 */
-					$attachment_url = apply_filters( "{$this->manager->get_prefix()}export_attachment_url", $attachment_url, $attachment );
 
 					$output = '<a href="' . esc_url( $attachment_url ) . '">' . $output . '</a>';
 				}
