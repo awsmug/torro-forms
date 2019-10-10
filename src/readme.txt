@@ -86,6 +86,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 = 1.0.8 =
 * Enhanced: Added filter 'torro_element_export_columns'.
 * Enhanced: Moved CSS classes of element settings from input tag to wrapper class.
+* Enhanced: Using direct link to file on exporting submissions instead of post link.
 
 = 1.0.7 =
 * Fix: Fixed wrong function name for filter_input fix which caused fatal error

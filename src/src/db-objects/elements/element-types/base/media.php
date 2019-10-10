@@ -96,7 +96,7 @@ class Media extends Element_Type {
 						$output = '<img src="' . $image_url . '" style="max-width:300px;height:auto;" />';
 					}
 
-					$attachment_url = get_edit_post_link( $attachment->ID );
+					$attachment_url = wp_get_attachment_url( $attachment->ID );
 
 					/**
 					 * Filters the URL to use when generating the export output for an attachment.
