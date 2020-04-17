@@ -46,7 +46,7 @@ class Hyperlink
      *
      * @param string $value
      *
-     * @return Hyperlink
+     * @return $this
      */
     public function setUrl($value)
     {
@@ -70,7 +70,7 @@ class Hyperlink
      *
      * @param string $value
      *
-     * @return Hyperlink
+     * @return $this
      */
     public function setTooltip($value)
     {
@@ -87,6 +87,14 @@ class Hyperlink
     public function isInternal()
     {
         return strpos($this->url, 'sheet://') !== false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeHyperlink()
+    {
+        return $this->isInternal() ? '' : 'External';
     }
 
     /**

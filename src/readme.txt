@@ -83,6 +83,9 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.9 =
+* Fixed: Updated PHPspreadsheet to 1.11.0.
+
 = 1.0.8 =
 * Enhanced: Added filter 'torro_element_export_columns'.
 * Enhanced: Moved CSS classes of element settings from input tag to wrapper class.

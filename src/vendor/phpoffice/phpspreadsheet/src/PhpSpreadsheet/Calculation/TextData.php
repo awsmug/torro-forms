@@ -52,7 +52,7 @@ class TextData
             return ($stringValue) ? Calculation::getTRUE() : Calculation::getFALSE();
         }
 
-        if (self::$invalidChars == null) {
+        if (self::$invalidChars === null) {
             self::$invalidChars = range(chr(0), chr(31));
         }
 
@@ -84,6 +84,15 @@ class TextData
         return null;
     }
 
+    private static function convertBooleanValue($value)
+    {
+        if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_OPENOFFICE) {
+            return (int) $value;
+        }
+
+        return ($value) ? Calculation::getTRUE() : Calculation::getFALSE();
+    }
+
     /**
      * ASCIICODE.
      *
@@ -98,11 +107,7 @@ class TextData
         }
         $characters = Functions::flattenSingleValue($characters);
         if (is_bool($characters)) {
-            if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_OPENOFFICE) {
-                $characters = (int) $characters;
-            } else {
-                $characters = ($characters) ? Calculation::getTRUE() : Calculation::getFALSE();
-            }
+            $characters = self::convertBooleanValue($characters);
         }
 
         $character = $characters;
@@ -126,11 +131,7 @@ class TextData
         $aArgs = Functions::flattenArray($args);
         foreach ($aArgs as $arg) {
             if (is_bool($arg)) {
-                if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_OPENOFFICE) {
-                    $arg = (int) $arg;
-                } else {
-                    $arg = ($arg) ? Calculation::getTRUE() : Calculation::getFALSE();
-                }
+                $arg = self::convertBooleanValue($arg);
             }
             $returnValue .= $arg;
         }
@@ -197,7 +198,7 @@ class TextData
             }
 
             if (($offset > 0) && (StringHelper::countCharacters($haystack) > $offset)) {
-                if (StringHelper::countCharacters($needle) == 0) {
+                if (StringHelper::countCharacters($needle) === 0) {
                     return $offset;
                 }
 
@@ -232,7 +233,7 @@ class TextData
             }
 
             if (($offset > 0) && (StringHelper::countCharacters($haystack) > $offset)) {
-                if (StringHelper::countCharacters($needle) == 0) {
+                if (StringHelper::countCharacters($needle) === 0) {
                     return $offset;
                 }
 
@@ -265,14 +266,19 @@ class TextData
         if (!is_numeric($value) || !is_numeric($decimals)) {
             return Functions::NAN();
         }
-        $decimals = floor($decimals);
+        $decimals = (int) floor($decimals);
 
         $valueResult = round($value, $decimals);
         if ($decimals < 0) {
             $decimals = 0;
         }
         if (!$no_commas) {
-            $valueResult = number_format($valueResult, $decimals);
+            $valueResult = number_format(
+                $valueResult,
+                $decimals,
+                StringHelper::getDecimalSeparator(),
+                StringHelper::getThousandsSeparator()
+            );
         }
 
         return (string) $valueResult;
@@ -576,5 +582,93 @@ class TextData
         }
 
         return (float) $value;
+    }
+
+    /**
+     * NUMBERVALUE.
+     *
+     * @param mixed $value Value to check
+     * @param string $decimalSeparator decimal separator, defaults to locale defined value
+     * @param string $groupSeparator group/thosands separator, defaults to locale defined value
+     *
+     * @return float|string
+     */
+    public static function NUMBERVALUE($value = '', $decimalSeparator = null, $groupSeparator = null)
+    {
+        $value = Functions::flattenSingleValue($value);
+        $decimalSeparator = Functions::flattenSingleValue($decimalSeparator);
+        $groupSeparator = Functions::flattenSingleValue($groupSeparator);
+
+        if (!is_numeric($value)) {
+            $decimalSeparator = empty($decimalSeparator) ? StringHelper::getDecimalSeparator() : $decimalSeparator;
+            $groupSeparator = empty($groupSeparator) ? StringHelper::getThousandsSeparator() : $groupSeparator;
+
+            $decimalPositions = preg_match_all('/' . preg_quote($decimalSeparator) . '/', $value, $matches, PREG_OFFSET_CAPTURE);
+            if ($decimalPositions > 1) {
+                return Functions::VALUE();
+            }
+            $decimalOffset = array_pop($matches[0])[1];
+            if (strpos($value, $groupSeparator, $decimalOffset) !== false) {
+                return Functions::VALUE();
+            }
+
+            $value = str_replace([$groupSeparator, $decimalSeparator], ['', '.'], $value);
+
+            // Handle the special case of trailing % signs
+            $percentageString = rtrim($value, '%');
+            if (!is_numeric($percentageString)) {
+                return Functions::VALUE();
+            }
+
+            $percentageAdjustment = strlen($value) - strlen($percentageString);
+            if ($percentageAdjustment) {
+                $value = (float) $percentageString;
+                $value /= pow(10, $percentageAdjustment * 2);
+            }
+        }
+
+        return (float) $value;
+    }
+
+    /**
+     * Compares two text strings and returns TRUE if they are exactly the same, FALSE otherwise.
+     * EXACT is case-sensitive but ignores formatting differences.
+     * Use EXACT to test text being entered into a document.
+     *
+     * @param $value1
+     * @param $value2
+     *
+     * @return bool
+     */
+    public static function EXACT($value1, $value2)
+    {
+        $value1 = Functions::flattenSingleValue($value1);
+        $value2 = Functions::flattenSingleValue($value2);
+
+        return (string) $value2 === (string) $value1;
+    }
+
+    /**
+     * TEXTJOIN.
+     *
+     * @param mixed $delimiter
+     * @param mixed $ignoreEmpty
+     * @param mixed $args
+     *
+     * @return string
+     */
+    public static function TEXTJOIN($delimiter, $ignoreEmpty, ...$args)
+    {
+        // Loop through arguments
+        $aArgs = Functions::flattenArray($args);
+        foreach ($aArgs as $key => &$arg) {
+            if ($ignoreEmpty && trim($arg) == '') {
+                unset($aArgs[$key]);
+            } elseif (is_bool($arg)) {
+                $arg = self::convertBooleanValue($arg);
+            }
+        }
+
+        return implode($delimiter, $aArgs);
     }
 }

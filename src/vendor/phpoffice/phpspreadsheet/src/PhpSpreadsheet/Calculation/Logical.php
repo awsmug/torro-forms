@@ -38,6 +38,32 @@ class Logical
         return false;
     }
 
+    private static function countTrueValues(array $args)
+    {
+        $returnValue = 0;
+
+        foreach ($args as $arg) {
+            // Is it a boolean value?
+            if (is_bool($arg)) {
+                $returnValue += $arg;
+            } elseif ((is_numeric($arg)) && (!is_string($arg))) {
+                $returnValue += ((int) $arg != 0);
+            } elseif (is_string($arg)) {
+                $arg = strtoupper($arg);
+                if (($arg == 'TRUE') || ($arg == Calculation::getTRUE())) {
+                    $arg = true;
+                } elseif (($arg == 'FALSE') || ($arg == Calculation::getFALSE())) {
+                    $arg = false;
+                } else {
+                    return Functions::VALUE();
+                }
+                $returnValue += ($arg != 0);
+            }
+        }
+
+        return $returnValue;
+    }
+
     /**
      * LOGICAL_AND.
      *
@@ -62,37 +88,23 @@ class Logical
      */
     public static function logicalAnd(...$args)
     {
-        // Return value
-        $returnValue = true;
+        $args = Functions::flattenArray($args);
 
-        // Loop through the arguments
-        $aArgs = Functions::flattenArray($args);
-        $argCount = -1;
-        foreach ($aArgs as $argCount => $arg) {
-            // Is it a boolean value?
-            if (is_bool($arg)) {
-                $returnValue = $returnValue && $arg;
-            } elseif ((is_numeric($arg)) && (!is_string($arg))) {
-                $returnValue = $returnValue && ($arg != 0);
-            } elseif (is_string($arg)) {
-                $arg = strtoupper($arg);
-                if (($arg == 'TRUE') || ($arg == Calculation::getTRUE())) {
-                    $arg = true;
-                } elseif (($arg == 'FALSE') || ($arg == Calculation::getFALSE())) {
-                    $arg = false;
-                } else {
-                    return Functions::VALUE();
-                }
-                $returnValue = $returnValue && ($arg != 0);
-            }
-        }
-
-        // Return
-        if ($argCount < 0) {
+        if (count($args) == 0) {
             return Functions::VALUE();
         }
 
-        return $returnValue;
+        $args = array_filter($args, function ($value) {
+            return $value !== null || (is_string($value) && trim($value) == '');
+        });
+        $argCount = count($args);
+
+        $returnValue = self::countTrueValues($args);
+        if (is_string($returnValue)) {
+            return $returnValue;
+        }
+
+        return ($returnValue > 0) && ($returnValue == $argCount);
     }
 
     /**
@@ -119,37 +131,65 @@ class Logical
      */
     public static function logicalOr(...$args)
     {
-        // Return value
-        $returnValue = false;
+        $args = Functions::flattenArray($args);
 
-        // Loop through the arguments
-        $aArgs = Functions::flattenArray($args);
-        $argCount = -1;
-        foreach ($aArgs as $argCount => $arg) {
-            // Is it a boolean value?
-            if (is_bool($arg)) {
-                $returnValue = $returnValue || $arg;
-            } elseif ((is_numeric($arg)) && (!is_string($arg))) {
-                $returnValue = $returnValue || ($arg != 0);
-            } elseif (is_string($arg)) {
-                $arg = strtoupper($arg);
-                if (($arg == 'TRUE') || ($arg == Calculation::getTRUE())) {
-                    $arg = true;
-                } elseif (($arg == 'FALSE') || ($arg == Calculation::getFALSE())) {
-                    $arg = false;
-                } else {
-                    return Functions::VALUE();
-                }
-                $returnValue = $returnValue || ($arg != 0);
-            }
-        }
-
-        // Return
-        if ($argCount < 0) {
+        if (count($args) == 0) {
             return Functions::VALUE();
         }
 
-        return $returnValue;
+        $args = array_filter($args, function ($value) {
+            return $value !== null || (is_string($value) && trim($value) == '');
+        });
+
+        $returnValue = self::countTrueValues($args);
+        if (is_string($returnValue)) {
+            return $returnValue;
+        }
+
+        return $returnValue > 0;
+    }
+
+    /**
+     * LOGICAL_XOR.
+     *
+     * Returns the Exclusive Or logical operation for one or more supplied conditions.
+     * i.e. the Xor function returns TRUE if an odd number of the supplied conditions evaluate to TRUE, and FALSE otherwise.
+     *
+     * Excel Function:
+     *        =XOR(logical1[,logical2[, ...]])
+     *
+     *        The arguments must evaluate to logical values such as TRUE or FALSE, or the arguments must be arrays
+     *            or references that contain logical values.
+     *
+     *        Boolean arguments are treated as True or False as appropriate
+     *        Integer or floating point arguments are treated as True, except for 0 or 0.0 which are False
+     *        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string holds
+     *            the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
+     *
+     * @category Logical Functions
+     *
+     * @param mixed $args Data values
+     *
+     * @return bool|string the logical XOR of the arguments
+     */
+    public static function logicalXor(...$args)
+    {
+        $args = Functions::flattenArray($args);
+
+        if (count($args) == 0) {
+            return Functions::VALUE();
+        }
+
+        $args = array_filter($args, function ($value) {
+            return $value !== null || (is_string($value) && trim($value) == '');
+        });
+
+        $returnValue = self::countTrueValues($args);
+        if (is_string($returnValue)) {
+            return $returnValue;
+        }
+
+        return $returnValue % 2 == 1;
     }
 
     /**
@@ -176,6 +216,7 @@ class Logical
     public static function NOT($logical = false)
     {
         $logical = Functions::flattenSingleValue($logical);
+
         if (is_string($logical)) {
             $logical = strtoupper($logical);
             if (($logical == 'TRUE') || ($logical == Calculation::getTRUE())) {
@@ -225,11 +266,69 @@ class Logical
      */
     public static function statementIf($condition = true, $returnIfTrue = 0, $returnIfFalse = false)
     {
+        if (Functions::isError($condition)) {
+            return $condition;
+        }
+
         $condition = ($condition === null) ? true : (bool) Functions::flattenSingleValue($condition);
         $returnIfTrue = ($returnIfTrue === null) ? 0 : Functions::flattenSingleValue($returnIfTrue);
         $returnIfFalse = ($returnIfFalse === null) ? false : Functions::flattenSingleValue($returnIfFalse);
 
         return ($condition) ? $returnIfTrue : $returnIfFalse;
+    }
+
+    /**
+     * STATEMENT_SWITCH.
+     *
+     * Returns corresponding with first match (any data type such as a string, numeric, date, etc).
+     *
+     * Excel Function:
+     *        =SWITCH (expression, value1, result1, value2, result2, ... value_n, result_n [, default])
+     *
+     *        Expression
+     *              The expression to compare to a list of values.
+     *        value1, value2, ... value_n
+     *              A list of values that are compared to expression. The SWITCH function is looking for the first value that matches the expression.
+     *        result1, result2, ... result_n
+     *              A list of results. The SWITCH function returns the corresponding result when a value matches expression.
+     *         default
+     *              Optional. It is the default to return if expression does not match any of the values (value1, value2, ... value_n).
+     *
+     * @category Logical Functions
+     *
+     * @param mixed $arguments Statement arguments
+     *
+     * @return mixed The value of matched expression
+     */
+    public static function statementSwitch(...$arguments)
+    {
+        $result = Functions::VALUE();
+
+        if (count($arguments) > 0) {
+            $targetValue = Functions::flattenSingleValue($arguments[0]);
+            $argc = count($arguments) - 1;
+            $switchCount = floor($argc / 2);
+            $switchSatisfied = false;
+            $hasDefaultClause = $argc % 2 !== 0;
+            $defaultClause = $argc % 2 === 0 ? null : $arguments[count($arguments) - 1];
+
+            if ($switchCount) {
+                for ($index = 0; $index < $switchCount; ++$index) {
+                    if ($targetValue == $arguments[$index * 2 + 1]) {
+                        $result = $arguments[$index * 2 + 2];
+                        $switchSatisfied = true;
+
+                        break;
+                    }
+                }
+            }
+
+            if (!$switchSatisfied) {
+                $result = $hasDefaultClause ? $defaultClause : Functions::NA();
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -251,5 +350,26 @@ class Logical
         $errorpart = ($errorpart === null) ? '' : Functions::flattenSingleValue($errorpart);
 
         return self::statementIf(Functions::isError($testValue), $errorpart, $testValue);
+    }
+
+    /**
+     * IFNA.
+     *
+     * Excel Function:
+     *        =IFNA(testValue,napart)
+     *
+     * @category Logical Functions
+     *
+     * @param mixed $testValue Value to check, is also the value returned when not an NA
+     * @param mixed $napart Value to return when testValue is an NA condition
+     *
+     * @return mixed The value of errorpart or testValue determined by error condition
+     */
+    public static function IFNA($testValue = '', $napart = '')
+    {
+        $testValue = ($testValue === null) ? '' : Functions::flattenSingleValue($testValue);
+        $napart = ($napart === null) ? '' : Functions::flattenSingleValue($napart);
+
+        return self::statementIf(Functions::isNa($testValue), $napart, $testValue);
     }
 }

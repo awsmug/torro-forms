@@ -51,11 +51,18 @@ class Csv extends BaseReader
     private $contiguousRow = -1;
 
     /**
+     * The character that can escape the enclosure.
+     *
+     * @var string
+     */
+    private $escapeCharacter = '\\';
+
+    /**
      * Create a new CSV Reader instance.
      */
     public function __construct()
     {
-        $this->readFilter = new DefaultReadFilter();
+        parent::__construct();
     }
 
     /**
@@ -63,7 +70,7 @@ class Csv extends BaseReader
      *
      * @param string $pValue Input encoding, eg: 'UTF-8'
      *
-     * @return Csv
+     * @return $this
      */
     public function setInputEncoding($pValue)
     {
@@ -136,7 +143,7 @@ class Csv extends BaseReader
             return;
         }
 
-        return $this->skipBOM();
+        $this->skipBOM();
     }
 
     /**
@@ -148,7 +155,7 @@ class Csv extends BaseReader
             return;
         }
 
-        $potentialDelimiters = [',', ';', "\t", '|', ':', ' '];
+        $potentialDelimiters = [',', ';', "\t", '|', ':', ' ', '~'];
         $counts = [];
         foreach ($potentialDelimiters as $delimiter) {
             $counts[$delimiter] = [];
@@ -156,11 +163,7 @@ class Csv extends BaseReader
 
         // Count how many times each of the potential delimiters appears in each line
         $numberLines = 0;
-        while (($line = fgets($this->fileHandle)) !== false && (++$numberLines < 1000)) {
-            // Drop everything that is enclosed to avoid counting false positives in enclosures
-            $enclosure = preg_quote($this->enclosure, '/');
-            $line = preg_replace('/(' . $enclosure . '.*' . $enclosure . ')/U', '', $line);
-
+        while (($line = $this->getNextLine()) !== false && (++$numberLines < 1000)) {
             $countLine = [];
             for ($i = strlen($line) - 1; $i >= 0; --$i) {
                 $char = $line[$i];
@@ -172,10 +175,17 @@ class Csv extends BaseReader
                 }
             }
             foreach ($potentialDelimiters as $delimiter) {
-                $counts[$delimiter][] = isset($countLine[$delimiter])
-                    ? $countLine[$delimiter]
-                    : 0;
+                $counts[$delimiter][] = $countLine[$delimiter]
+                    ?? 0;
             }
+        }
+
+        // If number of lines is 0, nothing to infer : fall back to the default
+        if ($numberLines === 0) {
+            $this->delimiter = reset($potentialDelimiters);
+            $this->skipBOM();
+
+            return;
         }
 
         // Calculate the mean square deviations for each delimiter (ignoring delimiters that haven't been found consistently)
@@ -220,7 +230,41 @@ class Csv extends BaseReader
             $this->delimiter = reset($potentialDelimiters);
         }
 
-        return $this->skipBOM();
+        $this->skipBOM();
+    }
+
+    /**
+     * Get the next full line from the file.
+     *
+     * @param string $line
+     *
+     * @return bool|string
+     */
+    private function getNextLine($line = '')
+    {
+        // Get the next line in the file
+        $newLine = fgets($this->fileHandle);
+
+        // Return false if there is no next line
+        if ($newLine === false) {
+            return false;
+        }
+
+        // Add the new line to the line passed in
+        $line = $line . $newLine;
+
+        // Drop everything that is enclosed to avoid counting false positives in enclosures
+        $enclosure = '(?<!' . preg_quote($this->escapeCharacter, '/') . ')'
+            . preg_quote($this->enclosure, '/');
+        $line = preg_replace('/(' . $enclosure . '.*' . $enclosure . ')/Us', '', $line);
+
+        // See if we have any enclosures left in the line
+        // if we still have an enclosure then we need to read the next line as well
+        if (preg_match('/(' . $enclosure . ')/', $line) > 0) {
+            $line = $this->getNextLine($line);
+        }
+
+        return $line;
     }
 
     /**
@@ -254,7 +298,7 @@ class Csv extends BaseReader
         $worksheetInfo[0]['totalColumns'] = 0;
 
         // Loop through each line of the file in turn
-        while (($rowData = fgetcsv($fileHandle, 0, $this->delimiter, $this->enclosure)) !== false) {
+        while (($rowData = fgetcsv($fileHandle, 0, $this->delimiter, $this->enclosure, $this->escapeCharacter)) !== false) {
             ++$worksheetInfo[0]['totalRows'];
             $worksheetInfo[0]['lastColumnIndex'] = max($worksheetInfo[0]['lastColumnIndex'], count($rowData) - 1);
         }
@@ -326,7 +370,7 @@ class Csv extends BaseReader
         }
 
         // Loop through each line of the file in turn
-        while (($rowData = fgetcsv($fileHandle, 0, $this->delimiter, $this->enclosure)) !== false) {
+        while (($rowData = fgetcsv($fileHandle, 0, $this->delimiter, $this->enclosure, $this->escapeCharacter)) !== false) {
             $columnLetter = 'A';
             foreach ($rowData as $rowDatum) {
                 if ($rowDatum != '' && $this->readFilter->readCell($columnLetter, $currentRow)) {
@@ -371,7 +415,7 @@ class Csv extends BaseReader
      *
      * @param string $delimiter Delimiter, eg: ','
      *
-     * @return CSV
+     * @return $this
      */
     public function setDelimiter($delimiter)
     {
@@ -395,7 +439,7 @@ class Csv extends BaseReader
      *
      * @param string $enclosure Enclosure, defaults to "
      *
-     * @return CSV
+     * @return $this
      */
     public function setEnclosure($enclosure)
     {
@@ -422,7 +466,7 @@ class Csv extends BaseReader
      *
      * @param int $pValue Sheet index
      *
-     * @return CSV
+     * @return $this
      */
     public function setSheetIndex($pValue)
     {
@@ -436,7 +480,7 @@ class Csv extends BaseReader
      *
      * @param bool $contiguous
      *
-     * @return Csv
+     * @return $this
      */
     public function setContiguous($contiguous)
     {
@@ -459,6 +503,30 @@ class Csv extends BaseReader
     }
 
     /**
+     * Set escape backslashes.
+     *
+     * @param string $escapeCharacter
+     *
+     * @return $this
+     */
+    public function setEscapeCharacter($escapeCharacter)
+    {
+        $this->escapeCharacter = $escapeCharacter;
+
+        return $this;
+    }
+
+    /**
+     * Get escape backslashes.
+     *
+     * @return string
+     */
+    public function getEscapeCharacter()
+    {
+        return $this->escapeCharacter;
+    }
+
+    /**
      * Can the current IReader read the file?
      *
      * @param string $pFilename
@@ -476,6 +544,13 @@ class Csv extends BaseReader
 
         fclose($this->fileHandle);
 
+        // Trust file extension if any
+        $extension = strtolower(pathinfo($pFilename, PATHINFO_EXTENSION));
+        if (in_array($extension, ['csv', 'tsv'])) {
+            return true;
+        }
+
+        // Attempt to guess mimetype
         $type = mime_content_type($pFilename);
         $supportedTypes = [
             'text/csv',

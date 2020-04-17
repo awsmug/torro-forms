@@ -64,7 +64,7 @@ class RowIterator implements \Iterator
      *
      * @throws PhpSpreadsheetException
      *
-     * @return RowIterator
+     * @return $this
      */
     public function resetStart($startRow = 1)
     {
@@ -86,7 +86,7 @@ class RowIterator implements \Iterator
      *
      * @param int $endRow The row number at which to stop iterating
      *
-     * @return RowIterator
+     * @return $this
      */
     public function resetEnd($endRow = null)
     {
@@ -102,7 +102,7 @@ class RowIterator implements \Iterator
      *
      * @throws PhpSpreadsheetException
      *
-     * @return RowIterator
+     * @return $this
      */
     public function seek($row = 1)
     {
@@ -152,15 +152,9 @@ class RowIterator implements \Iterator
 
     /**
      * Set the iterator to its previous value.
-     *
-     * @throws PhpSpreadsheetException
      */
     public function prev()
     {
-        if ($this->position <= $this->startRow) {
-            throw new PhpSpreadsheetException("Row is already at the beginning of range ({$this->startRow} - {$this->endRow})");
-        }
-
         --$this->position;
     }
 
@@ -171,6 +165,6 @@ class RowIterator implements \Iterator
      */
     public function valid()
     {
-        return $this->position <= $this->endRow;
+        return $this->position <= $this->endRow && $this->position >= $this->startRow;
     }
 }

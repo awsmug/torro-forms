@@ -25,12 +25,9 @@ spreadsheet file formats, like Excel and LibreOffice Calc.
 
 ## Software requirements
 
-The following software is required to develop using PhpSpreadsheet:
-
--   PHP version 5.6 or newer
--   PHP extension php\_zip enabled
--   PHP extension php\_xml enabled
--   PHP extension php\_gd2 enabled (if not compiled in)
+PHP version 7.1 or newer to develop using PhpSpreadsheet. Other requirements, such as PHP extensions, are enforced by
+composer. See the `require` section of [the composer.json file](https://github.com/PHPOffice/PhpSpreadsheet/blob/master/composer.json)
+for details.
 
 ### PHP version support
 
@@ -38,14 +35,11 @@ Support for PHP versions will only be maintained for a period of six months beyo
 
 ## Installation
 
-Use [composer](https://getcomposer.org/) to install PhpSpreadsheet into your project:
+Use [composer](https://getcomposer.org) to install PhpSpreadsheet into your project:
 
 ```sh
 composer require phpoffice/phpspreadsheet
 ```
-
-**Note:** If you want the unreleased, unstable development version use
-`phpoffice/phpspreadsheet:dev-develop` instead.
 
 ## Hello World
 
@@ -94,6 +88,8 @@ architecture](./topics/architecture.md),
 [worksheets](./topics/worksheets.md),
 [accessing cells](./topics/accessing-cells.md) and
 [reading and writing to files](./topics/reading-and-writing-to-file.md).
+
+Or browse the [API documentation](https://phpoffice.github.io/PhpSpreadsheet/master).
 
 # Credits
 

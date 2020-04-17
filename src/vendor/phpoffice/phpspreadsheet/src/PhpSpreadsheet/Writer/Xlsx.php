@@ -137,9 +137,9 @@ class Xlsx extends BaseWriter
         }
 
         $hashTablesArray = ['stylesConditionalHashTable', 'fillHashTable', 'fontHashTable',
-                                    'bordersHashTable', 'numFmtHashTable', 'drawingHashTable',
-                                    'styleHashTable',
-                                ];
+            'bordersHashTable', 'numFmtHashTable', 'drawingHashTable',
+            'styleHashTable',
+        ];
 
         // Set HashTable variables
         foreach ($hashTablesArray as $tableName) {
@@ -290,11 +290,25 @@ class Xlsx extends BaseWriter
                 }
             }
 
-            $chartRef1 = $chartRef2 = 0;
+            $chartRef1 = 0;
             // Add worksheet relationships (drawings, ...)
             for ($i = 0; $i < $this->spreadSheet->getSheetCount(); ++$i) {
                 // Add relationships
                 $zip->addFromString('xl/worksheets/_rels/sheet' . ($i + 1) . '.xml.rels', $this->getWriterPart('Rels')->writeWorksheetRelationships($this->spreadSheet->getSheet($i), ($i + 1), $this->includeCharts));
+
+                // Add unparsedLoadedData
+                $sheetCodeName = $this->spreadSheet->getSheet($i)->getCodeName();
+                $unparsedLoadedData = $this->spreadSheet->getUnparsedLoadedData();
+                if (isset($unparsedLoadedData['sheets'][$sheetCodeName]['ctrlProps'])) {
+                    foreach ($unparsedLoadedData['sheets'][$sheetCodeName]['ctrlProps'] as $ctrlProp) {
+                        $zip->addFromString($ctrlProp['filePath'], $ctrlProp['content']);
+                    }
+                }
+                if (isset($unparsedLoadedData['sheets'][$sheetCodeName]['printerSettings'])) {
+                    foreach ($unparsedLoadedData['sheets'][$sheetCodeName]['printerSettings'] as $ctrlProp) {
+                        $zip->addFromString($ctrlProp['filePath'], $ctrlProp['content']);
+                    }
+                }
 
                 $drawings = $this->spreadSheet->getSheet($i)->getDrawingCollection();
                 $drawingCount = count($drawings);
@@ -309,6 +323,20 @@ class Xlsx extends BaseWriter
 
                     // Drawings
                     $zip->addFromString('xl/drawings/drawing' . ($i + 1) . '.xml', $this->getWriterPart('Drawing')->writeDrawings($this->spreadSheet->getSheet($i), $this->includeCharts));
+                } elseif (isset($unparsedLoadedData['sheets'][$sheetCodeName]['drawingAlternateContents'])) {
+                    // Drawings
+                    $zip->addFromString('xl/drawings/drawing' . ($i + 1) . '.xml', $this->getWriterPart('Drawing')->writeDrawings($this->spreadSheet->getSheet($i), $this->includeCharts));
+                }
+
+                // Add unparsed drawings
+                if (isset($unparsedLoadedData['sheets'][$sheetCodeName]['Drawings'])) {
+                    foreach ($unparsedLoadedData['sheets'][$sheetCodeName]['Drawings'] as $relId => $drawingXml) {
+                        $drawingFile = array_search($relId, $unparsedLoadedData['sheets'][$sheetCodeName]['drawingOriginalIds']);
+                        if ($drawingFile !== false) {
+                            $drawingFile = ltrim($drawingFile, '.');
+                            $zip->addFromString('xl' . $drawingFile, $drawingXml);
+                        }
+                    }
                 }
 
                 // Add comment relationship parts
@@ -318,6 +346,13 @@ class Xlsx extends BaseWriter
 
                     // Comments
                     $zip->addFromString('xl/comments' . ($i + 1) . '.xml', $this->getWriterPart('Comments')->writeComments($this->spreadSheet->getSheet($i)));
+                }
+
+                // Add unparsed relationship parts
+                if (isset($unparsedLoadedData['sheets'][$sheetCodeName]['vmlDrawings'])) {
+                    foreach ($unparsedLoadedData['sheets'][$sheetCodeName]['vmlDrawings'] as $vmlDrawing) {
+                        $zip->addFromString($vmlDrawing['filePath'], $vmlDrawing['content']);
+                    }
                 }
 
                 // Add header/footer relationship parts
@@ -408,7 +443,7 @@ class Xlsx extends BaseWriter
      *
      * @param Spreadsheet $spreadsheet PhpSpreadsheet object
      *
-     * @return Xlsx
+     * @return $this
      */
     public function setSpreadsheet(Spreadsheet $spreadsheet)
     {
@@ -512,7 +547,7 @@ class Xlsx extends BaseWriter
      *
      * @param bool $pValue Office2003 compatibility?
      *
-     * @return Xlsx
+     * @return $this
      */
     public function setOffice2003Compatibility($pValue)
     {

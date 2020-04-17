@@ -59,7 +59,7 @@ class ColumnCellIterator extends CellIterator
      *
      * @throws PhpSpreadsheetException
      *
-     * @return ColumnCellIterator
+     * @return $this
      */
     public function resetStart($startRow = 1)
     {
@@ -77,7 +77,7 @@ class ColumnCellIterator extends CellIterator
      *
      * @throws PhpSpreadsheetException
      *
-     * @return ColumnCellIterator
+     * @return $this
      */
     public function resetEnd($endRow = null)
     {
@@ -94,7 +94,7 @@ class ColumnCellIterator extends CellIterator
      *
      * @throws PhpSpreadsheetException
      *
-     * @return ColumnCellIterator
+     * @return $this
      */
     public function seek($row = 1)
     {
@@ -153,10 +153,6 @@ class ColumnCellIterator extends CellIterator
      */
     public function prev()
     {
-        if ($this->currentRow <= $this->startRow) {
-            throw new PhpSpreadsheetException("Row is already at the beginning of range ({$this->startRow} - {$this->endRow})");
-        }
-
         do {
             --$this->currentRow;
         } while (($this->onlyExistingCells) &&
@@ -171,7 +167,7 @@ class ColumnCellIterator extends CellIterator
      */
     public function valid()
     {
-        return $this->currentRow <= $this->endRow;
+        return $this->currentRow <= $this->endRow && $this->currentRow >= $this->startRow;
     }
 
     /**

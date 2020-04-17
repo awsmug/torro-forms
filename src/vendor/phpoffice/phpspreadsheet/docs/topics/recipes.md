@@ -3,12 +3,12 @@
 The following pages offer you some widely-used PhpSpreadsheet recipes.
 Please note that these do NOT offer complete documentation on specific
 PhpSpreadsheet API functions, but just a bump to get you started. If you
-need specific API functions, please refer to the API documentation.
+need specific API functions, please refer to the [API documentation](https://phpoffice.github.io/PhpSpreadsheet/master).
 
 For example, [setting a worksheet's page orientation and size
 ](#setting-a-worksheets-page-orientation-and-size) covers setting a page
 orientation to A4. Other paper formats, like US Letter, are not covered
-in this document, but in the PhpSpreadsheet API documentation.
+in this document, but in the PhpSpreadsheet [API documentation](https://phpoffice.github.io/PhpSpreadsheet/master).
 
 ## Setting a spreadsheet's metadata
 
@@ -132,7 +132,7 @@ will take care of displaying the formula according the applications
 language. Translation is taken care of by the application!
 
 The following line of code writes the formula
-`=IF(C4&gt;500,"profit","loss")` into the cell B8. Note that the
+`=IF(C4>500,"profit","loss")` into the cell B8. Note that the
 formula must start with `=` to make PhpSpreadsheet recognise this as a
 formula.
 
@@ -301,7 +301,7 @@ $spreadsheet->getActiveSheet()->getPageSetup()
 ```
 
 Note that there are additional page settings available. Please refer to
-the API documentation for all possible options.
+the [API documentation](https://phpoffice.github.io/PhpSpreadsheet/master) for all possible options.
 
 ### Page Setup: Scaling options
 
@@ -985,7 +985,7 @@ $validation->setFormula2(20);
 ```
 
 The following piece of code only allows an item picked from a list of
-data to be entered in cell B3:
+data to be entered in cell B5:
 
 ``` php
 $validation = $spreadsheet->getActiveSheet()->getCell('B5')
