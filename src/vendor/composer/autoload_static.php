@@ -11,8 +11,8 @@ class ComposerStaticInit5d15fdb995c9d0e1699f1ac59cbd8ad5
         'da40a0c65acfab0bd2551f3dd6da23eb' => __DIR__ . '/..' . '/api-api/authenticator-oauth1/src/authenticator-oauth1.php',
         'ce13a363600fbe46c0c1876625b25261' => __DIR__ . '/..' . '/api-api/authenticator-x/src/authenticator-x.php',
         '667743c980c9496d0457f2aa557196bd' => __DIR__ . '/..' . '/api-api/storage-wordpress-option/src/storage-wordpress-option.php',
-        '6e7e8dee9dd1d6d497ee40cf7e92879c' => __DIR__ . '/..' . '/api-api/transporter-wordpress/src/transporter-wordpress.php',
         'b8aa2ebabb8493d4e0ccac734d32b27f' => __DIR__ . '/..' . '/api-api/structure-wordpress/src/structure-wordpress.php',
+        '6e7e8dee9dd1d6d497ee40cf7e92879c' => __DIR__ . '/..' . '/api-api/transporter-wordpress/src/transporter-wordpress.php',
     );
 
     public static $prefixLengthsPsr4 = array (
