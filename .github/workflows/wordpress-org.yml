@@ -1,6 +1,6 @@
 name: Deploy to WordPress.org
 on:
-  push:
+  release:
     types: [published]
 jobs:
   tag:
@@ -17,7 +17,7 @@ jobs:
       id: deploy
       uses: 10up/action-wordpress-plugin-deploy@stable
       with:
-        generate-zip: false
+        generate-zip: true
       env:
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
