@@ -1,0 +1,4 @@
+- name: WordPress Plugin Readme/Assets Update
+  # You may pin to the exact commit or the version.
+  # uses: 10up/action-wordpress-plugin-asset-update@3ffb27fa8ab944a52d9f34e230967568622c2499
+  uses: 10up/action-wordpress-plugin-asset-update@2.0.0
