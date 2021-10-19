@@ -1,6 +1,6 @@
 name: Deploy to WordPress.org
 on:
-  release:
+  push:
     types: [published]
 jobs:
   tag:
