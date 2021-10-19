@@ -21,9 +21,6 @@
     "url": "https://github.com/felixarntz/plugin-lib/issues"
   },
   "license": "GPL-2.0-or-later",
-  "engines": {
-    "node": ">= >= 6.9.4"
-  },
   "dependencies": {
     "jquery-datetimepicker": "^2.5.20",
     "select2": "^4.0.5",

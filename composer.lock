@@ -1,0 +1,493 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6b099d28f012f55481aeb7a1cc9c7fb7",
+    "packages": [
+        {
+            "name": "api-api/core",
+            "version": "1.0.0-beta.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/api-api/core.git",
+                "reference": "315b13e4281d09917624fbcfe3f30d9af61175f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/api-api/core/zipball/315b13e4281d09917624fbcfe3f30d9af61175f8",
+                "reference": "315b13e4281d09917624fbcfe3f30d9af61175f8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpunit/phpunit": "5.7.23"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "APIAPI\\Core\\": "src/Core/"
+                },
+                "files": [
+                    "src/api-api.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Felix Arntz",
+                    "email": "felix-arntz@leaves-and-love.net",
+                    "homepage": "https://leaves-and-love.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Sven Wagener",
+                    "email": "sven@awesome.ug",
+                    "homepage": "http://awesome.ug",
+                    "role": "Head of Development"
+                }
+            ],
+            "description": "A library of API components to interact with external APIs.",
+            "homepage": "http://awesome.ug",
+            "keywords": [
+                "api",
+                "api-api",
+                "client",
+                "library",
+                "request",
+                "rest"
+            ],
+            "support": {
+                "issues": "https://github.com/api-api/core/issues",
+                "source": "https://github.com/api-api/core/tree/master"
+            },
+            "time": "2018-04-12T11:48:07+00:00"
+        },
+        {
+            "name": "api-api/storage-wordpress-option",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/api-api/storage-wordpress-option.git",
+                "reference": "b97f7037c55e21bc1aa6a0b076c3b5f8edd03712"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/api-api/storage-wordpress-option/zipball/b97f7037c55e21bc1aa6a0b076c3b5f8edd03712",
+                "reference": "b97f7037c55e21bc1aa6a0b076c3b5f8edd03712",
+                "shasum": ""
+            },
+            "require": {
+                "api-api/core": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "APIAPI\\Storage_WordPress_Option\\": "src/Storage_WordPress_Option/"
+                },
+                "files": [
+                    "src/storage-wordpress-option.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Felix Arntz",
+                    "email": "felix-arntz@leaves-and-love.net",
+                    "homepage": "https://leaves-and-love.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Sven Wagener",
+                    "email": "sven@awesome.ug",
+                    "homepage": "http://awesome.ug",
+                    "role": "Head of Development"
+                }
+            ],
+            "description": "Storage implementation using WordPress options.",
+            "homepage": "http://awesome.ug",
+            "keywords": [
+                "api-api",
+                "storage",
+                "storage-wordpress-option"
+            ],
+            "support": {
+                "issues": "https://github.com/api-api/storage-wordpress-option/issues",
+                "source": "https://github.com/api-api/storage-wordpress-option/tree/master"
+            },
+            "time": "2018-01-26T09:59:33+00:00"
+        },
+        {
+            "name": "api-api/transporter-wordpress",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/api-api/transporter-wordpress.git",
+                "reference": "d374641c48320dee8d1887f357c11449e6a36a0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/api-api/transporter-wordpress/zipball/d374641c48320dee8d1887f357c11449e6a36a0b",
+                "reference": "d374641c48320dee8d1887f357c11449e6a36a0b",
+                "shasum": ""
+            },
+            "require": {
+                "api-api/core": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "APIAPI\\Transporter_WordPress\\": "src/Transporter_WordPress/"
+                },
+                "files": [
+                    "src/transporter-wordpress.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Felix Arntz",
+                    "email": "felix-arntz@leaves-and-love.net",
+                    "homepage": "https://leaves-and-love.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Sven Wagener",
+                    "email": "sven@awesome.ug",
+                    "homepage": "http://awesome.ug",
+                    "role": "Head of Development"
+                }
+            ],
+            "description": "Transporter implementation for WordPress.",
+            "homepage": "http://awesome.ug",
+            "keywords": [
+                "api-api",
+                "transporter",
+                "transporter-wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/api-api/transporter-wordpress/issues",
+                "source": "https://github.com/api-api/transporter-wordpress/tree/master"
+            },
+            "time": "2018-01-26T10:01:16+00:00"
+        },
+        {
+            "name": "composer/installers",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/installers.git",
+                "reference": "a241e78aaeb09781f5f5b92ac01ffd13ab43e5e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/installers/zipball/a241e78aaeb09781f5f5b92ac01ffd13ab43e5e8",
+                "reference": "a241e78aaeb09781f5f5b92ac01ffd13ab43e5e8",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "composer/composer": "1.6.* || ^2.0",
+                "composer/semver": "^1 || ^3",
+                "phpstan/phpstan": "^0.12.55",
+                "phpstan/phpstan-phpunit": "^0.12.16",
+                "symfony/phpunit-bridge": "^5.3",
+                "symfony/process": "^5"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Composer\\Installers\\Plugin",
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "A multi-framework Composer library installer",
+            "homepage": "https://composer.github.io/installers/",
+            "keywords": [
+                "Dolibarr",
+                "Eliasis",
+                "Hurad",
+                "ImageCMS",
+                "Kanboard",
+                "Lan Management System",
+                "MODX Evo",
+                "MantisBT",
+                "Mautic",
+                "Maya",
+                "OXID",
+                "Plentymarkets",
+                "Porto",
+                "RadPHP",
+                "SMF",
+                "Starbug",
+                "Thelia",
+                "Whmcs",
+                "WolfCMS",
+                "agl",
+                "annotatecms",
+                "attogram",
+                "bitrix",
+                "cakephp",
+                "chef",
+                "cockpit",
+                "codeigniter",
+                "concrete5",
+                "croogo",
+                "dokuwiki",
+                "drupal",
+                "eZ Platform",
+                "elgg",
+                "expressionengine",
+                "fuelphp",
+                "grav",
+                "installer",
+                "itop",
+                "known",
+                "kohana",
+                "laravel",
+                "lavalite",
+                "lithium",
+                "magento",
+                "majima",
+                "mako",
+                "mediawiki",
+                "miaoxing",
+                "modulework",
+                "modx",
+                "moodle",
+                "osclass",
+                "pantheon",
+                "phpbb",
+                "piwik",
+                "ppi",
+                "processwire",
+                "puppet",
+                "pxcms",
+                "reindex",
+                "roundcube",
+                "shopware",
+                "silverstripe",
+                "sydes",
+                "sylius",
+                "tastyigniter",
+                "wordpress",
+                "yawik",
+                "zend",
+                "zikula"
+            ],
+            "support": {
+                "issues": "https://github.com/composer/installers/issues",
+                "source": "https://github.com/composer/installers/tree/v2.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-09-13T08:21:20+00:00"
+        },
+        {
+            "name": "felixarntz/plugin-lib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/felixarntz/plugin-lib.git",
+                "reference": "f91095f4d1e1618450407d35164be5307d7d1b93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/felixarntz/plugin-lib/zipball/f91095f4d1e1618450407d35164be5307d7d1b93",
+                "reference": "f91095f4d1e1618450407d35164be5307d7d1b93",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "^2.0.1",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+                "phpmd/phpmd": "*",
+                "phpunit/phpunit": ">4.8.20 <6.0",
+                "sebastian/phpcpd": "*",
+                "squizlabs/php_codesniffer": "3.*",
+                "wp-coding-standards/wpcs": "^1"
+            },
+            "default-branch": true,
+            "type": "wordpress-muplugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Felix Arntz",
+                    "email": "felix-arntz@leaves-and-love.net",
+                    "homepage": "https://leaves-and-love.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Reusable library for all kinds of WordPress plugins.",
+            "homepage": "https://leaves-and-love.net",
+            "keywords": [
+                "library",
+                "plugin",
+                "wordpress"
+            ],
+            "support": {
+                "email": "felix-arntz@leaves-and-love.net",
+                "issues": "https://github.com/felixarntz/plugin-lib/issues",
+                "source": "https://github.com/felixarntz/plugin-lib/tree/master"
+            },
+            "time": "2021-10-19T11:41:02+00:00"
+        },
+        {
+            "name": "mk-j/php_xlsxwriter",
+            "version": "0.38",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mk-j/PHP_XLSXWriter.git",
+                "reference": "00579529fea072851789505b2dec0d14cdfffe60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mk-j/PHP_XLSXWriter/zipball/00579529fea072851789505b2dec0d14cdfffe60",
+                "reference": "00579529fea072851789505b2dec0d14cdfffe60",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.3.*"
+            },
+            "type": "project",
+            "autoload": {
+                "classmap": [
+                    "xlsxwriter.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Library to write XLSX files",
+            "homepage": "https://github.com/mk-j/PHP_XLSXWriter",
+            "keywords": [
+                "excel",
+                "library",
+                "php",
+                "xls",
+                "xlsx"
+            ],
+            "support": {
+                "issues": "https://github.com/mk-j/PHP_XLSXWriter/issues",
+                "source": "https://github.com/mk-j/PHP_XLSXWriter/tree/master"
+            },
+            "time": "2020-01-11T02:53:20+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
+            },
+            "time": "2021-05-03T11:20:27+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "felixarntz/plugin-lib": 20,
+        "api-api/core": 10
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
