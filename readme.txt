@@ -4,12 +4,12 @@ Plugin Name:       Torro Forms
 Plugin URI:        https://torro-forms.com
 Author:            Awesome UG
 Author URI:        https://www.awesome.ug
-Contributors:      mahype, flixos90, awesome-ug
+Contributors:      mahype, awesome-ug
 Requires at least: 4.8
 Tested up to:      5.4.0
 Requires PHP:      5.6
 Stable tag:        1.0.10
-Version:           1.0.10
+Version:           1.0.11
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -82,6 +82,10 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 4. Plugin settings screen
 
 == Changelog ==
+
+= 1.0.11 =
+* Enhaned: Tested up to 5.8.1.
+* Enhanced: Cleaned up repo & updated composer dependency
 
 = 1.0.10 =
 * Enhaned: Tested up to 5.4.0.
