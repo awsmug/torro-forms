@@ -9,7 +9,7 @@ Requires at least: 4.8
 Tested up to:      5.8.1
 Requires PHP:      5.6
 Stable tag:        1.0.10
-Version:           1.0.11
+Version:           1.0.14
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -83,6 +83,9 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.14 =
+* Enhanced: Replaced XLS library, because of PHP errors.
+
 = 1.0.13 =
 * Fixed: Readded vendor and node_module directories.
 
@@ -90,7 +93,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 * Enhaned: Get deployment running.
 
 = 1.0.11 =
-* Enhaned: Tested up to 5.8.1.
+* Enhanced: Tested up to 5.8.1.
 * Enhanced: Cleaned up repo & updated composer dependency.
 * Security: Updated phpspreadsheet lib.
 
