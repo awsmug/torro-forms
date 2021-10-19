@@ -83,9 +83,16 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
+= 1.0.13 =
+* Fixed: Readded vendor and node_module directories.
+
+= 1.0.12 =
+* Enhaned: Get deployment running.
+
 = 1.0.11 =
 * Enhaned: Tested up to 5.8.1.
-* Enhanced: Cleaned up repo & updated composer dependency
+* Enhanced: Cleaned up repo & updated composer dependency.
+* Security: Updated phpspreadsheet lib.
 
 = 1.0.10 =
 * Enhaned: Tested up to 5.4.0.
