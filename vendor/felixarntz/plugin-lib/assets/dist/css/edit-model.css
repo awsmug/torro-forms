@@ -1,0 +1,47 @@
+/*!
+ * plugin-lib (https://github.com/felixarntz/plugin-lib)
+ * By Felix Arntz (https://leaves-and-love.net)
+ * Licensed under GPL-2.0-or-later
+ */
+/* ----------------------------------------------------------------------------
+  1.0 - Correct styles for tabs
+---------------------------------------------------------------------------- */
+#poststuff h2.nav-tab-wrapper {
+	border-bottom: 1px solid #cccccc;
+	margin: 0 0 15px;
+	padding-top: 9px;
+	padding-bottom: 0;
+	line-height: inherit;
+}
+
+.nav-tab[aria-selected="true"] {
+	margin-bottom: -1px;
+	color: #444444;
+	-webkit-box-shadow: none;
+	        box-shadow: none;
+}
+
+.nav-tab[aria-selected="true"],
+.nav-tab[aria-selected="true"]:hover,
+.nav-tab[aria-selected="true"]:focus,
+.nav-tab[aria-selected="true"]:active {
+	border-bottom: 1px solid #f1f1f1;
+	background: #f1f1f1;
+	color: #000000;
+}
+
+.nav-tab-panel[aria-hidden="true"] {
+	display: none;
+}
+
+/* ----------------------------------------------------------------------------
+  2.0 - Additional styles
+---------------------------------------------------------------------------- */
+#view-action {
+	float: left;
+}
+
+.notice ul ul {
+	margin-left: 20px;
+	list-style: disc;
+}

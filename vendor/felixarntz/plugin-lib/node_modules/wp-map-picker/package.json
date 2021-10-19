@@ -1,0 +1,40 @@
+{
+  "name": "wp-map-picker",
+  "version": "0.7.1",
+  "description": "This jQuery plugin for WordPress can be used to transform an input field into a flexible map field with a location picker.",
+  "keywords": [
+    "wordpress",
+    "map",
+    "google maps",
+    "admin",
+    "ui",
+    "jQuery",
+    "plugin"
+  ],
+  "author": {
+    "name": "Felix Arntz",
+    "email": "felix-arntz@leaves-and-love.net",
+    "url": "https://leaves-and-love.net"
+  },
+  "homepage": "https://github.com/felixarntz/wp-map-picker/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/felixarntz/wp-map-picker.git"
+  },
+  "bugs": {
+    "url" : "https://github.com/felixarntz/wp-map-picker/issues"
+  },
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-jshint": "~0.11.0",
+    "grunt-contrib-uglify": "~0.7.0",
+    "grunt-contrib-cssmin": "~0.11.0",
+    "grunt-banner": "~0.3.1",
+    "bower": "~1.3.12"
+  }
+}

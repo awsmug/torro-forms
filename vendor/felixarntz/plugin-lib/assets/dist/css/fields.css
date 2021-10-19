@@ -1,0 +1,147 @@
+/*!
+ * plugin-lib (https://github.com/felixarntz/plugin-lib)
+ * By Felix Arntz (https://leaves-and-love.net)
+ * Licensed under GPL-2.0-or-later
+ */
+/* ----------------------------------------------------------------------------
+  1.0 - Plugin-Lib Fields API Core
+---------------------------------------------------------------------------- */
+.plugin-lib-repeatable-wrap {
+	display: block;
+}
+
+.plugin-lib-repeatable-item {
+	display: block;
+	clear: both;
+}
+
+.plugin-lib-repeatable-add-button {
+	margin-top: 10px;
+}
+
+.plugin-lib-repeatable-remove-button {
+	margin-left: 10px;
+}
+
+.plugin-lib-wrap {
+	max-height: none;
+}
+
+.plugin-lib-wrap.plugin-lib-hidden {
+	overflow: hidden;
+	max-height: 0;
+}
+
+.plugin-lib-wrap.plugin-lib-toggling {
+	-webkit-transition: all 0.5s ease-in-out;
+	   -moz-transition: all 0.5s ease-in-out;
+	        transition: all 0.5s ease-in-out;
+}
+
+tr.plugin-lib-wrap.plugin-lib-hidden {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+	width: 1px;
+}
+
+/* ----------------------------------------------------------------------------
+  2.0 - Specific fields
+---------------------------------------------------------------------------- */
+.plugin-lib-select-control,
+.plugin-lib-select-control + .select2-container,
+.plugin-lib-multiselect-control,
+.plugin-lib-multiselect-control + .select2-container {
+	min-width: 200px;
+}
+
+.plugin-lib-color-control {
+	max-width: 100px;
+}
+
+.plugin-lib-input-choice-wrap {
+	display: inline-block;
+	padding: 0 15px 10px 0;
+}
+
+.plugin-lib-input-choice-wrap input[type="radio"],
+.plugin-lib-input-choice-wrap input[type="checkbox"] {
+	margin-right: 4px;
+}
+
+.plugin-lib-group-control {
+	margin-bottom: 20px;
+	padding: 12px;
+	max-width: 500px;
+	background: #ffffff;
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.plugin-lib-group-control > .plugin-lib-repeatable-remove-button {
+	float: right;
+}
+
+.plugin-lib-group-control > .plugin-lib-wrap {
+	margin-bottom: 12px;
+}
+
+.plugin-lib-group-control > .plugin-lib-wrap.plugin-lib-hidden,
+.plugin-lib-group-control > .plugin-lib-wrap:last-child {
+	margin-bottom: 0;
+}
+
+.postbox .plugin-lib-group-control {
+	max-width: none;
+}
+
+/* ----------------------------------------------------------------------------
+  3.0 - Polyfill for button links in WordPress < 4.8
+---------------------------------------------------------------------------- */
+.wp-core-ui .button-link {
+	margin: 0;
+	padding: 0;
+	-webkit-box-shadow: none;
+	        box-shadow: none;
+	border: 0;
+	-webkit-border-radius: 0;
+	        border-radius: 0;
+	background: none;
+	outline: none;
+	cursor: pointer;
+	text-align: left;
+	/* Mimics the default link style in common.css */
+	color: #0073aa;
+	text-decoration: underline;
+	-webkit-transition-property: border, background, color;
+	        transition-property: border, background, color;
+	-webkit-transition-duration: 0.05s;
+	        transition-duration: 0.05s;
+	-webkit-transition-timing-function: ease-in-out;
+	        transition-timing-function: ease-in-out;
+}
+
+.wp-core-ui .button-link:hover,
+.wp-core-ui .button-link:active {
+	color: #00a0d2;
+}
+
+.wp-core-ui .button-link:focus {
+	color: #124964;
+	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+	        box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.wp-core-ui .button-link-delete {
+	color: #aa0000;
+}
+
+.wp-core-ui .button-link-delete:hover,
+.wp-core-ui .button-link-delete:focus {
+	color: #ff0000;
+}
+
+.ie8 .wp-core-ui .button-link:focus {
+	outline: #5b9dd9 solid 1px;
+}
