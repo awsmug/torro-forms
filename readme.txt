@@ -8,8 +8,8 @@ Contributors:      mahype, awesome-ug
 Requires at least: 4.8
 Tested up to:      5.8.1
 Requires PHP:      5.6
-Stable tag:        1.0.15
-Version:           1.0.15
+Stable tag:        1.0.16
+Version:           1.0.16
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
@@ -84,7 +84,7 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 == Changelog ==
 
 = 1.0.16 =
-* Fixed: Logical error in 'can_access' function.
+* Fixed: Logical error in 'can_access' function. Thanks to reedsutliff!
 
 = 1.0.15 =
 * Fixed: Deployment issue.
