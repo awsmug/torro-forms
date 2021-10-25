@@ -2530,7 +2530,7 @@ msgstr ""
 #, php-format
 msgid ""
 "This text appears on top of a form and shows the user which fields are "
-"required. The value has to cotain a %s to output the correct indicator."
+"required. The value has to contain a %s to output the correct indicator."
 msgstr ""
 
 #: src/modules/form-settings/module.php:92

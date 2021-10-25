@@ -83,8 +83,11 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 
 == Changelog ==
 
-= 1.0.14 =
-* Enhanced: Fixed deployent issue.
+= 1.0.16 =
+* Fixed: Logical error in 'can_access' function.
+
+= 1.0.15 =
+* Fixed: Deployment issue.
 
 = 1.0.14 =
 * Enhanced: Replaced XLS library, because of PHP errors.

@@ -82,7 +82,7 @@ class Module extends Module_Base {
 				'tab'          => 'labels',
 				'type'         => 'text',
 				'label'        => __( 'Required fields text', 'torro-forms' ),
-				'description'  => __( 'This text appears on top of a form and shows the user which fields are required. The value has to cotain a %s to output the correct indicator.', 'torro-forms' ), //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+				'description'  => __( 'This text appears on top of a form and shows the user which fields are required. The value has to contain a %s to output the correct indicator.', 'torro-forms' ), //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 				'default'      => $this->get_default_required_fields_text(),
 				'wrap_classes' => array( 'has-torro-tooltip-description' ),
 			),
