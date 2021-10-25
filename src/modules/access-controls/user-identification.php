@@ -54,13 +54,17 @@ class User_Identification extends Access_Control implements Submission_Modifier_
 	public function can_access( $form, $submission = null ) {
 		if ( $this->get_form_option( $form->id, 'prevent_edit_others_submission', true ) && $submission ) {
 			$others_submission_error = new WP_Error( 'others_submission', __( 'You do not have access to this form submission.', 'torro-forms' ) );
-
-			if ( is_user_logged_in() && ! empty( $submission->user_id ) && get_current_user_id() !== $submission->user_id ) {
-				return $others_submission_error;
+			
+			$skip_further_checks = false;
+			if ( is_user_logged_in() && ! empty( $submission->user_id )) {
+				if(get_current_user_id() !== $submission->user_id ) {
+					return $others_submission_error;
+				} else {
+					$skip_further_checks = true;	
+				}
 			}
 
-			$skip_further_checks = false;
-			if ( ! empty( $submission->user_key ) ) {
+			if ( ! $skip_further_checks && ! empty( $submission->user_key ) ) {
 				if ( filter_has_var( INPUT_COOKIE, 'torro_identity' ) ) {
 					if ( esc_attr( filter_input( INPUT_COOKIE, 'torro_identity' ) ) !== $submission->user_key ) {
 						return $others_submission_error;
