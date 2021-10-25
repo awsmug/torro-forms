@@ -8,8 +8,8 @@ Contributors:      mahype, awesome-ug
 Requires at least: 4.8
 Tested up to:      5.8.1
 Requires PHP:      5.6
-Stable tag:        1.0.14
-Version:           1.0.14
+Stable tag:        1.0.15
+Version:           1.0.15
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              forms, form builder, surveys, polls, votes, charts, api
