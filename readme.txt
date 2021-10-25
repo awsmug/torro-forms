@@ -8,7 +8,7 @@ Contributors:      mahype, awesome-ug
 Requires at least: 4.8
 Tested up to:      5.8.1
 Requires PHP:      5.6
-Stable tag:        1.0.10
+Stable tag:        1.0.14
 Version:           1.0.14
 License:           GNU General Public License v2 (or later)
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
