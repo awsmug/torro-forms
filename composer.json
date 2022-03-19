@@ -20,5 +20,10 @@
     "installer-paths": {
       "vendor/felixarntz/{$name}/": ["felixarntz/plugin-lib"]
     }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    }
   }
 }
