@@ -257,6 +257,8 @@ class Form_Frontend_Output_Handler {
 			$template_data['hidden_fields'] .= '<input type="hidden" name="torro_submission[original_form_id]" value="' . esc_attr( get_the_ID() ) . '">';
 		}
 
+        $template_data['hidden_fields'] = apply_filters("{$prefix}hidden_fields", $template_data['hidden_fields'], $form, $submission);
+
 		/**
 		 * Filters the CSS class to use for every button for a form in the frontend.
 		 *
